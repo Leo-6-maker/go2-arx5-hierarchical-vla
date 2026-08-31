@@ -31,6 +31,16 @@ for pose interpolation. Endpoint points are clamped and a fully stationary
 path is held. A rotation-only path remains finite because rotational progress
 contributes to the SE(3) coordinate.
 
+## Shape, placement, and episode binding
+
+`TrajectoryShapeV1` is a derived, embodiment-neutral view of relative SE(3)
+motion and timing. `PlacementProfileV1` stores the intended placement class
+without claiming that the class transfers between robots. Before native WBC
+consumption, `EpisodeReferenceBindingV1` binds the shape to a reset state,
+native shoulder/reach anchor, TCP semantic ID, and native policy frame. The
+native binding is explicitly translation-only for Gamma positions; it is not
+silently treated as an arbitrary rigid transform.
+
 ## `GripperCommandV1`
 
 The normalized gripper command has its own timestamp, source convention, and

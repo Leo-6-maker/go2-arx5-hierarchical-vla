@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage14 native IsaacGym WBC benchmark launcher.
+"""Native IsaacGym WBC benchmark launcher.
 
 This is an integration launcher, not a copy of the private lab source. The
 source root, checkpoints, and trajectories are external inputs. The only
@@ -223,8 +223,8 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
 
     class ExternalReferenceWBCEnv(WBCEnv):
         def __init__(self, *args, **kwargs):
-            self._stage14_trajectory_path = Path(trajectory_path)
-            self._stage14_load_count = 0
+            self._stage15_trajectory_path = Path(trajectory_path)
+            self._stage15_load_count = 0
             super().__init__(*args, **kwargs)
 
         def _reset_external_progress(self, env_ids):
@@ -281,7 +281,7 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
         def _load_trajectory_for(self, env_ids):
             if not self._traj_tracking_enabled():
                 return super()._load_trajectory_for(env_ids)
-            data = np.load(str(self._stage14_trajectory_path), allow_pickle=False)
+            data = np.load(str(self._stage15_trajectory_path), allow_pickle=False)
             if "timestamp" not in data or "position" not in data or "quaternion" not in data:
                 raise ValueError("benchmark trajectory must contain timestamp, position, quaternion")
             timestamps = np.asarray(data["timestamp"], dtype=np.float64)
@@ -310,7 +310,7 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
             self.traj_batch.load(env_ids, [gamma] * count, [time_law] * count)
             self._anchor_external_reference(env_ids)
             self._reset_external_progress(env_ids)
-            self._stage14_load_count += count
+            self._stage15_load_count += count
 
     return ExternalReferenceWBCEnv
 

@@ -1,0 +1,47 @@
+schema: NATIVE_BENCHMARK_V1
+status: DERIVED_FROM_E1_E2_WITH_NATIVE_RECLASSIFICATION
+source:
+  e1_root: ${E1_ROOT}
+  e2_root: ${E2_ROOT}
+  shape_view: /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage15/native_benchmark/shapes
+  native_manifest: /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage15/native_benchmark/native_benchmark_manifest.json
+  native_reset_trace: /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage15/native_reference_trace_seed13/reset_000.npz
+  original_placement: provenance_only
+  original_shape_data: preserved_outside_git
+shape_contract:
+  schema: TrajectoryShapeV1
+  relative_to_initial_pose: true
+  timing_preserved: true
+  original_id_preserved: true
+placement_contract:
+  schema: PlacementProfileV1
+  classification_basis: native_2d_reach_table_position_only
+  dynamic_feasibility: NOT_EVALUATED
+  orientation_feasibility: NOT_EVALUATED
+native_classes:
+  - NATIVE_ARM_EASY
+  - NATIVE_STATIC_BASE_RELOCATION_SUFFICIENT
+  - NATIVE_CONTINUOUS_BASE_MOTION_REQUIRED
+  - NATIVE_BOUNDARY
+  - NATIVE_GEOMETRICALLY_INFEASIBLE
+reclassified_counts:
+  total: 114
+  native_arm_easy: 70
+  native_static_base_relocation_sufficient: 17
+  native_continuous_base_motion_required: 0
+  native_boundary: 3
+  native_geometrically_infeasible: 24
+aligned_seed: 13
+reference_mode: MODE_NATIVE_CONTINUOUS
+selected_ids:
+  - E1_W0_00
+  - E1_W0_01
+  - E1_ang_0_00
+  - E1_curvature_1_00
+  - E1_coupling_1_00
+  - E2_static_0_0
+  - E2_cont_0_0
+qualification_note: >-
+  The E2 continuous candidate is retained as a negative/infeasible stress
+  reference after native reclassification; it is not counted as a native
+  continuous-base qualification case.

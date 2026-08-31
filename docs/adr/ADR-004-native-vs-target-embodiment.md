@@ -1,6 +1,6 @@
 # ADR-004: Native embodiment is the WBC baseline
 
-**Status:** Accepted for Stage14
+**Status:** Accepted for Stage15
 
 **Decision:** The delivered WBC is first qualified in its native IsaacGym
 Go2+ARX5 embodiment. P1M is a separate target-embodiment transfer case.
@@ -9,5 +9,5 @@ Go2+ARX5 embodiment. P1M is a separate target-embodiment transfer case.
 mismatches in ARX5 axes, origins, limits, mount/TCP, and drive semantics.
 
 **Consequence:** P1M tracking numbers remain `UNQUALIFIED_BRIDGE_TRACKING` and
-must not be reported as general-WBC performance. Native reference tracking is
-the next scientific baseline.
+must not be reported as general-WBC performance. Native reference binding and
+native-placement reclassification precede any broad native benchmark.

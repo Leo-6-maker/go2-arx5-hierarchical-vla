@@ -1,0 +1,68 @@
+schema: STAGE15_NATIVE_REFERENCE_BINDING_V1
+status: VERIFIED_WITH_NATIVE_SELF_CONSISTENCY
+artifacts:
+  delivered_wbc_archive:
+    path: /var/cache/users/liuyu-nfs/go2-arx5-experiment-e2/intake/incoming/WBCTrackingShare_20260831.zip
+    sha256: b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167
+    source_commit: UNKNOWN
+  native_urdf:
+    path: /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf
+    sha256: 96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25
+  reachability_table:
+    path: /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/reach_tables/go2_x5_2d.pt
+    load_policy: weights_only_true
+native_anchor:
+  reset_dependent: true
+  temporal_semantics: FROZEN_AT_RESET
+  shoulder_position: base_position_world + rotate(base_quaternion_world, [0.05, 0.0, 0.1])
+  direction_body: normalize([0.36, 0.0, 0.10])
+  direction_world: rotate(base_quaternion_world, direction_body)
+  reach_radius: reach_table_query(direction_in_shoulder_frame)
+  rho_star: 0.60
+  anchor_position: shoulder_position + direction_world * rho_star * reach_radius
+  position_binding: WORLD_ALIGNED_TRANSLATION_ONLY
+  source_evidence:
+    - WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env.py:325-332
+    - WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env.py:1302-1338
+external_shape:
+  schema: TrajectoryShapeV1
+  position: relative_task_shape_or_native_world_aligned_shape
+  orientation: canonical_quaternion_xyzw
+  raw_native_point_count: variable
+  source_frame: explicit_per_binding
+  placement: separate_PlacementProfileV1
+episode_binding:
+  schema: EpisodeReferenceBindingV1
+  generic_pose_equation: T_world_anchor * T_anchor_task * T_task_eef(t)
+  native_position_equation: anchor_position + task_translation + shape_translation
+  native_rotation_equation: anchor_rotation * task_rotation * shape_rotation
+  native_reference_frame: world_aligned_gamma_then_dynamic_yaw_heading_preview
+policy_preview:
+  point_count: 9
+  offsets_m: [0.010, 0.025, 0.050, 0.090, 0.150, 0.225, 0.325, 0.425, 0.500]
+  parameterization: SE3_ARC_LENGTH
+  metric: sqrt(translation_m^2 + (0.15_m_per_rad * rotation_rad)^2)
+  interpolation: position_linear_quaternion_slerp
+  endpoint: clamp_final_pose
+  native_rot6d: first_two_rotation_rows_flattened
+  policy_frame: dynamic_gravity_aligned_yaw_heading_frame
+  source_evidence:
+    - WBCTrackingShare/modules/trajectory.py:406-414
+    - WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env.py:2390-2442
+tcp:
+  controlled_link: x5_link6
+  position_semantic: gripper_center
+  link_to_tcp_xyz_m: [0.1424, 0.0, 0.0001057]
+  orientation_semantic: x5_link6_orientation
+  source_evidence:
+    - WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py:64-67
+    - WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env.py:1023-1031
+validation:
+  trace_resets: 12
+  max_anchor_position_error_m: 7.275883386196053e-08
+  max_bound_position_error_m: 0.0
+  max_bound_rotation_error_rad: 4.2146848510894035e-08
+  max_preview_position_error_m: 4.417757086867633e-08
+  max_preview_rotation_error_rad: 8.960542904360911e-07
+  max_policy_reference_abs_error: 2.487510002424642e-07
+  result: PASS
