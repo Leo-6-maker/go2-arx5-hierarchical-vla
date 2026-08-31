@@ -1,0 +1,11 @@
+logical_id: E0_E1_E2_BENCHMARKS
+role: controller-independent EEF trajectory and whole-body geometry benchmarks
+local_path_template: /home/liuyu-nfs/Projects/_handoff/go2-arx5/{e0,e1_payload_20260831,e2_payload_20260831}
+provenance: project-authored benchmark payloads
+status: E0/E1/E2 prepared; Stage14 materialized deterministic benchmark files node-locally
+external_private: true
+redistributable: project-internal until separately reviewed
+manifest_hashes:
+  stage14_e1_reconstruction: 534f36e0bcf1913cab36d777a27418bd05e01fa2a8b78b6b8c5e88dda2cd2d11
+  stage14_e2_reconstruction: 00b57dc12dee3e996455460c5c857b572d99855918a03c969a07336260735095
+notes: E1/E2 labels are geometric/kinematic evidence, not WBC success labels. The Stage14 files were regenerated from the audited project-owned formulas because the handoff payload did not contain materialized NPZ files; they are not realized training visitation.

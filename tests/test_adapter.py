@@ -1,0 +1,89 @@
+import numpy as np
+import pytest
+
+from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig
+from go2arx5_vla.trajectory.so3 import rotation_matrix_to_rot6d
+
+
+def adapter():
+    return GR00TToWBCAdapter(
+        ReferenceAdapterConfig(
+            expected_source_frame="wbc_world",
+            wbc_frame="wbc_world",
+            tcp_semantic_id="arx5_tcp_v0",
+            stale_timeout_s=0.1,
+        )
+    )
+
+
+def chunk_inputs():
+    ts = np.linspace(0.0, 2.0, 40)
+    xyz = np.c_[0.2 * ts, 0.03 * np.sin(ts * 5), np.zeros_like(ts)]
+    rot = np.repeat(np.eye(3)[None], len(ts), axis=0)
+    return ts, xyz, rotation_matrix_to_rot6d(rot)
+
+
+@pytest.mark.parametrize("age_ms", [0, 20, 50, 100, 200])
+def test_latency_ages_are_explicit_and_finite(age_ms):
+    ts, xyz, rot6d = chunk_inputs()
+    preview, grip = adapter().adapt_xyz_rot6d(
+        chunk_id="latency",
+        observation_timestamp=0.0,
+        point_timestamps=ts,
+        eef_xyz=xyz,
+        eef_rot6d=rot6d,
+        controller_timestamp=age_ms / 1000.0,
+    )
+    assert preview.xyz_rot6d.shape == (9, 9)
+    assert np.isfinite(preview.xyz_rot6d).all()
+    assert preview.provenance["command_age_s"] == pytest.approx(age_ms / 1000.0)
+    assert preview.provenance["stale"] is (age_ms / 1000.0 > 0.1)
+    assert grip is None
+
+
+def test_gripper_is_returned_as_parallel_channel():
+    ts, xyz, rot6d = chunk_inputs()
+    preview, gripper = adapter().adapt_xyz_rot6d(
+        chunk_id="grip",
+        observation_timestamp=0.0,
+        point_timestamps=ts,
+        eef_xyz=xyz,
+        eef_rot6d=rot6d,
+        gripper=np.linspace(0.0, 1.0, len(ts)),
+        controller_timestamp=0.05,
+    )
+    assert preview.source_frame == "wbc_world"
+    assert gripper is not None
+    assert gripper.normalized_command == pytest.approx(0.0)
+
+
+def test_frame_mismatch_requires_explicit_transform():
+    ts, xyz, rot6d = chunk_inputs()
+    with pytest.raises(ValueError, match="frame mismatch"):
+        GR00TToWBCAdapter(
+            ReferenceAdapterConfig("groot_frame", "wbc_world", "arx5_tcp_v0")
+        ).adapt_xyz_rot6d(
+            chunk_id="bad-frame",
+            observation_timestamp=0.0,
+            point_timestamps=ts,
+            eef_xyz=xyz,
+            eef_rot6d=rot6d,
+        )
+
+
+def test_rotation_is_not_linear_rot6d_interpolation():
+    ts = np.array([0.0, 1.0])
+    xyz = np.zeros((2, 3))
+    c, s = np.cos(np.pi / 2), np.sin(np.pi / 2)
+    r1 = np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]], dtype=float)
+    rot = rotation_matrix_to_rot6d(np.asarray([np.eye(3), r1]))
+    preview, _ = adapter().adapt_xyz_rot6d(
+        chunk_id="slerp",
+        observation_timestamp=0.0,
+        point_timestamps=ts,
+        eef_xyz=xyz,
+        eef_rot6d=rot,
+    )
+    # The first preview is the exact initial identity, not an invalid linear
+    # rot6d blend; all decoded preview matrices must remain proper rotations.
+    assert np.allclose(preview.eef_rot6d[0], rotation_matrix_to_rot6d(np.eye(3)))

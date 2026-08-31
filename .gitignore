@@ -1,0 +1,52 @@
+# Secrets and machine-local configuration
+.env
+.env.*
+tokens
+*.token
+configs/paths.local.yaml
+configs/*.local.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Private or large artifacts; keep logical manifests in Git instead
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.jit
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.mp4
+*.avi
+*.mov
+*.usd
+*.usda
+*.usdc
+*.npz
+*.npy
+*.parquet
+*.jsonl
+*.log
+wandb/
+runs/
+datasets/
+cache/
+/artifacts/
+/stage*/
+
+# Local experiment outputs
+experiments/*/runs/
+experiments/*/outputs/
+logs/
+figures/
+
+# Keep directory placeholders when desired
+!.gitkeep
