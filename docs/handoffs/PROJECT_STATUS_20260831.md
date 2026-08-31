@@ -6,6 +6,16 @@ The active question is whether the delivered native WBC can track externally
 supplied E1/E2 EEF trajectories in its own native embodiment. P1M is not the
 current baseline because Stage13C exposed a material embodiment mismatch.
 
+Stage14 consolidated the project-owned integration code into this repository
+and mechanically injected seven E1/E2 references into the native runtime. The
+native runtime stayed finite and completed six of seven requested diagnostic
+runs; the orientation-only run ended through the native timing termination
+rule. These are preliminary injection results, not a qualified tracking
+baseline: E1/E2 files declare `SIM_REFERENCE_ONLY`, while the native runtime
+adds its own reset-dependent shoulder/reach anchor, and no explicit transform
+or TCP/episode-anchor binding between those conventions is yet available.
+The current Stage14 gate is therefore `REFERENCE_INJECTION_BLOCKER`.
+
 ## Evidence already completed
 
 | Area | Status | Bound evidence |
@@ -42,7 +52,9 @@ collision qualification is not real collision/calibration qualification.
 
 ## Next experiment
 
-Create the canonical project repo, inject E1/E2 references into the native
-runtime without changing policy/checkpoints, run seven balanced native
-continuous-reference trajectories, then—only if coherent—run the 40-point
-interface ablation and a bounded 24–36 reference subset.
+Resolve the explicit `SIM_REFERENCE_ONLY -> native world/episode` frame and
+anchor contract, rerun the seven native continuous-reference trajectories,
+then—only if the reference gate passes—run the 40-point interface ablation and
+a bounded 24–36 reference subset. Do not use the current unaligned numbers as
+evidence for or against EEF-only, E2 whole-body resolution, or native WBC
+generalization.

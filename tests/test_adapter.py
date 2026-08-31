@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig
-from go2arx5_vla.trajectory.so3 import rotation_matrix_to_rot6d
+from go2arx5_vla.trajectory.so3 import rot6d_to_matrix, rotation_matrix_to_rot6d
 
 
 def adapter():
@@ -84,6 +84,8 @@ def test_rotation_is_not_linear_rot6d_interpolation():
         eef_xyz=xyz,
         eef_rot6d=rot,
     )
-    # The first preview is the exact initial identity, not an invalid linear
-    # rot6d blend; all decoded preview matrices must remain proper rotations.
-    assert np.allclose(preview.eef_rot6d[0], rotation_matrix_to_rot6d(np.eye(3)))
+    # Preview starts at the first positive spatial offset rather than the
+    # anchor. Every decoded point must nevertheless remain a proper rotation;
+    # this guards against linear rot6d interpolation.
+    assert np.isfinite(preview.eef_rot6d).all()
+    assert np.allclose(np.linalg.det(rot6d_to_matrix(preview.eef_rot6d)), 1.0, atol=1e-10)

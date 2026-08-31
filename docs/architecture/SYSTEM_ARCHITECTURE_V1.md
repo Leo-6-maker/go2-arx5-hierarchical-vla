@@ -29,8 +29,10 @@ vision + language + compact proprioception
 
 The first qualification isolates the WBC from GR00T and P1M. It injects the
 E1/E2 continuous benchmark references into the delivered native IsaacGym
-runtime. Only after that baseline is coherent will the 40-point interface
-ablation and GR00T runtime integration be considered.
+runtime. The initial injection is mechanically working, but remains gated by
+an explicit `SIM_REFERENCE_ONLY` to native-world/episode anchor transform.
+Only after that baseline is coherent will the 40-point interface ablation and
+GR00T runtime integration be considered.
 
 ## Claims kept separate
 

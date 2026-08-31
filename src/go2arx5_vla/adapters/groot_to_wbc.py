@@ -51,7 +51,10 @@ class GR00TToWBCAdapter:
         elif chunk.source_frame != self.config.wbc_frame:
             # The names may be aliases only when the caller explicitly says so.
             if self.config.frame_transform is None:
-                raise ValueError("source frame is not the WBC frame and no transform was supplied")
+                raise ValueError(
+                    f"frame mismatch: source frame {chunk.source_frame!r} is not the WBC frame "
+                    f"{self.config.wbc_frame!r}; provide an explicit frame_transform"
+                )
         return chunk
 
     def adapt(
