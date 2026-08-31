@@ -14,7 +14,7 @@ The native EEF-only continuous benchmark and the matched 40-point interface abla
 - Stage15 parent: `e676c150a7e7aa406ba44aa07752441bab33b0fb`
 - Stage16 implementation commit: `6e2505f` (`feat: add Stage16 native WBC benchmark qualification`). The final metadata-only report update is the next commit in this branch; no history rewrite or destructive checkout was used.
 - Remote: none configured; `GITHUB_REMOTE_PENDING`.
-- Native benchmark executions: 28 full-suite cases, 8 first-gate cases, 8 additional representative perturbation runs at each of seeds 14 and 15, one lifecycle root-cause rerun, and 16 matched ablation runs (8 per mode).
+- Native benchmark executions: 28 full-suite cases, 8 first-gate cases, 4 additional representative perturbation cases at each of seeds 14 and 15 (8 additional runs total), one lifecycle root-cause rerun, and 16 matched ablation runs (8 per mode).
 - Static verification: Stage16 `py_compile` and `git diff --check` passed. Pytest was unavailable (`No module named pytest`), and no package was installed.
 - Untracked/private artifact status: node-local NPZ/JSON/log/checkpoint/source artifacts remain outside Git; only reusable Stage16 code, reports, and ADRs are intended for the commit.
 
