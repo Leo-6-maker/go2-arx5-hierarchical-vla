@@ -52,8 +52,8 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _safe_name(path: Path) -> bool:
-    for component in path.parts:
+def _safe_name(path: Path | str) -> bool:
+    for component in Path(path).parts:
         lowered = component.lower()
         if lowered in SENSITIVE_NAMES:
             return False
