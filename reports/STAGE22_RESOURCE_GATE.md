@@ -49,13 +49,30 @@ and `optimizer_step_completed=false`:
 `/var/cache/users/liuyu-nfs/go2-arx5-vla-stage22/r1_preflight_5080_2_clean_env_20260901`.
 The external post-run residual returned to `0 MiB`.
 
+A subsequent 4080S GPU0 recheck found substantial apparent free memory
+(`31,603/32,760 MiB` free at the read-only check, `0%` utilization), with an
+existing non-Stage22 `nxnode` allocation of `266 MiB`. Using the staged
+Stage10 environment, private FFmpeg compatibility path, and matching modality
+module, the R1 preflight constructed the model, loaded the train-only fixture,
+and entered `optimizer.step()`, but failed in multi-tensor Adam while trying
+to allocate `288 MiB`. Peak device usage was `28,146/32,760 MiB`, leaving
+`4,614 MiB` versus the `4,914 MiB` requirement; PyTorch peak
+allocated/reserved were `30,314.7/31,120.0 MiB`. The result records
+`failure_classification=CUDA_OOM`,
+`optimizer_step_observed_in_traceback=true`, and
+`optimizer_step_completed=false`:
+`/var/cache/users/liuyu-nfs/go2-arx5-vla-stage22/r1_preflight_4080_clean_20260901`.
+The post-run device state returned to the `627 MiB` baseline and the external
+process was unchanged.
+
 Known 4090 aliases were also checked read-only but were not usable in that
 check (one public-key authorization failure and one host-key verification
 failure), so they were not treated as available resources.
 
 The Stage22 launcher has a mandatory R1 one-step preflight before any full R1
-run. The shared attempts did not qualify, including one clean 16 GiB attempt;
-no full R0/R1 adaptation or model-profile inference has been run.
+run. The shared attempts did not qualify, including one clean 16 GiB attempt
+and the later nearly-free 32 GiB 4080S attempt; no full R0/R1 adaptation or
+model-profile inference has been run.
 
 ## Available CPU evidence
 

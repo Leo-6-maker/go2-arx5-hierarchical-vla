@@ -16,8 +16,9 @@ PASS WITH DEVIATION
 Completed: same-scene native expert supervision, on-policy replanning-point
 fixture generation, official loader/materialization qualification, and CPU
 contract tests. Deviation: the action-generation attribution comparison has
-not run because the tested shared GPUs failed the one-step R1 OOM/headroom
-gate. No full R0/R1 run or model-profile inference is claimed.
+not run because the tested shared GPUs, including a nearly-free 32 GiB 4080S
+device, failed the one-step R1 OOM/headroom gate. No full R0/R1 run or
+model-profile inference is claimed.
 
 ## B. Expert oracle and data
 

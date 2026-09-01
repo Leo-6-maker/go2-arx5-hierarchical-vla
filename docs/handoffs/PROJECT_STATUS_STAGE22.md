@@ -38,6 +38,11 @@ latest pushed Stage22 tip before this handoff update: `28837c2`
   the tracked source archive, train-only fixture, validated GR00T base model,
   modality module, PBS templates, and verified SHA256 manifest are at the
   node-local handoff root recorded in `reports/STAGE22_H200_HANDOFF.md`.
+- A later 4080S GPU0 R1 preflight with only a small existing `nxnode`
+  allocation still reached `optimizer.step()` and failed on a 288 MiB Adam
+  allocation (`28,146/32,760 MiB` peak; `4,614 MiB` headroom versus `4,914
+  MiB` required). No full R0/R1 run was started and the external process was
+  unchanged.
 - CPU tests for expert contracts, provider, timestamps, SafetyGate, and
   action-profile calculations.
 
