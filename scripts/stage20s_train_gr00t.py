@@ -12,6 +12,7 @@ real data path is imported here.
 from __future__ import annotations
 
 import argparse
+import gc
 import hashlib
 import importlib
 import json
@@ -19,6 +20,7 @@ import os
 import platform
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 
@@ -112,7 +114,54 @@ def _build_config(args: argparse.Namespace):
     return config
 
 
-def _write_manifest(args: argparse.Namespace, *, status: str, error: str | None = None) -> None:
+def _cuda_telemetry(*, before: dict | None, run_elapsed_s: float | None) -> dict:
+    """Capture resource telemetry without changing the training recipe."""
+
+    try:
+        import torch
+    except ImportError:
+        return {"available": False, "reason": "torch_import_failed"}
+    if not torch.cuda.is_available():
+        return {"available": False, "reason": "cuda_unavailable"}
+    device = torch.cuda.current_device()
+    try:
+        torch.cuda.synchronize(device)
+    except RuntimeError:
+        pass
+    allocated_before_cleanup = int(torch.cuda.memory_allocated(device))
+    reserved_before_cleanup = int(torch.cuda.memory_reserved(device))
+    peak_allocated = int(torch.cuda.max_memory_allocated(device))
+    peak_reserved = int(torch.cuda.max_memory_reserved(device))
+    gc.collect()
+    torch.cuda.empty_cache()
+    try:
+        torch.cuda.synchronize(device)
+    except RuntimeError:
+        pass
+    return {
+        "available": True,
+        "device_logical_index": int(device),
+        "device_name": torch.cuda.get_device_name(device),
+        "torch_version": torch.__version__,
+        "cuda_version": torch.version.cuda,
+        "before": before,
+        "peak_allocated_bytes": peak_allocated,
+        "peak_reserved_bytes": peak_reserved,
+        "allocated_before_cleanup_bytes": allocated_before_cleanup,
+        "reserved_before_cleanup_bytes": reserved_before_cleanup,
+        "allocated_after_cleanup_bytes": int(torch.cuda.memory_allocated(device)),
+        "reserved_after_cleanup_bytes": int(torch.cuda.memory_reserved(device)),
+        "run_elapsed_s": run_elapsed_s,
+    }
+
+
+def _write_manifest(
+    args: argparse.Namespace,
+    *,
+    status: str,
+    error: str | None = None,
+    cuda_telemetry: dict | None = None,
+) -> None:
     output = args.output_dir
     files = {}
     if output.exists():
@@ -155,6 +204,7 @@ def _write_manifest(args: argparse.Namespace, *, status: str, error: str | None 
             "python": platform.python_version(),
             "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         },
+        "cuda_telemetry": cuda_telemetry,
         "artifacts": files,
         "error": error,
     }
@@ -185,15 +235,45 @@ def main() -> int:
     if not (args.base_model_path / "config.json").is_file():
         parser.error(f"base model is missing: {args.base_model_path}")
 
+    cuda_before = None
+    run_start = time.perf_counter()
     try:
+        try:
+            import torch
+
+            if torch.cuda.is_available():
+                device = torch.cuda.current_device()
+                cuda_before = {
+                    "device_logical_index": int(device),
+                    "device_name": torch.cuda.get_device_name(device),
+                    "allocated_bytes": int(torch.cuda.memory_allocated(device)),
+                    "reserved_bytes": int(torch.cuda.memory_reserved(device)),
+                    "total_memory_bytes": int(torch.cuda.get_device_properties(device).total_memory),
+                }
+                torch.cuda.reset_peak_memory_stats(device)
+        except ImportError:
+            cuda_before = {"available": False, "reason": "torch_import_failed"}
         config = _build_config(args)
         from gr00t.experiment.experiment import run
 
         run(config)
     except Exception as exc:
-        _write_manifest(args, status="FAILED", error=f"{type(exc).__name__}: {str(exc).splitlines()[0]}")
+        _write_manifest(
+            args,
+            status="FAILED",
+            error=f"{type(exc).__name__}: {str(exc).splitlines()[0]}",
+            cuda_telemetry=_cuda_telemetry(
+                before=cuda_before, run_elapsed_s=time.perf_counter() - run_start
+            ),
+        )
         raise
-    _write_manifest(args, status="PASS")
+    _write_manifest(
+        args,
+        status="PASS",
+        cuda_telemetry=_cuda_telemetry(
+            before=cuda_before, run_elapsed_s=time.perf_counter() - run_start
+        ),
+    )
     print(json.dumps(json.loads((args.output_dir / "run_manifest.json").read_text()), indent=2))
     return 0
 
