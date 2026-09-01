@@ -166,7 +166,7 @@ deployment.
 branch: stage21/same-scene-receding-horizon
 parent: 58fe006a4986386b923bcef2b7a43d6f6559bbff
 origin: git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (private)
-commit: recorded after final staged-artifact audit
+commit: 91724c56c13bfea8cce5e47cfbd9484bacb6bb76
 CPU tests: 61 passed (remote Stage10/IsaacLab-compatible Python environment)
 ```
 
