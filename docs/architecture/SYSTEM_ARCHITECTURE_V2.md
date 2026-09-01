@@ -104,4 +104,42 @@ actual system architecture and clock requirements are fixed.
 - Known-good benchmark orchestration through native WBC: pass.
 - Stage19 LeRobot/GR00T materialization, official loader, synchronization
   stress, and recorder replay: pass with the classified D3 metadata deviation.
-- Robot-specific GR00T adaptation: not performed.
+- Before Stage20S, robot-specific GR00T adaptation was not performed; the
+  bounded simulation-only adaptation and its limits are described below.
+
+## Stage20S simulation-only qualification path
+
+Stage20S adds a deliberately bounded simulation path for the first
+robot-specific adaptation task:
+
+```text
+SIM_VISUAL_REACH_V0 RGB + language + StateV1
+                         |
+                         v
+       resource-bounded robot-specific GR00T adaptation
+                         |
+                  actual N1.7 output
+                         |
+             GR00TTrajectoryProvider
+                         |
+             TrajectorySafetyGateV1
+                         |
+             EpisodeReferenceBindingV1
+                         |
+                 GR00TToWBCAdapter
+                         |
+          delivered native WBC in simulation
+```
+
+The first task is visual reach rather than contact-rich manipulation. The
+Stage20S fixture uses a procedural cross-simulator camera and is not a native
+same-scene camera qualification. Model, reference, controller, and end-to-end
+errors are reported separately. The known-good benchmark orchestration passed;
+the actual accepted model candidate reached native WBC but ended at the
+delivered timing termination, so the stronger simulated end-to-end
+qualification remains open.
+
+Stage20S does not alter the native WBC controller, checkpoints, or production
+action timing. Its 0.05 s period is explicitly test-only. No model output can
+reach native WBC unless its corresponding interface seal records
+`TrajectorySafetyGateV1=ACCEPT`.
