@@ -12,7 +12,13 @@ from typing import Any, Mapping, Optional
 
 import numpy as np
 
-from ..trajectory.so3 import matrix_to_quat, quat_to_matrix, rot6d_to_matrix, rotation_matrix_to_rot6d
+from ..trajectory.so3 import (
+    matrix_to_quat,
+    quat_to_matrix,
+    rot6d_rows_to_matrix,
+    rot6d_to_matrix,
+    rotation_matrix_to_rot6d,
+)
 
 
 def _array(value: Any, *, dtype: np.dtype = np.float64) -> np.ndarray:
@@ -94,7 +100,11 @@ class TrajectoryChunkV1:
 
     @property
     def rot6d(self) -> np.ndarray:
-        """Return WBC/GR00T-compatible first-two-column rot6d."""
+        """Return canonical/GR00T first-two-column rot6d.
+
+        The native WBC wire preview is row-packed and is exposed by
+        :class:`WBCPreviewV1` instead.
+        """
         return rotation_matrix_to_rot6d(quat_to_matrix(self.eef_orientation))
 
     @classmethod
@@ -161,7 +171,12 @@ class TrajectoryChunkV1:
 
 @dataclass(frozen=True)
 class WBCPreviewV1:
-    """The delivered WBC's external nine-point XYZ+rot6d preview."""
+    """The delivered WBC's external nine-point XYZ+native-rot6d preview.
+
+    ``eef_rot6d`` uses the native controller's verified PyTorch3D-0.3 wire
+    layout (first two rotation rows flattened).  It is intentionally distinct
+    from the canonical/GR00T chunk layout, which uses first two columns.
+    """
 
     anchor_timestamp: float
     offsets_m: np.ndarray
@@ -185,7 +200,7 @@ class WBCPreviewV1:
             raise ValueError("preview offsets must be sorted and non-negative")
         _finite("preview position", pos)
         _finite("preview rot6d", rot)
-        rot6d_to_matrix(rot)
+        rot6d_rows_to_matrix(rot)
         object.__setattr__(self, "offsets_m", offsets)
         object.__setattr__(self, "eef_position", pos)
         object.__setattr__(self, "eef_rot6d", rot)
@@ -195,6 +210,11 @@ class WBCPreviewV1:
     @property
     def xyz_rot6d(self) -> np.ndarray:
         return np.concatenate([self.eef_position, self.eef_rot6d], axis=-1)
+
+    @property
+    def eef_orientation(self) -> np.ndarray:
+        """Decode the native row-packed wire orientation to canonical SO(3)."""
+        return matrix_to_quat(rot6d_rows_to_matrix(self.eef_rot6d))
 
 
 @dataclass(frozen=True)

@@ -1,0 +1,120 @@
+schema: NATIVE_WBC_EMBODIMENT_SPEC_V0
+provenance:
+  artifact_sha256: b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167
+  source_commit: UNKNOWN
+  native_urdf_sha256: 96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25
+robot:
+  name: go2_x5
+  asset: resources/robots/go2_x5_v3/urdf/go2_x5.urdf
+  physical_policy_dof_count: 18
+  simulator_dof_count: 20
+  omitted_simulator_dofs:
+    - x5_gripper_joint
+    - x5_joint8
+  mount_joint: arm_mount_joint
+  mount_parent: base
+  mount_child: x5_base_link
+  mount_xyz_m: [0.05, 0.0, 0.1]
+  mount_rpy_rad: [0.0, 0.0, 0.0]
+arm:
+  controlled_link: x5_link6
+  tcp_semantic_id: x5_link6_gripper_center
+  tcp_offset_in_link6_m: [0.1424, 0.0, 0.0001057]
+  action_mode: end_to_end
+  action_scale_rad: 0.25
+  joint_order:
+    - index: 0
+      name: x5_joint1
+      axis: [0.0, 0.0, 1.0]
+      origin_xyz_m: [0.0, 0.0, 0.0605]
+      lower_rad: -2.094
+      upper_rad: 3.141592653589793
+      effort_limit: 27.0
+      velocity_limit_rad_s: 5.5
+      stiffness: 50.0
+      damping: 5.0
+    - index: 1
+      name: x5_joint2
+      axis: [0.0, 1.0, 0.0]
+      origin_xyz_m: [0.02, 0.0, 0.04]
+      lower_rad: 0.0
+      upper_rad: 3.665
+      effort_limit: 27.0
+      velocity_limit_rad_s: 5.5
+      stiffness: 50.0
+      damping: 10.0
+    - index: 2
+      name: x5_joint3
+      axis: [0.0, -1.0, 0.0]
+      origin_xyz_m: [-0.264, 0.0, 0.0]
+      lower_rad: 0.0
+      upper_rad: 3.24
+      effort_limit: 27.0
+      velocity_limit_rad_s: 5.5
+      stiffness: 80.0
+      damping: 10.0
+    - index: 3
+      name: x5_joint4
+      axis: [0.0, -1.0, 0.0]
+      origin_xyz_m: [0.245, 0.0, 0.056]
+      lower_rad: -1.671
+      upper_rad: 1.671
+      effort_limit: 7.0
+      velocity_limit_rad_s: 20.0
+      stiffness: 30.0
+      damping: 2.5
+    - index: 4
+      name: x5_joint5
+      axis: [0.0, 0.0, -1.0]
+      origin_xyz_m: [0.06775, 0.0, 0.0845]
+      lower_rad: -1.671
+      upper_rad: 1.671
+      effort_limit: 7.0
+      velocity_limit_rad_s: 20.0
+      stiffness: 20.0
+      damping: 2.0
+    - index: 5
+      name: x5_joint6
+      axis: [1.0, 0.0, 0.0]
+      origin_xyz_m: [0.02895, 0.0, -0.0845]
+      lower_rad: -2.094
+      upper_rad: 2.094
+      effort_limit: 7.0
+      velocity_limit_rad_s: 20.0
+      stiffness: 20.0
+      damping: 1.0
+dog:
+  action_count: 12
+  action_semantics: normalized_joint_target_to_pd_torque
+  joint_order:
+    - FL_hip_joint
+    - FL_thigh_joint
+    - FL_calf_joint
+    - FR_hip_joint
+    - FR_thigh_joint
+    - FR_calf_joint
+    - RL_hip_joint
+    - RL_thigh_joint
+    - RL_calf_joint
+    - RR_hip_joint
+    - RR_thigh_joint
+    - RR_calf_joint
+control:
+  control_type: M
+  action_scale_rad: 0.25
+  control_hz: 50
+  physics_hz: 200
+  decimation: 4
+observation:
+  arm_per_frame_dim: 201
+  arm_history_frames: 60
+  arm_flattened_dim: 12060
+  dog_per_frame_dim: 90
+  dog_history_frames: 30
+  dog_flattened_dim: 2700
+evidence:
+  config: runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py
+  arm_obs_layout: runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/core.py:259-292
+  dog_obs_layout: runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/core.py:311-343
+  arm_decode: runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env.py:2341-2355
+  pd_and_force: runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/legged_robot.py:157-198

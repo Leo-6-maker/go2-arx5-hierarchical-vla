@@ -1,8 +1,10 @@
 # Delivered WBC external reference V1
 
-The source-side external object is an absolute EEF trajectory represented by
-XYZ plus the first two columns of an SO(3) rotation matrix. The canonical
-adapter stores poses in quaternion `xyzw`, then emits the WBC rot6d wire form.
+The project-side source object is a timestamped EEF trajectory represented by
+XYZ plus canonical SO(3). A native episode binding turns a relative
+`TrajectoryShapeV1` plus a `PlacementProfileV1` into the absolute reference
+used by the delivered runtime. The canonical adapter stores poses in
+quaternion `xyzw`, then emits the native WBC rot6d wire form.
 
 The historical WBC transforms world/anchor poses into its current
 gravity-aligned, yaw-aligned heading frame while constructing the policy
@@ -26,3 +28,9 @@ Reference modes for native evaluation are:
 3. `BENCHMARK_40POINT_RECONSTRUCTED`.
 
 All three must terminate at the same `WBCPreviewV1` boundary.
+
+Stage15 qualification uses `MODE_NATIVE_CONTINUOUS` only. The native anchor is
+reset-dependent and frozen at reset; the preview's heading frame is then
+recomputed from the current base yaw during observation construction. The
+controlled pose is the `x5_link6` orientation with the `gripper_center`
+position offset `[0.1424, 0, 0.0001057] m`.

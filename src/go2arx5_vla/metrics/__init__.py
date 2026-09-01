@@ -8,6 +8,8 @@ from .task_space import (
     reference_reconstruction_error,
     task_space_error,
 )
+from .internal_plan import PLAN_CHANNEL_NAMES, analyze_internal_plan
+from .whole_body import classify_progressive_behavior, compute_whole_body_metrics, metric_summary
 
 __all__ = [
     "REFERENCE_RECONSTRUCTION_ERROR",
@@ -18,4 +20,9 @@ __all__ = [
     "reference_reconstruction_error",
     "controller_tracking_error",
     "end_to_end_task_space_error",
+    "PLAN_CHANNEL_NAMES",
+    "analyze_internal_plan",
+    "compute_whole_body_metrics",
+    "classify_progressive_behavior",
+    "metric_summary",
 ]

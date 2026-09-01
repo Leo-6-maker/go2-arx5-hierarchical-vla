@@ -3,18 +3,20 @@
 ## Current decision
 
 The active question is whether the delivered native WBC can track externally
-supplied E1/E2 EEF trajectories in its own native embodiment. P1M is not the
-current baseline because Stage13C exposed a material embodiment mismatch.
+supplied, semantically aligned E1/E2 EEF trajectory shapes in its own native
+embodiment. P1M is not the current baseline because Stage13C exposed a
+material embodiment mismatch.
 
-Stage14 consolidated the project-owned integration code into this repository
-and mechanically injected seven E1/E2 references into the native runtime. The
-native runtime stayed finite and completed six of seven requested diagnostic
-runs; the orientation-only run ended through the native timing termination
-rule. These are preliminary injection results, not a qualified tracking
-baseline: E1/E2 files declare `SIM_REFERENCE_ONLY`, while the native runtime
-adds its own reset-dependent shoulder/reach anchor, and no explicit transform
-or TCP/episode-anchor binding between those conventions is yet available.
-The current Stage14 gate is therefore `REFERENCE_INJECTION_BLOCKER`.
+Stage14 consolidated the project-owned integration code and mechanically
+injected seven E1/E2 references, but those runs were unaligned because the
+benchmark placement/TCP convention was not bound to the native reset anchor.
+Stage15 introduced `TrajectoryShapeV1`, `PlacementProfileV1`, and
+`EpisodeReferenceBindingV1`; an independent implementation reproduced 12
+native anchor/preview traces to below `1e-6` scale. The binding blocker is
+closed. The aligned diagnostic set is still not broad native evidence: five
+nominal cases completed, the native static-relocation case terminated at 25
+steps under the native timing rule, and the reused E2 continuous case was
+reclassified as native geometrically infeasible.
 
 ## Evidence already completed
 
@@ -26,6 +28,7 @@ The current Stage14 gate is therefore `REFERENCE_INJECTION_BLOCKER`.
 | E0/E1/E2 | prepared | controller-independent metrics, 78 E1 references, 36 E2 whole-body geometric references |
 | Stage13A/B | completed | safe intake, semantic ABI, checkpoint binding, CPU forward, adapter |
 | Stage13C | pass with deviation | native WBC runtime coherent; P1M bridge unqualified |
+| Stage15 | pass with deviation | native binding self-consistent; native classification/qualification still has one reference-class deviation |
 
 ## Immutable artifact anchors
 
@@ -44,6 +47,19 @@ dog observation is 90D × 30 history; arm output is 15D (6D arm plus internal
 9D body/gait plan); dog output is 12D; physical action is 18D. Rates are 50 Hz
 control, 200 Hz physics, decimation 4. Gripper is separate.
 
+Native binding details: the reset anchor is constructed from the native base
+pose, arm mount, normalized `[0.36, 0, 0.10]` body direction, reach-table
+radius, and `rho_star=0.60`; it is frozen at reset. The controlled TCP
+semantic is `x5_link6_gripper_center`: position uses the `gripper_center`
+offset while orientation uses `x5_link6`.
+
+Stage15 native reclassification of all 114 E1/E2 shapes is: 70
+`NATIVE_ARM_EASY`, 17 `NATIVE_STATIC_BASE_RELOCATION_SUFFICIENT`, 3
+`NATIVE_BOUNDARY`, 24 `NATIVE_GEOMETRICALLY_INFEASIBLE`, and 0 native
+continuous-base cases. The 16 original E2 continuous cases became native
+geometrically infeasible under the bounded native reach analysis; this is a
+classification change, not a WBC failure result.
+
 ## Claim boundaries
 
 E2 geometric feasibility is not dynamic tracking. Generator expressivity is not
@@ -52,9 +68,9 @@ collision qualification is not real collision/calibration qualification.
 
 ## Next experiment
 
-Resolve the explicit `SIM_REFERENCE_ONLY -> native world/episode` frame and
-anchor contract, rerun the seven native continuous-reference trajectories,
-then—only if the reference gate passes—run the 40-point interface ablation and
-a bounded 24–36 reference subset. Do not use the current unaligned numbers as
-evidence for or against EEF-only, E2 whole-body resolution, or native WBC
+Resolve the native static-relocation qualification issue or explicitly design a
+native-valid static/continuous placement set, then run a bounded native
+benchmark. Only after that may the 40-point interface ablation and GR00T/WBC
+integration be reconsidered. Do not use Stage14 unaligned numbers as evidence
+for or against EEF-only, E2 whole-body resolution, or native WBC
 generalization.

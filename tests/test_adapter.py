@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig
-from go2arx5_vla.trajectory.so3 import rot6d_to_matrix, rotation_matrix_to_rot6d
+from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix, rotation_matrix_to_rot6d
 
 
 def adapter():
@@ -88,4 +88,4 @@ def test_rotation_is_not_linear_rot6d_interpolation():
     # anchor. Every decoded point must nevertheless remain a proper rotation;
     # this guards against linear rot6d interpolation.
     assert np.isfinite(preview.eef_rot6d).all()
-    assert np.allclose(np.linalg.det(rot6d_to_matrix(preview.eef_rot6d)), 1.0, atol=1e-10)
+    assert np.allclose(np.linalg.det(rot6d_rows_to_matrix(preview.eef_rot6d)), 1.0, atol=1e-10)

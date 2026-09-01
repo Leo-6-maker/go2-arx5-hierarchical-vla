@@ -1,0 +1,32 @@
+logical_id: STAGE15_NATIVE_WBC_BINDING
+role: native reset-anchor binding, native benchmark reclassification, and aligned qualification evidence
+local_path_template: /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage15
+provenance: project-authored derived evidence from the lab-delivered WBC artifact
+status: binding_pass_aligned_diagnostic_with_native_reference_class_deviation
+external_private: true
+redistributable: reports_and_contracts_only
+immutable_inputs:
+  delivered_wbc_archive_sha256: b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167
+  native_urdf_sha256: 96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25
+  arm_checkpoint_sha256: 99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a
+  dog_checkpoint_sha256: 51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670
+  native_config_sha256: 56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb
+binding:
+  schema: EpisodeReferenceBindingV1
+  anchor: reset_dependent_frozen_translation_only
+  preview: nine_point_se3_arc_length
+  self_consistency_resets: 12
+  max_policy_reference_abs_error: 2.487510002424642e-07
+reinstantiation:
+  source_trajectories: 114
+  native_arm_easy: 70
+  native_static_base_relocation_sufficient: 17
+  native_continuous_base_motion_required: 0
+  native_boundary: 3
+  native_geometrically_infeasible: 24
+qualification:
+  reference_mode: MODE_NATIVE_CONTINUOUS
+  seed: 13
+  selected_trajectory_count: 7
+  result: five_easy_or_nominal_complete; static_case_partial; continuous_case_infeasible_negative_control
+notes: P1M and GR00T are not used for Stage15 native tracking qualification.

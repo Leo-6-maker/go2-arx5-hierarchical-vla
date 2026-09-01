@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage14 native IsaacGym WBC benchmark launcher.
+"""Native IsaacGym WBC benchmark launcher.
 
 This is an integration launcher, not a copy of the private lab source. The
 source root, checkpoints, and trajectories are external inputs. The only
@@ -223,9 +223,96 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
 
     class ExternalReferenceWBCEnv(WBCEnv):
         def __init__(self, *args, **kwargs):
-            self._stage14_trajectory_path = Path(trajectory_path)
-            self._stage14_load_count = 0
+            self._stage15_trajectory_path = Path(trajectory_path)
+            self._stage15_load_count = 0
+            self._stage16_pending_termination = None
             super().__init__(*args, **kwargs)
+
+        def _stage16_joint_margin(self):
+            limits = getattr(self, "dof_pos_limits", None)
+            if limits is None:
+                return np.empty(0, dtype=np.float32), False
+            q = array_tensor(self, "dof_pos")[0]
+            bounds = limits.detach().cpu().numpy()
+            margin = np.minimum(q - bounds[:, 0], bounds[:, 1] - q)
+            return margin.astype(np.float32), bool(np.any(margin < 0.0))
+
+        def _stage16_snapshot(self):
+            """Capture the pre-reset state; reset_idx otherwise overwrites it."""
+            from go2arx5_vla.benchmark.lifecycle import classify_termination
+
+            s_ref = self.traj_batch.s_ref(self.traj_sim_time)
+            desired_pos = self.traj_batch.p_at(s_ref)
+            desired_quat = self.traj_batch.quat_at(s_ref)
+            s_k, preview_pos, preview_quat, preview_sdot = self.traj_batch.sample_preview(
+                self.traj_s,
+                float(self.cfg.wbc.goal_reaching.trajectory.preview_horizon),
+                int(self.cfg.wbc.goal_reaching.trajectory.preview_points),
+            )
+            del s_k, preview_sdot
+            ee = array_tensor(self, "end_effector_state")
+            dof_pos = array_tensor(self, "dof_pos")[0]
+            dof_vel = array_tensor(self, "dof_vel")[0]
+            margin, joint_violation = self._stage16_joint_margin()
+            joint_limit_termination = bool(
+                getattr(self, "joint_limit_termination_buf", torch.zeros(1, dtype=torch.bool, device=self.device))[0]
+                .detach()
+                .cpu()
+                .item()
+            )
+            state_arrays = (ee[0], array_tensor(self, "base_pos")[0], dof_pos, dof_vel)
+            invalid = not all(np.isfinite(value).all() for value in state_arrays)
+            body_height = bool(getattr(self, "body_height_buf", torch.zeros(1, dtype=torch.bool, device=self.device))[0].detach().cpu().item())
+            event = {
+                "reset_buf": bool(self.reset_buf[0].detach().cpu().item()),
+                "time_out_buf": bool(self.time_out_buf[0].detach().cpu().item()),
+                "body_height_buf": body_height,
+                "fall_flag": body_height,
+                "traj_early_term": bool(self.traj_early_term[0].detach().cpu().item()),
+                "termination_cause": self.traj_term_cause[0].detach().cpu().tolist(),
+                "invalid_state": bool(invalid),
+                "joint_limit_violation": bool(joint_violation),
+                "joint_limit_termination": joint_limit_termination,
+                "sim_time": scalar_tensor(self, "traj_sim_time"),
+                "traj_s": scalar_tensor(self, "traj_s"),
+                "traj_s_ref": float(s_ref[0].detach().cpu().item()),
+                "traj_d_lat": scalar_tensor(self, "traj_d_lat"),
+                "traj_timing_err": scalar_tensor(self, "traj_timing_err"),
+                "traj_L": scalar_tensor(self.traj_batch, "L"),
+                "reference_duration": scalar_tensor(self.traj_batch, "T"),
+                "desired_pos": desired_pos[0].detach().cpu().tolist(),
+                "desired_quat": desired_quat[0].detach().cpu().tolist(),
+                "preview_pos": preview_pos[0].detach().cpu().tolist(),
+                "preview_quat": preview_quat[0].detach().cpu().tolist(),
+                "achieved_pos": ee[0, :3].tolist(),
+                "achieved_quat": ee[0, 3:7].tolist(),
+                "base_pos": array_tensor(self, "base_pos")[0].tolist(),
+                "base_quat": array_tensor(self, "base_quat")[0].tolist(),
+                "base_lin_vel": array_tensor(self, "base_lin_vel")[0].tolist(),
+                "base_feedforward": array_tensor(self, "base_feedforward_cmd")[0].tolist(),
+                "delta_velocity": array_tensor(self, "delta_velocity_cmd")[0].tolist(),
+                "commands_dog": array_tensor(self, "commands_dog")[0].tolist(),
+                "dof_pos": dof_pos.tolist(),
+                "dof_vel": dof_vel.tolist(),
+                "joint_pos_target": array_tensor(self, "joint_pos_target")[0].tolist(),
+                "arm_q": dof_pos[12:18].tolist(),
+                "arm_dq": dof_vel[12:18].tolist(),
+                "dog_q": dof_pos[:12].tolist(),
+                "dog_dq": dof_vel[:12].tolist(),
+                "joint_limit_margin": margin.tolist(),
+            }
+            event["termination_code"] = classify_termination(event)
+            return event
+
+        def check_termination(self):
+            super().check_termination()
+            if bool(self.reset_buf[0].detach().cpu().item()):
+                self._stage16_pending_termination = self._stage16_snapshot()
+
+        def pop_stage16_termination(self):
+            event = self._stage16_pending_termination
+            self._stage16_pending_termination = None
+            return event
 
         def _reset_external_progress(self, env_ids):
             names = (
@@ -281,7 +368,7 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
         def _load_trajectory_for(self, env_ids):
             if not self._traj_tracking_enabled():
                 return super()._load_trajectory_for(env_ids)
-            data = np.load(str(self._stage14_trajectory_path), allow_pickle=False)
+            data = np.load(str(self._stage15_trajectory_path), allow_pickle=False)
             if "timestamp" not in data or "position" not in data or "quaternion" not in data:
                 raise ValueError("benchmark trajectory must contain timestamp, position, quaternion")
             timestamps = np.asarray(data["timestamp"], dtype=np.float64)
@@ -310,7 +397,7 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
             self.traj_batch.load(env_ids, [gamma] * count, [time_law] * count)
             self._anchor_external_reference(env_ids)
             self._reset_external_progress(env_ids)
-            self._stage14_load_count += count
+            self._stage15_load_count += count
 
     return ExternalReferenceWBCEnv
 
@@ -331,6 +418,16 @@ def main():
     parser.add_argument("--seed", type=int, default=13)
     parser.add_argument("--sim-device", default="cuda:0")
     parser.add_argument(
+        "--no-stop-at-reference-completion",
+        action="store_true",
+        help="diagnostic only: continue to the requested step count after the time-law endpoint",
+    )
+    parser.add_argument(
+        "--metadata-json",
+        type=Path,
+        help="optional project-owned case metadata copied into the summary",
+    )
+    parser.add_argument(
         "--disable-trajectory-termination",
         action="store_true",
         help="diagnostic only: keep policy/physics unchanged while disabling trajectory early-stop gates",
@@ -340,6 +437,29 @@ def main():
         parser.error("--trajectory is required for an external reference mode")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(args.source_root))
+    from go2arx5_vla.benchmark.lifecycle import reference_is_complete
+
+    case_metadata = {}
+    if args.metadata_json is not None:
+        case_metadata = json.loads(args.metadata_json.read_text())
+
+    # The delivered native config reserves 512 time-law points.  That is
+    # sufficient for its default 8 s bank only because bank trajectories are
+    # sampled more sparsely; a project-owned 100 Hz external reference can
+    # legitimately contain more points.  Increase only the storage capacity
+    # for this benchmark input.  This does not alter the controller, policy,
+    # time law, termination thresholds, or physics semantics; without it the
+    # delivered TrajectoryBatch.load() would silently truncate the reference.
+    reference_capacity_points = None
+    configured_reference_capacity_points = None
+    reference_capacity_resized = False
+    if args.reference_mode != "NATIVE_GENERATOR":
+        with np.load(str(args.trajectory), allow_pickle=False) as reference_data:
+            if "timestamp" not in reference_data:
+                raise ValueError("benchmark trajectory must contain timestamp")
+            reference_capacity_points = 40 if args.reference_mode == "BENCHMARK_40POINT_RECONSTRUCTED" else int(
+                len(reference_data["timestamp"])
+            )
 
     # IsaacGym must be imported before torch. The source package is private,
     # external, and supplied through --source-root.
@@ -370,6 +490,10 @@ def main():
     )
     cfg = build_roboduet_config(options=options, debug=True)
     configure_eval(cfg)
+    configured_reference_capacity_points = int(cfg.wbc.goal_reaching.trajectory.max_tl_points)
+    if reference_capacity_points is not None and reference_capacity_points > configured_reference_capacity_points:
+        cfg.wbc.goal_reaching.trajectory.max_tl_points = int(reference_capacity_points)
+        reference_capacity_resized = True
     if args.disable_trajectory_termination:
         cfg.wbc.goal_reaching.trajectory.terminate_d_lat = 0.0
         cfg.wbc.goal_reaching.trajectory.terminate_timing_frac = 0.0
@@ -393,6 +517,8 @@ def main():
     status = "UNKNOWN"
     termination = "NATURAL_COMPLETION"
     error = None
+    episode_ended = False
+    reference_completed = False
 
     def on_term(signum, frame):
         del frame
@@ -442,6 +568,22 @@ def main():
                 ee = array_tensor(native, "end_effector_state")
                 ee_pos = ee[:, :3]
                 ee_quat = ee[:, 3:7]
+                dof_pos_np = array_tensor(native, "dof_pos")[0]
+                dof_vel_np = array_tensor(native, "dof_vel")[0]
+                limits = getattr(native, "dof_pos_limits", None)
+                if limits is None:
+                    joint_margin_np = np.empty(0, dtype=np.float32)
+                    joint_violation = False
+                else:
+                    bounds_np = limits.detach().cpu().numpy()
+                    joint_margin_np = np.minimum(
+                        dof_pos_np - bounds_np[:, 0], bounds_np[:, 1] - dof_pos_np
+                    ).astype(np.float32)
+                    joint_violation = bool(np.any(joint_margin_np < 0.0))
+                invalid_state = not all(
+                    np.isfinite(value).all()
+                    for value in (ee[0], dof_pos_np, dof_vel_np)
+                )
                 row = {
                     "step": step,
                     "sim_time": scalar_tensor(native, "traj_sim_time"),
@@ -455,6 +597,7 @@ def main():
                     "traj_d_lat": scalar_tensor(native, "traj_d_lat"),
                     "traj_timing_err": scalar_tensor(native, "traj_timing_err"),
                     "traj_L": scalar_tensor(native.traj_batch, "L"),
+                    "reference_duration": scalar_tensor(native.traj_batch, "T"),
                     "desired_pos": desired_pos[0].detach().cpu().tolist(),
                     "desired_quat": desired_quat[0].detach().cpu().tolist(),
                     "preview_pos": preview_pos[0].detach().cpu().tolist(),
@@ -471,10 +614,51 @@ def main():
                     "arm_action_6d": actions_arm[0, : native.num_actions_arm].detach().cpu().tolist(),
                     "internal_body_plan_9d": actions_arm[0, native.num_actions_arm :].detach().cpu().tolist(),
                     "dog_action_12d": actions_dog[0].detach().cpu().tolist(),
-                    "dof_pos": array_tensor(native, "dof_pos")[0].tolist(),
-                    "dof_vel": array_tensor(native, "dof_vel")[0].tolist(),
+                    "dof_pos": dof_pos_np.tolist(),
+                    "dof_vel": dof_vel_np.tolist(),
                     "joint_pos_target": array_tensor(native, "joint_pos_target")[0].tolist(),
+                    "arm_q": array_tensor(native, "dof_pos")[0, 12:18].tolist(),
+                    "arm_dq": array_tensor(native, "dof_vel")[0, 12:18].tolist(),
+                    "dog_q": array_tensor(native, "dof_pos")[0, :12].tolist(),
+                    "dog_dq": array_tensor(native, "dof_vel")[0, :12].tolist(),
+                    "joint_limit_margin": joint_margin_np.tolist(),
+                    "invalid_state": bool(invalid_state),
+                    "joint_limit_violation": bool(joint_violation),
+                    "joint_limit_termination": False,
+                    "fall_flag": False,
+                    "termination_code": "NONE",
                 }
+                event = native.pop_stage16_termination()
+                if event is not None:
+                    # env.step() calls reset_idx before returning.  Replace
+                    # the post-reset observation with the captured pre-reset
+                    # state so the final tracking sample is not a reset sample.
+                    row.update(event)
+                    row["step"] = step
+                    row["done"] = done_bool
+                row["episode_done"] = False
+                row["reference_complete"] = False
+                row["tracking_valid"] = True
+                if event is not None:
+                    row["episode_done"] = True
+                    episode_ended = True
+                    termination = row["termination_code"]
+                elif args.reference_mode != "NATIVE_GENERATOR":
+                    reference_completed = reference_is_complete(
+                        sim_time=float(row["sim_time"]),
+                        reference_duration=float(row["reference_duration"]),
+                        s_ref=float(row["traj_s_ref"]),
+                        reference_length=float(row["traj_L"]),
+                        dt=float(native.dt),
+                    )
+                    if reference_completed and not args.no_stop_at_reference_completion:
+                        row["reference_complete"] = True
+                        row["episode_done"] = True
+                        row["termination_code"] = "REFERENCE_COMPLETE"
+                        episode_ended = True
+                        termination = "REFERENCE_COMPLETE"
+                if not row.get("reference_complete", False):
+                    reference_completed = reference_completed or bool(row.get("reference_complete", False))
                 rows.append(row)
                 if step % 50 == 0:
                     print(
@@ -490,13 +674,16 @@ def main():
                         flush=True,
                     )
                 if done_bool:
-                    termination = "ENV_RESET_OR_TERMINATION"
+                    if event is not None:
+                        termination = row["termination_code"]
                     terminated_early = True
                     break
+                if episode_ended:
+                    break
         status = (
-            "NATIVE_%s_PARTIAL" % args.reference_mode
-            if terminated_early
-            else "NATIVE_%s_PASS" % args.reference_mode
+            "NATIVE_%s_PASS" % args.reference_mode
+            if (episode_ended and termination == "REFERENCE_COMPLETE") or not terminated_early
+            else "NATIVE_%s_PARTIAL" % args.reference_mode
         )
     except Exception as exc:
         status = (
@@ -521,6 +708,17 @@ def main():
         return arr.reshape(len(values), width) if width is not None else arr
 
     output_npz = args.output_dir / "native_external_rollout.npz"
+    termination_code_index = {
+        "NONE": 0,
+        "REFERENCE_COMPLETE": 1,
+        "TIME_LIMIT": 2,
+        "FALL": 3,
+        "INVALID_STATE": 4,
+        "JOINT_LIMIT": 5,
+        "TRACKING_ABORT": 6,
+        "NATIVE_TASK_TERMINATION": 7,
+        "UNKNOWN": 8,
+    }
     np.savez_compressed(
         output_npz,
         step=np.asarray([row["step"] for row in rows], dtype=np.int32),
@@ -549,6 +747,24 @@ def main():
         dof_pos=stack("dof_pos"),
         dof_vel=stack("dof_vel"),
         joint_pos_target=stack("joint_pos_target"),
+        arm_q=stack("arm_q", 6),
+        arm_dq=stack("arm_dq", 6),
+        dog_q=stack("dog_q", 12),
+        dog_dq=stack("dog_dq", 12),
+        joint_limit_margin=stack("joint_limit_margin"),
+        episode_done=np.asarray([row.get("episode_done", False) for row in rows], dtype=bool),
+        reference_complete=np.asarray([row.get("reference_complete", False) for row in rows], dtype=bool),
+        tracking_valid=np.asarray([row.get("tracking_valid", True) for row in rows], dtype=bool),
+        reset_buf=np.asarray([row.get("reset_buf", False) for row in rows], dtype=bool),
+        time_out_buf=np.asarray([row.get("time_out_buf", False) for row in rows], dtype=bool),
+        fall_flag=np.asarray([row.get("fall_flag", row.get("body_height_buf", False)) for row in rows], dtype=bool),
+        invalid_state=np.asarray([row.get("invalid_state", False) for row in rows], dtype=bool),
+        joint_limit_violation=np.asarray([row.get("joint_limit_violation", False) for row in rows], dtype=bool),
+        termination_code_index=np.asarray(
+            [termination_code_index.get(row.get("termination_code", "UNKNOWN"), 8) for row in rows],
+            dtype=np.int8,
+        ),
+        reference_duration=np.asarray([row.get("reference_duration", np.nan) for row in rows], dtype=np.float32),
     )
     if rows:
         desired = stack("desired_pos", 3)
@@ -592,6 +808,17 @@ def main():
         "safe_load": [arm_load, dog_load],
         "metrics": metrics,
         "error": error,
+        "episode_ended": bool(episode_ended),
+        "reference_completed": bool(reference_completed or any(row.get("reference_complete", False) for row in rows)),
+        "termination_code": termination,
+        "termination_codes_by_step": {
+            code: sum(1 for row in rows if row.get("termination_code") == code)
+            for code in sorted({row.get("termination_code", "UNKNOWN") for row in rows})
+        },
+        "reference_capacity_points": reference_capacity_points,
+        "configured_reference_capacity_points": configured_reference_capacity_points,
+        "reference_capacity_resized": reference_capacity_resized,
+        "case_metadata": case_metadata,
     }
     (args.output_dir / "native_external_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     with (args.output_dir / "native_external_rows.jsonl").open("w") as handle:

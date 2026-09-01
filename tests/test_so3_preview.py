@@ -7,6 +7,7 @@ from go2arx5_vla.trajectory.so3 import (
     matrix_to_quat,
     quat_to_matrix,
     rot6d_to_matrix,
+    rot6d_rows_to_matrix,
     rotation_matrix_to_rot6d,
 )
 
@@ -63,7 +64,7 @@ def test_rotation_only_path_has_se3_progress():
     rotations = np.asarray([z_rotation(0.0), z_rotation(np.pi / 2), z_rotation(np.pi)])
     chunk = make_chunk(np.zeros((3, 3)), rotations=rotations)
     preview = se3_arc_length_preview(chunk)
-    preview_rot = rot6d_to_matrix(preview.eef_rot6d)
+    preview_rot = rot6d_rows_to_matrix(preview.eef_rot6d)
     angles = geodesic_angle(np.eye(3), preview_rot)
     assert np.all(np.isfinite(preview.xyz_rot6d))
     assert angles[-1] > angles[0]
@@ -82,4 +83,4 @@ def test_high_curvature_keeps_valid_rotations():
     rotations = np.asarray([z_rotation(1.2 * np.sin(6 * np.pi * x)) for x in t])
     preview = se3_arc_length_preview(make_chunk(p, rotations=rotations))
     assert np.isfinite(preview.xyz_rot6d).all()
-    assert np.allclose(np.linalg.det(rot6d_to_matrix(preview.eef_rot6d)), 1.0, atol=1e-10)
+    assert np.allclose(np.linalg.det(rot6d_rows_to_matrix(preview.eef_rot6d)), 1.0, atol=1e-10)

@@ -13,7 +13,12 @@ def _unit(v: np.ndarray, eps: float = 1e-12) -> np.ndarray:
 
 
 def rot6d_to_matrix(rot6d: np.ndarray) -> np.ndarray:
-    """Decode first two rotation columns packed as ``[c0, c1]``."""
+    """Decode first two rotation columns packed as ``[c0, c1]``.
+
+    This is the canonical/GR00T-side representation used when a trajectory
+    chunk supplies ``eef_rot6d``.  The delivered native WBC has a separate
+    historical wire convention; use :func:`rot6d_rows_to_matrix` for it.
+    """
     x = np.asarray(rot6d, dtype=np.float64)
     if x.shape[-1] != 6:
         raise ValueError("rot6d last dimension must be 6")
@@ -26,10 +31,39 @@ def rot6d_to_matrix(rot6d: np.ndarray) -> np.ndarray:
 
 
 def rotation_matrix_to_rot6d(matrix: np.ndarray) -> np.ndarray:
+    """Pack the first two rotation columns as ``[c0, c1]``."""
     r = np.asarray(matrix, dtype=np.float64)
     if r.shape[-2:] != (3, 3):
         raise ValueError("rotation matrix must end in [3,3]")
     return np.concatenate([r[..., :, 0], r[..., :, 1]], axis=-1)
+
+
+def rot6d_rows_to_matrix(rot6d: np.ndarray) -> np.ndarray:
+    """Decode the delivered native WBC's PyTorch3D-0.3 row convention.
+
+    The archived controller calls ``matrix_to_rotation_6d`` from its bundled
+    PyTorch3D compatibility layer.  That implementation flattens
+    ``matrix[..., :2, :]`` in row-major order, and its inverse constructs the
+    orthonormal basis as matrix rows.  It is therefore semantically different
+    from the column convention above even though both use six numbers.
+    """
+    x = np.asarray(rot6d, dtype=np.float64)
+    if x.shape[-1] != 6:
+        raise ValueError("rot6d last dimension must be 6")
+    a1, a2 = x[..., :3], x[..., 3:]
+    b1 = _unit(a1)
+    a2_orth = a2 - np.sum(b1 * a2, axis=-1, keepdims=True) * b1
+    b2 = _unit(a2_orth)
+    b3 = np.cross(b1, b2)
+    return np.stack([b1, b2, b3], axis=-2)
+
+
+def rotation_matrix_to_rot6d_rows(matrix: np.ndarray) -> np.ndarray:
+    """Pack the first two rotation rows using the native WBC wire layout."""
+    r = np.asarray(matrix, dtype=np.float64)
+    if r.shape[-2:] != (3, 3):
+        raise ValueError("rotation matrix must end in [3,3]")
+    return r[..., :2, :].reshape(r.shape[:-2] + (6,))
 
 
 def quat_to_matrix(quat_xyzw: np.ndarray) -> np.ndarray:
