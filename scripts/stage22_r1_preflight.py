@@ -215,6 +215,14 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     launcher_manifest = _read_json(launcher_output / "run_manifest.json")
     log_text = log_path.read_text(encoding="utf-8", errors="replace")
     telemetry = (launcher_manifest or {}).get("cuda_telemetry")
+    oom_observed = "OutOfMemoryError" in log_text or "out of memory" in log_text.lower()
+    optimizer_step_observed = "optimizer.py" in log_text or "optimizer.step" in log_text
+    if oom_observed:
+        failure_classification = "CUDA_OOM"
+    elif returncode != 0:
+        failure_classification = "LAUNCHER_OR_RUNTIME_FAILURE"
+    else:
+        failure_classification = None
     total_mib = int(before["memory_total_mib"])
     peak_used_mib = max(int(row["memory_used_mib"]) for row in samples)
     required_headroom_mib = max(0.15 * total_mib, 2048.0)
@@ -231,6 +239,9 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         "training_steps_requested": 1,
         "optimizer_step_required": True,
         "cleanup_required": True,
+        "optimizer_step_observed_in_traceback": optimizer_step_observed,
+        "optimizer_step_completed": bool(returncode == 0),
+        "failure_classification": failure_classification,
         "gpu": {
             "physical_index": int(args.gpu_index),
             "uuid": before["uuid"],

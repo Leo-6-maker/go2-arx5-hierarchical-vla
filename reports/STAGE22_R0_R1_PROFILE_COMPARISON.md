@@ -3,9 +3,10 @@
 ## Status
 
 The comparison is implemented but the model checkpoints are not yet
-qualified. The R1 one-step memory gate is pending a compatible free GPU and
-Stage10 runtime pair; no busy user workload was used. The training input is
-the locked train-only fixture, not the historical all-target loader fixture.
+qualified. The R1 one-step memory gate was attempted in authorized shared
+mode but failed on the tested 16 GiB and 32 GiB devices; no full model run was
+started. The training input is the locked train-only fixture, not the
+historical all-target loader fixture.
 
 ## Pre-declared recipes
 

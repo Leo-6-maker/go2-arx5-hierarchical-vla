@@ -8,7 +8,7 @@ Date: 2026-09-01
 stage22/action-profile-adaptation
 base: be45114da35932182bb8af0bbfec2eb2971b5a6b
 origin: git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (private)
-latest pushed Stage22 tip: `ac49649`
+latest pushed Stage22 tip before this handoff update: `28837c2`
 ```
 
 ## Completed
@@ -25,12 +25,22 @@ latest pushed Stage22 tip: `ac49649`
   `red_target_holdout_f`; final test is not used for training or selection.
 - Auditable occupied-GPU refusal and R1 one-step resource preflight, plus
   matched diffusion-seed aggregation and frozen profile gate.
+- After explicit authorization to share GPUs with free VRAM, tested the
+  5080-2 and 4080S R1 one-step preflights. The 5080-2 failed during
+  `model.to(device)` and the 4080S reached `optimizer.step()` but failed with
+  CUDA OOM before completing it. No full R0/R1 adaptation or profile inference
+  was run; no other user's process was changed.
+- A later clean 5080-2 retry using the existing Stage10 environment reached
+  `optimizer.step()` but failed while allocating Adam state on the 16 GiB
+  device (`15,792/16,303 MiB` peak, `511 MiB` headroom versus `2,445 MiB`
+  required). The process left no external residual allocation.
 - CPU tests for expert contracts, provider, timestamps, SafetyGate, and
   action-profile calculations.
 
 ## Pending
 
-- R1 one-step GPU memory qualification.
+- R1 one-step GPU memory qualification on a compatible device with sufficient
+  headroom (the tested clean 16 GiB and shared 32 GiB attempts were OOM).
 - Matched R0/R1 short adaptation runs.
 - Held-out profile/overlap/visual-conditioning measurements.
 - Final decision on `SIM_MODEL_PROFILE_BLOCKER_CLOSED` versus
