@@ -106,6 +106,111 @@ class EpisodeReferenceBindingV1:
             },
         )
 
+    @classmethod
+    def from_external_chunk(
+        cls,
+        chunk: TrajectoryChunkV1,
+        *,
+        episode_id: str,
+        placement_profile: PlacementProfileV1 | None = None,
+    ) -> "EpisodeReferenceBindingV1":
+        """Create an explicit identity binding for an absolute external chunk.
+
+        A GR00T chunk is already expressed in the declared policy frame, so it
+        must not be re-anchored using the native shape-placement operation.
+        This helper still gives the offline interface the same named episode
+        binding boundary as benchmark references.  ``bind_external_chunk``
+        preserves the original absolute poses and parallel gripper channel;
+        the identity transforms here are provenance, not a claim about a
+        physical reset state.
+        """
+
+        identity = np.eye(4, dtype=np.float64)
+        shape = TrajectoryShapeV1.from_chunk(
+            chunk,
+            parent_id=chunk.chunk_id,
+            family="EXTERNAL_GR00T_ABSOLUTE_EEF",
+            task_frame_semantics="EXTERNAL_ABSOLUTE_IDENTITY",
+            metadata={"external_absolute_chunk": True},
+        )
+        profile = placement_profile or PlacementProfileV1(
+            profile_id=f"{chunk.chunk_id}-external-identity",
+            intent="CENTERED",
+            status="EXTERNAL_REFERENCE_IDENTITY_BINDING",
+            provenance={"not_a_native_placement": True},
+        )
+        return cls(
+            episode_id=str(episode_id),
+            reset_timestamp=float(chunk.observation_timestamp),
+            native_base_pose=identity,
+            native_shoulder_pose=identity,
+            native_reach_anchor_pose=identity,
+            native_eef_semantic_id=chunk.tcp_semantic_id,
+            tcp_semantic_id=chunk.tcp_semantic_id,
+            T_world_anchor=identity,
+            T_anchor_task=identity,
+            T_link_tcp=identity,
+            source_shape=shape,
+            placement_profile=profile,
+            native_generator_reference_semantics="EXTERNAL_ABSOLUTE_EEF_NO_REANCHOR",
+            policy_reference_frame=chunk.source_frame,
+            binding_semantics="EXTERNAL_ABSOLUTE_IDENTITY",
+            provenance={
+                "binding_role": "offline_interface_seal",
+                "source_chunk_id": chunk.chunk_id,
+                "source_chunk_source": chunk.source,
+            },
+        )
+
+    def bind_external_chunk(
+        self,
+        chunk: TrajectoryChunkV1,
+        *,
+        source: str = "EpisodeReferenceBindingV1",
+    ) -> TrajectoryChunkV1:
+        """Attach this binding's identity to an already-absolute chunk.
+
+        This method intentionally performs no pose correction, clipping, or
+        native reset anchoring.  It is the safe path for the Stage17 actual
+        model offline seal.
+        """
+
+        if chunk.source_frame != self.policy_reference_frame:
+            raise ValueError(
+                f"external chunk frame {chunk.source_frame!r} does not match binding frame "
+                f"{self.policy_reference_frame!r}"
+            )
+        if chunk.tcp_semantic_id != self.tcp_semantic_id:
+            raise ValueError(
+                f"external chunk TCP {chunk.tcp_semantic_id!r} does not match binding TCP "
+                f"{self.tcp_semantic_id!r}"
+            )
+        if not np.isclose(chunk.observation_timestamp, self.reset_timestamp, atol=1e-8):
+            raise ValueError("external chunk observation timestamp does not match binding reset timestamp")
+        provenance = {
+            **dict(chunk.provenance),
+            **dict(self.provenance),
+            "binding_contract": "EpisodeReferenceBindingV1",
+            "episode_id": self.episode_id,
+            "binding_semantics": self.binding_semantics,
+            "external_absolute_no_reanchor": True,
+        }
+        return TrajectoryChunkV1(
+            chunk_id=chunk.chunk_id,
+            source=source,
+            observation_timestamp=chunk.observation_timestamp,
+            point_timestamps=chunk.point_timestamps.copy(),
+            eef_position=chunk.eef_position.copy(),
+            eef_orientation=chunk.eef_orientation.copy(),
+            source_frame=chunk.source_frame,
+            tcp_semantic_id=chunk.tcp_semantic_id,
+            validity_start=chunk.validity_start,
+            validity_end=chunk.validity_end,
+            gripper=None if chunk.gripper is None else chunk.gripper.copy(),
+            eef_rot6d=None if chunk.eef_rot6d is None else chunk.eef_rot6d.copy(),
+            provenance=provenance,
+        )
+
     def as_dict(self) -> dict[str, Any]:
         return {
             "episode_id": self.episode_id,

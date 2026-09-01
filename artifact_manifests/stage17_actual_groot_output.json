@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE17_ACTUAL_GR00T_OUTPUT_MANIFEST_V1",
+  "status": "PASS_RUNTIME_ONLY",
+  "actual_model_used": true,
+  "host": "corelab-5080-2",
+  "stage10_root": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10",
+  "model_identity": "nvidia/GR00T-N1.7-3B",
+  "groot_repo_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "safetensors_index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+  "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+  "input": {
+    "dataset": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/datasets/go2_arx5_synthetic",
+    "episode": 0,
+    "language": "synthetic straight reaching test trajectory",
+    "state_dimension": 10,
+    "image_frame_index": 0,
+    "external_rgb_sha256": "a5705aaeaec3d789fb716edbb2fcc72f24cd49e459a7e3e5bcaee6e536a43706",
+    "wrist_rgb_sha256": "1360e966e06a141391d7f0b90cc286ee76275b1de6e4782579ae92909ee5e169"
+  },
+  "output": {
+    "raw_universal_shape": [1, 40, 132],
+    "decoded_physical_shape": [1, 40, 10],
+    "raw_universal_sha256": "c4ecb7459fa5ccfad2be6054f38e64fdf21b3b044c26fdbc2c3d96ebe38f49f6",
+    "decoded_physical_sha256": "a361e4fea21c5ad817167e10226fe46a936cdd630b4f509baf2c9301b23865dc",
+    "physical_order": ["eef_9d[9]", "gripper_position[1]"],
+    "eef_rot6d_layout": "GR00T_FIRST_TWO_ROWS"
+  },
+  "timing": {
+    "action_sample_period_s": 0.05,
+    "provenance": "TEST_ONLY_STAGE10_SYNTHETIC_DATASET",
+    "production_value": "TBD_BY_ADAPTATION_DATASET"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "cuda": "12.8",
+    "device": "cpu",
+    "model_load_s": 200.957005,
+    "inference_latency_s": 27.130034,
+    "peak_gpu_allocated_mib": 0.0,
+    "peak_gpu_reserved_mib": 0.0
+  },
+  "node_local_artifact": {
+    "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage17/actual_groot/actual_groot_output.npz",
+    "sha256": "c12629bf2c36ce285cbcb6b9334f3a9989a85f5d319c469988a25176132ba519",
+    "interface_seal_path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage17/actual_groot/actual_model_interface_seal.json",
+    "interface_seal_sha256": "153413d710992321ee02f8b0900733e7604cb410e4161dc18964b9696df16461"
+  },
+  "task_performance_evaluated": false,
+  "wbc_executed_from_actual_model": false
+}
