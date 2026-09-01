@@ -143,3 +143,25 @@ Stage20S does not alter the native WBC controller, checkpoints, or production
 action timing. Its 0.05 s period is explicitly test-only. No model output can
 reach native WBC unless its corresponding interface seal records
 `TrajectorySafetyGateV1=ACCEPT`.
+
+## Stage20T timing attribution boundary
+
+Stage20T freezes the Stage20S controller baseline and compares three matched
+single-chunk paths: the sealed actual model output, the same observation's
+future desired label, and a known-good Stage16 control. At original test
+timing, the model path aborts for seeds 13/14 while the matched label and
+control complete; seed 15 is a shared native reset boundary. The result is
+`MODEL_TRAJECTORY_PROFILE_LIMITATION_IDENTIFIED` with
+`NATIVE_TIMING_BOUNDARY_CHARACTERIZED`, not a production speed limit or a
+general task-performance claim.
+
+The native WBC's existing `to_canonical()` filter is timestep-dependent at the
+0.75x diagnostic scale. That scale is therefore not treated as a pure timing
+counterfactual; the unfiltered 1.00x--2.00x range carries the primary
+attribution. Native timing thresholds, checkpoints, and reset semantics are
+unchanged.
+
+Stage20T remains single-chunk VLA + WBC, not a receding-horizon VLA system.
+The next simulation gate must use same-scene native RGB, explicit action and
+observation timing, fresh chunk lifecycle, and a fixed-reset control before
+any stronger closed-loop claim.
