@@ -65,6 +65,47 @@ allocated/reserved were `30,314.7/31,120.0 MiB`. The result records
 The post-run device state returned to the `627 MiB` baseline and the external
 process was unchanged.
 
+On 2026-09-02, the 32 GiB preflight was retried with the previously validated
+Stage10 FFmpeg-6 compatibility path restored in `LD_LIBRARY_PATH`. A standalone
+TorchCodec import passed, so this retry is not confounded by the earlier video
+decoder setup failure. The GPU was shared only with the pre-existing
+`/usr/NX/bin/nxnode.bin` allocation (`266 MiB`); no process was modified. The
+R1 launcher loaded the dataset, completed forward/backward, and entered
+`torch.optim.adam._multi_tensor_adam`, but `optimizer.step()` failed while
+allocating another `288 MiB`:
+
+```text
+GPU: NVIDIA GeForce RTX 4080 SUPER
+UUID: GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad
+total: 32760 MiB
+baseline: 622 MiB device-used
+CUDA free at OOM: 197.81 MiB
+PyTorch allocated: 29.60 GiB
+PyTorch reserved but unallocated: 773.29 MiB
+optimizer_step_observed_in_traceback: true
+optimizer_step_completed: false
+failure_classification: CUDA_OOM
+```
+
+The node-level sampler reported `27009/32760 MiB` peak device usage because it
+did not sample the exact allocation instant; the PyTorch telemetry and direct
+CUDA traceback are the authoritative failure evidence. The process exited
+cleanly, device usage returned to `622 MiB`, and the pre-existing `nxnode`
+allocation remained unchanged. Machine-readable artifacts are retained
+node-locally at
+`/var/cache/users/liuyu-nfs/go2-arx5-vla-stage22/r1_preflight_4080_retry_ffmpeg6_20260902`:
+
+```text
+stage22_r1_preflight.json
+SHA256 0ac2ee7facdf1e0aeda007bac0cb864ad5834151b2625813dba39d9c8ccba6b4
+launcher.log
+SHA256 61c875e40f53bae8dba877369623912783b121149f387e6333754ef81ffa4ac2
+```
+
+This is a second valid 32 GiB-class R1 failure, not a positive memory
+qualification. The declared Stage22 recipe remains unchanged, and full R0/R1
+training remains gated on a larger compatible GPU.
+
 Known 4090 aliases were also checked read-only but were not usable in that
 check (one public-key authorization failure and one host-key verification
 failure), so they were not treated as available resources.
