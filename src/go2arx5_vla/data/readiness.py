@@ -893,9 +893,31 @@ class GR00TTrainingExampleV1:
         if sample_index < 0 or sample_index >= synchronization.sample_count:
             raise IndexError("sample_index is outside synchronization result")
         native_start = int(synchronization.indices["state"][sample_index])
-        native_end = native_start + int(horizon)
-        if native_end > raw.frame_count:
-            raise ValueError("episode does not contain the requested future horizon")
+        desired_indices = np.asarray(synchronization.indices.get("desired", []), dtype=np.int64)
+        sample_timestamps = np.asarray(synchronization.sample_timestamps, dtype=np.float64)
+        window_end = sample_index + int(horizon)
+        if desired_indices.size >= window_end:
+            # The synchronized sample grid is the label-time authority.  This
+            # is important when (for example) cameras run at 25 Hz while the
+            # native state/command stream runs at 50 Hz: a horizon is a set of
+            # timestamp queries, not ``native_start + horizon`` frames.
+            future_timestamps = sample_timestamps[sample_index:window_end]
+            future_source_indices = desired_indices[sample_index:window_end]
+            label_selection = "synchronization_sample_timestamps_to_desired_nearest_source"
+        else:
+            # A caller may provide a short synchronization window while still
+            # asking for a source-rate action horizon.  Continue from the
+            # observation timestamp using authoritative native timestamps; no
+            # production period or frame-rate assumption is introduced.
+            observation_timestamp = float(sample_timestamps[sample_index])
+            native_candidates = np.flatnonzero(raw.native_timestamps >= observation_timestamp - 1e-10)
+            if native_candidates.size < int(horizon):
+                raise ValueError("episode does not contain the requested future timestamp horizon")
+            future_source_indices = native_candidates[: int(horizon)]
+            future_timestamps = raw.native_timestamps[future_source_indices]
+            label_selection = "native_source_timestamps_after_observation_fallback"
+        future_desired = raw.desired_eef_9d[future_source_indices]
+        future_gripper = raw.desired_gripper[future_source_indices]
         image_paths: dict[str, str] = {}
         for name in ("body", "wrist"):
             if name in raw.camera_streams:
@@ -913,9 +935,9 @@ class GR00TTrainingExampleV1:
             state_v1=StateV1.from_array(
                 np.concatenate([raw.state_eef_9d[state_index], raw.state_gripper[state_index]])
             ),
-            future_timestamps=raw.native_timestamps[native_start:native_end],
-            future_desired_eef_9d=raw.desired_eef_9d[native_start:native_end],
-            future_gripper=raw.desired_gripper[native_start:native_end],
+            future_timestamps=future_timestamps,
+            future_desired_eef_9d=future_desired,
+            future_gripper=future_gripper,
             calibration_bundle_id=raw.calibration_bundle_id,
             source_frame=raw.source_frame,
             tcp_semantic_id=raw.tcp_semantic_id,
@@ -925,9 +947,12 @@ class GR00TTrainingExampleV1:
                 "sample_index": sample_index,
                 "native_start_index": native_start,
                 "horizon": int(horizon),
+                "future_source_indices": future_source_indices.tolist(),
+                "future_source_stream": "desired",
+                "label_selection": label_selection,
                 "label_semantics": "future_desired_EEF_XYZ_rot6d_rows_plus_gripper",
                 "achieved_eef_role": "audit_only_never_training_target",
-                "timestamp_semantics": "native_source_timestamps",
+                "timestamp_semantics": "explicit_source_or_synchronized_timestamps",
             },
         )
 

@@ -3,7 +3,8 @@
 ## Data-readiness path
 
 Future robot recordings enter through an offline, versioned path before any
-model-facing dataset is produced:
+model-facing dataset is produced. Stage19 qualifies the same path with a
+node-local D3 fixture:
 
 ```text
 native-rate robot/camera streams
@@ -19,7 +20,9 @@ native-rate robot/camera streams
              |
    GR00TTrainingExampleV1
              |
-      LeRobot / GR00T processor
+      LeRobot / GR00T v2 materializer
+             |
+      official GR00T loader + processor
 ```
 
 The raw episode remains the audit authority. The compact model state is
@@ -28,6 +31,13 @@ primary label is future desired EEF plus gripper. Achieved EEF and full
 whole-body state are retained for audit, not silently used as labels. Source
 timestamps are preserved; production action timing is
 `TBD_BY_ADAPTATION_DATASET`.
+
+The Stage19 D3 fixture has 50 Hz native state/command timestamps and 25 Hz
+camera timestamps, despite stale 20 Hz camera metadata. The discrepancy is
+classified as `FRAME_SUBSAMPLING_METADATA_DEFECT`; source timestamps remain
+authoritative and no retiming is performed. The official GR00T loader path
+qualifies the materialized v2 layout; the optional standalone `lerobot`
+package is not required by that path.
 
 ## Runtime thin waist
 
@@ -92,4 +102,6 @@ actual system architecture and clock requirements are fixed.
 - Stage17 actual custom N1.7 inference: runtime pass, no task evaluation.
 - Actual model interface: safely rejected by gate; no WBC execution.
 - Known-good benchmark orchestration through native WBC: pass.
+- Stage19 LeRobot/GR00T materialization, official loader, synchronization
+  stress, and recorder replay: pass with the classified D3 metadata deviation.
 - Robot-specific GR00T adaptation: not performed.

@@ -2,8 +2,9 @@
 
 ## Status
 
-Prepared for a future robot-specific adaptation stage. No training or
-finetuning is performed by Stage17.
+Prepared for a future robot-specific adaptation stage. Stage19 qualifies the
+dataset materialization and official loader path, but performs no training or
+finetuning.
 
 ## Target example
 
@@ -26,6 +27,11 @@ The production action timestamps are part of the example and must not be
 reconstructed from an assumed 20 Hz rate. If a dataset supplies a fixed
 sample period, the period and its provenance are recorded. Until adaptation
 data fixes the rate, the production value is `TBD_BY_ADAPTATION_DATASET`.
+
+Stage19's six-episode D3 materialization is a test-only LeRobot v2 fixture.
+Its source camera timestamps measure 25 Hz while D3 metadata declares 20 Hz;
+the source timestamps are retained and the discrepancy is recorded as
+`FRAME_SUBSAMPLING_METADATA_DEFECT`. This fixture is not real-robot data.
 
 ## Retained raw data
 
