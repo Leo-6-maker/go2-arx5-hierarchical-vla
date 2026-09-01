@@ -96,6 +96,12 @@ def _aggregate(inputs: list[Path], recipe: str) -> dict[str, Any]:
         ),
         "safety_gate_decisions": decisions,
         "overlap_position_error_m": _stats(_nested_values(overlaps, "position_error_m", "p95")),
+        "overlap_position_error_p95_m": _stats(
+            _nested_values(overlaps, "position_error_m", "p95")
+        ),
+        "overlap_position_error_max_m": _stats(
+            _nested_values(overlaps, "position_error_m", "max")
+        ),
         "overlap_position_mean_error_m": _stats(_nested_values(overlaps, "position_error_m", "mean")),
         "overlap_rotation_error_rad": _stats(_nested_values(overlaps, "rotation_error_rad", "p95")),
         "overlap_tangent_error_mps": _stats(
