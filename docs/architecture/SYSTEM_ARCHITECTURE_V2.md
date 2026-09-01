@@ -1,5 +1,34 @@
 # System Architecture V2
 
+## Data-readiness path
+
+Future robot recordings enter through an offline, versioned path before any
+model-facing dataset is produced:
+
+```text
+native-rate robot/camera streams
+             |
+             v
+       RawEpisodeV1
+             |
+       CalibrationBundleV1
+             |
+        SynchronizerV1
+             |
+     EpisodeQualityGateV1
+             |
+   GR00TTrainingExampleV1
+             |
+      LeRobot / GR00T processor
+```
+
+The raw episode remains the audit authority. The compact model state is
+`StateV1` (EEF XYZ + GR00T first-two-rows rot6d + gripper = 10D), and the
+primary label is future desired EEF plus gripper. Achieved EEF and full
+whole-body state are retained for audit, not silently used as labels. Source
+timestamps are preserved; production action timing is
+`TBD_BY_ADAPTATION_DATASET`.
+
 ## Runtime thin waist
 
 The external interface is EEF-only, with a parallel gripper channel:
