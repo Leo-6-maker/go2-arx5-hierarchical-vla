@@ -8,11 +8,13 @@ model node; WBC source/checkpoints and model weights remain node-local.
 ## Split and counts
 
 ```text
-train targets:      red_target_train_a/b/c/d
-validation targets: red_target_holdout_e/f
-episodes:           36 one-window episodes
-frames:             1440
-valid H=40 windows: 36
+locked train targets:      red_target_train_a/b/c/d
+locked validation target:  red_target_holdout_e
+locked final-test target:  red_target_holdout_f
+historical all-target fixture: 36 one-window episodes (not for training)
+locked train-only fixture:     24 one-window episodes
+locked train-only frames:      960
+valid H=40 windows in train:   24
 state ABI:          StateV1 [10]
 desired action:     [40,10] = EEF [40,9] + gripper [40,1]
 achieved as label:  false
@@ -22,6 +24,11 @@ target in model input: false
 The snapshot-expanded horizon is explicit metadata. Repeating one exact
 native observation over a 40-point fixture is a loader/materialization test;
 it is not claimed to be a continuous native video recording.
+
+The tracked split lock is
+`manifests/STAGE22_TARGET_SPLIT_LOCK_V1.json`. The training fixture carries
+`meta/stage22_split_lock.json` with `dataset_role=TRAIN`, and the Stage22
+training launcher refuses the historical all-target fixture.
 
 ## Official loader path
 

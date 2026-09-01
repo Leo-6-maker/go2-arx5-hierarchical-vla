@@ -17,9 +17,17 @@ fixture. No hardware, ROS, ZMQ, P1M, WBC training, or real data path is used.
 | `corelab-5080-2` | RTX 5080 16.3 GiB had another user's Isaac training using about 10.7 GiB | Stage10 venv and HF auth available | not used while occupied |
 
 The other users' processes were not killed, signalled, reprioritized, or
-attached to. The Stage22 launcher has a mandatory R1 one-step preflight before
-any full R1 run. It has not been run while no compatible free GPU/runtime pair
-was available.
+attached to. A fresh preflight at `2026-09-01T19:16:50+08:00` found the same
+occupancy. The machine-readable gate was then run against 5080-2 and returned
+`BLOCKED_OCCUPIED_GPU` before model construction; its node-local output is
+`/var/cache/users/liuyu-nfs/go2-arx5-vla-stage22/r1_preflight_occupied_20260901`.
+Known 4090 aliases were also checked read-only but were not usable in that
+check (one public-key authorization failure and one host-key verification
+failure), so they were not treated as available resources.
+
+The Stage22 launcher has a mandatory R1 one-step preflight before any full R1
+run. No model training or GPU inference has been run while no compatible free
+GPU/runtime pair was available.
 
 ## Available CPU evidence
 

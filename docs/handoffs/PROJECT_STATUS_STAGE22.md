@@ -8,6 +8,7 @@ Date: 2026-09-01
 stage22/action-profile-adaptation
 base: be45114da35932182bb8af0bbfec2eb2971b5a6b
 origin: git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (private)
+latest pushed Stage22 tip: `ac49649`
 ```
 
 ## Completed
@@ -19,6 +20,11 @@ origin: git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (private)
   collator, and processor qualification.
 - R0/R1 launcher, non-corrective profile metrics, chunk-overlap metrics, and
   visual counterfactual evaluator.
+- Locked split manifest and train-only materialization guard: train targets
+  `red_target_train_a/b/c/d`, validation `red_target_holdout_e`, final test
+  `red_target_holdout_f`; final test is not used for training or selection.
+- Auditable occupied-GPU refusal and R1 one-step resource preflight, plus
+  matched diffusion-seed aggregation and frozen profile gate.
 - CPU tests for expert contracts, provider, timestamps, SafetyGate, and
   action-profile calculations.
 

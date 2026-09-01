@@ -4,7 +4,8 @@ Date: 2026-09-01 (Asia/Singapore)
 
 > This report is an interim Stage22 record. The native expert/data gates are
 > complete; the R0/R1 model-profile comparison remains pending the resource
-> gate and will be updated in the same branch before promotion.
+> gate and will be updated in the same branch before promotion. The train /
+> validation / final-test split was locked before any GPU inference.
 
 ## A. Classification
 
@@ -33,11 +34,18 @@ label. Target positions are excluded from model input.
 
 ## C. Materialization and official path
 
-The materialized fixture has 36 one-window H=40 episodes, 24 train-target
-examples and 12 validation-target examples. The official episode loader,
-single-step dataset, collator, and N1.7 processor passed with finite
-`[1,40,132]` universal and `[1,40,10]` decoded physical action shapes;
-round-trip max error was `3.584885e-08`. No training occurred in this gate.
+The historical all-target loader fixture has 36 one-window H=40 episodes and
+is explicitly marked `FULL_FIXTURE_NOT_FOR_TRAINING`. The locked training
+fixture is a separate train-only materialization with 24 one-window H=40
+episodes from `red_target_train_a/b/c/d`; validation is only
+`red_target_holdout_e`, and final test is only `red_target_holdout_f`. The
+official episode loader, single-step dataset, collator, and N1.7 processor
+passed on the train-only fixture with finite `[1,40,132]` universal and
+`[1,40,10]` decoded physical action shapes; round-trip max error was
+`3.584885e-08`. No training occurred in this gate.
+
+The tracked lock is `manifests/STAGE22_TARGET_SPLIT_LOCK_V1.json`; the
+training launcher rejects any dataset without a matching train-only sidecar.
 
 ## D. R0/R1 model profile gate
 

@@ -4,7 +4,8 @@
 
 The comparison is implemented but the model checkpoints are not yet
 qualified. The R1 one-step memory gate is pending a compatible free GPU and
-Stage10 runtime pair; no busy user workload was used.
+Stage10 runtime pair; no busy user workload was used. The training input is
+the locked train-only fixture, not the historical all-target loader fixture.
 
 ## Pre-declared recipes
 
@@ -17,6 +18,12 @@ Both use the same base checkpoint, materialized dataset, seed policy, H=40,
 and test-only action period. The launcher is the existing official Stage20S
 entry point; `scripts/stage22_train_recipes.py` records the exact command and
 requires an R1 one-step preflight before a full R1 run.
+
+The independent `scripts/stage22_r1_preflight.py` additionally refuses a
+selected GPU with existing compute apps and records GPU UUID/VRAM, conservative
+device-level peak usage, PyTorch peak allocated/reserved memory, trainable
+parameter count, one-step elapsed time, cleanup residual, and the
+`max(15% total, 2 GiB)` headroom decision.
 
 ## Selection metrics
 
@@ -36,6 +43,13 @@ TrajectorySafetyGate decision
 No output will be clipped, smoothed, retimed, or otherwise corrected before
 these measurements. A successful re-timing diagnostic would not qualify the
 unchanged model output.
+
+The predeclared simulation threshold is encoded in
+`scripts/stage22_profile_gate.py`: zero SafetyGate rejects; median path,
+mean-speed, and max-speed ratios in `[0.75,1.25]`; median mean-position error
+at most 2 cm; median endpoint error at most 3 cm; common-future overlap P95 at
+most 25 mm and max at most 50 mm. These are simulation qualification criteria,
+not real-robot safety limits.
 
 ## Current scientific status
 
