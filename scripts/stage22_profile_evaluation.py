@@ -419,6 +419,7 @@ def main() -> int:
         "stage": "Stage22",
         "recipe_model_path": str(args.model_path),
         "split": args.split,
+        "inference_seed": int(args.seed),
         "snapshot_count": len(snapshots_list),
         "target_count": len({item.target_id for item in snapshots_list}),
         "simulation_only": True,
