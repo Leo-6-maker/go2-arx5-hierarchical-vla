@@ -17,6 +17,8 @@ from go2arx5_vla.data import (
     materialize_lerobot_v2,
     snapshot_to_training_example,
     snapshot_to_raw_episode,
+    locked_target_ids,
+    validate_locked_target_universe,
 )
 
 
@@ -24,8 +26,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--train-target-count", type=int, default=4)
-    parser.add_argument("--train-target-ids", nargs="+", default=None)
+    parser.add_argument("--split", choices=("all", "train", "validation", "final_test"), default="all")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     input_dir = args.input_dir.expanduser().resolve()
@@ -40,24 +41,33 @@ def main() -> int:
     for snapshot in snapshots:
         if snapshot.target_id not in target_ids:
             target_ids.append(snapshot.target_id)
-    if args.train_target_ids is None:
-        train_target_ids = [target for target in target_ids if "train" in target.lower()]
-        if not train_target_ids:
-            train_target_ids = target_ids[: int(args.train_target_count)]
+    try:
+        locked_universe = validate_locked_target_universe(target_ids)
+    except ValueError as exc:
+        parser.error(str(exc))
+    if args.split == "all":
+        ordered_target_ids = list(locked_universe)
+        selected_target_ids = tuple(ordered_target_ids)
+        train_target_ids = list(locked_target_ids("train"))
+        validation_target_ids = list(locked_target_ids("validation"))
+        final_test_target_ids = list(locked_target_ids("final_test"))
+        dataset_role = "FULL_FIXTURE_NOT_FOR_TRAINING"
     else:
-        train_target_ids = [str(target) for target in args.train_target_ids]
-        if any(target not in target_ids for target in train_target_ids):
-            parser.error("--train-target-ids must refer to targets present in the snapshots")
+        selected_target_ids = locked_target_ids(args.split)
+        ordered_target_ids = list(selected_target_ids)
+        train_target_ids = list(selected_target_ids) if args.split == "train" else []
+        validation_target_ids = list(selected_target_ids) if args.split == "validation" else []
+        final_test_target_ids = list(selected_target_ids) if args.split == "final_test" else []
+        dataset_role = args.split.upper()
     train_targets = set(train_target_ids)
-    if not 1 <= len(train_targets) < len(target_ids):
-        parser.error("training target selection must leave at least one held-out target")
-    ordered_target_ids = list(train_target_ids) + [target for target in target_ids if target not in train_targets]
     snapshots = [
         snapshot
         for target_id in ordered_target_ids
         for snapshot in snapshots
-        if snapshot.target_id == target_id
+        if snapshot.target_id == target_id and snapshot.target_id in selected_target_ids
     ]
+    if not snapshots:
+        parser.error(f"locked split {args.split} selected no snapshots")
     calibration_cache: dict[str, CalibrationBundleV1] = {}
     inputs = []
     logical_examples = []
@@ -93,21 +103,48 @@ def main() -> int:
             dataset_name="stage22_native_same_scene_expert_v1",
             overwrite=bool(args.overwrite),
             video_codec="mp4v",
-            train_episode_count=sum(snapshot.target_id in train_targets for snapshot in snapshots),
+            # A non-training split is still materialized as a valid fixture,
+            # but its sidecar role prevents the training launcher from using
+            # it.  The train-only dataset is the only accepted train input.
+            train_episode_count=(
+                sum(snapshot.target_id in train_targets for snapshot in snapshots)
+                if train_targets
+                else len(snapshots)
+            ),
             split_seed=2201,
         ),
+    )
+    split_lock = {
+        "schema": "STAGE22_MATERIALIZED_SPLIT_LOCK_V1",
+        "source_lock": "manifests/STAGE22_TARGET_SPLIT_LOCK_V1.json",
+        "selected_split": args.split,
+        "dataset_role": dataset_role,
+        "selected_target_ids": list(selected_target_ids),
+        "train_target_ids": train_target_ids,
+        "validation_target_ids": validation_target_ids,
+        "final_test_target_ids": final_test_target_ids,
+        "training_allowed": args.split == "train",
+        "final_test_in_training": False,
+    }
+    (materialized.output_dir / "meta" / "stage22_split_lock.json").write_text(
+        json.dumps(split_lock, indent=2) + "\n", encoding="utf-8"
     )
     payload = {
         "schema": "STAGE22_NATIVE_EXPERT_MATERIALIZATION_V1",
         "status": "PASS",
         "input_dir": str(input_dir),
         "output_dir": str(materialized.output_dir),
+        "selected_split": args.split,
+        "dataset_role": dataset_role,
         "snapshot_count": len(snapshots),
-        "target_count": len(target_ids),
+        "target_count": len(selected_target_ids),
+        "source_target_count": len(target_ids),
         "train_target_ids": list(train_target_ids),
-        "validation_target_ids": [target for target in ordered_target_ids if target not in train_targets],
+        "validation_target_ids": validation_target_ids,
+        "final_test_target_ids": final_test_target_ids,
         "train_example_count": sum(snapshot.target_id in train_targets for snapshot in snapshots),
-        "validation_example_count": sum(snapshot.target_id not in train_targets for snapshot in snapshots),
+        "validation_example_count": sum(snapshot.target_id in set(validation_target_ids) for snapshot in snapshots),
+        "final_test_example_count": sum(snapshot.target_id in set(final_test_target_ids) for snapshot in snapshots),
         "horizon": 40,
         "state_abi": "StateV1 = EEF XYZ[3] + EEF rot6d[6] + gripper[1]",
         "action_abi": "future desired EEF[40,9] + future desired gripper[40,1]",
@@ -118,6 +155,8 @@ def main() -> int:
         "materialized": materialized.as_dict(),
         "hardware_control": False,
         "training": False,
+        "training_allowed": args.split == "train",
+        "split_lock": split_lock,
     }
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir.parent / "stage22_materialization_result.json").write_text(

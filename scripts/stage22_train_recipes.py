@@ -12,6 +12,7 @@ run manifests without copying model weights into the repository.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import platform
@@ -121,6 +122,27 @@ def main() -> int:
         parser.error("step counts must be positive")
     if not (args.dataset_dir / "meta" / "info.json").is_file():
         parser.error(f"materialized dataset is missing: {args.dataset_dir}")
+    split_lock_path = args.dataset_dir / "meta" / "stage22_split_lock.json"
+    if not split_lock_path.is_file():
+        parser.error(
+            "training requires a Stage22 train-only dataset with meta/stage22_split_lock.json; "
+            "the full fixture is not an allowed training input"
+        )
+    split_lock = json.loads(split_lock_path.read_text(encoding="utf-8"))
+    expected_train = [
+        "red_target_train_a",
+        "red_target_train_b",
+        "red_target_train_c",
+        "red_target_train_d",
+    ]
+    if (
+        split_lock.get("dataset_role") != "TRAIN"
+        or split_lock.get("selected_split") != "train"
+        or split_lock.get("selected_target_ids") != expected_train
+        or split_lock.get("training_allowed") is not True
+        or split_lock.get("final_test_in_training") is not False
+    ):
+        parser.error("dataset split lock is not the frozen train_a-d-only Stage22 split")
     if not (args.base_model_path / "config.json").is_file():
         parser.error(f"base model is missing: {args.base_model_path}")
     if args.output_root.exists() and any(args.output_root.iterdir()):
@@ -145,6 +167,9 @@ def main() -> int:
         "training_claim": "resource_and_profile_adaptation_experiment; not_task_success",
         "base_model_path": str(args.base_model_path),
         "dataset_dir": str(args.dataset_dir),
+        "split_lock": str(split_lock_path),
+        "split_lock_sha256": hashlib.sha256(split_lock_path.read_bytes()).hexdigest(),
+        "training_target_ids": expected_train,
         "r1_preflight_required": True,
         "r1_preflight_steps": int(args.r1_preflight_steps),
         "r1_preflight_failed": r1_preflight_failed,

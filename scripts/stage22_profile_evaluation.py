@@ -25,6 +25,7 @@ import torch
 
 from go2arx5_vla.contracts import TrajectoryChunkV1
 from go2arx5_vla.data.stage22_expert import SameSceneExpertSnapshotV1, load_snapshot
+from go2arx5_vla.data.stage22_split import locked_target_ids
 from go2arx5_vla.metrics.action_profile import chunk_overlap_metrics, chunk_profile
 from go2arx5_vla.providers import GR00TProviderConfig, GR00TTrajectoryProvider
 from go2arx5_vla.safety import TrajectorySafetyGateV1
@@ -88,10 +89,12 @@ def _read_rgb(path: str) -> np.ndarray:
 def _load_snapshots(input_dir: Path, split: str) -> list[SameSceneExpertSnapshotV1]:
     paths = sorted(input_dir.glob("snapshots/*/*.json"))
     snapshots = [load_snapshot(path) for path in paths if path.name.startswith("expert-")]
-    if split == "train":
-        snapshots = [item for item in snapshots if "holdout" not in item.target_id]
+    if split in {"train", "validation", "final_test"}:
+        selected = set(locked_target_ids(split))
+        snapshots = [item for item in snapshots if item.target_id in selected]
     elif split == "holdout":
-        snapshots = [item for item in snapshots if "holdout" in item.target_id]
+        selected = set(locked_target_ids("validation") + locked_target_ids("final_test"))
+        snapshots = [item for item in snapshots if item.target_id in selected]
     if not snapshots:
         raise ValueError(f"no snapshots found for split={split} under {input_dir}")
     return sorted(snapshots, key=lambda item: (item.raw_episode_id, item.observation_timestamp, item.example_id))
@@ -304,7 +307,9 @@ def main() -> int:
     parser.add_argument("--modality-config", type=Path, required=True)
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--split", choices=("all", "train", "holdout"), default="all")
+    parser.add_argument(
+        "--split", choices=("all", "train", "validation", "final_test", "holdout"), default="all"
+    )
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--language", default="move the end effector to the red target")
     parser.add_argument("--action-period-s", type=float, default=0.05)

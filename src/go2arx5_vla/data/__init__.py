@@ -46,6 +46,14 @@ from .stage22_expert import (
     snapshot_to_raw_episode,
     snapshot_to_training_example,
 )
+from .stage22_split import (
+    FINAL_TEST_TARGET_IDS,
+    TRAIN_TARGET_IDS,
+    VALIDATION_TARGET_IDS,
+    locked_target_ids,
+    split_lock_payload,
+    validate_locked_target_universe,
+)
 
 __all__ = [
     "CAMERA_TIMESTAMP_LAYOUT",
@@ -83,4 +91,10 @@ __all__ = [
     "load_snapshot",
     "snapshot_to_raw_episode",
     "snapshot_to_training_example",
+    "TRAIN_TARGET_IDS",
+    "VALIDATION_TARGET_IDS",
+    "FINAL_TEST_TARGET_IDS",
+    "locked_target_ids",
+    "split_lock_payload",
+    "validate_locked_target_universe",
 ]
