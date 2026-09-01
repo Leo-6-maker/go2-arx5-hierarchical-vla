@@ -34,6 +34,10 @@ latest pushed Stage22 tip before this handoff update: `28837c2`
   `optimizer.step()` but failed while allocating Adam state on the 16 GiB
   device (`15,792/16,303 MiB` peak, `511 MiB` headroom versus `2,445 MiB`
   required). The process left no external residual allocation.
+- Corelab H200 handoff packaging is frozen at Git `deb920a070141e6a32a88cd0da6719828647e1e6`:
+  the tracked source archive, train-only fixture, validated GR00T base model,
+  modality module, PBS templates, and verified SHA256 manifest are at the
+  node-local handoff root recorded in `reports/STAGE22_H200_HANDOFF.md`.
 - CPU tests for expert contracts, provider, timestamps, SafetyGate, and
   action-profile calculations.
 
