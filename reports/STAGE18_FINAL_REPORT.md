@@ -42,6 +42,7 @@ high-curvature equivalence.
 
 - Branch: `stage18/robot-data-readiness`.
 - Base: Stage15–17 promotion merge `a016dcba...`.
+- Stage18 implementation commit: `134deedde65cf84730e5b16c2e00ef8360467ce1`.
 - Origin: private `Leo-6-maker/go2-arx5-hierarchical-vla`.
 - CPU tests: `44 passed in 0.41s` on `corelab-5080-2` with the repository test
   suite and no GPU workload.
@@ -114,7 +115,7 @@ used as real calibration.
 
 ## N. Next action
 
-`START_ROBOT_SPECIFIC GR00T DATASET PREPARATION`
+`START ROBOT-SPECIFIC GR00T DATASET PREPARATION`
 
 The next preparation task is to reconcile source-rate metadata and define the
 measured real calibration/clock bundle before requesting a real 5–10 episode
