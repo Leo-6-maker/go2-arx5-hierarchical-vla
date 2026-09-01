@@ -9,6 +9,13 @@ from .visual_reach import (
     default_visual_reach_specs,
     write_visual_reach_manifest,
 )
+from .same_scene import (
+    NativeSceneObservationV1,
+    SameSceneCounterfactualV1,
+    SameSceneTargetV1,
+    compare_counterfactuals,
+    image_sha256,
+)
 
 __all__ = [
     "INITIAL_LOCAL_POSITION",
@@ -18,4 +25,9 @@ __all__ = [
     "build_visual_reach_raw",
     "default_visual_reach_specs",
     "write_visual_reach_manifest",
+    "SameSceneTargetV1",
+    "NativeSceneObservationV1",
+    "SameSceneCounterfactualV1",
+    "compare_counterfactuals",
+    "image_sha256",
 ]

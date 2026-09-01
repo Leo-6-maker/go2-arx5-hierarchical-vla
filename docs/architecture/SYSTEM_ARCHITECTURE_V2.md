@@ -165,3 +165,43 @@ Stage20T remains single-chunk VLA + WBC, not a receding-horizon VLA system.
 The next simulation gate must use same-scene native RGB, explicit action and
 observation timing, fresh chunk lifecycle, and a fixed-reset control before
 any stronger closed-loop claim.
+
+## Stage21 same-scene receding horizon
+
+Stage21 adds a native same-scene camera path and a transport-independent
+reference update boundary:
+
+```text
+native target + body/wrist RGB + StateV1
+                         |
+                         v
+                    actual GR00T
+                         |
+                    [40,10] chunk
+                         |
+              GR00TTrajectoryProvider
+                         |
+              TrajectorySafetyGateV1
+                         |
+              EpisodeReferenceBindingV1
+                         |
+                 GR00TToWBCAdapter
+                         |
+                   native WBC prefix
+                         |
+                 new same-scene RGB/state
+```
+
+`RecedingHorizonExecutorV1` records `ReferenceUpdateV1` and
+`ChunkHandoffV1`. An update preserves physics, episode, and policy history;
+it does not smooth, clip, or retime a model chunk. The current primary mode
+is `SYNCHRONOUS_PAUSED_SIM_RECEDING_HORIZON`; no production transport or
+real-time claim is attached to the offline shared-filesystem mailbox.
+
+The native camera gate passed, and GT-first hot-swap infrastructure passed.
+The actual model executed six gated chunks in one native scene, but raw
+predicted-to-new-first handoff discontinuity reached `0.14829 m` and
+`0.15702 rad`. Consequently the Stage21 scientific gate remains
+`ONE_SPECIFIC_MODEL_PROFILE_BLOCKER_REMAINS`. Counterfactual output
+sensitivity was observed but is not visual-grounding or task-success
+evidence. Robot-specific task-performance status remains unchanged.
