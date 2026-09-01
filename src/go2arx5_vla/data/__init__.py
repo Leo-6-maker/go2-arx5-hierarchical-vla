@@ -23,6 +23,7 @@ from .materialization import (
     WRIST_VIDEO_KEY,
     materialize_lerobot_v2,
 )
+from .processor import dataset_statistics
 from .readiness import (
     CAMERA_TIMESTAMP_LAYOUT,
     GROOT_EEF_ROT6D_LAYOUT,
@@ -39,6 +40,12 @@ from .readiness import (
 from .recorder import RecorderConfigV1, RecorderV1, RecordedEpisodeV1, replay_raw_episode
 from .teleop import TeleopCommandV1
 from .stress import run_synchronization_stress
+from .stage22_expert import (
+    SameSceneExpertSnapshotV1,
+    load_snapshot,
+    snapshot_to_raw_episode,
+    snapshot_to_training_example,
+)
 
 __all__ = [
     "CAMERA_TIMESTAMP_LAYOUT",
@@ -69,6 +76,11 @@ __all__ = [
     "WRIST_VIDEO_KEY",
     "interpolate_pose_rot6d_rows",
     "materialize_lerobot_v2",
+    "dataset_statistics",
     "replay_raw_episode",
     "run_synchronization_stress",
+    "SameSceneExpertSnapshotV1",
+    "load_snapshot",
+    "snapshot_to_raw_episode",
+    "snapshot_to_training_example",
 ]

@@ -16,6 +16,12 @@ from .same_scene import (
     compare_counterfactuals,
     image_sha256,
 )
+from .expert import (
+    SameSceneExpertConfigV1,
+    build_same_scene_expert_chunk,
+    expert_pose_sequence,
+    write_rgb_ppm,
+)
 
 __all__ = [
     "INITIAL_LOCAL_POSITION",
@@ -30,4 +36,8 @@ __all__ = [
     "SameSceneCounterfactualV1",
     "compare_counterfactuals",
     "image_sha256",
+    "SameSceneExpertConfigV1",
+    "build_same_scene_expert_chunk",
+    "expert_pose_sequence",
+    "write_rgb_ppm",
 ]
