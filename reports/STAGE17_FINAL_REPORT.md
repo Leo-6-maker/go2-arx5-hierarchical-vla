@@ -46,7 +46,9 @@ The largest per-case reconstruction p95 was `5.54006e-4 m` and
 
 - branch: `stage17/groot-runtime-integration`
 - source commit before Stage17: `093e92791ed88894cf5a14d103f408f8f3ff4022`
-- Stage17 final commit: recorded after the final staged-content audit
+- Stage17 implementation commit: `13858cb` (`feat: seal Stage17 GR00T to WBC interface`)
+- final branch tip: the subsequent documentation/audit commit containing this
+  recorded handoff; the exact tip is also printed by `git log -1`
 - private origin: `git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git`
 - test count: `33 passed in 4.84s` in the Stage10 Python environment with
   `CUDA_VISIBLE_DEVICES=""`; local `pytest` was unavailable
