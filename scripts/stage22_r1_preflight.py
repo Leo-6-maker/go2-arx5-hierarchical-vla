@@ -5,8 +5,9 @@ This is a resource gate, not a training run.  It invokes the existing
 official Stage20S launcher for exactly one optimizer step with the declared
 R1 recipe, while recording device occupancy, conservative device-level peak
 usage, PyTorch allocated/reserved telemetry, trainable parameters, elapsed
-time, cleanup, and headroom.  It refuses to start when a compute workload is
-already present on the selected GPU.
+time, cleanup, and headroom.  Shared execution is opt-in and remains subject
+to the same conservative headroom gate; it never signals or modifies another
+process.
 """
 
 from __future__ import annotations
@@ -142,7 +143,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     before_rows = _gpu_snapshot()
     before = _select_gpu(before_rows, args.gpu_index)
     existing_apps = _compute_apps(args.gpu_index)
-    if existing_apps:
+    if existing_apps and not args.allow_shared_gpu:
         payload = {
             "schema": "STAGE22_R1_GPU_PREFLIGHT_V1",
             "status": "BLOCKED_OCCUPIED_GPU",
@@ -151,6 +152,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             "existing_compute_apps": existing_apps,
             "hardware_control": False,
             "training_steps_requested": 1,
+            "resource_sharing_allowed": False,
         }
         args.output_dir.mkdir(parents=True, exist_ok=True)
         (args.output_dir / "stage22_r1_preflight.json").write_text(
@@ -224,6 +226,8 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         else "FAILED",
         "simulation_only": True,
         "hardware_control": False,
+        "resource_sharing_allowed": bool(args.allow_shared_gpu),
+        "shared_gpu_at_start": bool(existing_apps),
         "training_steps_requested": 1,
         "optimizer_step_required": True,
         "cleanup_required": True,
@@ -298,6 +302,11 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--launcher", type=Path, default=Path(__file__).with_name("stage20s_train_gr00t.py"))
     parser.add_argument("--gpu-index", type=int, required=True)
+    parser.add_argument(
+        "--allow-shared-gpu",
+        action="store_true",
+        help="allow a one-step preflight alongside an existing compute workload; headroom is still required",
+    )
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--seed", type=int, default=2222)
     args = parser.parse_args()
