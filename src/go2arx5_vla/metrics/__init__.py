@@ -13,6 +13,7 @@ from .task_space import (
 from .internal_plan import PLAN_CHANNEL_NAMES, analyze_internal_plan
 from .whole_body import classify_progressive_behavior, compute_whole_body_metrics, metric_summary
 from .action_profile import chunk_overlap_metrics, chunk_profile, trajectory_profile
+from .h2_paired import compare_h2_profile_payloads
 
 __all__ = [
     "REFERENCE_RECONSTRUCTION_ERROR",
@@ -33,4 +34,5 @@ __all__ = [
     "trajectory_profile",
     "chunk_profile",
     "chunk_overlap_metrics",
+    "compare_h2_profile_payloads",
 ]
