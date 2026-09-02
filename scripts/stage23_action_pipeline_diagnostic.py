@@ -5,7 +5,8 @@ The script is deliberately split into two independent parts:
 
 * a CPU/source audit of the official GR00T action transform, normalization,
   universal padding, and loss-mask semantics; and
-* a train-only TINY1/TINY6 fixture check which optionally re-runs the official
+* train-only TINY1_TINYSTATS/TINY6_TINYSTATS fixtures plus the primary
+  TINY1_H2STATS fixture, which optionally re-runs the official
   LeRobotEpisodeLoader -> ShardedSingleStepDataset -> Gr00tN1d7Processor path.
 
 It never performs a model forward, backward pass, optimizer step, PBS submit,
@@ -52,8 +53,12 @@ DEFAULT_GR00T_SOURCE = Path("/home/liuyu-nfs/Projects/isaac-gr00t")
 DEFAULT_STAGE10_ROOT = Path("/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10")
 
 TRAIN_A = "red_target_train_a"
-TINY1 = "TINY1"
-TINY6 = "TINY6"
+TINY1_TINYSTATS = "TINY1_TINYSTATS"
+TINY6_TINYSTATS = "TINY6_TINYSTATS"
+TINY1_H2STATS = "TINY1_H2STATS"
+EXPECTED_STAGE22_TRAIN_TREE_SHA256 = (
+    "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
+)
 
 
 def _sha256_file(path: Path) -> str:
@@ -84,6 +89,52 @@ def _tree_manifest(root: Path, *, exclude: Iterable[str] = ()) -> dict[str, Any]
         "total_bytes": total_bytes,
         "tree_sha256": hashlib.sha256(payload.encode("utf-8")).hexdigest(),
         "files": {name: {"sha256": file_hash, "bytes": size} for name, file_hash, size in rows},
+    }
+
+
+def _stage22_canonical_tree_manifest(root: Path) -> dict[str, Any]:
+    """Reproduce Stage22 handoff hashing exactly.
+
+    Stage22's handoff hashes only regular-file entries as
+    ``payload/lerobot_train/<relative>\0<size>\0<sha256>\n``.  It rejects
+    symlinks before building the handoff, so this audit rejects them too.
+    Keeping the per-file entries in the node-local result makes the aggregate
+    identity independently inspectable without committing the dataset.
+    """
+
+    entries: list[dict[str, Any]] = []
+    total_bytes = 0
+    for path in sorted(root.rglob("*")):
+        if path.is_symlink():
+            raise RuntimeError(f"Stage22 canonical tree rejects symlink: {path}")
+        if not path.is_file():
+            continue
+        relative = path.relative_to(root).as_posix()
+        size = path.stat().st_size
+        file_hash = _sha256_file(path)
+        entries.append(
+            {
+                "path": f"payload/lerobot_train/{relative}",
+                "bytes": size,
+                "sha256": file_hash,
+            }
+        )
+        total_bytes += size
+    digest = hashlib.sha256()
+    for entry in entries:
+        digest.update(
+            f"{entry['path']}\0{entry['bytes']}\0{entry['sha256']}\n".encode("utf-8")
+        )
+    return {
+        "method": "STAGE22_PREPARE_H200_HANDOFF_TREE_DIGEST_V1",
+        "path_prefix": "payload/lerobot_train",
+        "file_count": len(entries),
+        "total_bytes": total_bytes,
+        "tree_sha256": digest.hexdigest(),
+        "symlink_count": 0,
+        "entries": entries,
+        "matches_frozen_stage22_identity": digest.hexdigest()
+        == EXPECTED_STAGE22_TRAIN_TREE_SHA256,
     }
 
 
@@ -258,7 +309,7 @@ def _validate_source_train_split(source_dir: Path) -> list[dict[str, Any]]:
     expected_ids = [f"stage22_expert_{TRAIN_A}:expert-{index:04d}" for index in range(6)]
     observed_ids = [str(row.get("source_episode_id")) for row in train_a]
     if observed_ids != expected_ids:
-        raise ValueError(f"TINY1/TINY6 source order mismatch: {observed_ids}")
+        raise ValueError(f"TINY1 source order mismatch: {observed_ids}")
     if any(int(row.get("length", -1)) != 40 for row in train_a):
         raise ValueError("all Stage23 tiny source episodes must be H=40")
     for row in rows:
@@ -282,6 +333,7 @@ def _create_tiny_fixture(
     *,
     name: str,
     source_rows: list[dict[str, Any]],
+    stats_mode: str,
 ) -> dict[str, Any]:
     if output_dir.exists() and any(output_dir.iterdir()):
         raise FileExistsError(f"refusing to overwrite non-empty tiny fixture: {output_dir}")
@@ -292,7 +344,7 @@ def _create_tiny_fixture(
     data_dir.mkdir(parents=True, exist_ok=True)
     meta_dir.mkdir(parents=True, exist_ok=True)
 
-    selected_count = 1 if name == TINY1 else 6
+    selected_count = 1 if name in {TINY1_TINYSTATS, TINY1_H2STATS} else 6
     selected = source_rows[:selected_count]
     source_ids = [str(row["source_episode_id"]) for row in selected]
     source_indices = [int(row["episode_index"]) for row in selected]
@@ -308,10 +360,18 @@ def _create_tiny_fixture(
         }
     )
     _write_json(meta_dir / "info.json", info)
-    for filename in ("modality.json", "tasks.jsonl", "stats.json", "relative_stats.json"):
+    for filename in ("modality.json", "tasks.jsonl"):
         source_path = source_dir / "meta" / filename
         if source_path.is_file():
             shutil.copy2(source_path, meta_dir / filename)
+    if stats_mode == "STAGE22_FROZEN_COPIED":
+        for filename in ("stats.json", "relative_stats.json"):
+            source_path = source_dir / "meta" / filename
+            if not source_path.is_file():
+                raise FileNotFoundError(source_path)
+            shutil.copy2(source_path, meta_dir / filename)
+    elif stats_mode != "TINY_FIXTURE_REGENERATED":
+        raise ValueError(f"unknown stats mode: {stats_mode}")
 
     episode_rows = []
     for new_index, source_row in enumerate(selected):
@@ -379,6 +439,12 @@ def _create_tiny_fixture(
         "achieved_training_label": False,
         "target_in_model_input": False,
         "training_allowed": True,
+        "normalization_stats_mode": stats_mode,
+        "source_stats_sha256": {
+            filename: _sha256_file(source_dir / "meta" / filename)
+            for filename in ("stats.json", "relative_stats.json")
+            if (source_dir / "meta" / filename).is_file()
+        },
         "validation_read": False,
         "final_test_read": False,
         "source_tree": _tree_manifest(source_dir),
@@ -463,7 +529,12 @@ def _materialized_label_checks(
     }
 
 
-def _official_qualification(tiny_dir: Path, stage10_root: Path) -> dict[str, Any]:
+def _official_qualification(
+    tiny_dir: Path,
+    stage10_root: Path,
+    *,
+    stats_mode: str,
+) -> dict[str, Any]:
     """Run only the official loader/collator/processor path, never a model."""
 
     required = [
@@ -511,7 +582,18 @@ def _official_qualification(tiny_dir: Path, stage10_root: Path) -> dict[str, Any
             _write_qualified_manifest,
         )
 
-        _generate_official_stats(tiny_dir, stage10_root)
+        if stats_mode == "TINY_FIXTURE_REGENERATED":
+            _generate_official_stats(tiny_dir, stage10_root)
+        elif stats_mode != "STAGE22_FROZEN_COPIED":
+            raise ValueError(f"unknown stats mode: {stats_mode}")
+        stats_paths = {
+            filename: tiny_dir / "meta" / filename
+            for filename in ("stats.json", "relative_stats.json")
+        }
+        if not all(path.is_file() for path in stats_paths.values()):
+            raise FileNotFoundError(
+                f"normalization statistics missing for {stats_mode}: {stats_paths}"
+            )
         result = _qualify(
             tiny_dir,
             stage10_root,
@@ -538,6 +620,10 @@ def _official_qualification(tiny_dir: Path, stage10_root: Path) -> dict[str, Any
                     "resolved_snapshot_path": str(cosmos_snapshot),
                     "required_files_present": list(required_cosmos_files),
                 },
+                "normalization_stats_mode": stats_mode,
+                "normalization_stats_sha256": {
+                    filename: _sha256_file(path) for filename, path in stats_paths.items()
+                },
                 "official_path_scope": "LeRobotEpisodeLoader -> ShardedSingleStepDataset -> Gr00tN1d7Processor only",
             }
         )
@@ -559,7 +645,11 @@ def _snapshot_metrics(snapshot_root: Path, tiny_name: str) -> dict[str, Any]:
     if [path.stem for path in snapshot_paths] != [f"expert-{index:04d}" for index in range(6)]:
         raise ValueError(f"unexpected train_a snapshot order below {directory}")
     snapshots = [load_snapshot(path) for path in snapshot_paths]
-    selected = snapshots[:1] if tiny_name == TINY1 else snapshots
+    selected = (
+        snapshots[:1]
+        if tiny_name in {TINY1_TINYSTATS, TINY1_H2STATS}
+        else snapshots
+    )
     identity_rows = []
     relative_rows = []
     for snapshot in selected:
@@ -636,10 +726,37 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
 
     source_rows = _validate_source_train_split(source_dir)
     source_tree = _tree_manifest(source_dir)
-    tiny1_dir = output_root / "tiny1_lerobot_v2"
-    tiny6_dir = output_root / "tiny6_lerobot_v2"
-    tiny1 = _create_tiny_fixture(source_dir, tiny1_dir, name=TINY1, source_rows=source_rows)
-    tiny6 = _create_tiny_fixture(source_dir, tiny6_dir, name=TINY6, source_rows=source_rows)
+    canonical_source_tree = _stage22_canonical_tree_manifest(source_dir)
+    if not canonical_source_tree["matches_frozen_stage22_identity"]:
+        raise RuntimeError(
+            "Stage22 canonical train fixture identity mismatch; refusing to create "
+            "Stage23 tiny fixtures"
+        )
+
+    tiny1_tinystats_dir = output_root / "tiny1_tinystats_lerobot_v2"
+    tiny6_tinystats_dir = output_root / "tiny6_tinystats_lerobot_v2"
+    tiny1_h2stats_dir = output_root / "tiny1_h2stats_lerobot_v2"
+    tiny1_tinystats = _create_tiny_fixture(
+        source_dir,
+        tiny1_tinystats_dir,
+        name=TINY1_TINYSTATS,
+        source_rows=source_rows,
+        stats_mode="TINY_FIXTURE_REGENERATED",
+    )
+    tiny6_tinystats = _create_tiny_fixture(
+        source_dir,
+        tiny6_tinystats_dir,
+        name=TINY6_TINYSTATS,
+        source_rows=source_rows,
+        stats_mode="TINY_FIXTURE_REGENERATED",
+    )
+    tiny1_h2stats = _create_tiny_fixture(
+        source_dir,
+        tiny1_h2stats_dir,
+        name=TINY1_H2STATS,
+        source_rows=source_rows,
+        stats_mode="STAGE22_FROZEN_COPIED",
+    )
 
     snapshots_all = [
         load_snapshot(snapshot_root / f"stage22_expert_{TRAIN_A}" / f"expert-{index:04d}.json")
@@ -647,8 +764,15 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
     ]
     snapshots_tiny1 = snapshots_all[:1]
     snapshots_tiny6 = snapshots_all
-    tiny1_label = _materialized_label_checks(tiny1_dir, snapshots_tiny1)
-    tiny6_label = _materialized_label_checks(tiny6_dir, snapshots_tiny6)
+    tiny1_tinystats_label = _materialized_label_checks(
+        tiny1_tinystats_dir, snapshots_tiny1
+    )
+    tiny6_tinystats_label = _materialized_label_checks(
+        tiny6_tinystats_dir, snapshots_tiny6
+    )
+    tiny1_h2stats_label = _materialized_label_checks(
+        tiny1_h2stats_dir, snapshots_tiny1
+    )
 
     # This is a purely numerical construction of the official padded action
     # shape. It does not call a model or the GPU runtime.
@@ -657,32 +781,49 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
     contract = action_contract_summary()
     static_source = audit_official_source(args.gr00t_source.expanduser().resolve(), repo_root)
 
-    official = {TINY1: {"status": "SKIPPED"}, TINY6: {"status": "SKIPPED"}}
+    stats_modes = {
+        TINY1_TINYSTATS: "TINY_FIXTURE_REGENERATED",
+        TINY6_TINYSTATS: "TINY_FIXTURE_REGENERATED",
+        TINY1_H2STATS: "STAGE22_FROZEN_COPIED",
+    }
+    fixture_dirs = {
+        TINY1_TINYSTATS: tiny1_tinystats_dir,
+        TINY6_TINYSTATS: tiny6_tinystats_dir,
+        TINY1_H2STATS: tiny1_h2stats_dir,
+    }
+    fixture_records = {
+        TINY1_TINYSTATS: tiny1_tinystats,
+        TINY6_TINYSTATS: tiny6_tinystats,
+        TINY1_H2STATS: tiny1_h2stats,
+    }
+    label_checks = {
+        TINY1_TINYSTATS: tiny1_tinystats_label,
+        TINY6_TINYSTATS: tiny6_tinystats_label,
+        TINY1_H2STATS: tiny1_h2stats_label,
+    }
+    official = {name: {"status": "SKIPPED"} for name in fixture_dirs}
     if args.run_official:
         official = {
-            TINY1: _official_qualification(tiny1_dir, args.stage10_root.expanduser().resolve()),
-            TINY6: _official_qualification(tiny6_dir, args.stage10_root.expanduser().resolve()),
+            name: _official_qualification(
+                fixture_dirs[name],
+                args.stage10_root.expanduser().resolve(),
+                stats_mode=stats_modes[name],
+            )
+            for name in fixture_dirs
         }
 
     label_metrics = {
-        TINY1: _snapshot_metrics(snapshot_root, TINY1),
-        TINY6: _snapshot_metrics(snapshot_root, TINY6),
+        name: _snapshot_metrics(snapshot_root, name) for name in fixture_dirs
     }
     tiny_results = {
-        TINY1: {
-            "fixture": tiny1,
-            "materialized_label_check": tiny1_label,
-            "label_as_prediction": label_metrics[TINY1],
-            "official_qualification": official[TINY1],
-            "final_tree": _tree_manifest(tiny1_dir),
-        },
-        TINY6: {
-            "fixture": tiny6,
-            "materialized_label_check": tiny6_label,
-            "label_as_prediction": label_metrics[TINY6],
-            "official_qualification": official[TINY6],
-            "final_tree": _tree_manifest(tiny6_dir),
-        },
+        name: {
+            "fixture": fixture_records[name],
+            "materialized_label_check": label_checks[name],
+            "label_as_prediction": label_metrics[name],
+            "official_qualification": official[name],
+            "final_tree": _tree_manifest(fixture_dirs[name]),
+        }
+        for name in fixture_dirs
     }
     official_pass = all(
         value["official_qualification"].get("status") == "PASS" for value in tiny_results.values()
@@ -693,6 +834,25 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
     materialized_pass = all(
         value["materialized_label_check"]["status"] == "PASS" for value in tiny_results.values()
     )
+    frozen_stats_hashes = {
+        filename: _sha256_file(source_dir / "meta" / filename)
+        for filename in ("stats.json", "relative_stats.json")
+    }
+    normalization_stats_audit = {}
+    for name, value in tiny_results.items():
+        qualification = value["official_qualification"]
+        observed_hashes = qualification.get("normalization_stats_sha256")
+        normalization_stats_audit[name] = {
+            "declared_mode": stats_modes[name],
+            "observed_hashes": observed_hashes,
+            "matches_stage22_frozen_stats": (
+                name == TINY1_H2STATS and observed_hashes == frozen_stats_hashes
+            ),
+            "is_explicitly_regenerated_tiny_stats": (
+                stats_modes[name] == "TINY_FIXTURE_REGENERATED"
+            ),
+        }
+
     result = {
         "schema": "STAGE23_ACTION_PIPELINE_DIAGNOSTIC_V1",
         "stage": "Stage23",
@@ -709,6 +869,13 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
         "stage22_input": {
             "source_dataset": str(source_dir),
             "source_tree": source_tree,
+            "canonical_stage22_tree": canonical_source_tree,
+            "stage23_local_manifest_tree_method": "STAGE23_LOCAL_TREE_MANIFEST_V1",
+            "canonical_hash_algorithm_difference": (
+                "Stage22 digest orders path\\0bytes\\0file_sha256\\n with the "
+                "payload/lerobot_train/ prefix; Stage23 local manifest remains a "
+                "separate diagnostic identity and is not used for Stage22 matching."
+            ),
             "source_episode_count": len(_episode_rows(source_dir)),
             "selected_target": TRAIN_A,
             "selected_source_snapshot_count": 6,
@@ -740,10 +907,21 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
             "construction_correction": False,
         },
         "tiny_fixtures": tiny_results,
+        "normalization_stats_audit": {
+            "stage22_source_stats_sha256": frozen_stats_hashes,
+            "variants": normalization_stats_audit,
+            "primary_future_dataset": TINY1_H2STATS,
+            "historical_tiny_stat_variants_retained": [
+                TINY1_TINYSTATS,
+                TINY6_TINYSTATS,
+            ],
+        },
         "future_hopper_protocol": {
             "status": "PREPARED_ONLY_NOT_AUTHORIZED",
-            "O1": "TINY1 deliberate overfit; not executed",
-            "O6": "TINY6 conditional diagnostic; not executed",
+            "O1": "TINY1_H2STATS deliberate overfit; not executed",
+            "O1_secondary": "TINY1_TINYSTATS retained diagnostic; not executed",
+            "O6": "TINY6_TINYSTATS conditional diagnostic; not executed",
+            "primary_dataset_stats_mode": "STAGE22_FROZEN_COPIED",
             "recipe": {
                 "tune_projector": True,
                 "tune_diffusion_model": True,
@@ -780,7 +958,10 @@ def main() -> int:
     parser.add_argument(
         "--run-official",
         action="store_true",
-        help="run CPU-only official loader/collator/processor qualification for TINY1/TINY6",
+        help=(
+            "run CPU-only official loader/collator/processor qualification for "
+            "TINY1_TINYSTATS, TINY6_TINYSTATS, and TINY1_H2STATS"
+        ),
     )
     args = parser.parse_args()
     run_diagnostic(args)

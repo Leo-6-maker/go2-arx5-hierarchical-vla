@@ -14,14 +14,20 @@ or evaluator defect.
 
 ## Decision
 
-Stage23 uses two train-only fixtures:
+Stage23 uses one primary and two retained train-only fixtures:
 
 ```text
-TINY1 = the lexicographically first snapshot in red_target_train_a
-TINY6 = all six ordered snapshots in red_target_train_a
+TINY1_H2STATS = the first ordered snapshot in red_target_train_a, with the
+                exact frozen Stage22 train-fixture statistics
+TINY1_TINYSTATS = the same snapshot, with statistics regenerated from the
+                  one-episode tiny fixture
+TINY6_TINYSTATS = all six ordered snapshots, with statistics regenerated from
+                  the six-episode tiny fixture
 ```
 
-Both fixtures must pass the official materialized-data path and the exact
+The primary future Hopper experiment uses `TINY1_H2STATS`; the other two are
+retained controlled diagnostics and are not interchangeable. All fixtures must
+pass the official materialized-data path and the exact
 evaluator with expert labels supplied as predictions. That identity prediction
 must produce zero task-space error, unit profile ratios, finite values, and an
 accepted safety decision before any future Hopper fine-tuning is considered.
@@ -42,7 +48,8 @@ recipe. It also keeps achieved EEF separate from desired EEF training labels.
 
 O1/O6 Hopper overfit runs are prepared only; they require a separate explicit
 authorization after the Stage23 evidence review. No real robot, WBC execution,
-or deployment path is implied.
+or deployment path is implied. Stage22 source identity uses its canonical
+handoff digest; the Stage23 local-manifest hash is diagnostic only.
 
 ## Evidence
 

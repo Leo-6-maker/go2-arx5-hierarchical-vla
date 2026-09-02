@@ -9,13 +9,19 @@ selection was performed in Stage23.
 ## Candidate runs
 
 ```text
-O1 = TINY1 deliberate overfit
-O6 = TINY6 conditional diagnostic
+O1 = TINY1_H2STATS deliberate overfit (primary)
+O1-secondary = TINY1_TINYSTATS retained one-snapshot diagnostic
+O6 = TINY6_TINYSTATS conditional diagnostic
 ```
 
-Both candidates must use the official materialized-data path already qualified
+All candidates must use the official materialized-data path already qualified
 in Stage23. They may use only the train split from `red_target_train_a`; they
 must not read validation target `e` or locked final target `f`.
+
+`TINY1_H2STATS` is the only primary O1 input. Its one selected sample uses
+the exact Stage22 frozen `stats.json` and `relative_stats.json` bytes. The
+tiny-stat variants are retained precisely because they use regenerated
+statistics and therefore answer a different diagnostic question.
 
 ## Candidate recipe
 
@@ -69,4 +75,4 @@ official loader/processor no longer reproduces the Stage23 shapes
 ```
 
 The Stage23 result clears these preconditions for consideration, but does not
-itself authorize O1 or O6.
+itself authorize O1, O1-secondary, or O6.

@@ -74,9 +74,13 @@ a cross product. The gripper is not included in this SE(3) transform.
 The EEF relative action uses the generated `relative_action[eef_9d]`
 statistics. The gripper uses the ordinary absolute-action statistics. The
 official path uses min/max normalization unless a configured mean/std embedding
-is selected, then applies the existing outlier clipping policy. The statistics
-are generated from the materialized tiny LeRobot-v2 fixture by the official
-Stage19 stats path; they are not copied from an unrelated target.
+is selected, then applies the existing outlier clipping policy. Stage23 now
+records normalization-statistics provenance explicitly. The primary
+future O1 fixture, `TINY1_H2STATS`, copies the exact frozen Stage22 train-fixture
+`stats.json` and `relative_stats.json` bytes. The retained
+`TINY1_TINYSTATS` and `TINY6_TINYSTATS` variants deliberately regenerate
+statistics from their respective tiny materializations; they are controlled
+diagnostics, not the primary O1 dataset.
 
 The official N1.7 processor concatenates the two physical action keys in
 modality order, producing 10 columns, then pads to 132 columns and horizon
@@ -129,6 +133,41 @@ All source evidence below is read-only and bound to GR00T SHA
 The project modality file is a Stage22 simulation fixture contract. The
 official repository and source paths above remain external runtime inputs and
 are not copied into this repository.
+
+## Stage22 source identity and stats lock
+
+The source fixture was rehashed with the exact Stage22 H200 handoff method,
+not with the older Stage23 local manifest method:
+
+```text
+method: STAGE22_PREPARE_H200_HANDOFF_TREE_DIGEST_V1
+entries: payload/lerobot_train/<relative>\0<bytes>\0<file_sha256>\n
+files: 85
+bytes: 919661
+symlinks: 0
+canonical Stage22 SHA256: 2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789
+matches frozen identity: true
+```
+
+The earlier `c371b07183d238ffe60b748ab50dbf811b676cd8d572760e934598e053893ad2`
+value is retained as a Stage23 local-manifest diagnostic. It uses a different
+field order and no `payload/lerobot_train/` prefix, so it is not comparable to
+the Stage22 handoff digest and is not used as the frozen source identity.
+
+The frozen source statistics are:
+
+```text
+stats.json:          fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23
+relative_stats.json: 8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1
+```
+
+The P0 rerun produced the following explicit modes:
+
+| fixture | statistics mode | qualification | stats identity |
+|---|---|---|---|
+| `TINY1_H2STATS` | `STAGE22_FROZEN_COPIED` | PASS | byte-identical to Stage22 source |
+| `TINY1_TINYSTATS` | `TINY_FIXTURE_REGENERATED` | PASS | intentionally different tiny-fixture stats |
+| `TINY6_TINYSTATS` | `TINY_FIXTURE_REGENERATED` | PASS | intentionally different tiny-fixture stats |
 
 ## Conclusion
 
