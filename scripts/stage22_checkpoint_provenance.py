@@ -19,6 +19,18 @@ from typing import Any, Mapping
 
 
 _CREDENTIAL_COMPONENTS = {".env", ".netrc", "credential", "credentials", "password", "secret", "token"}
+_REQUIRED_LINEAGE_FIELDS = {
+    "base_model_tree_sha256",
+    "train_fixture_tree_sha256",
+    "split_lock_sha256",
+    "modality_config_sha256",
+    "groot_repo_sha",
+    "cosmos_snapshot_revision",
+    "cosmos_tree_sha256",
+    "source_run_manifest_sha256",
+    "checkpoint_tree_sha256",
+}
+_EXPECTED_GLOBAL_STEP = 50
 
 
 def _sha256_file(path: Path, cache: dict[str, str]) -> str:
@@ -113,12 +125,44 @@ def _load(path: Path) -> dict[str, Any]:
     return value
 
 
+def _validate_global_step_evidence(path: Path, *, checkpoint: Path) -> dict[str, Any]:
+    path = path.resolve(strict=True)
+    try:
+        path.relative_to(checkpoint.resolve(strict=True))
+    except ValueError as exc:
+        raise ValueError("global-step evidence must be inside the checkpoint root") from exc
+    payload = _load(path)
+    if payload.get("schema") != "STAGE22_CHECKPOINT_GLOBAL_STEP_EVIDENCE_V1":
+        raise ValueError("global-step evidence has an unexpected schema")
+    if payload.get("global_step") != _EXPECTED_GLOBAL_STEP:
+        raise ValueError("checkpoint is not independently evidenced at global_step=50")
+    return payload
+
+
+def _validate_lineage(lineage_path: Path) -> dict[str, Any]:
+    lineage_path = lineage_path.resolve(strict=True)
+    payload = _load(lineage_path)
+    if payload.get("schema") != "STAGE22_H2_DIRECT_LAUNCH_AUDIT_V1" or payload.get("status") != "PASS":
+        raise ValueError("checkpoint lineage requires a passing direct-launch H2 audit")
+    labels = payload.get("required_gate_labels")
+    if not isinstance(labels, Mapping) or labels.get("DIRECT_LAUNCH_AUDIT_SUPPORTED") is not True:
+        raise ValueError("checkpoint lineage requires a supported direct-launch H2 audit")
+    lineage = payload.get("lineage")
+    if not isinstance(lineage, Mapping) or set(lineage) != _REQUIRED_LINEAGE_FIELDS:
+        raise ValueError("direct-launch lineage is missing required checkpoint fields")
+    if any(value in (None, "") for key, value in lineage.items() if key != "checkpoint_tree_sha256"):
+        raise ValueError("direct-launch lineage contains an empty required identity")
+    return payload
+
+
 def seal_checkpoint(
     checkpoint: Path,
     *,
     run_manifest: Path,
     recipe: str,
     output: Path,
+    global_step_evidence: Path,
+    lineage_manifest: Path,
     selection_status: str = "CANDIDATE_NOT_SELECTED",
 ) -> dict[str, Any]:
     checkpoint = checkpoint.resolve(strict=True)
@@ -135,8 +179,15 @@ def seal_checkpoint(
         raise ValueError("run manifest recipe does not match requested checkpoint recipe")
     if run.get("action_horizon") != 40:
         raise ValueError("checkpoint run must use action_horizon=40")
+    if run.get("max_steps") != _EXPECTED_GLOBAL_STEP:
+        raise ValueError("checkpoint run must record max_steps=50")
     if run.get("simulation_only") is not True or run.get("hardware_control") is not False:
         raise ValueError("checkpoint provenance only accepts simulation-only runs")
+    if selection_status not in {"CANDIDATE_NOT_SELECTED", "SELECTED_AFTER_VALIDATION"}:
+        raise ValueError("unsupported checkpoint selection status")
+
+    global_step_payload = _validate_global_step_evidence(global_step_evidence, checkpoint=checkpoint)
+    lineage_payload = _validate_lineage(lineage_manifest)
 
     entries, digest_cache = _walk(checkpoint)
     credential_paths = _credential_paths(entries)
@@ -144,18 +195,22 @@ def seal_checkpoint(
         raise ValueError(f"credential-like checkpoint paths found: {credential_paths}")
     regular = [entry for entry in entries if entry["kind"] == "regular_file"]
     symlinks = [entry for entry in entries if entry["kind"] == "symlink"]
+    checkpoint_tree_sha256 = _tree_sha256(entries)
+    lineage_with_checkpoint = dict(lineage_payload["lineage"])
+    lineage_with_checkpoint["checkpoint_tree_sha256"] = checkpoint_tree_sha256
     result: dict[str, Any] = {
         "schema": "STAGE22_CHECKPOINT_PROVENANCE_V1",
         "status": "SEALED_FOR_HASH_VERIFICATION",
         "selection_status": selection_status,
         "transfer_performed": False,
         "checkpoint_name": checkpoint.name,
+        "checkpoint_global_step": _EXPECTED_GLOBAL_STEP,
         "recipe": recipe,
         "checkpoint_file_count": len(regular) + len(symlinks),
         "regular_file_count": len(regular),
         "symlink_count": len(symlinks),
         "total_bytes": sum(int(entry["size_bytes"]) for entry in regular),
-        "checkpoint_tree_sha256": _tree_sha256(entries),
+        "checkpoint_tree_sha256": checkpoint_tree_sha256,
         "entries": sorted(entries, key=lambda value: value["path"]),
         "contains_credentials": False,
         "credential_path_audit": {
@@ -173,6 +228,19 @@ def seal_checkpoint(
             "action_sample_period_provenance": run.get("action_sample_period_provenance"),
             "simulation_only": run.get("simulation_only"),
         },
+        "global_step_evidence": {
+            "path_recorded": str(global_step_evidence.resolve()),
+            "sha256": _sha256_file(global_step_evidence.resolve(), digest_cache),
+            "schema": global_step_payload.get("schema"),
+            "global_step": global_step_payload.get("global_step"),
+        },
+        "lineage_manifest": {
+            "path_recorded": str(lineage_manifest.resolve()),
+            "sha256": _sha256_file(lineage_manifest.resolve(), digest_cache),
+            "schema": lineage_payload.get("schema"),
+            "status": lineage_payload.get("status"),
+            "lineage": lineage_with_checkpoint,
+        },
         "created_utc": datetime.now(timezone.utc).isoformat(),
     }
     if output.exists():
@@ -189,6 +257,10 @@ def verify_checkpoint(checkpoint: Path, manifest_path: Path) -> dict[str, Any]:
     actual_entries = sorted(entries, key=lambda value: value["path"])
     expected_entries = expected.get("entries")
     mismatches: list[str] = []
+    if expected.get("schema") != "STAGE22_CHECKPOINT_PROVENANCE_V1":
+        mismatches.append("<schema>")
+    if expected.get("checkpoint_global_step") != _EXPECTED_GLOBAL_STEP:
+        mismatches.append("<global_step>")
     if actual_entries != expected_entries:
         expected_by_path = {entry["path"]: entry for entry in expected_entries or []}
         actual_by_path = {entry["path"]: entry for entry in actual_entries}
@@ -198,6 +270,10 @@ def verify_checkpoint(checkpoint: Path, manifest_path: Path) -> dict[str, Any]:
     actual_tree = _tree_sha256(actual_entries)
     if actual_tree != expected.get("checkpoint_tree_sha256"):
         mismatches.append("<tree_sha256>")
+    lineage_record = expected.get("lineage_manifest")
+    lineage = lineage_record.get("lineage") if isinstance(lineage_record, Mapping) else None
+    if not isinstance(lineage, Mapping) or lineage.get("checkpoint_tree_sha256") != expected.get("checkpoint_tree_sha256"):
+        mismatches.append("<lineage.checkpoint_tree_sha256>")
     return {
         "schema": "STAGE22_CHECKPOINT_PROVENANCE_VERIFY_V1",
         "status": "PASS" if not mismatches else "FAIL",
@@ -217,6 +293,8 @@ def main() -> int:
     seal_parser.add_argument("--checkpoint", type=Path, required=True)
     seal_parser.add_argument("--run-manifest", type=Path, required=True)
     seal_parser.add_argument("--recipe", choices=("R0", "R1"), required=True)
+    seal_parser.add_argument("--global-step-evidence", type=Path, required=True)
+    seal_parser.add_argument("--lineage-manifest", type=Path, required=True)
     seal_parser.add_argument("--output", type=Path, required=True)
     seal_parser.add_argument("--selection-status", default="CANDIDATE_NOT_SELECTED")
     verify_parser = subparsers.add_parser("verify")
@@ -229,6 +307,8 @@ def main() -> int:
             run_manifest=args.run_manifest,
             recipe=args.recipe,
             output=args.output,
+            global_step_evidence=args.global_step_evidence,
+            lineage_manifest=args.lineage_manifest,
             selection_status=args.selection_status,
         )
     else:

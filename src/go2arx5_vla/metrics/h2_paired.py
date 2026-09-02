@@ -13,9 +13,14 @@ from typing import Any, Iterable, Mapping, Sequence
 
 import numpy as np
 
+from go2arx5_vla.data.stage22_snapshot_lock import (
+    EXPECTED_INFERENCE_SEEDS,
+    EXPECTED_VALIDATION_SNAPSHOT_IDS,
+    validate_snapshot_lock,
+)
 
 EVALUATION_SCHEMA = "STAGE22_ACTION_PROFILE_EVALUATION_V1"
-SUPPORTED_SPLITS = {"validation", "final_test"}
+SUPPORTED_SPLITS = {"validation"}
 
 
 def _stats(values: Iterable[float | None]) -> dict[str, float | int | None]:
@@ -79,7 +84,11 @@ def _record_metrics(record: Mapping[str, Any]) -> dict[str, float | None]:
 
 
 def _index_records(
-    payloads: Sequence[Mapping[str, Any]], *, expected_split: str
+    payloads: Sequence[Mapping[str, Any]],
+    *,
+    expected_split: str,
+    expected_snapshot_ids: set[str],
+    expected_snapshot_manifest_sha256: str,
 ) -> dict[tuple[str, int], Mapping[str, Any]]:
     if expected_split not in SUPPORTED_SPLITS:
         raise ValueError(f"unsupported H2 comparison split: {expected_split}")
@@ -96,6 +105,8 @@ def _index_records(
         records = payload.get("records")
         if not isinstance(records, list) or not records:
             raise ValueError("each profile evaluation must contain non-empty records")
+        if payload.get("snapshot_manifest_sha256") != expected_snapshot_manifest_sha256:
+            raise ValueError("profile evaluation is not bound to the frozen snapshot manifest")
         local_ids: set[str] = set()
         for record in records:
             if not isinstance(record, Mapping) or not record.get("input_id"):
@@ -108,6 +119,11 @@ def _index_records(
             if key in indexed:
                 raise ValueError(f"duplicate H2 pairing key: {key}")
             indexed[key] = record
+        if local_ids != expected_snapshot_ids:
+            raise ValueError(
+                "profile evaluation snapshot set does not equal the frozen validation set: "
+                f"observed={sorted(local_ids)}, expected={sorted(expected_snapshot_ids)}"
+            )
     return indexed
 
 
@@ -121,7 +137,10 @@ def _overlap_key(item: Mapping[str, Any]) -> tuple[str, float, float]:
 
 
 def _index_overlaps(
-    payloads: Sequence[Mapping[str, Any]], *, expected_split: str
+    payloads: Sequence[Mapping[str, Any]],
+    *,
+    expected_split: str,
+    expected_overlap_count: int,
 ) -> dict[tuple[str, float, float, int], Mapping[str, Any]]:
     indexed: dict[tuple[str, float, float, int], Mapping[str, Any]] = {}
     for payload in payloads:
@@ -131,6 +150,11 @@ def _index_overlaps(
         overlaps = payload.get("chunk_overlap_metrics", [])
         if not isinstance(overlaps, list):
             raise ValueError("chunk_overlap_metrics must be a list")
+        if len(overlaps) != expected_overlap_count:
+            raise ValueError(
+                "profile evaluation overlap count does not match the frozen validation set: "
+                f"observed={len(overlaps)}, expected={expected_overlap_count}"
+            )
         for item in overlaps:
             if not isinstance(item, Mapping):
                 raise ValueError("overlap rows must be objects")
@@ -192,12 +216,47 @@ def compare_h2_profile_payloads(
     r1_payloads: Sequence[Mapping[str, Any]],
     *,
     expected_split: str,
+    snapshot_manifest_path: str,
+    snapshot_manifest_sha256: str,
+    snapshot_manifest: Mapping[str, Any],
     source_files: Mapping[str, Sequence[str]] | None = None,
 ) -> dict[str, Any]:
     """Build a strict paired R0/R1 comparison for one locked split."""
 
-    r0_index = _index_records(r0_payloads, expected_split=expected_split)
-    r1_index = _index_records(r1_payloads, expected_split=expected_split)
+    if expected_split not in SUPPORTED_SPLITS:
+        raise ValueError("Stage22 H2 paired comparison is restricted to validation")
+    snapshot_lock = validate_snapshot_lock(snapshot_manifest)
+    if snapshot_lock.get("split") != expected_split:
+        raise ValueError("snapshot lock split does not match the requested H2 comparison split")
+    snapshot_ids = set(str(value) for value in snapshot_lock.get("snapshot_ids", []))
+    expected_snapshot_ids = set(EXPECTED_VALIDATION_SNAPSHOT_IDS)
+    if snapshot_ids != expected_snapshot_ids:
+        raise ValueError("snapshot lock does not contain the frozen six validation snapshots")
+    if not snapshot_manifest_sha256:
+        raise ValueError("snapshot manifest SHA256 is required")
+
+    r0_seed_set = {int(payload.get("inference_seed")) for payload in r0_payloads}
+    r1_seed_set = {int(payload.get("inference_seed")) for payload in r1_payloads}
+    expected_seed_set = set(EXPECTED_INFERENCE_SEEDS)
+    if r0_seed_set != expected_seed_set or r1_seed_set != expected_seed_set:
+        raise ValueError(
+            "H2 paired comparison requires exactly inference seeds "
+            f"{list(EXPECTED_INFERENCE_SEEDS)}; observed r0={sorted(r0_seed_set)}, "
+            f"r1={sorted(r1_seed_set)}"
+        )
+
+    r0_index = _index_records(
+        r0_payloads,
+        expected_split=expected_split,
+        expected_snapshot_ids=expected_snapshot_ids,
+        expected_snapshot_manifest_sha256=snapshot_manifest_sha256,
+    )
+    r1_index = _index_records(
+        r1_payloads,
+        expected_split=expected_split,
+        expected_snapshot_ids=expected_snapshot_ids,
+        expected_snapshot_manifest_sha256=snapshot_manifest_sha256,
+    )
     if set(r0_index) != set(r1_index):
         missing_in_r0 = sorted(set(r1_index) - set(r0_index))
         missing_in_r1 = sorted(set(r0_index) - set(r1_index))
@@ -237,8 +296,19 @@ def compare_h2_profile_payloads(
             }
         )
 
-    r0_overlaps = _index_overlaps(r0_payloads, expected_split=expected_split)
-    r1_overlaps = _index_overlaps(r1_payloads, expected_split=expected_split)
+    expected_overlap_count = int(snapshot_lock.get("expected_overlap_count", 0))
+    if expected_overlap_count < 0:
+        raise ValueError("snapshot lock overlap count must be non-negative")
+    r0_overlaps = _index_overlaps(
+        r0_payloads,
+        expected_split=expected_split,
+        expected_overlap_count=expected_overlap_count,
+    )
+    r1_overlaps = _index_overlaps(
+        r1_payloads,
+        expected_split=expected_split,
+        expected_overlap_count=expected_overlap_count,
+    )
     if set(r0_overlaps) != set(r1_overlaps):
         raise ValueError("R0/R1 common-future overlap pairing mismatch")
     paired_overlaps: list[dict[str, Any]] = []
@@ -298,6 +368,7 @@ def compare_h2_profile_payloads(
         "schema": "STAGE22_H2_PAIRED_PROFILE_COMPARISON_V1",
         "status": "PASS",
         "expected_split": expected_split,
+        "required_inference_seeds": list(EXPECTED_INFERENCE_SEEDS),
         "pairing_key": ["input_id", "inference_seed"],
         "overlap_pairing_key": [
             "raw_episode_id",
@@ -315,6 +386,14 @@ def compare_h2_profile_payloads(
             "paired_overlap_count": len(paired_overlaps),
         },
         "inference_seeds": sorted({seed for _, seed in r0_index}),
+        "snapshot_completeness": {
+            "status": "PASS",
+            "snapshot_manifest_path": str(snapshot_manifest_path),
+            "snapshot_manifest_sha256": str(snapshot_manifest_sha256),
+            "snapshot_ids": sorted(expected_snapshot_ids),
+            "snapshot_count": len(expected_snapshot_ids),
+            "expected_overlap_count_per_seed": expected_overlap_count,
+        },
         "source_files": {} if source_files is None else {key: list(value) for key, value in source_files.items()},
         "trajectory_correction": False,
         "training_loss_used_for_selection": False,

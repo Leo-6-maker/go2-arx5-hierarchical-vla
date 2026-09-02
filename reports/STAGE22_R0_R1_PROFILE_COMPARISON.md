@@ -2,9 +2,10 @@
 
 ## Status
 
-The comparison is implemented but the model checkpoints are not yet
-qualified. The R1 one-step memory gate was attempted in authorized shared
-mode but failed on the tested 16 GiB and 32 GiB devices; no full model run was
+The comparison is implemented but no model-profile result is claimed yet.
+The H200 R1 one-step gate has now passed and the authoritative H2 direct
+launch is running/dispatched. The earlier 16 GiB and 32 GiB Corelab failures
+remain non-authoritative resource evidence; no Corelab full model run was
 started. The training input is the locked train-only fixture, not the
 historical all-target loader fixture.
 
@@ -16,9 +17,10 @@ historical all-target loader fixture.
 | R1 | train | train | frozen | frozen | action-generation hypothesis |
 
 Both use the same base checkpoint, materialized dataset, seed policy, H=40,
-and test-only action period. The launcher is the existing official Stage20S
-entry point; `scripts/stage22_train_recipes.py` records the exact command and
-requires an R1 one-step preflight before a full R1 run.
+and test-only action period. The authoritative H2 path invokes the frozen
+Stage20S entry point from `deb920a070141e6a32a88cd0da6719828647e1e6` directly;
+`scripts/stage22_train_recipes.py` is optional non-authoritative tooling and
+must not be used to replace the frozen launch.
 
 The independent `scripts/stage22_r1_preflight.py` additionally refuses a
 selected GPU with existing compute apps and records GPU UUID/VRAM, conservative
@@ -57,4 +59,7 @@ not real-robot safety limits.
 ```text
 MODEL_PROFILE_COMPARISON: NOT_YET_RUN
 DIFFUSION_ACTION_TUNING_DID_NOT_CLOSE_PROFILE_BLOCKER: NOT_ASSESSED
+H1_H200: PASS
+H2_H200: RUNNING_OR_DISPATCHED
+CORELAB_AUTHORITATIVE_GATE: READY_FOR_DIRECT_LAUNCH_ARTIFACT_AUDIT
 ```

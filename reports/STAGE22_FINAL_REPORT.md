@@ -2,10 +2,11 @@
 
 Date: 2026-09-01 (Asia/Singapore)
 
-> This report is an interim Stage22 record. The native expert/data gates are
-> complete; the R0/R1 model-profile comparison remains pending the resource
-> gate and will be updated in the same branch before promotion. The train /
-> validation / final-test split was locked before any GPU inference.
+> This report is an interim Stage22 record. The native expert/data gates and
+> H200 H1 optimizer-step gate are complete; the authoritative direct-launch
+> R0/R1 model-profile comparison is running/dispatched and remains unreported.
+> The train / validation / final-test split was locked before any GPU
+> inference.
 
 ## A. Classification
 
@@ -14,11 +15,11 @@ PASS WITH DEVIATION
 ```
 
 Completed: same-scene native expert supervision, on-policy replanning-point
-fixture generation, official loader/materialization qualification, and CPU
-contract tests. Deviation: the action-generation attribution comparison has
-not run because the tested shared GPUs, including a nearly-free 32 GiB 4080S
-device, failed the one-step R1 OOM/headroom gate. No full R0/R1 run or
-model-profile inference is claimed.
+fixture generation, official loader/materialization qualification, CPU
+contract tests, and the H200 R1 one-step optimizer-step gate. Deviation: the
+authoritative direct-launch R0/R1 comparison is running/dispatched; the tested
+shared Corelab 16 GiB and 32 GiB devices failed the non-authoritative R1
+OOM/headroom gate. No model-profile result is claimed yet.
 
 ## B. Expert oracle and data
 
@@ -51,8 +52,8 @@ training launcher rejects any dataset without a matching train-only sidecar.
 ## D. R0/R1 model profile gate
 
 ```text
-R0: implemented; checkpoint not yet evaluated
-R1: implemented; one-step memory preflight pending
+R0: implemented; authoritative direct launch running/dispatched
+R1: implemented; H200 one-step preflight PASS; authoritative direct launch running/dispatched
 profile selection: held-out trajectory geometry, not training loss
 output correction: none
 ```
@@ -76,7 +77,8 @@ SIM_END_TO_END_VLA_WBC_CLOSED_LOOP_QUALIFIED: NOT_CLAIMED
 ROBOT_SPECIFIC_GR00T_TASK_PERFORMANCE_NOT_QUALIFIED
 ```
 
-The next action is to run the declared R1 one-step resource preflight, then
-matched R0/R1 training and held-out profile evaluation on an uncontended
-compatible GPU. If R1 cannot close the profile blocker, report that result
-directly rather than adding unplanned tuning variables.
+The next action is to complete the already-dispatched direct-launch H2
+R0/R1@50 comparison on the same H200/runtime/base/dataset, then run the
+strict three-seed validation/profile gates. If R1 cannot close the profile
+blocker, report that result directly rather than adding unplanned tuning
+variables.

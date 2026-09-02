@@ -2,6 +2,11 @@
 
 Date: 2026-09-01 (Asia/Singapore)
 
+> Historical packaging snapshot: this handoff records the original frozen
+> `deb920a` transfer package. H1 has since passed on H200 and H2 is
+> running/dispatched; current status and direct-launch audit rules are tracked
+> in `reports/STAGE22_H2_TOOLING.md` and the Stage22 PR ledger.
+
 ## Frozen handoff record
 
 ```text

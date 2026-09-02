@@ -16,6 +16,10 @@ The run-integrity auditor is
 It does not select a checkpoint and does not inspect the locked final-test
 split.
 
+The authoritative execution path invokes the frozen Stage20S launcher from
+commit `deb920a070141e6a32a88cd0da6719828647e1e6` directly for R0 and R1.
+The optional `stage22_train_recipes.py` wrapper is not required for this audit.
+
 ## Required invariants
 
 - exactly one full `r0` result and one full `r1` result;
@@ -24,6 +28,8 @@ split.
   `--local-files-only`;
 - exact train-only targets `red_target_train_a/b/c/d`;
 - identical base-model path and non-empty base index SHA256;
+- exact frozen base-model tree SHA256
+  `8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4`;
 - identical dataset path, deterministic dataset-tree SHA256, split-lock SHA256,
   and GR00T repository SHA;
 - `action_horizon=40` and identical test-only `0.05 s` action semantics;
@@ -32,6 +38,10 @@ split.
 - R1 trainable parameter count is `1,419,078,784`;
 - matching Python, CUDA, PyTorch, device identity, and total device memory;
 - a recorded GPU fingerprint with UUIDs is present for the H2 process.
+
+For the validation profile gate, the paired evaluator additionally requires
+the frozen validation snapshot lock, all inference seeds `2223`, `2224`, and
+`2225`, and the complete six-snapshot/five-overlap set.
 
 Failure of any required invariant yields `FAIL` and blocks the H2 scientific
 comparison. A successful integrity audit does not imply that either recipe

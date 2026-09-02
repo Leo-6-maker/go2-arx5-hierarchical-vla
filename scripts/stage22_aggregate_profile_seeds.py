@@ -8,6 +8,13 @@ import json
 from pathlib import Path
 from typing import Any
 
+from go2arx5_vla.data.stage22_snapshot_lock import (
+    EXPECTED_INFERENCE_SEEDS,
+    EXPECTED_VALIDATION_SNAPSHOT_IDS,
+    load_snapshot_lock,
+    snapshot_lock_file_sha256,
+)
+
 
 def _stats(values: list[float]) -> dict[str, float | int | None]:
     finite = sorted(float(value) for value in values if value is not None)
@@ -47,7 +54,12 @@ def _nested_values(records: list[dict[str, Any]], outer: str, inner: str) -> lis
     return values
 
 
-def _aggregate(inputs: list[Path], recipe: str) -> dict[str, Any]:
+def _aggregate(
+    inputs: list[Path],
+    recipe: str,
+    *,
+    snapshot_manifest_path: Path | None = None,
+) -> dict[str, Any]:
     payloads = [json.loads(path.read_text(encoding="utf-8")) for path in inputs]
     if not payloads:
         raise ValueError("at least one profile evaluation is required")
@@ -57,14 +69,38 @@ def _aggregate(inputs: list[Path], recipe: str) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     overlaps: list[dict[str, Any]] = []
     seed_rows = []
+    observed_seeds = []
+    snapshot_manifest_sha256 = None
+    snapshot_lock = None
+    if split == "validation":
+        if snapshot_manifest_path is None:
+            raise ValueError("validation aggregation requires the frozen snapshot lock path")
+        snapshot_lock_path = snapshot_manifest_path.resolve(strict=True)
+        snapshot_lock = load_snapshot_lock(snapshot_lock_path)
+        snapshot_manifest_sha256 = snapshot_lock_file_sha256(snapshot_lock_path)
     for path, payload in zip(inputs, payloads):
+        if payload.get("schema") != "STAGE22_ACTION_PROFILE_EVALUATION_V1":
+            raise ValueError("seed evaluations must use Stage22 action-profile manifests")
         if payload.get("split") != split or payload.get("recipe_model_path") != model_path:
             raise ValueError("seed evaluations must use the same model and split")
+        seed = int(payload.get("inference_seed"))
+        observed_seeds.append(seed)
+        if split == "validation":
+            if payload.get("snapshot_manifest_sha256") != snapshot_manifest_sha256:
+                raise ValueError("validation seed evaluation is not bound to the frozen snapshot lock")
         current_ids = {str(record.get("input_id")) for record in payload.get("records", [])}
+        if len(payload.get("records", [])) != len(current_ids):
+            raise ValueError("seed evaluation contains duplicate input snapshots")
         if input_ids is None:
             input_ids = current_ids
         elif current_ids != input_ids:
             raise ValueError("seed evaluations do not cover the same input snapshots")
+        expected_snapshot_ids = set(snapshot_lock["snapshot_ids"]) if snapshot_lock is not None else set(EXPECTED_VALIDATION_SNAPSHOT_IDS)
+        if split == "validation" and current_ids != expected_snapshot_ids:
+            raise ValueError("validation seed evaluations do not cover the frozen six snapshots")
+        expected_overlap_count = int(snapshot_lock["expected_overlap_count"]) if snapshot_lock is not None else len(EXPECTED_VALIDATION_SNAPSHOT_IDS) - 1
+        if split == "validation" and len(payload.get("chunk_overlap_metrics", [])) != expected_overlap_count:
+            raise ValueError("validation seed evaluations do not contain the frozen overlap count")
         current_records = payload.get("records", [])
         current_overlaps = payload.get("chunk_overlap_metrics", [])
         records.extend(current_records)
@@ -72,10 +108,15 @@ def _aggregate(inputs: list[Path], recipe: str) -> dict[str, Any]:
         seed_rows.append(
             {
                 "path": str(path),
-                "inference_seed": payload.get("inference_seed"),
+                "inference_seed": seed,
                 "snapshot_count": payload.get("snapshot_count"),
                 "safety_gate_decisions": payload.get("summary", {}).get("safety_gate_decisions"),
             }
+        )
+    if split == "validation" and tuple(sorted(observed_seeds)) != EXPECTED_INFERENCE_SEEDS:
+        raise ValueError(
+            "validation aggregation requires exactly inference seeds "
+            f"{list(EXPECTED_INFERENCE_SEEDS)}; observed={sorted(observed_seeds)}"
         )
     decisions = {decision: 0 for decision in ("ACCEPT", "WARN", "REJECT")}
     for record in records:
@@ -117,6 +158,8 @@ def _aggregate(inputs: list[Path], recipe: str) -> dict[str, Any]:
         "seed_count": len(inputs),
         "seeds": seed_rows,
         "snapshot_count_per_seed": len(input_ids or []),
+        "snapshot_manifest_sha256": snapshot_manifest_sha256,
+        "snapshot_ids": sorted(input_ids or []),
         "aggregate_record_count": len(records),
         "aggregate_overlap_count": len(overlaps),
         "summary": summary,
@@ -131,9 +174,14 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--inputs", type=Path, nargs="+", required=True)
     parser.add_argument("--recipe", required=True)
+    parser.add_argument(
+        "--snapshot-manifest",
+        type=Path,
+        help="frozen validation snapshot lock; required when split=validation",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    payload = _aggregate(args.inputs, args.recipe)
+    payload = _aggregate(args.inputs, args.recipe, snapshot_manifest_path=args.snapshot_manifest)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2))

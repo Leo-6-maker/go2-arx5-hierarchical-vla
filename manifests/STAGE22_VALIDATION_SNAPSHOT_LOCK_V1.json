@@ -1,0 +1,22 @@
+{
+  "schema": "STAGE22_VALIDATION_SNAPSHOT_LOCK_V1",
+  "status": "LOCKED_BEFORE_H2_INFERENCE",
+  "split": "validation",
+  "target_ids": [
+    "red_target_holdout_e"
+  ],
+  "snapshot_ids": [
+    "stage22_expert_red_target_holdout_e:expert-0000",
+    "stage22_expert_red_target_holdout_e:expert-0001",
+    "stage22_expert_red_target_holdout_e:expert-0002",
+    "stage22_expert_red_target_holdout_e:expert-0003",
+    "stage22_expert_red_target_holdout_e:expert-0004",
+    "stage22_expert_red_target_holdout_e:expert-0005"
+  ],
+  "snapshot_count": 6,
+  "expected_overlap_count": 5,
+  "snapshot_ids_sha256": "fccd590d0a585203d6ea0279a6ec253362ce44772ffc2aad3b929bdfefd82ae1",
+  "source": "Stage22 native same-scene expert collection; six replanning snapshots for red_target_holdout_e",
+  "target_position_excluded_from_model_input": true,
+  "final_test_f_is_not_in_validation": true
+}

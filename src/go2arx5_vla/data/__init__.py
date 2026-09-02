@@ -54,6 +54,14 @@ from .stage22_split import (
     split_lock_payload,
     validate_locked_target_universe,
 )
+from .stage22_snapshot_lock import (
+    EXPECTED_INFERENCE_SEEDS,
+    EXPECTED_VALIDATION_SNAPSHOT_IDS,
+    load_snapshot_lock,
+    snapshot_ids_sha256,
+    snapshot_lock_file_sha256,
+    validate_snapshot_lock,
+)
 
 __all__ = [
     "CAMERA_TIMESTAMP_LAYOUT",
@@ -97,4 +105,10 @@ __all__ = [
     "locked_target_ids",
     "split_lock_payload",
     "validate_locked_target_universe",
+    "EXPECTED_INFERENCE_SEEDS",
+    "EXPECTED_VALIDATION_SNAPSHOT_IDS",
+    "load_snapshot_lock",
+    "snapshot_ids_sha256",
+    "snapshot_lock_file_sha256",
+    "validate_snapshot_lock",
 ]

@@ -26,6 +26,7 @@ import torch
 from go2arx5_vla.contracts import TrajectoryChunkV1
 from go2arx5_vla.data.stage22_expert import SameSceneExpertSnapshotV1, load_snapshot
 from go2arx5_vla.data.stage22_split import locked_target_ids
+from go2arx5_vla.data.stage22_snapshot_lock import load_snapshot_lock, snapshot_lock_file_sha256
 from go2arx5_vla.metrics.action_profile import chunk_overlap_metrics, chunk_profile
 from go2arx5_vla.providers import GR00TProviderConfig, GR00TTrajectoryProvider
 from go2arx5_vla.safety import TrajectorySafetyGateV1
@@ -308,6 +309,11 @@ def main() -> int:
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument(
+        "--snapshot-manifest",
+        type=Path,
+        help="frozen validation snapshot lock; required for split=validation",
+    )
+    parser.add_argument(
         "--split", choices=("all", "train", "validation", "final_test", "holdout"), default="all"
     )
     parser.add_argument("--device", default="cuda:0")
@@ -321,7 +327,24 @@ def main() -> int:
     if args.output_dir.exists() and any(args.output_dir.iterdir()):
         parser.error(f"output directory is non-empty: {args.output_dir}")
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    snapshot_manifest_path = None
+    snapshot_manifest_sha256 = None
+    snapshot_manifest = None
+    if args.split == "validation":
+        if args.snapshot_manifest is None:
+            parser.error("--snapshot-manifest is required for validation profile evaluation")
+        snapshot_manifest_path = args.snapshot_manifest.resolve(strict=True)
+        snapshot_manifest = load_snapshot_lock(snapshot_manifest_path)
+        snapshot_manifest_sha256 = snapshot_lock_file_sha256(snapshot_manifest_path)
     snapshots_list = _load_snapshots(args.input_dir, args.split)
+    if snapshot_manifest is not None:
+        observed_snapshot_ids = {item.example_id for item in snapshots_list}
+        expected_snapshot_ids = set(snapshot_manifest["snapshot_ids"])
+        if observed_snapshot_ids != expected_snapshot_ids:
+            parser.error(
+                "validation snapshots do not equal the frozen snapshot lock: "
+                f"observed={sorted(observed_snapshot_ids)}, expected={sorted(expected_snapshot_ids)}"
+            )
     snapshots = {item.example_id: item for item in snapshots_list}
 
     sys.path.insert(0, str(args.stage10_root / "src" / "isaac-gr00t"))
@@ -420,6 +443,9 @@ def main() -> int:
         "recipe_model_path": str(args.model_path),
         "split": args.split,
         "inference_seed": int(args.seed),
+        "snapshot_manifest_path": None if snapshot_manifest_path is None else str(snapshot_manifest_path),
+        "snapshot_manifest_sha256": snapshot_manifest_sha256,
+        "snapshot_ids": [item.example_id for item in snapshots_list],
         "snapshot_count": len(snapshots_list),
         "target_count": len({item.target_id for item in snapshots_list}),
         "simulation_only": True,

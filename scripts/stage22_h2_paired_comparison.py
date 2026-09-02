@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from go2arx5_vla.data.stage22_snapshot_lock import load_snapshot_lock, snapshot_lock_file_sha256
 from go2arx5_vla.metrics.h2_paired import compare_h2_profile_payloads
 
 
@@ -48,9 +49,15 @@ def main() -> int:
     )
     parser.add_argument(
         "--expected-split",
-        choices=("validation", "final_test"),
+        choices=("validation",),
         required=True,
-        help="explicitly select the locked split being compared",
+        help="H2 profile selection is restricted to the locked validation split",
+    )
+    parser.add_argument(
+        "--snapshot-manifest",
+        type=Path,
+        required=True,
+        help="frozen Stage22 validation snapshot lock manifest",
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -59,19 +66,27 @@ def main() -> int:
 
     r0_payloads = _load(args.r0)
     r1_payloads = _load(args.r1)
+    snapshot_manifest_path = args.snapshot_manifest.resolve(strict=True)
+    snapshot_manifest = load_snapshot_lock(snapshot_manifest_path)
+    snapshot_manifest_sha256 = snapshot_lock_file_sha256(snapshot_manifest_path)
     payload = compare_h2_profile_payloads(
         r0_payloads,
         r1_payloads,
         expected_split=args.expected_split,
+        snapshot_manifest_path=str(snapshot_manifest_path),
+        snapshot_manifest_sha256=snapshot_manifest_sha256,
+        snapshot_manifest=snapshot_manifest,
         source_files={
             "r0": [f"{path}:{_sha256(path)}" for path in args.r0],
             "r1": [f"{path}:{_sha256(path)}" for path in args.r1],
+            "snapshot_manifest": [f"{snapshot_manifest_path}:{snapshot_manifest_sha256}"],
         },
     )
     payload["cli_contract"] = {
         "r0_input_count": len(args.r0),
         "r1_input_count": len(args.r1),
-        "final_test_requires_explicit_read": True,
+        "validation_only": True,
+        "required_inference_seeds": [2223, 2224, 2225],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
