@@ -94,13 +94,27 @@ training on Corelab.
 ```text
 H2_TOOLING: FROZEN
 H1_H200: PASS
-H2_H200_TRAINING: RUNNING_OR_DISPATCHED
-CORELAB_H2_TOOLING: HARDENED_DIRECT_LAUNCH_AUDIT; AWAITING_H2_ARTIFACT_AUDIT
-CORELAB_AUTHORITATIVE_POSTPROCESSING_GATE: NOT_YET_QUALIFIED_UNTIL_DIRECT_H2_AUDIT_PASS
+H2_H200_TRAINING: EXECUTED_AND_IMMUTABLY_AUDITED
+CORELAB_H2_TOOLING: AUTHORITATIVE_AUDIT_COMPLETE
+H2_GPU_PROVENANCE: SUPPORTED_WITH_FORMAT_DEVIATION
+H2_PROFILE_EVALUATOR_SEMANTICS: FROZEN
+CORELAB_AUTHORITATIVE_POSTPROCESSING_GATE: PASS_EXCEPT_LIVE_MODULE_INVENTORY
 CHECKPOINT_SELECTION: NOT_STARTED
 TRANSFER: NOT_STARTED
 ```
 
-No authoritative H2 bundle was present in the Corelab node-local intake at
-the time of this update. The next action is immutable-bundle intake and audit;
-H2 must not be rerun merely to manufacture post-hoc GPU evidence.
+The immutable 89-payload relay was audited under archive SHA256
+`77604a2dc2f9c436718139b950209943cf4c767fc7f0ae52e624f28a3c877661`.
+All non-module gates passed, including direct-launch identity, historical GPU
+provenance, exact three-seed/six-snapshot completeness, semantic-drift review,
+and independent BASE/R0/R1 profile recomputation. The strict role-level live
+`STAGE22_TRAINABLE_MODULE_INVENTORY_V1` remains absent; the relay's broad
+per-parameter inventory and trainable counts are retained as supporting
+evidence and are not silently promoted to the role-level gate.
+
+The profile result is non-qualifying for every recipe: BASE/R0/R1 each have
+18 records, 15 overlaps, and `0 ACCEPT / 0 WARN / 18 REJECT` SafetyGate
+decisions under the frozen TEST_ONLY profile criterion. R1@100/R1@200,
+checkpoint selection/transfer, holdout_f, WBC, and new inference remain
+unauthorized. A corrected live module probe is the only possible next audit
+action, and requires explicit PI authorization.

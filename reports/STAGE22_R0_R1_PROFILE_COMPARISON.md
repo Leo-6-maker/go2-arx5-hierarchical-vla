@@ -2,12 +2,13 @@
 
 ## Status
 
-The comparison is implemented but no model-profile result is claimed yet.
-The H200 R1 one-step gate has now passed and the authoritative H2 direct
-launch is running/dispatched. The earlier 16 GiB and 32 GiB Corelab failures
-remain non-authoritative resource evidence; no Corelab full model run was
-started. The training input is the locked train-only fixture, not the
-historical all-target loader fixture.
+The authoritative H2 direct-launch comparison and Corelab read-only audit are
+complete. The immutable relay audit status is
+`H2_AUDIT_PASS_EXCEPT_LIVE_MODULE_INVENTORY`; this single strict role-level
+inventory exception does not change the independently observed profile result.
+The earlier 16 GiB and 32 GiB Corelab failures remain non-authoritative
+resource evidence. The training input was the locked train-only fixture, not
+the historical all-target loader fixture.
 
 ## Pre-declared recipes
 
@@ -57,9 +58,30 @@ not real-robot safety limits.
 ## Current scientific status
 
 ```text
-MODEL_PROFILE_COMPARISON: NOT_YET_RUN
-DIFFUSION_ACTION_TUNING_DID_NOT_CLOSE_PROFILE_BLOCKER: NOT_ASSESSED
+MODEL_PROFILE_COMPARISON: AUTHORITATIVE_H2_AUDITED
+DIFFUSION_ACTION_TUNING_DID_NOT_CLOSE_PROFILE_BLOCKER: CONFIRMED_ON_TESTED_DISTRIBUTION
 H1_H200: PASS
-H2_H200: RUNNING_OR_DISPATCHED
-CORELAB_AUTHORITATIVE_GATE: READY_FOR_DIRECT_LAUNCH_ARTIFACT_AUDIT
+H2_H200: EXECUTED_AND_AUDITED
+H2_GPU_PROVENANCE: H2_GPU_PROVENANCE_SUPPORTED_WITH_FORMAT_DEVIATION
+H2_PROFILE_EVALUATOR_SEMANTICS: H2_PROFILE_EVALUATOR_SEMANTICS_FROZEN
+CORELAB_AUTHORITATIVE_GATE: PASS_EXCEPT_LIVE_MODULE_INVENTORY
+R1@100: NOT_AUTHORIZED
+R1@200: NOT_AUTHORIZED
+HOLDOUT_F: NOT_ACCESSED
+WBC: NOT_AUTHORIZED
 ```
+
+The audit independently reconstructed BASE, R0, and R1 from nine immutable
+profile logs: 18 records and 15 overlap transitions per recipe, paired across
+all seeds `2223/2224/2225` and the six locked `red_target_holdout_e`
+snapshots. R1 reduced median mean-position error to `0.075335 m` and median
+endpoint position error to `0.139669 m`, versus R0 `0.081892 m` and
+`0.156097 m`; however, R1 retained median path/mean-speed ratio `14.240`,
+max-speed ratio `32.036`, overlap p95 position error `0.205834 m`, and
+`0 ACCEPT / 0 WARN / 18 REJECT` SafetyGate decisions. No profile-qualification
+gate is met, so no checkpoint is selected and no bounded extension is
+authorized.
+
+The full summaries and required `BASE → R0`, `BASE → R1`, and `R0 → R1`
+paired deltas are in `reports/STAGE22_H2_AUTHORITATIVE_AUDIT.md` and the
+node-local machine-readable audit artifact.

@@ -1,12 +1,6 @@
 # Stage22 Final Report
 
-Date: 2026-09-01 (Asia/Singapore)
-
-> This report is an interim Stage22 record. The native expert/data gates and
-> H200 H1 optimizer-step gate are complete; the authoritative direct-launch
-> R0/R1 model-profile comparison is running/dispatched and remains unreported.
-> The train / validation / final-test split was locked before any GPU
-> inference.
+Date: 2026-09-03 (Asia/Singapore)
 
 ## A. Classification
 
@@ -14,71 +8,102 @@ Date: 2026-09-01 (Asia/Singapore)
 PASS WITH DEVIATION
 ```
 
-Completed: same-scene native expert supervision, on-policy replanning-point
-fixture generation, official loader/materialization qualification, CPU
-contract tests, and the H200 R1 one-step optimizer-step gate. Deviation: the
-authoritative direct-launch R0/R1 comparison is running/dispatched; the tested
-shared Corelab 16 GiB and 32 GiB devices failed the non-authoritative R1
-OOM/headroom gate. No model-profile result is claimed yet.
+Stage22 completed the simulation-only expert/data path, H200 R1 one-step
+qualification, direct R0/R1@50 training, and the immutable H2 authoritative
+audit. The remaining deviation is the missing strict live role-level
+`requires_grad` inventory. The action-profile blocker was not closed by R1@50.
 
-## B. Expert oracle and data
+## B. Completed gates
 
 ```text
-6 episodes, 36 snapshots, 144/144 native steps
-30 reference updates, 0 reset/fall/invalid events
-6/6 EXPERT_SAME_SCENE_RECEDING_HORIZON_PASS
+same-scene expert oracle:                 6/6 PASS
+native steps:                             144/144
+replanning snapshots:                     36
+official loader/processor:                PASS
+CPU regression before H2 audit:           76 passed
+H200 R1 one-step optimizer preflight:     PASS
+H2 immutable relay audit:                 PASS_EXCEPT_LIVE_MODULE_INVENTORY
 ```
 
-The labels are exact same-scene, current-state-conditioned desired EEF
-trajectories. `StateV1` is 10D; future labels are desired EEF `[40,9]` plus
-gripper `[40,1]`. Achieved EEF remains an audit stream, never the training
-label. Target positions are excluded from model input.
+The relay contained 89 hashed payloads and no credentials, checkpoint weights,
+`holdout_f`, WBC, hardware, ROS, ZMQ, or PolicyServer artifacts.
 
-## C. Materialization and official path
+## C. Frozen H2 identity and provenance
 
-The historical all-target loader fixture has 36 one-window H=40 episodes and
-is explicitly marked `FULL_FIXTURE_NOT_FOR_TRAINING`. The locked training
-fixture is a separate train-only materialization with 24 one-window H=40
-episodes from `red_target_train_a/b/c/d`; validation is only
-`red_target_holdout_e`, and final test is only `red_target_holdout_f`. The
-official episode loader, single-step dataset, collator, and N1.7 processor
-passed on the train-only fixture with finite `[1,40,132]` universal and
-`[1,40,10]` decoded physical action shapes; round-trip max error was
-`3.584885e-08`. No training occurred in this gate.
+R0 and R1 used the direct frozen Stage20S launcher at source commit
+`deb920a070141e6a32a88cd0da6719828647e1e6`, GR00T
+`51d4c89f72fda44cbf77285c6a8114b52676b8a1`, seed `2222`, 50 optimizer steps,
+H=40, learning rate `1e-4`, and `0.05 s` TEST_ONLY timing. Base tree, train
+fixture, split lock, modality, and Cosmos revision/tree matched their frozen
+SHA256 identities.
 
-The tracked lock is `manifests/STAGE22_TARGET_SPLIT_LOCK_V1.json`; the
-training launcher rejects any dataset without a matching train-only sidecar.
-
-## D. R0/R1 model profile gate
+Historical GPU provenance is:
 
 ```text
-R0: implemented; authoritative direct launch running/dispatched
-R1: implemented; H200 one-step preflight PASS; authoritative direct launch running/dispatched
-profile selection: held-out trajectory geometry, not training loss
-output correction: none
+H2_GPU_PROVENANCE_SUPPORTED_WITH_FORMAT_DEVIATION
+NVIDIA H200 / GPU-39c00fb9-0eea-3abd-2727-2027667f3f44
+hopper-12 / 597351.hopper-m-02
 ```
 
-Required metrics are mean/median/p95/max position and rotation error,
-endpoint error, predicted/expert path-length ratio, speed ratios, roughness,
-initial jump, SafetyGate, and full common-future overlap inconsistency.
+The result is recovered from immutable log, PBS template, projection, and
+accounting artifacts. No present-time GPU query was used. The projection
+dropped only the extra `memory.used` column; the source and projection hashes
+remain recorded in the authoritative audit.
 
-## E. Visual conditioning
+## D. H2 profile result
 
-The counterfactual evaluator is implemented for same-state, same-language,
-different-target native images. Until R0/R1 results are available, the only
-permitted interpretation is `RGB_SENSITIVITY_ONLY`, not visual grounding.
+The audit recovered BASE/R0/R1 × seeds `2223/2224/2225`, with six locked
+`red_target_holdout_e` snapshots and five overlap transitions per seed. Each
+recipe has 18 records and 15 overlaps, finite `[1,40,132]` universal output,
+and `[1,40,10]` decoded output.
 
-## F. Claim boundary and next gate
+| recipe | median mean position error | median endpoint position error | median path ratio | median max-speed ratio | median overlap p95 position | SafetyGate |
+|---|---:|---:|---:|---:|---:|---|
+| BASE | 0.088798 m | 0.175516 m | 15.007 | 32.759 | 0.190152 m | 0/0/18 REJECT |
+| R0 | 0.081892 m | 0.156097 m | 14.486 | 32.320 | 0.199327 m | 0/0/18 REJECT |
+| R1 | 0.075335 m | 0.139669 m | 14.240 | 32.036 | 0.205834 m | 0/0/18 REJECT |
+
+R1 improves positional and endpoint medians versus R0 and BASE, but retains
+the excessive future-motion profile and overlap inconsistency. The scientific
+result is:
 
 ```text
-ASYNC_RUNTIME_NOT_QUALIFIED
-SIM_MODEL_PROFILE_BLOCKER: NOT_YET_RETESTED
-SIM_END_TO_END_VLA_WBC_CLOSED_LOOP_QUALIFIED: NOT_CLAIMED
-ROBOT_SPECIFIC_GR00T_TASK_PERFORMANCE_NOT_QUALIFIED
+DIFFUSION_ACTION_TUNING_DID_NOT_CLOSE_PROFILE_BLOCKER
 ```
 
-The next action is to complete the already-dispatched direct-launch H2
-R0/R1@50 comparison on the same H200/runtime/base/dataset, then run the
-strict three-seed validation/profile gates. If R1 cannot close the profile
-blocker, report that result directly rather than adding unplanned tuning
-variables.
+The complete median/p95/max summaries and paired `BASE → R0`, `BASE → R1`,
+and `R0 → R1` deltas are in
+`reports/STAGE22_H2_AUTHORITATIVE_AUDIT.md`.
+
+## E. Audit exception
+
+The relay contains a broad per-parameter `requires_grad` inventory with 1030
+rows and internally consistent counts:
+
+```text
+R0: 327,356,544 trainable parameters
+R1: 1,419,078,784 trainable parameters
+```
+
+It does not contain the separately frozen seven-role
+`STAGE22_TRAINABLE_MODULE_INVENTORY_V1`. The audit does not infer that
+role-level gate from grouped names. The failed `597644` probe was an offline
+Cosmos-cache failure before model construction and did no compute.
+
+## F. Stop and next gate
+
+```text
+H2_AUDIT_PASS_EXCEPT_LIVE_MODULE_INVENTORY
+R1@100: NOT AUTHORIZED
+R1@200: NOT AUTHORIZED
+CHECKPOINT_SELECTION: NOT PERFORMED
+CHECKPOINT_TRANSFER: NOT PERFORMED
+HOLDOUT_F_ACCESSED: false
+WBC: NOT AUTHORIZED
+ASYNC_RUNTIME: NOT QUALIFIED
+```
+
+No actual-model rerun or WBC execution follows this audit. A single bounded
+corrected-HF-cache live module-inventory probe can be considered only after
+explicit PI authorization and only because it is the sole remaining audit
+gate.
