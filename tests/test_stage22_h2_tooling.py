@@ -543,7 +543,7 @@ def test_probe_and_pbs_bind_the_frozen_direct_launcher() -> None:
         Path(__file__).parents[1] / "hpc" / "pbs" / "stage22_h200_r0_r1_50.pbs"
     ).read_text(encoding="utf-8")
     assert "stage20s_train_gr00t.py" in pbs
-    assert "stage22_train_recipes.py" not in pbs
+    assert "python scripts/stage22_train_recipes.py" not in pbs
     assert "--local-files-only" in pbs
     assert "--r1-preflight-steps" not in pbs
 
