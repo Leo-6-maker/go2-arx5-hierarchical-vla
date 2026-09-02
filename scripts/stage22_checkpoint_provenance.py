@@ -129,8 +129,10 @@ def _validate_global_step_evidence(path: Path, *, checkpoint: Path) -> dict[str,
     path = path.resolve(strict=True)
     try:
         path.relative_to(checkpoint.resolve(strict=True))
-    except ValueError as exc:
-        raise ValueError("global-step evidence must be inside the checkpoint root") from exc
+    except ValueError:
+        pass
+    else:
+        raise ValueError("global-step evidence must remain outside the raw checkpoint tree")
     payload = _load(path)
     if payload.get("schema") != "STAGE22_CHECKPOINT_GLOBAL_STEP_EVIDENCE_V1":
         raise ValueError("global-step evidence has an unexpected schema")
@@ -188,6 +190,18 @@ def seal_checkpoint(
 
     global_step_payload = _validate_global_step_evidence(global_step_evidence, checkpoint=checkpoint)
     lineage_payload = _validate_lineage(lineage_manifest)
+    run_manifest_sha256 = _sha256_file(run_manifest, {})
+    source_run_manifest_sha256 = lineage_payload["lineage"].get("source_run_manifest_sha256")
+    if not isinstance(source_run_manifest_sha256, Mapping) or source_run_manifest_sha256.get(recipe) != run_manifest_sha256:
+        raise ValueError(
+            "checkpoint run manifest SHA256 does not match the selected recipe lineage"
+        )
+    try:
+        output.resolve().relative_to(checkpoint)
+    except ValueError:
+        pass
+    else:
+        raise ValueError("checkpoint provenance output must remain outside the raw checkpoint tree")
 
     entries, digest_cache = _walk(checkpoint)
     credential_paths = _credential_paths(entries)
@@ -219,7 +233,7 @@ def seal_checkpoint(
             "token_content_read": False,
         },
         "source_run_manifest": {
-            "sha256": _sha256_file(run_manifest, digest_cache),
+            "sha256": run_manifest_sha256,
             "path_recorded": str(run_manifest),
             "groot_repo_sha": run.get("groot_repo_sha"),
             "base_model_index_sha256": run.get("base_model_index_sha256"),
@@ -233,6 +247,7 @@ def seal_checkpoint(
             "sha256": _sha256_file(global_step_evidence.resolve(), digest_cache),
             "schema": global_step_payload.get("schema"),
             "global_step": global_step_payload.get("global_step"),
+            "outside_raw_checkpoint_tree": True,
         },
         "lineage_manifest": {
             "path_recorded": str(lineage_manifest.resolve()),

@@ -18,12 +18,23 @@ from scripts.stage22_audit_h2_direct_launch import (
     EXPECTED_COSMOS_REPO_ID,
     EXPECTED_COSMOS_REVISION,
     EXPECTED_COSMOS_TREE_SHA256,
+    FROZEN_LAUNCHER_FILE_SHA256,
+    EXPECTED_GROOT_REPO_SHA,
+    EXPECTED_INVENTORY_COLLECTION_METHOD,
+    EXPECTED_INVENTORY_MODEL_CONSTRUCTION,
+    EXPECTED_MODALITY_CONFIG_SHA256,
+    EXPECTED_SPLIT_LOCK_SHA256,
+    EXPECTED_TRAIN_FIXTURE_TREE_SHA256,
     FROZEN_LAUNCHER_GIT_SHA,
     audit_direct_h2,
 )
 from scripts.stage22_audit_h2_run_integrity import audit_h2_run
 from scripts.stage22_aggregate_profile_seeds import _aggregate
 from scripts.stage22_checkpoint_provenance import seal_checkpoint, verify_checkpoint
+from scripts.stage22_capture_gpu_evidence import validate_gpu_evidence
+from scripts.stage22_probe_trainable_modules import (
+    FROZEN_LAUNCHER_FILE_SHA256 as PROBE_LAUNCHER_FILE_SHA256,
+)
 
 
 def _stats(value: float) -> dict[str, float]:
@@ -93,6 +104,40 @@ def _snapshot_manifest() -> dict:
         "expected_overlap_count": 5,
         "snapshot_ids_sha256": snapshot_ids_sha256(snapshot_ids),
     }
+
+
+def _write_gpu_evidence(tmp_path: Path, recipe: str) -> tuple[Path, str]:
+    device = {
+        "index": 0,
+        "name": "NVIDIA H200",
+        "uuid": "GPU-test",
+        "memory_total_mib": 146432,
+    }
+    path = tmp_path / f"{recipe.lower()}_gpu_evidence.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema": "STAGE22_GPU_EVIDENCE_V1",
+                "status": "PASS",
+                "source": "nvidia-smi",
+                "command": [
+                    "nvidia-smi",
+                    "--query-gpu=index,name,uuid,memory.total",
+                    "--format=csv,noheader,nounits",
+                ],
+                "query": "index,name,uuid,memory.total",
+                "hostname": "hopper-h200-test",
+                "captured_utc": "2026-09-02T12:00:00+00:00",
+                "cuda_visible_devices": "0",
+                "devices": [device],
+                "selected_device": device,
+                "raw_stdout_sha256": "f" * 64,
+                "contains_credentials": False,
+            }
+        ),
+        encoding="utf-8",
+    )
+    return path, hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def test_h2_paired_comparison_aligns_snapshot_and_seed_and_emits_deltas() -> None:
@@ -323,6 +368,7 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
         run["base_model_path"] = "/base"
         run["dataset_dir"] = "/train"
         run["modality_config"] = "/modality.py"
+        run["groot_repo_sha"] = EXPECTED_GROOT_REPO_SHA
         run["runtime"] = {"python": runtime["python"], "cuda_visible_devices": "0"}
         run["cuda_telemetry"]["device_name"] = runtime["device_name"]
         run["cuda_telemetry"]["torch_version"] = runtime["torch"]
@@ -331,6 +377,7 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
         run_path.write_text(json.dumps(run), encoding="utf-8")
         runs[recipe] = run_path
         run_sha = hashlib.sha256(run_path.read_bytes()).hexdigest()
+        gpu_evidence_path, gpu_evidence_sha = _write_gpu_evidence(tmp_path, recipe)
 
         counts = {
             "projector": 100,
@@ -348,13 +395,44 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
             "status": "PASS",
             "recipe": recipe,
             "source_run_manifest_sha256": run_sha,
+            "collection_method": EXPECTED_INVENTORY_COLLECTION_METHOD,
+            "model_construction": EXPECTED_INVENTORY_MODEL_CONSTRUCTION,
+            "frozen_launcher_git_sha": FROZEN_LAUNCHER_GIT_SHA,
+            "base_model_path": "/base",
+            "base_model_index_sha256": "a" * 64,
+            "parameter_inventory_digest_sha256": "p" * 64,
+            "config_flags": {
+                "tune_projector": True,
+                "tune_diffusion_model": recipe == "R1",
+                "tune_visual": False,
+                "tune_llm": False,
+                "tune_vlln": False,
+            },
+            "coverage": {
+                "complete": True,
+                "unassigned_parameter_count": 0,
+                "overlapping_parameter_count": 0,
+            },
+            "source": {
+                "probe_script": "stage22_probe_trainable_modules.py",
+                "probe_schema": "STAGE22_TRAINABLE_MODULE_INVENTORY_V1",
+                "launcher_file_sha256": FROZEN_LAUNCHER_FILE_SHA256,
+                "no_forward": True,
+                "no_backward": True,
+                "no_optimizer_step": True,
+                "no_inference": True,
+                "no_training": True,
+            },
             "modules": [
                 {
                     "role": role,
                     "name": f"model.{role}",
                     "all_requires_grad": role in ({"projector", "state", "action"} | ({"diffusion"} if recipe == "R1" else set())),
                     "parameter_count": count,
+                    "requires_grad_parameter_count": count if role in ({"projector", "state", "action"} | ({"diffusion"} if recipe == "R1" else set())) else 0,
                     "trainable_parameter_count": count if role in ({"projector", "state", "action"} | ({"diffusion"} if recipe == "R1" else set())) else 0,
+                    "parameter_names_sha256": "q" * 64,
+                    "requires_grad_state_sha256": "r" * 64,
                 }
                 for role, count in counts.items()
             ],
@@ -385,6 +463,8 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
             "module_inventory": str(inventory_path),
             "module_inventory_sha256": hashlib.sha256(inventory_path.read_bytes()).hexdigest(),
             "gpu_uuid": "GPU-test",
+            "gpu_evidence": str(gpu_evidence_path),
+            "gpu_evidence_sha256": gpu_evidence_sha,
         }
 
     provenance = {
@@ -402,10 +482,10 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
         "action_sample_period_provenance": "TEST_ONLY_SIM_VISUAL_REACH_V0",
         "local_files_only": True,
         "base_model_tree_sha256": EXPECTED_BASE_MODEL_TREE_SHA256,
-        "train_fixture_tree_sha256": "c" * 64,
-        "split_lock_sha256": "d" * 64,
-        "modality_config_sha256": "e" * 64,
-        "groot_repo_sha": "b" * 40,
+        "train_fixture_tree_sha256": EXPECTED_TRAIN_FIXTURE_TREE_SHA256,
+        "split_lock_sha256": EXPECTED_SPLIT_LOCK_SHA256,
+        "modality_config_sha256": EXPECTED_MODALITY_CONFIG_SHA256,
+        "groot_repo_sha": EXPECTED_GROOT_REPO_SHA,
         "cosmos": {
             "repo_id": EXPECTED_COSMOS_REPO_ID,
             "resolved_snapshot_revision": EXPECTED_COSMOS_REVISION,
@@ -434,6 +514,38 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
     )
     assert result["status"] == "PASS", result["blocking_checks"]
     assert all(result["required_gate_labels"].values())
+
+    provenance["train_fixture_tree_sha256"] = "x" * 64
+    provenance_path.write_text(json.dumps(provenance), encoding="utf-8")
+    drift_result = audit_direct_h2(
+        r0_run_path=runs["R0"],
+        r1_run_path=runs["R1"],
+        execution_provenance_path=provenance_path,
+        validation_snapshot_manifest_path=snapshot_lock_path,
+    )
+    assert drift_result["status"] == "FAIL"
+    assert "TRAIN_FIXTURE_TREE_HASH_GATE" in drift_result["blocking_checks"]
+
+
+def test_gpu_evidence_validator_rejects_tampered_device_row(tmp_path: Path) -> None:
+    path, _ = _write_gpu_evidence(tmp_path, "R0")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    validate_gpu_evidence(payload)
+    payload["selected_device"]["memory_total_mib"] += 1
+    with pytest.raises(ValueError, match="selected_device"):
+        validate_gpu_evidence(payload)
+
+
+def test_probe_and_pbs_bind_the_frozen_direct_launcher() -> None:
+    launcher = Path(__file__).parents[1] / "scripts" / "stage20s_train_gr00t.py"
+    assert hashlib.sha256(launcher.read_bytes()).hexdigest() == PROBE_LAUNCHER_FILE_SHA256
+    pbs = (
+        Path(__file__).parents[1] / "hpc" / "pbs" / "stage22_h200_r0_r1_50.pbs"
+    ).read_text(encoding="utf-8")
+    assert "stage20s_train_gr00t.py" in pbs
+    assert "stage22_train_recipes.py" not in pbs
+    assert "--local-files-only" in pbs
+    assert "--r1-preflight-steps" not in pbs
 
 
 def test_direct_launch_audit_rejects_base_path_drift(tmp_path: Path) -> None:
@@ -538,7 +650,7 @@ def test_checkpoint_provenance_seal_and_verify(tmp_path: Path) -> None:
     checkpoint.mkdir()
     (checkpoint / "config.json").write_text("{\"step\":50}\n", encoding="utf-8")
     (checkpoint / "model.safetensors").write_bytes(b"synthetic-checkpoint")
-    global_step_evidence = checkpoint / "trainer_state.json"
+    global_step_evidence = tmp_path / "checkpoint-50.global_step_evidence.json"
     global_step_evidence.write_text(
         json.dumps(
             {
@@ -553,6 +665,7 @@ def test_checkpoint_provenance_seal_and_verify(tmp_path: Path) -> None:
     log_path.write_text("Trainable parameters: 123,456 (x)\n", encoding="utf-8")
     run_manifest = tmp_path / "run_manifest.json"
     run_manifest.write_text(json.dumps(_run_manifest(recipe="R0", log_path=log_path)), encoding="utf-8")
+    run_manifest_sha256 = hashlib.sha256(run_manifest.read_bytes()).hexdigest()
     lineage_manifest = tmp_path / "h2_direct_audit.json"
     lineage_manifest.write_text(
         json.dumps(
@@ -568,7 +681,7 @@ def test_checkpoint_provenance_seal_and_verify(tmp_path: Path) -> None:
                     "groot_repo_sha": "e" * 40,
                     "cosmos_snapshot_revision": "f" * 40,
                     "cosmos_tree_sha256": "g" * 64,
-                    "source_run_manifest_sha256": {"R0": "h" * 64, "R1": "i" * 64},
+                    "source_run_manifest_sha256": {"R0": run_manifest_sha256, "R1": "i" * 64},
                     "checkpoint_tree_sha256": None,
                 },
             }
@@ -587,6 +700,21 @@ def test_checkpoint_provenance_seal_and_verify(tmp_path: Path) -> None:
     assert sealed["status"] == "SEALED_FOR_HASH_VERIFICATION"
     assert sealed["selection_status"] == "CANDIDATE_NOT_SELECTED"
     assert sealed["transfer_performed"] is False
+    assert sealed["global_step_evidence"]["outside_raw_checkpoint_tree"] is True
+    assert all("global_step_evidence" not in entry["path"] for entry in sealed["entries"])
     assert verify_checkpoint(checkpoint, provenance_path)["status"] == "PASS"
+    mismatched_lineage = json.loads(lineage_manifest.read_text(encoding="utf-8"))
+    mismatched_lineage["lineage"]["source_run_manifest_sha256"]["R0"] = "z" * 64
+    mismatched_lineage_path = tmp_path / "h2_direct_audit_mismatch.json"
+    mismatched_lineage_path.write_text(json.dumps(mismatched_lineage), encoding="utf-8")
+    with pytest.raises(ValueError, match="does not match"):
+        seal_checkpoint(
+            checkpoint,
+            run_manifest=run_manifest,
+            recipe="R0",
+            output=tmp_path / "mismatch.provenance.json",
+            global_step_evidence=global_step_evidence,
+            lineage_manifest=mismatched_lineage_path,
+        )
     (checkpoint / "model.safetensors").write_bytes(b"changed")
     assert verify_checkpoint(checkpoint, provenance_path)["status"] == "FAIL"

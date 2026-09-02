@@ -19,9 +19,18 @@ from go2arx5_vla.data.stage22_snapshot_lock import (
     load_snapshot_lock,
     snapshot_lock_file_sha256,
 )
+try:
+    from scripts.stage22_capture_gpu_evidence import validate_gpu_evidence
+except ImportError:  # direct ``python scripts/...`` execution
+    from stage22_capture_gpu_evidence import validate_gpu_evidence
 
 
 FROZEN_LAUNCHER_GIT_SHA = "deb920a070141e6a32a88cd0da6719828647e1e6"
+FROZEN_LAUNCHER_FILE_SHA256 = "f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2"
+EXPECTED_GROOT_REPO_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+EXPECTED_TRAIN_FIXTURE_TREE_SHA256 = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
+EXPECTED_MODALITY_CONFIG_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+EXPECTED_SPLIT_LOCK_SHA256 = "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246"
 EXPECTED_BASE_MODEL_TREE_SHA256 = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 EXPECTED_R1_TRAINABLE_PARAMETERS = 1_419_078_784
 EXPECTED_TRAINING_SEED = 2222
@@ -31,6 +40,8 @@ EXPECTED_LEARNING_RATE = 1e-4
 EXPECTED_ACTION_HORIZON = 40
 EXPECTED_ACTION_PERIOD_S = 0.05
 EXPECTED_ACTION_PERIOD_PROVENANCE = "TEST_ONLY_SIM_VISUAL_REACH_V0"
+EXPECTED_INVENTORY_COLLECTION_METHOD = "live_model_named_parameters"
+EXPECTED_INVENTORY_MODEL_CONSTRUCTION = "FROZEN_STAGE20S_PIPELINE_CREATE_MODEL"
 EXPECTED_COSMOS_REPO_ID = "nvidia/Cosmos-Reason2-2B"
 EXPECTED_COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 EXPECTED_COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
@@ -152,11 +163,45 @@ def _module_inventory_check(
     recipe: str,
     inventory: Mapping[str, Any],
     run_manifest_sha256: str,
+    expected_base_model_path: str | None,
+    expected_base_model_index_sha256: str | None,
 ) -> None:
     _check(checks, f"{recipe}_inventory_schema", inventory.get("schema") == "STAGE22_TRAINABLE_MODULE_INVENTORY_V1", inventory.get("schema"), "STAGE22_TRAINABLE_MODULE_INVENTORY_V1")
     _check(checks, f"{recipe}_inventory_status", inventory.get("status") == "PASS", inventory.get("status"), "PASS")
     _check(checks, f"{recipe}_inventory_recipe", inventory.get("recipe") == recipe, inventory.get("recipe"), recipe)
     _check(checks, f"{recipe}_inventory_source_manifest", inventory.get("source_run_manifest_sha256") == run_manifest_sha256, inventory.get("source_run_manifest_sha256"), run_manifest_sha256)
+    _check(checks, f"{recipe}_inventory_collection_method", inventory.get("collection_method") == EXPECTED_INVENTORY_COLLECTION_METHOD, inventory.get("collection_method"), EXPECTED_INVENTORY_COLLECTION_METHOD)
+    _check(checks, f"{recipe}_inventory_model_construction", inventory.get("model_construction") == EXPECTED_INVENTORY_MODEL_CONSTRUCTION, inventory.get("model_construction"), EXPECTED_INVENTORY_MODEL_CONSTRUCTION)
+    _check(checks, f"{recipe}_inventory_launcher_commit", inventory.get("frozen_launcher_git_sha") == FROZEN_LAUNCHER_GIT_SHA, inventory.get("frozen_launcher_git_sha"), FROZEN_LAUNCHER_GIT_SHA)
+    _check(checks, f"{recipe}_inventory_base_path", expected_base_model_path is None or inventory.get("base_model_path") == expected_base_model_path, inventory.get("base_model_path"), expected_base_model_path or "same as run manifest")
+    _check(checks, f"{recipe}_inventory_base_index", expected_base_model_index_sha256 is None or inventory.get("base_model_index_sha256") == expected_base_model_index_sha256, inventory.get("base_model_index_sha256"), expected_base_model_index_sha256 or "same as run manifest")
+    inventory_digest = inventory.get("parameter_inventory_digest_sha256")
+    _check(checks, f"{recipe}_inventory_parameter_digest", isinstance(inventory_digest, str) and len(inventory_digest) == 64, inventory_digest, "non-empty SHA256")
+    source = inventory.get("source") if isinstance(inventory.get("source"), Mapping) else {}
+    _check(
+        checks,
+        f"{recipe}_inventory_probe_evidence",
+        source.get("probe_script") == "stage22_probe_trainable_modules.py"
+        and source.get("probe_schema") == "STAGE22_TRAINABLE_MODULE_INVENTORY_V1"
+        and source.get("launcher_file_sha256") == FROZEN_LAUNCHER_FILE_SHA256
+        and source.get("no_forward") is True
+        and source.get("no_backward") is True
+        and source.get("no_optimizer_step") is True
+        and source.get("no_inference") is True
+        and source.get("no_training") is True,
+        source,
+        "read-only live model-construction probe evidence",
+    )
+    expected_flags = {
+        "tune_projector": True,
+        "tune_diffusion_model": recipe == "R1",
+        "tune_visual": False,
+        "tune_llm": False,
+        "tune_vlln": False,
+    }
+    _check(checks, f"{recipe}_inventory_config_flags", inventory.get("config_flags") == expected_flags, inventory.get("config_flags"), expected_flags)
+    coverage = inventory.get("coverage") if isinstance(inventory.get("coverage"), Mapping) else {}
+    _check(checks, f"{recipe}_inventory_coverage", coverage.get("complete") is True and coverage.get("unassigned_parameter_count") == 0 and coverage.get("overlapping_parameter_count") == 0, coverage, "complete non-overlapping parameter coverage")
     modules = inventory.get("modules")
     by_role = {
         item.get("role"): item
@@ -178,17 +223,25 @@ def _module_inventory_check(
         item = by_role.get(role, {})
         expected = role in expected_trainable
         count = item.get("trainable_parameter_count")
+        requires_grad_count = item.get("requires_grad_parameter_count")
         role_checks.append(
             item.get("name")
             and item.get("all_requires_grad") is expected
             and isinstance(item.get("parameter_count"), int)
             and item.get("parameter_count") >= 0
             and isinstance(count, int)
+            and isinstance(requires_grad_count, int)
+            and requires_grad_count == count
+            and count <= item.get("parameter_count", -1)
+            and isinstance(item.get("parameter_names_sha256"), str)
+            and len(item.get("parameter_names_sha256")) == 64
+            and isinstance(item.get("requires_grad_state_sha256"), str)
+            and len(item.get("requires_grad_state_sha256")) == 64
             and ((count > 0) if expected else count == 0)
         )
     _check(checks, f"{recipe}_inventory_requires_grad_roles", all(role_checks), {role: by_role.get(role) for role in EXPECTED_MODULE_ROLES}, "role-level requires_grad matches recipe")
     total = inventory.get("total_trainable_parameters")
-    sum_count = sum(int(item.get("trainable_parameter_count", 0)) for item in by_role.values() if isinstance(item.get("trainable_parameter_count"), int))
+    sum_count = sum(int(item.get("requires_grad_parameter_count", 0)) for item in by_role.values() if isinstance(item.get("requires_grad_parameter_count"), int))
     expected_total = EXPECTED_R1_TRAINABLE_PARAMETERS if recipe == "R1" else sum_count
     _check(checks, f"{recipe}_inventory_total_count", total == sum_count and (recipe != "R1" or total == expected_total), total, expected_total if recipe == "R1" else "sum of module counts")
 
@@ -223,15 +276,13 @@ def audit_direct_h2(
     _check(checks, "VALIDATION_SNAPSHOT_COMPLETENESS_GATE", provenance.get("validation_snapshot_ids") == lock.get("snapshot_ids") and lock.get("snapshot_count") == 6 and lock.get("expected_overlap_count") == 5, provenance.get("validation_snapshot_ids"), lock.get("snapshot_ids"))
 
     _check(checks, "BASE_TREE_HASH_GATE", provenance.get("base_model_tree_sha256") == EXPECTED_BASE_MODEL_TREE_SHA256, provenance.get("base_model_tree_sha256"), EXPECTED_BASE_MODEL_TREE_SHA256)
-    train_tree = provenance.get("train_fixture_tree_sha256")
-    _check(checks, "train_fixture_tree_hash_present", isinstance(train_tree, str) and len(train_tree) == 64, train_tree, "non-empty SHA256")
-    _check(checks, "modality_hash_present", isinstance(provenance.get("modality_config_sha256"), str) and len(provenance.get("modality_config_sha256")) == 64, provenance.get("modality_config_sha256"), "non-empty SHA256")
-    _check(checks, "split_lock_hash_present", isinstance(provenance.get("split_lock_sha256"), str) and len(provenance.get("split_lock_sha256")) == 64, provenance.get("split_lock_sha256"), "non-empty SHA256")
+    _check(checks, "TRAIN_FIXTURE_TREE_HASH_GATE", provenance.get("train_fixture_tree_sha256") == EXPECTED_TRAIN_FIXTURE_TREE_SHA256, provenance.get("train_fixture_tree_sha256"), EXPECTED_TRAIN_FIXTURE_TREE_SHA256)
+    _check(checks, "SPLIT_LOCK_HASH_GATE", provenance.get("split_lock_sha256") == EXPECTED_SPLIT_LOCK_SHA256, provenance.get("split_lock_sha256"), EXPECTED_SPLIT_LOCK_SHA256)
+    _check(checks, "MODALITY_CONFIG_HASH_GATE", provenance.get("modality_config_sha256") == EXPECTED_MODALITY_CONFIG_SHA256, provenance.get("modality_config_sha256"), EXPECTED_MODALITY_CONFIG_SHA256)
     expected_groot_sha = provenance.get("groot_repo_sha")
-    _check(checks, "groot_sha_present", isinstance(expected_groot_sha, str) and len(expected_groot_sha) == 40, expected_groot_sha, "40-character SHA")
+    _check(checks, "GROOT_REPO_SHA_GATE", expected_groot_sha == EXPECTED_GROOT_REPO_SHA, expected_groot_sha, EXPECTED_GROOT_REPO_SHA)
 
     gpu = provenance.get("gpu") if isinstance(provenance.get("gpu"), Mapping) else {}
-    _check(checks, "SAME_GPU_UUID_GATE", bool(gpu.get("uuid")) and gpu.get("r0_uuid") == gpu.get("r1_uuid") == gpu.get("uuid"), {key: gpu.get(key) for key in ("uuid", "r0_uuid", "r1_uuid")}, "one shared UUID")
     runtime = provenance.get("runtime") if isinstance(provenance.get("runtime"), Mapping) else {}
     _check(checks, "same_runtime_identity", all(runtime.get(key) is not None for key in ("python", "torch", "cuda", "device_name", "memory_total_mib")), runtime, "complete runtime identity")
 
@@ -240,6 +291,77 @@ def audit_direct_h2(
     run_hashes: dict[str, str] = {}
     commands: dict[str, list[str]] = {}
     provenance_runs = provenance.get("runs") if isinstance(provenance.get("runs"), Mapping) else {}
+    gpu_evidence: dict[str, dict[str, Any]] = {}
+    gpu_evidence_paths: dict[str, str] = {}
+    for recipe in ("R0", "R1"):
+        record = provenance_runs.get(recipe) if isinstance(provenance_runs, Mapping) else {}
+        record = record if isinstance(record, Mapping) else {}
+        evidence_value = record.get("gpu_evidence")
+        evidence_sha = record.get("gpu_evidence_sha256")
+        observed_sha = None
+        evidence = None
+        evidence_error = None
+        try:
+            if not evidence_value:
+                raise ValueError("gpu_evidence path is missing")
+            evidence_path = _resolve(evidence_value, base=provenance_root).resolve(strict=True)
+            gpu_evidence_paths[recipe] = str(evidence_path)
+            evidence = validate_gpu_evidence(_load_json(evidence_path))
+            observed_sha = _sha256(evidence_path)
+            gpu_evidence[recipe] = evidence
+        except (OSError, TypeError, ValueError, KeyError) as exc:
+            evidence_error = f"{type(exc).__name__}: {str(exc).splitlines()[0]}"
+        _check(checks, f"{recipe}_gpu_evidence_hash", evidence is not None and evidence_sha == observed_sha, evidence_sha or evidence_error, observed_sha or "hash of valid evidence artifact")
+        _check(checks, f"{recipe}_gpu_evidence_valid", evidence is not None, evidence_error or evidence, "valid nvidia-smi evidence artifact")
+        selected = evidence.get("selected_device", {}) if evidence is not None else {}
+        _check(checks, f"{recipe}_gpu_evidence_uuid_binding", selected.get("uuid") == record.get("gpu_uuid"), selected.get("uuid") or evidence_error, record.get("gpu_uuid"))
+        if evidence is not None:
+            _check(checks, f"{recipe}_gpu_evidence_runtime_name", selected.get("name") == runtime.get("device_name"), selected.get("name"), runtime.get("device_name"))
+            _check(checks, f"{recipe}_gpu_evidence_runtime_memory", selected.get("memory_total_mib") == runtime.get("memory_total_mib"), selected.get("memory_total_mib"), runtime.get("memory_total_mib"))
+
+    selected_uuids = {
+        recipe: evidence.get("selected_device", {}).get("uuid")
+        for recipe, evidence in gpu_evidence.items()
+    }
+    selected_hosts = {
+        recipe: evidence.get("hostname")
+        for recipe, evidence in gpu_evidence.items()
+    }
+    _check(
+        checks,
+        "DISTINCT_GPU_EVIDENCE_ARTIFACTS",
+        len(gpu_evidence_paths) == 2 and len(set(gpu_evidence_paths.values())) == 2,
+        gpu_evidence_paths,
+        "one independently captured artifact path per recipe",
+    )
+    _check(
+        checks,
+        "SAME_GPU_UUID_GATE",
+        len(selected_uuids) == 2
+        and bool(gpu.get("uuid"))
+        and gpu.get("r0_uuid") == gpu.get("r1_uuid") == gpu.get("uuid")
+        and selected_uuids.get("R0") == selected_uuids.get("R1") == gpu.get("uuid"),
+        {
+            "provenance": {key: gpu.get(key) for key in ("uuid", "r0_uuid", "r1_uuid")},
+            "evidence": selected_uuids,
+        },
+        "one shared UUID in independent R0/R1 evidence",
+    )
+    _check(
+        checks,
+        "SAME_GPU_HOST_GATE",
+        len(selected_hosts) == 2 and selected_hosts.get("R0") == selected_hosts.get("R1"),
+        selected_hosts,
+        "same host",
+    )
+    _check(
+        checks,
+        "H200_MODEL_GATE",
+        len(gpu_evidence) == 2
+        and all("H200" in str(evidence.get("selected_device", {}).get("name", "")).upper() for evidence in gpu_evidence.values()),
+        {recipe: evidence.get("selected_device", {}).get("name") for recipe, evidence in gpu_evidence.items()},
+        "H200 device name in both independent evidence artifacts",
+    )
     for recipe, path in run_paths.items():
         run = _load_json(path)
         manifests[recipe] = run
@@ -247,6 +369,12 @@ def audit_direct_h2(
         run_hashes[recipe] = run_hash
         record = provenance_runs.get(recipe) if isinstance(provenance_runs, Mapping) else {}
         record = record if isinstance(record, Mapping) else {}
+        recorded_run_path = record.get("run_manifest")
+        try:
+            recorded_run_path = str(_resolve(recorded_run_path, base=provenance_root).resolve(strict=True))
+        except (OSError, TypeError, ValueError):
+            recorded_run_path = None
+        _check(checks, f"{recipe}_run_manifest_path", recorded_run_path == str(path), recorded_run_path, str(path))
         _check(checks, f"{recipe}_run_manifest_hash", record.get("run_manifest_sha256") == run_hash, record.get("run_manifest_sha256"), run_hash)
         command = [str(value) for value in record.get("command", [])]
         commands[recipe] = command
@@ -305,13 +433,27 @@ def audit_direct_h2(
         record = provenance_runs.get(recipe) if isinstance(provenance_runs, Mapping) else {}
         record = record if isinstance(record, Mapping) else {}
         inventory_value = record.get("module_inventory")
-        inventory_path = _resolve(inventory_value, base=provenance_root) if inventory_value else None
-        inventory = None if inventory_path is None else _load_json(inventory_path)
-        inventory_sha = None if inventory_path is None else _sha256(inventory_path)
-        _check(checks, f"{recipe}_module_inventory_hash", inventory is not None and record.get("module_inventory_sha256") == inventory_sha, record.get("module_inventory_sha256"), inventory_sha)
-        _check(checks, f"{recipe}_provenance_gpu_uuid", record.get("gpu_uuid") == gpu.get("uuid"), record.get("gpu_uuid"), gpu.get("uuid"))
+        inventory_path = None
+        inventory = None
+        inventory_error = None
+        try:
+            inventory_path = _resolve(inventory_value, base=provenance_root).resolve(strict=True) if inventory_value else None
+            inventory = None if inventory_path is None else _load_json(inventory_path)
+        except (OSError, TypeError, ValueError) as exc:
+            inventory_error = f"{type(exc).__name__}: {str(exc).splitlines()[0]}"
+        inventory_sha = None if inventory_path is None or inventory is None else _sha256(inventory_path)
+        _check(checks, f"{recipe}_module_inventory_path", inventory is not None, inventory_error or inventory_value, "readable inventory artifact")
+        _check(checks, f"{recipe}_module_inventory_hash", inventory is not None and record.get("module_inventory_sha256") == inventory_sha, record.get("module_inventory_sha256"), inventory_sha or "hash of readable inventory artifact")
+        _check(checks, f"{recipe}_provenance_gpu_uuid", record.get("gpu_uuid") == gpu.get("uuid") and record.get("gpu_uuid") == selected_uuids.get(recipe), record.get("gpu_uuid"), gpu.get("uuid"))
         if inventory is not None:
-            _module_inventory_check(checks, recipe=recipe, inventory=inventory, run_manifest_sha256=run_hashes[recipe])
+            _module_inventory_check(
+                checks,
+                recipe=recipe,
+                inventory=inventory,
+                run_manifest_sha256=run_hashes[recipe],
+                expected_base_model_path=run.get("base_model_path"),
+                expected_base_model_index_sha256=run.get("base_model_index_sha256"),
+            )
 
     lineage_contract = provenance.get("checkpoint50_lineage_contract")
     lineage_contract = lineage_contract if isinstance(lineage_contract, Mapping) else {}
@@ -322,11 +464,40 @@ def audit_direct_h2(
         "DIRECT_LAUNCH_AUDIT_SUPPORTED": not blocking,
         "EXACT_SEED_GATE_2223_2224_2225": checks.get("EXACT_SEED_GATE_2223_2224_2225", {}).get("passed", False),
         "VALIDATION_SNAPSHOT_COMPLETENESS_GATE": checks.get("VALIDATION_SNAPSHOT_COMPLETENESS_GATE", {}).get("passed", False),
+        "EXACT_FROZEN_INPUT_IDENTITY_GATE": all(
+            checks.get(name, {}).get("passed", False)
+            for name in (
+                "BASE_TREE_HASH_GATE",
+                "TRAIN_FIXTURE_TREE_HASH_GATE",
+                "SPLIT_LOCK_HASH_GATE",
+                "MODALITY_CONFIG_HASH_GATE",
+                "GROOT_REPO_SHA_GATE",
+            )
+        ),
         "BASE_TREE_HASH_GATE": checks.get("BASE_TREE_HASH_GATE", {}).get("passed", False),
         "TRAINABLE_MODULE_INVENTORY_GATE": all(
             value.get("passed", False)
             for name, value in checks.items()
             if "inventory" in name or "requires_grad_roles" in name or "total_count" in name
+        ),
+        "ARTIFACT_BACKED_GPU_EVIDENCE_GATE": all(
+            checks.get(name, {}).get("passed", False)
+            for name in (
+                "R0_gpu_evidence_hash",
+                "R1_gpu_evidence_hash",
+                "R0_gpu_evidence_valid",
+                "R1_gpu_evidence_valid",
+                "R0_gpu_evidence_uuid_binding",
+                "R1_gpu_evidence_uuid_binding",
+                "R0_gpu_evidence_runtime_name",
+                "R1_gpu_evidence_runtime_name",
+                "R0_gpu_evidence_runtime_memory",
+                "R1_gpu_evidence_runtime_memory",
+                "DISTINCT_GPU_EVIDENCE_ARTIFACTS",
+                "SAME_GPU_HOST_GATE",
+                "SAME_GPU_UUID_GATE",
+                "H200_MODEL_GATE",
+            )
         ),
         "SAME_GPU_UUID_GATE": checks.get("SAME_GPU_UUID_GATE", {}).get("passed", False),
         "CHECKPOINT50_LINEAGE_GATE": checks.get("CHECKPOINT50_LINEAGE_GATE", {}).get("passed", False),
@@ -339,6 +510,19 @@ def audit_direct_h2(
         "r1_run_manifest": str(r1_run_path),
         "validation_snapshot_manifest": str(validation_snapshot_manifest_path),
         "run_manifest_sha256": run_hashes,
+        "gpu_evidence_sha256": {
+            recipe: (provenance_runs.get(recipe, {}) if isinstance(provenance_runs, Mapping) else {}).get("gpu_evidence_sha256")
+            for recipe in ("R0", "R1")
+        },
+        "gpu_evidence_identity": {
+            recipe: {
+                "path": gpu_evidence_paths.get(recipe),
+                "hostname": evidence.get("hostname"),
+                "captured_utc": evidence.get("captured_utc"),
+                "selected_device": evidence.get("selected_device"),
+            }
+            for recipe, evidence in gpu_evidence.items()
+        },
         "lineage": {
             "base_model_tree_sha256": provenance.get("base_model_tree_sha256"),
             "train_fixture_tree_sha256": provenance.get("train_fixture_tree_sha256"),

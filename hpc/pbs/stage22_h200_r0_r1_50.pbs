@@ -1,15 +1,18 @@
 #!/bin/bash
-# STAGE22 H200 matched R0/R1 50-step template. DO NOT SUBMIT AS-IS.
-# Run only after the separate R1 one-step preflight is PASS with completed
-# optimizer.step and sufficient headroom. Replace PROJECT_ID_REQUIRED only
-# after `amgr login` and `hpc project`; never put credentials here.
+# STAGE22 H2 authoritative direct-launch template. DO NOT SUBMIT AS-IS.
+#
+# H1 must already have passed on this same H200 allocation. This template
+# intentionally invokes the frozen Stage20S launcher directly for R0 and R1;
+# it does not call stage22_train_recipes.py and does not repeat H1.
+# Replace PROJECT_ID_REQUIRED only after interactive scheduler/project
+# discovery. Never put passwords, tokens, or private keys in this file.
 #
 # Required environment before qsub:
 #   STAGE22_SCRATCH_ROOT=/path/on/project-scratch
 #   STAGE10_ROOT=/path/to/Hopper-local/Stage10/runtime
 #   STAGE22_HANDOFF_ROOT=/path/to/extracted/STAGE22_H200_HANDOFF_V1
 #   STAGE22_REPO=/path/to/extracted/stage22-repo
-#   STAGE22_R1_PREFLIGHT_JSON=/path/to/passed/stage22_r1_preflight.json
+#   STAGE22_FROZEN_LAUNCHER=/path/to/frozen/stage20s_train_gr00t.py
 
 #PBS -N st22_h200_r0r1
 #PBS -P PROJECT_ID_REQUIRED
@@ -23,20 +26,7 @@ set -euo pipefail
 : "${STAGE10_ROOT:?Set the Hopper Stage10 runtime root}"
 : "${STAGE22_HANDOFF_ROOT:?Set the extracted Stage22 handoff root}"
 : "${STAGE22_REPO:?Set the extracted Stage22 repository path}"
-: "${STAGE22_R1_PREFLIGHT_JSON:?Set the passed H1 JSON manifest}"
-
-python - "${STAGE22_R1_PREFLIGHT_JSON}" <<'PY'
-import json
-import sys
-
-payload = json.load(open(sys.argv[1], encoding="utf-8"))
-if payload.get("status") != "PASS":
-    raise SystemExit("R1 preflight status is not PASS")
-if payload.get("optimizer_step_completed") is not True:
-    raise SystemExit("R1 optimizer.step did not complete")
-if payload.get("headroom", {}).get("qualified") is not True:
-    raise SystemExit("R1 headroom gate is not qualified")
-PY
+: "${STAGE22_FROZEN_LAUNCHER:?Set the frozen Stage20S launcher path}"
 
 cd "${STAGE22_REPO}"
 mkdir -p "${STAGE22_SCRATCH_ROOT}"
@@ -52,18 +42,39 @@ DATASET_DIR="${STAGE22_HANDOFF_ROOT}/payload/lerobot_train"
 BASE_MODEL_PATH="${STAGE22_HANDOFF_ROOT}/payload/GR00T-N1.7-3B"
 MODALITY_CONFIG="${STAGE22_HANDOFF_ROOT}/payload/modality/go2_arx5_modality.py"
 OUTPUT_ROOT="${STAGE22_SCRATCH_ROOT}/stage22_r0_r1_50_${PBS_JOBID:-manual}"
+FROZEN_LAUNCHER_SHA256="f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2"
 
-# The wrapper performs its declared one-step R1 guard, then runs matched R0
-# and R1 for exactly 50 optimizer steps with the frozen recipe and seed.
-python scripts/stage22_train_recipes.py \
+test -f "${STAGE22_FROZEN_LAUNCHER}"
+test "$(sha256sum "${STAGE22_FROZEN_LAUNCHER}" | awk '{print $1}')" = "${FROZEN_LAUNCHER_SHA256}"
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+
+# Direct frozen-launch R0: projector/state/action train; diffusion is frozen.
+python "${STAGE22_FROZEN_LAUNCHER}" \
   --stage10-root "${STAGE10_ROOT}" \
   --base-model-path "${BASE_MODEL_PATH}" \
   --dataset-dir "${DATASET_DIR}" \
   --modality-config "${MODALITY_CONFIG}" \
-  --output-root "${OUTPUT_ROOT}" \
-  --recipe both \
+  --output-dir "${OUTPUT_ROOT}/R0" \
   --max-steps 50 \
-  --r1-preflight-steps 1 \
   --save-steps 25 \
   --learning-rate 0.0001 \
-  --seed 2222
+  --seed 2222 \
+  --local-files-only
+
+# Direct frozen-launch R1: the only recipe difference is diffusion training.
+python "${STAGE22_FROZEN_LAUNCHER}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --base-model-path "${BASE_MODEL_PATH}" \
+  --dataset-dir "${DATASET_DIR}" \
+  --modality-config "${MODALITY_CONFIG}" \
+  --output-dir "${OUTPUT_ROOT}/R1" \
+  --max-steps 50 \
+  --save-steps 25 \
+  --learning-rate 0.0001 \
+  --seed 2222 \
+  --local-files-only \
+  --tune-diffusion-model
+
+# The executor must now capture independent GPU evidence, live trainable
+# module inventories, and the H2 execution-provenance manifest before audit.

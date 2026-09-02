@@ -16,7 +16,10 @@ model-selection or deployment operation.
 - explicit credential-like paths cause sealing to fail;
 - `selection_status` defaults to `CANDIDATE_NOT_SELECTED`;
 - `transfer_performed` is always `false` in this tool;
-- sealing requires independent `global_step=50` evidence inside the checkpoint;
+- sealing requires independent `global_step=50` evidence outside the raw
+  checkpoint tree; the evidence is hashed and recorded separately;
+- the supplied run-manifest SHA256 must equal the selected recipe's
+  `source_run_manifest_sha256` in the passing direct-launch lineage;
 - sealing requires a passing direct-launch H2 lineage manifest and binds the
   base tree, train-fixture tree, split lock, modality, GR00T, Cosmos, source
   run-manifest, and checkpoint tree hashes;
@@ -31,7 +34,7 @@ python scripts/stage22_checkpoint_provenance.py seal \
   --checkpoint /scratch/checkpoint-50 \
   --run-manifest /scratch/r0/run_manifest.json \
   --recipe R0 \
-  --global-step-evidence /scratch/checkpoint-50/trainer_state.json \
+  --global-step-evidence /scratch/checkpoint-50.global_step_evidence.json \
   --lineage-manifest /scratch/h2_direct_audit.json \
   --output /scratch/checkpoint-50.provenance.json
 ```

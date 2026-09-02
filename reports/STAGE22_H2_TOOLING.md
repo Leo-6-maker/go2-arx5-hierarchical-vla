@@ -17,6 +17,8 @@ hardware action was performed here.
 | `scripts/stage22_aggregate_profile_seeds.py` | Aggregate one recipe across the locked validation diffusion seeds | binds the actual snapshot-lock file; exact seed/snapshot/overlap set required |
 | `scripts/stage22_audit_h2_run_integrity.py` | Verify matched base, dataset tree, split lock, recipe flags, trainable count, runtime, and GPU identity | failed audit blocks H2 claims |
 | `scripts/stage22_audit_h2_direct_launch.py` | Audit two direct frozen-launch run manifests plus H2 execution provenance and requires-grad inventories | does not rerun training or select a checkpoint |
+| `scripts/stage22_capture_gpu_evidence.py` | Capture a read-only, SHA256-bound `nvidia-smi` identity artifact per recipe | no process control or workload inspection |
+| `scripts/stage22_probe_trainable_modules.py` | Construct the frozen Stage20S model and inventory live `requires_grad` state without a forward/backward/optimizer step | model construction only; no training or inference |
 | `scripts/stage22_checkpoint_provenance.py` | Hash-seal a future candidate checkpoint and verify a transferred copy | no transfer or model selection |
 
 The paired comparison is restricted to the locked validation split and requires
@@ -46,7 +48,16 @@ The authoritative H2 runner is the frozen Stage20S launcher at
 once for R1. `scripts/stage22_audit_h2_direct_launch.py` consumes those two
 `STAGE20S_GR00T_TRAINING_RUN_V1` manifests plus an H2 execution-provenance
 manifest; it does not require or rerun `stage22_train_recipes.py`. The newer
-wrapper remains optional non-authoritative tooling only.
+wrapper remains optional non-authoritative tooling only. The repository PBS
+template has been aligned to this direct path and checks the frozen launcher
+file hash before either run.
+
+The direct audit now requires exact canonical identities for the GR00T
+revision, base tree, train fixture tree, modality config, and split lock. It
+also requires distinct SHA256-bound `nvidia-smi` artifacts for R0 and R1 and
+inventory files emitted by the read-only live model-construction probe. These
+are integrity gates; they do not establish profile quality or checkpoint
+selection.
 
 ## 4080S use
 
@@ -62,7 +73,7 @@ training on Corelab.
 H2_TOOLING: FROZEN
 H1_H200: PASS
 H2_H200_TRAINING: RUNNING_OR_DISPATCHED
-CORELAB_H2_TOOLING: DIRECT_LAUNCH_AUDIT_IMPLEMENTED; AWAITING_H2_ARTIFACT_AUDIT
+CORELAB_H2_TOOLING: HARDENED_DIRECT_LAUNCH_AUDIT; AWAITING_H2_ARTIFACT_AUDIT
 CORELAB_AUTHORITATIVE_POSTPROCESSING_GATE: NOT_YET_QUALIFIED_UNTIL_DIRECT_H2_AUDIT_PASS
 CHECKPOINT_SELECTION: NOT_STARTED
 TRANSFER: NOT_STARTED
