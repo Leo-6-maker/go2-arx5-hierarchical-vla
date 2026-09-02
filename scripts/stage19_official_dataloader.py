@@ -145,16 +145,32 @@ def _generate_official_stats(dataset_dir: Path, stage10_root: Path) -> None:
     generate_rel_stats(dataset_dir, EmbodimentTag.NEW_EMBODIMENT)
 
 
-def _build_processor(stage10_root: Path, dataset_dir: Path):
+def _build_processor(
+    stage10_root: Path,
+    dataset_dir: Path,
+    transformers_loading_kwargs: dict[str, Any] | None = None,
+    model_name: str | Path | None = None,
+):
     scripts_dir = Path(__file__).resolve().parent
     sys.path.insert(0, str(scripts_dir))
     from stage18_processor_smoke import build_custom_processor
 
     model_dir = stage10_root / "assets" / "GR00T-N1.7-3B"
-    return build_custom_processor(stage10_root, model_dir, dataset_dir / "meta")
+    return build_custom_processor(
+        stage10_root,
+        model_dir,
+        dataset_dir / "meta",
+        transformers_loading_kwargs=transformers_loading_kwargs,
+        model_name=model_name or "nvidia/Cosmos-Reason2-2B",
+    )
 
 
-def _qualify(dataset_dir: Path, stage10_root: Path) -> dict[str, Any]:
+def _qualify(
+    dataset_dir: Path,
+    stage10_root: Path,
+    transformers_loading_kwargs: dict[str, Any] | None = None,
+    model_name: str | Path | None = None,
+) -> dict[str, Any]:
     sys.path.insert(0, str(stage10_root / "src" / "isaac-gr00t"))
     sys.path.insert(0, str(stage10_root / "artifacts"))
     import go2_arx5_modality
@@ -165,7 +181,12 @@ def _qualify(dataset_dir: Path, stage10_root: Path) -> dict[str, Any]:
     )
     from gr00t.data.embodiment_tags import EmbodimentTag
 
-    processor, embodiment = _build_processor(stage10_root, dataset_dir)
+    processor, embodiment = _build_processor(
+        stage10_root,
+        dataset_dir,
+        transformers_loading_kwargs=transformers_loading_kwargs,
+        model_name=model_name,
+    )
     modality_configs = copy.deepcopy(go2_arx5_modality.GO2_ARX5_MODALITY_CONFIG)
     start = time.perf_counter()
     episode_loader = LeRobotEpisodeLoader(dataset_dir, modality_configs)

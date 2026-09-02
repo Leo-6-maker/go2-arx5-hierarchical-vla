@@ -1,0 +1,117 @@
+# Stage23 Final Report
+
+Date: 2026-09-03 (Asia/Singapore)
+
+## A. Classification
+
+```text
+PASS WITH DEVIATION
+```
+
+Primary diagnostic gate:
+
+```text
+STAGE23_ACTION_PIPELINE_AND_EVALUATOR_SANITY_PASS
+```
+
+The deviation is operational: official video decoding required the existing
+Stage13 native FFmpeg library path, and the environment did not provide the
+standalone `lerobot` package. The official GR00T loader, sharded training
+dataset, collator, and processor nevertheless passed without a model forward.
+
+## B. Action contract conclusion
+
+```text
+physical action: 10D
+universal action: [40,132]
+decoded physical action: [40,10] / batched [1,40,10]
+active loss dimensions: 10
+masked padding dimensions: 122
+padding contributes to loss: false
+EEF transform: T_reference^-1 @ T_absolute_target
+reference: last observed state[eef_9d]
+rotation: first two matrix rows, row-major rot6d
+gripper: absolute separate channel
+production timing: TBD_BY_ADAPTATION_DATASET
+simulation timing: 0.05 s TEST_ONLY_STAGE22_SIMULATION
+```
+
+No action-pipeline, normalization, ordering, or evaluator defect was found.
+
+## C. TINY fixtures
+
+```text
+TINY1: one ordered red_target_train_a snapshot
+TINY6: all six ordered red_target_train_a snapshots
+```
+
+Both fixtures were built from the train-only Stage22 materialization. Desired
+labels were preserved; achieved EEF was not used as a training label; holdout
+`e` and `f` were not read.
+
+## D. Label-as-prediction sanity
+
+```text
+TINY1: 1/1 identity pass, 0 m position error, 0 rad rotation error
+TINY6: 6/6 identity pass, 0 m position error, 0 rad rotation error
+all identity SafetyGate decisions: ACCEPT
+all identity profile ratios: exactly 1.0 within the audited tolerance
+```
+
+This closes the evaluator-or-action-contract sanity gate. It does not imply
+that the base model or a fine-tuned model has learned the task.
+
+## E. Official GR00T path
+
+```text
+Stage10 runtime Python: 3.12.3
+GR00T SHA: 51d4c89f72fda44cbf77285c6a8114b52676b8a1
+Cosmos revision: 9ce19a195e423419c349abfc86fd07178b230561
+processor resolution: local_files_only=true, offline=true
+TINY1: LeRobotEpisodeLoader -> ShardedSingleStepDataset -> processor PASS
+TINY6: LeRobotEpisodeLoader -> ShardedSingleStepDataset -> processor PASS
+```
+
+Both paths produced finite `[1,40,132]` universal actions and finite
+`[1,40,10]` decoded physical actions. Official model forward was false.
+
+## F. Execution boundary
+
+```text
+Stage23 training/fine-tuning: NOT EXECUTED
+BASE-only inference: NOT EXECUTED
+GPU workload: NOT EXECUTED
+PBS job: NOT SUBMITTED
+checkpoint: not created or changed
+WBC: NOT EXECUTED
+hardware/ROS/ZMQ/P1M: NOT EXECUTED
+```
+
+The executed CPU evidence includes six direct contract checks. Five pytest
+tests were added for CI; pytest was not installed in the Stage10 runtime and
+was not installed during this stage.
+
+## G. Scientific decision
+
+The action pipeline is sufficiently specified for a future learnability test.
+The Stage22 profile blocker cannot be attributed to the audited 10D/132D
+representation, relative transform, normalization selection, timestamp order,
+or padding loss mask based on this diagnostic.
+
+The possible future Hopper candidates are prepared but remain locked:
+
+```text
+O1 TINY1 deliberate overfit: NOT EXECUTED
+O6 TINY6 conditional diagnostic: NOT EXECUTED
+```
+
+The next gate is PI review and explicit authorization of TINY1 deliberate
+overfit, with O6 considered only after the O1 result and a predeclared reason.
+
+Detailed evidence is in:
+
+```text
+reports/STAGE23_ACTION_PIPELINE_AUDIT.md
+reports/STAGE23_TINY_DATASET_DIAGNOSTIC.md
+reports/STAGE23_HOPPER_OVERFIT_PROTOCOL.md
+```

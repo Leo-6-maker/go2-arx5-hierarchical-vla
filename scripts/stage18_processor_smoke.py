@@ -53,7 +53,13 @@ def _describe(value: Any) -> Any:
     return str(value)
 
 
-def build_custom_processor(stage10_root: Path, model_dir: Path, stats_dir: Path):
+def build_custom_processor(
+    stage10_root: Path,
+    model_dir: Path,
+    stats_dir: Path,
+    transformers_loading_kwargs: dict[str, Any] | None = None,
+    model_name: str | Path = "nvidia/Cosmos-Reason2-2B",
+):
     sys.path.insert(0, str(stage10_root / "src" / "isaac-gr00t"))
     sys.path.insert(0, str(stage10_root / "artifacts"))
     from go2_arx5_modality import GO2_ARX5_MODALITY_CONFIG
@@ -82,8 +88,10 @@ def build_custom_processor(stage10_root: Path, model_dir: Path, stats_dir: Path)
     kwargs = copy.deepcopy(processor_config["processor_kwargs"])
     kwargs["modality_configs"][EmbodimentTag.NEW_EMBODIMENT.value] = GO2_ARX5_MODALITY_CONFIG
     kwargs["statistics"] = {**model_statistics, **custom_statistics}
-    kwargs["model_name"] = "nvidia/Cosmos-Reason2-2B"
+    kwargs["model_name"] = str(model_name)
     kwargs["model_type"] = "qwen"
+    if transformers_loading_kwargs is not None:
+        kwargs["transformers_loading_kwargs"] = copy.deepcopy(transformers_loading_kwargs)
     processor = Gr00tN1d7Processor(**kwargs)
     processor.eval()
     return processor, EmbodimentTag.NEW_EMBODIMENT
