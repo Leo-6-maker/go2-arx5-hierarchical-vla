@@ -21,8 +21,16 @@ from go2arx5_vla.data.stage22_snapshot_lock import (
 )
 try:
     from scripts.stage22_capture_gpu_evidence import validate_gpu_evidence
+    from scripts.stage22_historical_gpu_evidence import (
+        HISTORICAL_GPU_EVIDENCE_SCHEMA,
+        validate_historical_gpu_evidence,
+    )
 except ImportError:  # direct ``python scripts/...`` execution
     from stage22_capture_gpu_evidence import validate_gpu_evidence
+    from stage22_historical_gpu_evidence import (
+        HISTORICAL_GPU_EVIDENCE_SCHEMA,
+        validate_historical_gpu_evidence,
+    )
 
 
 FROZEN_LAUNCHER_GIT_SHA = "deb920a070141e6a32a88cd0da6719828647e1e6"
@@ -94,6 +102,37 @@ def _arg(command: list[str], name: str) -> str | None:
 
 def _has(command: list[str], name: str) -> bool:
     return name in command
+
+
+def _load_gpu_evidence(path: Path) -> dict[str, Any]:
+    """Load either prospective or immutable historical H2 GPU evidence.
+
+    An unscoped present-time observation is deliberately not sufficient for an
+    already-completed H2 job.  Historical evidence must be recovered from the
+    immutable training log and PBS accounting window instead.
+    """
+
+    payload = _load_json(path)
+    schema = payload.get("schema")
+    if schema == "STAGE22_GPU_EVIDENCE_V1":
+        evidence = validate_gpu_evidence(payload)
+        context = evidence.get("capture_context")
+        if not isinstance(context, Mapping) or context.get("kind") != "PBS_PROSPECTIVE_H2":
+            raise ValueError("present-time GPU evidence is not bound to a prospective PBS H2 window")
+        return evidence
+    if schema == HISTORICAL_GPU_EVIDENCE_SCHEMA:
+        return validate_historical_gpu_evidence(payload)
+    raise ValueError(f"unsupported GPU evidence schema: {schema}")
+
+
+def _resolve_existing(value: Any, *, base: Path) -> Path | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        path = _resolve(value, base=base).resolve(strict=True)
+    except (OSError, TypeError, ValueError):
+        return None
+    return path if path.is_file() else None
 
 
 def _check(
@@ -260,6 +299,8 @@ def audit_direct_h2(
     _check(checks, "provenance_status", provenance.get("status") == "H2_DIRECT_LAUNCH_COMPLETE", provenance.get("status"), "H2_DIRECT_LAUNCH_COMPLETE")
     _check(checks, "provenance_simulation_only", provenance.get("simulation_only") is True, provenance.get("simulation_only"), True)
     _check(checks, "provenance_hardware_disabled", provenance.get("hardware_control") is False, provenance.get("hardware_control"), False)
+    _check(checks, "HOLDOUT_F_ACCESS_GATE", provenance.get("holdout_f_accessed") is False, provenance.get("holdout_f_accessed"), False)
+    _check(checks, "CREDENTIAL_FREE_BUNDLE_GATE", provenance.get("contains_credentials") is False, provenance.get("contains_credentials"), False)
     _check(checks, "frozen_launcher_commit", provenance.get("frozen_launcher_git_sha") == FROZEN_LAUNCHER_GIT_SHA, provenance.get("frozen_launcher_git_sha"), FROZEN_LAUNCHER_GIT_SHA)
     _check(checks, "frozen_training_contract", [provenance.get(key) for key in ("training_seed", "max_steps", "save_steps", "learning_rate", "action_horizon", "action_sample_period_s", "action_sample_period_provenance", "local_files_only")] == [EXPECTED_TRAINING_SEED, EXPECTED_MAX_STEPS, EXPECTED_SAVE_STEPS, EXPECTED_LEARNING_RATE, EXPECTED_ACTION_HORIZON, EXPECTED_ACTION_PERIOD_S, EXPECTED_ACTION_PERIOD_PROVENANCE, True], [provenance.get(key) for key in ("training_seed", "max_steps", "save_steps", "learning_rate", "action_horizon", "action_sample_period_s", "action_sample_period_provenance", "local_files_only")], "frozen direct-launch contract")
 
@@ -306,13 +347,55 @@ def audit_direct_h2(
                 raise ValueError("gpu_evidence path is missing")
             evidence_path = _resolve(evidence_value, base=provenance_root).resolve(strict=True)
             gpu_evidence_paths[recipe] = str(evidence_path)
-            evidence = validate_gpu_evidence(_load_json(evidence_path))
+            evidence = _load_gpu_evidence(evidence_path)
             observed_sha = _sha256(evidence_path)
             gpu_evidence[recipe] = evidence
         except (OSError, TypeError, ValueError, KeyError) as exc:
             evidence_error = f"{type(exc).__name__}: {str(exc).splitlines()[0]}"
         _check(checks, f"{recipe}_gpu_evidence_hash", evidence is not None and evidence_sha == observed_sha, evidence_sha or evidence_error, observed_sha or "hash of valid evidence artifact")
         _check(checks, f"{recipe}_gpu_evidence_valid", evidence is not None, evidence_error or evidence, "valid nvidia-smi evidence artifact")
+        evidence_schema = evidence.get("schema") if evidence is not None else None
+        _check(
+            checks,
+            f"{recipe}_gpu_evidence_provenance_kind",
+            evidence_schema in {"STAGE22_GPU_EVIDENCE_V1", HISTORICAL_GPU_EVIDENCE_SCHEMA},
+            evidence_schema or evidence_error,
+            "prospective PBS-bound or immutable historical H2 evidence",
+        )
+        if evidence is not None and evidence_schema == HISTORICAL_GPU_EVIDENCE_SCHEMA:
+            source_path = _resolve_existing(evidence.get("source_artifact_path"), base=provenance_root)
+            accounting_path = _resolve_existing(evidence.get("pbs_accounting_path"), base=provenance_root)
+            source_observed_sha = _sha256(source_path) if source_path is not None else None
+            accounting_observed_sha = _sha256(accounting_path) if accounting_path is not None else None
+            _check(
+                checks,
+                f"{recipe}_historical_source_artifact_hash",
+                source_observed_sha == evidence.get("source_artifact_sha256"),
+                source_observed_sha or "source artifact unavailable",
+                evidence.get("source_artifact_sha256"),
+            )
+            _check(
+                checks,
+                f"{recipe}_historical_accounting_hash",
+                accounting_observed_sha == evidence.get("accounting_sha256") == evidence.get("pbs_accounting_sha256"),
+                accounting_observed_sha or "PBS accounting artifact unavailable",
+                evidence.get("accounting_sha256"),
+            )
+        else:
+            _check(
+                checks,
+                f"{recipe}_historical_source_artifact_hash",
+                True,
+                "not applicable to prospective PBS-bound evidence",
+                "historical source hash only for retroactive adapter",
+            )
+            _check(
+                checks,
+                f"{recipe}_historical_accounting_hash",
+                True,
+                "not applicable to prospective PBS-bound evidence",
+                "historical accounting hash only for retroactive adapter",
+            )
         selected = evidence.get("selected_device", {}) if evidence is not None else {}
         _check(checks, f"{recipe}_gpu_evidence_uuid_binding", selected.get("uuid") == record.get("gpu_uuid"), selected.get("uuid") or evidence_error, record.get("gpu_uuid"))
         if evidence is not None:
@@ -376,6 +459,37 @@ def audit_direct_h2(
             recorded_run_path = None
         _check(checks, f"{recipe}_run_manifest_path", recorded_run_path == str(path), recorded_run_path, str(path))
         _check(checks, f"{recipe}_run_manifest_hash", record.get("run_manifest_sha256") == run_hash, record.get("run_manifest_sha256"), run_hash)
+        evidence = gpu_evidence.get(recipe)
+        if evidence is not None and evidence.get("schema") == HISTORICAL_GPU_EVIDENCE_SCHEMA:
+            _check(
+                checks,
+                f"{recipe}_historical_run_manifest_hash",
+                evidence.get("run_manifest_sha256") == run_hash,
+                evidence.get("run_manifest_sha256"),
+                run_hash,
+            )
+            _check(
+                checks,
+                f"{recipe}_historical_recipe_binding",
+                evidence.get("recipe") == recipe,
+                evidence.get("recipe"),
+                recipe,
+            )
+        else:
+            _check(
+                checks,
+                f"{recipe}_historical_run_manifest_hash",
+                True,
+                "not applicable to prospective PBS-bound evidence",
+                "historical run-manifest hash only for retroactive adapter",
+            )
+            _check(
+                checks,
+                f"{recipe}_historical_recipe_binding",
+                True,
+                "not applicable to prospective PBS-bound evidence",
+                "historical recipe binding only for retroactive adapter",
+            )
         command = [str(value) for value in record.get("command", [])]
         commands[recipe] = command
         _check(checks, f"{recipe}_command_present", bool(command), command, "direct launcher command")
@@ -475,6 +589,8 @@ def audit_direct_h2(
             )
         ),
         "BASE_TREE_HASH_GATE": checks.get("BASE_TREE_HASH_GATE", {}).get("passed", False),
+        "HOLDOUT_F_ACCESS_GATE": checks.get("HOLDOUT_F_ACCESS_GATE", {}).get("passed", False),
+        "CREDENTIAL_FREE_BUNDLE_GATE": checks.get("CREDENTIAL_FREE_BUNDLE_GATE", {}).get("passed", False),
         "TRAINABLE_MODULE_INVENTORY_GATE": all(
             value.get("passed", False)
             for name, value in checks.items()
@@ -493,6 +609,16 @@ def audit_direct_h2(
                 "R1_gpu_evidence_runtime_name",
                 "R0_gpu_evidence_runtime_memory",
                 "R1_gpu_evidence_runtime_memory",
+                "R0_gpu_evidence_provenance_kind",
+                "R1_gpu_evidence_provenance_kind",
+                "R0_historical_source_artifact_hash",
+                "R1_historical_source_artifact_hash",
+                "R0_historical_accounting_hash",
+                "R1_historical_accounting_hash",
+                "R0_historical_run_manifest_hash",
+                "R1_historical_run_manifest_hash",
+                "R0_historical_recipe_binding",
+                "R1_historical_recipe_binding",
                 "DISTINCT_GPU_EVIDENCE_ARTIFACTS",
                 "SAME_GPU_HOST_GATE",
                 "SAME_GPU_UUID_GATE",
@@ -517,8 +643,9 @@ def audit_direct_h2(
         "gpu_evidence_identity": {
             recipe: {
                 "path": gpu_evidence_paths.get(recipe),
+                "schema": evidence.get("schema"),
                 "hostname": evidence.get("hostname"),
-                "captured_utc": evidence.get("captured_utc"),
+                "observed_or_captured_utc": evidence.get("captured_utc", evidence.get("observed_utc")),
                 "selected_device": evidence.get("selected_device"),
             }
             for recipe, evidence in gpu_evidence.items()

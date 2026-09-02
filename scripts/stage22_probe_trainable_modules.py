@@ -36,6 +36,59 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _load_json(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"expected a JSON object: {path}")
+    return value
+
+
+def _same_path(value: Any, expected: Path) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    try:
+        return Path(value).resolve(strict=True) == expected.resolve(strict=True)
+    except OSError:
+        return False
+
+
+def _validate_run_manifest(
+    path: Path,
+    *,
+    recipe: str,
+    base_model_path: Path,
+    dataset_dir: Path,
+    modality_config: Path,
+) -> dict[str, Any]:
+    """Validate the run identity before attaching the probe to that run."""
+
+    payload = _load_json(path.resolve(strict=True))
+    expected_diffusion = recipe == "R1"
+    expected_index_sha256 = _sha256_file(base_model_path / "model.safetensors.index.json")
+    checks = (
+        payload.get("schema") == "STAGE20S_GR00T_TRAINING_RUN_V1",
+        payload.get("status") == "PASS",
+        payload.get("simulation_only") is True,
+        payload.get("hardware_control") is False,
+        payload.get("max_steps") == 50,
+        payload.get("action_horizon") == 40,
+        payload.get("action_sample_period_s") == 0.05,
+        payload.get("action_sample_period_provenance") == "TEST_ONLY_SIM_VISUAL_REACH_V0",
+        payload.get("tune_projector") is True,
+        payload.get("tune_diffusion_model") is expected_diffusion,
+        payload.get("tune_visual") is False,
+        payload.get("tune_llm") is False,
+        payload.get("tune_vlln") is False,
+        _same_path(payload.get("base_model_path"), base_model_path),
+        payload.get("base_model_index_sha256") == expected_index_sha256,
+        _same_path(payload.get("dataset_dir"), dataset_dir),
+        _same_path(payload.get("modality_config"), modality_config),
+    )
+    if not all(checks):
+        raise ValueError(f"run manifest does not match frozen {recipe} probe contract: {path}")
+    return payload
+
+
 def _digest_lines(lines: Iterable[str]) -> str:
     digest = hashlib.sha256()
     for line in lines:
@@ -184,6 +237,7 @@ def probe_trainable_modules(
     dataset_dir: Path,
     modality_config: Path,
     launcher_path: Path,
+    run_manifest: Path,
     recipe: str,
     output: Path,
     local_files_only: bool,
@@ -205,6 +259,14 @@ def probe_trainable_modules(
         raise ValueError(f"materialized dataset is missing: {dataset_dir}")
     if not modality_config.is_file():
         raise ValueError(f"modality config is missing: {modality_config}")
+    run_manifest = run_manifest.resolve(strict=True)
+    run_payload = _validate_run_manifest(
+        run_manifest,
+        recipe=recipe,
+        base_model_path=base_model_path,
+        dataset_dir=dataset_dir,
+        modality_config=modality_config,
+    )
     launcher_path = launcher_path.resolve(strict=True)
     if launcher_path.name != "stage20s_train_gr00t.py":
         raise ValueError("inventory probe must use the frozen stage20s_train_gr00t.py launcher")
@@ -247,6 +309,15 @@ def probe_trainable_modules(
             "torch": __import__("torch").__version__,
             "cuda": __import__("torch").version.cuda,
         }
+        payload["source_run_manifest_sha256"] = _sha256_file(run_manifest)
+        payload["source_run_manifest_path"] = str(run_manifest)
+        payload["run_manifest_identity"] = {
+            "schema": run_payload.get("schema"),
+            "status": run_payload.get("status"),
+            "max_steps": run_payload.get("max_steps"),
+            "action_horizon": run_payload.get("action_horizon"),
+            "tune_diffusion_model": run_payload.get("tune_diffusion_model"),
+        }
         del model
         del pipeline
         gc.collect()
@@ -262,6 +333,7 @@ def main() -> int:
     parser.add_argument("--dataset-dir", type=Path, required=True)
     parser.add_argument("--modality-config", type=Path, required=True)
     parser.add_argument("--launcher", type=Path, required=True)
+    parser.add_argument("--run-manifest", type=Path, required=True)
     parser.add_argument("--recipe", choices=("R0", "R1"), required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--local-files-only", action="store_true")
@@ -272,6 +344,7 @@ def main() -> int:
         dataset_dir=args.dataset_dir.resolve(strict=True),
         modality_config=args.modality_config.resolve(strict=True),
         launcher_path=args.launcher,
+        run_manifest=args.run_manifest,
         recipe=args.recipe,
         output=args.output,
         local_files_only=args.local_files_only,

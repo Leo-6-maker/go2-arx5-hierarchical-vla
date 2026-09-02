@@ -32,6 +32,7 @@ from scripts.stage22_audit_h2_run_integrity import audit_h2_run
 from scripts.stage22_aggregate_profile_seeds import _aggregate
 from scripts.stage22_checkpoint_provenance import seal_checkpoint, verify_checkpoint
 from scripts.stage22_capture_gpu_evidence import validate_gpu_evidence
+from scripts.stage22_historical_gpu_evidence import recover_historical_gpu_evidence
 from scripts.stage22_probe_trainable_modules import (
     FROZEN_LAUNCHER_FILE_SHA256 as PROBE_LAUNCHER_FILE_SHA256,
 )
@@ -131,6 +132,12 @@ def _write_gpu_evidence(tmp_path: Path, recipe: str) -> tuple[Path, str]:
                 "cuda_visible_devices": "0",
                 "devices": [device],
                 "selected_device": device,
+                "capture_context": {
+                    "kind": "PBS_PROSPECTIVE_H2",
+                    "pbs_job_id": "597351.hopper-m-02",
+                    "window_start_utc": "2026-09-02T11:00:00+00:00",
+                    "window_end_utc": "2026-09-02T13:00:00+00:00",
+                },
                 "raw_stdout_sha256": "f" * 64,
                 "contains_credentials": False,
             }
@@ -472,6 +479,8 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
         "status": "H2_DIRECT_LAUNCH_COMPLETE",
         "simulation_only": True,
         "hardware_control": False,
+        "holdout_f_accessed": False,
+        "contains_credentials": False,
         "frozen_launcher_git_sha": FROZEN_LAUNCHER_GIT_SHA,
         "training_seed": 2222,
         "max_steps": 50,
@@ -527,6 +536,65 @@ def test_direct_launch_audit_accepts_frozen_h2_provenance(tmp_path: Path) -> Non
     assert "TRAIN_FIXTURE_TREE_HASH_GATE" in drift_result["blocking_checks"]
 
 
+def test_historical_gpu_adapter_binds_immutable_log_and_pbs_window(tmp_path: Path) -> None:
+    observed = "2026-09-02T12:00:00+00:00"
+    source = tmp_path / "597351.pbs.out"
+    source.write_text(
+        "\n".join(
+            [
+                "hostname",
+                "hopper-h200-test",
+                "PBS_JOBID=597351.hopper-m-02",
+                "CUDA_VISIBLE_DEVICES=0",
+                f"observed_utc={observed}",
+                "nvidia-smi --query-gpu=index,name,uuid,memory.total --format=csv,noheader,nounits",
+                "0, NVIDIA H200, GPU-test, 146432",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    accounting = tmp_path / "597351.accounting.json"
+    accounting.write_text(
+        json.dumps(
+            {
+                "schema": "STAGE22_PBS_ACCOUNTING_V1",
+                "status": "COMPLETED",
+                "job_id": "597351.hopper-m-02",
+                "start_utc": "2026-09-02T11:00:00+00:00",
+                "end_utc": "2026-09-02T13:00:00+00:00",
+            }
+        ),
+        encoding="utf-8",
+    )
+    run = tmp_path / "r1_run_manifest.json"
+    run.write_text(json.dumps(_run_manifest(recipe="R1", log_path=source)), encoding="utf-8")
+    output = tmp_path / "r1_historical_gpu_evidence.json"
+    result = recover_historical_gpu_evidence(
+        source_artifact=source,
+        accounting_json=accounting,
+        run_manifest=run,
+        recipe="R1",
+        observed_utc=observed,
+        output=output,
+    )
+    assert result["schema"] == "STAGE22_GPU_EVIDENCE_FROM_IMMUTABLE_H2_LOG_V1"
+    assert result["hostname"] == "hopper-h200-test"
+    assert result["selected_device"]["uuid"] == "GPU-test"
+    assert result["run_manifest_sha256"] == hashlib.sha256(run.read_bytes()).hexdigest()
+
+    source.write_text(source.read_text(encoding="utf-8").replace("GPU-test", "GPU-other"), encoding="utf-8")
+    with pytest.raises(ValueError, match="refusing to overwrite"):
+        recover_historical_gpu_evidence(
+            source_artifact=source,
+            accounting_json=accounting,
+            run_manifest=run,
+            recipe="R1",
+            observed_utc=observed,
+            output=output,
+        )
+
+
 def test_gpu_evidence_validator_rejects_tampered_device_row(tmp_path: Path) -> None:
     path, _ = _write_gpu_evidence(tmp_path, "R0")
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -546,6 +614,9 @@ def test_probe_and_pbs_bind_the_frozen_direct_launcher() -> None:
     assert "python scripts/stage22_train_recipes.py" not in pbs
     assert "--local-files-only" in pbs
     assert "--r1-preflight-steps" not in pbs
+    assert pbs.count("stage22_capture_gpu_evidence.py") == 2
+    assert "STAGE22_PBS_WINDOW_START_UTC" in pbs
+    assert "H1 must have passed previously" in pbs
 
 
 def test_direct_launch_audit_rejects_base_path_drift(tmp_path: Path) -> None:

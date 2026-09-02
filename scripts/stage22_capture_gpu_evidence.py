@@ -28,10 +28,23 @@ GPU_COMMAND = [
     "--format=csv,noheader,nounits",
 ]
 _DEVICE_FIELDS = ("index", "name", "uuid", "memory_total_mib")
+_CAPTURE_KINDS = {"UNSCOPED_READ_ONLY", "PBS_PROSPECTIVE_H2"}
 
 
 def _sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
+
+
+def _parse_utc(value: Any, *, field: str) -> datetime:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"GPU evidence {field} is missing")
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(f"GPU evidence {field} is not ISO-8601") from exc
+    if parsed.tzinfo is None:
+        raise ValueError(f"GPU evidence {field} must include a timezone")
+    return parsed
 
 
 def _parse_devices(stdout: str) -> list[dict[str, Any]]:
@@ -69,12 +82,7 @@ def validate_gpu_evidence(payload: Mapping[str, Any]) -> dict[str, Any]:
         raise ValueError("GPU evidence hostname is missing")
     if not isinstance(payload.get("captured_utc"), str) or not payload["captured_utc"].strip():
         raise ValueError("GPU evidence timestamp is missing")
-    try:
-        captured = datetime.fromisoformat(str(payload["captured_utc"]).replace("Z", "+00:00"))
-    except ValueError as exc:
-        raise ValueError("GPU evidence timestamp is not ISO-8601") from exc
-    if captured.tzinfo is None:
-        raise ValueError("GPU evidence timestamp must include a timezone")
+    captured = _parse_utc(payload["captured_utc"], field="timestamp")
     if payload.get("query") != GPU_QUERY:
         raise ValueError("GPU evidence query is not the frozen nvidia-smi identity query")
     if payload.get("contains_credentials") is not False:
@@ -110,15 +118,42 @@ def validate_gpu_evidence(payload: Mapping[str, Any]) -> dict[str, Any]:
     matching = [device for device in devices if isinstance(device, Mapping) and device.get("uuid") == selected.get("uuid")]
     if len(matching) != 1 or dict(matching[0]) != dict(selected):
         raise ValueError("GPU evidence selected_device is not uniquely present in devices")
+    context = payload.get("capture_context")
+    if not isinstance(context, Mapping):
+        raise ValueError("GPU evidence capture_context is missing")
+    kind = context.get("kind")
+    if kind not in _CAPTURE_KINDS:
+        raise ValueError("GPU evidence capture_context kind is invalid")
+    if kind == "PBS_PROSPECTIVE_H2":
+        if not isinstance(context.get("pbs_job_id"), str) or not context["pbs_job_id"].strip():
+            raise ValueError("PBS prospective GPU evidence job ID is missing")
+        window_start = _parse_utc(context.get("window_start_utc"), field="window_start_utc")
+        window_end = _parse_utc(context.get("window_end_utc"), field="window_end_utc")
+        if window_end <= window_start:
+            raise ValueError("PBS prospective GPU evidence window is invalid")
+        if not window_start <= captured <= window_end:
+            raise ValueError("GPU evidence timestamp is outside the PBS job window")
     return dict(payload)
 
 
-def capture_gpu_evidence(output: Path, *, device_index: int | None = None) -> dict[str, Any]:
+def capture_gpu_evidence(
+    output: Path,
+    *,
+    device_index: int | None = None,
+    pbs_job_id: str | None = None,
+    pbs_window_start_utc: str | None = None,
+    pbs_window_end_utc: str | None = None,
+) -> dict[str, Any]:
     """Run the frozen identity query and write one new evidence artifact."""
 
     output = output.resolve()
     if output.exists():
         raise ValueError(f"refusing to overwrite GPU evidence artifact: {output}")
+    window_values = (pbs_job_id, pbs_window_start_utc, pbs_window_end_utc)
+    if any(value is not None for value in window_values) and not all(
+        value is not None for value in window_values
+    ):
+        raise ValueError("PBS prospective GPU evidence requires job ID and both window timestamps")
     completed = subprocess.run(GPU_COMMAND, capture_output=True, check=False)
     stdout = completed.stdout
     devices = _parse_devices(stdout.decode("utf-8", errors="replace"))
@@ -136,6 +171,16 @@ def capture_gpu_evidence(output: Path, *, device_index: int | None = None) -> di
         if len(selected_matches) != 1:
             raise ValueError(f"GPU index {device_index} is not uniquely visible")
         selected = selected_matches[0]
+    captured_utc = datetime.now(timezone.utc).isoformat()
+    if all(value is not None for value in window_values):
+        capture_context = {
+            "kind": "PBS_PROSPECTIVE_H2",
+            "pbs_job_id": str(pbs_job_id),
+            "window_start_utc": str(pbs_window_start_utc),
+            "window_end_utc": str(pbs_window_end_utc),
+        }
+    else:
+        capture_context = {"kind": "UNSCOPED_READ_ONLY"}
     payload = {
         "schema": GPU_EVIDENCE_SCHEMA,
         "status": "PASS",
@@ -143,10 +188,11 @@ def capture_gpu_evidence(output: Path, *, device_index: int | None = None) -> di
         "command": list(GPU_COMMAND),
         "query": GPU_QUERY,
         "hostname": socket.gethostname(),
-        "captured_utc": datetime.now(timezone.utc).isoformat(),
+        "captured_utc": captured_utc,
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         "devices": devices,
         "selected_device": selected,
+        "capture_context": capture_context,
         "raw_stdout_sha256": _sha256_bytes(stdout),
         "contains_credentials": False,
     }
@@ -160,8 +206,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--device-index", type=int)
+    parser.add_argument("--pbs-job-id")
+    parser.add_argument("--pbs-window-start-utc")
+    parser.add_argument("--pbs-window-end-utc")
     args = parser.parse_args()
-    payload = capture_gpu_evidence(args.output, device_index=args.device_index)
+    payload = capture_gpu_evidence(
+        args.output,
+        device_index=args.device_index,
+        pbs_job_id=args.pbs_job_id,
+        pbs_window_start_utc=args.pbs_window_start_utc,
+        pbs_window_end_utc=args.pbs_window_end_utc,
+    )
     print(json.dumps(payload, indent=2))
     return 0
 

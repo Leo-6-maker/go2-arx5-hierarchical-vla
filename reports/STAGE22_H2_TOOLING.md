@@ -59,6 +59,28 @@ inventory files emitted by the read-only live model-construction probe. These
 are integrity gates; they do not establish profile quality or checkpoint
 selection.
 
+## Provenance P0 hardening
+
+The live module probe now requires the actual recipe run manifest and records
+its SHA256 in `source_run_manifest_sha256`; it also checks the frozen action
+timing, recipe flags, shared paths, and base-model index hash before model
+construction. This prevents a manually assembled inventory from being
+attached to a different run.
+
+GPU evidence has two deliberately separate paths. A future PBS run may use
+`STAGE22_GPU_EVIDENCE_V1` only when its capture is bound to the authoritative
+PBS job window. A completed H2 run must use
+`STAGE22_GPU_EVIDENCE_FROM_IMMUTABLE_H2_LOG_V1`, recovered from the training
+log and completed PBS accounting sidecar. A present-time `nvidia-smi` query
+cannot certify the already-finished H2 allocation. If the immutable log does
+not recover one exact UUID, the correct result is
+`GPU_EVIDENCE_RETROACTIVE_INSUFFICIENT`.
+
+The direct auditor also requires `holdout_f_accessed=false` and
+`contains_credentials=false` in the execution provenance, verifies historical
+source/accounting/run-manifest hashes, and accepts the direct frozen-launch
+manifests without requiring the newer Stage22 wrapper.
+
 ## 4080S use
 
 The 4080S may run train-only or synthetic CPU/GPU smoke checks for these tools.
@@ -78,3 +100,7 @@ CORELAB_AUTHORITATIVE_POSTPROCESSING_GATE: NOT_YET_QUALIFIED_UNTIL_DIRECT_H2_AUD
 CHECKPOINT_SELECTION: NOT_STARTED
 TRANSFER: NOT_STARTED
 ```
+
+No authoritative H2 bundle was present in the Corelab node-local intake at
+the time of this update. The next action is immutable-bundle intake and audit;
+H2 must not be rerun merely to manufacture post-hoc GPU evidence.

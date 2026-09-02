@@ -38,9 +38,15 @@ The provenance manifest must record:
   H1 gate; H1 must record `status=PASS` and
   `optimizer_step_completed=true`;
 - one GPU UUID shared by R0 and R1 plus matching runtime identity;
-- an independently captured, SHA256-bound `STAGE22_GPU_EVIDENCE_V1` artifact
-  for each recipe, containing hostname, capture time, UUID, device name, and
-  total VRAM; top-level string equality alone is not sufficient;
+- an independently captured, SHA256-bound GPU artifact for each recipe. For a
+  prospective run this is `STAGE22_GPU_EVIDENCE_V1` with
+  `capture_context.kind=PBS_PROSPECTIVE_H2`, the PBS job ID, and an
+  authoritative start/end window containing the capture time. A completed
+  historical H2 run must instead use
+  `STAGE22_GPU_EVIDENCE_FROM_IMMUTABLE_H2_LOG_V1`, recovered from the immutable
+  training log and PBS accounting sidecar; a present-time observation cannot
+  retroactively certify H2. Both forms contain hostname, UUID, device name,
+  and total VRAM; top-level string equality alone is not sufficient;
 - identical base-model, train-fixture, and modality paths in both direct run
   manifests; the shared base tree hash is checked separately;
 - validation snapshot-lock SHA256 and the exact inference seeds
@@ -72,14 +78,23 @@ read-only model inventory probe using live `requires_grad` values, and must
 include its parameter-inventory digest and frozen-launcher construction
 identity. R1 total trainable parameters must equal `1,419,078,784`.
 
-Capture one read-only GPU identity artifact immediately before each direct
-launch (with a distinct output path):
+For a prospective PBS run, capture one read-only GPU identity artifact
+immediately before each direct launch (with a distinct output path) and bind
+each capture to the scheduler window. The current template requires
+`STAGE22_PBS_WINDOW_START_UTC` and `STAGE22_PBS_WINDOW_END_UTC`; these values
+must come from PBS accounting, not an arbitrary local clock:
 
 ```text
 python scripts/stage22_capture_gpu_evidence.py \
-  --output /scratch/h2/r0_gpu_evidence.json
+  --output /scratch/h2/r0_gpu_evidence.json \
+  --pbs-job-id "$PBS_JOBID" \
+  --pbs-window-start-utc "$STAGE22_PBS_WINDOW_START_UTC" \
+  --pbs-window-end-utc "$STAGE22_PBS_WINDOW_END_UTC"
 python scripts/stage22_capture_gpu_evidence.py \
-  --output /scratch/h2/r1_gpu_evidence.json
+  --output /scratch/h2/r1_gpu_evidence.json \
+  --pbs-job-id "$PBS_JOBID" \
+  --pbs-window-start-utc "$STAGE22_PBS_WINDOW_START_UTC" \
+  --pbs-window-end-utc "$STAGE22_PBS_WINDOW_END_UTC"
 ```
 
 The H2 executor must also run the read-only live inventory probe once for each
@@ -94,6 +109,7 @@ python scripts/stage22_probe_trainable_modules.py \
   --dataset-dir /path/to/lerobot_train \
   --modality-config /path/to/go2_arx5_modality.py \
   --launcher /path/to/frozen/stage20s_train_gr00t.py \
+  --run-manifest /scratch/h2/r1/run_manifest.json \
   --recipe R1 \
   --output /scratch/h2/r1_module_inventory.json \
   --local-files-only
