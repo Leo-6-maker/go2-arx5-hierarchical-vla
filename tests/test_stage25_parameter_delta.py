@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -187,6 +188,84 @@ def test_stage25_two_layer_scope_accepts_exact_core_plus_five_supplementals() ->
             [entry for entry in entries if entry["path"] in SUPPLEMENTAL_METADATA_ALLOWLIST]
         )
     )
+
+
+def test_stage25_seal_scope_accepts_sealed_core_plus_five_supplementals(
+    tmp_path: Path,
+) -> None:
+    checkpoint = tmp_path / "checkpoint-200"
+    checkpoint.mkdir()
+    payloads = {
+        "config.json": b"core-config",
+        "model.safetensors": b"core-tensor",
+    }
+    payloads.update(
+        {
+            path: f"supplemental:{path}".encode("utf-8")
+            for path in SUPPLEMENTAL_METADATA_ALLOWLIST
+        }
+    )
+    entries: list[dict[str, object]] = []
+    for relative, payload in payloads.items():
+        path = checkpoint / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+        entries.append(_scope_entry(relative, payload))
+
+    core_entries = [
+        entry for entry in entries if entry["path"] not in SUPPLEMENTAL_METADATA_ALLOWLIST
+    ]
+    sealed_rows = [
+        {
+            "sealed_path": f"candidate_200/{entry['path']}",
+            "relative_path": entry["path"],
+            "bytes": entry["bytes"],
+            "sha256": entry["sha256"],
+        }
+        for entry in core_entries
+    ]
+    historical_binding = {
+        str(entry["path"]): {
+            "status": "EXACT_HISTORICAL_HASH_FOUND",
+            "bytes": entry["bytes"],
+            "sha256": entry["sha256"],
+            "evidence": ["synthetic historical evidence"],
+        }
+        for entry in entries
+        if entry["path"] in SUPPLEMENTAL_METADATA_ALLOWLIST
+    }
+    seal = tmp_path / "checkpoint_file_seal.tsv"
+    seal.write_text("synthetic seal\n", encoding="utf-8")
+    seal_status = {
+        "expected_o1_seal_sha256": EXPECTED_O1_SEAL_SHA256,
+        "observed_o1_seal_sha256": EXPECTED_O1_SEAL_SHA256,
+        "verified": True,
+    }
+
+    with (
+        patch(
+            "scripts.stage25_o1_parameter_delta_audit._o1_seal_sha256_status",
+            return_value=seal_status,
+        ),
+        patch(
+            "scripts.stage25_o1_parameter_delta_audit._o1_seal_rows",
+            return_value=sealed_rows,
+        ),
+        patch(
+            "scripts.stage25_o1_parameter_delta_audit.SUPPLEMENTAL_METADATA_PRIOR_BINDING",
+            historical_binding,
+        ),
+    ):
+        result = _verify_o1_seal_against_checkpoint(checkpoint, seal)
+
+    assert result["pass"] is True
+    assert result["expected_file_count"] == 2
+    assert result["actual_file_count"] == 7
+    assert result["scope"]["sealed_core"]["observed_file_count"] == 2
+    assert result["scope"]["allowed_supplemental_metadata"][
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS"
+    ] is True
+    assert result["scope"]["forbidden_unsealed_extra"]["paths"] == []
 
 
 def test_stage25_two_layer_scope_rejects_core_missing_or_modified() -> None:
