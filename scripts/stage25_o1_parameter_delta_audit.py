@@ -131,6 +131,23 @@ CATEGORY_PROJECTOR_KEYS = (
 )
 ACTION_ENCODER_W1_KEY = "action_head.action_encoder.W1.W"
 
+# Transformers' pinned Qwen3-VL save path can serialize a shared output
+# embedding only once.  The exact Stage23 O1 index exhibits this one
+# BASE-only alias while retaining the paired input embedding key.  Keep this
+# exception explicit and narrow: every other missing/extra key remains a
+# fail-closed error, and the paired key is still compared normally.
+SERIALIZED_TIED_ALIAS_RULES = (
+    {
+        "base_only_key": "backbone.model.lm_head.weight",
+        "paired_key": "backbone.model.model.language_model.embed_tokens.weight",
+        "base_shard": "model-00001-of-00002.safetensors",
+        "basis": (
+            "pinned Transformers v4.57.3 Qwen3-VL declares lm_head.weight as "
+            "a tied key; safe serialization retains one shared tensor"
+        ),
+    },
+)
+
 MODULE_GROUP_RULES = (
     {
         "group": "CATEGORY_PROJECTORS",
@@ -719,6 +736,87 @@ def _checkpoint_metadata(checkpoint: Path) -> dict[str, Any]:
     }
 
 
+def _reconcile_serialized_key_set(
+    base_weight_map: Mapping[str, str],
+    o1_weight_map: Mapping[str, str],
+) -> dict[str, Any]:
+    """Reconcile exact serialized keys without hiding arbitrary omissions.
+
+    The pinned Stage23 O1 index has one known safetensors tied-alias omission:
+    ``lm_head.weight`` is absent while the shared ``embed_tokens.weight`` is
+    present.  This helper admits only that BASE-only key, requires its paired
+    key in both indexes, and keeps all common keys in the tensor comparison.
+    """
+
+    base_keys = set(base_weight_map)
+    o1_keys = set(o1_weight_map)
+    missing = sorted(base_keys - o1_keys)
+    extra = sorted(o1_keys - base_keys)
+    rules_by_base_key = {
+        rule["base_only_key"]: rule for rule in SERIALIZED_TIED_ALIAS_RULES
+    }
+    allowed_missing = set(rules_by_base_key)
+    unexpected_missing = sorted(set(missing) - allowed_missing)
+    errors: list[str] = []
+
+    if unexpected_missing:
+        errors.append(f"unexpected missing keys={unexpected_missing}")
+    if extra:
+        errors.append(f"unexpected extra keys={extra}")
+
+    reconciled_aliases: list[dict[str, Any]] = []
+    for base_only_key in missing:
+        rule = rules_by_base_key.get(base_only_key)
+        if rule is None:
+            continue
+        paired_key = rule["paired_key"]
+        if paired_key not in base_keys or paired_key not in o1_keys:
+            errors.append(
+                f"tied alias {base_only_key} requires paired key in both indexes: "
+                f"{paired_key}"
+            )
+        expected_shard = rule.get("base_shard")
+        if (
+            expected_shard is not None
+            and base_weight_map.get(base_only_key) != expected_shard
+        ):
+            errors.append(
+                f"tied alias {base_only_key} maps to unexpected BASE shard: "
+                f"{base_weight_map.get(base_only_key)!r}"
+            )
+        reconciled_aliases.append(dict(rule))
+
+    if errors:
+        raise ValueError(
+            "serialized key set mismatch; "
+            f"missing={missing[:8]} extra={extra[:8]}; "
+            + "; ".join(errors)
+        )
+
+    comparison_keys = sorted(base_keys & o1_keys)
+    return {
+        "status": (
+            "PASS_EXPECTED_TIED_ALIAS_OMISSION"
+            if reconciled_aliases
+            else "PASS_EXACT"
+        ),
+        "base_key_count": len(base_keys),
+        "o1_key_count": len(o1_keys),
+        "common_key_count": len(comparison_keys),
+        "allowed_base_only_keys": [
+            rule["base_only_key"]
+            for rule in SERIALIZED_TIED_ALIAS_RULES
+            if rule["base_only_key"] in missing
+        ],
+        "unexpected_missing_keys": [],
+        "unexpected_extra_keys": [],
+        "reconciled_aliases": reconciled_aliases,
+        "comparison_keys": comparison_keys,
+        "all_other_missing_or_extra_fail": True,
+        "common_key_shape_and_dtype_still_exact": True,
+    }
+
+
 def _verify_o1_seal_against_checkpoint(checkpoint: Path, seal_path: Path) -> dict[str, Any]:
     seal_sha_status = _o1_seal_sha256_status(seal_path)
     if not seal_sha_status["verified"]:
@@ -926,6 +1024,16 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "inactive_dimension_count": EXPECTED_UNIVERSAL_ACTION_DIM - EXPECTED_ACTIVE_ACTION_DIM,
             "requires_per_column_normalized_metrics": True,
         },
+        "serialized_key_set_reconciliation": {
+            "status": "EXACT_OR_EXPLICIT_TIED_ALIAS_OMISSION",
+            "rules": [dict(rule) for rule in SERIALIZED_TIED_ALIAS_RULES],
+            "all_other_missing_or_extra_fail": True,
+            "common_key_shape_and_dtype_still_exact": True,
+            "comparison_rule": (
+                "Compare the BASE/O1 key intersection after admitting only the "
+                "listed BASE-only tied alias; require the paired key in both indexes"
+            ),
+        },
         "module_classification": {
             "recipe": {
                 "tune_projector": True,
@@ -969,7 +1077,7 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "hardware": False,
         },
         "comparison_status": "PREPARED_NOT_EXECUTED",
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH",
+        "next_gate": "HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD",
     }
     result = {
         "schema": "STAGE25_O1_PARAMETER_DELTA_PREPARATION_V1",
@@ -1353,11 +1461,11 @@ def _audit_checkpoint_pair(
 
     base_keys = set(base["keys"])
     o1_keys = set(o1["keys"])
-    if base_keys != o1_keys:
-        missing = sorted(base_keys - o1_keys)
-        extra = sorted(o1_keys - base_keys)
-        raise ValueError(f"serialized key set mismatch; missing={missing[:8]} extra={extra[:8]}")
-    missing_category = sorted(set(CATEGORY_PROJECTOR_KEYS) - base_keys)
+    key_set_reconciliation = _reconcile_serialized_key_set(
+        base["weight_map"], o1["weight_map"]
+    )
+    comparison_keys = set(key_set_reconciliation["comparison_keys"])
+    missing_category = sorted(set(CATEGORY_PROJECTOR_KEYS) - comparison_keys)
     if missing_category:
         raise ValueError(f"required category-specific keys missing: {missing_category}")
 
@@ -1387,7 +1495,7 @@ def _audit_checkpoint_pair(
             shard: stack.enter_context(safe_open(str(path), framework="pt", device="cpu"))
             for shard, path in o1_shards.items()
         }
-        for key in sorted(base_keys):
+        for key in key_set_reconciliation["comparison_keys"]:
             base_handle = base_handles[base["weight_map"][key]]
             o1_handle = o1_handles[o1["weight_map"][key]]
             metrics = _compare_streamed_key(base_handle, o1_handle, key, torch)
@@ -1449,6 +1557,7 @@ def _audit_checkpoint_pair(
             "o1_index_sha256": o1["index_sha256"],
             "o1_seal_sha256": seal_sha_status,
             "o1_seal": o1_seal_result,
+            "serialized_key_set_reconciliation": key_set_reconciliation,
             "groot_sha": EXPECTED_GROOT_SHA,
         },
         "module_classification": {
@@ -1463,6 +1572,8 @@ def _audit_checkpoint_pair(
             "unexpected_frozen_groups": unexpected,
         },
         "serialized_model_key_count": len(key_metrics),
+        "serialized_model_key_count_base_index": len(base_keys),
+        "serialized_model_key_count_o1_index": len(o1_keys),
         "serialized_model_key_metrics": key_metrics,
         "category_projector_key_metrics": category_metrics,
         "module_group_aggregates": groups,
@@ -1638,6 +1749,48 @@ def _run_self_check() -> dict[str, Any]:
         historical_binding=historical_binding,
     )
     require(not traversal["pass"], "supplemental path traversal FAIL")
+
+    tied_rule = SERIALIZED_TIED_ALIAS_RULES[0]
+    base_key_map = {
+        tied_rule["base_only_key"]: tied_rule["base_shard"],
+        tied_rule["paired_key"]: tied_rule["base_shard"],
+        "ordinary.key": "model-00002-of-00002.safetensors",
+    }
+    o1_key_map = {
+        tied_rule["paired_key"]: "model-00001-of-00002.safetensors",
+        "ordinary.key": "model-00002-of-00002.safetensors",
+    }
+    tied_reconciliation = _reconcile_serialized_key_set(base_key_map, o1_key_map)
+    require(
+        tied_reconciliation["status"] == "PASS_EXPECTED_TIED_ALIAS_OMISSION"
+        and tied_rule["base_only_key"] in tied_reconciliation["allowed_base_only_keys"]
+        and tied_rule["paired_key"] in tied_reconciliation["comparison_keys"],
+        "proven tied alias omission PASS",
+    )
+    unexpected_missing_map = dict(base_key_map)
+    unexpected_missing_map["unexplained.missing"] = "model-00002-of-00002.safetensors"
+    try:
+        _reconcile_serialized_key_set(unexpected_missing_map, o1_key_map)
+    except ValueError:
+        checks.append("unlisted serialized missing key FAIL")
+    else:
+        raise AssertionError("unlisted serialized missing key was accepted")
+    unexpected_extra_map = dict(o1_key_map)
+    unexpected_extra_map["unexplained.extra"] = "model-00002-of-00002.safetensors"
+    try:
+        _reconcile_serialized_key_set(base_key_map, unexpected_extra_map)
+    except ValueError:
+        checks.append("unlisted serialized extra key FAIL")
+    else:
+        raise AssertionError("unlisted serialized extra key was accepted")
+    missing_pair_map = dict(o1_key_map)
+    del missing_pair_map[tied_rule["paired_key"]]
+    try:
+        _reconcile_serialized_key_set(base_key_map, missing_pair_map)
+    except ValueError:
+        checks.append("tied alias paired key FAIL")
+    else:
+        raise AssertionError("tied alias without paired key was accepted")
 
     with TemporaryDirectory(prefix="stage25-scope-self-check-") as temporary:
         temporary_root = Path(temporary)

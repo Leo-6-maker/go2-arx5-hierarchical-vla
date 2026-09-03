@@ -7,15 +7,14 @@ Date: 2026-09-03 (Asia/Singapore)
 ```text
 PREPARATION: PASS
 DELTA_COMPARISON: PREPARED_NOT_EXECUTED
-NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
+NEXT_GATE: HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD
 ```
 
-This protocol is the CPU/static gate required before authorizing another
-Hopper/H200 action. It compares the exact Stage22 BASE checkpoint with the
+This protocol is the CPU/static gate for the already-authorized Stage25
+Hopper execution. It compares the exact Stage22 BASE checkpoint with the
 exact Stage23 O1@200 checkpoint directly from safetensors. It never constructs
 a model and never runs CUDA, forward, inference, training, PBS, WBC, or
-hardware code. Hopper remains HOLD pending GPT/PI review of this supplemental
-history-binding patch.
+hardware code. H200, H1/H2/H3/H4, WBC, and hardware remain locked.
 
 The machine-readable preparation record is
 `reports/STAGE25_O1_PARAMETER_DELTA_PROTOCOL.json`.
@@ -149,9 +148,36 @@ O1 index SHA256:   ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787
 
 The O1 directory must match every `candidate_200/*` entry in the immutable
 checkpoint seal, including file size and SHA256, and must contain exactly the
-five supplemental metadata paths above. The serialized key set, shape, and
-stored dtype must match BASE exactly. No directory name or model name is
+five supplemental metadata paths above. No directory name or model name is
 accepted as an identity substitute.
+
+### Serialized key-set reconciliation
+
+The serialized key gate is exact except for one explicitly proven tied-weight
+alias observed in the immutable O1 index:
+
+```text
+BASE-only key:
+  backbone.model.lm_head.weight
+
+paired key required in both indexes:
+  backbone.model.model.language_model.embed_tokens.weight
+
+BASE shard for the omitted alias:
+  model-00001-of-00002.safetensors
+```
+
+BASE has 1031 indexed keys and O1 has 1030; this is the only observed
+BASE-only key. The pinned Transformers v4.57.3 Qwen3-VL source declares
+`lm_head.weight` as a tied key, and its safe serializer stores shared tensor
+storage once. The exact O1 index retains the paired embedding key, so this is
+a serialization-ABI alias omission rather than a generic missing-parameter
+relaxation.
+
+The verifier compares the BASE/O1 intersection, including the paired key.
+The omission is accepted only when the paired key exists in both indexes and
+the BASE shard mapping is the one above. Every other missing or extra key
+fails closed; all common keys must still match in shape and stored dtype.
 
 ## Required category-specific comparison
 
@@ -236,7 +262,9 @@ The harness stops before tensor comparison if any of the following occurs:
 - missing sealed-core files, missing supplemental files, or any unsealed extra;
 - supplemental metadata symlink, path traversal, or non-regular file;
 - supplemental historical binding missing, non-exact, or size/SHA256 mismatch;
-- serialized key-set, shape, or dtype mismatch;
+- any serialized key-set difference other than the explicit tied-alias rule
+  above;
+- shape or stored-dtype mismatch for any compared common key;
 - any required category-specific key or category row is absent;
 - non-CPU tensor is returned, a tensor is non-finite, or a safe path escapes;
 - an expected-frozen group changes without a source-level explanation.
@@ -263,8 +291,9 @@ WBC: false
 HARDWARE: false
 ```
 
-Stage25 preparation and supplemental historical-binding closure end here. The
-next gate is
-`GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH`. Hopper,
-H200, PBS, and numerical delta execution remain HOLD until a new explicit
-gate.
+Stage25 preparation and supplemental historical-binding closure remain
+unchanged. The corrected verifier may now be used for the same
+`HOPPER_CPU_STATIC_DELTA` authorization in `PI_GATE_STATE_0001`. A completed
+numeric result still exhausts that authorization and requires
+`GPT_PI_REVIEW_AFTER_STAGE25_PARAMETER_DELTA`; H200, PBS, and all scientific
+experiment branches remain locked.

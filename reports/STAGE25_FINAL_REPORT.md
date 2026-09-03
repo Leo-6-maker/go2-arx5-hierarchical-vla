@@ -16,7 +16,7 @@ fail-closed, not executed.
 ```text
 PREPARATION: PASS
 DELTA_COMPARISON: PREPARED_NOT_EXECUTED
-NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
+NEXT_GATE: HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD
 ```
 
 ## B. Git and scope
@@ -111,13 +111,32 @@ EXPECTED_FROZEN_GROUP_DELTA: STOP
 The direct comparison reports exact key/shard/shape/dtype, stored-dtype tensor
 hashes, delta norms, cosine, changed-element fractions, category rows, W1
 active/inactive partitions, and aggregate deltas for every serialized model
-key grouped by the pinned Stage23 recipe.
+key grouped by the pinned Stage23 recipe. The serialized key count is reported
+both before and after the explicit tied-alias reconciliation.
 
 The hardening gate now verifies the frozen whole-seal SHA256 before any tensor
 read and emits `expected_o1_seal_sha256`, `observed_o1_seal_sha256`, and
 `verified`. A `STOP_UNEXPECTED_FROZEN_DELTA` result exits nonzero; `PASS`
 exits zero. Static tests cover an altered-but-self-consistent seal rejection,
 the two exit-code cases, and the no-tensor-read rejection path.
+
+## F.1 Serialized key-set reconciliation correction
+
+Hopper reported 1031 BASE index keys versus 1030 exact O1 index keys. The only
+BASE-only key was `backbone.model.lm_head.weight`; O1 retains the paired
+`backbone.model.model.language_model.embed_tokens.weight`. The pinned
+Transformers v4.57.3 Qwen3-VL save path identifies `lm_head.weight` as a tied
+key and safe serialization stores shared storage once. The exact O1 index and
+the pinned save path therefore provide a source/provenance explanation for
+this one alias omission.
+
+The verifier now admits only this exact BASE-only key, requires the paired key
+in both indexes, requires the BASE mapping to
+`model-00001-of-00002.safetensors`, and compares the paired key normally. Any
+other missing/extra key, or any common-key shape/stored-dtype mismatch, still
+fails closed. This is a mechanical verifier correction; it changes no model
+bytes, scientific inputs, category IDs, active/inactive partition, or
+experiment authorization.
 
 ## F. Execution return
 
@@ -139,15 +158,25 @@ TRAINING: false
 PBS_SUBMITTED: false
 RESULT: PASS
 SUPPLEMENTAL_METADATA_HISTORY_BINDING_IMPLEMENTED: true
-NEXT_GATE_REQUEST: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
+SERIALIZED_KEY_SET_RECONCILIATION: PASS_EXPECTED_TIED_ALIAS_OMISSION
+BASE_INDEX_KEY_COUNT: 1031
+O1_INDEX_KEY_COUNT: 1030
+ALLOWED_BASE_ONLY_KEY: backbone.model.lm_head.weight
+REQUIRED_PAIRED_KEY: backbone.model.model.language_model.embed_tokens.weight
+UNEXPECTED_MISSING_KEYS: []
+UNEXPECTED_EXTRA_KEYS: []
+SCIENTIFIC_CONTRACT_CHANGED: false
+DOWNSTREAM_AUTHORIZATION_STILL_VALID: true
+NEXT_GATE_REQUEST: HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD
 ```
 
 ## G. Stop gate
 
-Do not start H2/H1, do not submit PBS, do not use Hopper/H200, and do not run
-WBC. The next decision gate is GPT/PI review of this Corelab supplemental
-history-binding patch. No interpretation of BASE→O1 parameter movement is
-made by this preparation report.
+Do not start H2/H1, do not submit PBS, do not use Hopper/H200 for a new
+experiment, and do not run WBC. Hopper may resume only the same authorized
+CPU/static BASE→O1 comparison against the corrected head. Its completed
+result is the next GPT/PI gate; this correction itself makes no scientific
+interpretation of BASE→O1 parameter movement.
 
 See `reports/STAGE25_O1_PARAMETER_DELTA_PROTOCOL.md` and its JSON companion
 for the complete executable schema.

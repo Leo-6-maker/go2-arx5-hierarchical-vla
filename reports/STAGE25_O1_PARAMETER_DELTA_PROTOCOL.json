@@ -50,6 +50,20 @@
       "key": "action_head.action_encoder.W1.W",
       "requires_per_column_normalized_metrics": true
     },
+    "serialized_key_set_reconciliation": {
+      "all_other_missing_or_extra_fail": true,
+      "common_key_shape_and_dtype_still_exact": true,
+      "comparison_rule": "Compare the BASE/O1 key intersection after admitting only the listed BASE-only tied alias; require the paired key in both indexes",
+      "rules": [
+        {
+          "base_only_key": "backbone.model.lm_head.weight",
+          "base_shard": "model-00001-of-00002.safetensors",
+          "basis": "pinned Transformers v4.57.3 Qwen3-VL declares lm_head.weight as a tied key; safe serialization retains one shared tensor",
+          "paired_key": "backbone.model.model.language_model.embed_tokens.weight"
+        }
+      ],
+      "status": "EXACT_OR_EXPLICIT_TIED_ALIAS_OMISSION"
+    },
     "base_identity": {
       "identity_must_be_reverified": true,
       "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
@@ -164,7 +178,7 @@
       ],
       "unexpected_frozen_group_delta_is_stop": true
     },
-    "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH",
+    "next_gate": "HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD",
     "o1_identity": {
       "checkpoint_seal_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv",
       "checkpoint_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",

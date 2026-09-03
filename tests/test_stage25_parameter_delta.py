@@ -14,12 +14,14 @@ from scripts.stage25_o1_parameter_delta_audit import (
     EXPECTED_CATEGORY_IDS,
     EXPECTED_O1_INDEX_SHA256,
     EXPECTED_O1_SEAL_SHA256,
+    SERIALIZED_TIED_ALIAS_RULES,
     SUPPLEMENTAL_METADATA_ALLOWLIST,
     _audit_checkpoint_pair,
     _module_group,
     _o1_seal_sha256_status,
     _o1_seal_rows,
     _partition_o1_checkpoint_scope,
+    _reconcile_serialized_key_set,
     _require_o1_seal_sha256,
     _verify_supplemental_historical_binding,
     _verify_o1_seal_against_checkpoint,
@@ -46,6 +48,61 @@ def test_stage25_module_rules_cover_expected_recipe_groups() -> None:
     assert _module_group("backbone.vision_model.weight")["group"] == "VISUAL_LLM_VLLN_EXPECTED_FROZEN"
     assert _module_group("action_head.vlln.weight")["expected_trainable"] is False
     assert _module_group("unrecognized.serialized.key")["group"] == "OTHER_EXPECTED_FROZEN"
+
+
+def _serialized_key_fixture() -> tuple[dict[str, str], dict[str, str]]:
+    rule = SERIALIZED_TIED_ALIAS_RULES[0]
+    base = {
+        rule["base_only_key"]: rule["base_shard"],
+        rule["paired_key"]: rule["base_shard"],
+        "ordinary.key": "model-00002-of-00002.safetensors",
+    }
+    o1 = {
+        rule["paired_key"]: "model-00001-of-00002.safetensors",
+        "ordinary.key": "model-00002-of-00002.safetensors",
+    }
+    return base, o1
+
+
+def test_stage25_reconciles_only_the_proven_tied_alias_omission() -> None:
+    base, o1 = _serialized_key_fixture()
+    result = _reconcile_serialized_key_set(base, o1)
+    rule = SERIALIZED_TIED_ALIAS_RULES[0]
+
+    assert result["status"] == "PASS_EXPECTED_TIED_ALIAS_OMISSION"
+    assert result["base_key_count"] == 3
+    assert result["o1_key_count"] == 2
+    assert result["common_key_count"] == 2
+    assert result["allowed_base_only_keys"] == [rule["base_only_key"]]
+    assert result["unexpected_missing_keys"] == []
+    assert result["unexpected_extra_keys"] == []
+    assert rule["base_only_key"] not in result["comparison_keys"]
+    assert rule["paired_key"] in result["comparison_keys"]
+
+
+def test_stage25_tied_alias_reconciliation_rejects_unlisted_missing_or_extra() -> None:
+    base, o1 = _serialized_key_fixture()
+    base["unexplained.missing"] = "model-00002-of-00002.safetensors"
+    with pytest.raises(ValueError, match="unexpected missing keys"):
+        _reconcile_serialized_key_set(base, o1)
+
+    base, o1 = _serialized_key_fixture()
+    o1["unexplained.extra"] = "model-00002-of-00002.safetensors"
+    with pytest.raises(ValueError, match="unexpected extra keys"):
+        _reconcile_serialized_key_set(base, o1)
+
+
+def test_stage25_tied_alias_reconciliation_requires_pair_and_provenance_shard() -> None:
+    base, o1 = _serialized_key_fixture()
+    rule = SERIALIZED_TIED_ALIAS_RULES[0]
+    del o1[rule["paired_key"]]
+    with pytest.raises(ValueError, match="requires paired key"):
+        _reconcile_serialized_key_set(base, o1)
+
+    base, o1 = _serialized_key_fixture()
+    base[rule["base_only_key"]] = "unexpected-shard.safetensors"
+    with pytest.raises(ValueError, match="unexpected BASE shard"):
+        _reconcile_serialized_key_set(base, o1)
 
 
 def test_stage25_seal_parser_reconstructs_candidate_200_paths(tmp_path: Path) -> None:

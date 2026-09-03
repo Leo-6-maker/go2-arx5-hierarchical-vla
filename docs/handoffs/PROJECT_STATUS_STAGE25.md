@@ -14,7 +14,7 @@ base: c5ded6e119df920402451497aacdc69274ca8fc1
 ```text
 STAGE25_PREPARATION: PASS
 BASE_TO_O1_NUMERICAL_DELTA: PREPARED_NOT_EXECUTED
-NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
+NEXT_GATE: HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD
 ```
 
 The exact Stage23 O1@200 historical path, run manifest, trainer state,
@@ -36,6 +36,15 @@ The verifier also requires each present supplemental file's bytes and SHA256
 to match the recovered Stage23 historical binding with status
 `EXACT_HISTORICAL_HASH_FOUND`; missing or mismatched history fails closed.
 
+The exact Hopper index audit found one serialization-only key-count difference:
+BASE has 1031 keys and O1 has 1030, with only
+`backbone.model.lm_head.weight` absent from O1. The O1 index retains
+`backbone.model.model.language_model.embed_tokens.weight`, the paired key
+declared tied by the pinned Qwen3-VL/Transformers save path. The verifier now
+allows only this BASE-only alias, requires the paired key in both indexes and
+the exact BASE shard mapping, and still fails closed for every other
+missing/extra key and every common-key shape/dtype mismatch.
+
 ## Prepared audit
 
 `scripts/stage25_o1_parameter_delta_audit.py` has two boundaries:
@@ -49,11 +58,14 @@ to match the recovered Stage23 historical binding with status
 The audit covers all 14 category-specific projector keys, rows 4–7/10/11/24–27,
 the W1 active 10D versus inactive 122D partition, and aggregate deltas for
 all serialized model keys. Expected-frozen group changes are fail-closed.
+The output separately reports BASE/O1/common serialized key counts and the
+explicit alias reconciliation.
 
 ## Prohibited until next authorization
 
 ```text
-Hopper/H200/PBS: false
+HOPPER_CPU_STATIC_DELTA: authorized on corrected HEAD
+Hopper H200/PBS: false
 new model construction: false
 forward/inference: false
 training/fine-tuning: false

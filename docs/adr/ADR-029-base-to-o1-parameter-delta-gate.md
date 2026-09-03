@@ -30,9 +30,15 @@ modules expected to be frozen changed unexpectedly?
 4. For the 132D-facing action encoder W1, report active 10D versus inactive
    122D columns with per-column-normalized metrics; total energy alone is not
    sufficient.
-5. Aggregate every serialized key into the frozen recipe groups. Any delta in
-   an expected-frozen group stops interpretation pending source explanation.
-6. Keep the O1 bytes outside Git. Git tracks the harness, protocol, hashes,
+5. Reconcile serialized keys exactly, except for the single pinned
+   `backbone.model.lm_head.weight` BASE-only tied alias when
+   `backbone.model.model.language_model.embed_tokens.weight` is present in
+   both indexes and the BASE shard mapping is exact. Every other missing or
+   extra key fails closed; common-key shape and dtype remain exact gates.
+6. Aggregate every compared serialized key into the frozen recipe groups. Any
+   delta in an expected-frozen group stops interpretation pending source
+   explanation.
+7. Keep the O1 bytes outside Git. Git tracks the harness, protocol, hashes,
    scalar evidence, and provenance only.
 
 ## Consequences
@@ -41,6 +47,12 @@ The preparation result can be completed even when the Phase-A relay contains
 only O1 metadata/seals. The numerical result remains explicitly unavailable
 until the exact O1 shards are relayed. This prevents a newer checkpoint,
 directory naming, or partial artifact from being mistaken for O1@200.
+
+The one key-count difference observed on the exact Hopper checkpoint is a
+known tied-weight serialization alias under the pinned Transformers save
+path. The explicit reconciliation does not change any tensor input or
+scientific comparison; it only prevents a serialized alias from blocking the
+same CPU/static gate.
 
 ## Evidence
 
