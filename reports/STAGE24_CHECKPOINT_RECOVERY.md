@@ -1,4 +1,8 @@
-# Stage24 A0 checkpoint recovery
+# Stage24 A0 checkpoint recovery (Historical Pre-Recovery Record)
+
+> Superseded on 2026-09-03 by `reports/STAGE24_STATIC_CHECKPOINT_AUDIT.md`.
+> This report records the earlier authorization blocker and remains useful as
+> provenance history. It is not the current node-access or checkpoint status.
 
 Date: 2026-09-03 (Asia/Singapore)
 

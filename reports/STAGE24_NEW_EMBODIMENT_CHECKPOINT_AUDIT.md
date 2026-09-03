@@ -1,4 +1,10 @@
-# Stage24-A0 NEW_EMBODIMENT Checkpoint Audit
+# Stage24-A0 NEW_EMBODIMENT Checkpoint Audit (Historical Pre-Recovery Record)
+
+> Superseded on 2026-09-03 by `reports/STAGE24_STATIC_CHECKPOINT_AUDIT.md`.
+> The earlier report correctly stopped when Corelab SSH access and exact
+> checkpoint bytes were unavailable. Access is now restored and the exact
+> checkpoint has passed the A0 identity gate; this file is retained as the
+> fail-closed history, not as the current Stage24 status.
 
 Date: 2026-09-03 (Asia/Singapore)
 
