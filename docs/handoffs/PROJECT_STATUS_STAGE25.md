@@ -14,7 +14,7 @@ base: c5ded6e119df920402451497aacdc69274ca8fc1
 ```text
 STAGE25_PREPARATION: PASS
 BASE_TO_O1_NUMERICAL_DELTA: PREPARED_NOT_EXECUTED
-NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
+NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
 ```
 
 The exact Stage23 O1@200 historical path, run manifest, trainer state,
@@ -32,13 +32,17 @@ exactly five regular, non-symlink supplemental paths:
 `experiment_cfg/final_processor_config.json`. Supplemental metadata is
 `PRESENT_DAY_UNSEALED_METADATA` and is excluded from tensor identity; any
 missing, extra, symlink, or escaping path fails closed before tensor reads.
+The verifier also requires each present supplemental file's bytes and SHA256
+to match the recovered Stage23 historical binding with status
+`EXACT_HISTORICAL_HASH_FOUND`; missing or mismatched history fails closed.
 
 ## Prepared audit
 
 `scripts/stage25_o1_parameter_delta_audit.py` has two boundaries:
 
 - `prepare` verifies the Stage23 archive/payload seals and freezes the O1
-  provenance and comparison schema, including the two-layer root scope;
+  provenance and comparison schema, including the two-layer root scope and
+  historical supplemental binding;
 - `audit` requires exact BASE/O1 trees and the O1 per-file seal, then performs
   a CPU-only streamed safetensor comparison.
 

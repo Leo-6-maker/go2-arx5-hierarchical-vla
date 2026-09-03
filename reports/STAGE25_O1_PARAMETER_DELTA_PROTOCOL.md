@@ -7,14 +7,15 @@ Date: 2026-09-03 (Asia/Singapore)
 ```text
 PREPARATION: PASS
 DELTA_COMPARISON: PREPARED_NOT_EXECUTED
-NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
+NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
 ```
 
 This protocol is the CPU/static gate required before authorizing another
 Hopper/H200 action. It compares the exact Stage22 BASE checkpoint with the
 exact Stage23 O1@200 checkpoint directly from safetensors. It never constructs
 a model and never runs CUDA, forward, inference, training, PBS, WBC, or
-hardware code. Hopper remains HOLD pending GPT/PI review of this scope patch.
+hardware code. Hopper remains HOLD pending GPT/PI review of this supplemental
+history-binding patch.
 
 The machine-readable preparation record is
 `reports/STAGE25_O1_PARAMETER_DELTA_PROTOCOL.json`.
@@ -111,6 +112,28 @@ plus the exact O1 index SHA256. Any regular file, symlink, directory escape,
 or path outside the union of these sealed-core rows and the exact five paths
 fails closed before tensor reads. A sixth `experiment_cfg` file is therefore
 not accepted.
+
+The historical binding is a separate required provenance layer. After the
+exact five-path scope passes and before tensor loading, the verifier requires
+for every supplemental path:
+
+```text
+present bytes  == historical bytes
+present sha256 == historical sha256
+historical status == EXACT_HISTORICAL_HASH_FOUND
+```
+
+The audit output reports
+`SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS`,
+`SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS`,
+`SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES`, and
+`STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256`. Each path also reports
+`historical_bytes`, `present_bytes`, `historical_sha256`, `present_sha256`,
+`exact_match`, and `historical_evidence_sources`. A missing historical record,
+non-exact historical status, byte-count mismatch, or SHA256 mismatch is a
+fail-closed provenance STOP. The preparation record leaves the present-root
+manifest value null because the full O1 checkpoint is not in the Stage23
+relay; the value is computed during the bounded checkpoint audit.
 
 ## Frozen BASE identity
 
@@ -212,6 +235,7 @@ The harness stops before tensor comparison if any of the following occurs:
 - O1 index or immutable sealed-core mismatch;
 - missing sealed-core files, missing supplemental files, or any unsealed extra;
 - supplemental metadata symlink, path traversal, or non-regular file;
+- supplemental historical binding missing, non-exact, or size/SHA256 mismatch;
 - serialized key-set, shape, or dtype mismatch;
 - any required category-specific key or category row is absent;
 - non-CPU tensor is returned, a tensor is non-finite, or a safe path escapes;
@@ -239,6 +263,8 @@ WBC: false
 HARDWARE: false
 ```
 
-Stage25 preparation and provenance-scope correction end here. The next gate is
-`GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH`. Hopper, H200,
-PBS, and numerical delta execution remain HOLD until a new explicit gate.
+Stage25 preparation and supplemental historical-binding closure end here. The
+next gate is
+`GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH`. Hopper,
+H200, PBS, and numerical delta execution remain HOLD until a new explicit
+gate.

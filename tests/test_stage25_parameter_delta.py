@@ -20,6 +20,7 @@ from scripts.stage25_o1_parameter_delta_audit import (
     _o1_seal_rows,
     _partition_o1_checkpoint_scope,
     _require_o1_seal_sha256,
+    _verify_supplemental_historical_binding,
     _verify_o1_seal_against_checkpoint,
     audit_exit_code,
     safe_relative_path,
@@ -125,7 +126,11 @@ def _scope_entry(path: str, payload: bytes) -> dict[str, object]:
     }
 
 
-def _scope_fixture() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+def _scope_fixture() -> tuple[
+    list[dict[str, object]],
+    list[dict[str, object]],
+    dict[str, dict[str, object]],
+]:
     core = [
         _scope_entry("config.json", b"core-config"),
         _scope_entry("model.safetensors", b"core-tensor"),
@@ -143,17 +148,40 @@ def _scope_fixture() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
         _scope_entry(path, f"supplemental:{path}".encode("utf-8"))
         for path in SUPPLEMENTAL_METADATA_ALLOWLIST
     ]
-    return core + supplemental, sealed_rows
+    historical_binding = {
+        str(entry["path"]): {
+            "status": "EXACT_HISTORICAL_HASH_FOUND",
+            "bytes": entry["bytes"],
+            "sha256": entry["sha256"],
+            "evidence": ["synthetic historical evidence"],
+        }
+        for entry in supplemental
+    }
+    return core + supplemental, sealed_rows, historical_binding
 
 
 def test_stage25_two_layer_scope_accepts_exact_core_plus_five_supplementals() -> None:
-    entries, sealed_rows = _scope_fixture()
-    result = _partition_o1_checkpoint_scope(entries, sealed_rows)
+    entries, sealed_rows, historical_binding = _scope_fixture()
+    result = _partition_o1_checkpoint_scope(
+        entries,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
     assert result["pass"] is True
     supplemental = result["allowed_supplemental_metadata"]
     assert supplemental["expected_file_count"] == 5
     assert supplemental["observed_file_count"] == 5
     assert supplemental["used_for_tensor_identity"] is False
+    assert supplemental["SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS"] is True
+    assert (
+        supplemental["SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS"]
+        == "EXACT_MATCH_TO_STAGE23_HISTORICAL_EVIDENCE"
+    )
+    assert supplemental["SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES"] == []
+    assert all(
+        item["exact_match"]
+        for item in supplemental["per_file"]
+    )
     assert supplemental["STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256"] == (
         stage25_supplemental_manifest_sha256(
             [entry for entry in entries if entry["path"] in SUPPLEMENTAL_METADATA_ALLOWLIST]
@@ -162,10 +190,11 @@ def test_stage25_two_layer_scope_accepts_exact_core_plus_five_supplementals() ->
 
 
 def test_stage25_two_layer_scope_rejects_core_missing_or_modified() -> None:
-    entries, sealed_rows = _scope_fixture()
+    entries, sealed_rows, historical_binding = _scope_fixture()
     missing = _partition_o1_checkpoint_scope(
         [entry for entry in entries if entry["path"] != "config.json"],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     assert missing["pass"] is False
     assert "config.json" in missing["sealed_core"]["missing_paths"]
@@ -176,16 +205,21 @@ def test_stage25_two_layer_scope_rejects_core_missing_or_modified() -> None:
         else entry
         for entry in entries
     ]
-    changed = _partition_o1_checkpoint_scope(modified, sealed_rows)
+    changed = _partition_o1_checkpoint_scope(
+        modified,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
     assert changed["pass"] is False
     assert any("sealed core SHA256 mismatch: config.json" in error for error in changed["errors"])
 
 
 def test_stage25_two_layer_scope_rejects_sixth_or_arbitrary_extra_file() -> None:
-    entries, sealed_rows = _scope_fixture()
+    entries, sealed_rows, historical_binding = _scope_fixture()
     missing_supplemental = _partition_o1_checkpoint_scope(
         [entry for entry in entries if entry["path"] != "experiment_cfg/config.yaml"],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     assert missing_supplemental["pass"] is False
     assert "experiment_cfg/config.yaml" in missing_supplemental["allowed_supplemental_metadata"]["missing_paths"]
@@ -193,6 +227,7 @@ def test_stage25_two_layer_scope_rejects_sixth_or_arbitrary_extra_file() -> None
     sixth = _partition_o1_checkpoint_scope(
         entries + [_scope_entry("experiment_cfg/sixth.yaml", b"sixth")],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     assert sixth["pass"] is False
     assert sixth["forbidden_unsealed_extra"]["paths"] == ["experiment_cfg/sixth.yaml"]
@@ -200,20 +235,25 @@ def test_stage25_two_layer_scope_rejects_sixth_or_arbitrary_extra_file() -> None
     arbitrary = _partition_o1_checkpoint_scope(
         entries + [_scope_entry("unexpected.txt", b"extra")],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     assert arbitrary["pass"] is False
     assert arbitrary["forbidden_unsealed_extra"]["paths"] == ["unexpected.txt"]
 
 
 def test_stage25_two_layer_scope_rejects_symlink_and_path_traversal(tmp_path: Path) -> None:
-    entries, sealed_rows = _scope_fixture()
+    entries, sealed_rows, historical_binding = _scope_fixture()
     symlink_entries = [
         {**entry, "symlink": True}
         if entry["path"] == SUPPLEMENTAL_METADATA_ALLOWLIST[0]
         else entry
         for entry in entries
     ]
-    symlink_result = _partition_o1_checkpoint_scope(symlink_entries, sealed_rows)
+    symlink_result = _partition_o1_checkpoint_scope(
+        symlink_entries,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
     assert symlink_result["pass"] is False
     assert any("symlink file is not allowed" in error for error in symlink_result["errors"])
 
@@ -230,9 +270,85 @@ def test_stage25_two_layer_scope_rejects_symlink_and_path_traversal(tmp_path: Pa
     traversal = _partition_o1_checkpoint_scope(
         entries + [_scope_entry("experiment_cfg/../escape", b"escape")],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     assert traversal["pass"] is False
     assert "experiment_cfg/../escape" in traversal["forbidden_unsealed_extra"]["invalid_entries"]
+
+
+def test_stage25_supplemental_history_sha_mismatch_fails_closed() -> None:
+    entries, sealed_rows, historical_binding = _scope_fixture()
+    changed = [
+        {**entry, "sha256": "0" * 64}
+        if entry["path"] == "experiment_cfg/config.yaml"
+        else entry
+        for entry in entries
+    ]
+    result = _partition_o1_checkpoint_scope(
+        changed,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
+    supplemental = result["allowed_supplemental_metadata"]
+    assert result["pass"] is False
+    assert supplemental["SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS"] is False
+    assert supplemental["per_file"][1]["exact_match"] is False
+    assert any(
+        item["path"] == "experiment_cfg/config.yaml"
+        for item in supplemental["SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES"]
+    )
+
+
+def test_stage25_supplemental_history_byte_mismatch_fails_closed() -> None:
+    entries, sealed_rows, historical_binding = _scope_fixture()
+    changed = [
+        {**entry, "bytes": entry["bytes"] + 1}
+        if entry["path"] == "experiment_cfg/dataset_statistics.json"
+        else entry
+        for entry in entries
+    ]
+    result = _partition_o1_checkpoint_scope(
+        changed,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
+    assert result["pass"] is False
+    assert any(
+        item["path"] == "experiment_cfg/dataset_statistics.json"
+        for item in result["SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES"]
+    )
+
+
+def test_stage25_missing_or_nonexact_supplemental_history_fails_closed() -> None:
+    entries, _, historical_binding = _scope_fixture()
+    missing_binding = dict(historical_binding)
+    del missing_binding["experiment_cfg/config.yaml"]
+    missing = _verify_supplemental_historical_binding(
+        [entry for entry in entries if entry["path"] in SUPPLEMENTAL_METADATA_ALLOWLIST],
+        missing_binding,
+    )
+    assert missing["SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS"] is False
+    assert any(
+        item["path"] == "experiment_cfg/config.yaml"
+        for item in missing["SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES"]
+    )
+
+    nonexact_binding = {
+        **historical_binding,
+        "experiment_cfg/config.yaml": {
+            **historical_binding["experiment_cfg/config.yaml"],
+            "status": "HISTORICAL_COPY_FOUND_BUT_NOT_IMMUTABLY_BOUND",
+        },
+    }
+    nonexact = _verify_supplemental_historical_binding(
+        [entry for entry in entries if entry["path"] in SUPPLEMENTAL_METADATA_ALLOWLIST],
+        nonexact_binding,
+    )
+    assert nonexact["SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS"] is False
+    assert any(
+        item["path"] == "experiment_cfg/config.yaml"
+        for item in nonexact["SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES"]
+    )
 
 
 def test_stage25_safe_paths_and_tree_digest_are_deterministic() -> None:

@@ -164,7 +164,7 @@
       ],
       "unexpected_frozen_group_delta_is_stop": true
     },
-    "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH",
+    "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH",
     "o1_identity": {
       "checkpoint_seal_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv",
       "checkpoint_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
@@ -275,6 +275,13 @@
         "classification": "PRESENT_DAY_UNSEALED_METADATA",
         "current_checkpoint_manifest_status": "OBSERVED_ON_HOPPER_PENDING_REEXECUTION",
         "expected_file_count": 5,
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS": "PENDING_PRESENT_ROOT_COMPARISON",
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS": null,
+        "SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES": [],
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_IMPLEMENTED": true,
+        "SUPPLEMENTAL_METADATA_PROMOTED_TO_STAGE23_CORE_SEAL": false,
+        "historical_equivalence_required_for_stage25_provenance_gate": true,
+        "promoted_to_stage23_core_seal": false,
         "manifest_algorithm": "sha256(relative_path + \"\\0\" + bytes + \"\\0\" + file_sha256 + \"\\n\") over sorted relative_path",
         "manifest_field": "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256",
         "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": null,

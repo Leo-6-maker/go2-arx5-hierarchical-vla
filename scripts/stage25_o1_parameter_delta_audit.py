@@ -405,9 +405,122 @@ def stage25_supplemental_manifest_sha256(
     return digest.hexdigest()
 
 
+def _verify_supplemental_historical_binding(
+    entries: Iterable[Mapping[str, Any]],
+    historical_binding: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Require present supplemental metadata to reproduce the historical binding."""
+
+    binding = (
+        SUPPLEMENTAL_METADATA_PRIOR_BINDING
+        if historical_binding is None
+        else historical_binding
+    )
+    normalized = [_normalize_scope_entry(entry) for entry in entries]
+    present_by_path = {entry["path"]: entry for entry in normalized}
+    allowed_paths = set(SUPPLEMENTAL_METADATA_ALLOWLIST)
+    mismatches: list[dict[str, Any]] = []
+    per_file: list[dict[str, Any]] = []
+
+    for path in SUPPLEMENTAL_METADATA_ALLOWLIST:
+        present = present_by_path.get(path)
+        historical = binding.get(path)
+        historical_bytes = (
+            historical.get("bytes")
+            if isinstance(historical, Mapping)
+            else None
+        )
+        historical_sha256 = (
+            historical.get("sha256")
+            if isinstance(historical, Mapping)
+            else None
+        )
+        historical_status = (
+            historical.get("status")
+            if isinstance(historical, Mapping)
+            else None
+        )
+        evidence_sources = (
+            historical.get("evidence")
+            if isinstance(historical, Mapping)
+            else None
+        )
+        if not isinstance(evidence_sources, list) or not all(
+            isinstance(source, str) and source for source in evidence_sources
+        ):
+            evidence_sources = []
+
+        reasons: list[str] = []
+        if not isinstance(historical, Mapping):
+            reasons.append("historical binding is missing")
+        if historical_status != "EXACT_HISTORICAL_HASH_FOUND":
+            reasons.append(
+                "historical status is not EXACT_HISTORICAL_HASH_FOUND"
+            )
+        if (
+            isinstance(historical_bytes, bool)
+            or not isinstance(historical_bytes, int)
+            or historical_bytes < 0
+        ):
+            reasons.append("historical byte count is invalid or missing")
+        if not isinstance(historical_sha256, str) or not re.fullmatch(
+            r"[0-9a-f]{64}", historical_sha256
+        ):
+            reasons.append("historical SHA256 is invalid or missing")
+        if not evidence_sources:
+            reasons.append("historical evidence sources are missing")
+        if present is None:
+            reasons.append("present supplemental file is missing")
+        else:
+            if present["bytes"] != historical_bytes:
+                reasons.append("present bytes differ from historical bytes")
+            if present["sha256"] != historical_sha256:
+                reasons.append("present SHA256 differs from historical SHA256")
+
+        record = {
+            "path": path,
+            "historical_status": historical_status,
+            "historical_bytes": historical_bytes,
+            "present_bytes": present["bytes"] if present is not None else None,
+            "historical_sha256": historical_sha256,
+            "present_sha256": present["sha256"] if present is not None else None,
+            "exact_match": not reasons,
+            "historical_evidence_sources": evidence_sources,
+        }
+        per_file.append(record)
+        if reasons:
+            mismatches.append({"path": path, "reasons": reasons})
+
+    unexpected_history_paths = sorted(set(binding) - allowed_paths)
+    if unexpected_history_paths:
+        mismatches.append(
+            {
+                "path": "<historical-binding>",
+                "reasons": [
+                    "historical binding contains unexpected path(s): "
+                    + ", ".join(unexpected_history_paths)
+                ],
+            }
+        )
+
+    passed = not mismatches
+    return {
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS": (
+            "EXACT_MATCH_TO_STAGE23_HISTORICAL_EVIDENCE"
+            if passed
+            else "MISMATCH_TO_STAGE23_HISTORICAL_EVIDENCE"
+        ),
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS": passed,
+        "SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES": mismatches,
+        "per_file": per_file,
+    }
+
+
 def _partition_o1_checkpoint_scope(
     actual_entries: Iterable[Mapping[str, Any]],
     sealed_rows: Iterable[Mapping[str, Any]],
+    *,
+    historical_binding: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Partition a checkpoint into immutable core, five supplementals, and extras."""
 
@@ -488,6 +601,15 @@ def _partition_o1_checkpoint_scope(
         supplemental_manifest_sha256 = stage25_supplemental_manifest_sha256(
             supplemental_entries
         )
+    historical_result = _verify_supplemental_historical_binding(
+        supplemental_entries,
+        historical_binding,
+    )
+    errors.extend(
+        "supplemental historical binding mismatch: "
+        f"{item['path']}: {', '.join(item['reasons'])}"
+        for item in historical_result["SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES"]
+    )
 
     return {
         "schema": "STAGE25_TWO_LAYER_PROVENANCE_SCOPE_V1",
@@ -511,6 +633,7 @@ def _partition_o1_checkpoint_scope(
             "manifest_algorithm": SUPPLEMENTAL_METADATA_MANIFEST_ALGORITHM,
             "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": supplemental_manifest_sha256,
             "used_for_tensor_identity": False,
+            **historical_result,
         },
         "forbidden_unsealed_extra": {
             "paths": forbidden_extra,
@@ -518,6 +641,7 @@ def _partition_o1_checkpoint_scope(
             "fail_closed": True,
         },
         "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": supplemental_manifest_sha256,
+        **historical_result,
         "errors": sorted(errors),
         "pass": not errors,
     }
@@ -771,6 +895,13 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
                 "tensor_identity_rule": "Stage23 immutable core seal plus exact O1 index SHA256; supplemental metadata cannot establish safetensor identity",
                 "prior_binding_status": SUPPLEMENTAL_METADATA_PRIOR_BINDING,
                 "current_checkpoint_manifest_status": "OBSERVED_ON_HOPPER_PENDING_REEXECUTION",
+                "SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS": "PENDING_PRESENT_ROOT_COMPARISON",
+                "SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS": None,
+                "SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES": [],
+                "SUPPLEMENTAL_METADATA_HISTORY_BINDING_IMPLEMENTED": True,
+                "SUPPLEMENTAL_METADATA_PROMOTED_TO_STAGE23_CORE_SEAL": False,
+                "historical_equivalence_required_for_stage25_provenance_gate": True,
+                "promoted_to_stage23_core_seal": False,
                 "manifest_field": "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256",
                 "manifest_algorithm": SUPPLEMENTAL_METADATA_MANIFEST_ALGORITHM,
                 "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": None,
@@ -838,7 +969,7 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "hardware": False,
         },
         "comparison_status": "PREPARED_NOT_EXECUTED",
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH",
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH",
     }
     result = {
         "schema": "STAGE25_O1_PARAMETER_DELTA_PREPARATION_V1",
@@ -1386,8 +1517,21 @@ def _run_self_check() -> dict[str, Any]:
         _self_check_entry(path, f"supplemental:{path}".encode("utf-8"))
         for path in SUPPLEMENTAL_METADATA_ALLOWLIST
     ]
+    historical_binding = {
+        str(entry["path"]): {
+            "status": "EXACT_HISTORICAL_HASH_FOUND",
+            "bytes": entry["bytes"],
+            "sha256": entry["sha256"],
+            "evidence": ["dependency-free self-check fixture"],
+        }
+        for entry in supplemental_entries
+    }
     complete_entries = core_entries + supplemental_entries
-    passed = _partition_o1_checkpoint_scope(complete_entries, sealed_rows)
+    passed = _partition_o1_checkpoint_scope(
+        complete_entries,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
     require(passed["pass"], "exact allow-list PASS fixture")
     require(
         passed["allowed_supplemental_metadata"]["expected_file_count"] == 5
@@ -1397,9 +1541,54 @@ def _run_self_check() -> dict[str, Any]:
         "supplemental manifest PASS",
     )
 
+    history_sha_changed = [
+        {**entry, "sha256": "0" * 64}
+        if entry["path"] == "experiment_cfg/config.yaml"
+        else entry
+        for entry in complete_entries
+    ]
+    history_sha_result = _partition_o1_checkpoint_scope(
+        history_sha_changed,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
+    require(
+        not history_sha_result["pass"],
+        "supplemental historical SHA mismatch FAIL",
+    )
+
+    history_bytes_changed = [
+        {**entry, "bytes": entry["bytes"] + 1}
+        if entry["path"] == "experiment_cfg/dataset_statistics.json"
+        else entry
+        for entry in complete_entries
+    ]
+    history_bytes_result = _partition_o1_checkpoint_scope(
+        history_bytes_changed,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
+    require(
+        not history_bytes_result["pass"],
+        "supplemental historical byte mismatch FAIL",
+    )
+
+    missing_history_binding = dict(historical_binding)
+    del missing_history_binding["experiment_cfg/config.yaml"]
+    missing_history_result = _partition_o1_checkpoint_scope(
+        complete_entries,
+        sealed_rows,
+        historical_binding=missing_history_binding,
+    )
+    require(
+        not missing_history_result["pass"],
+        "supplemental historical binding missing FAIL",
+    )
+
     missing_core = _partition_o1_checkpoint_scope(
         [entry for entry in complete_entries if entry["path"] != "config.json"],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     require(not missing_core["pass"], "sealed core missing FAIL")
 
@@ -1409,18 +1598,24 @@ def _run_self_check() -> dict[str, Any]:
         else entry
         for entry in complete_entries
     ]
-    modified = _partition_o1_checkpoint_scope(modified_core, sealed_rows)
+    modified = _partition_o1_checkpoint_scope(
+        modified_core,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
     require(not modified["pass"], "sealed core mutation FAIL")
 
     extra = _partition_o1_checkpoint_scope(
         complete_entries + [_self_check_entry("unexpected.txt", b"extra")],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     require(not extra["pass"], "arbitrary extra root file FAIL")
 
     sixth = _partition_o1_checkpoint_scope(
         complete_entries + [_self_check_entry("experiment_cfg/sixth.txt", b"extra")],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     require(not sixth["pass"], "sixth experiment_cfg file FAIL")
 
@@ -1430,12 +1625,17 @@ def _run_self_check() -> dict[str, Any]:
         else entry
         for entry in complete_entries
     ]
-    symlink_scope = _partition_o1_checkpoint_scope(symlink_entry, sealed_rows)
+    symlink_scope = _partition_o1_checkpoint_scope(
+        symlink_entry,
+        sealed_rows,
+        historical_binding=historical_binding,
+    )
     require(not symlink_scope["pass"], "supplemental symlink FAIL")
 
     traversal = _partition_o1_checkpoint_scope(
         complete_entries + [_self_check_entry("experiment_cfg/../escape", b"escape")],
         sealed_rows,
+        historical_binding=historical_binding,
     )
     require(not traversal["pass"], "supplemental path traversal FAIL")
 

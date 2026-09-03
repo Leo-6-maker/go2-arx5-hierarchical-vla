@@ -16,7 +16,7 @@ fail-closed, not executed.
 ```text
 PREPARATION: PASS
 DELTA_COMPARISON: PREPARED_NOT_EXECUTED
-NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
+NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
 ```
 
 ## B. Git and scope
@@ -82,7 +82,17 @@ The immutable Stage23 relay and `candidate_200.run_manifest.json` contain
 exact historical hashes for all five files, classified as
 `EXACT_HISTORICAL_HASH_FOUND`. This evidence does not retroactively add them
 to the Stage23 core seal. Their present O1-root manifest remains
-`OBSERVED_ON_HOPPER_PENDING_REEXECUTION`.
+`OBSERVED_ON_HOPPER_PENDING_REEXECUTION`, and the verifier now requires every
+present `{bytes, sha256}` pair to equal its corresponding historical record
+before tensor loading. Missing history, non-exact history status, or any
+per-file mismatch is fail-closed.
+
+The audit reports `SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS`,
+`SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS`,
+`SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES`, and per-file historical/present
+size, SHA256, exact-match, and evidence-source fields. The closure is
+implemented without promoting supplemental metadata into the Stage23 core
+seal or tensor identity.
 
 No scientific metric, category ID, active/inactive partition, or H1/H2 logic
 was changed by this correction.
@@ -128,15 +138,16 @@ INFERENCE: false
 TRAINING: false
 PBS_SUBMITTED: false
 RESULT: PASS
-NEXT_GATE_REQUEST: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
+SUPPLEMENTAL_METADATA_HISTORY_BINDING_IMPLEMENTED: true
+NEXT_GATE_REQUEST: GPT_PI_REVIEW_AFTER_STAGE25_SUPPLEMENTAL_HISTORY_BINDING_PATCH
 ```
 
 ## G. Stop gate
 
 Do not start H2/H1, do not submit PBS, do not use Hopper/H200, and do not run
-WBC. The next decision gate is GPT/PI review of this Corelab provenance-scope
-patch. No interpretation of BASE→O1 parameter movement is made by this
-preparation report.
+WBC. The next decision gate is GPT/PI review of this Corelab supplemental
+history-binding patch. No interpretation of BASE→O1 parameter movement is
+made by this preparation report.
 
 See `reports/STAGE25_O1_PARAMETER_DELTA_PROTOCOL.md` and its JSON companion
 for the complete executable schema.
