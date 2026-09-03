@@ -6,7 +6,9 @@ does not import either upstream project, construct a model, read a dataset,
 run inference, submit a job, or execute a controller.  The generated JSON is
 an index of source evidence and bounded Stage23 facts already recorded in the
 repository; it intentionally contains no model weights, credentials, or
-private runtime files.
+private runtime files.  Every explicitly required source file and marker is
+validated before either report is written; a missing file or marker fails
+closed.
 """
 
 from __future__ import annotations
@@ -24,6 +26,9 @@ from typing import Any, Iterable
 
 ISAAC_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 WBC_SHA = "a0732b642c0333077e127a2f56ab0014c196bca4"
+# The pinned source-review input predates the report-generation correction.
+# Keep it distinct from the commit that owns the generated report artifacts.
+AUDIT_INPUT_HEAD = "de454440b2458f0f28789f45b0d34299553241a9"
 
 
 def _run_git(root: Path, args: list[str], *, check: bool = True) -> str:
@@ -114,6 +119,41 @@ def _inventory_entry(tree: PinnedTree, path: str, patterns: Iterable[tuple[str, 
     }
 
 
+def _validate_required_inventory(
+    label: str,
+    inventory: dict[str, dict[str, Any]],
+    specs: dict[str, list[tuple[str, str]]],
+) -> dict[str, Any]:
+    """Fail closed when a pinned source file or required marker is absent."""
+    failures: list[str] = []
+    required_markers = 0
+    for path, patterns in specs.items():
+        entry = inventory.get(path)
+        if not entry or not entry.get("present"):
+            failures.append(f"{path}: source file missing at pinned revision")
+            continue
+        by_name = {marker["name"]: marker for marker in entry.get("markers", [])}
+        for name, _pattern in patterns:
+            required_markers += 1
+            marker = by_name.get(name)
+            if not marker or not marker.get("lines"):
+                failures.append(f"{path}: required marker {name!r} did not match")
+
+    result = {
+        "label": label,
+        "status": "PASS" if not failures else "BLOCKED",
+        "required_paths": len(specs),
+        "required_markers": required_markers,
+        "failures": failures,
+    }
+    if failures:
+        details = "\n".join(f"- {failure}" for failure in failures)
+        raise RuntimeError(
+            f"UPSTREAM_ARCHITECTURE_REVIEW_BLOCKED: required {label} source/marker check failed\n{details}"
+        )
+    return result
+
+
 def _refs(inventory: dict[str, dict[str, Any]], paths: Iterable[str]) -> list[dict[str, Any]]:
     refs = []
     for path in paths:
@@ -150,6 +190,7 @@ def _project_status(repo: Path) -> dict[str, Any]:
     return {
         "branch": _run_git(repo, ["branch", "--show-current"]).strip(),
         "head": _run_git(repo, ["rev-parse", "HEAD"]).strip(),
+        "audit_input_head": AUDIT_INPUT_HEAD,
         "status_short": status.splitlines(),
         "unexpected_status_short": unexpected,
         "preexisting_tree_clean": not unexpected,
@@ -168,9 +209,9 @@ ISAAC_SPECS: dict[str, list[tuple[str, str]]] = {
         ("diT_call", r"model_output\s*=\s*self\.model|self\.model\("),
         ("masked_flow_loss", r"action_loss\s*=\s*F\.mse_loss|action_mask"),
         ("inference_noise", r"actions\s*=\s*torch\.randn"),
-        ("euler_step", r"actions\s*\+=\s*dt"),
+        ("euler_step", r"actions\s*=\s*actions\s*\+\s*dt"),
         ("rtc_options", r"rtc_overlap_steps|rtc_frozen_steps|rtc_ramp_rate"),
-        ("action_return", r"action_pred\s*=|return action_pred"),
+        ("action_return", r"return BatchFeature|['\"]action_pred['\"]"),
     ],
     "gr00t/configs/model/gr00t_n1d7.py": [
         ("cosmos_backbone", r"model_name:\s*str\s*=\s*\"nvidia/Cosmos-Reason2-2B\""),
@@ -239,7 +280,19 @@ ISAAC_SPECS: dict[str, list[tuple[str, str]]] = {
     "gr00t/configs/data/embodiment_configs.py": [
         ("sonic_modality", r"unitree_g1_sonic|motion_token"),
         ("sonic_horizon", r"list\(range\(40\)\)"),
-        ("official_so100_horizon", r"list\(range\(16\)\)"),
+        ("oxe_droid_tag", r"oxe_droid_relative_eef_relative_joint"),
+        ("oxe_droid_horizon", r"delta_indices\s*=\s*list\(range\(40\)\)"),
+        ("oxe_droid_relative", r"ActionRepresentation\.RELATIVE"),
+        ("oxe_droid_eef", r"type=ActionType\.EEF"),
+        ("oxe_droid_xyz_rot6d", r"format=ActionFormat\.XYZ_ROT6D"),
+        ("oxe_droid_state_key", r"state_key=\"eef_9d\""),
+    ],
+    "examples/SO100/so100_config.py": [
+        ("so100_h16_config", r"delta_indices\s*=\s*list\(range\(0,\s*16\)\)"),
+        ("so100_relative_joint", r"rep=ActionRepresentation\.RELATIVE"),
+        ("so100_joint_non_eef", r"type=ActionType\.NON_EEF"),
+        ("so100_absolute_gripper", r"rep=ActionRepresentation\.ABSOLUTE"),
+        ("so100_new_embodiment_registration", r"EmbodimentTag\.NEW_EMBODIMENT"),
     ],
     "getting_started/real_world_deployment.md": [
         ("dataset_recommendation", r"at least \*\*100 valid episodes\*\*|200\+ episodes"),
@@ -259,7 +312,7 @@ ISAAC_SPECS: dict[str, list[tuple[str, str]]] = {
         ("training_curve_guidance", r"Plot overlap on a training trajectory|Error decreases with training"),
     ],
     "getting_started/policy.md": [
-        ("execution_horizon_definition", r"executed before the script re-plans"),
+        ("execution_horizon_definition", r"executed.*re-plans"),
         ("base_horizon", r"action_horizon: 40"),
     ],
     "README.md": [
@@ -284,7 +337,7 @@ WBC_SPECS: dict[str, list[tuple[str, str]]] = {
         ("decoder_input", r"decode_input_dict|decoded_outputs"),
     ],
     "gear_sonic/data/features_sonic_vla.py": [
-        ("sonic_fps", r"FPS\s*=\s*50"),
+        ("sonic_fps", r"FPS(?:\s*:\s*int)?\s*=\s*50"),
         ("motion_token_feature", r"action\.motion_token"),
         ("motion_token_width", r"64"),
         ("eef_state_feature", r"observation\.eef_state"),
@@ -387,6 +440,7 @@ def _markdown(data: dict[str, Any]) -> str:
     isaac = data["source_inventory"]["isaac_gr00t"]
     wbc = data["source_inventory"]["groot_whole_body_control"]
     project = data["project_context"]
+    validation = data["source_validation"]
 
     def source_table(entries: dict[str, Any]) -> str:
         rows = ["| pinned source | blob SHA-1 | content SHA-256 | lines / markers |", "|---|---|---|---|"]
@@ -436,8 +490,16 @@ Pinned revisions:
 - Isaac-GR00T: `{data['pins']['isaac_gr00t_sha']}`
 - GR00T-WholeBodyControl: `{data['pins']['groot_whole_body_control_sha']}`
 
-Current project evidence anchor: `{project['head']}` on
-`{project['branch']}`. Pre-existing working tree at generation: `{'clean' if project['preexisting_tree_clean'] else 'not clean'}`; the three expected audit outputs may be pending.
+Audit input head: `{project['audit_input_head']}`
+Report commit: `{project['report_commit']}`
+Current generation head: `{project['head']}` on `{project['branch']}`.
+Pre-existing working tree at generation: `{'clean' if project['preexisting_tree_clean'] else 'not clean'}`; the three expected audit outputs may be pending.
+
+Required pinned source/marker validation: Isaac-GR00T
+`{validation['isaac_gr00t']['status']}`, GR00T-WholeBodyControl
+`{validation['groot_whole_body_control']['status']}`, project launcher
+`{validation['project_stage23_launcher']['status']}`. Missing files or markers
+fail closed before these reports are written.
 
 ## Executive findings
 
@@ -456,9 +518,10 @@ Current project evidence anchor: `{project['head']}` on
    conclusion; exact checkpoint tensor values were not inspected.
 3. Stage23 O1@200 remains a real bounded negative for its exact recipe and
    the free-running temporal-profile failure remains strongly observed. The
-   earlier phrase “single-sample memorization failure” is too strong as a
-   general claim: O1 exposed one example for 200 optimizer steps, while the
-   official custom example uses batch 32 and 2000 steps, a 320× larger nominal
+   earlier broad single-example wording is too strong as a general claim:
+   this was a single-sample, bounded-recipe overfit diagnostic that did not
+   produce a healthy free-running profile within B1/N200. The official custom
+   example uses batch 32 and 2000 steps, a 320× larger nominal
    example-presentation count, a shorter H16 target, and different defaults.
 4. The observed oscillatory profile is therefore not yet attributable to the
    four-step sampler alone. State dropout, augmentation, VLLN/projector
@@ -504,6 +567,29 @@ reference for the chunk and composes `T_reference^-1 @ T_target`; it is not a
 frame-to-frame delta chain. Gripper/action streams can remain absolute per
 modality config. The upstream model/action head has no explicit `0.05 s`
 input; Stage22's 0.05 s was a project-owned TEST_ONLY timing contract.
+
+### Dense H40 relative-EEF upstream precedent
+
+The pinned N1.7 configuration explicitly contains the following pretrained
+action language:
+
+```text
+OXE_DROID_RELATIVE_EEF_RELATIVE_JOINT
+  action horizon = 40
+  EEF representation = RELATIVE
+  type = EEF
+  format = XYZ_ROT6D
+```
+
+This evidence is bound to the exact `gr00t/configs/data/embodiment_configs.py`
+entry and its `getting_started/policy.md` tag table, rather than inferred from
+the generic multi-configuration `range(16)` occurrence. The separate official
+SO100 custom example is bound to
+`examples/SO100/so100_config.py`, where H16 is configured for a relative
+non-EEF arm and an absolute gripper. Therefore dense H40 relative EEF is an
+upstream-supported N1.7 precedent, while the SO100 H16 example is a distinct
+custom-embodiment recipe; neither proves that the Go2+ARX5 distribution is
+matched.
 
 ### Pinned source evidence
 
@@ -674,11 +760,11 @@ The following prior conclusions are retained but bounded:
 - `O1@200` remains a valid bounded negative for the exact `TINY1_H2STATS`,
   batch-1, 200-step, Stage23 recipe. It does not establish that a custom
   embodiment is unlearnable or that the representation is wrong.
-- The phrase “single-sample memorization failure” should be demoted to
+- The prior broad single-example wording is bounded to
   “single-sample, bounded-recipe overfit diagnostic did not produce a healthy
-  free-running profile.” The official example has 320× the nominal optimizer
-  example/noise-time exposure and materially different H, augmentation,
-  dropout, and default trainability settings.
+  free-running profile within B1/N200.” The official example has 320× the
+  nominal optimizer example/noise-time exposure and materially different H,
+  augmentation, dropout, and default trainability settings.
 
 ### Attribution matrix
 
@@ -709,9 +795,11 @@ wait for that decision.
 ```text
 ROLE: CODEX_CORELAB
 STAGE: Stage23 upstream architecture review before Stage24
-GIT_SHA: {project['head']}
+AUDIT_INPUT_HEAD: {project['audit_input_head']}
+REPORT_COMMIT: {project['report_commit']}
 ISAAC_GROOT_SHA: {data['pins']['isaac_gr00t_sha']}
 GROOT_WBC_SHA: {data['pins']['groot_whole_body_control_sha']}
+REQUIRED_SOURCE_MARKERS: PASS
 C1_EXECUTED: false
 NEW_MODEL_FORWARD: false
 NEW_TRAINING: false
@@ -744,9 +832,16 @@ content SHA-256, line count, and requested marker line numbers.
 """
 
 
-def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
+def _build_data(
+    repo: Path,
+    isaac_root: Path,
+    wbc_root: Path,
+    report_commit: str | None = None,
+) -> dict[str, Any]:
     isaac = PinnedTree(isaac_root, ISAAC_SHA)
     wbc = PinnedTree(wbc_root, WBC_SHA)
+    project = _project_status(repo)
+    project["report_commit"] = report_commit or project["head"]
 
     isaac_specs = dict(ISAAC_SPECS)
     for path in isaac.paths("gr00t/data/state_action"):
@@ -760,10 +855,14 @@ def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
         path: _inventory_entry(wbc, path, patterns)
         for path, patterns in WBC_SPECS.items()
     }
-    project_launcher = _inventory_entry(
-        PinnedTree(repo, _project_status(repo)["head"]),
-        "scripts/stage20s_train_gr00t.py",
-        [
+    isaac_validation = _validate_required_inventory(
+        "Isaac-GR00T", isaac_inventory, ISAAC_SPECS
+    )
+    wbc_validation = _validate_required_inventory(
+        "GR00T-WholeBodyControl", wbc_inventory, WBC_SPECS
+    )
+    project_launcher_specs = {
+        "scripts/stage20s_train_gr00t.py": [
             ("launcher_dropout_zero", r"state_dropout_prob\s*=\s*0\.0"),
             ("launcher_horizon_40", r"action_horizon\s*=\s*40"),
             ("launcher_relative_action", r"use_relative_action\s*=\s*True"),
@@ -771,7 +870,15 @@ def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
             ("launcher_diffusion_flag", r"tune_diffusion_model"),
             ("launcher_batch_one", r"global_batch_size\s*=\s*1"),
             ("launcher_warmup", r"warmup_ratio\s*=\s*0\.05"),
-        ],
+        ]
+    }
+    project_launcher = _inventory_entry(
+        PinnedTree(repo, project["head"]),
+        "scripts/stage20s_train_gr00t.py",
+        project_launcher_specs["scripts/stage20s_train_gr00t.py"],
+    )
+    project_validation = _validate_required_inventory(
+        "project Stage23 launcher", {"scripts/stage20s_train_gr00t.py": project_launcher}, project_launcher_specs
     )
 
     comparison_table = [
@@ -849,7 +956,6 @@ def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
             "falsifier_or_strengthener": "A frozen token decoder reconstructing WBC-compatible smooth references and improving held-out profile/overlap metrics strengthens it; no reconstruction gain or embodiment leakage weakens it."},
     ]
 
-    project = _project_status(repo)
     return {
         "schema": "STAGE23_UPSTREAM_ARCHITECTURE_REVIEW_V1",
         "generated_date": str(date.today()),
@@ -875,6 +981,11 @@ def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
             "hardware": False,
         },
         "project_context": project,
+        "source_validation": {
+            "isaac_gr00t": isaac_validation,
+            "groot_whole_body_control": wbc_validation,
+            "project_stage23_launcher": project_validation,
+        },
         "source_inventory": {
             "isaac_gr00t": isaac_inventory,
             "groot_whole_body_control": wbc_inventory,
@@ -889,6 +1000,17 @@ def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
                 "relative_eef_reference": "last observed state, fixed reference for chunk",
                 "timestamp_input": "not an explicit action-head tensor; supplied by modality/dataset semantics",
                 "loss": "masked velocity MSE over action_mask",
+            },
+            "pretrained_h40_relative_eef": {
+                "tag": "OXE_DROID_RELATIVE_EEF_RELATIVE_JOINT",
+                "action_horizon": 40,
+                "representation": "RELATIVE",
+                "type": "EEF",
+                "format": "XYZ_ROT6D",
+                "source_entry": "gr00t/configs/data/embodiment_configs.py",
+                "source_tag_table": "getting_started/policy.md",
+                "custom_so100_source_entry": "examples/SO100/so100_config.py",
+                "interpretation": "Dense H40 relative EEF is an upstream N1.7 precedent; SO100 H16 is a distinct custom recipe and does not prove distributional match.",
             },
             "new_embodiment": {
                 "tag": "NEW_EMBODIMENT",
@@ -985,6 +1107,9 @@ def _build_data(repo: Path, isaac_root: Path, wbc_root: Path) -> dict[str, Any]:
         "required_return": {
             "role": "CODEX_CORELAB",
             "stage": "Stage23 upstream architecture review before Stage24",
+            "audit_input_head": project["audit_input_head"],
+            "report_commit": project["report_commit"],
+            "required_source_markers": "PASS",
             "c1_executed": False,
             "result": "UPSTREAM_ARCHITECTURE_REVIEW_COMPLETE",
             "blocker": "NONE_FOR_SOURCE_REVIEW; C1 remains on hold pending PI architecture decision",
@@ -1000,20 +1125,32 @@ def main() -> int:
     parser.add_argument("--wbc-source", type=Path, default=Path("/home/liuyu-nfs/Projects/GR00T-WholeBodyControl"))
     parser.add_argument("--markdown", type=Path, default=None)
     parser.add_argument("--json", dest="json_path", type=Path, default=None)
+    parser.add_argument(
+        "--report-commit",
+        default=None,
+        help="Commit that owns the report-generation correction; defaults to current HEAD",
+    )
     args = parser.parse_args()
 
     repo = args.repo.resolve()
     markdown_path = args.markdown or repo / "reports" / "STAGE23_UPSTREAM_ARCHITECTURE_REVIEW.md"
     json_path = args.json_path or repo / "reports" / "STAGE23_UPSTREAM_ARCHITECTURE_REVIEW.json"
 
-    data = _build_data(repo, args.isaac_source.resolve(), args.wbc_source.resolve())
+    data = _build_data(
+        repo,
+        args.isaac_source.resolve(),
+        args.wbc_source.resolve(),
+        report_commit=args.report_commit,
+    )
     markdown_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.parent.mkdir(parents=True, exist_ok=True)
     markdown_path.write_text(_markdown(data), encoding="utf-8")
     json_path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"wrote {markdown_path}")
     print(f"wrote {json_path}")
-    print(f"project_git_sha={data['project_context']['head']}")
+    print(f"audit_input_head={data['project_context']['audit_input_head']}")
+    print(f"report_commit={data['project_context']['report_commit']}")
+    print(f"project_generation_head={data['project_context']['head']}")
     print(f"isaac_groot_sha={ISAAC_SHA}")
     print(f"groot_wbc_sha={WBC_SHA}")
     print("execution_boundary=model_constructed=false,new_model_forward=false,new_training=false,hopper_pbs=false,wbc=false,hardware=false")

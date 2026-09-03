@@ -123,10 +123,12 @@ Phase B new training/inference: NOT EXECUTED
 ```
 
 The Phase A O1 result is a negative diagnostic, not a claim that the
-representation is untrainable in general. The next gate is PI review of the
-read-only Phase C fixed-noise teacher-forced flow-field protocol and separate
-explicit authorization of one future C1 run. No C1 or C2 execution is
-included in this closeout.
+representation is untrainable in general. The next gate is a Corelab-only
+Stage24 `NEW_EMBODIMENT` adaptation/provenance audit. It must resolve the
+exact checkpoint slot, inactive-channel coupling, temporal-prefix behavior,
+normalization compatibility, and adaptation/exposure recipe before selecting
+one next Hopper experiment. The prepared Phase C fixed-noise diagnostic and
+C2 sampler comparison remain on hold; neither is authorized by this closeout.
 
 Detailed evidence is in:
 
@@ -216,3 +218,19 @@ time probes. It performs no model construction, forward pass, inference,
 training, sampler sweep, WBC execution, or holdout access in this preparation
 stage. C2 sampler comparison remains locked until C1 passes and the mirrored
 four-step sampler first matches the official implementation.
+
+## J. Current next gate
+
+```text
+NEXT_EXECUTOR: CODEX_CORELAB
+STAGE: Stage24 custom-embodiment adaptation audit and Hopper-readiness gate
+HOPPER: HOLD
+C1_FIXED_NOISE_FORWARD: HOLD
+C2_SAMPLER_SWEEP: LOCKED
+NEW_TRAINING: NOT_AUTHORIZED
+WBC/HARDWARE: NOT_AUTHORIZED
+```
+
+The Stage24 audit is the required next step. It may recommend exactly one
+future Hopper experiment and prepare its protocol, but it must stop for
+GPT/PI review before any model forward, training, or PBS submission.
