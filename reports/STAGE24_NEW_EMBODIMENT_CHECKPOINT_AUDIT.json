@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE24_NEW_EMBODIMENT_CHECKPOINT_AUDIT_V1",
+  "generated_date": "2026-09-03",
+  "role": "CODEX_CORELAB",
+  "stage": "Stage24 custom-embodiment adaptation audit and Hopper-readiness gate",
+  "stage23_closeout_commit": "a72f539f174f67f443b05b331f01a21544efd015",
+  "stage24_branch": "stage24/new-embodiment-adaptation-audit",
+  "git_sha_at_audit_start": "a72f539f174f67f443b05b331f01a21544efd015",
+  "pins": {
+    "isaac_gr00t_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "groot_whole_body_control_sha": "a0732b642c0333077e127a2f56ab0014c196bca4"
+  },
+  "exact_o1_base": {
+    "path_from_sealed_manifest": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+    "metadata_bound": true,
+    "bytes_available_on_corelab": false,
+    "index_sha256_expected": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+    "tree_sha256_expected": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "index_sha256_verified_locally": false,
+    "shard_sha256_verified_locally": false,
+    "full_checkpoint_weights_transferred_in_phase_a": false,
+    "checkpoint_weights_included_in_stage22_relay": false,
+    "exact_o1_base_checkpoint_bound": false
+  },
+  "local_evidence": {
+    "corelab_hostname": "corelab-amd-server",
+    "candidate_metadata_index_sha256_not_base": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "base_directory_present": false,
+    "base_index_present": false,
+    "base_shards_present": false,
+    "gpu_alias_access": {
+      "gpu5080-1": "PERMISSION_DENIED_PUBLICKEY_PASSWORD",
+      "gpu5080-2": "PERMISSION_DENIED_PUBLICKEY_PASSWORD",
+      "gpu4080s": "CONNECTION_TIMEOUT_PORT_65522"
+    }
+  },
+  "a0": {
+    "status": "BLOCKED",
+    "id10_classification": "ID10_INDETERMINATE_FROM_WEIGHTS",
+    "id10_comparison": "NOT_RUN",
+    "inactive_channel_coupling": "NOT_IDENTIFIABLE_FROM_STATIC_WEIGHTS",
+    "pretrained_eef_category_comparison": "NOT_RUN_A0_STOP"
+  },
+  "a1_a7": {
+    "status": "NOT_RUN_A0_FAIL_CLOSED",
+    "temporal_prefix_classification": "NOT_RUN_A0_STOP",
+    "normalization_compatibility_classification": "NOT_RUN_A0_STOP",
+    "physical10d_degenerate_stats_summary": "NOT_RUN_A0_STOP",
+    "pretrained_relative_eef_scale_comparison": "NOT_RUN_A0_STOP",
+    "next_hopper_experiment": "NONE",
+    "future_hopper_protocol_ready": false
+  },
+  "inherited_stage23_context": {
+    "o1_exact_exposure": {
+      "batch": 1,
+      "max_steps": 200,
+      "optimizer_example_presentations": 200,
+      "noise_time_draws": 200
+    },
+    "official_so100_reference_exposure": {
+      "global_batch": 32,
+      "max_steps": 2000,
+      "nominal_presentations": 64000
+    },
+    "dense_h40_relative_eef_upstream_precedent": true
+  },
+  "execution_boundary": {
+    "c1_executed": false,
+    "new_model_forward": false,
+    "new_training": false,
+    "hopper_pbs": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_executed": false,
+    "hardware_executed": false,
+    "checkpoint_modified": false,
+    "nvidia_upstream_modified": false
+  },
+  "result": "BLOCKED",
+  "blocker": "EXACT_O1_BASE_CHECKPOINT_SAFETENSOR_BYTES_UNAVAILABLE_FOR_READ_ONLY_VERIFICATION",
+  "next_gate_request": "AUTHORIZED_EXACT_BASE_CHECKPOINT_RELAY_OR_GPT_PI_REVIEW_OF_A0_BLOCKER",
+  "required_recovery": "Relay the exact sealed Stage22/23 base checkpoint into Corelab and reverify index, shard, config, processor, and statistics hashes before resuming A0."
+}
