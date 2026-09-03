@@ -1,0 +1,85 @@
+{
+  "schema": "STAGE24_CHECKPOINT_RECOVERY_V1",
+  "generated_date": "2026-09-03",
+  "role": "CODEX_RECOVERY_INVESTIGATOR",
+  "stage": "Stage24 A0 fail-close recovery",
+  "git_sha": "76033d94a26e88464760826606807ab47ec99b7b",
+  "execution_context": "corelab-amd-server; current Corelab login-node context",
+  "lineage": {
+    "r0_lineage_complete": true,
+    "stage17_historical_host": "corelab-5080-2",
+    "stage17_historical_model_path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B",
+    "stage17_index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+    "stage17_corelab_copy_historically_bound": true,
+    "hopper_copy_historically_bound": true,
+    "authoritative_index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+    "authoritative_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "stage10_shard_manifest": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/logs/checkpoint_sha256.txt",
+      "status": "REFERENCED_HISTORICALLY_NOT_FOUND_IN_REPOSITORY_OR_CURRENT_CORELAB_CONTEXT"
+    },
+    "stage22_handoff_shard_manifest": {
+      "path": "manifests/SHA256SUMS.sha256 under historical HANDOFF_ROOT",
+      "status": "HISTORICAL_REFERENCE_ONLY_CURRENT_CORELAB_RELAY_HAS_NO_BASE_PAYLOAD"
+    },
+    "stage22_run_manifest_shard_hashes": "BASE_SHARD_SHA_FIELDS_NULL",
+    "stage23_phase_a_seal": {
+      "status": "CANDIDATE_OUTPUT_ONLY",
+      "candidate_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+    }
+  },
+  "stage10_corelab_copy_status": {
+    "dns": "PASS",
+    "resolved_host": "corelab-5080-2.lan",
+    "resolved_address": "192.168.1.103",
+    "port": 65522,
+    "tcp": "PASS",
+    "ssh_batchmode": "AUTHORIZATION_BLOCKED",
+    "ssh_exit": 255,
+    "remote_path_checked": false,
+    "classification": "AUTHORIZATION"
+  },
+  "local_cache_search": {
+    "status": "NO_VERIFIED_LOCAL_COPY",
+    "bounded_max_depth": 8,
+    "roots_considered": 7,
+    "roots_present": 2,
+    "candidate_indexes": 5,
+    "candidate_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "candidate_classification": "INDEX_SHA_MISMATCH",
+    "shards_hashed": false,
+    "locator_exit_code": 1,
+    "locator_evidence_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage24-recovery-20260903/locator_current.json",
+    "locator_evidence_sha256": "7ec82655ac9e59b30be32f2844ca277ccd85fb3165689cd5e22c874230d379"
+  },
+  "exact_base_source_selected": null,
+  "exact_base_content_classification": "NO_VERIFIED_LOCAL_COPY",
+  "index_sha256_verified": false,
+  "tree_sha256_verified": false,
+  "shard_hash_manifest_status": "STAGE10_REFERENCED_BUT_NOT_AVAILABLE; STAGE22_BASE_SHARD_HASHES_NOT_PRESENT_IN_CURRENT_RELAY; PHASEA_CANDIDATE_ONLY",
+  "full_checkpoint_relayed": false,
+  "minimal_tensor_extraction_used": false,
+  "extracted_tensor_keys": [],
+  "extraction_evidence_sha256": null,
+  "id10_classification": "ID10_INDETERMINATE_FROM_WEIGHTS",
+  "a1_static_coupling_status": "NOT_RUN_EXACT_BASE_BYTES_UNAVAILABLE",
+  "active_block_per_column_rms": "NOT_RUN",
+  "inactive_block_per_column_rms": "NOT_RUN",
+  "pretrained_category_comparison_status": "NOT_RUN_A0_BLOCKED",
+  "execution_boundary": {
+    "new_model_forward": false,
+    "new_inference": false,
+    "new_training": false,
+    "gpu_job": false,
+    "hopper_h200_used": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_executed": false,
+    "hardware_executed": false,
+    "checkpoint_or_tensor_binaries_committed": false,
+    "credentials_or_permissions_modified": false
+  },
+  "result": "BLOCKED",
+  "blocker": "CORELAB_5080_2_SSH_AUTHORIZATION_BLOCKS_STAGE10_PATH_CHECK_AND_NO_VERIFIED_LOCAL_COPY",
+  "next_gate_request": "GPT_PI_REVIEW_AFTER_STAGE24_A0_RECOVERY"
+}
