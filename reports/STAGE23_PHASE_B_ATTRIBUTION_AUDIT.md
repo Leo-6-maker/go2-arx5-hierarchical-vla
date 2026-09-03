@@ -24,7 +24,7 @@ These are five independent fresh BASE → N experiments. Loss and learning-rate 
 | O1@100 | 100 | 100 | 0.9684 | 0.8052 | 1.008 | 2.7337133e-08 | 0.3894 |
 | O1@200 | 200 | 200 | 0.9684 | 0.8129 | 0.9737 | 6.8347504e-09 | 0.3193 |
 
-Exact global-step evidence: `PASS`. Direct optimizer.step callback in the bundle: `FAIL`.
+Exact global-step evidence: `PASS`. Direct optimizer.step callback in the Phase A bundle: `NOT_AVAILABLE_IN_PHASE_A_BUNDLE`.
 
 ## 3. Normalization
 

@@ -46,10 +46,13 @@ claiming that the base model learned a robot-specific task. It prevents a GPU
 run from simultaneously changing the action representation and the model
 recipe. It also keeps achieved EEF separate from desired EEF training labels.
 
-O1/O6 Hopper overfit runs are prepared only; they require a separate explicit
-authorization after the Stage23 evidence review. No real robot, WBC execution,
-or deployment path is implied. Stage22 source identity uses its canonical
-handoff digest; the Stage23 local-manifest hash is diagnostic only.
+Phase A O1 Hopper overfit runs were subsequently executed at the frozen
+10/25/50/100/200 maximum-step points and remain negative diagnostic evidence;
+the O1-secondary and O6 variants were not executed. Phase C is a separate
+preparation-only fixed-noise diagnostic and requires explicit authorization for
+any model run. No real robot, WBC execution, or deployment path is implied.
+Stage22 source identity uses its canonical handoff digest; the Stage23
+local-manifest hash is diagnostic only.
 
 ## Evidence
 

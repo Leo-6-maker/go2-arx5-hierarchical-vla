@@ -42,8 +42,12 @@ as separate datasets.
 
 ## Safety boundary
 
+The following is the safety boundary for the earlier P0 action-pipeline
+diagnostic only. It is not a statement that no later Stage23 Phase A work was
+performed; the Stage23 final ledger records the subsequent Hopper O1 runs.
+
 ```text
-Stage23 training: NOT EXECUTED
+P0 action-pipeline diagnostic training: NOT EXECUTED
 model forward/inference: NOT EXECUTED
 Hopper/PBS: NOT SUBMITTED
 validation e: NOT READ

@@ -89,18 +89,21 @@ All paths produced finite `[1,40,132]` universal actions and finite
 ## F. Execution boundary
 
 ```text
-Stage23 training/fine-tuning: NOT EXECUTED
-BASE-only inference: NOT EXECUTED
-GPU workload: NOT EXECUTED
-PBS job: NOT SUBMITTED
-checkpoint: not created or changed
+Stage23 Phase A O1 training/fine-tuning: EXECUTED; each fresh BASE -> N run stopped at its requested maximum
+Phase A BASE-only inference: EXECUTED in the sealed Phase A evidence
+Phase A GPU workload: EXECUTED on one H200 allocation
+Phase A PBS jobs: 597960, 597965, 597966 (completed evidence in the bundle)
+Phase A checkpoint: evidence/metadata retained; full weights were not included in the Phase A relay
+Phase B training/inference: NOT EXECUTED; read-only attribution audit only
 WBC: NOT EXECUTED
 hardware/ROS/ZMQ/P1M: NOT EXECUTED
 ```
 
-The executed CPU evidence includes six direct contract checks. Five pytest
-tests were added for CI; pytest was not installed in the Stage10 runtime and
-was not installed during this stage.
+The Phase A O1 runs are negative learnability evidence, not a production
+checkpoint promotion. Phase B did not create or modify a checkpoint. The
+executed CPU evidence includes six direct contract checks. CPU/static pytest
+tests are committed for CI; pytest was not installed in the local runtime, so
+this stage used source compilation and direct audit assertions instead.
 
 ## G. Scientific decision
 
@@ -109,17 +112,21 @@ The Stage22 profile blocker cannot be attributed to the audited 10D/132D
 representation, relative transform, normalization selection, timestamp order,
 or padding loss mask based on this diagnostic.
 
-The possible future Hopper candidate is prepared but remains locked:
+Phase A already executed the deliberate-overfit candidates and closed them at
+their requested maximum steps; the Phase B audit did not start a new run:
 
 ```text
-O1 TINY1_H2STATS deliberate overfit: NOT EXECUTED
-secondary TINY1_TINYSTATS diagnostic: NOT EXECUTED
-O6 TINY6_TINYSTATS conditional diagnostic: NOT EXECUTED
+O1 TINY1_H2STATS deliberate overfit: EXECUTED; 10/25/50/100/200 each reached its maximum, profile failed
+secondary TINY1_TINYSTATS diagnostic: retained fixture; not an additional Phase A training run
+O6 TINY6_TINYSTATS conditional diagnostic: not executed
+Phase B new training/inference: NOT EXECUTED
 ```
 
-The next gate is PI review and explicit authorization of TINY1_H2STATS
-deliberate overfit, with the retained tiny-stat variants considered only for a
-predeclared diagnostic reason.
+The Phase A O1 result is a negative diagnostic, not a claim that the
+representation is untrainable in general. The next gate is PI review of the
+read-only Phase C fixed-noise teacher-forced flow-field protocol and separate
+explicit authorization of one future C1 run. No C1 or C2 execution is
+included in this closeout.
 
 Detailed evidence is in:
 
@@ -144,10 +151,10 @@ new training/inference in Phase B: NONE
 
 Phase B reconstructed five independent fresh `BASE -> N` experiments at
 `N={10,25,50,100,200}`. Each reached its exact requested global step and has
-the expected 10/25/50/100/200 loss-log entries. The direct optimizer callback
-was not present in the sealed bundle, so optimizer completion is supported by
-the trainer state, logs, and sealed PASS manifests rather than by a callback
-trace. The H200 runs used about 30.8 GiB peak allocated and 32.0 GiB peak
+the expected 10/25/50/100/200 loss-log entries. Direct optimizer.step callback:
+`NOT_AVAILABLE_IN_PHASE_A_BUNDLE`. Optimizer completion is supported by the
+trainer state, logs, and sealed PASS manifests rather than by a callback trace.
+The H200 runs used about 30.8 GiB peak allocated and 32.0 GiB peak
 reserved out of about 143.2 GiB; cleanup left about 65 MiB. Resource/OOM is
 therefore ruled out for this result.
 
@@ -192,3 +199,20 @@ reports/STAGE23_PHASE_B_ATTRIBUTION_AUDIT.json
 reports/STAGE23_PHASE_B_ATTRIBUTION_AUDIT.md
 scripts/stage23_phase_b_attribution_audit.py
 ```
+
+## I. Phase C preparation (not executed)
+
+The Phase C harness and protocol are prepared only:
+
+```text
+scripts/stage23_phase_c_flow_field_diagnostic.py
+reports/STAGE23_PHASE_C_PROTOCOL.md
+docs/adr/ADR-027-fixed-noise-teacher-forced-flow-diagnostic.md
+```
+
+The frozen future C1 design compares BASE and O1@200 on the same TINY1
+training sample, with identical full `[1,40,132]` noise and identical fixed
+time probes. It performs no model construction, forward pass, inference,
+training, sampler sweep, WBC execution, or holdout access in this preparation
+stage. C2 sampler comparison remains locked until C1 passes and the mirrored
+four-step sampler first matches the official implementation.

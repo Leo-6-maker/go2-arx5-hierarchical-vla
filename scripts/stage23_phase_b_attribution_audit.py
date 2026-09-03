@@ -460,6 +460,7 @@ def _load_training(bundle_seal: Path) -> dict[str, Any]:
             row["training_log_metric_count_matches"] for row in rows if row["training_log_metric_entries"]
         ),
         "direct_optimizer_step_callback_present": False,
+        "direct_optimizer_step_callback_status": "NOT_AVAILABLE_IN_PHASE_A_BUNDLE",
         "optimizer_evidence_interpretation": "Optimizer progress is evidenced by completed trainer_state global_step/log_history and PASS manifests; the bundle does not contain a direct optimizer.step callback.",
     }
 
@@ -1029,7 +1030,10 @@ def _markdown(result: Mapping[str, Any]) -> str:
     lines.extend(
         [
             "",
-            f"Exact global-step evidence: `{_fmt(training['all_global_steps_exact'])}`. Direct optimizer.step callback in the bundle: `{_fmt(training['direct_optimizer_step_callback_present'])}`.",
+            "Exact global-step evidence: `{}`. Direct optimizer.step callback in the Phase A bundle: `{}`.".format(
+                _fmt(training["all_global_steps_exact"]),
+                training["direct_optimizer_step_callback_status"],
+            ),
             "",
             "## 3. Normalization",
             "",

@@ -1,17 +1,19 @@
 # Stage23 Hopper Overfit Protocol
 
-Status: `PREPARED_ONLY_NOT_AUTHORIZED`
+Status: `PHASE_A_EXECUTED_NEGATIVE_DIAGNOSTIC; PHASE_C_PREPARED_ONLY`
 
-This document freezes the diagnostic boundary for a possible future Hopper
-run. No Stage23 training, PBS submission, checkpoint creation, or model
-selection was performed in Stage23.
+This document records the Phase A O1 evidence and freezes the boundary for
+future work. Phase A executed fresh `BASE -> N` runs at 10/25/50/100/200
+steps on Hopper and stopped at each requested maximum. Phase B performed no
+new training or inference. Phase C is preparation-only: it has not submitted
+PBS, created a new checkpoint, loaded a model, or selected a model.
 
 ## Candidate runs
 
 ```text
-O1 = TINY1_H2STATS deliberate overfit (primary)
-O1-secondary = TINY1_TINYSTATS retained one-snapshot diagnostic
-O6 = TINY6_TINYSTATS conditional diagnostic
+O1 = TINY1_H2STATS deliberate overfit (Phase A executed; profile failed)
+O1-secondary = TINY1_TINYSTATS retained one-snapshot diagnostic (not executed)
+O6 = TINY6_TINYSTATS conditional diagnostic (not executed)
 ```
 
 All candidates must use the official materialized-data path already qualified
@@ -74,5 +76,6 @@ timestamp ordering is not preserved
 official loader/processor no longer reproduces the Stage23 shapes
 ```
 
-The Stage23 result clears these preconditions for consideration, but does not
-itself authorize O1, O1-secondary, or O6.
+The Stage23 result cleared the preconditions for the Phase A O1 diagnostic,
+which is now complete. This document does not authorize an O1 rerun,
+O1-secondary, O6, or any Phase C model execution.
