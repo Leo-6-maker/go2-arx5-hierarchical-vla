@@ -130,6 +130,17 @@
       "space": "joint and task space both valid; low-DoF arms often joint space in guide",
       "training": "SO100 custom example B32/N2000; generic config B64/N10000; source is guidance not guarantee"
     },
+    "pretrained_h40_relative_eef": {
+      "action_horizon": 40,
+      "custom_so100_source_entry": "examples/SO100/so100_config.py",
+      "format": "XYZ_ROT6D",
+      "interpretation": "Dense H40 relative EEF is an upstream N1.7 precedent; SO100 H16 is a distinct custom recipe and does not prove distributional match.",
+      "representation": "RELATIVE",
+      "source_entry": "gr00t/configs/data/embodiment_configs.py",
+      "source_tag_table": "getting_started/policy.md",
+      "tag": "OXE_DROID_RELATIVE_EEF_RELATIVE_JOINT",
+      "type": "EEF"
+    },
     "rtc": {
       "frozen": "initial overlap velocity frozen for latency-aligned prefix",
       "not_primary_target": "intra-chunk high-frequency oscillation",
@@ -161,24 +172,25 @@
     "isaac_gr00t_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
   },
   "project_context": {
+    "audit_input_head": "de454440b2458f0f28789f45b0d34299553241a9",
     "branch": "stage23/action-pipeline-learnability",
-    "head": "de454440b2458f0f28789f45b0d34299553241a9",
+    "head": "32e74994bed83ccda5bfaea6c0867ed36cf489fa",
     "preexisting_tree_clean": true,
     "remote": [
       "origin\tgit@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (fetch)",
       "origin\tgit@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (push)"
     ],
-    "status_short": [
-      "?? reports/STAGE23_UPSTREAM_ARCHITECTURE_REVIEW.json",
-      "?? reports/STAGE23_UPSTREAM_ARCHITECTURE_REVIEW.md",
-      "?? scripts/stage23_upstream_architecture_audit.py"
-    ],
+    "report_commit": "32e74994bed83ccda5bfaea6c0867ed36cf489fa",
+    "status_short": [],
     "unexpected_status_short": []
   },
   "required_return": {
+    "audit_input_head": "de454440b2458f0f28789f45b0d34299553241a9",
     "blocker": "NONE_FOR_SOURCE_REVIEW; C1 remains on hold pending PI architecture decision",
     "c1_executed": false,
     "next_gate_request": "GPT_PI_ARCHITECTURE_REVIEW_AND_STAGE24_DECISION",
+    "report_commit": "32e74994bed83ccda5bfaea6c0867ed36cf489fa",
+    "required_source_markers": "PASS",
     "result": "UPSTREAM_ARCHITECTURE_REVIEW_COMPLETE",
     "role": "CODEX_CORELAB",
     "stage": "Stage23 upstream architecture review before Stage24"
@@ -680,9 +692,11 @@
         "line_count": 410,
         "markers": [
           {
-            "lines": [],
+            "lines": [
+              22
+            ],
             "name": "sonic_fps",
-            "pattern": "FPS\\s*=\\s*50"
+            "pattern": "FPS(?:\\s*:\\s*int)?\\s*=\\s*50"
           },
           {
             "lines": [
@@ -1122,6 +1136,52 @@
         "present": true,
         "sha256": "62f6c55a356be039287416f97e03a3b5541052d038a3daec208ea9ff8045a067"
       },
+      "examples/SO100/so100_config.py": {
+        "blob_sha1": "36b5f5c63524e5b9041bae95b2d70b3a7fff8606",
+        "byte_count": 2631,
+        "line_count": 70,
+        "markers": [
+          {
+            "lines": [
+              43
+            ],
+            "name": "so100_h16_config",
+            "pattern": "delta_indices\\s*=\\s*list\\(range\\(0,\\s*16\\)\\)"
+          },
+          {
+            "lines": [
+              51
+            ],
+            "name": "so100_relative_joint",
+            "pattern": "rep=ActionRepresentation\\.RELATIVE"
+          },
+          {
+            "lines": [
+              52,
+              58
+            ],
+            "name": "so100_joint_non_eef",
+            "pattern": "type=ActionType\\.NON_EEF"
+          },
+          {
+            "lines": [
+              57
+            ],
+            "name": "so100_absolute_gripper",
+            "pattern": "rep=ActionRepresentation\\.ABSOLUTE"
+          },
+          {
+            "lines": [
+              70
+            ],
+            "name": "so100_new_embodiment_registration",
+            "pattern": "EmbodimentTag\\.NEW_EMBODIMENT"
+          }
+        ],
+        "path": "examples/SO100/so100_config.py",
+        "present": true,
+        "sha256": "5257ac7980856565ea9d822e99c1ec7d5e57b34763b3b86658ff9f831237effb"
+      },
       "getting_started/finetune_new_embodiment.md": {
         "blob_sha1": "707e893c3dad98f58541f402d253c07806d3bfff",
         "byte_count": 10317,
@@ -1183,9 +1243,11 @@
         "line_count": 579,
         "markers": [
           {
-            "lines": [],
+            "lines": [
+              84
+            ],
             "name": "execution_horizon_definition",
-            "pattern": "executed before the script re-plans"
+            "pattern": "executed.*re-plans"
           },
           {
             "lines": [
@@ -1324,10 +1386,53 @@
           },
           {
             "lines": [
-              203
+              28
             ],
-            "name": "official_so100_horizon",
-            "pattern": "list\\(range\\(16\\)\\)"
+            "name": "oxe_droid_tag",
+            "pattern": "oxe_droid_relative_eef_relative_joint"
+          },
+          {
+            "lines": [
+              38,
+              86
+            ],
+            "name": "oxe_droid_horizon",
+            "pattern": "delta_indices\\s*=\\s*list\\(range\\(40\\)\\)"
+          },
+          {
+            "lines": [
+              42,
+              54,
+              146,
+              152,
+              321,
+              326,
+              331,
+              336
+            ],
+            "name": "oxe_droid_relative",
+            "pattern": "ActionRepresentation\\.RELATIVE"
+          },
+          {
+            "lines": [
+              43
+            ],
+            "name": "oxe_droid_eef",
+            "pattern": "type=ActionType\\.EEF"
+          },
+          {
+            "lines": [
+              44
+            ],
+            "name": "oxe_droid_xyz_rot6d",
+            "pattern": "format=ActionFormat\\.XYZ_ROT6D"
+          },
+          {
+            "lines": [
+              45
+            ],
+            "name": "oxe_droid_state_key",
+            "pattern": "state_key=\\\"eef_9d\\\""
           }
         ],
         "path": "gr00t/configs/data/embodiment_configs.py",
@@ -1733,9 +1838,11 @@
             "pattern": "actions\\s*=\\s*torch\\.randn"
           },
           {
-            "lines": [],
+            "lines": [
+              435
+            ],
             "name": "euler_step",
-            "pattern": "actions\\s*\\+=\\s*dt"
+            "pattern": "actions\\s*=\\s*actions\\s*\\+\\s*dt"
           },
           {
             "lines": [
@@ -1756,9 +1863,14 @@
             "pattern": "rtc_overlap_steps|rtc_frozen_steps|rtc_ramp_rate"
           },
           {
-            "lines": [],
+            "lines": [
+              323,
+              437,
+              439,
+              487
+            ],
             "name": "action_return",
-            "pattern": "action_pred\\s*=|return action_pred"
+            "pattern": "return BatchFeature|['\\\"]action_pred['\\\"]"
           }
         ],
         "path": "gr00t/model/gr00t_n1d7/gr00t_n1d7.py",
@@ -2009,6 +2121,29 @@
       "path": "scripts/stage20s_train_gr00t.py",
       "present": true,
       "sha256": "f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2"
+    }
+  },
+  "source_validation": {
+    "groot_whole_body_control": {
+      "failures": [],
+      "label": "GR00T-WholeBodyControl",
+      "required_markers": 63,
+      "required_paths": 16,
+      "status": "PASS"
+    },
+    "isaac_gr00t": {
+      "failures": [],
+      "label": "Isaac-GR00T",
+      "required_markers": 85,
+      "required_paths": 20,
+      "status": "PASS"
+    },
+    "project_stage23_launcher": {
+      "failures": [],
+      "label": "project Stage23 launcher",
+      "required_markers": 7,
+      "required_paths": 1,
+      "status": "PASS"
     }
   },
   "stage23_claim_reassessment": {

@@ -15,8 +15,16 @@ Pinned revisions:
 - Isaac-GR00T: `51d4c89f72fda44cbf77285c6a8114b52676b8a1`
 - GR00T-WholeBodyControl: `a0732b642c0333077e127a2f56ab0014c196bca4`
 
-Current project evidence anchor: `de454440b2458f0f28789f45b0d34299553241a9` on
-`stage23/action-pipeline-learnability`. Pre-existing working tree at generation: `clean`; the three expected audit outputs may be pending.
+Audit input head: `de454440b2458f0f28789f45b0d34299553241a9`
+Report commit: `32e74994bed83ccda5bfaea6c0867ed36cf489fa`
+Current generation head: `32e74994bed83ccda5bfaea6c0867ed36cf489fa` on `stage23/action-pipeline-learnability`.
+Pre-existing working tree at generation: `clean`; the three expected audit outputs may be pending.
+
+Required pinned source/marker validation: Isaac-GR00T
+`PASS`, GR00T-WholeBodyControl
+`PASS`, project launcher
+`PASS`. Missing files or markers
+fail closed before these reports are written.
 
 ## Executive findings
 
@@ -35,9 +43,10 @@ Current project evidence anchor: `de454440b2458f0f28789f45b0d34299553241a9` on
    conclusion; exact checkpoint tensor values were not inspected.
 3. Stage23 O1@200 remains a real bounded negative for its exact recipe and
    the free-running temporal-profile failure remains strongly observed. The
-   earlier phrase “single-sample memorization failure” is too strong as a
-   general claim: O1 exposed one example for 200 optimizer steps, while the
-   official custom example uses batch 32 and 2000 steps, a 320× larger nominal
+   earlier broad single-example wording is too strong as a general claim:
+   this was a single-sample, bounded-recipe overfit diagnostic that did not
+   produce a healthy free-running profile within B1/N200. The official custom
+   example uses batch 32 and 2000 steps, a 320× larger nominal
    example-presentation count, a shorter H16 target, and different defaults.
 4. The observed oscillatory profile is therefore not yet attributable to the
    four-step sampler alone. State dropout, augmentation, VLLN/projector
@@ -84,11 +93,34 @@ frame-to-frame delta chain. Gripper/action streams can remain absolute per
 modality config. The upstream model/action head has no explicit `0.05 s`
 input; Stage22's 0.05 s was a project-owned TEST_ONLY timing contract.
 
+### Dense H40 relative-EEF upstream precedent
+
+The pinned N1.7 configuration explicitly contains the following pretrained
+action language:
+
+```text
+OXE_DROID_RELATIVE_EEF_RELATIVE_JOINT
+  action horizon = 40
+  EEF representation = RELATIVE
+  type = EEF
+  format = XYZ_ROT6D
+```
+
+This evidence is bound to the exact `gr00t/configs/data/embodiment_configs.py`
+entry and its `getting_started/policy.md` tag table, rather than inferred from
+the generic multi-configuration `range(16)` occurrence. The separate official
+SO100 custom example is bound to
+`examples/SO100/so100_config.py`, where H16 is configured for a relative
+non-EEF arm and an absolute gripper. Therefore dense H40 relative EEF is an
+upstream-supported N1.7 precedent, while the SO100 H16 example is a distinct
+custom-embodiment recipe; neither proves that the Go2+ARX5 distribution is
+matched.
+
 ### Pinned source evidence
 
 | pinned source | blob SHA-1 | content SHA-256 | lines / markers |
 |---|---|---|---|
-| `gr00t/model/gr00t_n1d7/gr00t_n1d7.py` | `346b597a4b9a115a9a5b1053621f47f07833da09` | `6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c` | 627 / action_head_class=38; action_head_components=66,72,77,130,131,132,159,160,161,217,239,272,321,405,430; state_dropout=99,220,223; flow_noise=230; flow_time=107,170,231; noisy_trajectory=234; diT_call=254,264,417,425; masked_flow_loss=194,276,277,278,283; inference_noise=349; rtc_options=361,362,363,366,367,368,373,376,379,381,384,392 |
+| `gr00t/model/gr00t_n1d7/gr00t_n1d7.py` | `346b597a4b9a115a9a5b1053621f47f07833da09` | `6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c` | 627 / action_head_class=38; action_head_components=66,72,77,130,131,132,159,160,161,217,239,272,321,405,430; state_dropout=99,220,223; flow_noise=230; flow_time=107,170,231; noisy_trajectory=234; diT_call=254,264,417,425; masked_flow_loss=194,276,277,278,283; inference_noise=349; euler_step=435; rtc_options=361,362,363,366,367,368,373,376,379,381,384,392; action_return=323,437,439,487 |
 | `gr00t/configs/model/gr00t_n1d7.py` | `6026b1f1499d952dbb6d7874bee1a8df8fa4ab25` | `379ff708496a73b25b12f4656850284a16fde0e205828e2a0c0be0af61463744` | 180 / cosmos_backbone=40; max_dimensions=74,75,76; four_step_sampler=106; model_tuning_defaults=113,114,115; raw_state_dropout_default=118; relative_default=71 |
 | `gr00t/model/modules/embodiment_conditioned_mlp.py` | `504785d57cc33a87613dd775cc415cc88574c2ee` | `d8c60775642016262e3df742e7ed10da38007d7a6bc6aa94fcb427f2ff9e1752` | 238 / category_specific_init=66,67; category_selection=77,78; category_mlp=143; multi_embodiment_action_encoder=177 |
 | `gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py` | `ec0d59f771c206e56ebbaf8697a30c8913b2d75c` | `77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f` | 889 / projector_id_table=69,74,75,76,112,119; inference_action_mask=539; inference_valid_horizon=533; decode_slice=282,531,539,541; training_action_pad=605,616; training_mask=635,636; processor_state_dropout=270,648,649,790; save_stats_config=243,270,648,649,758,790,796,805,828,835,844,873 |
@@ -101,10 +133,11 @@ input; Stage22's 0.05 s was a project-owned TEST_ONLY timing contract.
 | `gr00t/model/gr00t_n1d7/setup.py` | `742dcf7c391428f26e2bed57f2ad08c7d35e32c6` | `5212755cf18c1147206408e7250576b27504a6bd3af6402d9cd7f011b2cfd31a` | 242 / model_from_checkpoint=82; processor_from_checkpoint=157 |
 | `gr00t/model/modules/qwen3_backbone.py` | `b7665be7ac84dc597bed786e6766bb83774af1b9` | `e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52` | 372 / backbone_tuning_flags=139,140,154,155,198,249,250,251,254,256,264,265,280,282 |
 | `gr00t/__init__.py` | `e9d017c3b5570e473369a106e05bb2104bc9c6ca` | `1f5bc8699a273afc0df1601cf9b7ac40e2587bf65907961f6714d6f4f18df185` | 388 / local_pretrained_construction=53,111,179,198,206,228,236,240,245,277,279,282,286,293,295,313 |
-| `gr00t/configs/data/embodiment_configs.py` | `8a1189a75442727ce30871b375dcff696c1d146a` | `4c7626426cfd184034df772bca9f1ab5c2014c139c388f833012ca98ac6f948a` | 361 / sonic_modality=67,88; sonic_horizon=38,86; official_so100_horizon=203 |
+| `gr00t/configs/data/embodiment_configs.py` | `8a1189a75442727ce30871b375dcff696c1d146a` | `4c7626426cfd184034df772bca9f1ab5c2014c139c388f833012ca98ac6f948a` | 361 / sonic_modality=67,88; sonic_horizon=38,86; oxe_droid_tag=28; oxe_droid_horizon=38,86; oxe_droid_relative=42,54,146,152,321,326,331,336; oxe_droid_eef=43; oxe_droid_xyz_rot6d=44; oxe_droid_state_key=45 |
+| `examples/SO100/so100_config.py` | `36b5f5c63524e5b9041bae95b2d70b3a7fff8606` | `5257ac7980856565ea9d822e99c1ec7d5e57b34763b3b86658ff9f831237effb` | 70 / so100_h16_config=43; so100_relative_joint=51; so100_joint_non_eef=52,58; so100_absolute_gripper=57; so100_new_embodiment_registration=70 |
 | `getting_started/real_world_deployment.md` | `d85da41ff327a9ed65b9d9edf184f073f40996a4` | `a11002f2955fc16d65118a3bd15fa6647afdf405e89abfc78f25f2e5fdfe2fb0` | 464 / dataset_recommendation=140,142; relative_action_recommendation=146,287; chunk_recommendation=148,430; jitter_taxonomy=263,264,265; async_receding_rtc=288,406,407,409,411,415,444; rtc_not_policy_wired=413; intra_chunk_metric=298 |
 | `getting_started/finetune_new_embodiment.md` | `707e893c3dad98f58541f402d253c07806d3bfff` | `0866df58044a77b4581590c44f05bad3fb3e8947a1e6cd16e1b62e4030f97c26` | 192 / so100_horizon=43; so100_relative_joint=49; official_finetune_scale=107,109,172; official_augmentation=110; open_loop_execution=138; training_curve_guidance=168,169 |
-| `getting_started/policy.md` | `cf1020b9e46d9ef9474cfc5ece07086a63fd2382` | `f5ec4c9aa37714837c1d0758597b1f07e0dd7a3def8715be26660368828fec04` | 579 / base_horizon=84 |
+| `getting_started/policy.md` | `cf1020b9e46d9ef9474cfc5ece07086a63fd2382` | `f5ec4c9aa37714837c1d0758597b1f07e0dd7a3def8715be26660368828fec04` | 579 / execution_horizon_definition=84; base_horizon=84 |
 | `README.md` | `6d86ea8af1a7f303b8cb71e8e281606f71f7a0f3` | `62f6c55a356be039287416f97e03a3b5541052d038a3daec208ea9ff8045a067` | 635 / relative_eef_claim=90; expanded_dimensions=100,118,210; inference_chunk_distinction=121 |
 | `gr00t/eval/open_loop_eval.py` | `4461b84431f33634b953c9e563addd91e20ab9ec` | `e15706fac4cd8caff3229a1538eb0288b487919b28c0e26ecf30c32d0f61245f` | 373 / execution_horizon_arg=56,69,108,143,166,171,184,230,253,351,370; denoising_steps_arg=266,308,310,311,314,316,319 |
 | `gr00t/data/state_action/droid_frame.py` | `4d804b517a3670c70ab24d64a7a90e4cf87c53ed` | `ecbeabdffb6e1e7429319b86bd2f77368b423c72a7cb9989148483f7330bfe23` | 75 / no requested marker match |
@@ -279,11 +312,11 @@ The following prior conclusions are retained but bounded:
 - `O1@200` remains a valid bounded negative for the exact `TINY1_H2STATS`,
   batch-1, 200-step, Stage23 recipe. It does not establish that a custom
   embodiment is unlearnable or that the representation is wrong.
-- The phrase “single-sample memorization failure” should be demoted to
+- The prior broad single-example wording is bounded to
   “single-sample, bounded-recipe overfit diagnostic did not produce a healthy
-  free-running profile.” The official example has 320× the nominal optimizer
-  example/noise-time exposure and materially different H, augmentation,
-  dropout, and default trainability settings.
+  free-running profile within B1/N200.” The official example has 320× the
+  nominal optimizer example/noise-time exposure and materially different H,
+  augmentation, dropout, and default trainability settings.
 
 ### Attribution matrix
 
@@ -330,9 +363,11 @@ wait for that decision.
 ```text
 ROLE: CODEX_CORELAB
 STAGE: Stage23 upstream architecture review before Stage24
-GIT_SHA: de454440b2458f0f28789f45b0d34299553241a9
+AUDIT_INPUT_HEAD: de454440b2458f0f28789f45b0d34299553241a9
+REPORT_COMMIT: 32e74994bed83ccda5bfaea6c0867ed36cf489fa
 ISAAC_GROOT_SHA: 51d4c89f72fda44cbf77285c6a8114b52676b8a1
 GROOT_WBC_SHA: a0732b642c0333077e127a2f56ab0014c196bca4
+REQUIRED_SOURCE_MARKERS: PASS
 C1_EXECUTED: false
 NEW_MODEL_FORWARD: false
 NEW_TRAINING: false
