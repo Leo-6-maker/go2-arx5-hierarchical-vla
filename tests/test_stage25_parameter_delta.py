@@ -14,6 +14,8 @@ from scripts.stage25_o1_parameter_delta_audit import (
     EXPECTED_CATEGORY_IDS,
     EXPECTED_O1_INDEX_SHA256,
     EXPECTED_O1_SEAL_SHA256,
+    OBSERVED_HEADER_DTYPE_AUDIT,
+    SERIALIZED_DTYPE_CAST_RULES,
     SERIALIZED_TIED_ALIAS_RULES,
     SUPPLEMENTAL_METADATA_ALLOWLIST,
     _audit_checkpoint_pair,
@@ -22,7 +24,10 @@ from scripts.stage25_o1_parameter_delta_audit import (
     _o1_seal_rows,
     _partition_o1_checkpoint_scope,
     _reconcile_serialized_key_set,
+    _compare_streamed_key,
+    _compare_tensor_values,
     _require_o1_seal_sha256,
+    _serialized_dtype_comparison,
     _verify_supplemental_historical_binding,
     _verify_o1_seal_against_checkpoint,
     audit_exit_code,
@@ -103,6 +108,113 @@ def test_stage25_tied_alias_reconciliation_requires_pair_and_provenance_shard() 
     base[rule["base_only_key"]] = "unexpected-shard.safetensors"
     with pytest.raises(ValueError, match="unexpected BASE shard"):
         _reconcile_serialized_key_set(base, o1)
+
+
+def test_stage25_dtype_cast_rule_is_exact_and_fail_closed() -> None:
+    assert OBSERVED_HEADER_DTYPE_AUDIT["common_key_count"] == 1030
+    assert OBSERVED_HEADER_DTYPE_AUDIT["mismatched_common_key_count"] == 537
+    assert OBSERVED_HEADER_DTYPE_AUDIT["matching_common_key_count"] == 493
+    assert OBSERVED_HEADER_DTYPE_AUDIT["backbone_mismatched_key_count"] == 0
+    assert sum(OBSERVED_HEADER_DTYPE_AUDIT["mismatch_group_counts"].values()) == 537
+
+    scope_examples = {
+        "CATEGORY_PROJECTORS": "action_head.action_decoder.layer1.W",
+        "DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE": (
+            "action_head.model.transformer_blocks.0.attn1.to_q.weight"
+        ),
+        "ACTION_HEAD_VLLN_EXPECTED_FROZEN": "action_head.vlln.weight",
+    }
+    rules = {rule["scope"]: rule for rule in SERIALIZED_DTYPE_CAST_RULES}
+    for scope, test_key in scope_examples.items():
+        rule = rules[scope]
+        result = _serialized_dtype_comparison(
+            test_key, rule["base_dtype"], rule["o1_dtype"]
+        )
+
+        assert result["stored_dtype_match"] is False
+        assert result["dtype_comparison"] == "EXPLICIT_SEMANTIC_CAST_RULE"
+        assert result["changed_element_basis"] == "decoded_float64_equality"
+        assert result["dtype_cast_rule"] == rule
+
+    rule = rules["CATEGORY_PROJECTORS"]
+    test_key = scope_examples["CATEGORY_PROJECTORS"]
+
+    with pytest.raises(ValueError, match="dtype mismatch"):
+        _serialized_dtype_comparison(
+            "ordinary.key", rule["base_dtype"], rule["o1_dtype"]
+        )
+    with pytest.raises(ValueError, match="dtype mismatch"):
+        _serialized_dtype_comparison(
+            "backbone.model.weight", rule["base_dtype"], rule["o1_dtype"]
+        )
+    with pytest.raises(ValueError, match="dtype mismatch"):
+        _serialized_dtype_comparison(
+            "action_head.unlisted_module.weight",
+            rule["base_dtype"],
+            rule["o1_dtype"],
+        )
+    with pytest.raises(ValueError, match="unapproved dtype cast"):
+        _serialized_dtype_comparison(
+            test_key, "torch.float16", rule["o1_dtype"]
+        )
+
+
+def test_stage25_allowed_dtype_cast_compares_decoded_values() -> None:
+    torch = pytest.importorskip("torch")
+    rule = SERIALIZED_DTYPE_CAST_RULES[0]
+    test_key = "action_head.action_decoder.layer1.W"
+    base = torch.tensor([[1.0, -2.5], [3.25, 0.0]], dtype=torch.bfloat16)
+    other = base.to(dtype=torch.float32)
+
+    result = _compare_tensor_values(
+        base,
+        other,
+        torch,
+        label=test_key,
+        key=test_key,
+    )
+
+    assert result["dtype_comparison"] == "EXPLICIT_SEMANTIC_CAST_RULE"
+    assert result["changed_element_basis"] == "decoded_float64_equality"
+    assert result["changed_element_count"] == 0
+    assert result["base_tensor_sha256"] != result["other_tensor_sha256"]
+    with pytest.raises(ValueError, match="dtype mismatch"):
+        _compare_tensor_values(
+            base,
+            other,
+            torch,
+            label="ordinary.key",
+            key="ordinary.key",
+        )
+
+
+def test_stage25_streamed_dtype_cast_rule_is_cpu_and_shape_strict(tmp_path: Path) -> None:
+    torch = pytest.importorskip("torch")
+    safe_open = pytest.importorskip("safetensors").safe_open
+    save_file = pytest.importorskip("safetensors.torch").save_file
+    rule = SERIALIZED_DTYPE_CAST_RULES[0]
+    test_key = "action_head.action_decoder.layer1.W"
+    base_path = tmp_path / "base.safetensors"
+    o1_path = tmp_path / "o1.safetensors"
+    base = torch.tensor([[1.0, -2.5], [3.25, 0.0]], dtype=torch.bfloat16)
+    other = base.to(dtype=torch.float32)
+    save_file({test_key: base}, str(base_path))
+    save_file({test_key: other}, str(o1_path))
+
+    with safe_open(str(base_path), framework="pt", device="cpu") as base_handle:
+        with safe_open(str(o1_path), framework="pt", device="cpu") as o1_handle:
+            result = _compare_streamed_key(base_handle, o1_handle, test_key, torch)
+
+    assert result["dtype_comparison"] == "EXPLICIT_SEMANTIC_CAST_RULE"
+    assert result["changed_element_count"] == 0
+    assert result["base_tensor_sha256"] != result["other_tensor_sha256"]
+
+    bad_path = tmp_path / "bad.safetensors"
+    save_file({test_key: torch.zeros((3, 2), dtype=torch.float32)}, str(bad_path))
+    with safe_open(str(bad_path), framework="pt", device="cpu") as bad_handle:
+        with safe_open(str(o1_path), framework="pt", device="cpu") as o1_handle:
+            with pytest.raises(ValueError, match="shape mismatch"):
+                _compare_streamed_key(bad_handle, o1_handle, test_key, torch)
 
 
 def test_stage25_seal_parser_reconstructs_candidate_200_paths(tmp_path: Path) -> None:

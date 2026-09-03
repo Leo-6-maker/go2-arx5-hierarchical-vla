@@ -108,11 +108,17 @@ W1_PARTITION: active 0:10; inactive 10:132; per-column normalized
 EXPECTED_FROZEN_GROUP_DELTA: STOP
 ```
 
-The direct comparison reports exact key/shard/shape/dtype, stored-dtype tensor
-hashes, delta norms, cosine, changed-element fractions, category rows, W1
-active/inactive partitions, and aggregate deltas for every serialized model
-key grouped by the pinned Stage23 recipe. The serialized key count is reported
-both before and after the explicit tied-alias reconciliation.
+The direct comparison reports exact key/shard/shape, BASE/O1 stored dtypes,
+the dtype comparison rule, stored-dtype tensor hashes, delta norms, cosine,
+changed-element fractions, category rows, W1 active/inactive partitions, and
+aggregate deltas for every serialized model key grouped by the pinned Stage23
+recipe. The serialized key count is reported both before and after the
+explicit tied-alias reconciliation. The header-only audit found 537/1030
+common keys with BASE `torch.bfloat16` and O1 `torch.float32`, all under
+`action_head.*`; 493 common keys match and `backbone.*` has zero mismatches.
+Only the three source-proven action-head scopes may use this exact pair;
+numerical comparison for those keys decodes both tensors to float64 while raw
+stored-dtype hashes remain strict.
 
 The hardening gate now verifies the frozen whole-seal SHA256 before any tensor
 read and emits `expected_o1_seal_sha256`, `observed_o1_seal_sha256`, and
@@ -133,10 +139,54 @@ this one alias omission.
 The verifier now admits only this exact BASE-only key, requires the paired key
 in both indexes, requires the BASE mapping to
 `model-00001-of-00002.safetensors`, and compares the paired key normally. Any
-other missing/extra key, or any common-key shape/stored-dtype mismatch, still
-fails closed. This is a mechanical verifier correction; it changes no model
-bytes, scientific inputs, category IDs, active/inactive partition, or
-experiment authorization.
+other missing/extra key or common-key shape mismatch still fails closed. The
+only stored-dtype exception is the exact, source-proven action-head scope set
+documented below; all other dtype mismatches fail closed. This is a mechanical
+verifier correction; it changes no model bytes, scientific inputs, category
+IDs, active/inactive partition, or experiment authorization.
+
+## F.2 Pinned action-head storage-dtype provenance
+
+Hopper's header-only audit found 537/1030 common keys with unchanged shapes,
+BASE `torch.bfloat16`, and O1 `torch.float32`. All 537 are under
+`action_head.*`: `action_head.model.transformer_blocks` (448),
+`action_head.vl_self_attention.transformer_blocks` (64), decoder (4), encoder
+(6), state encoder (4), timestep encoder (4), `proj_out` (4), position
+embedding (1), and `vlln` (2). The other 493 common keys match in stored dtype;
+the header audit found zero `backbone.*` mismatches.
+
+The pinned Stage23 wrapper sends `load_bf16=true` only to the nested Qwen
+backbone and does not pass a top-level Transformers `dtype`. The complete
+action head's ordinary modules therefore start with default fp32 parameters;
+the pinned Transformers 4.57.3 loader loads floating BASE tensors into those
+existing parameter dtypes. The Trainer's `bf16=true` controls AMP autocasting,
+not parameter storage, and `save_pretrained` serializes the current fp32
+action-head storage. `backbone_trainable_params_fp32=false` affects only the
+optional backbone trainable-parameter cast and does not explain or alter these
+action-head keys. `tune_vlln=false` freezes `vlln` and `vl_self_attention`, but
+freezing does not recast their storage; they are therefore legitimately part of
+the representation-only difference.
+
+The pinned source anchor is `isaac-gr00t`
+`51d4c89f72fda44cbf77285c6a8114b52676b8a1`: `gr00t/model/gr00t_n1d7/setup.py`
+passes `load_bf16` to the nested backbone load without a top-level dtype;
+`gr00t/model/gr00t_n1d7/gr00t_n1d7.py` constructs and freezes the action-head
+submodules; `gr00t/model/modules/qwen3_backbone.py` scopes BF16 loading and the
+optional FP32 cast to the backbone; `gr00t/model/modules/embodiment_conditioned_mlp.py`
+has no dtype override for category-specific parameters; and
+`gr00t/experiment/experiment.py` supplies Trainer BF16 AMP and saves the
+current state dict.
+
+The verifier now allows only these exact prefixes and dtype pair: projector
+prefixes (`action_head.state_encoder.*`, `action_head.action_encoder.*`,
+`action_head.action_decoder.*`, `action_head.position_embedding.*`),
+`action_head.model.*`, and frozen `action_head.vlln.*` /
+`action_head.vl_self_attention.*`. It still requires exact shape, finite values,
+and raw stored-dtype tensor SHA256 values; it uses decoded float64 values for
+deltas and changed-element equality only under these scopes. A mismatch outside
+them, or a different pair, remains fail-closed. The correction is
+semantic-preserving serialization handling, not a scientific-contract or
+experiment change.
 
 ## F. Execution return
 
@@ -165,6 +215,12 @@ ALLOWED_BASE_ONLY_KEY: backbone.model.lm_head.weight
 REQUIRED_PAIRED_KEY: backbone.model.model.language_model.embed_tokens.weight
 UNEXPECTED_MISSING_KEYS: []
 UNEXPECTED_EXTRA_KEYS: []
+SERIALIZED_DTYPE_CAST_RECONCILIATION: PASS_EXPLICIT_ACTION_HEAD_SCOPES
+ALLOWED_DTYPE_CAST_SCOPES: CATEGORY_PROJECTORS, DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE, ACTION_HEAD_VLLN_EXPECTED_FROZEN
+OBSERVED_DTYPE_MISMATCH_COUNT: 537/1030 common keys
+BASE_STORED_DTYPE: torch.bfloat16
+O1_STORED_DTYPE: torch.float32
+UNLISTED_DTYPE_MISMATCHES: FAIL_CLOSED
 SCIENTIFIC_CONTRACT_CHANGED: false
 DOWNSTREAM_AUTHORIZATION_STILL_VALID: true
 NEXT_GATE_REQUEST: HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD

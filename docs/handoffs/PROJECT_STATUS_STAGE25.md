@@ -43,7 +43,22 @@ BASE has 1031 keys and O1 has 1030, with only
 declared tied by the pinned Qwen3-VL/Transformers save path. The verifier now
 allows only this BASE-only alias, requires the paired key in both indexes and
 the exact BASE shard mapping, and still fails closed for every other
-missing/extra key and every common-key shape/dtype mismatch.
+missing/extra key and every common-key shape mismatch. The exact Hopper
+header-only audit found 537/1030 common keys with BASE `torch.bfloat16` and O1
+`torch.float32`, all under `action_head.*`; 493 common keys match and
+`backbone.*` has zero mismatches. The verifier admits only the three
+source-defined scopes: projector prefixes, `action_head.model.*`, and frozen
+`action_head.vlln.*`/`action_head.vl_self_attention.*`. Any other or wrong dtype
+pair fails closed.
+
+The pinned Stage23 provenance explains this representation-only difference:
+`load_bf16` applies to the nested Qwen backbone, no top-level Transformers
+dtype is passed, the complete action head is constructed in default fp32,
+safetensor load casts BASE values to the existing parameter dtype, and Trainer
+bf16 is AMP autocast rather than parameter-storage conversion. This includes
+the `tune_vlln=false` frozen modules: freezing does not recast their storage.
+Raw stored-dtype hashes remain reported; only the explicit action-head scopes
+use decoded-float64 equality for changed-element counting and numerical deltas.
 
 ## Prepared audit
 

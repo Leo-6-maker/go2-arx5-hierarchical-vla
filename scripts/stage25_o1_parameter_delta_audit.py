@@ -148,6 +148,83 @@ SERIALIZED_TIED_ALIAS_RULES = (
     },
 )
 
+# The pinned Stage23 load path has one observed, source-explained storage-dtype
+# pair across the action-head scopes reported by the Hopper header audit.  The
+# top-level Gr00tN1d7 load does not receive a ``dtype`` argument, so
+# Transformers 4.57.3 constructs these action-head submodules under the
+# default fp32 dtype and casts loaded safetensor values to the constructed
+# parameter dtype.  Stage23 then uses bf16 AMP without recasting parameter
+# storage, and Trainer.save_model serializes that fp32 action-head storage.
+# Keep the exception scoped to the source-defined action-head submodules:
+# shape, values, raw stored-dtype hashes, and every other key remain
+# independently checked; an unlisted scope or dtype pair fails closed.
+SERIALIZED_DTYPE_CAST_RULES = (
+    {
+        "scope": "CATEGORY_PROJECTORS",
+        "key_prefixes": [
+            "action_head.state_encoder.",
+            "action_head.action_encoder.",
+            "action_head.action_decoder.",
+            "action_head.position_embedding.",
+        ],
+        "base_dtype": "torch.bfloat16",
+        "o1_dtype": "torch.float32",
+        "basis": (
+            "pinned Stage23 Transformers v4.57.3 load constructs these trainable "
+            "projector modules under default fp32; bf16 AMP does not recast storage"
+        ),
+    },
+    {
+        "scope": "DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE",
+        "key_prefixes": ["action_head.model."],
+        "base_dtype": "torch.bfloat16",
+        "o1_dtype": "torch.float32",
+        "basis": (
+            "pinned Stage23 Transformers v4.57.3 load constructs the trainable "
+            "diffusion action-head module under default fp32; bf16 AMP does not "
+            "recast storage"
+        ),
+    },
+    {
+        "scope": "ACTION_HEAD_VLLN_EXPECTED_FROZEN",
+        "key_prefixes": [
+            "action_head.vlln.",
+            "action_head.vl_self_attention.",
+        ],
+        "base_dtype": "torch.bfloat16",
+        "o1_dtype": "torch.float32",
+        "basis": (
+            "pinned Stage23 constructs the frozen vlln/self-attention modules "
+            "under default fp32; tune_vlln=false freezes them but does not cast "
+            "their parameter storage"
+        ),
+    },
+)
+
+# Header-only provenance supplied by the exact Hopper CPU audit for the
+# immutable O1 index.  This is descriptive evidence, not a substitute for the
+# live tensor comparison; the audit still verifies the dtype pair per key.
+OBSERVED_HEADER_DTYPE_AUDIT = {
+    "common_key_count": 1030,
+    "mismatched_common_key_count": 537,
+    "matching_common_key_count": 493,
+    "mismatch_prefix": "action_head.",
+    "backbone_mismatched_key_count": 0,
+    "mismatch_group_counts": {
+        "action_head.model.transformer_blocks": 448,
+        "action_head.vl_self_attention.transformer_blocks": 64,
+        "action_head.action_decoder": 4,
+        "action_head.action_encoder": 6,
+        "action_head.state_encoder": 4,
+        "action_head.model.timestep_encoder": 4,
+        "action_head.model.proj_out": 4,
+        "action_head.position_embedding": 1,
+        "action_head.vlln": 2,
+    },
+    "base_dtype": "torch.bfloat16",
+    "o1_dtype": "torch.float32",
+}
+
 MODULE_GROUP_RULES = (
     {
         "group": "CATEGORY_PROJECTORS",
@@ -813,7 +890,9 @@ def _reconcile_serialized_key_set(
         "reconciled_aliases": reconciled_aliases,
         "comparison_keys": comparison_keys,
         "all_other_missing_or_extra_fail": True,
-        "common_key_shape_and_dtype_still_exact": True,
+        "common_key_shape_exact": True,
+        "common_key_stored_dtype_exact_except_explicit_cast": True,
+        "serialized_dtype_cast_rules": [dict(rule) for rule in SERIALIZED_DTYPE_CAST_RULES],
     }
 
 
@@ -1028,11 +1107,21 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "status": "EXACT_OR_EXPLICIT_TIED_ALIAS_OMISSION",
             "rules": [dict(rule) for rule in SERIALIZED_TIED_ALIAS_RULES],
             "all_other_missing_or_extra_fail": True,
-            "common_key_shape_and_dtype_still_exact": True,
+            "common_key_shape_exact": True,
+            "common_key_stored_dtype_exact_except_explicit_cast": True,
             "comparison_rule": (
                 "Compare the BASE/O1 key intersection after admitting only the "
                 "listed BASE-only tied alias; require the paired key in both indexes"
             ),
+        },
+        "serialized_dtype_cast_reconciliation": {
+            "status": "EXACT_OR_EXPLICIT_ACTION_HEAD_DTYPE_CAST",
+            "observed_header_audit": OBSERVED_HEADER_DTYPE_AUDIT,
+            "rules": [dict(rule) for rule in SERIALIZED_DTYPE_CAST_RULES],
+            "all_other_common_key_dtype_mismatches_fail": True,
+            "shape_remains_exact": True,
+            "numeric_comparison": "float64_after_decoding_both_stored_tensors",
+            "changed_element_comparison": "decoded_float64_equality_for_explicit_cast_only",
         },
         "module_classification": {
             "recipe": {
@@ -1047,13 +1136,13 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "unexpected_frozen_group_delta_is_stop": True,
         },
         "required_key_metrics": [
-            "exact key / shard / shape / dtype",
+            "exact key / shard / shape / BASE and O1 stored dtype / dtype comparison rule",
             "BASE tensor SHA256",
             "O1 tensor SHA256",
             "absolute delta L2 / RMS / max-abs",
             "relative delta L2",
             "cosine(BASE, O1)",
-            "changed-element fraction at stored dtype",
+            "changed-element fraction at stored dtype, or decoded float64 equality for the explicit cast rule",
         ],
         "required_group_metrics": [
             "key count",
@@ -1166,17 +1255,71 @@ def _canonical_tensor_bytes(tensor: Any, torch: Any) -> bytes:
     return value.view(torch.uint8).numpy().tobytes(order="C")
 
 
+def _serialized_dtype_comparison(
+    key: str,
+    base_dtype: Any,
+    o1_dtype: Any,
+) -> dict[str, Any]:
+    """Validate a common-key dtype pair, admitting only the pinned cast rule."""
+
+    base_name = str(base_dtype)
+    o1_name = str(o1_dtype)
+    if base_name == o1_name:
+        return {
+            "base_dtype": base_name,
+            "o1_dtype": o1_name,
+            "stored_dtype_match": True,
+            "dtype_comparison": "EXACT_STORED_DTYPE",
+            "changed_element_basis": "stored_dtype_equality",
+            "dtype_cast_rule": None,
+        }
+
+    matching_rules = [
+        candidate
+        for candidate in SERIALIZED_DTYPE_CAST_RULES
+        if any(key.startswith(prefix) for prefix in candidate["key_prefixes"])
+    ]
+    if not matching_rules:
+        raise ValueError(f"dtype mismatch for {key}: {base_name} != {o1_name}")
+    if len(matching_rules) > 1:
+        scopes = [candidate["scope"] for candidate in matching_rules]
+        raise ValueError(f"ambiguous dtype cast scopes for {key}: {scopes}")
+    rule = matching_rules[0]
+    if (
+        base_name != rule["base_dtype"]
+        or o1_name != rule["o1_dtype"]
+    ):
+        raise ValueError(
+            f"unapproved dtype cast for {key}: {base_name} != {o1_name}; "
+            f"expected {rule['base_dtype']} -> {rule['o1_dtype']}"
+        )
+    return {
+        "base_dtype": base_name,
+        "o1_dtype": o1_name,
+        "stored_dtype_match": False,
+        "dtype_comparison": "EXPLICIT_SEMANTIC_CAST_RULE",
+        "changed_element_basis": "decoded_float64_equality",
+        "dtype_cast_rule": dict(rule),
+    }
+
+
 def _assert_tensor_finite(tensor: Any, torch: Any, key: str) -> None:
     if tensor.is_floating_point() or tensor.is_complex():
         if not bool(torch.isfinite(tensor).all().item()):
             raise ValueError(f"non-finite tensor values in {key}")
 
 
-def _compare_tensor_values(base: Any, other: Any, torch: Any, *, label: str) -> dict[str, Any]:
+def _compare_tensor_values(
+    base: Any,
+    other: Any,
+    torch: Any,
+    *,
+    label: str,
+    key: str | None = None,
+) -> dict[str, Any]:
     if tuple(base.shape) != tuple(other.shape):
         raise ValueError(f"shape mismatch for {label}: {tuple(base.shape)} != {tuple(other.shape)}")
-    if base.dtype != other.dtype:
-        raise ValueError(f"dtype mismatch for {label}: {base.dtype} != {other.dtype}")
+    dtype_status = _serialized_dtype_comparison(key or label, base.dtype, other.dtype)
     _assert_tensor_finite(base, torch, label)
     _assert_tensor_finite(other, torch, label)
     base_float = base.detach().to(dtype=torch.float64, device="cpu")
@@ -1187,14 +1330,22 @@ def _compare_tensor_values(base: Any, other: Any, torch: Any, *, label: str) -> 
     delta_sq = float(torch.sum(delta * delta).item())
     dot = float(torch.sum(base_float * other_float).item())
     count = int(base.numel())
-    changed = int(torch.count_nonzero(base != other).item())
+    changed_values = base != other
+    if not dtype_status["stored_dtype_match"]:
+        changed_values = base_float != other_float
+    changed = int(torch.count_nonzero(changed_values).item())
     delta_max = float(torch.max(torch.abs(delta)).item()) if count else 0.0
     base_l2 = math.sqrt(max(0.0, base_sq))
     other_l2 = math.sqrt(max(0.0, other_sq))
     delta_l2 = math.sqrt(max(0.0, delta_sq))
     return {
         "shape": list(base.shape),
-        "dtype": str(base.dtype),
+        "dtype": dtype_status["base_dtype"],
+        "other_dtype": dtype_status["o1_dtype"],
+        "stored_dtype_match": dtype_status["stored_dtype_match"],
+        "dtype_comparison": dtype_status["dtype_comparison"],
+        "changed_element_basis": dtype_status["changed_element_basis"],
+        "dtype_cast_rule": dtype_status["dtype_cast_rule"],
         "parameter_count": count,
         "finite": True,
         "base_l2": base_l2,
@@ -1232,15 +1383,26 @@ def _compare_streamed_key(base_handle: Any, other_handle: Any, key: str, torch: 
     }
     base_dtype: str | None = None
     other_dtype: str | None = None
+    dtype_status: dict[str, Any] | None = None
     base_chunks = _iter_tensor_chunks(base_handle, key, torch)
     other_chunks = _iter_tensor_chunks(other_handle, key, torch)
     for base_chunk, other_chunk in zip(base_chunks, other_chunks):
         if tuple(base_chunk.shape) != tuple(other_chunk.shape):
             raise ValueError(f"chunk shape mismatch for {key}")
-        if base_chunk.dtype != other_chunk.dtype:
-            raise ValueError(f"chunk dtype mismatch for {key}")
         base_dtype = str(base_chunk.dtype)
         other_dtype = str(other_chunk.dtype)
+        current_dtype_status = _serialized_dtype_comparison(
+            key, base_chunk.dtype, other_chunk.dtype
+        )
+        if dtype_status is None:
+            dtype_status = current_dtype_status
+        elif (
+            current_dtype_status["base_dtype"] != dtype_status["base_dtype"]
+            or current_dtype_status["o1_dtype"] != dtype_status["o1_dtype"]
+            or current_dtype_status["stored_dtype_match"]
+            != dtype_status["stored_dtype_match"]
+        ):
+            raise ValueError(f"inconsistent chunk dtype pair for {key}")
         _assert_tensor_finite(base_chunk, torch, key)
         _assert_tensor_finite(other_chunk, torch, key)
         base_float = base_chunk.detach().to(dtype=torch.float64, device="cpu")
@@ -1251,7 +1413,10 @@ def _compare_streamed_key(base_handle: Any, other_handle: Any, key: str, torch: 
         total["delta_sq"] += float(torch.sum(delta * delta).item())
         total["dot"] += float(torch.sum(base_float * other_float).item())
         total["delta_max_abs"] = max(total["delta_max_abs"], float(torch.max(torch.abs(delta)).item()))
-        total["changed"] += int(torch.count_nonzero(base_chunk != other_chunk).item())
+        changed_values = base_chunk != other_chunk
+        if not current_dtype_status["stored_dtype_match"]:
+            changed_values = base_float != other_float
+        total["changed"] += int(torch.count_nonzero(changed_values).item())
         total["count"] += int(base_chunk.numel())
         digest_base.update(_canonical_tensor_bytes(base_chunk, torch))
         digest_other.update(_canonical_tensor_bytes(other_chunk, torch))
@@ -1260,6 +1425,9 @@ def _compare_streamed_key(base_handle: Any, other_handle: Any, key: str, torch: 
         raise ValueError(f"base/other chunk counts differ for {key}")
     except StopIteration:
         pass
+
+    if dtype_status is None:
+        raise ValueError(f"empty tensor has no readable dtype pair for {key}")
     try:
         next(other_chunks)
         raise ValueError(f"base/other chunk counts differ for {key}")
@@ -1272,7 +1440,12 @@ def _compare_streamed_key(base_handle: Any, other_handle: Any, key: str, torch: 
     delta_l2 = math.sqrt(max(0.0, total["delta_sq"]))
     return {
         "shape": list(base_shape),
-        "dtype": base_dtype,
+        "dtype": dtype_status["base_dtype"],
+        "other_dtype": dtype_status["o1_dtype"],
+        "stored_dtype_match": dtype_status["stored_dtype_match"],
+        "dtype_comparison": dtype_status["dtype_comparison"],
+        "changed_element_basis": dtype_status["changed_element_basis"],
+        "dtype_cast_rule": dtype_status["dtype_cast_rule"],
         "parameter_count": count,
         "finite": True,
         "base_l2": base_l2,
@@ -1319,8 +1492,15 @@ def _numeric_summary(values: Iterable[float]) -> dict[str, Any]:
     }
 
 
-def _partition_metrics(base: Any, other: Any, torch: Any, label: str) -> dict[str, Any]:
-    comparison = _compare_tensor_values(base, other, torch, label=label)
+def _partition_metrics(
+    base: Any,
+    other: Any,
+    torch: Any,
+    label: str,
+    *,
+    key: str | None = None,
+) -> dict[str, Any]:
+    comparison = _compare_tensor_values(base, other, torch, label=label, key=key)
     base_rows = base.detach().to(dtype=torch.float64, device="cpu").reshape(base.shape[0], -1)
     other_rows = other.detach().to(dtype=torch.float64, device="cpu").reshape(other.shape[0], -1)
     delta_rows = other_rows - base_rows
@@ -1523,7 +1703,11 @@ def _audit_checkpoint_pair(
                 base_row = _row_tensor(base_handle, key, category_id, torch)
                 o1_row = _row_tensor(o1_handle, key, category_id, torch)
                 row_result["rows"][str(category_id)] = _compare_tensor_values(
-                    base_row, o1_row, torch, label=f"{key}[{category_id}]"
+                    base_row,
+                    o1_row,
+                    torch,
+                    label=f"{key}[{category_id}]",
+                    key=key,
                 )
             if key == ACTION_ENCODER_W1_KEY:
                 row_result["active_inactive_columns"] = {}
@@ -1536,10 +1720,18 @@ def _audit_checkpoint_pair(
                         )
                     row_result["active_inactive_columns"][str(category_id)] = {
                         "active_0_10": _partition_metrics(
-                            base_row[0:10], o1_row[0:10], torch, f"{key}[{category_id}].active"
+                            base_row[0:10],
+                            o1_row[0:10],
+                            torch,
+                            f"{key}[{category_id}].active",
+                            key=key,
                         ),
                         "inactive_10_132": _partition_metrics(
-                            base_row[10:132], o1_row[10:132], torch, f"{key}[{category_id}].inactive"
+                            base_row[10:132],
+                            o1_row[10:132],
+                            torch,
+                            f"{key}[{category_id}].inactive",
+                            key=key,
                         ),
                     }
             category_metrics[key] = row_result
@@ -1791,6 +1983,54 @@ def _run_self_check() -> dict[str, Any]:
         checks.append("tied alias paired key FAIL")
     else:
         raise AssertionError("tied alias without paired key was accepted")
+
+    dtype_scope_examples = {
+        "CATEGORY_PROJECTORS": "action_head.action_decoder.layer1.W",
+        "DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE": (
+            "action_head.model.transformer_blocks.0.attn1.to_q.weight"
+        ),
+        "ACTION_HEAD_VLLN_EXPECTED_FROZEN": "action_head.vlln.weight",
+    }
+    dtype_rules_by_scope = {
+        rule["scope"]: rule for rule in SERIALIZED_DTYPE_CAST_RULES
+    }
+    for scope, dtype_test_key in dtype_scope_examples.items():
+        dtype_rule = dtype_rules_by_scope[scope]
+        dtype_result = _serialized_dtype_comparison(
+            dtype_test_key, dtype_rule["base_dtype"], dtype_rule["o1_dtype"]
+        )
+        require(
+            dtype_result["dtype_comparison"] == "EXPLICIT_SEMANTIC_CAST_RULE"
+            and dtype_result["changed_element_basis"] == "decoded_float64_equality"
+            and dtype_result["dtype_cast_rule"]["scope"] == scope,
+            f"proven {scope} dtype cast PASS",
+        )
+    dtype_rule = dtype_rules_by_scope["CATEGORY_PROJECTORS"]
+    dtype_test_key = dtype_scope_examples["CATEGORY_PROJECTORS"]
+    try:
+        _serialized_dtype_comparison(
+            "ordinary.key", dtype_rule["base_dtype"], dtype_rule["o1_dtype"]
+        )
+    except ValueError:
+        checks.append("unlisted dtype mismatch FAIL")
+    else:
+        raise AssertionError("unlisted dtype mismatch was accepted")
+    try:
+        _serialized_dtype_comparison(
+            dtype_test_key, "torch.float16", dtype_rule["o1_dtype"]
+        )
+    except ValueError:
+        checks.append("wrong dtype pair FAIL")
+    else:
+        raise AssertionError("wrong dtype pair was accepted")
+    try:
+        _serialized_dtype_comparison(
+            "backbone.model.weight", dtype_rule["base_dtype"], dtype_rule["o1_dtype"]
+        )
+    except ValueError:
+        checks.append("backbone dtype mismatch FAIL")
+    else:
+        raise AssertionError("backbone dtype mismatch was accepted")
 
     with TemporaryDirectory(prefix="stage25-scope-self-check-") as temporary:
         temporary_root = Path(temporary)

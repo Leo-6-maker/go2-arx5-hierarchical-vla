@@ -177,7 +177,75 @@ relaxation.
 The verifier compares the BASE/O1 intersection, including the paired key.
 The omission is accepted only when the paired key exists in both indexes and
 the BASE shard mapping is the one above. Every other missing or extra key
-fails closed; all common keys must still match in shape and stored dtype.
+fails closed; all common keys must still match in shape, and stored dtypes must
+match except for the explicit, source-proven action-head scopes below.
+
+### Pinned action-head storage-dtype exception
+
+The exact Hopper header-only CPU audit observed 537 of 1030 common keys with
+the same storage-dtype pair, and 493 with matching stored dtypes. All 537
+mismatches are under `action_head.*`; the header audit found zero
+`backbone.*` mismatches. The observed pair is:
+
+```text
+representative key: action_head.action_decoder.layer1.W
+representative shape: (32,1024,1024)
+representative shard: model-00002-of-00002.safetensors in BASE and O1
+BASE dtype:          torch.bfloat16
+O1 dtype:             torch.float32
+```
+
+This pair is explained by the pinned Stage23 load/save path. The Stage23
+wrapper passes `load_bf16=true` to the nested Qwen backbone, but does not pass a
+top-level Transformers `dtype`; the complete `Gr00tN1d7ActionHead` is therefore
+constructed under the default fp32 parameter dtype. Its `action_head.model`
+diffusion module, projector modules, `vlln`, and `vl_self_attention` are all
+ordinary modules constructed in that same context. The pinned Transformers
+4.57.3 loader casts each loaded floating tensor to the already-constructed
+parameter dtype. The pinned `CategorySpecificLinear` modules have no explicit
+dtype cast. Stage23's `bf16=true` Trainer setting is AMP autocasting rather
+than a parameter storage conversion, and `Trainer.save_model()` serializes the
+current fp32 action-head storage. This is an expected serialization
+representation change, not a change to the model structure, scientific inputs,
+or training recipe.
+
+The verifier admits only these source-defined scopes and exact
+`torch.bfloat16` -> `torch.float32` pair:
+
+```text
+CATEGORY_PROJECTORS:
+  action_head.state_encoder.*
+  action_head.action_encoder.*
+  action_head.action_decoder.*
+  action_head.position_embedding.*
+DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE:
+  action_head.model.*
+ACTION_HEAD_VLLN_EXPECTED_FROZEN:
+  action_head.vlln.*
+  action_head.vl_self_attention.*
+```
+
+Shape, finiteness, raw stored-dtype tensor SHA256 values, and all other key
+gates remain strict. Numerical deltas use float64 after decoding both stored
+tensors; changed-element equality uses decoded float64 values only for these
+explicit scopes. A different pair, a key outside these scopes (including any
+`backbone.*` key), or an ambiguous scope fails closed. `tune_vlln=false` keeps
+the VLLN scopes frozen; it does not make their representation match the
+backbone's storage dtype. Their decoded values must still remain unchanged for
+the frozen-group gate to pass.
+
+The pinned source evidence is `isaac-gr00t` commit
+`51d4c89f72fda44cbf77285c6a8114b52676b8a1`: `gr00t/model/gr00t_n1d7/setup.py`
+passes `load_bf16` to the model load without a top-level `dtype`;
+`gr00t/model/gr00t_n1d7/gr00t_n1d7.py` constructs the complete action head and
+freezes VLLN/self-attention when `tune_vlln=false`;
+`gr00t/model/modules/qwen3_backbone.py` applies BF16 only to nested Qwen and
+only optionally casts backbone trainable parameters when
+`trainable_params_fp32=true`; `gr00t/model/modules/embodiment_conditioned_mlp.py`
+constructs category-specific parameters without a dtype override; and
+`gr00t/experiment/experiment.py` passes `bf16` to Trainer and calls
+`trainer.save_model()`. These are source/provenance checks only; no model was
+constructed in this audit.
 
 ## Required category-specific comparison
 
@@ -200,10 +268,12 @@ action_head.action_decoder.layer2.W
 action_head.action_decoder.layer2.b
 ```
 
-For each key, the harness reports the exact BASE/O1 shard, shape, dtype,
-canonical stored-dtype tensor SHA256, absolute delta L2/RMS/max-abs, relative
-delta L2, BASE/O1 cosine, and changed-element fraction using equality at the
-stored dtype. It reports rows `4,5,6,7,10,11,24,25,26,27` separately:
+For each key, the harness reports the exact BASE/O1 shard, shape, BASE/O1
+stored dtype, the dtype comparison rule, canonical stored-dtype tensor SHA256,
+absolute delta L2/RMS/max-abs, relative delta L2, BASE/O1 cosine, and
+changed-element fraction using stored-dtype equality, or decoded float64
+equality only for the explicit cast rule. It reports rows
+`4,5,6,7,10,11,24,25,26,27` separately:
 
 ```text
 4–7:   deterministic unused/control comparison rows
@@ -264,7 +334,8 @@ The harness stops before tensor comparison if any of the following occurs:
 - supplemental historical binding missing, non-exact, or size/SHA256 mismatch;
 - any serialized key-set difference other than the explicit tied-alias rule
   above;
-- shape or stored-dtype mismatch for any compared common key;
+- shape mismatch or an unlisted/wrong stored-dtype pair for any compared common
+  key;
 - any required category-specific key or category row is absent;
 - non-CPU tensor is returned, a tensor is non-finite, or a safe path escapes;
 - an expected-frozen group changes without a source-level explanation.

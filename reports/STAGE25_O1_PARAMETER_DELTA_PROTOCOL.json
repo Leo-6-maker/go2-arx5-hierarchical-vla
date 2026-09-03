@@ -52,7 +52,8 @@
     },
     "serialized_key_set_reconciliation": {
       "all_other_missing_or_extra_fail": true,
-      "common_key_shape_and_dtype_still_exact": true,
+      "common_key_shape_exact": true,
+      "common_key_stored_dtype_exact_except_explicit_cast": true,
       "comparison_rule": "Compare the BASE/O1 key intersection after admitting only the listed BASE-only tied alias; require the paired key in both indexes",
       "rules": [
         {
@@ -63,6 +64,66 @@
         }
       ],
       "status": "EXACT_OR_EXPLICIT_TIED_ALIAS_OMISSION"
+    },
+    "serialized_dtype_cast_reconciliation": {
+      "all_other_common_key_dtype_mismatches_fail": true,
+      "changed_element_comparison": "decoded_float64_equality_for_explicit_cast_only",
+      "numeric_comparison": "float64_after_decoding_both_stored_tensors",
+      "observed_header_audit": {
+        "backbone_mismatched_key_count": 0,
+        "base_dtype": "torch.bfloat16",
+        "common_key_count": 1030,
+        "matching_common_key_count": 493,
+        "mismatch_group_counts": {
+          "action_head.action_decoder": 4,
+          "action_head.action_encoder": 6,
+          "action_head.model.proj_out": 4,
+          "action_head.model.timestep_encoder": 4,
+          "action_head.model.transformer_blocks": 448,
+          "action_head.position_embedding": 1,
+          "action_head.state_encoder": 4,
+          "action_head.vlln": 2,
+          "action_head.vl_self_attention.transformer_blocks": 64
+        },
+        "mismatch_prefix": "action_head.",
+        "mismatched_common_key_count": 537,
+        "o1_dtype": "torch.float32"
+      },
+      "rules": [
+        {
+          "basis": "pinned Stage23 Transformers v4.57.3 load constructs these trainable projector modules under default fp32; bf16 AMP does not recast storage",
+          "base_dtype": "torch.bfloat16",
+          "key_prefixes": [
+            "action_head.state_encoder.",
+            "action_head.action_encoder.",
+            "action_head.action_decoder.",
+            "action_head.position_embedding."
+          ],
+          "o1_dtype": "torch.float32",
+          "scope": "CATEGORY_PROJECTORS"
+        },
+        {
+          "basis": "pinned Stage23 Transformers v4.57.3 load constructs the trainable diffusion action-head module under default fp32; bf16 AMP does not recast storage",
+          "base_dtype": "torch.bfloat16",
+          "key_prefixes": [
+            "action_head.model."
+          ],
+          "o1_dtype": "torch.float32",
+          "scope": "DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE"
+        },
+        {
+          "basis": "pinned Stage23 constructs the frozen vlln/self-attention modules under default fp32; tune_vlln=false freezes them but does not cast their parameter storage",
+          "base_dtype": "torch.bfloat16",
+          "key_prefixes": [
+            "action_head.vlln.",
+            "action_head.vl_self_attention."
+          ],
+          "o1_dtype": "torch.float32",
+          "scope": "ACTION_HEAD_VLLN_EXPECTED_FROZEN"
+        }
+      ],
+      "shape_remains_exact": true,
+      "status": "EXACT_OR_EXPLICIT_ACTION_HEAD_DTYPE_CAST"
     },
     "base_identity": {
       "identity_must_be_reverified": true,
@@ -360,13 +421,13 @@
       "max per-key relative delta"
     ],
     "required_key_metrics": [
-      "exact key / shard / shape / dtype",
+      "exact key / shard / shape / BASE and O1 stored dtype / dtype comparison rule",
       "BASE tensor SHA256",
       "O1 tensor SHA256",
       "absolute delta L2 / RMS / max-abs",
       "relative delta L2",
       "cosine(BASE, O1)",
-      "changed-element fraction at stored dtype"
+      "changed-element fraction at stored dtype, or decoded float64 equality for the explicit cast rule"
     ],
     "schema": "STAGE25_O1_PARAMETER_DELTA_PROTOCOL_V1",
     "stage23_frozen_git_sha": "deb920a070141e6a32a88cd0da6719828647e1e6",

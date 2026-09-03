@@ -34,7 +34,9 @@ modules expected to be frozen changed unexpectedly?
    `backbone.model.lm_head.weight` BASE-only tied alias when
    `backbone.model.model.language_model.embed_tokens.weight` is present in
    both indexes and the BASE shard mapping is exact. Every other missing or
-   extra key fails closed; common-key shape and dtype remain exact gates.
+   extra key fails closed; common-key shape remains exact and stored dtype
+   remains exact except for the source-proven action-head scope rules in the
+   Stage25 verifier. Every other common-key dtype mismatch fails closed.
 6. Aggregate every compared serialized key into the frozen recipe groups. Any
    delta in an expected-frozen group stops interpretation pending source
    explanation.
@@ -53,6 +55,19 @@ known tied-weight serialization alias under the pinned Transformers save
 path. The explicit reconciliation does not change any tensor input or
 scientific comparison; it only prevents a serialized alias from blocking the
 same CPU/static gate.
+
+The exact Hopper header audit found 537/1030 common keys with BASE
+`torch.bfloat16` and O1 `torch.float32`, all under `action_head.*`; the 493
+remaining common keys match in stored dtype, and `backbone.*` has zero dtype
+mismatches. The affected scopes are the trainable projector and diffusion
+modules plus the frozen `vlln` and `vl_self_attention` modules. The pinned
+Stage23 path passes `load_bf16` only to the nested Qwen backbone, constructs the
+complete action head under the default fp32 dtype, loads BASE values into those
+existing fp32 parameters, uses bf16 only for Trainer AMP autocasting, and saves
+the current fp32 action-head storage. The verifier admits only these explicit
+action-head prefixes and the exact BF16 -> FP32 pair, retains raw stored-dtype
+hashes, and compares decoded values in float64 for numerical deltas. This is a
+serialization representation correction only; `SCIENTIFIC_CONTRACT_CHANGED=false`.
 
 ## Evidence
 
