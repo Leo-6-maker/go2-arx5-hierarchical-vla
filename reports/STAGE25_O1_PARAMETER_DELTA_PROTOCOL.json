@@ -164,7 +164,7 @@
       ],
       "unexpected_frozen_group_delta_is_stop": true
     },
-    "next_gate": "HOPPER_CPU_STATIC_DELTA_EXECUTION",
+    "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH",
     "o1_identity": {
       "checkpoint_seal_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv",
       "checkpoint_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
@@ -173,6 +173,16 @@
       "seal_sha256_verified": true,
       "full_bytes_present_in_phase_a_relay": false,
       "full_bytes_required_for_delta_execution": true,
+      "stage23_core_seal_immutable": true,
+      "supplemental_metadata_allowlist": [
+        "experiment_cfg/conf.yaml",
+        "experiment_cfg/config.yaml",
+        "experiment_cfg/dataset_statistics.json",
+        "experiment_cfg/final_model_config.json",
+        "experiment_cfg/final_processor_config.json"
+      ],
+      "supplemental_metadata_file_count_expected": 5,
+      "supplemental_metadata_used_for_tensor_identity": false,
       "global_step": 200,
       "historical_path": "/scratch/e1192548/stage23_o1_20260903/runs/597966.hopper-m-02/candidate_200/checkpoint-200",
       "index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
@@ -243,6 +253,81 @@
       "run_manifest_sha256": "4dfb69bbd0bb36562c17046735001454c8dc5cfe5e9e0195ae3ca032259a3148",
       "trainer_state_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/candidates/trainer_state_200.json",
       "trainer_state_sha256": "2aa506bf605bce28809739970b6d3bc86059dba5490101c7da4fdba94512e4d9"
+    },
+    "provenance_scope": {
+      "forbidden_unsealed_extra_rule": "Any regular file, symlink, directory escape, or path outside SEALED_CORE union the exact five supplemental paths fails closed before tensor read",
+      "stage23_core_seal": {
+        "classification": "IMMUTABLE_HISTORICAL",
+        "immutable": true,
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv",
+        "scope_rule": "SEALED_CORE is exactly the candidate_200 rows from this seal; the Stage23 seal is not rewritten",
+        "sha256_expected": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+        "sha256_observed": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806"
+      },
+      "supplemental_metadata": {
+        "allowlist": [
+          "experiment_cfg/conf.yaml",
+          "experiment_cfg/config.yaml",
+          "experiment_cfg/dataset_statistics.json",
+          "experiment_cfg/final_model_config.json",
+          "experiment_cfg/final_processor_config.json"
+        ],
+        "classification": "PRESENT_DAY_UNSEALED_METADATA",
+        "current_checkpoint_manifest_status": "OBSERVED_ON_HOPPER_PENDING_REEXECUTION",
+        "expected_file_count": 5,
+        "manifest_algorithm": "sha256(relative_path + \"\\0\" + bytes + \"\\0\" + file_sha256 + \"\\n\") over sorted relative_path",
+        "manifest_field": "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256",
+        "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": null,
+        "prior_binding_status": {
+          "experiment_cfg/conf.yaml": {
+            "bytes": 5487,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/conf.yaml",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/conf.yaml"
+            ],
+            "sha256": "d183317ff91f530000956aa9ba67ba1e33bad3f1d50e2f95b8c6626f4df8da76",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/config.yaml": {
+            "bytes": 5456,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/config.yaml",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/config.yaml"
+            ],
+            "sha256": "6d2d799b3a37ecf45dcf65a3479ec82246669a65d673fd53ce92373d6690ba69",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/dataset_statistics.json": {
+            "bytes": 58966,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/dataset_statistics.json",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/dataset_statistics.json"
+            ],
+            "sha256": "28ef7a15fc7c540dd38733eddbf55ebdc3fa2f62c3bafa8b75bfff8bbee54450",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/final_model_config.json": {
+            "bytes": 1513,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/final_model_config.json",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/final_model_config.json"
+            ],
+            "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/final_processor_config.json": {
+            "bytes": 2548004,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/final_processor_config.json",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/final_processor_config.json"
+            ],
+            "sha256": "84b890c59dee08ffe2fce36b4c9f95fe689d993e0d3f0cb80c8a4e8da3fee823",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          }
+        },
+        "tensor_identity_rule": "Stage23 immutable core seal plus exact O1 index SHA256; supplemental metadata cannot establish safetensor identity",
+        "used_for_tensor_identity": false
+      }
     },
     "required_group_metrics": [
       "key count",

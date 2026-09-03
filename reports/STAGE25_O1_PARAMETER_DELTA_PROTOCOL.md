@@ -7,14 +7,14 @@ Date: 2026-09-03 (Asia/Singapore)
 ```text
 PREPARATION: PASS
 DELTA_COMPARISON: PREPARED_NOT_EXECUTED
-NEXT_GATE: HOPPER_CPU_STATIC_DELTA_EXECUTION
+NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
 ```
 
 This protocol is the CPU/static gate required before authorizing another
-H200 training run. It compares the exact Stage22 BASE checkpoint with the
+Hopper/H200 action. It compares the exact Stage22 BASE checkpoint with the
 exact Stage23 O1@200 checkpoint directly from safetensors. It never constructs
 a model and never runs CUDA, forward, inference, training, PBS, WBC, or
-hardware code.
+hardware code. Hopper remains HOLD pending GPT/PI review of this scope patch.
 
 The machine-readable preparation record is
 `reports/STAGE25_O1_PARAMETER_DELTA_PROTOCOL.json`.
@@ -61,6 +61,57 @@ An altered but internally parseable/self-consistent per-file seal is rejected
 before tensor reads. The rejection is written as
 `REJECT_O1_SEAL_SHA256_MISMATCH` and exits nonzero.
 
+## Two-layer provenance scope (Stage25 correction)
+
+The original Stage23 core seal is immutable and is not regenerated or edited:
+
+```text
+STAGE23_CORE_SEAL: IMMUTABLE_HISTORICAL
+checkpoint_file_seal.tsv SHA256: 7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806
+SEALED_CORE: exactly the candidate_200 rows from that seal
+```
+
+The O1 checkpoint root is partitioned before any safetensor read into the
+sealed core and this exact supplemental metadata allow-list:
+
+```text
+experiment_cfg/conf.yaml
+experiment_cfg/config.yaml
+experiment_cfg/dataset_statistics.json
+experiment_cfg/final_model_config.json
+experiment_cfg/final_processor_config.json
+```
+
+The five files are classified as
+`PRESENT_DAY_UNSEALED_METADATA`. They are required to be regular, non-symlink
+files, and the count must be exactly five. Their deterministic manifest field
+is `STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256`, computed as
+
+```text
+sha256(relative_path + "\0" + bytes + "\0" + file_sha256 + "\n")
+over sorted relative_path
+```
+
+The Stage23 relay and repository records do contain exact historical hashes
+for all five paths, through the immutable payload manifest and the
+`candidate_200.run_manifest.json` artifact map:
+
+| path | prior binding status | bytes | SHA256 |
+|---|---|---:|---|
+| `experiment_cfg/conf.yaml` | `EXACT_HISTORICAL_HASH_FOUND` | 5487 | `d183317ff91f530000956aa9ba67ba1e33bad3f1d50e2f95b8c6626f4df8da76` |
+| `experiment_cfg/config.yaml` | `EXACT_HISTORICAL_HASH_FOUND` | 5456 | `6d2d799b3a37ecf45dcf65a3479ec82246669a65d673fd53ce92373d6690ba69` |
+| `experiment_cfg/dataset_statistics.json` | `EXACT_HISTORICAL_HASH_FOUND` | 58966 | `28ef7a15fc7c540dd38733eddbf55ebdc3fa2f62c3bafa8b75bfff8bbee54450` |
+| `experiment_cfg/final_model_config.json` | `EXACT_HISTORICAL_HASH_FOUND` | 1513 | `4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246` |
+| `experiment_cfg/final_processor_config.json` | `EXACT_HISTORICAL_HASH_FOUND` | 2548004 | `84b890c59dee08ffe2fce36b4c9f95fe689d993e0d3f0cb80c8a4e8da3fee823` |
+
+This historical evidence does not retroactively add the five files to the
+Stage23 `checkpoint_file_seal.tsv`; they remain supplemental and are not used
+for tensor identity. Tensor identity is only the immutable Stage23 core seal
+plus the exact O1 index SHA256. Any regular file, symlink, directory escape,
+or path outside the union of these sealed-core rows and the exact five paths
+fails closed before tensor reads. A sixth `experiment_cfg` file is therefore
+not accepted.
+
 ## Frozen BASE identity
 
 The compare command must reproduce both identities before reading any model
@@ -74,9 +125,10 @@ O1 index SHA256:   ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787
 ```
 
 The O1 directory must match every `candidate_200/*` entry in the immutable
-checkpoint seal, including file size and SHA256. The serialized key set,
-shape, and stored dtype must match BASE exactly. No directory name or model
-name is accepted as an identity substitute.
+checkpoint seal, including file size and SHA256, and must contain exactly the
+five supplemental metadata paths above. The serialized key set, shape, and
+stored dtype must match BASE exactly. No directory name or model name is
+accepted as an identity substitute.
 
 ## Required category-specific comparison
 
@@ -157,8 +209,9 @@ to overwrite an existing report.
 The harness stops before tensor comparison if any of the following occurs:
 
 - BASE index/tree identity mismatch;
-- O1 index or immutable per-file seal mismatch;
-- missing or extra O1 files;
+- O1 index or immutable sealed-core mismatch;
+- missing sealed-core files, missing supplemental files, or any unsealed extra;
+- supplemental metadata symlink, path traversal, or non-regular file;
 - serialized key-set, shape, or dtype mismatch;
 - any required category-specific key or category row is absent;
 - non-CPU tensor is returned, a tensor is non-finite, or a safe path escapes;
@@ -186,5 +239,6 @@ WBC: false
 HARDWARE: false
 ```
 
-Stage25 preparation ends here. The next authorized step is a separate
-`HOPPER_CPU_STATIC_DELTA_EXECUTION` using the exact two checkpoint trees.
+Stage25 preparation and provenance-scope correction end here. The next gate is
+`GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH`. Hopper, H200,
+PBS, and numerical delta execution remain HOLD until a new explicit gate.

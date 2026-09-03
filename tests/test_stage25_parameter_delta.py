@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -12,15 +13,19 @@ from scripts.stage25_o1_parameter_delta_audit import (
     EXPECTED_CATEGORY_IDS,
     EXPECTED_O1_INDEX_SHA256,
     EXPECTED_O1_SEAL_SHA256,
+    SUPPLEMENTAL_METADATA_ALLOWLIST,
     _audit_checkpoint_pair,
     _module_group,
     _o1_seal_sha256_status,
     _o1_seal_rows,
+    _partition_o1_checkpoint_scope,
     _require_o1_seal_sha256,
     _verify_o1_seal_against_checkpoint,
     audit_exit_code,
     safe_relative_path,
     stage24_tree_sha256,
+    stage25_supplemental_manifest_sha256,
+    walk_regular_files,
 )
 
 
@@ -67,10 +72,13 @@ def test_stage25_altered_but_self_consistent_seal_is_rejected(tmp_path: Path) ->
         encoding="utf-8",
     )
 
-    # The per-file contents and hash are internally consistent, but the
-    # whole seal is not the frozen Stage23 seal and must not be accepted.
+    # The core row is internally consistent, but the whole seal is not the
+    # frozen Stage23 seal and must be rejected before rows or checkpoint files
+    # are parsed for scope.
     per_file = _verify_o1_seal_against_checkpoint(checkpoint, seal)
-    assert per_file["errors"] == []
+    assert per_file["errors"] == ["O1 checkpoint seal SHA256 mismatch"]
+    assert per_file["entries"] == []
+    assert per_file["scope"] is None
     assert per_file["pass"] is False
     status = _o1_seal_sha256_status(seal)
     assert status["verified"] is False
@@ -105,6 +113,126 @@ def test_stage25_frozen_delta_is_nonzero_and_pass_is_zero() -> None:
     assert audit_exit_code({"status": "STOP_UNEXPECTED_FROZEN_DELTA"}) != 0
     assert audit_exit_code({"status": "PASS"}) == 0
     assert audit_exit_code({"status": "UNEXPECTED_STATUS"}) != 0
+
+
+def _scope_entry(path: str, payload: bytes) -> dict[str, object]:
+    return {
+        "path": path,
+        "bytes": len(payload),
+        "sha256": hashlib.sha256(payload).hexdigest(),
+        "regular_file": True,
+        "symlink": False,
+    }
+
+
+def _scope_fixture() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    core = [
+        _scope_entry("config.json", b"core-config"),
+        _scope_entry("model.safetensors", b"core-tensor"),
+    ]
+    sealed_rows = [
+        {
+            "sealed_path": f"candidate_200/{entry['path']}",
+            "relative_path": entry["path"],
+            "bytes": entry["bytes"],
+            "sha256": entry["sha256"],
+        }
+        for entry in core
+    ]
+    supplemental = [
+        _scope_entry(path, f"supplemental:{path}".encode("utf-8"))
+        for path in SUPPLEMENTAL_METADATA_ALLOWLIST
+    ]
+    return core + supplemental, sealed_rows
+
+
+def test_stage25_two_layer_scope_accepts_exact_core_plus_five_supplementals() -> None:
+    entries, sealed_rows = _scope_fixture()
+    result = _partition_o1_checkpoint_scope(entries, sealed_rows)
+    assert result["pass"] is True
+    supplemental = result["allowed_supplemental_metadata"]
+    assert supplemental["expected_file_count"] == 5
+    assert supplemental["observed_file_count"] == 5
+    assert supplemental["used_for_tensor_identity"] is False
+    assert supplemental["STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256"] == (
+        stage25_supplemental_manifest_sha256(
+            [entry for entry in entries if entry["path"] in SUPPLEMENTAL_METADATA_ALLOWLIST]
+        )
+    )
+
+
+def test_stage25_two_layer_scope_rejects_core_missing_or_modified() -> None:
+    entries, sealed_rows = _scope_fixture()
+    missing = _partition_o1_checkpoint_scope(
+        [entry for entry in entries if entry["path"] != "config.json"],
+        sealed_rows,
+    )
+    assert missing["pass"] is False
+    assert "config.json" in missing["sealed_core"]["missing_paths"]
+
+    modified = [
+        {**entry, "sha256": "0" * 64}
+        if entry["path"] == "config.json"
+        else entry
+        for entry in entries
+    ]
+    changed = _partition_o1_checkpoint_scope(modified, sealed_rows)
+    assert changed["pass"] is False
+    assert any("sealed core SHA256 mismatch: config.json" in error for error in changed["errors"])
+
+
+def test_stage25_two_layer_scope_rejects_sixth_or_arbitrary_extra_file() -> None:
+    entries, sealed_rows = _scope_fixture()
+    missing_supplemental = _partition_o1_checkpoint_scope(
+        [entry for entry in entries if entry["path"] != "experiment_cfg/config.yaml"],
+        sealed_rows,
+    )
+    assert missing_supplemental["pass"] is False
+    assert "experiment_cfg/config.yaml" in missing_supplemental["allowed_supplemental_metadata"]["missing_paths"]
+
+    sixth = _partition_o1_checkpoint_scope(
+        entries + [_scope_entry("experiment_cfg/sixth.yaml", b"sixth")],
+        sealed_rows,
+    )
+    assert sixth["pass"] is False
+    assert sixth["forbidden_unsealed_extra"]["paths"] == ["experiment_cfg/sixth.yaml"]
+
+    arbitrary = _partition_o1_checkpoint_scope(
+        entries + [_scope_entry("unexpected.txt", b"extra")],
+        sealed_rows,
+    )
+    assert arbitrary["pass"] is False
+    assert arbitrary["forbidden_unsealed_extra"]["paths"] == ["unexpected.txt"]
+
+
+def test_stage25_two_layer_scope_rejects_symlink_and_path_traversal(tmp_path: Path) -> None:
+    entries, sealed_rows = _scope_fixture()
+    symlink_entries = [
+        {**entry, "symlink": True}
+        if entry["path"] == SUPPLEMENTAL_METADATA_ALLOWLIST[0]
+        else entry
+        for entry in entries
+    ]
+    symlink_result = _partition_o1_checkpoint_scope(symlink_entries, sealed_rows)
+    assert symlink_result["pass"] is False
+    assert any("symlink file is not allowed" in error for error in symlink_result["errors"])
+
+    checkpoint = tmp_path / "checkpoint"
+    checkpoint.mkdir()
+    experiment_cfg = checkpoint / "experiment_cfg"
+    experiment_cfg.mkdir()
+    target = tmp_path / "outside.txt"
+    target.write_bytes(b"outside")
+    os.symlink(target, experiment_cfg / "config.yaml")
+    with pytest.raises(ValueError):
+        walk_regular_files(checkpoint)
+
+    traversal = _partition_o1_checkpoint_scope(
+        entries + [_scope_entry("experiment_cfg/../escape", b"escape")],
+        sealed_rows,
+    )
+    assert traversal["pass"] is False
+    assert "experiment_cfg/../escape" in traversal["forbidden_unsealed_extra"]["invalid_entries"]
 
 
 def test_stage25_safe_paths_and_tree_digest_are_deterministic() -> None:

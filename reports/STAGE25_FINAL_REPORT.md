@@ -16,7 +16,7 @@ fail-closed, not executed.
 ```text
 PREPARATION: PASS
 DELTA_COMPARISON: PREPARED_NOT_EXECUTED
-NEXT_GATE: HOPPER_CPU_STATIC_DELTA_EXECUTION
+NEXT_GATE: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
 ```
 
 ## B. Git and scope
@@ -50,7 +50,44 @@ payload manifest SHA256 is
 `dfeb6b44410b0042e53bac261e49acf7dbaa23ee2a61839ab65d4171b6c42b6a`, with
 252/252 payload files verified.
 
-## D. Harness and frozen schema
+## D. Two-layer provenance scope correction
+
+The Stage23 core seal remains immutable and unchanged:
+
+```text
+STAGE23_CORE_SEAL: IMMUTABLE_HISTORICAL
+checkpoint_file_seal.tsv SHA256: 7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806
+SEALED_CORE: exactly candidate_200 rows from that seal
+```
+
+The O1 checkpoint-root verifier now admits exactly these five supplemental
+paths, each as a regular non-symlink file:
+
+```text
+experiment_cfg/conf.yaml
+experiment_cfg/config.yaml
+experiment_cfg/dataset_statistics.json
+experiment_cfg/final_model_config.json
+experiment_cfg/final_processor_config.json
+```
+
+They are `PRESENT_DAY_UNSEALED_METADATA`, and are not used for tensor
+identity. The verifier computes
+`STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256` using the sorted
+`relative_path`, byte-count, and file-SHA256 records. Any missing core file,
+missing supplemental, sixth supplemental, arbitrary extra, symlink, or path
+escape fails closed before tensor reads.
+
+The immutable Stage23 relay and `candidate_200.run_manifest.json` contain
+exact historical hashes for all five files, classified as
+`EXACT_HISTORICAL_HASH_FOUND`. This evidence does not retroactively add them
+to the Stage23 core seal. Their present O1-root manifest remains
+`OBSERVED_ON_HOPPER_PENDING_REEXECUTION`.
+
+No scientific metric, category ID, active/inactive partition, or H1/H2 logic
+was changed by this correction.
+
+## E. Harness and frozen schema
 
 ```text
 DELTA_HARNESS_READY: true
@@ -72,11 +109,11 @@ read and emits `expected_o1_seal_sha256`, `observed_o1_seal_sha256`, and
 exits zero. Static tests cover an altered-but-self-consistent seal rejection,
 the two exit-code cases, and the no-tensor-read rejection path.
 
-## E. Execution return
+## F. Execution return
 
 ```yaml
 ROLE: CODEX_CORELAB
-STAGE: Stage25 O1 parameter-delta preparation
+STAGE: Stage25 provenance-scope correction
 STAGE24_BASE_SHA: c5ded6e119df920402451497aacdc69274ca8fc1
 O1_200_HISTORICAL_PATH: /scratch/e1192548/stage23_o1_20260903/runs/597966.hopper-m-02/candidate_200/checkpoint-200
 O1_200_SEAL_SOURCE: checkpoint_seal/checkpoint_file_seal.tsv
@@ -91,15 +128,15 @@ INFERENCE: false
 TRAINING: false
 PBS_SUBMITTED: false
 RESULT: PASS
-NEXT_GATE_REQUEST: HOPPER_CPU_STATIC_DELTA_EXECUTION
+NEXT_GATE_REQUEST: GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH
 ```
 
-## F. Stop gate
+## G. Stop gate
 
-Do not start H2/H1, do not submit PBS, and do not run WBC. The next decision
-is whether to relay the exact O1 checkpoint bytes to an authorized CPU/static
-audit context. No interpretation of BASE→O1 parameter movement is made by
-this preparation report.
+Do not start H2/H1, do not submit PBS, do not use Hopper/H200, and do not run
+WBC. The next decision gate is GPT/PI review of this Corelab provenance-scope
+patch. No interpretation of BASE→O1 parameter movement is made by this
+preparation report.
 
 See `reports/STAGE25_O1_PARAMETER_DELTA_PROTOCOL.md` and its JSON companion
 for the complete executable schema.

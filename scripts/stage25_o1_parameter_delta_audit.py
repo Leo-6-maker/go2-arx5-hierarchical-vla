@@ -6,7 +6,9 @@ constructs a GR00T model, imports CUDA, runs a forward pass, performs
 inference, trains, or submits a scheduler job.  The preparation path uses
 only the immutable Stage23 Phase-A evidence relay and is runnable with the
 Python standard library.  The comparison path imports ``torch`` and
-``safetensors`` lazily and opens both trees with ``device="cpu"``.
+``safetensors`` lazily and opens both trees with ``device="cpu"``.  Its O1
+root scope is two-layered: the immutable Stage23 ``candidate_200`` core seal
+plus an exact five-file Stage25 supplemental metadata allow-list.
 
 The preparation command is the Stage25 Corelab deliverable.  The compare
 command is fail-closed until exact BASE and O1 checkpoint bytes plus the
@@ -25,6 +27,7 @@ import re
 import stat
 from contextlib import ExitStack
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any, Iterable, Mapping
 
 
@@ -45,6 +48,65 @@ EXPECTED_CATEGORY_IDS = (4, 5, 6, 7, 10, 11, 24, 25, 26, 27)
 EXPECTED_ACTIVE_ACTION_DIM = 10
 EXPECTED_UNIVERSAL_ACTION_DIM = 132
 EXPECTED_INACTIVE_ACTION_RANGE = [10, 132]
+SUPPLEMENTAL_METADATA_ALLOWLIST = (
+    "experiment_cfg/conf.yaml",
+    "experiment_cfg/config.yaml",
+    "experiment_cfg/dataset_statistics.json",
+    "experiment_cfg/final_model_config.json",
+    "experiment_cfg/final_processor_config.json",
+)
+SUPPLEMENTAL_METADATA_CLASSIFICATION = "PRESENT_DAY_UNSEALED_METADATA"
+SUPPLEMENTAL_METADATA_MANIFEST_ALGORITHM = (
+    'sha256(relative_path + "\\0" + bytes + "\\0" + file_sha256 + "\\n") '
+    "over sorted relative_path"
+)
+SUPPLEMENTAL_METADATA_PRIOR_BINDING = {
+    "experiment_cfg/conf.yaml": {
+        "status": "EXACT_HISTORICAL_HASH_FOUND",
+        "bytes": 5487,
+        "sha256": "d183317ff91f530000956aa9ba67ba1e33bad3f1d50e2f95b8c6626f4df8da76",
+        "evidence": [
+            "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/conf.yaml",
+            "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/conf.yaml",
+        ],
+    },
+    "experiment_cfg/config.yaml": {
+        "status": "EXACT_HISTORICAL_HASH_FOUND",
+        "bytes": 5456,
+        "sha256": "6d2d799b3a37ecf45dcf65a3479ec82246669a65d673fd53ce92373d6690ba69",
+        "evidence": [
+            "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/config.yaml",
+            "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/config.yaml",
+        ],
+    },
+    "experiment_cfg/dataset_statistics.json": {
+        "status": "EXACT_HISTORICAL_HASH_FOUND",
+        "bytes": 58966,
+        "sha256": "28ef7a15fc7c540dd38733eddbf55ebdc3fa2f62c3bafa8b75bfff8bbee54450",
+        "evidence": [
+            "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/dataset_statistics.json",
+            "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/dataset_statistics.json",
+        ],
+    },
+    "experiment_cfg/final_model_config.json": {
+        "status": "EXACT_HISTORICAL_HASH_FOUND",
+        "bytes": 1513,
+        "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246",
+        "evidence": [
+            "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/final_model_config.json",
+            "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/final_model_config.json",
+        ],
+    },
+    "experiment_cfg/final_processor_config.json": {
+        "status": "EXACT_HISTORICAL_HASH_FOUND",
+        "bytes": 2548004,
+        "sha256": "84b890c59dee08ffe2fce36b4c9f95fe689d993e0d3f0cb80c8a4e8da3fee823",
+        "evidence": [
+            "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/final_processor_config.json",
+            "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/final_processor_config.json",
+        ],
+    },
+}
 EPSILON = 1e-12
 HASH_BLOCK_SIZE = 8 * 1024 * 1024
 
@@ -139,11 +201,20 @@ def assert_regular(path: Path) -> None:
 
 
 def walk_regular_files(root: Path) -> list[dict[str, Any]]:
-    root = root.resolve(strict=True)
+    root_path = Path(root)
+    if root_path.is_symlink():
+        raise ValueError(f"symlink checkpoint root is not allowed: {root_path}")
+    root = root_path.resolve(strict=True)
     if not root.is_dir():
         raise ValueError(f"checkpoint root is not a directory: {root}")
+
+    def raise_walk_error(error: OSError) -> None:
+        raise ValueError(f"checkpoint walk failed: {error}") from error
+
     entries: list[dict[str, Any]] = []
-    for directory, dirnames, filenames in os.walk(root, followlinks=False):
+    for directory, dirnames, filenames in os.walk(
+        root, followlinks=False, onerror=raise_walk_error
+    ):
         directory_path = Path(directory)
         for dirname in sorted(dirnames):
             child = directory_path / dirname
@@ -158,6 +229,8 @@ def walk_regular_files(root: Path) -> list[dict[str, Any]]:
                     "path": relative,
                     "bytes": child.stat().st_size,
                     "sha256": sha256_file(child),
+                    "regular_file": True,
+                    "symlink": False,
                 }
             )
     return sorted(entries, key=lambda item: item["path"])
@@ -267,6 +340,189 @@ def _require_o1_seal_sha256(seal_path: Path) -> dict[str, Any]:
     return result
 
 
+def _normalize_scope_entry(entry: Mapping[str, Any]) -> dict[str, Any]:
+    raw_path = entry.get("path")
+    if not isinstance(raw_path, str):
+        raise ValueError("checkpoint scope entry path is not a string")
+    relative = safe_relative_path(raw_path)
+    if entry.get("symlink") is True:
+        raise ValueError(f"symlink file is not allowed: {relative}")
+    if entry.get("regular_file") is False:
+        raise ValueError(f"checkpoint scope entry is not a regular file: {relative}")
+    size = entry.get("bytes")
+    if isinstance(size, bool) or not isinstance(size, int) or size < 0:
+        raise ValueError(f"invalid byte count for checkpoint scope entry: {relative}")
+    digest = entry.get("sha256")
+    if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ValueError(f"invalid SHA256 for checkpoint scope entry: {relative}")
+    normalized = dict(entry)
+    normalized.update(
+        {
+            "path": relative,
+            "bytes": size,
+            "sha256": digest,
+            "regular_file": True,
+            "symlink": False,
+        }
+    )
+    return normalized
+
+
+def _normalize_sealed_scope_entry(row: Mapping[str, Any]) -> dict[str, Any]:
+    relative = row.get("relative_path")
+    if not isinstance(relative, str):
+        raise ValueError("sealed scope row has no relative_path")
+    normalized = _normalize_scope_entry(
+        {
+            "path": relative,
+            "bytes": row.get("bytes"),
+            "sha256": row.get("sha256"),
+            "regular_file": True,
+            "symlink": False,
+        }
+    )
+    normalized["sealed_path"] = row.get("sealed_path", relative)
+    return normalized
+
+
+def stage25_supplemental_manifest_sha256(
+    entries: Iterable[Mapping[str, Any]],
+) -> str:
+    """Hash exactly the five present-day supplemental metadata records."""
+
+    normalized = [_normalize_scope_entry(entry) for entry in entries]
+    paths = [entry["path"] for entry in normalized]
+    if len(paths) != len(set(paths)):
+        raise ValueError("duplicate supplemental metadata path")
+    if set(paths) != set(SUPPLEMENTAL_METADATA_ALLOWLIST):
+        raise ValueError("supplemental metadata manifest is not the exact five-file allow-list")
+
+    digest = hashlib.sha256()
+    for entry in sorted(normalized, key=lambda item: item["path"]):
+        digest.update(
+            f"{entry['path']}\0{entry['bytes']}\0{entry['sha256']}\n".encode("utf-8")
+        )
+    return digest.hexdigest()
+
+
+def _partition_o1_checkpoint_scope(
+    actual_entries: Iterable[Mapping[str, Any]],
+    sealed_rows: Iterable[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Partition a checkpoint into immutable core, five supplementals, and extras."""
+
+    errors: list[str] = []
+    invalid_entries: list[str] = []
+    actual: list[dict[str, Any]] = []
+    for entry in actual_entries:
+        try:
+            actual.append(_normalize_scope_entry(entry))
+        except ValueError as exc:
+            raw_path = entry.get("path") if isinstance(entry, Mapping) else None
+            label = raw_path if isinstance(raw_path, str) else "<unknown>"
+            invalid_entries.append(label)
+            errors.append(f"invalid checkpoint entry {label}: {exc}")
+
+    sealed: list[dict[str, Any]] = []
+    for row in sealed_rows:
+        try:
+            sealed.append(_normalize_sealed_scope_entry(row))
+        except ValueError as exc:
+            errors.append(f"invalid immutable seal row: {exc}")
+    if not sealed:
+        errors.append("immutable Stage23 seal has no sealed core rows")
+
+    def duplicate_paths(entries: Iterable[Mapping[str, Any]]) -> list[str]:
+        counts: dict[str, int] = {}
+        for entry in entries:
+            path = str(entry["path"])
+            counts[path] = counts.get(path, 0) + 1
+        return sorted(path for path, count in counts.items() if count > 1)
+
+    duplicate_actual = duplicate_paths(actual)
+    duplicate_sealed = duplicate_paths(sealed)
+    if duplicate_actual:
+        errors.append(f"duplicate checkpoint paths: {duplicate_actual}")
+    if duplicate_sealed:
+        errors.append(f"duplicate sealed core paths: {duplicate_sealed}")
+
+    actual_by_path = {entry["path"]: entry for entry in actual}
+    sealed_by_path = {entry["path"]: entry for entry in sealed}
+    actual_paths = set(actual_by_path)
+    sealed_paths = set(sealed_by_path)
+    supplemental_paths = set(SUPPLEMENTAL_METADATA_ALLOWLIST)
+    core_supplemental_overlap = sorted(sealed_paths & supplemental_paths)
+    if core_supplemental_overlap:
+        errors.append(
+            f"supplemental path cannot be in immutable sealed core: {core_supplemental_overlap}"
+        )
+    permitted_paths = sealed_paths | supplemental_paths
+    missing_core = sorted(sealed_paths - actual_paths)
+    missing_supplemental = sorted(supplemental_paths - actual_paths)
+    forbidden_extra = sorted(actual_paths - permitted_paths)
+    if missing_core:
+        errors.append(f"missing sealed core file(s): {missing_core}")
+    if missing_supplemental:
+        errors.append(f"missing supplemental metadata file(s): {missing_supplemental}")
+    if forbidden_extra:
+        errors.append(f"forbidden unsealed extra file(s): {forbidden_extra}")
+
+    core_mismatches: list[str] = []
+    for relative, expected in sorted(sealed_by_path.items()):
+        actual_entry = actual_by_path.get(relative)
+        if actual_entry is None:
+            continue
+        if actual_entry["bytes"] != expected["bytes"]:
+            core_mismatches.append(f"sealed core size mismatch: {relative}")
+        if actual_entry["sha256"] != expected["sha256"]:
+            core_mismatches.append(f"sealed core SHA256 mismatch: {relative}")
+    errors.extend(core_mismatches)
+
+    supplemental_entries = [
+        actual_by_path[path]
+        for path in SUPPLEMENTAL_METADATA_ALLOWLIST
+        if path in actual_by_path
+    ]
+    supplemental_manifest_sha256: str | None = None
+    if set(entry["path"] for entry in supplemental_entries) == supplemental_paths:
+        supplemental_manifest_sha256 = stage25_supplemental_manifest_sha256(
+            supplemental_entries
+        )
+
+    return {
+        "schema": "STAGE25_TWO_LAYER_PROVENANCE_SCOPE_V1",
+        "sealed_core": {
+            "classification": "STAGE23_CORE_SEAL: IMMUTABLE_HISTORICAL",
+            "scope_rule": "exactly the candidate_200 rows from the immutable Stage23 checkpoint_file_seal.tsv",
+            "expected_file_count": len(sealed),
+            "observed_file_count": len(sealed_paths & actual_paths),
+            "missing_paths": missing_core,
+            "mismatches": core_mismatches,
+            "entries": sealed,
+        },
+        "allowed_supplemental_metadata": {
+            "classification": SUPPLEMENTAL_METADATA_CLASSIFICATION,
+            "expected_file_count": len(SUPPLEMENTAL_METADATA_ALLOWLIST),
+            "expected_paths": list(SUPPLEMENTAL_METADATA_ALLOWLIST),
+            "observed_file_count": len(supplemental_entries),
+            "observed_entries": supplemental_entries,
+            "missing_paths": missing_supplemental,
+            "manifest_field": "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256",
+            "manifest_algorithm": SUPPLEMENTAL_METADATA_MANIFEST_ALGORITHM,
+            "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": supplemental_manifest_sha256,
+            "used_for_tensor_identity": False,
+        },
+        "forbidden_unsealed_extra": {
+            "paths": forbidden_extra,
+            "invalid_entries": sorted(set(invalid_entries)),
+            "fail_closed": True,
+        },
+        "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": supplemental_manifest_sha256,
+        "errors": sorted(errors),
+        "pass": not errors,
+    }
+
+
 def _verify_payload_manifest(phase_root: Path, seal_root: Path) -> dict[str, Any]:
     manifest_path = seal_root / "payload_file_manifest.tsv"
     if not manifest_path.is_file():
@@ -341,21 +597,23 @@ def _checkpoint_metadata(checkpoint: Path) -> dict[str, Any]:
 
 def _verify_o1_seal_against_checkpoint(checkpoint: Path, seal_path: Path) -> dict[str, Any]:
     seal_sha_status = _o1_seal_sha256_status(seal_path)
+    if not seal_sha_status["verified"]:
+        return {
+            "seal_path": str(seal_path.resolve()),
+            "seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+            "expected_o1_seal_sha256": seal_sha_status["expected_o1_seal_sha256"],
+            "observed_o1_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+            "verified": False,
+            "expected_file_count": None,
+            "actual_file_count": None,
+            "entries": [],
+            "scope": None,
+            "errors": ["O1 checkpoint seal SHA256 mismatch"],
+            "pass": False,
+        }
     rows = _o1_seal_rows(seal_path)
     actual_entries = walk_regular_files(checkpoint)
-    actual_by_path = {entry["path"]: entry for entry in actual_entries}
-    expected_by_path = {row["relative_path"]: row for row in rows}
-    errors: list[str] = []
-    if set(actual_by_path) != set(expected_by_path):
-        errors.append("O1 checkpoint file set differs from candidate_200 seal")
-    for relative, expected in expected_by_path.items():
-        actual = actual_by_path.get(relative)
-        if actual is None:
-            continue
-        if actual["bytes"] != expected["bytes"]:
-            errors.append(f"O1 size mismatch: {relative}")
-        if actual["sha256"] != expected["sha256"]:
-            errors.append(f"O1 SHA256 mismatch: {relative}")
+    scope = _partition_o1_checkpoint_scope(actual_entries, rows)
     return {
         "seal_path": str(seal_path.resolve()),
         "seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
@@ -363,10 +621,12 @@ def _verify_o1_seal_against_checkpoint(checkpoint: Path, seal_path: Path) -> dic
         "observed_o1_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
         "verified": seal_sha_status["verified"],
         "expected_file_count": len(rows),
+        "expected_total_file_count": len(rows) + len(SUPPLEMENTAL_METADATA_ALLOWLIST),
         "actual_file_count": len(actual_entries),
         "entries": rows,
-        "errors": errors,
-        "pass": not errors and seal_sha_status["verified"],
+        "scope": scope,
+        "errors": scope["errors"],
+        "pass": scope["pass"] and seal_sha_status["verified"],
     }
 
 
@@ -397,9 +657,9 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
     provenance = load_json_object(provenance_path)
     run_manifest = load_json_object(run_manifest_path)
     trainer_state = load_json_object(trainer_state_path)
+    seal_sha_status = _require_o1_seal_sha256(seal_path)
     evaluation = _parse_phase_a_evaluation(evaluation_log_path)
     seal_rows = _o1_seal_rows(seal_path)
-    seal_sha_status = _require_o1_seal_sha256(seal_path)
 
     if run_manifest.get("schema") != "STAGE20S_GR00T_TRAINING_RUN_V1":
         raise ValueError("O1 run manifest schema is not the pinned Stage20S schema")
@@ -489,6 +749,33 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "per_file_seal_entries": seal_rows,
             "full_bytes_present_in_phase_a_relay": full_bytes_present,
             "full_bytes_required_for_delta_execution": True,
+            "stage23_core_seal_immutable": True,
+            "supplemental_metadata_allowlist": list(SUPPLEMENTAL_METADATA_ALLOWLIST),
+            "supplemental_metadata_file_count_expected": len(SUPPLEMENTAL_METADATA_ALLOWLIST),
+            "supplemental_metadata_used_for_tensor_identity": False,
+        },
+        "provenance_scope": {
+            "stage23_core_seal": {
+                "classification": "IMMUTABLE_HISTORICAL",
+                "path": str(seal_path),
+                "sha256_expected": EXPECTED_O1_SEAL_SHA256,
+                "sha256_observed": seal_sha_status["observed_o1_seal_sha256"],
+                "immutable": True,
+                "scope_rule": "SEALED_CORE is exactly the candidate_200 rows from this seal; the Stage23 seal is not rewritten",
+            },
+            "supplemental_metadata": {
+                "classification": SUPPLEMENTAL_METADATA_CLASSIFICATION,
+                "allowlist": list(SUPPLEMENTAL_METADATA_ALLOWLIST),
+                "expected_file_count": len(SUPPLEMENTAL_METADATA_ALLOWLIST),
+                "used_for_tensor_identity": False,
+                "tensor_identity_rule": "Stage23 immutable core seal plus exact O1 index SHA256; supplemental metadata cannot establish safetensor identity",
+                "prior_binding_status": SUPPLEMENTAL_METADATA_PRIOR_BINDING,
+                "current_checkpoint_manifest_status": "OBSERVED_ON_HOPPER_PENDING_REEXECUTION",
+                "manifest_field": "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256",
+                "manifest_algorithm": SUPPLEMENTAL_METADATA_MANIFEST_ALGORITHM,
+                "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": None,
+            },
+            "forbidden_unsealed_extra_rule": "Any regular file, symlink, directory escape, or path outside SEALED_CORE union the exact five supplemental paths fails closed before tensor read",
         },
         "category_projector_key_contract": {
             "count": len(CATEGORY_PROJECTOR_KEYS),
@@ -551,7 +838,7 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "hardware": False,
         },
         "comparison_status": "PREPARED_NOT_EXECUTED",
-        "next_gate": "HOPPER_CPU_STATIC_DELTA_EXECUTION",
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE25_CORELAB_PROVENANCE_SCOPE_PATCH",
     }
     result = {
         "schema": "STAGE25_O1_PARAMETER_DELTA_PREPARATION_V1",
@@ -931,7 +1218,7 @@ def _audit_checkpoint_pair(
         raise ValueError("O1 index SHA256 does not match the immutable Stage23 seal")
     o1_seal_result = _verify_o1_seal_against_checkpoint(o1_checkpoint, o1_seal_path)
     if not o1_seal_result["pass"]:
-        raise ValueError("O1 checkpoint does not match the immutable per-file seal")
+        raise ValueError("O1 checkpoint does not match the two-layer provenance scope")
 
     base_keys = set(base["keys"])
     o1_keys = set(o1["keys"])
@@ -1062,6 +1349,140 @@ def _audit_checkpoint_pair(
     return result
 
 
+def _self_check_entry(path: str, payload: bytes) -> dict[str, Any]:
+    return {
+        "path": path,
+        "bytes": len(payload),
+        "sha256": hashlib.sha256(payload).hexdigest(),
+        "regular_file": True,
+        "symlink": False,
+    }
+
+
+def _run_self_check() -> dict[str, Any]:
+    """Run dependency-free scope and fail-close checks for Corelab review."""
+
+    checks: list[str] = []
+
+    def require(condition: bool, label: str) -> None:
+        if not condition:
+            raise AssertionError(label)
+        checks.append(label)
+
+    core_entries = [
+        _self_check_entry("config.json", b"core-config"),
+        _self_check_entry("model.safetensors", b"core-tensor"),
+    ]
+    sealed_rows = [
+        {
+            "sealed_path": f"candidate_200/{entry['path']}",
+            "relative_path": entry["path"],
+            "bytes": entry["bytes"],
+            "sha256": entry["sha256"],
+        }
+        for entry in core_entries
+    ]
+    supplemental_entries = [
+        _self_check_entry(path, f"supplemental:{path}".encode("utf-8"))
+        for path in SUPPLEMENTAL_METADATA_ALLOWLIST
+    ]
+    complete_entries = core_entries + supplemental_entries
+    passed = _partition_o1_checkpoint_scope(complete_entries, sealed_rows)
+    require(passed["pass"], "exact allow-list PASS fixture")
+    require(
+        passed["allowed_supplemental_metadata"]["expected_file_count"] == 5
+        and passed["allowed_supplemental_metadata"][
+            "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256"
+        ],
+        "supplemental manifest PASS",
+    )
+
+    missing_core = _partition_o1_checkpoint_scope(
+        [entry for entry in complete_entries if entry["path"] != "config.json"],
+        sealed_rows,
+    )
+    require(not missing_core["pass"], "sealed core missing FAIL")
+
+    modified_core = [
+        {**entry, "bytes": entry["bytes"] + 1}
+        if entry["path"] == "config.json"
+        else entry
+        for entry in complete_entries
+    ]
+    modified = _partition_o1_checkpoint_scope(modified_core, sealed_rows)
+    require(not modified["pass"], "sealed core mutation FAIL")
+
+    extra = _partition_o1_checkpoint_scope(
+        complete_entries + [_self_check_entry("unexpected.txt", b"extra")],
+        sealed_rows,
+    )
+    require(not extra["pass"], "arbitrary extra root file FAIL")
+
+    sixth = _partition_o1_checkpoint_scope(
+        complete_entries + [_self_check_entry("experiment_cfg/sixth.txt", b"extra")],
+        sealed_rows,
+    )
+    require(not sixth["pass"], "sixth experiment_cfg file FAIL")
+
+    symlink_entry = [
+        {**entry, "symlink": True}
+        if entry["path"] == SUPPLEMENTAL_METADATA_ALLOWLIST[0]
+        else entry
+        for entry in complete_entries
+    ]
+    symlink_scope = _partition_o1_checkpoint_scope(symlink_entry, sealed_rows)
+    require(not symlink_scope["pass"], "supplemental symlink FAIL")
+
+    traversal = _partition_o1_checkpoint_scope(
+        complete_entries + [_self_check_entry("experiment_cfg/../escape", b"escape")],
+        sealed_rows,
+    )
+    require(not traversal["pass"], "supplemental path traversal FAIL")
+
+    with TemporaryDirectory(prefix="stage25-scope-self-check-") as temporary:
+        temporary_root = Path(temporary)
+        checkpoint = temporary_root / "checkpoint"
+        checkpoint.mkdir()
+        experiment_cfg = checkpoint / "experiment_cfg"
+        experiment_cfg.mkdir()
+        outside = temporary_root / "outside.txt"
+        outside.write_bytes(b"outside")
+        os.symlink(outside, experiment_cfg / SUPPLEMENTAL_METADATA_ALLOWLIST[0].split("/", 1)[1])
+        try:
+            walk_regular_files(checkpoint)
+        except ValueError:
+            checks.append("filesystem symlink FAIL")
+        else:
+            raise AssertionError("filesystem symlink was not rejected")
+
+        seal = temporary_root / "checkpoint_file_seal.tsv"
+        seal.write_text(
+            "candidate_200\tmodel.safetensors\tregular file\t1\t"
+            + hashlib.sha256(b"x").hexdigest()
+            + "\n",
+            encoding="utf-8",
+        )
+        require(not _o1_seal_sha256_status(seal)["verified"], "Stage23 seal SHA FAIL")
+        try:
+            _require_o1_seal_sha256(seal)
+        except ValueError:
+            checks.append("Stage23 seal pre-parse gate FAIL")
+        else:
+            raise AssertionError("altered Stage23 seal was accepted")
+
+    require(audit_exit_code({"status": "PASS"}) == 0, "PASS exit code")
+    require(
+        audit_exit_code({"status": "STOP_UNEXPECTED_FROZEN_DELTA"}) != 0,
+        "frozen delta exit code",
+    )
+    require(audit_exit_code({"status": "UNKNOWN"}) != 0, "unknown status exit code")
+    return {
+        "schema": "STAGE25_PROVENANCE_SCOPE_SELF_CHECK_V1",
+        "status": "PASS",
+        "checks": checks,
+    }
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1076,6 +1497,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     audit.add_argument("--o1-seal", type=Path, required=True)
     audit.add_argument("--base-tree-prefix", default=EXPECTED_BASE_TREE_PREFIX)
     audit.add_argument("--output", type=Path, required=True)
+    subparsers.add_parser("self-check", help="run dependency-free Corelab self-checks")
     return parser.parse_args(argv)
 
 
@@ -1095,7 +1517,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "prepare":
             result = _prepare_protocol(args.phase_a_root, args.output)
-        else:
+        elif args.command == "audit":
             result = _audit_checkpoint_pair(
                 args.base_checkpoint,
                 args.o1_checkpoint,
@@ -1103,10 +1525,12 @@ def main(argv: list[str] | None = None) -> int:
                 args.output,
                 base_tree_prefix=args.base_tree_prefix,
             )
+        else:
+            result = _run_self_check()
     except Exception as exc:
         raise SystemExit(f"STAGE25_FAIL_CLOSED: {exc}") from exc
     print(json.dumps(result, indent=2, sort_keys=True))
-    if args.command == "prepare":
+    if args.command in {"prepare", "self-check"}:
         return 0
     return audit_exit_code(result)
 
