@@ -45,6 +45,22 @@ sealed entries are retained in the JSON record. This is an execution-input
 gap, not a preparation failure; the compare command refuses to proceed until
 the exact bytes and the seal are supplied.
 
+The whole-seal digest is an independent frozen identity gate. Before opening
+or reading any tensor, `audit` computes the supplied seal digest and requires
+the following output fields to agree:
+
+```json
+{
+  "expected_o1_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+  "observed_o1_seal_sha256": "<computed>",
+  "verified": true
+}
+```
+
+An altered but internally parseable/self-consistent per-file seal is rejected
+before tensor reads. The rejection is written as
+`REJECT_O1_SEAL_SHA256_MISMATCH` and exits nonzero.
+
 ## Frozen BASE identity
 
 The compare command must reproduce both identities before reading any model
@@ -150,6 +166,10 @@ The harness stops before tensor comparison if any of the following occurs:
 
 The harness does not modify either checkpoint and does not silently repair,
 cast, clip, retime, or otherwise alter model data.
+
+An audit result with `status=STOP_UNEXPECTED_FROZEN_DELTA` exits nonzero;
+`status=PASS` exits zero. Unknown audit statuses are fail-closed and also exit
+nonzero.
 
 ## Preparation boundary
 

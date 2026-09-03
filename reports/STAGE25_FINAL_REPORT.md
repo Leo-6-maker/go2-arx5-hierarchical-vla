@@ -66,6 +66,12 @@ hashes, delta norms, cosine, changed-element fractions, category rows, W1
 active/inactive partitions, and aggregate deltas for every serialized model
 key grouped by the pinned Stage23 recipe.
 
+The hardening gate now verifies the frozen whole-seal SHA256 before any tensor
+read and emits `expected_o1_seal_sha256`, `observed_o1_seal_sha256`, and
+`verified`. A `STOP_UNEXPECTED_FROZEN_DELTA` result exits nonzero; `PASS`
+exits zero. Static tests cover an altered-but-self-consistent seal rejection,
+the two exit-code cases, and the no-tensor-read rejection path.
+
 ## E. Execution return
 
 ```yaml

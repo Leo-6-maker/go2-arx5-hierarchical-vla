@@ -38,6 +38,7 @@ EXPECTED_BASE_INDEX_SHA256 = "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273
 EXPECTED_BASE_TREE_SHA256 = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 EXPECTED_BASE_TREE_PREFIX = "payload/GR00T-N1.7-3B"
 EXPECTED_O1_INDEX_SHA256 = "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+EXPECTED_O1_SEAL_SHA256 = "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806"
 EXPECTED_O1_STEPS = 200
 EXPECTED_ACTION_HORIZON = 40
 EXPECTED_CATEGORY_IDS = (4, 5, 6, 7, 10, 11, 24, 25, 26, 27)
@@ -243,6 +244,29 @@ def _o1_seal_rows(seal_path: Path) -> list[dict[str, Any]]:
     return sorted(result, key=lambda item: item["relative_path"])
 
 
+def _o1_seal_sha256_status(seal_path: Path) -> dict[str, Any]:
+    """Return the frozen whole-seal digest comparison without reading tensors."""
+
+    assert_regular(seal_path)
+    observed = sha256_file(seal_path)
+    return {
+        "expected_o1_seal_sha256": EXPECTED_O1_SEAL_SHA256,
+        "observed_o1_seal_sha256": observed,
+        "verified": observed == EXPECTED_O1_SEAL_SHA256,
+    }
+
+
+def _require_o1_seal_sha256(seal_path: Path) -> dict[str, Any]:
+    result = _o1_seal_sha256_status(seal_path)
+    if not result["verified"]:
+        raise ValueError(
+            "O1 checkpoint seal SHA256 mismatch: "
+            f"expected {result['expected_o1_seal_sha256']}, "
+            f"observed {result['observed_o1_seal_sha256']}"
+        )
+    return result
+
+
 def _verify_payload_manifest(phase_root: Path, seal_root: Path) -> dict[str, Any]:
     manifest_path = seal_root / "payload_file_manifest.tsv"
     if not manifest_path.is_file():
@@ -316,6 +340,7 @@ def _checkpoint_metadata(checkpoint: Path) -> dict[str, Any]:
 
 
 def _verify_o1_seal_against_checkpoint(checkpoint: Path, seal_path: Path) -> dict[str, Any]:
+    seal_sha_status = _o1_seal_sha256_status(seal_path)
     rows = _o1_seal_rows(seal_path)
     actual_entries = walk_regular_files(checkpoint)
     actual_by_path = {entry["path"]: entry for entry in actual_entries}
@@ -333,12 +358,15 @@ def _verify_o1_seal_against_checkpoint(checkpoint: Path, seal_path: Path) -> dic
             errors.append(f"O1 SHA256 mismatch: {relative}")
     return {
         "seal_path": str(seal_path.resolve()),
-        "seal_sha256": sha256_file(seal_path),
+        "seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+        "expected_o1_seal_sha256": seal_sha_status["expected_o1_seal_sha256"],
+        "observed_o1_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+        "verified": seal_sha_status["verified"],
         "expected_file_count": len(rows),
         "actual_file_count": len(actual_entries),
         "entries": rows,
         "errors": errors,
-        "pass": not errors,
+        "pass": not errors and seal_sha_status["verified"],
     }
 
 
@@ -371,7 +399,7 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
     trainer_state = load_json_object(trainer_state_path)
     evaluation = _parse_phase_a_evaluation(evaluation_log_path)
     seal_rows = _o1_seal_rows(seal_path)
-    seal_sha = sha256_file(seal_path)
+    seal_sha_status = _require_o1_seal_sha256(seal_path)
 
     if run_manifest.get("schema") != "STAGE20S_GR00T_TRAINING_RUN_V1":
         raise ValueError("O1 run manifest schema is not the pinned Stage20S schema")
@@ -453,7 +481,10 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "global_step": trainer_state.get("global_step"),
             "index_sha256": EXPECTED_O1_INDEX_SHA256,
             "checkpoint_seal_path": str(seal_path),
-            "checkpoint_seal_sha256": seal_sha,
+            "checkpoint_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+            "expected_o1_seal_sha256": seal_sha_status["expected_o1_seal_sha256"],
+            "observed_o1_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+            "seal_sha256_verified": seal_sha_status["verified"],
             "per_file_seal_available": True,
             "per_file_seal_entries": seal_rows,
             "full_bytes_present_in_phase_a_relay": full_bytes_present,
@@ -537,7 +568,10 @@ def _prepare_protocol(phase_root: Path, output: Path) -> dict[str, Any]:
             "run_manifest_sha256": sha256_file(run_manifest_path),
             "trainer_state_sha256": sha256_file(trainer_state_path),
             "trainer_global_step": trainer_state.get("global_step"),
-            "checkpoint_seal_sha256": seal_sha,
+            "checkpoint_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+            "expected_o1_seal_sha256": seal_sha_status["expected_o1_seal_sha256"],
+            "observed_o1_seal_sha256": seal_sha_status["observed_o1_seal_sha256"],
+            "seal_sha256_verified": seal_sha_status["verified"],
             "per_file_seal_available": True,
             "full_checkpoint_bytes_in_current_phase_a_relay": full_bytes_present,
         },
@@ -862,6 +896,29 @@ def _audit_checkpoint_pair(
         pass
     else:
         raise ValueError("output must remain outside the O1 checkpoint tree")
+    o1_seal_path = o1_seal.resolve(strict=True)
+    seal_sha_status = _o1_seal_sha256_status(o1_seal_path)
+    if not seal_sha_status["verified"]:
+        rejection = {
+            "schema": "STAGE25_O1_PARAMETER_DELTA_AUDIT_V1",
+            "status": "REJECT_O1_SEAL_SHA256_MISMATCH",
+            "o1_seal_sha256": seal_sha_status,
+            "execution_boundary": {
+                "model_constructed": False,
+                "cuda_used": False,
+                "forward": False,
+                "inference": False,
+                "training": False,
+                "pbs_submitted": False,
+                "tensor_read": False,
+            },
+        }
+        _write_json_once(output, rejection)
+        raise ValueError(
+            "O1 checkpoint seal SHA256 mismatch: "
+            f"expected {seal_sha_status['expected_o1_seal_sha256']}, "
+            f"observed {seal_sha_status['observed_o1_seal_sha256']}"
+        )
     base = _checkpoint_metadata(base_checkpoint)
     o1 = _checkpoint_metadata(o1_checkpoint)
     if base["index_sha256"] != EXPECTED_BASE_INDEX_SHA256:
@@ -872,7 +929,7 @@ def _audit_checkpoint_pair(
         raise ValueError(f"BASE tree SHA256 mismatch: {base_tree}")
     if o1["index_sha256"] != EXPECTED_O1_INDEX_SHA256:
         raise ValueError("O1 index SHA256 does not match the immutable Stage23 seal")
-    o1_seal_result = _verify_o1_seal_against_checkpoint(o1_checkpoint, o1_seal.resolve(strict=True))
+    o1_seal_result = _verify_o1_seal_against_checkpoint(o1_checkpoint, o1_seal_path)
     if not o1_seal_result["pass"]:
         raise ValueError("O1 checkpoint does not match the immutable per-file seal")
 
@@ -972,6 +1029,7 @@ def _audit_checkpoint_pair(
             "base_tree_sha256": base_tree,
             "base_tree_prefix": base_tree_prefix,
             "o1_index_sha256": o1["index_sha256"],
+            "o1_seal_sha256": seal_sha_status,
             "o1_seal": o1_seal_result,
             "groot_sha": EXPECTED_GROOT_SHA,
         },
@@ -1021,6 +1079,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def audit_exit_code(result: Mapping[str, Any]) -> int:
+    """Map an audit result to a fail-closed process exit status."""
+
+    status = result.get("status")
+    if status == "PASS":
+        return 0
+    if status == "STOP_UNEXPECTED_FROZEN_DELTA":
+        return 1
+    return 2
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     try:
@@ -1037,7 +1106,9 @@ def main(argv: list[str] | None = None) -> int:
     except Exception as exc:
         raise SystemExit(f"STAGE25_FAIL_CLOSED: {exc}") from exc
     print(json.dumps(result, indent=2, sort_keys=True))
-    return 0
+    if args.command == "prepare":
+        return 0
+    return audit_exit_code(result)
 
 
 if __name__ == "__main__":
