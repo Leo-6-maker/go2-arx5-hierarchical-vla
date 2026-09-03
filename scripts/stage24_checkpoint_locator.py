@@ -101,6 +101,10 @@ def _relative_depth(path: Path, root: Path) -> int:
     return len(path.relative_to(root).parts)
 
 
+def _raise_walk_error(error: OSError) -> None:
+    raise LocatorError(f"cannot traverse candidate root: {error}") from error
+
+
 def discover_indexes(root: Path, max_depth: int) -> list[Path]:
     root = root.resolve()
     if not root.exists():
@@ -109,7 +113,12 @@ def discover_indexes(root: Path, max_depth: int) -> list[Path]:
         return []
 
     matches: list[Path] = []
-    for directory, dirnames, filenames in os.walk(root, topdown=True, followlinks=False):
+    for directory, dirnames, filenames in os.walk(
+        root,
+        topdown=True,
+        onerror=_raise_walk_error,
+        followlinks=False,
+    ):
         directory_path = Path(directory)
         dirnames[:] = sorted(
             name
@@ -150,7 +159,12 @@ def referenced_shard_inventory(model_dir: Path, shard_names: Iterable[str]) -> l
 def _tree_entries(model_dir: Path, tree_prefix: str) -> list[dict[str, Any]]:
     entries: list[dict[str, Any]] = []
     model_dir = model_dir.resolve(strict=True)
-    for directory, dirnames, filenames in os.walk(model_dir, topdown=True, followlinks=False):
+    for directory, dirnames, filenames in os.walk(
+        model_dir,
+        topdown=True,
+        onerror=_raise_walk_error,
+        followlinks=False,
+    ):
         directory_path = Path(directory)
         kept_dirs: list[str] = []
         for name in sorted(dirnames):

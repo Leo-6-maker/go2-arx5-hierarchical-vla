@@ -94,7 +94,7 @@ weight maps or hash any referenced shard. It returned the fail-closed result
 `NO_VERIFIED_LOCAL_COPY` with exit code 1. The node-local JSON evidence is:
 
 ```text
-/var/cache/users/liuyu-nfs/go2-arx5-stage24-recovery-20260903/locator_current.json
+/var/cache/users/liuyu-nfs/go2-arx5-stage24-recovery-20260903/locator_current_v2.json
 SHA256 7ec82655ac9e59b30be32f2844ca277ccd85fb3165689cd5e22c874230d379
 ```
 
