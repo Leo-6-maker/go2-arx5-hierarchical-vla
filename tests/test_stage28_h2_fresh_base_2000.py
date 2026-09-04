@@ -526,6 +526,14 @@ class Stage28H2PreparationTests(unittest.TestCase):
         self.assertIn("--pbs-job-id", pbs_source)
         self.assertIn("--pbs-project", pbs_source)
         self.assertIn("CFP03-CF-004", pbs_source)
+        self.assertIn("--training-output-root", launcher_source)
+        self.assertIn("--training-output-root", pbs_source)
+        self.assertIn("STAGE28_TRAINING_OUTPUT_ROOT", pbs_source)
+        self.assertIn("STAGE28_EVALUATION_PARENT", pbs_source)
+        self.assertIn('RUN_ROOT="${STAGE28_EVALUATION_PARENT}/stage28_eval_${PBS_JOBID}"', pbs_source)
+        self.assertIn("singularity exec --nv", pbs_source)
+        self.assertIn("pytorch_25.12-py3.sif", pbs_source)
+        self.assertIn("stage22_h200_ffmpeg4_bundle_20260902", pbs_source)
         self.assertNotIn(" --train ", pbs_source)
         self.assertNotIn("execute_training", pbs_source)
         self.assertNotIn("optimizer.step", pbs_source)
@@ -544,6 +552,25 @@ class Stage28H2PreparationTests(unittest.TestCase):
         self.assertIn("maximum_flow_evaluation_count", source)
         self.assertIn("base_hash_reproduction", source)
         self.assertIn("BASE_HASH_MISMATCH_EVIDENCE_NAME", source)
+
+    def test_evaluation_output_cannot_alias_historical_training_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            training = root / "training"
+            evaluation = root / "evaluation"
+            nested = training / "evaluation"
+            training.mkdir()
+            evaluation.mkdir()
+            nested.mkdir()
+            MODULE._require_separate_evaluation_output(training, evaluation)
+            with self.assertRaisesRegex(
+                MODULE.Stage28Error, "outside the historical training output tree"
+            ):
+                MODULE._require_separate_evaluation_output(training, training)
+            with self.assertRaisesRegex(
+                MODULE.Stage28Error, "outside the historical training output tree"
+            ):
+                MODULE._require_separate_evaluation_output(training, nested)
 
 
 if __name__ == "__main__":

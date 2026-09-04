@@ -36,6 +36,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--cosmos-cache-root", type=Path, default=None)
     parser.add_argument("--snapshot-root", type=Path, required=True)
     parser.add_argument("--stage26-hash-manifest", type=Path, required=True)
+    parser.add_argument("--training-output-root", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--authorization-token", required=True)
     parser.add_argument("--device", required=True)

@@ -35,7 +35,7 @@ import sys
 import time
 from pathlib import Path
 from statistics import geometric_mean, median
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, Sequence
 
 
 STAGE26_SCHEMA = "STAGE26_H1_C1_FIXED_NOISE_LOCAL_FLOW_V1"
@@ -908,6 +908,7 @@ def _teacher_forced_local_flow(
     action_input: Any,
     noisy_action: Any,
     t_discretized: Any,
+    on_before_direct_probe_forward: Callable[[], None] | None = None,
 ) -> Any:
     """Mirror only the pinned training graph after fixed inputs are supplied.
 
@@ -946,6 +947,8 @@ def _teacher_forced_local_flow(
         action_features = action_features + pos_embs
     sa_embs = torch.cat((state_features, action_features), dim=1)
     vl_attn_mask = backbone_output.backbone_attention_mask
+    if on_before_direct_probe_forward is not None:
+        on_before_direct_probe_forward()
     if action_head.config.use_alternate_vl_dit:
         model_output, _ = action_head.model(
             hidden_states=sa_embs,
@@ -1253,6 +1256,10 @@ def _run_one_checkpoint(
     fixed_probes: Sequence[Mapping[str, Any]],
     device: str,
     snapshot: Any,
+    on_before_direct_probe_forward: (
+        Callable[[str, Mapping[str, Any]], None] | None
+    ) = None,
+    on_record: Callable[[Mapping[str, Any]], None] | None = None,
 ) -> list[dict[str, Any]]:
     """Load one checkpoint and perform exactly nine direct C1 probes."""
 
@@ -1309,6 +1316,11 @@ def _run_one_checkpoint(
                 action_input=action_inputs,
                 noisy_action=noisy_action,
                 t_discretized=t_discretized,
+                on_before_direct_probe_forward=(
+                    None
+                    if on_before_direct_probe_forward is None
+                    else lambda: on_before_direct_probe_forward(checkpoint_label, probe)
+                ),
             )
         elapsed = time.perf_counter() - start
 
@@ -1387,6 +1399,8 @@ def _run_one_checkpoint(
             "decoded_physical_action_sha256": decoded_hash,
         }
         records.append(row)
+        if on_record is not None:
+            on_record(row)
     del model
     torch.cuda.empty_cache()
     return records

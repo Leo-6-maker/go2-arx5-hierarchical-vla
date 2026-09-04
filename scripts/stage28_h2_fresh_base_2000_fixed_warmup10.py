@@ -35,6 +35,7 @@ import stat
 import subprocess
 import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from statistics import geometric_mean, median
 from typing import Any, Callable, Iterable, Mapping, Sequence
@@ -152,6 +153,8 @@ EVALUATION_AUTHORIZATION_TOKEN = EVALUATION_PI_GATE_ID
 EXPECTED_EVALUATION_PBS_PROJECT = "CFP03-CF-004"
 EVALUATION_NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE28_FIXED_PROBE_RESULT"
 BASE_HASH_MISMATCH_EVIDENCE_NAME = "stage28_h2_base_hash_mismatch.json"
+EXECUTION_STATE_NAME = "stage28_h2_execution_state.json"
+PARTIAL_RECORDS_NAME = "stage28_h2_partial_records.json"
 
 # The reserve is an operational guard, not a scientific input.  It covers the
 # two retained model copies, the final model copy, full Adam moments for the
@@ -1065,6 +1068,37 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def _write_json_atomic(path: Path, payload: Mapping[str, Any]) -> None:
+    """Atomically replace small runtime evidence within one output directory."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp.{os.getpid()}")
+    temporary.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    os.replace(temporary, path)
+
+
+def _utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _require_separate_evaluation_output(
+    training_output_root: Path, evaluation_output_root: Path
+) -> None:
+    """Prevent evaluation evidence from mutating the historical training tree."""
+
+    training_output_root = training_output_root.resolve(strict=True)
+    evaluation_output_root = evaluation_output_root.resolve(strict=True)
+    try:
+        evaluation_output_root.relative_to(training_output_root)
+    except ValueError:
+        return
+    raise Stage28Error(
+        "evaluation output root must be outside the historical training output tree"
+    )
+
+
 def run_preflight(args: argparse.Namespace) -> dict[str, Any]:
     result = _preflight(args)
     output_root = _resolve_non_symlink(args.output_root, "Stage28 output root")
@@ -1653,15 +1687,19 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         )
     if _git_status(project_repo):
         raise Stage28Error("Stage28 project checkout is dirty")
-    output_root = _resolve_non_symlink(args.output_root, "Stage28 output root")
+    training_output_root = _resolve_non_symlink(
+        args.training_output_root, "historical Stage28 training output root"
+    )
+    output_root = _resolve_non_symlink(args.output_root, "Stage28 evaluation output root")
+    _require_separate_evaluation_output(training_output_root, output_root)
     execution_manifest = _read_json(
-        output_root / "stage28_h2_execution_manifest.json",
+        training_output_root / "stage28_h2_execution_manifest.json",
         "Stage28 execution manifest",
     )
     if execution_manifest.get("schema") != STAGE28_SCHEMA or execution_manifest.get("status") != "PASS":
         raise Stage28Error("Stage28 training execution is not a PASS")
     training_artifacts = _verify_final_checkpoint_artifacts(
-        output_root,
+        training_output_root,
         expected_checkpoint_tree_sha256=args.expected_h2_checkpoint_tree_sha256,
         expected_seal_sha256=args.expected_h2_checkpoint_seal_sha256,
     )
@@ -1701,6 +1739,58 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         stage26._canonical_probe_inputs(stage23, prepared["expert_action_cpu"], probe)
         for probe in probe_contract["probes"]
     )
+    partial_records: list[dict[str, Any]] = []
+    execution_state_path = output_root / EXECUTION_STATE_NAME
+    partial_records_path = output_root / PARTIAL_RECORDS_NAME
+    execution_state: dict[str, Any] = {
+        "schema": STAGE28_SCHEMA,
+        "status": "READY_BEFORE_FIRST_DIRECT_PROBE_FORWARD",
+        "scientific_execution_begun": False,
+        "completed_direct_probe_records": 0,
+        "maximum_direct_probe_records": EXPECTED_MAX_FLOW_EVALUATIONS,
+        "pbs_job_id": evaluation_provenance["pbs_job_id"],
+        "pbs_project": evaluation_provenance["pbs_project"],
+        "updated_at_utc": _utc_now(),
+    }
+    _write_json_atomic(execution_state_path, execution_state)
+
+    def before_direct_probe_forward(
+        checkpoint_label: str, probe: Mapping[str, Any]
+    ) -> None:
+        execution_state.update(
+            {
+                "status": "SCIENTIFIC_EXECUTION_BEGUN",
+                "scientific_execution_begun": True,
+                "current_checkpoint": checkpoint_label,
+                "current_probe_id": str(probe["probe_id"]),
+                "updated_at_utc": _utc_now(),
+            }
+        )
+        _write_json_atomic(execution_state_path, execution_state)
+
+    def preserve_completed_record(row: Mapping[str, Any]) -> None:
+        partial_records.append(dict(row))
+        execution_state.update(
+            {
+                "status": "SCIENTIFIC_EXECUTION_IN_PROGRESS",
+                "completed_direct_probe_records": len(partial_records),
+                "last_completed_checkpoint": str(row["checkpoint"]),
+                "last_completed_probe_id": str(row["probe_id"]),
+                "updated_at_utc": _utc_now(),
+            }
+        )
+        _write_json_atomic(
+            partial_records_path,
+            {
+                "schema": STAGE28_SCHEMA,
+                "status": "PARTIAL_EVIDENCE",
+                "scientific_execution_begun": True,
+                "record_count": len(partial_records),
+                "records": _jsonable(partial_records),
+            },
+        )
+        _write_json_atomic(execution_state_path, execution_state)
+
     base_records = stage26._run_one_checkpoint(
         checkpoint_label="BASE",
         checkpoint=args.base_model_path,
@@ -1713,10 +1803,12 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         fixed_probes=fixed_probes,
         device=args.device,
         snapshot=snapshot,
+        on_before_direct_probe_forward=before_direct_probe_forward,
+        on_record=preserve_completed_record,
     )
 
     def run_h2_records() -> list[dict[str, Any]]:
-        h2_checkpoint = output_root / "h2_training" / "checkpoint-2000"
+        h2_checkpoint = training_output_root / "h2_training" / "checkpoint-2000"
         return stage26._run_one_checkpoint(
             checkpoint_label="H2@2000",
             checkpoint=h2_checkpoint,
@@ -1729,6 +1821,8 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
             fixed_probes=fixed_probes,
             device=args.device,
             snapshot=snapshot,
+            on_before_direct_probe_forward=before_direct_probe_forward,
+            on_record=preserve_completed_record,
         )
 
     def write_base_mismatch_evidence(
@@ -1750,6 +1844,15 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
             base_records=base_records,
             base_hash_reproduction=reproduction,
         )
+        execution_state.update(
+            {
+                "status": "STOP_BASE_HASH_MISMATCH",
+                "completed_direct_probe_records": len(partial_records),
+                "h2_flow_evaluation_count": 0,
+                "updated_at_utc": _utc_now(),
+            }
+        )
+        _write_json_atomic(execution_state_path, execution_state)
 
     base_hash_reproduction, h2_records = _run_h2_after_base_hash_gate(
         base_records=base_records,
@@ -1769,6 +1872,8 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         "scientific_interpretation": "DEFERRED_TO_GPT_PI",
         "identity": {
             "stage28_git_sha": project_head,
+            "historical_training_output_root": str(training_output_root),
+            "evaluation_output_root": str(output_root),
             "evaluation_provenance": evaluation_provenance,
             "historical_training_provenance": _historical_training_provenance(),
             "base": base_identity,
@@ -1830,6 +1935,15 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         output_root / "stage28_h2_raw_velocity_hashes.json",
         {"schema": STAGE28_SCHEMA, "raw_velocity_hashes": raw_hashes},
     )
+    execution_state.update(
+        {
+            "status": "PASS_EXECUTION_COMPLETE",
+            "scientific_execution_begun": True,
+            "completed_direct_probe_records": len(records),
+            "updated_at_utc": _utc_now(),
+        }
+    )
+    _write_json_atomic(execution_state_path, execution_state)
     return result
 
 
@@ -1869,6 +1983,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--cosmos-cache-root", type=Path, default=None)
     parser.add_argument("--snapshot-root", type=Path, default=DEFAULT_SNAPSHOT_ROOT)
     parser.add_argument("--stage26-hash-manifest", type=Path, default=DEFAULT_STAGE26_HASH_MANIFEST)
+    parser.add_argument("--training-output-root", type=Path, default=None)
     parser.add_argument("--output-root", type=Path, default=Path("/tmp/stage28_h2"))
     parser.add_argument("--authorization-token", default=None)
     parser.add_argument("--device", default=None)
