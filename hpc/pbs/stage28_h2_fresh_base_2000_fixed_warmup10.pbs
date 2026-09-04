@@ -1,0 +1,125 @@
+#!/bin/bash
+# STAGE28 H2 fresh BASE -> 2000 fixed-warmup10 template. DO NOT SUBMIT AS-IS.
+#
+# This template is intentionally the only downstream execution wrapper for
+# PI_GATE_STATE_0007.  Replace PROJECT_ID_REQUIRED only after normal Hopper
+# scheduler/project discovery.  No password, token, private key, or credential
+# belongs in this file.
+#
+# Required environment before qsub:
+#   STAGE28_SCRATCH_ROOT       project scratch with the full-state reserve
+#   STAGE10_ROOT               Hopper Stage10 runtime root
+#   STAGE28_REPO               checkout at the returned Stage28 live SHA
+#   STAGE28_BASE_MODEL_PATH    exact BASE tree (tree SHA checked by runner)
+#   STAGE28_DATASET_DIR        exact TINY1_H2STATS fixture
+#   STAGE28_MODALITY_CONFIG    exact modality module
+#   STAGE28_SNAPSHOT_ROOT      Stage22 train-a source snapshots
+#   STAGE28_STAGE26_HASHES     immutable Stage26 BASE raw-velocity manifest
+#   STAGE28_EXPECTED_GIT_SHA   exact Stage28 live HEAD returned by Corelab
+#   STAGE28_PBS_WINDOW_START_UTC / STAGE28_PBS_WINDOW_END_UTC
+#
+# The wrapper performs one runtime preflight, one fresh training run, and one
+# bounded BASE/H2@2000 direct-flow evaluation.  It never submits a second run,
+# resumes O1, evaluates the free-running sampler, reads validation/holdout,
+# runs C2, WBC, or hardware.
+
+#PBS -N st28_h2_fb2000
+#PBS -P PROJECT_ID_REQUIRED
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=24:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE28_SCRATCH_ROOT:?Set project scratch, not HOME}"
+: "${STAGE10_ROOT:?Set the Hopper Stage10 runtime root}"
+: "${STAGE28_REPO:?Set the Stage28 repository checkout}"
+: "${STAGE28_BASE_MODEL_PATH:?Set the exact BASE model path}"
+: "${STAGE28_DATASET_DIR:?Set the exact TINY1_H2STATS dataset path}"
+: "${STAGE28_MODALITY_CONFIG:?Set the exact modality config path}"
+: "${STAGE28_SNAPSHOT_ROOT:?Set the Stage22 train-a snapshot root}"
+: "${STAGE28_STAGE26_HASHES:?Set the immutable Stage26 BASE hash manifest}"
+: "${STAGE28_EXPECTED_GIT_SHA:?Set the returned Stage28 live HEAD SHA}"
+: "${STAGE28_PBS_WINDOW_START_UTC:?Set the PBS window start timestamp}"
+: "${STAGE28_PBS_WINDOW_END_UTC:?Set the PBS window end timestamp}"
+: "${PBS_JOBID:?PBS_JOBID must be available}"
+
+cd "${STAGE28_REPO}"
+RUN_ROOT="${STAGE28_SCRATCH_ROOT}/stage28_h2_${PBS_JOBID}"
+mkdir -p "${RUN_ROOT}"
+
+# The PI gate selected one H200.  Do not silently substitute another GPU class.
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1 || { echo "FAIL_CLOSED: expected one visible GPU, observed ${GPU_COUNT}" >&2; exit 2; }
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED: expected one H200, observed ${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export STAGE28_PI_GATE_ID=PI_GATE_STATE_0007
+
+SCRIPT="scripts/stage28_h2_fresh_base_2000_fixed_warmup10.py"
+AUTH_TOKEN="${STAGE28_PI_GATE_ID}"
+GROOT_SOURCE="${STAGE10_ROOT}/src/isaac-gr00t"
+COSMOS_CACHE_ROOT="${STAGE10_ROOT}/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B"
+
+hostname
+nvidia-smi
+module list 2>&1 || true
+python3 --version
+df -h "${STAGE28_SCRATCH_ROOT}"
+free -h
+
+# This is the required storage and identity gate.  It runs before the first
+# model import/construction and must remain PASS for the immediately following
+# training invocation.
+python3 "${SCRIPT}" \
+  --preflight \
+  --project-repo "${STAGE28_REPO}" \
+  --expected-project-sha "${STAGE28_EXPECTED_GIT_SHA}" \
+  --base-model-path "${STAGE28_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE28_DATASET_DIR}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --groot-source "${GROOT_SOURCE}" \
+  --modality-config "${STAGE28_MODALITY_CONFIG}" \
+  --cosmos-cache-root "${COSMOS_CACHE_ROOT}" \
+  --output-root "${RUN_ROOT}"
+
+# Exactly one fresh BASE -> 2000 run.  save_only_model=false and the required
+# checkpoint-1000/2000 trainer-state files are enforced after the run.
+python3 "${SCRIPT}" \
+  --train \
+  --authorization-token "${AUTH_TOKEN}" \
+  --project-repo "${STAGE28_REPO}" \
+  --expected-project-sha "${STAGE28_EXPECTED_GIT_SHA}" \
+  --base-model-path "${STAGE28_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE28_DATASET_DIR}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --groot-source "${GROOT_SOURCE}" \
+  --modality-config "${STAGE28_MODALITY_CONFIG}" \
+  --cosmos-cache-root "${COSMOS_CACHE_ROOT}" \
+  --output-root "${RUN_ROOT}"
+
+# Exactly 18 post-training direct teacher-forced flow evaluations: BASE x9 and
+# H2@2000 x9.  The evaluator stops before any free-running sampler.
+python3 "${SCRIPT}" \
+  --evaluate \
+  --authorization-token "${AUTH_TOKEN}" \
+  --device cuda:0 \
+  --project-repo "${STAGE28_REPO}" \
+  --expected-project-sha "${STAGE28_EXPECTED_GIT_SHA}" \
+  --base-model-path "${STAGE28_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE28_DATASET_DIR}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --groot-source "${GROOT_SOURCE}" \
+  --modality-config "${STAGE28_MODALITY_CONFIG}" \
+  --cosmos-cache-root "${COSMOS_CACHE_ROOT}" \
+  --snapshot-root "${STAGE28_SNAPSHOT_ROOT}" \
+  --stage26-hash-manifest "${STAGE28_STAGE26_HASHES}" \
+  --output-root "${RUN_ROOT}"
+
+echo "STAGE28_H2_SINGLE_RUN_AND_18_PROBE_EVALUATION_COMPLETE"
+echo "NEXT_GATE=GPT_PI_REVIEW_AFTER_STAGE28_H2_RESULT"
