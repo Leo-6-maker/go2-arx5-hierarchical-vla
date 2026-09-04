@@ -52,6 +52,22 @@ EXPECTED_BASE_STATISTICS_SHA256 = "c97b1b07a82a8a8858771d56d278732d97dd8eae50603
 EXPECTED_MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 EXPECTED_COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 EXPECTED_COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+EXPECTED_BASE_INDEX_SHA256 = "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59"
+EXPECTED_BASE_TREE_SHA256 = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
+EXPECTED_BASE_TREE_PREFIX = "payload/GR00T-N1.7-3B"
+EXPECTED_O1_INDEX_SHA256 = "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+EXPECTED_O1_SEAL_SHA256 = "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806"
+EXPECTED_O1_SEAL_PATH = Path(
+    "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/"
+    "extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv"
+)
+EXPECTED_O1_SUPPLEMENTAL_METADATA_ALLOWLIST = (
+    "experiment_cfg/conf.yaml",
+    "experiment_cfg/config.yaml",
+    "experiment_cfg/dataset_statistics.json",
+    "experiment_cfg/final_model_config.json",
+    "experiment_cfg/final_processor_config.json",
+)
 EXPECTED_BASE_CHECKPOINT = Path(
     "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B"
 )
@@ -459,7 +475,16 @@ def protocol_plan() -> dict[str, Any]:
             "selected_snapshot_relative_path": EXPECTED_SNAPSHOT_RELATIVE_PATH.as_posix(),
             "selected_snapshot_sha256": "RUNTIME_BOUND_FROM_EXACT_SOURCE_SNAPSHOT",
             "base_checkpoint": str(EXPECTED_BASE_CHECKPOINT),
+            "base_index_sha256": EXPECTED_BASE_INDEX_SHA256,
+            "base_tree_sha256": EXPECTED_BASE_TREE_SHA256,
+            "base_tree_prefix": EXPECTED_BASE_TREE_PREFIX,
             "o1_checkpoint": str(EXPECTED_O1_CHECKPOINT),
+            "o1_index_sha256": EXPECTED_O1_INDEX_SHA256,
+            "o1_seal_path": str(EXPECTED_O1_SEAL_PATH),
+            "o1_seal_sha256": EXPECTED_O1_SEAL_SHA256,
+            "o1_supplemental_metadata_allowlist": list(
+                EXPECTED_O1_SUPPLEMENTAL_METADATA_ALLOWLIST
+            ),
             "groot_sha": EXPECTED_GROOT_SHA,
             "modality_sha256": EXPECTED_MODALITY_SHA256,
             "stage22_stats_sha256": EXPECTED_STAGE22_STATS_SHA256,
@@ -573,6 +598,20 @@ def assert_protocol_static(plan: Mapping[str, Any] | None = None) -> None:
         raise AssertionError("Stage26 preparation contains an enabled execution boundary")
     if candidate.get("base_sha") != STAGE26_BASE_SHA:
         raise AssertionError("Stage26 base SHA drifted")
+    fixed_identity = candidate.get("fixed_identity", {})
+    expected_identity = {
+        "base_index_sha256": EXPECTED_BASE_INDEX_SHA256,
+        "base_tree_sha256": EXPECTED_BASE_TREE_SHA256,
+        "base_tree_prefix": EXPECTED_BASE_TREE_PREFIX,
+        "o1_index_sha256": EXPECTED_O1_INDEX_SHA256,
+        "o1_seal_sha256": EXPECTED_O1_SEAL_SHA256,
+        "o1_supplemental_metadata_allowlist": list(
+            EXPECTED_O1_SUPPLEMENTAL_METADATA_ALLOWLIST
+        ),
+    }
+    for key, expected_value in expected_identity.items():
+        if fixed_identity.get(key) != expected_value:
+            raise AssertionError(f"Stage26 fixed identity drifted: {key}")
     budget = candidate.get("execution_budget", {})
     if budget.get("maximum_c1_flow_evaluations") != MAX_FLOW_EVALUATIONS:
         raise AssertionError("Stage26 flow-evaluation budget drifted")
@@ -952,42 +991,144 @@ def _flow_metrics(stage23: Any, predicted: Any, fixed: Mapping[str, Any]) -> dic
     }
 
 
-EXPECTED_BASE_INDEX_SHA256 = "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59"
-EXPECTED_O1_INDEX_SHA256 = "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+def _load_stage25_identity_module() -> Any:
+    """Load the dependency-free Stage25 identity gates without model imports."""
+
+    scripts_dir = Path(__file__).resolve().parent
+    if str(scripts_dir.parent) not in sys.path:
+        sys.path.insert(0, str(scripts_dir.parent))
+    return importlib.import_module("scripts.stage25_o1_parameter_delta_audit")
 
 
-def _checkpoint_preflight(label: str, checkpoint: Path) -> dict[str, Any]:
-    """Check the exact serialized index before model construction."""
+def _checkpoint_preflight(
+    label: str,
+    checkpoint: Path,
+    *,
+    o1_seal: Path | None = None,
+) -> dict[str, Any]:
+    """Verify index plus full checkpoint bytes before model construction.
 
-    expected = {
+    BASE reuses the Stage25 canonical full-tree digest. O1 reuses the
+    Stage25 immutable seal and two-layer scope verifier, including the exact
+    five supplemental historical byte/SHA bindings. These checks deliberately
+    happen before any model, Torch tensor backend, or CUDA import.
+    """
+
+    expected_index = {
         "BASE": EXPECTED_BASE_INDEX_SHA256,
         "O1@200": EXPECTED_O1_INDEX_SHA256,
     }[label]
+    checkpoint = Path(checkpoint)
     if checkpoint.is_symlink() or not checkpoint.is_dir():
-        raise FileNotFoundError(f"{label} checkpoint directory is unavailable or symlinked: {checkpoint}")
+        raise FileNotFoundError(
+            f"{label} checkpoint directory is unavailable or symlinked: {checkpoint}"
+        )
     index_paths = sorted(checkpoint.glob("*.safetensors.index.json"))
     if len(index_paths) != 1:
         raise ValueError(f"{label} checkpoint must contain exactly one safetensors index")
     index_path = index_paths[0]
     _assert_regular(index_path, f"{label} checkpoint index")
-    observed = _sha256_file(index_path)
-    if observed != expected:
-        raise ValueError(f"{label} checkpoint index SHA mismatch: {observed}")
+    observed_index = _sha256_file(index_path)
+    if observed_index != expected_index:
+        raise ValueError(f"{label} checkpoint index SHA mismatch: {observed_index}")
     index = _read_json(index_path)
     if not isinstance(index, Mapping) or not isinstance(index.get("weight_map"), Mapping):
         raise ValueError(f"{label} checkpoint index has no weight_map")
     referenced_shards = sorted({str(value) for value in index["weight_map"].values()})
-    if not referenced_shards or any(Path(name).is_absolute() or ".." in Path(name).parts for name in referenced_shards):
+    if not referenced_shards or any(
+        Path(name).is_absolute() or ".." in Path(name).parts
+        for name in referenced_shards
+    ):
         raise ValueError(f"{label} checkpoint index has unsafe shard references")
-    return {
+    for shard_name in referenced_shards:
+        shard_path = checkpoint / Path(shard_name)
+        _assert_regular(shard_path, f"{label} referenced shard")
+
+    stage25 = _load_stage25_identity_module()
+    if (
+        stage25.EXPECTED_BASE_INDEX_SHA256 != EXPECTED_BASE_INDEX_SHA256
+        or stage25.EXPECTED_BASE_TREE_SHA256 != EXPECTED_BASE_TREE_SHA256
+        or stage25.EXPECTED_O1_INDEX_SHA256 != EXPECTED_O1_INDEX_SHA256
+        or stage25.EXPECTED_O1_SEAL_SHA256 != EXPECTED_O1_SEAL_SHA256
+        or tuple(stage25.SUPPLEMENTAL_METADATA_ALLOWLIST)
+        != EXPECTED_O1_SUPPLEMENTAL_METADATA_ALLOWLIST
+    ):
+        raise RuntimeError("Stage25 identity constants drifted from Stage26 contract")
+    identity: dict[str, Any] = {
         "label": label,
         "path": str(checkpoint),
         "index_path": str(index_path),
-        "index_sha256": observed,
+        "index_sha256": observed_index,
         "index_key_count": len(index["weight_map"]),
         "referenced_shards": referenced_shards,
         "tensor_reads_before_model_load": False,
+        "full_byte_identity_verified_before_model_load": False,
     }
+    if label == "BASE":
+        entries = stage25.walk_regular_files(checkpoint)
+        observed_tree = stage25.stage24_tree_sha256(entries, EXPECTED_BASE_TREE_PREFIX)
+        if observed_tree != EXPECTED_BASE_TREE_SHA256:
+            raise ValueError(f"BASE canonical tree SHA mismatch: {observed_tree}")
+        referenced_shard_set = set(referenced_shards)
+        referenced_shard_manifest = [
+            {
+                "path": entry["path"],
+                "bytes": int(entry["bytes"]),
+                "sha256": entry["sha256"],
+            }
+            for entry in entries
+            if entry["path"] in referenced_shard_set
+        ]
+        if {entry["path"] for entry in referenced_shard_manifest} != referenced_shard_set:
+            raise ValueError("BASE canonical tree does not contain every indexed shard")
+        identity.update(
+            {
+                "tree_sha256": observed_tree,
+                "tree_prefix": EXPECTED_BASE_TREE_PREFIX,
+                "tree_file_count": len(entries),
+                "tree_total_bytes": sum(int(entry["bytes"]) for entry in entries),
+                "referenced_shard_manifest": referenced_shard_manifest,
+                "identity_gate": "STAGE25_BASE_CANONICAL_TREE",
+                "full_byte_identity_verified_before_model_load": True,
+            }
+        )
+    else:
+        if o1_seal is None:
+            raise ValueError("O1 preflight requires the immutable Stage23 checkpoint seal path")
+        o1_seal = Path(o1_seal)
+        if o1_seal.is_symlink() or not o1_seal.is_file():
+            raise FileNotFoundError(
+                f"O1 immutable checkpoint seal is unavailable or symlinked: {o1_seal}"
+            )
+        seal_result = stage25._verify_o1_seal_against_checkpoint(checkpoint, o1_seal)
+        if not seal_result["pass"]:
+            errors = seal_result.get("errors") or ["O1 two-layer provenance mismatch"]
+            raise ValueError("O1 two-layer provenance mismatch: " + "; ".join(errors[:4]))
+        scope = seal_result.get("scope") or {}
+        supplemental = scope.get("allowed_supplemental_metadata") or {}
+        identity.update(
+            {
+                "o1_seal_path": str(o1_seal),
+                "o1_seal_sha256": seal_result["observed_o1_seal_sha256"],
+                "o1_seal_expected_sha256": EXPECTED_O1_SEAL_SHA256,
+                "o1_seal_verified": bool(seal_result["verified"]),
+                "o1_sealed_core_file_count": seal_result["expected_file_count"],
+                "o1_actual_file_count": seal_result["actual_file_count"],
+                "o1_supplemental_metadata_manifest_sha256": supplemental.get(
+                    "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256"
+                ),
+                "o1_supplemental_history_status": supplemental.get(
+                    "SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS"
+                ),
+                "o1_supplemental_history_verified": bool(
+                    supplemental.get("SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS")
+                ),
+                "o1_two_layer_scope": scope,
+                "identity_gate": "STAGE25_O1_IMMUTABLE_CORE_PLUS_FIVE_HISTORICAL_SUPPLEMENTALS",
+                "full_byte_identity_verified_before_model_load": True,
+            }
+        )
+    return identity
 
 
 def _profile_result(
@@ -1393,7 +1534,11 @@ def execute(args: argparse.Namespace) -> dict[str, Any]:
 
     # These checks are deliberately ordered before the first model import.
     base_identity = _checkpoint_preflight("BASE", args.base_checkpoint)
-    o1_identity = _checkpoint_preflight("O1@200", args.o1_checkpoint)
+    o1_identity = _checkpoint_preflight(
+        "O1@200",
+        args.o1_checkpoint,
+        o1_seal=args.o1_seal,
+    )
     dataset_identity = _verify_tiny_dataset(args.dataset_dir)
     snapshot_identity, snapshot_path = _verify_snapshot_identity(args.snapshot_root)
     source_repo_sha = _verify_groot_source(args.groot_source)
@@ -1590,6 +1735,7 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--base-checkpoint", type=Path, default=EXPECTED_BASE_CHECKPOINT)
     parser.add_argument("--o1-checkpoint", type=Path, default=EXPECTED_O1_CHECKPOINT)
+    parser.add_argument("--o1-seal", type=Path, default=EXPECTED_O1_SEAL_PATH)
     parser.add_argument("--dataset-dir", type=Path, default=EXPECTED_DATASET)
     parser.add_argument("--snapshot-root", type=Path, default=EXPECTED_SNAPSHOT_ROOT)
     parser.add_argument("--modality-config", type=Path, default=EXPECTED_MODALITY_PATH)

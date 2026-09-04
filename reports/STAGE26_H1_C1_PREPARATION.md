@@ -4,10 +4,11 @@ Date: 2026-09-04 (Asia/Singapore)
 
 ## Gate and scope
 
-This is the Corelab preparation deliverable for PI_GATE_STATE_0002 in Issue
+This is the Corelab preparation deliverable for PI_GATE_STATE_0003 in Issue
 #11. It creates the stage26/h1-fixed-noise-local-flow branch from the
-Stage25-closed base and prepares one source-mapped fixed-input local-flow
-runner. It does not report a scientific H1 result.
+Stage25-closed base, prepares one source-mapped fixed-input local-flow
+runner, and closes the Stage26 checkpoint-byte provenance gate. It does not
+report a scientific H1 result.
 
 The runner is ready for the conditional Hopper authorization only after the
 static checks in this branch pass:
@@ -33,6 +34,24 @@ base statistics SHA256: c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb5
 Cosmos revision:        9ce19a195e423419c349abfc86fd07178b230561
 Cosmos cache tree:      1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9
 selected snapshot:      stage22_expert_red_target_train_a/expert-0000.json
+
+Stage25 checkpoint identity gates reused before model construction:
+
+BASE index SHA256:       407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59
+BASE canonical tree:     8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4
+BASE tree prefix:        payload/GR00T-N1.7-3B
+O1 index SHA256:         ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7
+O1 immutable seal SHA256: 7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806
+O1 seal path:            checkpoint_seal/checkpoint_file_seal.tsv
+
+BASE preflight hashes every regular file in the checkpoint root through the
+Stage25 canonical tree digest. O1 preflight hashes every regular file through
+the immutable Stage23 candidate_200 core seal and requires the exact five
+supplemental experiment_cfg files to match their Stage23 historical byte/SHA
+bindings. Index-only agreement is insufficient. Any shard mutation,
+supplemental mutation, missing file, extra file, symlink, or path escape stops
+before model construction. The runtime result retains the observed indexed
+shard manifest for BASE and the full Stage25 two-layer scope summary for O1.
 
 The runtime verifies the selected snapshot relative path, exact source
 episode/example IDs, H40 finite label arrays, six-file train-a order, and
@@ -115,6 +134,7 @@ python scripts/stage26_h1_c1_fixed_noise_local_flow.py \
   --groot-source /var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/src/isaac-gr00t \
   --base-checkpoint /scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B \
   --o1-checkpoint /scratch/e1192548/stage23_o1_20260903/runs/597966.hopper-m-02/candidate_200/checkpoint-200 \
+  --o1-seal /var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv \
   --dataset-dir /var/cache/users/liuyu-nfs/go2-arx5-vla-stage23/action_pipeline_20260903_p0/tiny1_h2stats_lerobot_v2 \
   --snapshot-root /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage22/expert_dataset_v1/snapshots \
   --modality-config /scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py \
