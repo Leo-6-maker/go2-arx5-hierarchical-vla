@@ -27,7 +27,7 @@
 #   PBS_JOBID
 
 #PBS -N st28_eval_recovery
-#PBS -P PROJECT_ID_REQUIRED
+#PBS -P CFP03-CF-004
 #PBS -l select=1:ngpus=1
 #PBS -l walltime=08:00:00
 #PBS -j oe
@@ -90,7 +90,9 @@ python3 "${EVALUATION_SCRIPT}" \
   --training-source-sha "${STAGE28_TRAINING_SOURCE_SHA}" \
   --training-runner-sha256 "${STAGE28_TRAINING_RUNNER_SHA256}" \
   --expected-evaluation-runner-sha256 "${STAGE28_EXPECTED_EVALUATION_RUNNER_SHA256}" \
-  --expected-evaluation-launcher-sha256 "${STAGE28_EXPECTED_EVALUATION_LAUNCHER_SHA256}"
+  --expected-evaluation-launcher-sha256 "${STAGE28_EXPECTED_EVALUATION_LAUNCHER_SHA256}" \
+  --pbs-job-id "${PBS_JOBID}" \
+  --pbs-project "CFP03-CF-004"
 
 echo "STAGE28_H2_EVALUATION_ONLY_COMPLETE"
 echo "NEXT_GATE=GPT_PI_REVIEW_AFTER_STAGE28_FIXED_PROBE_RESULT"

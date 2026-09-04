@@ -36,6 +36,7 @@ class Stage28H2PreparationTests(unittest.TestCase):
         self.assertFalse(contract["resume_from_checkpoint"])
         self.assertEqual(plan["execution_budget"]["training_runs"], 1)
         self.assertEqual(plan["execution_budget"]["maximum_direct_flow_evaluations"], 18)
+        self.assertEqual(plan["next_gate"], MODULE.EVALUATION_NEXT_GATE)
         self.assertFalse(plan["preparation_execution_boundary"]["training"])
         self.assertTrue(plan["conditional_handoff"]["h2_execution_ready"])
         self.assertEqual(
@@ -69,6 +70,9 @@ class Stage28H2PreparationTests(unittest.TestCase):
         self.assertEqual(
             recovery["historical_training_runner_sha256"],
             "d61c429a2b8d53c25df63d9b5b9e2464b33c36e9e3c0a610b109b10a6bd63fe4",
+        )
+        self.assertEqual(
+            recovery["next_gate"], MODULE.EVALUATION_NEXT_GATE
         )
 
     def test_schedule_has_ten_step_warmup_and_1990_cosine_denominator(self) -> None:
@@ -219,6 +223,96 @@ class Stage28H2PreparationTests(unittest.TestCase):
             reserve["calculated_required_free_bytes"],
         ))
         self.assertGreater(reserve["adam_full_state_reserve_bytes"], 0)
+
+    def test_base_hash_mismatch_stops_before_h2_checkpoint_path(self) -> None:
+        ids = MODULE.EXPECTED_STAGE26_PROBE_IDS
+        expected_digest = "a" * 64
+        observed_digest = "b" * 64
+        base_records = [
+            {
+                "checkpoint": "BASE",
+                "probe_id": probe_id,
+                "raw_predicted_velocity_sha256": observed_digest,
+            }
+            for probe_id in ids
+        ]
+        baseline = {
+            "sha256": "c" * 64,
+            "raw_velocity_hashes": {
+                probe_id: expected_digest for probe_id in ids
+            },
+        }
+        mismatch_evidence: list[dict[str, object]] = []
+        h2_checkpoint_path = mock.Mock(return_value=[])
+        with self.assertRaisesRegex(
+            MODULE.Stage28Error, "H2 evaluations=0"
+        ):
+            MODULE._run_h2_after_base_hash_gate(
+                base_records=base_records,
+                baseline=baseline,
+                on_mismatch=mismatch_evidence.append,
+                h2_runner=h2_checkpoint_path,
+            )
+        h2_checkpoint_path.assert_not_called()
+        self.assertEqual(len(base_records), MODULE.EXPECTED_PROBE_COUNT)
+        self.assertEqual(len(mismatch_evidence), 1)
+        self.assertEqual(mismatch_evidence[0]["status"], "MISMATCH_REPORTED")
+        self.assertEqual(
+            mismatch_evidence[0]["observed_record_count"],
+            MODULE.EXPECTED_PROBE_COUNT,
+        )
+        self.assertEqual(len(mismatch_evidence[0]["differences"]), 9)
+
+    def test_base_hash_mismatch_evidence_preserves_base_and_zero_h2(self) -> None:
+        ids = MODULE.EXPECTED_STAGE26_PROBE_IDS
+        base_records = [
+            {
+                "checkpoint": "BASE",
+                "probe_id": probe_id,
+                "raw_predicted_velocity_sha256": "b" * 64,
+            }
+            for probe_id in ids
+        ]
+        baseline = {
+            "sha256": "c" * 64,
+            "raw_velocity_hashes": {
+                probe_id: "a" * 64 for probe_id in ids
+            },
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            evidence_path = MODULE._write_base_hash_mismatch_evidence(
+                output_root=Path(temp),
+                project_head="recovery-head",
+                evaluation_provenance={
+                    "pbs_job_id": "700000.hopper-m-02",
+                    "pbs_project": "CFP03-CF-004",
+                },
+                training_artifacts={"tree_sha256": "d" * 64},
+                base_identity={"tree_sha256": "e" * 64},
+                dataset_identity={"tree_sha256": "f" * 64},
+                modality_sha="1" * 64,
+                source_identity={"git_sha": "source"},
+                cosmos_identity={"tree_sha256": "2" * 64},
+                snapshot_identity={"tree_sha256": "3" * 64},
+                baseline=baseline,
+                probe_contract={"probes": list(ids)},
+                base_records=base_records,
+                base_hash_reproduction=MODULE._base_hash_reproduction(
+                    base_records, baseline
+                ),
+            )
+            self.assertEqual(
+                evidence_path.name, MODULE.BASE_HASH_MISMATCH_EVIDENCE_NAME
+            )
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+            self.assertEqual(len(evidence["base_records"]), 9)
+            self.assertEqual(evidence["h2_records"], [])
+            self.assertEqual(evidence["execution"]["h2_flow_evaluation_count"], 0)
+            self.assertFalse(evidence["execution"]["h2_evaluations_started"])
+            self.assertTrue(evidence["execution"]["pbs_submitted"])
+            self.assertEqual(
+                evidence["execution"]["pbs_job_id"], "700000.hopper-m-02"
+            )
 
     def test_storage_preflight_passes_and_fails_without_touching_inputs(self) -> None:
         with self.subTest("pass"):
@@ -427,6 +521,11 @@ class Stage28H2PreparationTests(unittest.TestCase):
 
         pbs_source = EVALUATION_PBS_PATH.read_text(encoding="utf-8")
         self.assertIn("stage28_h2_evaluation_only.py", pbs_source)
+        self.assertIn("--pbs-job-id", launcher_source)
+        self.assertIn("--pbs-project", launcher_source)
+        self.assertIn("--pbs-job-id", pbs_source)
+        self.assertIn("--pbs-project", pbs_source)
+        self.assertIn("CFP03-CF-004", pbs_source)
         self.assertNotIn(" --train ", pbs_source)
         self.assertNotIn("execute_training", pbs_source)
         self.assertNotIn("optimizer.step", pbs_source)
@@ -443,6 +542,8 @@ class Stage28H2PreparationTests(unittest.TestCase):
         self.assertIn('checkpoint_label="BASE"', source)
         self.assertIn('checkpoint_label="H2@2000"', source)
         self.assertIn("maximum_flow_evaluation_count", source)
+        self.assertIn("base_hash_reproduction", source)
+        self.assertIn("BASE_HASH_MISMATCH_EVIDENCE_NAME", source)
 
 
 if __name__ == "__main__":

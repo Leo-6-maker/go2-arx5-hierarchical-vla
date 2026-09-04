@@ -37,7 +37,7 @@ import sys
 import time
 from pathlib import Path
 from statistics import geometric_mean, median
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, Sequence
 
 
 STAGE28_SCHEMA = "STAGE28_H2_FRESH_BASE_2000_FIXED_WARMUP10_V1"
@@ -149,6 +149,9 @@ CHECKPOINT_NAMES = ("checkpoint-1000", "checkpoint-2000")
 HOPPER_AUTHORIZATION_TOKEN = "PI_GATE_STATE_0007"
 EVALUATION_PI_GATE_ID = "PI_GATE_STATE_0008"
 EVALUATION_AUTHORIZATION_TOKEN = EVALUATION_PI_GATE_ID
+EXPECTED_EVALUATION_PBS_PROJECT = "CFP03-CF-004"
+EVALUATION_NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE28_FIXED_PROBE_RESULT"
+BASE_HASH_MISMATCH_EVIDENCE_NAME = "stage28_h2_base_hash_mismatch.json"
 
 # The reserve is an operational guard, not a scientific input.  It covers the
 # two retained model copies, the final model copy, full Adam moments for the
@@ -755,6 +758,7 @@ def protocol_plan() -> dict[str, Any]:
             "historical_training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
             "historical_training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
             "maximum_direct_flow_evaluations": EXPECTED_MAX_FLOW_EVALUATIONS,
+            "next_gate": EVALUATION_NEXT_GATE,
         },
         "preparation_execution_boundary": {
             "model_construction": False,
@@ -771,7 +775,7 @@ def protocol_plan() -> dict[str, Any]:
             "wbc": False,
             "hardware": False,
         },
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE28_H2_RESULT",
+        "next_gate": EVALUATION_NEXT_GATE,
     }
 
 
@@ -832,6 +836,7 @@ def assert_protocol_static(plan: Mapping[str, Any] | None = None) -> None:
         "historical_training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
         "historical_training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
         "maximum_direct_flow_evaluations": EXPECTED_MAX_FLOW_EVALUATIONS,
+        "next_gate": EVALUATION_NEXT_GATE,
     }
     for key, expected in expected_recovery.items():
         if recovery.get(key) != expected:
@@ -1109,12 +1114,27 @@ def _require_evaluation_provenance(args: argparse.Namespace) -> dict[str, str]:
         or any(character not in "0123456789abcdef" for character in evaluation_launcher_sha256)
     ):
         raise Stage28Error("evaluation launcher SHA is not a lowercase SHA256 digest")
+    pbs_job_id = getattr(args, "pbs_job_id", None)
+    if (
+        not isinstance(pbs_job_id, str)
+        or not pbs_job_id.strip()
+        or any(character.isspace() for character in pbs_job_id)
+    ):
+        raise Stage28Error("evaluation PBS job ID is missing or malformed")
+    pbs_project = getattr(args, "pbs_project", None)
+    if pbs_project != EXPECTED_EVALUATION_PBS_PROJECT:
+        raise Stage28Error(
+            "evaluation PBS project mismatch: "
+            f"{pbs_project!r} != {EXPECTED_EVALUATION_PBS_PROJECT}"
+        )
     return {
         "pi_gate": EVALUATION_PI_GATE_ID,
         "training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
         "training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
         "evaluation_runner_sha256": evaluation_runner_sha256,
         "evaluation_launcher_sha256": evaluation_launcher_sha256,
+        "pbs_job_id": pbs_job_id,
+        "pbs_project": pbs_project,
     }
 
 
@@ -1486,11 +1506,141 @@ def _base_hash_reproduction(
         if expected.get(probe_id) != observed.get(probe_id)
     ]
     return {
-        "status": "MATCH" if not differences else "MISMATCH_REPORTED",
+        "status": (
+            "MATCH"
+            if len(records) == EXPECTED_PROBE_COUNT and not differences
+            else "MISMATCH_REPORTED"
+        ),
         "stage26_manifest_sha256": baseline["sha256"],
+        "expected_record_count": EXPECTED_PROBE_COUNT,
+        "observed_record_count": len(records),
         "differences": differences,
         "normalization_or_repair_applied": False,
     }
+
+
+def _raw_velocity_hashes(records: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        {
+            "checkpoint": row["checkpoint"],
+            "probe_id": row["probe_id"],
+            "raw_predicted_velocity_sha256": row["raw_predicted_velocity_sha256"],
+        }
+        for row in records
+    ]
+
+
+def _historical_training_provenance() -> dict[str, Any]:
+    return {
+        "job": "600695.hopper-m-02",
+        "git_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
+        "runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
+        "retrained": False,
+    }
+
+
+def _run_h2_after_base_hash_gate(
+    *,
+    base_records: Sequence[Mapping[str, Any]],
+    baseline: Mapping[str, Any],
+    on_mismatch: Callable[[Mapping[str, Any]], None],
+    h2_runner: Callable[[], list[dict[str, Any]]],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Run H2 only after exact BASE reproduction has passed."""
+
+    reproduction = _base_hash_reproduction(base_records, baseline)
+    if reproduction["status"] != "MATCH":
+        on_mismatch(reproduction)
+        raise Stage28Error(
+            "Stage28 BASE hash reproduction mismatch; H2 evaluations=0"
+        )
+    return reproduction, h2_runner()
+
+
+def _write_base_hash_mismatch_evidence(
+    *,
+    output_root: Path,
+    project_head: str,
+    evaluation_provenance: Mapping[str, Any],
+    training_artifacts: Mapping[str, Any],
+    base_identity: Mapping[str, Any],
+    dataset_identity: Mapping[str, Any],
+    modality_sha: str,
+    source_identity: Mapping[str, Any],
+    cosmos_identity: Mapping[str, Any],
+    snapshot_identity: Mapping[str, Any],
+    baseline: Mapping[str, Any],
+    probe_contract: Mapping[str, Any],
+    base_records: Sequence[Mapping[str, Any]],
+    base_hash_reproduction: Mapping[str, Any],
+) -> Path:
+    raw_hashes = _raw_velocity_hashes(base_records)
+    evidence = {
+        "schema": STAGE28_SCHEMA,
+        "status": "STOP_OR_BLOCKED",
+        "stage": "Stage28 H2 BASE/H2@2000 fixed local-flow evaluation",
+        "reason": "BASE_HASH_REPRODUCTION_MISMATCH",
+        "identity": {
+            "stage28_git_sha": project_head,
+            "evaluation_provenance": dict(evaluation_provenance),
+            "historical_training_provenance": _historical_training_provenance(),
+            "base": dict(base_identity),
+            "h2_training_artifacts": dict(training_artifacts),
+            "dataset": dict(dataset_identity),
+            "modality_sha256": modality_sha,
+            "groot": dict(source_identity),
+            "cosmos": dict(cosmos_identity),
+            "selected_snapshot": dict(snapshot_identity),
+            "stage26_baseline": dict(baseline),
+        },
+        "probe_contract": {
+            **dict(probe_contract),
+            "same_fixed_probes_reused_for": ["BASE", "H2@2000"],
+        },
+        "base_records": list(base_records),
+        "h2_records": [],
+        "base_hash_reproduction": dict(base_hash_reproduction),
+        "raw_velocity_hashes": raw_hashes,
+        "execution": {
+            "evaluation_only": True,
+            "training_run_count": 0,
+            "historical_training_run_count": 1,
+            "base_flow_evaluation_count": len(base_records),
+            "h2_flow_evaluation_count": 0,
+            "flow_evaluation_count": len(base_records),
+            "maximum_flow_evaluation_count": EXPECTED_MAX_FLOW_EVALUATIONS,
+            "h2_evaluations_started": False,
+            "complete_model_forward_called": False,
+            "teacher_forced_action_head_path": True,
+            "free_running_sampler_called": False,
+            "get_action_called": False,
+            "training": False,
+            "backward": False,
+            "optimizer_step": False,
+            "scheduler_step": False,
+            "resume": False,
+            "checkpoint_write": False,
+            "pbs_submitted": True,
+            "pbs_job_id": evaluation_provenance["pbs_job_id"],
+            "pbs_project": evaluation_provenance["pbs_project"],
+            "validation_e_read": False,
+            "holdout_f_read": False,
+            "c2_started": False,
+            "wbc_executed": False,
+            "hardware_executed": False,
+        },
+        "scientific_contract_changed": False,
+        "downstream_authorization_still_valid": True,
+        "claim_boundary": "BASE control evidence only; H2 comparison was withheld",
+        "next_gate": EVALUATION_NEXT_GATE,
+    }
+    evidence_path = output_root / BASE_HASH_MISMATCH_EVIDENCE_NAME
+    _write_json(evidence_path, _jsonable(evidence))
+    _write_json(
+        output_root / "stage28_h2_raw_velocity_hashes.json",
+        {"schema": STAGE28_SCHEMA, "raw_velocity_hashes": raw_hashes},
+    )
+    return evidence_path
 
 
 def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
@@ -1564,32 +1714,54 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         device=args.device,
         snapshot=snapshot,
     )
-    h2_checkpoint = output_root / "h2_training" / "checkpoint-2000"
-    h2_records = stage26._run_one_checkpoint(
-        checkpoint_label="H2@2000",
-        checkpoint=h2_checkpoint,
-        groot_source=args.groot_source,
-        prepared=prepared,
-        processor=processor,
-        embodiment=embodiment,
-        stage23=stage23,
-        probes=probe_contract["probes"],
-        fixed_probes=fixed_probes,
-        device=args.device,
-        snapshot=snapshot,
+
+    def run_h2_records() -> list[dict[str, Any]]:
+        h2_checkpoint = output_root / "h2_training" / "checkpoint-2000"
+        return stage26._run_one_checkpoint(
+            checkpoint_label="H2@2000",
+            checkpoint=h2_checkpoint,
+            groot_source=args.groot_source,
+            prepared=prepared,
+            processor=processor,
+            embodiment=embodiment,
+            stage23=stage23,
+            probes=probe_contract["probes"],
+            fixed_probes=fixed_probes,
+            device=args.device,
+            snapshot=snapshot,
+        )
+
+    def write_base_mismatch_evidence(
+        reproduction: Mapping[str, Any],
+    ) -> None:
+        _write_base_hash_mismatch_evidence(
+            output_root=output_root,
+            project_head=project_head,
+            evaluation_provenance=evaluation_provenance,
+            training_artifacts=training_artifacts,
+            base_identity=base_identity,
+            dataset_identity=dataset_identity,
+            modality_sha=modality_sha,
+            source_identity=source_identity,
+            cosmos_identity=cosmos_identity,
+            snapshot_identity=snapshot_identity,
+            baseline=baseline,
+            probe_contract=probe_contract,
+            base_records=base_records,
+            base_hash_reproduction=reproduction,
+        )
+
+    base_hash_reproduction, h2_records = _run_h2_after_base_hash_gate(
+        base_records=base_records,
+        baseline=baseline,
+        on_mismatch=write_base_mismatch_evidence,
+        h2_runner=run_h2_records,
     )
     records = [*base_records, *h2_records]
     if len(records) != EXPECTED_MAX_FLOW_EVALUATIONS:
         raise Stage28Error(f"Stage28 flow evaluation count drifted: {len(records)}")
     aggregates = _h2_flow_aggregates(records)
-    raw_hashes = [
-        {
-            "checkpoint": row["checkpoint"],
-            "probe_id": row["probe_id"],
-            "raw_predicted_velocity_sha256": row["raw_predicted_velocity_sha256"],
-        }
-        for row in records
-    ]
+    raw_hashes = _raw_velocity_hashes(records)
     result = {
         "schema": STAGE28_SCHEMA,
         "status": "PASS_EXECUTION",
@@ -1598,12 +1770,7 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         "identity": {
             "stage28_git_sha": project_head,
             "evaluation_provenance": evaluation_provenance,
-            "historical_training_provenance": {
-                "job": "600695.hopper-m-02",
-                "git_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
-                "runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
-                "retrained": False,
-            },
+            "historical_training_provenance": _historical_training_provenance(),
             "base": base_identity,
             "h2_training_artifacts": training_artifacts,
             "dataset": dataset_identity,
@@ -1619,14 +1786,17 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         },
         "records": records,
         "paired_aggregates": aggregates,
-        "base_hash_reproduction": _base_hash_reproduction(base_records, baseline),
+        "base_hash_reproduction": base_hash_reproduction,
         "raw_velocity_hashes": raw_hashes,
         "execution": {
             "evaluation_only": True,
             "training_run_count": 0,
             "historical_training_run_count": 1,
+            "base_flow_evaluation_count": len(base_records),
+            "h2_flow_evaluation_count": len(h2_records),
             "flow_evaluation_count": len(records),
             "maximum_flow_evaluation_count": EXPECTED_MAX_FLOW_EVALUATIONS,
+            "h2_evaluations_started": True,
             "complete_model_forward_called": False,
             "teacher_forced_action_head_path": True,
             "free_running_sampler_called": False,
@@ -1634,7 +1804,12 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
             "training": False,
             "backward": False,
             "optimizer_step": False,
-            "pbs_submitted": False,
+            "scheduler_step": False,
+            "resume": False,
+            "checkpoint_write": False,
+            "pbs_submitted": True,
+            "pbs_job_id": evaluation_provenance["pbs_job_id"],
+            "pbs_project": evaluation_provenance["pbs_project"],
             "validation_e_read": False,
             "holdout_f_read": False,
             "c2_started": False,
@@ -1648,7 +1823,7 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
             "paired teacher-forced local-flow evidence on the single TINY1 training "
             "sample; no sampler, task, generalization, WBC, or hardware claim"
         ),
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE28_H2_RESULT",
+        "next_gate": EVALUATION_NEXT_GATE,
     }
     _write_json(output_root / "stage28_h2_local_flow_result.json", _jsonable(result))
     _write_json(
@@ -1703,6 +1878,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--training-runner-sha256", default=None)
     parser.add_argument("--expected-evaluation-runner-sha256", default=None)
     parser.add_argument("--evaluation-launcher-sha256", default=None)
+    parser.add_argument("--pbs-job-id", default=None)
+    parser.add_argument("--pbs-project", default=None)
     parser.add_argument("--training-output-dir", type=Path, default=None)
     return parser
 

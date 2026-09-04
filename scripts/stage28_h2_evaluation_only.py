@@ -45,6 +45,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--training-runner-sha256", required=True)
     parser.add_argument("--expected-evaluation-runner-sha256", required=True)
     parser.add_argument("--expected-evaluation-launcher-sha256", required=True)
+    parser.add_argument("--pbs-job-id", required=True)
+    parser.add_argument("--pbs-project", required=True)
     return parser
 
 
@@ -82,7 +84,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             "scheduler_step": False,
             "resume": False,
             "checkpoint_write": False,
+            "pbs_submitted": True,
+            "pbs_job_id": args.pbs_job_id,
+            "pbs_project": args.pbs_project,
             "scientific_contract_changed": False,
+            "next_gate": core.EVALUATION_NEXT_GATE,
         }
         print(json.dumps(failure, indent=2, sort_keys=True))
         return 2
