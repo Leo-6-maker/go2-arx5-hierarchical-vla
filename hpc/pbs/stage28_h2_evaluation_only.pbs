@@ -65,7 +65,7 @@ test ! -e "${RUN_ROOT}" || {
   exit 2
 }
 mkdir "${RUN_ROOT}"
-mkdir -p "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache/huggingface" \
+mkdir -p "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache/huggingface/hub" \
   "${RUN_ROOT}/runtime/cache/torch" "${RUN_ROOT}/runtime/cache/triton" \
   "${RUN_ROOT}/runtime/cache/torch_extensions" \
   "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
@@ -81,6 +81,11 @@ export XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
 export TRITON_CACHE_DIR="${RUN_ROOT}/runtime/cache/triton"
 export TORCH_EXTENSIONS_DIR="${RUN_ROOT}/runtime/cache/torch_extensions"
 export PYTHONNOUSERSITE=1
+
+PINNED_COSMOS_CACHE="${STAGE10_ROOT}/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B"
+test -d "${PINNED_COSMOS_CACHE}"
+ln -s "${PINNED_COSMOS_CACHE}" \
+  "${HF_HOME}/hub/models--nvidia--Cosmos-Reason2-2B"
 
 EVALUATION_SCRIPT="scripts/stage28_h2_evaluation_only.py"
 EVALUATION_RUNNER="scripts/stage28_h2_fresh_base_2000_fixed_warmup10.py"
