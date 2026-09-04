@@ -116,7 +116,7 @@ run_container() {
   singularity exec --nv \
     --bind /app1:/app1 --bind /scratch:/scratch \
     "${IMAGE}" env \
-    PYTHONPATH="${CONTAINER_SITE}:${STAGE10_ROOT}/src/isaac-gr00t" \
+    PYTHONPATH="${STAGE28_REPO}/src:${CONTAINER_SITE}:${STAGE10_ROOT}/src/isaac-gr00t" \
     LD_LIBRARY_PATH="${FFMPEG_LD}" \
     HF_HOME="${HF_HOME}" HF_HUB_CACHE="${HF_HOME}/hub" \
     HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \

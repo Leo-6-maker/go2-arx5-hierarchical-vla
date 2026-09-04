@@ -532,6 +532,7 @@ class Stage28H2PreparationTests(unittest.TestCase):
         self.assertIn("STAGE28_EVALUATION_PARENT", pbs_source)
         self.assertIn('RUN_ROOT="${STAGE28_EVALUATION_PARENT}/stage28_eval_${PBS_JOBID}"', pbs_source)
         self.assertIn("singularity exec --nv", pbs_source)
+        self.assertIn('PYTHONPATH="${STAGE28_REPO}/src:', pbs_source)
         self.assertIn("pytorch_25.12-py3.sif", pbs_source)
         self.assertIn("stage22_h200_ffmpeg4_bundle_20260902", pbs_source)
         self.assertNotIn(" --train ", pbs_source)
