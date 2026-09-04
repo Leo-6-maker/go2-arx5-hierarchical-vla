@@ -1,0 +1,96 @@
+#!/bin/bash
+# STAGE28 H2 fixed-probe recovery evaluation-only template. DO NOT SUBMIT AS-IS.
+#
+# This is intentionally independent of the historical train-coupled Stage28
+# template.  It consumes the existing sealed H2@2000 output and invokes only
+# scripts/stage28_h2_evaluation_only.py.  No checkpoint directory is created or
+# modified by this wrapper.
+#
+# Required environment before qsub:
+#   STAGE28_REPO
+#   STAGE28_OUTPUT_ROOT          existing output root from job 600695
+#   STAGE28_BASE_MODEL_PATH      exact BASE tree
+#   STAGE28_DATASET_DIR          exact TINY1_H2STATS fixture
+#   STAGE10_ROOT                 Hopper Stage10 runtime root
+#   STAGE28_MODALITY_CONFIG      exact modality config
+#   STAGE28_SNAPSHOT_ROOT        Stage22 train-a source snapshots
+#   STAGE28_STAGE26_HASHES       immutable Stage26 18-row hash manifest
+#   STAGE28_EXPECTED_PROJECT_SHA exact recovery checkout SHA
+#   STAGE28_PI_GATE_ID           must be PI_GATE_STATE_0008
+#   STAGE28_EXPECTED_H2_TREE_SHA256
+#   STAGE28_EXPECTED_H2_SEAL_SHA256
+#   STAGE28_TRAINING_SOURCE_SHA
+#   STAGE28_TRAINING_RUNNER_SHA256
+#   STAGE28_EXPECTED_EVALUATION_RUNNER_SHA256
+#   STAGE28_EXPECTED_EVALUATION_LAUNCHER_SHA256
+#   STAGE28_PBS_WINDOW_START_UTC / STAGE28_PBS_WINDOW_END_UTC
+#   PBS_JOBID
+
+#PBS -N st28_eval_recovery
+#PBS -P PROJECT_ID_REQUIRED
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE28_REPO:?Set the recovery checkout at the returned live SHA}"
+: "${STAGE28_OUTPUT_ROOT:?Set the existing sealed Stage28 output root}"
+: "${STAGE28_BASE_MODEL_PATH:?Set the exact BASE model path}"
+: "${STAGE28_DATASET_DIR:?Set the exact TINY1_H2STATS dataset path}"
+: "${STAGE10_ROOT:?Set the Hopper Stage10 runtime root}"
+: "${STAGE28_MODALITY_CONFIG:?Set the exact modality config path}"
+: "${STAGE28_SNAPSHOT_ROOT:?Set the Stage22 train-a snapshot root}"
+: "${STAGE28_STAGE26_HASHES:?Set the immutable Stage26 hash manifest}"
+: "${STAGE28_EXPECTED_PROJECT_SHA:?Set the exact recovery checkout SHA}"
+: "${STAGE28_PI_GATE_ID:?Set the active PI gate ID}"
+: "${STAGE28_EXPECTED_H2_TREE_SHA256:?Set the accepted H2 checkpoint tree SHA}"
+: "${STAGE28_EXPECTED_H2_SEAL_SHA256:?Set the accepted H2 checkpoint seal SHA}"
+: "${STAGE28_TRAINING_SOURCE_SHA:?Set the historical training source SHA}"
+: "${STAGE28_TRAINING_RUNNER_SHA256:?Set the historical training runner SHA}"
+: "${STAGE28_EXPECTED_EVALUATION_RUNNER_SHA256:?Set the recovery runner SHA}"
+: "${STAGE28_EXPECTED_EVALUATION_LAUNCHER_SHA256:?Set the evaluation-only launcher SHA}"
+: "${STAGE28_PBS_WINDOW_START_UTC:?Set the PBS window start timestamp}"
+: "${STAGE28_PBS_WINDOW_END_UTC:?Set the PBS window end timestamp}"
+: "${PBS_JOBID:?PBS_JOBID must be available}"
+
+test "${STAGE28_PI_GATE_ID}" = "PI_GATE_STATE_0008"
+cd "${STAGE28_REPO}"
+
+EVALUATION_SCRIPT="scripts/stage28_h2_evaluation_only.py"
+EVALUATION_RUNNER="scripts/stage28_h2_fresh_base_2000_fixed_warmup10.py"
+test "$(sha256sum "${EVALUATION_SCRIPT}" | awk '{print $1}')" = "${STAGE28_EXPECTED_EVALUATION_LAUNCHER_SHA256}"
+test "$(sha256sum "${EVALUATION_RUNNER}" | awk '{print $1}')" = "${STAGE28_EXPECTED_EVALUATION_RUNNER_SHA256}"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1 || { echo "FAIL_CLOSED: expected one visible GPU, observed ${GPU_COUNT}" >&2; exit 2; }
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED: expected one H200, observed ${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+
+python3 "${EVALUATION_SCRIPT}" \
+  --project-repo "${STAGE28_REPO}" \
+  --expected-project-sha "${STAGE28_EXPECTED_PROJECT_SHA}" \
+  --base-model-path "${STAGE28_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE28_DATASET_DIR}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --modality-config "${STAGE28_MODALITY_CONFIG}" \
+  --snapshot-root "${STAGE28_SNAPSHOT_ROOT}" \
+  --stage26-hash-manifest "${STAGE28_STAGE26_HASHES}" \
+  --output-root "${STAGE28_OUTPUT_ROOT}" \
+  --authorization-token "${STAGE28_PI_GATE_ID}" \
+  --device cuda:0 \
+  --expected-h2-checkpoint-tree-sha256 "${STAGE28_EXPECTED_H2_TREE_SHA256}" \
+  --expected-h2-checkpoint-seal-sha256 "${STAGE28_EXPECTED_H2_SEAL_SHA256}" \
+  --training-source-sha "${STAGE28_TRAINING_SOURCE_SHA}" \
+  --training-runner-sha256 "${STAGE28_TRAINING_RUNNER_SHA256}" \
+  --expected-evaluation-runner-sha256 "${STAGE28_EXPECTED_EVALUATION_RUNNER_SHA256}" \
+  --expected-evaluation-launcher-sha256 "${STAGE28_EXPECTED_EVALUATION_LAUNCHER_SHA256}"
+
+echo "STAGE28_H2_EVALUATION_ONLY_COMPLETE"
+echo "NEXT_GATE=GPT_PI_REVIEW_AFTER_STAGE28_FIXED_PROBE_RESULT"

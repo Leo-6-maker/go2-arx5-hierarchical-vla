@@ -92,9 +92,27 @@ EXPECTED_ACTIVE_DIM = 10
 EXPECTED_UNIVERSAL_DIM = 132
 EXPECTED_PROBE_COUNT = 9
 EXPECTED_MAX_FLOW_EVALUATIONS = 18
+EXPECTED_STAGE26_MANIFEST_ROW_COUNT = 18
 EXPECTED_TRAINABLE_PARAMETERS = 1_419_078_784
 EXPECTED_STAGE26_HASH_MANIFEST_SHA256 = (
     "eb33c81b68bb8bd49ce0ed9b0b818fdbb29546b49a2d79a3ee62845e172afb7b"
+)
+EXPECTED_H2_CHECKPOINT_TREE_SHA256 = (
+    "3106f9b5993b390438b62594d044781d11b393452a49f80b5c8e9e910606d0ba"
+)
+EXPECTED_H2_CHECKPOINT_SEAL_SHA256 = (
+    "1349896f7b31a930764dbd9d849c5368e48372d0dc6273449f42f19f82a69a82"
+)
+EXPECTED_H2_TRAINING_SOURCE_SHA = (
+    "a361e5cb8a4be33f40a21c9bbf7ad742e25c7fd0"
+)
+EXPECTED_H2_TRAINING_RUNNER_SHA256 = (
+    "d61c429a2b8d53c25df63d9b5b9e2464b33c36e9e3c0a610b109b10a6bd63fe4"
+)
+EXPECTED_STAGE26_PROBE_IDS = tuple(
+    f"c1_seed{seed}_tq{quantile:02d}"
+    for seed in (2223, 2224, 2225)
+    for quantile in (10, 50, 90)
 )
 
 DEFAULT_BASE_MODEL_PATH = Path(
@@ -126,7 +144,11 @@ STATE_FILES_REQUIRED = (
 )
 MODEL_INDEX_NAME = "model.safetensors.index.json"
 CHECKPOINT_NAMES = ("checkpoint-1000", "checkpoint-2000")
+# This token is retained only for the historical training/preparation path.
+# Stage28 recovery evaluation has a separate current-gate token below.
 HOPPER_AUTHORIZATION_TOKEN = "PI_GATE_STATE_0007"
+EVALUATION_PI_GATE_ID = "PI_GATE_STATE_0008"
+EVALUATION_AUTHORIZATION_TOKEN = EVALUATION_PI_GATE_ID
 
 # The reserve is an operational guard, not a scientific input.  It covers the
 # two retained model copies, the final model copy, full Adam moments for the
@@ -718,6 +740,22 @@ def protocol_plan() -> dict[str, Any]:
             "downstream_authorization_still_valid": True,
             "live_head_must_equal_returned_sha": True,
         },
+        "evaluation_recovery": {
+            "pi_gate_id": EVALUATION_PI_GATE_ID,
+            "token": EVALUATION_AUTHORIZATION_TOKEN,
+            "evaluation_only": True,
+            "training": False,
+            "backward": False,
+            "optimizer_step": False,
+            "scheduler_step": False,
+            "resume": False,
+            "checkpoint_write": False,
+            "h2_checkpoint_tree_sha256": EXPECTED_H2_CHECKPOINT_TREE_SHA256,
+            "h2_checkpoint_seal_sha256": EXPECTED_H2_CHECKPOINT_SEAL_SHA256,
+            "historical_training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
+            "historical_training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
+            "maximum_direct_flow_evaluations": EXPECTED_MAX_FLOW_EVALUATIONS,
+        },
         "preparation_execution_boundary": {
             "model_construction": False,
             "model_forward": False,
@@ -778,6 +816,26 @@ def assert_protocol_static(plan: Mapping[str, Any] | None = None) -> None:
         raise Stage28Error("Stage28 scientific contract changed")
     if handoff.get("downstream_authorization_still_valid") is not True:
         raise Stage28Error("Stage28 downstream token was not preserved")
+    recovery = candidate.get("evaluation_recovery", {})
+    expected_recovery = {
+        "pi_gate_id": EVALUATION_PI_GATE_ID,
+        "token": EVALUATION_AUTHORIZATION_TOKEN,
+        "evaluation_only": True,
+        "training": False,
+        "backward": False,
+        "optimizer_step": False,
+        "scheduler_step": False,
+        "resume": False,
+        "checkpoint_write": False,
+        "h2_checkpoint_tree_sha256": EXPECTED_H2_CHECKPOINT_TREE_SHA256,
+        "h2_checkpoint_seal_sha256": EXPECTED_H2_CHECKPOINT_SEAL_SHA256,
+        "historical_training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
+        "historical_training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
+        "maximum_direct_flow_evaluations": EXPECTED_MAX_FLOW_EVALUATIONS,
+    }
+    for key, expected in expected_recovery.items():
+        if recovery.get(key) != expected:
+            raise Stage28Error(f"Stage28 evaluation recovery contract drifted: {key}")
 
 
 def _load_modality(path: Path, stage10_root: Path) -> Any:
@@ -1016,6 +1074,50 @@ def _require_token(args: argparse.Namespace) -> None:
         )
 
 
+def _require_evaluation_provenance(args: argparse.Namespace) -> dict[str, str]:
+    """Bind recovery evaluation to the current PI gate and sealed artifacts."""
+
+    if args.authorization_token != EVALUATION_AUTHORIZATION_TOKEN:
+        raise Stage28Error(
+            "evaluation-only recovery requires the exact PI_GATE_STATE_0008 token"
+        )
+    expected = {
+        "expected_h2_checkpoint_tree_sha256": EXPECTED_H2_CHECKPOINT_TREE_SHA256,
+        "expected_h2_checkpoint_seal_sha256": EXPECTED_H2_CHECKPOINT_SEAL_SHA256,
+        "training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
+        "training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
+    }
+    for argument, expected_value in expected.items():
+        observed = getattr(args, argument, None)
+        if observed != expected_value:
+            raise Stage28Error(
+                f"evaluation provenance binding mismatch for {argument}: "
+                f"{observed!r} != {expected_value}"
+            )
+
+    evaluation_runner_sha256 = _sha256_file(Path(__file__).resolve())
+    expected_runner_sha256 = getattr(args, "expected_evaluation_runner_sha256", None)
+    if expected_runner_sha256 != evaluation_runner_sha256:
+        raise Stage28Error(
+            "evaluation runner SHA mismatch: "
+            f"{evaluation_runner_sha256} != {expected_runner_sha256}"
+        )
+    evaluation_launcher_sha256 = getattr(args, "evaluation_launcher_sha256", None)
+    if (
+        not isinstance(evaluation_launcher_sha256, str)
+        or len(evaluation_launcher_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in evaluation_launcher_sha256)
+    ):
+        raise Stage28Error("evaluation launcher SHA is not a lowercase SHA256 digest")
+    return {
+        "pi_gate": EVALUATION_PI_GATE_ID,
+        "training_source_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
+        "training_runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
+        "evaluation_runner_sha256": evaluation_runner_sha256,
+        "evaluation_launcher_sha256": evaluation_launcher_sha256,
+    }
+
+
 def _load_and_revalidate_preflight(args: argparse.Namespace) -> dict[str, Any]:
     output_root = _resolve_non_symlink(args.output_root, "Stage28 output root")
     report_path = output_root / "stage28_preflight.json"
@@ -1112,7 +1214,12 @@ def _seal_checkpoint(checkpoint_info: Mapping[str, Any], output_root: Path) -> d
     }
 
 
-def _verify_final_checkpoint_artifacts(output_root: Path) -> dict[str, Any]:
+def _verify_final_checkpoint_artifacts(
+    output_root: Path,
+    *,
+    expected_checkpoint_tree_sha256: str | None = None,
+    expected_seal_sha256: str | None = None,
+) -> dict[str, Any]:
     training_output = Path(output_root) / "h2_training"
     if training_output.is_symlink() or not training_output.is_dir():
         raise Stage28Error(f"H2 training output is missing or symlinked: {training_output}")
@@ -1131,10 +1238,29 @@ def _verify_final_checkpoint_artifacts(output_root: Path) -> dict[str, Any]:
     checkpoint_2000 = _inspect_checkpoint(
         training_output / "checkpoint-2000", expected_step=2000
     )
+    if (
+        expected_checkpoint_tree_sha256 is not None
+        and checkpoint_2000["tree_sha256"] != expected_checkpoint_tree_sha256
+    ):
+        raise Stage28Error(
+            "H2 checkpoint-2000 external tree SHA mismatch: "
+            f"{checkpoint_2000['tree_sha256']} != {expected_checkpoint_tree_sha256}"
+        )
     seal_path = Path(output_root) / "stage28_h2_checkpoint_2000_seal.json"
+    observed_seal_sha256 = _sha256_file(seal_path)
+    if expected_seal_sha256 is not None and observed_seal_sha256 != expected_seal_sha256:
+        raise Stage28Error(
+            "H2 checkpoint-2000 external seal SHA mismatch: "
+            f"{observed_seal_sha256} != {expected_seal_sha256}"
+        )
     seal = _read_json(seal_path, "Stage28 final checkpoint seal")
     if seal.get("schema") != "STAGE28_H2_FINAL_CHECKPOINT_SEAL_V1" or seal.get("status") != "PASS":
         raise Stage28Error("Stage28 final checkpoint seal is not a PASS")
+    if (
+        expected_checkpoint_tree_sha256 is not None
+        and seal.get("tree_sha256") != expected_checkpoint_tree_sha256
+    ):
+        raise Stage28Error("H2 checkpoint-2000 seal tree is not externally bound")
     if seal.get("tree_sha256") != checkpoint_2000["tree_sha256"]:
         raise Stage28Error("Stage28 final checkpoint tree changed after sealing")
     sealed_entries = seal.get("entries")
@@ -1145,7 +1271,7 @@ def _verify_final_checkpoint_artifacts(output_root: Path) -> dict[str, Any]:
         "checkpoint-2000": {key: value for key, value in checkpoint_2000.items() if key != "entries"},
         "seal": {
             "path": str(seal_path),
-            "sha256": _sha256_file(seal_path),
+            "sha256": observed_seal_sha256,
             "tree_sha256": seal["tree_sha256"],
             "file_count": seal["file_count"],
             "total_bytes": seal["total_bytes"],
@@ -1251,21 +1377,48 @@ def _load_stage26_hash_manifest(path: Path) -> dict[str, Any]:
     if payload.get("schema") != "STAGE26_H1_C1_FIXED_NOISE_LOCAL_FLOW_V1":
         raise Stage28Error("Stage26 hash manifest schema mismatch")
     rows = payload.get("raw_velocity_hashes")
-    if not isinstance(rows, list) or len(rows) != EXPECTED_PROBE_COUNT:
-        raise Stage28Error("Stage26 BASE hash manifest does not contain nine rows")
-    normalized: dict[str, str] = {}
+    if not isinstance(rows, list):
+        raise Stage28Error("Stage26 raw velocity hashes must be a list")
+    if len(rows) != EXPECTED_STAGE26_MANIFEST_ROW_COUNT:
+        raise Stage28Error(
+            "Stage26 hash manifest must contain exactly eighteen rows"
+        )
+    base_rows: list[Mapping[str, Any]] = []
     for row in rows:
-        if not isinstance(row, Mapping) or row.get("checkpoint") != "BASE":
-            raise Stage28Error("Stage26 hash manifest is not a BASE control manifest")
-        probe_id = str(row.get("probe_id"))
+        if not isinstance(row, Mapping):
+            raise Stage28Error("Stage26 hash manifest row is not an object")
+        if row.get("checkpoint") == "BASE":
+            base_rows.append(row)
+        elif row.get("checkpoint") != "O1@200":
+            raise Stage28Error("Stage26 hash manifest has an unknown checkpoint")
+    if len(base_rows) != EXPECTED_PROBE_COUNT:
+        raise Stage28Error(
+            "Stage26 BASE hash manifest does not contain exactly nine BASE rows"
+        )
+    normalized: dict[str, str] = {}
+    for row in base_rows:
+        probe_id = row.get("probe_id")
+        if not isinstance(probe_id, str) or not probe_id:
+            raise Stage28Error("Stage26 BASE probe ID is invalid")
         digest = row.get("raw_predicted_velocity_sha256")
-        if not isinstance(digest, str) or len(digest) != 64:
+        if (
+            not isinstance(digest, str)
+            or len(digest) != 64
+            or any(character not in "0123456789abcdef" for character in digest)
+        ):
             raise Stage28Error("Stage26 BASE raw hash is invalid")
         if probe_id in normalized:
             raise Stage28Error("Stage26 BASE hash manifest has duplicate probes")
         normalized[probe_id] = digest
-    if len(normalized) != EXPECTED_PROBE_COUNT:
-        raise Stage28Error("Stage26 BASE hash manifest probe set is incomplete")
+    observed_ids = set(normalized)
+    expected_ids = set(EXPECTED_STAGE26_PROBE_IDS)
+    if observed_ids != expected_ids:
+        missing = sorted(expected_ids - observed_ids)
+        foreign = sorted(observed_ids - expected_ids)
+        raise Stage28Error(
+            "Stage26 BASE hash manifest probe set mismatch: "
+            f"missing={missing}, foreign={foreign}"
+        )
     return {"path": str(path), "sha256": observed, "raw_velocity_hashes": normalized}
 
 
@@ -1341,7 +1494,7 @@ def _base_hash_reproduction(
 
 
 def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
-    _require_token(args)
+    evaluation_provenance = _require_evaluation_provenance(args)
     project_repo = _resolve_non_symlink(args.project_repo, "Stage28 project checkout")
     project_head = _git_head(project_repo)
     if args.expected_project_sha and project_head != args.expected_project_sha:
@@ -1357,7 +1510,11 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
     )
     if execution_manifest.get("schema") != STAGE28_SCHEMA or execution_manifest.get("status") != "PASS":
         raise Stage28Error("Stage28 training execution is not a PASS")
-    training_artifacts = _verify_final_checkpoint_artifacts(output_root)
+    training_artifacts = _verify_final_checkpoint_artifacts(
+        output_root,
+        expected_checkpoint_tree_sha256=args.expected_h2_checkpoint_tree_sha256,
+        expected_seal_sha256=args.expected_h2_checkpoint_seal_sha256,
+    )
     base_identity = _verify_base_checkpoint(args.base_model_path)
     dataset_identity = _verify_tiny_dataset(args.dataset_dir)
     modality_sha = _verify_modality(args.modality_config)
@@ -1440,6 +1597,13 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         "scientific_interpretation": "DEFERRED_TO_GPT_PI",
         "identity": {
             "stage28_git_sha": project_head,
+            "evaluation_provenance": evaluation_provenance,
+            "historical_training_provenance": {
+                "job": "600695.hopper-m-02",
+                "git_sha": EXPECTED_H2_TRAINING_SOURCE_SHA,
+                "runner_sha256": EXPECTED_H2_TRAINING_RUNNER_SHA256,
+                "retrained": False,
+            },
             "base": base_identity,
             "h2_training_artifacts": training_artifacts,
             "dataset": dataset_identity,
@@ -1458,7 +1622,9 @@ def evaluate_fixed_probes(args: argparse.Namespace) -> dict[str, Any]:
         "base_hash_reproduction": _base_hash_reproduction(base_records, baseline),
         "raw_velocity_hashes": raw_hashes,
         "execution": {
-            "training_run_count": 1,
+            "evaluation_only": True,
+            "training_run_count": 0,
+            "historical_training_run_count": 1,
             "flow_evaluation_count": len(records),
             "maximum_flow_evaluation_count": EXPECTED_MAX_FLOW_EVALUATIONS,
             "complete_model_forward_called": False,
@@ -1531,6 +1697,12 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-root", type=Path, default=Path("/tmp/stage28_h2"))
     parser.add_argument("--authorization-token", default=None)
     parser.add_argument("--device", default=None)
+    parser.add_argument("--expected-h2-checkpoint-tree-sha256", default=None)
+    parser.add_argument("--expected-h2-checkpoint-seal-sha256", default=None)
+    parser.add_argument("--training-source-sha", default=None)
+    parser.add_argument("--training-runner-sha256", default=None)
+    parser.add_argument("--expected-evaluation-runner-sha256", default=None)
+    parser.add_argument("--evaluation-launcher-sha256", default=None)
     parser.add_argument("--training-output-dir", type=Path, default=None)
     return parser
 
