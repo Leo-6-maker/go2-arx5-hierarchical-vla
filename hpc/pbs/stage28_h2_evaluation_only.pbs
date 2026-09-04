@@ -67,7 +67,8 @@ test ! -e "${RUN_ROOT}" || {
 mkdir "${RUN_ROOT}"
 mkdir -p "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache/huggingface" \
   "${RUN_ROOT}/runtime/cache/torch" "${RUN_ROOT}/runtime/cache/triton" \
-  "${RUN_ROOT}/runtime/cache/torch_extensions"
+  "${RUN_ROOT}/runtime/cache/torch_extensions" \
+  "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
 
 export TMPDIR="${RUN_ROOT}/runtime/tmp"
 export TMP="${TMPDIR}"
@@ -75,6 +76,8 @@ export TEMP="${TMPDIR}"
 export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
 export TORCH_HOME="${RUN_ROOT}/runtime/cache/torch"
 export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache"
+export XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config"
+export XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
 export TRITON_CACHE_DIR="${RUN_ROOT}/runtime/cache/triton"
 export TORCH_EXTENSIONS_DIR="${RUN_ROOT}/runtime/cache/torch_extensions"
 export PYTHONNOUSERSITE=1
@@ -118,7 +121,8 @@ run_container() {
     HF_HOME="${HF_HOME}" HF_HUB_CACHE="${HF_HOME}/hub" \
     HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
     GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1 \
-    XDG_CACHE_HOME="${XDG_CACHE_HOME}" TORCH_HOME="${TORCH_HOME}" \
+    XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" \
+    XDG_DATA_HOME="${XDG_DATA_HOME}" TORCH_HOME="${TORCH_HOME}" \
     TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" \
     TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" \
     TMPDIR="${TMPDIR}" PYTHONNOUSERSITE=1 \
