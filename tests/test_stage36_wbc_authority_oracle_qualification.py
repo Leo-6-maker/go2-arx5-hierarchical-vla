@@ -79,6 +79,13 @@ def test_pbs_binds_an_explicit_container_runtime_path() -> None:
     assert '"${APPTAINER_BIN}" exec --nv --cleanenv' in source
 
 
+def test_pbs_binds_exact_authority_root_and_preserves_job_id() -> None:
+    source = (REPO / "hpc/pbs/stage36_wbc_oracle_qualification.pbs").read_text()
+    assert '"${STAGE36_AUTHORITY_EXTRACTED_ROOT}:${CONTAINER_AUTHORITY}:ro"' in source
+    assert 'PBS_JOBID="${PBS_JOBID}"' in source
+    assert '"${AUTHORITY_PARENT}:${CONTAINER_AUTHORITY}:ro"' not in source
+
+
 def test_campaign_accepts_only_fresh_wrapper_scaffold(tmp_path: Path) -> None:
     from scripts import stage36_wbc_oracle_campaign as campaign
 
