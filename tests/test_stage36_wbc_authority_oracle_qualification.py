@@ -101,6 +101,21 @@ def test_campaign_accepts_only_fresh_wrapper_scaffold(tmp_path: Path) -> None:
         campaign.ensure_output_root_scaffold(output_root)
 
 
+def test_campaign_return_does_not_claim_model_before_runtime_qualification() -> None:
+    from scripts import stage36_wbc_oracle_campaign as campaign
+
+    result = {"runtime_qualification": None, "scientific_execution_begun": False}
+    payload = campaign.make_return(
+        Path("/scratch/stage36-test-output"),
+        result,
+        Path("/scratch/stage36-test-output/stage36_artifact_seal.json"),
+        None,
+        "BLOCKED",
+    )
+    assert payload["MODEL_CONSTRUCTED"] is False
+    assert payload["GR00T_MODEL_CONSTRUCTED"] is False
+
+
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
         "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",

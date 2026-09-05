@@ -787,6 +787,22 @@ def make_return(
     status: str,
     error: Optional[Mapping[str, Any]] = None,
 ) -> Dict[str, Any]:
+    runtime_result = result.get("runtime_qualification")
+    environment_construction = (
+        runtime_result.get("environment_construction")
+        if isinstance(runtime_result, Mapping)
+        else None
+    )
+    wbc_model_constructed = bool(
+        isinstance(runtime_result, Mapping)
+        and (
+            bool(runtime_result.get("policy_load"))
+            or (
+                isinstance(environment_construction, Mapping)
+                and bool(environment_construction.get("attempted"))
+            )
+        )
+    )
     return {
         "ROLE": "CODEX_HOPPER_SERVER_LONG_HORIZON",
         "ACTIVE_PI_GATE": PI_GATE_ID,
@@ -810,7 +826,7 @@ def make_return(
         },
         "PBS_SUBMITTED": True,
         "GPU_USED": True,
-        "MODEL_CONSTRUCTED": True,
+        "MODEL_CONSTRUCTED": wbc_model_constructed,
         "FORWARD": bool(result.get("scientific_execution_begun", False)),
         "TRAINING": False,
         "GR00T_MODEL_CONSTRUCTED": False,
