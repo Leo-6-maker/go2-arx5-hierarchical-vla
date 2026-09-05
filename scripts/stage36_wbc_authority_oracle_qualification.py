@@ -66,6 +66,7 @@ STAGE35_ROOT = Path(
     "/scratch/e1192548/leon-storage/runs/"
     "stage35_motion_api_authority_closure_20260905/stage35_cpu_20260905_v2"
 )
+STAGE35_COMMITTED_PROTOCOL_PATH = REPO / "manifests/STAGE35_ORACLE_CORPUS_V1.json"
 STAGE35_CORPUS_TREE_SHA256 = (
     "b98960f9dc4bfd04b5a0de0f693ddea4f50c8849ef80da83428280c1e2e42414"
 )
@@ -319,8 +320,8 @@ def archive_intake(archive_path: Path, extracted_root: Path, output_root: Path) 
     result["extracted_directory_count"] = len(extracted_dirs)
 
     extracted_records: List[str] = []
-    for rel in sorted(extracted_files):
-        path = extracted_files[rel]
+    for path in sorted(extracted_files.values()):
+        rel = path.relative_to(extracted_root).as_posix()
         extracted_records.append(
             "%s\t%d\t%s\n" % (rel, path.stat().st_size, sha256_file(path))
         )
@@ -670,16 +671,19 @@ def canonical_stage35_tree(manifest: Mapping[str, Any]) -> str:
 
 def validate_stage35_corpus(output_root: Path) -> Dict[str, Any]:
     manifest_path = STAGE35_ROOT / "stage35_oracle_corpus_manifest.json"
-    protocol_path = STAGE35_ROOT / "stage35_oracle_corpus_protocol.json"
+    generated_protocol_path = STAGE35_ROOT / "stage35_oracle_corpus_protocol.json"
+    protocol_path = STAGE35_COMMITTED_PROTOCOL_PATH
     seal_path = STAGE35_ROOT / "stage35_artifact_seal.json"
     result: Dict[str, Any] = {
         "schema": "STAGE36_STAGE35_CORPUS_INPUT_AUDIT_V2",
         "input_root": str(STAGE35_ROOT),
         "manifest_path": str(manifest_path),
         "protocol_path": str(protocol_path),
+        "generated_protocol_path": str(generated_protocol_path),
         "seal_path": str(seal_path),
         "manifest_sha256": sha256_file(manifest_path) if manifest_path.is_file() else None,
         "protocol_sha256": sha256_file(protocol_path) if protocol_path.is_file() else None,
+        "generated_protocol_sha256": sha256_file(generated_protocol_path) if generated_protocol_path.is_file() else None,
         "seal_sha256": sha256_file(seal_path) if seal_path.is_file() else None,
         "manifest_hash_match": False,
         "protocol_hash_match": False,
