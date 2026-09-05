@@ -4,6 +4,7 @@
 # checks in the same allocation.  A scientific-call failure preserves partial
 # evidence and exits; this wrapper never submits a replacement job.
 #PBS -N st33_bottleneck
+#PBS -q auto
 #PBS -P CFP03-CF-004
 #PBS -l select=1:ncpus=12:ngpus=1
 #PBS -l walltime=12:00:00
