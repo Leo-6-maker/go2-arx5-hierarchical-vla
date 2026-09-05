@@ -183,6 +183,18 @@ def test_resume_projection_ignores_allocation_identity_but_keeps_science() -> No
         "execution_head": "old-head",
         "native_runner_sha256": "old-runner",
         "authority_manifest_path": "/old/manifest.json",
+        "authority_manifest_sha256": "old-manifest",
+        "authority_runtime_contract_sha256": "old-runtime-contract",
+        "authority_tree_manifest_sha256": "old-tree",
+        "rows": [
+            {
+                "row_id": "dense_N01_seed13_primary",
+                "metadata_path": "/old/campaign_inputs/N01.json",
+                "trajectory_path": "/old/campaign_inputs/N01.npz",
+                "trajectory_sha256": "a" * 64,
+                "metadata_sha256": "b" * 64,
+            }
+        ],
         "row_count": 32,
         "native_transport": {"sample_count": 121},
     }
@@ -193,10 +205,54 @@ def test_resume_projection_ignores_allocation_identity_but_keeps_science() -> No
             "execution_head": "new-head",
             "native_runner_sha256": "new-runner",
             "authority_manifest_path": "/new/manifest.json",
+            "authority_manifest_sha256": "new-manifest",
+            "authority_runtime_contract_sha256": "new-runtime-contract",
+            "authority_tree_manifest_sha256": "new-tree",
+            "rows": [
+                {
+                    "row_id": "dense_N01_seed13_primary",
+                    "metadata_path": "/new/campaign_inputs/N01.json",
+                    "trajectory_path": "/new/campaign_inputs/N01.npz",
+                    "trajectory_sha256": "a" * 64,
+                    "metadata_sha256": "b" * 64,
+                }
+            ],
         }
     )
 
     assert campaign.resume_plan_fingerprint(first) == campaign.resume_plan_fingerprint(second)
+
+
+def test_resume_row_match_ignores_staging_paths_but_rejects_hash_drift() -> None:
+    from scripts import stage36_wbc_oracle_campaign as campaign
+
+    plan_row = {
+        "row_id": "dense_N01_seed13_primary",
+        "case_id": "N01",
+        "family": "N",
+        "representation": "DENSE",
+        "geometry_k": None,
+        "timing_mode": None,
+        "phase": "PRIMARY",
+        "seed": 13,
+        "reference_mode": "BENCHMARK_CONTINUOUS",
+        "seconds": 2.0,
+        "metadata_path": "/new/campaign_inputs/N01.json",
+        "metadata_sha256": "b" * 64,
+        "trajectory_path": "/new/campaign_inputs/N01.npz",
+        "trajectory_sha256": "a" * 64,
+    }
+    old_row = dict(plan_row)
+    old_row.update(
+        {
+            "metadata_path": "/old/campaign_inputs/N01.json",
+            "trajectory_path": "/old/campaign_inputs/N01.npz",
+            "trajectory_sha256_planned": "a" * 64,
+        }
+    )
+    assert campaign._resume_row_matches_plan(old_row, plan_row)
+    old_row["trajectory_sha256_planned"] = "c" * 64
+    assert not campaign._resume_row_matches_plan(old_row, plan_row)
 
 
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:

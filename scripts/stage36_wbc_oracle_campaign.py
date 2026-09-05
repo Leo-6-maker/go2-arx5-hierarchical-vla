@@ -692,8 +692,17 @@ RESUME_PLAN_IGNORED_KEYS = {
     "pbs_wrapper_path",
     "pbs_wrapper_sha256",
     "authority_manifest_path",
+    "authority_manifest_sha256",
     "authority_runtime_contract_path",
+    "authority_runtime_contract_sha256",
     "authority_tree_manifest_path",
+    "authority_tree_manifest_sha256",
+    # CPU admissions materialize identical inputs under a fresh, allocation-
+    # local campaign_inputs directory.  The content hashes remain part of the
+    # science plan and are validated by validate_plan; absolute staging paths
+    # are transport/allocation identity, not scientific identity.
+    "metadata_path",
+    "trajectory_path",
 }
 
 
@@ -732,14 +741,24 @@ def _resume_row_matches_plan(
         "seed",
         "reference_mode",
         "seconds",
-        "trajectory_path",
-        "trajectory_sha256",
     )
     # Older campaign result rows did not repeat every immutable plan field
     # (notably ``seconds`` and the input hash).  The prior plan snapshot is
     # fingerprinted separately, so compare fields that the row actually
     # records and enrich the carried row from the current identical plan.
-    return all(field not in row or row.get(field) == plan_row.get(field) for field in fields)
+    if not all(field not in row or row.get(field) == plan_row.get(field) for field in fields):
+        return False
+    # Paths are deliberately allocation-local, but a carried row may still
+    # expose the old plan's content hashes under either historical key name.
+    # Reject any content-hash drift before accepting the immutable row.
+    for row_key, plan_key in (
+        ("trajectory_sha256", "trajectory_sha256"),
+        ("trajectory_sha256_planned", "trajectory_sha256"),
+        ("metadata_sha256", "metadata_sha256"),
+    ):
+        if row_key in row and row.get(row_key) != plan_row.get(plan_key):
+            return False
+    return True
 
 
 def load_resume_rows(
