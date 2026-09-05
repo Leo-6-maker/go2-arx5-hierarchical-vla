@@ -1,5 +1,6 @@
 from .placement import PLACEMENT_INTENTS, PlacementProfileV1
 from .reference_binding import EpisodeReferenceBindingV1
+from .motion_intent import MotionIntentV2
 from .trajectory import GripperCommandV1, TrajectoryChunkV1, WBCPreviewV1
 from .trajectory_shape import TrajectoryShapeV1
 
@@ -11,4 +12,5 @@ __all__ = [
     "PlacementProfileV1",
     "PLACEMENT_INTENTS",
     "EpisodeReferenceBindingV1",
+    "MotionIntentV2",
 ]
