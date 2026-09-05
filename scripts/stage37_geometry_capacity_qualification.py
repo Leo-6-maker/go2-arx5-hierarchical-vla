@@ -1006,6 +1006,13 @@ def make_campaign_plan(
             "hardware": False,
         },
         "source_identity": source_identity(),
+        "native_runner_path": str(REPO / "scripts/native_wbc_benchmark.py"),
+        "native_runner_sha256": source_identity()["evaluation_runner"]["sha256"],
+        "pbs_wrapper_path": str(REPO / "hpc/pbs/stage37_structured_wbc.pbs"),
+        "pbs_wrapper_sha256": source_identity()["pbs_wrapper"]["sha256"],
+        "authority_component_hashes": dict(
+            getattr(STAGE36, "AUTHORITY_EXPECTED", {})
+        ),
         "stage36_r_input_root": str(STAGE36_R_ROOT),
         "stage36_r_result_sha256": STAGE36_R_RESULT_SHA256,
         "stage36_r_seal_sha256": STAGE36_R_SEAL_SHA256,
