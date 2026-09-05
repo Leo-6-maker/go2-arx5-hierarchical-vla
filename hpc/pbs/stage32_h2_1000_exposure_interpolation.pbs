@@ -38,7 +38,9 @@ export XDG_CACHE_HOME="$RUN_ROOT/runtime/cache" XDG_CONFIG_HOME="$RUN_ROOT/runti
 export TRITON_CACHE_DIR="$RUN_ROOT/runtime/cache/triton" TORCH_EXTENSIONS_DIR="$RUN_ROOT/runtime/cache/torch_extensions"
 export PYTHONNOUSERSITE=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 mkdir -p "$HF_HOME/hub" "$TORCH_HOME" "$TRITON_CACHE_DIR" "$TORCH_EXTENSIONS_DIR"
-ln -s "$STAGE32_COSMOS_SNAPSHOT" "$HF_HOME/hub/models--nvidia--Cosmos-Reason2-2B"
+COSMOS_CACHE_ROOT="$(dirname "$(dirname "$STAGE32_COSMOS_SNAPSHOT")")"
+test -d "$COSMOS_CACHE_ROOT"
+ln -s "$COSMOS_CACHE_ROOT" "$HF_HOME/hub/models--nvidia--Cosmos-Reason2-2B"
 . /etc/profile.d/modules.sh 2>/dev/null || true
 module load singularity
 IMAGE=/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif
