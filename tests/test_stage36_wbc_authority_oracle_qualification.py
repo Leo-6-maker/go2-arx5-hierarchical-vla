@@ -122,6 +122,83 @@ def test_campaign_return_does_not_claim_model_before_runtime_qualification() -> 
     assert payload["GR00T_MODEL_CONSTRUCTED"] is False
 
 
+def test_complete_native_output_with_teardown_signal_is_immutable_result(tmp_path: Path) -> None:
+    from scripts import stage36_wbc_oracle_campaign as campaign
+
+    output_dir = tmp_path / "row"
+    output_dir.mkdir()
+    summary = {
+        "status": "NATIVE_BENCHMARK_CONTINUOUS_PASS",
+        "termination": "REFERENCE_COMPLETE",
+        "steps": 1,
+        "reference_completed": True,
+        "error": None,
+        "metrics": {"position_m": {"rmse": 0.0}},
+    }
+    raw_row = {
+        "step": 0,
+        "termination_code": "REFERENCE_COMPLETE",
+        "reference_complete": True,
+        "fall_flag": False,
+        "invalid_state": False,
+        "joint_limit_violation": True,
+        "joint_limit_termination": False,
+        "base_pos": [0.0, 0.0, 0.0],
+    }
+    (output_dir / "native_external_summary.json").write_text(
+        __import__("json").dumps(summary) + "\n"
+    )
+    (output_dir / "native_external_rows.jsonl").write_text(
+        __import__("json").dumps(raw_row) + "\n"
+    )
+    plan_row = {
+        "row_id": "dense_N01_seed13_primary",
+        "case_id": "N01",
+        "family": "N",
+        "representation": "DENSE",
+        "geometry_k": None,
+        "timing_mode": None,
+        "phase": "PRIMARY",
+        "seed": 13,
+        "reference_mode": "BENCHMARK_CONTINUOUS",
+        "seconds": 2.0,
+        "trajectory_path": "/scratch/input.npz",
+        "trajectory_sha256": "a" * 64,
+    }
+
+    row = campaign.row_result(plan_row, output_dir, -11, False)
+
+    assert row["scientific_row_finalized"] is True
+    assert row["post_run_completion_signal"] is True
+    assert row["runner_pass"] is True
+    assert row["tracking_pass"] is False
+    assert row["safety_gate"]["safety_violation"] is True
+
+
+def test_resume_projection_ignores_allocation_identity_but_keeps_science() -> None:
+    from scripts import stage36_wbc_oracle_campaign as campaign
+
+    first = {
+        "timestamp_utc": "old",
+        "execution_head": "old-head",
+        "native_runner_sha256": "old-runner",
+        "authority_manifest_path": "/old/manifest.json",
+        "row_count": 32,
+        "native_transport": {"sample_count": 121},
+    }
+    second = dict(first)
+    second.update(
+        {
+            "timestamp_utc": "new",
+            "execution_head": "new-head",
+            "native_runner_sha256": "new-runner",
+            "authority_manifest_path": "/new/manifest.json",
+        }
+    )
+
+    assert campaign.resume_plan_fingerprint(first) == campaign.resume_plan_fingerprint(second)
+
+
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
         "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",

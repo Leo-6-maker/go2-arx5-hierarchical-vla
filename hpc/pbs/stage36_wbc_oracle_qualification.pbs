@@ -71,7 +71,11 @@ export PYTHONNOUSERSITE=1
 export PYTHONDONTWRITEBYTECODE=1
 export CUDA_VISIBLE_DEVICES=0
 export PATH="$(dirname "${STAGE36_RUNTIME_NINJA}"):${PATH}"
-export LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6
+# Do not inject a host absolute preload path into the container.  The prior
+# path was absent in the image, was ignored by ld.so, and only added noisy
+# diagnostics; the accepted runtime is provided through the explicit library
+# path below.
+unset LD_PRELOAD
 export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${STAGE36_RUNTIME_SITE}/torch/lib:${LD_LIBRARY_PATH:-}"
 
 IMAGE="${STAGE36_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
@@ -83,6 +87,18 @@ if ! test -x "${APPTAINER_BIN}"; then
 fi
 test -n "${APPTAINER_BIN}"
 test -x "${APPTAINER_BIN}"
+
+RESUME_ARGS=()
+if test -n "${STAGE36_RESUME_ROOT:-}"; then
+  test -d "${STAGE36_RESUME_ROOT}"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_result.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_result_manifest.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_raw_hash_manifest.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_artifact_seal.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_return.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_campaign_plan_snapshot.json"
+  RESUME_ARGS=(--resume-root "${STAGE36_RESUME_ROOT}")
+fi
 
 CONTAINER_AUTHORITY="/authority"
 CONTAINER_SOURCE="${CONTAINER_AUTHORITY}/WBCTrackingShare"
@@ -112,7 +128,6 @@ set +e
   TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" \
   PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES=0 \
   PATH="/usr/local/nvidia/bin:${CONTAINER_NINJA%/ninja}:${PATH}" \
-  LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6 \
   LD_LIBRARY_PATH="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
   PYTHONPATH="${STAGE36_REPO}:${STAGE36_REPO}/src:${CONTAINER_SOURCE}:${CONTAINER_SITE}" \
   "${STAGE36_RUNTIME_PYTHON:-/opt/miniconda3/envs/isaacgym/bin/python}" -B \
@@ -122,7 +137,8 @@ set +e
   --source-root "${CONTAINER_SOURCE}" \
   --arm "${CONTAINER_AUTHORITY}/${STAGE36_ARM_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt}" \
   --dog "${CONTAINER_AUTHORITY}/${STAGE36_DOG_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt}" \
-  --native-runner "${STAGE36_REPO}/scripts/native_wbc_benchmark.py"
+  --native-runner "${STAGE36_REPO}/scripts/native_wbc_benchmark.py" \
+  "${RESUME_ARGS[@]}"
 RC=$?
 set -e
 

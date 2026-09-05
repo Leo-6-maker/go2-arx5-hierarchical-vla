@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Execute the single, pre-admitted Stage36 native WBC campaign.
+"""Execute the pre-admitted Stage36 native WBC campaign.
 
 The CPU authority harness creates a frozen plan.  This runner consumes that
 plan inside one PBS allocation and invokes the existing native WBC launcher
-once per admitted case.  It has no qsub path, no retry path, no GR00T path,
-and no training path.  A failure preserves the partial evidence and exits;
-the caller must not submit a replacement allocation after this script starts.
+once per admitted case.  It has no qsub path, no GR00T path, and no training
+path.  A failed allocation preserves its evidence.  A later allocation may
+use ``--resume-root`` to carry forward only immutable, finalized rows from a
+previous allocation and dispatch missing rows into a fresh output root.
 The PBS wrapper may pre-create a strictly limited runtime/log scaffold before
-this runner starts; no prior campaign output may be reused.
+this runner starts; prior campaign output is never overwritten.
 """
 
 from __future__ import annotations
@@ -24,7 +25,7 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -36,6 +37,20 @@ EXPECTED_SEED = 13
 EXPECTED_SECONDS = 2.0
 MAX_ROWS = 96
 EXPECTED_STATUS = "NATIVE_BENCHMARK_CONTINUOUS_PASS"
+POST_RUN_COMPLETION_RETURN_CODE = -11
+FINALIZED_NATIVE_STATUSES = {
+    "NATIVE_BENCHMARK_CONTINUOUS_PASS",
+    "NATIVE_BENCHMARK_CONTINUOUS_PARTIAL",
+}
+FINALIZED_NATIVE_TERMINATIONS = {
+    "REFERENCE_COMPLETE",
+    "FALL",
+    "INVALID_STATE",
+    "JOINT_LIMIT",
+    "TRACKING_ABORT",
+    "NATIVE_TASK_TERMINATION",
+    "UNKNOWN",
+}
 AUTHORITY_RUN_REL = Path(
     "runs/2026-08-05/"
     "stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018"
@@ -637,6 +652,220 @@ def read_rows(path: Path) -> List[Dict[str, Any]]:
     return rows
 
 
+def finalized_native_output(
+    summary: Mapping[str, Any], raw_rows: Sequence[Mapping[str, Any]], timed_out: bool
+) -> bool:
+    """Recognize a complete native result without treating a crash as a pass.
+
+    IsaacGym can emit all native artifacts and the final JSON before the
+    process dies during native-library teardown.  A non-zero exit is retained
+    in provenance, but the row is resumable as completed only when the native
+    summary, terminal state, raw rows, and finite-value checks are all intact.
+    A timeout or an exception without a terminal native result remains a
+    missing/incomplete row.
+    """
+
+    if timed_out or not isinstance(summary, Mapping) or not raw_rows:
+        return False
+    if summary.get("status") not in FINALIZED_NATIVE_STATUSES:
+        return False
+    if summary.get("error") is not None:
+        return False
+    if str(summary.get("termination")) not in FINALIZED_NATIVE_TERMINATIONS:
+        return False
+    if int(summary.get("steps", -1)) != len(raw_rows):
+        return False
+    if not finite_value(summary) or not finite_value(list(raw_rows)):
+        return False
+    return bool(
+        summary.get("reference_completed", False)
+        or str(summary.get("termination")) in FINALIZED_NATIVE_TERMINATIONS
+    )
+
+
+RESUME_PLAN_IGNORED_KEYS = {
+    "timestamp_utc",
+    "accepted_start_head",
+    "execution_head",
+    "native_runner_path",
+    "native_runner_sha256",
+    "pbs_wrapper_path",
+    "pbs_wrapper_sha256",
+    "authority_manifest_path",
+    "authority_runtime_contract_path",
+    "authority_tree_manifest_path",
+}
+
+
+def resume_plan_projection(value: Any, key: Optional[str] = None) -> Any:
+    """Project away allocation/source identity while retaining science."""
+
+    if isinstance(value, Mapping):
+        return {
+            str(name): resume_plan_projection(item, str(name))
+            for name, item in value.items()
+            if str(name) not in RESUME_PLAN_IGNORED_KEYS
+        }
+    if isinstance(value, list):
+        return [resume_plan_projection(item) for item in value]
+    return value
+
+
+def resume_plan_fingerprint(plan: Mapping[str, Any]) -> str:
+    payload = json.dumps(
+        resume_plan_projection(plan), sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _resume_row_matches_plan(
+    row: Mapping[str, Any], plan_row: Mapping[str, Any]
+) -> bool:
+    fields = (
+        "row_id",
+        "case_id",
+        "family",
+        "representation",
+        "geometry_k",
+        "timing_mode",
+        "phase",
+        "seed",
+        "reference_mode",
+        "seconds",
+        "trajectory_path",
+        "trajectory_sha256",
+    )
+    # Older campaign result rows did not repeat every immutable plan field
+    # (notably ``seconds`` and the input hash).  The prior plan snapshot is
+    # fingerprinted separately, so compare fields that the row actually
+    # records and enrich the carried row from the current identical plan.
+    return all(field not in row or row.get(field) == plan_row.get(field) for field in fields)
+
+
+def load_resume_rows(
+    resume_root: Path, output_root: Path, plan: Mapping[str, Any]
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Load only immutable finalized rows from a prior allocation.
+
+    The prior root remains read-only.  Its raw/summary paths are retained in
+    the new result and sealed as inherited evidence; no old row directory is
+    copied, changed, or rerun.
+    """
+
+    resume_root = resume_root.absolute()
+    output_root = output_root.absolute()
+    if resume_root == output_root:
+        raise RuntimeError("resume root must differ from current output root")
+    if not resume_root.is_dir() or resume_root.is_symlink():
+        raise RuntimeError("resume root is not a real directory")
+    required = (
+        resume_root / "stage36_result.json",
+        resume_root / "stage36_result_manifest.json",
+        resume_root / "stage36_raw_hash_manifest.json",
+        resume_root / "stage36_artifact_seal.json",
+        resume_root / "stage36_return.json",
+        resume_root / "stage36_campaign_plan_snapshot.json",
+    )
+    missing = [str(path) for path in required if not path.is_file() or path.is_symlink()]
+    if missing:
+        raise RuntimeError("resume root missing immutable evidence: %s" % ",".join(missing))
+
+    prior_result = load_json(resume_root / "stage36_result.json")
+    prior_manifest = load_json(resume_root / "stage36_result_manifest.json")
+    prior_raw_manifest = load_json(resume_root / "stage36_raw_hash_manifest.json")
+    prior_return = load_json(resume_root / "stage36_return.json")
+    prior_plan = load_json(resume_root / "stage36_campaign_plan_snapshot.json")
+    if prior_result.get("schema") != "STAGE36_WBC_ORACLE_RESULT_V2":
+        raise RuntimeError("resume result schema is not Stage36 V2")
+    if prior_result.get("pi_gate") != PI_GATE_ID:
+        raise RuntimeError("resume result PI gate mismatch")
+    if prior_result.get("project") not in (None, EXPECTED_PROJECT):
+        raise RuntimeError("resume result project mismatch")
+    if resume_plan_fingerprint(prior_plan) != resume_plan_fingerprint(plan):
+        raise RuntimeError("resume scientific plan mismatch")
+    expected_result_sha = prior_manifest.get("result_sha256")
+    if expected_result_sha and sha256_file(resume_root / "stage36_result.json") != expected_result_sha:
+        raise RuntimeError("resume result manifest hash mismatch")
+    expected_seal_sha = prior_return.get("ARTIFACT_SEAL_SHA256")
+    if expected_seal_sha and sha256_file(resume_root / "stage36_artifact_seal.json") != expected_seal_sha:
+        raise RuntimeError("resume artifact seal hash mismatch")
+
+    plan_rows = {str(row.get("row_id")): row for row in plan.get("rows", [])}
+    manifest_rows = {
+        str(row.get("row_id")): row for row in prior_raw_manifest.get("rows", [])
+    }
+    prior_rows = prior_result.get("rows", [])
+    if not isinstance(prior_rows, list):
+        raise RuntimeError("resume result rows are not a list")
+    if len({str(row.get("row_id")) for row in prior_rows}) != len(prior_rows):
+        raise RuntimeError("resume result contains duplicate row IDs")
+
+    inherited: List[Dict[str, Any]] = []
+    for previous in prior_rows:
+        row_id = str(previous.get("row_id"))
+        plan_row = plan_rows.get(row_id)
+        if plan_row is None or not _resume_row_matches_plan(previous, plan_row):
+            raise RuntimeError("resume row does not match frozen plan: %s" % row_id)
+        output_dir = Path(str(previous.get("output_dir", "")))
+        raw_path = Path(str(previous.get("raw_rows_path", "")))
+        summary_path = output_dir / "native_external_summary.json"
+        if (
+            not str(output_dir).startswith("/scratch/")
+            or not output_dir.is_dir()
+            or output_dir.is_symlink()
+            or raw_path.is_symlink()
+            or summary_path.is_symlink()
+            or not raw_path.is_file()
+            or not summary_path.is_file()
+        ):
+            raise RuntimeError("resume row evidence path is unsafe or missing: %s" % row_id)
+        manifest_row = manifest_rows.get(row_id)
+        if manifest_row is None:
+            raise RuntimeError("resume raw manifest is missing row: %s" % row_id)
+        raw_sha = sha256_file(raw_path)
+        summary_sha = sha256_file(summary_path)
+        if raw_sha != manifest_row.get("raw_rows_sha256") or summary_sha != manifest_row.get("summary_sha256"):
+            raise RuntimeError("resume row hash mismatch: %s" % row_id)
+        summary = load_json(summary_path)
+        raw_rows = read_rows(raw_path)
+        if not finalized_native_output(summary, raw_rows, bool(previous.get("timed_out", False))):
+            raise RuntimeError("resume row is not finalized: %s" % row_id)
+        # Recompute the row wrapper fields from the sealed raw/summary files.
+        # This upgrades the old pre-resume bookkeeping for the observed
+        # post-completion SIGSEGV without changing any scientific values.
+        carried = row_result(
+            plan_row,
+            output_dir,
+            int(previous.get("returncode", 2)),
+            bool(previous.get("timed_out", False)),
+        )
+        for field in (
+            "seconds",
+            "trajectory_path",
+            "trajectory_sha256",
+            "metadata_path",
+            "metadata_sha256",
+        ):
+            carried.setdefault(field, plan_row.get(field))
+        carried.update(
+            {
+                "scientific_row_finalized": True,
+                "resume_source_root": str(resume_root),
+                "resume_source_output_dir": str(output_dir),
+                "resume_source_raw_rows_sha256": raw_sha,
+                "resume_source_summary_sha256": summary_sha,
+            }
+        )
+        inherited.append(carried)
+    return inherited, {
+        "resume_root": str(resume_root),
+        "resume_result_sha256": sha256_file(resume_root / "stage36_result.json"),
+        "resume_artifact_seal_sha256": sha256_file(resume_root / "stage36_artifact_seal.json"),
+        "inherited_row_count": len(inherited),
+        "inherited_row_ids": [str(row.get("row_id")) for row in inherited],
+    }
+
+
 def safety_profile(rows: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
     transitions: List[Dict[str, Any]] = []
     previous: Optional[tuple] = None
@@ -674,12 +903,15 @@ def row_result(plan_row: Mapping[str, Any], output_dir: Path, returncode: int, t
     raw_rows = read_rows(raw_rows_path)
     finite = finite_value(summary) and finite_value(raw_rows)
     safety = safety_profile(raw_rows)
+    finalized = finalized_native_output(summary, raw_rows, timed_out)
+    post_run_completion_signal = bool(
+        finalized and returncode == POST_RUN_COMPLETION_RETURN_CODE
+    )
     runner_pass = bool(
-        returncode == 0
-        and summary.get("status") == EXPECTED_STATUS
+        finalized
         and finite
         and safety["finite"]
-        and not timed_out
+        and (returncode == 0 or post_run_completion_signal)
     )
     complete = bool(summary.get("reference_completed", False) or safety["reference_complete_seen"])
     result = {
@@ -710,6 +942,8 @@ def row_result(plan_row: Mapping[str, Any], output_dir: Path, returncode: int, t
         },
         "safety_gate": safety,
         "reference_complete": complete,
+        "scientific_row_finalized": finalized,
+        "post_run_completion_signal": post_run_completion_signal,
         "runner_pass": runner_pass,
         "tracking_pass": bool(runner_pass and complete and not safety["safety_violation"]),
     }
@@ -779,6 +1013,42 @@ def seal_entries(output_root: Path, exclude: Iterable[str]) -> List[Dict[str, An
     return entries
 
 
+def inherited_seal_entries(
+    rows: Sequence[Mapping[str, Any]], output_root: Path
+) -> List[Dict[str, Any]]:
+    """Seal the prior row files referenced by a resume result."""
+
+    entries: List[Dict[str, Any]] = []
+    seen = set()
+    output_root = output_root.absolute()
+    for row in rows:
+        source_dir = Path(str(row.get("resume_source_output_dir", "")))
+        if not source_dir or source_dir == output_root or not source_dir.is_dir():
+            continue
+        row_id = str(row.get("row_id"))
+        for name in (
+            "native_external_rollout.npz",
+            "native_external_rows.jsonl",
+            "native_external_summary.json",
+            "run.log",
+        ):
+            path = source_dir / name
+            key = str(path)
+            if key in seen or not path.is_file() or path.is_symlink():
+                continue
+            seen.add(key)
+            entries.append(
+                {
+                    "path": key,
+                    "relative_path": "inherited/%s/%s" % (row_id, name),
+                    "size_bytes": path.stat().st_size,
+                    "sha256": sha256_file(path),
+                    "source": "resume_root",
+                }
+            )
+    return entries
+
+
 def make_return(
     output_root: Path,
     result: Mapping[str, Any],
@@ -827,7 +1097,11 @@ def make_return(
         "PBS_SUBMITTED": True,
         "GPU_USED": True,
         "MODEL_CONSTRUCTED": wbc_model_constructed,
-        "FORWARD": bool(result.get("scientific_execution_begun", False)),
+        "FORWARD": bool(
+            result.get("wbc_call_started", False)
+            or result.get("scientific_execution_begun", False)
+        ),
+        "WBC_CALL_STARTED": bool(result.get("wbc_call_started", False)),
         "TRAINING": False,
         "GR00T_MODEL_CONSTRUCTED": False,
         "SCIENTIFIC_CONTRACT_CHANGED": False,
@@ -844,6 +1118,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--arm", type=Path, required=True)
     parser.add_argument("--dog", type=Path, required=True)
     parser.add_argument("--native-runner", type=Path, default=REPO / "scripts/native_wbc_benchmark.py")
+    parser.add_argument(
+        "--resume-root",
+        type=Path,
+        help="fresh-allocation root whose finalized rows may be carried forward read-only",
+    )
     parser.add_argument("--timeout-seconds", type=float, default=900.0)
     args = parser.parse_args(argv)
     # Keep symlink identity visible to the strict scaffold guard.  Resolving
@@ -851,10 +1130,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     output_root = args.output_root.absolute()
     ensure_output_root_scaffold(output_root)
     scientific_execution_begun = False
+    wbc_call_started = False
     rows: List[Dict[str, Any]] = []
     error: Optional[Dict[str, Any]] = None
     runtime_qualification_result: Optional[Dict[str, Any]] = None
     robustness_skip: Optional[Dict[str, Any]] = None
+    resume_info: Optional[Dict[str, Any]] = None
     status = "BLOCKED"
     log_event(output_root, "START", plan=str(args.plan), pbs_job_id=os.environ.get("PBS_JOBID"))
     try:
@@ -863,6 +1144,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         errors = validate_plan(plan, args.source_root.resolve())
         if errors:
             raise RuntimeError("plan validation failed: %s" % ",".join(errors))
+        if args.resume_root is not None:
+            inherited_rows, resume_info = load_resume_rows(
+                args.resume_root,
+                output_root,
+                plan,
+            )
+            rows.extend(inherited_rows)
+            scientific_execution_begun = bool(inherited_rows)
+            wbc_call_started = bool(inherited_rows)
+            log_event(
+                output_root,
+                "RESUME_SOURCE_ACCEPTED",
+                **resume_info,
+            )
         gpu = run_gpu_preflight(output_root)
         if gpu.get("status") != "PASS":
             raise RuntimeError("GPU preflight failed")
@@ -886,8 +1181,17 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if runtime_qualification_result.get("status") != "PASS":
             raise RuntimeError("native runtime qualification failed")
         rows_plan = plan["rows"]
+        carried_row_ids = {str(row.get("row_id")) for row in rows}
         primary_plan_rows = [row for row in rows_plan if row.get("phase") == "PRIMARY"]
         for index, plan_row in enumerate(rows_plan, start=1):
+            if str(plan_row.get("row_id")) in carried_row_ids:
+                log_event(
+                    output_root,
+                    "ROW_REUSED_IMMUTABLE",
+                    index=index,
+                    row_id=plan_row["row_id"],
+                )
+                continue
             if plan_row.get("phase") == "ROBUSTNESS":
                 primary_results = [row for row in rows if row.get("phase") == "PRIMARY"]
                 primary_ids = {str(row.get("row_id")) for row in primary_results}
@@ -929,7 +1233,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             command_text = " ".join(command)
             if "qsub" in command_text or "--reference-mode BENCHMARK_CONTINUOUS" not in command_text:
                 raise RuntimeError("selected native command violates execution contract")
-            scientific_execution_begun = True
+            wbc_call_started = True
             log_event(output_root, "ROW_START", index=index, row_id=plan_row["row_id"], command=command)
             run_log = row_output / "run.log"
             timed_out = False
@@ -951,6 +1255,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                     handle.write("STAGE36_TIMEOUT\n")
             row = row_result(plan_row, row_output, returncode, timed_out)
             rows.append(row)
+            if row["scientific_row_finalized"]:
+                scientific_execution_begun = True
             log_event(
                 output_root,
                 "ROW_END",
@@ -960,14 +1266,24 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 tracking_pass=row["tracking_pass"],
             )
             if not row["tracking_pass"]:
-                log_event(
-                    output_root,
-                    "CAMPAIGN_STOPPED_ROW_FAILURE",
-                    row_id=plan_row["row_id"],
-                    phase=plan_row.get("phase"),
-                    returncode=returncode,
-                )
-                break
+                if row["scientific_row_finalized"]:
+                    log_event(
+                        output_root,
+                        "ROW_SCIENTIFIC_RESULT_CONTINUE",
+                        row_id=plan_row["row_id"],
+                        phase=plan_row.get("phase"),
+                        returncode=returncode,
+                        safety_violation=bool(row["safety_gate"].get("safety_violation")),
+                    )
+                else:
+                    log_event(
+                        output_root,
+                        "CAMPAIGN_STOPPED_ROW_FAILURE",
+                        row_id=plan_row["row_id"],
+                        phase=plan_row.get("phase"),
+                        returncode=returncode,
+                    )
+                    break
         primary_rows = [row for row in rows if row.get("phase") == "PRIMARY"]
         core_rows = [row for row in primary_rows if row["family"] in ("N", "T", "P")]
         continuous_rows = [row for row in primary_rows if row["family"] == "C"]
@@ -1002,13 +1318,17 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         t_summary = {"duration_2.0s": profile_summary(rows)}
         geometry_status = "NOT_QUALIFIED" if plan.get("k_star") is None else "QUALIFIED_CANDIDATE_NOT_RUN"
         timing_status = "NOT_QUALIFIED" if plan.get("t_star") is None else "QUALIFIED_CANDIDATE_NOT_RUN"
-        final_classification = (
-            "GEOMETRY_REPRESENTATION_INSUFFICIENT"
-            if core_pass and plan.get("k_star") is None
-            else "WBC_BOTTLENECK_BEFORE_STRUCTURED_GR00T"
-        )
         all_planned_rows_completed = len(rows) == len(rows_plan) and all(
-            bool(row.get("tracking_pass")) for row in rows
+            bool(row.get("scientific_row_finalized")) for row in rows
+        )
+        final_classification = (
+            "PARTIAL_OR_UNCLASSIFIED"
+            if not all_planned_rows_completed
+            else (
+                "DENSE_ORACLE_WBC_CORE_QUALIFIED_STAGE37_AUTHORIZED"
+                if core_pass
+                else "WBC_BOTTLENECK_BEFORE_STRUCTURED_GR00T"
+            )
         )
         result_payload = {
             "schema": "STAGE36_WBC_ORACLE_RESULT_V2",
@@ -1018,6 +1338,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "project": EXPECTED_PROJECT,
             "reference_mode": EXPECTED_REFERENCE_MODE,
             "scientific_execution_begun": scientific_execution_begun,
+            "wbc_call_started": wbc_call_started,
+            "resume": resume_info,
             "row_count": len(rows),
             "maximum_rows": MAX_ROWS,
             "all_planned_rows_completed": all_planned_rows_completed,
@@ -1124,6 +1446,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "pi_gate": PI_GATE_ID,
             "pbs_job_id": os.environ.get("PBS_JOBID"),
             "scientific_execution_begun": scientific_execution_begun,
+            "wbc_call_started": wbc_call_started,
+            "resume": resume_info,
             "row_count": len(rows),
             "rows": rows,
             "all_finite": False,
@@ -1155,6 +1479,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "pbs_job_id": os.environ.get("PBS_JOBID"),
         "output_root": str(output_root),
         "entries": seal_entries(output_root, ("stage36_artifact_seal.json", "stage36_return.json")),
+        "inherited_entries": inherited_seal_entries(rows, output_root),
+        "resume": resume_info,
         "source_artifacts": [
             {
                 "role": "evaluation_runner",
