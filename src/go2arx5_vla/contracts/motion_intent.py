@@ -1,9 +1,9 @@
-"""Side-by-side experimental task-space motion contract for Stage34.
+"""Side-by-side experimental task-space motion contract for Stage35.
 
 ``MotionIntentV2`` is deliberately independent of the production/V1 action
-ABI.  It carries a compact, timestamped EEF trajectory plus an explicit
-normalized arc-fraction/time law.  The native WBC row-packed rot6d wire format
-is still produced only by the existing preview adapter.
+ABI.  It carries geometry control poses ``Gamma(u)`` and an independent
+monotonic timing law ``u(t)``.  The native WBC row-packed rot6d wire format is
+still produced only by the existing preview adapter.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from typing import Any, Mapping, Optional
 
 import numpy as np
 
-from ..trajectory.so3 import geodesic_angle, matrix_to_quat, quat_to_matrix
+from ..trajectory.so3 import geodesic_angle, matrix_to_quat, quat_slerp, quat_to_matrix
 from .trajectory import TrajectoryChunkV1
 
 
@@ -54,11 +54,14 @@ def _normalized_arc_fraction(
 class MotionIntentV2:
     """Experimental timestamped EEF motion intent.
 
-    The arrays in ``eef_position``/``eef_orientation`` are the delivered
-    control poses, not a model output tensor.  ``timing_arc_fraction`` and
-    ``timing_timestamps`` describe the monotonic progress law used to place
-    those poses in time.  A runtime-measured current EEF anchor is represented
-    by metadata and is never inferred from a VLA target here.
+    The arrays in ``eef_position``/``eef_orientation`` are geometry control
+    poses, not a model output tensor.  ``geometry_arc_fraction`` gives their
+    normalized ``u`` locations, while ``timing_arc_fraction`` and
+    ``timing_timestamps`` define the independent monotonic ``u(t)`` law.
+    Runtime materialization first evaluates ``u(t)`` and then evaluates the
+    geometry at that progress using linear XYZ and quaternion SLERP.  A
+    runtime-measured current EEF anchor is represented by metadata and is
+    never inferred from a VLA target here.
     """
 
     intent_id: str
@@ -73,6 +76,7 @@ class MotionIntentV2:
     timing_mode: str
     timing_arc_fraction: Optional[np.ndarray] = None
     timing_timestamps: Optional[np.ndarray] = None
+    geometry_arc_fraction: Optional[np.ndarray] = None
     gripper: Optional[np.ndarray] = None
     anchor_semantics: str = DEFAULT_MOTION_INTENT_V2_ANCHOR
     provenance: Mapping[str, Any] = field(default_factory=dict)
@@ -118,6 +122,23 @@ class MotionIntentV2:
             raise ValueError("eef_orientation contains a zero quaternion")
         ori = ori / norms[:, None]
 
+        geometry_arc = None if self.geometry_arc_fraction is None else np.asarray(
+            self.geometry_arc_fraction, dtype=np.float64
+        )
+        if geometry_arc is None:
+            geometry_arc = np.linspace(0.0, 1.0, ts.size, dtype=np.float64)
+        if geometry_arc.ndim != 1 or geometry_arc.size != ts.size:
+            raise ValueError("geometry_arc_fraction must be one-dimensional with one value per pose")
+        _finite("geometry_arc_fraction", geometry_arc)
+        if not np.isclose(geometry_arc[0], 0.0, rtol=0.0, atol=1e-10) or not np.isclose(
+            geometry_arc[-1], 1.0, rtol=0.0, atol=1e-10
+        ):
+            raise ValueError("geometry arc fraction must start at 0 and end at 1")
+        if np.any(np.diff(geometry_arc) <= 0.0) or np.any(geometry_arc < 0.0) or np.any(
+            geometry_arc > 1.0
+        ):
+            raise ValueError("geometry arc fraction must be strictly increasing in [0,1]")
+
         grip = None if self.gripper is None else np.asarray(self.gripper, dtype=np.float64)
         if grip is not None:
             if grip.shape not in {(ts.size,), (ts.size, 1)}:
@@ -157,6 +178,7 @@ class MotionIntentV2:
         object.__setattr__(self, "point_timestamps", ts)
         object.__setattr__(self, "eef_position", pos)
         object.__setattr__(self, "eef_orientation", ori)
+        object.__setattr__(self, "geometry_arc_fraction", geometry_arc)
         object.__setattr__(self, "timing_arc_fraction", arc)
         object.__setattr__(self, "timing_timestamps", law_ts)
         object.__setattr__(self, "gripper", grip)
@@ -177,8 +199,9 @@ class MotionIntentV2:
         timing_timestamps: Optional[np.ndarray] = None,
         provenance: Optional[Mapping[str, Any]] = None,
     ) -> "MotionIntentV2":
-        arc = (
-            _normalized_arc_fraction(chunk.eef_position, chunk.eef_orientation)
+        geometry_arc = _normalized_arc_fraction(chunk.eef_position, chunk.eef_orientation)
+        timing_arc = (
+            geometry_arc
             if timing_arc_fraction is None
             else np.asarray(timing_arc_fraction, dtype=np.float64)
         )
@@ -197,15 +220,142 @@ class MotionIntentV2:
             point_timestamps=np.asarray(chunk.point_timestamps, dtype=np.float64),
             eef_position=np.asarray(chunk.eef_position, dtype=np.float64),
             eef_orientation=np.asarray(chunk.eef_orientation, dtype=np.float64),
+            geometry_arc_fraction=geometry_arc,
             source_frame=chunk.source_frame,
             tcp_semantic_id=chunk.tcp_semantic_id,
             validity_start=float(chunk.validity_start),
             validity_end=float(chunk.validity_end),
             timing_mode=timing_mode,
-            timing_arc_fraction=arc,
+            timing_arc_fraction=timing_arc,
             timing_timestamps=law_ts,
             gripper=None if chunk.gripper is None else np.asarray(chunk.gripper, dtype=np.float64),
             anchor_semantics=DEFAULT_MOTION_INTENT_V2_ANCHOR,
+            provenance=metadata,
+        )
+
+    def progress_at(self, timestamps: Any) -> np.ndarray:
+        """Evaluate the monotonic timing law ``u(t)`` with endpoint clamping."""
+
+        query = np.asarray(timestamps, dtype=np.float64)
+        _finite("query timestamps", query)
+        progress = np.asarray(
+            np.interp(query, self.timing_timestamps, self.timing_arc_fraction),
+            dtype=np.float64,
+        )
+        progress = np.clip(progress, 0.0, 1.0)
+        if progress.ndim == 0:
+            if float(query) <= self.validity_start:
+                return np.asarray(0.0, dtype=np.float64)
+            if float(query) >= self.validity_end:
+                return np.asarray(1.0, dtype=np.float64)
+            return progress
+        progress = progress.copy()
+        progress[query <= self.validity_start] = 0.0
+        progress[query >= self.validity_end] = 1.0
+        return progress
+
+    def pose_at_progress(self, progress: Any) -> tuple[np.ndarray, np.ndarray]:
+        """Evaluate geometry ``Gamma(u)`` by XYZ interpolation and quaternion SLERP."""
+
+        query = np.asarray(progress, dtype=np.float64)
+        _finite("geometry progress", query)
+        clipped = np.clip(query, 0.0, 1.0)
+        flat = clipped.reshape(-1)
+        indices = np.searchsorted(self.geometry_arc_fraction, flat, side="right") - 1
+        indices = np.clip(indices, 0, self.point_count - 2)
+        left = self.geometry_arc_fraction[indices]
+        right = self.geometry_arc_fraction[indices + 1]
+        alpha = (flat - left) / np.maximum(right - left, 1e-15)
+        positions = (1.0 - alpha[:, None]) * self.eef_position[indices] + alpha[:, None] * self.eef_position[
+            indices + 1
+        ]
+        orientations = quat_slerp(
+            self.eef_orientation[indices], self.eef_orientation[indices + 1], alpha
+        )
+        start = flat <= 0.0
+        end = flat >= 1.0
+        if np.any(start):
+            positions[start] = self.eef_position[0]
+            orientations[start] = self.eef_orientation[0]
+        if np.any(end):
+            positions[end] = self.eef_position[-1]
+            orientations[end] = self.eef_orientation[-1]
+        output_shape = query.shape
+        if query.ndim == 0:
+            return positions[0], orientations[0]
+        return positions.reshape(output_shape + (3,)), orientations.reshape(output_shape + (4,))
+
+    def gripper_at(self, timestamps: Any) -> Optional[np.ndarray]:
+        """Evaluate the separate gripper channel at runtime timestamps."""
+
+        if self.gripper is None:
+            return None
+        query = np.asarray(timestamps, dtype=np.float64)
+        _finite("query timestamps", query)
+        source = self.gripper.reshape(self.point_count, -1)
+        if source.shape[1] != 1:
+            raise ValueError("MotionIntentV2 expects one scalar gripper channel")
+        value = np.interp(query, self.point_timestamps, source[:, 0])
+        if self.gripper.ndim == 1:
+            return np.asarray(value, dtype=np.float64)
+        return np.asarray(value, dtype=np.float64)[..., None]
+
+    def materialize_at(
+        self, timestamp: float
+    ) -> tuple[float, np.ndarray, np.ndarray, Optional[float]]:
+        """Materialize one runtime sample as ``u(t)`` then ``Gamma(u)``."""
+
+        timestamp_value = float(timestamp)
+        if not np.isfinite(timestamp_value):
+            raise ValueError("timestamp must be finite")
+        progress = float(self.progress_at(timestamp_value))
+        position, orientation = self.pose_at_progress(progress)
+        gripper = self.gripper_at(timestamp_value)
+        gripper_value = None if gripper is None else float(np.asarray(gripper).reshape(-1)[0])
+        return progress, position, orientation, gripper_value
+
+    def materialize_trajectory(self, query_timestamps: Any = None) -> TrajectoryChunkV1:
+        """Materialize a V1 chunk through the independent V2 geometry/timing laws."""
+
+        timestamps = self.point_timestamps.copy() if query_timestamps is None else np.asarray(
+            query_timestamps, dtype=np.float64
+        )
+        if timestamps.ndim != 1 or timestamps.size < 2:
+            raise ValueError("query_timestamps must be a one-dimensional array with at least two points")
+        _finite("query_timestamps", timestamps)
+        if np.any(np.diff(timestamps) <= 0.0):
+            raise ValueError("query_timestamps must be strictly increasing")
+        if not np.isclose(timestamps[0], self.validity_start, rtol=0.0, atol=1e-10) or not np.isclose(
+            timestamps[-1], self.validity_end, rtol=0.0, atol=1e-10
+        ):
+            raise ValueError("query_timestamps must span the validity interval exactly")
+        progress = self.progress_at(timestamps)
+        positions, orientations = self.pose_at_progress(progress)
+        gripper = self.gripper_at(timestamps)
+        metadata = dict(self.provenance)
+        metadata.update(
+            {
+                "contract": "MotionIntentV2",
+                "intent_id": self.intent_id,
+                "timing_mode": self.timing_mode,
+                "anchor_semantics": self.anchor_semantics,
+                "materialization": "u(t)_then_Gamma(u)",
+                "geometry_interpolation": "LINEAR_XYZ_QUATERNION_SLERP",
+                "timing_interpolation": "MONOTONIC_PIECEWISE_LINEAR",
+            }
+        )
+        return TrajectoryChunkV1(
+            chunk_id=self.intent_id,
+            source="MotionIntentV2",
+            observation_timestamp=self.observation_timestamp,
+            point_timestamps=timestamps.copy(),
+            eef_position=positions,
+            eef_orientation=orientations,
+            source_frame=self.source_frame,
+            tcp_semantic_id=self.tcp_semantic_id,
+            validity_start=self.validity_start,
+            validity_end=self.validity_end,
+            gripper=None if gripper is None else gripper.copy(),
             provenance=metadata,
         )
 
@@ -214,8 +364,9 @@ class MotionIntentV2:
         *,
         expected_source_frame: Optional[str] = None,
         expected_tcp_semantic_id: Optional[str] = None,
+        query_timestamps: Any = None,
     ) -> TrajectoryChunkV1:
-        """Materialize a V1-compatible timestamped chunk with fail-closed guards."""
+        """Materialize a V1-compatible chunk with fail-closed identity guards."""
 
         if expected_source_frame is not None and self.source_frame != expected_source_frame:
             raise ValueError(
@@ -226,28 +377,8 @@ class MotionIntentV2:
                 "tcp_semantic_id mismatch: expected "
                 f"{expected_tcp_semantic_id}, got {self.tcp_semantic_id}"
             )
-        metadata = dict(self.provenance)
-        metadata.update(
-            {
-                "contract": "MotionIntentV2",
-                "intent_id": self.intent_id,
-                "timing_mode": self.timing_mode,
-                "anchor_semantics": self.anchor_semantics,
-            }
-        )
-        return TrajectoryChunkV1(
-            chunk_id=self.intent_id,
-            source="MotionIntentV2",
-            observation_timestamp=self.observation_timestamp,
-            point_timestamps=self.point_timestamps.copy(),
-            eef_position=self.eef_position.copy(),
-            eef_orientation=self.eef_orientation.copy(),
-            source_frame=self.source_frame,
-            tcp_semantic_id=self.tcp_semantic_id,
-            validity_start=self.validity_start,
-            validity_end=self.validity_end,
-            gripper=None if self.gripper is None else self.gripper.copy(),
-            provenance=metadata,
+        return self.materialize_trajectory(
+            query_timestamps=self.point_timestamps if query_timestamps is None else query_timestamps
         )
 
     def as_dict(self) -> dict[str, Any]:
@@ -260,6 +391,7 @@ class MotionIntentV2:
             "point_timestamps": self.point_timestamps.tolist(),
             "eef_position": self.eef_position.tolist(),
             "eef_orientation": self.eef_orientation.tolist(),
+            "geometry_arc_fraction": self.geometry_arc_fraction.tolist(),
             "source_frame": self.source_frame,
             "tcp_semantic_id": self.tcp_semantic_id,
             "validity_start": float(self.validity_start),

@@ -159,6 +159,7 @@ def _intent_from_control_poses(
     timing_mode: str,
     timing_timestamps: np.ndarray,
     provenance: Mapping[str, Any],
+    geometry_arc_fraction: np.ndarray | None = None,
 ) -> MotionIntentV2:
     return MotionIntentV2(
         intent_id=intent_id,
@@ -166,6 +167,7 @@ def _intent_from_control_poses(
         point_timestamps=timestamps,
         eef_position=positions,
         eef_orientation=orientations,
+        geometry_arc_fraction=(arc_fractions if geometry_arc_fraction is None else geometry_arc_fraction),
         source_frame=dense.source_frame,
         tcp_semantic_id=dense.tcp_semantic_id,
         validity_start=float(dense.validity_start),
@@ -279,6 +281,7 @@ def build_geometry_candidate(
         positions=positions,
         orientations=orientations,
         arc_fractions=fractions,
+        geometry_arc_fraction=fractions,
         timing_mode="T0",
         timing_timestamps=timestamps,
         provenance=provenance,
@@ -296,7 +299,7 @@ def build_timing_candidate(
 
     if timing_mode not in TIMING_MODES:
         raise ValueError(f"timing_mode must be one of {TIMING_MODES}")
-    control_u = np.linspace(0.0, 1.0, geometry.point_count, dtype=np.float64)
+    control_u = np.asarray(geometry.geometry_arc_fraction, dtype=np.float64)
     source_segments, source_cumulative = _arc_map(
         dense.eef_position, dense.eef_orientation, lambda_m_per_rad
     )
@@ -339,6 +342,7 @@ def build_timing_candidate(
         positions=geometry.eef_position.copy(),
         orientations=geometry.eef_orientation.copy(),
         arc_fractions=TIMING_KNOTS[timing_mode],
+        geometry_arc_fraction=geometry.geometry_arc_fraction,
         timing_mode=timing_mode,
         timing_timestamps=source_times,
         provenance=provenance,
