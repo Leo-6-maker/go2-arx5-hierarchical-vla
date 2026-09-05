@@ -73,6 +73,21 @@ class Stage29ContractTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.Stage29Error, "paired initial-noise mismatch"):
             MODULE.validate_paired_noise(records)
 
+    def test_stage28_historical_context_reads_frozen_paired_rows(self) -> None:
+        payload = {
+            "paired_aggregates": {
+                "paired": [
+                    {"base_mse": float(index + 1), "h2_mse": float(index) / 2.0}
+                    for index in range(9)
+                ],
+                "geometric_mean_ratio": 0.7490400752145556,
+            }
+        }
+        context = MODULE.stage28_historical_context(payload)
+        self.assertEqual(context["base_mse_mean"], 5.0)
+        self.assertEqual(context["h2_mse_mean"], 2.0)
+        self.assertIs(context["rerun"], False)
+
     def test_output_must_not_overlap_immutable_inputs(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

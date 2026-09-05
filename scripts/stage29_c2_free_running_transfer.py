@@ -556,6 +556,23 @@ def paired_aggregates(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     }
 
 
+def stage28_historical_context(stage28_result: Mapping[str, Any]) -> dict[str, Any]:
+    paired = stage28_result.get("paired_aggregates", {}).get("paired", [])
+    if len(paired) != 9:
+        raise Stage29Error("accepted Stage28 paired record count drifted")
+    base_values = [float(row["base_mse"]) for row in paired]
+    h2_values = [float(row["h2_mse"]) for row in paired]
+    return {
+        "result_sha256": STAGE28_RESULT_SHA256,
+        "artifact_seal_sha256": STAGE28_ARTIFACT_SEAL_SHA256,
+        "base_mse_mean": mean(base_values),
+        "h2_mse_mean": mean(h2_values),
+        "geometric_mean_ratio": float(stage28_result["paired_aggregates"]["geometric_mean_ratio"]),
+        "safety_gate": "REJECT_TO_REJECT_9_OF_9",
+        "rerun": False,
+    }
+
+
 def _load_model(checkpoint: Path, device: str, torch: Any) -> Any:
     from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7  # noqa: F401
     from transformers import AutoModel
@@ -722,15 +739,7 @@ def execute(args: argparse.Namespace) -> dict[str, Any]:
     if len({row["conditioning_sha256"] for row in records}) != 1:
         raise Stage29Error("conditioning hash changed across sampler calls")
     stage28_result = _read_json(args.stage28_result)
-    historical = {
-        "result_sha256": STAGE28_RESULT_SHA256,
-        "artifact_seal_sha256": STAGE28_ARTIFACT_SEAL_SHA256,
-        "base_mse_mean": stage28_result["paired_aggregates"]["base_mse_mean"],
-        "h2_mse_mean": stage28_result["paired_aggregates"]["h2_mse_mean"],
-        "geometric_mean_ratio": stage28_result["paired_aggregates"]["geometric_mean_ratio"],
-        "safety_gate": "REJECT_TO_REJECT_9_OF_9",
-        "rerun": False,
-    }
+    historical = stage28_historical_context(stage28_result)
     result = {
         "schema": SCHEMA,
         "status": "PASS_EXECUTION_COMPLETE",
