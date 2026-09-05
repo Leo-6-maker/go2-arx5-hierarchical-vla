@@ -1,6 +1,6 @@
 # Stage36-RQ — delivered-WBC authority and long-horizon oracle qualification
 
-The canonical gate is `PI_GATE_STATE_0022` on Issue #11, with PR #22 at the
+The canonical gate is `PI_GATE_STATE_0023` on Issue #11, with PR #22 at the
 accepted base `7c1e864ee975e4e94196792ed8408f326fb4dfb9`. The branch is a
 mechanical, provenance-preserving implementation of the frozen Stage36
 ladder; it does not alter the scientific contract.
@@ -39,6 +39,11 @@ explicitly through `LD_LIBRARY_PATH`; GPU-side runtime qualification loads the
 exact policies, repeats a zero-input synthetic forward, builds the frozen
 configuration, and constructs then closes the native environment without
 resetting or stepping it. CORE24 calls the delivered `to_canonical` path on CPU.
+Stage35's original 121-point timestamped trajectories are materialized
+deterministically onto the fixed native grid `tau_j=2.0*j/120`, with
+`dt=1/60`: XYZ is interpolated and quaternions are shortest-path SLERPed in
+the original source-time domain. The same transport is used for dense and
+structured campaign inputs; historical median-dt behavior is diagnostic-only.
 CONTINUOUS8 queries the exact reach table and checks finite moving-base
 witnesses, reset identity, and fixed-base impossibility. No WBC rollout is
 claimed by either admission.

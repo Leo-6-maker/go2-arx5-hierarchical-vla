@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 from pathlib import Path
 
 from scripts import stage36_wbc_authority_oracle_qualification as stage36
@@ -10,7 +11,7 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 def test_stage36_gate_and_identity_constants_are_current() -> None:
-    assert stage36.PI_GATE_ID == "PI_GATE_STATE_0022"
+    assert stage36.PI_GATE_ID == "PI_GATE_STATE_0023"
     assert stage36.BASE_HEAD == "7c1e864ee975e4e94196792ed8408f326fb4dfb9"
     assert stage36.NEXT_GATE == "GPT_PI_REVIEW_AFTER_STAGE36_LONG_HORIZON_LADDER"
     assert stage36.CASE_IDS == tuple(
@@ -63,13 +64,24 @@ def test_pbs_is_auto_only_and_requests_one_h200_slot() -> None:
 
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
-        "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V2",
-        "pi_gate": "PI_GATE_STATE_0022",
+        "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",
+        "pi_gate": "PI_GATE_STATE_0023",
         "plan_status": "READY_FOR_E",
         "project": "CFP03-CF-004",
         "queue": "auto",
         "one_pbs_allocation_only": True,
+        "maximum_rows": 96,
+        "row_count": 1,
+        "primary_row_count": 1,
+        "robustness_row_count": 0,
+        "representations": ["DENSE"],
         "sparse_rows": 0,
+        "native_transport": {
+            "sample_count": 121,
+            "duration_s": 2.0,
+            "dt_s": 1.0 / 60.0,
+            "shared_across_representations": True,
+        },
         "rows": [
             {
                 "row_id": "dense_N01_seed13",
@@ -78,6 +90,7 @@ def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> Non
                 "representation": "DENSE",
                 "reference_mode": "BENCHMARK_CONTINUOUS",
                 "seed": 13,
+                "phase": "PRIMARY",
                 "seconds": 2.0,
                 "trajectory_path": str(tmp_path / "N01.npz"),
                 "metadata_path": str(tmp_path / "N01.json"),
@@ -86,6 +99,12 @@ def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> Non
     }
     (tmp_path / "N01.npz").write_bytes(b"input")
     (tmp_path / "N01.json").write_text("{}")
+    plan["rows"][0]["trajectory_sha256"] = hashlib.sha256(
+        (tmp_path / "N01.npz").read_bytes()
+    ).hexdigest()
+    plan["rows"][0]["metadata_sha256"] = hashlib.sha256(
+        (tmp_path / "N01.json").read_bytes()
+    ).hexdigest()
     from scripts import stage36_wbc_oracle_campaign as campaign
 
     assert campaign.validate_plan(plan, tmp_path) == ["non_scratch_input:dense_N01_seed13"]

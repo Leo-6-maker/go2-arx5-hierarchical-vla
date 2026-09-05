@@ -22,7 +22,7 @@ set -euo pipefail
 : "${STAGE36_PI_GATE:?}"
 : "${STAGE36_EXPECTED_HEAD:?}"
 
-test "${STAGE36_PI_GATE}" = "PI_GATE_STATE_0022"
+test "${STAGE36_PI_GATE}" = "PI_GATE_STATE_0023"
 test "${#STAGE36_EXPECTED_HEAD}" -eq 40
 test "${PBS_QUEUE:-auto}" = "auto"
 test -d "${STAGE36_REPO}"

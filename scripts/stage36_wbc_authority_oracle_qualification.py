@@ -32,7 +32,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 
 REPO = Path(__file__).resolve().parents[1]
-PI_GATE_ID = "PI_GATE_STATE_0022"
+PI_GATE_ID = "PI_GATE_STATE_0023"
 STAGE = "Stage36-RQ"
 PR_NUMBER = 22
 BASE_HEAD = "7c1e864ee975e4e94196792ed8408f326fb4dfb9"
@@ -59,7 +59,7 @@ DEFAULT_EXTRACTED_ROOT = Path(
 )
 DEFAULT_OUTPUT_ROOT = Path(
     "/scratch/e1192548/leon-storage/runs/"
-    "stage36_wbc_authority_oracle_qualification_20260905/stage36_cpu_20260905_v4"
+    "stage36_wbc_authority_oracle_qualification_20260905/stage36_cpu_20260905_v7"
 )
 
 STAGE35_ROOT = Path(
@@ -933,6 +933,52 @@ def case_to_chunk(payload: Mapping[str, Any], TrajectoryChunkV1: Any) -> Any:
     )
 
 
+def materialize_native_chunk(chunk: Any, TrajectoryChunkV1: Any) -> Tuple[Any, Any]:
+    """Bind a timestamped chunk to the frozen scalar-dt native grid."""
+
+    import numpy as np
+
+    from go2arx5_vla.trajectory.native_transport import (
+        materialize_timestamped_pose_to_native,
+    )
+
+    transport = materialize_timestamped_pose_to_native(
+        chunk.point_timestamps,
+        chunk.eef_position,
+        chunk.eef_orientation,
+    )
+    gripper = None
+    if chunk.gripper is not None:
+        source_gripper = np.asarray(chunk.gripper, dtype=np.float64).reshape(
+            chunk.point_count, -1
+        )
+        if source_gripper.shape[1] != 1:
+            raise ValueError("native transport expects one scalar gripper channel")
+        gripper = np.interp(
+            transport.timestamps,
+            np.asarray(chunk.point_timestamps, dtype=np.float64),
+            source_gripper[:, 0],
+        )
+    provenance = dict(chunk.provenance)
+    provenance.update(transport.audit())
+    provenance["source_chunk_id"] = chunk.chunk_id
+    native_chunk = TrajectoryChunkV1(
+        chunk_id=chunk.chunk_id,
+        source="STAGE36_NATIVE_TRANSPORT",
+        observation_timestamp=float(chunk.observation_timestamp),
+        point_timestamps=transport.timestamps,
+        eef_position=transport.position,
+        eef_orientation=transport.quaternion,
+        source_frame=chunk.source_frame,
+        tcp_semantic_id=chunk.tcp_semantic_id,
+        validity_start=float(chunk.validity_start),
+        validity_end=float(chunk.validity_end),
+        gripper=gripper,
+        provenance=provenance,
+    )
+    return transport, native_chunk
+
+
 def load_corpus_payloads() -> Dict[str, Dict[str, Any]]:
     payloads: Dict[str, Dict[str, Any]] = {}
     for case_id in CASE_IDS:
@@ -960,6 +1006,8 @@ def core24_native_admission(
     try:
         import torch
         from go2arx5_vla.contracts import TrajectoryChunkV1
+        from go2arx5_vla.motion_api import evaluate_preview_equivalence, public_evaluation
+        from go2arx5_vla.trajectory.native_transport import NATIVE_DT_S
 
         source_root = extracted_root / "WBCTrackingShare"
         if str(source_root) not in sys.path:
@@ -971,8 +1019,72 @@ def core24_native_admission(
             payload = payloads[case_id]
             case_result: Dict[str, Any] = {"case_id": case_id, "status": "BLOCKED"}
             try:
-                chunk = case_to_chunk(payload, TrajectoryChunkV1)
-                dt = float(np.median(np.diff(chunk.point_timestamps)))
+                source_chunk = case_to_chunk(payload, TrajectoryChunkV1)
+                transport, chunk = materialize_native_chunk(source_chunk, TrajectoryChunkV1)
+                transport_preview = evaluate_preview_equivalence(
+                    source_chunk,
+                    chunk,
+                    case_id=case_id,
+                    representation="SOURCE_TO_NATIVE_TRANSPORT",
+                    anchor_count=101,
+                )
+                transport_audit = transport.audit()
+                transport_audit.update(
+                    {
+                        "native_grid_count_exact": transport.sample_count == 121,
+                        "native_grid_endpoints_exact": bool(
+                            transport.timestamps[0] == 0.0
+                            and transport.timestamps[-1] == 2.0
+                        ),
+                        "native_grid_uniform": bool(
+                            np.allclose(
+                                np.diff(transport.timestamps),
+                                NATIVE_DT_S,
+                                rtol=0.0,
+                                atol=1e-12,
+                            )
+                        ),
+                        "materialized_start_end_pose_exact": bool(
+                            np.array_equal(transport.position[0], transport.source_position[0])
+                            and np.array_equal(transport.position[-1], transport.source_position[-1])
+                            and np.array_equal(transport.quaternion[0], transport.source_quaternion[0])
+                            and np.array_equal(transport.quaternion[-1], transport.source_quaternion[-1])
+                        ),
+                        "finite": bool(
+                            np.isfinite(transport.timestamps).all()
+                            and np.isfinite(transport.position).all()
+                            and np.isfinite(transport.quaternion).all()
+                        ),
+                        "preview_equivalence": public_evaluation(transport_preview),
+                        "preview_equivalence_pass": bool(transport_preview["passes_limits"]),
+                        "historical_median_dt_diagnostic_only": {
+                            "dt_s": float(np.median(np.diff(source_chunk.point_timestamps))),
+                            "implied_duration_s": float(
+                                (source_chunk.point_count - 1)
+                                * np.median(np.diff(source_chunk.point_timestamps))
+                            ),
+                        },
+                    }
+                )
+                transport_pass = bool(
+                    transport_audit["native_grid_count_exact"]
+                    and transport_audit["native_grid_endpoints_exact"]
+                    and transport_audit["native_grid_uniform"]
+                    and transport_audit["materialized_start_end_pose_exact"]
+                    and transport_audit["finite"]
+                    and transport_audit["preview_equivalence_pass"]
+                )
+                if not transport_pass:
+                    case_result.update(
+                        {
+                            "status": "BLOCKED",
+                            "transport": transport_audit,
+                            "transport_failure_code": "GPT_PI_REVIEW_NATIVE_SCALAR_DT_TRANSPORT_INSUFFICIENT",
+                        }
+                    )
+                    rows.append(case_result)
+                    continue
+                dt = float(NATIVE_DT_S)
                 gamma, time_law = delivered.to_canonical(
                     torch.as_tensor(chunk.eef_position, dtype=torch.float32),
                     delivered.quat_to_mat(
@@ -995,14 +1107,32 @@ def core24_native_admission(
                         "gamma_length_m": float(gamma.L),
                         "time_law_points": int(time_law.t_grid.shape[0]),
                         "time_law_duration_s": float(time_law.T),
+                        "native_dt_s": dt,
+                        "transport": transport_audit,
                     }
                 )
+                if case_result["status"] != "PASS":
+                    case_result["transport_failure_code"] = (
+                        "GPT_PI_REVIEW_NATIVE_DURATION_SEMANTICS_UNRESOLVED"
+                    )
             except Exception as exc:
                 case_result["error"] = {"type": type(exc).__name__, "message": str(exc)}
             rows.append(case_result)
         result["case_results"] = rows
         result["core24_pass"] = len(rows) == 24 and all(row["status"] == "PASS" for row in rows)
-        result["status"] = "PASS" if result["core24_pass"] else "BLOCKED_CORE24_NATIVE_ADMISSION"
+        failure_codes = sorted(
+            {
+                row["transport_failure_code"]
+                for row in rows
+                if row.get("transport_failure_code")
+            }
+        )
+        result["transport_failure_codes"] = failure_codes
+        result["status"] = (
+            "PASS"
+            if result["core24_pass"]
+            else (failure_codes[0] if failure_codes else "BLOCKED_CORE24_NATIVE_ADMISSION")
+        )
     except Exception as exc:
         result["error"] = {"type": type(exc).__name__, "message": str(exc)}
     write_json(output_root / "stage36_core24_native_admission.json", result)
@@ -1166,7 +1296,11 @@ def geometry_qualification(
     return result
 
 
-def timing_qualification(geometry: Mapping[str, Any], output_root: Path) -> Dict[str, Any]:
+def timing_qualification(
+    payloads: Mapping[str, Mapping[str, Any]],
+    geometry: Mapping[str, Any],
+    output_root: Path,
+) -> Dict[str, Any]:
     if geometry.get("k_star") is None:
         result = {
             "schema": "STAGE36_TIMING_QUALIFICATION_V2",
@@ -1177,18 +1311,72 @@ def timing_qualification(geometry: Mapping[str, Any], output_root: Path) -> Dict
             "reason": "strict geometry qualification produced no K_STAR",
         }
     else:
-        # This branch is intentionally prepared but not populated by a null
-        # K_STAR run.  Future use must call the committed project timing API
-        # with the already accepted K_STAR; no outcome-dependent choice is
-        # permitted here.
-        result = {
-            "schema": "STAGE36_TIMING_QUALIFICATION_V2",
-            "timestamp_utc": now_utc(),
-            "timing_modes": list(TIMING_MODES),
-            "k_star": geometry["k_star"],
-            "t_star": None,
-            "status": "NOT_EVALUATED_IMPLEMENTATION_GUARD",
-        }
+        try:
+            from go2arx5_vla.contracts import TrajectoryChunkV1
+            from go2arx5_vla.motion_api import (
+                aggregate_evaluations,
+                build_geometry_candidate,
+                build_timing_candidate,
+                evaluate_preview_equivalence,
+                public_evaluation,
+            )
+
+            k_star = int(geometry["k_star"])
+            chunks = {
+                case_id: case_to_chunk(payloads[case_id], TrajectoryChunkV1)
+                for case_id in CORE_CASE_IDS
+            }
+            mode_results: List[Dict[str, Any]] = []
+            t_star: Optional[str] = None
+            for mode in TIMING_MODES:
+                rows: List[Dict[str, Any]] = []
+                for case_id in CORE_CASE_IDS:
+                    dense = chunks[case_id]
+                    candidate_geometry = build_geometry_candidate(dense, k_star)
+                    candidate = build_timing_candidate(dense, candidate_geometry, mode)
+                    evaluation = evaluate_preview_equivalence(
+                        dense,
+                        candidate,
+                        case_id=case_id,
+                        representation="K%d+%s" % (k_star, mode),
+                        anchor_count=101,
+                    )
+                    rows.append(evaluation)
+                aggregate = aggregate_evaluations(rows, representation="K%d+%s" % (k_star, mode))
+                qualifies = bool(
+                    all(row["passes_limits"] for row in rows)
+                    and aggregate["passes_limits"]
+                )
+                mode_results.append(
+                    {
+                        "timing_mode": mode,
+                        "qualifies_strict_all_cases_and_aggregate": qualifies,
+                        "aggregate": aggregate,
+                        "per_case": [public_evaluation(row) for row in rows],
+                    }
+                )
+                if qualifies and t_star is None:
+                    t_star = mode
+            result = {
+                "schema": "STAGE36_TIMING_QUALIFICATION_V2",
+                "timestamp_utc": now_utc(),
+                "timing_modes": list(TIMING_MODES),
+                "k_star": k_star,
+                "t_star": t_star,
+                "per_mode": mode_results,
+                "status": "PASS" if t_star is not None else "PASS_NO_QUALIFIED_T",
+                "strict_selection_rule": "smallest timing mode whose every core case and aggregate pass all limits",
+            }
+        except Exception as exc:
+            result = {
+                "schema": "STAGE36_TIMING_QUALIFICATION_V2",
+                "timestamp_utc": now_utc(),
+                "timing_modes": list(TIMING_MODES),
+                "k_star": geometry.get("k_star"),
+                "t_star": None,
+                "status": "BLOCKED",
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+            }
     write_json(output_root / "stage36_d2_timing_qualification.json", result)
     return result
 
@@ -1210,6 +1398,11 @@ def campaign_static_guard(output_root: Path) -> Dict[str, Any]:
         "--disable-trajectory-termination",
     )
     command_contract = all(token not in campaign for token in forbidden_command_tokens)
+    native_transport_contract = (
+        "materialize_timestamped_pose_to_native" in runner
+        and "NATIVE_DT_S" in runner
+        and "median(np.diff" not in runner
+    )
     pbs_queue_contract = "#PBS -q auto" in pbs and all(
         token not in pbs for token in ("#PBS -q small", "#PBS -q medium", "#PBS -q large", "#PBS -q special")
     )
@@ -1229,8 +1422,11 @@ def campaign_static_guard(output_root: Path) -> Dict[str, Any]:
         "queue_auto_only": pbs_queue_contract,
         "selected_command_does_not_request_training_or_resume": command_contract,
         "selected_command_does_not_use_diagnostic_termination_flags": command_contract,
+        "native_transport_binding_contract": native_transport_contract,
         "status": "PASS" if campaign_path.is_file() and pbs_path.is_file() and command_contract and pbs_queue_contract else "BLOCKED",
     }
+    if not native_transport_contract:
+        result["status"] = "BLOCKED"
     write_json(output_root / "stage36_e_static_command_guard.json", result)
     return result
 
@@ -1240,21 +1436,27 @@ def qstat_snapshot() -> Dict[str, Any]:
     # client authentication is intentionally performed from the login host.
     # A host-side snapshot may therefore be supplied by the launcher; it is
     # still the real qstat result and is recorded verbatim in the preflight.
+    queried_user = os.environ.get("STAGE36_HOST_QSTAT_USER") or os.environ.get(
+        "USER", "e1192548"
+    )
     host_returncode = os.environ.get("STAGE36_HOST_QSTAT_RETURNCODE")
     if host_returncode is not None:
         return {
             "source": "login_host_snapshot",
-            "command": "qstat -u %s" % os.environ.get("USER", "e1192548"),
+            "command": "qstat -u %s" % queried_user,
+            "queried_user": queried_user,
             "command_available": True,
             "returncode": int(host_returncode),
             "stdout": os.environ.get("STAGE36_HOST_QSTAT_STDOUT", ""),
             "stderr": os.environ.get("STAGE36_HOST_QSTAT_STDERR", ""),
             "stage36_jobs_visible": os.environ.get("STAGE36_HOST_QSTAT_STAGE36", "false") == "true",
         }
-    code, stdout, stderr = run_capture(["qstat", "-u", os.environ.get("USER", "e1192548")])
+    code, stdout, stderr = run_capture(["qstat", "-u", queried_user])
     lower = (stdout or "").lower()
     return {
         "command_available": code != 127,
+        "command": "qstat -u %s" % queried_user,
+        "queried_user": queried_user,
         "returncode": code,
         "stdout": stdout,
         "stderr": stderr,
@@ -1402,60 +1604,226 @@ def materialize_campaign_plan(
     output_root: Path,
 ) -> Dict[str, Any]:
     import numpy as np
+    from go2arx5_vla.contracts import TrajectoryChunkV1
+    from go2arx5_vla.motion_api import (
+        build_geometry_candidate,
+        build_timing_candidate,
+        evaluate_preview_equivalence,
+        public_evaluation,
+    )
+    from go2arx5_vla.trajectory.native_transport import (
+        NATIVE_DURATION_S,
+        NATIVE_SAMPLE_COUNT,
+    )
 
     inputs_root = output_root / "campaign_inputs"
     rows: List[Dict[str, Any]] = []
     admitted_ids = list(CORE_CASE_IDS)
     if continuous.get("status") == "PASS":
         admitted_ids.extend(CONTINUOUS_CASE_IDS)
-    for case_id in admitted_ids:
+
+    k_star = None if geometry.get("k_star") is None else int(geometry["k_star"])
+    t_star = timing.get("t_star")
+    representation_specs: List[Tuple[str, Optional[int], Optional[str]]] = [("DENSE", None, None)]
+    if k_star is not None:
+        representation_specs.append(("K%d+T0" % k_star, k_star, "T0"))
+        if t_star is not None:
+            representation_specs.append(("K%d+%s" % (k_star, t_star), k_star, str(t_star)))
+
+    native_grid = NATIVE_DURATION_S * np.arange(NATIVE_SAMPLE_COUNT, dtype=np.float64) / float(
+        NATIVE_SAMPLE_COUNT - 1
+    )
+    transport_failures: List[Dict[str, Any]] = []
+
+    def safe_token(value: str) -> str:
+        return value.replace("+", "_").replace("/", "_")
+
+    def materialize_representation(
+        payload: Mapping[str, Any], representation: str, geometry_k: Optional[int], timing_mode: Optional[str]
+    ) -> Tuple[Any, Any, Any, Dict[str, Any]]:
+        dense = case_to_chunk(payload, TrajectoryChunkV1)
+        if representation == "DENSE":
+            semantic_chunk = dense
+            semantic_description = "SOURCE_TIMESTAMPED_DENSE"
+        else:
+            if geometry_k is None:
+                raise ValueError("structured representation requires geometry K")
+            candidate_geometry = build_geometry_candidate(dense, geometry_k)
+            intent = candidate_geometry
+            if timing_mode != "T0":
+                intent = build_timing_candidate(dense, candidate_geometry, str(timing_mode))
+            # Structured semantics are evaluated at the same native grid before
+            # the common scalar-dt transport function is applied.  This is the
+            # frozen Gamma(u(t)) -> native binding, not sparse-chunk retiming.
+            semantic_chunk = intent.to_trajectory_chunk(query_timestamps=native_grid)
+            semantic_description = "MOTION_INTENT_V2_AT_NATIVE_GRID"
+        transport, native_chunk = materialize_native_chunk(semantic_chunk, TrajectoryChunkV1)
+        transport_preview = evaluate_preview_equivalence(
+            dense if representation == "DENSE" else semantic_chunk,
+            native_chunk,
+            case_id=str(payload["case_id"]),
+            representation=representation + "_NATIVE_TRANSPORT",
+            anchor_count=101,
+        )
+        transport_audit = transport.audit()
+        transport_audit.update(
+            {
+                "semantic_description": semantic_description,
+                "native_grid_count_exact": transport.sample_count == NATIVE_SAMPLE_COUNT,
+                "native_grid_endpoints_exact": bool(
+                    transport.timestamps[0] == 0.0
+                    and transport.timestamps[-1] == NATIVE_DURATION_S
+                ),
+                "native_grid_uniform": bool(
+                    np.allclose(
+                        np.diff(transport.timestamps),
+                        NATIVE_DURATION_S / float(NATIVE_SAMPLE_COUNT - 1),
+                        rtol=0.0,
+                        atol=1e-12,
+                    )
+                ),
+                "materialized_start_end_pose_exact": bool(
+                    np.array_equal(transport.position[0], transport.source_position[0])
+                    and np.array_equal(transport.position[-1], transport.source_position[-1])
+                    and np.array_equal(transport.quaternion[0], transport.source_quaternion[0])
+                    and np.array_equal(transport.quaternion[-1], transport.source_quaternion[-1])
+                ),
+                "finite": bool(
+                    np.isfinite(transport.timestamps).all()
+                    and np.isfinite(transport.position).all()
+                    and np.isfinite(transport.quaternion).all()
+                ),
+                "preview_equivalence": public_evaluation(transport_preview),
+                "preview_equivalence_pass": bool(transport_preview["passes_limits"]),
+            }
+        )
+        transport_audit["passes_existing_limits"] = bool(
+            transport_audit["native_grid_count_exact"]
+            and transport_audit["native_grid_endpoints_exact"]
+            and transport_audit["native_grid_uniform"]
+            and transport_audit["materialized_start_end_pose_exact"]
+            and transport_audit["finite"]
+            and transport_audit["preview_equivalence_pass"]
+        )
+        return dense, semantic_chunk, native_chunk, transport_audit
+
+    def add_row(
+        case_id: str,
+        representation: str,
+        geometry_k: Optional[int],
+        timing_mode: Optional[str],
+        seed: int,
+        phase: str,
+    ) -> None:
         payload = payloads[case_id]
-        trajectory_path = inputs_root / (case_id + "_dense_seed13.npz")
-        metadata_path = inputs_root / (case_id + "_dense_seed13.json")
+        try:
+            dense, semantic_chunk, native_chunk, transport_audit = materialize_representation(
+                payload, representation, geometry_k, timing_mode
+            )
+        except Exception as exc:
+            transport_failures.append(
+                {
+                    "case_id": case_id,
+                    "representation": representation,
+                    "seed": seed,
+                    "phase": phase,
+                    "error": {"type": type(exc).__name__, "message": str(exc)},
+                }
+            )
+            return
+        if not transport_audit["passes_existing_limits"]:
+            transport_failures.append(
+                {
+                    "case_id": case_id,
+                    "representation": representation,
+                    "seed": seed,
+                    "phase": phase,
+                    "failure_code": "GPT_PI_REVIEW_NATIVE_SCALAR_DT_TRANSPORT_INSUFFICIENT",
+                    "transport": transport_audit,
+                }
+            )
+            return
+        token = safe_token(representation.lower())
+        stem = "%s_%s_seed%d_%s" % (token, case_id, seed, phase.lower())
+        trajectory_path = inputs_root / (stem + ".npz")
+        metadata_path = inputs_root / (stem + ".json")
         np.savez_compressed(
             str(trajectory_path),
-            timestamp=np.asarray(payload["timestamps"], dtype=np.float64),
-            position=np.asarray(payload["eef_position_m"], dtype=np.float64),
-            quaternion=np.asarray(payload["eef_orientation_xyzw"], dtype=np.float64),
+            timestamp=np.asarray(native_chunk.point_timestamps, dtype=np.float64),
+            position=np.asarray(native_chunk.eef_position, dtype=np.float64),
+            quaternion=np.asarray(native_chunk.eef_orientation, dtype=np.float64),
         )
         metadata = {
             "schema": "STAGE36_WBC_CAMPAIGN_CASE_METADATA_V1",
             "case_id": case_id,
             "family": payload["family"],
-            "representation": "DENSE",
-            "seed": 13,
+            "representation": representation,
+            "geometry_k": geometry_k,
+            "timing_mode": timing_mode,
+            "phase": phase,
+            "seed": seed,
             "reference_mode": "BENCHMARK_CONTINUOUS",
-            "seconds": 2.0,
+            "seconds": NATIVE_DURATION_S,
             "source_case_path": str(STAGE35_ROOT / "corpus/cases" / (case_id + ".json")),
             "source_case_sha256": sha256_file(STAGE35_ROOT / "corpus/cases" / (case_id + ".json")),
             "support_witness_used_by_wbc": False,
+            "source_semantic_chunk": {
+                "sample_count": int(semantic_chunk.point_count),
+                "start_s": float(semantic_chunk.point_timestamps[0]),
+                "end_s": float(semantic_chunk.point_timestamps[-1]),
+            },
+            "native_transport": transport_audit,
         }
         write_json(metadata_path, metadata)
         rows.append(
             {
-                "row_id": "dense_%s_seed13" % case_id,
+                "row_id": "%s_%s_seed%d_%s" % (token, case_id, seed, phase.lower()),
                 "case_id": case_id,
                 "family": payload["family"],
-                "representation": "DENSE",
-                "seed": 13,
+                "representation": representation,
+                "geometry_k": geometry_k,
+                "timing_mode": timing_mode,
+                "phase": phase,
+                "seed": seed,
                 "reference_mode": "BENCHMARK_CONTINUOUS",
-                "seconds": 2.0,
+                "seconds": NATIVE_DURATION_S,
                 "trajectory_path": str(trajectory_path),
                 "metadata_path": str(metadata_path),
                 "trajectory_sha256": sha256_file(trajectory_path),
                 "metadata_sha256": sha256_file(metadata_path),
+                "native_transport": transport_audit,
             }
         )
+
+    for representation, geometry_k, timing_mode in representation_specs:
+        for case_id in admitted_ids:
+            add_row(case_id, representation, geometry_k, timing_mode, 13, "PRIMARY")
+
+    primary_row_count = len(rows)
+    robustness_case_ids = ["N01", "N05", "T01", "T05", "P01", "P05"]
+    if continuous.get("status") == "PASS":
+        robustness_case_ids.extend(["C01", "C05"])
+    structured_available = len(representation_specs) > 1
+    remaining = 96 - len(rows)
+    robustness_rows_needed = len(representation_specs) * len(robustness_case_ids) * 2
+    if structured_available and remaining >= robustness_rows_needed:
+        for representation, geometry_k, timing_mode in representation_specs:
+            for seed in (14, 15):
+                for case_id in robustness_case_ids:
+                    add_row(case_id, representation, geometry_k, timing_mode, seed, "ROBUSTNESS")
+
+    robustness_row_count = len(rows) - primary_row_count
     plan_status = (
         "READY_FOR_E"
         if corpus.get("status") == "PASS"
         and geometry.get("status") in ("PASS", "PASS_NO_QUALIFIED_K")
         and len(rows) <= 96
         and len({row["row_id"] for row in rows}) == len(rows)
+        and not transport_failures
         else "BLOCKED"
     )
     plan = {
-        "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V2",
+        "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
         "active_stage": STAGE,
@@ -1467,13 +1835,24 @@ def materialize_campaign_plan(
         "one_pbs_allocation_only": True,
         "maximum_rows": 96,
         "row_count": len(rows),
+        "primary_row_count": primary_row_count,
+        "robustness_row_count": robustness_row_count,
         "core24_rows": sum(1 for row in rows if row["case_id"] in CORE_CASE_IDS),
         "continuous8_rows": sum(1 for row in rows if row["case_id"] in CONTINUOUS_CASE_IDS),
-        "k_star": geometry.get("k_star"),
-        "t_star": timing.get("t_star"),
-        "sparse_rows": 0,
+        "k_star": k_star,
+        "t_star": t_star,
+        "representations": [spec[0] for spec in representation_specs],
+        "sparse_rows": sum(1 for row in rows if row["representation"] != "DENSE"),
         "geometry_status": geometry.get("status"),
         "timing_status": timing.get("status"),
+        "native_transport": {
+            "sample_count": NATIVE_SAMPLE_COUNT,
+            "duration_s": NATIVE_DURATION_S,
+            "dt_s": NATIVE_DURATION_S / float(NATIVE_SAMPLE_COUNT - 1),
+            "grid_formula": "tau_j=2.0*j/120, j=0..120",
+            "shared_across_representations": True,
+        },
+        "transport_failures": transport_failures,
         "authority_manifest_path": str(output_root / "wbc_authority_v2_manifest.json"),
         "authority_manifest_sha256": sha256_file(output_root / "wbc_authority_v2_manifest.json"),
         "authority_tree_manifest_path": str(output_root / "wbc_authority_v2_tree_manifest.json"),
@@ -1655,7 +2034,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         continuous_result = continuous8_native_admission(payloads, args.extracted_root.resolve(), output_root)
         if core_result.get("status") == "PASS":
             geometry_result = geometry_qualification(payloads, output_root)
-            timing_result = timing_qualification(geometry_result, output_root)
+            timing_result = timing_qualification(payloads, geometry_result, output_root)
         else:
             write_json(output_root / "stage36_core24_native_admission.json", core_result)
             write_json(output_root / "stage36_continuous8_native_admission.json", continuous_result)
@@ -1705,11 +2084,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         )
     else:
         plan = {
-            "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V2",
+            "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",
             "timestamp_utc": now_utc(),
             "pi_gate": PI_GATE_ID,
             "plan_status": "BLOCKED",
             "row_count": 0,
+            "primary_row_count": 0,
+            "robustness_row_count": 0,
+            "representations": [],
+            "native_transport": {
+                "sample_count": 121,
+                "duration_s": 2.0,
+                "dt_s": 1.0 / 60.0,
+                "shared_across_representations": True,
+            },
             "rows": [],
             "k_star": geometry_result.get("k_star"),
             "t_star": timing_result.get("t_star"),

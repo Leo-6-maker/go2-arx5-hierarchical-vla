@@ -26,7 +26,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 
 REPO = Path(__file__).resolve().parents[1]
-PI_GATE_ID = "PI_GATE_STATE_0022"
+PI_GATE_ID = "PI_GATE_STATE_0023"
 NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE36_LONG_HORIZON_LADDER"
 EXPECTED_PROJECT = "CFP03-CF-004"
 EXPECTED_REFERENCE_MODE = "BENCHMARK_CONTINUOUS"
@@ -453,7 +453,7 @@ def runtime_qualification(
 
 def validate_plan(plan: Mapping[str, Any], source_root: Path) -> List[str]:
     errors: List[str] = []
-    if plan.get("schema") != "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V2":
+    if plan.get("schema") != "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3":
         errors.append("plan_schema")
     if plan.get("pi_gate") != PI_GATE_ID:
         errors.append("pi_gate")
@@ -469,15 +469,47 @@ def validate_plan(plan: Mapping[str, Any], source_root: Path) -> List[str]:
         return errors
     if len(rows) > MAX_ROWS:
         errors.append("row_budget")
+    representations = plan.get("representations")
+    if not isinstance(representations, list) or not representations:
+        errors.append("representations_missing")
+        representations = []
+    if len(set(str(value) for value in representations)) != len(representations):
+        errors.append("duplicate_representations")
+    if "DENSE" not in representations:
+        errors.append("dense_representation_missing")
+    allowed_representations = set(str(value) for value in representations)
     row_ids = []
+    saw_robustness = False
     for row in rows:
         row_ids.append(row.get("row_id"))
-        if row.get("representation") != "DENSE":
-            errors.append("non_dense_row:%s" % row.get("row_id"))
+        representation = str(row.get("representation"))
+        if representation not in allowed_representations:
+            errors.append("representation:%s" % row.get("row_id"))
+        if representation == "DENSE":
+            if row.get("geometry_k") is not None or row.get("timing_mode") is not None:
+                errors.append("dense_candidate_fields:%s" % row.get("row_id"))
+        elif not (
+            representation.startswith("K")
+            and "+T" in representation
+            and row.get("geometry_k") in (4, 6, 9, 12)
+            and row.get("timing_mode") in ("T0", "T1", "T3", "T5", "T9")
+            and representation
+            == "K%d+%s" % (int(row.get("geometry_k")), str(row.get("timing_mode")))
+        ):
+            errors.append("structured_representation:%s" % row.get("row_id"))
         if row.get("reference_mode") != EXPECTED_REFERENCE_MODE:
             errors.append("reference_mode:%s" % row.get("row_id"))
-        if row.get("seed") != EXPECTED_SEED:
-            errors.append("seed:%s" % row.get("row_id"))
+        phase = row.get("phase")
+        if phase == "PRIMARY" and saw_robustness:
+            errors.append("primary_after_robustness:%s" % row.get("row_id"))
+        if phase == "ROBUSTNESS":
+            saw_robustness = True
+        if phase == "PRIMARY" and row.get("seed") != EXPECTED_SEED:
+            errors.append("primary_seed:%s" % row.get("row_id"))
+        if phase == "ROBUSTNESS" and row.get("seed") not in (14, 15):
+            errors.append("robustness_seed:%s" % row.get("row_id"))
+        if phase not in ("PRIMARY", "ROBUSTNESS"):
+            errors.append("phase:%s" % row.get("row_id"))
         if float(row.get("seconds", -1.0)) != EXPECTED_SECONDS:
             errors.append("duration:%s" % row.get("row_id"))
         trajectory = Path(str(row.get("trajectory_path", "")))
@@ -486,15 +518,38 @@ def validate_plan(plan: Mapping[str, Any], source_root: Path) -> List[str]:
             errors.append("missing_input:%s" % row.get("row_id"))
         if not str(trajectory).startswith("/scratch/") or not str(metadata).startswith("/scratch/"):
             errors.append("non_scratch_input:%s" % row.get("row_id"))
+        if trajectory.is_file() and row.get("trajectory_sha256") != sha256_file(trajectory):
+            errors.append("trajectory_hash:%s" % row.get("row_id"))
+        if metadata.is_file() and row.get("metadata_sha256") != sha256_file(metadata):
+            errors.append("metadata_hash:%s" % row.get("row_id"))
         if not source_root.is_dir():
             errors.append("source_root_missing")
     if len(set(row_ids)) != len(row_ids):
         errors.append("duplicate_row_id")
-    keys = [(row.get("case_id"), row.get("representation"), row.get("seed")) for row in rows]
+    keys = [(row.get("case_id"), row.get("representation"), row.get("seed"), row.get("phase")) for row in rows]
     if len(set(keys)) != len(keys):
         errors.append("duplicate_case_representation_seed")
-    if int(plan.get("sparse_rows", 0)) != 0:
-        errors.append("sparse_rows_present")
+    if int(plan.get("sparse_rows", 0)) != sum(
+        row.get("representation") != "DENSE" for row in rows
+    ):
+        errors.append("sparse_rows_count")
+    if int(plan.get("row_count", -1)) != len(rows):
+        errors.append("row_count")
+    if int(plan.get("primary_row_count", -1)) != sum(
+        row.get("phase") == "PRIMARY" for row in rows
+    ):
+        errors.append("primary_row_count")
+    if int(plan.get("robustness_row_count", -1)) != sum(
+        row.get("phase") == "ROBUSTNESS" for row in rows
+    ):
+        errors.append("robustness_row_count")
+    native_transport = plan.get("native_transport", {})
+    if (
+        native_transport.get("sample_count") != 121
+        or float(native_transport.get("duration_s", -1.0)) != 2.0
+        or not native_transport.get("shared_across_representations", False)
+    ):
+        errors.append("native_transport_contract")
     return sorted(set(errors))
 
 
@@ -597,6 +652,9 @@ def row_result(plan_row: Mapping[str, Any], output_dir: Path, returncode: int, t
         "case_id": plan_row["case_id"],
         "family": plan_row["family"],
         "representation": plan_row["representation"],
+        "geometry_k": plan_row.get("geometry_k"),
+        "timing_mode": plan_row.get("timing_mode"),
+        "phase": plan_row["phase"],
         "seed": plan_row["seed"],
         "reference_mode": plan_row["reference_mode"],
         "trajectory_path": plan_row["trajectory_path"],
@@ -745,6 +803,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     rows: List[Dict[str, Any]] = []
     error: Optional[Dict[str, Any]] = None
     runtime_qualification_result: Optional[Dict[str, Any]] = None
+    robustness_skip: Optional[Dict[str, Any]] = None
     status = "BLOCKED"
     log_event(output_root, "START", plan=str(args.plan), pbs_job_id=os.environ.get("PBS_JOBID"))
     try:
@@ -776,7 +835,33 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if runtime_qualification_result.get("status") != "PASS":
             raise RuntimeError("native runtime qualification failed")
         rows_plan = plan["rows"]
+        primary_plan_rows = [row for row in rows_plan if row.get("phase") == "PRIMARY"]
         for index, plan_row in enumerate(rows_plan, start=1):
+            if plan_row.get("phase") == "ROBUSTNESS":
+                primary_results = [row for row in rows if row.get("phase") == "PRIMARY"]
+                primary_ids = {str(row.get("row_id")) for row in primary_results}
+                expected_primary_ids = {
+                    str(row.get("row_id")) for row in primary_plan_rows
+                }
+                primary_complete = bool(
+                    len(primary_results) == len(primary_plan_rows)
+                    and primary_ids == expected_primary_ids
+                    and all(bool(row.get("tracking_pass")) for row in primary_results)
+                )
+                if not primary_complete:
+                    robustness_skip = {
+                        "event": "ROBUSTNESS_SKIPPED_PRIMARY_NOT_COMPLETE",
+                        "first_skipped_row_id": plan_row.get("row_id"),
+                        "primary_expected_count": len(primary_plan_rows),
+                        "primary_completed_count": len(primary_results),
+                        "primary_failed_row_ids": [
+                            row.get("row_id")
+                            for row in primary_results
+                            if not bool(row.get("tracking_pass"))
+                        ],
+                    }
+                    log_event(output_root, **robustness_skip)
+                    break
             row_output = output_root / "rows" / str(plan_row["row_id"])
             row_output.mkdir(parents=True)
             command = native_command(
@@ -823,15 +908,46 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 runner_pass=row["runner_pass"],
                 tracking_pass=row["tracking_pass"],
             )
-        core_rows = [row for row in rows if row["family"] in ("N", "T", "P")]
-        continuous_rows = [row for row in rows if row["family"] == "C"]
-        core_pass = len(core_rows) == 24 and all(row["tracking_pass"] for row in core_rows)
-        continuous_pass = len(continuous_rows) == 8 and all(row["tracking_pass"] for row in continuous_rows)
+            if not row["tracking_pass"]:
+                log_event(
+                    output_root,
+                    "CAMPAIGN_STOPPED_ROW_FAILURE",
+                    row_id=plan_row["row_id"],
+                    phase=plan_row.get("phase"),
+                    returncode=returncode,
+                )
+                break
+        primary_rows = [row for row in rows if row.get("phase") == "PRIMARY"]
+        core_rows = [row for row in primary_rows if row["family"] in ("N", "T", "P")]
+        continuous_rows = [row for row in primary_rows if row["family"] == "C"]
+        planned_representations = [str(value) for value in plan.get("representations", [])]
+        primary_representations = [
+            representation
+            for representation in planned_representations
+            if any(
+                row.get("phase") == "PRIMARY" and row.get("representation") == representation
+                for row in rows_plan
+            )
+        ]
+        expected_core_rows = 24 * len(primary_representations)
+        expected_continuous_rows = 8 * len(primary_representations)
+        core_pass = (
+            len(core_rows) == expected_core_rows > 0
+            and all(row["tracking_pass"] for row in core_rows)
+        )
+        continuous_pass = (
+            expected_continuous_rows > 0
+            and len(continuous_rows) == expected_continuous_rows
+            and all(row["tracking_pass"] for row in continuous_rows)
+        )
         family_summary = {
             family: profile_summary([row for row in rows if row["family"] == family])
             for family in ("N", "T", "P", "C")
         }
-        seed_summary = {str(EXPECTED_SEED): profile_summary(rows)}
+        seed_summary = {
+            str(seed): profile_summary([row for row in rows if row["seed"] == seed])
+            for seed in sorted({int(row["seed"]) for row in rows})
+        }
         t_summary = {"duration_2.0s": profile_summary(rows)}
         geometry_status = "NOT_QUALIFIED" if plan.get("k_star") is None else "QUALIFIED_CANDIDATE_NOT_RUN"
         timing_status = "NOT_QUALIFIED" if plan.get("t_star") is None else "QUALIFIED_CANDIDATE_NOT_RUN"
@@ -839,6 +955,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "GEOMETRY_REPRESENTATION_INSUFFICIENT"
             if core_pass and plan.get("k_star") is None
             else "WBC_BOTTLENECK_BEFORE_STRUCTURED_GR00T"
+        )
+        all_planned_rows_completed = len(rows) == len(rows_plan) and all(
+            bool(row.get("tracking_pass")) for row in rows
         )
         result_payload = {
             "schema": "STAGE36_WBC_ORACLE_RESULT_V2",
@@ -850,6 +969,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "scientific_execution_begun": scientific_execution_begun,
             "row_count": len(rows),
             "maximum_rows": MAX_ROWS,
+            "all_planned_rows_completed": all_planned_rows_completed,
             "all_finite": bool(rows) and all(row["finite"] for row in rows),
             "core24": {
                 "row_count": len(core_rows),
@@ -860,6 +980,18 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 "row_count": len(continuous_rows),
                 "tracking_pass": continuous_pass,
                 "status": "PASS" if continuous_pass else "FAIL_OR_PARTIAL",
+            },
+            "representation_summary": {
+                representation: profile_summary(
+                    [row for row in rows if row["representation"] == representation]
+                )
+                for representation in planned_representations
+            },
+            "robustness": {
+                "planned_row_count": int(plan.get("robustness_row_count", 0)),
+                "executed_row_count": sum(row.get("phase") == "ROBUSTNESS" for row in rows),
+                "skipped": robustness_skip is not None,
+                "skip": robustness_skip,
             },
             "geometry": {"k_star": plan.get("k_star"), "status": geometry_status},
             "timing": {"t_star": plan.get("t_star"), "status": timing_status},
@@ -927,7 +1059,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 "final_classification": final_classification,
             },
         )
-        status = "PASS_SCIENTIFIC_EXECUTION_NEEDS_PI_REVIEW" if core_pass else "PARTIAL_OR_FAILED_NEEDS_PI_REVIEW"
+        status = (
+            "PASS_SCIENTIFIC_EXECUTION_NEEDS_PI_REVIEW"
+            if core_pass and all_planned_rows_completed and robustness_skip is None
+            else "PARTIAL_OR_FAILED_NEEDS_PI_REVIEW"
+        )
     except Exception as exc:
         error = {"type": type(exc).__name__, "message": str(exc)}
         log_event(output_root, "ERROR", **error)

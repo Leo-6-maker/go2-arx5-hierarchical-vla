@@ -226,6 +226,7 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
             self._stage15_trajectory_path = Path(trajectory_path)
             self._stage15_load_count = 0
             self._stage16_pending_termination = None
+            self._stage36_native_transport = None
             super().__init__(*args, **kwargs)
 
         def _stage16_joint_margin(self):
@@ -388,8 +389,22 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
                 timestamps, position, quaternion = _resample_to_40_points(
                     timestamps, position, quaternion
                 )
+            else:
+                from go2arx5_vla.trajectory.native_transport import (
+                    NATIVE_DT_S,
+                    materialize_timestamped_pose_to_native,
+                )
+
+                transport = materialize_timestamped_pose_to_native(
+                    timestamps, position, quaternion
+                )
+                timestamps = transport.timestamps
+                position = transport.position
+                quaternion = transport.quaternion
+                self._stage36_native_transport = transport.audit()
             timestamps = timestamps - timestamps[0]
-            dt = float(np.median(np.diff(timestamps)))
+            legacy_dt = float((timestamps[-1] - timestamps[0]) / float(len(timestamps) - 1))
+            dt = float(NATIVE_DT_S) if reference_mode == "BENCHMARK_CONTINUOUS" else legacy_dt
             gamma, time_law = to_canonical(
                 torch.as_tensor(position, dtype=torch.float32),
                 quat_to_mat(torch.as_tensor(quaternion, dtype=torch.float32)),
@@ -851,6 +866,7 @@ def main():
         "reference_capacity_points": reference_capacity_points,
         "configured_reference_capacity_points": configured_reference_capacity_points,
         "reference_capacity_resized": reference_capacity_resized,
+        "native_transport": None if native is None else getattr(native, "_stage36_native_transport", None),
         "case_metadata": case_metadata,
     }
     (args.output_dir / "native_external_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
