@@ -44,7 +44,9 @@ module load singularity
 IMAGE=/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif
 FFMPEG_BUNDLE=/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902
 CONTAINER_SITE="${STAGE10_ROOT:-/scratch/e1192548/stage23_o1_20260903/stage10_root}/runtime/venv/lib/python3.12/site-packages"
-test -f "$IMAGE" -d "$FFMPEG_BUNDLE" -d "$CONTAINER_SITE"
+test -f "$IMAGE"
+test -d "$FFMPEG_BUNDLE"
+test -d "$CONTAINER_SITE"
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n1 | sed 's/[[:space:]]*$//')"
 test "$GPU_COUNT" -eq 1
