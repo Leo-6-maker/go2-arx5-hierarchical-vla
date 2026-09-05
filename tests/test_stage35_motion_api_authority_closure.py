@@ -9,6 +9,7 @@ import numpy as np
 import pytest
 
 from go2arx5_vla.contracts import MotionIntentV2, TrajectoryChunkV1
+from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig
 from go2arx5_vla.motion_api import build_geometry_candidate, build_timing_candidate
 from go2arx5_vla.oracle import build_case
 
@@ -55,6 +56,30 @@ def test_v2_materializes_u_then_gamma_and_preserves_endpoints() -> None:
     assert float(timing.progress_at(-1.0)) == 0.0
     assert float(timing.progress_at(3.0)) == 1.0
     assert chunk.provenance["materialization"] == "u(t)_then_Gamma(u)"
+
+
+def test_full_density_t0_and_existing_adapter_path_are_exact() -> None:
+    dense = _chunk("N", 0)
+    intent = MotionIntentV2.from_trajectory_chunk(dense, timing_mode="T0")
+    rebuilt = intent.to_trajectory_chunk(
+        expected_source_frame=SOURCE_FRAME,
+        expected_tcp_semantic_id=TCP_ID,
+        query_timestamps=dense.point_timestamps,
+    )
+    assert np.allclose(rebuilt.point_timestamps, dense.point_timestamps, atol=1e-12, rtol=0.0)
+    assert np.allclose(rebuilt.eef_position, dense.eef_position, atol=1e-12, rtol=0.0)
+    assert np.allclose(rebuilt.eef_orientation, dense.eef_orientation, atol=1e-12, rtol=0.0)
+    adapter = GR00TToWBCAdapter(
+        ReferenceAdapterConfig(
+            expected_source_frame=SOURCE_FRAME,
+            wbc_frame=SOURCE_FRAME,
+            tcp_semantic_id=TCP_ID,
+        )
+    )
+    preview, gripper = adapter.adapt(rebuilt, controller_timestamp=0.25)
+    assert np.isfinite(preview.eef_position).all()
+    assert np.isfinite(preview.eef_rot6d).all()
+    assert gripper is not None
 
 
 def test_same_geometry_different_timing_is_causally_separate() -> None:

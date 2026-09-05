@@ -11,6 +11,8 @@ submit PBS work.
 2. Evaluate `MotionIntentV2` as independent geometry `Gamma(u)` plus timing
    `u(t)`.  Runtime materialization must evaluate `u(t)` first and then
    `Gamma(u)` using linear XYZ and quaternion SLERP.
+   Full-density T0 reproduces the source chunk, and the materialized chunk is
+   accepted by the existing `GR00TToWBCAdapter` without WBC-specific V2 code.
 3. Generate a new deterministic 32-case candidate corpus: eight cases each
    for nominal reaching (`N`), timing variation (`T`), progressive relocation
    (`P`), and hidden-witness continuous-base coordination (`C`).

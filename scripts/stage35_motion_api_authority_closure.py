@@ -30,6 +30,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
 from go2arx5_vla.contracts import MotionIntentV2, TrajectoryChunkV1  # noqa: E402
+from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig  # noqa: E402
 from go2arx5_vla.motion_api import (  # noqa: E402
     DEFAULT_ENDPOINT_CLAMP_AGREEMENT_MIN,
     DEFAULT_PREVIEW_POSITION_P95_LIMIT_M,
@@ -111,7 +112,7 @@ V1_CONTRACT_FILES = (
 )
 DEFAULT_OUTPUT_ROOT = Path(
     "/scratch/e1192548/leon-storage/runs/"
-    "stage35_motion_api_authority_closure_20260905/stage35_cpu_20260905_v1"
+    "stage35_motion_api_authority_closure_20260905/stage35_cpu_20260905_v2"
 )
 PROTOCOL_MANIFEST_PATH = REPO / "manifests/STAGE35_ORACLE_CORPUS_V1.json"
 
@@ -914,6 +915,39 @@ def _run_semantic_closure(base_head: str | None, chunks: Mapping[str, Trajectory
         np.allclose(materialized.eef_position, direct_position, atol=1e-12, rtol=0.0)
         and np.allclose(materialized.eef_orientation, direct_orientation, atol=1e-12, rtol=0.0)
     )
+    full_density_v2 = MotionIntentV2.from_trajectory_chunk(dense, timing_mode="T0")
+    full_density = full_density_v2.to_trajectory_chunk(
+        expected_source_frame=SOURCE_FRAME,
+        expected_tcp_semantic_id=TCP_SEMANTIC_ID,
+        query_timestamps=dense.point_timestamps,
+    )
+    t0_source_reproduction = bool(
+        np.allclose(full_density.eef_position, dense.eef_position, atol=1e-12, rtol=0.0)
+        and np.allclose(full_density.eef_orientation, dense.eef_orientation, atol=1e-12, rtol=0.0)
+        and np.allclose(full_density.point_timestamps, dense.point_timestamps, atol=1e-12, rtol=0.0)
+    )
+    try:
+        adapter = GR00TToWBCAdapter(
+            ReferenceAdapterConfig(
+                expected_source_frame=SOURCE_FRAME,
+                wbc_frame=SOURCE_FRAME,
+                tcp_semantic_id=TCP_SEMANTIC_ID,
+            )
+        )
+        adapter_preview, adapter_gripper = adapter.adapt(
+            materialized, controller_timestamp=float(query_times[3])
+        )
+        adapter_pass = bool(
+            np.isfinite(adapter_preview.eef_position).all()
+            and np.isfinite(adapter_preview.eef_rot6d).all()
+            and adapter_preview.source_frame == SOURCE_FRAME
+            and adapter_preview.tcp_semantic_id == TCP_SEMANTIC_ID
+            and adapter_gripper is not None
+        )
+        adapter_error = None
+    except (ValueError, TypeError, RuntimeError) as exc:
+        adapter_pass = False
+        adapter_error = str(exc)
     endpoint_clamp = bool(
         float(timing.progress_at(-1.0)) == 0.0
         and float(timing.progress_at(3.0)) == 1.0
@@ -1003,6 +1037,8 @@ def _run_semantic_closure(base_head: str | None, chunks: Mapping[str, Trajectory
     contract_hash = sha256_bytes(canonical_json(contract_payload))
     tests_pass = bool(
         materialization_exact
+        and t0_source_reproduction
+        and adapter_pass
         and endpoint_clamp
         and frame_guard
         and tcp_guard
@@ -1021,6 +1057,9 @@ def _run_semantic_closure(base_head: str | None, chunks: Mapping[str, Trajectory
             "source_frame_guard": frame_guard,
             "tcp_semantic_guard": tcp_guard,
             "endpoint_clamp": endpoint_clamp,
+            "t0_full_density_source_reproduction": t0_source_reproduction,
+            "existing_groot_to_wbc_adapter_path": adapter_pass,
+            "existing_groot_to_wbc_adapter_error": adapter_error,
         },
         "validation_guards": {
             "nonmonotonic_timing_rejected": timing_guard,
@@ -1068,7 +1107,8 @@ def _write_corpus(output_root: Path) -> tuple[dict[str, TrajectoryChunkV1], dict
                     "support_proof_status": payload["support_witness"]["support_proof_status"],
                 }
             )
-    case_records.sort(key=lambda row: row["case_id"])
+    case_order = {case_id: index for index, case_id in enumerate(case_ids())}
+    case_records.sort(key=lambda row: case_order[row["case_id"]])
     tree_sha = sha256_bytes(
         canonical_json(
             [{"relative_path": row["relative_path"], "sha256": row["sha256"]} for row in case_records]
@@ -1195,6 +1235,7 @@ def _run_e0(reference_audit: Mapping[str, Any], generated_manifest: Mapping[str,
     return {
         "schema": "STAGE35_E0_CONTINUOUS_BASE_AUDIT_V1",
         "result": "NO_VALID_CONTINUOUS_BASE_COHORT_PROVENANCE",
+        "support_authority_status": "SUPPORT_AUTHORITY_MISSING",
         "generated_candidate_cases": int(
             sum(1 for row in generated_manifest.get("case_records", []) if row.get("family") == "C")
         ),
