@@ -12,10 +12,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib
 import json
 import math
 import os
 import platform
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -24,7 +26,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 
 REPO = Path(__file__).resolve().parents[1]
-PI_GATE_ID = "PI_GATE_STATE_0021"
+PI_GATE_ID = "PI_GATE_STATE_0022"
 NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE36_LONG_HORIZON_LADDER"
 EXPECTED_PROJECT = "CFP03-CF-004"
 EXPECTED_REFERENCE_MODE = "BENCHMARK_CONTINUOUS"
@@ -32,6 +34,25 @@ EXPECTED_SEED = 13
 EXPECTED_SECONDS = 2.0
 MAX_ROWS = 96
 EXPECTED_STATUS = "NATIVE_BENCHMARK_CONTINUOUS_PASS"
+AUTHORITY_RUN_REL = Path(
+    "runs/2026-08-05/"
+    "stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018"
+)
+AUTHORITY_EXPECTED = {
+    "arm_checkpoint": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+    "dog_checkpoint": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+    "native_config": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb",
+    "native_urdf": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+    "native_reach_table": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa",
+    "trajectory_module": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a",
+    "wbc_env": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+    "legged_robot": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60",
+    "wbc_wrapper": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7",
+}
+RUNTIME_CUDNN_LIB = Path(
+    "/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/"
+    "nvidia/cudnn/lib/libcudnn.so.8"
+)
 
 
 def now_utc() -> str:
@@ -139,6 +160,294 @@ def run_gpu_preflight(output_root: Path) -> Dict[str, Any]:
     except Exception as exc:
         result["error"] = {"type": type(exc).__name__, "message": str(exc)}
     write_json(output_root / "stage36_gpu_preflight.json", result)
+    return result
+
+
+def _resolved_file_record(path: Path, expected_sha256: str, logical_name: str) -> Dict[str, Any]:
+    record: Dict[str, Any] = {
+        "logical_name": logical_name,
+        "path": str(path),
+        "resolved_path": str(path.resolve()) if path.exists() else None,
+        "exists": path.is_file(),
+        "is_symlink": path.is_symlink(),
+        "expected_sha256": expected_sha256,
+        "sha256": None,
+        "status": "BLOCKED",
+    }
+    if path.is_file() and not path.is_symlink():
+        record["sha256"] = sha256_file(path)
+        record["status"] = "PASS" if record["sha256"] == expected_sha256 else "MISMATCH"
+    return record
+
+
+def runtime_qualification(
+    output_root: Path,
+    source_root: Path,
+    arm: Path,
+    dog: Path,
+    plan: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Qualify the recovered native runtime before the first scientific row.
+
+    This is deliberately not a trajectory rollout: it verifies immutable
+    inputs, loads the exact policy weights on CPU, performs repeated zero-input
+    policy forwards, builds the exact controller configuration, and constructs
+    then closes one native environment without reset() or step().
+    """
+
+    result: Dict[str, Any] = {
+        "schema": "STAGE36_RUNTIME_QUALIFICATION_V1",
+        "timestamp_utc": now_utc(),
+        "runtime_identity_class": "RECONSTRUCTED_COMPATIBLE_RUNTIME",
+        "source_root": str(source_root),
+        "python_executable": sys.executable,
+        "python_version": platform.python_version(),
+        "ld_library_path": os.environ.get("LD_LIBRARY_PATH", ""),
+        "cudnn": {
+            "path": str(RUNTIME_CUDNN_LIB),
+            "resolved_path": str(RUNTIME_CUDNN_LIB.resolve())
+            if RUNTIME_CUDNN_LIB.exists()
+            else None,
+            "exists": RUNTIME_CUDNN_LIB.is_file(),
+            "sha256": sha256_file(RUNTIME_CUDNN_LIB)
+            if RUNTIME_CUDNN_LIB.is_file()
+            else None,
+            "bound_by_library_path": str(RUNTIME_CUDNN_LIB.parent)
+            in os.environ.get("LD_LIBRARY_PATH", "").split(":"),
+        },
+        "components": [],
+        "imports": {},
+        "policy_load": {},
+        "synthetic_smoke": {},
+        "config": {},
+        "environment_construction": {
+            "attempted": False,
+            "reset_called": False,
+            "step_called": False,
+            "status": "NOT_ATTEMPTED",
+        },
+        "no_hidden_fallback": True,
+        "status": "BLOCKED",
+        "error": None,
+        "scientific_rollout": False,
+        "gr00t_model_constructed": False,
+    }
+    env = None
+    try:
+        authority_root = source_root.resolve()
+        selected_run = authority_root / AUTHORITY_RUN_REL
+        selected = {
+            "arm_checkpoint": arm,
+            "dog_checkpoint": dog,
+            "native_config": selected_run / "scripts/config/wbc.py",
+            "native_urdf": authority_root / "resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+            "native_reach_table": authority_root / "resources/reach_tables/go2_x5_2d.pt",
+            "trajectory_module": authority_root / "modules/trajectory.py",
+            "wbc_env": authority_root / "go1_gym/envs/roboduet/wbc_env.py",
+            "legged_robot": authority_root / "go1_gym/envs/roboduet/legged_robot.py",
+            "wbc_wrapper": authority_root / "go1_gym/envs/roboduet/wbc_env_wrapper.py",
+        }
+        plan_hashes = plan.get("authority_component_hashes")
+        if not isinstance(plan_hashes, dict):
+            raise RuntimeError("plan is missing authority_component_hashes")
+        if {
+            key: plan_hashes.get(key)
+            for key in AUTHORITY_EXPECTED
+        } != AUTHORITY_EXPECTED:
+            raise RuntimeError("plan authority hashes do not match frozen authority identities")
+        result["components"] = [
+            _resolved_file_record(path, AUTHORITY_EXPECTED[name], name)
+            for name, path in selected.items()
+        ]
+        component_errors = [
+            row["logical_name"]
+            for row in result["components"]
+            if row["status"] != "PASS"
+        ]
+        if component_errors:
+            raise RuntimeError("authority component verification failed: %s" % ",".join(component_errors))
+        if arm.resolve() != selected["arm_checkpoint"].resolve() or dog.resolve() != selected["dog_checkpoint"].resolve():
+            raise RuntimeError("checkpoint path binding is not the selected authority run")
+
+        if str(REPO / "scripts") not in sys.path:
+            sys.path.insert(0, str(REPO / "scripts"))
+        if str(source_root) not in sys.path:
+            sys.path.insert(0, str(source_root))
+        # The recovered runtime contract requires IsaacGym before Torch.
+        import isaacgym
+        import torch
+        import torchvision
+        import torchaudio
+        import gym
+        trajectory = importlib.import_module("modules.trajectory")
+        reachability = importlib.import_module("modules.reachability")
+        config_module = importlib.import_module("go1_gym.envs.config")
+        wbc_env_module = importlib.import_module("go1_gym.envs.roboduet.wbc_env")
+        legged_robot_module = importlib.import_module("go1_gym.envs.roboduet.legged_robot")
+        wrapper_module = importlib.import_module("go1_gym.envs.roboduet.wbc_env_wrapper")
+        imported = {
+            "isaacgym": isaacgym,
+            "torch": torch,
+            "torchvision": torchvision,
+            "torchaudio": torchaudio,
+            "gym": gym,
+            "modules.trajectory": trajectory,
+            "modules.reachability": reachability,
+            "go1_gym.envs.config": config_module,
+            "go1_gym.envs.roboduet.wbc_env": wbc_env_module,
+            "go1_gym.envs.roboduet.legged_robot": legged_robot_module,
+            "go1_gym.envs.roboduet.wbc_env_wrapper": wrapper_module,
+        }
+        result["imports"] = {
+            name: {
+                "origin": str(Path(getattr(module, "__file__")).resolve()),
+                "under_source_root": name in ("isaacgym", "torch", "torchvision", "torchaudio", "gym")
+                or str(Path(getattr(module, "__file__")).resolve()).startswith(str(source_root.resolve()) + "/"),
+                "version": getattr(module, "__version__", None),
+            }
+            for name, module in imported.items()
+        }
+        source_module_names = (
+            "modules.trajectory",
+            "modules.reachability",
+            "go1_gym.envs.config",
+            "go1_gym.envs.roboduet.wbc_env",
+            "go1_gym.envs.roboduet.legged_robot",
+            "go1_gym.envs.roboduet.wbc_env_wrapper",
+        )
+        if not all(result["imports"][name]["under_source_root"] for name in source_module_names):
+            raise RuntimeError("one or more controller modules resolved outside the exact source root")
+        result["versions"] = {
+            "torch": str(torch.__version__),
+            "torch_cuda": str(torch.version.cuda),
+            "torchvision": str(torchvision.__version__),
+            "torchaudio": str(torchaudio.__version__),
+            "gym": str(gym.__version__),
+            "cuda_available": bool(torch.cuda.is_available()),
+            "device_count": int(torch.cuda.device_count()),
+        }
+        if not (
+            platform.python_version() == "3.8.20"
+            and str(torch.__version__).startswith("2.3.1+cu121")
+            and str(torch.version.cuda) == "12.1"
+            and str(torchvision.__version__).startswith("0.18.1+cu121")
+            and str(torchaudio.__version__).startswith("2.3.1+cu121")
+            and str(gym.__version__) == "0.23.1"
+            and bool(torch.cuda.is_available())
+            and int(torch.cuda.device_count()) == 1
+            and shutil.which("ninja") is not None
+            and result["cudnn"]["exists"]
+            and result["cudnn"]["bound_by_library_path"]
+        ):
+            raise RuntimeError("runtime version/GPU/library contract failed")
+
+        from native_wbc_benchmark import actor_model_classes, configure_eval, safe_load_actor
+
+        ArmActor, DogActor = actor_model_classes()
+        arm_model, dog_model = ArmActor(), DogActor()
+        result["policy_load"] = {
+            "arm": safe_load_actor("arm", arm, arm_model, torch),
+            "dog": safe_load_actor("dog", dog, dog_model, torch),
+        }
+        zero_arm = torch.zeros((1, 12060), dtype=torch.float32)
+        zero_dog = torch.zeros((1, 2700), dtype=torch.float32)
+        with torch.inference_mode():
+            arm_first = arm_model(zero_arm)
+            dog_first = dog_model(zero_dog)
+            arm_second = arm_model(zero_arm)
+            dog_second = dog_model(zero_dog)
+        synthetic = {
+            "arm_shape": list(arm_first.shape),
+            "dog_shape": list(dog_first.shape),
+            "finite": bool(
+                torch.isfinite(arm_first).all()
+                and torch.isfinite(dog_first).all()
+                and torch.isfinite(arm_second).all()
+                and torch.isfinite(dog_second).all()
+            ),
+            "deterministic_exact": bool(
+                torch.equal(arm_first, arm_second) and torch.equal(dog_first, dog_second)
+            ),
+            "tolerance": 0.0,
+            "arm_first_sha256": hashlib.sha256(arm_first.detach().numpy().tobytes()).hexdigest(),
+            "dog_first_sha256": hashlib.sha256(dog_first.detach().numpy().tobytes()).hexdigest(),
+            "arm_second_sha256": hashlib.sha256(arm_second.detach().numpy().tobytes()).hexdigest(),
+            "dog_second_sha256": hashlib.sha256(dog_second.detach().numpy().tobytes()).hexdigest(),
+        }
+        result["synthetic_smoke"] = synthetic
+        if not synthetic["finite"] or not synthetic["deterministic_exact"]:
+            raise RuntimeError("synthetic policy smoke failed")
+
+        from go1_gym import MINI_GYM_ROOT_DIR
+        from go1_gym.envs.config import RoboDuetRuntimeOptions, build_roboduet_config
+        from go1_gym.utils.global_switch import global_switch
+
+        options = RoboDuetRuntimeOptions(
+            num_envs=1,
+            robot="go2_x5",
+            use_rot6d=True,
+            dyna_gait=True,
+            goal_reaching=True,
+            traj_tracking=True,
+            arm_action_mode="end_to_end",
+            reach_table=True,
+        )
+        cfg = build_roboduet_config(options=options, debug=True)
+        configure_eval(cfg)
+        asset_path = Path(cfg.asset.file.format(MINI_GYM_ROOT_DIR=MINI_GYM_ROOT_DIR)).resolve()
+        reach_path = Path(cfg.wbc.goal_reaching.reach_table_path.format(MINI_GYM_ROOT_DIR=MINI_GYM_ROOT_DIR)).resolve()
+        result["config"] = {
+            "status": "PASS",
+            "asset_path": str(asset_path),
+            "reach_table_path": str(reach_path),
+            "asset_hash": sha256_file(asset_path) if asset_path.is_file() else None,
+            "reach_table_hash": sha256_file(reach_path) if reach_path.is_file() else None,
+            "asset_matches_authority": asset_path == selected["native_urdf"].resolve(),
+            "reach_table_matches_authority": reach_path == selected["native_reach_table"].resolve(),
+        }
+        if not (
+            result["config"]["asset_matches_authority"]
+            and result["config"]["reach_table_matches_authority"]
+            and result["config"]["asset_hash"] == AUTHORITY_EXPECTED["native_urdf"]
+            and result["config"]["reach_table_hash"] == AUTHORITY_EXPECTED["native_reach_table"]
+        ):
+            raise RuntimeError("config asset/reach-table binding failed")
+
+        global_switch.open_switch()
+        result["environment_construction"]["attempted"] = True
+        env = wbc_env_module.WBCEnv(
+            sim_device="cuda:0",
+            headless=True,
+            num_envs=1,
+            cfg=cfg,
+            graphics_device_id=0,
+        )
+        result["environment_construction"].update(
+            {
+                "status": "PASS",
+                "class": type(env).__name__,
+                "device": str(env.device),
+                "num_envs": int(env.num_envs),
+                "reach_table_loaded": getattr(env, "reach_table", None) is not None,
+            }
+        )
+        if not result["environment_construction"]["reach_table_loaded"]:
+            raise RuntimeError("environment silently fell back without native reach table")
+        result["status"] = "PASS"
+    except Exception as exc:
+        result["error"] = {"type": type(exc).__name__, "message": str(exc)}
+    finally:
+        if env is not None:
+            try:
+                env.close()
+            except Exception as exc:
+                result["environment_construction"]["close_error"] = {
+                    "type": type(exc).__name__,
+                    "message": str(exc),
+                }
+                if result["status"] == "PASS":
+                    result["status"] = "BLOCKED"
+    write_json(output_root / "stage36_runtime_qualification.json", result)
     return result
 
 
@@ -399,6 +708,7 @@ def make_return(
         "ARTIFACT_SEAL_SHA256": seal_sha256,
         "DETAIL_OUTPUTS": {
             "gpu_preflight": str(output_root / "stage36_gpu_preflight.json"),
+            "runtime_qualification": str(output_root / "stage36_runtime_qualification.json"),
             "campaign_plan": str(output_root / "stage36_campaign_plan_snapshot.json"),
             "result": str(output_root / "stage36_result.json"),
             "raw_hash_manifest": str(output_root / "stage36_raw_hash_manifest.json"),
@@ -434,6 +744,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     scientific_execution_begun = False
     rows: List[Dict[str, Any]] = []
     error: Optional[Dict[str, Any]] = None
+    runtime_qualification_result: Optional[Dict[str, Any]] = None
     status = "BLOCKED"
     log_event(output_root, "START", plan=str(args.plan), pbs_job_id=os.environ.get("PBS_JOBID"))
     try:
@@ -449,6 +760,21 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             raise RuntimeError("native runner or exact checkpoint input missing")
         if sha256_file(args.native_runner) != plan.get("native_runner_sha256", sha256_file(args.native_runner)):
             raise RuntimeError("native runner SHA does not match plan")
+        runtime_qualification_result = runtime_qualification(
+            output_root,
+            args.source_root.resolve(),
+            args.arm.resolve(),
+            args.dog.resolve(),
+            plan,
+        )
+        log_event(
+            output_root,
+            "RUNTIME_QUALIFICATION",
+            status=runtime_qualification_result.get("status"),
+            runtime_identity_class=runtime_qualification_result.get("runtime_identity_class"),
+        )
+        if runtime_qualification_result.get("status") != "PASS":
+            raise RuntimeError("native runtime qualification failed")
         rows_plan = plan["rows"]
         for index, plan_row in enumerate(rows_plan, start=1):
             row_output = output_root / "rows" / str(plan_row["row_id"])
@@ -537,6 +863,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             },
             "geometry": {"k_star": plan.get("k_star"), "status": geometry_status},
             "timing": {"t_star": plan.get("t_star"), "status": timing_status},
+            "runtime_qualification": runtime_qualification_result,
             "motion_api_classification": geometry_status,
             "continuous_base_classification": "NATIVE_WBC_PASS" if continuous_pass else "NATIVE_WBC_FAIL_OR_PARTIAL",
             "final_classification": final_classification,
@@ -614,6 +941,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "rows": rows,
             "all_finite": False,
             "status": "PARTIAL_OR_BLOCKED",
+            "runtime_qualification": runtime_qualification_result,
             "error": error,
             "next_gate": NEXT_GATE,
         }

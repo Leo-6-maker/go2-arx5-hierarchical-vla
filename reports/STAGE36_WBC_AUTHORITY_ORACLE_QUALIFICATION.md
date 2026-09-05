@@ -1,6 +1,6 @@
 # Stage36-RQ — delivered-WBC authority and long-horizon oracle qualification
 
-The canonical gate is `PI_GATE_STATE_0021` on Issue #11, with PR #22 at the
+The canonical gate is `PI_GATE_STATE_0022` on Issue #11, with PR #22 at the
 accepted base `7c1e864ee975e4e94196792ed8408f326fb4dfb9`. The branch is a
 mechanical, provenance-preserving implementation of the frozen Stage36
 ladder; it does not alter the scientific contract.
@@ -34,7 +34,11 @@ Runtime admission imports IsaacGym before Torch and checks the reconstructed
 Python 3.8.20 / PyTorch 2.3.1+cu121 / CUDA 12.1 / torchvision 0.18.1+cu121 /
 torchaudio 2.3.1+cu121 / Gym 0.23.1 surface. It imports the delivered
 trajectory, reachability, config, WBC, and wrapper modules without creating an
-actor or simulator. CORE24 calls the delivered `to_canonical` path on CPU.
+actor or simulator. The recovered image's existing cuDNN-8 library is bound
+explicitly through `LD_LIBRARY_PATH`; GPU-side runtime qualification loads the
+exact policies, repeats a zero-input synthetic forward, builds the frozen
+configuration, and constructs then closes the native environment without
+resetting or stepping it. CORE24 calls the delivered `to_canonical` path on CPU.
 CONTINUOUS8 queries the exact reach table and checks finite moving-base
 witnesses, reset identity, and fixed-base impossibility. No WBC rollout is
 claimed by either admission.

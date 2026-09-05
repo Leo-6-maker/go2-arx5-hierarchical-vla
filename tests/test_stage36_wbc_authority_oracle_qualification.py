@@ -10,7 +10,7 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 def test_stage36_gate_and_identity_constants_are_current() -> None:
-    assert stage36.PI_GATE_ID == "PI_GATE_STATE_0021"
+    assert stage36.PI_GATE_ID == "PI_GATE_STATE_0022"
     assert stage36.BASE_HEAD == "7c1e864ee975e4e94196792ed8408f326fb4dfb9"
     assert stage36.NEXT_GATE == "GPT_PI_REVIEW_AFTER_STAGE36_LONG_HORIZON_LADDER"
     assert stage36.CASE_IDS == tuple(
@@ -64,7 +64,7 @@ def test_pbs_is_auto_only_and_requests_one_h200_slot() -> None:
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
         "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V2",
-        "pi_gate": "PI_GATE_STATE_0021",
+        "pi_gate": "PI_GATE_STATE_0022",
         "plan_status": "READY_FOR_E",
         "project": "CFP03-CF-004",
         "queue": "auto",

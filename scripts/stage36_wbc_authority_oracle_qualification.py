@@ -32,7 +32,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 
 REPO = Path(__file__).resolve().parents[1]
-PI_GATE_ID = "PI_GATE_STATE_0021"
+PI_GATE_ID = "PI_GATE_STATE_0022"
 STAGE = "Stage36-RQ"
 PR_NUMBER = 22
 BASE_HEAD = "7c1e864ee975e4e94196792ed8408f326fb4dfb9"
@@ -92,6 +92,10 @@ RUNTIME_NINJA_BIN = Path(
     "stage36_runtime_reconstruction_20260905/torch_cu121_v1/ninja_target_v4/bin/ninja"
 )
 RUNTIME_PYTHON = Path("/opt/miniconda3/envs/isaacgym/bin/python")
+RUNTIME_CUDNN_LIB = Path(
+    "/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/"
+    "nvidia/cudnn/lib/libcudnn.so.8"
+)
 
 AUTHORITY_RUN_REL = Path(
     "runs/2026-08-05/"
@@ -814,6 +818,18 @@ def runtime_admission(extracted_root: Path, output_root: Path) -> Dict[str, Any]
         "image_sha256": sha256_file(RUNTIME_IMAGE) if RUNTIME_IMAGE.is_file() else None,
         "site_packages": str(RUNTIME_SITE_PACKAGES),
         "ninja": str(RUNTIME_NINJA_BIN),
+        "cudnn_library": {
+            "path": str(RUNTIME_CUDNN_LIB),
+            "resolved_path": str(RUNTIME_CUDNN_LIB.resolve())
+            if RUNTIME_CUDNN_LIB.exists()
+            else None,
+            "exists": RUNTIME_CUDNN_LIB.is_file(),
+            "is_symlink": RUNTIME_CUDNN_LIB.is_symlink(),
+            "sha256": sha256_file(RUNTIME_CUDNN_LIB)
+            if RUNTIME_CUDNN_LIB.is_file()
+            else None,
+        },
+        "ld_library_path": os.environ.get("LD_LIBRARY_PATH", ""),
         "python_executable": sys.executable,
         "python_version": platform.python_version(),
         "torch_version": None,
@@ -888,6 +904,7 @@ def runtime_admission(extracted_root: Path, output_root: Path) -> Dict[str, Any]
             if version_ok
             and source_imports_ok
             and result["ninja_available"]
+            and result["cudnn_library"]["exists"]
             and result["native_wbc_runner_exists"]
             else "BLOCKED_RUNTIME_CONTRACT_MISMATCH"
         )
@@ -1219,6 +1236,21 @@ def campaign_static_guard(output_root: Path) -> Dict[str, Any]:
 
 
 def qstat_snapshot() -> Dict[str, Any]:
+    # The exact CPU admission runs inside the scientific image, while PBS
+    # client authentication is intentionally performed from the login host.
+    # A host-side snapshot may therefore be supplied by the launcher; it is
+    # still the real qstat result and is recorded verbatim in the preflight.
+    host_returncode = os.environ.get("STAGE36_HOST_QSTAT_RETURNCODE")
+    if host_returncode is not None:
+        return {
+            "source": "login_host_snapshot",
+            "command": "qstat -u %s" % os.environ.get("USER", "e1192548"),
+            "command_available": True,
+            "returncode": int(host_returncode),
+            "stdout": os.environ.get("STAGE36_HOST_QSTAT_STDOUT", ""),
+            "stderr": os.environ.get("STAGE36_HOST_QSTAT_STDERR", ""),
+            "stage36_jobs_visible": os.environ.get("STAGE36_HOST_QSTAT_STAGE36", "false") == "true",
+        }
     code, stdout, stderr = run_capture(["qstat", "-u", os.environ.get("USER", "e1192548")])
     lower = (stdout or "").lower()
     return {
@@ -1250,7 +1282,13 @@ def make_preflight(
     scratch_usage = shutil.disk_usage("/scratch")
     tmp_usage = shutil.disk_usage("/tmp")
     qstat = qstat_snapshot()
-    qsub_code, qsub_stdout, qsub_stderr = run_capture(["qsub", "--version"])
+    host_qsub_returncode = os.environ.get("STAGE36_HOST_QSUB_RETURNCODE")
+    if host_qsub_returncode is not None:
+        qsub_code = int(host_qsub_returncode)
+        qsub_stdout = os.environ.get("STAGE36_HOST_QSUB_STDOUT", "")
+        qsub_stderr = os.environ.get("STAGE36_HOST_QSUB_STDERR", "")
+    else:
+        qsub_code, qsub_stdout, qsub_stderr = run_capture(["qsub", "--version"])
     qsub_available = qsub_code != 127
     geometry_ok = geometry.get("status") in ("PASS", "PASS_NO_QUALIFIED_K")
     continuous_ok_or_conditional = continuous.get("status") in (
@@ -1356,6 +1394,7 @@ def make_preflight(
 
 def materialize_campaign_plan(
     payloads: Mapping[str, Mapping[str, Any]],
+    authority: Mapping[str, Any],
     corpus: Mapping[str, Any],
     continuous: Mapping[str, Any],
     geometry: Mapping[str, Any],
@@ -1435,6 +1474,17 @@ def materialize_campaign_plan(
         "sparse_rows": 0,
         "geometry_status": geometry.get("status"),
         "timing_status": timing.get("status"),
+        "authority_manifest_path": str(output_root / "wbc_authority_v2_manifest.json"),
+        "authority_manifest_sha256": sha256_file(output_root / "wbc_authority_v2_manifest.json"),
+        "authority_tree_manifest_path": str(output_root / "wbc_authority_v2_tree_manifest.json"),
+        "authority_tree_manifest_sha256": sha256_file(output_root / "wbc_authority_v2_tree_manifest.json"),
+        "authority_runtime_contract_path": str(output_root / "wbc_authority_v2_runtime_contract.json"),
+        "authority_runtime_contract_sha256": sha256_file(output_root / "wbc_authority_v2_runtime_contract.json"),
+        "authority_component_hashes": {
+            row["logical_name"]: row["sha256"]
+            for row in authority.get("components", [])
+            if row.get("logical_name") and row.get("sha256")
+        },
         "reference_mode": "BENCHMARK_CONTINUOUS",
         "native_runner_path": str(REPO / "scripts/native_wbc_benchmark.py"),
         "native_runner_sha256": sha256_file(REPO / "scripts/native_wbc_benchmark.py"),
@@ -1646,6 +1696,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if preflight.get("e_predicates_pass") and payloads:
         plan = materialize_campaign_plan(
             payloads,
+            authority_result,
             corpus_result,
             continuous_result,
             geometry_result,

@@ -22,7 +22,7 @@ set -euo pipefail
 : "${STAGE36_PI_GATE:?}"
 : "${STAGE36_EXPECTED_HEAD:?}"
 
-test "${STAGE36_PI_GATE}" = "PI_GATE_STATE_0021"
+test "${STAGE36_PI_GATE}" = "PI_GATE_STATE_0022"
 test "${#STAGE36_EXPECTED_HEAD}" -eq 40
 test "${PBS_QUEUE:-auto}" = "auto"
 test -d "${STAGE36_REPO}"
@@ -66,7 +66,7 @@ export PYTHONDONTWRITEBYTECODE=1
 export CUDA_VISIBLE_DEVICES=0
 export PATH="$(dirname "${STAGE36_RUNTIME_NINJA}"):${PATH}"
 export LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6
-export LD_LIBRARY_PATH="/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${STAGE36_RUNTIME_SITE}/torch/lib:${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${STAGE36_RUNTIME_SITE}/torch/lib:${LD_LIBRARY_PATH:-}"
 
 IMAGE="${STAGE36_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
 test -f "${IMAGE}"
@@ -96,7 +96,7 @@ apptainer exec --nv --cleanenv \
   PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES=0 \
   PATH="${CONTAINER_NINJA%/ninja}:${PATH}" \
   LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6 \
-  LD_LIBRARY_PATH="/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
+  LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
   PYTHONPATH="${STAGE36_REPO}:${STAGE36_REPO}/src:${CONTAINER_SOURCE}:${CONTAINER_SITE}" \
   "${STAGE36_RUNTIME_PYTHON:-/opt/miniconda3/envs/isaacgym/bin/python}" -B \
   "${STAGE36_REPO}/scripts/stage36_wbc_oracle_campaign.py" \
