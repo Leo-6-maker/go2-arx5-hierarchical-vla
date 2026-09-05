@@ -52,7 +52,10 @@ mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" \
   "${RUN_ROOT}/runtime/cache/huggingface" "${RUN_ROOT}/runtime/cache/torch" \
   "${RUN_ROOT}/runtime/cache/triton" "${RUN_ROOT}/runtime/cache/torch_extensions" \
   "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
-exec > >(tee -a "${RUN_ROOT}/stage37_job.log") 2>&1
+# The native campaign's strict fresh-scaffold guard permits this pre-created
+# wrapper log alongside its runtime directory.  Keep the shared filename so
+# the wrapper and campaign agree on the scaffold contract.
+exec > >(tee -a "${RUN_ROOT}/stage36_job.log") 2>&1
 
 echo "STAGE37_PBS_REQUEST_QUEUE=${PBS_O_QUEUE:-unknown}"
 echo "STAGE37_PBS_EXECUTION_QUEUE=${PBS_QUEUE:-unknown}"
