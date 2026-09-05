@@ -430,6 +430,13 @@ def _audit_stage16_reference(root: Path) -> tuple[dict[str, Any], dict[str, Any]
             if record.get("sha256")
         }
     )
+    audit["reference_corpus_hashes"].update(
+        {
+            f"stage22_train_sentinel/{Path(record['path']).name}": record["sha256"]
+            for record in snapshot_records
+            if record.get("load_status") == "PASS" and record.get("sha256")
+        }
+    )
     return audit, chunks
 
 
@@ -862,6 +869,46 @@ def _seal(
     return payload, sha256_file(seal_path)
 
 
+def _compact_aggregate(value: Mapping[str, Any] | None) -> dict[str, Any] | None:
+    """Keep the control-plane return bounded; detailed rows stay sealed."""
+
+    if value is None:
+        return None
+    keys = (
+        "representation",
+        "case_count",
+        "anchor_count",
+        "preview_position_error_m",
+        "preview_rotation_error_rad",
+        "endpoint_clamp_agreement",
+        "se3_arc_length_relative_error",
+        "se3_arc_length_ratio",
+        "time_to_arc_progress_error",
+        "finite",
+        "monotonic_timestamps",
+        "start_end_pose_exact",
+        "duration_exact",
+        "passes_limits",
+    )
+    return {key: value[key] for key in keys if key in value}
+
+
+def _compact_result_map(value: Mapping[str, Any], *, mode_key: str) -> dict[str, Any]:
+    output: dict[str, Any] = {}
+    for key, row in value.items():
+        compact = {
+            mode_key: row.get(mode_key),
+            "diagnostic_case_count": row.get("diagnostic_case_count"),
+            "diagnostic_passes_limits": row.get("diagnostic_passes_limits"),
+            "promotion_status": row.get("promotion_status"),
+            "diagnostic_aggregate": _compact_aggregate(row.get("diagnostic_aggregate")),
+        }
+        if "timing_knots" in row:
+            compact["timing_knots"] = row["timing_knots"]
+        output[str(key)] = compact
+    return output
+
+
 def run(args: argparse.Namespace) -> dict[str, Any]:
     project_repo = Path(args.project_repo).resolve()
     stage16_root = Path(args.stage16_root).resolve()
@@ -946,10 +993,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "REFERENCE_PROVENANCE_STATUS": reference_status,
         "REFERENCE_CORPUS_HASHES": reference_audit.get("reference_corpus_hashes", {}),
         "REFERENCE_AUDIT_PATH": str(output_root / "stage34_a0_reference_provenance.json"),
-        "K_RESULTS_4_6_9_12": geometry.get("K_RESULTS_4_6_9_12"),
+        "K_RESULTS_4_6_9_12": _compact_result_map(
+            geometry.get("K_RESULTS_4_6_9_12", {}), mode_key="K"
+        ),
         "K_STAR": geometry.get("K_STAR"),
         "GEOMETRY_RESULT": geometry.get("GEOMETRY_RESULT"),
-        "T_RESULTS_T1_T3_T5_T9": timing.get("T_RESULTS_T1_T3_T5_T9"),
+        "T_RESULTS_T1_T3_T5_T9": _compact_result_map(
+            timing.get("T_RESULTS_T1_T3_T5_T9", {}), mode_key="timing_mode"
+        ),
         "T_STAR": timing.get("T_STAR"),
         "MOTION_INTENT_V2_CONTRACT_HASH": contract.get("contract_hash"),
         "MOTION_INTENT_V2_CONTRACT_STATUS": contract.get("status"),
@@ -962,6 +1013,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "ARTIFACT_SEAL_PATH": str(output_root / "stage34_artifact_seal.json"),
         "ARTIFACT_SEAL_SHA256": seal_sha256,
         "SEALED_FILES": seal_payload.get("sealed_files", []),
+        "DETAIL_OUTPUTS": {
+            "preflight": str(output_root / "stage34_preflight.json"),
+            "a0_reference_provenance": str(output_root / "stage34_a0_reference_provenance.json"),
+            "a_geometry": str(output_root / "stage34_a_geometry_results.json"),
+            "b_timing": str(output_root / "stage34_b_timing_results.json"),
+            "c_motion_intent": str(output_root / "stage34_c_motion_intent_contract.json"),
+            "e0_continuous_base": str(output_root / "stage34_e0_continuous_base_audit.json"),
+            "cpu_log": str(output_root / "stage34_cpu_execution.log"),
+        },
         "PBS_WRAPPER_SHA256": None,
         "SCIENTIFIC_CONTRACT_CHANGED": False,
         "GR00T_MODEL_FORWARD": False,
