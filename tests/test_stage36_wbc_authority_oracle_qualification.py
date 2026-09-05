@@ -70,6 +70,13 @@ def test_pbs_accepts_auto_route_destination_without_changing_submit_queue() -> N
     assert "STAGE36_PBS_EXECUTION_QUEUE" in source
 
 
+def test_pbs_binds_an_explicit_container_runtime_path() -> None:
+    source = (REPO / "hpc/pbs/stage36_wbc_oracle_qualification.pbs").read_text()
+    assert "STAGE36_APPTAINER_BIN" in source
+    assert "/cm/shared/apps/singularity/1.3.1/bin/apptainer" in source
+    assert '"${APPTAINER_BIN}" exec --nv --cleanenv' in source
+
+
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
         "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",
