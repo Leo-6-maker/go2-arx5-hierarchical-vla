@@ -1,9 +1,10 @@
 #!/bin/bash
-# Stage32 only: H2@1000, 9 fixed probes + 3 stock sampler calls.
-# Do not submit without the PI gate and exact hashes.
-#PBS -N st32_h2_1000
+# Stage32 PI_GATE_STATE_0014 continuation only.
+# One H200 allocation: nine teacher-forced recovery probes plus new sampler
+# calls for seeds 2224 and 2225. Seed 2223 is sealed salvage only.
+#PBS -N st32_h2_1000_cont
 #PBS -P CFP03-CF-004
-#PBS -l select=1:ngpus=1
+#PBS -l select=1:ncpus=12:ngpus=1
 #PBS -l walltime=08:00:00
 #PBS -j oe
 set -euo pipefail
@@ -14,6 +15,7 @@ set -euo pipefail
 : "${STAGE32_DATASET_DIR:?}"
 : "${STAGE32_GROOT_SOURCE:?}"
 : "${STAGE32_COSMOS_SNAPSHOT:?}"
+: "${STAGE32_COSMOS_CACHE_ROOT:?}"
 : "${STAGE32_MODALITY_CONFIG:?}"
 : "${STAGE32_SNAPSHOT_ROOT:?}"
 : "${STAGE32_H2_CHECKPOINT_1000:?}"
@@ -24,11 +26,17 @@ set -euo pipefail
 : "${STAGE32_STAGE31_ROOT:?}"
 : "${STAGE32_STAGE31_RESULT:?}"
 : "${STAGE32_STAGE31_POSTHOC:?}"
+: "${STAGE32_PARTIAL_TRACE:?}"
+: "${STAGE32_R1_RESULT:?}"
+: "${STAGE32_R1_MANIFEST:?}"
+: "${STAGE32_R1_SEAL:?}"
 : "${STAGE32_EXPECTED_PROJECT_SHA:?}"
 : "${STAGE32_PI_GATE_ID:?}"
 : "${PBS_JOBID:?}"
-test "$STAGE32_PI_GATE_ID" = PI_GATE_STATE_0013
+test "$STAGE32_PI_GATE_ID" = PI_GATE_STATE_0014
 cd "$STAGE32_REPO"
+test "$(git rev-parse HEAD)" = "$STAGE32_EXPECTED_PROJECT_SHA"
+test -z "$(git status --short)"
 RUN_ROOT="${STAGE32_OUTPUT_PARENT}/stage32_${PBS_JOBID}"
 test ! -e "$RUN_ROOT"
 mkdir -p "$RUN_ROOT/runtime/tmp" "$RUN_ROOT/runtime/cache" "$RUN_ROOT/runtime/config" "$RUN_ROOT/runtime/data"
@@ -38,9 +46,9 @@ export XDG_CACHE_HOME="$RUN_ROOT/runtime/cache" XDG_CONFIG_HOME="$RUN_ROOT/runti
 export TRITON_CACHE_DIR="$RUN_ROOT/runtime/cache/triton" TORCH_EXTENSIONS_DIR="$RUN_ROOT/runtime/cache/torch_extensions"
 export PYTHONNOUSERSITE=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 mkdir -p "$HF_HOME/hub" "$TORCH_HOME" "$TRITON_CACHE_DIR" "$TORCH_EXTENSIONS_DIR"
-COSMOS_CACHE_ROOT="$(dirname "$(dirname "$STAGE32_COSMOS_SNAPSHOT")")"
-test -d "$COSMOS_CACHE_ROOT"
-ln -s "$COSMOS_CACHE_ROOT" "$HF_HOME/hub/models--nvidia--Cosmos-Reason2-2B"
+test -d "$STAGE32_COSMOS_CACHE_ROOT"
+test -d "$STAGE32_COSMOS_SNAPSHOT"
+ln -s "$STAGE32_COSMOS_CACHE_ROOT" "$HF_HOME/hub/models--nvidia--Cosmos-Reason2-2B"
 . /etc/profile.d/modules.sh 2>/dev/null || true
 module load singularity
 IMAGE=/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif
@@ -71,16 +79,19 @@ run_stage32() {
 COMMON=(--project-repo "$STAGE32_REPO" --expected-project-sha "$STAGE32_EXPECTED_PROJECT_SHA"
   --base-model-path "$STAGE32_BASE_MODEL_PATH" --dataset-dir "$STAGE32_DATASET_DIR"
   --groot-source "$STAGE32_GROOT_SOURCE" --cosmos-snapshot "$STAGE32_COSMOS_SNAPSHOT"
+  --cosmos-cache-root "$STAGE32_COSMOS_CACHE_ROOT"
   --modality-config "$STAGE32_MODALITY_CONFIG" --snapshot-root "$STAGE32_SNAPSHOT_ROOT"
   --h2-checkpoint-1000 "$STAGE32_H2_CHECKPOINT_1000" --h2-checkpoint-2000 "$STAGE32_H2_CHECKPOINT_2000"
   --h2-checkpoint-2000-seal "$STAGE32_H2_CHECKPOINT_2000_SEAL"
   --stage28-execution-manifest "$STAGE32_STAGE28_EXECUTION_MANIFEST" --stage28-result "$STAGE32_STAGE28_RESULT"
   --stage31-root "$STAGE32_STAGE31_ROOT" --stage31-result "$STAGE32_STAGE31_RESULT"
-  --stage31-posthoc "$STAGE32_STAGE31_POSTHOC" --output-root "$RUN_ROOT"
+  --stage31-posthoc "$STAGE32_STAGE31_POSTHOC" --stage32-partial-trace "$STAGE32_PARTIAL_TRACE"
+  --stage32-r1-result "$STAGE32_R1_RESULT" --stage32-r1-manifest "$STAGE32_R1_MANIFEST" --stage32-r1-seal "$STAGE32_R1_SEAL"
+  --output-root "$RUN_ROOT"
   --pbs-template "$STAGE32_REPO/$PBS_TEMPLATE" --runner-sha256 "$RUNNER_SHA" --pbs-sha256 "$PBS_SHA"
   --authorization-token "$STAGE32_PI_GATE_ID" --pbs-job-id "$PBS_JOBID" --pbs-project CFP03-CF-004 --device cuda:0)
 run_stage32 "$RUNNER" --mode preflight "${COMMON[@]}"
-run_stage32 "$RUNNER" --mode execute "${COMMON[@]}"
-echo STAGE32_EXECUTION_COMPLETE
+run_stage32 "$RUNNER" --mode continuation "${COMMON[@]}"
+echo STAGE32_CONTINUATION_COMPLETE
 echo RUN_ROOT="$RUN_ROOT"
 echo NEXT_GATE=GPT_PI_REVIEW_AFTER_STAGE32_EXPOSURE_CURVE
