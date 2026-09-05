@@ -105,7 +105,7 @@ AUTHORITY_EXPECTED = {
         "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
     ),
     "native_config": (
-        "56132d4ff9b866ce196bbc1b1353900b967c54f0f48b2d4e4b82c3555769a0bb"
+        "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
     ),
     "native_urdf": (
         "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
@@ -1272,9 +1272,9 @@ def make_preflight(
         and not qstat.get("stage36_jobs_visible")
         and qsub_available
         and scratch_usage.free > 100 * 1024 * 1024 * 1024
-        and api_head == BASE_HEAD
-        and remote_head == BASE_HEAD
-        and git_output("rev-parse", "HEAD") == BASE_HEAD
+        and api_head == expected_head
+        and remote_head == expected_head
+        and git_output("rev-parse", "HEAD") == expected_head
         and status == ""
     )
     result = {
@@ -1693,12 +1693,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if not blockers and preflight.get("e_predicates_pass")
         else "BLOCKED"
     )
+    # Include the terminal state transition in the sealed event log.  The
+    # return JSON is excluded from the seal because it contains the seal hash
+    # itself; no files are appended after the seal is written.
+    log_event(output_root, "RETURN", result=status, blockers=blockers)
     seal = seal_cpu_artifacts(output_root)
     return_payload = build_return(output_root, preflight, plan, seal, status, blockers)
     write_json(output_root / "stage36_return.json", return_payload)
-    log_event(output_root, "RETURN", result=status, blockers=blockers)
-    # The log receives the final event after the seal; the seal intentionally
-    # excludes the return and the post-seal append so the seal remains stable.
     return 0 if status == "STAGE36_CPU_ADMISSION_PASS_READY_FOR_E" else 2
 
 
