@@ -45,6 +45,7 @@ class RuntimeImportOriginTests(unittest.TestCase):
             self.assertNotIn(forbidden, wrapper)
         self.assertNotIn("--nv", wrapper)
         self.assertIn("PYTHONPATH=\"${STAGE29_EXACT_PYTHONPATH}\"", wrapper)
+        self.assertIn('"container_image": str(', source)
 
 
 if __name__ == "__main__":

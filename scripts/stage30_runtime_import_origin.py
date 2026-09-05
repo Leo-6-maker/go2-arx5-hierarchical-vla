@@ -146,7 +146,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "python_dont_write_bytecode": os.environ.get("PYTHONDONTWRITEBYTECODE"),
         },
         "runtime": {
-            "container_image": args.container_image,
+            "container_image": str(args.container_image.resolve(strict=True)),
             "container_image_sha256": _sha256_file(args.container_image),
             "stage29_pythonpath_reproduced_exactly": True,
             "gpu_passthrough": False,
