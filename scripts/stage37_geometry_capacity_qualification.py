@@ -973,6 +973,7 @@ def make_campaign_plan(
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
         "pr": PR_NUMBER,
+        "execution_head": git_output("rev-parse", "HEAD"),
         "plan_status": "READY_FOR_E",
         "project": EXPECTED_PROJECT,
         "queue": EXPECTED_QUEUE,
@@ -1150,6 +1151,11 @@ def preflight(
         "static_guard_pass": guard.get("status") == "PASS",
         "qstat_no_active_stage37_job": qstat.get("no_active_stage37_job") is True,
         "head_api_remote_local_match": head_matches,
+        "campaign_plan_head_binding": bool(
+            plan.get("execution_head") == expected_head
+            and plan.get("accepted_live_head") == expected_head
+            and plan.get("api_head") == api_head
+        ),
         "worktree_clean": status_output == "",
         "git_diff_check_pass": diff_code == 0,
         "campaign_plan_ready": plan_ready,
@@ -1388,6 +1394,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     else:
         campaign_plan = blocked_plan(geometry, timing)
         write_json(output_root / "stage37_structured_t0_transport_audit.json", transport_audit)
+    campaign_plan["accepted_live_head"] = args.expected_head
+    campaign_plan["api_head"] = args.api_head
     campaign_plan["stage37_geometry"] = geometry
     campaign_plan["stage37_timing"] = timing
     campaign_plan["stage37_transport_audit"] = transport_audit
