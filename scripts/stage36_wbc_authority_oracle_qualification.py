@@ -361,7 +361,10 @@ def authority_components() -> list[dict[str, Any]]:
             WBC_SOURCE_ROOT / "modules/trajectory.py",
             WBC_STAGE16_ROOT / "modules/trajectory.py",
         ],
-        discover_names=("trajectory.py",),
+        # Do not accept a project contract file or any unrelated trajectory.py
+        # as the private delivered-WBC runtime module.  Only the explicitly
+        # bound delivery-tree paths can satisfy this identity.
+        discover_names=(),
     )
     preview = component(
         "native_preview_and_controller_launcher",
