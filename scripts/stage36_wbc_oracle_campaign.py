@@ -6,6 +6,8 @@ plan inside one PBS allocation and invokes the existing native WBC launcher
 once per admitted case.  It has no qsub path, no retry path, no GR00T path,
 and no training path.  A failure preserves the partial evidence and exits;
 the caller must not submit a replacement allocation after this script starts.
+The PBS wrapper may pre-create a strictly limited runtime/log scaffold before
+this runner starts; no prior campaign output may be reused.
 """
 
 from __future__ import annotations
@@ -104,6 +106,39 @@ def log_event(output_root: Path, event: str, **fields: Any) -> None:
 
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def ensure_output_root_scaffold(output_root: Path) -> None:
+    """Create a fresh output root or validate the PBS wrapper's empty scaffold.
+
+    The wrapper redirects stdout through ``stage36_job.log`` and provisions
+    scratch-backed runtime directories before invoking this process.  Keep
+    the campaign's fail-closed protection by accepting only that exact
+    pre-created shape; a result, row, arbitrary file, or symlink means that
+    this is not a fresh allocation root.
+    """
+
+    if not output_root.exists():
+        output_root.mkdir(parents=True)
+        return
+    if not output_root.is_dir() or output_root.is_symlink():
+        raise SystemExit("FAIL_CLOSED output root is not a real directory: %s" % output_root)
+
+    allowed_entries = {"runtime", "stage36_job.log"}
+    entries = {path.name for path in output_root.iterdir()}
+    if not entries <= allowed_entries or "runtime" not in entries:
+        raise SystemExit("FAIL_CLOSED output scaffold is not fresh: %s" % output_root)
+
+    runtime_root = output_root / "runtime"
+    if not runtime_root.is_dir() or runtime_root.is_symlink():
+        raise SystemExit("FAIL_CLOSED runtime scaffold is invalid: %s" % runtime_root)
+    for path in runtime_root.rglob("*"):
+        if path.is_symlink() or path.is_file():
+            raise SystemExit("FAIL_CLOSED runtime scaffold contains data: %s" % path)
+
+    log_path = output_root / "stage36_job.log"
+    if log_path.exists() and (log_path.is_symlink() or not log_path.is_file()):
+        raise SystemExit("FAIL_CLOSED job log scaffold is invalid: %s" % log_path)
 
 
 def run_gpu_preflight(output_root: Path) -> Dict[str, Any]:
@@ -795,10 +830,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--native-runner", type=Path, default=REPO / "scripts/native_wbc_benchmark.py")
     parser.add_argument("--timeout-seconds", type=float, default=900.0)
     args = parser.parse_args(argv)
-    output_root = args.output_root.resolve()
-    if output_root.exists():
-        raise SystemExit("FAIL_CLOSED output already exists: %s" % output_root)
-    output_root.mkdir(parents=True)
+    # Keep symlink identity visible to the strict scaffold guard.  Resolving
+    # here would erase a symlink before the guard could reject it.
+    output_root = args.output_root.absolute()
+    ensure_output_root_scaffold(output_root)
     scientific_execution_begun = False
     rows: List[Dict[str, Any]] = []
     error: Optional[Dict[str, Any]] = None

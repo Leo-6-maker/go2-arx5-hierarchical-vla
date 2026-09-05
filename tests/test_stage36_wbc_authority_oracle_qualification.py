@@ -4,6 +4,8 @@ import ast
 import hashlib
 from pathlib import Path
 
+import pytest
+
 from scripts import stage36_wbc_authority_oracle_qualification as stage36
 
 
@@ -75,6 +77,21 @@ def test_pbs_binds_an_explicit_container_runtime_path() -> None:
     assert "STAGE36_APPTAINER_BIN" in source
     assert "/cm/shared/apps/singularity/1.3.1/bin/apptainer" in source
     assert '"${APPTAINER_BIN}" exec --nv --cleanenv' in source
+
+
+def test_campaign_accepts_only_fresh_wrapper_scaffold(tmp_path: Path) -> None:
+    from scripts import stage36_wbc_oracle_campaign as campaign
+
+    output_root = tmp_path / "stage36_eval_123"
+    (output_root / "runtime" / "home").mkdir(parents=True)
+    (output_root / "runtime" / "tmp").mkdir()
+    (output_root / "stage36_job.log").write_text("wrapper\n")
+
+    campaign.ensure_output_root_scaffold(output_root)
+
+    (output_root / "stage36_result.json").write_text("{}\n")
+    with pytest.raises(SystemExit, match="scaffold is not fresh"):
+        campaign.ensure_output_root_scaffold(output_root)
 
 
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
