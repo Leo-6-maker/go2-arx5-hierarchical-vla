@@ -1617,6 +1617,7 @@ def materialize_campaign_plan(
     )
 
     inputs_root = output_root / "campaign_inputs"
+    inputs_root.mkdir(parents=True, exist_ok=True)
     rows: List[Dict[str, Any]] = []
     admitted_ids = list(CORE_CASE_IDS)
     if continuous.get("status") == "PASS":
