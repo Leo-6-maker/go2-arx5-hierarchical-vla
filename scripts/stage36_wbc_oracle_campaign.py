@@ -36,6 +36,7 @@ EXPECTED_REFERENCE_MODE = "BENCHMARK_CONTINUOUS"
 EXPECTED_SEED = 13
 EXPECTED_SECONDS = 2.0
 MAX_ROWS = 96
+ALLOWED_GEOMETRY_K_VALUES = (4, 6, 9, 12, 16, 20, 24, 32, 40)
 EXPECTED_STATUS = "NATIVE_BENCHMARK_CONTINUOUS_PASS"
 POST_RUN_COMPLETION_RETURN_CODE = -11
 FINALIZED_NATIVE_STATUSES = {
@@ -525,8 +526,11 @@ def validate_plan(plan: Mapping[str, Any], source_root: Path) -> List[str]:
         representations = []
     if len(set(str(value) for value in representations)) != len(representations):
         errors.append("duplicate_representations")
-    if "DENSE" not in representations:
+    stage37_structured_only = plan.get("campaign_kind") == "STAGE37_STRUCTURED_ORACLE"
+    if "DENSE" not in representations and not stage37_structured_only:
         errors.append("dense_representation_missing")
+    if stage37_structured_only and "DENSE" in representations:
+        errors.append("stage37_dense_representation_forbidden")
     allowed_representations = set(str(value) for value in representations)
     row_ids = []
     saw_robustness = False
@@ -541,7 +545,7 @@ def validate_plan(plan: Mapping[str, Any], source_root: Path) -> List[str]:
         elif not (
             representation.startswith("K")
             and "+T" in representation
-            and row.get("geometry_k") in (4, 6, 9, 12)
+            and row.get("geometry_k") in ALLOWED_GEOMETRY_K_VALUES
             and row.get("timing_mode") in ("T0", "T1", "T3", "T5", "T9")
             and representation
             == "K%d+%s" % (int(row.get("geometry_k")), str(row.get("timing_mode")))

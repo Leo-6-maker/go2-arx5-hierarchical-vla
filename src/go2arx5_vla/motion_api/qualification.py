@@ -224,11 +224,15 @@ def build_geometry_candidate(
     k: int,
     *,
     lambda_m_per_rad: float = DEFAULT_SE3_LAMBDA_M_PER_RAD,
+    allowed_k_values: Iterable[int] | None = None,
 ) -> MotionIntentV2:
     """Build the frozen uniform normalized-SE(3)-arc geometry candidate."""
 
-    if int(k) not in GEOMETRY_K_VALUES:
-        raise ValueError(f"k must be one of {GEOMETRY_K_VALUES}")
+    admissible_k_values = GEOMETRY_K_VALUES if allowed_k_values is None else tuple(
+        int(value) for value in allowed_k_values
+    )
+    if int(k) not in admissible_k_values:
+        raise ValueError(f"k must be one of {admissible_k_values}")
     if dense.point_count < int(k):
         raise ValueError("dense trajectory has fewer points than requested controls")
     segments, cumulative = _arc_map(dense.eef_position, dense.eef_orientation, lambda_m_per_rad)
