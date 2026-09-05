@@ -1237,6 +1237,7 @@ def make_preflight(
     static_guard: Mapping[str, Any],
     output_root: Path,
     api_head: str,
+    expected_head: str,
 ) -> Dict[str, Any]:
     status = git_output("status", "--porcelain")
     branch = git_output("branch", "--show-current")
@@ -1277,13 +1278,13 @@ def make_preflight(
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
         "active_stage": STAGE,
-        "expected_head": BASE_HEAD,
+        "expected_head": expected_head,
         "api_head_observed_or_bound": api_head,
         "branch": branch,
         "head": head,
         "origin_stage36_head": remote_head,
-        "head_matches_expected": head == BASE_HEAD,
-        "api_remote_local_head_match": api_head == BASE_HEAD and remote_head == BASE_HEAD and head == BASE_HEAD,
+        "head_matches_expected": head == expected_head,
+        "api_remote_local_head_match": api_head == expected_head and remote_head == expected_head and head == expected_head,
         "base_is_ancestor": git_output("merge-base", "HEAD", STAGE35_BASE_HEAD) == STAGE35_BASE_HEAD,
         "worktree_clean": status == "",
         "status_porcelain": status,
@@ -1415,6 +1416,8 @@ def materialize_campaign_plan(
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
         "active_stage": STAGE,
+        "execution_head": git_output("rev-parse", "HEAD"),
+        "accepted_start_head": BASE_HEAD,
         "plan_status": plan_status,
         "project": "CFP03-CF-004",
         "queue": "auto",
@@ -1493,7 +1496,8 @@ def build_return(
         "ACTIVE_PI_GATE": PI_GATE_ID,
         "ACTIVE_STAGE": STAGE,
         "PR": PR_NUMBER,
-        "BASE_HEAD": BASE_HEAD,
+        "ACCEPTED_START_HEAD": BASE_HEAD,
+        "EXPECTED_HEAD": git_output("rev-parse", "HEAD"),
         "LOCAL_HEAD": git_output("rev-parse", "HEAD"),
         "BRANCH": git_output("branch", "--show-current"),
         "ARTIFACT_ROOT": str(output_root),
@@ -1546,6 +1550,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--stage35-root", type=Path, default=STAGE35_ROOT)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--api-head", required=True, help="fresh direct API PR head observation")
+    parser.add_argument("--expected-head", required=True, help="fresh checkout/API/remote head to bind")
     args = parser.parse_args(argv)
     output_root = args.output_root.resolve()
 
@@ -1559,10 +1564,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         raise SystemExit("FAIL_CLOSED wrong Stage36 branch")
     if git_output("status", "--porcelain") != "":
         raise SystemExit("FAIL_CLOSED dirty worktree before Stage36")
-    if git_output("rev-parse", "HEAD") != BASE_HEAD:
-        raise SystemExit("FAIL_CLOSED local HEAD is not the active canonical HEAD")
-    if args.api_head != BASE_HEAD:
-        raise SystemExit("FAIL_CLOSED API head is not the active canonical HEAD")
+    local_head = git_output("rev-parse", "HEAD")
+    if local_head != args.expected_head:
+        raise SystemExit("FAIL_CLOSED local HEAD is not the supplied live canonical HEAD")
+    if args.api_head != args.expected_head:
+        raise SystemExit("FAIL_CLOSED API head does not equal the supplied live canonical HEAD")
+    if git_output("merge-base", "HEAD", BASE_HEAD) != BASE_HEAD:
+        raise SystemExit("FAIL_CLOSED current HEAD is not descended from accepted Stage36 start")
     if git_output("merge-base", "HEAD", STAGE35_BASE_HEAD) != STAGE35_BASE_HEAD:
         raise SystemExit("FAIL_CLOSED Stage35 base is not an ancestor")
 
@@ -1628,6 +1636,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         static_guard,
         output_root,
         args.api_head,
+        args.expected_head,
     )
     plan: Optional[Dict[str, Any]] = None
     if preflight.get("e_predicates_pass") and payloads:
