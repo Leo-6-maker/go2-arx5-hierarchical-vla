@@ -86,6 +86,12 @@ def test_pbs_binds_exact_authority_root_and_preserves_job_id() -> None:
     assert '"${AUTHORITY_PARENT}:${CONTAINER_AUTHORITY}:ro"' not in source
 
 
+def test_pbs_preserves_apptainer_nvidia_driver_paths() -> None:
+    source = (REPO / "hpc/pbs/stage36_wbc_oracle_qualification.pbs").read_text()
+    assert 'PATH="/usr/local/nvidia/bin:${CONTAINER_NINJA%/ninja}:${PATH}"' in source
+    assert "/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs" in source
+
+
 def test_campaign_accepts_only_fresh_wrapper_scaffold(tmp_path: Path) -> None:
     from scripts import stage36_wbc_oracle_campaign as campaign
 

@@ -96,6 +96,8 @@ sha256sum "scripts/stage36_wbc_oracle_campaign.py" \
 
 echo "STAGE36_APPTAINER_BIN=${APPTAINER_BIN}"
 
+# Preserve the NVIDIA paths injected by Apptainer --nv; the explicit PATH and
+# LD_LIBRARY_PATH assignments below must retain those driver-library paths.
 set +e
 "${APPTAINER_BIN}" exec --nv --cleanenv \
   --bind /scratch:/scratch \
@@ -109,9 +111,9 @@ set +e
   XDG_DATA_HOME="${XDG_DATA_HOME}" HF_HOME="${HF_HOME}" TORCH_HOME="${TORCH_HOME}" \
   TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" \
   PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES=0 \
-  PATH="${CONTAINER_NINJA%/ninja}:${PATH}" \
+  PATH="/usr/local/nvidia/bin:${CONTAINER_NINJA%/ninja}:${PATH}" \
   LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6 \
-  LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
+  LD_LIBRARY_PATH="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
   PYTHONPATH="${STAGE36_REPO}:${STAGE36_REPO}/src:${CONTAINER_SOURCE}:${CONTAINER_SITE}" \
   "${STAGE36_RUNTIME_PYTHON:-/opt/miniconda3/envs/isaacgym/bin/python}" -B \
   "${STAGE36_REPO}/scripts/stage36_wbc_oracle_campaign.py" \
