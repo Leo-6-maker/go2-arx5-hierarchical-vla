@@ -602,12 +602,12 @@ def main() -> int:
     output_root = args.output_root.resolve()
     if output_root.exists():
         raise SystemExit(f"FAIL_CLOSED output already exists: {output_root}")
-    if git_output("rev-parse", "HEAD") != BASE_HEAD:
-        raise SystemExit("FAIL_CLOSED local HEAD is not exact Stage35 base")
     if git_output("branch", "--show-current") != STAGE36_BRANCH:
         raise SystemExit("FAIL_CLOSED wrong Stage36 branch")
     if git_output("status", "--porcelain") != "":
         raise SystemExit("FAIL_CLOSED dirty worktree before Stage36")
+    if git_output("merge-base", "HEAD", BASE_HEAD) != BASE_HEAD:
+        raise SystemExit("FAIL_CLOSED Stage35 base is not an ancestor of Stage36 HEAD")
 
     output_root.mkdir(parents=True)
     authority = authority_components()
