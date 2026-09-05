@@ -62,6 +62,14 @@ def test_pbs_is_auto_only_and_requests_one_h200_slot() -> None:
         assert "#PBS -q %s" % queue not in source
 
 
+def test_pbs_accepts_auto_route_destination_without_changing_submit_queue() -> None:
+    source = (REPO / "hpc/pbs/stage36_wbc_oracle_qualification.pbs").read_text()
+    assert 'test "${PBS_O_QUEUE:-}" = "auto"' in source
+    assert 'test "${PBS_QUEUE:-auto}" = "auto"' not in source
+    assert "STAGE36_PBS_REQUEST_QUEUE" in source
+    assert "STAGE36_PBS_EXECUTION_QUEUE" in source
+
+
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
         "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",

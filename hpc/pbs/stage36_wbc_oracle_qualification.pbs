@@ -24,7 +24,10 @@ set -euo pipefail
 
 test "${STAGE36_PI_GATE}" = "PI_GATE_STATE_0023"
 test "${#STAGE36_EXPECTED_HEAD}" -eq 40
-test "${PBS_QUEUE:-auto}" = "auto"
+# `auto` is the submission/routing queue.  PBS may expose its selected
+# execution destination (for example `small`) as PBS_QUEUE, so validate the
+# requested queue through PBS_O_QUEUE and record both values below.
+test "${PBS_O_QUEUE:-}" = "auto"
 test -d "${STAGE36_REPO}"
 test -f "${STAGE36_PLAN}"
 test -d "${STAGE36_AUTHORITY_EXTRACTED_ROOT}/WBCTrackingShare"
@@ -51,6 +54,9 @@ mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" \
   "${RUN_ROOT}/runtime/cache/triton" "${RUN_ROOT}/runtime/cache/torch_extensions" \
   "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
 exec > >(tee -a "${RUN_ROOT}/stage36_job.log") 2>&1
+
+echo "STAGE36_PBS_REQUEST_QUEUE=${PBS_O_QUEUE:-unknown}"
+echo "STAGE36_PBS_EXECUTION_QUEUE=${PBS_QUEUE:-unknown}"
 
 export HOME="${RUN_ROOT}/runtime/home"
 export TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
