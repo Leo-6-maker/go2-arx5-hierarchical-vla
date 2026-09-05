@@ -29,7 +29,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 
 REPO = Path(__file__).resolve().parents[1]
-PI_GATE_ID = "PI_GATE_STATE_0023"
+PI_GATE_ID = "PI_GATE_STATE_0025"
 NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE36_LONG_HORIZON_LADDER"
 EXPECTED_PROJECT = "CFP03-CF-004"
 EXPECTED_REFERENCE_MODE = "BENCHMARK_CONTINUOUS"
@@ -885,29 +885,114 @@ def load_resume_rows(
     }
 
 
+LIFECYCLE_SEMANTIC_POLICY = (
+    "joint_limit_violation_is_diagnostic_only; "
+    "joint_limit_or_joint_limit_termination_is_true_joint_limit_failure; "
+    "tracking_abort_and_native_task_termination_fail_only_before_reference_completion"
+)
+
+
+def _flag_value(row: Mapping[str, Any], name: str) -> bool:
+    value = row.get(name, False)
+    if isinstance(value, (list, tuple)):
+        return any(bool(item) for item in value)
+    return bool(value)
+
+
+def hard_lifecycle_flags(row: Mapping[str, Any]) -> Dict[str, bool]:
+    """Return lifecycle failures without promoting soft joint margins.
+
+    This mirrors ``src/go2arx5_vla/benchmark/lifecycle.py``.  In particular,
+    ``joint_limit_violation`` is intentionally returned as a diagnostic by
+    ``safety_profile`` and is never included in ``hard_failure``.
+    """
+
+    termination_code = str(row.get("termination_code", "UNKNOWN"))
+    reference_complete = _flag_value(row, "reference_complete")
+    fall = (
+        _flag_value(row, "fall_flag")
+        or _flag_value(row, "fall")
+        or _flag_value(row, "body_height_buf")
+        or termination_code == "FALL"
+    )
+    invalid_state = (
+        _flag_value(row, "invalid_state")
+        or _flag_value(row, "non_finite_state")
+        or not finite_value(dict(row))
+        or termination_code == "INVALID_STATE"
+    )
+    timeout = (
+        _flag_value(row, "time_out_buf")
+        or _flag_value(row, "timeout")
+        or termination_code in ("TIME_LIMIT", "TIMEOUT")
+    )
+    tracking_abort = (
+        _flag_value(row, "traj_early_term")
+        or _flag_value(row, "tracking_abort")
+        or termination_code == "TRACKING_ABORT"
+    )
+    native_task_termination = (
+        _flag_value(row, "native_task_termination")
+        or _flag_value(row, "reset_buf")
+        or termination_code == "NATIVE_TASK_TERMINATION"
+    )
+    true_joint_limit = (
+        _flag_value(row, "joint_limit")
+        or _flag_value(row, "joint_limit_termination")
+        or termination_code == "JOINT_LIMIT"
+    )
+    return {
+        "fall": fall,
+        "invalid_state": invalid_state,
+        "timeout": timeout,
+        "tracking_abort_before_reference_completion": tracking_abort and not reference_complete,
+        "native_task_termination_before_reference_completion": native_task_termination and not reference_complete,
+        "joint_limit_termination": true_joint_limit,
+    }
+
+
 def safety_profile(rows: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
     transitions: List[Dict[str, Any]] = []
     previous: Optional[tuple] = None
     for row in rows:
+        hard_flags = hard_lifecycle_flags(row)
         state = (
             row.get("termination_code"),
             bool(row.get("reference_complete", False)),
-            bool(row.get("fall_flag", False)),
-            bool(row.get("invalid_state", False)),
+            hard_flags["fall"],
+            hard_flags["invalid_state"],
+            hard_flags["timeout"],
+            hard_flags["tracking_abort_before_reference_completion"],
+            hard_flags["native_task_termination_before_reference_completion"],
+            hard_flags["joint_limit_termination"],
             bool(row.get("joint_limit_violation", False)),
         )
         if state != previous:
             transitions.append({"step": row.get("step"), "state": list(state)})
             previous = state
-    violation = any(
-        bool(row.get(name, False))
-        for row in rows
-        for name in ("fall_flag", "invalid_state", "joint_limit_violation", "joint_limit_termination")
+    flags = [hard_lifecycle_flags(row) for row in rows]
+    violation = any(any(values.values()) for values in flags)
+    diagnostic_joint_margin_violation = any(
+        _flag_value(row, "joint_limit_violation") for row in rows
     )
     finite = all(finite_value(dict(row)) for row in rows)
     return {
         "finite": finite,
         "safety_violation": violation,
+        "hard_failure": violation,
+        "hard_failure_flags": {
+            name: any(values[name] for values in flags)
+            for name in (
+                "fall",
+                "invalid_state",
+                "timeout",
+                "tracking_abort_before_reference_completion",
+                "native_task_termination_before_reference_completion",
+                "joint_limit_termination",
+            )
+        },
+        "diagnostic_joint_margin_violation": diagnostic_joint_margin_violation,
+        "lifecycle_semantic_policy": LIFECYCLE_SEMANTIC_POLICY,
         "transitions": transitions,
         "termination_codes": sorted({str(row.get("termination_code", "UNKNOWN")) for row in rows}),
         "row_count": len(rows),

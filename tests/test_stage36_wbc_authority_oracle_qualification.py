@@ -171,8 +171,61 @@ def test_complete_native_output_with_teardown_signal_is_immutable_result(tmp_pat
     assert row["scientific_row_finalized"] is True
     assert row["post_run_completion_signal"] is True
     assert row["runner_pass"] is True
+    assert row["tracking_pass"] is True
+    assert row["safety_gate"]["safety_violation"] is False
+    assert row["safety_gate"]["diagnostic_joint_margin_violation"] is True
+
+
+def test_true_joint_limit_termination_remains_a_hard_lifecycle_failure(tmp_path: Path) -> None:
+    from scripts import stage36_wbc_oracle_campaign as campaign
+
+    output_dir = tmp_path / "row"
+    output_dir.mkdir()
+    summary = {
+        "status": "NATIVE_BENCHMARK_CONTINUOUS_PASS",
+        "termination": "REFERENCE_COMPLETE",
+        "steps": 1,
+        "reference_completed": True,
+        "error": None,
+        "metrics": {"position_m": {"rmse": 0.0}},
+    }
+    raw_row = {
+        "step": 0,
+        "termination_code": "JOINT_LIMIT",
+        "reference_complete": False,
+        "fall_flag": False,
+        "invalid_state": False,
+        "joint_limit_violation": False,
+        "joint_limit_termination": True,
+        "base_pos": [0.0, 0.0, 0.0],
+    }
+    (output_dir / "native_external_summary.json").write_text(
+        __import__("json").dumps(summary) + "\n"
+    )
+    (output_dir / "native_external_rows.jsonl").write_text(
+        __import__("json").dumps(raw_row) + "\n"
+    )
+    plan_row = {
+        "row_id": "dense_N01_seed13_primary",
+        "case_id": "N01",
+        "family": "N",
+        "representation": "DENSE",
+        "geometry_k": None,
+        "timing_mode": None,
+        "phase": "PRIMARY",
+        "seed": 13,
+        "reference_mode": "BENCHMARK_CONTINUOUS",
+        "seconds": 2.0,
+        "trajectory_path": "/scratch/input.npz",
+        "trajectory_sha256": "a" * 64,
+    }
+
+    row = campaign.row_result(plan_row, output_dir, 0, False)
+
+    assert row["runner_pass"] is True
     assert row["tracking_pass"] is False
     assert row["safety_gate"]["safety_violation"] is True
+    assert row["safety_gate"]["hard_failure_flags"]["joint_limit_termination"] is True
 
 
 def test_resume_projection_ignores_allocation_identity_but_keeps_science() -> None:
@@ -258,7 +311,7 @@ def test_resume_row_match_ignores_staging_paths_but_rejects_hash_drift() -> None
 def test_campaign_plan_rows_are_dense_only_when_validated(tmp_path: Path) -> None:
     plan = {
         "schema": "STAGE36_WBC_ORACLE_CAMPAIGN_PLAN_V3",
-        "pi_gate": "PI_GATE_STATE_0023",
+        "pi_gate": "PI_GATE_STATE_0025",
         "plan_status": "READY_FOR_E",
         "project": "CFP03-CF-004",
         "queue": "auto",
