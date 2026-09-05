@@ -1342,6 +1342,39 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     for name, payload in output_payloads.items():
         write_json(output_root / name, _jsonable(payload))
 
+    result_summary = {
+        "schema": "STAGE35_RESULT_SUMMARY_V1",
+        "PI_GATE_READ": PI_GATE_ID,
+        "stage35_head": preflight.get("stage35_head"),
+        "reference_provenance_status": reference_status,
+        "new_corpus_status": "DETERMINISTIC_CANDIDATE_GENERATED_NOT_AUTHORITY_PROMOTED",
+        "new_corpus_manifest": str(output_root / "stage35_oracle_corpus_manifest.json"),
+        "new_corpus_tree_sha256": generated_manifest["corpus_tree_sha256"],
+        "motion_intent_v2_semantic_closure": semantic["status"],
+        "causal_disentanglement_pass": disentanglement["causal_disentanglement_pass"],
+        "geometry_result": geometry["GEOMETRY_RESULT"],
+        "K_STAR": geometry["K_STAR"],
+        "timing_result": timing["TIMING_RESULT"],
+        "T_STAR": timing["T_STAR"],
+        "continuous_base_result": e0["result"],
+        "support_authority_status": e0["support_authority_status"],
+        "wbc_input_identity": "PASS" if reference_audit.get("wbc_exact_identity_pass") else "BLOCKED",
+        "wbc_rollouts": 0,
+        "dense_structured_parity": "NOT_RUN",
+        "continuous_base_wbc_classification": "CONTINUOUS_BASE_COHORT_NOT_ADMITTED",
+        "scientific_contract_changed": False,
+        "gr00t_model_forward": False,
+        "training": False,
+        "validation_e_read": False,
+        "holdout_f_read": False,
+        "hardware": False,
+        "result": "INFRASTRUCTURE_PROVENANCE_BLOCKER",
+        "next_gate": NEXT_GATE,
+    }
+    result_path = output_root / "stage35_result.json"
+    write_json(result_path, result_summary)
+    result_sha256 = sha256_file(result_path)
+
     log_lines = [
         f"{datetime.now(timezone.utc).isoformat()} Stage35 CPU zero-model start",
         f"PI_GATE_READ={PI_GATE_ID}",
@@ -1366,6 +1399,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     generated_files = [output_root / name for name in output_payloads] + [
         output_root / "stage35_oracle_corpus_protocol.json",
         output_root / "stage35_oracle_corpus_manifest.json",
+        result_path,
         log_path,
         *sorted((output_root / "corpus/cases").glob("*.json")),
     ]
@@ -1388,20 +1422,29 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "schema": "STAGE35_HOPPER_RETURN_V1",
         "ROLE": "CODEX_HOPPER_SERVER_LONG_HORIZON",
         "PI_GATE_READ": PI_GATE_ID,
+        "STAGE": "Stage35",
+        "PR": 21,
         "BASE_HEAD": BASE_HEAD,
         "STAGE35_HEAD": preflight.get("stage35_head"),
         "BRANCH": preflight.get("branch"),
         "BASE_PR": 20,
+        "WORKTREE_CLEAN": bool(preflight.get("worktree_clean")),
+        "STAGE34_SEAL_REVALIDATED": (
+            preflight.get("stage34_seal", {}).get("hash_status") == "MATCH"
+        ),
         "REFERENCE_PROVENANCE_STATUS": reference_status,
         "REFERENCE_AUDIT_PATH": str(output_root / "stage35_a0_stage16_authority_audit.json"),
         "NEW_CORPUS_STATUS": "DETERMINISTIC_CANDIDATE_GENERATED_NOT_AUTHORITY_PROMOTED",
         "NEW_CORPUS_MANIFEST_PATH": str(output_root / "stage35_oracle_corpus_manifest.json"),
         "NEW_CORPUS_MANIFEST_SHA256": sha256_file(output_root / "stage35_oracle_corpus_manifest.json"),
+        "NEW_ORACLE_CORPUS_HASH": generated_manifest["corpus_tree_sha256"],
         "NEW_CORPUS_TREE_SHA256": generated_manifest["corpus_tree_sha256"],
         "NEW_CORPUS_CASE_COUNT": generated_manifest["case_count"],
         "NEW_CORPUS_CLASS_COUNTS": generated_manifest["class_counts"],
         "MOTION_INTENT_V2_CONTRACT_HASH": semantic["contract_hash"],
         "MOTION_INTENT_V2_CONTRACT_STATUS": semantic["status"],
+        "RESULT_SHA256": result_sha256,
+        "MANIFEST_SHA256": sha256_file(output_root / "stage35_oracle_corpus_manifest.json"),
         "CAUSAL_DISENTANGLEMENT_PASS": disentanglement["causal_disentanglement_pass"],
         "K_RESULTS_4_6_9_12": {
             key: {
@@ -1430,8 +1473,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             for key, row in timing["results_by_K"].items()
         },
         "T_STAR": timing["T_STAR"],
+        "PREVIEW_QUALIFICATION": "INSUFFICIENT_NATIVE_STAGE16_AUTHORITY",
         "CONTINUOUS_BASE_E0_RESULT": e0["result"],
+        "CONTINUOUS_BASE_WBC_CLASSIFICATION": "CONTINUOUS_BASE_COHORT_NOT_ADMITTED",
         "WBC_PAIRED_EXECUTED": False,
+        "WBC_INPUT_IDENTITY": "PASS" if reference_audit.get("wbc_exact_identity_pass") else "BLOCKED",
+        "WBC_ROLLOUTS": 0,
+        "DENSE_STRUCTURED_PARITY": "NOT_RUN",
         "PBS_JOB_ID": None,
         "PBS_SUBMITTED": False,
         "GPU_USED": False,
@@ -1458,6 +1506,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "e0": str(output_root / "stage35_e0_continuous_base_audit.json"),
             "corpus_protocol": str(output_root / "stage35_oracle_corpus_protocol.json"),
             "corpus_manifest": str(output_root / "stage35_oracle_corpus_manifest.json"),
+            "result": str(result_path),
             "cpu_log": str(log_path),
         },
         "RESULT": overall_result,
