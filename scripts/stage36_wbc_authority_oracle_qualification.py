@@ -1977,6 +1977,9 @@ def build_return(
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    # The extracted WBC tree is a hash-bound input.  Runtime imports must not
+    # create or rewrite __pycache__ members inside that historical tree.
+    sys.dont_write_bytecode = True
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-repo", type=Path, default=REPO)
     parser.add_argument("--archive", type=Path, default=ARCHIVE_PATH)
