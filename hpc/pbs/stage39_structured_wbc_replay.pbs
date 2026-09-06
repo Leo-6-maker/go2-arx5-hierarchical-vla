@@ -99,7 +99,8 @@ STAGE39_APPTAINER_BIN="${STAGE39_APPTAINER_BIN:-/cm/shared/apps/singularity/1.3.
 
 for required_name in \
   STAGE39_REPO \
-  STAGE39_ADMISSION_ROOT \
+  STAGE39_EXECUTION_BUNDLE \
+  STAGE39_EXPECTED_BUNDLE_SHA256 \
   STAGE39_OUTPUT_PARENT \
   STAGE39_AUTHORITY_EXTRACTED_ROOT \
   STAGE39_RUNTIME_SITE \
@@ -117,16 +118,12 @@ done
 check_equal "scientific_protocol_id" "PI_GATE_STATE_0028" "${STAGE39_SCIENTIFIC_PROTOCOL_ID}"
 check_regex "execution_authority" "${STAGE39_EXECUTION_AUTHORITY}" "PI_GATE_STATE_NNNN" '^PI_GATE_STATE_[0-9]{4}$'
 check_regex "expected_head" "${STAGE39_EXPECTED_HEAD}" "40 lowercase hexadecimal characters" '^[0-9a-f]{40}$'
+check_regex "expected_bundle_sha256" "${STAGE39_EXPECTED_BUNDLE_SHA256}" "64 lowercase hexadecimal characters" '^[0-9a-f]{64}$'
 check_equal "pbs_request_queue" "auto" "${PBS_O_QUEUE:-<unset>}"
 
 check_dir "repository" "${STAGE39_REPO}"
-check_dir "admission_root" "${STAGE39_ADMISSION_ROOT}"
-check_file "admission_result" "${STAGE39_ADMISSION_ROOT}/stage39a_result.json"
-check_file "input_manifest" "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json"
-check_file "warn_stratification" "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
-check_sha256 "admission_hash" "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" "${STAGE39_EXPECTED_ADMISSION_SHA256}"
-check_sha256 "manifest_hash" "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" "${STAGE39_EXPECTED_MANIFEST_SHA256}"
-check_sha256 "warn_hash" "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json" "${STAGE39_EXPECTED_WARN_SHA256}"
+check_file "execution_bundle" "${STAGE39_EXECUTION_BUNDLE}"
+check_sha256 "execution_bundle_sha256" "${STAGE39_EXECUTION_BUNDLE}" "${STAGE39_EXPECTED_BUNDLE_SHA256}"
 check_dir "authority_root" "${STAGE39_AUTHORITY_EXTRACTED_ROOT}/WBCTrackingShare"
 check_dir "runtime_site" "${STAGE39_RUNTIME_SITE}"
 check_executable "runtime_ninja" "${STAGE39_RUNTIME_NINJA}"
@@ -181,8 +178,19 @@ fi
 mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" \
   "${RUN_ROOT}/runtime/cache/huggingface" "${RUN_ROOT}/runtime/cache/torch" \
   "${RUN_ROOT}/runtime/cache/triton" "${RUN_ROOT}/runtime/cache/torch_extensions" \
-  "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
+  "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data" \
+  "${RUN_ROOT}/bundle_staging"
 exec > >(tee -a "${RUN_ROOT}/stage39_job.log") 2>&1
+
+python3 "${STAGE39_REPO}/scripts/stage39_bundle_tool.py" \
+  --bundle "${STAGE39_EXECUTION_BUNDLE}" \
+  --staging "${RUN_ROOT}/bundle_staging" \
+  --expected-bundle-sha256 "${STAGE39_EXPECTED_BUNDLE_SHA256}" \
+  --expected-head "${STAGE39_EXPECTED_HEAD}" \
+  --expected-admission-sha256 "${STAGE39_EXPECTED_ADMISSION_SHA256}" \
+  --expected-manifest-sha256 "${STAGE39_EXPECTED_MANIFEST_SHA256}" \
+  --expected-warn-sha256 "${STAGE39_EXPECTED_WARN_SHA256}" \
+  --verification "${RUN_ROOT}/bundle_verification.json"
 
 echo "STAGE39_SCIENTIFIC_PROTOCOL_ID=${STAGE39_SCIENTIFIC_PROTOCOL_ID}"
 echo "STAGE39_EXECUTION_AUTHORITY=${STAGE39_EXECUTION_AUTHORITY}"
@@ -227,9 +235,9 @@ sha256sum \
   "${STAGE39_REPO}/scripts/stage39_structured_wbc_replay.py" \
   "${STAGE39_REPO}/hpc/pbs/stage39_structured_wbc_replay.pbs" \
   "${STAGE39_REPO}/scripts/native_wbc_benchmark.py" \
-  "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" \
-  "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" \
-  "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
+  "${STAGE39_REPO}/scripts/stage39_bundle_tool.py" \
+  "${STAGE39_EXECUTION_BUNDLE}" \
+  "${RUN_ROOT}/bundle_verification.json"
 
 echo "STAGE39_APPTAINER_BIN=${APPTAINER_BIN}"
 
@@ -239,6 +247,7 @@ set +e
   --bind "${STAGE39_AUTHORITY_EXTRACTED_ROOT}:${CONTAINER_AUTHORITY}:ro" \
   --bind "${STAGE39_RUNTIME_SITE}:${CONTAINER_SITE}:ro" \
   --bind "$(dirname "${STAGE39_RUNTIME_NINJA}"):${CONTAINER_NINJA%/ninja}:ro" \
+  --bind "${RUN_ROOT}/bundle_staging:/bundle:ro" \
   "${IMAGE}" env \
   PBS_JOBID="${PBS_JOBID}" \
   STAGE39_SCIENTIFIC_PROTOCOL_ID="${STAGE39_SCIENTIFIC_PROTOCOL_ID}" \
@@ -261,7 +270,7 @@ set +e
   "${STAGE39_REPO}/scripts/stage39_structured_wbc_replay.py" \
   --campaign \
   --output-root "${RUN_ROOT}" \
-  --admission-root "${STAGE39_ADMISSION_ROOT}" \
+  --admission-root "/bundle" \
   --source-root "${CONTAINER_SOURCE}" \
   --arm "${CONTAINER_AUTHORITY}/${STAGE39_ARM_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt}" \
   --dog "${CONTAINER_AUTHORITY}/${STAGE39_DOG_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt}" \

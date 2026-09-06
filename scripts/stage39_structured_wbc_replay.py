@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import math
 import os
@@ -34,9 +35,11 @@ import shutil
 import stat
 import subprocess
 import sys
+import tarfile
+import tempfile
 import zipfile
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 import numpy as np
@@ -172,6 +175,7 @@ EXPECTED_WBC_MEMBER_COUNT = 887
 EXPECTED_WBC_FILE_COUNT = 742
 EXPECTED_WBC_DIRECTORY_COUNT = 145
 CONTAINER_WBC_SOURCE_ROOT = "/authority/WBCTrackingShare"
+EXECUTION_BUNDLE_SCHEMA = "STAGE39_EXECUTION_BUNDLE_MANIFEST_V1"
 HISTORICAL_WBC_SEALS = {
     "v10": (
         Path("/scratch/e1192548/leon-storage/runs/stage36_wbc_authority_oracle_qualification_20260906/stage36_cpu_20260906_resume8cbf39b_v10"),
@@ -364,6 +368,186 @@ def file_record(path: Path, expected_sha256: Optional[str] = None) -> Dict[str, 
         "expected_sha256": expected_sha256,
         "hash_match": bool(exists and (expected_sha256 is None or actual == expected_sha256)),
     }
+
+
+def _bundle_relative_path(path: Path, root: Path) -> str:
+    path = Path(path)
+    root = Path(root).resolve()
+    if path.is_symlink() or not path.is_file():
+        raise Stage39Error("bundle source is not a regular file: %s" % path)
+    try:
+        relative = path.resolve().relative_to(root)
+    except ValueError as exc:
+        raise Stage39Error("bundle source escapes admission root: %s" % path) from exc
+    value = relative.as_posix()
+    if not value or value.startswith("/") or ".." in PurePosixPath(value).parts:
+        raise Stage39Error("unsafe bundle relative path: %s" % value)
+    return value
+
+
+def bundle_source_records(admission_root: Path) -> List[Dict[str, Any]]:
+    root = Path(admission_root).resolve()
+    manifest_path = root / "stage39_input_manifest.json"
+    manifest = load_json(manifest_path)
+    rows = list(manifest.get("rows", []))
+    expected_ids = tuple(item[0] for item in EXPECTED_ROW_IDS)
+    if manifest.get("row_count") != 18 or tuple(row.get("row_id") for row in rows) != expected_ids:
+        raise Stage39Error("execution bundle row identity/order mismatch")
+    required = [
+        ("stage39a_result.json", "admission_result"),
+        ("stage39a2_result.json", "rebind_result"),
+        ("stage39_input_manifest.json", "input_manifest"),
+        ("stage39_warn_stratification.json", "warn_stratification"),
+        ("execution_source_manifest.json", "execution_source_manifest"),
+        ("stage39a4_artifact_seal.json", "a4_artifact_seal"),
+    ]
+    records: Dict[str, Dict[str, Any]] = {}
+    for relative, role in required:
+        path = root / relative
+        _bundle_relative_path(path, root)
+        records[relative] = {"relative_path": relative, "role": role}
+    for row in rows:
+        for field, role in (("trajectory_path", "trajectory"), ("metadata_path", "row_metadata")):
+            source = Path(str(row.get(field, "")))
+            relative = (Path("inputs") / source.name).as_posix()
+            path = root / relative
+            _bundle_relative_path(path, root)
+            if relative in records:
+                if records[relative]["role"] != role:
+                    raise Stage39Error("duplicate bundle role for %s" % relative)
+            else:
+                records[relative] = {"relative_path": relative, "role": role}
+    return [records[key] for key in sorted(records)]
+
+
+def publish_execution_bundle(
+    admission_root: Path,
+    output_root: Path,
+    expected_head: str,
+    execution_authority: str,
+) -> Dict[str, Any]:
+    root = Path(admission_root).resolve()
+    output = Path(output_root).resolve()
+    if not root.is_dir() or root.is_symlink():
+        raise Stage39Error("execution bundle admission root is not a real directory")
+    validate_execution_authority(execution_authority)
+    checkout = git_audit(expected_head)
+    sources = bundle_source_records(root)
+    source_bytes: Dict[str, bytes] = {}
+    file_records: List[Dict[str, Any]] = []
+    for item in sources:
+        relative = item["relative_path"]
+        path = root / relative
+        data = path.read_bytes()
+        source_bytes[relative] = data
+        file_records.append({
+            "relative_path": relative,
+            "role": item["role"],
+            "size_bytes": len(data),
+            "sha256": sha256_bytes(data),
+        })
+    manifest_json = load_json(root / "stage39_input_manifest.json")
+    admission_json = load_json(root / "stage39a_result.json")
+    if admission_json.get("status") != "PASS" or admission_json.get("pi_gate") != PI_GATE_ID:
+        raise Stage39Error("execution bundle admission result is not PASS")
+    row_decisions = [
+        row.get("pre_wbc_safety_gate", {}).get("decision")
+        for row in manifest_json.get("rows", [])
+    ]
+    bundle_manifest = {
+        "schema": EXECUTION_BUNDLE_SCHEMA,
+        "pi_gate": PI_GATE_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": execution_authority,
+        "git_head": expected_head,
+        "row_count": 18,
+        "row_ids": [item[0] for item in EXPECTED_ROW_IDS],
+        "reference_mode": EXPECTED_REFERENCE_MODE,
+        "duration_s": EXPECTED_DURATION_S,
+        "point_count": EXPECTED_POINT_COUNT,
+        "frame": EXPECTED_FRAME,
+        "tcp": EXPECTED_TCP,
+        "safety_gate_decision_vector": row_decisions,
+        "files": file_records,
+        "manifest_self_hash": None,
+        "bundle_sha256": None,
+        "status": "PASS",
+        "worktree_clean": bool(checkout["worktree_clean"]),
+    }
+    manifest_bytes = (
+        json.dumps(bundle_manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    ).encode("utf-8")
+    output.mkdir(parents=True, exist_ok=True)
+    if output.is_symlink():
+        raise Stage39Error("execution bundle output root is a symlink")
+    with tempfile.NamedTemporaryFile(
+        prefix=".stage39_execution_bundle.", suffix=".tmp", dir=output, delete=False
+    ) as handle:
+        temporary = Path(handle.name)
+    try:
+        with tarfile.open(temporary, mode="w") as archive:
+            for relative in sorted(source_bytes):
+                data = source_bytes[relative]
+                info = tarfile.TarInfo(relative)
+                info.size = len(data)
+                info.mode = 0o444
+                info.mtime = 0
+                info.uid = 0
+                info.gid = 0
+                info.uname = ""
+                info.gname = ""
+                archive.addfile(info, io.BytesIO(data))
+            info = tarfile.TarInfo("bundle_manifest.json")
+            info.size = len(manifest_bytes)
+            info.mode = 0o444
+            info.mtime = 0
+            info.uid = 0
+            info.gid = 0
+            info.uname = ""
+            info.gname = ""
+            archive.addfile(info, io.BytesIO(manifest_bytes))
+        with temporary.open("rb") as handle:
+            os.fsync(handle.fileno())
+        bundle_sha = sha256_file(temporary)
+        final = output / ("stage39_execution_bundle_%s.tar" % bundle_sha)
+        if final.exists():
+            if sha256_file(final) != bundle_sha:
+                raise Stage39Error("content-addressed bundle path already has different bytes")
+            temporary.unlink()
+        else:
+            os.replace(temporary, final)
+        os.chmod(final, 0o444)
+        descriptor = {
+            "schema": "STAGE39_EXECUTION_BUNDLE_DESCRIPTOR_V1",
+            "bundle_path": str(final),
+            "bundle_sha256": bundle_sha,
+            "bundle_size_bytes": int(final.stat().st_size),
+            "bundle_manifest_sha256": sha256_bytes(manifest_bytes),
+            "admission_root": str(root),
+            "admission_result_sha256": sha256_file(root / "stage39a_result.json"),
+            "input_manifest_sha256": sha256_file(root / "stage39_input_manifest.json"),
+            "warn_stratification_sha256": sha256_file(root / "stage39_warn_stratification.json"),
+            "execution_source_manifest_sha256": sha256_file(root / "execution_source_manifest.json"),
+            "git_head": expected_head,
+            "execution_authority": execution_authority,
+            "status": "PASS",
+        }
+        descriptor_path = output / ("stage39_execution_bundle_%s.json" % bundle_sha)
+        write_json(descriptor_path, descriptor)
+        return descriptor
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+
+def campaign_input_path(admission_root: Path, raw_path: str) -> Path:
+    candidate = Path(raw_path)
+    if candidate.is_file() and not candidate.is_symlink():
+        return candidate
+    bundled = Path(admission_root) / "inputs" / candidate.name
+    if bundled.is_file() and not bundled.is_symlink():
+        return bundled
+    raise Stage39Error("campaign input is missing from immutable bundle: %s" % raw_path)
 
 
 def regular_entries(root: Path) -> List[Dict[str, Any]]:
@@ -2192,8 +2376,10 @@ def run_campaign(args: argparse.Namespace) -> int:
             row_output.mkdir(parents=True)
             input_copy = row_output / "reference_input.npz"
             metadata_copy = row_output / "case_metadata.json"
-            shutil.copy2(plan["trajectory_path"], input_copy)
-            shutil.copy2(plan["metadata_path"], metadata_copy)
+            trajectory_source = campaign_input_path(admission_root, str(plan["trajectory_path"]))
+            metadata_source = campaign_input_path(admission_root, str(plan["metadata_path"]))
+            shutil.copy2(trajectory_source, input_copy)
+            shutil.copy2(metadata_source, metadata_copy)
             if sha256_file(input_copy) != plan["trajectory_sha256"] or sha256_file(metadata_copy) != plan["metadata_sha256"]:
                 raise Stage39Error("row input copy hash mismatch: %s" % plan["row_id"])
             command = campaign_command(
@@ -2460,6 +2646,19 @@ def seal_campaign(args: argparse.Namespace) -> int:
     return 0
 
 
+def run_bundle(args: argparse.Namespace) -> int:
+    execution_authority = args.execution_authority or os.environ.get("STAGE39_EXECUTION_AUTHORITY", "")
+    expected_head = args.expected_head or git_command("rev-parse", "HEAD")
+    descriptor = publish_execution_bundle(
+        Path(args.admission_root),
+        Path(args.output_root),
+        expected_head,
+        execution_authority,
+    )
+    print(json.dumps(descriptor, sort_keys=True))
+    return 0
+
+
 def run_admission(args: argparse.Namespace) -> int:
     execution_authority = args.execution_authority or os.environ.get("STAGE39_EXECUTION_AUTHORITY", "")
     validate_execution_authority(execution_authority)
@@ -2484,6 +2683,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     mode.add_argument("--admission", action="store_true")
     mode.add_argument("--rebind", action="store_true")
     mode.add_argument("--campaign", action="store_true")
+    mode.add_argument("--bundle", action="store_true")
     mode.add_argument("--seal", action="store_true")
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--admission-root", type=Path)
@@ -2512,6 +2712,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             if getattr(args, name) is None:
                 parser.error("--campaign requires --%s" % name.replace("_", "-"))
         return run_campaign(args)
+    if args.bundle:
+        if args.admission_root is None:
+            parser.error("--bundle requires --admission-root")
+        return run_bundle(args)
     return seal_campaign(args)
 
 
