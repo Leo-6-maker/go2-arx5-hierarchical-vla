@@ -23,6 +23,7 @@ set -euo pipefail
 : "${STAGE40_BODY_VIDEO:?}"
 : "${STAGE40_WRIST_VIDEO:?}"
 : "${STAGE40_STATE_JSON:?}"
+: "${STAGE40_COSMOS_HF_HOME:?}"
 
 RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_b0_${PBS_JOBID}"
 test ! -e "${RUN_ROOT}"
@@ -43,7 +44,7 @@ FFMPEG="${STAGE40_FFMPEG_BUNDLE:-/scratch/e1192548/stage22_h200_ffmpeg4_bundle_2
 test -f "${IMAGE}"
 test -d "${SITE}"
 test -d "${FFMPEG}"
-for path in "${STAGE40_MODEL_PATH}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_DATASET_DIR}" "${STAGE40_MODALITY_CONFIG}" "${STAGE40_STAGE10_ROOT}" "${STAGE40_BODY_VIDEO}" "${STAGE40_WRIST_VIDEO}" "${STAGE40_STATE_JSON}"; do test -e "${path}"; done
+for path in "${STAGE40_MODEL_PATH}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_DATASET_DIR}" "${STAGE40_MODALITY_CONFIG}" "${STAGE40_STAGE10_ROOT}" "${STAGE40_BODY_VIDEO}" "${STAGE40_WRIST_VIDEO}" "${STAGE40_STATE_JSON}" "${STAGE40_COSMOS_HF_HOME}"; do test -e "${path}"; done
 
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
@@ -53,7 +54,7 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 export HOME="${RUN_ROOT}/runtime/home" TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
 export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache" XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config" XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
-export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
+export HF_HOME="${STAGE40_COSMOS_HF_HOME}"
 export TRANSFORMERS_CACHE="${HF_HOME}/hub" HF_HUB_CACHE="${HF_HOME}/hub"
 mkdir -p "${HF_HOME}" "${TRANSFORMERS_CACHE}"
 FFMPEG_LD="/.singularity.d/libs:${FFMPEG}:${FFMPEG}/lib/x86_64-linux-gnu:${FFMPEG}/usr/lib/x86_64-linux-gnu:${SITE}/torch/lib"
