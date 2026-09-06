@@ -28,8 +28,8 @@ cd "${STAGE38_REPO}"
 : "${STAGE38_CONTAINER_PYTHON:=python3}"
 export STAGE38_CONTAINER_IMAGE STAGE38_FFMPEG_BUNDLE STAGE38_CONTAINER_SITE
 
-if [[ "${PBS_QUEUE:-}" != "auto" ]]; then
-  echo "FAIL_CLOSED: expected PBS_QUEUE=auto, observed ${PBS_QUEUE:-unset}" >&2
+if [[ "${PBS_O_QUEUE:-}" != "auto" ]]; then
+  echo "FAIL_CLOSED: expected PBS_O_QUEUE=auto, observed ${PBS_O_QUEUE:-unset}" >&2
   exit 2
 fi
 JOB_INFO="$(qstat -f "${PBS_JOBID}")"
@@ -74,6 +74,7 @@ singularity exec --nv \
   --bind /scratch:/scratch \
   "${STAGE38_CONTAINER_IMAGE}" env \
   PBS_JOBID="${PBS_JOBID}" \
+  PBS_O_QUEUE="${PBS_O_QUEUE}" \
   PBS_QUEUE="${PBS_QUEUE}" \
   PYTHONPATH="${STAGE38_CONTAINER_SITE}:${STAGE38_REPO}/src:${STAGE38_REPO}/scripts:${STAGE38_E_GROOT_SOURCE}" \
   LD_LIBRARY_PATH="${FFMPEG_LD}" \

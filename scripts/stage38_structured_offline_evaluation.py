@@ -1382,8 +1382,9 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         raise Stage38EError("Stage38-E preflight HEAD binding changed")
     if not os.environ.get("PBS_JOBID"):
         raise Stage38EError("Stage38-E evaluation requires a PBS allocation")
-    if os.environ.get("PBS_QUEUE", EXPECTED_QUEUE) != EXPECTED_QUEUE:
-        raise Stage38EError(f"Stage38-E expected PBS queue {EXPECTED_QUEUE}")
+    if os.environ.get("PBS_O_QUEUE") != EXPECTED_QUEUE:
+        raise Stage38EError(f"Stage38-E expected PBS request queue {EXPECTED_QUEUE}")
+    execution_queue = os.environ.get("PBS_QUEUE")
     branch = branch_audit(args.expected_project_sha, args.api_head)
     if branch.get("status") != "PASS":
         raise Stage38EError("Stage38-E live branch identity changed after preflight")
@@ -1524,7 +1525,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "pi_gate": PI_GATE_ID,
         "pr": PR_NUMBER,
         "project_sha": args.expected_project_sha,
-        "pbs": {"job_id": os.environ.get("PBS_JOBID"), "project": EXPECTED_PROJECT, "queue": os.environ.get("PBS_QUEUE", EXPECTED_QUEUE), "gpu": os.environ.get("CUDA_VISIBLE_DEVICES"), "device": args.device},
+        "pbs": {"job_id": os.environ.get("PBS_JOBID"), "project": EXPECTED_PROJECT, "requested_queue": os.environ.get("PBS_O_QUEUE"), "execution_queue": execution_queue, "gpu": os.environ.get("CUDA_VISIBLE_DEVICES"), "device": args.device},
         "stage38d": {"result_path": str(STAGE38D_RESULT), "result_sha256": STAGE38D_RESULT_SHA, "checkpoint_1000_tree_sha256": STRUCTURED_1000_TREE, "checkpoint_2000_tree_sha256": STRUCTURED_2000_TREE, "statistics_path": str(STRUCTURED_STATS), "statistics_sha256": STRUCTURED_STATS_SHA},
         "dense_controls": {"stage33_result": file_record(STAGE33_RESULT, STAGE33_RESULT_SHA), "stage33_raw_manifest": file_record(STAGE33_RAW_MANIFEST, STAGE33_RAW_MANIFEST_SHA), "stage33_seal": file_record(STAGE33_SEAL, STAGE33_SEAL_SHA), "h2_1000_evidence": "Stage33 sealed H2@1000 rows seed2223..2238", "h2_2000_evidence": "Stage33 sealed H2@2000 rows seed2223..2238", "dense_rerun": False},
         "pairing_mode": "EXACT_NOISE",
