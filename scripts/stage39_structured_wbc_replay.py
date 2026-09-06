@@ -742,7 +742,7 @@ def stage38_learned_chunk(row: Mapping[str, Any], timestamps: np.ndarray) -> Tup
     artifact = Path(str(row["artifact"]["path"]))
     with np.load(str(artifact), allow_pickle=False) as arrays:
         physical = np.asarray(arrays["decoded_physical_action"], dtype=np.float32)
-    chunk_id = str(row.get("decoded_structured", {}).get("chunk_id"))
+    chunk_id = str(row.get("chunk_id"))
     chunk = physical_to_chunk(
         physical[0],
         timestamps,
