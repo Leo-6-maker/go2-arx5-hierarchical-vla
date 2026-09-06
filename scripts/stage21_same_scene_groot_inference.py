@@ -57,7 +57,13 @@ def _load_modality(path: Path, stage10_root: Path):
     sys.path.insert(0, str(stage10_root / "src" / "isaac-gr00t"))
     sys.path.insert(0, str(path.parent))
     module = importlib.import_module(path.stem)
-    return module.SIM_VISUAL_REACH_MODALITY_CONFIG
+    # Stage22's frozen modality module uses the authoritative Go2+ARX5 name;
+    # retain the older Stage20 name for already-sealed visual fixtures.
+    if hasattr(module, "GO2_ARX5_MODALITY_CONFIG"):
+        return module.GO2_ARX5_MODALITY_CONFIG
+    if hasattr(module, "SIM_VISUAL_REACH_MODALITY_CONFIG"):
+        return module.SIM_VISUAL_REACH_MODALITY_CONFIG
+    raise AttributeError(f"{path} has no supported modality configuration symbol")
 
 
 def _split_stats(values: dict[str, list[float]]) -> dict[str, dict[str, list[float]]]:

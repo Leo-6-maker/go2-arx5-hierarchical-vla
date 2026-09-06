@@ -189,19 +189,25 @@ def run_b1(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
 def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> dict[str, Any]:
     native = env = None
     episodes: list[dict[str, Any]] = []
+    loads_all: list[Any] = []
+    runtime_info: dict[str, Any] = {}
     result: dict[str, Any] = {"schema": "STAGE40_LIVE_ONE_HANDOFF_V1", "stage": STAGE, "pi_gate": PI_GATE,
                               "mode": "SYNCHRONOUS_PAUSED_SIMULATION", "physics_reset_at_handoff": False,
                               "seeds": list(SEEDS), "handoff_target_s": HANDOFF_S,
                               "chunk_duration_s": CHUNK_DURATION_S}
     try:
-        native_args = argparse.Namespace(**vars(args))
-        native_args.mode = "model_receding"
-        native, env, actors, loads, _ = _build_native(native_args, trajectory)
         gate = TrajectorySafetyGateV1()
         adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(expected_source_frame=SOURCE_FRAME,
             wbc_frame=SOURCE_FRAME, tcp_semantic_id=TCP_SEMANTIC_ID, stale_timeout_s=0.75))
         for seed in SEEDS:
-            env.reset()
+            native_args = argparse.Namespace(**vars(args))
+            native_args.mode = "model_receding"
+            native_args.seed = int(seed)
+            native, env, actors, loads, _ = _build_native(native_args, trajectory)
+            loads_all.extend(loads)
+            runtime_info = {"python": platform.python_version(), "torch": actors[2].__version__,
+                            "device": str(actors[3]), "native_control_dt_s": float(native.dt),
+                            "episode_seed": int(seed)}
             episode: dict[str, Any] = {"seed": int(seed), "status": "BLOCKED", "handoff_reset": False}
             sim_time = 0.0
             try:
@@ -271,11 +277,17 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                     "invalid_state_count": sum(bool(row.get("invalid_state", False)) for row in all_rows)})
             except Exception as exc:
                 episode.update({"status": "BLOCKED", "error": {"type": type(exc).__name__, "message": str(exc)}})
+            finally:
+                if env is not None:
+                    try:
+                        env.close()
+                    except Exception:
+                        pass
+                    native = env = None
             episodes.append(episode)
         result.update({"episodes": episodes, "episode_pass_count": sum(item.get("status") == "PASS" for item in episodes),
             "status": "PASS" if len(episodes) == len(SEEDS) and all(item.get("status") == "PASS" for item in episodes) else "NOT_QUALIFIED",
-            "loads": loads, "runtime": {"python": platform.python_version(), "torch": actors[2].__version__,
-            "device": str(actors[3]), "native_control_dt_s": float(native.dt)},
+            "loads": loads_all, "runtime": runtime_info,
             "claim_boundary": "TINY1 single-fixture synchronous four-seed fresh-observation one-handoff diagnostic; not real-time, multi-handoff, generalization, or hardware"})
     except Exception as exc:
         result.update({"status": "BLOCKED", "error": {"type": type(exc).__name__, "message": str(exc)}, "episodes": episodes})
