@@ -39,8 +39,8 @@ test "${GPU_COUNT}" = 1
 
 IMAGE="${STAGE40_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
 APPTAINER="${STAGE40_APPTAINER_BIN:-/cm/shared/apps/singularity/1.3.1/bin/apptainer}"
-SITE="${STAGE40_RUNTIME_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.8/site-packages}"
-NINJA="${STAGE40_RUNTIME_NINJA:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/ninja/bin/ninja}"
+SITE="${STAGE40_RUNTIME_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
+NINJA="${STAGE40_RUNTIME_NINJA:-/scratch/e1192548/vllm/.venv/bin/ninja}"
 test -f "${IMAGE}"
 test -x "${APPTAINER}"
 test -d "${SITE}"
