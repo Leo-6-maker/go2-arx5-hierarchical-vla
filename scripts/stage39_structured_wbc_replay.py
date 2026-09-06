@@ -934,6 +934,7 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expec
                 "physical_bytes_sha256": array_sha256(physical),
                 "checkpoint": "STRUCTURED@1000",
             },
+            stage38_row=stage38_row,
         )
 
     if tuple(item["row_id"] for item in plans) != tuple(item[0] for item in EXPECTED_ROW_IDS):
