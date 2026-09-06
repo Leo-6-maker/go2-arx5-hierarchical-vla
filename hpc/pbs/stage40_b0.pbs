@@ -53,7 +53,8 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 export HOME="${RUN_ROOT}/runtime/home" TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
 export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache" XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config" XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
-export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface" TRANSFORMERS_CACHE="${HF_HOME}/hub" HF_HUB_CACHE="${HF_HOME}/hub"
+export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
+export TRANSFORMERS_CACHE="${HF_HOME}/hub" HF_HUB_CACHE="${HF_HOME}/hub"
 mkdir -p "${HF_HOME}" "${TRANSFORMERS_CACHE}"
 FFMPEG_LD="/.singularity.d/libs:${FFMPEG}:${FFMPEG}/lib/x86_64-linux-gnu:${FFMPEG}/usr/lib/x86_64-linux-gnu:${SITE}/torch/lib"
 
