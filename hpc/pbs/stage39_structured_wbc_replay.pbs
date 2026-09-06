@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+# Stage39: one bounded native-WBC replay allocation.
+# The CPU Stage39-A admission must be PASS before this file is submitted.
+# This wrapper has no qsub/retry path and never modifies historical Stage22--
+# Stage38 artifacts or the historical training allocation.
+#PBS -N stage39_wbc_replay
+#PBS -q auto
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ncpus=12:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE39_REPO:?}"
+: "${STAGE39_ADMISSION_ROOT:?}"
+: "${STAGE39_OUTPUT_PARENT:?}"
+: "${STAGE39_AUTHORITY_EXTRACTED_ROOT:?}"
+: "${STAGE39_RUNTIME_SITE:?}"
+: "${STAGE39_RUNTIME_NINJA:?}"
+: "${STAGE39_PI_GATE:?}"
+: "${STAGE39_EXPECTED_HEAD:?}"
+: "${STAGE39_EXPECTED_ADMISSION_SHA256:?}"
+: "${STAGE39_EXPECTED_MANIFEST_SHA256:?}"
+: "${STAGE39_EXPECTED_WARN_SHA256:?}"
+
+test "${STAGE39_PI_GATE}" = "PI_GATE_STATE_0028"
+test "${#STAGE39_EXPECTED_HEAD}" -eq 40
+test "${PBS_O_QUEUE:-}" = "auto"
+test -d "${STAGE39_REPO}"
+test -d "${STAGE39_ADMISSION_ROOT}"
+test -f "${STAGE39_ADMISSION_ROOT}/stage39a_result.json"
+test -f "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json"
+test -f "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
+test "$(sha256sum "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" | awk '{print $1}')" = "${STAGE39_EXPECTED_ADMISSION_SHA256}"
+test "$(sha256sum "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" | awk '{print $1}')" = "${STAGE39_EXPECTED_MANIFEST_SHA256}"
+test "$(sha256sum "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json" | awk '{print $1}')" = "${STAGE39_EXPECTED_WARN_SHA256}"
+test -d "${STAGE39_AUTHORITY_EXTRACTED_ROOT}/WBCTrackingShare"
+test -d "${STAGE39_RUNTIME_SITE}"
+test -x "${STAGE39_RUNTIME_NINJA}"
+
+cd "${STAGE39_REPO}"
+test "$(git rev-parse HEAD)" = "${STAGE39_EXPECTED_HEAD}"
+test -z "$(git status --short --untracked-files=all)"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED_GPU=${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+RUN_ROOT="${STAGE39_OUTPUT_PARENT}/stage39_eval_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" \
+  "${RUN_ROOT}/runtime/cache/huggingface" "${RUN_ROOT}/runtime/cache/torch" \
+  "${RUN_ROOT}/runtime/cache/triton" "${RUN_ROOT}/runtime/cache/torch_extensions" \
+  "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
+exec > >(tee -a "${RUN_ROOT}/stage39_job.log") 2>&1
+
+echo "STAGE39_PBS_REQUEST_QUEUE=${PBS_O_QUEUE:-unknown}"
+echo "STAGE39_PBS_EXECUTION_QUEUE=${PBS_QUEUE:-unknown}"
+echo "STAGE39_PBS_JOBID=${PBS_JOBID}"
+echo "STAGE39_GPU_NAME=${GPU_NAME}"
+echo "STAGE39_GPU_COUNT=${GPU_COUNT}"
+
+export HOME="${RUN_ROOT}/runtime/home"
+export TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
+export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache"
+export XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config"
+export XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
+export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
+export TORCH_HOME="${RUN_ROOT}/runtime/cache/torch"
+export TRITON_CACHE_DIR="${RUN_ROOT}/runtime/cache/triton"
+export TORCH_EXTENSIONS_DIR="${RUN_ROOT}/runtime/cache/torch_extensions"
+export PYTHONNOUSERSITE=1
+export PYTHONDONTWRITEBYTECODE=1
+export CUDA_VISIBLE_DEVICES=0
+export PATH="$(dirname "${STAGE39_RUNTIME_NINJA}"):${PATH}"
+unset LD_PRELOAD
+export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${STAGE39_RUNTIME_SITE}/torch/lib:${LD_LIBRARY_PATH:-}"
+
+IMAGE="${STAGE39_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
+test -f "${IMAGE}"
+APPTAINER_BIN="${STAGE39_APPTAINER_BIN:-/cm/shared/apps/singularity/1.3.1/bin/apptainer}"
+if ! test -x "${APPTAINER_BIN}"; then
+  APPTAINER_BIN="$(command -v apptainer || true)"
+fi
+test -n "${APPTAINER_BIN}"
+test -x "${APPTAINER_BIN}"
+
+CONTAINER_AUTHORITY="/authority"
+CONTAINER_SOURCE="${CONTAINER_AUTHORITY}/WBCTrackingShare"
+CONTAINER_SITE="/runtime/site-packages"
+CONTAINER_NINJA="/runtime/ninja/bin/ninja"
+
+sha256sum \
+  "scripts/stage39_structured_wbc_replay.py" \
+  "hpc/pbs/stage39_structured_wbc_replay.pbs" \
+  "scripts/native_wbc_benchmark.py" \
+  "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" \
+  "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" \
+  "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
+
+echo "STAGE39_APPTAINER_BIN=${APPTAINER_BIN}"
+
+set +e
+"${APPTAINER_BIN}" exec --nv --cleanenv \
+  --bind /scratch:/scratch \
+  --bind "${STAGE39_AUTHORITY_EXTRACTED_ROOT}:${CONTAINER_AUTHORITY}:ro" \
+  --bind "${STAGE39_RUNTIME_SITE}:${CONTAINER_SITE}:ro" \
+  --bind "$(dirname "${STAGE39_RUNTIME_NINJA}"):${CONTAINER_NINJA%/ninja}:ro" \
+  "${IMAGE}" env \
+  PBS_JOBID="${PBS_JOBID}" \
+  HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}" \
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" \
+  XDG_DATA_HOME="${XDG_DATA_HOME}" HF_HOME="${HF_HOME}" TORCH_HOME="${TORCH_HOME}" \
+  TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" \
+  PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES=0 \
+  PATH="/usr/local/nvidia/bin:${CONTAINER_NINJA%/ninja}:${PATH}" \
+  LD_LIBRARY_PATH="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
+  PYTHONPATH="${STAGE39_REPO}:${STAGE39_REPO}/src:${CONTAINER_SOURCE}:${CONTAINER_SITE}" \
+  STAGE39_RUNTIME_SITE="${CONTAINER_SITE}" \
+  STAGE39_RUNTIME_NINJA="${CONTAINER_NINJA}" \
+  STAGE39_RUNTIME_IMAGE="${IMAGE}" \
+  STAGE39_GPU_NAME="${GPU_NAME}" STAGE39_GPU_COUNT="${GPU_COUNT}" \
+  PBS_O_QUEUE="${PBS_O_QUEUE}" PBS_QUEUE="${PBS_QUEUE:-unknown}" \
+  "${STAGE39_RUNTIME_PYTHON:-/opt/miniconda3/envs/isaacgym/bin/python}" -B \
+  "${STAGE39_REPO}/scripts/stage39_structured_wbc_replay.py" \
+  --campaign \
+  --output-root "${RUN_ROOT}" \
+  --admission-root "${STAGE39_ADMISSION_ROOT}" \
+  --source-root "${CONTAINER_SOURCE}" \
+  --arm "${CONTAINER_AUTHORITY}/${STAGE39_ARM_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt}" \
+  --dog "${CONTAINER_AUTHORITY}/${STAGE39_DOG_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt}" \
+  --native-runner "${STAGE39_REPO}/scripts/native_wbc_benchmark.py" \
+  --expected-admission-sha256 "${STAGE39_EXPECTED_ADMISSION_SHA256}" \
+  --expected-manifest-sha256 "${STAGE39_EXPECTED_MANIFEST_SHA256}" \
+  --expected-warn-sha256 "${STAGE39_EXPECTED_WARN_SHA256}" \
+  --expected-head "${STAGE39_EXPECTED_HEAD}"
+RC=$?
+set -e
+
+echo "STAGE39_CAMPAIGN_RC=${RC}"
+echo "STAGE39_RUN_ROOT=${RUN_ROOT}"
+exit "${RC}"
