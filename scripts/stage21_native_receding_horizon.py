@@ -578,10 +578,11 @@ class _Stage21NativeEnvFactory:
                 dt = float(np.median(np.diff(relative_timestamps)))
                 gamma, time_law = to_canonical(position, quat_to_mat(quaternion), dt)
                 if initial:
-                    before_anchor = self.traj_batch.gamma_p[env_ids, 0].clone()
                     self.traj_batch.load(env_ids, [gamma], [time_law])
+                    pre_anchor_start = self.traj_batch.gamma_p[env_ids, 0].clone()
                     self._anchor_external_reference(env_ids)
-                    anchor = self.traj_batch.gamma_p[env_ids, 0] - before_anchor
+                    post_anchor_start = self.traj_batch.gamma_p[env_ids, 0].clone()
+                    anchor = post_anchor_start - pre_anchor_start
                     self._stage21_anchor_world = anchor[0].detach().clone()
                 else:
                     if self._stage21_anchor_world is None:

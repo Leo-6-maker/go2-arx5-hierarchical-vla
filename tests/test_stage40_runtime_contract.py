@@ -46,6 +46,12 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("installed_chunk_a = native.stage21_current_chunk", PY)
         self.assertNotIn("native.load_reference_chunk(chunk_a)", PY)
 
+    def test_initial_anchor_is_derived_from_newly_loaded_chunk(self):
+        self.assertIn("pre_anchor_start = self.traj_batch.gamma_p[env_ids, 0].clone()", NATIVE)
+        self.assertIn("post_anchor_start = self.traj_batch.gamma_p[env_ids, 0].clone()", NATIVE)
+        self.assertIn("anchor = post_anchor_start - pre_anchor_start", NATIVE)
+        self.assertNotIn("before_anchor = self.traj_batch.gamma_p[env_ids, 0].clone()", NATIVE)
+
 
 if __name__ == "__main__":
     unittest.main()
