@@ -182,7 +182,7 @@ def sha256_bytes(payload: bytes) -> str:
 
 def write_json(path: Path, payload: Any) -> None:
     Path(path).write_text(
-        json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n",
+        json.dumps(jsonable(payload), indent=2, sort_keys=True, allow_nan=False) + "\n",
         encoding="utf-8",
     )
 
