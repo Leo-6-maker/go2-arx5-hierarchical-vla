@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import zipfile
 
 import numpy as np
 import pytest
@@ -180,3 +181,98 @@ def test_wrapper_has_no_ambiguous_gate_variable_and_requires_external_stdout() -
     assert "STAGE39_PBS_STDOUT_PATH" in wrapper_text
     assert "FAIL_CLOSED_PRE_SCIENCE" in wrapper_text
     assert "CHECK stdout_external PASS" in wrapper_text
+
+
+
+def _write_v2_zip(path: Path, *, changed: bool = False) -> None:
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr("WBCTrackingShare/", "")
+        archive.writestr("WBCTrackingShare/empty/", "")
+        archive.writestr("WBCTrackingShare/a.txt", "changed" if changed else "alpha")
+        archive.writestr("WBCTrackingShare/empty/b.txt", "beta")
+
+
+def test_v2_tab_size_sha_lf_digest_and_live_vector(tmp_path: Path) -> None:
+    archive_path = tmp_path / "authority.zip"
+    _write_v2_zip(archive_path)
+    archive = stage39.audit_wbc_archive(archive_path)
+    live = tmp_path / "WBCTrackingShare"
+    (live / "empty").mkdir(parents=True)
+    (live / "a.txt").write_text("alpha")
+    (live / "empty" / "b.txt").write_text("beta")
+    live_audit = stage39.audit_wbc_live_tree(live)
+    comparison = stage39.compare_wbc_vectors(
+        archive["file_records"],
+        live_audit["file_records"],
+        archive["directory_names"],
+        live_audit["directory_names"],
+    )
+    expected_payload = "".join(
+        "%s\t%s\t%s\n" % (item["path"], item["size_bytes"], item["sha256"])
+        for item in archive["file_records"]
+    ).encode("utf-8")
+    assert archive["v2_tree_sha256"] == stage39.sha256_bytes(expected_payload)
+    assert live_audit["v2_tree_sha256"] == archive["v2_tree_sha256"]
+    assert comparison["identical"] is True
+
+
+def test_v2_live_changed_missing_extra_and_directory_deltas_are_visible(tmp_path: Path) -> None:
+    live = tmp_path / "WBCTrackingShare"
+    live.mkdir()
+    (live / "a.txt").write_text("alpha")
+    archive_files = [{"path": "WBCTrackingShare/a.txt", "size_bytes": 5, "sha256": stage39.sha256_bytes(b"alpha")}]
+    changed = live / "a.txt"
+    changed.write_text("delta")
+    (live / "extra.txt").write_text("extra")
+    audit = stage39.audit_wbc_live_tree(live)
+    comparison = stage39.compare_wbc_vectors(
+        archive_files,
+        audit["file_records"],
+        ["WBCTrackingShare", "WBCTrackingShare/empty"],
+        audit["directory_names"],
+    )
+    assert comparison["changed_files"] == ["WBCTrackingShare/a.txt"]
+    assert comparison["extra_files"] == ["WBCTrackingShare/extra.txt"]
+    assert comparison["missing_directories"] == ["WBCTrackingShare/empty"]
+
+
+def test_v2_live_symlink_is_rejected(tmp_path: Path) -> None:
+    live = tmp_path / "WBCTrackingShare"
+    live.mkdir()
+    target = tmp_path / "target.txt"
+    target.write_text("target")
+    (live / "link.txt").symlink_to(target)
+    with pytest.raises(stage39.Stage39Error, match="symlink"):
+        stage39.audit_wbc_live_tree(live)
+
+
+def test_zip_unsafe_path_and_symlink_members_are_rejected(tmp_path: Path) -> None:
+    unsafe = tmp_path / "unsafe.zip"
+    with zipfile.ZipFile(unsafe, "w") as archive:
+        archive.writestr("../escape", "x")
+    with pytest.raises(stage39.Stage39Error, match="unsafe WBC archive members"):
+        stage39.audit_wbc_archive(unsafe)
+
+    symlink_zip = tmp_path / "symlink.zip"
+    info = zipfile.ZipInfo("WBCTrackingShare/link")
+    info.create_system = 3
+    info.external_attr = (0o120777 << 16)
+    with zipfile.ZipFile(symlink_zip, "w") as archive:
+        archive.writestr(info, "target")
+    with pytest.raises(stage39.Stage39Error, match="unsafe WBC archive members"):
+        stage39.audit_wbc_archive(symlink_zip)
+
+
+def test_authority_source_identity_is_exact_and_alias_configured() -> None:
+    host = stage39.authority_source_identity(stage39.EXPECTED_WBC_SOURCE_ROOT)
+    alias = stage39.authority_source_identity(Path("/authority/WBCTrackingShare"))
+    assert host["source_root_identity_class"] == "HOST_EXACT_PATH"
+    assert alias["source_root_identity_class"] == "CONTAINER_READONLY_BIND_ALIAS"
+    with pytest.raises(stage39.Stage39Error, match="accepted host path or container alias"):
+        stage39.authority_source_identity(Path("/tmp/third-authority-root"))
+
+
+def test_historical_digest_is_diagnostic_not_current_v2_predicate() -> None:
+    assert stage39.HISTORICAL_REPORTED_WBC_TREE_SHA256 != stage39.EXPECTED_WBC_V2_TREE_SHA256
+    assert stage39.HISTORICAL_REPORTED_WBC_TREE_SHA256.startswith("63311df")
+    assert stage39.EXPECTED_WBC_V2_TREE_SHA256.startswith("9d653c39")

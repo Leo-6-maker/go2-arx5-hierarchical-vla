@@ -28,10 +28,13 @@ import json
 import math
 import os
 import platform
+import posixpath
 import re
 import shutil
+import stat
 import subprocess
 import sys
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
@@ -64,8 +67,8 @@ from go2arx5_vla.trajectory.so3 import (  # noqa: E402
 PI_GATE_ID = "PI_GATE_STATE_0028"
 SCIENTIFIC_PROTOCOL_ID = PI_GATE_ID
 EXECUTION_AUTHORITY_PATTERN = re.compile(r"^PI_GATE_STATE_[0-9]{4}$")
-ISSUE_COMMENT_ID = "5556900735"
-PR_HANDOFF_COMMENT_ID = "5556901524"
+ISSUE_COMMENT_ID = "5558355926"
+PR_HANDOFF_COMMENT_ID = "5558357269"
 PR_NUMBER = 25
 STAGE39_BRANCH = "stage39/structured-wbc-qualification"
 STAGE38_BRANCH = "stage38/structured-groot-offline"
@@ -163,7 +166,22 @@ EXPECTED_WBC_MANIFESTS = {
         "fb8470c24f40724f24b8cdf76157aba33af41dffc4eb9717c99e65a6abb15440",
     ),
 }
-EXPECTED_WBC_TREE_SHA256 = "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567"
+HISTORICAL_REPORTED_WBC_TREE_SHA256 = "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567"
+EXPECTED_WBC_V2_TREE_SHA256 = "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+EXPECTED_WBC_MEMBER_COUNT = 887
+EXPECTED_WBC_FILE_COUNT = 742
+EXPECTED_WBC_DIRECTORY_COUNT = 145
+CONTAINER_WBC_SOURCE_ROOT = "/authority/WBCTrackingShare"
+HISTORICAL_WBC_SEALS = {
+    "v10": (
+        Path("/scratch/e1192548/leon-storage/runs/stage36_wbc_authority_oracle_qualification_20260906/stage36_cpu_20260906_resume8cbf39b_v10"),
+        "cddafd21f24eb58137a7764e7839f93044abbcc833790b9eeeaedf168deb8f0e",
+    ),
+    "v11": (
+        Path("/scratch/e1192548/leon-storage/runs/stage36_wbc_authority_oracle_qualification_20260906/stage36_cpu_20260906_resumea1a07a3_v11"),
+        "ea885f332c4cd13ba3daeb04650fee6adc7aa75dd6fe69b42bfe060686be7851",
+    ),
+}
 AUTHORITY_RUN_REL = Path(
     "runs/2026-08-05/"
     "stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018"
@@ -301,6 +319,38 @@ def git_audit(expected_head: str) -> Dict[str, Any]:
     return audit
 
 
+
+def execution_source_manifest(expected_head: str, checkout: Mapping[str, Any]) -> Dict[str, Any]:
+    records = []
+    for role, path in (
+        ("stage39_script", REPO / "scripts/stage39_structured_wbc_replay.py"),
+        ("pbs_wrapper", PBS_WRAPPER),
+        ("native_wbc_runner", NATIVE_RUNNER),
+    ):
+        relative = path.relative_to(REPO).as_posix()
+        try:
+            blob = git_command("rev-parse", "%s:%s" % (expected_head, relative))
+        except Stage39Error:
+            blob = None
+        records.append(
+            {
+                "role": role,
+                "path": str(path),
+                "relative_path": relative,
+                "sha256": sha256_file(path) if path.is_file() else None,
+                "git_blob_sha1": blob,
+                "size_bytes": int(path.stat().st_size) if path.is_file() else None,
+            }
+        )
+    return {
+        "schema": "STAGE39_EXECUTION_SOURCE_MANIFEST_V1",
+        "git_head": expected_head,
+        "records": records,
+        "worktree_clean": bool(checkout.get("worktree_clean")),
+        "branch": checkout.get("branch"),
+        "status": "PASS" if checkout.get("status") == "PASS" and all(item["sha256"] and item["git_blob_sha1"] for item in records) else "BLOCKED",
+    }
+
 def file_record(path: Path, expected_sha256: Optional[str] = None) -> Dict[str, Any]:
     path = Path(path)
     exists = path.is_file() and not path.is_symlink()
@@ -352,6 +402,247 @@ def tree_sha256(root: Path, prefix: str) -> Tuple[str, List[Dict[str, Any]]]:
         )
     return digest.hexdigest(), entries
 
+
+
+def v2_tree_sha256(records: Sequence[Mapping[str, Any]]) -> str:
+    """Hash explicit archive/live records in the Stage39 V2 namespace."""
+    payload = "".join(
+        "%s\t%s\t%s\n" % (item["path"], int(item["size_bytes"]), item["sha256"])
+        for item in sorted(records, key=lambda item: str(item["path"]))
+    )
+    return sha256_bytes(payload.encode("utf-8"))
+
+
+def _safe_archive_member_name(name: str, is_directory: bool) -> str:
+    if not name or "\\" in name or name.startswith("/") or name.startswith("\\"):
+        raise Stage39Error("unsafe WBC archive member path: %s" % name)
+    clean = name[:-1] if is_directory and name.endswith("/") else name
+    if not clean or ":" in clean.split("/", 1)[0]:
+        raise Stage39Error("ambiguous WBC archive member path: %s" % name)
+    parts = clean.split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        raise Stage39Error("traversal or ambiguous WBC archive member path: %s" % name)
+    if posixpath.normpath(clean) != clean:
+        raise Stage39Error("non-canonical WBC archive member path: %s" % name)
+    if clean != "WBCTrackingShare" and not clean.startswith("WBCTrackingShare/"):
+        raise Stage39Error("WBC archive member outside authority prefix: %s" % name)
+    return clean
+
+
+def audit_wbc_archive(archive_path: Path) -> Dict[str, Any]:
+    """Read-only exact ZIP audit; no extraction is performed."""
+    archive_path = Path(archive_path)
+    if not archive_path.is_file() or archive_path.is_symlink():
+        raise Stage39Error("WBC authority archive is not a regular file")
+    member_names = set()
+    file_records: List[Dict[str, Any]] = []
+    directory_names = set()
+    unsafe_members = []
+    duplicate_members = []
+    encoded_symlink_members = []
+    with zipfile.ZipFile(archive_path) as archive:
+        infos = archive.infolist()
+        for info in infos:
+            is_directory = info.is_dir() or info.filename.endswith("/")
+            try:
+                clean = _safe_archive_member_name(info.filename, is_directory)
+            except Stage39Error:
+                unsafe_members.append(info.filename)
+                continue
+            mode = (int(info.external_attr) >> 16) & 0xFFFF
+            if stat.S_ISLNK(mode):
+                encoded_symlink_members.append(info.filename)
+                continue
+            if clean in member_names:
+                duplicate_members.append(clean)
+                continue
+            member_names.add(clean)
+            if is_directory:
+                directory_names.add(clean)
+                continue
+            digest = hashlib.sha256()
+            with archive.open(info, "r") as handle:
+                for block in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+                    digest.update(block)
+            file_records.append(
+                {
+                    "path": clean,
+                    "size_bytes": int(info.file_size),
+                    "sha256": digest.hexdigest(),
+                }
+            )
+    if unsafe_members or duplicate_members or encoded_symlink_members:
+        raise Stage39Error(
+            "unsafe WBC archive members: unsafe=%d duplicate=%d symlink=%d"
+            % (len(unsafe_members), len(duplicate_members), len(encoded_symlink_members))
+        )
+    return {
+        "path": str(archive_path),
+        "archive_sha256": sha256_file(archive_path),
+        "member_count": len(infos),
+        "file_count": len(file_records),
+        "directory_count": len(directory_names),
+        "unsafe_members": unsafe_members,
+        "duplicate_members": duplicate_members,
+        "encoded_symlink_members": encoded_symlink_members,
+        "file_records": sorted(file_records, key=lambda item: item["path"]),
+        "directory_names": sorted(directory_names),
+        "v2_tree_sha256": v2_tree_sha256(file_records),
+    }
+
+
+def audit_wbc_live_tree(source_root: Path) -> Dict[str, Any]:
+    """Build the same V2 vector from a live authority tree without following links."""
+    source_root = Path(source_root)
+    if source_root.is_symlink() or not source_root.is_dir():
+        raise Stage39Error("WBC authority source root is not a regular directory")
+    file_records: List[Dict[str, Any]] = []
+    directory_names = {"WBCTrackingShare"}
+    symlink_count = 0
+    for directory, dirnames, filenames in os.walk(str(source_root), followlinks=False):
+        directory_path = Path(directory)
+        relative_directory = directory_path.relative_to(source_root).as_posix()
+        if relative_directory != ".":
+            directory_names.add("WBCTrackingShare/" + relative_directory)
+        for dirname in sorted(dirnames):
+            child = directory_path / dirname
+            if child.is_symlink():
+                symlink_count += 1
+                raise Stage39Error("WBC authority contains symlink directory: %s" % child)
+        for filename in sorted(filenames):
+            child = directory_path / filename
+            if child.is_symlink():
+                symlink_count += 1
+                raise Stage39Error("WBC authority contains symlink file: %s" % child)
+            if not child.is_file():
+                raise Stage39Error("WBC authority contains non-regular file: %s" % child)
+            relative = child.relative_to(source_root).as_posix()
+            file_records.append(
+                {
+                    "path": "WBCTrackingShare/" + relative,
+                    "size_bytes": int(child.stat().st_size),
+                    "sha256": sha256_file(child),
+                }
+            )
+    return {
+        "source_root": str(source_root),
+        "file_count": len(file_records),
+        "directory_count": len(directory_names),
+        "symlink_count": symlink_count,
+        "file_records": sorted(file_records, key=lambda item: item["path"]),
+        "directory_names": sorted(directory_names),
+        "v2_tree_sha256": v2_tree_sha256(file_records),
+    }
+
+
+def compare_wbc_vectors(
+    archive_files: Sequence[Mapping[str, Any]],
+    live_files: Sequence[Mapping[str, Any]],
+    archive_dirs: Sequence[str],
+    live_dirs: Sequence[str],
+) -> Dict[str, Any]:
+    archive_by_path = {str(item["path"]): dict(item) for item in archive_files}
+    live_by_path = {str(item["path"]): dict(item) for item in live_files}
+    missing = sorted(set(archive_by_path) - set(live_by_path))
+    extra = sorted(set(live_by_path) - set(archive_by_path))
+    changed = sorted(
+        path for path in set(archive_by_path) & set(live_by_path)
+        if (
+            int(archive_by_path[path]["size_bytes"]) != int(live_by_path[path]["size_bytes"])
+            or archive_by_path[path]["sha256"] != live_by_path[path]["sha256"]
+        )
+    )
+    archive_dir_set, live_dir_set = set(archive_dirs), set(live_dirs)
+    return {
+        "missing_files": missing,
+        "extra_files": extra,
+        "changed_files": changed,
+        "missing_directories": sorted(archive_dir_set - live_dir_set),
+        "extra_directories": sorted(live_dir_set - archive_dir_set),
+        "identical": not (missing or extra or changed or archive_dir_set - live_dir_set or live_dir_set - archive_dir_set),
+    }
+
+
+def authority_source_identity(source_root: Path) -> Dict[str, Any]:
+    raw = str(source_root)
+    if raw == CONTAINER_WBC_SOURCE_ROOT:
+        return {"source_root": raw, "source_root_identity_class": "CONTAINER_READONLY_BIND_ALIAS"}
+    expected = str(EXPECTED_WBC_SOURCE_ROOT)
+    if raw != expected or Path(source_root).is_symlink():
+        raise Stage39Error("WBC authority source root is not an accepted host path or container alias")
+    return {"source_root": expected, "source_root_identity_class": "HOST_EXACT_PATH"}
+
+
+def _sealed_entry_path(seal_path: Path, relative_name: str) -> Tuple[Path, str]:
+    seal = load_json(seal_path)
+    matches = [
+        entry for entry in seal.get("artifacts", seal.get("entries", []))
+        if str(entry.get("relative_path", "")) == relative_name
+        or Path(str(entry.get("path", ""))).name == Path(relative_name).name
+    ]
+    if len(matches) != 1:
+        raise Stage39Error("historical seal does not uniquely bind %s" % relative_name)
+    entry = matches[0]
+    candidate = Path(str(entry.get("path", "")))
+    if not candidate.is_absolute():
+        candidate = seal_path.parent / str(entry.get("relative_path", relative_name))
+    expected = entry.get("sha256", entry.get("sha256_hex"))
+    if not file_record(candidate, expected).get("hash_match"):
+        raise Stage39Error("historical sealed entry mismatch: %s" % relative_name)
+    return candidate, str(expected)
+
+
+def verify_historical_wbc_members(
+    archive_audit: Mapping[str, Any],
+) -> Dict[str, Any]:
+    results: Dict[str, Any] = {}
+    archive_files = [dict(item) for item in archive_audit["file_records"]]
+    for label, (root, seal_sha256) in HISTORICAL_WBC_SEALS.items():
+        seal_path = root / "stage36_artifact_seal.json"
+        seal_result = verify_sealed_entries(root, seal_path, seal_sha256)
+        if seal_result.get("status") != "PASS":
+            raise Stage39Error("historical %s Stage36 seal did not verify" % label)
+        member_path, member_sha = _sealed_entry_path(seal_path, "archive_member_hash_manifest.json")
+        member_manifest = load_json(member_path)
+        historical_files = [
+            {
+                "path": str(item["path"]),
+                "size_bytes": int(item["size_bytes"]),
+                "sha256": str(item["sha256"]),
+            }
+            for item in member_manifest.get("file_records", [])
+            if item.get("kind", "file") == "file"
+        ]
+        vector = compare_wbc_vectors(
+            archive_files,
+            historical_files,
+            archive_audit["directory_names"],
+            archive_audit["directory_names"],
+        )
+        if not vector["identical"] or len(historical_files) != EXPECTED_WBC_FILE_COUNT:
+            raise Stage39Error("historical %s member vector differs from sealed ZIP" % label)
+        intake_path, intake_sha = _sealed_entry_path(seal_path, "archive_intake.json")
+        intake = load_json(intake_path)
+        results[label] = {
+            "root": str(root),
+            "seal": seal_result,
+            "archive_member_manifest": {"path": str(member_path), "sha256": member_sha, "record_count": len(historical_files)},
+            "archive_intake": {
+                "path": str(intake_path),
+                "sha256": intake_sha,
+                "status": intake.get("status"),
+                "archive_sha256": intake.get("archive_sha256"),
+                "extracted_tree_sha256": intake.get("extracted_tree_sha256"),
+                "extracted_tree_sha256_expected": intake.get("extracted_tree_sha256_expected"),
+                "member_count": intake.get("member_count"),
+                "file_count": intake.get("file_count"),
+                "directory_count": intake.get("directory_count"),
+                "symlink_count": len(intake.get("symlink_members", [])),
+            },
+            "member_vector_identical_to_archive": True,
+            "reported_tree_digest_reconstructable": False,
+        }
+    return results
 
 def compare_float(a: Any, b: Any, atol: float = 1e-6, rtol: float = 1e-7) -> bool:
     try:
@@ -616,9 +907,8 @@ def verify_stage38_chain() -> Dict[str, Any]:
 
 
 def verify_wbc_authority(source_root: Path) -> Dict[str, Any]:
-    source_root = Path(source_root).resolve()
-    if source_root != EXPECTED_WBC_SOURCE_ROOT.resolve():
-        raise Stage39Error("WBC authority source root is not the accepted extracted root")
+    identity = authority_source_identity(source_root)
+    source_root = Path(identity["source_root"])
     selected = {
         "arm_checkpoint": source_root / AUTHORITY_RUN_REL / "checkpoints_arm/ac_weights_039999.pt",
         "dog_checkpoint": source_root / AUTHORITY_RUN_REL / "checkpoints_dog/ac_weights_039999.pt",
@@ -645,16 +935,50 @@ def verify_wbc_authority(source_root: Path) -> Dict[str, Any]:
     archive = file_record(EXPECTED_WBC_ARCHIVE, EXPECTED_WBC_ARCHIVE_SHA256)
     if not archive["hash_match"]:
         raise Stage39Error("WBC authority archive hash mismatch")
-    tree_manifest = load_json(EXPECTED_WBC_MANIFESTS["tree_manifest"][0])
-    observed_tree = tree_manifest.get("archive_tree_sha256", tree_manifest.get("tree_sha256"))
-    if observed_tree != EXPECTED_WBC_TREE_SHA256:
-        raise Stage39Error("WBC authority tree identity mismatch")
+    archive_audit = audit_wbc_archive(EXPECTED_WBC_ARCHIVE)
+    if (
+        archive_audit["archive_sha256"] != EXPECTED_WBC_ARCHIVE_SHA256
+        or archive_audit["member_count"] != EXPECTED_WBC_MEMBER_COUNT
+        or archive_audit["file_count"] != EXPECTED_WBC_FILE_COUNT
+        or archive_audit["directory_count"] != EXPECTED_WBC_DIRECTORY_COUNT
+        or archive_audit["v2_tree_sha256"] != EXPECTED_WBC_V2_TREE_SHA256
+    ):
+        raise Stage39Error("WBC authority direct ZIP audit mismatch")
+    live_audit = audit_wbc_live_tree(source_root)
+    vector = compare_wbc_vectors(
+        archive_audit["file_records"],
+        live_audit["file_records"],
+        archive_audit["directory_names"],
+        live_audit["directory_names"],
+    )
+    if not vector["identical"] or live_audit["v2_tree_sha256"] != EXPECTED_WBC_V2_TREE_SHA256:
+        raise Stage39Error("WBC authority archive/live content vector mismatch")
+    historical = verify_historical_wbc_members(archive_audit)
     return {
-        "source_root": str(source_root),
+        "authority_class": "STAGE39_WBC_CONTENT_AUTHORITY_V1_ATTESTED_FROM_SEALED_ARCHIVE",
+        **identity,
+        "archive": archive,
+        "archive_sha256": archive_audit["archive_sha256"],
+        "archive_member_count": archive_audit["member_count"],
+        "archive_file_count": archive_audit["file_count"],
+        "archive_directory_count": archive_audit["directory_count"],
+        "archive_v2_tree_sha256": archive_audit["v2_tree_sha256"],
+        "live_v2_tree_sha256": live_audit["v2_tree_sha256"],
+        "archive_live_record_vector_identical": True,
+        "live_comparison": vector,
+        "historical": historical,
+        "v10_seal_verified": historical["v10"]["seal"]["status"] == "PASS",
+        "v11_seal_verified": historical["v11"]["seal"]["status"] == "PASS",
+        "v10_member_vector_identical_to_archive": historical["v10"]["member_vector_identical_to_archive"],
+        "v11_member_vector_identical_to_archive": historical["v11"]["member_vector_identical_to_archive"],
+        "historical_reported_tree_sha256": HISTORICAL_REPORTED_WBC_TREE_SHA256,
+        "historical_reported_tree_digest_reconstructable": False,
+        "historical_cpu_admission_script_bytes_sealed": False,
         "components": components,
         "manifests": manifests,
-        "archive": archive,
-        "archive_tree_sha256": observed_tree,
+        "component_hashes_match": True,
+        "file_count": live_audit["file_count"],
+        "symlink_count": live_audit["symlink_count"],
         "status": "PASS",
     }
 
@@ -840,6 +1164,10 @@ def build_stage39_inputs(
     execution_authority = str(authority_record["execution_authority"])
     checkout = git_audit(expected_head)
     admission_root.mkdir(parents=True)
+    execution_sources = execution_source_manifest(expected_head, checkout)
+    if execution_sources["status"] != "PASS":
+        raise Stage39Error("Stage39 execution source manifest is not PASS")
+    write_json(admission_root / "execution_source_manifest.json", execution_sources)
     inputs_root = admission_root / "inputs"
     inputs_root.mkdir()
     snapshot = load_json(EXPECTED_SNAPSHOT)
@@ -1077,6 +1405,7 @@ def build_stage39_inputs(
         "execution_checkout": checkout,
         "stage38_chain": stage38,
         "wbc_authority": verify_wbc_authority(EXPECTED_WBC_SOURCE_ROOT),
+        "execution_source_manifest": file_record(admission_root / "execution_source_manifest.json"),
         "input_manifest_path": str(manifest_path),
         "input_manifest_sha256": sha256_file(manifest_path),
         "warn_stratification_path": str(warn_path),
@@ -1328,6 +1657,43 @@ def compare_stage39_admission_payloads(
     }
 
 
+
+def seal_stage39_a4(root: Path, expected_head: str, execution_authority: str) -> Dict[str, Any]:
+    manifest_path = root / "execution_source_manifest.json"
+    if not manifest_path.is_file():
+        raise Stage39Error("A4 execution source manifest is missing")
+    entries = []
+    for path in sorted(root.rglob("*")):
+        if path.is_symlink():
+            raise Stage39Error("A4 root contains a symlink: %s" % path)
+        if path.is_file() and path.name != "stage39a4_artifact_seal.json":
+            entries.append(
+                {
+                    "path": str(path),
+                    "relative_path": path.relative_to(root).as_posix(),
+                    "size_bytes": int(path.stat().st_size),
+                    "sha256": sha256_file(path),
+                }
+            )
+    if not any(item["relative_path"] == "execution_source_manifest.json" for item in entries):
+        raise Stage39Error("A4 execution source manifest was not sealed")
+    seal = {
+        "schema": "STAGE39A4_ARTIFACT_SEAL_V1",
+        "timestamp_utc": now_utc(),
+        "pi_gate": PI_GATE_ID,
+        "execution_authority": execution_authority,
+        "expected_head": expected_head,
+        "artifact_root": str(root),
+        "entries": entries,
+        "historical_artifacts_modified": False,
+        "scientific_contract_changed": False,
+        "status": "PASS",
+    }
+    seal_path = root / "stage39a4_artifact_seal.json"
+    write_json(seal_path, seal)
+    seal_sha = sha256_file(seal_path)
+    return {"path": str(seal_path), "sha256": seal_sha, "entry_count": len(entries), "status": "PASS"}
+
 def run_rebind(args: argparse.Namespace) -> int:
     rebound_root = Path(args.output_root).absolute()
     original_root = Path(args.original_admission_root).resolve()
@@ -1369,12 +1735,15 @@ def run_rebind(args: argparse.Namespace) -> int:
         "rebound_admission": rebound_result,
     }
     write_json(rebound_root / "stage39a2_result.json", result)
+    a4_seal = seal_stage39_a4(rebound_root, expected_head, execution_authority)
     print(json.dumps({
         "status": result["status"],
         "root": str(rebound_root),
         "result_sha256": sha256_file(rebound_root / "stage39a2_result.json"),
         "manifest_sha256": sha256_file(rebound_root / "stage39_input_manifest.json"),
         "warn_sha256": sha256_file(rebound_root / "stage39_warn_stratification.json"),
+        "a4_artifact_seal_path": a4_seal["path"],
+        "a4_artifact_seal_sha256": a4_seal["sha256"],
         "scientific_payloads_identical_to_original": result["scientific_payloads_identical_to_original"],
         "safety_gate_counts": result["safety_gate_counts"],
         "errors": comparison["errors"],
