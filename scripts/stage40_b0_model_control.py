@@ -44,6 +44,37 @@ def _load_state(path: Path) -> np.ndarray:
     return values
 
 
+def _bind_local_cosmos_processor(stage10_root: Path, cosmos_snapshot: Path) -> dict[str, str]:
+    """Make the frozen Cosmos processor resolve without a Hub lookup.
+
+    The model checkpoint remains the requested local checkpoint.  Only the
+    processor's Cosmos dependency is rebound to the sealed local snapshot;
+    this is the same narrow offline binding used by the accepted Stage38
+    runner.
+    """
+    snapshot = cosmos_snapshot.resolve()
+    if not snapshot.is_dir():
+        raise RuntimeError(f"Cosmos snapshot is not a directory: {snapshot}")
+    sys.path.insert(0, str(stage10_root / "src" / "isaac-gr00t"))
+    from gr00t.model.gr00t_n1d7 import processing_gr00t_n1d7 as processing
+
+    original = getattr(processing, "_stage40_original_build_processor", None)
+    if original is None:
+        original = processing.build_processor
+
+        def build_local_processor(model_name: str, loading_kwargs: dict):
+            if model_name == "nvidia/Cosmos-Reason2-2B":
+                model_name = str(snapshot)
+            return original(model_name, loading_kwargs)
+
+        processing._stage40_original_build_processor = original
+        processing.build_processor = build_local_processor
+    return {
+        "repo_id": "nvidia/Cosmos-Reason2-2B",
+        "resolved_snapshot": str(snapshot),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage10-root", type=Path, required=True)
@@ -54,6 +85,7 @@ def main() -> int:
     parser.add_argument("--body-video", type=Path, required=True)
     parser.add_argument("--wrist-video", type=Path, required=True)
     parser.add_argument("--state-json", type=Path, required=True)
+    parser.add_argument("--cosmos-snapshot", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--language", default="move the end effector to the red target")
@@ -70,6 +102,7 @@ def main() -> int:
     import stage21_same_scene_groot_inference as inference
     import torch
 
+    cosmos_binding = _bind_local_cosmos_processor(args.stage10_root, args.cosmos_snapshot)
     processor, embodiment = inference._build_processor(
         args.stage10_root, args.base_model_path, args.dataset_dir / "meta", args.modality_config
     )
@@ -113,6 +146,7 @@ def main() -> int:
             "state_v1": state.tolist(),
         },
         "rows": rows,
+        "cosmos_processor_binding": cosmos_binding,
         "forbidden_operations": {"wbc": False, "backward": False, "optimizer": False, "checkpoint_write": False},
     }
     (args.output_dir / "stage40_b0_result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

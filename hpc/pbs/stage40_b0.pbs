@@ -24,6 +24,7 @@ set -euo pipefail
 : "${STAGE40_WRIST_VIDEO:?}"
 : "${STAGE40_STATE_JSON:?}"
 : "${STAGE40_COSMOS_HF_HOME:?}"
+: "${STAGE40_COSMOS_SNAPSHOT:?}"
 
 RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_b0_${PBS_JOBID}"
 test ! -e "${RUN_ROOT}"
@@ -44,7 +45,7 @@ FFMPEG="${STAGE40_FFMPEG_BUNDLE:-/scratch/e1192548/stage22_h200_ffmpeg4_bundle_2
 test -f "${IMAGE}"
 test -d "${SITE}"
 test -d "${FFMPEG}"
-for path in "${STAGE40_MODEL_PATH}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_DATASET_DIR}" "${STAGE40_MODALITY_CONFIG}" "${STAGE40_STAGE10_ROOT}" "${STAGE40_BODY_VIDEO}" "${STAGE40_WRIST_VIDEO}" "${STAGE40_STATE_JSON}" "${STAGE40_COSMOS_HF_HOME}"; do test -e "${path}"; done
+for path in "${STAGE40_MODEL_PATH}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_DATASET_DIR}" "${STAGE40_MODALITY_CONFIG}" "${STAGE40_STAGE10_ROOT}" "${STAGE40_BODY_VIDEO}" "${STAGE40_WRIST_VIDEO}" "${STAGE40_STATE_JSON}" "${STAGE40_COSMOS_HF_HOME}" "${STAGE40_COSMOS_SNAPSHOT}"; do test -e "${path}"; done
 
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
@@ -82,6 +83,7 @@ singularity exec --nv --bind /scratch:/scratch --bind "${STAGE40_REPO}:${STAGE40
     --body-video "${STAGE40_BODY_VIDEO}" \
     --wrist-video "${STAGE40_WRIST_VIDEO}" \
     --state-json "${STAGE40_STATE_JSON}" \
+    --cosmos-snapshot "${STAGE40_COSMOS_SNAPSHOT}" \
     --output-dir "${RUN_ROOT}" \
     --device cuda:0 --local-files-only
 
