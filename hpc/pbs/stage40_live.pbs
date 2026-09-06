@@ -62,7 +62,8 @@ test -d "${FFMPEG}"
 export HOME="${RUN_ROOT}/runtime/home" TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
 export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache" XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config" XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
-export HF_HOME="${STAGE40_COSMOS_HF_HOME:-$(dirname "${STAGE40_COSMOS_SNAPSHOT}")}" HF_HUB_CACHE="${HF_HOME}/hub" TRANSFORMERS_CACHE="${HF_HOME}/hub"
+export HF_HOME="${STAGE40_COSMOS_HF_HOME:-$(dirname "${STAGE40_COSMOS_SNAPSHOT}")}"
+export HF_HUB_CACHE="${HF_HOME}/hub" TRANSFORMERS_CACHE="${HF_HOME}/hub"
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0
 export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
 
