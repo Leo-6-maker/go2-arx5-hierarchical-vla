@@ -76,7 +76,6 @@ STAGE28 = importlib.import_module("stage28_h2_fresh_base_2000_fixed_warmup10")
 PI_GATE_ID = "PI_GATE_STATE_0026"
 PR_NUMBER = 24
 EXPECTED_BRANCH = "stage38/structured-groot-offline"
-EXPECTED_HEAD = "619ca001c7290de88c1d0cd3c4b4024bfb3b2b75"
 EXPECTED_PARENT_HEAD = "bbf7453c7060d64fc6f659281ceb777246d6d370"
 EXPECTED_PROJECT = "CFP03-CF-004"
 EXPECTED_QUEUE = "auto"
@@ -1301,7 +1300,11 @@ def run(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--api-head", required=True)
-    parser.add_argument("--expected-head", default=EXPECTED_HEAD)
+    parser.add_argument(
+        "--expected-head",
+        required=True,
+        help="current live PR head; preflight requires API/remote/local equality",
+    )
     parser.add_argument("--pr-number", type=int, default=PR_NUMBER)
     parser.add_argument("--output-root", required=True)
     return parser
