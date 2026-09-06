@@ -1,0 +1,52 @@
+#!/bin/bash
+# Stage38-D: exactly one fresh structured GR00T BASE -> 2000 campaign.
+# Submit only after the CPU preflight has PASSed for this exact execution head.
+# No replacement qsub/resume is permitted after this allocation starts.
+
+#PBS -N st38_structured
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=24:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE38_REPO:?Set the clean Stage38 checkout}"
+: "${STAGE38_OUTPUT_ROOT:?Set a new scratch-backed Stage38-D output root}"
+: "${STAGE38_EXPECTED_PROJECT_SHA:?Set the exact pushed Stage38-D execution head}"
+: "${STAGE38_GROOT_SOURCE:?Set the pinned GR00T source root}"
+: "${STAGE38_BASE_MODEL_PATH:?Set the exact immutable BASE checkpoint}"
+: "${STAGE38_DATASET_DIR:?Set the exact immutable TINY1 dataset}"
+
+cd "${STAGE38_REPO}"
+export TMPDIR="${STAGE38_OUTPUT_ROOT}/pbs-tmp"
+export TMP="${TMPDIR}"
+export TEMP="${TMPDIR}"
+export HF_HOME="${STAGE38_OUTPUT_ROOT}/pbs-cache/huggingface"
+export TRANSFORMERS_CACHE="${HF_HOME}/hub"
+export XDG_CACHE_HOME="${STAGE38_OUTPUT_ROOT}/pbs-cache/xdg"
+export TORCH_HOME="${STAGE38_OUTPUT_ROOT}/pbs-cache/torch"
+mkdir -p "${TMPDIR}" "${HF_HOME}" "${TRANSFORMERS_CACHE}" "${XDG_CACHE_HOME}" "${TORCH_HOME}"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+: "${STAGE38_PYTHON:=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python}"
+
+"${STAGE38_PYTHON}" \
+  scripts/stage38_structured_train.py \
+  --train \
+  --expected-project-sha "${STAGE38_EXPECTED_PROJECT_SHA}" \
+  --output-root "${STAGE38_OUTPUT_ROOT}" \
+  --base-model-path "${STAGE38_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE38_DATASET_DIR}" \
+  --groot-source "${STAGE38_GROOT_SOURCE}"
+
+echo "STAGE38_D_STRUCTURED_GR00T_TRAINING_RETURNED"
