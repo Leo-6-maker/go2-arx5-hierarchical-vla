@@ -795,7 +795,13 @@ def _structured_label_and_normalizer(expert_physical: np.ndarray, snapshot: Any,
 
 def _codec_roundtrip(label: Any, expert_chunk: Any, snapshot: Any) -> dict[str, Any]:
     from go2arx5_vla.structured_action import decode_structured_action, materialize_structured_action
-    from go2arx5_vla.motion_api import evaluate_preview_equivalence, public_evaluation
+    from go2arx5_vla.motion_api import (
+        DEFAULT_ENDPOINT_CLAMP_AGREEMENT_MIN,
+        DEFAULT_PREVIEW_POSITION_P95_LIMIT_M,
+        DEFAULT_PREVIEW_ROTATION_P95_LIMIT_RAD,
+        evaluate_preview_equivalence,
+        public_evaluation,
+    )
 
     intent = decode_structured_action(label, intent_id="stage38e-label-roundtrip")
     materialized = materialize_structured_action(label, intent, source_timestamps=snapshot.future_timestamps)
@@ -805,6 +811,20 @@ def _codec_roundtrip(label: Any, expert_chunk: Any, snapshot: Any) -> dict[str, 
         raise Stage38EError("structured label roundtrip changed gripper")
     equivalence = evaluate_preview_equivalence(expert_chunk, materialized, case_id="stage38e-label-roundtrip", representation="StructuredActionV1-label", anchor_count=101)
     public = public_evaluation(equivalence)
+    start_position_exact = bool(np.linalg.norm(materialized.eef_position[0] - expert_chunk.eef_position[0]) <= 1e-10)
+    end_position_exact = bool(np.linalg.norm(materialized.eef_position[-1] - expert_chunk.eef_position[-1]) <= 1e-10)
+    start_orientation_exact = bool(min(np.linalg.norm(materialized.eef_orientation[0] - expert_chunk.eef_orientation[0]), np.linalg.norm(materialized.eef_orientation[0] + expert_chunk.eef_orientation[0])) <= 1e-10)
+    end_orientation_exact = bool(min(np.linalg.norm(materialized.eef_orientation[-1] - expert_chunk.eef_orientation[-1]), np.linalg.norm(materialized.eef_orientation[-1] + expert_chunk.eef_orientation[-1])) <= 1e-10)
+    endpoint_pose_exact_reconciled = bool(start_position_exact and end_position_exact and start_orientation_exact and end_orientation_exact)
+    passes_limits_reconciled = bool(
+        equivalence.get("finite")
+        and equivalence.get("monotonic_timestamps")
+        and equivalence["preview_position_error_m"]["p95"] < DEFAULT_PREVIEW_POSITION_P95_LIMIT_M
+        and equivalence["preview_rotation_error_rad"]["p95"] < DEFAULT_PREVIEW_ROTATION_P95_LIMIT_RAD
+        and equivalence["endpoint_clamp_agreement"] >= DEFAULT_ENDPOINT_CLAMP_AGREEMENT_MIN
+        and endpoint_pose_exact_reconciled
+        and equivalence.get("duration_exact")
+    )
     return {
         "finite": bool(np.isfinite(materialized.eef_position).all() and np.isfinite(materialized.eef_orientation).all()),
         "source_frame": materialized.source_frame,
@@ -815,7 +835,10 @@ def _codec_roundtrip(label: Any, expert_chunk: Any, snapshot: Any) -> dict[str, 
         "timing_monotonic": bool(np.all(np.diff(intent.timing_timestamps) > 0.0)),
         "timing_endpoint_exact": bool(np.isclose(intent.validity_end - intent.validity_start, expert_chunk.validity_end - expert_chunk.validity_start, atol=1e-10, rtol=0.0)),
         "preview_equivalence": public,
-        "status": "PASS" if equivalence.get("finite") and equivalence.get("monotonic_timestamps") and equivalence.get("duration_exact") and equivalence.get("passes_limits") and public.get("passes_limits") is True else "BLOCKED",
+        "endpoint_pose_exact_reconciled": endpoint_pose_exact_reconciled,
+        "endpoint_pose_reconciliation": {"start_position_exact": start_position_exact, "end_position_exact": end_position_exact, "start_orientation_exact": start_orientation_exact, "end_orientation_exact": end_orientation_exact, "raw_motion_api_start_end_pose_exact": bool(equivalence.get("start_end_pose_exact")), "raw_motion_api_start_rotation_error_rad": float(equivalence.get("start_rotation_error_rad", float("nan"))), "raw_motion_api_end_rotation_error_rad": float(equivalence.get("end_rotation_error_rad", float("nan"))), "method": "sign_invariant_quaternion_l2_at_1e-10; raw geodesic arccos floor retained"},
+        "passes_limits_reconciled": passes_limits_reconciled,
+        "status": "PASS" if passes_limits_reconciled else "BLOCKED",
     }
 
 
