@@ -32,6 +32,7 @@ def main() -> int:
     parser.add_argument("--dataset-dir", type=Path, required=True)
     parser.add_argument("--modality-config", type=Path, required=True)
     parser.add_argument("--mailbox", type=Path, required=True)
+    parser.add_argument("--cosmos-snapshot", type=Path, required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--seed", type=int, default=2121)
     parser.add_argument("--poll-period-s", type=float, default=0.10)
@@ -43,6 +44,7 @@ def main() -> int:
     # Import the Stage21 inference helpers only after the CLI is validated.
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     sys.path.insert(0, str(args.stage10_root / "src" / "isaac-gr00t"))
+    from stage40_b0_model_control import _bind_local_cosmos_processor
     import stage21_same_scene_groot_inference as inference
     import torch
 
@@ -50,6 +52,7 @@ def main() -> int:
     responses = args.mailbox / "responses"
     requests.mkdir(parents=True, exist_ok=True)
     responses.mkdir(parents=True, exist_ok=True)
+    _bind_local_cosmos_processor(args.stage10_root, args.cosmos_snapshot)
     processor, embodiment = inference._build_processor(
         args.stage10_root,
         args.base_model_path,
