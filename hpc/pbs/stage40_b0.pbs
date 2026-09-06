@@ -24,15 +24,18 @@ set -euo pipefail
 : "${STAGE40_WRIST_VIDEO:?}"
 : "${STAGE40_STATE_JSON:?}"
 
-cd "${STAGE40_REPO}"
-test "$(git rev-parse HEAD)" = "${STAGE40_EXPECTED_HEAD}"
-test -z "$(git status --short --untracked-files=all)"
-
 RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_b0_${PBS_JOBID}"
 test ! -e "${RUN_ROOT}"
 mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache" "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
 exec > >(tee -a "${RUN_ROOT}/stage40_b0.log") 2>&1
 echo "STAGE40_B0_START job=${PBS_JOBID} host=$(hostname)"
+
+cd "${STAGE40_REPO}"
+echo "REPO=$PWD"
+echo "OBSERVED_HEAD=$(git rev-parse HEAD 2>&1 || true)"
+echo "EXPECTED_HEAD=${STAGE40_EXPECTED_HEAD}"
+test "$(git rev-parse HEAD)" = "${STAGE40_EXPECTED_HEAD}"
+test -z "$(git status --short --untracked-files=all)"
 
 IMAGE="${STAGE40_CONTAINER_IMAGE:-/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif}"
 SITE="${STAGE40_CONTAINER_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
