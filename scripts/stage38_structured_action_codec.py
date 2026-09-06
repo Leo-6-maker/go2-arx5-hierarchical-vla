@@ -76,7 +76,7 @@ STAGE28 = importlib.import_module("stage28_h2_fresh_base_2000_fixed_warmup10")
 PI_GATE_ID = "PI_GATE_STATE_0026"
 PR_NUMBER = 24
 EXPECTED_BRANCH = "stage38/structured-groot-offline"
-EXPECTED_HEAD = "c0bb88c043e28f06483c447b00c2be203ba8a410"
+EXPECTED_HEAD = "825a00cc6f6c47cc4f0363a3323e8b1e2615135e"
 EXPECTED_PARENT_HEAD = "bbf7453c7060d64fc6f659281ceb777246d6d370"
 EXPECTED_PROJECT = "CFP03-CF-004"
 EXPECTED_QUEUE = "auto"
@@ -120,7 +120,15 @@ TINY1_FILE_COUNT = 13
 TINY1_TOTAL_BYTES = 152958
 TINY1_STATS_SHA256 = "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
 TINY1_RELATIVE_STATS_SHA256 = "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1"
-TINY1_MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+# The dataset's LeRobot metadata and the Stage22 modality module are distinct
+# immutable inputs.  The former is bound to the Stage19 qualified manifest;
+# the latter is the module copied into the accepted H2 handoff payload.
+TINY1_META_MODALITY_SHA256 = "1d172665da201f5b040ca6664a67bd3a9fe591237b3c8298d3a44f7e63f97c4e"
+STAGE22_MODALITY_CONFIG_PATH = Path(
+    "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/"
+    "go2_arx5_modality.py"
+)
+STAGE22_MODALITY_CONFIG_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 TINY1_SNAPSHOT = Path(
     "/scratch/e1192548/stage26_h1_c1_20260904/snapshots/"
     "stage22_expert_red_target_train_a/expert-0000.json"
@@ -472,11 +480,18 @@ def immutable_historical_audit() -> dict[str, Any]:
         "expected_total_bytes": TINY1_TOTAL_BYTES,
         "meta_stats": file_record(TINY1_ROOT / "meta/stats.json", TINY1_STATS_SHA256),
         "meta_relative_stats": file_record(TINY1_ROOT / "meta/relative_stats.json", TINY1_RELATIVE_STATS_SHA256),
-        "meta_modality": file_record(TINY1_ROOT / "meta/modality.json", TINY1_MODALITY_SHA256),
+        "meta_modality": file_record(TINY1_ROOT / "meta/modality.json", TINY1_META_MODALITY_SHA256),
+        "stage22_modality_config": file_record(
+            STAGE22_MODALITY_CONFIG_PATH, STAGE22_MODALITY_CONFIG_SHA256
+        ),
         "status": "PASS"
         if tiny1.get("tree_sha256") == TINY1_TREE_SHA256
         and tiny1.get("file_count") == TINY1_FILE_COUNT
         and tiny1.get("total_bytes") == TINY1_TOTAL_BYTES
+        and file_record(TINY1_ROOT / "meta/stats.json", TINY1_STATS_SHA256)["hash_match"]
+        and file_record(TINY1_ROOT / "meta/relative_stats.json", TINY1_RELATIVE_STATS_SHA256)["hash_match"]
+        and file_record(TINY1_ROOT / "meta/modality.json", TINY1_META_MODALITY_SHA256)["hash_match"]
+        and file_record(STAGE22_MODALITY_CONFIG_PATH, STAGE22_MODALITY_CONFIG_SHA256)["hash_match"]
         else "BLOCKED",
     }
     groot = STAGE28._verify_groot_source(GROOT_ROOT)
@@ -545,7 +560,7 @@ def immutable_historical_audit() -> dict[str, Any]:
         and h2_1000.get("global_step") == 1000
         and h2_2000.get("global_step") == 2000
         and file_record(H2_CONFIG_PATH, H2_CONFIG_SHA256)["hash_match"]
-        else "BLOCKED",
+        else "BLOCKED"
     )
     result["status"] = (
         "PASS"
@@ -556,7 +571,7 @@ def immutable_historical_audit() -> dict[str, Any]:
         and result["groot"].get("status") == "PASS"
         and result["cosmos"].get("status") == "PASS"
         and result["h2"].get("status") == "PASS"
-        else "BLOCKED",
+        else "BLOCKED"
     )
     return result
 
@@ -651,10 +666,15 @@ def dataset_contract_audit() -> dict[str, Any]:
         and state.shape == (10,)
         and action0_position_error <= 1e-12
         and action0_rotation_error <= 1e-12
-        and split_lock.get("train_only") is True
-        and split_lock.get("validation_episode_ids") == []
-        and split_lock.get("holdout_episode_ids") == []
-        else "BLOCKED",
+        and split_lock.get("dataset_role") == "TINY1_H2STATS_TRAIN_ONLY"
+        and split_lock.get("training_allowed") is True
+        and split_lock.get("validation_target_ids") == []
+        and split_lock.get("final_test_target_ids") == []
+        and split_lock.get("holdout_e_accessed") is False
+        and split_lock.get("holdout_f_accessed") is False
+        and split_lock.get("selected_source_episode_ids")
+        == ["stage22_expert_red_target_train_a:expert-0000"]
+        else "BLOCKED"
     )
     return result
 
@@ -691,12 +711,12 @@ def source_semantics_audit() -> dict[str, Any]:
             "action_mask",
             "F.mse_loss(pred_actions, velocity, reduction=\"none\")",
             "action_loss",
-            "max_action_horizon",
+            "self.action_horizon = config.action_horizon",
         ),
         "collator": (
-            "action_mask",
+            "class BasicDataCollator",
             "torch.stack",
-            "features",
+            "fields = features[0].keys()",
         ),
         "setup": (
             "class Gr00tN1d7Pipeline",
@@ -729,8 +749,10 @@ def source_semantics_audit() -> dict[str, Any]:
         "horizon_unchanged": STRUCTURED_ACTION_HORIZON == 40,
         "universal_dim_unchanged": STRUCTURED_ACTION_DIM == 132,
         "action_mask_per_slot_dim_support": "action_mask" in processor_text
-        and "action_mask" in collator_text
-        and "action_mask" in model_text,
+        and "action_mask" in model_text
+        and "class BasicDataCollator" in collator_text
+        and "torch.stack" in collator_text
+        and "fields = features[0].keys()" in collator_text,
         "model_loss_mask_multiplication_present": "* action_mask" in model_text,
         "model_action_loss_mse_present": "F.mse_loss(pred_actions, velocity, reduction=\"none\")"
         in model_text,
