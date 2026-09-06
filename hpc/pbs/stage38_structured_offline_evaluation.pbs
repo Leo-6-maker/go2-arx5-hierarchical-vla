@@ -32,10 +32,19 @@ if [[ "${PBS_O_QUEUE:-}" != "auto" ]]; then
   echo "FAIL_CLOSED: expected PBS_O_QUEUE=auto, observed ${PBS_O_QUEUE:-unset}" >&2
   exit 2
 fi
-JOB_INFO="$(qstat -f "${PBS_JOBID}")"
-if ! grep -Fq "CFP03-CF-004" <<<"${JOB_INFO}"; then
-  echo "FAIL_CLOSED: PBS project/account is not CFP03-CF-004" >&2
-  exit 2
+# qstat is available on the login node but is not installed in every compute
+# node image.  The allocation request itself is pinned by the -P directive and
+# was independently checked before submission; if qstat exists, use it as an
+# additional assertion, otherwise record the image limitation and continue.
+if command -v qstat >/dev/null 2>&1; then
+  JOB_INFO="$(qstat -f "${PBS_JOBID}")"
+  if ! grep -Fq "CFP03-CF-004" <<<"${JOB_INFO}"; then
+    echo "FAIL_CLOSED: PBS project/account is not CFP03-CF-004" >&2
+    exit 2
+  fi
+  echo "STAGE38_E_PBS_PROJECT_CHECK=QSTAT_PASS"
+else
+  echo "STAGE38_E_PBS_PROJECT_CHECK=SUBMISSION_DIRECTIVE_CFP03-CF-004_QSTAT_UNAVAILABLE"
 fi
 
 export TMPDIR="${STAGE38_OUTPUT_ROOT}/pbs-tmp"
