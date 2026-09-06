@@ -26,7 +26,8 @@ set -euo pipefail
 : "${STAGE40_MODALITY_CONFIG:?}"
 : "${STAGE40_COSMOS_SNAPSHOT:?}"
 
-RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_live_${PBS_JOBID}"
+RUN_MODE="${STAGE40_RUN_MODE:-live}"
+RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_${RUN_MODE}_${PBS_JOBID}"
 test ! -e "${RUN_ROOT}"
 mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache" \
   "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data" "${RUN_ROOT}/mailbox/requests" "${RUN_ROOT}/mailbox/responses"
@@ -66,8 +67,8 @@ export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0
 export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
 
 echo "STAGE40=Stage40"
-echo "PI_GATE=PI_GATE_STATE_0041"
-echo "MODE=LIVE_ONE_HANDOFF"
+echo "PI_GATE=PI_GATE_STATE_0048"
+echo "MODE=${RUN_MODE}"
 echo "HEAD=${STAGE40_EXPECTED_HEAD}"
 echo "PBS_JOBID=${PBS_JOBID}"
 echo "HOST=$(hostname)"
@@ -131,14 +132,67 @@ for _ in $(seq 1 600); do
 done
 test "${READY}" = 1
 
-"${NATIVE_CMD[@]}" "${STAGE40_REPO}/scripts/stage40_live_one_handoff.py" \
-  --mode live \
-  --source-root /authority/WBCTrackingShare \
-  --trajectory "${STAGE40_TRAJECTORY}" \
-  --arm "/authority/${STAGE40_ARM#${STAGE40_AUTH_ROOT}/}" \
-  --dog "/authority/${STAGE40_DOG#${STAGE40_AUTH_ROOT}/}" \
-  --mailbox "${RUN_ROOT}/mailbox" \
-  --output-dir "${RUN_ROOT}" \
-  --sim-device cuda:0 --response-timeout-s 300
+if [ "$RUN_MODE" = "c0" ]; then
+  ARM_REL=$(printf '%s\n' "$STAGE40_ARM" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  DOG_REL=$(printf '%s\n' "$STAGE40_DOG" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  set +e
+  "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
+    --mode c0 --source-root /authority/WBCTrackingShare \
+    --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
+    --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT" \
+    --sim-device cuda:0 --response-timeout-s 300
+  NATIVE_RC=$?
+  set -e
+  if grep -q '"status": "PASS"' "$RUN_ROOT/stage40_c0_result.json" 2>/dev/null; then
+    echo "STAGE40_C0_RETURNED"
+    exit 0
+  fi
+  exit "$NATIVE_RC"
+fi
 
-echo "STAGE40_LIVE_RETURNED"
+if [ "$RUN_MODE" = "live" ]; then
+  ARM_REL=$(printf '%s\n' "$STAGE40_ARM" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  DOG_REL=$(printf '%s\n' "$STAGE40_DOG" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  for seed in 2223 2228 2233 2238; do
+    mkdir -p "$RUN_ROOT/seed_$seed"
+    set +e
+    "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
+      --mode live-seed --seed "$seed" --source-root /authority/WBCTrackingShare \
+      --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
+      --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT/seed_$seed" \
+      --sim-device cuda:0 --response-timeout-s 300
+    echo "STAGE40_SEED_RETURNED seed=$seed rc=$?"
+    set -e
+  done
+  python3 - "$RUN_ROOT" <<'PY'
+import json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+seeds = (2223, 2228, 2233, 2238)
+episodes = []
+for seed in seeds:
+    path = root / f"seed_{seed}" / "stage40_live_result.json"
+    if path.exists():
+        data = json.loads(path.read_text())
+        episodes.append(data.get("episodes", [{"seed": seed, "status": "BLOCKED"}])[0])
+    else:
+        episodes.append({"seed": seed, "status": "BLOCKED", "error": {"type": "MissingSeedResult"}})
+status = "PASS" if len(episodes) == 4 and all(ep.get("status") == "PASS" for ep in episodes) else "NOT_QUALIFIED"
+result = {"schema": "STAGE40_LIVE_ONE_HANDOFF_V2", "stage": "Stage40",
+          "pi_gate": "PI_GATE_STATE_0048", "mode": "STAGE40_C_FOUR_SEED",
+          "seeds": list(seeds), "episodes": episodes,
+          "episode_pass_count": sum(ep.get("status") == "PASS" for ep in episodes),
+          "status": status,
+          "scientific_started": any(int(ep.get("wbc_forwards", 0)) > 0 for ep in episodes),
+          "scientific_contract_changed": False, "reruns": 0}
+(root / "stage40_live_result.json").write_text(json.dumps(result, indent=2) + "\n")
+PY
+  touch "$RUN_ROOT/mailbox/STOP"
+  if grep -q '"status": "PASS"' "$RUN_ROOT/stage40_live_result.json" 2>/dev/null; then
+    echo "STAGE40_LIVE_RETURNED"
+    exit 0
+  fi
+  exit 2
+fi
+
+echo "UNKNOWN_STAGE40_RUN_MODE=$RUN_MODE" >&2
+exit 64

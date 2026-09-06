@@ -35,7 +35,14 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("SEEDS = (2223, 2228, 2233, 2238)", PY)
         self.assertIn("HANDOFF_S = 0.9750000000000001", PY)
         self.assertIn("CHUNK_DURATION_S = 1.9500000000000002", PY)
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0041"', PY)
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0048"', PY)
+
+    def test_c0_and_c_fail_closed_contracts(self):
+        self.assertIn('choices=("b1", "c0", "live", "live-seed")', PY)
+        self.assertIn("STAGE40_NONUNIFORM_REFERENCE_TIMESTAMPS", PY)
+        self.assertIn("SCIENTIFIC_Q0_TERMINATION", PY)
+        self.assertIn("q1_requested", PY)
+        self.assertIn("reference_completion", PY)
 
     def test_reference_lifecycle_has_explicit_two_phase_api(self):
         self.assertIn("def initial_bind_reference", NATIVE)

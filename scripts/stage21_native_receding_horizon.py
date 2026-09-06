@@ -575,7 +575,10 @@ class _Stage21NativeEnvFactory:
 
                 relative_timestamps = np.asarray(chunk.point_timestamps, dtype=np.float64)
                 relative_timestamps = relative_timestamps - relative_timestamps[0]
-                dt = float(np.median(np.diff(relative_timestamps)))
+                deltas = np.diff(relative_timestamps)
+                if deltas.size == 0 or not np.allclose(deltas, deltas[0], rtol=0.0, atol=1e-9):
+                    raise ValueError("STAGE40_NONUNIFORM_REFERENCE_TIMESTAMPS")
+                dt = float(deltas[0])
                 gamma, time_law = to_canonical(position, quat_to_mat(quaternion), dt)
                 if initial:
                     self.traj_batch.load(env_ids, [gamma], [time_law])

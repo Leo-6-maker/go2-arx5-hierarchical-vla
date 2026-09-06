@@ -48,7 +48,7 @@ from stage21_native_model_receding_horizon import (
 
 
 STAGE = "Stage40"
-PI_GATE = "PI_GATE_STATE_0041"
+PI_GATE = "PI_GATE_STATE_0048"
 HANDOFF_S = 0.9750000000000001
 CHUNK_DURATION_S = 1.9500000000000002
 SEEDS = (2223, 2228, 2233, 2238)
@@ -69,6 +69,20 @@ def _pose_at(chunk: Any, timestamp: float) -> tuple[np.ndarray, np.ndarray]:
 
 
 
+
+def _validate_stage40_chunk(chunk: Any) -> dict[str, Any]:
+    timestamps = np.asarray(chunk.point_timestamps, dtype=np.float64)
+    if timestamps.shape != (40,) or not np.isfinite(timestamps).all():
+        raise ValueError(f"Stage40 requires finite H40 timestamps [40], got {timestamps.shape}")
+    deltas = np.diff(timestamps)
+    if not np.allclose(deltas, 0.05, rtol=0.0, atol=1e-9):
+        raise ValueError("STAGE40_NONUNIFORM_REFERENCE_TIMESTAMPS")
+    duration = float(timestamps[-1] - timestamps[0])
+    if not math.isclose(duration, 1.95, rel_tol=0.0, abs_tol=1e-9):
+        raise ValueError(f"STAGE40_REFERENCE_DURATION_MISMATCH: {duration!r}")
+    return {"points": 40, "dt_s": float(deltas[0]), "duration_s": duration,
+            "uniform": True, "source": "STAGE40_FIXED_0.05S_TRANSPORT_CONTRACT"}
+
 def _write_json(path: Path, value: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(_jsonable(dict(value)), indent=2) + "\n", encoding="utf-8")
@@ -86,6 +100,7 @@ def _request_model(*, native: Any, mailbox: Path, request_id: str, seed: int, si
     )
     response, response_wall = _wait_response(mailbox, request_id, timeout_s=float(response_timeout_s))
     chunk, decoded = _model_chunk(response, chunk_id=request_id, observation_timestamp=float(sim_time), period_s=0.05)
+    timestamp_contract = _validate_stage40_chunk(chunk)
     current_position, current_quaternion = _current_eef(native)
     anchor = native.stage21_anchor_world.detach().cpu().numpy().reshape(3)
     local_position = current_position - anchor
@@ -99,6 +114,7 @@ def _request_model(*, native: Any, mailbox: Path, request_id: str, seed: int, si
         "wrist_shape": list(wrist_rgb.shape), "wrist_dtype": str(wrist_rgb.dtype), "wrist_sha256": _sha256_array(wrist_rgb),
         "state_v1": state.as_array().tolist(), "decoded_shape": list(decoded.shape), "decoded_sha256": _sha256_array(decoded),
         "finite": bool(np.isfinite(decoded).all()), "response": response,
+        "timestamp_contract": timestamp_contract,
         "inference_latency_s": float(response.get("latency_s", response_wall - request_wall)),
         "mailbox_wall_s": float(response_wall - request_wall), "safety_gate": gate_result.as_dict(),
         "binding": {"episode_id": binding.episode_id, "semantics": binding.binding_semantics,
@@ -130,6 +146,10 @@ def _step_rows(native: Any, env: Any, actors: Any, *, chunk: Any, sim_time: floa
             "episode_length": int(native.episode_length_buf[0].detach().cpu().item()),
             "traj_s": float(native.traj_s[0].detach().cpu().item()),
             "traj_s_ref": float(reference_s[0].detach().cpu().item()),
+            "traj_sim_time": float(native.traj_sim_time[0].detach().cpu().item()),
+            "traj_d_lat": float(native.traj_d_lat[0].detach().cpu().item()),
+            "traj_timing_err": float(native.traj_timing_err[0].detach().cpu().item()),
+            "traj_L": float(native.traj_batch.L[0].detach().cpu().item()),
             "desired_pos": desired_position.tolist(), "desired_quat": desired_quaternion.tolist(),
             "achieved_pos": current_position.tolist(), "achieved_quat": current_quaternion.tolist(),
             "base_pos": native.base_pos[0].detach().cpu().tolist(),
@@ -191,6 +211,65 @@ def run_b1(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
     return result
 
 
+
+def run_c0(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> dict[str, Any]:
+    native = env = None
+    result: dict[str, Any] = {"schema": "STAGE40_C0_DUAL_RUNTIME_ADMISSION_V1", "stage": STAGE,
+        "pi_gate": PI_GATE, "mode": "C0_DUAL_RUNTIME_INTEGRATION_ADMISSION", "status": "BLOCKED",
+        "scientific_rows": 0, "wbc_forwards": 0, "gr00t_forwards": 0,
+        "physics_reset": False, "policy_history_reset": False}
+    try:
+        native_args = argparse.Namespace(**vars(args))
+        native_args.mode = "model_receding"
+        native, env, actors, loads, _ = _build_native(native_args, trajectory)
+        gate = TrajectorySafetyGateV1()
+        adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(
+            expected_source_frame=SOURCE_FRAME, wbc_frame=SOURCE_FRAME,
+            tcp_semantic_id=TCP_SEMANTIC_ID, stale_timeout_s=0.75))
+        sim_time = float(native.traj_sim_time[0].detach().cpu().item())
+        _, _, case = _request_model(native=native, mailbox=args.mailbox, request_id="stage40-c0-q0",
+            seed=int(args.seed), sim_time=sim_time, gate=gate, adapter=adapter,
+            response_timeout_s=args.response_timeout_s)
+        state = np.asarray(case["state_v1"], dtype=np.float64)
+        body_ok = tuple(case["body_shape"]) == (96, 96, 3) and case["body_dtype"] == "uint8"
+        wrist_ok = tuple(case["wrist_shape"]) == (96, 96, 3) and case["wrist_dtype"] == "uint8"
+        state_ok = state.shape == (10,) and bool(np.isfinite(state).all())
+        ids_ok = case["simulator_instance_id"] == native.stage21_simulator_instance_id
+        model_ok = case["response"].get("status") == "PASS" and case["finite"]
+        native_ok = actors is not None and len(loads) == 2 and native.stage21_wbc_forward_count == 0
+        gate_ok = case["safety_gate"]["decision"] != GateDecision.REJECT.value
+        result.update({"status": "PASS" if all((body_ok, wrist_ok, state_ok, ids_ok, model_ok, native_ok, gate_ok)) else "BLOCKED",
+            "worker_ready": bool(model_ok), "native_runtime_ready": bool(native_ok),
+            "dual_runtime_coexistence": bool(model_ok and native_ok),
+            "fresh_observation_closure": {"body_rgb": {"shape": case["body_shape"], "dtype": case["body_dtype"], "sha256": case["body_sha256"]},
+                "wrist_rgb": {"shape": case["wrist_shape"], "dtype": case["wrist_dtype"], "sha256": case["wrist_sha256"]},
+                "state_v1": case["state_v1"], "eef_position": _current_eef(native)[0].tolist(),
+                "eef_quaternion": _current_eef(native)[1].tolist(), "simulation_time_s": sim_time,
+                "simulator_instance_id": native.stage21_simulator_instance_id,
+                "request_observation_timestamp_s": case["observation_timestamp"], "same_instance": bool(ids_ok)},
+            "timestamp_contract": case["timestamp_contract"], "worker_response": case["response"],
+            "loads": loads, "runtime": {"native_python": platform.python_version(),
+                "native_torch": actors[2].__version__ if actors else None,
+                "native_device": str(actors[3]) if actors else None,
+                "simulator_instance_id": native.stage21_simulator_instance_id},
+            "gr00t_forwards": 1, "model_construction": True, "no_wbc_or_scientific_rows": True})
+    except Exception as exc:
+        result.update({"status": "BLOCKED", "error": {"type": type(exc).__name__, "message": str(exc)}})
+    finally:
+        try:
+            _write_json(args.output_dir / "stage40_c0_result.json", result)
+            _write_json(args.mailbox / "C0_RESULT", result)
+            _write_json(args.mailbox / "STOP", {"reason": "stage40_c0_finished"})
+        except Exception:
+            pass
+        if env is not None:
+            try:
+                env.close()
+            except Exception:
+                pass
+    return result
+
+
 def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> dict[str, Any]:
     native = env = None
     episodes: list[dict[str, Any]] = []
@@ -204,7 +283,9 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
         gate = TrajectorySafetyGateV1()
         adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(expected_source_frame=SOURCE_FRAME,
             wbc_frame=SOURCE_FRAME, tcp_semantic_id=TCP_SEMANTIC_ID, stale_timeout_s=0.75))
-        for seed in SEEDS:
+        seeds = (int(args.seed),) if args.mode == "live-seed" else SEEDS
+        result["seeds"] = list(seeds)
+        for seed in seeds:
             native_args = argparse.Namespace(**vars(args))
             native_args.mode = "model_receding"
             native_args.seed = int(seed)
@@ -213,7 +294,7 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
             runtime_info = {"python": platform.python_version(), "torch": actors[2].__version__,
                             "device": str(actors[3]), "native_control_dt_s": float(native.dt),
                             "episode_seed": int(seed)}
-            episode: dict[str, Any] = {"seed": int(seed), "status": "BLOCKED", "handoff_reset": False}
+            episode: dict[str, Any] = {"seed": int(seed), "status": "BLOCKED", "handoff_reset": False, "q1_requested": False}
             sim_time = 0.0
             try:
                 q0, _, case0 = _request_model(native=native, mailbox=args.mailbox,
@@ -235,9 +316,14 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                 handoff_steps = max(1, int(round(HANDOFF_S / float(native.dt))))
                 rows0, sim_time, term0 = _step_rows(native, env, actors, chunk=q0, sim_time=sim_time,
                                                      steps=handoff_steps, update_count=0)
+                if term0 is not None or any(bool(row.get("done")) or bool(row.get("reset_buf")) or str(row.get("termination_code", "NONE")) != "NONE" for row in rows0):
+                    episode.update({"status": "SCIENTIFIC_Q0_TERMINATION", "termination": term0 or "Q0_ROW_TERMINATION", "q1_requested": False})
+                    episodes.append(episode)
+                    continue
                 current_position, current_quaternion = _current_eef(native)
                 local_position = current_position - anchor
                 old_position, old_quaternion = _pose_at(q0, float(q0.point_timestamps[0] + sim_time))
+                episode["q1_requested"] = True
                 q1, _, case1 = _request_model(native=native, mailbox=args.mailbox,
                     request_id=f"stage40-s{seed}-q1", seed=seed, sim_time=sim_time, gate=gate,
                     adapter=adapter, response_timeout_s=args.response_timeout_s)
@@ -272,8 +358,18 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                                                      steps=max(1, int(math.ceil(CHUNK_DURATION_S / float(native.dt)))), update_count=1)
                 all_rows = rows0 + rows1
                 term = term1 or term0
-                episode.update({"status": "PASS" if term is None and bool(episode["handoff"]["physics_state_unchanged"]) and len(rows1) > 0 else "FAIL",
-                    "termination": term or "REFERENCE_COMPLETE", "chunk1_reference_complete": term is None,
+                native_time = float(native.traj_sim_time[0].detach().cpu().item())
+                ref_s = float(native.traj_batch.s_ref(native.traj_sim_time)[0].detach().cpu().item())
+                ref_L = float(native.traj_batch.L[0].detach().cpu().item())
+                ref_duration = float(q1.validity_end - q1.validity_start)
+                endpoint = (native_time >= ref_duration - max(float(native.dt) * 0.5, 1e-9)
+                            and ref_s >= ref_L - max(1e-4, 1e-3 * max(ref_L, 1.0)))
+                episode.update({"status": "PASS" if term is None and bool(episode["handoff"]["physics_state_unchanged"]) and len(rows1) > 0 and endpoint else "FAIL",
+                    "termination": term or ("REFERENCE_COMPLETE" if endpoint else "REFERENCE_ENDPOINT_NOT_REACHED"),
+                    "chunk1_reference_complete": bool(endpoint),
+                    "reference_completion": {"native_time_s": native_time, "reference_duration_s": ref_duration,
+                        "traj_s_ref": ref_s, "traj_L": ref_L, "endpoint_reached": bool(endpoint),
+                        "criterion": "native_time_law_endpoint_and_s_ref_reaches_L"},
                     "rows_before": rows0, "rows_after": rows1, "row_count": len(all_rows),
                     "telemetry_finite": all(bool(np.isfinite(np.asarray(row.get("achieved_pos", []), dtype=np.float64)).all()) for row in all_rows),
                     "joint_limit_termination_count": sum(bool(row.get("joint_limit_termination", False)) for row in all_rows),
@@ -283,6 +379,14 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
             except Exception as exc:
                 episode.update({"status": "BLOCKED", "error": {"type": type(exc).__name__, "message": str(exc)}})
             finally:
+                if args.mode == "live-seed":
+                    _write_json(args.output_dir / "stage40_live_result.json", {
+                        "schema": "STAGE40_LIVE_ONE_HANDOFF_V2",
+                        "stage": STAGE, "pi_gate": PI_GATE, "mode": "STAGE40_C_SINGLE_SEED",
+                        "seeds": [int(args.seed)], "episodes": [episode],
+                        "episode_pass_count": int(episode.get("status") == "PASS"),
+                        "status": "PASS" if episode.get("status") == "PASS" else "NOT_QUALIFIED",
+                    })
                 if env is not None:
                     try:
                         env.close()
@@ -291,14 +395,15 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                     native = env = None
             episodes.append(episode)
         result.update({"episodes": episodes, "episode_pass_count": sum(item.get("status") == "PASS" for item in episodes),
-            "status": "PASS" if len(episodes) == len(SEEDS) and all(item.get("status") == "PASS" for item in episodes) else "NOT_QUALIFIED",
+            "status": "PASS" if len(episodes) == len(seeds) and all(item.get("status") == "PASS" for item in episodes) else "NOT_QUALIFIED",
             "loads": loads_all, "runtime": runtime_info,
             "claim_boundary": "TINY1 single-fixture synchronous four-seed fresh-observation one-handoff diagnostic; not real-time, multi-handoff, generalization, or hardware"})
     except Exception as exc:
         result.update({"status": "BLOCKED", "error": {"type": type(exc).__name__, "message": str(exc)}, "episodes": episodes})
     finally:
         try:
-            _write_json(args.mailbox / "STOP", {"reason": "stage40_native_finished"})
+            if args.mode != "live-seed":
+                _write_json(args.mailbox / "STOP", {"reason": "stage40_native_finished"})
         except Exception:
             pass
         if env is not None:
@@ -312,7 +417,7 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=("b1", "live"), required=True)
+    parser.add_argument("--mode", choices=("b1", "c0", "live", "live-seed"), required=True)
     parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--trajectory", type=Path, required=True)
     parser.add_argument("--arm", type=Path, required=True)
@@ -327,7 +432,12 @@ def main() -> int:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     args.mailbox.mkdir(parents=True, exist_ok=True)
     trajectory = _load_pose_file(args.trajectory)
-    result = run_b1(args, trajectory) if args.mode == "b1" else run_live(args, trajectory)
+    if args.mode == "b1":
+        result = run_b1(args, trajectory)
+    elif args.mode == "c0":
+        result = run_c0(args, trajectory)
+    else:
+        result = run_live(args, trajectory)
     print(json.dumps(_jsonable(result), indent=2), flush=True)
     return 0 if result.get("status") == "PASS" else 2
 
