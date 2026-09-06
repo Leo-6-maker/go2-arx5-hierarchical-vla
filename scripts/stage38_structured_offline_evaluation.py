@@ -576,12 +576,14 @@ def historical_identity_audit() -> dict[str, Any]:
     snapshot_info, snapshot_path = stage26._verify_snapshot_identity(SNAPSHOT_ROOT)
     groot_head = stage26._verify_groot_source(GROOT_ROOT)
     cosmos = stage26._verify_cosmos_cache(COSMOS_ROOT)
+    base_processor = file_record(BASE_ROOT / "processor_config.json", EXPECTED_BASE_PROCESSOR_CONFIG)
+    base_statistics = file_record(BASE_ROOT / "statistics.json", EXPECTED_BASE_STATISTICS)
     h2_config = H2_ROOT / "experiment_cfg/config.yaml"
     h2_config_sha = sha256_file(h2_config) if h2_config.is_file() else None
     h2_seal = file_record(H2_SEAL_PATH, EXPECTED_H2_SEAL)
     modality = file_record(MODALITY_PATH, EXPECTED_MODALITY)
     return {
-        "base": {"status": "PASS" if base.get("tree_sha256") == EXPECTED_BASE_TREE and base.get("index_sha256") == EXPECTED_BASE_INDEX and base.get("processor_config_sha256") == EXPECTED_BASE_PROCESSOR_CONFIG and base.get("statistics_sha256") == EXPECTED_BASE_STATISTICS else "BLOCKED", "tree_sha256": base.get("tree_sha256"), "index_sha256": base.get("index_sha256"), "processor_config_sha256": base.get("processor_config_sha256"), "statistics_sha256": base.get("statistics_sha256")},
+        "base": {"status": "PASS" if base.get("tree_sha256") == EXPECTED_BASE_TREE and base.get("index_sha256") == EXPECTED_BASE_INDEX and base_processor.get("hash_match") is True and base_statistics.get("hash_match") is True else "BLOCKED", "tree_sha256": base.get("tree_sha256"), "index_sha256": base.get("index_sha256"), "processor_config": base_processor, "statistics": base_statistics},
         "tiny1": {"status": "PASS" if tiny.get("tree_sha256") == EXPECTED_TINY1_TREE else "BLOCKED", **{key: tiny.get(key) for key in ("path", "tree_sha256", "file_count", "total_bytes", "stats_json_sha256", "relative_stats_json_sha256")}},
         "snapshot": {"status": "PASS" if snapshot_info.get("selected_sha256") == EXPECTED_SNAPSHOT else "BLOCKED", **snapshot_info},
         "groot": {"status": "PASS" if groot_head == EXPECTED_GROOT_HEAD and git("status", "--porcelain=v1", cwd=GROOT_ROOT) == "" else "BLOCKED", "head": groot_head, "path": str(GROOT_ROOT)},
