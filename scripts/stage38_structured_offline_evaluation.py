@@ -768,7 +768,10 @@ def _structured_label_and_normalizer(expert_physical: np.ndarray, snapshot: Any,
     from go2arx5_vla.structured_action import encode_structured_action
 
     timestamps = np.asarray(snapshot.future_timestamps, dtype=np.float64)
-    state = np.asarray(snapshot.state_v1.as_array(), dtype=np.float64)
+    # The official processor materializes both the action and runtime state at
+    # float32 before decode.  Preserve that exact boundary for the codec anchor
+    # check, then use float64 for deterministic CPU geometry calculations.
+    state = np.asarray(snapshot.state_v1.as_array(), dtype=np.float32).astype(np.float64)
     label = encode_structured_action(
         np.asarray(expert_physical[0], dtype=np.float64), timestamps, state,
         timing_mode=TIMING_MODE,
@@ -1689,8 +1692,8 @@ def main() -> int:
             "error": f"{type(exc).__name__}: {exc}",
             "traceback": traceback.format_exc(),
             "pbs_jobid": os.environ.get("PBS_JOBID"),
-            "model_constructed": False if args.preflight else "UNKNOWN_AFTER_GATE",
-            "gr00t_inference": False if args.preflight else "UNKNOWN",
+            "model_constructed": False if args.preflight or not (output_root / "stage38e_execution_state.json").is_file() else "UNKNOWN_AFTER_GATE",
+            "gr00t_inference": False if args.preflight or not (output_root / "stage38e_execution_state.json").is_file() else "UNKNOWN",
             "training": False,
             "wbc_executed": False,
             "validation_e_read": False,

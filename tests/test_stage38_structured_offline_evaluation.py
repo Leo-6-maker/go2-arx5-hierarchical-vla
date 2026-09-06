@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -14,6 +15,7 @@ sys.path.insert(0, str(REPO / "src"))
 
 import stage38_structured_offline_evaluation as stage38e  # noqa: E402
 from go2arx5_vla.contracts import TrajectoryChunkV1  # noqa: E402
+from go2arx5_vla.structured_action import encode_structured_action  # noqa: E402
 
 
 def _chunk() -> TrajectoryChunkV1:
@@ -68,6 +70,29 @@ def test_chunk_physical_action_uses_native_row_packed_rotation_and_shape() -> No
     assert physical.dtype == np.float32
     assert np.array_equal(physical[0, 0, 3:9], np.asarray([1.0, 0.0, 0.0, 0.0, 1.0, 0.0], dtype=np.float32))
     assert np.isfinite(physical).all()
+
+
+def test_codec_anchor_uses_official_float32_materialization_boundary() -> None:
+    native_rows = np.asarray(
+        [
+            0.5496097999785584,
+            -0.3069952625745831,
+            0.7769703832993198,
+            0.8182666570490404,
+            0.3853249473212521,
+            -0.42657281082326653,
+        ],
+        dtype=np.float64,
+    )
+    eef = np.zeros((stage38e.HORIZON, 9), dtype=np.float64)
+    eef[:, 3:9] = native_rows
+    physical = np.concatenate([eef, np.zeros((stage38e.HORIZON, 1))], axis=-1).astype(np.float32)
+    state = np.concatenate([eef[0], [0.0]])
+    timestamps = np.linspace(0.0, 1.95, stage38e.HORIZON)
+    with pytest.raises(ValueError, match="runtime anchor"):
+        encode_structured_action(physical, timestamps, state, timing_mode="T16")
+    label = encode_structured_action(physical, timestamps, state.astype(np.float32), timing_mode="T16")
+    assert label.active_scalar_count == stage38e.STRUCTURED_ACTIVE_SCALARS
 
 
 def test_high_frequency_fraction_is_finite_and_distinguishes_pathology() -> None:
