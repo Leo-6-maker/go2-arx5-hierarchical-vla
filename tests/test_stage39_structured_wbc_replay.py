@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
+import subprocess
 
 import numpy as np
+import pytest
 
 import stage39_structured_wbc_replay as stage39
 
@@ -94,3 +97,86 @@ def test_severity_counts_is_explicit() -> None:
     assert stage39.severity_counts(
         [{"decision": "ACCEPT"}, {"decision": "WARN"}, {"decision": "WARN"}]
     ) == {"ACCEPT": 1, "WARN": 2, "REJECT": 0}
+
+
+def test_execution_authority_is_separate_from_scientific_protocol() -> None:
+    records = [
+        stage39.validate_execution_provenance(
+            "PI_GATE_STATE_0028",
+            authority,
+            "/scratch/stage39-pbs.log",
+            stage39.REPO,
+        )
+        for authority in ("PI_GATE_STATE_0030", "PI_GATE_STATE_0031")
+    ]
+    assert [record["execution_authority"] for record in records] == [
+        "PI_GATE_STATE_0030",
+        "PI_GATE_STATE_0031",
+    ]
+    assert all(record["scientific_protocol_id"] == "PI_GATE_STATE_0028" for record in records)
+    assert all(record["protocol_identity_immutable"] is True for record in records)
+
+
+def test_execution_provenance_rejects_wrong_protocol_and_internal_stdout() -> None:
+    with pytest.raises(stage39.Stage39Error, match="scientific protocol identity mismatch"):
+        stage39.validate_execution_provenance(
+            "PI_GATE_STATE_0030",
+            "PI_GATE_STATE_0030",
+            "/scratch/stage39-pbs.log",
+            stage39.REPO,
+        )
+    with pytest.raises(stage39.Stage39Error, match="inside the checkout"):
+        stage39.validate_execution_provenance(
+            "PI_GATE_STATE_0028",
+            "PI_GATE_STATE_0030",
+            str(stage39.REPO / "stage39-pbs.log"),
+            stage39.REPO,
+        )
+
+
+def test_wrapper_emits_named_fail_closed_protocol_diagnostic() -> None:
+    wrapper = stage39.REPO / "hpc/pbs/stage39_structured_wbc_replay.pbs"
+    environment = os.environ.copy()
+    environment.update(
+        {
+            "STAGE39_REPO": str(stage39.REPO),
+            "STAGE39_ADMISSION_ROOT": "/scratch/unused-admission",
+            "STAGE39_OUTPUT_PARENT": "/scratch/unused-output",
+            "STAGE39_AUTHORITY_EXTRACTED_ROOT": "/scratch/unused-authority",
+            "STAGE39_RUNTIME_SITE": "/scratch/unused-site",
+            "STAGE39_RUNTIME_NINJA": "/scratch/unused-ninja",
+            "STAGE39_SCIENTIFIC_PROTOCOL_ID": "PI_GATE_STATE_0030",
+            "STAGE39_EXECUTION_AUTHORITY": "PI_GATE_STATE_0030",
+            "STAGE39_PBS_STDOUT_PATH": "/scratch/stage39-pbs.log",
+            "STAGE39_EXPECTED_HEAD": "c88d32f6d9887916a873e292a0e1ed5c216be136",
+            "STAGE39_EXPECTED_ADMISSION_SHA256": "0" * 64,
+            "STAGE39_EXPECTED_MANIFEST_SHA256": "0" * 64,
+            "STAGE39_EXPECTED_WARN_SHA256": "0" * 64,
+            "PBS_O_QUEUE": "auto",
+        }
+    )
+    completed = subprocess.run(
+        ["bash", str(wrapper)],
+        check=False,
+        capture_output=True,
+        text=True,
+        env=environment,
+    )
+    assert completed.returncode == 1
+    output = completed.stdout + completed.stderr
+    assert "FAIL_CLOSED_PRE_SCIENCE" in output
+    assert "check=scientific_protocol_id" in output
+    assert "expected=PI_GATE_STATE_0028" in output
+    assert "observed=PI_GATE_STATE_0030" in output
+
+
+def test_wrapper_has_no_ambiguous_gate_variable_and_requires_external_stdout() -> None:
+    wrapper_text = (stage39.REPO / "hpc/pbs/stage39_structured_wbc_replay.pbs").read_text(
+        encoding="utf-8"
+    )
+    assert "STAGE39_PI_GATE" not in wrapper_text
+    assert "STAGE39_SCIENTIFIC_PROTOCOL_ID" in wrapper_text
+    assert "STAGE39_EXECUTION_AUTHORITY" in wrapper_text
+    assert "STAGE39_PBS_STDOUT_PATH" in wrapper_text
+    assert "FAIL_CLOSED_PRE_SCIENCE" in wrapper_text
+    assert "CHECK stdout_external PASS" in wrapper_text

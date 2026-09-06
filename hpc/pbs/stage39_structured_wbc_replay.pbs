@@ -12,53 +12,179 @@
 
 set -euo pipefail
 
-: "${STAGE39_REPO:?}"
-: "${STAGE39_ADMISSION_ROOT:?}"
-: "${STAGE39_OUTPUT_PARENT:?}"
-: "${STAGE39_AUTHORITY_EXTRACTED_ROOT:?}"
-: "${STAGE39_RUNTIME_SITE:?}"
-: "${STAGE39_RUNTIME_NINJA:?}"
-: "${STAGE39_PI_GATE:?}"
-: "${STAGE39_EXPECTED_HEAD:?}"
-: "${STAGE39_EXPECTED_ADMISSION_SHA256:?}"
-: "${STAGE39_EXPECTED_MANIFEST_SHA256:?}"
-: "${STAGE39_EXPECTED_WARN_SHA256:?}"
+fail_closed_pre_science() {
+  local check_name="${1:-unknown}"
+  local expected="${2:-not_specified}"
+  local observed="${3:-not_available}"
+  echo "FAIL_CLOSED_PRE_SCIENCE"
+  echo "check=${check_name}"
+  echo "expected=${expected}"
+  echo "observed=${observed}"
+  exit 1
+}
 
-test "${STAGE39_PI_GATE}" = "PI_GATE_STATE_0028"
-test "${#STAGE39_EXPECTED_HEAD}" -eq 40
-test "${PBS_O_QUEUE:-}" = "auto"
-test -d "${STAGE39_REPO}"
-test -d "${STAGE39_ADMISSION_ROOT}"
-test -f "${STAGE39_ADMISSION_ROOT}/stage39a_result.json"
-test -f "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json"
-test -f "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
-test "$(sha256sum "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" | awk '{print $1}')" = "${STAGE39_EXPECTED_ADMISSION_SHA256}"
-test "$(sha256sum "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" | awk '{print $1}')" = "${STAGE39_EXPECTED_MANIFEST_SHA256}"
-test "$(sha256sum "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json" | awk '{print $1}')" = "${STAGE39_EXPECTED_WARN_SHA256}"
-test -d "${STAGE39_AUTHORITY_EXTRACTED_ROOT}/WBCTrackingShare"
-test -d "${STAGE39_RUNTIME_SITE}"
-test -x "${STAGE39_RUNTIME_NINJA}"
+require_env() {
+  local variable_name="$1"
+  local value="${!variable_name:-}"
+  if [[ -z "${value}" ]]; then
+    fail_closed_pre_science "${variable_name}" "non-empty" "<unset-or-empty>"
+  fi
+  echo "CHECK ${variable_name} PASS"
+}
 
-cd "${STAGE39_REPO}"
-test "$(git rev-parse HEAD)" = "${STAGE39_EXPECTED_HEAD}"
-test -z "$(git status --short --untracked-files=all)"
+check_equal() {
+  local check_name="$1"
+  local expected="$2"
+  local observed="$3"
+  if [[ "${observed}" != "${expected}" ]]; then
+    fail_closed_pre_science "${check_name}" "${expected}" "${observed}"
+  fi
+  echo "CHECK ${check_name} PASS"
+}
 
-GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
-GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
-test "${GPU_COUNT}" -eq 1
+check_regex() {
+  local check_name="$1"
+  local value="$2"
+  local expected_class="$3"
+  local pattern="$4"
+  if [[ ! "${value}" =~ ${pattern} ]]; then
+    fail_closed_pre_science "${check_name}" "${expected_class}" "${value}"
+  fi
+  echo "CHECK ${check_name} PASS"
+}
+
+check_dir() {
+  local check_name="$1"
+  local path="$2"
+  if [[ ! -d "${path}" ]]; then
+    fail_closed_pre_science "${check_name}" "directory" "${path}"
+  fi
+  echo "CHECK ${check_name} PASS"
+}
+
+check_file() {
+  local check_name="$1"
+  local path="$2"
+  if [[ ! -f "${path}" ]]; then
+    fail_closed_pre_science "${check_name}" "regular_file" "${path}"
+  fi
+  echo "CHECK ${check_name} PASS"
+}
+
+check_executable() {
+  local check_name="$1"
+  local path="$2"
+  if [[ ! -x "${path}" ]]; then
+    fail_closed_pre_science "${check_name}" "executable" "${path}"
+  fi
+  echo "CHECK ${check_name} PASS"
+}
+
+check_sha256() {
+  local check_name="$1"
+  local path="$2"
+  local expected="$3"
+  local observed
+  check_file "${check_name}_file" "${path}"
+  if ! observed="$(sha256sum "${path}" 2>/dev/null | awk '{print $1}')"; then
+    fail_closed_pre_science "${check_name}" "${expected}" "hash_command_failed"
+  fi
+  check_equal "${check_name}" "${expected}" "${observed}"
+}
+
+STAGE39_RUNTIME_IMAGE="${STAGE39_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
+STAGE39_APPTAINER_BIN="${STAGE39_APPTAINER_BIN:-/cm/shared/apps/singularity/1.3.1/bin/apptainer}"
+
+for required_name in \
+  STAGE39_REPO \
+  STAGE39_ADMISSION_ROOT \
+  STAGE39_OUTPUT_PARENT \
+  STAGE39_AUTHORITY_EXTRACTED_ROOT \
+  STAGE39_RUNTIME_SITE \
+  STAGE39_RUNTIME_NINJA \
+  STAGE39_SCIENTIFIC_PROTOCOL_ID \
+  STAGE39_EXECUTION_AUTHORITY \
+  STAGE39_PBS_STDOUT_PATH \
+  STAGE39_EXPECTED_HEAD \
+  STAGE39_EXPECTED_ADMISSION_SHA256 \
+  STAGE39_EXPECTED_MANIFEST_SHA256 \
+  STAGE39_EXPECTED_WARN_SHA256; do
+  require_env "${required_name}"
+done
+
+check_equal "scientific_protocol_id" "PI_GATE_STATE_0028" "${STAGE39_SCIENTIFIC_PROTOCOL_ID}"
+check_regex "execution_authority" "${STAGE39_EXECUTION_AUTHORITY}" "PI_GATE_STATE_NNNN" '^PI_GATE_STATE_[0-9]{4}$'
+check_regex "expected_head" "${STAGE39_EXPECTED_HEAD}" "40 lowercase hexadecimal characters" '^[0-9a-f]{40}$'
+check_equal "pbs_request_queue" "auto" "${PBS_O_QUEUE:-<unset>}"
+
+check_dir "repository" "${STAGE39_REPO}"
+check_dir "admission_root" "${STAGE39_ADMISSION_ROOT}"
+check_file "admission_result" "${STAGE39_ADMISSION_ROOT}/stage39a_result.json"
+check_file "input_manifest" "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json"
+check_file "warn_stratification" "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
+check_sha256 "admission_hash" "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" "${STAGE39_EXPECTED_ADMISSION_SHA256}"
+check_sha256 "manifest_hash" "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" "${STAGE39_EXPECTED_MANIFEST_SHA256}"
+check_sha256 "warn_hash" "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json" "${STAGE39_EXPECTED_WARN_SHA256}"
+check_dir "authority_root" "${STAGE39_AUTHORITY_EXTRACTED_ROOT}/WBCTrackingShare"
+check_dir "runtime_site" "${STAGE39_RUNTIME_SITE}"
+check_executable "runtime_ninja" "${STAGE39_RUNTIME_NINJA}"
+
+REPO_REAL="$(cd "${STAGE39_REPO}" 2>/dev/null && pwd -P)" || \
+  fail_closed_pre_science "repository_realpath" "resolvable_directory" "${STAGE39_REPO}"
+if [[ "${STAGE39_PBS_STDOUT_PATH}" != /* ]]; then
+  fail_closed_pre_science "stdout_external" "absolute_path_outside_checkout" "${STAGE39_PBS_STDOUT_PATH}"
+fi
+STDOUT_REAL="$(realpath -m -- "${STAGE39_PBS_STDOUT_PATH}" 2>/dev/null)" || \
+  fail_closed_pre_science "stdout_external" "resolvable_absolute_path_outside_checkout" "${STAGE39_PBS_STDOUT_PATH}"
+case "${STDOUT_REAL}" in
+  "${REPO_REAL}"|"${REPO_REAL}"/*)
+    fail_closed_pre_science "stdout_external" "outside_${REPO_REAL}" "${STDOUT_REAL}"
+    ;;
+esac
+echo "CHECK stdout_external PASS"
+
+if ! ACTUAL_HEAD="$(git -C "${STAGE39_REPO}" rev-parse HEAD 2>/dev/null)"; then
+  fail_closed_pre_science "checkout_head" "git_repository" "${STAGE39_REPO}"
+fi
+check_equal "checkout_head" "${STAGE39_EXPECTED_HEAD}" "${ACTUAL_HEAD}"
+if ! STATUS_OUTPUT="$(git -C "${STAGE39_REPO}" status --short --untracked-files=all 2>&1)"; then
+  fail_closed_pre_science "worktree_clean" "git_status_success" "${STATUS_OUTPUT}"
+fi
+if [[ -n "${STATUS_OUTPUT}" ]]; then
+  fail_closed_pre_science "worktree_clean" "empty_status" "${STATUS_OUTPUT}"
+fi
+echo "CHECK worktree_clean PASS"
+
+if ! GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader 2>&1)"; then
+  fail_closed_pre_science "gpu_query" "nvidia-smi_success" "${GPU_QUERY}"
+fi
+GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | sed -n '1p' | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+check_equal "gpu_count" "1" "${GPU_COUNT}"
 case "${GPU_NAME}" in
-  *H200*) ;;
-  *) echo "FAIL_CLOSED_GPU=${GPU_NAME}" >&2; exit 2 ;;
+  *H200*) echo "CHECK gpu_model PASS" ;;
+  *) fail_closed_pre_science "gpu_model" "NVIDIA_H200" "${GPU_NAME}" ;;
 esac
 
+check_file "runtime_image" "${STAGE39_RUNTIME_IMAGE}"
+if [[ ! -x "${STAGE39_APPTAINER_BIN}" ]]; then
+  STAGE39_APPTAINER_BIN="$(command -v apptainer 2>/dev/null || true)"
+fi
+check_executable "apptainer" "${STAGE39_APPTAINER_BIN}"
+
 RUN_ROOT="${STAGE39_OUTPUT_PARENT}/stage39_eval_${PBS_JOBID}"
-test ! -e "${RUN_ROOT}"
+if [[ -e "${RUN_ROOT}" ]]; then
+  fail_closed_pre_science "fresh_run_root" "absent" "${RUN_ROOT}"
+fi
 mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" \
   "${RUN_ROOT}/runtime/cache/huggingface" "${RUN_ROOT}/runtime/cache/torch" \
   "${RUN_ROOT}/runtime/cache/triton" "${RUN_ROOT}/runtime/cache/torch_extensions" \
   "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
 exec > >(tee -a "${RUN_ROOT}/stage39_job.log") 2>&1
 
+echo "STAGE39_SCIENTIFIC_PROTOCOL_ID=${STAGE39_SCIENTIFIC_PROTOCOL_ID}"
+echo "STAGE39_EXECUTION_AUTHORITY=${STAGE39_EXECUTION_AUTHORITY}"
+echo "STAGE39_PBS_STDOUT_PATH=${STAGE39_PBS_STDOUT_PATH}"
 echo "STAGE39_PBS_REQUEST_QUEUE=${PBS_O_QUEUE:-unknown}"
 echo "STAGE39_PBS_EXECUTION_QUEUE=${PBS_QUEUE:-unknown}"
 echo "STAGE39_PBS_JOBID=${PBS_JOBID}"
@@ -113,6 +239,9 @@ set +e
   --bind "$(dirname "${STAGE39_RUNTIME_NINJA}"):${CONTAINER_NINJA%/ninja}:ro" \
   "${IMAGE}" env \
   PBS_JOBID="${PBS_JOBID}" \
+  STAGE39_SCIENTIFIC_PROTOCOL_ID="${STAGE39_SCIENTIFIC_PROTOCOL_ID}" \
+  STAGE39_EXECUTION_AUTHORITY="${STAGE39_EXECUTION_AUTHORITY}" \
+  STAGE39_PBS_STDOUT_PATH="${STAGE39_PBS_STDOUT_PATH}" \
   HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}" \
   XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" \
   XDG_DATA_HOME="${XDG_DATA_HOME}" HF_HOME="${HF_HOME}" TORCH_HOME="${TORCH_HOME}" \

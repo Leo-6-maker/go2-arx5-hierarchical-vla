@@ -6,6 +6,11 @@ the sealed Stage38-E learned physical trajectories, independently recomputes
 their SafetyGate decisions, and materializes the two frozen controls plus the
 sixteen learned rows into a fresh scratch-backed input directory.
 
+The ``--rebind`` mode is CPU/read-only provenance closure after a mechanical
+source change.  It creates a fresh admission and compares every scientific
+payload, row identity/order, timestamp/frame/TCP field, and SafetyGate detail
+against the accepted original Stage39-A admission.
+
 The ``--campaign`` mode is called inside one PBS allocation.  It invokes the
 already accepted native WBC benchmark exactly once for each of the 18 frozen
 rows.  It never constructs GR00T, calls a GR00T sampler, trains, writes a
@@ -23,6 +28,7 @@ import json
 import math
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -56,6 +62,8 @@ from go2arx5_vla.trajectory.so3 import (  # noqa: E402
 
 
 PI_GATE_ID = "PI_GATE_STATE_0028"
+SCIENTIFIC_PROTOCOL_ID = PI_GATE_ID
+EXECUTION_AUTHORITY_PATTERN = re.compile(r"^PI_GATE_STATE_[0-9]{4}$")
 ISSUE_COMMENT_ID = "5556900735"
 PR_HANDOFF_COMMENT_ID = "5556901524"
 PR_NUMBER = 25
@@ -120,6 +128,10 @@ EXPECTED_FRAME = "NATIVE_WBC_RELATIVE_REFERENCE"
 EXPECTED_TCP = "x5_link6_gripper_center"
 EXPECTED_STAGE38_LEARNED_COUNT = 16
 EXPECTED_STAGE38_ARTIFACT_COUNT = 32
+EXPECTED_STAGE39A_ROOT = Path(
+    "/scratch/e1192548/leon-storage/runs/"
+    "stage39_structured_wbc_qualification_20260906/stage39a_cpu_c88d32f"
+)
 
 EXPECTED_WBC_ARCHIVE = Path(
     "/scratch/e1192548/leon-storage/wbc-redelivery/"
@@ -346,6 +358,56 @@ def compare_float(a: Any, b: Any, atol: float = 1e-6, rtol: float = 1e-7) -> boo
         return bool(math.isclose(float(a), float(b), rel_tol=rtol, abs_tol=atol))
     except (TypeError, ValueError):
         return a == b
+
+
+def validate_execution_authority(execution_authority: str) -> Dict[str, Any]:
+    authority = str(execution_authority)
+    if not EXECUTION_AUTHORITY_PATTERN.fullmatch(authority):
+        raise Stage39Error(
+            "execution authority is not a PI gate token: %s" % authority
+        )
+    return {
+        "execution_authority": authority,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "protocol_identity_immutable": True,
+    }
+
+
+def validate_execution_provenance(
+    scientific_protocol_id: str,
+    execution_authority: str,
+    pbs_stdout_path: str,
+    checkout_root: Path,
+) -> Dict[str, Any]:
+    protocol = str(scientific_protocol_id)
+    if protocol != SCIENTIFIC_PROTOCOL_ID:
+        raise Stage39Error(
+            "scientific protocol identity mismatch: expected %s observed %s"
+            % (SCIENTIFIC_PROTOCOL_ID, protocol)
+        )
+    authority_record = validate_execution_authority(execution_authority)
+    stdout_path = Path(str(pbs_stdout_path))
+    if not stdout_path.is_absolute():
+        raise Stage39Error("PBS stdout path must be absolute: %s" % stdout_path)
+    checkout = Path(checkout_root).resolve()
+    stdout_resolved = stdout_path.resolve(strict=False)
+    try:
+        stdout_resolved.relative_to(checkout)
+    except ValueError:
+        outside_checkout = True
+    else:
+        outside_checkout = False
+    if not outside_checkout:
+        raise Stage39Error(
+            "PBS stdout path is inside the checkout: %s" % stdout_resolved
+        )
+    return {
+        **authority_record,
+        "pbs_stdout_path": str(stdout_path),
+        "pbs_stdout_path_resolved": str(stdout_resolved),
+        "pbs_stdout_outside_checkout": True,
+        "checkout_root": str(checkout),
+    }
 
 
 def compare_issue_lists(expected: Sequence[Mapping[str, Any]], actual: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
@@ -766,9 +828,16 @@ def severity_counts(rows: Sequence[Mapping[str, Any]]) -> Dict[str, int]:
     return counts
 
 
-def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expected_head: str) -> Dict[str, Any]:
+def build_stage39_inputs(
+    admission_root: Path,
+    stage38: Mapping[str, Any],
+    expected_head: str,
+    execution_authority: str,
+) -> Dict[str, Any]:
     if admission_root.exists():
         raise Stage39Error("Stage39-A output root already exists; do not overwrite evidence")
+    authority_record = validate_execution_authority(execution_authority)
+    execution_authority = str(authority_record["execution_authority"])
     checkout = git_audit(expected_head)
     admission_root.mkdir(parents=True)
     inputs_root = admission_root / "inputs"
@@ -828,6 +897,8 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expec
         metadata = {
             "schema": "STAGE39_NATIVE_WBC_REPLAY_CASE_METADATA_V1",
             "pi_gate": PI_GATE_ID,
+            "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+            "execution_authority": execution_authority,
             "stage": "Stage39-B",
             "row_id": row_id,
             "reference_class": reference_class,
@@ -954,6 +1025,8 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expec
     warn_payload = {
         "schema": "STAGE39_STAGE38E_WARN_STRATIFICATION_V1",
         "pi_gate": PI_GATE_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": execution_authority,
         "learned_row_count": len(warnings),
         "decision_counts": counts,
         "rows": warnings,
@@ -967,6 +1040,8 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expec
         {
             "schema": "STAGE39_NATIVE_WBC_REPLAY_INPUT_MANIFEST_V1",
             "pi_gate": PI_GATE_ID,
+            "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+            "execution_authority": execution_authority,
             "stage": "Stage39-A/B",
             "project": EXPECTED_PROJECT,
             "queue": EXPECTED_QUEUE,
@@ -992,6 +1067,8 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expec
         "schema": "STAGE39A_STRUCTURED_WBC_REPLAY_CPU_ADMISSION_V1",
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": execution_authority,
         "issue_comment": ISSUE_COMMENT_ID,
         "pr_handoff_comment": PR_HANDOFF_COMMENT_ID,
         "branch": STAGE39_BRANCH,
@@ -1052,6 +1129,257 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expec
     }
     write_json(admission_root / "stage39a_result.json", stage39a)
     return stage39a
+
+
+def trajectory_payload_fingerprint(path: Path) -> Dict[str, Any]:
+    path = Path(path)
+    if not path.is_file() or path.is_symlink():
+        return {"path": str(path), "missing": True}
+    arrays: Dict[str, Any] = {}
+    try:
+        with np.load(str(path), allow_pickle=False) as archive:
+            for name in sorted(archive.files):
+                value = np.asarray(archive[name])
+                arrays[name] = {
+                    "dtype": str(value.dtype),
+                    "shape": list(value.shape),
+                    "sha256": array_sha256(value),
+                }
+    except Exception as exc:
+        return {"path": str(path), "error": "%s: %s" % (type(exc).__name__, exc)}
+    return {"path": str(path), "arrays": arrays}
+
+
+def scientific_row_signature(row: Mapping[str, Any]) -> Dict[str, Any]:
+    source_artifact = row.get("source_artifact") or {}
+    return {
+        "row_id": row.get("row_id"),
+        "reference_class": row.get("reference_class"),
+        "seed": row.get("seed"),
+        "geometry_k": row.get("geometry_k"),
+        "timing_mode": row.get("timing_mode"),
+        "reference_mode": row.get("reference_mode"),
+        "seconds": row.get("seconds"),
+        "point_count": row.get("trajectory_record", {}).get("point_count"),
+        "frame": row.get("frame"),
+        "tcp": row.get("tcp"),
+        "source_artifact": {
+            key: source_artifact.get(key)
+            for key in ("role", "path", "sha256", "physical_bytes_sha256", "checkpoint")
+        },
+        "stage38_safety_gate": row.get("stage38_safety_gate"),
+        "pre_wbc_safety_gate": row.get("pre_wbc_safety_gate"),
+        "stage38_safety_recompute": row.get("stage38_safety_recompute"),
+    }
+
+
+def compare_stage39_admission_payloads(
+    original_root: Path,
+    rebound_root: Path,
+) -> Dict[str, Any]:
+    original_root = Path(original_root).resolve()
+    rebound_root = Path(rebound_root).resolve()
+    original_manifest = load_json(original_root / "stage39_input_manifest.json")
+    rebound_manifest = load_json(rebound_root / "stage39_input_manifest.json")
+    original_result = load_json(original_root / "stage39a_result.json")
+    rebound_result = load_json(rebound_root / "stage39a_result.json")
+    original_warn = load_json(original_root / "stage39_warn_stratification.json")
+    rebound_warn = load_json(rebound_root / "stage39_warn_stratification.json")
+    errors: List[str] = []
+
+    original_rows = list(original_manifest.get("rows", []))
+    rebound_rows = list(rebound_manifest.get("rows", []))
+    original_ids = [str(row.get("row_id")) for row in original_rows]
+    rebound_ids = [str(row.get("row_id")) for row in rebound_rows]
+    row_ids_order_identical = original_ids == rebound_ids == [item[0] for item in EXPECTED_ROW_IDS]
+    if not row_ids_order_identical:
+        errors.append("row_ids_or_order")
+
+    original_by_id = {str(row.get("row_id")): row for row in original_rows}
+    rebound_by_id = {str(row.get("row_id")): row for row in rebound_rows}
+    row_signatures_identical = True
+    trajectory_payloads: Dict[str, Any] = {}
+    for row_id in sorted(set(original_by_id) | set(rebound_by_id)):
+        left = original_by_id.get(row_id)
+        right = rebound_by_id.get(row_id)
+        if left is None or right is None:
+            row_signatures_identical = False
+            trajectory_payloads[row_id] = {"missing_row": True}
+            continue
+        if scientific_row_signature(left) != scientific_row_signature(right):
+            row_signatures_identical = False
+            errors.append("scientific_row_signature:%s" % row_id)
+        left_payload = trajectory_payload_fingerprint(Path(str(left.get("trajectory_path", ""))))
+        right_payload = trajectory_payload_fingerprint(Path(str(right.get("trajectory_path", ""))))
+        trajectory_payloads[row_id] = {
+            "original": left_payload,
+            "rebound": right_payload,
+            "match": left_payload.get("arrays") == right_payload.get("arrays")
+            and not left_payload.get("missing", False)
+            and not right_payload.get("missing", False),
+        }
+        if not trajectory_payloads[row_id]["match"]:
+            errors.append("trajectory_payload:%s" % row_id)
+
+    trajectory_payloads_identical = not any(
+        not bool(item.get("match")) for item in trajectory_payloads.values()
+    )
+    manifest_contract_keys = (
+        "schema",
+        "pi_gate",
+        "stage",
+        "project",
+        "queue",
+        "reference_mode",
+        "duration_s",
+        "point_count",
+        "learned_seed_set",
+        "no_dense_rerun",
+        "new_gr00t_inference",
+        "new_structured_sampler_calls",
+    )
+    manifest_contract_identical = all(
+        original_manifest.get(key) == rebound_manifest.get(key)
+        for key in manifest_contract_keys
+    )
+    if not manifest_contract_identical:
+        errors.append("manifest_scientific_contract")
+
+    warning_details_identical = (
+        original_warn.get("decision_counts") == rebound_warn.get("decision_counts")
+        and original_warn.get("rows") == rebound_warn.get("rows")
+        and original_warn.get("warning_issue_count") == rebound_warn.get("warning_issue_count")
+        and original_warn.get("unknown_warning_code_or_provenance")
+        == rebound_warn.get("unknown_warning_code_or_provenance")
+        and original_warn.get("stage38_safety_decisions_preserved")
+        == rebound_warn.get("stage38_safety_decisions_preserved")
+    )
+    if not warning_details_identical:
+        errors.append("warning_details")
+
+    safety_gate_recomputation_identical = (
+        original_result.get("safety_gate_recomputation")
+        == rebound_result.get("safety_gate_recomputation")
+    )
+    if not safety_gate_recomputation_identical:
+        errors.append("safety_gate_recomputation")
+
+    original_decisions = [
+        row.get("pre_wbc_safety_gate", {}).get("decision")
+        for row in original_rows
+        if row.get("reference_class") == "STRUCTURED_LEARNED"
+    ]
+    rebound_decisions = [
+        row.get("pre_wbc_safety_gate", {}).get("decision")
+        for row in rebound_rows
+        if row.get("reference_class") == "STRUCTURED_LEARNED"
+    ]
+    decision_vector_identical = original_decisions == rebound_decisions
+    if not decision_vector_identical:
+        errors.append("safety_decision_vector")
+    safety_gate_counts = severity_counts(
+        [{"decision": value} for value in rebound_decisions]
+    )
+    if safety_gate_counts != {"ACCEPT": 3, "WARN": 13, "REJECT": 0}:
+        errors.append("safety_gate_counts")
+
+    result_flags_identical = all(
+        rebound_result.get(key) is False
+        for key in (
+            "scientific_contract_changed",
+            "model_constructed",
+            "gr00t_inference",
+            "wbc_executed",
+            "pbs_submitted",
+            "historical_artifacts_modified",
+        )
+    )
+    if not result_flags_identical:
+        errors.append("forbidden_execution_flags")
+    for manifest in (original_manifest, rebound_manifest):
+        if manifest.get("row_count") != 18 or len(manifest.get("rows", [])) != 18:
+            errors.append("row_count")
+    if rebound_result.get("status") != "PASS":
+        errors.append("rebound_admission_status")
+
+    return {
+        "schema": "STAGE39_A2_SCIENTIFIC_PAYLOAD_COMPARISON_V1",
+        "original_root": str(original_root),
+        "rebound_root": str(rebound_root),
+        "original_head": original_result.get("execution_checkout", {}).get("head"),
+        "rebound_head": rebound_result.get("execution_checkout", {}).get("head"),
+        "row_count_original": len(original_rows),
+        "row_count_rebound": len(rebound_rows),
+        "row_ids_order_identical": row_ids_order_identical,
+        "scientific_row_signatures_identical": row_signatures_identical,
+        "trajectory_payloads_identical": trajectory_payloads_identical,
+        "trajectory_payloads": trajectory_payloads,
+        "manifest_scientific_contract_identical": manifest_contract_identical,
+        "timestamps_duration_frame_tcp_identical": bool(
+            trajectory_payloads_identical and manifest_contract_identical and row_signatures_identical
+        ),
+        "safety_gate_decision_vector_identical": decision_vector_identical,
+        "safety_gate_counts": safety_gate_counts,
+        "safety_gate_recomputation_identical": safety_gate_recomputation_identical,
+        "warning_details_identical": warning_details_identical,
+        "result_flags_valid": result_flags_identical,
+        "errors": errors,
+        "status": "PASS" if not errors else "BLOCKED_SCIENTIFIC_PAYLOAD_MISMATCH",
+    }
+
+
+def run_rebind(args: argparse.Namespace) -> int:
+    rebound_root = Path(args.output_root).absolute()
+    original_root = Path(args.original_admission_root).resolve()
+    if rebound_root.exists():
+        raise Stage39Error("Stage39-A2 output root already exists; do not overwrite evidence")
+    if not original_root.is_dir():
+        raise Stage39Error("original Stage39-A admission root is missing: %s" % original_root)
+    execution_authority = args.execution_authority or os.environ.get("STAGE39_EXECUTION_AUTHORITY", "")
+    validate_execution_authority(execution_authority)
+    stage38 = verify_stage38_chain()
+    expected_head = args.expected_head or git_command("rev-parse", "HEAD")
+    build_stage39_inputs(rebound_root, stage38, expected_head, execution_authority)
+    comparison = compare_stage39_admission_payloads(original_root, rebound_root)
+    rebound_result = load_json(rebound_root / "stage39a_result.json")
+    result = {
+        "schema": "STAGE39A2_STRUCTURED_WBC_REPLAY_CPU_REBIND_V1",
+        "timestamp_utc": now_utc(),
+        "pi_gate": SCIENTIFIC_PROTOCOL_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": execution_authority,
+        "original_head": comparison.get("original_head"),
+        "new_head": comparison.get("rebound_head"),
+        "original_root": str(original_root),
+        "root": str(rebound_root),
+        "comparison": comparison,
+        "scientific_payloads_identical_to_original": comparison["trajectory_payloads_identical"]
+        and comparison["row_ids_order_identical"]
+        and comparison["timestamps_duration_frame_tcp_identical"],
+        "safety_gate_counts": comparison["safety_gate_counts"],
+        "scientific_contract_changed": bool(comparison["errors"]),
+        "new_gr00t_sampling": 0,
+        "model_forward": 0,
+        "gpu": 0,
+        "wbc": 0,
+        "training": 0,
+        "historical_artifacts_modified": False,
+        "status": comparison["status"],
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE39_MECHANICAL_REBIND",
+        "rebound_admission": rebound_result,
+    }
+    write_json(rebound_root / "stage39a2_result.json", result)
+    print(json.dumps({
+        "status": result["status"],
+        "root": str(rebound_root),
+        "result_sha256": sha256_file(rebound_root / "stage39a2_result.json"),
+        "manifest_sha256": sha256_file(rebound_root / "stage39_input_manifest.json"),
+        "warn_sha256": sha256_file(rebound_root / "stage39_warn_stratification.json"),
+        "scientific_payloads_identical_to_original": result["scientific_payloads_identical_to_original"],
+        "safety_gate_counts": result["safety_gate_counts"],
+        "errors": comparison["errors"],
+    }, sort_keys=True))
+    return 0 if result["status"] == "PASS" else 2
 
 
 def ensure_fresh_campaign_root(root: Path) -> None:
@@ -1305,6 +1633,9 @@ def write_campaign_result(root: Path, plans: Sequence[Mapping[str, Any]], rows: 
         "schema": "STAGE39_STRUCTURED_WBC_REPLAY_RESULT_V1",
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": os.environ.get("STAGE39_EXECUTION_AUTHORITY"),
+        "pbs_stdout_path": os.environ.get("STAGE39_PBS_STDOUT_PATH"),
         "issue_comment": ISSUE_COMMENT_ID,
         "pr_handoff_comment": PR_HANDOFF_COMMENT_ID,
         "pr": PR_NUMBER,
@@ -1405,6 +1736,12 @@ def write_campaign_result(root: Path, plans: Sequence[Mapping[str, Any]], rows: 
 def run_campaign(args: argparse.Namespace) -> int:
     root = Path(args.output_root).absolute()
     ensure_fresh_campaign_root(root)
+    execution_provenance = validate_execution_provenance(
+        os.environ.get("STAGE39_SCIENTIFIC_PROTOCOL_ID", ""),
+        os.environ.get("STAGE39_EXECUTION_AUTHORITY", ""),
+        os.environ.get("STAGE39_PBS_STDOUT_PATH", ""),
+        REPO,
+    )
     admission_root = Path(args.admission_root).resolve()
     admission_result_path = admission_root / "stage39a_result.json"
     manifest_path = admission_root / "stage39_input_manifest.json"
@@ -1412,6 +1749,9 @@ def run_campaign(args: argparse.Namespace) -> int:
     state = {
         "schema": "STAGE39_EXECUTION_STATE_V1",
         "pi_gate": PI_GATE_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": execution_provenance["execution_authority"],
+        "pbs_stdout_path": execution_provenance["pbs_stdout_path"],
         "pbs_job_id": os.environ.get("PBS_JOBID"),
         "started_utc": now_utc(),
         "scientific_execution_begun": False,
@@ -1452,6 +1792,9 @@ def run_campaign(args: argparse.Namespace) -> int:
         runtime_binding = {
             "schema": "STAGE39_RUNTIME_BINDING_V1",
             "identity_class": "RECONSTRUCTED_COMPATIBLE_RUNTIME",
+            "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+            "execution_authority": execution_provenance["execution_authority"],
+            "pbs_stdout_path": execution_provenance["pbs_stdout_path"],
             "hostname": platform.node(),
             "python_executable": sys.executable,
             "python_version": platform.python_version(),
@@ -1668,6 +2011,9 @@ def seal_campaign(args: argparse.Namespace) -> int:
         "schema": "STAGE39_STRUCTURED_WBC_REPLAY_ARTIFACT_SEAL_V1",
         "timestamp_utc": now_utc(),
         "pi_gate": PI_GATE_ID,
+        "scientific_protocol_id": SCIENTIFIC_PROTOCOL_ID,
+        "execution_authority": result.get("execution_authority"),
+        "pbs_stdout_path": result.get("pbs_stdout_path"),
         "pbs_job_id": result.get("pbs_job_id"),
         "project": EXPECTED_PROJECT,
         "branch": STAGE39_BRANCH,
@@ -1691,6 +2037,9 @@ def seal_campaign(args: argparse.Namespace) -> int:
     final_return = {
         "ROLE": "CODEX_HOPPER_SERVER_LONG_HORIZON",
         "ACTIVE_PI_GATE": PI_GATE_ID,
+        "SCIENTIFIC_PROTOCOL_ID": SCIENTIFIC_PROTOCOL_ID,
+        "EXECUTION_AUTHORITY": result.get("execution_authority"),
+        "PBS_STDOUT_PATH": result.get("pbs_stdout_path"),
         "STAGE": "Stage39 sealed StructuredActionV1 native-WBC replay qualification",
         "PR": PR_NUMBER,
         "BRANCH": STAGE39_BRANCH,
@@ -1743,13 +2092,16 @@ def seal_campaign(args: argparse.Namespace) -> int:
 
 
 def run_admission(args: argparse.Namespace) -> int:
+    execution_authority = args.execution_authority or os.environ.get("STAGE39_EXECUTION_AUTHORITY", "")
+    validate_execution_authority(execution_authority)
     stage38 = verify_stage38_chain()
     admission_root = Path(args.output_root).absolute()
     expected_head = args.expected_head or git_command("rev-parse", "HEAD")
-    result = build_stage39_inputs(admission_root, stage38, expected_head)
+    result = build_stage39_inputs(admission_root, stage38, expected_head, execution_authority)
     print(json.dumps({
         "status": result.get("status"),
         "admission_root": str(admission_root),
+        "execution_authority": execution_authority,
         "stage39a_result_sha256": sha256_file(admission_root / "stage39a_result.json"),
         "input_manifest_sha256": sha256_file(admission_root / "stage39_input_manifest.json"),
         "warn_stratification_sha256": sha256_file(admission_root / "stage39_warn_stratification.json"),
@@ -1761,6 +2113,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--admission", action="store_true")
+    mode.add_argument("--rebind", action="store_true")
     mode.add_argument("--campaign", action="store_true")
     mode.add_argument("--seal", action="store_true")
     parser.add_argument("--output-root", type=Path, required=True)
@@ -1776,9 +2129,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--expected-head", default="")
     parser.add_argument("--api-head", default="")
     parser.add_argument("--pbs-log", type=Path)
+    parser.add_argument("--execution-authority", default="")
+    parser.add_argument("--original-admission-root", type=Path)
     args = parser.parse_args(argv)
     if args.admission:
         return run_admission(args)
+    if args.rebind:
+        if args.original_admission_root is None:
+            parser.error("--rebind requires --original-admission-root")
+        return run_rebind(args)
     if args.campaign:
         for name in ("admission_root", "source_root", "arm", "dog"):
             if getattr(args, name) is None:
