@@ -292,7 +292,7 @@ def _run_episode(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray],
         before_root = _tensor_hash(native.root_states)
         before_dof = _tensor_hash(native.dof_state)
         before_episode = int(native.episode_length_buf[0].detach().cpu().item())
-        initial_load = native.load_reference_chunk(current_chunk)
+        initial_load = native.initial_bind_reference(current_chunk)
         if not (
             before_root == _tensor_hash(native.root_states)
             and before_dof == _tensor_hash(native.dof_state)

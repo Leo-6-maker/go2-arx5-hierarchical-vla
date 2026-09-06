@@ -287,7 +287,7 @@ def _model_receding(args: argparse.Namespace, trajectory: dict[str, np.ndarray])
         before_episode = int(native.episode_length_buf[0].detach().cpu().item())
         before_arm_history = _tensor_hash(env.arm_obs_history)
         before_dog_history = _tensor_hash(env.dog_obs_history)
-        native_initial_load = native.load_reference_chunk(current_chunk)
+        native_initial_load = native.initial_bind_reference(current_chunk)
         initial_case["initial_reference_replacement"] = {
             **native_initial_load,
             "arm_policy_history_unchanged": before_arm_history == _tensor_hash(env.arm_obs_history),

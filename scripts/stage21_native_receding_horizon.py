@@ -136,6 +136,17 @@ def _pose_window(
     return point_timestamps, position, quaternion
 
 
+def _chunk_payload_equivalent(left: Any, right: Any) -> bool:
+    return (
+        np.array_equal(np.asarray(left.point_timestamps), np.asarray(right.point_timestamps))
+        and np.array_equal(np.asarray(left.eef_position), np.asarray(right.eef_position))
+        and np.array_equal(np.asarray(left.eef_orientation), np.asarray(right.eef_orientation))
+        and np.array_equal(np.asarray(left.gripper), np.asarray(right.gripper))
+        and left.source_frame == right.source_frame
+        and left.tcp_semantic_id == right.tcp_semantic_id
+    )
+
+
 def _make_chunk(
     trajectory: Mapping[str, np.ndarray],
     *,
@@ -437,6 +448,8 @@ class _Stage21NativeEnvFactory:
                 self._stage21_current_chunk = None
                 self._stage21_anchor_world = None
                 self._stage21_load_events: list[dict[str, Any]] = []
+                self._stage21_reference_phase = "STARTUP"
+                self._stage21_wbc_forward_count = 0
                 self._stage21_gymapi = gymapi
                 self._stage21_gymtorch = gymtorch
                 self._stage21_simulator_instance_id = "native-isaacgym-pid-%d" % os.getpid()
@@ -604,7 +617,50 @@ class _Stage21NativeEnvFactory:
                     return super()._load_trajectory_for(env_ids)
                 self._stage21_load_chunk(self._stage21_initial_chunk, env_ids, initial=True)
 
+            def stage21_mark_wbc_forward(self) -> None:
+                """Record a real policy forward without changing native state."""
+
+                self._stage21_wbc_forward_count += 1
+                self._stage21_reference_phase = "RUNNING"
+
+            def initial_bind_reference(self, chunk: TrajectoryChunkV1) -> dict[str, Any]:
+                """Bind a fresh pre-forward reference without resetting native state."""
+
+                if self._stage21_wbc_forward_count != 0:
+                    raise RuntimeError(
+                        "INITIAL_BIND_AFTER_FIRST_WBC_FORWARD: use load_reference_chunk"
+                    )
+                env_ids = torch.arange(1, device=self.device, dtype=torch.long)
+                before_root = _tensor_hash(self.root_states)
+                before_dof = _tensor_hash(self.dof_state)
+                before_episode = int(self.episode_length_buf[0].detach().cpu().item())
+                before_reset = bool(self.reset_buf[0].detach().cpu().item())
+                event = self._stage21_load_chunk(chunk, env_ids, initial=False)
+                after_root = _tensor_hash(self.root_states)
+                after_dof = _tensor_hash(self.dof_state)
+                after_episode = int(self.episode_length_buf[0].detach().cpu().item())
+                after_reset = bool(self.reset_buf[0].detach().cpu().item())
+                event.update(
+                    {
+                        "lifecycle_phase": "INITIAL_BIND",
+                        "reset_buf_before": before_reset,
+                        "reset_buf_after": after_reset,
+                        "physics_root_state_unchanged": before_root == after_root,
+                        "physics_dof_state_unchanged": before_dof == after_dof,
+                        "episode_length_unchanged": before_episode == after_episode,
+                        "physics_reset": False,
+                        "physics_teleport": False,
+                        "policy_history_reset": False,
+                    }
+                )
+                self._stage21_reference_phase = "INITIAL_BOUND"
+                return event
+
             def load_reference_chunk(self, chunk: TrajectoryChunkV1) -> dict[str, Any]:
+                if self._stage21_wbc_forward_count == 0:
+                    raise RuntimeError(
+                        "REFERENCE_UPDATE_BEFORE_FIRST_WBC_FORWARD: use initial_bind_reference"
+                    )
                 if bool(self.reset_buf[0].detach().cpu().item()):
                     raise RuntimeError("ONE_SPECIFIC_REFERENCE_HOT_SWAP_BLOCKER_REMAINS: reset already requested")
                 env_ids = torch.arange(1, device=self.device, dtype=torch.long)
@@ -617,6 +673,7 @@ class _Stage21NativeEnvFactory:
                 after_episode = int(self.episode_length_buf[0].detach().cpu().item())
                 event.update(
                     {
+                        "lifecycle_phase": "RUNNING_UPDATE",
                         "physics_root_state_unchanged": before_root == after_root,
                         "physics_dof_state_unchanged": before_dof == after_dof,
                         "episode_length_unchanged": before_episode == after_episode,
@@ -625,6 +682,7 @@ class _Stage21NativeEnvFactory:
                         "policy_history_reset": False,
                     }
                 )
+                self._stage21_reference_phase = "RUNNING"
                 return event
 
             @property
@@ -642,6 +700,14 @@ class _Stage21NativeEnvFactory:
                 if self._stage21_current_chunk is None:
                     raise RuntimeError("no Stage21 chunk has been loaded")
                 return self._stage21_current_chunk
+
+            @property
+            def stage21_reference_phase(self) -> str:
+                return self._stage21_reference_phase
+
+            @property
+            def stage21_wbc_forward_count(self) -> int:
+                return int(self._stage21_wbc_forward_count)
 
         return Stage21NativeWBCEnv
 
@@ -867,6 +933,8 @@ def _policy_step(native: Any, env: Any, actors: Any) -> tuple[bool, Any]:
     actions_dog = dog(dog_obs["obs_history"])
     if not torch.isfinite(actions_dog).all():
         raise FloatingPointError("non-finite dog policy output")
+    if hasattr(native, "stage21_mark_wbc_forward"):
+        native.stage21_mark_wbc_forward()
     _, _, done, info = env.step(actions_dog, actions_arm[..., : native.num_actions_arm])
     return bool(done.detach().cpu().any().item()), {
         "arm_raw_output": actions_arm[0].detach().cpu().tolist(),

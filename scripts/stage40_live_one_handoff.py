@@ -28,6 +28,7 @@ from stage21_native_receding_horizon import (
     TCP_SEMANTIC_ID,
     _build_native,
     _capture_scene,
+    _chunk_payload_equivalent,
     _current_eef,
     _current_state_v1,
     _jsonable,
@@ -65,6 +66,7 @@ def _pose_at(chunk: Any, timestamp: float) -> tuple[np.ndarray, np.ndarray]:
     ts = np.asarray(chunk.point_timestamps, dtype=np.float64)
     index = int(np.clip(np.searchsorted(ts, float(timestamp), side="right") - 1, 0, len(ts) - 1))
     return np.asarray(chunk.eef_position[index], dtype=np.float64), np.asarray(chunk.eef_orientation[index], dtype=np.float64)
+
 
 
 def _write_json(path: Path, value: Mapping[str, Any]) -> None:
@@ -157,9 +159,12 @@ def run_b1(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
         native_args = argparse.Namespace(**vars(args))
         native_args.mode = "gt_receding"
         native, env, actors, loads, _ = _build_native(native_args, trajectory)
-        chunk_a = _make_chunk(trajectory, chunk_id="b1-a", observation_timestamp=0.0, start_time_s=0.0)
+        requested_chunk_a = _make_chunk(trajectory, chunk_id="b1-a", observation_timestamp=0.0, start_time_s=0.0)
+        installed_chunk_a = native.stage21_current_chunk
+        if not _chunk_payload_equivalent(installed_chunk_a, requested_chunk_a):
+            raise RuntimeError("INITIAL_REFERENCE_PAYLOAD_MISMATCH")
+        chunk_a = installed_chunk_a
         chunk_b = _make_chunk(trajectory, chunk_id="b1-b", observation_timestamp=HANDOFF_S, start_time_s=HANDOFF_S)
-        native.load_reference_chunk(chunk_a)
         sim_time = 0.0
         before_rows, sim_time, before_term = _step_rows(native, env, actors, chunk=chunk_a, sim_time=sim_time,
                                                          steps=round(HANDOFF_S / float(native.dt)), update_count=0)
@@ -219,7 +224,7 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                     episode["termination"] = "SAFETYGATE_REJECT_Q0"
                     episodes.append(episode)
                     continue
-                native.load_reference_chunk(q0)
+                native.initial_bind_reference(q0)
                 executor = RecedingHorizonExecutorV1(prefix_steps=1, provenance={"stage": STAGE,
                     "mode": "LIVE_ONE_HANDOFF", "physics_reset": False, "policy_history_reset": False,
                     "synchronous_paused_simulation": True})

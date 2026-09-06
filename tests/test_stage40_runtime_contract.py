@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 B1 = (ROOT / "hpc" / "pbs" / "stage40_b1.pbs").read_text(encoding="utf-8")
 LIVE = (ROOT / "hpc" / "pbs" / "stage40_live.pbs").read_text(encoding="utf-8")
 PY = (ROOT / "scripts" / "stage40_live_one_handoff.py").read_text(encoding="utf-8")
+NATIVE = (ROOT / "scripts" / "stage21_native_receding_horizon.py").read_text(encoding="utf-8")
 
 
 class Stage40RuntimeContractTest(unittest.TestCase):
@@ -35,6 +36,15 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("HANDOFF_S = 0.9750000000000001", PY)
         self.assertIn("CHUNK_DURATION_S = 1.9500000000000002", PY)
         self.assertIn('PI_GATE = "PI_GATE_STATE_0041"', PY)
+
+    def test_reference_lifecycle_has_explicit_two_phase_api(self):
+        self.assertIn("def initial_bind_reference", NATIVE)
+        self.assertIn("def load_reference_chunk", NATIVE)
+        self.assertIn("REFERENCE_UPDATE_BEFORE_FIRST_WBC_FORWARD", NATIVE)
+        self.assertIn("INITIAL_BIND_AFTER_FIRST_WBC_FORWARD", NATIVE)
+        self.assertIn("native.initial_bind_reference(q0)", PY)
+        self.assertIn("installed_chunk_a = native.stage21_current_chunk", PY)
+        self.assertNotIn("native.load_reference_chunk(chunk_a)", PY)
 
 
 if __name__ == "__main__":
