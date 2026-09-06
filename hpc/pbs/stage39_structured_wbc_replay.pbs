@@ -222,9 +222,9 @@ CONTAINER_SITE="/runtime/site-packages"
 CONTAINER_NINJA="/runtime/ninja/bin/ninja"
 
 sha256sum \
-  "scripts/stage39_structured_wbc_replay.py" \
-  "hpc/pbs/stage39_structured_wbc_replay.pbs" \
-  "scripts/native_wbc_benchmark.py" \
+  "${STAGE39_REPO}/scripts/stage39_structured_wbc_replay.py" \
+  "${STAGE39_REPO}/hpc/pbs/stage39_structured_wbc_replay.pbs" \
+  "${STAGE39_REPO}/scripts/native_wbc_benchmark.py" \
   "${STAGE39_ADMISSION_ROOT}/stage39a_result.json" \
   "${STAGE39_ADMISSION_ROOT}/stage39_input_manifest.json" \
   "${STAGE39_ADMISSION_ROOT}/stage39_warn_stratification.json"
