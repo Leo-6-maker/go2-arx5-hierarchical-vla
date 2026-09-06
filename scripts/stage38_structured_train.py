@@ -110,6 +110,8 @@ def sha256_file(path: Path) -> str:
 
 
 def _jsonable(value: Any) -> Any:
+    if isinstance(value, Path):
+        return str(value)
     if isinstance(value, Mapping):
         return {str(k): _jsonable(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -709,7 +711,12 @@ def main() -> int:
             )
         if args.preflight:
             report = preflight(args)
-            print(json.dumps({"status": report["status"], "output_root": args.output_root}, sort_keys=True))
+            print(
+                json.dumps(
+                    {"status": report["status"], "output_root": str(args.output_root)},
+                    sort_keys=True,
+                )
+            )
             return 0 if report["status"] == "PASS" else 2
         return train(args)
     except Exception as exc:
