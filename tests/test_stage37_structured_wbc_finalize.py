@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -81,3 +83,38 @@ def test_pair_analysis_uses_frozen_thresholds_and_same_case_ids() -> None:
     assert result["geometry_oracle_parity"] == "GEOMETRY_ORACLE_PARITY_QUALIFIED"
     assert result["new_failure_counts"]["true_joint_limit_terminations"] == 0
     assert len(result["pairs"]) == 32
+
+
+def test_verify_seal_accepts_only_append_only_wrapper_log_tail(tmp_path: Path) -> None:
+    log_path = tmp_path / "stage36_job.log"
+    sealed_prefix = b"campaign output before tee drain\n"
+    appended_tail = b"STAGE37_CAMPAIGN_RC=139\nSTAGE37_RUN_ROOT=/scratch/run\n"
+    log_path.write_bytes(sealed_prefix + appended_tail)
+    seal_path = tmp_path / "stage36_artifact_seal.json"
+    seal_path.write_text(
+        json.dumps(
+            {
+                "entries": [
+                    {
+                        "path": str(log_path),
+                        "relative_path": "stage36_job.log",
+                        "size_bytes": len(sealed_prefix),
+                        "sha256": hashlib.sha256(sealed_prefix).hexdigest(),
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    strict = finalize.verify_seal(tmp_path, seal_path)
+    repaired = finalize.verify_seal(
+        tmp_path, seal_path, allow_append_only_log_tail=True
+    )
+
+    assert strict["status"] == "BLOCKED_SEAL_ENTRY_MISMATCH"
+    assert repaired["status"] == "PASS_APPEND_ONLY_LOG_TAIL"
+    assert repaired["entries_verified"] == 1
+    assert repaired["append_only_log_tails"][0]["appended_size_bytes"] == len(
+        appended_tail
+    )

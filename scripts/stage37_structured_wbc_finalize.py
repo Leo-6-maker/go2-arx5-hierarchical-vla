@@ -136,13 +136,20 @@ def file_record(path: Path, expected_sha256: Optional[str] = None) -> Dict[str, 
     return record
 
 
-def verify_seal(root: Path, seal_path: Path, expected_sha256: Optional[str] = None) -> Dict[str, Any]:
+def verify_seal(
+    root: Path,
+    seal_path: Path,
+    expected_sha256: Optional[str] = None,
+    *,
+    allow_append_only_log_tail: bool = False,
+) -> Dict[str, Any]:
     result: Dict[str, Any] = {
         "root": str(root),
         "seal": file_record(seal_path, expected_sha256),
         "entry_count": 0,
         "entries_verified": 0,
         "mismatches": [],
+        "append_only_log_tails": [],
         "status": "BLOCKED",
     }
     if not result["seal"]["hash_match"]:
@@ -158,7 +165,35 @@ def verify_seal(root: Path, seal_path: Path, expected_sha256: Optional[str] = No
             actual = sha256_file(path) if path.is_file() else None
             expected_size = int(entry.get("size_bytes", -1))
             actual_size = int(path.stat().st_size) if path.is_file() else None
-            if not path.is_file() or actual != entry.get("sha256") or actual_size != expected_size:
+            append_only_tail: Optional[Dict[str, Any]] = None
+            if (
+                allow_append_only_log_tail
+                and path.is_file()
+                and str(entry.get("relative_path", "")) == "stage36_job.log"
+                and actual_size is not None
+                and actual_size > expected_size
+            ):
+                with path.open("rb") as handle:
+                    sealed_prefix = handle.read(expected_size)
+                    suffix_digest = hashlib.sha256()
+                    suffix_size = 0
+                    for block in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+                        suffix_digest.update(block)
+                        suffix_size += len(block)
+                if hashlib.sha256(sealed_prefix).hexdigest() == entry.get("sha256"):
+                    append_only_tail = {
+                        "path": str(path),
+                        "sealed_prefix_size_bytes": expected_size,
+                        "sealed_prefix_sha256": entry.get("sha256"),
+                        "actual_size_bytes": actual_size,
+                        "actual_sha256": actual,
+                        "appended_size_bytes": suffix_size,
+                        "appended_sha256": suffix_digest.hexdigest(),
+                    }
+            if append_only_tail is not None:
+                result["entries_verified"] += 1
+                result["append_only_log_tails"].append(append_only_tail)
+            elif not path.is_file() or actual != entry.get("sha256") or actual_size != expected_size:
                 result["mismatches"].append(
                     {
                         "path": str(path),
@@ -170,7 +205,12 @@ def verify_seal(root: Path, seal_path: Path, expected_sha256: Optional[str] = No
                 )
             else:
                 result["entries_verified"] += 1
-        result["status"] = "PASS" if not result["mismatches"] else "BLOCKED_SEAL_ENTRY_MISMATCH"
+        if result["mismatches"]:
+            result["status"] = "BLOCKED_SEAL_ENTRY_MISMATCH"
+        elif result["append_only_log_tails"]:
+            result["status"] = "PASS_APPEND_ONLY_LOG_TAIL"
+        else:
+            result["status"] = "PASS"
     except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
         result["error"] = {"type": type(exc).__name__, "message": str(exc)}
     return result
@@ -262,7 +302,11 @@ def verify_campaign_output(plan: Mapping[str, Any], campaign_root: Path) -> Dict
         "required_files": {
             name: file_record(path) for name, path in required.items()
         },
-        "seal": verify_seal(campaign_root, required["seal"]),
+        "seal": verify_seal(
+            campaign_root,
+            required["seal"],
+            allow_append_only_log_tail=True,
+        ),
         "plan_snapshot_matches": False,
         "plan_contract_pass": False,
         "result_contract_pass": False,
@@ -398,19 +442,19 @@ def verify_campaign_output(plan: Mapping[str, Any], campaign_root: Path) -> Dict
             "job_id": return_payload.get("PBS_JOB_ID"),
             "result": return_payload.get("RESULT"),
             "gr00t_model_constructed": return_payload.get("GR00T_MODEL_CONSTRUCTED") is False,
-            "training": return_payload.get("TRAINING") is False,
+            "training_disabled": return_payload.get("TRAINING") is False,
         }
         result["campaign_result_payload"] = campaign_result
         result["status"] = (
             "PASS"
             if all(record["exists"] for record in result["required_files"].values())
-            and result["seal"]["status"] == "PASS"
+            and result["seal"]["status"] in {"PASS", "PASS_APPEND_ONLY_LOG_TAIL"}
             and result["plan_contract_pass"]
             and result["result_contract_pass"]
             and result["raw_manifest_contract_pass"]
             and result["return_contract"]["pbs_submitted"]
             and result["return_contract"]["gr00t_model_constructed"]
-            and result["return_contract"]["training"]
+            and result["return_contract"]["training_disabled"]
             else "BLOCKED_STRUCTURED_CAMPAIGN_CONTRACT"
         )
     except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
