@@ -28,6 +28,12 @@ cd "${STAGE40_REPO}"
 test "$(git rev-parse HEAD)" = "${STAGE40_EXPECTED_HEAD}"
 test -z "$(git status --short --untracked-files=all)"
 
+RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_b0_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache" "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
+exec > >(tee -a "${RUN_ROOT}/stage40_b0.log") 2>&1
+echo "STAGE40_B0_START job=${PBS_JOBID} host=$(hostname)"
+
 IMAGE="${STAGE40_CONTAINER_IMAGE:-/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif}"
 SITE="${STAGE40_CONTAINER_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
 FFMPEG="${STAGE40_FFMPEG_BUNDLE:-/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902}"
@@ -39,11 +45,6 @@ for path in "${STAGE40_MODEL_PATH}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_DATA
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
 test "${GPU_COUNT}" = 1
-
-RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_b0_${PBS_JOBID}"
-test ! -e "${RUN_ROOT}"
-mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache" "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
-exec > >(tee -a "${RUN_ROOT}/stage40_b0.log") 2>&1
 
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
