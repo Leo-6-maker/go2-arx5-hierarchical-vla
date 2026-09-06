@@ -1941,7 +1941,7 @@ def ensure_fresh_campaign_root(root: Path) -> None:
         return
     if root.is_symlink() or not root.is_dir():
         raise Stage39Error("campaign root is not a real directory")
-    allowed = {"runtime", "stage39_job.log"}
+    allowed = {"runtime", "stage39_job.log", "bundle_staging", "bundle_verification.json"}
     entries = {item.name for item in root.iterdir()}
     if not entries <= allowed or "runtime" not in entries:
         raise Stage39Error("campaign root is not the fresh wrapper scaffold")
