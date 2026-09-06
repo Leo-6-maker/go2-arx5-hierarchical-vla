@@ -17,7 +17,13 @@ from ..trajectory.so3 import geodesic_angle, matrix_to_quat, quat_slerp, quat_to
 from .trajectory import TrajectoryChunkV1
 
 
-MOTION_INTENT_V2_TIMING_MODES = frozenset({"T0", "T1", "T3", "T5", "T9"})
+# T16--T40 are the preregistered Stage38 model-capacity candidates.  They
+# extend the experimental V2 contract without changing the historical
+# Stage34/35/37 candidates or their sealed evidence.
+STAGE38_TIMING_MODES = frozenset({"T16", "T20", "T24", "T32", "T40"})
+MOTION_INTENT_V2_TIMING_MODES = frozenset(
+    {"T0", "T1", "T3", "T5", "T9"} | STAGE38_TIMING_MODES
+)
 DEFAULT_MOTION_INTENT_V2_FRAME = "NATIVE_WBC_RELATIVE_REFERENCE"
 DEFAULT_MOTION_INTENT_V2_TCP = "x5_link6_gripper_center"
 DEFAULT_MOTION_INTENT_V2_ANCHOR = "RUNTIME_MEASURED_CURRENT_EEF"
@@ -411,5 +417,6 @@ __all__ = [
     "DEFAULT_MOTION_INTENT_V2_LAMBDA_M_PER_RAD",
     "DEFAULT_MOTION_INTENT_V2_TCP",
     "MOTION_INTENT_V2_TIMING_MODES",
+    "STAGE38_TIMING_MODES",
     "MotionIntentV2",
 ]

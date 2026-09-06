@@ -17,6 +17,7 @@ import numpy as np
 from ..contracts.motion_intent import (
     DEFAULT_MOTION_INTENT_V2_LAMBDA_M_PER_RAD,
     MotionIntentV2,
+    STAGE38_TIMING_MODES,
 )
 from ..contracts.trajectory import TrajectoryChunkV1
 from ..trajectory.preview import (
@@ -43,6 +44,10 @@ TIMING_KNOTS = {
     "T3": np.asarray([0.0, 0.5, 1.0], dtype=np.float64),
     "T5": np.asarray([0.0, 0.25, 0.5, 0.75, 1.0], dtype=np.float64),
     "T9": np.asarray([0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0], dtype=np.float64),
+}
+STAGE38_TIMING_KNOTS = {
+    mode: np.linspace(0.0, 1.0, int(mode[1:]), dtype=np.float64)
+    for mode in sorted(STAGE38_TIMING_MODES, key=lambda value: int(value[1:]))
 }
 
 
@@ -303,6 +308,58 @@ def build_timing_candidate(
 
     if timing_mode not in TIMING_MODES:
         raise ValueError(f"timing_mode must be one of {TIMING_MODES}")
+    return build_timing_candidate_with_knots(
+        dense,
+        geometry,
+        timing_mode,
+        TIMING_KNOTS[timing_mode],
+        lambda_m_per_rad=lambda_m_per_rad,
+    )
+
+
+def build_timing_candidate_with_knots(
+    dense: TrajectoryChunkV1,
+    geometry: MotionIntentV2,
+    timing_mode: str,
+    timing_knots: Any,
+    *,
+    lambda_m_per_rad: float = DEFAULT_SE3_LAMBDA_M_PER_RAD,
+) -> MotionIntentV2:
+    """Build a fixed-knot timing candidate in the Stage38 timing family.
+
+    ``timing_knots`` are normalized SE(3)-arc locations.  Source timestamps
+    are sampled at those locations from the timestamped dense trajectory and
+    reconstructed with the same monotonic piecewise-linear law used by the
+    historical timing candidates.  No retiming, smoothing, or fitting is
+    performed here.
+    """
+
+    if timing_mode not in TIMING_MODES and timing_mode not in STAGE38_TIMING_MODES:
+        allowed = TIMING_MODES + tuple(
+            sorted(STAGE38_TIMING_MODES, key=lambda value: int(value[1:]))
+        )
+        raise ValueError(f"timing_mode must be one of {allowed}")
+    knots = np.asarray(timing_knots, dtype=np.float64)
+    if knots.ndim != 1 or knots.size < 2:
+        raise ValueError("timing_knots must be a one-dimensional array with at least two values")
+    if not np.isfinite(knots).all():
+        raise ValueError("timing_knots must be finite")
+    if not np.isclose(knots[0], 0.0, rtol=0.0, atol=1e-12) or not np.isclose(
+        knots[-1], 1.0, rtol=0.0, atol=1e-12
+    ):
+        raise ValueError("timing_knots must start at 0 and end at 1")
+    if np.any(np.diff(knots) <= 0.0) or np.any(knots < 0.0) or np.any(knots > 1.0):
+        raise ValueError("timing_knots must be strictly increasing in [0,1]")
+    expected_count = int(timing_mode[1:])
+    if knots.size != expected_count:
+        raise ValueError(
+            f"{timing_mode} requires exactly {expected_count} timing knots, got {knots.size}"
+        )
+    if timing_mode in STAGE38_TIMING_MODES and not np.allclose(
+        knots, STAGE38_TIMING_KNOTS[timing_mode], rtol=0.0, atol=1e-12
+    ):
+        raise ValueError(f"{timing_mode} requires uniformly spaced normalized timing knots")
+
     control_u = np.asarray(geometry.geometry_arc_fraction, dtype=np.float64)
     source_segments, source_cumulative = _arc_map(
         dense.eef_position, dense.eef_orientation, lambda_m_per_rad
@@ -317,7 +374,7 @@ def build_timing_candidate(
                 cumulative=source_cumulative,
                 lambda_m_per_rad=lambda_m_per_rad,
             )[2]
-            for u in TIMING_KNOTS[timing_mode]
+            for u in knots
         ],
         dtype=np.float64,
     )
@@ -325,15 +382,17 @@ def build_timing_candidate(
         source_times = np.asarray(
             [float(dense.validity_start), float(dense.validity_end)], dtype=np.float64
         )
-    control_times = _piecewise_linear(control_u, TIMING_KNOTS[timing_mode], source_times)
+    control_times = _piecewise_linear(control_u, knots, source_times)
     control_times[0] = float(dense.validity_start)
     control_times[-1] = float(dense.validity_end)
     provenance = dict(geometry.provenance)
     provenance.update(
         {
-            "stage34_candidate": "FIXED_GEOMETRY_COMPACT_TIMING",
+            "stage34_candidate": "FIXED_GEOMETRY_COMPACT_TIMING"
+            if timing_mode in TIMING_MODES
+            else "STAGE38_MODEL_TIMING_CAPACITY",
             "timing_mode": timing_mode,
-            "timing_arc_knots": TIMING_KNOTS[timing_mode].tolist(),
+            "timing_arc_knots": knots.tolist(),
             "timing_knot_timestamps": source_times.tolist(),
             "timing_interpolation": "MONOTONIC_PIECEWISE_LINEAR",
             "geometry_unchanged": True,
@@ -345,7 +404,7 @@ def build_timing_candidate(
         timestamps=control_times,
         positions=geometry.eef_position.copy(),
         orientations=geometry.eef_orientation.copy(),
-        arc_fractions=TIMING_KNOTS[timing_mode],
+        arc_fractions=knots,
         geometry_arc_fraction=geometry.geometry_arc_fraction,
         timing_mode=timing_mode,
         timing_timestamps=source_times,
@@ -611,11 +670,14 @@ __all__ = [
     "DEFAULT_SE3_LAMBDA_M_PER_RAD",
     "DEFAULT_WBC_PREVIEW_OFFSETS_M",
     "GEOMETRY_K_VALUES",
+    "STAGE38_TIMING_KNOTS",
+    "STAGE38_TIMING_MODES",
     "TIMING_KNOTS",
     "TIMING_MODES",
     "aggregate_evaluations",
     "build_geometry_candidate",
     "build_timing_candidate",
+    "build_timing_candidate_with_knots",
     "evaluate_preview_equivalence",
     "load_snapshot_chunk",
     "public_evaluation",
