@@ -258,7 +258,7 @@ def build_structured_gr00t_dataset_factory():
                 episode_chunk=episode_id // self.episode_loader.chunk_size,
                 episode_index=episode_id,
             )
-            path = self.dataset_path / filename
+            path = Path(self.dataset_path) / filename
             frame = pd.read_parquet(path, columns=["timestamp"])
             timestamps = _timestamp_vector(
                 frame, name=f"{self.dataset_path}:episode-{episode_id}:timestamp"
@@ -304,7 +304,7 @@ def build_structured_gr00t_dataset_factory():
                 timestamps,
                 state_v1,
                 timing_mode=self.timing_mode,
-                chunk_id=f"stage38-d:{self.dataset_path.name}:episode-{self._episode_id(episode_index)}:step-{step_index}",
+                chunk_id=f"stage38-d:{Path(self.dataset_path).name}:episode-{self._episode_id(episode_index)}:step-{step_index}",
                 source_frame=DEFAULT_MOTION_INTENT_V2_FRAME,
                 tcp_semantic_id=DEFAULT_MOTION_INTENT_V2_TCP,
                 observation_timestamp=float(timestamps[0]),

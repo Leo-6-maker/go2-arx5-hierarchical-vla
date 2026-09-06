@@ -68,6 +68,8 @@ COSMOS_ROOT = Path(
     "/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/"
     "models--nvidia--Cosmos-Reason2-2B"
 )
+COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
+COSMOS_SNAPSHOT = COSMOS_ROOT / "snapshots" / COSMOS_REVISION
 COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 H2_ROOT = Path(
     "/scratch/e1192548/stage28_h2_20260904/"
@@ -342,6 +344,90 @@ def training_contract_audit() -> dict[str, Any]:
     return payload
 
 
+def _enum_from_yaml(enum_type: Any, value: Any, *, field_name: str) -> Any:
+    """Convert the pinned config's serialized enum value without changing it.
+
+    ``Config.save`` serializes enum values (for example ``relative``), while
+    the pinned GR00T ``ModalityConfig`` constructor indexes enum *names*
+    (``RELATIVE``).  This is a representation-only bridge at the launcher
+    boundary; it does not alter the action representation or its semantics.
+    """
+
+    if isinstance(value, enum_type):
+        return value
+    for member in enum_type:
+        if value == member or str(value) in {member.name, member.value}:
+            return member
+    raise ValueError(f"unknown {field_name} enum value: {value!r}")
+
+
+def normalize_loaded_modality_configs(config: Any) -> dict[str, Any]:
+    """Materialize serialized H2 modality configs as pinned GR00T dataclasses."""
+
+    from gr00t.data.types import (
+        ActionConfig,
+        ActionFormat,
+        ActionRepresentation,
+        ActionType,
+        ModalityConfig,
+    )
+
+    normalized: dict[str, dict[str, ModalityConfig]] = {}
+    for embodiment, modality_configs in config.data.modality_configs.items():
+        normalized[embodiment] = {}
+        for modality, raw_config in modality_configs.items():
+            if isinstance(raw_config, ModalityConfig):
+                normalized[embodiment][modality] = raw_config
+                continue
+            if not isinstance(raw_config, Mapping):
+                raise TypeError(
+                    f"{embodiment}/{modality} modality config must be a mapping or "
+                    f"ModalityConfig, got {type(raw_config).__name__}"
+                )
+            raw_actions = raw_config.get("action_configs")
+            action_configs = None
+            if raw_actions is not None:
+                action_configs = []
+                for action_index, raw_action in enumerate(raw_actions):
+                    if isinstance(raw_action, ActionConfig):
+                        action_configs.append(raw_action)
+                        continue
+                    if not isinstance(raw_action, Mapping):
+                        raise TypeError(
+                            f"{embodiment}/{modality}/action_configs[{action_index}] "
+                            "must be a mapping or ActionConfig"
+                        )
+                    action_configs.append(
+                        ActionConfig(
+                            rep=_enum_from_yaml(
+                                ActionRepresentation,
+                                raw_action["rep"],
+                                field_name="action representation",
+                            ),
+                            type=_enum_from_yaml(
+                                ActionType,
+                                raw_action["type"],
+                                field_name="action type",
+                            ),
+                            format=_enum_from_yaml(
+                                ActionFormat,
+                                raw_action["format"],
+                                field_name="action format",
+                            ),
+                            state_key=raw_action.get("state_key"),
+                        )
+                    )
+            normalized[embodiment][modality] = ModalityConfig(
+                delta_indices=list(raw_config["delta_indices"]),
+                modality_keys=list(raw_config["modality_keys"]),
+                sin_cos_embedding_keys=raw_config.get("sin_cos_embedding_keys"),
+                mean_std_embedding_keys=raw_config.get("mean_std_embedding_keys"),
+                action_configs=action_configs,
+            )
+    config.data.modality_configs = normalized
+    return normalized
+
+
 def _module_static_audit() -> dict[str, Any]:
     module_path = REPO / "src/go2arx5_vla/stage38_structured_training.py"
     source = module_path.read_text(encoding="utf-8")
@@ -463,6 +549,7 @@ def _load_training_config(output_root: Path, args: argparse.Namespace) -> Any:
     config.data.seed = EXPECTED_SEED
     config.data.datasets[0].dataset_paths = [str(args.dataset_dir)]
     config.data.datasets[0].mix_ratio = 1.0
+    normalize_loaded_modality_configs(config)
     return config
 
 
@@ -563,6 +650,67 @@ def _artifact_listing(root: Path) -> list[dict[str, Any]]:
     return entries
 
 
+def bind_cosmos_cache(cache_root: Path) -> dict[str, Any]:
+    """Expose the frozen Cosmos cache through the new run's HF cache root."""
+
+    hub_root = Path(cache_root) / "huggingface" / "hub"
+    hub_root.mkdir(parents=True, exist_ok=True)
+    link = hub_root / "models--nvidia--Cosmos-Reason2-2B"
+    if link.is_symlink():
+        resolved = link.resolve(strict=False)
+        if resolved != COSMOS_ROOT.resolve():
+            raise RuntimeError(
+                f"existing Cosmos cache link resolves to {resolved}, expected {COSMOS_ROOT}"
+            )
+    elif link.exists():
+        raise RuntimeError(f"refusing to overwrite existing Cosmos cache path: {link}")
+    else:
+        link.symlink_to(COSMOS_ROOT, target_is_directory=True)
+    return {
+        "cache_root": str(cache_root),
+        "hub_root": str(hub_root),
+        "link": str(link),
+        "target": str(COSMOS_ROOT),
+        "target_tree_sha256": COSMOS_TREE_SHA256,
+        "status": "PASS",
+    }
+
+
+def bind_cosmos_processor() -> dict[str, Any]:
+    """Make the pinned Qwen processor resolve the local Cosmos snapshot.
+
+    The pinned Transformers tokenizer performs a Hub ``model_info`` lookup
+    when it receives a repo ID, even with offline mode enabled.  The model
+    itself must retain the canonical repo ID for GR00T model dispatch, so the
+    narrow processor-side shim resolves only the processor dependency to the
+    already audited local snapshot.  No model weights or config semantics are
+    changed.
+    """
+
+    if not COSMOS_SNAPSHOT.is_dir():
+        raise RuntimeError(f"pinned Cosmos snapshot is missing: {COSMOS_SNAPSHOT}")
+    from gr00t.model.gr00t_n1d7 import processing_gr00t_n1d7 as processing
+
+    original = getattr(processing, "_stage38_original_build_processor", None)
+    if original is None:
+        original = processing.build_processor
+        processing._stage38_original_build_processor = original
+
+        def build_local_processor(model_name: str, loading_kwargs: dict) -> Any:
+            if model_name == "nvidia/Cosmos-Reason2-2B":
+                model_name = str(COSMOS_SNAPSHOT)
+            return original(model_name, loading_kwargs)
+
+        processing.build_processor = build_local_processor
+    return {
+        "repo_id": "nvidia/Cosmos-Reason2-2B",
+        "resolved_snapshot": str(COSMOS_SNAPSHOT),
+        "revision": COSMOS_REVISION,
+        "cache_tree_sha256": COSMOS_TREE_SHA256,
+        "status": "PASS",
+    }
+
+
 def train(args: argparse.Namespace) -> int:
     output_root = Path(args.output_root).resolve()
     preflight_path = output_root / "stage38d_preflight.json"
@@ -613,6 +761,18 @@ def train(args: argparse.Namespace) -> int:
     tmp_root = output_root / "tmp"
     cache_root.mkdir(parents=True, exist_ok=False)
     tmp_root.mkdir(parents=True, exist_ok=False)
+    cosmos_binding = bind_cosmos_cache(cache_root)
+    config_cache_root = cache_root / "huggingface" / "hub"
+    write_json(
+        output_root / "stage38d_runtime_binding.json",
+        {
+            "schema": "STAGE38D_RUNTIME_BINDING_V1",
+            "cosmos": cosmos_binding,
+            "transformers_cache_dir": str(config_cache_root),
+            "historical_cache_mutation_allowed": False,
+            "timestamp_utc": now_utc(),
+        },
+    )
     os.environ["TMPDIR"] = str(tmp_root)
     os.environ["TMP"] = str(tmp_root)
     os.environ["TEMP"] = str(tmp_root)
@@ -627,6 +787,24 @@ def train(args: argparse.Namespace) -> int:
         [str(REPO / "src"), str(args.groot_source), os.environ.get("PYTHONPATH", "")]
     )
     sys.path.insert(0, str(args.groot_source))
+    processor_binding = bind_cosmos_processor()
+    write_json(
+        output_root / "stage38d_runtime_binding.json",
+        {
+            "schema": "STAGE38D_RUNTIME_BINDING_V1",
+            "cosmos": cosmos_binding,
+            "cosmos_processor": processor_binding,
+            "container_image": os.environ.get("STAGE38_CONTAINER_IMAGE"),
+            "container_site": os.environ.get("STAGE38_CONTAINER_SITE"),
+            "ffmpeg_bundle": os.environ.get("STAGE38_FFMPEG_BUNDLE"),
+            "ffmpeg_ld_library_path": os.environ.get(
+                "STAGE38_FFMPEG_LD", os.environ.get("LD_LIBRARY_PATH", "")
+            ),
+            "transformers_cache_dir": str(config_cache_root),
+            "historical_cache_mutation_allowed": False,
+            "timestamp_utc": now_utc(),
+        },
+    )
 
     # All imports below can construct the model or access the GPU, and are
     # therefore intentionally after the final immutable preflight.
@@ -636,6 +814,7 @@ def train(args: argparse.Namespace) -> int:
     from gr00t.experiment.experiment import run
 
     config = _load_training_config(output_root, args)
+    config.training.transformers_cache_dir = str(config_cache_root)
     _assert_loaded_config(config, args)
     with events_path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps({"event": "TRAINING_START", "timestamp_utc": now_utc()}) + "\n")
