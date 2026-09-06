@@ -258,6 +258,37 @@ def log_event(root: Path, event: str, **fields: Any) -> None:
         handle.write(json.dumps(jsonable(payload), sort_keys=True, allow_nan=False) + "\n")
 
 
+def git_command(*args: str) -> str:
+    completed = subprocess.run(
+        ["git", "-C", str(REPO)] + list(args),
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise Stage39Error(
+            "git command failed: %s: %s" % (" ".join(args), (completed.stderr or "").strip())
+        )
+    return (completed.stdout or "").strip()
+
+
+def git_audit(expected_head: str) -> Dict[str, Any]:
+    head = git_command("rev-parse", "HEAD")
+    branch = git_command("branch", "--show-current")
+    status = git_command("status", "--short", "--untracked-files=all")
+    audit = {
+        "branch": branch,
+        "head": head,
+        "expected_head": expected_head,
+        "worktree_clean": status == "",
+        "status_output_sha256": sha256_bytes(status.encode("utf-8")),
+        "status": "PASS" if branch == STAGE39_BRANCH and head == expected_head and status == "" else "BLOCKED",
+    }
+    if audit["status"] != "PASS":
+        raise Stage39Error("Stage39 checkout HEAD/branch/worktree audit failed: %s" % audit)
+    return audit
+
+
 def file_record(path: Path, expected_sha256: Optional[str] = None) -> Dict[str, Any]:
     path = Path(path)
     exists = path.is_file() and not path.is_symlink()
@@ -706,9 +737,10 @@ def severity_counts(rows: Sequence[Mapping[str, Any]]) -> Dict[str, int]:
     return counts
 
 
-def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any]) -> Dict[str, Any]:
+def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any], expected_head: str) -> Dict[str, Any]:
     if admission_root.exists():
         raise Stage39Error("Stage39-A output root already exists; do not overwrite evidence")
+    checkout = git_audit(expected_head)
     admission_root.mkdir(parents=True)
     inputs_root = admission_root / "inputs"
     inputs_root.mkdir()
@@ -935,6 +967,7 @@ def build_stage39_inputs(admission_root: Path, stage38: Mapping[str, Any]) -> Di
         "branch": STAGE39_BRANCH,
         "base_branch": STAGE38_BRANCH,
         "accepted_stage38_head": EXPECTED_STAGE38_HEAD,
+        "execution_checkout": checkout,
         "stage38_chain": stage38,
         "wbc_authority": verify_wbc_authority(EXPECTED_WBC_SOURCE_ROOT),
         "input_manifest_path": str(manifest_path),
@@ -1682,7 +1715,8 @@ def seal_campaign(args: argparse.Namespace) -> int:
 def run_admission(args: argparse.Namespace) -> int:
     stage38 = verify_stage38_chain()
     admission_root = Path(args.output_root).absolute()
-    result = build_stage39_inputs(admission_root, stage38)
+    expected_head = args.expected_head or git_command("rev-parse", "HEAD")
+    result = build_stage39_inputs(admission_root, stage38, expected_head)
     print(json.dumps({
         "status": result.get("status"),
         "admission_root": str(admission_root),
@@ -1709,8 +1743,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--expected-admission-sha256")
     parser.add_argument("--expected-manifest-sha256")
     parser.add_argument("--expected-warn-sha256")
-    parser.add_argument("--expected-head", default=EXPECTED_STAGE38_HEAD)
-    parser.add_argument("--api-head", default=EXPECTED_STAGE38_HEAD)
+    parser.add_argument("--expected-head", default="")
+    parser.add_argument("--api-head", default="")
     parser.add_argument("--pbs-log", type=Path)
     args = parser.parse_args(argv)
     if args.admission:
