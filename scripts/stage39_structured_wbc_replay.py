@@ -661,9 +661,35 @@ def save_trajectory(path: Path, chunk: TrajectoryChunkV1) -> Dict[str, Any]:
 
 def reconstruct_c1_oracle(expert_physical: np.ndarray, snapshot: Mapping[str, Any]) -> Tuple[TrajectoryChunkV1, Dict[str, Any]]:
     timestamps = np.asarray(snapshot["future_timestamps"], dtype=np.float64)
-    state = np.asarray(snapshot["state_v1"]["values"], dtype=np.float32).astype(np.float64)
+    snapshot_state = np.asarray(snapshot["state_v1"]["values"], dtype=np.float32).astype(np.float64)
+    physical = np.asarray(expert_physical, dtype=np.float64)
+    # Stage38-E's sealed expert physical tensor is the authoritative decoded
+    # float32 boundary used by its accepted expert chunk.  Its rot6d is
+    # re-orthonormalized when converted to a chunk, so a JSON snapshot state
+    # can differ by a sub-microradian numerical floor.  First try the literal
+    # snapshot state.  If (and only if) the strict codec anchor check fails,
+    # reconcile against the sealed physical sample itself; require the
+    # mismatch to be tiny and record it rather than silently widening the
+    # codec's validation tolerance.
+    state = snapshot_state
+    anchor_reconciled = False
+    anchor_position_error_m = float(np.linalg.norm(physical[0, :3] - snapshot_state[:3]))
+    anchor_rotation_error_rad = float(
+        geodesic_angle(
+            rot6d_rows_to_matrix(snapshot_state[3:9]),
+            rot6d_rows_to_matrix(physical[0, 3:9]),
+        )
+    )
+    if anchor_position_error_m > 1e-9 or anchor_rotation_error_rad > 1e-9:
+        if anchor_position_error_m > 1e-6 or anchor_rotation_error_rad > 1e-6:
+            raise Stage39Error("C1 oracle anchor differs materially from Stage22 snapshot")
+        state = physical[0].copy()
+        state[3:9] = rotation_matrix_to_rot6d_rows(
+            rot6d_rows_to_matrix(physical[0, 3:9])
+        )
+        anchor_reconciled = True
     label = encode_structured_action(
-        np.asarray(expert_physical, dtype=np.float64),
+        physical,
         timestamps,
         state,
         timing_mode="T16",
@@ -697,6 +723,9 @@ def reconstruct_c1_oracle(expert_physical: np.ndarray, snapshot: Mapping[str, An
         "source_timestamp_policy": "ORIGINAL_TIMESTAMPED_EXPERT_TIME_LAW",
         "source_frame": EXPECTED_FRAME,
         "tcp_semantic_id": EXPECTED_TCP,
+        "anchor_reconciled_to_sealed_float32_physical": anchor_reconciled,
+        "snapshot_anchor_position_error_m": anchor_position_error_m,
+        "snapshot_anchor_rotation_error_rad": anchor_rotation_error_rad,
     }
 
 
