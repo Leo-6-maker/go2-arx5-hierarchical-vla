@@ -7,6 +7,7 @@ B1 = (ROOT / "hpc" / "pbs" / "stage40_b1.pbs").read_text(encoding="utf-8")
 LIVE = (ROOT / "hpc" / "pbs" / "stage40_live.pbs").read_text(encoding="utf-8")
 PY = (ROOT / "scripts" / "stage40_live_one_handoff.py").read_text(encoding="utf-8")
 NATIVE = (ROOT / "scripts" / "stage21_native_receding_horizon.py").read_text(encoding="utf-8")
+V2 = (ROOT / "hpc" / "pbs" / "vanda_stage40_v2_runtime.pbs").read_text(encoding="utf-8")
 
 
 class Stage40RuntimeContractTest(unittest.TestCase):
@@ -30,6 +31,17 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("pytorch_25.12-py3.sif", LIVE)
         self.assertIn("stage36_runtime_reconstruction_20260905", LIVE)
         self.assertIn("--mailbox", LIVE)
+
+
+    def test_vanda_v2_uses_a40_launcher_and_phase_telemetry(self):
+        self.assertIn("#PBS -q interactive_gpu", V2)
+        self.assertIn("gpu_model=A40", V2)
+        self.assertNotIn("#PBS -P", V2)
+        self.assertNotIn("qsub -P", V2)
+        self.assertNotIn("personal-leonliu", V2)
+        self.assertIn("scripts/vanda_stage40_telemetry.py", V2)
+        for phase in ("baseline", "after_native_camera", "after_gr00t_construction", "final"):
+            self.assertIn("--phase " + phase, V2)
 
     def test_scientific_contract_is_unchanged(self):
         self.assertIn("SEEDS = (2223, 2228, 2233, 2238)", PY)
