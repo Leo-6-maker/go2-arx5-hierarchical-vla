@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import numpy as np
@@ -19,11 +20,12 @@ RUN_ROOT = Path(
     "/scratch/e1192548/leon-storage/runs/"
     "stage40_c_20260907_r1/stage40_live_604652.hopper-m-02"
 )
-STATS = Path(
+STATS = Path(os.environ.get(
+    "STAGE40_STRUCTURED_STATS",
     "/scratch/e1192548/leon-storage/runs/"
     "stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/"
-    "experiment_cfg/structured_action_statistics.json"
-)
+    "experiment_cfg/structured_action_statistics.json",
+))
 TS = np.arange(40, dtype=np.float64) * 0.05
 
 

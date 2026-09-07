@@ -80,7 +80,9 @@ def main() -> int:
         "status": "READY",
         "mailbox": str(args.mailbox),
         "device": str(args.device),
+        "worker_forward_count": 0,
     }), flush=True)
+    worker_forward_count = 0
     while True:
         stop_marker = args.mailbox / "STOP"
         if stop_marker.exists():
@@ -94,6 +96,7 @@ def main() -> int:
                 continue
             request = json.loads(request_path.read_text(encoding="utf-8"))
             progressed = True
+            request_forward_count_before = worker_forward_count
             try:
                 request_contract = request.get("action_contract", args.action_contract)
                 if request_contract != args.action_contract:
@@ -127,6 +130,7 @@ def main() -> int:
                         seed=int(request.get("seed", args.seed)),
                         device=args.device,
                     )
+                worker_forward_count += 1
                 artifact = responses / f"{request_id}.npz"
                 temporary_artifact = responses / f"{request_id}.tmp.npz"
                 artifact_values = {
@@ -156,11 +160,19 @@ def main() -> int:
                     "latency_s": latency,
                     "gpu": gpu,
                     "seed": int(request.get("seed", args.seed)),
+                    "worker_forward_count_before": request_forward_count_before,
+                    "worker_forward_count_after": worker_forward_count,
+                    "worker_forward_count_delta": worker_forward_count - request_forward_count_before,
                     "simulation_only": True,
                     "hardware_control": False,
                 }
                 _write_json_atomic(response_path, response)
-                print(json.dumps({"request_id": request_id, "status": "PASS", "latency_s": latency}), flush=True)
+                print(json.dumps({
+                    "request_id": request_id,
+                    "status": "PASS",
+                    "latency_s": latency,
+                    "worker_forward_count": worker_forward_count,
+                }), flush=True)
             except Exception as exc:
                 _write_json_atomic(
                     response_path,
@@ -170,6 +182,9 @@ def main() -> int:
                         "request_id": request_id,
                         "error_type": type(exc).__name__,
                         "error": str(exc),
+                        "worker_forward_count_before": request_forward_count_before,
+                        "worker_forward_count_after": worker_forward_count,
+                        "worker_forward_count_delta": worker_forward_count - request_forward_count_before,
                     },
                 )
                 print(json.dumps({"request_id": request_id, "status": "ERROR", "error": str(exc)}), flush=True)

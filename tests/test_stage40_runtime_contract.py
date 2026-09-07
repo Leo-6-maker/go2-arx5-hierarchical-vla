@@ -7,6 +7,7 @@ B1 = (ROOT / "hpc" / "pbs" / "stage40_b1.pbs").read_text(encoding="utf-8")
 LIVE = (ROOT / "hpc" / "pbs" / "stage40_live.pbs").read_text(encoding="utf-8")
 PY = (ROOT / "scripts" / "stage40_live_one_handoff.py").read_text(encoding="utf-8")
 NATIVE = (ROOT / "scripts" / "stage21_native_receding_horizon.py").read_text(encoding="utf-8")
+WORKER = (ROOT / "scripts" / "stage21_same_scene_groot_worker.py").read_text(encoding="utf-8")
 
 
 class Stage40RuntimeContractTest(unittest.TestCase):
@@ -35,7 +36,7 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("SEEDS = (2223, 2228, 2233, 2238)", PY)
         self.assertIn("HANDOFF_S = 0.9750000000000001", PY)
         self.assertIn("CHUNK_DURATION_S = 1.9500000000000002", PY)
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0056"', PY)
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0064"', PY)
 
     def test_c0_and_c_fail_closed_contracts(self):
         self.assertIn('choices=("b1", "c0", "live", "live-seed")', PY)
@@ -67,6 +68,15 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("post_anchor_start = self.traj_batch.gamma_p[env_ids, 0].clone()", NATIVE)
         self.assertIn("anchor = post_anchor_start - pre_anchor_start", NATIVE)
         self.assertNotIn("before_anchor = self.traj_batch.gamma_p[env_ids, 0].clone()", NATIVE)
+
+    def test_runtime_counters_are_monotonic_observations(self):
+        self.assertIn('"worker_forward_count_before"', WORKER)
+        self.assertIn('"worker_forward_count_after"', WORKER)
+        self.assertIn('"worker_forward_count_delta"', WORKER)
+        self.assertIn("worker_forward_count += 1", WORKER)
+        self.assertIn("self._stage21_wbc_forward_count += 1", NATIVE)
+        self.assertIn("self._stage21_reference_update_count += 1", NATIVE)
+        self.assertIn("def stage21_reference_update_count", NATIVE)
 
 
 if __name__ == "__main__":

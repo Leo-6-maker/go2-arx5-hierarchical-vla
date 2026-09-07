@@ -70,7 +70,7 @@ export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0
 export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
 
 echo "STAGE40=Stage40"
-echo "PI_GATE=PI_GATE_STATE_0056"
+echo "PI_GATE=PI_GATE_STATE_0064"
 echo "MODE=${RUN_MODE}"
 echo "HEAD=${STAGE40_EXPECTED_HEAD}"
 echo "PBS_JOBID=${PBS_JOBID}"
@@ -195,7 +195,7 @@ for seed in seeds:
         episodes.append({"seed": seed, "status": "BLOCKED", "error": {"type": "MissingSeedResult"}})
 status = "PASS" if len(episodes) == 4 and all(ep.get("status") == "PASS" for ep in episodes) else "NOT_QUALIFIED"
 result = {"schema": "STAGE40_LIVE_ONE_HANDOFF_V2", "stage": "Stage40",
-          "pi_gate": "PI_GATE_STATE_0056", "mode": "STAGE40_C_FOUR_SEED",
+          "pi_gate": "PI_GATE_STATE_0064", "mode": "STAGE40_C_FOUR_SEED",
           "seeds": list(seeds), "episodes": episodes,
           "episode_pass_count": sum(ep.get("status") == "PASS" for ep in episodes),
           "status": status,

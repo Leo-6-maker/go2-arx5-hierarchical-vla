@@ -450,6 +450,7 @@ class _Stage21NativeEnvFactory:
                 self._stage21_load_events: list[dict[str, Any]] = []
                 self._stage21_reference_phase = "STARTUP"
                 self._stage21_wbc_forward_count = 0
+                self._stage21_reference_update_count = 0
                 self._stage21_gymapi = gymapi
                 self._stage21_gymtorch = gymtorch
                 self._stage21_simulator_instance_id = "native-isaacgym-pid-%d" % os.getpid()
@@ -687,6 +688,7 @@ class _Stage21NativeEnvFactory:
                     }
                 )
                 self._stage21_reference_phase = "RUNNING"
+                self._stage21_reference_update_count += 1
                 return event
 
             @property
@@ -712,6 +714,10 @@ class _Stage21NativeEnvFactory:
             @property
             def stage21_wbc_forward_count(self) -> int:
                 return int(self._stage21_wbc_forward_count)
+
+            @property
+            def stage21_reference_update_count(self) -> int:
+                return int(self._stage21_reference_update_count)
 
         return Stage21NativeWBCEnv
 
