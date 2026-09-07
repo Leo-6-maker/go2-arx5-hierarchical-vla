@@ -120,6 +120,7 @@ class _FakeNative:
         self.traj_batch = _FakeTrajectoryBatch()
         self.root_states = object()
         self.dof_state = object()
+        self.episode_length_buf = _FakeTensor(0.0)
         self.state_hash = "same-physics-state"
         self.stage21_wbc_forward_count = 0
 
