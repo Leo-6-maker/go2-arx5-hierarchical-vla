@@ -117,3 +117,82 @@ The current terminal result is `BLOCKED` rather than
 action is to obtain a verified locator/mount for all frozen R1 inputs, then
 rerun the model-free preflight before constructing GR00T. The requested gate
 is `GPT_PI_REVIEW_AFTER_STAGE40_RTX4080S_ENGINEERING_BRINGUP`.
+
+## PI_GATE_STATE_0056 addendum — Corelab prefix recovery and current provenance
+
+This addendum preserves the historical R0 record above and binds the current
+Corelab work to Issue #11 comment `5569559549`.
+
+Current branch and source:
+
+```text
+branch: stage40-dev/rtx4080s-bringup
+HEAD:   1ff9f8791164b97cc134550e71a142ec20ae4b9f
+prefix patch: 44cec282720eeb674e3399bdf4242abd60de27df
+preflight patch: 1ff9f8791164b97cc134550e71a142ec20ae4b9f
+```
+
+The Stage40-local lifecycle correction leaves
+`RecedingHorizonExecutorV1` unchanged. It computes
+`round(0.9750000000000001 / native_dt)` and passes that actual native control
+step count as the only Stage40-allowed prefix. A dynamic CPU regression
+instantiates the actual executor, submits the initial chunk and exactly one
+update, checks the prefix count, handoff target, ordering, and all reset flags.
+
+Validation on `corelab-4080s`:
+
+```text
+14 standard-library/unit tests: PASS
+dynamic Stage40 prefix/lifecycle regression: PASS
+py_compile: PASS
+compileall: PASS
+PBS shell syntax: PASS
+git diff --check: PASS
+```
+
+The model-free preflight result is:
+
+```text
+path: /var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R0_preflight_0056_artifact_closure.json
+sha256: b6d965705979133533b6d5e4322497c01622ca3105353fad2c04b553c6fd7b0b
+status: BLOCKED_PROVENANCE
+```
+
+Exact inputs currently bound on Corelab:
+
+```text
+GR00T source: PASS, 51d4c89f72fda44cbf77285c6a8114b52676b8a1
+TINY1 tree: PASS, 541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157
+TINY1 stats: PASS, fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23
+TINY1 relative stats: PASS, 8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1
+Stage22 modality bytes: PASS by expected SHA e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031
+WBC archive: PASS, b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167
+```
+
+Still missing or not accepted:
+
+```text
+STRUCTURED@1000 checkpoint tree: expected 30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137
+structured_action_statistics.json: expected 0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206
+materialized Cosmos cache: expected revision 9ce19a195e423419c349abfc86fd07178b230561 and tree 1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9
+```
+
+An exact Cosmos archive is present, but archive-only is deliberately not
+accepted as a runnable cache; no extraction or model read was performed.
+BASE remains reference-only and was not substituted.
+
+```yaml
+MODEL_CONSTRUCTED: false
+FORWARD: false
+GPU_WORKLOAD: false
+PBS_SUBMITTED: false
+TRAINING: false
+VALIDATION_E_READ: false
+HOLDOUT_F_READ: false
+HARDWARE_ROBOT: false
+SCIENTIFIC_CONTRACT_CHANGED: false
+SCIENTIFIC_CLAIM_PROMOTED: false
+```
+
+Current result remains `BLOCKED_PROVENANCE`; R1/R3/R4/R5 are locked until the
+three missing exact inputs are available and pass the same preflight.
