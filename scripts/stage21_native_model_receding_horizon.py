@@ -66,6 +66,7 @@ def _write_observation_request(
     simulator_instance_id: str,
     simulation_time_s: float,
     seed: int,
+    action_contract: str = "DENSE_H40_V1",
 ) -> tuple[Path, Path, float]:
     requests = mailbox / "requests"
     requests.mkdir(parents=True, exist_ok=True)
@@ -96,6 +97,7 @@ def _write_observation_request(
             "simulation_time_s": float(simulation_time_s),
             "observation_timestamp": float(simulation_time_s),
             "seed": int(seed),
+            "action_contract": str(action_contract),
             "simulation_only": True,
             "hardware_control": False,
         },

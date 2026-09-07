@@ -138,7 +138,7 @@ def _set_seed(seed: int) -> None:
         torch.cuda.manual_seed_all(int(seed))
 
 
-def _run_one(model: Any, processor: Any, embodiment: Any, observation: dict[str, Any], *, language: str, seed: int, device: str):
+def _run_one_raw(model: Any, processor: Any, embodiment: Any, observation: dict[str, Any], *, language: str, seed: int, device: str):
     _set_seed(seed)
     from gr00t.data.types import MessageType, VLAStepData
 
@@ -167,13 +167,6 @@ def _run_one(model: Any, processor: Any, embodiment: Any, observation: dict[str,
     raw = prediction["action_pred"].float().detach().cpu().numpy().astype(np.float32)
     if raw.shape != (1, 40, 132) or not np.isfinite(raw).all():
         raise RuntimeError(f"invalid universal output {raw.shape}")
-    batched_state = {"eef_9d": state[None, None, :9], "gripper_position": state[None, None, 9:]}
-    decoded_groups = processor.decode_action(raw, embodiment, batched_state)
-    decoded = np.concatenate(
-        [np.asarray(decoded_groups["eef_9d"]), np.asarray(decoded_groups["gripper_position"])], axis=-1
-    ).astype(np.float32)
-    if decoded.shape != (1, 40, 10) or not np.isfinite(decoded).all():
-        raise RuntimeError(f"invalid decoded output {decoded.shape}")
     gpu = {"name": "not used", "peak_allocated_mib": 0.0, "peak_reserved_mib": 0.0}
     if torch.cuda.is_available() and str(device).startswith("cuda"):
         index = torch.cuda.current_device()
@@ -182,6 +175,21 @@ def _run_one(model: Any, processor: Any, embodiment: Any, observation: dict[str,
             "peak_allocated_mib": round(torch.cuda.max_memory_allocated(index) / 2**20, 3),
             "peak_reserved_mib": round(torch.cuda.max_memory_reserved(index) / 2**20, 3),
         }
+    return raw, latency, gpu
+
+
+def _run_one(model: Any, processor: Any, embodiment: Any, observation: dict[str, Any], *, language: str, seed: int, device: str):
+    raw, latency, gpu = _run_one_raw(
+        model, processor, embodiment, observation, language=language, seed=seed, device=device
+    )
+    state = observation["state"]
+    batched_state = {"eef_9d": state[None, None, :9], "gripper_position": state[None, None, 9:]}
+    decoded_groups = processor.decode_action(raw, embodiment, batched_state)
+    decoded = np.concatenate(
+        [np.asarray(decoded_groups["eef_9d"]), np.asarray(decoded_groups["gripper_position"])], axis=-1
+    ).astype(np.float32)
+    if decoded.shape != (1, 40, 10) or not np.isfinite(decoded).all():
+        raise RuntimeError(f"invalid decoded output {decoded.shape}")
     return raw, decoded, latency, gpu
 
 

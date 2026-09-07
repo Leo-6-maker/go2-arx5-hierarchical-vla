@@ -37,6 +37,11 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=2121)
     parser.add_argument("--poll-period-s", type=float, default=0.10)
     parser.add_argument("--local-files-only", action="store_true")
+    parser.add_argument(
+        "--action-contract",
+        choices=("DENSE_H40_V1", "STRUCTURED_ACTION_V1"),
+        default="DENSE_H40_V1",
+    )
     args = parser.parse_args()
     if args.poll_period_s <= 0.0:
         parser.error("--poll-period-s must be positive")
@@ -90,44 +95,71 @@ def main() -> int:
             request = json.loads(request_path.read_text(encoding="utf-8"))
             progressed = True
             try:
+                request_contract = request.get("action_contract", args.action_contract)
+                if request_contract != args.action_contract:
+                    raise ValueError(
+                        "ACTION_CONTRACT_MISMATCH: "
+                        f"worker={args.action_contract} request={request_contract}"
+                    )
                 observation = inference._load_observation(Path(request["observation_npz"]))
-                raw, decoded, latency, gpu = inference._run_one(
-                    model,
-                    processor,
-                    embodiment,
-                    observation,
-                    language=str(request["language"]),
-                    seed=int(request.get("seed", args.seed)),
-                    device=args.device,
-                )
+                if args.action_contract == "STRUCTURED_ACTION_V1":
+                    # StructuredActionV1 is decoded exactly once by the
+                    # Stage40 native-side authority after the raw model
+                    # output crosses the mailbox.  Never fall back to the
+                    # generic processor.decode_action path here.
+                    raw, latency, gpu = inference._run_one_raw(
+                        model,
+                        processor,
+                        embodiment,
+                        observation,
+                        language=str(request["language"]),
+                        seed=int(request.get("seed", args.seed)),
+                        device=args.device,
+                    )
+                    decoded = None
+                else:
+                    raw, decoded, latency, gpu = inference._run_one(
+                        model,
+                        processor,
+                        embodiment,
+                        observation,
+                        language=str(request["language"]),
+                        seed=int(request.get("seed", args.seed)),
+                        device=args.device,
+                    )
                 artifact = responses / f"{request_id}.npz"
                 temporary_artifact = responses / f"{request_id}.tmp.npz"
-                np.savez_compressed(
-                    temporary_artifact,
-                    raw_universal_action=raw,
-                    decoded_physical_action=decoded,
-                    input_state=observation["state"],
-                )
+                artifact_values = {
+                    "raw_universal_action": raw,
+                    "input_state": observation["state"],
+                }
+                if decoded is not None:
+                    artifact_values["decoded_physical_action"] = decoded
+                np.savez_compressed(temporary_artifact, **artifact_values)
                 temporary_artifact.replace(artifact)
-                _write_json_atomic(
-                    response_path,
-                    {
-                        "schema": "STAGE21_GR00T_WORKER_RESPONSE_V1",
-                        "status": "PASS",
-                        "request_id": request_id,
-                        "observation_npz": str(request["observation_npz"]),
-                        "artifact": str(artifact),
-                        "raw_shape": list(raw.shape),
-                        "decoded_shape": list(decoded.shape),
-                        "raw_sha256": inference._sha256_array(raw),
-                        "decoded_sha256": inference._sha256_array(decoded),
-                        "latency_s": latency,
-                        "gpu": gpu,
-                        "seed": int(request.get("seed", args.seed)),
-                        "simulation_only": True,
-                        "hardware_control": False,
-                    },
-                )
+                response = {
+                    "schema": "STAGE21_GR00T_WORKER_RESPONSE_V1",
+                    "status": "PASS",
+                    "request_id": request_id,
+                    "observation_npz": str(request["observation_npz"]),
+                    "artifact": str(artifact),
+                    "action_contract": args.action_contract,
+                    "decode_contract": (
+                        "STRUCTURED_ACTION_V1_DEFERRED_TO_NATIVE"
+                        if args.action_contract == "STRUCTURED_ACTION_V1"
+                        else "DENSE_H40_PROCESSOR"
+                    ),
+                    "raw_shape": list(raw.shape),
+                    "decoded_shape": None if decoded is None else list(decoded.shape),
+                    "raw_sha256": inference._sha256_array(raw),
+                    "decoded_sha256": None if decoded is None else inference._sha256_array(decoded),
+                    "latency_s": latency,
+                    "gpu": gpu,
+                    "seed": int(request.get("seed", args.seed)),
+                    "simulation_only": True,
+                    "hardware_control": False,
+                }
+                _write_json_atomic(response_path, response)
                 print(json.dumps({"request_id": request_id, "status": "PASS", "latency_s": latency}), flush=True)
             except Exception as exc:
                 _write_json_atomic(

@@ -51,6 +51,7 @@ NATIVE_NINJA="${STAGE40_RUNTIME_NINJA:-/scratch/e1192548/leon-storage/wbc-author
 GROOT_IMAGE="${STAGE40_GR00T_IMAGE:-/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif}"
 GROOT_SITE="${STAGE40_GR00T_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
 FFMPEG="${STAGE40_FFMPEG_BUNDLE:-/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902}"
+STRUCTURED_STATS="${STAGE40_STRUCTURED_STATS:-/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/experiment_cfg/structured_action_statistics.json}"
 test -f "${NATIVE_IMAGE}"
 test -x "${APPTAINER}"
 test -d "${NATIVE_SITE}"
@@ -58,6 +59,7 @@ test -x "${NATIVE_NINJA}"
 test -f "${GROOT_IMAGE}"
 test -d "${GROOT_SITE}"
 test -d "${FFMPEG}"
+test -f "${STRUCTURED_STATS}"
 
 export HOME="${RUN_ROOT}/runtime/home" TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
 export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache" XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config" XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
@@ -117,7 +119,7 @@ WORKER_LOG="${RUN_ROOT}/stage40_groot_worker.log"
   --modality-config "${STAGE40_MODALITY_CONFIG}" \
   --cosmos-snapshot "${STAGE40_COSMOS_SNAPSHOT}" \
   --mailbox "${RUN_ROOT}/mailbox" \
-  --device cuda:0 --local-files-only >"${WORKER_LOG}" 2>&1 &
+  --device cuda:0 --local-files-only --action-contract STRUCTURED_ACTION_V1 >"${WORKER_LOG}" 2>&1 &
 WORKER_PID=$!
 WORKER_READY_TIMEOUT_S="${STAGE40_WORKER_READY_TIMEOUT_S:-1200}"
 READY=0
@@ -144,6 +146,7 @@ if [ "$RUN_MODE" = "c0" ]; then
   "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
     --mode c0 --source-root /authority/WBCTrackingShare \
     --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
+    --structured-stats "$STRUCTURED_STATS" \
     --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT" \
     --sim-device cuda:0 --response-timeout-s 300
   NATIVE_RC=$?
@@ -169,10 +172,11 @@ if [ "$RUN_MODE" = "live" ]; then
   for seed in 2223 2228 2233 2238; do
     mkdir -p "$RUN_ROOT/seed_$seed"
     set +e
-    "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
-      --mode live-seed --seed "$seed" --source-root /authority/WBCTrackingShare \
-      --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
-      --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT/seed_$seed" \
+      "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
+        --mode live-seed --seed "$seed" --source-root /authority/WBCTrackingShare \
+        --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
+        --structured-stats "$STRUCTURED_STATS" \
+        --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT/seed_$seed" \
       --sim-device cuda:0 --response-timeout-s 300
     echo "STAGE40_SEED_RETURNED seed=$seed rc=$?"
     set -e

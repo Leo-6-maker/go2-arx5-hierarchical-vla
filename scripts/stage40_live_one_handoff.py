@@ -21,6 +21,7 @@ import numpy as np
 from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig
 from go2arx5_vla.runtime import RecedingHorizonExecutorV1
 from go2arx5_vla.safety import GateDecision, TrajectorySafetyGateV1
+from go2arx5_vla.stage40_structured_decode import decode_raw_structured_action
 
 from stage21_native_receding_horizon import (
     LANGUAGE,
@@ -41,14 +42,13 @@ from stage21_native_receding_horizon import (
 )
 from stage21_native_model_receding_horizon import (
     _bind_for_native,
-    _model_chunk,
     _wait_response,
     _write_observation_request,
 )
 
 
 STAGE = "Stage40"
-PI_GATE = "PI_GATE_STATE_0048"
+PI_GATE = "PI_GATE_STATE_0049"
 HANDOFF_S = 0.9750000000000001
 CHUNK_DURATION_S = 1.9500000000000002
 SEEDS = (2223, 2228, 2233, 2238)
@@ -98,7 +98,8 @@ def _write_json(path: Path, value: Mapping[str, Any]) -> None:
 
 
 def _request_model(*, native: Any, mailbox: Path, request_id: str, seed: int, sim_time: float,
-                   gate: Any, adapter: Any, response_timeout_s: float) -> tuple[Any, np.ndarray, dict[str, Any]]:
+                   gate: Any, adapter: Any, response_timeout_s: float,
+                   structured_stats: Path) -> tuple[Any, np.ndarray, dict[str, Any]]:
     state = _current_state_v1(native)
     body_rgb, wrist_rgb = _capture_scene(native)
     request_path, observation_npz, request_wall = _write_observation_request(
@@ -106,9 +107,25 @@ def _request_model(*, native: Any, mailbox: Path, request_id: str, seed: int, si
         target_position_world_m=np.asarray([0.30, 0.10, 0.58], dtype=np.float64),
         simulator_instance_id=native.stage21_simulator_instance_id,
         simulation_time_s=float(sim_time), seed=int(seed),
+        action_contract="STRUCTURED_ACTION_V1",
     )
     response, response_wall = _wait_response(mailbox, request_id, timeout_s=float(response_timeout_s))
-    chunk, decoded = _model_chunk(response, chunk_id=request_id, observation_timestamp=float(sim_time), period_s=0.05)
+    with np.load(response["artifact"], allow_pickle=False) as artifact:
+        raw = np.asarray(artifact["raw_universal_action"])
+        artifact_state = np.asarray(artifact["input_state"], dtype=np.float32).reshape(-1)
+    request_state = np.asarray(state.as_array(), dtype=np.float32).reshape(-1)
+    if not np.array_equal(artifact_state, request_state):
+        raise ValueError("STATEV1_ARTIFACT_MISMATCH")
+    chunk, decoded, decoder_details = decode_raw_structured_action(
+        raw,
+        artifact_state,
+        stats_path=Path(structured_stats),
+        source_timestamps=np.arange(40, dtype=np.float64) * 0.05,
+        observation_timestamp=float(sim_time),
+        chunk_id=request_id,
+        source_frame=SOURCE_FRAME,
+        tcp_semantic_id=TCP_SEMANTIC_ID,
+    )
     timestamp_contract = _validate_stage40_chunk(chunk)
     current_position, current_quaternion = _current_eef(native)
     anchor = native.stage21_anchor_world.detach().cpu().numpy().reshape(3)
@@ -121,8 +138,11 @@ def _request_model(*, native: Any, mailbox: Path, request_id: str, seed: int, si
         "observation_timestamp": float(sim_time), "simulator_instance_id": native.stage21_simulator_instance_id,
         "body_shape": list(body_rgb.shape), "body_dtype": str(body_rgb.dtype), "body_sha256": _sha256_array(body_rgb),
         "wrist_shape": list(wrist_rgb.shape), "wrist_dtype": str(wrist_rgb.dtype), "wrist_sha256": _sha256_array(wrist_rgb),
-        "state_v1": state.as_array().tolist(), "decoded_shape": list(decoded.shape), "decoded_sha256": _sha256_array(decoded),
+        "state_v1": state.as_array().tolist(), "raw_shape": list(raw.shape),
+        "raw_sha256": _sha256_array(raw), "state_v1_sha256": _sha256_array(artifact_state),
+        "decoded_shape": list(decoded.shape), "decoded_sha256": _sha256_array(decoded),
         "finite": bool(np.isfinite(decoded).all()), "response": response,
+        "action_contract": "STRUCTURED_ACTION_V1", "structured_decode": decoder_details,
         "timestamp_contract": timestamp_contract,
         "inference_latency_s": float(response.get("latency_s", response_wall - request_wall)),
         "mailbox_wall_s": float(response_wall - request_wall), "safety_gate": gate_result.as_dict(),
@@ -238,7 +258,7 @@ def run_c0(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
         sim_time = float(native.traj_sim_time[0].detach().cpu().item())
         _, _, case = _request_model(native=native, mailbox=args.mailbox, request_id="stage40-c0-q0",
             seed=int(args.seed), sim_time=sim_time, gate=gate, adapter=adapter,
-            response_timeout_s=args.response_timeout_s)
+            response_timeout_s=args.response_timeout_s, structured_stats=args.structured_stats)
         state = np.asarray(case["state_v1"], dtype=np.float64)
         body_ok = tuple(case["body_shape"]) == (96, 96, 3) and case["body_dtype"] == "uint8"
         wrist_ok = tuple(case["wrist_shape"]) == (96, 96, 3) and case["wrist_dtype"] == "uint8"
@@ -316,7 +336,8 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
             try:
                 q0, _, case0 = _request_model(native=native, mailbox=args.mailbox,
                     request_id=f"stage40-s{seed}-q0", seed=seed, sim_time=sim_time, gate=gate,
-                    adapter=adapter, response_timeout_s=args.response_timeout_s)
+                    adapter=adapter, response_timeout_s=args.response_timeout_s,
+                    structured_stats=args.structured_stats)
                 episode["q0"] = {k: v for k, v in case0.items() if k not in {"chunk", "decoded"}}
                 if case0["safety_gate"]["decision"] == GateDecision.REJECT.value:
                     episode["termination"] = "SAFETYGATE_REJECT_Q0"
@@ -343,7 +364,8 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                 episode["q1_requested"] = True
                 q1, _, case1 = _request_model(native=native, mailbox=args.mailbox,
                     request_id=f"stage40-s{seed}-q1", seed=seed, sim_time=sim_time, gate=gate,
-                    adapter=adapter, response_timeout_s=args.response_timeout_s)
+                    adapter=adapter, response_timeout_s=args.response_timeout_s,
+                    structured_stats=args.structured_stats)
                 episode["q1"] = {k: v for k, v in case1.items() if k not in {"chunk", "decoded"}}
                 new_position = np.asarray(q1.eef_position[0], dtype=np.float64)
                 new_quaternion = np.asarray(q1.eef_orientation[0], dtype=np.float64)
@@ -445,6 +467,15 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=13)
     parser.add_argument("--model-seed", type=int, default=2223)
     parser.add_argument("--response-timeout-s", type=float, default=300.0)
+    parser.add_argument(
+        "--structured-stats",
+        type=Path,
+        default=Path(
+            "/scratch/e1192548/leon-storage/runs/"
+            "stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/"
+            "experiment_cfg/structured_action_statistics.json"
+        ),
+    )
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     args.mailbox.mkdir(parents=True, exist_ok=True)
