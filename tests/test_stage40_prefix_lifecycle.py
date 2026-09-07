@@ -116,6 +116,7 @@ class _FakeNative:
         self.dt = 0.05
         self.stage21_anchor_world = _FakeTensor(np.zeros(3, dtype=np.float64))
         self.traj_sim_time = _FakeTensor(0.0)
+        self.traj_s = _FakeTensor(0.0)
         self.traj_batch = _FakeTrajectoryBatch()
         self.root_states = object()
         self.dof_state = object()
