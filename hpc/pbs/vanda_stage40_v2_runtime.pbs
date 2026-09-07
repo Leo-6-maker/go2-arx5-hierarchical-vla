@@ -146,7 +146,7 @@ base_model = Path("/artifacts/groot_base_model/GR00T-N1.7-3B")
 model_path = Path("/artifacts/structured_checkpoint_1000/checkpoint-1000")
 dataset_meta = Path("/artifacts/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2/meta")
 modality = Path("/artifacts/modality/go2_arx5_modality.py")
-cosmos = Path("/artifacts/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B")
+cosmos = Path("/artifacts/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561")
 if not torch.cuda.is_available():
     raise RuntimeError("CUDA_UNAVAILABLE")
 _bind_local_cosmos_processor(stage_root, cosmos)
