@@ -238,7 +238,12 @@ def run_c0(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
         model_ok = case["response"].get("status") == "PASS" and case["finite"]
         native_ok = actors is not None and len(loads) == 2 and native.stage21_wbc_forward_count == 0
         gate_ok = case["safety_gate"]["decision"] != GateDecision.REJECT.value
-        result.update({"status": "PASS" if all((body_ok, wrist_ok, state_ok, ids_ok, model_ok, native_ok, gate_ok)) else "BLOCKED",
+        result.update({"admission_checks": {"body_rgb": bool(body_ok), "wrist_rgb": bool(wrist_ok),
+                "state_v1": bool(state_ok), "same_simulator_instance": bool(ids_ok),
+                "worker_response": bool(model_ok), "native_runtime": bool(native_ok),
+                "safety_gate_not_reject": bool(gate_ok)},
+            "safety_gate": case["safety_gate"],
+            "status": "PASS" if all((body_ok, wrist_ok, state_ok, ids_ok, model_ok, native_ok, gate_ok)) else "BLOCKED",
             "worker_ready": bool(model_ok), "native_runtime_ready": bool(native_ok),
             "dual_runtime_coexistence": bool(model_ok and native_ok),
             "fresh_observation_closure": {"body_rgb": {"shape": case["body_shape"], "dtype": case["body_dtype"], "sha256": case["body_sha256"]},

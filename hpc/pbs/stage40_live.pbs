@@ -148,7 +148,15 @@ if [ "$RUN_MODE" = "c0" ]; then
     --sim-device cuda:0 --response-timeout-s 300
   NATIVE_RC=$?
   set -e
-  if grep -q '"status": "PASS"' "$RUN_ROOT/stage40_c0_result.json" 2>/dev/null; then
+  C0_STATUS="$(python3 - "$RUN_ROOT/stage40_c0_result.json" <<'PY'
+import json, sys
+try:
+    print(json.load(open(sys.argv[1])).get("status", "BLOCKED"))
+except Exception:
+    print("BLOCKED")
+PY
+)"
+  if [ "$C0_STATUS" = "PASS" ]; then
     echo "STAGE40_C0_RETURNED"
     exit 0
   fi
