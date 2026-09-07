@@ -1,0 +1,81 @@
+{
+  "schema": "vanda_stage40_w1_static_audit_v1",
+  "generated_date": "2026-09-08",
+  "role": "VANDA_A40_PRIMARY_ENGINEERING_AGENT",
+  "gate": {
+    "name": "PI_GATE_STATE_0060",
+    "issue": 11,
+    "comment_id": 5573400717,
+    "source_code_head_tested": "02700906bcaac62f9a0b9d669bf15a8970a94a86"
+  },
+  "status": "PASS_WITH_EXPLICIT_NONBLOCKING_INVENTORY_NOT_FOUND",
+  "evidence_class": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "checks": {
+    "git_worktree_clean": true,
+    "local_equals_origin": true,
+    "in_memory_python_compile_files": 220,
+    "stage40_runtime_contract_unittest": "8/8 PASS",
+    "vanda_fail_closed_harness_unittest": "13/13 PASS",
+    "prefix_executor_and_run_live_fake": "PASS",
+    "git_diff_check": "PASS",
+    "pbs_bash_syntax": "PASS",
+    "vanda_launcher_project_policy": {
+      "no_pbs_project_directive": true,
+      "no_qsub_project_flag": true,
+      "no_personal_project_literal": true
+    },
+    "sif_inspect": "PASS",
+    "readable_immutable_input_paths": "PASS",
+    "telemetry_package_import_selftest": "PASS",
+    "exact_static_gr00t_processor_check": {
+      "status": "INCONCLUSIVE_TIMEOUT",
+      "timeout_seconds": 45,
+      "observed_output": "Apptainer UID/GID readonly warning only",
+      "action": "not promoted to PASS; no substitute runtime installed",
+      "prior_evidence": "correct Cosmos snapshot processor check had previously passed before this audit"
+    }
+  },
+  "runtime_inventory": {
+    "sif": {
+      "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif",
+      "sha256": "c65b5e48cd7516851a3594afebb556205b3aae19c56ed93fa0974c6fad58dd02",
+      "inspect": "PASS"
+    },
+    "native_python_inside_sif": "/opt/miniconda3/envs/isaacgym/bin/python",
+    "groot_python_inside_sif": "/usr/bin/python3.12",
+    "stage22_site_packages": "torch, transformers, gr00t, cv2, imageio, torchcodec, numpy present",
+    "ffmpeg_bundle": {
+      "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_ffmpeg4/stage22_h200_ffmpeg4_bundle_20260902",
+      "archive_sha256": "070dff67681208c993d45e850b9787ccaea80897b0f7dc619ac96447344528b5",
+      "libavcodec_file_count_observed": 3,
+      "executable_ffmpeg_found": false,
+      "substitution": "forbidden; inventory only"
+    },
+    "build_tools": {
+      "gcc": "/usr/bin/gcc (11.4.1)",
+      "cmake": "not found on login image",
+      "ninja": "not found on login image",
+      "substitution": "forbidden; compute/SIF inventory remains explicit"
+    }
+  },
+  "storage": {
+    "scratch_mount": "702T total / 560T used / 112T available / 84%",
+    "home_mount": "702T total / 560T used / 112T available / 84%",
+    "quota_command": "quota -s returned no user rows",
+    "immutable_root_readable_writable": true,
+    "output_root_readable_writable": true,
+    "cache_root_policy": "separate from immutable inputs"
+  },
+  "boundary": {
+    "model_construction": false,
+    "groot_forward_count": 0,
+    "wbc_forward_count": 0,
+    "wbc_step_count": 0,
+    "gpu_execution": false,
+    "training": false,
+    "scientific_execution": false,
+    "formal_seeds_used": [],
+    "scientific_rows": 0
+  },
+  "conclusion": "CPU/static admission is ready for a frozen A40 execution bundle; unresolved tool absence and the bounded login-container timeout are recorded without substitution or capacity claim."
+}
