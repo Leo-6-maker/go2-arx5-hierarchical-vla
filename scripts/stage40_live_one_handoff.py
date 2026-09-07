@@ -48,7 +48,7 @@ from stage21_native_model_receding_horizon import (
 
 
 STAGE = "Stage40"
-PI_GATE = "PI_GATE_STATE_0049"
+PI_GATE = "PI_GATE_STATE_0056"
 HANDOFF_S = 0.9750000000000001
 CHUNK_DURATION_S = 1.9500000000000002
 SEEDS = (2223, 2228, 2233, 2238)
@@ -75,6 +75,48 @@ def _pose_at(chunk: Any, timestamp: float) -> tuple[np.ndarray, np.ndarray]:
     ts = np.asarray(chunk.point_timestamps, dtype=np.float64)
     index = int(np.clip(np.searchsorted(ts, float(timestamp), side="right") - 1, 0, len(ts) - 1))
     return np.asarray(chunk.eef_position[index], dtype=np.float64), np.asarray(chunk.eef_orientation[index], dtype=np.float64)
+
+
+def _stage40_handoff_steps(native_dt_s: float) -> int:
+    """Convert the frozen Stage40 handoff time to native control ticks."""
+
+    dt = float(native_dt_s)
+    if not np.isfinite(dt) or dt <= 0.0:
+        raise ValueError(f"Stage40 native control dt must be positive and finite, got {native_dt_s!r}")
+    steps = int(round(HANDOFF_S / dt))
+    if steps < 1:
+        raise ValueError(f"Stage40 handoff schedule produced no native control steps: dt={dt!r}")
+    return steps
+
+
+def _build_stage40_executor(*, native_dt_s: float, provenance: Mapping[str, Any] | None = None
+                            ) -> tuple[RecedingHorizonExecutorV1, int]:
+    """Build the Stage40-local executor for the actual native handoff schedule.
+
+    RecedingHorizonExecutorV1 remains unchanged. Stage40's frozen handoff is
+    defined in seconds, so its prefix is the actual number of native control
+    steps rather than the unrelated Stage21 default-prefix set.
+    """
+
+    handoff_steps = _stage40_handoff_steps(native_dt_s)
+    executor_provenance = {
+        "stage": STAGE,
+        "mode": "LIVE_ONE_HANDOFF",
+        "handoff_target_s": HANDOFF_S,
+        "native_control_dt_s": float(native_dt_s),
+        "prefix_schedule": "ROUND_FROZEN_HANDOFF_S_OVER_NATIVE_DT",
+        "physics_reset": False,
+        "policy_history_reset": False,
+        "synchronous_paused_simulation": True,
+    }
+    if provenance is not None:
+        executor_provenance.update(dict(provenance))
+    executor = RecedingHorizonExecutorV1(
+        prefix_steps=handoff_steps,
+        allowed_prefix_steps=(handoff_steps,),
+        provenance=executor_provenance,
+    )
+    return executor, handoff_steps
 
 
 
@@ -344,14 +386,11 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                     episodes.append(episode)
                     continue
                 native.initial_bind_reference(q0)
-                executor = RecedingHorizonExecutorV1(prefix_steps=1, provenance={"stage": STAGE,
-                    "mode": "LIVE_ONE_HANDOFF", "physics_reset": False, "policy_history_reset": False,
-                    "synchronous_paused_simulation": True})
+                executor, handoff_steps = _build_stage40_executor(native_dt_s=float(native.dt))
                 anchor = native.stage21_anchor_world.detach().cpu().numpy().reshape(3)
                 current_position, current_quaternion = _current_eef(native)
                 executor.submit_initial(q0, receive_timestamp=sim_time, execute_timestamp=sim_time,
                     current_achieved_position=current_position - anchor, current_achieved_orientation=current_quaternion)
-                handoff_steps = max(1, int(round(HANDOFF_S / float(native.dt))))
                 rows0, sim_time, term0 = _step_rows(native, env, actors, chunk=q0, sim_time=sim_time,
                                                      steps=handoff_steps, update_count=0)
                 if term0 is not None or any(bool(row.get("done")) or bool(row.get("reset_buf")) or str(row.get("termination_code", "NONE")) != "NONE" for row in rows0):
@@ -387,12 +426,15 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                           "episode": int(native.episode_length_buf[0].detach().cpu().item())}
                 handoff = executor.submit_update(q1, receive_timestamp=sim_time, execute_timestamp=sim_time,
                     current_achieved_position=local_position, current_achieved_orientation=current_quaternion,
-                    previous_predicted_position=old_position, previous_predicted_orientation=old_quaternion)
+                    previous_predicted_position=old_position, previous_predicted_orientation=old_quaternion,
+                    executed_prefix_steps=handoff_steps)
                 native_update = native.load_reference_chunk(q1)
                 after = {"root": _tensor_hash(native.root_states), "dof": _tensor_hash(native.dof_state),
                          "episode": int(native.episode_length_buf[0].detach().cpu().item())}
                 episode["handoff"] = {**native_update, "executor": handoff.as_dict(),
-                    "physics_state_unchanged": before == after, "policy_history_reset": False, "physics_reset": False}
+                    "physics_state_unchanged": before == after, "policy_history_reset": False, "physics_reset": False,
+                    "actual_native_control_steps": handoff_steps,
+                    "single_reference_handoff": len(executor.updates) == 2}
                 rows1, sim_time, term1 = _step_rows(native, env, actors, chunk=q1, sim_time=sim_time,
                                                      steps=max(1, int(math.ceil(CHUNK_DURATION_S / float(native.dt)))), update_count=1)
                 all_rows = rows0 + rows1
@@ -403,7 +445,10 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
                 ref_duration = float(q1.validity_end - q1.validity_start)
                 endpoint = (native_time >= ref_duration - max(float(native.dt) * 0.5, 1e-9)
                             and ref_s >= ref_L - max(1e-4, 1e-3 * max(ref_L, 1.0)))
-                episode.update({"status": "PASS" if term is None and bool(episode["handoff"]["physics_state_unchanged"]) and len(rows1) > 0 and endpoint else "FAIL",
+                episode.update({"status": "PASS" if term is None and bool(episode["handoff"]["physics_state_unchanged"])
+                                and bool(episode["handoff"]["single_reference_handoff"])
+                                and handoff.handoff.executed_prefix_steps == handoff_steps
+                                and len(rows1) > 0 and endpoint else "FAIL",
                     "termination": term or ("REFERENCE_COMPLETE" if endpoint else "REFERENCE_ENDPOINT_NOT_REACHED"),
                     "chunk1_reference_complete": bool(endpoint),
                     "reference_completion": {"native_time_s": native_time, "reference_duration_s": ref_duration,
