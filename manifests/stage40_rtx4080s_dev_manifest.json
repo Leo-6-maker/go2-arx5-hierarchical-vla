@@ -1,0 +1,81 @@
+{
+  "schema": "STAGE40_RTX4080S_DEV_MANIFEST_V1",
+  "role": "CODEX_CORELAB_RTX4080S_ENGINEERING_MIRROR",
+  "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "latest_pi_gate": "PI_GATE_STATE_0054",
+  "issue_comment": 5566238390,
+  "branch": "stage40-dev/rtx4080s-bringup",
+  "accepted_base_git_sha": "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a",
+  "groot_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "host": "corelab-4080s",
+  "gpu_policy": {
+    "both_cards_available": true,
+    "other_user_processes_may_coexist": true,
+    "processes_modified_or_killed": false,
+    "target_uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd"
+  },
+  "immutable_inputs": {
+    "structured_checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "structured_statistics_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "wbc_archive_sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+    "wbc_extracted_tree_sha256": "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567",
+    "representation": "StructuredActionV1 K16/T16 H40 D132",
+    "chunk_duration_s": 1.9500000000000002,
+    "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp": "x5_link6_gripper_center",
+    "handoff_target_s": 0.9750000000000001
+  },
+  "r0": {
+    "status": "PASS_WITH_PROVENANCE_BLOCKER",
+    "preflight_status": "BLOCKED_PROVENANCE",
+    "preflight_path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R0_preflight_20260907_retry1.json",
+    "preflight_sha256": "9de020e238372bbf80cb6872eb55872d4f47344ed0347a251f816ab33a18cf48",
+    "missing": [
+      "STRUCTURED@1000 checkpoint",
+      "structured_action_statistics.json",
+      "TINY1 exact dataset",
+      "exact Stage22 modality",
+      "exact Cosmos snapshot"
+    ],
+    "base_substitution": false
+  },
+  "r1": {
+    "status": "BLOCKED_PROVENANCE",
+    "model_constructed": false,
+    "forward": false
+  },
+  "r2": {
+    "status": "PASS_ENGINEERING",
+    "result_path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R2_native_camera_20260907_profile/result/camera_smoke.json",
+    "result_sha256": "65aaed612cf4a5dbcdbf42ee9ee3bab58c629878fa20c0261827b7d7ce864f74",
+    "body_rgb_shape": [96, 96, 3],
+    "wrist_rgb_shape": [96, 96, 3],
+    "state_v1_shape": [10],
+    "wbc_forward_count": 0,
+    "memory": {
+      "baseline_used_mib": 6253,
+      "peak_used_mib": 9009,
+      "native_process_peak_mib": 2746,
+      "gpu_memory_csv_sha256": "b6d3cd202967bdd7a542c826b245b38a177b57c939576e5971169b9e7b735dde",
+      "process_memory_csv_sha256": "e1e6bc98cf13679f92ece8f322956fbd70a1383ce804e1e7c8dd32c578455c6b"
+    }
+  },
+  "r3": {"status": "LOCKED_UNTIL_R1_EXACT_INPUTS"},
+  "r4": {"status": "LOCKED_UNTIL_R1_EXACT_INPUTS"},
+  "r5": {"status": "LOCKED_UNTIL_R1_EXACT_INPUTS"},
+  "counts": {
+    "groot_forward": 0,
+    "wbc_forward": 0,
+    "scientific_rows": 0
+  },
+  "claim_boundary": {
+    "formal_h200_science_modified": false,
+    "training": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "hardware_robot": false,
+    "scientific_claim_promoted": false
+  },
+  "result": "BLOCKED",
+  "next_gate": "GPT_PI_REVIEW_AFTER_STAGE40_RTX4080S_ENGINEERING_BRINGUP"
+}
