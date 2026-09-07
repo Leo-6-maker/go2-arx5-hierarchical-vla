@@ -65,6 +65,8 @@ if [ -e "$RUN_ROOT" ]; then
   exit 2
 fi
 mkdir -p "$RUN_ROOT/runtime/home" "$RUN_ROOT/runtime/tmp" "$RUN_ROOT/runtime/cache"
+TELEMETRY_TOOL="$REPO/scripts/vanda_stage40_telemetry.py"
+test -f "$TELEMETRY_TOOL"
 exec > >(tee -a "$RUN_ROOT/vanda_stage40_v2.log") 2>&1
 cd "$REPO"
 
@@ -80,6 +82,7 @@ echo "REPO_BRANCH=$(git branch --show-current)"
 echo "GPU_QUERY_BEGIN"
 nvidia-smi --query-gpu=index,uuid,name,memory.total,driver_version,compute_cap --format=csv,noheader
 echo "GPU_QUERY_END"
+python3 "$TELEMETRY_TOOL" --phase baseline --output-dir "$RUN_ROOT" --job-id "$PBS_JOBID" --gpu-index 0 --runtime-root "$RUNTIME_ROOT" --cache-root "$RUN_ROOT/runtime/cache"
 "$APPTAINER" inspect "$SIF" | sed -n '1,24p'
 
 export HOME="$RUN_ROOT/runtime/home"
@@ -124,6 +127,7 @@ NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/miniconda3/envs/is
 test -f "$RUN_ROOT/native_camera/camera_smoke.json"
 grep -q '"status": "PASS' "$RUN_ROOT/native_camera/camera_smoke.json"
 echo "V2_NATIVE_CAMERA_STATE_SMOKE=PASS"
+python3 "$TELEMETRY_TOOL" --phase after_native_camera --output-dir "$RUN_ROOT" --job-id "$PBS_JOBID" --gpu-index 0 --runtime-root "$RUNTIME_ROOT" --cache-root "$RUN_ROOT/runtime/cache"
 
 GROOT_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:$FFMPEG_ROOT:$FFMPEG_ROOT/lib/x86_64-linux-gnu:$FFMPEG_ROOT/usr/lib/x86_64-linux-gnu:$SITE/torch/lib:$SITE/nvidia/cuda_runtime/lib:$SITE/nvidia/cublas/lib:$SITE/nvidia/cusparse/lib:$SITE/nvidia/cufft/lib:$SITE/nvidia/curand/lib:$SITE/nvidia/cuda_nvrtc/lib"
 "$APPTAINER" exec --nv --cleanenv   --bind "$REPO:$REPO:ro"   --bind "$ARTIFACT_ROOT:/artifacts:ro"   --bind "$RUN_ROOT:/run"   "$SIF" env   HOME=/run/runtime/home TMPDIR=/run/runtime/tmp TMP=/run/runtime/tmp TEMP=/run/runtime/tmp   XDG_CACHE_HOME=/run/runtime/cache XDG_CONFIG_HOME=/run/runtime/cache/config XDG_DATA_HOME=/run/runtime/cache/data   HF_HOME=/run/runtime/cache/huggingface HF_HUB_CACHE=/run/runtime/cache/huggingface/hub   TRANSFORMERS_CACHE=/run/runtime/cache/huggingface/hub   HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1   PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0   LD_LIBRARY_PATH="$GROOT_LD"   PYTHONPATH="$SITE:$REPO:$REPO/src:$REPO/scripts:$GROOT_SRC"   /usr/bin/python3.12 -B - <<'PY'
@@ -178,6 +182,8 @@ grep -q '"status": "PASS"' "$RUN_ROOT/groot_construction.json"
 grep -q '"forward_count": 0' "$RUN_ROOT/groot_construction.json"
 grep -q '"wbc_forward_count": 0' "$RUN_ROOT/groot_construction.json"
 nvidia-smi --query-gpu=index,uuid,name,memory.total,driver_version,compute_cap,memory.used --format=csv,noheader > "$RUN_ROOT/gpu_after_v2.csv"
+python3 "$TELEMETRY_TOOL" --phase after_gr00t_construction --output-dir "$RUN_ROOT" --job-id "$PBS_JOBID" --gpu-index 0 --runtime-root "$RUNTIME_ROOT" --cache-root "$RUN_ROOT/runtime/cache"
+python3 "$TELEMETRY_TOOL" --phase final --output-dir "$RUN_ROOT" --job-id "$PBS_JOBID" --gpu-index 0 --runtime-root "$RUNTIME_ROOT" --cache-root "$RUN_ROOT/runtime/cache"
 echo "V2_GROOT_MODEL_CONSTRUCTION=PASS"
 echo "V2_FORWARD_COUNT=0"
 echo "V2_WBC_FORWARD_COUNT=0"
