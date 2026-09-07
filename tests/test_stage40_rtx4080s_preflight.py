@@ -66,6 +66,8 @@ class Stage40Rtx4080SPreflightTest(unittest.TestCase):
             self.assertFalse(result["checks"]["tiny1_dataset"])
             self.assertFalse(result["checks"]["stage22_modality"])
             self.assertFalse(result["checks"]["cosmos_cache"])
+            self.assertFalse(result["checks"]["wbc_authority"])
+            self.assertFalse(result["checks"]["storage_boundaries"])
 
     def test_cosmos_archive_is_not_accepted_as_materialized_runtime_cache(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -95,7 +97,67 @@ class Stage40Rtx4080SPreflightTest(unittest.TestCase):
         self.assertEqual(contract["timing"], "T16")
         self.assertEqual(contract["horizon"], 40)
         self.assertEqual(contract["universal_action_dim"], 132)
+        self.assertEqual(contract["physical_action_dim"], 10)
         self.assertEqual(contract["development_seed"], 4242)
+
+    def test_wbc_archive_paths_fail_closed(self) -> None:
+        with self.assertRaises(PREFLIGHT.RtxPreflightError):
+            PREFLIGHT._safe_wbc_member_name("../escape", False)
+        with self.assertRaises(PREFLIGHT.RtxPreflightError):
+            PREFLIGHT._safe_wbc_member_name("WBCTrackingShare/../escape", False)
+        with self.assertRaises(PREFLIGHT.RtxPreflightError):
+            PREFLIGHT._safe_wbc_member_name("other/file", False)
+        self.assertEqual(
+            PREFLIGHT._safe_wbc_member_name("WBCTrackingShare/config/file.py", False),
+            "WBCTrackingShare/config/file.py",
+        )
+
+    def test_storage_boundaries_require_disjoint_mutable_cache(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            materialized = root / "materialized"
+            checkpoint = materialized / "structured/checkpoint-1000"
+            stats = materialized / "metadata/structured_action_statistics.json"
+            cosmos = materialized / "cosmos/models--nvidia--Cosmos-Reason2-2B"
+            checkpoint.mkdir(parents=True)
+            stats.parent.mkdir(parents=True)
+            stats.write_bytes(b"{}")
+            cosmos.mkdir(parents=True)
+            for path in sorted(materialized.rglob("*"), reverse=True):
+                if not path.is_symlink():
+                    path.chmod(0o555 if path.is_dir() else 0o444)
+            materialized.chmod(0o555)
+
+            try:
+                passed = PREFLIGHT.audit_storage_boundaries(
+                    materialized_root=materialized,
+                    checkpoint=checkpoint,
+                    structured_stats=stats,
+                    cosmos_cache=cosmos,
+                    mutable_cache_root=root / "runtime/cache",
+                )
+                self.assertEqual(passed["status"], "PASS")
+
+                blocked = PREFLIGHT.audit_storage_boundaries(
+                    materialized_root=materialized,
+                    checkpoint=checkpoint,
+                    structured_stats=stats,
+                    cosmos_cache=cosmos,
+                    mutable_cache_root=materialized / "mutable-cache",
+                )
+                self.assertEqual(blocked["status"], "BLOCKED")
+            finally:
+                materialized.chmod(0o755)
+                for path in sorted(materialized.rglob("*")):
+                    if path.is_dir() and not path.is_symlink():
+                        path.chmod(0o755)
+
+    def test_current_wbc_authority_does_not_use_historical_digest(self) -> None:
+        self.assertEqual(PREFLIGHT.WBC_ARCHIVE_MEMBER_COUNT, 887)
+        self.assertEqual(PREFLIGHT.WBC_ARCHIVE_FILE_COUNT, 742)
+        self.assertEqual(PREFLIGHT.WBC_ARCHIVE_DIRECTORY_COUNT, 145)
+        self.assertNotEqual(PREFLIGHT.WBC_V2_TREE_SHA256, PREFLIGHT.HISTORICAL_WBC_TREE_SHA256)
+        self.assertEqual(len(PREFLIGHT.WBC_COMPONENTS), 9)
 
 
 if __name__ == "__main__":

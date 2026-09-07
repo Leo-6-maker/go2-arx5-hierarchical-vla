@@ -14,14 +14,16 @@ import argparse
 import hashlib
 import json
 import os
+import posixpath
 import stat
 import subprocess
+import zipfile
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 
-PI_GATE = "PI_GATE_STATE_0056"
-ISSUE_COMMENT = 5569559549
+PI_GATE = "PI_GATE_STATE_0064"
+ISSUE_COMMENT = 5574239666
 ACCEPTED_D1_GIT_SHA = "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a"
 GROOT_GIT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 
@@ -41,6 +43,52 @@ COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 WBC_ARCHIVE_SHA256 = "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167"
 WBC_ARCHIVE_SIZE_BYTES = 963451251
+WBC_ARCHIVE_MEMBER_COUNT = 887
+WBC_ARCHIVE_FILE_COUNT = 742
+WBC_ARCHIVE_DIRECTORY_COUNT = 145
+WBC_V2_TREE_SHA256 = "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+HISTORICAL_WBC_TREE_SHA256 = "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567"
+WBC_RUN_REL = Path(
+    "runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018"
+)
+WBC_COMPONENTS = {
+    "arm_checkpoint": (
+        WBC_RUN_REL / "checkpoints_arm/ac_weights_039999.pt",
+        "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+    ),
+    "dog_checkpoint": (
+        WBC_RUN_REL / "checkpoints_dog/ac_weights_039999.pt",
+        "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+    ),
+    "native_config": (
+        WBC_RUN_REL / "scripts/config/wbc.py",
+        "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb",
+    ),
+    "native_urdf": (
+        Path("resources/robots/go2_x5_v3/urdf/go2_x5.urdf"),
+        "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+    ),
+    "native_reach_table": (
+        Path("resources/reach_tables/go2_x5_2d.pt"),
+        "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa",
+    ),
+    "trajectory_module": (
+        Path("modules/trajectory.py"),
+        "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a",
+    ),
+    "wbc_env": (
+        Path("go1_gym/envs/roboduet/wbc_env.py"),
+        "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+    ),
+    "legged_robot": (
+        Path("go1_gym/envs/roboduet/legged_robot.py"),
+        "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60",
+    ),
+    "wbc_wrapper": (
+        Path("go1_gym/envs/roboduet/wbc_env_wrapper.py"),
+        "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7",
+    ),
+}
 
 REPRESENTATION = "StructuredActionV1"
 GEOMETRY = "K16"
@@ -170,12 +218,173 @@ def audit_checkpoint_tree(path: Path) -> dict[str, Any]:
     return result
 
 
-def audit_wbc_archive(path: Path) -> dict[str, Any]:
+def _safe_wbc_member_name(name: str, is_directory: bool) -> str:
+    if not name or "\\" in name or name.startswith(("/", "\\")):
+        raise RtxPreflightError(f"unsafe WBC archive member path: {name}")
+    clean = name[:-1] if is_directory and name.endswith("/") else name
+    if not clean or ":" in clean.split("/", 1)[0]:
+        raise RtxPreflightError(f"ambiguous WBC archive member path: {name}")
+    parts = clean.split("/")
+    if any(part in {"", ".", ".."} for part in parts) or posixpath.normpath(clean) != clean:
+        raise RtxPreflightError(f"non-canonical WBC archive member path: {name}")
+    if clean != "WBCTrackingShare" and not clean.startswith("WBCTrackingShare/"):
+        raise RtxPreflightError(f"WBC archive member outside authority prefix: {name}")
+    return clean
+
+
+def _wbc_v2_tree_sha256(records: Sequence[Mapping[str, Any]]) -> str:
+    payload = "".join(
+        f"{item['path']}\t{int(item['size_bytes'])}\t{item['sha256']}\n"
+        for item in sorted(records, key=lambda value: str(value["path"]))
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _audit_wbc_archive_members(path: Path) -> dict[str, Any]:
     path = Path(path)
-    result = _path_record(path, expected_sha256=WBC_ARCHIVE_SHA256)
-    result["expected_size_bytes"] = WBC_ARCHIVE_SIZE_BYTES
-    result["size_match"] = result["size_bytes"] == WBC_ARCHIVE_SIZE_BYTES
-    result["status"] = "PASS" if result["hash_match"] and result["size_match"] else "BLOCKED"
+    if path.is_symlink() or not path.is_file():
+        raise RtxPreflightError(f"WBC authority archive is not a regular file: {path}")
+    names: set[str] = set()
+    directories: set[str] = set()
+    records: list[dict[str, Any]] = []
+    with zipfile.ZipFile(path) as archive:
+        infos = archive.infolist()
+        for info in infos:
+            is_directory = info.is_dir() or info.filename.endswith("/")
+            clean = _safe_wbc_member_name(info.filename, is_directory)
+            mode = (int(info.external_attr) >> 16) & 0xFFFF
+            if stat.S_ISLNK(mode):
+                raise RtxPreflightError(f"WBC archive encodes a symlink: {info.filename}")
+            if clean in names:
+                raise RtxPreflightError(f"WBC archive contains duplicate member: {clean}")
+            names.add(clean)
+            if is_directory:
+                directories.add(clean)
+                continue
+            digest = hashlib.sha256()
+            with archive.open(info, "r") as handle:
+                for block in iter(lambda: handle.read(4 << 20), b""):
+                    digest.update(block)
+            records.append({
+                "path": clean,
+                "size_bytes": int(info.file_size),
+                "sha256": digest.hexdigest(),
+            })
+    return {
+        "member_count": len(infos),
+        "file_count": len(records),
+        "directory_count": len(directories),
+        "file_records": sorted(records, key=lambda value: str(value["path"])),
+        "directory_names": sorted(directories),
+        "v2_tree_sha256": _wbc_v2_tree_sha256(records),
+    }
+
+
+def _audit_wbc_live_tree(source_root: Path) -> dict[str, Any]:
+    source_root = Path(source_root)
+    if source_root.is_symlink() or not source_root.is_dir():
+        raise RtxPreflightError(f"WBC source root is not a non-symlink directory: {source_root}")
+    records: list[dict[str, Any]] = []
+    directories = {"WBCTrackingShare"}
+    for directory, dirnames, filenames in os.walk(source_root, followlinks=False):
+        directory_path = Path(directory)
+        relative_directory = directory_path.relative_to(source_root).as_posix()
+        if relative_directory != ".":
+            directories.add(f"WBCTrackingShare/{relative_directory}")
+        for dirname in sorted(dirnames):
+            child = directory_path / dirname
+            if child.is_symlink() or not child.is_dir():
+                raise RtxPreflightError(f"WBC source contains unsafe directory entry: {child}")
+        for filename in sorted(filenames):
+            child = directory_path / filename
+            if child.is_symlink() or not child.is_file():
+                raise RtxPreflightError(f"WBC source contains unsafe file entry: {child}")
+            records.append({
+                "path": f"WBCTrackingShare/{child.relative_to(source_root).as_posix()}",
+                "size_bytes": int(child.stat().st_size),
+                "sha256": sha256_file(child),
+            })
+    return {
+        "file_count": len(records),
+        "directory_count": len(directories),
+        "file_records": sorted(records, key=lambda value: str(value["path"])),
+        "directory_names": sorted(directories),
+        "v2_tree_sha256": _wbc_v2_tree_sha256(records),
+    }
+
+
+def _compare_wbc_vectors(archive: Mapping[str, Any], live: Mapping[str, Any]) -> dict[str, Any]:
+    archive_files = {str(item["path"]): item for item in archive["file_records"]}
+    live_files = {str(item["path"]): item for item in live["file_records"]}
+    missing = sorted(set(archive_files) - set(live_files))
+    extra = sorted(set(live_files) - set(archive_files))
+    changed = sorted(
+        name for name in set(archive_files) & set(live_files)
+        if int(archive_files[name]["size_bytes"]) != int(live_files[name]["size_bytes"])
+        or archive_files[name]["sha256"] != live_files[name]["sha256"]
+    )
+    archive_dirs = set(archive["directory_names"])
+    live_dirs = set(live["directory_names"])
+    missing_dirs = sorted(archive_dirs - live_dirs)
+    extra_dirs = sorted(live_dirs - archive_dirs)
+    return {
+        "missing_files": missing,
+        "extra_files": extra,
+        "changed_files": changed,
+        "missing_directories": missing_dirs,
+        "extra_directories": extra_dirs,
+        "identical": not (missing or extra or changed or missing_dirs or extra_dirs),
+    }
+
+
+def audit_wbc_authority(archive_path: Path, source_root: Path | None) -> dict[str, Any]:
+    """Verify current WBC authority without promoting the historical 633 digest."""
+
+    archive_path = Path(archive_path)
+    result: dict[str, Any] = {
+        "authority_class": "STAGE39_WBC_CONTENT_AUTHORITY_V1_ATTESTED_FROM_SEALED_ARCHIVE",
+        "archive": _path_record(archive_path, expected_sha256=WBC_ARCHIVE_SHA256),
+        "source_root": None if source_root is None else str(source_root),
+        "historical_reported_tree_sha256": HISTORICAL_WBC_TREE_SHA256,
+        "historical_reported_tree_is_current_predicate": False,
+        "expected_v2_tree_sha256": WBC_V2_TREE_SHA256,
+        "status": "BLOCKED",
+    }
+    result["archive"]["expected_size_bytes"] = WBC_ARCHIVE_SIZE_BYTES
+    result["archive"]["size_match"] = result["archive"]["size_bytes"] == WBC_ARCHIVE_SIZE_BYTES
+    if not result["archive"]["hash_match"] or not result["archive"]["size_match"]:
+        return result
+    if source_root is None:
+        result["error"] = "wbc_source_not_supplied"
+        return result
+    try:
+        archive = _audit_wbc_archive_members(archive_path)
+        live = _audit_wbc_live_tree(Path(source_root))
+        comparison = _compare_wbc_vectors(archive, live)
+        components = {
+            name: _path_record(Path(source_root) / relative, expected_sha256=expected)
+            for name, (relative, expected) in WBC_COMPONENTS.items()
+        }
+        result.update({
+            "archive_members": {key: value for key, value in archive.items() if key not in {"file_records", "directory_names"}},
+            "live_tree": {key: value for key, value in live.items() if key not in {"file_records", "directory_names"}},
+            "archive_live_comparison": comparison,
+            "components": components,
+            "component_hashes_match": all(bool(value.get("hash_match")) for value in components.values()),
+        })
+        result["status"] = "PASS" if (
+            archive["member_count"] == WBC_ARCHIVE_MEMBER_COUNT
+            and archive["file_count"] == WBC_ARCHIVE_FILE_COUNT
+            and archive["directory_count"] == WBC_ARCHIVE_DIRECTORY_COUNT
+            and archive["v2_tree_sha256"] == WBC_V2_TREE_SHA256
+            and live["file_count"] == WBC_ARCHIVE_FILE_COUNT
+            and live["directory_count"] == WBC_ARCHIVE_DIRECTORY_COUNT
+            and live["v2_tree_sha256"] == WBC_V2_TREE_SHA256
+            and comparison["identical"]
+            and result["component_hashes_match"]
+        ) else "BLOCKED_IDENTITY_MISMATCH"
+    except (OSError, ValueError, zipfile.BadZipFile, RtxPreflightError) as exc:
+        result["error"] = f"{type(exc).__name__}: {exc}"
     return result
 
 
@@ -380,6 +589,7 @@ def frozen_contract() -> dict[str, Any]:
         "timing": TIMING,
         "horizon": HORIZON,
         "universal_action_dim": UNIVERSAL_ACTION_DIM,
+        "physical_action_dim": 10,
         "chunk_duration_s": CHUNK_DURATION_S,
         "frame": SOURCE_FRAME,
         "tcp": TCP_SEMANTIC_ID,
@@ -388,32 +598,115 @@ def frozen_contract() -> dict[str, Any]:
     }
 
 
+def _is_relative_to(path: Path, root: Path) -> bool:
+    try:
+        path.relative_to(root)
+    except ValueError:
+        return False
+    return True
+
+
+def audit_storage_boundaries(
+    *,
+    materialized_root: Path | None,
+    checkpoint: Path,
+    structured_stats: Path,
+    cosmos_cache: Path | None,
+    mutable_cache_root: Path | None,
+) -> dict[str, Any]:
+    """Require received runnable inputs and future mutable cache to be disjoint."""
+
+    result: dict[str, Any] = {
+        "materialized_root": None if materialized_root is None else str(materialized_root),
+        "mutable_cache_root": None if mutable_cache_root is None else str(mutable_cache_root),
+        "received_inputs_within_materialized_root": False,
+        "mutable_cache_disjoint": False,
+        "status": "BLOCKED",
+    }
+    if materialized_root is None or mutable_cache_root is None or cosmos_cache is None:
+        result["error"] = "materialized_root_mutable_cache_and_cosmos_are_required"
+        return result
+    materialized = Path(materialized_root)
+    mutable = Path(mutable_cache_root)
+    try:
+        if materialized.is_symlink() or not materialized.is_dir():
+            raise RtxPreflightError("materialized root must be an existing non-symlink directory")
+        materialized_resolved = materialized.resolve(strict=True)
+        received = [Path(checkpoint), Path(structured_stats), Path(cosmos_cache)]
+        received_resolved = [path.resolve(strict=True) for path in received]
+        if not all(_is_relative_to(path, materialized_resolved) for path in received_resolved):
+            raise RtxPreflightError("received runnable input escapes the materialized root")
+        writable_entries: list[str] = []
+        for directory, dirnames, filenames in os.walk(materialized, followlinks=False):
+            directory_path = Path(directory)
+            for child in [directory_path, *(directory_path / name for name in dirnames + filenames)]:
+                mode = child.lstat().st_mode
+                if not stat.S_ISLNK(mode) and mode & (stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH):
+                    writable_entries.append(str(child))
+        if writable_entries:
+            raise RtxPreflightError("materialized input has writable entries")
+        mutable_resolved = mutable.resolve(strict=False)
+        if _is_relative_to(mutable_resolved, materialized_resolved) or _is_relative_to(
+            materialized_resolved, mutable_resolved
+        ):
+            raise RtxPreflightError("mutable cache overlaps the immutable materialized root")
+        if any(
+            _is_relative_to(mutable_resolved, path) or _is_relative_to(path, mutable_resolved)
+            for path in received_resolved
+        ):
+            raise RtxPreflightError("mutable cache overlaps an immutable runnable input")
+        result.update({
+            "materialized_root_realpath": str(materialized_resolved),
+            "received_input_realpaths": [str(path) for path in received_resolved],
+            "mutable_cache_realpath": str(mutable_resolved),
+            "received_inputs_within_materialized_root": True,
+            "materialized_write_bit_entries": [],
+            "materialized_inputs_read_only": True,
+            "mutable_cache_disjoint": True,
+            "status": "PASS",
+        })
+    except (OSError, RtxPreflightError) as exc:
+        result["error"] = f"{type(exc).__name__}: {exc}"
+    return result
+
+
 def run_preflight(
     *,
     checkpoint: Path,
     structured_stats: Path,
     wbc_archive: Path,
+    wbc_source: Path | None = None,
     groot_source: Path,
     tiny1_dataset: Path | None = None,
     modality: Path | None = None,
     cosmos_cache: Path | None = None,
+    materialized_root: Path | None = None,
+    mutable_cache_root: Path | None = None,
 ) -> dict[str, Any]:
     checkpoint_result = audit_checkpoint_tree(checkpoint)
     stats_result = _path_record(structured_stats, expected_sha256=STRUCTURED_STATS_SHA256)
     stats_result["status"] = "PASS" if stats_result["hash_match"] else "BLOCKED"
-    wbc_result = audit_wbc_archive(wbc_archive)
+    wbc_result = audit_wbc_authority(wbc_archive, wbc_source)
     source_result = audit_groot_source(groot_source)
     tiny1_result = audit_tiny1_dataset(tiny1_dataset)
     modality_result = audit_modality(modality)
     cosmos_result = audit_cosmos_cache(cosmos_cache)
+    storage_result = audit_storage_boundaries(
+        materialized_root=materialized_root,
+        checkpoint=checkpoint,
+        structured_stats=structured_stats,
+        cosmos_cache=cosmos_cache,
+        mutable_cache_root=mutable_cache_root,
+    )
     checks = {
         "checkpoint_tree": checkpoint_result["status"] == "PASS",
         "structured_statistics": stats_result["status"] == "PASS",
-        "wbc_archive": wbc_result["status"] == "PASS",
+        "wbc_authority": wbc_result["status"] == "PASS",
         "groot_source": source_result["status"] == "PASS",
         "tiny1_dataset": tiny1_result["status"] == "PASS",
         "stage22_modality": modality_result["status"] == "PASS",
         "cosmos_cache": cosmos_result["status"] == "PASS",
+        "storage_boundaries": storage_result["status"] == "PASS",
     }
     return {
         "schema": "STAGE40_RTX4080S_PREFLIGHT_V1",
@@ -421,17 +714,22 @@ def run_preflight(
         "pi_gate": PI_GATE,
         "issue_comment": ISSUE_COMMENT,
         "accepted_d1_git_sha": ACCEPTED_D1_GIT_SHA,
+        "preflight_source": {
+            "path": str(Path(__file__).resolve()),
+            "sha256": sha256_file(Path(__file__).resolve()),
+        },
         "frozen_contract": frozen_contract(),
         "checks": checks,
         "status": "PASS" if all(checks.values()) else "BLOCKED_PROVENANCE",
         "artifacts": {
             "structured_checkpoint": checkpoint_result,
             "structured_statistics": stats_result,
-            "wbc_archive": wbc_result,
+            "wbc_authority": wbc_result,
             "groot_source": source_result,
             "tiny1_dataset": tiny1_result,
             "stage22_modality": modality_result,
             "cosmos_cache": cosmos_result,
+            "storage_boundaries": storage_result,
         },
         "execution": {
             "model_constructed": False,
@@ -456,20 +754,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--structured-stats", type=Path, required=True)
     parser.add_argument("--wbc-archive", type=Path, required=True)
+    parser.add_argument("--wbc-source", type=Path, required=True)
     parser.add_argument("--groot-source", type=Path, required=True)
     parser.add_argument("--tiny1-dataset", type=Path)
     parser.add_argument("--modality", type=Path)
     parser.add_argument("--cosmos-cache", type=Path)
+    parser.add_argument("--materialized-root", type=Path, required=True)
+    parser.add_argument("--mutable-cache-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     result = run_preflight(
         checkpoint=args.checkpoint,
         structured_stats=args.structured_stats,
         wbc_archive=args.wbc_archive,
+        wbc_source=args.wbc_source,
         groot_source=args.groot_source,
         tiny1_dataset=args.tiny1_dataset,
         modality=args.modality,
         cosmos_cache=args.cosmos_cache,
+        materialized_root=args.materialized_root,
+        mutable_cache_root=args.mutable_cache_root,
     )
     write_json(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))

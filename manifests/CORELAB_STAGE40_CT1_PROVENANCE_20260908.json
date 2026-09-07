@@ -1,0 +1,67 @@
+{
+  "schema": "CORELAB_STAGE40_CT1_PROVENANCE_V1",
+  "role": "CORELAB_STAGE40_TAKEOVER_AGENT",
+  "pi_gate": "PI_GATE_STATE_0064",
+  "issue_comment": 5574239666,
+  "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "host": "corelab-4080s",
+  "status": "CORELAB_STAGE40_SHARED_PROVENANCE_CLOSED",
+  "transport": {
+    "structured_checkpoint_package_sha256": "4e2f5ca562f108b0f0ec55cd97083d163b4e450be0e8c4ae0f1215bf98b458b6",
+    "cosmos_package_sha256": "bdde6f76d19eb51d15812c32017547c1d201d08efd61f114f161e7060f84d33e",
+    "structured_statistics_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "gpu_node_transport_reverified": true
+  },
+  "runnable_identities": {
+    "structured_checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "structured_checkpoint_file_count": 19,
+    "structured_checkpoint_total_bytes": 20889596357,
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "tiny1_tree_sha256": "541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157",
+    "tiny1_stats_sha256": "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23",
+    "tiny1_relative_stats_sha256": "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1",
+    "stage22_modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+  },
+  "wbc_authority": {
+    "authority_class": "STAGE39_WBC_CONTENT_AUTHORITY_V1_ATTESTED_FROM_SEALED_ARCHIVE",
+    "archive_sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+    "archive_member_count": 887,
+    "archive_file_count": 742,
+    "archive_directory_count": 145,
+    "archive_v2_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+    "live_v2_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+    "archive_live_record_vector_identical": true,
+    "selected_component_hashes_match": true,
+    "historical_reported_tree_sha256": "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567",
+    "historical_reported_tree_is_current_predicate": false
+  },
+  "storage": {
+    "materialized_root": "/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1/materialized",
+    "materialized_inputs_read_only": true,
+    "archive_path_escape_count": 0,
+    "cosmos_symlink_escape_count": 0,
+    "mutable_cache_root": "/var/cache/users/liuyu-nfs/stage40_corelab_takeover_20260908/runtime/cache",
+    "mutable_cache_disjoint": true
+  },
+  "preflight": {
+    "path": "/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1/ct1_preflight_0064_v2.json",
+    "sha256": "eb2c6df0fab9dd1fdc7fd28c3b7230e9f5abb275b5db9feaaaa275a273c1246f",
+    "script_sha256": "83102277b7783259fe2cf99fdaff395f5704347d064ad57e64ef736445da776c",
+    "checks_passed": 8,
+    "checks_total": 8
+  },
+  "execution_boundary": {
+    "gpu": false,
+    "model_constructed": false,
+    "groot_forward_count": 0,
+    "wbc_step_count": 0,
+    "reference_update_count": 0,
+    "training": false,
+    "formal_seeds_used": [],
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "hardware": false
+  }
+}
