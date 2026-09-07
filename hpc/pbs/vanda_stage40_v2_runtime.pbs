@@ -1,0 +1,184 @@
+#!/usr/bin/env bash
+# Vanda A40 Stage40 V2 mechanical runtime qualification.
+# No project directive is intentional: interactive_gpu assigns accounting.
+# This launcher does not run GR00T forward, WBC stepping, training, or science.
+#PBS -N vanda_st40_v2
+#PBS -q interactive_gpu
+#PBS -l select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -M leonliu@u.nus.edu
+#PBS -m ae
+
+set -euo pipefail
+
+REPO="$VANDA_STAGE40_REPO"
+if [ -z "$REPO" ]; then
+  REPO=/home/svu/leonliu/projects/go2-arx5-hierarchical-vla
+fi
+ARTIFACT_ROOT="$VANDA_STAGE40_ARTIFACT_ROOT"
+if [ -z "$ARTIFACT_ROOT" ]; then
+  ARTIFACT_ROOT=/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized
+fi
+OUTPUT_ROOT="$VANDA_STAGE40_OUTPUT_ROOT"
+if [ -z "$OUTPUT_ROOT" ]; then
+  OUTPUT_ROOT=/scratch/leonliu/leon-storage/runs/vanda_stage40_v2_$PBS_JOBID
+fi
+APPTAINER="$VANDA_STAGE40_APPTAINER_BIN"
+if [ -z "$APPTAINER" ]; then
+  APPTAINER=/cm/shared/apps/apptainer/1.4.1/bin/apptainer
+fi
+SIF="$VANDA_STAGE40_ISAAC_SIF"
+if [ -z "$SIF" ]; then
+  SIF="$ARTIFACT_ROOT/../packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif"
+fi
+
+AUTH_ROOT="$ARTIFACT_ROOT/wbc"
+RUNTIME_ROOT="$ARTIFACT_ROOT/stage22_runtime"
+SITE="$RUNTIME_ROOT/runtime/venv/lib/python3.12/site-packages"
+GROOT_SRC="$RUNTIME_ROOT/src/isaac-gr00t"
+STRUCTURED_ROOT="$ARTIFACT_ROOT/structured_checkpoint_1000/checkpoint-1000"
+BASE_MODEL="$ARTIFACT_ROOT/groot_base_model/GR00T-N1.7-3B"
+TINY_ROOT="$ARTIFACT_ROOT/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2"
+COSMOS_ROOT="$ARTIFACT_ROOT/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B"
+MODALITY="$ARTIFACT_ROOT/modality/go2_arx5_modality.py"
+FFMPEG_ROOT="$ARTIFACT_ROOT/stage22_ffmpeg4/stage22_h200_ffmpeg4_bundle_20260902"
+
+test -d "$REPO"
+test -d "$AUTH_ROOT/WBCTrackingShare"
+test -d "$RUNTIME_ROOT"
+test -d "$SITE"
+test -d "$GROOT_SRC"
+test -d "$STRUCTURED_ROOT"
+test -d "$BASE_MODEL"
+test -d "$TINY_ROOT/meta"
+test -d "$COSMOS_ROOT"
+test -f "$MODALITY"
+test -d "$FFMPEG_ROOT"
+test -f "$SIF"
+test -x "$APPTAINER"
+
+test -z "$(git -C "$REPO" status --porcelain --untracked-files=all)"
+RUN_ROOT="$OUTPUT_ROOT"
+if [ -e "$RUN_ROOT" ]; then
+  echo "V2_OUTPUT_ALREADY_EXISTS=$RUN_ROOT" >&2
+  exit 2
+fi
+mkdir -p "$RUN_ROOT/runtime/home" "$RUN_ROOT/runtime/tmp" "$RUN_ROOT/runtime/cache"
+exec > >(tee -a "$RUN_ROOT/vanda_stage40_v2.log") 2>&1
+cd "$REPO"
+
+echo "=== VANDA STAGE40 V2 ==="
+date
+hostname
+whoami
+echo "PBS_JOBID=$PBS_JOBID"
+echo "PBS_QUEUE=$PBS_QUEUE"
+echo "PBS_O_QUEUE=$PBS_O_QUEUE"
+echo "REPO_HEAD=$(git rev-parse HEAD)"
+echo "REPO_BRANCH=$(git branch --show-current)"
+echo "GPU_QUERY_BEGIN"
+nvidia-smi --query-gpu=index,uuid,name,memory.total,driver_version,compute_cap --format=csv,noheader
+echo "GPU_QUERY_END"
+"$APPTAINER" inspect "$SIF" | sed -n '1,24p'
+
+export HOME="$RUN_ROOT/runtime/home"
+export TMPDIR="$RUN_ROOT/runtime/tmp"
+export TMP="$RUN_ROOT/runtime/tmp"
+export TEMP="$RUN_ROOT/runtime/tmp"
+export XDG_CACHE_HOME="$RUN_ROOT/runtime/cache"
+export XDG_CONFIG_HOME="$RUN_ROOT/runtime/cache/config"
+export XDG_DATA_HOME="$RUN_ROOT/runtime/cache/data"
+export HF_HOME="$RUN_ROOT/runtime/cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME/hub"
+export TRANSFORMERS_CACHE="$HF_HOME/hub"
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1
+export PYTHONDONTWRITEBYTECODE=1
+export CUDA_VISIBLE_DEVICES=0
+
+"$APPTAINER" exec --cleanenv   --bind "$RUN_ROOT:/run"   "$SIF" env   HOME=/run/runtime/home TMPDIR=/run/runtime/tmp TMP=/run/runtime/tmp TEMP=/run/runtime/tmp   PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1   /opt/miniconda3/envs/isaacgym/bin/python - /run/trajectory.npz <<'PY'
+import sys
+import numpy as np
+
+path = sys.argv[1]
+timestamp = np.linspace(0.0, 5.0, 101, dtype=np.float64)
+position = np.stack(
+    [
+        np.full_like(timestamp, 0.30),
+        np.full_like(timestamp, 0.10),
+        np.full_like(timestamp, 0.58),
+    ],
+    axis=-1,
+)
+quaternion = np.tile(np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float64), (len(timestamp), 1))
+np.savez(path, timestamp=timestamp, position=position, quaternion=quaternion)
+print("V2_TRAJECTORY_CREATED", path)
+PY
+
+NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/miniconda3/envs/isaacgym/lib:/.singularity.d/libs:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu"
+"$APPTAINER" exec --nv --cleanenv   --bind "$REPO:$REPO:ro"   --bind "$AUTH_ROOT:/authority:ro"   --bind "$RUN_ROOT:/run"   "$SIF" env   HOME=/run/runtime/home TMPDIR=/run/runtime/tmp TMP=/run/runtime/tmp TEMP=/run/runtime/tmp   XDG_CACHE_HOME=/run/runtime/cache XDG_CONFIG_HOME=/run/runtime/cache/config XDG_DATA_HOME=/run/runtime/cache/data   PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0   PATH="/usr/local/nvidia/bin:$PATH"   LD_LIBRARY_PATH="$NATIVE_LD"   PYTHONPATH="$REPO:$REPO/src:$REPO/scripts:/authority/WBCTrackingShare"   /opt/miniconda3/envs/isaacgym/bin/python -B   "$REPO/scripts/stage21_native_receding_horizon.py"     --mode camera_smoke     --source-root /authority/WBCTrackingShare     --trajectory /run/trajectory.npz     --output-dir /run/native_camera     --sim-device cuda:0     --seed 4242
+
+test -f "$RUN_ROOT/native_camera/camera_smoke.json"
+grep -q '"status": "PASS' "$RUN_ROOT/native_camera/camera_smoke.json"
+echo "V2_NATIVE_CAMERA_STATE_SMOKE=PASS"
+
+GROOT_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:$FFMPEG_ROOT:$FFMPEG_ROOT/lib/x86_64-linux-gnu:$FFMPEG_ROOT/usr/lib/x86_64-linux-gnu:$SITE/torch/lib:$SITE/nvidia/cuda_runtime/lib:$SITE/nvidia/cublas/lib:$SITE/nvidia/cusparse/lib:$SITE/nvidia/cufft/lib:$SITE/nvidia/curand/lib:$SITE/nvidia/cuda_nvrtc/lib"
+"$APPTAINER" exec --nv --cleanenv   --bind "$REPO:$REPO:ro"   --bind "$ARTIFACT_ROOT:/artifacts:ro"   --bind "$RUN_ROOT:/run"   "$SIF" env   HOME=/run/runtime/home TMPDIR=/run/runtime/tmp TMP=/run/runtime/tmp TEMP=/run/runtime/tmp   XDG_CACHE_HOME=/run/runtime/cache XDG_CONFIG_HOME=/run/runtime/cache/config XDG_DATA_HOME=/run/runtime/cache/data   HF_HOME=/run/runtime/cache/huggingface HF_HUB_CACHE=/run/runtime/cache/huggingface/hub   TRANSFORMERS_CACHE=/run/runtime/cache/huggingface/hub   HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1   PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0   LD_LIBRARY_PATH="$GROOT_LD"   PYTHONPATH="$SITE:$REPO:$REPO/src:$REPO/scripts:$GROOT_SRC"   /usr/bin/python3.12 -B - <<'PY'
+import json
+from pathlib import Path
+
+import torch
+
+from stage40_b0_model_control import _bind_local_cosmos_processor
+import stage21_same_scene_groot_inference as inference
+from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7  # noqa: F401
+from transformers import AutoModel
+
+stage_root = Path("/artifacts/stage22_runtime")
+base_model = Path("/artifacts/groot_base_model/GR00T-N1.7-3B")
+model_path = Path("/artifacts/structured_checkpoint_1000/checkpoint-1000")
+dataset_meta = Path("/artifacts/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2/meta")
+modality = Path("/artifacts/modality/go2_arx5_modality.py")
+cosmos = Path("/artifacts/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B")
+if not torch.cuda.is_available():
+    raise RuntimeError("CUDA_UNAVAILABLE")
+_bind_local_cosmos_processor(stage_root, cosmos)
+processor, embodiment = inference._build_processor(stage_root, base_model, dataset_meta, modality)
+model = AutoModel.from_pretrained(
+    model_path,
+    local_files_only=True,
+    trust_remote_code=True,
+)
+model.eval().to(device="cuda:0", dtype=torch.bfloat16)
+torch.cuda.synchronize()
+result = {
+    "schema": "VANDA_STAGE40_V2_GROOT_CONSTRUCTION_V1",
+    "status": "PASS",
+    "torch": torch.__version__,
+    "torch_cuda": torch.version.cuda,
+    "cuda_device": torch.cuda.get_device_name(0),
+    "model_class": type(model).__name__,
+    "processor_class": type(processor).__name__,
+    "embodiment": str(embodiment),
+    "parameter_count": sum(int(parameter.numel()) for parameter in model.parameters()),
+    "forward_count": 0,
+    "wbc_forward_count": 0,
+    "cosmos_snapshot": str(cosmos),
+    "model_path": str(model_path),
+}
+Path("/run/groot_construction.json").write_text(json.dumps(result, indent=2) + "\n")
+print(json.dumps(result, indent=2), flush=True)
+PY
+
+test -f "$RUN_ROOT/groot_construction.json"
+grep -q '"status": "PASS"' "$RUN_ROOT/groot_construction.json"
+grep -q '"forward_count": 0' "$RUN_ROOT/groot_construction.json"
+grep -q '"wbc_forward_count": 0' "$RUN_ROOT/groot_construction.json"
+nvidia-smi --query-gpu=index,uuid,name,memory.total,driver_version,compute_cap,memory.used --format=csv,noheader > "$RUN_ROOT/gpu_after_v2.csv"
+echo "V2_GROOT_MODEL_CONSTRUCTION=PASS"
+echo "V2_FORWARD_COUNT=0"
+echo "V2_WBC_FORWARD_COUNT=0"
+echo "VANDA_STAGE40_V2_RUNTIME_PASS"
