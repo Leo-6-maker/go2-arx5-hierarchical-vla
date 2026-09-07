@@ -63,6 +63,25 @@ class Stage40Rtx4080SPreflightTest(unittest.TestCase):
             self.assertFalse(result["execution"]["model_constructed"])
             self.assertFalse(result["execution"]["forward"])
             self.assertFalse(result["execution"]["gpu"])
+            self.assertFalse(result["checks"]["tiny1_dataset"])
+            self.assertFalse(result["checks"]["stage22_modality"])
+            self.assertFalse(result["checks"]["cosmos_cache"])
+
+    def test_cosmos_archive_is_not_accepted_as_materialized_runtime_cache(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            archive = Path(temporary) / "cosmos_cache.tar"
+            archive.write_bytes(b"archive-only")
+            result = PREFLIGHT.audit_cosmos_cache(archive)
+            self.assertEqual(result["status"], "BLOCKED")
+            self.assertEqual(result["error"], "archive_only_materialization_required")
+
+    def test_modality_hash_mismatch_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            modality = Path(temporary) / "go2_arx5_modality.py"
+            modality.write_text("# wrong bytes\n", encoding="utf-8")
+            result = PREFLIGHT.audit_modality(modality)
+            self.assertEqual(result["status"], "BLOCKED")
+            self.assertFalse(result["hash_match"])
 
     def test_preflight_source_has_no_model_or_simulator_import(self) -> None:
         source = MODULE_PATH.read_text(encoding="utf-8")

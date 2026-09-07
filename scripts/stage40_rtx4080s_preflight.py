@@ -20,8 +20,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 
-PI_GATE = "PI_GATE_STATE_0054"
-ISSUE_COMMENT = 5566238390
+PI_GATE = "PI_GATE_STATE_0056"
+ISSUE_COMMENT = 5569559549
 ACCEPTED_D1_GIT_SHA = "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a"
 GROOT_GIT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 
@@ -30,6 +30,15 @@ STRUCTURED_CHECKPOINT_TREE_SHA256 = (
 )
 STRUCTURED_CHECKPOINT_TREE_PREFIX = "stage38d/checkpoint-1000"
 STRUCTURED_STATS_SHA256 = "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
+TINY1_TREE_SHA256 = "541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157"
+TINY1_FILE_COUNT = 13
+TINY1_TOTAL_BYTES = 152958
+TINY1_STATS_SHA256 = "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
+TINY1_RELATIVE_STATS_SHA256 = "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1"
+TINY1_META_MODALITY_SHA256 = "1d172665da201f5b040ca6664a67bd3a9fe591237b3c8298d3a44f7e63f97c4e"
+STAGE22_MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
+COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 WBC_ARCHIVE_SHA256 = "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167"
 WBC_ARCHIVE_SIZE_BYTES = 963451251
 
@@ -170,6 +179,166 @@ def audit_wbc_archive(path: Path) -> dict[str, Any]:
     return result
 
 
+def _dataset_tree_sha256(entries: Sequence[Mapping[str, Any]]) -> str:
+    digest = hashlib.sha256()
+    for entry in sorted(entries, key=lambda item: str(item["path"])):
+        digest.update(
+            f"{entry['path']}\0{entry['sha256']}\0{entry['bytes']}\n".encode("utf-8")
+        )
+    return digest.hexdigest()
+
+
+def audit_tiny1_dataset(path: Path | None) -> dict[str, Any]:
+    """Verify the exact one-episode train-only TINY1 fixture, without loaders."""
+
+    result: dict[str, Any] = {
+        "label": "TINY1_H2STATS",
+        "path": None if path is None else str(path),
+        "expected_tree_sha256": TINY1_TREE_SHA256,
+        "tree_sha256": None,
+        "expected_file_count": TINY1_FILE_COUNT,
+        "expected_total_bytes": TINY1_TOTAL_BYTES,
+        "status": "BLOCKED",
+        "validation_e_read": False,
+        "holdout_f_read": False,
+    }
+    if path is None:
+        result["error"] = "path_not_supplied"
+        return result
+    root = Path(path)
+    try:
+        entries = _regular_tree_entries(root)
+        observed = _dataset_tree_sha256(entries)
+        result.update({
+            "tree_sha256": observed,
+            "file_count": len(entries),
+            "total_bytes": sum(int(entry["bytes"]) for entry in entries),
+            "stats_json": _path_record(root / "meta/stats.json", expected_sha256=TINY1_STATS_SHA256),
+            "relative_stats_json": _path_record(
+                root / "meta/relative_stats.json", expected_sha256=TINY1_RELATIVE_STATS_SHA256
+            ),
+            "meta_modality": _path_record(
+                root / "meta/modality.json", expected_sha256=TINY1_META_MODALITY_SHA256
+            ),
+        })
+        result["status"] = "PASS" if (
+            observed == TINY1_TREE_SHA256
+            and result["file_count"] == TINY1_FILE_COUNT
+            and result["total_bytes"] == TINY1_TOTAL_BYTES
+            and result["stats_json"]["hash_match"]
+            and result["relative_stats_json"]["hash_match"]
+            and result["meta_modality"]["hash_match"]
+        ) else "BLOCKED_IDENTITY_MISMATCH"
+    except (OSError, RtxPreflightError) as exc:
+        result["error"] = f"{type(exc).__name__}: {exc}"
+    return result
+
+
+def _cosmos_tree_sha256(root: Path) -> tuple[str, int]:
+    entries: list[dict[str, Any]] = []
+    digest_cache: dict[str, str] = {}
+
+    def file_sha(path: Path) -> str:
+        key = str(path)
+        if key not in digest_cache:
+            digest_cache[key] = sha256_file(path)
+        return digest_cache[key]
+
+    def visit(directory: Path, relative: Path) -> None:
+        for item in sorted(os.scandir(directory), key=lambda value: value.name):
+            child = Path(item.path)
+            rel = (relative / item.name).as_posix()
+            mode = child.lstat().st_mode
+            if stat.S_ISDIR(mode):
+                entries.append({"path": rel, "kind": "directory", "size_bytes": 0, "sha256": None})
+                visit(child, relative / item.name)
+            elif stat.S_ISLNK(mode):
+                target = os.readlink(child)
+                resolved = child.resolve(strict=True)
+                try:
+                    resolved_rel = resolved.relative_to(root.resolve(strict=True)).as_posix()
+                except ValueError as exc:
+                    raise RtxPreflightError(f"Cosmos symlink escapes root: {child}") from exc
+                if not resolved.is_file():
+                    raise RtxPreflightError(f"Cosmos symlink does not resolve to a file: {child}")
+                entries.append({
+                    "path": rel, "kind": "symlink", "target": target,
+                    "resolved_path": resolved_rel, "size_bytes": int(resolved.stat().st_size),
+                    "sha256": file_sha(resolved),
+                })
+            elif stat.S_ISREG(mode):
+                entries.append({
+                    "path": rel, "kind": "regular_file", "size_bytes": int(child.stat().st_size),
+                    "sha256": file_sha(child),
+                })
+            else:
+                raise RtxPreflightError(f"unsupported Cosmos entry: {child}")
+
+    visit(root, Path("."))
+    digest = hashlib.sha256()
+    for entry in sorted(entries, key=lambda value: str(value["path"])):
+        digest.update(("\t".join((
+            str(entry["kind"]), str(entry["path"]), str(entry.get("size_bytes", 0)),
+            str(entry.get("sha256") or "-"), str(entry.get("target") or "-"),
+            str(entry.get("resolved_path") or "-"),
+        )) + "\n").encode("utf-8"))
+    return digest.hexdigest(), len(entries)
+
+
+def audit_cosmos_cache(path: Path | None) -> dict[str, Any]:
+    """Verify the materialized exact Cosmos cache; archive-only is not runnable."""
+
+    result: dict[str, Any] = {
+        "label": "COSMOS_REASON2_2B_CACHE",
+        "path": None if path is None else str(path),
+        "expected_revision": COSMOS_REVISION,
+        "expected_tree_sha256": COSMOS_TREE_SHA256,
+        "tree_sha256": None,
+        "status": "BLOCKED",
+        "archive_only_not_accepted": True,
+    }
+    if path is None:
+        result["error"] = "path_not_supplied"
+        return result
+    root = Path(path)
+    if root.is_file():
+        result["error"] = "archive_only_materialization_required"
+        result["kind"] = "regular_file"
+        return result
+    try:
+        if root.is_symlink() or not root.is_dir():
+            raise RtxPreflightError(f"Cosmos cache root is not a non-symlink directory: {root}")
+        observed, count = _cosmos_tree_sha256(root)
+        refs_main = root / "refs/main"
+        snapshot = root / "snapshots" / COSMOS_REVISION
+        result.update({
+            "tree_sha256": observed,
+            "entry_count": count,
+            "refs_main": str(refs_main),
+            "snapshot": str(snapshot),
+            "revision": refs_main.read_text(encoding="utf-8").strip() if refs_main.is_file() else None,
+        })
+        result["status"] = "PASS" if (
+            observed == COSMOS_TREE_SHA256
+            and result["revision"] == COSMOS_REVISION
+            and snapshot.is_dir()
+            and not snapshot.is_symlink()
+        ) else "BLOCKED_IDENTITY_MISMATCH"
+    except (OSError, RtxPreflightError) as exc:
+        result["error"] = f"{type(exc).__name__}: {exc}"
+    return result
+
+
+def audit_modality(path: Path | None) -> dict[str, Any]:
+    result = _path_record(Path(path), expected_sha256=STAGE22_MODALITY_SHA256) if path is not None else {
+        "path": None, "exists": False, "is_symlink": False, "is_regular_file": False,
+        "sha256": None, "expected_sha256": STAGE22_MODALITY_SHA256, "hash_match": False,
+        "error": "path_not_supplied",
+    }
+    result["status"] = "PASS" if result.get("hash_match") else "BLOCKED"
+    return result
+
+
 def _git_output(source_root: Path, *args: str) -> tuple[str | None, str | None]:
     try:
         value = subprocess.check_output(
@@ -225,17 +394,26 @@ def run_preflight(
     structured_stats: Path,
     wbc_archive: Path,
     groot_source: Path,
+    tiny1_dataset: Path | None = None,
+    modality: Path | None = None,
+    cosmos_cache: Path | None = None,
 ) -> dict[str, Any]:
     checkpoint_result = audit_checkpoint_tree(checkpoint)
     stats_result = _path_record(structured_stats, expected_sha256=STRUCTURED_STATS_SHA256)
     stats_result["status"] = "PASS" if stats_result["hash_match"] else "BLOCKED"
     wbc_result = audit_wbc_archive(wbc_archive)
     source_result = audit_groot_source(groot_source)
+    tiny1_result = audit_tiny1_dataset(tiny1_dataset)
+    modality_result = audit_modality(modality)
+    cosmos_result = audit_cosmos_cache(cosmos_cache)
     checks = {
         "checkpoint_tree": checkpoint_result["status"] == "PASS",
         "structured_statistics": stats_result["status"] == "PASS",
         "wbc_archive": wbc_result["status"] == "PASS",
         "groot_source": source_result["status"] == "PASS",
+        "tiny1_dataset": tiny1_result["status"] == "PASS",
+        "stage22_modality": modality_result["status"] == "PASS",
+        "cosmos_cache": cosmos_result["status"] == "PASS",
     }
     return {
         "schema": "STAGE40_RTX4080S_PREFLIGHT_V1",
@@ -251,6 +429,9 @@ def run_preflight(
             "structured_statistics": stats_result,
             "wbc_archive": wbc_result,
             "groot_source": source_result,
+            "tiny1_dataset": tiny1_result,
+            "stage22_modality": modality_result,
+            "cosmos_cache": cosmos_result,
         },
         "execution": {
             "model_constructed": False,
@@ -276,6 +457,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--structured-stats", type=Path, required=True)
     parser.add_argument("--wbc-archive", type=Path, required=True)
     parser.add_argument("--groot-source", type=Path, required=True)
+    parser.add_argument("--tiny1-dataset", type=Path)
+    parser.add_argument("--modality", type=Path)
+    parser.add_argument("--cosmos-cache", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     result = run_preflight(
@@ -283,6 +467,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         structured_stats=args.structured_stats,
         wbc_archive=args.wbc_archive,
         groot_source=args.groot_source,
+        tiny1_dataset=args.tiny1_dataset,
+        modality=args.modality,
+        cosmos_cache=args.cosmos_cache,
     )
     write_json(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
