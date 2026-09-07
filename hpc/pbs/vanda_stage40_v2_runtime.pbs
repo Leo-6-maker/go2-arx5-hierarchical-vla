@@ -12,23 +12,23 @@
 
 set -euo pipefail
 
-REPO="$VANDA_STAGE40_REPO"
+REPO="${VANDA_STAGE40_REPO-}"
 if [ -z "$REPO" ]; then
   REPO=/home/svu/leonliu/projects/go2-arx5-hierarchical-vla
 fi
-ARTIFACT_ROOT="$VANDA_STAGE40_ARTIFACT_ROOT"
+ARTIFACT_ROOT="${VANDA_STAGE40_ARTIFACT_ROOT-}"
 if [ -z "$ARTIFACT_ROOT" ]; then
   ARTIFACT_ROOT=/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized
 fi
-OUTPUT_ROOT="$VANDA_STAGE40_OUTPUT_ROOT"
+OUTPUT_ROOT="${VANDA_STAGE40_OUTPUT_ROOT-}"
 if [ -z "$OUTPUT_ROOT" ]; then
   OUTPUT_ROOT=/scratch/leonliu/leon-storage/runs/vanda_stage40_v2_$PBS_JOBID
 fi
-APPTAINER="$VANDA_STAGE40_APPTAINER_BIN"
+APPTAINER="${VANDA_STAGE40_APPTAINER_BIN-}"
 if [ -z "$APPTAINER" ]; then
   APPTAINER=/cm/shared/apps/apptainer/1.4.1/bin/apptainer
 fi
-SIF="$VANDA_STAGE40_ISAAC_SIF"
+SIF="${VANDA_STAGE40_ISAAC_SIF-}"
 if [ -z "$SIF" ]; then
   SIF="$ARTIFACT_ROOT/../packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif"
 fi
