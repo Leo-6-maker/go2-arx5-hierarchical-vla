@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Vanda A40 Stage40 V6: bounded development-seed three-handoff loop.
+# Submit only after V2, V3, V4, and V5 predecessor seals pass.
+#PBS -N vanda_st40_v6_3h
+#PBS -q interactive_gpu
+#PBS -l select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40
+#PBS -l walltime=01:30:00
+#PBS -j oe
+#PBS -M leonliu@u.nus.edu
+#PBS -m ae
+
+set -euo pipefail
+export VANDA_STAGE40_STAGE_RUN=v6_3h
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$SCRIPT_DIR/vanda_stage40_stage_runner.sh"

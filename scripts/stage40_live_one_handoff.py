@@ -48,7 +48,7 @@ from stage21_native_model_receding_horizon import (
 
 
 STAGE = "Stage40"
-PI_GATE = "PI_GATE_STATE_0060"
+PI_GATE = "PI_GATE_STATE_0062"
 HANDOFF_S = 0.9750000000000001
 CHUNK_DURATION_S = 1.9500000000000002
 SEEDS = (2223, 2228, 2233, 2238)
@@ -350,6 +350,118 @@ def run_c0(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
     return result
 
 
+def run_v4(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> dict[str, Any]:
+    """Run the V4 native bind admission without consuming a WBC step."""
+
+    native = env = None
+    result: dict[str, Any] = {
+        "schema": "VANDA_STAGE40_V4_DUAL_RUNTIME_BIND_V1",
+        "stage": STAGE,
+        "pi_gate": PI_GATE,
+        "mode": "V4_DUAL_RUNTIME_INITIAL_BIND",
+        "status": "BLOCKED",
+        "scientific_rows": 0,
+        "wbc_forwards": 0,
+        "gr00t_forwards": 0,
+        "physics_reset": False,
+        "physics_teleport": False,
+        "policy_history_reset": False,
+    }
+    try:
+        native_args = argparse.Namespace(**vars(args))
+        native_args.mode = "model_receding"
+        native, env, actors, loads, _ = _build_native(native_args, trajectory)
+        gate = TrajectorySafetyGateV1()
+        adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(
+            expected_source_frame=SOURCE_FRAME, wbc_frame=SOURCE_FRAME,
+            tcp_semantic_id=TCP_SEMANTIC_ID, stale_timeout_s=0.75))
+        sim_time = float(native.traj_sim_time[0].detach().cpu().item())
+        chunk, _, case = _request_model(
+            native=native,
+            mailbox=args.mailbox,
+            request_id="stage40-v4-q0",
+            seed=int(args.seed),
+            sim_time=sim_time,
+            gate=gate,
+            adapter=adapter,
+            response_timeout_s=args.response_timeout_s,
+            structured_stats=args.structured_stats,
+        )
+        if case["safety_gate"]["decision"] == GateDecision.REJECT.value:
+            raise RuntimeError("SAFETYGATE_REJECT_Q0")
+        before = {
+            "root": _tensor_hash(native.root_states),
+            "dof": _tensor_hash(native.dof_state),
+            "episode": int(native.episode_length_buf[0].detach().cpu().item()),
+            "wbc_forward_count": native.stage21_wbc_forward_count,
+        }
+        native_bind = native.initial_bind_reference(chunk)
+        after = {
+            "root": _tensor_hash(native.root_states),
+            "dof": _tensor_hash(native.dof_state),
+            "episode": int(native.episode_length_buf[0].detach().cpu().item()),
+            "wbc_forward_count": native.stage21_wbc_forward_count,
+        }
+        executor, handoff_steps = _build_stage40_executor(
+            native_dt_s=float(native.dt),
+            provenance={"mode": "V4_DUAL_RUNTIME_INITIAL_BIND"},
+        )
+        anchor = native.stage21_anchor_world.detach().cpu().numpy().reshape(3)
+        current_position, current_quaternion = _current_eef(native)
+        initial_update = executor.submit_initial(
+            chunk,
+            receive_timestamp=sim_time,
+            execute_timestamp=sim_time,
+            current_achieved_position=current_position - anchor,
+            current_achieved_orientation=current_quaternion,
+        )
+        native_ok = actors is not None and len(loads) == 2
+        bind_ok = all(bool(native_bind.get(key)) for key in (
+            "physics_root_state_unchanged",
+            "physics_dof_state_unchanged",
+            "episode_length_unchanged",
+        )) and native.stage21_wbc_forward_count == 0
+        result.update({
+            "status": "PASS" if native_ok and bind_ok else "BLOCKED",
+            "q0": {key: value for key, value in case.items() if key not in {"chunk", "decoded"}},
+            "safety_gate": case["safety_gate"],
+            "initial_bind": native_bind,
+            "executor_initial": initial_update.as_dict(),
+            "handoff_steps": handoff_steps,
+            "native_control_dt_s": float(native.dt),
+            "dual_runtime_coexistence": bool(native_ok),
+            "initial_bind_before_wbc": bool(bind_ok),
+            "native_wbc_forward_count": native.stage21_wbc_forward_count,
+            "loads": loads,
+            "runtime": {
+                "native_python": platform.python_version(),
+                "native_torch": actors[2].__version__ if actors else None,
+                "native_device": str(actors[3]) if actors else None,
+                "simulator_instance_id": native.stage21_simulator_instance_id,
+            },
+            "gr00t_forwards": 1,
+            "model_construction": True,
+            "scientific_rows": 0,
+            "physics_state_unchanged": before == after,
+            "no_wbc_or_scientific_rows": True,
+        })
+    except Exception as exc:
+        result.update({"status": "BLOCKED", "error": {"type": type(exc).__name__, "message": str(exc)}})
+    finally:
+        try:
+            _write_json(args.output_dir / "stage40_v4_result.json", result)
+            _write_json(args.mailbox / "V4_RESULT", result)
+            _write_json(args.mailbox / "STOP", {"reason": "stage40_v4_finished"})
+        except Exception:
+            pass
+        if env is not None:
+            try:
+                env.close()
+            except Exception:
+                pass
+    return result
+
+
 def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> dict[str, Any]:
     native = env = None
     episodes: list[dict[str, Any]] = []
@@ -502,7 +614,7 @@ def run_live(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=("b1", "c0", "live", "live-seed"), required=True)
+    parser.add_argument("--mode", choices=("b1", "c0", "v4", "live", "live-seed"), required=True)
     parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--trajectory", type=Path, required=True)
     parser.add_argument("--arm", type=Path, required=True)
@@ -530,6 +642,8 @@ def main() -> int:
         result = run_b1(args, trajectory)
     elif args.mode == "c0":
         result = run_c0(args, trajectory)
+    elif args.mode == "v4":
+        result = run_v4(args, trajectory)
     else:
         result = run_live(args, trajectory)
     print(json.dumps(_jsonable(result), indent=2), flush=True)

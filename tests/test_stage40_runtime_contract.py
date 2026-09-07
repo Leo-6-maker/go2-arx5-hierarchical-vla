@@ -47,10 +47,10 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("SEEDS = (2223, 2228, 2233, 2238)", PY)
         self.assertIn("HANDOFF_S = 0.9750000000000001", PY)
         self.assertIn("CHUNK_DURATION_S = 1.9500000000000002", PY)
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0060"', PY)
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0062"', PY)
 
     def test_c0_and_c_fail_closed_contracts(self):
-        self.assertIn('choices=("b1", "c0", "live", "live-seed")', PY)
+        self.assertIn('choices=("b1", "c0", "v4", "live", "live-seed")', PY)
         self.assertIn("STAGE40_NONUNIFORM_REFERENCE_TIMESTAMPS", PY)
         self.assertIn("SCIENTIFIC_Q0_TERMINATION", PY)
         self.assertIn("q1_requested", PY)

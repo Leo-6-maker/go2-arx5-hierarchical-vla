@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Vanda A40 Stage40 V5: development-seed actual one-replan closed loop.
+#PBS -N vanda_st40_v5_one
+#PBS -q interactive_gpu
+#PBS -l select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -M leonliu@u.nus.edu
+#PBS -m ae
+
+set -euo pipefail
+export VANDA_STAGE40_STAGE_RUN=v5_one_handoff
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$SCRIPT_DIR/vanda_stage40_stage_runner.sh"

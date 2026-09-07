@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Vanda A40 Stage40 V4: dual-runtime Q0 and native initial-bind admission.
+#PBS -N vanda_st40_v4_c0
+#PBS -q interactive_gpu
+#PBS -l select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -M leonliu@u.nus.edu
+#PBS -m ae
+
+set -euo pipefail
+export VANDA_STAGE40_STAGE_RUN=v4_c0_dev
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$SCRIPT_DIR/vanda_stage40_stage_runner.sh"

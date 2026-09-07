@@ -184,6 +184,57 @@ grep -q '"wbc_forward_count": 0' "$RUN_ROOT/groot_construction.json"
 nvidia-smi --query-gpu=index,uuid,name,memory.total,driver_version,compute_cap,memory.used --format=csv,noheader > "$RUN_ROOT/gpu_after_v2.csv"
 python3 "$TELEMETRY_TOOL" --phase after_gr00t_construction --output-dir "$RUN_ROOT" --job-id "$PBS_JOBID" --gpu-index 0 --runtime-root "$RUNTIME_ROOT" --cache-root "$RUN_ROOT/runtime/cache"
 python3 "$TELEMETRY_TOOL" --phase final --output-dir "$RUN_ROOT" --job-id "$PBS_JOBID" --gpu-index 0 --runtime-root "$RUNTIME_ROOT" --cache-root "$RUN_ROOT/runtime/cache"
+python3 - "$RUN_ROOT" "$REPO" "$PBS_JOBID" "$RUNTIME_ROOT" "$STRUCTURED_ROOT" <<'PY'
+import hashlib
+import json
+import os
+import socket
+import subprocess
+import sys
+from pathlib import Path
+
+run_root = Path(sys.argv[1])
+repo = Path(sys.argv[2])
+job_id = sys.argv[3]
+runtime_root = Path(sys.argv[4])
+structured_root = Path(sys.argv[5])
+gpu_path = run_root / "gpu_after_v2.csv"
+gpu_line = gpu_path.read_text(encoding="utf-8").strip() if gpu_path.exists() else ""
+head = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
+result = {
+    "schema": "VANDA_STAGE40_V2_RESULT_V1",
+    "stage": "Stage40",
+    "pi_gate": "PI_GATE_STATE_0062",
+    "status": "PASS",
+    "job_id": job_id,
+    "execution_host": socket.gethostname(),
+    "queue": os.environ.get("PBS_QUEUE"),
+    "repository_head": head,
+    "runtime_root": str(runtime_root),
+    "structured_checkpoint_root": str(structured_root),
+    "gpu_query": gpu_line,
+    "model_construction": True,
+    "forward_count": 0,
+    "wbc_forward_count": 0,
+    "scientific_execution": False,
+    "formal_seeds_used": [],
+    "scientific_rows": 0,
+}
+payload = (json.dumps(result, sort_keys=True, indent=2) + "\n").encode("utf-8")
+result_path = run_root / "vanda_stage40_v2_result.json"
+result_path.write_bytes(payload)
+digest = hashlib.sha256(payload).hexdigest()
+(Path(str(result_path) + ".sha256")).write_text(digest + "  " + result_path.name + "\n", encoding="utf-8")
+latest = Path(os.environ.get(
+    "VANDA_STAGE40_V2_LATEST",
+    "/scratch/leonliu/leon-storage/runs/vanda_stage40_v2_latest.json",
+))
+temporary = latest.with_suffix(latest.suffix + ".tmp")
+temporary.write_bytes(payload)
+temporary.replace(latest)
+Path(str(latest) + ".sha256").write_text(digest + "  " + latest.name + "\n", encoding="utf-8")
+print(json.dumps({"result": str(result_path), "sha256": digest, "latest": str(latest)}), flush=True)
+PY
 echo "V2_GROOT_MODEL_CONSTRUCTION=PASS"
 echo "V2_FORWARD_COUNT=0"
 echo "V2_WBC_FORWARD_COUNT=0"

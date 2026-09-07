@@ -19,9 +19,15 @@ from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
 try:
-    from vanda_stage40_admission import validate_stage40_result_schema
+    from vanda_stage40_admission import (
+        validate_stage40_receding_horizon_result_schema,
+        validate_stage40_result_schema,
+    )
 except ModuleNotFoundError:  # package import from the repository root
-    from scripts.vanda_stage40_admission import validate_stage40_result_schema
+    from scripts.vanda_stage40_admission import (
+        validate_stage40_receding_horizon_result_schema,
+        validate_stage40_result_schema,
+    )
 
 
 GpuRunner = Callable[..., subprocess.CompletedProcess[str]]
@@ -146,7 +152,10 @@ def seal_result_file(input_path: Path, output_path: Path) -> dict[str, Any]:
 
     source = Path(input_path)
     result = json.loads(source.read_text(encoding="utf-8"))
-    validate_stage40_result_schema(result)
+    if result.get("schema") == "VANDA_STAGE40_V6_RESULT_V1":
+        validate_stage40_receding_horizon_result_schema(result)
+    else:
+        validate_stage40_result_schema(result)
     sealed = {
         "schema": "VANDA_STAGE40_RESULT_SEAL_V1",
         "result": result,

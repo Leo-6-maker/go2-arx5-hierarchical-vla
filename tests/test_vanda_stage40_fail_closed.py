@@ -31,7 +31,9 @@ from vanda_stage40_admission import (  # noqa: E402
     require_development_seed,
     validate_artifact_identities,
     validate_fake_lifecycle,
+    validate_receding_horizon_lifecycle,
     validate_safety_gate_decision,
+    validate_stage40_receding_horizon_result_schema,
     validate_stage40_result_schema,
     validate_structured_action_contract,
 )
@@ -90,7 +92,7 @@ def _pass_result() -> dict[str, object]:
     return {
         "schema": "VANDA_STAGE40_V5_RESULT_V1",
         "stage": "Stage40",
-        "pi_gate": "PI_GATE_STATE_0060",
+        "pi_gate": "PI_GATE_STATE_0062",
         "status": "PASS",
         "seed": DEV_SEED,
         "handoff_target_s": STAGE40_HANDOFF_S,
@@ -111,6 +113,63 @@ def _pass_result() -> dict[str, object]:
         "artifact_identities": {"structured": "sha256:structured"},
         "runtime_identities": {"isaac_sif": "sha256:sif"},
         "git_head": "a74d550be212e70d7371d75fc968d6a893595030",
+    }
+
+
+def _three_handoff_events() -> list[str]:
+    return [
+        "observation_q0",
+        "q0_decode",
+        "safety_q0",
+        "initial_bind",
+        "q0_prefix",
+        "handoff_pause_1",
+        "observation_q1",
+        "q1_decode",
+        "safety_q1",
+        "reference_update_1",
+        "q1_continuation",
+        "handoff_pause_2",
+        "observation_q2",
+        "q2_decode",
+        "safety_q2",
+        "reference_update_2",
+        "q2_continuation",
+        "handoff_pause_3",
+        "observation_q3",
+        "q3_decode",
+        "safety_q3",
+        "reference_update_3",
+        "q3_continuation",
+        "q3_completion",
+        "seal",
+    ]
+
+
+def _v6_pass_result() -> dict[str, object]:
+    return {
+        "schema": "VANDA_STAGE40_V6_RESULT_V1",
+        "stage": "Stage40",
+        "pi_gate": "PI_GATE_STATE_0062",
+        "status": "PASS",
+        "seed": DEV_SEED,
+        "handoff_target_s": STAGE40_HANDOFF_S,
+        "handoff_steps": 20,
+        "handoff_count": 3,
+        "forward_count": 4,
+        "reference_update_count": 3,
+        "executed_prefix_steps": [20, 20, 20],
+        "cumulative_actual_switch_s": [1.0, 2.0, 3.0],
+        "cumulative_switch_error_s": [0.025, 0.05, 0.075],
+        "physics_reset": False,
+        "physics_teleport": False,
+        "policy_history_reset": False,
+        "gpu_uuid": "GPU-test-a40",
+        "vram_baseline_mib": 1024.0,
+        "vram_peak_mib": 24576.0,
+        "artifact_identities": {"structured": "sha256:structured"},
+        "runtime_identities": {"isaac_sif": "sha256:sif"},
+        "git_head": "7bedd48d772cb95441af92bf83ecf323274be127",
     }
 
 
@@ -239,6 +298,42 @@ class VandaStage40FailClosedTest(unittest.TestCase):
                 with self.assertRaises(Stage40AdmissionError):
                     require_development_seed(seed)
 
+    def test_fake_three_handoff_receding_horizon_passes(self) -> None:
+        result = validate_receding_horizon_lifecycle(
+            _three_handoff_events(),
+            handoff_count=3,
+            handoff_steps=20,
+            executed_prefix_steps=[20, 20, 20],
+            safety_decisions=["ACCEPT", "WARN", "ACCEPT", "ACCEPT"],
+        )
+        self.assertEqual(result["forward_count"], 4)
+        self.assertEqual(result["reference_update_count"], 3)
+
+    def test_fake_three_handoff_negative_cases_block(self) -> None:
+        cases = [
+            (_three_handoff_events()[:-1] + ["second_reference_update"], [20, 20, 19], None),
+            (_three_handoff_events()[:15] + ["reference_update_3"] + _three_handoff_events()[16:], [20, 20, 20], None),
+            (_three_handoff_events(), [20, 20, 20], ["ACCEPT", "REJECT", "ACCEPT", "ACCEPT"]),
+        ]
+        for events, prefixes, decisions in cases:
+            with self.subTest(events=events, prefixes=prefixes, decisions=decisions):
+                with self.assertRaises(Stage40AdmissionError):
+                    validate_receding_horizon_lifecycle(
+                        events,
+                        handoff_count=3,
+                        handoff_steps=20,
+                        executed_prefix_steps=prefixes,
+                        safety_decisions=decisions,
+                    )
+
+    def test_v6_result_schema_requires_three_handoff_seal(self) -> None:
+        result = validate_stage40_receding_horizon_result_schema(_v6_pass_result())
+        self.assertTrue(result["schema_valid"])
+        bad = _v6_pass_result()
+        bad["reference_update_count"] = 2
+        with self.assertRaises(Stage40AdmissionError):
+            validate_stage40_receding_horizon_result_schema(bad)
+
     def test_result_schema_requires_full_a40_seal_fields(self) -> None:
         result = validate_stage40_result_schema(_pass_result())
         self.assertTrue(result["schema_valid"])
@@ -294,6 +389,16 @@ class VandaStage40TelemetryTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 seal_result_file(invalid_path, blocked_output)
             self.assertFalse(blocked_output.exists())
+
+    def test_v6_result_seal_uses_three_handoff_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            input_path = root / "v6_result.json"
+            seal_path = root / "v6_result.seal.json"
+            input_path.write_text(json.dumps(_v6_pass_result()), encoding="utf-8")
+            info = seal_result_file(input_path, seal_path)
+            self.assertTrue(info["result_schema_valid"])
+            self.assertTrue(seal_path.is_file())
 
 
 if __name__ == "__main__":
