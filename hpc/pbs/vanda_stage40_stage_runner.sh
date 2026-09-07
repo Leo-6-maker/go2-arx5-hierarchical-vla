@@ -95,7 +95,8 @@ test -n "$EXPECTED_EXECUTABLE_HEAD"
 git merge-base --is-ancestor "$EXPECTED_EXECUTABLE_HEAD" HEAD
 git diff --quiet "$EXPECTED_EXECUTABLE_HEAD" -- hpc/pbs scripts src
 
-python3 - "$V2_LATEST" "$EXPECTED_EXECUTABLE_HEAD" <<'PY'
+CURRENT_REPOSITORY_HEAD="$(git rev-parse HEAD)"
+python3 - "$V2_LATEST" "$CURRENT_REPOSITORY_HEAD" <<'PY'
 import hashlib
 import json
 import sys
