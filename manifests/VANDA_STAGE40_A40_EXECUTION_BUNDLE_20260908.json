@@ -75,7 +75,7 @@
       },
       {
         "logical_name": "structured_action_statistics",
-        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/metadata/structured_action_statistics.json",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/structured_action_statistics.json",
         "identity_type": "sha256",
         "identity": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
       },
@@ -115,7 +115,7 @@
       },
       {
         "logical_name": "WBC_archive",
-        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/WBCTrackingShare_20260831.zip",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/WBCTrackingShare_20260831.zip",
         "identity_type": "sha256",
         "identity": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
         "current_tree": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
@@ -242,5 +242,22 @@
     "formal_seeds_used": [],
     "scientific_rows": 0,
     "scientific_claim_promoted": false
+  },
+  "repository_head_at_bundle_manifest_write": "5bd170c8b9b60b910630212b85fa8095b32f5d94",
+  "locator_correction": {
+    "status": "PATH_ONLY_CORRECTION",
+    "prior_v0_manifest_locators_preserved_as_historical_evidence": true,
+    "corrections": [
+      {
+        "logical_name": "structured_action_statistics",
+        "corrected_path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/structured_action_statistics.json",
+        "identity_unchanged": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
+      },
+      {
+        "logical_name": "WBC_archive",
+        "corrected_path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/WBCTrackingShare_20260831.zip",
+        "identity_unchanged": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167"
+      }
+    ]
   }
 }
