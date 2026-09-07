@@ -119,14 +119,18 @@ WORKER_LOG="${RUN_ROOT}/stage40_groot_worker.log"
   --mailbox "${RUN_ROOT}/mailbox" \
   --device cuda:0 --local-files-only >"${WORKER_LOG}" 2>&1 &
 WORKER_PID=$!
+WORKER_READY_TIMEOUT_S="${STAGE40_WORKER_READY_TIMEOUT_S:-1200}"
+READY=0
 cleanup() {
   touch "${RUN_ROOT}/mailbox/STOP" 2>/dev/null || true
+  if [ "${READY}" != 1 ] && kill -0 "${WORKER_PID}" 2>/dev/null; then
+    kill "${WORKER_PID}" 2>/dev/null || true
+  fi
   wait "${WORKER_PID}" 2>/dev/null || true
 }
 trap cleanup EXIT
 
-READY=0
-for _ in $(seq 1 600); do
+for _ in $(seq 1 "${WORKER_READY_TIMEOUT_S}"); do
   if grep -q '"status": "READY"' "${WORKER_LOG}" 2>/dev/null; then READY=1; break; fi
   if ! kill -0 "${WORKER_PID}" 2>/dev/null; then break; fi
   sleep 1
