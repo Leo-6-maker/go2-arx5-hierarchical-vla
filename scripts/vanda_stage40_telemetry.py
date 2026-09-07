@@ -18,7 +18,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
-from vanda_stage40_admission import validate_stage40_result_schema
+try:
+    from vanda_stage40_admission import validate_stage40_result_schema
+except ModuleNotFoundError:  # package import from the repository root
+    from scripts.vanda_stage40_admission import validate_stage40_result_schema
 
 
 GpuRunner = Callable[..., subprocess.CompletedProcess[str]]
