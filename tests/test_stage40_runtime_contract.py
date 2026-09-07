@@ -44,6 +44,15 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("q1_requested", PY)
         self.assertIn("reference_completion", PY)
 
+    def test_c0_safety_gate_is_diagnostic_only(self):
+        self.assertIn("def _c0_runtime_checks_pass", PY)
+        self.assertIn('"safety_gate_diagnostic_only": True', PY)
+        self.assertIn('"c0_admission_semantics": "RUNTIME_ONLY_SAFETYGATE_DIAGNOSTIC"', PY)
+        self.assertNotIn(
+            'all((body_ok, wrist_ok, state_ok, ids_ok, model_ok, native_ok, gate_ok))',
+            PY,
+        )
+
     def test_reference_lifecycle_has_explicit_two_phase_api(self):
         self.assertIn("def initial_bind_reference", NATIVE)
         self.assertIn("def load_reference_chunk", NATIVE)

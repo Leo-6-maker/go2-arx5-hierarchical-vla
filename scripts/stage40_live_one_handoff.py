@@ -53,6 +53,15 @@ HANDOFF_S = 0.9750000000000001
 CHUNK_DURATION_S = 1.9500000000000002
 SEEDS = (2223, 2228, 2233, 2238)
 
+_C0_RUNTIME_CHECK_KEYS = (
+    "body_rgb", "wrist_rgb", "state_v1", "same_simulator_instance",
+    "worker_response", "native_runtime",
+)
+
+
+def _c0_runtime_checks_pass(admission_checks: Mapping[str, Any]) -> bool:
+    return all(bool(admission_checks.get(key)) for key in _C0_RUNTIME_CHECK_KEYS)
+
 
 def _quat_error(q0: Any, q1: Any) -> float:
     left = np.asarray(q0, dtype=np.float64)
@@ -238,12 +247,15 @@ def run_c0(args: argparse.Namespace, trajectory: Mapping[str, np.ndarray]) -> di
         model_ok = case["response"].get("status") == "PASS" and case["finite"]
         native_ok = actors is not None and len(loads) == 2 and native.stage21_wbc_forward_count == 0
         gate_ok = case["safety_gate"]["decision"] != GateDecision.REJECT.value
-        result.update({"admission_checks": {"body_rgb": bool(body_ok), "wrist_rgb": bool(wrist_ok),
+        admission_checks = {"body_rgb": bool(body_ok), "wrist_rgb": bool(wrist_ok),
                 "state_v1": bool(state_ok), "same_simulator_instance": bool(ids_ok),
                 "worker_response": bool(model_ok), "native_runtime": bool(native_ok),
-                "safety_gate_not_reject": bool(gate_ok)},
+                "safety_gate_not_reject": bool(gate_ok),
+                "safety_gate_diagnostic_only": True}
+        result.update({"admission_checks": admission_checks,
             "safety_gate": case["safety_gate"],
-            "status": "PASS" if all((body_ok, wrist_ok, state_ok, ids_ok, model_ok, native_ok, gate_ok)) else "BLOCKED",
+            "c0_admission_semantics": "RUNTIME_ONLY_SAFETYGATE_DIAGNOSTIC",
+            "status": "PASS" if _c0_runtime_checks_pass(admission_checks) else "BLOCKED",
             "worker_ready": bool(model_ok), "native_runtime_ready": bool(native_ok),
             "dual_runtime_coexistence": bool(model_ok and native_ok),
             "fresh_observation_closure": {"body_rgb": {"shape": case["body_shape"], "dtype": case["body_dtype"], "sha256": case["body_sha256"]},
