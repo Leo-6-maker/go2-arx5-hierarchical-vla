@@ -1,0 +1,131 @@
+{
+  "schema": "vanda_stage40_portability_audit_v1",
+  "generated_date": "2026-09-08",
+  "role": "VANDA_A40_PRIMARY_ENGINEERING_AGENT",
+  "gate": {
+    "name": "PI_GATE_STATE_0060",
+    "issue": 11,
+    "comment_id": 5573400717
+  },
+  "comparison": {
+    "accepted_d1": "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a",
+    "corelab_portable_source": "44cec282720eeb674e3399bdf4242abd60de27df",
+    "vanda_portable_series": [
+      "420cdf54ebb392aec697ee5bfb73ea7239641277",
+      "5e2b9198717ed752001859e5d5090f937b7efdef",
+      "a74d550be212e70d7371d75fc968d6a893595030"
+    ],
+    "vanda_executable_code_head": "02700906bcaac62f9a0b9d669bf15a8970a94a86",
+    "methods": [
+      "git diff --name-status D1..Vanda HEAD",
+      "git diff --stat D1..Corelab portable source",
+      "git diff --stat D1..Vanda portable series",
+      "git blob identity comparison for shared portable paths"
+    ]
+  },
+  "diff_summary": {
+    "corelab_portable_source": {
+      "scripts/stage40_live_one_handoff.py": {
+        "insertions": 61,
+        "deletions": 8
+      },
+      "tests/test_stage40_prefix_lifecycle.py": {
+        "insertions": 93,
+        "deletions": 0
+      }
+    },
+    "vanda_portable_series": {
+      "scripts/stage40_live_one_handoff.py": {
+        "insertions": 62,
+        "deletions": 8
+      },
+      "tests/test_stage40_prefix_lifecycle.py": {
+        "insertions": 204,
+        "deletions": 0
+      },
+      "tests/test_stage40_runtime_contract.py": {
+        "insertions": 2,
+        "deletions": 0
+      }
+    }
+  },
+  "categories": {
+    "portable_stage40_semantics": [
+      {
+        "path": "scripts/stage40_live_one_handoff.py",
+        "corelab_commit": "44cec282720eeb674e3399bdf4242abd60de27df",
+        "vanda_blob_at_audit": "58138edd4b7382915be09eb6b42f4b6a28474fa3",
+        "scope": [
+          "_stage40_handoff_steps",
+          "_build_stage40_executor",
+          "exact executed_prefix_steps",
+          "single reference-only handoff",
+          "no reset/teleport/policy-history reset",
+          "H40/T16/1.95 s contract retained"
+        ],
+        "judgement": "portable semantic repair; no RTX/A40 hardware dependency"
+      },
+      {
+        "path": "tests/test_stage40_prefix_lifecycle.py",
+        "corelab_commit": "44cec282720eeb674e3399bdf4242abd60de27df",
+        "vanda_blob_at_audit": "3a0a4076de7df9bf8ac466aa571767174a7e43f6",
+        "scope": [
+          "executor prefix bookkeeping",
+          "run_live fake call ordering",
+          "initial bind before first WBC boundary",
+          "exactly one q1 reference update"
+        ],
+        "judgement": "portable deterministic regression"
+      }
+    ],
+    "vanda_a40_platform_mechanics": [
+      "hpc/pbs/vanda_stage40_v2_runtime.pbs",
+      "scripts/vanda_stage40_admission.py",
+      "scripts/vanda_stage40_telemetry.py",
+      "tests/test_vanda_stage40_fail_closed.py",
+      "manifests/VANDA_STAGE40_PROVENANCE_20260907.json",
+      "manifests/VANDA_STAGE40_W1_STATIC_AUDIT_20260908.json"
+    ],
+    "rtx_or_hopper_specific_historical_mechanics": [
+      {
+        "path": "hpc/pbs/stage40_b0.pbs",
+        "status": "historical D1 path; not called by Vanda A40 launcher"
+      },
+      {
+        "path": "hpc/pbs/stage40_b1.pbs",
+        "status": "historical runtime path; not called by Vanda A40 launcher"
+      },
+      {
+        "path": "hpc/pbs/stage40_live.pbs",
+        "status": "historical Hopper/RTX path; not called by Vanda A40 launcher"
+      },
+      {
+        "path": "hpc/pbs/stage40_rlq_canary.pbs",
+        "status": "historical path; not called by Vanda A40 launcher"
+      }
+    ],
+    "stale_gate_bookkeeping": [
+      {
+        "path": "manifests/VANDA_STAGE40_PROVENANCE_20260907.json",
+        "finding": "historical V0 evidence names PI_GATE_STATE_0059 and is preserved as historical evidence"
+      },
+      {
+        "path": "scripts/stage40_live_one_handoff.py",
+        "finding": "live report marker updated to PI_GATE_STATE_0060 in bookkeeping commit b57c0820c4b1cc1a9f9bc698364a27bce43dc565"
+      }
+    ],
+    "evidence_or_report_only": [
+      "manifests/VANDA_STAGE40_PROVENANCE_20260907.json",
+      "manifests/VANDA_STAGE40_W1_STATIC_AUDIT_20260908.json",
+      "tests/test_stage40_runtime_contract.py gate assertion"
+    ]
+  },
+  "divergence_policy": {
+    "no_branch_merge": true,
+    "no_formal_hopper_branch": true,
+    "no_rtx_shim_import": true,
+    "executable_a40_path": "only hpc/pbs/vanda_stage40_v2_runtime.pbs plus future explicitly staged V3/V4/V5 PBS",
+    "provenance_rule": "portable source SHA and A40 mechanics remain separately named"
+  },
+  "conclusion": "Vanda portable semantics are aligned with Corelab's accepted repair; remaining differences are A40 platform/evidence mechanics or preserved historical PBS paths and do not constitute a semantic divergence."
+}
