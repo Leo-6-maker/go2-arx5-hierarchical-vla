@@ -1,10 +1,10 @@
 # Vanda A40 Stage40 pre-stage execution plan
 
-Gate authority: PI_GATE_STATE_0060, Issue #11 comment 5573400717.
+Gate authority: PI_GATE_STATE_0062, Issue #11 comment 5573740132.
 Branch: stage40-dev/a40-bringup.
-Executable code head at planning time: 02700906bcaac62f9a0b9d669bf15a8970a94a86.
+Executable code head at freeze time: cbf12ce0100bd51e39e80c25b1d67eede4f1eb99.
 
-This file stages commands and admission predicates only. V3/V4/V5 are not submitted by this document.
+This file records the already-committed commands and admission predicates. It does not authorize concurrent submission: only the active predecessor stage may own an A40 job.
 
 ## Common PBS/accounting contract
 
@@ -24,8 +24,9 @@ Common output roots, one per stage:
 
     V2: /scratch/leonliu/leon-storage/runs/vanda_stage40_v2_$PBS_JOBID
     V3: /scratch/leonliu/leon-storage/runs/vanda_stage40_v3_q0_$PBS_JOBID
-    V4: /scratch/leonliu/leon-storage/runs/vanda_stage40_v4_c0_$PBS_JOBID
+    V4: /scratch/leonliu/leon-storage/runs/vanda_stage40_v4_c0_dev_$PBS_JOBID
     V5: /scratch/leonliu/leon-storage/runs/vanda_stage40_v5_one_handoff_$PBS_JOBID
+    V6: /scratch/leonliu/leon-storage/runs/vanda_stage40_v6_3h_$PBS_JOBID
 
 All stages use DEV_SEED=4242. Formal seeds 2223/2228/2233/2238 are forbidden. No stage may read/write Validation-E, Holdout-F, training, hardware, ROS/ZMQ/P1M, or H200 paths.
 
@@ -39,7 +40,7 @@ Exact submission command:
 
     qsub /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v2_runtime.pbs
 
-Current V2 runner is the only executable PBS in this plan. It performs native camera/StateV1 smoke and exact GR00T model construction with forward_count=0 and wbc_forward_count=0. It records telemetry phases baseline, after_native_camera, after_gr00t_construction, and final.
+The V2 runner performs native camera/StateV1 smoke and exact GR00T model construction with forward_count=0 and wbc_forward_count=0. It records telemetry phases baseline, after_native_camera, after_gr00t_construction, and final, then writes a signed-by-hash predecessor marker for V3.
 
 Required V2 admission:
 - qsub accepted in interactive_gpu;
@@ -54,7 +55,7 @@ Required V2 admission:
 
 ## V3 development Q0 admission
 
-Planned runner (must be committed and statically audited before use):
+Committed and statically audited runner:
 
     /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v3_q0.pbs
 
@@ -75,7 +76,7 @@ Required admission predicate:
 
 ## V4 semantic C0-dev
 
-Planned runner (must be committed and statically audited before use):
+Committed and statically audited runner:
 
     /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v4_c0_dev.pbs
 
@@ -96,7 +97,7 @@ Required admission predicate:
 
 ## V5 complete one-handoff engineering smoke
 
-Planned runner (must be committed and statically audited before use):
+Committed and statically audited runner:
 
     /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v5_one_handoff.pbs
 
@@ -114,16 +115,37 @@ Required admission predicate:
 - result seal passes vanda_stage40_telemetry.py;
 - after PASS, stop for GPT/PI review.
 
+## V6 bounded three-handoff development loop
+
+Committed and statically audited runner:
+
+    /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v6_3h.pbs
+
+Exact command only after V2/V3/V4/V5 predecessor seals pass and the bundle is still frozen:
+
+    qsub /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v6_3h.pbs
+
+Required admission predicate:
+- one development-seed episode with DEV_SEED=4242;
+- fresh S0 -> Q0 -> WBC, then fresh S1/S2/S3 after actual native evolution;
+- exactly four GR00T forwards Q0..Q3 and exactly three reference-only updates;
+- each update uses `round(0.9750000000000001/native_dt)` native steps;
+- cumulative actual tick times and errors are recorded without adaptive retiming;
+- D1/StructuredActionV1, H40/T16, SafetyGate ACCEPT/WARN, and finite output at every Qk;
+- no reset, teleport, policy-history clear, hidden simulator reset, or shared executor change;
+- root/dof continuity, GPU/host telemetry, artifact/runtime/git identities, and V6 seal all pass;
+- after `VANDA_A40_STAGE40_3H_RECEDING_HORIZON_PASS`, stop for GPT/PI review.
+
 ## Freeze/rebind rule
 
-Before any V2/V3/V4/V5 qsub:
+Before any V2/V3/V4/V5/V6 qsub:
 
     git status --porcelain --untracked-files=all
     git rev-parse HEAD
     git rev-parse @{u}
     git diff --check
-    bash -n hpc/pbs/<runner>.pbs
-    grep -nE "PBS -P|qsub[^$]*-P|personal-leonliu" hpc/pbs/<runner>.pbs
+    bash -n hpc/pbs/<runner>.pbs hpc/pbs/vanda_stage40_stage_runner.sh
+    grep -nE "PBS -P|qsub[^$]*-P|personal-leonliu" hpc/pbs/<runner>.pbs hpc/pbs/vanda_stage40_stage_runner.sh
 
 The queue job must be cancelled/rebound if tracked source or runner bytes change after submission. Never rely on a mutable working directory silently.
 

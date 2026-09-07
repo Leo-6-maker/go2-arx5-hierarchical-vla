@@ -1,0 +1,358 @@
+{
+  "schema": "vanda_stage40_a40_execution_bundle_v2",
+  "generated_date": "2026-09-08",
+  "role": "VANDA_A40_PRIMARY_ENGINEERING_AGENT",
+  "evidence_class": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "gate": {
+    "name": "PI_GATE_STATE_0062",
+    "issue": 11,
+    "comment_id": 5573740132,
+    "comment_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5573740132"
+  },
+  "bundle_status": "FROZEN_BEFORE_REPLACEMENT_A40_V2_QSUB",
+  "source": {
+    "executable_code_head": "cbf12ce0100bd51e39e80c25b1d67eede4f1eb99",
+    "portable_fix_commits": [
+      "420cdf54ebb392aec697ee5bfb73ea7239641277",
+      "5e2b9198717ed752001859e5d5090f937b7efdef",
+      "a74d550be212e70d7371d75fc968d6a893595030"
+    ],
+    "live_script_sha256": "2f35f68b8497a0437e10d2b1517aaa5d0fb41f2e3e52dc8c64ec698ba2e59018",
+    "v2_launcher_sha256": "8ebb9d79408467012e62816bb425f3a48f876d01df68233d1a4713988e146568",
+    "admission_tool_sha256": "49ab1104b30b2f9759adc7ccdebb84812f2096f73c28f0df266f532db109b694",
+    "telemetry_tool_sha256": "3acea5129f626062e1af427643e271dfa78fbae56254aea2e1c3dfaef503d26d",
+    "fail_closed_harness_sha256": "36704a3e8d333417bd565e7b8b9826f3fb87de8340e9eff25383d1ae0538c481",
+    "history": {
+      "superseded_pending_job_submitted_from": "7bedd48d772cb95441af92bf83ecf323274be127",
+      "reason_for_rebind": "PI_GATE_STATE_0062 authorized V3-V6 staging; rebind queued V2 before consuming new executable bundle",
+      "previous_queued_job": "1355189.stdct-mgmt-02"
+    },
+    "v6_runner_sha256": "483c8404f0a72ced1582f77b80f163bd904e8127c14e638f604e511035ddc1c3",
+    "v5_result_builder_sha256": "fd679aa44a43e94186427054d2d5ae35ed3682f643b179c8a194e1f81ffa2df8",
+    "staged_pbs_runner_sha256": "baac6f303d281ac7a80bedceedf6f65af2fbcb70cacb2fe2bdd533ee80703d1f",
+    "staged_pbs_wrappers": {
+      "v3_q0": "dff19b582661533a250460262261890548ba6dee2ab7c9f4f67150ff5d8f137f",
+      "v4_c0_dev": "20d25f3c7388fc7d6a8305c2b369ece3c28c75d1b07b35ef09e873c077aebedb",
+      "v5_one_handoff": "9f0839e5181123086294c471462e8b11f635742f1c5b92c57c1d70194bf60014",
+      "v6_3h": "d411cb806ce780bfdbdce90634df9c56aace264c15fc21706497b08bfb4a5170"
+    }
+  },
+  "evidence_manifests": {
+    "w1_static_audit": "manifests/VANDA_STAGE40_W1_STATIC_AUDIT_20260908.json",
+    "w5_portability_audit": "manifests/VANDA_CORELAB_PORTABILITY_AUDIT_20260908.json",
+    "w6_prestage_plan": "docs/VANDA_STAGE40_PRESTAGE_COMMANDS_20260908.md",
+    "prior_v0_provenance": "manifests/VANDA_STAGE40_PROVENANCE_20260907.json",
+    "execution_bundle_parent": "manifests/VANDA_STAGE40_A40_EXECUTION_BUNDLE_20260908.json",
+    "v6_admission_and_runner": "scripts/stage40_receding_horizon_3h.py",
+    "v5_result_builder": "scripts/vanda_stage40_v5_result.py"
+  },
+  "scheduler": {
+    "queue_entry": "interactive_gpu",
+    "requested_select": "select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40",
+    "observed_site_normalization_on_superseded_job": "select=1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+    "walltime": "00:30:00",
+    "user_project_directive": "NONE",
+    "qsub_project_flag": "FORBIDDEN",
+    "manual_project_name": "NONE",
+    "automatic_scheduler_project_observed": "personal-leonliu",
+    "submission_command": "qsub /home/svu/leonliu/projects/go2arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v2_runtime.pbs",
+    "duplicate_jobs": false,
+    "current_job": null,
+    "next_action": "submit exactly one replacement V2 after this bundle is frozen"
+  },
+  "superseded_job": {
+    "job_id": "1355189.stdct-mgmt-02",
+    "state_before_cancel": "Q",
+    "state_after_cancel": "F",
+    "queue": "interactive_gpu",
+    "project_field_observed": "personal-leonliu",
+    "execution_host": null,
+    "qtime": "2026-09-08T00:50:03+08:00",
+    "resource_list": "select=1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+    "submit_arguments": "/home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v2_runtime.pbs",
+    "cancellation": "qdel exact job after qstat capture; historical qstat -xf retained by the return",
+    "model_construction": false,
+    "forward_count": 0,
+    "wbc_step_count": 0,
+    "scientific_execution": false
+  },
+  "immutable_inputs": {
+    "root": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized",
+    "package_root": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1",
+    "mutable_cache_and_output_root": "/scratch/leonliu/leon-storage/runs",
+    "symlink_escape_check": "required before qsub; immutable root and mutable output roots are separate",
+    "rows": [
+      {
+        "logical_name": "STRUCTURED@1000",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/structured_checkpoint_1000/checkpoint-1000",
+        "identity_type": "deterministic_tree_sha256",
+        "identity": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+        "file_count": 19,
+        "total_bytes": 20889596357
+      },
+      {
+        "logical_name": "structured_action_statistics",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/structured_action_statistics.json",
+        "identity_type": "sha256",
+        "identity": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
+      },
+      {
+        "logical_name": "GR00T_base_model",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/groot_base_model/GR00T-N1.7-3B",
+        "identity_type": "deterministic_tree_sha256",
+        "identity": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+        "file_count": 82,
+        "total_bytes": 6927373529
+      },
+      {
+        "logical_name": "TINY1",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2",
+        "identity_type": "deterministic_tree_sha256",
+        "identity": "541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157",
+        "file_count": 13,
+        "total_bytes": 152958
+      },
+      {
+        "logical_name": "TINY1_action_stats",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2/meta/stats.json",
+        "identity_type": "sha256",
+        "identity": "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
+      },
+      {
+        "logical_name": "TINY1_relative_stats",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2/meta/relative_stats.json",
+        "identity_type": "sha256",
+        "identity": "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1"
+      },
+      {
+        "logical_name": "Stage22_modality",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/modality/go2_arx5_modality.py",
+        "identity_type": "sha256",
+        "identity": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+      },
+      {
+        "logical_name": "WBC_archive",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/WBCTrackingShare_20260831.zip",
+        "identity_type": "sha256",
+        "identity": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+        "current_tree": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+        "historical_tree_non_authoritative": "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567"
+      },
+      {
+        "logical_name": "Cosmos_Reason2_2B_snapshot",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+        "identity_type": "revision_and_deterministic_tree_sha256",
+        "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+        "identity": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+        "entry_count": 28,
+        "symlink_count": 10
+      },
+      {
+        "logical_name": "Isaac_Apptainer_SIF",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif",
+        "identity_type": "sha256",
+        "identity": "c65b5e48cd7516851a3594afebb556205b3aae19c56ed93fa0974c6fad58dd02"
+      },
+      {
+        "logical_name": "Stage22_runtime_bundle",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime",
+        "identity_type": "source_package_sha256",
+        "identity": "85225ab393fed67a158099d42edd640c65e5032f5590352e06d2caa9e7972be9",
+        "source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+      },
+      {
+        "logical_name": "Stage22_FFmpeg_bundle",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_ffmpeg4/stage22_h200_ffmpeg4_bundle_20260902",
+        "identity_type": "source_package_sha256",
+        "identity": "070dff67681208c993d45e850b9787ccaea80897b0f7dc619ac96447344528b5"
+      },
+      {
+        "logical_name": "source_export_manifest",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/metadata/source_export_manifest.json",
+        "identity_type": "sha256",
+        "identity": "eebd5d153576c7b3481b161ec55ac3619f5d727795a6de5fabf714205f3bd511"
+      }
+    ]
+  },
+  "runtime": {
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "groot_source_worktree": "clean",
+    "apptainer": "/cm/shared/apps/apptainer/1.4.1/bin/apptainer",
+    "apptainer_version": "1.4.1-1.el9",
+    "native_python": "/opt/miniconda3/envs/isaacgym/bin/python",
+    "groot_python": "/usr/bin/python3.12",
+    "stage22_torch": "2.9.0+cu128",
+    "transformers": "4.57.3",
+    "cuda_runtime_in_venv": "12.8",
+    "model_forward_allowed_in_bundle": false,
+    "wbc_step_allowed_in_bundle": false
+  },
+  "contract": {
+    "dev_seed": 4242,
+    "formal_seeds": [
+      2223,
+      2228,
+      2233,
+      2238
+    ],
+    "formal_seed_policy": "FORBIDDEN",
+    "action_codec": "StructuredActionV1",
+    "raw_shape": [
+      1,
+      40,
+      132
+    ],
+    "physical_shape": [
+      40,
+      10
+    ],
+    "timing_mode": "T16",
+    "source_period_s": 0.05,
+    "chunk_duration_s": 1.9500000000000002,
+    "handoff_target_s": 0.9750000000000001,
+    "handoff_steps": "round(handoff_target_s/native_dt)",
+    "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp": "x5_link6_gripper_center",
+    "generic_processor_decode_action": "FORBIDDEN",
+    "reset_teleport_policy_history_clear": "FORBIDDEN",
+    "scientific_rows": 0,
+    "v6_handoff_count": 3,
+    "v6_forward_count": 4,
+    "v6_reference_update_count": 3,
+    "v6_schedule": "each update after round(handoff_target_s/native_dt), no adaptive retiming"
+  },
+  "runtime_phase_telemetry": [
+    "baseline",
+    "after_native_camera",
+    "after_gr00t_construction",
+    "final",
+    "v3_q0_baseline",
+    "v3_q0_runtime_ready",
+    "v3_q0_complete",
+    "v4_c0_dev_baseline",
+    "v4_c0_dev_runtime_ready",
+    "v4_c0_dev_complete",
+    "v5_one_handoff_baseline",
+    "v5_one_handoff_runtime_ready",
+    "v5_one_handoff_complete",
+    "v6_3h_baseline",
+    "v6_3h_runtime_ready",
+    "v6_3h_complete"
+  ],
+  "gates": {
+    "v2": "native camera/StateV1 + exact GR00T construction only; forward_count=0; wbc_forward_count=0",
+    "v3": "fresh development Q0 only; D1 decode; SafetyGate ACCEPT/WARN; REJECT stops; no WBC",
+    "v4": "dual-runtime Q0 + native initial bind; bind before WBC; no WBC step",
+    "v5": "actual fresh-observation one-replan closed loop; exactly one reference-only update; seal required",
+    "v6": "actual Q0..Q3; exactly three reference-only updates; seal required; STOP PI after PASS"
+  },
+  "required_pre_qsub_checks": [
+    "git status --porcelain --untracked-files=all is empty",
+    "git rev-parse HEAD equals origin/stage40-dev/a40-bringup",
+    "git diff --check",
+    "bash -n every Vanda Stage40 PBS wrapper and shared runner",
+    "no PBS project directive, qsub project flag, or manual accounting project in effective submission",
+    "all immutable input identities recomputed and match",
+    "V2 latest predecessor marker is absent or belongs to the exact current executable bundle",
+    "only one A40 job is active"
+  ],
+  "documentation_commits": {
+    "w1": "567173f0d1b1e3d442906b4c5e91ddcdd500a274",
+    "w5": "235a5669acceff349b5b1805ab93fc2211a81672",
+    "w6": "03d23af7b3fdebb49767d9dc79ce5abb578639e7"
+  },
+  "boundary": {
+    "this_manifest_freezes_inputs_and_commands_only": true,
+    "model_construction": false,
+    "groot_forward_count": 0,
+    "wbc_forward_count": 0,
+    "wbc_step_count": 0,
+    "training": false,
+    "scientific_execution": false,
+    "formal_seeds_used": [],
+    "scientific_rows": 0,
+    "scientific_claim_promoted": false,
+    "v2_model_construction_authorized": true,
+    "v2_forward_count": 0,
+    "v2_wbc_forward_count": 0,
+    "v3_v4_v5_v6_code_prepared_only": true,
+    "v6_model_forward_count": 4,
+    "v6_wbc_step_count": "runtime-observed"
+  },
+  "locator_correction": {
+    "status": "PATH_ONLY_CORRECTION",
+    "prior_v0_manifest_locators_preserved_as_historical_evidence": true,
+    "corrections": [
+      {
+        "logical_name": "structured_action_statistics",
+        "corrected_path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/structured_action_statistics.json",
+        "identity_unchanged": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
+      },
+      {
+        "logical_name": "WBC_archive",
+        "corrected_path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/WBCTrackingShare_20260831.zip",
+        "identity_unchanged": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167"
+      }
+    ]
+  },
+  "manifest_write_chain": {
+    "initial_bundle_manifest_commit": "5bd170c8b9b60b910630212b85fa8095b32f5d94",
+    "locator_correction_commit": "c0b8b0da572d6af6f0e36e7969f814085540403e",
+    "current_commit_is_documentation_descendant_only": true,
+    "executable_code_head_remains": "02700906bcaac62f9a0b9d669bf15a8970a94a86"
+  },
+  "superseded_jobs": [
+    {
+      "job_id": "1355158.stdct-mgmt-02",
+      "state_before_cancel": "Q",
+      "queue": "interactive_gpu",
+      "project_field_observed": "personal-leonliu",
+      "execution_host": null,
+      "qtime": "2026-09-08T00:19:00+08:00",
+      "resource_list": "select=1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+      "cancellation": "qdel exact job after qstat capture",
+      "model_construction": false,
+      "forward_count": 0,
+      "wbc_step_count": 0,
+      "scientific_execution": false
+    },
+    {
+      "job_id": "1355189.stdct-mgmt-02",
+      "state_before_cancel": "Q",
+      "state_after_cancel": "F",
+      "queue": "interactive_gpu",
+      "project_field_observed": "personal-leonliu",
+      "execution_host": null,
+      "qtime": "2026-09-08T00:50:03+08:00",
+      "resource_list": "select=1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+      "submit_arguments": "/home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v2_runtime.pbs",
+      "cancellation": "qdel exact job after qstat capture; historical qstat -xf retained by the return",
+      "model_construction": false,
+      "forward_count": 0,
+      "wbc_step_count": 0,
+      "scientific_execution": false
+    }
+  ],
+  "stage_ladder": {
+    "order": [
+      "V2",
+      "V3",
+      "V4",
+      "V5",
+      "V6"
+    ],
+    "active_predecessor": "V2",
+    "active_job": null,
+    "one_active_a40_job_per_stage": true,
+    "normal_pass_autocontinue_until": "V6_PASS",
+    "after_v6": "STOP_FOR_PI_REVIEW",
+    "h200": "DORMANT_HOLD"
+  },
+  "rebind": {
+    "cancelled_job": "1355189.stdct-mgmt-02",
+    "reason": "tracked Stage40 V3-V6 orchestration changes after prior V2 submission",
+    "raw_scheduler_observation": "job_state=Q; queue=interactive_gpu; execution host absent; project field auto-populated as personal-leonliu; no user -P in Submit_arguments",
+    "replacement_submission": "one qsub only after this manifest and branch tip are frozen"
+  }
+}
+
