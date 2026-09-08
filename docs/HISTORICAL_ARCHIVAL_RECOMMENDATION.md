@@ -1,9 +1,15 @@
 # Historical PR and branch archival recommendation
 
-This is a proposal, not an execution log. Under `PI_GATE_STATE_0071`, no
-historical PR or branch is closed, deleted, rewritten, or merged by the
-consolidation work. The accepted successor anchor is
-`bd0f02934e680789cf38adacb838e1ea555c707d`.
+This page retains the RC0 recommendation and records the authorized RC8
+execution. Under `PI_GATE_STATE_0072`, PR #28 was normally merged into `main`
+at `bfa14bf1b74eae908c0922575a4db671c903b9b8`; PRs #4–#10 and #12–#26 were
+closed unmerged as superseded, with comments and evidence preserved. PR #3 was
+already merged before RC8 and remains merged; it was not rewritten or
+force-closed. No historical branch was deleted. The accepted successor anchor
+is `bd0f02934e680789cf38adacb838e1ea555c707d`.
+
+The table below is the original RC0 snapshot and proposed-action record. The
+RC8 execution status above is authoritative for the current GitHub state.
 
 ## Historical PRs
 
@@ -53,6 +59,7 @@ The 38 stage branches found at RC0 fall into three preservation classes:
 | `stage44r/corelab-attribution-repair` | Accepted source tip | Retain as the Stage44R provenance anchor, or replace only with a PI-approved tag after the consolidation merge. |
 
 The complete branch names and SHA inventory are machine-recorded in
-`reports/REPOSITORY_CONSOLIDATION_AUDIT.json`. No bulk cleanup should occur
-until PI reviews the consolidation PR and explicitly authorizes the archival
-step.
+`reports/REPOSITORY_CONSOLIDATION_AUDIT.json`. No branch deletion, history
+rewrite, or evidence removal was performed by RC8. Future branch cleanup
+requires a separate explicit PI authorization after the corresponding evidence
+has been independently archived.
