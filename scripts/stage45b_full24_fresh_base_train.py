@@ -28,7 +28,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "scripts"))
 
-PI_GATE = "PI_GATE_STATE_0073"
+PI_GATE = "PI_GATE_STATE_0079"
 STAGE = "Stage45B"
 BRANCH = "stage45b/full24-fresh-base-execution"
 SOURCE_HEAD = "SOURCE_HEAD_FILLED_BY_HANDOFF_MANIFEST"
