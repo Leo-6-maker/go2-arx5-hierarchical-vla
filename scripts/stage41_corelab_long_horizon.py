@@ -41,6 +41,7 @@ from stage40_corelab_phase import (  # noqa: E402
     _check_rows,
     _current_eef,
     _build_native,
+    _array_sha,
     _initial_bind,
     _load_pose_file,
     _native_args,
@@ -162,11 +163,11 @@ def _materialize_evidence(
         summary.update({
             "state_v1_shape": list(state_value.shape),
             "state_v1_dtype": str(state_value.dtype),
-            "state_v1_sha256": stage40._array_sha(state_value),
+            "state_v1_sha256": _array_sha(state_value),
             "raw_shape": list(raw_values[case_id].shape),
-            "raw_sha256": stage40._array_sha(raw_values[case_id]),
+            "raw_sha256": _array_sha(raw_values[case_id]),
             "decoded_shape": list(decoded_values[case_id].shape),
-            "decoded_sha256": stage40._array_sha(decoded_values[case_id]),
+            "decoded_sha256": _array_sha(decoded_values[case_id]),
             "finite": bool(np.isfinite(state_value).all() and np.isfinite(raw_values[case_id]).all() and np.isfinite(decoded_values[case_id]).all()),
         })
         summary["wrist_dtype"] = str(wrist_values[case_id].dtype)
