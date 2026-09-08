@@ -411,7 +411,7 @@ def _run(args: argparse.Namespace) -> int:
     bundle_path = Path(args.bundle).resolve(strict=True)
     _require(bundle_path.read_bytes() == evidence.canonical_json_bytes(evidence.read_json(bundle_path)), "Stage43 bundle is not canonical JSON")
     bundle = evidence.read_json(bundle_path)
-    evidence.validate_stage43_bundle_files(bundle, repo_root=REPO_ROOT)
+    evidence.verify_stage43_bundle_files(bundle, repo_root=REPO_ROOT)
     _require(bundle["repository"]["head"] == args.repository_head, "Stage43 runner repository HEAD argument drift")
     artifact_checks = _artifact_checks(bundle)
     trajectory = _load_pose_file(Path(bundle["artifacts"]["trajectory"]["path"]))
