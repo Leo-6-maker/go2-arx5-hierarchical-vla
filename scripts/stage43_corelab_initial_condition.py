@@ -211,10 +211,10 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
         "wbc_forward_count_after": int(native.stage21_wbc_forward_count),
         "reference_update_count_after": int(native.stage21_reference_update_count),
     }
-    _require(event["root_xy_delta_exact"] and event["root_non_xy_unchanged"], "base root mutation scope mismatch")
-    _require(event["other_actor_roots_unchanged"] and event["target_root_unchanged"], "initial base mutation changed target/other actors")
-    _require(event["dof_state_unchanged"] and event["eef_translation_matches_delta"] and event["eef_orientation_unchanged"], "initial base mutation changed an unauthorized state")
-    _require(event["lifecycle_unchanged"] and event["policy_histories_unchanged"], "initial base mutation changed lifecycle/history")
+    _require(event["root_xy_delta_exact"] and event["root_non_xy_unchanged"], "base root mutation scope mismatch: xy=%s non_xy=%s delta=%s" % (event["root_xy_delta_exact"], event["root_non_xy_unchanged"], event["root_delta_observed"]))
+    _require(event["other_actor_roots_unchanged"] and event["target_root_unchanged"], "initial base mutation changed target/other actors: other=%s target=%s" % (event["other_actor_roots_unchanged"], event["target_root_unchanged"]))
+    _require(event["dof_state_unchanged"] and event["eef_translation_matches_delta"] and event["eef_orientation_unchanged"], "initial base mutation changed an unauthorized state: dof=%s eef_translation=%s eef_orientation=%s" % (event["dof_state_unchanged"], event["eef_translation_matches_delta"], event["eef_orientation_unchanged"]))
+    _require(event["lifecycle_unchanged"] and event["policy_histories_unchanged"], "initial base mutation changed lifecycle/history: lifecycle=%s history=%s" % (event["lifecycle_unchanged"], event["policy_histories_unchanged"]))
     _require(event["wbc_forward_count_after"] == 0 and event["reference_update_count_after"] == 0, "initial base mutation consumed execution counters")
     state_v1 = _current_state_v1(native)
     event["s0"] = {
