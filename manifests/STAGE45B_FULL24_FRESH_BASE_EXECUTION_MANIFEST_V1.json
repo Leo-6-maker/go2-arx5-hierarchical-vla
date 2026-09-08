@@ -340,7 +340,7 @@
     },
     "runner": {
       "path": "scripts/stage45b_full24_fresh_base_train.py",
-      "sha256": "cbe9f5123c41422aa425155509271c7b3e393865b3e15b23b5644ae9f6f59ff5"
+      "sha256": "b67a42b769f07bffe113c3a92fe625c35683d36d28e2851e5b046c1b0962269b"
     },
     "stats_closure": {
       "path": "scripts/stage45b_full24_stats_closure.py",
@@ -463,7 +463,23 @@
     "producer_sha256": "e0d4b11c8f8670bc7496217f846ad05f320752e86ef6da880a660aa867ab70e4",
     "schema": "CORELAB_STAGE45B_FULL24_STRUCTURED_STATS_V1",
     "sha256": "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d",
-    "stage38_schema": "STAGE38_STRUCTURED_ACTION_STATISTICS_V1"
+    "stage38_schema": "STAGE38_STRUCTURED_ACTION_STATISTICS_V1",
+    "embedded_transport": {
+      "path": "reports/artifacts/STAGE45B_FULL24_STRUCTURED_STATS.json.gz.b64",
+      "encoding": "base64(gzip(JSON))",
+      "bytes": 6793,
+      "sha256": "1fbd29b2d655e1fcbb580453439b2f2d1f231366787196267ae0a768bbe706bc",
+      "decoded_sha256": "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d"
+    }
+  },
+  "runtime_paths": {
+    "base_model": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+    "dataset": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train",
+    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/src/isaac-gr00t",
+    "cosmos_cache": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B",
+    "modality_config": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py",
+    "training_config": "/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml",
+    "structured_stats_artifact": "/scratch/e1192548/stage45b_full24_20260908/STAGE45B_FULL24_STRUCTURED_STATS.json"
   },
   "trainable_modules": {
     "frozen": [

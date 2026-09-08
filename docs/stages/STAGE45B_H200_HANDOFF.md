@@ -43,7 +43,18 @@ STAGE45B_STATS_ARTIFACT=/scratch/e1192548/stage45b_full24_20260908/STAGE45B_FULL
 The B0 artifact currently sealed on Corelab is also available at
 `/var/cache/users/liuyu-nfs/go2-arx5-vla-stage45b/b0_20260908_v2/` with SHA256
 `49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d`.
-Transfer it byte-for-byte if the shared path is not visible from Hopper.
+The repository also carries a gzip/base64 transport copy at
+`reports/artifacts/STAGE45B_FULL24_STRUCTURED_STATS.json.gz.b64`; its decoded
+JSON must have the same SHA256. If the shared path is not visible from Hopper,
+materialize it once into the new path above:
+
+```bash
+set -euo pipefail
+test ! -e "${STAGE45B_STATS_ARTIFACT}"
+base64 -d reports/artifacts/STAGE45B_FULL24_STRUCTURED_STATS.json.gz.b64 \
+  | gzip -dc > "${STAGE45B_STATS_ARTIFACT}"
+sha256sum "${STAGE45B_STATS_ARTIFACT}"
+```
 
 ## Required H200 procedure
 

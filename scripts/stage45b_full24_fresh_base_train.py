@@ -240,6 +240,12 @@ def _assert_bundle(bundle: Mapping[str, Any], *, bundle_path: Path) -> None:
     stats = bundle.get("structured_stats")
     if not isinstance(stats, Mapping) or stats.get("sha256") != B0_STATS_SHA256 or stats.get("payload_sha256") != STATS_PAYLOAD_SHA256:
         raise RuntimeError("B0 statistics identity mismatch")
+    transport = stats.get("embedded_transport")
+    if not isinstance(transport, Mapping):
+        raise RuntimeError("embedded B0 transport binding is missing")
+    transport_path = REPO / str(transport.get("path", ""))
+    if not transport_path.is_file() or transport_path.is_symlink() or sha256_file(transport_path) != transport.get("sha256"):
+        raise RuntimeError("embedded B0 transport hash mismatch")
     contract = bundle.get("contract")
     expected_contract = {
         "language": "move the end effector to the red target", "model_input_keys": ["body_rgb", "wrist_rgb", "state"],

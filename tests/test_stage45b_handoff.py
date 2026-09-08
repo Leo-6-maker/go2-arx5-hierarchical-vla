@@ -16,6 +16,11 @@ class Stage45BHandoffTest(unittest.TestCase):
         self.assertEqual(manifest["status"], "CORELAB_STAGE45B_H200_ADMISSION_READY")
         self.assertEqual(manifest["intervention"], "B_FRESH_BASE_FULL24")
         self.assertEqual(manifest["dataset"]["window_count"], 24)
+        self.assertIn("structured_stats_artifact", manifest["runtime_paths"])
+        self.assertEqual(manifest["structured_stats"]["sha256"], "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d")
+        transport = manifest["structured_stats"]["embedded_transport"]
+        self.assertEqual(transport["decoded_sha256"], manifest["structured_stats"]["sha256"])
+        self.assertTrue((ROOT / transport["path"]).is_file())
         self.assertEqual(manifest["recipe"]["seed"], 2222)
         self.assertEqual(manifest["recipe"]["max_steps"], 2000)
         self.assertEqual(manifest["recipe"]["save_steps"], [1000, 2000])
