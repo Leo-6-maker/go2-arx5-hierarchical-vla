@@ -531,7 +531,13 @@ def _joint_limit_semantics(repo_root: Path, wbc_source_root: Path, run_a: Mappin
     source_markers = {
         "wrapper_joint_margin": {"path": str(wrapper), "line": _source_line(wrapper, r"def _stage16_joint_margin")},
         "wrapper_margin_expression": {"path": str(wrapper), "line": _source_line(wrapper, r"margin\s*=\s*np\.minimum")},
-        "wrapper_flag_expression": {"path": str(wrapper), "line": _source_line(wrapper, r"joint_violation\s*=\s*bool\(np\.any\(margin\s*<\s*0\.0")},
+        "wrapper_flag_expression": {
+            "path": str(wrapper),
+            "line": _source_line(
+                wrapper,
+                r"joint_violation\s*=\s*bool\(np\.any\((?:margin|joint_margin_np)\s*<\s*0\.0",
+            ),
+        },
         "legged_urdf_load": {"path": str(legged), "line": _source_line(legged, r"self\.dof_pos_limits\[i, 0\]\s*=\s*props\[\"lower\"\]")},
         "legged_soft_limit": {"path": str(legged), "line": _source_line(legged, r"self\.dof_pos_limits\[i, 0\]\s*=\s*m\s*-\s*0\.5")},
         "config_soft_factor": {"path": str(config), "line": _source_line(config, r"soft_dof_pos_limit")},
