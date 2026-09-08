@@ -165,7 +165,11 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
         1,
     )
     native.gym.refresh_actor_root_state_tensor(native.sim)
-    native.gym.refresh_rigid_body_state_tensor(native.sim)
+    # Do not refresh the derived rigid-body tensor here: before the first
+    # physics step IsaacGym may repopulate it from the previous simulator
+    # state, which is not the just-written root pose.  The explicit cache sync
+    # below preserves the already-delivered post-reset kinematics and applies
+    # only the declared base translation.
     _refresh_eef_from_rigid_body(native, root_delta=delta_np)
 
     root_after = native.root_states.detach().cpu().numpy().copy()
