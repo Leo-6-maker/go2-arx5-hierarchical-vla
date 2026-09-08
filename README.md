@@ -7,19 +7,23 @@ outside Git and are referenced through manifests and reports.
 
 ## Accepted repository baseline
 
-The current accepted research tip is Stage44R:
+The current accepted research tip is the normal-merge tip on `main`:
 
 ```text
-branch: stage44r/corelab-attribution-repair
-commit: bd0f02934e680789cf38adacb838e1ea555c707d
+branch: main
+commit: bfa14bf1b74eae908c0922575a4db671c903b9b8
+parents: 237be6fc37c20cf44ccccf5f0cfbd3cce629760f + 9852090f66759c8ddc7ce974b31e57350ab536c1
+accepted source: stage44r/corelab-attribution-repair @ bd0f02934e680789cf38adacb838e1ea555c707d
 diagnosis: STAGE44_TINY1_SINGLE_SAMPLE_COVERAGE_LIMITATION_SUPPORTED
 ```
 
-The consolidation branch is cut directly from that commit. It preserves the
-forward-only Stage19--Stage44R history and adds navigation and audit material;
-it does not rewrite, squash, or delete scientific history. Stage45 data
-expansion, H200 fine-tuning, Vanda A40 execution, and new model/WBC runs remain
-on hold pending PI review.
+The normal consolidation merge preserves the forward-only Stage19--Stage44R
+history and adds navigation and audit material; it does not rewrite, squash,
+or delete scientific history. Stage45A now has a CPU/read-only design branch
+and protocol ([protocol](docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md),
+[manifest](manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json)); it does not
+authorize model construction, training, data generation, H200 fine-tuning,
+Vanda A40 execution, or new model/WBC runs.
 
 ## Current architecture
 
@@ -51,8 +55,9 @@ robustness, real-time operation, or hardware readiness.
 - [Consolidation audit](reports/REPOSITORY_CONSOLIDATION_AUDIT.md) — the
   read-only RC0 inventory and provenance findings.
 - [Historical archival recommendation](docs/HISTORICAL_ARCHIVAL_RECOMMENDATION.md)
-  — proposed post-merge handling of old PRs and branches; no archival action
-  is performed by this branch.
+  — RC8 PR-closure record and branch-preservation recommendation.
+- [Stage45A FULL24 adaptation protocol](docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md)
+  — design-only, pre-registered data-expansion gate; no training is authorized.
 
 ## CPU validation
 

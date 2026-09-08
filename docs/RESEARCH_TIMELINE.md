@@ -1,4 +1,4 @@
-# Research timeline: Stage19–Stage44R
+# Research timeline: Stage19–Stage45A
 
 This is a navigation index, not a replacement for the stage reports or the
 Issue #11 governance record. Each row records the narrow question answered at
@@ -40,10 +40,11 @@ invented retroactive gate identifier.
 | 43 | Under five fixed ±5 cm pre-episode base translations, does the closed loop adapt coherently toward the visible target? Execution integrity is characterized, while all five final target-progress signs remain negative. | `CORELAB_STAGE43_CONTROLLED_INITIAL_CONDITION_COHORT_CHARACTERIZED` | `stage43-dev/corelab-controlled-cohort` @ `b2a70dcec0765cf69819bb76c180e5c92ae3eac3` | `PI_GATE_STATE_0068/0069`, comment `5581418722` | `scripts/stage43_corelab_initial_condition.py` plus sealed node-local Stage43 evidence |
 | 44 | Can training lineage, expert semantics, Stage43 reference attribution, and the existing 24-forward train grid distinguish data coverage from binding/WBC causes? Raw A3 evidence is retained but the first analysis was incomplete and branch-governance mismatched. | `STAGE44_RAW_A3_EVIDENCE: CONDITIONALLY_ADMISSIBLE_PENDING_REVALIDATION` | `stage44-dev/corelab-training-audit` @ `f6c4759cdbd3be513d20d6b3934ebdbbdeedd5f4` | `PI_GATE_STATE_0069/0070`, comments `5581418722`, `5582857275` | `scripts/stage44_corelab_train_forwards.py` plus sealed node-local Stage44 evidence |
 | 44R | Can the missing Stage44 target-direction attribution be repaired without new exposure? R1 expert labels are 24/24 positive; R2 Stage43 is negative first at decoded GR00T; the exact TINY1 source cell is target-directed while broader outputs are mixed. | `STAGE44_TINY1_SINGLE_SAMPLE_COVERAGE_LIMITATION_SUPPORTED`; `CORELAB_STAGE44R_ATTRIBUTION_ANALYSIS_REPAIRED` | `stage44r/corelab-attribution-repair` @ `bd0f02934e680789cf38adacb838e1ea555c707d` | `PI_GATE_STATE_0070/0071`, comment `5583158968` | `scripts/stage44r_corelab_attribution_repair.py` plus sealed node-local Stage44R evidence |
+| 45A | Can the next coverage experiment be frozen before any model exposure? The existing 24-window TRAIN fixture, split, interface, fresh-base primary option, fixed recipe, offline metrics, and future MULTIINIT120 ladder are registered CPU/read-only; execution remains gated. | `CORELAB_STAGE45_FULL24_ADAPTATION_PROTOCOL_READY` (design-only) | `stage45/data-expansion-design` @ see Stage45A protocol PR | `PI_GATE_STATE_0072`, comment `5583766001` | `docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md` and `manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json` |
 
 ## Current boundary
 
-Stage44R is the accepted diagnosis baseline, not a task-success or
-general-robustness result. Stage45 data expansion, H200 fine-tuning, Vanda A40
-execution, hardware, and new model/WBC exposure remain held until the
-consolidation review is complete.
+Stage44R is the accepted diagnosis baseline, now contained in the normal-merge
+`main` tip, not a task-success or general-robustness result. Stage45A is
+design-only; FULL24 training, H200 fine-tuning, Vanda A40 execution, hardware,
+and new model/WBC exposure remain held until a later PI gate.

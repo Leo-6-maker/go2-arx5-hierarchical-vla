@@ -58,5 +58,11 @@ The accepted baselines do not establish any of the following:
 - that the current TINY1 checkpoint is suitable for H200 fine-tuning without a
   new, explicitly authorized data/training gate.
 
-Stage45 data expansion design and H200 fine-tuning remain `HOLD` until the
-repository-consolidation PR is reviewed and a new PI gate authorizes them.
+Stage45A has a design-only, CPU/read-only FULL24 adaptation protocol on
+`stage45/data-expansion-design`. The protocol is not a training authorization:
+GR00T forwards, WBC, new data generation, optimizer steps, GPU/PBS execution,
+H200, and Vanda A40 remain at zero/`HOLD` until a later PI gate explicitly
+admits the fresh-base FULL24 experiment. See
+[`STAGE45A_FULL24_ADAPTATION_PROTOCOL.md`](stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md)
+and its machine-readable
+[`STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json`](../manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json).

@@ -41,16 +41,19 @@ lineage.
 
 ## Branch and history policy
 
-- `main` is the public integration baseline; the consolidation PR targets it.
-- `repo-consolidation/stage44r-baseline` is a one-PR documentation/audit
-  branch rooted at the accepted Stage44R tip.
-- Historical stage branches and PRs are evidence records. Do not close,
-  delete, or merge them individually during this cleanup.
-- If PI approves the PR, merge it normally to preserve the 183 scientific
-  commits. Do not squash the lineage.
-- The archival recommendation is recorded separately in
-  `docs/HISTORICAL_ARCHIVAL_RECOMMENDATION.md` and is not an action list for
-  this branch.
+- `main` is the public integration baseline at merge commit
+  `bfa14bf1b74eae908c0922575a4db671c903b9b8`, preserving the accepted
+  Stage19--Stage44R lineage.
+- `repo-consolidation/stage44r-baseline` is the historical one-PR
+  documentation/audit branch rooted at the accepted Stage44R tip.
+- Historical stage branches remain evidence records. RC8 closed the open
+  historical PRs as superseded (with PR #3 retained as its pre-existing merge)
+  without deleting branches or evidence.
+- `stage45/data-expansion-design` is a CPU/read-only protocol branch. It does
+  not authorize model construction, training, data generation, H200, A40, or
+  model/WBC execution.
+- The RC8 execution record and branch-preservation recommendation are kept in
+  `docs/HISTORICAL_ARCHIVAL_RECOMMENDATION.md`.
 
 ## Validation without scientific exposure
 
