@@ -128,6 +128,20 @@ def run(args: argparse.Namespace) -> int:
     }
     model = None
     try:
+        cosmos_snapshot = Path(args.cosmos_snapshot).resolve()
+        cosmos_cache_root = cosmos_snapshot.parents[2]
+        cosmos_model_cache = cosmos_cache_root / "models--nvidia--Cosmos-Reason2-2B"
+        _require(cosmos_model_cache.is_dir(), "materialized Cosmos model cache is missing")
+        # Hugging Face resolves cache constants at import time, so establish
+        # the immutable local cache before importing any GR00T/Transformers
+        # helper.  The model identifier remains the accepted Cosmos Hub ID.
+        os.environ["HF_HUB_CACHE"] = str(cosmos_cache_root)
+        os.environ["TRANSFORMERS_CACHE"] = str(cosmos_cache_root)
+        os.environ["HF_HOME"] = str(cosmos_cache_root.parent)
+        os.environ["HF_HUB_OFFLINE"] = "1"
+        os.environ["TRANSFORMERS_OFFLINE"] = "1"
+        os.environ["HF_DATASETS_OFFLINE"] = "1"
+
         # Only the exact checked-in helpers are imported after authorization.
         # They build the same processor path used by the accepted Stage21
         # worker, with its Cosmos dependency rebound to the sealed snapshot.
@@ -153,20 +167,6 @@ def run(args: argparse.Namespace) -> int:
 
         if torch.cuda.is_available() and str(args.device).startswith("cuda"):
             torch.cuda.reset_peak_memory_stats()
-        # The frozen STRUCTURED@1000 config names the Cosmos backbone by its
-        # Hub identifier.  Point the offline Hub cache at the exact sealed
-        # materialized cache root before constructing the model.  Keeping the
-        # accepted model identifier lets the checked-in Gr00tN1d7 class select
-        # its Qwen3 backbone while local_files_only prevents any network path.
-        cosmos_snapshot = Path(args.cosmos_snapshot).resolve()
-        cosmos_cache_root = cosmos_snapshot.parents[2]
-        cosmos_model_cache = cosmos_cache_root / "models--nvidia--Cosmos-Reason2-2B"
-        _require(cosmos_model_cache.is_dir(), "materialized Cosmos model cache is missing")
-        os.environ["HF_HUB_CACHE"] = str(cosmos_cache_root)
-        os.environ["TRANSFORMERS_CACHE"] = str(cosmos_cache_root)
-        os.environ["HF_HOME"] = str(cosmos_cache_root.parent)
-        os.environ["HF_HUB_OFFLINE"] = "1"
-        os.environ["TRANSFORMERS_OFFLINE"] = "1"
         model_config = AutoConfig.from_pretrained(
             Path(args.model_path), local_files_only=True, trust_remote_code=True
         )
