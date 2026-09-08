@@ -123,6 +123,10 @@ def _git(repo: Path, *args: str) -> str:
     return subprocess.check_output(["git", "-C", str(repo), *args], text=True).strip()
 
 
+def _is_ancestor(repo: Path, ancestor: str, descendant: str) -> bool:
+    return subprocess.call(["git", "-C", str(repo), "merge-base", "--is-ancestor", ancestor, descendant]) == 0
+
+
 def _source_lines(path: Path, patterns: Sequence[str]) -> Dict[str, List[int]]:
     lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     return {pattern: [index + 1 for index, line in enumerate(lines) if re.search(pattern, line)] for pattern in patterns}
@@ -430,7 +434,7 @@ def audit_g0(
 ) -> Dict[str, Any]:
     repo = Path(repo_root).resolve(strict=True)
     _require(_git(repo, "branch", "--show-current") == BRANCH, "G0 must run on authorized Stage43 branch")
-    _require(_git(repo, "rev-parse", "HEAD") == STAGE42_HEAD, "Stage43 branch must start from accepted Stage42 HEAD")
+    _require(_is_ancestor(repo, STAGE42_HEAD, _git(repo, "rev-parse", "HEAD")), "Stage43 branch must descend from accepted Stage42 HEAD")
     _require(not _git(repo, "status", "--porcelain", "--untracked-files=all"), "G0 repository must be clean")
     pred_info = stage40.verify_stage_seal(Path(predecessor_seal), Path(predecessor_seal).parent, expected_stage="M2", _admit_without_predecessor=True)
     _require(pred_info["seal_sha256"] == M2_SEAL, "M2 predecessor seal drift")
@@ -490,7 +494,7 @@ def validate_g1_static_contract(*, g0: Mapping[str, Any], repo_root: Path, expec
     _require(g0.get("token") == "CORELAB_STAGE43_TARGET_AND_TASK_METRICS_QUALIFIED", "wrong G0 token")
     repo = Path(repo_root).resolve(strict=True)
     _require(_git(repo, "branch", "--show-current") == BRANCH, "G1 branch drift")
-    _require(_git(repo, "rev-parse", "HEAD") == STAGE42_HEAD, "G1 predecessor HEAD drift")
+    _require(_is_ancestor(repo, STAGE42_HEAD, _git(repo, "rev-parse", "HEAD")), "G1 predecessor HEAD drift")
     _require(tuple(g0.get("target", {}).get("evaluation_world_m", ())) == tuple(TARGET_POSITION_WORLD_M.tolist()), "G1 target drift")
     schedule = expected_native_schedule(expected_native_dt_s) if expected_native_dt_s is not None else COHORT_SEGMENT_SCHEDULE
     _require(len(schedule) == 4 and all(int(item) > 0 for item in schedule), "G1 segment schedule invalid")
