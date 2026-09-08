@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE40_RTX4080S_ENVIRONMENT_MANIFEST_V1",
+  "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "pi_gate": "PI_GATE_STATE_0054",
+  "issue_comment": 5566238390,
+  "accepted_stage40_d1_git_sha": "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a",
+  "development_branch": "stage40-dev/rtx4080s-bringup",
+  "development_worktree": "/mnt/LocalHDD1/HomeNFS/liuyu-nfs/Projects/go2-arx5-hierarchical-vla-rtx4080s",
+  "rtx_host": "corelab-4080s",
+  "target_gpu": {
+    "name": "NVIDIA GeForce RTX 4080 SUPER",
+    "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+    "memory_total_mib": 16376,
+    "compute_capability": "8.9",
+    "selection_policy": "explicit UUID; do not infer from CUDA_VISIBLE_DEVICES"
+  },
+  "gpu_policy": {
+    "both_cards_available_for_engineering": true,
+    "other_user_processes_may_coexist": true,
+    "processes_modified_or_killed": false,
+    "formal_h200_lane_touched": false
+  },
+  "source": {
+    "project_git_sha": "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a",
+    "groot_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "groot_shared_checkout": "/home/liuyu-nfs/Projects/isaac-gr00t",
+    "groot_shared_checkout_mutations": "forbidden; existing user changes preserved"
+  },
+  "immutable_inputs": {
+    "checkpoint_label": "STRUCTURED@1000",
+    "checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "wbc_authority_archive_sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+    "representation": "StructuredActionV1 K16/T16 H40 D132",
+    "chunk_duration_s": 1.9500000000000002,
+    "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp": "x5_link6_gripper_center",
+    "handoff_target_s": 0.9750000000000001
+  },
+  "runtime_policy": {
+    "rtx_cache_root": "<storage>/runtime/rtx4080s/",
+    "h200_cache_reuse": false,
+    "container": "pending; Docker daemon access was denied at R0 and Apptainer/Singularity are absent",
+    "model_precision_change": false,
+    "quantization": false,
+    "cpu_offload": false,
+    "observation_resolution_change": false
+  },
+  "native_runtime": {
+    "python": "3.8.20",
+    "torch": "2.3.1",
+    "torch_cuda": "12.1",
+    "isaacgym_import": "PASS",
+    "wbc_archive_extracted_tree_sha256": "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567",
+    "native_compat_root": "/home/liuyu-nfs/stage13c_staging/native_compat",
+    "native_compat_pytorch3d_init_sha256": "d9eae417aaa5e864abda9ff0920365c036fa937df4ad52bed86c5c922a9fed7c",
+    "native_compat_pytorch3d_transforms_sha256": "f4e369bfefd2e8afc033b7dfe485e3794d7f960af3935b53a57319a705dd1979",
+    "cache_policy": "new RTX-specific cache; no Hopper/H200 cache reuse"
+  },
+  "artifact_state_at_r0": {
+    "structured_checkpoint": "MISSING_ON_RTX_HOST; exact provenance handoff required before R1",
+    "structured_statistics": "MISSING_ON_RTX_HOST; expected SHA 0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "tiny1_dataset": "MISSING_ON_RTX_HOST; exact Stage23 fixture handoff required before R1",
+    "frozen_modality": "EXACT_STAGE22_PATH_ABSENT; a Stage10 provisional modality is not accepted as a substitute",
+    "cosmos_snapshot": "MISSING_ON_RTX_HOST; no Hub lookup permitted for the frozen offline path",
+    "stage10_base_reference": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B",
+      "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59"
+    },
+    "wbc_archive": {
+      "path": "/home/liuyu-nfs/Projects/_handoff/go2-arx5/WBCTrackingShare_20260831.zip",
+      "size_bytes": 963451251,
+      "sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167"
+    }
+  },
+  "execution_status": {
+    "r0": "PASS_WITH_STRUCTURED_AND_PROCESSOR_INPUT_PROVENANCE_BLOCKER",
+    "r1": "LOCKED_UNTIL_EXACT_CHECKPOINT_PRESENT",
+    "r2": "PASS_NATIVE_ONLY_CAMERA_STATE_ENGINEERING_SMOKE",
+    "r3": "NOT_STARTED",
+    "r4": "NOT_STARTED",
+    "r5": "LOCKED_BY_EXACT_STRUCTURED_INPUT_PROVENANCE"
+  }
+}

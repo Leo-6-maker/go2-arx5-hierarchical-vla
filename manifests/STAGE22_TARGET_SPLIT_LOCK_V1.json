@@ -1,0 +1,20 @@
+{
+  "schema": "STAGE22_TARGET_SPLIT_LOCK_V1",
+  "status": "LOCKED_BEFORE_GPU_INFERENCE",
+  "train_target_ids": [
+    "red_target_train_a",
+    "red_target_train_b",
+    "red_target_train_c",
+    "red_target_train_d"
+  ],
+  "validation_target_ids": [
+    "red_target_holdout_e"
+  ],
+  "final_test_target_ids": [
+    "red_target_holdout_f"
+  ],
+  "model_selection_split": "validation",
+  "final_test_policy": "single_locked_read_after_model_selection",
+  "target_actor_in_model_input": false,
+  "selection_leakage_guard": "final_test_f_is_not_used_for_training_or_checkpoint_selection"
+}

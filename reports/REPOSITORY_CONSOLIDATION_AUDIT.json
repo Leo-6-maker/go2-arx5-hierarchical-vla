@@ -1,0 +1,182 @@
+{
+  "schema": "REPOSITORY_CONSOLIDATION_AUDIT_V1",
+  "audit_date": "2026-09-08",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "audit_scope": "RC0 read-only inventory before repository consolidation",
+  "status": "PASS",
+  "source_baseline": {
+    "accepted_branch": "stage44r/corelab-attribution-repair",
+    "accepted_head": "bd0f02934e680789cf38adacb838e1ea555c707d",
+    "accepted_parent": "f6c4759cdbd3be513d20d6b3934ebdbbdeedd5f4",
+    "local_head_matches_remote": true,
+    "working_tree_clean_at_rc0": true
+  },
+  "main_comparison": {
+    "main_sha": "237be6fc37c20cf44ccccf5f0cfbd3cce629760f",
+    "merge_base_sha": "237be6fc37c20cf44ccccf5f0cfbd3cce629760f",
+    "ahead_by": 183,
+    "behind_by": 0,
+    "forward_only": true
+  },
+  "tree_inventory": {
+    "tracked_file_count": 501,
+    "top_level_file_counts": {
+      ".github": 1,
+      ".gitignore": 1,
+      "README.md": 1,
+      "artifact_manifests": 7,
+      "configs": 5,
+      "docs": 66,
+      "experiments": 1,
+      "hpc": 19,
+      "manifests": 10,
+      "pyproject.toml": 1,
+      "reports": 145,
+      "scripts": 121,
+      "src": 68,
+      "tests": 55
+    },
+    "stage_script_count": 108,
+    "tracked_json_count": 22,
+    "historical_paths_preserved": true
+  },
+  "github_inventory": {
+    "governance_issue": 11,
+    "consolidation_issue": 27,
+    "closed_prs": [1, 2],
+    "open_historical_prs": [3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+    "stage_branch_count": 38,
+    "diverged_stage_branches": [
+      "stage39-vis/offline-mp4",
+      "stage40-dev/a40-bringup"
+    ],
+    "stage_branches": [
+      "stage15/native-reference-binding",
+      "stage16/native-wbc-benchmark",
+      "stage17/groot-runtime-integration",
+      "stage18/robot-data-readiness",
+      "stage19/robot-dataset-materialization",
+      "stage20s/sim-vla-wbc-closed-loop",
+      "stage20t/native-wbc-timing-qualification",
+      "stage21/same-scene-receding-horizon",
+      "stage22/action-profile-adaptation",
+      "stage23/action-pipeline-learnability",
+      "stage24/new-embodiment-adaptation-audit",
+      "stage25/o1-parameter-delta-gate",
+      "stage26/h1-fixed-noise-local-flow",
+      "stage27/h2-optimization-semantics-audit",
+      "stage28/h2-fresh-base-2000-fixed-warmup10",
+      "stage29/c2-free-running-transfer-gate",
+      "stage30/temporal-residual-decomposition",
+      "stage31/on-trajectory-flow-field-audit",
+      "stage32/h2-1000-exposure-interpolation",
+      "stage33/bottleneck-map",
+      "stage34/wbc-aligned-motion-api",
+      "stage35/motion-api-authority-closure",
+      "stage36/wbc-authority-oracle-qualification",
+      "stage37/geometry-capacity-qualification",
+      "stage38/structured-groot-offline",
+      "stage39-vis/offline-mp4",
+      "stage39/structured-wbc-qualification",
+      "stage40-b1r/anchor-contract",
+      "stage40-c/live-one-handoff-qualified",
+      "stage40-dev/a40-bringup",
+      "stage40-dev/rtx4080s-bringup",
+      "stage40-rlq/reference-lifecycle",
+      "stage40/live-one-handoff-tiny1",
+      "stage41-dev/corelab-long-horizon",
+      "stage42-dev/corelab-feedback-causality",
+      "stage43-dev/corelab-controlled-cohort",
+      "stage44-dev/corelab-training-audit",
+      "stage44r/corelab-attribution-repair"
+    ]
+  },
+  "path_provenance": {
+    "files_referencing_historical_scripts": 53,
+    "files_referencing_historical_reports": 15,
+    "files_referencing_manifests": 17,
+    "files_referencing_node_local_paths": 128,
+    "node_local_paths_are_references_only": true,
+    "move_delete_rename_historical_material": "not performed"
+  },
+  "secret_private_path_audit": {
+    "secret_like_patterns_checked": [
+      "private-key PEM headers",
+      "cloud/API key prefixes",
+      "password/secret/api_key assignments",
+      "HF_TOKEN/HUGGINGFACE_TOKEN/WANDB_API_KEY assignments"
+    ],
+    "credential_like_matches": 0,
+    "governance_marker_strings_are_not_credentials": true,
+    "private_or_node_local_path_matches_are_documented_references": true
+  },
+  "large_file_audit": {
+    "current_tree_threshold_bytes": 1048576,
+    "current_files_over_threshold": [],
+    "current_max_file": {
+      "path": "reports/STAGE24_PREFIX_AUDIT.json",
+      "bytes": 530891
+    },
+    "historical_blob_threshold_bytes": 102400,
+    "historical_blobs_at_or_over_threshold": [
+      {
+        "object": "652bc03104a23e151495c7f5fc5315de0118463e",
+        "bytes": 530891,
+        "path": "reports/STAGE24_PREFIX_AUDIT.json"
+      },
+      {
+        "object": "d838e42a1d91a781f0c43ca341a4e80e73db5adc",
+        "bytes": 233579,
+        "path": "reports/STAGE23_PHASE_B_ATTRIBUTION_AUDIT.json"
+      },
+      {
+        "object": "111912ab14426e488098edb23ab98f0e78e46d74",
+        "bytes": 233499,
+        "path": "reports/STAGE23_PHASE_B_ATTRIBUTION_AUDIT.json"
+      },
+      {
+        "object": "c61b02b8f1c9c4823f574403a569bd445ece4e9c",
+        "bytes": 124675,
+        "path": "scripts/stage39_structured_wbc_replay.py"
+      },
+      {
+        "object": "9928c3e4932c7c0ee714337d9ae67be1a8e99d09",
+        "bytes": 124629,
+        "path": "scripts/stage39_structured_wbc_replay.py"
+      },
+      {
+        "object": "d77d615d26a01928304915097f4eab437512edf1",
+        "bytes": 115872,
+        "path": "scripts/stage39_structured_wbc_replay.py"
+      }
+    ],
+    "large_binary_or_checkpoint_files_tracked": false
+  },
+  "structural_checks": {
+    "symlinks_tracked": [],
+    "zero_byte_tracked_files": [],
+    "binary_like_extension_count": 0,
+    "ignored_generated_cache_paths_present_only_as_ignored": true
+  },
+  "resource_boundary": {
+    "gr00t_forwards": 0,
+    "wbc_steps": 0,
+    "reference_updates": 0,
+    "training_backward_optimizer_steps": 0,
+    "new_data_generation": 0,
+    "gpu_or_simulator_execution": false,
+    "pbs_submissions": 0,
+    "vanda_a40": "HOLD",
+    "hopper_h200": "HOLD",
+    "validation_e": "LOCKED",
+    "holdout_f": "LOCKED",
+    "hardware_ros_zmq_p1m": "LOCKED"
+  },
+  "findings": [
+    "Accepted Stage44R is an exact descendant of current main by 183 commits.",
+    "Historical stage scripts and reports are path-referenced and were not moved or deleted.",
+    "No tracked credential-like content, symlink, zero-byte file, binary artifact, or current file over 1 MiB was found.",
+    "Two stage branches diverge from the accepted tip and require explicit archival review rather than automatic deletion.",
+    "Repository consolidation is non-semantic and must be merged normally, without squashing the scientific lineage."
+  ]
+}

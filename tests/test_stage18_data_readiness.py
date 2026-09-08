@@ -128,6 +128,18 @@ def test_training_example_uses_desired_future_labels_and_explicit_timestamps():
     assert record["metadata"]["achieved_stream_in_raw_episode"] is True
 
 
+def test_training_example_selects_future_labels_on_synchronized_timestamp_grid():
+    raw = _raw()
+    sync = SynchronizerV1().synchronize(raw)
+    example = GR00TTrainingExampleV1.from_raw(raw, sync, horizon=3)
+    assert example.future_timestamps.tolist() == [0.0, 0.04, 0.08]
+    assert list(example.provenance["future_source_indices"]) == [0, 2, 4]
+    assert (
+        example.provenance["label_selection"]
+        == "synchronization_sample_timestamps_to_desired_nearest_source"
+    )
+
+
 def test_calibration_bundle_keeps_simulation_and_real_tbd_separate():
     bundle = CalibrationBundleV1(
         bundle_id="D3_SIMULATION_CALIBRATION_BUNDLE_V1",

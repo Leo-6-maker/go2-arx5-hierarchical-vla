@@ -1,0 +1,33 @@
+{
+  "schema": "STAGE24_CORELAB_ACCESS_PROBE_V1",
+  "date": "2026-09-03",
+  "origin_context": "corelab-amd-server",
+  "probe_mode": "read_only_ssh_hostname_id_nvidia_smi",
+  "workload_started": false,
+  "other_user_processes_modified": false,
+  "nodes": [
+    {
+      "alias": "corelab-4080s",
+      "ssh_batchmode": "PASS",
+      "gpu_inventory": [
+        {"model": "RTX 4080 SUPER", "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad", "total_mib": 32760, "used_mib": 153, "utilization_percent": 0},
+        {"model": "RTX 4080 SUPER", "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd", "total_mib": 16376, "used_mib": 38, "utilization_percent": 0}
+      ]
+    },
+    {
+      "alias": "corelab-5080-1",
+      "ssh_batchmode": "PASS",
+      "gpu_inventory": [
+        {"model": "RTX 5080", "uuid": "GPU-f80137b8-bf59-834c-9446-912572146f8c", "total_mib": 16303, "used_mib": 9084, "utilization_percent": 0}
+      ]
+    },
+    {
+      "alias": "corelab-5080-2",
+      "ssh_batchmode": "PASS",
+      "gpu_inventory": [
+        {"model": "RTX 5080", "uuid": "GPU-5f26fc0a-023a-0c90-4e3b-bd31ea5f1383", "total_mib": 16303, "used_mib": 91, "utilization_percent": 0}
+      ]
+    }
+  ],
+  "interpretation": "The earlier SSH authorization/connectivity blocker is closed for the current probe. GPU memory figures are time-specific observations, not an authorization to start a workload."
+}

@@ -11,6 +11,7 @@ from ..trajectory.so3 import geodesic_angle, quat_to_matrix
 REFERENCE_RECONSTRUCTION_ERROR = "REFERENCE_RECONSTRUCTION_ERROR"
 CONTROLLER_TRACKING_ERROR = "CONTROLLER_TRACKING_ERROR"
 END_TO_END_TASK_SPACE_ERROR = "END_TO_END_TASK_SPACE_ERROR"
+VLA_PREDICTION_ERROR = "VLA_PREDICTION_ERROR"
 
 
 def error_summary(values: Any) -> dict[str, float]:
@@ -96,6 +97,25 @@ def reference_reconstruction_error(
         continuous_rotation,
         reconstructed_rotation,
         metric_name=REFERENCE_RECONSTRUCTION_ERROR,
+        metadata=metadata,
+    )
+
+
+def vla_prediction_error(
+    desired_position: Any,
+    predicted_position: Any,
+    desired_rotation: Any,
+    predicted_rotation: Any,
+    *,
+    metadata: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Error between the task label and the model's decoded EEF intent."""
+    return _named_task_space_error(
+        desired_position,
+        predicted_position,
+        desired_rotation,
+        predicted_rotation,
+        metric_name=VLA_PREDICTION_ERROR,
         metadata=metadata,
     )
 

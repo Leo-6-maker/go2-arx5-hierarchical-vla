@@ -1,0 +1,580 @@
+{
+  "answers": {
+    "exact_resume": false,
+    "exact_resume_answer": "NO: O1@200 is a model-only checkpoint under the exact Stage23 wrapper. Weights plus trainer_state/global_step do not reproduce optimizer, scheduler, RNG, or sampler continuation state.",
+    "fresh_base_2000_first_200": "DIFFERENT: the first logged LR divergence is global step 2; only the zero-valued step 1 is equal.",
+    "least_confounded_protocol": {
+      "claim_boundary": "tests a fresh 2000-step adaptation recipe against O1@200; it cannot attribute any difference to extra steps alone",
+      "recipe": {
+        "initialization": "fresh exact BASE",
+        "learning_rate": 0.0001,
+        "max_steps": 2000,
+        "optimizer": "adamw_torch",
+        "scheduler": "cosine",
+        "warmup_ratio": "not used when explicit warmup_steps=10 is set",
+        "warmup_steps": 10
+      },
+      "recommended_stock_path_candidate": "H2_FRESH_BASE_2000_FIXED_WARMUP10",
+      "unavoidable_coupling": "cosine denominator still changes from 190 to 1990 scheduler steps, so this is not a pure extra-exposure intervention",
+      "why": "avoids an unavailable exact-resume claim and keeps the original ten optimizer-update warmup steps; it is one coherent stock-path run rather than a hidden optimizer/scheduler reset at step 200"
+    },
+    "max_steps_schedule_effect": "With warmup_ratio=0.05 and warmup_steps=0, max_steps controls both ceil(total_steps*0.05) warmup length and the cosine denominator.",
+    "official_entrypoint_resume": "The pinned experiment.run calls check_resume_compatibility before model construction and rejects save_only_model=True with resume_from_checkpoint=True."
+  },
+  "checkpoint_evidence": {
+    "candidate_200_seal_rows": [
+      {
+        "bytes": 2148,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "config.json",
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      },
+      {
+        "bytes": 2226,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "embodiment_id.json",
+        "sha256": "5e8611697dc90b7b7a92cf2a8da926275c16f5966c5eb109e0216c3c51af15a1"
+      },
+      {
+        "bytes": 4993709288,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "model-00001-of-00002.safetensors",
+        "sha256": "20a2c9c470f4da6c4c6bac459dba004503c5cca058b63d777c083b799b101e5b"
+      },
+      {
+        "bytes": 4535492016,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "model-00002-of-00002.safetensors",
+        "sha256": "35b7fb08c980c622d309934231fcba3c9854ade869069c2cf438efce24cc7f22"
+      },
+      {
+        "bytes": 104912,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "model.safetensors.index.json",
+        "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+      },
+      {
+        "bytes": 26965,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "processor_config.json",
+        "sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9"
+      },
+      {
+        "bytes": 4352059,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "statistics.json",
+        "sha256": "ca0da0d293996376e1e289dd7fc3535125ef7f1b18a7a472d1bdc5ed17c79a0d"
+      },
+      {
+        "bytes": 28136,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "trainer_state.json",
+        "sha256": "2aa506bf605bce28809739970b6d3bc86059dba5490101c7da4fdba94512e4d9"
+      },
+      {
+        "bytes": 5905,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "training_args.bin",
+        "sha256": "47601b12ae580aff5b560fde23d2f81bca91022d0d1bd0df5e34a6a9bb399708"
+      },
+      {
+        "bytes": 61,
+        "candidate": "candidate_200",
+        "kind": "regular file",
+        "relative_path": "wandb_config.json",
+        "sha256": "80f812a1cfd18894a4ec8de11e206bca513cbbe7fd5770cdcf10f38d847e7cea"
+      }
+    ],
+    "evidence_hashes": {
+      "checkpoint_seal": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+      "commands_and_config": "8757a0353501dcc88fe062ab6ca58ac2c0ba3643b55c9d12f4e55fb93d923eb4",
+      "phase_a_scope": "caa93acf09620c89b2bf66c5481cf258c7e1cd323b91046ad970a96a8f5bf00b",
+      "provenance": "b9182fbb2026590253ca387ff21b0bb2e85c337c12d4ecca8106596b27c3e34c",
+      "run_manifest": "4dfb69bbd0bb36562c17046735001454c8dc5cfe5e9e0195ae3ca032259a3148",
+      "train_log": "35cc1f07fff30d413d52f2c11b8b72db7429a8004ae9244a11a798fbfd8f9c07",
+      "trainer_state": "2aa506bf605bce28809739970b6d3bc86059dba5490101c7da4fdba94512e4d9"
+    },
+    "full_checkpoint_shards_present_in_relay": false,
+    "o1_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "o1_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+    "relay_root": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903",
+    "run_manifest_recipe_fields": {
+      "base_model_index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+      "load_bf16": true,
+      "max_steps": 200,
+      "save_steps": 200,
+      "schema": "STAGE20S_GR00T_TRAINING_RUN_V1",
+      "status": "PASS",
+      "tune_diffusion_model": true,
+      "tune_llm": false,
+      "tune_projector": true,
+      "tune_visual": false,
+      "tune_vlln": false
+    },
+    "sealed_optimization_state_files": [],
+    "tensor_payloads_read": false
+  },
+  "checkpoint_state": {
+    "all_state_artifact_files": [],
+    "checkpoint_artifact_paths": [
+      "config.json",
+      "embodiment_id.json",
+      "experiment_cfg/conf.yaml",
+      "experiment_cfg/config.yaml",
+      "experiment_cfg/dataset_statistics.json",
+      "experiment_cfg/final_model_config.json",
+      "experiment_cfg/final_processor_config.json",
+      "model-00001-of-00002.safetensors",
+      "model-00002-of-00002.safetensors",
+      "model.safetensors.index.json",
+      "processor_config.json",
+      "statistics.json",
+      "trainer_state.json",
+      "training_args.bin",
+      "wandb_config.json"
+    ],
+    "exact_resume_possible": false,
+    "exact_resume_reason": "save_only_model=True omitted optimizer/scheduler/RNG state; trainer_state.json preserves metadata/global_step only; the pinned entrypoint rejects resume_from_checkpoint=True under this recipe",
+    "global_step": 200,
+    "max_steps": 200,
+    "optimizer_state_files": [],
+    "rng_state_files": [],
+    "scaler_applicability": "NOT_APPLICABLE_BF16_TRUE_FP16_FALSE",
+    "scaler_state_files": [],
+    "scheduler_state_files": [],
+    "stateful_callbacks": {
+      "TrainerControl": {
+        "args": {
+          "should_epoch_stop": false,
+          "should_evaluate": false,
+          "should_log": false,
+          "should_save": true,
+          "should_training_stop": true
+        },
+        "attributes": {}
+      }
+    },
+    "train_batch_size": 1,
+    "trainer_state_embedded_state_like_keys": [],
+    "trainer_state_top_level_keys": [
+      "best_global_step",
+      "best_metric",
+      "best_model_checkpoint",
+      "epoch",
+      "eval_steps",
+      "global_step",
+      "is_hyper_param_search",
+      "is_local_process_zero",
+      "is_world_process_zero",
+      "log_history",
+      "logging_steps",
+      "max_steps",
+      "num_input_tokens_seen",
+      "num_train_epochs",
+      "save_steps",
+      "stateful_callbacks",
+      "total_flos",
+      "train_batch_size",
+      "trial_name",
+      "trial_params"
+    ]
+  },
+  "claim_boundary": "Stage27 establishes optimization/checkpoint semantics only. It does not establish H2 efficacy, local-flow quality, task success, generalization, representation validity, WBC validity, or hardware readiness.",
+  "downstream_authorization_status": "HOPPER_H2_TRAINING_HOLD_NO_TOKEN_GRANTED",
+  "downstream_authorization_still_valid": true,
+  "execution_boundary": {
+    "c2": false,
+    "checkpoint_metadata": true,
+    "forward": false,
+    "gpu": false,
+    "hardware": false,
+    "holdout_f_read": false,
+    "model_construction": false,
+    "optimizer_step": false,
+    "pbs": false,
+    "pinned_training_source": true,
+    "tensor_payload_reads": false,
+    "training": false,
+    "validation_e_read": false,
+    "wbc": false
+  },
+  "next_gate": "GPT_PI_REVIEW_AFTER_STAGE27_H2_SEMANTICS_AUDIT",
+  "optimization_schedule": {
+    "first_200_schedule_comparison": {
+      "different_logged_steps": 199,
+      "first_difference_global_step": 2,
+      "fresh_base_2000_is_not_o1_prefix_equivalent": true,
+      "rows": [
+        {
+          "absolute_difference": 0.0,
+          "fresh_2000_learning_rate": 0.0,
+          "global_step": 1,
+          "o1_200_learning_rate": 0.0
+        },
+        {
+          "absolute_difference": 9e-06,
+          "fresh_2000_learning_rate": 1.0000000000000002e-06,
+          "global_step": 2,
+          "o1_200_learning_rate": 1e-05
+        },
+        {
+          "absolute_difference": 8.1e-05,
+          "fresh_2000_learning_rate": 9e-06,
+          "global_step": 10,
+          "o1_200_learning_rate": 9e-05
+        },
+        {
+          "absolute_difference": 9e-05,
+          "fresh_2000_learning_rate": 1e-05,
+          "global_step": 11,
+          "o1_200_learning_rate": 0.0001
+        },
+        {
+          "absolute_difference": 8.899316524962345e-05,
+          "fresh_2000_learning_rate": 1.1000000000000001e-05,
+          "global_step": 12,
+          "o1_200_learning_rate": 9.999316524962345e-05
+        },
+        {
+          "absolute_difference": 4.404772348747686e-05,
+          "fresh_2000_learning_rate": 9.900000000000001e-05,
+          "global_step": 100,
+          "o1_200_learning_rate": 5.495227651252315e-05
+        },
+        {
+          "absolute_difference": 9.932477060606474e-05,
+          "fresh_2000_learning_rate": 9.93316053564413e-05,
+          "global_step": 200,
+          "o1_200_learning_rate": 6.834750376549792e-09
+        }
+      ],
+      "same_logged_steps": 1
+    },
+    "fresh_2000_fixed_warmup10_hypothetical": {
+      "cosine_denominator_steps": 1990,
+      "rows": [
+        {
+          "global_step": 1,
+          "learning_rate": 0.0,
+          "scheduler_step": 0,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 2,
+          "learning_rate": 1e-05,
+          "scheduler_step": 1,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 10,
+          "learning_rate": 9e-05,
+          "scheduler_step": 9,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 11,
+          "learning_rate": 0.0001,
+          "scheduler_step": 10,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 12,
+          "learning_rate": 9.999993769347776e-05,
+          "scheduler_step": 11,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 100,
+          "learning_rate": 9.950728130705651e-05,
+          "scheduler_step": 99,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 200,
+          "learning_rate": 9.779081108717263e-05,
+          "scheduler_step": 199,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 1000,
+          "learning_rate": 5.047359985062008e-05,
+          "scheduler_step": 999,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 1900,
+          "learning_rate": 6.342435283931303e-07,
+          "scheduler_step": 1899,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 2000,
+          "learning_rate": 6.230652225269751e-11,
+          "scheduler_step": 1999,
+          "warmup_steps": 10
+        }
+      ],
+      "total_steps": 2000,
+      "warmup_steps": 10
+    },
+    "fresh_2000_hypothetical": {
+      "rows": [
+        {
+          "global_step": 1,
+          "learning_rate": 0.0,
+          "scheduler_step": 0,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 2,
+          "learning_rate": 1.0000000000000002e-06,
+          "scheduler_step": 1,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 10,
+          "learning_rate": 9e-06,
+          "scheduler_step": 9,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 11,
+          "learning_rate": 1e-05,
+          "scheduler_step": 10,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 100,
+          "learning_rate": 9.900000000000001e-05,
+          "scheduler_step": 99,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 101,
+          "learning_rate": 0.0001,
+          "scheduler_step": 100,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 200,
+          "learning_rate": 9.93316053564413e-05,
+          "scheduler_step": 199,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 1000,
+          "learning_rate": 5.4211352710852495e-05,
+          "scheduler_step": 999,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 1900,
+          "learning_rate": 6.956098498760389e-07,
+          "scheduler_step": 1899,
+          "warmup_steps": 100
+        },
+        {
+          "global_step": 2000,
+          "learning_rate": 6.834904537900144e-11,
+          "scheduler_step": 1999,
+          "warmup_steps": 100
+        }
+      ],
+      "total_steps": 2000,
+      "warmup_steps": 100
+    },
+    "learning_rate": 0.0001,
+    "o1_200": {
+      "rows": [
+        {
+          "global_step": 1,
+          "learning_rate": 0.0,
+          "scheduler_step": 0,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 2,
+          "learning_rate": 1e-05,
+          "scheduler_step": 1,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 10,
+          "learning_rate": 9e-05,
+          "scheduler_step": 9,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 11,
+          "learning_rate": 0.0001,
+          "scheduler_step": 10,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 12,
+          "learning_rate": 9.999316524962345e-05,
+          "scheduler_step": 11,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 100,
+          "learning_rate": 5.495227651252315e-05,
+          "scheduler_step": 99,
+          "warmup_steps": 10
+        },
+        {
+          "global_step": 200,
+          "learning_rate": 6.834750376549792e-09,
+          "scheduler_step": 199,
+          "warmup_steps": 10
+        }
+      ],
+      "sealed_log_reconciliation": {
+        "all_rows_match": true,
+        "first_rows": [
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 0.0,
+            "global_step": 1,
+            "observed_learning_rate": 0.0
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 1e-05,
+            "global_step": 2,
+            "observed_learning_rate": 1e-05
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 2e-05,
+            "global_step": 3,
+            "observed_learning_rate": 2e-05
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 3e-05,
+            "global_step": 4,
+            "observed_learning_rate": 3e-05
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 4e-05,
+            "global_step": 5,
+            "observed_learning_rate": 4e-05
+          }
+        ],
+        "last_rows": [
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 1.7077534966650766e-07,
+            "global_step": 196,
+            "observed_learning_rate": 1.7077534966650766e-07
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 1.0931863906127327e-07,
+            "global_step": 197,
+            "observed_learning_rate": 1.0931863906127327e-07
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 6.150154258476315e-08,
+            "global_step": 198,
+            "observed_learning_rate": 6.150154258476315e-08
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 2.7337132953697554e-08,
+            "global_step": 199,
+            "observed_learning_rate": 2.7337132953697554e-08
+          },
+          {
+            "absolute_error": 0.0,
+            "expected_learning_rate": 6.834750376549792e-09,
+            "global_step": 200,
+            "observed_learning_rate": 6.834750376549792e-09
+          }
+        ],
+        "matched_rows": 200,
+        "max_absolute_error": 0.0,
+        "observed_rows": 200
+      },
+      "total_steps": 200,
+      "warmup_steps": 10
+    },
+    "scheduler": "cosine",
+    "warmup_ratio": 0.05,
+    "warmup_steps_configured": 0
+  },
+  "pinned_source": {
+    "expected_groot_head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "files": {
+      "gr00t/configs/training/training_config.py": {
+        "anchors": {
+          "if training.save_only_model and training.resume_from_checkpoint:": true,
+          "lr_scheduler_type: str = \"cosine\"": true,
+          "save_only_model: bool = False": true,
+          "the checkpoint lacks optimizer/scheduler/RNG state": true,
+          "warmup_ratio: float = 0.05": true,
+          "warmup_steps: int = 0": true
+        },
+        "sha256": "53b7a9a5169b418065ed1f5d0116f3cf890bfce4533b0ab4b029fb6d8ec4d0cc"
+      },
+      "gr00t/experiment/experiment.py": {
+        "anchors": {
+          "check_resume_compatibility(config.training)": true,
+          "lr_scheduler_type=config.training.lr_scheduler_type": true,
+          "max_steps=config.training.max_steps": true,
+          "save_only_model=config.training.save_only_model": true,
+          "set_seed(config.data.seed)": true,
+          "trainer.save_model()": true,
+          "trainer.train(resume_from_checkpoint=config.training.resume_from_checkpoint)": true,
+          "warmup_ratio=config.training.warmup_ratio": true
+        },
+        "sha256": "d57c43642cd3ea366b53c5e2904562466ce640d553b77df14c75bbd2a273a99c"
+      },
+      "gr00t/experiment/trainer.py": {
+        "anchors": {
+          "Please note that this will make the experiment non-reproducible.": true,
+          "TrainerState.load_from_json": true,
+          "self.args.ignore_data_skip = True": true,
+          "self.train_dataset.reset_seed(new_seed)": true,
+          "super().train(resume_from_checkpoint=latest_checkpoint, **kwargs)": true
+        },
+        "sha256": "10701c09cb0aacae75f8d9a764d0e83bdddef5b06c8126152cad8b6d7b4a1616"
+      }
+    },
+    "groot_head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "pinned_revision": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "stage20_launcher": {
+      "anchors": {
+        "config.data.seed = int(args.seed)": true,
+        "config.training.bf16 = True": true,
+        "config.training.fp16 = False": true,
+        "config.training.learning_rate = float(args.learning_rate)": true,
+        "config.training.max_steps = int(args.max_steps)": true,
+        "config.training.optim = \"adamw_torch\"": true,
+        "config.training.resume_from_checkpoint = False": true,
+        "config.training.save_only_model = True": true,
+        "config.training.warmup_ratio = 0.05": true
+      },
+      "expected_sha256": "f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2",
+      "revision": "735afb7f17f0184ca9eff3e372dfd59c8e008e95",
+      "sha256": "f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2"
+    }
+  },
+  "schema": "STAGE27_H2_OPTIMIZATION_SEMANTICS_AUDIT_V1",
+  "scientific_contract_changed": false,
+  "stage": "Stage27 H2 optimization-semantics audit",
+  "stage27_base_sha": "735afb7f17f0184ca9eff3e372dfd59c8e008e95",
+  "status": "PASS"
+}

@@ -1,0 +1,47 @@
+#!/bin/bash
+# STAGE22 H200 R1 one-step preflight template. DO NOT SUBMIT AS-IS.
+# Replace PROJECT_ID_REQUIRED only after `amgr login` and `hpc project` on the
+# Hopper login node. No password, token, or project ID belongs in this file.
+#
+# Required environment before qsub:
+#   STAGE22_SCRATCH_ROOT=/path/on/project-scratch
+#   STAGE10_ROOT=/path/to/Hopper-local/Stage10/runtime
+#   STAGE22_HANDOFF_ROOT=/path/to/extracted/STAGE22_H200_HANDOFF_V1
+#   STAGE22_REPO=/path/to/extracted/stage22-repo
+
+#PBS -N st22_h200_r1_pf
+#PBS -P PROJECT_ID_REQUIRED
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE22_SCRATCH_ROOT:?Set project scratch, not HOME}"
+: "${STAGE10_ROOT:?Set the Hopper Stage10 runtime root}"
+: "${STAGE22_HANDOFF_ROOT:?Set the extracted Stage22 handoff root}"
+: "${STAGE22_REPO:?Set the extracted Stage22 repository path}"
+
+cd "${STAGE22_REPO}"
+mkdir -p "${STAGE22_SCRATCH_ROOT}"
+
+hostname
+nvidia-smi
+module list 2>&1 || true
+python --version
+df -h "${STAGE22_SCRATCH_ROOT}"
+free -h
+
+DATASET_DIR="${STAGE22_HANDOFF_ROOT}/payload/lerobot_train"
+BASE_MODEL_PATH="${STAGE22_HANDOFF_ROOT}/payload/GR00T-N1.7-3B"
+MODALITY_CONFIG="${STAGE22_HANDOFF_ROOT}/payload/modality/go2_arx5_modality.py"
+OUTPUT_DIR="${STAGE22_SCRATCH_ROOT}/stage22_r1_preflight_${PBS_JOBID:-manual}"
+
+python scripts/stage22_r1_preflight.py \
+  --stage10-root "${STAGE10_ROOT}" \
+  --base-model-path "${BASE_MODEL_PATH}" \
+  --dataset-dir "${DATASET_DIR}" \
+  --modality-config "${MODALITY_CONFIG}" \
+  --output-dir "${OUTPUT_DIR}" \
+  --gpu-index 0 \
+  --allow-shared-gpu

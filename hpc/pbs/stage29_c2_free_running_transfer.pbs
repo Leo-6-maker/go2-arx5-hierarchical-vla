@@ -1,0 +1,139 @@
+#!/bin/bash
+# Stage29 C2 official free-running transfer diagnostic. DO NOT SUBMIT AS-IS.
+#
+# The wrapper runs only the PI_GATE_STATE_0009 bounded BASE/H2@2000 paired
+# sampler diagnostic.  It cannot train, resume, write a checkpoint, run WBC,
+# read validation/holdout, or execute hardware.
+
+#PBS -N st29_c2_transfer
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE29_REPO:?Set the clean Stage29 checkout}"
+: "${STAGE29_OUTPUT_PARENT:?Set a new scratch-backed output parent}"
+: "${STAGE29_BASE_MODEL_PATH:?Set the exact BASE checkpoint}"
+: "${STAGE29_DATASET_DIR:?Set the exact TINY1 dataset}"
+: "${STAGE10_ROOT:?Set the pinned Hopper runtime root}"
+: "${STAGE29_GROOT_SOURCE:?Set the pinned GR00T source checkout}"
+: "${STAGE29_COSMOS_CACHE_ROOT:?Set the pinned Cosmos cache root}"
+: "${STAGE29_MODALITY_CONFIG:?Set the frozen modality file}"
+: "${STAGE29_SNAPSHOT_ROOT:?Set the frozen Stage22 snapshot root}"
+: "${STAGE29_TRAINING_OUTPUT_ROOT:?Set historical job 600695 output}"
+: "${STAGE29_STAGE28_ARTIFACT_SEAL:?Set accepted Stage28 artifact seal}"
+: "${STAGE29_STAGE28_RESULT:?Set accepted Stage28 result}"
+: "${STAGE29_SOURCE_AUDIT_REPORT:?Set committed S0 source audit}"
+: "${STAGE29_EXPECTED_PROJECT_SHA:?Set exact committed Stage29 HEAD}"
+: "${STAGE29_EXPECTED_RUNNER_SHA256:?Set exact runner SHA256}"
+: "${STAGE29_EXPECTED_PBS_SHA256:?Set exact PBS SHA256}"
+: "${STAGE29_EXPECTED_SOURCE_AUDIT_SHA256:?Set exact source-audit SHA256}"
+: "${STAGE29_PI_GATE_ID:?Set PI_GATE_STATE_0009}"
+: "${PBS_JOBID:?PBS_JOBID is required}"
+
+test "${STAGE29_PI_GATE_ID}" = "PI_GATE_STATE_0009"
+cd "${STAGE29_REPO}"
+
+RUN_ROOT="${STAGE29_OUTPUT_PARENT}/stage29_c2_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}" || {
+  echo "FAIL_CLOSED: output already exists: ${RUN_ROOT}" >&2
+  exit 2
+}
+mkdir "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache/huggingface/hub" \
+  "${RUN_ROOT}/runtime/cache/torch" "${RUN_ROOT}/runtime/cache/triton" \
+  "${RUN_ROOT}/runtime/cache/torch_extensions" "${RUN_ROOT}/runtime/config" \
+  "${RUN_ROOT}/runtime/data"
+
+export TMPDIR="${RUN_ROOT}/runtime/tmp"
+export TMP="${TMPDIR}"
+export TEMP="${TMPDIR}"
+export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
+export TORCH_HOME="${RUN_ROOT}/runtime/cache/torch"
+export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache"
+export XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config"
+export XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
+export TRITON_CACHE_DIR="${RUN_ROOT}/runtime/cache/triton"
+export TORCH_EXTENSIONS_DIR="${RUN_ROOT}/runtime/cache/torch_extensions"
+export PYTHONNOUSERSITE=1
+
+test -d "${STAGE29_COSMOS_CACHE_ROOT}"
+ln -s "${STAGE29_COSMOS_CACHE_ROOT}" \
+  "${HF_HOME}/hub/models--nvidia--Cosmos-Reason2-2B"
+
+RUNNER="scripts/stage29_c2_free_running_transfer.py"
+PBS_TEMPLATE="hpc/pbs/stage29_c2_free_running_transfer.pbs"
+test "$(sha256sum "${RUNNER}" | awk '{print $1}')" = "${STAGE29_EXPECTED_RUNNER_SHA256}"
+test "$(sha256sum "${PBS_TEMPLATE}" | awk '{print $1}')" = "${STAGE29_EXPECTED_PBS_SHA256}"
+test "$(sha256sum "${STAGE29_SOURCE_AUDIT_REPORT}" | awk '{print $1}')" = "${STAGE29_EXPECTED_SOURCE_AUDIT_SHA256}"
+
+. /etc/profile.d/modules.sh 2>/dev/null || true
+module load singularity
+
+IMAGE=/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif
+FFMPEG_BUNDLE=/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902
+CONTAINER_SITE="${STAGE10_ROOT}/runtime/venv/lib/python3.12/site-packages"
+test -f "${IMAGE}"
+test -d "${FFMPEG_BUNDLE}"
+test -d "${CONTAINER_SITE}"
+FFMPEG_LD="/.singularity.d/libs:${FFMPEG_BUNDLE}:${FFMPEG_BUNDLE}/lib/x86_64-linux-gnu:${FFMPEG_BUNDLE}/usr/lib/x86_64-linux-gnu:${FFMPEG_BUNDLE}/usr/lib/x86_64-linux-gnu/pulseaudio:${CONTAINER_SITE}/torch/lib"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1 || {
+  echo "FAIL_CLOSED: expected one visible GPU, observed ${GPU_COUNT}" >&2
+  exit 2
+}
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1
+export GROOT_PATCH_MISTRAL=1
+
+singularity exec --nv \
+  --bind /app1:/app1 --bind /scratch:/scratch \
+  "${IMAGE}" env \
+  PYTHONPATH="${STAGE29_REPO}:${STAGE29_REPO}/src:${CONTAINER_SITE}:${STAGE29_GROOT_SOURCE}" \
+  LD_LIBRARY_PATH="${FFMPEG_LD}" \
+  HF_HOME="${HF_HOME}" HF_HUB_CACHE="${HF_HOME}/hub" \
+  HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
+  GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1 \
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" \
+  XDG_DATA_HOME="${XDG_DATA_HOME}" TORCH_HOME="${TORCH_HOME}" \
+  TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" \
+  TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" \
+  TMPDIR="${TMPDIR}" PYTHONNOUSERSITE=1 \
+  python3 "${RUNNER}" \
+    --mode execute \
+    --project-repo "${STAGE29_REPO}" \
+    --expected-project-sha "${STAGE29_EXPECTED_PROJECT_SHA}" \
+    --base-model-path "${STAGE29_BASE_MODEL_PATH}" \
+    --dataset-dir "${STAGE29_DATASET_DIR}" \
+    --groot-source "${STAGE29_GROOT_SOURCE}" \
+    --cosmos-cache-root "${STAGE29_COSMOS_CACHE_ROOT}" \
+    --modality-config "${STAGE29_MODALITY_CONFIG}" \
+    --snapshot-root "${STAGE29_SNAPSHOT_ROOT}" \
+    --training-output-root "${STAGE29_TRAINING_OUTPUT_ROOT}" \
+    --stage28-artifact-seal "${STAGE29_STAGE28_ARTIFACT_SEAL}" \
+    --stage28-result "${STAGE29_STAGE28_RESULT}" \
+    --source-audit-report "${STAGE29_SOURCE_AUDIT_REPORT}" \
+    --pbs-template "${STAGE29_REPO}/${PBS_TEMPLATE}" \
+    --expected-runner-sha256 "${STAGE29_EXPECTED_RUNNER_SHA256}" \
+    --expected-pbs-sha256 "${STAGE29_EXPECTED_PBS_SHA256}" \
+    --expected-source-audit-sha256 "${STAGE29_EXPECTED_SOURCE_AUDIT_SHA256}" \
+    --output-root "${RUN_ROOT}" \
+    --authorization-token "${STAGE29_PI_GATE_ID}" \
+    --pbs-job-id "${PBS_JOBID}" \
+    --pbs-project "CFP03-CF-004" \
+    --device cuda:0
+
+echo "STAGE29_C2_COMPLETE"
+echo "NEXT_GATE=GPT_PI_REVIEW_AFTER_STAGE29_C2_FREE_RUNNING_RESULT"
+

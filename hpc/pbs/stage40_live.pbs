@@ -1,0 +1,215 @@
+#!/usr/bin/env bash
+# Stage40 C: synchronous four-seed native GR00T -> WBC one-handoff run.
+# Submit only after B0 and B1 have passed and the final branch/head is sealed.
+#PBS -N st40_live
+#PBS -q auto
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ncpus=12:ngpus=1
+#PBS -l walltime=04:00:00
+#PBS -j oe
+#PBS -M leonliu@u.nus.edu
+#PBS -m ae
+
+set -euo pipefail
+
+: "${STAGE40_REPO:?}"
+: "${STAGE40_OUTPUT_ROOT:?}"
+: "${STAGE40_EXPECTED_HEAD:?}"
+: "${STAGE40_AUTH_ROOT:?}"
+: "${STAGE40_TRAJECTORY:?}"
+: "${STAGE40_ARM:?}"
+: "${STAGE40_DOG:?}"
+: "${STAGE40_STAGE10_ROOT:?}"
+: "${STAGE40_BASE_MODEL_PATH:?}"
+: "${STAGE40_MODEL_PATH:?}"
+: "${STAGE40_DATASET_DIR:?}"
+: "${STAGE40_MODALITY_CONFIG:?}"
+: "${STAGE40_COSMOS_SNAPSHOT:?}"
+
+RUN_MODE="${STAGE40_RUN_MODE:-live}"
+RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_${RUN_MODE}_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache" \
+  "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data" "${RUN_ROOT}/mailbox/requests" "${RUN_ROOT}/mailbox/responses"
+exec > >(tee -a "${RUN_ROOT}/stage40_live.log") 2>&1
+
+cd "${STAGE40_REPO}"
+test "$(git rev-parse HEAD)" = "${STAGE40_EXPECTED_HEAD}"
+test -z "$(git status --short --untracked-files=all)"
+test -d "${STAGE40_AUTH_ROOT}/WBCTrackingShare"
+for path in "${STAGE40_TRAJECTORY}" "${STAGE40_ARM}" "${STAGE40_DOG}" "${STAGE40_STAGE10_ROOT}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_MODEL_PATH}" "${STAGE40_DATASET_DIR}" "${STAGE40_MODALITY_CONFIG}" "${STAGE40_COSMOS_SNAPSHOT}"; do test -e "${path}"; done
+
+GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader)"
+GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | sed -n '1p' | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+test "${GPU_COUNT}" = 1
+
+NATIVE_IMAGE="${STAGE40_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
+APPTAINER="${STAGE40_APPTAINER_BIN:-/cm/shared/apps/singularity/1.3.1/bin/apptainer}"
+NATIVE_SITE="${STAGE40_RUNTIME_SITE:-/scratch/e1192548/leon-storage/wbc-authority/stage36_runtime_reconstruction_20260905/torch_cu121_v1/site-packages}"
+NATIVE_NINJA="${STAGE40_RUNTIME_NINJA:-/scratch/e1192548/leon-storage/wbc-authority/stage36_runtime_reconstruction_20260905/torch_cu121_v1/ninja_target_v4/bin/ninja}"
+GROOT_IMAGE="${STAGE40_GR00T_IMAGE:-/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif}"
+GROOT_SITE="${STAGE40_GR00T_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
+FFMPEG="${STAGE40_FFMPEG_BUNDLE:-/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902}"
+STRUCTURED_STATS="${STAGE40_STRUCTURED_STATS:-/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/experiment_cfg/structured_action_statistics.json}"
+test -f "${NATIVE_IMAGE}"
+test -x "${APPTAINER}"
+test -d "${NATIVE_SITE}"
+test -x "${NATIVE_NINJA}"
+test -f "${GROOT_IMAGE}"
+test -d "${GROOT_SITE}"
+test -d "${FFMPEG}"
+test -f "${STRUCTURED_STATS}"
+
+export HOME="${RUN_ROOT}/runtime/home" TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
+export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache" XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config" XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export HF_HOME="${STAGE40_COSMOS_HF_HOME:-$(dirname "${STAGE40_COSMOS_SNAPSHOT}")}"
+export HF_HUB_CACHE="${HF_HOME}/hub" TRANSFORMERS_CACHE="${HF_HOME}/hub"
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0
+export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
+
+echo "STAGE40=Stage40"
+echo "PI_GATE=PI_GATE_STATE_0064"
+echo "MODE=${RUN_MODE}"
+echo "HEAD=${STAGE40_EXPECTED_HEAD}"
+echo "PBS_JOBID=${PBS_JOBID}"
+echo "HOST=$(hostname)"
+echo "GPU=${GPU_NAME}"
+
+NATIVE_CONTAINER_SITE=/runtime/site-packages
+NATIVE_CONTAINER_NINJA=/runtime/ninja/bin
+FFMPEG_LD="/.singularity.d/libs:${FFMPEG}:${FFMPEG}/lib/x86_64-linux-gnu:${FFMPEG}/usr/lib/x86_64-linux-gnu:${GROOT_SITE}/torch/lib"
+NATIVE_CMD=(
+  "${APPTAINER}" exec --nv --cleanenv
+  --bind /scratch:/scratch
+  --bind "${STAGE40_AUTH_ROOT}:/authority:ro"
+  --bind "${NATIVE_SITE}:${NATIVE_CONTAINER_SITE}:ro"
+  --bind "$(dirname "${NATIVE_NINJA}"):${NATIVE_CONTAINER_NINJA}:ro"
+  "${NATIVE_IMAGE}" env
+  HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}"
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" XDG_DATA_HOME="${XDG_DATA_HOME}"
+  PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0
+  PATH="/usr/local/nvidia/bin:${NATIVE_CONTAINER_NINJA}:${PATH}"
+  LD_LIBRARY_PATH="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:${LD_LIBRARY_PATH}"
+  PYTHONPATH="${STAGE40_REPO}:${STAGE40_REPO}/src:${STAGE40_REPO}/scripts:/authority/WBCTrackingShare:${NATIVE_CONTAINER_SITE}"
+  /opt/miniconda3/envs/isaacgym/bin/python -B
+)
+GROOT_CMD=(
+  "${APPTAINER}" exec --nv --cleanenv
+  --bind /scratch:/scratch
+  --bind "${STAGE40_REPO}:${STAGE40_REPO}:ro"
+  "${GROOT_IMAGE}" env
+  PYTHONPATH="${GROOT_SITE}:${STAGE40_REPO}/src:${STAGE40_REPO}/scripts:${STAGE40_STAGE10_ROOT}/src/isaac-gr00t"
+  LD_LIBRARY_PATH="${FFMPEG_LD}"
+  HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}"
+  HF_HOME="${HF_HOME}" HF_HUB_CACHE="${HF_HUB_CACHE}" TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE}"
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" XDG_DATA_HOME="${XDG_DATA_HOME}"
+  HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+  PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0
+  python3 -B
+)
+
+WORKER_LOG="${RUN_ROOT}/stage40_groot_worker.log"
+"${GROOT_CMD[@]}" "${STAGE40_REPO}/scripts/stage21_same_scene_groot_worker.py" \
+  --stage10-root "${STAGE40_STAGE10_ROOT}" \
+  --base-model-path "${STAGE40_BASE_MODEL_PATH}" \
+  --model-path "${STAGE40_MODEL_PATH}" \
+  --dataset-dir "${STAGE40_DATASET_DIR}" \
+  --modality-config "${STAGE40_MODALITY_CONFIG}" \
+  --cosmos-snapshot "${STAGE40_COSMOS_SNAPSHOT}" \
+  --mailbox "${RUN_ROOT}/mailbox" \
+  --device cuda:0 --local-files-only --action-contract STRUCTURED_ACTION_V1 >"${WORKER_LOG}" 2>&1 &
+WORKER_PID=$!
+WORKER_READY_TIMEOUT_S="${STAGE40_WORKER_READY_TIMEOUT_S:-1200}"
+READY=0
+cleanup() {
+  touch "${RUN_ROOT}/mailbox/STOP" 2>/dev/null || true
+  if [ "${READY}" != 1 ] && kill -0 "${WORKER_PID}" 2>/dev/null; then
+    kill "${WORKER_PID}" 2>/dev/null || true
+  fi
+  wait "${WORKER_PID}" 2>/dev/null || true
+}
+trap cleanup EXIT
+
+for _ in $(seq 1 "${WORKER_READY_TIMEOUT_S}"); do
+  if grep -q '"status": "READY"' "${WORKER_LOG}" 2>/dev/null; then READY=1; break; fi
+  if ! kill -0 "${WORKER_PID}" 2>/dev/null; then break; fi
+  sleep 1
+done
+test "${READY}" = 1
+
+if [ "$RUN_MODE" = "c0" ]; then
+  ARM_REL=$(printf '%s\n' "$STAGE40_ARM" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  DOG_REL=$(printf '%s\n' "$STAGE40_DOG" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  set +e
+  "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
+    --mode c0 --source-root /authority/WBCTrackingShare \
+    --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
+    --structured-stats "$STRUCTURED_STATS" \
+    --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT" \
+    --sim-device cuda:0 --response-timeout-s 300
+  NATIVE_RC=$?
+  set -e
+  C0_STATUS="$(python3 - "$RUN_ROOT/stage40_c0_result.json" <<'PY'
+import json, sys
+try:
+    print(json.load(open(sys.argv[1])).get("status", "BLOCKED"))
+except Exception:
+    print("BLOCKED")
+PY
+)"
+  if [ "$C0_STATUS" = "PASS" ]; then
+    echo "STAGE40_C0_RETURNED"
+    exit 0
+  fi
+  exit "$NATIVE_RC"
+fi
+
+if [ "$RUN_MODE" = "live" ]; then
+  ARM_REL=$(printf '%s\n' "$STAGE40_ARM" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  DOG_REL=$(printf '%s\n' "$STAGE40_DOG" | sed "s#^$STAGE40_AUTH_ROOT/##")
+  for seed in 2223 2228 2233 2238; do
+    mkdir -p "$RUN_ROOT/seed_$seed"
+    set +e
+      "${NATIVE_CMD[@]}" "$STAGE40_REPO/scripts/stage40_live_one_handoff.py" \
+        --mode live-seed --seed "$seed" --source-root /authority/WBCTrackingShare \
+        --trajectory "$STAGE40_TRAJECTORY" --arm "/authority/$ARM_REL" --dog "/authority/$DOG_REL" \
+        --structured-stats "$STRUCTURED_STATS" \
+        --mailbox "$RUN_ROOT/mailbox" --output-dir "$RUN_ROOT/seed_$seed" \
+      --sim-device cuda:0 --response-timeout-s 300
+    echo "STAGE40_SEED_RETURNED seed=$seed rc=$?"
+    set -e
+  done
+  python3 - "$RUN_ROOT" <<'PY'
+import json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+seeds = (2223, 2228, 2233, 2238)
+episodes = []
+for seed in seeds:
+    path = root / f"seed_{seed}" / "stage40_live_result.json"
+    if path.exists():
+        data = json.loads(path.read_text())
+        episodes.append(data.get("episodes", [{"seed": seed, "status": "BLOCKED"}])[0])
+    else:
+        episodes.append({"seed": seed, "status": "BLOCKED", "error": {"type": "MissingSeedResult"}})
+status = "PASS" if len(episodes) == 4 and all(ep.get("status") == "PASS" for ep in episodes) else "NOT_QUALIFIED"
+result = {"schema": "STAGE40_LIVE_ONE_HANDOFF_V2", "stage": "Stage40",
+          "pi_gate": "PI_GATE_STATE_0064", "mode": "STAGE40_C_FOUR_SEED",
+          "seeds": list(seeds), "episodes": episodes,
+          "episode_pass_count": sum(ep.get("status") == "PASS" for ep in episodes),
+          "status": status,
+          "scientific_started": any(int(ep.get("wbc_forwards", 0)) > 0 for ep in episodes),
+          "scientific_contract_changed": False, "reruns": 0}
+(root / "stage40_live_result.json").write_text(json.dumps(result, indent=2) + "\n")
+PY
+  touch "$RUN_ROOT/mailbox/STOP"
+  if grep -q '"status": "PASS"' "$RUN_ROOT/stage40_live_result.json" 2>/dev/null; then
+    echo "STAGE40_LIVE_RETURNED"
+    exit 0
+  fi
+  exit 2
+fi
+
+echo "UNKNOWN_STAGE40_RUN_MODE=$RUN_MODE" >&2
+exit 64

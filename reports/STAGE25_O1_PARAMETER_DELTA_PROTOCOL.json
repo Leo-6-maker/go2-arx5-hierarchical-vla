@@ -1,0 +1,469 @@
+{
+  "delta_execution": {
+    "base_checkpoint_bytes_required": true,
+    "o1_checkpoint_bytes_required": true,
+    "reason": "Phase-A relay intentionally contains O1 metadata/seals but not the two full safetensor shards",
+    "results": null,
+    "status": "NOT_EXECUTED"
+  },
+  "execution_boundary": {
+    "cuda_used": false,
+    "forward": false,
+    "hardware": false,
+    "holdout_f_read": false,
+    "inference": false,
+    "model_constructed": false,
+    "pbs_submitted": false,
+    "training": false,
+    "validation_e_read": false,
+    "wbc": false
+  },
+  "historical_o1_run": {
+    "base_model_index_sha256": null,
+    "base_model_path": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+    "checkpoint_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "checkpoint_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+    "expected_o1_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+    "observed_o1_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+    "seal_sha256_verified": true,
+    "evaluation_status": "GATE_FAIL",
+    "full_checkpoint_bytes_in_current_phase_a_relay": false,
+    "max_steps": 200,
+    "model_path": "/scratch/e1192548/stage23_o1_20260903/runs/597966.hopper-m-02/candidate_200/checkpoint-200",
+    "output_dir": "/scratch/e1192548/stage23_o1_20260903/runs/597966.hopper-m-02/candidate_200",
+    "per_file_seal_available": true,
+    "run_manifest_sha256": "4dfb69bbd0bb36562c17046735001454c8dc5cfe5e9e0195ae3ca032259a3148",
+    "trainer_global_step": 200,
+    "trainer_state_sha256": "2aa506bf605bce28809739970b6d3bc86059dba5490101c7da4fdba94512e4d9"
+  },
+  "protocol": {
+    "action_encoder_w1_partition": {
+      "active_columns": [
+        0,
+        10
+      ],
+      "inactive_columns": [
+        10,
+        132
+      ],
+      "inactive_dimension_count": 122,
+      "key": "action_head.action_encoder.W1.W",
+      "requires_per_column_normalized_metrics": true
+    },
+    "serialized_key_set_reconciliation": {
+      "all_other_missing_or_extra_fail": true,
+      "common_key_shape_exact": true,
+      "common_key_stored_dtype_exact_except_explicit_cast": true,
+      "comparison_rule": "Compare the BASE/O1 key intersection after admitting only the listed BASE-only tied alias; require the paired key in both indexes",
+      "rules": [
+        {
+          "base_only_key": "backbone.model.lm_head.weight",
+          "base_shard": "model-00001-of-00002.safetensors",
+          "basis": "pinned Transformers v4.57.3 Qwen3-VL declares lm_head.weight as a tied key; safe serialization retains one shared tensor",
+          "paired_key": "backbone.model.model.language_model.embed_tokens.weight"
+        }
+      ],
+      "status": "EXACT_OR_EXPLICIT_TIED_ALIAS_OMISSION"
+    },
+    "serialized_dtype_cast_reconciliation": {
+      "all_other_common_key_dtype_mismatches_fail": true,
+      "changed_element_comparison": "decoded_float64_equality_for_explicit_cast_only",
+      "numeric_comparison": "float64_after_decoding_both_stored_tensors",
+      "observed_header_audit": {
+        "backbone_mismatched_key_count": 0,
+        "base_dtype": "torch.bfloat16",
+        "common_key_count": 1030,
+        "matching_common_key_count": 493,
+        "mismatch_group_counts": {
+          "action_head.action_decoder": 4,
+          "action_head.action_encoder": 6,
+          "action_head.model.proj_out": 4,
+          "action_head.model.timestep_encoder": 4,
+          "action_head.model.transformer_blocks": 448,
+          "action_head.position_embedding": 1,
+          "action_head.state_encoder": 4,
+          "action_head.vlln": 2,
+          "action_head.vl_self_attention.transformer_blocks": 64
+        },
+        "mismatch_prefix": "action_head.",
+        "mismatched_common_key_count": 537,
+        "o1_dtype": "torch.float32"
+      },
+      "rules": [
+        {
+          "basis": "pinned Stage23 Transformers v4.57.3 load constructs these trainable projector modules under default fp32; bf16 AMP does not recast storage",
+          "base_dtype": "torch.bfloat16",
+          "key_prefixes": [
+            "action_head.state_encoder.",
+            "action_head.action_encoder.",
+            "action_head.action_decoder.",
+            "action_head.position_embedding."
+          ],
+          "o1_dtype": "torch.float32",
+          "scope": "CATEGORY_PROJECTORS"
+        },
+        {
+          "basis": "pinned Stage23 Transformers v4.57.3 load constructs the trainable diffusion action-head module under default fp32; bf16 AMP does not recast storage",
+          "base_dtype": "torch.bfloat16",
+          "key_prefixes": [
+            "action_head.model."
+          ],
+          "o1_dtype": "torch.float32",
+          "scope": "DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE"
+        },
+        {
+          "basis": "pinned Stage23 constructs the frozen vlln/self-attention modules under default fp32; tune_vlln=false freezes them but does not cast their parameter storage",
+          "base_dtype": "torch.bfloat16",
+          "key_prefixes": [
+            "action_head.vlln.",
+            "action_head.vl_self_attention."
+          ],
+          "o1_dtype": "torch.float32",
+          "scope": "ACTION_HEAD_VLLN_EXPECTED_FROZEN"
+        }
+      ],
+      "shape_remains_exact": true,
+      "status": "EXACT_OR_EXPLICIT_ACTION_HEAD_DTYPE_CAST"
+    },
+    "base_identity": {
+      "identity_must_be_reverified": true,
+      "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+      "tree_prefix": "payload/GR00T-N1.7-3B",
+      "tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
+    },
+    "category_projector_key_contract": {
+      "category_id_labels": {
+        "10": "NEW_EMBODIMENT",
+        "11": "UNITREE_G1_SONIC",
+        "24-27": "pretrained reference rows",
+        "4-7": "deterministic unused/control comparison rows"
+      },
+      "category_ids": [
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        24,
+        25,
+        26,
+        27
+      ],
+      "count": 14,
+      "keys": [
+        "action_head.state_encoder.layer1.W",
+        "action_head.state_encoder.layer1.b",
+        "action_head.state_encoder.layer2.W",
+        "action_head.state_encoder.layer2.b",
+        "action_head.action_encoder.W1.W",
+        "action_head.action_encoder.W1.b",
+        "action_head.action_encoder.W2.W",
+        "action_head.action_encoder.W2.b",
+        "action_head.action_encoder.W3.W",
+        "action_head.action_encoder.W3.b",
+        "action_head.action_decoder.layer1.W",
+        "action_head.action_decoder.layer1.b",
+        "action_head.action_decoder.layer2.W",
+        "action_head.action_decoder.layer2.b"
+      ]
+    },
+    "comparison_status": "PREPARED_NOT_EXECUTED",
+    "evidence": {
+      "archive_sha256": "720aca9a1a1c7146919620df4000a76cc228a71729b057a2a0d155787ea50dcd",
+      "payload_files_verified": 252,
+      "payload_manifest_rows": 252,
+      "payload_manifest_sha256": "dfeb6b44410b0042e53bac261e49acf7dbaa23ee2a61839ab65d4171b6c42b6a",
+      "phase_a_root": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903",
+      "relay_contains_credentials": false,
+      "relay_sha256": "ff77bcd7a09d489b43981063240f92581013649f35ef61d8f3999950f68601ea"
+    },
+    "execution_boundary": {
+      "cuda_used": false,
+      "forward": false,
+      "hardware": false,
+      "holdout_f_read": false,
+      "inference": false,
+      "model_constructed": false,
+      "pbs_submitted": false,
+      "training": false,
+      "validation_e_read": false,
+      "wbc": false
+    },
+    "groot_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "module_classification": {
+      "every_serialized_key_must_match_exactly_one_rule": true,
+      "recipe": {
+        "tune_diffusion_model": true,
+        "tune_llm": false,
+        "tune_projector": true,
+        "tune_visual": false,
+        "tune_vlln": false
+      },
+      "rules": [
+        {
+          "basis": "tune_projector=true in the pinned Stage23 recipe",
+          "expected_trainable": true,
+          "group": "CATEGORY_PROJECTORS",
+          "patterns": [
+            "^action_head\\.(state_encoder|action_encoder|action_decoder)\\.",
+            "^action_head\\.position_embedding\\."
+          ]
+        },
+        {
+          "basis": "tune_diffusion_model=true in the pinned Stage23 recipe",
+          "expected_trainable": true,
+          "group": "DIFFUSION_ACTION_HEAD_SHARED_TRAINABLE",
+          "patterns": [
+            "^action_head\\.model\\."
+          ]
+        },
+        {
+          "basis": "tune_visual=false, tune_llm=false, tune_vlln=false",
+          "expected_trainable": false,
+          "group": "VISUAL_LLM_VLLN_EXPECTED_FROZEN",
+          "patterns": [
+            "^backbone\\.",
+            "^action_head\\.vlln\\.",
+            "^action_head\\.vl_self_attention\\."
+          ]
+        },
+        {
+          "basis": "conservative fallback; any observed delta is unexpected until source-explained",
+          "expected_trainable": false,
+          "group": "OTHER_EXPECTED_FROZEN",
+          "patterns": [
+            "."
+          ]
+        }
+      ],
+      "unexpected_frozen_group_delta_is_stop": true
+    },
+    "next_gate": "HOPPER_CPU_STATIC_DELTA_RESUME_ON_CORRECTED_HEAD",
+    "o1_identity": {
+      "checkpoint_seal_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv",
+      "checkpoint_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+      "expected_o1_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+      "observed_o1_seal_sha256": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+      "seal_sha256_verified": true,
+      "full_bytes_present_in_phase_a_relay": false,
+      "full_bytes_required_for_delta_execution": true,
+      "stage23_core_seal_immutable": true,
+      "supplemental_metadata_allowlist": [
+        "experiment_cfg/conf.yaml",
+        "experiment_cfg/config.yaml",
+        "experiment_cfg/dataset_statistics.json",
+        "experiment_cfg/final_model_config.json",
+        "experiment_cfg/final_processor_config.json"
+      ],
+      "supplemental_metadata_file_count_expected": 5,
+      "supplemental_metadata_used_for_tensor_identity": false,
+      "global_step": 200,
+      "historical_path": "/scratch/e1192548/stage23_o1_20260903/runs/597966.hopper-m-02/candidate_200/checkpoint-200",
+      "index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+      "per_file_seal_available": true,
+      "per_file_seal_entries": [
+        {
+          "bytes": 2148,
+          "relative_path": "config.json",
+          "sealed_path": "candidate_200/config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 2226,
+          "relative_path": "embodiment_id.json",
+          "sealed_path": "candidate_200/embodiment_id.json",
+          "sha256": "5e8611697dc90b7b7a92cf2a8da926275c16f5966c5eb109e0216c3c51af15a1"
+        },
+        {
+          "bytes": 4993709288,
+          "relative_path": "model-00001-of-00002.safetensors",
+          "sealed_path": "candidate_200/model-00001-of-00002.safetensors",
+          "sha256": "20a2c9c470f4da6c4c6bac459dba004503c5cca058b63d777c083b799b101e5b"
+        },
+        {
+          "bytes": 4535492016,
+          "relative_path": "model-00002-of-00002.safetensors",
+          "sealed_path": "candidate_200/model-00002-of-00002.safetensors",
+          "sha256": "35b7fb08c980c622d309934231fcba3c9854ade869069c2cf438efce24cc7f22"
+        },
+        {
+          "bytes": 104912,
+          "relative_path": "model.safetensors.index.json",
+          "sealed_path": "candidate_200/model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "bytes": 26965,
+          "relative_path": "processor_config.json",
+          "sealed_path": "candidate_200/processor_config.json",
+          "sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9"
+        },
+        {
+          "bytes": 4352059,
+          "relative_path": "statistics.json",
+          "sealed_path": "candidate_200/statistics.json",
+          "sha256": "ca0da0d293996376e1e289dd7fc3535125ef7f1b18a7a472d1bdc5ed17c79a0d"
+        },
+        {
+          "bytes": 28136,
+          "relative_path": "trainer_state.json",
+          "sealed_path": "candidate_200/trainer_state.json",
+          "sha256": "2aa506bf605bce28809739970b6d3bc86059dba5490101c7da4fdba94512e4d9"
+        },
+        {
+          "bytes": 5905,
+          "relative_path": "training_args.bin",
+          "sealed_path": "candidate_200/training_args.bin",
+          "sha256": "47601b12ae580aff5b560fde23d2f81bca91022d0d1bd0df5e34a6a9bb399708"
+        },
+        {
+          "bytes": 61,
+          "relative_path": "wandb_config.json",
+          "sealed_path": "candidate_200/wandb_config.json",
+          "sha256": "80f812a1cfd18894a4ec8de11e206bca513cbbe7fd5770cdcf10f38d847e7cea"
+        }
+      ],
+      "run_manifest_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/configs/candidate_200.run_manifest.json",
+      "run_manifest_sha256": "4dfb69bbd0bb36562c17046735001454c8dc5cfe5e9e0195ae3ca032259a3148",
+      "trainer_state_path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/candidates/trainer_state_200.json",
+      "trainer_state_sha256": "2aa506bf605bce28809739970b6d3bc86059dba5490101c7da4fdba94512e4d9"
+    },
+    "provenance_scope": {
+      "forbidden_unsealed_extra_rule": "Any regular file, symlink, directory escape, or path outside SEALED_CORE union the exact five supplemental paths fails closed before tensor read",
+      "stage23_core_seal": {
+        "classification": "IMMUTABLE_HISTORICAL",
+        "immutable": true,
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/checkpoint_seal/checkpoint_file_seal.tsv",
+        "scope_rule": "SEALED_CORE is exactly the candidate_200 rows from this seal; the Stage23 seal is not rewritten",
+        "sha256_expected": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806",
+        "sha256_observed": "7aa07a84d62a5052bb9522ba0a04f8d1b711dac0f6b448db3e696135a663f806"
+      },
+      "supplemental_metadata": {
+        "allowlist": [
+          "experiment_cfg/conf.yaml",
+          "experiment_cfg/config.yaml",
+          "experiment_cfg/dataset_statistics.json",
+          "experiment_cfg/final_model_config.json",
+          "experiment_cfg/final_processor_config.json"
+        ],
+        "classification": "PRESENT_DAY_UNSEALED_METADATA",
+        "current_checkpoint_manifest_status": "OBSERVED_ON_HOPPER_PENDING_REEXECUTION",
+        "expected_file_count": 5,
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_STATUS": "PENDING_PRESENT_ROOT_COMPARISON",
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_PASS": null,
+        "SUPPLEMENTAL_METADATA_HISTORY_MISMATCHES": [],
+        "SUPPLEMENTAL_METADATA_HISTORY_BINDING_IMPLEMENTED": true,
+        "SUPPLEMENTAL_METADATA_PROMOTED_TO_STAGE23_CORE_SEAL": false,
+        "historical_equivalence_required_for_stage25_provenance_gate": true,
+        "promoted_to_stage23_core_seal": false,
+        "manifest_algorithm": "sha256(relative_path + \"\\0\" + bytes + \"\\0\" + file_sha256 + \"\\n\") over sorted relative_path",
+        "manifest_field": "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256",
+        "STAGE25_SUPPLEMENTAL_METADATA_MANIFEST_SHA256": null,
+        "prior_binding_status": {
+          "experiment_cfg/conf.yaml": {
+            "bytes": 5487,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/conf.yaml",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/conf.yaml"
+            ],
+            "sha256": "d183317ff91f530000956aa9ba67ba1e33bad3f1d50e2f95b8c6626f4df8da76",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/config.yaml": {
+            "bytes": 5456,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/config.yaml",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/config.yaml"
+            ],
+            "sha256": "6d2d799b3a37ecf45dcf65a3479ec82246669a65d673fd53ce92373d6690ba69",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/dataset_statistics.json": {
+            "bytes": 58966,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/dataset_statistics.json",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/dataset_statistics.json"
+            ],
+            "sha256": "28ef7a15fc7c540dd38733eddbf55ebdc3fa2f62c3bafa8b75bfff8bbee54450",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/final_model_config.json": {
+            "bytes": 1513,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/final_model_config.json",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/final_model_config.json"
+            ],
+            "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          },
+          "experiment_cfg/final_processor_config.json": {
+            "bytes": 2548004,
+            "evidence": [
+              "Stage23 payload_file_manifest.tsv:candidates/checkpoint_200_metadata/experiment_cfg/final_processor_config.json",
+              "Stage23 configs/candidate_200.run_manifest.json:artifacts.checkpoint-200/experiment_cfg/final_processor_config.json"
+            ],
+            "sha256": "84b890c59dee08ffe2fce36b4c9f95fe689d993e0d3f0cb80c8a4e8da3fee823",
+            "status": "EXACT_HISTORICAL_HASH_FOUND"
+          }
+        },
+        "tensor_identity_rule": "Stage23 immutable core seal plus exact O1 index SHA256; supplemental metadata cannot establish safetensor identity",
+        "used_for_tensor_identity": false
+      }
+    },
+    "required_group_metrics": [
+      "key count",
+      "parameter count",
+      "changed key count",
+      "aggregate delta L2 / RMS",
+      "aggregate BASE norm",
+      "relative delta",
+      "max per-key relative delta"
+    ],
+    "required_key_metrics": [
+      "exact key / shard / shape / BASE and O1 stored dtype / dtype comparison rule",
+      "BASE tensor SHA256",
+      "O1 tensor SHA256",
+      "absolute delta L2 / RMS / max-abs",
+      "relative delta L2",
+      "cosine(BASE, O1)",
+      "changed-element fraction at stored dtype, or decoded float64 equality for the explicit cast rule"
+    ],
+    "schema": "STAGE25_O1_PARAMETER_DELTA_PROTOCOL_V1",
+    "stage23_frozen_git_sha": "deb920a070141e6a32a88cd0da6719828647e1e6",
+    "stage24_base_sha": "c5ded6e119df920402451497aacdc69274ca8fc1",
+    "status": "FROZEN_FOR_CPU_STATIC_EXECUTION"
+  },
+  "schema": "STAGE25_O1_PARAMETER_DELTA_PREPARATION_V1",
+  "source_evidence": {
+    "contains_credentials": false,
+    "payload_manifest": {
+      "errors": [],
+      "expected_sha256": "dfeb6b44410b0042e53bac261e49acf7dbaa23ee2a61839ab65d4171b6c42b6a",
+      "files_verified": 252,
+      "pass": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-stage23-o1-phase-a-20260903/extracted/phase_a_seal_20260903/payload_file_manifest.tsv",
+      "row_count": 252,
+      "sha256": "dfeb6b44410b0042e53bac261e49acf7dbaa23ee2a61839ab65d4171b6c42b6a",
+      "sha256_match": true
+    },
+    "provenance": {
+      "bundle_source": "/scratch/e1192548/stage23_o1_20260903",
+      "campaign_log_sha256": "d9d43235b9c6d2c4acdb8713965d1cb11c71a68aecd5db4712ce77239fcc1e0b",
+      "campaign_manifest_sha256": "413de78377cb55aa8d19f721d28434f49a2710fc71d7c9165cdb81e428eb4ffd",
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "final_report_sha256": "6c36bfa88476a7b56bc7e03930d995f7ec0a4969eac92fb75c7e02b77d463e98",
+      "frozen_git_sha": "deb920a070141e6a32a88cd0da6719828647e1e6",
+      "groot_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "launcher_sha256": "f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2",
+      "o1_result": "FAIL_MAX_200",
+      "phase_a_no_new_model_forward": true,
+      "schema": "STAGE23_O1_PHASE_A_PROVENANCE_V1",
+      "seal_root": "/scratch/e1192548/stage23_o1_20260903/phase_a_seal_20260903"
+    },
+    "relay_sha256": "ff77bcd7a09d489b43981063240f92581013649f35ef61d8f3999950f68601ea",
+    "token_content_read": false
+  },
+  "status": "PASS_PREPARATION_O1_BYTES_NOT_IN_PHASE_A_RELAY"
+}

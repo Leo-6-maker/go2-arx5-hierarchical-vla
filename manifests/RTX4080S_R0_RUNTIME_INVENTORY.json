@@ -1,0 +1,230 @@
+{
+  "schema": "STAGE40_RTX4080S_R0_RUNTIME_INVENTORY_V1",
+  "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "captured_at": "2026-09-07T15:23:13+08:00",
+  "host": {
+    "name": "corelab-4080s",
+    "os": "Ubuntu 24.04.4 LTS",
+    "kernel": "7.0.0-28-generic",
+    "architecture": "x86_64",
+    "cpu": "Intel(R) Core(TM) Ultra 7 265K",
+    "cpu_logical_count": 20,
+    "ram_bytes": 66645962752,
+    "swap_bytes": 8589930496,
+    "filesystem": {
+      "home_nfs": {
+        "mount": "/home/liuyu-nfs",
+        "size_bytes": 4000785104896,
+        "used_bytes": 3297290223616,
+        "available_bytes": 703221202944,
+        "capacity_percent": 83
+      },
+      "local_root": {
+        "mount": "/",
+        "size_bytes": 1905283825664,
+        "used_bytes": 444630478848,
+        "available_bytes": 1363822809088,
+        "capacity_percent": 25
+      },
+      "local_hdd1": {
+        "mount": "/mnt/local/hdd1",
+        "size_bytes": 4000768323584,
+        "used_bytes": 2247353585664,
+        "available_bytes": 1753414737920,
+        "capacity_percent": 57
+      }
+    }
+  },
+  "gpus": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 4080 SUPER",
+      "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "memory_total_mib": 32760,
+      "memory_used_mib_at_capture": 20040,
+      "memory_free_mib_at_capture": 12189,
+      "compute_capability": "8.9"
+    },
+    {
+      "index": 1,
+      "name": "NVIDIA GeForce RTX 4080 SUPER",
+      "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+      "memory_total_mib": 16376,
+      "memory_used_mib_at_capture": 6253,
+      "memory_free_mib_at_capture": 9683,
+      "compute_capability": "8.9",
+      "role": "16GB_TARGET"
+    }
+  ],
+  "driver": {
+    "version": "580.173.02",
+    "host_reported_cuda": "13.0"
+  },
+  "gpu_policy": {
+    "both_cards_available_for_engineering": true,
+    "other_user_processes_may_coexist": true,
+    "processes_modified_or_killed": false,
+    "selection": "bind by UUID; do not infer a physical card from remapped ordinal"
+  },
+  "preexisting_gpu_processes": [
+    {
+      "pid": 1784566,
+      "user": "simon-nfs",
+      "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "memory_mib": 8456,
+      "command_class": "preexisting_simulation_training"
+    },
+    {
+      "pid": 1785294,
+      "user": "simon-nfs",
+      "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "memory_mib": 8780,
+      "command_class": "preexisting_simulation_training"
+    },
+    {
+      "pid": 1788284,
+      "user": "simon-nfs",
+      "gpu_uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+      "memory_mib": 6208,
+      "command_class": "preexisting_simulation_training"
+    }
+  ],
+  "runtimes": {
+    "stage10_python": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+    "stage10_python_version": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "torch_cuda": "12.8",
+    "torch_cuda_visible": true,
+    "torch_device_count": 2,
+    "gr00t_import": "/home/liuyu-nfs/Projects/isaac-gr00t/gr00t/__init__.py",
+    "gr00t_source_pin": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "isaacgym_in_stage10_python": "NOT_IMPORTABLE",
+    "native_isaacgym_archive_runtime": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13c/runtime_env/public_native/isaacgym",
+    "native_compat_root": "/home/liuyu-nfs/stage13c_staging/native_compat",
+    "native_compat_pytorch3d_init_sha256": "d9eae417aaa5e864abda9ff0920365c036fa937df4ad52bed86c5c922a9fed7c",
+    "native_compat_pytorch3d_transforms_sha256": "f4e369bfefd2e8afc033b7dfe485e3794d7f960af3935b53a57319a705dd1979",
+    "native_runtime_static_probe": {
+      "python": "3.8.20",
+      "torch": "2.3.1",
+      "torch_cuda": "12.1",
+      "torchvision": "0.18.1",
+      "torchaudio": "2.3.1",
+      "isaacgym_import": true,
+      "cuda_available": true,
+      "device_count": 2,
+      "compute_capability": "8.9"
+    },
+    "docker": {
+      "version": "29.6.2",
+      "daemon_access": "PERMISSION_DENIED",
+      "used": false
+    },
+    "apptainer": "NOT_INSTALLED",
+    "singularity": "NOT_INSTALLED",
+    "nvidia_container_cli": "1.19.1"
+  },
+  "artifacts": {
+    "structured_checkpoint": {
+      "label": "STRUCTURED@1000",
+      "expected_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+      "expected_hopper_locator": "/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/checkpoint-1000",
+      "rtx_handoff_locator": null,
+      "rtx_handoff_locator_status": "NOT_PROVIDED; the expected Hopper locator is not mounted on the RTX host",
+      "present_on_rtx_host_at_r0": false,
+      "status": "PROVENANCE_LOCATOR_REQUIRED_BEFORE_R1",
+      "substitution_allowed": false
+    },
+    "structured_statistics": {
+      "expected_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+      "expected_hopper_locator": "/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/experiment_cfg/structured_action_statistics.json",
+      "present_on_rtx_host_at_r0": false,
+      "status": "PROVENANCE_LOCATOR_REQUIRED_BEFORE_R1"
+    },
+    "tiny1_dataset": {
+      "expected_hopper_locator": "/scratch/e1192548/stage23_o1_20260903/input_exact/extracted/tiny1_h2stats_lerobot_v2",
+      "present_on_rtx_host_at_r0": false,
+      "status": "PROVENANCE_LOCATOR_REQUIRED_BEFORE_R1"
+    },
+    "frozen_modality": {
+      "expected_hopper_locator": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py",
+      "stage10_provisional_locator": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/artifacts/go2_arx5_modality.py",
+      "stage10_provisional_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "present_exact_on_rtx_host_at_r0": false,
+      "substitution_allowed": false
+    },
+    "cosmos_snapshot": {
+      "expected_hopper_locator": "/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub",
+      "present_on_rtx_host_at_r0": false,
+      "hub_lookup_allowed": false,
+      "status": "PROVENANCE_LOCATOR_REQUIRED_BEFORE_R1"
+    },
+    "groot_source": {
+      "path_on_rtx_host": "/home/liuyu-nfs/Projects/isaac-gr00t",
+      "realpath": "/home/liuyu-nfs/Projects/isaac-gr00t",
+      "git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "shared_checkout_status": "DIRTY_USER_CHANGES_PRESENT",
+      "clean_rtx_worktree": "PENDING_SEPARATE_WORKTREE"
+    },
+    "base_reference_only": {
+      "path_on_rtx_host": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B",
+      "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+      "historical_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "role": "REFERENCE_ONLY_NOT_STRUCTURED_CHECKPOINT"
+    },
+    "wbc_authority_archive": {
+      "path_on_rtx_host": "/home/liuyu-nfs/Projects/_handoff/go2-arx5/WBCTrackingShare_20260831.zip",
+      "size_bytes": 963451251,
+      "sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+      "status": "EXACT_BYTES_PRESENT"
+    },
+    "wbc_extracted_tree": {
+      "path_on_rtx_host": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13b/intake_process_diff_smoke_20260831/extracted",
+      "tree_sha256": "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567",
+      "file_count": 742,
+      "symlink_count": 0,
+      "archive_byte_comparison": "PASS"
+    },
+    "r2_native_camera_smoke": {
+      "output_root": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R2_native_camera_20260907_profile",
+      "result_sha256": "65aaed612cf4a5dbcdbf42ee9ee3bab58c629878fa20c0261827b7d7ce864f74",
+      "status": "PASS",
+      "body_rgb_shape": [96, 96, 3],
+      "wrist_rgb_shape": [96, 96, 3],
+      "state_v1_shape": [10],
+      "wbc_forward_count": 0,
+      "same_scene_state_max_abs_error": 0.0,
+      "target_gpu_peak_used_mib": 9009,
+      "target_gpu_baseline_used_mib": 6253,
+      "native_process_peak_mib": 2746,
+      "memory_csv_sha256": "b6d3cd202967bdd7a542c826b245b38a177b57c939576e5971169b9e7b735dde",
+      "process_memory_csv_sha256": "e1e6bc98cf13679f92ece8f322956fbd70a1383ce804e1e7c8dd32c578455c6b"
+    }
+  },
+  "frozen_contract": {
+    "representation": "StructuredActionV1",
+    "geometry": "K16",
+    "timing": "T16",
+    "horizon": 40,
+    "universal_action_dim": 132,
+    "physical_action_dim": 10,
+    "chunk_duration_s": 1.9500000000000002,
+    "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp": "x5_link6_gripper_center",
+    "handoff_target_s": 0.9750000000000001,
+    "development_seed": 4242,
+    "formal_h200_seeds": [2223, 2228, 2233, 2238]
+  },
+  "execution_status": {
+    "model_constructed": false,
+    "native_simulator_constructed": true,
+    "forward": false,
+    "gpu_workload": true,
+    "gpu_workload_kind": "R2 native-only constructor and camera rendering; no GR00T model",
+    "pbs_submitted": false,
+    "training": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "hardware_robot": false,
+    "scientific_claim_promoted": false
+  }
+}

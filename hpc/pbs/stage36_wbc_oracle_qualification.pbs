@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+# Stage36-RQ: one bounded native WBC oracle allocation.
+# The CPU authority harness must have returned READY_FOR_E before this file is
+# submitted. This wrapper has no qsub/retry path and never touches historical
+# Stage22--Stage35 output trees or the historical training job.
+#PBS -N stage36_wbc_rq
+#PBS -q auto
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ncpus=12:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE36_REPO:?}"
+: "${STAGE36_PLAN:?}"
+: "${STAGE36_OUTPUT_PARENT:?}"
+: "${STAGE36_AUTHORITY_EXTRACTED_ROOT:?}"
+: "${STAGE36_STAGE35_ROOT:?}"
+: "${STAGE36_RUNTIME_SITE:?}"
+: "${STAGE36_RUNTIME_NINJA:?}"
+: "${STAGE36_PI_GATE:?}"
+: "${STAGE36_EXPECTED_HEAD:?}"
+
+test "${STAGE36_PI_GATE}" = "PI_GATE_STATE_0023"
+test "${#STAGE36_EXPECTED_HEAD}" -eq 40
+# `auto` is the submission/routing queue.  PBS may expose its selected
+# execution destination (for example `small`) as PBS_QUEUE, so validate the
+# requested queue through PBS_O_QUEUE and record both values below.
+test "${PBS_O_QUEUE:-}" = "auto"
+test -d "${STAGE36_REPO}"
+test -f "${STAGE36_PLAN}"
+test -d "${STAGE36_AUTHORITY_EXTRACTED_ROOT}/WBCTrackingShare"
+test -d "${STAGE36_STAGE35_ROOT}"
+test -d "${STAGE36_RUNTIME_SITE}"
+test -x "${STAGE36_RUNTIME_NINJA}"
+
+cd "${STAGE36_REPO}"
+test "$(git rev-parse HEAD)" = "${STAGE36_EXPECTED_HEAD}"
+test -z "$(git status --short)"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED_GPU=${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+RUN_ROOT="${STAGE36_OUTPUT_PARENT}/stage36_eval_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" \
+  "${RUN_ROOT}/runtime/cache/huggingface" "${RUN_ROOT}/runtime/cache/torch" \
+  "${RUN_ROOT}/runtime/cache/triton" "${RUN_ROOT}/runtime/cache/torch_extensions" \
+  "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
+exec > >(tee -a "${RUN_ROOT}/stage36_job.log") 2>&1
+
+echo "STAGE36_PBS_REQUEST_QUEUE=${PBS_O_QUEUE:-unknown}"
+echo "STAGE36_PBS_EXECUTION_QUEUE=${PBS_QUEUE:-unknown}"
+
+export HOME="${RUN_ROOT}/runtime/home"
+export TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
+export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache"
+export XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config"
+export XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
+export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
+export TORCH_HOME="${RUN_ROOT}/runtime/cache/torch"
+export TRITON_CACHE_DIR="${RUN_ROOT}/runtime/cache/triton"
+export TORCH_EXTENSIONS_DIR="${RUN_ROOT}/runtime/cache/torch_extensions"
+export PYTHONNOUSERSITE=1
+export PYTHONDONTWRITEBYTECODE=1
+export CUDA_VISIBLE_DEVICES=0
+export PATH="$(dirname "${STAGE36_RUNTIME_NINJA}"):${PATH}"
+# Do not inject a host absolute preload path into the container.  The prior
+# path was absent in the image, was ignored by ld.so, and only added noisy
+# diagnostics; the accepted runtime is provided through the explicit library
+# path below.
+unset LD_PRELOAD
+export LD_LIBRARY_PATH="/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${STAGE36_RUNTIME_SITE}/torch/lib:${LD_LIBRARY_PATH:-}"
+
+IMAGE="${STAGE36_RUNTIME_IMAGE:-/scratch/e1192548/Apptainer/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
+test -f "${IMAGE}"
+
+APPTAINER_BIN="${STAGE36_APPTAINER_BIN:-/cm/shared/apps/singularity/1.3.1/bin/apptainer}"
+if ! test -x "${APPTAINER_BIN}"; then
+  APPTAINER_BIN="$(command -v apptainer || true)"
+fi
+test -n "${APPTAINER_BIN}"
+test -x "${APPTAINER_BIN}"
+
+RESUME_ARGS=()
+if test -n "${STAGE36_RESUME_ROOT:-}"; then
+  test -d "${STAGE36_RESUME_ROOT}"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_result.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_result_manifest.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_raw_hash_manifest.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_artifact_seal.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_return.json"
+  test -f "${STAGE36_RESUME_ROOT}/stage36_campaign_plan_snapshot.json"
+  RESUME_ARGS=(--resume-root "${STAGE36_RESUME_ROOT}")
+fi
+
+CONTAINER_AUTHORITY="/authority"
+CONTAINER_SOURCE="${CONTAINER_AUTHORITY}/WBCTrackingShare"
+CONTAINER_SITE="/runtime/site-packages"
+CONTAINER_NINJA="/runtime/ninja/bin/ninja"
+
+sha256sum "scripts/stage36_wbc_oracle_campaign.py" \
+  "hpc/pbs/stage36_wbc_oracle_qualification.pbs" \
+  "scripts/native_wbc_benchmark.py" \
+  "${STAGE36_PLAN}"
+
+echo "STAGE36_APPTAINER_BIN=${APPTAINER_BIN}"
+
+# Preserve the NVIDIA paths injected by Apptainer --nv; the explicit PATH and
+# LD_LIBRARY_PATH assignments below must retain those driver-library paths.
+set +e
+"${APPTAINER_BIN}" exec --nv --cleanenv \
+  --bind /scratch:/scratch \
+  --bind "${STAGE36_AUTHORITY_EXTRACTED_ROOT}:${CONTAINER_AUTHORITY}:ro" \
+  --bind "${STAGE36_RUNTIME_SITE}:${CONTAINER_SITE}:ro" \
+  --bind "$(dirname "${STAGE36_RUNTIME_NINJA}"):${CONTAINER_NINJA%/ninja}:ro" \
+  "${IMAGE}" env \
+  PBS_JOBID="${PBS_JOBID}" \
+  HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}" \
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" \
+  XDG_DATA_HOME="${XDG_DATA_HOME}" HF_HOME="${HF_HOME}" TORCH_HOME="${TORCH_HOME}" \
+  TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" \
+  PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES=0 \
+  PATH="/usr/local/nvidia/bin:${CONTAINER_NINJA%/ninja}:${PATH}" \
+  LD_LIBRARY_PATH="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${CONTAINER_SITE}/torch/lib" \
+  PYTHONPATH="${STAGE36_REPO}:${STAGE36_REPO}/src:${CONTAINER_SOURCE}:${CONTAINER_SITE}" \
+  "${STAGE36_RUNTIME_PYTHON:-/opt/miniconda3/envs/isaacgym/bin/python}" -B \
+  "${STAGE36_REPO}/scripts/stage36_wbc_oracle_campaign.py" \
+  --plan "${STAGE36_PLAN}" \
+  --output-root "${RUN_ROOT}" \
+  --source-root "${CONTAINER_SOURCE}" \
+  --arm "${CONTAINER_AUTHORITY}/${STAGE36_ARM_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt}" \
+  --dog "${CONTAINER_AUTHORITY}/${STAGE36_DOG_REL:-WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt}" \
+  --native-runner "${STAGE36_REPO}/scripts/native_wbc_benchmark.py" \
+  "${RESUME_ARGS[@]}"
+RC=$?
+set -e
+
+echo "STAGE36_CAMPAIGN_RC=${RC}"
+echo "STAGE36_RUN_ROOT=${RUN_ROOT}"
+exit "${RC}"

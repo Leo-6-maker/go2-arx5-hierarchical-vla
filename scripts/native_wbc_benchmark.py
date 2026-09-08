@@ -226,6 +226,7 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
             self._stage15_trajectory_path = Path(trajectory_path)
             self._stage15_load_count = 0
             self._stage16_pending_termination = None
+            self._stage36_native_transport = None
             super().__init__(*args, **kwargs)
 
         def _stage16_joint_margin(self):
@@ -286,6 +287,8 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
                 "preview_quat": preview_quat[0].detach().cpu().tolist(),
                 "achieved_pos": ee[0, :3].tolist(),
                 "achieved_quat": ee[0, 3:7].tolist(),
+                "eef_linear_velocity": ee[0, 7:10].tolist(),
+                "eef_angular_velocity": ee[0, 10:13].tolist(),
                 "base_pos": array_tensor(self, "base_pos")[0].tolist(),
                 "base_quat": array_tensor(self, "base_quat")[0].tolist(),
                 "base_lin_vel": array_tensor(self, "base_lin_vel")[0].tolist(),
@@ -386,8 +389,22 @@ def install_external_env(WBCEnv, trajectory_path, torch, reference_mode):
                 timestamps, position, quaternion = _resample_to_40_points(
                     timestamps, position, quaternion
                 )
+            else:
+                from go2arx5_vla.trajectory.native_transport import (
+                    NATIVE_DT_S,
+                    materialize_timestamped_pose_to_native,
+                )
+
+                transport = materialize_timestamped_pose_to_native(
+                    timestamps, position, quaternion
+                )
+                timestamps = transport.timestamps
+                position = transport.position
+                quaternion = transport.quaternion
+                self._stage36_native_transport = transport.audit()
             timestamps = timestamps - timestamps[0]
-            dt = float(np.median(np.diff(timestamps)))
+            legacy_dt = float((timestamps[-1] - timestamps[0]) / float(len(timestamps) - 1))
+            dt = float(NATIVE_DT_S) if reference_mode == "BENCHMARK_CONTINUOUS" else legacy_dt
             gamma, time_law = to_canonical(
                 torch.as_tensor(position, dtype=torch.float32),
                 quat_to_mat(torch.as_tensor(quaternion, dtype=torch.float32)),
@@ -604,6 +621,8 @@ def main():
                     "preview_quat": preview_quat[0].detach().cpu().tolist(),
                     "achieved_pos": ee_pos[0].tolist(),
                     "achieved_quat": ee_quat[0].tolist(),
+                    "eef_linear_velocity": ee[0, 7:10].tolist(),
+                    "eef_angular_velocity": ee[0, 10:13].tolist(),
                     "base_pos": array_tensor(native, "base_pos")[0].tolist(),
                     "base_quat": array_tensor(native, "base_quat")[0].tolist(),
                     "base_lin_vel": array_tensor(native, "base_lin_vel")[0].tolist(),
@@ -657,6 +676,28 @@ def main():
                         row["termination_code"] = "REFERENCE_COMPLETE"
                         episode_ended = True
                         termination = "REFERENCE_COMPLETE"
+                # Derived timing telemetry is written after the pre-reset
+                # event is merged. It is observational only and never feeds
+                # back into the delivered termination/controller semantics.
+                traj_length = float(row.get("traj_L", np.nan))
+                timing_error = float(row.get("traj_timing_err", np.nan))
+                row["traj_s_ref_minus_traj_s"] = float(row["traj_s_ref"] - row["traj_s"])
+                row["traj_timing_err_abs"] = float(abs(timing_error))
+                row["traj_timing_error_fraction"] = (
+                    float(abs(timing_error) / traj_length)
+                    if np.isfinite(traj_length) and traj_length > 0.0
+                    else float("nan")
+                )
+                row["timing_margin_m"] = (
+                    float(0.70 * traj_length - abs(timing_error))
+                    if np.isfinite(traj_length)
+                    else float("nan")
+                )
+                row["timing_margin_fraction"] = (
+                    float(0.70 - abs(timing_error) / traj_length)
+                    if np.isfinite(traj_length) and traj_length > 0.0
+                    else float("nan")
+                )
                 if not row.get("reference_complete", False):
                     reference_completed = reference_completed or bool(row.get("reference_complete", False))
                 rows.append(row)
@@ -727,10 +768,17 @@ def main():
         desired_quat=stack("desired_quat", 4),
         preview_pos=stack("preview_pos", 9 * 3),
         preview_quat=stack("preview_quat", 9 * 4),
+        eef_linear_velocity=stack("eef_linear_velocity", 3),
+        eef_angular_velocity=stack("eef_angular_velocity", 3),
         traj_s=stack("traj_s"),
         traj_s_ref=stack("traj_s_ref"),
         traj_d_lat=stack("traj_d_lat"),
         traj_timing_err=stack("traj_timing_err"),
+        traj_s_ref_minus_traj_s=stack("traj_s_ref_minus_traj_s"),
+        traj_timing_err_abs=stack("traj_timing_err_abs"),
+        traj_timing_error_fraction=stack("traj_timing_error_fraction"),
+        timing_margin_m=stack("timing_margin_m"),
+        timing_margin_fraction=stack("timing_margin_fraction"),
         traj_L=stack("traj_L"),
         achieved_pos=stack("achieved_pos", 3),
         achieved_quat=stack("achieved_quat", 4),
@@ -818,6 +866,7 @@ def main():
         "reference_capacity_points": reference_capacity_points,
         "configured_reference_capacity_points": configured_reference_capacity_points,
         "reference_capacity_resized": reference_capacity_resized,
+        "native_transport": None if native is None else getattr(native, "_stage36_native_transport", None),
         "case_metadata": case_metadata,
     }
     (args.output_dir / "native_external_summary.json").write_text(json.dumps(summary, indent=2) + "\n")

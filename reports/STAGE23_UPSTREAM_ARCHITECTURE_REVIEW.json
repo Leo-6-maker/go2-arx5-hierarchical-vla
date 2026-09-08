@@ -1,0 +1,2223 @@
+{
+  "architecture_options": [
+    {
+      "cost_and_data": "Highest immediate GPU/data cost; requires a larger robot-specific or controlled simulation dataset and careful timing lock.",
+      "falsifier_or_strengthener": "Healthy held-out profiles and overlap under the same dense ABI strengthen the current architecture; persistent oscillation after controlled scale weakens dense H40.",
+      "id": "A",
+      "scientific_upside": "Directly tests whether the dense H40 EEF hypothesis becomes healthy under official-scale custom-embodiment training and matching runtime semantics."
+    },
+    {
+      "cost_and_data": "Moderate implementation/runtime cost; requires explicit timing, chunk-age, and inter-chunk accounting, and can mask full-chunk quality if not audited.",
+      "falsifier_or_strengthener": "Healthy raw chunks plus stable receding execution strengthen a runtime explanation; raw intra-chunk oscillation remains unchanged and falsifies a runtime-only explanation.",
+      "id": "B",
+      "scientific_upside": "Separates prediction horizon/profile burden from execution latency by using shorter state-relative chunks, async scheduling, and RTC where valid."
+    },
+    {
+      "cost_and_data": "Requires a new waypoint/target-time ABI, interpolation contract, and matched evaluation; increases interface design burden and may reduce endpoint expressivity.",
+      "falsifier_or_strengthener": "Stable waypoints plus transparent interpolation with improved task-space outcomes strengthen it; failure before interpolation or dependence on hidden correction weakens it.",
+      "id": "C",
+      "scientific_upside": "Tests whether the VLA is better suited to sparse task-space intent while an explicit, declared interpolation/rate-limit layer owns smoothness before WBC."
+    },
+    {
+      "cost_and_data": "Largest research cost: trajectory corpus, tokenizer/decoder training, representation validation, and a new checkpoint/ABI lifecycle.",
+      "falsifier_or_strengthener": "A frozen token decoder reconstructing WBC-compatible smooth references and improving held-out profile/overlap metrics strengthens it; no reconstruction gain or embodiment leakage weakens it.",
+      "id": "D",
+      "scientific_upside": "Moves temporal smoothness into a learned compact task-space manifold, inspired by SONIC without requiring the Go2+ARX5 VLA to emit low-level whole-body channels."
+    }
+  ],
+  "comparison_table": [
+    {
+      "active_dims_over_132": "10/132 = 7.58%",
+      "duration_and_update": "~2.0 s nominal window / 1.95 s first-to-last; production TBD",
+      "execution_and_latency": "task-space adapter -> native WBC; Stage21 paused/receding diagnostic, no production async",
+      "horizon_and_sample": "H40; 0.05 s TEST_ONLY",
+      "representation": "Vision+Language+StateV1 -> NEW_EMBODIMENT GR00T -> dense EEF XYZ+rot6d+gripper",
+      "smoothness_and_labels": "native WBC; expert desired EEF + gripper labels, achieved retained separately",
+      "system": "Current Go2+ARX5 ABI"
+    },
+    {
+      "active_dims_over_132": "configured physical prefix; remaining width padded/masked",
+      "duration_and_update": "source does not impose a universal physical period; execution_horizon=16",
+      "execution_and_latency": "open-loop evaluator executes prefix then replans; RTC primitive manual at pinned revision",
+      "horizon_and_sample": "H16 configured in modality; model max H40",
+      "representation": "NEW_EMBODIMENT SO100 joint-relative arm + absolute gripper",
+      "smoothness_and_labels": "model action head plus robot controller; LeRobot demo trajectories",
+      "system": "Isaac-GR00T N1.7 custom example"
+    },
+    {
+      "active_dims_over_132": "64/132 = 48.48%; full 78/132 = 59.09% width comparison",
+      "duration_and_update": "~0.8 s if H40 is consumed at 50 Hz; VLA update 2.5 Hz / 0.4 s",
+      "execution_and_latency": "async worker; latency-compensated stale-prefix index; SONIC C++ decoder/controller",
+      "horizon_and_sample": "H40; 20 ms / 50 Hz publish",
+      "representation": "64D motion token + 7D left hand + 7D right hand",
+      "smoothness_and_labels": "SONIC owns whole-body smoothness/dynamic realization; token_state from teleop/controller exporter",
+      "system": "GEAR-SONIC VLA"
+    },
+    {
+      "active_dims_over_132": "not a 132D GR00T tensor; sparse structured intent",
+      "duration_and_update": "target-time dependent; no fixed VLA H",
+      "execution_and_latency": "max_change_rate interpolation -> upper-body command; lower-body Gear WBC/RL",
+      "horizon_and_sample": "time-stamped waypoints; interpolation evaluated at controller time",
+      "representation": "target_upper_body_pose + target_time + navigate_cmd + base_height_command",
+      "smoothness_and_labels": "interpolator/controller owns continuous motion; teleop/planner supplies waypoints",
+      "system": "Older decoupled-WBC"
+    }
+  ],
+  "decoupled_findings": {
+    "continuous_model_steps": false,
+    "high_level_fields": [
+      "target_upper_body_pose",
+      "target_time",
+      "navigate_cmd",
+      "base_height_command"
+    ],
+    "interface_class": "sparse/time-stamped intent followed by explicit interpolation/controller",
+    "interpolation": "PoseTrajectoryInterpolator with waypoint garbage collection and max_change_rate",
+    "lower_body": "Gear WBC ONNX standing/walking policy selected from navigation command magnitude"
+  },
+  "findings": {
+    "action_head_trace": {
+      "inactive_width": 122,
+      "loss": "masked velocity MSE over action_mask",
+      "physical_project_shape": [
+        40,
+        10
+      ],
+      "relative_eef_reference": "last observed state, fixed reference for chunk",
+      "sampler_steps": 4,
+      "timestamp_input": "not an explicit action-head tensor; supplied by modality/dataset semantics",
+      "universal_shape": [
+        40,
+        132
+      ]
+    },
+    "exposure_scale": {
+      "caveat": "presentations are not unique windows; official fixture has multiple episodes/windows",
+      "o1_batch": 1,
+      "o1_noise_time_draws": 200,
+      "o1_presentations": 200,
+      "o1_steps": 200,
+      "official_batch": 32,
+      "official_nominal_presentations": 64000,
+      "official_steps": 2000,
+      "official_to_o1_nominal_ratio": 320.0
+    },
+    "horizon_mask": {
+      "inference_behavior": "head returns configured universal horizon; processor slices configured delta-index horizon and physical streams",
+      "max_action_dim": 132,
+      "n1d7_max_action_horizon": 40,
+      "official_so100_configured_horizon": 16,
+      "training_behavior": "zero-pad temporal and width; action_mask zeros invalid temporal suffix and inactive width"
+    },
+    "new_embodiment": {
+      "category_id": 10,
+      "classification": "finetune-only custom category",
+      "custom_learning_requirement": "category-specific state/action encoder/decoder/projector path requires embodiment learning",
+      "exact_checkpoint_slot_values_inspected": false,
+      "initializer": "CategorySpecificLinear uses independent 0.02*randn weights and zero bias; no audited copy initializer",
+      "shared_pretrained_components": [
+        "Cosmos/Qwen visual-language backbone when loaded",
+        "DiT/action head shared weights when present in checkpoint"
+      ],
+      "tag": "NEW_EMBODIMENT"
+    },
+    "official_guidance": {
+      "async": "asynchronous inference + receding horizon + RTC recommended for latency/stop-and-go",
+      "chunk": "default H16; H>=32 with RTC",
+      "episodes": "at least 100 valid for single-task; ~30 may suffice for narrow domain; 200+ more stable",
+      "jitter": "intra-chunk vs inter-chunk vs smooth-chunk low-level issue",
+      "relative": "state-relative recommended for convergence/inter-chunk consistency",
+      "space": "joint and task space both valid; low-DoF arms often joint space in guide",
+      "training": "SO100 custom example B32/N2000; generic config B64/N10000; source is guidance not guarantee"
+    },
+    "pretrained_h40_relative_eef": {
+      "action_horizon": 40,
+      "custom_so100_source_entry": "examples/SO100/so100_config.py",
+      "format": "XYZ_ROT6D",
+      "interpretation": "Dense H40 relative EEF is an upstream N1.7 precedent; SO100 H16 is a distinct custom recipe and does not prove distributional match.",
+      "representation": "RELATIVE",
+      "source_entry": "gr00t/configs/data/embodiment_configs.py",
+      "source_tag_table": "getting_started/policy.md",
+      "tag": "OXE_DROID_RELATIVE_EEF_RELATIVE_JOINT",
+      "type": "EEF"
+    },
+    "rtc": {
+      "frozen": "initial overlap velocity frozen for latency-aligned prefix",
+      "not_primary_target": "intra-chunk high-frequency oscillation",
+      "official_integration_status": "low-level/manual primitive, not wired into Gr00tPolicy/server-client at pin",
+      "overlap": "previous action tail inpainted into new overlap",
+      "primary_target": "inter-chunk continuity and latency",
+      "ramp": "remaining overlap velocity receives exponential ramp"
+    },
+    "state_dropout": {
+      "note": "processor and action-head contain state-dropout logic; recipe difference matters for one-sample diagnostics",
+      "official_finetune_cli_default": 0.2,
+      "raw_model_config_default": 0.8,
+      "stage23_launcher_and_processor": 0.0
+    }
+  },
+  "generated_date": "2026-09-03",
+  "pins": {
+    "groot_whole_body_control_commit": {
+      "date": "2026-08-20T21:45:11-07:00",
+      "sha": "a0732b642c0333077e127a2f56ab0014c196bca4",
+      "subject": "v1.1"
+    },
+    "groot_whole_body_control_sha": "a0732b642c0333077e127a2f56ab0014c196bca4",
+    "isaac_gr00t_commit": {
+      "date": "2026-08-20T14:25:42-07:00",
+      "sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "subject": "Add support for Jetpack 7.2 on Orin and Thor"
+    },
+    "isaac_gr00t_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+  },
+  "project_context": {
+    "audit_input_head": "de454440b2458f0f28789f45b0d34299553241a9",
+    "branch": "stage23/action-pipeline-learnability",
+    "head": "32e74994bed83ccda5bfaea6c0867ed36cf489fa",
+    "preexisting_tree_clean": true,
+    "remote": [
+      "origin\tgit@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (fetch)",
+      "origin\tgit@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git (push)"
+    ],
+    "report_commit": "32e74994bed83ccda5bfaea6c0867ed36cf489fa",
+    "status_short": [],
+    "unexpected_status_short": []
+  },
+  "required_return": {
+    "audit_input_head": "de454440b2458f0f28789f45b0d34299553241a9",
+    "blocker": "NONE_FOR_SOURCE_REVIEW; C1 remains on hold pending PI architecture decision",
+    "c1_executed": false,
+    "next_gate_request": "GPT_PI_ARCHITECTURE_REVIEW_AND_STAGE24_DECISION",
+    "report_commit": "32e74994bed83ccda5bfaea6c0867ed36cf489fa",
+    "required_source_markers": "PASS",
+    "result": "UPSTREAM_ARCHITECTURE_REVIEW_COMPLETE",
+    "role": "CODEX_CORELAB",
+    "stage": "Stage23 upstream architecture review before Stage24"
+  },
+  "schema": "STAGE23_UPSTREAM_ARCHITECTURE_REVIEW_V1",
+  "scope": {
+    "checkpoint_manipulation": false,
+    "hardware": false,
+    "holdout_f_read": false,
+    "hopper_pbs": false,
+    "model_constructed": false,
+    "new_inference": false,
+    "new_model_forward": false,
+    "new_training": false,
+    "ros": false,
+    "source_only": true,
+    "validation_e_read": false,
+    "wbc_execution": false,
+    "zmq_runtime": false
+  },
+  "sonic_findings": {
+    "action_period_s": 0.02,
+    "action_publish_hz": 50,
+    "controller_reference_lookahead_s": {
+      "default_10_frames": 0.2,
+      "low_latency_4_frames": 0.08
+    },
+    "full_action_dim": 78,
+    "full_action_over_132": 0.5909090909090909,
+    "hand_dims": {
+      "left": 7,
+      "right": 7
+    },
+    "implied_h40_span_if_consumed_at_50hz_s": 0.8,
+    "label_source": "controller/teleop token_state copied to LeRobot action.motion_token",
+    "latency_handling": "round(inference_delay*50Hz), clip to horizon, start from stale-compensated prefix",
+    "motion_token_dim": 64,
+    "motion_token_over_132": 0.48484848484848486,
+    "smoothness_owner": "SONIC decoder/controller at 50Hz",
+    "stale_sensor_thresholds_ms": {
+      "planner": 200,
+      "sonic_pose": 100
+    },
+    "vla_horizon": 40,
+    "vla_inference_hz": 2.5,
+    "vla_inference_period_s": 0.4
+  },
+  "source_inventory": {
+    "groot_whole_body_control": {
+      "decoupled_wbc/control/main/teleop/run_teleop_policy_loop.py": {
+        "blob_sha1": "ad18b9fbdb5485aba91c059f1211921651d2314e",
+        "byte_count": 4450,
+        "line_count": 110,
+        "markers": [
+          {
+            "lines": [
+              78
+            ],
+            "name": "timestamp",
+            "pattern": "data\\[\\\"timestamp\\\"\\]"
+          },
+          {
+            "lines": [
+              82,
+              84
+            ],
+            "name": "target_time",
+            "pattern": "data\\[\\\"target_time\\\"\\]"
+          },
+          {
+            "lines": [
+              64,
+              82,
+              92,
+              93
+            ],
+            "name": "initial_pose_duration",
+            "pattern": "time_to_get_to_initial_pose"
+          }
+        ],
+        "path": "decoupled_wbc/control/main/teleop/run_teleop_policy_loop.py",
+        "present": true,
+        "sha256": "e7547e1d50d760ad9c3e679b18deacc0b994aae64be53db7416948741001b484"
+      },
+      "decoupled_wbc/control/policy/g1_decoupled_whole_body_policy.py": {
+        "blob_sha1": "d3f457f8b1057e84ece093a98c72c066a45ffb5b",
+        "byte_count": 6870,
+        "line_count": 157,
+        "markers": [
+          {
+            "lines": [
+              40,
+              41,
+              43,
+              44,
+              54,
+              55,
+              56,
+              58,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              72,
+              75,
+              104,
+              119,
+              121,
+              122,
+              137
+            ],
+            "name": "high_level_goal_keys",
+            "pattern": "target_upper_body_pose|target_time|navigate_cmd|base_height_command"
+          },
+          {
+            "lines": [
+              31
+            ],
+            "name": "upper_open_loop",
+            "pattern": "open loop \\(just interpolation\\)"
+          },
+          {
+            "lines": [
+              21,
+              25,
+              32,
+              77,
+              89,
+              91,
+              118,
+              136,
+              151,
+              154
+            ],
+            "name": "lower_body_policy",
+            "pattern": "lower_body_policy|get_action"
+          },
+          {
+            "lines": [
+              97,
+              98,
+              100,
+              103,
+              108
+            ],
+            "name": "teleop_timeout",
+            "pattern": "time_since_goal|safe_goal"
+          }
+        ],
+        "path": "decoupled_wbc/control/policy/g1_decoupled_whole_body_policy.py",
+        "present": true,
+        "sha256": "dae67f43d975ed8c253e50a661aeecabcc6d98665ffb80358f6d699dab3aaf2b"
+      },
+      "decoupled_wbc/control/policy/g1_gear_wbc_policy.py": {
+        "blob_sha1": "02021d63a1e256001159b7b1dec813d2215080c3",
+        "byte_count": 11913,
+        "line_count": 295,
+        "markers": [
+          {
+            "lines": [
+              24,
+              169,
+              170,
+              172,
+              192,
+              205,
+              212,
+              213,
+              215
+            ],
+            "name": "teleop_commands",
+            "pattern": "use_teleop_policy_cmd|interpolated_navigate_cmd"
+          },
+          {
+            "lines": [
+              224,
+              227
+            ],
+            "name": "lower_body_selection",
+            "pattern": "standing policy|walking policy"
+          },
+          {
+            "lines": [
+              241
+            ],
+            "name": "body_action",
+            "pattern": "body_action"
+          }
+        ],
+        "path": "decoupled_wbc/control/policy/g1_gear_wbc_policy.py",
+        "present": true,
+        "sha256": "833bc58c7bacabf8634a9d458da821bc86b179af8420075ad9824e317d054e3e"
+      },
+      "decoupled_wbc/control/policy/interpolation_policy.py": {
+        "blob_sha1": "03b88e725b8c3f891069879d91f4abf851fd8040",
+        "byte_count": 11667,
+        "line_count": 297,
+        "markers": [
+          {
+            "lines": [
+              17,
+              25,
+              40,
+              46,
+              124,
+              201,
+              205,
+              206,
+              208,
+              209,
+              267
+            ],
+            "name": "max_change_rate",
+            "pattern": "max_change_rate"
+          },
+          {
+            "lines": [
+              91,
+              96,
+              99,
+              102,
+              103,
+              104,
+              107,
+              112,
+              113,
+              114,
+              115,
+              118
+            ],
+            "name": "target_time",
+            "pattern": "target_time"
+          },
+          {
+            "lines": [
+              94,
+              95,
+              97,
+              119,
+              125,
+              202,
+              212,
+              214,
+              218,
+              219,
+              223,
+              224,
+              230,
+              232,
+              234,
+              243,
+              244,
+              248,
+              253,
+              255,
+              257,
+              258,
+              259
+            ],
+            "name": "garbage_collection",
+            "pattern": "interpolation_garbage_collection_time"
+          },
+          {
+            "lines": [
+              121,
+              197
+            ],
+            "name": "waypoint_schedule",
+            "pattern": "schedule_waypoint"
+          },
+          {
+            "lines": [
+              130,
+              134
+            ],
+            "name": "continuous_output",
+            "pattern": "def get_action|self\\.interp\\(time\\)"
+          }
+        ],
+        "path": "decoupled_wbc/control/policy/interpolation_policy.py",
+        "present": true,
+        "sha256": "45d98a499d95073598e182826c276a28ad9825064949bd03205040f749808b04"
+      },
+      "decoupled_wbc/control/policy/wbc_policy_factory.py": {
+        "blob_sha1": "bccbd484232e5bf4569ba20491c580a6ad36579e",
+        "byte_count": 2415,
+        "line_count": 65,
+        "markers": [
+          {
+            "lines": [
+              11,
+              27,
+              28,
+              31
+            ],
+            "name": "interpolation_factory",
+            "pattern": "InterpolationPolicy|upper_body_policy_type"
+          },
+          {
+            "lines": [
+              9,
+              41,
+              42,
+              44,
+              51,
+              52
+            ],
+            "name": "gear_lower_body",
+            "pattern": "G1GearWbcPolicy|lower_body_policy_type"
+          }
+        ],
+        "path": "decoupled_wbc/control/policy/wbc_policy_factory.py",
+        "present": true,
+        "sha256": "683868dfd29663cb4c3ca9cc0834ea32f78dd14b5f58085a501a48c69c15586c"
+      },
+      "decoupled_wbc/control/utils/sync_sim_utils.py": {
+        "blob_sha1": "ab02db50bd32b66f3530e68446782693ec21221a",
+        "byte_count": 23681,
+        "line_count": 590,
+        "markers": [
+          {
+            "lines": [
+              370,
+              432
+            ],
+            "name": "target_pose_feature",
+            "pattern": "observation\\.sim\\.target_upper_body_pose"
+          },
+          {
+            "lines": [
+              412,
+              413
+            ],
+            "name": "nav_feature",
+            "pattern": "teleop\\.navigate_command|navigate_cmd"
+          },
+          {
+            "lines": [
+              415
+            ],
+            "name": "base_height_feature",
+            "pattern": "teleop\\.base_height_command"
+          },
+          {
+            "lines": [
+              435
+            ],
+            "name": "target_time_not_recorded",
+            "pattern": "target_time.*commented|# .*target_time"
+          }
+        ],
+        "path": "decoupled_wbc/control/utils/sync_sim_utils.py",
+        "present": true,
+        "sha256": "038307c2832c8d6d47de0bcf98d5b09bb4df6273ac1ec516928cd9fb216cb781"
+      },
+      "docs/source/model_card.md": {
+        "blob_sha1": "3bf2bd3bb72bb2e78dee7350ce99b497518dd8b1",
+        "byte_count": 5797,
+        "line_count": 140,
+        "markers": [
+          {
+            "lines": [
+              11,
+              13
+            ],
+            "name": "default_lookahead",
+            "pattern": "10 future frames|200 ms"
+          },
+          {
+            "lines": [
+              12
+            ],
+            "name": "low_latency_lookahead",
+            "pattern": "4 future frames|80 ms"
+          },
+          {
+            "lines": [
+              25
+            ],
+            "name": "controller_rate",
+            "pattern": "50 Hz"
+          },
+          {
+            "lines": [
+              31
+            ],
+            "name": "latency_not_lookahead",
+            "pattern": "not measurements of total end-to-end"
+          }
+        ],
+        "path": "docs/source/model_card.md",
+        "present": true,
+        "sha256": "faf7ad9227f02609fb55ce37870720091a136382d9f6487181d9b6000e834683"
+      },
+      "docs/source/tutorials/data_collection.md": {
+        "blob_sha1": "4f7a40c9af029d8faefc466483505d941b1b45b2",
+        "byte_count": 23575,
+        "line_count": 564,
+        "markers": [
+          {
+            "lines": [
+              3,
+              28,
+              201,
+              276,
+              354,
+              408,
+              429,
+              443
+            ],
+            "name": "collection_path",
+            "pattern": "LeRobot|motion_token|50"
+          }
+        ],
+        "path": "docs/source/tutorials/data_collection.md",
+        "present": true,
+        "sha256": "b023a57bcf8dc745c942d9d6cffbccc070655cee50208662b1e96bae9b748b2b"
+      },
+      "docs/source/tutorials/vla_inference.md": {
+        "blob_sha1": "2a07e97fe48c970faf3900809fa0a16637654095",
+        "byte_count": 12593,
+        "line_count": 386,
+        "markers": [
+          {
+            "lines": [
+              113,
+              114
+            ],
+            "name": "controller_lookahead",
+            "pattern": "4 future frames|10 future frames|80 ms|200 ms"
+          },
+          {
+            "lines": [
+              155
+            ],
+            "name": "sonic_action_space",
+            "pattern": "78-dimensional"
+          }
+        ],
+        "path": "docs/source/tutorials/vla_inference.md",
+        "present": true,
+        "sha256": "9bc90c98e83457e57cee081bebca33fede96b2f79b5ce548c5440e928c3b75d3"
+      },
+      "docs/source/tutorials/vla_workflow.md": {
+        "blob_sha1": "450efa0de2e929a0344b1b33c435e9f7604842a7",
+        "byte_count": 7101,
+        "line_count": 208,
+        "markers": [
+          {
+            "lines": [
+              24,
+              25,
+              30
+            ],
+            "name": "compact_token_description",
+            "pattern": "64-dimensional|50 Hz"
+          },
+          {
+            "lines": [
+              30
+            ],
+            "name": "vla_rate_and_horizon",
+            "pattern": "2\\.5 Hz|64-dim x 40"
+          },
+          {
+            "lines": [
+              40
+            ],
+            "name": "full_action_dim",
+            "pattern": "78-dimensional"
+          },
+          {
+            "lines": [
+              6,
+              45,
+              46,
+              137
+            ],
+            "name": "data_labeling",
+            "pattern": "teleop demonstrations|LeRobot dataset"
+          },
+          {
+            "lines": [
+              76
+            ],
+            "name": "data_scale",
+            "pattern": "50\u2013100"
+          }
+        ],
+        "path": "docs/source/tutorials/vla_workflow.md",
+        "present": true,
+        "sha256": "22c2c5860cfe2adb50e81164aa527fa11337beb8acae9208e95b97fd1d1a2e8f"
+      },
+      "gear_sonic/data/features_sonic_vla.py": {
+        "blob_sha1": "b59fd0f358677ab9253dc36510c024f9a79240bb",
+        "byte_count": 12965,
+        "line_count": 410,
+        "markers": [
+          {
+            "lines": [
+              22
+            ],
+            "name": "sonic_fps",
+            "pattern": "FPS(?:\\s*:\\s*int)?\\s*=\\s*50"
+          },
+          {
+            "lines": [
+              110,
+              264
+            ],
+            "name": "motion_token_feature",
+            "pattern": "action\\.motion_token"
+          },
+          {
+            "lines": [
+              19,
+              21,
+              109,
+              220,
+              225,
+              235,
+              240,
+              245,
+              250,
+              255,
+              260,
+              265,
+              266,
+              307
+            ],
+            "name": "motion_token_width",
+            "pattern": "64"
+          },
+          {
+            "lines": [
+              58,
+              63,
+              69,
+              74,
+              224
+            ],
+            "name": "eef_state_feature",
+            "pattern": "observation\\.eef_state"
+          },
+          {
+            "lines": [
+              55,
+              60,
+              66,
+              71,
+              144,
+              147,
+              149,
+              152,
+              228,
+              229,
+              230,
+              231,
+              311,
+              314,
+              316,
+              319,
+              375,
+              380,
+              392,
+              393
+            ],
+            "name": "wrist_video_features",
+            "pattern": "left_wrist|right_wrist"
+          }
+        ],
+        "path": "gear_sonic/data/features_sonic_vla.py",
+        "present": true,
+        "sha256": "16c82be34abbc4dace19485e0f806cd4022a182115e51062e05a54786447fd5a"
+      },
+      "gear_sonic/scripts/launch_inference.py": {
+        "blob_sha1": "4b7a65b741c876ad2c9b7bea2a00716f78e757a0",
+        "byte_count": 16076,
+        "line_count": 465,
+        "markers": [
+          {
+            "lines": [
+              129
+            ],
+            "name": "launch_publish_rate",
+            "pattern": "action_publish_rate: int = 50"
+          },
+          {
+            "lines": [
+              132
+            ],
+            "name": "launch_horizon",
+            "pattern": "action_horizon: int = 40"
+          },
+          {
+            "lines": [
+              91
+            ],
+            "name": "simulation_switch",
+            "pattern": "sim: bool = False"
+          }
+        ],
+        "path": "gear_sonic/scripts/launch_inference.py",
+        "present": true,
+        "sha256": "2cd5a12c28a95a77878723edabcdde3459cceb7212a5e359666e06eb83de1d3b"
+      },
+      "gear_sonic/scripts/run_data_exporter.py": {
+        "blob_sha1": "4737bcb0b8b891ff1d7d9223898eb31913d7e0d9",
+        "byte_count": 38088,
+        "line_count": 963,
+        "markers": [
+          {
+            "lines": [
+              71
+            ],
+            "name": "exporter_frequency",
+            "pattern": "data_collection_frequency: int = 50"
+          },
+          {
+            "lines": [
+              602,
+              603,
+              604
+            ],
+            "name": "state_and_eef_labels",
+            "pattern": "observation\\.state|observation\\.eef_state|action\\.wbc"
+          },
+          {
+            "lines": [
+              662,
+              663,
+              665
+            ],
+            "name": "motion_token_label",
+            "pattern": "action\\.motion_token|token_state"
+          },
+          {
+            "lines": [
+              681
+            ],
+            "name": "sonic_stale_threshold",
+            "pattern": "sonic_latency_ms <= 100\\.0"
+          },
+          {
+            "lines": [
+              700
+            ],
+            "name": "planner_stale_threshold",
+            "pattern": "planner_latency_ms <= 200\\.0"
+          }
+        ],
+        "path": "gear_sonic/scripts/run_data_exporter.py",
+        "present": true,
+        "sha256": "9be05e9d03496a9e9c775349ab228e523146ef2d2f70f3a57244a3b5d0653bca"
+      },
+      "gear_sonic/scripts/run_vla_inference.py": {
+        "blob_sha1": "7a5792d9818622049df5a67abfa8c3649e11f940",
+        "byte_count": 29197,
+        "line_count": 777,
+        "markers": [
+          {
+            "lines": [
+              72
+            ],
+            "name": "action_publish_rate",
+            "pattern": "action_publish_rate: int = 50"
+          },
+          {
+            "lines": [
+              75
+            ],
+            "name": "action_horizon",
+            "pattern": "action_horizon: int = 40"
+          },
+          {
+            "lines": [
+              78
+            ],
+            "name": "inference_rate",
+            "pattern": "rate: float = 1 / 0\\.4"
+          },
+          {
+            "lines": [
+              146,
+              166
+            ],
+            "name": "latent_message_shape",
+            "pattern": "Shape ``\\[64\\]``|token_state"
+          },
+          {
+            "lines": [
+              291
+            ],
+            "name": "action_bound_gate",
+            "pattern": "max\\(\\) > 1\\.25"
+          },
+          {
+            "lines": [
+              46,
+              648
+            ],
+            "name": "latency_index",
+            "pattern": "calculate_latency_compensated_index"
+          },
+          {
+            "lines": [
+              310,
+              321,
+              610,
+              615,
+              618,
+              637,
+              670,
+              759
+            ],
+            "name": "async_worker",
+            "pattern": "inference_worker_thread|inference_queue"
+          },
+          {
+            "lines": [
+              714,
+              717,
+              719,
+              721,
+              741
+            ],
+            "name": "chunk_indexing",
+            "pattern": "current_idx|min\\(action_chunk_index"
+          }
+        ],
+        "path": "gear_sonic/scripts/run_vla_inference.py",
+        "present": true,
+        "sha256": "e626d57c87410151c272f7b367b6622f266f4ab16808d53df59aafd0a02da526"
+      },
+      "gear_sonic/trl/modules/universal_token_modules.py": {
+        "blob_sha1": "2755d5b73ac5db0490e370d9f489c00564d2c00f",
+        "byte_count": 58298,
+        "line_count": 1256,
+        "markers": [
+          {
+            "lines": [
+              64,
+              76,
+              77,
+              79,
+              80,
+              114,
+              115,
+              116,
+              118,
+              119,
+              120,
+              215,
+              231,
+              232,
+              235,
+              239,
+              240,
+              243,
+              244,
+              248,
+              454,
+              472,
+              1106
+            ],
+            "name": "fsq_config",
+            "pattern": "num_fsq_levels|fsq_level_list|down_t|num_future_frames"
+          },
+          {
+            "lines": [
+              64,
+              65,
+              66,
+              78,
+              114,
+              117,
+              243,
+              245,
+              246,
+              248,
+              249,
+              251,
+              293,
+              350,
+              351,
+              473,
+              558,
+              562,
+              569,
+              778,
+              779,
+              818,
+              822,
+              837,
+              839,
+              898,
+              1096,
+              1097,
+              1104,
+              1105,
+              1140
+            ],
+            "name": "token_shape",
+            "pattern": "token_total_dim|max_num_tokens|token_dim"
+          },
+          {
+            "lines": [
+              138,
+              722,
+              800,
+              828,
+              901,
+              928,
+              1003,
+              1163
+            ],
+            "name": "encoder_decoder_contract",
+            "pattern": "encode.*motion|decode action and motion|decoder output"
+          },
+          {
+            "lines": [
+              828,
+              846,
+              880,
+              987,
+              1005,
+              1022
+            ],
+            "name": "encode_motion",
+            "pattern": "encode motion|self\\.encode\\("
+          },
+          {
+            "lines": [
+              552,
+              886
+            ],
+            "name": "assemble_tokens",
+            "pattern": "assemble_all_tokens"
+          },
+          {
+            "lines": [
+              702,
+              706,
+              712,
+              729,
+              735,
+              800,
+              902,
+              907,
+              909,
+              914,
+              915,
+              919,
+              920,
+              929,
+              930,
+              1007,
+              1040,
+              1065,
+              1078,
+              1148,
+              1155,
+              1165
+            ],
+            "name": "decoder_input",
+            "pattern": "decode_input_dict|decoded_outputs"
+          }
+        ],
+        "path": "gear_sonic/trl/modules/universal_token_modules.py",
+        "present": true,
+        "sha256": "46b6a460032932034a23411b10674adee4ce253e51f66af89d58678c41caf415"
+      },
+      "gear_sonic/utils/inference/vla_utils.py": {
+        "blob_sha1": "3165a31d8a341558868eeb9234701857bb4830af",
+        "byte_count": 3890,
+        "line_count": 106,
+        "markers": [
+          {
+            "lines": [
+              81
+            ],
+            "name": "latency_to_index",
+            "pattern": "raw_index = np\\.round|inference_delay \\* control_freq"
+          },
+          {
+            "lines": [
+              70,
+              71
+            ],
+            "name": "stale_prefix_description",
+            "pattern": "stale|skip the first few"
+          },
+          {
+            "lines": [
+              88,
+              89,
+              96,
+              97,
+              106
+            ],
+            "name": "trigger_interval",
+            "pattern": "inference_interval|time_since_last_inference"
+          }
+        ],
+        "path": "gear_sonic/utils/inference/vla_utils.py",
+        "present": true,
+        "sha256": "7d4962f3282f2db8d5300e31c7b8e9b1457bf641563d5e2f0fbdbfa708007ca4"
+      }
+    },
+    "isaac_gr00t": {
+      "README.md": {
+        "blob_sha1": "6d86ea8af1a7f303b8cb71e8e281606f71f7a0f3",
+        "byte_count": 34759,
+        "line_count": 635,
+        "markers": [
+          {
+            "lines": [
+              90
+            ],
+            "name": "relative_eef_claim",
+            "pattern": "Relative EEF Action Space"
+          },
+          {
+            "lines": [
+              100,
+              118,
+              210
+            ],
+            "name": "expanded_dimensions",
+            "pattern": "132|action horizon"
+          },
+          {
+            "lines": [
+              121
+            ],
+            "name": "inference_chunk_distinction",
+            "pattern": "rollout CLI flag|action chunk"
+          }
+        ],
+        "path": "README.md",
+        "present": true,
+        "sha256": "62f6c55a356be039287416f97e03a3b5541052d038a3daec208ea9ff8045a067"
+      },
+      "examples/SO100/so100_config.py": {
+        "blob_sha1": "36b5f5c63524e5b9041bae95b2d70b3a7fff8606",
+        "byte_count": 2631,
+        "line_count": 70,
+        "markers": [
+          {
+            "lines": [
+              43
+            ],
+            "name": "so100_h16_config",
+            "pattern": "delta_indices\\s*=\\s*list\\(range\\(0,\\s*16\\)\\)"
+          },
+          {
+            "lines": [
+              51
+            ],
+            "name": "so100_relative_joint",
+            "pattern": "rep=ActionRepresentation\\.RELATIVE"
+          },
+          {
+            "lines": [
+              52,
+              58
+            ],
+            "name": "so100_joint_non_eef",
+            "pattern": "type=ActionType\\.NON_EEF"
+          },
+          {
+            "lines": [
+              57
+            ],
+            "name": "so100_absolute_gripper",
+            "pattern": "rep=ActionRepresentation\\.ABSOLUTE"
+          },
+          {
+            "lines": [
+              70
+            ],
+            "name": "so100_new_embodiment_registration",
+            "pattern": "EmbodimentTag\\.NEW_EMBODIMENT"
+          }
+        ],
+        "path": "examples/SO100/so100_config.py",
+        "present": true,
+        "sha256": "5257ac7980856565ea9d822e99c1ec7d5e57b34763b3b86658ff9f831237effb"
+      },
+      "getting_started/finetune_new_embodiment.md": {
+        "blob_sha1": "707e893c3dad98f58541f402d253c07806d3bfff",
+        "byte_count": 10317,
+        "line_count": 192,
+        "markers": [
+          {
+            "lines": [
+              43
+            ],
+            "name": "so100_horizon",
+            "pattern": "predict 16 future steps|range\\(0, 16\\)"
+          },
+          {
+            "lines": [
+              49
+            ],
+            "name": "so100_relative_joint",
+            "pattern": "RELATIVE = delta from current state"
+          },
+          {
+            "lines": [
+              107,
+              109,
+              172
+            ],
+            "name": "official_finetune_scale",
+            "pattern": "max-steps 2000|global-batch-size 32"
+          },
+          {
+            "lines": [
+              110
+            ],
+            "name": "official_augmentation",
+            "pattern": "color-jitter-params"
+          },
+          {
+            "lines": [
+              138
+            ],
+            "name": "open_loop_execution",
+            "pattern": "execution-horizon 16"
+          },
+          {
+            "lines": [
+              168,
+              169
+            ],
+            "name": "training_curve_guidance",
+            "pattern": "Plot overlap on a training trajectory|Error decreases with training"
+          }
+        ],
+        "path": "getting_started/finetune_new_embodiment.md",
+        "present": true,
+        "sha256": "0866df58044a77b4581590c44f05bad3fb3e8947a1e6cd16e1b62e4030f97c26"
+      },
+      "getting_started/policy.md": {
+        "blob_sha1": "cf1020b9e46d9ef9474cfc5ece07086a63fd2382",
+        "byte_count": 24865,
+        "line_count": 579,
+        "markers": [
+          {
+            "lines": [
+              84
+            ],
+            "name": "execution_horizon_definition",
+            "pattern": "executed.*re-plans"
+          },
+          {
+            "lines": [
+              84
+            ],
+            "name": "base_horizon",
+            "pattern": "action_horizon: 40"
+          }
+        ],
+        "path": "getting_started/policy.md",
+        "present": true,
+        "sha256": "f5ec4c9aa37714837c1d0758597b1f07e0dd7a3def8715be26660368828fec04"
+      },
+      "getting_started/real_world_deployment.md": {
+        "blob_sha1": "d85da41ff327a9ed65b9d9edf184f073f40996a4",
+        "byte_count": 22315,
+        "line_count": 464,
+        "markers": [
+          {
+            "lines": [
+              140,
+              142
+            ],
+            "name": "dataset_recommendation",
+            "pattern": "at least \\*\\*100 valid episodes\\*\\*|200\\+ episodes"
+          },
+          {
+            "lines": [
+              146,
+              287
+            ],
+            "name": "relative_action_recommendation",
+            "pattern": "State-relative Action Prediction"
+          },
+          {
+            "lines": [
+              148,
+              430
+            ],
+            "name": "chunk_recommendation",
+            "pattern": "Action Chunk Size|at least 32"
+          },
+          {
+            "lines": [
+              263,
+              264,
+              265
+            ],
+            "name": "jitter_taxonomy",
+            "pattern": "Inside each chunk|Between consecutive chunks|Chunks look smooth"
+          },
+          {
+            "lines": [
+              288,
+              406,
+              407,
+              409,
+              411,
+              415,
+              444
+            ],
+            "name": "async_receding_rtc",
+            "pattern": "Asynchronous Inference|Receding Horizon|Real-Time Chunking"
+          },
+          {
+            "lines": [
+              413
+            ],
+            "name": "rtc_not_policy_wired",
+            "pattern": "not wired into `Gr00tPolicy`"
+          },
+          {
+            "lines": [
+              298
+            ],
+            "name": "intra_chunk_metric",
+            "pattern": "Mean intra-chunk acceleration"
+          }
+        ],
+        "path": "getting_started/real_world_deployment.md",
+        "present": true,
+        "sha256": "a11002f2955fc16d65118a3bd15fa6647afdf405e89abfc78f25f2e5fdfe2fb0"
+      },
+      "gr00t/__init__.py": {
+        "blob_sha1": "e9d017c3b5570e473369a106e05bb2104bc9c6ca",
+        "byte_count": 13930,
+        "line_count": 388,
+        "markers": [
+          {
+            "lines": [
+              53,
+              111,
+              179,
+              198,
+              206,
+              228,
+              236,
+              240,
+              245,
+              277,
+              279,
+              282,
+              286,
+              293,
+              295,
+              313
+            ],
+            "name": "local_pretrained_construction",
+            "pattern": "from_pretrained|no_init_weights|_zero_no_weight_model_parameters"
+          }
+        ],
+        "path": "gr00t/__init__.py",
+        "present": true,
+        "sha256": "1f5bc8699a273afc0df1601cf9b7ac40e2587bf65907961f6714d6f4f18df185"
+      },
+      "gr00t/configs/data/embodiment_configs.py": {
+        "blob_sha1": "8a1189a75442727ce30871b375dcff696c1d146a",
+        "byte_count": 12231,
+        "line_count": 361,
+        "markers": [
+          {
+            "lines": [
+              67,
+              88
+            ],
+            "name": "sonic_modality",
+            "pattern": "unitree_g1_sonic|motion_token"
+          },
+          {
+            "lines": [
+              38,
+              86
+            ],
+            "name": "sonic_horizon",
+            "pattern": "list\\(range\\(40\\)\\)"
+          },
+          {
+            "lines": [
+              28
+            ],
+            "name": "oxe_droid_tag",
+            "pattern": "oxe_droid_relative_eef_relative_joint"
+          },
+          {
+            "lines": [
+              38,
+              86
+            ],
+            "name": "oxe_droid_horizon",
+            "pattern": "delta_indices\\s*=\\s*list\\(range\\(40\\)\\)"
+          },
+          {
+            "lines": [
+              42,
+              54,
+              146,
+              152,
+              321,
+              326,
+              331,
+              336
+            ],
+            "name": "oxe_droid_relative",
+            "pattern": "ActionRepresentation\\.RELATIVE"
+          },
+          {
+            "lines": [
+              43
+            ],
+            "name": "oxe_droid_eef",
+            "pattern": "type=ActionType\\.EEF"
+          },
+          {
+            "lines": [
+              44
+            ],
+            "name": "oxe_droid_xyz_rot6d",
+            "pattern": "format=ActionFormat\\.XYZ_ROT6D"
+          },
+          {
+            "lines": [
+              45
+            ],
+            "name": "oxe_droid_state_key",
+            "pattern": "state_key=\\\"eef_9d\\\""
+          }
+        ],
+        "path": "gr00t/configs/data/embodiment_configs.py",
+        "present": true,
+        "sha256": "4c7626426cfd184034df772bca9f1ab5c2014c139c388f833012ca98ac6f948a"
+      },
+      "gr00t/configs/finetune_config.py": {
+        "blob_sha1": "15918e206aa2b04b300886e674f827811dc8aa84",
+        "byte_count": 8321,
+        "line_count": 211,
+        "markers": [
+          {
+            "lines": [
+              55,
+              58,
+              61
+            ],
+            "name": "official_flags",
+            "pattern": "tune_projector|tune_diffusion_model|state_dropout_prob"
+          },
+          {
+            "lines": [
+              61
+            ],
+            "name": "official_dropout_default",
+            "pattern": "state_dropout_prob:\\s*float\\s*=\\s*0\\.2"
+          },
+          {
+            "lines": [
+              124
+            ],
+            "name": "official_batch_default",
+            "pattern": "global_batch_size:\\s*int\\s*=\\s*64"
+          },
+          {
+            "lines": [
+              131
+            ],
+            "name": "official_lr",
+            "pattern": "learning_rate:\\s*float\\s*=\\s*1e-4"
+          },
+          {
+            "lines": [
+              169
+            ],
+            "name": "official_warmup",
+            "pattern": "warmup_ratio"
+          },
+          {
+            "lines": [
+              163
+            ],
+            "name": "official_max_steps",
+            "pattern": "max_steps:\\s*int\\s*=\\s*10000"
+          }
+        ],
+        "path": "gr00t/configs/finetune_config.py",
+        "present": true,
+        "sha256": "2084b094c717cefc2f7833df97a7cdac45b0f2ab0ac87504028ceffd2a02015b"
+      },
+      "gr00t/configs/model/gr00t_n1d7.py": {
+        "blob_sha1": "6026b1f1499d952dbb6d7874bee1a8df8fa4ab25",
+        "byte_count": 6460,
+        "line_count": 180,
+        "markers": [
+          {
+            "lines": [
+              40
+            ],
+            "name": "cosmos_backbone",
+            "pattern": "model_name:\\s*str\\s*=\\s*\\\"nvidia/Cosmos-Reason2-2B\\\""
+          },
+          {
+            "lines": [
+              74,
+              75,
+              76
+            ],
+            "name": "max_dimensions",
+            "pattern": "max_state_dim|max_action_dim|action_horizon"
+          },
+          {
+            "lines": [
+              106
+            ],
+            "name": "four_step_sampler",
+            "pattern": "num_inference_timesteps:\\s*int\\s*=\\s*4"
+          },
+          {
+            "lines": [
+              113,
+              114,
+              115
+            ],
+            "name": "model_tuning_defaults",
+            "pattern": "tune_projector|tune_diffusion_model|tune_vlln"
+          },
+          {
+            "lines": [
+              118
+            ],
+            "name": "raw_state_dropout_default",
+            "pattern": "state_dropout_prob:\\s*float\\s*=\\s*0\\.8"
+          },
+          {
+            "lines": [
+              71
+            ],
+            "name": "relative_default",
+            "pattern": "use_relative_action:\\s*bool\\s*=\\s*False"
+          }
+        ],
+        "path": "gr00t/configs/model/gr00t_n1d7.py",
+        "present": true,
+        "sha256": "379ff708496a73b25b12f4656850284a16fde0e205828e2a0c0be0af61463744"
+      },
+      "gr00t/data/embodiment_tags.py": {
+        "blob_sha1": "3424b4e83ed6046b1c5b5b41fc293d844c068da5",
+        "byte_count": 7809,
+        "line_count": 224,
+        "markers": [
+          {
+            "lines": [
+              50,
+              128,
+              219
+            ],
+            "name": "new_embodiment_tag",
+            "pattern": "NEW_EMBODIMENT"
+          },
+          {
+            "lines": [
+              178,
+              217
+            ],
+            "name": "finetune_only_tags",
+            "pattern": "FINETUNE_ONLY_TAGS"
+          },
+          {
+            "lines": [
+              44,
+              107,
+              209
+            ],
+            "name": "sonic_posttrain_tag",
+            "pattern": "UNITREE_G1_SONIC"
+          }
+        ],
+        "path": "gr00t/data/embodiment_tags.py",
+        "present": true,
+        "sha256": "eadc1a395175209cc0d57afa21541cc64be7d848300602209de81fe42713ca47"
+      },
+      "gr00t/data/state_action/action_chunking.py": {
+        "blob_sha1": "a777555128fc5b39d50f12073d1f62adcaa7ac20",
+        "byte_count": 26398,
+        "line_count": 680,
+        "markers": [
+          {
+            "lines": [
+              651,
+              652
+            ],
+            "name": "absolute_pose_composition",
+            "pattern": "T_absolute\\s*=\\s*T_ref\\s*@\\s*T_relative"
+          },
+          {
+            "lines": [
+              502
+            ],
+            "name": "slerp_interpolation",
+            "pattern": "linear interpolation for translation and SLERP"
+          }
+        ],
+        "path": "gr00t/data/state_action/action_chunking.py",
+        "present": true,
+        "sha256": "0b8379b903a87ec35e1671afa15f8bb4af8d948ee239b5e0eb1c90c8b4dd6b78"
+      },
+      "gr00t/data/state_action/droid_frame.py": {
+        "blob_sha1": "4d804b517a3670c70ab24d64a7a90e4cf87c53ed",
+        "byte_count": 2856,
+        "line_count": 75,
+        "markers": [],
+        "path": "gr00t/data/state_action/droid_frame.py",
+        "present": true,
+        "sha256": "ecbeabdffb6e1e7429319b86bd2f77368b423c72a7cb9989148483f7330bfe23"
+      },
+      "gr00t/data/state_action/pose.py": {
+        "blob_sha1": "a0d679fa24566eca6d98a5b8b8ed2077f26d7a77",
+        "byte_count": 24020,
+        "line_count": 726,
+        "markers": [
+          {
+            "lines": [
+              662,
+              675
+            ],
+            "name": "relative_pose_composition",
+            "pattern": "Mathematically:.*T_relative|T_relative\\s*=\\s*relative_transformation"
+          }
+        ],
+        "path": "gr00t/data/state_action/pose.py",
+        "present": true,
+        "sha256": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808"
+      },
+      "gr00t/data/state_action/state_action_processor.py": {
+        "blob_sha1": "3bebaca6db900f6b5d0637451009ab7251869b90",
+        "byte_count": 29707,
+        "line_count": 695,
+        "markers": [
+          {
+            "lines": [
+              386
+            ],
+            "name": "relative_reference",
+            "pattern": "reference_state\\s*=\\s*state\\[state_key\\]\\[-1\\]"
+          },
+          {
+            "lines": [
+              389,
+              639
+            ],
+            "name": "apply_relative",
+            "pattern": "_convert_to_relative_action"
+          },
+          {
+            "lines": [
+              513,
+              666
+            ],
+            "name": "unapply_absolute",
+            "pattern": "_convert_to_absolute_action"
+          }
+        ],
+        "path": "gr00t/data/state_action/state_action_processor.py",
+        "present": true,
+        "sha256": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145"
+      },
+      "gr00t/eval/open_loop_eval.py": {
+        "blob_sha1": "4461b84431f33634b953c9e563addd91e20ab9ec",
+        "byte_count": 13752,
+        "line_count": 373,
+        "markers": [
+          {
+            "lines": [
+              56,
+              69,
+              108,
+              143,
+              166,
+              171,
+              184,
+              230,
+              253,
+              351,
+              370
+            ],
+            "name": "execution_horizon_arg",
+            "pattern": "execution-horizon|execution_horizon"
+          },
+          {
+            "lines": [
+              266,
+              308,
+              310,
+              311,
+              314,
+              316,
+              319
+            ],
+            "name": "denoising_steps_arg",
+            "pattern": "denoising-steps|denoising_steps"
+          }
+        ],
+        "path": "gr00t/eval/open_loop_eval.py",
+        "present": true,
+        "sha256": "e15706fac4cd8caff3229a1538eb0288b487919b28c0e26ecf30c32d0f61245f"
+      },
+      "gr00t/experiment/launch_finetune.py": {
+        "blob_sha1": "00cb3ef1fb25a4958fc3403e0975076e3465115d",
+        "byte_count": 5575,
+        "line_count": 130,
+        "markers": [
+          {
+            "lines": [
+              102
+            ],
+            "name": "launcher_relative_action",
+            "pattern": "use_relative_action\\s*=\\s*True"
+          },
+          {
+            "lines": [
+              82
+            ],
+            "name": "launcher_dropout",
+            "pattern": "state_dropout_prob"
+          },
+          {
+            "lines": [
+              78,
+              79,
+              80,
+              81
+            ],
+            "name": "launcher_tuning_flags",
+            "pattern": "tune_projector|tune_diffusion_model|tune_llm|tune_visual"
+          }
+        ],
+        "path": "gr00t/experiment/launch_finetune.py",
+        "present": true,
+        "sha256": "5f259a9453957fb08d21e7a0ec5febd29c986cdb7e031ee2a4573628bfc30852"
+      },
+      "gr00t/model/gr00t_n1d7/gr00t_n1d7.py": {
+        "blob_sha1": "346b597a4b9a115a9a5b1053621f47f07833da09",
+        "byte_count": 26654,
+        "line_count": 627,
+        "markers": [
+          {
+            "lines": [
+              38
+            ],
+            "name": "action_head_class",
+            "pattern": "class Gr00tN1d7ActionHead"
+          },
+          {
+            "lines": [
+              66,
+              72,
+              77,
+              130,
+              131,
+              132,
+              159,
+              160,
+              161,
+              217,
+              239,
+              272,
+              321,
+              405,
+              430
+            ],
+            "name": "action_head_components",
+            "pattern": "self\\.state_encoder|self\\.action_encoder|self\\.action_decoder"
+          },
+          {
+            "lines": [
+              99,
+              220,
+              223
+            ],
+            "name": "state_dropout",
+            "pattern": "self\\.state_dropout_prob|state_dropout_prob"
+          },
+          {
+            "lines": [
+              230
+            ],
+            "name": "flow_noise",
+            "pattern": "noise\\s*=\\s*torch\\.randn"
+          },
+          {
+            "lines": [
+              107,
+              170,
+              231
+            ],
+            "name": "flow_time",
+            "pattern": "sample_time|t\\s*=\\s*self\\.sample_time"
+          },
+          {
+            "lines": [
+              234
+            ],
+            "name": "noisy_trajectory",
+            "pattern": "noisy_trajectory\\s*="
+          },
+          {
+            "lines": [
+              254,
+              264,
+              417,
+              425
+            ],
+            "name": "diT_call",
+            "pattern": "model_output\\s*=\\s*self\\.model|self\\.model\\("
+          },
+          {
+            "lines": [
+              194,
+              276,
+              277,
+              278,
+              283
+            ],
+            "name": "masked_flow_loss",
+            "pattern": "action_loss\\s*=\\s*F\\.mse_loss|action_mask"
+          },
+          {
+            "lines": [
+              349
+            ],
+            "name": "inference_noise",
+            "pattern": "actions\\s*=\\s*torch\\.randn"
+          },
+          {
+            "lines": [
+              435
+            ],
+            "name": "euler_step",
+            "pattern": "actions\\s*=\\s*actions\\s*\\+\\s*dt"
+          },
+          {
+            "lines": [
+              361,
+              362,
+              363,
+              366,
+              367,
+              368,
+              373,
+              376,
+              379,
+              381,
+              384,
+              392
+            ],
+            "name": "rtc_options",
+            "pattern": "rtc_overlap_steps|rtc_frozen_steps|rtc_ramp_rate"
+          },
+          {
+            "lines": [
+              323,
+              437,
+              439,
+              487
+            ],
+            "name": "action_return",
+            "pattern": "return BatchFeature|['\\\"]action_pred['\\\"]"
+          }
+        ],
+        "path": "gr00t/model/gr00t_n1d7/gr00t_n1d7.py",
+        "present": true,
+        "sha256": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c"
+      },
+      "gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py": {
+        "blob_sha1": "ec0d59f771c206e56ebbaf8697a30c8913b2d75c",
+        "byte_count": 37356,
+        "line_count": 889,
+        "markers": [
+          {
+            "lines": [
+              69,
+              74,
+              75,
+              76,
+              112,
+              119
+            ],
+            "name": "projector_id_table",
+            "pattern": "_PROJECTOR_INDEX_GROUPS|new_embodiment|unitree_g1_sonic"
+          },
+          {
+            "lines": [
+              539
+            ],
+            "name": "inference_action_mask",
+            "pattern": "action_mask\\s*=\\s*torch\\.zeros"
+          },
+          {
+            "lines": [
+              533
+            ],
+            "name": "inference_valid_horizon",
+            "pattern": "action_horizon\\s*=\\s*len\\(action_config\\.delta_indices\\)"
+          },
+          {
+            "lines": [
+              282,
+              531,
+              539,
+              541
+            ],
+            "name": "decode_slice",
+            "pattern": "action_horizon\\]|action_horizon\\)"
+          },
+          {
+            "lines": [
+              605,
+              616
+            ],
+            "name": "training_action_pad",
+            "pattern": "Pad action to max_action_dim|Pad action to max_action_horizon"
+          },
+          {
+            "lines": [
+              635,
+              636
+            ],
+            "name": "training_mask",
+            "pattern": "action_mask\\[action_horizon:\\]\\s*=\\s*0|action_mask\\[:, action_dim:\\]\\s*=\\s*0"
+          },
+          {
+            "lines": [
+              270,
+              648,
+              649,
+              790
+            ],
+            "name": "processor_state_dropout",
+            "pattern": "self\\.state_dropout_prob|random\\.random\\(\\)"
+          },
+          {
+            "lines": [
+              243,
+              270,
+              648,
+              649,
+              758,
+              790,
+              796,
+              805,
+              828,
+              835,
+              844,
+              873
+            ],
+            "name": "save_stats_config",
+            "pattern": "statistics_file|state_dropout_prob"
+          }
+        ],
+        "path": "gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+        "present": true,
+        "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f"
+      },
+      "gr00t/model/gr00t_n1d7/setup.py": {
+        "blob_sha1": "742dcf7c391428f26e2bed57f2ad08c7d35e32c6",
+        "byte_count": 12177,
+        "line_count": 242,
+        "markers": [
+          {
+            "lines": [
+              82
+            ],
+            "name": "model_from_checkpoint",
+            "pattern": "AutoModel\\.from_pretrained"
+          },
+          {
+            "lines": [
+              157
+            ],
+            "name": "processor_from_checkpoint",
+            "pattern": "AutoProcessor\\.from_pretrained"
+          }
+        ],
+        "path": "gr00t/model/gr00t_n1d7/setup.py",
+        "present": true,
+        "sha256": "5212755cf18c1147206408e7250576b27504a6bd3af6402d9cd7f011b2cfd31a"
+      },
+      "gr00t/model/modules/embodiment_conditioned_mlp.py": {
+        "blob_sha1": "504785d57cc33a87613dd775cc415cc88574c2ee",
+        "byte_count": 8961,
+        "line_count": 238,
+        "markers": [
+          {
+            "lines": [
+              66,
+              67
+            ],
+            "name": "category_specific_init",
+            "pattern": "0\\.02\\s*\\*\\s*torch\\.randn|torch\\.zeros\\(num_categories"
+          },
+          {
+            "lines": [
+              77,
+              78
+            ],
+            "name": "category_selection",
+            "pattern": "selected_W\\s*=\\s*self\\.W\\[cat_ids\\]|selected_b\\s*=\\s*self\\.b\\[cat_ids\\]"
+          },
+          {
+            "lines": [
+              143
+            ],
+            "name": "category_mlp",
+            "pattern": "class CategorySpecificMLP"
+          },
+          {
+            "lines": [
+              177
+            ],
+            "name": "multi_embodiment_action_encoder",
+            "pattern": "class MultiEmbodimentActionEncoder"
+          }
+        ],
+        "path": "gr00t/model/modules/embodiment_conditioned_mlp.py",
+        "present": true,
+        "sha256": "d8c60775642016262e3df742e7ed10da38007d7a6bc6aa94fcb427f2ff9e1752"
+      },
+      "gr00t/model/modules/qwen3_backbone.py": {
+        "blob_sha1": "b7665be7ac84dc597bed786e6766bb83774af1b9",
+        "byte_count": 16095,
+        "line_count": 372,
+        "markers": [
+          {
+            "lines": [
+              139,
+              140,
+              154,
+              155,
+              198,
+              249,
+              250,
+              251,
+              254,
+              256,
+              264,
+              265,
+              280,
+              282
+            ],
+            "name": "backbone_tuning_flags",
+            "pattern": "tune_llm|tune_visual|set_trainable_parameters"
+          }
+        ],
+        "path": "gr00t/model/modules/qwen3_backbone.py",
+        "present": true,
+        "sha256": "e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52"
+      }
+    },
+    "project_stage23_launcher": {
+      "blob_sha1": "2feda9d32fd6baf68fad694bee53056a16aa6953",
+      "byte_count": 11134,
+      "line_count": 282,
+      "markers": [
+        {
+          "lines": [
+            75
+          ],
+          "name": "launcher_dropout_zero",
+          "pattern": "state_dropout_prob\\s*=\\s*0\\.0"
+        },
+        {
+          "lines": [
+            74
+          ],
+          "name": "launcher_horizon_40",
+          "pattern": "action_horizon\\s*=\\s*40"
+        },
+        {
+          "lines": [
+            73
+          ],
+          "name": "launcher_relative_action",
+          "pattern": "use_relative_action\\s*=\\s*True"
+        },
+        {
+          "lines": [
+            69
+          ],
+          "name": "launcher_vlln_frozen",
+          "pattern": "tune_vlln\\s*=\\s*False"
+        },
+        {
+          "lines": [
+            68,
+            188
+          ],
+          "name": "launcher_diffusion_flag",
+          "pattern": "tune_diffusion_model"
+        },
+        {
+          "lines": [
+            89
+          ],
+          "name": "launcher_batch_one",
+          "pattern": "global_batch_size\\s*=\\s*1"
+        },
+        {
+          "lines": [
+            101
+          ],
+          "name": "launcher_warmup",
+          "pattern": "warmup_ratio\\s*=\\s*0\\.05"
+        }
+      ],
+      "path": "scripts/stage20s_train_gr00t.py",
+      "present": true,
+      "sha256": "f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2"
+    }
+  },
+  "source_validation": {
+    "groot_whole_body_control": {
+      "failures": [],
+      "label": "GR00T-WholeBodyControl",
+      "required_markers": 63,
+      "required_paths": 16,
+      "status": "PASS"
+    },
+    "isaac_gr00t": {
+      "failures": [],
+      "label": "Isaac-GR00T",
+      "required_markers": 85,
+      "required_paths": 20,
+      "status": "PASS"
+    },
+    "project_stage23_launcher": {
+      "failures": [],
+      "label": "project Stage23 launcher",
+      "required_markers": 7,
+      "required_paths": 1,
+      "status": "PASS"
+    }
+  },
+  "stage23_claim_reassessment": {
+    "attribution_matrix": [
+      {
+        "boundary": "No new model run was performed; source review cannot close the prior run's input provenance.",
+        "hypothesis": "input drift",
+        "status": "NOT DEMONSTRATED"
+      },
+      {
+        "boundary": "Existing sealed Phase B evidence reports H200 resource/OOM ruled out; this review did not rerun it.",
+        "hypothesis": "GPU/resource",
+        "status": "LOW PLAUSIBILITY FOR PHASE A"
+      },
+      {
+        "boundary": "O1 has only 200 steps and each max-step run has its own warmup/decay schedule.",
+        "hypothesis": "optimizer/LR schedule",
+        "status": "PLAUSIBLE UNRESOLVED"
+      },
+      {
+        "boundary": "Free-running profile failure does not prove teacher-forced objective failure.",
+        "hypothesis": "flow objective fit",
+        "status": "NOT DEMONSTRATED"
+      },
+      {
+        "boundary": "Tiny-stat degeneracy is retained as a diagnostic warning, not a demonstrated cause of H2.",
+        "hypothesis": "normalization",
+        "status": "NO DEFECT FOUND IN AUDIT"
+      },
+      {
+        "boundary": "High path/tortuosity/frequency metrics support the phenotype, not one unique mechanism.",
+        "hypothesis": "temporal oscillation",
+        "status": "STRONGLY OBSERVED PHENOTYPE"
+      },
+      {
+        "boundary": "Analytic inactive/active noise energy ratio 12.2x is not causal proof.",
+        "hypothesis": "132D inactive-noise burden",
+        "status": "MECHANISTICALLY PLAUSIBLE"
+      },
+      {
+        "boundary": "Sampler is a candidate factor; no C1 or sampler comparison was authorized.",
+        "hypothesis": "4-step Euler sampler",
+        "status": "UNRESOLVED"
+      },
+      {
+        "boundary": "Official custom guidance uses substantially more presentations and multiple demonstration windows.",
+        "hypothesis": "data scarcity/generalization",
+        "status": "PLAUSIBLE HIGH"
+      },
+      {
+        "boundary": "Stage23 differs from official defaults in dropout, color jitter, VLLN, batch, H, and custom-slot exposure; none is proven causal here.",
+        "hypothesis": "state dropout / augmentation / trainability recipe",
+        "status": "REAL RECIPE CONFOUNDS"
+      }
+    ],
+    "o1_scope": "bounded exact-recipe negative; not architectural unlearnability",
+    "observed_profile": {
+      "o1_at_200_back_and_forth_rate": 0.7632,
+      "o1_at_200_high_frequency_first_difference_fraction": 0.8436,
+      "o1_at_200_median_direction_cosine": -0.5493,
+      "o1_at_200_median_path_ratio": 25.57,
+      "safety_gate": "all three O1@200 outputs rejected for test-only linear-speed bound"
+    },
+    "phenotype": "FREE_RUNNING_TEMPORAL_PROFILE_FAILURE_STRONGLY_SUPPORTED",
+    "recipe_confounders": [
+      "state_dropout",
+      "image_augmentation",
+      "VLLN/projector trainability",
+      "batch/LR schedule",
+      "H40 versus official H16",
+      "custom category slot",
+      "data/exposure scale",
+      "four-step Euler sampler"
+    ],
+    "single_sample_wording": "too strong as a general claim relative to official custom baseline"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE21_SAME_SCENE_RECEDING_HORIZON_MANIFEST_V1",
+  "stage": "Stage21",
+  "date": "2026-09-01",
+  "git_parent": "58fe006a4986386b923bcef2b7a43d6f6559bbff",
+  "git_commit": "91724c56c13bfea8cce5e47cfbd9484bacb6bb76",
+  "branch": "stage21/same-scene-receding-horizon",
+  "simulation_only": true,
+  "hardware_control": false,
+  "same_scene_camera": {
+    "status": "PASS",
+    "camera_smoke_artifact": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage21/continuity/camera_smoke/camera_smoke.json",
+    "simulator_instance_id": "native-isaacgym-pid-2670481",
+    "resolution": [96, 96],
+    "target_actor": "stage21_red_target"
+  },
+  "fixed_primary_reset": {
+    "seed": 13,
+    "prefix_steps_declared": [4, 6, 8, 10],
+    "prefix_steps_frozen": 4,
+    "native_control_dt_s": 0.01999999955,
+    "prefix_duration_native_s": 0.0799999982,
+    "chunk_action_sample_period_s": 0.05,
+    "chunk_action_sample_period_provenance": "TEST_ONLY_STAGE21_SIMULATION"
+  },
+  "gt_first": {
+    "status": "GT_RECEDING_HORIZON_INFRASTRUCTURE_PASS",
+    "artifact": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage21/receding_horizon/gt_k4_20260901_telemetry/gt_receding_summary.json",
+    "steps": 24,
+    "reference_updates": 5,
+    "reset_events": 0
+  },
+  "actual_model": {
+    "status": "SIM_SAME_SCENE_MODEL_RECEDING_HORIZON_EXECUTED",
+    "native_artifact": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage21/receding_horizon/model_k4_20260901_telemetry/model_receding_summary.json",
+    "metrics_artifact": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage21/receding_horizon/model_k4_20260901_telemetry/receding_metrics.json",
+    "simulator_instance_id": "native-isaacgym-pid-2691550",
+    "steps": 24,
+    "chunks": 6,
+    "reference_updates": 5,
+    "reset_events": 0,
+    "safety_gate_decisions": {"ACCEPT": 6, "WARN": 0, "REJECT": 0},
+    "termination": "SCHEDULE_END",
+    "async_runtime": "ASYNC_RUNTIME_NOT_QUALIFIED"
+  },
+  "actual_model_inference": {
+    "manifest": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage21/same_scene_model/same_scene_groot_inference_manifest.json",
+    "interface_seal": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage21/same_scene_interface_seal/same_scene_model_interface_seal.json",
+    "groot_repo_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "checkpoint_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "raw_output_shape": [1, 40, 132],
+    "decoded_output_shape": [1, 40, 10],
+    "all_finite": true,
+    "interface_gate": "PASS",
+    "production_action_period": "TBD_BY_ADAPTATION_DATASET"
+  },
+  "promotion": {
+    "classification": "PASS WITH DEVIATION",
+    "final_gate": "ONE_SPECIFIC_MODEL_PROFILE_BLOCKER_REMAINS",
+    "claim_boundary": "controlled same-scene synchronous paused simulation; no task-success or real-time claim"
+  }
+}

@@ -1,0 +1,126 @@
+#!/bin/bash
+# Stage33 PI_GATE_STATE_0015 dual-track campaign.
+# One H200 allocation runs MA then MB exactly once.  MC and WA are zero-model
+# checks in the same allocation.  A scientific-call failure preserves partial
+# evidence and exits; this wrapper never submits a replacement job.
+#PBS -N st33_bottleneck
+#PBS -q auto
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ncpus=12:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE33_REPO:?}"
+: "${STAGE33_OUTPUT_PARENT:?}"
+: "${STAGE33_BASE_MODEL_PATH:?}"
+: "${STAGE33_DATASET_DIR:?}"
+: "${STAGE33_GROOT_SOURCE:?}"
+: "${STAGE33_MODALITY_CONFIG:?}"
+: "${STAGE33_COSMOS_CACHE_ROOT:?}"
+: "${STAGE33_COSMOS_SNAPSHOT:?}"
+: "${STAGE33_SNAPSHOT_ROOT:?}"
+: "${STAGE33_H2_TRAINING_ROOT:?}"
+: "${STAGE33_STAGE26_MANIFEST:?}"
+: "${STAGE33_STAGE31_ROOT:?}"
+: "${STAGE33_STAGE31_RESULT:?}"
+: "${STAGE33_STAGE32_ROOT:?}"
+: "${STAGE33_STAGE32_RESULT:?}"
+: "${STAGE33_STAGE32_RESULT_SEAL:?}"
+: "${STAGE33_STAGE32_SALVAGE_RESULT:?}"
+: "${STAGE33_STAGE32_SALVAGE_TRACE:?}"
+: "${STAGE33_STAGE16_ROOT:?}"
+: "${STAGE33_EXPECTED_PROJECT_SHA:?}"
+: "${STAGE33_PI_GATE_ID:?}"
+: "${PBS_JOBID:?}"
+
+test "${STAGE33_PI_GATE_ID}" = "PI_GATE_STATE_0015"
+cd "${STAGE33_REPO}"
+test "$(git rev-parse HEAD)" = "${STAGE33_EXPECTED_PROJECT_SHA}"
+test -z "$(git status --short)"
+
+RUN_ROOT="${STAGE33_OUTPUT_PARENT}/stage33_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache/huggingface/hub" \
+  "${RUN_ROOT}/runtime/cache/torch" "${RUN_ROOT}/runtime/cache/triton" \
+  "${RUN_ROOT}/runtime/cache/torch_extensions" "${RUN_ROOT}/runtime/config" \
+  "${RUN_ROOT}/runtime/data"
+exec > >(tee -a "${RUN_ROOT}/stage33_job.log") 2>&1
+export TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
+export HF_HOME="${RUN_ROOT}/runtime/cache/huggingface"
+export TORCH_HOME="${RUN_ROOT}/runtime/cache/torch"
+export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache"
+export XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config"
+export XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
+export TRITON_CACHE_DIR="${RUN_ROOT}/runtime/cache/triton"
+export TORCH_EXTENSIONS_DIR="${RUN_ROOT}/runtime/cache/torch_extensions"
+export PYTHONNOUSERSITE=1
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
+mkdir -p "${HF_HOME}/hub" "${TRITON_CACHE_DIR}" "${TORCH_EXTENSIONS_DIR}"
+test -d "${STAGE33_COSMOS_CACHE_ROOT}"
+ln -s "${STAGE33_COSMOS_CACHE_ROOT}" "${HF_HOME}/hub/models--nvidia--Cosmos-Reason2-2B"
+
+. /etc/profile.d/modules.sh 2>/dev/null || true
+module load singularity
+IMAGE=/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif
+EXPECTED_IMAGE_SHA256=4862d0922df6e241098576e817d6268bfc19d0bf3fae8fea2e5dd1e9819ca980
+FFMPEG_BUNDLE=/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902
+CONTAINER_SITE="${STAGE10_ROOT:-/scratch/e1192548/stage23_o1_20260903/stage10_root}/runtime/venv/lib/python3.12/site-packages"
+test -f "${IMAGE}"
+test "$(sha256sum "${IMAGE}" | awk '{print $1}')" = "${EXPECTED_IMAGE_SHA256}"
+test -d "${FFMPEG_BUNDLE}"
+test -d "${CONTAINER_SITE}"
+FFMPEG_LD="/.singularity.d/libs:${FFMPEG_BUNDLE}:${FFMPEG_BUNDLE}/lib/x86_64-linux-gnu:${FFMPEG_BUNDLE}/usr/lib/x86_64-linux-gnu:${FFMPEG_BUNDLE}/usr/lib/x86_64-linux-gnu/pulseaudio:${CONTAINER_SITE}/torch/lib"
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED_GPU=${GPU_NAME}" >&2; exit 2 ;; esac
+
+RUNNER="scripts/stage33_bottleneck_map.py"
+PBS_TEMPLATE="hpc/pbs/stage33_bottleneck_map.pbs"
+RUNNER_SHA="$(sha256sum "${RUNNER}" | awk '{print $1}')"
+PBS_SHA="$(sha256sum "${PBS_TEMPLATE}" | awk '{print $1}')"
+echo "STAGE33_RUNNER_SHA256=${RUNNER_SHA}"
+echo "STAGE33_PBS_SHA256=${PBS_SHA}"
+
+run_stage33() {
+  singularity exec --nv --bind /app1:/app1 --bind /scratch:/scratch "${IMAGE}" env \
+    PYTHONPATH="${STAGE33_REPO}:${STAGE33_REPO}/src:${CONTAINER_SITE}:${STAGE33_GROOT_SOURCE}" \
+    LD_LIBRARY_PATH="${FFMPEG_LD}" HF_HOME="${HF_HOME}" HF_HUB_CACHE="${HF_HOME}/hub" \
+    HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
+    GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1 XDG_CACHE_HOME="${XDG_CACHE_HOME}" \
+    XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" XDG_DATA_HOME="${XDG_DATA_HOME}" TORCH_HOME="${TORCH_HOME}" \
+    TRITON_CACHE_DIR="${TRITON_CACHE_DIR}" TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" \
+    TMPDIR="${TMPDIR}" PYTHONNOUSERSITE=1 python3 "${RUNNER}" "$@"
+}
+
+COMMON=(--project-repo "${STAGE33_REPO}" --expected-project-sha "${STAGE33_EXPECTED_PROJECT_SHA}" \
+  --base-model-path "${STAGE33_BASE_MODEL_PATH}" --dataset-dir "${STAGE33_DATASET_DIR}" \
+  --groot-source "${STAGE33_GROOT_SOURCE}" --modality-config "${STAGE33_MODALITY_CONFIG}" \
+  --cosmos-cache-root "${STAGE33_COSMOS_CACHE_ROOT}" --cosmos-snapshot "${STAGE33_COSMOS_SNAPSHOT}" \
+  --snapshot-root "${STAGE33_SNAPSHOT_ROOT}" --h2-training-root "${STAGE33_H2_TRAINING_ROOT}" \
+  --stage26-manifest "${STAGE33_STAGE26_MANIFEST}" --stage31-root "${STAGE33_STAGE31_ROOT}" \
+  --stage31-result "${STAGE33_STAGE31_RESULT}" --stage32-root "${STAGE33_STAGE32_ROOT}" \
+  --stage32-result "${STAGE33_STAGE32_RESULT}" --stage32-result-seal "${STAGE33_STAGE32_RESULT_SEAL}" \
+  --stage32-salvage-result "${STAGE33_STAGE32_SALVAGE_RESULT}" --stage32-salvage-trace "${STAGE33_STAGE32_SALVAGE_TRACE}" \
+  --stage16-root "${STAGE33_STAGE16_ROOT}" --output-root "${RUN_ROOT}" \
+  --pbs-template "${STAGE33_REPO}/${PBS_TEMPLATE}" --authorization-token "${STAGE33_PI_GATE_ID}" \
+  --pbs-job-id "${PBS_JOBID}" --pbs-project "CFP03-CF-004" --device cuda:0)
+
+run_stage33 --mode preflight "${COMMON[@]}"
+run_stage33 --mode mc "${COMMON[@]}"
+run_stage33 --mode wa "${COMMON[@]}"
+run_stage33 --mode ma "${COMMON[@]}"
+run_stage33 --mode mb "${COMMON[@]}"
+run_stage33 --mode aggregate "${COMMON[@]}"
+# Keep the live PBS log out of the seal because the wrapper continues to
+# append final status lines after the seal is written.  The stable snapshot
+# is the log artifact sealed by the runner.
+cp -- "${RUN_ROOT}/stage33_job.log" "${RUN_ROOT}/stage33_job.log.sealed"
+run_stage33 --mode seal "${COMMON[@]}"
+
+echo "STAGE33_EXECUTION_COMPLETE"
+echo "RUN_ROOT=${RUN_ROOT}"
+echo "NEXT_GATE=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["next_gate"])' "${RUN_ROOT}/stage33_program_decision.json")"

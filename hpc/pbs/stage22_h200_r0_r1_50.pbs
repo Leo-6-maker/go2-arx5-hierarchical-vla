@@ -1,0 +1,101 @@
+#!/bin/bash
+# STAGE22 H2 authoritative direct-launch template. DO NOT SUBMIT AS-IS.
+#
+# H1 must have passed previously. H2 R0 and R1 must share this one allocation,
+# GPU, and runtime. This template intentionally invokes the frozen Stage20S
+# launcher directly for R0 and R1; it does not call stage22_train_recipes.py
+# and does not repeat H1.
+# Replace PROJECT_ID_REQUIRED only after interactive scheduler/project
+# discovery. Never put passwords, tokens, or private keys in this file.
+#
+# Required environment before qsub:
+#   STAGE22_SCRATCH_ROOT=/path/on/project-scratch
+#   STAGE10_ROOT=/path/to/Hopper-local/Stage10/runtime
+#   STAGE22_HANDOFF_ROOT=/path/to/extracted/STAGE22_H200_HANDOFF_V1
+#   STAGE22_REPO=/path/to/extracted/stage22-repo
+#   STAGE22_FROZEN_LAUNCHER=/path/to/frozen/stage20s_train_gr00t.py
+#   STAGE22_PBS_WINDOW_START_UTC=authoritative PBS start timestamp
+#   STAGE22_PBS_WINDOW_END_UTC=authoritative PBS end timestamp
+
+#PBS -N st22_h200_r0r1
+#PBS -P PROJECT_ID_REQUIRED
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=06:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE22_SCRATCH_ROOT:?Set project scratch, not HOME}"
+: "${STAGE10_ROOT:?Set the Hopper Stage10 runtime root}"
+: "${STAGE22_HANDOFF_ROOT:?Set the extracted Stage22 handoff root}"
+: "${STAGE22_REPO:?Set the extracted Stage22 repository path}"
+: "${STAGE22_FROZEN_LAUNCHER:?Set the frozen Stage20S launcher path}"
+: "${STAGE22_PBS_WINDOW_START_UTC:?Set the authoritative PBS start timestamp}"
+: "${STAGE22_PBS_WINDOW_END_UTC:?Set the authoritative PBS end timestamp}"
+: "${PBS_JOBID:?PBS_JOBID must be available for prospective evidence binding}"
+
+cd "${STAGE22_REPO}"
+mkdir -p "${STAGE22_SCRATCH_ROOT}"
+
+hostname
+nvidia-smi
+module list 2>&1 || true
+python --version
+df -h "${STAGE22_SCRATCH_ROOT}"
+free -h
+
+DATASET_DIR="${STAGE22_HANDOFF_ROOT}/payload/lerobot_train"
+BASE_MODEL_PATH="${STAGE22_HANDOFF_ROOT}/payload/GR00T-N1.7-3B"
+MODALITY_CONFIG="${STAGE22_HANDOFF_ROOT}/payload/modality/go2_arx5_modality.py"
+OUTPUT_ROOT="${STAGE22_SCRATCH_ROOT}/stage22_r0_r1_50_${PBS_JOBID:-manual}"
+FROZEN_LAUNCHER_SHA256="f42a1990847cf8f5326c66db37043ffed6e43458dd907fdbd08da5dd905b00a2"
+
+test -f "${STAGE22_FROZEN_LAUNCHER}"
+test "$(sha256sum "${STAGE22_FROZEN_LAUNCHER}" | awk '{print $1}')" = "${FROZEN_LAUNCHER_SHA256}"
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+
+# Capture a prospective, PBS-window-bound GPU identity immediately before R0.
+python scripts/stage22_capture_gpu_evidence.py \
+  --output "${OUTPUT_ROOT}/R0_gpu_evidence.json" \
+  --pbs-job-id "${PBS_JOBID}" \
+  --pbs-window-start-utc "${STAGE22_PBS_WINDOW_START_UTC}" \
+  --pbs-window-end-utc "${STAGE22_PBS_WINDOW_END_UTC}"
+
+# Direct frozen-launch R0: projector/state/action train; diffusion is frozen.
+python "${STAGE22_FROZEN_LAUNCHER}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --base-model-path "${BASE_MODEL_PATH}" \
+  --dataset-dir "${DATASET_DIR}" \
+  --modality-config "${MODALITY_CONFIG}" \
+  --output-dir "${OUTPUT_ROOT}/R0" \
+  --max-steps 50 \
+  --save-steps 25 \
+  --learning-rate 0.0001 \
+  --seed 2222 \
+  --local-files-only
+
+# Capture a distinct prospective, PBS-window-bound GPU identity immediately
+# before R1; do not reuse the R0 evidence artifact.
+python scripts/stage22_capture_gpu_evidence.py \
+  --output "${OUTPUT_ROOT}/R1_gpu_evidence.json" \
+  --pbs-job-id "${PBS_JOBID}" \
+  --pbs-window-start-utc "${STAGE22_PBS_WINDOW_START_UTC}" \
+  --pbs-window-end-utc "${STAGE22_PBS_WINDOW_END_UTC}"
+
+# Direct frozen-launch R1: the only recipe difference is diffusion training.
+python "${STAGE22_FROZEN_LAUNCHER}" \
+  --stage10-root "${STAGE10_ROOT}" \
+  --base-model-path "${BASE_MODEL_PATH}" \
+  --dataset-dir "${DATASET_DIR}" \
+  --modality-config "${MODALITY_CONFIG}" \
+  --output-dir "${OUTPUT_ROOT}/R1" \
+  --max-steps 50 \
+  --save-steps 25 \
+  --learning-rate 0.0001 \
+  --seed 2222 \
+  --local-files-only \
+  --tune-diffusion-model
+# The executor must now capture live trainable module inventories and the H2
+# execution-provenance manifest before audit. The two GPU evidence artifacts
+# above are already bound to this PBS job window.

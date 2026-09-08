@@ -3,7 +3,8 @@
 ## Data-readiness path
 
 Future robot recordings enter through an offline, versioned path before any
-model-facing dataset is produced:
+model-facing dataset is produced. Stage19 qualifies the same path with a
+node-local D3 fixture:
 
 ```text
 native-rate robot/camera streams
@@ -19,7 +20,9 @@ native-rate robot/camera streams
              |
    GR00TTrainingExampleV1
              |
-      LeRobot / GR00T processor
+      LeRobot / GR00T v2 materializer
+             |
+      official GR00T loader + processor
 ```
 
 The raw episode remains the audit authority. The compact model state is
@@ -28,6 +31,13 @@ primary label is future desired EEF plus gripper. Achieved EEF and full
 whole-body state are retained for audit, not silently used as labels. Source
 timestamps are preserved; production action timing is
 `TBD_BY_ADAPTATION_DATASET`.
+
+The Stage19 D3 fixture has 50 Hz native state/command timestamps and 25 Hz
+camera timestamps, despite stale 20 Hz camera metadata. The discrepancy is
+classified as `FRAME_SUBSAMPLING_METADATA_DEFECT`; source timestamps remain
+authoritative and no retiming is performed. The official GR00T loader path
+qualifies the materialized v2 layout; the optional standalone `lerobot`
+package is not required by that path.
 
 ## Runtime thin waist
 
@@ -92,4 +102,106 @@ actual system architecture and clock requirements are fixed.
 - Stage17 actual custom N1.7 inference: runtime pass, no task evaluation.
 - Actual model interface: safely rejected by gate; no WBC execution.
 - Known-good benchmark orchestration through native WBC: pass.
-- Robot-specific GR00T adaptation: not performed.
+- Stage19 LeRobot/GR00T materialization, official loader, synchronization
+  stress, and recorder replay: pass with the classified D3 metadata deviation.
+- Before Stage20S, robot-specific GR00T adaptation was not performed; the
+  bounded simulation-only adaptation and its limits are described below.
+
+## Stage20S simulation-only qualification path
+
+Stage20S adds a deliberately bounded simulation path for the first
+robot-specific adaptation task:
+
+```text
+SIM_VISUAL_REACH_V0 RGB + language + StateV1
+                         |
+                         v
+       resource-bounded robot-specific GR00T adaptation
+                         |
+                  actual N1.7 output
+                         |
+             GR00TTrajectoryProvider
+                         |
+             TrajectorySafetyGateV1
+                         |
+             EpisodeReferenceBindingV1
+                         |
+                 GR00TToWBCAdapter
+                         |
+          delivered native WBC in simulation
+```
+
+The first task is visual reach rather than contact-rich manipulation. The
+Stage20S fixture uses a procedural cross-simulator camera and is not a native
+same-scene camera qualification. Model, reference, controller, and end-to-end
+errors are reported separately. The known-good benchmark orchestration passed;
+the actual accepted model candidate reached native WBC but ended at the
+delivered timing termination, so the stronger simulated end-to-end
+qualification remains open.
+
+Stage20S does not alter the native WBC controller, checkpoints, or production
+action timing. Its 0.05 s period is explicitly test-only. No model output can
+reach native WBC unless its corresponding interface seal records
+`TrajectorySafetyGateV1=ACCEPT`.
+
+## Stage20T timing attribution boundary
+
+Stage20T freezes the Stage20S controller baseline and compares three matched
+single-chunk paths: the sealed actual model output, the same observation's
+future desired label, and a known-good Stage16 control. At original test
+timing, the model path aborts for seeds 13/14 while the matched label and
+control complete; seed 15 is a shared native reset boundary. The result is
+`MODEL_TRAJECTORY_PROFILE_LIMITATION_IDENTIFIED` with
+`NATIVE_TIMING_BOUNDARY_CHARACTERIZED`, not a production speed limit or a
+general task-performance claim.
+
+The native WBC's existing `to_canonical()` filter is timestep-dependent at the
+0.75x diagnostic scale. That scale is therefore not treated as a pure timing
+counterfactual; the unfiltered 1.00x--2.00x range carries the primary
+attribution. Native timing thresholds, checkpoints, and reset semantics are
+unchanged.
+
+Stage20T remains single-chunk VLA + WBC, not a receding-horizon VLA system.
+The next simulation gate must use same-scene native RGB, explicit action and
+observation timing, fresh chunk lifecycle, and a fixed-reset control before
+any stronger closed-loop claim.
+
+## Stage21 same-scene receding horizon
+
+Stage21 adds a native same-scene camera path and a transport-independent
+reference update boundary:
+
+```text
+native target + body/wrist RGB + StateV1
+                         |
+                         v
+                    actual GR00T
+                         |
+                    [40,10] chunk
+                         |
+              GR00TTrajectoryProvider
+                         |
+              TrajectorySafetyGateV1
+                         |
+              EpisodeReferenceBindingV1
+                         |
+                 GR00TToWBCAdapter
+                         |
+                   native WBC prefix
+                         |
+                 new same-scene RGB/state
+```
+
+`RecedingHorizonExecutorV1` records `ReferenceUpdateV1` and
+`ChunkHandoffV1`. An update preserves physics, episode, and policy history;
+it does not smooth, clip, or retime a model chunk. The current primary mode
+is `SYNCHRONOUS_PAUSED_SIM_RECEDING_HORIZON`; no production transport or
+real-time claim is attached to the offline shared-filesystem mailbox.
+
+The native camera gate passed, and GT-first hot-swap infrastructure passed.
+The actual model executed six gated chunks in one native scene, but raw
+predicted-to-new-first handoff discontinuity reached `0.14829 m` and
+`0.15702 rad`. Consequently the Stage21 scientific gate remains
+`ONE_SPECIFIC_MODEL_PROFILE_BLOCKER_REMAINS`. Counterfactual output
+sensitivity was observed but is not visual-grounding or task-success
+evidence. Robot-specific task-performance status remains unchanged.

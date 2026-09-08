@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# Stage40 B0: read-only TINY1 model control.  No WBC or simulator.
+# Submit only after the Stage40 branch/head and input paths are sealed.
+#PBS -N st40_b0
+#PBS -q auto
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -M leonliu@u.nus.edu
+#PBS -m ae
+
+set -euo pipefail
+
+: "${STAGE40_REPO:?}"
+: "${STAGE40_OUTPUT_ROOT:?}"
+: "${STAGE40_EXPECTED_HEAD:?}"
+: "${STAGE40_MODEL_PATH:?}"
+: "${STAGE40_BASE_MODEL_PATH:?}"
+: "${STAGE40_DATASET_DIR:?}"
+: "${STAGE40_MODALITY_CONFIG:?}"
+: "${STAGE40_STAGE10_ROOT:?}"
+: "${STAGE40_BODY_VIDEO:?}"
+: "${STAGE40_WRIST_VIDEO:?}"
+: "${STAGE40_STATE_JSON:?}"
+: "${STAGE40_COSMOS_HF_HOME:?}"
+: "${STAGE40_COSMOS_SNAPSHOT:?}"
+
+RUN_ROOT="${STAGE40_OUTPUT_ROOT}/stage40_b0_${PBS_JOBID}"
+test ! -e "${RUN_ROOT}"
+mkdir -p "${RUN_ROOT}/runtime/home" "${RUN_ROOT}/runtime/tmp" "${RUN_ROOT}/runtime/cache" "${RUN_ROOT}/runtime/config" "${RUN_ROOT}/runtime/data"
+exec > >(tee -a "${RUN_ROOT}/stage40_b0.log") 2>&1
+echo "STAGE40_B0_START job=${PBS_JOBID} host=$(hostname)"
+
+cd "${STAGE40_REPO}"
+echo "REPO=$PWD"
+echo "OBSERVED_HEAD=$(git rev-parse HEAD 2>&1 || true)"
+echo "EXPECTED_HEAD=${STAGE40_EXPECTED_HEAD}"
+test "$(git rev-parse HEAD)" = "${STAGE40_EXPECTED_HEAD}"
+test -z "$(git status --short --untracked-files=all)"
+
+IMAGE="${STAGE40_CONTAINER_IMAGE:-/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif}"
+SITE="${STAGE40_CONTAINER_SITE:-/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
+FFMPEG="${STAGE40_FFMPEG_BUNDLE:-/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902}"
+test -f "${IMAGE}"
+test -d "${SITE}"
+test -d "${FFMPEG}"
+for path in "${STAGE40_MODEL_PATH}" "${STAGE40_BASE_MODEL_PATH}" "${STAGE40_DATASET_DIR}" "${STAGE40_MODALITY_CONFIG}" "${STAGE40_STAGE10_ROOT}" "${STAGE40_BODY_VIDEO}" "${STAGE40_WRIST_VIDEO}" "${STAGE40_STATE_JSON}" "${STAGE40_COSMOS_HF_HOME}" "${STAGE40_COSMOS_SNAPSHOT}"; do test -e "${path}"; done
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+test "${GPU_COUNT}" = 1
+
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export HOME="${RUN_ROOT}/runtime/home" TMPDIR="${RUN_ROOT}/runtime/tmp" TMP="${RUN_ROOT}/runtime/tmp" TEMP="${RUN_ROOT}/runtime/tmp"
+export XDG_CACHE_HOME="${RUN_ROOT}/runtime/cache" XDG_CONFIG_HOME="${RUN_ROOT}/runtime/config" XDG_DATA_HOME="${RUN_ROOT}/runtime/data"
+export HF_HOME="${STAGE40_COSMOS_HF_HOME}"
+export TRANSFORMERS_CACHE="${HF_HOME}/hub" HF_HUB_CACHE="${HF_HOME}/hub"
+mkdir -p "${HF_HOME}" "${TRANSFORMERS_CACHE}"
+FFMPEG_LD="/.singularity.d/libs:${FFMPEG}:${FFMPEG}/lib/x86_64-linux-gnu:${FFMPEG}/usr/lib/x86_64-linux-gnu:${SITE}/torch/lib"
+
+echo "STAGE40=Stage40"
+echo "PI_GATE=PI_GATE_STATE_0041"
+echo "HEAD=${STAGE40_EXPECTED_HEAD}"
+echo "PBS_JOBID=${PBS_JOBID}"
+echo "HOST=$(hostname)"
+echo "GPU=${GPU_NAME}"
+
+module load singularity
+singularity exec --nv --bind /scratch:/scratch --bind "${STAGE40_REPO}:${STAGE40_REPO}" "${IMAGE}" env \
+  PYTHONPATH="${SITE}:${STAGE40_REPO}/src:${STAGE40_REPO}/scripts:${STAGE40_STAGE10_ROOT}/src/isaac-gr00t" \
+  LD_LIBRARY_PATH="${FFMPEG_LD}" HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}" \
+  HF_HOME="${HF_HOME}" TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE}" HF_HUB_CACHE="${HF_HUB_CACHE}" \
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" XDG_DATA_HOME="${XDG_DATA_HOME}" \
+  HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
+  python3 "${STAGE40_REPO}/scripts/stage40_b0_model_control.py" \
+    --stage10-root "${STAGE40_STAGE10_ROOT}" \
+    --base-model-path "${STAGE40_BASE_MODEL_PATH}" \
+    --model-path "${STAGE40_MODEL_PATH}" \
+    --dataset-dir "${STAGE40_DATASET_DIR}" \
+    --modality-config "${STAGE40_MODALITY_CONFIG}" \
+    --body-video "${STAGE40_BODY_VIDEO}" \
+    --wrist-video "${STAGE40_WRIST_VIDEO}" \
+    --state-json "${STAGE40_STATE_JSON}" \
+    --cosmos-snapshot "${STAGE40_COSMOS_SNAPSHOT}" \
+    --output-dir "${RUN_ROOT}" \
+    --device cuda:0 --local-files-only
+
+echo "STAGE40_B0_RETURNED"

@@ -1,0 +1,109 @@
+#!/bin/bash
+# Stage38-E: one structured common-physical-space offline evaluation campaign.
+# The CPU preflight must PASS for this exact checkout before qsub.  This job
+# performs no training, dense rerun, WBC execution, validation/holdout read, or
+# checkpoint write.  After the first valid model forward, missing calls may not
+# be replaced by a new allocation.
+
+#PBS -N st38e_structured
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=24:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE38_REPO:?Set the clean Stage38 checkout}"
+: "${STAGE38_OUTPUT_ROOT:?Set the fresh Stage38-E output root containing PASS preflight}"
+: "${STAGE38_E_EXPECTED_PROJECT_SHA:?Set the exact pushed Stage38-E execution head}"
+: "${STAGE38_E_API_HEAD:?Set the matching API live HEAD}"
+: "${STAGE38_E_GROOT_SOURCE:?Set the pinned GR00T source root}"
+: "${STAGE38_E_COSMOS_CACHE_ROOT:?Set the pinned Cosmos cache root}"
+
+cd "${STAGE38_REPO}"
+: "${STAGE38_CONTAINER_IMAGE:=/app1/common/singularity-img/hopper/pytorch/pytorch_25.12-py3.sif}"
+: "${STAGE38_FFMPEG_BUNDLE:=/scratch/e1192548/stage22_h200_ffmpeg4_bundle_20260902}"
+: "${STAGE38_CONTAINER_SITE:=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
+: "${STAGE38_CONTAINER_PYTHON:=python3}"
+export STAGE38_CONTAINER_IMAGE STAGE38_FFMPEG_BUNDLE STAGE38_CONTAINER_SITE
+
+if [[ "${PBS_O_QUEUE:-}" != "auto" ]]; then
+  echo "FAIL_CLOSED: expected PBS_O_QUEUE=auto, observed ${PBS_O_QUEUE:-unset}" >&2
+  exit 2
+fi
+# qstat is available on the login node but is not installed in every compute
+# node image.  The allocation request itself is pinned by the -P directive and
+# was independently checked before submission; if qstat exists, use it as an
+# additional assertion, otherwise record the image limitation and continue.
+if command -v qstat >/dev/null 2>&1; then
+  JOB_INFO="$(qstat -f "${PBS_JOBID}")"
+  if ! grep -Fq "CFP03-CF-004" <<<"${JOB_INFO}"; then
+    echo "FAIL_CLOSED: PBS project/account is not CFP03-CF-004" >&2
+    exit 2
+  fi
+  echo "STAGE38_E_PBS_PROJECT_CHECK=QSTAT_PASS"
+else
+  echo "STAGE38_E_PBS_PROJECT_CHECK=SUBMISSION_DIRECTIVE_CFP03-CF-004_QSTAT_UNAVAILABLE"
+fi
+
+export TMPDIR="${STAGE38_OUTPUT_ROOT}/pbs-tmp"
+export TMP="${TMPDIR}"
+export TEMP="${TMPDIR}"
+export HF_HOME="${STAGE38_OUTPUT_ROOT}/pbs-cache/huggingface"
+export TRANSFORMERS_CACHE="${HF_HOME}/hub"
+export HF_HUB_CACHE="${HF_HOME}/hub"
+export XDG_CACHE_HOME="${STAGE38_OUTPUT_ROOT}/pbs-cache/xdg"
+export TORCH_HOME="${STAGE38_OUTPUT_ROOT}/pbs-cache/torch"
+mkdir -p "${TMPDIR}" "${HF_HOME}" "${TRANSFORMERS_CACHE}" "${XDG_CACHE_HOME}" "${TORCH_HOME}"
+
+. /etc/profile.d/modules.sh 2>/dev/null || true
+module load singularity
+test -f "${STAGE38_CONTAINER_IMAGE}"
+test -d "${STAGE38_FFMPEG_BUNDLE}"
+test -d "${STAGE38_CONTAINER_SITE}"
+test -d "${STAGE38_E_GROOT_SOURCE}"
+test -d "${STAGE38_E_COSMOS_CACHE_ROOT}"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in
+  *H200*) ;;
+  *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;;
+esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+FFMPEG_LD="/.singularity.d/libs:${STAGE38_FFMPEG_BUNDLE}:${STAGE38_FFMPEG_BUNDLE}/lib/x86_64-linux-gnu:${STAGE38_FFMPEG_BUNDLE}/usr/lib/x86_64-linux-gnu:${STAGE38_FFMPEG_BUNDLE}/usr/lib/x86_64-linux-gnu/pulseaudio:${STAGE38_CONTAINER_SITE}/torch/lib"
+export STAGE38_FFMPEG_LD="${FFMPEG_LD}"
+
+singularity exec --nv \
+  --bind /app1:/app1 \
+  --bind /scratch:/scratch \
+  "${STAGE38_CONTAINER_IMAGE}" env \
+  PBS_JOBID="${PBS_JOBID}" \
+  PBS_O_QUEUE="${PBS_O_QUEUE}" \
+  PBS_QUEUE="${PBS_QUEUE}" \
+  PYTHONPATH="${STAGE38_CONTAINER_SITE}:${STAGE38_REPO}/src:${STAGE38_REPO}/scripts:${STAGE38_E_GROOT_SOURCE}" \
+  LD_LIBRARY_PATH="${FFMPEG_LD}" \
+  TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}" \
+  HF_HOME="${HF_HOME}" TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE}" HF_HUB_CACHE="${HF_HUB_CACHE}" \
+  XDG_CACHE_HOME="${XDG_CACHE_HOME}" TORCH_HOME="${TORCH_HOME}" \
+  HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
+  NO_ALBUMENTATIONS_UPDATE=1 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
+  STAGE38_CONTAINER_IMAGE="${STAGE38_CONTAINER_IMAGE}" \
+  STAGE38_CONTAINER_SITE="${STAGE38_CONTAINER_SITE}" \
+  STAGE38_FFMPEG_BUNDLE="${STAGE38_FFMPEG_BUNDLE}" \
+  STAGE38_FFMPEG_LD="${STAGE38_FFMPEG_LD}" \
+  "${STAGE38_CONTAINER_PYTHON}" \
+  scripts/stage38_structured_offline_evaluation.py \
+  --evaluate \
+  --expected-project-sha "${STAGE38_E_EXPECTED_PROJECT_SHA}" \
+  --api-head "${STAGE38_E_API_HEAD}" \
+  --output-root "${STAGE38_OUTPUT_ROOT}" \
+  --device cuda:0 \
+  --groot-source "${STAGE38_E_GROOT_SOURCE}" \
+  --cosmos-cache-root "${STAGE38_E_COSMOS_CACHE_ROOT}"
+
+echo "STAGE38_E_STRUCTURED_OFFLINE_EVALUATION_RETURNED"

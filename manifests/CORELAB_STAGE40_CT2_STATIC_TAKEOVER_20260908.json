@@ -1,0 +1,81 @@
+{
+  "schema": "CORELAB_STAGE40_CT2_STATIC_TAKEOVER_V1",
+  "role": "CORELAB_STAGE40_TAKEOVER_AGENT",
+  "pi_gate": "PI_GATE_STATE_0064",
+  "issue_comment": 5574239666,
+  "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "branch": "stage40-dev/rtx4080s-bringup",
+  "implementation_parent_head": "cbd732acc83509610d6aaad9ada5bd32b5eafcfc",
+  "ownership": {
+    "corelab": "PRIMARY_AFTER_EXPLICIT_CUTOVER",
+    "vanda": "HOLD_OR_FALLBACK_AFTER_CUTOVER",
+    "hopper": "HOLD",
+    "gpu_lane_count_max": 1
+  },
+  "takeover_method": {
+    "vanda_branch_merged": false,
+    "vanda_commit_cherry_picked": false,
+    "method": "FUNCTION_LEVEL_AUDIT_AND_SELECTIVE_REIMPLEMENTATION",
+    "a40_pbs_assumptions_imported": false,
+    "corelab_rtx_mechanics_replaced": false,
+    "shared_executor_semantics_changed": false
+  },
+  "stage_chain": [
+    {"stage_id": "RTX-runtime", "predecessor": null, "gr00t_budget": 0, "wbc_budget": 0, "reference_update_budget": 0},
+    {"stage_id": "RTX-Q0", "predecessor": "RTX-runtime", "gr00t_budget": 1, "wbc_budget": 0, "reference_update_budget": 0},
+    {"stage_id": "RTX-bind", "predecessor": "RTX-Q0", "gr00t_budget": 1, "wbc_budget": 0, "reference_update_budget": 0},
+    {"stage_id": "M1", "predecessor": "RTX-bind", "gr00t_budget": 2, "wbc_budget": "POSITIVE_BOUNDED_AT_BUNDLE_FREEZE", "reference_update_budget": 1},
+    {"stage_id": "M2", "predecessor": "M1", "gr00t_budget": 4, "wbc_budget": "POSITIVE_BOUNDED_AT_BUNDLE_FREEZE", "reference_update_budget": 3}
+  ],
+  "canonical_outputs_per_stage": [
+    "<stage>_result.json",
+    "<stage>_result.seal.json",
+    "<stage>_result.seal.json.sha256"
+  ],
+  "seal_admission": [
+    "seal SHA256 sidecar",
+    "seal schema",
+    "inner result schema",
+    "PASS status",
+    "stage identity",
+    "DEV_SEED=4242",
+    "repository HEAD",
+    "executable lineage",
+    "execution class",
+    "observed counters",
+    "forbidden operations"
+  ],
+  "evidence_chain": "RAW_EVIDENCE_SHA256 -> EVIDENCE_MANIFEST_SHA256 -> CANONICAL_RESULT_SHA256 -> CANONICAL_SEAL_SHA256",
+  "counter_policy": {
+    "source": "MONOTONIC_BEFORE_AFTER_RUNTIME_COUNTERS",
+    "gr00t": "ONE_OBSERVED_DELTA_PER_REQUEST",
+    "wbc": "ONE_POSITIVE_OBSERVED_DELTA_PER_EXECUTED_SEGMENT",
+    "reference": "ONE_OBSERVED_DELTA_PER_REFERENCE_ONLY_UPDATE",
+    "hardcoded_result_counts_accepted": false
+  },
+  "implemented_files": [
+    "hpc/pbs/stage40_live.pbs",
+    "scripts/stage21_native_receding_horizon.py",
+    "scripts/stage21_same_scene_groot_worker.py",
+    "scripts/stage40_corelab_evidence.py",
+    "scripts/stage40_corelab_prepare_bundle.py",
+    "scripts/stage40_live_one_handoff.py",
+    "tests/test_stage40_corelab_evidence.py",
+    "tests/test_stage40_runtime_contract.py",
+    "tests/test_stage40_structured_decode.py"
+  ],
+  "execution_boundary": {
+    "gpu": false,
+    "model_constructed": false,
+    "groot_forward_count": 0,
+    "wbc_step_count": 0,
+    "reference_update_count": 0,
+    "training": false,
+    "formal_seeds_used": [],
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "hardware": false,
+    "h200": false
+  },
+  "status": "CORELAB_STAGE40_TAKEOVER_READY"
+}
