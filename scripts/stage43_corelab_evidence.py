@@ -62,6 +62,26 @@ COHORT_TOTAL_FORWARDS = COHORT_TOTAL_COUNT * COHORT_FORWARD_COUNT
 COHORT_TOTAL_UPDATES = COHORT_TOTAL_COUNT * COHORT_REFERENCE_UPDATE_COUNT
 COHORT_SEGMENT_SCHEDULE = (49, 49, 49, 98)
 
+# Stage43 owns its own bundle/manifest/seal namespace.  The accepted Stage40
+# and Stage41 serializers are intentionally not reused for the cohort because
+# their stage IDs and counter contracts describe a different experiment.
+BUNDLE_SCHEMA = "CORELAB_STAGE43_EXECUTION_BUNDLE_V1"
+CONDITION_MANIFEST_SCHEMA = "CORELAB_STAGE43_CONDITION_EVIDENCE_MANIFEST_V1"
+CONDITION_SEAL_SCHEMA = "CORELAB_STAGE43_CONDITION_SEAL_V1"
+RESULT_SCHEMA = "CORELAB_STAGE43_CONTROLLED_COHORT_RESULT_V1"
+RETURN_TOKEN = "GPT_PI_REVIEW_AFTER_STAGE43_CONTROLLED_COHORT"
+STRUCTURED_CHECKPOINT_TREE_SHA256 = "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137"
+STRUCTURED_STATS_SHA256 = "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
+TINY1_TREE_SHA256 = "541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157"
+STAGE22_MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
+COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+GROOT_SOURCE_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+WBC_TREE_SHA256 = "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+WBC_ARM_SHA256 = "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a"
+WBC_DOG_SHA256 = "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
+TRAJECTORY_SHA256 = "e09d03e4f837234a1ed7504f6d16f202a40d7fab2c3cbbc0f2e2fa17b0b33722"
+
 FORBIDDEN_FIELDS = (
     "training", "fine_tuning", "formal_seed_used", "validation_e_read", "holdout_f_read",
     "new_data_read", "hardware_executed", "h200_used", "vanda_used", "checkpoint_substitution",
@@ -520,6 +540,233 @@ def validate_g1_static_contract(*, g0: Mapping[str, Any], repo_root: Path, expec
     }
 
 
+def _regular_file_identity(path: Path, expected_sha256: Optional[str] = None) -> Dict[str, Any]:
+    """Return a non-symlink file identity for a runnable input."""
+
+    candidate = Path(path)
+    _require(candidate.is_file() and not candidate.is_symlink(), "runnable input is not a regular file: %s" % candidate)
+    digest = sha256_file(candidate)
+    if expected_sha256 is not None:
+        _require(digest == expected_sha256, "runnable input hash mismatch: %s" % candidate)
+    return {"path": str(candidate.resolve()), "sha256": digest, "size_bytes": int(candidate.stat().st_size)}
+
+
+def validate_stage43_bundle(bundle: Mapping[str, Any]) -> Dict[str, Any]:
+    """Validate the immutable Stage43 bundle without importing runtime code."""
+
+    _require(bundle.get("schema") == BUNDLE_SCHEMA, "wrong Stage43 execution bundle schema")
+    _require(bundle.get("stage_id") == STAGE_ID, "wrong Stage43 bundle stage")
+    _require(bundle.get("pi_gate") == PI_GATE and bundle.get("issue_comment") == ISSUE_COMMENT, "wrong Stage43 PI gate")
+    _require(bundle.get("classification") == "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE", "wrong Stage43 classification")
+    _require(bundle.get("execution_class") == "CORELAB_STAGE43_CONTROLLED_INITIAL_CONDITION_COHORT_V1", "wrong Stage43 execution class")
+    _require(bundle.get("dev_seed") == DEV_SEED, "Stage43 seed drift")
+    repository = bundle.get("repository")
+    _require(isinstance(repository, dict) and repository.get("branch") == BRANCH, "Stage43 repository branch drift")
+    _require(isinstance(repository.get("head"), str) and len(repository["head"]) == 40, "invalid Stage43 repository HEAD")
+    _require(repository.get("stage42_head") == STAGE42_HEAD, "Stage42 predecessor HEAD drift")
+    target = bundle.get("target")
+    _require(isinstance(target, dict), "Stage43 target contract missing")
+    _require(target.get("evaluation_world_m") == TARGET_POSITION_WORLD_M.tolist(), "Stage43 target drift")
+    _require(target.get("language") == LANGUAGE and target.get("source_frame") == SOURCE_FRAME and target.get("tcp_semantic_id") == TCP_SEMANTIC_ID, "Stage43 task contract drift")
+    _require(target.get("numeric_xyz_in_model_input") is False, "Stage43 hidden numeric target is not excluded")
+    protocol = bundle.get("protocol")
+    _require(isinstance(protocol, dict), "Stage43 protocol missing")
+    _require(protocol.get("handoff_s") == HANDOFF_S and protocol.get("action_dt_s") == ACTION_DT_S, "Stage43 timing contract drift")
+    _require(protocol.get("segment_native_ticks") == list(COHORT_SEGMENT_SCHEDULE), "Stage43 segment schedule drift")
+    _require(protocol.get("gr00t_forward_count_per_condition") == COHORT_FORWARD_COUNT and protocol.get("reference_update_count_per_condition") == COHORT_REFERENCE_UPDATE_COUNT, "Stage43 per-condition budget drift")
+    conditions = bundle.get("conditions")
+    _require(isinstance(conditions, list) and [item.get("condition_id") for item in conditions] == list(COHORT_ORDER), "Stage43 condition order drift")
+    for item in conditions:
+        _require(isinstance(item, dict), "Stage43 condition record is not an object")
+        condition_id = str(item.get("condition_id"))
+        _require(condition_id in COHORT_DELTAS_M, "unknown Stage43 condition")
+        delta = item.get("delta_base_xy_m")
+        _require(delta == list(COHORT_DELTAS_M[condition_id]), "Stage43 condition delta drift")
+        _require(item.get("variable_changed") == "pre_episode_robot_base_xy_only", "Stage43 condition variable drift")
+    budgets = bundle.get("budgets")
+    _require(isinstance(budgets, dict), "Stage43 budgets missing")
+    expected_budgets = {"episodes": COHORT_TOTAL_COUNT, "gr00t_forward_count": COHORT_TOTAL_FORWARDS, "reference_update_count": COHORT_TOTAL_UPDATES, "wbc_step_count": COHORT_TOTAL_COUNT * sum(COHORT_SEGMENT_SCHEDULE)}
+    _require(budgets == expected_budgets, "Stage43 total budget drift")
+    lineage = bundle.get("executable_lineage")
+    _require(isinstance(lineage, dict), "Stage43 executable lineage missing")
+    for key in ("runner_relative_path", "runner_sha256", "source_relative_path", "source_sha256"):
+        _require(isinstance(lineage.get(key), str) and lineage[key], "Stage43 executable lineage field missing: %s" % key)
+    for key in ("runner_sha256", "source_sha256"):
+        _require(len(lineage[key]) == 64, "Stage43 executable lineage hash invalid: %s" % key)
+    predecessors = bundle.get("predecessor")
+    _require(isinstance(predecessors, dict), "Stage43 predecessor binding missing")
+    _require(predecessors.get("stage42_head") == STAGE42_HEAD and predecessors.get("stage41_head") == STAGE41_HEAD, "Stage43 predecessor lineage drift")
+    _require(predecessors.get("m2_seal_sha256") == M2_SEAL, "Stage43 M2 predecessor seal drift")
+    g0 = bundle.get("g0")
+    g1 = bundle.get("g1")
+    _require(isinstance(g0, dict) and g0.get("status") == "PASS" and g0.get("token") == "CORELAB_STAGE43_TARGET_AND_TASK_METRICS_QUALIFIED", "Stage43 G0 binding is not PASS")
+    _require(isinstance(g1, dict) and g1.get("status") == "PASS" and g1.get("token") == "CORELAB_STAGE43_COHORT_HARNESS_READY", "Stage43 G1 binding is not PASS")
+    for item in (g0, g1):
+        _require(isinstance(item.get("sha256"), str) and len(item["sha256"]) == 64 and isinstance(item.get("path"), str), "Stage43 audit binding is incomplete")
+    artifacts = bundle.get("artifacts")
+    _require(isinstance(artifacts, dict), "Stage43 frozen artifact identities missing")
+    expected_artifact_keys = {"structured_checkpoint", "structured_stats", "tiny1_dataset", "modality", "cosmos_snapshot", "trajectory", "wbc_source", "wbc_arm_checkpoint", "wbc_dog_checkpoint", "stage10_root", "base_model_path", "model_path", "dataset_dir", "modality_config", "cosmos_snapshot_path"}
+    _require(expected_artifact_keys.issubset(set(artifacts)), "Stage43 frozen artifact identity set is incomplete")
+    _require(artifacts["structured_checkpoint"].get("tree_sha256") == STRUCTURED_CHECKPOINT_TREE_SHA256, "STRUCTURED@1000 tree identity drift")
+    _require(artifacts["structured_stats"].get("sha256") == STRUCTURED_STATS_SHA256, "structured stats identity drift")
+    _require(artifacts["tiny1_dataset"].get("tree_sha256") == TINY1_TREE_SHA256, "TINY1 tree identity drift")
+    _require(artifacts["modality"].get("sha256") == STAGE22_MODALITY_SHA256, "modality identity drift")
+    _require(artifacts["cosmos_snapshot"].get("revision") == COSMOS_REVISION and artifacts["cosmos_snapshot"].get("tree_sha256") == COSMOS_TREE_SHA256, "Cosmos identity drift")
+    _require(artifacts["trajectory"].get("sha256") == TRAJECTORY_SHA256, "trajectory identity drift")
+    _require(artifacts["wbc_source"].get("tree_sha256") == WBC_TREE_SHA256, "WBC source identity drift")
+    _require(artifacts["wbc_arm_checkpoint"].get("sha256") == WBC_ARM_SHA256 and artifacts["wbc_dog_checkpoint"].get("sha256") == WBC_DOG_SHA256, "WBC checkpoint identity drift")
+    forbidden = bundle.get("forbidden_operations")
+    _require(isinstance(forbidden, dict), "Stage43 forbidden-operation map missing")
+    for name in FORBIDDEN_FIELDS:
+        _require(forbidden.get(name) is False, "Stage43 forbidden operation is enabled: %s" % name)
+    return {"stage_id": STAGE_ID, "status": "PASS", "schema": BUNDLE_SCHEMA}
+
+
+def verify_stage43_bundle_files(bundle: Mapping[str, Any], *, repo_root: Optional[Path] = None) -> Dict[str, Any]:
+    """Verify G0/G1 and executable hashes referenced by a frozen bundle."""
+
+    validate_stage43_bundle(bundle)
+    for key, expected_status, expected_token in (("g0", "PASS", "CORELAB_STAGE43_TARGET_AND_TASK_METRICS_QUALIFIED"), ("g1", "PASS", "CORELAB_STAGE43_COHORT_HARNESS_READY")):
+        item = bundle[key]
+        path = Path(str(item["path"]))
+        _require(path.is_file() and not path.is_symlink(), "Stage43 audit file is missing: %s" % path)
+        _require(sha256_file(path) == item["sha256"], "Stage43 audit hash mismatch: %s" % key)
+        payload = read_json(path)
+        _require(payload.get("status") == expected_status and payload.get("token") == expected_token, "Stage43 audit token mismatch: %s" % key)
+    if repo_root is not None:
+        root = Path(repo_root).resolve(strict=True)
+        runner = root / str(bundle["executable_lineage"]["runner_relative_path"])
+        source = root / str(bundle["executable_lineage"]["source_relative_path"])
+        _require(sha256_file(runner) == bundle["executable_lineage"]["runner_sha256"], "Stage43 runner hash drift")
+        _require(sha256_file(source) == bundle["executable_lineage"]["source_sha256"], "Stage43 source hash drift")
+    return {"status": "PASS", "g0_sha256": bundle["g0"]["sha256"], "g1_sha256": bundle["g1"]["sha256"]}
+
+
+def build_condition_manifest(evidence_root: Path, role_paths: Mapping[str, str]) -> Dict[str, Any]:
+    """Hash the complete per-condition evidence directory."""
+
+    root = Path(evidence_root).resolve(strict=True)
+    roles = {str(key): str(value) for key, value in role_paths.items()}
+    _require(len(roles) >= 18, "Stage43 condition evidence is incomplete")
+    _require(len(set(roles.values())) == len(roles), "Stage43 condition roles reuse one file")
+    records = []
+    for role, relative in sorted(roles.items()):
+        path = _resolved_child(root, relative)
+        records.append({"role": role, "relative_path": Path(relative).as_posix(), "size_bytes": int(path.stat().st_size), "sha256": sha256_file(path)})
+    return {"schema": CONDITION_MANIFEST_SCHEMA, "stage_id": STAGE_ID, "records": records, "record_count": len(records)}
+
+
+def verify_condition_manifest(manifest: Mapping[str, Any], evidence_root: Path) -> Dict[str, Any]:
+    root = Path(evidence_root).resolve(strict=True)
+    _require(manifest.get("schema") == CONDITION_MANIFEST_SCHEMA and manifest.get("stage_id") == STAGE_ID, "wrong Stage43 condition manifest")
+    records = manifest.get("records")
+    _require(isinstance(records, list) and len(records) == int(manifest.get("record_count", -1)), "Stage43 condition record count mismatch")
+    roles = []
+    paths = []
+    for record in records:
+        _require(isinstance(record, dict), "Stage43 condition manifest record is not an object")
+        role = str(record.get("role", "")); relative = str(record.get("relative_path", ""))
+        path = _resolved_child(root, relative)
+        _require(int(record.get("size_bytes", -1)) == path.stat().st_size and str(record.get("sha256")) == sha256_file(path), "Stage43 condition evidence hash mismatch: %s" % role)
+        roles.append(role); paths.append(relative)
+    _require(len(roles) == len(set(roles)) and len(paths) == len(set(paths)), "Stage43 condition manifest has duplicate roles/paths")
+    _require(len(roles) >= 18, "Stage43 condition manifest is incomplete")
+    return {"status": "PASS", "record_count": len(records)}
+
+
+def prepare_stage43_bundle(
+    *,
+    repo: Path,
+    g0_path: Path,
+    g1_path: Path,
+    runner: Path,
+    output: Path,
+    structured_checkpoint: Path,
+    structured_stats: Path,
+    tiny1_dataset: Path,
+    modality: Path,
+    cosmos_snapshot: Path,
+    trajectory: Path,
+    wbc_source: Path,
+    arm_checkpoint: Path,
+    dog_checkpoint: Path,
+    stage10_root: Path,
+    base_model_path: Path,
+    model_path: Path,
+    dataset_dir: Path,
+    modality_config: Path,
+    require_remote: bool = True,
+) -> Dict[str, Any]:
+    """Freeze the Stage43 bundle after G0/G1 and before any GPU import."""
+
+    repo = Path(repo).resolve(strict=True)
+    branch = _git(repo, "branch", "--show-current")
+    head = _git(repo, "rev-parse", "HEAD")
+    _require(branch == BRANCH, "Stage43 bundle must use the authorized branch")
+    _require(len(head) == 40 and _is_ancestor(repo, STAGE42_HEAD, head), "Stage43 repository lineage is invalid")
+    _require(not _git(repo, "status", "--porcelain", "--untracked-files=all"), "Stage43 repository is not clean")
+    if require_remote:
+        remote_line = _git(repo, "ls-remote", "--heads", "origin", branch)
+        _require(remote_line.split()[0] == head, "Stage43 HEAD is not pushed")
+    g0_path = Path(g0_path).resolve(strict=True); g1_path = Path(g1_path).resolve(strict=True)
+    g0 = read_json(g0_path); g1 = read_json(g1_path)
+    _require(g0.get("status") == "PASS" and g0.get("token") == "CORELAB_STAGE43_TARGET_AND_TASK_METRICS_QUALIFIED", "G0 is not PASS")
+    _require(g1.get("status") == "PASS" and g1.get("token") == "CORELAB_STAGE43_COHORT_HARNESS_READY", "G1 is not PASS")
+    _require(g0.get("target", {}).get("evaluation_world_m") == TARGET_POSITION_WORLD_M.tolist(), "G0 target drift")
+    _require(g0.get("repository", {}).get("stage42_head") == STAGE42_HEAD, "G0 Stage42 lineage drift")
+    runner = Path(runner).resolve(strict=True)
+    source = Path(__file__).resolve(strict=True)
+    _git(repo, "ls-files", "--error-unmatch", runner.relative_to(repo).as_posix())
+    _git(repo, "ls-files", "--error-unmatch", source.relative_to(repo).as_posix())
+    def directory_identity(path: Path, **values: Any) -> Dict[str, Any]:
+        candidate = Path(path).resolve(strict=True)
+        _require(candidate.is_dir() and not candidate.is_symlink(), "runnable directory is invalid: %s" % candidate)
+        result = {"path": str(candidate)}; result.update(values); return result
+    artifacts: Dict[str, Any] = {
+        "structured_checkpoint": directory_identity(structured_checkpoint, tree_sha256=STRUCTURED_CHECKPOINT_TREE_SHA256, label="STRUCTURED@1000"),
+        "structured_stats": _regular_file_identity(structured_stats, STRUCTURED_STATS_SHA256),
+        "tiny1_dataset": directory_identity(tiny1_dataset, tree_sha256=TINY1_TREE_SHA256, label="TINY1"),
+        "modality": _regular_file_identity(modality, STAGE22_MODALITY_SHA256),
+        "cosmos_snapshot": directory_identity(cosmos_snapshot, revision=COSMOS_REVISION, tree_sha256=COSMOS_TREE_SHA256, label="Cosmos-Reason2-2B"),
+        "trajectory": _regular_file_identity(trajectory, TRAJECTORY_SHA256),
+        "wbc_source": directory_identity(wbc_source, tree_sha256=WBC_TREE_SHA256),
+        "wbc_arm_checkpoint": _regular_file_identity(arm_checkpoint, WBC_ARM_SHA256),
+        "wbc_dog_checkpoint": _regular_file_identity(dog_checkpoint, WBC_DOG_SHA256),
+        "stage10_root": directory_identity(stage10_root),
+        "base_model_path": directory_identity(base_model_path),
+        "model_path": directory_identity(model_path, tree_sha256=STRUCTURED_CHECKPOINT_TREE_SHA256, label="STRUCTURED@1000"),
+        "dataset_dir": directory_identity(dataset_dir, tree_sha256=TINY1_TREE_SHA256, label="TINY1"),
+        "modality_config": _regular_file_identity(modality_config, STAGE22_MODALITY_SHA256),
+        "cosmos_snapshot_path": directory_identity(cosmos_snapshot, revision=COSMOS_REVISION),
+    }
+    bundle: Dict[str, Any] = {
+        "schema": BUNDLE_SCHEMA,
+        "stage_id": STAGE_ID,
+        "pi_gate": PI_GATE,
+        "issue_comment": ISSUE_COMMENT,
+        "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+        "execution_class": "CORELAB_STAGE43_CONTROLLED_INITIAL_CONDITION_COHORT_V1",
+        "dev_seed": DEV_SEED,
+        "repository": {"branch": branch, "head": head, "stage42_head": STAGE42_HEAD},
+        "executable_lineage": {
+            "runner_relative_path": runner.relative_to(repo).as_posix(), "runner_sha256": sha256_file(runner),
+            "source_relative_path": source.relative_to(repo).as_posix(), "source_sha256": sha256_file(source),
+        },
+        "predecessor": {"stage42_head": STAGE42_HEAD, "stage41_head": STAGE41_HEAD, "stage41_bundle_sha256": STAGE41_BUNDLE_SHA256, "lh10_a_seal_sha256": STAGE41_A_SEAL, "lh10_b_seal_sha256": STAGE41_B_SEAL, "m2_seal_sha256": M2_SEAL},
+        "g0": {"path": str(g0_path), "sha256": sha256_file(g0_path), "status": g0["status"], "token": g0["token"]},
+        "g1": {"path": str(g1_path), "sha256": sha256_file(g1_path), "status": g1["status"], "token": g1["token"]},
+        "target": {"evaluation_world_m": TARGET_POSITION_WORLD_M.tolist(), "language": LANGUAGE, "source_frame": SOURCE_FRAME, "tcp_semantic_id": TCP_SEMANTIC_ID, "numeric_xyz_in_model_input": False},
+        "protocol": {"handoff_s": HANDOFF_S, "action_dt_s": ACTION_DT_S, "segment_native_ticks": list(COHORT_SEGMENT_SCHEDULE), "gr00t_forward_count_per_condition": COHORT_FORWARD_COUNT, "reference_update_count_per_condition": COHORT_REFERENCE_UPDATE_COUNT, "wbc_ticks_per_condition": int(sum(COHORT_SEGMENT_SCHEDULE)), "execution_order": list(COHORT_ORDER), "stop_on_first_failure": True, "initial_condition_mutation": "set base XY exactly once before S0; no settling or post-S0 state mutation"},
+        "conditions": [{"condition_id": key, "delta_base_xy_m": list(COHORT_DELTAS_M[key]), "variable_changed": "pre_episode_robot_base_xy_only"} for key in COHORT_ORDER],
+        "budgets": {"episodes": COHORT_TOTAL_COUNT, "gr00t_forward_count": COHORT_TOTAL_FORWARDS, "reference_update_count": COHORT_TOTAL_UPDATES, "wbc_step_count": COHORT_TOTAL_COUNT * sum(COHORT_SEGMENT_SCHEDULE)},
+        "artifacts": artifacts,
+        "forbidden_operations": expected_forbidden_operations(),
+    }
+    validate_stage43_bundle(bundle)
+    digest = write_canonical_json(Path(output), bundle)
+    return {"status": "PASS", "stage": STAGE_ID, "bundle_sha256": digest, "path": str(output), "repository_head": head}
+
+
 def _main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -538,11 +785,37 @@ def _main(argv: Optional[Sequence[str]] = None) -> int:
     g1.add_argument("--g0", type=Path, required=True)
     g1.add_argument("--output", type=Path, required=True)
     g1.add_argument("--native-dt-s", type=float)
+    bundle = sub.add_parser("bundle")
+    bundle.add_argument("--repo", type=Path, required=True)
+    bundle.add_argument("--g0", type=Path, required=True)
+    bundle.add_argument("--g1", type=Path, required=True)
+    bundle.add_argument("--runner", type=Path, required=True)
+    bundle.add_argument("--output", type=Path, required=True)
+    bundle.add_argument("--structured-checkpoint", type=Path, required=True)
+    bundle.add_argument("--structured-stats", type=Path, required=True)
+    bundle.add_argument("--tiny1-dataset", type=Path, required=True)
+    bundle.add_argument("--modality", type=Path, required=True)
+    bundle.add_argument("--cosmos-snapshot", type=Path, required=True)
+    bundle.add_argument("--trajectory", type=Path, required=True)
+    bundle.add_argument("--wbc-source", type=Path, required=True)
+    bundle.add_argument("--arm-checkpoint", type=Path, required=True)
+    bundle.add_argument("--dog-checkpoint", type=Path, required=True)
+    bundle.add_argument("--stage10-root", type=Path, required=True)
+    bundle.add_argument("--base-model-path", type=Path, required=True)
+    bundle.add_argument("--model-path", type=Path, required=True)
+    bundle.add_argument("--dataset-dir", type=Path, required=True)
+    bundle.add_argument("--modality-config", type=Path, required=True)
+    bundle.add_argument("--no-remote-check", action="store_true")
     args = parser.parse_args(argv)
     if args.command == "g0":
         result = audit_g0(repo_root=args.repo, wbc_source_root=args.wbc_source_root, run_a=args.run_a, seal_a=args.seal_a, run_b=args.run_b, seal_b=args.seal_b, predecessor_seal=args.predecessor_seal, camera_root=args.camera_root)
-    else:
+    elif args.command == "g1":
         result = validate_g1_static_contract(g0=read_json(args.g0), repo_root=args.repo, expected_native_dt_s=args.native_dt_s)
+    else:
+        result = prepare_stage43_bundle(repo=args.repo, g0_path=args.g0, g1_path=args.g1, runner=args.runner, output=args.output, structured_checkpoint=args.structured_checkpoint, structured_stats=args.structured_stats, tiny1_dataset=args.tiny1_dataset, modality=args.modality, cosmos_snapshot=args.cosmos_snapshot, trajectory=args.trajectory, wbc_source=args.wbc_source, arm_checkpoint=args.arm_checkpoint, dog_checkpoint=args.dog_checkpoint, stage10_root=args.stage10_root, base_model_path=args.base_model_path, model_path=args.model_path, dataset_dir=args.dataset_dir, modality_config=args.modality_config, require_remote=not args.no_remote_check)
+    if args.command == "bundle":
+        print(json.dumps(result, sort_keys=True))
+        return 0
     digest = write_canonical_json(args.output, result)
     print(json.dumps({"status": result["status"], "token": result["token"], "path": str(args.output), "sha256": digest}, sort_keys=True))
     return 0
