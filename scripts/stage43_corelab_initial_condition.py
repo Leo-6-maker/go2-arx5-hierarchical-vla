@@ -112,24 +112,29 @@ def _state_hashes(native: Any, env: Any) -> Dict[str, Any]:
     }
 
 
-def _refresh_eef_from_rigid_body(native: Any) -> None:
+def _refresh_eef_from_rigid_body(native: Any, *, root_delta: Optional[np.ndarray] = None) -> None:
     """Refresh the WBC EEF view after an indexed root-state write.
 
-    IsaacGym refreshes the rigid-body tensor immediately, while the WBC
-    post-physics hook normally applies the TCP grasp offset.  The initial
-    condition is deliberately applied without a physics step, so reproduce
-    only that delivered offset update and record it explicitly.
+    The WBC post-physics hook normally refreshes this view and applies the TCP
+    grasp offset.  At this boundary the view already contains the delivered
+    TCP pose from ``env.reset()``; repeating the offset here would double-count
+    it.  We therefore synchronize only the derived position cache for the
+    one-time base translation and leave orientation/velocity untouched.
     """
 
-    from isaacgym.torch_utils import quat_apply
-
     rigid = native.rigid_body_state.view(native.num_envs, native.num_bodies, 13)
-    raw = rigid[:, native.ee_idx].clone()
-    native.end_effector_state.copy_(raw)
-    offset = native.ee_local_offset
-    if offset.ndim == 1:
-        offset = offset.view(1, 3)
-    native.end_effector_state[:, :3].add_(quat_apply(native.end_effector_state[:, 3:7], offset))
+    # IsaacGym's indexed root-state setter updates the root tensor immediately,
+    # but its derived rigid-body tensor remains the last fetched physics state
+    # until a simulation step.  The initial-condition protocol deliberately
+    # takes zero settling/physics steps before S0, so synchronize that derived
+    # cache explicitly with the same one-time base translation.  This does not
+    # alter velocities, orientations, DOF state, or simulator execution state;
+    # the next physics step refreshes the cache from the simulator again.
+    if root_delta is not None:
+        import torch
+
+        shift = torch.as_tensor(np.asarray(root_delta, dtype=np.float32), dtype=rigid.dtype, device=rigid.device)
+        rigid[:, :, :3].add_(shift.view(1, 1, 3))
 
 
 def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: Sequence[float]) -> Dict[str, Any]:
@@ -146,6 +151,7 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
     dof_before = native.dof_state.detach().cpu().numpy().copy()
     target_index = int(native.stage21_target_root_index)
     target_before = root_before[target_index].copy()
+    rigid_before = native.rigid_body_state.detach().cpu().numpy().copy()
     eef_before, quat_before = _current_eef(native)
     base_before = native.base_pos[0].detach().cpu().numpy().copy()
     target_pose_before = root_before[target_index, :3].copy()
@@ -160,16 +166,22 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
     )
     native.gym.refresh_actor_root_state_tensor(native.sim)
     native.gym.refresh_rigid_body_state_tensor(native.sim)
-    _refresh_eef_from_rigid_body(native)
+    _refresh_eef_from_rigid_body(native, root_delta=delta_np)
 
     root_after = native.root_states.detach().cpu().numpy().copy()
     dof_after = native.dof_state.detach().cpu().numpy().copy()
     target_after = root_after[target_index].copy()
+    rigid_after = native.rigid_body_state.detach().cpu().numpy().copy()
     eef_after, quat_after = _current_eef(native)
     base_after = native.base_pos[0].detach().cpu().numpy().copy()
     after = _state_hashes(native, env)
     root_delta = root_after[0] - root_before[0]
     non_xy = np.delete(root_delta, [0, 1])
+    rigid_delta = rigid_after - rigid_before
+    rigid_position_delta = rigid_delta[..., :3]
+    rigid_non_position_delta = np.concatenate((rigid_delta[..., 3:7], rigid_delta[..., 7:13]), axis=-1)
+    rigid_position_delta_exact = bool(np.allclose(rigid_position_delta, delta_np, rtol=0.0, atol=1e-6))
+    rigid_non_position_unchanged = bool(np.array_equal(rigid_non_position_delta, np.zeros_like(rigid_non_position_delta)))
     other_actor_unchanged = bool(np.array_equal(root_after[1:], root_before[1:]))
     dof_unchanged = bool(np.array_equal(dof_after, dof_before))
     event: Dict[str, Any] = {
@@ -184,6 +196,8 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
         "policy_history_reset": False,
         "root_state_before_sha256": _array_sha(root_before),
         "root_state_after_sha256": _array_sha(root_after),
+        "rigid_body_state_before_sha256": _array_sha(rigid_before),
+        "rigid_body_state_after_sha256": _array_sha(rigid_after),
         "dof_state_before_sha256": _array_sha(dof_before),
         "dof_state_after_sha256": _array_sha(dof_after),
         "target_root_before": target_before.tolist(),
@@ -197,10 +211,14 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
         "eef_quaternion_before": quat_before.tolist(),
         "eef_quaternion_after": quat_after.tolist(),
         "root_delta_observed": root_delta.tolist(),
+        "rigid_body_position_delta_observed": rigid_position_delta.tolist(),
         "state_before": before,
         "state_after": after,
         "root_xy_delta_exact": bool(np.allclose(root_delta[:2], delta_np[:2], rtol=0.0, atol=1e-6)),
         "root_non_xy_unchanged": bool(np.array_equal(non_xy, np.zeros_like(non_xy))),
+        "rigid_body_position_delta_exact": rigid_position_delta_exact,
+        "rigid_body_non_position_unchanged": rigid_non_position_unchanged,
+        "rigid_body_cache_sync": "same one-time base XY delta applied to derived robot rigid-body position cache before S0",
         "other_actor_roots_unchanged": other_actor_unchanged,
         "dof_state_unchanged": dof_unchanged,
         "eef_translation_matches_delta": bool(np.allclose(eef_after - eef_before, delta_np, rtol=0.0, atol=1e-5)),
@@ -213,6 +231,7 @@ def _apply_initial_base_delta(native: Any, env: Any, condition_id: str, delta: S
     }
     _require(event["root_xy_delta_exact"] and event["root_non_xy_unchanged"], "base root mutation scope mismatch: xy=%s non_xy=%s delta=%s" % (event["root_xy_delta_exact"], event["root_non_xy_unchanged"], event["root_delta_observed"]))
     _require(event["other_actor_roots_unchanged"] and event["target_root_unchanged"], "initial base mutation changed target/other actors: other=%s target=%s" % (event["other_actor_roots_unchanged"], event["target_root_unchanged"]))
+    _require(event["rigid_body_position_delta_exact"] and event["rigid_body_non_position_unchanged"], "derived rigid-body cache sync mismatch: position=%s non_position=%s" % (event["rigid_body_position_delta_exact"], event["rigid_body_non_position_unchanged"]))
     _require(event["dof_state_unchanged"] and event["eef_translation_matches_delta"] and event["eef_orientation_unchanged"], "initial base mutation changed an unauthorized state: dof=%s eef_translation=%s eef_orientation=%s" % (event["dof_state_unchanged"], event["eef_translation_matches_delta"], event["eef_orientation_unchanged"]))
     _require(event["lifecycle_unchanged"] and event["policy_histories_unchanged"], "initial base mutation changed lifecycle/history: lifecycle=%s history=%s" % (event["lifecycle_unchanged"], event["policy_histories_unchanged"]))
     _require(event["wbc_forward_count_after"] == 0 and event["reference_update_count_after"] == 0, "initial base mutation consumed execution counters")
