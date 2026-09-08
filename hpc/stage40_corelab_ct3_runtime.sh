@@ -96,7 +96,7 @@ mkdir -p "${RUN_ROOT}/native" "${RUN_ROOT}/model" "${RUN_ROOT}/runtime"
 exec > >(tee -a "${RUN_ROOT}/stage40_ct3_runtime.log") 2>&1
 
 echo "STAGE40_PHASE=RTX-runtime"
-echo "STAGE40_PI_GATE=PI_GATE_STATE_0064"
+echo "STAGE40_PI_GATE=PI_GATE_STATE_0065"
 echo "STAGE40_BUNDLE=${BUNDLE}"
 echo "STAGE40_GPU_UUID=${GPU_UUID}"
 echo "STAGE40_CUTOVER_TOKEN=${CUTOVER_TOKEN}"

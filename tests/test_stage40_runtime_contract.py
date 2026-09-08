@@ -36,7 +36,7 @@ class Stage40RuntimeContractTest(unittest.TestCase):
         self.assertIn("SEEDS = (2223, 2228, 2233, 2238)", PY)
         self.assertIn("HANDOFF_S = 0.9750000000000001", PY)
         self.assertIn("CHUNK_DURATION_S = 1.9500000000000002", PY)
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0064"', PY)
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0065"', PY)
 
     def test_c0_and_c_fail_closed_contracts(self):
         self.assertIn('choices=("b1", "c0", "live", "live-seed")', PY)

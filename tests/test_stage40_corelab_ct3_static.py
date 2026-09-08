@@ -74,6 +74,8 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
                 encoding="utf-8"
             )
         )
+        self.assertEqual(manifest["pi_gate"], "PI_GATE_STATE_0065")
+        self.assertEqual(manifest["issue_comment"], 5577233814)
         self.assertEqual(manifest["status"], "PREPARED_NOT_EXECUTED")
         self.assertFalse(manifest["cutover_token_seen"])
         self.assertEqual(manifest["protocol"]["gr00t_forward_budget"], 0)

@@ -5,7 +5,8 @@ Classification: `NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE`
 This preparation package adds a fail-closed, direct RTX launcher and two
 barriered hold processes for CT3. It does not submit a job, construct a model,
 create a simulator, or query CUDA. The current Issue #11 gate is still
-`PI_GATE_STATE_0064`, and the Vanda cutover token has not been observed.
+`PI_GATE_STATE_0065`, and the Vanda execution-ownership release has not been
+observed.
 
 ## Protocol frozen for the next authorized boundary
 

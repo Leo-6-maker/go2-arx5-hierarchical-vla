@@ -22,8 +22,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 
-PI_GATE = "PI_GATE_STATE_0064"
-ISSUE_COMMENT = 5574239666
+PI_GATE = "PI_GATE_STATE_0065"
+ISSUE_COMMENT = 5577233814
 ACCEPTED_D1_GIT_SHA = "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a"
 GROOT_GIT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 
