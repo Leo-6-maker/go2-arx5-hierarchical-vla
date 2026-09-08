@@ -159,12 +159,15 @@ def _make_task_inputs(archive: Mapping[str, Mapping[str, Any]], output_root: Pat
         {"probe_id": "REPLAY-S0", "kind": "exact_replay", "source_observation_id": "stage41-q0", "baseline_id": "stage41-q0", "input_path": s0["source_path"]},
         {"probe_id": "REPLAY-S5", "kind": "exact_replay", "source_observation_id": "stage41-q5", "baseline_id": "stage41-q5", "input_path": s5["source_path"]},
         {"probe_id": "REPLAY-S10", "kind": "exact_replay", "source_observation_id": "stage41-q10", "baseline_id": "stage41-q10", "input_path": s10["source_path"]},
-        {"probe_id": "CF1", "kind": "counterfactual", "source_observation_id": "stage41-q0+state:stage41-q10", "baseline_id": "stage41-q0", "body": s0["body"], "wrist": s0["wrist"], "state": s10["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
-        {"probe_id": "CF2", "kind": "counterfactual", "source_observation_id": "stage41-q10+state:stage41-q0", "baseline_id": "stage41-q0", "body": s10["body"], "wrist": s10["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
-        {"probe_id": "CF3", "kind": "counterfactual", "source_observation_id": "body:stage41-q10+stage41-q0", "baseline_id": "stage41-q0", "body": s10["body"], "wrist": s0["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
-        {"probe_id": "CF4", "kind": "counterfactual", "source_observation_id": "wrist:stage41-q10+stage41-q0", "baseline_id": "stage41-q0", "body": s0["body"], "wrist": s10["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
-        {"probe_id": "CF5", "kind": "counterfactual", "source_observation_id": "stage41-q5+state:stage41-q0", "baseline_id": "stage41-q0", "body": s5["body"], "wrist": s5["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
-        {"probe_id": "CF6", "kind": "counterfactual", "source_observation_id": "state:stage41-q5+stage41-q0", "baseline_id": "stage41-q0", "body": s0["body"], "wrist": s0["wrist"], "state": s5["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
+        # Results are keyed by probe IDs (REPLAY-S0, ...), so all controlled
+        # swaps compare against the exact REPLAY-S0 result rather than the
+        # archived source-observation label used in the bundle.
+        {"probe_id": "CF1", "kind": "counterfactual", "source_observation_id": "stage41-q0+state:stage41-q10", "baseline_id": "REPLAY-S0", "body": s0["body"], "wrist": s0["wrist"], "state": s10["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
+        {"probe_id": "CF2", "kind": "counterfactual", "source_observation_id": "stage41-q10+state:stage41-q0", "baseline_id": "REPLAY-S0", "body": s10["body"], "wrist": s10["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
+        {"probe_id": "CF3", "kind": "counterfactual", "source_observation_id": "body:stage41-q10+stage41-q0", "baseline_id": "REPLAY-S0", "body": s10["body"], "wrist": s0["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
+        {"probe_id": "CF4", "kind": "counterfactual", "source_observation_id": "wrist:stage41-q10+stage41-q0", "baseline_id": "REPLAY-S0", "body": s0["body"], "wrist": s10["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
+        {"probe_id": "CF5", "kind": "counterfactual", "source_observation_id": "stage41-q5+state:stage41-q0", "baseline_id": "REPLAY-S0", "body": s5["body"], "wrist": s5["wrist"], "state": s0["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
+        {"probe_id": "CF6", "kind": "counterfactual", "source_observation_id": "state:stage41-q5+stage41-q0", "baseline_id": "REPLAY-S0", "body": s0["body"], "wrist": s0["wrist"], "state": s5["state"], "target": s0["target"], "timestamp_s": s0["timestamp_s"]},
     ]
     tasks: List[Dict[str, Any]] = []
     for item in definitions:
