@@ -40,6 +40,7 @@ from stage40_corelab_phase import (  # noqa: E402
     _case_summary,
     _check_rows,
     _current_eef,
+    _build_native,
     _initial_bind,
     _load_pose_file,
     _native_args,
@@ -274,7 +275,7 @@ def _run(args: argparse.Namespace) -> int:
     trajectory = _load_pose_file(args.trajectory)
     try:
         worker = _start_worker(args, mailbox, phase_root / "worker.log")
-        native, env, actors, loads, _ = stage40._build_native(_native_args(args), trajectory)
+        native, env, actors, loads, _ = _build_native(_native_args(args), trajectory)
         gate = TrajectorySafetyGateV1()
         adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(expected_source_frame=SOURCE_FRAME, wbc_frame=SOURCE_FRAME, tcp_semantic_id=TCP_SEMANTIC_ID, stale_timeout_s=0.75))
         sim_time = 0.0
