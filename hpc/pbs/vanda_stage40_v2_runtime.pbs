@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Vanda A40 Stage40 V2 mechanical runtime qualification.
-# No project directive is intentional: interactive_gpu assigns accounting.
+# Free-tier entry is intentional: PBS routes auto_free to the GPU execution
+# queue and injects its internal personal accounting identity.  Users must not
+# supply either a PBS project directive or a command-line project flag.
 # This launcher does not run GR00T forward, WBC stepping, training, or science.
 #PBS -N vanda_st40_v2
-#PBS -q interactive_gpu
+#PBS -q auto_free
 #PBS -l select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40
 #PBS -l walltime=00:30:00
 #PBS -j oe
@@ -69,6 +71,11 @@ TELEMETRY_TOOL="$REPO/scripts/vanda_stage40_telemetry.py"
 test -f "$TELEMETRY_TOOL"
 exec > >(tee -a "$RUN_ROOT/vanda_stage40_v2.log") 2>&1
 cd "$REPO"
+
+if [ "${PBS_O_QUEUE:-}" != auto_free ]; then
+  echo "V2_FREE_TIER_ENTRY_QUEUE_MISMATCH=${PBS_O_QUEUE:-UNSET}" >&2
+  exit 65
+fi
 
 echo "=== VANDA STAGE40 V2 ==="
 date
@@ -204,11 +211,13 @@ head = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD"], te
 result = {
     "schema": "VANDA_STAGE40_V2_RESULT_V1",
     "stage": "Stage40",
-    "pi_gate": "PI_GATE_STATE_0062",
+    "pi_gate": "PI_GATE_STATE_0063",
     "status": "PASS",
     "job_id": job_id,
     "execution_host": socket.gethostname(),
     "queue": os.environ.get("PBS_QUEUE"),
+    "submission_queue": os.environ.get("PBS_O_QUEUE"),
+    "execution_queue": os.environ.get("PBS_QUEUE"),
     "repository_head": head,
     "runtime_root": str(runtime_root),
     "structured_checkpoint_root": str(structured_root),

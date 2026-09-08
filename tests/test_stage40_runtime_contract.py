@@ -34,11 +34,14 @@ class Stage40RuntimeContractTest(unittest.TestCase):
 
 
     def test_vanda_v2_uses_a40_launcher_and_phase_telemetry(self):
-        self.assertIn("#PBS -q interactive_gpu", V2)
+        self.assertIn("#PBS -q auto_free", V2)
+        self.assertNotIn("#PBS -q interactive_gpu", V2)
         self.assertIn("gpu_model=A40", V2)
         self.assertNotIn("#PBS -P", V2)
         self.assertNotIn("qsub -P", V2)
         self.assertNotIn("personal-leonliu", V2)
+        self.assertIn("V2_FREE_TIER_ENTRY_QUEUE_MISMATCH", V2)
+        self.assertIn('"pi_gate": "PI_GATE_STATE_0063"', V2)
         self.assertIn("scripts/vanda_stage40_telemetry.py", V2)
         for phase in ("baseline", "after_native_camera", "after_gr00t_construction", "final"):
             self.assertIn("--phase " + phase, V2)
