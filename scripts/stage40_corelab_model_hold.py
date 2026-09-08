@@ -154,13 +154,23 @@ def run(args: argparse.Namespace) -> int:
         if torch.cuda.is_available() and str(args.device).startswith("cuda"):
             torch.cuda.reset_peak_memory_stats()
         # The frozen STRUCTURED@1000 config names the Cosmos backbone by its
-        # Hub identifier.  Rebind that field to the exact sealed local
-        # snapshot before constructing the model; otherwise Transformers tries
-        # an online lookup even though all Cosmos bytes are materialized.
+        # Hub identifier.  Point the offline Hub cache at the exact sealed
+        # materialized cache root before constructing the model.  Keeping the
+        # accepted model identifier lets the checked-in Gr00tN1d7 class select
+        # its Qwen3 backbone while local_files_only prevents any network path.
+        cosmos_snapshot = Path(args.cosmos_snapshot).resolve()
+        cosmos_cache_root = cosmos_snapshot.parents[2]
+        cosmos_model_cache = cosmos_cache_root / "models--nvidia--Cosmos-Reason2-2B"
+        _require(cosmos_model_cache.is_dir(), "materialized Cosmos model cache is missing")
+        os.environ["HF_HUB_CACHE"] = str(cosmos_cache_root)
+        os.environ["TRANSFORMERS_CACHE"] = str(cosmos_cache_root)
+        os.environ["HF_HOME"] = str(cosmos_cache_root.parent)
+        os.environ["HF_HUB_OFFLINE"] = "1"
+        os.environ["TRANSFORMERS_OFFLINE"] = "1"
         model_config = AutoConfig.from_pretrained(
             Path(args.model_path), local_files_only=True, trust_remote_code=True
         )
-        model_config.model_name = str(Path(args.cosmos_snapshot).resolve())
+        model_config.model_name = "nvidia/Cosmos-Reason2-2B"
         model = AutoModel.from_pretrained(
             Path(args.model_path),
             config=model_config,
@@ -197,6 +207,7 @@ def run(args: argparse.Namespace) -> int:
             "modality_config": str(Path(args.modality_config).resolve()),
             "cosmos_snapshot": str(Path(args.cosmos_snapshot).resolve()),
             "backbone_model_path": str(Path(args.cosmos_snapshot).resolve()),
+            "cosmos_cache_root": str(cosmos_cache_root),
             "cosmos_backbone_rebound": True,
             "processor_embodiment": str(embodiment),
             "parameter_count": parameter_count,
