@@ -300,7 +300,8 @@ def _ast_model_input_audit(repo_root: Path) -> Dict[str, Any]:
     worker_calls = [node for node in ast.walk(ast.parse(worker_text, filename=str(worker_path))) if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "_run_one_raw"]
     _require(worker_calls, "worker does not call _run_one_raw")
     worker_keywords = sorted(item.arg for item in worker_calls[0].keywords if item.arg is not None)
-    _require(worker_keywords == ["device", "embodiment", "language", "observation", "seed"], "worker forwards an unexpected numeric target")
+    _require(worker_keywords == ["device", "language", "seed"], "worker forwards an unexpected numeric target")
+    _require(len(worker_calls[0].args) == 4 and "target_position_world_m" not in ast.dump(worker_calls[0], include_attributes=False), "worker call carries a numeric target")
     request_text = request_path.read_text(encoding="utf-8")
     _require("target_position_world_m=np.asarray(target_position_world_m" in request_text, "request target storage marker missing")
     return {
