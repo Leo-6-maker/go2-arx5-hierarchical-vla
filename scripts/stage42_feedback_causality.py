@@ -459,10 +459,13 @@ def _joint_run_profile(run: Mapping[str, Any], urdf: Mapping[str, Any], soft_fac
     # The Stage41 runner serializes this diagnostic after casting to float32.
     # Compare at that ABI boundary so harmless float64 reconstruction noise
     # cannot turn an exact source-semantic match into a false audit failure.
-    _require(
-        np.array_equal(np.asarray(margin, dtype=np.float32), np.asarray(soft_margin_expected, dtype=np.float32)),
-        "serialized joint margin is not the source soft-limit margin",
-    )
+    serialized_margin = np.asarray(margin, dtype=np.float32)
+    expected_margin = np.asarray(soft_margin_expected, dtype=np.float32)
+    reconstruction_error = float(np.max(np.abs(serialized_margin - expected_margin)))
+    # Limits are parsed from decimal URDF text in float64 while the runtime
+    # row is emitted from float32 tensors; one float32 ulp of reconstruction
+    # noise is therefore expected at larger joint magnitudes.
+    _require(reconstruction_error <= 5e-7, "serialized joint margin is not the source soft-limit margin")
     per_joint = []
     for index, joint in enumerate(urdf["joints"]):
         negative = margin[:, index] < 0.0
@@ -492,6 +495,7 @@ def _joint_run_profile(run: Mapping[str, Any], urdf: Mapping[str, Any], soft_fac
         "maximum_soft_limit_violation_magnitude": float(np.max(np.maximum(-margin, 0.0))),
         "hard_limit_violation_cell_count": int((hard_margin < 0.0).sum()),
         "minimum_hard_signed_margin": float(np.min(hard_margin)),
+        "serialized_margin_reconstruction_max_abs_error": reconstruction_error,
         "joint_limit_termination_row_count": int(term.sum()),
         "reset_row_count": int(reset.sum()),
         "done_row_count": int(done.sum()),
