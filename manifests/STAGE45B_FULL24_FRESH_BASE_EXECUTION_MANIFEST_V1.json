@@ -1,0 +1,484 @@
+{
+  "checkpoint_policy": {
+    "adaptive_extension": false,
+    "checkpoint_1000": "required descriptive checkpoint with full trainer state",
+    "checkpoint_2000": "required fixed primary endpoint with full trainer state",
+    "loss_based_selection": false,
+    "required_state_files": [
+      "optimizer.pt",
+      "scheduler.pt",
+      "rng_state.pth",
+      "trainer_state.json"
+    ]
+  },
+  "contract": {
+    "active_loss_dimensions": 10,
+    "body_rgb_shape": [
+      96,
+      96,
+      3
+    ],
+    "d1_decoder_changed": false,
+    "decoded_physical_action_shape": [
+      40,
+      10
+    ],
+    "geometry": "K16",
+    "horizon": 40,
+    "language": "move the end effector to the red target",
+    "masked_padding_dimensions": 122,
+    "model_input_keys": [
+      "body_rgb",
+      "wrist_rgb",
+      "state"
+    ],
+    "safety_gate_changed": false,
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "state_v1_shape": [
+      10
+    ],
+    "structured_action_schema": "StructuredActionV1",
+    "target_xyz_in_model_input": false,
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "timing": "T16",
+    "universal_action_shape": [
+      1,
+      40,
+      132
+    ],
+    "wbc_changed": false,
+    "wrist_rgb_shape": [
+      96,
+      96,
+      3
+    ]
+  },
+  "dataset": {
+    "canonical_tree_method": "STAGE22_PREPARE_H200_HANDOFF_TREE_DIGEST_V1",
+    "corelab_source_path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage22/native_expert/lerobot_train",
+    "episode_count": 24,
+    "frame_count": 960,
+    "h200_path_template": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train",
+    "holdout_f_read": false,
+    "id": "FULL24_EXISTING_TRAIN",
+    "mapping_order": "target-major then snapshot-major",
+    "new_data_generation": false,
+    "regular_file_count": 85,
+    "role": "TRAIN_ONLY",
+    "simulator_read": false,
+    "snapshots_per_source_episode": 6,
+    "source_expert_episode_count": 4,
+    "target_order": [
+      "red_target_train_a",
+      "red_target_train_b",
+      "red_target_train_c",
+      "red_target_train_d"
+    ],
+    "target_positions_world_m": {
+      "red_target_train_a": [
+        0.3,
+        0.1,
+        0.58
+      ],
+      "red_target_train_b": [
+        0.3,
+        -0.1,
+        0.58
+      ],
+      "red_target_train_c": [
+        0.3,
+        0.05,
+        0.64
+      ],
+      "red_target_train_d": [
+        0.3,
+        -0.05,
+        0.63
+      ]
+    },
+    "total_bytes": 919661,
+    "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "validation_e_read": false,
+    "window_count": 24,
+    "window_mapping": [
+      {
+        "materialized_episode_index": 0,
+        "snapshot_index": 0,
+        "snapshot_json_sha256": "74af1af85e21c6e3a5e91e5b4b695d080f0f6b7f2204d012310d6457334106f1",
+        "source_episode_id": "stage22_expert_red_target_train_a",
+        "source_example_id": "stage22_expert_red_target_train_a:expert-0000",
+        "target_id": "red_target_train_a",
+        "window_index": 0
+      },
+      {
+        "materialized_episode_index": 1,
+        "snapshot_index": 1,
+        "snapshot_json_sha256": "ac8c843b3841cab43d6b7d0f59600b83faae5474f90221e4c33429418c8483fa",
+        "source_episode_id": "stage22_expert_red_target_train_a",
+        "source_example_id": "stage22_expert_red_target_train_a:expert-0001",
+        "target_id": "red_target_train_a",
+        "window_index": 1
+      },
+      {
+        "materialized_episode_index": 2,
+        "snapshot_index": 2,
+        "snapshot_json_sha256": "3ff247d1064e954eecdb357cb32a23fe9eb72aa81e9e13bd62182fbbca8ec172",
+        "source_episode_id": "stage22_expert_red_target_train_a",
+        "source_example_id": "stage22_expert_red_target_train_a:expert-0002",
+        "target_id": "red_target_train_a",
+        "window_index": 2
+      },
+      {
+        "materialized_episode_index": 3,
+        "snapshot_index": 3,
+        "snapshot_json_sha256": "c55c00f895fe0179b2a404841d61acfe9b36d17a4997ef757e9bd53ebf4c9a10",
+        "source_episode_id": "stage22_expert_red_target_train_a",
+        "source_example_id": "stage22_expert_red_target_train_a:expert-0003",
+        "target_id": "red_target_train_a",
+        "window_index": 3
+      },
+      {
+        "materialized_episode_index": 4,
+        "snapshot_index": 4,
+        "snapshot_json_sha256": "196fbf34143f375deeea6fd16bf914d0dedfe1af23e8e6cc27ee299719e26737",
+        "source_episode_id": "stage22_expert_red_target_train_a",
+        "source_example_id": "stage22_expert_red_target_train_a:expert-0004",
+        "target_id": "red_target_train_a",
+        "window_index": 4
+      },
+      {
+        "materialized_episode_index": 5,
+        "snapshot_index": 5,
+        "snapshot_json_sha256": "1f46cb9a927db78909eb7453ae0a7e03aab6439d4b0b621f7e2f685b27bc4c7a",
+        "source_episode_id": "stage22_expert_red_target_train_a",
+        "source_example_id": "stage22_expert_red_target_train_a:expert-0005",
+        "target_id": "red_target_train_a",
+        "window_index": 5
+      },
+      {
+        "materialized_episode_index": 6,
+        "snapshot_index": 0,
+        "snapshot_json_sha256": "c0a6f37a7b2c696553db500bf65fc8f8ad8155ffe50bdc1dfbb8ff15d35e2e0a",
+        "source_episode_id": "stage22_expert_red_target_train_b",
+        "source_example_id": "stage22_expert_red_target_train_b:expert-0000",
+        "target_id": "red_target_train_b",
+        "window_index": 6
+      },
+      {
+        "materialized_episode_index": 7,
+        "snapshot_index": 1,
+        "snapshot_json_sha256": "25d136fe1174d8e881d2affe2f019b91cad11804544f18227eeb106c6edf4232",
+        "source_episode_id": "stage22_expert_red_target_train_b",
+        "source_example_id": "stage22_expert_red_target_train_b:expert-0001",
+        "target_id": "red_target_train_b",
+        "window_index": 7
+      },
+      {
+        "materialized_episode_index": 8,
+        "snapshot_index": 2,
+        "snapshot_json_sha256": "7394dc3563b2846d3e2d4503e14bcdfbd57af835bfff4def46b162b8a4cd234f",
+        "source_episode_id": "stage22_expert_red_target_train_b",
+        "source_example_id": "stage22_expert_red_target_train_b:expert-0002",
+        "target_id": "red_target_train_b",
+        "window_index": 8
+      },
+      {
+        "materialized_episode_index": 9,
+        "snapshot_index": 3,
+        "snapshot_json_sha256": "5b3a9118f37babe8f9384e63ceb2d66ee64468397a9c92929ea1ae43a7e7e4f4",
+        "source_episode_id": "stage22_expert_red_target_train_b",
+        "source_example_id": "stage22_expert_red_target_train_b:expert-0003",
+        "target_id": "red_target_train_b",
+        "window_index": 9
+      },
+      {
+        "materialized_episode_index": 10,
+        "snapshot_index": 4,
+        "snapshot_json_sha256": "879c4a5e21e387475120c19e8a72d6d4dfc53d3ea77646d25237ec8b3af1f116",
+        "source_episode_id": "stage22_expert_red_target_train_b",
+        "source_example_id": "stage22_expert_red_target_train_b:expert-0004",
+        "target_id": "red_target_train_b",
+        "window_index": 10
+      },
+      {
+        "materialized_episode_index": 11,
+        "snapshot_index": 5,
+        "snapshot_json_sha256": "3f8cca1edd5754fba4b55d0119301aa0882d09d903c844bdec477db61c4ad6de",
+        "source_episode_id": "stage22_expert_red_target_train_b",
+        "source_example_id": "stage22_expert_red_target_train_b:expert-0005",
+        "target_id": "red_target_train_b",
+        "window_index": 11
+      },
+      {
+        "materialized_episode_index": 12,
+        "snapshot_index": 0,
+        "snapshot_json_sha256": "d4824e885e6cecb6b3966652f4a99215dfc430c81fbf37fac7b7d165fbfec804",
+        "source_episode_id": "stage22_expert_red_target_train_c",
+        "source_example_id": "stage22_expert_red_target_train_c:expert-0000",
+        "target_id": "red_target_train_c",
+        "window_index": 12
+      },
+      {
+        "materialized_episode_index": 13,
+        "snapshot_index": 1,
+        "snapshot_json_sha256": "2cfbb3ce5ebdf8ddc00076ee7795820f1c153fd224c590493365118105f9316e",
+        "source_episode_id": "stage22_expert_red_target_train_c",
+        "source_example_id": "stage22_expert_red_target_train_c:expert-0001",
+        "target_id": "red_target_train_c",
+        "window_index": 13
+      },
+      {
+        "materialized_episode_index": 14,
+        "snapshot_index": 2,
+        "snapshot_json_sha256": "bbda9227702519c46fec6591876c8c0d9adb1b4870e23cad8d0d5d55f4138580",
+        "source_episode_id": "stage22_expert_red_target_train_c",
+        "source_example_id": "stage22_expert_red_target_train_c:expert-0002",
+        "target_id": "red_target_train_c",
+        "window_index": 14
+      },
+      {
+        "materialized_episode_index": 15,
+        "snapshot_index": 3,
+        "snapshot_json_sha256": "cf577fbfd9f153f691e5c7067897ad7c938161098bd6c4968e69f978ab26256c",
+        "source_episode_id": "stage22_expert_red_target_train_c",
+        "source_example_id": "stage22_expert_red_target_train_c:expert-0003",
+        "target_id": "red_target_train_c",
+        "window_index": 15
+      },
+      {
+        "materialized_episode_index": 16,
+        "snapshot_index": 4,
+        "snapshot_json_sha256": "8250b12cc6569274052f54916dc71db84422f87fc0ea75df8da488267bed2887",
+        "source_episode_id": "stage22_expert_red_target_train_c",
+        "source_example_id": "stage22_expert_red_target_train_c:expert-0004",
+        "target_id": "red_target_train_c",
+        "window_index": 16
+      },
+      {
+        "materialized_episode_index": 17,
+        "snapshot_index": 5,
+        "snapshot_json_sha256": "46586771e489edf7b035a822ca5132d655fab8ab954718796f49ddcd12ea481f",
+        "source_episode_id": "stage22_expert_red_target_train_c",
+        "source_example_id": "stage22_expert_red_target_train_c:expert-0005",
+        "target_id": "red_target_train_c",
+        "window_index": 17
+      },
+      {
+        "materialized_episode_index": 18,
+        "snapshot_index": 0,
+        "snapshot_json_sha256": "c7f0045063f3a0761d54a2250916fd373405099620af26d496bddd2c03c84b61",
+        "source_episode_id": "stage22_expert_red_target_train_d",
+        "source_example_id": "stage22_expert_red_target_train_d:expert-0000",
+        "target_id": "red_target_train_d",
+        "window_index": 18
+      },
+      {
+        "materialized_episode_index": 19,
+        "snapshot_index": 1,
+        "snapshot_json_sha256": "b8716570db3a059b5689b5cb08cbceae2100768033597f7c0da2b06766bb24b4",
+        "source_episode_id": "stage22_expert_red_target_train_d",
+        "source_example_id": "stage22_expert_red_target_train_d:expert-0001",
+        "target_id": "red_target_train_d",
+        "window_index": 19
+      },
+      {
+        "materialized_episode_index": 20,
+        "snapshot_index": 2,
+        "snapshot_json_sha256": "1a77ee113a76e0c6686db682bb0ef8d94e65b4f8015301eee6690f9c2a1e998b",
+        "source_episode_id": "stage22_expert_red_target_train_d",
+        "source_example_id": "stage22_expert_red_target_train_d:expert-0002",
+        "target_id": "red_target_train_d",
+        "window_index": 20
+      },
+      {
+        "materialized_episode_index": 21,
+        "snapshot_index": 3,
+        "snapshot_json_sha256": "e499400496a988f8686e84bfb2ad1052fec7e078e377bca1d7a7ccd01cbbd791",
+        "source_episode_id": "stage22_expert_red_target_train_d",
+        "source_example_id": "stage22_expert_red_target_train_d:expert-0003",
+        "target_id": "red_target_train_d",
+        "window_index": 21
+      },
+      {
+        "materialized_episode_index": 22,
+        "snapshot_index": 4,
+        "snapshot_json_sha256": "9d3968866a6dada2bb7bfc83ffe24460aba846ece8350652a116c7cb04ff203f",
+        "source_episode_id": "stage22_expert_red_target_train_d",
+        "source_example_id": "stage22_expert_red_target_train_d:expert-0004",
+        "target_id": "red_target_train_d",
+        "window_index": 22
+      },
+      {
+        "materialized_episode_index": 23,
+        "snapshot_index": 5,
+        "snapshot_json_sha256": "473f36af3f55de011ac1c71e8166b0e0e9bbdbb889c2a3c01afa8efb81c1bf3c",
+        "source_episode_id": "stage22_expert_red_target_train_d",
+        "source_example_id": "stage22_expert_red_target_train_d:expert-0005",
+        "target_id": "red_target_train_d",
+        "window_index": 23
+      }
+    ]
+  },
+  "execution_boundary": {
+    "backward_steps": 0,
+    "gpu_or_simulator_execution": false,
+    "gr00t_forwards": 0,
+    "holdout_f_read": false,
+    "new_data_generation": 0,
+    "optimizer_steps": 0,
+    "pbs_submissions": 0,
+    "reference_updates": 0,
+    "training_steps": 0,
+    "validation_e_read": false,
+    "wbc_steps": 0
+  },
+  "intervention": "B_FRESH_BASE_FULL24",
+  "execution_files": {
+    "pbs": {
+      "path": "hpc/pbs/stage45b_full24_fresh_base.pbs",
+      "sha256": "1d89b0364728fc6abc16e7801b717dbd7053143febdaa75a6765a082422e9be4"
+    },
+    "runner": {
+      "path": "scripts/stage45b_full24_fresh_base_train.py",
+      "sha256": "cbe9f5123c41422aa425155509271c7b3e393865b3e15b23b5644ae9f6f59ff5"
+    },
+    "stats_closure": {
+      "path": "scripts/stage45b_full24_stats_closure.py",
+      "sha256": "e0d4b11c8f8670bc7496217f846ad05f320752e86ef6da880a660aa867ab70e4"
+    }
+  },
+  "forbidden": {
+    "holdout_f_read": true,
+    "multiinit120_generation": true,
+    "new_data_generation": true,
+    "option_a_warm_start": true,
+    "post_hoc_checkpoint_selection": true,
+    "precision_or_offload_change": true,
+    "resume_or_retrain_after_optimizer_step": true,
+    "stage43_rerun": true,
+    "validation_e_read": true,
+    "vanda_a40": true,
+    "wbc_or_simulator": true
+  },
+  "handoff": {
+    "after_training_return_token": "HOPPER_STAGE45B_FULL24_FRESH_BASE_TRAINING_COMPLETE",
+    "claim_boundary": "training-only fit/coverage evidence; no task success, generalization, robustness, WBC, or hardware claim",
+    "operator_document": "docs/stages/STAGE45B_H200_HANDOFF.md",
+    "run_exactly_once": true,
+    "stop_before": "CORELAB_STAGE45B_FULL24_TRAIN_ONLY_EVALUATION_COMPLETE"
+  },
+  "model_lineage": {
+    "base_path_template": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "cosmos_path_template": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "groot_source_path_template": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/src/isaac-gr00t",
+    "groot_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "intervention": "B_FRESH_BASE_FULL24",
+    "modality_path_template": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "stage22_relative_stats_sha256": "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1",
+    "stage22_stats_sha256": "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
+  },
+  "pi_gate": "PI_GATE_STATE_0073",
+  "predecessors": {
+    "b0_producer_head": "07498d285ab32c499846fe872a8e9dc2f1dcf5d5",
+    "b0_result": "reports/STAGE45B_B0_STATS_RESULT.json",
+    "b0_status": "CORELAB_STAGE45B_FULL24_STRUCTURED_STATS_CLOSED",
+    "stage45a_manifest": "manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json",
+    "stage45a_status": "CORELAB_STAGE45_FULL24_ADAPTATION_PROTOCOL_READY"
+  },
+  "recipe": {
+    "bf16": true,
+    "dataloader_num_workers": 0,
+    "eval_strategy": "no",
+    "fp16": false,
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 0.0001,
+    "lr_scheduler_type": "cosine",
+    "max_grad_norm": 1.0,
+    "max_steps": 2000,
+    "num_gpus": 1,
+    "optimizer": "adamw_torch",
+    "per_device_train_batch_size": 1,
+    "resume_from_checkpoint": false,
+    "save_only_model": false,
+    "save_steps": [
+      1000,
+      2000
+    ],
+    "save_total_limit": 2,
+    "seed": 2222,
+    "tf32": true,
+    "tune_diffusion_model": true,
+    "tune_llm": false,
+    "tune_projector": true,
+    "tune_visual": false,
+    "tune_vlln": false,
+    "use_percentiles": true,
+    "use_relative_action": true,
+    "warmup_ratio": 0.0,
+    "warmup_steps": 10,
+    "weight_decay": 1e-05
+  },
+  "repository": {
+    "accepted_stage44r": "bd0f02934e680789cf38adacb838e1ea555c707d",
+    "base_main_merge_tip": "c54a10024c9ab7243c6cd3d2d0acab8cd399e4cd",
+    "branch": "stage45b/full24-fresh-base-execution",
+    "source_head": "4f6067dedde2e7446a294c21f95097913e43f8a4",
+    "source_head_role": "contains Stage45B runner/PBS/handoff and is an ancestor of the execution checkout"
+  },
+  "return_token": "CORELAB_STAGE45B_H200_ADMISSION_READY",
+  "runtime_requirements": {
+    "gpu_class": "H200",
+    "h200_network_from_corelab": "unavailable_in_preparation_session",
+    "h200_operator_must_discover_project": true,
+    "pbs_project": "CFP03-CF-004",
+    "storage_free_reserve_bytes": 68719476736,
+    "visible_gpu_count": 1,
+    "walltime": "24:00:00"
+  },
+  "schema": "CORELAB_STAGE45B_FULL24_FRESH_BASE_EXECUTION_MANIFEST_V1",
+  "stage": "Stage45B",
+  "status": "CORELAB_STAGE45B_H200_ADMISSION_READY",
+  "structured_stats": {
+    "bytes": 101909,
+    "corelab_path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage45b/b0_20260908_v2/STAGE45B_FULL24_STRUCTURED_STATS.json",
+    "h200_path_template": "/scratch/e1192548/stage45b_full24_20260908/STAGE45B_FULL24_STRUCTURED_STATS.json",
+    "inactive_dimensions_excluded": true,
+    "label_count": 24,
+    "normalization": {
+      "inactive_dimensions_excluded": true,
+      "lower": "q01",
+      "mode": "MINMAX_TO_NEG1_POS1",
+      "padding_excluded": true,
+      "upper": "q99",
+      "use_percentiles": true
+    },
+    "padding_excluded": true,
+    "payload_sha256": "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032",
+    "producer_path": "scripts/stage45b_full24_stats_closure.py",
+    "producer_repository_head": "07498d285ab32c499846fe872a8e9dc2f1dcf5d5",
+    "producer_sha256": "e0d4b11c8f8670bc7496217f846ad05f320752e86ef6da880a660aa867ab70e4",
+    "schema": "CORELAB_STAGE45B_FULL24_STRUCTURED_STATS_V1",
+    "sha256": "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d",
+    "stage38_schema": "STAGE38_STRUCTURED_ACTION_STATISTICS_V1"
+  },
+  "trainable_modules": {
+    "frozen": [
+      "visual",
+      "llm",
+      "vlln"
+    ],
+    "train": [
+      "projector",
+      "diffusion"
+    ],
+    "unexpected_change_action": "STOP_PI"
+  },
+  "training_config": {
+    "path_template": "/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml",
+    "sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  }
+}
