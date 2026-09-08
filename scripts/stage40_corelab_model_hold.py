@@ -149,12 +149,23 @@ def run(args: argparse.Namespace) -> int:
         # Importing the registration class is required before AutoModel, but
         # no method on the model is called that could produce an action.
         from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7  # noqa: F401
-        from transformers import AutoModel
+        from transformers import AutoConfig, AutoModel
 
         if torch.cuda.is_available() and str(args.device).startswith("cuda"):
             torch.cuda.reset_peak_memory_stats()
-        model = AutoModel.from_pretrained(
+        # The frozen STRUCTURED@1000 config names the Cosmos backbone by its
+        # Hub identifier.  Rebind that field to the exact sealed local
+        # snapshot before constructing the model; otherwise Transformers tries
+        # an online lookup even though all Cosmos bytes are materialized.
+        model_config = AutoConfig.from_pretrained(
             Path(args.model_path), local_files_only=True, trust_remote_code=True
+        )
+        model_config.model_name = str(Path(args.cosmos_snapshot).resolve())
+        model = AutoModel.from_pretrained(
+            Path(args.model_path),
+            config=model_config,
+            local_files_only=True,
+            trust_remote_code=True,
         )
         model.eval()
         model.to(device=str(args.device), dtype=torch.bfloat16)
@@ -185,6 +196,8 @@ def run(args: argparse.Namespace) -> int:
             "dataset_dir": str(Path(args.dataset_dir).resolve()),
             "modality_config": str(Path(args.modality_config).resolve()),
             "cosmos_snapshot": str(Path(args.cosmos_snapshot).resolve()),
+            "backbone_model_path": str(Path(args.cosmos_snapshot).resolve()),
+            "cosmos_backbone_rebound": True,
             "processor_embodiment": str(embodiment),
             "parameter_count": parameter_count,
             "parameter_dtype": "torch.bfloat16",
