@@ -1,0 +1,189 @@
+{
+  "schema": "VANDA_STAGE40_STAGE_EXECUTION_BUNDLE_V1",
+  "stage": "V2",
+  "generated_at": "2026-09-08T08:57:33+08:00",
+  "authority": {
+    "gate": "PI_GATE_STATE_0063",
+    "issue": 11,
+    "comment_id": 5574166363,
+    "comment_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5574166363"
+  },
+  "status": "FROZEN_BEFORE_SINGLE_REPLACEMENT_QSUB",
+  "purpose": "Non-scientific A40 runtime qualification after correcting the queue entry from project-based interactive_gpu to free-tier auto_free.",
+  "source": {
+    "branch": "stage40-dev/a40-bringup",
+    "executable_source_head": "42fe7d5c325bc3005e4a670475c1acbecc55d7d5",
+    "queue_fix_commit": "42fe7d5c325bc3005e4a670475c1acbecc55d7d5",
+    "files": {
+      "hpc/pbs/vanda_stage40_v2_runtime.pbs": "f8dfc3acc1af3e9700c67fea0d5d33c3d311deeca0658fa0e795bfe3bdc4d9a6",
+      "tests/test_stage40_runtime_contract.py": "77062965d03d588788f18cc657c126717fa05a16d6cfe9de81167dff1b67c2ee",
+      "scripts/vanda_stage40_telemetry.py": "3acea5129f626062e1af427643e271dfa78fbae56254aea2e1c3dfaef503d26d",
+      "scripts/stage21_native_receding_horizon.py": "a52087e3390f90f9a936f9120fe100bb4bc0abe777f3928bab040086be75eefd",
+      "scripts/stage40_b0_model_control.py": "640a527b0604dc082242de1aa860e0fc647b0270ec3a62ce4e99485d7520cdd9",
+      "scripts/stage21_same_scene_groot_inference.py": "fd7c32584a97bc14fa13d190043cffa27ab77aa8335189dfe40950a6827a2ae3"
+    }
+  },
+  "lineage": {
+    "superseded_bundle": "manifests/VANDA_STAGE40_A40_EXECUTION_BUNDLE_20260908_V2.json",
+    "superseded_bundle_sha256": "4021af893c48fa6d0743c964d5f2f89940e50631a94ced6fdf4f6049473410aa",
+    "provenance_manifest": "manifests/VANDA_STAGE40_PROVENANCE_20260907.json",
+    "provenance_manifest_sha256": "a4592b1a2ae215692e4da648aa9e98858c71adbdec8fe289cd6709d240df7dd0",
+    "cancelled_wrong_queue_job": "1355244.stdct-mgmt-02",
+    "cancelled_job_state_before_cancel": "Q",
+    "cancelled_job_execution_host": null,
+    "cancelled_job_model_construction": false,
+    "cancelled_job_groot_forward_count": 0,
+    "cancelled_job_wbc_step_count": 0,
+    "cancelled_job_evidence": "/scratch/leonliu/leon-storage/audit/vanda_stage40_0063_20260908/V2_JOB_1355244_WRONG_QUEUE_EVIDENCE.json",
+    "cancelled_job_evidence_sha256": "15e5e344417009839d6f8e51bcd764f94d33539849e1051f1e59fba3555ea656"
+  },
+  "scheduler": {
+    "submission_command": "qsub /home/svu/leonliu/projects/go2-arx5-hierarchical-vla/hpc/pbs/vanda_stage40_v2_runtime.pbs",
+    "submission_queue": "auto_free",
+    "expected_execution_queue": "gpu",
+    "expected_queue_charge_rate": 0,
+    "user_project_directive": "FORBIDDEN",
+    "qsub_project_flag": "FORBIDDEN",
+    "manual_project_name": "FORBIDDEN",
+    "pbs_internal_project": "personal-leonliu",
+    "pbs_internal_project_semantics": "Automatically injected free-tier accounting identity; never supplied by the user.",
+    "requested_select": "select=1:ncpus=12:mem=64gb:ngpus=1:gpu_model=A40",
+    "site_normalization_expected": "Site hooks may expand CPU and memory without changing the one-A40 request.",
+    "walltime": "00:30:00",
+    "one_active_a40_job": true
+  },
+  "immutable_inputs": {
+    "root": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized",
+    "package_root": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages",
+    "rows": [
+      {
+        "logical_name": "STRUCTURED@1000",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/structured_checkpoint_1000/checkpoint-1000",
+        "identity_type": "deterministic_tree_sha256",
+        "identity": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+        "file_count": 19,
+        "total_bytes": 20889596357
+      },
+      {
+        "logical_name": "structured_action_statistics",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/structured_action_statistics.json",
+        "identity_type": "sha256",
+        "identity": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206"
+      },
+      {
+        "logical_name": "GR00T_base_model",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/groot_base_model/GR00T-N1.7-3B",
+        "identity_type": "deterministic_tree_sha256",
+        "identity": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+        "file_count": 82,
+        "total_bytes": 6927373529
+      },
+      {
+        "logical_name": "TINY1",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2",
+        "identity_type": "deterministic_tree_sha256",
+        "identity": "541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157",
+        "file_count": 13,
+        "total_bytes": 152958
+      },
+      {
+        "logical_name": "TINY1_action_stats",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2/meta/stats.json",
+        "identity_type": "sha256",
+        "identity": "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
+      },
+      {
+        "logical_name": "TINY1_relative_stats",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2/meta/relative_stats.json",
+        "identity_type": "sha256",
+        "identity": "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1"
+      },
+      {
+        "logical_name": "Stage22_modality",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/modality/go2_arx5_modality.py",
+        "identity_type": "sha256",
+        "identity": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+      },
+      {
+        "logical_name": "WBC_archive",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/WBCTrackingShare_20260831.zip",
+        "identity_type": "sha256",
+        "identity": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+        "materialized_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+      },
+      {
+        "logical_name": "Cosmos_Reason2_2B_snapshot",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+        "identity_type": "revision_and_deterministic_tree_sha256",
+        "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+        "identity": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+      },
+      {
+        "logical_name": "Isaac_Apptainer_SIF",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif",
+        "identity_type": "sha256",
+        "identity": "c65b5e48cd7516851a3594afebb556205b3aae19c56ed93fa0974c6fad58dd02"
+      },
+      {
+        "logical_name": "Stage22_runtime_bundle",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime",
+        "identity_type": "source_package_sha256",
+        "identity": "85225ab393fed67a158099d42edd640c65e5032f5590352e06d2caa9e7972be9",
+        "source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+      },
+      {
+        "logical_name": "Stage22_FFmpeg_bundle",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_ffmpeg4/stage22_h200_ffmpeg4_bundle_20260902",
+        "identity_type": "source_package_sha256",
+        "identity": "070dff67681208c993d45e850b9787ccaea80897b0f7dc619ac96447344528b5"
+      },
+      {
+        "logical_name": "source_export_manifest",
+        "path": "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/metadata/source_export_manifest.json",
+        "identity_type": "sha256",
+        "identity": "eebd5d153576c7b3481b161ec55ac3619f5d727795a6de5fabf714205f3bd511"
+      }
+    ]
+  },
+  "runtime_contract": {
+    "dev_seed": 4242,
+    "formal_seeds_forbidden": [2223, 2228, 2233, 2238],
+    "model_construction_allowed": true,
+    "groot_forward_count": 0,
+    "wbc_forward_count": 0,
+    "wbc_step_count": 0,
+    "training": false,
+    "scientific_execution": false,
+    "required_observations": {
+      "body_rgb": [96, 96, 3],
+      "wrist_rgb": [96, 96, 3],
+      "state_v1": [10]
+    },
+    "required_telemetry_phases": [
+      "baseline",
+      "after_native_camera",
+      "after_gr00t_construction",
+      "final"
+    ]
+  },
+  "pre_qsub_gates": [
+    "old job 1355244 is F with no execution host",
+    "no active jobs for leonliu",
+    "working tree clean",
+    "local branch head equals origin/stage40-dev/a40-bringup",
+    "launcher SHA256 matches this bundle",
+    "launcher contains #PBS -q auto_free",
+    "launcher and qsub command contain no user project flag",
+    "bash syntax passes",
+    "focused runtime and fail-closed tests pass",
+    "immutable input identities match the accepted provenance manifest"
+  ],
+  "post_qsub_gates": [
+    "exactly one active replacement job",
+    "PBS_O_QUEUE equals auto_free",
+    "effective queue is auto_free while routing or gpu after routing",
+    "queue_charge_rate equals 0 after free-tier routing",
+    "project, if present, equals scheduler-injected personal-leonliu",
+    "one A40 remains requested"
+  ]
+}
