@@ -25,7 +25,7 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
     def test_cutover_token_requires_one_exact_line_and_selected_uuid(self) -> None:
         uuid = "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
         source = NATIVE_SOURCE.read_text(encoding="utf-8")
-        self.assertIn("observed.splitlines() == [CUTOVER_TOKEN]", source)
+        self.assertIn("lines[0] in CUTOVER_TOKENS", source)
         self.assertIn("CUDA_VISIBLE_DEVICES", source)
         self.assertIn("--gpu-uuid", source)
 
@@ -34,7 +34,8 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertNotIn("get_action", source)
         self.assertNotIn("_run_one", source)
         self.assertIn("AutoModel.from_pretrained", source)
-        self.assertIn("VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER", source)
+        self.assertIn("VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY", source)
+        self.assertIn("VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY", source)
 
     def test_native_hold_has_no_policy_step_or_reference_update_call(self) -> None:
         source = NATIVE_SOURCE.read_text(encoding="utf-8")
@@ -48,7 +49,8 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertNotIn("#PBS", source)
         self.assertNotIn("Apptainer", source)
         self.assertNotIn("singularity", source)
-        self.assertIn("VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER", source)
+        self.assertIn("VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY", source)
+        self.assertIn("VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY", source)
         self.assertIn("CUDA_VISIBLE_DEVICES=\"${GPU_UUID}\"", source)
         self.assertIn("nvidia-smi --query-gpu=index,uuid,name,memory.total,memory.used", source)
         self.assertIn("test \"${GPU_TOTAL_MIB}\" -ge 30000", source)
@@ -78,6 +80,7 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertEqual(manifest["issue_comment"], 5577233814)
         self.assertEqual(manifest["status"], "PREPARED_NOT_EXECUTED")
         self.assertFalse(manifest["cutover_token_seen"])
+        self.assertEqual(len(manifest["cutover_tokens"]), 2)
         self.assertEqual(manifest["protocol"]["gr00t_forward_budget"], 0)
         self.assertEqual(manifest["protocol"]["wbc_step_budget"], 0)
         self.assertEqual(manifest["protocol"]["reference_update_budget"], 0)

@@ -46,7 +46,8 @@ NATIVE_COMPAT_ROOT="$(cd "${STAGE40_CT3_NATIVE_COMPAT_ROOT}" && pwd -P)"
 TOKEN_FILE="$(cd "$(dirname "${STAGE40_CUTOVER_TOKEN_FILE}")" && pwd -P)/$(basename "${STAGE40_CUTOVER_TOKEN_FILE}")"
 GPU_UUID="${STAGE40_CT3_GPU_UUID}"
 
-CUTOVER_TOKEN="VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER"
+CUTOVER_TOKEN_QUEUE="VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY"
+CUTOVER_TOKEN_ENDED="VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY"
 RELEASE_TOKEN="CORELAB_STAGE40_CT3_RELEASE"
 DEV_SEED=4242
 
@@ -68,7 +69,10 @@ test -f "${TOKEN_FILE}"
 test ! -L "${TOKEN_FILE}"
 
 TOKEN_OBSERVED="$(tr -d '\r\n' < "${TOKEN_FILE}")"
-test "${TOKEN_OBSERVED}" = "${CUTOVER_TOKEN}"
+case "${TOKEN_OBSERVED}" in
+  "${CUTOVER_TOKEN_QUEUE}"|"${CUTOVER_TOKEN_ENDED}") ;;
+  *) exit 2 ;;
+esac
 
 # Validate the frozen bundle before touching CUDA. This imports only the
 # standard-library evidence module; it does not construct a model or simulator.
@@ -99,7 +103,7 @@ echo "STAGE40_PHASE=RTX-runtime"
 echo "STAGE40_PI_GATE=PI_GATE_STATE_0065"
 echo "STAGE40_BUNDLE=${BUNDLE}"
 echo "STAGE40_GPU_UUID=${GPU_UUID}"
-echo "STAGE40_CUTOVER_TOKEN=${CUTOVER_TOKEN}"
+echo "STAGE40_CUTOVER_TOKEN=${TOKEN_OBSERVED}"
 echo "STAGE40_DEV_SEED=${DEV_SEED}"
 
 # nvidia-smi is intentionally the first GPU-facing operation. No Stage40

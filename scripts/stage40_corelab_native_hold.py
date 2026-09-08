@@ -28,7 +28,10 @@ from typing import Any, Mapping, Optional, Sequence
 import numpy as np
 
 
-CUTOVER_TOKEN = "VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER"
+CUTOVER_TOKENS = (
+    "VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY",
+    "VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY",
+)
 RELEASE_TOKEN = "CORELAB_STAGE40_CT3_RELEASE"
 DEV_SEED = 4242
 
@@ -56,11 +59,13 @@ def _write_array(path: Path, key: str, value: np.ndarray) -> None:
     temporary.replace(destination)
 
 
-def _verify_cutover(token_file: Path, gpu_uuid: str) -> None:
+def _verify_cutover(token_file: Path, gpu_uuid: str) -> str:
     _require(token_file.is_file() and not token_file.is_symlink(), "cutover token file is missing or symlinked")
     observed = token_file.read_text(encoding="utf-8")
-    _require(observed.splitlines() == [CUTOVER_TOKEN], "explicit Vanda cutover token is required")
+    lines = observed.splitlines()
+    _require(len(lines) == 1 and lines[0] in CUTOVER_TOKENS, "explicit Vanda release token is required")
     _require(os.environ.get("CUDA_VISIBLE_DEVICES") == gpu_uuid, "CUDA_VISIBLE_DEVICES must be the selected GPU UUID")
+    return lines[0]
 
 
 def _construction_trajectory() -> dict[str, np.ndarray]:
@@ -99,7 +104,7 @@ def run(args: argparse.Namespace) -> int:
     abort_marker = Path(args.abort_marker).resolve()
     gpu_uuid = str(args.gpu_uuid)
     _require(int(args.seed) == DEV_SEED, "CT3 development seed must be 4242")
-    _verify_cutover(Path(args.cutover_token_file).resolve(), gpu_uuid)
+    cutover_token = _verify_cutover(Path(args.cutover_token_file).resolve(), gpu_uuid)
 
     # Importing these helpers is intentionally delayed until all authorization
     # and CLI checks have passed.  No model/runtime helper is imported here.
@@ -117,6 +122,7 @@ def run(args: argparse.Namespace) -> int:
         "execution_class": "CORELAB_STAGE40_RTX_RUNTIME_QUALIFICATION_V1",
         "dev_seed": DEV_SEED,
         "gpu_uuid": gpu_uuid,
+        "cutover_token": cutover_token,
         "gr00t_forward_count": 0,
         "wbc_step_count": 0,
         "reference_update_count": 0,
@@ -174,6 +180,7 @@ def run(args: argparse.Namespace) -> int:
                 "stage": "RTX-runtime",
                 "execution_class": "CORELAB_STAGE40_RTX_RUNTIME_QUALIFICATION_V1",
                 "gpu_uuid": gpu_uuid,
+                "cutover_token": cutover_token,
                 "native_constructor": True,
                 "native_python": os.environ.get("STAGE40_NATIVE_PYTHON", "unknown"),
                 "native_control_dt_s": float(native.dt),
@@ -222,6 +229,7 @@ def run(args: argparse.Namespace) -> int:
             "error_type": type(exc).__name__,
             "error": str(exc),
             "gpu_uuid": gpu_uuid,
+            "cutover_token": cutover_token,
             "gr00t_forward_count": 0,
             "wbc_step_count": 0,
             "reference_update_count": 0,

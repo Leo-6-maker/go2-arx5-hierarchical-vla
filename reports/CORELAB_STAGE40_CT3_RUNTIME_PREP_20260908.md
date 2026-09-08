@@ -10,9 +10,10 @@ observed.
 
 ## Protocol frozen for the next authorized boundary
 
-The launcher requires a one-line
-`VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER` file before its first
-GPU-facing operation. After that check it runs `nvidia-smi`, binds the explicit
+The launcher requires a one-line Vanda ownership-release file containing either
+`VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY` or
+`VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY` before its first GPU-facing
+operation. After that check it runs `nvidia-smi`, binds the explicit
 RTX UUID, and requires at least the preferred 32-GiB card. It starts only the
 native constructor and exact GR00T constructor on that UUID; both wait at a
 release barrier.
