@@ -1,0 +1,61 @@
+#!/bin/bash
+# Stage45B non-scientific H200 runtime qualification.
+# This job performs one trivial CUDA allocation and no scientific execution.
+#PBS -N st45b_h200_smoke
+#PBS -q small
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=2:mem=16GB
+#PBS -l walltime=00:10:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45B_REPO:?Set the qualification checkout}"
+: "${STAGE45B_BUNDLE:?Set the immutable qualification manifest}"
+: "${STAGE45B_PYTHON:?Set exact Stage45B runtime Python}"
+: "${STAGE45B_PYTHON_REALPATH:?Set expected Python realpath}"
+: "${STAGE45B_EXECUTION_HEAD:?Set exact execution HEAD}"
+: "${STAGE45B_SMOKE_ROOT:?Set separate smoke evidence root}"
+: "${STAGE45B_BASE_MODEL_PATH:?Set exact BASE tree}"
+: "${STAGE45B_DATASET_DIR:?Set exact FULL24 tree}"
+: "${STAGE45B_GROOT_SOURCE:?Set exact GR00T source}"
+: "${STAGE45B_COSMOS_ROOT:?Set exact Cosmos cache}"
+: "${STAGE45B_MODALITY_CONFIG:?Set exact modality module}"
+: "${STAGE45B_CONFIG_PATH:?Set exact training config}"
+: "${STAGE45B_STATS_ARTIFACT:?Set exact B0 stats}"
+: "${PBS_JOBID:?PBS_JOBID is required}"
+
+test -z "${STAGE45B_OUTPUT_ROOT+x}"
+cd "${STAGE45B_REPO}"
+test "$(git branch --show-current)" = "stage45b/full24-fresh-base-execution"
+test "$(git rev-parse HEAD)" = "${STAGE45B_EXECUTION_HEAD}"
+test -z "$(git status --porcelain=v1)"
+test -x "${STAGE45B_PYTHON}"
+test "$(readlink -f "${STAGE45B_PYTHON}")" = "${STAGE45B_PYTHON_REALPATH}"
+test -d "${STAGE45B_SMOKE_ROOT}"
+
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+BOOTSTRAP_TMPDIR="${STAGE45B_SMOKE_ROOT}/pbs-tmp-${PBS_JOBID}"
+test ! -e "${BOOTSTRAP_TMPDIR}"
+mkdir -p "${BOOTSTRAP_TMPDIR}"
+export TMPDIR="${BOOTSTRAP_TMPDIR}" TMP="${TMPDIR}" TEMP="${TMPDIR}"
+export PYTHONPATH="${STAGE45B_REPO}/scripts:${STAGE45B_REPO}/src:${STAGE45B_GROOT_SOURCE}"
+
+"${STAGE45B_PYTHON}" "${STAGE45B_REPO}/scripts/stage45b_premodel_runtime_smoke.py" \
+  --mode h200 \
+  --evidence-path "${STAGE45B_SMOKE_ROOT}/stage45b_h200_runtime_preflight.json" \
+  --repo "${STAGE45B_REPO}" \
+  --expected-head "${STAGE45B_EXECUTION_HEAD}" \
+  --bundle "${STAGE45B_BUNDLE}" \
+  --base-model-path "${STAGE45B_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE45B_DATASET_DIR}" \
+  --groot-source "${STAGE45B_GROOT_SOURCE}" \
+  --cosmos-root "${STAGE45B_COSMOS_ROOT}" \
+  --modality-config "${STAGE45B_MODALITY_CONFIG}" \
+  --config-path "${STAGE45B_CONFIG_PATH}" \
+  --stats-artifact "${STAGE45B_STATS_ARTIFACT}" \
+  --requested-python "${STAGE45B_PYTHON}"
+
+grep -Fx "VANDA_HOPPER_STAGE45B_PREMODEL_H200_RUNTIME_QUALIFIED" "${STAGE45B_SMOKE_ROOT}/stage45b_h200_runtime_preflight.json" >/dev/null 2>&1 || true
+echo "VANDA_HOPPER_STAGE45B_PREMODEL_H200_RUNTIME_QUALIFIED"

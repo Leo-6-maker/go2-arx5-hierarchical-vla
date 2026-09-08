@@ -22,10 +22,14 @@ set -euo pipefail
 : "${STAGE45B_MODALITY_CONFIG:?Set exact modality module}"
 : "${STAGE45B_CONFIG_PATH:?Set frozen Stage38 config.yaml}"
 : "${STAGE45B_STATS_ARTIFACT:?Set exact B0 statistics JSON}"
+: "${STAGE45B_PYTHON:?Set exact Stage45B runtime Python}"
 : "${PBS_JOBID:?PBS_JOBID must be available}"
+: "${STAGE45B_PYTHON_REALPATH:?Set expected Stage45B Python realpath}"
+: "${STAGE45B_EXECUTION_HEAD:?Set exact execution HEAD}"
 
 cd "${STAGE45B_REPO}"
 test "$(git branch --show-current)" = "stage45b/full24-fresh-base-execution"
+test "$(git rev-parse HEAD)" = "${STAGE45B_EXECUTION_HEAD}"
 test -z "$(git status --porcelain=v1)"
 
 OUTPUT_PARENT="$(dirname "${STAGE45B_OUTPUT_ROOT}")"
@@ -34,6 +38,9 @@ test ! -e "${STAGE45B_OUTPUT_ROOT}"
 BOOTSTRAP_TMPDIR="${OUTPUT_PARENT}/.stage45b-pbs-tmp-${PBS_JOBID}"
 test ! -e "${BOOTSTRAP_TMPDIR}"
 mkdir -p "${BOOTSTRAP_TMPDIR}"
+PY_PREFLIGHT_PATH="${BOOTSTRAP_TMPDIR}/stage45b_python_runtime_preflight.json"
+test -x "${STAGE45B_PYTHON}"
+test "$(readlink -f "${STAGE45B_PYTHON}")" = "${STAGE45B_PYTHON_REALPATH}"
 
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
@@ -46,7 +53,30 @@ export TMPDIR="${BOOTSTRAP_TMPDIR}"
 export TMP="${TMPDIR}" TEMP="${TMPDIR}"
 mkdir -p "${TMPDIR}"
 
-python3 scripts/stage45b_full24_fresh_base_train.py \
+"${STAGE45B_PYTHON}" "${STAGE45B_REPO}/scripts/stage45b_premodel_runtime_smoke.py" \
+  --mode scientific \
+  --evidence-path "${PY_PREFLIGHT_PATH}" \
+  --repo "${STAGE45B_REPO}" \
+  --expected-head "${STAGE45B_EXECUTION_HEAD}" \
+  --bundle "${STAGE45B_BUNDLE}" \
+  --base-model-path "${STAGE45B_BASE_MODEL_PATH}" \
+  --dataset-dir "${STAGE45B_DATASET_DIR}" \
+  --groot-source "${STAGE45B_GROOT_SOURCE}" \
+  --cosmos-root "${STAGE45B_COSMOS_ROOT}" \
+  --modality-config "${STAGE45B_MODALITY_CONFIG}" \
+  --config-path "${STAGE45B_CONFIG_PATH}" \
+  --stats-artifact "${STAGE45B_STATS_ARTIFACT}" \
+  --requested-python "${STAGE45B_PYTHON}" \
+  --scientific-output-root "${STAGE45B_OUTPUT_ROOT}"
+
+copy_stage45b_python_preflight() {
+  if [ -f "${PY_PREFLIGHT_PATH}" ] && [ -d "${STAGE45B_OUTPUT_ROOT}" ]; then
+    cp "${PY_PREFLIGHT_PATH}" "${STAGE45B_OUTPUT_ROOT}/stage45b_python_runtime_preflight.json" || true
+  fi
+}
+trap copy_stage45b_python_preflight EXIT
+
+"${STAGE45B_PYTHON}" scripts/stage45b_full24_fresh_base_train.py \
   --bundle "${STAGE45B_BUNDLE}" \
   --output-root "${STAGE45B_OUTPUT_ROOT}" \
   --base-model-path "${STAGE45B_BASE_MODEL_PATH}" \

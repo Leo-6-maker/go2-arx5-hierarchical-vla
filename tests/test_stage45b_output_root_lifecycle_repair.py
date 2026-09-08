@@ -21,6 +21,7 @@ class Stage45BOutputRootLifecycleRepairTest(unittest.TestCase):
         self.fake_repo = self.sandbox / "fake-repo"
         self.fake_bin.mkdir()
         self.fake_repo.mkdir()
+        self.exact_python = self.sandbox / "exact-python3"
         self.observation = self.sandbox / "stub-observation.json"
         self._write_executable(
             self.fake_bin / "git",
@@ -33,6 +34,10 @@ case "$1" in
     ;;
   status)
     test "$2" = "--porcelain=v1"
+    ;;
+  rev-parse)
+    test "$2" = "HEAD"
+    printf '%s\\n' 'stub-head'
     ;;
   *)
     echo "unexpected fake git invocation: $*" >&2
@@ -52,18 +57,49 @@ printf '%s\\n' 'NVIDIA H200'
             self.fake_bin / "python3",
             """#!/bin/sh
 set -eu
-test "$#" -ge 1
-test "$1" = "scripts/stage45b_full24_fresh_base_train.py"
-test ! -e "$STAGE45B_OUTPUT_ROOT"
-test -d "$TMPDIR"
-case "$TMPDIR/" in
-  "$STAGE45B_OUTPUT_ROOT/"*)
-    echo "bootstrap TMPDIR is inside output root" >&2
-    exit 91
+echo ambient-python3-must-not-run >&2
+exit 90
+""",
+        )
+        self._write_executable(
+            self.exact_python,
+            """#!/bin/sh
+set -eu
+case "$1" in
+  */scripts/stage45b_premodel_runtime_smoke.py)
+    shift
+    mode=""
+    out=""
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --mode) shift; mode="$1" ;;
+        --evidence-path) shift; out="$1" ;;
+      esac
+      shift
+    done
+    test "$mode" = "scientific"
+    test -n "$out"
+    test ! -e "$STAGE45B_OUTPUT_ROOT"
+    test -d "$TMPDIR"
+    printf '%s\\n' '{"schema":"VANDA_STAGE45B_PREMODEL_RUNTIME_SMOKE_V1","status":"PASS","mode":"scientific","token":"VANDA_STAGE45B_SCIENTIFIC_PREMODEL_RUNTIME_PASS"}' > "$out"
+    ;;
+  scripts/stage45b_full24_fresh_base_train.py)
+    test ! -e "$STAGE45B_OUTPUT_ROOT"
+    test -d "$TMPDIR"
+    case "$TMPDIR/" in
+      "$STAGE45B_OUTPUT_ROOT/"*)
+        echo "bootstrap TMPDIR is inside output root" >&2
+        exit 91
+        ;;
+    esac
+    test "$TMPDIR" != "$STAGE45B_OUTPUT_ROOT/pbs-tmp"
+    printf '%s\\n' '{"schema":"STAGE45B_NON_SCIENTIFIC_STUB_V1","mode":"NON_SCIENTIFIC_STUB","output_root_exists":false,"bootstrap_tmp_exists":true,"bootstrap_tmp_outside":true}' > "$STUB_OBSERVATION"
+    ;;
+  *)
+    echo "unexpected exact Python invocation: $*" >&2
+    exit 92
     ;;
 esac
-test "$TMPDIR" != "$STAGE45B_OUTPUT_ROOT/pbs-tmp"
-printf '%s\\n' '{"schema":"STAGE45B_NON_SCIENTIFIC_STUB_V1","mode":"NON_SCIENTIFIC_STUB","output_root_exists":false,"bootstrap_tmp_exists":true,"bootstrap_tmp_outside":true}' > "$STUB_OBSERVATION"
 """,
         )
 
@@ -89,6 +125,9 @@ printf '%s\\n' '{"schema":"STAGE45B_NON_SCIENTIFIC_STUB_V1","mode":"NON_SCIENTIF
                 "STAGE45B_MODALITY_CONFIG": str(self.sandbox / "modality.py"),
                 "STAGE45B_CONFIG_PATH": str(self.sandbox / "config.yaml"),
                 "STAGE45B_STATS_ARTIFACT": str(self.sandbox / "stats.json"),
+                "STAGE45B_PYTHON": str(self.exact_python),
+                "STAGE45B_PYTHON_REALPATH": str(self.exact_python),
+                "STAGE45B_EXECUTION_HEAD": "stub-head",
                 "PBS_JOBID": job_id,
                 "STUB_OBSERVATION": str(self.observation),
             }

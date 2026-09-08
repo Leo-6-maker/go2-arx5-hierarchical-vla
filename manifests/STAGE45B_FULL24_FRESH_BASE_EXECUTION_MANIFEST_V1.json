@@ -336,11 +336,23 @@
   "execution_files": {
     "pbs": {
       "path": "hpc/pbs/stage45b_full24_fresh_base.pbs",
-      "sha256": "fd1231873e8bdd9b6c7c543faa325504490d98e9524946e819c0449af2088175"
+      "sha256": "52e9ce07e8332eab8ebdd8587250c09056855007ae1696075f26ae7492a124a5"
+    },
+    "premodel_runtime_smoke": {
+      "path": "scripts/stage45b_premodel_runtime_smoke.py",
+      "sha256": "12e13985096810fc4e60d946002c823cb7522ea46f253ba9c4cdc1fe2b9281bf"
+    },
+    "premodel_cpu_smoke_pbs": {
+      "path": "hpc/pbs/stage45b_premodel_cpu_smoke.pbs",
+      "sha256": "0c21c65cd14407ed7506d4609d1f58a8a53bf23d35408fd7853fdeefeea8f359"
+    },
+    "premodel_h200_smoke_pbs": {
+      "path": "hpc/pbs/stage45b_premodel_h200_smoke.pbs",
+      "sha256": "332bbdf1064b96c1ab54ff84ff5b9a76a6157afcf8af8187e3181ebf2dda94a5"
     },
     "runner": {
       "path": "scripts/stage45b_full24_fresh_base_train.py",
-      "sha256": "b67a42b769f07bffe113c3a92fe625c35683d36d28e2851e5b046c1b0962269b"
+      "sha256": "76ad0f20b46afd129b326c7b1a3feaf35d6a0c01c0b29238b20aeaf3f68d0a6a"
     },
     "stats_closure": {
       "path": "scripts/stage45b_full24_stats_closure.py",
@@ -370,10 +382,10 @@
   "model_lineage": {
     "base_path_template": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
     "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
-    "cosmos_path_template": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B",
+    "cosmos_path_template": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B",
     "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
     "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
-    "groot_source_path_template": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/src/isaac-gr00t",
+    "groot_source_path_template": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
     "groot_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
     "intervention": "B_FRESH_BASE_FULL24",
     "modality_path_template": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py",
@@ -381,7 +393,7 @@
     "stage22_relative_stats_sha256": "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1",
     "stage22_stats_sha256": "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
   },
-  "pi_gate": "PI_GATE_STATE_0073",
+  "pi_gate": "PI_GATE_STATE_0079",
   "predecessors": {
     "b0_producer_head": "07498d285ab32c499846fe872a8e9dc2f1dcf5d5",
     "b0_result": "reports/STAGE45B_B0_STATS_RESULT.json",
@@ -426,7 +438,7 @@
     "accepted_stage44r": "bd0f02934e680789cf38adacb838e1ea555c707d",
     "base_main_merge_tip": "c54a10024c9ab7243c6cd3d2d0acab8cd399e4cd",
     "branch": "stage45b/full24-fresh-base-execution",
-    "source_head": "4f6067dedde2e7446a294c21f95097913e43f8a4",
+    "source_head": "5bcc7826be5c2acb89d64aa32331b40a195a2b56",
     "source_head_role": "contains Stage45B runner/PBS/handoff and is an ancestor of the execution checkout"
   },
   "return_token": "CORELAB_STAGE45B_H200_ADMISSION_READY",
@@ -473,10 +485,12 @@
     }
   },
   "runtime_paths": {
+    "stage45b_python": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python3",
+    "stage45b_python_realpath": "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12",
     "base_model": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
     "dataset": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train",
-    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/src/isaac-gr00t",
-    "cosmos_cache": "/scratch/e1192548/stage22_h200_runtime_deb920a_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B",
+    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+    "cosmos_cache": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B",
     "modality_config": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py",
     "training_config": "/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml",
     "structured_stats_artifact": "/scratch/e1192548/stage45b_full24_20260908/STAGE45B_FULL24_STRUCTURED_STATS.json"
