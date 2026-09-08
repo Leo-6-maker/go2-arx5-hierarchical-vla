@@ -1,53 +1,77 @@
 # Go2 + ARX5 Hierarchical Whole-Body VLA
 
-This repository is the source of truth for the project's integration code,
-contracts, adapters, benchmark orchestration, and reproducibility documents.
-Large or private inputs remain outside Git and are referenced through
-`artifact_manifests/`.
+This repository is the source of truth for the Go2 + ARX5 hierarchical VLA
+contracts, adapters, experiment runners, tests, and provenance documents.
+Large or private model, WBC, dataset, simulator, and hardware inputs remain
+outside Git and are referenced through manifests and reports.
 
-## Current system boundary
+## Accepted repository baseline
+
+The current accepted research tip is Stage44R:
 
 ```text
-GR00T N1.7 (future runtime)
-  -> timestamped EEF trajectory chunk (XYZ + SO(3), gripper separate)
-  -> WBC reference adapter / nine-point SE(3) preview
-  -> delivered native WBC (internal arm + body/gait coordination)
-  -> native IsaacGym Go2+ARX5 embodiment
+branch: stage44r/corelab-attribution-repair
+commit: bd0f02934e680789cf38adacb838e1ea555c707d
+diagnosis: STAGE44_TINY1_SINGLE_SAMPLE_COVERAGE_LIMITATION_SUPPORTED
 ```
 
-The external VLA interface is EEF-only at this stage. The delivered WBC's
-structured 9D body/gait signal is an internal controller output, not a GR00T
-label. The native IsaacGym embodiment is the controller baseline; the P1M
-Isaac-Sim asset is a separate target-embodiment transfer case.
+The consolidation branch is cut directly from that commit. It preserves the
+forward-only Stage19--Stage44R history and adds navigation and audit material;
+it does not rewrite, squash, or delete scientific history. Stage45 data
+expansion, H200 fine-tuning, Vanda A40 execution, and new model/WBC runs remain
+on hold pending PI review.
 
-Stage15 adds an explicit `TrajectoryShapeV1` + `PlacementProfileV1` /
-`EpisodeReferenceBindingV1` boundary. This prevents an E1/E2 absolute pose
-from being mistaken for a native-episode reference. The binding is validated
-against 12 native reset traces; the current aligned diagnostic set is not yet
-a broad native benchmark.
+## Current architecture
 
-## CPU checks
+```text
+Vision + Language + Proprioception
+        -> GR00T N1.7
+        -> StructuredActionV1 / EEF trajectory
+        -> SafetyGate
+        -> reference-only receding-horizon handoff
+        -> general trajectory-tracking WBC
+        -> Go2 + ARX5
+```
+
+The external model/controller waist is EEF-only: XYZ + SO(3) trajectory with
+an independent parallel-gripper channel. The delivered WBC performs internal
+whole-body redundancy resolution; its structured body/gait signal is not a
+GR00T label. Stage40--Stage43 closed-loop records and Stage44R attribution are
+engineering and diagnostic evidence, not claims of task success, general
+robustness, real-time operation, or hardware readiness.
+
+## Navigate the repository
+
+- [Research timeline](docs/RESEARCH_TIMELINE.md) — Stage19 through Stage44R,
+  with canonical branches, narrow outcomes, and evidence pointers.
+- [Accepted baselines](docs/ACCEPTED_BASELINES.md) — what each accepted gate
+  establishes and what remains explicitly unproven.
+- [Repository guide](docs/REPOSITORY_GUIDE.md) — source, runner, test, report,
+  manifest, and HPC directory conventions.
+- [Consolidation audit](reports/REPOSITORY_CONSOLIDATION_AUDIT.md) — the
+  read-only RC0 inventory and provenance findings.
+- [Historical archival recommendation](docs/HISTORICAL_ARCHIVAL_RECOMMENDATION.md)
+  — proposed post-merge handling of old PRs and branches; no archival action
+  is performed by this branch.
+
+## CPU validation
+
+The maintained contract suite is CPU-only:
 
 ```bash
-python -m pip install -e '.[test]'
 python -m pytest -q
 ```
 
-GPU/Isaac execution is intentionally not part of the CPU test suite. Native
-WBC source, checkpoints, videos, datasets, and USD assets are private external
-artifacts and must not be committed here.
+When the optional test dependency is unavailable, the standard-library tests
+and the static checks described in [the repository guide](docs/REPOSITORY_GUIDE.md)
+remain the required fallback. No command in this consolidation performs a
+model forward, simulator/WBC rollout, training, data generation, or hardware
+action.
 
-## Stage15 diagnostic tools
+## Provenance and private inputs
 
-The static/native audit entry points are kept in `scripts/`:
-
-- `native_reference_trace.py` records native anchor and preview semantics
-  without loading a policy checkpoint;
-- `audit_native_reference_binding.py` checks the independent binding against
-  those traces;
-- `reinstantiate_stage15_benchmark.py` derives shape objects and native
-  placement classifications;
-- `prepare_stage15_native_inputs.py` materializes reset-bound external inputs.
-
-Their large outputs belong under the node-local Stage15 artifact root and are
-referenced by manifests and reports rather than committed to Git.
+Historical stage runners and reports stay at their original paths because
+Issue #11 evidence and sealed manifests refer to them. Node-local caches and
+evidence roots (for example `/var/cache/...` or `/scratch/...`) are references,
+not repository contents. Do not commit credentials, checkpoints, videos,
+datasets, USD assets, or private WBC sources.
