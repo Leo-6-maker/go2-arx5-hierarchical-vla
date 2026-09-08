@@ -4,9 +4,10 @@
 The process constructs the already-qualified native IsaacGym/WBC environment,
 captures one body/wrist observation and StateV1, then waits at a release
 barrier.  It never calls the policy-step path, advances physics, replaces a
-reference, or imports the GR00T model.  A cutover token is required even when
-this file is invoked directly, so a stale shell command cannot start a GPU
-lane accidentally.
+reference, or imports the GR00T model.  Normal invocations require a Vanda
+release token.  The active Corelab takeover may instead pass the explicit
+operator-override flag and matching environment marker recorded in the sealed
+runtime evidence.
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ CUTOVER_TOKENS = (
     "VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY",
     "VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY",
 )
+CORELAB_OPERATOR_OVERRIDE = "CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE"
 RELEASE_TOKEN = "CORELAB_STAGE40_CT3_RELEASE"
 DEV_SEED = 4242
 
@@ -59,12 +61,19 @@ def _write_array(path: Path, key: str, value: np.ndarray) -> None:
     temporary.replace(destination)
 
 
-def _verify_cutover(token_file: Path, gpu_uuid: str) -> str:
+def _verify_cutover(token_file: Optional[Path], gpu_uuid: str, corelab_primary_override: bool) -> str:
+    _require(os.environ.get("CUDA_VISIBLE_DEVICES") == gpu_uuid, "CUDA_VISIBLE_DEVICES must be the selected GPU UUID")
+    if corelab_primary_override:
+        _require(
+            os.environ.get("STAGE40_CORELAB_OPERATOR_OVERRIDE") == CORELAB_OPERATOR_OVERRIDE,
+            "explicit Corelab operator override is required",
+        )
+        return CORELAB_OPERATOR_OVERRIDE
+    _require(token_file is not None, "Vanda release token file is required")
     _require(token_file.is_file() and not token_file.is_symlink(), "cutover token file is missing or symlinked")
     observed = token_file.read_text(encoding="utf-8")
     lines = observed.splitlines()
     _require(len(lines) == 1 and lines[0] in CUTOVER_TOKENS, "explicit Vanda release token is required")
-    _require(os.environ.get("CUDA_VISIBLE_DEVICES") == gpu_uuid, "CUDA_VISIBLE_DEVICES must be the selected GPU UUID")
     return lines[0]
 
 
@@ -104,7 +113,16 @@ def run(args: argparse.Namespace) -> int:
     abort_marker = Path(args.abort_marker).resolve()
     gpu_uuid = str(args.gpu_uuid)
     _require(int(args.seed) == DEV_SEED, "CT3 development seed must be 4242")
-    cutover_token = _verify_cutover(Path(args.cutover_token_file).resolve(), gpu_uuid)
+    cutover_token = _verify_cutover(
+        Path(args.cutover_token_file).resolve() if args.cutover_token_file is not None else None,
+        gpu_uuid,
+        bool(args.corelab_primary_override),
+    )
+    authorization_mode = (
+        "CORELAB_PRIMARY_DIRECT_USER_OVERRIDE"
+        if cutover_token == CORELAB_OPERATOR_OVERRIDE
+        else "VANDA_RELEASE_TOKEN"
+    )
 
     # Importing these helpers is intentionally delayed until all authorization
     # and CLI checks have passed.  No model/runtime helper is imported here.
@@ -123,6 +141,7 @@ def run(args: argparse.Namespace) -> int:
         "dev_seed": DEV_SEED,
         "gpu_uuid": gpu_uuid,
         "cutover_token": cutover_token,
+        "authorization_mode": authorization_mode,
         "gr00t_forward_count": 0,
         "wbc_step_count": 0,
         "reference_update_count": 0,
@@ -181,6 +200,7 @@ def run(args: argparse.Namespace) -> int:
                 "execution_class": "CORELAB_STAGE40_RTX_RUNTIME_QUALIFICATION_V1",
                 "gpu_uuid": gpu_uuid,
                 "cutover_token": cutover_token,
+                "authorization_mode": authorization_mode,
                 "native_constructor": True,
                 "native_python": os.environ.get("STAGE40_NATIVE_PYTHON", "unknown"),
                 "native_control_dt_s": float(native.dt),
@@ -230,6 +250,7 @@ def run(args: argparse.Namespace) -> int:
             "error": str(exc),
             "gpu_uuid": gpu_uuid,
             "cutover_token": cutover_token,
+            "authorization_mode": authorization_mode,
             "gr00t_forward_count": 0,
             "wbc_step_count": 0,
             "reference_update_count": 0,
@@ -257,7 +278,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--ready-marker", type=Path, required=True)
     parser.add_argument("--release-marker", type=Path, required=True)
     parser.add_argument("--abort-marker", type=Path, required=True)
-    parser.add_argument("--cutover-token-file", type=Path, required=True)
+    parser.add_argument("--cutover-token-file", type=Path)
+    parser.add_argument("--corelab-primary-override", action="store_true")
     parser.add_argument("--gpu-uuid", required=True)
     parser.add_argument("--sim-device", default="cuda:0")
     parser.add_argument("--seed", type=int, default=DEV_SEED)

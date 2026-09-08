@@ -5,15 +5,18 @@ Classification: `NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE`
 This preparation package adds a fail-closed, direct RTX launcher and two
 barriered hold processes for CT3. It does not submit a job, construct a model,
 create a simulator, or query CUDA. The current Issue #11 gate is still
-`PI_GATE_STATE_0065`, and the Vanda execution-ownership release has not been
-observed.
+`PI_GATE_STATE_0065`. The user has now explicitly assigned Corelab primary
+ownership, so the Vanda release token is no longer a precondition for this
+lane; that override is recorded in the preparation manifest and will be
+included in runtime evidence.
 
 ## Protocol frozen for the next authorized boundary
 
-The launcher requires a one-line Vanda ownership-release file containing either
+The launcher accepts either a one-line Vanda ownership-release file containing
 `VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY` or
-`VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY` before its first GPU-facing
-operation. After that check it runs `nvidia-smi`, binds the explicit
+`VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY`, or the explicit
+`CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE` operator marker. In all cases,
+the authorization check precedes the first GPU-facing operation. It then runs `nvidia-smi`, binds the explicit
 RTX UUID, and requires at least the preferred 32-GiB card. It starts only the
 native constructor and exact GR00T constructor on that UUID; both wait at a
 release barrier.
@@ -32,7 +35,7 @@ or nonzero counter stops the run without downstream admission.
 
 ## Current disposition
 
-`PREPARED_NOT_EXECUTED` — no GPU/model/WBC execution was performed while Vanda
-remains queued. Freeze the `RTX-runtime` bundle from the final clean pushed
-HEAD immediately before the explicit ownership cutover; do not reuse the old
-Vanda bundle or create a second GPU lane.
+`PREPARED_NOT_EXECUTED` — no GPU/model/WBC execution has yet been performed.
+The direct user takeover is the active authorization. Freeze the `RTX-runtime`
+bundle from the final clean pushed HEAD immediately before execution; do not
+reuse the stale 0064 bundle or create a second GPU lane.

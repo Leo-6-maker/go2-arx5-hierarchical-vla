@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Direct Corelab RTX CT3 runtime qualification (not a PBS submission).
 #
-# This launcher is intentionally inert until a one-line Vanda cutover token is
-# supplied. Once authorized, it starts exactly two Stage40-owned processes on
-# one explicitly selected GPU: a native constructor and a GR00T constructor.
-# Both processes stop at a barrier; neither is allowed to forward, step WBC,
-# or update a reference during CT3.
+# This launcher is intentionally inert until either a one-line Vanda cutover
+# token or the explicit Corelab-primary operator override is supplied. Once
+# authorized, it starts exactly two Stage40-owned processes on one explicitly
+# selected GPU: a native constructor and a GR00T constructor. Both processes
+# stop at a barrier; neither is allowed to forward, step WBC, or update a
+# reference during CT3.
 
 set -euo pipefail
 
@@ -26,7 +27,6 @@ set -euo pipefail
 : "${STAGE40_CT3_NATIVE_COMPAT_ROOT:?set the native compatibility root}"
 : "${STAGE40_CT3_NATIVE_LD_LIBRARY_PATH:?set the native runtime library path}"
 : "${STAGE40_CT3_GPU_UUID:?set the exact RTX GPU UUID}"
-: "${STAGE40_CUTOVER_TOKEN_FILE:?set a file containing the exact Vanda cutover token}"
 
 REPO="$(cd "${STAGE40_CORELAB_REPO}" && pwd -P)"
 OUTPUT_ROOT="$(cd "${STAGE40_CT3_OUTPUT_ROOT}" && pwd -P)"
@@ -43,11 +43,11 @@ MODEL_PYTHON="$(cd "$(dirname "${STAGE40_CT3_MODEL_PYTHON}")" && pwd -P)/$(basen
 NATIVE_NINJA="$(cd "$(dirname "${STAGE40_CT3_NATIVE_NINJA}")" && pwd -P)/$(basename "${STAGE40_CT3_NATIVE_NINJA}")"
 ISAACGYM_PYTHON="$(cd "${STAGE40_CT3_ISAACGYM_PYTHON}" && pwd -P)"
 NATIVE_COMPAT_ROOT="$(cd "${STAGE40_CT3_NATIVE_COMPAT_ROOT}" && pwd -P)"
-TOKEN_FILE="$(cd "$(dirname "${STAGE40_CUTOVER_TOKEN_FILE}")" && pwd -P)/$(basename "${STAGE40_CUTOVER_TOKEN_FILE}")"
 GPU_UUID="${STAGE40_CT3_GPU_UUID}"
 
 CUTOVER_TOKEN_QUEUE="VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY"
 CUTOVER_TOKEN_ENDED="VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY"
+CORELAB_OPERATOR_OVERRIDE="CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE"
 RELEASE_TOKEN="CORELAB_STAGE40_CT3_RELEASE"
 DEV_SEED=4242
 
@@ -65,14 +65,34 @@ test -x "${MODEL_PYTHON}"
 test -x "${NATIVE_NINJA}"
 test -d "${ISAACGYM_PYTHON}"
 test -d "${NATIVE_COMPAT_ROOT}"
-test -f "${TOKEN_FILE}"
-test ! -L "${TOKEN_FILE}"
 
-TOKEN_OBSERVED="$(tr -d '\r\n' < "${TOKEN_FILE}")"
-case "${TOKEN_OBSERVED}" in
-  "${CUTOVER_TOKEN_QUEUE}"|"${CUTOVER_TOKEN_ENDED}") ;;
-  *) exit 2 ;;
-esac
+AUTHORITY_MODE=""
+TOKEN_OBSERVED=""
+TOKEN_FILE=""
+if test "${STAGE40_CORELAB_OPERATOR_OVERRIDE:-}" = "${CORELAB_OPERATOR_OVERRIDE}"; then
+  AUTHORITY_MODE="CORELAB_PRIMARY_DIRECT_USER_OVERRIDE"
+  TOKEN_OBSERVED="${CORELAB_OPERATOR_OVERRIDE}"
+elif test -n "${STAGE40_CUTOVER_TOKEN_FILE:-}"; then
+  TOKEN_FILE="$(cd "$(dirname "${STAGE40_CUTOVER_TOKEN_FILE}")" && pwd -P)/$(basename "${STAGE40_CUTOVER_TOKEN_FILE}")"
+  test -f "${TOKEN_FILE}"
+  test ! -L "${TOKEN_FILE}"
+  TOKEN_OBSERVED="$(tr -d '\r\n' < "${TOKEN_FILE}")"
+  case "${TOKEN_OBSERVED}" in
+    "${CUTOVER_TOKEN_QUEUE}"|"${CUTOVER_TOKEN_ENDED}") ;;
+    *) exit 2 ;;
+  esac
+  AUTHORITY_MODE="VANDA_RELEASE_TOKEN"
+else
+  echo "Corelab operator override or Vanda release token is required" >&2
+  exit 2
+fi
+if test "${AUTHORITY_MODE}" = "VANDA_RELEASE_TOKEN"; then
+  VANDA_RELEASE_TOKEN_SEEN=true
+  CORELAB_OPERATOR_OVERRIDE_USED=false
+else
+  VANDA_RELEASE_TOKEN_SEEN=false
+  CORELAB_OPERATOR_OVERRIDE_USED=true
+fi
 
 # Validate the frozen bundle before touching CUDA. This imports only the
 # standard-library evidence module; it does not construct a model or simulator.
@@ -104,6 +124,7 @@ echo "STAGE40_PI_GATE=PI_GATE_STATE_0065"
 echo "STAGE40_BUNDLE=${BUNDLE}"
 echo "STAGE40_GPU_UUID=${GPU_UUID}"
 echo "STAGE40_CUTOVER_TOKEN=${TOKEN_OBSERVED}"
+echo "STAGE40_CUTOVER_AUTHORITY=${AUTHORITY_MODE}"
 echo "STAGE40_DEV_SEED=${DEV_SEED}"
 
 # nvidia-smi is intentionally the first GPU-facing operation. No Stage40
@@ -152,17 +173,28 @@ cleanup() {
 }
 trap cleanup EXIT
 
+NATIVE_AUTH_ARGS=(--gpu-uuid "${GPU_UUID}")
+MODEL_AUTH_ARGS=(--gpu-uuid "${GPU_UUID}")
+if test "${AUTHORITY_MODE}" = "CORELAB_PRIMARY_DIRECT_USER_OVERRIDE"; then
+  NATIVE_AUTH_ARGS+=(--corelab-primary-override)
+  MODEL_AUTH_ARGS+=(--corelab-primary-override)
+else
+  NATIVE_AUTH_ARGS+=(--cutover-token-file "${TOKEN_FILE}")
+  MODEL_AUTH_ARGS+=(--cutover-token-file "${TOKEN_FILE}")
+fi
+
 env \
   CUDA_VISIBLE_DEVICES="${GPU_UUID}" PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
   HOME="${HOME}" TMPDIR="${TMPDIR}" TMP="${TMP}" TEMP="${TEMP}" \
   XDG_CACHE_HOME="${XDG_CACHE_HOME}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME}" XDG_DATA_HOME="${XDG_DATA_HOME}" \
   PATH="${NATIVE_PATH}" LD_LIBRARY_PATH="${STAGE40_CT3_NATIVE_LD_LIBRARY_PATH}" \
   PYTHONPATH="${NATIVE_PYTHONPATH}" STAGE40_NATIVE_PYTHON="${NATIVE_PYTHON}" \
+  STAGE40_CORELAB_OPERATOR_OVERRIDE="${STAGE40_CORELAB_OPERATOR_OVERRIDE:-}" \
   "${NATIVE_PYTHON}" -B "${REPO}/scripts/stage40_corelab_native_hold.py" \
   --repo-root "${REPO}" --source-root "${WBC_SOURCE_ROOT}" \
   --output-dir "${RUN_ROOT}/native" --ready-marker "${NATIVE_READY}" \
   --release-marker "${RELEASE_MARKER}" --abort-marker "${ABORT_MARKER}" \
-  --cutover-token-file "${TOKEN_FILE}" --gpu-uuid "${GPU_UUID}" \
+  "${NATIVE_AUTH_ARGS[@]}" \
   --sim-device cuda:0 --seed "${DEV_SEED}" \
   >"${NATIVE_LOG}" 2>&1 &
 NATIVE_PID=$!
@@ -174,14 +206,15 @@ env \
   HF_HOME="${HF_HOME}" HF_HUB_CACHE="${HF_HUB_CACHE}" TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE}" \
   HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
   PYTHONPATH="${MODEL_PYTHONPATH}" \
+  STAGE40_CORELAB_OPERATOR_OVERRIDE="${STAGE40_CORELAB_OPERATOR_OVERRIDE:-}" \
   "${MODEL_PYTHON}" -B "${REPO}/scripts/stage40_corelab_model_hold.py" \
   --repo-root "${REPO}" --stage10-root "${STAGE10_ROOT}" \
   --base-model-path "${BASE_MODEL_PATH}" --model-path "${MODEL_PATH}" \
   --dataset-dir "${DATASET_DIR}" --modality-config "${MODALITY_CONFIG}" \
   --cosmos-snapshot "${COSMOS_SNAPSHOT}" --output-dir "${RUN_ROOT}/model" \
   --ready-marker "${MODEL_READY}" --release-marker "${RELEASE_MARKER}" \
-  --abort-marker "${ABORT_MARKER}" --cutover-token-file "${TOKEN_FILE}" \
-  --gpu-uuid "${GPU_UUID}" --device cuda:0 --seed "${DEV_SEED}" \
+  --abort-marker "${ABORT_MARKER}" \
+  "${MODEL_AUTH_ARGS[@]}" --device cuda:0 --seed "${DEV_SEED}" \
   >"${MODEL_LOG}" 2>&1 &
 MODEL_PID=$!
 
@@ -239,7 +272,9 @@ fi
 
 # Combine the two independently written runtime counters without inventing a
 # forward/step/update. The evidence verifier applies the exact zero budget.
-"${MODEL_PYTHON}" - "${REPO}" "${RUN_ROOT}" "${BUNDLE}" "${GPU_UUID}" <<'PY'
+"${MODEL_PYTHON}" - "${REPO}" "${RUN_ROOT}" "${BUNDLE}" "${GPU_UUID}" \
+  "${AUTHORITY_MODE}" "${TOKEN_OBSERVED}" "${VANDA_RELEASE_TOKEN_SEEN}" \
+  "${CORELAB_OPERATOR_OVERRIDE_USED}" <<'PY'
 import importlib.util
 import json
 import sys
@@ -249,6 +284,10 @@ repo = Path(sys.argv[1])
 run_root = Path(sys.argv[2])
 bundle_path = Path(sys.argv[3])
 gpu_uuid = sys.argv[4]
+authority_mode = sys.argv[5]
+token_observed = sys.argv[6]
+vanda_release_token_seen = sys.argv[7] == "true"
+corelab_operator_override = sys.argv[8] == "true"
 spec = importlib.util.spec_from_file_location("stage40_corelab_evidence", repo / "scripts" / "stage40_corelab_evidence.py")
 if spec is None or spec.loader is None:
     raise SystemExit("cannot load Corelab evidence module")
@@ -284,6 +323,10 @@ metadata = {
     "bundle": str(bundle_path),
     "bundle_sha256": module.sha256_file(bundle_path),
     "gpu_uuid": gpu_uuid,
+    "cutover_authority": authority_mode,
+    "cutover_token": token_observed,
+    "vanda_release_token_seen": vanda_release_token_seen,
+    "corelab_operator_override": corelab_operator_override,
     "native_return_code": 0,
     "model_return_code": 0,
     "model_forward_count": 0,
@@ -298,7 +341,7 @@ metadata = {
 )
 PY
 
-printf '%s\n' '{"observation_body":"native/observation_body.npz","observation_wrist":"native/observation_wrist.npz","state_v1":"native/state_v1.json","native_runtime":"native/native_runtime.json","model_runtime":"model/model_runtime.json","counter_observations":"counter_observations.json","logs":"stage40_ct3_runtime.log","telemetry":"runtime/gpu_telemetry.csv"}' > "${RUN_ROOT}/roles.json"
+printf '%s\n' '{"observation_body":"native/observation_body.npz","observation_wrist":"native/observation_wrist.npz","state_v1":"native/state_v1.json","native_runtime":"native/native_runtime.json","model_runtime":"model/model_runtime.json","counter_observations":"counter_observations.json","run_metadata":"run_metadata.json","logs":"stage40_ct3_runtime.log","telemetry":"runtime/gpu_telemetry.csv"}' > "${RUN_ROOT}/roles.json"
 "${MODEL_PYTHON}" "${REPO}/scripts/stage40_corelab_evidence.py" manifest \
   --stage RTX-runtime --evidence-root "${RUN_ROOT}" --roles-json "${RUN_ROOT}/roles.json" \
   --output "${RUN_ROOT}/evidence_manifest.json"

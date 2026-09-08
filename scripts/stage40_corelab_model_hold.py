@@ -6,6 +6,9 @@ snapshot, builds the exact processor and STRUCTURED@1000 model, moves the
 model to the selected RTX device, records construction telemetry, and waits
 for the native process to finish its same-lane qualification.  No observation
 is submitted and no model forward is possible through this entry point.
+Normal invocations require a Vanda release token; the active Corelab takeover
+may use the explicit operator-override flag and matching environment marker
+instead.
 """
 
 from __future__ import annotations
@@ -25,6 +28,7 @@ CUTOVER_TOKENS = (
     "VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY",
     "VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY",
 )
+CORELAB_OPERATOR_OVERRIDE = "CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE"
 RELEASE_TOKEN = "CORELAB_STAGE40_CT3_RELEASE"
 DEV_SEED = 4242
 
@@ -44,12 +48,19 @@ def _write_json(path: Path, value: Mapping[str, Any]) -> None:
     temporary.replace(destination)
 
 
-def _verify_cutover(token_file: Path, gpu_uuid: str) -> str:
+def _verify_cutover(token_file: Optional[Path], gpu_uuid: str, corelab_primary_override: bool) -> str:
+    _require(os.environ.get("CUDA_VISIBLE_DEVICES") == gpu_uuid, "CUDA_VISIBLE_DEVICES must be the selected GPU UUID")
+    if corelab_primary_override:
+        _require(
+            os.environ.get("STAGE40_CORELAB_OPERATOR_OVERRIDE") == CORELAB_OPERATOR_OVERRIDE,
+            "explicit Corelab operator override is required",
+        )
+        return CORELAB_OPERATOR_OVERRIDE
+    _require(token_file is not None, "Vanda release token file is required")
     _require(token_file.is_file() and not token_file.is_symlink(), "cutover token file is missing or symlinked")
     observed = token_file.read_text(encoding="utf-8")
     lines = observed.splitlines()
     _require(len(lines) == 1 and lines[0] in CUTOVER_TOKENS, "explicit Vanda release token is required")
-    _require(os.environ.get("CUDA_VISIBLE_DEVICES") == gpu_uuid, "CUDA_VISIBLE_DEVICES must be the selected GPU UUID")
     return lines[0]
 
 
@@ -83,7 +94,16 @@ def run(args: argparse.Namespace) -> int:
     abort_marker = Path(args.abort_marker).resolve()
     gpu_uuid = str(args.gpu_uuid)
     _require(int(args.seed) == DEV_SEED, "CT3 development seed must be 4242")
-    cutover_token = _verify_cutover(Path(args.cutover_token_file).resolve(), gpu_uuid)
+    cutover_token = _verify_cutover(
+        Path(args.cutover_token_file).resolve() if args.cutover_token_file is not None else None,
+        gpu_uuid,
+        bool(args.corelab_primary_override),
+    )
+    authorization_mode = (
+        "CORELAB_PRIMARY_DIRECT_USER_OVERRIDE"
+        if cutover_token == CORELAB_OPERATOR_OVERRIDE
+        else "VANDA_RELEASE_TOKEN"
+    )
     path_info = {
         "stage10_root": _path_info(Path(args.stage10_root), directory=True),
         "base_model_path": _path_info(Path(args.base_model_path), directory=True),
@@ -101,6 +121,7 @@ def run(args: argparse.Namespace) -> int:
         "dev_seed": DEV_SEED,
         "gpu_uuid": gpu_uuid,
         "cutover_token": cutover_token,
+        "authorization_mode": authorization_mode,
         "gr00t_forward_count": 0,
         "wbc_step_count": 0,
         "reference_update_count": 0,
@@ -156,6 +177,7 @@ def run(args: argparse.Namespace) -> int:
             "execution_class": "CORELAB_STAGE40_RTX_RUNTIME_QUALIFICATION_V1",
             "gpu_uuid": gpu_uuid,
             "cutover_token": cutover_token,
+            "authorization_mode": authorization_mode,
             "device": str(args.device),
             "model_constructor": "transformers.AutoModel.from_pretrained",
             "model_path": str(Path(args.model_path).resolve()),
@@ -203,6 +225,7 @@ def run(args: argparse.Namespace) -> int:
             "error": str(exc),
             "gpu_uuid": gpu_uuid,
             "cutover_token": cutover_token,
+            "authorization_mode": authorization_mode,
             "gr00t_forward_count": 0,
             "wbc_step_count": 0,
             "reference_update_count": 0,
@@ -234,7 +257,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--ready-marker", type=Path, required=True)
     parser.add_argument("--release-marker", type=Path, required=True)
     parser.add_argument("--abort-marker", type=Path, required=True)
-    parser.add_argument("--cutover-token-file", type=Path, required=True)
+    parser.add_argument("--cutover-token-file", type=Path)
+    parser.add_argument("--corelab-primary-override", action="store_true")
     parser.add_argument("--gpu-uuid", required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--seed", type=int, default=DEV_SEED)

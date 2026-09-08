@@ -10,6 +10,12 @@
     "VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY"
   ],
   "cutover_token_seen": false,
+  "authorization": {
+    "mode": "CORELAB_PRIMARY_DIRECT_USER_OVERRIDE",
+    "operator_override": "CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE",
+    "vanda_release_required": false,
+    "user_instruction": "2026-09-08 direct Corelab takeover"
+  },
   "execution_bundle": "FROZEN_ONLY_FROM_FINAL_CLEAN_PUSHED_HEAD_AFTER_THIS_PREPARATION",
   "selected_gpu_policy": {
     "host": "corelab-4080s",
@@ -68,7 +74,7 @@
     "policy_history_clear": false
   },
   "claim_boundary": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
-  "next_gate": "VANDA_A40_EXECUTION_OWNERSHIP_RELEASE",
+  "next_gate": "CORELAB_STAGE40_RTX_RUNTIME_EXECUTION",
   "next_gate_tokens": [
     "VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY",
     "VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY"

@@ -22,10 +22,11 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertIn("np.asarray([[0.30, 0.10, 0.58], [0.30, 0.10, 0.58]]", source)
         self.assertIn("np.asarray([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]]", source)
 
-    def test_cutover_token_requires_one_exact_line_and_selected_uuid(self) -> None:
-        uuid = "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+    def test_authorization_requires_vanda_token_or_explicit_corelab_override(self) -> None:
         source = NATIVE_SOURCE.read_text(encoding="utf-8")
         self.assertIn("lines[0] in CUTOVER_TOKENS", source)
+        self.assertIn("CORELAB_OPERATOR_OVERRIDE", source)
+        self.assertIn("corelab_primary_override", source)
         self.assertIn("CUDA_VISIBLE_DEVICES", source)
         self.assertIn("--gpu-uuid", source)
 
@@ -36,6 +37,7 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertIn("AutoModel.from_pretrained", source)
         self.assertIn("VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY", source)
         self.assertIn("VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY", source)
+        self.assertIn("CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE", source)
 
     def test_native_hold_has_no_policy_step_or_reference_update_call(self) -> None:
         source = NATIVE_SOURCE.read_text(encoding="utf-8")
@@ -51,6 +53,7 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertNotIn("singularity", source)
         self.assertIn("VANDA_STAGE40_A40_QUEUE_RELEASED_CORELAB_PRIMARY", source)
         self.assertIn("VANDA_STAGE40_A40_EXECUTION_ENDED_CORELAB_PRIMARY", source)
+        self.assertIn("CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE", source)
         self.assertIn("CUDA_VISIBLE_DEVICES=\"${GPU_UUID}\"", source)
         self.assertIn("nvidia-smi --query-gpu=index,uuid,name,memory.total,memory.used", source)
         self.assertIn("test \"${GPU_TOTAL_MIB}\" -ge 30000", source)
@@ -66,7 +69,7 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
             "STAGE40_CT3_MODEL_PYTHON",
             "STAGE40_CT3_MODEL_PATH",
             "STAGE40_CT3_COSMOS_SNAPSHOT",
-            "STAGE40_CUTOVER_TOKEN_FILE",
+            "STAGE40_CORELAB_OPERATOR_OVERRIDE",
         ):
             self.assertIn(variable, preflight)
 
@@ -81,6 +84,11 @@ class Stage40CorelabCt3StaticTest(unittest.TestCase):
         self.assertEqual(manifest["status"], "PREPARED_NOT_EXECUTED")
         self.assertFalse(manifest["cutover_token_seen"])
         self.assertEqual(len(manifest["cutover_tokens"]), 2)
+        self.assertEqual(
+            manifest["authorization"]["operator_override"],
+            "CORELAB_STAGE40_PRIMARY_DIRECT_USER_OVERRIDE",
+        )
+        self.assertFalse(manifest["authorization"]["vanda_release_required"])
         self.assertEqual(manifest["protocol"]["gr00t_forward_budget"], 0)
         self.assertEqual(manifest["protocol"]["wbc_step_budget"], 0)
         self.assertEqual(manifest["protocol"]["reference_update_budget"], 0)
