@@ -32,6 +32,12 @@ EXPECTED_TOTAL_BYTES = 919661
 EXPECTED_SPLIT_SHA256 = (
     "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246"
 )
+EXPECTED_STAGE22_STATS_SHA256 = (
+    "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23"
+)
+EXPECTED_STAGE22_RELATIVE_STATS_SHA256 = (
+    "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1"
+)
 EXPECTED_TRAIN_TARGETS = (
     "red_target_train_a",
     "red_target_train_b",
@@ -337,6 +343,10 @@ def close_stats(
             "sha256": _sha256_file(relative_stats_path),
         },
     }
+    if metadata_files["stats_json"]["sha256"] != EXPECTED_STAGE22_STATS_SHA256:
+        raise RuntimeError("FULL24 Stage22 stats.json SHA256 mismatch")
+    if metadata_files["relative_stats_json"]["sha256"] != EXPECTED_STAGE22_RELATIVE_STATS_SHA256:
+        raise RuntimeError("FULL24 Stage22 relative_stats.json SHA256 mismatch")
 
     labels: list[Any] = []
     snapshot_records: list[dict[str, Any]] = []
