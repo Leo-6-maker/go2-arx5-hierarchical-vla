@@ -591,7 +591,22 @@ def _run_phase(args: argparse.Namespace) -> int:
         _require(args.predecessor_seal is None, "root phase cannot receive predecessor seal")
     else:
         _require(args.predecessor_seal is not None and args.predecessor_evidence_root is not None, "phase predecessor seal/evidence root required")
-        predecessor_info = verify_stage_seal(args.predecessor_seal, args.predecessor_evidence_root, expected_stage=expected_predecessor)
+        # Verify the complete predecessor chain before touching CUDA.  The
+        # predecessor seal for RTX-Q0 itself binds the root RTX-runtime seal;
+        # later phases nest the same relationship one level at a time under
+        # the canonical chain directory.
+        predecessor_parent_stage = PREDECESSOR[expected_predecessor]
+        predecessor_parent_seal = None
+        if predecessor_parent_stage is not None:
+            predecessor_parent_root = Path(args.predecessor_evidence_root).resolve().parent / predecessor_parent_stage
+            predecessor_parent_seal = predecessor_parent_root / (predecessor_parent_stage + "_result.seal.json")
+            _require(predecessor_parent_seal.is_file(), "nested predecessor seal is missing")
+        predecessor_info = verify_stage_seal(
+            args.predecessor_seal,
+            args.predecessor_evidence_root,
+            expected_stage=expected_predecessor,
+            predecessor_seal=predecessor_parent_seal,
+        )
         _require(bundle["predecessor"]["seal_sha256"] == predecessor_info["seal_sha256"], "bundle predecessor seal mismatch")
     gpu_before = _snapshot_gpu(root / "gpu_before.json", "before_phase")
     telemetry.append(gpu_before)
