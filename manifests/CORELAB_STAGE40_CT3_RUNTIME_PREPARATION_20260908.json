@@ -1,0 +1,69 @@
+{
+  "schema": "CORELAB_STAGE40_CT3_RUNTIME_PREPARATION_V1",
+  "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "pi_gate": "PI_GATE_STATE_0064",
+  "issue_comment": 5574239666,
+  "stage": "RTX-runtime",
+  "status": "PREPARED_NOT_EXECUTED",
+  "cutover_token": "VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER",
+  "cutover_token_seen": false,
+  "execution_bundle": "FROZEN_ONLY_FROM_FINAL_CLEAN_PUSHED_HEAD_AFTER_THIS_PREPARATION",
+  "selected_gpu_policy": {
+    "host": "corelab-4080s",
+    "preferred_memory_mib_minimum": 30000,
+    "uuid_must_be_explicit": true,
+    "nvidia_smi_first": true,
+    "other_user_processes_modified": false,
+    "single_stage40_lane": true
+  },
+  "runners": {
+    "launcher": "hpc/stage40_corelab_ct3_runtime.sh",
+    "native_hold": "scripts/stage40_corelab_native_hold.py",
+    "model_hold": "scripts/stage40_corelab_model_hold.py",
+    "evidence_tool": "scripts/stage40_corelab_evidence.py"
+  },
+  "protocol": {
+    "native_constructor": true,
+    "native_observations": [
+      "body_rgb[96,96,3]",
+      "wrist_rgb[96,96,3]",
+      "StateV1[10] finite"
+    ],
+    "groot_runtime": true,
+    "cosmos_snapshot_binding": "exact_local_snapshot_only",
+    "structured_checkpoint": "STRUCTURED@1000 exact local path only",
+    "dual_runtime_barrier": true,
+    "gr00t_forward_budget": 0,
+    "wbc_step_budget": 0,
+    "reference_update_budget": 0,
+    "scientific_rows": 0
+  },
+  "input_identities": {
+    "structured_checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "structured_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "wbc_archive_sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+    "wbc_live_v2_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+  },
+  "forbidden_operations": {
+    "training": false,
+    "formal_seed_used": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "hardware_executed": false,
+    "h200_used": false,
+    "model_forward": false,
+    "wbc_step": false,
+    "reference_update": false,
+    "checkpoint_substitution": false,
+    "precision_change": false,
+    "quantization": false,
+    "cpu_offload": false,
+    "physics_teleport": false,
+    "policy_history_clear": false
+  },
+  "claim_boundary": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+  "next_gate": "VANDA_STAGE40_V2_QUEUE_RELEASED_FOR_CORELAB_TAKEOVER"
+}
