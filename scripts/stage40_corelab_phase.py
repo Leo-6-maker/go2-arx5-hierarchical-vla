@@ -450,8 +450,9 @@ def _stage40_executor_prefix_steps(chunk: Any) -> Tuple[int, float]:
     timestamps = np.asarray(chunk.point_timestamps, dtype=np.float64).reshape(-1)
     _require(timestamps.shape == (40,) and np.isfinite(timestamps).all(), "Stage40 action chunk must contain finite H40 timestamps")
     deltas = np.diff(timestamps)
-    _require(np.allclose(deltas, 0.05, rtol=0.0, atol=1e-9), "Stage40 action chunk has non-canonical sample period")
+    _require(np.isfinite(deltas).all() and np.all(deltas > 0.0), "Stage40 action chunk has invalid sample period")
     action_dt_s = float(deltas[0])
+    _require(np.allclose(deltas, action_dt_s, rtol=0.0, atol=1e-9), "Stage40 action chunk has non-uniform sample period")
     prefix_steps = int(round(HANDOFF_S / action_dt_s))
     _require(1 <= prefix_steps <= int(chunk.point_count), "Stage40 action prefix is outside the previous H40 chunk")
     return prefix_steps, action_dt_s
