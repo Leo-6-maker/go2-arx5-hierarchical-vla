@@ -19,7 +19,10 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
-import numpy as np
+try:
+    import numpy as np
+except ModuleNotFoundError:  # CPU-only bundle preparation need not import NumPy.
+    np = None  # type: ignore[assignment]
 
 import stage41_corelab_evidence as stage41
 
@@ -64,6 +67,11 @@ def _require(condition: bool, message: str) -> None:
         raise Stage42EvidenceError(message)
 
 
+def _require_numpy() -> Any:
+    _require(np is not None, "NumPy is required for array-based Stage42 audit operations")
+    return np
+
+
 def canonical_json_bytes(value: Mapping[str, Any]) -> bytes:
     return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("utf-8")
 
@@ -102,10 +110,11 @@ def expected_forbidden_operations() -> Dict[str, bool]:
     return {field: False for field in FORBIDDEN_FIELDS}
 
 
-def _finite_array(value: Any, shape: Sequence[int], label: str, dtype: Any = np.float64) -> np.ndarray:
-    array = np.asarray(value, dtype=dtype)
+def _finite_array(value: Any, shape: Sequence[int], label: str, dtype: Any = None) -> np.ndarray:
+    numpy = _require_numpy()
+    array = numpy.asarray(value, dtype=numpy.float64 if dtype is None else dtype)
     _require(tuple(array.shape) == tuple(shape), "%s shape mismatch: %s" % (label, array.shape))
-    _require(bool(np.isfinite(array).all()), "%s contains non-finite values" % label)
+    _require(bool(numpy.isfinite(array).all()), "%s contains non-finite values" % label)
     return array
 
 
@@ -447,7 +456,13 @@ def _joint_run_profile(run: Mapping[str, Any], urdf: Mapping[str, Any], soft_fac
     reset = np.asarray([bool(row.get("reset_buf")) for row in rows], dtype=bool)
     done = np.asarray([bool(row.get("done")) for row in rows], dtype=bool)
     invalid = np.asarray([bool(row.get("invalid_state")) for row in rows], dtype=bool)
-    _require(np.array_equal(margin, soft_margin_expected), "serialized joint margin is not the source soft-limit margin")
+    # The Stage41 runner serializes this diagnostic after casting to float32.
+    # Compare at that ABI boundary so harmless float64 reconstruction noise
+    # cannot turn an exact source-semantic match into a false audit failure.
+    _require(
+        np.array_equal(np.asarray(margin, dtype=np.float32), np.asarray(soft_margin_expected, dtype=np.float32)),
+        "serialized joint margin is not the source soft-limit margin",
+    )
     per_joint = []
     for index, joint in enumerate(urdf["joints"]):
         negative = margin[:, index] < 0.0
