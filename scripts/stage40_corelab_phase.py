@@ -49,7 +49,6 @@ from stage40_live_one_handoff import (  # noqa: E402
     SOURCE_FRAME,
     TCP_SEMANTIC_ID,
     _build_native,
-    _build_stage40_executor,
     _capture_scene,
     _current_eef,
     _current_state_v1,
@@ -60,6 +59,7 @@ from stage40_live_one_handoff import (  # noqa: E402
     _tensor_hash,
 )
 from go2arx5_vla.adapters import GR00TToWBCAdapter, ReferenceAdapterConfig  # noqa: E402
+from go2arx5_vla.runtime import RecedingHorizonExecutorV1  # noqa: E402
 from go2arx5_vla.safety import GateDecision, TrajectorySafetyGateV1  # noqa: E402
 
 
@@ -434,6 +434,29 @@ def _case_request(
     return chunk, case
 
 
+def _stage40_executor_prefix_steps(chunk: Any) -> Tuple[int, float]:
+    """Return the action-block prefix for the frozen 0.975 s handoff.
+
+    Stage40 schedules the native simulator in native control ticks (49 ticks
+    at the Corelab dt of 0.02 s), while the transported H40 action block is
+    sampled at 0.05 s.  Those are different clocks.  The generic executor
+    validates a prefix against the action block's point count, so passing the
+    native tick count (49) is invalid even though the native schedule is
+    correct.  Keep both quantities explicit and derive the executor prefix
+    from the action sample period instead of weakening the generic lifecycle
+    guard.
+    """
+
+    timestamps = np.asarray(chunk.point_timestamps, dtype=np.float64).reshape(-1)
+    _require(timestamps.shape == (40,) and np.isfinite(timestamps).all(), "Stage40 action chunk must contain finite H40 timestamps")
+    deltas = np.diff(timestamps)
+    _require(np.allclose(deltas, 0.05, rtol=0.0, atol=1e-9), "Stage40 action chunk has non-canonical sample period")
+    action_dt_s = float(deltas[0])
+    prefix_steps = int(round(HANDOFF_S / action_dt_s))
+    _require(1 <= prefix_steps <= int(chunk.point_count), "Stage40 action prefix is outside the previous H40 chunk")
+    return prefix_steps, action_dt_s
+
+
 def _initial_bind(
     native: Any,
     env: Any,
@@ -452,7 +475,23 @@ def _initial_bind(
         "dog_history": _tensor_hash(env.dog_obs_history),
     }
     bind = native.initial_bind_reference(chunk)
-    executor, handoff_steps = _build_stage40_executor(native_dt_s=float(native.dt), provenance=executor_provenance)
+    native_handoff_steps = int(round(HANDOFF_S / float(native.dt)))
+    _require(native_handoff_steps > 0, "Stage40 native handoff schedule produced no control ticks")
+    executor_prefix_steps, action_dt_s = _stage40_executor_prefix_steps(chunk)
+    executor_metadata = dict(executor_provenance)
+    executor_metadata.update({
+        "handoff_target_s": HANDOFF_S,
+        "native_control_dt_s": float(native.dt),
+        "native_handoff_steps": native_handoff_steps,
+        "executor_prefix_steps": executor_prefix_steps,
+        "action_sample_dt_s": action_dt_s,
+        "prefix_schedule": "ROUND_FROZEN_HANDOFF_S_OVER_ACTION_SAMPLE_DT",
+    })
+    executor = RecedingHorizonExecutorV1(
+        prefix_steps=executor_prefix_steps,
+        allowed_prefix_steps=(executor_prefix_steps,),
+        provenance=executor_metadata,
+    )
     initial_update = executor.submit_initial(
         chunk,
         receive_timestamp=sim_time,
@@ -471,7 +510,10 @@ def _initial_bind(
     event = dict(bind)
     event.update({
         "executor_initial": initial_update.as_dict(),
-        "handoff_steps": int(handoff_steps),
+        "handoff_steps": native_handoff_steps,
+        "native_handoff_steps": native_handoff_steps,
+        "executor_prefix_steps": executor_prefix_steps,
+        "action_sample_dt_s": action_dt_s,
         "physics_root_state_unchanged": before["root"] == after["root"],
         "physics_dof_state_unchanged": before["dof"] == after["dof"],
         "episode_length_unchanged": before["episode"] == after["episode"],
@@ -522,7 +564,10 @@ def _update_reference(
         current_achieved_orientation=current_quaternion,
         previous_predicted_position=old_position,
         previous_predicted_orientation=old_quaternion,
-        executed_prefix_steps=handoff_steps,
+        # The simulator has advanced by the native tick count recorded below;
+        # the executor prefix is expressed in H40 action samples and is kept
+        # within the previous chunk by its lifecycle contract.
+        executed_prefix_steps=int(executor.prefix_steps),
     )
     native_update = native.load_reference_chunk(next_chunk)
     after = {
@@ -538,6 +583,9 @@ def _update_reference(
         "handoff_index": int(handoff_index),
         "executor_update": update.as_dict(),
         "actual_native_control_steps": int(handoff_steps),
+        "native_handoff_steps": int(handoff_steps),
+        "executor_prefix_steps": int(executor.prefix_steps),
+        "action_sample_dt_s": float(np.diff(np.asarray(previous_chunk.point_timestamps, dtype=np.float64))[0]),
         "physics_root_state_unchanged": before["root"] == after["root"],
         "physics_dof_state_unchanged": before["dof"] == after["dof"],
         "episode_length_unchanged": before["episode"] == after["episode"],
