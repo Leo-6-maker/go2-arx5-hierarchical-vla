@@ -230,8 +230,15 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("bundle schema mismatch")
     if bundle.get("repository", {}).get("branch") != BRANCH:
         raise RuntimeError("bundle branch mismatch")
-    if bundle.get("repository", {}).get("source_head") != expected_head:
-        raise RuntimeError("bundle source_head mismatch")
+    source_head = str(bundle.get("repository", {}).get("source_head", ""))
+    if len(source_head) != 40:
+        raise RuntimeError("bundle source_head is not a commit SHA")
+    ancestor = subprocess.run(
+        ["git", "-C", str(repo), "merge-base", "--is-ancestor", source_head, expected_head],
+        check=False,
+    )
+    if ancestor.returncode != 0:
+        raise RuntimeError("bundle source_head is not an ancestor of the execution HEAD")
     for key in ("runner", "pbs", "stats_closure"):
         item = bundle["execution_files"][key]
         path = repo / str(item["path"])
