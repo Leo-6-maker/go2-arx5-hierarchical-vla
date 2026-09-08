@@ -27,7 +27,13 @@ set -euo pipefail
 cd "${STAGE45B_REPO}"
 test "$(git branch --show-current)" = "stage45b/full24-fresh-base-execution"
 test -z "$(git status --porcelain=v1)"
-mkdir -p "${STAGE45B_OUTPUT_ROOT}"
+
+OUTPUT_PARENT="$(dirname "${STAGE45B_OUTPUT_ROOT}")"
+test -d "${OUTPUT_PARENT}"
+test ! -e "${STAGE45B_OUTPUT_ROOT}"
+BOOTSTRAP_TMPDIR="${OUTPUT_PARENT}/.stage45b-pbs-tmp-${PBS_JOBID}"
+test ! -e "${BOOTSTRAP_TMPDIR}"
+mkdir -p "${BOOTSTRAP_TMPDIR}"
 
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
@@ -36,7 +42,7 @@ case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed $
 
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
-export TMPDIR="${STAGE45B_OUTPUT_ROOT}/pbs-tmp"
+export TMPDIR="${BOOTSTRAP_TMPDIR}"
 export TMP="${TMPDIR}" TEMP="${TMPDIR}"
 mkdir -p "${TMPDIR}"
 
