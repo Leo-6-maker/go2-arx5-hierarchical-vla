@@ -6,8 +6,9 @@
 # binding whose paths and hashes have been independently sealed.  The Python
 # native preflight must reproduce the accepted Stage45B Golden native-runtime
 # activation and the Stage45C input-loader boundary before the adapter imports
-# a checkpoint model.  The adapter retains raw arrays before the existing
-# Stage44R evaluator is called.
+# a checkpoint model.  The bootstrap installs the historical Stage38-proven
+# processor-only Cosmos local-snapshot binding before GR00T model construction;
+# the adapter retains raw arrays before the existing Stage44R evaluator is called.
 
 #PBS -N st45c_eval
 #PBS -P CFP03-CF-004
@@ -83,6 +84,8 @@ test "$(sha256sum "${STAGE45C_GROOT_SNAPSHOT_VERIFIER}" | awk '{print $1}')" = "
 test -f "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}"
 test ! -L "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}"
 test "$(sha256sum "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}" | awk '{print $1}')" = "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT_SHA256}"
+test -f "${STAGE45C_REPO}/scripts/stage45c_h200_eval_bootstrap.py"
+test ! -L "${STAGE45C_REPO}/scripts/stage45c_h200_eval_bootstrap.py"
 
 # This is the exact Stage45B Golden activation law.  It is deliberately done
 # before the first Stage45C Python process and keeps the ambient tail only as
@@ -133,7 +136,7 @@ trap copy_native_preflight_evidence EXIT
 grep -Fq '"status": "PASS"' "${NATIVE_PREFLIGHT_EVIDENCE}"
 grep -Fq '"token": "STAGE45C_GOLDEN_NATIVE_RUNTIME_TRANSPLANT_QUALIFIED"' "${NATIVE_PREFLIGHT_EVIDENCE}"
 
-"${STAGE45C_PYTHON}" "${STAGE45C_REPO}/scripts/stage45c_h200_eval_runtime_adapter.py" \
+"${STAGE45C_PYTHON}" "${STAGE45C_REPO}/scripts/stage45c_h200_eval_bootstrap.py" \
   --execute \
   --protocol "${STAGE45C_PROTOCOL}" \
   --mapping "${STAGE45C_MAPPING}" \

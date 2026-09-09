@@ -114,7 +114,11 @@ class TestStage45CH200EvalRuntimeAdapter(unittest.TestCase):
 
     def test_pbs_envelope_calls_only_adapter(self) -> None:
         source = PBS.read_text(encoding="utf-8")
-        self.assertIn("stage45c_h200_eval_runtime_adapter.py", source)
+        self.assertIn('"${STAGE45C_REPO}/scripts/stage45c_h200_eval_bootstrap.py"', source)
+        bootstrap = (ROOT / "scripts/stage45c_h200_eval_bootstrap.py").read_text(encoding="utf-8")
+        self.assertIn("stage45c_h200_eval_runtime_adapter.py", bootstrap)
+        self.assertIn("runpy.run_path", bootstrap)
+        self.assertNotIn("--execute", bootstrap)
         self.assertNotIn("stage45c_run_train24_checkpoint_eval.py", source)
         self.assertNotIn("STAGE45C_STATS_PATH", source)
         self.assertNotIn("STAGE45C_RAW_PREDICTIONS", source)
