@@ -781,8 +781,17 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         expected_manifest_payload_sha256=args.groot_manifest_payload_sha256,
         expected_payload_tree_sha256=args.groot_payload_tree_sha256,
     )
-    if snapshot_check.get("origin_commit") != EXPECTED_GROOT_COMMIT or snapshot_check.get("origin_tree") != EXPECTED_GROOT_TREE:
+    snapshot_manifest = read_json(Path(args.groot_manifest).resolve())
+    if snapshot_manifest.get("origin_commit") != EXPECTED_GROOT_COMMIT or snapshot_manifest.get("origin_tree") != EXPECTED_GROOT_TREE:
         raise RuntimeError("GR00T snapshot origin identity mismatch")
+    snapshot_check.update(
+        {
+            "origin_repository": snapshot_manifest.get("origin_repository"),
+            "origin_commit": snapshot_manifest.get("origin_commit"),
+            "origin_tree": snapshot_manifest.get("origin_tree"),
+            "source_route": snapshot_manifest.get("source_route"),
+        }
+    )
     import_results = import_chain(repo, groot)
 
     import torch
