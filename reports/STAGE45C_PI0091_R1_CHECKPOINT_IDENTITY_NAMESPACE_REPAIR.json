@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE45C_PI0091_R1_CHECKPOINT_IDENTITY_NAMESPACE_REPAIR_V1",
+  "status": "PASS",
+  "pi_gate": "PI_GATE_STATE_0091",
+  "result": "R1_NAMESPACE_REPAIR_READY",
+  "scientific_contract_changed": false,
+  "protocol": {
+    "schema": "STAGE45C_TRAIN24_EVALUATION_PROTOCOL_FROZEN_V1",
+    "sha256": "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f",
+    "protocol_source_head": "54a833eaa7037cdc20397ef182b36647194040cb",
+    "unchanged": true
+  },
+  "r0": {
+    "token": "STAGE45C_FULL24_CHECKPOINT_IDENTITY_NAMESPACES_RECONCILED",
+    "evidence_file": "STAGE45C_FULL24_CHECKPOINT_IDENTITY_NAMESPACE_RECONCILIATION.json",
+    "evidence_sha256": "1ffb41fa229178b425c926954bd3b02a88570244f1cf564828cac85e51d0940c",
+    "status": "PASS"
+  },
+  "integrated_support_commit": {
+    "commit": "5476314b515e2fc6f4d36d526019c86c200d28e8",
+    "merge_commit_before_r1_repair": "8a7dce8247390b1eb02dd6ab2abdcdfabea8f7fc",
+    "merge_mode": "history-preserving_no-ff",
+    "status": "INTEGRATED"
+  },
+  "checkpoint_identity_laws": {
+    "checkpoint_tree": {
+      "field": "checkpoint_tree_sha256",
+      "prefix_field": "checkpoint_tree_prefix",
+      "law": "SHA256(concat(sorted((checkpoint-N + '/' + relative_path) + NUL + decimal_bytes + NUL + file_sha256 + LF)))",
+      "scope": "all regular files in one materialized checkpoint directory"
+    },
+    "training_return": {
+      "field": "training_return_digest_sha256",
+      "prefix_field": "training_return_digest_prefix",
+      "law": "same canonical line law with stage45b/checkpoint-N prefix",
+      "scope": "same checkpoint files in PI0087 training-return namespace"
+    }
+  },
+  "checkpoint_identities": {
+    "FULL24@1000": {
+      "checkpoint_tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "checkpoint_tree_prefix": "checkpoint-1000",
+      "training_return_digest_sha256": "8f0ebcf63ce61c0abb2f98b5e5f6802f9407fd4c8c132fc0dbce8f084bfce4c4",
+      "training_return_digest_prefix": "stage45b/checkpoint-1000"
+    },
+    "FULL24@2000": {
+      "checkpoint_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "checkpoint_tree_prefix": "checkpoint-2000",
+      "training_return_digest_sha256": "705012d77f198514318dc1cf53cb9e31b51d8ac7a64a6135f8291546e32a3850",
+      "training_return_digest_prefix": "stage45b/checkpoint-2000"
+    }
+  },
+  "preserved_semantics": {
+    "sampler": true,
+    "noise_protocol": true,
+    "decoder": true,
+    "evaluator": true,
+    "checkpoint_order": true,
+    "data_cohort": true,
+    "thresholds": true,
+    "model_bytes": true
+  },
+  "files_changed": [
+    "scripts/stage45c_h200_eval_runtime_adapter.py",
+    "manifests/STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1.json",
+    "manifests/STAGE45C_H200_EVAL_RUNTIME_BINDING_TEMPLATE_V1.json",
+    "hpc/pbs/stage45c_train24_checkpoint_eval_h200.pbs",
+    "tests/test_stage45c_h200_eval_runtime_adapter.py",
+    "docs/stages/STAGE45C_H200_EVAL_RUNTIME_ADAPTER.md"
+  ],
+  "h200": {
+    "qsub_submissions": 0,
+    "model_construction": false,
+    "model_forward": false,
+    "training": false,
+    "checkpoint_write": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false
+  },
+  "execution_head": "EXTERNAL_ADMISSION_EXECUTION_HEAD"
+}

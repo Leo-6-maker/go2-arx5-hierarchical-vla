@@ -1,7 +1,7 @@
 # Stage45C H200 inference runtime adapter
 
-This support-branch artifact implements the Corelab continuation authorized by
-PI_GATE_STATE_0090.  It is an execution adapter, not a new scientific
+This canonical-branch artifact implements the Corelab continuation authorized by
+PI_GATE_STATE_0091.  It is an execution adapter, not a new scientific
 protocol.  The canonical Stage45C protocol remains
 `manifests/STAGE45C_TRAIN24_EVALUATION_PROTOCOL_FROZEN_V1.json` with SHA256
 `0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f`.
@@ -32,8 +32,11 @@ pathless.  It records every identity and the complete path-key set, with all
 values `null`.  A Vanda runtime release may make a private copy and fill the
 same keys; the adapter rejects missing, symlinked, mismatched, or pre-existing
 execution paths.  No node-local path is part of the repository.  The historical
-comparator remains explicitly `PENDING_VANDA_RECOVERY`, has no materialization
-path, and cannot be substituted.
+comparator is `RECOVERED_CANONICAL_READ_ONLY`, records recovery evidence
+`c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9`, has no
+committed materialization path, and cannot be substituted.
+
+PI0091 keeps the P1 checkpoint tree identity separate from the PI0087 training-return identity.  The fields are `checkpoint_tree_sha256` and `training_return_digest_sha256`; the latter is verified under its own `stage45b/checkpoint-N` namespace law and is never compared directly to the canonical checkpoint tree digest.
 
 The path keys are:
 
@@ -76,11 +79,11 @@ model construction, model forward, GPU, training, optimizer, Validation-E,
 Holdout-F, WBC, simulator, hardware, and scheduler submission exposure.
 `--execute` is only for the separately authorized H200 envelope
 `hpc/pbs/stage45c_train24_checkpoint_eval_h200.pbs`; it requires a clean
-support checkout, a scheduler job ID, a visible H200, and a fresh output root.
+canonical final-execution checkout, a scheduler job ID, a visible H200, and a fresh output root.
 It never writes checkpoints, performs backward/optimizer work, or submits a
 job itself.  Any identity, shape, finiteness, or counter mismatch fails closed.
 
 The preparation return token is
-`CORELAB_STAGE45C_H200_EVAL_RUNTIME_ADAPTER_READY`.  This branch does not
-merge into the canonical Vanda branch and does not issue
-`STAGE45C_TRAIN24_EVALUATION_PROTOCOL_FROZEN`.
+`CORELAB_STAGE45C_H200_EVAL_RUNTIME_ADAPTER_READY`.  The canonical branch
+contains the history-preserving integration of the exact runtime-adapter
+support commit; the frozen protocol remains unchanged.

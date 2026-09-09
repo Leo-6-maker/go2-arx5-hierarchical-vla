@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Stage45C H200 inference runtime adapter.
 
-This module is the Corelab-side execution plumbing for PI0090.  It binds a
+This module is the Corelab-side execution plumbing for PI0091.  It binds a
 Vanda Golden Training Release V2 to the frozen Stage45C protocol and, when a
 future H200 job invokes ``--execute``, performs the following single-job
 pipeline::
@@ -40,13 +40,14 @@ if str(SRC) not in sys.path:
 
 
 STAGE = "Stage45C"
-PI_GATE = "PI_GATE_STATE_0090"
+PI_GATE = "PI_GATE_STATE_0091"
 PROTOCOL_SCHEMA = "CORELAB_STAGE45C_TRAIN24_EVALUATION_PROTOCOL_V1"
 MAPPING_SCHEMA = "CORELAB_STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1"
 BINDING_SCHEMA = "CORELAB_STAGE45C_H200_EVAL_RUNTIME_BINDING_V1"
 ADAPTER_SCHEMA = "CORELAB_STAGE45C_H200_EVAL_RUNTIME_ADAPTER_V1"
 PROTOCOL_SHA256 = "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f"
-CANONICAL_HEAD = "54a833eaa7037cdc20397ef182b36647194040cb"
+PROTOCOL_SOURCE_HEAD = "54a833eaa7037cdc20397ef182b36647194040cb"
+EXTERNAL_EXECUTION_HEAD = "EXTERNAL_ADMISSION_EXECUTION_HEAD"
 GOLDEN_HEAD = "8197e4cd591b9c44cf9f43576d3020e9e6ff5f24"
 PROMOTION_SHA256 = "a6f803e257ceeb0434027d8a35e32a7b8c66baf8226234bd6299cebf417446f9"
 RELEASE_V2_SHA256 = "8306b76f327b260310a22a5d22551ebf299366f8fea4124bcbfbdab87e807666"
@@ -111,34 +112,72 @@ WINDOW_IDS = tuple(
 
 CHECKPOINT_EXPECTATIONS = {
     "BASE": {
-        "tree_sha256": BASE_TREE_SHA256,
-        "tree_prefix": "payload/GR00T-N1.7-3B",
+        "checkpoint_tree_sha256": BASE_TREE_SHA256,
+        "checkpoint_tree_prefix": "payload/GR00T-N1.7-3B",
+        "training_return_digest_sha256": None,
+        "training_return_digest_prefix": None,
         "role": "REFERENCE",
         "decode_kind": "BASE_PROCESSOR_STATISTICS",
         "decode_stats_sha256": BASE_PROCESSOR_STATS_SHA256,
     },
     "STRUCTURED@1000": {
-        "tree_sha256": STRUCTURED_1000_TREE_SHA256,
-        "tree_prefix": "stage38d/checkpoint-1000",
+        "checkpoint_tree_sha256": STRUCTURED_1000_TREE_SHA256,
+        "checkpoint_tree_prefix": "stage38d/checkpoint-1000",
+        "training_return_digest_sha256": None,
+        "training_return_digest_prefix": None,
         "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
         "decode_kind": "HISTORICAL_STRUCTURED_ACTION_STATISTICS",
         "decode_stats_sha256": HISTORICAL_STATS_SHA256,
     },
     "FULL24@1000": {
-        "tree_sha256": FULL24_1000_TREE_SHA256,
-        "tree_prefix": "stage45b/checkpoint-1000",
+        "checkpoint_tree_sha256": FULL24_1000_TREE_SHA256,
+        "checkpoint_tree_prefix": "checkpoint-1000",
+        "training_return_digest_sha256": "8f0ebcf63ce61c0abb2f98b5e5f6802f9407fd4c8c132fc0dbce8f084bfce4c4",
+        "training_return_digest_prefix": "stage45b/checkpoint-1000",
         "role": "PRIMARY_COVERAGE_ENDPOINT",
         "decode_kind": "FULL24_RUNTIME_V2_STATISTICS",
         "decode_stats_sha256": FULL24_STATS_SHA256,
     },
     "FULL24@2000": {
-        "tree_sha256": FULL24_2000_TREE_SHA256,
-        "tree_prefix": "stage45b/checkpoint-2000",
+        "checkpoint_tree_sha256": FULL24_2000_TREE_SHA256,
+        "checkpoint_tree_prefix": "checkpoint-2000",
+        "training_return_digest_sha256": "705012d77f198514318dc1cf53cb9e31b51d8ac7a64a6135f8291546e32a3850",
+        "training_return_digest_prefix": "stage45b/checkpoint-2000",
         "role": "SECONDARY_EXPOSURE_ENDPOINT",
         "decode_kind": "FULL24_RUNTIME_V2_STATISTICS",
         "decode_stats_sha256": FULL24_STATS_SHA256,
     },
 }
+
+
+def checkpoint_identity_namespaces() -> dict[str, dict[str, Any]]:
+    return {
+        label: {
+            "checkpoint_tree_sha256": values["checkpoint_tree_sha256"],
+            "checkpoint_tree_prefix": values["checkpoint_tree_prefix"],
+            "training_return_digest_sha256": values["training_return_digest_sha256"],
+            "training_return_digest_prefix": values["training_return_digest_prefix"],
+        }
+        for label, values in CHECKPOINT_EXPECTATIONS.items()
+    }
+
+
+def checkpoint_identity_laws() -> dict[str, dict[str, str]]:
+    return {
+        "checkpoint_tree": {
+            "field": "checkpoint_tree_sha256",
+            "prefix_field": "checkpoint_tree_prefix",
+            "law": "SHA256(concat(sorted((checkpoint-N + '/' + relative_path) + NUL + decimal_bytes + NUL + file_sha256 + LF)))",
+            "scope": "all regular files in one materialized checkpoint directory",
+        },
+        "training_return": {
+            "field": "training_return_digest_sha256",
+            "prefix_field": "training_return_digest_prefix",
+            "law": "same canonical line law with stage45b/checkpoint-N prefix",
+            "scope": "same checkpoint files in PI0087 training-return namespace",
+        },
+    }
+
 
 PATH_KEYS = (
     "base_checkpoint",
@@ -319,6 +358,23 @@ def tree_digest(entries: Iterable[Mapping[str, Any]]) -> str:
     return digest.hexdigest()
 
 
+def relabel_tree_namespace(entries: Iterable[Mapping[str, Any]], old_prefix: str, new_prefix: str) -> list[dict[str, Any]]:
+    """Rebind already-hashed files to a named digest namespace without rereading bytes."""
+
+    old_prefix = old_prefix.rstrip("/")
+    new_prefix = new_prefix.rstrip("/")
+    result: list[dict[str, Any]] = []
+    for entry in entries:
+        path = str(entry["path"])
+        _require(path.startswith(old_prefix + "/"), f"tree namespace prefix drift: {path}")
+        result.append({
+            "path": f"{new_prefix}/{path[len(old_prefix) + 1:]}",
+            "bytes": int(entry["bytes"]),
+            "sha256": str(entry["sha256"]),
+        })
+    return sorted(result, key=lambda item: str(item["path"]))
+
+
 def cosmos_tree_digest(root: Path) -> tuple[str, int]:
     """Reproduce the accepted Cosmos cache digest (safe internal symlinks only)."""
 
@@ -436,8 +492,14 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
     _equal(mapping.get("status"), "AUDITED_NOT_EXECUTED", "checkpoint mapping status")
     _equal(mapping.get("token"), "STAGE45C_CHECKPOINT_RUNTIME_MAPPING_AUDITED", "checkpoint mapping token")
     _equal(mapping.get("protocol_sha256"), PROTOCOL_SHA256, "checkpoint mapping protocol SHA")
-    _equal(mapping.get("canonical_head"), CANONICAL_HEAD, "checkpoint mapping canonical head")
+    _equal(mapping.get("protocol_source_head"), PROTOCOL_SOURCE_HEAD, "checkpoint mapping protocol source head")
+    _equal(mapping.get("execution_head"), EXTERNAL_EXECUTION_HEAD, "checkpoint mapping execution head binding")
     _equal(list(mapping.get("checkpoint_order", [])), list(CHECKPOINT_ORDER), "checkpoint order")
+    _equal(
+        mapping.get("checkpoint_identity_laws"),
+        checkpoint_identity_laws(),
+        "checkpoint identity namespace declarations",
+    )
     entries = mapping.get("checkpoint_runtime_mapping")
     _require(isinstance(entries, list) and len(entries) == len(CHECKPOINT_ORDER), "four checkpoint mappings required")
     for item, label in zip(entries, CHECKPOINT_ORDER):
@@ -445,8 +507,11 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
         expected = CHECKPOINT_EXPECTATIONS[label]
         _equal(item.get("label"), label, f"mapping label {label}")
         _equal(item.get("role"), expected["role"], f"mapping role {label}")
-        _equal(item.get("tree_sha256"), expected["tree_sha256"], f"mapping tree {label}")
-        _equal(item.get("tree_prefix"), expected["tree_prefix"], f"mapping tree prefix {label}")
+        _require("tree_sha256" not in item and "tree_prefix" not in item, f"ambiguous checkpoint identity fields remain for {label}")
+        _equal(item.get("checkpoint_tree_sha256"), expected["checkpoint_tree_sha256"], f"mapping checkpoint tree {label}")
+        _equal(item.get("checkpoint_tree_prefix"), expected["checkpoint_tree_prefix"], f"mapping checkpoint tree prefix {label}")
+        _equal(item.get("training_return_digest_sha256"), expected["training_return_digest_sha256"], f"mapping training-return digest {label}")
+        _equal(item.get("training_return_digest_prefix"), expected["training_return_digest_prefix"], f"mapping training-return digest prefix {label}")
         _equal(item.get("processor_config_sha256"), BASE_PROCESSOR_CONFIG_SHA256, f"processor config {label}")
         _equal(item.get("processor_statistics_sha256"), BASE_PROCESSOR_STATS_SHA256, f"processor statistics {label}")
         decode = item.get("decode_statistics")
@@ -454,7 +519,8 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
         _equal(decode.get("kind"), expected["decode_kind"], f"decode kind {label}")
         _equal(decode.get("sha256"), expected["decode_stats_sha256"], f"decode statistics {label}")
         if label == "STRUCTURED@1000":
-            _equal(decode.get("runtime_materialization_status"), "PENDING_VANDA_RECOVERY", "historical runtime state")
+            _equal(decode.get("runtime_materialization_status"), "RECOVERED_CANONICAL_READ_ONLY", "historical runtime state")
+            _equal(decode.get("recovery_evidence_sha256"), "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9", "historical recovery evidence")
             _require("path" not in decode or decode.get("path") is None, "historical mapping may not carry a path")
         if label.startswith("FULL24"):
             _equal(decode.get("payload_sha256"), FULL24_STATS_PAYLOAD_SHA256, f"V2 payload {label}")
@@ -463,12 +529,13 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
     _require(isinstance(historical, Mapping), "historical comparator mapping missing")
     for key, expected in {
         "label": "STRUCTURED@1000",
-        "expected_tree_sha256": STRUCTURED_1000_TREE_SHA256,
+        "expected_checkpoint_tree_sha256": STRUCTURED_1000_TREE_SHA256,
         "expected_file_count": 19,
         "expected_total_bytes": 20889596357,
         "expected_structured_action_stats_sha256": HISTORICAL_STATS_SHA256,
         "known_package_sha256": "4e2f5ca562f108b0f0ec55cd97083d163b4e450be0e8c4ae0f1215bf98b458b6",
-        "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+        "runtime_materialization_status": "RECOVERED_CANONICAL_READ_ONLY",
+        "recovery_evidence_sha256": "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9",
         "materialization_path": None,
         "substitution_allowed": False,
     }.items():
@@ -525,11 +592,12 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
     return {
         "protocol_sha256": observed_protocol_sha,
         "mapping_sha256": mapping_sha,
-        "canonical_head": CANONICAL_HEAD,
+        "protocol_source_head": PROTOCOL_SOURCE_HEAD,
+        "execution_head": EXTERNAL_EXECUTION_HEAD,
         "checkpoint_order": list(CHECKPOINT_ORDER),
         "windows_per_checkpoint": 24,
         "planned_forwards_total": 96,
-        "historical_materialization": "PENDING_VANDA_RECOVERY",
+        "historical_materialization": "RECOVERED_CANONICAL_READ_ONLY",
         "decoder_source_sha256": DECODER_SOURCE_SHA256,
         "metrics_source_sha256": METRICS_SOURCE_SHA256,
         "scientific_contract_changed": False,
@@ -575,14 +643,17 @@ def _expected_identity_map() -> dict[str, Any]:
             "modality_sha256": MODALITY_SHA256,
             "training_config_sha256": CONFIG_SHA256,
         },
+        "checkpoint_identity_namespaces": checkpoint_identity_namespaces(),
+        "checkpoint_identity_laws": checkpoint_identity_laws(),
         "checkpoint_integrity_delta_audit_sha256": INTEGRITY_AUDIT_SHA256,
         "runtime_admission_sha256": RUNTIME_ADMISSION_SHA256,
         "historical_comparator": {
-            "tree_sha256": STRUCTURED_1000_TREE_SHA256,
+            "checkpoint_tree_sha256": STRUCTURED_1000_TREE_SHA256,
             "file_count": 19,
             "bytes": 20889596357,
             "stats_sha256": HISTORICAL_STATS_SHA256,
-            "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+            "runtime_materialization_status": "RECOVERED_CANONICAL_READ_ONLY",
+            "recovery_evidence_sha256": "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9",
         },
     }
 
@@ -596,7 +667,12 @@ def validate_runtime_binding(binding: Mapping[str, Any], mapping_summary: Mappin
     _require(binding.get("status") in {"LATE_BOUND_NOT_EXECUTED", "READY_NOT_EXECUTED", "BOUND_NOT_EXECUTED", "READY_FOR_EXECUTION"}, "runtime binding status is not admissible")
     _equal(binding.get("protocol_sha256"), PROTOCOL_SHA256, "runtime binding protocol SHA")
     _equal(binding.get("mapping_sha256"), mapping_summary.get("mapping_sha256"), "runtime binding mapping SHA")
-    _equal(binding.get("canonical_head"), CANONICAL_HEAD, "runtime binding canonical head")
+    _equal(binding.get("protocol_source_head"), PROTOCOL_SOURCE_HEAD, "runtime binding protocol source head")
+    execution_head = binding.get("execution_head")
+    if require_paths:
+        _require(isinstance(execution_head, str) and len(execution_head) == 40 and all(char in "0123456789abcdef" for char in execution_head), "runtime binding execution head must be an exact commit SHA")
+    else:
+        _equal(execution_head, EXTERNAL_EXECUTION_HEAD, "runtime binding execution head placeholder")
     _equal(binding.get("source_golden_head"), GOLDEN_HEAD, "runtime binding Golden HEAD")
 
     identities = binding.get("identities")
@@ -655,9 +731,14 @@ def validate_runtime_binding(binding: Mapping[str, Any], mapping_summary: Mappin
         "pbs_submissions_by_corelab": 0,
     }.items():
         _equal(boundary.get(key), expected_value, f"runtime binding boundary {key}")
-    _equal(binding.get("historical_comparator", {}).get("runtime_materialization_status"), "PENDING_VANDA_RECOVERY", "binding historical status")
-    _equal(binding.get("historical_comparator", {}).get("materialization_path"), None, "binding historical path")
-    _equal(binding.get("historical_comparator", {}).get("substitution_allowed"), False, "binding historical substitution")
+    historical = binding.get("historical_comparator", {})
+    _equal(historical.get("runtime_materialization_status"), "RECOVERED_CANONICAL_READ_ONLY", "binding historical status")
+    _equal(historical.get("recovery_evidence_sha256"), "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9", "binding historical recovery evidence")
+    if require_paths:
+        _equal(historical.get("materialization_path"), paths["structured_1000_checkpoint"], "binding historical materialization path")
+    else:
+        _equal(historical.get("materialization_path"), None, "binding historical path")
+    _equal(historical.get("substitution_allowed"), False, "binding historical substitution")
     return {"paths": present, "status": "PASS", "require_paths": require_paths}
 
 
@@ -784,12 +865,34 @@ def _verify_checkpoints(paths: Mapping[str, str]) -> dict[str, Any]:
         "FULL24@2000": "full24_2000_checkpoint",
     }.items():
         expected = CHECKPOINT_EXPECTATIONS[label]
-        entries = tree_entries(Path(paths[key]), expected["tree_prefix"])
-        _equal(tree_digest(entries), expected["tree_sha256"], f"{label} checkpoint tree")
+        entries = tree_entries(Path(paths[key]), expected["checkpoint_tree_prefix"])
+        checkpoint_tree = tree_digest(entries)
+        _equal(checkpoint_tree, expected["checkpoint_tree_sha256"], f"{label} checkpoint tree")
         if label != "BASE":
             _equal(len(entries), 19, f"{label} checkpoint file count")
             _require(sum(int(item["bytes"]) for item in entries) > 0, f"{label} checkpoint is empty")
-        result[label] = {"path": paths[key], "tree_sha256": tree_digest(entries), "file_count": len(entries), "total_bytes": sum(int(item["bytes"]) for item in entries)}
+        training_return_digest = None
+        if expected["training_return_digest_sha256"] is not None:
+            training_entries = relabel_tree_namespace(
+                entries,
+                expected["checkpoint_tree_prefix"],
+                expected["training_return_digest_prefix"],
+            )
+            training_return_digest = tree_digest(training_entries)
+            _equal(
+                training_return_digest,
+                expected["training_return_digest_sha256"],
+                f"{label} training-return digest",
+            )
+        result[label] = {
+            "path": paths[key],
+            "checkpoint_tree_sha256": checkpoint_tree,
+            "checkpoint_tree_prefix": expected["checkpoint_tree_prefix"],
+            "training_return_digest_sha256": training_return_digest,
+            "training_return_digest_prefix": expected["training_return_digest_prefix"],
+            "file_count": len(entries),
+            "total_bytes": sum(int(item["bytes"]) for item in entries),
+        }
     return result
 
 
@@ -853,7 +956,11 @@ def runtime_preflight(binding: Mapping[str, Any], mapping_summary: Mapping[str, 
 
     binding_summary = validate_runtime_binding(binding, mapping_summary, require_paths=True)
     paths = binding_summary["paths"]
-    result: dict[str, Any] = {"binding": binding_summary, "identities": {}}
+    result: dict[str, Any] = {
+        "binding": binding_summary,
+        "repository": _verify_execution_checkout(str(binding["execution_head"])),
+        "identities": {},
+    }
     result["identities"]["golden_release_manifest"] = _verify_release_manifest(Path(paths["golden_release_manifest"]))
     result["identities"]["groot_runtime_manifest"] = _verify_groot_runtime_manifest(Path(paths["groot_runtime_manifest"]))
     result["identities"]["full24_manifest"] = _verify_full24_manifest(Path(paths["full24_manifest"]))
@@ -906,6 +1013,45 @@ def _snapshot_expectations_from_stats(path: Path) -> list[str] | None:
     return None
 
 
+def _verify_execution_checkout(expected_head: str) -> dict[str, Any]:
+    """Bind the runtime process to the final external execution-head seal."""
+
+    import subprocess
+
+    _require(isinstance(expected_head, str) and len(expected_head) == 40 and all(char in "0123456789abcdef" for char in expected_head), "execution head is not an exact commit SHA")
+    observed_head = subprocess.run(
+        ["git", "-C", str(REPO), "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    _require(observed_head.returncode == 0, "cannot read Stage45C execution HEAD")
+    head = observed_head.stdout.strip()
+    _equal(head, expected_head, "Stage45C execution HEAD")
+    observed_branch = subprocess.run(
+        ["git", "-C", str(REPO), "branch", "--show-current"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    _equal(observed_branch.returncode, 0, "Stage45C branch query")
+    _equal(observed_branch.stdout.strip(), "stage45c/b2-checkpoint-train24-evaluation", "Stage45C execution branch")
+    observed_status = subprocess.run(
+        ["git", "-C", str(REPO), "status", "--porcelain=v1"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    _equal(observed_status.returncode, 0, "Stage45C worktree query")
+    _equal(observed_status.stdout, "", "Stage45C worktree cleanliness")
+    return {
+        "protocol_source_head": PROTOCOL_SOURCE_HEAD,
+        "execution_head": head,
+        "branch": observed_branch.stdout.strip(),
+        "worktree_clean": True,
+    }
+
+
 def _plan(mapping_summary: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "schema": ADAPTER_SCHEMA,
@@ -914,7 +1060,10 @@ def _plan(mapping_summary: Mapping[str, Any]) -> dict[str, Any]:
         "status": "READY_NOT_EXECUTED",
         "protocol_sha256": PROTOCOL_SHA256,
         "mapping_sha256": mapping_summary["mapping_sha256"],
-        "canonical_head": CANONICAL_HEAD,
+        "protocol_source_head": PROTOCOL_SOURCE_HEAD,
+        "execution_head": EXTERNAL_EXECUTION_HEAD,
+        "checkpoint_identity_laws": checkpoint_identity_laws(),
+        "checkpoint_identity_namespaces": checkpoint_identity_namespaces(),
         "checkpoint_order": list(CHECKPOINT_ORDER),
         "windows_per_checkpoint": 24,
         "planned_checkpoint_window_forwards": 96,
@@ -954,9 +1103,10 @@ def _plan(mapping_summary: Mapping[str, Any]) -> dict[str, Any]:
             "pbs_submissions_by_corelab": 0,
         },
         "historical_comparator": {
-            "tree_sha256": STRUCTURED_1000_TREE_SHA256,
+            "checkpoint_tree_sha256": STRUCTURED_1000_TREE_SHA256,
             "stats_sha256": HISTORICAL_STATS_SHA256,
-            "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+            "runtime_materialization_status": "RECOVERED_CANONICAL_READ_ONLY",
+            "recovery_evidence_sha256": "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9",
             "materialization_path": None,
             "substitution_allowed": False,
         },
@@ -1196,8 +1346,18 @@ def _evaluation_row(raw: Any, physical: Any, details: Mapping[str, Any], window:
             "array_sha256": array_sha256(raw_np),
             "shape": list(raw_np.shape),
         },
-        "checkpoint": {"label": checkpoint["label"], "sha256": checkpoint["tree_sha256"]},
-        "model": {"label": checkpoint["label"], "sha256": checkpoint["tree_sha256"]},
+        "checkpoint": {
+            "label": checkpoint["label"],
+            "sha256": checkpoint["checkpoint_tree_sha256"],
+            "checkpoint_tree_sha256": checkpoint["checkpoint_tree_sha256"],
+            "training_return_digest_sha256": checkpoint.get("training_return_digest_sha256"),
+        },
+        "model": {
+            "label": checkpoint["label"],
+            "sha256": checkpoint["checkpoint_tree_sha256"],
+            "checkpoint_tree_sha256": checkpoint["checkpoint_tree_sha256"],
+            "training_return_digest_sha256": checkpoint.get("training_return_digest_sha256"),
+        },
         "model_runtime_identity": {"sha256": model_runtime_sha256, "label": "Golden_Release_V2_GR00T_runtime"},
         "decoded_action": {
             "array_sha256": array_sha256(physical_np),
@@ -1281,7 +1441,13 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
     }
     stats_kinds = {label: CHECKPOINT_EXPECTATIONS[label]["decode_kind"] for label in CHECKPOINT_ORDER}
     for label in CHECKPOINT_ORDER:
-        checkpoint_identity = {"label": label, "tree_sha256": CHECKPOINT_EXPECTATIONS[label]["tree_sha256"]}
+        checkpoint_identity = {
+            "label": label,
+            "checkpoint_tree_sha256": CHECKPOINT_EXPECTATIONS[label]["checkpoint_tree_sha256"],
+            "checkpoint_tree_prefix": CHECKPOINT_EXPECTATIONS[label]["checkpoint_tree_prefix"],
+            "training_return_digest_sha256": CHECKPOINT_EXPECTATIONS[label]["training_return_digest_sha256"],
+            "training_return_digest_prefix": CHECKPOINT_EXPECTATIONS[label]["training_return_digest_prefix"],
+        }
         model = load_structured_model(Path(checkpoint_paths[label]), device)
         action_head_call_counter = {"count": 0}
 
@@ -1318,9 +1484,9 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
                     evaluator_record = {
                         "window_id": window["window_id"],
                         "checkpoint_label": label,
-                        "checkpoint_sha256": checkpoint_identity["tree_sha256"],
+                        "checkpoint_sha256": checkpoint_identity["checkpoint_tree_sha256"],
                         "model_label": label,
-                        "model_sha256": checkpoint_identity["tree_sha256"],
+                        "model_sha256": checkpoint_identity["checkpoint_tree_sha256"],
                         "raw_prediction_artifact_path": str(raw_path.relative_to(output_root)),
                         "raw_prediction_artifact_sha256": raw_file_sha,
                         "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
@@ -1375,7 +1541,16 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
             "wbc_steps": 0,
         }
         write_json(output_root / f"aggregate_{label.replace('@', '_at_')}.json", aggregate)
-        checkpoint_rows.append({"checkpoint": label, "aggregate": aggregate, "action_head_dit_forward_calls": action_head_call_counter["count"], "checkpoint_window_forwards": len(rows)})
+        checkpoint_rows.append({
+            "checkpoint": label,
+            "checkpoint_tree_sha256": checkpoint_identity["checkpoint_tree_sha256"],
+            "checkpoint_tree_prefix": checkpoint_identity["checkpoint_tree_prefix"],
+            "training_return_digest_sha256": checkpoint_identity["training_return_digest_sha256"],
+            "training_return_digest_prefix": checkpoint_identity["training_return_digest_prefix"],
+            "aggregate": aggregate,
+            "action_head_dit_forward_calls": action_head_call_counter["count"],
+            "checkpoint_window_forwards": len(rows),
+        })
         all_action_head_calls += action_head_call_counter["count"]
         all_window_forwards += len(rows)
         del model
@@ -1388,9 +1563,13 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
         "pi_gate": PI_GATE,
         "protocol_sha256": protocol_sha,
         "mapping_sha256": mapping_sha,
+        "protocol_source_head": PROTOCOL_SOURCE_HEAD,
+        "execution_head": preflight["repository"]["execution_head"],
         "binding_sha256": canonical_sha256(binding),
         "pbs_jobid": os.environ.get("PBS_JOBID"),
+        "checkpoint_identity_laws": checkpoint_identity_laws(),
         "device": str(device),
+        "checkpoint_identity_namespaces": checkpoint_identity_namespaces(),
         "gpu_name": str(gpu_name),
         "checkpoint_order": list(CHECKPOINT_ORDER),
         "checkpoint_results": checkpoint_rows,

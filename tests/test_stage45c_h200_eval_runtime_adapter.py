@@ -31,7 +31,7 @@ class TestStage45CH200EvalRuntimeAdapter(unittest.TestCase):
         self.assertEqual(self.mapping_summary["checkpoint_order"], list(adapter.CHECKPOINT_ORDER))
         self.assertEqual(self.mapping_summary["windows_per_checkpoint"], 24)
         self.assertEqual(self.mapping_summary["planned_forwards_total"], 96)
-        self.assertEqual(self.mapping_summary["historical_materialization"], "PENDING_VANDA_RECOVERY")
+        self.assertEqual(self.mapping_summary["historical_materialization"], "RECOVERED_CANONICAL_READ_ONLY")
         self.assertFalse(self.mapping_summary["scientific_contract_changed"])
 
     def test_pathless_template_is_a_valid_late_binding(self) -> None:
@@ -39,7 +39,7 @@ class TestStage45CH200EvalRuntimeAdapter(unittest.TestCase):
         result = adapter.validate_runtime_binding(binding, self.mapping_summary, require_paths=False)
         self.assertEqual(result["status"], "PASS")
         self.assertTrue(all(value is None for value in result["paths"].values()))
-        self.assertEqual(binding["historical_comparator"]["runtime_materialization_status"], "PENDING_VANDA_RECOVERY")
+        self.assertEqual(binding["historical_comparator"]["runtime_materialization_status"], "RECOVERED_CANONICAL_READ_ONLY")
         self.assertIsNone(binding["historical_comparator"]["materialization_path"])
 
     def test_runtime_binding_requires_all_paths_for_execution(self) -> None:

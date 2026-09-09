@@ -1,23 +1,40 @@
 {
   "schema": "CORELAB_STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1",
   "stage": "Stage45C",
-  "pi_gate": "PI_GATE_STATE_0090",
+  "pi_gate": "PI_GATE_STATE_0091",
   "status": "AUDITED_NOT_EXECUTED",
   "token": "STAGE45C_CHECKPOINT_RUNTIME_MAPPING_AUDITED",
   "protocol_sha256": "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f",
-  "canonical_head": "54a833eaa7037cdc20397ef182b36647194040cb",
+  "protocol_source_head": "54a833eaa7037cdc20397ef182b36647194040cb",
+  "execution_head": "EXTERNAL_ADMISSION_EXECUTION_HEAD",
   "checkpoint_order": [
     "BASE",
     "STRUCTURED@1000",
     "FULL24@1000",
     "FULL24@2000"
   ],
+  "checkpoint_identity_laws": {
+    "checkpoint_tree": {
+      "field": "checkpoint_tree_sha256",
+      "prefix_field": "checkpoint_tree_prefix",
+      "law": "SHA256(concat(sorted((checkpoint-N + '/' + relative_path) + NUL + decimal_bytes + NUL + file_sha256 + LF)))",
+      "scope": "all regular files in one materialized checkpoint directory"
+    },
+    "training_return": {
+      "field": "training_return_digest_sha256",
+      "prefix_field": "training_return_digest_prefix",
+      "law": "same canonical line law with stage45b/checkpoint-N prefix",
+      "scope": "same checkpoint files in PI0087 training-return namespace"
+    }
+  },
   "checkpoint_runtime_mapping": [
     {
       "label": "BASE",
       "role": "REFERENCE",
-      "tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
-      "tree_prefix": "payload/GR00T-N1.7-3B",
+      "checkpoint_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "checkpoint_tree_prefix": "payload/GR00T-N1.7-3B",
+      "training_return_digest_sha256": null,
+      "training_return_digest_prefix": null,
       "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
       "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
       "decode_statistics": {
@@ -29,22 +46,27 @@
     {
       "label": "STRUCTURED@1000",
       "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
-      "tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
-      "tree_prefix": "stage38d/checkpoint-1000",
+      "checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+      "checkpoint_tree_prefix": "stage38d/checkpoint-1000",
+      "training_return_digest_sha256": null,
+      "training_return_digest_prefix": null,
       "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
       "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
       "decode_statistics": {
         "kind": "HISTORICAL_STRUCTURED_ACTION_STATISTICS",
         "sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
         "locator_key": "HISTORICAL_STRUCTURED_ACTION_STATISTICS",
-        "runtime_materialization_status": "PENDING_VANDA_RECOVERY"
+        "runtime_materialization_status": "RECOVERED_CANONICAL_READ_ONLY",
+        "recovery_evidence_sha256": "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9"
       }
     },
     {
       "label": "FULL24@1000",
       "role": "PRIMARY_COVERAGE_ENDPOINT",
-      "tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
-      "tree_prefix": "stage45b/checkpoint-1000",
+      "checkpoint_tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "checkpoint_tree_prefix": "checkpoint-1000",
+      "training_return_digest_sha256": "8f0ebcf63ce61c0abb2f98b5e5f6802f9407fd4c8c132fc0dbce8f084bfce4c4",
+      "training_return_digest_prefix": "stage45b/checkpoint-1000",
       "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
       "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
       "decode_statistics": {
@@ -57,8 +79,10 @@
     {
       "label": "FULL24@2000",
       "role": "SECONDARY_EXPOSURE_ENDPOINT",
-      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
-      "tree_prefix": "stage45b/checkpoint-2000",
+      "checkpoint_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "checkpoint_tree_prefix": "checkpoint-2000",
+      "training_return_digest_sha256": "705012d77f198514318dc1cf53cb9e31b51d8ac7a64a6135f8291546e32a3850",
+      "training_return_digest_prefix": "stage45b/checkpoint-2000",
       "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
       "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
       "decode_statistics": {
@@ -72,12 +96,13 @@
   "historical_comparator": {
     "label": "STRUCTURED@1000",
     "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
-    "expected_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "expected_checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
     "expected_file_count": 19,
     "expected_total_bytes": 20889596357,
     "expected_structured_action_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
     "known_package_sha256": "4e2f5ca562f108b0f0ec55cd97083d163b4e450be0e8c4ae0f1215bf98b458b6",
-    "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+    "runtime_materialization_status": "RECOVERED_CANONICAL_READ_ONLY",
+    "recovery_evidence_sha256": "c968f9e2d4fdc0f4975637e81b70e57716e55dec808c16f04958f7165cda01b9",
     "materialization_path": null,
     "substitution_allowed": false
   },
