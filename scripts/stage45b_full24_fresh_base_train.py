@@ -28,18 +28,20 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "scripts"))
 
-PI_GATE = "PI_GATE_STATE_0079"
+PI_GATE = "PI_GATE_STATE_0083"
 STAGE = "Stage45B"
 BRANCH = "stage45b/full24-fresh-base-execution"
 SOURCE_HEAD = "SOURCE_HEAD_FILLED_BY_HANDOFF_MANIFEST"
 B0_STATS_SHA256 = "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d"
+B0_STATS_PAYLOAD_SHA256 = "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032"
+RUNTIME_STATS_SCHEMA = "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2"
+RUNTIME_PROTOCOL_REVISION = "RUNTIME_PARQUET_PROVENANCE_V2"
 FULL24_TREE_SHA256 = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 BASE_TREE_SHA256 = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 GROOT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
-STATS_PAYLOAD_SHA256 = "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032"
 HORIZON = 40
 ACTION_DIM = 132
 STATE_DIM = 10
@@ -207,7 +209,7 @@ def _gpu_identity() -> dict[str, Any]:
 
 
 def _assert_bundle(bundle: Mapping[str, Any], *, bundle_path: Path) -> None:
-    if bundle.get("schema") != "CORELAB_STAGE45B_FULL24_FRESH_BASE_EXECUTION_MANIFEST_V1":
+    if bundle.get("schema") != "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_V2_EXECUTION_MANIFEST_V1":
         raise RuntimeError("unexpected Stage45B bundle schema")
     if bundle.get("status") != "CORELAB_STAGE45B_H200_ADMISSION_READY":
         raise RuntimeError("B1 bundle is not admission-ready")
@@ -222,30 +224,38 @@ def _assert_bundle(bundle: Mapping[str, Any], *, bundle_path: Path) -> None:
     if git("branch", "--show-current") != BRANCH:
         raise RuntimeError("current checkout is not the Stage45B branch")
     current_head = git("rev-parse", "HEAD")
-    if subprocess.run(
-        ["git", "-C", str(REPO), "merge-base", "--is-ancestor", source_head, current_head],
-        check=False,
-    ).returncode != 0:
-        raise RuntimeError(f"checkout HEAD {current_head} does not descend from bundle source {source_head}")
+    if current_head != source_head:
+        raise RuntimeError(
+            f"checkout HEAD {current_head} is not the exact refrozen bundle source {source_head}"
+        )
     if git("status", "--porcelain=v1"):
         raise RuntimeError("Stage45B checkout must be clean")
     files = bundle.get("execution_files")
     if not isinstance(files, Mapping):
         raise RuntimeError("execution_files binding is missing")
-    for key in ("runner", "pbs"):
+    for key in ("runner", "pbs", "runtime_qualification"):
         relative = Path(str(files[key]["path"]))
         observed = sha256_file(REPO / relative)
         if observed != files[key]["sha256"]:
             raise RuntimeError(f"{key} hash mismatch: {observed}")
     stats = bundle.get("structured_stats")
-    if not isinstance(stats, Mapping) or stats.get("sha256") != B0_STATS_SHA256 or stats.get("payload_sha256") != STATS_PAYLOAD_SHA256:
-        raise RuntimeError("B0 statistics identity mismatch")
-    transport = stats.get("embedded_transport")
-    if not isinstance(transport, Mapping):
-        raise RuntimeError("embedded B0 transport binding is missing")
-    transport_path = REPO / str(transport.get("path", ""))
-    if not transport_path.is_file() or transport_path.is_symlink() or sha256_file(transport_path) != transport.get("sha256"):
-        raise RuntimeError("embedded B0 transport hash mismatch")
+    if not isinstance(stats, Mapping):
+        raise RuntimeError("runtime-parquet statistics binding is missing")
+    if (
+        stats.get("schema") != RUNTIME_STATS_SCHEMA
+        or stats.get("protocol_revision") != RUNTIME_PROTOCOL_REVISION
+        or not isinstance(stats.get("sha256"), str)
+        or not isinstance(stats.get("payload_sha256"), str)
+    ):
+        raise RuntimeError("runtime-parquet V2 statistics identity mismatch")
+    historical = bundle.get("historical_b0_stats")
+    if (
+        not isinstance(historical, Mapping)
+        or historical.get("sha256") != B0_STATS_SHA256
+        or historical.get("payload_sha256") != B0_STATS_PAYLOAD_SHA256
+        or historical.get("execution_stats_authority") is not False
+    ):
+        raise RuntimeError("historical B0 statistics binding mismatch")
     contract = bundle.get("contract")
     expected_contract = {
         "language": "move the end effector to the red target", "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
@@ -275,6 +285,8 @@ def _assert_bundle(bundle: Mapping[str, Any], *, bundle_path: Path) -> None:
             raise RuntimeError(f"recipe mismatch for {key}: {recipe.get(key)!r}")
     if bundle.get("intervention") != "B_FRESH_BASE_FULL24":
         raise RuntimeError("non-primary intervention is forbidden")
+    if bundle.get("label_anchor_reconciliation", {}).get("enabled") is not True:
+        raise RuntimeError("Stage45B label-anchor reconciliation is not bound")
     forbidden = bundle.get("forbidden", {})
     if forbidden.get("option_a_warm_start") is not True or forbidden.get("validation_e_read") is not True or forbidden.get("holdout_f_read") is not True:
         raise RuntimeError("bundle does not lock forbidden branches")
@@ -380,7 +392,8 @@ def run(args: argparse.Namespace) -> int:
     config_path = Path(args.config_path or paths["training_config"]).resolve()
     stats_artifact = Path(args.stats_artifact or paths["structured_stats_artifact"]).resolve()
     for path, label in ((base_model, "BASE"), (dataset, "FULL24"), (groot, "GR00T"), (cosmos, "Cosmos"),
-                        (modality, "modality"), (config_path, "training config"), (stats_artifact, "B0 statistics")):
+                        (modality, "modality"), (config_path, "training config"),
+                        (stats_artifact, "runtime-parquet V2 statistics")):
         if not path.exists():
             raise RuntimeError(f"{label} path is unavailable: {path}")
 
@@ -407,11 +420,17 @@ def run(args: argparse.Namespace) -> int:
         raise RuntimeError("training config hash mismatch")
     stats_document = read_json(stats_artifact)
     if sha256_file(stats_artifact) != bundle["structured_stats"]["sha256"]:
-        raise RuntimeError("B0 statistics artifact hash mismatch")
-    if stats_document.get("statistics_payload_sha256") != STATS_PAYLOAD_SHA256:
-        raise RuntimeError("B0 statistics payload mismatch")
-    if stats_document.get("dataset", {}).get("tree_sha256") != FULL24_TREE_SHA256:
-        raise RuntimeError("B0 statistics dataset binding mismatch")
+        raise RuntimeError("runtime-parquet V2 statistics artifact hash mismatch")
+    if (
+        stats_document.get("schema") != RUNTIME_STATS_SCHEMA
+        or stats_document.get("pi_gate") != PI_GATE
+        or stats_document.get("protocol_revision") != RUNTIME_PROTOCOL_REVISION
+        or stats_document.get("statistics_payload_sha256")
+        != bundle["structured_stats"]["payload_sha256"]
+        or stats_document.get("canonical_label_source", {}).get("tree_sha256")
+        != FULL24_TREE_SHA256
+    ):
+        raise RuntimeError("runtime-parquet V2 statistics contract mismatch")
 
     output_root = Path(args.output_root).resolve()
     if output_root.exists():
@@ -435,7 +454,11 @@ def run(args: argparse.Namespace) -> int:
                   "cosmos": str(cosmos), "modality": str(modality), "stats_artifact": str(stats_artifact)},
         "base_tree_sha256": BASE_TREE_SHA256, "full24_tree_sha256": FULL24_TREE_SHA256,
         "cosmos_tree_sha256": cosmos_tree, "cosmos_entry_count": cosmos_count,
-        "groot_sha": groot_head, "statistics_payload_sha256": STATS_PAYLOAD_SHA256,
+        "groot_sha": groot_head,
+        "runtime_stats_sha256": sha256_file(stats_artifact),
+        "statistics_payload_sha256": stats_document["statistics_payload_sha256"],
+        "historical_b0_stats_sha256": B0_STATS_SHA256,
+        "protocol_revision": RUNTIME_PROTOCOL_REVISION,
         "model_constructed": False, "gr00t_forwards": 0, "wbc_steps": 0, "reference_updates": 0,
         "validation_e_read": False, "holdout_f_read": False, "training_steps": 0, "optimizer_steps": 0,
         "status": "PASS",
@@ -444,7 +467,8 @@ def run(args: argparse.Namespace) -> int:
                        "XDG_CACHE_HOME": str(cache_root / "xdg"), "HF_HOME": str(cache_root / "huggingface"),
                        "TRANSFORMERS_CACHE": str(hub_root), "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1",
                        "HF_DATASETS_OFFLINE": "1", "GROOT_COMMIT_HASH": GROOT_SHA, "PYTHONNOUSERSITE": "1",
-                       "PYTHONDONTWRITEBYTECODE": "1"})
+                       "PYTHONDONTWRITEBYTECODE": "1",
+                       "STAGE45B_LABEL_ANCHOR_RECONCILIATION": "1"})
     sys.path.insert(0, str(groot))
     _bind_cosmos_processor(cosmos / "snapshots" / COSMOS_REVISION)
     from go2arx5_vla.stage38_structured_training import install_structured_dataset_factory
@@ -452,28 +476,39 @@ def run(args: argparse.Namespace) -> int:
     from gr00t.experiment.experiment import run as gr00t_run
     config = _load_config(config_path, output_root=output_root, base_model=base_model, dataset=dataset)
     with (output_root / "stage45b_events.jsonl").open("w", encoding="utf-8") as events:
-        events.write(json.dumps({"event": "MODEL_CONSTRUCTION_ALLOWED", "timestamp_utc": now_utc()}) + "\n")
-        events.write(json.dumps({"event": "TRAINING_START", "timestamp_utc": now_utc()}) + "\n")
+        events.write(json.dumps({
+            "event": "MODEL_CONSTRUCTION_ALLOWED",
+            "timestamp_utc": now_utc(),
+            "label_anchor_reconciliation": "STAGE45B_LABEL_ANCHOR_RECONCILIATION",
+        }) + "\n")
+        events.flush()
+        events.write(json.dumps({"event": "TRAIN_CALL_ENTER", "timestamp_utc": now_utc()}) + "\n")
+        events.flush()
     gr00t_run(config)
     with (output_root / "stage45b_events.jsonl").open("a", encoding="utf-8") as events:
-        events.write(json.dumps({"event": "TRAINING_RETURNED", "timestamp_utc": now_utc()}) + "\n")
+        events.write(json.dumps({"event": "TRAIN_CALL_RETURN", "timestamp_utc": now_utc()}) + "\n")
 
     checkpoint_1000 = _checkpoint_record(output_root / "checkpoint-1000", 1000)
     checkpoint_2000 = _checkpoint_record(output_root / "checkpoint-2000", 2000)
     sidecar = read_json(output_root / "experiment_cfg" / "structured_action_statistics.json")
-    if canonical_sha(sidecar.get("statistics", {})) != STATS_PAYLOAD_SHA256:
-        raise RuntimeError("runtime StructuredAction statistics differ from B0")
+    if canonical_sha(sidecar.get("statistics", {})) != stats_document["statistics_payload_sha256"]:
+        raise RuntimeError("runtime StructuredAction statistics differ from runtime-parquet V2")
     result = {
         "schema": "CORELAB_STAGE45B_FULL24_FRESH_BASE_TRAINING_RESULT_V1",
         "status": EXPECTED_TRAINING_TOKEN if checkpoint_1000["status"] == "PASS" and checkpoint_2000["status"] == "PASS" else "HOPPER_STAGE45B_FULL24_FRESH_BASE_TRAINING_INCOMPLETE",
         "pi_gate": PI_GATE, "stage": STAGE, "intervention": "B_FRESH_BASE_FULL24",
         "repository_head": git("rev-parse", "HEAD"), "pbs_jobid": gpu["pbs_jobid"], "gpu": gpu,
         "checkpoint_1000": checkpoint_1000, "checkpoint_2000": checkpoint_2000,
-        "structured_stats_payload_sha256": STATS_PAYLOAD_SHA256, "training_steps": 2000,
+        "structured_stats_sha256": sha256_file(stats_artifact),
+        "structured_stats_payload_sha256": stats_document["statistics_payload_sha256"],
+        "historical_b0_stats_sha256": B0_STATS_SHA256,
+        "protocol_revision": RUNTIME_PROTOCOL_REVISION,
+        "label_anchor_reconciliation": True,
+        "training_steps": 2000,
         "optimizer_steps": 2000, "backward_steps": 2000, "gr00t_forwards": 0, "wbc_steps": 0,
         "reference_updates": 0, "validation_e_read": False, "holdout_f_read": False,
         "model_constructed": True, "training": True,
-        "next_gate": "CORELAB_STAGE45B_FULL24_TRAIN_ONLY_EVALUATION_COMPLETE", "timestamp_utc": now_utc(),
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0083_GOAL_CLOSURE", "timestamp_utc": now_utc(),
     }
     write_json(output_root / "stage45b_training_result.json", result)
     return 0 if result["status"] == EXPECTED_TRAINING_TOKEN else 1

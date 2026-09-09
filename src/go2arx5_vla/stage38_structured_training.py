@@ -31,6 +31,7 @@ from .structured_action import (
     STRUCTURED_TIMING_MODE,
     StructuredActionV1,
     encode_structured_action,
+    reconcile_stage45b_label_anchor,
     structured_action_contract_summary,
     structured_action_mask,
 )
@@ -212,7 +213,14 @@ def build_structured_gr00t_dataset_factory():
     class StructuredShardedSingleStepDataset(ShardedSingleStepDataset):
         """Official shard layout plus a read-only timestamp/label side channel."""
 
-        def __init__(self, *args: Any, timing_mode: str, use_percentiles: bool, **kwargs: Any):
+        def __init__(
+            self,
+            *args: Any,
+            timing_mode: str,
+            use_percentiles: bool,
+            stage45b_label_reconciliation: bool = False,
+            **kwargs: Any,
+        ):
             modality_configs = kwargs.get("modality_configs")
             if modality_configs is None and len(args) >= 3:
                 modality_configs = args[2]
@@ -229,6 +237,7 @@ def build_structured_gr00t_dataset_factory():
                 raise ValueError(f"Stage38-D timing mode is fixed to {STRUCTURED_TIMING_MODE}")
             self.timing_mode = timing_mode
             self.use_percentiles = bool(use_percentiles)
+            self.stage45b_label_reconciliation = bool(stage45b_label_reconciliation)
             self._timestamp_cache: dict[int, np.ndarray] = {}
             self._label_cache: dict[tuple[int, int], StructuredActionV1] = {}
             super().__init__(*args, **kwargs)
@@ -298,7 +307,24 @@ def build_structured_gr00t_dataset_factory():
                 raise ValueError("Stage38-D expects action dimensions 9+1")
             physical_action = np.concatenate([action_eef, action_gripper], axis=-1)
             state_v1 = np.concatenate([state_eef, state_gripper], axis=-1)
+            reconciliation: dict[str, Any] | None = None
+            if self.stage45b_label_reconciliation:
+                state_v1, reconciliation = reconcile_stage45b_label_anchor(
+                    physical_action, state_v1
+                )
             timestamps = self._timestamps(episode_index)[action_indices]
+            provenance: dict[str, Any] = {
+                "stage": "Stage38-D",
+                "dataset_path": str(self.dataset_path),
+                "episode_index": int(episode_index),
+                "source_episode_index": self._episode_id(episode_index),
+                "step_index": int(step_index),
+                "source_timestamp_authority": "ORIGINAL_PARQUET_TIMESTAMP_COLUMN",
+                "training_label_generation": "ON_THE_FLY_READ_ONLY",
+                "stage45b_label_reconciliation_enabled": self.stage45b_label_reconciliation,
+            }
+            if reconciliation is not None:
+                provenance["stage45b_label_anchor_reconciliation"] = reconciliation
             label = encode_structured_action(
                 physical_action,
                 timestamps,
@@ -308,15 +334,7 @@ def build_structured_gr00t_dataset_factory():
                 source_frame=DEFAULT_MOTION_INTENT_V2_FRAME,
                 tcp_semantic_id=DEFAULT_MOTION_INTENT_V2_TCP,
                 observation_timestamp=float(timestamps[0]),
-                provenance={
-                    "stage": "Stage38-D",
-                    "dataset_path": str(self.dataset_path),
-                    "episode_index": int(episode_index),
-                    "source_episode_index": self._episode_id(episode_index),
-                    "step_index": int(step_index),
-                    "source_timestamp_authority": "ORIGINAL_PARQUET_TIMESTAMP_COLUMN",
-                    "training_label_generation": "ON_THE_FLY_READ_ONLY",
-                },
+                provenance=provenance,
             )
             self._label_cache[key] = label
             return label
@@ -398,6 +416,10 @@ def build_structured_gr00t_dataset_factory():
                         allow_padding=self.config.data.allow_padding,
                         timing_mode=STRUCTURED_TIMING_MODE,
                         use_percentiles=self.config.model.use_percentiles,
+                        stage45b_label_reconciliation=(
+                            os.environ.get("STAGE45B_LABEL_ANCHOR_RECONCILIATION", "0")
+                            == "1"
+                        ),
                     )
                     all_datasets.append(dataset)
                     all_weights.append(float(dataset_spec.mix_ratio))

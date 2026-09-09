@@ -12,11 +12,16 @@ from go2arx5_vla.structured_action import (
     decode_structured_action,
     encode_structured_action,
     materialize_structured_action,
+    reconcile_stage45b_label_anchor,
     structured_action_contract_summary,
     structured_action_mask,
     structured_active_scalar_count,
 )
-from go2arx5_vla.trajectory.so3 import rotation_matrix_to_rot6d_rows
+from go2arx5_vla.trajectory.so3 import (
+    geodesic_angle,
+    rot6d_rows_to_matrix,
+    rotation_matrix_to_rot6d_rows,
+)
 
 
 def _fixture() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -123,3 +128,47 @@ def test_canonical_model_rot6d_is_distinct_boundary_from_native_rows() -> None:
         "NATIVE_WBC_FIRST_TWO_ROWS_AT_ADAPTER_BOUNDARY"
     )
     assert rotation_matrix_to_rot6d_rows(np.eye(3)).shape == (6,)
+
+
+def test_stage45b_label_anchor_reconciliation_preserves_physical_action() -> None:
+    # This finite native-row representation exercises the arccos one-ulp floor
+    # in the strict self-comparison while remaining the same physical pose.
+    native_rot6d = np.asarray(
+        [0.94230586, -0.11466519, 0.31450209, 0.33371529, 0.39569730, -0.85560375],
+        dtype=np.float64,
+    )
+    timestamps = np.arange(STRUCTURED_ACTION_HORIZON, dtype=np.float64) * 0.05
+    physical = np.zeros((STRUCTURED_ACTION_HORIZON, 10), dtype=np.float64)
+    physical[:, 3:9] = native_rot6d
+    physical[:, 9] = 0.5
+    state = physical[0].copy()
+    physical_before = physical.copy()
+    state_before = state.copy()
+
+    raw_error = float(
+        geodesic_angle(
+            rot6d_rows_to_matrix(state[3:9]),
+            rot6d_rows_to_matrix(physical[0, 3:9]),
+        )
+    )
+    assert raw_error > 1e-9
+    reconciled, metadata = reconcile_stage45b_label_anchor(physical, state)
+    label = encode_structured_action(physical, timestamps, reconciled)
+
+    assert np.array_equal(physical, physical_before)
+    assert np.array_equal(state, state_before)
+    assert np.array_equal(reconciled[:3], physical[0, :3])
+    assert reconciled[9] == state[9]
+    assert metadata["label_only_state_copy"] is True
+    assert metadata["physical_action_untouched"] is True
+    assert metadata["original_observation_state_untouched"] is True
+    assert metadata["reconciled_state_action_rotation_error_rad"] <= 1e-9
+    assert label.anchor_state_v1.shape == (10,)
+
+
+def test_stage45b_label_anchor_reconciliation_rejects_material_mismatch() -> None:
+    _, physical, state = _fixture()
+    state = state.copy()
+    state[0] += 2e-6
+    with pytest.raises(ValueError, match="same physical pose"):
+        reconcile_stage45b_label_anchor(physical, state)
