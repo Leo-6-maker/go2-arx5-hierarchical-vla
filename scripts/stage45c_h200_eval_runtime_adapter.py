@@ -14,7 +14,9 @@ The committed support branch contains no node-local paths and no runtime
 artifact bytes.  Paths are supplied by an external, immutable binding at
 execution time.  ``--plan-only`` and ``--audit-only`` are deliberately
 CPU/static modes; they never import Torch/GR00T.  The execute path is
-fail-closed before the first model import and never trains, writes a
+fail-closed before the first model import, binds the accepted Cosmos cache
+into a fresh job-local Hugging Face namespace, and passes that namespace
+through the nested GR00T loading contract.  It never trains, writes a
 checkpoint, reads Validation-E/Holdout-F, runs WBC/simulation/hardware, or
 changes the frozen scientific protocol.
 """
@@ -70,6 +72,8 @@ GROOT_PAYLOAD_TREE_SHA256 = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9
 GROOT_RUNTIME_MANIFEST_SHA256 = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+COSMOS_REPO_ID = "nvidia/Cosmos-Reason2-2B"
+NESTED_COSMOS_CACHE_SCHEMA = "STAGE45C_NESTED_COSMOS_HF_CACHE_NAMESPACE_V1"
 MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA256 = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 DECODER_SOURCE_SHA256 = "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae"
@@ -429,6 +433,134 @@ def cosmos_tree_digest(root: Path) -> tuple[str, int]:
         ))
         digest.update((line + "\n").encode("utf-8"))
     return digest.hexdigest(), len(entries)
+
+
+def nested_cosmos_model_loading_kwargs(hub_root: Path) -> dict[str, Any]:
+    """Return the exact nested Transformers kwargs used by GR00T's backbone."""
+
+    regular_directory(Path(hub_root), "nested Cosmos Hugging Face hub")
+    return {
+        "trust_remote_code": True,
+        "local_files_only": True,
+        "cache_dir": str(Path(hub_root)),
+        "revision": COSMOS_REVISION,
+    }
+
+
+def _resolve_nested_cosmos_config(hub_root: Path, cosmos_link: Path, cosmos_root: Path) -> dict[str, Any]:
+    """Resolve a canonical Cosmos repo-id through the admitted local cache only."""
+
+    from transformers.utils.hub import cached_file
+
+    resolved = cached_file(
+        COSMOS_REPO_ID,
+        "config.json",
+        cache_dir=str(hub_root),
+        revision=COSMOS_REVISION,
+        local_files_only=True,
+    )
+    _require(resolved is not None, "nested Cosmos config did not resolve from the local cache")
+    logical_path = Path(resolved)
+    resolved_path = logical_path.resolve(strict=True)
+    expected_logical_path = cosmos_link / "snapshots" / COSMOS_REVISION / "config.json"
+    expected_resolved_path = expected_logical_path.resolve(strict=True)
+    _equal(resolved_path, expected_resolved_path, "nested Cosmos config resolution")
+    root_resolved = Path(cosmos_root).resolve()
+    _require(
+        resolved_path == root_resolved or root_resolved in resolved_path.parents,
+        "nested Cosmos config escaped the admitted cache root",
+    )
+    _require(resolved_path.is_file(), "nested Cosmos config is not a regular file")
+    return {
+        "repo_id": COSMOS_REPO_ID,
+        "filename": "config.json",
+        "revision": COSMOS_REVISION,
+        "logical_path": str(logical_path),
+        "resolved_path": str(resolved_path),
+        "expected_logical_path": str(expected_logical_path),
+        "expected_resolved_path": str(expected_resolved_path),
+        "local_files_only": True,
+    }
+
+
+def _bind_nested_cosmos_hf_cache(
+    output_root: Path,
+    cosmos_root: Path,
+    *,
+    verified_tree_sha256: str | None = None,
+    verified_entry_count: int | None = None,
+) -> dict[str, Any]:
+    """Bind the accepted Cosmos cache into a fresh, isolated job namespace."""
+
+    regular_directory(output_root, "fresh Stage45C output root")
+    regular_directory(cosmos_root, "accepted Cosmos cache root")
+    cosmos_root = Path(cosmos_root).resolve()
+    if verified_tree_sha256 is None:
+        verified_tree_sha256, entry_count = cosmos_tree_digest(cosmos_root)
+    else:
+        entry_count = verified_entry_count
+    _equal(verified_tree_sha256, COSMOS_TREE_SHA256, "accepted Cosmos cache tree")
+    snapshot = cosmos_root / "snapshots" / COSMOS_REVISION
+    regular_directory(snapshot, "accepted Cosmos pinned snapshot")
+    refs_main = cosmos_root / "refs" / "main"
+    regular_file(refs_main, "accepted Cosmos refs/main")
+    _equal(refs_main.read_text(encoding="utf-8").strip(), COSMOS_REVISION, "accepted Cosmos refs/main")
+
+    namespace_root = output_root / "stage45c_hf_runtime_namespace"
+    hf_home = namespace_root / "huggingface"
+    hub_root = hf_home / "hub"
+    xdg_cache_home = namespace_root / "xdg_cache"
+    torch_home = namespace_root / "torch"
+    for path in (hub_root, xdg_cache_home, torch_home, hf_home / "datasets"):
+        path.mkdir(parents=True, exist_ok=False)
+    cosmos_link = hub_root / "models--nvidia--Cosmos-Reason2-2B"
+    _require(not os.path.lexists(cosmos_link), "nested Cosmos cache link already exists")
+    cosmos_link.symlink_to(cosmos_root, target_is_directory=True)
+    _require(cosmos_link.is_symlink(), "nested Cosmos cache link was not created as a symlink")
+    _equal(cosmos_link.resolve(strict=True), cosmos_root, "nested Cosmos cache link target")
+
+    environment = {
+        "HF_HOME": str(hf_home),
+        "HUGGINGFACE_HUB_CACHE": str(hub_root),
+        "HF_HUB_CACHE": str(hub_root),
+        "TRANSFORMERS_CACHE": str(hub_root),
+        "HF_DATASETS_CACHE": str(hf_home / "datasets"),
+        "XDG_CACHE_HOME": str(xdg_cache_home),
+        "TORCH_HOME": str(torch_home),
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "HF_DATASETS_OFFLINE": "1",
+        "PYTHONNOUSERSITE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+    }
+    os.environ.update(environment)
+    resolution = _resolve_nested_cosmos_config(hub_root, cosmos_link, cosmos_root)
+    nested_kwargs = nested_cosmos_model_loading_kwargs(hub_root)
+    return {
+        "schema": NESTED_COSMOS_CACHE_SCHEMA,
+        "status": "PASS",
+        "namespace_root": str(namespace_root),
+        "hf_home": str(hf_home),
+        "hf_hub": str(hub_root),
+        "cosmos_repo_id": COSMOS_REPO_ID,
+        "cosmos_link": str(cosmos_link),
+        "cosmos_link_target": str(cosmos_link.resolve(strict=True)),
+        "cosmos_revision": COSMOS_REVISION,
+        "cosmos_tree_sha256": verified_tree_sha256,
+        "cosmos_entry_count": entry_count,
+        "cosmos_snapshot": str(snapshot),
+        "cosmos_refs_main": str(refs_main),
+        "cosmos_refs_main_value": refs_main.read_text(encoding="utf-8").strip(),
+        "environment": environment,
+        "nested_model_loading_kwargs": nested_kwargs,
+        "repo_id_resolution": resolution,
+        "namespace_isolation": {
+            "ambient_repo_id_not_used": True,
+            "local_files_only": True,
+            "network_fetch": False,
+            "fresh_namespace": True,
+        },
+    }
 
 
 def _protocol_contract_audit(protocol: Mapping[str, Any]) -> None:
@@ -1335,13 +1467,33 @@ def _plan(mapping_summary: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _load_torch_runtime() -> tuple[Any, Any]:
-    """Import Torch/GR00T only after all identity gates have passed."""
+def _load_stage45c_structured_model(checkpoint: Path, device: str, nested_cache: Mapping[str, Any]) -> Any:
+    """Construct one evaluator model with the explicit nested Cosmos contract."""
 
     import torch
-    from stage38_structured_offline_evaluation import _load_structured_model
+    from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7  # noqa: F401 - AutoModel registration side effect
+    from transformers import AutoModel
 
-    return torch, _load_structured_model
+    hub_root = Path(str(nested_cache["hf_hub"]))
+    nested_kwargs = nested_cosmos_model_loading_kwargs(hub_root)
+    _equal(nested_kwargs, nested_cache["nested_model_loading_kwargs"], "nested Cosmos loading kwargs")
+    model = AutoModel.from_pretrained(
+        checkpoint,
+        local_files_only=True,
+        trust_remote_code=True,
+        transformers_loading_kwargs=nested_kwargs,
+    )
+    model.eval()
+    model.to(device=device, dtype=torch.bfloat16)
+    return model
+
+
+def _load_torch_runtime() -> tuple[Any, Any]:
+    """Import Torch only after all identity gates and cache bindings have passed."""
+
+    import torch
+
+    return torch, _load_stage45c_structured_model
 
 
 def _make_noise_bank(torch: Any) -> list[Any]:
@@ -1604,7 +1756,14 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
     output_root = Path(paths["output_root"])
     _require(not output_root.exists(), f"output root already exists: {output_root}")
     output_root.mkdir(parents=True, exist_ok=False)
+    nested_cosmos_cache = _bind_nested_cosmos_hf_cache(
+        output_root,
+        Path(paths["cosmos_root"]),
+        verified_tree_sha256=preflight["cosmos"]["tree_sha256"],
+        verified_entry_count=preflight["cosmos"]["entry_count"],
+    )
     write_json(output_root / "stage45c_runtime_preflight.json", preflight)
+    write_json(output_root / "stage45c_nested_cosmos_runtime_binding.json", nested_cosmos_cache)
     protocol_sha = sha256_file(protocol_path)
     mapping_sha = sha256_file(mapping_path)
     torch, load_structured_model = _load_torch_runtime()
@@ -1612,13 +1771,6 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
     gpu_name = torch.cuda.get_device_name(torch.device(device))
     _require("H200" in str(gpu_name), f"the admitted GPU is not H200: {gpu_name}")
 
-    os.environ.update({
-        "HF_HUB_OFFLINE": "1",
-        "TRANSFORMERS_OFFLINE": "1",
-        "HF_DATASETS_OFFLINE": "1",
-        "PYTHONNOUSERSITE": "1",
-        "PYTHONDONTWRITEBYTECODE": "1",
-    })
     from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor
     from go2arx5_vla.evaluation.checkpoint_eval import aggregate_evaluation_rows
 
@@ -1669,7 +1821,7 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
             "training_return_digest_sha256": CHECKPOINT_EXPECTATIONS[label]["training_return_digest_sha256"],
             "training_return_digest_prefix": CHECKPOINT_EXPECTATIONS[label]["training_return_digest_prefix"],
         }
-        model = load_structured_model(Path(checkpoint_paths[label]), device)
+        model = load_structured_model(Path(checkpoint_paths[label]), device, nested_cosmos_cache)
         action_head_call_counter = {"count": 0}
 
         def count_action_head(*_args: Any, **_kwargs: Any) -> None:
@@ -1787,6 +1939,7 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
         "protocol_source_head": PROTOCOL_SOURCE_HEAD,
         "execution_head": preflight["repository"]["execution_head"],
         "binding_sha256": canonical_sha256(binding),
+        "nested_cosmos_cache": nested_cosmos_cache,
         "pbs_jobid": os.environ.get("PBS_JOBID"),
         "checkpoint_identity_laws": checkpoint_identity_laws(),
         "device": str(device),
