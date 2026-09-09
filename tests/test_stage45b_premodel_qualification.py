@@ -12,6 +12,7 @@ SMOKE = ROOT / "scripts/stage45b_premodel_runtime_smoke.py"
 SNAPSHOT = ROOT / "scripts/stage45b_groot_source_snapshot.py"
 ADMISSION = ROOT / "scripts/stage45b_external_admission.py"
 RELEASE = ROOT / "scripts/stage45b_production_release.py"
+VIDEO_RUNTIME = ROOT / "scripts/stage45b_video_decoder_runtime.py"
 
 
 class Stage45BPremodelQualificationTest(unittest.TestCase):
@@ -31,6 +32,7 @@ class Stage45BPremodelQualificationTest(unittest.TestCase):
             self.assertNotIn(forbidden, smoke)
         self.assertIn("VANDA_HOPPER_STAGE45B_PREMODEL_CPU_PBS_QUALIFIED", CPU_PBS.read_text())
         self.assertIn("VANDA_HOPPER_STAGE45B_PREMODEL_H200_RUNTIME_QUALIFIED", H200_PBS.read_text())
+        self.assertIn("stage45b_video_decoder_runtime.py", PBS.read_text())
 
     def test_smoke_resource_bounds_and_no_qsub_v(self):
         cpu = CPU_PBS.read_text()
@@ -53,10 +55,10 @@ class Stage45BPremodelQualificationTest(unittest.TestCase):
         ))
         runner = (ROOT / "scripts/stage45b_full24_fresh_base_train.py").read_text()
         admission = ADMISSION.read_text()
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0086"', admission)
-        self.assertIn("VANDA_STAGE45B_PI0086_FINAL_ADMISSION_QUALIFIED", admission)
-        self.assertIn("STAGE45B_B2_TRAINING_RELEASE_V1", RELEASE.read_text())
-        self.assertIn("VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V1_QUALIFIED", RELEASE.read_text())
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0087"', admission)
+        self.assertIn("VANDA_STAGE45B_PI0087_FINAL_ADMISSION_QUALIFIED", admission)
+        self.assertIn("STAGE45B_B2_TRAINING_RELEASE_V2", RELEASE.read_text())
+        self.assertIn("VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V2_QUALIFIED", RELEASE.read_text())
         self.assertIn("RUNTIME_PARQUET_PROVENANCE_V2", admission)
         self.assertIn("STAGE45B_LABEL_ANCHOR_RECONCILIATION", runner)
         self.assertEqual(len(re.findall(r"checkpoint-1000", runner)), 1)
@@ -64,3 +66,4 @@ class Stage45BPremodelQualificationTest(unittest.TestCase):
         self.assertIn("verify_extracted", runner)
         self.assertIn("verify_extracted", SMOKE.read_text())
         self.assertIn("STAGE45B_GROOT_SOURCE_SNAPSHOT_V2", SNAPSHOT.read_text())
+        self.assertIn("VANDA_STAGE45B_FULL24_VIDEO_DECODER_RUNTIME_QUALIFIED", VIDEO_RUNTIME.read_text())
