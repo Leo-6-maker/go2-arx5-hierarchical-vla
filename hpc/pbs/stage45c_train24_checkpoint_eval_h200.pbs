@@ -4,8 +4,10 @@
 # This file is a handoff artifact.  Corelab does not submit it.  A separately
 # authorized H200 operator may invoke it once, with a Vanda-issued runtime
 # binding whose paths and hashes have been independently sealed.  The Python
-# adapter performs all identity checks before importing GR00T and retains raw
-# arrays before the existing Stage44R evaluator is called.
+# native preflight must reproduce the accepted Stage45B Golden native-runtime
+# activation and the Stage45C input-loader boundary before the adapter imports
+# a checkpoint model.  The adapter retains raw arrays before the existing
+# Stage44R evaluator is called.
 
 #PBS -N st45c_eval
 #PBS -P CFP03-CF-004
@@ -19,9 +21,22 @@ set -euo pipefail
 : "${STAGE45C_PROTOCOL:?Set the frozen Stage45C protocol file}"
 : "${STAGE45C_MAPPING:?Set the audited checkpoint runtime mapping}"
 : "${STAGE45C_RUNTIME_BINDING:?Set the external Golden Release runtime binding}"
+: "${STAGE45C_OUTPUT_ROOT:?Set the fresh evaluation output root}"
 : "${STAGE45C_PYTHON:?Set the admitted Golden Release runtime Python}"
 : "${STAGE45C_EXPECTED_HEAD:?Set the exact canonical final execution HEAD}"
 : "${STAGE45C_DEVICE:?Set the admitted CUDA device, normally cuda:0}"
+: "${STAGE45C_FFMPEG_RUNTIME_ROOT:?Set the sealed Golden FFmpeg runtime root}"
+: "${STAGE45C_FFMPEG_RUNTIME_ID:?Set the sealed Golden FFmpeg runtime ID}"
+: "${STAGE45C_FFMPEG_RUNTIME_MANIFEST_SHA256:?Set the sealed FFmpeg manifest SHA256}"
+: "${STAGE45C_TORCHCODEC_PACKAGE_ROOT:?Set the exact TorchCodec package root}"
+: "${STAGE45C_TORCH_LIBRARY_ROOT:?Set the exact Torch library root}"
+: "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION:?Set the accepted login-plane video qualification}"
+: "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION_SHA256:?Set the video qualification SHA256}"
+: "${STAGE45C_CONFIG_PATH:?Set the frozen Stage45B/Stage45C training config}"
+: "${STAGE45C_NATIVE_RUNTIME_HELPER:?Set the immutable Stage45B native-runtime helper}"
+: "${STAGE45C_NATIVE_RUNTIME_HELPER_SHA256:?Set the native helper SHA256}"
+: "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT:?Set the tracked Stage45C native preflight}"
+: "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT_SHA256:?Set the native preflight SHA256}"
 : "${PBS_JOBID:?PBS_JOBID must be available}"
 
 cd "${STAGE45C_REPO}"
@@ -32,12 +47,72 @@ test -f "${STAGE45C_PROTOCOL}"
 test -f "${STAGE45C_MAPPING}"
 test -f "${STAGE45C_RUNTIME_BINDING}"
 test -x "${STAGE45C_PYTHON}"
+test "$(readlink -f "${STAGE45C_PYTHON}")" = "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12"
+test -f "${STAGE45C_CONFIG_PATH}"
+test "$(sha256sum "${STAGE45C_CONFIG_PATH}" | awk '{print $1}')" = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+test -f "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION}"
+test ! -L "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION}"
+test "$(sha256sum "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION}" | awk '{print $1}')" = "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION_SHA256}"
+grep -Fq '"status": "PASS"' "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION}"
+grep -Fq '"token": "VANDA_STAGE45B_FULL24_VIDEO_DECODER_RUNTIME_QUALIFIED"' "${STAGE45C_VIDEO_RUNTIME_QUALIFICATION}"
+test -d "${STAGE45C_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${STAGE45C_FFMPEG_RUNTIME_ROOT}/compat"
+test ! -L "${STAGE45C_FFMPEG_RUNTIME_ROOT}"
+test "$(basename "${STAGE45C_FFMPEG_RUNTIME_ROOT}")" = "STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__${STAGE45C_FFMPEG_RUNTIME_ID}"
+test "$(sha256sum "${STAGE45C_FFMPEG_RUNTIME_ROOT}/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1.json" | awk '{print $1}')" = "${STAGE45C_FFMPEG_RUNTIME_MANIFEST_SHA256}"
+test -f "${STAGE45C_NATIVE_RUNTIME_HELPER}"
+test ! -L "${STAGE45C_NATIVE_RUNTIME_HELPER}"
+test "$(sha256sum "${STAGE45C_NATIVE_RUNTIME_HELPER}" | awk '{print $1}')" = "${STAGE45C_NATIVE_RUNTIME_HELPER_SHA256}"
+test -f "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}"
+test ! -L "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}"
+test "$(sha256sum "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}" | awk '{print $1}')" = "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT_SHA256}"
 
-export HF_HUB_OFFLINE=1
-export TRANSFORMERS_OFFLINE=1
-export HF_DATASETS_OFFLINE=1
-export PYTHONNOUSERSITE=1
-export PYTHONDONTWRITEBYTECODE=1
+# This is the exact Stage45B Golden activation law.  It is deliberately done
+# before the first Stage45C Python process and keeps the ambient tail only as
+# a diagnostic fallback after all sealed/runtime-owned entries.
+STAGE45C_AMBIENT_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${STAGE45C_FFMPEG_RUNTIME_ROOT}/lib:${STAGE45C_FFMPEG_RUNTIME_ROOT}/compat:${STAGE45C_TORCHCODEC_PACKAGE_ROOT}:${STAGE45C_TORCH_LIBRARY_ROOT}:${STAGE45C_AMBIENT_LD_LIBRARY_PATH}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export STAGE45B_LABEL_ANCHOR_RECONCILIATION=1
+unset PYTHONPATH 2>/dev/null || true
+
+OUTPUT_ROOT="${STAGE45C_OUTPUT_ROOT}"
+test ! -e "${OUTPUT_ROOT}"
+OUTPUT_PARENT="$(dirname "${OUTPUT_ROOT}")"
+test -d "${OUTPUT_PARENT}"
+BOOTSTRAP_TMPDIR="${OUTPUT_PARENT}/.stage45c-pbs-tmp-${PBS_JOBID}"
+test ! -e "${BOOTSTRAP_TMPDIR}"
+mkdir -p "${BOOTSTRAP_TMPDIR}"
+NATIVE_PREFLIGHT_EVIDENCE="${BOOTSTRAP_TMPDIR}/stage45c_native_runtime_preflight.json"
+NATIVE_QUALIFICATION_ROOT="${BOOTSTRAP_TMPDIR}/stage45c_native_runtime_qualification"
+
+copy_native_preflight_evidence() {
+  if [ -f "${NATIVE_PREFLIGHT_EVIDENCE}" ] && [ -d "${OUTPUT_ROOT}" ]; then
+    cp "${NATIVE_PREFLIGHT_EVIDENCE}" "${OUTPUT_ROOT}/stage45c_native_runtime_preflight.json" || true
+  fi
+}
+trap copy_native_preflight_evidence EXIT
+
+"${STAGE45C_PYTHON}" "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}" \
+  --repo "${STAGE45C_REPO}" \
+  --protocol "${STAGE45C_PROTOCOL}" \
+  --mapping "${STAGE45C_MAPPING}" \
+  --runtime-binding "${STAGE45C_RUNTIME_BINDING}" \
+  --expected-head "${STAGE45C_EXPECTED_HEAD}" \
+  --requested-python "${STAGE45C_PYTHON}" \
+  --ffmpeg-runtime-root "${STAGE45C_FFMPEG_RUNTIME_ROOT}" \
+  --ffmpeg-runtime-id "${STAGE45C_FFMPEG_RUNTIME_ID}" \
+  --ffmpeg-manifest-sha256 "${STAGE45C_FFMPEG_RUNTIME_MANIFEST_SHA256}" \
+  --torchcodec-package-root "${STAGE45C_TORCHCODEC_PACKAGE_ROOT}" \
+  --torch-library-root "${STAGE45C_TORCH_LIBRARY_ROOT}" \
+  --stage45b-helper "${STAGE45C_NATIVE_RUNTIME_HELPER}" \
+  --config "${STAGE45C_CONFIG_PATH}" \
+  --output-root "${STAGE45C_OUTPUT_ROOT}" \
+  --qualification-root "${NATIVE_QUALIFICATION_ROOT}" \
+  --evidence "${NATIVE_PREFLIGHT_EVIDENCE}"
+grep -Fq '"status": "PASS"' "${NATIVE_PREFLIGHT_EVIDENCE}"
+grep -Fq '"token": "STAGE45C_GOLDEN_NATIVE_RUNTIME_TRANSPLANT_QUALIFIED"' "${NATIVE_PREFLIGHT_EVIDENCE}"
 
 "${STAGE45C_PYTHON}" "${STAGE45C_REPO}/scripts/stage45c_h200_eval_runtime_adapter.py" \
   --execute \
