@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -24,6 +25,9 @@ class Stage45CBootstrapTests(unittest.TestCase):
         model = types.ModuleType("gr00t.model")
         n1d7 = types.ModuleType("gr00t.model.gr00t_n1d7")
         processing = types.ModuleType("gr00t.model.gr00t_n1d7.processing_gr00t_n1d7")
+        gr00t.__path__ = []
+        model.__path__ = []
+        n1d7.__path__ = []
 
         def original(model_name: str, loading_kwargs: dict):
             calls.append((model_name, dict(loading_kwargs)))
@@ -44,6 +48,7 @@ class Stage45CBootstrapTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary, mock.patch.dict(sys.modules, fake_modules, clear=False):
             snapshot = Path(temporary) / "snapshot"
             snapshot.mkdir()
+            expected_snapshot = str(snapshot.resolve())
             record = BOOTSTRAP._bind_model_owned_processor(snapshot)
             processing = fake_modules["gr00t.model.gr00t_n1d7.processing_gr00t_n1d7"]
             kwargs = {"local_files_only": True, "cache_dir": "/sealed/cache"}
@@ -55,7 +60,7 @@ class Stage45CBootstrapTests(unittest.TestCase):
         self.assertEqual(record["model_config_repo_id_rewritten"], False)
         self.assertEqual(record["backbone_dispatch_changed"], False)
         self.assertEqual(record["loading_kwargs_changed"], False)
-        self.assertEqual(result_cosmos[0], str(snapshot.resolve()))
+        self.assertEqual(result_cosmos[0], expected_snapshot)
         self.assertEqual(result_other[0], "Qwen/other")
         self.assertEqual(calls[0][1], kwargs)
         self.assertEqual(calls[1][1], kwargs)
@@ -88,12 +93,6 @@ class Stage45CBootstrapTests(unittest.TestCase):
             (refs / "main").write_text(BOOTSTRAP.COSMOS_REVISION + "\n", encoding="utf-8")
             binding = root / "binding.json"
             binding.write_text(
-                '{"paths":{"groot_source":%r,"cosmos_root":%r}}' % (str(groot), str(cosmos)),
-                encoding="utf-8",
-            )
-            # %r is Python repr, so write valid JSON explicitly instead.
-            import json
-            binding.write_text(
                 json.dumps({"paths": {"groot_source": str(groot), "cosmos_root": str(cosmos)}}),
                 encoding="utf-8",
             )
@@ -101,13 +100,10 @@ class Stage45CBootstrapTests(unittest.TestCase):
             self.assertEqual(observed_groot, groot.resolve())
             self.assertEqual(observed_snapshot, snapshot.resolve())
 
-    def test_pbs_launches_bootstrap(self) -> None:
+    def test_pbs_launches_bootstrap_not_adapter_directly(self) -> None:
         pbs = (ROOT / "hpc" / "pbs" / "stage45c_train24_checkpoint_eval_h200.pbs").read_text(encoding="utf-8")
-        self.assertIn("stage45c_h200_eval_bootstrap.py", pbs)
-        self.assertNotIn(
-            '"${STAGE45C_PYTHON}" "${STAGE45C_REPO}/scripts/stage45c_h200_eval_runtime_adapter.py" \\\n  --execute',
-            pbs,
-        )
+        self.assertIn('"${STAGE45C_REPO}/scripts/stage45c_h200_eval_bootstrap.py"', pbs)
+        self.assertNotIn('"${STAGE45C_REPO}/scripts/stage45c_h200_eval_runtime_adapter.py" \\\n  --execute', pbs)
 
 
 if __name__ == "__main__":
