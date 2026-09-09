@@ -74,6 +74,7 @@ MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f
 CONFIG_SHA256 = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 DECODER_SOURCE_SHA256 = "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae"
 METRICS_SOURCE_SHA256 = "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4"
+CANONICAL_LABEL_SOURCE = "SEALED_FULL24_TRAIN_PARQUET"
 
 HORIZON = 40
 UNIVERSAL_DIM = 132
@@ -823,6 +824,16 @@ def _verify_runtime_stats(path: Path) -> dict[str, Any]:
     _equal(statistics.get("action_horizon"), HORIZON, "runtime V2 horizon")
     _equal(statistics.get("universal_action_dim"), UNIVERSAL_DIM, "runtime V2 action dimension")
     _equal(statistics.get("selected_lower_bound"), "q01", "runtime V2 lower bound")
+    _equal(document.get("protocol_revision"), "RUNTIME_PARQUET_PROVENANCE_V2", "runtime V2 protocol revision")
+    _equal(document.get("status"), "VANDA_STAGE45B_FULL24_RUNTIME_DATASET_QUALIFIED_V2", "runtime V2 qualification token")
+    canonical = document.get("canonical_label_source")
+    _require(isinstance(canonical, Mapping), "runtime V2 canonical label source is missing")
+    _equal(canonical.get("kind"), CANONICAL_LABEL_SOURCE, "runtime V2 canonical label source kind")
+    _equal(canonical.get("tree_sha256"), FULL24_DATASET_TREE_SHA256, "runtime V2 canonical label source tree")
+    _equal(canonical.get("parquet_files_read"), 24, "runtime V2 canonical parquet count")
+    bridge = document.get("algorithmic_provenance", {}).get("source_to_parquet_bridge", {})
+    _equal(bridge.get("surviving_source_snapshot_count"), 6, "runtime V2 surviving source count")
+    _equal(bridge.get("unavailable_historical_replica_count"), 18, "runtime V2 unavailable source count")
     _equal(statistics.get("selected_upper_bound"), "q99", "runtime V2 upper bound")
     return identity
 
@@ -997,12 +1008,207 @@ def runtime_preflight(binding: Mapping[str, Any], mapping_summary: Mapping[str, 
         source_commit = completed.stdout.strip()
         _equal(source_commit, GROOT_SOURCE_COMMIT, "GR00T source HEAD")
     result["groot_source"] = {"path": str(source_root), "git_head": source_commit, "expected_commit": GROOT_SOURCE_COMMIT}
-    snapshot_records = _snapshot_expectations_from_stats(Path(paths["full24_runtime_statistics"]))
-    result["snapshots"] = _verify_snapshots(Path(paths["snapshot_root"]), snapshot_records)
+    snapshot_records, canonical_label_source = _canonical_parquet_snapshot_records(Path(paths["full24_dataset"]), Path(paths["snapshot_root"]), Path(paths["full24_runtime_statistics"]))
+    result["canonical_label_source"] = canonical_label_source
+    result["snapshots"] = snapshot_records
     _require(len(result["snapshots"]) == 24, "TRAIN24 snapshot count drift")
     result["status"] = "PASS"
     return result
 
+
+def _canonical_parquet_snapshot_records(
+    dataset_root: Path, snapshot_root: Path, stats_path: Path
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Materialize evaluator labels from the sealed FULL24 parquet source.
+
+    Historical JSON descriptors are provenance witnesses only.  They are read
+    when the six surviving train_a replicas exist, while all 24 numeric labels
+    used by evaluation come directly from the already-qualified parquet tree.
+    Missing historical replicas are never synthesized or used as execution
+    input.
+    """
+
+    import numpy as np
+    import pandas as pd
+
+    regular_directory(dataset_root, "FULL24 canonical label dataset")
+    regular_directory(snapshot_root, "historical snapshot witness root")
+    stats = read_json(stats_path)
+    provenance = stats.get("algorithmic_provenance", {})
+    _require(isinstance(provenance, Mapping), "runtime V2 algorithmic provenance is missing")
+    bridge = provenance.get("source_to_parquet_bridge", {})
+    _require(isinstance(bridge, Mapping), "runtime V2 source bridge is missing")
+    _equal(bridge.get("historical_source_snapshot_count"), 24, "runtime V2 historical source snapshot count")
+    _equal(bridge.get("surviving_source_snapshot_count"), 6, "runtime V2 surviving source snapshot count")
+    _equal(bridge.get("unavailable_historical_replica_count"), 18, "runtime V2 unavailable historical replica count")
+    _equal(bridge.get("missing_replicas_are_not_execution_authority"), True, "runtime V2 missing-replica authority")
+    bridge_rows = bridge.get("records")
+    _require(isinstance(bridge_rows, list) and len(bridge_rows) == 6, "runtime V2 surviving source bridge records are not train_a x 6")
+    bridge_by_index: dict[int, Mapping[str, Any]] = {}
+    for row in bridge_rows:
+        _require(isinstance(row, Mapping), "runtime V2 bridge record is not an object")
+        snapshot_index = row.get("snapshot_index")
+        _require(isinstance(snapshot_index, int) and 0 <= snapshot_index < 6, "runtime V2 bridge snapshot index drift")
+        _require(snapshot_index not in bridge_by_index, "runtime V2 bridge snapshot index is duplicated")
+        expected_sha = row.get("json_sha256")
+        _require(isinstance(expected_sha, str) and len(expected_sha) == 64, "runtime V2 bridge JSON SHA is missing")
+        bridge_by_index[snapshot_index] = row
+    _equal(len(bridge_by_index), 6, "runtime V2 bridge record coverage")
+
+    def rows_from_frame(frame: Any, column: str, width: int) -> np.ndarray:
+        _require(column in frame.columns, f"canonical parquet column missing: {column}")
+        try:
+            rows = [np.asarray(value, dtype=np.float64).reshape(-1) for value in frame[column]]
+            values = np.stack(rows, axis=0)
+        except (TypeError, ValueError) as exc:
+            raise AdapterError(f"canonical parquet column is not numeric H40: {column}") from exc
+        _require(values.shape == (HORIZON, width), f"canonical parquet shape drift for {column}: {values.shape}")
+        _require(bool(np.isfinite(values).all()), f"canonical parquet column is non-finite: {column}")
+        return values
+
+    def existing_regular_file(path: Path) -> bool:
+        try:
+            mode = path.lstat().st_mode
+        except FileNotFoundError:
+            return False
+        except OSError as exc:
+            raise AdapterError(f"historical snapshot locator cannot be inspected: {path}") from exc
+        _require(stat.S_ISREG(mode) and not stat.S_ISLNK(mode), f"historical snapshot witness is unsafe: {path}")
+        return True
+
+    data_root = dataset_root / "data"
+    regular_directory(data_root, "FULL24 parquet data root")
+    parquet_paths = sorted(data_root.glob("chunk-*/episode_*.parquet"), key=lambda candidate: candidate.as_posix())
+    _equal(len(parquet_paths), 24, "canonical FULL24 parquet count")
+    records: list[dict[str, Any]] = []
+    surviving_json_count = 0
+    unavailable_json_count = 0
+
+    for index, parquet_path in enumerate(parquet_paths):
+        regular_file(parquet_path, f"canonical parquet {index}")
+        try:
+            episode_index = int(parquet_path.stem.split("_")[-1])
+        except ValueError as exc:
+            raise AdapterError(f"canonical parquet filename is not indexed: {parquet_path}") from exc
+        _equal(episode_index, index, f"canonical parquet episode index {index}")
+        frame = pd.read_parquet(parquet_path, columns=["timestamp", "action", "observation.state"])
+        _equal(len(frame), HORIZON, f"canonical parquet row count {index}")
+        timestamps = np.asarray(frame["timestamp"].to_numpy(), dtype=np.float64)
+        _require(timestamps.shape == (HORIZON,) and bool(np.isfinite(timestamps).all()), f"canonical parquet timestamps are not finite H40 at {index}")
+        _require(float(np.max(np.abs(np.diff(timestamps) - 0.05))) <= 1e-9, f"canonical parquet timing drift at {index}")
+        action = rows_from_frame(frame, "action", PHYSICAL_DIM)
+        states = rows_from_frame(frame, "observation.state", STATE_DIM)
+        _require(bool(np.array_equal(states, np.broadcast_to(states[0], states.shape))), f"canonical parquet observation state is not repeated at {index}")
+        _require(float(np.linalg.norm(states[0, :3] - action[0, :3])) <= 1e-6, f"canonical parquet state/action anchor mismatch at {index}")
+        _require(float(np.max(np.abs(action[:, 9] - 0.5))) <= 1e-6, f"canonical parquet action gripper drift at {index}")
+        _require(float(np.max(np.abs(states[:, 9] - 0.5))) <= 1e-6, f"canonical parquet state gripper drift at {index}")
+
+        target = TARGET_ORDER[index // 6]
+        snapshot_index = index % 6
+        window_id = f"stage22_expert_{target}:expert-{snapshot_index:04d}"
+        target_world = np.asarray(TARGET_POSITIONS[target], dtype=np.float64)
+        anchor = target_world - action[-1, :3]
+        witness_path = snapshot_root / f"stage22_expert_{target}" / f"expert-{snapshot_index:04d}.json"
+        witness: dict[str, Any]
+        if target == TARGET_ORDER[0]:
+            _require(existing_regular_file(witness_path), f"surviving train_a source snapshot is unavailable: {witness_path}")
+            payload = read_json(witness_path)
+            _equal(payload.get("schema"), "SameSceneExpertSnapshotV1", f"snapshot schema {window_id}")
+            _equal(payload.get("example_id"), window_id, f"snapshot ID {window_id}")
+            _equal(payload.get("raw_episode_id"), f"stage22_expert_{target}", f"snapshot episode {window_id}")
+            _equal(payload.get("target_id"), target, f"snapshot target {window_id}")
+            _equal(payload.get("target_position_world_m"), list(TARGET_POSITIONS[target]), f"snapshot target pose {window_id}")
+            _equal(payload.get("source_frame"), SOURCE_FRAME, f"snapshot frame {window_id}")
+            _equal(payload.get("tcp_semantic_id"), TCP_SEMANTIC_ID, f"snapshot TCP {window_id}")
+            _equal(payload.get("target_excluded_from_model_input"), True, f"snapshot target exclusion {window_id}")
+            witness_state = np.asarray(payload.get("state_v1", {}).get("values"), dtype=np.float32).astype(np.float64)
+            witness_action = np.asarray(payload.get("future_desired_eef_9d"), dtype=np.float32).astype(np.float64)
+            witness_gripper = np.asarray(payload.get("future_gripper"), dtype=np.float32).reshape(-1, 1).astype(np.float64)
+            witness_timestamps = np.asarray(payload.get("future_timestamps"), dtype=np.float64)
+            _require(witness_state.shape == (STATE_DIM,) and witness_action.shape == (HORIZON, 9) and witness_gripper.shape == (HORIZON, 1) and witness_timestamps.shape == (HORIZON,), f"historical witness shape drift {window_id}")
+            bridge_row = bridge_by_index[snapshot_index]
+            witness_sha = sha256_file(witness_path)
+            _equal(witness_sha, bridge_row["json_sha256"], f"historical witness SHA {window_id}")
+            bridge_errors = {
+                "state_v1": float(np.max(np.abs(witness_state - states[0]))),
+                "desired_eef_9d": float(np.max(np.abs(witness_action - action[:, :9]))),
+                "gripper": float(np.max(np.abs(witness_gripper - action[:, 9:10]))),
+                "timestamps": float(np.max(np.abs(witness_timestamps - timestamps))),
+            }
+            _require(all(error == 0.0 for error in bridge_errors.values()), f"historical witness float32 bridge drift {window_id}: {bridge_errors}")
+            telemetry = payload.get("raw_telemetry", {})
+            _require(isinstance(telemetry, Mapping), f"historical witness telemetry missing {window_id}")
+            achieved = np.asarray(telemetry.get("achieved_position_world_m"), dtype=np.float64)
+            _require(achieved.shape == (3,) and bool(np.isfinite(achieved).all()), f"historical witness achieved pose missing {window_id}")
+            witness_anchor = achieved - witness_state[:3]
+            anchor_error = float(np.max(np.abs(witness_anchor - anchor)))
+            _require(anchor_error <= 1e-6, f"historical witness anchor mismatch {window_id}: {anchor_error}")
+            _require(abs(float(witness_timestamps[0]) - float(payload.get("observation_timestamp"))) <= 1e-7, f"historical witness observation timestamp drift {window_id}")
+            witness = {
+                "status": "PASS",
+                "execution_authority": False,
+                "path": str(witness_path),
+                "sha256": witness_sha,
+                "float32_bridge_max_abs_error": bridge_errors,
+                "anchor_world_max_abs_error_m": anchor_error,
+            }
+            surviving_json_count += 1
+        else:
+            if existing_regular_file(witness_path):
+                witness = {
+                    "status": "PRESENT_NOT_USED",
+                    "execution_authority": False,
+                    "path": str(witness_path),
+                    "sha256": sha256_file(witness_path),
+                }
+            else:
+                witness = {
+                    "status": "UNAVAILABLE",
+                    "execution_authority": False,
+                    "path": str(witness_path),
+                }
+                unavailable_json_count += 1
+
+        parquet_sha = sha256_file(parquet_path)
+        records.append(
+            {
+                "window_id": window_id,
+                "path": str(parquet_path),
+                "sha256": parquet_sha,
+                "source_artifact_kind": CANONICAL_LABEL_SOURCE,
+                "canonical_parquet_path": str(parquet_path),
+                "canonical_parquet_sha256": parquet_sha,
+                "historical_source_json": witness,
+                "target_id": target,
+                "target_world_m": list(TARGET_POSITIONS[target]),
+                "state_v1": states[0].tolist(),
+                "expert_physical_action": action.tolist(),
+                "source_timestamps": timestamps.tolist(),
+                "observation_timestamp": float(timestamps[0]),
+                "anchor_world_m": anchor.tolist(),
+                "target_xyz_in_model_input": False,
+                "target_excluded_from_model_input": True,
+            }
+        )
+
+    _equal(surviving_json_count, 6, "surviving historical source JSON count")
+    _equal(unavailable_json_count, 18, "unavailable historical source JSON count")
+    summary = {
+        "kind": CANONICAL_LABEL_SOURCE,
+        "root": str(dataset_root),
+        "tree_sha256": FULL24_DATASET_TREE_SHA256,
+        "parquet_files_read": len(records),
+        "label_records": len(records),
+        "label_materialization": "canonical_parquet_action_and_observation_state",
+        "anchor_derivation": "target_world_m_minus_canonical_parquet_action_pose39",
+        "historical_source_json_root": str(snapshot_root),
+        "surviving_historical_source_json_count": surviving_json_count,
+        "unavailable_historical_replica_count": unavailable_json_count,
+        "historical_source_json_execution_authority": False,
+        "missing_replicas_are_not_execution_authority": True,
+        "target_xyz_in_model_input": False,
+    }
+    return records, summary
 
 def _snapshot_expectations_from_stats(path: Path) -> list[str] | None:
     document = read_json(path)
