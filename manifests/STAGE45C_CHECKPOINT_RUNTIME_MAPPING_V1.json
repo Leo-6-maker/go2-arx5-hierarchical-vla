@@ -1,0 +1,170 @@
+{
+  "schema": "CORELAB_STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1",
+  "stage": "Stage45C",
+  "pi_gate": "PI_GATE_STATE_0090",
+  "status": "AUDITED_NOT_EXECUTED",
+  "token": "STAGE45C_CHECKPOINT_RUNTIME_MAPPING_AUDITED",
+  "protocol_sha256": "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f",
+  "canonical_head": "54a833eaa7037cdc20397ef182b36647194040cb",
+  "checkpoint_order": [
+    "BASE",
+    "STRUCTURED@1000",
+    "FULL24@1000",
+    "FULL24@2000"
+  ],
+  "checkpoint_runtime_mapping": [
+    {
+      "label": "BASE",
+      "role": "REFERENCE",
+      "tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "tree_prefix": "payload/GR00T-N1.7-3B",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+      "decode_statistics": {
+        "kind": "BASE_PROCESSOR_STATISTICS",
+        "sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+        "locator_key": "BASE_PROCESSOR_STATISTICS"
+      }
+    },
+    {
+      "label": "STRUCTURED@1000",
+      "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
+      "tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+      "tree_prefix": "stage38d/checkpoint-1000",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+      "decode_statistics": {
+        "kind": "HISTORICAL_STRUCTURED_ACTION_STATISTICS",
+        "sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+        "locator_key": "HISTORICAL_STRUCTURED_ACTION_STATISTICS",
+        "runtime_materialization_status": "PENDING_VANDA_RECOVERY"
+      }
+    },
+    {
+      "label": "FULL24@1000",
+      "role": "PRIMARY_COVERAGE_ENDPOINT",
+      "tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "tree_prefix": "stage45b/checkpoint-1000",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+      "decode_statistics": {
+        "kind": "FULL24_RUNTIME_V2_STATISTICS",
+        "sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+        "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+        "locator_key": "FULL24_RUNTIME_V2_STATISTICS"
+      }
+    },
+    {
+      "label": "FULL24@2000",
+      "role": "SECONDARY_EXPOSURE_ENDPOINT",
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "tree_prefix": "stage45b/checkpoint-2000",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+      "decode_statistics": {
+        "kind": "FULL24_RUNTIME_V2_STATISTICS",
+        "sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+        "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+        "locator_key": "FULL24_RUNTIME_V2_STATISTICS"
+      }
+    }
+  ],
+  "historical_comparator": {
+    "label": "STRUCTURED@1000",
+    "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
+    "expected_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "expected_file_count": 19,
+    "expected_total_bytes": 20889596357,
+    "expected_structured_action_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "known_package_sha256": "4e2f5ca562f108b0f0ec55cd97083d163b4e450be0e8c4ae0f1215bf98b458b6",
+    "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+    "materialization_path": null,
+    "substitution_allowed": false
+  },
+  "decoder": {
+    "name": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
+    "source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "raw_shape": [
+      1,
+      40,
+      132
+    ],
+    "decoded_shape": [
+      40,
+      10
+    ],
+    "normalization": "checkpoint_specific_decode_statistics",
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "structured_action_schema": "StructuredActionV1",
+    "geometry": "K16",
+    "timing": "T16"
+  },
+  "sampler_noise_protocol": {
+    "development_seed": 4242,
+    "noise_generation": "torch.Generator(device='cpu').manual_seed(4242); torch.randn([1,40,132], dtype=torch.float32, device='cpu')",
+    "noise_shape": [
+      1,
+      40,
+      132
+    ],
+    "same_noise_across_checkpoints": true,
+    "sampler": "source-mapped-four-step-Euler-action-head-graph",
+    "official_public_sampler_called": false,
+    "steps": 4,
+    "dt": 0.25,
+    "timestep_ids": [
+      0,
+      250,
+      500,
+      750
+    ],
+    "checkpoint_order": [
+      "BASE",
+      "STRUCTURED@1000",
+      "FULL24@1000",
+      "FULL24@2000"
+    ],
+    "planned_forwards_total": 96,
+    "windows_per_checkpoint": 24,
+    "adaptive_extension": false
+  },
+  "model_input_contract": {
+    "keys": [
+      "body_rgb",
+      "wrist_rgb",
+      "state"
+    ],
+    "body_rgb_shape": [
+      96,
+      96,
+      3
+    ],
+    "wrist_rgb_shape": [
+      96,
+      96,
+      3
+    ],
+    "state_v1_shape": [
+      10
+    ],
+    "language": "move the end effector to the red target",
+    "target_xyz_in_model_input": false
+  },
+  "execution_boundary": {
+    "model_construction": "RUNTIME_ONLY",
+    "model_forward": "RUNTIME_ONLY",
+    "training": false,
+    "backward": false,
+    "optimizer_steps": 0,
+    "resume_from_checkpoint": false,
+    "checkpoint_write": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_steps": 0,
+    "reference_updates": 0,
+    "simulator": false,
+    "hardware": false,
+    "pbs_submissions_by_corelab": 0
+  }
+}
