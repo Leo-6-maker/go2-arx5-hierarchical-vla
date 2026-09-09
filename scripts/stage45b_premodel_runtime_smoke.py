@@ -27,6 +27,10 @@ BASE_TREE_SHA256 = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569
 FULL24_TREE_SHA256 = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 FULL24_FILE_COUNT = 85
 FULL24_BYTES = 919661
+RUNTIME_STATS_SCHEMA = "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2"
+RUNTIME_PROTOCOL_REVISION = "RUNTIME_PARQUET_PROVENANCE_V2"
+RUNTIME_STATS_SHA256 = "RUNTIME_STATS_SHA_FILLED_BY_REFREEZE_MANIFEST"
+RUNTIME_PAYLOAD_SHA256 = "RUNTIME_STATS_PAYLOAD_SHA_FILLED_BY_REFREEZE_MANIFEST"
 B0_STATS_SHA256 = "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d"
 B0_PAYLOAD_SHA256 = "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032"
 GROOT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
@@ -226,20 +230,16 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError(f"unexpected Python realpath: {actual_realpath}")
 
     bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
-    if bundle.get("schema") != "CORELAB_STAGE45B_FULL24_FRESH_BASE_EXECUTION_MANIFEST_V1":
+    if bundle.get("schema") != "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_V2_EXECUTION_MANIFEST_V1":
         raise RuntimeError("bundle schema mismatch")
     if bundle.get("repository", {}).get("branch") != BRANCH:
         raise RuntimeError("bundle branch mismatch")
     source_head = str(bundle.get("repository", {}).get("source_head", ""))
     if len(source_head) != 40:
         raise RuntimeError("bundle source_head is not a commit SHA")
-    ancestor = subprocess.run(
-        ["git", "-C", str(repo), "merge-base", "--is-ancestor", source_head, expected_head],
-        check=False,
-    )
-    if ancestor.returncode != 0:
-        raise RuntimeError("bundle source_head is not an ancestor of the execution HEAD")
-    for key in ("runner", "pbs", "stats_closure"):
+    if source_head != expected_head:
+        raise RuntimeError("bundle source_head is not the exact refrozen execution HEAD")
+    for key in ("runner", "pbs", "runtime_qualification"):
         item = bundle["execution_files"][key]
         path = repo / str(item["path"])
         regular_file(path, f"execution file {key}")
@@ -269,18 +269,34 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
     if sha256_file(config) != CONFIG_SHA256:
         raise RuntimeError("training config identity mismatch")
     stats_document = json.loads(stats.read_text(encoding="utf-8"))
-    if sha256_file(stats) != B0_STATS_SHA256:
-        raise RuntimeError("B0 statistics identity mismatch")
-    if stats_document.get("statistics_payload_sha256") != B0_PAYLOAD_SHA256:
-        raise RuntimeError("B0 statistics payload mismatch")
-    if stats_document.get("dataset", {}).get("tree_sha256") != FULL24_TREE_SHA256:
-        raise RuntimeError("B0 statistics FULL24 binding mismatch")
+    observed_stats_sha = sha256_file(stats)
+    if observed_stats_sha != RUNTIME_STATS_SHA256:
+        raise RuntimeError("runtime-parquet V2 statistics identity mismatch")
+    if (
+        stats_document.get("schema") != RUNTIME_STATS_SCHEMA
+        or stats_document.get("pi_gate") != "PI_GATE_STATE_0083"
+        or stats_document.get("protocol_revision") != RUNTIME_PROTOCOL_REVISION
+        or stats_document.get("statistics_payload_sha256") != RUNTIME_PAYLOAD_SHA256
+        or stats_document.get("canonical_label_source", {}).get("tree_sha256")
+        != FULL24_TREE_SHA256
+    ):
+        raise RuntimeError("runtime-parquet V2 statistics contract mismatch")
+    historical = bundle.get("historical_b0_stats")
+    if (
+        not isinstance(historical, Mapping)
+        or historical.get("sha256") != B0_STATS_SHA256
+        or historical.get("payload_sha256") != B0_PAYLOAD_SHA256
+        or historical.get("execution_stats_authority") is not False
+    ):
+        raise RuntimeError("historical B0 binding mismatch")
 
     for name, expected in OFFLINE_ENV.items():
         if os.environ.get(name) != expected:
             raise RuntimeError(f"offline/runtime environment mismatch: {name}")
     if args.mode in {"cpu", "h200"} and "STAGE45B_OUTPUT_ROOT" in os.environ:
         raise RuntimeError("scientific output root leaked into non-scientific smoke")
+    if args.mode == "scientific" and os.environ.get("STAGE45B_LABEL_ANCHOR_RECONCILIATION") != "1":
+        raise RuntimeError("Stage45B label-anchor reconciliation is not enabled")
     scientific_root = Path(args.scientific_output_root).resolve() if args.scientific_output_root else None
     if args.mode == "scientific":
         if scientific_root is None or scientific_root.exists() or scientific_root.is_symlink():
@@ -367,8 +383,11 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
             "full24_tree_sha256": full_digest,
             "full24_regular_files": len(full_entries),
             "full24_bytes": full_bytes,
-            "b0_stats_sha256": sha256_file(stats),
-            "b0_payload_sha256": stats_document["statistics_payload_sha256"],
+            "runtime_stats_sha256": observed_stats_sha,
+            "runtime_stats_payload_sha256": stats_document["statistics_payload_sha256"],
+            "historical_b0_stats_sha256": B0_STATS_SHA256,
+            "historical_b0_payload_sha256": B0_PAYLOAD_SHA256,
+            "protocol_revision": RUNTIME_PROTOCOL_REVISION,
             "groot_sha": groot_head,
             "cosmos_revision": revision,
             "cosmos_tree_sha256": cosmos_digest,

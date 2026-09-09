@@ -42,13 +42,15 @@ class Stage45BPremodelQualificationTest(unittest.TestCase):
         manifest = json.loads(
             (ROOT / "manifests/STAGE45B_FULL24_FRESH_BASE_EXECUTION_MANIFEST_V1.json").read_text()
         )
-        self.assertEqual(manifest["pi_gate"], "PI_GATE_STATE_0079")
+        self.assertEqual(manifest["pi_gate"], "PI_GATE_STATE_0083")
         self.assertEqual(manifest["repository"]["branch"], "stage45b/full24-fresh-base-execution")
         self.assertIn("stage45b_python", manifest["runtime_paths"])
         self.assertIn("stage45b_premodel_runtime_smoke.py", " ".join(
             str(item["path"]) for item in manifest["execution_files"].values()
         ))
         runner = (ROOT / "scripts/stage45b_full24_fresh_base_train.py").read_text()
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0079"', runner)
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0083"', runner)
+        self.assertIn("RUNTIME_PARQUET_PROVENANCE_V2", runner)
+        self.assertIn("STAGE45B_LABEL_ANCHOR_RECONCILIATION", runner)
         self.assertEqual(len(re.findall(r"checkpoint-1000", runner)), 1)
         self.assertEqual(len(re.findall(r"checkpoint-2000", runner)), 1)
