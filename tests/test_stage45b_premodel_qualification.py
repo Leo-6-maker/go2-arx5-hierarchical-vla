@@ -9,6 +9,9 @@ PBS = ROOT / "hpc/pbs/stage45b_full24_fresh_base.pbs"
 CPU_PBS = ROOT / "hpc/pbs/stage45b_premodel_cpu_smoke.pbs"
 H200_PBS = ROOT / "hpc/pbs/stage45b_premodel_h200_smoke.pbs"
 SMOKE = ROOT / "scripts/stage45b_premodel_runtime_smoke.py"
+SNAPSHOT = ROOT / "scripts/stage45b_groot_source_snapshot.py"
+ADMISSION = ROOT / "scripts/stage45b_external_admission.py"
+RELEASE = ROOT / "scripts/stage45b_production_release.py"
 
 
 class Stage45BPremodelQualificationTest(unittest.TestCase):
@@ -49,8 +52,15 @@ class Stage45BPremodelQualificationTest(unittest.TestCase):
             str(item["path"]) for item in manifest["execution_files"].values()
         ))
         runner = (ROOT / "scripts/stage45b_full24_fresh_base_train.py").read_text()
-        self.assertIn('PI_GATE = "PI_GATE_STATE_0083"', runner)
-        self.assertIn("RUNTIME_PARQUET_PROVENANCE_V2", runner)
+        admission = ADMISSION.read_text()
+        self.assertIn('PI_GATE = "PI_GATE_STATE_0086"', admission)
+        self.assertIn("VANDA_STAGE45B_PI0086_FINAL_ADMISSION_QUALIFIED", admission)
+        self.assertIn("STAGE45B_B2_TRAINING_RELEASE_V1", RELEASE.read_text())
+        self.assertIn("VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V1_QUALIFIED", RELEASE.read_text())
+        self.assertIn("RUNTIME_PARQUET_PROVENANCE_V2", admission)
         self.assertIn("STAGE45B_LABEL_ANCHOR_RECONCILIATION", runner)
         self.assertEqual(len(re.findall(r"checkpoint-1000", runner)), 1)
         self.assertEqual(len(re.findall(r"checkpoint-2000", runner)), 1)
+        self.assertIn("verify_extracted", runner)
+        self.assertIn("verify_extracted", SMOKE.read_text())
+        self.assertIn("STAGE45B_GROOT_SOURCE_SNAPSHOT_V2", SNAPSHOT.read_text())

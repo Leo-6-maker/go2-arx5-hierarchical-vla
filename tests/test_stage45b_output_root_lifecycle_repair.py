@@ -66,6 +66,40 @@ exit 90
             """#!/bin/sh
 set -eu
 case "$1" in
+  */scripts/stage45b_production_release.py)
+    shift
+    mode=""
+    out=""
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --mode) shift; mode="$1" ;;
+        --evidence-path) shift; out="$1" ;;
+      esac
+      shift
+    done
+    test "$mode" = "verify"
+    test -n "$out"
+    printf '%s\n' '{"schema":"STAGE45B_B2_TRAINING_RELEASE_V1","status":"PASS","token":"VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V1_QUALIFIED"}' > "$out"
+    ;;
+  */scripts/stage45b_groot_source_snapshot.py)
+    shift
+    mode=""
+    out=""
+    destination=""
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --mode) shift; mode="$1" ;;
+        --json-output) shift; out="$1" ;;
+        --destination) shift; destination="$1" ;;
+      esac
+      shift
+    done
+    test "$mode" = "extract"
+    test -n "$out"
+    test -n "$destination"
+    mkdir -p "$destination"
+    printf '%s\n' '{"schema":"STAGE45B_GROOT_SOURCE_SNAPSHOT_V2","status":"PASS","stub":true}' > "$out"
+    ;;
   */scripts/stage45b_premodel_runtime_smoke.py)
     shift
     mode=""
@@ -120,7 +154,14 @@ esac
                 "STAGE45B_OUTPUT_ROOT": str(output_root),
                 "STAGE45B_BASE_MODEL_PATH": str(self.sandbox / "base"),
                 "STAGE45B_DATASET_DIR": str(self.sandbox / "dataset"),
-                "STAGE45B_GROOT_SOURCE": str(self.sandbox / "groot"),
+                "STAGE45B_GROOT_SNAPSHOT_ARCHIVE": str(self.sandbox / "groot-snapshot.tar"),
+                "STAGE45B_GROOT_SNAPSHOT_MANIFEST": str(self.sandbox / "groot-snapshot.manifest.json"),
+                "STAGE45B_GROOT_SNAPSHOT_ARCHIVE_SHA256": "0" * 64,
+                "STAGE45B_GROOT_SNAPSHOT_MANIFEST_FILE_SHA256": "1" * 64,
+                "STAGE45B_GROOT_SNAPSHOT_MANIFEST_PAYLOAD_SHA256": "2" * 64,
+                "STAGE45B_GROOT_SNAPSHOT_PAYLOAD_TREE_SHA256": "3" * 64,
+                "STAGE45B_PRODUCTION_RELEASE": str(self.sandbox / "production-release.json"),
+                "STAGE45B_PRODUCTION_RELEASE_SHA256": "4" * 64,
                 "STAGE45B_COSMOS_ROOT": str(self.sandbox / "cosmos"),
                 "STAGE45B_MODALITY_CONFIG": str(self.sandbox / "modality.py"),
                 "STAGE45B_CONFIG_PATH": str(self.sandbox / "config.yaml"),

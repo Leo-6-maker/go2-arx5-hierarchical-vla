@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib
 import json
 import os
 from pathlib import Path
@@ -20,6 +21,24 @@ import sys
 import traceback
 from datetime import datetime, timezone
 from typing import Any, Iterable, Mapping
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from stage45b_external_admission import (  # noqa: E402
+    CONFIG_SHA256,
+    GROOT_COMMIT,
+    GROOT_TREE,
+    PI_GATE,
+    RUNTIME_PROTOCOL_REVISION,
+    RUNTIME_STATS_SCHEMA,
+    RUNTIME_STATS_SHA256,
+    RUNTIME_PAYLOAD_SHA256,
+    assert_bundle,
+)
+from stage45b_groot_source_snapshot import verify_extracted  # noqa: E402
+from stage45b_production_release import assert_release  # noqa: E402
 
 
 BRANCH = "stage45b/full24-fresh-base-execution"
@@ -33,7 +52,6 @@ RUNTIME_STATS_SHA256 = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdc
 RUNTIME_PAYLOAD_SHA256 = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
 B0_STATS_SHA256 = "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d"
 B0_PAYLOAD_SHA256 = "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032"
-GROOT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
@@ -169,16 +187,35 @@ def regular_file(path: Path, label: str) -> None:
         raise RuntimeError(f"{label} is not a regular file: {path}")
 
 
-def import_chain(repo: Path, groot: Path) -> dict[str, str]:
+def _inside(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    return True
+
+
+def import_chain(repo: Path, groot: Path) -> dict[str, Any]:
+    root = groot.resolve()
+    preloaded = {
+        name: module
+        for name, module in sys.modules.items()
+        if name == "gr00t" or name.startswith("gr00t.")
+    }
+    for name, module in preloaded.items():
+        location = getattr(module, "__file__", None)
+        if location and not _inside(Path(location), root):
+            raise RuntimeError(f"GR00T module was preloaded outside sealed source: {name}={location}")
+    importlib.invalidate_caches()
     sys.path.insert(0, str(repo / "scripts"))
     sys.path.insert(0, str(repo / "src"))
-    sys.path.insert(0, str(groot))
+    sys.path.insert(0, str(root))
     from gr00t.configs.base_config import get_default_config
     from stage38_structured_train import normalize_loaded_modality_configs
     from go2arx5_vla.stage38_structured_training import install_structured_dataset_factory
     from gr00t.experiment.experiment import run
 
-    return {
+    origins: dict[str, Any] = {
         "gr00t.configs.base_config.get_default_config": getattr(get_default_config, "__name__", "present"),
         "stage38_structured_train.normalize_loaded_modality_configs": getattr(
             normalize_loaded_modality_configs, "__name__", "present"
@@ -188,6 +225,32 @@ def import_chain(repo: Path, groot: Path) -> dict[str, str]:
         ),
         "gr00t.experiment.experiment.run": getattr(run, "__name__", "present"),
     }
+    module_locations: dict[str, Any] = {}
+    bad_locations: dict[str, Any] = {}
+    for name, module in sorted(sys.modules.items()):
+        if name != "gr00t" and not name.startswith("gr00t."):
+            continue
+        location = getattr(module, "__file__", None)
+        if location:
+            resolved = str(Path(location).resolve())
+            module_locations[name] = resolved
+            if not _inside(Path(resolved), root):
+                bad_locations[name] = resolved
+            continue
+        paths = getattr(module, "__path__", None)
+        if paths:
+            resolved_paths = [str(Path(item).resolve()) for item in paths]
+            module_locations[name] = resolved_paths
+            if any(not _inside(Path(item), root) for item in resolved_paths):
+                bad_locations[name] = resolved_paths
+    if bad_locations:
+        raise RuntimeError(f"GR00T import resolved outside sealed source: {bad_locations}")
+    if not module_locations:
+        raise RuntimeError("GR00T import chain loaded no GR00T modules")
+    origins["module_locations"] = module_locations
+    origins["source_root"] = str(root)
+    origins["all_modules_inside_sealed_source"] = True
+    return origins
 
 
 def write_json(path: Path, value: Mapping[str, Any]) -> None:
@@ -200,7 +263,8 @@ def write_json(path: Path, value: Mapping[str, Any]) -> None:
 
 def qualify(args: argparse.Namespace) -> dict[str, Any]:
     repo = Path(args.repo).resolve()
-    bundle_path = Path(args.bundle).resolve()
+    bundle_path_arg = Path(args.bundle)
+    bundle_path = bundle_path_arg.resolve()
     base = Path(args.base_model_path).resolve()
     dataset = Path(args.dataset_dir).resolve()
     groot = Path(args.groot_source).resolve()
@@ -229,22 +293,25 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
     if actual_realpath != EXPECTED_REAL_PYTHON:
         raise RuntimeError(f"unexpected Python realpath: {actual_realpath}")
 
-    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
-    if bundle.get("schema") != "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_V2_EXECUTION_MANIFEST_V1":
-        raise RuntimeError("bundle schema mismatch")
-    if bundle.get("repository", {}).get("branch") != BRANCH:
-        raise RuntimeError("bundle branch mismatch")
-    source_head = str(bundle.get("repository", {}).get("source_head", ""))
-    if len(source_head) != 40:
-        raise RuntimeError("bundle source_head is not a commit SHA")
-    if source_head != expected_head:
-        raise RuntimeError("bundle source_head is not the exact refrozen execution HEAD")
-    for key in ("runner", "pbs", "runtime_qualification"):
-        item = bundle["execution_files"][key]
-        path = repo / str(item["path"])
-        regular_file(path, f"execution file {key}")
-        if sha256_file(path) != item["sha256"]:
-            raise RuntimeError(f"execution file hash mismatch: {key}")
+    bundle = assert_bundle(
+        json.loads(bundle_path.read_text(encoding="utf-8")),
+        repo=repo,
+        expected_head=expected_head,
+        bundle_path=bundle_path_arg,
+    )
+    if args.release is not None:
+        if not args.expected_release_sha256:
+            raise RuntimeError("production release SHA is required when a release is supplied")
+        release_path_arg = Path(args.release)
+        release = json.loads(release_path_arg.read_text(encoding="utf-8"))
+        assert_release(
+            release,
+            repo=repo,
+            expected_head=expected_head,
+            release_path=release_path_arg,
+            expected_release_sha256=args.expected_release_sha256,
+            bundle_path=bundle_path_arg,
+        )
 
     base_entries = regular_tree_entries(base, "payload/GR00T-N1.7-3B")
     base_digest = tree_digest(base_entries)
@@ -261,9 +328,17 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
     revision = revision_path.read_text(encoding="utf-8").strip()
     if revision != COSMOS_REVISION or cosmos_digest != COSMOS_TREE_SHA256:
         raise RuntimeError(f"Cosmos identity mismatch: revision={revision} tree={cosmos_digest}")
-    groot_head = run_git(groot, "rev-parse", "HEAD")
-    if groot_head != GROOT_SHA or run_git(groot, "status", "--porcelain=v1"):
-        raise RuntimeError("GR00T identity mismatch")
+    snapshot = bundle["source_snapshot"]
+    snapshot_check = verify_extracted(
+        groot,
+        Path(str(snapshot["manifest_path"])),
+        expected_manifest_file_sha256=str(snapshot["manifest_file_sha256"]),
+        expected_manifest_payload_sha256=str(snapshot["manifest_payload_sha256"]),
+        expected_payload_tree_sha256=str(snapshot["payload_tree_sha256"]),
+    )
+    if snapshot_check["payload_tree_sha256"] != snapshot["payload_tree_sha256"]:
+        raise RuntimeError("GR00T sealed source payload identity mismatch")
+    groot_head = GROOT_COMMIT
     if sha256_file(modality) != MODALITY_SHA256:
         raise RuntimeError("modality identity mismatch")
     if sha256_file(config) != CONFIG_SHA256:
@@ -308,7 +383,7 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
 
     torch_imported = False
     transformers_imported = False
-    import_results: dict[str, str] = {}
+    import_results: dict[str, Any] = {}
     import torch
 
     torch_imported = True
@@ -389,6 +464,8 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
             "historical_b0_payload_sha256": B0_PAYLOAD_SHA256,
             "protocol_revision": RUNTIME_PROTOCOL_REVISION,
             "groot_sha": groot_head,
+            "groot_tree": GROOT_TREE,
+            "groot_snapshot": snapshot_check,
             "cosmos_revision": revision,
             "cosmos_tree_sha256": cosmos_digest,
             "cosmos_entry_count": cosmos_count,
@@ -429,6 +506,8 @@ def main() -> int:
     parser.add_argument("--stats-artifact", type=Path, required=True)
     parser.add_argument("--requested-python", default=os.environ.get("STAGE45B_PYTHON", ""))
     parser.add_argument("--scientific-output-root", type=Path)
+    parser.add_argument("--release", type=Path)
+    parser.add_argument("--expected-release-sha256")
     args = parser.parse_args()
     try:
         result = qualify(args)

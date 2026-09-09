@@ -28,20 +28,29 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "scripts"))
 
-PI_GATE = "PI_GATE_STATE_0083"
+from stage45b_external_admission import (  # noqa: E402
+    BASE_TREE_SHA256,
+    B0_PAYLOAD_SHA256,
+    B0_STATS_SHA256,
+    COSMOS_REVISION,
+    COSMOS_TREE_SHA256,
+    FULL24_TREE_SHA256,
+    GROOT_COMMIT,
+    GROOT_TREE,
+    MODALITY_SHA256,
+    PI_GATE,
+    RUNTIME_PROTOCOL_REVISION,
+    RUNTIME_STATS_SCHEMA,
+    RUNTIME_STATS_SHA256,
+    RUNTIME_PAYLOAD_SHA256,
+    assert_bundle,
+)
+from stage45b_groot_source_snapshot import verify_extracted  # noqa: E402
+from stage45b_production_release import assert_release  # noqa: E402
+
+
 STAGE = "Stage45B"
 BRANCH = "stage45b/full24-fresh-base-execution"
-SOURCE_HEAD = "SOURCE_HEAD_FILLED_BY_HANDOFF_MANIFEST"
-B0_STATS_SHA256 = "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d"
-B0_STATS_PAYLOAD_SHA256 = "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032"
-RUNTIME_STATS_SCHEMA = "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2"
-RUNTIME_PROTOCOL_REVISION = "RUNTIME_PARQUET_PROVENANCE_V2"
-FULL24_TREE_SHA256 = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
-BASE_TREE_SHA256 = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
-COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
-COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
-GROOT_SHA = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
-MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 HORIZON = 40
 ACTION_DIM = 132
 STATE_DIM = 10
@@ -208,90 +217,13 @@ def _gpu_identity() -> dict[str, Any]:
     }
 
 
-def _assert_bundle(bundle: Mapping[str, Any], *, bundle_path: Path) -> None:
-    if bundle.get("schema") != "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_V2_EXECUTION_MANIFEST_V1":
-        raise RuntimeError("unexpected Stage45B bundle schema")
-    if bundle.get("status") != "CORELAB_STAGE45B_H200_ADMISSION_READY":
-        raise RuntimeError("B1 bundle is not admission-ready")
-    if bundle.get("pi_gate") != PI_GATE or bundle.get("stage") != STAGE:
-        raise RuntimeError("PI gate/stage binding mismatch")
-    repository = bundle.get("repository")
-    if not isinstance(repository, Mapping) or repository.get("branch") != BRANCH:
-        raise RuntimeError("Stage45B branch binding mismatch")
-    source_head = str(repository.get("source_head", ""))
-    if len(source_head) != 40 or source_head == SOURCE_HEAD:
-        raise RuntimeError("bundle source_head is not filled with a commit SHA")
-    if git("branch", "--show-current") != BRANCH:
-        raise RuntimeError("current checkout is not the Stage45B branch")
-    current_head = git("rev-parse", "HEAD")
-    if current_head != source_head:
-        raise RuntimeError(
-            f"checkout HEAD {current_head} is not the exact refrozen bundle source {source_head}"
-        )
-    if git("status", "--porcelain=v1"):
-        raise RuntimeError("Stage45B checkout must be clean")
-    files = bundle.get("execution_files")
-    if not isinstance(files, Mapping):
-        raise RuntimeError("execution_files binding is missing")
-    for key in ("runner", "pbs", "runtime_qualification"):
-        relative = Path(str(files[key]["path"]))
-        observed = sha256_file(REPO / relative)
-        if observed != files[key]["sha256"]:
-            raise RuntimeError(f"{key} hash mismatch: {observed}")
-    stats = bundle.get("structured_stats")
-    if not isinstance(stats, Mapping):
-        raise RuntimeError("runtime-parquet statistics binding is missing")
-    if (
-        stats.get("schema") != RUNTIME_STATS_SCHEMA
-        or stats.get("protocol_revision") != RUNTIME_PROTOCOL_REVISION
-        or not isinstance(stats.get("sha256"), str)
-        or not isinstance(stats.get("payload_sha256"), str)
-    ):
-        raise RuntimeError("runtime-parquet V2 statistics identity mismatch")
-    historical = bundle.get("historical_b0_stats")
-    if (
-        not isinstance(historical, Mapping)
-        or historical.get("sha256") != B0_STATS_SHA256
-        or historical.get("payload_sha256") != B0_STATS_PAYLOAD_SHA256
-        or historical.get("execution_stats_authority") is not False
-    ):
-        raise RuntimeError("historical B0 statistics binding mismatch")
-    contract = bundle.get("contract")
-    expected_contract = {
-        "language": "move the end effector to the red target", "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
-        "target_xyz_in_model_input": False, "state_v1_shape": [STATE_DIM], "body_rgb_shape": [96, 96, 3],
-        "wrist_rgb_shape": [96, 96, 3], "structured_action_schema": "StructuredActionV1", "geometry": "K16",
-        "timing": "T16", "horizon": HORIZON, "universal_action_shape": [1, HORIZON, ACTION_DIM],
-        "decoded_physical_action_shape": [HORIZON, STATE_DIM], "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
-        "tcp_semantic_id": "x5_link6_gripper_center",
-    }
-    if not isinstance(contract, Mapping):
-        raise RuntimeError("contract binding is missing")
-    for key, value in expected_contract.items():
-        if contract.get(key) != value:
-            raise RuntimeError(f"contract mismatch for {key}: {contract.get(key)!r}")
-    recipe = bundle.get("recipe")
-    expected_recipe = {
-        "seed": 2222, "max_steps": 2000, "save_steps": [1000, 2000], "per_device_train_batch_size": 1,
-        "gradient_accumulation_steps": 1, "optimizer": "adamw_torch", "learning_rate": 1e-4, "weight_decay": 1e-5,
-        "lr_scheduler_type": "cosine", "warmup_steps": 10, "warmup_ratio": 0.0, "bf16": True, "fp16": False,
-        "tf32": True, "resume_from_checkpoint": False, "save_only_model": False, "tune_projector": True,
-        "tune_diffusion_model": True, "tune_visual": False, "tune_llm": False, "tune_vlln": False,
-    }
-    if not isinstance(recipe, Mapping):
-        raise RuntimeError("recipe binding is missing")
-    for key, value in expected_recipe.items():
-        if recipe.get(key) != value:
-            raise RuntimeError(f"recipe mismatch for {key}: {recipe.get(key)!r}")
-    if bundle.get("intervention") != "B_FRESH_BASE_FULL24":
-        raise RuntimeError("non-primary intervention is forbidden")
-    if bundle.get("label_anchor_reconciliation", {}).get("enabled") is not True:
-        raise RuntimeError("Stage45B label-anchor reconciliation is not bound")
-    forbidden = bundle.get("forbidden", {})
-    if forbidden.get("option_a_warm_start") is not True or forbidden.get("validation_e_read") is not True or forbidden.get("holdout_f_read") is not True:
-        raise RuntimeError("bundle does not lock forbidden branches")
-    if bundle_path.is_symlink():
-        raise RuntimeError("bundle path must not be a symlink")
+def _assert_bundle(bundle: Mapping[str, Any], *, bundle_path: Path) -> dict[str, Any]:
+    return assert_bundle(
+        bundle,
+        repo=REPO,
+        expected_head=git("rev-parse", "HEAD"),
+        bundle_path=bundle_path,
+    )
 
 
 def _load_config(config_path: Path, *, output_root: Path, base_model: Path, dataset: Path) -> Any:
@@ -378,15 +310,31 @@ def _checkpoint_record(path: Path, expected_step: int) -> dict[str, Any]:
 
 
 def run(args: argparse.Namespace) -> int:
-    bundle_path = Path(args.bundle).resolve()
+    bundle_path_arg = Path(args.bundle)
+    bundle_path = bundle_path_arg.resolve()
     bundle = read_json(bundle_path)
-    _assert_bundle(bundle, bundle_path=bundle_path)
+    _assert_bundle(bundle, bundle_path=bundle_path_arg)
+    if args.release is not None:
+        if not args.expected_release_sha256:
+            raise RuntimeError("production release SHA is required when a release is supplied")
+        release_path_arg = Path(args.release)
+        assert_release(
+            read_json(release_path_arg),
+            repo=REPO,
+            expected_head=git("rev-parse", "HEAD"),
+            release_path=release_path_arg,
+            expected_release_sha256=args.expected_release_sha256,
+            bundle_path=bundle_path_arg,
+        )
     gpu = _gpu_identity()
 
     paths = bundle["runtime_paths"]
     base_model = Path(args.base_model_path or paths["base_model"]).resolve()
     dataset = Path(args.dataset_dir or paths["dataset"]).resolve()
-    groot = Path(args.groot_source or paths["groot_source"]).resolve()
+    groot_value = args.groot_source or paths.get("groot_source")
+    if not groot_value:
+        raise RuntimeError("sealed gitless GR00T source root must be supplied by PBS")
+    groot = Path(groot_value).resolve()
     cosmos = Path(args.cosmos_root or paths["cosmos_cache"]).resolve()
     modality = Path(args.modality_config or paths["modality_config"]).resolve()
     config_path = Path(args.config_path or paths["training_config"]).resolve()
@@ -409,11 +357,17 @@ def run(args: argparse.Namespace) -> int:
     revision = (cosmos / "refs/main").read_text(encoding="utf-8").strip()
     if revision != COSMOS_REVISION:
         raise RuntimeError(f"Cosmos revision mismatch: {revision}")
-    groot_head = subprocess.check_output(["git", "-C", str(groot), "rev-parse", "HEAD"], text=True).strip()
-    if groot_head != GROOT_SHA:
-        raise RuntimeError("GR00T source revision mismatch")
-    if subprocess.check_output(["git", "-C", str(groot), "status", "--porcelain=v1"], text=True):
-        raise RuntimeError("GR00T source checkout is dirty")
+    snapshot = bundle["source_snapshot"]
+    snapshot_check = verify_extracted(
+        groot,
+        Path(str(snapshot["manifest_path"])),
+        expected_manifest_file_sha256=str(snapshot["manifest_file_sha256"]),
+        expected_manifest_payload_sha256=str(snapshot["manifest_payload_sha256"]),
+        expected_payload_tree_sha256=str(snapshot["payload_tree_sha256"]),
+    )
+    if snapshot_check["payload_tree_sha256"] != snapshot["payload_tree_sha256"]:
+        raise RuntimeError("GR00T sealed source payload identity mismatch")
+    groot_head = GROOT_COMMIT
     if sha256_file(modality) != MODALITY_SHA256:
         raise RuntimeError("modality configuration hash mismatch")
     if sha256_file(config_path) != bundle["training_config"]["sha256"]:
@@ -423,7 +377,7 @@ def run(args: argparse.Namespace) -> int:
         raise RuntimeError("runtime-parquet V2 statistics artifact hash mismatch")
     if (
         stats_document.get("schema") != RUNTIME_STATS_SCHEMA
-        or stats_document.get("pi_gate") != PI_GATE
+        or stats_document.get("pi_gate") != "PI_GATE_STATE_0083"
         or stats_document.get("protocol_revision") != RUNTIME_PROTOCOL_REVISION
         or stats_document.get("statistics_payload_sha256")
         != bundle["structured_stats"]["payload_sha256"]
@@ -455,6 +409,8 @@ def run(args: argparse.Namespace) -> int:
         "base_tree_sha256": BASE_TREE_SHA256, "full24_tree_sha256": FULL24_TREE_SHA256,
         "cosmos_tree_sha256": cosmos_tree, "cosmos_entry_count": cosmos_count,
         "groot_sha": groot_head,
+        "groot_tree": GROOT_TREE,
+        "groot_snapshot": snapshot_check,
         "runtime_stats_sha256": sha256_file(stats_artifact),
         "statistics_payload_sha256": stats_document["statistics_payload_sha256"],
         "historical_b0_stats_sha256": B0_STATS_SHA256,
@@ -466,7 +422,7 @@ def run(args: argparse.Namespace) -> int:
     os.environ.update({"TMPDIR": str(tmp_root), "TMP": str(tmp_root), "TEMP": str(tmp_root),
                        "XDG_CACHE_HOME": str(cache_root / "xdg"), "HF_HOME": str(cache_root / "huggingface"),
                        "TRANSFORMERS_CACHE": str(hub_root), "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1",
-                       "HF_DATASETS_OFFLINE": "1", "GROOT_COMMIT_HASH": GROOT_SHA, "PYTHONNOUSERSITE": "1",
+                       "HF_DATASETS_OFFLINE": "1", "GROOT_COMMIT_HASH": GROOT_COMMIT, "PYTHONNOUSERSITE": "1",
                        "PYTHONDONTWRITEBYTECODE": "1",
                        "STAGE45B_LABEL_ANCHOR_RECONCILIATION": "1"})
     sys.path.insert(0, str(groot))
@@ -502,13 +458,16 @@ def run(args: argparse.Namespace) -> int:
         "structured_stats_sha256": sha256_file(stats_artifact),
         "structured_stats_payload_sha256": stats_document["statistics_payload_sha256"],
         "historical_b0_stats_sha256": B0_STATS_SHA256,
+        "groot_source_commit": groot_head,
+        "groot_source_tree": GROOT_TREE,
+        "groot_snapshot": snapshot_check,
         "protocol_revision": RUNTIME_PROTOCOL_REVISION,
         "label_anchor_reconciliation": True,
         "training_steps": 2000,
         "optimizer_steps": 2000, "backward_steps": 2000, "gr00t_forwards": 0, "wbc_steps": 0,
         "reference_updates": 0, "validation_e_read": False, "holdout_f_read": False,
         "model_constructed": True, "training": True,
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0083_GOAL_CLOSURE", "timestamp_utc": now_utc(),
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0086_RETURN", "timestamp_utc": now_utc(),
     }
     write_json(output_root / "stage45b_training_result.json", result)
     return 0 if result["status"] == EXPECTED_TRAINING_TOKEN else 1
@@ -525,6 +484,8 @@ def main() -> int:
     parser.add_argument("--modality-config", type=Path)
     parser.add_argument("--config-path", type=Path)
     parser.add_argument("--stats-artifact", type=Path)
+    parser.add_argument("--release", type=Path)
+    parser.add_argument("--expected-release-sha256")
     args = parser.parse_args()
     try:
         return run(args)
