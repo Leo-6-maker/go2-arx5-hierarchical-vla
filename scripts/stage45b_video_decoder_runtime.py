@@ -612,16 +612,30 @@ def production_loader_qualification(
             raise RuntimeError("production StructuredAction statistics differ from sealed V2 stats")
 
         import torch
+        from transformers import TrainingArguments
 
-        batch_size = int(config.training.global_batch_size // config.training.num_gpus)
-        pin_memory = bool(config.training.dataloader_pin_memory)
+        # Gr00tTrainer reads these knobs from Hugging Face TrainingArguments,
+        # not from the Stage45B config object.  Reconstruct the same frozen
+        # arguments here so the qualification cannot silently invent a
+        # config-level pin-memory field.
+        training_args = TrainingArguments(
+            output_dir=str(save_cfg_dir),
+            per_device_train_batch_size=int(
+                config.training.global_batch_size // config.training.num_gpus
+            ),
+            dataloader_num_workers=int(config.training.dataloader_num_workers),
+        )
+        batch_size = int(training_args.per_device_train_batch_size)
+        pin_memory = bool(training_args.dataloader_pin_memory)
+        num_workers = int(training_args.dataloader_num_workers)
+        persistent_workers = num_workers > 0
         data_loader = torch.utils.data.DataLoader(
             train_dataset,
             batch_size=batch_size,
             collate_fn=pipeline.processor.collator,
-            num_workers=int(config.training.dataloader_num_workers),
+            num_workers=num_workers,
             pin_memory=pin_memory,
-            persistent_workers=False,
+            persistent_workers=persistent_workers,
         )
         children_before = [child.pid for child in multiprocessing.active_children()]
         iterator = iter(data_loader)
@@ -670,9 +684,9 @@ def production_loader_qualification(
         "official_pipeline_dataset_path": "gr00t.model.gr00t_n1d7.setup.Gr00tN1d7Pipeline._create_dataset",
         "dataloader": {
             "batch_size": batch_size,
-            "num_workers": int(config.training.dataloader_num_workers),
+            "num_workers": num_workers,
             "pin_memory": pin_memory,
-            "persistent_workers": False,
+            "persistent_workers": persistent_workers,
             "worker_subprocesses_before": children_before,
             "worker_subprocesses_after": children_after,
             "batches_consumed": len(batches),
