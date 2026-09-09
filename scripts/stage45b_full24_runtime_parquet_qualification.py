@@ -382,7 +382,9 @@ def _source_bridge(
         desired = np.asarray(payload.get("future_desired_eef_9d"), dtype=np.float32).astype(np.float64)
         gripper = np.asarray(payload.get("future_gripper"), dtype=np.float32).reshape(-1, 1).astype(np.float64)
         state = np.asarray(payload.get("state_v1", {}).get("values"), dtype=np.float32).astype(np.float64)
-        timestamps = np.asarray(payload.get("future_timestamps"), dtype=np.float32).astype(np.float64)
+        # Timestamps are the authoritative float64 time axis; only the
+        # materialized numeric state/action arrays cross the float32 bridge.
+        timestamps = np.asarray(payload.get("future_timestamps"), dtype=np.float64)
         parquet_action, parquet_state, parquet_timestamps = dataset_frames[snapshot_index]
         if desired.shape != (40, 9) or gripper.shape != (40, 1) or state.shape != (10,):
             raise RuntimeError(f"train_a source shape mismatch at index {snapshot_index}")
