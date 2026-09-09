@@ -35,6 +35,14 @@ set -euo pipefail
 : "${STAGE45C_CONFIG_PATH:?Set the frozen Stage45B/Stage45C training config}"
 : "${STAGE45C_NATIVE_RUNTIME_HELPER:?Set the immutable Stage45B native-runtime helper}"
 : "${STAGE45C_NATIVE_RUNTIME_HELPER_SHA256:?Set the native helper SHA256}"
+: "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE:?Set the sealed GR00T snapshot archive}"
+: "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE_SHA256:?Set the sealed GR00T archive SHA256}"
+: "${STAGE45C_GROOT_SNAPSHOT_MANIFEST:?Set the sealed GR00T snapshot manifest}"
+: "${STAGE45C_GROOT_SNAPSHOT_MANIFEST_FILE_SHA256:?Set the GR00T manifest file SHA256}"
+: "${STAGE45C_GROOT_SNAPSHOT_MANIFEST_PAYLOAD_SHA256:?Set the GR00T manifest payload SHA256}"
+: "${STAGE45C_GROOT_SNAPSHOT_PAYLOAD_TREE_SHA256:?Set the GR00T payload tree SHA256}"
+: "${STAGE45C_GROOT_SNAPSHOT_VERIFIER:?Set the immutable GR00T snapshot verifier}"
+: "${STAGE45C_GROOT_SNAPSHOT_VERIFIER_SHA256:?Set the snapshot verifier SHA256}"
 : "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT:?Set the tracked Stage45C native preflight}"
 : "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT_SHA256:?Set the native preflight SHA256}"
 : "${PBS_JOBID:?PBS_JOBID must be available}"
@@ -63,6 +71,15 @@ test "$(sha256sum "${STAGE45C_FFMPEG_RUNTIME_ROOT}/STAGE45B_FFMPEG6_NATIVE_RUNTI
 test -f "${STAGE45C_NATIVE_RUNTIME_HELPER}"
 test ! -L "${STAGE45C_NATIVE_RUNTIME_HELPER}"
 test "$(sha256sum "${STAGE45C_NATIVE_RUNTIME_HELPER}" | awk '{print $1}')" = "${STAGE45C_NATIVE_RUNTIME_HELPER_SHA256}"
+test -f "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE}"
+test ! -L "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE}"
+test "$(sha256sum "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE}" | awk '{print $1}')" = "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE_SHA256}"
+test -f "${STAGE45C_GROOT_SNAPSHOT_MANIFEST}"
+test ! -L "${STAGE45C_GROOT_SNAPSHOT_MANIFEST}"
+test "$(sha256sum "${STAGE45C_GROOT_SNAPSHOT_MANIFEST}" | awk '{print $1}')" = "${STAGE45C_GROOT_SNAPSHOT_MANIFEST_FILE_SHA256}"
+test -f "${STAGE45C_GROOT_SNAPSHOT_VERIFIER}"
+test ! -L "${STAGE45C_GROOT_SNAPSHOT_VERIFIER}"
+test "$(sha256sum "${STAGE45C_GROOT_SNAPSHOT_VERIFIER}" | awk '{print $1}')" = "${STAGE45C_GROOT_SNAPSHOT_VERIFIER_SHA256}"
 test -f "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}"
 test ! -L "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}"
 test "$(sha256sum "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT}" | awk '{print $1}')" = "${STAGE45C_NATIVE_RUNTIME_PREFLIGHT_SHA256}"
@@ -107,6 +124,8 @@ trap copy_native_preflight_evidence EXIT
   --torchcodec-package-root "${STAGE45C_TORCHCODEC_PACKAGE_ROOT}" \
   --torch-library-root "${STAGE45C_TORCH_LIBRARY_ROOT}" \
   --stage45b-helper "${STAGE45C_NATIVE_RUNTIME_HELPER}" \
+  --stage45b-snapshot-verifier "${STAGE45C_GROOT_SNAPSHOT_VERIFIER}" \
+  --groot-snapshot-archive "${STAGE45C_GROOT_SNAPSHOT_ARCHIVE}" \
   --config "${STAGE45C_CONFIG_PATH}" \
   --output-root "${STAGE45C_OUTPUT_ROOT}" \
   --qualification-root "${NATIVE_QUALIFICATION_ROOT}" \

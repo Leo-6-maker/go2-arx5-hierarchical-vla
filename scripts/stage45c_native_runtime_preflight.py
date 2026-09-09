@@ -27,6 +27,21 @@ from typing import Any, Mapping
 EXPECTED_STAGE45B_HELPER_SHA256 = (
     "b1d610c02e5c7dde9d90f366916a2c2c5204f89febeb548e2324154c6288b956"
 )
+EXPECTED_STAGE45B_SNAPSHOT_VERIFIER_SHA256 = (
+    "88cca0085143e14826bc8bf4390950fa9577e14830cea0ca770f4de847611712"
+)
+EXPECTED_GROOT_MANIFEST_FILE_SHA256 = (
+    "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
+)
+EXPECTED_GROOT_MANIFEST_PAYLOAD_SHA256 = (
+    "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8e3c50e0a43e5b8250"
+)
+EXPECTED_GROOT_PAYLOAD_TREE_SHA256 = (
+    "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
+)
+EXPECTED_GROOT_ARCHIVE_SHA256 = (
+    "705681fece08cb8a7c1963d4531464c90b4b031f2ab5aa2c8e25e74676310939"
+)
 EXPECTED_PYTHON_REALPATH = "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12"
 EXPECTED_TORCH = "2.9.0+cu128"
 EXPECTED_CUDA_BUILD = "12.8"
@@ -153,6 +168,8 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
     evidence_path = Path(args.evidence).resolve()
     qualification_root = Path(args.qualification_root).resolve()
     helper_path = Path(args.stage45b_helper).resolve()
+    snapshot_verifier_path = Path(args.stage45b_snapshot_verifier).resolve()
+    groot_archive_path = Path(args.groot_snapshot_archive).resolve()
     requested_python = Path(args.requested_python).resolve()
 
     regular_directory(repo, "Stage45C repository")
@@ -193,6 +210,14 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         require(native_identity.get("torch_library_root") == str(torch_library_root_arg), "binding Torch library root mismatch")
         require(native_identity.get("stage45b_helper_path") == str(helper_path), "binding Stage45B helper path mismatch")
         require(native_identity.get("stage45b_helper_sha256") == EXPECTED_STAGE45B_HELPER_SHA256, "binding Stage45B helper SHA mismatch")
+        require(native_identity.get("stage45b_snapshot_verifier_path") == str(snapshot_verifier_path), "binding snapshot verifier path mismatch")
+        require(native_identity.get("stage45b_snapshot_verifier_sha256") == EXPECTED_STAGE45B_SNAPSHOT_VERIFIER_SHA256, "binding snapshot verifier SHA mismatch")
+        require(native_identity.get("groot_snapshot_archive_path") == str(groot_archive_path), "binding GR00T snapshot archive path mismatch")
+        require(native_identity.get("groot_snapshot_archive_sha256") == EXPECTED_GROOT_ARCHIVE_SHA256, "binding GR00T snapshot archive SHA mismatch")
+        require(native_identity.get("groot_manifest_path") == str(binding.get("paths", {}).get("groot_runtime_manifest", "")), "binding GR00T manifest path mismatch")
+        require(native_identity.get("groot_manifest_file_sha256") == EXPECTED_GROOT_MANIFEST_FILE_SHA256, "binding GR00T manifest file SHA mismatch")
+        require(native_identity.get("groot_manifest_payload_sha256") == EXPECTED_GROOT_MANIFEST_PAYLOAD_SHA256, "binding GR00T manifest payload SHA mismatch")
+        require(native_identity.get("groot_payload_tree_sha256") == EXPECTED_GROOT_PAYLOAD_TREE_SHA256, "binding GR00T payload tree SHA mismatch")
         require(native_identity.get("stage45c_native_preflight_path") == str(Path(__file__).resolve()), "binding native preflight path mismatch")
         require(native_identity.get("stage45c_native_preflight_sha256") == sha256_file(Path(__file__).resolve()), "binding native preflight SHA mismatch")
         require(native_identity.get("config_path") == str(config_path), "binding config path mismatch")
@@ -269,6 +294,27 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
     dataset = Path(adapter_preflight["binding"]["paths"]["full24_dataset"]).resolve()
     groot = Path(adapter_preflight["binding"]["paths"]["groot_source"]).resolve()
     require(not (groot / ".git").exists(), "GR00T source is not gitless")
+    snapshot_verifier = load_exact_module(
+        "stage45b_pi0094_snapshot_verifier",
+        snapshot_verifier_path,
+        EXPECTED_STAGE45B_SNAPSHOT_VERIFIER_SHA256,
+    )
+    groot_manifest = Path(adapter_preflight["binding"]["paths"]["groot_runtime_manifest"]).resolve()
+    groot_archive_verification = snapshot_verifier.verify_snapshot(
+        groot_archive_path,
+        groot_manifest,
+        expected_archive_sha256=EXPECTED_GROOT_ARCHIVE_SHA256,
+        expected_manifest_file_sha256=EXPECTED_GROOT_MANIFEST_FILE_SHA256,
+        expected_manifest_payload_sha256=EXPECTED_GROOT_MANIFEST_PAYLOAD_SHA256,
+        expected_payload_tree_sha256=EXPECTED_GROOT_PAYLOAD_TREE_SHA256,
+    )
+    groot_tree_verification = snapshot_verifier.verify_extracted(
+        groot,
+        groot_manifest,
+        expected_manifest_file_sha256=EXPECTED_GROOT_MANIFEST_FILE_SHA256,
+        expected_manifest_payload_sha256=EXPECTED_GROOT_MANIFEST_PAYLOAD_SHA256,
+        expected_payload_tree_sha256=EXPECTED_GROOT_PAYLOAD_TREE_SHA256,
+    )
     video_sweep = helper.sweep_all_videos(dataset, runtime_root)
 
     scripts_root = repo / "scripts"
@@ -419,6 +465,18 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
             "all_imports_from_sealed_source": True,
             "module_files": module_source_records(groot),
         },
+        "groot_snapshot": {
+            "verifier_path": str(snapshot_verifier_path),
+            "verifier_sha256": EXPECTED_STAGE45B_SNAPSHOT_VERIFIER_SHA256,
+            "archive_path": str(groot_archive_path),
+            "archive_sha256": EXPECTED_GROOT_ARCHIVE_SHA256,
+            "manifest_path": str(groot_manifest),
+            "manifest_file_sha256": EXPECTED_GROOT_MANIFEST_FILE_SHA256,
+            "manifest_payload_sha256": EXPECTED_GROOT_MANIFEST_PAYLOAD_SHA256,
+            "payload_tree_sha256": EXPECTED_GROOT_PAYLOAD_TREE_SHA256,
+            "archive_verification": groot_archive_verification,
+            "extracted_tree_verification": groot_tree_verification,
+        },
         "production_loader": production_loader,
         "scientific_exposure": {
             "model_constructed": False,
@@ -453,6 +511,8 @@ def main() -> int:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--stage45b-helper", type=Path, required=True)
+    parser.add_argument("--stage45b-snapshot-verifier", type=Path, required=True)
+    parser.add_argument("--groot-snapshot-archive", type=Path, required=True)
     parser.add_argument("--qualification-root", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     args = parser.parse_args()
