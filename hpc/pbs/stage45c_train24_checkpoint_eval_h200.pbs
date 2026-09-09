@@ -1,0 +1,44 @@
+#!/bin/bash
+# Stage45C future H200 checkpoint-evaluation wrapper.  DO NOT SUBMIT AS-IS.
+#
+# This file is deliberately a thin runtime envelope.  It does not contain
+# metric logic, checkpoint paths, model construction, or a qsub/retry policy.
+# Vanda must first supply the immutable Golden Release/checkpoint/admission
+# identities and the H200 runtime adapter.  Corelab's current manifest is
+# PREPARED_NOT_EXECUTED, so this wrapper is only a handoff skeleton.
+
+#PBS -N st45c_eval
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45C_REPO:?Set the clean Stage45C checkout}"
+: "${STAGE45C_MANIFEST:?Set the Vanda-bound Stage45C evaluation manifest}"
+: "${STAGE45C_RAW_PREDICTIONS:?Set the external runtime raw-prediction handoff}"
+: "${STAGE45C_STATS_PATH:?Set the exact Golden Release statistics file}"
+: "${STAGE45C_OUTPUT:?Set a new evaluation aggregate output path}"
+: "${STAGE45C_PYTHON:?Set the admitted runtime Python}"
+: "${STAGE45C_EXPECTED_HEAD:?Set the exact evaluation checkout HEAD}"
+: "${PBS_JOBID:?PBS_JOBID must be available}"
+
+cd "${STAGE45C_REPO}"
+test "$(git rev-parse HEAD)" = "${STAGE45C_EXPECTED_HEAD}"
+test -z "$(git status --porcelain=v1)"
+test -f "${STAGE45C_MANIFEST}"
+test -f "${STAGE45C_RAW_PREDICTIONS}"
+test -f "${STAGE45C_STATS_PATH}"
+test ! -e "${STAGE45C_OUTPUT}"
+
+# The current Corelab branch intentionally has no model/runtime launcher.  A
+# future Vanda adapter may write STAGE45C_RAW_PREDICTIONS; this command then
+# performs only manifest admission and raw->decode->metric->aggregate work.
+"${STAGE45C_PYTHON}" "${STAGE45C_REPO}/scripts/stage45c_run_train24_checkpoint_eval.py" \
+  --manifest "${STAGE45C_MANIFEST}" \
+  --raw-predictions "${STAGE45C_RAW_PREDICTIONS}" \
+  --stats-path "${STAGE45C_STATS_PATH}" \
+  --output "${STAGE45C_OUTPUT}"
+
+echo "STAGE45C_CHECKPOINT_EVALUATION_COMPLETE"
