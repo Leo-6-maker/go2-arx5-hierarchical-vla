@@ -24,6 +24,10 @@ from typing import Any, Iterable, Mapping
 import numpy as np
 
 
+REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "src"))
+
+
 PI_GATE = "PI_GATE_STATE_0083"
 PROTOCOL_REVISION = "RUNTIME_PARQUET_PROVENANCE_V2"
 STAGE = "Stage45B"
@@ -363,7 +367,11 @@ def _source_bridge(
         if path.is_symlink() or not path.is_file():
             raise RuntimeError(f"surviving train_a source snapshot is unavailable: {path}")
         expected_record = records[snapshot_index]
-        expected_sha = expected_record.get("json_sha256")
+        expected_sha = expected_record.get("json_sha256") or expected_record.get(
+            "snapshot_json_sha256"
+        )
+        if not isinstance(expected_sha, str):
+            raise RuntimeError(f"B0 source SHA is missing at train_a index {snapshot_index}")
         observed_sha = sha256_file(path)
         if observed_sha != expected_sha:
             raise RuntimeError(f"train_a snapshot SHA mismatch at index {snapshot_index}")
