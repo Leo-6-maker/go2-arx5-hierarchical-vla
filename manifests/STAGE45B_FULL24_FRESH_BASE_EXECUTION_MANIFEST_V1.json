@@ -336,27 +336,19 @@
   "execution_files": {
     "pbs": {
       "path": "hpc/pbs/stage45b_full24_fresh_base.pbs",
-      "sha256": "52e9ce07e8332eab8ebdd8587250c09056855007ae1696075f26ae7492a124a5"
+      "sha256": "7058268479db8f472a7c76b8c7eb4ed56a4ae6bf17c2ca2911e245b1bbfcf759"
     },
     "premodel_runtime_smoke": {
       "path": "scripts/stage45b_premodel_runtime_smoke.py",
-      "sha256": "1ac6a13b4836ad6d148f3fc7e219b2484e8ac94fa222d2c98036ad87f0ed24f0"
-    },
-    "premodel_cpu_smoke_pbs": {
-      "path": "hpc/pbs/stage45b_premodel_cpu_smoke.pbs",
-      "sha256": "0c21c65cd14407ed7506d4609d1f58a8a53bf23d35408fd7853fdeefeea8f359"
-    },
-    "premodel_h200_smoke_pbs": {
-      "path": "hpc/pbs/stage45b_premodel_h200_smoke.pbs",
-      "sha256": "332bbdf1064b96c1ab54ff84ff5b9a76a6157afcf8af8187e3181ebf2dda94a5"
+      "sha256": "160ba225547fb9d78c70b6410ba52cb0666be4034494c09b576d789e9037c50e"
     },
     "runner": {
       "path": "scripts/stage45b_full24_fresh_base_train.py",
-      "sha256": "76ad0f20b46afd129b326c7b1a3feaf35d6a0c01c0b29238b20aeaf3f68d0a6a"
+      "sha256": "2bedf977485ffff27aa3627f2cf6e3ff873efe286c05741fbb93de0ba415fdb8"
     },
     "runtime_qualification": {
       "path": "scripts/stage45b_full24_runtime_parquet_qualification.py",
-      "sha256": "RUNTIME_QUALIFICATION_SHA_FILLED_BY_REFREEZE"
+      "sha256": "1335a75c270c97f8d63ff32eb3fb40653a03e4e680dc57ca3bf60c691c3fc433"
     },
     "stats_closure": {
       "path": "scripts/stage45b_full24_stats_closure.py",
@@ -389,6 +381,17 @@
     "role": "IMMUTABLE_HISTORICAL_PROVENANCE_ONLY",
     "execution_stats_authority": false,
     "source_path_template": "/scratch/e1192548/stage45b_full24_20260908/STAGE45B_FULL24_STRUCTURED_STATS.json"
+  },
+  "algorithmic_provenance": {
+    "status": "VANDA_STAGE45B_FULL24_ALGORITHMIC_PROVENANCE_CLOSED",
+    "canonical_source": "SEALED_FULL24_TRAIN_PARQUET",
+    "window_count": 24,
+    "cohort_order": "train_a x 6, train_b x 6, train_c x 6, train_d x 6",
+    "smoothstep_law": "u=k/39; s=u^2*(3-2u); p_expected=p0+s*(p39-p0)",
+    "position_error_tolerance_m": 1e-06,
+    "orientation_error_tolerance_rad": 1e-06,
+    "gripper_value": 0.5,
+    "timestamp_policy": "40 points x 0.05 s; duration 1.95 s"
   },
   "label_anchor_reconciliation": {
     "enabled": true,
@@ -462,8 +465,8 @@
     "accepted_stage44r": "bd0f02934e680789cf38adacb838e1ea555c707d",
     "base_main_merge_tip": "c54a10024c9ab7243c6cd3d2d0acab8cd399e4cd",
     "branch": "stage45b/full24-fresh-base-execution",
-    "source_head": "5bcc7826be5c2acb89d64aa32331b40a195a2b56",
-    "source_head_role": "contains Stage45B runner/PBS/handoff and is an ancestor of the execution checkout"
+    "source_head": "REFROZEN_EXECUTION_HEAD_FILLED_BY_FINALIZE",
+    "source_head_role": "exact final Stage45B PI0083 refrozen execution checkout HEAD"
   },
   "return_token": "CORELAB_STAGE45B_H200_ADMISSION_READY",
   "runtime_requirements": {
@@ -479,8 +482,8 @@
   "stage": "Stage45B",
   "status": "CORELAB_STAGE45B_H200_ADMISSION_READY",
   "structured_stats": {
-    "bytes": "RUNTIME_STATS_BYTES_FILLED_BY_REFREEZE",
-    "corelab_path": "GENERATED_FROM_SEALED_FULL24_PARQUET",
+    "bytes": 137169,
+    "corelab_path": "/scratch/e1192548/stage45b_pi0083_runtime_parquet_v2/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json",
     "h200_path_template": "/scratch/e1192548/stage45b_pi0083_runtime_parquet_v2/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json",
     "inactive_dimensions_excluded": true,
     "label_count": 24,
@@ -493,13 +496,13 @@
       "use_percentiles": true
     },
     "padding_excluded": true,
-    "payload_sha256": "RUNTIME_STATS_PAYLOAD_SHA_FILLED_BY_REFREEZE",
+    "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
     "producer_path": "scripts/stage45b_full24_runtime_parquet_qualification.py",
-    "producer_repository_head": "REFROZEN_EXECUTION_HEAD_FILLED_BY_REFREEZE",
-    "producer_sha256": "RUNTIME_QUALIFICATION_SHA_FILLED_BY_REFREEZE",
+    "producer_repository_head": "914ea25072ac1bec1d6b5fc017d2dc20bcfa7eb4",
+    "producer_sha256": "1335a75c270c97f8d63ff32eb3fb40653a03e4e680dc57ca3bf60c691c3fc433",
     "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
     "schema": "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2",
-    "sha256": "RUNTIME_STATS_SHA_FILLED_BY_REFREEZE",
+    "sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
     "source": "SEALED_FULL24_TRAIN_PARQUET",
     "historical_b0_sha256": "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d",
     "stage38_schema": "STAGE38_STRUCTURED_ACTION_STATISTICS_V1",
