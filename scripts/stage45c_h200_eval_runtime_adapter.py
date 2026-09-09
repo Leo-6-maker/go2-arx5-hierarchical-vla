@@ -635,6 +635,18 @@ def _expected_identity_map() -> dict[str, Any]:
             "payload_sha256": FULL24_STATS_PAYLOAD_SHA256,
             "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
         },
+        "canonical_label_source": {
+            "kind": CANONICAL_LABEL_SOURCE,
+            "tree_sha256": FULL24_DATASET_TREE_SHA256,
+            "parquet_files_read": 24,
+            "label_records": 24,
+            "stats_sha256": FULL24_STATS_SHA256,
+            "surviving_historical_source_json_count": 6,
+            "unavailable_historical_replica_count": 18,
+            "historical_source_json_execution_authority": False,
+            "missing_replicas_are_not_execution_authority": True,
+            "target_xyz_in_model_input": False,
+        },
         "groot_runtime": {
             "source_commit": GROOT_SOURCE_COMMIT,
             "payload_tree_sha256": GROOT_PAYLOAD_TREE_SHA256,
