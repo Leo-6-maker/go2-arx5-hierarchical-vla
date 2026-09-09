@@ -47,6 +47,7 @@ from stage45b_external_admission import (  # noqa: E402
 )
 from stage45b_groot_source_snapshot import verify_extracted  # noqa: E402
 from stage45b_production_release import assert_release  # noqa: E402
+from stage45b_video_decoder_runtime import verify_environment, verify_runtime_artifact  # noqa: E402
 
 
 STAGE = "Stage45B"
@@ -314,18 +315,35 @@ def run(args: argparse.Namespace) -> int:
     bundle_path = bundle_path_arg.resolve()
     bundle = read_json(bundle_path)
     _assert_bundle(bundle, bundle_path=bundle_path_arg)
+    release = None
+    runtime_root = None
+    video_runtime = None
     if args.release is not None:
         if not args.expected_release_sha256:
             raise RuntimeError("production release SHA is required when a release is supplied")
         release_path_arg = Path(args.release)
+        release = read_json(release_path_arg)
         assert_release(
-            read_json(release_path_arg),
+            release,
             repo=REPO,
             expected_head=git("rev-parse", "HEAD"),
             release_path=release_path_arg,
             expected_release_sha256=args.expected_release_sha256,
             bundle_path=bundle_path_arg,
         )
+        video_runtime = release.get("video_decoder_runtime")
+        if not isinstance(video_runtime, Mapping):
+            raise RuntimeError("Stage45B Release V2 has no native video runtime binding")
+        runtime_root = Path(str(video_runtime.get("ffmpeg_runtime_root", ""))).resolve()
+        verify_runtime_artifact(
+            runtime_root,
+            expected_id=str(video_runtime.get("ffmpeg_runtime_artifact_id", "")),
+        )
+        verify_environment(runtime_root)
+        if video_runtime.get("ffmpeg_runtime_artifact_id") != release["runtime"].get("ffmpeg_runtime_artifact_id"):
+            raise RuntimeError("Release V2 FFmpeg identity is internally inconsistent")
+    else:
+        raise RuntimeError("Stage45B B2 requires the immutable Release V2 admission")
     gpu = _gpu_identity()
 
     paths = bundle["runtime_paths"]
@@ -405,7 +423,8 @@ def run(args: argparse.Namespace) -> int:
         "schema": "CORELAB_STAGE45B_RUNTIME_PREFLIGHT_V1", "pi_gate": PI_GATE,
         "repository_head": git("rev-parse", "HEAD"), "gpu": gpu,
         "paths": {"base_model": str(base_model), "dataset": str(dataset), "groot": str(groot),
-                  "cosmos": str(cosmos), "modality": str(modality), "stats_artifact": str(stats_artifact)},
+                  "cosmos": str(cosmos), "modality": str(modality), "stats_artifact": str(stats_artifact),
+                  "ffmpeg_runtime": str(runtime_root)},
         "base_tree_sha256": BASE_TREE_SHA256, "full24_tree_sha256": FULL24_TREE_SHA256,
         "cosmos_tree_sha256": cosmos_tree, "cosmos_entry_count": cosmos_count,
         "groot_sha": groot_head,
@@ -415,6 +434,9 @@ def run(args: argparse.Namespace) -> int:
         "statistics_payload_sha256": stats_document["statistics_payload_sha256"],
         "historical_b0_stats_sha256": B0_STATS_SHA256,
         "protocol_revision": RUNTIME_PROTOCOL_REVISION,
+        "ffmpeg_runtime_artifact_id": video_runtime["ffmpeg_runtime_artifact_id"],
+        "ffmpeg_runtime_manifest_sha256": video_runtime["ffmpeg_runtime_manifest_sha256"],
+        "ld_library_path": os.environ.get("LD_LIBRARY_PATH", ""),
         "model_constructed": False, "gr00t_forwards": 0, "wbc_steps": 0, "reference_updates": 0,
         "validation_e_read": False, "holdout_f_read": False, "training_steps": 0, "optimizer_steps": 0,
         "status": "PASS",
@@ -450,7 +472,7 @@ def run(args: argparse.Namespace) -> int:
     if canonical_sha(sidecar.get("statistics", {})) != stats_document["statistics_payload_sha256"]:
         raise RuntimeError("runtime StructuredAction statistics differ from runtime-parquet V2")
     result = {
-        "schema": "CORELAB_STAGE45B_FULL24_FRESH_BASE_TRAINING_RESULT_V1",
+        "schema": "CORELAB_STAGE45B_FULL24_FRESH_BASE_TRAINING_RESULT_V2",
         "status": EXPECTED_TRAINING_TOKEN if checkpoint_1000["status"] == "PASS" and checkpoint_2000["status"] == "PASS" else "HOPPER_STAGE45B_FULL24_FRESH_BASE_TRAINING_INCOMPLETE",
         "pi_gate": PI_GATE, "stage": STAGE, "intervention": "B_FRESH_BASE_FULL24",
         "repository_head": git("rev-parse", "HEAD"), "pbs_jobid": gpu["pbs_jobid"], "gpu": gpu,
@@ -462,12 +484,14 @@ def run(args: argparse.Namespace) -> int:
         "groot_source_tree": GROOT_TREE,
         "groot_snapshot": snapshot_check,
         "protocol_revision": RUNTIME_PROTOCOL_REVISION,
+        "ffmpeg_runtime_artifact_id": video_runtime["ffmpeg_runtime_artifact_id"],
+        "ffmpeg_runtime_manifest_sha256": video_runtime["ffmpeg_runtime_manifest_sha256"],
         "label_anchor_reconciliation": True,
         "training_steps": 2000,
         "optimizer_steps": 2000, "backward_steps": 2000, "gr00t_forwards": 0, "wbc_steps": 0,
         "reference_updates": 0, "validation_e_read": False, "holdout_f_read": False,
         "model_constructed": True, "training": True,
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0086_RETURN", "timestamp_utc": now_utc(),
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0087_RETURN", "timestamp_utc": now_utc(),
     }
     write_json(output_root / "stage45b_training_result.json", result)
     return 0 if result["status"] == EXPECTED_TRAINING_TOKEN else 1

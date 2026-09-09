@@ -1,4 +1,4 @@
-"""Shared fail-closed checks for the PI0086 external Stage45B admission seal."""
+"""Shared fail-closed checks for the PI0087 external Stage45B admission seal."""
 
 from __future__ import annotations
 
@@ -12,11 +12,17 @@ from datetime import datetime, timezone
 from typing import Any, Mapping
 
 from stage45b_groot_source_snapshot import canonical_sha256, sha256_file, verify_snapshot
+from stage45b_video_decoder_runtime import (
+    EXPECTED_FFMPEG_RUNTIME_SCHEMA,
+    EXPECTED_VIDEO_SCHEMA,
+    EXPECTED_VIDEO_TOKEN,
+    verify_runtime_artifact,
+)
 
 
-PI_GATE = "PI_GATE_STATE_0086"
-SCHEMA = "VANDA_STAGE45B_PI0086_EXTERNAL_ADMISSION_BUNDLE_V1"
-STATUS = "VANDA_STAGE45B_PI0086_FINAL_ADMISSION_QUALIFIED"
+PI_GATE = "PI_GATE_STATE_0087"
+SCHEMA = "VANDA_STAGE45B_PI0087_EXTERNAL_ADMISSION_BUNDLE_V1"
+STATUS = "VANDA_STAGE45B_PI0087_FINAL_ADMISSION_QUALIFIED"
 BRANCH = "stage45b/full24-fresh-base-execution"
 STAGE = "Stage45B"
 SOURCE_HEAD_PLACEHOLDER = "SOURCE_HEAD_BOUND_AFTER_FINAL_COMMIT"
@@ -42,8 +48,13 @@ COSMOS_TREE_SHA256 = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec
 MODALITY_SHA256 = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA256 = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 PRODUCTION_RELEASE_HELPER_PATH = "scripts/stage45b_production_release.py"
-PRODUCTION_RELEASE_SCHEMA = "STAGE45B_B2_TRAINING_RELEASE_V1"
-PRODUCTION_RELEASE_TOKEN = "VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V1_QUALIFIED"
+PRODUCTION_RELEASE_SCHEMA = "STAGE45B_B2_TRAINING_RELEASE_V2"
+PRODUCTION_RELEASE_TOKEN = "VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V2_QUALIFIED"
+VIDEO_RUNTIME_HELPER_PATH = "scripts/stage45b_video_decoder_runtime.py"
+VIDEO_RUNTIME_QUALIFICATION_TOKEN = "VANDA_STAGE45B_FULL24_VIDEO_DECODER_RUNTIME_QUALIFIED"
+RUNTIME_DATASET_QUALIFICATION_SHA256 = "8ec632bfb41af09464b7d6e546a2a7427d5c72035c475d048e6b7e3e360b4f1a"
+FFMPEG_RUNTIME_ARTIFACT_ID = "9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf"
+FFMPEG_RUNTIME_MANIFEST_SHA256 = "6160d579b98dc5ee4b114ada4a4e00e88ee13df6ed1fc3d308b5879d67027d2c"
 
 
 def read_json(path: Path) -> Any:
@@ -139,9 +150,9 @@ def _expected_recipe() -> dict[str, Any]:
 
 def assert_bundle(bundle: Mapping[str, Any], *, repo: Path, expected_head: str, bundle_path: Path) -> dict[str, Any]:
     if bundle.get("schema") != SCHEMA:
-        raise RuntimeError("PI0086 external admission schema mismatch")
+        raise RuntimeError("PI0087 external admission schema mismatch")
     if bundle.get("status") != STATUS or bundle.get("pi_gate") != PI_GATE or bundle.get("stage") != STAGE:
-        raise RuntimeError("PI0086 external admission status/gate mismatch")
+        raise RuntimeError("PI0087 external admission status/gate mismatch")
     repository = bundle.get("repository")
     if not isinstance(repository, Mapping) or repository.get("branch") != BRANCH:
         raise RuntimeError("Stage45B branch binding mismatch")
@@ -170,6 +181,7 @@ def assert_bundle(bundle: Mapping[str, Any], *, repo: Path, expected_head: str, 
         "external_admission_helper",
         "production_release_helper",
         "runtime_qualification",
+        "video_decoder_runtime",
     )
     for key in required_files:
         item = files.get(key)
@@ -181,6 +193,57 @@ def assert_bundle(bundle: Mapping[str, Any], *, repo: Path, expected_head: str, 
         observed = sha256_file(path)
         if observed != item.get("sha256"):
             raise RuntimeError(f"execution file hash mismatch: {key}")
+
+    video_runtime = bundle.get("video_decoder_runtime")
+    if not isinstance(video_runtime, Mapping):
+        raise RuntimeError("native video decoder runtime qualification binding is missing")
+    for key, expected in (
+        ("schema", EXPECTED_VIDEO_SCHEMA),
+        ("token", EXPECTED_VIDEO_TOKEN),
+        ("status", "PASS"),
+        ("pi_gate", PI_GATE),
+        ("ffmpeg_runtime_schema", EXPECTED_FFMPEG_RUNTIME_SCHEMA),
+        ("ffmpeg_runtime_artifact_id", FFMPEG_RUNTIME_ARTIFACT_ID),
+        ("ffmpeg_runtime_manifest_sha256", FFMPEG_RUNTIME_MANIFEST_SHA256),
+        ("runtime_dataset_qualification_sha256", RUNTIME_DATASET_QUALIFICATION_SHA256),
+    ):
+        _require_equal(video_runtime, key, expected, "video_decoder_runtime")
+    video_evidence_path = Path(str(video_runtime.get("qualification_path", "")))
+    _regular_file(video_evidence_path, "native video decoder qualification evidence")
+    if video_evidence_path.lstat().st_mode & 0o222:
+        raise RuntimeError("native video decoder qualification evidence must be immutable")
+    if sha256_file(video_evidence_path) != video_runtime.get("qualification_sha256"):
+        raise RuntimeError("native video decoder qualification evidence hash mismatch")
+    video_evidence = read_json(video_evidence_path)
+    if video_evidence.get("schema") != EXPECTED_VIDEO_SCHEMA or video_evidence.get("status") != "PASS" or video_evidence.get("token") != EXPECTED_VIDEO_TOKEN:
+        raise RuntimeError("native video decoder qualification evidence is not PASS")
+    if video_evidence.get("execution_head") != expected_head or video_evidence.get("branch") != BRANCH:
+        raise RuntimeError("native video decoder qualification is bound to a different Stage45B checkout")
+    artifact = video_evidence.get("ffmpeg_runtime")
+    if not isinstance(artifact, Mapping):
+        raise RuntimeError("native video decoder qualification has no FFmpeg artifact identity")
+    if artifact.get("artifact_id") != FFMPEG_RUNTIME_ARTIFACT_ID or artifact.get("manifest_sha256") != FFMPEG_RUNTIME_MANIFEST_SHA256:
+        raise RuntimeError("native video decoder qualification FFmpeg identity changed")
+    verify_runtime_artifact(Path(str(artifact.get("root", ""))), expected_id=FFMPEG_RUNTIME_ARTIFACT_ID)
+    exposure = video_evidence.get("scientific_exposure")
+    if not isinstance(exposure, Mapping):
+        raise RuntimeError("native video decoder qualification scientific boundary is missing")
+    for key in ("model_constructed", "forward", "backward", "optimizer", "trainer", "checkpoint_creation", "pbs_submissions", "validation_e_read", "holdout_f_read", "wbc", "simulator", "hardware"):
+        if exposure.get(key) not in (False, 0):
+            raise RuntimeError(f"native video decoder qualification crossed boundary: {key}")
+    video_sweep = video_evidence.get("video_sweep")
+    if not isinstance(video_sweep, Mapping) or video_sweep.get("video_file_count") != 48 or video_sweep.get("total_frames") != 1920:
+        raise RuntimeError("native video decoder qualification did not cover FULL24 video frames")
+    if video_sweep.get("files_per_modality") != {"external_rgb": 24, "wrist_rgb": 24}:
+        raise RuntimeError("native video decoder qualification did not cover both RGB modalities")
+    production_loader = video_evidence.get("production_loader")
+    if not isinstance(production_loader, Mapping):
+        raise RuntimeError("production loader qualification is missing")
+    loader = production_loader.get("dataloader", {})
+    if loader.get("num_workers") != 0 or loader.get("worker_subprocesses_before") or loader.get("worker_subprocesses_after"):
+        raise RuntimeError("production loader worker semantics changed")
+    if production_loader.get("structured_action_label_count") != 24:
+        raise RuntimeError("production loader did not retain FULL24 StructuredAction labels")
 
     snapshot = bundle.get("source_snapshot")
     if not isinstance(snapshot, Mapping):
@@ -323,11 +386,12 @@ def assert_bundle(bundle: Mapping[str, Any], *, repo: Path, expected_head: str, 
         "VANDA_STAGE45B_GROOT_CANONICAL_SOURCE_RECOVERED",
         "VANDA_STAGE45B_GROOT_SOURCE_SNAPSHOT_V2_SEALED",
         "VANDA_STAGE45B_GROOT_GITLESS_RUNTIME_QUALIFIED_V2",
-        "VANDA_STAGE45B_PI0086_FINAL_ADMISSION_QUALIFIED",
+        STATUS,
+        VIDEO_RUNTIME_QUALIFICATION_TOKEN,
         PRODUCTION_RELEASE_TOKEN,
     }
     if not isinstance(tokens, list) or not expected_tokens.issubset(set(tokens)):
-        raise RuntimeError("required PI0086 admission tokens are incomplete")
+        raise RuntimeError("required PI0087 admission tokens are incomplete")
     return dict(bundle)
 
 
@@ -397,6 +461,8 @@ def build_bundle(
     modality: Path,
     config: Path,
     stats: Path,
+    video_runtime_evidence: Path,
+    ffmpeg_runtime_root: Path,
 ) -> dict[str, Any]:
     if len(expected_head) != 40 or any(character not in "0123456789abcdef" for character in expected_head):
         raise RuntimeError("expected execution HEAD is not a lowercase commit SHA")
@@ -414,6 +480,7 @@ def build_bundle(
         "external_admission_helper": "scripts/stage45b_external_admission.py",
         "production_release_helper": PRODUCTION_RELEASE_HELPER_PATH,
         "runtime_qualification": "scripts/stage45b_full24_runtime_parquet_qualification.py",
+        "video_decoder_runtime": VIDEO_RUNTIME_HELPER_PATH,
     }
     execution_files = {
         key: {"path": path, "sha256": sha256_file(repo / path)}
@@ -423,7 +490,7 @@ def build_bundle(
     snapshot_manifest_path = snapshot_manifest.resolve()
     snapshot_verification = verify_snapshot(snapshot_archive, snapshot_manifest_path)
     if snapshot_verification["source_route"] != "HISTORICAL_LOCAL":
-        raise RuntimeError("PI0086 final admission requires the recovered historical GR00T route")
+        raise RuntimeError("PI0087 final admission requires the recovered historical GR00T route")
     for key, expected in (
         ("archive_sha256", GROOT_ARCHIVE_SHA256),
         ("manifest_file_sha256", GROOT_MANIFEST_FILE_SHA256),
@@ -456,6 +523,58 @@ def build_bundle(
     stats_document = read_json(stats)
     if stats_document.get("statistics_payload_sha256") != RUNTIME_PAYLOAD_SHA256:
         raise RuntimeError("runtime-parquet V2 stats payload changed")
+    _regular_file(video_runtime_evidence, "native video decoder qualification evidence")
+    if video_runtime_evidence.lstat().st_mode & 0o222:
+        raise RuntimeError("native video decoder qualification evidence must be immutable")
+    video_evidence = read_json(video_runtime_evidence)
+    if (
+        video_evidence.get("schema") != EXPECTED_VIDEO_SCHEMA
+        or video_evidence.get("status") != "PASS"
+        or video_evidence.get("token") != EXPECTED_VIDEO_TOKEN
+        or video_evidence.get("pi_gate") != PI_GATE
+    ):
+        raise RuntimeError("native video decoder qualification is not a PI0087 PASS")
+    if video_evidence.get("execution_head") != expected_head or video_evidence.get("branch") != BRANCH:
+        raise RuntimeError("native video decoder qualification is bound to a different checkout")
+    artifact_identity = verify_runtime_artifact(
+        ffmpeg_runtime_root, expected_id=FFMPEG_RUNTIME_ARTIFACT_ID
+    )
+    if artifact_identity["manifest_sha256"] != FFMPEG_RUNTIME_MANIFEST_SHA256:
+        raise RuntimeError("FFmpeg runtime manifest identity changed")
+    evidence_artifact = video_evidence.get("ffmpeg_runtime")
+    if (
+        not isinstance(evidence_artifact, Mapping)
+        or evidence_artifact.get("artifact_id") != FFMPEG_RUNTIME_ARTIFACT_ID
+        or evidence_artifact.get("manifest_sha256") != FFMPEG_RUNTIME_MANIFEST_SHA256
+    ):
+        raise RuntimeError("video evidence does not bind the sealed FFmpeg runtime")
+    if Path(str(evidence_artifact.get("root", ""))).resolve() != ffmpeg_runtime_root.resolve():
+        raise RuntimeError("video evidence FFmpeg path differs from bundle input")
+    runtime_dataset_evidence = video_evidence.get("scientific_inputs", {}).get(
+        "runtime_dataset_qualification", {}
+    )
+    if runtime_dataset_evidence.get("sha256") != RUNTIME_DATASET_QUALIFICATION_SHA256:
+        raise RuntimeError("video evidence does not bind the existing 24/24 qualification")
+    video_runtime_record = {
+        "schema": EXPECTED_VIDEO_SCHEMA,
+        "status": "PASS",
+        "token": EXPECTED_VIDEO_TOKEN,
+        "pi_gate": PI_GATE,
+        "qualification_path": str(video_runtime_evidence.resolve()),
+        "qualification_sha256": sha256_file(video_runtime_evidence),
+        "ffmpeg_runtime_schema": EXPECTED_FFMPEG_RUNTIME_SCHEMA,
+        "ffmpeg_runtime_root": str(ffmpeg_runtime_root.resolve()),
+        "ffmpeg_runtime_artifact_id": artifact_identity["artifact_id"],
+        "ffmpeg_runtime_manifest_sha256": artifact_identity["manifest_sha256"],
+        "runtime_dataset_qualification_sha256": RUNTIME_DATASET_QUALIFICATION_SHA256,
+        "torch_version": video_evidence.get("torch_runtime", {}).get("version"),
+        "torchcodec_version": video_evidence.get("native_torchcodec", {}).get("version"),
+        "torch_package_tree_sha256": video_evidence.get("torch_runtime", {}).get("package_identity", {}).get("tree_sha256"),
+        "torchcodec_package_tree_sha256": video_evidence.get("native_torchcodec", {}).get("package_identity", {}).get("tree_sha256"),
+        "video_file_count": video_evidence.get("video_sweep", {}).get("video_file_count"),
+        "decoded_frame_count": video_evidence.get("video_sweep", {}).get("total_frames"),
+        "production_loader_batches": video_evidence.get("production_loader", {}).get("dataloader", {}).get("batches_consumed"),
+    }
     dataset_document = dict(manifest["dataset"])
     dataset_document.update(
         {
@@ -463,6 +582,9 @@ def build_bundle(
             "regular_file_count": FULL24_FILE_COUNT,
             "total_bytes": FULL24_BYTES,
             "runtime_path": str(dataset.resolve()),
+            "video_file_count": 48,
+            "video_frame_count": 1920,
+            "video_modalities": ["external_rgb", "wrist_rgb"],
         }
     )
     bundle = {
@@ -479,6 +601,7 @@ def build_bundle(
             "tracked_manifest_sha256": manifest_identity["sha256"],
         },
         "execution_files": execution_files,
+        "video_decoder_runtime": video_runtime_record,
         "source_snapshot": snapshot,
         "dataset": dataset_document,
         "structured_stats": {
@@ -515,6 +638,8 @@ def build_bundle(
             "modality_config": str(modality.resolve()),
             "training_config": str(config.resolve()),
             "structured_stats_artifact": str(stats.resolve()),
+            "video_runtime_qualification": str(video_runtime_evidence.resolve()),
+            "ffmpeg_runtime_root": str(ffmpeg_runtime_root.resolve()),
         },
         "scientific_lock": {
             "tracked_manifest": manifest_identity,
@@ -539,15 +664,17 @@ def build_bundle(
             "VANDA_STAGE45B_GROOT_CANONICAL_SOURCE_RECOVERED",
             "VANDA_STAGE45B_GROOT_SOURCE_SNAPSHOT_V2_SEALED",
             "VANDA_STAGE45B_GROOT_GITLESS_RUNTIME_QUALIFIED_V2",
-            "VANDA_STAGE45B_PI0086_FINAL_ADMISSION_QUALIFIED",
+            STATUS,
+            VIDEO_RUNTIME_QUALIFICATION_TOKEN,
             PRODUCTION_RELEASE_TOKEN,
         ],
         "runtime_requirements": {
             "base_model_identity": BASE_TREE_SHA256,
             "full24_identity": FULL24_TREE_SHA256,
             "groot_source_snapshot_identity": GROOT_PAYLOAD_TREE_SHA256,
+            "ffmpeg_runtime_identity": FFMPEG_RUNTIME_ARTIFACT_ID,
         },
-        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0086_RETURN",
+        "next_gate": "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0087_RETURN",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     if output.exists() or output.is_symlink():
@@ -573,6 +700,8 @@ def main() -> int:
     parser.add_argument("--modality", type=Path)
     parser.add_argument("--config", type=Path)
     parser.add_argument("--stats", type=Path)
+    parser.add_argument("--video-runtime-evidence", type=Path)
+    parser.add_argument("--ffmpeg-runtime-root", type=Path)
     args = parser.parse_args()
     if not args.build:
         parser.error("--build is required")
@@ -588,6 +717,8 @@ def main() -> int:
         args.modality,
         args.config,
         args.stats,
+        args.video_runtime_evidence,
+        args.ffmpeg_runtime_root,
     )
     if any(value is None for value in required):
         parser.error("all build inputs are required")
@@ -603,6 +734,8 @@ def main() -> int:
         modality=args.modality.resolve(),
         config=args.config.resolve(),
         stats=args.stats.resolve(),
+        video_runtime_evidence=args.video_runtime_evidence.resolve(),
+        ffmpeg_runtime_root=args.ffmpeg_runtime_root.resolve(),
     )
     print(json.dumps({"status": "PASS", "schema": SCHEMA, "path": str(args.output.resolve())}, sort_keys=True))
     return 0

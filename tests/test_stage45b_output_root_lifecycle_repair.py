@@ -1,4 +1,5 @@
 
+import hashlib
 import json
 import os
 import subprocess
@@ -23,6 +24,20 @@ class Stage45BOutputRootLifecycleRepairTest(unittest.TestCase):
         self.fake_repo.mkdir()
         self.exact_python = self.sandbox / "exact-python3"
         self.observation = self.sandbox / "stub-observation.json"
+        self.video_qualification = self.sandbox / "stub-video-qualification.json"
+        self.video_qualification.write_text("stub-video-qualification\n")
+        self.ffmpeg_runtime = self.sandbox / "STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__stub-runtime-id"
+        (self.ffmpeg_runtime / "lib").mkdir(parents=True)
+        (self.ffmpeg_runtime / "compat").mkdir()
+        self.ffmpeg_manifest = self.ffmpeg_runtime / "STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1.json"
+        self.ffmpeg_manifest.write_text("stub-runtime\n")
+        self.ffmpeg_manifest_sha256 = hashlib.sha256(self.ffmpeg_manifest.read_bytes()).hexdigest()
+        self.torchcodec_root = self.sandbox / "torchcodec"
+        self.torchcodec_root.mkdir()
+        self.torch_library_root = self.sandbox / "torch-lib"
+        self.torch_library_root.mkdir()
+        self.runtime_dataset_qualification = self.sandbox / "runtime-dataset-qualification.json"
+        self.runtime_dataset_qualification.write_text("stub-runtime-dataset\n")
         self._write_executable(
             self.fake_bin / "git",
             """#!/bin/sh
@@ -79,7 +94,7 @@ case "$1" in
     done
     test "$mode" = "verify"
     test -n "$out"
-    printf '%s\n' '{"schema":"STAGE45B_B2_TRAINING_RELEASE_V1","status":"PASS","token":"VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V1_QUALIFIED"}' > "$out"
+    printf '%s\n' '{"schema":"STAGE45B_B2_TRAINING_RELEASE_V2","status":"PASS","token":"VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V2_QUALIFIED"}' > "$out"
     ;;
   */scripts/stage45b_groot_source_snapshot.py)
     shift
@@ -99,6 +114,22 @@ case "$1" in
     test -n "$destination"
     mkdir -p "$destination"
     printf '%s\n' '{"schema":"STAGE45B_GROOT_SOURCE_SNAPSHOT_V2","status":"PASS","stub":true}' > "$out"
+    ;;
+  */scripts/stage45b_video_decoder_runtime.py)
+    shift
+    out=""
+    qualification_root=""
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --evidence) shift; out="$1" ;;
+        --qualification-root) shift; qualification_root="$1" ;;
+      esac
+      shift
+    done
+    test -n "$out"
+    test -n "$qualification_root"
+    mkdir -p "$qualification_root"
+    printf '%s\n' '{"schema":"VANDA_STAGE45B_FULL24_VIDEO_DECODER_RUNTIME_QUALIFIED_V1","status":"PASS","token":"VANDA_STAGE45B_FULL24_VIDEO_DECODER_RUNTIME_QUALIFIED","stub":true}' > "$out"
     ;;
   */scripts/stage45b_premodel_runtime_smoke.py)
     shift
@@ -162,6 +193,14 @@ esac
                 "STAGE45B_GROOT_SNAPSHOT_PAYLOAD_TREE_SHA256": "3" * 64,
                 "STAGE45B_PRODUCTION_RELEASE": str(self.sandbox / "production-release.json"),
                 "STAGE45B_PRODUCTION_RELEASE_SHA256": "4" * 64,
+                "STAGE45B_VIDEO_RUNTIME_QUALIFICATION": str(self.video_qualification),
+                "STAGE45B_VIDEO_RUNTIME_QUALIFICATION_SHA256": hashlib.sha256(self.video_qualification.read_bytes()).hexdigest(),
+                "STAGE45B_FFMPEG_RUNTIME_ROOT": str(self.ffmpeg_runtime),
+                "STAGE45B_FFMPEG_RUNTIME_ID": "stub-runtime-id",
+                "STAGE45B_FFMPEG_RUNTIME_MANIFEST_SHA256": self.ffmpeg_manifest_sha256,
+                "STAGE45B_TORCHCODEC_PACKAGE_ROOT": str(self.torchcodec_root),
+                "STAGE45B_TORCH_LIBRARY_ROOT": str(self.torch_library_root),
+                "STAGE45B_RUNTIME_DATASET_QUALIFICATION": str(self.runtime_dataset_qualification),
                 "STAGE45B_COSMOS_ROOT": str(self.sandbox / "cosmos"),
                 "STAGE45B_MODALITY_CONFIG": str(self.sandbox / "modality.py"),
                 "STAGE45B_CONFIG_PATH": str(self.sandbox / "config.yaml"),

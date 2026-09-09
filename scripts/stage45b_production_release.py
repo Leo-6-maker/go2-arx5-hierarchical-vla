@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify the immutable PI0086 Stage45B B2 production release.
+"""Build and verify the immutable PI0087 Stage45B B2 production release.
 
 The release is an external, scratch-only manifest.  It binds the final
 post-merge Stage45B checkout, the production entrypoint bytes, the exact
@@ -44,15 +44,22 @@ from stage45b_external_admission import (
     RUNTIME_STATS_SCHEMA,
     RUNTIME_STATS_SHA256,
     SCHEMA as ADMISSION_SCHEMA,
+    FFMPEG_RUNTIME_ARTIFACT_ID,
+    FFMPEG_RUNTIME_MANIFEST_SHA256,
+    EXPECTED_FFMPEG_RUNTIME_SCHEMA,
+    EXPECTED_VIDEO_SCHEMA,
+    EXPECTED_VIDEO_TOKEN,
+    RUNTIME_DATASET_QUALIFICATION_SHA256,
     assert_bundle,
 )
 from stage45b_groot_source_snapshot import sha256_file, verify_snapshot
+from stage45b_video_decoder_runtime import verify_runtime_artifact
 
 
-SCHEMA = "STAGE45B_B2_TRAINING_RELEASE_V1"
+SCHEMA = "STAGE45B_B2_TRAINING_RELEASE_V2"
 STATUS = "SEALED"
-TOKEN = "VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V1_QUALIFIED"
-NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0086_RETURN"
+TOKEN = "VANDA_STAGE45B_B2_PRODUCTION_TRAINING_RELEASE_V2_QUALIFIED"
+NEXT_GATE = "GPT_PI_REVIEW_AFTER_STAGE45B_B2_PI0087_RETURN"
 EXPECTED_PYTHON = "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python3"
 EXPECTED_PYTHON_REALPATH = "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12"
 EXPECTED_OFFLINE_ENV = {
@@ -70,6 +77,7 @@ EXECUTION_PATHS = {
     "external_admission": "scripts/stage45b_external_admission.py",
     "release_verifier": "scripts/stage45b_production_release.py",
     "runtime_qualification": "scripts/stage45b_full24_runtime_parquet_qualification.py",
+    "video_decoder_runtime": "scripts/stage45b_video_decoder_runtime.py",
 }
 
 
@@ -148,10 +156,26 @@ def _runtime_from_evidence(evidence: Mapping[str, Any], *, expected_head: str | 
         if not isinstance(value, str) or not value:
             raise RuntimeError(f"release runtime evidence lacks {label}")
     if requested != EXPECTED_PYTHON or realpath != EXPECTED_PYTHON_REALPATH:
-        raise RuntimeError("release runtime interpreter identity differs from PI0086")
+        raise RuntimeError("release runtime interpreter identity differs from PI0087")
     for key in ("python_version", "torch_version", "torch_cuda_build"):
         if not isinstance(runtime.get(key), str) or not runtime[key]:
             raise RuntimeError(f"release runtime evidence lacks {key}")
+    if evidence.get("schema") != EXPECTED_VIDEO_SCHEMA or evidence.get("token") != EXPECTED_VIDEO_TOKEN:
+        raise RuntimeError("Release V2 must be bound to the native video decoder qualification")
+    artifact = evidence.get("ffmpeg_runtime")
+    if not isinstance(artifact, Mapping):
+        raise RuntimeError("video runtime qualification has no FFmpeg artifact identity")
+    if artifact.get("artifact_id") != FFMPEG_RUNTIME_ARTIFACT_ID or artifact.get("manifest_sha256") != FFMPEG_RUNTIME_MANIFEST_SHA256:
+        raise RuntimeError("video runtime qualification FFmpeg identity changed")
+    verify_runtime_artifact(Path(str(artifact.get("root", ""))), expected_id=FFMPEG_RUNTIME_ARTIFACT_ID)
+    native = evidence.get("native_torchcodec")
+    if not isinstance(native, Mapping) or native.get("version") != "0.8.0":
+        raise RuntimeError("video runtime qualification TorchCodec identity is missing")
+    if native.get("ffmpeg_library_versions", {}).get("ffmpeg_version") != "6.1.1":
+        raise RuntimeError("video runtime qualification is not FFmpeg 6.1.1")
+    runtime_environment = evidence.get("runtime_environment")
+    if not isinstance(runtime_environment, Mapping) or not str(runtime_environment.get("ld_library_path", "")).startswith(str(Path(str(artifact["root"])).resolve() / "lib") + ":"):
+        raise RuntimeError("video runtime qualification does not export the sealed FFmpeg path first")
     return {
         "python_path": requested,
         "python_realpath": realpath,
@@ -159,6 +183,13 @@ def _runtime_from_evidence(evidence: Mapping[str, Any], *, expected_head: str | 
         "torch_version": runtime["torch_version"],
         "cuda_build": runtime["torch_cuda_build"],
         "offline_env": dict(EXPECTED_OFFLINE_ENV),
+        "ffmpeg_runtime_schema": EXPECTED_FFMPEG_RUNTIME_SCHEMA,
+        "ffmpeg_runtime_artifact_id": artifact["artifact_id"],
+        "ffmpeg_runtime_manifest_sha256": artifact["manifest_sha256"],
+        "ffmpeg_runtime_root": str(Path(str(artifact["root"])).resolve()),
+        "ld_library_path": runtime_environment["ld_library_path"],
+        "torch_package_tree_sha256": evidence.get("torch_runtime", {}).get("package_identity", {}).get("tree_sha256"),
+        "torchcodec_package_tree_sha256": native.get("package_identity", {}).get("tree_sha256"),
     }
 
 
@@ -174,21 +205,26 @@ def _assert_runtime_evidence(release: Mapping[str, Any]) -> dict[str, Any]:
     runtime = _runtime_from_evidence(
         evidence, expected_head=str(release.get("stage45b_execution_head", ""))
     )
-    if evidence.get("token") not in {
-        "VANDA_HOPPER_STAGE45B_PREMODEL_CPU_PBS_QUALIFIED",
-        "VANDA_STAGE45B_SCIENTIFIC_PREMODEL_RUNTIME_PASS",
-    }:
-        raise RuntimeError("release runtime evidence token is not an approved login-plane qualification")
+    if evidence.get("token") != EXPECTED_VIDEO_TOKEN:
+        raise RuntimeError("release runtime evidence token is not the PI0087 native decoder qualification")
     release_runtime = release.get("runtime")
     if not isinstance(release_runtime, Mapping) or dict(release_runtime) != runtime:
         raise RuntimeError("release runtime identity differs from sealed qualification evidence")
     exposure = evidence.get("scientific_exposure", {})
     if not isinstance(exposure, Mapping):
         raise RuntimeError("release runtime exposure record is missing")
-    for key in ("model_construction", "forward", "backward", "optimizer", "trainer", "checkpoint_creation", "wbc", "simulator", "new_data"):
-        if exposure.get(key) is not False:
+    for key in ("model_constructed", "model_construction", "forward", "backward", "optimizer", "trainer", "checkpoint_creation", "wbc", "simulator", "hardware", "new_data"):
+        if key in exposure and exposure.get(key) is not False:
             raise RuntimeError(f"release qualification crossed forbidden boundary: {key}")
-    return {"path": str(evidence_path.resolve()), "sha256": observed, "token": evidence["token"]}
+    return {
+        "path": str(evidence_path.resolve()),
+        "sha256": observed,
+        "token": evidence["token"],
+        "ffmpeg_runtime_artifact_id": evidence["ffmpeg_runtime"]["artifact_id"],
+        "production_video_file_count": evidence["video_sweep"]["video_file_count"],
+        "production_decoded_frame_count": evidence["video_sweep"]["total_frames"],
+        "production_loader_batches": evidence["production_loader"]["dataloader"]["batches_consumed"],
+    }
 
 
 def _snapshot_from_bundle(bundle: Mapping[str, Any]) -> dict[str, Any]:
@@ -256,7 +292,7 @@ def build_release(
         "token": TOKEN,
         "pi_gate": PI_GATE,
         "stage": "Stage45B",
-        "version": "V1",
+        "version": "V2",
         "scientific_protocol": "B_FRESH_BASE_FULL24",
         "stage45b_execution_head": expected_head,
         "branch": BRANCH,
@@ -276,8 +312,11 @@ def build_release(
             "release_verifier_sha256": entrypoints["release_verifier"]["sha256"],
             "runtime_qualification_path": entrypoints["runtime_qualification"]["path"],
             "runtime_qualification_sha256": entrypoints["runtime_qualification"]["sha256"],
+            "video_decoder_runtime_path": entrypoints["video_decoder_runtime"]["path"],
+            "video_decoder_runtime_sha256": entrypoints["video_decoder_runtime"]["sha256"],
         },
         "runtime": runtime,
+        "video_decoder_runtime": dict(bundle["video_decoder_runtime"]),
         "inputs": {
             "groot_origin_commit": GROOT_COMMIT,
             "groot_origin_tree": GROOT_TREE,
@@ -297,6 +336,9 @@ def build_release(
             "cosmos_tree_sha256": COSMOS_TREE_SHA256,
             "modality_sha256": MODALITY_SHA256,
             "training_config_sha256": CONFIG_SHA256,
+            "ffmpeg_runtime_artifact_id": FFMPEG_RUNTIME_ARTIFACT_ID,
+            "ffmpeg_runtime_manifest_sha256": FFMPEG_RUNTIME_MANIFEST_SHA256,
+            "runtime_dataset_qualification_sha256": RUNTIME_DATASET_QUALIFICATION_SHA256,
         },
         "source_snapshot": snapshot,
         "external_admission": {
@@ -357,6 +399,7 @@ def _assert_entrypoints(repo: Path, entrypoint: Mapping[str, Any]) -> None:
         "external_admission": ("external_admission_path", "external_admission_sha256"),
         "release_verifier": ("release_verifier_path", "release_verifier_sha256"),
         "runtime_qualification": ("runtime_qualification_path", "runtime_qualification_sha256"),
+        "video_decoder_runtime": ("video_decoder_runtime_path", "video_decoder_runtime_sha256"),
     }
     for key, (path_key, sha_key) in mapping.items():
         relative = _relative(str(entrypoint.get(path_key, "")))
@@ -425,6 +468,9 @@ def assert_release(
         "cosmos_tree_sha256": COSMOS_TREE_SHA256,
         "modality_sha256": MODALITY_SHA256,
         "training_config_sha256": CONFIG_SHA256,
+        "ffmpeg_runtime_artifact_id": FFMPEG_RUNTIME_ARTIFACT_ID,
+        "ffmpeg_runtime_manifest_sha256": FFMPEG_RUNTIME_MANIFEST_SHA256,
+        "runtime_dataset_qualification_sha256": RUNTIME_DATASET_QUALIFICATION_SHA256,
     }
     if not isinstance(inputs, Mapping):
         raise RuntimeError("production release input identities are missing")
@@ -441,7 +487,16 @@ def assert_release(
     _equal(runtime, "python_path", EXPECTED_PYTHON, "runtime")
     _equal(runtime, "python_realpath", EXPECTED_PYTHON_REALPATH, "runtime")
     _equal(runtime, "offline_env", EXPECTED_OFFLINE_ENV, "runtime")
+    _equal(runtime, "torch_version", "2.9.0+cu128", "runtime")
+    _equal(runtime, "cuda_build", "12.8", "runtime")
+    _equal(runtime, "ffmpeg_runtime_schema", EXPECTED_FFMPEG_RUNTIME_SCHEMA, "runtime")
+    _equal(runtime, "ffmpeg_runtime_artifact_id", FFMPEG_RUNTIME_ARTIFACT_ID, "runtime")
+    _equal(runtime, "ffmpeg_runtime_manifest_sha256", FFMPEG_RUNTIME_MANIFEST_SHA256, "runtime")
     _assert_runtime_evidence(release)
+
+    video_release = release.get("video_decoder_runtime")
+    if not isinstance(video_release, Mapping) or dict(video_release) != dict(bundle.get("video_decoder_runtime", {})):
+        raise RuntimeError("production release video runtime identity differs from external admission")
 
     if release.get("contract") != bundle.get("contract"):
         raise RuntimeError("production release contract differs from external admission")
