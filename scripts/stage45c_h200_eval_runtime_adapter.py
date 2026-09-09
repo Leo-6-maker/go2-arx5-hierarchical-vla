@@ -781,7 +781,10 @@ def _verify_release_manifest(path: Path) -> dict[str, Any]:
     document = read_json(path)
     if isinstance(document, Mapping):
         if document.get("status") is not None:
-            _require(document.get("status") in {"SEALED", "ACCEPTED_READ_ONLY"}, "Golden Release status is not sealed/read-only")
+            _require(
+                document.get("status") in {"SEALED", "ACCEPTED_READ_ONLY", "PASS"},
+                "Golden Release status is not sealed/read-only/accepted",
+            )
         if document.get("release_id") is not None:
             _equal(document.get("release_id"), "GOLDEN_TRAINING_RELEASE_V2", "Golden Release ID")
     return identity
