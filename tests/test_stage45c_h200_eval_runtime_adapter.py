@@ -6,6 +6,7 @@ import copy
 import json
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 
 
@@ -87,6 +88,29 @@ class TestStage45CH200EvalRuntimeAdapter(unittest.TestCase):
         self.assertIn("same_noise_across_checkpoints", source)
         self.assertNotIn("model.get_action", source)
         self.assertNotIn("import gr00t", source)
+
+    def test_nested_cosmos_loading_contract_is_explicit(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            hub_root = Path(temporary) / "hub"
+            hub_root.mkdir()
+            kwargs = adapter.nested_cosmos_model_loading_kwargs(hub_root)
+        self.assertEqual(kwargs["trust_remote_code"], True)
+        self.assertEqual(kwargs["local_files_only"], True)
+        self.assertEqual(kwargs["cache_dir"], str(hub_root))
+        self.assertEqual(kwargs["revision"], adapter.COSMOS_REVISION)
+        source = (ROOT / "scripts/stage45c_h200_eval_runtime_adapter.py").read_text(encoding="utf-8")
+        self.assertNotIn("stage38_structured_offline_evaluation", source)
+        self.assertIn("transformers_loading_kwargs=nested_kwargs", source)
+
+    def test_nested_cosmos_binding_rejects_wrong_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            output_root = temporary_root / "output"
+            wrong_cosmos_root = temporary_root / "wrong-cosmos"
+            output_root.mkdir()
+            wrong_cosmos_root.mkdir()
+            with self.assertRaises(adapter.AdapterError):
+                adapter._bind_nested_cosmos_hf_cache(output_root, wrong_cosmos_root)
 
     def test_pbs_envelope_calls_only_adapter(self) -> None:
         source = PBS.read_text(encoding="utf-8")
