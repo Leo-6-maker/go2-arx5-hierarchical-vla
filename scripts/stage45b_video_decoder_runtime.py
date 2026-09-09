@@ -696,7 +696,7 @@ def production_loader_qualification(
 
 def qualify(args: argparse.Namespace) -> dict[str, Any]:
     repo = Path(args.repo).resolve()
-    base = Path(args.base_model).resolve()
+    base = Path(args.base).resolve()
     dataset = Path(args.dataset).resolve()
     groot = Path(args.groot_source).resolve()
     cosmos = Path(args.cosmos).resolve()
