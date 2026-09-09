@@ -372,8 +372,9 @@ def native_binding_record(runtime: Mapping[str, Any], torchcodec_root: Path) -> 
     }
 
 
-def mapped_libav_paths(runtime_root: Path) -> list[str]:
-    paths: set[str] = set()
+def mapped_libav_paths(runtime_root: Path) -> dict[str, list[str]]:
+    sealed_paths: set[str] = set()
+    outside_paths: set[str] = set()
     for line in Path("/proc/self/maps").read_text(encoding="utf-8").splitlines():
         if "/libav" not in line and "/libsw" not in line:
             continue
@@ -381,13 +382,24 @@ def mapped_libav_paths(runtime_root: Path) -> list[str]:
         for field in reversed(fields):
             if field.startswith("/") and ("/libav" in field or "/libsw" in field):
                 candidate = Path(field).resolve()
-                if not candidate.is_relative_to(runtime_root / "lib"):
-                    raise RuntimeError(f"mapped libav/libsw library is outside sealed runtime: {candidate}")
-                paths.add(str(candidate))
+                if candidate.is_relative_to(runtime_root / "lib"):
+                    sealed_paths.add(str(candidate))
+                else:
+                    # The GR00T import chain may map an auxiliary FFmpeg
+                    # library shipped by an image/video helper such as the
+                    # OpenCV wheel.  This is not a TorchCodec dependency;
+                    # TorchCodec's own libav/libsw bindings remain fail-closed
+                    # in _ldd_bindings().  Preserve the observation explicitly
+                    # instead of conflating process-wide mappings with the
+                    # decoder's resolved NEEDED set.
+                    outside_paths.add(str(candidate))
                 break
-    if not paths:
+    if not sealed_paths:
         raise RuntimeError("no sealed libav/libsw libraries were observed in process maps")
-    return sorted(paths)
+    return {
+        "sealed_runtime": sorted(sealed_paths),
+        "outside_sealed_runtime": sorted(outside_paths),
+    }
 
 
 def verify_environment(runtime_root: Path) -> dict[str, Any]:
@@ -816,6 +828,14 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
     if ffmpeg_versions.get("ffmpeg_version") != EXPECTED_FFMPEG_VERSION or ffmpeg_versions.get("libavcodec") != [60, 31, 102] or ffmpeg_versions.get("libavformat") != [60, 16, 100] or ffmpeg_versions.get("libavutil") != [58, 29, 100] or ffmpeg_versions.get("libavfilter") != [9, 12, 100]:
         raise RuntimeError(f"TorchCodec native FFmpeg versions mismatch: {ffmpeg_versions}")
     maps_after_native_load = mapped_libav_paths(runtime_root)
+    native_ldd_libav_paths = {
+        str(binding["resolved_path"])
+        for record in native_bindings["ldd"]
+        for binding in record["bindings"]
+        if str(binding["name"]).startswith(("libav", "libsw"))
+    }
+    if not native_ldd_libav_paths.issubset(set(maps_after_native_load["sealed_runtime"])):
+        raise RuntimeError("TorchCodec sealed libav/libsw bindings were not observed in process maps")
     video_sweep = sweep_all_videos(dataset, runtime_root)
     loader_root = qualification_root / "production_loader"
     loader_qualification = production_loader_qualification(
