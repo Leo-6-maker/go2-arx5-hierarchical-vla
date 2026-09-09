@@ -603,7 +603,10 @@ def production_loader_qualification(
                     scheduled.append((int(episode_index), int(step_index)))
         if sorted(scheduled) != [(index, 0) for index in range(24)]:
             raise RuntimeError("production shard schedule does not cover exactly FULL24 step-0 windows")
-        if len(getattr(train_dataset, "structured_action_labels", [])) != 24:
+        structured_action_label_count = int(
+            getattr(train_dataset, "structured_action_label_count", -1)
+        )
+        if structured_action_label_count != 24:
             raise RuntimeError("production factory did not retain 24 StructuredAction labels")
         if getattr(train_dataset, "structured_action_statistics", None) != expected_stats:
             raise RuntimeError("production StructuredAction statistics differ from sealed V2 stats")
@@ -687,7 +690,7 @@ def production_loader_qualification(
             "background_cache_path": "ShardedMixtureDataset.__iter__ -> cache_next_shard -> StructuredShardedSingleStepDataset.get_shard",
         },
         "production_decode_calls": decode_calls,
-        "structured_action_label_count": len(train_dataset.structured_action_labels),
+        "structured_action_label_count": structured_action_label_count,
         "scientific_exposure": {
             "model_constructed": False,
             "forward": False,
