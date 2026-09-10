@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+from contextlib import contextmanager
 import importlib.util
 import json
 from pathlib import Path
@@ -99,6 +100,52 @@ class Stage45CBootstrapTests(unittest.TestCase):
             observed_groot, observed_snapshot = BOOTSTRAP._load_execution_paths(binding)
             self.assertEqual(observed_groot, groot.resolve())
             self.assertEqual(observed_snapshot, snapshot.resolve())
+
+    def test_adapter_execution_is_inside_no_grad_context(self) -> None:
+        fake_torch = types.ModuleType("torch")
+        state = {"enabled": True, "run_path_seen": False}
+
+        def is_grad_enabled() -> bool:
+            return bool(state["enabled"])
+
+        @contextmanager
+        def no_grad():
+            previous = state["enabled"]
+            state["enabled"] = False
+            try:
+                yield
+            finally:
+                state["enabled"] = previous
+
+        fake_torch.is_grad_enabled = is_grad_enabled
+        fake_torch.no_grad = no_grad
+
+        with tempfile.TemporaryDirectory() as temporary:
+            adapter = Path(temporary) / "adapter.py"
+            adapter.write_text("pass\n", encoding="utf-8")
+
+            def fake_run_path(path: str, run_name: str):
+                self.assertEqual(Path(path), adapter)
+                self.assertEqual(run_name, "__main__")
+                self.assertFalse(fake_torch.is_grad_enabled())
+                state["run_path_seen"] = True
+                return {}
+
+            with mock.patch.dict(sys.modules, {"torch": fake_torch}, clear=False), mock.patch.object(
+                BOOTSTRAP.runpy, "run_path", side_effect=fake_run_path
+            ):
+                BOOTSTRAP._run_adapter_no_grad(adapter, ["--execute"])
+
+        self.assertTrue(state["run_path_seen"])
+        self.assertTrue(state["enabled"])
+
+    def test_bootstrap_declares_no_clone_no_parameter_mutation_contract(self) -> None:
+        source = BOOTSTRAP_PATH.read_text(encoding="utf-8")
+        self.assertIn("with torch.no_grad():", source)
+        self.assertIn('"model_parameter_requires_grad_mutated": False', source)
+        self.assertIn('"tensor_clone_workaround_used": False', source)
+        self.assertNotIn("requires_grad_(False)", source)
+        self.assertNotIn("clone()", source)
 
     def test_pbs_launches_bootstrap_not_adapter_directly(self) -> None:
         pbs = (ROOT / "hpc" / "pbs" / "stage45c_train24_checkpoint_eval_h200.pbs").read_text(encoding="utf-8")
