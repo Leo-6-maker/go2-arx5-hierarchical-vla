@@ -5,6 +5,8 @@ from __future__ import annotations
 import ast
 import hashlib
 import json
+import os
+import shutil
 import sys
 import tempfile
 import unittest
@@ -32,7 +34,17 @@ from go2arx5_vla.evaluation.reusable import (
 from go2arx5_vla.evaluation.structured_action_eval import (
     DecodedStructuredPrediction,
 )
-from go2arx5_vla.experiments.reusable import sha256_file, write_json
+from go2arx5_vla.experiments.profiles import (
+    SAMPLER_PROFILES,
+    sampler_profile,
+)
+from go2arx5_vla.experiments.reusable import (
+    RUNTIME_LATE_BOUND_FIELDS,
+    sha256_file,
+    sha256_tree,
+    tree_deployment_metadata,
+    write_json,
+)
 from go2arx5_vla.training.reusable import (
     ReusableTrainingError,
     build_training_plan,
@@ -104,6 +116,7 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 "execution_head": "a" * 40,
                 "protocol_sha256": "b" * 64,
             },
+            "timestamp_profile": "GENERIC_MONOTONIC_H_V1",
             "cohort": {
                 "name": "SYNTHETIC_TWO_WINDOW",
                 "split": "TRAIN",
@@ -124,6 +137,7 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 "timing": "T16",
             },
             "sampler": {
+                "profile": "GROOT_N1D7_SOURCE_MAPPED_EULER4_V1",
                 "timesteps": [0, 250, 500, 750],
                 "dt": 0.25,
                 "expected_calls_per_window": 4,
@@ -137,6 +151,10 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 "no_model_construction": True,
                 "no_training": True,
                 "identity": "runtime-fixture-v1",
+                "backend": "groot_h200_inference_backend_v1",
+                "late_bound": {
+                    field: f"fixture-{field}" for field in RUNTIME_LATE_BOUND_FIELDS
+                },
             },
             "output": {
                 "root": str(root / "evaluation-output"),
@@ -264,6 +282,15 @@ class ReusableInfrastructureTests(unittest.TestCase):
                     for line in raw_lines
                 )
             )
+            decoded_paths = sorted((root / "evaluation-output" / "decoded").rglob("*.npy"))
+            self.assertEqual(len(decoded_paths), 4)
+            self.assertTrue(
+                all(np.load(path, allow_pickle=False).shape == (40, 10) for path in decoded_paths)
+            )
+            self.assertTrue((root / "evaluation-output" / "per_window.csv").is_file())
+            self.assertTrue((root / "evaluation-output" / "checkpoint_aggregates.json").is_file())
+            self.assertTrue((root / "evaluation-output" / "artifact_inventory_sha256.txt").is_file())
+            self.assertTrue((root / "evaluation-output" / "failure_seal.json").is_file())
 
             rows, source = load_rows(root / "evaluation-output")
             analysis = analyze_rows(
@@ -307,6 +334,169 @@ class ReusableInfrastructureTests(unittest.TestCase):
                     records_base_dir=Path(temporary) / "inputs",
                     decoder=lambda *args, **kwargs: None,
                 )
+
+    def test_timestamp_profiles_allow_portable_monotonic_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            _manifest_path, manifest, _records = self._evaluation_fixture(Path(temporary))
+            for timestamps in (
+                [float(step) / 20.0 for step in range(40)],
+                [float(step) / 25.0 for step in range(40)],
+                [float(step) * 0.037 + (0.001 if step > 10 else 0.0) for step in range(40)],
+            ):
+                candidate = json.loads(json.dumps(manifest))
+                candidate["cohort"]["windows"][0]["source_timestamps"] = timestamps
+                validate_evaluation_manifest(candidate)
+
+            nonmonotonic = [float(step) / 20.0 for step in range(40)]
+            nonmonotonic[20], nonmonotonic[21] = 2.0, 1.0
+            nonfinite = [float(step) / 20.0 for step in range(40)]
+            nonfinite[7] = float("nan")
+            for timestamps in (nonmonotonic, nonfinite):
+                candidate = json.loads(json.dumps(manifest))
+                candidate["cohort"]["windows"][0]["source_timestamps"] = timestamps
+                with self.assertRaises(ReusableEvaluationError):
+                    validate_evaluation_manifest(candidate)
+
+            fixed = json.loads(json.dumps(manifest))
+            fixed["timestamp_profile"] = "STAGE40_T16_20HZ_V1"
+            fixed["cohort"]["windows"][0]["source_timestamps"] = [
+                float(step) / 25.0 for step in range(40)
+            ]
+            with self.assertRaises(ReusableEvaluationError):
+                validate_evaluation_manifest(fixed)
+
+    def test_sampler_profile_and_descriptive_only_analysis(self) -> None:
+        self.assertIn("GROOT_N1D7_SOURCE_MAPPED_EULER4_V1", SAMPLER_PROFILES)
+        self.assertEqual(
+            sampler_profile("GROOT_N1D7_SOURCE_MAPPED_EULER4_V1").calls_per_window,
+            4,
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            _manifest_path, manifest, _records = self._evaluation_fixture(Path(temporary))
+            bad = json.loads(json.dumps(manifest))
+            bad["sampler"]["profile"] = "unknown-sampler-v9"
+            with self.assertRaises(ReusableEvaluationError):
+                validate_evaluation_manifest(bad)
+
+        rows = [
+            {
+                "checkpoint": {"label": "arbitrary-a", "sha256": "a" * 64},
+                "window_id": "window-1",
+                "target_id": "target-1",
+                "metrics": {"position_rmse_m": 1.0},
+            },
+            {
+                "checkpoint": {"label": "arbitrary-b", "sha256": "b" * 64},
+                "window_id": "window-1",
+                "target_id": "target-1",
+                "metrics": {"position_rmse_m": 2.0},
+            },
+        ]
+        result = analyze_rows(rows)
+        self.assertEqual(result["paired_comparisons"], [])
+
+    def test_late_failure_leaves_incremental_decoded_and_rows_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            _manifest_path, manifest, records = self._evaluation_fixture(root)
+            calls = 0
+
+            def failing_decoder(
+                raw,
+                state,
+                *,
+                stats_path,
+                source_timestamps,
+                observation_timestamp,
+                chunk_id,
+            ):
+                nonlocal calls
+                calls += 1
+                if calls == 3:
+                    raise RuntimeError("induced late decode failure")
+                return DecodedStructuredPrediction(
+                    physical_action=np.zeros((40, 10), dtype=np.float64),
+                    decoder_details={"synthetic_decoder": True},
+                    trajectory_chunk=None,
+                )
+
+            output = root / "late-failure-output"
+            with self.assertRaises(RuntimeError):
+                run_evaluation(
+                    manifest,
+                    records,
+                    output_dir=output,
+                    records_base_dir=root / "inputs",
+                    decoder=failing_decoder,
+                )
+            rows_path = output / "per_window.jsonl"
+            self.assertEqual(len(rows_path.read_text(encoding="utf-8").splitlines()), 2)
+            self.assertEqual(len(list((output / "decoded").rglob("*.npy"))), 2)
+            failure = json.loads((output / "failure.json").read_text(encoding="utf-8"))
+            self.assertEqual(failure["rows_completed"], 2)
+            seal = json.loads((output / "failure_seal.json").read_text(encoding="utf-8"))
+            self.assertEqual(seal["status"], "FAILED")
+
+    def test_future_tree_identity_ignores_safe_mode_changes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "source"
+            copied = root / "copied"
+            source.mkdir()
+            (source / "nested").mkdir()
+            (source / "nested" / "payload.bin").write_bytes(b"stable bytes")
+            (source / "manifest.json").write_text("{\"v\":1}\n", encoding="utf-8")
+            shutil.copytree(source, copied)
+            os.chmod(source / "nested" / "payload.bin", 0o600)
+            os.chmod(copied / "nested" / "payload.bin", 0o644)
+            self.assertEqual(sha256_tree(source), sha256_tree(copied))
+            self.assertTrue(tree_deployment_metadata(source)["safe"])
+            self.assertTrue(tree_deployment_metadata(copied)["safe"])
+
+    def test_templates_are_non_executable_and_use_sentinels(self) -> None:
+        eval_template = json.loads(
+            (ROOT / "manifests" / "REUSABLE_CHECKPOINT_EVAL_MANIFEST_TEMPLATE_V1.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        train_template = json.loads(
+            (ROOT / "manifests" / "REUSABLE_ADAPTATION_TRAINING_MANIFEST_TEMPLATE_V1.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        validate_evaluation_manifest(eval_template)
+        validate_training_manifest(train_template)
+        with self.assertRaises(ReusableEvaluationError):
+            build_evaluation_plan(eval_template)
+        with self.assertRaises(ReusableTrainingError):
+            build_training_plan(train_template)
+        self.assertTrue(
+            all(value == "__REQUIRED__" for value in train_template["recipe"].values())
+        )
+        serialized_eval = json.dumps(eval_template, sort_keys=True)
+        self.assertNotIn("0.05", serialized_eval)
+        self.assertNotIn("1.95", serialized_eval)
+
+    def test_backend_boundaries_are_explicit_in_plans(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            _eval_manifest_path, eval_manifest, _records = self._evaluation_fixture(root)
+            self.assertEqual(
+                build_evaluation_plan(eval_manifest)["backend_boundary"],
+                "groot_h200_inference_backend_v1",
+            )
+            _train_manifest_path, train_manifest = self._training_fixture(root)
+            plan = build_training_plan(train_manifest)
+            self.assertEqual(
+                plan["backend_boundary"], "groot_h200_training_backend_v1"
+            )
+            self.assertEqual(
+                set(plan["late_bound_runtime_fields"]), set(RUNTIME_LATE_BOUND_FIELDS)
+            )
+            bad = json.loads(json.dumps(train_manifest))
+            del bad["runtime"]["late_bound"][RUNTIME_LATE_BOUND_FIELDS[0]]
+            with self.assertRaises(ReusableTrainingError):
+                validate_training_manifest(bad)
 
     def _training_fixture(self, root: Path) -> tuple[Path, dict]:
         base = root / "base.bin"
@@ -366,7 +556,10 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 "identity": "training-runtime-fixture-v1",
                 "offline": True,
                 "preflight_required": True,
-                "backend": "stage-specific-backend",
+                "backend": "groot_h200_training_backend_v1",
+                "late_bound": {
+                    field: f"fixture-{field}" for field in RUNTIME_LATE_BOUND_FIELDS
+                },
             },
             "output": {
                 "root": str(root / "train-output"),
@@ -425,6 +618,32 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 imported.isdisjoint(forbidden), (path, imported & forbidden)
             )
             self.assertNotIn("os.system", path.read_text(encoding="utf-8"))
+
+    def test_future_generic_layer_has_no_machine_or_stage_literals(self) -> None:
+        paths = [
+            ROOT / "scripts" / "eval_checkpoint_cohort.py",
+            ROOT / "scripts" / "analyze_checkpoint_eval.py",
+            ROOT / "scripts" / "train_adaptation.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "reusable.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "analyzer.py",
+            ROOT / "src" / "go2arx5_vla" / "training" / "reusable.py",
+            ROOT / "src" / "go2arx5_vla" / "experiments" / "reusable.py",
+        ]
+        forbidden = (
+            "Stage45",
+            "FULL24",
+            "STRUCTURED@1000",
+            "e1192548",
+            "/nfs/home/svu",
+            "/scratch/e1192548",
+            "CFP03-CF-004",
+        )
+        for path in paths:
+            source = path.read_text(encoding="utf-8")
+            self.assertTrue(
+                all(token not in source for token in forbidden),
+                (path, [token for token in forbidden if token in source]),
+            )
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ CPU-side decode and metric path for every future experiment.
 
 from __future__ import annotations
 
+import csv
 import json
 import math
 import os
@@ -24,6 +25,9 @@ from typing import Any
 import numpy as np
 
 from ..experiments.reusable import (
+    INFERENCE_BACKEND_V1,
+    RUNTIME_LATE_BOUND_FIELDS,
+    TEMPLATE_SENTINEL,
     ReusableManifestError,
     load_json,
     reject_locked_data,
@@ -31,8 +35,16 @@ from ..experiments.reusable import (
     require_nonempty_string,
     require_sha256,
     sha256_file,
+    validate_late_bound_runtime,
     verify_artifact_identity,
     write_json,
+)
+from ..experiments.profiles import (
+    ProfileError,
+    SamplerProfile,
+    TimestampProfile,
+    sampler_profile,
+    timestamp_profile,
 )
 from .structured_action_eval import (
     EXPECTED_MODEL_INPUT_KEYS,
@@ -58,8 +70,6 @@ GENERIC_EVALUATION_ROW_SCHEMA = "GO2ARX5_REUSABLE_EVALUATION_ROW_V1"
 GENERIC_EVALUATION_OUTPUT_SCHEMA = "GO2ARX5_REUSABLE_EVALUATION_OUTPUT_V1"
 GENERIC_EVALUATION_PLAN_SCHEMA = "GO2ARX5_REUSABLE_EVALUATION_PLAN_V1"
 GENERIC_EVAL_STATUS = "READY_NOT_EXECUTED"
-EXPECTED_SAMPLER_TIMESTEPS = (0, 250, 500, 750)
-EXPECTED_SAMPLER_DT = 0.25
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _SAFE_SEGMENT_RE = re.compile(r"[^A-Za-z0-9_.-]+")
 
@@ -134,11 +144,57 @@ def _validate_checkpoint(checkpoint: Any, *, index: int) -> None:
     _validate_identity_artifact(item.get("statistics"), field=f"{field}.statistics")
 
 
-def _validate_window(window: Any, *, index: int) -> None:
+def _is_template_placeholder(value: Any) -> bool:
+    return isinstance(value, str) and (
+        value == TEMPLATE_SENTINEL or value.startswith("__REQUIRED_")
+    )
+
+
+def _resolve_timestamp_profile(
+    value: Any, *, field: str, template: bool
+) -> TimestampProfile | None:
+    name = require_nonempty_string(value, field=field)
+    if template and _is_template_placeholder(name):
+        return None
+    try:
+        return timestamp_profile(name)
+    except ProfileError as exc:
+        raise ReusableEvaluationError(str(exc)) from exc
+
+
+def _resolve_sampler_profile(
+    value: Any, *, field: str, template: bool
+) -> SamplerProfile | None:
+    name = require_nonempty_string(value, field=field)
+    if template and _is_template_placeholder(name):
+        return None
+    try:
+        return sampler_profile(name)
+    except ProfileError as exc:
+        raise ReusableEvaluationError(str(exc)) from exc
+
+
+def _validate_window(
+    window: Any,
+    *,
+    index: int,
+    timestamp_policy: TimestampProfile | None,
+    template: bool,
+) -> None:
     field = f"cohort.windows[{index}]"
     item = require_mapping(window, field=field)
     require_nonempty_string(item.get("id"), field=f"{field}.id")
     require_nonempty_string(item.get("target_id"), field=f"{field}.target_id")
+    if template and any(
+        _is_template_placeholder(item.get(name))
+        for name in (
+            "anchor_world_m",
+            "target_world_m",
+            "source_timestamps",
+            "observation_timestamp",
+        )
+    ):
+        return
     _finite_sequence(
         item.get("anchor_world_m"), field=f"{field}.anchor_world_m", shape=(3,)
     )
@@ -152,13 +208,28 @@ def _validate_window(window: Any, *, index: int) -> None:
     )
     timestamps = np.asarray(item["source_timestamps"], dtype=np.float64)
     _require(
-        bool(np.allclose(np.diff(timestamps), 0.05, rtol=0.0, atol=1.0e-9)),
-        f"{field}.source_timestamps must use 0.05 s spacing",
+        bool(np.all(np.diff(timestamps) > 0.0)),
+        f"{field}.source_timestamps must be strictly increasing",
     )
-    _require(
-        bool(np.isclose(timestamps[-1] - timestamps[0], 1.95, rtol=0.0, atol=1.0e-9)),
-        f"{field}.source_timestamps duration must be 1.95 s",
-    )
+    if timestamp_policy is not None and timestamp_policy.cadence_hz is not None:
+        spacing = 1.0 / timestamp_policy.cadence_hz
+        _require(
+            bool(np.allclose(np.diff(timestamps), spacing, rtol=0.0, atol=1.0e-9)),
+            f"{field}.source_timestamps do not match {timestamp_policy.name}",
+        )
+        if timestamp_policy.duration_s is not None:
+            _require(
+                bool(
+                    np.isclose(
+                        timestamps[-1] - timestamps[0],
+                        timestamp_policy.duration_s,
+                        rtol=0.0,
+                        atol=1.0e-9,
+                    )
+                ),
+                f"{field}.source_timestamps duration does not match "
+                f"{timestamp_policy.name}",
+            )
     timestamp = float(item.get("observation_timestamp", float("nan")))
     _require(math.isfinite(timestamp), f"{field}.observation_timestamp must be finite")
 
@@ -170,10 +241,12 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
         manifest.get("schema") == GENERIC_EVALUATION_MANIFEST_SCHEMA,
         "generic evaluation manifest schema mismatch",
     )
+    status = manifest.get("status")
     _require(
-        manifest.get("status") in {"TEMPLATE_NOT_EXECUTABLE", GENERIC_EVAL_STATUS},
+        status in {"TEMPLATE_NOT_EXECUTABLE", GENERIC_EVAL_STATUS},
         "generic evaluation manifest status is invalid",
     )
+    template = status == "TEMPLATE_NOT_EXECUTABLE"
     experiment = require_mapping(manifest.get("experiment"), field="experiment")
     require_nonempty_string(experiment.get("id"), field="experiment.id")
     require_nonempty_string(experiment.get("stage"), field="experiment.stage")
@@ -184,8 +257,19 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
         bool(re.fullmatch(r"[0-9a-fA-F]{40}", execution_head)),
         "execution_head must be a Git SHA",
     )
+    if not template:
+        _require(
+            execution_head.lower() != "0" * 40,
+            "execution_head must identify a concrete execution revision",
+        )
     _require_digest(
         experiment.get("protocol_sha256"), field="experiment.protocol_sha256"
+    )
+
+    timestamp_policy = _resolve_timestamp_profile(
+        manifest.get("timestamp_profile"),
+        field="timestamp_profile",
+        template=template,
     )
 
     cohort = require_mapping(manifest.get("cohort"), field="cohort")
@@ -200,7 +284,12 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
         isinstance(windows, list) and bool(windows), "cohort.windows must be non-empty"
     )
     for index, window in enumerate(windows):
-        _validate_window(window, index=index)
+        _validate_window(
+            window,
+            index=index,
+            timestamp_policy=timestamp_policy,
+            template=template,
+        )
     window_ids = [str(item["id"]) for item in windows]
     _require(
         len(set(window_ids)) == len(window_ids), "cohort window IDs must be unique"
@@ -257,35 +346,55 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
     _require(contract.get("timing") == "T16", "timing contract must be T16")
 
     sampler = require_mapping(manifest.get("sampler"), field="sampler")
-    timesteps = sampler.get("timesteps")
-    _require(
-        isinstance(timesteps, list)
-        and [int(item) for item in timesteps] == list(EXPECTED_SAMPLER_TIMESTEPS),
-        "sampler timesteps must be the frozen four-step contract",
+    sampler_policy = _resolve_sampler_profile(
+        sampler.get("profile"), field="sampler.profile", template=template
     )
+    if sampler_policy is not None:
+        timesteps = sampler.get("timesteps")
+        _require(
+            isinstance(timesteps, list)
+            and [int(item) for item in timesteps]
+            == list(sampler_policy.timesteps),
+            f"sampler timesteps drift from {sampler_policy.name}",
+        )
+        _require(
+            math.isclose(
+                float(sampler.get("dt", float("nan"))),
+                sampler_policy.dt,
+                rel_tol=0.0,
+                abs_tol=1e-12,
+            ),
+            f"sampler dt drift from {sampler_policy.name}",
+        )
+        _require(
+            int(sampler.get("expected_calls_per_window", -1))
+            == sampler_policy.calls_per_window,
+            f"sampler call count drift from {sampler_policy.name}",
+        )
     _require(
-        math.isclose(
-            float(sampler.get("dt", float("nan"))),
-            EXPECTED_SAMPLER_DT,
-            rel_tol=0.0,
-            abs_tol=1e-12,
-        ),
-        "sampler dt drift",
+        template or sampler_policy is not None,
+        "sampler.profile must resolve to a versioned profile",
     )
-    _require(
-        int(sampler.get("expected_calls_per_window", -1))
-        == len(EXPECTED_SAMPLER_TIMESTEPS),
-        "sampler call count drift",
-    )
-    _require(
-        sampler.get("same_noise_across_checkpoints") is True,
-        "same-noise pairing must be explicit",
-    )
-    require_nonempty_string(sampler.get("noise_bank"), field="sampler.noise_bank")
-    _require_digest(sampler.get("noise_bank_sha256"), field="sampler.noise_bank_sha256")
+    if not (template and sampler_policy is None):
+        _require(
+            sampler.get("same_noise_across_checkpoints") is True,
+            "same-noise pairing must be explicit",
+        )
+        require_nonempty_string(
+            sampler.get("noise_bank"), field="sampler.noise_bank"
+        )
+        _require_digest(
+            sampler.get("noise_bank_sha256"), field="sampler.noise_bank_sha256"
+        )
 
     runtime = require_mapping(manifest.get("runtime"), field="runtime")
     require_nonempty_string(runtime.get("adapter"), field="runtime.adapter")
+    backend = require_nonempty_string(runtime.get("backend"), field="runtime.backend")
+    if not (template and _is_template_placeholder(backend)):
+        _require(
+            backend == INFERENCE_BACKEND_V1,
+            f"runtime.backend must be {INFERENCE_BACKEND_V1}",
+        )
     _require(
         runtime.get("offline") is True,
         "generic evaluation runtime must be offline/local",
@@ -298,6 +407,14 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
         runtime.get("no_training") is True, "generic evaluator must be evaluation-only"
     )
     require_nonempty_string(runtime.get("identity"), field="runtime.identity")
+    try:
+        validate_late_bound_runtime(
+            runtime.get("late_bound"),
+            field="runtime.late_bound",
+            allow_sentinel=template,
+        )
+    except ReusableManifestError as exc:
+        raise ReusableEvaluationError(str(exc)) from exc
 
     output = require_mapping(manifest.get("output"), field="output")
     require_nonempty_string(output.get("root"), field="output.root")
@@ -319,11 +436,15 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
     ):
         _require(locked.get(key) == "LOCKED", f"{key} must remain LOCKED")
 
-    analysis = require_mapping(manifest.get("analysis"), field="analysis")
-    pairs = analysis.get("paired_comparisons")
+    analysis_value = manifest.get("analysis", {})
+    if analysis_value is None:
+        analysis_value = {}
+    analysis = require_mapping(analysis_value, field="analysis")
+    pairs = analysis.get("paired_comparisons", [])
+    if pairs is None:
+        pairs = []
     _require(
-        isinstance(pairs, list) and bool(pairs),
-        "analysis.paired_comparisons is required",
+        isinstance(pairs, list), "analysis.paired_comparisons must be a list"
     )
     for index, pair in enumerate(pairs):
         item = require_mapping(pair, field=f"analysis.paired_comparisons[{index}]")
@@ -400,6 +521,10 @@ def build_evaluation_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
     """Build a zero-inference admission plan from explicit manifest fields."""
 
     validate_evaluation_manifest(manifest)
+    _require(
+        manifest.get("status") == GENERIC_EVAL_STATUS,
+        "evaluation manifest template is not executable",
+    )
     checkpoint_count = len(manifest["checkpoints"])
     window_count = len(manifest["cohort"]["windows"])
     calls_per_window = int(manifest["sampler"]["expected_calls_per_window"])
@@ -422,8 +547,13 @@ def build_evaluation_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
         "checkpoint_count": checkpoint_count,
         "raw_prediction_count": checkpoint_count * window_count,
         "sampler_calls": checkpoint_count * window_count * calls_per_window,
+        "timestamp_profile": manifest["timestamp_profile"],
+        "sampler_profile": manifest["sampler"]["profile"],
         "sampler_timesteps": list(manifest["sampler"]["timesteps"]),
         "same_noise_across_checkpoints": True,
+        "backend_boundary": INFERENCE_BACKEND_V1,
+        "late_bound_runtime_fields": list(RUNTIME_LATE_BOUND_FIELDS),
+        "backend_handoff": "external_raw_prediction_handoff_required",
         "model_construction": False,
         "model_forward": "external_stage_adapter_only",
         "training": False,
@@ -449,6 +579,107 @@ def _jsonable(value: Any) -> Any:
     if isinstance(value, np.generic):
         return value.item()
     return value
+
+
+def _durable_json(path: str | Path, value: Any) -> None:
+    """Write JSON and force it to stable storage before returning."""
+
+    write_json(path, value)
+    with Path(path).open("rb") as handle:
+        os.fsync(handle.fileno())
+
+
+def _durable_text(path: str | Path, value: str) -> None:
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with target.open("w", encoding="utf-8") as handle:
+        handle.write(value)
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _persist_array(array: np.ndarray, destination: Path) -> dict[str, Any]:
+    """Persist one decoded array before its row is appended to evidence."""
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with destination.open("wb") as handle:
+        np.save(handle, np.asarray(array), allow_pickle=False)
+        handle.flush()
+        os.fsync(handle.fileno())
+    return {
+        "path": str(destination),
+        "sha256": sha256_file(destination),
+        "array_sha256": array_sha256(array),
+        "shape": list(array.shape),
+    }
+
+
+def _append_jsonl(handle: Any, value: Mapping[str, Any]) -> None:
+    handle.write(json.dumps(_jsonable(value), sort_keys=True, allow_nan=False) + "\n")
+    handle.flush()
+    os.fsync(handle.fileno())
+
+
+def _scalar_metric_values(
+    value: Any, *, prefix: str = ""
+) -> dict[str, float]:
+    result: dict[str, float] = {}
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            child_prefix = f"{prefix}.{key}" if prefix else str(key)
+            result.update(_scalar_metric_values(child, prefix=child_prefix))
+    elif isinstance(value, (int, float)) and not isinstance(value, bool):
+        if math.isfinite(float(value)):
+            result[prefix] = float(value)
+    return result
+
+
+def _write_rows_csv(path: Path, rows: Sequence[Mapping[str, Any]]) -> None:
+    metric_values = [
+        _scalar_metric_values(row["metrics"]) for row in rows if "metrics" in row
+    ]
+    metric_names = sorted({name for values in metric_values for name in values})
+    fieldnames = [
+        "checkpoint_label",
+        "checkpoint_sha256",
+        "window_id",
+        "target_id",
+        *metric_names,
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row, values in zip(rows, metric_values):
+            output = {
+                "checkpoint_label": row["checkpoint"]["label"],
+                "checkpoint_sha256": row["checkpoint"]["sha256"],
+                "window_id": row["window_id"],
+                "target_id": row["target_id"],
+            }
+            output.update({name: values.get(name, "") for name in metric_names})
+            writer.writerow(output)
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _write_artifact_inventory(output: Path) -> tuple[Path, str]:
+    """Inventory all completed evidence except the inventory and run manifest."""
+
+    inventory_path = output / "artifact_inventory_sha256.txt"
+    lines: list[str] = []
+    for candidate in sorted(output.rglob("*")):
+        if (
+            not candidate.is_file()
+            or candidate.is_symlink()
+            or candidate == inventory_path
+            or candidate == output / "run_manifest.json"
+        ):
+            continue
+        relative = candidate.relative_to(output).as_posix()
+        lines.append(f"{sha256_file(candidate)}  {relative}\n")
+    _durable_text(inventory_path, "".join(lines))
+    return inventory_path, sha256_file(inventory_path)
 
 
 def _load_records(path: str | Path) -> tuple[list[dict[str, Any]], Path]:
@@ -674,7 +905,10 @@ def _persist_raw(
     source_sha256: str,
 ) -> dict[str, Any]:
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(source, destination)
+    with source.open("rb") as source_handle, destination.open("wb") as destination_handle:
+        shutil.copyfileobj(source_handle, destination_handle)
+        destination_handle.flush()
+        os.fsync(destination_handle.fileno())
     destination_sha256 = sha256_file(destination)
     _require(
         destination_sha256 == source_sha256,
@@ -821,9 +1055,13 @@ def run_evaluation(
         "output.raw_predictions_manifest must remain inside the output root",
     )
     raw_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    per_window_path = output / "per_window.jsonl"
     rows: list[dict[str, Any]] = []
     try:
-        with raw_manifest_path.open("w", encoding="utf-8") as raw_handle:
+        with (
+            raw_manifest_path.open("w", encoding="utf-8") as raw_handle,
+            per_window_path.open("w", encoding="utf-8") as per_window_handle,
+        ):
             for record in records:
                 checkpoint = checkpoint_by_label[str(record["checkpoint_label"])]
                 window = window_by_id[str(record["window_id"])]
@@ -897,15 +1135,21 @@ def run_evaluation(
                 metrics = comparison_metrics(
                     physical, expert, anchor, target, prefix=str(window["id"])
                 )
+                relative_decoded = (
+                    Path("decoded")
+                    / _safe_segment(str(checkpoint["label"]))
+                    / f"{_safe_segment(str(window['id']))}.npy"
+                )
+                decoded_persisted = _persist_array(
+                    physical, output / relative_decoded
+                )
                 row = {
                     "schema": GENERIC_EVALUATION_ROW_SCHEMA,
                     "checkpoint": {
                         "label": str(checkpoint["label"]),
                         "sha256": str(checkpoint["identity"]["sha256"]),
-                        "runtime_mapping_sha256": str(
-                            checkpoint["runtime_mapping"]["sha256"]
-                        ),
-                        "statistics_sha256": str(checkpoint["statistics"]["sha256"]),
+                        "runtime_mapping": dict(checkpoint["runtime_mapping"]),
+                        "statistics": dict(checkpoint["statistics"]),
                     },
                     "window_id": str(window["id"]),
                     "target_id": str(window["target_id"]),
@@ -914,15 +1158,20 @@ def run_evaluation(
                     "target_xyz_in_model_input": False,
                     "raw_prediction": persisted,
                     "decoded_action": {
-                        "array_sha256": array_sha256(physical),
-                        "shape": list(physical.shape),
+                        **decoded_persisted,
                         "decoder_details": _jsonable(dict(decoded.decoder_details)),
                     },
                     "metrics": _jsonable(metrics),
                     "runtime_identity": manifest["runtime"]["identity"],
+                    "runtime_backend": manifest["runtime"]["backend"],
+                    "timestamp_profile": manifest["timestamp_profile"],
+                    "observation_identities": {
+                        key: dict(value) for key, value in record["observations"].items()
+                    },
                     "raw_persisted_before_decode": True,
                     "training": False,
                 }
+                _append_jsonl(per_window_handle, row)
                 rows.append(row)
     except Exception as exc:
         failure = {
@@ -931,25 +1180,41 @@ def run_evaluation(
             "error": str(exc),
             "rows_completed": len(rows),
             "raw_manifest": str(raw_manifest_path),
+            "per_window": str(per_window_path),
+            "decoded_root": str(output / "decoded"),
         }
-        write_json(output / "failure.json", failure)
+        _durable_json(
+            output / "failure_seal.json",
+            {
+                "schema": "GO2ARX5_REUSABLE_EVALUATION_FAILURE_SEAL_V1",
+                "status": "FAILED",
+                "rows_completed": len(rows),
+                "raw_manifest": str(raw_manifest_path),
+                "per_window": str(per_window_path),
+            },
+        )
+        _durable_json(output / "failure.json", failure)
         raise
 
-    per_window_path = output / "per_window.jsonl"
-    with per_window_path.open("w", encoding="utf-8") as handle:
-        for row in rows:
-            handle.write(
-                json.dumps(_jsonable(row), sort_keys=True, allow_nan=False) + "\n"
-            )
-        handle.flush()
-        os.fsync(handle.fileno())
+    _write_rows_csv(output / "per_window.csv", rows)
+    _durable_json(
+        output / "failure_seal.json",
+        {
+            "schema": "GO2ARX5_REUSABLE_EVALUATION_FAILURE_SEAL_V1",
+            "status": "PASS_NO_FAILURE",
+            "rows_completed": len(rows),
+            "raw_manifest": str(raw_manifest_path),
+            "per_window": str(per_window_path),
+        },
+    )
     aggregates = {
         str(label): _aggregate_checkpoint_rows(
             [row for row in rows if row["checkpoint"]["label"] == label]
         )
         for label in [str(item["label"]) for item in checkpoints]
     }
-    write_json(output / "checkpoint_aggregates.json", aggregates)
+    _durable_json(output / "checkpoint_aggregates.json", aggregates)
+    inventory_path, inventory_sha256 = _write_artifact_inventory(output)
     input_manifest_sha256 = None
     if manifest_path is not None:
         input_manifest_sha256 = sha256_file(Path(manifest_path).resolve(strict=True))
@@ -958,6 +1223,10 @@ def run_evaluation(
         "manifest_sha256": input_manifest_sha256,
         "experiment": dict(manifest["experiment"]),
         "runtime_identity": manifest["runtime"]["identity"],
+        "runtime_backend": manifest["runtime"]["backend"],
+        "runtime_late_bound": dict(manifest["runtime"]["late_bound"]),
+        "timestamp_profile": manifest["timestamp_profile"],
+        "sampler_profile": manifest["sampler"]["profile"],
         "checkpoint_order": [str(item["label"]) for item in checkpoints],
         "checkpoint_identities": [
             {
@@ -968,15 +1237,30 @@ def run_evaluation(
             }
             for item in checkpoints
         ],
+        "paired_comparisons": [
+            dict(pair)
+            for pair in manifest.get("analysis", {}).get(
+                "paired_comparisons", []
+            )
+        ],
         "window_order": [str(item["id"]) for item in windows],
         "raw_prediction_count": len(rows),
         "sampler_calls": len(rows)
         * int(manifest["sampler"]["expected_calls_per_window"]),
         "raw_prediction_shape": list(RAW_ACTION_SHAPE),
         "decoded_action_shape": list(PHYSICAL_ACTION_SHAPE),
-        "raw_manifest": str(raw_manifest_path),
-        "per_window": str(per_window_path),
+        "raw_manifest": raw_manifest_path.relative_to(output).as_posix(),
+        "per_window": "per_window.jsonl",
+        "per_window_csv": "per_window.csv",
+        "decoded_root": "decoded",
         "checkpoint_aggregates": "checkpoint_aggregates.json",
+        "failure_seal": "failure_seal.json",
+        "artifact_inventory": {
+            "path": inventory_path.relative_to(output).as_posix(),
+            "sha256": inventory_sha256,
+        },
+        "backend_boundary": INFERENCE_BACKEND_V1,
+        "backend_handoff": "external_raw_prediction_handoff_consumed",
         "same_noise_across_checkpoints": True,
         "model_construction": False,
         "model_forward": "external_stage_adapter_only",
@@ -992,7 +1276,7 @@ def run_evaluation(
         "hardware": "LOCKED",
         "verified_artifacts": verified,
     }
-    write_json(output / "run_manifest.json", run_manifest)
+    _durable_json(output / "run_manifest.json", run_manifest)
     return run_manifest
 
 

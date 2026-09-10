@@ -11,8 +11,11 @@ experiment manifest
         |
         +--> generic manifest validator / runner
         |          |
-        |          +--> raw prediction handoff -> raw seal -> accepted decode -> metrics
-        |          +--> explicit training plan -> stage-specific backend handoff
+        |          +--> inference admission -> groot_h200_inference_backend_v1
+        |          |       -> raw handoff -> raw seal -> accepted CPU decode
+        |          |       -> decoded evidence -> metrics -> inventory/seal
+        |          +--> training admission -> groot_h200_training_backend_v1
+        |                  -> full trainer-state checkpoint + seals
         |
         +--> stage-specific frozen wrapper
                    |
@@ -41,13 +44,18 @@ python scripts/eval_checkpoint_cohort.py \
 
 The manifest must explicitly provide:
 
-* ordered windows, target IDs, anchors, targets, and H40/T16 timestamps;
+* ordered windows, target IDs, anchors, targets, and an explicit timestamp
+  profile.  Generic windows require only finite, H-length, strictly increasing
+  timestamps.  A fixed cadence is admitted only when a named timing profile
+  explicitly requires it;
 * ordered checkpoint labels, checkpoint content identities, runtime mappings,
   and statistics identities;
 * raw `[1,40,132]` and decoded `[40,10]` ABIs;
 * `body_rgb`, `wrist_rgb`, and `state`, with numeric target XYZ excluded;
-* same-noise pairing and the fixed four sampler timesteps `[0,250,500,750]`
-  with `dt=0.25`;
+* same-noise pairing and a named versioned sampler profile.  The preserved
+  four-step contract is registered as
+  `GROOT_N1D7_SOURCE_MAPPED_EULER4_V1`; its timesteps, step size, and call
+  count are profile semantics rather than anonymous generic constants;
 * offline/local runtime identity, fresh output root, and locked
   Validation-E/Holdout-F/WBC/simulator/hardware boundaries.
 
@@ -55,9 +63,12 @@ The stage-specific runtime supplies a JSON/JSONL record for each explicit
 checkpoint/window pair.  Each record carries a raw `.npy` path and both file
 and array SHA256 values.  The generic runner copies and fsyncs the raw file to
 the fresh output root and records that handoff before calling the accepted
-Stage40 decoder.  It then writes per-window rows, checkpoint aggregates, and a
-run manifest.  A decoder failure seals `failure.json` while leaving already
-persisted raw evidence intact.
+Stage40 decoder.  For each successful window it persists the decoded `[H,10]`
+`.npy` array, appends the complete metric row to `per_window.jsonl`, flushes,
+and fsyncs before continuing.  A late decoder/metric failure therefore leaves
+prior decoded arrays and rows usable, together with a durable failure seal.  A
+completed run also writes `per_window.csv`, checkpoint aggregates, exact
+runtime and statistics identities, and an SHA256 artifact inventory.
 
 The generic runner never calls a model.  This makes the boundary testable on
 CPU and prevents a future evaluator from silently growing a second model,
@@ -77,24 +88,28 @@ containing it) and writes, without changing the source:
 * `report.md` and `analysis_manifest.json`.
 
 Pair deltas use `right - left`.  The experiment manifest may name primary and
-secondary pairs; the conventional Stage45C pair names are recognized only as
-a fallback when those labels are present.  No threshold or pass/fail rule is
+secondary pairs.  If no pairs are supplied, the analyzer performs descriptive
+per-window, per-target, and cohort analysis only; it never guesses a
+comparison from checkpoint labels.  No threshold or pass/fail rule is
 embedded in the analyzer.
 
 ## Training entry point
 
 `scripts/train_adaptation.py` validates a
 `GO2ARX5_REUSABLE_ADAPTATION_TRAINING_MANIFEST_V1` and emits a zero-side-effect
-backend handoff plan.  All recipe values are required, including optimizer,
-scheduler, learning rate, warmup, precision, trainable components, seed,
-batching, fresh/resume mode, and save steps.  The validator requires
-`max_steps` in `save_steps` and `save_only_model=false` so a future backend can
-seal full trainer state.  It refuses to infer resume or fresh semantics.
+handoff plan for `groot_h200_training_backend_v1`.  The checked-in training
+template is intentionally non-executable: every recipe value is
+`__REQUIRED__`.  Actual manifests must provide optimizer, scheduler, learning
+rate, warmup, precision, trainable components, seed, batching, fresh/resume
+mode, and save steps explicitly.  The validator requires `max_steps` in
+`save_steps` and `save_only_model=false` so a future backend can seal full
+trainer state.  It refuses to infer resume or fresh semantics.
 
 The plan contains base checkpoint, dataset manifest/statistics, provenance,
-runtime, output, and recipe identities.  A stage-specific wrapper is the only
-layer allowed to cross into model construction and training after its gate
-admission; this generic command itself cannot start either.
+runtime, output, recipe, backend-boundary, and late-bound runtime identities.  A
+stage-specific wrapper is the only layer allowed to cross into model
+construction and training after its gate admission; this generic command
+itself cannot start either.
 
 ## Historical boundary
 
@@ -108,6 +123,22 @@ The following remain frozen and are not rewritten by this infrastructure:
 No new H200 job, training, Stage45C evaluation, Validation-E, Holdout-F, WBC,
 simulator, or hardware execution is part of this branch.
 
+## Status vocabulary and handoff boundaries
+
+These labels describe different facts and must not be conflated:
+
+| Status | Meaning |
+|---|---|
+| `historical frozen` | An existing wrapper, protocol, or evidence bundle whose bytes and scientific meaning are preserved. |
+| `generic CPU` | Manifest admission, raw-handoff consumption, deterministic decode/metrics, or pure analysis; no model construction or inference. |
+| `H200 backend implementation` | The named, late-bound interface that a future stage wrapper may implement after a separate gate; the generic planner has zero model/GPU side effects. |
+| `H200 qualification` | A separately authorized canary or bounded execution proving the backend/runtime boundary; it is not established by CPU tests. |
+| `scientific execution` | A gated model training or inference run whose result may be interpreted under its approved protocol. |
+
+This branch is a `REUSABLE_H200_V1_FREEZE_CANDIDATE`: it implements and tests
+the admission and backend boundaries, but it is not `REUSABLE_H200_V1_FROZEN`
+and does not claim H200 qualification.
+
 ## Contract invariants
 
 The generic layer keeps the established interfaces rather than reinterpreting
@@ -119,6 +150,7 @@ them:
 | structured decode | accepted Stage40 inverse normalization, K16/T16 |
 | physical action | `[40,10]`, EEF position/rot6d/gripper |
 | model input | `body_rgb`, `wrist_rgb`, `state`; target XYZ outside input |
-| sampler | four steps `[0,250,500,750]`, `dt=0.25`, same noise per window |
+| timestamps | generic finite/strictly-increasing H-vector; fixed cadence only via a named timing profile |
+| sampler | named versioned profile; same noise per window |
 | safety/actuation | no corrective SafetyGate, WBC, simulator, or hardware action |
 | analysis | read-only, paired, descriptive, no hardcoded threshold |

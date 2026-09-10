@@ -8,7 +8,7 @@ The command has two deliberately separate modes:
   persists each raw ``[1,40,132]`` array, then uses the accepted CPU decoder
   and metric library.  It never constructs or trains a model.
 
-Historical Stage45B/Stage45C wrappers remain frozen; this is the canonical
+Historical evidence-producing wrappers remain frozen; this is the canonical
 future-facing entry point for new manifests.
 """
 

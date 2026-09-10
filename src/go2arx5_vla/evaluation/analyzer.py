@@ -11,6 +11,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
 from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -18,8 +19,6 @@ from typing import Any
 from ..experiments.reusable import ReusableManifestError, sha256_file, write_json
 
 ANALYSIS_SCHEMA = "GO2ARX5_REUSABLE_CHECKPOINT_ANALYSIS_V1"
-_PRIMARY_DEFAULT = ("STRUCTURED@1000", "FULL24@1000")
-_SECONDARY_DEFAULT = ("FULL24@1000", "FULL24@2000")
 
 
 class CheckpointAnalysisError(ReusableManifestError):
@@ -232,24 +231,7 @@ def _parse_pairs(
     labels: Sequence[str],
 ) -> list[dict[str, str]]:
     if pairs is None:
-        candidate = []
-        if all(value in labels for value in _PRIMARY_DEFAULT):
-            candidate.append(
-                {
-                    "name": "primary_structured_vs_full24_1000",
-                    "left": _PRIMARY_DEFAULT[0],
-                    "right": _PRIMARY_DEFAULT[1],
-                }
-            )
-        if all(value in labels for value in _SECONDARY_DEFAULT):
-            candidate.append(
-                {
-                    "name": "secondary_full24_1000_vs_2000",
-                    "left": _SECONDARY_DEFAULT[0],
-                    "right": _SECONDARY_DEFAULT[1],
-                }
-            )
-        return candidate
+        return []
     result: list[dict[str, str]] = []
     for index, pair in enumerate(pairs):
         if isinstance(pair, Mapping):
@@ -396,6 +378,8 @@ def _write_per_window_csv(path: Path, rows: Sequence[Mapping[str, Any]]) -> None
             }
             output.update({name: row["metrics"].get(name, "") for name in metric_names})
             writer.writerow(output)
+        handle.flush()
+        os.fsync(handle.fileno())
 
 
 def _markdown_report(result: Mapping[str, Any]) -> str:
@@ -467,7 +451,11 @@ def write_analysis(
         output / "paired_deltas.json", {"comparisons": result["paired_comparisons"]}
     )
     _write_per_window_csv(output / "per_window.csv", normalized)
-    (output / "report.md").write_text(_markdown_report(result), encoding="utf-8")
+    report_path = output / "report.md"
+    with report_path.open("w", encoding="utf-8") as handle:
+        handle.write(_markdown_report(result))
+        handle.flush()
+        os.fsync(handle.fileno())
     source = Path(source_path).expanduser().resolve(strict=True)
     result_manifest = {
         "schema": ANALYSIS_SCHEMA,

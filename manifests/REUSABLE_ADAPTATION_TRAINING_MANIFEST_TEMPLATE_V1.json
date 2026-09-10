@@ -2,14 +2,14 @@
   "schema": "GO2ARX5_REUSABLE_ADAPTATION_TRAINING_MANIFEST_V1",
   "status": "TEMPLATE_NOT_EXECUTABLE",
   "experiment": {
-    "id": "replace-with-experiment-id",
-    "stage": "future",
+    "id": "__REQUIRED_EXPERIMENT_ID__",
+    "stage": "__REQUIRED_STAGE__",
     "execution_head": "0000000000000000000000000000000000000000",
     "protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
   },
   "dataset": {
-    "name": "replace-with-dataset-name",
-    "split": "TRAIN",
+    "name": "__REQUIRED_DATASET_NAME__",
+    "split": "__REQUIRED_DATASET_SPLIT__",
     "manifest": {
       "kind": "file",
       "path": "replace-with-dataset-manifest",
@@ -26,7 +26,7 @@
     }
   },
   "base_checkpoint": {
-    "label": "BASE",
+    "label": "__REQUIRED_BASE_CHECKPOINT_LABEL__",
     "identity": {
       "kind": "tree",
       "path": "replace-with-base-checkpoint-tree",
@@ -34,32 +34,50 @@
     }
   },
   "recipe": {
-    "max_steps": 100,
-    "warmup_steps": 10,
-    "scheduler": "cosine",
-    "optimizer": "AdamW",
-    "learning_rate": 0.0001,
-    "weight_decay": 0.00001,
-    "seed": 0,
-    "batch_size": 1,
-    "gradient_accumulation_steps": 1,
-    "bf16": true,
-    "fp16": false,
-    "tune_projector": false,
-    "tune_diffusion": true,
-    "tune_visual": false,
-    "tune_llm": false,
-    "tune_vlln": false,
-    "resume": false,
-    "fresh_start": true,
-    "save_only_model": false,
-    "save_steps": [100]
+    "max_steps": "__REQUIRED__",
+    "warmup_steps": "__REQUIRED__",
+    "scheduler": "__REQUIRED__",
+    "optimizer": "__REQUIRED__",
+    "learning_rate": "__REQUIRED__",
+    "weight_decay": "__REQUIRED__",
+    "seed": "__REQUIRED__",
+    "batch_size": "__REQUIRED__",
+    "gradient_accumulation_steps": "__REQUIRED__",
+    "bf16": "__REQUIRED__",
+    "fp16": "__REQUIRED__",
+    "tune_projector": "__REQUIRED__",
+    "tune_diffusion": "__REQUIRED__",
+    "tune_visual": "__REQUIRED__",
+    "tune_llm": "__REQUIRED__",
+    "tune_vlln": "__REQUIRED__",
+    "resume": "__REQUIRED__",
+    "fresh_start": "__REQUIRED__",
+    "save_only_model": "__REQUIRED__",
+    "save_steps": "__REQUIRED__"
   },
   "runtime": {
-    "identity": "replace-with-runtime-identity",
+    "identity": "__REQUIRED_RUNTIME_IDENTITY__",
     "offline": true,
     "preflight_required": true,
-    "backend": "replace-with-stage-specific-backend"
+    "backend": "__REQUIRED__",
+    "late_bound": {
+      "repository_execution_head": "__LATE_BOUND_AT_ADMISSION__",
+      "python_runtime": "__LATE_BOUND_AT_ADMISSION__",
+      "container_or_environment": "__LATE_BOUND_AT_ADMISSION__",
+      "groot_source": "__LATE_BOUND_AT_ADMISSION__",
+      "cosmos_cache_root": "__LATE_BOUND_AT_ADMISSION__",
+      "checkpoint_paths": "__LATE_BOUND_AT_ADMISSION__",
+      "dataset_path": "__LATE_BOUND_AT_ADMISSION__",
+      "statistics_path": "__LATE_BOUND_AT_ADMISSION__",
+      "output_root": "__LATE_BOUND_AT_ADMISSION__",
+      "scheduler_project": "__LATE_BOUND_AT_ADMISSION__",
+      "scheduler_queue": "__LATE_BOUND_AT_ADMISSION__",
+      "scheduler_resources": "__LATE_BOUND_AT_ADMISSION__",
+      "gpu_device": "__LATE_BOUND_AT_ADMISSION__",
+      "host": "__LATE_BOUND_AT_ADMISSION__",
+      "offline_mode": "__LATE_BOUND_AT_ADMISSION__",
+      "runtime_admission_identity": "__LATE_BOUND_AT_ADMISSION__"
+    }
   },
   "output": {
     "root": "replace-with-fresh-output-root",

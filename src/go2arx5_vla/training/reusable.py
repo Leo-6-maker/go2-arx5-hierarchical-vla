@@ -15,12 +15,16 @@ from pathlib import Path
 from typing import Any
 
 from ..experiments.reusable import (
+    RUNTIME_LATE_BOUND_FIELDS,
+    TEMPLATE_SENTINEL,
+    TRAINING_BACKEND_V1,
     ReusableManifestError,
     load_json,
     reject_locked_data,
     require_mapping,
     require_nonempty_string,
     require_sha256,
+    validate_late_bound_runtime,
     verify_artifact_identity,
     write_json,
 )
@@ -92,10 +96,12 @@ def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
         manifest.get("schema") == GENERIC_TRAINING_MANIFEST_SCHEMA,
         "training manifest schema mismatch",
     )
+    status = manifest.get("status")
     _require(
-        manifest.get("status") in {"TEMPLATE_NOT_EXECUTABLE", "READY_NOT_EXECUTED"},
+        status in {"TEMPLATE_NOT_EXECUTABLE", "READY_NOT_EXECUTED"},
         "training manifest status is invalid",
     )
+    template = status == "TEMPLATE_NOT_EXECUTABLE"
     experiment = require_mapping(manifest.get("experiment"), field="experiment")
     require_nonempty_string(experiment.get("id"), field="experiment.id")
     require_nonempty_string(experiment.get("stage"), field="experiment.stage")
@@ -106,6 +112,11 @@ def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
         bool(re.fullmatch(r"[0-9a-fA-F]{40}", head)),
         "experiment.execution_head must be a Git SHA",
     )
+    if not template:
+        _require(
+            head.lower() != "0" * 40,
+            "experiment.execution_head must identify a concrete execution revision",
+        )
     _digest(experiment.get("protocol_sha256"), field="experiment.protocol_sha256")
 
     dataset = require_mapping(manifest.get("dataset"), field="dataset")
@@ -128,6 +139,65 @@ def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
     _require(
         not missing, f"recipe fields must be explicit; missing: {', '.join(missing)}"
     )
+    if template:
+        _require(
+            all(recipe[field] == TEMPLATE_SENTINEL for field in TRAINING_RECIPE_FIELDS),
+            "non-executable training templates must use __REQUIRED__ recipe sentinels",
+        )
+    else:
+        _validate_training_recipe(recipe)
+
+    runtime = require_mapping(manifest.get("runtime"), field="runtime")
+    require_nonempty_string(runtime.get("identity"), field="runtime.identity")
+    backend = require_nonempty_string(runtime.get("backend"), field="runtime.backend")
+    if not (template and backend == TEMPLATE_SENTINEL):
+        _require(
+            backend == TRAINING_BACKEND_V1,
+            f"runtime.backend must be {TRAINING_BACKEND_V1}",
+        )
+    _bool(runtime.get("offline"), field="runtime.offline")
+    _require(
+        runtime["offline"] is True, "generic training runtime must be offline/local"
+    )
+    _bool(runtime.get("preflight_required"), field="runtime.preflight_required")
+    _require(
+        runtime["preflight_required"] is True, "runtime preflight must be required"
+    )
+    try:
+        validate_late_bound_runtime(
+            runtime.get("late_bound"),
+            field="runtime.late_bound",
+            allow_sentinel=template,
+        )
+    except ReusableManifestError as exc:
+        raise ReusableTrainingError(str(exc)) from exc
+
+    output = require_mapping(manifest.get("output"), field="output")
+    require_nonempty_string(output.get("root"), field="output.root")
+    _bool(output.get("fresh"), field="output.fresh")
+    _require(output["fresh"] is True, "generic training output must be fresh-bound")
+    _require(
+        output.get("failure_seal") is True, "output failure sealing must be enabled"
+    )
+
+    locked = require_mapping(
+        manifest.get("locked_boundaries"), field="locked_boundaries"
+    )
+    for key in (
+        "Validation-E",
+        "Holdout-F",
+        "WBC",
+        "simulator",
+        "hardware",
+        "new_data",
+    ):
+        _require(locked.get(key) == "LOCKED", f"{key} must remain LOCKED")
+    reject_locked_data(manifest)
+
+
+def _validate_training_recipe(recipe: Mapping[str, Any]) -> None:
+    """Validate a concrete recipe after template sentinels are resolved."""
+
     max_steps = int(recipe["max_steps"])
     warmup_steps = int(recipe["warmup_steps"])
     _require(max_steps > 0, "recipe.max_steps must be positive")
@@ -143,6 +213,10 @@ def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
     _require(
         float(recipe["learning_rate"]) > 0.0, "recipe.learning_rate must be positive"
     )
+    try:
+        int(recipe["seed"])
+    except (TypeError, ValueError) as exc:
+        raise ReusableTrainingError("recipe.seed must be an integer") from exc
     for field in ("batch_size", "gradient_accumulation_steps"):
         _require(int(recipe[field]) > 0, f"recipe.{field} must be positive")
     _bool(recipe["bf16"], field="recipe.bf16")
@@ -188,40 +262,6 @@ def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
         "full trainer-state checkpoints require save_only_model=false",
     )
 
-    runtime = require_mapping(manifest.get("runtime"), field="runtime")
-    require_nonempty_string(runtime.get("identity"), field="runtime.identity")
-    _bool(runtime.get("offline"), field="runtime.offline")
-    _require(
-        runtime["offline"] is True, "generic training runtime must be offline/local"
-    )
-    _bool(runtime.get("preflight_required"), field="runtime.preflight_required")
-    _require(
-        runtime["preflight_required"] is True, "runtime preflight must be required"
-    )
-    require_nonempty_string(runtime.get("backend"), field="runtime.backend")
-
-    output = require_mapping(manifest.get("output"), field="output")
-    require_nonempty_string(output.get("root"), field="output.root")
-    _bool(output.get("fresh"), field="output.fresh")
-    _require(output["fresh"] is True, "generic training output must be fresh-bound")
-    _require(
-        output.get("failure_seal") is True, "output failure sealing must be enabled"
-    )
-
-    locked = require_mapping(
-        manifest.get("locked_boundaries"), field="locked_boundaries"
-    )
-    for key in (
-        "Validation-E",
-        "Holdout-F",
-        "WBC",
-        "simulator",
-        "hardware",
-        "new_data",
-    ):
-        _require(locked.get(key) == "LOCKED", f"{key} must remain LOCKED")
-    reject_locked_data(manifest)
-
 
 def _manifest_path(path: str | Path) -> Path:
     candidate = Path(path).expanduser()
@@ -266,6 +306,10 @@ def build_training_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
     """Return a backend handoff plan without constructing or training a model."""
 
     validate_training_manifest(manifest)
+    _require(
+        manifest.get("status") == "READY_NOT_EXECUTED",
+        "training manifest template is not executable",
+    )
     recipe = dict(manifest["recipe"])
     return {
         "schema": GENERIC_TRAINING_PLAN_SCHEMA,
@@ -275,6 +319,9 @@ def build_training_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
         "recipe": recipe,
         "runtime": dict(manifest["runtime"]),
         "output": dict(manifest["output"]),
+        "backend_boundary": TRAINING_BACKEND_V1,
+        "late_bound_runtime_fields": list(RUNTIME_LATE_BOUND_FIELDS),
+        "backend_handoff": "explicit_stage_training_backend_required",
         "backend_handoff_required": True,
         "model_construction": False,
         "model_forward": False,

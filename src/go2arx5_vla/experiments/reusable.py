@@ -20,6 +20,30 @@ class ReusableManifestError(ValueError):
     """Raised when a future-facing experiment manifest is unsafe or incomplete."""
 
 
+TEMPLATE_SENTINEL = "__REQUIRED__"
+LATE_BOUND_SENTINEL = "__LATE_BOUND_AT_ADMISSION__"
+TRAINING_BACKEND_V1 = "groot_h200_training_backend_v1"
+INFERENCE_BACKEND_V1 = "groot_h200_inference_backend_v1"
+RUNTIME_LATE_BOUND_FIELDS = (
+    "repository_execution_head",
+    "python_runtime",
+    "container_or_environment",
+    "groot_source",
+    "cosmos_cache_root",
+    "checkpoint_paths",
+    "dataset_path",
+    "statistics_path",
+    "output_root",
+    "scheduler_project",
+    "scheduler_queue",
+    "scheduler_resources",
+    "gpu_device",
+    "host",
+    "offline_mode",
+    "runtime_admission_identity",
+)
+
+
 def canonical_json_bytes(value: Any) -> bytes:
     """Serialize JSON deterministically for manifest and evidence hashing."""
 
@@ -75,13 +99,13 @@ def sha256_file(path: str | Path) -> str:
 
 
 def sha256_tree(path: str | Path) -> str:
-    """Hash a directory as a stable list of file metadata and file digests.
+    """Hash a directory as a stable list of scientific content identities.
 
-    The digest is intentionally separate from any historical Stage45 tree
-    digest.  It is the identity algorithm for new reusable manifests only:
-    relative POSIX path, mode, byte size, and file SHA256 are encoded for every
-    regular file in lexical order.  Symlinks and non-regular files are rejected
-    so a future job cannot silently see a different tree.
+    The digest is a content-only identity for new reusable manifests:
+    relative POSIX path, byte size, and file SHA256 are encoded for every
+    regular file in lexical order.  Ordinary permission bits are deployment
+    metadata, not scientific content.  Symlinks and non-regular files are
+    rejected so a future job cannot silently see a different tree.
     """
 
     root = Path(path)
@@ -103,12 +127,90 @@ def sha256_tree(path: str | Path) -> str:
             relative = candidate.relative_to(root).as_posix()
             stat = candidate.stat()
             entries.append(
-                f"file\0{relative}\0{stat.st_mode & 0o7777:o}\0{stat.st_size}\0{sha256_file(candidate)}\n".encode()
+                f"file\0{relative}\0{stat.st_size}\0{sha256_file(candidate)}\n".encode()
             )
     digest = hashlib.sha256()
     for entry in sorted(entries):
         digest.update(entry)
     return digest.hexdigest()
+
+
+def tree_deployment_metadata(path: str | Path) -> dict[str, Any]:
+    """Return deployment/security metadata separately from content identity.
+
+    The content digest intentionally ignores ordinary mode changes.  Runtime
+    admission can still reject unsafe copies (symlinks, non-regular files, or
+    group/world-writable entries) using this report.
+    """
+
+    root = Path(path)
+    if not root.is_dir() or root.is_symlink():
+        raise ReusableManifestError(f"artifact is not a regular directory: {root}")
+    entries: list[dict[str, Any]] = []
+    unsafe: list[str] = []
+    root_mode = root.stat().st_mode & 0o7777
+    if root_mode & 0o022:
+        unsafe.append(".")
+    for current, directory_names, file_names in os.walk(root, followlinks=False):
+        current_path = Path(current)
+        for name in sorted(directory_names):
+            candidate = current_path / name
+            relative = candidate.relative_to(root).as_posix()
+            if candidate.is_symlink():
+                unsafe.append(relative)
+                continue
+            mode = candidate.stat().st_mode & 0o7777
+            entries.append({"path": relative, "kind": "directory", "mode": oct(mode)})
+            if mode & 0o022:
+                unsafe.append(relative)
+        for name in sorted(file_names):
+            candidate = current_path / name
+            relative = candidate.relative_to(root).as_posix()
+            if candidate.is_symlink() or not candidate.is_file():
+                unsafe.append(relative)
+                continue
+            mode = candidate.stat().st_mode & 0o7777
+            entries.append(
+                {
+                    "path": relative,
+                    "kind": "file",
+                    "mode": oct(mode),
+                    "bytes": candidate.stat().st_size,
+                }
+            )
+            if mode & 0o022:
+                unsafe.append(relative)
+    entries.sort(key=lambda item: (item["path"], item["kind"]))
+    unsafe.sort()
+    return {
+        "schema": "GO2ARX5_REUSABLE_DEPLOYMENT_METADATA_V1",
+        "root_mode": oct(root_mode),
+        "entries": entries,
+        "unsafe_entries": unsafe,
+        "safe": not unsafe,
+    }
+
+
+def validate_late_bound_runtime(
+    value: Any, *, field: str, allow_sentinel: bool = False
+) -> dict[str, Any]:
+    """Require every runtime/PBS/device field to be supplied at admission."""
+
+    if not isinstance(value, Mapping):
+        raise ReusableManifestError(f"{field} must be an object")
+    missing = [name for name in RUNTIME_LATE_BOUND_FIELDS if name not in value]
+    if missing:
+        raise ReusableManifestError(
+            f"{field} must late-bind all runtime fields; missing: {', '.join(missing)}"
+        )
+    result = dict(value)
+    for name in RUNTIME_LATE_BOUND_FIELDS:
+        item = result[name]
+        if allow_sentinel and item == LATE_BOUND_SENTINEL:
+            continue
+        if item is None or item == "" or item == [] or item == {}:
+            raise ReusableManifestError(f"{field}.{name} must be explicit")
+    return result
 
 
 def artifact_sha256(path: str | Path) -> str:
@@ -172,6 +274,14 @@ def verify_artifact_identity(
     result["resolved_path"] = str(path.resolve())
     result["sha256"] = expected
     result["verified"] = True
+    if kind == "tree":
+        deployment = tree_deployment_metadata(path)
+        if not deployment["safe"]:
+            raise ReusableManifestError(
+                f"{field} deployment/security check failed: "
+                f"{deployment['unsafe_entries']}"
+            )
+        result["deployment_metadata"] = deployment
     return result
 
 
@@ -213,6 +323,11 @@ def require_nonempty_string(value: Any, *, field: str) -> str:
 
 __all__ = [
     "ReusableManifestError",
+    "INFERENCE_BACKEND_V1",
+    "LATE_BOUND_SENTINEL",
+    "RUNTIME_LATE_BOUND_FIELDS",
+    "TEMPLATE_SENTINEL",
+    "TRAINING_BACKEND_V1",
     "artifact_sha256",
     "canonical_json_bytes",
     "load_json",
@@ -222,6 +337,8 @@ __all__ = [
     "require_sha256",
     "sha256_file",
     "sha256_tree",
+    "tree_deployment_metadata",
+    "validate_late_bound_runtime",
     "verify_artifact_identity",
     "write_json",
 ]

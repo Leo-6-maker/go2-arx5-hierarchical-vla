@@ -2,34 +2,30 @@
   "schema": "GO2ARX5_REUSABLE_CHECKPOINT_EVALUATION_MANIFEST_V1",
   "status": "TEMPLATE_NOT_EXECUTABLE",
   "experiment": {
-    "id": "replace-with-experiment-id",
-    "stage": "future",
+    "id": "__REQUIRED_EXPERIMENT_ID__",
+    "stage": "__REQUIRED_STAGE__",
     "execution_head": "0000000000000000000000000000000000000000",
     "protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
   },
+  "timestamp_profile": "__REQUIRED_TIMESTAMP_PROFILE__",
   "cohort": {
-    "name": "replace-with-cohort-name",
-    "split": "TRAIN",
+    "name": "__REQUIRED_COHORT_NAME__",
+    "split": "__REQUIRED_COHORT_SPLIT__",
     "window_order": "explicit_manifest_order",
     "windows": [
       {
-        "id": "replace-with-window-id",
-        "target_id": "replace-with-target-id",
-        "anchor_world_m": [0.0, 0.0, 0.0],
-        "target_world_m": [0.0, 0.0, 0.0],
-        "source_timestamps": [
-          0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45,
-          0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95,
-          1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45,
-          1.5, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95
-        ],
-        "observation_timestamp": 0.0
+        "id": "__REQUIRED_WINDOW_ID__",
+        "target_id": "__REQUIRED_TARGET_ID__",
+        "anchor_world_m": "__REQUIRED_ANCHOR_WORLD_M__",
+        "target_world_m": "__REQUIRED_TARGET_WORLD_M__",
+        "source_timestamps": "__REQUIRED_SOURCE_TIMESTAMPS_H__",
+        "observation_timestamp": "__REQUIRED_OBSERVATION_TIMESTAMP__"
       }
     ]
   },
   "checkpoints": [
     {
-      "label": "CHECKPOINT",
+      "label": "__REQUIRED_CHECKPOINT_LABEL__",
       "identity": {
         "kind": "tree",
         "path": "replace-with-checkpoint-tree",
@@ -60,19 +56,39 @@
     "timing": "T16"
   },
   "sampler": {
-    "timesteps": [0, 250, 500, 750],
-    "dt": 0.25,
-    "expected_calls_per_window": 4,
-    "same_noise_across_checkpoints": true,
-    "noise_bank": "replace-with-noise-bank",
+    "profile": "__REQUIRED_SAMPLER_PROFILE__",
+    "timesteps": "__REQUIRED_SAMPLER_TIMESTEPS__",
+    "dt": "__REQUIRED_SAMPLER_DT__",
+    "expected_calls_per_window": "__REQUIRED_SAMPLER_CALL_COUNT__",
+    "same_noise_across_checkpoints": "__REQUIRED_SAME_NOISE_POLICY__",
+    "noise_bank": "__REQUIRED_NOISE_BANK__",
     "noise_bank_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
   },
   "runtime": {
-    "adapter": "replace-with-stage-specific-adapter",
+    "adapter": "__REQUIRED_STAGE_ADAPTER__",
+    "backend": "__REQUIRED_BACKEND__",
     "offline": true,
     "no_model_construction": true,
     "no_training": true,
-    "identity": "replace-with-runtime-identity"
+    "identity": "__REQUIRED_RUNTIME_IDENTITY__",
+    "late_bound": {
+      "repository_execution_head": "__LATE_BOUND_AT_ADMISSION__",
+      "python_runtime": "__LATE_BOUND_AT_ADMISSION__",
+      "container_or_environment": "__LATE_BOUND_AT_ADMISSION__",
+      "groot_source": "__LATE_BOUND_AT_ADMISSION__",
+      "cosmos_cache_root": "__LATE_BOUND_AT_ADMISSION__",
+      "checkpoint_paths": "__LATE_BOUND_AT_ADMISSION__",
+      "dataset_path": "__LATE_BOUND_AT_ADMISSION__",
+      "statistics_path": "__LATE_BOUND_AT_ADMISSION__",
+      "output_root": "__LATE_BOUND_AT_ADMISSION__",
+      "scheduler_project": "__LATE_BOUND_AT_ADMISSION__",
+      "scheduler_queue": "__LATE_BOUND_AT_ADMISSION__",
+      "scheduler_resources": "__LATE_BOUND_AT_ADMISSION__",
+      "gpu_device": "__LATE_BOUND_AT_ADMISSION__",
+      "host": "__LATE_BOUND_AT_ADMISSION__",
+      "offline_mode": "__LATE_BOUND_AT_ADMISSION__",
+      "runtime_admission_identity": "__LATE_BOUND_AT_ADMISSION__"
+    }
   },
   "output": {
     "root": "replace-with-fresh-output-root",
@@ -88,12 +104,6 @@
     "new_data": "LOCKED"
   },
   "analysis": {
-    "paired_comparisons": [
-      {
-        "name": "replace-with-comparison",
-        "left": "CHECKPOINT",
-        "right": "CHECKPOINT"
-      }
-    ]
+    "paired_comparisons": []
   }
 }

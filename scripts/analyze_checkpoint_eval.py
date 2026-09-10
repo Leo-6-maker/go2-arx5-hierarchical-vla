@@ -28,10 +28,14 @@ def _manifest_pairs(path: Path) -> list[dict[str, str]] | None:
     if path is None:
         return None
     document = load_json(path)
-    analysis = document.get("analysis")
+    analysis = document.get("analysis", {})
+    if analysis is None:
+        analysis = {}
     if not isinstance(analysis, dict):
         raise CheckpointAnalysisError("analysis manifest has no analysis section")
-    pairs = analysis.get("paired_comparisons")
+    pairs = analysis.get("paired_comparisons", [])
+    if pairs is None:
+        return []
     if not isinstance(pairs, list):
         raise CheckpointAnalysisError("analysis.paired_comparisons must be a list")
     return [dict(pair) for pair in pairs]
