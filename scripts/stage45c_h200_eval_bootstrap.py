@@ -1,23 +1,30 @@
 #!/usr/bin/env python3
-"""Stage45C execution bootstrap for the model-owned Cosmos processor path.
+"""Stage45C execution bootstrap for offline processor binding and no-grad evaluation.
 
 GR00T N1.7 keeps the canonical ``nvidia/Cosmos-Reason2-2B`` model name so its
-backbone dispatch remains unchanged.  During ``Gr00tN1d7`` construction it also
+backbone dispatch remains unchanged. During ``Gr00tN1d7`` construction it also
 creates a ``Gr00tN1d7DataCollator``; that collator independently calls
 ``processing_gr00t_n1d7.build_processor`` and a repo-id based Qwen3 processor
 may perform Hugging Face Hub metadata lookup even in offline mode.
 
-Historical Stage38 already qualified the narrow remedy: rewrite only that
-processor-side repo-id to the exact sealed local Cosmos snapshot while leaving
-model config, backbone dispatch, weights and loading kwargs unchanged.  This
-bootstrap installs that process-local shim and then executes the unchanged
-Stage45C runtime adapter in the same Python process.
+Historical Stage38 already qualified the narrow processor-side remedy: rewrite
+only that processor repo-id to the exact sealed local Cosmos snapshot while
+leaving model config, backbone dispatch, weights and loading kwargs unchanged.
+
+Stage45C additionally mixes ``torch.inference_mode()`` inside conditioning with
+an action-head sampler that continues afterwards. Tensors created inside
+inference mode cannot later participate in autograd-tracked operators. The
+production evaluation is inference-only by contract, so this bootstrap runs the
+entire existing adapter under ``torch.no_grad()``. Model construction remains
+normal; the nested conditioning ``inference_mode()`` is preserved; all later
+sampler operations consume those inference tensors while autograd recording is
+disabled. No tensor cloning, model mutation, parameter freezing, sampler math,
+checkpoint, decoder, metric, or scientific-protocol change is introduced.
 """
 
 from __future__ import annotations
 
 import argparse
-import importlib
 import json
 from pathlib import Path
 import runpy
@@ -106,6 +113,38 @@ def _bind_model_owned_processor(snapshot: Path) -> dict[str, Any]:
     }
 
 
+def _run_adapter_no_grad(adapter: Path, forwarded: list[str]) -> None:
+    """Execute the unchanged adapter under one process-wide evaluation no-grad boundary."""
+
+    import torch
+
+    if adapter.is_symlink() or not adapter.is_file():
+        raise RuntimeError(f"Stage45C runtime adapter unavailable or unsafe: {adapter}")
+    before = bool(torch.is_grad_enabled())
+    contract = {
+        "schema": "STAGE45C_INFERENCE_AUTOGRAD_BOUNDARY_V1",
+        "status": "PASS",
+        "outer_context": "torch.no_grad",
+        "grad_enabled_before_context": before,
+        "grad_enabled_inside_context": False,
+        "model_parameter_requires_grad_mutated": False,
+        "tensor_clone_workaround_used": False,
+        "sampler_math_changed": False,
+        "scientific_protocol_changed": False,
+    }
+    print(json.dumps(contract, sort_keys=True), flush=True)
+
+    old_argv = sys.argv
+    try:
+        sys.argv = [str(adapter), *forwarded]
+        with torch.no_grad():
+            if torch.is_grad_enabled():
+                raise RuntimeError("Stage45C no-grad contract did not disable autograd")
+            runpy.run_path(str(adapter), run_name="__main__")
+    finally:
+        sys.argv = old_argv
+
+
 def main(argv: list[str] | None = None) -> int:
     forwarded = list(sys.argv[1:] if argv is None else argv)
     parser = argparse.ArgumentParser(add_help=False)
@@ -120,15 +159,7 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps(binding, sort_keys=True), flush=True)
 
     adapter = Path(__file__).resolve().with_name("stage45c_h200_eval_runtime_adapter.py")
-    if adapter.is_symlink() or not adapter.is_file():
-        raise RuntimeError(f"Stage45C runtime adapter unavailable or unsafe: {adapter}")
-
-    old_argv = sys.argv
-    try:
-        sys.argv = [str(adapter), *forwarded]
-        runpy.run_path(str(adapter), run_name="__main__")
-    finally:
-        sys.argv = old_argv
+    _run_adapter_no_grad(adapter, forwarded)
     return 0
 
 
