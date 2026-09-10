@@ -1,0 +1,360 @@
+{
+  "schema": "CORELAB_STAGE45D_D1_TEACHER_FORCED_DIAGNOSTIC_PROTOCOL_CORRECTED_V1",
+  "status": "CORRECTED_FOR_PI_REVIEW_NOT_EXECUTED",
+  "stage": "Stage45D-D1",
+  "owner": "corelab",
+  "prepared_from": {
+    "git_head": "5476314b515e2fc6f4d36d526019c86c200d28e8",
+    "branch": "stage45c/corelab-h200-eval-runtime-adapter",
+    "historical_d1_protocol_sha256": "4905d398392a1e461383f2aa3631e86494f209bd519d4274b6f47bfef5e3408f",
+    "historical_d1_review_sha256": "6ce8c024de73ca0543ebaf67bd72ef5fa9cfdc0e1c45852f82660350e9e68dfc",
+    "historical_d0_hypothesis_sha256": "ece4d1072e42672e29c726ed892d319a0b97f1fb3fd2e99df729a08063cc2d8a",
+    "historical_d0_failure_summary_sha256": "d82c4d0b865f1af137ba4b8c4a9833fb98cbfd147c4c88e75179725241b1fea8",
+    "stage45b_manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "stage45c_protocol_sha256": "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f",
+    "stage45c_runtime_mapping_sha256": "aa03d16c6c2352c911f8624d2876b6727f5a3ccdaa18795e2003a4a0c7cf1665"
+  },
+  "authority": {
+    "issue_11": 11,
+    "issue_11_comment": 5617025466,
+    "issue_50": 50,
+    "issue_50_comment": 5617028048,
+    "correction_scope": "D1 protocol/static contract correction only",
+    "historical_evidence_preserved": true
+  },
+  "scientific_scope": {
+    "question": "Separate teacher-forced normalized local-flow quality from free-running physical-action behavior before any Validation-E discussion.",
+    "cohort": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN_ONLY",
+    "window_count": 24,
+    "window_order": "target-major then snapshot-major",
+    "window_order_identity_sha256": "6ee601d171eddf720fd1eb0ccb071aeb11127c92c6be8147d7b20c09fd2b694a",
+    "source_stage45b_manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "target_xyz_in_model_input": false
+  },
+  "checkpoint_bindings": [
+    {
+      "label": "STRUCTURED@1000",
+      "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
+      "checkpoint_tree_prefix": "stage38d/checkpoint-1000",
+      "checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "statistics_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+      "statistics_payload_sha256": null,
+      "training_return_digest_sha256": null,
+      "runtime_materialization": "RECOVERED_CANONICAL_READ_ONLY"
+    },
+    {
+      "label": "FULL24@1000",
+      "role": "PRIMARY_COVERAGE_ENDPOINT",
+      "checkpoint_tree_prefix": "checkpoint-1000",
+      "checkpoint_tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "statistics_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+      "training_return_digest_sha256": "8f0ebcf63ce61c0abb2f98b5e5f6802f9407fd4c8c132fc0dbce8f084bfce4c4",
+      "runtime_materialization": "SEALED_IDENTITY_ONLY"
+    },
+    {
+      "label": "FULL24@2000",
+      "role": "SECONDARY_EXPOSURE_ENDPOINT",
+      "checkpoint_tree_prefix": "checkpoint-2000",
+      "checkpoint_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "statistics_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+      "training_return_digest_sha256": "705012d77f198514318dc1cf53cb9e31b51d8ac7a64a6135f8291546e32a3850",
+      "runtime_materialization": "SEALED_IDENTITY_ONLY"
+    }
+  ],
+  "contract": {
+    "structured_action_schema": "StructuredActionV1",
+    "geometry": "K16",
+    "timing": "T16",
+    "horizon": "H40",
+    "raw_action_shape": [
+      1,
+      40,
+      132
+    ],
+    "decoded_physical_action_shape": [
+      40,
+      10
+    ],
+    "state_v1_shape": [
+      10
+    ],
+    "model_input_keys": [
+      "body_rgb",
+      "wrist_rgb",
+      "state",
+      "language"
+    ],
+    "body_rgb_shape": [
+      96,
+      96,
+      3
+    ],
+    "wrist_rgb_shape": [
+      96,
+      96,
+      3
+    ],
+    "language": "move the end effector to the red target",
+    "target_xyz_role": "evaluation/supervision metadata only; never pass numeric XYZ to GR00T"
+  },
+  "supervision_mask": {
+    "source": "go2arx5_vla.structured_action.structured_action_mask(\"T16\")",
+    "shape": [
+      40,
+      132
+    ],
+    "active_scalar_count": 190,
+    "universal_total_scalar_count": 5280,
+    "inactive_scalar_count": 5090,
+    "active_blocks": {
+      "geometry": {
+        "rows": "0:15",
+        "channels": "0:9",
+        "scalar_count": 135,
+        "meaning": "15 future controls × 9 geometry scalars"
+      },
+      "timing": {
+        "rows": "0:15",
+        "channels": "9",
+        "scalar_count": 15,
+        "meaning": "15 interval-logit scalars"
+      },
+      "gripper": {
+        "rows": "0:40",
+        "channels": "10",
+        "scalar_count": 40,
+        "meaning": "dense H40 absolute gripper channel"
+      }
+    },
+    "all_remaining_entries": 0,
+    "mask_topology_is_not": "a dense first-ten-channel mask"
+  },
+  "probe": {
+    "seeds": [
+      2223,
+      2224,
+      2225
+    ],
+    "t_values": [
+      0.06776241796562847,
+      0.36966943557751086,
+      0.7837719744658148
+    ],
+    "t_buckets": [
+      67,
+      369,
+      783
+    ],
+    "noise_shape": [
+      1,
+      40,
+      132
+    ],
+    "noise_dtype": "float32",
+    "noise_device": "cpu",
+    "noise_generation": "torch.Generator(device='cpu').manual_seed(seed); torch.randn([1,40,132], dtype=torch.float32, device='cpu')",
+    "noise_identity": "one tensor per (window, seed), generated once and reused byte-for-byte across checkpoints",
+    "x_t_formula": "x_t=(1-t)*noise+t*expert_action_universal",
+    "target_velocity_formula": "v_target=expert_action_universal-noise",
+    "normalization": "checkpoint-specific sealed q01/q99 StructuredActionV1 statistics; no substitution",
+    "adaptive_extension": false
+  },
+  "metrics": {
+    "normalized_training_objective_space": {
+      "name": "NORMALIZED_LOCAL_FLOW",
+      "predicted": "raw predicted local velocity",
+      "target": "expert_action_universal - noise",
+      "mask": "supervision_mask",
+      "per_probe": [
+        "masked_local_flow_rmse_scalar_weighted",
+        "masked_local_flow_cosine_scalar_weighted",
+        "geometry_xyz_rmse",
+        "geometry_rot6d_rmse",
+        "timing_rmse",
+        "gripper_rmse",
+        "geometry_xyz_cosine",
+        "geometry_rot6d_cosine",
+        "timing_cosine",
+        "gripper_cosine"
+      ],
+      "macro_summary": {
+        "rmse": "arithmetic mean of the four block RMSE values",
+        "cosine": "arithmetic mean of the four block cosine values",
+        "purpose": "prevent block scalar count from silently dominating the summary"
+      },
+      "comparability": "normalized errors are checkpoint-statistics-specific and are not physical-accuracy claims"
+    },
+    "physical_interpretation_space": {
+      "name": "DECODED_PHYSICAL_ACTION",
+      "conversion": "where valid, inverse-normalize implied action with the bound checkpoint statistics, then use the frozen StructuredActionV1 decoder",
+      "per_probe_or_aggregate": [
+        "eef_position_rmse_m",
+        "eef_endpoint_error_m",
+        "eef_path_length_m",
+        "timing_interval_error_s",
+        "gripper_error_native_units"
+      ],
+      "not_converted_without_assumptions": [
+        "raw normalized local-flow error as a physical accuracy score",
+        "unobserved WBC tracking or task-success quantities"
+      ],
+      "stage44r_semantics": "preserve canonical Stage44R decode and trajectory metric definitions exactly"
+    },
+    "raw_before_derived": true,
+    "aggregation": "per probe -> per window -> per target -> checkpoint pair; retain normalized and physical namespaces separately"
+  },
+  "hypothesis_ranking_correction": {
+    "allowed_labels": [
+      "SUPPORTED",
+      "PLAUSIBLE",
+      "NOT_TESTED",
+      "NOT_SUPPORTED"
+    ],
+    "ranking": [
+      {
+        "rank": 1,
+        "hypothesis": "H_OPT",
+        "status": "SUPPORTED",
+        "claim": "continued optimization along the existing 1000→2000 schedule improves sealed TRAIN24 behavior",
+        "not_claimed": [
+          "convergence at 2000",
+          "pure exposure causality",
+          "monotonic improvement beyond 2000"
+        ]
+      },
+      {
+        "rank": 2,
+        "hypothesis": "H_HETEROGENEITY",
+        "status": "SUPPORTED",
+        "claim": "descriptive target/window heterogeneity is present in the sealed TRAIN24 cohort",
+        "not_claimed": [
+          "generalization",
+          "causal target identity effect"
+        ]
+      },
+      {
+        "rank": 3,
+        "hypothesis": "H_DATA_DISTRIBUTION",
+        "status": "SUPPORTED",
+        "claim": "FULL24 has a broader multi-target distribution and spread than the single-window comparator",
+        "not_claimed": [
+          "that broader coverage alone caused the observed degradation"
+        ]
+      },
+      {
+        "rank": 4,
+        "hypothesis": "H_NORMALIZATION_EFFECT",
+        "status": "PLAUSIBLE",
+        "claim": "normalization may contribute to the observed behavior",
+        "not_claimed": [
+          "a causal normalization effect without a controlled stats ablation"
+        ]
+      },
+      {
+        "rank": 5,
+        "hypothesis": "H_SAMPLER",
+        "status": "NOT_TESTED",
+        "claim": "D0 supplies no direct current-checkpoint local-field evidence for sampler causality"
+      },
+      {
+        "rank": 6,
+        "hypothesis": "H_POLICY",
+        "status": "NOT_TESTED",
+        "claim": "D1 is the first authorized teacher-forced local-field diagnostic"
+      }
+    ]
+  },
+  "taxonomy": {
+    "purpose": "descriptive progress reporting only; no task-success or causal labels",
+    "progress_sign_labels": [
+      "persistent-positive-progress",
+      "persistent-negative-progress",
+      "mixed-progress-sign-or-zero"
+    ],
+    "coverage_delta_labels": [
+      "positive-progress-delta-at-coverage1000",
+      "negative-progress-delta-at-coverage1000",
+      "zero-progress-delta-at-coverage1000"
+    ],
+    "exposure_delta_labels": [
+      "positive-progress-delta-at-exposure2000",
+      "negative-progress-delta-at-exposure2000",
+      "zero-progress-delta-at-exposure2000"
+    ],
+    "forbidden_semantics": [
+      "helped/hurt",
+      "recovered/regressed as causal claims",
+      "task success",
+      "general robustness"
+    ]
+  },
+  "causal_boundary": {
+    "teacher_forced_good_free_running_bad": "the dominant failure lies downstream of on-path local-field learning, within the rollout / off-manifold / sampler-integration class",
+    "euler_causality": "not established; a later D2 gate is required to separate off-manifold field degradation from sampler discretization/integration effects"
+  },
+  "execution_plan": {
+    "path": "source-mapped GR00T action-head local-flow graph only",
+    "backbone_conditioning_passes": 72,
+    "action_head_calls_per_checkpoint": 216,
+    "action_head_calls_total": 648,
+    "total_direct_model_side_calls": 720,
+    "free_running_sampler_calls": 0,
+    "complete_get_action_calls": 0,
+    "execution_order": "checkpoint-major; window-major; seed-major; t-major",
+    "status": "D1_EXECUTION_HOLD_PENDING_PI_AUTHORIZATION"
+  },
+  "artifact_schema": {
+    "root": "stage45d_d1_teacher_forced/<checkpoint>/<window_index>/<seed_t_probe>/",
+    "required_raw_first": [
+      "raw_predicted_velocity.npy",
+      "raw_predicted_velocity.sha256",
+      "probe_manifest.json"
+    ],
+    "required_derived": [
+      "normalized_metrics.json",
+      "decoded_physical_action.npy",
+      "physical_metrics.json",
+      "per_window_summary.json",
+      "per_target_summary.json"
+    ],
+    "top_level": [
+      "D1_EXECUTION_MANIFEST.json",
+      "D1_EXECUTION_MANIFEST_SHA256.txt",
+      "RAW_SHA256SUMS",
+      "PAIRED_LOCAL_FLOW_SUMMARY.json"
+    ]
+  },
+  "execution_boundary": {
+    "model_construction": false,
+    "model_forward": false,
+    "gpu_h200": false,
+    "pbs_qsub": false,
+    "training": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_executed": false,
+    "simulator_executed": false,
+    "hardware_executed": false,
+    "new_data_generation": false,
+    "counters": {
+      "model_construction": 0,
+      "model_forward": 0,
+      "gpu": 0,
+      "pbs": 0,
+      "training_steps": 0,
+      "validation_e_rows_read": 0,
+      "holdout_f_rows_read": 0,
+      "wbc_steps": 0
+    }
+  },
+  "next_pi_gate_request": "PI review for D1 H200 execution",
+  "return_token": "STAGE45D_D1_PROTOCOL_CORRECTED_READY_FOR_PI_REVIEW"
+}
