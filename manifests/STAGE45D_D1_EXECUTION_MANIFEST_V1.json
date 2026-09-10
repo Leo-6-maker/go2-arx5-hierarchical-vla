@@ -1,0 +1,243 @@
+{
+  "schema": "CORELAB_STAGE45D_D1_EXECUTION_MANIFEST_V1",
+  "stage": "Stage45D-D1",
+  "status": "READY_FOR_PI_REVIEW_NOT_EXECUTED",
+  "owner": "corelab",
+  "protocol": {
+    "path": "manifests/STAGE45D_D1_PROTOCOL_CORRECTED_V1.json",
+    "sha256": "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3",
+    "head": "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb",
+    "schema": "CORELAB_STAGE45D_D1_TEACHER_FORCED_DIAGNOSTIC_PROTOCOL_CORRECTED_V1"
+  },
+  "authority": {
+    "issue_11": 11,
+    "issue_11_comment": 5617254774,
+    "issue_50": 50,
+    "issue_50_comment": 5617258920,
+    "execution_authorized": false,
+    "next_pi_gate_request": "authorize one Stage45D D1 H200 execution"
+  },
+  "runner": {
+    "path": "scripts/stage45d_d1_teacher_forced_local_flow.py",
+    "sha256": "63813c5e8a323d97a4dde7c7ed3e141242f95c6dc2b3ca2d9d58279834856beb",
+    "static_modes": [
+      "--plan-only",
+      "--audit-only"
+    ],
+    "execute_guard": "future PI authority token + explicit runtime implementation admission",
+    "top_level_model_imports": false,
+    "foreign_cwd_bootstrap": "resolve repository root from __file__ and insert explicit src/scripts paths"
+  },
+  "source_equivalence": {
+    "pinned_groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "backbone_conditioning": {
+      "path": "scripts/stage38_structured_offline_evaluation.py",
+      "sha256": "d4415e47dd4535a77cd5c31a688d098d2220a0ed0951f93e5bdb6292da777dcb",
+      "symbol": "_prepare_model_conditioning",
+      "operations": [
+        "model.prepare_input",
+        "model.backbone",
+        "action_head.process_backbone_output"
+      ]
+    },
+    "action_state_encoder": {
+      "path": "scripts/stage38_structured_offline_evaluation.py",
+      "sha256": "d4415e47dd4535a77cd5c31a688d098d2220a0ed0951f93e5bdb6292da777dcb",
+      "symbol": "_prepare_model_conditioning",
+      "operations": [
+        "action_head.state_encoder",
+        "action_head.action_encoder"
+      ]
+    },
+    "t_discretization": {
+      "path": "scripts/stage38_structured_offline_evaluation.py",
+      "sha256": "d4415e47dd4535a77cd5c31a688d098d2220a0ed0951f93e5bdb6292da777dcb",
+      "symbol": "_load_fixed_probes",
+      "contract": "reviewed t values and integer buckets"
+    },
+    "dit_action_head_forward": {
+      "path": "scripts/stage38_structured_offline_evaluation.py",
+      "sha256": "d4415e47dd4535a77cd5c31a688d098d2220a0ed0951f93e5bdb6292da777dcb",
+      "symbol": "_offline_step",
+      "operations": [
+        "action_encoder",
+        "action_head.model",
+        "action_decoder"
+      ]
+    },
+    "velocity_decoder": {
+      "path": "scripts/stage38_structured_offline_evaluation.py",
+      "sha256": "d4415e47dd4535a77cd5c31a688d098d2220a0ed0951f93e5bdb6292da777dcb",
+      "symbol": "_offline_step",
+      "operation": "velocity = pred[:, -actions.shape[1]:]"
+    },
+    "physical_decode_bridge": {
+      "path": "scripts/stage45c_h200_eval_runtime_adapter.py",
+      "sha256": "2e28ded9e1126487f63c7328603e23dd6f8b028acf54d32ac094b6de02353ff7",
+      "symbol": "_decode_v2",
+      "contract": "Stage40 inverse-normalization + StructuredActionV1 materialization using runtime-V2 statistics"
+    }
+  },
+  "flow": {
+    "x0": "fixed float32 CPU Gaussian noise",
+    "x1": "checkpoint-statistics-normalized StructuredActionV1 expert label",
+    "x_t": "(1-t)*x0+t*x1",
+    "v_target": "x1-x0",
+    "v_hat": "model local velocity at (x_t,t)",
+    "x1_hat": "x_t+(1-t)*v_hat",
+    "noise_shape": [
+      1,
+      40,
+      132
+    ],
+    "noise_dtype": "float32",
+    "noise_device": "CPU",
+    "noise_seeds": [
+      2223,
+      2224,
+      2225
+    ],
+    "t_values": [
+      0.06776241796562847,
+      0.36966943557751086,
+      0.7837719744658148
+    ],
+    "t_buckets": [
+      67,
+      369,
+      783
+    ],
+    "same_noise_bytes_across_checkpoints": true,
+    "adaptive_extension": false,
+    "public_sampler_called": false,
+    "get_action_called": false
+  },
+  "structured_action_mask": {
+    "source": "go2arx5_vla.structured_action.structured_action_mask(\"T16\")",
+    "shape": [
+      40,
+      132
+    ],
+    "active_scalar_count": 190,
+    "geometry_scalar_count": 135,
+    "timing_scalar_count": 15,
+    "gripper_scalar_count": 40,
+    "legacy_first_ten_mask_active_scalar_count": 400,
+    "legacy_first_ten_mask": "REJECTED"
+  },
+  "checkpoint_stats_routing": {
+    "STRUCTURED@1000": {
+      "tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+      "route": "HISTORICAL_STAGE40_FIXED_STATS",
+      "stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+      "runtime_materialization": "PENDING_VANDA_RECOVERY"
+    },
+    "FULL24@1000": {
+      "tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "route": "STAGE45C_RUNTIME_V2_STATS_BRIDGE",
+      "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
+    },
+    "FULL24@2000": {
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "route": "STAGE45C_RUNTIME_V2_STATS_BRIDGE",
+      "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
+    }
+  },
+  "dataset": {
+    "id": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN_ONLY",
+    "window_count": 24,
+    "frame_count": 960,
+    "window_order": "target-major then snapshot-major",
+    "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "target_xyz_in_model_input": false
+  },
+  "metrics": {
+    "normalized_namespace": "NORMALIZED_LOCAL_FLOW",
+    "normalized_fields": [
+      "masked_local_flow_rmse_scalar_weighted",
+      "masked_local_flow_cosine_scalar_weighted",
+      "geometry_xyz_rmse",
+      "geometry_rot6d_rmse",
+      "timing_rmse",
+      "gripper_rmse",
+      "block_macro_rmse",
+      "block_macro_cosine"
+    ],
+    "physical_namespace": "DECODED_PHYSICAL_ACTION",
+    "physical_source": "x1_hat only",
+    "physical_fields": [
+      "eef_position_rmse_m",
+      "eef_endpoint_error_m",
+      "eef_path_length_m",
+      "timing_interval_error_s",
+      "gripper_error_native_units"
+    ],
+    "stage44r_semantics_unchanged": true,
+    "aggregation": "per probe -> per window -> per target -> checkpoint -> paired comparison",
+    "raw_before_derived": true
+  },
+  "call_budget": {
+    "checkpoints": 3,
+    "windows_per_checkpoint": 24,
+    "noise_seeds": 3,
+    "t_values": 3,
+    "action_head_calls": 648,
+    "conditioning_passes": 72,
+    "total_model_side_calls": 720,
+    "adaptive_extension": false
+  },
+  "runtime_binding_template": {
+    "path": "manifests/STAGE45D_D1_RUNTIME_BINDING_TEMPLATE_V1.json",
+    "schema": "CORELAB_STAGE45D_D1_RUNTIME_BINDING_V1",
+    "status": "LATE_BOUND_NOT_EXECUTED",
+    "node_local_paths_committed": false
+  },
+  "artifact_schema": {
+    "raw_first": [
+      "raw/v_hat.npy",
+      "raw/x0.npy",
+      "raw/x_t.npy",
+      "raw/v_target.npy",
+      "raw/x1.npy",
+      "raw/x1_hat.npy",
+      "raw/mask.npy",
+      "probe_manifest.json"
+    ],
+    "derived_after_raw": [
+      "normalized_metrics.json",
+      "physical_metrics.json",
+      "per_window_summary.json",
+      "per_target_summary.json"
+    ],
+    "run_level": [
+      "D1_EXECUTION_MANIFEST.json",
+      "D1_EXECUTION_MANIFEST_SHA256.txt",
+      "RAW_SHA256SUMS",
+      "FAILURE_SEAL.json",
+      "ARTIFACT_INVENTORY.json"
+    ],
+    "incremental_flush_and_fsync": true,
+    "failure_seal_required": true
+  },
+  "execution_boundary": {
+    "model_construction": false,
+    "model_forward": false,
+    "gpu_h200": false,
+    "pbs_qsub": false,
+    "training": false,
+    "free_running_sampler": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_executed": false,
+    "simulator_executed": false,
+    "hardware_executed": false,
+    "new_data_generation": false,
+    "merge": false
+  },
+  "return_token": "STAGE45D_D1_EXECUTION_HARNESS_READY_FOR_H200_REVIEW"
+}
