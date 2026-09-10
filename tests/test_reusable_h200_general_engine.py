@@ -52,6 +52,12 @@ from go2arx5_vla.evaluation.stage45c_compatibility import (
     project_stage45c_window,
     validate_stage45c_compatibility_proof,
 )
+from go2arx5_vla.evaluation.stage45c_one_window_fixture import (
+    PI0102_ONE_WINDOW_FIXTURE_SCHEMA,
+    PI0102_ONE_WINDOW_SCOPE,
+    build_pi0102_one_window_fixture,
+    validate_pi0102_one_window_fixture,
+)
 from go2arx5_vla.evaluation.reusable import (
     GENERIC_EVAL_STATUS,
     GENERIC_EVALUATION_MANIFEST_SCHEMA,
@@ -68,6 +74,7 @@ HISTORICAL_CANARY = ROOT / "scripts" / "reusable_h200_inference_canary.py"
 HISTORICAL_ADAPTER = ROOT / "scripts" / "stage45c_h200_eval_runtime_adapter.py"
 FROZEN_STAGE45C_PROTOCOL = ROOT / "manifests" / "STAGE45C_TRAIN24_EVALUATION_PROTOCOL_FROZEN_V1.json"
 STAGE45C_COMPATIBILITY_PROOF = ROOT / "manifests" / "STAGE45C_REUSABLE_ENGINE_COMPATIBILITY_PROOF_V1.json"
+PI0102_ONE_WINDOW_FIXTURE = ROOT / "manifests" / "PI0102_ONE_WINDOW_QUALIFICATION_FIXTURE_V1.json"
 
 
 def _artifact(path: Path) -> dict[str, str]:
@@ -302,9 +309,16 @@ def _probe(_repo_root: Path) -> dict[str, object]:
 
 
 class RecordingAdapter:
-    def __init__(self, manifest: dict, *, fail_at: int | None = None) -> None:
+    def __init__(
+        self,
+        manifest: dict,
+        *,
+        fail_at: int | None = None,
+        partial_sampler_calls: int = 0,
+    ) -> None:
         self.manifest = manifest
         self.fail_at = fail_at
+        self.partial_sampler_calls = partial_sampler_calls
         self.prepared = False
         self.prepare_calls = 0
         self.close_calls = 0
@@ -316,6 +330,8 @@ class RecordingAdapter:
             "model_imported": False,
             "model_construction": False,
             "model_forward": False,
+            "conditioning_backbone_passes": 0,
+            "sampler_calls_completed": 0,
         }
 
     def prepare(self, context: object) -> None:
@@ -335,11 +351,14 @@ class RecordingAdapter:
         self.assert_prepared()
         pair = (str(checkpoint["label"]), str(window["id"]))
         self.infer_pairs.append(pair)
+        self.runtime_flags["conditioning_backbone_passes"] += 1
         if self.fail_at is not None and len(self.infer_pairs) == self.fail_at:
+            self.runtime_flags["sampler_calls_completed"] += self.partial_sampler_calls
             self.runtime_flags["model_imported"] = True
             self.runtime_flags["model_construction"] = True
             self.runtime_flags["model_forward_started"] = True
             raise RuntimeError("induced late adapter failure")
+        self.runtime_flags["sampler_calls_completed"] += 4
         value = np.full((1, 40, 132), len(self.infer_pairs) / 100.0, dtype=np.float32)
         adapter_input = window["adapter_input"]
         return AdapterInference(
@@ -696,6 +715,39 @@ class GeneralH200EngineTests(unittest.TestCase):
             self.assertEqual(len(list((staging / "raw").rglob("*.npy"))), 4)
             self.assertFalse((output / "engine_run_manifest.json").exists())
 
+    def test_partial_window_failure_preserves_lifetime_conditioning_and_sampler_counters(self) -> None:
+        """A later window failure must include completed calls from prior windows."""
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest_path, config_path, manifest, _config, _labels, _windows = _fixture(root)
+            adapter = RecordingAdapter(
+                manifest,
+                fail_at=5,
+                partial_sampler_calls=2,
+            )
+            with self.assertRaises(RuntimeError):
+                run_h200_inference_engine(
+                    manifest_path,
+                    config_path,
+                    repo_root=ROOT,
+                    adapter=adapter,
+                    runtime_probe=_probe,
+                    decoder=RecordingDecoder(),
+                )
+            failure = json.loads(
+                (root / "evaluation-output" / "engine_failure_seal.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(failure["failure_phase"], "RAW_INFERENCE")
+            self.assertEqual(failure["raw_count"], 4)
+            self.assertEqual(failure["checkpoint_window_forwards_started"], 5)
+            self.assertEqual(failure["checkpoint_window_forwards_completed"], 4)
+            self.assertEqual(failure["conditioning_backbone_passes"], 5)
+            self.assertEqual(failure["sampler_calls_completed"], 18)
+            self.assertTrue(failure["model_execution_started"])
+
     def test_late_decode_failure_sees_durable_raw_before_first_derived_failure(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -863,6 +915,18 @@ class GeneralH200EngineTests(unittest.TestCase):
             self.assertIn(symbol, historical_source)
         self.assertIn("_offline_step", historical_functions)
         self.assertIn("raw = current.detach()", adapter_source)
+        self.assertIn(
+            'int(self.runtime_flags.get("conditioning_backbone_passes", 0)) + 1',
+            adapter_source,
+        )
+        self.assertIn(
+            'int(self.runtime_flags.get("sampler_calls_completed", 0)) + 1',
+            adapter_source,
+        )
+        self.assertNotIn(
+            'max(\n                int(self.runtime_flags.get("conditioning_backbone_passes", 0)), 1',
+            adapter_source,
+        )
 
         current_offline = next(
             node
@@ -921,6 +985,7 @@ class GeneralH200EngineTests(unittest.TestCase):
         proof = build_stage45c_compatibility_proof(protocol)
         validate_stage45c_compatibility_proof(proof)
         static_proof = json.loads(STAGE45C_COMPATIBILITY_PROOF.read_text(encoding="utf-8"))
+        validate_stage45c_compatibility_proof(static_proof)
         self.assertEqual(static_proof["schema"], proof["schema"])
         self.assertEqual(static_proof["status"], proof["status"])
         self.assertEqual(
@@ -985,6 +1050,32 @@ class GeneralH200EngineTests(unittest.TestCase):
         )
         self.assertFalse(proof["execution_boundary"]["training"])
         self.assertEqual(proof["execution_boundary"]["pbs_submissions"], 0)
+
+    def test_pi0102_one_window_fixture_is_distinct_and_exact(self) -> None:
+        protocol = json.loads(FROZEN_STAGE45C_PROTOCOL.read_text(encoding="utf-8"))
+        fixture = build_pi0102_one_window_fixture(protocol)
+        validate_pi0102_one_window_fixture(fixture)
+        static_fixture = json.loads(PI0102_ONE_WINDOW_FIXTURE.read_text(encoding="utf-8"))
+        validate_pi0102_one_window_fixture(static_fixture)
+        self.assertEqual(fixture, static_fixture)
+        self.assertEqual(fixture["schema"], PI0102_ONE_WINDOW_FIXTURE_SCHEMA)
+        self.assertEqual(fixture["scope"], PI0102_ONE_WINDOW_SCOPE)
+        self.assertEqual(fixture["selection"]["checkpoint_count"], 1)
+        self.assertEqual(fixture["selection"]["window_count"], 1)
+        self.assertEqual(fixture["selection"]["selected_window_index"], 0)
+        self.assertEqual(
+            fixture["selection"]["selected_window_id"],
+            "stage22_expert_red_target_train_a:expert-0000",
+        )
+        self.assertEqual(fixture["selection"]["selected_target_id"], "red_target_train_a")
+        self.assertEqual(fixture["selection"]["expected_model_forwards"], 1)
+        self.assertEqual(fixture["selection"]["expected_sampler_calls"], 4)
+        self.assertEqual(
+            fixture["source_protocol"]["scope"],
+            "STAGE45C_FULL_TRAIN24_PROTOCOL",
+        )
+        self.assertFalse(fixture["execution_boundary"]["model_import"])
+        self.assertFalse(fixture["execution_boundary"]["model_forward"])
 
     def test_historical_canary_remains_a_separate_committed_surface(self) -> None:
         self.assertTrue(HISTORICAL_CANARY.is_file())

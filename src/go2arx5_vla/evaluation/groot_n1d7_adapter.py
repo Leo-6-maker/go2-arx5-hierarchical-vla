@@ -504,10 +504,10 @@ class GrootN1d7StructuredAdapter:
         backbone_inputs, action_input = model.prepare_input(dict(model_inputs))
         with torch.inference_mode():
             backbone_output = model.backbone(backbone_inputs)
-            processed = model.action_head.process_backbone_output(backbone_output)
-            self.runtime_flags["conditioning_backbone_passes"] = max(
-                int(self.runtime_flags.get("conditioning_backbone_passes", 0)), 1
+            self.runtime_flags["conditioning_backbone_passes"] = (
+                int(self.runtime_flags.get("conditioning_backbone_passes", 0)) + 1
             )
+            processed = model.action_head.process_backbone_output(backbone_output)
             state_history = action_input.state
             expected_history = int(model.action_head.config.state_history_length)
             _require(int(state_history.shape[1]) == expected_history, "state history length drift")
@@ -531,7 +531,9 @@ class GrootN1d7StructuredAdapter:
                 )
                 current = current + dt * velocity
                 calls += 1
-                self.runtime_flags["sampler_calls_completed"] = calls
+                self.runtime_flags["sampler_calls_completed"] = (
+                    int(self.runtime_flags.get("sampler_calls_completed", 0)) + 1
+                )
         raw = current.detach().to(device="cpu", dtype=torch.float32).contiguous().numpy()
         _require(tuple(raw.shape) == (1, 40, 132), "raw universal action shape drift")
         _require(bool(np.isfinite(raw).all()), "raw universal action is nonfinite")

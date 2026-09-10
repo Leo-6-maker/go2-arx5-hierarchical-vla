@@ -972,6 +972,7 @@ class ReusableInfrastructureTests(unittest.TestCase):
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_admission.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_binding.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "stage45c_compatibility.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "stage45c_one_window_fixture.py",
             ROOT / "src" / "go2arx5_vla" / "training" / "reusable.py",
             ROOT / "scripts" / "validate_h200_inference_admission.py",
         ]

@@ -1,0 +1,143 @@
+{
+  "evidence_boundary": "static PI0102 one-window compatibility fixture only; no H200 or model execution",
+  "executable": false,
+  "execution_boundary": {
+    "Holdout-F": "LOCKED",
+    "Validation-E": "LOCKED",
+    "WBC": "LOCKED",
+    "expected_model_forwards": 1,
+    "expected_sampler_calls": 4,
+    "hardware": "LOCKED",
+    "model_construction": false,
+    "model_forward": false,
+    "model_import": false,
+    "pbs_submissions": 0,
+    "simulator": "LOCKED",
+    "training": false
+  },
+  "generic_manifest_projection": {
+    "checkpoints": [
+      {
+        "count": 1,
+        "identity": {
+          "kind": "tree",
+          "path": "late_bound_from_observed_runtime.checkpoint_paths[FULL24@2000]",
+          "sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+        },
+        "label": "FULL24@2000",
+        "statistics": {
+          "kind": "file",
+          "path": "late_bound_from_observed_runtime.statistics_path[FULL24@2000]",
+          "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+          "sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
+        }
+      }
+    ],
+    "cohort": {
+      "identity_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+      "name": "FULL24_EXISTING_TRAIN",
+      "selected_window_index": 0,
+      "split": "TRAIN",
+      "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+      "timestamp_binding": {
+        "frequency_hz": 20,
+        "horizon": "H40",
+        "required_source_timestamps": true,
+        "source": "sealed FULL24 TRAIN window index 0"
+      },
+      "window_count": 1,
+      "window_order": "explicit_manifest_order",
+      "windows": [
+        {
+          "id": "stage22_expert_red_target_train_a:expert-0000",
+          "observation_timestamp": "late_bound_from_sealed_FULL24_window[0].observation_timestamp",
+          "source_timestamps": "late_bound_from_sealed_FULL24_window[0].source_timestamps",
+          "target_id": "red_target_train_a"
+        }
+      ]
+    },
+    "contract": {
+      "decoded_action_shape": [40, 10],
+      "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+      "geometry": "K16",
+      "horizon": "H40",
+      "language": "move the end effector to the red target",
+      "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+      "normalization": "runtime_v2_stats_only",
+      "raw_action_shape": [1, 40, 132],
+      "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+      "state_v1_shape": [10],
+      "structured_action_schema": "StructuredActionV1",
+      "target_xyz_in_model_input": false,
+      "tcp_semantic_id": "x5_link6_gripper_center",
+      "timing": "T16"
+    },
+    "output": {
+      "evidence_bundle": "generic engine raw seal plus CPU-derived evaluator inventory",
+      "raw_before_derived": true,
+      "raw_shape": [1, 40, 132]
+    },
+    "runtime_binding": {
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+      "groot_source_commit_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "groot_source_tree_sha256": "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b",
+      "language": "move the end effector to the red target",
+      "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "paths": "all materialized paths are late-bound through the admission-owned runtime binding",
+      "runtime_v2_protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
+      "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246"
+    },
+    "sampler": {
+      "adaptive_extension": false,
+      "dt": 0.25,
+      "expected_calls_per_window": 4,
+      "expected_total_sampler_calls": 4,
+      "noise_seed": 4242,
+      "noise_shape": [1, 40, 132],
+      "planned_forwards_total": 1,
+      "profile": "GROOT_N1D7_SOURCE_MAPPED_EULER4_V1",
+      "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
+      "same_noise_across_checkpoints": true,
+      "sampler": "source-mapped-four-step-Euler-action-head-graph",
+      "scope": "one_selected_window",
+      "timesteps": [0, 250, 500, 750],
+      "windows_per_checkpoint": 1
+    }
+  },
+  "identity_anchors": {
+    "checkpoint_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+    "dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "dt": 0.25,
+    "noise_seed": 4242,
+    "sampler_law": "source-mapped-four-step-Euler-action-head-graph",
+    "sampler_profile": "GROOT_N1D7_SOURCE_MAPPED_EULER4_V1",
+    "sampler_protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
+    "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "timesteps": [0, 250, 500, 750]
+  },
+  "schema": "GO2ARX5_REUSABLE_PI0102_ONE_WINDOW_QUALIFICATION_FIXTURE_V1",
+  "scope": "PI0102_ONE_WINDOW_H200_QUALIFICATION",
+  "selection": {
+    "checkpoint_count": 1,
+    "checkpoint_label": "FULL24@2000",
+    "expected_model_forwards": 1,
+    "expected_sampler_calls": 4,
+    "full_cohort_window_count": 24,
+    "full_cohort_window_order": "target_major_then_snapshot_major",
+    "selected_target_id": "red_target_train_a",
+    "selected_window_id": "stage22_expert_red_target_train_a:expert-0000",
+    "selected_window_index": 0,
+    "window_count": 1
+  },
+  "source_protocol": {
+    "protocol_sha256": "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f",
+    "schema": "CORELAB_STAGE45C_TRAIN24_EVALUATION_PROTOCOL_V1",
+    "scope": "STAGE45C_FULL_TRAIN24_PROTOCOL",
+    "source_head": "54a833eaa7037cdc20397ef182b36647194040cb"
+  },
+  "status": "STATIC_COMPATIBLE_NOT_EXECUTED"
+}

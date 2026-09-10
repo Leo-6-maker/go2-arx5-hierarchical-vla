@@ -63,6 +63,25 @@ simulation, hardware, PBS, training, or merge.
 The detached copy is committed as
 `manifests/STAGE45C_REUSABLE_ENGINE_COMPATIBILITY_PROOF_V1.json`.
 
+The PI0102 one-window qualification contract is kept separate in
+`stage45c_one_window_fixture.py` and
+`manifests/PI0102_ONE_WINDOW_QUALIFICATION_FIXTURE_V1.json`: it locks one
+`FULL24@2000` checkpoint, window index 0, its exact window/target identity,
+and four expected sampler calls.  It is a compatibility fixture only and is
+not a qualification result.
+
+## Deferred main-consolidation cleanup
+
+The optional `processor_checkpoint` selection is still exposed through the
+historical `scripts/stage26_h1_c1_fixed_noise_local_flow.py` helper in this
+freeze commit.  This is a P2 packaging concern, not a runtime or scientific
+contract exception: the generic adapter passes only its immutable binding into
+that helper, and the helper's default Stage26 behavior remains unchanged.
+Main consolidation should move the reusable processor builder into the
+`src/go2arx5_vla` package and leave Stage26 as a thin historical wrapper.  The
+move is intentionally deferred until after the reusable infrastructure is
+frozen, so it is not mixed into this static correction gate.
+
 ## Ownership
 
 `h200_engine.py` owns admission, ordering, counters, raw durability, failure

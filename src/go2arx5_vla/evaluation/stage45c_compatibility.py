@@ -16,6 +16,7 @@ from typing import Any
 STAGE45C_COMPATIBILITY_PROOF_SCHEMA = (
     "GO2ARX5_REUSABLE_STAGE45C_COMPATIBILITY_PROOF_V1"
 )
+STAGE45C_COMPATIBILITY_SCOPE = "STAGE45C_FULL_TRAIN24_PROTOCOL"
 FROZEN_PROTOCOL_SCHEMA = "CORELAB_STAGE45C_TRAIN24_EVALUATION_PROTOCOL_V1"
 FROZEN_PROTOCOL_STATUS = "BOUND_NOT_EXECUTED"
 
@@ -246,6 +247,7 @@ def build_stage45c_compatibility_proof(protocol: Mapping[str, Any]) -> dict[str,
 
     projection = {
         "schema": STAGE45C_COMPATIBILITY_PROOF_SCHEMA,
+        "scope": STAGE45C_COMPATIBILITY_SCOPE,
         "status": "STATIC_COMPATIBLE_NOT_EXECUTED",
         "executable": False,
         "historical_protocol": {
@@ -368,12 +370,21 @@ def build_stage45c_compatibility_proof(protocol: Mapping[str, Any]) -> dict[str,
 
 def _validate_projection(proof: Mapping[str, Any]) -> None:
     _exact(proof.get("schema"), STAGE45C_COMPATIBILITY_PROOF_SCHEMA, field="proof.schema")
+    _exact(proof.get("scope"), STAGE45C_COMPATIBILITY_SCOPE, field="proof.scope")
     _exact(proof.get("status"), "STATIC_COMPATIBLE_NOT_EXECUTED", field="proof.status")
     _exact(proof.get("executable"), False, field="proof.executable")
-    projection = _mapping(proof.get("generic_manifest_projection"), field="proof.generic_manifest_projection")
+    projection_value = proof.get("generic_manifest_projection")
+    projection_field = "proof.generic_manifest_projection"
+    if projection_value is None:
+        projection_value = proof.get("generic_manifest_expression")
+        projection_field = "proof.generic_manifest_expression"
+    projection = _mapping(projection_value, field=projection_field)
     checkpoints = projection.get("checkpoints")
+    if checkpoints is None and projection.get("checkpoint") is not None:
+        checkpoints = [projection.get("checkpoint")]
     _require(isinstance(checkpoints, list) and len(checkpoints) == 1, "proof must express exactly one checkpoint")
-    _exact(checkpoints[0].get("label"), CHECKPOINT_LABEL, field="proof.checkpoints[0].label")
+    checkpoint = _mapping(checkpoints[0], field="proof.checkpoints[0]")
+    _exact(checkpoint.get("label"), CHECKPOINT_LABEL, field="proof.checkpoints[0].label")
     _exact(projection["cohort"].get("window_count"), 24, field="proof.cohort.window_count")
     _exact(projection["cohort"].get("frame_count"), FULL24_FRAME_COUNT, field="proof.cohort.frame_count")
     _exact(projection["cohort"].get("window_order"), WINDOW_ORDER, field="proof.cohort.window_order")
@@ -413,6 +424,7 @@ __all__ = [
     "SAMPLER_LAW",
     "SAMPLER_PROTOCOL_REVISION",
     "SAMPLER_PROFILE",
+    "STAGE45C_COMPATIBILITY_SCOPE",
     "Stage45CCompatibilityError",
     "TIMESTEPS",
     "WINDOW_IDS",

@@ -68,6 +68,14 @@ from .stage45c_compatibility import (
     project_stage45c_window,
     validate_stage45c_compatibility_proof,
 )
+from .stage45c_one_window_fixture import (
+    PI0102_FIXTURE_STATUS,
+    PI0102_ONE_WINDOW_FIXTURE_SCHEMA,
+    PI0102_ONE_WINDOW_SCOPE,
+    PI0102QualificationFixtureError,
+    build_pi0102_one_window_fixture,
+    validate_pi0102_one_window_fixture,
+)
 
 __all__ = [
     "ACTION_HORIZON",
@@ -116,4 +124,10 @@ __all__ = [
     "build_stage45c_compatibility_proof",
     "project_stage45c_window",
     "validate_stage45c_compatibility_proof",
+    "PI0102_FIXTURE_STATUS",
+    "PI0102_ONE_WINDOW_FIXTURE_SCHEMA",
+    "PI0102_ONE_WINDOW_SCOPE",
+    "PI0102QualificationFixtureError",
+    "build_pi0102_one_window_fixture",
+    "validate_pi0102_one_window_fixture",
 ]
