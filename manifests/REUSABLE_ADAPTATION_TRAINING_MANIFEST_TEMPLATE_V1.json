@@ -1,0 +1,77 @@
+{
+  "schema": "GO2ARX5_REUSABLE_ADAPTATION_TRAINING_MANIFEST_V1",
+  "status": "TEMPLATE_NOT_EXECUTABLE",
+  "experiment": {
+    "id": "replace-with-experiment-id",
+    "stage": "future",
+    "execution_head": "0000000000000000000000000000000000000000",
+    "protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "dataset": {
+    "name": "replace-with-dataset-name",
+    "split": "TRAIN",
+    "manifest": {
+      "kind": "file",
+      "path": "replace-with-dataset-manifest",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "statistics": {
+      "kind": "file",
+      "path": "replace-with-dataset-statistics",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "provenance": {
+      "identity": "replace-with-dataset-provenance",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "base_checkpoint": {
+    "label": "BASE",
+    "identity": {
+      "kind": "tree",
+      "path": "replace-with-base-checkpoint-tree",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "recipe": {
+    "max_steps": 100,
+    "warmup_steps": 10,
+    "scheduler": "cosine",
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "seed": 0,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "bf16": true,
+    "fp16": false,
+    "tune_projector": false,
+    "tune_diffusion": true,
+    "tune_visual": false,
+    "tune_llm": false,
+    "tune_vlln": false,
+    "resume": false,
+    "fresh_start": true,
+    "save_only_model": false,
+    "save_steps": [100]
+  },
+  "runtime": {
+    "identity": "replace-with-runtime-identity",
+    "offline": true,
+    "preflight_required": true,
+    "backend": "replace-with-stage-specific-backend"
+  },
+  "output": {
+    "root": "replace-with-fresh-output-root",
+    "fresh": true,
+    "failure_seal": true
+  },
+  "locked_boundaries": {
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "simulator": "LOCKED",
+    "hardware": "LOCKED",
+    "new_data": "LOCKED"
+  }
+}
