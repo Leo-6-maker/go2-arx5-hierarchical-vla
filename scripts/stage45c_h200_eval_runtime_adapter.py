@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Stage45C H200 inference runtime adapter.
 
-This module is the Corelab-side execution plumbing for PI0091.  It binds a
+This module is the Corelab-side execution plumbing for the frozen Stage45C
+protocol and the external execution admission.  It binds a
 Vanda Golden Training Release V2 to the frozen Stage45C protocol and, when a
 future H200 job invokes ``--execute``, performs the following single-job
 pipeline::
@@ -30,6 +31,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import stat
 import sys
 from typing import Any, Iterable, Mapping, Sequence
@@ -42,7 +44,11 @@ if str(SRC) not in sys.path:
 
 
 STAGE = "Stage45C"
-PI_GATE = "PI_GATE_STATE_0091"
+# The checkpoint mapping's gate is immutable historical provenance.  The
+# current execution authority is deliberately late-bound from the external
+# runtime binding and is never represented by a stale adapter constant.
+MAPPING_PROVENANCE_GATE = "PI_GATE_STATE_0091"
+EXECUTION_AUTHORITY_GATE_PATTERN = re.compile(r"^PI_GATE_STATE_[0-9]{4}$")
 PROTOCOL_SCHEMA = "CORELAB_STAGE45C_TRAIN24_EVALUATION_PROTOCOL_V1"
 MAPPING_SCHEMA = "CORELAB_STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1"
 BINDING_SCHEMA = "CORELAB_STAGE45C_H200_EVAL_RUNTIME_BINDING_V1"
@@ -621,7 +627,7 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
     _require(isinstance(mapping, Mapping), "checkpoint mapping must be an object")
     _equal(mapping.get("schema"), MAPPING_SCHEMA, "checkpoint mapping schema")
     _equal(mapping.get("stage"), STAGE, "checkpoint mapping stage")
-    _equal(mapping.get("pi_gate"), PI_GATE, "checkpoint mapping gate")
+    _equal(mapping.get("pi_gate"), MAPPING_PROVENANCE_GATE, "checkpoint mapping provenance gate")
     _equal(mapping.get("status"), "AUDITED_NOT_EXECUTED", "checkpoint mapping status")
     _equal(mapping.get("token"), "STAGE45C_CHECKPOINT_RUNTIME_MAPPING_AUDITED", "checkpoint mapping token")
     _equal(mapping.get("protocol_sha256"), PROTOCOL_SHA256, "checkpoint mapping protocol SHA")
@@ -725,6 +731,7 @@ def audit_protocol_and_mapping(protocol_path: Path, mapping_path: Path) -> dict[
     return {
         "protocol_sha256": observed_protocol_sha,
         "mapping_sha256": mapping_sha,
+        "mapping_provenance_gate": MAPPING_PROVENANCE_GATE,
         "protocol_source_head": PROTOCOL_SOURCE_HEAD,
         "execution_head": EXTERNAL_EXECUTION_HEAD,
         "checkpoint_order": list(CHECKPOINT_ORDER),
@@ -808,7 +815,23 @@ def validate_runtime_binding(binding: Mapping[str, Any], mapping_summary: Mappin
 
     _equal(binding.get("schema"), BINDING_SCHEMA, "runtime binding schema")
     _equal(binding.get("stage"), STAGE, "runtime binding stage")
-    _equal(binding.get("pi_gate"), PI_GATE, "runtime binding gate")
+    execution_authority_gate = binding.get("pi_gate")
+    _require(
+        isinstance(execution_authority_gate, str)
+        and EXECUTION_AUTHORITY_GATE_PATTERN.fullmatch(execution_authority_gate) is not None,
+        "runtime binding execution authority gate is missing or malformed",
+    )
+    if "control_gate" in binding:
+        _equal(binding.get("control_gate"), execution_authority_gate, "runtime binding control gate")
+    if "execution_authority_gate" in binding:
+        _equal(
+            binding.get("execution_authority_gate"),
+            execution_authority_gate,
+            "runtime binding execution authority gate",
+        )
+    if require_paths:
+        _require("control_gate" in binding, "bound runtime binding control gate is missing")
+        _require("execution_authority_gate" in binding, "bound runtime binding execution authority gate is missing")
     _require(binding.get("status") in {"LATE_BOUND_NOT_EXECUTED", "READY_NOT_EXECUTED", "BOUND_NOT_EXECUTED", "READY_FOR_EXECUTION"}, "runtime binding status is not admissible")
     _equal(binding.get("protocol_sha256"), PROTOCOL_SHA256, "runtime binding protocol SHA")
     _equal(binding.get("mapping_sha256"), mapping_summary.get("mapping_sha256"), "runtime binding mapping SHA")
@@ -884,7 +907,13 @@ def validate_runtime_binding(binding: Mapping[str, Any], mapping_summary: Mappin
     else:
         _equal(historical.get("materialization_path"), None, "binding historical path")
     _equal(historical.get("substitution_allowed"), False, "binding historical substitution")
-    return {"paths": present, "status": "PASS", "require_paths": require_paths}
+    return {
+        "paths": present,
+        "status": "PASS",
+        "require_paths": require_paths,
+        "mapping_provenance_gate": MAPPING_PROVENANCE_GATE,
+        "execution_authority_gate": execution_authority_gate,
+    }
 
 
 def _hash_identity(path: Path, expected: str, label: str) -> dict[str, Any]:
@@ -1409,7 +1438,9 @@ def _plan(mapping_summary: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "schema": ADAPTER_SCHEMA,
         "stage": STAGE,
-        "pi_gate": PI_GATE,
+        "mapping_provenance_gate": MAPPING_PROVENANCE_GATE,
+        "execution_authority_gate": None,
+        "execution_authority_gate_source": "EXACT_EXTERNAL_RUNTIME_BINDING",
         "status": "READY_NOT_EXECUTED",
         "protocol_sha256": PROTOCOL_SHA256,
         "mapping_sha256": mapping_summary["mapping_sha256"],
@@ -1933,7 +1964,8 @@ def _run_execution(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any
         "schema": "CORELAB_STAGE45C_H200_EVAL_RUNTIME_ADAPTER_SEAL_V1",
         "status": "PASS",
         "token": "CORELAB_STAGE45C_H200_EVAL_RUNTIME_ADAPTER_READY",
-        "pi_gate": PI_GATE,
+        "mapping_provenance_gate": MAPPING_PROVENANCE_GATE,
+        "execution_authority_gate": binding.get("pi_gate"),
         "protocol_sha256": protocol_sha,
         "mapping_sha256": mapping_sha,
         "protocol_source_head": PROTOCOL_SOURCE_HEAD,
@@ -2043,7 +2075,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                 regular_file(args.runtime_binding, "runtime binding")
                 binding = read_json(args.runtime_binding)
                 _require(isinstance(binding, Mapping), "runtime binding must be an object")
-                payload["binding_audit"] = validate_runtime_binding(binding, mapping_summary, require_paths=False)
+                paths = binding.get("paths")
+                bound_paths = isinstance(paths, Mapping) and all(paths.get(key) is not None for key in PATH_KEYS)
+                if bound_paths:
+                    payload["production_binding_audit"] = runtime_preflight(binding, mapping_summary)
+                else:
+                    payload["binding_audit"] = validate_runtime_binding(binding, mapping_summary, require_paths=False)
         else:
             _require(args.runtime_binding is not None, "--execute requires --runtime-binding")
             regular_file(args.runtime_binding, "runtime binding")
