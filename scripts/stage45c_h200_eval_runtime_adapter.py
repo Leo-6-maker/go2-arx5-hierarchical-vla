@@ -39,8 +39,12 @@ from typing import Any, Iterable, Mapping, Sequence
 
 REPO = Path(__file__).resolve().parents[1]
 SRC = REPO / "src"
-if str(SRC) not in sys.path:
-    sys.path.insert(0, str(SRC))
+# ``scripts`` is an implicit namespace package.  Keep both roots available
+# for direct absolute-path launches from an unrelated CWD with no PYTHONPATH.
+for _import_root in (REPO, SRC):
+    _import_root_text = str(_import_root)
+    if _import_root_text not in sys.path:
+        sys.path.insert(0, _import_root_text)
 
 
 STAGE = "Stage45C"

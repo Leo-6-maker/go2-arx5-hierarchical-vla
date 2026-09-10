@@ -32,6 +32,17 @@ import sys
 from typing import Any
 
 
+# This file is also a supported absolute-path entrypoint.  The adapter uses
+# ``scripts`` as a namespace package, so the repository parent and ``src``
+# must be available before runpy loads any repository module.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = REPO_ROOT / "src"
+for _import_root in (REPO_ROOT, SRC_ROOT):
+    _import_root_text = str(_import_root)
+    if _import_root_text not in sys.path:
+        sys.path.insert(0, _import_root_text)
+
+
 COSMOS_REPO_ID = "nvidia/Cosmos-Reason2-2B"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 
