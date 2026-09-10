@@ -436,6 +436,14 @@ def validate_execution_manifest(path: Path = EXECUTION_MANIFEST_PATH) -> dict[st
     _require(admission.get("admission_module") == "scripts/stage45d_d1_runtime_admission.py", "runtime-admission module path drift")
     _require(admission.get("execution_checkout_binding") == "OBSERVED_RUNTIME_ONLY", "runtime-admission checkout binding drift")
     _require(admission.get("pre_model_import_guard") is True and admission.get("model_import_before_admission") is False, "runtime-admission import ordering drift")
+    preflight = payload.get("corelab_4080s_preflight", {})
+    _require(preflight.get("schema") == "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1", "Corelab preflight profile schema drift")
+    _require(preflight.get("profile_path") == "manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json", "Corelab preflight profile path drift")
+    _require(preflight.get("adapter_path") == "scripts/stage45d_d1_corelab_runtime_adapter.py", "Corelab preflight adapter path drift")
+    _require(preflight.get("status") == "READY_FOR_PI_REVIEW_NOT_EXECUTED", "Corelab preflight must remain static-only")
+    _require(preflight.get("selected_device") == "cuda:0" and preflight.get("selected_gpu_role") == "RTX4080S_32GB_PRIMARY", "Corelab preflight device policy drift")
+    _require(preflight.get("conditioning_passes") == 1 and preflight.get("action_head_calls") == 3 and preflight.get("total_direct_model_side_calls") == 4, "Corelab preflight budget drift")
+    _require(preflight.get("execution_authorized") is False, "Corelab preflight must not authorize execution")
     return payload
 
 

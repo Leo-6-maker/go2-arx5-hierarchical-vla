@@ -1,12 +1,12 @@
-# Stage45D D1 execution harness and runtime admission closure
+# Stage45D D1 execution harness and Corelab 4080S preflight closure
 
-Status: **RUNTIME_ADMISSION_READY_FOR_H200_GATE; NOT_EXECUTED**
+Status: **CORELAB_RUNTIME_READY_FOR_4080S_PREFLIGHT; NOT_EXECUTED**
 
 This support artifact implements the CPU/static closure authorized by
-PI_GATE_STATE_0107 (Issue #11 comment `5617612655`, Issue #50 comment
-`5617614769`). It does not authorize or perform H200, Corelab GPU, PBS, or
-model execution. PI_RESOURCE_ROUTING_POLICY_V3 makes Corelab the preferred
-future bounded execution environment, but does not expand this current gate.
+PI_GATE_STATE_0109 (Issue #11 comment `5618259751`). It does not authorize or
+perform Corelab GPU/4080S, H200, PBS, or model execution. The Corelab adapter
+is a static, fail-closed preparation for one separately authorized 4080S
+preflight; the current boundary remains CPU/filesystem/static only.
 
 The committed runner is
 `scripts/stage45d_d1_teacher_forced_local_flow.py`.  Its default plan/audit
@@ -15,6 +15,17 @@ directory with an empty `PYTHONPATH`, and import only the CPU StructuredAction
 codec.  Torch, GR00T, CUDA, checkpoint loading, and model construction are not
 top-level imports.  `--execute` is gated by a future PI authority token and a
 separate runtime-admission flag; the late-bound template keeps both closed.
+
+The Corelab bounded-preflight profile is
+`manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json` and its
+adapter is `scripts/stage45d_d1_corelab_runtime_adapter.py`.  The future
+profile selects only the 32GB RTX 4080S at `cuda:0`, one TRAIN24 window from
+`FULL24@2000`, seed `2223`, and the three fixed flow times.  It permits one
+conditioning pass followed by exactly three direct action-head calls, with no
+public sampler, free-running `get_action`, retry, fallback, sharding, or
+multi-GPU path.  Device observation and all exact identity/admission checks
+must pass before the adapter's late Torch/GR00T imports; this commit performs
+none of those imports or any runtime execution.
 
 The Stage45D-specific admission package is split from the scientific harness:
 
@@ -78,9 +89,13 @@ flush/fsync and a versioned failure seal are part of the writer contract.  The
 execution manifest fixes the later budget at 648 action-head calls plus 72
 conditioning passes, with no adaptive extension.
 
-The return token for this static gate is:
+The prior static admission token was:
 
 `STAGE45D_D1_RUNTIME_ADMISSION_READY_FOR_H200_GATE`
+
+The current Corelab-preflight preparation token is:
+
+`STAGE45D_D1_CORELAB_RUNTIME_READY_FOR_4080S_PREFLIGHT`
 
 All current counters remain zero: model construction/forward, GPU, PBS,
 training, Validation-E, Holdout-F, WBC, simulator, and hardware.

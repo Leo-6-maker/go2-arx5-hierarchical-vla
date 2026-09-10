@@ -21,7 +21,7 @@
   },
   "runner": {
     "path": "scripts/stage45d_d1_teacher_forced_local_flow.py",
-    "sha256": "2f995aae3d2ba8b4c7b9c8a91a9e9aa4c99472c769095a68bad385c2e6f701e7",
+    "sha256": "d4eadc748395705a550bcb981ec56d34cd3efbea15f62c853b221b69c813ef10",
     "static_modes": [
       "--plan-only",
       "--audit-only"
@@ -207,6 +207,18 @@
     "execution_checkout_binding": "OBSERVED_RUNTIME_ONLY",
     "pre_model_import_guard": true,
     "model_import_before_admission": false
+  },
+  "corelab_4080s_preflight": {
+    "schema": "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1",
+    "profile_path": "manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json",
+    "adapter_path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
+    "status": "READY_FOR_PI_REVIEW_NOT_EXECUTED",
+    "selected_device": "cuda:0",
+    "selected_gpu_role": "RTX4080S_32GB_PRIMARY",
+    "conditioning_passes": 1,
+    "action_head_calls": 3,
+    "total_direct_model_side_calls": 4,
+    "execution_authorized": false
   },
   "artifact_schema": {
     "raw_first": [
