@@ -47,6 +47,7 @@ PROFILE_PATH = REPO / "manifests" / "STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE
 ADAPTER_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_4080S_RUNTIME_ADAPTER_V1"
 PROFILE_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1"
 RETURN_TOKEN = "STAGE45D_D1_CORELAB_RUNTIME_READY_FOR_4080S_PREFLIGHT"
+SMOKE_PASS_TOKEN = "STAGE45D_D1_4080S_SMOKE_PASS_AUTO_CONTINUE_FULL"
 PI_GATE_COMMENT = 5618259751
 SUPPORT_HEAD = "8b5bb8c9f87ff01f79cd918d099a41173d74f7bc"
 CHECKPOINT = "FULL24@2000"
@@ -545,6 +546,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
         properties = torch.cuda.get_device_properties(device)
         _require(int(properties.total_memory) >= MIN_VRAM_BYTES, "selected GPU does not meet the 32GB floor")
         counters["gpu"] = 1
+        torch.cuda.reset_peak_memory_stats(device)
         telemetry = {
             "schema": "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_TELEMETRY_V1",
             "host": observed["host_gpu_runtime"].get("host"),
@@ -623,12 +625,27 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
             if torch.cuda.is_available():
                 telemetry["cuda_peak_allocated_bytes"] = int(torch.cuda.max_memory_allocated(device))
                 telemetry["cuda_peak_reserved_bytes"] = int(torch.cuda.max_memory_reserved(device))
+            peak_reserved = int(torch.cuda.max_memory_reserved(device))
+            total_vram = int(properties.total_memory)
+            required_free = max(2 * 1024**3, int(0.05 * total_vram))
+            resource_margin = {
+                "total_vram_bytes": total_vram,
+                "peak_reserved_bytes": peak_reserved,
+                "free_after_peak_bytes": total_vram - peak_reserved,
+                "required_free_bytes": required_free,
+                "formula": "free_bytes >= max(2GiB, 5%*total_vram_bytes)",
+                "pass": bool(total_vram - peak_reserved >= required_free),
+            }
+            telemetry["resource_margin"] = resource_margin
+            _require(resource_margin["pass"], "CORELAB_RESOURCE_BLOCKER: VRAM margin below PI0111 floor")
             telemetry["per_probe_latency_s"] = [row["latency_s"] for row in rows]
             seal = {
                 "schema": "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_SEAL_V1",
                 "status": "PASS",
-                "token": RETURN_TOKEN,
+                "token": SMOKE_PASS_TOKEN,
                 "profile_sha256": sha256_file(PROFILE_PATH),
+                "execution_head": binding["execution_checkout"]["authorized_head"],
+                "resource_margin": resource_margin,
                 "checkpoint": CHECKPOINT,
                 "window_id": WINDOW_ID,
                 "counters": counters,

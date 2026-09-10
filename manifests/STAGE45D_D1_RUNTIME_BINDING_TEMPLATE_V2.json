@@ -1,0 +1,73 @@
+{
+  "schema": "CORELAB_STAGE45D_D1_RUNTIME_BINDING_V2",
+  "status": "LATE_BOUND_NOT_EXECUTED",
+  "protocol_sha256": "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3",
+  "protocol_provenance_head": "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb",
+  "execution_authorized": false,
+  "pi_authority_token": null,
+  "execution_checkout": {
+    "binding_mode": "OBSERVED_RUNTIME_ONLY",
+    "authorized_repo_root": null,
+    "authorized_branch": null,
+    "authorized_head": null,
+    "authorized_clean_worktree": null,
+    "protocol_provenance_head_may_substitute": false
+  },
+  "runtime_identity": null,
+  "source_identities": null,
+  "checkpoint_identities": null,
+  "statistics_routes": null,
+  "dataset_identity": null,
+  "sampler": null,
+  "host_gpu_runtime": null,
+  "call_budget": null,
+  "target_xyz_in_model_input": false,
+  "locked_boundaries": null,
+  "zero_counters": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "gpu": 0,
+    "pbs": 0,
+    "training_steps": 0
+  },
+  "paths": {
+    "base_checkpoint": null,
+    "structured_1000_checkpoint": null,
+    "full24_1000_checkpoint": null,
+    "full24_2000_checkpoint": null,
+    "full24_dataset": null,
+    "snapshot_root": null,
+    "groot_source": null,
+    "cosmos_root": null,
+    "modality_config": null,
+    "base_processor_config": null,
+    "base_processor_statistics": null,
+    "structured_1000_statistics": null,
+    "full24_runtime_statistics": null,
+    "golden_release_manifest": null,
+    "groot_runtime_manifest": null,
+    "full24_manifest": null,
+    "checkpoint_integrity_audit": null,
+    "runtime_admission": null,
+    "output_root": null
+  },
+  "output": {"root": null, "fresh_required": true},
+  "execution_control": {
+    "phase": "FULL",
+    "repair_cycle": 0,
+    "smoke_attempt": 0,
+    "automatic_retry": false,
+    "smoke_pass_head": null,
+    "smoke_seal_path": null,
+    "smoke_seal_sha256": null
+  },
+  "full_execution": null,
+  "historical_comparator": {
+    "expected_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "expected_file_count": 19,
+    "expected_bytes": 20889596357,
+    "expected_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+    "materialization_path": null
+  }
+}

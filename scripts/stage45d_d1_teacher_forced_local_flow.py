@@ -444,6 +444,20 @@ def validate_execution_manifest(path: Path = EXECUTION_MANIFEST_PATH) -> dict[st
     _require(preflight.get("selected_device") == "cuda:0" and preflight.get("selected_gpu_role") == "RTX4080S_32GB_PRIMARY", "Corelab preflight device policy drift")
     _require(preflight.get("conditioning_passes") == 1 and preflight.get("action_head_calls") == 3 and preflight.get("total_direct_model_side_calls") == 4, "Corelab preflight budget drift")
     _require(preflight.get("execution_authorized") is False, "Corelab preflight must not authorize execution")
+    common_runtime = payload.get("corelab_common_runtime", {})
+    _require(common_runtime.get("schema") == "CORELAB_STAGE45D_D1_COMMON_SMOKE_FULL_RUNTIME_V1", "Corelab common runtime schema drift")
+    _require(common_runtime.get("smoke_profile_path") == "manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json", "Corelab smoke profile path drift")
+    _require(common_runtime.get("full_profile_path") == "manifests/STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1.json", "Corelab full profile path drift")
+    for key in ("common_adapter_path", "smoke_adapter_path", "full_adapter_path"):
+        _require(isinstance(common_runtime.get(key), str) and (REPO / common_runtime[key]).is_file(), f"Corelab runtime path missing: {key}")
+    _require(common_runtime.get("smoke_is_exact_subset") is True, "smoke is not frozen as an exact subset")
+    _require(common_runtime.get("checkpoint_order") == list(CHECKPOINTS), "Corelab common checkpoint order drift")
+    _require(common_runtime.get("window_count") == TRAIN24_WINDOWS, "Corelab common window count drift")
+    _require(common_runtime.get("noise_seeds") == list(NOISE_SEEDS), "Corelab common seed grid drift")
+    _require(common_runtime.get("t_values") == list(T_VALUES) and common_runtime.get("t_buckets") == list(T_BUCKETS), "Corelab common t grid drift")
+    _require(common_runtime.get("action_head_calls") == ACTION_HEAD_CALLS and common_runtime.get("conditioning_passes") == CONDITIONING_PASSES and common_runtime.get("total_model_side_calls") == TOTAL_MODEL_SIDE_CALLS, "Corelab common budget drift")
+    _require(common_runtime.get("resource_margin_formula") == "free_bytes >= max(2GiB, 5%*total_vram_bytes)", "Corelab resource margin drift")
+    _require(common_runtime.get("max_repair_cycles") == 2 and common_runtime.get("max_smoke_attempts") == 3, "Corelab repair budget drift")
     return payload
 
 

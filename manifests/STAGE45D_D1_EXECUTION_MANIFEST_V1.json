@@ -21,7 +21,7 @@
   },
   "runner": {
     "path": "scripts/stage45d_d1_teacher_forced_local_flow.py",
-    "sha256": "d4eadc748395705a550bcb981ec56d34cd3efbea15f62c853b221b69c813ef10",
+    "sha256": "c5fe78705b9e54b326be8b597f850d9d0322e85aec8a278ee8b4220ea7a2750c",
     "static_modes": [
       "--plan-only",
       "--audit-only"
@@ -218,6 +218,28 @@
     "conditioning_passes": 1,
     "action_head_calls": 3,
     "total_direct_model_side_calls": 4,
+    "execution_authorized": false
+  },
+  "corelab_common_runtime": {
+    "schema": "CORELAB_STAGE45D_D1_COMMON_SMOKE_FULL_RUNTIME_V1",
+    "smoke_profile_path": "manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json",
+    "full_profile_path": "manifests/STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1.json",
+    "common_adapter_path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
+    "smoke_adapter_path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
+    "full_adapter_path": "scripts/stage45d_d1_corelab_full_runtime_adapter.py",
+    "smoke_is_exact_subset": true,
+    "checkpoint_order": ["STRUCTURED@1000", "FULL24@1000", "FULL24@2000"],
+    "window_count": 24,
+    "window_order": "target-major then snapshot-major",
+    "noise_seeds": [2223, 2224, 2225],
+    "t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+    "t_buckets": [67, 369, 783],
+    "conditioning_passes": 72,
+    "action_head_calls": 648,
+    "total_model_side_calls": 720,
+    "resource_margin_formula": "free_bytes >= max(2GiB, 5%*total_vram_bytes)",
+    "max_repair_cycles": 2,
+    "max_smoke_attempts": 3,
     "execution_authorized": false
   },
   "artifact_schema": {
