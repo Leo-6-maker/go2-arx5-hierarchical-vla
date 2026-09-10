@@ -43,6 +43,41 @@ class TestStage45CH200EvalRuntimeAdapter(unittest.TestCase):
         self.assertEqual(binding["historical_comparator"]["runtime_materialization_status"], "RECOVERED_CANONICAL_READ_ONLY")
         self.assertIsNone(binding["historical_comparator"]["materialization_path"])
 
+    def test_mapping_provenance_and_execution_authority_are_distinct(self) -> None:
+        binding = json.loads(BINDING.read_text(encoding="utf-8"))
+        binding["pi_gate"] = "PI_GATE_STATE_0100"
+        binding["control_gate"] = "PI_GATE_STATE_0100"
+        binding["execution_authority_gate"] = "PI_GATE_STATE_0100"
+        result = adapter.validate_runtime_binding(binding, self.mapping_summary, require_paths=False)
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["mapping_provenance_gate"], "PI_GATE_STATE_0091")
+        self.assertEqual(result["execution_authority_gate"], "PI_GATE_STATE_0100")
+        self.assertEqual(self.mapping_summary["mapping_provenance_gate"], "PI_GATE_STATE_0091")
+
+    def test_mapping_provenance_gate_tampering_fails_closed(self) -> None:
+        mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
+        mapping["pi_gate"] = "PI_GATE_STATE_0100"
+        temporary = ROOT / "tests/.stage45c_mapping_gate_tamper.json"
+        try:
+            temporary.write_text(json.dumps(mapping), encoding="utf-8")
+            with self.assertRaises(adapter.AdapterError):
+                adapter.audit_protocol_and_mapping(PROTOCOL, temporary)
+        finally:
+            temporary.unlink(missing_ok=True)
+
+    def test_malformed_execution_authority_gate_fails_closed(self) -> None:
+        binding = json.loads(BINDING.read_text(encoding="utf-8"))
+        binding["pi_gate"] = "garbage"
+        with self.assertRaises(adapter.AdapterError):
+            adapter.validate_runtime_binding(binding, self.mapping_summary, require_paths=False)
+
+    def test_execution_authority_must_match_explicit_binding_admission(self) -> None:
+        binding = json.loads(BINDING.read_text(encoding="utf-8"))
+        binding["pi_gate"] = "PI_GATE_STATE_0100"
+        binding["execution_authority_gate"] = "PI_GATE_STATE_0099"
+        with self.assertRaises(adapter.AdapterError):
+            adapter.validate_runtime_binding(binding, self.mapping_summary, require_paths=False)
+
     def test_runtime_binding_requires_all_paths_for_execution(self) -> None:
         binding = json.loads(BINDING.read_text(encoding="utf-8"))
         with self.assertRaises(adapter.AdapterError):
@@ -77,6 +112,12 @@ class TestStage45CH200EvalRuntimeAdapter(unittest.TestCase):
         self.assertEqual(guard["status"], "PASS")
         self.assertEqual(guard["top_level_forbidden_imports"], [])
         self.assertEqual(guard["forbidden_call_hits"], [])
+
+    def test_gate_seal_uses_separate_identity_names(self) -> None:
+        source = (ROOT / "scripts/stage45c_h200_eval_runtime_adapter.py").read_text(encoding="utf-8")
+        self.assertIn("MAPPING_PROVENANCE_GATE", source)
+        self.assertIn('"execution_authority_gate"', source)
+        self.assertNotIn('PI_GATE = "PI_GATE_STATE_0091"', source)
 
     def test_source_declares_raw_first_and_v2_bridge(self) -> None:
         source = (ROOT / "scripts/stage45c_h200_eval_runtime_adapter.py").read_text(encoding="utf-8")
