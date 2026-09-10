@@ -124,6 +124,22 @@ def _load_manifest_document(path: str | Path) -> tuple[dict[str, Any], Path]:
     return value, manifest_path
 
 
+def _require_manifest_file(path: str | Path) -> Path:
+    manifest_path = Path(path).expanduser()
+    _require(
+        not manifest_path.is_symlink(),
+        f"manifest may not be a symlink: {manifest_path}",
+    )
+    try:
+        manifest_path = manifest_path.resolve(strict=True)
+    except OSError as exc:
+        raise ReusableEvaluationError(
+            f"manifest path cannot be resolved: {manifest_path}"
+        ) from exc
+    _require(manifest_path.is_file(), f"manifest must be a regular file: {manifest_path}")
+    return manifest_path
+
+
 def _validate_identity_artifact(value: Any, *, field: str) -> None:
     artifact = require_mapping(value, field=field)
     require_nonempty_string(artifact.get("path"), field=f"{field}.path")
@@ -275,6 +291,7 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
     cohort = require_mapping(manifest.get("cohort"), field="cohort")
     require_nonempty_string(cohort.get("name"), field="cohort.name")
     require_nonempty_string(cohort.get("split"), field="cohort.split")
+    _validate_identity_artifact(cohort.get("identity"), field="cohort.identity")
     _require(
         cohort.get("window_order") == "explicit_manifest_order",
         "cohort.window_order must state explicit_manifest_order",
@@ -476,10 +493,17 @@ def load_evaluation_manifest(path: str | Path) -> dict[str, Any]:
 def verify_evaluation_artifacts(
     manifest: Mapping[str, Any], *, manifest_path: str | Path
 ) -> dict[str, Any]:
-    """Verify every checkpoint and statistics identity named by a manifest."""
+    """Verify every manifest-bound input before any decoder invocation."""
 
     base_dir = Path(manifest_path).expanduser().resolve(strict=True).parent
-    verified: dict[str, Any] = {"checkpoints": []}
+    verified: dict[str, Any] = {
+        "cohort": verify_artifact_identity(
+            manifest["cohort"]["identity"],
+            base_dir=base_dir,
+            field="cohort.identity",
+        ),
+        "checkpoints": [],
+    }
     for index, checkpoint in enumerate(manifest["checkpoints"]):
         item = dict(checkpoint)
         item["identity"] = verify_artifact_identity(
@@ -542,6 +566,7 @@ def build_evaluation_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
             }
             for item in manifest["checkpoints"]
         ],
+        "cohort_identity": dict(manifest["cohort"]["identity"]),
         "window_order": [item["id"] for item in manifest["cohort"]["windows"]],
         "window_count": window_count,
         "checkpoint_count": checkpoint_count,
@@ -985,16 +1010,17 @@ def run_evaluation(
     records: Sequence[Mapping[str, Any]],
     *,
     output_dir: str | Path,
-    manifest_path: str | Path | None = None,
+    manifest_path: str | Path,
     records_base_dir: str | Path | None = None,
-    verify_artifacts: bool = False,
     decoder: Callable[..., DecodedStructuredPrediction] = decode_raw_prediction,
 ) -> dict[str, Any]:
     """Execute the generic raw-to-metric path with no model construction.
 
+    ``manifest_path`` is mandatory so all identity roots are deterministic.
     ``decoder`` is injectable only for CPU/synthetic unit fixtures.  The CLI
     always uses the accepted Stage40 decoder above; no module path supplied by
-    a manifest is imported dynamically.
+    a manifest is imported dynamically.  Manifest-bound artifact verification
+    is unconditional and happens before the first decoder call.
     """
 
     validate_evaluation_manifest(manifest)
@@ -1002,6 +1028,15 @@ def run_evaluation(
         manifest.get("status") == GENERIC_EVAL_STATUS,
         "evaluation manifest is not execution-ready",
     )
+    manifest_file = _require_manifest_file(manifest_path)
+    try:
+        _require(
+            load_json(manifest_file) == dict(manifest),
+            "manifest mapping differs from the concrete manifest file",
+        )
+        verified = verify_evaluation_artifacts(manifest, manifest_path=manifest_file)
+    except ReusableManifestError as exc:
+        raise ReusableEvaluationError(str(exc)) from exc
     output = Path(output_dir).expanduser()
     if output.exists():
         _require(
@@ -1013,22 +1048,16 @@ def run_evaluation(
         )
     else:
         output.mkdir(parents=True, exist_ok=False)
-    if manifest_path is not None:
-        manifest_file = Path(manifest_path).expanduser().resolve(strict=True)
-        expected_root = _path_from(
-            manifest["output"]["root"],
-            base_dir=manifest_file.parent,
-            field="output.root",
-        )
-        _require(
-            output.resolve() == expected_root,
-            "output root differs from manifest-bound root",
-        )
+    expected_root = _path_from(
+        manifest["output"]["root"],
+        base_dir=manifest_file.parent,
+        field="output.root",
+    )
+    _require(
+        output.resolve() == expected_root,
+        "output root differs from manifest-bound root",
+    )
     record_base = Path(records_base_dir or Path.cwd()).expanduser().resolve()
-    if verify_artifacts and manifest_path is not None:
-        verified = verify_evaluation_artifacts(manifest, manifest_path=manifest_path)
-    else:
-        verified = {"skipped": True}
 
     checkpoints = list(manifest["checkpoints"])
     windows = list(manifest["cohort"]["windows"])

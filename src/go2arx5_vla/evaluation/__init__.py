@@ -48,6 +48,12 @@ from .analyzer import (
     load_rows,
     write_analysis,
 )
+from .h200_admission import (
+    H200_INFERENCE_ADMISSION_SCHEMA,
+    H200_INFERENCE_ADMISSION_STATUS,
+    H200AdmissionError,
+    validate_h200_inference_admission,
+)
 
 __all__ = [
     "ACTION_HORIZON",
@@ -82,4 +88,8 @@ __all__ = [
     "run_evaluation",
     "verify_evaluation_artifacts",
     "write_analysis",
+    "H200_INFERENCE_ADMISSION_SCHEMA",
+    "H200_INFERENCE_ADMISSION_STATUS",
+    "H200AdmissionError",
+    "validate_h200_inference_admission",
 ]

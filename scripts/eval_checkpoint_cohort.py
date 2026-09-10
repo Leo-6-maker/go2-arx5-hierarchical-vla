@@ -6,7 +6,8 @@ The command has two deliberately separate modes:
 * ``--plan`` validates a future experiment without model/runtime access.
 * ``--raw-predictions`` consumes a stage-specific raw-prediction handoff,
   persists each raw ``[1,40,132]`` array, then uses the accepted CPU decoder
-  and metric library.  It never constructs or trains a model.
+  and metric library.  Manifest-bound artifact verification is mandatory
+  before the first decoder call; it never constructs or trains a model.
 
 Historical evidence-producing wrappers remain frozen; this is the canonical
 future-facing entry point for new manifests.
@@ -52,7 +53,6 @@ def main() -> int:
     parser.add_argument(
         "--output", type=Path, help="write the plan/summary JSON here instead of stdout"
     )
-    parser.add_argument("--verify-artifacts", action="store_true")
     args = parser.parse_args()
 
     try:
@@ -74,7 +74,6 @@ def main() -> int:
             output_dir=args.output_dir,
             manifest_path=args.manifest,
             records_base_dir=args.raw_predictions.resolve().parent,
-            verify_artifacts=args.verify_artifacts,
         )
         if args.output is not None:
             write_json(args.output, summary)

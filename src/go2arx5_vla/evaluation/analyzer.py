@@ -147,14 +147,12 @@ def _checkpoint_sha(row: Mapping[str, Any]) -> str | None:
 
 
 def _target_id(row: Mapping[str, Any]) -> str:
-    value = str(row.get("target_id", "")).strip()
-    if value:
-        return value
-    window_id = str(row.get("window_id", "")).strip()
-    _require(bool(window_id), "row window_id is missing")
-    if window_id.startswith("stage22_expert_") and ":" in window_id:
-        return window_id[len("stage22_expert_") :].split(":", 1)[0]
-    return window_id.split(":", 1)[0]
+    value = row.get("target_id")
+    _require(
+        isinstance(value, str) and bool(value.strip()),
+        "row target_id must be an explicit non-empty string",
+    )
+    return value.strip()
 
 
 def _metric_map(row: Mapping[str, Any]) -> dict[str, float]:
@@ -440,6 +438,10 @@ def write_analysis(
         _require(
             output.is_dir() and not output.is_symlink(),
             "analysis output must be a regular directory",
+        )
+        _require(
+            not any(output.iterdir()),
+            "analysis output root must be fresh and empty",
         )
     else:
         output.mkdir(parents=True, exist_ok=False)

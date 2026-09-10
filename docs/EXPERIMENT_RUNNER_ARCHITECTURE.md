@@ -38,8 +38,7 @@ python scripts/eval_checkpoint_cohort.py \
 python scripts/eval_checkpoint_cohort.py \
   --manifest path/to/evaluation-manifest.json \
   --raw-predictions path/to/raw-predictions.jsonl \
-  --output-dir path/to/fresh-output \
-  --verify-artifacts
+  --output-dir path/to/fresh-output
 ```
 
 The manifest must explicitly provide:
@@ -49,7 +48,7 @@ The manifest must explicitly provide:
   timestamps.  A fixed cadence is admitted only when a named timing profile
   explicitly requires it;
 * ordered checkpoint labels, checkpoint content identities, runtime mappings,
-  and statistics identities;
+  statistics identities, and a cohort/dataset identity;
 * raw `[1,40,132]` and decoded `[40,10]` ABIs;
 * `body_rgb`, `wrist_rgb`, and `state`, with numeric target XYZ excluded;
 * same-noise pairing and a named versioned sampler profile.  The preserved
@@ -60,10 +59,13 @@ The manifest must explicitly provide:
   Validation-E/Holdout-F/WBC/simulator/hardware boundaries.
 
 The stage-specific runtime supplies a JSON/JSONL record for each explicit
-checkpoint/window pair.  Each record carries a raw `.npy` path and both file
-and array SHA256 values.  The generic runner copies and fsyncs the raw file to
-the fresh output root and records that handoff before calling the accepted
-Stage40 decoder.  For each successful window it persists the decoded `[H,10]`
+checkpoint/window pair.  Canonical execution requires a concrete manifest
+path and unconditionally verifies every manifest-bound checkpoint, runtime
+mapping, statistics, cohort, and noise-bank identity before the first decoder
+call; there is no CLI opt-out.  Each record carries a raw `.npy` path and both
+file and array SHA256 values.  The generic runner copies and fsyncs the raw
+file to the fresh output root and records that handoff before calling the
+accepted Stage40 decoder.  For each successful window it persists the decoded `[H,10]`
 `.npy` array, appends the complete metric row to `per_window.jsonl`, flushes,
 and fsyncs before continuing.  A late decoder/metric failure therefore leaves
 prior decoded arrays and rows usable, together with a durable failure seal.  A
@@ -85,7 +87,9 @@ containing it) and writes, without changing the source:
 * deterministic per-target summaries;
 * cohort distributions;
 * paired per-window delta tables and distributions;
-* `report.md` and `analysis_manifest.json`.
+* `report.md` and `analysis_manifest.json`.  The analysis output root must be
+  new or already empty; a reused/non-empty root is rejected before any artifact
+  is overwritten.
 
 Pair deltas use `right - left`.  The experiment manifest may name primary and
 secondary pairs.  If no pairs are supplied, the analyzer performs descriptive
@@ -108,8 +112,21 @@ trainer state.  It refuses to infer resume or fresh semantics.
 The plan contains base checkpoint, dataset manifest/statistics, provenance,
 runtime, output, recipe, backend-boundary, and late-bound runtime identities.  A
 stage-specific wrapper is the only layer allowed to cross into model
-construction and training after its gate admission; this generic command
-itself cannot start either.
+construction and training after its gate admission; its execution admission
+must reject a plan whose `verified_artifacts` is missing or marked `skipped`.
+This generic command itself cannot start either.
+
+## H200 inference-admission preflight
+
+`src/go2arx5_vla/evaluation/h200_admission.py` and
+`scripts/validate_h200_inference_admission.py` define a static, stage-specific
+preflight immediately before a future H200 inference adapter.  The resolved
+admission document must exactly cross-bind the repository execution HEAD,
+materialized checkpoint paths/content, checkpoint-specific statistics, the
+cohort/dataset path and identity, fresh output root, offline mode, runtime
+admission identity, sampler/noise identity, and every locked boundary.  The
+preflight has no model import/construction/forward side effect; a separate PI
+review is still required before a canary.
 
 ## Historical boundary
 

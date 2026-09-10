@@ -89,6 +89,11 @@ def _bool(value: Any, *, field: str) -> bool:
     return bool(value)
 
 
+def _integer(value: Any, *, field: str) -> int:
+    _require(type(value) is int, f"{field} must be a JSON integer")
+    return value
+
+
 def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
     """Validate all generic training identity and recipe fields."""
 
@@ -198,8 +203,8 @@ def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
 def _validate_training_recipe(recipe: Mapping[str, Any]) -> None:
     """Validate a concrete recipe after template sentinels are resolved."""
 
-    max_steps = int(recipe["max_steps"])
-    warmup_steps = int(recipe["warmup_steps"])
+    max_steps = _integer(recipe["max_steps"], field="recipe.max_steps")
+    warmup_steps = _integer(recipe["warmup_steps"], field="recipe.warmup_steps")
     _require(max_steps > 0, "recipe.max_steps must be positive")
     _require(0 <= warmup_steps <= max_steps, "recipe.warmup_steps is outside max_steps")
     require_nonempty_string(recipe["scheduler"], field="recipe.scheduler")
@@ -213,12 +218,10 @@ def _validate_training_recipe(recipe: Mapping[str, Any]) -> None:
     _require(
         float(recipe["learning_rate"]) > 0.0, "recipe.learning_rate must be positive"
     )
-    try:
-        int(recipe["seed"])
-    except (TypeError, ValueError) as exc:
-        raise ReusableTrainingError("recipe.seed must be an integer") from exc
+    _integer(recipe["seed"], field="recipe.seed")
     for field in ("batch_size", "gradient_accumulation_steps"):
-        _require(int(recipe[field]) > 0, f"recipe.{field} must be positive")
+        value = _integer(recipe[field], field=f"recipe.{field}")
+        _require(value > 0, f"recipe.{field} must be positive")
     _bool(recipe["bf16"], field="recipe.bf16")
     _bool(recipe["fp16"], field="recipe.fp16")
     _require(
@@ -244,7 +247,10 @@ def _validate_training_recipe(recipe: Mapping[str, Any]) -> None:
         isinstance(save_steps, list) and bool(save_steps),
         "recipe.save_steps must be an explicit list",
     )
-    normalized_steps = [int(step) for step in save_steps]
+    normalized_steps = [
+        _integer(step, field=f"recipe.save_steps[{index}]")
+        for index, step in enumerate(save_steps)
+    ]
     _require(
         normalized_steps == sorted(set(normalized_steps)),
         "recipe.save_steps must be sorted and unique",
@@ -339,6 +345,35 @@ def build_training_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def validate_training_execution_admission(plan: Mapping[str, Any]) -> dict[str, Any]:
+    """Reject a training handoff unless all input artifacts were verified."""
+
+    _require(
+        plan.get("schema") == GENERIC_TRAINING_PLAN_SCHEMA,
+        "training execution plan schema mismatch",
+    )
+    _require(
+        plan.get("backend_handoff_required") is True,
+        "training execution backend handoff is not required",
+    )
+    verified = plan.get("verified_artifacts")
+    _require(
+        isinstance(verified, Mapping),
+        "training execution requires verified_artifacts",
+    )
+    _require(
+        verified.get("skipped") is not True,
+        "training execution rejects skipped artifact verification",
+    )
+    for key in ("base_checkpoint", "dataset_manifest", "dataset_statistics"):
+        item = verified.get(key)
+        _require(
+            isinstance(item, Mapping) and item.get("verified") is True,
+            f"training execution artifact is not verified: {key}",
+        )
+    return dict(verified)
+
+
 def write_training_plan(
     manifest: Mapping[str, Any],
     *,
@@ -368,6 +403,7 @@ __all__ = [
     "ReusableTrainingError",
     "build_training_plan",
     "load_training_manifest",
+    "validate_training_execution_admission",
     "validate_training_manifest",
     "verify_training_artifacts",
     "write_training_plan",

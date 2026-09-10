@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from go2arx5_vla.evaluation.analyzer import (
+    CheckpointAnalysisError,
     analyze_rows,
     load_rows,
     write_analysis,
@@ -30,6 +31,12 @@ from go2arx5_vla.evaluation.reusable import (
     build_evaluation_plan,
     run_evaluation,
     validate_evaluation_manifest,
+)
+from go2arx5_vla.evaluation.h200_admission import (
+    H200_INFERENCE_ADMISSION_SCHEMA,
+    H200_INFERENCE_ADMISSION_STATUS,
+    H200AdmissionError,
+    validate_h200_inference_admission,
 )
 from go2arx5_vla.evaluation.structured_action_eval import (
     DecodedStructuredPrediction,
@@ -48,6 +55,7 @@ from go2arx5_vla.experiments.reusable import (
 from go2arx5_vla.training.reusable import (
     ReusableTrainingError,
     build_training_plan,
+    validate_training_execution_admission,
     validate_training_manifest,
     verify_training_artifacts,
 )
@@ -71,6 +79,8 @@ class ReusableInfrastructureTests(unittest.TestCase):
         body_path.write_bytes(b"body modality fixture")
         wrist_path = input_dir / "wrist.rgb"
         wrist_path.write_bytes(b"wrist modality fixture")
+        cohort_path = input_dir / "cohort.json"
+        cohort_path.write_bytes(b'{"cohort":"fixture"}\n')
 
         checkpoint_files: dict[str, Path] = {}
         mapping_files: dict[str, Path] = {}
@@ -120,6 +130,7 @@ class ReusableInfrastructureTests(unittest.TestCase):
             "cohort": {
                 "name": "SYNTHETIC_TWO_WINDOW",
                 "split": "TRAIN",
+                "identity": _artifact(cohort_path),
                 "window_order": "explicit_manifest_order",
                 "windows": windows,
             },
@@ -153,7 +164,27 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 "identity": "runtime-fixture-v1",
                 "backend": "groot_h200_inference_backend_v1",
                 "late_bound": {
-                    field: f"fixture-{field}" for field in RUNTIME_LATE_BOUND_FIELDS
+                    "repository_execution_head": "a" * 40,
+                    "python_runtime": "fixture-python-v1",
+                    "container_or_environment": "fixture-environment-v1",
+                    "groot_source": "fixture-groot-source-v1",
+                    "cosmos_cache_root": "fixture-cosmos-cache-v1",
+                    "checkpoint_paths": {
+                        label: _artifact(path)
+                        for label, path in checkpoint_files.items()
+                    },
+                    "dataset_path": _artifact(cohort_path),
+                    "statistics_path": {
+                        label: _artifact(path) for label, path in stats_files.items()
+                    },
+                    "output_root": str(root / "evaluation-output"),
+                    "scheduler_project": "fixture-project-v1",
+                    "scheduler_queue": "fixture-queue-v1",
+                    "scheduler_resources": "fixture-resources-v1",
+                    "gpu_device": "fixture-gpu-device-v1",
+                    "host": "fixture-host-v1",
+                    "offline_mode": True,
+                    "runtime_admission_identity": "fixture-admission-v1",
                 },
             },
             "output": {
@@ -223,6 +254,39 @@ class ReusableInfrastructureTests(unittest.TestCase):
         write_json(manifest_path, manifest)
         return manifest_path, manifest, records
 
+    def _h200_admission(self, manifest: dict) -> dict:
+        return {
+            "schema": H200_INFERENCE_ADMISSION_SCHEMA,
+            "backend": manifest["runtime"]["backend"],
+            "runtime_identity": manifest["runtime"]["identity"],
+            "timestamp_profile": manifest["timestamp_profile"],
+            "runtime_late_bound": json.loads(
+                json.dumps(manifest["runtime"]["late_bound"])
+            ),
+            "cohort": {
+                "name": manifest["cohort"]["name"],
+                "split": manifest["cohort"]["split"],
+                "window_ids": [
+                    item["id"] for item in manifest["cohort"]["windows"]
+                ],
+                "target_ids": [
+                    item["target_id"] for item in manifest["cohort"]["windows"]
+                ],
+            },
+            "sampler": {
+                "profile": manifest["sampler"]["profile"],
+                "timesteps": list(manifest["sampler"]["timesteps"]),
+                "dt": manifest["sampler"]["dt"],
+                "expected_calls_per_window": manifest["sampler"][
+                    "expected_calls_per_window"
+                ],
+                "same_noise_across_checkpoints": True,
+                "noise_bank": _artifact(Path(manifest["sampler"]["noise_bank"])),
+            },
+            "output_fresh": True,
+            "locked_boundaries": dict(manifest["locked_boundaries"]),
+        }
+
     def test_plan_validates_explicit_cohort_and_sampler(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             _manifest_path, manifest, _ = self._evaluation_fixture(Path(temporary))
@@ -268,12 +332,13 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 output_dir=root / "evaluation-output",
                 manifest_path=manifest_path,
                 records_base_dir=root / "inputs",
-                verify_artifacts=True,
                 decoder=fake_decoder,
             )
             self.assertEqual(decode_calls, 4)
             self.assertEqual(summary["raw_prediction_count"], 4)
             self.assertEqual(summary["sampler_calls"], 16)
+            self.assertNotIn("skipped", summary["verified_artifacts"])
+            self.assertTrue(summary["verified_artifacts"]["cohort"]["verified"])
             raw_lines = raw_manifest_path.read_text(encoding="utf-8").splitlines()
             self.assertEqual(len(raw_lines), 4)
             self.assertTrue(
@@ -315,6 +380,160 @@ class ReusableInfrastructureTests(unittest.TestCase):
             self.assertEqual(analysis_manifest["threshold_used"], None)
             self.assertTrue((root / "analysis-output" / "report.md").is_file())
 
+    def test_artifact_verification_is_mandatory_before_decode(self) -> None:
+        tamper_cases = (
+            ("checkpoint", "identity"),
+            ("runtime_mapping", "runtime_mapping"),
+            ("statistics", "statistics"),
+        )
+        for case_name, artifact_key in tamper_cases:
+            with self.subTest(case_name=case_name), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                manifest_path, manifest, records = self._evaluation_fixture(root)
+                artifact_path = Path(manifest["checkpoints"][0][artifact_key]["path"])
+                artifact_path.write_bytes(artifact_path.read_bytes() + b"tampered")
+                decoder_calls = 0
+
+                def decoder(*args, **kwargs):
+                    nonlocal decoder_calls
+                    decoder_calls += 1
+                    raise AssertionError("decoder must not be called")
+
+                with self.assertRaises(ReusableEvaluationError):
+                    run_evaluation(
+                        manifest,
+                        records,
+                        output_dir=root / "evaluation-output",
+                        manifest_path=manifest_path,
+                        records_base_dir=root / "inputs",
+                        decoder=decoder,
+                    )
+                self.assertEqual(decoder_calls, 0)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest_path, manifest, records = self._evaluation_fixture(root)
+            noise_path = Path(manifest["sampler"]["noise_bank"])
+            noise_path.write_bytes(noise_path.read_bytes() + b"tampered")
+            decoder_calls = 0
+
+            def decoder(*args, **kwargs):
+                nonlocal decoder_calls
+                decoder_calls += 1
+                raise AssertionError("decoder must not be called")
+
+            with self.assertRaises(ReusableEvaluationError):
+                run_evaluation(
+                    manifest,
+                    records,
+                    output_dir=root / "evaluation-output",
+                    manifest_path=manifest_path,
+                    records_base_dir=root / "inputs",
+                    decoder=decoder,
+                )
+            self.assertEqual(decoder_calls, 0)
+
+    def test_h200_admission_cross_binds_all_runtime_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest_path, manifest, _records = self._evaluation_fixture(root)
+            admission = self._h200_admission(manifest)
+            result = validate_h200_inference_admission(
+                manifest, admission, manifest_path=manifest_path
+            )
+            self.assertEqual(result["status"], H200_INFERENCE_ADMISSION_STATUS)
+            self.assertFalse(result["model_imported"])
+            self.assertFalse(result["model_construction"])
+            self.assertFalse(result["model_forward"])
+            self.assertFalse(result["pbs_submission"])
+
+            mutations = {
+                "head": lambda item: item["runtime_late_bound"].update(
+                    {"repository_execution_head": "c" * 40}
+                ),
+                "checkpoint": lambda item: item["runtime_late_bound"][
+                    "checkpoint_paths"
+                ]["CP0"].update({"sha256": "c" * 64}),
+                "statistics": lambda item: item["runtime_late_bound"][
+                    "statistics_path"
+                ]["CP0"].update({"sha256": "c" * 64}),
+                "dataset": lambda item: item["runtime_late_bound"][
+                    "dataset_path"
+                ].update({"sha256": "c" * 64}),
+                "cohort": lambda item: item["cohort"].update(
+                    {"window_ids": ["wrong-window"]}
+                ),
+                "output": lambda item: item["runtime_late_bound"].update(
+                    {"output_root": str(root / "other-output")}
+                ),
+                "offline": lambda item: item["runtime_late_bound"].update(
+                    {"offline_mode": False}
+                ),
+                "runtime_identity": lambda item: item["runtime_late_bound"].update(
+                    {"runtime_admission_identity": "wrong-admission"}
+                ),
+                "sampler": lambda item: item["sampler"].update(
+                    {"profile": "wrong-profile"}
+                ),
+                "noise": lambda item: item["sampler"]["noise_bank"].update(
+                    {"sha256": "c" * 64}
+                ),
+                "locked_boundary": lambda item: item["locked_boundaries"].update(
+                    {"Holdout-F": "OPEN"}
+                ),
+            }
+            for case_name, mutate in mutations.items():
+                with self.subTest(case_name=case_name):
+                    candidate = json.loads(json.dumps(admission))
+                    mutate(candidate)
+                    with self.assertRaises(H200AdmissionError):
+                        validate_h200_inference_admission(
+                            manifest, candidate, manifest_path=manifest_path
+                        )
+            output_root = Path(manifest["output"]["root"])
+            output_root.mkdir()
+            (output_root / "stale.json").write_text("stale\n", encoding="utf-8")
+            with self.assertRaises(H200AdmissionError):
+                validate_h200_inference_admission(
+                    manifest, admission, manifest_path=manifest_path
+                )
+
+    def test_generic_analyzer_requires_explicit_target_id(self) -> None:
+        rows = [
+            {
+                "checkpoint": {"label": "arbitrary", "sha256": "a" * 64},
+                "window_id": "stage22_expert_legacy:window-1",
+                "metrics": {"position_rmse_m": 1.0},
+            }
+        ]
+        with self.assertRaises(CheckpointAnalysisError):
+            analyze_rows(rows)
+        analyzer_source = (
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "analyzer.py"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("stage22", analyzer_source.lower())
+
+    def test_analysis_output_must_be_fresh_and_empty(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "source.jsonl"
+            source.write_text("{}\n", encoding="utf-8")
+            result = analyze_rows(
+                [
+                    {
+                        "checkpoint": {"label": "CP", "sha256": "a" * 64},
+                        "window_id": "window-1",
+                        "target_id": "target-1",
+                        "metrics": {"position_rmse_m": 1.0},
+                    }
+                ]
+            )
+            output = root / "analysis-output"
+            output.mkdir()
+            (output / "stale.json").write_text("stale\n", encoding="utf-8")
+            with self.assertRaises(CheckpointAnalysisError):
+                write_analysis(result, output_dir=output, source_path=source)
+
     def test_manifest_rejects_target_xyz_and_noise_or_order_drift(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             manifest_path, manifest, records = self._evaluation_fixture(Path(temporary))
@@ -329,7 +548,7 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 run_evaluation(
                     manifest,
                     bad_records,
-                    output_dir=Path(temporary) / "failed-output",
+                    output_dir=Path(temporary) / "evaluation-output",
                     manifest_path=manifest_path,
                     records_base_dir=Path(temporary) / "inputs",
                     decoder=lambda *args, **kwargs: None,
@@ -420,12 +639,13 @@ class ReusableInfrastructureTests(unittest.TestCase):
                     trajectory_chunk=None,
                 )
 
-            output = root / "late-failure-output"
+            output = root / "evaluation-output"
             with self.assertRaises(RuntimeError):
                 run_evaluation(
                     manifest,
                     records,
                     output_dir=output,
+                    manifest_path=root / "evaluation-manifest.json",
                     records_base_dir=root / "inputs",
                     decoder=failing_decoder,
                 )
@@ -591,10 +811,41 @@ class ReusableInfrastructureTests(unittest.TestCase):
             self.assertEqual(plan["recipe"]["save_steps"], [10, 20])
             verified = verify_training_artifacts(manifest, manifest_path=manifest_path)
             self.assertEqual(verified["base_checkpoint"]["verified"], True)
+            plan_with_verified = dict(plan)
+            plan_with_verified["verified_artifacts"] = verified
+            self.assertEqual(
+                validate_training_execution_admission(plan_with_verified), verified
+            )
+            skipped_plan = dict(plan)
+            skipped_plan["verified_artifacts"] = {"skipped": True}
+            with self.assertRaises(ReusableTrainingError):
+                validate_training_execution_admission(skipped_plan)
             bad = json.loads(json.dumps(manifest))
             del bad["recipe"]["resume"]
             with self.assertRaises(ReusableTrainingError):
                 validate_training_manifest(bad)
+
+    def test_training_controls_require_strict_json_integers(self) -> None:
+        fractional_values = {
+            "max_steps": 20.5,
+            "warmup_steps": 1.5,
+            "seed": 2222.5,
+            "batch_size": 1.5,
+            "gradient_accumulation_steps": 1.5,
+            "save_steps": [10, 20.5],
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            _manifest_path, manifest = self._training_fixture(Path(temporary))
+            for field, value in fractional_values.items():
+                with self.subTest(field=field):
+                    candidate = json.loads(json.dumps(manifest))
+                    candidate["recipe"][field] = value
+                    with self.assertRaises(ReusableTrainingError):
+                        validate_training_manifest(candidate)
+            boolean_steps = json.loads(json.dumps(manifest))
+            boolean_steps["recipe"]["max_steps"] = True
+            with self.assertRaises(ReusableTrainingError):
+                validate_training_manifest(boolean_steps)
 
     def test_generic_sources_have_no_runtime_imports_or_process_launch(self) -> None:
         paths = [
@@ -603,7 +854,9 @@ class ReusableInfrastructureTests(unittest.TestCase):
             ROOT / "scripts" / "train_adaptation.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "reusable.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "analyzer.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_admission.py",
             ROOT / "src" / "go2arx5_vla" / "training" / "reusable.py",
+            ROOT / "scripts" / "validate_h200_inference_admission.py",
         ]
         forbidden = {"torch", "gr00t", "cuda", "subprocess"}
         for path in paths:
@@ -618,6 +871,12 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 imported.isdisjoint(forbidden), (path, imported & forbidden)
             )
             self.assertNotIn("os.system", path.read_text(encoding="utf-8"))
+        self.assertNotIn(
+            "verify_artifacts",
+            (ROOT / "scripts" / "eval_checkpoint_cohort.py").read_text(
+                encoding="utf-8"
+            ),
+        )
 
     def test_future_generic_layer_has_no_machine_or_stage_literals(self) -> None:
         paths = [
@@ -626,8 +885,10 @@ class ReusableInfrastructureTests(unittest.TestCase):
             ROOT / "scripts" / "train_adaptation.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "reusable.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "analyzer.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_admission.py",
             ROOT / "src" / "go2arx5_vla" / "training" / "reusable.py",
             ROOT / "src" / "go2arx5_vla" / "experiments" / "reusable.py",
+            ROOT / "scripts" / "validate_h200_inference_admission.py",
         ]
         forbidden = (
             "Stage45",

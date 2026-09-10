@@ -5,6 +5,7 @@ from .reusable import (
     ReusableTrainingError,
     build_training_plan,
     load_training_manifest,
+    validate_training_execution_admission,
     validate_training_manifest,
     verify_training_artifacts,
 )
@@ -14,6 +15,7 @@ __all__ = [
     "ReusableTrainingError",
     "build_training_plan",
     "load_training_manifest",
+    "validate_training_execution_admission",
     "validate_training_manifest",
     "verify_training_artifacts",
 ]
