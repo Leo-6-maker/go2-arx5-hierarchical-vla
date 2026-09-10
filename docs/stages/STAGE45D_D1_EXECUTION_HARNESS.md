@@ -1,10 +1,12 @@
-# Stage45D D1 execution harness
+# Stage45D D1 execution harness and runtime admission closure
 
-Status: **READY_FOR_PI_REVIEW_NOT_EXECUTED**
+Status: **RUNTIME_ADMISSION_READY_FOR_H200_GATE; NOT_EXECUTED**
 
-This support artifact implements the final static harness gate authorized by
-PI_GATE_STATE_0106 (Issue #11 comment `5617254774`, Issue #50 comment
-`5617258920`).  It does not authorize or perform H200 execution.
+This support artifact implements the CPU/static closure authorized by
+PI_GATE_STATE_0107 (Issue #11 comment `5617612655`, Issue #50 comment
+`5617614769`). It does not authorize or perform H200, Corelab GPU, PBS, or
+model execution. PI_RESOURCE_ROUTING_POLICY_V3 makes Corelab the preferred
+future bounded execution environment, but does not expand this current gate.
 
 The committed runner is
 `scripts/stage45d_d1_teacher_forced_local_flow.py`.  Its default plan/audit
@@ -12,8 +14,23 @@ modes resolve the repository from `__file__`, work from a foreign current
 directory with an empty `PYTHONPATH`, and import only the CPU StructuredAction
 codec.  Torch, GR00T, CUDA, checkpoint loading, and model construction are not
 top-level imports.  `--execute` is gated by a future PI authority token and a
-separate runtime-admission flag; PI0106's late-bound template keeps both
-closed.
+separate runtime-admission flag; the late-bound template keeps both closed.
+
+The Stage45D-specific admission package is split from the scientific harness:
+
+- `manifests/STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1.json` is a static,
+  unmaterialized schema for the future observed runtime;
+- `manifests/STAGE45D_D1_RUNTIME_COMPATIBILITY_MAP_V1.json` maps each D1
+  boundary to the reusable Vanda runtime/admission responsibility at PR #49
+  HEAD `7d055069ba1d391c17457f709f7fc9aff544ef02`;
+- `scripts/stage45d_d1_runtime_admission.py` performs the CPU-only static
+  checks and provides a future `validate_future_admission` entry point.
+
+The immutable protocol-correction HEAD
+`1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb` is recorded only as
+`protocol_provenance_head`. A later execution checkout must late-bind and
+cross-check its own observed branch, exact HEAD, repository root, and clean
+worktree; it may never pass by checking the protocol provenance HEAD alone.
 
 ## Frozen algebra
 
@@ -63,4 +80,7 @@ conditioning passes, with no adaptive extension.
 
 The return token for this static gate is:
 
-`STAGE45D_D1_EXECUTION_HARNESS_READY_FOR_H200_REVIEW`
+`STAGE45D_D1_RUNTIME_ADMISSION_READY_FOR_H200_GATE`
+
+All current counters remain zero: model construction/forward, GPU, PBS,
+training, Validation-E, Holdout-F, WBC, simulator, and hardware.

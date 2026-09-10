@@ -7,7 +7,7 @@ checkpoint-specific statistics routing, flow algebra, evidence lifecycle, and
 the late-bound runtime schema.  They never import Torch/GR00T/CUDA and never
 construct a model.
 
-``--execute`` is deliberately fail-closed in this PI0106 preparation pass.
+``--execute`` is deliberately fail-closed in this PI0107 static closure pass.
 It can proceed only when a future PI-authorized runtime binding explicitly
 enables execution, supplies a matching authority token, and opts into the
 later runtime adapter.  The guarded import is below all static/admission
@@ -35,14 +35,23 @@ for _path in (SRC, SCRIPTS):
         sys.path.insert(0, str(_path))
 
 from go2arx5_vla.structured_action import structured_action_mask  # noqa: E402
+from stage45d_d1_runtime_admission import (  # noqa: E402
+    ADMISSION_MANIFEST_PATH,
+    COMPATIBILITY_MAP_PATH as ADMISSION_COMPATIBILITY_MAP_PATH,
+    RuntimeAdmissionError,
+    validate_admission_manifest,
+    validate_compatibility_map,
+)
 
 
 PROTOCOL_PATH = REPO / "manifests" / "STAGE45D_D1_PROTOCOL_CORRECTED_V1.json"
 EXECUTION_MANIFEST_PATH = REPO / "manifests" / "STAGE45D_D1_EXECUTION_MANIFEST_V1.json"
 RUNTIME_BINDING_PATH = REPO / "manifests" / "STAGE45D_D1_RUNTIME_BINDING_TEMPLATE_V1.json"
+RUNTIME_ADMISSION_MANIFEST_PATH = ADMISSION_MANIFEST_PATH
+COMPATIBILITY_MAP_PATH = ADMISSION_COMPATIBILITY_MAP_PATH
 
 PROTOCOL_SHA256 = "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3"
-PREPARATION_HEAD = "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb"
+PROTOCOL_PROVENANCE_HEAD = "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb"
 GROOT_SOURCE_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 FULL24_STATS_SHA256 = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
 FULL24_STATS_PAYLOAD_SHA256 = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
@@ -399,7 +408,10 @@ def validate_execution_manifest(path: Path = EXECUTION_MANIFEST_PATH) -> dict[st
     _require(payload.get("schema") == "CORELAB_STAGE45D_D1_EXECUTION_MANIFEST_V1", "execution manifest schema drift")
     _require(payload.get("status") == "READY_FOR_PI_REVIEW_NOT_EXECUTED", "execution manifest must remain unexecuted")
     _require(payload.get("protocol", {}).get("sha256") == PROTOCOL_SHA256, "execution manifest protocol SHA drift")
-    _require(payload.get("protocol", {}).get("head") == PREPARATION_HEAD, "execution manifest protocol head drift")
+    protocol = payload.get("protocol", {})
+    _require(protocol.get("provenance_head") == PROTOCOL_PROVENANCE_HEAD, "execution manifest protocol provenance head drift")
+    _require(protocol.get("provenance_role") == "IMMUTABLE_PROTOCOL_PROVENANCE_ONLY", "execution manifest protocol provenance role drift")
+    _require(protocol.get("execution_checkout_identity") == "LATE_BOUND_OBSERVED_RUNTIME_HEAD_BRANCH_WORKTREE", "execution checkout identity is not late-bound")
     runner = payload.get("runner", {})
     _require(runner.get("path") == "scripts/stage45d_d1_teacher_forced_local_flow.py", "runner path drift")
     _require(runner.get("sha256") == sha256_file(Path(__file__)), "execution manifest runner SHA drift")
@@ -417,6 +429,13 @@ def validate_execution_manifest(path: Path = EXECUTION_MANIFEST_PATH) -> dict[st
     _require(payload.get("call_budget", {}).get("action_head_calls") == ACTION_HEAD_CALLS, "manifest action-head budget drift")
     _require(payload.get("call_budget", {}).get("conditioning_passes") == CONDITIONING_PASSES, "manifest conditioning budget drift")
     _require(payload.get("call_budget", {}).get("total_model_side_calls") == TOTAL_MODEL_SIDE_CALLS, "manifest total budget drift")
+    admission = payload.get("runtime_admission", {})
+    _require(admission.get("schema") == "CORELAB_STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1", "runtime-admission schema reference drift")
+    _require(admission.get("manifest_path") == "manifests/STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1.json", "runtime-admission manifest path drift")
+    _require(admission.get("compatibility_map_path") == "manifests/STAGE45D_D1_RUNTIME_COMPATIBILITY_MAP_V1.json", "compatibility-map path drift")
+    _require(admission.get("admission_module") == "scripts/stage45d_d1_runtime_admission.py", "runtime-admission module path drift")
+    _require(admission.get("execution_checkout_binding") == "OBSERVED_RUNTIME_ONLY", "runtime-admission checkout binding drift")
+    _require(admission.get("pre_model_import_guard") is True and admission.get("model_import_before_admission") is False, "runtime-admission import ordering drift")
     return payload
 
 
@@ -425,11 +444,24 @@ def validate_runtime_binding_template(path: Path = RUNTIME_BINDING_PATH) -> dict
     _require(payload.get("schema") == "CORELAB_STAGE45D_D1_RUNTIME_BINDING_V1", "runtime binding schema drift")
     _require(payload.get("status") == "LATE_BOUND_NOT_EXECUTED", "runtime binding is not late-bound")
     _require(payload.get("protocol_sha256") == PROTOCOL_SHA256, "runtime binding protocol SHA drift")
+    _require(payload.get("protocol_provenance_head") == PROTOCOL_PROVENANCE_HEAD, "runtime binding protocol provenance head drift")
+    _require(payload.get("protocol_provenance_role") == "IMMUTABLE_PROTOCOL_PROVENANCE_ONLY", "runtime binding provenance role drift")
     _require(payload.get("runner_path") == "scripts/stage45d_d1_teacher_forced_local_flow.py", "runtime binding runner path drift")
     _require(payload.get("runner_sha256") == sha256_file(Path(__file__)), "runtime binding runner SHA drift")
     _require(payload.get("execution_manifest_sha256") == sha256_file(EXECUTION_MANIFEST_PATH), "runtime binding execution manifest SHA drift")
-    _require(payload.get("execution_authorized") is False, "PI0106 binding must not authorize execution")
+    _require(payload.get("execution_authorized") is False, "PI0107 binding must not authorize execution")
     _require(payload.get("pi_authority_token") is None, "PI authority token must remain absent")
+    admission = payload.get("runtime_admission", {})
+    _require(admission.get("schema") == "CORELAB_STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1", "runtime binding admission schema drift")
+    _require(admission.get("manifest_path") == "manifests/STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1.json", "runtime binding admission path drift")
+    _require(admission.get("compatibility_map_path") == "manifests/STAGE45D_D1_RUNTIME_COMPATIBILITY_MAP_V1.json", "runtime binding compatibility path drift")
+    _require(admission.get("binding_mode") == "OBSERVED_RUNTIME_ONLY", "runtime binding mode drift")
+    _require(admission.get("pre_model_import_guard") is True, "runtime binding pre-model guard drift")
+    checkout = payload.get("execution_checkout", {})
+    _require(checkout.get("binding_mode") == "OBSERVED_RUNTIME_ONLY", "runtime binding checkout mode drift")
+    _require(checkout.get("protocol_provenance_head_may_substitute") is False, "protocol provenance head may not substitute for execution head")
+    for key in ("authorized_branch", "authorized_head", "authorized_clean_worktree", "observed_repo_root", "observed_branch", "observed_head", "observed_clean_worktree"):
+        _require(checkout.get(key) is None, f"runtime template contains execution checkout value: {key}")
     paths = payload.get("paths")
     _require(isinstance(paths, Mapping) and tuple(sorted(paths)) == tuple(sorted(RUNTIME_PATH_KEYS)), "runtime binding path key set drift")
     _require(all(value is None for value in paths.values()), "runtime template must not contain node-local paths")
@@ -545,6 +577,8 @@ def validate_static_contract() -> dict[str, Any]:
     protocol = validate_reviewed_protocol()
     execution = validate_execution_manifest()
     binding = validate_runtime_binding_template()
+    admission = validate_admission_manifest()
+    compatibility = validate_compatibility_map()
     result = {
         "verdict": "PASS",
         "protocol_sha256": sha256_file(PROTOCOL_PATH),
@@ -553,6 +587,8 @@ def validate_static_contract() -> dict[str, Any]:
         "protocol_schema": protocol["schema"],
         "execution_manifest_schema": execution["schema"],
         "runtime_binding_schema": binding["schema"],
+        "runtime_admission_schema": admission["schema"],
+        "compatibility_map_schema": compatibility["schema"],
         "source_equivalence": validate_source_equivalence(),
         "mask_contract": validate_mask_contract(),
         "flow_algebra": validate_flow_algebra(),
@@ -576,7 +612,7 @@ def validate_static_contract() -> dict[str, Any]:
 
 
 def _execute_requires_future_authority(binding: Mapping[str, Any]) -> None:
-    _require(binding.get("execution_authorized") is True, "PI0106 keeps D1 execution unauthorized")
+    _require(binding.get("execution_authorized") is True, "PI0107 Track S keeps D1 execution unauthorized")
     authority = os.environ.get("STAGE45D_D1_PI_AUTHORITY_TOKEN")
     _require(authority and authority == binding.get("pi_authority_token"), "future PI execution token is missing or mismatched")
     _require(os.environ.get("STAGE45D_D1_RUNTIME_IMPLEMENTATION") == "authorized", "future D1 runtime implementation gate is closed")
@@ -588,7 +624,7 @@ def execute(*, binding: Mapping[str, Any]) -> int:
     _execute_requires_future_authority(binding)
     # Intentionally delayed until a later PI gate opens all three guards.
     # The actual runtime adapter must remain source-mapped to the accepted
-    # Stage38/Stage45C implementation and is not loaded under PI0106.
+    # Stage38/Stage45C implementation and is not loaded under PI0107 Track S.
     raise HarnessError("D1 runtime implementation is deferred to the next PI-authorized execution pass")
 
 
@@ -597,7 +633,7 @@ def main() -> int:
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument("--plan-only", action="store_true", help="validate and print the frozen plan")
     modes.add_argument("--audit-only", action="store_true", help="validate and print the static admission audit")
-    modes.add_argument("--execute", action="store_true", help="guarded future execution; never authorized by PI0106")
+    modes.add_argument("--execute", action="store_true", help="guarded future execution; never authorized by PI0107 Track S")
     parser.add_argument("--runtime-binding", type=Path, default=RUNTIME_BINDING_PATH)
     args = parser.parse_args()
     try:
@@ -607,7 +643,7 @@ def main() -> int:
             binding = validate_runtime_binding_template(args.runtime_binding)
             return execute(binding=binding)
         result = validate_static_contract()
-    except (OSError, HarnessError, KeyError, TypeError, ValueError) as exc:
+    except (OSError, HarnessError, RuntimeAdmissionError, KeyError, TypeError, ValueError) as exc:
         print(json.dumps({"verdict": "FAIL", "error": str(exc)}, sort_keys=True))
         return 1
     print(json.dumps(result, sort_keys=True))

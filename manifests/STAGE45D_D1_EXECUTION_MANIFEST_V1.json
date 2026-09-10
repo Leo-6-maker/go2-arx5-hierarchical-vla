@@ -6,20 +6,22 @@
   "protocol": {
     "path": "manifests/STAGE45D_D1_PROTOCOL_CORRECTED_V1.json",
     "sha256": "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3",
-    "head": "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb",
+    "provenance_head": "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb",
+    "provenance_role": "IMMUTABLE_PROTOCOL_PROVENANCE_ONLY",
+    "execution_checkout_identity": "LATE_BOUND_OBSERVED_RUNTIME_HEAD_BRANCH_WORKTREE",
     "schema": "CORELAB_STAGE45D_D1_TEACHER_FORCED_DIAGNOSTIC_PROTOCOL_CORRECTED_V1"
   },
   "authority": {
     "issue_11": 11,
-    "issue_11_comment": 5617254774,
+    "issue_11_comment": 5617612655,
     "issue_50": 50,
-    "issue_50_comment": 5617258920,
+    "issue_50_comment": 5617614769,
     "execution_authorized": false,
     "next_pi_gate_request": "authorize one Stage45D D1 H200 execution"
   },
   "runner": {
     "path": "scripts/stage45d_d1_teacher_forced_local_flow.py",
-    "sha256": "63813c5e8a323d97a4dde7c7ed3e141242f95c6dc2b3ca2d9d58279834856beb",
+    "sha256": "2f995aae3d2ba8b4c7b9c8a91a9e9aa4c99472c769095a68bad385c2e6f701e7",
     "static_modes": [
       "--plan-only",
       "--audit-only"
@@ -197,6 +199,15 @@
     "status": "LATE_BOUND_NOT_EXECUTED",
     "node_local_paths_committed": false
   },
+  "runtime_admission": {
+    "schema": "CORELAB_STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1",
+    "manifest_path": "manifests/STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1.json",
+    "compatibility_map_path": "manifests/STAGE45D_D1_RUNTIME_COMPATIBILITY_MAP_V1.json",
+    "admission_module": "scripts/stage45d_d1_runtime_admission.py",
+    "execution_checkout_binding": "OBSERVED_RUNTIME_ONLY",
+    "pre_model_import_guard": true,
+    "model_import_before_admission": false
+  },
   "artifact_schema": {
     "raw_first": [
       "raw/v_hat.npy",
@@ -239,5 +250,5 @@
     "new_data_generation": false,
     "merge": false
   },
-  "return_token": "STAGE45D_D1_EXECUTION_HARNESS_READY_FOR_H200_REVIEW"
+  "return_token": "STAGE45D_D1_RUNTIME_ADMISSION_READY_FOR_H200_GATE"
 }
