@@ -38,6 +38,7 @@ from go2arx5_vla.evaluation.h200_admission import (
     H200AdmissionError,
     validate_h200_inference_admission,
 )
+from go2arx5_vla.evaluation.h200_binding import ADAPTER_RUNTIME_BINDING_SCHEMA
 from go2arx5_vla.evaluation.structured_action_eval import (
     DecodedStructuredPrediction,
 )
@@ -81,6 +82,16 @@ class ReusableInfrastructureTests(unittest.TestCase):
         wrist_path.write_bytes(b"wrist modality fixture")
         cohort_path = input_dir / "cohort.json"
         cohort_path.write_bytes(b'{"cohort":"fixture"}\n')
+        groot_source_path = input_dir / "groot-source.txt"
+        groot_source_path.write_bytes(b"groot source fixture\n")
+        cosmos_path = input_dir / "cosmos-cache.txt"
+        cosmos_path.write_bytes(b"cosmos cache fixture\n")
+        modality_path = input_dir / "modality-config.py"
+        modality_path.write_bytes(b"MODALITY = 'fixture'\n")
+        processor_path = input_dir / "processor-checkpoint.bin"
+        processor_path.write_bytes(b"processor checkpoint fixture\n")
+        base_path = input_dir / "base-checkpoint.bin"
+        base_path.write_bytes(b"base checkpoint fixture\n")
 
         checkpoint_files: dict[str, Path] = {}
         mapping_files: dict[str, Path] = {}
@@ -146,6 +157,7 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 "inverse_normalization": "manifest_bound_stats",
                 "geometry": "K16",
                 "timing": "T16",
+                "language": "move the end effector to the fixture target",
             },
             "sampler": {
                 "profile": "GROOT_N1D7_SOURCE_MAPPED_EULER4_V1",
@@ -167,8 +179,8 @@ class ReusableInfrastructureTests(unittest.TestCase):
                     "repository_execution_head": "a" * 40,
                     "python_runtime": "fixture-python-v1",
                     "container_or_environment": "fixture-environment-v1",
-                    "groot_source": "fixture-groot-source-v1",
-                    "cosmos_cache_root": "fixture-cosmos-cache-v1",
+                    "groot_source": _artifact(groot_source_path),
+                    "cosmos_cache_root": _artifact(cosmos_path),
                     "checkpoint_paths": {
                         label: _artifact(path)
                         for label, path in checkpoint_files.items()
@@ -185,6 +197,11 @@ class ReusableInfrastructureTests(unittest.TestCase):
                     "host": "fixture-host-v1",
                     "offline_mode": True,
                     "runtime_admission_identity": "fixture-admission-v1",
+                },
+                "adapter_input_identities": {
+                    "modality_config": _artifact(modality_path),
+                    "processor_checkpoint": _artifact(processor_path),
+                    "base_checkpoint": _artifact(base_path),
                 },
             },
             "output": {
@@ -263,6 +280,23 @@ class ReusableInfrastructureTests(unittest.TestCase):
             "runtime_late_bound": json.loads(
                 json.dumps(manifest["runtime"]["late_bound"])
             ),
+            "adapter_runtime_binding": {
+                "schema": ADAPTER_RUNTIME_BINDING_SCHEMA,
+                "adapter_id": manifest["runtime"]["adapter"],
+                "adapter_version": "v1",
+                "immutable": True,
+                "dataset": manifest["runtime"]["late_bound"]["dataset_path"],
+                "groot_source": manifest["runtime"]["late_bound"]["groot_source"],
+                "cosmos_cache": manifest["runtime"]["late_bound"]["cosmos_cache_root"],
+                "modality_config": manifest["runtime"]["adapter_input_identities"]["modality_config"],
+                "processor_checkpoint": manifest["runtime"]["adapter_input_identities"]["processor_checkpoint"],
+                "base_checkpoint": manifest["runtime"]["adapter_input_identities"]["base_checkpoint"],
+                "cuda_device": manifest["runtime"]["late_bound"]["gpu_device"],
+                "checkpoint": manifest["runtime"]["late_bound"]["checkpoint_paths"],
+                "statistics": manifest["runtime"]["late_bound"]["statistics_path"],
+                "noise_bank": _artifact(Path(manifest["sampler"]["noise_bank"])),
+                "language": manifest["contract"]["language"],
+            },
             "cohort": {
                 "name": manifest["cohort"]["name"],
                 "split": manifest["cohort"]["split"],
@@ -936,6 +970,8 @@ class ReusableInfrastructureTests(unittest.TestCase):
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "reusable.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "analyzer.py",
             ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_admission.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_binding.py",
+            ROOT / "src" / "go2arx5_vla" / "evaluation" / "stage45c_compatibility.py",
             ROOT / "src" / "go2arx5_vla" / "training" / "reusable.py",
             ROOT / "scripts" / "validate_h200_inference_admission.py",
         ]

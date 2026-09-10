@@ -54,6 +54,20 @@ from .h200_admission import (
     H200AdmissionError,
     validate_h200_inference_admission,
 )
+from .h200_binding import (
+    ADAPTER_RUNTIME_BINDING_SCHEMA,
+    AdapterRuntimeBindingError,
+    AdapterRuntimeBindingV1,
+    build_adapter_runtime_binding,
+    validate_adapter_runtime_binding,
+)
+from .stage45c_compatibility import (
+    STAGE45C_COMPATIBILITY_PROOF_SCHEMA,
+    Stage45CCompatibilityError,
+    build_stage45c_compatibility_proof,
+    project_stage45c_window,
+    validate_stage45c_compatibility_proof,
+)
 
 __all__ = [
     "ACTION_HORIZON",
@@ -92,4 +106,14 @@ __all__ = [
     "H200_INFERENCE_ADMISSION_STATUS",
     "H200AdmissionError",
     "validate_h200_inference_admission",
+    "ADAPTER_RUNTIME_BINDING_SCHEMA",
+    "AdapterRuntimeBindingError",
+    "AdapterRuntimeBindingV1",
+    "build_adapter_runtime_binding",
+    "validate_adapter_runtime_binding",
+    "STAGE45C_COMPATIBILITY_PROOF_SCHEMA",
+    "Stage45CCompatibilityError",
+    "build_stage45c_compatibility_proof",
+    "project_stage45c_window",
+    "validate_stage45c_compatibility_proof",
 ]

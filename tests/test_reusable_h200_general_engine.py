@@ -20,11 +20,37 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from go2arx5_vla.evaluation.h200_admission import H200AdmissionError
+from go2arx5_vla.evaluation.h200_binding import (
+    ADAPTER_RUNTIME_BINDING_SCHEMA,
+    AdapterRuntimeBindingError,
+    AdapterRuntimeBindingV1,
+)
 from go2arx5_vla.evaluation.h200_engine import (
     AdapterInference,
     H200_RUNTIME_CONFIG_SCHEMA,
     H200EngineError,
+    observe_runtime,
+    parse_git_status,
     run_h200_inference_engine,
+)
+from go2arx5_vla.evaluation.stage45c_compatibility import (
+    CHECKPOINT_LABEL as STAGE45C_CHECKPOINT_LABEL,
+    DECODED_SHAPE as STAGE45C_DECODED_SHAPE,
+    FULL24_2000_TREE_SHA256,
+    FULL24_DATASET_TREE_SHA256,
+    FULL24_SPLIT_SHA256,
+    FULL24_STATS_PAYLOAD_SHA256,
+    FULL24_STATS_SHA256,
+    RAW_SHAPE as STAGE45C_RAW_SHAPE,
+    SAMPLER_CALLS as STAGE45C_SAMPLER_CALLS,
+    SAMPLER_DT as STAGE45C_SAMPLER_DT,
+    SAMPLER_PROFILE as STAGE45C_SAMPLER_PROFILE,
+    Stage45CCompatibilityError,
+    TIMESTEPS as STAGE45C_TIMESTEPS,
+    WINDOW_IDS as STAGE45C_WINDOW_IDS,
+    build_stage45c_compatibility_proof,
+    project_stage45c_window,
+    validate_stage45c_compatibility_proof,
 )
 from go2arx5_vla.evaluation.reusable import (
     GENERIC_EVAL_STATUS,
@@ -40,6 +66,8 @@ REGISTRY = ROOT / "src" / "go2arx5_vla" / "evaluation" / "h200_adapters.py"
 VERSIONED_ADAPTER = ROOT / "src" / "go2arx5_vla" / "evaluation" / "groot_n1d7_adapter.py"
 HISTORICAL_CANARY = ROOT / "scripts" / "reusable_h200_inference_canary.py"
 HISTORICAL_ADAPTER = ROOT / "scripts" / "stage45c_h200_eval_runtime_adapter.py"
+FROZEN_STAGE45C_PROTOCOL = ROOT / "manifests" / "STAGE45C_TRAIN24_EVALUATION_PROTOCOL_FROZEN_V1.json"
+STAGE45C_COMPATIBILITY_PROOF = ROOT / "manifests" / "STAGE45C_REUSABLE_ENGINE_COMPATIBILITY_PROOF_V1.json"
 
 
 def _artifact(path: Path) -> dict[str, str]:
@@ -57,6 +85,16 @@ def _fixture(root: Path) -> tuple[Path, Path, dict, dict, tuple[str, ...], tuple
     wrist.write_bytes(b"wrist observation")
     cohort = inputs / "cohort.json"
     cohort.write_bytes(b'{"cohort":"arbitrary-order"}\n')
+    groot_source = inputs / "groot-source.txt"
+    groot_source.write_bytes(b"allowlisted groot source fixture\n")
+    cosmos_cache = inputs / "cosmos-cache.txt"
+    cosmos_cache.write_bytes(b"allowlisted cosmos cache fixture\n")
+    modality_config = inputs / "modality-config.py"
+    modality_config.write_bytes(b"MODALITY = 'fixture'\n")
+    processor_checkpoint = inputs / "processor-checkpoint.bin"
+    processor_checkpoint.write_bytes(b"processor checkpoint fixture\n")
+    base_checkpoint = inputs / "base-checkpoint.bin"
+    base_checkpoint.write_bytes(b"base checkpoint fixture\n")
 
     labels = ("checkpoint-zeta", "checkpoint-alpha")
     windows = ("target-B/window-7", "target-A/window-2", "target-C/window-9")
@@ -116,8 +154,8 @@ def _fixture(root: Path) -> tuple[Path, Path, dict, dict, tuple[str, ...], tuple
         "repository_execution_head": "a" * 40,
         "python_runtime": "fixture-python-v1",
         "container_or_environment": "fixture-environment-v1",
-        "groot_source": "fixture-groot-source-v1",
-        "cosmos_cache_root": "fixture-cosmos-cache-v1",
+        "groot_source": _artifact(groot_source),
+        "cosmos_cache_root": _artifact(cosmos_cache),
         "checkpoint_paths": {
             label: _artifact(checkpoint_paths[label]) for label in labels
         },
@@ -158,6 +196,7 @@ def _fixture(root: Path) -> tuple[Path, Path, dict, dict, tuple[str, ...], tuple
             "state_v1_shape": [10],
             "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
             "target_xyz_in_model_input": False,
+            "language": "move the end effector to the fixture target",
             "raw_before_decode": True,
             "decoder": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
             "inverse_normalization": "manifest_bound_stats",
@@ -181,6 +220,11 @@ def _fixture(root: Path) -> tuple[Path, Path, dict, dict, tuple[str, ...], tuple
             "identity": "generic-engine-runtime-v1",
             "backend": "groot_h200_inference_backend_v1",
             "late_bound": late_bound,
+            "adapter_input_identities": {
+                "modality_config": _artifact(modality_config),
+                "processor_checkpoint": _artifact(processor_checkpoint),
+                "base_checkpoint": _artifact(base_checkpoint),
+            },
         },
         "output": {
             "root": str(output.resolve()),
@@ -213,6 +257,27 @@ def _fixture(root: Path) -> tuple[Path, Path, dict, dict, tuple[str, ...], tuple
             "noise_bank": _artifact(noise),
             "source": "cpu-fixture-observation",
         },
+        "adapter_runtime_binding": {
+            "schema": ADAPTER_RUNTIME_BINDING_SCHEMA,
+            "adapter_id": "groot_n1d7_structured_action_v1",
+            "adapter_version": "v1",
+            "immutable": True,
+            "dataset": _artifact(cohort),
+            "groot_source": _artifact(groot_source),
+            "cosmos_cache": _artifact(cosmos_cache),
+            "modality_config": _artifact(modality_config),
+            "processor_checkpoint": _artifact(processor_checkpoint),
+            "base_checkpoint": _artifact(base_checkpoint),
+            "cuda_device": "fixture-device-v1",
+            "checkpoint": {
+                label: _artifact(checkpoint_paths[label]) for label in labels
+            },
+            "statistics": {
+                label: _artifact(statistics_paths[label]) for label in labels
+            },
+            "noise_bank": _artifact(noise),
+            "language": "move the end effector to the fixture target",
+        },
     }
     manifest_path = root / "evaluation-manifest.json"
     config_path = root / "runtime-config.json"
@@ -232,6 +297,7 @@ def _probe(_repo_root: Path) -> dict[str, object]:
         "gpu_device": "fixture-device-v1",
         "runtime_admission_identity": "fixture-admission-v1",
         "worktree_clean": True,
+        "untracked_paths": [],
     }
 
 
@@ -243,6 +309,7 @@ class RecordingAdapter:
         self.prepare_calls = 0
         self.close_calls = 0
         self.infer_pairs: list[tuple[str, str]] = []
+        self.binding_contexts: list[object] = []
         self.runtime_flags = {
             "adapter_id": "cpu-fixture",
             "adapter_version": "test-v1",
@@ -251,7 +318,8 @@ class RecordingAdapter:
             "model_forward": False,
         }
 
-    def prepare(self, _context: object) -> None:
+    def prepare(self, context: object) -> None:
+        self.binding_contexts.append(getattr(context, "adapter_binding"))
         self.prepared = True
         self.prepare_calls += 1
 
@@ -268,6 +336,9 @@ class RecordingAdapter:
         pair = (str(checkpoint["label"]), str(window["id"]))
         self.infer_pairs.append(pair)
         if self.fail_at is not None and len(self.infer_pairs) == self.fail_at:
+            self.runtime_flags["model_imported"] = True
+            self.runtime_flags["model_construction"] = True
+            self.runtime_flags["model_forward_started"] = True
             raise RuntimeError("induced late adapter failure")
         value = np.full((1, 40, 132), len(self.infer_pairs) / 100.0, dtype=np.float32)
         adapter_input = window["adapter_input"]
@@ -342,7 +413,18 @@ class GeneralH200EngineTests(unittest.TestCase):
             self.assertEqual(summary["window_count"], 3)
             self.assertEqual(summary["raw_prediction_count"], 6)
             self.assertEqual(summary["sampler_calls"], 24)
+            self.assertEqual(len(adapter.binding_contexts), 1)
+            binding = adapter.binding_contexts[0]
+            self.assertIsInstance(binding, AdapterRuntimeBindingV1)
+            self.assertEqual(binding["schema"], ADAPTER_RUNTIME_BINDING_SCHEMA)
+            with self.assertRaises(TypeError):
+                binding["language"] = "mutated"  # type: ignore[index]
             output = root / "evaluation-output"
+            admitted = json.loads((output / "engine_admission.json").read_text(encoding="utf-8"))
+            self.assertEqual(
+                admitted["adapter_runtime_binding"]["schema"],
+                ADAPTER_RUNTIME_BINDING_SCHEMA,
+            )
             self.assertTrue((output / "engine_admission.json").is_file())
             self.assertTrue((output / "engine_raw_seal.json").is_file())
             self.assertTrue((output / "engine_run_manifest.json").is_file())
@@ -370,6 +452,16 @@ class GeneralH200EngineTests(unittest.TestCase):
                     decoder=RecordingDecoder(),
                 )
             self.assertEqual(adapter.prepare_calls, 0)
+            failure = json.loads(
+                (root / "evaluation-output" / "engine_failure_seal.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(failure["failure_phase"], "PRE_ADMISSION")
+            self.assertFalse(failure["admission_passed"])
+            self.assertFalse(failure["model_execution_started"])
+            self.assertEqual(failure["checkpoint_window_forwards_started"], 0)
+            self.assertEqual(failure["sampler_calls_completed"], 0)
 
     def test_tampered_bound_artifact_and_unknown_adapter_fail_before_prepare(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -382,6 +474,64 @@ class GeneralH200EngineTests(unittest.TestCase):
                 run_h200_inference_engine(
                     manifest_path,
                     config_path,
+                    repo_root=ROOT,
+                    adapter=adapter,
+                    runtime_probe=_probe,
+                    decoder=RecordingDecoder(),
+                )
+            self.assertEqual(adapter.prepare_calls, 0)
+
+    def test_adapter_runtime_binding_rejects_every_independent_identity(self) -> None:
+        """Every adapter input must be admitted before the adapter is prepared."""
+
+        identity_fields = (
+            "dataset",
+            "groot_source",
+            "cosmos_cache",
+            "modality_config",
+            "processor_checkpoint",
+            "base_checkpoint",
+            "noise_bank",
+        )
+        for field in identity_fields + ("checkpoint", "statistics") + ("cuda_device", "language"):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                manifest_path, config_path, manifest, config, labels, _windows = _fixture(root)
+                candidate = copy.deepcopy(config)
+                binding = candidate["adapter_runtime_binding"]
+                other = _artifact(root / "inputs" / "body.rgb")
+                if field in ("checkpoint", "statistics"):
+                    binding[field][labels[0]] = other
+                elif field in ("cuda_device", "language"):
+                    binding[field] = "wrong-value"
+                else:
+                    binding[field] = other
+                candidate_path = root / f"invalid-{field}.json"
+                write_json(candidate_path, candidate)
+                adapter = RecordingAdapter(manifest)
+                with self.assertRaises((H200EngineError, H200AdmissionError, AdapterRuntimeBindingError)):
+                    run_h200_inference_engine(
+                        manifest_path,
+                        candidate_path,
+                        repo_root=ROOT,
+                        adapter=adapter,
+                        runtime_probe=_probe,
+                        decoder=RecordingDecoder(),
+                    )
+                self.assertEqual(adapter.prepare_calls, 0)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest_path, config_path, manifest, config, _labels, _windows = _fixture(root)
+            legacy = copy.deepcopy(config)
+            legacy["adapter_config"] = {"dataset_dir": "independent-namespace"}
+            legacy_path = root / "legacy-adapter-config.json"
+            write_json(legacy_path, legacy)
+            adapter = RecordingAdapter(manifest)
+            with self.assertRaises((H200EngineError, H200AdmissionError)):
+                run_h200_inference_engine(
+                    manifest_path,
+                    legacy_path,
                     repo_root=ROOT,
                     adapter=adapter,
                     runtime_probe=_probe,
@@ -431,6 +581,85 @@ class GeneralH200EngineTests(unittest.TestCase):
                 )
             self.assertEqual(adapter.prepare_calls, 0)
 
+    def test_untracked_importable_code_is_reported_and_fails_closed(self) -> None:
+        status_lines, untracked = parse_git_status(
+            " M tracked.py\n?? src/untracked_adapter.py\n"
+        )
+        self.assertEqual(status_lines, [" M tracked.py", "?? src/untracked_adapter.py"])
+        self.assertEqual(untracked, ["src/untracked_adapter.py"])
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest_path, config_path, manifest, _config, _labels, _windows = _fixture(root)
+            importable = root / "src" / "untracked_adapter.py"
+            importable.parent.mkdir()
+            importable.write_text("raise RuntimeError('must never import')\n", encoding="utf-8")
+
+            def untracked_probe(_repo_root: Path) -> dict[str, object]:
+                observed = _probe(_repo_root)
+                observed["worktree_clean"] = False
+                observed["untracked_paths"] = ["src/untracked_adapter.py"]
+                return observed
+
+            adapter = RecordingAdapter(manifest)
+            with self.assertRaises(H200EngineError):
+                run_h200_inference_engine(
+                    manifest_path,
+                    config_path,
+                    repo_root=ROOT,
+                    adapter=adapter,
+                    runtime_probe=untracked_probe,
+                    decoder=RecordingDecoder(),
+                )
+            self.assertEqual(adapter.prepare_calls, 0)
+
+    def test_sampler_contract_rejects_fractional_boolean_and_string_coercion(self) -> None:
+        invalid_values = {
+            "timesteps_fractional": lambda candidate: candidate["sampler"].update(
+                {"timesteps": [0.9, 250, 500, 750]}
+            ),
+            "timesteps_boolean": lambda candidate: candidate["sampler"].update(
+                {"timesteps": [True, 250, 500, 750]}
+            ),
+            "timesteps_string": lambda candidate: candidate["sampler"].update(
+                {"timesteps": ["0", 250, 500, 750]}
+            ),
+            "calls_fractional": lambda candidate: candidate["sampler"].update(
+                {"expected_calls_per_window": 4.5}
+            ),
+            "calls_boolean": lambda candidate: candidate["sampler"].update(
+                {"expected_calls_per_window": True}
+            ),
+            "calls_string": lambda candidate: candidate["sampler"].update(
+                {"expected_calls_per_window": "4"}
+            ),
+            "dt_boolean": lambda candidate: candidate["sampler"].update(
+                {"dt": True}
+            ),
+            "dt_string": lambda candidate: candidate["sampler"].update(
+                {"dt": "0.25"}
+            ),
+        }
+        for case, mutate in invalid_values.items():
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                manifest_path, config_path, manifest, _config, _labels, _windows = _fixture(root)
+                candidate = copy.deepcopy(manifest)
+                mutate(candidate)
+                candidate_path = root / f"{case}.manifest.json"
+                write_json(candidate_path, candidate)
+                adapter = RecordingAdapter(candidate)
+                with self.assertRaises((H200EngineError, H200AdmissionError, ValueError)):
+                    run_h200_inference_engine(
+                        candidate_path,
+                        config_path,
+                        repo_root=ROOT,
+                        adapter=adapter,
+                        runtime_probe=_probe,
+                        decoder=RecordingDecoder(),
+                    )
+                self.assertEqual(adapter.prepare_calls, 0)
+
     def test_induced_adapter_failure_seals_partial_raw_without_derived_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -449,6 +678,17 @@ class GeneralH200EngineTests(unittest.TestCase):
             failure = json.loads((output / "engine_failure_seal.json").read_text(encoding="utf-8"))
             self.assertEqual(failure["raw_count"], 4)
             self.assertFalse(failure["derived_started"])
+            self.assertEqual(failure["failure_phase"], "RAW_INFERENCE")
+            self.assertTrue(failure["admission_passed"])
+            self.assertTrue(failure["adapter_resolved"])
+            self.assertTrue(failure["model_imported"])
+            self.assertTrue(failure["model_construction"])
+            self.assertTrue(failure["model_forward_started"])
+            self.assertFalse(failure["model_forward"])
+            self.assertTrue(failure["model_execution_started"])
+            self.assertEqual(failure["checkpoint_window_forwards_started"], 5)
+            self.assertEqual(failure["checkpoint_window_forwards_completed"], 4)
+            self.assertEqual(failure["sampler_calls_completed"], 16)
             staging = Path(failure["staging_root"])
             raw_seal = json.loads((staging / "raw_seal.json").read_text(encoding="utf-8"))
             self.assertEqual(raw_seal["status"], "FAILED_PARTIAL")
@@ -479,6 +719,10 @@ class GeneralH200EngineTests(unittest.TestCase):
             failure = json.loads((output / "engine_failure_seal.json").read_text(encoding="utf-8"))
             self.assertTrue(failure["raw_sealed"])
             self.assertTrue(failure["derived_started"])
+            self.assertEqual(failure["failure_phase"], "DERIVED_EVALUATION")
+            self.assertEqual(failure["raw_count"], 6)
+            self.assertEqual(failure["checkpoint_window_forwards_completed"], 6)
+            self.assertEqual(failure["sampler_calls_completed"], 24)
             self.assertTrue((output / "failure_seal.json").is_file())
 
     def test_registry_is_exact_and_model_imports_are_deferred(self) -> None:
@@ -571,6 +815,11 @@ class GeneralH200EngineTests(unittest.TestCase):
             self.assertNotIn("registered_adapters", blocked_payload)
 
     def test_versioned_adapter_keeps_source_mapped_action_head_symbols(self) -> None:
+        from go2arx5_vla.evaluation.groot_n1d7_adapter import (
+            SOURCE_EQUIVALENCE,
+            source_mapped_euler4_numpy,
+        )
+
         current = ast.parse(VERSIONED_ADAPTER.read_text(encoding="utf-8"))
         historical = ast.parse(HISTORICAL_ADAPTER.read_text(encoding="utf-8"))
         current_functions = {
@@ -589,6 +838,20 @@ class GeneralH200EngineTests(unittest.TestCase):
         self.assertIn("gr00t.model.gr00t_n1d7", current_source)
         adapter_source = VERSIONED_ADAPTER.read_text(encoding="utf-8")
         historical_source = HISTORICAL_ADAPTER.read_text(encoding="utf-8")
+        for binding_field in (
+            "dataset",
+            "groot_source",
+            "cosmos_cache",
+            "modality_config",
+            "processor_checkpoint",
+            "base_checkpoint",
+            "checkpoint",
+            "statistics",
+            "noise_bank",
+            "cuda_device",
+            "language",
+        ):
+            self.assertIn(f'"{binding_field}"', adapter_source)
         for symbol in (
             "action_encoder",
             "position_embedding",
@@ -600,6 +863,128 @@ class GeneralH200EngineTests(unittest.TestCase):
             self.assertIn(symbol, historical_source)
         self.assertIn("_offline_step", historical_functions)
         self.assertIn("raw = current.detach()", adapter_source)
+
+        current_offline = next(
+            node
+            for node in ast.walk(current)
+            if isinstance(node, ast.FunctionDef) and node.name == "_offline_step"
+        )
+        historical_offline = next(
+            node
+            for node in ast.walk(historical)
+            if isinstance(node, ast.FunctionDef) and node.name == "_offline_step"
+        )
+        historical_anchor = hashlib.sha256(
+            ast.dump(historical_offline, include_attributes=False).encode("utf-8")
+        ).hexdigest()
+        self.assertEqual(
+            historical_anchor,
+            SOURCE_EQUIVALENCE["historical_offline_step_ast_sha256"],
+        )
+        for node_kind in ("If", "Call", "Return", "Subscript"):
+            self.assertIn(node_kind, {type(node).__name__ for node in ast.walk(current_offline)})
+            self.assertIn(node_kind, {type(node).__name__ for node in ast.walk(historical_offline)})
+        current_calls = {
+            node.func.attr
+            for node in ast.walk(current_offline)
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+        }
+        historical_calls = {
+            node.func.attr
+            for node in ast.walk(historical_offline)
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+        }
+        self.assertTrue({"action_encoder", "position_embedding", "action_decoder"} <= current_calls)
+        self.assertTrue({"action_encoder", "position_embedding", "action_decoder"} <= historical_calls)
+
+        initial = np.arange(6, dtype=np.float64).reshape(1, 2, 3)
+        velocities = [
+            np.full_like(initial, 0.25),
+            np.full_like(initial, -0.5),
+            np.full_like(initial, 1.0),
+            np.full_like(initial, 0.125),
+        ]
+        expected = initial.copy()
+        for velocity in velocities:
+            expected = expected + 0.25 * velocity
+        actual = source_mapped_euler4_numpy(initial, velocities, [0, 250, 500, 750], 0.25)
+        np.testing.assert_array_equal(actual, expected)
+        for bad_timesteps in ([0.5, 250, 500, 750], [True, 250, 500, 750], ["0", 250, 500, 750]):
+            with self.assertRaises(Exception):
+                source_mapped_euler4_numpy(initial, velocities, bad_timesteps, 0.25)
+        with self.assertRaises(Exception):
+            source_mapped_euler4_numpy(initial, velocities, [0, 250, 500, 750], "0.25")
+
+    def test_stage45c_exact_compatibility_is_static_and_lossless(self) -> None:
+        protocol = json.loads(FROZEN_STAGE45C_PROTOCOL.read_text(encoding="utf-8"))
+        historical_hash_before = hashlib.sha256(HISTORICAL_CANARY.read_bytes()).hexdigest()
+        proof = build_stage45c_compatibility_proof(protocol)
+        validate_stage45c_compatibility_proof(proof)
+        static_proof = json.loads(STAGE45C_COMPATIBILITY_PROOF.read_text(encoding="utf-8"))
+        self.assertEqual(static_proof["schema"], proof["schema"])
+        self.assertEqual(static_proof["status"], proof["status"])
+        self.assertEqual(
+            static_proof["generic_manifest_expression"]["cohort"]["window_ids"],
+            list(STAGE45C_WINDOW_IDS),
+        )
+        self.assertEqual(
+            static_proof["generic_manifest_expression"]["sampler"],
+            proof["generic_manifest_projection"]["sampler"],
+        )
+        self.assertEqual(
+            static_proof["generic_manifest_expression"]["contract"],
+            proof["generic_manifest_projection"]["contract"],
+        )
+        self.assertEqual(
+            proof["generic_manifest_projection"]["checkpoints"][0]["label"],
+            STAGE45C_CHECKPOINT_LABEL,
+        )
+        projection = proof["generic_manifest_projection"]
+        self.assertEqual(projection["cohort"]["window_count"], 24)
+        self.assertEqual(projection["cohort"]["window_order"], "target_major_then_snapshot_major")
+        self.assertEqual(projection["cohort"]["window_ids"], list(STAGE45C_WINDOW_IDS))
+        self.assertEqual(projection["sampler"]["profile"], STAGE45C_SAMPLER_PROFILE)
+        self.assertEqual(projection["sampler"]["timesteps"], list(STAGE45C_TIMESTEPS))
+        self.assertEqual(projection["sampler"]["dt"], STAGE45C_SAMPLER_DT)
+        self.assertEqual(projection["sampler"]["expected_calls_per_window"], STAGE45C_SAMPLER_CALLS)
+        self.assertEqual(projection["sampler"]["noise_seed"], 4242)
+        self.assertEqual(projection["contract"]["raw_action_shape"], list(STAGE45C_RAW_SHAPE))
+        self.assertEqual(projection["contract"]["decoded_action_shape"], list(STAGE45C_DECODED_SHAPE))
+        self.assertEqual(projection["contract"]["geometry"], "K16")
+        self.assertEqual(projection["contract"]["timing"], "T16")
+        self.assertEqual(proof["identity_anchors"]["runtime_v2_stats_sha256"], FULL24_STATS_SHA256)
+        self.assertEqual(
+            proof["identity_anchors"]["runtime_v2_stats_payload_sha256"],
+            FULL24_STATS_PAYLOAD_SHA256,
+        )
+        self.assertEqual(proof["identity_anchors"]["full24_2000_tree_sha256"], FULL24_2000_TREE_SHA256)
+        self.assertEqual(proof["identity_anchors"]["full24_dataset_tree_sha256"], FULL24_DATASET_TREE_SHA256)
+        self.assertEqual(proof["identity_anchors"]["full24_split_sha256"], FULL24_SPLIT_SHA256)
+        self.assertFalse(proof["execution_boundary"]["model_import"])
+        self.assertFalse(proof["execution_boundary"]["model_forward"])
+
+        concrete_window = project_stage45c_window(
+            {
+                "id": STAGE45C_WINDOW_IDS[0],
+                "target_id": "red_target_train_a",
+                "source_timestamps": [index * 0.05 for index in range(40)],
+                "observation_timestamp": 0.0,
+            }
+        )
+        self.assertEqual(len(concrete_window["source_timestamps"]), 40)
+        self.assertEqual(concrete_window["observation_timestamp"], 0.0)
+        for bad in (
+            {**concrete_window, "source_timestamps": [0.0, 0.9] + [0.0] * 38},
+            {**concrete_window, "observation_timestamp": "0.0"},
+        ):
+            with self.assertRaises(Stage45CCompatibilityError):
+                project_stage45c_window(bad)
+        self.assertEqual(
+            hashlib.sha256(HISTORICAL_CANARY.read_bytes()).hexdigest(),
+            historical_hash_before,
+        )
+        self.assertFalse(proof["execution_boundary"]["training"])
+        self.assertEqual(proof["execution_boundary"]["pbs_submissions"], 0)
 
     def test_historical_canary_remains_a_separate_committed_surface(self) -> None:
         self.assertTrue(HISTORICAL_CANARY.is_file())

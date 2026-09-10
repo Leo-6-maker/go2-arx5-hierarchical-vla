@@ -659,6 +659,7 @@ def _build_runtime_processor(
     *,
     groot_source: Path,
     base_checkpoint: Path,
+    processor_checkpoint: Path | None = None,
     dataset_dir: Path,
     modality_path: Path,
     cosmos_snapshot: Path,
@@ -683,8 +684,9 @@ def _build_runtime_processor(
     from gr00t.data.embodiment_tags import EmbodimentTag
     from gr00t.model.gr00t_n1d7.processing_gr00t_n1d7 import Gr00tN1d7Processor
 
-    processor_config_path = base_checkpoint / "processor_config.json"
-    statistics_path = base_checkpoint / "statistics.json"
+    processor_root = processor_checkpoint or base_checkpoint
+    processor_config_path = processor_root / "processor_config.json"
+    statistics_path = processor_root / "statistics.json"
     if _sha256_file(processor_config_path) != EXPECTED_BASE_PROCESSOR_CONFIG_SHA256:
         raise ValueError("BASE processor_config.json SHA256 mismatch")
     if _sha256_file(statistics_path) != EXPECTED_BASE_STATISTICS_SHA256:

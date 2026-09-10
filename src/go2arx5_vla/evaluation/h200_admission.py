@@ -31,6 +31,7 @@ from .reusable import (
     validate_evaluation_manifest,
     verify_evaluation_artifacts,
 )
+from .h200_binding import validate_adapter_runtime_binding
 
 H200_INFERENCE_ADMISSION_SCHEMA = (
     "GO2ARX5_REUSABLE_H200_INFERENCE_ADMISSION_PREFLIGHT_V1"
@@ -157,6 +158,7 @@ def validate_h200_inference_admission(
     admission: Mapping[str, Any],
     *,
     manifest_path: str | Path,
+    require_adapter_binding: bool = False,
 ) -> dict[str, Any]:
     """Cross-bind a materialized inference runtime without model execution.
 
@@ -199,6 +201,12 @@ def validate_h200_inference_admission(
         admission.get("backend") == INFERENCE_BACKEND_V1,
         f"H200 admission backend must be {INFERENCE_BACKEND_V1}",
     )
+    adapter_binding_value = admission.get("adapter_runtime_binding")
+    if require_adapter_binding:
+        _require(
+            isinstance(adapter_binding_value, Mapping),
+            "H200 admission must carry the immutable adapter runtime binding",
+        )
     _require(
         admission.get("runtime_identity") == manifest["runtime"]["identity"],
         "admitted runtime identity differs from manifest",
@@ -381,6 +389,29 @@ def validate_h200_inference_admission(
         expected_noise_verified, actual_noise, field="admission.sampler.noise_bank"
     )
 
+    validated_binding = None
+    if isinstance(adapter_binding_value, Mapping):
+        try:
+            validated_binding = validate_adapter_runtime_binding(
+                manifest,
+                {
+                    "adapter_runtime_binding": adapter_binding_value,
+                    "runtime_late_bound": dict(resolved_runtime),
+                    "checkpoint_identities": [
+                        {
+                            "label": label,
+                            "identity": dict(verified_by_label[label]["identity"]),
+                            "statistics": dict(verified_by_label[label]["statistics"]),
+                        }
+                        for label in checkpoints
+                    ],
+                    "sampler": {"noise_bank": dict(actual_noise)},
+                },
+                manifest_path=manifest_file,
+            )
+        except ReusableManifestError as exc:
+            raise H200AdmissionError(str(exc)) from exc
+
     manifest_locked = _mapping(
         manifest.get("locked_boundaries"), field="manifest.locked_boundaries"
     )
@@ -402,6 +433,11 @@ def validate_h200_inference_admission(
         "execution_head": execution_head,
         "runtime_late_bound_fields": list(RUNTIME_LATE_BOUND_FIELDS),
         "runtime_late_bound": dict(resolved_runtime),
+        **(
+            {"adapter_runtime_binding": validated_binding.to_dict()}
+            if validated_binding is not None
+            else {}
+        ),
         "cohort": {
             "name": manifest["cohort"]["name"],
             "split": manifest["cohort"]["split"],
@@ -416,6 +452,16 @@ def validate_h200_inference_admission(
             }
             for label in checkpoints
         ],
+        "sampler": {
+            "profile": profile_name,
+            "timesteps": list(admission["sampler"]["timesteps"]),
+            "dt": admission["sampler"]["dt"],
+            "expected_calls_per_window": admission["sampler"][
+                "expected_calls_per_window"
+            ],
+            "same_noise_across_checkpoints": True,
+            "noise_bank": dict(actual_noise),
+        },
         "sampler_profile": profile_name,
         "noise_bank": dict(actual_noise),
         "output_root": str(output_root),

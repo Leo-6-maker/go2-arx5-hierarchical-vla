@@ -36,6 +36,33 @@ re-observes the checkout HEAD, branch, host, Python runtime, device, offline
 mode, and admission identity; and rejects any mismatch.  It also requires a
 fresh output root and preserves the manifest's exact checkpoint/window order.
 
+## Freeze-hardening boundary
+
+The adapter handoff is a frozen `AdapterRuntimeBindingV1`.  It is the only
+artifact/path authority visible to the allowlisted GR00T adapter: dataset,
+GR00T source, Cosmos cache, modality configuration, processor/base checkpoint,
+per-label checkpoint and statistics, noise bank, CUDA device, and language are
+verified against the observed admission before adapter resolution.  The
+runtime configuration's artifact observations are cross-bound to this single
+binding; a legacy `adapter_config` namespace is rejected.
+
+Checkout cleanliness includes untracked files.  The runtime probe records all
+porcelain-reported untracked paths, and any such path fails admission before
+adapter preparation.  Failure seals carry the phase and monotonic lifecycle
+counters from the actual failure: admission, adapter resolution/preparation,
+model import/construction, forward attempts, sampler calls, raw sealing, and
+derived evaluation are not replaced with an unconditional `false`.
+
+`stage45c_compatibility.py` is a static proof surface for the historical
+Stage45C contract.  It shows that `FULL24@2000`, the exact 24-window TRAIN
+cohort and explicit timestamp fields, seed 4242, four-step Euler sampling,
+runtime-V2 statistics, and the H40/K16/T16 ABI fit the generic manifest
+without executing a model or changing the historical canary.  The proof is
+not a qualification result and does not reopen Validation-E, Holdout-F, WBC,
+simulation, hardware, PBS, training, or merge.
+The detached copy is committed as
+`manifests/STAGE45C_REUSABLE_ENGINE_COMPATIBILITY_PROOF_V1.json`.
+
 ## Ownership
 
 `h200_engine.py` owns admission, ordering, counters, raw durability, failure
@@ -63,5 +90,8 @@ labels/counts, arbitrary explicit window order, mandatory artifact and runtime
 cross-binding, wrong HEAD/runtime fail-closed behavior, foreign-CWD launcher
 bootstrap, exact adapter allowlisting, deferred model imports, raw-before-
 derived durability, induced late failure, source-mapped adapter symbols, and
-separation from the historical canary.  No GPU, scheduler, model forward, or
-training operation is part of these tests.
+separation from the historical canary.  It also covers immutable adapter
+binding negative cases, untracked importable-code rejection, strict sampler
+numeric types, truthful failure phases/counters, deterministic local-flow
+equivalence, and the exact static Stage45C compatibility projection.  No GPU,
+scheduler, model forward, or training operation is part of these tests.

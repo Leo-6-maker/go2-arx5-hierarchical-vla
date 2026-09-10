@@ -40,6 +40,11 @@ from .h200_admission import (
     H200AdmissionError,
     validate_h200_inference_admission,
 )
+from .h200_binding import (
+    AdapterRuntimeBindingV1,
+    build_adapter_runtime_binding,
+    validate_adapter_runtime_binding,
+)
 from .reusable import (
     GENERIC_PREDICTION_RECORD_SCHEMA,
     load_evaluation_manifest,
@@ -79,6 +84,14 @@ class H200EngineError(ReusableManifestError):
     """Raised when the execution boundary cannot be admitted safely."""
 
 
+class H200EngineExecutionError(RuntimeError):
+    """Raised after a failed run has persisted authoritative provenance."""
+
+    def __init__(self, message: str, *, provenance: Mapping[str, Any]) -> None:
+        super().__init__(message)
+        self.provenance = dict(provenance)
+
+
 @dataclass(frozen=True)
 class AdapterContext:
     """Read-only context handed to an adapter after admission."""
@@ -89,6 +102,7 @@ class AdapterContext:
     runtime_config: Mapping[str, Any]
     repo_root: Path
     verified_artifacts: Mapping[str, Any]
+    adapter_binding: Mapping[str, Any]
 
 
 @dataclass(frozen=True)
@@ -128,6 +142,104 @@ class InferenceAdapter(Protocol):
 
 RuntimeProbe = Callable[[Path], Mapping[str, Any]]
 Decoder = Callable[..., DecodedStructuredPrediction]
+
+
+@dataclass
+class _ExecutionState:
+    """Monotonic engine-owned lifecycle and provenance counters."""
+
+    phase: str = "PRE_ADMISSION"
+    admission_passed: bool = False
+    adapter_resolved: bool = False
+    model_imported: bool = False
+    model_construction: bool = False
+    model_forward_started: bool = False
+    model_forward: bool = False
+    conditioning_backbone_passes: int = 0
+    checkpoint_window_forwards_started: int = 0
+    checkpoint_window_forwards_completed: int = 0
+    sampler_calls_completed: int = 0
+    raw_count: int = 0
+    raw_seal_status: str = "NOT_STARTED"
+    derived_phase: str = "NOT_STARTED"
+    training_steps: int = 0
+    wbc_steps: int = 0
+    simulator_steps: int = 0
+    hardware_steps: int = 0
+
+
+def _execution_snapshot(state: _ExecutionState, adapter: Any) -> dict[str, Any]:
+    """Merge adapter-observed flags into the authoritative engine state."""
+
+    flags = _runtime_flags(adapter)
+    for name in (
+        "model_imported",
+        "model_construction",
+        "model_forward_started",
+        "model_forward",
+    ):
+        setattr(state, name, bool(getattr(state, name) or flags.get(name, False)))
+    for name in (
+        "conditioning_backbone_passes",
+        "checkpoint_window_forwards_started",
+        "checkpoint_window_forwards_completed",
+        "sampler_calls_completed",
+    ):
+        value = flags.get(name)
+        if type(value) is int:
+            setattr(state, name, max(getattr(state, name), value))
+    state.raw_count = max(state.raw_count, 0)
+    state.training_steps = 0
+    state.wbc_steps = 0
+    state.simulator_steps = 0
+    state.hardware_steps = 0
+    model_execution_started = bool(
+        state.model_imported
+        or state.model_construction
+        or state.model_forward
+        or state.checkpoint_window_forwards_started
+        or state.sampler_calls_completed
+        or state.raw_count
+    )
+    return {
+        "phase": state.phase,
+        "admission_passed": state.admission_passed,
+        "adapter_resolved": state.adapter_resolved,
+        "model_execution_started": model_execution_started,
+        "model_imported": state.model_imported,
+        "model_construction": state.model_construction,
+        "model_forward_started": state.model_forward_started,
+        "model_forward": state.model_forward,
+        "conditioning_backbone_passes": state.conditioning_backbone_passes,
+        "checkpoint_window_forwards_started": state.checkpoint_window_forwards_started,
+        "checkpoint_window_forwards_completed": state.checkpoint_window_forwards_completed,
+        "sampler_calls_completed": state.sampler_calls_completed,
+        "raw_count": state.raw_count,
+        "raw_seal_status": state.raw_seal_status,
+        "derived_phase": state.derived_phase,
+        "derived_started": state.derived_phase != "NOT_STARTED",
+        "training_steps": state.training_steps,
+        "training": state.training_steps > 0,
+        "wbc_steps": state.wbc_steps,
+        "simulator_steps": state.simulator_steps,
+        "hardware_steps": state.hardware_steps,
+        "adapter_runtime_flags": flags,
+    }
+
+
+def _execution_document(state: _ExecutionState, adapter: Any) -> dict[str, Any]:
+    """Return nested provenance plus backward-compatible lifecycle fields."""
+
+    snapshot = _execution_snapshot(state, adapter)
+    return {
+        "execution_state": snapshot,
+        "model_execution_started": snapshot["model_execution_started"],
+        "model_imported": snapshot["model_imported"],
+        "model_construction": snapshot["model_construction"],
+        "model_forward_started": snapshot["model_forward_started"],
+        "model_forward": snapshot["model_forward"],
+        "training": snapshot["training_steps"] > 0,
+    }
 
 
 def _require(condition: bool, message: str) -> None:
@@ -237,13 +349,21 @@ def _load_runtime_config(path: str | Path) -> tuple[dict[str, Any], Path]:
         type(observed_mapping["offline_mode"]) is bool,
         "runtime_config.observed_runtime.offline_mode must be a JSON boolean",
     )
+    _require(
+        "adapter_config" not in config,
+        "runtime_config.adapter_config is deprecated; use immutable adapter_runtime_binding",
+    )
+    require_mapping(
+        config.get("adapter_runtime_binding"),
+        field="runtime_config.adapter_runtime_binding",
+    )
     root_value = config.get("repository_root", config.get("repo_root"))
     _require(root_value is not None, "runtime config repository_root is required")
     root = Path(str(root_value)).expanduser()
     _require(root.is_absolute(), "runtime config repository_root must be absolute")
     _require(root.is_dir() and not root.is_symlink(), "runtime config repository_root is not a directory")
     _require(
-        config.get("require_clean_checkout", False) in (False, True),
+        type(config.get("require_clean_checkout", False)) is bool,
         "runtime_config.require_clean_checkout must be a JSON boolean",
     )
     sampler = config.get("observed_sampler")
@@ -267,12 +387,27 @@ def _git_value(repo_root: Path, *arguments: str) -> str:
     return result.stdout.strip()
 
 
+def parse_git_status(status: str) -> tuple[list[str], list[str]]:
+    """Return porcelain status lines and every explicitly reported untracked path."""
+
+    status_lines = [line for line in status.splitlines() if line]
+    untracked_paths = [
+        line[3:].strip()
+        for line in status_lines
+        if line.startswith("?? ") and len(line) > 3
+    ]
+    return status_lines, untracked_paths
+
+
 def observe_runtime(repo_root: str | Path) -> dict[str, Any]:
     """Observe dynamic facts from the process and checkout, without a model import."""
 
     root = Path(repo_root).expanduser().resolve()
     actual_root = Path(_git_value(root, "rev-parse", "--show-toplevel")).resolve()
-    status = _git_value(root, "status", "--porcelain", "--untracked-files=no")
+    status = _git_value(
+        root, "status", "--porcelain=v1", "--untracked-files=all"
+    )
+    status_lines, untracked_paths = parse_git_status(status)
     return {
         "repository_root": str(actual_root),
         "repository_execution_head": _git_value(root, "rev-parse", "HEAD"),
@@ -287,7 +422,8 @@ def observe_runtime(repo_root: str | Path) -> dict[str, Any]:
         "runtime_admission_identity": os.environ.get(
             "GO2ARX5_RUNTIME_ADMISSION_IDENTITY", ""
         ),
-        "worktree_clean": not bool(status),
+        "worktree_clean": not bool(status_lines),
+        "untracked_paths": untracked_paths,
     }
 
 
@@ -360,6 +496,16 @@ def _resolve_runtime_config(
         observed_process = observe_runtime(selected_root)
     else:
         observed_process = dict(runtime_probe(selected_root))
+    untracked_paths = observed_process.get("untracked_paths", [])
+    _require(
+        isinstance(untracked_paths, list)
+        and all(type(path) is str and bool(path.strip()) for path in untracked_paths),
+        "runtime probe untracked_paths must be a list of non-empty strings",
+    )
+    _require(
+        not untracked_paths,
+        "observed checkout contains untracked files; execution admission is fail-closed",
+    )
     actual_root_value = observed_process.get("repository_root")
     _require(actual_root_value is not None, "runtime probe did not report repository_root")
     actual_root = Path(str(actual_root_value)).expanduser().resolve()
@@ -430,6 +576,16 @@ def _resolve_runtime_config(
         base_dir=manifest_file.parent,
         field="runtime_config.observed_runtime.dataset_path",
     )
+    observed["groot_source"] = _observed_artifact(
+        expected_runtime["groot_source"],
+        base_dir=manifest_file.parent,
+        field="runtime_config.observed_runtime.groot_source",
+    )
+    observed["cosmos_cache_root"] = _observed_artifact(
+        expected_runtime["cosmos_cache_root"],
+        base_dir=manifest_file.parent,
+        field="runtime_config.observed_runtime.cosmos_cache_root",
+    )
     observed["output_root"] = _runtime_output_root(
         expected_runtime["output_root"],
         field="runtime_config.observed_runtime.output_root",
@@ -461,6 +617,7 @@ def build_observed_admission(
     *,
     repo_root: str | Path | None = None,
     runtime_probe: RuntimeProbe | None = None,
+    verified_artifacts: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build an admission document from observed runtime facts and artifacts."""
 
@@ -476,6 +633,10 @@ def build_observed_admission(
     _require(
         config.get("schema") == H200_RUNTIME_CONFIG_SCHEMA,
         "runtime config schema mismatch",
+    )
+    _require(
+        "adapter_config" not in config,
+        "runtime_config.adapter_config is deprecated; use immutable adapter_runtime_binding",
     )
     configured_adapter = config.get("adapter")
     if configured_adapter is not None:
@@ -498,6 +659,31 @@ def build_observed_admission(
         repo_root=Path(repo_root).expanduser().resolve() if repo_root is not None else None,
         runtime_probe=runtime_probe,
     )
+    sampler_values = require_mapping(manifest.get("sampler"), field="manifest.sampler")
+    timesteps = sampler_values.get("timesteps")
+    _require(isinstance(timesteps, list), "manifest.sampler.timesteps must be an explicit list")
+    for index, value in enumerate(timesteps):
+        _strict_integer(value, field=f"manifest.sampler.timesteps[{index}]")
+    _strict_number(sampler_values.get("dt"), field="manifest.sampler.dt")
+    _strict_integer(
+        sampler_values.get("expected_calls_per_window"),
+        field="manifest.sampler.expected_calls_per_window",
+    )
+    if verified_artifacts is None:
+        try:
+            verified_artifacts = verify_evaluation_artifacts(
+                manifest, manifest_path=manifest_file
+            )
+        except ReusableManifestError as exc:
+            raise H200EngineError(f"mandatory artifact verification failed: {exc}") from exc
+    adapter_binding = build_adapter_runtime_binding(
+        manifest,
+        config,
+        observed_runtime=observed_runtime,
+        observed_sampler=observed_sampler,
+        verified_artifacts=verified_artifacts,
+        manifest_path=manifest_file,
+    )
     labels = [str(item["label"]) for item in manifest["checkpoints"]]
     windows = [str(item["id"]) for item in manifest["cohort"]["windows"]]
     targets = [str(item["target_id"]) for item in manifest["cohort"]["windows"]]
@@ -507,6 +693,7 @@ def build_observed_admission(
         "runtime_identity": manifest["runtime"]["identity"],
         "timestamp_profile": manifest["timestamp_profile"],
         "runtime_late_bound": observed_runtime,
+        "adapter_runtime_binding": adapter_binding.to_dict(),
         "cohort": {
             "name": manifest["cohort"]["name"],
             "split": manifest["cohort"]["split"],
@@ -771,6 +958,8 @@ def run_h200_inference_engine(
     records: list[dict[str, Any]] = []
     validated_admission: dict[str, Any] | None = None
     admission: dict[str, Any] | None = None
+    adapter_binding: AdapterRuntimeBindingV1 | None = None
+    state = _ExecutionState()
     try:
         # This verifies the concrete cohort/checkpoint/mapping/statistics/noise
         # inputs before resolving or preparing any adapter.
@@ -784,16 +973,26 @@ def run_h200_inference_engine(
             runtime_config,
             repo_root=selected_root,
             runtime_probe=runtime_probe,
+            verified_artifacts=verified,
         )
         try:
             validated_admission = validate_h200_inference_admission(
                 manifest,
                 admission,
                 manifest_path=manifest_file,
+                require_adapter_binding=True,
             )
         except H200AdmissionError:
             # Do not resolve/import an adapter when the cross-binding fails.
             raise
+        adapter_binding = validate_adapter_runtime_binding(
+            manifest,
+            validated_admission,
+            manifest_path=manifest_file,
+        )
+        validated_admission["adapter_runtime_binding"] = adapter_binding.to_dict()
+        state.admission_passed = True
+        state.phase = "ADAPTER_RESOLVE"
 
         if raw_staging_dir is None:
             staging = output.parent / f".{_safe_segment(output.name)}.h200-raw"
@@ -806,10 +1005,7 @@ def run_h200_inference_engine(
                 **admission,
                 "engine_schema": H200_ENGINE_SCHEMA,
                 "admission_status": validated_admission["status"],
-                "model_imported": False,
-                "model_construction": False,
-                "model_forward": False,
-                "training": False,
+                **_execution_document(state, adapter_object),
             },
         )
 
@@ -829,11 +1025,14 @@ def run_h200_inference_engine(
                     runtime_config=runtime_config,
                     repo_root=selected_root,
                     verified_artifacts=verified,
+                    adapter_binding=adapter_binding,
                 ),
             )
+        state.adapter_resolved = True
         _require(callable(getattr(adapter_object, "infer", None)), "adapter does not provide infer()")
         prepare = getattr(adapter_object, "prepare", None)
         if callable(prepare):
+            state.phase = "ADAPTER_PREPARE"
             prepare(
                 AdapterContext(
                     manifest_path=manifest_file,
@@ -842,8 +1041,10 @@ def run_h200_inference_engine(
                     runtime_config=runtime_config,
                     repo_root=selected_root,
                     verified_artifacts=verified,
+                    adapter_binding=adapter_binding,
                 )
             )
+            _execution_snapshot(state, adapter_object)
 
         checkpoint_verified = {
             str(item["label"]): item for item in verified["checkpoints"]
@@ -862,6 +1063,8 @@ def run_h200_inference_engine(
                 label = str(checkpoint["label"])
                 checkpoint_runtime = checkpoint_verified[label]
                 for window_index, window in enumerate(windows):
+                    state.phase = "RAW_INFERENCE"
+                    state.checkpoint_window_forwards_started += 1
                     result = _normalise_adapter_result(
                         adapter_object.infer(
                             checkpoint=checkpoint_runtime,
@@ -874,6 +1077,7 @@ def run_h200_inference_engine(
                                 runtime_config=runtime_config,
                                 repo_root=selected_root,
                                 verified_artifacts=verified,
+                                adapter_binding=adapter_binding,
                             ),
                         )
                     )
@@ -903,7 +1107,7 @@ def run_h200_inference_engine(
                         shape=RAW_ACTION_SHAPE,
                         field="adapter_result.raw",
                     )
-                    state = _finite_array(
+                    state_v1 = _finite_array(
                         result.state_v1,
                         shape=STATE_V1_SHAPE,
                         field="adapter_result.state_v1",
@@ -938,7 +1142,7 @@ def run_h200_inference_engine(
                         "model_input_keys": list(EXPECTED_MODEL_INPUT_KEYS),
                         "target_xyz_in_model_input": False,
                         "observations": observations,
-                        "state_v1": state.tolist(),
+                        "state_v1": state_v1.tolist(),
                         "expert_physical_action": expert.tolist(),
                         "sampler_calls_observed": observed_calls,
                         "adapter_metadata": _jsonable(dict(result.metadata)),
@@ -952,6 +1156,10 @@ def run_h200_inference_engine(
                     records.append(record)
                     raw_count += 1
                     total_sampler_calls += observed_calls
+                    state.checkpoint_window_forwards_completed += 1
+                    state.sampler_calls_completed += observed_calls
+                    state.raw_count = raw_count
+                    _execution_snapshot(state, adapter_object)
                     _durable_json(
                         staging / "raw_progress.json",
                         {
@@ -961,9 +1169,13 @@ def run_h200_inference_engine(
                             "sampler_calls": total_sampler_calls,
                             "raw_manifest": str(raw_manifest_path),
                             "derived_started": False,
+                            "execution_state": _execution_snapshot(state, adapter_object),
                         },
                     )
 
+        state.raw_seal_status = "PASS"
+        state.raw_count = raw_count
+        state.sampler_calls_completed = total_sampler_calls
         raw_seal = {
             "schema": H200_RAW_SEAL_SCHEMA,
             "status": "PASS",
@@ -978,9 +1190,12 @@ def run_h200_inference_engine(
             "same_noise_across_checkpoints": True,
             "raw_persisted_before_derived": True,
             "derived_started": False,
+            "execution_state": _execution_snapshot(state, adapter_object),
         }
         _durable_json(staging / "raw_seal.json", raw_seal)
         raw_status = "PASS"
+        state.derived_phase = "RUNNING"
+        state.phase = "DERIVED_EVALUATION"
         derived_started = True
         generic_summary = run_evaluation(
             manifest,
@@ -990,6 +1205,8 @@ def run_h200_inference_engine(
             records_base_dir=staging,
             decoder=decoder,
         )
+        state.derived_phase = "COMPLETE"
+        state.phase = "FINALIZATION"
         close = getattr(adapter_object, "close", None)
         if callable(close):
             close()
@@ -999,10 +1216,7 @@ def run_h200_inference_engine(
             **admission,
             "engine_schema": H200_ENGINE_SCHEMA,
             "admission_status": validated_admission["status"],
-            "model_imported": bool(_runtime_flags(adapter_object).get("model_imported", False)),
-            "model_construction": bool(_runtime_flags(adapter_object).get("model_construction", False)),
-            "model_forward": bool(_runtime_flags(adapter_object).get("model_forward", False)),
-            "training": False,
+            **_execution_document(state, adapter_object),
         }
         _durable_json(output / "engine_admission.json", output_admission)
         _durable_json(output / "engine_raw_seal.json", raw_seal)
@@ -1048,7 +1262,7 @@ def run_h200_inference_engine(
                 "wbc_steps": 0,
                 "simulator_steps": 0,
                 "hardware_steps": 0,
-                **_runtime_flags(adapter_object),
+                **_execution_snapshot(state, adapter_object),
             },
             "boundaries": {
                 "model_import_after_admission": True,
@@ -1065,6 +1279,21 @@ def run_h200_inference_engine(
         _durable_json(output / "engine_run_manifest.json", engine_summary)
         return engine_summary
     except Exception as exc:
+        state.raw_count = raw_count
+        state.sampler_calls_completed = max(
+            state.sampler_calls_completed, total_sampler_calls
+        )
+        state.raw_seal_status = (
+            "PASS"
+            if raw_status == "PASS"
+            else ("FAILED_PARTIAL" if raw_count else "NOT_STARTED")
+        )
+        if derived_started and state.derived_phase == "NOT_STARTED":
+            state.derived_phase = "RUNNING"
+        failure_phase = state.phase
+        state.phase = "FAILED"
+        provenance = _execution_snapshot(state, adapter_object)
+        provenance["failure_phase"] = failure_phase
         if staging is not None:
             if raw_status != "PASS":
                 partial_seal = {
@@ -1074,33 +1303,39 @@ def run_h200_inference_engine(
                     "sampler_calls": total_sampler_calls,
                     "raw_manifest": str(staging / "raw_predictions.jsonl"),
                     "raw_persisted_before_derived": True,
-                    "derived_started": False,
+                    "derived_started": provenance["derived_started"],
                     "error_type": type(exc).__name__,
                     "error": str(exc),
+                    "execution_state": provenance,
                 }
                 _durable_json(staging / "raw_seal.json", partial_seal)
-            failure = {
-                "schema": H200_ENGINE_FAILURE_SCHEMA,
-                "status": "FAILED",
-                "error_type": type(exc).__name__,
-                "error": str(exc),
-                "raw_count": raw_count,
-                "sampler_calls": total_sampler_calls,
-                "raw_sealed": raw_status == "PASS",
-                "derived_started": derived_started,
-                "staging_root": str(staging),
-                "raw_manifest": str(staging / "raw_predictions.jsonl"),
-                "no_retry": True,
-            }
+        failure = {
+            "schema": H200_ENGINE_FAILURE_SCHEMA,
+            "status": "FAILED",
+            "error_type": type(exc).__name__,
+            "error": str(exc),
+            "raw_sealed": raw_status == "PASS",
+            "staging_root": str(staging) if staging is not None else None,
+            "raw_manifest": (
+                str(staging / "raw_predictions.jsonl")
+                if staging is not None
+                else None
+            ),
+            "no_retry": True,
+            **provenance,
+        }
+        if staging is not None:
             _durable_json(staging / "engine_failure_seal.json", failure)
-            try:
-                _ensure_failure_root(output)
-                _durable_json(output / "engine_failure_seal.json", failure)
-            except Exception:
-                pass
+        try:
+            _ensure_failure_root(output)
+            _durable_json(output / "engine_failure_seal.json", failure)
+        except Exception:
+            pass
+        if isinstance(exc, H200EngineExecutionError):
+            raise
         if isinstance(exc, (H200EngineError, H200AdmissionError, ReusableManifestError)):
             raise
-        raise
+        raise H200EngineExecutionError(str(exc), provenance=failure) from exc
     finally:
         if adapter_object is not None and not adapter_closed:
             close = getattr(adapter_object, "close", None)
@@ -1120,8 +1355,10 @@ __all__ = [
     "H200_RAW_SEAL_SCHEMA",
     "H200_RUNTIME_CONFIG_SCHEMA",
     "H200EngineError",
+    "H200EngineExecutionError",
     "InferenceAdapter",
     "build_observed_admission",
+    "parse_git_status",
     "observe_runtime",
     "run_h200_inference_engine",
 ]

@@ -85,6 +85,40 @@ def _self_check(root: Path) -> dict[str, object]:
     }
 
 
+def _recover_failure_provenance(args: argparse.Namespace, exc: Exception) -> dict[str, object]:
+    """Recover the engine-owned failure state for truthful CLI reporting."""
+
+    provenance = getattr(exc, "provenance", None)
+    if isinstance(provenance, dict):
+        return dict(provenance)
+    candidates: list[Path] = []
+    if args.output_dir is not None:
+        candidates.append(args.output_dir.expanduser().resolve() / "engine_failure_seal.json")
+    if args.manifest is not None:
+        try:
+            manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+            root_value = manifest.get("output", {}).get("root")
+            if root_value:
+                output = Path(str(root_value)).expanduser()
+                if not output.is_absolute():
+                    output = args.manifest.expanduser().resolve().parent / output
+                candidates.append(output.resolve() / "engine_failure_seal.json")
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            pass
+    for candidate in candidates:
+        try:
+            value = json.loads(candidate.read_text(encoding="utf-8"))
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        if isinstance(value, dict) and value.get("schema"):
+            return value
+    return {
+        "phase": "UNKNOWN",
+        "model_execution_started": "UNKNOWN",
+        "recovery": "engine failure seal unavailable",
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=str)
@@ -123,13 +157,17 @@ def main() -> int:
             raw_staging_dir=args.raw_staging_dir,
         )
     except Exception as exc:
+        provenance = _recover_failure_provenance(args, exc)
         print(
             _json(
                 {
                     "status": "BLOCKED",
                     "error_type": type(exc).__name__,
                     "error": str(exc),
-                    "model_execution_started": False,
+                    "model_execution_started": provenance.get(
+                        "model_execution_started", "UNKNOWN"
+                    ),
+                    "failure_provenance": provenance,
                 }
             ),
             file=sys.stderr,

@@ -1,0 +1,118 @@
+{
+  "schema": "GO2ARX5_REUSABLE_STAGE45C_COMPATIBILITY_PROOF_V1",
+  "status": "STATIC_COMPATIBLE_NOT_EXECUTED",
+  "executable": false,
+  "source_protocol": {
+    "path": "manifests/STAGE45C_TRAIN24_EVALUATION_PROTOCOL_FROZEN_V1.json",
+    "sha256": "0f8c564f534ce3b29a5029cc927f93a03697181b4b1df0aa9e80566af4cd020f",
+    "source_head": "54a833eaa7037cdc20397ef182b36647194040cb"
+  },
+  "generic_manifest_expression": {
+    "checkpoint": {
+      "label": "FULL24@2000",
+      "count": 1,
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "statistics_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
+    },
+    "cohort": {
+      "name": "FULL24_EXISTING_TRAIN",
+      "split": "TRAIN",
+      "frame_count": 960,
+      "window_count": 24,
+      "window_order": "target_major_then_snapshot_major",
+      "target_order": [
+        "red_target_train_a",
+        "red_target_train_b",
+        "red_target_train_c",
+        "red_target_train_d"
+      ],
+      "window_ids": [
+        "stage22_expert_red_target_train_a:expert-0000",
+        "stage22_expert_red_target_train_a:expert-0001",
+        "stage22_expert_red_target_train_a:expert-0002",
+        "stage22_expert_red_target_train_a:expert-0003",
+        "stage22_expert_red_target_train_a:expert-0004",
+        "stage22_expert_red_target_train_a:expert-0005",
+        "stage22_expert_red_target_train_b:expert-0000",
+        "stage22_expert_red_target_train_b:expert-0001",
+        "stage22_expert_red_target_train_b:expert-0002",
+        "stage22_expert_red_target_train_b:expert-0003",
+        "stage22_expert_red_target_train_b:expert-0004",
+        "stage22_expert_red_target_train_b:expert-0005",
+        "stage22_expert_red_target_train_c:expert-0000",
+        "stage22_expert_red_target_train_c:expert-0001",
+        "stage22_expert_red_target_train_c:expert-0002",
+        "stage22_expert_red_target_train_c:expert-0003",
+        "stage22_expert_red_target_train_c:expert-0004",
+        "stage22_expert_red_target_train_c:expert-0005",
+        "stage22_expert_red_target_train_d:expert-0000",
+        "stage22_expert_red_target_train_d:expert-0001",
+        "stage22_expert_red_target_train_d:expert-0002",
+        "stage22_expert_red_target_train_d:expert-0003",
+        "stage22_expert_red_target_train_d:expert-0004",
+        "stage22_expert_red_target_train_d:expert-0005"
+      ],
+      "timestamp_binding": {
+        "source_timestamps": "cohort.windows[*].source_timestamps",
+        "observation_timestamp": "cohort.windows[*].observation_timestamp",
+        "horizon": "H40",
+        "frequency_hz": 20,
+        "delta_seconds": 0.05
+      }
+    },
+    "sampler": {
+      "profile": "GROOT_N1D7_SOURCE_MAPPED_EULER4_V1",
+      "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
+      "sampler": "source-mapped-four-step-Euler-action-head-graph",
+      "timesteps": [0, 250, 500, 750],
+      "dt": 0.25,
+      "expected_calls_per_window": 4,
+      "noise_seed": 4242,
+      "noise_shape": [1, 40, 132],
+      "same_noise_across_checkpoints": true,
+      "adaptive_extension": false,
+      "windows_per_checkpoint": 24,
+      "planned_forwards_total": 96
+    },
+    "contract": {
+      "structured_action_schema": "StructuredActionV1",
+      "raw_action_shape": [1, 40, 132],
+      "decoded_action_shape": [40, 10],
+      "state_v1_shape": [10],
+      "geometry": "K16",
+      "timing": "T16",
+      "horizon": "H40",
+      "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+      "target_xyz_in_model_input": false,
+      "language": "move the end effector to the red target",
+      "normalization": "runtime_v2_stats_only",
+      "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+      "tcp_semantic_id": "x5_link6_gripper_center",
+      "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae"
+    },
+    "runtime_binding": {
+      "dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+      "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+      "groot_source_commit_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "groot_source_tree_sha256": "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b",
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "runtime_v2_protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2"
+    }
+  },
+  "execution_boundary": {
+    "model_import": false,
+    "model_construction": false,
+    "model_forward": false,
+    "training": false,
+    "pbs_submissions": 0,
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "simulator": "LOCKED",
+    "hardware": "LOCKED"
+  },
+  "evidence_boundary": "static exact compatibility projection only; historical canary and scientific results are untouched"
+}

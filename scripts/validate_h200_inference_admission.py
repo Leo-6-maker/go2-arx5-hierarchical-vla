@@ -41,6 +41,7 @@ def main() -> int:
             manifest,
             admission,
             manifest_path=args.manifest,
+            require_adapter_binding=True,
         )
         if args.output is not None:
             write_json(args.output, result)
