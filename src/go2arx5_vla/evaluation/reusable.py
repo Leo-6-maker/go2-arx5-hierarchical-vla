@@ -105,6 +105,24 @@ def _require_digest(value: Any, *, field: str) -> str:
     return digest
 
 
+def _strict_integer(value: Any, *, field: str) -> int:
+    _require(type(value) is int, f"{field} must be a JSON integer")
+    return value
+
+
+def _strict_number(value: Any, *, field: str) -> float:
+    _require(
+        type(value) in (int, float),
+        f"{field} must be an explicit finite JSON number",
+    )
+    result = float(value)
+    _require(
+        math.isfinite(result),
+        f"{field} must be an explicit finite JSON number",
+    )
+    return result
+
+
 def _path_from(value: Any, *, base_dir: Path, field: str) -> Path:
     raw = require_nonempty_string(value, field=field)
     candidate = Path(raw).expanduser()
@@ -369,23 +387,33 @@ def validate_evaluation_manifest(manifest: Mapping[str, Any]) -> None:
     if sampler_policy is not None:
         timesteps = sampler.get("timesteps")
         _require(
-            isinstance(timesteps, list)
-            and [int(item) for item in timesteps]
-            == list(sampler_policy.timesteps),
+            isinstance(timesteps, list),
+            "sampler.timesteps must be an explicit list",
+        )
+        normalized_timesteps = [
+            _strict_integer(item, field=f"sampler.timesteps[{index}]")
+            for index, item in enumerate(timesteps)
+        ]
+        _require(
+            normalized_timesteps == list(sampler_policy.timesteps),
             f"sampler timesteps drift from {sampler_policy.name}",
         )
+        dt = _strict_number(sampler.get("dt"), field="sampler.dt")
         _require(
             math.isclose(
-                float(sampler.get("dt", float("nan"))),
+                dt,
                 sampler_policy.dt,
                 rel_tol=0.0,
                 abs_tol=1e-12,
             ),
             f"sampler dt drift from {sampler_policy.name}",
         )
+        expected_calls = _strict_integer(
+            sampler.get("expected_calls_per_window"),
+            field="sampler.expected_calls_per_window",
+        )
         _require(
-            int(sampler.get("expected_calls_per_window", -1))
-            == sampler_policy.calls_per_window,
+            expected_calls == sampler_policy.calls_per_window,
             f"sampler call count drift from {sampler_policy.name}",
         )
     _require(
@@ -551,7 +579,10 @@ def build_evaluation_plan(manifest: Mapping[str, Any]) -> dict[str, Any]:
     )
     checkpoint_count = len(manifest["checkpoints"])
     window_count = len(manifest["cohort"]["windows"])
-    calls_per_window = int(manifest["sampler"]["expected_calls_per_window"])
+    calls_per_window = _strict_integer(
+        manifest["sampler"]["expected_calls_per_window"],
+        field="sampler.expected_calls_per_window",
+    )
     return {
         "schema": GENERIC_EVALUATION_PLAN_SCHEMA,
         "experiment_id": manifest["experiment"]["id"],
@@ -1275,7 +1306,10 @@ def run_evaluation(
         "window_order": [str(item["id"]) for item in windows],
         "raw_prediction_count": len(rows),
         "sampler_calls": len(rows)
-        * int(manifest["sampler"]["expected_calls_per_window"]),
+        * _strict_integer(
+            manifest["sampler"]["expected_calls_per_window"],
+            field="sampler.expected_calls_per_window",
+        ),
         "raw_prediction_shape": list(RAW_ACTION_SHAPE),
         "decoded_action_shape": list(PHYSICAL_ACTION_SHAPE),
         "raw_manifest": raw_manifest_path.relative_to(output).as_posix(),

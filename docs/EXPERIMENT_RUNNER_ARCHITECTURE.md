@@ -54,7 +54,9 @@ The manifest must explicitly provide:
 * same-noise pairing and a named versioned sampler profile.  The preserved
   four-step contract is registered as
   `GROOT_N1D7_SOURCE_MAPPED_EULER4_V1`; its timesteps, step size, and call
-  count are profile semantics rather than anonymous generic constants;
+  count are profile semantics rather than anonymous generic constants.  The
+  timesteps and call count must be JSON integers, and `dt` must be a finite
+  JSON number; booleans, strings, and coercible fractional values are rejected;
 * offline/local runtime identity, fresh output root, and locked
   Validation-E/Holdout-F/WBC/simulator/hardware boundaries.
 
@@ -107,7 +109,9 @@ template is intentionally non-executable: every recipe value is
 rate, warmup, precision, trainable components, seed, batching, fresh/resume
 mode, and save steps explicitly.  The validator requires `max_steps` in
 `save_steps` and `save_only_model=false` so a future backend can seal full
-trainer state.  It refuses to infer resume or fresh semantics.
+trainer state.  It refuses to infer resume or fresh semantics, and requires
+`learning_rate` and `weight_decay` to be finite JSON numbers rather than
+coercible strings or booleans.
 
 The plan contains base checkpoint, dataset manifest/statistics, provenance,
 runtime, output, recipe, backend-boundary, and late-bound runtime identities.  A
@@ -125,8 +129,11 @@ admission document must exactly cross-bind the repository execution HEAD,
 materialized checkpoint paths/content, checkpoint-specific statistics, the
 cohort/dataset path and identity, fresh output root, offline mode, runtime
 admission identity, sampler/noise identity, and every locked boundary.  The
-preflight has no model import/construction/forward side effect; a separate PI
-review is still required before a canary.
+preflight has no model import/construction/forward side effect; a future H200
+adapter must build this document from observed/materialized runtime state and
+run it immediately before model import/construction, rather than copying the
+manifest into a second JSON file.  A separate PI review is still required
+before a canary.
 
 ## Historical boundary
 
@@ -168,6 +175,6 @@ them:
 | physical action | `[40,10]`, EEF position/rot6d/gripper |
 | model input | `body_rgb`, `wrist_rgb`, `state`; target XYZ outside input |
 | timestamps | generic finite/strictly-increasing H-vector; fixed cadence only via a named timing profile |
-| sampler | named versioned profile; same noise per window |
+| sampler | named versioned profile; strict JSON numeric ABI; same noise per window |
 | safety/actuation | no corrective SafetyGate, WBC, simulator, or hardware action |
 | analysis | read-only, paired, descriptive, no hardcoded threshold |

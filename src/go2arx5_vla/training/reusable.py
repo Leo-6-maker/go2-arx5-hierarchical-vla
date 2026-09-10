@@ -94,6 +94,19 @@ def _integer(value: Any, *, field: str) -> int:
     return value
 
 
+def _number(value: Any, *, field: str) -> float:
+    _require(
+        type(value) in (int, float),
+        f"{field} must be an explicit finite JSON number",
+    )
+    result = float(value)
+    _require(
+        math.isfinite(result),
+        f"{field} must be an explicit finite JSON number",
+    )
+    return result
+
+
 def validate_training_manifest(manifest: Mapping[str, Any]) -> None:
     """Validate all generic training identity and recipe fields."""
 
@@ -209,15 +222,10 @@ def _validate_training_recipe(recipe: Mapping[str, Any]) -> None:
     _require(0 <= warmup_steps <= max_steps, "recipe.warmup_steps is outside max_steps")
     require_nonempty_string(recipe["scheduler"], field="recipe.scheduler")
     require_nonempty_string(recipe["optimizer"], field="recipe.optimizer")
-    for field in ("learning_rate", "weight_decay"):
-        value = float(recipe[field])
-        _require(
-            math.isfinite(value) and value >= 0.0,
-            f"recipe.{field} must be finite and non-negative",
-        )
-    _require(
-        float(recipe["learning_rate"]) > 0.0, "recipe.learning_rate must be positive"
-    )
+    learning_rate = _number(recipe["learning_rate"], field="recipe.learning_rate")
+    weight_decay = _number(recipe["weight_decay"], field="recipe.weight_decay")
+    _require(learning_rate > 0.0, "recipe.learning_rate must be positive")
+    _require(weight_decay >= 0.0, "recipe.weight_decay must be finite and non-negative")
     _integer(recipe["seed"], field="recipe.seed")
     for field in ("batch_size", "gradient_accumulation_steps"):
         value = _integer(recipe[field], field=f"recipe.{field}")

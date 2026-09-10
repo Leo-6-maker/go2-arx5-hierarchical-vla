@@ -9,6 +9,7 @@ its own PI-approved execution gate.
 
 from __future__ import annotations
 
+import math
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -66,6 +67,24 @@ def _string(value: Any, *, field: str) -> str:
         return require_nonempty_string(value, field=field)
     except ReusableManifestError as exc:
         raise H200AdmissionError(str(exc)) from exc
+
+
+def _strict_integer(value: Any, *, field: str) -> int:
+    _require(type(value) is int, f"{field} must be a JSON integer")
+    return value
+
+
+def _strict_number(value: Any, *, field: str) -> float:
+    _require(
+        type(value) in (int, float),
+        f"{field} must be an explicit finite JSON number",
+    )
+    result = float(value)
+    _require(
+        math.isfinite(result),
+        f"{field} must be an explicit finite JSON number",
+    )
+    return result
 
 
 def _manifest_file(path: str | Path) -> Path:
@@ -315,11 +334,30 @@ def validate_h200_inference_admission(
         admission.get("timestamp_profile") == manifest["timestamp_profile"],
         "admitted timestamp profile differs from manifest",
     )
-    for key in ("timesteps", "dt", "expected_calls_per_window"):
-        _require(
-            sampler.get(key) == manifest["sampler"][key],
-            f"admitted sampler {key} differs from manifest",
-        )
+    admitted_timesteps = sampler.get("timesteps")
+    _require(
+        isinstance(admitted_timesteps, list),
+        "admission.sampler.timesteps must be an explicit list",
+    )
+    for index, value in enumerate(admitted_timesteps):
+        _strict_integer(value, field=f"admission.sampler.timesteps[{index}]")
+    _require(
+        admitted_timesteps == manifest["sampler"]["timesteps"],
+        "admitted sampler timesteps differs from manifest",
+    )
+    admitted_dt = _strict_number(sampler.get("dt"), field="admission.sampler.dt")
+    _require(
+        admitted_dt == manifest["sampler"]["dt"],
+        "admitted sampler dt differs from manifest",
+    )
+    admitted_calls = _strict_integer(
+        sampler.get("expected_calls_per_window"),
+        field="admission.sampler.expected_calls_per_window",
+    )
+    _require(
+        admitted_calls == manifest["sampler"]["expected_calls_per_window"],
+        "admitted sampler call count differs from manifest",
+    )
     try:
         sampler_profile(profile_name)
     except ProfileError as exc:

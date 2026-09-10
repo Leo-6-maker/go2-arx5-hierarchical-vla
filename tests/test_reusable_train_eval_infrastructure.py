@@ -296,6 +296,45 @@ class ReusableInfrastructureTests(unittest.TestCase):
             self.assertEqual(plan["sampler_calls"], 16)
             self.assertFalse(plan["model_construction"])
 
+    def test_sampler_profile_requires_strict_json_numeric_types(self) -> None:
+        invalid_values = {
+            "timesteps_fractional": lambda candidate: candidate["sampler"].update(
+                {"timesteps": [0.9, 250, 500, 750]}
+            ),
+            "timesteps_boolean": lambda candidate: candidate["sampler"].update(
+                {"timesteps": [False, 250, 500, 750]}
+            ),
+            "timesteps_numeric_string": lambda candidate: candidate["sampler"].update(
+                {"timesteps": ["0", 250, 500, 750]}
+            ),
+            "calls_fractional": lambda candidate: candidate["sampler"].update(
+                {"expected_calls_per_window": 4.5}
+            ),
+            "calls_boolean": lambda candidate: candidate["sampler"].update(
+                {"expected_calls_per_window": True}
+            ),
+            "calls_numeric_string": lambda candidate: candidate["sampler"].update(
+                {"expected_calls_per_window": "4"}
+            ),
+            "dt_boolean": lambda candidate: candidate["sampler"].update(
+                {"dt": True}
+            ),
+            "dt_numeric_string": lambda candidate: candidate["sampler"].update(
+                {"dt": "0.25"}
+            ),
+            "dt_nonfinite": lambda candidate: candidate["sampler"].update(
+                {"dt": float("nan")}
+            ),
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            _manifest_path, manifest, _records = self._evaluation_fixture(Path(temporary))
+            for case, mutate in invalid_values.items():
+                with self.subTest(case=case):
+                    candidate = json.loads(json.dumps(manifest))
+                    mutate(candidate)
+                    with self.assertRaises(ReusableEvaluationError):
+                        validate_evaluation_manifest(candidate)
+
     def test_raw_is_sealed_before_decode_and_analyzer_is_paired(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -474,6 +513,30 @@ class ReusableInfrastructureTests(unittest.TestCase):
                 ),
                 "sampler": lambda item: item["sampler"].update(
                     {"profile": "wrong-profile"}
+                ),
+                "sampler_timesteps_fractional": lambda item: item["sampler"].update(
+                    {"timesteps": [0.9, 250, 500, 750]}
+                ),
+                "sampler_timesteps_boolean": lambda item: item["sampler"].update(
+                    {"timesteps": [False, 250, 500, 750]}
+                ),
+                "sampler_timesteps_numeric_string": lambda item: item["sampler"].update(
+                    {"timesteps": ["0", 250, 500, 750]}
+                ),
+                "sampler_calls_fractional": lambda item: item["sampler"].update(
+                    {"expected_calls_per_window": 4.5}
+                ),
+                "sampler_calls_boolean": lambda item: item["sampler"].update(
+                    {"expected_calls_per_window": True}
+                ),
+                "sampler_calls_numeric_string": lambda item: item["sampler"].update(
+                    {"expected_calls_per_window": "4"}
+                ),
+                "sampler_dt_boolean": lambda item: item["sampler"].update(
+                    {"dt": True}
+                ),
+                "sampler_dt_numeric_string": lambda item: item["sampler"].update(
+                    {"dt": "0.25"}
                 ),
                 "noise": lambda item: item["sampler"]["noise_bank"].update(
                     {"sha256": "c" * 64}
@@ -846,6 +909,24 @@ class ReusableInfrastructureTests(unittest.TestCase):
             boolean_steps["recipe"]["max_steps"] = True
             with self.assertRaises(ReusableTrainingError):
                 validate_training_manifest(boolean_steps)
+
+    def test_training_learning_rates_require_strict_json_numbers(self) -> None:
+        invalid_values = {
+            "learning_rate_boolean": ("learning_rate", True),
+            "learning_rate_numeric_string": ("learning_rate", "1e-4"),
+            "learning_rate_nonfinite": ("learning_rate", float("nan")),
+            "weight_decay_boolean": ("weight_decay", True),
+            "weight_decay_numeric_string": ("weight_decay", "1e-5"),
+            "weight_decay_nonfinite": ("weight_decay", float("inf")),
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            _manifest_path, manifest = self._training_fixture(Path(temporary))
+            for case, (field, value) in invalid_values.items():
+                with self.subTest(case=case):
+                    candidate = json.loads(json.dumps(manifest))
+                    candidate["recipe"][field] = value
+                    with self.assertRaises(ReusableTrainingError):
+                        validate_training_manifest(candidate)
 
     def test_generic_sources_have_no_runtime_imports_or_process_launch(self) -> None:
         paths = [
