@@ -428,6 +428,7 @@ def _physical_metric_values(row: Mapping[str, Any]) -> dict[str, float]:
     summary_wanted = {
         "prediction_roughness_position_second_difference_m",
         "expert_roughness_position_second_difference_m",
+        "roughness_position_second_difference_m",
     }
 
     def visit(value: Any, prefix: str) -> None:
@@ -822,7 +823,6 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
                             counters["raw_stage_count"] += 1
                             counters["derived_stage_count"] += 1
                             checkpoint_stage_rows += 1
-                            hook_count[solver] += 1
                             if final_stage:
                                 counters["physical_final_readout_count"] += 1
                                 checkpoint_physical += 1
