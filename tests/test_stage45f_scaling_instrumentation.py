@@ -76,6 +76,7 @@ def _optimizer_event(step: int, rank: int, ids: list[str], *, world_size: int = 
         "world_size": world_size,
         "gradient_accumulation_steps": 2,
         "sample_window_ids": ids,
+        "microbatch_sample_counts": [1, len(ids) - 1],
         "split": "TRAIN",
         "validation_e": False,
         "holdout_f": False,
@@ -100,6 +101,7 @@ def test_optimizer_step_exposure_requires_all_ranks_and_counts_exactly(tmp_path:
     assert result["world_size"] == 2
     assert result["global_sample_exposure_count"] == 8
     assert result["per_window_counts"] == {"w0": 2, "w1": 2, "w2": 2, "w3": 2}
+    assert result["microbatch_sample_count_closure_verified"] is True
     assert result["exact_optimizer_step_exposure_available"] is True
     assert result["epoch_claim"] == "NOT_DERIVED_AUTOMATICALLY"
     assert result["training_authorized"] is False
@@ -110,6 +112,15 @@ def test_optimizer_step_exposure_requires_all_ranks_and_counts_exactly(tmp_path:
         optimizer_exposure.analyze(
             optimizer_exposure.read_events(bad), optimizer_exposure.sha256_file(bad)
         )
+
+
+def test_optimizer_step_exposure_rejects_incomplete_microbatch_serialization(tmp_path: Path) -> None:
+    trace = tmp_path / "incomplete.jsonl"
+    row = _optimizer_event(1, 0, ["w0", "w1"], world_size=1)
+    row["microbatch_sample_counts"] = [1, 2]
+    trace.write_text(json.dumps(row) + "\n", encoding="utf-8")
+    with pytest.raises(optimizer_exposure.OptimizerExposureError, match="do not close"):
+        optimizer_exposure.read_events(trace)
 
 
 def test_data_cardinality_scaling_is_nominal_not_epoch_equivalence() -> None:
