@@ -179,6 +179,12 @@ def test_launcher_static_guard_has_no_model_imports() -> None:
     assert guard["top_level_forbidden_imports"] == []
 
 
+def test_launcher_parses_pretty_child_json_after_runtime_logs() -> None:
+    payload = {"status": "PASS", "token": admission.SMOKE_PASS_TOKEN, "counters": {"action_head_calls": 8}}
+    stdout = "runtime log\n[groot/hf] cache hit\n" + json.dumps(payload, indent=2) + "\n"
+    assert launcher._parse_child_json(stdout) == payload
+
+
 def test_pbs_accepts_both_shared_runtime_aliases() -> None:
     source = PBS_SCRIPT.read_text(encoding="utf-8")
     assert "/cm/shared/apps/python/3.12.3/bin/python3.12" in source

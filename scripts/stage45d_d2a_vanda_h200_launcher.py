@@ -330,6 +330,16 @@ def child_environment(paths: Mapping[str, str], evidence_root: Path) -> dict[str
 
 
 def _parse_child_json(stdout: str) -> dict[str, Any]:
+    decoder = json.JSONDecoder()
+    for offset in range(len(stdout) - 1, -1, -1):
+        if stdout[offset] != "{":
+            continue
+        try:
+            value, end = decoder.raw_decode(stdout[offset:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict) and not stdout[offset + end :].strip():
+            return value
     for line in reversed(stdout.splitlines()):
         text = line.strip()
         if not text:
