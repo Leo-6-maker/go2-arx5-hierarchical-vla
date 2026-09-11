@@ -4,8 +4,10 @@
 The input is a compact JSON proposal containing only proposed TRAIN examples,
 XYZ physical labels, current normalization center/half-range, and provenance.
 No repository dataset is opened by this tool.  It reports support/clipping
-under the frozen current stats and classifies any proposed stats change as
-DATA_PLUS_NORMALIZATION rather than DATA_ONLY.
+under the frozen current stats and classifies a numerical stats change as
+DATA_PLUS_NORMALIZATION rather than DATA_ONLY. A provenance-only stats identity
+change is reported separately and is not treated as a scientific normalization
+change by itself.
 """
 
 from __future__ import annotations
@@ -170,8 +172,15 @@ def audit(value: Mapping[str, Any]) -> dict[str, Any]:
         )
 
     proposed_stats = value["proposed_stats"]
-    stats_changed = proposed_stats is not None and proposed_stats != current
-    intervention_class = "DATA_PLUS_NORMALIZATION" if stats_changed else "DATA_ONLY_CANDIDATE_REQUIRES_PI_SUPPORT_JUDGMENT"
+    stats_identity_changed = proposed_stats is not None and proposed_stats["identity"] != current["identity"]
+    stats_values_changed = bool(
+        proposed_stats is not None
+        and (
+            proposed_stats["xyz_center_m"] != current["xyz_center_m"]
+            or proposed_stats["xyz_half_range_m"] != current["xyz_half_range_m"]
+        )
+    )
+    intervention_class = "DATA_PLUS_NORMALIZATION" if stats_values_changed else "DATA_ONLY_CANDIDATE_REQUIRES_PI_SUPPORT_JUDGMENT"
     return {
         "schema": "STAGE45F_DATA_EXPANSION_SUPPORT_AUDIT_V1",
         "status": "PASS_ANALYSIS_ONLY",
@@ -191,7 +200,8 @@ def audit(value: Mapping[str, Any]) -> dict[str, Any]:
             "windows_with_any_xyz_outside_neg1_pos1": window_any_clip,
             "window_fraction_with_any_xyz_outside_neg1_pos1": window_any_clip / value["window_count"],
         },
-        "stats_change_detected": stats_changed,
+        "stats_identity_changed": stats_identity_changed,
+        "stats_numeric_normalization_changed": stats_values_changed,
         "normalization_decision_required": True,
         "automatic_acceptability_threshold_used": False,
         "groot_self_labels_present": False,
@@ -199,7 +209,7 @@ def audit(value: Mapping[str, Any]) -> dict[str, Any]:
         "holdout_f_read": False,
         "execution_authorized": False,
         "input_contract_sha256": canonical_sha(value),
-        "claim_boundary": "Clipping/support is descriptive. The tool does not define an acceptable clipping threshold and does not authorize data collection or training.",
+        "claim_boundary": "Clipping/support is descriptive. A provenance-only stats identity change is reported separately from a numerical center/half-range change. The tool defines no acceptable clipping threshold and authorizes no data collection or training.",
     }
 
 
