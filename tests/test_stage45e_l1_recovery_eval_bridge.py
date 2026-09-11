@@ -21,7 +21,7 @@ def _tree(path: Path, step: int) -> str:
 
 def _fixture(tmp_path: Path) -> tuple[Path, Path]:
     training = tmp_path / "training"
-    training.mkdir()
+    training.mkdir(parents=True)
     checkpoints = {}
     for step in (1000, 2000):
         cp = training / f"checkpoint-{step}"
