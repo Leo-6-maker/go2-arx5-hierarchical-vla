@@ -13,9 +13,11 @@ import argparse
 import ast
 import hashlib
 import json
+import os
 from pathlib import Path
+import stat
 import sys
-from typing import Any, Mapping, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
 
 ACCEPT_TOKEN = "STAGE45E_L1_612326_READONLY_TRAINING_ACCEPTED"
@@ -58,7 +60,37 @@ def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
     temporary.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
-    temporary.replace(path)
+    os.replace(temporary, path)
+
+
+def _tree_entries(root: Path, prefix: str) -> list[dict[str, Any]]:
+    root = Path(root).resolve()
+    mode = root.lstat().st_mode
+    require(stat.S_ISDIR(mode) and not stat.S_ISLNK(mode), f"unsafe checkpoint root: {root}")
+    entries: list[dict[str, Any]] = []
+    for directory, dirnames, filenames in os.walk(root, followlinks=False):
+        directory_path = Path(directory)
+        for dirname in sorted(dirnames):
+            child = directory_path / dirname
+            child_mode = child.lstat().st_mode
+            require(stat.S_ISDIR(child_mode) and not stat.S_ISLNK(child_mode), f"unsafe checkpoint directory: {child}")
+        for filename in sorted(filenames):
+            child = directory_path / filename
+            child_mode = child.lstat().st_mode
+            require(stat.S_ISREG(child_mode) and not stat.S_ISLNK(child_mode), f"unsafe checkpoint file: {child}")
+            entries.append({
+                "path": f"{prefix}/{child.relative_to(root).as_posix()}",
+                "bytes": int(child.stat().st_size),
+                "sha256": sha256_file(child),
+            })
+    return sorted(entries, key=lambda item: str(item["path"]))
+
+
+def _tree_digest(entries: Iterable[Mapping[str, Any]]) -> str:
+    digest = hashlib.sha256()
+    for item in sorted(entries, key=lambda value: str(value["path"])):
+        digest.update(f"{item['path']}\0{item['bytes']}\0{item['sha256']}\n".encode("utf-8"))
+    return digest.hexdigest()
 
 
 def static_guard() -> dict[str, Any]:
@@ -95,15 +127,21 @@ def _checkpoint_match(training_root: Path, acceptance_record: Mapping[str, Any],
     require(isinstance(accepted, Mapping), f"acceptance checkpoint-{step} record missing")
     require(Path(str(accepted.get("path"))).resolve() == checkpoint.resolve(), f"acceptance checkpoint-{step} path drift")
     require(accepted.get("global_step") == step, f"acceptance checkpoint-{step} step drift")
-    tree_sha = accepted.get("tree_sha256")
-    require(isinstance(tree_sha, str) and len(tree_sha) == 64, f"acceptance checkpoint-{step} tree identity missing")
+    accepted_tree = accepted.get("tree_sha256")
+    require(isinstance(accepted_tree, str) and len(accepted_tree) == 64, f"acceptance checkpoint-{step} tree identity missing")
     required_state = ("optimizer.pt", "scheduler.pt", "rng_state.pth", "trainer_state.json")
     require(all((checkpoint / name).is_file() and not (checkpoint / name).is_symlink() for name in required_state), f"checkpoint-{step} full-state closure missing")
+    entries = _tree_entries(checkpoint, f"stage45e_l1/checkpoint-{step}")
+    observed_tree = _tree_digest(entries)
+    require(observed_tree == accepted_tree, f"checkpoint-{step} bytes changed after recovery acceptance")
     return {
         "path": str(checkpoint.resolve()),
-        "tree_sha256": tree_sha,
+        "tree_sha256": observed_tree,
         "global_step": step,
         "required_state_files": list(required_state),
+        "file_count": len(entries),
+        "total_bytes": sum(int(item["bytes"]) for item in entries),
+        "rehash_matches_acceptance": True,
     }
 
 
