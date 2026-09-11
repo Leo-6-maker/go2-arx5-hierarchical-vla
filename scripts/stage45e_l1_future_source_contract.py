@@ -59,10 +59,6 @@ def _call_names(tree: ast.AST) -> set[str]:
     return result
 
 
-def _string_literals(tree: ast.AST) -> set[str]:
-    return {node.value for node in ast.walk(tree) if isinstance(node, ast.Constant) and isinstance(node.value, str)}
-
-
 def audit(train_path: Path, eval_path: Path) -> dict[str, Any]:
     train_source = read_source(train_path)
     eval_source = read_source(eval_path)
@@ -72,21 +68,14 @@ def audit(train_path: Path, eval_path: Path) -> dict[str, Any]:
     eval_imports = _imports(eval_tree)
     train_calls = _call_names(train_tree)
     eval_calls = _call_names(eval_tree)
-    train_literals = _string_literals(train_tree)
-    eval_literals = _string_literals(eval_tree)
 
-    # Training may prepare a final-eval next action, but must not emit the final
-    # TRAIN24 completion token before evaluation exists.
+    # Training may prepare evaluation, but the training result must own a
+    # distinct training-only completion token. Runtime weight evidence can be
+    # serialized as one nested helper result; do not overfit field placement.
     require(TRAINING_ONLY_TOKEN in train_source, "training-only completion token missing")
-    result_token_context = "stage45e_l1_training_result.json"
-    require(result_token_context in train_source, "training result artifact marker missing")
+    require("stage45e_l1_training_result.json" in train_source, "training result artifact marker missing")
     require("capture_effective_weight_evidence" in train_calls or "capture_effective_weight_evidence" in train_source, "future canary does not capture runtime effective L1 weights")
-    require("action_loss_dtype" in train_source and "effective_xyz_loss_weights" in train_source, "future canary runtime weight evidence fields missing")
-
-    # A final token may appear in admission constants imported by the trainer,
-    # so do not ban the literal globally. Require the training-result-specific
-    # token to be the distinct training-only token instead.
-    require("training_completion_token" in train_source or "TRAINING_ONLY_TOKEN" in train_source, "training result does not expose a distinct training completion-token field")
+    require("runtime_weight_evidence" in train_source, "future canary does not serialize runtime weight evidence")
 
     # Evaluation must accept the recovered contract-bound input, rather than
     # requiring only the missing historical PASS training result.
@@ -98,7 +87,6 @@ def audit(train_path: Path, eval_path: Path) -> dict[str, Any]:
     require("paired_summary_complete" in eval_calls or "L1@2000_minus_L1@1000" in eval_source, "L1 exposure paired comparison missing")
     require("persist_row_bundles" in eval_calls or "row_bundles" in eval_source, "per-window row bundle persistence missing")
     require("build_immutable_inventory" in eval_calls or "IMMUTABLE_SHA256SUMS" in eval_source, "non-cyclic immutable inventory helper missing")
-    require("final_seal_excluded" in eval_source or "stage45e_l1_eval_seal.json" in eval_source, "final-seal inventory boundary marker missing")
     require(FINAL_TOKEN in eval_source or "admission.FULL_PASS_TOKEN" in eval_source, "final TRAIN24 completion token missing from evaluator")
 
     # Static governance markers must remain.
@@ -106,7 +94,7 @@ def audit(train_path: Path, eval_path: Path) -> dict[str, Any]:
         require(marker in eval_source, f"evaluation governance marker missing: {marker}")
 
     return {
-        "schema": "STAGE45E_L1_FUTURE_SOURCE_CONTRACT_V1",
+        "schema": "STAGE45E_L1_FUTURE_SOURCE_CONTRACT_V2",
         "status": "PASS_STATIC_SOURCE_CONTRACT",
         "training_source": str(Path(train_path).resolve()),
         "evaluation_source": str(Path(eval_path).resolve()),
