@@ -1,0 +1,178 @@
+{
+  "schema": "CORELAB_STAGE45E_N2_BALANCED_XYZ_NORMALIZATION_V1",
+  "status": "IMPLEMENTED_CPU_STATIC_READY",
+  "stage": "Stage45E",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0121",
+    "issue_comment": 5633708741,
+    "support_pointer_pr": 52,
+    "support_pointer_issue": 50
+  },
+  "repository": {
+    "branch": "stage45e/n2-balanced-xyz-normalization",
+    "base_head": "a843294780c1392369bfc987e468857c63fc13a5",
+    "first_science_commit_required_before_gpu": true,
+    "working_tree_required_clean": true
+  },
+  "scientific_question": "Does balancing the three XYZ normalisation ranges improve FULL24 coverage without changing any other contract?",
+  "intervention": {
+    "kind": "ONE_FACTOR_XYZ_SELECTED_BOUND_REPLACEMENT",
+    "normalization": "MINMAX_TO_NEG1_POS1",
+    "use_percentiles": true,
+    "common_half_range_m": 0.107349471,
+    "center_definition": "0.5*(accepted FULL24 selected_lower + accepted FULL24 selected_upper)",
+    "xyz_universal_dimensions": [0, 1, 2],
+    "source_robust_centers_m": [
+      0.07283134344877157,
+      0.0026564446538982454,
+      -0.003348907255348331
+    ],
+    "n2_selected_lower_m": [
+      -0.034518127551228434,
+      -0.10469302634610175,
+      -0.11069837825534834
+    ],
+    "n2_selected_upper_m": [
+      0.18018081444877157,
+      0.11000591565389825,
+      0.10400056374465166
+    ],
+    "non_xyz_selected_bounds_unchanged": true,
+    "all_raw_statistics_unchanged": true
+  },
+  "source_runtime_v2": {
+    "schema": "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2",
+    "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
+    "outer_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "source_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "materialization_path_embedded": false,
+    "historical_scratch_path_embedded": false
+  },
+  "dataset": {
+    "id": "FULL24_EXISTING_TRAIN",
+    "role": "TRAIN_ONLY",
+    "target_order": [
+      "red_target_train_a",
+      "red_target_train_b",
+      "red_target_train_c",
+      "red_target_train_d"
+    ],
+    "window_order": "target-major then snapshot-major",
+    "window_count": 24,
+    "frame_count": 960,
+    "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "regular_file_count": 85,
+    "total_bytes": 919661,
+    "new_data_generation": false,
+    "simulator_read": false,
+    "validation_e_read": false,
+    "holdout_f_read": false
+  },
+  "preserved_contracts": {
+    "structured_action_schema": "StructuredActionV1",
+    "structured_action_shape": [1, 40, 132],
+    "decoded_action_shape": [40, 10],
+    "mask_shape": [40, 132],
+    "mask_active_scalars": 190,
+    "timing_mode": "T16",
+    "geometry": "K16",
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+    "target_xyz_in_model_input": false,
+    "d1_decoder_changed": false,
+    "wbc_changed": false,
+    "training_recipe_changed": false
+  },
+  "training_recipe": {
+    "start_from": "exact BASE",
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "seed": 2222,
+    "max_steps": 2000,
+    "save_steps": [1000, 2000],
+    "save_total_limit": 2,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "warmup_steps": 10,
+    "warmup_ratio": 0.0,
+    "bf16": true,
+    "fp16": false,
+    "tf32": true,
+    "workers": 0,
+    "eval": "no",
+    "resume": false,
+    "save_only_model": false,
+    "tune_projector": true,
+    "tune_diffusion": true,
+    "tune_visual": false,
+    "tune_llm": false,
+    "tune_vlln": false,
+    "relative": true,
+    "percentiles": true,
+    "num_gpus": 1
+  },
+  "admission": {
+    "preferred_gpu": "NVIDIA GeForce RTX 4080 SUPER 32GB",
+    "preferred_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "allow_shared_gpu": true,
+    "must_not_kill_other_processes": true,
+    "must_not_reprioritize": true,
+    "exact_graph_only": true,
+    "resource_canary": {
+      "inference_windows": 1,
+      "training_batch_forward": 1,
+      "backward_steps": 1,
+      "optimizer_steps": 0,
+      "scheduler_steps": 0,
+      "checkpoint_writes": 0,
+      "weight_update": 0
+    },
+    "fallback_token_on_exact_resource_failure": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_H200_FALLBACK_AUTHORIZED"
+  },
+  "execution_boundary": {
+    "gpu": 0,
+    "model_constructed": 0,
+    "gr00t_forwards": 0,
+    "training_steps": 0,
+    "backward_steps": 0,
+    "optimizer_steps": 0,
+    "scheduler_steps": 0,
+    "checkpoint_writes": 0,
+    "pbs_submissions": 0,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_steps": 0,
+    "simulator_steps": 0,
+    "hardware_execution": false
+  },
+  "artifacts": {
+    "stats_builder": "scripts/stage45e_n2_statistics.py",
+    "stats_override_env": "STAGE45E_N2_STATS_ARTIFACT",
+    "corelab_runner": "scripts/stage45e_n2_corelab.py",
+    "source_path_policy": "caller supplied; no scratch path hard-coded",
+    "output_root_policy": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_<HEAD8>/"
+  },
+  "return_tokens": {
+    "cpu_static": "STAGE45E_N2_CPU_STATIC_ARTIFACT_READY",
+    "resource_blocked": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_H200_FALLBACK_AUTHORIZED",
+    "training_complete": "STAGE45E_N2_CORELAB_2000_TRAINING_COMPLETE_FOR_PI_REVIEW"
+  },
+  "locked": {
+    "N1": true,
+    "L1": true,
+    "D2B": true,
+    "4000_step": true,
+    "Validation-E": true,
+    "Holdout-F": true,
+    "WBC": true,
+    "simulator": true,
+    "hardware": true,
+    "merge": true
+  }
+}

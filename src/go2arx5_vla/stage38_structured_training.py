@@ -15,6 +15,7 @@ the immutable TINY1 source tree.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -56,6 +57,132 @@ def _write_json(path: Path, payload: Any) -> None:
         json.dumps(_jsonable(payload), indent=2, sort_keys=True, allow_nan=False) + "\n",
         encoding="utf-8",
     )
+
+
+def _load_n2_statistics_override(path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Load the sealed Stage45E N2 statistics bridge without importing GR00T.
+
+    The bridge is intentionally explicit rather than silently replacing the
+    statistics generated from the materialized TRAIN labels.  The generated
+    statistics are compared by the caller; only the three accepted XYZ
+    selected-bound entries may differ.
+    """
+
+    path = Path(path)
+    if path.is_symlink() or not path.is_file():
+        raise ValueError(f"N2 statistics artifact is not a regular file: {path}")
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"cannot read N2 statistics artifact {path}: {exc}") from exc
+    if not isinstance(payload, Mapping):
+        raise ValueError("N2 statistics artifact must be a JSON object")
+    if payload.get("schema") != "CORELAB_STAGE45E_N2_STRUCTURED_STATS_V1":
+        raise ValueError("N2 statistics artifact schema mismatch")
+    if payload.get("status") != "CPU_STATIC_N2_ARTIFACT_READY":
+        raise ValueError("N2 statistics artifact is not CPU-static ready")
+    stats = payload.get("statistics")
+    if not isinstance(stats, Mapping):
+        raise ValueError("N2 statistics artifact does not contain statistics")
+    required = {
+        "schema": "STAGE38_STRUCTURED_ACTION_STATISTICS_V1",
+        "normalization": "MINMAX_TO_NEG1_POS1",
+        "use_percentiles": True,
+        "selected_lower_bound": "q01",
+        "selected_upper_bound": "q99",
+        "timing_mode": STRUCTURED_TIMING_MODE,
+        "action_horizon": STRUCTURED_ACTION_HORIZON,
+        "universal_action_dim": STRUCTURED_ACTION_DIM,
+        "active_scalar_count": 190,
+    }
+    for key, expected in required.items():
+        if stats.get(key) != expected:
+            raise ValueError(f"N2 statistics field {key!r} mismatch: {stats.get(key)!r}")
+    mask = np.asarray(stats.get("active_mask"), dtype=np.float64)
+    expected_mask = structured_action_mask(STRUCTURED_TIMING_MODE)
+    if mask.shape != expected_mask.shape or not np.array_equal(mask, expected_mask):
+        raise ValueError("N2 statistics artifact mask is not the frozen T16 mask")
+    lower = np.asarray(stats.get("selected_lower"), dtype=np.float64)
+    upper = np.asarray(stats.get("selected_upper"), dtype=np.float64)
+    if lower.shape != (STRUCTURED_ACTION_DIM,) or upper.shape != (STRUCTURED_ACTION_DIM,):
+        raise ValueError("N2 statistics bounds must have 132 dimensions")
+    if not np.isfinite(lower).all() or not np.isfinite(upper).all() or np.any(upper < lower):
+        raise ValueError("N2 statistics bounds are not finite ordered vectors")
+    provenance = {
+        "schema": payload["schema"],
+        "status": payload["status"],
+        "artifact_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "statistics_payload_sha256": payload.get("statistics_payload_sha256"),
+        "authority": payload.get("authority"),
+        "source_runtime_v2": payload.get("source_runtime_v2"),
+        "intervention": payload.get("intervention"),
+        "path": str(path),
+    }
+    return dict(stats), provenance
+
+
+def _apply_n2_statistics_override(
+    computed: Mapping[str, Any],
+    override: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Return N2 bounds only after proving TRAIN statistics are unchanged."""
+
+    if set(computed) != set(override):
+        raise ValueError("N2 statistics keys differ from the generated TRAIN statistics")
+    def _equal_value(left: Any, right: Any) -> bool:
+        if isinstance(left, (list, tuple)) and isinstance(right, (list, tuple)):
+            if len(left) != len(right):
+                return False
+            # The accepted runtime-V2 bridge was materialized from the same
+            # TRAIN labels through a parquet/JSON boundary.  That boundary can
+            # introduce sub-micro-unit floating round-off, but not a scientific
+            # data change.  Keep the tolerance explicit and fail closed for
+            # anything larger.
+            if left and all(
+                isinstance(item, (int, float)) and not isinstance(item, bool)
+                for item in left
+            ) and all(
+                isinstance(item, (int, float)) and not isinstance(item, bool)
+                for item in right
+            ):
+                return bool(
+                    np.allclose(
+                        np.asarray(left, dtype=np.float64),
+                        np.asarray(right, dtype=np.float64),
+                        rtol=0.0,
+                        atol=1e-6,
+                    )
+                )
+            return all(_equal_value(a, b) for a, b in zip(left, right))
+        if isinstance(left, Mapping) and isinstance(right, Mapping):
+            return set(left) == set(right) and all(
+                _equal_value(left[key], right[key]) for key in left
+            )
+        if (
+            isinstance(left, (int, float))
+            and not isinstance(left, bool)
+            and isinstance(right, (int, float))
+            and not isinstance(right, bool)
+        ):
+            return bool(np.isclose(float(left), float(right), rtol=0.0, atol=1e-6))
+        return left == right
+
+    for key in computed:
+        if key in {"selected_lower", "selected_upper"}:
+            before = list(computed[key])
+            after = list(override[key])
+            if len(before) != STRUCTURED_ACTION_DIM or len(after) != STRUCTURED_ACTION_DIM:
+                raise ValueError(f"N2 {key} vector is not 132-dimensional")
+            for index, (left, right) in enumerate(zip(before, after)):
+                if index >= 3 and not _equal_value(left, right):
+                    raise ValueError(f"N2 changed non-XYZ {key}[{index}]")
+            continue
+        if not _equal_value(computed[key], override[key]):
+            raise ValueError(f"N2 statistics mismatch in non-intervention field {key!r}")
+    merged = dict(computed)
+    merged["selected_lower"] = list(override["selected_lower"])
+    merged["selected_upper"] = list(override["selected_upper"])
+    return merged
 
 
 def _as_float_vector(value: Any, *, name: str) -> np.ndarray:
@@ -426,6 +553,23 @@ def build_structured_gr00t_dataset_factory():
             if len(all_datasets) != 1:
                 raise ValueError("Stage38-D requires exactly one dataset specification")
 
+            dataset = all_datasets[0]
+            computed_statistics = dataset.structured_action_statistics
+            override_path = os.environ.get("STAGE45E_N2_STATS_ARTIFACT")
+            override_provenance: dict[str, Any] | None = None
+            if override_path:
+                override_statistics, override_provenance = _load_n2_statistics_override(
+                    Path(override_path)
+                )
+                dataset.structured_action_statistics = _apply_n2_statistics_override(
+                    computed_statistics,
+                    override_statistics,
+                )
+                dataset.structured_action_normalizer = StructuredActionNormalizer(
+                    dataset.structured_action_statistics,
+                    clip_outliers=True,
+                )
+
             mixture = ShardedMixtureDataset(
                 datasets=all_datasets,
                 weights=all_weights,
@@ -435,8 +579,9 @@ def build_structured_gr00t_dataset_factory():
                 num_shards_per_epoch=self.config.data.num_shards_per_epoch,
                 override_pretraining_statistics=self.config.data.override_pretraining_statistics,
             )
-            dataset = all_datasets[0]
             mixture.structured_action_statistics = dataset.structured_action_statistics
+            mixture.structured_action_statistics_computed = computed_statistics
+            mixture.structured_action_statistics_override = override_provenance
             mixture.structured_action_contract = structured_action_contract_summary(
                 STRUCTURED_TIMING_MODE
             )
@@ -454,6 +599,8 @@ def build_structured_gr00t_dataset_factory():
                         "schema": "STAGE38_D_STRUCTURED_TRAINING_SIDE_CAR_V1",
                         "contract": mixture.structured_action_contract,
                         "statistics": mixture.structured_action_statistics,
+                        "computed_statistics_before_override": computed_statistics,
+                        "statistics_override": override_provenance,
                         "dataset_path": str(dataset.dataset_path),
                         "dataset_label_count": len(dataset.structured_action_labels),
                         "source_dataset_untouched_by_factory": True,
@@ -476,6 +623,8 @@ def install_structured_dataset_factory() -> type:
 
 
 __all__ = [
+    "_apply_n2_statistics_override",
+    "_load_n2_statistics_override",
     "StructuredActionNormalizer",
     "build_structured_gr00t_dataset_factory",
     "install_structured_dataset_factory",
