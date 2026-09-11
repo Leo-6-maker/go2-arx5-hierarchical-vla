@@ -1,0 +1,52 @@
+{
+  "activation": {
+    "automatic_activation_without_token": false,
+    "required_corelab_token": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_H200_FALLBACK_AUTHORIZED",
+    "token_must_be_observed_from_corelab": true
+  },
+  "allowed_deployment_changes": [
+    "Hopper path/bootstrap",
+    "offline runtime resolution",
+    "H200 identity/resource admission",
+    "fresh output and evidence sealing",
+    "PBS wrapper only after blocker token"
+  ],
+  "execution_boundary": {
+    "backward": 0,
+    "conditioning": 0,
+    "gpu": 0,
+    "hardware_steps": 0,
+    "holdout_f_rows_read": 0,
+    "model_execution": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "optimizer_steps": 0,
+    "pbs": 0,
+    "qsub": 0,
+    "simulator_steps": 0,
+    "training_steps": 0,
+    "validation_e_rows_read": 0,
+    "wbc_steps": 0
+  },
+  "forbidden_science_changes": [
+    "N2 common half-range or centers",
+    "FULL24 dataset/label construction",
+    "T16 binary mask",
+    "model architecture/trainable modules",
+    "optimizer/scheduler/seed/steps/batch/precision",
+    "loss weighting"
+  ],
+  "pi_gate": "PI_GATE_STATE_0121",
+  "return_token": "STAGE45E_N2_VANDA_H200_2000_TRAINING_COMPLETE_FOR_PI_REVIEW",
+  "schema": "CORELAB_STAGE45E_N2_VANDA_H200_FALLBACK_BINDING_V1",
+  "science_binding": {
+    "n2_common_half_range_m": 0.10734947131343872,
+    "n2_source_full24_statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "n2_stats_sha256": null,
+    "required_base_head": "a843294780c1392369bfc987e468857c63fc13a5",
+    "required_branch": "stage45e/n2-balanced-xyz-normalization",
+    "same_science_lineage_required": true,
+    "science_head": null
+  },
+  "status": "PASS_STATIC_NOT_EXECUTED"
+}

@@ -1,0 +1,95 @@
+{
+  "authority": {
+    "issue_11_comment": 5633708741,
+    "issue_50_comment": 5633717912,
+    "pr_52_comment": 5633715464
+  },
+  "comparison_roles": [
+    "FULL24@2000",
+    "N2@1000",
+    "N2@2000"
+  ],
+  "dataset_identity": {
+    "descriptor_closure_sha256": "ee46808ad2ebf02dd488721dba88831b4543c5ae6a51d39d2ef65f80081073b5",
+    "frame_count": 960,
+    "id": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN_ONLY",
+    "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "target_xyz_in_model_input": false,
+    "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "window_count": 24,
+    "window_order": "target-major then snapshot-major"
+  },
+  "execution_boundary": {
+    "evaluation_authorization_required": true,
+    "gpu": 0,
+    "holdout_f_read": 0,
+    "model_construction": 0,
+    "model_execution": 0,
+    "model_forward": 0,
+    "pbs": 0,
+    "training": 0,
+    "validation_e_read": 0
+  },
+  "legacy_full24_2000": {
+    "label": "FULL24@2000",
+    "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "stats_route": "STAGE45C_RUNTIME_V2_STATS_BRIDGE",
+    "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+  },
+  "locked_boundaries": {
+    "D2B": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "Validation-E": "LOCKED",
+    "WBC": "LOCKED",
+    "hardware": "LOCKED",
+    "merge": "HOLD",
+    "simulator": "LOCKED",
+    "training": "LOCKED_FOR_EVALUATION"
+  },
+  "metric_namespaces": [
+    "NORMALIZED_LOCAL_FLOW",
+    "DECODED_PHYSICAL_ACTION",
+    "PAIRED_DESCRIPTIVE"
+  ],
+  "n2_roles": {
+    "N2@1000": {
+      "checkpoint_tree_sha256": null,
+      "stats_route": "STAGE45E_N2_BALANCED_XYZ_RUNTIME_V1",
+      "step": 1000
+    },
+    "N2@2000": {
+      "checkpoint_tree_sha256": null,
+      "stats_route": "STAGE45E_N2_BALANCED_XYZ_RUNTIME_V1",
+      "step": 2000
+    }
+  },
+  "n2_spec": {
+    "binary_t16_mask_active_scalars": 190,
+    "centers_source": "accepted FULL24 q01/q99 midpoint per XYZ axis",
+    "common_half_range_m": 0.10734947131343872,
+    "non_xyz_statistics_unchanged": true,
+    "source_full24_statistics_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "source_full24_statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
+  },
+  "pi_gate": "PI_GATE_STATE_0121",
+  "required_evidence_order": [
+    "observed-runtime-admission-before-model-import",
+    "raw-arrays-sealed-before-derived-metrics",
+    "fresh-output-root",
+    "paired-descriptive-summary",
+    "final-evidence-hash-inventory"
+  ],
+  "return_token": "STAGE45E_N2_VANDA_EVAL_SURFACE_READY_FOR_PI_GATE",
+  "schema": "CORELAB_STAGE45E_N2_TRAIN24_EVALUATION_SURFACE_V1",
+  "science_binding": {
+    "audit_function": "audit_corelab_science_commit + validate_n2_statistics_artifact",
+    "exact_commit_required_before_use": true,
+    "observed_science_head": null,
+    "required_base_head": "a843294780c1392369bfc987e468857c63fc13a5",
+    "required_branch": "stage45e/n2-balanced-xyz-normalization"
+  },
+  "status": "PASS_STATIC_NOT_EXECUTED",
+  "target_xyz_in_model_input": false
+}
