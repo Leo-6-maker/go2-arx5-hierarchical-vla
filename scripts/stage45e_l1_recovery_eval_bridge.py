@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""CPU-only bridge from a 612326 recovery acceptance to L1 eval admission.
+"""CPU-only bridge from contract-bound 612326 recovery to L1 eval admission.
 
 The bridge does not create a historical training PASS result. It validates the
-fresh read-only acceptance artifact against the immutable training root and
-emits a normalized *evaluation input contract* that a later evaluator patch
-may consume. It never loads a model or launches evaluation itself.
+fresh contract-bound read-only acceptance against the immutable training root,
+rehashes both checkpoints, and emits a normalized evaluation input contract
+that a later evaluator patch may consume. It never loads a model or launches
+evaluation itself.
 """
 
 from __future__ import annotations
@@ -20,10 +21,13 @@ import sys
 from typing import Any, Iterable, Mapping, Sequence
 
 
-ACCEPT_TOKEN = "STAGE45E_L1_612326_READONLY_TRAINING_ACCEPTED"
+ACCEPT_TOKEN = "STAGE45E_L1_612326_CONTRACT_BOUND_TRAINING_ACCEPTED"
 TRAINING_HEAD = "377b50125a9127fe65d7f3db896f9396c7c3fbc2"
 BRANCH = "stage45e/l1-physical-error-aware-loss"
+FULL24_STATS_SHA256 = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
 FULL24_STATS_PAYLOAD_SHA256 = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
+L1_MATRIX_SHA256 = "b844c1c9a0400ad25ed55d43eb9d5cfe932435bb52340539038e7f4d6ace93a9"
+XYZ_WEIGHTS = {"x": 1.401885, "y": 0.472436, "z": 1.125678}
 FORBIDDEN_TOP_LEVEL_IMPORTS = {
     "torch", "transformers", "gr00t", "cuda", "subprocess", "numpy",
 }
@@ -145,6 +149,31 @@ def _checkpoint_match(training_root: Path, acceptance_record: Mapping[str, Any],
     }
 
 
+def _scientific_contract(acceptance: Mapping[str, Any]) -> dict[str, Any]:
+    contract = acceptance.get("scientific_contract")
+    require(isinstance(contract, Mapping), "contract-bound acceptance scientific contract missing")
+    runtime = contract.get("l1_runtime_contract")
+    code = contract.get("l1_code_contract")
+    recipe = contract.get("training_recipe")
+    require(isinstance(runtime, Mapping) and isinstance(code, Mapping) and isinstance(recipe, Mapping), "contract-bound acceptance contract blocks missing")
+    require(runtime.get("xyz_loss_weights") == XYZ_WEIGHTS, "contract-bound runtime XYZ weights drift")
+    require(code.get("xyz_loss_weights") == XYZ_WEIGHTS, "contract-bound code XYZ weights drift")
+    require(runtime.get("weight_matrix_sha256") == L1_MATRIX_SHA256, "contract-bound runtime matrix SHA drift")
+    require(code.get("matrix_sha256") == L1_MATRIX_SHA256, "contract-bound code matrix SHA drift")
+    require(runtime.get("active_scalar_count") == code.get("active_scalar_count") == 190, "contract-bound active mask drift")
+    require(code.get("denominator") == "binary_action_mask.sum()", "contract-bound denominator drift")
+    require(runtime.get("mask_folding") is False and code.get("mask_folding") is False, "contract-bound mask folding drift")
+    require(runtime.get("adaptive_renormalization") is False and code.get("adaptive_renormalization") is False, "contract-bound adaptive renormalization drift")
+    require(contract.get("full24_stats_sha256") == FULL24_STATS_SHA256, "contract-bound FULL24 stats SHA drift")
+    require(contract.get("full24_stats_payload_sha256") == FULL24_STATS_PAYLOAD_SHA256, "contract-bound FULL24 stats payload drift")
+    require(contract.get("normalization_unchanged") is True, "contract-bound normalization drift")
+    require(recipe.get("seed") == 2222 and recipe.get("max_steps") == 2000, "contract-bound training seed/steps drift")
+    require(recipe.get("global_batch_size") == 1 and recipe.get("gradient_accumulation_steps") == 1, "contract-bound batch semantics drift")
+    require(recipe.get("optimizer") == "adamw_torch" and recipe.get("lr_scheduler_type") == "cosine", "contract-bound optimizer/scheduler drift")
+    require(recipe.get("bf16") is True and recipe.get("fp16") is False and recipe.get("num_gpus") == 1, "contract-bound precision/resource semantics drift")
+    return dict(contract)
+
+
 def bridge(acceptance_path: Path, training_root: Path, output_path: Path) -> dict[str, Any]:
     guard = static_guard()
     require(guard["status"] == "PASS", "static guard failed")
@@ -152,36 +181,37 @@ def bridge(acceptance_path: Path, training_root: Path, output_path: Path) -> dic
     training_root = Path(training_root).expanduser().resolve()
     require(training_root.is_dir() and not training_root.is_symlink(), "historical training root unavailable")
     acceptance = read_json(acceptance_path)
-    require(acceptance.get("schema") == "STAGE45E_L1_612326_READONLY_TRAINING_ACCEPTANCE_V1", "recovery acceptance schema drift")
-    require(acceptance.get("status") == "PASS_READONLY_TRAINING_ARTIFACT_INTEGRITY", "recovery acceptance status drift")
-    require(acceptance.get("token") == ACCEPT_TOKEN, "recovery acceptance token drift")
+    require(acceptance.get("schema") == "STAGE45E_L1_612326_CONTRACT_BOUND_ACCEPTANCE_V1", "contract-bound acceptance schema drift")
+    require(acceptance.get("status") == "PASS_READONLY_TRAINING_AND_FROZEN_CONTRACT_INTEGRITY", "contract-bound acceptance status drift")
+    require(acceptance.get("token") == ACCEPT_TOKEN, "contract-bound acceptance token drift")
     require(acceptance.get("historical_training_head") == TRAINING_HEAD, "recovery training HEAD drift")
     require(acceptance.get("branch") == BRANCH, "recovery branch drift")
     require(Path(str(acceptance.get("training_root"))).resolve() == training_root, "recovery training-root identity drift")
     require(acceptance.get("historical_root_mutated") is False, "recovery claims historical-root mutation")
-    require(acceptance.get("scientific_claim_boundary", {}).get("train24_evaluation_executed") is False, "recovery acceptance already claims evaluation")
-    require(acceptance.get("structured_stats", {}).get("statistics_payload_sha256") == FULL24_STATS_PAYLOAD_SHA256, "recovery FULL24 stats payload drift")
-    require(acceptance.get("structured_stats", {}).get("mask_active_scalar_count") == 190, "recovery T16 mask drift")
+    require(acceptance.get("evaluation_executed") is False, "contract-bound acceptance already claims evaluation")
+    scientific_contract = _scientific_contract(acceptance)
     require(not (training_root / "stage45e_l1_training_result.json").exists(), "historical PASS training result unexpectedly exists")
 
     checkpoints = {
         "L1@1000": _checkpoint_match(training_root, acceptance, 1000),
         "L1@2000": _checkpoint_match(training_root, acceptance, 2000),
     }
-    weight_evidence_status = acceptance.get("scientific_claim_boundary", {}).get("runtime_effective_weight_evidence_status")
+    weight_evidence_status = scientific_contract.get("runtime_effective_weight_evidence_status")
     require(weight_evidence_status in {"CAPTURED", "NOT_CAPTURED_IN_HISTORICAL_CANARY"}, "runtime weight evidence status drift")
 
     result = {
-        "schema": "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V1",
-        "status": "PASS_RECOVERED_TRAINING_INPUT_FOR_FUTURE_EVAL_ADMISSION",
-        "source_kind": "READONLY_RECOVERY_ACCEPTANCE_NOT_HISTORICAL_PASS_RESULT",
+        "schema": "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V2",
+        "status": "PASS_CONTRACT_BOUND_RECOVERED_TRAINING_INPUT_FOR_FUTURE_EVAL_ADMISSION",
+        "source_kind": "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT",
         "acceptance_path": str(acceptance_path),
         "acceptance_sha256": sha256_file(acceptance_path),
         "training_root": str(training_root),
         "historical_training_head": TRAINING_HEAD,
         "branch": BRANCH,
         "checkpoints": checkpoints,
+        "scientific_contract": scientific_contract,
         "structured_stats": {
+            "stats_sha256": FULL24_STATS_SHA256,
             "statistics_payload_sha256": FULL24_STATS_PAYLOAD_SHA256,
             "mask_active_scalar_count": 190,
             "normalization_unchanged": True,
@@ -200,12 +230,13 @@ def bridge(acceptance_path: Path, training_root: Path, output_path: Path) -> dic
             "holdout_f_read": False,
         },
         "next_patch_contract": [
-            "future evaluator must accept this recovered-input schema as an alternative to the missing historical training PASS result",
+            "future evaluator must accept this V2 contract-bound recovered-input schema as an alternative to the missing historical training PASS result",
             "future evaluator execution HEAD is independent from historical model-training HEAD and both must be serialized",
             "future eval remains the frozen 360-call TRAIN24 E4 protocol only",
             "future evaluator must persist per-window row bundles for all three arms",
             "future evaluator must include L1@2000-minus-L1@1000 paired comparison",
             "future evidence inventory must be non-cyclic and immutable",
+            "future row-bundle provenance must bind this bridge SHA, checkpoint tree SHA, eval seal SHA, normalization/sampler/decoder/metric identities",
         ],
     }
     write_json(output_path, result)
@@ -216,10 +247,11 @@ def plan() -> dict[str, Any]:
     guard = static_guard()
     require(guard["status"] == "PASS", "static guard failed")
     return {
-        "schema": "STAGE45E_L1_RECOVERY_EVAL_BRIDGE_PLAN_V1",
+        "schema": "STAGE45E_L1_RECOVERY_EVAL_BRIDGE_PLAN_V2",
         "status": "PASS_STATIC_NOT_EXECUTED",
         "accept_token": ACCEPT_TOKEN,
         "historical_training_head": TRAINING_HEAD,
+        "contract_bound_required": True,
         "evaluation_authorized": False,
         "static_guard": guard,
     }
