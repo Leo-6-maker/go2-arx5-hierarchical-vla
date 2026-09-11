@@ -99,3 +99,12 @@ def test_training_binds_nested_offline_model_to_hub_cache_namespace() -> None:
     assert '"HUGGINGFACE_HUB_CACHE": str(hub)' in source
     assert 'config.training.transformers_cache_dir = str(Path(os.environ["HF_HUB_CACHE"]))' in source
     assert 'config.training.transformers_cache_dir = str(Path(os.environ["HF_HOME"]))' not in source
+
+
+def test_backward_canary_materializes_gr00t_config_directory_before_setup() -> None:
+    source = (ROOT / "scripts/stage45e_l1_h200_train.py").read_text(encoding="utf-8")
+    directory = 'canary_config_dir = canary_root / "experiment_cfg"'
+    assert directory in source
+    assert source.index('canary_config_dir.mkdir(parents=True, exist_ok=False)') < source.index(
+        'pipeline = Gr00tN1d7Pipeline(config, canary_config_dir)'
+    )

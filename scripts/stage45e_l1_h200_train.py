@@ -685,7 +685,13 @@ def _one_batch_backward_canary(
 
     state["phase"] = "CANARY_MODEL_CONSTRUCTION"
     state["model_construction_started"] = True
-    pipeline = Gr00tN1d7Pipeline(config, canary_root / "experiment_cfg")
+    # GR00T writes its resolved model config during ``setup`` rather than
+    # creating the supplied save directory itself.  Keep the canary's config
+    # namespace separate from the official training root and materialize it
+    # before model construction begins.
+    canary_config_dir = canary_root / "experiment_cfg"
+    canary_config_dir.mkdir(parents=True, exist_ok=False)
+    pipeline = Gr00tN1d7Pipeline(config, canary_config_dir)
     pipeline.setup()
     state["model_construction_completed"] = True
     model = pipeline.return_model()
