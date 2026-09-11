@@ -1,4 +1,9 @@
-"""Synthetic regression tests for Stage45F scaling/instrumentation prep."""
+"""Synthetic regression tests for Stage45F exposure/scaling instrumentation prep.
+
+Large-scale campaign admission has its own dedicated V3 test module; this file
+stays focused on exposure, data-cardinality, factorial and active-channel
+instrumentation.
+"""
 
 from __future__ import annotations
 
@@ -14,7 +19,6 @@ from go2arx5_vla.stage45f_exposure_sidechannel import (
 )
 from scripts import stage45f_active_channel_support_audit as active_support
 from scripts import stage45f_data_compute_scaling_plan as data_compute
-from scripts import stage45f_large_scale_campaign_admission as large_scale
 from scripts import stage45f_n2_l1_factorial_plan as factorial
 from scripts import stage45f_optimizer_exposure_binding as optimizer_exposure
 
@@ -52,7 +56,7 @@ def test_fetch_sidechannel_returns_same_payload_and_requires_seal(tmp_path: Path
         )
 
 
-def test_fetch_sidechannel_is_rank_bound_and_fresh(tmp_path: Path) -> None:
+def test_fetch_sidechannel_is_rank_bound_fresh_and_not_optimizer_bound(tmp_path: Path) -> None:
     trace = tmp_path / "rank1.fetch.jsonl"
     recorder = ExposureSideChannel(trace, rank=1)
     event = recorder.record_fetch(
@@ -144,7 +148,7 @@ def test_data_cardinality_scaling_is_nominal_not_epoch_equivalence() -> None:
     assert result["training_authorized"] is False
 
 
-def test_factorial_plan_never_auto_authorizes_n2_plus_l1() -> None:
+def test_factorial_plan_never_auto_authorizes_n2_plus_l1_and_matches_a_b_c() -> None:
     result = factorial.plan(
         {
             "schema": "STAGE45F_N2_L1_FACTORIAL_REQUEST_V1",
@@ -165,13 +169,14 @@ def test_factorial_plan_never_auto_authorizes_n2_plus_l1() -> None:
 
 
 def test_active_channel_support_covers_all_t16_semantics_without_threshold() -> None:
-    channels = {}
-    for name in active_support.EXPECTED_CHANNELS:
-        channels[name] = {
+    channels = {
+        name: {
             "active_rows": active_support.EXPECTED_ACTIVE_ROWS[name],
             "center": 0.0,
             "half_range": 1.0,
         }
+        for name in active_support.EXPECTED_CHANNELS
+    }
     values = {
         name: [0.0] * active_support.EXPECTED_ACTIVE_ROWS[name]
         for name in active_support.EXPECTED_CHANNELS
@@ -191,91 +196,3 @@ def test_active_channel_support_covers_all_t16_semantics_without_threshold() -> 
     assert result["group_summary"]["XYZ"]["outside_neg1_pos1_count"] == 0
     assert result["automatic_acceptability_threshold_used"] is False
     assert result["training_authorized"] is False
-
-
-def _large_scale_request() -> dict:
-    return {
-        "schema": "STAGE45F_LARGE_SCALE_CAMPAIGN_REQUEST_V1",
-        "selection_source_split": "TRAIN24",
-        "validation_e_read": False,
-        "holdout_f_read": False,
-        "recipe_frozen": True,
-        "pi_selected_candidate": True,
-        "candidate": {
-            "candidate_label": "future-candidate",
-            "training_recipe_identity": "recipe-v1",
-            "dataset_tree_sha256": "1" * 64,
-            "normalization_identity": "stats-v1",
-            "loss_identity": "loss-v1",
-            "base_model_tree_sha256": "2" * 64,
-            "sampler_identity": "sampler-v1",
-            "decoder_identity": "decoder-v1",
-            "metric_identity": "metrics-v1",
-        },
-        "training": {
-            "predeclared_seeds": [2222, 2223, 2224],
-            "optimizer_step_tiers": [2000, 4000, 8000],
-            "checkpoint_steps_by_tier": {
-                "2000": [1000, 2000],
-                "4000": [1000, 2000, 4000],
-                "8000": [1000, 2000, 4000, 8000],
-            },
-            "tier_execution_mode": "INDEPENDENT_FRESH_RUNS",
-            "resume_continuity_plan_sha256": None,
-            "retry_selection_by_metric": False,
-            "adaptive_step_extension": False,
-            "stop_extension_rule": "No tier extension without a new PI gate after the predeclared tier is sealed.",
-            "optimizer_identity": "adamw-v1",
-            "scheduler_identity": "cosine-v1",
-            "scheduler_horizon_policy": "future-pi-bound",
-            "precision_identity": "bf16-v1",
-            "effective_global_batch_identity": "global-batch-1",
-            "trainable_module_identity": "projector+diffusion",
-        },
-        "required_preflight_evidence": {
-            "train_decision_packet_sha256": "3" * 64,
-            "recipe_freeze_ledger_sha256": "4" * 64,
-            "scaling_admission_sha256": "5" * 64,
-            "resource_scaling_audit_sha256": "6" * 64,
-            "compute_budget_sha256": "7" * 64,
-            "exposure_instrumentation_plan_sha256": "8" * 64,
-            "dataset_support_audit_sha256": "9" * 64,
-            "storage_retention_plan_sha256": "a" * 64,
-        },
-        "resource": {
-            "resource_selected": True,
-            "device_role": "FUTURE_PI_SELECTED_GPU",
-            "device_count": 1,
-            "effective_batch_semantics_frozen": True,
-            "precision_semantics_frozen": True,
-        },
-        "storage": {
-            "required_bytes_estimate": 1000,
-            "available_bytes_verified": 2000,
-            "retain_all_valid_runs": True,
-        },
-        "exposure": {
-            "optimizer_step_bound_trace_planned": True,
-            "epoch_claim_from_steps": False,
-        },
-    }
-
-
-def test_large_scale_campaign_is_structurally_admitted_but_never_auto_authorized() -> None:
-    result = large_scale.analyze(_large_scale_request())
-    assert result["status"] == "PASS_STRUCTURE_ONLY_PI_EXECUTION_GATE_REQUIRED"
-    assert result["decision_state"] == "PI_GATE_REQUIRED"
-    assert result["checkpoint_steps_by_tier"]["2000"] == [1000, 2000]
-    assert result["tier_execution_mode"] == "INDEPENDENT_FRESH_RUNS"
-    assert result["training_authorized"] is False
-    assert result["gpu_authorized"] is False
-    assert result["pbs_authorized"] is False
-    assert result["metric_based_retry_selection_allowed"] is False
-    assert result["adaptive_extension_allowed_without_new_pi_gate"] is False
-
-
-def test_large_scale_campaign_rejects_insufficient_storage() -> None:
-    request = _large_scale_request()
-    request["storage"]["available_bytes_verified"] = 999
-    with pytest.raises(large_scale.LargeScaleAdmissionError, match="storage"):
-        large_scale.analyze(request)
