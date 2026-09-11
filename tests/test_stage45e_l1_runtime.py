@@ -35,6 +35,8 @@ def test_static_admission_and_execution_budget_are_frozen() -> None:
     assert admission.EVAL_SAMPLER_CONTRACT["t_values"] == [0.0, 0.25, 0.5, 0.75]
     assert admission.L1_CONTRACT["stats_sha256"] == admission.FULL24_STATS_SHA256
     assert admission.L1_CONTRACT["active_scalar_count"] == 190
+    assert len(admission.DECODER_SOURCE_SHA256) == 64
+    assert len(admission.METRICS_SOURCE_SHA256) == 64
 
 
 def test_launcher_and_evaluator_plan_only_are_cpu_static() -> None:
