@@ -2,9 +2,9 @@
 """CPU-only Stage45E candidate-selection packet builder.
 
 This preparation tool never loads a model, checkpoint, dataset split, Torch,
-CUDA, PBS, Validation-E, or Holdout-F.  It consumes one normalized TRAIN24
+CUDA, PBS, Validation-E, or Holdout-F. It consumes one normalized TRAIN24
 JSON artifact prepared from already-sealed evidence and produces descriptive
-paired summaries for PI review.  It deliberately cannot select a winner.
+paired summaries for PI review. It deliberately cannot select a winner.
 """
 
 from __future__ import annotations
@@ -75,6 +75,8 @@ def manifest() -> dict[str, Any]:
     require(value.get("status") == "PREP_ONLY_NO_EXECUTION", "manifest is not preparation-only")
     require(value.get("claim_boundary", {}).get("automatic_winner") is False, "automatic winner must remain disabled")
     require(value.get("validation_e_plan_only", {}).get("execute_supported") is False, "Validation-E execution must remain disabled")
+    optional = set(value.get("optional_numeric_metrics", []))
+    require(optional.issubset(set(value.get("numeric_metrics", []))), "optional numeric metric is not numeric")
     return value
 
 
@@ -118,6 +120,7 @@ def plan() -> dict[str, Any]:
         "normalized_input_schema": cfg["normalized_input_schema"],
         "candidate_order": cfg["candidate_order"],
         "primary_metrics": cfg["primary_metrics"],
+        "optional_numeric_metrics": cfg["optional_numeric_metrics"],
         "paired_comparisons": cfg["paired_comparisons"],
         "claim_boundary": cfg["claim_boundary"],
         "decision_state": "PI_DECISION_REQUIRED",
@@ -155,19 +158,25 @@ def _finite_number(value: Any, field: str) -> float:
     return numeric
 
 
+def _finite_or_none(value: Any, field: str, *, optional: bool) -> float | None:
+    if value is None:
+        require(optional, f"{field} may not be null")
+        return None
+    return _finite_number(value, field)
+
+
 def _canonical_sign(value: Any) -> str:
-    if isinstance(value, bool):
-        return str(value).lower()
-    if isinstance(value, (int, float)) and not isinstance(value, bool):
+    require(not isinstance(value, bool), "progress_sign must not be boolean")
+    if isinstance(value, (int, float)):
         numeric = float(value)
         require(math.isfinite(numeric), "progress_sign must be finite")
         if numeric > 0:
-            return "positive"
+            return "POSITIVE"
         if numeric < 0:
-            return "negative"
-        return "zero"
+            return "NEGATIVE"
+        return "ZERO"
     require(isinstance(value, str) and value.strip(), "progress_sign must be a non-empty scalar")
-    return value.strip()
+    return value.strip().upper()
 
 
 def validate_normalized_input(value: Any) -> dict[str, Any]:
@@ -188,6 +197,7 @@ def validate_normalized_input(value: Any) -> dict[str, Any]:
     require(list(candidates.keys()) == cfg["candidate_order"], "candidate order/set drift")
 
     numeric_metrics = tuple(cfg["numeric_metrics"])
+    optional_metrics = set(cfg["optional_numeric_metrics"])
     primary_metrics = tuple(cfg["primary_metrics"])
     normalized: dict[str, Any] = {
         "schema": cfg["normalized_input_schema"],
@@ -216,7 +226,14 @@ def validate_normalized_input(value: Any) -> dict[str, Any]:
             metrics = row.get("metrics")
             require(isinstance(metrics, Mapping), f"candidate {label}:{window_id} metrics missing")
             require(all(metric in metrics for metric in primary_metrics), f"candidate {label}:{window_id} primary metric missing")
-            clean_metrics = {metric: _finite_number(metrics[metric], f"{label}:{window_id}:{metric}") for metric in numeric_metrics}
+            clean_metrics = {
+                metric: _finite_or_none(
+                    metrics[metric],
+                    f"{label}:{window_id}:{metric}",
+                    optional=metric in optional_metrics,
+                )
+                for metric in numeric_metrics
+            }
             clean_metrics["progress_sign"] = _canonical_sign(metrics["progress_sign"])
             by_window[window_id] = {
                 "window_id": window_id,
@@ -231,15 +248,30 @@ def validate_normalized_input(value: Any) -> dict[str, Any]:
     return normalized
 
 
+def _numeric_summary(values: Sequence[float | None]) -> dict[str, Any]:
+    defined = [float(value) for value in values if value is not None]
+    missing_count = len(values) - len(defined)
+    if not defined:
+        return {
+            "count": 0,
+            "missing_count": missing_count,
+            "mean": None,
+            "min": None,
+            "max": None,
+        }
+    return {
+        "count": len(defined),
+        "missing_count": missing_count,
+        "mean": float(statistics.fmean(defined)),
+        "min": float(min(defined)),
+        "max": float(max(defined)),
+    }
+
+
 def _candidate_summary(candidate: Mapping[str, Any], numeric_metrics: Sequence[str]) -> dict[str, Any]:
     rows = candidate["rows"]
     summary = {
-        metric: {
-            "count": len(rows),
-            "mean": float(statistics.fmean(float(row["metrics"][metric]) for row in rows)),
-            "min": float(min(float(row["metrics"][metric]) for row in rows)),
-            "max": float(max(float(row["metrics"][metric]) for row in rows)),
-        }
+        metric: _numeric_summary([row["metrics"][metric] for row in rows])
         for metric in numeric_metrics
     }
     sign_counts: dict[str, int] = {}
@@ -247,6 +279,42 @@ def _candidate_summary(candidate: Mapping[str, Any], numeric_metrics: Sequence[s
         sign = str(row["metrics"]["progress_sign"])
         sign_counts[sign] = sign_counts.get(sign, 0) + 1
     return {"numeric": summary, "progress_sign_counts": dict(sorted(sign_counts.items()))}
+
+
+def _paired_values(
+    left_rows: Mapping[str, Any],
+    right_rows: Mapping[str, Any],
+    window_ids: Sequence[str],
+    metric: str,
+) -> tuple[list[float], int]:
+    values: list[float] = []
+    missing = 0
+    for wid in window_ids:
+        left = left_rows[wid]["metrics"][metric]
+        right = right_rows[wid]["metrics"][metric]
+        if left is None or right is None:
+            missing += 1
+            continue
+        values.append(float(left) - float(right))
+    return values, missing
+
+
+def _delta_summary(values: Sequence[float], missing_count: int) -> dict[str, Any]:
+    if not values:
+        return {
+            "count": 0,
+            "missing_pair_count": missing_count,
+            "mean_left_minus_right": None,
+            "min_left_minus_right": None,
+            "max_left_minus_right": None,
+        }
+    return {
+        "count": len(values),
+        "missing_pair_count": missing_count,
+        "mean_left_minus_right": float(statistics.fmean(values)),
+        "min_left_minus_right": float(min(values)),
+        "max_left_minus_right": float(max(values)),
+    }
 
 
 def _pair_summary(left: Mapping[str, Any], right: Mapping[str, Any], numeric_metrics: Sequence[str]) -> dict[str, Any]:
@@ -257,16 +325,8 @@ def _pair_summary(left: Mapping[str, Any], right: Mapping[str, Any], numeric_met
 
     deltas: dict[str, Any] = {}
     for metric in numeric_metrics:
-        values = [
-            float(left_rows[wid]["metrics"][metric]) - float(right_rows[wid]["metrics"][metric])
-            for wid in window_ids
-        ]
-        deltas[metric] = {
-            "count": len(values),
-            "mean_left_minus_right": float(statistics.fmean(values)),
-            "min_left_minus_right": float(min(values)),
-            "max_left_minus_right": float(max(values)),
-        }
+        values, missing = _paired_values(left_rows, right_rows, window_ids, metric)
+        deltas[metric] = _delta_summary(values, missing)
 
     by_target: dict[str, list[str]] = {}
     for wid in window_ids:
@@ -279,16 +339,8 @@ def _pair_summary(left: Mapping[str, Any], right: Mapping[str, Any], numeric_met
     for target_id, target_windows in sorted(by_target.items()):
         target_summaries[target_id] = {}
         for metric in numeric_metrics:
-            values = [
-                float(left_rows[wid]["metrics"][metric]) - float(right_rows[wid]["metrics"][metric])
-                for wid in target_windows
-            ]
-            target_summaries[target_id][metric] = {
-                "count": len(values),
-                "mean_left_minus_right": float(statistics.fmean(values)),
-                "min_left_minus_right": float(min(values)),
-                "max_left_minus_right": float(max(values)),
-            }
+            values, missing = _paired_values(left_rows, right_rows, target_windows, metric)
+            target_summaries[target_id][metric] = _delta_summary(values, missing)
 
     sign_transitions: dict[str, int] = {}
     window_rows: dict[str, Any] = {}
@@ -297,12 +349,18 @@ def _pair_summary(left: Mapping[str, Any], right: Mapping[str, Any], numeric_met
         right_sign = str(right_rows[wid]["metrics"]["progress_sign"])
         transition = f"{right_sign}->{left_sign}"
         sign_transitions[transition] = sign_transitions.get(transition, 0) + 1
+        numeric_delta: dict[str, float | None] = {}
+        for metric in numeric_metrics:
+            left_value = left_rows[wid]["metrics"][metric]
+            right_value = right_rows[wid]["metrics"][metric]
+            numeric_delta[metric] = (
+                None
+                if left_value is None or right_value is None
+                else float(left_value) - float(right_value)
+            )
         window_rows[wid] = {
             "target_id": left_rows[wid]["target_id"],
-            "numeric_delta_left_minus_right": {
-                metric: float(left_rows[wid]["metrics"][metric]) - float(right_rows[wid]["metrics"][metric])
-                for metric in numeric_metrics
-            },
+            "numeric_delta_left_minus_right": numeric_delta,
             "progress_sign_transition_right_to_left": transition,
         }
 
