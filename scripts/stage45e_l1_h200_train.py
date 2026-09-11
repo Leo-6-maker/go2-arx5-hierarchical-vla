@@ -717,7 +717,13 @@ def _one_batch_backward_canary(
     before = _parameter_hashes(model, torch)
     state["phase"] = "CANARY_BACKWARD"
     state["backward_started"] = True
-    outputs = model(inputs)
+    # The official GR00T run creates ``TrainingArguments(bf16=True)`` and
+    # Accelerate wraps ``model.forward`` in CUDA BF16 autocast.  This canary
+    # calls the model directly, so reproduce that exact execution context;
+    # casting the model or changing the frozen precision contract would be a
+    # different experiment.
+    with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
+        outputs = model(inputs)
     loss = outputs["loss"]
     _require(bool(torch.isfinite(loss).item()), "L1 canary loss is non-finite")
     loss.backward()

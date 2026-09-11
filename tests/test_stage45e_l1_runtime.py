@@ -108,3 +108,10 @@ def test_backward_canary_materializes_gr00t_config_directory_before_setup() -> N
     assert source.index('canary_config_dir.mkdir(parents=True, exist_ok=False)') < source.index(
         'pipeline = Gr00tN1d7Pipeline(config, canary_config_dir)'
     )
+
+
+def test_backward_canary_reproduces_frozen_cuda_bf16_context() -> None:
+    source = (ROOT / "scripts/stage45e_l1_h200_train.py").read_text(encoding="utf-8")
+    context = 'with torch.autocast(device_type="cuda", dtype=torch.bfloat16):'
+    assert context in source
+    assert source.index(context) < source.index("outputs = model(inputs)")
