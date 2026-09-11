@@ -23,7 +23,8 @@ set -euo pipefail
 : "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
 
 test -x "${STAGE45D_D2A_PYTHON}"
-test "$(readlink -f "${STAGE45D_D2A_PYTHON}")" = "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12"
+test "$(readlink -f "${STAGE45D_D2A_PYTHON}")" = "/cm/shared/apps/python/3.12.3/bin/python3.12"
+test -d "$(dirname "${STAGE45D_D2A_PYTHON}")/../lib/python3.12/site-packages/torch"
 test -f "${STAGE45D_D2A_RUNTIME_PATHS}"
 test ! -L "${STAGE45D_D2A_RUNTIME_PATHS}"
 test "$(git -C "${STAGE45D_D2A_REPO}" branch --show-current)" = "stage45d/vanda-h200-d2a-path-divergence"
