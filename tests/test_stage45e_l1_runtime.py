@@ -91,3 +91,11 @@ def test_pbs_surface_uses_absolute_launcher_and_never_submits_a_retry() -> None:
     assert "qsub" not in source
     assert "retry" in source.lower()
     assert "Validation-E" in source and "Holdout-F" in source
+
+
+def test_training_binds_nested_offline_model_to_hub_cache_namespace() -> None:
+    source = (ROOT / "scripts/stage45e_l1_h200_train.py").read_text(encoding="utf-8")
+    assert '"HF_HUB_CACHE": str(hub)' in source
+    assert '"HUGGINGFACE_HUB_CACHE": str(hub)' in source
+    assert 'config.training.transformers_cache_dir = str(Path(os.environ["HF_HUB_CACHE"]))' in source
+    assert 'config.training.transformers_cache_dir = str(Path(os.environ["HF_HOME"]))' not in source

@@ -527,6 +527,11 @@ def _set_runtime_environment(output_root: Path, cosmos_root: Path) -> dict[str, 
     values = {
         "TMPDIR": str(tmp), "TMP": str(tmp), "TEMP": str(tmp),
         "XDG_CACHE_HOME": str(cache / "xdg"), "HF_HOME": str(cache / "huggingface"),
+        # The admitted Cosmos snapshot is a Hugging Face *hub cache entry*
+        # under ``HF_HOME/hub``.  Bind every cache variable to that same hub
+        # root so nested Qwen3 ``from_pretrained(repo_id)`` calls cannot look
+        # in a second, empty ``HF_HOME`` namespace while offline.
+        "HF_HUB_CACHE": str(hub), "HUGGINGFACE_HUB_CACHE": str(hub),
         "TRANSFORMERS_CACHE": str(hub), "TORCH_HOME": str(cache / "torch"),
         "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1",
         "GROOT_COMMIT_HASH": admission.GROOT_COMMIT,
@@ -567,7 +572,10 @@ def _load_config(config_path: Path, output_root: Path, base_model: Path, dataset
     config.training.eval_strategy = "no"
     config.training.use_wandb = False
     config.training.transformers_local_files_only = True
-    config.training.transformers_cache_dir = str(Path(os.environ["HF_HOME"]))
+    # GR00T forwards this value to the nested Qwen3 backbone.  It must be the
+    # hub cache root, not HF_HOME itself, because the observed Cosmos binding
+    # lives at ``HF_HUB_CACHE/models--nvidia--Cosmos-Reason2-2B``.
+    config.training.transformers_cache_dir = str(Path(os.environ["HF_HUB_CACHE"]))
     config.data.seed = admission.TRAINING_RECIPE["seed"]
     _require(len(config.data.datasets) == 1, "L1 requires exactly one dataset specification")
     config.data.datasets[0].dataset_paths = [str(dataset)]
