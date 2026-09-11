@@ -72,6 +72,15 @@ def test_offline_child_environment_activates_pinned_nested_hf_resolution(tmp_pat
     assert model_link.resolve() == cosmos_root.resolve()
 
 
+def test_child_json_parser_accepts_runtime_log_prefix_and_requires_trailing_object() -> None:
+    result = launcher.parse_child_json(
+        "[groot] local cache hit\\nprogress 100%\\n" + json.dumps({"status": "PASS", "calls": 3})
+    )
+    assert result == {"status": "PASS", "calls": 3}
+    with pytest.raises(launcher.LauncherError, match="trailing JSON"):
+        launcher.parse_child_json(json.dumps({"status": "PASS"}) + "unexpected log")
+
+
 def test_wrong_head_fails_closed_before_gpu_observation(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     called = False
 

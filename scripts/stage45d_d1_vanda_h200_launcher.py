@@ -102,6 +102,27 @@ def run_text(argv: Sequence[str]) -> str:
     return completed.stdout.strip()
 
 
+def parse_child_json(stdout: str) -> dict[str, Any]:
+    """Parse the final JSON object while preserving runtime log prefixes.
+
+    GR00T and Transformers legitimately write diagnostic/progress lines to
+    stdout during model construction.  The child adapter emits its sealed
+    result as the final JSON object; accepting only that complete trailing
+    object keeps the launcher protocol deterministic without discarding the
+    captured logs from ``*_child_process.json``.
+    """
+
+    decoder = json.JSONDecoder()
+    for start in reversed([index for index, character in enumerate(stdout) if character == "{"]):
+        try:
+            value, end = decoder.raw_decode(stdout[start:])
+        except json.JSONDecodeError:
+            continue
+        if stdout[start + end :].strip() == "" and isinstance(value, dict):
+            return value
+    raise LauncherError("child did not emit a complete trailing JSON object")
+
+
 def checkout_observation(expected_head: str) -> dict[str, Any]:
     root = run_text(["git", "-C", str(REPO), "rev-parse", "--show-toplevel"])
     branch = run_text(["git", "-C", str(REPO), "branch", "--show-current"])
@@ -385,11 +406,9 @@ def run_child(label: str, argv: Sequence[str], *, env: Mapping[str, str], record
     write_json_durable(record_root / f"{label}_child_process.json", record)
     require(completed.returncode == 0, f"{label} child failed: {completed.stderr.strip()}")
     try:
-        result = json.loads(completed.stdout)
-    except json.JSONDecodeError as exc:
-        raise LauncherError(f"{label} child did not return JSON") from exc
-    require(isinstance(result, dict), f"{label} child returned a non-object")
-    return result
+        return parse_child_json(completed.stdout)
+    except LauncherError as exc:
+        raise LauncherError(f"{label} child did not return a complete JSON result") from exc
 
 
 def execute(paths_file: Path, evidence_root: Path, expected_head: str, authority_token: str, repair_cycle: int, smoke_attempt: int) -> dict[str, Any]:
