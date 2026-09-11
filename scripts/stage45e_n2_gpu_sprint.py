@@ -457,6 +457,8 @@ def _verify_n2_checkpoint_root(root: Path, expected_seed: int) -> dict[str, Any]
         checkpoint = root / f"checkpoint-{step}"
         record = checkpoint_record(checkpoint, step)
         require(record["status"] == "PASS", f"N2 checkpoint state is incomplete: {checkpoint}")
+        result_record = result.get(f"checkpoint_{step}")
+        require(isinstance(result_record, Mapping) and result_record.get("tree_sha256") == record["tree_sha256"], f"N2 checkpoint tree identity is not bound in training result: {checkpoint}")
         checkpoints[str(step)] = record
     return {"root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "sidecar_sha256": sha256_file(sidecar_path), "checkpoints": checkpoints, "sidecar_statistics": sidecar.get("statistics")}
 
