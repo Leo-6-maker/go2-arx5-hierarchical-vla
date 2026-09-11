@@ -98,3 +98,4 @@ def test_inference_canary_drops_supervised_fields() -> None:
     assert 'inference_inputs.pop("action_mask", None)' in source
     assert '(output_root / "experiment_cfg").mkdir' in source
     assert 'dict(_LAST_EXECUTION_BOUNDARY)' in source
+    assert source.count('torch.autocast(device_type="cuda", dtype=torch.bfloat16)') >= 2

@@ -496,7 +496,7 @@ def _run_canary(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, 
         inference_inputs = dict(inference_inputs)
         inference_inputs.pop("action", None)
         inference_inputs.pop("action_mask", None)
-    with torch.inference_mode():
+    with torch.inference_mode(), torch.autocast(device_type="cuda", dtype=torch.bfloat16):
         _LAST_EXECUTION_BOUNDARY["gr00t_forwards"] = int(_LAST_EXECUTION_BOUNDARY["gr00t_forwards"]) + 1
         inference_output = model.get_action(inference_inputs)
     inference_action = inference_output["action_pred"]
@@ -509,7 +509,7 @@ def _run_canary(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, 
     backward_inputs = _sample_batch(dataset, collator)
     before = _parameter_sample(model)
     model.zero_grad(set_to_none=True)
-    with torch.enable_grad():
+    with torch.enable_grad(), torch.autocast(device_type="cuda", dtype=torch.bfloat16):
         _LAST_EXECUTION_BOUNDARY["gr00t_forwards"] = int(_LAST_EXECUTION_BOUNDARY["gr00t_forwards"]) + 1
         outputs = model(backward_inputs)
         loss = outputs["loss"] if isinstance(outputs, Mapping) else outputs.loss
