@@ -58,12 +58,18 @@ def plan(value: Any) -> dict[str, Any]:
         require(isinstance(recipe_identity, str) and recipe_identity, f"{cell}.recipe_identity missing")
         normalized[cell] = {"valid_training_seeds": sorted(seeds), "recipe_identity": recipe_identity}
 
-    common_single_factor_seeds = sorted(
-        set(normalized["B_N2"]["valid_training_seeds"]).intersection(normalized["C_L1"]["valid_training_seeds"])
+    common_all_existing_cells = sorted(
+        set(normalized["A_LEGACY"]["valid_training_seeds"])
+        .intersection(normalized["B_N2"]["valid_training_seeds"])
+        .intersection(normalized["C_L1"]["valid_training_seeds"])
     )
-    missing_for_full_matched = [seed for seed in CANONICAL_SEEDS if seed not in common_single_factor_seeds]
+    missing_for_full_matched = [seed for seed in CANONICAL_SEEDS if seed not in common_all_existing_cells]
+    per_cell_missing = {
+        cell: [seed for seed in CANONICAL_SEEDS if seed not in normalized[cell]["valid_training_seeds"]]
+        for cell in ("A_LEGACY", "B_N2", "C_L1")
+    }
     return {
-        "schema": "STAGE45F_N2_L1_FACTORIAL_PLAN_V1",
+        "schema": "STAGE45F_N2_L1_FACTORIAL_PLAN_V2",
         "status": "PASS_PLAN_ONLY",
         "decision_state": "PI_DECISION_REQUIRED",
         "cells": CELLS,
@@ -71,19 +77,21 @@ def plan(value: Any) -> dict[str, Any]:
         "future_combined_cell": "D_N2_PLUS_L1",
         "combined_training_authorized": False,
         "canonical_seed_family": list(CANONICAL_SEEDS),
-        "common_single_factor_seeds": common_single_factor_seeds,
-        "missing_seeds_for_fully_matched_single_factor_context": missing_for_full_matched,
+        "common_matched_seeds_across_A_B_C": common_all_existing_cells,
+        "missing_seeds_for_fully_matched_A_B_C_context": missing_for_full_matched,
+        "missing_canonical_seeds_by_existing_cell": per_cell_missing,
         "future_combined_arm_requirement": {
             "fresh_base": True,
             "same_dataset": True,
             "same_optimizer_scheduler_precision_batch": True,
             "same_canonical_seed_family": True,
+            "matched_seed_interaction_requires_A_B_C_D_same_seed": True,
             "normalization_change": "N2 only",
             "loss_change": "L1 only",
             "all_other_science_variables_frozen": True,
         },
         "descriptive_interaction_contrast": "D_N2_PLUS_L1 - B_N2 - C_L1 + A_LEGACY",
-        "interaction_claim_boundary": "Difference-of-differences is descriptive on matched windows/seeds; nonlinear training means it is not assumed additive or causal without the separately executed combined arm.",
+        "interaction_claim_boundary": "Difference-of-differences is descriptive only on the same training seed and matched TRAIN windows across all four cells. Nonlinear training means additivity/causality is not assumed.",
         "automatic_combination_allowed": False,
         "validation_e_read": False,
         "holdout_f_read": False,
