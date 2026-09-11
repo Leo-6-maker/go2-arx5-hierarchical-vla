@@ -135,6 +135,12 @@ def test_free_running_state_is_carried_without_reset() -> None:
     assert '"free_running_reset": False' in source
 
 
+def test_emitted_identity_exposes_seed_for_pairing() -> None:
+    source = Path(engine.__file__).read_text(encoding="utf-8")
+    assert '"seed": admission.SEED' in source
+    assert '"noise_seed": admission.SEED' in source
+
+
 def test_t0_admission_fails_closed_if_model_import_preexists() -> None:
     with pytest.raises(admission.D2AAdmissionError, match="model-side import"):
         admission.validate_future_admission(
