@@ -776,9 +776,13 @@ def _run_n2_inference(paths: Mapping[str, Path], output_root: Path, gpu: Mapping
     import torch
     from stage38_structured_offline_evaluation import _load_structured_model
     from stage45c_h200_eval_runtime_adapter import _sample_one
+    from stage45b_full24_fresh_base_train import _bind_cosmos_processor
     from go2arx5_vla.evaluation.checkpoint_eval import aggregate_evaluation_rows
 
     _EXECUTION_BOUNDARY["gpu"] = True
+    cosmos_binding = _bind_cosmos_processor(
+        paths["cosmos"] / "snapshots" / EXPECTED_COSMOS_REVISION
+    )
     processor, embodiment, modality_configs = _load_runtime_processor(paths)
     windows = _make_windows(processor, embodiment, modality_configs, paths["dataset"], snapshots)
     _equal(len(windows), 24, "TRAIN24 prepared window count")
@@ -892,6 +896,7 @@ def _run_n2_inference(paths: Mapping[str, Path], output_root: Path, gpu: Mapping
         "action_head_dit_forward_calls": int(_EXECUTION_BOUNDARY["action_head_dit_forward_calls"]),
         "conditioning_passes": int(_EXECUTION_BOUNDARY["conditioning_passes"]),
         "model_forward_windows": int(_EXECUTION_BOUNDARY["model_forward_windows"]),
+        "cosmos_processor_binding": cosmos_binding,
     }
 
 
