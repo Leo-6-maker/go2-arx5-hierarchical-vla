@@ -144,6 +144,60 @@ def _equal(actual: Any, expected: Any, label: str) -> None:
     _require(actual == expected, f"{label}: expected {expected!r}, got {actual!r}")
 
 
+def _compare_statistics(left: Any, right: Any, *, atol: float = 1e-12) -> dict[str, Any]:
+    """Compare generated and sealed statistics without hiding data drift.
+
+    The trainer's parquet/JSON materialization can introduce harmless JSON
+    round-off in floating-point values.  Keep the accepted Stage45E bridge
+    contract: keys, shapes, masks, and non-numeric values remain exact, while
+    every numeric difference is checked against the same bounded tolerance and
+    recorded in the evidence binding.
+    """
+
+    mismatches: list[dict[str, Any]] = []
+
+    def visit(a: Any, b: Any, path: str) -> None:
+        if isinstance(a, Mapping) and isinstance(b, Mapping):
+            if set(a) != set(b):
+                mismatches.append({"path": path, "left_keys": sorted(a), "right_keys": sorted(b)})
+                return
+            for key in sorted(a):
+                visit(a[key], b[key], f"{path}/{key}")
+            return
+        if isinstance(a, (list, tuple)) and isinstance(b, (list, tuple)):
+            if len(a) != len(b):
+                mismatches.append({"path": path, "left_length": len(a), "right_length": len(b)})
+                return
+            for index, (item_a, item_b) in enumerate(zip(a, b)):
+                visit(item_a, item_b, f"{path}[{index}]")
+            return
+        if (
+            isinstance(a, (int, float))
+            and not isinstance(a, bool)
+            and isinstance(b, (int, float))
+            and not isinstance(b, bool)
+        ):
+            delta = abs(float(a) - float(b))
+            if delta > atol:
+                mismatches.append({"path": path, "left": a, "right": b, "abs_delta": delta})
+            return
+        if a != b:
+            mismatches.append({"path": path, "left": a, "right": b})
+
+    visit(left, right, "statistics")
+    max_abs_delta = max(
+        (float(item["abs_delta"]) for item in mismatches if "abs_delta" in item),
+        default=0.0,
+    )
+    return {
+        "match": not mismatches,
+        "tolerance_atol": atol,
+        "mismatch_count": len(mismatches),
+        "max_abs_delta": max_abs_delta,
+        "mismatches": mismatches,
+    }
+
+
 def sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
@@ -303,7 +357,8 @@ def _verify_external(paths: Mapping[str, Path], training_root: Path) -> dict[str
     verified_n2 = n2.verify_n2_document(n2_doc, source=read_json(paths["runtime_stats"]))
     _equal(float(n2_doc["intervention"]["common_half_range_m"]), EXPECTED_N2_HALF_RANGE_M, "N2 half-range")
     sidecar = read_json(training_root / "experiment_cfg" / "structured_action_statistics.json")
-    _equal(sidecar.get("statistics"), n2_doc.get("statistics"), "N2 training sidecar statistics")
+    stats_binding = _compare_statistics(sidecar.get("statistics"), n2_doc.get("statistics"))
+    _require(stats_binding["match"], f"N2 training sidecar statistics drift exceeds tolerance: {stats_binding}")
     _equal(sha256_file(paths["runtime_stats"]), EXPECTED_RUNTIME_STATS_SHA, "runtime-V2 statistics SHA")
     _equal(sha256_file(paths["modality"]), EXPECTED_MODALITY_SHA, "modality SHA")
     _equal(sha256_file(paths["config"]), EXPECTED_CONFIG_SHA, "training config SHA")
@@ -319,6 +374,7 @@ def _verify_external(paths: Mapping[str, Path], training_root: Path) -> dict[str
         "n2_stats_sha256": sha256_file(paths["n2_stats"]),
         "n2_stats_payload_sha256": n2_doc.get("statistics_payload_sha256"),
         "n2_verification": verified_n2,
+        "training_sidecar_statistics_binding": stats_binding,
         "runtime_stats_sha256": sha256_file(paths["runtime_stats"]),
         "runtime_stats_payload_sha256": n2_doc.get("source_runtime_v2", {}).get("payload_sha256"),
         "modality_sha256": sha256_file(paths["modality"]),

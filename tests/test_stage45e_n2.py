@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "src"))
 
 import stage45e_n2_statistics as n2  # noqa: E402
+import stage45e_n2_train24_eval as train24_eval  # noqa: E402
 
 
 SOURCE = Path(
@@ -115,3 +116,28 @@ def test_train24_eval_static_boundary() -> None:
     assert "same_noise_across_checkpoints" in source
     assert "sealed_aggregate_reproduction" in source
     assert "automatic_winner" in source
+
+
+def test_train24_eval_statistics_bridge_is_bounded_and_exact_structural() -> None:
+    expected = {
+        "selected_lower": [0.0, 1.0],
+        "active_mask": [1, 0],
+        "nested": {"q99": [0.5, 2.0]},
+    }
+    roundoff = {
+        "selected_lower": [0.0, 1.0 + 5e-16],
+        "active_mask": [1, 0],
+        "nested": {"q99": [0.5, 2.0]},
+    }
+    binding = train24_eval._compare_statistics(roundoff, expected)
+    assert binding["match"] is True
+    assert binding["mismatch_count"] == 0
+    assert binding["tolerance_atol"] == 1e-12
+
+    structural_drift = {
+        **roundoff,
+        "active_mask": [1, 1],
+    }
+    blocked = train24_eval._compare_statistics(structural_drift, expected)
+    assert blocked["match"] is False
+    assert blocked["mismatch_count"] == 1
