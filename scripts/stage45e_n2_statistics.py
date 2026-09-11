@@ -578,8 +578,8 @@ def build_n2_document(
         "status": N2_STATUS,
         "stage": "Stage45E",
         "authority": {
-            "pi_gate": "PI_GATE_STATE_0121",
-            "issue_comment": 5633708741,
+            "pi_gate": "PI_GATE_STATE_0122",
+            "issue_comment": 5633959841,
             "branch": "stage45e/n2-balanced-xyz-normalization",
             "base_head": "a843294780c1392369bfc987e468857c63fc13a5",
         },
