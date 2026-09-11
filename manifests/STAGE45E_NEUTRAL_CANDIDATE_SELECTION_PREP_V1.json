@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE45E_NEUTRAL_CANDIDATE_SELECTION_PREP_V1",
+  "status": "PREP_ONLY_NO_EXECUTION",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0128",
+    "issue_comment": 5637179294
+  },
+  "repository": {
+    "branch": "stage45e/pi-prep-candidate-selection",
+    "base_head": "a843294780c1392369bfc987e468857c63fc13a5",
+    "execution_branch": false
+  },
+  "normalized_input_schema": "STAGE45E_NORMALIZED_TRAIN24_CANDIDATE_EVIDENCE_V1",
+  "decision_packet_schema": "STAGE45E_TRAIN24_CANDIDATE_DECISION_PACKET_V1",
+  "split": "TRAIN24",
+  "window_count": 24,
+  "candidate_order": [
+    "LEGACY FULL24@2000",
+    "N2(seed2222)@1000",
+    "N2(seed2222)@2000",
+    "N2(seed2223)@1000",
+    "N2(seed2223)@2000",
+    "N2(seed2224)@1000",
+    "N2(seed2224)@2000",
+    "L1@1000",
+    "L1@2000"
+  ],
+  "primary_metrics": [
+    "final_target_distance_m",
+    "absolute_progress_m",
+    "minimum_target_distance_m",
+    "endpoint_target_vector_cosine",
+    "path_length_m",
+    "roughness_position_second_difference_m",
+    "progress_sign"
+  ],
+  "numeric_metrics": [
+    "final_target_distance_m",
+    "absolute_progress_m",
+    "minimum_target_distance_m",
+    "endpoint_target_vector_cosine",
+    "path_length_m",
+    "roughness_position_second_difference_m"
+  ],
+  "paired_comparisons": [
+    ["N2(seed2222)@2000", "LEGACY FULL24@2000"],
+    ["N2(seed2223)@2000", "LEGACY FULL24@2000"],
+    ["N2(seed2224)@2000", "LEGACY FULL24@2000"],
+    ["L1@2000", "LEGACY FULL24@2000"],
+    ["N2(seed2222)@2000", "N2(seed2222)@1000"],
+    ["N2(seed2223)@2000", "N2(seed2223)@1000"],
+    ["N2(seed2224)@2000", "N2(seed2224)@1000"],
+    ["L1@2000", "L1@1000"]
+  ],
+  "claim_boundary": {
+    "descriptive_train24_only": true,
+    "iid_significance_tests": false,
+    "automatic_winner": false,
+    "posthoc_threshold": false,
+    "validation_e_authorized": false,
+    "holdout_f_authorized": false
+  },
+  "validation_e_plan_only": {
+    "status": "LOCKED",
+    "required_future_pi_selection_token": true,
+    "required_candidate_identity_binding": true,
+    "required_recipe_freeze_before_read": true,
+    "execute_supported": false,
+    "paths_may_be_opened": false
+  },
+  "locked": {
+    "model_construction": true,
+    "torch_cuda": true,
+    "gpu": true,
+    "pbs": true,
+    "training": true,
+    "inference": true,
+    "Validation-E": true,
+    "Holdout-F": true,
+    "WBC": true,
+    "simulator": true,
+    "hardware": true,
+    "N2_plus_L1": true,
+    "merge": true
+  },
+  "return_token": "STAGE45E_NEUTRAL_CANDIDATE_SELECTION_TOOLING_READY_FOR_PI_REVIEW"
+}
