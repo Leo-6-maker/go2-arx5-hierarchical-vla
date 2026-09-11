@@ -39,6 +39,26 @@
     "L1@1000": "L1@1000",
     "L1@2000": "L1@2000"
   },
+  "required_candidate_provenance": {
+    "sha256_fields": [
+      "upstream_evidence_seal_sha256",
+      "checkpoint_tree_sha256",
+      "lineage_artifact_sha256"
+    ],
+    "identity_fields": [
+      "lineage_kind",
+      "normalization_identity",
+      "sampler_identity",
+      "decoder_identity",
+      "metric_identity"
+    ],
+    "allowed_lineage_kinds": [
+      "SEALED_LEGACY",
+      "TRAINING_RESULT",
+      "RECOVERY_ACCEPTANCE"
+    ],
+    "row_checkpoint_sha_must_equal_checkpoint_tree_sha256": true
+  },
   "primary_metrics": [
     "final_target_distance_m",
     "absolute_progress_m",
