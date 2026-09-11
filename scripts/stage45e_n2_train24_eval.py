@@ -32,6 +32,7 @@ from typing import Any, Iterable, Mapping, Sequence
 REPO = Path(__file__).resolve().parents[1]
 SCRIPTS = REPO / "scripts"
 SRC = REPO / "src"
+EVAL_PREPARATION_MANIFEST = REPO / "manifests/STAGE45E_VANDA_N2_EVAL_PREPARATION_V1.json"
 for item in (SCRIPTS, SRC):
     if str(item) not in sys.path:
         sys.path.insert(0, str(item))
@@ -226,15 +227,64 @@ def read_json(path: Path) -> Any:
 
 def write_json(path: Path, value: Any, *, overwrite: bool = False) -> None:
     path = Path(path)
-    if path.exists() and not overwrite:
+    if (path.exists() or path.is_symlink()) and not overwrite:
         raise RuntimeError(f"refusing to overwrite evidence file: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(path.name + ".tmp")
-    temporary.write_text(
-        json.dumps(_jsonable(value), indent=2, sort_keys=True, allow_nan=False) + "\n",
-        encoding="utf-8",
-    )
-    os.replace(temporary, path)
+    temporary = path.with_name(path.name + f".tmp-{os.getpid()}")
+    try:
+        with temporary.open("w", encoding="utf-8") as handle:
+            handle.write(json.dumps(_jsonable(value), indent=2, sort_keys=True, allow_nan=False) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+        _fsync_directory(path.parent)
+    finally:
+        if temporary.exists() or temporary.is_symlink():
+            temporary.unlink()
+
+
+def _fsync_directory(path: Path) -> None:
+    """Durably publish a renamed evidence file in its parent directory."""
+
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+    descriptor = os.open(str(Path(path)), flags)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _write_empty_durable(path: Path) -> None:
+    """Create a durable empty append-only manifest without overwriting."""
+
+    path = Path(path)
+    if path.exists() or path.is_symlink():
+        raise RuntimeError(f"refusing to overwrite raw manifest: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("xb") as handle:
+        handle.flush()
+        os.fsync(handle.fileno())
+    _fsync_directory(path.parent)
+
+
+def _write_npy_durable(path: Path, array: Any, *, np_module: Any) -> None:
+    """Atomically publish and fsync one raw prediction before decoding."""
+
+    path = Path(path)
+    if path.exists() or path.is_symlink():
+        raise RuntimeError(f"refusing to overwrite raw prediction: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + f".tmp-{os.getpid()}")
+    try:
+        with temporary.open("wb") as handle:
+            np_module.save(handle, array, allow_pickle=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+        _fsync_directory(path.parent)
+    finally:
+        if temporary.exists() or temporary.is_symlink():
+            temporary.unlink()
 
 
 def append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
@@ -279,6 +329,44 @@ def _git(repo: Path, *args: str) -> str:
     import subprocess
 
     return subprocess.check_output(["git", "-C", str(repo), *args], text=True, stderr=subprocess.STDOUT).strip()
+
+
+def _git_is_ancestor(repo: Path, ancestor: str, descendant: str) -> bool:
+    import subprocess
+
+    result = subprocess.run(
+        ["git", "-C", str(repo), "merge-base", "--is-ancestor", ancestor, descendant],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    _require(result.returncode in (0, 1), f"git merge-base failed: {result.stderr.strip()}")
+    return result.returncode == 0
+
+
+def _verify_evaluator_checkout(expected_head: str) -> dict[str, Any]:
+    """Bind the future evaluation to the exact committed checkout before runtime imports."""
+
+    _require(isinstance(expected_head, str) and len(expected_head) == 40, "expected evaluator HEAD must be a full SHA")
+    observed_head = _git(REPO, "rev-parse", "HEAD")
+    _equal(observed_head, expected_head, "evaluator checkout HEAD")
+    manifest = read_json(EVAL_PREPARATION_MANIFEST)
+    _equal(manifest.get("schema"), "VANDA_STAGE45E_N2_EVAL_PREPARATION_V1", "evaluation preparation manifest schema")
+    repository = manifest.get("repository")
+    _require(isinstance(repository, Mapping), "evaluation preparation repository binding is missing")
+    _equal(repository.get("n2_first_science_commit"), "5080d532afebaf30b1b0d636d0f9afc365ada5a6", "N2 science commit")
+    source_head = repository.get("evaluator_source_head")
+    _require(isinstance(source_head, str) and len(source_head) == 40, "evaluator source HEAD binding is missing")
+    _require(_git_is_ancestor(REPO, source_head, observed_head), "checkout is not based on audited evaluator source")
+    return {
+        "manifest_path": str(EVAL_PREPARATION_MANIFEST.relative_to(REPO)),
+        "manifest_sha256": sha256_file(EVAL_PREPARATION_MANIFEST),
+        "expected_head": expected_head,
+        "observed_head": observed_head,
+        "n2_first_science_commit": repository["n2_first_science_commit"],
+        "evaluator_source_head": source_head,
+    }
 
 
 def _gpu_identity(expected_uuid: str) -> dict[str, Any]:
@@ -788,7 +876,7 @@ def _run_n2_inference(paths: Mapping[str, Path], output_root: Path, gpu: Mapping
     rows_by_label: dict[str, list[dict[str, Any]]] = {}
     aggregates: dict[str, Any] = {}
     raw_manifest = output_root / "n2_raw_predictions.jsonl"
-    raw_manifest.write_text("", encoding="utf-8")
+    _write_empty_durable(raw_manifest)
     for step in (1000, 2000):
         label = f"N2@{step}"
         checkpoint_path = paths["training_root"] / f"checkpoint-{step}"
@@ -817,7 +905,7 @@ def _run_n2_inference(paths: Mapping[str, Path], output_root: Path, gpu: Mapping
                 raw_np = raw.detach().cpu().numpy().astype(np.float32, copy=False)
                 raw_path = output_root / "raw" / label.replace("@", "_at_") / f"{index:02d}.npy"
                 raw_path.parent.mkdir(parents=True, exist_ok=True)
-                np.save(raw_path, raw_np, allow_pickle=False)
+                _write_npy_durable(raw_path, raw_np, np_module=np)
                 raw_file_sha = sha256_file(raw_path)
                 raw_array_sha = sha256_bytes(np.ascontiguousarray(raw_np).tobytes())
                 append_jsonl(raw_manifest, {
@@ -1111,6 +1199,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     _reset_boundary()
     if args.mode == "static":
         return _static_audit()
+    checkout = _verify_evaluator_checkout(args.expected_head)
     paths = {
         "base_model": Path(args.base_model).resolve(),
         "dataset": Path(args.dataset).resolve(),
@@ -1141,6 +1230,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "stage": STAGE,
         "pi_gate": PI_GATE,
         "branch": BRANCH,
+        "checkout_binding": checkout,
         "repository_head": _git(REPO, "rev-parse", "HEAD"),
         "training_root": str(paths["training_root"]),
         "sealed_baseline_root": str(baseline_root),
@@ -1187,6 +1277,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "stage": STAGE,
         "pi_gate": PI_GATE,
         "branch": BRANCH,
+        "checkout_binding": checkout,
         "repository_head": _git(REPO, "rev-parse", "HEAD"),
         "training_result_sha256": identities["training_result_sha256"],
         "n2_checkpoint_tree_sha256": {
@@ -1266,6 +1357,7 @@ def main() -> int:
     parser.add_argument("--n2-stats", type=Path)
     parser.add_argument("--gpu-uuid")
     parser.add_argument("--output-root", type=Path)
+    parser.add_argument("--expected-head", help="full committed checkout SHA required for eval mode")
     args = parser.parse_args()
     output_root = Path(args.output_root).resolve() if args.output_root is not None else None
     try:

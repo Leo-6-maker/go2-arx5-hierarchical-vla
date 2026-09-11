@@ -1,0 +1,113 @@
+{
+  "schema": "VANDA_STAGE45E_N2_TRAIN24_EVAL_PREPARATION_V1",
+  "status": "CPU_STATIC_N2_EVAL_SURFACE_READY",
+  "stage": "Stage45E",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0121",
+    "issue_number": 11,
+    "issue_comment": 5633708741,
+    "issue_50_pointer_comment": 5633717912
+  },
+  "repository": {
+    "preparation_branch": "stage45e/vanda-n2-eval-preparation",
+    "evaluator_branch": "stage45e/n2-balanced-xyz-normalization",
+    "base_execution_head": "a843294780c1392369bfc987e468857c63fc13a5",
+    "n2_first_science_commit": "5080d532afebaf30b1b0d636d0f9afc365ada5a6",
+    "evaluator_source_head": "341e1dca76af5bf3d88ac920da02feb2a25e327b"
+  },
+  "cohort": {
+    "name": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN",
+    "window_count": 24,
+    "window_order": "target_major_then_snapshot_major",
+    "target_xyz_in_model_input": false,
+    "validation_e_read": false,
+    "holdout_f_read": false
+  },
+  "checkpoint_order": [
+    "FULL24@1000",
+    "FULL24@2000",
+    "N2@1000",
+    "N2@2000"
+  ],
+  "statistics_contract": {
+    "source_schema": "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2",
+    "n2_schema": "CORELAB_STAGE45E_N2_STRUCTURED_STATS_V1",
+    "normalization": "MINMAX_TO_NEG1_POS1",
+    "timing_mode": "T16",
+    "action_horizon": 40,
+    "universal_action_dim": 132,
+    "active_scalar_count": 190,
+    "xyz_universal_dimensions": [
+      0,
+      1,
+      2
+    ],
+    "n2_common_half_range_m": 0.107349471,
+    "non_xyz_statistics_must_match_generated_train_statistics": true,
+    "source_runtime_v2_outer_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "source_runtime_v2_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
+  },
+  "sampler_contract": {
+    "noise_seed": 4242,
+    "timestep_ids": [
+      0,
+      250,
+      500,
+      750
+    ],
+    "steps": 4,
+    "dt": 0.25,
+    "same_noise_across_checkpoints": true,
+    "official_public_sampler_called": false
+  },
+  "admission_contract": {
+    "runtime_artifact_paths_explicit": true,
+    "current_checkout_head_must_be_observed": true,
+    "expected_head_must_be_bound_at_execution": true,
+    "fresh_output_root_required": true,
+    "legacy_raw_evidence_verified_before_model_import": true,
+    "n2_statistics_verified_before_model_import": true,
+    "pre_model_zero_boundary_required": true,
+    "model_import_after_admission_only": true,
+    "admission_artifact_written_before_model_import": true,
+    "admission_order": [
+      "checkout_and_manifest",
+      "training_result_and_checkpoint_identity",
+      "dataset_and_statistics_identity",
+      "sealed_legacy_raw_identity",
+      "runtime_observation",
+      "pre_model_zero_boundary",
+      "write_admission_seal",
+      "late_model_import"
+    ]
+  },
+  "raw_first_contract": {
+    "raw_namespace": "raw/N2_at_<step>/<window_index>.npy",
+    "raw_array_written_before_decode": true,
+    "raw_file_sha256_recorded_before_decode": true,
+    "raw_array_atomic_replace": true,
+    "raw_file_fsync": true,
+    "raw_parent_directory_fsync": true,
+    "raw_manifest_append_fsync": true,
+    "derived_metrics_may_reference_only_sealed_raw": true,
+    "legacy_baselines_reinference": false
+  },
+  "locked_boundaries": {
+    "gpu": 0,
+    "pbs_submissions": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": false,
+    "backward_steps": 0,
+    "optimizer_steps": 0,
+    "scheduler_steps": 0,
+    "checkpoint_writes": 0,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_steps": 0,
+    "simulator_steps": 0,
+    "hardware": false
+  },
+  "return_token": "STAGE45E_N2_VANDA_EVAL_SURFACE_READY_FOR_PI_GATE"
+}
