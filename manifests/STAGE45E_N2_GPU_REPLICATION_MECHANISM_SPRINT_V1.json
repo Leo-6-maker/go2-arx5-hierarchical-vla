@@ -1,0 +1,171 @@
+{
+  "schema": "CORELAB_STAGE45E_N2_GPU_REPLICATION_MECHANISM_SPRINT_V1",
+  "status": "IMPLEMENTED_CPU_STATIC_READY",
+  "stage": "Stage45E",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0124",
+    "issue_comment": 5634960729,
+    "pointer_pr": 53,
+    "pointer_comment": 5634964928
+  },
+  "repository": {
+    "branch": "stage45e/n2-gpu-replication-mechanism-sprint",
+    "base_head": "a476a581f4d9a5ad104e691d4037762c6f1685ba",
+    "canonical_pr_53_unchanged": true,
+    "working_tree_required_clean": true,
+    "new_draft_pr_required": true
+  },
+  "question": "Do independent N2 seeds reproduce exposure recovery, and which local-flow/rollout mechanisms explain it?",
+  "frozen_identities": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "runtime_v2_stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "runtime_v2_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  },
+  "n2_intervention": {
+    "xyz_common_half_range_m": 0.107349471,
+    "centers_frozen": true,
+    "non_xyz_statistics_unchanged": true,
+    "structured_action_schema": "StructuredActionV1",
+    "mask": "structured_action_mask(T16)",
+    "mask_shape": [40, 132],
+    "mask_active_scalars": 190,
+    "target_xyz_in_model_input": false
+  },
+  "training": {
+    "seeds": [2223, 2224],
+    "starting_checkpoint": "exact BASE",
+    "max_steps": 2000,
+    "save_steps": [1000, 2000],
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "warmup_steps": 10,
+    "bf16": true,
+    "fp16": false,
+    "tf32": true,
+    "workers": 0,
+    "trainable_modules": ["projector", "diffusion"],
+    "frozen_modules": ["visual", "llm", "vlln"],
+    "resume_from_n2_2000": false,
+    "optimizer_step_budget_per_seed": 2000
+  },
+  "g2_train24_evaluation": {
+    "checkpoints": ["R1@1000", "R1@2000", "R2@1000", "R2@2000"],
+    "source_checkpoint_labels": {"R1": 2223, "R2": 2224},
+    "cohort": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN",
+    "window_count": 24,
+    "window_order": "target-major_then-snapshot-major",
+    "sampler": "source-mapped-four-step-Euler-action-head-graph",
+    "development_seed": 4242,
+    "timestep_ids": [0, 250, 500, 750],
+    "dt": 0.25,
+    "action_head_calls": 384,
+    "conditioning_passes": 96,
+    "total_model_side_calls": 480,
+    "same_noise_across_checkpoints": true,
+    "public_sampler_calls": 0,
+    "get_action_calls": 0
+  },
+  "g3_d1_teacher_forced_local_flow": {
+    "checkpoints": ["FULL24@2000", "N2(seed2222)@2000", "N2(seed2223)@2000", "N2(seed2224)@2000"],
+    "noise_seeds": [2223, 2224, 2225],
+    "t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+    "t_buckets": [67, 369, 783],
+    "flow": {
+      "x_t": "x_t=(1-t)*x0+t*x1",
+      "v_target": "v_target=x1-x0",
+      "x1_hat": "x1_hat=x_t+(1-t)*v_hat",
+      "physical_source": "x1_hat_only"
+    },
+    "action_head_calls": 864,
+    "conditioning_passes": 288,
+    "total_model_side_calls": 1152,
+    "target_xyz_in_model_input": false,
+    "automatic_retry": false
+  },
+  "g4_d2a_tf_vs_fr": {
+    "checkpoints": ["FULL24@2000", "N2(seed2222)@2000", "N2(seed2223)@2000", "N2(seed2224)@2000"],
+    "noise_seed": 4242,
+    "t_values": [0.0, 0.25, 0.5, 0.75],
+    "t_buckets": [0, 250, 500, 750],
+    "dt": 0.25,
+    "flow": {
+      "teacher_forced": "x_tf=(1-t)*x0+t*x1",
+      "free_running": "x_fr_next=x_fr+dt*v_fr"
+    },
+    "action_head_calls": 768,
+    "conditioning_passes": 96,
+    "total_model_side_calls": 864,
+    "same_initial_noise": true,
+    "target_xyz_in_model_input": false,
+    "automatic_retry": false
+  },
+  "execution_order": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4", "G3_D1_LOCAL_FLOW", "G4_D2A_TF_VS_FR"],
+  "gpu_policy": {
+    "host_role": "Corelab RTX",
+    "preferred_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "preferred_vram_mib": 32760,
+    "preferred_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "selected_device": "cuda:0",
+    "allow_shared_gpu": true,
+    "must_not_kill_other_processes": true,
+    "must_not_reprioritize": true,
+    "single_stage40_workload": true,
+    "allocator_mechanics_may_be_recorded": true,
+    "no_precision_batch_offload_or_sharding_changes": true
+  },
+  "evidence": {
+    "raw_before_derived": true,
+    "fresh_output_root_per_seed_and_phase": true,
+    "failure_seal_required": true,
+    "checkpoint_tree_sha256_bound_after_materialization": true,
+    "cpu_aggregation_deferred_until_after_g4": true
+  },
+  "locked": {
+    "N1": true,
+    "L1": true,
+    "N2_plus_L1": true,
+    "new_normalization": true,
+    "new_data": true,
+    "relabeling": true,
+    "4000_step": true,
+    "Validation-E": true,
+    "Holdout-F": true,
+    "D2B_E8_E16": true,
+    "WBC": true,
+    "simulator": true,
+    "hardware": true,
+    "merge": true,
+    "PBS": true
+  },
+  "return_tokens": {
+    "resource_blocked": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_FOR_PI_REVIEW",
+    "sprint_complete": "STAGE45E_N2_CORELAB_GPU_SPRINT_COMPLETE_FOR_PI_REVIEW"
+  },
+  "execution_boundary_now": {
+    "model_construction": 0,
+    "gr00t_forwards": 0,
+    "training_steps": 0,
+    "optimizer_steps": 0,
+    "gpu": false,
+    "pbs_submissions": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0
+  }
+}
