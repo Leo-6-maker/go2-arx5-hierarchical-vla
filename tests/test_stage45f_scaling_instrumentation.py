@@ -14,6 +14,7 @@ from go2arx5_vla.stage45f_exposure_sidechannel import (
 )
 from scripts import stage45f_active_channel_support_audit as active_support
 from scripts import stage45f_data_compute_scaling_plan as data_compute
+from scripts import stage45f_large_scale_campaign_admission as large_scale
 from scripts import stage45f_n2_l1_factorial_plan as factorial
 from scripts import stage45f_optimizer_exposure_binding as optimizer_exposure
 
@@ -189,3 +190,83 @@ def test_active_channel_support_covers_all_t16_semantics_without_threshold() -> 
     assert result["group_summary"]["XYZ"]["outside_neg1_pos1_count"] == 0
     assert result["automatic_acceptability_threshold_used"] is False
     assert result["training_authorized"] is False
+
+
+def _large_scale_request() -> dict:
+    return {
+        "schema": "STAGE45F_LARGE_SCALE_CAMPAIGN_REQUEST_V1",
+        "selection_source_split": "TRAIN24",
+        "validation_e_read": False,
+        "holdout_f_read": False,
+        "recipe_frozen": True,
+        "pi_selected_candidate": True,
+        "candidate": {
+            "candidate_label": "future-candidate",
+            "training_recipe_identity": "recipe-v1",
+            "dataset_tree_sha256": "1" * 64,
+            "normalization_identity": "stats-v1",
+            "loss_identity": "loss-v1",
+            "base_model_tree_sha256": "2" * 64,
+            "sampler_identity": "sampler-v1",
+            "decoder_identity": "decoder-v1",
+            "metric_identity": "metrics-v1",
+        },
+        "training": {
+            "predeclared_seeds": [2222, 2223, 2224],
+            "optimizer_step_tiers": [2000, 4000, 8000],
+            "checkpoint_steps": [2000, 4000, 8000],
+            "retry_selection_by_metric": False,
+            "adaptive_step_extension": False,
+            "stop_extension_rule": "No tier extension without a new PI gate after the predeclared tier is sealed.",
+            "optimizer_identity": "adamw-v1",
+            "scheduler_identity": "cosine-v1",
+            "scheduler_horizon_policy": "future-pi-bound",
+            "precision_identity": "bf16-v1",
+            "effective_global_batch_identity": "global-batch-1",
+            "trainable_module_identity": "projector+diffusion",
+        },
+        "required_preflight_evidence": {
+            "train_decision_packet_sha256": "3" * 64,
+            "recipe_freeze_ledger_sha256": "4" * 64,
+            "scaling_admission_sha256": "5" * 64,
+            "resource_scaling_audit_sha256": "6" * 64,
+            "compute_budget_sha256": "7" * 64,
+            "exposure_instrumentation_plan_sha256": "8" * 64,
+            "dataset_support_audit_sha256": "9" * 64,
+            "storage_retention_plan_sha256": "a" * 64,
+        },
+        "resource": {
+            "resource_selected": True,
+            "device_role": "FUTURE_PI_SELECTED_GPU",
+            "device_count": 1,
+            "effective_batch_semantics_frozen": True,
+            "precision_semantics_frozen": True,
+        },
+        "storage": {
+            "required_bytes_estimate": 1000,
+            "available_bytes_verified": 2000,
+            "retain_all_valid_runs": True,
+        },
+        "exposure": {
+            "optimizer_step_bound_trace_planned": True,
+            "epoch_claim_from_steps": False,
+        },
+    }
+
+
+def test_large_scale_campaign_is_structurally_admitted_but_never_auto_authorized() -> None:
+    result = large_scale.analyze(_large_scale_request())
+    assert result["status"] == "PASS_STRUCTURE_ONLY_PI_EXECUTION_GATE_REQUIRED"
+    assert result["decision_state"] == "PI_GATE_REQUIRED"
+    assert result["training_authorized"] is False
+    assert result["gpu_authorized"] is False
+    assert result["pbs_authorized"] is False
+    assert result["metric_based_retry_selection_allowed"] is False
+    assert result["adaptive_extension_allowed_without_new_pi_gate"] is False
+
+
+def test_large_scale_campaign_rejects_insufficient_storage() -> None:
+    request = _large_scale_request()
+    request["storage"]["available_bytes_verified"] = 999
+    with pytest.raises(large_scale.LargeScaleAdmissionError, match="storage"):
+        large_scale.analyze(request)
