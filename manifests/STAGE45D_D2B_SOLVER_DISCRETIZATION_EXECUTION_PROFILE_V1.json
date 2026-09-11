@@ -1,0 +1,131 @@
+{
+  "schema": "CORELAB_STAGE45D_D2B_SOLVER_DISCRETIZATION_EXECUTION_PROFILE_V1",
+  "status": "READY_FOR_EXECUTION_NOT_EXECUTED",
+  "stage": "Stage45D-D2B",
+  "authority": {
+    "issue_11_comment": 5633959841,
+    "pr_52_comment": 5633994019
+  },
+  "branch": "stage45d/vanda-h200-d2b-solver-discretization",
+  "base_execution_head": "a843294780c1392369bfc987e468857c63fc13a5",
+  "runtime_adapter": {
+    "path": "scripts/stage45d_d2b_solver_discretization.py",
+    "sha256": "34ec68152f75be31902a0877d07ae83c3254152047457b1a7ce1e66266928584",
+    "top_level_model_imports": false,
+    "imports_after_admission_only": true
+  },
+  "admission": {
+    "path": "scripts/stage45d_d2b_runtime_admission.py",
+    "sha256": "b207ec52cd8e15cbb8e812836608d41964db36d926255548c9ed49dd34e9f1bb",
+    "top_level_model_imports": false
+  },
+  "launcher": {
+    "path": "scripts/stage45d_d2b_vanda_h200_launcher.py",
+    "sha256": "03ebf08e8eea3955bacc47816683c6cee8280e902da4a2c7d73562456db7167a",
+    "top_level_model_imports": false
+  },
+  "execution": {
+    "checkpoint_order": ["STRUCTURED@1000", "FULL24@1000", "FULL24@2000"],
+    "window_count": 24,
+    "window_order": "target-major then snapshot-major",
+    "noise_seed": 4242,
+    "noise_dtype": "float32",
+    "noise_device": "cpu",
+    "same_initial_noise_across_solver_arms": true,
+    "solver_order": ["E4", "E8", "E16"],
+    "solver_schedules": {
+      "E4": {
+        "solver": "E4",
+        "family": "FORWARD_EULER",
+        "steps": 4,
+        "dt": 0.25,
+        "t_values": [0.0, 0.25, 0.5, 0.75],
+        "t_buckets": [0, 250, 500, 750],
+        "timestep_bucket_scale": 1000
+      },
+      "E8": {
+        "solver": "E8",
+        "family": "FORWARD_EULER",
+        "steps": 8,
+        "dt": 0.125,
+        "t_values": [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875],
+        "t_buckets": [0, 125, 250, 375, 500, 625, 750, 875],
+        "timestep_bucket_scale": 1000
+      },
+      "E16": {
+        "solver": "E16",
+        "family": "FORWARD_EULER",
+        "steps": 16,
+        "dt": 0.0625,
+        "t_values": [0.0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375],
+        "t_buckets": [0, 62, 125, 187, 250, 312, 375, 437, 500, 562, 625, 687, 750, 812, 875, 937],
+        "timestep_bucket_scale": 1000
+      }
+    },
+    "free_running_reset": false,
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "full_action_head_calls": 2016,
+    "full_conditioning_passes": 72,
+    "full_total_model_side_calls": 2088,
+    "smoke_action_head_calls": 28,
+    "smoke_conditioning_passes": 1,
+    "smoke_total_model_side_calls": 29,
+    "adaptive_extension": false
+  },
+  "contract": {
+    "stage": "Stage45D-D2B",
+    "solver_comparison_only": true,
+    "solver_family": "FORWARD_EULER_ONLY",
+    "solver_order": ["E4", "E8", "E16"],
+    "solver_schedules": {
+      "E4": {"solver": "E4", "family": "FORWARD_EULER", "steps": 4, "dt": 0.25, "t_values": [0.0, 0.25, 0.5, 0.75], "t_buckets": [0, 250, 500, 750], "timestep_bucket_scale": 1000},
+      "E8": {"solver": "E8", "family": "FORWARD_EULER", "steps": 8, "dt": 0.125, "t_values": [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875], "t_buckets": [0, 125, 250, 375, 500, 625, 750, 875], "timestep_bucket_scale": 1000},
+      "E16": {"solver": "E16", "family": "FORWARD_EULER", "steps": 16, "dt": 0.0625, "t_values": [0.0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375], "t_buckets": [0, 62, 125, 187, 250, 312, 375, 437, 500, 562, 625, 687, 750, 812, 875, 937], "timestep_bucket_scale": 1000}
+    },
+    "free_running": "x_FR(0)=x0; v_FR(t_i)=model(x_FR(t_i),t_i); x_FR(t_i+1)=x_FR(t_i)+dt_arm*v_FR(t_i)",
+    "free_running_reset": false,
+    "same_initial_noise_across_arms": true,
+    "normalized_action_space_readout": "x_FR and v_FR are retained in each checkpoint's frozen normalized action space",
+    "physical_readout": "final free-running state is decoded only after raw normalized arrays are sealed",
+    "target_xyz_in_model_input": false,
+    "stats_checkpoint_decoder_unchanged": true,
+    "raw_before_derived": true,
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "no_teacher_forced_path": true,
+    "no_scientific_threshold_or_winner": true
+  },
+  "locked_boundaries": {
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "hardware": "LOCKED",
+    "new_data": "LOCKED",
+    "simulator": "LOCKED",
+    "D2B_solver_comparison": "AUTHORIZED_FORWARD_EULER_ONLY"
+  },
+  "evidence": {
+    "raw_before_derived": true,
+    "raw_arrays": ["x0", "x1", "x_fr", "v_target", "v_fr", "x_fr_next", "mask"],
+    "normalized_namespace": "D2B_NORMALIZED_FREE_RUNNING_FIELD_DIAGNOSTIC_NOT_SUPERVISED",
+    "physical_namespace": "DECODED_PHYSICAL_ACTION",
+    "same_initial_noise_across_solver_arms": true,
+    "paired_solver_summary": true,
+    "fresh_output": true,
+    "inventory": true
+  },
+  "device_policy": {
+    "selected_device": "cuda:0",
+    "selected_gpu_role": "HOPPER_H200_SINGLE_GPU",
+    "minimum_vram_bytes": 85899345920,
+    "allow_multi_gpu": false,
+    "allow_sharding": false,
+    "allow_oom_retry": false,
+    "offline_only": true
+  },
+  "return_tokens": {
+    "smoke": "STAGE45D_D2B_H200_SMOKE_PASS_AUTO_CONTINUE_FULL",
+    "full": "STAGE45D_D2B_VANDA_H200_SOLVER_STUDY_COMPLETE_FOR_PI_REVIEW"
+  }
+}

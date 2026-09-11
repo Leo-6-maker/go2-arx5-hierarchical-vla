@@ -1,0 +1,58 @@
+#!/bin/bash
+# PI0122: one observed H200 D2B smoke, then exact automatic full execution.
+# Forward Euler E4/E8/E16 only. No training, public sampler/get_action,
+# Validation-E/Holdout-F, WBC/sim/hardware, checkpoint writes, or retry.
+
+#PBS -N st45d_d2b
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=16:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45D_D2B_REPO:?Set the exact clean D2B execution checkout}"
+: "${STAGE45D_D2B_EXPECTED_HEAD:?Set the exact pushed D2B execution HEAD}"
+: "${STAGE45D_D2B_RUNTIME_PATHS:?Set the sealed Hopper runtime paths JSON}"
+: "${STAGE45D_D2B_PYTHON:?Set the admitted H200 runtime Python}"
+: "${STAGE45D_D2B_FFMPEG_RUNTIME_ROOT:?Set the sealed native FFmpeg runtime root}"
+: "${STAGE45D_D2B_TORCHCODEC_PACKAGE_ROOT:?Set the admitted TorchCodec package root}"
+: "${STAGE45D_D2B_TORCH_LIBRARY_ROOT:?Set the admitted Torch library root}"
+: "${STAGE45D_D2B_REPAIR_CYCLE:?Set the D2B repair cycle}"
+: "${STAGE45D_D2B_SMOKE_ATTEMPT:?Set the D2B smoke attempt}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${STAGE45D_D2B_PYTHON}"
+resolved_python="$(readlink -f "${STAGE45D_D2B_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "D2B admitted Python resolves outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
+test -d "$(dirname "${STAGE45D_D2B_PYTHON}")/../lib/python3.12/site-packages/torch"
+test -f "${STAGE45D_D2B_RUNTIME_PATHS}"
+test ! -L "${STAGE45D_D2B_RUNTIME_PATHS}"
+test "$(git -C "${STAGE45D_D2B_REPO}" branch --show-current)" = "stage45d/vanda-h200-d2b-solver-discretization"
+test "$(git -C "${STAGE45D_D2B_REPO}" rev-parse HEAD)" = "${STAGE45D_D2B_EXPECTED_HEAD}"
+test -z "$(git -C "${STAGE45D_D2B_REPO}" status --porcelain=v1 --untracked-files=all)"
+
+final_head8="${STAGE45D_D2B_EXPECTED_HEAD:0:8}"
+evidence_root="/scratch/e1192548/stage45d_d2b_solver_discretization_20260911_${final_head8}_${PBS_JOBID}"
+test ! -e "${evidence_root}"
+
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${STAGE45D_D2B_FFMPEG_RUNTIME_ROOT}/lib:${STAGE45D_D2B_FFMPEG_RUNTIME_ROOT}/compat:${STAGE45D_D2B_TORCHCODEC_PACKAGE_ROOT}:${STAGE45D_D2B_TORCH_LIBRARY_ROOT}:${ambient_ld_library_path}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export STAGE45D_D2B_RUNTIME=authorized
+export STAGE45D_D2B_AUTHORITY_TOKEN=PI_GATE_STATE_0122
+unset PYTHONPATH 2>/dev/null || true
+
+# Exercise the committed absolute-path bootstrap from a foreign CWD.
+cd "${TMPDIR:-/tmp}"
+exec "${STAGE45D_D2B_PYTHON}" "${STAGE45D_D2B_REPO}/scripts/stage45d_d2b_vanda_h200_launcher.py" \
+  --execute \
+  --paths "${STAGE45D_D2B_RUNTIME_PATHS}" \
+  --evidence-root "${evidence_root}" \
+  --expected-head "${STAGE45D_D2B_EXPECTED_HEAD}" \
+  --repair-cycle "${STAGE45D_D2B_REPAIR_CYCLE}" \
+  --smoke-attempt "${STAGE45D_D2B_SMOKE_ATTEMPT}"
