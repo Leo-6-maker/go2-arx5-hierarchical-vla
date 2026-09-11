@@ -159,8 +159,9 @@ def test_factorial_plan_never_auto_authorizes_n2_plus_l1() -> None:
     )
     assert result["combined_training_authorized"] is False
     assert result["automatic_combination_allowed"] is False
-    assert result["common_single_factor_seeds"] == [2222]
-    assert result["missing_seeds_for_fully_matched_single_factor_context"] == [2223, 2224]
+    assert result["common_matched_seeds_across_A_B_C"] == [2222]
+    assert result["missing_seeds_for_fully_matched_A_B_C_context"] == [2223, 2224]
+    assert result["missing_canonical_seeds_by_existing_cell"]["A_LEGACY"] == [2223, 2224]
 
 
 def test_active_channel_support_covers_all_t16_semantics_without_threshold() -> None:
@@ -214,7 +215,13 @@ def _large_scale_request() -> dict:
         "training": {
             "predeclared_seeds": [2222, 2223, 2224],
             "optimizer_step_tiers": [2000, 4000, 8000],
-            "checkpoint_steps": [2000, 4000, 8000],
+            "checkpoint_steps_by_tier": {
+                "2000": [1000, 2000],
+                "4000": [1000, 2000, 4000],
+                "8000": [1000, 2000, 4000, 8000],
+            },
+            "tier_execution_mode": "INDEPENDENT_FRESH_RUNS",
+            "resume_continuity_plan_sha256": None,
             "retry_selection_by_metric": False,
             "adaptive_step_extension": False,
             "stop_extension_rule": "No tier extension without a new PI gate after the predeclared tier is sealed.",
@@ -258,6 +265,8 @@ def test_large_scale_campaign_is_structurally_admitted_but_never_auto_authorized
     result = large_scale.analyze(_large_scale_request())
     assert result["status"] == "PASS_STRUCTURE_ONLY_PI_EXECUTION_GATE_REQUIRED"
     assert result["decision_state"] == "PI_GATE_REQUIRED"
+    assert result["checkpoint_steps_by_tier"]["2000"] == [1000, 2000]
+    assert result["tier_execution_mode"] == "INDEPENDENT_FRESH_RUNS"
     assert result["training_authorized"] is False
     assert result["gpu_authorized"] is False
     assert result["pbs_authorized"] is False
