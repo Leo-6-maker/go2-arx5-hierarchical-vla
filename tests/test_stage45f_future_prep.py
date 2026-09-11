@@ -7,9 +7,11 @@ from pathlib import Path
 
 import pytest
 
+from scripts import stage45f_compute_budget as compute_budget
 from scripts import stage45f_data_expansion_audit as data_audit
 from scripts import stage45f_exposure_accounting as exposure
 from scripts import stage45f_future_experiment_planner as planner
+from scripts import stage45f_recipe_freeze as recipe_freeze
 from scripts import stage45f_rollout_relabel_admission as relabel
 from scripts import stage45f_scaling_admission as scaling
 
@@ -90,6 +92,7 @@ def test_cosine_max_steps_change_is_not_pure_exposure() -> None:
     assert result["classification"] == "SCALING_CONFOUNDED_OR_UNPROVEN"
     assert "cosine_lr_history_changes_when_max_steps_changes" in result["confounds"]
     assert result["epoch_claim_allowed"] is False
+    assert result["exact_window_exposure_claim_allowed"] is True
 
 
 def test_fixed_scheduler_horizon_beyond_budget_requires_policy() -> None:
@@ -216,3 +219,57 @@ def test_exact_exposure_trace_counts_windows_without_epoch_claim(tmp_path: Path)
     assert result["per_window_counts"] == {"w0": 2, "w1": 1}
     assert result["exact_per_window_exposure_available"] is True
     assert result["epoch_claim"] == "NOT_DERIVED_AUTOMATICALLY"
+
+
+def test_recipe_freeze_never_authorizes_validation() -> None:
+    request = {
+        "schema": "STAGE45F_RECIPE_FREEZE_REQUEST_V1",
+        "selection_source_split": "TRAIN24",
+        "validation_e_read": False,
+        "holdout_f_read": False,
+        "pi_selected": True,
+        "candidate": {
+            "candidate_label": "candidate",
+            "checkpoint_tree_sha256": "1" * 64,
+            "training_recipe_identity": "recipe-v1",
+            "dataset_tree_sha256": "2" * 64,
+            "normalization_identity": "stats-v1",
+            "loss_identity": "loss-v1",
+            "sampler_identity": "sampler-v1",
+            "decoder_identity": "decoder-v1",
+            "metric_identity": "metrics-v1",
+        },
+        "training_seeds_supporting_selection": [2222, 2223, 2224],
+        "train_decision_packet_sha256": "3" * 64,
+    }
+    result = recipe_freeze.freeze(recipe_freeze.validate(request))
+    assert result["status"] == "FROZEN_FOR_FUTURE_PI_VALIDATION_GATE"
+    assert result["validation_e_execute_supported"] is False
+    assert result["holdout_f_execute_supported"] is False
+    assert result["execution_authorized"] is False
+
+
+def test_compute_budget_is_estimate_only() -> None:
+    result = compute_budget.analyze(
+        {
+            "schema": "STAGE45F_COMPUTE_BUDGET_INPUT_V1",
+            "validation_e_read": False,
+            "holdout_f_read": False,
+            "telemetry": [
+                {
+                    "device_role": "CORELAB_4080S",
+                    "seconds_per_step": 0.5,
+                    "checkpoint_bytes": 1000,
+                    "source_telemetry_sha256": "4" * 64,
+                }
+            ],
+            "hypothetical_tiers": [4000, 8000],
+            "hypothetical_seed_counts": [1, 3],
+            "checkpoint_steps": [1000, 2000, 4000, 8000],
+        }
+    )
+    assert result["status"] == "PASS_ESTIMATE_ONLY"
+    assert result["resource_selected"] is False
+    assert result["training_authorized"] is False
+    assert result["gpu_execution"] == 0
+    assert len(result["estimates"]) == 4
