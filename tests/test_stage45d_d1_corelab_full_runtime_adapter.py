@@ -38,7 +38,7 @@ def _row(checkpoint: str, window: str, target: str, seed: int, bucket: int) -> d
 def test_full_profile_and_static_contract() -> None:
     profile = full.validate_profile()
     assert profile["execution"]["total_model_side_calls"] == 720
-    assert profile["resource_margin"]["minimum_free_bytes"] == 2 * 1024**3
+    assert profile["resource_margin"]["minimum_free_bytes"] == 4 * 1024**3
     result = full.validate_static_contract()
     assert result["status"] == "PASS_STATIC_NOT_EXECUTED"
     assert result["execution_boundary"]["gpu"] == 0

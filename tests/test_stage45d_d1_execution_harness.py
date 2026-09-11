@@ -184,7 +184,7 @@ def _future_admission_fixture(tmp_path: Path) -> tuple[dict, dict]:
             "hardware": "LOCKED",
             "new_data": "LOCKED",
         },
-        "zero_counters": {"model_construction": 0, "model_forward": 0, "gpu": 0, "pbs": 0, "training_steps": 0},
+        "zero_counters": {"model_construction": 0, "model_forward": 0, "gpu": 0, "pbs": 1, "training_steps": 0},
         "output": {"root": str(output_root), "fresh_required": True},
     }
     observed = {

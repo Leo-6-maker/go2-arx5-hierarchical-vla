@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Corelab Stage45D-D1 full teacher-forced/local-flow runtime adapter.
+"""Vanda H200 Stage45D-D1 full teacher-forced/local-flow runtime adapter.
 
-The smoke adapter and this full adapter deliberately share the same Corelab
+The smoke adapter and this full adapter deliberately share the same frozen
 runtime primitives: admission ordering, direct Stage38 action-head graph,
 Stage45D flow algebra, Stage40/Stage45C decoding, and the durable raw-first
 evidence writer.  ``--plan-only`` and ``--audit-only`` are CPU/static.  The
@@ -44,11 +44,11 @@ import stage45d_d1_runtime_admission as admission  # noqa: E402
 FULL_PROFILE_PATH = REPO / "manifests" / "STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1.json"
 FULL_PROFILE_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1"
 FULL_ADAPTER_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_FULL_RUNTIME_ADAPTER_V1"
-FULL_RETURN_TOKEN = "STAGE45D_D1_CORELAB_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW"
-SMOKE_PASS_TOKEN = "STAGE45D_D1_4080S_SMOKE_PASS_AUTO_CONTINUE_FULL"
-PI_GATE_COMMENT = 5618670354
-ISSUE50_POINTER_COMMENT = 5618673348
-SUPPORT_HEAD = "c07e31c2eb60e520decab4f4390a4f56599b1f57"
+FULL_RETURN_TOKEN = "STAGE45D_D1_VANDA_H200_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW"
+SMOKE_PASS_TOKEN = "STAGE45D_D1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
+PI_GATE_COMMENT = 5629246685
+PR49_POINTER_COMMENT = 5629248074
+SUPPORT_HEAD = "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
 DEVICE = common.DEVICE
 GPU_ROLE = common.GPU_ROLE
 MIN_VRAM_BYTES = common.MIN_VRAM_BYTES
@@ -186,8 +186,8 @@ def _validate_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
     _require(payload.get("status") == "READY_FOR_PI_REVIEW_NOT_EXECUTED", "full profile must remain static-only")
     _require(payload.get("return_token") == FULL_RETURN_TOKEN, "full return token drift")
     authority = _mapping(payload.get("authority"), field="full.authority")
-    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0111 authority drift")
-    _require(authority.get("issue_50_comment") == ISSUE50_POINTER_COMMENT, "Issue #50 pointer drift")
+    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0116 authority drift")
+    _require(authority.get("pr_49_comment") == PR49_POINTER_COMMENT, "PR #49 pointer drift")
     _require(authority.get("prepared_from_support_head") == SUPPORT_HEAD, "full profile support HEAD drift")
     runtime = _mapping(payload.get("runtime_adapter"), field="full.runtime_adapter")
     _require(runtime.get("path") == "scripts/stage45d_d1_corelab_full_runtime_adapter.py", "full adapter path drift")
@@ -306,8 +306,8 @@ def _validate_execution_control(binding: Mapping[str, Any]) -> Mapping[str, Any]
     _require(control.get("phase") == "FULL", "full execution phase drift")
     repair_cycle = control.get("repair_cycle")
     attempt = control.get("smoke_attempt")
-    _require(isinstance(repair_cycle, int) and 0 <= repair_cycle <= 2, "repair cycle exceeds PI0111 budget")
-    _require(isinstance(attempt, int) and 1 <= attempt <= 3, "smoke attempt exceeds PI0111 budget")
+    _require(type(repair_cycle) is int and 0 <= repair_cycle <= 2, "repair cycle exceeds PI0116 budget")
+    _require(type(attempt) is int and 1 <= attempt <= 3, "smoke attempt exceeds PI0116 budget")
     _require(control.get("automatic_retry") is False, "automatic retry is forbidden")
     smoke_head = control.get("smoke_pass_head")
     _require(isinstance(smoke_head, str) and len(smoke_head) == 40, "successful smoke HEAD is not bound")
@@ -396,12 +396,12 @@ def _verify_runtime_artifacts(paths: Mapping[str, Path], stage45c: Any) -> dict[
     common.regular_file(refs_main, "Cosmos refs/main")
     _require(refs_main.read_text(encoding="utf-8").strip() == stage45c.COSMOS_REVISION, "Cosmos revision mismatch")
     result["cosmos"] = {"tree_sha256": cosmos_digest, "entry_count": cosmos_entries, "revision": stage45c.COSMOS_REVISION}
-    source_root = paths["groot_source"]
-    common.regular_directory(source_root, "GR00T source snapshot")
-    git_head = subprocess.run(["git", "-C", str(source_root), "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
-    _require(git_head.returncode == 0 and git_head.stdout.strip() == stage45c.GROOT_SOURCE_COMMIT, "GR00T source HEAD mismatch")
-    snapshot_hashes = stage45c._snapshot_expectations_from_stats(paths["full24_runtime_statistics"])
-    result["snapshots"] = stage45c._verify_snapshots(paths["snapshot_root"], snapshot_hashes)
+    result["groot_source"] = stage45c._verify_groot_source_snapshot(
+        paths["groot_source"], paths["groot_runtime_manifest"]
+    )
+    closure = stage45c._verify_train24_descriptor_closure(paths["snapshot_root"], paths["full24_dataset"])
+    result["snapshot_closure"] = {key: value for key, value in closure.items() if key != "snapshots"}
+    result["snapshots"] = closure["snapshots"]
     _require(len(result["snapshots"]) == WINDOW_COUNT, "TRAIN24 snapshot count drift")
     return result
 
@@ -623,11 +623,17 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
         common.write_json_durable(output_root / "admission.json", admission_result)
         common.write_json_durable(output_root / "profile.json", profile)
 
-        # These imports remain after admission and before model construction;
-        # all byte identity and snapshot checks happen before the first model.
+        # Artifact and descriptor verification is deliberately performed with
+        # the CPU-only Stage45C module before importing Torch/GR00T/model code.
+        import stage45c_h200_eval_runtime_adapter as stage45c
+
+        artifacts = _verify_runtime_artifacts(paths, stage45c)
+        _require(not admission.model_imports_present(), "model-side module imported during pre-model artifact verification")
+
+        # These imports remain after admission and all artifact checks;
+        # model construction starts only below this point.
         torch, stage26, stage38, stage45c, shared_runtime = _load_runtime_after_admission()
         build_runtime_processor = shared_runtime[1]
-        artifacts = _verify_runtime_artifacts(paths, stage45c)
         snapshot_records = artifacts["snapshots"]
         snapshots = [stage26._load_snapshot(Path(record["path"])) for record in snapshot_records]
         runtime_processor, embodiment, modality_configs = build_runtime_processor(
@@ -665,11 +671,12 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
             "noise_sha256_by_seed_window": noise_hashes,
         })
         device = torch.device(DEVICE)
-        _require(torch.cuda.is_available(), "CUDA is unavailable on the admitted 4080S runtime")
+        _require(torch.cuda.is_available(), "CUDA is unavailable on the admitted H200 runtime")
         _require(device.index == 0, "full D1 may use only cuda:0")
         properties = torch.cuda.get_device_properties(device)
         total_vram = int(properties.total_memory)
-        _require(total_vram >= MIN_VRAM_BYTES, "selected GPU is below the 32GB floor")
+        _require("H200" in str(properties.name).upper(), "selected GPU is not an H200")
+        _require(total_vram >= MIN_VRAM_BYTES, "selected H200 is below the 80GiB floor")
         observed_gpu = _mapping(observed.get("host_gpu_runtime"), field="observed.host_gpu_runtime")
         _require(str(properties.name) == str(observed_gpu.get("gpu_name", observed_gpu.get("gpu", properties.name))), "observed GPU name differs from runtime")
         if observed_gpu.get("total_vram_bytes") is not None:
@@ -677,7 +684,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
         counters["gpu"] = 1
         torch.cuda.reset_peak_memory_stats(device)
         telemetry: dict[str, Any] = {
-            "schema": "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_TELEMETRY_V1",
+            "schema": "VANDA_STAGE45D_D1_H200_FULL_TELEMETRY_V1",
             "host": observed_gpu.get("host"),
             "gpu_name": str(properties.name),
             "gpu_uuid": observed_gpu.get("gpu_uuid"),
@@ -796,7 +803,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
         telemetry["cuda_peak_allocated_bytes"] = int(torch.cuda.max_memory_allocated(device))
         telemetry["cuda_peak_reserved_bytes"] = int(torch.cuda.max_memory_reserved(device))
         telemetry["resource_margin"] = margin
-        _require(margin["pass"], "CORELAB_RESOURCE_BLOCKER: VRAM margin below PI0111 floor")
+        _require(margin["pass"], "VANDA_H200_RESOURCE_BLOCKER: VRAM margin below PI0116 floor")
         all_rows = []
         with raw_jsonl.open("r", encoding="utf-8") as handle:
             for line in handle:
@@ -839,15 +846,15 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
                 "WBC": 0,
                 "simulator": 0,
                 "hardware": 0,
-                "pbs": 0,
-                "h200": 0,
+                "pbs": 1,
+                "h200": 1,
             },
         }
         common.write_json_durable(output_root / "telemetry.json", telemetry)
         common.write_json_durable(output_root / "full_seal.json", seal)
         return seal
     except Exception as exc:
-        token = "STAGE45D_D1_CORELAB_RESOURCE_BLOCKER_FOR_PI_REVIEW" if "RESOURCE_BLOCKER" in str(exc) else "STAGE45D_D1_SCIENTIFIC_BLOCKER_FOR_PI_REVIEW" if any(word in str(exc).lower() for word in ("nonfinite", "shape", "stats route", "mask", "target xyz", "normalization")) else "STAGE45D_D1_ENGINEERING_REPAIR_BUDGET_EXHAUSTED"
+        token = "STAGE45D_D1_VANDA_H200_ENGINEERING_BLOCKED_FOR_PI_REVIEW" if "RESOURCE_BLOCKER" in str(exc) else "STAGE45D_D1_VANDA_H200_SCIENTIFIC_BLOCKER_FOR_PI_REVIEW" if any(word in str(exc).lower() for word in ("nonfinite", "shape", "stats route", "mask", "target xyz", "normalization")) else "STAGE45D_D1_VANDA_H200_ENGINEERING_BLOCKED_FOR_PI_REVIEW"
         _failure_seal(output_root, str(exc), counters, token=token)
         raise
 
@@ -868,7 +875,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             _require(args.runtime_binding is not None, "--execute requires --runtime-binding")
             profile = validate_profile(args.profile)
-            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0111 full runtime is not authorized")
+            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0116 H200 full runtime is not authorized")
             authority_token = os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_AUTHORITY_TOKEN", "")
             payload = execute(_read_json(Path(args.runtime_binding)), profile=profile, authority_token=authority_token)
         print(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))

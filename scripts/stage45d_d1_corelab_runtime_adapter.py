@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Corelab-local Stage45D-D1 bounded 4080S runtime adapter.
+"""Vanda Stage45D-D1 bounded H200 smoke runtime adapter.
 
 The committed ``--plan-only`` and ``--audit-only`` paths are CPU/static only.
 They freeze one explicit preflight profile and verify the Stage45D admission
@@ -46,10 +46,11 @@ import stage45d_d1_runtime_admission as admission  # noqa: E402
 PROFILE_PATH = REPO / "manifests" / "STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json"
 ADAPTER_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_4080S_RUNTIME_ADAPTER_V1"
 PROFILE_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1"
-RETURN_TOKEN = "STAGE45D_D1_CORELAB_RUNTIME_READY_FOR_4080S_PREFLIGHT"
-SMOKE_PASS_TOKEN = "STAGE45D_D1_4080S_SMOKE_PASS_AUTO_CONTINUE_FULL"
-PI_GATE_COMMENT = 5618259751
-SUPPORT_HEAD = "8b5bb8c9f87ff01f79cd918d099a41173d74f7bc"
+RETURN_TOKEN = "STAGE45D_D1_VANDA_H200_SMOKE_STATIC_READY"
+SMOKE_PASS_TOKEN = "STAGE45D_D1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
+PI_GATE_COMMENT = 5629246685
+PR49_POINTER_COMMENT = 5629248074
+SUPPORT_HEAD = "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
 CHECKPOINT = "FULL24@2000"
 CHECKPOINT_TREE_SHA256 = "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
 STATS_SHA256 = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
@@ -63,8 +64,8 @@ T_BUCKETS = (67, 369, 783)
 RAW_SHAPE = (1, 40, 132)
 PHYSICAL_SHAPE = (40, 10)
 DEVICE = "cuda:0"
-GPU_ROLE = "RTX4080S_32GB_PRIMARY"
-MIN_VRAM_BYTES = 34359738368
+GPU_ROLE = "HOPPER_H200_SINGLE_GPU"
+MIN_VRAM_BYTES = 85899345920
 FORBIDDEN_IMPORTS = {"torch", "transformers", "gr00t", "cuda"}
 REQUIRED_PATHS = (
     "base_checkpoint",
@@ -83,7 +84,7 @@ REQUIRED_PATHS = (
 
 
 class AdapterError(RuntimeError):
-    """Raised when the Corelab preflight cannot be admitted."""
+    """Raised when the Vanda H200 smoke cannot be admitted."""
 
 
 def _require(condition: bool, message: str) -> None:
@@ -214,8 +215,8 @@ def validate_profile(path: Path = PROFILE_PATH) -> dict[str, Any]:
     _require(payload.get("status") == "READY_FOR_PI_REVIEW_NOT_EXECUTED", "preflight profile is not static-only")
     _require(payload.get("return_token") == RETURN_TOKEN, "preflight return token drift")
     authority = _mapping(payload.get("authority"), field="profile.authority")
-    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0109 authority drift")
-    _require(authority.get("resource_policy_comment") == 5617773953, "resource policy reference drift")
+    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0116 authority drift")
+    _require(authority.get("pr_49_comment") == PR49_POINTER_COMMENT, "PR #49 pointer drift")
     _require(authority.get("prepared_from_support_head") == SUPPORT_HEAD, "preflight support-base drift")
     adapter = _mapping(payload.get("runtime_adapter"), field="profile.runtime_adapter")
     _require(adapter.get("path") == "scripts/stage45d_d1_corelab_runtime_adapter.py", "adapter path drift")
@@ -279,7 +280,7 @@ def validate_profile(path: Path = PROFILE_PATH) -> dict[str, Any]:
     _require(mask.get("legacy_first_ten_rejected") is True, "legacy first-ten mask is not rejected")
     validate_preflight_device_request(_mapping(payload.get("device_policy"), field="profile.device_policy"))
     telemetry = _mapping(payload.get("runtime_telemetry"), field="profile.runtime_telemetry")
-    _require(telemetry.get("schema") == "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_TELEMETRY_V1", "telemetry schema drift")
+    _require(telemetry.get("schema") == "VANDA_STAGE45D_D1_H200_SMOKE_TELEMETRY_V1", "telemetry schema drift")
     _require(telemetry.get("materialized_now") is False and telemetry.get("all_observed_gpu_fields_now") is None, "telemetry was materialized early")
     evidence = _mapping(payload.get("evidence"), field="profile.evidence")
     _require(evidence.get("raw_before_derived") is True and evidence.get("physical_source") == "x1_hat_only", "evidence ordering/source drift")
@@ -293,7 +294,7 @@ def validate_preflight_device_request(request: Mapping[str, Any]) -> dict[str, A
     """Validate the future single-device policy without touching CUDA."""
 
     _require(request.get("selected_device") == DEVICE, "preflight must select cuda:0")
-    _require(request.get("selected_gpu_role") == GPU_ROLE, "preflight must select the 32GB primary GPU")
+    _require(request.get("selected_gpu_role") == GPU_ROLE, "smoke must select one Hopper H200 GPU")
     _require(request.get("minimum_vram_bytes") == MIN_VRAM_BYTES, "preflight VRAM floor drift")
     for key in ("allow_16gb_secondary_fallback", "allow_multi_gpu", "allow_sharding", "allow_data_parallel", "oom_retry"):
         _require(request.get(key) is False, f"preflight device policy permits forbidden mode: {key}")
@@ -436,7 +437,7 @@ def write_probe_evidence(
 def validate_static_contract(profile_path: Path = PROFILE_PATH) -> dict[str, Any]:
     profile = validate_profile(profile_path)
     guard = static_guard()
-    _require(guard["status"] == "PASS", "Corelab adapter static guard failed")
+    _require(guard["status"] == "PASS", "Vanda H200 smoke adapter static guard failed")
     harness.validate_reviewed_protocol()
     harness.validate_execution_manifest()
     harness.validate_runtime_binding_template()
@@ -486,7 +487,7 @@ def _runtime_failure_seal(output_root: Path | None, reason: str, counters: Mappi
     try:
         output_root.mkdir(parents=True, exist_ok=True)
         write_json_durable(output_root / "FAILURE_SEAL.json", {
-            "schema": "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_FAILURE_SEAL_V1",
+            "schema": "VANDA_STAGE45D_D1_H200_SMOKE_FAILURE_SEAL_V1",
             "status": "FAIL",
             "reason": str(reason),
             "counters": dict(counters),
@@ -498,7 +499,7 @@ def _runtime_failure_seal(output_root: Path | None, reason: str, counters: Mappi
 
 
 def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], authority_token: str) -> dict[str, Any]:
-    """Guarded future execution; PI0109 does not enter this function."""
+    """Guarded PI0116 H200 smoke execution."""
 
     binding = _mapping(runtime_document.get("binding", runtime_document), field="runtime_document.binding")
     observed = _mapping(runtime_document.get("observed"), field="runtime_document.observed")
@@ -540,15 +541,16 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
 
         # Only now may model/runtime modules enter the process.
         torch, build_runtime_processor, load_structured_model, offline_step, prepare_conditioning, decode_v2, prepare_windows = _load_runtime_after_admission()
-        _require(torch.cuda.is_available(), "CUDA is unavailable on the admitted Corelab preflight")
+        _require(torch.cuda.is_available(), "CUDA is unavailable on the admitted H200 smoke runtime")
         device = torch.device(DEVICE)
-        _require(device.index == 0, "Corelab preflight may use only cuda:0")
+        _require(device.index == 0, "H200 smoke may use only cuda:0")
         properties = torch.cuda.get_device_properties(device)
-        _require(int(properties.total_memory) >= MIN_VRAM_BYTES, "selected GPU does not meet the 32GB floor")
+        _require("H200" in str(properties.name).upper(), "selected GPU is not an H200")
+        _require(int(properties.total_memory) >= MIN_VRAM_BYTES, "selected H200 does not meet the 80GiB floor")
         counters["gpu"] = 1
         torch.cuda.reset_peak_memory_stats(device)
         telemetry = {
-            "schema": "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_TELEMETRY_V1",
+            "schema": "VANDA_STAGE45D_D1_H200_SMOKE_TELEMETRY_V1",
             "host": observed["host_gpu_runtime"].get("host"),
             "gpu_name": str(properties.name),
             "gpu_uuid": observed["host_gpu_runtime"].get("gpu_uuid"),
@@ -637,10 +639,10 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
                 "pass": bool(total_vram - peak_reserved >= required_free),
             }
             telemetry["resource_margin"] = resource_margin
-            _require(resource_margin["pass"], "CORELAB_RESOURCE_BLOCKER: VRAM margin below PI0111 floor")
+            _require(resource_margin["pass"], "VANDA_H200_RESOURCE_BLOCKER: VRAM margin below PI0116 floor")
             telemetry["per_probe_latency_s"] = [row["latency_s"] for row in rows]
             seal = {
-                "schema": "CORELAB_STAGE45D_D1_4080S_PREFLIGHT_SEAL_V1",
+                "schema": "VANDA_STAGE45D_D1_H200_SMOKE_SEAL_V1",
                 "status": "PASS",
                 "token": SMOKE_PASS_TOKEN,
                 "profile_sha256": sha256_file(PROFILE_PATH),
@@ -661,6 +663,8 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
                     "WBC": 0,
                     "simulator": 0,
                     "hardware": 0,
+                    "pbs": 1,
+                    "h200": 1,
                 },
             }
             write_json_durable(output_root / "preflight_telemetry.json", telemetry)
@@ -695,7 +699,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             _require(args.runtime_binding is not None, "--execute requires --runtime-binding")
             profile = validate_profile(args.profile)
-            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0109 preflight runtime is not authorized")
+            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0116 H200 smoke runtime is not authorized")
             authority_token = os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_AUTHORITY_TOKEN", "")
             document = read_json(Path(args.runtime_binding))
             payload = execute(document, profile=profile, authority_token=authority_token)

@@ -31,7 +31,7 @@ def test_profile_static_contract_and_guard() -> None:
     assert guard["forbidden_call_hits"] == []
 
 
-def test_profile_device_policy_rejects_16gb_multigpu_and_retry() -> None:
+def test_profile_device_policy_rejects_fallback_multigpu_and_retry() -> None:
     profile = adapter.validate_profile()
     request = dict(profile["device_policy"])
     request["allow_16gb_secondary_fallback"] = True

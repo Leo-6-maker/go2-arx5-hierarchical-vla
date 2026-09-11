@@ -126,14 +126,14 @@ CHECKPOINT_EXPECTATIONS = {
     },
     "FULL24@1000": {
         "tree_sha256": FULL24_1000_TREE_SHA256,
-        "tree_prefix": "stage45b/checkpoint-1000",
+        "tree_prefix": "checkpoint-1000",
         "role": "PRIMARY_COVERAGE_ENDPOINT",
         "decode_kind": "FULL24_RUNTIME_V2_STATISTICS",
         "decode_stats_sha256": FULL24_STATS_SHA256,
     },
     "FULL24@2000": {
         "tree_sha256": FULL24_2000_TREE_SHA256,
-        "tree_prefix": "stage45b/checkpoint-2000",
+        "tree_prefix": "checkpoint-2000",
         "role": "SECONDARY_EXPOSURE_ENDPOINT",
         "decode_kind": "FULL24_RUNTIME_V2_STATISTICS",
         "decode_stats_sha256": FULL24_STATS_SHA256,
@@ -698,11 +698,12 @@ def _verify_full24_manifest(path: Path) -> dict[str, Any]:
 def _verify_release_manifest(path: Path) -> dict[str, Any]:
     identity = _hash_identity(path, PROMOTION_SHA256, "Golden Release promotion manifest")
     document = read_json(path)
-    if isinstance(document, Mapping):
-        if document.get("status") is not None:
-            _require(document.get("status") in {"SEALED", "ACCEPTED_READ_ONLY"}, "Golden Release status is not sealed/read-only")
-        if document.get("release_id") is not None:
-            _equal(document.get("release_id"), "GOLDEN_TRAINING_RELEASE_V2", "Golden Release ID")
+    _equal(document.get("schema"), "STAGE45B_B2_GOLDEN_TRAINING_RELEASE_V2_PROMOTION_V1", "Golden Release promotion schema")
+    _equal(document.get("status"), "PASS", "Golden Release promotion status")
+    _equal(document.get("immutable"), True, "Golden Release immutable flag")
+    release = document.get("release_v2")
+    _require(isinstance(release, Mapping), "Golden Release V2 identity is absent")
+    _equal(release.get("sha256"), RELEASE_V2_SHA256, "Golden Release V2 SHA256")
     return identity
 
 
@@ -717,6 +718,97 @@ def _verify_groot_runtime_manifest(path: Path) -> dict[str, Any]:
     if payload_tree is not None:
         _equal(payload_tree, GROOT_PAYLOAD_TREE_SHA256, "GR00T payload tree")
     return identity
+
+
+def _verify_groot_source_snapshot(source_root: Path, manifest_path: Path) -> dict[str, Any]:
+    """Verify a git or gitless GR00T snapshot against its sealed manifest.
+
+    Hopper's accepted source materialization is intentionally gitless.  A
+    missing ``.git`` directory is therefore not an identity waiver: every
+    regular file, symlink, and gitlink declared by the immutable snapshot
+    manifest is checked, and the canonical payload tree digest is recomputed.
+    """
+
+    regular_directory(source_root, "GR00T source snapshot")
+    manifest = read_json(manifest_path)
+    _equal(manifest.get("origin_commit"), GROOT_SOURCE_COMMIT, "GR00T source manifest commit")
+    _equal(manifest.get("payload_tree_sha256"), GROOT_PAYLOAD_TREE_SHA256, "GR00T source manifest payload tree")
+    entries = manifest.get("entries")
+    _require(isinstance(entries, list), "GR00T source manifest entries are absent")
+    prefix = str(manifest.get("source_prefix", "")).rstrip("/")
+    _require(prefix == "groot-source", "GR00T source manifest prefix drift")
+    expected_paths: set[str] = set()
+    digest_entries: list[dict[str, Any]] = []
+    for entry in entries:
+        _require(isinstance(entry, Mapping), "GR00T source manifest entry is not an object")
+        relative = entry.get("path")
+        kind = entry.get("kind")
+        expected_value = entry.get("sha256_or_symlink_target")
+        size = entry.get("size_bytes")
+        _require(isinstance(relative, str) and relative and not relative.startswith("/"), "GR00T source manifest path is invalid")
+        _require(relative not in expected_paths, f"duplicate GR00T source manifest path: {relative}")
+        expected_paths.add(relative)
+        candidate = source_root / relative
+        try:
+            mode = candidate.lstat().st_mode
+        except OSError as exc:
+            raise AdapterError(f"GR00T source manifest entry is missing: {relative}") from exc
+        if kind == "regular":
+            _require(stat.S_ISREG(mode) and not stat.S_ISLNK(mode), f"GR00T source regular entry drift: {relative}")
+            _equal(int(candidate.stat().st_size), int(size), f"GR00T source size {relative}")
+            _equal(sha256_file(candidate), expected_value, f"GR00T source SHA {relative}")
+            digest_entries.append({"path": f"{prefix}/{relative}", "bytes": int(size), "sha256": expected_value})
+        elif kind == "symlink":
+            _require(stat.S_ISLNK(mode), f"GR00T source symlink entry drift: {relative}")
+            _equal(os.readlink(candidate), expected_value, f"GR00T source symlink {relative}")
+            digest_entries.append({"path": f"{prefix}/{relative}", "bytes": int(size), "sha256": expected_value})
+        elif kind == "gitlink":
+            _require(stat.S_ISDIR(mode) and not stat.S_ISLNK(mode), f"GR00T source gitlink entry drift: {relative}")
+            _equal(int(size), 0, f"GR00T source gitlink size {relative}")
+            digest_entries.append({"path": f"{prefix}/{relative}", "bytes": 0, "sha256": expected_value})
+        else:
+            raise AdapterError(f"unknown GR00T source manifest entry kind: {kind!r}")
+    _equal(len(entries), int(manifest.get("tracked_entry_count")), "GR00T source manifest entry count")
+    # The accepted Stage45B payload identity is the canonical JSON hash of the
+    # manifest entries.  The per-entry checks above still bind every byte; do
+    # not substitute the D1 runtime tree-digest law here.
+    _equal(canonical_sha256(entries), GROOT_PAYLOAD_TREE_SHA256, "GR00T source payload tree")
+
+    # Reject importable files not represented by the sealed manifest.  Empty
+    # directories that only host a declared gitlink are allowed.
+    observed_files: set[str] = set()
+    observed_gitlink_dirs: set[str] = set()
+    for directory, dirnames, filenames in os.walk(source_root, followlinks=False):
+        directory_path = Path(directory)
+        for dirname in list(dirnames):
+            child = directory_path / dirname
+            mode = child.lstat().st_mode
+            relative = child.relative_to(source_root).as_posix()
+            if stat.S_ISLNK(mode):
+                observed_files.add(relative)
+                dirnames.remove(dirname)
+            elif stat.S_ISDIR(mode):
+                if relative in expected_paths:
+                    observed_gitlink_dirs.add(relative)
+        for filename in filenames:
+            observed_files.add((directory_path / filename).relative_to(source_root).as_posix())
+    _require(observed_files == {item for item in expected_paths if item not in {entry.get("path") for entry in entries if entry.get("kind") == "gitlink"}}, "GR00T source has unmanifested files")
+    _require(observed_gitlink_dirs == {entry.get("path") for entry in entries if entry.get("kind") == "gitlink"}, "GR00T source gitlink set drift")
+    git_dir = source_root / ".git"
+    if git_dir.exists():
+        git_head = subprocess.run(["git", "-C", str(source_root), "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+        _require(git_head.returncode == 0 and git_head.stdout.strip() == GROOT_SOURCE_COMMIT, "GR00T source HEAD mismatch")
+        git_mode = "git"
+    else:
+        git_mode = "gitless_manifest_bound"
+    return {
+        "source_root": str(source_root),
+        "source_commit": GROOT_SOURCE_COMMIT,
+        "payload_tree_sha256": GROOT_PAYLOAD_TREE_SHA256,
+        "manifest_sha256": sha256_file(manifest_path),
+        "entry_count": len(entries),
+        "git_mode": git_mode,
+    }
 
 
 def _verify_stats(path: Path, expected_sha: str, expected_payload: str | None, label: str) -> dict[str, Any]:
@@ -848,6 +940,27 @@ def _verify_snapshots(snapshot_root: Path, expected_hashes: Sequence[str] | None
     return records
 
 
+def _verify_train24_descriptor_closure(snapshot_root: Path, dataset_root: Path) -> dict[str, Any]:
+    """Verify the deterministic all-24 descriptor closure before model import.
+
+    The six surviving historical JSONs remain provenance witnesses only.  The
+    closure verifier binds every descriptor to the accepted FULL24 parquet and
+    both accepted video streams, then the ordinary snapshot parser supplies
+    the records consumed by the unchanged evaluation path.
+    """
+
+    import stage45d_d1_train24_descriptor_closure as closure
+
+    summary = closure.verify(dataset_root=Path(dataset_root), snapshot_root=Path(snapshot_root))
+    manifest = read_json(Path(snapshot_root) / closure.CLOSURE_MANIFEST_NAME)
+    ordered = manifest.get("ordered_records")
+    _require(isinstance(ordered, list) and len(ordered) == 24, "descriptor closure ordered records are not all-24")
+    expected_hashes = [row.get("descriptor_sha256") for row in ordered if isinstance(row, Mapping)]
+    _require(len(expected_hashes) == 24 and all(isinstance(item, str) and len(item) == 64 for item in expected_hashes), "descriptor closure SHA list is incomplete")
+    summary["snapshots"] = _verify_snapshots(Path(snapshot_root), expected_hashes)
+    return summary
+
+
 def runtime_preflight(binding: Mapping[str, Any], mapping_summary: Mapping[str, Any]) -> dict[str, Any]:
     """Re-hash every late-bound byte before importing the model runtime."""
 
@@ -887,8 +1000,9 @@ def runtime_preflight(binding: Mapping[str, Any], mapping_summary: Mapping[str, 
         source_commit = completed.stdout.strip()
         _equal(source_commit, GROOT_SOURCE_COMMIT, "GR00T source HEAD")
     result["groot_source"] = {"path": str(source_root), "git_head": source_commit, "expected_commit": GROOT_SOURCE_COMMIT}
-    snapshot_records = _snapshot_expectations_from_stats(Path(paths["full24_runtime_statistics"]))
-    result["snapshots"] = _verify_snapshots(Path(paths["snapshot_root"]), snapshot_records)
+    closure = _verify_train24_descriptor_closure(Path(paths["snapshot_root"]), Path(paths["full24_dataset"]))
+    result["snapshot_closure"] = {key: value for key, value in closure.items() if key != "snapshots"}
+    result["snapshots"] = closure["snapshots"]
     _require(len(result["snapshots"]) == 24, "TRAIN24 snapshot count drift")
     result["status"] = "PASS"
     return result

@@ -2,18 +2,18 @@
   "schema": "CORELAB_STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1",
   "status": "READY_FOR_PI_REVIEW_NOT_EXECUTED",
   "stage": "Stage45D-D1",
-  "owner": "corelab",
+  "owner": "vanda_hopper",
   "authority": {
-    "issue_11_comment": 5618670354,
-    "issue_50_comment": 5618673348,
-    "prepared_from_support_head": "c07e31c2eb60e520decab4f4390a4f56599b1f57"
+    "issue_11_comment": 5629246685,
+    "pr_49_comment": 5629248074,
+    "prepared_from_support_head": "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
   },
-  "return_token": "STAGE45D_D1_CORELAB_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW",
+  "return_token": "STAGE45D_D1_VANDA_H200_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW",
   "runtime_adapter": {
     "path": "scripts/stage45d_d1_corelab_full_runtime_adapter.py",
-    "sha256": "996c3a4adc9e29dbf8c295672259c9b821963f1ec659831c3a0086780095d2cc",
+    "sha256": "5773972862dc6b662aa188c50a0cad56a8bd035840ddbbe90bbe92e1fe9b174c",
     "common_adapter_path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
-    "common_adapter_sha256": "2b0fa3142df8d5d2773183cd4211d3c656acf0149484050759723e7e0cc1571e",
+    "common_adapter_sha256": "0406511e427c8d9789e8e328de35c32f84576eaec5b7dd796c6fb797e6fc0b8e",
     "top_level_model_imports": false,
     "imports_after_admission_only": true
   },
@@ -72,8 +72,8 @@
   },
   "device_policy": {
     "selected_device": "cuda:0",
-    "selected_gpu_role": "RTX4080S_32GB_PRIMARY",
-    "minimum_vram_bytes": 34359738368,
+    "selected_gpu_role": "HOPPER_H200_SINGLE_GPU",
+    "minimum_vram_bytes": 85899345920,
     "allow_16gb_secondary_fallback": false,
     "allow_multi_gpu": false,
     "allow_sharding": false,
@@ -83,7 +83,7 @@
   },
   "resource_margin": {
     "formula": "free_bytes >= max(2GiB, 5%*total_vram_bytes)",
-    "minimum_free_bytes": 2147483648
+    "minimum_free_bytes": 4294967296
   },
   "engineering_repair_budget": {"max_repair_cycles": 2, "max_smoke_attempts": 3},
   "evidence": {

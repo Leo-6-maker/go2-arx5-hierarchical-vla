@@ -1,0 +1,47 @@
+#!/bin/bash
+# PI0116: one H200 allocation, one smoke, then exact automatic full D1.
+# No retry, training, sampler/get_action, Validation-E/Holdout-F, WBC, sim, or hardware.
+
+#PBS -N st45d_d1
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45D_REPO:?Set the exact clean Stage45D execution checkout}"
+: "${STAGE45D_EXPECTED_HEAD:?Set the exact pushed execution HEAD}"
+: "${STAGE45D_RUNTIME_PATHS:?Set the external Hopper runtime paths JSON}"
+: "${STAGE45D_EVIDENCE_ROOT:?Set a fresh evidence root}"
+: "${STAGE45D_PYTHON:?Set the admitted H200 runtime Python}"
+: "${STAGE45D_FFMPEG_RUNTIME_ROOT:?Set the sealed native FFmpeg runtime root}"
+: "${STAGE45D_TORCHCODEC_PACKAGE_ROOT:?Set the admitted TorchCodec package root}"
+: "${STAGE45D_TORCH_LIBRARY_ROOT:?Set the admitted Torch library root}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${STAGE45D_PYTHON}"
+test "$(readlink -f "${STAGE45D_PYTHON}")" = "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12"
+test -f "${STAGE45D_RUNTIME_PATHS}"
+test ! -L "${STAGE45D_RUNTIME_PATHS}"
+test ! -e "${STAGE45D_EVIDENCE_ROOT}"
+test "$(git -C "${STAGE45D_REPO}" branch --show-current)" = "stage45d/vanda-h200-d1-execution"
+test "$(git -C "${STAGE45D_REPO}" rev-parse HEAD)" = "${STAGE45D_EXPECTED_HEAD}"
+test -z "$(git -C "${STAGE45D_REPO}" status --porcelain=v1 --untracked-files=all)"
+
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${STAGE45D_FFMPEG_RUNTIME_ROOT}/lib:${STAGE45D_FFMPEG_RUNTIME_ROOT}/compat:${STAGE45D_TORCHCODEC_PACKAGE_ROOT}:${STAGE45D_TORCH_LIBRARY_ROOT}:${ambient_ld_library_path}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+unset PYTHONPATH 2>/dev/null || true
+
+# Exercise the committed absolute-path bootstrap from a foreign CWD.
+cd "${TMPDIR:-/tmp}"
+exec "${STAGE45D_PYTHON}" "${STAGE45D_REPO}/scripts/stage45d_d1_vanda_h200_launcher.py" \
+  --execute \
+  --paths "${STAGE45D_RUNTIME_PATHS}" \
+  --evidence-root "${STAGE45D_EVIDENCE_ROOT}" \
+  --expected-head "${STAGE45D_EXPECTED_HEAD}" \
+  --authority-token PI_GATE_STATE_0116 \
+  --repair-cycle 0 \
+  --smoke-attempt 1
