@@ -99,3 +99,19 @@ def test_inference_canary_drops_supervised_fields() -> None:
     assert '(output_root / "experiment_cfg").mkdir' in source
     assert 'dict(_LAST_EXECUTION_BOUNDARY)' in source
     assert source.count('torch.autocast(device_type="cuda", dtype=torch.bfloat16)') >= 2
+
+
+def test_train24_eval_static_boundary() -> None:
+    source = (ROOT / "scripts/stage45e_n2_train24_eval.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    top_level_imports: list[str] = []
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            top_level_imports.extend(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            top_level_imports.append(node.module or "")
+    assert not any(name.split(".")[0] in {"torch", "gr00t", "transformers", "isaacgym", "omni"} for name in top_level_imports)
+    assert "STAGE45E_N2_CORELAB_TRAIN24_EVALUATION_COMPLETE_FOR_PI_REVIEW" in source
+    assert "same_noise_across_checkpoints" in source
+    assert "sealed_aggregate_reproduction" in source
+    assert "automatic_winner" in source
