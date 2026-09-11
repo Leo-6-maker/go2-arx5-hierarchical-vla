@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE45E_L1_PHYSICAL_ERROR_AWARE_LOSS_V1",
+  "status": "STATIC_CONTRACT_NOT_EXECUTED",
+  "authority": {
+    "issue_11_comment": 5634852590,
+    "pr_54_comment": 5634856575,
+    "pi_gate": "PI_GATE_STATE_0123"
+  },
+  "branch": "stage45e/l1-physical-error-aware-loss",
+  "base_execution_head": "a843294780c1392369bfc987e468857c63fc13a5",
+  "intervention": {
+    "name": "physical-error-aware-XYZ-loss",
+    "full24_normalization_unchanged": true,
+    "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "mask": {
+      "schema": "T16_BINARY_UNCHANGED",
+      "shape": [40, 132],
+      "active_scalar_count": 190,
+      "inactive_scalar_count": 122
+    },
+    "loss_weights": {
+      "shape": [40, 132],
+      "geometry_rows": [0, 14],
+      "xyz_channels": [0, 1, 2],
+      "x": 1.401885,
+      "y": 0.472436,
+      "z": 1.125678,
+      "all_other_active": 1.0,
+      "inactive": 1.0,
+      "float32_matrix_sha256": "b844c1c9a0400ad25ed55d43eb9d5cfe932435bb52340539038e7f4d6ace93a9"
+    },
+    "formula": "sum((prediction-target)^2 * binary_action_mask * l1_loss_weight) / binary_action_mask.sum()",
+    "mask_folding": false,
+    "adaptive_renormalization": false,
+    "mean_weight_normalization": false
+  },
+  "training": {
+    "base": "FRESH_BASE_NO_RESUME",
+    "seed": 2222,
+    "max_steps": 2000,
+    "checkpoints": [1000, 2000],
+    "batch": 1,
+    "gradient_accumulation_steps": 1,
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "lr_scheduler": "cosine",
+    "warmup_steps": 10,
+    "max_grad_norm": 1.0,
+    "bf16": true,
+    "fp16": false,
+    "projector_trainable": true,
+    "diffusion_trainable": true,
+    "visual_frozen": true,
+    "llm_frozen": true,
+    "vlln_frozen": true,
+    "eval_strategy": "no"
+  },
+  "evaluation": {
+    "cohorts": ["FULL24@2000", "L1@1000", "L1@2000"],
+    "dataset": "FULL24_EXISTING_TRAIN",
+    "window_count": 24,
+    "seed": 4242,
+    "times": [0.0, 0.25, 0.5, 0.75],
+    "timestep_buckets": [0, 250, 500, 750],
+    "dt": 0.25,
+    "carried_euler": true,
+    "reset_between_stages": false,
+    "action_head_calls": 288,
+    "conditioning_passes": 72,
+    "total_model_side_calls": 360,
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "target_xyz_in_model_input": false,
+    "raw_before_derived": true
+  },
+  "locked": [
+    "N1",
+    "N2",
+    "N2_plus_L1",
+    "D2B",
+    "FULL24@4000",
+    "Validation-E",
+    "Holdout-F",
+    "WBC",
+    "simulator",
+    "hardware",
+    "merge"
+  ]
+}
