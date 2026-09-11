@@ -1,0 +1,53 @@
+#!/bin/bash
+# PI0119: one observed H200 D2A smoke, then exact automatic full execution.
+# No training, public sampler/get_action, Validation-E/Holdout-F, D2B,
+# WBC/sim/hardware, checkpoint writes, or automatic retry.
+
+#PBS -N st45d_d2a
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45D_D2A_REPO:?Set the exact clean D2A execution checkout}"
+: "${STAGE45D_D2A_EXPECTED_HEAD:?Set the exact pushed D2A execution HEAD}"
+: "${STAGE45D_D2A_RUNTIME_PATHS:?Set the sealed Hopper runtime paths JSON}"
+: "${STAGE45D_D2A_PYTHON:?Set the admitted H200 runtime Python}"
+: "${STAGE45D_D2A_FFMPEG_RUNTIME_ROOT:?Set the sealed native FFmpeg runtime root}"
+: "${STAGE45D_D2A_TORCHCODEC_PACKAGE_ROOT:?Set the admitted TorchCodec package root}"
+: "${STAGE45D_D2A_TORCH_LIBRARY_ROOT:?Set the admitted Torch library root}"
+: "${STAGE45D_D2A_REPAIR_CYCLE:?Set the D2A repair cycle}"
+: "${STAGE45D_D2A_SMOKE_ATTEMPT:?Set the D2A smoke attempt}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${STAGE45D_D2A_PYTHON}"
+test "$(readlink -f "${STAGE45D_D2A_PYTHON}")" = "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12"
+test -f "${STAGE45D_D2A_RUNTIME_PATHS}"
+test ! -L "${STAGE45D_D2A_RUNTIME_PATHS}"
+test "$(git -C "${STAGE45D_D2A_REPO}" branch --show-current)" = "stage45d/vanda-h200-d2a-path-divergence"
+test "$(git -C "${STAGE45D_D2A_REPO}" rev-parse HEAD)" = "${STAGE45D_D2A_EXPECTED_HEAD}"
+test -z "$(git -C "${STAGE45D_D2A_REPO}" status --porcelain=v1 --untracked-files=all)"
+
+final_head8="${STAGE45D_D2A_EXPECTED_HEAD:0:8}"
+evidence_root="/scratch/e1192548/stage45d_d2a_path_divergence_20260911_${final_head8}_${PBS_JOBID}"
+test ! -e "${evidence_root}"
+
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${STAGE45D_D2A_FFMPEG_RUNTIME_ROOT}/lib:${STAGE45D_D2A_FFMPEG_RUNTIME_ROOT}/compat:${STAGE45D_D2A_TORCHCODEC_PACKAGE_ROOT}:${STAGE45D_D2A_TORCH_LIBRARY_ROOT}:${ambient_ld_library_path}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export STAGE45D_D2A_RUNTIME=authorized
+export STAGE45D_D2A_AUTHORITY_TOKEN=PI_GATE_STATE_0119
+unset PYTHONPATH 2>/dev/null || true
+
+# Exercise the committed absolute-path bootstrap from a foreign CWD.
+cd "${TMPDIR:-/tmp}"
+exec "${STAGE45D_D2A_PYTHON}" "${STAGE45D_D2A_REPO}/scripts/stage45d_d2a_vanda_h200_launcher.py" \
+  --execute \
+  --paths "${STAGE45D_D2A_RUNTIME_PATHS}" \
+  --evidence-root "${evidence_root}" \
+  --expected-head "${STAGE45D_D2A_EXPECTED_HEAD}" \
+  --repair-cycle "${STAGE45D_D2A_REPAIR_CYCLE}" \
+  --smoke-attempt "${STAGE45D_D2A_SMOKE_ATTEMPT}"

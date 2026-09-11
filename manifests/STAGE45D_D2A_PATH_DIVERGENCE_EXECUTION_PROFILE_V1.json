@@ -1,0 +1,105 @@
+{
+  "schema": "CORELAB_STAGE45D_D2A_PATH_DIVERGENCE_EXECUTION_PROFILE_V1",
+  "status": "READY_FOR_EXECUTION_NOT_EXECUTED",
+  "stage": "Stage45D-D2A",
+  "authority": {
+    "issue_11_comment": 5631604048,
+    "pr_51_comment": 5631608714,
+    "issue_50_comment": 5631610825
+  },
+  "branch": "stage45d/vanda-h200-d2a-path-divergence",
+  "base_execution_head": "00fe100722268da3134bc7bfe2b535fa86475f7d",
+  "runtime_adapter": {
+    "path": "scripts/stage45d_d2a_path_divergence.py",
+    "sha256": "b51e5d2c2195ffb8b5ef09d6c50220822992821252676558d1dd8089be55237c",
+    "top_level_model_imports": false,
+    "imports_after_admission_only": true
+  },
+  "admission": {
+    "path": "scripts/stage45d_d2a_runtime_admission.py",
+    "sha256": "2dafea89313d8f72eaa69a041d08277623d075c285ed354cf8c49e04fb53cc3c",
+    "top_level_model_imports": false
+  },
+  "execution": {
+    "checkpoint_order": [
+      "STRUCTURED@1000",
+      "FULL24@1000",
+      "FULL24@2000"
+    ],
+    "window_count": 24,
+    "window_order": "target-major then snapshot-major",
+    "noise_seed": 4242,
+    "t_values": [0.0, 0.25, 0.5, 0.75],
+    "t_buckets": [0, 250, 500, 750],
+    "dt": 0.25,
+    "path_order": [
+      "teacher_forced",
+      "free_running"
+    ],
+    "free_running_reset": false,
+    "t_zero_calls_independent": true,
+    "t_zero_deterministic_equality_required": true,
+    "full_action_head_calls": 576,
+    "full_conditioning_passes": 72,
+    "full_total_model_side_calls": 648,
+    "smoke_action_head_calls": 8,
+    "smoke_conditioning_passes": 1,
+    "smoke_total_model_side_calls": 9
+  },
+  "contract": {
+    "stage": "Stage45D-D2A",
+    "teacher_bridge": "x_TF(t)=(1-t)*x0+t*x1; v_TF(t)=model(x_TF(t),t)",
+    "free_running": "x_FR(0)=x0; v_FR(t_i)=model(x_FR(t_i),t_i); x_FR(t_i+1)=x_FR(t_i)+dt*v_FR(t_i)",
+    "free_running_reset": false,
+    "state_divergence": "masked active-190 norm of x_FR(t)-x_TF(t), overall and XYZ/rot6d/timing/gripper",
+    "field_sensitivity": "masked active-190 norm and cosine of v_FR(t)-v_TF(t), overall and blocks",
+    "teacher_bridge_local_error": "v_TF(t)-v_target in NORMALIZED_LOCAL_FLOW namespace",
+    "off_path_diagnostic": "v_FR(t)-v_target is descriptive only, not supervised error",
+    "t_zero": "two independent labeled action-head calls with exact deterministic equality required",
+    "raw_before_derived": true,
+    "target_xyz_in_model_input": false,
+    "solver_comparison": false
+  },
+  "locked_boundaries": {
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "hardware": "LOCKED",
+    "new_data": "LOCKED",
+    "simulator": "LOCKED",
+    "D2B_solver_comparison": "LOCKED"
+  },
+  "evidence": {
+    "raw_before_derived": true,
+    "raw_arrays": [
+      "x0",
+      "x1",
+      "x_tf",
+      "x_fr",
+      "v_target",
+      "v_tf",
+      "v_fr",
+      "x_tf_next",
+      "x_fr_next",
+      "mask"
+    ],
+    "path_divergence_namespace": "D2A_STATE_PATH_DIVERGENCE",
+    "field_sensitivity_namespace": "D2A_FIELD_SENSITIVITY",
+    "teacher_bridge_namespace": "NORMALIZED_LOCAL_FLOW",
+    "off_path_namespace": "DESCRIPTIVE_OFF_PATH_DIAGNOSTIC_NOT_SUPERVISED",
+    "physical_namespace": "DECODED_PHYSICAL_ACTION"
+  },
+  "device_policy": {
+    "selected_device": "cuda:0",
+    "selected_gpu_role": "HOPPER_H200_SINGLE_GPU",
+    "minimum_vram_bytes": 85899345920,
+    "allow_multi_gpu": false,
+    "allow_sharding": false,
+    "allow_oom_retry": false,
+    "offline_only": true
+  },
+  "return_tokens": {
+    "smoke": "STAGE45D_D2A_H200_SMOKE_PASS_AUTO_CONTINUE_FULL",
+    "full": "STAGE45D_D2A_VANDA_H200_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW"
+  }
+}

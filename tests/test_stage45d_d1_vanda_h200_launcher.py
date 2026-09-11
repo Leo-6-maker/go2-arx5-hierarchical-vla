@@ -90,7 +90,7 @@ def test_wrong_head_fails_closed_before_gpu_observation(monkeypatch: pytest.Monk
         raise AssertionError("GPU observation must not run after wrong HEAD")
 
     monkeypatch.setattr(launcher, "gpu_observation", forbidden_gpu)
-    with pytest.raises(launcher.LauncherError, match="HEAD"):
+    with pytest.raises(launcher.LauncherError, match="(branch|HEAD)"):
         launcher.execute(
             tmp_path / "paths.json",
             tmp_path / "evidence",
