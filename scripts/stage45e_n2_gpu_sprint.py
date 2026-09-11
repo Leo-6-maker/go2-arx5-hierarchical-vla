@@ -105,12 +105,31 @@ def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _json_ready(value: Any) -> Any:
+    """Normalize mapping keys before deterministic JSON sorting.
+
+    The accepted metric aggregator may use ``None`` as a sentinel key (for
+    example, an unset safety decision).  JSON itself stringifies such keys,
+    but ``sort_keys=True`` cannot order ``None`` alongside strings.  Convert
+    keys recursively at the evidence boundary only; numeric/list values and
+    metric semantics remain untouched.
+    """
+
+    if isinstance(value, Mapping):
+        return {("null" if key is None else str(key)): _json_ready(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_ready(item) for item in value]
+    if isinstance(value, Path):
+        return str(value)
+    return value
+
+
 def write_json(path: Path, value: Any, *, overwrite: bool = False) -> None:
     path = Path(path)
     require(overwrite or not path.exists(), f"refusing to overwrite evidence: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
-    temporary.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False, default=str) + "\n", encoding="utf-8")
+    temporary.write_text(json.dumps(_json_ready(value), indent=2, sort_keys=True, allow_nan=False, default=str) + "\n", encoding="utf-8")
     os.replace(temporary, path)
 
 
