@@ -4,7 +4,7 @@
 This preparation surface exists because job 612326 completed the frozen
 2000-step training lineage and failed only during post-training sidecar audit.
 The auditor never imports Torch/GR00T, never mutates the historical training
-root, and never launches evaluation.  It materializes a new acceptance record
+root, and never launches evaluation. It materializes a new acceptance record
 from immutable filesystem evidence only.
 """
 
@@ -233,14 +233,40 @@ def _failure(path: Path, expected_pbs_jobid: str) -> dict[str, Any]:
     require(value.get("wbc_steps") == 0 and value.get("simulator_steps") == 0 and value.get("hardware_steps") == 0, "forbidden downstream execution observed")
     observed_job = value.get("pbs_jobid")
     if observed_job is not None:
-        require(observed_job == expected_pbs_jobid, "PBS job identity drift")
+        require(observed_job == expected_pbs_jobid, "PBS job identity drift in failure seal")
     return {
         "sha256": sha256_file(path),
         "phase": "POST_TRAINING_AUDIT",
         "execution_head": TRAINING_HEAD,
-        "pbs_jobid": observed_job,
+        "pbs_jobid_if_serialized": observed_job,
         "action_head_forwards": 2000,
     }
+
+
+def _runtime_binding(path: Path, expected_pbs_jobid: str) -> dict[str, Any]:
+    value = read_json(path)
+    require(isinstance(value, Mapping), "runtime binding is not an object")
+    result: dict[str, Any] = {"sha256": sha256_file(path)}
+    for side_name in ("binding", "observed"):
+        side = value.get(side_name)
+        require(isinstance(side, Mapping), f"runtime binding missing {side_name}")
+        checkout = side.get("execution_checkout")
+        require(isinstance(checkout, Mapping), f"runtime binding {side_name} checkout missing")
+        require(checkout.get("authorized_branch") == BRANCH or checkout.get("observed_branch") == BRANCH, f"runtime binding {side_name} branch drift")
+        require(checkout.get("authorized_head") == TRAINING_HEAD or checkout.get("observed_head") == TRAINING_HEAD, f"runtime binding {side_name} HEAD drift")
+        host_gpu = side.get("host_gpu_runtime")
+        runtime = side.get("runtime_identity")
+        require(isinstance(host_gpu, Mapping) and host_gpu.get("pbs_jobid") == expected_pbs_jobid, f"runtime binding {side_name} host GPU PBS identity drift")
+        require(isinstance(runtime, Mapping) and runtime.get("pbs_jobid") == expected_pbs_jobid, f"runtime binding {side_name} runtime PBS identity drift")
+        result[side_name] = {
+            "branch": BRANCH,
+            "head": TRAINING_HEAD,
+            "host_gpu_pbs_jobid": host_gpu.get("pbs_jobid"),
+            "runtime_pbs_jobid": runtime.get("pbs_jobid"),
+            "host": host_gpu.get("host"),
+            "gpu_uuid": host_gpu.get("gpu_uuid"),
+        }
+    return result
 
 
 def static_guard() -> dict[str, Any]:
@@ -292,12 +318,15 @@ def audit(training_root: Path, output_root: Path, expected_pbs_jobid: str) -> di
     training_root = Path(training_root).expanduser().resolve()
     output_root = Path(output_root).expanduser().resolve()
     require(training_root.is_dir() and not training_root.is_symlink(), "training root unavailable or unsafe")
+    require(expected_pbs_jobid in training_root.name, "training root basename does not bind the expected PBS job id")
+    require(TRAINING_HEAD[:8] in training_root.name, "training root basename does not bind the historical training HEAD prefix")
     require(output_root != training_root and not output_root.is_relative_to(training_root), "recovery output must not be inside historical training root")
     require(not output_root.exists() and not output_root.is_symlink(), "recovery output root must be fresh")
     require(not (training_root / "stage45e_l1_training_result.json").exists(), "historical root already contains a normal PASS training result; provenance is ambiguous")
 
     guard = static_guard()
     require(guard["status"] == "PASS", "static guard failed")
+    runtime_binding = _runtime_binding(training_root / "stage45e_l1_runtime_binding.json", expected_pbs_jobid)
     failure = _failure(training_root / "stage45e_l1_failure.json", expected_pbs_jobid)
     events = _events(training_root / "stage45e_l1_events.jsonl")
     canary = _canary(training_root / "stage45e_l1_backward_canary.json")
@@ -307,7 +336,6 @@ def audit(training_root: Path, output_root: Path, expected_pbs_jobid: str) -> di
 
     supporting_files = {}
     for relative in (
-        "stage45e_l1_runtime_binding.json",
         "stage45e_l1_pre_model_admission.json",
         "stage45e_l1_input_audit.json",
     ):
@@ -324,7 +352,14 @@ def audit(training_root: Path, output_root: Path, expected_pbs_jobid: str) -> di
         "historical_training_head": TRAINING_HEAD,
         "audit_repair_head": AUDIT_REPAIR_HEAD,
         "branch": BRANCH,
-        "pbs_jobid": expected_pbs_jobid,
+        "pbs_identity": {
+            "expected_pbs_jobid": expected_pbs_jobid,
+            "root_name_contains_jobid": True,
+            "root_name_contains_training_head8": True,
+            "runtime_binding": runtime_binding,
+            "failure_seal_pbs_jobid_if_serialized": failure["pbs_jobid_if_serialized"],
+            "claim_boundary": "PBS identity is bound by the immutable runtime binding and output-root namespace; the historical failure seal is treated as optional corroboration because its schema did not guarantee a pbs_jobid field.",
+        },
         "failure_seal": failure,
         "events": events,
         "backward_canary": canary,
