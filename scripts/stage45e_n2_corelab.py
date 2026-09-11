@@ -34,7 +34,7 @@ import stage45e_n2_statistics as n2  # noqa: E402
 
 STAGE = "Stage45E"
 BRANCH = "stage45e/n2-balanced-xyz-normalization"
-PI_GATE = "PI_GATE_STATE_0121"
+PI_GATE = "PI_GATE_STATE_0122"
 EXPECTED_BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 EXPECTED_FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 EXPECTED_GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
@@ -464,6 +464,14 @@ def _run_canary(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, 
     model.eval()
     torch.cuda.reset_peak_memory_stats(device)
     inference_inputs = _sample_batch(dataset, collator)
+    # ``get_action`` is the inference-only path.  The collator also emits
+    # supervised ``action``/``action_mask`` fields for the backward canary;
+    # passing those through would select the training/RTC assertion path in
+    # GR00T rather than the frozen inference contract.
+    if isinstance(inference_inputs, Mapping):
+        inference_inputs = dict(inference_inputs)
+        inference_inputs.pop("action", None)
+        inference_inputs.pop("action_mask", None)
     with torch.inference_mode():
         inference_output = model.get_action(inference_inputs)
     inference_action = inference_output["action_pred"]

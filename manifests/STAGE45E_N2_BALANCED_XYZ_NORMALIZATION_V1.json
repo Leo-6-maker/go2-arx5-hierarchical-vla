@@ -4,8 +4,8 @@
   "stage": "Stage45E",
   "authority": {
     "issue": 11,
-    "pi_gate": "PI_GATE_STATE_0121",
-    "issue_comment": 5633708741,
+    "pi_gate": "PI_GATE_STATE_0122",
+    "issue_comment": 5633959841,
     "support_pointer_pr": 52,
     "support_pointer_issue": 50
   },
@@ -133,7 +133,7 @@
       "checkpoint_writes": 0,
       "weight_update": 0
     },
-    "fallback_token_on_exact_resource_failure": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_H200_FALLBACK_AUTHORIZED"
+    "fallback_token_on_exact_resource_failure": "STAGE45E_N2_CORELAB_4080_RESOURCE_BLOCKER_FOR_PI_REVIEW"
   },
   "execution_boundary": {
     "gpu": 0,
@@ -160,8 +160,9 @@
   },
   "return_tokens": {
     "cpu_static": "STAGE45E_N2_CPU_STATIC_ARTIFACT_READY",
-    "resource_blocked": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_H200_FALLBACK_AUTHORIZED",
-    "training_complete": "STAGE45E_N2_CORELAB_2000_TRAINING_COMPLETE_FOR_PI_REVIEW"
+    "resource_blocked": "STAGE45E_N2_CORELAB_4080_RESOURCE_BLOCKER_FOR_PI_REVIEW",
+    "training_complete": "STAGE45E_N2_CORELAB_2000_TRAINING_COMPLETE_FOR_PI_REVIEW",
+    "train24_complete": "STAGE45E_N2_CORELAB_4080_TRAIN24_COMPLETE_FOR_PI_REVIEW"
   },
   "locked": {
     "N1": true,

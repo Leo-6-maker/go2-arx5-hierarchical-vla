@@ -39,6 +39,10 @@ def test_manifest_binds_exact_one_factor_n2() -> None:
     assert manifest["source_runtime_v2"]["outer_sha256"] == n2.SOURCE_STATS_SHA256
     assert manifest["source_runtime_v2"]["payload_sha256"] == n2.SOURCE_PAYLOAD_SHA256
     assert manifest["source_runtime_v2"]["materialization_path_embedded"] is False
+    assert manifest["authority"]["pi_gate"] == "PI_GATE_STATE_0122"
+    assert manifest["authority"]["issue_comment"] == 5633959841
+    assert manifest["return_tokens"]["resource_blocked"] == "STAGE45E_N2_CORELAB_4080_RESOURCE_BLOCKER_FOR_PI_REVIEW"
+    assert manifest["return_tokens"]["train24_complete"] == "STAGE45E_N2_CORELAB_4080_TRAIN24_COMPLETE_FOR_PI_REVIEW"
 
 
 def test_source_identity_and_n2_artifact_if_local_fixture_exists(tmp_path: Path) -> None:
@@ -86,3 +90,9 @@ def test_n2_builder_has_no_model_runtime_imports() -> None:
     assert "model_constructed" in source
     assert "gpu" in source
     assert "wbc_steps" in source
+
+
+def test_inference_canary_drops_supervised_fields() -> None:
+    source = (ROOT / "scripts/stage45e_n2_corelab.py").read_text(encoding="utf-8")
+    assert 'inference_inputs.pop("action", None)' in source
+    assert 'inference_inputs.pop("action_mask", None)' in source
