@@ -202,6 +202,7 @@ def audit(value: Mapping[str, Any]) -> dict[str, Any]:
         },
         "stats_identity_changed": stats_identity_changed,
         "stats_numeric_normalization_changed": stats_values_changed,
+        "stats_change_detected": stats_values_changed,
         "normalization_decision_required": True,
         "automatic_acceptability_threshold_used": False,
         "groot_self_labels_present": False,
@@ -209,7 +210,7 @@ def audit(value: Mapping[str, Any]) -> dict[str, Any]:
         "holdout_f_read": False,
         "execution_authorized": False,
         "input_contract_sha256": canonical_sha(value),
-        "claim_boundary": "Clipping/support is descriptive. A provenance-only stats identity change is reported separately from a numerical center/half-range change. The tool defines no acceptable clipping threshold and authorizes no data collection or training.",
+        "claim_boundary": "Clipping/support is descriptive. A provenance-only stats identity change is reported separately from a numerical center/half-range change. The compatibility field stats_change_detected means numerical normalization change only. The tool defines no acceptable clipping threshold and authorizes no data collection or training.",
     }
 
 
