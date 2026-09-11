@@ -23,7 +23,11 @@ set -euo pipefail
 : "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
 
 test -x "${STAGE45D_D2A_PYTHON}"
-test "$(readlink -f "${STAGE45D_D2A_PYTHON}")" = "/cm/shared/apps/python/3.12.3/bin/python3.12"
+resolved_python="$(readlink -f "${STAGE45D_D2A_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "D2A admitted Python resolves outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
 test -d "$(dirname "${STAGE45D_D2A_PYTHON}")/../lib/python3.12/site-packages/torch"
 test -f "${STAGE45D_D2A_RUNTIME_PATHS}"
 test ! -L "${STAGE45D_D2A_RUNTIME_PATHS}"

@@ -22,6 +22,9 @@ import stage45d_d2a_runtime_admission as admission  # noqa: E402
 import stage45d_d2a_vanda_h200_launcher as launcher  # noqa: E402
 
 
+PBS_SCRIPT = ROOT / "hpc" / "pbs" / "stage45d_d2a_vanda_h200.pbs"
+
+
 def _section() -> dict:
     metrics = {"l2": 0.0, "rmse": 0.0, "max_abs": 0.0, "cosine": 1.0}
     return {"overall": dict(metrics), "blocks": {name: dict(metrics) for name in engine.BLOCK_SLICES}}
@@ -168,6 +171,13 @@ def test_launcher_static_guard_has_no_model_imports() -> None:
     guard = launcher.static_guard()
     assert guard["status"] == "PASS"
     assert guard["top_level_forbidden_imports"] == []
+
+
+def test_pbs_accepts_both_shared_runtime_aliases() -> None:
+    source = PBS_SCRIPT.read_text(encoding="utf-8")
+    assert "/cm/shared/apps/python/3.12.3/bin/python3.12" in source
+    assert "/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12" in source
+    assert "D2A admitted Python resolves outside the allowlist" in source
 
 
 def test_completed_evidence_gets_durable_hash_inventory(tmp_path: Path) -> None:
