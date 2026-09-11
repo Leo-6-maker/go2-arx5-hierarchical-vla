@@ -478,6 +478,33 @@ def _resource_margin(torch: Any, device: Any, total_vram_bytes: int) -> dict[str
     }
 
 
+def _validate_vram_binding(torch_total_vram_bytes: int, observed_gpu: Mapping[str, Any]) -> dict[str, Any]:
+    """Bind the child CUDA device to the parent observation without mixing APIs.
+
+    ``nvidia-smi memory.total`` and ``torch.cuda``'s ``total_memory`` are
+    independent driver-facing capacity reports and are not guaranteed to be
+    byte-identical on Hopper.  The parent observation still must identify the
+    same H200 by name and both measurements must independently clear the
+    locked 80-GiB floor.  Record both values and their delta for provenance;
+    never convert that measurement difference into extra usable capacity.
+    """
+
+    _require(type(torch_total_vram_bytes) is int, "Torch VRAM measurement must be a JSON integer")
+    observed_total = observed_gpu.get("total_vram_bytes")
+    _require(type(observed_total) is int, "observed nvidia-smi VRAM measurement is missing or non-integer")
+    observed_name = str(observed_gpu.get("gpu_name", observed_gpu.get("gpu", "")))
+    _require("H200" in observed_name.upper(), "observed GPU is not an H200")
+    _require(torch_total_vram_bytes >= MIN_VRAM_BYTES, "selected H200 is below the 80GiB floor")
+    _require(observed_total >= MIN_VRAM_BYTES, "observed H200 is below the 80GiB floor")
+    return {
+        "torch_total_vram_bytes": torch_total_vram_bytes,
+        "nvidia_smi_total_vram_bytes": observed_total,
+        "nvidia_smi_minus_torch_bytes": observed_total - torch_total_vram_bytes,
+        "measurement_contract": "same observed H200 identity plus independent API capacity floors",
+        "exact_cross_api_byte_equality_required": False,
+    }
+
+
 def _failure_seal(output_root: Path | None, reason: str, counters: Mapping[str, Any], *, token: str) -> None:
     if output_root is None:
         return
@@ -679,8 +706,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
         _require(total_vram >= MIN_VRAM_BYTES, "selected H200 is below the 80GiB floor")
         observed_gpu = _mapping(observed.get("host_gpu_runtime"), field="observed.host_gpu_runtime")
         _require(str(properties.name) == str(observed_gpu.get("gpu_name", observed_gpu.get("gpu", properties.name))), "observed GPU name differs from runtime")
-        if observed_gpu.get("total_vram_bytes") is not None:
-            _require(int(observed_gpu["total_vram_bytes"]) == total_vram, "observed VRAM differs from runtime")
+        vram_binding = _validate_vram_binding(total_vram, observed_gpu)
         counters["gpu"] = 1
         torch.cuda.reset_peak_memory_stats(device)
         telemetry: dict[str, Any] = {
@@ -690,6 +716,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
             "gpu_uuid": observed_gpu.get("gpu_uuid"),
             "selected_device": DEVICE,
             "total_vram_bytes": total_vram,
+            "vram_binding": vram_binding,
             "cuda_runtime": str(torch.version.cuda),
             "model_load_latency_s_by_checkpoint": {},
             "conditioning_latency_s_by_checkpoint_window": {},

@@ -53,6 +53,18 @@ def test_full_static_guard_has_no_model_import_or_forbidden_call() -> None:
     assert all(guard["shared_primitives"].values())
 
 
+def test_vram_binding_uses_independent_api_floors_and_preserves_identity() -> None:
+    observed = {
+        "gpu_name": "NVIDIA H200",
+        "total_vram_bytes": 150754820096,
+    }
+    result = full._validate_vram_binding(150110273536, observed)
+    assert result["nvidia_smi_minus_torch_bytes"] == 644546560
+    assert result["exact_cross_api_byte_equality_required"] is False
+    with pytest.raises(full.FullAdapterError, match="below the 80GiB floor"):
+        full._validate_vram_binding(150110273536, {**observed, "total_vram_bytes": full.MIN_VRAM_BYTES - 1})
+
+
 def test_aggregate_is_exactly_paired_and_descriptive_only() -> None:
     rows = []
     for checkpoint in full.CHECKPOINT_ORDER:
