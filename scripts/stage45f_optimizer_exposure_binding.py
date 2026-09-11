@@ -4,8 +4,9 @@
 Dataset fetch traces are useful but can be affected by prefetch/workers and are
 not optimizer-step evidence. A future separately gated trainer hook should emit
 one event *per optimizer step per rank* after the optimizer step has actually
-been applied. Each event contains the TRAIN window IDs that contributed to that
-rank's accumulated gradient since the previous optimizer step.
+been applied. Each event contains every TRAIN window ID that contributed to that
+rank's accumulated gradient since the previous optimizer step plus the observed
+sample count of each contributing microbatch.
 
 This tool only validates and summarizes an already-produced JSONL trace. It does
 not patch the trainer or authorize training.
@@ -62,6 +63,7 @@ def read_events(path: Path) -> list[dict[str, Any]]:
         world_size = value.get("world_size")
         grad_accum = value.get("gradient_accumulation_steps")
         sample_ids = value.get("sample_window_ids")
+        microbatch_counts = value.get("microbatch_sample_counts")
         require(isinstance(step, int) and not isinstance(step, bool) and step >= 1, f"line {line_number} optimizer_step invalid")
         require(isinstance(rank, int) and not isinstance(rank, bool) and rank >= 0, f"line {line_number} rank invalid")
         require(isinstance(world_size, int) and not isinstance(world_size, bool) and world_size >= 1, f"line {line_number} world_size invalid")
@@ -69,12 +71,16 @@ def read_events(path: Path) -> list[dict[str, Any]]:
         require(isinstance(grad_accum, int) and not isinstance(grad_accum, bool) and grad_accum >= 1, f"line {line_number} gradient_accumulation_steps invalid")
         require(isinstance(sample_ids, list) and sample_ids, f"line {line_number} sample_window_ids missing")
         require(all(isinstance(item, str) and item for item in sample_ids), f"line {line_number} invalid sample window id")
+        require(isinstance(microbatch_counts, list) and len(microbatch_counts) == grad_accum, f"line {line_number} microbatch_sample_counts length drift")
+        require(all(isinstance(item, int) and not isinstance(item, bool) and item > 0 for item in microbatch_counts), f"line {line_number} invalid microbatch sample count")
+        require(sum(microbatch_counts) == len(sample_ids), f"line {line_number} sample IDs do not close to microbatch sample counts")
         rows.append({
             "optimizer_step": step,
             "rank": rank,
             "world_size": world_size,
             "gradient_accumulation_steps": grad_accum,
             "sample_window_ids": list(sample_ids),
+            "microbatch_sample_counts": list(microbatch_counts),
         })
     require(rows, "empty optimizer exposure trace")
     return rows
@@ -88,13 +94,16 @@ def analyze(rows: Sequence[Mapping[str, Any]], trace_sha256: str) -> dict[str, A
     world_size = next(iter(world_sizes))
     grad_accum = next(iter(grad_accums))
 
-    by_step: dict[int, dict[int, list[str]]] = {}
+    by_step: dict[int, dict[int, dict[str, Any]]] = {}
     for row in rows:
         step = int(row["optimizer_step"])
         rank = int(row["rank"])
         rank_map = by_step.setdefault(step, {})
         require(rank not in rank_map, f"duplicate rank event at optimizer step {step}, rank {rank}")
-        rank_map[rank] = list(row["sample_window_ids"])
+        rank_map[rank] = {
+            "sample_window_ids": list(row["sample_window_ids"]),
+            "microbatch_sample_counts": list(row["microbatch_sample_counts"]),
+        }
 
     steps = sorted(by_step)
     require(steps == list(range(1, max(steps) + 1)), "optimizer-step sequence has gaps")
@@ -105,10 +114,16 @@ def analyze(rows: Sequence[Mapping[str, Any]], trace_sha256: str) -> dict[str, A
     per_window: dict[str, int] = {}
     per_step_global_samples: list[int] = []
     rank_sample_counts: dict[int, int] = {rank: 0 for rank in expected_ranks}
+    observed_microbatch_sizes: list[int] = []
     for step in steps:
         count = 0
         for rank in range(world_size):
-            ids = by_step[step][rank]
+            event = by_step[step][rank]
+            ids = event["sample_window_ids"]
+            microbatch_counts = event["microbatch_sample_counts"]
+            require(len(microbatch_counts) == grad_accum, f"optimizer step {step}, rank {rank} grad-accum closure drift")
+            require(sum(microbatch_counts) == len(ids), f"optimizer step {step}, rank {rank} sample closure drift")
+            observed_microbatch_sizes.extend(microbatch_counts)
             count += len(ids)
             rank_sample_counts[rank] += len(ids)
             for window_id in ids:
@@ -128,6 +143,11 @@ def analyze(rows: Sequence[Mapping[str, Any]], trace_sha256: str) -> dict[str, A
         "world_size": world_size,
         "gradient_accumulation_steps": grad_accum,
         "global_sample_exposure_count": total_samples,
+        "per_microbatch_observed_sample_count": {
+            "min": min(observed_microbatch_sizes),
+            "max": max(observed_microbatch_sizes),
+            "mean": statistics.fmean(observed_microbatch_sizes),
+        },
         "per_step_global_sample_count": {
             "min": min(per_step_global_samples),
             "max": max(per_step_global_samples),
@@ -145,10 +165,11 @@ def analyze(rows: Sequence[Mapping[str, Any]], trace_sha256: str) -> dict[str, A
         },
         "normalized_window_exposure_entropy": entropy / max_entropy if max_entropy > 0.0 else 1.0,
         "exact_optimizer_step_exposure_available": True,
+        "microbatch_sample_count_closure_verified": True,
         "epoch_claim": "NOT_DERIVED_AUTOMATICALLY",
         "validation_e_read": False,
         "holdout_f_read": False,
-        "claim_boundary": "Counts are exact for samples serialized by the trainer after successful optimizer steps. They do not establish iid samples, independent windows, or effective epochs.",
+        "claim_boundary": "Counts are exact for samples serialized by the trainer after successful optimizer steps, with per-microbatch sample-count closure. They do not establish iid samples, independent windows, or effective epochs.",
         "training_authorized": False,
     }
 
