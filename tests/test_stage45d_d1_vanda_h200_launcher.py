@@ -46,6 +46,32 @@ def test_absolute_launcher_from_foreign_cwd_empty_pythonpath(tmp_path: Path) -> 
     assert result["full_token"] == launcher.FULL_PASS_TOKEN
 
 
+def test_offline_child_environment_activates_pinned_nested_hf_resolution(tmp_path: Path) -> None:
+    cosmos_root = tmp_path / "cosmos-cache"
+    cosmos_root.mkdir()
+    environment = launcher.child_environment(
+        {"cosmos_root": str(cosmos_root)},
+        tmp_path / "evidence",
+        launcher.AUTHORITY_TOKEN,
+    )
+    assert environment["HF_HUB_OFFLINE"] == "1"
+    assert environment["TRANSFORMERS_OFFLINE"] == "1"
+    assert environment["HF_DATASETS_OFFLINE"] == "1"
+    assert environment["PYTHONPATH"] == ""
+    assert environment["GROOT_HF_LOCAL_FIRST"] == "1"
+    assert environment["GROOT_PATCH_MISTRAL"] == "1"
+    model_link = (
+        tmp_path
+        / "evidence"
+        / "runtime_namespace"
+        / "huggingface"
+        / "hub"
+        / "models--nvidia--Cosmos-Reason2-2B"
+    )
+    assert model_link.is_symlink()
+    assert model_link.resolve() == cosmos_root.resolve()
+
+
 def test_wrong_head_fails_closed_before_gpu_observation(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     called = False
 

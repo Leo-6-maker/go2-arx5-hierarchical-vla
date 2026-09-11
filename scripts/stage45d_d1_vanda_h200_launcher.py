@@ -355,6 +355,14 @@ def child_environment(paths: Mapping[str, str], evidence_root: Path, authority_t
         "PYTHONNOUSERSITE": "1",
         "PYTHONDONTWRITEBYTECODE": "1",
         "PYTHONPATH": "",
+        # The frozen checkpoint config names the pinned Cosmos repository by
+        # Hub ID.  The outer checkpoint load's local_files_only flag is not
+        # forwarded through the custom GR00T model constructor, so activate
+        # the pinned source's local-first bridge for that nested load.  Keep
+        # the Mistral metadata guard enabled as well: tokenizer construction
+        # must remain fully offline even when the model is addressed by ID.
+        "GROOT_HF_LOCAL_FIRST": "1",
+        "GROOT_PATCH_MISTRAL": "1",
         "STAGE45B_LABEL_ANCHOR_RECONCILIATION": "1",
         "STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME": "authorized",
         "STAGE45D_D1_CORELAB_PREFLIGHT_AUTHORITY_TOKEN": authority_token,
