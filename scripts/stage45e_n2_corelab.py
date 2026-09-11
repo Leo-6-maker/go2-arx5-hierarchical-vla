@@ -593,6 +593,121 @@ def _checkpoint_record(path: Path, expected_step: int) -> dict[str, Any]:
     }
 
 
+def _compare_statistics(left: Any, right: Any, *, atol: float = 1e-12) -> dict[str, Any]:
+    """Compare generated and sealed statistics without hiding data drift.
+
+    The TRAIN parquet/JSON bridge is allowed the same sub-micro-unit round-off
+    already accepted by the Stage38 factory.  Keys, shapes, masks and all
+    non-numeric values remain exact; every numeric difference is recorded.
+    """
+
+    mismatches: list[dict[str, Any]] = []
+
+    def visit(a: Any, b: Any, path: str) -> None:
+        if isinstance(a, Mapping) and isinstance(b, Mapping):
+            if set(a) != set(b):
+                mismatches.append({"path": path, "left_keys": sorted(a), "right_keys": sorted(b)})
+                return
+            for key in sorted(a):
+                visit(a[key], b[key], f"{path}/{key}")
+            return
+        if isinstance(a, (list, tuple)) and isinstance(b, (list, tuple)):
+            if len(a) != len(b):
+                mismatches.append({"path": path, "left_length": len(a), "right_length": len(b)})
+                return
+            for index, (item_a, item_b) in enumerate(zip(a, b)):
+                visit(item_a, item_b, f"{path}[{index}]")
+            return
+        if (
+            isinstance(a, (int, float))
+            and not isinstance(a, bool)
+            and isinstance(b, (int, float))
+            and not isinstance(b, bool)
+        ):
+            delta = abs(float(a) - float(b))
+            if delta > atol:
+                mismatches.append({"path": path, "left": a, "right": b, "abs_delta": delta})
+            return
+        if a != b:
+            mismatches.append({"path": path, "left": a, "right": b})
+
+    visit(left, right, "statistics")
+    max_abs_delta = max(
+        (float(item["abs_delta"]) for item in mismatches if "abs_delta" in item),
+        default=0.0,
+    )
+    return {
+        "match": not mismatches,
+        "tolerance_atol": atol,
+        "mismatch_count": len(mismatches),
+        "max_abs_delta": max_abs_delta,
+        "mismatches": mismatches,
+    }
+
+
+def _training_result_from_existing_output(output_root: Path, n2_stats_path: Path) -> dict[str, Any]:
+    """Finalize a completed trainer output without constructing a model.
+
+    This is intentionally a CPU/filesystem-only recovery path for the case
+    where training completed but evidence finalization encountered harmless
+    JSON round-off.  It never reruns inference or training and never changes
+    the checkpoint bytes.
+    """
+
+    output_root = Path(output_root).resolve()
+    if not output_root.is_dir() or output_root.is_symlink():
+        raise RuntimeError(f"training output root is not a regular directory: {output_root}")
+    admission = read_json(output_root / "stage45e_n2_admission.json")
+    canary = read_json(output_root / "canary/stage45e_n2_resource_canary.json")
+    if admission.get("status") != "PASS" or canary.get("status") != "PASS":
+        raise RuntimeError("cannot finalize without PASS admission and canary evidence")
+    n2_doc = read_json(Path(n2_stats_path).resolve())
+    n2_verification = n2.verify_n2_document(n2_doc)
+    sidecar = read_json(output_root / "experiment_cfg/structured_action_statistics.json")
+    stats_binding = _compare_statistics(sidecar.get("statistics"), n2_doc.get("statistics"))
+    if not stats_binding["match"]:
+        raise RuntimeError(f"training sidecar statistics drift exceeds tolerance: {stats_binding}")
+    checkpoint_1000 = _checkpoint_record(output_root / "checkpoint-1000", 1000)
+    checkpoint_2000 = _checkpoint_record(output_root / "checkpoint-2000", 2000)
+    if checkpoint_1000["status"] != "PASS" or checkpoint_2000["status"] != "PASS":
+        raise RuntimeError("checkpoint evidence is incomplete")
+    gpu = admission.get("gpu")
+    if not isinstance(gpu, Mapping):
+        raise RuntimeError("admission GPU identity is missing")
+    result = {
+        "schema": "CORELAB_STAGE45E_N2_FRESH_BASE_TRAINING_RESULT_V1",
+        "status": "STAGE45E_N2_CORELAB_2000_TRAINING_COMPLETE_FOR_PI_REVIEW",
+        "stage": STAGE,
+        "pi_gate": PI_GATE,
+        "starting_checkpoint": "BASE",
+        "base_tree_sha256": EXPECTED_BASE_TREE,
+        "full24_tree_sha256": EXPECTED_FULL24_TREE,
+        "n2_stats_sha256": sha256_file(Path(n2_stats_path)),
+        "n2_stats_payload_sha256": n2_doc.get("statistics_payload_sha256"),
+        "n2_statistics_verification": n2_verification,
+        "training_sidecar_statistics_binding": stats_binding,
+        "seed": 2222,
+        "max_steps": TRAINING_STEPS,
+        "save_steps": [1000, 2000],
+        "gpu": dict(gpu),
+        "resource_canary": canary,
+        "checkpoint_1000": checkpoint_1000,
+        "checkpoint_2000": checkpoint_2000,
+        "training_steps": TRAINING_STEPS,
+        "backward_steps": TRAINING_STEPS,
+        "optimizer_steps": TRAINING_STEPS,
+        "gr00t_forwards": TRAINING_STEPS,
+        "wbc_steps": 0,
+        "pbs_submissions": 0,
+        "validation_e_read": False,
+        "holdout_f_read": False,
+        "next_gate": "PI_REVIEW_BEFORE_EVALUATION",
+        "timestamp_utc": now_utc(),
+    }
+    write_json(output_root / "stage45e_n2_training_result.json", result)
+    return result
+
+
 def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, Any], canary: Mapping[str, Any]) -> dict[str, Any]:
     if canary.get("status") != "PASS":
         raise RuntimeError("fresh N2 training requires a passing resource canary")
@@ -644,8 +759,9 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
     sidecar_path = output_root / "experiment_cfg" / "structured_action_statistics.json"
     sidecar = read_json(sidecar_path)
     n2_doc = read_json(paths["n2_stats"])
-    if sidecar.get("statistics") != n2_doc.get("statistics"):
-        raise RuntimeError("training sidecar statistics do not match sealed N2 statistics")
+    stats_binding = _compare_statistics(sidecar.get("statistics"), n2_doc.get("statistics"))
+    if not stats_binding["match"]:
+        raise RuntimeError(f"training sidecar statistics drift exceeds tolerance: {stats_binding}")
     result = {
         "schema": "CORELAB_STAGE45E_N2_FRESH_BASE_TRAINING_RESULT_V1",
         "status": "STAGE45E_N2_CORELAB_2000_TRAINING_COMPLETE_FOR_PI_REVIEW"
@@ -658,6 +774,7 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
         "full24_tree_sha256": EXPECTED_FULL24_TREE,
         "n2_stats_sha256": sha256_file(paths["n2_stats"]),
         "n2_stats_payload_sha256": n2_doc.get("statistics_payload_sha256"),
+        "training_sidecar_statistics_binding": stats_binding,
         "seed": 2222,
         "max_steps": TRAINING_STEPS,
         "save_steps": [1000, 2000],
@@ -704,6 +821,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     }
     if args.mode == "static":
         return _static_audit()
+    if args.mode == "finalize":
+        if args.output_root is None or args.n2_stats is None:
+            raise RuntimeError("--output-root and --n2-stats are required for finalize mode")
+        return _training_result_from_existing_output(args.output_root, args.n2_stats)
     paths = _regular_external_paths(args)
     n2_document = read_json(paths["n2_stats"])
     identities = _verify_external_identities(paths, n2_document=n2_document)
@@ -782,7 +903,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("static", "canary", "train"), default="static")
+    parser.add_argument("--mode", choices=("static", "canary", "train", "finalize"), default="static")
     parser.add_argument("--base-model", dest="base_model", type=Path)
     parser.add_argument("--dataset", type=Path)
     parser.add_argument("--groot", type=Path)
