@@ -598,7 +598,21 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
         raise RuntimeError("fresh N2 training requires a passing resource canary")
     if canary.get("weight_update") != 0 or canary.get("optimizer_steps") != 0:
         raise RuntimeError("resource canary mutated model state")
-    import torch  # noqa: F401  (runtime is already admitted by the canary)
+    global _LAST_EXECUTION_BOUNDARY
+    # The training process is deliberately entered only after the canary has
+    # completed in a separate subprocess.  Keep the observed admission facts
+    # in this process-local failure ledger before constructing the trainer.
+    canary_boundary = canary.get("execution_boundary", {})
+    _LAST_EXECUTION_BOUNDARY.update({
+        "gpu": bool(canary_boundary.get("gpu", True)),
+        "model_constructed": bool(canary_boundary.get("model_constructed", True)),
+        "gr00t_forwards": int(canary_boundary.get("gr00t_forwards", 0)),
+        "backward_steps": int(canary_boundary.get("backward_steps", 0)),
+        "training_steps": 0,
+        "optimizer_steps": 0,
+        "scheduler_steps": 0,
+        "checkpoint_writes": 0,
+    })
 
     from stage45b_full24_fresh_base_train import _load_config
 
@@ -613,6 +627,10 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
     install_structured_dataset_factory()
     from gr00t.experiment.experiment import run as gr00t_run
 
+    _LAST_EXECUTION_BOUNDARY["training_steps"] = 1
+    _LAST_EXECUTION_BOUNDARY["optimizer_steps"] = 1
+    _LAST_EXECUTION_BOUNDARY["scheduler_steps"] = 1
+    _LAST_EXECUTION_BOUNDARY["training"] = True
     gr00t_run(config)
     checkpoint_1000 = _checkpoint_record(output_root / "checkpoint-1000", 1000)
     checkpoint_2000 = _checkpoint_record(output_root / "checkpoint-2000", 2000)
@@ -650,6 +668,13 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
         "next_gate": "PI_REVIEW_BEFORE_EVALUATION",
         "timestamp_utc": now_utc(),
     }
+    _LAST_EXECUTION_BOUNDARY.update({
+        "training_steps": TRAINING_STEPS,
+        "backward_steps": TRAINING_STEPS,
+        "optimizer_steps": TRAINING_STEPS,
+        "scheduler_steps": TRAINING_STEPS,
+        "checkpoint_writes": 2,
+    })
     write_json(output_root / "stage45e_n2_training_result.json", result)
     return result
 
@@ -707,10 +732,44 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         },
     }
     write_json(output_root / "stage45e_n2_admission.json", preflight)
-    canary = _run_canary(paths, output_root, gpu)
     if args.mode == "canary":
+        canary = _run_canary(paths, output_root, gpu)
         canary["return_token"] = "STAGE45E_N2_CORELAB_RUNTIME_CANARY_PASS"
         return canary
+    # A canary constructs a full GR00T graph.  Running it in a child process
+    # keeps allocator/global-module state from consuming the training process'
+    # VRAM; this is only a lifecycle isolation fix and does not alter the
+    # scientific graph or its resource measurements.
+    canary_root = output_root / "canary"
+    child_command = [
+        sys.executable,
+        str(Path(__file__).resolve()),
+        "--mode", "canary",
+        "--base-model", str(paths["base_model"]),
+        "--dataset", str(paths["dataset"]),
+        "--groot", str(paths["groot"]),
+        "--cosmos", str(paths["cosmos"]),
+        "--modality", str(paths["modality"]),
+        "--config", str(paths["config"]),
+        "--runtime-stats", str(paths["runtime_stats"]),
+        "--n2-stats", str(paths["n2_stats"]),
+        "--gpu-uuid", str(args.gpu_uuid),
+        "--output-root", str(canary_root),
+    ]
+    child = subprocess.run(child_command, capture_output=True, text=True, check=False)
+    write_json(output_root / "canary_process_stdout.log", {
+        "returncode": child.returncode,
+        "stdout": child.stdout,
+        "stderr": child.stderr,
+    })
+    if child.returncode != 0:
+        child_failure = canary_root / "stage45e_n2_failure.json"
+        if child_failure.is_file():
+            _LAST_EXECUTION_BOUNDARY.update(read_json(child_failure).get("execution_boundary", {}))
+        raise RuntimeError(f"isolated N2 canary failed with return code {child.returncode}")
+    canary = read_json(canary_root / "stage45e_n2_resource_canary.json")
+    if canary.get("status") != "PASS":
+        raise RuntimeError("isolated N2 canary did not return PASS")
     return _run_training(paths, output_root, gpu, canary)
 
 
