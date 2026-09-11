@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE45F_FUTURE_EXPERIMENT_PREP_V1",
+  "status": "PREP_ONLY_NO_EXECUTION",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0129",
+    "issue_comment": 5637525136
+  },
+  "repository": {
+    "branch": "stage45f/pi-prep-scaling-data-rollout",
+    "base_head": "a843294780c1392369bfc987e468857c63fc13a5",
+    "execution_branch": false
+  },
+  "scenario_classes": [
+    "SEED_REPLICATION",
+    "EXPOSURE_SCALING",
+    "DATA_EXPANSION",
+    "DATA_PLUS_NORMALIZATION",
+    "ROLLOUT_RELABEL",
+    "VALIDATION_RECIPE_FREEZE"
+  ],
+  "hypothetical_training_tiers": [
+    4000,
+    8000
+  ],
+  "hypothetical_only": true,
+  "training_scaling_contract": {
+    "steps_are_not_epochs": true,
+    "exact_sample_exposure_required_for_epoch_claim": true,
+    "loader_sampler_state_must_be_logged": true,
+    "scheduler_horizon_change_is_a_confound": true,
+    "cosine_scheduler_max_steps_binding_must_be_audited": true,
+    "resume_from_2000_is_not_assumed_equivalent_to_fresh_4000": true,
+    "optimizer_scheduler_rng_state_identity_required_for_resume_claim": true
+  },
+  "dataset_expansion_contract": {
+    "validation_e_must_remain_excluded": true,
+    "holdout_f_must_remain_excluded": true,
+    "new_window_ids_must_be_unique": true,
+    "source_episode_ids_must_be_traceable": true,
+    "target_initial_condition_coverage_must_be_reported": true,
+    "current_stats_clipping_must_be_reported_before_stats_change": true,
+    "recomputed_stats_changes_scientific_intervention": true,
+    "data_only_label_requires_frozen_stats_and_acceptable_support_to_be_decided_by_pi": true,
+    "expanded_stats_route_must_be_named_data_plus_normalization": true
+  },
+  "rollout_relabel_contract": {
+    "policy_or_wbc_may_generate_visited_states": true,
+    "groot_self_labels_forbidden": true,
+    "independent_simulator_expert_or_oracle_required": true,
+    "visited_state_identity_must_be_preserved": true,
+    "oracle_label_identity_must_be_preserved": true,
+    "policy_checkpoint_generating_state_must_be_recorded": true,
+    "no_validation_or_holdout_state_collection": true
+  },
+  "replication_contract": {
+    "training_seed_is_a_first_class_identity": true,
+    "candidate_recipe_must_be_frozen_before_replication": true,
+    "no_metric_based_retry_selection": true,
+    "all_completed_valid_replicates_must_be_preserved": true
+  },
+  "validation_freeze_contract": {
+    "one_candidate_recipe_only": true,
+    "checkpoint_identity_frozen_before_read": true,
+    "normalization_loss_sampler_frozen_before_read": true,
+    "no_post_validation_recipe_tuning_under_same_selection_decision": true,
+    "validation_e_execute_supported": false,
+    "holdout_f_execute_supported": false
+  },
+  "locked": {
+    "model_construction": true,
+    "model_forward": true,
+    "training": true,
+    "gpu": true,
+    "pbs": true,
+    "Validation-E": true,
+    "Holdout-F": true,
+    "WBC": true,
+    "simulator": true,
+    "hardware": true,
+    "merge": true
+  },
+  "return_token": "STAGE45F_SCALING_DATA_ROLLOUT_PREP_READY_FOR_PI_REVIEW"
+}
