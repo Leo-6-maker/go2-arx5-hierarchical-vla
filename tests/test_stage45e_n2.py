@@ -96,3 +96,5 @@ def test_inference_canary_drops_supervised_fields() -> None:
     source = (ROOT / "scripts/stage45e_n2_corelab.py").read_text(encoding="utf-8")
     assert 'inference_inputs.pop("action", None)' in source
     assert 'inference_inputs.pop("action_mask", None)' in source
+    assert '(output_root / "experiment_cfg").mkdir' in source
+    assert 'dict(_LAST_EXECUTION_BOUNDARY)' in source

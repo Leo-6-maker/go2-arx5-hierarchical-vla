@@ -44,6 +44,24 @@ EXPECTED_MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7f
 EXPECTED_CONFIG_SHA = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 TRAINING_STEPS = 2000
 
+# Keep the failure seal truthful if an exception occurs after GPU/model
+# admission.  This process-local ledger is updated immediately before each
+# model-side operation and is never used to change the scientific budget.
+_LAST_EXECUTION_BOUNDARY: dict[str, Any] = {
+    "gpu": False,
+    "model_constructed": False,
+    "gr00t_forwards": 0,
+    "training_steps": 0,
+    "backward_steps": 0,
+    "optimizer_steps": 0,
+    "scheduler_steps": 0,
+    "checkpoint_writes": 0,
+    "pbs_submissions": 0,
+    "wbc_steps": 0,
+    "validation_e_read": False,
+    "holdout_f_read": False,
+}
+
 
 def now_utc() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -379,6 +397,10 @@ def _load_pipeline(paths: Mapping[str, Path], output_root: Path) -> tuple[Any, A
     from stage45b_full24_fresh_base_train import _bind_cosmos_processor, _load_config
     from go2arx5_vla.stage38_structured_training import install_structured_dataset_factory
 
+    # GR00T setup writes final_model_config.json into this directory.  A
+    # fresh evidence root must provide it explicitly; relying on a prior
+    # scratch tree would make the runtime non-reproducible.
+    (output_root / "experiment_cfg").mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(paths["groot"]))
     _bind_cosmos_processor(paths["cosmos"] / "snapshots" / EXPECTED_COSMOS_REVISION)
     install_structured_dataset_factory()
@@ -455,10 +477,12 @@ def _finite_tensor_tree(value: Any, torch: Any) -> bool:
 
 
 def _run_canary(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, Any]) -> dict[str, Any]:
+    global _LAST_EXECUTION_BOUNDARY
     import torch
 
     _prepare_runtime_environment(paths, output_root, gpu)
     pipeline, config, model, dataset, collator = _load_pipeline(paths, output_root)
+    _LAST_EXECUTION_BOUNDARY.update({"gpu": True, "model_constructed": True})
     device = torch.device("cuda:0")
     model.to(device)
     model.eval()
@@ -473,6 +497,7 @@ def _run_canary(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, 
         inference_inputs.pop("action", None)
         inference_inputs.pop("action_mask", None)
     with torch.inference_mode():
+        _LAST_EXECUTION_BOUNDARY["gr00t_forwards"] = int(_LAST_EXECUTION_BOUNDARY["gr00t_forwards"]) + 1
         inference_output = model.get_action(inference_inputs)
     inference_action = inference_output["action_pred"]
     if tuple(inference_action.shape) != (1, 40, 132):
@@ -485,10 +510,12 @@ def _run_canary(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str, 
     before = _parameter_sample(model)
     model.zero_grad(set_to_none=True)
     with torch.enable_grad():
+        _LAST_EXECUTION_BOUNDARY["gr00t_forwards"] = int(_LAST_EXECUTION_BOUNDARY["gr00t_forwards"]) + 1
         outputs = model(backward_inputs)
         loss = outputs["loss"] if isinstance(outputs, Mapping) else outputs.loss
         if not torch.is_tensor(loss) or loss.ndim != 0 or not torch.isfinite(loss).item():
             raise RuntimeError("N2 one-batch loss is not finite scalar")
+        _LAST_EXECUTION_BOUNDARY["backward_steps"] = int(_LAST_EXECUTION_BOUNDARY["backward_steps"]) + 1
         loss.backward()
     gradient_count = 0
     gradient_max_abs = 0.0
@@ -628,6 +655,21 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
 
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
+    global _LAST_EXECUTION_BOUNDARY
+    _LAST_EXECUTION_BOUNDARY = {
+        "gpu": False,
+        "model_constructed": False,
+        "gr00t_forwards": 0,
+        "training_steps": 0,
+        "backward_steps": 0,
+        "optimizer_steps": 0,
+        "scheduler_steps": 0,
+        "checkpoint_writes": 0,
+        "pbs_submissions": 0,
+        "wbc_steps": 0,
+        "validation_e_read": False,
+        "holdout_f_read": False,
+    }
     if args.mode == "static":
         return _static_audit()
     paths = _regular_external_paths(args)
@@ -699,20 +741,7 @@ def main() -> int:
                 "pi_gate": PI_GATE,
                 "error": f"{type(exc).__name__}: {exc}",
                 "traceback": traceback.format_exc(),
-                "execution_boundary": {
-                    "gpu": False,
-                    "model_constructed": False,
-                    "gr00t_forwards": 0,
-                    "training_steps": 0,
-                    "backward_steps": 0,
-                    "optimizer_steps": 0,
-                    "scheduler_steps": 0,
-                    "checkpoint_writes": 0,
-                    "pbs_submissions": 0,
-                    "wbc_steps": 0,
-                    "validation_e_read": False,
-                    "holdout_f_read": False,
-                },
+                "execution_boundary": dict(_LAST_EXECUTION_BOUNDARY),
                 "retry_or_substitution": False,
                 "timestamp_utc": now_utc(),
             }
