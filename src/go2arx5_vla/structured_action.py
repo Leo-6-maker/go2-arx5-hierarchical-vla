@@ -145,6 +145,48 @@ def _physical_to_chunk(
     )
 
 
+def _stable_rotation_identity_metrics(
+    state_rotation: np.ndarray,
+    action_rotation: np.ndarray,
+) -> dict[str, float]:
+    """Measure the anchor rotation identity without inverse-trig cancellation.
+
+    ``geodesic_angle`` is retained for scientific metrics, but its trace/
+    ``acos`` form is ill-conditioned at the identity.  For two SO(3) matrices,
+    the Frobenius distance is exactly ``2*sqrt(2)*sin(theta/2)``.  This helper
+    therefore exposes the same strict angular invariant in a numerically stable
+    representation and includes the diagnostics needed to audit the predicate.
+    """
+
+    state = np.asarray(state_rotation, dtype=np.float64)
+    action = np.asarray(action_rotation, dtype=np.float64)
+    if state.shape != (3, 3) or action.shape != (3, 3):
+        raise ValueError("anchor rotations must have shape (3, 3)")
+    identity = np.eye(3, dtype=np.float64)
+    delta = state - action
+    return {
+        "max_abs_matrix_difference": float(np.max(np.abs(delta))),
+        "frobenius_matrix_difference": float(np.linalg.norm(delta, ord="fro")),
+        "orthogonality_residual_state": float(
+            np.max(np.abs(state.T @ state - identity))
+        ),
+        "orthogonality_residual_action": float(
+            np.max(np.abs(action.T @ action - identity))
+        ),
+        "det_state": float(np.linalg.det(state)),
+        "det_action": float(np.linalg.det(action)),
+    }
+
+
+def _rotation_matrix_frobenius_bound(rotation_tolerance_rad: float) -> float:
+    """Convert the unchanged angular tolerance to its exact SO(3) bound."""
+
+    tolerance = float(rotation_tolerance_rad)
+    if not np.isfinite(tolerance) or tolerance < 0.0:
+        return float("nan")
+    return float(2.0 * np.sqrt(2.0) * np.sin(0.5 * tolerance))
+
+
 def _validate_anchor(
     physical_action: np.ndarray,
     state_v1: np.ndarray,
@@ -158,10 +200,32 @@ def _validate_anchor(
     action_rotation = rot6d_rows_to_matrix(action0[3:9])
     position_error = float(np.linalg.norm(action0[:3] - state[:3]))
     rotation_error = float(geodesic_angle(state_rotation, action_rotation))
-    if position_error > position_tolerance_m or rotation_error > rotation_tolerance_rad:
+    rotation_metrics = _stable_rotation_identity_metrics(
+        state_rotation, action_rotation
+    )
+    rotation_bound = _rotation_matrix_frobenius_bound(rotation_tolerance_rad)
+    stable_rotation_identity = bool(
+        np.isfinite(rotation_metrics["frobenius_matrix_difference"])
+        and np.isfinite(rotation_bound)
+        and rotation_metrics["frobenius_matrix_difference"] <= rotation_bound
+    )
+    if position_error > position_tolerance_m or not stable_rotation_identity:
         raise ValueError(
             "structured action control pose 0 is not the measured runtime anchor: "
-            f"position_error_m={position_error}, rotation_error_rad={rotation_error}"
+            f"position_error_m={position_error}, rotation_error_rad={rotation_error}, "
+            "stable_rotation_identity="
+            f"{stable_rotation_identity}, "
+            "stable_rotation_max_abs_matrix_difference="
+            f"{rotation_metrics['max_abs_matrix_difference']}, "
+            "stable_rotation_frobenius_difference="
+            f"{rotation_metrics['frobenius_matrix_difference']}, "
+            f"stable_rotation_frobenius_bound={rotation_bound}, "
+            "state_orthogonality_residual="
+            f"{rotation_metrics['orthogonality_residual_state']}, "
+            "action_orthogonality_residual="
+            f"{rotation_metrics['orthogonality_residual_action']}, "
+            f"state_det={rotation_metrics['det_state']}, "
+            f"action_det={rotation_metrics['det_action']}"
         )
     return state[:3].copy(), state_rotation.copy()
 

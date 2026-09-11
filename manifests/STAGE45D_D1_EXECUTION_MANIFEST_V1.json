@@ -13,15 +13,16 @@
   },
   "authority": {
     "issue_11": 11,
-    "issue_11_comment": 5629246685,
+    "issue_11_comment": 5629752688,
+    "pr_51_comment": 5629755293,
     "issue_50": 50,
-    "issue_50_comment": 5629249518,
+    "issue_50_comment": 5629756230,
     "execution_authorized": false,
     "next_pi_gate_request": "authorize one Stage45D D1 H200 execution"
   },
   "runner": {
     "path": "scripts/stage45d_d1_teacher_forced_local_flow.py",
-    "sha256": "c5fe78705b9e54b326be8b597f850d9d0322e85aec8a278ee8b4220ea7a2750c",
+    "sha256": "2fc1f516a70833c1c0eb980ee2d6fc2e7975052ce7d3f65659e5b495610ce823",
     "static_modes": [
       "--plan-only",
       "--audit-only"
@@ -75,7 +76,7 @@
     },
     "physical_decode_bridge": {
       "path": "scripts/stage45c_h200_eval_runtime_adapter.py",
-      "sha256": "1de78bb21c29769a895698cd6c7b4e680ce05f96b3ccfc29054a1116eba09a0f",
+      "sha256": "16ed0355ed63c03724f44ea509de9a9832a21fa1e2e446914ac535963830d3d4",
       "symbol": "_decode_v2",
       "contract": "Stage40 inverse-normalization + StructuredActionV1 materialization using runtime-V2 statistics"
     }
@@ -239,7 +240,7 @@
     "total_model_side_calls": 720,
     "resource_margin_formula": "free_bytes >= max(2GiB, 5%*total_vram_bytes)",
     "max_repair_cycles": 2,
-    "max_smoke_attempts": 3,
+    "max_smoke_attempts": 6,
     "execution_authorized": false
   },
   "artifact_schema": {

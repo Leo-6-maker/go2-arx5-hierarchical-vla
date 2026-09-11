@@ -1,4 +1,4 @@
-"""CPU/static regression tests for the PI0116 Vanda H200 launcher."""
+"""CPU/static regression tests for the PI0117 Vanda H200 launcher."""
 
 from __future__ import annotations
 
@@ -76,7 +76,7 @@ def test_runtime_paths_reject_missing_or_extra_keys(tmp_path: Path) -> None:
         launcher.read_paths(path)
 
 
-@pytest.mark.parametrize("repair,attempt", [(True, 1), (0, True), (3, 1), (0, 4)])
+@pytest.mark.parametrize("repair,attempt", [(True, 1), (0, True), (3, 1), (0, 7)])
 def test_repair_and_attempt_are_strict_bounded_integers(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, repair: object, attempt: object
 ) -> None:

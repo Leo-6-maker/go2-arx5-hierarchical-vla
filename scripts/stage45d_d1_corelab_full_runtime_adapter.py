@@ -46,8 +46,8 @@ FULL_PROFILE_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1"
 FULL_ADAPTER_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_FULL_RUNTIME_ADAPTER_V1"
 FULL_RETURN_TOKEN = "STAGE45D_D1_VANDA_H200_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW"
 SMOKE_PASS_TOKEN = "STAGE45D_D1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
-PI_GATE_COMMENT = 5629246685
-PR49_POINTER_COMMENT = 5629248074
+PI_GATE_COMMENT = 5629752688
+PR51_POINTER_COMMENT = 5629755293
 SUPPORT_HEAD = "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
 DEVICE = common.DEVICE
 GPU_ROLE = common.GPU_ROLE
@@ -186,8 +186,8 @@ def _validate_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
     _require(payload.get("status") == "READY_FOR_PI_REVIEW_NOT_EXECUTED", "full profile must remain static-only")
     _require(payload.get("return_token") == FULL_RETURN_TOKEN, "full return token drift")
     authority = _mapping(payload.get("authority"), field="full.authority")
-    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0116 authority drift")
-    _require(authority.get("pr_49_comment") == PR49_POINTER_COMMENT, "PR #49 pointer drift")
+    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0117 authority drift")
+    _require(authority.get("pr_51_comment") == PR51_POINTER_COMMENT, "PR #51 pointer drift")
     _require(authority.get("prepared_from_support_head") == SUPPORT_HEAD, "full profile support HEAD drift")
     runtime = _mapping(payload.get("runtime_adapter"), field="full.runtime_adapter")
     _require(runtime.get("path") == "scripts/stage45d_d1_corelab_full_runtime_adapter.py", "full adapter path drift")
@@ -251,7 +251,7 @@ def _validate_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
     _require(margin.get("formula") == "free_bytes >= max(2GiB, 5%*total_vram_bytes)", "resource margin formula drift")
     _require(margin.get("minimum_free_bytes") == max(2 * 1024**3, int(0.05 * common.MIN_VRAM_BYTES)), "resource margin floor drift")
     repairs = _mapping(payload.get("engineering_repair_budget"), field="full.engineering_repair_budget")
-    _require(repairs.get("max_repair_cycles") == 2 and repairs.get("max_smoke_attempts") == 3, "repair budget drift")
+    _require(repairs.get("max_repair_cycles") == 2 and repairs.get("max_smoke_attempts") == 6, "repair budget drift")
     evidence = _mapping(payload.get("evidence"), field="full.evidence")
     _require(evidence.get("raw_before_derived") is True and evidence.get("failure_seal_required") is True and evidence.get("fresh_output_root_required") is True, "full evidence lifecycle drift")
     _require(payload.get("locked_boundaries") == admission.LOCKED_BOUNDARIES, "full locked boundary drift")
@@ -306,8 +306,8 @@ def _validate_execution_control(binding: Mapping[str, Any]) -> Mapping[str, Any]
     _require(control.get("phase") == "FULL", "full execution phase drift")
     repair_cycle = control.get("repair_cycle")
     attempt = control.get("smoke_attempt")
-    _require(type(repair_cycle) is int and 0 <= repair_cycle <= 2, "repair cycle exceeds PI0116 budget")
-    _require(type(attempt) is int and 1 <= attempt <= 3, "smoke attempt exceeds PI0116 budget")
+    _require(type(repair_cycle) is int and 0 <= repair_cycle <= 2, "repair cycle exceeds PI0117 budget")
+    _require(type(attempt) is int and 1 <= attempt <= 6, "smoke attempt exceeds PI0117 budget")
     _require(control.get("automatic_retry") is False, "automatic retry is forbidden")
     smoke_head = control.get("smoke_pass_head")
     _require(isinstance(smoke_head, str) and len(smoke_head) == 40, "successful smoke HEAD is not bound")
@@ -803,7 +803,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
         telemetry["cuda_peak_allocated_bytes"] = int(torch.cuda.max_memory_allocated(device))
         telemetry["cuda_peak_reserved_bytes"] = int(torch.cuda.max_memory_reserved(device))
         telemetry["resource_margin"] = margin
-        _require(margin["pass"], "VANDA_H200_RESOURCE_BLOCKER: VRAM margin below PI0116 floor")
+        _require(margin["pass"], "VANDA_H200_RESOURCE_BLOCKER: VRAM margin below PI0117 floor")
         all_rows = []
         with raw_jsonl.open("r", encoding="utf-8") as handle:
             for line in handle:
@@ -875,7 +875,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             _require(args.runtime_binding is not None, "--execute requires --runtime-binding")
             profile = validate_profile(args.profile)
-            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0116 H200 full runtime is not authorized")
+            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0117 H200 full runtime is not authorized")
             authority_token = os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_AUTHORITY_TOKEN", "")
             payload = execute(_read_json(Path(args.runtime_binding)), profile=profile, authority_token=authority_token)
         print(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))

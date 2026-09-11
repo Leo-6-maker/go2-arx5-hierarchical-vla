@@ -1,5 +1,5 @@
 #!/bin/bash
-# PI0116: one H200 allocation, one smoke, then exact automatic full D1.
+# PI0117: one H200 allocation, one smoke, then exact automatic full D1.
 # No retry, training, sampler/get_action, Validation-E/Holdout-F, WBC, sim, or hardware.
 
 #PBS -N st45d_d1
@@ -18,6 +18,8 @@ set -euo pipefail
 : "${STAGE45D_FFMPEG_RUNTIME_ROOT:?Set the sealed native FFmpeg runtime root}"
 : "${STAGE45D_TORCHCODEC_PACKAGE_ROOT:?Set the admitted TorchCodec package root}"
 : "${STAGE45D_TORCH_LIBRARY_ROOT:?Set the admitted Torch library root}"
+: "${STAGE45D_REPAIR_CYCLE:?Set the PI0117 repair cycle}"
+: "${STAGE45D_SMOKE_ATTEMPT:?Set the PI0117 smoke attempt}"
 : "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
 
 test -x "${STAGE45D_PYTHON}"
@@ -42,6 +44,6 @@ exec "${STAGE45D_PYTHON}" "${STAGE45D_REPO}/scripts/stage45d_d1_vanda_h200_launc
   --paths "${STAGE45D_RUNTIME_PATHS}" \
   --evidence-root "${STAGE45D_EVIDENCE_ROOT}" \
   --expected-head "${STAGE45D_EXPECTED_HEAD}" \
-  --authority-token PI_GATE_STATE_0116 \
-  --repair-cycle 0 \
-  --smoke-attempt 1
+  --authority-token PI_GATE_STATE_0117 \
+  --repair-cycle "${STAGE45D_REPAIR_CYCLE}" \
+  --smoke-attempt "${STAGE45D_SMOKE_ATTEMPT}"

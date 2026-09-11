@@ -4,16 +4,16 @@
   "stage": "Stage45D-D1",
   "owner": "vanda_hopper",
   "authority": {
-    "issue_11_comment": 5629246685,
-    "pr_49_comment": 5629248074,
+    "issue_11_comment": 5629752688,
+    "pr_51_comment": 5629755293,
     "prepared_from_support_head": "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
   },
   "return_token": "STAGE45D_D1_VANDA_H200_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW",
   "runtime_adapter": {
     "path": "scripts/stage45d_d1_corelab_full_runtime_adapter.py",
-    "sha256": "5773972862dc6b662aa188c50a0cad56a8bd035840ddbbe90bbe92e1fe9b174c",
+    "sha256": "b61826ba58e05996a5052da758d8fa9314716dbec1f5eeb26a81e38fb778a3cd",
     "common_adapter_path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
-    "common_adapter_sha256": "0406511e427c8d9789e8e328de35c32f84576eaec5b7dd796c6fb797e6fc0b8e",
+    "common_adapter_sha256": "90aeedb22890593162460d5998fe639b8d05ba179c482522b5ace1208f2153a9",
     "top_level_model_imports": false,
     "imports_after_admission_only": true
   },
@@ -85,7 +85,7 @@
     "formula": "free_bytes >= max(2GiB, 5%*total_vram_bytes)",
     "minimum_free_bytes": 4294967296
   },
-  "engineering_repair_budget": {"max_repair_cycles": 2, "max_smoke_attempts": 3},
+  "engineering_repair_budget": {"max_repair_cycles": 2, "max_smoke_attempts": 6},
   "evidence": {
     "raw_before_derived": true,
     "failure_seal_required": true,

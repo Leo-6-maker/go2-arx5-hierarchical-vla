@@ -9,6 +9,9 @@ from go2arx5_vla.structured_action import (
     STRUCTURED_ACTION_DIM,
     STRUCTURED_ACTION_HORIZON,
     StructuredActionV1,
+    _rotation_matrix_frobenius_bound,
+    _stable_rotation_identity_metrics,
+    _validate_anchor,
     decode_structured_action,
     encode_structured_action,
     materialize_structured_action,
@@ -139,6 +142,14 @@ def test_stage45b_label_anchor_reconciliation_preserves_physical_action() -> Non
     )
     timestamps = np.arange(STRUCTURED_ACTION_HORIZON, dtype=np.float64) * 0.05
     physical = np.zeros((STRUCTURED_ACTION_HORIZON, 10), dtype=np.float64)
+    # Keep the orientation-only assertion while giving the timing mapper a
+    # non-degenerate translational arc to parameterize.
+    physical[:, :3] = np.stack(
+        [np.linspace(0.0, 0.05, STRUCTURED_ACTION_HORIZON),
+         np.zeros(STRUCTURED_ACTION_HORIZON),
+         np.zeros(STRUCTURED_ACTION_HORIZON)],
+        axis=-1,
+    )
     physical[:, 3:9] = native_rot6d
     physical[:, 9] = 0.5
     state = physical[0].copy()
@@ -164,6 +175,52 @@ def test_stage45b_label_anchor_reconciliation_preserves_physical_action() -> Non
     assert metadata["original_observation_state_untouched"] is True
     assert metadata["reconciled_state_action_rotation_error_rad"] <= 1e-9
     assert label.anchor_state_v1.shape == (10,)
+
+
+def test_anchor_identity_rejects_acos_floor_false_positive_without_widening() -> None:
+    native_rot6d = np.asarray(
+        [0.94230586, -0.11466519, 0.31450209, 0.33371529, 0.39569730, -0.85560375],
+        dtype=np.float64,
+    )
+    state = np.zeros(10, dtype=np.float64)
+    state[3:9] = native_rot6d
+    physical = np.zeros((STRUCTURED_ACTION_HORIZON, 10), dtype=np.float64)
+    physical[:, 3:9] = native_rot6d
+
+    state_rotation = rot6d_rows_to_matrix(state[3:9])
+    action_rotation = rot6d_rows_to_matrix(physical[0, 3:9])
+    old_error = float(geodesic_angle(state_rotation, action_rotation))
+    identity_metrics = _stable_rotation_identity_metrics(
+        state_rotation, action_rotation
+    )
+    identity_bound = _rotation_matrix_frobenius_bound(1e-9)
+
+    assert old_error > 1e-9
+    assert identity_metrics["max_abs_matrix_difference"] == 0.0
+    assert identity_metrics["frobenius_matrix_difference"] == 0.0
+    assert identity_metrics["orthogonality_residual_state"] < 1e-12
+    assert identity_metrics["orthogonality_residual_action"] < 1e-12
+    assert abs(identity_metrics["det_state"] - 1.0) < 1e-12
+    assert abs(identity_metrics["det_action"] - 1.0) < 1e-12
+    assert identity_metrics["frobenius_matrix_difference"] <= identity_bound
+    _validate_anchor(physical, state, rotation_tolerance_rad=1e-9)
+
+    injected_angle = 2e-8
+    c, s = np.cos(injected_angle), np.sin(injected_angle)
+    z_rotation = np.asarray(
+        [[c, -s, 0.0], [s, c, 0.0], [0.0, 0.0, 1.0]], dtype=np.float64
+    )
+    real_rotation = z_rotation @ state_rotation
+    real_physical = physical.copy()
+    real_physical[:, 3:9] = rotation_matrix_to_rot6d_rows(real_rotation)
+    real_metrics = _stable_rotation_identity_metrics(
+        state_rotation, rot6d_rows_to_matrix(real_physical[0, 3:9])
+    )
+
+    assert float(geodesic_angle(state_rotation, real_rotation)) > 1e-9
+    assert real_metrics["frobenius_matrix_difference"] > identity_bound
+    with pytest.raises(ValueError, match="runtime anchor"):
+        _validate_anchor(real_physical, state, rotation_tolerance_rad=1e-9)
 
 
 def test_stage45b_label_anchor_reconciliation_rejects_material_mismatch() -> None:

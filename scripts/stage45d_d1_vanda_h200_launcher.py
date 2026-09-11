@@ -33,9 +33,10 @@ SMOKE_PROFILE = REPO / "manifests" / "STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFIL
 FULL_PROFILE = REPO / "manifests" / "STAGE45D_D1_CORELAB_FULL_EXECUTION_PROFILE_V1.json"
 EXPECTED_BRANCH = "stage45d/vanda-h200-d1-execution"
 SOURCE_SCIENTIFIC_HEAD = "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
-PI_GATE_COMMENT = 5629246685
-PR49_POINTER_COMMENT = 5629248074
-AUTHORITY_TOKEN = "PI_GATE_STATE_0116"
+PI_GATE_COMMENT = 5629752688
+PR51_POINTER_COMMENT = 5629755293
+ISSUE50_POINTER_COMMENT = 5629756230
+AUTHORITY_TOKEN = "PI_GATE_STATE_0117"
 SMOKE_PASS_TOKEN = "STAGE45D_D1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
 FULL_PASS_TOKEN = "STAGE45D_D1_VANDA_H200_FULL_EXECUTION_COMPLETE_FOR_PI_REVIEW"
 MIN_H200_VRAM_BYTES = 80 * 1024**3
@@ -384,9 +385,9 @@ def run_child(label: str, argv: Sequence[str], *, env: Mapping[str, str], record
 
 
 def execute(paths_file: Path, evidence_root: Path, expected_head: str, authority_token: str, repair_cycle: int, smoke_attempt: int) -> dict[str, Any]:
-    require(authority_token == AUTHORITY_TOKEN, "PI0116 authority token mismatch")
-    require(type(repair_cycle) is int and 0 <= repair_cycle <= 2, "repair cycle exceeds PI0116 budget")
-    require(type(smoke_attempt) is int and 1 <= smoke_attempt <= 3, "smoke attempt exceeds PI0116 budget")
+    require(authority_token == AUTHORITY_TOKEN, "PI0117 authority token mismatch")
+    require(type(repair_cycle) is int and 0 <= repair_cycle <= 2, "repair cycle exceeds PI0117 budget")
+    require(type(smoke_attempt) is int and 1 <= smoke_attempt <= 6, "smoke attempt exceeds PI0117 budget")
     require(not evidence_root.exists(), "evidence root is not fresh")
     require(evidence_root.parent.is_dir(), "evidence parent does not exist")
     checkout = checkout_observation(expected_head)
@@ -437,7 +438,7 @@ def execute(paths_file: Path, evidence_root: Path, expected_head: str, authority
             env=env,
             record_root=evidence_root,
         )
-        require(smoke.get("status") == "PASS" and smoke.get("token") == SMOKE_PASS_TOKEN, "smoke did not produce PI0116 PASS token")
+        require(smoke.get("status") == "PASS" and smoke.get("token") == SMOKE_PASS_TOKEN, "smoke did not produce PI0117 PASS token")
         require(smoke.get("execution_head") == expected_head, "smoke HEAD mismatch")
         smoke_seal_path = smoke_root / "preflight_seal.json"
         require(smoke_seal_path.is_file(), "smoke seal is absent")
@@ -488,12 +489,16 @@ def execute(paths_file: Path, evidence_root: Path, expected_head: str, authority
             env=env,
             record_root=evidence_root,
         )
-        require(full_result.get("status") == "PASS" and full_result.get("token") == FULL_PASS_TOKEN, "full D1 did not produce PI0116 completion token")
+        require(full_result.get("status") == "PASS" and full_result.get("token") == FULL_PASS_TOKEN, "full D1 did not produce PI0117 completion token")
         result = {
             "schema": "VANDA_STAGE45D_D1_H200_SMOKE_TO_FULL_LAUNCHER_SEAL_V1",
             "status": "PASS",
             "token": FULL_PASS_TOKEN,
-            "authority": {"issue_11_comment": PI_GATE_COMMENT, "pr_49_comment": PR49_POINTER_COMMENT},
+            "authority": {
+                "issue_11_comment": PI_GATE_COMMENT,
+                "pr_51_comment": PR51_POINTER_COMMENT,
+                "issue_50_comment": ISSUE50_POINTER_COMMENT,
+            },
             "source_scientific_head": SOURCE_SCIENTIFIC_HEAD,
             "execution_head": expected_head,
             "branch": EXPECTED_BRANCH,

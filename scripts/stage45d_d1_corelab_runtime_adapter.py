@@ -48,8 +48,8 @@ ADAPTER_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_4080S_RUNTIME_ADAPTER_V1"
 PROFILE_SCHEMA = "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1"
 RETURN_TOKEN = "STAGE45D_D1_VANDA_H200_SMOKE_STATIC_READY"
 SMOKE_PASS_TOKEN = "STAGE45D_D1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
-PI_GATE_COMMENT = 5629246685
-PR49_POINTER_COMMENT = 5629248074
+PI_GATE_COMMENT = 5629752688
+PR51_POINTER_COMMENT = 5629755293
 SUPPORT_HEAD = "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
 CHECKPOINT = "FULL24@2000"
 CHECKPOINT_TREE_SHA256 = "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
@@ -215,8 +215,8 @@ def validate_profile(path: Path = PROFILE_PATH) -> dict[str, Any]:
     _require(payload.get("status") == "READY_FOR_PI_REVIEW_NOT_EXECUTED", "preflight profile is not static-only")
     _require(payload.get("return_token") == RETURN_TOKEN, "preflight return token drift")
     authority = _mapping(payload.get("authority"), field="profile.authority")
-    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0116 authority drift")
-    _require(authority.get("pr_49_comment") == PR49_POINTER_COMMENT, "PR #49 pointer drift")
+    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0117 authority drift")
+    _require(authority.get("pr_51_comment") == PR51_POINTER_COMMENT, "PR #51 pointer drift")
     _require(authority.get("prepared_from_support_head") == SUPPORT_HEAD, "preflight support-base drift")
     adapter = _mapping(payload.get("runtime_adapter"), field="profile.runtime_adapter")
     _require(adapter.get("path") == "scripts/stage45d_d1_corelab_runtime_adapter.py", "adapter path drift")
@@ -499,7 +499,7 @@ def _runtime_failure_seal(output_root: Path | None, reason: str, counters: Mappi
 
 
 def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], authority_token: str) -> dict[str, Any]:
-    """Guarded PI0116 H200 smoke execution."""
+    """Guarded PI0117 H200 smoke execution."""
 
     binding = _mapping(runtime_document.get("binding", runtime_document), field="runtime_document.binding")
     observed = _mapping(runtime_document.get("observed"), field="runtime_document.observed")
@@ -639,7 +639,7 @@ def execute(runtime_document: Mapping[str, Any], *, profile: Mapping[str, Any], 
                 "pass": bool(total_vram - peak_reserved >= required_free),
             }
             telemetry["resource_margin"] = resource_margin
-            _require(resource_margin["pass"], "VANDA_H200_RESOURCE_BLOCKER: VRAM margin below PI0116 floor")
+            _require(resource_margin["pass"], "VANDA_H200_RESOURCE_BLOCKER: VRAM margin below PI0117 floor")
             telemetry["per_probe_latency_s"] = [row["latency_s"] for row in rows]
             seal = {
                 "schema": "VANDA_STAGE45D_D1_H200_SMOKE_SEAL_V1",
@@ -699,7 +699,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             _require(args.runtime_binding is not None, "--execute requires --runtime-binding")
             profile = validate_profile(args.profile)
-            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0116 H200 smoke runtime is not authorized")
+            _require(os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_RUNTIME") == "authorized", "PI0117 H200 smoke runtime is not authorized")
             authority_token = os.environ.get("STAGE45D_D1_CORELAB_PREFLIGHT_AUTHORITY_TOKEN", "")
             document = read_json(Path(args.runtime_binding))
             payload = execute(document, profile=profile, authority_token=authority_token)

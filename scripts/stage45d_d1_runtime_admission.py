@@ -26,8 +26,9 @@ COMPATIBILITY_SCHEMA = "CORELAB_STAGE45D_D1_RUNTIME_COMPATIBILITY_MAP_V1"
 PROTOCOL_PROVENANCE_HEAD = "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb"
 PROTOCOL_SHA256 = "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3"
 SUPPORT_BRANCH = "stage45d/corelab-d1-protocol-correction"
-PI_GATE_COMMENT = 5629246685
-ISSUE50_POINTER_COMMENT = 5629249518
+PI_GATE_COMMENT = 5629752688
+PR51_POINTER_COMMENT = 5629755293
+ISSUE50_POINTER_COMMENT = 5629756230
 RETURN_TOKEN = "STAGE45D_D1_RUNTIME_ADMISSION_READY_FOR_H200_GATE"
 
 CHECKPOINT_ORDER = ("STRUCTURED@1000", "FULL24@1000", "FULL24@2000")
@@ -167,7 +168,8 @@ def validate_compatibility_map(path: Path = COMPATIBILITY_MAP_PATH) -> dict[str,
     _require(payload.get("schema") == COMPATIBILITY_SCHEMA, "compatibility-map schema drift")
     _require(payload.get("status") == "STATIC_ONLY_NOT_EXECUTED", "compatibility map must remain static-only")
     authority = _mapping(payload.get("authority"), field="compatibility.authority")
-    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0116 compatibility authority drift")
+    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0117 compatibility authority drift")
+    _require(authority.get("pr_51_comment") == PR51_POINTER_COMMENT, "PR #51 compatibility pointer drift")
     _require(authority.get("issue_50_comment") == ISSUE50_POINTER_COMMENT, "Issue #50 pointer drift")
     provenance = _mapping(payload.get("protocol_provenance"), field="compatibility.protocol_provenance")
     _require(provenance.get("head") == PROTOCOL_PROVENANCE_HEAD, "protocol provenance HEAD drift")
@@ -193,7 +195,8 @@ def validate_admission_manifest(path: Path = ADMISSION_MANIFEST_PATH) -> dict[st
     _require(payload.get("status") == "STATIC_TEMPLATE_NOT_EXECUTED", "runtime-admission package must remain static-only")
     _require(payload.get("return_token") == RETURN_TOKEN, "runtime-admission return token drift")
     authority = _mapping(payload.get("authority"), field="admission.authority")
-    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0116 authority drift")
+    _require(authority.get("issue_11_comment") == PI_GATE_COMMENT, "PI0117 authority drift")
+    _require(authority.get("pr_51_comment") == PR51_POINTER_COMMENT, "PR #51 pointer drift")
     _require(authority.get("issue_50_comment") == ISSUE50_POINTER_COMMENT, "Issue #50 pointer drift")
     provenance = _mapping(payload.get("protocol_provenance"), field="admission.protocol_provenance")
     _require(provenance.get("head") == PROTOCOL_PROVENANCE_HEAD, "protocol provenance HEAD drift")
