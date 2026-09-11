@@ -462,7 +462,7 @@ def _verify_n2_checkpoint_root(root: Path, expected_seed: int) -> dict[str, Any]
 
 
 def _require_legacy_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Path] | None = None) -> dict[str, Any]:
-    """Bind actual comparator/replica bytes; raw-only evidence cannot substitute."""
+    """Bind actual comparator/replica bytes; no scratch-path substitution."""
 
     require(args.legacy_full24_2000 is not None, "G3/G4 require --legacy-full24-2000; raw-only comparator evidence is not a model")
     legacy = Path(args.legacy_full24_2000).resolve()
