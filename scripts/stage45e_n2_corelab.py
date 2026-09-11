@@ -614,7 +614,14 @@ def _run_training(paths: Mapping[str, Path], output_root: Path, gpu: Mapping[str
         "checkpoint_writes": 0,
     })
 
-    from stage45b_full24_fresh_base_train import _load_config
+    # Recreate the same offline runtime namespace in the clean training
+    # process.  Child-process environment mutations are intentionally not
+    # inherited, so this must be explicit after canary isolation.
+    _prepare_runtime_environment(paths, output_root, gpu)
+    if str(paths["groot"]) not in sys.path:
+        sys.path.insert(0, str(paths["groot"]))
+    from stage45b_full24_fresh_base_train import _bind_cosmos_processor, _load_config
+    _bind_cosmos_processor(paths["cosmos"] / "snapshots" / EXPECTED_COSMOS_REVISION)
 
     config = _load_config(
         paths["config"],
