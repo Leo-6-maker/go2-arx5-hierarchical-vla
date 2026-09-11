@@ -44,6 +44,20 @@ def _positive_int_list(value: Any, field: str) -> list[int]:
     return list(value)
 
 
+def _checkpoint_schedule(value: Any, tiers: Sequence[int]) -> dict[str, list[int]]:
+    require(isinstance(value, Mapping), "training.checkpoint_steps_by_tier must be object")
+    expected_keys = [str(tier) for tier in tiers]
+    require(list(value.keys()) == expected_keys, "checkpoint_steps_by_tier key/order drift")
+    result: dict[str, list[int]] = {}
+    for tier in tiers:
+        key = str(tier)
+        steps = _positive_int_list(value[key], f"training.checkpoint_steps_by_tier[{key}]")
+        require(all(step <= tier for step in steps), f"checkpoint step exceeds run tier {tier}")
+        require(steps[-1] == tier, f"run tier {tier} must retain its terminal checkpoint")
+        result[key] = steps
+    return result
+
+
 def analyze(value: Any) -> dict[str, Any]:
     require(isinstance(value, Mapping), "request must be object")
     require(value.get("schema") == "STAGE45F_LARGE_SCALE_CAMPAIGN_REQUEST_V1", "schema drift")
@@ -75,8 +89,14 @@ def analyze(value: Any) -> dict[str, Any]:
     require(isinstance(training, Mapping), "training block missing")
     seeds = _positive_int_list(training.get("predeclared_seeds"), "training.predeclared_seeds")
     step_tiers = _positive_int_list(training.get("optimizer_step_tiers"), "training.optimizer_step_tiers")
-    checkpoint_steps = _positive_int_list(training.get("checkpoint_steps"), "training.checkpoint_steps")
-    require(set(checkpoint_steps).issubset(set(step_tiers)), "checkpoint_steps must be a subset of optimizer_step_tiers")
+    checkpoint_steps_by_tier = _checkpoint_schedule(training.get("checkpoint_steps_by_tier"), step_tiers)
+    tier_execution_mode = training.get("tier_execution_mode")
+    require(tier_execution_mode in {"INDEPENDENT_FRESH_RUNS", "RESUME_CHAIN"}, "training.tier_execution_mode invalid")
+    resume_continuity = training.get("resume_continuity_plan_sha256")
+    if tier_execution_mode == "RESUME_CHAIN":
+        _sha(resume_continuity, "training.resume_continuity_plan_sha256")
+    else:
+        require(resume_continuity in {None, ""}, "fresh independent tiers must not claim a resume-continuity plan")
     require(training.get("retry_selection_by_metric") is False, "metric-based retry selection must be disabled")
     require(training.get("adaptive_step_extension") is False, "adaptive step extension must be disabled before a new PI gate")
     require(isinstance(training.get("stop_extension_rule"), str) and training["stop_extension_rule"], "predeclared stop/extension rule missing")
@@ -126,13 +146,15 @@ def analyze(value: Any) -> dict[str, Any]:
     require(exposure.get("epoch_claim_from_steps") is False, "steps must not be relabeled as epochs")
 
     return {
-        "schema": "STAGE45F_LARGE_SCALE_CAMPAIGN_ADMISSION_V1",
+        "schema": "STAGE45F_LARGE_SCALE_CAMPAIGN_ADMISSION_V2",
         "status": "PASS_STRUCTURE_ONLY_PI_EXECUTION_GATE_REQUIRED",
         "decision_state": "PI_GATE_REQUIRED",
         "candidate": dict(candidate),
         "predeclared_seeds": seeds,
         "optimizer_step_tiers": step_tiers,
-        "checkpoint_steps": checkpoint_steps,
+        "checkpoint_steps_by_tier": checkpoint_steps_by_tier,
+        "tier_execution_mode": tier_execution_mode,
+        "resume_continuity_plan_sha256": resume_continuity or None,
         "required_preflight_evidence": normalized_evidence,
         "resource": dict(resource),
         "storage_ready": True,
@@ -144,7 +166,7 @@ def analyze(value: Any) -> dict[str, Any]:
         "training_authorized": False,
         "gpu_authorized": False,
         "pbs_authorized": False,
-        "claim_boundary": "This artifact only proves that a future campaign request is structurally complete. It does not establish that the selected candidate is scientifically justified and does not authorize execution.",
+        "claim_boundary": "This artifact only proves that a future campaign request is structurally complete. Run tiers and checkpoint schedules are separate. It does not establish scientific justification and does not authorize execution.",
     }
 
 
