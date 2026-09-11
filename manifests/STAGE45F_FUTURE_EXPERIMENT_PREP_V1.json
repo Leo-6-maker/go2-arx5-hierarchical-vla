@@ -1,10 +1,11 @@
 {
-  "schema": "STAGE45F_FUTURE_EXPERIMENT_PREP_V1",
+  "schema": "STAGE45F_FUTURE_EXPERIMENT_PREP_V2",
   "status": "PREP_ONLY_NO_EXECUTION",
   "authority": {
     "issue": 11,
     "pi_gate": "PI_GATE_STATE_0129",
-    "issue_comment": 5637525136
+    "issue_comment": 5637525136,
+    "note": "Preparation authority only; no scenario below is execution-authorized by this manifest."
   },
   "repository": {
     "branch": "stage45f/pi-prep-scaling-data-rollout",
@@ -14,35 +15,58 @@
   "scenario_classes": [
     "SEED_REPLICATION",
     "EXPOSURE_SCALING",
-    "DATA_EXPANSION",
+    "STATIC_DATA_EXPANSION",
     "DATA_PLUS_NORMALIZATION",
+    "SAMPLING_MIX_CHANGE",
+    "RESOURCE_PORT_OR_SCALE",
     "ROLLOUT_RELABEL",
-    "VALIDATION_RECIPE_FREEZE"
+    "N2_X_L1_FACTORIAL_INTERACTION",
+    "CHECKPOINT_SELECTION_GENERATION",
+    "VALIDATION_RECIPE_FREEZE",
+    "VALIDATION_ACCESS_GENERATION",
+    "LARGE_SCALE_CAMPAIGN",
+    "RETRY_OR_READONLY_RECOVERY"
   ],
-  "hypothetical_training_tiers": [
-    4000,
-    8000
-  ],
+  "hypothetical_training_tiers": [4000, 8000],
   "hypothetical_only": true,
   "training_scaling_contract": {
     "steps_are_not_epochs": true,
-    "exact_sample_exposure_required_for_epoch_claim": true,
-    "loader_sampler_state_must_be_logged": true,
-    "scheduler_horizon_change_is_a_confound": true,
+    "scheduler_horizon_must_be_bound": true,
     "cosine_scheduler_max_steps_binding_must_be_audited": true,
     "resume_from_2000_is_not_assumed_equivalent_to_fresh_4000": true,
-    "optimizer_scheduler_rng_state_identity_required_for_resume_claim": true
+    "optimizer_scheduler_rng_state_identity_required_for_resume_claim": true,
+    "run_tiers_and_checkpoint_steps_are_distinct": true,
+    "tier_execution_mode_must_be_named": ["INDEPENDENT_FRESH_RUNS", "RESUME_CHAIN"],
+    "no_adaptive_tier_extension_without_new_pi_gate": true,
+    "no_metric_based_retry_selection": true
+  },
+  "exposure_instrumentation_contract": {
+    "dataset_fetch_trace_is_not_optimizer_step_trace": true,
+    "rank_local_fetch_trace_must_be_fresh_and_sealed": true,
+    "per_fetch_fsync_forbidden_by_prep_design": true,
+    "optimizer_step_trace_requires_after_successful_optimizer_step_boundary": true,
+    "optimizer_step_trace_requires_exactly_one_event_per_rank_per_step": true,
+    "microbatch_sample_count_closure_required": true,
+    "exact_per_window_exposure_requires_runtime_trace": true,
+    "epoch_claim_is_never_derived_automatically": true
   },
   "dataset_expansion_contract": {
-    "validation_e_must_remain_excluded": true,
-    "holdout_f_must_remain_excluded": true,
-    "new_window_ids_must_be_unique": true,
+    "accepted_full24_lineage_must_be_preserved": true,
+    "new_window_ids_must_be_disjoint": true,
     "source_episode_ids_must_be_traceable": true,
-    "target_initial_condition_coverage_must_be_reported": true,
-    "current_stats_clipping_must_be_reported_before_stats_change": true,
-    "recomputed_stats_changes_scientific_intervention": true,
-    "data_only_label_requires_frozen_stats_and_acceptable_support_to_be_decided_by_pi": true,
-    "expanded_stats_route_must_be_named_data_plus_normalization": true
+    "independent_expert_or_oracle_label_provenance_required": true,
+    "exact_payload_source_label_fingerprints_reported": true,
+    "exact_duplicates_reported_not_auto_removed": true,
+    "target_source_episode_initial_state_coverage_reported": true,
+    "current_stats_support_must_be_reported_before_stats_change": true,
+    "all_active_t16_semantic_groups_must_be_audited": ["XYZ", "ROT6D", "TIMING", "GRIPPER"],
+    "recomputed_numerical_stats_changes_scientific_intervention": true,
+    "provenance_only_stats_identity_change_is_not_numeric_normalization_change": true,
+    "expanded_stats_route_must_be_named_data_plus_normalization": true,
+    "sampling_mix_policy_must_be_named": true,
+    "nominal_sampling_probability_is_not_realized_exposure": true,
+    "validation_e_must_remain_excluded": true,
+    "holdout_f_must_remain_excluded": true
   },
   "rollout_relabel_contract": {
     "policy_or_wbc_may_generate_visited_states": true,
@@ -51,21 +75,72 @@
     "visited_state_identity_must_be_preserved": true,
     "oracle_label_identity_must_be_preserved": true,
     "policy_checkpoint_generating_state_must_be_recorded": true,
+    "wbc_identity_required_if_wbc_generates_state": true,
+    "collection_and_relabel_budgets_must_be_predeclared": true,
     "no_validation_or_holdout_state_collection": true
   },
   "replication_contract": {
+    "canonical_training_seed_family": [2222, 2223, 2224],
     "training_seed_is_a_first_class_identity": true,
     "candidate_recipe_must_be_frozen_before_replication": true,
     "no_metric_based_retry_selection": true,
     "all_completed_valid_replicates_must_be_preserved": true
   },
-  "validation_freeze_contract": {
-    "one_candidate_recipe_only": true,
-    "checkpoint_identity_frozen_before_read": true,
-    "normalization_loss_sampler_frozen_before_read": true,
-    "no_post_validation_recipe_tuning_under_same_selection_decision": true,
-    "validation_e_execute_supported": false,
+  "factorial_contract": {
+    "cells": {
+      "A": "FULL24 normalization + legacy loss",
+      "B": "N2 normalization + legacy loss",
+      "C": "FULL24 normalization + L1 loss",
+      "D": "N2 normalization + L1 loss"
+    },
+    "combined_D_arm_locked": true,
+    "matched_seed_interaction_requires_same_seed_across_A_B_C_D": true,
+    "no_additivity_assumption": true
+  },
+  "checkpoint_selection_contract": {
+    "candidate_checkpoint_set_must_be_preregistered": true,
+    "pi_selection_required": true,
+    "automatic_best_checkpoint_selection": false,
+    "unregistered_posthoc_checkpoint_selection": false,
+    "selection_generation_must_be_recorded": true
+  },
+  "validation_contract": {
+    "recipe_freeze_required_before_first_read": true,
+    "access_generation_must_be_recorded": true,
+    "second_read_cannot_be_called_first_unseen": true,
+    "failed_or_weak_validation_result_must_be_preserved": true,
+    "prior_validation_may_support_direction_but_not_new_scaled_checkpoint": true,
+    "new_scaled_checkpoint_requires_later_governed_validation_generation": true,
     "holdout_f_execute_supported": false
+  },
+  "resource_and_storage_contract": {
+    "resource_port_must_audit_effective_global_batch": true,
+    "precision_change_is_not_pure_resource_port": true,
+    "distributed_strategy_change_requires_audit": true,
+    "all_scientifically_valid_runs_retained": true,
+    "storage_estimate_must_distinguish_independent_tiers_vs_resume_chain": true,
+    "automatic_deletion_of_worse_valid_runs": false
+  },
+  "retry_recovery_contract": {
+    "failed_evidence_must_be_preserved": true,
+    "postprocessing_failure_after_valid_training_prefers_readonly_recovery": true,
+    "engineering_retry_must_not_hide_science_change": true,
+    "engineering_retry_must_not_hide_resource_semantics_change": true,
+    "scientific_integrity_failure_requires_new_pi_gate": true,
+    "metric_based_retry_selection": false
+  },
+  "large_scale_campaign_contract": {
+    "pi_selected_frozen_candidate_required": true,
+    "checkpoint_selection_ledger_required": true,
+    "seed_family_step_tiers_scheduler_resource_semantics_predeclared": true,
+    "optimizer_step_bound_exposure_trace_required": true,
+    "storage_retention_plan_required": true,
+    "stop_extension_rule_required": true,
+    "expanded_dataset_requires_union_duplicate_coverage_sampling_support_preflight": true,
+    "prior_validation_does_not_validate_new_scaled_terminal_checkpoint": true,
+    "training_authorized_by_prep": false,
+    "gpu_authorized_by_prep": false,
+    "pbs_authorized_by_prep": false
   },
   "locked": {
     "model_construction": true,
@@ -73,8 +148,11 @@
     "training": true,
     "gpu": true,
     "pbs": true,
-    "Validation-E": true,
+    "new_data_collection": true,
+    "Validation-E_execution": true,
     "Holdout-F": true,
+    "N2_plus_L1_execution": true,
+    "broad_4k_8k_training": true,
     "WBC": true,
     "simulator": true,
     "hardware": true,
