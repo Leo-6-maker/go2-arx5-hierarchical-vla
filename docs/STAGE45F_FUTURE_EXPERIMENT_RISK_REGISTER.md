@@ -204,6 +204,12 @@ stage45f_rollout_relabel_admission.py
 stage45f_recipe_freeze.py
   -> exact selected-recipe ledger before any Validation-E request
 
+stage45f_seed_replication_plan.py
+  -> missing seeds from the predeclared 2222/2223/2224 family without metric-based replacement
+
+stage45f_validation_access_ledger.py
+  -> explicit Validation-E generation ledger; later reads cannot be mislabeled as first unseen
+
 stage45f_compute_budget.py
   -> telemetry-bound walltime/storage estimates only
 ```
