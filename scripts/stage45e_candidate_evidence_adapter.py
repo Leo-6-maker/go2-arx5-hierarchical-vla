@@ -2,9 +2,10 @@
 """Normalize sealed Stage45E TRAIN24 row bundles for neutral PI comparison.
 
 The adapter reads only explicitly supplied, already-derived per-window row JSON
-artifacts and verifies their hashes, schema, checkpoint labels, window order,
-and TRAIN24 cardinality. It never reads model checkpoints, raw tensors,
-datasets, Validation-E, Holdout-F, or GPU state.
+artifacts and verifies their hashes, schema, checkpoint labels/tree identities,
+window order, TRAIN24 cardinality, and explicit upstream evidence lineage. It
+never reads model checkpoints, raw tensors, datasets, Validation-E, Holdout-F,
+or GPU state.
 """
 
 from __future__ import annotations
@@ -66,10 +67,19 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _sha256_string(value: Any, field: str) -> str:
+    require(isinstance(value, str) and len(value) == 64, f"{field} must be 64-char SHA256")
+    require(all(character in "0123456789abcdef" for character in value.lower()), f"{field} is not hexadecimal")
+    return value.lower()
+
+
 def manifest() -> dict[str, Any]:
     value = read_json(MANIFEST_PATH)
     require(value.get("schema") == "STAGE45E_NEUTRAL_CANDIDATE_SELECTION_PREP_V1", "manifest schema drift")
     require(value.get("status") == "PREP_ONLY_NO_EXECUTION", "manifest is not prep-only")
+    provenance = value.get("required_candidate_provenance")
+    require(isinstance(provenance, Mapping), "manifest candidate provenance contract missing")
+    require(provenance.get("row_checkpoint_sha_must_equal_checkpoint_tree_sha256") is True, "row/checkpoint provenance binding relaxed")
     return value
 
 
@@ -112,6 +122,7 @@ def plan() -> dict[str, Any]:
         "accepted_row_schema": cfg["accepted_row_schema"],
         "candidate_order": cfg["candidate_order"],
         "source_checkpoint_label": cfg["source_checkpoint_label"],
+        "required_candidate_provenance": cfg["required_candidate_provenance"],
         "row_metric_mapping": cfg["row_metric_mapping"],
         "normalized_output_schema": cfg["normalized_input_schema"],
         "static_guard": guard,
@@ -150,12 +161,30 @@ def _extract_metrics(row: Mapping[str, Any], cfg: Mapping[str, Any]) -> dict[str
     return result
 
 
-def _checkpoint_label(row: Mapping[str, Any]) -> str:
+def _checkpoint_identity(row: Mapping[str, Any]) -> tuple[str, str]:
     checkpoint = row.get("checkpoint")
     require(isinstance(checkpoint, Mapping), "row checkpoint identity missing")
     label = checkpoint.get("label")
     require(isinstance(label, str) and label, "row checkpoint label missing")
-    return label
+    sha256 = _sha256_string(checkpoint.get("sha256"), "row checkpoint.sha256")
+    return label, sha256
+
+
+def _validate_provenance(canonical_label: str, provenance: Any, cfg: Mapping[str, Any]) -> dict[str, Any]:
+    require(isinstance(provenance, Mapping), f"{canonical_label}: provenance missing")
+    contract = cfg["required_candidate_provenance"]
+    result = dict(provenance)
+    for field in contract["sha256_fields"]:
+        result[field] = _sha256_string(provenance.get(field), f"{canonical_label}: provenance.{field}")
+    for field in contract["identity_fields"]:
+        value = provenance.get(field)
+        require(isinstance(value, str) and value.strip(), f"{canonical_label}: provenance.{field} missing")
+        result[field] = value.strip()
+    require(
+        result["lineage_kind"] in set(contract["allowed_lineage_kinds"]),
+        f"{canonical_label}: provenance.lineage_kind invalid",
+    )
+    return result
 
 
 def _normalize_candidate(
@@ -165,10 +194,11 @@ def _normalize_candidate(
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rows_path_value = spec.get("rows_json")
     expected_sha = spec.get("rows_sha256")
-    provenance = spec.get("provenance")
     require(isinstance(rows_path_value, str) and rows_path_value, f"{canonical_label}: rows_json missing")
-    require(isinstance(expected_sha, str) and len(expected_sha) == 64, f"{canonical_label}: rows_sha256 missing")
-    require(isinstance(provenance, Mapping) and provenance, f"{canonical_label}: provenance missing")
+    expected_sha = _sha256_string(expected_sha, f"{canonical_label}: rows_sha256")
+    provenance = _validate_provenance(canonical_label, spec.get("provenance"), cfg)
+    checkpoint_tree_sha256 = provenance["checkpoint_tree_sha256"]
+
     rows_path = Path(rows_path_value).expanduser().resolve()
     observed_sha = sha256_file(rows_path)
     require(observed_sha == expected_sha, f"{canonical_label}: rows JSON SHA mismatch")
@@ -179,7 +209,12 @@ def _normalize_candidate(
     for index, row in enumerate(payload):
         require(isinstance(row, Mapping), f"{canonical_label}: row {index} is not an object")
         require(row.get("schema") == cfg["accepted_row_schema"], f"{canonical_label}: row schema drift")
-        require(_checkpoint_label(row) == expected_checkpoint_label, f"{canonical_label}: checkpoint label drift")
+        row_checkpoint_label, row_checkpoint_sha = _checkpoint_identity(row)
+        require(row_checkpoint_label == expected_checkpoint_label, f"{canonical_label}: checkpoint label drift")
+        require(
+            row_checkpoint_sha == checkpoint_tree_sha256,
+            f"{canonical_label}: row checkpoint SHA does not match provenance checkpoint tree",
+        )
         window_id = row.get("window_id")
         target_id = row.get("target_id")
         require(isinstance(window_id, str) and window_id, f"{canonical_label}: window_id missing")
@@ -197,9 +232,11 @@ def _normalize_candidate(
     normalized_provenance = dict(provenance)
     normalized_provenance.update(
         {
+            "canonical_candidate_label": canonical_label,
             "rows_json_sha256": observed_sha,
             "source_checkpoint_label": expected_checkpoint_label,
             "accepted_row_schema": cfg["accepted_row_schema"],
+            "row_checkpoint_tree_binding": "EXACT",
         }
     )
     return normalized_rows, normalized_provenance
