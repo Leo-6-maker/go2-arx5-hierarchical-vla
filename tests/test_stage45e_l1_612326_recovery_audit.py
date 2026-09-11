@@ -28,8 +28,8 @@ def _mask() -> list[list[float]]:
 
 
 def _training_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    root = tmp_path / f"stage45e_l1_h200_20260911_377b5012_{recovery.EXPECTED_PBS_JOBID}"
-    root.mkdir()
+    root = tmp_path / f"stage45e_l1_h200_20260911_{recovery.TRAINING_HEAD[:8]}_{recovery.EXPECTED_PBS_JOBID}"
+    root.mkdir(parents=True)
 
     _write_json(
         root / "stage45e_l1_failure.json",
@@ -46,6 +46,26 @@ def _training_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
             "simulator_steps": 0,
             "hardware_steps": 0,
         },
+    )
+
+    runtime_side = {
+        "execution_checkout": {
+            "authorized_branch": recovery.BRANCH,
+            "authorized_head": recovery.TRAINING_HEAD,
+        },
+        "host_gpu_runtime": {
+            "pbs_jobid": recovery.EXPECTED_PBS_JOBID,
+            "host": "hopper-fixture",
+            "gpu_uuid": "GPU-fixture",
+        },
+        "runtime_identity": {
+            "pbs_jobid": recovery.EXPECTED_PBS_JOBID,
+            "host": "hopper-fixture",
+        },
+    }
+    _write_json(
+        root / "stage45e_l1_runtime_binding.json",
+        {"binding": runtime_side, "observed": runtime_side},
     )
 
     events = [
@@ -98,7 +118,6 @@ def _training_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         (checkpoint / "model.safetensors").write_bytes(b"model" + str(step).encode())
 
     for name in (
-        "stage45e_l1_runtime_binding.json",
         "stage45e_l1_pre_model_admission.json",
         "stage45e_l1_input_audit.json",
     ):
@@ -124,6 +143,9 @@ def test_valid_historical_root_produces_fresh_acceptance(tmp_path: Path, monkeyp
     assert result["checkpoint_1000"]["global_step"] == 1000
     assert result["checkpoint_2000"]["global_step"] == 2000
     assert result["structured_stats"]["mask_active_scalar_count"] == 190
+    assert result["pbs_identity"]["expected_pbs_jobid"] == recovery.EXPECTED_PBS_JOBID
+    assert result["pbs_identity"]["root_name_contains_jobid"] is True
+    assert result["pbs_identity"]["runtime_binding"]["binding"]["host_gpu_pbs_jobid"] == recovery.EXPECTED_PBS_JOBID
     assert result["scientific_claim_boundary"]["runtime_effective_weight_evidence_status"] == "NOT_CAPTURED_IN_HISTORICAL_CANARY"
     assert result["execution_counters_for_this_audit"]["model_forward"] == 0
     assert (output / "stage45e_l1_612326_readonly_acceptance.json").is_file()
@@ -157,3 +179,19 @@ def test_rejects_incomplete_checkpoint_or_wrong_event_order(tmp_path: Path, monk
     event_path.write_text("".join(json.dumps(item) + "\n" for item in rows), encoding="utf-8")
     with pytest.raises(recovery.RecoveryAuditError, match="event order drift"):
         recovery.audit(root, tmp_path / "out-d", recovery.EXPECTED_PBS_JOBID)
+
+
+def test_rejects_wrong_root_namespace_or_runtime_binding_job(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    root = _training_root(tmp_path, monkeypatch)
+    wrong_root = root.with_name(root.name.replace(recovery.EXPECTED_PBS_JOBID, "612999.hopper-m-02"))
+    root.rename(wrong_root)
+    with pytest.raises(recovery.RecoveryAuditError, match="basename does not bind"):
+        recovery.audit(wrong_root, tmp_path / "out-e", recovery.EXPECTED_PBS_JOBID)
+
+    root = _training_root(tmp_path / "fourth", monkeypatch)
+    binding_path = root / "stage45e_l1_runtime_binding.json"
+    binding = json.loads(binding_path.read_text(encoding="utf-8"))
+    binding["observed"]["runtime_identity"]["pbs_jobid"] = "612999.hopper-m-02"
+    _write_json(binding_path, binding)
+    with pytest.raises(recovery.RecoveryAuditError, match="runtime PBS identity drift"):
+        recovery.audit(root, tmp_path / "out-f", recovery.EXPECTED_PBS_JOBID)
