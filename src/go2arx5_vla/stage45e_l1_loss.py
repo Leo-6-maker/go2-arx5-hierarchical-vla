@@ -94,7 +94,7 @@ def loss_weight_contract(mask: Any | None = None) -> dict[str, Any]:
                 f"action mask shape drift: {observed.shape} != {expected_mask.shape}"
             )
         if observed.dtype.kind not in {"f"}:
-            raise L1LossContractError("action mask must use a floating binary representation")
+            raise L1LossContractError("action mask must use a floating binary T16 representation")
         if not np.array_equal(observed, expected_mask):
             raise L1LossContractError("action mask is not the frozen binary T16 mask")
     if L1_LOSS_WEIGHT_MATRIX.shape != (ACTION_HORIZON, ACTION_DIM):
@@ -158,7 +158,7 @@ def _validate_torch_tensors(torch_module: Any, action_loss: Any, action_mask: An
     if not bool(torch_module.isfinite(action_mask).all().item()):
         raise L1LossContractError("action mask is non-finite")
     if not bool(torch_module.is_floating_point(action_mask)):
-        raise L1LossContractError("action mask must use a floating binary representation")
+        raise L1LossContractError("action mask must use a floating binary T16 representation")
     expected = torch_module.as_tensor(
         canonical_action_mask(), dtype=action_mask.dtype, device=action_mask.device
     ).unsqueeze(0).expand(action_mask.shape[0], -1, -1)
