@@ -2,9 +2,9 @@
 """CPU/static planner for possible post-Stage45E scientific branches.
 
 This module is deliberately unable to execute models, training, simulation,
-or Validation/Holdout reads.  It accepts only compact PI-supplied summaries
-of already-sealed TRAIN evidence and produces a scenario matrix plus explicit
-confound warnings.  It never authorizes an experiment or declares a winner.
+or Validation/Holdout reads. It accepts only compact PI-supplied summaries of
+already-sealed TRAIN evidence and produces a scenario matrix plus explicit
+confound warnings. It never authorizes an experiment or declares a winner.
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ def read_json(path: Path) -> Any:
 
 def manifest() -> dict[str, Any]:
     value = read_json(MANIFEST)
-    require(value.get("schema") == "STAGE45F_FUTURE_EXPERIMENT_PREP_V1", "manifest schema drift")
+    require(value.get("schema") == "STAGE45F_FUTURE_EXPERIMENT_PREP_V2", "manifest schema drift")
     require(value.get("status") == "PREP_ONLY_NO_EXECUTION", "manifest is not prep-only")
     require(value.get("hypothetical_only") is True, "training tiers are not hypothetical")
     return value
@@ -67,7 +67,7 @@ def static_guard() -> dict[str, Any]:
             imports.add(node.module.split(".", 1)[0])
     forbidden = sorted(imports.intersection(FORBIDDEN_TOP_LEVEL_IMPORTS))
     return {
-        "schema": "STAGE45F_FUTURE_EXPERIMENT_STATIC_GUARD_V1",
+        "schema": "STAGE45F_FUTURE_EXPERIMENT_STATIC_GUARD_V2",
         "status": "PASS" if not forbidden else "BLOCKED",
         "forbidden_top_level_imports": forbidden,
         "model_construction": 0,
@@ -87,17 +87,30 @@ def plan() -> dict[str, Any]:
     cfg = manifest()
     guard = static_guard()
     require(guard["status"] == "PASS", "static guard failed")
+    contract_keys = (
+        "training_scaling_contract",
+        "exposure_instrumentation_contract",
+        "dataset_expansion_contract",
+        "rollout_relabel_contract",
+        "replication_contract",
+        "factorial_contract",
+        "checkpoint_selection_contract",
+        "validation_contract",
+        "resource_and_storage_contract",
+        "retry_recovery_contract",
+        "large_scale_campaign_contract",
+    )
+    contracts = {}
+    for key in contract_keys:
+        require(isinstance(cfg.get(key), Mapping), f"manifest contract missing: {key}")
+        contracts[key] = cfg[key]
     return {
-        "schema": "STAGE45F_FUTURE_EXPERIMENT_PLAN_V1",
+        "schema": "STAGE45F_FUTURE_EXPERIMENT_PLAN_V2",
         "status": "PASS_STATIC_NOT_EXECUTED",
         "authority": cfg["authority"],
         "scenario_classes": cfg["scenario_classes"],
         "hypothetical_training_tiers": cfg["hypothetical_training_tiers"],
-        "training_scaling_contract": cfg["training_scaling_contract"],
-        "dataset_expansion_contract": cfg["dataset_expansion_contract"],
-        "rollout_relabel_contract": cfg["rollout_relabel_contract"],
-        "replication_contract": cfg["replication_contract"],
-        "validation_freeze_contract": cfg["validation_freeze_contract"],
+        "contracts": contracts,
         "execution_supported": False,
         "decision_state": "PI_DECISION_REQUIRED",
         "static_guard": guard,
@@ -118,7 +131,7 @@ def validate_summary(value: Any) -> dict[str, Any]:
     require(isinstance(value, Mapping), "summary must be an object")
     require(value.get("schema") == "STAGE45F_PI_SUPPLIED_TRAIN_EVIDENCE_SUMMARY_V1", "summary schema drift")
     require(value.get("split") == "TRAIN24", "planner accepts TRAIN24 summary only")
-    require(value.get("validation_e_read") is False, "Validation-E must remain unread")
+    require(value.get("validation_e_read") is False, "Validation-E must remain unread for this TRAIN-only summary classifier")
     require(value.get("holdout_f_read") is False, "Holdout-F must remain unread")
 
     selected_candidate = value.get("selected_candidate")
@@ -206,7 +219,6 @@ def scenario_matrix(summary: Mapping[str, Any]) -> dict[str, Any]:
         "why": "A selected TRAIN24 candidate should not be promoted from a single training seed; preserve every valid replicate and forbid metric-based retry selection.",
         "execution_authorized": False,
     })
-
     rows.append({
         "scenario": "EXPOSURE_SCALING",
         "relevant": selected is not None and exposure_trend == "IMPROVED",
@@ -214,27 +226,24 @@ def scenario_matrix(summary: Mapping[str, Any]) -> dict[str, Any]:
         "confounds": [
             "scheduler horizon / LR trajectory",
             "resume-vs-fresh optimizer and scheduler state",
-            "unknown exact per-window exposure" if not exact_exposure else "exact sample exposure available",
+            "unknown exact optimizer-step-bound per-window exposure" if not exact_exposure else "exact exposure evidence supplied",
         ],
         "hypothetical_tiers": cfg["hypothetical_training_tiers"],
         "execution_authorized": False,
     })
-
     rows.append({
         "scenario": "DATA_EXPANSION",
         "relevant": support_gap is True or heterogeneity == "HIGH",
-        "why": "Target/window heterogeneity or explicit support gaps may justify broader training support, but data expansion is not automatically a normalization-neutral intervention.",
+        "why": "Target/window heterogeneity or explicit support gaps may justify broader training support, but data expansion is not automatically normalization- or sampling-neutral.",
         "current_stats_clipping_fraction_if_known": clipping,
         "execution_authorized": False,
     })
-
     rows.append({
         "scenario": "DATA_PLUS_NORMALIZATION",
         "relevant": support_gap is True and clipping is not None and clipping > 0.0,
-        "why": "Any need to recompute or materially alter q01/q99 means the intervention is data plus normalization, not data-only. The planner deliberately does not define an acceptable clipping threshold.",
+        "why": "Any numerical change to normalization stats is data plus normalization, not data-only. The planner deliberately defines no acceptable clipping threshold.",
         "execution_authorized": False,
     })
-
     rows.append({
         "scenario": "ROLLOUT_RELABEL",
         "relevant": tf_good is True and fr_gap is True,
@@ -242,7 +251,6 @@ def scenario_matrix(summary: Mapping[str, Any]) -> dict[str, Any]:
         "groot_self_label_allowed": False,
         "execution_authorized": False,
     })
-
     rows.append({
         "scenario": "VALIDATION_RECIPE_FREEZE",
         "relevant": selected is not None and frozen and valid_seeds >= 3 and consistent is True,
@@ -252,12 +260,16 @@ def scenario_matrix(summary: Mapping[str, Any]) -> dict[str, Any]:
     })
 
     return {
-        "schema": "STAGE45F_FUTURE_EXPERIMENT_SCENARIO_MATRIX_V1",
+        "schema": "STAGE45F_FUTURE_EXPERIMENT_SCENARIO_MATRIX_V2",
         "status": "PASS_DESCRIPTIVE_TRAIN_ONLY",
         "decision_state": "PI_DECISION_REQUIRED",
         "automatic_experiment_selection": False,
         "summary": dict(summary),
         "scenarios": rows,
+        "prepared_additional_scenarios": [
+            scenario for scenario in cfg["scenario_classes"]
+            if scenario not in {row["scenario"] for row in rows}
+        ],
         "claim_boundary": {
             "no_winner_declared": True,
             "no_success_threshold_invented": True,
