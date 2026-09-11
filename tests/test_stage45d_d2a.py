@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -167,3 +168,22 @@ def test_launcher_static_guard_has_no_model_imports() -> None:
     guard = launcher.static_guard()
     assert guard["status"] == "PASS"
     assert guard["top_level_forbidden_imports"] == []
+
+
+def test_completed_evidence_gets_durable_hash_inventory(tmp_path: Path) -> None:
+    (tmp_path / "full" / "raw").mkdir(parents=True)
+    (tmp_path / "observed_runtime.json").write_text("runtime\n", encoding="utf-8")
+    (tmp_path / "full" / "raw" / "stage.json").write_text("raw\n", encoding="utf-8")
+
+    inventory_path, inventory_sha = launcher.write_inventory(tmp_path)
+
+    assert inventory_path == tmp_path / "inventory" / "SHA256SUMS"
+    assert inventory_path.is_file()
+    payload = inventory_path.read_bytes()
+    assert hashlib.sha256(payload).hexdigest() == inventory_sha
+    lines = payload.decode("utf-8").splitlines()
+    assert [line.split("  ", 1)[1] for line in lines] == [
+        "full/raw/stage.json",
+        "observed_runtime.json",
+    ]
+    assert all("inventory/SHA256SUMS" not in line for line in lines)

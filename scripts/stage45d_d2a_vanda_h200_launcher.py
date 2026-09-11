@@ -82,6 +82,28 @@ def write_json_durable(path: Path, value: Mapping[str, Any]) -> None:
     common.write_json_durable(path, value)
 
 
+def write_inventory(evidence_root: Path) -> tuple[Path, str]:
+    """Write a deterministic hash inventory for the completed evidence root."""
+    inventory_path = evidence_root / "inventory" / "SHA256SUMS"
+    inventory_path.parent.mkdir(parents=True, exist_ok=False)
+    files = sorted(
+        path
+        for path in evidence_root.rglob("*")
+        if path.is_file() and path != inventory_path
+    )
+    lines = [
+        f"{sha256_file(path)}  {path.relative_to(evidence_root).as_posix()}"
+        for path in files
+    ]
+    payload = ("\n".join(lines) + "\n").encode("utf-8")
+    temporary = inventory_path.with_name(f".{inventory_path.name}.tmp.{os.getpid()}")
+    temporary.write_bytes(payload)
+    with temporary.open("rb") as handle:
+        os.fsync(handle.fileno())
+    os.replace(temporary, inventory_path)
+    return inventory_path, hashlib.sha256(payload).hexdigest()
+
+
 def static_guard() -> dict[str, Any]:
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -398,6 +420,7 @@ def execute(paths_file: Path, evidence_root: Path, expected_head: str, repair_cy
         _require(full.get("execution_head") == expected_head, "D2A full HEAD mismatch")
         full_seal_path = full_root / "d2a_full_seal.json"
         _require(full_seal_path.is_file(), "D2A full seal is absent")
+        inventory_path, inventory_sha = write_inventory(evidence_root)
         result = {
             "schema": "VANDA_STAGE45D_D2A_H200_LAUNCHER_SEAL_V1",
             "status": "PASS",
@@ -414,6 +437,8 @@ def execute(paths_file: Path, evidence_root: Path, expected_head: str, repair_cy
             "smoke_seal_sha256": smoke_sha,
             "full_seal_path": str(full_seal_path),
             "full_seal_sha256": sha256_file(full_seal_path),
+            "inventory_path": str(inventory_path),
+            "inventory_sha256": inventory_sha,
             "repair_cycle": repair_cycle,
             "smoke_attempt": smoke_attempt,
             "automatic_retry": False,
