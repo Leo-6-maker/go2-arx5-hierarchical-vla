@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """CPU-only lineage audit for a hypothetical expanded TRAIN dataset union.
 
-The tool validates a manifest-level union of a frozen base TRAIN set and newly
-added TRAIN windows.  It never opens dataset payload bytes or executes training.
+The tool validates a manifest-level union of the accepted FULL24 TRAIN set and
+newly added TRAIN windows. It never opens dataset payload bytes or executes
+training. The accepted FULL24 tree and its 24 window identities are frozen
+here so an expansion cannot silently swap the base dataset.
 """
 
 from __future__ import annotations
@@ -13,6 +15,20 @@ import json
 from pathlib import Path
 import sys
 from typing import Any, Mapping, Sequence
+
+
+ACCEPTED_FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
+TARGET_ORDER = (
+    "red_target_train_a",
+    "red_target_train_b",
+    "red_target_train_c",
+    "red_target_train_d",
+)
+ACCEPTED_FULL24_WINDOW_IDS = tuple(
+    f"stage22_expert_{target}:expert-{index:04d}"
+    for target in TARGET_ORDER
+    for index in range(6)
+)
 
 
 class DatasetUnionError(RuntimeError):
@@ -76,12 +92,14 @@ def analyze(value: Any) -> dict[str, Any]:
     require(value.get("source_split") == "TRAIN", "union must be TRAIN-only")
     require(value.get("validation_e_read") is False and value.get("holdout_f_read") is False, "locked split read indicated")
     base_tree = value.get("base_dataset_tree_sha256")
-    require(isinstance(base_tree, str) and len(base_tree) == 64, "base dataset tree invalid")
+    require(base_tree == ACCEPTED_FULL24_TREE, "base dataset is not the accepted FULL24 tree")
     base = _window_list(value.get("base_windows"), "base_windows", new=False)
     added = _window_list(value.get("added_windows"), "added_windows", new=True)
-    require(base, "base_windows must be non-empty")
+    require(len(base) == 24, "accepted FULL24 base must contain exactly 24 windows")
     require(added, "added_windows must be non-empty")
-    base_ids = {item["window_id"] for item in base}
+    base_ids_ordered = [item["window_id"] for item in base]
+    require(base_ids_ordered == list(ACCEPTED_FULL24_WINDOW_IDS), "base FULL24 window identity/order drift")
+    base_ids = set(base_ids_ordered)
     added_ids = {item["window_id"] for item in added}
     overlap = sorted(base_ids.intersection(added_ids))
     require(not overlap, f"new windows overlap base identities: {overlap[:10]}")
@@ -99,7 +117,8 @@ def analyze(value: Any) -> dict[str, Any]:
         "base_window_count": len(base),
         "added_window_count": len(added),
         "union_window_count": len(union),
-        "base_window_ids_preserved_exactly": True,
+        "base_full24_tree_exact": True,
+        "base_window_ids_and_order_preserved_exactly": True,
         "new_window_ids_disjoint_from_base": True,
         "target_window_counts": dict(sorted(target_counts.items())),
         "added_label_source_counts": {
