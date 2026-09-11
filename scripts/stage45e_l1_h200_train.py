@@ -648,9 +648,28 @@ def _validate_sidecar(output_root: Path, stats_payload_sha: str) -> dict[str, An
     sidecar = read_json(sidecar_path)
     _require(sidecar.get("source_dataset_untouched_by_factory") is True, "structured dataset factory mutation flag drift")
     _require(sidecar.get("upstream_generate_stats_called") is False, "upstream stats generation was called")
-    _require(canonical_sha(sidecar.get("statistics", {})) == stats_payload_sha, "L1 changed FULL24 statistics")
-    _require(sidecar.get("contract", {}).get("active_scalar_count") == 190, "L1 changed active mask count")
-    return {"path": str(sidecar_path), "sha256": sha256_file(sidecar_path), "statistics_payload_sha256": canonical_sha(sidecar.get("statistics", {})), "mask_active_scalar_count": 190}
+    statistics = sidecar.get("statistics", {})
+    _require(canonical_sha(statistics) == stats_payload_sha, "L1 changed FULL24 statistics")
+    contract = sidecar.get("contract", {})
+    # The accepted StructuredAction sidecar names this frozen invariant
+    # ``mask_active_scalar_count`` (the dense 40x132 contract is a separate
+    # field).  Validate the actual serialized binary mask as well, so a stale
+    # count cannot certify a changed mask.
+    _require(contract.get("mask_active_scalar_count") == 190, "L1 changed active mask count")
+    active_mask = statistics.get("active_mask")
+    _require(isinstance(active_mask, list) and len(active_mask) == 40, "L1 active mask horizon drift")
+    _require(all(isinstance(row, list) and len(row) == 132 for row in active_mask), "L1 active mask dimension drift")
+    flat_mask = [value for row in active_mask for value in row]
+    _require(all(type(value) in (int, float) and value in (0, 1) for value in flat_mask), "L1 active mask is not binary")
+    _require(sum(flat_mask) == 190, "L1 serialized active mask count drift")
+    return {
+        "path": str(sidecar_path),
+        "sha256": sha256_file(sidecar_path),
+        "statistics_payload_sha256": canonical_sha(statistics),
+        "mask_active_scalar_count": 190,
+        "mask_shape": [40, 132],
+        "mask_binary": True,
+    }
 
 
 def _checkpoint_record(path: Path, expected_step: int) -> dict[str, Any]:

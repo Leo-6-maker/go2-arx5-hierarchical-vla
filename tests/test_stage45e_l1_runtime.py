@@ -115,3 +115,11 @@ def test_backward_canary_reproduces_frozen_cuda_bf16_context() -> None:
     context = 'with torch.autocast(device_type="cuda", dtype=torch.bfloat16):'
     assert context in source
     assert source.index(context) < source.index("outputs = model(inputs)")
+
+
+def test_post_training_sidecar_audit_uses_accepted_binary_mask_field() -> None:
+    source = (ROOT / "scripts/stage45e_l1_h200_train.py").read_text(encoding="utf-8")
+    assert 'contract.get("mask_active_scalar_count") == 190' in source
+    assert 'statistics.get("active_mask")' in source
+    assert 'sum(flat_mask) == 190' in source
+    assert 'contract.get("active_scalar_count") == 190' not in source
