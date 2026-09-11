@@ -130,6 +130,8 @@ def compare(baseline: Mapping[str, Any], proposal: Mapping[str, Any]) -> dict[st
             confounds.append("cosine_lr_history_changes_when_max_steps_changes")
         elif proposal["scheduler_horizon_binding"] == "UNKNOWN":
             confounds.append("cosine_scheduler_horizon_unknown")
+        elif proposal["scheduler_horizon_binding"] == "EXPLICIT_FIXED" and proposal["max_steps"] > proposal["scheduler_horizon_steps"]:
+            confounds.append("training_extends_beyond_explicit_scheduler_horizon_requires_defined_post_horizon_policy")
     if start_mode_change:
         confounds.append("fresh_vs_resume_changed")
     if proposal["start_mode"] == "RESUME_CHECKPOINT":
@@ -140,7 +142,7 @@ def compare(baseline: Mapping[str, Any], proposal: Mapping[str, Any]) -> dict[st
     exposure_claim = "UNKNOWN"
     if baseline_exposure is not None and proposal_exposure is not None:
         if baseline_exposure.get("per_window_counts_available") and proposal_exposure.get("per_window_counts_available"):
-            exposure_claim = "EXACT_ACCOUNTING_AVAILABLE"
+            exposure_claim = "EXACT_WINDOW_ACCOUNTING_AVAILABLE"
         else:
             exposure_claim = "TOTAL_SAMPLES_ONLY_NOT_WINDOW_MATCHED"
 
@@ -171,13 +173,16 @@ def compare(baseline: Mapping[str, Any], proposal: Mapping[str, Any]) -> dict[st
         "changed_semantic_fields": changed,
         "confounds": confounds,
         "exact_sample_exposure_state": exposure_claim,
-        "epoch_claim_allowed": exposure_claim == "EXACT_ACCOUNTING_AVAILABLE",
+        "exact_window_exposure_claim_allowed": exposure_claim == "EXACT_WINDOW_ACCOUNTING_AVAILABLE",
+        "epoch_claim_allowed": False,
         "execution_authorized": False,
         "decision_state": "PI_DECISION_REQUIRED",
         "notes": [
             "max_steps is an optimizer-step budget, not an epoch count",
+            "even exact per-window counts do not automatically create an epoch claim when sampling/order semantics differ",
             "resume from a 2000-step checkpoint is not assumed equivalent to a fresh run whose scheduler was defined for a longer horizon",
             "a cosine schedule tied to max_steps changes earlier LR values when the horizon changes",
+            "a fixed scheduler horizon shorter than the proposed training budget requires an explicit post-horizon LR policy",
         ],
     }
 
