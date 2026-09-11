@@ -63,6 +63,12 @@ TRAIN_STEPS = 2000
 G2_LABELS = ("R1@1000", "R1@2000", "R2@1000", "R2@2000")
 G3_LABELS = ("FULL24@2000", "N2(seed2222)@2000", "N2(seed2223)@2000", "N2(seed2224)@2000")
 G4_LABELS = G3_LABELS
+FULL24_2000_TREE = "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+N2_SEEDS = (2222, 2223, 2224)
+G3_T_VALUES = (0.06776241796562847, 0.36966943557751086, 0.7837719744658148)
+G3_T_BUCKETS = (67, 369, 783)
+G4_T_VALUES = (0.0, 0.25, 0.5, 0.75)
+G4_T_BUCKETS = (0, 250, 500, 750)
 
 _BOUNDARY: dict[str, Any] = {}
 
@@ -424,18 +430,293 @@ def g2_eval(args: argparse.Namespace) -> dict[str, Any]:
     return seal
 
 
-def _require_legacy_paths(args: argparse.Namespace) -> dict[str, Path]:
-    paths = _paths(args, include_legacy=True)
-    # G3/G4 require actual legacy checkpoint bytes, not accepted raw-only rows.
-    for key in ("legacy_full24_2000", "legacy_full24_1000", "structured_1000"):
-        require(paths[key].is_dir(), f"required comparator checkpoint is not materialized: {paths[key]}")
-    return paths
+def _training_result_path(root: Path) -> Path:
+    """Accept the two historical result-file spellings, never a bare dir."""
+
+    candidates = (root / "training_result.json", root / "stage45e_n2_training_result.json")
+    present = [path for path in candidates if path.is_file() and not path.is_symlink()]
+    require(len(present) == 1, f"N2 training result identity is ambiguous or absent: {root}")
+    return present[0]
 
 
-def diagnostics_blocked(args: argparse.Namespace, phase: str) -> dict[str, Any]:
-    paths = _require_legacy_paths(args)
-    del paths
-    raise RuntimeError(f"{phase} implementation requires the complete comparator binding; no scratch-path substitution is allowed")
+def _verify_n2_checkpoint_root(root: Path, expected_seed: int) -> dict[str, Any]:
+    require(root.is_dir() and not root.is_symlink(), f"N2 checkpoint root is unavailable: {root}")
+    result_path = _training_result_path(root)
+    result = read_json(result_path)
+    require(result.get("seed") == expected_seed, f"N2 seed identity mismatch at {root}")
+    status = result.get("status")
+    require(status in {"PASS", "STAGE45E_N2_CORELAB_2000_TRAINING_COMPLETE_FOR_PI_REVIEW"}, f"N2 training result is not complete: {result_path}")
+    require(result.get("starting_checkpoint") == "BASE", f"N2 root did not start from BASE: {root}")
+    require(result.get("base_tree_sha256") == BASE_TREE and result.get("full24_tree_sha256") == FULL24_TREE, f"N2 training identity drift: {root}")
+    require(result.get("training_steps", result.get("max_steps")) == TRAIN_STEPS, f"N2 step budget drift: {root}")
+    sidecar_path = root / "experiment_cfg/structured_action_statistics.json"
+    require(sidecar_path.is_file() and not sidecar_path.is_symlink(), f"N2 statistics sidecar is absent: {sidecar_path}")
+    sidecar = read_json(sidecar_path)
+    checkpoints: dict[str, Any] = {}
+    for step in (1000, 2000):
+        checkpoint = root / f"checkpoint-{step}"
+        record = checkpoint_record(checkpoint, step)
+        require(record["status"] == "PASS", f"N2 checkpoint state is incomplete: {checkpoint}")
+        checkpoints[str(step)] = record
+    return {"root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "sidecar_sha256": sha256_file(sidecar_path), "checkpoints": checkpoints, "sidecar_statistics": sidecar.get("statistics")}
+
+
+def _require_legacy_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Path] | None = None) -> dict[str, Any]:
+    """Bind actual comparator/replica bytes; raw-only evidence cannot substitute."""
+
+    require(args.legacy_full24_2000 is not None, "G3/G4 require --legacy-full24-2000; raw-only comparator evidence is not a model")
+    legacy = Path(args.legacy_full24_2000).resolve()
+    require(legacy.is_dir() and not legacy.is_symlink(), f"required FULL24@2000 comparator checkpoint is not materialized: {legacy}")
+    legacy_tree = _checkpoint_hash(legacy)
+    require(legacy_tree == FULL24_2000_TREE, f"FULL24@2000 comparator tree mismatch: {legacy_tree}")
+    roots = dict(n2_roots or {})
+    for seed in N2_SEEDS:
+        value = roots.get(seed)
+        require(value is not None, f"G3/G4 require an actual N2 seed-{seed} checkpoint root")
+    verified = {seed: _verify_n2_checkpoint_root(Path(roots[seed]).resolve(), seed) for seed in N2_SEEDS}
+    return {"legacy_full24_2000": legacy, "legacy_full24_2000_tree_sha256": legacy_tree, "n2": verified}
+
+
+def _diagnostic_n2_roots(args: argparse.Namespace) -> dict[int, Path]:
+    """Resolve late-bound N2 roots without embedding a node-local path."""
+
+    values: dict[int, Path] = {}
+    explicit = {
+        2222: getattr(args, "n2_2222_root", None),
+        2223: getattr(args, "n2_2223_root", None),
+        2224: getattr(args, "n2_2224_root", None),
+    }
+    # The sprint orchestrator passes the two newly trained roots through the
+    # existing replica flags; direct G3/G4 callers may use explicit flags.
+    explicit[2223] = explicit[2223] or getattr(args, "replica1_root", None)
+    explicit[2224] = explicit[2224] or getattr(args, "replica2_root", None)
+    for seed, value in explicit.items():
+        if value is not None:
+            values[seed] = Path(value).resolve()
+    return values
+
+
+def _write_npz(path: Path, arrays: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + ".tmp")
+    with temporary.open("wb") as handle:
+        import numpy as np
+
+        np.savez(handle, **{key: np.ascontiguousarray(value) for key, value in arrays.items()})
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
+
+
+def _array_sha(value: Any) -> str:
+    import numpy as np
+
+    return sha256_bytes(np.ascontiguousarray(value).tobytes())
+
+
+def _flow_metrics(left: Any, right: Any, *, name: str) -> dict[str, Any]:
+    import numpy as np
+
+    lhs = np.asarray(left, dtype=np.float64)
+    rhs = np.asarray(right, dtype=np.float64)
+    require(lhs.shape == RAW_SHAPE and rhs.shape == RAW_SHAPE, f"{name} shape drift")
+    mask = np.asarray(n2.structured_action_mask("T16"), dtype=bool)
+    delta = lhs[0][mask] - rhs[0][mask]
+    require(np.isfinite(delta).all(), f"{name} is nonfinite")
+    denominator = float(np.linalg.norm(lhs[0][mask]) * np.linalg.norm(rhs[0][mask]))
+    return {
+        "namespace": name,
+        "active_scalar_count": int(mask.sum()),
+        "l2": float(np.linalg.norm(delta)),
+        "rmse": float(np.sqrt(np.mean(delta * delta))),
+        "mae": float(np.mean(np.abs(delta))),
+        "max_abs": float(np.max(np.abs(delta))),
+        "cosine": float(np.dot(lhs[0][mask], rhs[0][mask]) / denominator) if denominator else 0.0,
+    }
+
+
+def _diagnostic_call(torch: Any, stage38: Any, model: Any, conditioning: tuple[Any, Any, Any], state_np: Any, bucket: int, counters: dict[str, Any]) -> Any:
+    import numpy as np
+
+    processed_backbone, action_input, state_features = conditioning
+    device = processed_backbone.backbone_features.device
+    state = torch.from_numpy(np.ascontiguousarray(state_np, dtype=np.float32)).to(device=device, dtype=next(model.parameters()).dtype)
+    with torch.inference_mode():
+        velocity = stage38._offline_step(model.action_head, processed_backbone, action_input, state_features, state, int(bucket))
+    counters["action_head_calls"] += 1
+    counters["model_forward"] += 1
+    output = velocity.detach().to(device="cpu", dtype=torch.float32).contiguous().numpy()
+    require(output.shape == RAW_SHAPE and np.isfinite(output).all(), "diagnostic velocity shape/finite drift")
+    return output
+
+
+def _diagnostic_checkpoint_specs(args: argparse.Namespace, binding: Mapping[str, Any]) -> list[dict[str, Any]]:
+    specs = [
+        {"label": "FULL24@2000", "path": binding["legacy_full24_2000"], "tree": binding["legacy_full24_2000_tree_sha256"], "stats": "runtime"},
+    ]
+    for seed in N2_SEEDS:
+        info = binding["n2"][seed]
+        specs.append({"label": f"N2(seed{seed})@2000", "path": Path(info["root"]) / "checkpoint-2000", "tree": info["checkpoints"]["2000"]["tree_sha256"], "stats": "n2", "seed": seed})
+    return specs
+
+
+def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
+    """Run the frozen D1 or D2A graph after all late-bound identities pass."""
+
+    import numpy as np
+
+    output = Path(args.output_root).resolve()
+    require(not output.exists(), f"{phase} output root must be fresh: {output}")
+    output.mkdir(parents=True, exist_ok=False)
+    counters: dict[str, Any] = {
+        "model_construction": 0,
+        "conditioning_passes": 0,
+        "action_head_calls": 0,
+        "model_forward": 0,
+        "training": False,
+        "backward_steps": 0,
+        "optimizer_steps": 0,
+        "scheduler_steps": 0,
+        "checkpoint_writes": 0,
+        "public_sampler_calls": 0,
+        "get_action_calls": 0,
+        "free_running_sampler_calls": 0,
+        "WBC": 0,
+        "Validation-E": 0,
+        "Holdout-F": 0,
+        "raw_stage_count": 0,
+    }
+    try:
+        n2_roots = _diagnostic_n2_roots(args)
+        binding = _require_legacy_paths(args, n2_roots=n2_roots)
+        paths = _paths(args)
+        identity = _verify_core_identities(paths)
+        gpu = gpu_identity(args.gpu_uuid or PREFERRED_GPU_UUID)
+        prepare_env(paths, output, gpu)
+        torch, ev, _processor, _embodiment, records, baseline_noise, context = _load_sealed_context(paths)
+        windows, _baseline_noise_bank = context
+        require(len(records) == 24 and len(windows) == 24, "diagnostic TRAIN24 materialization drift")
+        import stage26_h1_c1_fixed_noise_local_flow as stage26
+        import stage38_structured_offline_evaluation as stage38
+        snapshots = [stage26._load_snapshot(Path(record["path"])) for record in records]
+        runtime_doc = read_json(paths["runtime_stats"])
+        n2_doc = read_json(paths["n2_stats"])
+        stats = {
+            "runtime": (runtime_doc, RUNTIME_STATS_SHA, RUNTIME_STATS_PAYLOAD_SHA, "STAGE45C_RUNTIME_V2_STATS_BRIDGE"),
+            "n2": (n2_doc, N2_STATS_SHA, N2_STATS_PAYLOAD_SHA, "N2_BALANCED_XYZ_STATS"),
+        }
+        specs = _diagnostic_checkpoint_specs(args, binding)
+        noise_bank: dict[int, list[Any]] = {}
+        for seed in (2223, 2224, 2225) if phase == "G3_D1" else (4242,):
+            generator = torch.Generator(device="cpu")
+            generator.manual_seed(seed)
+            noise_bank[seed] = [torch.randn(RAW_SHAPE, generator=generator, device="cpu", dtype=torch.float32).contiguous() for _ in range(24)]
+        write_json(output / "admission.json", {"schema": f"CORELAB_STAGE45E_{phase}_ADMISSION_V1", "status": "PASS", "phase": phase, "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "identities": identity, "comparator_binding": {"legacy_full24_2000_tree_sha256": binding["legacy_full24_2000_tree_sha256"], "n2_seeds": list(N2_SEEDS)}, "gpu": gpu, "execution_boundary": {"gpu": True, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0}})
+        raw_manifest = output / "raw_probe_rows.jsonl"
+        raw_manifest.write_text("", encoding="utf-8")
+        all_rows: list[dict[str, Any]] = []
+        checkpoint_results: list[dict[str, Any]] = []
+        t_grid = list(zip(G3_T_VALUES, G3_T_BUCKETS)) if phase == "G3_D1" else list(zip(G4_T_VALUES, G4_T_BUCKETS))
+        for spec in specs:
+            label = str(spec["label"])
+            stats_doc, stats_sha, stats_payload_sha, stats_route = stats[spec["stats"]]
+            model = stage38._load_structured_model(Path(spec["path"]), "cuda:0")
+            counters["model_construction"] += 1
+            model.eval()
+            hook_counter = {"count": 0}
+            hook = model.action_head.model.register_forward_hook(lambda *_args, **_kwargs: hook_counter.__setitem__("count", hook_counter["count"] + 1))
+            row_count = 0
+            conditioning_count = 0
+            try:
+                for index, (window, record, snapshot) in enumerate(zip(windows, records, snapshots)):
+                    x1 = np.asarray(stage38._structured_label_and_normalizer(np.asarray(snapshot.physical_action, dtype=np.float64)[None, ...], snapshot, stats_doc)[2], dtype=np.float32)[None, ...]
+                    if phase == "G3_D1":
+                        seeds = (2223, 2224, 2225)
+                        for noise_seed in seeds:
+                            with torch.inference_mode():
+                                _, action_input, processed, state_features = stage38._prepare_model_conditioning(model, window["model_inputs"])
+                            conditioning_count += 1
+                            counters["conditioning_passes"] += 1
+                            conditioning = (processed, action_input, state_features)
+                            x0 = noise_bank[noise_seed][index].numpy().copy()
+                            for t, bucket in t_grid:
+                                x_t = ((1.0 - t) * x0 + t * x1).astype(np.float32, copy=False)
+                                v_target = (x1 - x0).astype(np.float32, copy=False)
+                                v_hat = _diagnostic_call(torch, stage38, model, conditioning, x_t, bucket, counters)
+                                x1_hat = (x_t + (1.0 - t) * v_hat).astype(np.float32, copy=False)
+                                arrays = {"x0": x0, "x1": x1, "x_t": x_t, "v_target": v_target, "v_hat": v_hat, "x1_hat": x1_hat, "mask": np.asarray(n2.structured_action_mask("T16"), dtype=np.float32)}
+                                probe_root = output / "probes" / label.replace("@", "_at_") / f"w{index:02d}" / f"seed{noise_seed}" / f"t{bucket:03d}"
+                                raw_path = probe_root / "raw_arrays.npz"
+                                _write_npz(raw_path, arrays)
+                                raw_record = {"schema": "CORELAB_STAGE45E_N2_G3_RAW_STAGE_V1", "status": "RAW_SEALED_BEFORE_DERIVED", "identity": {"checkpoint": label, "checkpoint_tree_sha256": spec["tree"], "stats_sha256": stats_sha, "stats_payload_sha256": stats_payload_sha, "stats_route": stats_route, "window_id": window["window_id"], "target_id": record["target_id"], "window_index": index, "noise_seed": noise_seed, "t": t, "t_bucket": bucket, "target_xyz_in_model_input": False}, "raw_archive": {"path": str(raw_path.relative_to(output)), "sha256": sha256_file(raw_path), "bytes": raw_path.stat().st_size}, "arrays": {key: {"shape": list(np.asarray(value).shape), "dtype": str(np.asarray(value).dtype), "sha256": _array_sha(value)} for key, value in arrays.items()}}
+                                write_json(probe_root / "raw_manifest.json", raw_record)
+                                physical, decoder = ev._decode_with_stats(x1_hat, record["state_v1"], stats_doc, stats_sha256=stats_sha, payload_sha256=stats_payload_sha, chunk_id=f"{label}:{window['window_id']}:seed{noise_seed}:t{bucket}", timestamps=record["source_timestamps"], observation_timestamp=float(record["observation_timestamp"]))
+                                from go2arx5_vla.evaluation.trajectory_metrics import comparison_metrics
+                                physical_metrics = comparison_metrics(np.asarray(physical, dtype=np.float64), np.asarray(record["expert_physical_action"], dtype=np.float64), np.asarray(record["anchor_world_m"], dtype=np.float64), np.asarray(record["target_world_m"], dtype=np.float64), prefix=f"{label}:{window['window_id']}:seed{noise_seed}:t{bucket}")
+                                derived = {"schema": "CORELAB_STAGE45E_N2_G3_DERIVED_STAGE_V1", "status": "DERIVED_AFTER_RAW_SEAL", "raw_before_derived": True, "normalized_local_flow": _flow_metrics(v_hat, v_target, name="NORMALIZED_LOCAL_FLOW"), "implied_endpoint": {"formula": "x1_hat=x_t+(1-t)*v_hat", "array_sha256": _array_sha(x1_hat)}, "physical": {"source": "x1_hat_only", "decoder": decoder, "trajectory_metrics": physical_metrics}}
+                                write_json(probe_root / "derived_metrics.json", derived)
+                                row = {"schema": "CORELAB_STAGE45E_N2_G3_ROW_V1", "identity": raw_record["identity"], "raw_manifest_sha256": sha256_file(probe_root / "raw_manifest.json"), "raw_sha256": sha256_file(raw_path), "derived_sha256": sha256_file(probe_root / "derived_metrics.json"), "normalized_local_flow": derived["normalized_local_flow"], "physical": derived["physical"], "finite": True}
+                                with raw_manifest.open("a", encoding="utf-8") as handle:
+                                    handle.write(json.dumps(row, sort_keys=True, allow_nan=False) + "\n")
+                                all_rows.append(row)
+                                counters["raw_stage_count"] += 1
+                                row_count += 1
+                    else:
+                        with torch.inference_mode():
+                            _, action_input, processed, state_features = stage38._prepare_model_conditioning(model, window["model_inputs"])
+                        conditioning_count += 1
+                        counters["conditioning_passes"] += 1
+                        conditioning = (processed, action_input, state_features)
+                        x0 = noise_bank[4242][index].numpy().copy()
+                        x_fr = x0.copy()
+                        for stage_index, (t, bucket) in enumerate(t_grid):
+                            x_tf = ((1.0 - t) * x0 + t * x1).astype(np.float32, copy=False)
+                            v_target = (x1 - x0).astype(np.float32, copy=False)
+                            v_tf = _diagnostic_call(torch, stage38, model, conditioning, x_tf, bucket, counters)
+                            v_fr = _diagnostic_call(torch, stage38, model, conditioning, x_fr, bucket, counters)
+                            if bucket == 0:
+                                require(np.array_equal(v_tf, v_fr), "G4 t=0 teacher/free outputs are not byte-identical")
+                            x_tf_next = (x_tf + DT * v_tf).astype(np.float32, copy=False)
+                            x_fr_next = (x_fr + DT * v_fr).astype(np.float32, copy=False)
+                            arrays = {"x0": x0, "x1": x1, "x_tf": x_tf, "x_fr": x_fr, "v_target": v_target, "v_tf": v_tf, "v_fr": v_fr, "x_tf_next": x_tf_next, "x_fr_next": x_fr_next, "mask": np.asarray(n2.structured_action_mask("T16"), dtype=np.float32)}
+                            probe_root = output / "probes" / label.replace("@", "_at_") / f"w{index:02d}" / "seed4242" / f"t{bucket:03d}"
+                            raw_path = probe_root / "raw_arrays.npz"
+                            _write_npz(raw_path, arrays)
+                            raw_record = {"schema": "CORELAB_STAGE45E_N2_G4_RAW_STAGE_V1", "status": "RAW_SEALED_BEFORE_DERIVED", "identity": {"checkpoint": label, "checkpoint_tree_sha256": spec["tree"], "stats_sha256": stats_sha, "stats_payload_sha256": stats_payload_sha, "stats_route": stats_route, "window_id": window["window_id"], "target_id": record["target_id"], "window_index": index, "noise_seed": 4242, "t": t, "t_bucket": bucket, "stage_index": stage_index, "target_xyz_in_model_input": False}, "raw_archive": {"path": str(raw_path.relative_to(output)), "sha256": sha256_file(raw_path), "bytes": raw_path.stat().st_size}, "arrays": {key: {"shape": list(np.asarray(value).shape), "dtype": str(np.asarray(value).dtype), "sha256": _array_sha(value)} for key, value in arrays.items()}}
+                            write_json(probe_root / "raw_manifest.json", raw_record)
+                            derived = {"schema": "CORELAB_STAGE45E_N2_G4_DERIVED_STAGE_V1", "status": "DERIVED_AFTER_RAW_SEAL", "raw_before_derived": True, "state_path_divergence": _flow_metrics(x_fr, x_tf, name="D2A_STATE_PATH_DIVERGENCE"), "field_sensitivity": _flow_metrics(v_fr, v_tf, name="D2A_FIELD_SENSITIVITY"), "teacher_bridge_local_error": _flow_metrics(v_tf, v_target, name="NORMALIZED_LOCAL_FLOW"), "off_path_diagnostic": _flow_metrics(v_fr, v_target, name="DESCRIPTIVE_OFF_PATH_DIAGNOSTIC_NOT_SUPERVISED"), "t_zero": {"checked": bucket == 0, "exact_equal": bool(np.array_equal(v_tf, v_fr)) if bucket == 0 else None}, "path_update": {"dt": DT, "free_running_reset": False, "x_tf_next_formula": "x_tf+dt*v_tf", "x_fr_next_formula": "x_fr+dt*v_fr"}}
+                            write_json(probe_root / "derived_metrics.json", derived)
+                            row = {"schema": "CORELAB_STAGE45E_N2_G4_ROW_V1", "identity": raw_record["identity"], "raw_manifest_sha256": sha256_file(probe_root / "raw_manifest.json"), "raw_sha256": sha256_file(raw_path), "derived_sha256": sha256_file(probe_root / "derived_metrics.json"), "state_path_divergence": derived["state_path_divergence"], "field_sensitivity": derived["field_sensitivity"], "teacher_bridge_local_error": derived["teacher_bridge_local_error"], "off_path_diagnostic": derived["off_path_diagnostic"], "t_zero": derived["t_zero"], "finite": True}
+                            with raw_manifest.open("a", encoding="utf-8") as handle:
+                                handle.write(json.dumps(row, sort_keys=True, allow_nan=False) + "\n")
+                            all_rows.append(row)
+                            counters["raw_stage_count"] += 1
+                            row_count += 1
+                            x_fr = x_fr_next
+            finally:
+                hook.remove()
+            expected_hook = 24 * 3 * 3 if phase == "G3_D1" else 24 * 4 * 2
+            require(hook_counter["count"] == expected_hook, f"{phase} action-head budget drift for {label}: {hook_counter['count']} != {expected_hook}")
+            checkpoint_results.append({"checkpoint": label, "tree_sha256": spec["tree"], "rows": row_count, "conditioning_passes": conditioning_count, "action_head_calls": hook_counter["count"]})
+            del model
+            torch.cuda.empty_cache()
+        expected = {"G3_D1": {"model_construction": 4, "conditioning_passes": 288, "action_head_calls": 864, "model_forward": 864, "raw_stage_count": 864}, "G4_D2A": {"model_construction": 4, "conditioning_passes": 96, "action_head_calls": 768, "model_forward": 768, "raw_stage_count": 384}}[phase]
+        for key, value in expected.items():
+            require(counters[key] == value, f"{phase} total budget drift {key}: {counters[key]} != {value}")
+        seal = {"schema": f"CORELAB_STAGE45E_N2_{phase}_SEAL_V1", "status": "PASS", "token": f"{phase}_PASS", "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "checkpoints": checkpoint_results, "counters": counters, "raw_probe_rows_jsonl_sha256": sha256_file(raw_manifest), "gpu": gpu, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0, "target_xyz_in_model_input": False, "timestamp_utc": now_utc()}
+        write_json(output / "seal.json", seal)
+        return seal
+    except Exception as exc:
+        write_json(output / "FAILURE_SEAL.json", {"schema": f"CORELAB_STAGE45E_N2_{phase}_FAILURE_SEAL_V1", "status": "BLOCKED", "phase": phase, "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc(), "counters": counters, "retry_or_substitution": False, "timestamp_utc": now_utc()}, overwrite=True)
+        raise
+
+
+def g3_eval(args: argparse.Namespace) -> dict[str, Any]:
+    return _diagnostic_runtime(args, "G3_D1")
+
+
+def g4_eval(args: argparse.Namespace) -> dict[str, Any]:
+    return _diagnostic_runtime(args, "G4_D2A")
 
 
 def run_sprint(args: argparse.Namespace) -> dict[str, Any]:
@@ -469,10 +750,18 @@ def run_sprint(args: argparse.Namespace) -> dict[str, Any]:
     eval_args.output_root = base / "G2_train24_e4"
     g2 = g2_eval(eval_args)
     require(g2.get("status") == "PASS", "G2 did not complete")
-    # The comparator paths are deliberately checked only after G1/G2.  This
-    # permits useful replication evidence while remaining fail-closed for G3/G4.
-    g3 = diagnostics_blocked(args, "G3")
-    g4 = diagnostics_blocked(args, "G4")
+    # Comparator paths are deliberately checked only after G1/G2.  This
+    # permits useful replication evidence while remaining fail-closed if the
+    # accepted FULL24@2000 bytes have not been recovered to Corelab.
+    diagnostic_args = argparse.Namespace(**vars(args))
+    diagnostic_args.replica1_root = train_roots[2223]
+    diagnostic_args.replica2_root = train_roots[2224]
+    g3_args = argparse.Namespace(**vars(diagnostic_args))
+    g3_args.output_root = base / "G3_D1_teacher_forced_local_flow"
+    g3 = g3_eval(g3_args)
+    g4_args = argparse.Namespace(**vars(diagnostic_args))
+    g4_args.output_root = base / "G4_D2A_tf_vs_fr"
+    g4 = g4_eval(g4_args)
     return {"schema": "CORELAB_STAGE45E_N2_GPU_SPRINT_RESULT_V1", "status": "PASS", "token": "STAGE45E_N2_CORELAB_GPU_SPRINT_COMPLETE_FOR_PI_REVIEW", "admission": admission_result, "canary": canary, "g1": {"seeds": [2223, 2224]}, "g2": g2, "g3": g3, "g4": g4}
 
 
@@ -497,6 +786,9 @@ def main() -> int:
     parser.add_argument("--legacy-full24-2000", dest="legacy_full24_2000", type=Path)
     parser.add_argument("--legacy-full24-1000", dest="legacy_full24_1000", type=Path)
     parser.add_argument("--structured-1000", dest="structured_1000", type=Path)
+    parser.add_argument("--n2-2222-root", dest="n2_2222_root", type=Path)
+    parser.add_argument("--n2-2223-root", dest="n2_2223_root", type=Path)
+    parser.add_argument("--n2-2224-root", dest="n2_2224_root", type=Path)
     parser.add_argument("--replica1-root", type=Path)
     parser.add_argument("--replica2-root", type=Path)
     parser.add_argument("--gpu-uuid")
@@ -518,9 +810,11 @@ def main() -> int:
             require(args.output_root is not None and args.replica1_root is not None and args.replica2_root is not None, "g2 requires replica roots/output")
             result = g2_eval(args)
         elif args.mode == "g3":
-            result = diagnostics_blocked(args, "G3")
+            require(args.output_root is not None, "g3 requires output root")
+            result = g3_eval(args)
         elif args.mode == "g4":
-            result = diagnostics_blocked(args, "G4")
+            require(args.output_root is not None, "g4 requires output root")
+            result = g4_eval(args)
         else:
             require(args.output_root is not None, "sprint requires --output-root")
             result = run_sprint(args)
