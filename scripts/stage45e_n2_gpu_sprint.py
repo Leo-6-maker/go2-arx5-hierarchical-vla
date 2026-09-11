@@ -514,13 +514,19 @@ def _array_sha(value: Any) -> str:
     return sha256_bytes(np.ascontiguousarray(value).tobytes())
 
 
+def _canonical_mask() -> Any:
+    from go2arx5_vla.structured_action import structured_action_mask
+
+    return structured_action_mask("T16")
+
+
 def _flow_metrics(left: Any, right: Any, *, name: str) -> dict[str, Any]:
     import numpy as np
 
     lhs = np.asarray(left, dtype=np.float64)
     rhs = np.asarray(right, dtype=np.float64)
     require(lhs.shape == RAW_SHAPE and rhs.shape == RAW_SHAPE, f"{name} shape drift")
-    mask = np.asarray(n2.structured_action_mask("T16"), dtype=bool)
+    mask = np.asarray(_canonical_mask(), dtype=bool)
     delta = lhs[0][mask] - rhs[0][mask]
     require(np.isfinite(delta).all(), f"{name} is nonfinite")
     denominator = float(np.linalg.norm(lhs[0][mask]) * np.linalg.norm(rhs[0][mask]))
@@ -644,7 +650,7 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
                                 v_target = (x1 - x0).astype(np.float32, copy=False)
                                 v_hat = _diagnostic_call(torch, stage38, model, conditioning, x_t, bucket, counters)
                                 x1_hat = (x_t + (1.0 - t) * v_hat).astype(np.float32, copy=False)
-                                arrays = {"x0": x0, "x1": x1, "x_t": x_t, "v_target": v_target, "v_hat": v_hat, "x1_hat": x1_hat, "mask": np.asarray(n2.structured_action_mask("T16"), dtype=np.float32)}
+                                arrays = {"x0": x0, "x1": x1, "x_t": x_t, "v_target": v_target, "v_hat": v_hat, "x1_hat": x1_hat, "mask": np.asarray(_canonical_mask(), dtype=np.float32)}
                                 probe_root = output / "probes" / label.replace("@", "_at_") / f"w{index:02d}" / f"seed{noise_seed}" / f"t{bucket:03d}"
                                 raw_path = probe_root / "raw_arrays.npz"
                                 _write_npz(raw_path, arrays)
@@ -678,7 +684,7 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
                                 require(np.array_equal(v_tf, v_fr), "G4 t=0 teacher/free outputs are not byte-identical")
                             x_tf_next = (x_tf + DT * v_tf).astype(np.float32, copy=False)
                             x_fr_next = (x_fr + DT * v_fr).astype(np.float32, copy=False)
-                            arrays = {"x0": x0, "x1": x1, "x_tf": x_tf, "x_fr": x_fr, "v_target": v_target, "v_tf": v_tf, "v_fr": v_fr, "x_tf_next": x_tf_next, "x_fr_next": x_fr_next, "mask": np.asarray(n2.structured_action_mask("T16"), dtype=np.float32)}
+                            arrays = {"x0": x0, "x1": x1, "x_tf": x_tf, "x_fr": x_fr, "v_target": v_target, "v_tf": v_tf, "v_fr": v_fr, "x_tf_next": x_tf_next, "x_fr_next": x_fr_next, "mask": np.asarray(_canonical_mask(), dtype=np.float32)}
                             probe_root = output / "probes" / label.replace("@", "_at_") / f"w{index:02d}" / "seed4242" / f"t{bucket:03d}"
                             raw_path = probe_root / "raw_arrays.npz"
                             _write_npz(raw_path, arrays)
