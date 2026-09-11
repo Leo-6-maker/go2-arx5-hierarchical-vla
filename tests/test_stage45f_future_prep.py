@@ -14,6 +14,8 @@ from scripts import stage45f_future_experiment_planner as planner
 from scripts import stage45f_recipe_freeze as recipe_freeze
 from scripts import stage45f_rollout_relabel_admission as relabel
 from scripts import stage45f_scaling_admission as scaling
+from scripts import stage45f_seed_replication_plan as seed_plan
+from scripts import stage45f_validation_access_ledger as validation_ledger
 
 
 def _scaling_recipe(*, max_steps: int, horizon: int, binding: str = "MAX_STEPS", start_mode: str = "FRESH_BASE") -> dict:
@@ -273,3 +275,58 @@ def test_compute_budget_is_estimate_only() -> None:
     assert result["training_authorized"] is False
     assert result["gpu_execution"] == 0
     assert len(result["estimates"]) == 4
+
+
+def test_seed_replication_uses_predeclared_family_and_keeps_valid_runs() -> None:
+    result = seed_plan.plan(
+        {
+            "schema": "STAGE45F_SEED_REPLICATION_REQUEST_V1",
+            "recipe_frozen": True,
+            "validation_e_read": False,
+            "holdout_f_read": False,
+            "recipe_identity": "l1-frozen",
+            "completed_valid_seeds": [2222],
+            "scientifically_invalid_attempts": [],
+        }
+    )
+    assert result["canonical_seed_family"] == [2222, 2223, 2224]
+    assert result["missing_canonical_seeds"] == [2223, 2224]
+    assert result["replacement_by_metric_allowed"] is False
+    assert result["valid_completed_seed_discard_allowed"] is False
+    assert result["training_authorized"] is False
+
+
+def test_validation_ledger_tracks_generations_and_first_unseen_claim() -> None:
+    first = validation_ledger.build(
+        {
+            "schema": "STAGE45F_VALIDATION_ACCESS_LEDGER_REQUEST_V1",
+            "validation_e_currently_read": False,
+            "holdout_f_read": False,
+            "recipe_freeze_ledger_sha256": "5" * 64,
+            "prior_validation_accesses": [],
+        }
+    )
+    assert first["next_validation_generation"] == 1
+    assert first["first_unseen_validation_claim_allowed_if_future_read_occurs"] is True
+    assert first["execute_supported"] is False
+
+    second = validation_ledger.build(
+        {
+            "schema": "STAGE45F_VALIDATION_ACCESS_LEDGER_REQUEST_V1",
+            "validation_e_currently_read": False,
+            "holdout_f_read": False,
+            "recipe_freeze_ledger_sha256": "6" * 64,
+            "prior_validation_accesses": [
+                {
+                    "generation": 1,
+                    "recipe_freeze_ledger_sha256": "5" * 64,
+                    "validation_e_evidence_sha256": "7" * 64,
+                    "pi_gate": "PI_GATE_STATE_FUTURE",
+                    "holdout_f_read": False,
+                }
+            ],
+        }
+    )
+    assert second["next_validation_generation"] == 2
+    assert second["first_unseen_validation_claim_allowed_if_future_read_occurs"] is False
+    assert second["future_read_after_prior_access_must_not_be_called_first_unseen"] is True
