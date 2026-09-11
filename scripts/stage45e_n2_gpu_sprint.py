@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Corelab Stage45E N2 replication/mechanism GPU sprint.
 
-The static entry point is dependency-light and checks the PI0124 manifest,
+The static entry point is dependency-light and checks the PI0125 manifest,
 the frozen N2 contract, and all four fixed GPU budgets.  Runtime phases are
 explicit and path-bound.  They use the already accepted Stage38/45C direct
 action-head graph and never call the public sampler, WBC, simulator, PBS, or
@@ -40,8 +40,8 @@ MANIFEST_PATH = REPO / "manifests/STAGE45E_N2_GPU_REPLICATION_MECHANISM_SPRINT_V
 STAGE = "Stage45E"
 BRANCH = "stage45e/n2-gpu-replication-mechanism-sprint"
 BASE_HEAD = "a476a581f4d9a5ad104e691d4037762c6f1685ba"
-PI_GATE = "PI_GATE_STATE_0124"
-PI_COMMENT = 5634960729
+PI_GATE = "PI_GATE_STATE_0125"
+PI_COMMENT = 5635727857
 BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 RUNTIME_STATS_SHA = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
@@ -69,6 +69,12 @@ G3_T_VALUES = (0.06776241796562847, 0.36966943557751086, 0.7837719744658148)
 G3_T_BUCKETS = (67, 369, 783)
 G4_T_VALUES = (0.0, 0.25, 0.5, 0.75)
 G4_T_BUCKETS = (0, 250, 500, 750)
+G5_D1_LABELS = ("N2(seed2222)@1000", "N2(seed2223)@1000", "N2(seed2224)@1000")
+G5_D1_T_VALUES = G3_T_VALUES
+G5_D1_T_BUCKETS = G3_T_BUCKETS
+G5_D2A_LABELS = G5_D1_LABELS
+G5_D2A_T_VALUES = G4_T_VALUES
+G5_D2A_T_BUCKETS = G4_T_BUCKETS
 
 _BOUNDARY: dict[str, Any] = {}
 
@@ -178,6 +184,8 @@ def static_audit() -> dict[str, Any]:
     require(manifest["g2_train24_evaluation"]["total_model_side_calls"] == 480, "G2 budget drift")
     require(manifest["g3_d1_teacher_forced_local_flow"]["total_model_side_calls"] == 1152, "G3 budget drift")
     require(manifest["g4_d2a_tf_vs_fr"]["total_model_side_calls"] == 864, "G4 budget drift")
+    require(manifest["g5_d1_n2_at_1000"]["total_model_side_calls"] == 864, "G5-D1 budget drift")
+    require(manifest["g5_d2a_n2_at_1000"]["total_model_side_calls"] == 648, "G5-D2A budget drift")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
     imports: list[str] = []
@@ -198,6 +206,8 @@ def static_audit() -> dict[str, Any]:
         "g2_calls": 480,
         "g3_calls": 1152,
         "g4_calls": 864,
+        "g5_d1_calls": 864,
+        "g5_d2a_calls": 648,
         "execution_boundary": {"model_construction": 0, "gr00t_forwards": 0, "training_steps": 0, "optimizer_steps": 0, "gpu": False, "PBS": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
     }
 
@@ -577,7 +587,25 @@ def _diagnostic_call(torch: Any, stage38: Any, model: Any, conditioning: tuple[A
     return output
 
 
-def _diagnostic_checkpoint_specs(args: argparse.Namespace, binding: Mapping[str, Any]) -> list[dict[str, Any]]:
+def _diagnostic_checkpoint_specs(binding: Mapping[str, Any], phase: str) -> list[dict[str, Any]]:
+    """Return late-bound checkpoint specs for the frozen diagnostic phase.
+
+    G3/G4 compare the accepted legacy FULL24@2000 against all three N2
+    @2000 replicas.  PI0125 G5 is deliberately limited to the three N2
+    @1000 checkpoints; it does not rerun any @2000 model call.
+    """
+
+    if phase in {"G5_D1", "G5_D2A"}:
+        return [
+            {
+                "label": f"N2(seed{seed})@1000",
+                "path": Path(binding["n2"][seed]["root"]) / "checkpoint-1000",
+                "tree": binding["n2"][seed]["checkpoints"]["1000"]["tree_sha256"],
+                "stats": "n2",
+                "seed": seed,
+            }
+            for seed in N2_SEEDS
+        ]
     specs = [
         {"label": "FULL24@2000", "path": binding["legacy_full24_2000"], "tree": binding["legacy_full24_2000_tree_sha256"], "stats": "runtime"},
     ]
@@ -585,6 +613,15 @@ def _diagnostic_checkpoint_specs(args: argparse.Namespace, binding: Mapping[str,
         info = binding["n2"][seed]
         specs.append({"label": f"N2(seed{seed})@2000", "path": Path(info["root"]) / "checkpoint-2000", "tree": info["checkpoints"]["2000"]["tree_sha256"], "stats": "n2", "seed": seed})
     return specs
+
+
+def _require_n2_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Path]) -> dict[str, Any]:
+    """Verify all three already-completed N2 roots for the G5 @1000 probe."""
+
+    for seed in N2_SEEDS:
+        require(seed in n2_roots, f"G5 requires an actual N2 seed-{seed} checkpoint root")
+    verified = {seed: _verify_n2_checkpoint_root(Path(n2_roots[seed]).resolve(), seed) for seed in N2_SEEDS}
+    return {"n2": verified}
 
 
 def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
@@ -614,8 +651,10 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
         "raw_stage_count": 0,
     }
     try:
+        is_d1 = phase.endswith("_D1")
+        is_g5 = phase.startswith("G5_")
         n2_roots = _diagnostic_n2_roots(args)
-        binding = _require_legacy_paths(args, n2_roots=n2_roots)
+        binding = _require_n2_paths(args, n2_roots=n2_roots) if is_g5 else _require_legacy_paths(args, n2_roots=n2_roots)
         paths = _paths(args)
         identity = _verify_core_identities(paths)
         gpu = gpu_identity(args.gpu_uuid or PREFERRED_GPU_UUID)
@@ -632,18 +671,21 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
             "runtime": (runtime_doc, RUNTIME_STATS_SHA, RUNTIME_STATS_PAYLOAD_SHA, "STAGE45C_RUNTIME_V2_STATS_BRIDGE"),
             "n2": (n2_doc, N2_STATS_SHA, N2_STATS_PAYLOAD_SHA, "N2_BALANCED_XYZ_STATS"),
         }
-        specs = _diagnostic_checkpoint_specs(args, binding)
+        specs = _diagnostic_checkpoint_specs(binding, phase)
         noise_bank: dict[int, list[Any]] = {}
-        for seed in (2223, 2224, 2225) if phase == "G3_D1" else (4242,):
+        for seed in (2223, 2224, 2225) if is_d1 else (4242,):
             generator = torch.Generator(device="cpu")
             generator.manual_seed(seed)
             noise_bank[seed] = [torch.randn(RAW_SHAPE, generator=generator, device="cpu", dtype=torch.float32).contiguous() for _ in range(24)]
-        write_json(output / "admission.json", {"schema": f"CORELAB_STAGE45E_{phase}_ADMISSION_V1", "status": "PASS", "phase": phase, "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "identities": identity, "comparator_binding": {"legacy_full24_2000_tree_sha256": binding["legacy_full24_2000_tree_sha256"], "n2_seeds": list(N2_SEEDS)}, "gpu": gpu, "execution_boundary": {"gpu": True, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0}})
+        comparator_binding = {"n2_seeds": list(N2_SEEDS)}
+        if "legacy_full24_2000_tree_sha256" in binding:
+            comparator_binding["legacy_full24_2000_tree_sha256"] = binding["legacy_full24_2000_tree_sha256"]
+        write_json(output / "admission.json", {"schema": f"CORELAB_STAGE45E_{phase}_ADMISSION_V1", "status": "PASS", "phase": phase, "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "identities": identity, "comparator_binding": comparator_binding, "gpu": gpu, "execution_boundary": {"gpu": True, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0}})
         raw_manifest = output / "raw_probe_rows.jsonl"
         raw_manifest.write_text("", encoding="utf-8")
         all_rows: list[dict[str, Any]] = []
         checkpoint_results: list[dict[str, Any]] = []
-        t_grid = list(zip(G3_T_VALUES, G3_T_BUCKETS)) if phase == "G3_D1" else list(zip(G4_T_VALUES, G4_T_BUCKETS))
+        t_grid = list(zip(G3_T_VALUES, G3_T_BUCKETS)) if is_d1 else list(zip(G4_T_VALUES, G4_T_BUCKETS))
         for spec in specs:
             label = str(spec["label"])
             stats_doc, stats_sha, stats_payload_sha, stats_route = stats[spec["stats"]]
@@ -657,7 +699,7 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
             try:
                 for index, (window, record, snapshot) in enumerate(zip(windows, records, snapshots)):
                     x1 = np.asarray(stage38._structured_label_and_normalizer(np.asarray(snapshot.physical_action, dtype=np.float64)[None, ...], snapshot, stats_doc)[2], dtype=np.float32)[None, ...]
-                    if phase == "G3_D1":
+                    if is_d1:
                         seeds = (2223, 2224, 2225)
                         for noise_seed in seeds:
                             with torch.inference_mode():
@@ -675,14 +717,14 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
                                 probe_root = output / "probes" / label.replace("@", "_at_") / f"w{index:02d}" / f"seed{noise_seed}" / f"t{bucket:03d}"
                                 raw_path = probe_root / "raw_arrays.npz"
                                 _write_npz(raw_path, arrays)
-                                raw_record = {"schema": "CORELAB_STAGE45E_N2_G3_RAW_STAGE_V1", "status": "RAW_SEALED_BEFORE_DERIVED", "identity": {"checkpoint": label, "checkpoint_tree_sha256": spec["tree"], "stats_sha256": stats_sha, "stats_payload_sha256": stats_payload_sha, "stats_route": stats_route, "window_id": window["window_id"], "target_id": record["target_id"], "window_index": index, "noise_seed": noise_seed, "t": t, "t_bucket": bucket, "target_xyz_in_model_input": False}, "raw_archive": {"path": str(raw_path.relative_to(output)), "sha256": sha256_file(raw_path), "bytes": raw_path.stat().st_size}, "arrays": {key: {"shape": list(np.asarray(value).shape), "dtype": str(np.asarray(value).dtype), "sha256": _array_sha(value)} for key, value in arrays.items()}}
+                                raw_record = {"schema": f"CORELAB_STAGE45E_N2_{phase}_RAW_STAGE_V1", "status": "RAW_SEALED_BEFORE_DERIVED", "identity": {"checkpoint": label, "checkpoint_tree_sha256": spec["tree"], "stats_sha256": stats_sha, "stats_payload_sha256": stats_payload_sha, "stats_route": stats_route, "window_id": window["window_id"], "target_id": record["target_id"], "window_index": index, "noise_seed": noise_seed, "t": t, "t_bucket": bucket, "target_xyz_in_model_input": False}, "raw_archive": {"path": str(raw_path.relative_to(output)), "sha256": sha256_file(raw_path), "bytes": raw_path.stat().st_size}, "arrays": {key: {"shape": list(np.asarray(value).shape), "dtype": str(np.asarray(value).dtype), "sha256": _array_sha(value)} for key, value in arrays.items()}}
                                 write_json(probe_root / "raw_manifest.json", raw_record)
                                 physical, decoder = ev._decode_with_stats(x1_hat, record["state_v1"], stats_doc, stats_sha256=stats_sha, payload_sha256=stats_payload_sha, chunk_id=f"{label}:{window['window_id']}:seed{noise_seed}:t{bucket}", timestamps=record["source_timestamps"], observation_timestamp=float(record["observation_timestamp"]))
                                 from go2arx5_vla.evaluation.trajectory_metrics import comparison_metrics
                                 physical_metrics = comparison_metrics(np.asarray(physical, dtype=np.float64), np.asarray(record["expert_physical_action"], dtype=np.float64), np.asarray(record["anchor_world_m"], dtype=np.float64), np.asarray(record["target_world_m"], dtype=np.float64), prefix=f"{label}:{window['window_id']}:seed{noise_seed}:t{bucket}")
-                                derived = {"schema": "CORELAB_STAGE45E_N2_G3_DERIVED_STAGE_V1", "status": "DERIVED_AFTER_RAW_SEAL", "raw_before_derived": True, "normalized_local_flow": _flow_metrics(v_hat, v_target, name="NORMALIZED_LOCAL_FLOW"), "implied_endpoint": {"formula": "x1_hat=x_t+(1-t)*v_hat", "array_sha256": _array_sha(x1_hat)}, "physical": {"source": "x1_hat_only", "decoder": decoder, "trajectory_metrics": physical_metrics}}
+                                derived = {"schema": f"CORELAB_STAGE45E_N2_{phase}_DERIVED_STAGE_V1", "status": "DERIVED_AFTER_RAW_SEAL", "raw_before_derived": True, "normalized_local_flow": _flow_metrics(v_hat, v_target, name="NORMALIZED_LOCAL_FLOW"), "implied_endpoint": {"formula": "x1_hat=x_t+(1-t)*v_hat", "array_sha256": _array_sha(x1_hat)}, "physical": {"source": "x1_hat_only", "decoder": decoder, "trajectory_metrics": physical_metrics}}
                                 write_json(probe_root / "derived_metrics.json", derived)
-                                row = {"schema": "CORELAB_STAGE45E_N2_G3_ROW_V1", "identity": raw_record["identity"], "raw_manifest_sha256": sha256_file(probe_root / "raw_manifest.json"), "raw_sha256": sha256_file(raw_path), "derived_sha256": sha256_file(probe_root / "derived_metrics.json"), "normalized_local_flow": derived["normalized_local_flow"], "physical": derived["physical"], "finite": True}
+                                row = {"schema": f"CORELAB_STAGE45E_N2_{phase}_ROW_V1", "identity": raw_record["identity"], "raw_manifest_sha256": sha256_file(probe_root / "raw_manifest.json"), "raw_sha256": sha256_file(raw_path), "derived_sha256": sha256_file(probe_root / "derived_metrics.json"), "normalized_local_flow": derived["normalized_local_flow"], "physical": derived["physical"], "finite": True}
                                 with raw_manifest.open("a", encoding="utf-8") as handle:
                                     handle.write(json.dumps(row, sort_keys=True, allow_nan=False) + "\n")
                                 all_rows.append(row)
@@ -709,11 +751,11 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
                             probe_root = output / "probes" / label.replace("@", "_at_") / f"w{index:02d}" / "seed4242" / f"t{bucket:03d}"
                             raw_path = probe_root / "raw_arrays.npz"
                             _write_npz(raw_path, arrays)
-                            raw_record = {"schema": "CORELAB_STAGE45E_N2_G4_RAW_STAGE_V1", "status": "RAW_SEALED_BEFORE_DERIVED", "identity": {"checkpoint": label, "checkpoint_tree_sha256": spec["tree"], "stats_sha256": stats_sha, "stats_payload_sha256": stats_payload_sha, "stats_route": stats_route, "window_id": window["window_id"], "target_id": record["target_id"], "window_index": index, "noise_seed": 4242, "t": t, "t_bucket": bucket, "stage_index": stage_index, "target_xyz_in_model_input": False}, "raw_archive": {"path": str(raw_path.relative_to(output)), "sha256": sha256_file(raw_path), "bytes": raw_path.stat().st_size}, "arrays": {key: {"shape": list(np.asarray(value).shape), "dtype": str(np.asarray(value).dtype), "sha256": _array_sha(value)} for key, value in arrays.items()}}
+                            raw_record = {"schema": f"CORELAB_STAGE45E_N2_{phase}_RAW_STAGE_V1", "status": "RAW_SEALED_BEFORE_DERIVED", "identity": {"checkpoint": label, "checkpoint_tree_sha256": spec["tree"], "stats_sha256": stats_sha, "stats_payload_sha256": stats_payload_sha, "stats_route": stats_route, "window_id": window["window_id"], "target_id": record["target_id"], "window_index": index, "noise_seed": 4242, "t": t, "t_bucket": bucket, "stage_index": stage_index, "target_xyz_in_model_input": False}, "raw_archive": {"path": str(raw_path.relative_to(output)), "sha256": sha256_file(raw_path), "bytes": raw_path.stat().st_size}, "arrays": {key: {"shape": list(np.asarray(value).shape), "dtype": str(np.asarray(value).dtype), "sha256": _array_sha(value)} for key, value in arrays.items()}}
                             write_json(probe_root / "raw_manifest.json", raw_record)
-                            derived = {"schema": "CORELAB_STAGE45E_N2_G4_DERIVED_STAGE_V1", "status": "DERIVED_AFTER_RAW_SEAL", "raw_before_derived": True, "state_path_divergence": _flow_metrics(x_fr, x_tf, name="D2A_STATE_PATH_DIVERGENCE"), "field_sensitivity": _flow_metrics(v_fr, v_tf, name="D2A_FIELD_SENSITIVITY"), "teacher_bridge_local_error": _flow_metrics(v_tf, v_target, name="NORMALIZED_LOCAL_FLOW"), "off_path_diagnostic": _flow_metrics(v_fr, v_target, name="DESCRIPTIVE_OFF_PATH_DIAGNOSTIC_NOT_SUPERVISED"), "t_zero": {"checked": bucket == 0, "exact_equal": bool(np.array_equal(v_tf, v_fr)) if bucket == 0 else None}, "path_update": {"dt": DT, "free_running_reset": False, "x_tf_next_formula": "x_tf+dt*v_tf", "x_fr_next_formula": "x_fr+dt*v_fr"}}
+                            derived = {"schema": f"CORELAB_STAGE45E_N2_{phase}_DERIVED_STAGE_V1", "status": "DERIVED_AFTER_RAW_SEAL", "raw_before_derived": True, "state_path_divergence": _flow_metrics(x_fr, x_tf, name="D2A_STATE_PATH_DIVERGENCE"), "field_sensitivity": _flow_metrics(v_fr, v_tf, name="D2A_FIELD_SENSITIVITY"), "teacher_bridge_local_error": _flow_metrics(v_tf, v_target, name="NORMALIZED_LOCAL_FLOW"), "off_path_diagnostic": _flow_metrics(v_fr, v_target, name="DESCRIPTIVE_OFF_PATH_DIAGNOSTIC_NOT_SUPERVISED"), "t_zero": {"checked": bucket == 0, "exact_equal": bool(np.array_equal(v_tf, v_fr)) if bucket == 0 else None}, "path_update": {"dt": DT, "free_running_reset": False, "x_tf_next_formula": "x_tf+dt*v_tf", "x_fr_next_formula": "x_fr+dt*v_fr"}}
                             write_json(probe_root / "derived_metrics.json", derived)
-                            row = {"schema": "CORELAB_STAGE45E_N2_G4_ROW_V1", "identity": raw_record["identity"], "raw_manifest_sha256": sha256_file(probe_root / "raw_manifest.json"), "raw_sha256": sha256_file(raw_path), "derived_sha256": sha256_file(probe_root / "derived_metrics.json"), "state_path_divergence": derived["state_path_divergence"], "field_sensitivity": derived["field_sensitivity"], "teacher_bridge_local_error": derived["teacher_bridge_local_error"], "off_path_diagnostic": derived["off_path_diagnostic"], "t_zero": derived["t_zero"], "finite": True}
+                            row = {"schema": f"CORELAB_STAGE45E_N2_{phase}_ROW_V1", "identity": raw_record["identity"], "raw_manifest_sha256": sha256_file(probe_root / "raw_manifest.json"), "raw_sha256": sha256_file(raw_path), "derived_sha256": sha256_file(probe_root / "derived_metrics.json"), "state_path_divergence": derived["state_path_divergence"], "field_sensitivity": derived["field_sensitivity"], "teacher_bridge_local_error": derived["teacher_bridge_local_error"], "off_path_diagnostic": derived["off_path_diagnostic"], "t_zero": derived["t_zero"], "finite": True}
                             with raw_manifest.open("a", encoding="utf-8") as handle:
                                 handle.write(json.dumps(row, sort_keys=True, allow_nan=False) + "\n")
                             all_rows.append(row)
@@ -722,12 +764,17 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
                             x_fr = x_fr_next
             finally:
                 hook.remove()
-            expected_hook = 24 * 3 * 3 if phase == "G3_D1" else 24 * 4 * 2
+            expected_hook = 24 * 3 * 3 if is_d1 else 24 * 4 * 2
             require(hook_counter["count"] == expected_hook, f"{phase} action-head budget drift for {label}: {hook_counter['count']} != {expected_hook}")
             checkpoint_results.append({"checkpoint": label, "tree_sha256": spec["tree"], "rows": row_count, "conditioning_passes": conditioning_count, "action_head_calls": hook_counter["count"]})
             del model
             torch.cuda.empty_cache()
-        expected = {"G3_D1": {"model_construction": 4, "conditioning_passes": 288, "action_head_calls": 864, "model_forward": 864, "raw_stage_count": 864}, "G4_D2A": {"model_construction": 4, "conditioning_passes": 96, "action_head_calls": 768, "model_forward": 768, "raw_stage_count": 384}}[phase]
+        expected = {
+            "G3_D1": {"model_construction": 4, "conditioning_passes": 288, "action_head_calls": 864, "model_forward": 864, "raw_stage_count": 864},
+            "G4_D2A": {"model_construction": 4, "conditioning_passes": 96, "action_head_calls": 768, "model_forward": 768, "raw_stage_count": 384},
+            "G5_D1": {"model_construction": 3, "conditioning_passes": 216, "action_head_calls": 648, "model_forward": 648, "raw_stage_count": 648},
+            "G5_D2A": {"model_construction": 3, "conditioning_passes": 72, "action_head_calls": 576, "model_forward": 576, "raw_stage_count": 288},
+        }[phase]
         for key, value in expected.items():
             require(counters[key] == value, f"{phase} total budget drift {key}: {counters[key]} != {value}")
         seal = {"schema": f"CORELAB_STAGE45E_N2_{phase}_SEAL_V1", "status": "PASS", "token": f"{phase}_PASS", "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "checkpoints": checkpoint_results, "counters": counters, "raw_probe_rows_jsonl_sha256": sha256_file(raw_manifest), "gpu": gpu, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0, "target_xyz_in_model_input": False, "timestamp_utc": now_utc()}
@@ -744,6 +791,18 @@ def g3_eval(args: argparse.Namespace) -> dict[str, Any]:
 
 def g4_eval(args: argparse.Namespace) -> dict[str, Any]:
     return _diagnostic_runtime(args, "G4_D2A")
+
+
+def g5_d1_eval(args: argparse.Namespace) -> dict[str, Any]:
+    """Run the PI0125 D1 exposure probe on the three N2 @1000 checkpoints."""
+
+    return _diagnostic_runtime(args, "G5_D1")
+
+
+def g5_d2a_eval(args: argparse.Namespace) -> dict[str, Any]:
+    """Run the PI0125 matched TF/FR exposure probe on N2 @1000."""
+
+    return _diagnostic_runtime(args, "G5_D2A")
 
 
 def run_sprint(args: argparse.Namespace) -> dict[str, Any]:
@@ -799,7 +858,7 @@ def reset_boundary() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("static", "admission", "train", "g2", "g3", "g4", "sprint"), default="static")
+    parser.add_argument("--mode", choices=("static", "admission", "train", "g2", "g3", "g4", "g5d1", "g5d2a", "sprint"), default="static")
     parser.add_argument("--base-model", dest="base_model", type=Path)
     parser.add_argument("--dataset", type=Path)
     parser.add_argument("--groot", type=Path)
@@ -842,6 +901,12 @@ def main() -> int:
         elif args.mode == "g4":
             require(args.output_root is not None, "g4 requires output root")
             result = g4_eval(args)
+        elif args.mode == "g5d1":
+            require(args.output_root is not None, "g5d1 requires output root")
+            result = g5_d1_eval(args)
+        elif args.mode == "g5d2a":
+            require(args.output_root is not None, "g5d2a requires output root")
+            result = g5_d2a_eval(args)
         else:
             require(args.output_root is not None, "sprint requires --output-root")
             result = run_sprint(args)

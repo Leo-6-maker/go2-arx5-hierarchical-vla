@@ -4,10 +4,10 @@
   "stage": "Stage45E",
   "authority": {
     "issue": 11,
-    "pi_gate": "PI_GATE_STATE_0124",
-    "issue_comment": 5634960729,
-    "pointer_pr": 53,
-    "pointer_comment": 5634964928
+    "pi_gate": "PI_GATE_STATE_0125",
+    "issue_comment": 5635727857,
+    "pointer_pr": 56,
+    "pointer_comment": 5635727857
   },
   "repository": {
     "branch": "stage45e/n2-gpu-replication-mechanism-sprint",
@@ -113,7 +113,53 @@
     "target_xyz_in_model_input": false,
     "automatic_retry": false
   },
-  "execution_order": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4", "G3_D1_LOCAL_FLOW", "G4_D2A_TF_VS_FR"],
+  "g5_d1_n2_at_1000": {
+    "checkpoints": ["N2(seed2222)@1000", "N2(seed2223)@1000", "N2(seed2224)@1000"],
+    "noise_seeds": [2223, 2224, 2225],
+    "t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+    "t_buckets": [67, 369, 783],
+    "flow": {
+      "x_t": "x_t=(1-t)*x0+t*x1",
+      "v_target": "v_target=x1-x0",
+      "x1_hat": "x1_hat=x_t+(1-t)*v_hat",
+      "physical_source": "x1_hat_only"
+    },
+    "action_head_calls": 648,
+    "conditioning_passes": 216,
+    "total_model_side_calls": 864,
+    "target_xyz_in_model_input": false,
+    "rerun_2000": false,
+    "automatic_retry": false
+  },
+  "g5_d2a_n2_at_1000": {
+    "checkpoints": ["N2(seed2222)@1000", "N2(seed2223)@1000", "N2(seed2224)@1000"],
+    "noise_seed": 4242,
+    "t_values": [0.0, 0.25, 0.5, 0.75],
+    "t_buckets": [0, 250, 500, 750],
+    "dt": 0.25,
+    "flow": {
+      "teacher_forced": "x_tf=(1-t)*x0+t*x1",
+      "free_running": "x_fr_next=x_fr+dt*v_fr"
+    },
+    "action_head_calls": 576,
+    "conditioning_passes": 72,
+    "total_model_side_calls": 648,
+    "same_initial_noise": true,
+    "target_xyz_in_model_input": false,
+    "rerun_2000": false,
+    "automatic_retry": false
+  },
+  "legacy_exact_checkpoint_relay": {
+    "bundle_bytes": 41779394560,
+    "bundle_sha256": "a022480f3882988aee3831f14f817b265525d87ec6486d879d9d525025771a05",
+    "full24_1000_tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+    "full24_2000_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+    "payload_regular_file_count": 38,
+    "payload_total_bytes": 41779331343,
+    "materialization": "late-bound fresh Corelab destination; independent tree rehash required",
+    "substitution_allowed": false
+  },
+  "execution_order": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4", "G3_D1_LOCAL_FLOW", "G4_D2A_TF_VS_FR", "G5_D1_N2_AT_1000", "G5_D2A_N2_AT_1000"],
   "gpu_policy": {
     "host_role": "Corelab RTX",
     "preferred_name": "NVIDIA GeForce RTX 4080 SUPER",
@@ -132,7 +178,8 @@
     "fresh_output_root_per_seed_and_phase": true,
     "failure_seal_required": true,
     "checkpoint_tree_sha256_bound_after_materialization": true,
-    "cpu_aggregation_deferred_until_after_g4": true
+    "cpu_aggregation_deferred_until_after_g5": true,
+    "exact_relay_materialization_required_before_g3": true
   },
   "locked": {
     "N1": true,
@@ -153,7 +200,7 @@
   },
   "return_tokens": {
     "resource_blocked": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_FOR_PI_REVIEW",
-    "sprint_complete": "STAGE45E_N2_CORELAB_GPU_SPRINT_COMPLETE_FOR_PI_REVIEW"
+    "sprint_complete": "STAGE45E_N2_CORELAB_GPU_SPRINT_G3_G4_G5_COMPLETE_FOR_PI_REVIEW"
   },
   "execution_boundary_now": {
     "model_construction": 0,
