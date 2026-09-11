@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE45E_N2_CONTINUATION_REPAIR_PREP_V1",
+  "status": "PREP_ONLY_NO_MODEL_EXECUTION",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0128_C",
+    "issue_comment": 5637382017,
+    "execution_control_gate": "PI_GATE_STATE_0127"
+  },
+  "repository": {
+    "branch": "stage45e/pi-prep-n2-continuation-repair",
+    "base_head": "cd444b686e15b206fdc52331af8bdedec197903b",
+    "live_execution_pr": 56,
+    "execution_branch": false
+  },
+  "accepted_identities": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "legacy_full24_2000_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+    "legacy_full24_2000_logical_prefix": "checkpoint-2000",
+    "n2_training_steps": 2000,
+    "n2_seeds": [2222, 2223, 2224]
+  },
+  "corrected_budgets": {
+    "G3_D1": {
+      "checkpoints": 4,
+      "windows": 24,
+      "conditioning_passes": 96,
+      "action_head_calls": 864,
+      "total_model_side_calls": 960,
+      "raw_stage_count": 864
+    },
+    "G4_D2A": {
+      "checkpoints": 4,
+      "windows": 24,
+      "conditioning_passes": 96,
+      "action_head_calls": 768,
+      "total_model_side_calls": 864,
+      "raw_stage_count": 384
+    },
+    "G5_D1": {
+      "checkpoints": 3,
+      "windows": 24,
+      "conditioning_passes": 72,
+      "action_head_calls": 648,
+      "total_model_side_calls": 720,
+      "raw_stage_count": 648
+    },
+    "G5_D2A": {
+      "checkpoints": 3,
+      "windows": 24,
+      "conditioning_passes": 72,
+      "action_head_calls": 576,
+      "total_model_side_calls": 648,
+      "raw_stage_count": 288
+    }
+  },
+  "continuation_order": ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"],
+  "forbidden_continuation_phases": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"],
+  "d1_conditioning_semantics": "one conditioning pass per checkpoint x window, reused across all 3 noise seeds x 3 t probes",
+  "stats_sidecar_compare": {
+    "keys_shapes_masks_non_numeric": "exact",
+    "numeric_atol": 1e-12,
+    "record_max_abs_delta": true
+  },
+  "failure_provenance": {
+    "phase_local_counters_source_of_truth_after_phase_entry": true,
+    "outer_failure_seal_must_not_claim_zero_if_inner_model_work_started": true
+  },
+  "locked": {
+    "training": true,
+    "G1": true,
+    "G2_rerun": true,
+    "model_execution_in_prep": true,
+    "GPU": true,
+    "PBS": true,
+    "Validation-E": true,
+    "Holdout-F": true,
+    "L1": true,
+    "N2_plus_L1": true,
+    "WBC": true,
+    "simulator": true,
+    "hardware": true,
+    "merge": true
+  },
+  "return_token": "STAGE45E_N2_CONTINUATION_REPAIR_TOOLING_READY_FOR_CORELAB"
+}
