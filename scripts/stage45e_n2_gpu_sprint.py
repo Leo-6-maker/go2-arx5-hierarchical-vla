@@ -389,6 +389,19 @@ def _checkpoint_hash(path: Path) -> str:
     return tree_digest(tree_entries(path, f"stage45e/{path.name}"))
 
 
+def _legacy_checkpoint_hash(path: Path) -> str:
+    """Hash a transported legacy checkpoint with its accepted export prefix.
+
+    The historical FULL24 transport manifest defines its tree identity over
+    ``checkpoint-{step}/...``.  N2 training artifacts intentionally retain the
+    ``stage45e/checkpoint-{step}/...`` prefix used by ``checkpoint_record``;
+    keep the two provenance namespaces explicit rather than weakening either
+    identity check.
+    """
+
+    return tree_digest(tree_entries(path, path.name))
+
+
 def g2_eval(args: argparse.Namespace) -> dict[str, Any]:
     paths = _paths(args)
     _verify_core_identities(paths)
@@ -498,7 +511,7 @@ def _require_legacy_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Pa
     require(args.legacy_full24_2000 is not None, "G3/G4 require --legacy-full24-2000; raw-only comparator evidence is not a model")
     legacy = Path(args.legacy_full24_2000).resolve()
     require(legacy.is_dir() and not legacy.is_symlink(), f"required FULL24@2000 comparator checkpoint is not materialized: {legacy}")
-    legacy_tree = _checkpoint_hash(legacy)
+    legacy_tree = _legacy_checkpoint_hash(legacy)
     require(legacy_tree == FULL24_2000_TREE, f"FULL24@2000 comparator tree mismatch: {legacy_tree}")
     roots = dict(n2_roots or {})
     for seed in N2_SEEDS:

@@ -52,6 +52,7 @@ def test_sprint_static_audit_has_no_model_imports() -> None:
 def test_legacy_comparator_is_late_bound() -> None:
     source = (ROOT / "scripts/stage45e_n2_gpu_sprint.py").read_text(encoding="utf-8")
     assert "legacy_full24_2000" in source
+    assert "def _legacy_checkpoint_hash" in source
     assert "/scratch/e1192548/stage45b_pi0087" not in source
     assert "no scratch-path substitution" in source
 
