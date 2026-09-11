@@ -111,6 +111,21 @@ def _read_json(path: Path) -> dict[str, Any]:
     return value
 
 
+def _jsonable(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {str(key): _jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_jsonable(item) for item in value]
+    if hasattr(value, "tolist"):
+        return _jsonable(value.tolist())
+    if hasattr(value, "item") and callable(value.item):
+        try:
+            return value.item()
+        except Exception:
+            pass
+    return value
+
+
 def _write_json(path: Path, value: Mapping[str, Any]) -> None:
     path = Path(path)
     _require(not path.exists() and not path.is_symlink(), f"refusing to overwrite audit output: {path}")
@@ -118,7 +133,7 @@ def _write_json(path: Path, value: Mapping[str, Any]) -> None:
     temporary = path.with_name(path.name + f".tmp-{os.getpid()}")
     try:
         with temporary.open("w", encoding="utf-8") as handle:
-            handle.write(json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n")
+            handle.write(json.dumps(_jsonable(value), indent=2, sort_keys=True, allow_nan=False) + "\n")
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary, path)
@@ -506,7 +521,7 @@ def main() -> int:
     except Exception as exc:  # pragma: no cover - fail-closed CLI boundary
         print(f"STAGE45E_N2_VANDA_EVAL_AUDIT_BLOCKED: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 2
-    print(json.dumps(result, indent=2, sort_keys=True))
+    print(json.dumps(_jsonable(result), indent=2, sort_keys=True))
     return 0
 
 
