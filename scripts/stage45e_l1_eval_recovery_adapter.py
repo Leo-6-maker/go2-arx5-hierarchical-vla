@@ -21,8 +21,9 @@ import statistics
 from typing import Any, Mapping, Sequence
 
 
-RECOVERED_INPUT_SCHEMA = "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V1"
-RECOVERED_INPUT_STATUS = "PASS_RECOVERED_TRAINING_INPUT_FOR_FUTURE_EVAL_ADMISSION"
+RECOVERED_INPUT_SCHEMA = "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V2"
+RECOVERED_INPUT_STATUS = "PASS_CONTRACT_BOUND_RECOVERED_TRAINING_INPUT_FOR_FUTURE_EVAL_ADMISSION"
+RECOVERED_SOURCE_KIND = "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT"
 ARM_ORDER = ("FULL24@2000", "L1@1000", "L1@2000")
 WINDOW_COUNT = 24
 
@@ -67,13 +68,24 @@ def validate_recovered_input(path: Path, training_root: Path) -> dict[str, Any]:
     value = read_json(path)
     require(value.get("schema") == RECOVERED_INPUT_SCHEMA, "recovered eval-input schema drift")
     require(value.get("status") == RECOVERED_INPUT_STATUS, "recovered eval-input status drift")
-    require(value.get("source_kind") == "READONLY_RECOVERY_ACCEPTANCE_NOT_HISTORICAL_PASS_RESULT", "recovered source-kind drift")
+    require(value.get("source_kind") == RECOVERED_SOURCE_KIND, "recovered source-kind drift")
     require(Path(str(value.get("training_root"))).resolve() == training_root, "recovered training-root identity drift")
     require(value.get("evaluation_authorized_by_this_bridge") is False, "bridge must not claim execution authority")
     require(value.get("final_train24_token_emitted") is False, "bridge already claims final TRAIN24 completion")
-    contract_acceptance = value.get("contract_bound_acceptance")
-    require(isinstance(contract_acceptance, Mapping), "contract-bound L1 acceptance is missing")
-    require(contract_acceptance.get("status") == "PASS_FROZEN_L1_CONTRACT_AND_RECIPE_BINDING", "L1 contract/recipe binding did not PASS")
+    scientific_contract = value.get("scientific_contract")
+    require(isinstance(scientific_contract, Mapping), "contract-bound L1 scientific contract is missing")
+    runtime_contract = scientific_contract.get("l1_runtime_contract")
+    code_contract = scientific_contract.get("l1_code_contract")
+    recipe = scientific_contract.get("training_recipe")
+    require(isinstance(runtime_contract, Mapping), "runtime L1 contract missing")
+    require(isinstance(code_contract, Mapping), "code L1 contract missing")
+    require(isinstance(recipe, Mapping), "L1 training recipe binding missing")
+    require(runtime_contract.get("active_scalar_count") == 190, "runtime active mask drift")
+    require(code_contract.get("active_scalar_count") == 190, "code active mask drift")
+    require(code_contract.get("denominator") == "binary_action_mask.sum()", "L1 denominator drift")
+    require(scientific_contract.get("normalization_unchanged") is True, "recovered normalization drift")
+    require(recipe.get("seed") == 2222 and recipe.get("max_steps") == 2000, "recovered training seed/steps drift")
+
     checkpoints = value.get("checkpoints")
     require(isinstance(checkpoints, Mapping), "recovered checkpoint block missing")
     normalized = {}
@@ -86,14 +98,16 @@ def validate_recovered_input(path: Path, training_root: Path) -> dict[str, Any]:
         require(record.get("rehash_matches_acceptance") is True, f"{label} was not rehashed against acceptance")
         normalized[label] = dict(record)
     return {
-        "schema": "STAGE45E_L1_RECOVERY_EVAL_ADAPTER_INPUT_V1",
+        "schema": "STAGE45E_L1_RECOVERY_EVAL_ADAPTER_INPUT_V2",
         "recovered_eval_input_path": str(path),
         "recovered_eval_input_sha256": sha256_file(path),
+        "acceptance_path": value.get("acceptance_path"),
+        "acceptance_sha256": value.get("acceptance_sha256"),
         "training_root": str(training_root),
         "historical_training_head": value.get("historical_training_head"),
         "branch": value.get("branch"),
         "structured_stats": value.get("structured_stats"),
-        "contract_bound_acceptance": dict(contract_acceptance),
+        "scientific_contract": dict(scientific_contract),
         "checkpoints": normalized,
         "runtime_effective_weight_evidence_status": value.get("runtime_effective_weight_evidence_status"),
     }
