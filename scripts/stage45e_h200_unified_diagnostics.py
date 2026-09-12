@@ -47,6 +47,7 @@ N2_STATS_SHA = "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
 H200_VRAM_MIB = 80 * 1024
 RAW_SHAPE = (1, 40, 132)
+ROUTE_SERIALIZATION_ERROR = "TypeError: '<' not supported between instances of 'NoneType' and 'str'"
 
 
 def require(condition: bool, message: str) -> None:
@@ -83,6 +84,160 @@ def write_json(path: Path, value: Any, *, overwrite: bool = False) -> None:
     with temporary.open("rb") as handle:
         os.fsync(handle.fileno())
     os.replace(temporary, path)
+
+
+def _normalize_json_mapping_keys(value: Any) -> Any:
+    """Make the route writer safe for the known nullable decision bucket.
+
+    The legacy route's aggregate contains a ``None`` safety-decision bucket.
+    Python 3.12 cannot sort that key together with strings when
+    ``sort_keys=True``.  Only that known nullable key is normalized; any
+    other non-string key remains a hard failure so this repair cannot hide a
+    schema change.
+    """
+
+    if isinstance(value, Mapping):
+        normalized: dict[str, Any] = {}
+        for key, nested in value.items():
+            if key is None:
+                key = "UNSET"
+            require(isinstance(key, str), f"route JSON contains unsupported non-string key: {key!r}")
+            require(key not in normalized, f"route JSON key collision after nullable-key normalization: {key!r}")
+            normalized[key] = _normalize_json_mapping_keys(nested)
+        return normalized
+    if isinstance(value, list):
+        return [_normalize_json_mapping_keys(item) for item in value]
+    if isinstance(value, tuple):
+        return [_normalize_json_mapping_keys(item) for item in value]
+    return value
+
+
+def _patch_route_json_writer(module: Any) -> None:
+    """Apply a serialization-only repair inside the fixed route checkout.
+
+    The science route checkout and its SHA remain unchanged.  This wrapper
+    repair only changes how an already-computed JSON mapping is serialized;
+    it does not alter model inputs, predictions, labels, or metrics.
+    """
+
+    original_write_json = getattr(module, "write_json", None)
+    require(callable(original_write_json), "route runtime does not expose write_json")
+
+    def safe_write_json(path: Path, value: Any, *, overwrite: bool = False) -> None:
+        original_write_json(path, _normalize_json_mapping_keys(value), overwrite=overwrite)
+
+    module.write_json = safe_write_json
+
+
+def _expected_window_ids(spec_doc: Mapping[str, Any]) -> list[str]:
+    contract = spec_doc.get("train24_contract", {})
+    ids = contract.get("window_ids")
+    require(isinstance(ids, list) and all(isinstance(item, str) for item in ids), "TRAIN24 window identity is unavailable")
+    require(len(ids) == 24 and len(set(ids)) == 24, "TRAIN24 window identity is not the frozen 24-window cohort")
+    return list(ids)
+
+
+def _route_failure_document(root: Path) -> tuple[Path, dict[str, Any]]:
+    failure_path = Path(root).resolve() / "FAILURE_SEAL.json"
+    require(failure_path.is_file() and not failure_path.is_symlink(), f"route failure seal unavailable: {failure_path}")
+    document = read_json(failure_path)
+    require(document.get("status") == "BLOCKED", "route recovery source is not a blocked attempt")
+    require(document.get("error") == ROUTE_SERIALIZATION_ERROR, "route recovery source is not the known serialization failure")
+    trace = str(document.get("traceback", ""))
+    require("aggregate_evaluation_rows" in trace and "sort_keys=True" in trace and "NoneType" in trace, "route recovery source traceback is not the known serialization failure")
+    return failure_path, document
+
+
+def _e4_recovery_source(source: Path, specs: Sequence[Mapping[str, Any]], spec_doc: Mapping[str, Any], route: str) -> dict[str, Any]:
+    """Validate one post-model E4 serialization failure for arm continuation.
+
+    This is deliberately narrow.  It accepts only a fixed-route E4 attempt
+    whose completed arms have immutable raw/row files and exact per-arm
+    counters.  The next invocation runs only the missing checkpoint arms.
+    """
+
+    source = Path(source).resolve()
+    require(source.is_dir() and not source.is_symlink(), f"E4 recovery source is not a directory: {source}")
+    failure_path, failure = _route_failure_document(source)
+    require(str(failure.get("schema", "")).endswith("_E4_FAILURE_SEAL_V1"), "E4 recovery source schema is not route E4 V1")
+    require(route.upper() in str(failure.get("schema", "")), "E4 recovery source route schema mismatch")
+    counters = failure.get("counters")
+    require(isinstance(counters, Mapping), "E4 recovery source counters are unavailable")
+    completed_conditioning = counters.get("conditioning_passes")
+    completed_heads = counters.get("action_head_calls")
+    completed_rows = counters.get("raw_rows")
+    require(all(isinstance(value, int) and not isinstance(value, bool) and value > 0 for value in (completed_conditioning, completed_heads, completed_rows)), "E4 recovery source counters are not positive integers")
+    require(counters.get("model_construction") == completed_conditioning // 24, "E4 recovery source construction counter drift")
+    require(counters.get("model_forward_windows") == completed_conditioning, "E4 recovery source forward counter drift")
+    require(counters.get("action_head_calls") == completed_conditioning * 4, "E4 recovery source action-head counter drift")
+    require(counters.get("raw_rows") == completed_conditioning, "E4 recovery source raw-row counter drift")
+    require(counters.get("training") is False and counters.get("optimizer_steps") == 0, "E4 recovery source crossed training boundary")
+    require(all(counters.get(key) == 0 for key in ("checkpoint_writes", "Validation-E", "Holdout-F", "WBC", "simulator", "hardware")), "E4 recovery source crossed a forbidden boundary")
+    require(completed_conditioning % 24 == 0, "E4 recovery source ended mid-window cohort")
+    completed_arm_count = completed_conditioning // 24
+    require(0 < completed_arm_count < len(specs), "E4 recovery source does not have a strict incomplete arm subset")
+
+    expected_windows = _expected_window_ids(spec_doc)
+    spec_by_label = {str(item["label"]): dict(item) for item in specs}
+    row_files = sorted(source.glob("rows_*.json"), key=lambda path: path.name)
+    require(len(row_files) == completed_arm_count, f"E4 recovery source row-file count drift: {len(row_files)} != {completed_arm_count}")
+    completed_labels: list[str] = []
+    raw_references: list[Path] = []
+    for row_file in row_files:
+        require(row_file.is_file() and not row_file.is_symlink(), f"E4 recovery row file is not a regular file: {row_file}")
+        rows = read_json(row_file)
+        require(isinstance(rows, list) and len(rows) == 24, f"E4 recovery row count drift: {row_file}")
+        labels = {str(row.get("checkpoint", {}).get("label")) for row in rows if isinstance(row, Mapping)}
+        require(len(labels) == 1, f"E4 recovery row checkpoint identity is not constant: {row_file}")
+        label = next(iter(labels))
+        require(label in spec_by_label and label not in completed_labels, f"E4 recovery row checkpoint is not a unique expected arm: {label}")
+        expected_checkpoint_sha = spec_by_label[label].get("tree_sha256")
+        require([row.get("window_id") for row in rows] == expected_windows, f"E4 recovery row order drift: {row_file}")
+        for row in rows:
+            require(isinstance(row, Mapping) and row.get("finite") is True, f"E4 recovery row is not finite: {row_file}")
+            checkpoint = row.get("checkpoint", {})
+            require(isinstance(checkpoint, Mapping) and checkpoint.get("label") == label and checkpoint.get("sha256") == expected_checkpoint_sha, f"E4 recovery checkpoint identity drift: {row_file}")
+            require(row.get("target_xyz_in_model_input") is False, f"E4 recovery target exclusion drift: {row_file}")
+            sampler = row.get("sampler", {})
+            require(isinstance(sampler, Mapping) and sampler.get("steps_observed") == 4 and sampler.get("official_public_sampler_called") is False, f"E4 recovery sampler identity drift: {row_file}")
+            artifact = row.get("raw_prediction_artifact", {})
+            require(isinstance(artifact, Mapping), f"E4 recovery raw artifact metadata missing: {row_file}")
+            raw_path = (source / str(artifact.get("path"))).resolve()
+            require(raw_path.is_file() and not raw_path.is_symlink() and raw_path.is_relative_to(source), f"E4 recovery raw artifact escapes source: {raw_path}")
+            require(sha256_file(raw_path) == artifact.get("sha256"), f"E4 recovery raw artifact SHA drift: {raw_path}")
+            require(artifact.get("shape") == [1, 40, 132], f"E4 recovery raw shape drift: {raw_path}")
+            raw_references.append(raw_path)
+        completed_labels.append(label)
+
+    manifest_path = source / "raw_predictions.jsonl"
+    require(manifest_path.is_file() and not manifest_path.is_symlink(), f"E4 recovery raw manifest unavailable: {manifest_path}")
+    manifest_rows = [json.loads(line) for line in manifest_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    require(len(manifest_rows) == completed_rows == len(raw_references), "E4 recovery raw manifest count drift")
+    manifest_paths = set()
+    for record in manifest_rows:
+        require(record.get("sampler_calls_observed") == 4 and record.get("stats_route") == ("N2_BALANCED_XYZ" if route == "n2" else "FULL24_RUNTIME_V2"), "E4 recovery raw manifest contract drift")
+        path = (source / str(record.get("path"))).resolve()
+        require(path in raw_references, f"E4 recovery raw manifest references an unexpected file: {path}")
+        require(sha256_file(path) == record.get("file_sha256"), f"E4 recovery raw manifest SHA drift: {path}")
+        require(isinstance(record.get("window_id"), str), "E4 recovery raw manifest window identity missing")
+        manifest_paths.add(path)
+    require(manifest_paths == set(raw_references), "E4 recovery raw manifest does not cover all row artifacts")
+    remaining = [dict(item) for item in specs if str(item["label"]) not in completed_labels]
+    require(remaining, "E4 recovery source has no remaining checkpoint arms")
+    return {
+        "source_root": str(source),
+        "failure_path": str(failure_path),
+        "failure_sha256": sha256_file(failure_path),
+        "failure_error": failure.get("error"),
+        "prior_counters": dict(counters),
+        "completed_labels": completed_labels,
+        "completed_specs": [spec_by_label[label] for label in completed_labels],
+        "remaining_specs": remaining,
+        "row_files": [str(path) for path in row_files],
+        "raw_manifest": str(manifest_path),
+        "raw_manifest_sha256": sha256_file(manifest_path),
+        "raw_files": [str(path) for path in sorted(set(raw_references), key=str)],
+    }
 
 
 def git(repo: Path, *args: str) -> str:
@@ -286,6 +441,13 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         admission, spec_doc = _validate_admission(Path(args.admission).resolve(), route, phase, output)
         spec_path = Path(admission["phase_specs"][phase][route]).resolve()
         specs = list(spec_doc["checkpoints"])
+        recovery: dict[str, Any] | None = None
+        run_specs = specs
+        resume_source = getattr(args, "resume_source", None)
+        if resume_source is not None:
+            require(phase == "E4", "only E4 arm continuation is authorized by the current recovery path")
+            recovery = _e4_recovery_source(Path(resume_source).resolve(), specs, spec_doc, route)
+            run_specs = list(recovery["remaining_specs"])
         lifecycle["admission"] = "PASS"
         execution_state["admission"] = "PASS"
         gpu = _gpu_observation()
@@ -343,6 +505,15 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
             "output_root": str(output),
             "sidecar_path": str(pre_model_sidecar),
         }
+        if recovery is not None:
+            pre_model_record["continuation"] = {
+                "mode": "POST_MODEL_SERIALIZATION_FAILURE_REMAINING_ARMS",
+                "source_root": recovery["source_root"],
+                "source_failure_sha256": recovery["failure_sha256"],
+                "completed_checkpoint_labels": list(recovery["completed_labels"]),
+                "remaining_checkpoint_labels": [str(item["label"]) for item in run_specs],
+                "source_raw_manifest_sha256": recovery["raw_manifest_sha256"],
+            }
         write_json(pre_model_sidecar, pre_model_record)
         lifecycle["model_import"] = "IN_PROGRESS"
         execution_state["dynamic_runtime_import"] = "IN_PROGRESS"
@@ -370,7 +541,8 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
 
         module.require = patched_require
         module.verify_identities = lambda _paths: identity
-        module.checkpoint_specs = lambda _args: [dict(item, tree_sha256=item["tree_sha256"]) for item in specs]
+        module.checkpoint_specs = lambda _args: [dict(item, tree_sha256=item["tree_sha256"]) for item in run_specs]
+        _patch_route_json_writer(module)
         original_prepare_env = module.prepare_env
 
         def prepare_env(route_paths: Mapping[str, Path], route_output: Path, route_gpu: Mapping[str, Any]) -> None:
@@ -398,6 +570,59 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         inner_seal = read_json(inner_seal_path)
         budget = _phase_budget(phase, len(specs))
         counters = inner_seal.get("counters", {})
+        if recovery is not None:
+            prior_counters = recovery["prior_counters"]
+            for key in ("model_construction", "conditioning_passes", "action_head_calls", "model_forward_windows", "raw_rows"):
+                current_value = counters.get(key)
+                prior_value = prior_counters.get(key)
+                require(isinstance(current_value, int) and not isinstance(current_value, bool), f"E4 continuation counter is not an integer: {key}")
+                require(isinstance(prior_value, int) and not isinstance(prior_value, bool), f"E4 source counter is not an integer: {key}")
+                counters[key] = prior_value + current_value
+            require(counters.get("training") is False and counters.get("optimizer_steps") == 0, "E4 continuation crossed training boundary")
+            require(counters.get("checkpoint_writes") == 0, "E4 continuation wrote a checkpoint")
+            current_rows = sorted(output.glob("rows_*.json"), key=lambda path: path.name)
+            require(len(current_rows) == len(run_specs), "E4 continuation row-file count drift")
+            row_bundle = [Path(path).resolve() for path in recovery["row_files"]] + [path.resolve() for path in current_rows]
+            recovery_inner_path = output / "recovered_inner_seal.json"
+            recovery_inner = {
+                "schema": "VANDA_STAGE45E_E4_POST_MODEL_CONTINUATION_INNER_SEAL_V1",
+                "status": "PASS",
+                "phase": phase,
+                "route": route,
+                "route_branch": ROUTE_BRANCHES[route],
+                "route_head": ROUTE_HEADS[route],
+                "recovery_mode": "CPU_VALIDATED_PRIOR_PLUS_REMAINING_ARMS",
+                "source_route_failure": {"path": recovery["failure_path"], "sha256": recovery["failure_sha256"]},
+                "source_completed_checkpoint_labels": list(recovery["completed_labels"]),
+                "remaining_checkpoint_labels": [str(item["label"]) for item in run_specs],
+                "current_route_seal": {"path": str(inner_seal_path), "sha256": sha256_file(inner_seal_path)},
+                "checkpoints": specs,
+                "counters": counters,
+                "row_bundle": [str(path) for path in row_bundle],
+                "raw_before_derived": True,
+                "training": False,
+                "backward": False,
+                "optimizer_steps": 0,
+                "public_sampler_calls": 0,
+                "get_action_calls": 0,
+                "Validation-E": 0,
+                "Holdout-F": 0,
+                "WBC": 0,
+                "simulator": 0,
+                "hardware": 0,
+                "timestamp_utc": now_utc(),
+            }
+            write_json(recovery_inner_path, recovery_inner)
+            inner_seal_path = recovery_inner_path
+            route_result = {
+                "recovery_source": recovery["source_root"],
+                "recovery_source_failure_sha256": recovery["failure_sha256"],
+                "recovery_source_calls": recovery["prior_counters"],
+                "current_attempt": result,
+                "row_bundle": [str(path) for path in row_bundle],
+            }
+        else:
+            route_result = result
         observed = {
             "conditioning_passes": counters.get("conditioning_passes"),
             "action_head_calls": counters.get("action_head_calls"),
@@ -440,8 +665,12 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
             "simulator": 0,
             "hardware": 0,
             "timestamp_utc": now_utc(),
-            "route_result": result,
+            "route_result": route_result,
         }
+        if recovery is not None:
+            unified["recovery_source_roots"] = [recovery["source_root"]]
+            unified["new_model_side_calls"] = counters["conditioning_passes"] + counters["action_head_calls"] - (recovery["prior_counters"]["conditioning_passes"] + recovery["prior_counters"]["action_head_calls"])
+            unified["row_bundle"] = recovery_inner["row_bundle"]
         write_json(output / "unified_phase_seal.json", unified)
         return unified
     except Exception as exc:
@@ -506,6 +735,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--helper-script", type=Path)
     parser.add_argument("--admission", type=Path)
     parser.add_argument("--output-root", type=Path)
+    parser.add_argument("--resume-source", type=Path, help="CPU-validated prior post-model E4 serialization attempt; run only its missing arms")
     for name in ("base_model", "dataset", "groot", "cosmos", "modality", "config", "stats", "sealed_baseline", "snapshot_preflight"):
         parser.add_argument("--" + name.replace("_", "-"), dest=name, type=Path)
     args = parser.parse_args(argv)

@@ -287,6 +287,9 @@ def test_v1_parser_default_and_run_phase_stub_cover_every_route_phase(tmp_path: 
     helper.write_text(
         "import json\n"
         "from pathlib import Path\n"
+        "def write_json(path, value, overwrite=False):\n"
+        "    path.parent.mkdir(parents=True, exist_ok=True)\n"
+        "    path.write_text(json.dumps(value), encoding='utf-8')\n"
         "def prepare_env(*args): pass\n"
         "def require(condition, message):\n"
         "    if not condition: raise RuntimeError(message)\n"
@@ -580,6 +583,116 @@ def test_v3_missing_seal_counter_is_unknown_not_zero(tmp_path: Path) -> None:
     assert counts["model_side_calls"] is None
     assert counts["counters_complete"] is False
     assert campaign._sum_known_call_counts([{"counts": counts}]) is None
+
+
+def test_route_serialization_failure_has_truthful_bounded_counts(tmp_path: Path) -> None:
+    root = tmp_path / "pi0152_E4_legacy"
+    root.mkdir()
+    failure = {
+        "schema": "CORELAB_STAGE45E_LEGACY_E4_FAILURE_SEAL_V1",
+        "status": "BLOCKED",
+        "error": "TypeError: '<' not supported between instances of 'NoneType' and 'str'",
+        "traceback": "aggregate_evaluation_rows\njson.dumps(sort_keys=True)\nNoneType",
+        "retry_or_substitution": False,
+        "counters": {
+            "model_construction": 1,
+            "conditioning_passes": 24,
+            "action_head_calls": 96,
+            "model_forward_windows": 24,
+            "raw_rows": 24,
+            "training": False,
+            "optimizer_steps": 0,
+            "checkpoint_writes": 0,
+            "Validation-E": 0,
+            "Holdout-F": 0,
+            "WBC": 0,
+            "simulator": 0,
+            "hardware": 0,
+        },
+    }
+    (root / "FAILURE_SEAL.json").write_text(json.dumps(failure), encoding="utf-8")
+    candidate = {"root": str(root), "phase": "E4", "route": "legacy"}
+    counts = campaign._attempt_call_counts(root)
+    assert counts["model_side_calls"] == 120
+    assert counts["counters_complete"] is True
+    assert counts["counter_source"] == "ROUTE_FAILURE_SEAL"
+    assert campaign._route_failure_recovery_allowed(candidate) is True
+    assert campaign._diagnostic_retry_allowed(candidate) is True
+
+
+def test_recovery_accounting_does_not_double_count_reused_partial_calls(tmp_path: Path) -> None:
+    failed_root = tmp_path / "failed"
+    accepted_root = tmp_path / "accepted"
+    attempts = {
+        "E4:legacy": [
+            {
+                "phase": "E4", "route": "legacy", "root": str(failed_root),
+                "status": "FAILED_ATTEMPT", "counts": {"model_side_calls": 120, "counters_complete": True},
+            },
+            {
+                "phase": "E4", "route": "legacy", "root": str(accepted_root),
+                "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 480, "counters_complete": True},
+                "recovery_source_roots": [str(failed_root)],
+            },
+        ]
+    }
+    accepted = {
+        "E4:legacy": {
+            "counts": {"model_side_calls": 480, "counters_complete": True},
+            "recovery_source_roots": [str(failed_root)],
+        }
+    }
+    report = campaign.diagnostic_accounting(attempts, accepted)
+    assert report["accepted_unique_scientific_calls"] == 480
+    assert report["failed_attempt_model_calls"] == 120
+    assert report["overlapped_recovery_model_calls"] == 120
+    assert report["all_attempted_model_calls"] == 480
+
+
+def test_e4_recovery_source_selects_only_missing_checkpoint_arms(tmp_path: Path) -> None:
+    source = tmp_path / "prior_E4_legacy"
+    source.mkdir()
+    window_ids = [f"window-{index:02d}" for index in range(24)]
+    failure = {
+        "schema": "CORELAB_STAGE45E_LEGACY_E4_FAILURE_SEAL_V1",
+        "status": "BLOCKED",
+        "error": "TypeError: '<' not supported between instances of 'NoneType' and 'str'",
+        "traceback": "aggregate_evaluation_rows\njson.dumps(sort_keys=True)\nNoneType",
+        "retry_or_substitution": False,
+        "counters": {
+            "model_construction": 1, "conditioning_passes": 24, "action_head_calls": 96,
+            "model_forward_windows": 24, "raw_rows": 24, "training": False,
+            "optimizer_steps": 0, "checkpoint_writes": 0, "Validation-E": 0,
+            "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0,
+        },
+    }
+    (source / "FAILURE_SEAL.json").write_text(json.dumps(failure), encoding="utf-8")
+    raw_records = []
+    rows = []
+    for index, window_id in enumerate(window_ids):
+        raw_path = source / "raw" / "A" / f"{index:02d}.npy"
+        raw_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_path.write_bytes(f"raw-{index}".encode())
+        raw_sha = diagnostics.sha256_file(raw_path)
+        rows.append({
+            "checkpoint": {"label": "LEGACY(seed2223)@1000"},
+            "window_id": window_id,
+            "finite": True,
+            "target_xyz_in_model_input": False,
+            "sampler": {"steps_observed": 4, "official_public_sampler_called": False},
+            "raw_prediction_artifact": {"path": str(raw_path.relative_to(source)), "sha256": raw_sha, "shape": [1, 40, 132]},
+        })
+        raw_records.append({"path": str(raw_path.relative_to(source)), "file_sha256": raw_sha, "sampler_calls_observed": 4, "stats_route": "FULL24_RUNTIME_V2"})
+    (source / "rows_LEGACY(seed2223)_at_1000.json").write_text(json.dumps(rows), encoding="utf-8")
+    (source / "raw_predictions.jsonl").write_text("\n".join(json.dumps(item) for item in raw_records) + "\n", encoding="utf-8")
+    spec_doc = {"train24_contract": {"window_ids": window_ids}}
+    specs = [
+        {"label": "LEGACY(seed2223)@1000"},
+        {"label": "LEGACY(seed2223)@2000"},
+    ]
+    result = diagnostics._e4_recovery_source(source, specs, spec_doc, "legacy")
+    assert result["completed_labels"] == ["LEGACY(seed2223)@1000"]
+    assert [item["label"] for item in result["remaining_specs"]] == ["LEGACY(seed2223)@2000"]
 
 
 def test_allocation_correction_is_source_bound_and_append_only(tmp_path: Path) -> None:

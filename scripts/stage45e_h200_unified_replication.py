@@ -3013,6 +3013,15 @@ def _attempt_call_counts(root: Path) -> dict[str, Any]:
                     counters = pre_model_doc.get("counters", {}) or pre_model_doc
         if not counters:
             counters = document
+    elif (root / "FAILURE_SEAL.json").is_file() and not (root / "FAILURE_SEAL.json").is_symlink():
+        # Route-local V1 failure seals predate the unified wrapper seal.  A
+        # bounded, post-model route failure may still carry truthful counters
+        # (for example, a completed arm whose aggregate JSON serialization
+        # failed).  Preserve those counters; never infer zero from the mere
+        # presence of a route failure file.
+        document = read_json(root / "FAILURE_SEAL.json")
+        status = "FAILED_ATTEMPT"
+        counters = document.get("counters") or {}
     else:
         return {
             "conditioning_passes": None,
@@ -3041,7 +3050,7 @@ def _attempt_call_counts(root: Path) -> dict[str, Any]:
         "model_side_calls": model_side,
         "status": status,
         "counters_complete": counters_complete,
-        "counter_source": "SEALED_COUNTERS" if counters else "SEALED_DOCUMENT",
+        "counter_source": "ROUTE_FAILURE_SEAL" if (root / "FAILURE_SEAL.json").is_file() and not (root / "FAILURE_SEAL.json").is_symlink() else ("SEALED_COUNTERS" if counters else "SEALED_DOCUMENT"),
     }
 
 
@@ -3164,7 +3173,55 @@ def _diagnostic_candidate_status(root: Path) -> str:
         return "PASS_ACCEPTED" if read_json(seal).get("status") == "PASS" else "INCOMPLETE_UNKNOWN"
     if failure.is_file() and not failure.is_symlink():
         return "FAILED_ATTEMPT"
+    route_failure = root / "FAILURE_SEAL.json"
+    if route_failure.is_file() and not route_failure.is_symlink():
+        return "FAILED_ATTEMPT"
     return "INCOMPLETE_UNKNOWN"
+
+
+def _route_failure_recovery_allowed(candidate: Mapping[str, Any]) -> bool:
+    """Recognize only the bounded post-model serialization recovery case."""
+
+    root = Path(str(candidate.get("root", ""))).resolve()
+    phase = str(candidate.get("phase", ""))
+    route = str(candidate.get("route", ""))
+    failure_path = root / "FAILURE_SEAL.json"
+    if phase not in DIAGNOSTIC_PHASES or route not in ROUTES or not failure_path.is_file() or failure_path.is_symlink():
+        return False
+    try:
+        failure = read_json(failure_path)
+        expected_schema = f"CORELAB_STAGE45E_{route.upper()}_{phase}_FAILURE_SEAL_V1"
+        if failure.get("schema") != expected_schema or failure.get("status") != "BLOCKED":
+            return False
+        if failure.get("retry_or_substitution") is not False or failure.get("error") != "TypeError: '<' not supported between instances of 'NoneType' and 'str'":
+            return False
+        trace = str(failure.get("traceback", ""))
+        if "aggregate_evaluation_rows" not in trace or "sort_keys=True" not in trace or "NoneType" not in trace:
+            return False
+        counters = failure.get("counters")
+        if not isinstance(counters, Mapping):
+            return False
+        conditioning = counters.get("conditioning_passes")
+        action_head = counters.get("action_head_calls")
+        raw_rows = counters.get("raw_rows")
+        if not all(isinstance(value, int) and not isinstance(value, bool) and value > 0 for value in (conditioning, action_head, raw_rows)):
+            return False
+        expected = _expected_phase_totals(phase)[route]
+        if conditioning % 24 != 0 or not 0 < conditioning // 24 < expected["arms"]:
+            return False
+        per_condition = {"E4": 4, "D1": 9, "D2A": 8}[phase]
+        per_row = {"E4": 1, "D1": 9, "D2A": 4}[phase]
+        if action_head != conditioning * per_condition or raw_rows != conditioning * per_row:
+            return False
+        if counters.get("model_construction") != conditioning // 24 or counters.get("model_forward_windows") != conditioning:
+            return False
+        if counters.get("training") is not False or counters.get("optimizer_steps") != 0:
+            return False
+        if any(counters.get(key) != 0 for key in ("checkpoint_writes", "Validation-E", "Holdout-F", "WBC", "simulator", "hardware")):
+            return False
+        return True
+    except (OSError, RuntimeError, TypeError, ValueError, KeyError):
+        return False
 
 
 class ContinuationIntegrityError(RuntimeError):
@@ -3190,6 +3247,7 @@ def discover_diagnostic_attempts(storage: Path, phase: str, route: str) -> list[
         failure_path = root / "unified_failure_seal.json"
         selected = seal_path if seal_path.is_file() and not seal_path.is_symlink() else failure_path
         counts = _attempt_call_counts(root)
+        selected_doc = read_json(selected) if selected.is_file() and not selected.is_symlink() else {}
         attempts.append({
             "phase": phase,
             "route": route,
@@ -3199,6 +3257,7 @@ def discover_diagnostic_attempts(storage: Path, phase: str, route: str) -> list[
             "seal_path": str(selected) if selected.exists() else None,
             "seal_sha256": sha256_file(selected) if selected.is_file() and not selected.is_symlink() else None,
             "counts": counts,
+            "recovery_source_roots": list(selected_doc.get("recovery_source_roots", [])) if isinstance(selected_doc.get("recovery_source_roots", []), list) else [],
         })
     return attempts
 
@@ -3281,6 +3340,7 @@ def diagnostic_accounting(
     reused_readonly_evidence_by_unit: dict[str, int] = {}
     all_attempted_by_attempt: list[dict[str, Any]] = []
     failed_attempt_by_attempt: list[dict[str, Any]] = []
+    recovery_source_roots: set[str] = set()
     for unit in DIAGNOSTIC_UNIT_KEYS:
         accepted = accepted_by_unit.get(unit)
         if accepted is not None:
@@ -3305,15 +3365,21 @@ def diagnostic_accounting(
                 "seal_sha256": attempt.get("seal_sha256"),
                 "counts": dict(attempt.get("counts", {})),
                 "reused_readonly": attempt.get("reused_readonly", False),
+                "recovery_source_roots": list(attempt.get("recovery_source_roots", [])),
             }
             all_attempted_by_attempt.append(item)
             if item["status"] == "FAILED_ATTEMPT":
                 failed_attempt_by_attempt.append(item)
+        if accepted is not None:
+            recovery_source_roots.update(str(Path(root).resolve()) for root in accepted.get("recovery_source_roots", []))
+    overlapped_recovery_attempts = [item for item in all_attempted_by_attempt if str(Path(str(item.get("root", ""))).resolve()) in recovery_source_roots]
+    all_attempts_for_sum = [item for item in all_attempted_by_attempt if item not in overlapped_recovery_attempts]
     return {
         "accepted_unique_scientific_calls_by_unit": accepted_unique_by_unit,
         "accepted_unique_scientific_calls": sum(accepted_unique_by_unit.values()),
-        "all_attempted_model_calls": _sum_known_call_counts(all_attempted_by_attempt),
+        "all_attempted_model_calls": _sum_known_call_counts(all_attempts_for_sum),
         "failed_attempt_model_calls": _sum_known_call_counts(failed_attempt_by_attempt),
+        "overlapped_recovery_model_calls": _sum_known_call_counts(overlapped_recovery_attempts),
         "all_attempted_model_calls_complete": all(item["counts"].get("counters_complete") is True for item in all_attempted_by_attempt),
         "failed_attempt_model_calls_complete": all(item["counts"].get("counters_complete") is True for item in failed_attempt_by_attempt),
         "unknown_counter_attempts": sum(item["counts"].get("counters_complete") is not True for item in all_attempted_by_attempt),
@@ -3328,12 +3394,15 @@ def diagnostic_accounting(
         "new_readonly_reuse_model_calls": 0,
         "attempt_inventory": all_attempted_by_attempt,
         "failed_attempt_inventory": failed_attempt_by_attempt,
+        "overlapped_recovery_attempt_inventory": overlapped_recovery_attempts,
     }
 
 
 def _diagnostic_retry_allowed(candidate: Mapping[str, Any]) -> bool:
     """Allow continuation only when a failure seal proves pre-model failure."""
 
+    if _route_failure_recovery_allowed(candidate):
+        return True
     root = Path(str(candidate.get("root", ""))).resolve()
     failure_path = root / "unified_failure_seal.json"
     if not failure_path.is_file() or failure_path.is_symlink():
@@ -3399,11 +3468,19 @@ def select_diagnostic_attempt(
             raise ContinuationIntegrityError(f"{phase}:{route} prior PASS candidate failed immutable validation; continuation is blocked: {exc}") from exc
     require(len(accepted) <= 1, f"duplicate complete PASS diagnostic units block continuation: {phase}:{route}")
     non_pass = [candidate for candidate in candidates if candidate.get("status") != "PASS_ACCEPTED"]
+    recovery_candidates = [candidate for candidate in non_pass if _route_failure_recovery_allowed(candidate)]
+    require(len(recovery_candidates) <= 1, f"multiple post-model diagnostic recovery sources block continuation: {phase}:{route}")
     if not accepted:
         for candidate in non_pass:
             if not _diagnostic_retry_allowed(candidate):
                 raise ContinuationIntegrityError(f"{phase}:{route} prior {candidate.get('status')} attempt lacks sealed pre-model retry eligibility: {candidate.get('root')}")
-    return {"unit_key": f"{phase}:{route}", "candidates": candidates, "accepted": accepted[0] if accepted else None, "needs_fresh_attempt": not bool(accepted)}
+    return {
+        "unit_key": f"{phase}:{route}",
+        "candidates": candidates,
+        "accepted": accepted[0] if accepted else None,
+        "needs_fresh_attempt": not bool(accepted),
+        "recovery_source": recovery_candidates[0]["root"] if recovery_candidates and not accepted else None,
+    }
 
 
 def run_diagnostics(
@@ -3441,6 +3518,8 @@ def run_diagnostics(
             output = evidence_root / f"{campaign_root.name}_{phase}_{route}"
             stats = Path(args.n2_stats).resolve() if route == "n2" else Path(args.runtime_stats).resolve()
             command = [str(PYTHON), str(diagnostic_script), "--mode", "run", "--route", route, "--phase", phase, "--route-repo", str(Path(getattr(args, f"{route}_repo")).resolve()), "--helper-script", str(helper_script), "--admission", str(admission_path), "--output-root", str(output), "--base-model", str(Path(args.base_model).resolve()), "--dataset", str(Path(args.dataset).resolve()), "--groot", str(Path(args.groot).resolve()), "--cosmos", str(Path(args.cosmos).resolve()), "--modality", str(Path(args.modality).resolve()), "--config", str(Path(args.config).resolve()), "--stats", str(stats), "--sealed-baseline", str(Path(args.sealed_baseline).resolve()), "--snapshot-preflight", str(Path(args.snapshot_preflight).resolve())]
+            if selection.get("recovery_source") is not None:
+                command.extend(["--resume-source", str(selection["recovery_source"])])
             if state is not None:
                 state["failure_stage"] = unit_key
                 state["active_child"] = {"stage": unit_key, "kind": "diagnostic", "status": "IN_PROGRESS"}
