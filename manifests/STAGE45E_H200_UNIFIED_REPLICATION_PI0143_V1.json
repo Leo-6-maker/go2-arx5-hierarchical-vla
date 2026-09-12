@@ -1,0 +1,166 @@
+{
+  "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0143_V1",
+  "status": "CPU_STATIC_READY_PENDING_PI_REVIEW",
+  "stage": "Stage45E",
+  "authority": {
+    "issue": 11,
+    "issue_comment": 5644782159,
+    "pi_gate": "PI_GATE_STATE_0143",
+    "pointer_pr": 66,
+    "pointer_comment": 5644783564,
+    "observed_unreviewed_head": "a03b477506c5e7fdce54b988b3dec4a6401c6e17",
+    "h200_hold": true,
+    "pbs_hold": true,
+    "merge": false
+  },
+  "orchestration_repository": {
+    "branch": "stage45e/h200-unified-replication-campaign",
+    "base_head": "a03b477506c5e7fdce54b988b3dec4a6401c6e17",
+    "working_tree_required_clean": true,
+    "foreign_cwd_supported": true,
+    "empty_pythonpath_supported": true,
+    "identities_separate": true
+  },
+  "recovered_primary": {
+    "route": "l1",
+    "seed": 2222,
+    "training_root": "/scratch/e1192548/stage45e_l1_h200_20260911_377b5012_612326.hopper-m-02",
+    "recovery_root": "/scratch/e1192548/stage45e_l1_612326_recovery_v2_20260912_2e2780110b62",
+    "contract_bound_acceptance_sha256": "5ff6135c7d10da11686584c7435566e6e3490e677fca5e8d086adcf21287f04c",
+    "recovered_input_v2_sha256": "211411c307e30242cf5b4e65288e8c9eb2b446164aaec83de4ffd913ca9c8101",
+    "historical_training_head": "377b50125a9127fe65d7f3db896f9396c7c3fbc2",
+    "source_kind": "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT",
+    "duplicate_l1_seed2222_root": "/scratch/e1192548/stage45e_l1_h200_20260911_f77f9e02_612342.hopper-m-02",
+    "duplicate_is_primary": false,
+    "synthetic_training_result_allowed": false
+  },
+  "science_routes": {
+    "legacy": {
+      "branch": "stage45e/legacy-full24-matched-seed-replication",
+      "head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
+      "normalization": "FULL24_RUNTIME_V2",
+      "fresh_training_seeds": [2223, 2224],
+      "historical_seed2222_reuse": "EXACT_H200_RECIPE_PROOF_REQUIRED"
+    },
+    "l1": {
+      "branch": "stage45e/l1-matched-seed-replication",
+      "head": "186efc2977e2795bebf0dfe97d6f503a672716de",
+      "normalization": "FULL24_RUNTIME_V2",
+      "fresh_training_seeds": [2223, 2224],
+      "historical_seed2222_reuse": "RECOVERED_612326_ONLY",
+      "intervention": "accepted L1 physical-error-aware XYZ loss checkpoint only"
+    },
+    "n2": {
+      "branch": "stage45e/n2-h200-matched-seed-replication",
+      "head": "6d8a7f132e325faea35346b36497ceb76390b2c3",
+      "normalization": "N2_BALANCED_XYZ_STATS",
+      "fresh_training_seeds": [2222, 2223, 2224],
+      "historical_seed2222_reuse": false
+    }
+  },
+  "frozen_inputs": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "runtime_v2_stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "runtime_v2_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "n2_stats_file_sha256": "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  },
+  "training_contract": {
+    "routes": ["LEGACY", "L1", "N2"],
+    "fresh_base": true,
+    "max_steps": 2000,
+    "checkpoint_steps": [1000, 2000],
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "warmup_steps": 10,
+    "max_grad_norm": 1.0,
+    "bf16": true,
+    "fp16": false,
+    "tf32": true,
+    "workers": 0,
+    "one_model_at_a_time": true,
+    "queue": [
+      {"route": "LEGACY", "seed": 2223},
+      {"route": "LEGACY", "seed": 2224},
+      {"route": "L1", "seed": 2223},
+      {"route": "L1", "seed": 2224},
+      {"route": "N2", "seed": 2222},
+      {"route": "N2", "seed": 2223},
+      {"route": "N2", "seed": 2224}
+    ],
+    "training_lineages": 7,
+    "recovered_l1_seed2222_not_fresh": true,
+    "legacy_seed2222_exact_recipe_required": true
+  },
+  "diagnostic_contract": {
+    "cohort": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN",
+    "window_count": 24,
+    "window_order": "target-major_then-snapshot-major",
+    "target_xyz_in_model_input": false,
+    "development_seed": 4242,
+    "times": [0.0, 0.25, 0.5, 0.75],
+    "timestep_buckets": [0, 250, 500, 750],
+    "dt": 0.25,
+    "sampler": "source-mapped-four-step-Euler-action-head-graph",
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "e4": {"new_checkpoint_arms": 14, "conditioning_passes": 336, "action_head_calls": 1344, "total_model_side_calls": 1680},
+    "d1": {"checkpoint_arms": 16, "conditioning_passes": 384, "action_head_calls": 3456, "total_model_side_calls": 3840},
+    "d2a": {"checkpoint_arms": 16, "conditioning_passes": 384, "action_head_calls": 3072, "total_model_side_calls": 3456},
+    "accepted_unique_total_model_side_calls": 8976,
+    "total_model_side_calls": 8976,
+    "unit_key": "(phase,route)",
+    "units": ["E4:legacy", "E4:l1", "E4:n2", "D1:legacy", "D1:l1", "D1:n2", "D2A:legacy", "D2A:l1", "D2A:n2"]
+  },
+  "gpu_policy": {
+    "host_role": "Vanda Hopper H200",
+    "visible_gpu_count": 1,
+    "selected_device": "cuda:0",
+    "minimum_name": "H200",
+    "minimum_vram_mib": 81920,
+    "allow_shared_gpu": false,
+    "max_science_allocations": 8,
+    "previous_science_allocations_consumed": 3,
+    "additional_science_allocations_authorized": 5,
+    "target_additional_allocations": 2,
+    "h200_hold_until_pi_review": true,
+    "pbs_submissions_authorized_by_this_manifest": 0
+  },
+  "allocation_ledger": {
+    "manifest": "manifests/STAGE45E_H200_ALLOCATION_LEDGER_PI0143_V1.json",
+    "append_only": true,
+    "max_science_allocations": 8,
+    "seeded_consumed_ordinals": [1, 2, 3],
+    "future_ordinal_9_fail_closed": true,
+    "zero_science_probes_separate": true
+  },
+  "identity_contract": {
+    "training_lineage_identity_required": true,
+    "common_evaluator_identity_required": true,
+    "orchestration_identity_required": true,
+    "training_head_must_not_be_rewritten_as_evaluator_head": true
+  },
+  "evidence_contract": {
+    "external_diagnostic_inventory_required": true,
+    "c10_handoff_required": true,
+    "c10_arm_count": 18,
+    "source_rows_untouched": true,
+    "inventory_excludes_final_and_handoff": true
+  },
+  "forbidden": ["Validation-E", "Holdout-F", "WBC", "simulator", "hardware", "D2B", "FULL24@4000", "new_seed", "extra_solver", "merge", "automatic_retry_after_model_start"],
+  "completion": {
+    "token": "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
+    "p0_review_token": "STAGE45E_VANDA_PI0143_P0_READY_FOR_PI_REVIEW",
+    "stop_after_p0_static_review": true
+  }
+}

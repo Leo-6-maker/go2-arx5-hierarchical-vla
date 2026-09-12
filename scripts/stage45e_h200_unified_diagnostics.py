@@ -26,8 +26,8 @@ from typing import Any, Mapping, Sequence
 
 
 REPO = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0134_V1.json"
-PI_GATE = "PI_GATE_STATE_0134"
+MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0143_V1.json"
+PI_GATE = "PI_GATE_STATE_0143"
 ROUTE_HEADS = {
     "legacy": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
     "l1": "186efc2977e2795bebf0dfe97d6f503a672716de",
@@ -90,9 +90,9 @@ def git(repo: Path, *args: str) -> str:
 
 def static_audit() -> dict[str, Any]:
     manifest = read_json(MANIFEST_PATH)
-    require(manifest.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0134_V1", "PI0134 unified manifest schema drift")
-    require(manifest.get("authority", {}).get("pi_gate") == PI_GATE, "PI0134 authority drift")
-    require(manifest.get("authority", {}).get("issue_comment") == 5643644410, "PI0134 issue authority drift")
+    require(manifest.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0143_V1", "PI0143 unified manifest schema drift")
+    require(manifest.get("authority", {}).get("pi_gate") == PI_GATE, "PI0143 authority drift")
+    require(manifest.get("authority", {}).get("issue_comment") == 5644782159, "PI0143 issue authority drift")
     require(manifest.get("diagnostic_contract", {}).get("total_model_side_calls") == 8976, "diagnostic ceiling drift")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
@@ -112,7 +112,7 @@ def static_audit() -> dict[str, Any]:
     require(not forbidden_imports, f"diagnostic top-level model imports: {forbidden_imports}")
     require(not forbidden_calls, f"diagnostic forbidden call markers: {forbidden_calls}")
     return {
-        "schema": "VANDA_STAGE45E_H200_UNIFIED_DIAGNOSTICS_STATIC_AUDIT_V1",
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_DIAGNOSTICS_PI0143_STATIC_AUDIT_V1",
         "status": "PASS",
         "manifest_sha256": sha256_file(MANIFEST_PATH),
         "top_level_forbidden_imports": forbidden_imports,
@@ -174,12 +174,14 @@ def _phase_budget(phase: str, arm_count: int) -> dict[str, int]:
 
 def _validate_admission(admission_path: Path, route: str, phase: str, output: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     admission = read_json(admission_path)
-    require(admission.get("status") == "PASS" and admission.get("pi_gate") == PI_GATE, "campaign admission is not a PI0134 PASS")
+    require(admission.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V2", "campaign admission schema is not PI0143 V2")
+    require(admission.get("status") == "PASS" and admission.get("pi_gate") == PI_GATE, "campaign admission is not a PI0143 PASS")
     require(admission.get("route_worktrees", {}).get(route, {}).get("head") == ROUTE_HEADS[route], f"{route} admission HEAD drift")
     require(admission.get("route_worktrees", {}).get(route, {}).get("branch") == ROUTE_BRANCHES[route], f"{route} admission branch drift")
     require(not output.exists() and not output.is_symlink(), f"diagnostic output must be fresh: {output}")
     specs_path = Path(admission["phase_specs"][phase][route]).resolve()
     specs_doc = read_json(specs_path)
+    require(specs_doc.get("schema") == "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V2", "phase specification schema is not PI0143 V2")
     require(specs_doc.get("route") == route and specs_doc.get("phase") == phase, "phase specification identity drift")
     specs = specs_doc.get("checkpoints")
     require(isinstance(specs, list) and specs, "phase checkpoint specification is empty")
@@ -273,6 +275,10 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         "stats_sha256": stats_sha,
         "stats_payload_sha256": payload_sha,
         "checkpoint_spec_sha256": sha256_file(Path(admission["phase_specs"][phase][route]).resolve()),
+        "phase_spec_sha256": sha256_file(specs_path),
+        "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
+        "evaluation_identity": specs_doc.get("evaluation_identity", {}),
+        "orchestration_identity": specs_doc.get("orchestration_identity", {}),
         "gpu": gpu,
         "model_imported": False,
         "model_construction": 0,
@@ -310,7 +316,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     def patched_require(condition: bool, message: str) -> None:
         # The historical route helper has a four-arm budget assertion.  The
         # unified wrapper replaces only that aggregate assertion with the
-        # PI0134 exact arm-count check below; all other route assertions stay
+        # PI0143 exact arm-count check below; all other route assertions stay
         # fail-closed.
         if not condition and ("total budget drift" in message or "total_model_side_calls" in message):
             return
@@ -352,7 +358,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         require(counters.get("training") is False and counters.get("optimizer_steps") == 0, "diagnostic training boundary drift")
         require(counters.get("Validation-E") == 0 and counters.get("Holdout-F") == 0 and counters.get("WBC") == 0 and counters.get("simulator") == 0 and counters.get("hardware") == 0, "diagnostic forbidden boundary drift")
         unified = {
-            "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_PHASE_SEAL_V1",
+            "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_PHASE_SEAL_V2",
             "status": "PASS",
             "pi_gate": PI_GATE,
             "route": route,
@@ -362,6 +368,10 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
             "stats_sha256": stats_sha,
             "stats_payload_sha256": payload_sha,
             "checkpoints": specs,
+            "phase_spec_sha256": sha256_file(Path(admission["phase_specs"][phase][route]).resolve()),
+            "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
+            "evaluation_identity": spec_doc.get("evaluation_identity", {}),
+            "orchestration_identity": spec_doc.get("orchestration_identity", {}),
             "budget": budget,
             "observed_counters": counters,
             "inner_seal": str(inner_seal_path),
@@ -392,12 +402,26 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         if output.is_dir() and not output.is_symlink() and not (output / "pre_model_admission.json").exists():
             write_json(output / "pre_model_admission.json", pre_model_record)
         failure = {
-            "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V1",
+            "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V2",
             "status": "BLOCKED",
             "route": route,
             "phase": phase,
             "route_head": ROUTE_HEADS[route],
             "pre_model_admission": str(output / "pre_model_admission.json"),
+            "phase_spec_sha256": sha256_file(Path(admission["phase_specs"][phase][route]).resolve()),
+            "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
+            "evaluation_identity": spec_doc.get("evaluation_identity", {}),
+            "orchestration_identity": spec_doc.get("orchestration_identity", {}),
+            "execution_state": {
+                "admission": "PASS",
+                "dynamic_runtime_import": "ATTEMPTED",
+                "model_imported": "UNKNOWN",
+                "model_construction": "UNKNOWN",
+                "model_forward": "UNKNOWN",
+                "training": False,
+                "backward": False,
+                "optimizer_steps": 0,
+            },
             "error": f"{type(exc).__name__}: {exc}",
             "traceback": traceback.format_exc(),
             "retry_or_substitution": False,

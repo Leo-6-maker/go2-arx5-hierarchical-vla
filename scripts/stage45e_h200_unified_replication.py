@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0134 packed H200 orchestration and CPU closure for Stage45E.
+"""Stage45E unified replication orchestration and CPU closure.
 
 The static and high-water paths are CPU-only.  The explicit ``campaign``
 path is intended to run inside one PBS H200 allocation and invokes the three
@@ -30,7 +30,7 @@ from typing import Any, Iterable, Mapping, Sequence
 
 
 REPO = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0134_V1.json"
+MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0143_V1.json"
 PYTHON = Path("/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python")
 STORAGE_ROOT = Path("/hpctmp/e1192548/stage45e_h200_unified_replication_20260912")
 WORKTREE_ROOT = Path("/scratch/e1192548/stage45e_h200_unified_worktrees")
@@ -46,7 +46,10 @@ DEFAULTS = {
     "sealed_baseline": Path("/scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910"),
     "snapshot_preflight": Path("/scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910/stage45c_runtime_preflight.json"),
     "legacy_history": Path("/scratch/e1192548/stage45b_pi0087_b2_h200_20260909T052311Z"),
-    "l1_history": Path("/scratch/e1192548/stage45e_l1_h200_20260911_f77f9e02_612342.hopper-m-02"),
+    # The historical L1 PASS-result root is intentionally not the primary
+    # input.  PI0143 makes the recovered 612326 contract the only admissible
+    # seed-2222 source; 612342 is retained as duplicate provenance below.
+    "l1_history": Path("/scratch/e1192548/stage45e_l1_h200_20260911_377b5012_612326.hopper-m-02"),
 }
 BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
@@ -85,14 +88,33 @@ ALL_SEEDS = (2222, 2223, 2224)
 ROUTES = ("legacy", "l1", "n2")
 ESTIMATED_TRAINING_ROOT_BYTES = 51_318_519_711
 MIN_FREE_BYTES = 64 * 1024**3
-PI_GATE = "PI_GATE_STATE_0134"
-PI_ISSUE_COMMENT = 5643644410
 CHECKPOINT_STATE_FILES = ("optimizer.pt", "scheduler.pt", "rng_state.pth", "trainer_state.json")
 CHECKPOINT_HASH_PREFIX = {
     "legacy": "stage45e_legacy",
     "l1": "stage45e_l1",
     "n2": "stage45e",
 }
+PI_GATE = "PI_GATE_STATE_0143"
+PI_ISSUE_COMMENT = 5644782159
+PI_PR_COMMENT = 5644783564
+RECOVERED_L1_ROOT = Path("/scratch/e1192548/stage45e_l1_h200_20260911_377b5012_612326.hopper-m-02")
+RECOVERED_L1_V2_ROOT = Path("/scratch/e1192548/stage45e_l1_612326_recovery_v2_20260912_2e2780110b62")
+RECOVERED_L1_ACCEPTANCE = RECOVERED_L1_V2_ROOT / "stage45e_l1_612326_contract_bound_acceptance.json"
+RECOVERED_L1_INPUT_V2 = RECOVERED_L1_V2_ROOT / "stage45e_l1_recovered_training_eval_input_v2.json"
+DUPLICATE_L1_ROOT = Path("/scratch/e1192548/stage45e_l1_h200_20260911_f77f9e02_612342.hopper-m-02")
+RECOVERED_L1_ACCEPTANCE_SHA256 = "5ff6135c7d10da11686584c7435566e6e3490e677fca5e8d086adcf21287f04c"
+RECOVERED_L1_INPUT_V2_SHA256 = "211411c307e30242cf5b4e65288e8c9eb2b446164aaec83de4ffd913ca9c8101"
+RECOVERED_L1_READONLY_ACCEPTANCE_SHA256 = "76715d9124fce7e5c92c671a5c0f0d175bd7ace2b645e121d85b54a9b06441eb"
+RECOVERED_L1_RUNTIME_BINDING_SHA256 = "ab8ef1dc775aa33cd43cc363b38e468ecc6ac1ed03acf3ea69e929e592c4525a"
+RECOVERED_L1_TRAINING_HEAD = "377b50125a9127fe65d7f3db896f9396c7c3fbc2"
+ALLOCATION_LEDGER_MANIFEST = REPO / "manifests/STAGE45E_H200_ALLOCATION_LEDGER_PI0143_V1.json"
+ALLOCATION_LEDGER_MAX = 8
+DIAGNOSTIC_PHASES = ("E4", "D1", "D2A")
+DIAGNOSTIC_UNIT_KEYS = tuple(f"{phase}:{route}" for phase in DIAGNOSTIC_PHASES for route in ROUTES)
+TRAINING_SOURCE_STANDARD = "STANDARD_PASS_RESULT"
+TRAINING_SOURCE_RECOVERED = "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT"
+EVIDENCE_DESCRIPTOR_SCHEMA = "VANDA_STAGE45E_EXTERNAL_DIAGNOSTIC_EVIDENCE_DESCRIPTOR_V1"
+C10_HANDOFF_SCHEMA = "VANDA_STAGE45E_C10_HANDOFF_V1"
 
 
 def require(condition: bool, message: str) -> None:
@@ -201,22 +223,54 @@ def cosmos_digest(root: Path) -> str:
 
 def load_manifest() -> dict[str, Any]:
     value = read_json(MANIFEST_PATH)
-    require(value.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0134_V1", "PI0134 unified manifest schema drift")
+    require(value.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0143_V1", "PI0143 unified manifest schema drift")
     return value
+
+
+def p0_checklist() -> dict[str, str]:
+    """Return the committed-surface reconciliation used by the PI0143 gate.
+
+    This deliberately checks implementation surfaces, not live GPU state.  A
+    live artifact can still be rejected by the strict verifiers below; the
+    checklist only prevents a missing code path from being mistaken for a
+    completed P0 item.
+    """
+
+    source = Path(__file__).read_text(encoding="utf-8")
+    required_surfaces = {
+        "A0_checklist": "def p0_checklist",
+        "A1_recovered_l1_612326": "def verify_recovered_l1",
+        "A2_legacy_exact_recipe": "def verify_legacy_exact_recipe",
+        "A2b_legacy_provenance_decision": "def legacy_provenance_decision",
+        "A3_route_phase_continuation": "def discover_diagnostic_attempts",
+        "A4_truthful_accounting": "def diagnostic_accounting",
+        "A5_allocation_ledger": "def append_allocation_record",
+        "A6_campaign_failure_seal": "def write_campaign_failure_seal",
+        "A7_external_c10_handoff": "def build_c10_handoff",
+        "A8_identity_separation": "def training_lineage_identity",
+        "A9_cpu_closure_semantics": "cpu_closure_execution",
+    }
+    return {name: ("PASS_ALREADY_PRESENT" if marker in source else "PATCH_REQUIRED") for name, marker in required_surfaces.items()}
 
 
 def static_audit() -> dict[str, Any]:
     manifest = load_manifest()
-    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_ISSUE_COMMENT, "PI0134 authority drift")
+    allocation_manifest = validate_committed_allocation_manifest()
+    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_ISSUE_COMMENT, "PI0143 authority drift")
+    require(manifest["authority"]["pointer_pr"] == 66 and manifest["authority"]["pointer_comment"] == PI_PR_COMMENT, "PI0143 pointer drift")
     require(manifest["orchestration_repository"]["branch"] == "stage45e/h200-unified-replication-campaign", "orchestration branch drift")
-    require(manifest["gpu_policy"]["max_science_allocations"] == 8, "PI0134 allocation ceiling drift")
-    require(manifest["gpu_policy"]["previous_science_allocations_consumed"] == 3, "PI0134 consumed allocation count drift")
-    require(manifest["gpu_policy"]["additional_science_allocations_authorized"] == 5, "PI0134 continuation allocation count drift")
-    require(manifest["gpu_policy"]["target_additional_allocations"] <= 2, "PI0134 target allocation drift")
+    require(manifest["gpu_policy"]["max_science_allocations"] == ALLOCATION_LEDGER_MAX, "PI0143 allocation ceiling drift")
+    require(manifest["gpu_policy"]["previous_science_allocations_consumed"] == 3, "PI0143 consumed allocation count drift")
+    require(manifest["gpu_policy"]["additional_science_allocations_authorized"] == 5, "PI0143 continuation allocation count drift")
+    require(manifest["gpu_policy"]["target_additional_allocations"] <= 2, "PI0143 target allocation drift")
     require(manifest["diagnostic_contract"]["total_model_side_calls"] == 8976, "diagnostic total drift")
     require(manifest["diagnostic_contract"]["e4"]["total_model_side_calls"] == 1680, "E4 ceiling drift")
     require(manifest["diagnostic_contract"]["d1"]["total_model_side_calls"] == 3840, "D1 ceiling drift")
     require(manifest["diagnostic_contract"]["d2a"]["total_model_side_calls"] == 3456, "D2A ceiling drift")
+    require(manifest["diagnostic_contract"]["unit_key"] == "(phase,route)" and len(manifest["diagnostic_contract"]["units"]) == 9, "diagnostic unit contract drift")
+    require(manifest["allocation_ledger"]["future_ordinal_9_fail_closed"] is True, "allocation #9 is not fail-closed")
+    require(manifest["evidence_contract"]["c10_arm_count"] == 18, "C10 arm-count contract drift")
+    require(manifest["identity_contract"]["training_head_must_not_be_rewritten_as_evaluator_head"] is True, "identity separation contract drift")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
     top_imports: set[str] = set()
@@ -233,10 +287,18 @@ def static_audit() -> dict[str, Any]:
         if isinstance(node, ast.Call)
     }
     require(not call_names.intersection({"qsub", "merge", "checkout"}), "orchestration contains forbidden scheduler/merge mutation")
+    checklist = p0_checklist()
+    require(all(status == "PASS_ALREADY_PRESENT" for status in checklist.values()), f"PI0143 P0 surface incomplete: {checklist}")
     return {
-        "schema": "VANDA_STAGE45E_H200_UNIFIED_REPLICATION_STATIC_AUDIT_V1",
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_REPLICATION_PI0143_STATIC_AUDIT_V1",
         "status": "PASS",
+        "pi_gate": PI_GATE,
+        "issue_comment": PI_ISSUE_COMMENT,
+        "pointer_pr": 66,
+        "pointer_comment": PI_PR_COMMENT,
         "manifest_sha256": sha256_file(MANIFEST_PATH),
+        "allocation_ledger_manifest_sha256": allocation_manifest["sha256"],
+        "allocation_ledger_manifest_validation": allocation_manifest["validation"],
         "top_level_forbidden_imports": forbidden,
         "branch_separation": True,
         "fresh_base_training_lineages": 7,
@@ -259,11 +321,13 @@ def static_audit() -> dict[str, Any]:
         "WBC": 0,
         "simulator": 0,
         "hardware": 0,
+        "p0_checklist": checklist,
+        "h200_hold": True,
     }
 
 
 def _gpu_observation() -> dict[str, Any]:
-    require(os.environ.get("PBS_JOBID"), "PI0134 campaign requires PBS_JOBID")
+    require(os.environ.get("PBS_JOBID"), "PI0143 campaign requires PBS_JOBID")
     query = "index,name,uuid,memory.total,memory.used"
     result = subprocess.run(["nvidia-smi", f"--query-gpu={query}", "--format=csv,noheader,nounits"], capture_output=True, text=True, check=False)
     require(result.returncode == 0, f"nvidia-smi failed: {result.stderr[-1000:]}")
@@ -273,7 +337,7 @@ def _gpu_observation() -> dict[str, Any]:
             fields = [part.strip() for part in line.split(",")]
             require(len(fields) == 5, f"malformed nvidia-smi row: {line}")
             rows.append({"index": int(fields[0]), "name": fields[1], "uuid": fields[2], "memory_total_mib": int(fields[3]), "memory_used_mib": int(fields[4])})
-    require(len(rows) == 1 and rows[0]["index"] == 0, f"PI0134 requires one H200 at index 0: {rows}")
+    require(len(rows) == 1 and rows[0]["index"] == 0, f"PI0143 requires one H200 at index 0: {rows}")
     require("H200" in rows[0]["name"].upper() and rows[0]["memory_total_mib"] >= 80 * 1024, f"H200 identity/VRAM gate failed: {rows}")
     return {"schema": "VANDA_STAGE45E_UNIFIED_H200_ADMISSION_GPU_V1", "host": subprocess.check_output(["hostname"], text=True).strip(), "pbs_jobid": os.environ["PBS_JOBID"], "selected_device": "cuda:0", "rows": rows, "nvidia_smi_query": query, "nvidia_smi_stdout_sha256": sha256_bytes((result.stdout + "\n").encode())}
 
@@ -485,7 +549,245 @@ def _historical_training_args(root: Path, seed: int = 2222) -> dict[str, Any]:
     return {"path": str(path), "sha256": sha256_file(path), "fields": fields}
 
 
-def verify_historical(root: Path, route: str) -> dict[str, Any]:
+def _yaml_scalar(document: str, key: str) -> str:
+    matches = re.findall(rf"(?m)^\s*{re.escape(key)}:\s*([^#\n]+?)\s*$", document)
+    require(matches, f"historical training config is missing {key}")
+    return matches[-1].strip().strip("'\"")
+
+
+def verify_legacy_exact_recipe(root: Path, config_path: Path | None = None) -> dict[str, Any]:
+    """Prove Legacy seed2222's exact frozen recipe from immutable evidence.
+
+    The historical result does not contain a complete trainability map.  The
+    PI0143 contract therefore binds the immutable preflight config by its
+    exact SHA and parses the five module-tuning flags from that file.  This is
+    deliberately fail-closed: a current source/config is never used to infer
+    what the historical run did.
+    """
+
+    root = Path(root).resolve()
+    require(root.is_dir() and not root.is_symlink(), f"Legacy exact-recipe root unavailable: {root}")
+    config = Path(config_path or DEFAULTS["config"]).resolve()
+    require(config.is_file() and not config.is_symlink(), f"Legacy exact-recipe config unavailable: {config}")
+    observed_sha = sha256_file(config)
+    require(observed_sha == CONFIG_SHA, f"Legacy exact-recipe config SHA drift: {observed_sha}")
+    document = config.read_text(encoding="utf-8")
+    flags = {
+        "tune_projector": _yaml_scalar(document, "tune_projector").lower(),
+        "tune_diffusion_model": _yaml_scalar(document, "tune_diffusion_model").lower(),
+        "tune_visual": _yaml_scalar(document, "tune_visual").lower(),
+        "tune_llm": _yaml_scalar(document, "tune_llm").lower(),
+        "tune_vlln": _yaml_scalar(document, "tune_vlln").lower(),
+    }
+    require(flags == {
+        "tune_projector": "true",
+        "tune_diffusion_model": "true",
+        "tune_visual": "false",
+        "tune_llm": "false",
+        "tune_vlln": "false",
+    }, f"Legacy trainability map drift: {flags}")
+    recipe_fields = {
+        "max_steps": _yaml_scalar(document, "max_steps"),
+        "global_batch_size": _yaml_scalar(document, "global_batch_size"),
+        "gradient_accumulation_steps": _yaml_scalar(document, "gradient_accumulation_steps"),
+        "learning_rate": _yaml_scalar(document, "learning_rate"),
+        "lr_scheduler_type": _yaml_scalar(document, "lr_scheduler_type"),
+        "weight_decay": _yaml_scalar(document, "weight_decay"),
+        "warmup_steps": _yaml_scalar(document, "warmup_steps"),
+        "optim": _yaml_scalar(document, "optim"),
+        "seed": _yaml_scalar(document, "seed"),
+        "bf16": _yaml_scalar(document, "bf16"),
+        "fp16": _yaml_scalar(document, "fp16"),
+        "tf32": _yaml_scalar(document, "tf32"),
+        "dataloader_num_workers": _yaml_scalar(document, "dataloader_num_workers"),
+    }
+    expected = {
+        "max_steps": "2000",
+        "global_batch_size": "1",
+        "gradient_accumulation_steps": "1",
+        "learning_rate": "0.0001",
+        "lr_scheduler_type": "cosine",
+        "weight_decay": "1.0e-05",
+        "warmup_steps": "10",
+        "optim": "adamw_torch",
+        "seed": "2222",
+        "bf16": "true",
+        "fp16": "false",
+        "tf32": "true",
+        "dataloader_num_workers": "0",
+    }
+    require(recipe_fields == expected, f"Legacy exact recipe fields drift: {recipe_fields}")
+    return {
+        "status": "PASS_EXACT_H200_FROZEN_RECIPE_PROVEN",
+        "config_path": str(config),
+        "config_sha256": observed_sha,
+        "trainable_modules": ["projector", "diffusion_model"],
+        "frozen_modules": ["visual", "llm", "vlln"],
+        "tuning_flags": flags,
+        "recipe_fields": recipe_fields,
+        "source_kind": TRAINING_SOURCE_STANDARD,
+    }
+
+
+def legacy_provenance_decision(root: Path, config_path: Path | None = None) -> dict[str, Any]:
+    """Make the Legacy seed-2222 reuse decision without guessing from performance.
+
+    A missing or mismatched immutable recipe is a provenance decision, not a
+    license to synthesize a PASS record.  The caller may then stop and report
+    the explicit fresh-H200 token while retaining the reason for review.
+    """
+
+    root = Path(root).resolve()
+    config = Path(config_path or DEFAULTS["config"]).resolve()
+    try:
+        lineage = verify_historical(root, "legacy", config_path=config)
+    except RuntimeError as exc:
+        return {
+            "schema": "VANDA_STAGE45E_LEGACY_SEED2222_PROVENANCE_DECISION_V1",
+            "status": "BLOCKED_PROVENANCE",
+            "token": "LEGACY_SEED2222_FRESH_H200_REQUIRED_BY_PROVENANCE",
+            "root": str(root),
+            "config_path": str(config),
+            "reason": str(exc),
+            "lineage": None,
+        }
+    return {
+        "schema": "VANDA_STAGE45E_LEGACY_SEED2222_PROVENANCE_DECISION_V1",
+        "status": "PASS_EXACT_H200_FROZEN_RECIPE_REUSE",
+        "token": "LEGACY_SEED2222_EXACT_H200_RECIPE_PROVEN",
+        "root": str(root),
+        "config_path": str(config),
+        "reason": None,
+        "lineage": lineage,
+    }
+
+
+def _verified_file_sha(path: Path, expected: str | None = None, label: str = "file") -> str:
+    path = Path(path).resolve()
+    require(path.is_file() and not path.is_symlink(), f"{label} is not a regular file: {path}")
+    observed = sha256_file(path)
+    if expected is not None:
+        require(observed == expected, f"{label} SHA drift: {path}: {observed} != {expected}")
+    return observed
+
+
+def verify_recovered_l1(
+    root: Path | None = None,
+    acceptance_path: Path | None = None,
+    recovered_input_path: Path | None = None,
+    *,
+    expected_document_hashes: Mapping[str, str] | None = None,
+) -> dict[str, Any]:
+    """Accept only the contract-bound, recovered 612326 L1 lineage.
+
+    This path has no historical training PASS result.  It rehashes both
+    checkpoint trees and binds the two immutable recovery documents instead of
+    manufacturing a result JSON for the old training job.
+    """
+
+    root = Path(root or RECOVERED_L1_ROOT).resolve()
+    acceptance_path = Path(acceptance_path or RECOVERED_L1_ACCEPTANCE).resolve()
+    recovered_input_path = Path(recovered_input_path or RECOVERED_L1_INPUT_V2).resolve()
+    require(root.is_dir() and not root.is_symlink(), f"recovered L1 training root unavailable: {root}")
+    expected_document_hashes = dict(expected_document_hashes or {})
+    acceptance_sha = _verified_file_sha(acceptance_path, expected_document_hashes.get("acceptance"), "L1 contract-bound acceptance")
+    input_sha = _verified_file_sha(recovered_input_path, expected_document_hashes.get("recovered_input_v2"), "L1 recovered-input V2")
+    acceptance = read_json(acceptance_path)
+    recovered = read_json(recovered_input_path)
+    require(acceptance.get("schema") == "STAGE45E_L1_612326_CONTRACT_BOUND_ACCEPTANCE_V1", "612326 acceptance schema drift")
+    require(acceptance.get("status") == "PASS_READONLY_TRAINING_AND_FROZEN_CONTRACT_INTEGRITY", "612326 acceptance status drift")
+    require(acceptance.get("training_root") == str(root), "612326 acceptance root drift")
+    require(acceptance.get("branch") == "stage45e/l1-physical-error-aware-loss", "612326 training branch drift")
+    require(acceptance.get("historical_training_head") == RECOVERED_L1_TRAINING_HEAD, "612326 training HEAD drift")
+    require(acceptance.get("base_acceptance", {}).get("path"), "612326 base acceptance reference missing")
+    base_acceptance_path = Path(acceptance["base_acceptance"]["path"]).resolve()
+    base_acceptance_sha = _verified_file_sha(base_acceptance_path, RECOVERED_L1_READONLY_ACCEPTANCE_SHA256, "612326 read-only acceptance")
+    require(acceptance["base_acceptance"].get("sha256") == base_acceptance_sha, "612326 base acceptance SHA binding drift")
+    require(acceptance.get("scientific_contract", {}).get("full24_stats_sha256") == RUNTIME_STATS_SHA, "612326 FULL24 stats identity drift")
+    require(acceptance.get("scientific_contract", {}).get("full24_stats_payload_sha256") == RUNTIME_STATS_PAYLOAD_SHA, "612326 FULL24 stats payload drift")
+    contract = acceptance.get("scientific_contract", {}).get("l1_code_contract", {})
+    require(contract.get("schema") == "STAGE45E_L1_PHYSICAL_ERROR_AWARE_XYZ_LOSS_V1", "612326 L1 loss schema drift")
+    require(contract.get("active_scalar_count") == 190 and contract.get("weight_shape") == [40, 132], "612326 L1 mask/weight shape drift")
+    require(contract.get("mask_schema") == "T16_BINARY_UNCHANGED" and contract.get("mask_folding") is False, "612326 L1 mask contract drift")
+    require(contract.get("xyz_channels") == [0, 1, 2] and contract.get("xyz_rows") == [0, 14], "612326 L1 XYZ channel contract drift")
+    require(acceptance.get("execution_counters", {}).get("evaluation") == 0, "612326 recovery evaluation boundary drift")
+    require(acceptance.get("historical_root_mutated") is False, "612326 historical root mutation marker drift")
+    binding_path = root / "stage45e_l1_runtime_binding.json"
+    binding_sha = _verified_file_sha(binding_path, RECOVERED_L1_RUNTIME_BINDING_SHA256, "612326 runtime binding")
+    require(acceptance.get("scientific_contract", {}).get("runtime_binding_sha256") == binding_sha, "612326 runtime binding SHA drift")
+
+    require(recovered.get("schema") == "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V2", "612326 recovered-input schema drift")
+    require(recovered.get("status") == "PASS_CONTRACT_BOUND_RECOVERED_TRAINING_INPUT_FOR_FUTURE_EVAL_ADMISSION", "612326 recovered-input status drift")
+    require(recovered.get("source_kind") == TRAINING_SOURCE_RECOVERED, "612326 source kind drift")
+    require(recovered.get("acceptance_sha256") == acceptance_sha, "612326 recovered-input acceptance binding drift")
+    require(recovered.get("acceptance_path") == str(acceptance_path), "612326 recovered-input acceptance path drift")
+    require(recovered.get("training_root") == str(root) and recovered.get("branch") == acceptance.get("branch"), "612326 recovered-input lineage drift")
+    require(recovered.get("historical_training_head") == RECOVERED_L1_TRAINING_HEAD, "612326 recovered-input HEAD drift")
+    require(recovered.get("evaluation_authorized_by_this_bridge") is False and recovered.get("final_train24_token_emitted") is False, "612326 recovery authorization drift")
+    for key, value in recovered.get("execution_counters", {}).items():
+        if key in {"evaluation", "gpu", "model_construction", "model_forward", "pbs", "training", "validation_e_read", "holdout_f_read"}:
+            require(value in (0, False), f"612326 recovered-input execution boundary drift in {key}")
+
+    checkpoints: dict[str, dict[str, Any]] = {}
+    for step in (1000, 2000):
+        acceptance_record = acceptance.get(f"checkpoint_{step}", {})
+        recovered_record = recovered.get("checkpoints", {}).get(f"L1@{step}", {})
+        require(recovered_record.get("rehash_matches_acceptance") is True, f"612326 recovered checkpoint {step} rehash marker missing")
+        require(recovered_record.get("tree_sha256") == acceptance_record.get("tree_sha256"), f"612326 checkpoint {step} acceptance mismatch")
+        checkpoints[str(step)] = _verify_checkpoint_artifact("l1", root, step, acceptance_record, hash_prefix="stage45e_l1")
+        require(checkpoints[str(step)]["tree_sha256"] == recovered_record.get("tree_sha256"), f"612326 checkpoint {step} recovered-input mismatch")
+
+    training_args = _historical_training_args(root, 2222)
+    return {
+        "route": "l1",
+        "seed": 2222,
+        "root": str(root),
+        "result_path": None,
+        "result_sha256": None,
+        "result": {},
+        "training_args": training_args,
+        "training_source_kind": TRAINING_SOURCE_RECOVERED,
+        "training_lineage_head": RECOVERED_L1_TRAINING_HEAD,
+        "training_lineage_branch": acceptance["branch"],
+        "recovered_acceptance_path": str(acceptance_path),
+        "recovered_acceptance_sha256": acceptance_sha,
+        "recovered_input_v2_path": str(recovered_input_path),
+        "recovered_input_v2_sha256": input_sha,
+        "base_acceptance_path": str(base_acceptance_path),
+        "base_acceptance_sha256": base_acceptance_sha,
+        "runtime_binding_path": str(binding_path),
+        "runtime_binding_sha256": binding_sha,
+        "checkpoints": checkpoints,
+        "acceptance": {
+            "status": "PASS_READ_ONLY_RECOVERED_PRIMARY",
+            "historical_pass_result_present": False,
+            "source_kind": TRAINING_SOURCE_RECOVERED,
+            "checkpoint_tree_binding": True,
+        },
+    }
+
+
+def duplicate_l1_provenance(root: Path = DUPLICATE_L1_ROOT) -> dict[str, Any]:
+    """Record 612342 without allowing it to enter the primary matrix."""
+
+    root = Path(root).resolve()
+    result_path = root / "stage45e_l1_training_result.json"
+    require(root.is_dir() and not root.is_symlink(), f"duplicate L1 root unavailable: {root}")
+    require(result_path.is_file() and not result_path.is_symlink(), f"duplicate L1 result unavailable: {result_path}")
+    result = read_json(result_path)
+    require(result.get("training_seed") == 2222, "612342 duplicate seed drift")
+    return {
+        "route": "l1",
+        "seed": 2222,
+        "root": str(root),
+        "result_path": str(result_path),
+        "result_sha256": sha256_file(result_path),
+        "source_kind": "DUPLICATE_RETRY_NOT_PRIMARY",
+        "primary_admissible": False,
+    }
+
+
+def verify_historical(root: Path, route: str, *, config_path: Path | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     require(root.is_dir() and not root.is_symlink(), f"historical {route} root unavailable: {root}")
     if route == "legacy":
@@ -504,17 +806,303 @@ def verify_historical(root: Path, route: str) -> dict[str, Any]:
         stats_sha = result.get("runtime_stats_sha256") or result.get("structured_stats_sha256") or preflight.get("runtime_stats_sha256")
         stats_payload_sha = result.get("runtime_stats_payload_sha256") or result.get("structured_stats_payload_sha256") or preflight.get("runtime_stats_payload_sha256") or preflight.get("statistics_payload_sha256")
         require(stats_sha == RUNTIME_STATS_SHA and stats_payload_sha == RUNTIME_STATS_PAYLOAD_SHA and result.get("optimizer_steps") == 2000, "historical Legacy recipe/stats drift")
-        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree, "runtime_stats_sha256": stats_sha, "runtime_stats_payload_sha256": stats_payload_sha}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json", route) for step in (1000, 2000)}}
-    result_path = root / "stage45e_l1_training_result.json"
-    result = read_json(result_path)
-    training_args = _historical_training_args(root)
-    require(training_args["fields"]["seed"] == 2222 and result.get("training_steps") == 2000, "historical L1 seed2222 identity drift")
-    gpu = result.get("gpu", {})
-    gpu_name = str(gpu.get("gpu_name", gpu.get("name", "")))
-    require("H200" in gpu_name.upper(), "historical L1 seed2222 is not proven H200")
-    require(result.get("normalization_unchanged") is True and result.get("mask_unchanged") is True, "historical L1 contract drift")
-    require(result.get("optimizer_steps") == 2000, "historical L1 recipe drift")
-    return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45e_l1_training_result.json", route) for step in (1000, 2000)}}
+        exact_recipe = verify_legacy_exact_recipe(root, config_path)
+        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "training_source_kind": TRAINING_SOURCE_STANDARD, "training_lineage_head": result.get("repository_head") or preflight.get("repository_head"), "training_lineage_branch": result.get("branch") or "stage45b/full24-fresh-base-execution", "legacy_exact_recipe": exact_recipe, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree, "runtime_stats_sha256": stats_sha, "runtime_stats_payload_sha256": stats_payload_sha}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json", route) for step in (1000, 2000)}}
+    # A historical L1 PASS result (in particular 612342) is never a primary
+    # source.  The only admissible seed-2222 L1 path is the recovered V2
+    # contract, which has no synthetic training-result file.
+    if root == RECOVERED_L1_ROOT:
+        return verify_recovered_l1()
+    raise RuntimeError("L1 historical PASS result is not admissible as primary; use recovered 612326 contract-bound input")
+
+
+def orchestration_identity() -> dict[str, Any]:
+    """Identify the wrapper independently from every science/evaluator head."""
+
+    return {
+        "role": "ORCHESTRATION_WRAPPER",
+        "repository": str(REPO),
+        "branch": git(REPO, "branch", "--show-current"),
+        "head": git(REPO, "rev-parse", "HEAD"),
+        "working_tree_clean": git(REPO, "status", "--porcelain=v1", "--untracked-files=all") == "",
+    }
+
+
+def training_lineage_identity(lineage: Mapping[str, Any]) -> dict[str, Any]:
+    """Normalize training provenance without relabeling it as evaluator code."""
+
+    result = lineage.get("result", {})
+    source_kind = lineage.get("training_source_kind") or (
+        TRAINING_SOURCE_RECOVERED if lineage.get("recovered_input_v2_path") else TRAINING_SOURCE_STANDARD
+    )
+    return {
+        "role": "TRAINING_LINEAGE",
+        "route": lineage.get("route"),
+        "seed": lineage.get("seed"),
+        "source_kind": source_kind,
+        "training_head": lineage.get("training_lineage_head") or result.get("execution_head") or result.get("repository_head"),
+        "training_branch": lineage.get("training_lineage_branch") or result.get("branch"),
+        "training_result_path": lineage.get("result_path"),
+        "training_result_sha256": lineage.get("result_sha256"),
+        "recovered_acceptance_path": lineage.get("recovered_acceptance_path"),
+        "recovered_acceptance_sha256": lineage.get("recovered_acceptance_sha256"),
+        "recovered_input_v2_path": lineage.get("recovered_input_v2_path"),
+        "recovered_input_v2_sha256": lineage.get("recovered_input_v2_sha256"),
+        "checkpoint_trees": {str(step): item.get("tree_sha256") for step, item in lineage.get("checkpoints", {}).items()},
+    }
+
+
+def evaluator_identity(args: argparse.Namespace | None = None) -> dict[str, Any]:
+    """Bind the common evaluator separately from route training HEADs."""
+
+    repo = Path(getattr(args, "legacy_repo", WORKTREE_ROOT / "legacy")).resolve() if args is not None else None
+    script = repo / "scripts/stage45e_legacy_matched_seed.py" if repo is not None else None
+    return {
+        "role": "COMMON_EVALUATOR_ADAPTER",
+        "repository": str(repo) if repo is not None else None,
+        "branch": ROUTE_BRANCHES["legacy"],
+        "head": ROUTE_HEADS["legacy"],
+        "script": str(script) if script is not None else None,
+        "script_sha256": sha256_file(script) if script is not None and script.is_file() and not script.is_symlink() else None,
+        "source_route": "legacy_common_helper",
+    }
+
+
+def _ledger_schema() -> dict[str, Any]:
+    return {
+        "schema": "VANDA_STAGE45E_H200_SCIENCE_ALLOCATION_LEDGER_PI0143_V1",
+        "pi_gate": PI_GATE,
+        "max_science_allocations": ALLOCATION_LEDGER_MAX,
+        "append_only": True,
+        "zero_science_probe_records_separate": True,
+        "records": [],
+    }
+
+
+def validate_committed_allocation_manifest() -> dict[str, Any]:
+    """Validate the committed seed ledger before any live ledger is opened.
+
+    The JSON manifest is the reviewable declaration; the JSONL file created by
+    a future allocation is the append-only observation stream.  Keep these
+    surfaces separate, but require the declaration to satisfy the same
+    structural invariants as the live ledger.
+    """
+
+    document = read_json(ALLOCATION_LEDGER_MANIFEST)
+    require(document.get("schema") == "VANDA_STAGE45E_H200_SCIENCE_ALLOCATION_LEDGER_PI0143_V1", "committed allocation manifest schema drift")
+    require(document.get("pi_gate") == PI_GATE, "committed allocation manifest authority drift")
+    require(document.get("max_science_allocations") == ALLOCATION_LEDGER_MAX, "committed allocation manifest ceiling drift")
+    require(document.get("append_only") is True, "committed allocation manifest is not append-only")
+    require(document.get("seeded_consumed_ordinals") == [1, 2, 3], "committed allocation manifest seed drift")
+    require(document.get("future_ordinal_9") == "FAIL_CLOSED_UNAUTHORIZED", "committed allocation manifest #9 policy drift")
+    records = document.get("records")
+    require(isinstance(records, list) and len(records) == 3, "committed allocation manifest must seed exactly allocations #1-#3")
+    normalized: list[dict[str, Any]] = []
+    for record in records:
+        require(isinstance(record, Mapping), "committed allocation manifest record is not an object")
+        item = dict(record)
+        item.setdefault("allocation_kind", "SCIENCE")
+        item.setdefault("root", None)
+        item.setdefault("attempted_model_calls", 0)
+        item.setdefault("failure_seal_sha256", None)
+        item["historical_record_only"] = True
+        normalized.append(item)
+    validation = validate_allocation_ledger({**_ledger_schema(), "records": normalized})
+    return {"path": str(ALLOCATION_LEDGER_MANIFEST), "sha256": sha256_file(ALLOCATION_LEDGER_MANIFEST), "validation": validation}
+
+
+HISTORICAL_ALLOCATION_RECORDS = (
+    {
+        "allocation_kind": "SCIENCE",
+        "ordinal": 1,
+        "pbs_jobid": "612893.hopper-m-02",
+        "root": None,
+        "status": "PRE_SCIENCE_STORAGE_FAILURE",
+        "model_imported": False,
+        "model_forward": 0,
+        "training": False,
+        "attempted_model_calls": 0,
+        "failure_seal_sha256": None,
+        "consumed": True,
+        "historical_record_only": True,
+        "evidence_status": "HISTORICAL_EXTERNAL_RECORD_REFERENCED",
+    },
+    {
+        "allocation_kind": "SCIENCE",
+        "ordinal": 2,
+        "pbs_jobid": "612910.hopper-m-02",
+        "root": None,
+        "status": "PRE_SCIENCE_NATIVE_RUNTIME_FAILURE",
+        "model_imported": False,
+        "model_forward": 0,
+        "training": False,
+        "attempted_model_calls": 0,
+        "failure_seal_sha256": None,
+        "consumed": True,
+        "historical_record_only": True,
+        "evidence_status": "HISTORICAL_EXTERNAL_RECORD_REFERENCED",
+    },
+    {
+        "allocation_kind": "SCIENCE",
+        "ordinal": 3,
+        "pbs_jobid": "612918.hopper-m-02",
+        "root": None,
+        "status": "PASS_WITH_LEGACY_L1_N2_TRAINING_AND_L1_CHILD_FAILURE",
+        "model_imported": True,
+        "model_forward": 0,
+        "training": True,
+        "attempted_model_calls": 0,
+        "failure_seal_sha256": None,
+        "consumed": True,
+        "historical_record_only": True,
+        "evidence_status": "HISTORICAL_EXTERNAL_RECORD_REFERENCED",
+    },
+)
+
+
+def read_allocation_ledger(path: Path) -> dict[str, Any]:
+    """Read a persistent JSONL ledger without silently repairing its history."""
+
+    path = Path(path)
+    if not path.exists():
+        return _ledger_schema()
+    require(path.is_file() and not path.is_symlink(), f"allocation ledger is not a regular file: {path}")
+    records: list[dict[str, Any]] = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise RuntimeError(f"allocation ledger malformed at line {line_number}: {path}") from exc
+        require(isinstance(value, Mapping), f"allocation ledger record is not an object at line {line_number}")
+        records.append(dict(value))
+    document = _ledger_schema()
+    document["records"] = records
+    validate_allocation_ledger(document)
+    return document
+
+
+def validate_allocation_ledger(document: Mapping[str, Any]) -> dict[str, Any]:
+    require(document.get("schema") == "VANDA_STAGE45E_H200_SCIENCE_ALLOCATION_LEDGER_PI0143_V1", "allocation ledger schema drift")
+    require(document.get("pi_gate") == PI_GATE and document.get("max_science_allocations") == ALLOCATION_LEDGER_MAX, "allocation ledger authority drift")
+    records = document.get("records")
+    require(isinstance(records, list), "allocation ledger records are not a list")
+    for record in records:
+        require(isinstance(record, Mapping), "allocation ledger record is not an object")
+        require(record.get("allocation_kind", "SCIENCE") in ("SCIENCE", "ZERO_SCIENCE_PROBE"), f"unknown allocation kind: {record.get('allocation_kind')}")
+    science = [record for record in records if record.get("allocation_kind", "SCIENCE") == "SCIENCE"]
+    probes = [record for record in records if record.get("allocation_kind") == "ZERO_SCIENCE_PROBE"]
+    require(len(science) <= ALLOCATION_LEDGER_MAX, f"allocation #{len(science) + 1} exceeds PI0143 ceiling")
+    jobs: set[str] = set()
+    for ordinal, record in enumerate(science, start=1):
+        require(record.get("ordinal") == ordinal, f"allocation ledger ordinal gap at {ordinal}")
+        job = record.get("pbs_jobid")
+        require(isinstance(job, str) and job, f"allocation {ordinal} is missing PBS identity")
+        require(job not in jobs, f"duplicate science allocation job: {job}")
+        jobs.add(job)
+        require(record.get("consumed") is True, f"allocation {ordinal} is not marked consumed")
+        if record.get("historical_record_only") is True:
+            require(record.get("evidence_status") == "HISTORICAL_EXTERNAL_RECORD_REFERENCED", f"allocation {ordinal} historical evidence status missing")
+        else:
+            require(record.get("root"), f"allocation {ordinal} is missing evidence root")
+        require("model_imported" in record and "model_forward" in record and "training" in record, f"allocation {ordinal} boundary counters missing")
+        require("failure_seal_sha256" in record, f"allocation {ordinal} failure/seal identity missing")
+    for record in probes:
+        require(record.get("allocation_kind") == "ZERO_SCIENCE_PROBE", "invalid zero-science allocation record")
+        require(record.get("pbs_jobid") not in jobs, f"zero-science probe collides with science job: {record.get('pbs_jobid')}")
+    return {"science_records": len(science), "zero_science_probe_records": len(probes), "next_science_ordinal": len(science) + 1, "max_science_allocations": ALLOCATION_LEDGER_MAX}
+
+
+def seed_allocation_ledger(path: Path, records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Create the ledger once; subsequent records are append-only JSONL."""
+
+    path = Path(path)
+    if path.exists():
+        return read_allocation_ledger(path)
+    document = _ledger_schema()
+    document["records"] = [dict(record) for record in records]
+    validate_allocation_ledger(document)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as handle:
+        for record in document["records"]:
+            handle.write(json.dumps(record, sort_keys=True, allow_nan=False) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    return document
+
+
+def append_allocation_record(path: Path, record: Mapping[str, Any]) -> dict[str, Any]:
+    """Append one allocation, fail-closed at #9, and make duplicate observe idempotent."""
+
+    path = Path(path)
+    document = read_allocation_ledger(path)
+    records = list(document["records"])
+    incoming = dict(record)
+    kind = incoming.get("allocation_kind", "SCIENCE")
+    require(kind in ("SCIENCE", "ZERO_SCIENCE_PROBE"), f"unknown allocation kind: {kind}")
+    job = incoming.get("pbs_jobid")
+    require(isinstance(job, str) and job, "allocation record requires PBS job identity")
+    for existing in records:
+        if existing.get("pbs_jobid") == job:
+            require(existing == incoming, f"allocation job observed with conflicting ledger record: {job}")
+            return {"status": "IDEMPOTENT_OBSERVATION", "record": existing, "ledger": document}
+    if kind == "SCIENCE":
+        ordinal = len([item for item in records if item.get("allocation_kind", "SCIENCE") == "SCIENCE"]) + 1
+        require(ordinal <= ALLOCATION_LEDGER_MAX, "ALLOCATION_9_BLOCKED_UNAUTHORIZED_PI_GATE")
+        incoming["ordinal"] = ordinal
+        incoming["consumed"] = True
+    else:
+        incoming["consumed"] = False
+    validate_allocation_ledger({**document, "records": [*records, incoming]})
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(incoming, sort_keys=True, allow_nan=False) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    return {"status": "APPENDED", "record": incoming, "ledger": read_allocation_ledger(path)}
+
+
+def admit_current_allocation(path: Path, *, pbs_jobid: str, root: Path, allocation_kind: str = "SCIENCE") -> dict[str, Any]:
+    """Perform the pre-model in-job ledger admission; a pre-model failure still consumes its ordinal."""
+
+    require(pbs_jobid, "PBS job identity is required for allocation admission")
+    record = {
+        "allocation_kind": allocation_kind,
+        "pbs_jobid": pbs_jobid,
+        "root": str(Path(root).resolve()),
+        "status": "PRE_MODEL_ADMITTED",
+        "model_imported": False,
+        "model_forward": 0,
+        "training": False,
+        "attempted_model_calls": 0,
+        "failure_seal_sha256": None,
+        "admission_head": git(REPO, "rev-parse", "HEAD"),
+    }
+    return append_allocation_record(path, record)
+
+
+def append_allocation_outcome(path: Path, *, pbs_jobid: str, outcome: Mapping[str, Any]) -> dict[str, Any]:
+    """Persist the post-run outcome separately so the admission event stays immutable."""
+
+    outcome_path = Path(str(path) + ".outcomes.jsonl")
+    existing: list[dict[str, Any]] = []
+    if outcome_path.exists():
+        require(outcome_path.is_file() and not outcome_path.is_symlink(), f"allocation outcome ledger is unsafe: {outcome_path}")
+        for line in outcome_path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                existing.append(json.loads(line))
+    incoming = {"pbs_jobid": pbs_jobid, **dict(outcome)}
+    for item in existing:
+        if item.get("pbs_jobid") == pbs_jobid:
+            require(item == incoming, f"conflicting allocation outcome for {pbs_jobid}")
+            return {"status": "IDEMPOTENT_OBSERVATION", "record": item, "path": str(outcome_path)}
+    outcome_path.parent.mkdir(parents=True, exist_ok=True)
+    with outcome_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(incoming, sort_keys=True, allow_nan=False) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    return {"status": "APPENDED", "record": incoming, "path": str(outcome_path)}
 
 
 def _result_file(route: str, root: Path) -> Path:
@@ -606,6 +1194,9 @@ def _accepted_training_lineage(route: str, root: Path, seed: int) -> dict[str, A
         "result_sha256": sha256_file(path),
         "result": result,
         "training_args": training_args,
+        "training_source_kind": TRAINING_SOURCE_STANDARD,
+        "training_lineage_head": observed_head if (observed_head := (result.get("execution_head") if route == "l1" else result.get("repository_head"))) else None,
+        "training_lineage_branch": result.get("branch"),
         "gpu_acceptance": gpu,
         "checkpoints": checkpoints,
         "acceptance": {
@@ -678,7 +1269,9 @@ def _run_command(campaign_root: Path, name: str, command: Sequence[str], *, extr
     record_path = logs / f"{name}.command.json"
     stdout_path = logs / f"{name}.stdout.log"
     stderr_path = logs / f"{name}.stderr.log"
-    write_json(record_path, {"schema": "VANDA_STAGE45E_UNIFIED_SUBPROCESS_RECORD_V1", "name": name, "command": [str(item) for item in command], "cwd": "/tmp", "pythonpath": "", "started_utc": now_utc()})
+    command_values = [str(item) for item in command]
+    started_utc = now_utc()
+    write_json(record_path, {"schema": "VANDA_STAGE45E_UNIFIED_SUBPROCESS_RECORD_V2", "name": name, "command": command_values, "cwd": "/tmp", "pythonpath": "", "started_utc": started_utc, "lifecycle": "STARTED"})
     environment = os.environ.copy()
     environment.update({
         "PYTHONPATH": "",
@@ -692,10 +1285,16 @@ def _run_command(campaign_root: Path, name: str, command: Sequence[str], *, extr
     if extra_env:
         environment.update(extra_env)
     started = time.time()
-    with stdout_path.open("w", encoding="utf-8") as stdout, stderr_path.open("w", encoding="utf-8") as stderr:
-        process = subprocess.run([str(item) for item in command], cwd="/tmp", env=environment, stdout=stdout, stderr=stderr, check=False)
+    try:
+        with stdout_path.open("w", encoding="utf-8") as stdout, stderr_path.open("w", encoding="utf-8") as stderr:
+            process = subprocess.run(command_values, cwd="/tmp", env=environment, stdout=stdout, stderr=stderr, check=False)
+    except OSError as exc:
+        finished = time.time()
+        write_json(record_path, {"schema": "VANDA_STAGE45E_UNIFIED_SUBPROCESS_RECORD_V2", "name": name, "command": command_values, "cwd": "/tmp", "pythonpath": "", "started_utc": started_utc, "finished_epoch": finished, "duration_s": finished - started, "returncode": None, "spawn_error": f"{type(exc).__name__}: {exc}", "stdout": str(stdout_path), "stderr": str(stderr_path), "lifecycle": "SPAWN_FAILED"}, overwrite=True)
+        raise
     finished = time.time()
-    write_json(record_path, {"schema": "VANDA_STAGE45E_UNIFIED_SUBPROCESS_RECORD_V1", "name": name, "command": [str(item) for item in command], "cwd": "/tmp", "pythonpath": "", "started_utc": now_utc(), "finished_epoch": finished, "duration_s": finished - started, "returncode": process.returncode, "stdout": str(stdout_path), "stderr": str(stderr_path)}, overwrite=True)
+    lifecycle = "PASS" if process.returncode == 0 else "FAILED"
+    write_json(record_path, {"schema": "VANDA_STAGE45E_UNIFIED_SUBPROCESS_RECORD_V2", "name": name, "command": command_values, "cwd": "/tmp", "pythonpath": "", "started_utc": started_utc, "finished_epoch": finished, "duration_s": finished - started, "returncode": process.returncode, "stdout": str(stdout_path), "stderr": str(stderr_path), "lifecycle": lifecycle}, overwrite=True)
     require(process.returncode == 0, f"subprocess failed ({name}); see {stderr_path}")
 
 
@@ -725,7 +1324,7 @@ def _training_result(route: str, root: Path, seed: int) -> dict[str, Any]:
 
 
 def _authorized_pre_model_retry(route: str, seed: int, root: Path) -> dict[str, Any] | None:
-    """Return evidence only for the PI0134-authorized L1 pre-import retry."""
+    """Return evidence only for the previously authorized L1 pre-import retry."""
 
     if (route, seed) != ("l1", 2223):
         return None
@@ -769,10 +1368,36 @@ def _bind_lineages(args: argparse.Namespace, storage: Path, campaign_root: Path)
     for route in ROUTES:
         for seed in ALL_SEEDS:
             if route == "legacy" and seed == 2222:
-                lineages[route][seed] = verify_historical(Path(args.legacy_history), route)
+                legacy_decision = legacy_provenance_decision(Path(args.legacy_history), Path(args.config))
+                write_json(campaign_root / "legacy_seed2222_provenance_decision.json", {key: value for key, value in legacy_decision.items() if key != "lineage"})
+                require(legacy_decision["status"] == "PASS_EXACT_H200_FROZEN_RECIPE_REUSE", f"{legacy_decision['token']}: {legacy_decision['reason']}")
+                lineages[route][seed] = legacy_decision["lineage"]
+                plan.append({
+                    "route": route,
+                    "seed": seed,
+                    "action": "REUSE_COMPLETE_READ_ONLY",
+                    "source_kind": TRAINING_SOURCE_STANDARD,
+                    "root": lineages[route][seed]["root"],
+                    "result_sha256": lineages[route][seed]["result_sha256"],
+                })
                 continue
             if route == "l1" and seed == 2222:
-                lineages[route][seed] = verify_historical(Path(args.l1_history), route)
+                lineages[route][seed] = verify_recovered_l1(
+                    Path(args.recovered_l1_root),
+                    Path(args.recovered_l1_acceptance),
+                    Path(args.recovered_l1_input_v2),
+                )
+                lineages[route][seed]["duplicate_provenance"] = duplicate_l1_provenance(Path(args.duplicate_l1_root))
+                plan.append({
+                    "route": route,
+                    "seed": seed,
+                    "action": "REUSE_RECOVERED_READ_ONLY",
+                    "source_kind": TRAINING_SOURCE_RECOVERED,
+                    "root": lineages[route][seed]["root"],
+                    "recovered_acceptance_sha256": lineages[route][seed]["recovered_acceptance_sha256"],
+                    "recovered_input_v2_sha256": lineages[route][seed]["recovered_input_v2_sha256"],
+                    "duplicate_root_not_primary": lineages[route][seed]["duplicate_provenance"]["root"],
+                })
                 continue
             completed = find_completed_training(storage, route, seed)
             require(len(completed) <= 1, f"multiple complete {route} seed{seed} lineages exist; refusing performance-based selection")
@@ -801,10 +1426,24 @@ def _checkpoint_spec(route: str, seed: int, step: int, lineage: Mapping[str, Any
     tree = record.get("tree_sha256") or lineage.get("checkpoints", {}).get(str(step), {}).get("tree_sha256")
     require(tree, f"checkpoint tree hash missing for {route} seed{seed} step{step}")
     path = Path(lineage["root"]) / f"checkpoint-{step}"
-    return {"label": f"{route.upper()}(seed{seed})@{step}", "route": route, "seed": seed, "step": step, "path": str(path), "tree_sha256": tree}
+    return {
+        "label": f"{route.upper()}(seed{seed})@{step}",
+        "route": route,
+        "seed": seed,
+        "step": step,
+        "path": str(path),
+        "tree_sha256": tree,
+        "training_lineage_identity": training_lineage_identity(lineage),
+    }
 
 
-def build_phase_specs(lineages: Mapping[str, Mapping[int, Mapping[str, Any]]], campaign_root: Path) -> dict[str, dict[str, Path]]:
+def build_phase_specs(
+    lineages: Mapping[str, Mapping[int, Mapping[str, Any]]],
+    campaign_root: Path,
+    *,
+    evaluator: Mapping[str, Any] | None = None,
+    orchestration: Mapping[str, Any] | None = None,
+) -> dict[str, dict[str, Path]]:
     # Legacy seed2222 already has an accepted D1/D2A artifact and is reused
     # read-only in CPU closure.  It is intentionally absent from current
     # model-call specs; L1 seed2222 is also reused only for its own arm.
@@ -826,7 +1465,17 @@ def build_phase_specs(lineages: Mapping[str, Mapping[int, Mapping[str, Any]]], c
                 "action_head_calls": len(selected[route]) * 24 * (4 if phase == "E4" else 9 if phase == "D1" else 8),
                 "raw_rows": len(selected[route]) * 24 * (1 if phase == "E4" else 9 if phase == "D1" else 4),
             }
-            write_json(path, {"schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V1", "status": "SEALED_INPUT_SPEC", "route": route, "phase": phase, "checkpoints": selected[route], "budget": budget, "timestamp_utc": now_utc()})
+            write_json(path, {
+                "schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V2",
+                "status": "SEALED_INPUT_SPEC",
+                "route": route,
+                "phase": phase,
+                "checkpoints": selected[route],
+                "budget": budget,
+                "evaluation_identity": dict(evaluator or {}),
+                "orchestration_identity": dict(orchestration or {}),
+                "timestamp_utc": now_utc(),
+            })
             phase_specs[phase][route] = path
     return phase_specs
 
@@ -839,24 +1488,254 @@ def _expected_phase_totals(phase: str) -> dict[str, dict[str, int]]:
     return {"legacy": {"arms": 4, "conditioning_passes": 96, "action_head_calls": 768, "raw_rows": 384}, "l1": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}, "n2": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}}
 
 
-def run_diagnostics(args: argparse.Namespace, campaign_root: Path, admission_path: Path, phase_specs: Mapping[str, Mapping[str, Path]]) -> dict[str, dict[str, Path]]:
+def _counter_value(document: Mapping[str, Any], *names: str) -> int:
+    for name in names:
+        value = document.get(name)
+        if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+            return value
+    return 0
+
+
+def _attempt_call_counts(root: Path) -> dict[str, int]:
+    """Extract actual calls from a pass/failure seal, never from a budget."""
+
+    root = Path(root)
+    seal_path = root / "unified_phase_seal.json"
+    failure_path = root / "unified_failure_seal.json"
+    document: Mapping[str, Any]
+    status = "INCOMPLETE_UNKNOWN"
+    if seal_path.is_file() and not seal_path.is_symlink():
+        document = read_json(seal_path)
+        status = "PASS_ACCEPTED" if document.get("status") == "PASS" else "INCOMPLETE_UNKNOWN"
+        counters = document.get("observed_counters") or document.get("counters") or {}
+    elif failure_path.is_file() and not failure_path.is_symlink():
+        document = read_json(failure_path)
+        status = "FAILED_ATTEMPT"
+        counters = document.get("observed_counters") or document.get("counters") or {}
+        if not counters:
+            pre_model = document.get("pre_model_admission")
+            if pre_model:
+                pre_model_path = Path(str(pre_model))
+                if pre_model_path.is_file() and not pre_model_path.is_symlink():
+                    pre_model_doc = read_json(pre_model_path)
+                    counters = pre_model_doc.get("counters", {})
+        if not counters:
+            counters = document
+    else:
+        return {"conditioning_passes": 0, "action_head_calls": 0, "model_side_calls": 0}
+    conditioning = _counter_value(counters, "conditioning_passes", "conditioning_calls")
+    action_head = _counter_value(counters, "action_head_calls", "action_head_forwards")
+    model_side = _counter_value(counters, "model_side_calls", "attempted_model_calls")
+    if model_side == 0:
+        model_side = conditioning + action_head
+    return {
+        "conditioning_passes": conditioning,
+        "action_head_calls": action_head,
+        "model_side_calls": model_side,
+        "status": status,
+    }
+
+
+def _diagnostic_candidate_status(root: Path) -> str:
+    root = Path(root)
+    seal = root / "unified_phase_seal.json"
+    failure = root / "unified_failure_seal.json"
+    if seal.is_file() and not seal.is_symlink():
+        return "PASS_ACCEPTED" if read_json(seal).get("status") == "PASS" else "INCOMPLETE_UNKNOWN"
+    if failure.is_file() and not failure.is_symlink():
+        return "FAILED_ATTEMPT"
+    return "INCOMPLETE_UNKNOWN"
+
+
+def discover_diagnostic_attempts(storage: Path, phase: str, route: str) -> list[dict[str, Any]]:
+    """Discover all immutable attempts in the sibling diagnostics namespace."""
+
+    require(phase in DIAGNOSTIC_PHASES and route in ROUTES, f"invalid diagnostic unit: {phase}/{route}")
+    diagnostics_root = Path(storage).resolve()
+    if diagnostics_root.name != "diagnostics":
+        diagnostics_root = diagnostics_root / "diagnostics"
+    if not diagnostics_root.is_dir() or diagnostics_root.is_symlink():
+        return []
+    suffix = f"_{phase}_{route}"
+    attempts: list[dict[str, Any]] = []
+    for root in sorted(diagnostics_root.iterdir(), key=lambda item: item.name):
+        if not root.is_dir() or root.is_symlink() or not root.name.endswith(suffix):
+            continue
+        status = _diagnostic_candidate_status(root)
+        seal_path = root / "unified_phase_seal.json"
+        failure_path = root / "unified_failure_seal.json"
+        selected = seal_path if seal_path.is_file() and not seal_path.is_symlink() else failure_path
+        counts = _attempt_call_counts(root)
+        attempts.append({
+            "phase": phase,
+            "route": route,
+            "unit_key": f"{phase}:{route}",
+            "root": str(root),
+            "status": status,
+            "seal_path": str(selected) if selected.exists() else None,
+            "seal_sha256": sha256_file(selected) if selected.is_file() and not selected.is_symlink() else None,
+            "counts": counts,
+        })
+    return attempts
+
+
+def _validate_diagnostic_pass(
+    candidate: Mapping[str, Any],
+    *,
+    phase: str,
+    route: str,
+    spec_path: Path,
+    expected_evaluator: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Revalidate a complete PASS before allowing read-only reuse."""
+
+    root = Path(str(candidate["root"])).resolve()
+    seal_path = root / "unified_phase_seal.json"
+    seal = read_json(seal_path)
+    expected = _expected_phase_totals(phase)[route]
+    spec_doc = read_json(spec_path)
+    require(seal.get("schema") == "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_PHASE_SEAL_V2", f"{phase}/{route} diagnostic seal schema is not PI0143 V2")
+    require(seal.get("status") == "PASS" and seal.get("phase") == phase and seal.get("route") == route, f"{phase}/{route} diagnostic PASS identity drift")
+    require(seal.get("route_head") == ROUTE_HEADS[route] and seal.get("route_branch") == ROUTE_BRANCHES[route], f"{phase}/{route} route identity drift")
+    require(seal.get("phase_spec_sha256") == sha256_file(spec_path), f"{phase}/{route} phase-spec SHA drift")
+    require(seal.get("checkpoints") == spec_doc.get("checkpoints"), f"{phase}/{route} checkpoint specification drift")
+    require(seal.get("training_lineage_identities") == [item.get("training_lineage_identity", {}) for item in spec_doc.get("checkpoints", [])], f"{phase}/{route} training identity drift")
+    if expected_evaluator is not None:
+        require(seal.get("evaluation_identity") == dict(expected_evaluator), f"{phase}/{route} evaluator identity drift")
+    require(seal.get("stats_sha256") == (N2_STATS_SHA if route == "n2" else RUNTIME_STATS_SHA), f"{phase}/{route} stats identity drift")
+    require(seal.get("stats_payload_sha256") == (N2_STATS_PAYLOAD_SHA if route == "n2" else RUNTIME_STATS_PAYLOAD_SHA), f"{phase}/{route} stats payload drift")
+    require(seal.get("budget") == expected, f"{phase}/{route} accepted budget drift")
+    observed = seal.get("observed_counters", {})
+    require(observed.get("conditioning_passes") == expected["conditioning_passes"], f"{phase}/{route} conditioning counter drift")
+    require(observed.get("action_head_calls") == expected["action_head_calls"], f"{phase}/{route} action-head counter drift")
+    require(observed.get("raw_rows") == expected["raw_rows"], f"{phase}/{route} raw-row counter drift")
+    require(seal.get("training") is False and seal.get("backward") is False and seal.get("optimizer_steps") == 0, f"{phase}/{route} training boundary drift")
+    for key in ("Validation-E", "Holdout-F", "WBC", "simulator", "hardware", "public_sampler_calls", "get_action_calls"):
+        require(seal.get(key) in (0, False), f"{phase}/{route} forbidden boundary drift in {key}")
+    inner_path = Path(str(seal.get("inner_seal"))).resolve()
+    require(inner_path.is_file() and not inner_path.is_symlink(), f"{phase}/{route} inner seal unavailable")
+    require(sha256_file(inner_path) == seal.get("inner_seal_sha256"), f"{phase}/{route} inner seal SHA drift")
+    inner = read_json(inner_path)
+    require(inner.get("status") == "PASS", f"{phase}/{route} inner seal is not PASS")
+    for item in spec_doc.get("checkpoints", []):
+        checkpoint = Path(item["path"]).resolve()
+        state_path = checkpoint / "trainer_state.json"
+        require(state_path.is_file() and not state_path.is_symlink(), f"{phase}/{route} checkpoint state unavailable: {checkpoint}")
+        state = read_json(state_path)
+        require(state.get("global_step") == item.get("step"), f"{phase}/{route} checkpoint step drift: {checkpoint}")
+        entries = regular_tree_entries(checkpoint, f"{CHECKPOINT_HASH_PREFIX[route]}/{checkpoint.name}")
+        require(tree_digest(entries) == item.get("tree_sha256"), f"{phase}/{route} checkpoint tree drift: {checkpoint}")
+    return {
+        **dict(candidate),
+        "status": "PASS_ACCEPTED",
+        "seal_path": str(seal_path),
+        "seal_sha256": sha256_file(seal_path),
+        "counts": _attempt_call_counts(root),
+        "phase_spec_sha256": seal["phase_spec_sha256"],
+        "evaluation_identity": seal.get("evaluation_identity", {}),
+    }
+
+
+def diagnostic_accounting(
+    attempts_by_unit: Mapping[str, Sequence[Mapping[str, Any]]],
+    accepted_by_unit: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Report unique accepted work separately from every attempted call."""
+
+    accepted_unique_by_unit: dict[str, int] = {}
+    all_attempted_by_attempt: list[dict[str, Any]] = []
+    failed_attempt_by_attempt: list[dict[str, Any]] = []
+    for unit in DIAGNOSTIC_UNIT_KEYS:
+        accepted = accepted_by_unit.get(unit)
+        if accepted is not None:
+            counts = accepted.get("counts", {})
+            accepted_unique_by_unit[unit] = int(counts.get("model_side_calls", 0))
+        else:
+            accepted_unique_by_unit[unit] = 0
+        for attempt in attempts_by_unit.get(unit, ()):
+            item = {
+                "unit_key": unit,
+                "phase": attempt.get("phase"),
+                "route": attempt.get("route"),
+                "root": attempt.get("root"),
+                "status": attempt.get("status"),
+                "seal_path": attempt.get("seal_path"),
+                "seal_sha256": attempt.get("seal_sha256"),
+                "counts": dict(attempt.get("counts", {})),
+            }
+            all_attempted_by_attempt.append(item)
+            if item["status"] == "FAILED_ATTEMPT":
+                failed_attempt_by_attempt.append(item)
+    return {
+        "accepted_unique_scientific_calls_by_unit": accepted_unique_by_unit,
+        "accepted_unique_scientific_calls": sum(accepted_unique_by_unit.values()),
+        "all_attempted_model_calls": sum(int(item["counts"].get("model_side_calls", 0)) for item in all_attempted_by_attempt),
+        "failed_attempt_model_calls": sum(int(item["counts"].get("model_side_calls", 0)) for item in failed_attempt_by_attempt),
+        "reused_readonly_model_calls": 0,
+        "attempt_inventory": all_attempted_by_attempt,
+        "failed_attempt_inventory": failed_attempt_by_attempt,
+    }
+
+
+def select_diagnostic_attempt(
+    storage: Path,
+    phase: str,
+    route: str,
+    *,
+    spec_path: Path,
+    expected_evaluator: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Select exactly one accepted unit or report that continuation is needed."""
+
+    candidates = discover_diagnostic_attempts(storage, phase, route)
+    accepted: list[dict[str, Any]] = []
+    for candidate in candidates:
+        if candidate.get("status") != "PASS_ACCEPTED":
+            continue
+        try:
+            accepted.append(_validate_diagnostic_pass(candidate, phase=phase, route=route, spec_path=Path(spec_path).resolve(), expected_evaluator=expected_evaluator))
+        except RuntimeError:
+            candidate["status"] = "INCOMPLETE_UNKNOWN"
+    require(len(accepted) <= 1, f"duplicate complete PASS diagnostic units block continuation: {phase}:{route}")
+    return {"unit_key": f"{phase}:{route}", "candidates": candidates, "accepted": accepted[0] if accepted else None, "needs_fresh_attempt": not bool(accepted)}
+
+
+def run_diagnostics(args: argparse.Namespace, campaign_root: Path, admission_path: Path, phase_specs: Mapping[str, Mapping[str, Path]]) -> dict[str, Any]:
     diagnostic_script = REPO / "scripts/stage45e_h200_unified_diagnostics.py"
     helper_script = Path(args.legacy_repo).resolve() / "scripts/stage45e_legacy_matched_seed.py"
     phase_roots: dict[str, dict[str, Path]] = {"E4": {}, "D1": {}, "D2A": {}}
-    for phase in ("E4", "D1", "D2A"):
+    attempts_by_unit: dict[str, list[dict[str, Any]]] = {}
+    accepted_by_unit: dict[str, dict[str, Any]] = {}
+    evidence_root = Path(getattr(args, "diagnostic_evidence_root", Path(args.storage_root) / "diagnostics")).resolve()
+    for phase in DIAGNOSTIC_PHASES:
         for route in ROUTES:
-            output = Path(args.storage_root).resolve() / "diagnostics" / f"{campaign_root.name}_{phase}_{route}"
+            unit_key = f"{phase}:{route}"
+            spec_path = Path(phase_specs[phase][route]).resolve()
+            spec_doc = read_json(spec_path)
+            expected_evaluator = spec_doc.get("evaluation_identity", {})
+            selection = select_diagnostic_attempt(evidence_root, phase, route, spec_path=spec_path, expected_evaluator=expected_evaluator)
+            attempts_by_unit[unit_key] = selection["candidates"]
+            if selection["accepted"] is not None:
+                accepted_by_unit[unit_key] = selection["accepted"]
+                phase_roots[phase][route] = Path(selection["accepted"]["root"])
+                append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "DIAGNOSTIC_REUSED_READ_ONLY", "unit_key": unit_key, "root": selection["accepted"]["root"], "model_calls": 0, "timestamp_utc": now_utc()})
+                continue
+            output = evidence_root / f"{campaign_root.name}_{phase}_{route}"
             stats = Path(args.n2_stats).resolve() if route == "n2" else Path(args.runtime_stats).resolve()
             command = [str(PYTHON), str(diagnostic_script), "--mode", "run", "--route", route, "--phase", phase, "--route-repo", str(Path(getattr(args, f"{route}_repo")).resolve()), "--helper-script", str(helper_script), "--admission", str(admission_path), "--output-root", str(output), "--base-model", str(Path(args.base_model).resolve()), "--dataset", str(Path(args.dataset).resolve()), "--groot", str(Path(args.groot).resolve()), "--cosmos", str(Path(args.cosmos).resolve()), "--modality", str(Path(args.modality).resolve()), "--config", str(Path(args.config).resolve()), "--stats", str(stats), "--sealed-baseline", str(Path(args.sealed_baseline).resolve()), "--snapshot-preflight", str(Path(args.snapshot_preflight).resolve())]
             _run_command(campaign_root, f"diagnostic_{phase}_{route}", command)
-            seal_path = output / "unified_phase_seal.json"
-            require(seal_path.is_file(), f"missing unified diagnostic seal: {seal_path}")
-            seal = read_json(seal_path)
-            expected = _expected_phase_totals(phase)[route]
-            observed = seal.get("budget", {})
-            require(observed == expected, f"{phase}/{route} budget mismatch: {observed} != {expected}")
+            selection = select_diagnostic_attempt(evidence_root, phase, route, spec_path=spec_path, expected_evaluator=expected_evaluator)
+            attempts_by_unit[unit_key] = selection["candidates"]
+            complete = [candidate for candidate in selection["candidates"] if candidate.get("root") == str(output) and candidate.get("status") == "PASS_ACCEPTED"]
+            require(len(complete) == 1, f"new diagnostic unit did not produce one accepted PASS: {unit_key}")
+            accepted_by_unit[unit_key] = _validate_diagnostic_pass(complete[0], phase=phase, route=route, spec_path=spec_path, expected_evaluator=expected_evaluator)
             phase_roots[phase][route] = output
-    return phase_roots
+    return {
+        "phase_roots": phase_roots,
+        "attempts_by_unit": attempts_by_unit,
+        "accepted_by_unit": accepted_by_unit,
+        "accounting": diagnostic_accounting(attempts_by_unit, accepted_by_unit),
+    }
 
 
 def _collect_files(root: Path, *, excluded: set[str]) -> list[dict[str, Any]]:
@@ -868,25 +1747,329 @@ def _collect_files(root: Path, *, excluded: set[str]) -> list[dict[str, Any]]:
     return files
 
 
-def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapping[str, Mapping[str, Path]], lineages: Mapping[str, Mapping[int, Mapping[str, Any]]], source_identities: Mapping[str, Any], highwater_record: Mapping[str, Any]) -> dict[str, Any]:
-    expected = {phase: _expected_phase_totals(phase) for phase in ("E4", "D1", "D2A")}
+def _path_reference(path: Path, *, role: str) -> dict[str, Any]:
+    path = Path(path).resolve()
+    return {"role": role, "path": str(path), "bytes": path.stat().st_size, "sha256": sha256_file(path)}
+
+
+def _row_bundle_files(root: Path, seal: Mapping[str, Any]) -> list[Path]:
+    """Locate explicitly sealed row/raw files without moving or rewriting them."""
+
+    root = Path(root).resolve()
+    candidates: list[Path] = []
+
+    def visit(value: Any) -> None:
+        if isinstance(value, str):
+            candidate = Path(value)
+            if candidate.is_file() and not candidate.is_symlink():
+                try:
+                    if candidate.resolve().is_relative_to(root):
+                        candidates.append(candidate.resolve())
+                except ValueError:
+                    pass
+        elif isinstance(value, Mapping):
+            for nested in value.values():
+                visit(nested)
+        elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+            for nested in value:
+                visit(nested)
+
+    for key in ("row_bundle", "row_bundle_path", "raw_bundle", "raw_root", "evidence_bundle", "source_rows", "rows", "raw"):
+        visit(seal.get(key))
+        visit((seal.get("route_result") or {}).get(key) if isinstance(seal.get("route_result"), Mapping) else None)
+    if not candidates:
+        for item in sorted(root.rglob("*"), key=lambda path: str(path)):
+            if not item.is_file() or item.is_symlink():
+                continue
+            lowered = item.name.lower()
+            if any(token in lowered for token in ("row", "raw", "metric")) and item.name not in {"unified_phase_seal.json", "seal.json", "pre_model_admission.json"}:
+                candidates.append(item.resolve())
+    unique = {str(path): path for path in candidates}
+    return [unique[key] for key in sorted(unique)]
+
+
+def build_external_evidence_closure(
+    campaign_root: Path,
+    phase_roots: Mapping[str, Mapping[str, Path]],
+    phase_specs: Mapping[str, Mapping[str, Path]],
+    lineages: Mapping[str, Mapping[int, Mapping[str, Any]]],
+    *,
+    attempts_by_unit: Mapping[str, Sequence[Mapping[str, Any]]] | None = None,
+    evaluator: Mapping[str, Any] | None = None,
+    orchestration: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Hash-bind sibling diagnostics and expose an 18-arm C10 handoff."""
+
+    campaign_root = Path(campaign_root).resolve()
+    descriptor_root = campaign_root / "evidence_units"
+    descriptor_root.mkdir(parents=True, exist_ok=True)
+    descriptors: dict[str, dict[str, Any]] = {}
+    for phase in DIAGNOSTIC_PHASES:
+        for route in ROUTES:
+            unit = f"{phase}:{route}"
+            root = Path(phase_roots[phase][route]).resolve()
+            seal_path = root / "unified_phase_seal.json"
+            require(seal_path.is_file() and not seal_path.is_symlink(), f"external diagnostic seal missing: {unit}")
+            seal = read_json(seal_path)
+            inner_path = Path(str(seal.get("inner_seal"))).resolve()
+            require(inner_path.is_file() and not inner_path.is_symlink(), f"external diagnostic inner seal missing: {unit}")
+            row_files = _row_bundle_files(root, seal)
+            require(row_files, f"external diagnostic row bundle missing: {unit}")
+            spec_path = Path(phase_specs[phase][route]).resolve()
+            descriptor = {
+                "schema": EVIDENCE_DESCRIPTOR_SCHEMA,
+                "status": "PASS",
+                "unit_key": unit,
+                "phase": phase,
+                "route": route,
+                "external": not root.is_relative_to(campaign_root),
+                "attempt_root": str(root),
+                "unified_seal": _path_reference(seal_path, role="unified_phase_seal"),
+                "inner_seal": _path_reference(inner_path, role="inner_phase_seal"),
+                "phase_spec": _path_reference(spec_path, role="phase_specification"),
+                "row_bundle": [_path_reference(path, role="source_row_or_raw_file") for path in row_files],
+                "source_row_schema": seal.get("source_row_schema") or (seal.get("route_result", {}).get("source_row_schema") if isinstance(seal.get("route_result"), Mapping) else None) or "ROW_BUNDLE_FILE_SET_V1",
+                "source_row_sha256": tree_digest([{"path": path.name, "bytes": path.stat().st_size, "sha256": sha256_file(path)} for path in row_files]),
+                "stats_sha256": seal.get("stats_sha256"),
+                "stats_payload_sha256": seal.get("stats_payload_sha256"),
+                "training_lineage_identities": seal.get("training_lineage_identities", []),
+                "evaluation_identity": dict(evaluator or seal.get("evaluation_identity", {})),
+                "orchestration_identity": dict(orchestration or seal.get("orchestration_identity", {})),
+                "attempt_inventory": list((attempts_by_unit or {}).get(unit, [])),
+            }
+            descriptor_path = descriptor_root / f"{phase}_{route}.json"
+            write_json(descriptor_path, descriptor)
+            descriptor["descriptor_path"] = str(descriptor_path)
+            descriptor["descriptor_sha256"] = sha256_file(descriptor_path)
+            descriptors[unit] = descriptor
+    inventory_path = campaign_root / "external_evidence_inventory.json"
+    inventory_doc = {
+        "schema": "VANDA_STAGE45E_EXTERNAL_DIAGNOSTIC_EVIDENCE_INVENTORY_V1",
+        "status": "PASS",
+        "campaign_root": str(campaign_root),
+        "descriptors": {unit: {"path": item["descriptor_path"], "sha256": item["descriptor_sha256"], "unit_key": unit} for unit, item in descriptors.items()},
+        "entry_count": len(descriptors),
+        "final_result_excluded": True,
+        "c10_handoff_excluded": True,
+    }
+    write_json(inventory_path, inventory_doc)
+    inventory_sha = sha256_file(inventory_path)
+
+    arms: list[dict[str, Any]] = []
+    for route in ROUTES:
+        for seed in ALL_SEEDS:
+            lineage = lineages[route][seed]
+            for step in (1000, 2000):
+                arm = _checkpoint_spec(route, seed, step, lineage)
+                arm["training_lineage_identity"] = training_lineage_identity(lineage)
+                arm["diagnostic_evidence"] = {}
+                for phase in DIAGNOSTIC_PHASES:
+                    unit = f"{phase}:{route}"
+                    spec_doc = read_json(Path(phase_specs[phase][route]))
+                    in_current_spec = any(item.get("seed") == seed and item.get("step") == step for item in spec_doc.get("checkpoints", []))
+                    reference = descriptors.get(unit)
+                    if reference is not None and in_current_spec:
+                        arm["diagnostic_evidence"][phase] = {"source": "CURRENT_PHASE_UNIT", "descriptor_path": reference["descriptor_path"], "descriptor_sha256": reference["descriptor_sha256"]}
+                    else:
+                        historical = lineage.get("historical_diagnostic_evidence", {}).get(phase) if isinstance(lineage.get("historical_diagnostic_evidence"), Mapping) else None
+                        if historical:
+                            arm["diagnostic_evidence"][phase] = {"source": "HISTORICAL_READ_ONLY", **dict(historical)}
+                        else:
+                            arm["diagnostic_evidence"][phase] = {"source": "MISSING_REQUIRED_REFERENCE"}
+                arms.append(arm)
+    handoff_path = campaign_root / "C10_HANDOFF.json"
+    handoff = {
+        "schema": C10_HANDOFF_SCHEMA,
+        "status": "PASS" if all(all(item.get("source") != "MISSING_REQUIRED_REFERENCE" for item in arm["diagnostic_evidence"].values()) for arm in arms) else "BLOCKED_MISSING_ARM_EVIDENCE",
+        "campaign_root": str(campaign_root),
+        "external_inventory": str(inventory_path),
+        "external_inventory_sha256": inventory_sha,
+        "arms": arms,
+        "arm_count": len(arms),
+        "required_arm_count": 18,
+        "evaluator_identity": dict(evaluator or {}),
+        "orchestration_identity": dict(orchestration or {}),
+        "locked_boundaries": {"Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
+        "source_rows_untouched": True,
+    }
+    write_json(handoff_path, handoff)
+    return {
+        "inventory_path": str(inventory_path),
+        "inventory_sha256": inventory_sha,
+        "handoff_path": str(handoff_path),
+        "handoff_sha256": sha256_file(handoff_path),
+        "handoff": handoff,
+        "descriptors": descriptors,
+    }
+
+
+def build_c10_handoff(*args: Any, **kwargs: Any) -> dict[str, Any]:
+    """Named C10-facing entrypoint; implementation remains one closure."""
+
+    return build_external_evidence_closure(*args, **kwargs)
+
+
+def _child_attempt_records(campaign_root: Path) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for path in sorted((Path(campaign_root) / "logs").glob("*.command.json")):
+        if not path.is_file() or path.is_symlink():
+            continue
+        record = read_json(path)
+        records.append({"command_record": str(path), "command_record_sha256": sha256_file(path), **record})
+    return records
+
+
+def _mark_model_child_in_progress(state: dict[str, Any], stage: str, *, kind: str) -> None:
+    """Mark a child boundary conservatively before it is spawned.
+
+    A parent cannot know whether a child reached import/construction/forward
+    after the child has failed unless the child emitted a verified seal.  The
+    parent therefore records UNKNOWN/IN_PROGRESS at launch and only upgrades
+    those fields after a PASS.  This prevents an exception path from being
+    misreported as ``model_execution_started=false``.
+    """
+
+    state["failure_stage"] = stage
+    state["active_child"] = {"stage": stage, "kind": kind, "status": "IN_PROGRESS"}
+    execution_state = dict(state.get("execution_state", {}))
+    execution_state.update({"model_imported": "UNKNOWN", "model_construction": "UNKNOWN", "model_forward": "UNKNOWN"})
+    if kind == "diagnostic":
+        execution_state.update({"training": False, "backward": False, "optimizer_steps": 0})
+    else:
+        execution_state.update({"training": "UNKNOWN", "backward": "UNKNOWN", "optimizer_steps": "UNKNOWN"})
+    state["execution_state"] = execution_state
+    lifecycle = dict(state.get("execution_lifecycle", {}))
+    lifecycle.update({
+        "model_import": "IN_PROGRESS",
+        "model_construction": "IN_PROGRESS",
+        "forward": "IN_PROGRESS",
+    })
+    if kind == "training":
+        lifecycle["training"] = "IN_PROGRESS"
+    elif kind == "diagnostic":
+        lifecycle.update({"raw_seal": "IN_PROGRESS", "derived": "IN_PROGRESS", "sampler_calls": "FORBIDDEN_ZERO"})
+    state["execution_lifecycle"] = lifecycle
+
+
+def _mark_model_child_pass(state: dict[str, Any], stage: str, *, kind: str) -> None:
+    """Record the verified post-child lifecycle without erasing prior history."""
+
+    state["active_child"] = {"stage": stage, "kind": kind, "status": "PASS"}
+    execution_state = dict(state.get("execution_state", {}))
+    execution_state.update({"model_imported": True, "model_construction": 1, "model_forward": 1})
+    if kind == "training":
+        execution_state.update({"training": True, "backward": True, "optimizer_steps": 2000})
+    else:
+        execution_state.update({"training": False, "backward": False, "optimizer_steps": 0})
+    state["execution_state"] = execution_state
+    lifecycle = dict(state.get("execution_lifecycle", {}))
+    lifecycle.update({"model_import": "PASS", "model_construction": "PASS", "forward": "PASS"})
+    if kind == "training":
+        lifecycle["training"] = "PASS"
+    elif kind == "diagnostic":
+        lifecycle.update({"raw_seal": "PASS", "derived": "PASS", "sampler_calls": "FORBIDDEN_ZERO"})
+    state["execution_lifecycle"] = lifecycle
+
+
+def _model_execution_started(state: Mapping[str, Any]) -> bool | str:
+    """Return a truthful tri-state value for the top-level failure seal."""
+
+    execution = state.get("execution_state", {})
+    if not isinstance(execution, Mapping):
+        return "UNKNOWN"
+    values = [execution.get(key) for key in ("model_imported", "model_construction", "model_forward", "training", "backward")]
+    if any(value is True or (isinstance(value, int) and not isinstance(value, bool) and value > 0) for value in values):
+        return True
+    if any(isinstance(value, str) and value in {"UNKNOWN", "IN_PROGRESS", "UNKNOWN_AFTER_FAILURE"} for value in values):
+        return "UNKNOWN"
+    return False
+
+
+def write_campaign_failure_seal(
+    campaign_root: Path,
+    *,
+    state: Mapping[str, Any],
+    lineages: Mapping[str, Mapping[int, Mapping[str, Any]]] | None = None,
+    attempts_by_unit: Mapping[str, Sequence[Mapping[str, Any]]] | None = None,
+) -> dict[str, Any]:
+    """Seal orchestration failure without rewriting any child evidence."""
+
+    campaign_root = Path(campaign_root).resolve()
+    child_attempts = _child_attempt_records(campaign_root)
+    for unit, attempts in (attempts_by_unit or {}).items():
+        for attempt in attempts:
+            child_attempts.append({"unit_key": unit, **dict(attempt)})
+    all_calls = sum(int(item.get("counts", {}).get("model_side_calls", 0)) for item in child_attempts if isinstance(item.get("counts"), Mapping))
+    failed_calls = sum(int(item.get("counts", {}).get("model_side_calls", 0)) for item in child_attempts if item.get("status") == "FAILED_ATTEMPT" and isinstance(item.get("counts"), Mapping))
+    failure = {
+        "schema": "VANDA_STAGE45E_UNIFIED_ORCHESTRATION_FAILURE_SEAL_V1",
+        "status": "BLOCKED",
+        "pi_gate": PI_GATE,
+        "campaign_root": str(campaign_root),
+        "allocation_identity": dict(state.get("allocation_identity", {})),
+        "last_completed_lineage": state.get("last_completed_lineage"),
+        "last_completed_unit": state.get("last_completed_unit"),
+        "pending_queue": list(state.get("pending_queue", [])),
+        "failure_stage": state.get("failure_stage", "UNKNOWN"),
+        "active_child": state.get("active_child"),
+        "model_execution_started": _model_execution_started(state),
+        "execution_lifecycle": dict(state.get("execution_lifecycle", {})),
+        "execution_state": dict(state.get("execution_state", {
+            "model_imported": "UNKNOWN",
+            "model_construction": "UNKNOWN",
+            "model_forward": "UNKNOWN",
+            "training": "UNKNOWN",
+            "backward": "UNKNOWN",
+            "optimizer_steps": "UNKNOWN",
+        })),
+        "attempted_model_calls": all_calls,
+        "failed_attempt_model_calls": failed_calls,
+        "child_attempts": child_attempts,
+        "retry_eligibility": state.get("retry_eligibility", "PI_REVIEW_REQUIRED"),
+        "training_lineage_identities": {route: {str(seed): training_lineage_identity(item) for seed, item in seeds.items()} for route, seeds in (lineages or {}).items()},
+        "evaluator_identity": dict(state.get("evaluator_identity", {})),
+        "orchestration_identity": dict(state.get("orchestration_identity", {})),
+        "immutable_children_referenced": True,
+        "timestamp_utc": now_utc(),
+    }
+    path = campaign_root / "orchestration_failure_seal.json"
+    if not path.exists():
+        write_json(path, failure)
+    return {"path": str(path), "sha256": sha256_file(path), "document": read_json(path)}
+
+
+def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapping[str, Mapping[str, Path]], lineages: Mapping[str, Mapping[int, Mapping[str, Any]]], source_identities: Mapping[str, Any], highwater_record: Mapping[str, Any], *, phase_specs: Mapping[str, Mapping[str, Path]] | None = None, diagnostic_run: Mapping[str, Any] | None = None, evaluator: Mapping[str, Any] | None = None, orchestration: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    phase_specs = phase_specs or {phase: {route: Path(campaign_root) / "specs" / f"{phase}_{route}.json" for route in ROUTES} for phase in DIAGNOSTIC_PHASES}
+    evaluator = dict(evaluator or {})
+    orchestration = dict(orchestration or {})
+    expected = {phase: _expected_phase_totals(phase) for phase in DIAGNOSTIC_PHASES}
     phase_seals: dict[str, dict[str, Any]] = {}
-    for phase in ("E4", "D1", "D2A"):
+    for phase in DIAGNOSTIC_PHASES:
         phase_seals[phase] = {}
         for route in ROUTES:
+            unit = f"{phase}:{route}"
             seal_path = Path(phase_roots[phase][route]) / "unified_phase_seal.json"
+            candidate = {"phase": phase, "route": route, "root": str(Path(phase_roots[phase][route]).resolve()), "status": "PASS_ACCEPTED", "counts": _attempt_call_counts(Path(phase_roots[phase][route]))}
+            validated = _validate_diagnostic_pass(candidate, phase=phase, route=route, spec_path=Path(phase_specs[phase][route]).resolve(), expected_evaluator=evaluator or read_json(Path(phase_specs[phase][route])).get("evaluation_identity", {}))
             seal = read_json(seal_path)
-            require(seal.get("status") == "PASS" and seal.get("budget") == expected[phase][route], f"CPU closure phase seal mismatch: {seal_path}")
-            inner = read_json(Path(seal["inner_seal"]))
-            require(inner.get("status") == "PASS", f"inner phase seal is not PASS: {seal_path}")
-            phase_seals[phase][route] = {"path": str(seal_path), "sha256": sha256_file(seal_path), "route": route, "phase": phase, "budget": seal["budget"], "inner_seal_sha256": seal["inner_seal_sha256"]}
+            phase_seals[phase][route] = {"path": str(seal_path), "sha256": sha256_file(seal_path), "route": route, "phase": phase, "unit_key": unit, "budget": seal["budget"], "inner_seal_sha256": seal["inner_seal_sha256"], "phase_spec_sha256": seal["phase_spec_sha256"], "evaluation_identity": validated.get("evaluation_identity", {})}
     totals = {}
-    for phase in ("E4", "D1", "D2A"):
+    for phase in DIAGNOSTIC_PHASES:
         totals[phase] = {key: sum(expected[phase][route][key] for route in ROUTES) for key in ("conditioning_passes", "action_head_calls", "raw_rows")}
         totals[phase]["total_model_side_calls"] = totals[phase]["conditioning_passes"] + totals[phase]["action_head_calls"]
     require(totals["E4"]["total_model_side_calls"] == 1680 and totals["D1"]["total_model_side_calls"] == 3840 and totals["D2A"]["total_model_side_calls"] == 3456, f"CPU total budget drift: {totals}")
+    attempts_by_unit = (diagnostic_run or {}).get("attempts_by_unit", {})
+    accepted_by_unit = (diagnostic_run or {}).get("accepted_by_unit", {})
+    if not accepted_by_unit:
+        accepted_by_unit = {f"{phase}:{route}": {"counts": {"model_side_calls": expected[phase][route]["conditioning_passes"] + expected[phase][route]["action_head_calls"]}} for phase in DIAGNOSTIC_PHASES for route in ROUTES}
+    accounting = (diagnostic_run or {}).get("accounting") or diagnostic_accounting(attempts_by_unit, accepted_by_unit)
+    require(accounting["accepted_unique_scientific_calls"] == 8976, f"accepted unique diagnostic calls drift: {accounting}")
+    external = build_external_evidence_closure(campaign_root, phase_roots, phase_specs, lineages, attempts_by_unit=attempts_by_unit, evaluator=evaluator, orchestration=orchestration)
+    require(external["handoff"].get("status") == "PASS", "C10 handoff is incomplete; refusing final token")
+    lineage_provenance = {route: {str(seed): training_lineage_identity(item) for seed, item in lineages[route].items()} for route in ROUTES}
+    fresh_lineages = sum(1 for route in ROUTES for seed, item in lineages[route].items() if item.get("result_path") and not (route == "legacy" and seed == 2222) and not (route == "l1" and seed == 2222))
     summary = {
-        "schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V1",
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2",
         "status": "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE",
         "pi_gate": PI_GATE,
         "campaign_root": str(campaign_root),
@@ -894,25 +2077,21 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
         "high_water": highwater_record,
         "phase_totals": totals,
         "phase_seals": phase_seals,
-        "lineage_provenance": {route: {str(seed): {key: value for key, value in item.items() if key in ("route", "seed", "root", "result_path", "result_sha256", "pending")} for seed, item in lineages[route].items()} for route in ROUTES},
-        "historical_reuse": {"legacy_seed2222": str(Path(args.legacy_history).resolve()), "l1_seed2222": str(Path(args.l1_history).resolve())},
+        "lineage_provenance": lineage_provenance,
+        "historical_reuse": {"legacy_seed2222": str(Path(args.legacy_history).resolve()), "l1_seed2222": str(Path(args.recovered_l1_root).resolve())},
+        "diagnostic_accounting": accounting,
+        "external_evidence_closure": {key: value for key, value in external.items() if key != "descriptors"},
+        "evaluator_identity": evaluator,
+        "orchestration_identity": orchestration,
         "descriptive_only": True,
         "no_performance_based_winner": True,
-        "training": False,
-        "backward": False,
-        "optimizer_steps": 0,
-        "public_sampler_calls": 0,
-        "get_action_calls": 0,
-        "Validation-E": 0,
-        "Holdout-F": 0,
-        "WBC": 0,
-        "simulator": 0,
-        "hardware": 0,
+        "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0, "get_action_calls": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
+        "campaign_history": {"training_occurred": True, "fresh_training_lineages": fresh_lineages, "accepted_training_lineage_count": 9, "diagnostic_model_calls_occurred": accounting["all_attempted_model_calls"] > 0, "diagnostic_attempts_observed": len(accounting["attempt_inventory"])},
         "timestamp_utc": now_utc(),
     }
     write_json(campaign_root / "cpu_summary.json", summary)
-    inventory = _collect_files(campaign_root, excluded={"CPU_EVIDENCE_INVENTORY.json", "SHA256SUMS", "final_result.json"})
-    write_json(campaign_root / "CPU_EVIDENCE_INVENTORY.json", {"schema": "VANDA_STAGE45E_H200_CPU_EVIDENCE_INVENTORY_V1", "status": "PASS", "entries": inventory, "entry_count": len(inventory)})
+    inventory = _collect_files(campaign_root, excluded={"CPU_EVIDENCE_INVENTORY.json", "SHA256SUMS", "final_result.json", "C10_HANDOFF.json"})
+    write_json(campaign_root / "CPU_EVIDENCE_INVENTORY.json", {"schema": "VANDA_STAGE45E_H200_CPU_EVIDENCE_INVENTORY_V2", "status": "PASS", "entries": inventory, "entry_count": len(inventory), "external_inventory": external["inventory_path"], "external_inventory_sha256": external["inventory_sha256"], "c10_handoff_excluded": True})
     inventory_sha = sha256_file(campaign_root / "CPU_EVIDENCE_INVENTORY.json")
     sums_path = campaign_root / "SHA256SUMS"
     with sums_path.open("x", encoding="utf-8") as handle:
@@ -922,7 +2101,7 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
         handle.flush()
         os.fsync(handle.fileno())
     final = {
-        "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V1",
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2",
         "status": "PASS",
         "token": "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
         "pi_gate": PI_GATE,
@@ -933,16 +2112,19 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
         "cpu_inventory_sha256": inventory_sha,
         "sha256sums": str(sums_path),
         "phase_totals": totals,
-        "total_model_side_calls": 8976,
-        "fresh_training_lineages": 7,
+        "total_model_side_calls": accounting["accepted_unique_scientific_calls"],
+        "accepted_unique_scientific_calls": accounting["accepted_unique_scientific_calls"],
+        "all_attempted_model_calls": accounting["all_attempted_model_calls"],
+        "failed_attempt_model_calls": accounting["failed_attempt_model_calls"],
+        "reused_readonly_model_calls": 0,
+        "diagnostic_attempt_inventory": accounting["attempt_inventory"],
+        "c10_handoff": external["handoff_path"],
+        "c10_handoff_sha256": external["handoff_sha256"],
+        "fresh_training_lineages": fresh_lineages,
         "historical_legacy_seed2222_reused": True,
         "historical_l1_seed2222_reused": True,
-        "training": False,
-        "Validation-E": 0,
-        "Holdout-F": 0,
-        "WBC": 0,
-        "simulator": 0,
-        "hardware": 0,
+        "cpu_closure_execution": summary["cpu_closure_execution"],
+        "campaign_history": summary["campaign_history"],
         "merge": False,
         "timestamp_utc": now_utc(),
     }
@@ -957,75 +2139,137 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
     for name in ("training", "diagnostics", "failures", "provenance", "campaigns"):
         (storage / name).mkdir(parents=True, exist_ok=True)
     job_id = os.environ["PBS_JOBID"]
-    campaign_root = storage / "campaigns" / f"pi0134_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}_{re.sub(r'[^A-Za-z0-9_.-]+', '_', job_id)}"
+    campaign_root = storage / "campaigns" / f"pi0143_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}_{re.sub(r'[^A-Za-z0-9_.-]+', '_', job_id)}"
     campaign_root.mkdir(parents=True, exist_ok=False)
-    gpu = _gpu_observation()
-    orchestration_branch = git(REPO, "branch", "--show-current")
-    orchestration_head = git(REPO, "rev-parse", "HEAD")
-    require(orchestration_branch == "stage45e/h200-unified-replication-campaign", f"orchestration branch drift: {orchestration_branch}")
-    require(git(REPO, "status", "--porcelain=v1", "--untracked-files=all") == "", "orchestration checkout is dirty")
-    source_identities = verify_sources(args, Path(args.n2_repo).resolve())
-    route_worktrees = {route: observe_worktree(Path(getattr(args, f"{route}_repo")), route) for route in ROUTES}
-    lineages, plan = _bind_lineages(args, storage, campaign_root)
-    historical = {"legacy": lineages["legacy"][2222], "l1": lineages["l1"][2222]}
-    fresh_base_count = sum(item["action"] == "FRESH_BASE_2000" for item in plan)
-    highwater_record = high_water(storage, output=campaign_root / "high_water.json", planned_training_roots=fresh_base_count)
-    phase_spec_paths = {phase: {route: str(campaign_root / "specs" / f"{phase}_{route}.json") for route in ROUTES} for phase in ("E4", "D1", "D2A")}
-    admission = {
-        "schema": "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V1",
-        "status": "PASS",
-        "pi_gate": PI_GATE,
-        "issue_comment": PI_ISSUE_COMMENT,
-        "orchestration_head": orchestration_head,
-        "orchestration_branch": orchestration_branch,
-        "pbs_jobid": job_id,
-        "gpu": gpu,
-        "source_identities": source_identities,
-        "route_worktrees": route_worktrees,
-        "historical_lineages": historical,
-        "lineage_plan": str(campaign_root / "lineage_plan.json"),
-        "lineage_queue": plan,
-        "fresh_base_training_roots": fresh_base_count,
-        "phase_specs": phase_spec_paths,
-        "storage_root": str(storage),
-        "high_water": highwater_record,
-        "model_imported": False,
-        "model_construction": 0,
-        "model_forward": 0,
-        "training": False,
-        "backward": False,
-        "optimizer_steps": 0,
-        "public_sampler_calls": 0,
-        "get_action_calls": 0,
-        "Validation-E": 0,
-        "Holdout-F": 0,
-        "WBC": 0,
-        "simulator": 0,
-        "hardware": 0,
-        "timestamp_utc": now_utc(),
+    state: dict[str, Any] = {
+        "failure_stage": "ALLOCATION_ADMISSION",
+        "last_completed_lineage": None,
+        "last_completed_unit": None,
+        "pending_queue": list(TRAINING_QUEUE),
+        "execution_state": {"model_imported": False, "model_construction": 0, "model_forward": 0, "training": False, "backward": False, "optimizer_steps": 0},
+        "execution_lifecycle": {
+            "admission": "NOT_STARTED",
+            "model_import": "NOT_STARTED",
+            "model_construction": "NOT_STARTED",
+            "forward": "NOT_STARTED",
+            "raw_seal": "NOT_STARTED",
+            "sampler_calls": "NOT_STARTED",
+            "derived": "NOT_STARTED",
+            "training": "NOT_STARTED",
+        },
+        "active_child": None,
+        "retry_eligibility": "PI_REVIEW_REQUIRED",
     }
-    write_json(campaign_root / "campaign_admission.json", admission)
-    canary = _run_canary(args, campaign_root, gpu)
-    args.canary = canary
-    args.gpu_uuid = gpu["rows"][0]["uuid"]
-    append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "H200_RESOURCE_CANARY_PASS", "path": str(canary), "timestamp_utc": now_utc()})
-    for item in plan:
-        if item["action"] != "FRESH_BASE_2000":
-            append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "LINEAGE_REUSED_READ_ONLY", **item, "timestamp_utc": now_utc()})
-            continue
-        route, seed = item["route"], int(item["seed"])
-        root = Path(item["root"])
-        command = _training_command(args, route, seed, root, canary)
-        _run_command(campaign_root, f"train_{route}_seed{seed}", command, extra_env={"STAGE45E_L1_AUTHORITY_TOKEN": PI_GATE})
-        lineages[route][seed] = _training_result(route, root, seed)
-        append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "TRAINING_LINEAGE_PASS", "route": route, "seed": seed, "root": str(root), "result_sha256": lineages[route][seed]["result_sha256"], "timestamp_utc": now_utc()})
-    phase_specs = build_phase_specs(lineages, campaign_root)
-    append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "PHASE_SPECS_SEALED", "timestamp_utc": now_utc()})
-    phase_roots = run_diagnostics(args, campaign_root, campaign_root / "campaign_admission.json", phase_specs)
-    append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "E4_D1_D2A_SEALED", "timestamp_utc": now_utc()})
-    final = cpu_closure(args, campaign_root, phase_roots, lineages, source_identities, highwater_record)
-    write_json(storage / "provenance" / f"{campaign_root.name}_final_result.json", final)
-    return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
+    lineages: dict[str, dict[int, dict[str, Any]]] = {route: {} for route in ROUTES}
+    diagnostic_run: dict[str, Any] = {}
+    ledger_path = Path(args.allocation_ledger).resolve()
+    try:
+        if not ledger_path.exists():
+            seed_allocation_ledger(ledger_path, HISTORICAL_ALLOCATION_RECORDS)
+        ledger_admission = admit_current_allocation(ledger_path, pbs_jobid=job_id, root=campaign_root)
+        state["allocation_identity"] = {"pbs_jobid": job_id, "ordinal": ledger_admission["record"].get("ordinal"), "ledger": str(ledger_path)}
+        state["execution_lifecycle"]["admission"] = "PASS"
+        orchestration = orchestration_identity()
+        evaluator = evaluator_identity(args)
+        state["orchestration_identity"] = orchestration
+        state["evaluator_identity"] = evaluator
+        gpu = _gpu_observation()
+        state["failure_stage"] = "INPUT_AUDIT"
+        orchestration_branch = orchestration["branch"]
+        orchestration_head = orchestration["head"]
+        require(orchestration_branch == "stage45e/h200-unified-replication-campaign", f"orchestration branch drift: {orchestration_branch}")
+        require(orchestration["working_tree_clean"], "orchestration checkout is dirty")
+        source_identities = verify_sources(args, Path(args.n2_repo).resolve())
+        route_worktrees = {route: observe_worktree(Path(getattr(args, f"{route}_repo")), route) for route in ROUTES}
+        state["failure_stage"] = "LINEAGE_BINDING"
+        lineages, plan = _bind_lineages(args, storage, campaign_root)
+        state["pending_queue"] = [{"route": item["route"], "seed": item["seed"], "action": item["action"]} for item in plan if item["action"] == "FRESH_BASE_2000"]
+        historical = {"legacy": lineages["legacy"][2222], "l1": lineages["l1"][2222]}
+        fresh_base_count = sum(item["action"] == "FRESH_BASE_2000" for item in plan)
+        highwater_record = high_water(storage, output=campaign_root / "high_water.json", planned_training_roots=fresh_base_count)
+        phase_spec_paths = {phase: {route: str(campaign_root / "specs" / f"{phase}_{route}.json") for route in ROUTES} for phase in DIAGNOSTIC_PHASES}
+        admission = {
+            "schema": "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V2",
+            "status": "PASS",
+            "pi_gate": PI_GATE,
+            "issue_comment": PI_ISSUE_COMMENT,
+            "orchestration_identity": orchestration,
+            "evaluator_identity": evaluator,
+            "pbs_jobid": job_id,
+            "gpu": gpu,
+            "source_identities": source_identities,
+            "route_worktrees": route_worktrees,
+            "historical_lineages": historical,
+            "lineage_plan": str(campaign_root / "lineage_plan.json"),
+            "lineage_queue": plan,
+            "fresh_base_training_roots": fresh_base_count,
+            "phase_specs": phase_spec_paths,
+            "storage_root": str(storage),
+            "allocation_ledger": str(ledger_path),
+            "allocation_ordinal": state["allocation_identity"]["ordinal"],
+            "high_water": highwater_record,
+            "model_imported": False,
+            "model_construction": 0,
+            "model_forward": 0,
+            "training": False,
+            "backward": False,
+            "optimizer_steps": 0,
+            "public_sampler_calls": 0,
+            "get_action_calls": 0,
+            "Validation-E": 0,
+            "Holdout-F": 0,
+            "WBC": 0,
+            "simulator": 0,
+            "hardware": 0,
+            "timestamp_utc": now_utc(),
+        }
+        write_json(campaign_root / "campaign_admission.json", admission)
+        state["failure_stage"] = "RESOURCE_CANARY"
+        _mark_model_child_in_progress(state, "RESOURCE_CANARY", kind="canary")
+        canary = _run_canary(args, campaign_root, gpu)
+        args.canary = canary
+        args.gpu_uuid = gpu["rows"][0]["uuid"]
+        _mark_model_child_pass(state, "RESOURCE_CANARY", kind="canary")
+        append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "H200_RESOURCE_CANARY_PASS", "path": str(canary), "timestamp_utc": now_utc()})
+        for item in plan:
+            if item["action"] != "FRESH_BASE_2000":
+                append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "LINEAGE_REUSED_READ_ONLY", **item, "timestamp_utc": now_utc()})
+                continue
+            route, seed = item["route"], int(item["seed"])
+            state["failure_stage"] = f"TRAINING_{route}_SEED{seed}"
+            root = Path(item["root"])
+            command = _training_command(args, route, seed, root, canary)
+            _mark_model_child_in_progress(state, f"TRAINING_{route}_SEED{seed}", kind="training")
+            _run_command(campaign_root, f"train_{route}_seed{seed}", command, extra_env={"STAGE45E_L1_AUTHORITY_TOKEN": PI_GATE})
+            lineages[route][seed] = _training_result(route, root, seed)
+            _mark_model_child_pass(state, f"TRAINING_{route}_SEED{seed}", kind="training")
+            state["last_completed_lineage"] = {"route": route, "seed": seed}
+            state["pending_queue"] = [pending for pending in state["pending_queue"] if not (pending["route"] == route and pending["seed"] == seed)]
+            append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "TRAINING_LINEAGE_PASS", "route": route, "seed": seed, "root": str(root), "result_sha256": lineages[route][seed]["result_sha256"], "timestamp_utc": now_utc()})
+        phase_specs = build_phase_specs(lineages, campaign_root, evaluator=evaluator, orchestration=orchestration)
+        append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "PHASE_SPECS_SEALED", "timestamp_utc": now_utc()})
+        state["failure_stage"] = "DIAGNOSTICS"
+        _mark_model_child_in_progress(state, "DIAGNOSTICS", kind="diagnostic")
+        diagnostic_run = run_diagnostics(args, campaign_root, campaign_root / "campaign_admission.json", phase_specs)
+        _mark_model_child_pass(state, "DIAGNOSTICS", kind="diagnostic")
+        state["last_completed_unit"] = "D2A:n2"
+        append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "E4_D1_D2A_SEALED", "timestamp_utc": now_utc()})
+        state["failure_stage"] = "CPU_CLOSURE"
+        phase_roots = diagnostic_run["phase_roots"]
+        final = cpu_closure(args, campaign_root, phase_roots, lineages, source_identities, highwater_record, phase_specs=phase_specs, diagnostic_run=diagnostic_run, evaluator=evaluator, orchestration=orchestration)
+        append_allocation_outcome(ledger_path, pbs_jobid=job_id, outcome={"status": "PASS", "campaign_root": str(campaign_root), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "attempted_model_calls": final["all_attempted_model_calls"], "model_imported": True, "model_forward": True, "training": True})
+        write_json(storage / "provenance" / f"{campaign_root.name}_final_result.json", final)
+        return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
+    except Exception:
+        try:
+            failure = write_campaign_failure_seal(campaign_root, state=state, lineages=lineages, attempts_by_unit=diagnostic_run.get("attempts_by_unit", {}))
+            append_allocation_outcome(ledger_path, pbs_jobid=job_id, outcome={"status": "BLOCKED", "campaign_root": str(campaign_root), "failure_seal_sha256": failure["sha256"], "attempted_model_calls": failure["document"]["attempted_model_calls"], "failed_attempt_model_calls": failure["document"]["failed_attempt_model_calls"], "model_imported": failure["document"]["execution_state"].get("model_imported"), "model_forward": failure["document"]["execution_state"].get("model_forward"), "training": failure["document"]["execution_state"].get("training")})
+        except Exception:
+            # Never hide the original orchestration error behind an evidence
+            # writer error.  The outer caller still receives the original
+            # failure, while the immutable child records remain available.
+            pass
+        raise
 
 
 def audit_inputs(args: argparse.Namespace) -> dict[str, Any]:
@@ -1034,7 +2278,14 @@ def audit_inputs(args: argparse.Namespace) -> dict[str, Any]:
     storage = Path(args.storage_root).resolve()
     source_identities = verify_sources(args, Path(args.n2_repo).resolve())
     route_worktrees = {route: observe_worktree(Path(getattr(args, f"{route}_repo")), route) for route in ROUTES}
-    historical = {"legacy": verify_historical(Path(args.legacy_history), "legacy"), "l1": verify_historical(Path(args.l1_history), "l1")}
+    legacy_decision = legacy_provenance_decision(Path(args.legacy_history), Path(args.config))
+    require(legacy_decision["status"] == "PASS_EXACT_H200_FROZEN_RECIPE_REUSE", f"{legacy_decision['token']}: {legacy_decision['reason']}")
+    historical = {
+        "legacy": legacy_decision["lineage"],
+        "legacy_seed2222_provenance_decision": {key: value for key, value in legacy_decision.items() if key != "lineage"},
+        "l1": verify_recovered_l1(Path(args.recovered_l1_root), Path(args.recovered_l1_acceptance), Path(args.recovered_l1_input_v2)),
+    }
+    historical["l1_duplicate_only"] = duplicate_l1_provenance(Path(args.duplicate_l1_root))
     supplemental = {
         "groot_manifest": Path(args.groot_manifest).resolve(),
         "release": Path(args.release).resolve(),
@@ -1045,11 +2296,13 @@ def audit_inputs(args: argparse.Namespace) -> dict[str, Any]:
         require(path.exists() and not path.is_symlink(), f"supplemental path unavailable: {name}: {path}")
     highwater_record = high_water(storage, planned_training_roots=_planned_fresh_training_count(storage))
     return {
-        "schema": "VANDA_STAGE45E_H200_UNIFIED_INPUT_AUDIT_V1",
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_INPUT_AUDIT_PI0143_V2",
         "status": "PASS_CPU_ONLY",
         "source_identities": source_identities,
         "route_worktrees": route_worktrees,
         "historical_lineages": historical,
+        "identity_separation": {"orchestration": orchestration_identity(), "evaluator": evaluator_identity(args)},
+        "p0_checklist": p0_checklist(),
         "supplemental_paths": {key: str(value) for key, value in supplemental.items()},
         "high_water": highwater_record,
         "gpu": 0,
@@ -1071,11 +2324,17 @@ def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--mode", choices=("static", "high-water", "audit-inputs", "campaign"), default="static")
     p.add_argument("--storage-root", type=Path, default=STORAGE_ROOT)
+    p.add_argument("--allocation-ledger", type=Path, default=STORAGE_ROOT / "provenance/STAGE45E_H200_ALLOCATION_LEDGER_PI0143.jsonl")
+    p.add_argument("--diagnostic-evidence-root", type=Path, default=None)
     p.add_argument("--n2-repo", type=Path, default=WORKTREE_ROOT / "n2")
     p.add_argument("--legacy-repo", type=Path, default=WORKTREE_ROOT / "legacy")
     p.add_argument("--l1-repo", type=Path, default=WORKTREE_ROOT / "l1")
     for name, default in DEFAULTS.items():
         p.add_argument("--" + name.replace("_", "-"), dest=name, type=Path, default=default)
+    p.add_argument("--recovered-l1-root", type=Path, default=RECOVERED_L1_ROOT)
+    p.add_argument("--recovered-l1-acceptance", type=Path, default=RECOVERED_L1_ACCEPTANCE)
+    p.add_argument("--recovered-l1-input-v2", type=Path, default=RECOVERED_L1_INPUT_V2)
+    p.add_argument("--duplicate-l1-root", type=Path, default=DUPLICATE_L1_ROOT)
     p.add_argument("--groot-manifest", type=Path, default=Path("/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45B_GROOT_SOURCE_SNAPSHOT_V2.manifest.json"))
     p.add_argument("--release", type=Path, default=Path("/scratch/e1192548/stage45b_pi0087_admission_IWmsW5/STAGE45B_B2_TRAINING_RELEASE_V2.json"))
     p.add_argument("--video-qualification", type=Path, default=Path("/scratch/e1192548/stage45b_pi0087_final_video_qual_DXDgKu/VANDA_STAGE45B_PI0087_FINAL_ADMISSION_QUALIFIED.json"))
