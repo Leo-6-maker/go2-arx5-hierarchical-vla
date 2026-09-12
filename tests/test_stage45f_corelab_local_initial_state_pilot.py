@@ -2,6 +2,7 @@ import ast
 import json
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12,7 +13,9 @@ MANIFEST = ROOT / "manifests/STAGE45F_CORELAB_LOCAL_INITIAL_STATE_PILOT_V1.json"
 class LocalInitialStatePilotStaticTests(unittest.TestCase):
     def test_manifest_contract(self):
         value = json.loads(MANIFEST.read_text(encoding="utf-8"))
-        self.assertEqual(value["authority"]["pi_gate"], "PI_GATE_STATE_0150")
+        self.assertEqual(value["authority"]["pi_gate"], "PI_GATE_STATE_0151")
+        self.assertEqual(value["authority"]["issue_comment"], 5647041070)
+        self.assertEqual(value["authority"]["pr_pointer_comment"], 5647043444)
         self.assertEqual(value["repository"]["base_head"], "d762e731d2c11ceea3c001c37ac27890fe6f4e70")
         self.assertEqual(value["local_reference"]["seed"], 2223)
         self.assertEqual(value["budget"]["conditioning_passes"], 6)
@@ -35,6 +38,42 @@ class LocalInitialStatePilotStaticTests(unittest.TestCase):
             self.assertIn(token, text)
         self.assertIn("action_head_calls\"] == 24", text)
         self.assertIn("conditioning_passes\"] == 6", text)
+
+    def test_uuid_allowlist_accepts_nondefault_live_device_and_prefers_32gb(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("pilot", SCRIPT)
+        pilot = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(pilot)
+        rows = [
+            {"index": 0, "name": "NVIDIA GeForce RTX 4080 SUPER", "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad", "memory_total_mib": 32760, "memory_free_mib": 15000},
+            {"index": 1, "name": "NVIDIA GeForce RTX 4080 SUPER", "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd", "memory_total_mib": 16376, "memory_free_mib": 15900},
+        ]
+        selected = pilot._select_gpu_row(rows, "corelab-4080s", None)
+        self.assertEqual(selected["uuid"], "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad")
+        self.assertEqual(pilot._select_gpu_row(rows, "corelab-4080s", rows[1]["uuid"])["uuid"], rows[1]["uuid"])
+
+    def test_attempt_lock_is_atomic_and_second_attempt_is_rejected(self):
+        import importlib.util
+        import tempfile
+        spec = importlib.util.spec_from_file_location("pilot", SCRIPT)
+        pilot = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(pilot)
+        with tempfile.TemporaryDirectory() as root:
+            control = Path(root) / "control"
+            gpu = {"uuid": "GPU-test", "index": 0}
+            lock, attempt = pilot._attempt_lock(control, repository_head="abc", output_root=Path(root) / "out", gpu=gpu, noise_sha256="noise")
+            self.assertTrue(lock.is_file())
+            with self.assertRaises(pilot.PilotError):
+                pilot._attempt_lock(control, repository_head="abc", output_root=Path(root) / "out2", gpu=gpu, noise_sha256="noise")
+            pilot._finish_attempt(lock, attempt, status="FAILED_OR_PARTIAL", counters={"exceptions": 1})
+            value = json.loads(lock.read_text(encoding="utf-8"))
+            self.assertEqual(value["status"], "FAILED_OR_PARTIAL")
+
+    def test_raw_analysis_phase_is_separate_from_model_loop(self):
+        text = SCRIPT.read_text(encoding="utf-8")
+        self.assertIn("_analyze_raw_records(raw_records", text)
+        self.assertLess(text.index("raw_records.append"), text.rindex("_analyze_raw_records(raw_records"))
+        self.assertIn("CPU-only raw->decoded->metrics phase", text)
 
 
 if __name__ == "__main__":
