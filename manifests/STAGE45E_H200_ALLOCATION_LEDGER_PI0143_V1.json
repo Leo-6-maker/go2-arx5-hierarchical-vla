@@ -41,14 +41,22 @@
       "allocation_kind": "SCIENCE",
       "ordinal": 3,
       "pbs_jobid": "612918.hopper-m-02",
-      "status": "PASS_WITH_LEGACY_L1_N2_TRAINING_AND_L1_CHILD_FAILURE",
+      "status": "PASS_LEGACY2223_2224_TRAINING_L1_SEED2223_PRE_MODEL_FAILURE",
       "evidence_status": "HISTORICAL_EXTERNAL_RECORD_REFERENCED",
       "root": null,
-      "attempted_model_calls": 0,
+      "attempted_model_calls": null,
+      "attempted_model_calls_complete": false,
+      "counter_domain": "TRAINING_NOT_DIAGNOSTIC",
+      "route_outcomes": {
+        "legacy_seed2223": "TRAINING_PASS",
+        "legacy_seed2224": "TRAINING_PASS",
+        "l1_seed2223": "PRE_MODEL_FAILURE"
+      },
+      "historical_correction_id": "PI0145-ALLOCATION-3-001",
       "failure_seal_sha256": null,
       "historical_record_only": true,
-      "model_imported": true,
-      "model_forward": 0,
+      "model_imported": "MIXED_TRAINING_AND_PRE_MODEL_FAILURE",
+      "model_forward": null,
       "training": true,
       "consumed": true
     }

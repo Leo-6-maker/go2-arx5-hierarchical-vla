@@ -237,111 +237,142 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     require(route in ROUTE_HEADS, f"unsupported route: {route}")
     require(phase in ("E4", "D1", "D2A"), f"unsupported phase: {phase}")
     output = Path(args.output_root).resolve()
-    admission, spec_doc = _validate_admission(Path(args.admission).resolve(), route, phase, output)
-    gpu = _gpu_observation()
-    paths = {name: Path(getattr(args, name)).resolve() for name in ("base_model", "dataset", "groot", "cosmos", "modality", "config", "stats", "sealed_baseline", "snapshot_preflight")}
-    for name, path in paths.items():
-        require(path.exists() and not path.is_symlink(), f"source path unavailable: {name}: {path}")
-    stats_sha = N2_STATS_SHA if route == "n2" else RUNTIME_STATS_SHA
-    payload_sha = N2_STATS_PAYLOAD_SHA if route == "n2" else RUNTIME_STATS_PAYLOAD_SHA
-    require(sha256_file(paths["stats"]) == stats_sha, f"{route} statistics outer SHA drift")
-    stats_doc = read_json(paths["stats"])
-    require(stats_doc.get("statistics_payload_sha256") == payload_sha, f"{route} statistics payload SHA drift")
-    route_repo = Path(args.route_repo).resolve()
-    require(git(route_repo, "branch", "--show-current") == ROUTE_BRANCHES[route], f"route branch drift: {route_repo}")
-    require(git(route_repo, "rev-parse", "HEAD") == ROUTE_HEADS[route], f"route HEAD drift: {route_repo}")
-    require(git(route_repo, "status", "--porcelain=v1", "--untracked-files=all") == "", f"route checkout is dirty: {route_repo}")
-    helper_script = Path(args.helper_script).resolve()
-    route_script = helper_script
-    require(route_script.is_file() and not route_script.is_symlink(), f"route diagnostic source unavailable: {route_script}")
-    specs = spec_doc["checkpoints"]
-    # The accepted route helpers own creation of the diagnostic output root
-    # and require it not to exist at their entrypoint.  Keep the pre-model
-    # admission durable in a sibling sidecar until the helper has created its
-    # root; materialize the exact same record inside the root afterwards.
-    pre_model_sidecar = output.parent / f".{output.name}.pre_model_admission.json"
-    require(not pre_model_sidecar.exists() and not pre_model_sidecar.is_symlink(), f"pre-model admission sidecar must be fresh: {pre_model_sidecar}")
-    pre_model_record = {
-        "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTICS_PRE_MODEL_ADMISSION_V1",
-        "status": "PASS",
-        "route": route,
-        "phase": phase,
-        "pi_gate": PI_GATE,
-        "route_head": ROUTE_HEADS[route],
-        "route_branch": ROUTE_BRANCHES[route],
-        "route_repo": str(route_repo),
-        "helper_script": str(helper_script),
-        "source_paths": {key: str(value) for key, value in paths.items()},
-        "stats_sha256": stats_sha,
-        "stats_payload_sha256": payload_sha,
-        "checkpoint_spec_sha256": sha256_file(Path(admission["phase_specs"][phase][route]).resolve()),
-        "phase_spec_sha256": sha256_file(specs_path),
-        "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
-        "evaluation_identity": specs_doc.get("evaluation_identity", {}),
-        "orchestration_identity": specs_doc.get("orchestration_identity", {}),
-        "gpu": gpu,
+    admission: dict[str, Any] = {}
+    spec_doc: dict[str, Any] = {}
+    spec_path: Path | None = None
+    specs: list[dict[str, Any]] = []
+    paths: dict[str, Path] = {}
+    pre_model_record: dict[str, Any] = {}
+    pre_model_sidecar: Path | None = None
+    lifecycle: dict[str, Any] = {
+        "admission": "NOT_STARTED",
+        "model_import": "NOT_STARTED",
+        "model_construction": "NOT_STARTED",
+        "forward": "NOT_STARTED",
+        "raw_seal": "NOT_STARTED",
+        "sampler_calls": "FORBIDDEN_ZERO",
+        "derived": "NOT_STARTED",
+        "training": "NOT_STARTED",
+    }
+    execution_state: dict[str, Any] = {
+        "admission": "NOT_STARTED",
+        "dynamic_runtime_import": "NOT_STARTED",
         "model_imported": False,
         "model_construction": 0,
         "model_forward": 0,
         "training": False,
         "backward": False,
         "optimizer_steps": 0,
-        "public_sampler_calls": 0,
-        "get_action_calls": 0,
-        "Validation-E": 0,
-        "Holdout-F": 0,
-        "WBC": 0,
-        "simulator": 0,
-        "hardware": 0,
-        "output_root": str(output),
-        "sidecar_path": str(pre_model_sidecar),
     }
-    write_json(pre_model_sidecar, pre_model_record)
-    # The dynamic import below is the first point where the accepted runtime
-    # can import Torch/GR00T transitively.  Every identity and freshness
-    # predicate above has already passed at this point.
-    # Bind the accepted GR00T source explicitly because the PBS launcher
-    # intentionally clears PYTHONPATH.  This only changes import resolution;
-    # it does not import model code before the admission record is sealed.
-    sys.path.insert(0, str(paths["groot"]))
-    module = _load_module(route_script)
-    module.REPO = route_repo
-    module.BRANCH = ROUTE_BRANCHES[route]
-    module.PI_GATE = PI_GATE
-    module.RUNTIME_STATS_SHA = stats_sha
-    module.RUNTIME_STATS_PAYLOAD_SHA = payload_sha
-    identity = admission["source_identities"]
-    original_require = module.require
-
-    def patched_require(condition: bool, message: str) -> None:
-        # The historical route helper has a four-arm budget assertion.  The
-        # unified wrapper replaces only that aggregate assertion with the
-        # PI0143 exact arm-count check below; all other route assertions stay
-        # fail-closed.
-        if not condition and ("total budget drift" in message or "total_model_side_calls" in message):
-            return
-        original_require(condition, message)
-
-    module.require = patched_require
-    module.verify_identities = lambda _paths: identity
-    module.checkpoint_specs = lambda _args: [dict(item, tree_sha256=item["tree_sha256"]) for item in specs]
-    original_prepare_env = module.prepare_env
-
-    def prepare_env(route_paths: Mapping[str, Path], route_output: Path, route_gpu: Mapping[str, Any]) -> None:
-        original_prepare_env(route_paths, route_output, route_gpu)
-        if route == "n2":
-            os.environ["STAGE45E_N2_STATS_ARTIFACT"] = str(paths["stats"])
-
-    module.prepare_env = prepare_env
-    route_args = _route_args(
-        base=paths["base_model"], dataset=paths["dataset"], groot=paths["groot"], cosmos=paths["cosmos"],
-        modality=paths["modality"], config=paths["config"], stats=paths["stats"], sealed_baseline=paths["sealed_baseline"],
-        snapshot_preflight=paths["snapshot_preflight"], output=output,
-    )
-    route_args.seed2223_root = Path(specs[0]["path"]).parents[1] if specs else None
-    route_args.seed2224_root = route_args.seed2223_root
     try:
+        lifecycle["admission"] = "IN_PROGRESS"
+        execution_state["admission"] = "IN_PROGRESS"
+        admission, spec_doc = _validate_admission(Path(args.admission).resolve(), route, phase, output)
+        spec_path = Path(admission["phase_specs"][phase][route]).resolve()
+        specs = list(spec_doc["checkpoints"])
+        lifecycle["admission"] = "PASS"
+        execution_state["admission"] = "PASS"
+        gpu = _gpu_observation()
+        paths = {name: Path(getattr(args, name)).resolve() for name in ("base_model", "dataset", "groot", "cosmos", "modality", "config", "stats", "sealed_baseline", "snapshot_preflight")}
+        for name, path in paths.items():
+            require(path.exists() and not path.is_symlink(), f"source path unavailable: {name}: {path}")
+        stats_sha = N2_STATS_SHA if route == "n2" else RUNTIME_STATS_SHA
+        payload_sha = N2_STATS_PAYLOAD_SHA if route == "n2" else RUNTIME_STATS_PAYLOAD_SHA
+        require(sha256_file(paths["stats"]) == stats_sha, f"{route} statistics outer SHA drift")
+        stats_doc = read_json(paths["stats"])
+        require(stats_doc.get("statistics_payload_sha256") == payload_sha, f"{route} statistics payload SHA drift")
+        route_repo = Path(args.route_repo).resolve()
+        require(git(route_repo, "branch", "--show-current") == ROUTE_BRANCHES[route], f"route branch drift: {route_repo}")
+        require(git(route_repo, "rev-parse", "HEAD") == ROUTE_HEADS[route], f"route HEAD drift: {route_repo}")
+        require(git(route_repo, "status", "--porcelain=v1", "--untracked-files=all") == "", f"route checkout is dirty: {route_repo}")
+        route_script = Path(args.helper_script).resolve()
+        require(route_script.is_file() and not route_script.is_symlink(), f"route diagnostic source unavailable: {route_script}")
+        pre_model_sidecar = output.parent / f".{output.name}.pre_model_admission.json"
+        require(not pre_model_sidecar.exists() and not pre_model_sidecar.is_symlink(), f"pre-model admission sidecar must be fresh: {pre_model_sidecar}")
+        pre_model_record = {
+            "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTICS_PRE_MODEL_ADMISSION_V1",
+            "status": "PASS",
+            "route": route,
+            "phase": phase,
+            "pi_gate": PI_GATE,
+            "route_head": ROUTE_HEADS[route],
+            "route_branch": ROUTE_BRANCHES[route],
+            "route_repo": str(route_repo),
+            "helper_script": str(route_script),
+            "source_paths": {key: str(value) for key, value in paths.items()},
+            "stats_sha256": stats_sha,
+            "stats_payload_sha256": payload_sha,
+            "checkpoint_spec_sha256": sha256_file(spec_path),
+            "phase_spec_sha256": sha256_file(spec_path),
+            "scientific_spec_identity_sha256": spec_doc.get("scientific_identity_sha256"),
+            "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
+            "evaluation_identity": spec_doc.get("evaluation_identity", {}),
+            "orchestration_identity": spec_doc.get("orchestration_identity", {}),
+            "gpu": gpu,
+            "model_imported": False,
+            "model_construction": 0,
+            "model_forward": 0,
+            "training": False,
+            "backward": False,
+            "optimizer_steps": 0,
+            "public_sampler_calls": 0,
+            "get_action_calls": 0,
+            "Validation-E": 0,
+            "Holdout-F": 0,
+            "WBC": 0,
+            "simulator": 0,
+            "hardware": 0,
+            "output_root": str(output),
+            "sidecar_path": str(pre_model_sidecar),
+        }
+        write_json(pre_model_sidecar, pre_model_record)
+        lifecycle["model_import"] = "IN_PROGRESS"
+        execution_state["dynamic_runtime_import"] = "IN_PROGRESS"
+        sys.path.insert(0, str(paths["groot"]))
+        try:
+            module = _load_module(route_script)
+        except Exception:
+            lifecycle["model_import"] = "UNKNOWN_AFTER_FAILURE"
+            execution_state.update({"dynamic_runtime_import": "FAILED", "model_imported": "UNKNOWN_AFTER_FAILURE"})
+            raise
+        lifecycle["model_import"] = "PASS"
+        execution_state.update({"dynamic_runtime_import": "PASS", "model_imported": True})
+        module.REPO = route_repo
+        module.BRANCH = ROUTE_BRANCHES[route]
+        module.PI_GATE = PI_GATE
+        module.RUNTIME_STATS_SHA = stats_sha
+        module.RUNTIME_STATS_PAYLOAD_SHA = payload_sha
+        identity = admission["source_identities"]
+        original_require = module.require
+
+        def patched_require(condition: bool, message: str) -> None:
+            if not condition and ("total budget drift" in message or "total_model_side_calls" in message):
+                return
+            original_require(condition, message)
+
+        module.require = patched_require
+        module.verify_identities = lambda _paths: identity
+        module.checkpoint_specs = lambda _args: [dict(item, tree_sha256=item["tree_sha256"]) for item in specs]
+        original_prepare_env = module.prepare_env
+
+        def prepare_env(route_paths: Mapping[str, Path], route_output: Path, route_gpu: Mapping[str, Any]) -> None:
+            original_prepare_env(route_paths, route_output, route_gpu)
+            if route == "n2":
+                os.environ["STAGE45E_N2_STATS_ARTIFACT"] = str(paths["stats"])
+
+        module.prepare_env = prepare_env
+        route_args = _route_args(
+            base=paths["base_model"], dataset=paths["dataset"], groot=paths["groot"], cosmos=paths["cosmos"],
+            modality=paths["modality"], config=paths["config"], stats=paths["stats"], sealed_baseline=paths["sealed_baseline"],
+            snapshot_preflight=paths["snapshot_preflight"], output=output,
+        )
+        route_args.seed2223_root = Path(specs[0]["path"]).parents[1] if specs else None
+        route_args.seed2224_root = route_args.seed2223_root
+        lifecycle.update({"model_construction": "IN_PROGRESS", "forward": "IN_PROGRESS", "raw_seal": "IN_PROGRESS", "derived": "IN_PROGRESS"})
+        execution_state.update({"model_construction": "IN_PROGRESS", "model_forward": "IN_PROGRESS"})
         result = module.e4(route_args) if phase == "E4" else module.diagnostic(route_args, phase)
+        execution_state.update({"model_construction": 1, "model_forward": 1})
+        lifecycle.update({"model_construction": "PASS", "forward": "PASS", "raw_seal": "PASS", "derived": "PASS"})
         require(output.is_dir() and not output.is_symlink(), f"route diagnostic did not create a directory output root: {output}")
         write_json(output / "pre_model_admission.json", pre_model_record)
         inner_seal_path = output / "seal.json"
@@ -368,7 +399,8 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
             "stats_sha256": stats_sha,
             "stats_payload_sha256": payload_sha,
             "checkpoints": specs,
-            "phase_spec_sha256": sha256_file(Path(admission["phase_specs"][phase][route]).resolve()),
+            "phase_spec_sha256": sha256_file(spec_path),
+            "scientific_spec_identity_sha256": spec_doc.get("scientific_identity_sha256"),
             "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
             "evaluation_identity": spec_doc.get("evaluation_identity", {}),
             "orchestration_identity": spec_doc.get("orchestration_identity", {}),
@@ -393,41 +425,55 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         write_json(output / "unified_phase_seal.json", unified)
         return unified
     except Exception as exc:
-        # Preserve the pre-model record even when the route helper fails
-        # after creating the root.  If import/initialization fails before the
-        # helper owns the root, create a failure-only root now, after all
-        # admission checks and the dynamic import attempt have failed.
-        if not output.exists():
+        # A stale output root is an input violation.  Never append a failure
+        # seal to that existing evidence; use a fresh sibling failure root so
+        # the failed attempt remains durable without mutating the prior run.
+        failure_root = output
+        if output.exists():
+            failure_root = output.parent / f".{output.name}.failure"
+            require(not failure_root.exists() and not failure_root.is_symlink(), f"failure evidence sibling is not fresh: {failure_root}")
+            failure_root.mkdir(parents=True, exist_ok=False)
+        else:
             output.mkdir(parents=True, exist_ok=False)
-        if output.is_dir() and not output.is_symlink() and not (output / "pre_model_admission.json").exists():
+        if output.is_dir() and not output.is_symlink() and pre_model_record and not (output / "pre_model_admission.json").exists():
             write_json(output / "pre_model_admission.json", pre_model_record)
+        for key in ("model_construction", "model_forward"):
+            if execution_state.get(key) == "IN_PROGRESS":
+                execution_state[key] = "UNKNOWN_AFTER_FAILURE"
+        for key in ("model_construction", "forward", "raw_seal", "derived"):
+            if lifecycle.get(key) == "IN_PROGRESS":
+                lifecycle[key] = "UNKNOWN_AFTER_FAILURE"
+        unknown = any(isinstance(execution_state.get(key), str) and "UNKNOWN" in execution_state.get(key) for key in ("model_imported", "model_construction", "model_forward"))
+        model_execution_started: bool | str = "UNKNOWN" if unknown else bool(execution_state.get("model_imported") is True or execution_state.get("model_construction") not in (False, 0, "NOT_STARTED") or execution_state.get("model_forward") not in (False, 0, "NOT_STARTED"))
+        retry_eligibility = "PRE_MODEL_ONLY" if model_execution_started is False and lifecycle.get("raw_seal") == "NOT_STARTED" and lifecycle.get("derived") == "NOT_STARTED" else "PI_REVIEW_REQUIRED"
+        phase_spec_sha = sha256_file(spec_path) if spec_path is not None and spec_path.is_file() else None
         failure = {
             "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V2",
             "status": "BLOCKED",
             "route": route,
             "phase": phase,
             "route_head": ROUTE_HEADS[route],
-            "pre_model_admission": str(output / "pre_model_admission.json"),
-            "phase_spec_sha256": sha256_file(Path(admission["phase_specs"][phase][route]).resolve()),
+            "pre_model_admission": str((output / "pre_model_admission.json") if pre_model_record else ""),
+            "failure_root": str(failure_root),
+            "phase_spec_sha256": phase_spec_sha,
+            "scientific_spec_identity_sha256": spec_doc.get("scientific_identity_sha256"),
             "training_lineage_identities": [item.get("training_lineage_identity", {}) for item in specs],
             "evaluation_identity": spec_doc.get("evaluation_identity", {}),
             "orchestration_identity": spec_doc.get("orchestration_identity", {}),
-            "execution_state": {
-                "admission": "PASS",
-                "dynamic_runtime_import": "ATTEMPTED",
-                "model_imported": "UNKNOWN",
-                "model_construction": "UNKNOWN",
-                "model_forward": "UNKNOWN",
-                "training": False,
-                "backward": False,
-                "optimizer_steps": 0,
-            },
+            "execution_state": execution_state,
+            "execution_lifecycle": lifecycle,
+            "model_execution_started": model_execution_started,
+            "retry_eligibility": retry_eligibility,
+            "observed_counters": {},
+            "raw_seal": lifecycle.get("raw_seal"),
+            "derived": lifecycle.get("derived"),
             "error": f"{type(exc).__name__}: {exc}",
             "traceback": traceback.format_exc(),
-            "retry_or_substitution": False,
             "timestamp_utc": now_utc(),
         }
-        write_json(output / "unified_failure_seal.json", failure, overwrite=True)
+        failure_path = failure_root / "unified_failure_seal.json"
+        if not failure_path.exists():
+            write_json(failure_path, failure)
         raise
 
 

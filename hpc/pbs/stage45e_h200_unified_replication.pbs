@@ -48,7 +48,10 @@ exec "$ORCH_PY" "$ORCH_REPO/scripts/stage45e_h200_unified_replication.py" \
   --sealed-baseline /scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910 \
   --snapshot-preflight /scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910/stage45c_runtime_preflight.json \
   --legacy-history /scratch/e1192548/stage45b_pi0087_b2_h200_20260909T052311Z \
-  --l1-history /scratch/e1192548/stage45e_l1_h200_20260911_f77f9e02_612342.hopper-m-02 \
+  --recovered-l1-root /scratch/e1192548/stage45e_l1_h200_20260911_377b5012_612326.hopper-m-02 \
+  --recovered-l1-acceptance /scratch/e1192548/stage45e_l1_612326_recovery_v2_20260912_2e2780110b62/stage45e_l1_612326_contract_bound_acceptance.json \
+  --recovered-l1-input-v2 /scratch/e1192548/stage45e_l1_612326_recovery_v2_20260912_2e2780110b62/stage45e_l1_recovered_training_eval_input_v2.json \
+  --duplicate-l1-root /scratch/e1192548/stage45e_l1_h200_20260911_f77f9e02_612342.hopper-m-02 \
   --release /scratch/e1192548/stage45b_pi0087_admission_IWmsW5/STAGE45B_B2_TRAINING_RELEASE_V2.json \
   --video-qualification /scratch/e1192548/stage45b_pi0087_final_video_qual_DXDgKu/VANDA_STAGE45B_PI0087_FINAL_ADMISSION_QUALIFIED.json \
   --ffmpeg-root /scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf

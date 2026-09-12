@@ -165,6 +165,80 @@ def test_diagnostic_wrapper_leaves_route_output_fresh_for_canonical_helper() -> 
     assert "output.mkdir(parents=True, exist_ok=False)" not in run_phase[:helper_call]
 
 
+def test_v1_parser_default_and_run_phase_stub_cover_every_route_phase(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    assert campaign.parser().parse_args([]).diagnostic_evidence_root is None
+    helper = tmp_path / "synthetic_helper.py"
+    helper.write_text(
+        "import json\n"
+        "from pathlib import Path\n"
+        "def prepare_env(*args): pass\n"
+        "def require(condition, message):\n"
+        "    if not condition: raise RuntimeError(message)\n"
+        "def _run(args):\n"
+        "    args.output_root.mkdir(parents=True, exist_ok=False)\n"
+        "    phase = args.output_root.name.rsplit('_', 1)[-1]\n"
+        "    budget = {\"E4\": (4, 1), \"D1\": (9, 9), \"D2A\": (8, 4)}[phase]\n"
+        "    counters = {\"conditioning_passes\": 24, \"action_head_calls\": 24 * budget[0], \"raw_rows\": 24 * budget[1], \"training\": False, \"optimizer_steps\": 0, \"Validation-E\": 0, \"Holdout-F\": 0, \"WBC\": 0, \"simulator\": 0, \"hardware\": 0}\n"
+        "    (args.output_root / 'seal.json').write_text(json.dumps({'status': 'PASS', 'counters': counters}))\n"
+        "    return {'synthetic_test_only': True}\n"
+        "def e4(args): return _run(args)\n"
+        "def diagnostic(args, phase): return _run(args)\n",
+        encoding="utf-8",
+    )
+    route_repo = tmp_path / "route_repo"
+    route_repo.mkdir()
+    admission_path = tmp_path / "admission.json"
+    admission_path.write_text("{}", encoding="utf-8")
+    spec_path = tmp_path / "spec.json"
+    spec_path.write_text("{}", encoding="utf-8")
+    source_paths = {}
+    for name in ("base_model", "dataset", "groot", "cosmos", "modality", "config", "sealed_baseline", "snapshot_preflight"):
+        path = tmp_path / name
+        path.mkdir() if name in {"groot", "cosmos"} else path.write_text(name, encoding="utf-8")
+        source_paths[name] = path
+
+    def fake_admission(_path: Path, route: str, phase: str, _output: Path):
+        return ({"phase_specs": {phase: {route: str(spec_path)}}, "source_identities": {"synthetic_test_only": True}}, {"checkpoints": [{"path": str(tmp_path / "checkpoint"), "step": 1000}], "evaluation_identity": {}, "orchestration_identity": {}})
+
+    def fake_git(_repo: Path, *git_args: str) -> str:
+        if git_args[:1] == ("branch",):
+            return diagnostics.ROUTE_BRANCHES[current["route"]]
+        if git_args[:2] == ("rev-parse", "HEAD"):
+            return diagnostics.ROUTE_HEADS[current["route"]]
+        return ""
+
+    monkeypatch.setattr(diagnostics, "_validate_admission", fake_admission)
+    monkeypatch.setattr(diagnostics, "_gpu_observation", lambda: {"rows": [{"index": 0, "name": "NVIDIA H200", "uuid": "GPU-synthetic", "memory_total_mib": diagnostics.H200_VRAM_MIB, "memory_used_mib": 0}]})
+    monkeypatch.setattr(diagnostics, "git", fake_git)
+    original_sha256_file = diagnostics.sha256_file
+
+    def fake_sha256_file(path: Path) -> str:
+        if Path(path).name.startswith("stats_"):
+            return diagnostics.N2_STATS_SHA if current["route"] == "n2" else diagnostics.RUNTIME_STATS_SHA
+        return original_sha256_file(path)
+
+    monkeypatch.setattr(diagnostics, "sha256_file", fake_sha256_file)
+    current = {}
+    for route in diagnostics.ROUTE_HEADS:
+        for phase in ("E4", "D1", "D2A"):
+            current.update(route=route, phase=phase)
+            stats_path = tmp_path / f"stats_{route}"
+            stats_path.write_text(json.dumps({"statistics_payload_sha256": diagnostics.N2_STATS_PAYLOAD_SHA if route == "n2" else diagnostics.RUNTIME_STATS_PAYLOAD_SHA}), encoding="utf-8")
+            namespace = {
+                "route": route,
+                "phase": phase,
+                "route_repo": route_repo,
+                "helper_script": helper,
+                "admission": admission_path,
+                "output_root": tmp_path / f"{route}_{phase}",
+                **source_paths,
+                "stats": stats_path,
+            }
+            result = diagnostics.run_phase(diagnostics.argparse.Namespace(**namespace))
+            assert result["status"] == "PASS"
+            assert result["route"] == route and result["phase"] == phase
+
+
 def test_pbs_uses_cluster_routing_queue_and_single_h200() -> None:
     pbs = (ROOT / "hpc/pbs/stage45e_h200_unified_replication.pbs").read_text()
     assert "#PBS -q auto" in pbs
@@ -182,6 +256,15 @@ def test_pbs_binds_qualified_native_video_runtime_before_python() -> None:
     assert pbs.index("export LD_LIBRARY_PATH=") < pbs.index("exec \"$ORCH_PY\"")
 
 
+def test_pbs_binds_recovered_primary_and_has_no_stale_l1_history() -> None:
+    pbs = (ROOT / "hpc/pbs/stage45e_h200_unified_replication.pbs").read_text()
+    assert "--l1-history" not in pbs
+    assert "--recovered-l1-root" in pbs
+    assert "--recovered-l1-acceptance" in pbs
+    assert "--recovered-l1-input-v2" in pbs
+    assert "--duplicate-l1-root" in pbs
+
+
 def test_pi0143_p0_checklist_is_closed() -> None:
     checklist = campaign.p0_checklist()
     assert checklist
@@ -194,15 +277,23 @@ def test_l1_612342_cannot_be_used_as_primary(tmp_path: Path) -> None:
 
 
 def test_l1_recovered_checkpoint_document_tamper_fails_before_tree_read() -> None:
-    if not campaign.RECOVERED_L1_ROOT.exists():
+    try:
+        mounted = campaign.RECOVERED_L1_ROOT.exists()
+    except PermissionError:
+        mounted = False
+    if not mounted:
         pytest.skip("Hopper recovery evidence is not mounted on this machine")
     with pytest.raises(RuntimeError, match="SHA drift"):
-        campaign.verify_recovered_l1(expected_document_hashes={"acceptance": "0" * 64})
+        campaign.verify_recovered_l1(expected_document_hashes={"acceptance": "0" * 64}, synthetic_test_override=True)
 
 
 def test_legacy_exact_recipe_binds_immutable_config() -> None:
     config = campaign.DEFAULTS["config"]
-    if not config.exists():
+    try:
+        mounted = config.exists()
+    except PermissionError:
+        mounted = False
+    if not mounted:
         pytest.skip("Hopper frozen training config is not mounted on this machine")
     result = campaign.verify_legacy_exact_recipe(campaign.DEFAULTS["legacy_history"], config)
     assert result["config_sha256"] == campaign.CONFIG_SHA
@@ -288,8 +379,10 @@ def test_diagnostic_accounting_counts_readonly_reuse_separately() -> None:
     )
     assert report["accepted_unique_scientific_calls"] == 1680
     assert report["all_attempted_model_calls"] == 1680
-    assert report["reused_readonly_model_calls"] == 1680
-    assert report["reused_readonly_model_calls_by_unit"]["E4:legacy"] == 1680
+    assert report["reused_readonly_model_calls"] == 0
+    assert report["reused_readonly_model_calls_by_unit"]["E4:legacy"] == 0
+    assert report["reused_readonly_evidence_model_calls"] == 1680
+    assert report["reused_readonly_evidence_model_calls_by_unit"]["E4:legacy"] == 1680
 
 
 def test_duplicate_diagnostic_passes_block_continuation(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -321,6 +414,7 @@ def test_campaign_failure_seal_preserves_actual_unknown_state(tmp_path: Path) ->
             "last_completed_unit": "E4:n2",
             "pending_queue": [{"route": "D1", "seed": 2222}],
             "execution_state": {"model_imported": "UNKNOWN", "model_forward": "UNKNOWN", "training": "UNKNOWN"},
+            "execution_lifecycle": {"admission": "PASS", "model_import": "UNKNOWN_AFTER_FAILURE", "forward": "NOT_STARTED"},
         },
     )
     document = result["document"]
@@ -328,4 +422,57 @@ def test_campaign_failure_seal_preserves_actual_unknown_state(tmp_path: Path) ->
     assert document["last_completed_unit"] == "E4:n2"
     assert document["execution_state"]["model_forward"] == "UNKNOWN"
     assert document["model_execution_started"] == "UNKNOWN"
-    assert document["execution_lifecycle"] == {}
+    assert document["execution_lifecycle"]["model_import"] == "UNKNOWN_AFTER_FAILURE"
+    assert document["attempted_model_calls"] is None
+    assert document["attempted_model_calls_complete"] is False
+    assert document["unknown_counter_attempts"] == 1
+
+
+def test_v2_scientific_identity_ignores_allocation_timestamp_but_binds_inputs() -> None:
+    base = {"schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V2", "phase": "E4", "route": "legacy", "timestamp_utc": "2026-01-01T00:00:00Z", "checkpoints": [{"tree_sha256": "a" * 64}], "science_contract": {"noise_seed": 4242, "stats_sha256": campaign.RUNTIME_STATS_SHA}}
+    later = dict(base, timestamp_utc="2026-01-02T00:00:00Z")
+    changed_stats = dict(base, science_contract={"noise_seed": 4242, "stats_sha256": "b" * 64})
+    assert campaign.scientific_spec_identity_sha256(base) == campaign.scientific_spec_identity_sha256(later)
+    assert campaign.scientific_spec_identity_sha256(base) != campaign.scientific_spec_identity_sha256(changed_stats)
+
+
+def test_v3_missing_seal_counter_is_unknown_not_zero(tmp_path: Path) -> None:
+    counts = campaign._attempt_call_counts(tmp_path / "missing")
+    assert counts["model_side_calls"] is None
+    assert counts["counters_complete"] is False
+    assert campaign._sum_known_call_counts([{"counts": counts}]) is None
+
+
+def test_allocation_correction_is_source_bound_and_append_only(tmp_path: Path) -> None:
+    ledger = tmp_path / "allocation.jsonl"
+    campaign.seed_allocation_ledger(ledger, campaign.HISTORICAL_ALLOCATION_RECORDS)
+    source = tmp_path / "source.json"
+    source.write_text(json.dumps({"status": "PRE_MODEL_FAILURE", "job": "612918.hopper-m-02"}), encoding="utf-8")
+    correction = {"correction_id": "PI0145-TEST-001", "status": "SOURCE_BOUND_CORRECTION", "attempted_model_calls": None}
+    first = campaign.append_allocation_correction(ledger, pbs_jobid="612918.hopper-m-02", correction=correction, source_path=source, source_sha256=campaign.sha256_file(source))
+    assert first["status"] == "APPENDED"
+    second = campaign.append_allocation_correction(ledger, pbs_jobid="612918.hopper-m-02", correction=correction, source_path=source, source_sha256=campaign.sha256_file(source))
+    assert second["status"] == "IDEMPOTENT_OBSERVATION"
+    with pytest.raises(RuntimeError, match="conflicting allocation correction"):
+        campaign.append_allocation_correction(ledger, pbs_jobid="612918.hopper-m-02", correction=dict(correction, status="CONFLICT"), source_path=source, source_sha256=campaign.sha256_file(source))
+
+
+def test_v5_catalog_has_six_legacy_and_two_l1_required_references() -> None:
+    catalog = campaign.historical_diagnostic_evidence_catalog()
+    assert catalog["required_topology"] == {"legacy2222": 6, "l1_seed2222_e4": 2, "total_required_references": 8, "source_rows_are_not_copied": True}
+    assert set(catalog["references"]) == {"legacy", "l1"}
+    assert sum(len(steps) for steps in catalog["references"]["legacy"].values()) == 6
+    assert len(catalog["references"]["l1"]["E4"]) == 2
+    assert all(reference["raw_before_derived"] is True for phases in catalog["references"].values() for steps in phases.values() for reference in steps.values())
+
+
+def test_v6_fixture_is_consumed_by_pinned_corelab_verifier(tmp_path: Path) -> None:
+    fixture = campaign.build_corelab_producer_fixture(tmp_path)
+    assert fixture["synthetic_test_only"] is True
+    source = campaign.git(campaign.REPO, "show", f"{campaign.CORELAB_PR65_VERIFIER_HEAD}:{campaign.CORELAB_PR65_VERIFIER_PATH}")
+    namespace = {"__name__": "corelab_v6_fixture_verifier", "__file__": str(campaign.REPO / campaign.CORELAB_PR65_VERIFIER_PATH)}
+    exec(compile(source, campaign.CORELAB_PR65_VERIFIER_PATH, "exec"), namespace)
+    verified = namespace["verify_campaign"](Path(fixture["corelab_campaign"]))
+    assert verified["status"] == "PASS_READONLY_PROVENANCE_VERIFIED"
+    assert verified["checked_phase_seals"] == 9
+    assert fixture["corelab_verifier_source_head"] == campaign.CORELAB_PR65_VERIFIER_HEAD
