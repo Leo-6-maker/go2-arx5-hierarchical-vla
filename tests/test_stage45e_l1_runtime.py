@@ -71,6 +71,14 @@ def test_evaluation_seals_raw_before_decode_and_uses_all_three_arms() -> None:
     assert "install_l1_loss_patch" not in source
 
 
+def test_eval_sampler_keeps_inference_tensors_out_of_autograd() -> None:
+    source = (ROOT / "scripts/stage45e_l1_train24_eval.py").read_text(encoding="utf-8")
+    sample_call = source.index("raw, sampler_calls = stage45c._sample_one(")
+    context = source.rfind("with torch.inference_mode():", 0, sample_call)
+    assert context >= 0
+    assert source.index("raw, sampler_calls = stage45c._sample_one(", context) == sample_call
+
+
 def test_launcher_is_foreign_cwd_empty_pythonpath_and_no_retry() -> None:
     guard = launcher.static_guard()
     assert guard["status"] == "PASS"

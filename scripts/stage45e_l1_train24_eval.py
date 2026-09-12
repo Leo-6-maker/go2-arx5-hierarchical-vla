@@ -681,7 +681,13 @@ def execute(args: argparse.Namespace) -> int:
             arm_rows: list[dict[str, Any]] = []
             try:
                 for index, window in enumerate(windows):
-                    raw, sampler_calls = stage45c._sample_one(model, window["model_inputs"], noise_bank[index], torch)
+                    # _prepare_model_conditioning uses inference_mode and
+                    # therefore returns inference tensors.  Keep the direct
+                    # action-head loop in the same outer inference context;
+                    # otherwise PyTorch may try to save an inference tensor
+                    # for autograd even though this evaluator is eval-only.
+                    with torch.inference_mode():
+                        raw, sampler_calls = stage45c._sample_one(model, window["model_inputs"], noise_bank[index], torch)
                     counters["conditioning_passes"] += 1
                     counters["raw_prediction_count"] += 1
                     counters["action_head_calls"] += sampler_calls
