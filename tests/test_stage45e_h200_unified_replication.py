@@ -649,6 +649,42 @@ def test_recovery_accounting_does_not_double_count_reused_partial_calls(tmp_path
     assert report["all_attempted_model_calls"] == 480
 
 
+def test_diagnostic_failure_queue_tracks_reused_units(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    campaign_root = tmp_path / "campaign"
+    campaign_root.mkdir()
+    evidence_root = tmp_path / "diagnostics"
+    evidence_root.mkdir()
+    phase_specs = {}
+    for phase in campaign.DIAGNOSTIC_PHASES:
+        phase_specs[phase] = {}
+        for route in campaign.ROUTES:
+            spec_path = tmp_path / f"{phase}_{route}.json"
+            spec_path.write_text(json.dumps({"evaluation_identity": {}}), encoding="utf-8")
+            phase_specs[phase][route] = spec_path
+
+    def fake_selection(_storage: Path, phase: str, route: str, **_kwargs: object) -> dict[str, object]:
+        root = evidence_root / f"{phase}_{route}"
+        return {
+            "candidates": [{"phase": phase, "route": route, "root": str(root), "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 1}}],
+            "accepted": {"phase": phase, "route": route, "root": str(root), "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 1}},
+            "needs_fresh_attempt": False,
+            "recovery_source": None,
+        }
+
+    monkeypatch.setattr(campaign, "select_diagnostic_attempt", fake_selection)
+    state = {"pending_queue": [{"route": "legacy", "seed": 2223}]}
+    result = campaign.run_diagnostics(
+        type("Args", (), {"storage_root": tmp_path, "legacy_repo": tmp_path})(),
+        campaign_root,
+        tmp_path / "admission.json",
+        phase_specs,
+        state=state,
+    )
+    assert set(result["phase_roots"]) == set(campaign.DIAGNOSTIC_PHASES)
+    assert state["pending_queue"] == []
+    assert state["last_completed_unit"] == "D2A:n2"
+
+
 def test_e4_recovery_source_selects_only_missing_checkpoint_arms(tmp_path: Path) -> None:
     source = tmp_path / "prior_E4_legacy"
     source.mkdir()

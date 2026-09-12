@@ -3497,6 +3497,25 @@ def run_diagnostics(
     attempts_by_unit: dict[str, list[dict[str, Any]]] = {}
     accepted_by_unit: dict[str, dict[str, Any]] = {}
     evidence_root = Path(getattr(args, "diagnostic_evidence_root", None) or Path(args.storage_root) / "diagnostics").resolve()
+    if state is not None:
+        # The training queue is empty for the current matched-confirmation
+        # campaign.  Keep the failure seal truthful about the diagnostic work
+        # that remains, including the active unit and all later units.
+        state["pending_queue"] = [
+            {"phase": phase, "route": route, "unit_key": f"{phase}:{route}"}
+            for phase in DIAGNOSTIC_PHASES
+            for route in ROUTES
+        ]
+
+    def mark_unit_complete(phase: str, route: str) -> None:
+        if state is None:
+            return
+        state["pending_queue"] = [
+            item
+            for item in state.get("pending_queue", [])
+            if not (isinstance(item, Mapping) and item.get("phase") == phase and item.get("route") == route)
+        ]
+
     for phase in DIAGNOSTIC_PHASES:
         for route in ROUTES:
             unit_key = f"{phase}:{route}"
@@ -3513,6 +3532,7 @@ def run_diagnostics(
                 if state is not None:
                     state["last_completed_unit"] = unit_key
                     state["active_child"] = {"stage": unit_key, "kind": "diagnostic", "status": "REUSED_READ_ONLY"}
+                mark_unit_complete(phase, route)
                 append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "DIAGNOSTIC_REUSED_READ_ONLY", "unit_key": unit_key, "root": selection["accepted"]["root"], "model_calls": 0, "timestamp_utc": now_utc()})
                 continue
             output = evidence_root / f"{campaign_root.name}_{phase}_{route}"
@@ -3535,6 +3555,7 @@ def run_diagnostics(
             if state is not None:
                 state["last_completed_unit"] = unit_key
                 state["active_child"] = {"stage": unit_key, "kind": "diagnostic", "status": "PASS"}
+            mark_unit_complete(phase, route)
     return {
         "phase_roots": phase_roots,
         "attempts_by_unit": attempts_by_unit,
@@ -5526,7 +5547,7 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         state["failure_stage"] = "CPU_CLOSURE"
         phase_roots = diagnostic_run["phase_roots"]
         final = cpu_closure(args, campaign_root, phase_roots, lineages, source_identities, highwater_record, phase_specs=phase_specs, diagnostic_run=diagnostic_run, evaluator=evaluator, orchestration=orchestration)
-        append_allocation_outcome(ledger_path, pbs_jobid=job_id, outcome={"status": "PASS", "campaign_root": str(campaign_root), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "attempted_model_calls": final["all_attempted_model_calls"], "model_imported": True, "model_forward": True, "training": True})
+        append_allocation_outcome(ledger_path, pbs_jobid=job_id, outcome={"status": "PASS", "campaign_root": str(campaign_root), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "attempted_model_calls": final["all_attempted_model_calls"], "model_imported": True, "model_forward": True, "training": bool(state["execution_state"].get("training", False))})
         write_json(storage / "provenance" / f"{campaign_root.name}_final_result.json", final)
         return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "execution_authority": execution_authority(), "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
     except Exception:
