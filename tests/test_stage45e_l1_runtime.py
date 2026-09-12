@@ -1,4 +1,4 @@
-"""CPU/static regression tests for the complete PI0123 L1 execution surface."""
+"""CPU/static regression tests for the PI0133 H200 L1 replication surface."""
 
 from __future__ import annotations
 
@@ -37,6 +37,25 @@ def test_static_admission_and_execution_budget_are_frozen() -> None:
     assert admission.L1_CONTRACT["active_scalar_count"] == 190
     assert len(admission.DECODER_SOURCE_SHA256) == 64
     assert len(admission.METRICS_SOURCE_SHA256) == 64
+    assert admission.PI_GATE_COMMENT == 5642852068
+    assert admission.BRANCH == "stage45e/l1-matched-seed-replication"
+    assert admission.BASE_EXECUTION_HEAD == "c68611a9a577bd23314afaed9c6ffb7fc829e9b2"
+    assert admission.MATCHED_TRAINING_SEEDS == (2223, 2224)
+
+
+def test_matched_seed_recipe_is_late_bound_without_science_drift() -> None:
+    for seed in admission.MATCHED_TRAINING_SEEDS:
+        recipe = admission.training_recipe_for_seed(seed)
+        assert recipe["seed"] == seed
+        assert recipe["max_steps"] == 2000
+        assert recipe["learning_rate"] == admission.TRAINING_RECIPE["learning_rate"]
+        assert recipe["weight_decay"] == admission.TRAINING_RECIPE["weight_decay"]
+    try:
+        admission.training_recipe_for_seed(2222)
+    except admission.L1AdmissionError:
+        pass
+    else:
+        raise AssertionError("historical L1 seed 2222 must not enter the matched replication queue")
 
 
 def test_launcher_and_evaluator_plan_only_are_cpu_static() -> None:

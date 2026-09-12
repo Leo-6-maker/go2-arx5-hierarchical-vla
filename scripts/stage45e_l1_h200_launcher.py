@@ -206,10 +206,11 @@ def run_child(label: str, argv: Sequence[str], record_path: Path, environment: M
     return completed.returncode
 
 
-def execute(expected_head: str) -> int:
+def execute(expected_head: str, training_seed: int) -> int:
     _require(os.environ.get("STAGE45E_L1_AUTHORITY_TOKEN") == admission.AUTHORITY_TOKEN, "L1 authority token is not set")
     _require(os.environ.get("PBS_JOBID"), "PBS_JOBID is required")
     _require(expected_head and len(expected_head) == 40, "expected HEAD is required")
+    _require(training_seed in admission.MATCHED_TRAINING_SEEDS, "PI0133 L1 permits only training seeds 2223/2224")
     _require(not admission.model_imports_present(), "model module is already imported at launcher entry")
     guard = static_guard()
     _require(guard["status"] == "PASS", "launcher static guard failed")
@@ -221,8 +222,8 @@ def execute(expected_head: str) -> int:
 
     job_tag = os.environ["PBS_JOBID"].replace("/", "_")
     head8 = expected_head[:8]
-    training_root = Path(f"/scratch/e1192548/stage45e_l1_h200_20260911_{head8}_{job_tag}")
-    eval_root = Path(f"/scratch/e1192548/stage45e_l1_train24_eval_20260911_{head8}_{job_tag}")
+    training_root = Path(f"/scratch/e1192548/stage45e_l1_h200_20260912_seed{training_seed}_{head8}_{job_tag}")
+    eval_root = Path(f"/scratch/e1192548/stage45e_l1_train24_eval_20260912_seed{training_seed}_{head8}_{job_tag}")
     _require(not training_root.exists() and not eval_root.exists(), "L1 output roots must both be fresh")
     environment = child_environment()
     phase = "TRAIN_CHILD"
@@ -231,6 +232,7 @@ def execute(expected_head: str) -> int:
             str(sys.executable), str(TRAIN_SCRIPT), "--execute",
             "--output-root", str(training_root), "--expected-head", expected_head,
             "--python", str(sys.executable),
+            "--seed", str(training_seed),
         ]
         train_rc = run_child("train", train_argv, training_root.with_name(training_root.name + ".child.json"), environment, output_root=training_root)
         _require(train_rc == 0, f"L1 training child failed with returncode={train_rc}")
@@ -259,6 +261,7 @@ def execute(expected_head: str) -> int:
             "branch": BRANCH,
             "base_execution_head": admission.BASE_EXECUTION_HEAD,
             "execution_head": expected_head,
+            "training_seed": training_seed,
             "pbs_jobid": os.environ["PBS_JOBID"],
             "host": socket.gethostname(),
             "gpu": gpu,
@@ -339,6 +342,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--plan-only", action="store_true")
     modes.add_argument("--execute", action="store_true")
+    parser.add_argument("--seed", type=int)
     parser.add_argument("--expected-head", default=os.environ.get("STAGE45E_L1_EXPECTED_HEAD"))
     args = parser.parse_args(argv)
     try:
@@ -346,7 +350,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(plan(), indent=2, sort_keys=True, allow_nan=False))
             return 0
         _require(args.expected_head is not None, "--expected-head is required")
-        return execute(args.expected_head)
+        if args.seed is None:
+            parser.error("--seed is required with --execute")
+        return execute(args.expected_head, args.seed)
     except Exception as exc:
         print(f"STAGE45E_L1_LAUNCHER_BLOCKED: {type(exc).__name__}: {exc}", file=sys.stderr, flush=True)
         return 2

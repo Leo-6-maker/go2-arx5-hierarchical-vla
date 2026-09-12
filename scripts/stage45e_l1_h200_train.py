@@ -441,7 +441,7 @@ def _validate_inputs(paths: Mapping[str, Path]) -> dict[str, Any]:
 
 def _build_binding(
     checkout: Mapping[str, Any], gpu: Mapping[str, Any], runtime: Mapping[str, Any],
-    paths: Mapping[str, Path], output_root: Path, phase: str = "TRAIN",
+    paths: Mapping[str, Path], output_root: Path, phase: str = "TRAIN", training_seed: int | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     path_values = {key: str(value) for key, value in paths.items()}
     path_values["output_root"] = str(output_root)
@@ -466,6 +466,7 @@ def _build_binding(
         "authorized_head": checkout["observed_head"],
         "authorized_clean_worktree": True,
     }
+    recipe = admission.TRAINING_RECIPE if training_seed is None else admission.training_recipe_for_seed(training_seed)
     binding: dict[str, Any] = {
         "schema": admission.RUNTIME_BINDING_SCHEMA,
         "stage": admission.STAGE,
@@ -474,13 +475,14 @@ def _build_binding(
         "execution_authorized": True,
         "phase": phase,
         "base_execution_head": admission.BASE_EXECUTION_HEAD,
+        "training_seed": training_seed,
         "execution_checkout": execution_checkout,
         "runtime_identity": dict(runtime),
         "host_gpu_runtime": dict(gpu),
         "source_identities": admission.SOURCE_IDENTITIES,
         "dataset_identity": admission.DATASET_IDENTITY,
         "l1_contract": admission.L1_CONTRACT,
-        "training_recipe": admission.TRAINING_RECIPE,
+        "training_recipe": recipe,
         "evaluation_sampler": admission.EVAL_SAMPLER_CONTRACT,
         "evaluation_call_budget": admission.EVAL_CALL_BUDGET,
         "locked_boundaries": admission.LOCKED_BOUNDARIES,
@@ -501,12 +503,13 @@ def _build_binding(
     }
     observed = {
         "execution_checkout": dict(checkout),
+        "training_seed": training_seed,
         "runtime_identity": dict(runtime),
         "host_gpu_runtime": dict(gpu),
         "source_identities": admission.SOURCE_IDENTITIES,
         "dataset_identity": admission.DATASET_IDENTITY,
         "l1_contract": admission.L1_CONTRACT,
-        "training_recipe": admission.TRAINING_RECIPE,
+        "training_recipe": recipe,
         "evaluation_sampler": admission.EVAL_SAMPLER_CONTRACT,
         "evaluation_call_budget": admission.EVAL_CALL_BUDGET,
         "locked_boundaries": admission.LOCKED_BOUNDARIES,
@@ -548,7 +551,7 @@ def _set_runtime_environment(output_root: Path, cosmos_root: Path) -> dict[str, 
     return values
 
 
-def _load_config(config_path: Path, output_root: Path, base_model: Path, dataset: Path) -> Any:
+def _load_config(config_path: Path, output_root: Path, base_model: Path, dataset: Path, seed: int | None = None) -> Any:
     from gr00t.configs.base_config import get_default_config
     from stage38_structured_train import normalize_loaded_modality_configs
 
@@ -581,7 +584,7 @@ def _load_config(config_path: Path, output_root: Path, base_model: Path, dataset
     # hub cache root, not HF_HOME itself, because the observed Cosmos binding
     # lives at ``HF_HUB_CACHE/models--nvidia--Cosmos-Reason2-2B``.
     config.training.transformers_cache_dir = str(Path(os.environ["HF_HUB_CACHE"]))
-    config.data.seed = admission.TRAINING_RECIPE["seed"]
+    config.data.seed = admission.TRAINING_RECIPE["seed"] if seed is None else admission.training_recipe_for_seed(seed)["seed"]
     _require(len(config.data.datasets) == 1, "L1 requires exactly one dataset specification")
     config.data.datasets[0].dataset_paths = [str(dataset)]
     config.data.datasets[0].mix_ratio = 1.0
@@ -596,15 +599,15 @@ def _load_config(config_path: Path, output_root: Path, base_model: Path, dataset
     config.model.use_relative_action = True
     config.model.use_percentiles = True
     normalize_loaded_modality_configs(config)
-    _assert_config(config, base_model, dataset)
+    _assert_config(config, base_model, dataset, int(config.data.seed))
     return config
 
 
-def _assert_config(config: Any, base_model: Path, dataset: Path) -> None:
+def _assert_config(config: Any, base_model: Path, dataset: Path, seed: int = 2222) -> None:
     checks = {
         "base": config.training.start_from_checkpoint == str(base_model),
         "dataset": len(config.data.datasets) == 1 and config.data.datasets[0].dataset_paths == [str(dataset)],
-        "seed": config.data.seed == 2222,
+        "seed": config.data.seed == seed,
         "steps": config.training.max_steps == 2000 and config.training.save_steps == 1000,
         "batch": config.training.global_batch_size == 1 and config.training.gradient_accumulation_steps == 1,
         "optimizer": config.training.optim == "adamw_torch",
@@ -815,6 +818,8 @@ def execute(args: argparse.Namespace) -> int:
     }
     output_root = Path(args.output_root).expanduser().resolve()
     try:
+        _require(args.seed in admission.MATCHED_TRAINING_SEEDS, "PI0133 L1 requires seed 2223 or 2224")
+        training_seed = int(args.seed)
         _require(os.environ.get("PBS_JOBID"), "--execute requires a PBS allocation")
         _require(Path(sys.executable).resolve() == Path(args.python).expanduser().resolve(), "exact runtime Python mismatch")
         checkout = checkout_observation(args.expected_head)
@@ -832,13 +837,13 @@ def execute(args: argparse.Namespace) -> int:
         output_root.mkdir(parents=True, exist_ok=False)
         usage = shutil.disk_usage(output_root)
         _require(usage.free >= 64 * 1024**3, f"insufficient free scratch for full-state checkpoints: {usage.free}")
-        binding, observed = _build_binding(checkout, gpu, runtime, paths, output_root, "TRAIN")
+        binding, observed = _build_binding(checkout, gpu, runtime, paths, output_root, "TRAIN", training_seed)
         admission_result = admission.validate_pre_model_binding(
             binding, observed, authority_token=admission.AUTHORITY_TOKEN, phase="TRAIN"
         )
         write_json(output_root / "stage45e_l1_runtime_binding.json", {"binding": binding, "observed": observed})
         write_json(output_root / "stage45e_l1_pre_model_admission.json", admission_result)
-        write_json(output_root / "stage45e_l1_input_audit.json", {"schema": "VANDA_STAGE45E_L1_INPUT_AUDIT_V1", "status": "PASS", "code_contract": code_contract, "identities": input_audit, "paths": {key: str(value) for key, value in paths.items()}, "training_recipe": admission.TRAINING_RECIPE})
+        write_json(output_root / "stage45e_l1_input_audit.json", {"schema": "VANDA_STAGE45E_L1_INPUT_AUDIT_V1", "status": "PASS", "code_contract": code_contract, "identities": input_audit, "paths": {key: str(value) for key, value in paths.items()}, "training_seed": training_seed, "training_recipe": admission.training_recipe_for_seed(training_seed)})
         events_path = output_root / "stage45e_l1_events.jsonl"
         events_path.touch()
         _append_event(events_path, "PRE_MODEL_ADMISSION_PASS", execution_head=checkout["observed_head"], gpu=gpu)
@@ -855,7 +860,7 @@ def execute(args: argparse.Namespace) -> int:
 
         canary_root = output_root / "canary"
         canary_root.mkdir(parents=False, exist_ok=False)
-        canary_config = _load_config(paths["training_config"], canary_root, paths["base_checkpoint"], paths["full24_dataset"])
+        canary_config = _load_config(paths["training_config"], canary_root, paths["base_checkpoint"], paths["full24_dataset"], training_seed)
         l1.reset_runtime_counters()
         canary = _one_batch_backward_canary(canary_config, canary_root, paths["base_checkpoint"], paths["full24_dataset"], state=state)
         write_json(output_root / "stage45e_l1_backward_canary.json", canary)
@@ -865,7 +870,7 @@ def execute(args: argparse.Namespace) -> int:
         state["phase"] = "FULL_TRAINING"
         state["training_started"] = True
         _append_event(events_path, "TRAINING_START", optimizer_steps=2000, checkpoint_steps=[1000, 2000])
-        config = _load_config(paths["training_config"], output_root, paths["base_checkpoint"], paths["full24_dataset"])
+        config = _load_config(paths["training_config"], output_root, paths["base_checkpoint"], paths["full24_dataset"], training_seed)
         gr00t_run(config)
         _append_event(events_path, "TRAINING_RETURNED")
         state["phase"] = "POST_TRAINING_AUDIT"
@@ -884,6 +889,8 @@ def execute(args: argparse.Namespace) -> int:
             "training_completion_token": TRAINING_ONLY_TOKEN,
             "stage": admission.STAGE,
             "pi_gate": admission.PI_GATE_COMMENT,
+            "training_seed": training_seed,
+            "training_recipe": admission.training_recipe_for_seed(training_seed),
             "branch": checkout["observed_branch"],
             "execution_head": checkout["observed_head"],
             "pbs_jobid": os.environ["PBS_JOBID"],
@@ -931,6 +938,7 @@ def execute(args: argparse.Namespace) -> int:
                 "status": "FAIL",
                 "pi_gate": admission.PI_GATE_COMMENT,
                 "execution_head": git("rev-parse", "HEAD") if (REPO / ".git").exists() else None,
+                "training_seed": args.seed,
                 "phase": state.get("phase"),
                 "model_imported": state.get("model_imported"),
                 "model_construction_started": state.get("model_construction_started"),
@@ -991,6 +999,7 @@ def _parser() -> argparse.ArgumentParser:
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--plan-only", action="store_true")
     modes.add_argument("--execute", action="store_true")
+    parser.add_argument("--seed", type=int, required=False)
     parser.add_argument("--output-root", type=Path, required=False)
     parser.add_argument("--expected-head", default=os.environ.get("STAGE45E_EXPECTED_HEAD"))
     for name, default in DEFAULTS.items():

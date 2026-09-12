@@ -19,12 +19,12 @@ from typing import Any, Mapping
 
 
 STAGE = "Stage45E-L1"
-PI_GATE_COMMENT = 5634852590
-PR54_POINTER_COMMENT = 5634856575
+PI_GATE_COMMENT = 5642852068
+PR54_POINTER_COMMENT = 5642854134
 ISSUE50_POINTER_COMMENT = None
-AUTHORITY_TOKEN = "PI_GATE_STATE_0123"
-BRANCH = "stage45e/l1-physical-error-aware-loss"
-BASE_EXECUTION_HEAD = "a843294780c1392369bfc987e468857c63fc13a5"
+AUTHORITY_TOKEN = "PI_GATE_STATE_0133"
+BRANCH = "stage45e/l1-matched-seed-replication"
+BASE_EXECUTION_HEAD = "c68611a9a577bd23314afaed9c6ffb7fc829e9b2"
 SMOKE_PASS_TOKEN = "STAGE45E_L1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
 # Training and TRAIN24 evaluation have deliberately distinct completion
 # tokens.  A recovered-input evaluation must never impersonate a historical
@@ -120,6 +120,17 @@ TRAINING_RECIPE = {
     "trainable_modules": ["projector", "diffusion_model"],
     "frozen_modules": ["visual", "llm", "vlln", "vl_self_attention"],
 }
+MATCHED_TRAINING_SEEDS = (2223, 2224)
+
+
+def training_recipe_for_seed(seed: int) -> dict[str, Any]:
+    """Return the frozen recipe with only the authorized replication seed bound."""
+
+    _require(isinstance(seed, int) and not isinstance(seed, bool), "training seed must be a JSON integer")
+    _require(seed in MATCHED_TRAINING_SEEDS, "PI0133 L1 permits only seeds 2223/2224")
+    recipe = copy.deepcopy(TRAINING_RECIPE)
+    recipe["seed"] = seed
+    return recipe
 L1_CONTRACT = {
     "schema": "STAGE45E_L1_PHYSICAL_ERROR_AWARE_XYZ_LOSS_V1",
     "normalization_unchanged": True,
@@ -237,7 +248,7 @@ def validate_static_contract() -> dict[str, Any]:
     _exact(EVAL_SAMPLER_CONTRACT["t_values"], [0.0, 0.25, 0.5, 0.75], "E4 times")
     _exact(EVAL_SAMPLER_CONTRACT["t_buckets"], [0, 250, 500, 750], "E4 timestep buckets")
     _exact(EVAL_SAMPLER_CONTRACT["seed"], 4242, "evaluation seed")
-    _exact(TRAINING_RECIPE["seed"], 2222, "training seed")
+    _exact(TRAINING_RECIPE["seed"], 2222, "historical seed anchor")
     _exact(TRAINING_RECIPE["max_steps"], 2000, "training max steps")
     _exact(L1_CONTRACT["mask_folding"], False, "mask folding")
     _exact(L1_CONTRACT["adaptive_renormalization"], False, "adaptive renormalization")
@@ -252,6 +263,7 @@ def validate_static_contract() -> dict[str, Any]:
         "base_execution_head": BASE_EXECUTION_HEAD,
         "l1_contract": copy.deepcopy(L1_CONTRACT),
         "training_recipe": copy.deepcopy(TRAINING_RECIPE),
+        "matched_training_seeds": list(MATCHED_TRAINING_SEEDS),
         "evaluation_sampler": copy.deepcopy(EVAL_SAMPLER_CONTRACT),
         "evaluation_call_budget": copy.deepcopy(EVAL_CALL_BUDGET),
         "dataset_identity": copy.deepcopy(DATASET_IDENTITY),
@@ -312,8 +324,11 @@ def validate_pre_model_binding(
     _exact(observed.get("dataset_identity"), DATASET_IDENTITY, "observed dataset identity")
     _exact(binding.get("l1_contract"), L1_CONTRACT, "L1 contract")
     _exact(observed.get("l1_contract"), L1_CONTRACT, "observed L1 contract")
-    _exact(binding.get("training_recipe"), TRAINING_RECIPE, "training recipe")
-    _exact(observed.get("training_recipe"), TRAINING_RECIPE, "observed training recipe")
+    training_seed = binding.get("training_seed")
+    expected_training_recipe = TRAINING_RECIPE if training_seed is None else training_recipe_for_seed(training_seed)
+    _exact(observed.get("training_seed"), training_seed, "observed training seed")
+    _exact(binding.get("training_recipe"), expected_training_recipe, "training recipe")
+    _exact(observed.get("training_recipe"), expected_training_recipe, "observed training recipe")
     _exact(binding.get("locked_boundaries"), LOCKED_BOUNDARIES, "locked boundaries")
     _exact(observed.get("locked_boundaries"), LOCKED_BOUNDARIES, "observed locked boundaries")
     if phase == "EVAL":
@@ -361,6 +376,7 @@ __all__ = [
     "AUTHORITY_TOKEN",
     "BASE_EXECUTION_HEAD",
     "BRANCH",
+    "MATCHED_TRAINING_SEEDS",
     "CHECKPOINT_ORDER",
     "DATASET_IDENTITY",
     "EVAL_CALL_BUDGET",
@@ -375,6 +391,7 @@ __all__ = [
     "SMOKE_PASS_TOKEN",
     "SOURCE_IDENTITIES",
     "TRAINING_RECIPE",
+    "training_recipe_for_seed",
     "canonical_binding_sha256",
     "model_imports_present",
     "validate_pre_model_binding",

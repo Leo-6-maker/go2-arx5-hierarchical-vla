@@ -1,15 +1,18 @@
 {
-  "schema": "STAGE45E_L1_MATCHED_SEED_REPLICATION_PI0132_V1",
-  "status": "AUTHORIZED_PLAN_NOT_EXECUTED",
+  "schema": "STAGE45E_L1_MATCHED_SEED_REPLICATION_PI0133_V1",
+  "status": "PI0133_H200_PLAN_CPU_STATIC_READY",
   "pi_gate": {
     "issue": 11,
-    "comment_id": 5642816702,
-    "gate": "PI_GATE_STATE_0132"
+    "comment_id": 5642852068,
+    "gate": "PI_GATE_STATE_0133",
+    "pointer_pr": 63,
+    "pointer_comment": 5642854134
   },
   "branch": "stage45e/l1-matched-seed-replication",
   "parent_evidence": {
     "pr": 57,
     "head": "c68611a9a577bd23314afaed9c6ffb7fc829e9b2",
+    "execution_base_head": "c68611a9a577bd23314afaed9c6ffb7fc829e9b2",
     "historical_training_head_seed2222": "377b50125a9127fe65d7f3db896f9396c7c3fbc2",
     "l1_loss_blob_sha": "a9d7923c6b03a4c981bb870b59c7038cb9894eb5"
   },
