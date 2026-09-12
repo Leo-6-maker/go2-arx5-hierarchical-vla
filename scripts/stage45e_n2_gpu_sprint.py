@@ -46,7 +46,11 @@ BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 RUNTIME_STATS_SHA = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
 RUNTIME_STATS_PAYLOAD_SHA = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
-N2_STATS_SHA = "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb"
+# PI0133 materialized the accepted N2 statistics document at the unified
+# Hopper storage path.  Its outer-document identity is distinct from the
+# superseded PI0122 staging file, while the immutable statistics payload is
+# unchanged and remains bound below.
+N2_STATS_SHA = "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677"
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
 GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
