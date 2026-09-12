@@ -374,7 +374,7 @@ def _historical_checkpoint(root: Path, step: int, key: str) -> dict[str, Any]:
 
 
 def _historical_training_args(root: Path) -> dict[str, Any]:
-    """Read the sealed Legacy TrainingArguments without constructing a model."""
+    """Read sealed TrainingArguments without constructing a model."""
 
     path = Path(root) / "training_args.bin"
     require(path.is_file() and not path.is_symlink(), f"historical training args unavailable: {path}")
@@ -445,13 +445,14 @@ def verify_historical(root: Path, route: str) -> dict[str, Any]:
         return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree, "runtime_stats_sha256": stats_sha, "runtime_stats_payload_sha256": stats_payload_sha}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json") for step in (1000, 2000)}}
     result_path = root / "stage45e_l1_training_result.json"
     result = read_json(result_path)
-    require(result.get("training_seed") == 2222 and result.get("training_steps") == 2000, "historical L1 seed2222 identity drift")
+    training_args = _historical_training_args(root)
+    require(training_args["fields"]["seed"] == 2222 and result.get("training_steps") == 2000, "historical L1 seed2222 identity drift")
     gpu = result.get("gpu", {})
     gpu_name = str(gpu.get("gpu_name", gpu.get("name", "")))
     require("H200" in gpu_name.upper(), "historical L1 seed2222 is not proven H200")
     require(result.get("normalization_unchanged") is True and result.get("mask_unchanged") is True, "historical L1 contract drift")
     require(result.get("optimizer_steps") == 2000, "historical L1 recipe drift")
-    return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45e_l1_training_result.json") for step in (1000, 2000)}}
+    return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45e_l1_training_result.json") for step in (1000, 2000)}}
 
 
 def _result_file(route: str, root: Path) -> Path:
