@@ -996,7 +996,8 @@ def duplicate_l1_provenance(root: Path = DUPLICATE_L1_ROOT) -> dict[str, Any]:
     structured_stats_path = Path(str(structured_stats.get("path", "")))
     require(structured_stats_path.is_file() and not structured_stats_path.is_symlink(), "612342 duplicate structured stats file unavailable")
     require(structured_stats_path.resolve().is_relative_to(root), "612342 duplicate structured stats escapes root")
-    require(sha256_file(structured_stats_path) == structured_stats.get("stats_sha256"), "612342 duplicate structured stats SHA drift")
+    structured_stats_file_sha = structured_stats.get("sha256")
+    require(sha256_file(structured_stats_path) == structured_stats_file_sha, "612342 duplicate structured stats SHA drift")
     return {
         "route": "l1",
         "seed": 2222,
@@ -1010,7 +1011,7 @@ def duplicate_l1_provenance(root: Path = DUPLICATE_L1_ROOT) -> dict[str, Any]:
         "training_lineage_head": result.get("execution_head"),
         "checkpoint_1000_tree_sha256": result.get("checkpoint_1000", {}).get("tree_sha256"),
         "checkpoint_2000_tree_sha256": result.get("checkpoint_2000", {}).get("tree_sha256"),
-        "structured_stats_sha256": structured_stats.get("stats_sha256"),
+        "structured_stats_sha256": structured_stats_file_sha,
         "source_kind": "DUPLICATE_RETRY_NOT_PRIMARY",
         "primary_admissible": False,
     }
