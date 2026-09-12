@@ -50,7 +50,22 @@
     "sampler": "canonical-E4, four observed steps, public sampler false",
     "target_xyz_in_model_input": false,
     "physical_metrics_primary": true,
-    "normalized_metrics_cross_route": false
+    "normalized_metrics_cross_route": false,
+    "diagnostic_attempt_identity": {
+      "required_fields": [
+        "unit_key",
+        "attempt_id",
+        "attempt_root_sha256",
+        "status",
+        "counts.model_side_calls",
+        "counts.counters_complete"
+      ],
+      "deduplication_key": "attempt_root_sha256",
+      "attempt_id_must_also_be_unique": true,
+      "failed_and_accepted_attempts_may_share_unit": true,
+      "max_accepted_passes_per_unit": 1,
+      "accepted_total_binding": "sum PASS_ACCEPTED model_side_calls equals accepted_unique_scientific_calls"
+    }
   },
   "synthetic_policy": {
     "marker": "SYNTHETIC_TEST_ONLY",

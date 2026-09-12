@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -16,6 +17,59 @@ import stage45f_corelab_pi0145_v2_adapter as adapter
 
 
 class PI0145VandaV2AdapterTest(unittest.TestCase):
+    @staticmethod
+    def _accounting(attempts: list[dict[str, object]], *, accepted: int = 8976, attempted: int | None = None, failed: int | None = None) -> dict[str, object]:
+        if attempted is None:
+            attempted = sum(int(item["counts"]["model_side_calls"]) for item in attempts)
+        if failed is None:
+            failed = sum(int(item["counts"]["model_side_calls"]) for item in attempts if item["status"] == "FAILED_ATTEMPT")
+        return {
+            "accepted_unique_scientific_calls": accepted,
+            "all_attempted_model_calls": attempted,
+            "failed_attempt_model_calls": failed,
+            "reused_readonly_model_calls": 0,
+            "diagnostic_attempt_inventory": attempts,
+        }
+
+    def test_attempt_identity_allows_failed_then_accepted_retry_for_same_unit(self) -> None:
+        failed_root = hashlib.sha256(b"failed-attempt").hexdigest()
+        accepted_root = hashlib.sha256(b"accepted-attempt").hexdigest()
+        document = self._accounting([
+            {"unit_key": "D1:legacy", "attempt_id": "job-1", "attempt_root_sha256": failed_root, "status": "FAILED_ATTEMPT", "counts": {"model_side_calls": 7, "counters_complete": True}},
+            {"unit_key": "D1:legacy", "attempt_id": "job-2", "attempt_root_sha256": accepted_root, "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}},
+        ])
+        result = adapter.validate_diagnostic_accounting(document)
+        self.assertEqual(result["accepted_attempts"], 1)
+        self.assertEqual(result["attempted_units"], 1)
+        self.assertEqual(result["inventory_entries"], 2)
+
+    def test_attempt_identity_rejects_duplicate_root_even_when_renamed(self) -> None:
+        root = hashlib.sha256(b"same-immutable-root").hexdigest()
+        document = self._accounting([
+            {"unit_key": "E4:legacy", "attempt_id": "job-1", "attempt_root_sha256": root, "status": "FAILED_ATTEMPT", "counts": {"model_side_calls": 7, "counters_complete": True}},
+            {"unit_key": "renamed-unit", "attempt_id": "renamed-job", "attempt_root_sha256": root, "status": "BLOCKED", "counts": {"model_side_calls": 0, "counters_complete": True}},
+        ], accepted=8976, attempted=7, failed=7)
+        with self.assertRaises(adapter.V2AdapterError) as caught:
+            adapter.validate_diagnostic_accounting(document)
+        self.assertIn("ATTEMPT_IDENTITY_DUPLICATE", str(caught.exception))
+
+    def test_attempt_identity_rejects_two_accepted_passes_for_one_unit(self) -> None:
+        document = self._accounting([
+            {"unit_key": "D2A:n2", "attempt_id": "job-1", "attempt_root_sha256": "a" * 64, "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}},
+            {"unit_key": "D2A:n2", "attempt_id": "job-2", "attempt_root_sha256": "b" * 64, "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 0, "counters_complete": True}},
+        ], attempted=8976)
+        with self.assertRaises(adapter.V2AdapterError) as caught:
+            adapter.validate_diagnostic_accounting(document)
+        self.assertIn("UNIT_MULTIPLE_ACCEPTED_PASS", str(caught.exception))
+
+    def test_attempt_identity_fields_are_required(self) -> None:
+        document = self._accounting([
+            {"unit_key": "E4:l1", "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}},
+        ])
+        with self.assertRaises(adapter.V2AdapterError) as caught:
+            adapter.validate_diagnostic_accounting(document)
+        self.assertIn("ATTEMPT_ID_MISSING", str(caught.exception))
+
     def test_vanda_producer_fixture_reaches_synthetic_c10_consumer_and_real_entry_rejects_it(self) -> None:
         with tempfile.TemporaryDirectory(prefix="stage45f-pi0145-v2-") as directory:
             final_path = adapter.build_synthetic_vanda_v2_fixture(Path(directory) / "fixture")
@@ -155,6 +209,10 @@ class PI0145VandaV2AdapterTest(unittest.TestCase):
         self.assertEqual(contract["producer"]["head"], adapter.VANDA_PRODUCER_HEAD)
         self.assertEqual(contract["consumer"]["entrypoint"], "scripts/stage45f_corelab_evidence_convergence.py::verify_campaign")
         self.assertFalse(contract["synthetic_policy"]["real_verify_campaign_accepts"])
+        attempt_contract = contract["c10_contract"]["diagnostic_attempt_identity"]
+        self.assertEqual(attempt_contract["deduplication_key"], "attempt_root_sha256")
+        self.assertTrue(attempt_contract["failed_and_accepted_attempts_may_share_unit"])
+        self.assertEqual(attempt_contract["max_accepted_passes_per_unit"], 1)
         source = (ROOT / "scripts/stage45f_corelab_pi0145_v2_adapter.py").read_text(encoding="utf-8")
         for forbidden in ("import torch", "import numpy", "import gr00t", "import subprocess", "from torch", "from numpy"):
             self.assertNotIn(forbidden, source)

@@ -227,27 +227,55 @@ def validate_diagnostic_accounting(document: Mapping[str, Any]) -> dict[str, Any
     require(isinstance(attempts, list) and attempts, "diagnostic_attempt_inventory is missing or empty")
     attempted_total = 0
     failed_total = 0
-    attempt_keys: set[str] = set()
+    accepted_total = 0
+    attempt_ids: set[str] = set()
+    attempt_roots: set[str] = set()
+    accepted_units: set[str] = set()
     allowed_statuses = {"PASS_ACCEPTED", "FAILED_ATTEMPT", "BLOCKED", "UNKNOWN"}
     for index, item in enumerate(attempts):
         require(isinstance(item, Mapping), f"diagnostic attempt inventory item {index} is not an object")
         unit_key = item.get("unit_key")
-        require(isinstance(unit_key, str) and unit_key and unit_key not in attempt_keys, f"diagnostic attempt inventory duplicate/invalid unit_key at {index}")
-        attempt_keys.add(unit_key)
-        require(item.get("status") in allowed_statuses, f"diagnostic attempt inventory status invalid at {index}")
+        require(isinstance(unit_key, str) and unit_key, f"ATTEMPT_UNIT_KEY_INVALID: diagnostic attempt inventory item {index}")
+        # ``unit_key`` identifies the scientific unit, not an execution
+        # attempt.  A failed attempt followed by a fresh accepted retry is
+        # therefore valid for one unit.  The immutable root is the
+        # de-duplication key so relabelling the same attempt cannot evade the
+        # guard by changing its human-readable attempt_id or unit_key.
+        attempt_id = item.get("attempt_id")
+        require(isinstance(attempt_id, str) and attempt_id, f"ATTEMPT_ID_MISSING: diagnostic attempt inventory item {index}")
+        require(attempt_id not in attempt_ids, f"ATTEMPT_ID_DUPLICATE: diagnostic attempt inventory item {index}")
+        attempt_ids.add(attempt_id)
+        attempt_root = item.get("attempt_root_sha256")
+        _sha(attempt_root, f"diagnostic_attempt_inventory[{index}].attempt_root_sha256")
+        require(attempt_root not in attempt_roots, f"ATTEMPT_IDENTITY_DUPLICATE: diagnostic attempt inventory item {index}")
+        attempt_roots.add(attempt_root)
+        status = item.get("status")
+        require(status in allowed_statuses, f"ATTEMPT_STATUS_INVALID: diagnostic attempt inventory item {index}")
         counts = item.get("counts")
         require(isinstance(counts, Mapping), f"diagnostic attempt inventory counts missing at {index}")
         require(counts.get("counters_complete") is True, f"diagnostic attempt counters unknown at {index}")
         calls = counts.get("model_side_calls")
         require(type(calls) is int and calls >= 0, f"diagnostic attempt model_side_calls invalid at {index}")
         attempted_total += calls
-        if item.get("status") == "FAILED_ATTEMPT":
+        if status == "FAILED_ATTEMPT":
             failed_total += calls
+        elif status == "PASS_ACCEPTED":
+            require(unit_key not in accepted_units, f"UNIT_MULTIPLE_ACCEPTED_PASS: {unit_key}")
+            accepted_units.add(unit_key)
+            accepted_total += calls
     require(attempted_total == totals["all_attempted_model_calls"], "all-attempted total does not match attempt inventory")
     require(failed_total == totals["failed_attempt_model_calls"], "failed-attempt total does not match attempt inventory")
+    require(accepted_total == totals["accepted_unique_scientific_calls"], "accepted unique total does not match PASS_ACCEPTED attempt inventory")
     require(totals["failed_attempt_model_calls"] <= totals["all_attempted_model_calls"], "failed attempts exceed all attempts")
     require(totals["accepted_unique_scientific_calls"] <= totals["all_attempted_model_calls"], "accepted unique calls exceed all attempts")
-    return {"accepted_unique": totals["accepted_unique_scientific_calls"], "all_attempted": attempted_total, "failed": failed_total, "inventory_entries": len(attempts)}
+    return {
+        "accepted_unique": totals["accepted_unique_scientific_calls"],
+        "all_attempted": attempted_total,
+        "failed": failed_total,
+        "inventory_entries": len(attempts),
+        "accepted_attempts": len(accepted_units),
+        "attempted_units": len({item["unit_key"] for item in attempts}),
+    }
 
 
 def _descriptor_path_reference(item: Mapping[str, Any], field: str) -> Path:
@@ -763,7 +791,7 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
     cpu_inventory = {"schema": "VANDA_STAGE45E_H200_CPU_EVIDENCE_INVENTORY_V2", "status": "PASS", "synthetic_test_only": SYNTHETIC_MARKER, "entries": inventory_entries, "entry_count": len(inventory_entries), "external_inventory": str(inventory_path), "external_inventory_sha256": convergence.sha256_file(inventory_path), "c10_handoff_excluded": True}
     cpu_inventory_path = campaign / "CPU_EVIDENCE_INVENTORY.json"
     cpu_inventory_path.write_text(json.dumps(cpu_inventory, sort_keys=True) + "\n", encoding="utf-8")
-    final = {"schema": V2_RESULT_SCHEMA, "status": "PASS", "token": REAL_COMPLETION_TOKEN, "synthetic_test_only": SYNTHETIC_MARKER, "campaign_root": str(campaign), "cpu_summary": str(summary_path), "cpu_summary_sha256": convergence.sha256_file(summary_path), "cpu_inventory": str(cpu_inventory_path), "cpu_inventory_sha256": convergence.sha256_file(cpu_inventory_path), "phase_totals": expected_totals, "total_model_side_calls": 8976, "accepted_unique_scientific_calls": 8976, "all_attempted_model_calls": 8976, "failed_attempt_model_calls": 0, "reused_readonly_model_calls": 0, "diagnostic_attempt_inventory": [{"unit_key": "SYNTHETIC", "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}}], "c10_handoff": str(handoff_path), "c10_handoff_sha256": convergence.sha256_file(handoff_path), "fresh_training_lineages": 7, "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0, "get_action_calls": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "merge": False}, "campaign_history": {"training_occurred": True, "fresh_training_lineages": 7}, "merge": False}
+    final = {"schema": V2_RESULT_SCHEMA, "status": "PASS", "token": REAL_COMPLETION_TOKEN, "synthetic_test_only": SYNTHETIC_MARKER, "campaign_root": str(campaign), "cpu_summary": str(summary_path), "cpu_summary_sha256": convergence.sha256_file(summary_path), "cpu_inventory": str(cpu_inventory_path), "cpu_inventory_sha256": convergence.sha256_file(cpu_inventory_path), "phase_totals": expected_totals, "total_model_side_calls": 8976, "accepted_unique_scientific_calls": 8976, "all_attempted_model_calls": 8976, "failed_attempt_model_calls": 0, "reused_readonly_model_calls": 0, "diagnostic_attempt_inventory": [{"unit_key": "SYNTHETIC", "attempt_id": "SYNTHETIC:accepted", "attempt_root_sha256": hashlib.sha256(b"SYNTHETIC_ATTEMPT_ROOT").hexdigest(), "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}}], "c10_handoff": str(handoff_path), "c10_handoff_sha256": convergence.sha256_file(handoff_path), "fresh_training_lineages": 7, "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0, "get_action_calls": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "merge": False}, "campaign_history": {"training_occurred": True, "fresh_training_lineages": 7}, "merge": False}
     final_path = campaign / "final_result.json"
     final_path.write_text(json.dumps(final, sort_keys=True) + "\n", encoding="utf-8")
     return final_path
