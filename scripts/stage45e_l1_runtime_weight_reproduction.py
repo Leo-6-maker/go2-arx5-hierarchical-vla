@@ -261,7 +261,7 @@ def execute(expected_head: str, output_root: Path) -> int:
         if str(paths["groot_source"]) not in sys.path:
             sys.path.insert(0, str(paths["groot_source"]))
         train_impl._bind_cosmos_processor(paths["cosmos_root"] / "snapshots" / admission.COSMOS_REVISION)
-        from stage38_structured_training import install_structured_dataset_factory
+        from go2arx5_vla.stage38_structured_training import install_structured_dataset_factory
 
         install_structured_dataset_factory()
         from gr00t.model.gr00t_n1d7.setup import Gr00tN1d7Pipeline
