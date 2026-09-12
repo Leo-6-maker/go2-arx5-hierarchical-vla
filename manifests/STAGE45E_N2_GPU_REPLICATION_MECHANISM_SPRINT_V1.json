@@ -4,10 +4,12 @@
   "stage": "Stage45E",
   "authority": {
     "issue": 11,
-    "pi_gate": "PI_GATE_STATE_0125",
-    "issue_comment": 5635727857,
+    "pi_gate": "PI_GATE_STATE_0130",
+    "issue_comment": 5642258588,
     "pointer_pr": 56,
-    "pointer_comment": 5635727857
+    "pointer_comment": 5642259704,
+    "prep_reference_pr": 60,
+    "prep_reference_head": "c3866a504a01db25ac2cf35d9f75ed1699f5b359"
   },
   "repository": {
     "branch": "stage45e/n2-gpu-replication-mechanism-sprint",
@@ -17,6 +19,14 @@
     "new_draft_pr_required": true
   },
   "question": "Do independent N2 seeds reproduce exposure recovery, and which local-flow/rollout mechanisms explain it?",
+  "continuation": {
+    "order": ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"],
+    "forbidden_phases": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"],
+    "entrypoint": "continue-g3-g4-g5",
+    "cpu_summary_after_gpu_queue": true,
+    "rerun_g1": false,
+    "rerun_g2": false
+  },
   "frozen_identities": {
     "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
     "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
@@ -91,8 +101,8 @@
       "physical_source": "x1_hat_only"
     },
     "action_head_calls": 864,
-    "conditioning_passes": 288,
-    "total_model_side_calls": 1152,
+    "conditioning_passes": 96,
+    "total_model_side_calls": 960,
     "target_xyz_in_model_input": false,
     "automatic_retry": false
   },
@@ -125,8 +135,8 @@
       "physical_source": "x1_hat_only"
     },
     "action_head_calls": 648,
-    "conditioning_passes": 216,
-    "total_model_side_calls": 864,
+    "conditioning_passes": 72,
+    "total_model_side_calls": 720,
     "target_xyz_in_model_input": false,
     "rerun_2000": false,
     "automatic_retry": false
@@ -159,7 +169,8 @@
     "materialization": "late-bound fresh Corelab destination; independent tree rehash required",
     "substitution_allowed": false
   },
-  "execution_order": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4", "G3_D1_LOCAL_FLOW", "G4_D2A_TF_VS_FR", "G5_D1_N2_AT_1000", "G5_D2A_N2_AT_1000"],
+  "historical_execution_order": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"],
+  "execution_order": ["G3_D1_LOCAL_FLOW", "G4_D2A_TF_VS_FR", "G5_D1_N2_AT_1000", "G5_D2A_N2_AT_1000"],
   "gpu_policy": {
     "host_role": "Corelab RTX",
     "preferred_name": "NVIDIA GeForce RTX 4080 SUPER",

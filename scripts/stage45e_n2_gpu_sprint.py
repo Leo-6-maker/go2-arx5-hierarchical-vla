@@ -40,8 +40,8 @@ MANIFEST_PATH = REPO / "manifests/STAGE45E_N2_GPU_REPLICATION_MECHANISM_SPRINT_V
 STAGE = "Stage45E"
 BRANCH = "stage45e/n2-gpu-replication-mechanism-sprint"
 BASE_HEAD = "a476a581f4d9a5ad104e691d4037762c6f1685ba"
-PI_GATE = "PI_GATE_STATE_0125"
-PI_COMMENT = 5635727857
+PI_GATE = "PI_GATE_STATE_0130"
+PI_COMMENT = 5642258588
 BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 RUNTIME_STATS_SHA = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
@@ -86,6 +86,33 @@ def now_utc() -> str:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise RuntimeError(message)
+
+
+def _sync_failure_boundary(counters: Mapping[str, Any], *, phase: str | None = None) -> None:
+    """Mirror live phase counters into the outer failure seal.
+
+    A continuation can fail after model construction or after several action
+    calls.  Keeping this boundary synchronized prevents the top-level seal
+    from falsely reporting an all-zero execution after inner work started.
+    """
+
+    global _BOUNDARY
+    _BOUNDARY = {
+        "phase": phase if phase is not None else counters.get("_phase"),
+        "gpu": bool(counters.get("gpu", False)),
+        "model_constructed": int(counters.get("model_construction", 0)),
+        "gr00t_forwards": int(counters.get("model_forward", 0)),
+        "training_steps": int(counters.get("training_steps", 0)),
+        "optimizer_steps": int(counters.get("optimizer_steps", 0)),
+        "backward_steps": int(counters.get("backward_steps", 0)),
+        "checkpoint_writes": int(counters.get("checkpoint_writes", 0)),
+        "PBS": int(counters.get("PBS", 0)),
+        "Validation-E": int(counters.get("Validation-E", 0)),
+        "Holdout-F": int(counters.get("Holdout-F", 0)),
+        "WBC": int(counters.get("WBC", 0)),
+        "simulator": int(counters.get("simulator", 0)),
+        "hardware": int(counters.get("hardware", 0)),
+    }
 
 
 def sha256_file(path: Path) -> str:
@@ -174,17 +201,23 @@ def _manifest() -> dict[str, Any]:
 
 def static_audit() -> dict[str, Any]:
     manifest = _manifest()
-    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_COMMENT, "PI0124 authority drift")
+    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_COMMENT, "PI0130 authority drift")
     require(manifest["repository"]["branch"] == BRANCH and manifest["repository"]["base_head"] == BASE_HEAD, "sprint branch/base drift")
     require(manifest["frozen_identities"]["base_tree_sha256"] == BASE_TREE, "BASE identity drift")
     require(manifest["frozen_identities"]["full24_tree_sha256"] == FULL24_TREE, "FULL24 identity drift")
     require(manifest["n2_intervention"]["xyz_common_half_range_m"] == n2.HALF_RANGE_M, "N2 half-range drift")
     require(manifest["n2_intervention"]["mask_active_scalars"] == 190, "T16 mask drift")
+    require(manifest["continuation"]["order"] == ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"], "continuation order drift")
+    require(set(manifest["continuation"]["forbidden_phases"]) >= {"G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"}, "continuation forbidden-phase drift")
     require(manifest["training"]["seeds"] == [2223, 2224] and manifest["training"]["max_steps"] == 2000, "replication training budget drift")
     require(manifest["g2_train24_evaluation"]["total_model_side_calls"] == 480, "G2 budget drift")
-    require(manifest["g3_d1_teacher_forced_local_flow"]["total_model_side_calls"] == 1152, "G3 budget drift")
+    require(manifest["g3_d1_teacher_forced_local_flow"]["conditioning_passes"] == 96, "G3 conditioning budget drift")
+    require(manifest["g3_d1_teacher_forced_local_flow"]["action_head_calls"] == 864, "G3 action-head budget drift")
+    require(manifest["g3_d1_teacher_forced_local_flow"]["total_model_side_calls"] == 960, "G3 budget drift")
     require(manifest["g4_d2a_tf_vs_fr"]["total_model_side_calls"] == 864, "G4 budget drift")
-    require(manifest["g5_d1_n2_at_1000"]["total_model_side_calls"] == 864, "G5-D1 budget drift")
+    require(manifest["g5_d1_n2_at_1000"]["conditioning_passes"] == 72, "G5-D1 conditioning budget drift")
+    require(manifest["g5_d1_n2_at_1000"]["action_head_calls"] == 648, "G5-D1 action-head budget drift")
+    require(manifest["g5_d1_n2_at_1000"]["total_model_side_calls"] == 720, "G5-D1 budget drift")
     require(manifest["g5_d2a_n2_at_1000"]["total_model_side_calls"] == 648, "G5-D2A budget drift")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
@@ -204,10 +237,12 @@ def static_audit() -> dict[str, Any]:
         "base_head": BASE_HEAD,
         "g1_seeds": [2223, 2224],
         "g2_calls": 480,
-        "g3_calls": 1152,
+        "g3_calls": 864,
         "g4_calls": 864,
-        "g5_d1_calls": 864,
+        "g5_d1_calls": 648,
         "g5_d2a_calls": 648,
+        "continuation_order": manifest["continuation"]["order"],
+        "forbidden_continuation_phases": manifest["continuation"]["forbidden_phases"],
         "execution_boundary": {"model_construction": 0, "gr00t_forwards": 0, "training_steps": 0, "optimizer_steps": 0, "gpu": False, "PBS": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
     }
 
@@ -311,9 +346,10 @@ def checkpoint_record(path: Path, step: int) -> dict[str, Any]:
     require(path.is_dir() and not path.is_symlink(), f"checkpoint unavailable: {path}")
     state = read_json(path / "trainer_state.json")
     required = ("optimizer.pt", "scheduler.pt", "rng_state.pth", "trainer_state.json")
-    missing = [item for item in required if not (path / item).is_file()]
-    tree = tree_digest(tree_entries(path, f"stage45e/{path.name}"))
-    return {"path": str(path), "global_step": state.get("global_step"), "expected_step": step, "required_state_files_present": not missing, "missing_state_files": missing, "tree_sha256": tree, "file_count": len(tree_entries(path, f"stage45e/{path.name}")), "total_bytes": sum(item["bytes"] for item in tree_entries(path, f"stage45e/{path.name}")), "status": "PASS" if state.get("global_step") == step and not missing else "BLOCKED"}
+    missing = [item for item in required if not (path / item).is_file() or (path / item).is_symlink()]
+    entries = tree_entries(path, f"stage45e/{path.name}")
+    tree = tree_digest(entries)
+    return {"path": str(path), "global_step": state.get("global_step"), "expected_step": step, "required_state_files_present": not missing, "missing_state_files": missing, "tree_sha256": tree, "file_count": len(entries), "total_bytes": sum(item["bytes"] for item in entries), "status": "PASS" if state.get("global_step") == step and not missing else "BLOCKED"}
 
 
 def compare_statistics(left: Any, right: Any, atol: float = 1e-12) -> bool:
@@ -481,7 +517,7 @@ def _training_result_path(root: Path) -> Path:
     return present[0]
 
 
-def _verify_n2_checkpoint_root(root: Path, expected_seed: int) -> dict[str, Any]:
+def _verify_n2_checkpoint_root(root: Path, expected_seed: int, n2_stats_path: Path) -> dict[str, Any]:
     require(root.is_dir() and not root.is_symlink(), f"N2 checkpoint root is unavailable: {root}")
     result_path = _training_result_path(root)
     result = read_json(result_path)
@@ -491,9 +527,21 @@ def _verify_n2_checkpoint_root(root: Path, expected_seed: int) -> dict[str, Any]
     require(result.get("starting_checkpoint") == "BASE", f"N2 root did not start from BASE: {root}")
     require(result.get("base_tree_sha256") == BASE_TREE and result.get("full24_tree_sha256") == FULL24_TREE, f"N2 training identity drift: {root}")
     require(result.get("training_steps", result.get("max_steps")) == TRAIN_STEPS, f"N2 step budget drift: {root}")
+    require(result.get("n2_stats_sha256") == N2_STATS_SHA, f"N2 statistics file identity drift: {root}")
+    require(result.get("n2_stats_payload_sha256") == N2_STATS_PAYLOAD_SHA, f"N2 statistics payload identity drift: {root}")
+    n2_stats_path = Path(n2_stats_path).resolve()
+    require(n2_stats_path.is_file() and not n2_stats_path.is_symlink(), f"N2 statistics artifact is unavailable: {n2_stats_path}")
+    require(sha256_file(n2_stats_path) == N2_STATS_SHA, "accepted N2 statistics file SHA drift")
+    n2_doc = read_json(n2_stats_path)
+    require(n2_doc.get("statistics_payload_sha256") == N2_STATS_PAYLOAD_SHA, "accepted N2 statistics payload field drift")
+    n2_statistics = n2_doc.get("statistics")
+    require(isinstance(n2_statistics, Mapping), "accepted N2 statistics payload is missing")
     sidecar_path = root / "experiment_cfg/structured_action_statistics.json"
     require(sidecar_path.is_file() and not sidecar_path.is_symlink(), f"N2 statistics sidecar is absent: {sidecar_path}")
     sidecar = read_json(sidecar_path)
+    sidecar_statistics = sidecar.get("statistics")
+    require(isinstance(sidecar_statistics, Mapping), f"N2 statistics sidecar payload is missing: {sidecar_path}")
+    require(compare_statistics(sidecar_statistics, n2_statistics), f"N2 sidecar statistics drift: {sidecar_path}")
     checkpoints: dict[str, Any] = {}
     for step in (1000, 2000):
         checkpoint = root / f"checkpoint-{step}"
@@ -502,7 +550,7 @@ def _verify_n2_checkpoint_root(root: Path, expected_seed: int) -> dict[str, Any]
         result_record = result.get(f"checkpoint_{step}")
         require(isinstance(result_record, Mapping) and result_record.get("tree_sha256") == record["tree_sha256"], f"N2 checkpoint tree identity is not bound in training result: {checkpoint}")
         checkpoints[str(step)] = record
-    return {"root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "sidecar_sha256": sha256_file(sidecar_path), "checkpoints": checkpoints, "sidecar_statistics": sidecar.get("statistics")}
+    return {"root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "n2_stats_sha256": N2_STATS_SHA, "n2_stats_payload_sha256": N2_STATS_PAYLOAD_SHA, "sidecar_sha256": sha256_file(sidecar_path), "sidecar_statistics_binding": {"match": True, "numeric_atol": 1e-12}, "checkpoints": checkpoints, "sidecar_statistics": sidecar_statistics}
 
 
 def _require_legacy_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Path] | None = None) -> dict[str, Any]:
@@ -517,7 +565,8 @@ def _require_legacy_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Pa
     for seed in N2_SEEDS:
         value = roots.get(seed)
         require(value is not None, f"G3/G4 require an actual N2 seed-{seed} checkpoint root")
-    verified = {seed: _verify_n2_checkpoint_root(Path(roots[seed]).resolve(), seed) for seed in N2_SEEDS}
+    require(getattr(args, "n2_stats", None) is not None, "N2 statistics path is required for root provenance")
+    verified = {seed: _verify_n2_checkpoint_root(Path(roots[seed]).resolve(), seed, Path(args.n2_stats)) for seed in N2_SEEDS}
     return {"legacy_full24_2000": legacy, "legacy_full24_2000_tree_sha256": legacy_tree, "n2": verified}
 
 
@@ -595,6 +644,7 @@ def _diagnostic_call(torch: Any, stage38: Any, model: Any, conditioning: tuple[A
         velocity = stage38._offline_step(model.action_head, processed_backbone, action_input, state_features, state, int(bucket))
     counters["action_head_calls"] += 1
     counters["model_forward"] += 1
+    _sync_failure_boundary(counters)
     output = velocity.detach().to(device="cpu", dtype=torch.float32).contiguous().numpy()
     require(output.shape == RAW_SHAPE and np.isfinite(output).all(), "diagnostic velocity shape/finite drift")
     return output
@@ -633,7 +683,8 @@ def _require_n2_paths(args: argparse.Namespace, *, n2_roots: Mapping[int, Path])
 
     for seed in N2_SEEDS:
         require(seed in n2_roots, f"G5 requires an actual N2 seed-{seed} checkpoint root")
-    verified = {seed: _verify_n2_checkpoint_root(Path(n2_roots[seed]).resolve(), seed) for seed in N2_SEEDS}
+    require(getattr(args, "n2_stats", None) is not None, "N2 statistics path is required for root provenance")
+    verified = {seed: _verify_n2_checkpoint_root(Path(n2_roots[seed]).resolve(), seed, Path(args.n2_stats)) for seed in N2_SEEDS}
     return {"n2": verified}
 
 
@@ -646,11 +697,16 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
     require(not output.exists(), f"{phase} output root must be fresh: {output}")
     output.mkdir(parents=True, exist_ok=False)
     counters: dict[str, Any] = {
+        "_phase": phase,
+        "gpu": False,
+        "model_constructed": 0,
+        "gr00t_forwards": 0,
         "model_construction": 0,
         "conditioning_passes": 0,
         "action_head_calls": 0,
         "model_forward": 0,
         "training": False,
+        "training_steps": 0,
         "backward_steps": 0,
         "optimizer_steps": 0,
         "scheduler_steps": 0,
@@ -663,6 +719,7 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
         "Holdout-F": 0,
         "raw_stage_count": 0,
     }
+    _sync_failure_boundary(counters, phase=phase)
     try:
         is_d1 = phase.endswith("_D1")
         is_g5 = phase.startswith("G5_")
@@ -672,6 +729,8 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
         identity = _verify_core_identities(paths)
         gpu = gpu_identity(args.gpu_uuid or PREFERRED_GPU_UUID)
         prepare_env(paths, output, gpu)
+        counters["gpu"] = True
+        _sync_failure_boundary(counters)
         torch, ev, _processor, _embodiment, records, baseline_noise, context = _load_sealed_context(paths)
         windows, _baseline_noise_bank = context
         require(len(records) == 24 and len(windows) == 24, "diagnostic TRAIN24 materialization drift")
@@ -704,6 +763,8 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
             stats_doc, stats_sha, stats_payload_sha, stats_route = stats[spec["stats"]]
             model = stage38._load_structured_model(Path(spec["path"]), "cuda:0")
             counters["model_construction"] += 1
+            counters["model_constructed"] = counters["model_construction"]
+            _sync_failure_boundary(counters)
             model.eval()
             hook_counter = {"count": 0}
             hook = model.action_head.model.register_forward_hook(lambda *_args, **_kwargs: hook_counter.__setitem__("count", hook_counter["count"] + 1))
@@ -714,12 +775,16 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
                     x1 = np.asarray(stage38._structured_label_and_normalizer(np.asarray(snapshot.physical_action, dtype=np.float64)[None, ...], snapshot, stats_doc)[2], dtype=np.float32)[None, ...]
                     if is_d1:
                         seeds = (2223, 2224, 2225)
+                        # D1 conditioning is a function of the checkpoint and
+                        # TRAIN24 observation only.  Build it once per window
+                        # and reuse the exact tensors for all frozen noise/t
+                        # probes; this is the accepted 96-pass accounting.
+                        with torch.inference_mode():
+                            _, action_input, processed, state_features = stage38._prepare_model_conditioning(model, window["model_inputs"])
+                        conditioning_count += 1
+                        counters["conditioning_passes"] += 1
+                        conditioning = (processed, action_input, state_features)
                         for noise_seed in seeds:
-                            with torch.inference_mode():
-                                _, action_input, processed, state_features = stage38._prepare_model_conditioning(model, window["model_inputs"])
-                            conditioning_count += 1
-                            counters["conditioning_passes"] += 1
-                            conditioning = (processed, action_input, state_features)
                             x0 = noise_bank[noise_seed][index].numpy().copy()
                             for t, bucket in t_grid:
                                 x_t = ((1.0 - t) * x0 + t * x1).astype(np.float32, copy=False)
@@ -783,18 +848,19 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
             del model
             torch.cuda.empty_cache()
         expected = {
-            "G3_D1": {"model_construction": 4, "conditioning_passes": 288, "action_head_calls": 864, "model_forward": 864, "raw_stage_count": 864},
+            "G3_D1": {"model_construction": 4, "conditioning_passes": 96, "action_head_calls": 864, "model_forward": 864, "raw_stage_count": 864},
             "G4_D2A": {"model_construction": 4, "conditioning_passes": 96, "action_head_calls": 768, "model_forward": 768, "raw_stage_count": 384},
-            "G5_D1": {"model_construction": 3, "conditioning_passes": 216, "action_head_calls": 648, "model_forward": 648, "raw_stage_count": 648},
+            "G5_D1": {"model_construction": 3, "conditioning_passes": 72, "action_head_calls": 648, "model_forward": 648, "raw_stage_count": 648},
             "G5_D2A": {"model_construction": 3, "conditioning_passes": 72, "action_head_calls": 576, "model_forward": 576, "raw_stage_count": 288},
         }[phase]
         for key, value in expected.items():
             require(counters[key] == value, f"{phase} total budget drift {key}: {counters[key]} != {value}")
-        seal = {"schema": f"CORELAB_STAGE45E_N2_{phase}_SEAL_V1", "status": "PASS", "token": f"{phase}_PASS", "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "checkpoints": checkpoint_results, "counters": counters, "raw_probe_rows_jsonl_sha256": sha256_file(raw_manifest), "gpu": gpu, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0, "target_xyz_in_model_input": False, "timestamp_utc": now_utc()}
+        seal = {"schema": f"CORELAB_STAGE45E_N2_{phase}_SEAL_V1", "status": "PASS", "token": f"{phase}_PASS", "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"), "checkpoints": checkpoint_results, "counters": counters, "execution_boundary": dict(_BOUNDARY), "raw_probe_rows_jsonl_sha256": sha256_file(raw_manifest), "gpu": gpu, "training": False, "optimizer_steps": 0, "WBC": 0, "Validation-E": 0, "Holdout-F": 0, "target_xyz_in_model_input": False, "timestamp_utc": now_utc()}
         write_json(output / "seal.json", seal)
         return seal
     except Exception as exc:
-        write_json(output / "FAILURE_SEAL.json", {"schema": f"CORELAB_STAGE45E_N2_{phase}_FAILURE_SEAL_V1", "status": "BLOCKED", "phase": phase, "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc(), "counters": counters, "retry_or_substitution": False, "timestamp_utc": now_utc()}, overwrite=True)
+        _sync_failure_boundary(counters, phase=phase)
+        write_json(output / "FAILURE_SEAL.json", {"schema": f"CORELAB_STAGE45E_N2_{phase}_FAILURE_SEAL_V1", "status": "BLOCKED", "phase": phase, "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc(), "counters": counters, "execution_boundary": dict(_BOUNDARY), "retry_or_substitution": False, "timestamp_utc": now_utc()}, overwrite=True)
         raise
 
 
@@ -816,6 +882,56 @@ def g5_d2a_eval(args: argparse.Namespace) -> dict[str, Any]:
     """Run the PI0125 matched TF/FR exposure probe on N2 @1000."""
 
     return _diagnostic_runtime(args, "G5_D2A")
+
+
+def run_continuation_g3_g4_g5(args: argparse.Namespace) -> dict[str, Any]:
+    """Run only the PI0130-authorized G3→G4→G5 continuation.
+
+    This entrypoint intentionally has no calls to admission, ``train_one`` or
+    ``g2_eval``.  G1/G2 are historical sealed evidence and must never be
+    regenerated by a continuation invocation.
+    """
+
+    require(args.output_root is not None, "continuation requires --output-root")
+    base = Path(args.output_root).resolve()
+    require(not base.exists(), f"continuation output root must be fresh: {base}")
+    base.mkdir(parents=True, exist_ok=False)
+
+    def phase_args(name: str) -> argparse.Namespace:
+        value = argparse.Namespace(**vars(args))
+        value.output_root = base / name
+        return value
+
+    g3 = g3_eval(phase_args("G3_D1_teacher_forced_local_flow"))
+    require(g3.get("status") == "PASS", "G3 continuation phase did not complete")
+    g4 = g4_eval(phase_args("G4_D2A_tf_vs_fr"))
+    require(g4.get("status") == "PASS", "G4 continuation phase did not complete")
+    g5_d1 = g5_d1_eval(phase_args("G5_D1_n2_at_1000"))
+    require(g5_d1.get("status") == "PASS", "G5-D1 continuation phase did not complete")
+    g5_d2a = g5_d2a_eval(phase_args("G5_D2A_n2_at_1000"))
+    require(g5_d2a.get("status") == "PASS", "G5-D2A continuation phase did not complete")
+    result = {
+        "schema": "CORELAB_STAGE45E_N2_GPU_CONTINUATION_RESULT_V2",
+        "status": "PASS",
+        "token": "STAGE45E_N2_CORELAB_GPU_SPRINT_G3_G4_G5_COMPLETE_FOR_PI_REVIEW",
+        "pi_gate": "PI_GATE_STATE_0130",
+        "repository_head": git("rev-parse", "HEAD"),
+        "continuation_order": ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"],
+        "forbidden_reruns": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"],
+        "g3": g3,
+        "g4": g4,
+        "g5_d1": g5_d1,
+        "g5_d2a": g5_d2a,
+        "scientific_contract_changed": False,
+        "training": False,
+        "Validation-E": 0,
+        "Holdout-F": 0,
+        "WBC": 0,
+        "simulator": 0,
+        "hardware": 0,
+    }
+    write_json(base / "continuation_result.json", result)
+    return result
 
 
 def run_sprint(args: argparse.Namespace) -> dict[str, Any]:
@@ -871,7 +987,7 @@ def reset_boundary() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("static", "admission", "train", "g2", "g3", "g4", "g5d1", "g5d2a", "sprint"), default="static")
+    parser.add_argument("--mode", choices=("static", "admission", "train", "g2", "g3", "g4", "g5d1", "g5d2a", "continue-g3-g4-g5", "sprint"), default="static")
     parser.add_argument("--base-model", dest="base_model", type=Path)
     parser.add_argument("--dataset", type=Path)
     parser.add_argument("--groot", type=Path)
@@ -920,15 +1036,24 @@ def main() -> int:
         elif args.mode == "g5d2a":
             require(args.output_root is not None, "g5d2a requires output root")
             result = g5_d2a_eval(args)
+        elif args.mode == "continue-g3-g4-g5":
+            result = run_continuation_g3_g4_g5(args)
         else:
-            require(args.output_root is not None, "sprint requires --output-root")
-            result = run_sprint(args)
+            raise RuntimeError("legacy --mode sprint is disabled under PI0130; use --mode continue-g3-g4-g5")
         print(json.dumps(result, indent=2, sort_keys=True, default=str))
         return 0
     except Exception as exc:
         if output_root is not None:
             output_root.mkdir(parents=True, exist_ok=True)
-            write_json(output_root / "FAILURE_SEAL.json", {"schema": "CORELAB_STAGE45E_N2_GPU_SPRINT_FAILURE_SEAL_V1", "status": "BLOCKED", "stage": STAGE, "pi_gate": PI_GATE, "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc(), "execution_boundary": _BOUNDARY, "retry_or_substitution": False, "timestamp_utc": now_utc()}, overwrite=True)
+            outer_failure = output_root / "FAILURE_SEAL.json"
+            # Preserve a phase-local seal written by the inner runner.  When
+            # the continuation root is the outer container, keep a separate
+            # top-level record rather than overwriting the more informative
+            # phase counters and traceback.
+            if outer_failure.exists():
+                outer_failure = output_root / "OUTER_FAILURE_SEAL.json"
+            if not outer_failure.exists():
+                write_json(outer_failure, {"schema": "CORELAB_STAGE45E_N2_GPU_SPRINT_FAILURE_SEAL_V2", "status": "BLOCKED", "stage": STAGE, "pi_gate": PI_GATE, "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc(), "execution_boundary": _BOUNDARY, "retry_or_substitution": False, "timestamp_utc": now_utc()})
         print(f"STAGE45E_N2_GPU_SPRINT_BLOCKED: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 2
 
