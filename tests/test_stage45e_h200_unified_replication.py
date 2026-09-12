@@ -466,6 +466,56 @@ def test_v5_catalog_has_six_legacy_and_two_l1_required_references() -> None:
     assert all(reference["raw_before_derived"] is True for phases in catalog["references"].values() for steps in phases.values() for reference in steps.values())
 
 
+def test_historical_contract_flag_locations_are_schema_explicit() -> None:
+    d1 = {"evidence": {"raw_before_derived": True, "target_xyz_in_model_input": False}}
+    campaign._require_historical_contract_flag(d1, container="evidence", field="raw_before_derived", expected=True, label="raw")
+    campaign._require_historical_contract_flag(d1, container="evidence", field="target_xyz_in_model_input", expected=False, label="target")
+    d2 = {"experiment_contract": {"raw_before_derived": True, "target_xyz_in_model_input": False}}
+    campaign._require_historical_contract_flag(d2, container="experiment_contract", field="raw_before_derived", expected=True, label="raw")
+    campaign._require_historical_contract_flag(d2, container="experiment_contract", field="target_xyz_in_model_input", expected=False, label="target")
+    with pytest.raises(RuntimeError, match="namespace missing"):
+        campaign._require_historical_contract_flag(d1, container="experiment_contract", field="raw_before_derived", expected=True, label="raw")
+    with pytest.raises(RuntimeError, match="drift"):
+        campaign._require_historical_contract_flag({"evidence": {"target_xyz_in_model_input": True}}, container="evidence", field="target_xyz_in_model_input", expected=False, label="target")
+
+
+def test_l1_raw_manifest_order_and_selected_binding_are_fail_closed(tmp_path: Path) -> None:
+    source_root = tmp_path / "l1"
+    raw_file = source_root / "raw/L1_at_1000/window-00.npy"
+    raw_file.parent.mkdir(parents=True)
+    raw_file.write_bytes(b"synthetic raw bytes")
+    raw_sha = campaign.sha256_file(raw_file)
+    array_sha = "b" * 64
+    checkpoint_sha = "a" * 64
+    window_id = "stage22_expert_red_target_train_a:expert-0000"
+    raw_record = {
+        "schema": "VANDA_STAGE45E_L1_RAW_PREDICTION_ARTIFACT_V1",
+        "path": "raw/L1_at_1000/window-00.npy",
+        "file_sha256": raw_sha,
+        "array_sha256": array_sha,
+        "shape": [1, 40, 132],
+        "checkpoint": {"label": "L1@1000", "tree_sha256": checkpoint_sha},
+        "window_id": window_id,
+    }
+    derived_record = {
+        "schema": "VANDA_STAGE45E_L1_DERIVED_EVIDENCE_REFERENCE_V1",
+        "raw_path": raw_record["path"],
+    }
+    manifest = source_root / "raw_predictions.jsonl"
+    manifest.write_text(json.dumps(raw_record) + "\n" + json.dumps(derived_record) + "\n", encoding="utf-8")
+    selected = [{
+        "checkpoint": {"label": "L1@1000", "sha256": checkpoint_sha},
+        "window_id": window_id,
+        "raw_prediction_artifact": {"path": raw_record["path"], "sha256": raw_sha, "array_sha256": array_sha, "shape": [1, 40, 132]},
+    }]
+    proof = campaign._audit_l1_raw_prediction_order(manifest, selected, source_root.resolve())
+    assert proof["raw_before_derived"] is True
+    assert proof["selected_raw_record_count"] == 1
+    manifest.write_text(json.dumps(derived_record) + "\n" + json.dumps(raw_record) + "\n", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="precedes raw"):
+        campaign._audit_l1_raw_prediction_order(manifest, selected, source_root.resolve())
+
+
 def test_v6_fixture_is_consumed_by_pinned_corelab_verifier(tmp_path: Path) -> None:
     fixture = campaign.build_corelab_producer_fixture(tmp_path)
     assert fixture["synthetic_test_only"] is True

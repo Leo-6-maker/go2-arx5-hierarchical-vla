@@ -1165,6 +1165,105 @@ def _historical_row_identity(row: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _require_historical_contract_flag(
+    seal: Mapping[str, Any],
+    *,
+    container: str,
+    field: str,
+    expected: bool,
+    label: str,
+) -> None:
+    """Verify a legacy seal field at its schema-defined location.
+
+    The accepted Stage45D seal schemas do not all place contract flags in the
+    same namespace: D1 records them in ``evidence`` while D2A/D2B record them
+    in ``experiment_contract``.  This is an explicit schema mapping, not a
+    fallback that treats an absent flag as safe.
+    """
+
+    payload = seal.get(container)
+    require(isinstance(payload, Mapping), f"historical {label} {container} namespace missing")
+    value = payload.get(field)
+    require(value is expected, f"historical {label} {field} drift")
+
+
+def _audit_l1_raw_prediction_order(
+    raw_prediction_path: Path,
+    selected: Sequence[Mapping[str, Any]],
+    source_root: Path,
+) -> dict[str, Any]:
+    """Prove L1's raw artifact log precedes each derived reference.
+
+    The historical L1 evaluator stores raw and derived records in one
+    append-only JSONL manifest rather than a seal-level boolean.  Every
+    derived record must point to an earlier raw record, and every selected
+    row must bind to the matching raw file/hash/identity.  This keeps the
+    historical evidence read-only while still proving the lifecycle boundary.
+    """
+
+    records = _read_jsonl(raw_prediction_path, "historical L1 raw prediction manifest")
+    raw_by_path: dict[str, Mapping[str, Any]] = {}
+    derived_count = 0
+    for index, record in enumerate(records, start=1):
+        schema = record.get("schema")
+        if schema == "VANDA_STAGE45E_L1_RAW_PREDICTION_ARTIFACT_V1":
+            relative = record.get("path")
+            require(
+                isinstance(relative, str)
+                and relative
+                and not Path(relative).is_absolute()
+                and ".." not in Path(relative).parts,
+                f"historical L1 raw manifest path is not relative at line {index}",
+            )
+            raw_path = (source_root / relative).resolve()
+            require(raw_path.is_relative_to(source_root), "historical L1 raw manifest escapes source root")
+            require(relative not in raw_by_path, f"historical L1 duplicate raw manifest path: {relative}")
+            raw_by_path[relative] = record
+        elif schema == "VANDA_STAGE45E_L1_DERIVED_EVIDENCE_REFERENCE_V1":
+            derived_count += 1
+            relative = record.get("raw_path")
+            require(
+                isinstance(relative, str) and relative in raw_by_path,
+                f"historical L1 derived record precedes raw artifact at line {index}",
+            )
+        else:
+            raise RuntimeError(f"historical L1 raw manifest schema drift at line {index}")
+
+    require(raw_by_path, "historical L1 raw prediction manifest has no raw records")
+    require(derived_count == len(raw_by_path), "historical L1 raw/derived manifest count drift")
+
+    selected_paths: set[str] = set()
+    for row in selected:
+        artifact = row.get("raw_prediction_artifact")
+        require(isinstance(artifact, Mapping), "historical L1 raw prediction artifact binding missing")
+        relative = artifact.get("path")
+        require(isinstance(relative, str) and relative in raw_by_path, "historical L1 selected raw artifact is absent from manifest")
+        require(relative not in selected_paths, "historical L1 selected raw artifact is duplicated")
+        selected_paths.add(relative)
+        raw = raw_by_path[relative]
+        row_checkpoint = row.get("checkpoint")
+        raw_checkpoint = raw.get("checkpoint")
+        require(isinstance(row_checkpoint, Mapping) and isinstance(raw_checkpoint, Mapping), "historical L1 raw checkpoint identity missing")
+        require(
+            raw_checkpoint.get("label") == row_checkpoint.get("label")
+            and raw_checkpoint.get("tree_sha256") == row_checkpoint.get("sha256"),
+            "historical L1 raw checkpoint identity drift",
+        )
+        require(raw.get("window_id") == row.get("window_id"), "historical L1 raw window identity drift")
+        require(raw.get("file_sha256") == artifact.get("sha256"), "historical L1 raw file SHA binding drift")
+        require(raw.get("array_sha256") == artifact.get("array_sha256"), "historical L1 raw array SHA binding drift")
+        require(raw.get("shape") == artifact.get("shape"), "historical L1 raw shape binding drift")
+
+    return {
+        "manifest_sha256": sha256_file(raw_prediction_path),
+        "raw_record_count": len(raw_by_path),
+        "derived_record_count": derived_count,
+        "selected_raw_record_count": len(selected_paths),
+        "raw_before_derived": True,
+        "source_bound": True,
+    }
+
+
 def _selected_rows_sha256(rows: Sequence[Mapping[str, Any]]) -> str:
     return sha256_bytes(b"".join(_canonical_json_bytes(row) + b"\n" for row in rows))
 
@@ -1182,9 +1281,44 @@ def audit_historical_diagnostic_evidence_reference(reference: Mapping[str, Any])
     require(seal.get("schema") == reference["seal_schema"] and seal.get("status") == "PASS", "historical evidence seal schema/status drift")
     require(reference["phase"] in {"E4", "D1", "D2A"}, "historical evidence phase drift")
     expected_raw_schema = reference.get("raw_manifest_schema")
-    evidence = seal.get("evidence", {}) if isinstance(seal.get("evidence"), Mapping) else {}
-    require(evidence.get("raw_before_derived") is True, "historical evidence raw-before-derived seal missing")
-    require(evidence.get("target_xyz_in_model_input") is False, "historical evidence target exclusion seal drift")
+    contract_proof: dict[str, Any] = {}
+    if reference["source_phase"] == "D1":
+        _require_historical_contract_flag(
+            seal,
+            container="evidence",
+            field="raw_before_derived",
+            expected=True,
+            label="raw-before-derived seal",
+        )
+        _require_historical_contract_flag(
+            seal,
+            container="evidence",
+            field="target_xyz_in_model_input",
+            expected=False,
+            label="target exclusion seal",
+        )
+        contract_proof = {"namespace": "evidence", "raw_before_derived": True, "target_xyz_in_model_input": False}
+    elif reference["source_phase"] in {"D2A", "D2B"}:
+        _require_historical_contract_flag(
+            seal,
+            container="experiment_contract",
+            field="raw_before_derived",
+            expected=True,
+            label="raw-before-derived seal",
+        )
+        _require_historical_contract_flag(
+            seal,
+            container="experiment_contract",
+            field="target_xyz_in_model_input",
+            expected=False,
+            label="target exclusion seal",
+        )
+        contract_proof = {"namespace": "experiment_contract", "raw_before_derived": True, "target_xyz_in_model_input": False}
+    else:
+        # The historical L1 evaluator predates the seal-level flags. Its
+        # per-row target exclusion and append-only raw/derived manifest are
+        # checked after rows are selected below; absence is not a PASS.
+        contract_proof = {"namespace": "selected_rows_and_raw_manifest"}
     if reference["source_phase"] == "D1":
         require(seal.get("execution_head") == "00fe100722268da3134bc7bfe2b535fa86475f7d", "historical D1 execution HEAD drift")
         require(seal.get("counters", {}).get("training_steps") == 0 and seal.get("counters", {}).get("optimizer_steps") == 0, "historical D1 crossed training boundary")
@@ -1262,18 +1396,11 @@ def audit_historical_diagnostic_evidence_reference(reference: Mapping[str, Any])
     elif reference["source_phase"] == "D1":
         require(all(row.get("raw_before_derived") is True for row in selected), "historical D1 row raw-before-derived drift")
     else:
-        # The L1 evaluator stores raw prediction arrays in a separate sealed
-        # JSONL/artifact namespace rather than embedding a raw-before-derived
-        # flag in each derived row.
-        for row in selected:
-            artifact = row.get("raw_prediction_artifact")
-            require(isinstance(artifact, Mapping), "historical L1 raw prediction artifact binding missing")
-            relative = artifact.get("path")
-            require(isinstance(relative, str) and relative and not Path(relative).is_absolute() and ".." not in Path(relative).parts, "historical L1 raw artifact path is not relative")
-            artifact_path = (source_root / relative).resolve()
-            require(artifact_path.is_relative_to(source_root), "historical L1 raw artifact escapes source root")
-            artifact_sha = _verified_file_sha(artifact_path, str(artifact.get("sha256")), "historical L1 raw prediction artifact")
-            require(artifact_sha == artifact.get("sha256"), "historical L1 raw prediction artifact SHA drift")
+        contract_proof.update(_audit_l1_raw_prediction_order(raw_prediction_path, selected, source_root))
+        # The selected derived rows are the authoritative target-exclusion
+        # records for this pre-flag L1 schema; the set check above is
+        # intentionally retained and is not inferred from the raw log.
+        contract_proof["target_xyz_in_model_input"] = False
 
     return {
         **dict(reference),
@@ -1290,6 +1417,7 @@ def audit_historical_diagnostic_evidence_reference(reference: Mapping[str, Any])
         "selected_probe_seeds": sorted(probe_seeds),
         "raw_manifest_count": len(raw_manifest_paths),
         "raw_manifest_inventory_sha256": _selected_rows_sha256(raw_manifest_paths) if raw_manifest_paths else None,
+        "contract_proof": contract_proof,
         "immutable_source_bound": True,
         "read_only": True,
     }
