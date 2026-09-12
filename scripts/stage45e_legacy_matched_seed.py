@@ -42,6 +42,10 @@ FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 RUNTIME_STATS_SHA = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
 RUNTIME_STATS_PAYLOAD_SHA = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
 GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+GROOT_MANIFEST_SHA = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
+GROOT_MANIFEST_PAYLOAD_SHA = "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8e3c50e0a43e5b8250"
+GROOT_PAYLOAD_TREE = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
+DEFAULT_GROOT_MANIFEST = Path("/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45B_GROOT_SOURCE_SNAPSHOT_V2.manifest.json")
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
@@ -179,8 +183,9 @@ def static_audit() -> dict[str, Any]:
 
 
 def paths(args: argparse.Namespace) -> dict[str, Path]:
-    names = ("base_model", "dataset", "groot", "cosmos", "modality", "config", "runtime_stats", "sealed_baseline", "snapshot_preflight")
+    names = ("base_model", "dataset", "groot", "groot_manifest", "cosmos", "modality", "config", "runtime_stats", "sealed_baseline", "snapshot_preflight")
     result = {name: Path(getattr(args, name)).resolve() for name in names if getattr(args, name, None) is not None}
+    result.setdefault("groot_manifest", DEFAULT_GROOT_MANIFEST.resolve())
     return result
 
 
@@ -214,13 +219,20 @@ def verify_identities(p: Mapping[str, Path]) -> dict[str, Any]:
     require(runtime_check["outer_sha256"] == RUNTIME_STATS_SHA and runtime_check["payload_sha256"] == RUNTIME_STATS_PAYLOAD_SHA, "runtime-V2 stats identity mismatch")
     require(sha256_file(p["modality"]) == MODALITY_SHA, "modality identity mismatch")
     require(sha256_file(p["config"]) == CONFIG_SHA, "config identity mismatch")
-    require(git_external(p["groot"], "rev-parse", "HEAD") == GROOT_COMMIT, "GR00T source commit mismatch")
+    from stage45b_groot_source_snapshot import verify_extracted
+    groot_snapshot = verify_extracted(
+        p["groot"], p["groot_manifest"],
+        expected_manifest_file_sha256=GROOT_MANIFEST_SHA,
+        expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA,
+        expected_payload_tree_sha256=GROOT_PAYLOAD_TREE,
+    )
+    require(groot_snapshot.get("origin_commit") == GROOT_COMMIT, "GR00T source commit mismatch")
     refs = p["cosmos"] / "refs/main"
     require(refs.is_file() and refs.read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos revision mismatch")
     # The tree hash is expensive but is the accepted immutable Cosmos identity.
     cosmos_tree = cosmos_digest(p["cosmos"])
     require(cosmos_tree == COSMOS_TREE, f"Cosmos tree mismatch: {cosmos_tree}")
-    return {"base_tree_sha256": base, "full24": full24, "runtime_stats": runtime_check, "runtime_stats_sha256": sha256_file(p["runtime_stats"]), "runtime_stats_payload_sha256": RUNTIME_STATS_PAYLOAD_SHA, "modality_sha256": sha256_file(p["modality"]), "config_sha256": sha256_file(p["config"]), "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": cosmos_tree}
+    return {"base_tree_sha256": base, "full24": full24, "runtime_stats": runtime_check, "runtime_stats_sha256": sha256_file(p["runtime_stats"]), "runtime_stats_payload_sha256": RUNTIME_STATS_PAYLOAD_SHA, "modality_sha256": sha256_file(p["modality"]), "config_sha256": sha256_file(p["config"]), "groot_commit": GROOT_COMMIT, "groot_snapshot": groot_snapshot, "groot_manifest_sha256": GROOT_MANIFEST_SHA, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": cosmos_tree}
 
 
 def git_external(repo: Path, *args: str) -> str:
@@ -633,7 +645,7 @@ def main() -> int:
     parser.add_argument("--seed2223-root", type=Path)
     parser.add_argument("--seed2224-root", type=Path)
     parser.add_argument("--output-root", type=Path)
-    for name in ("base_model", "dataset", "groot", "cosmos", "modality", "config", "runtime_stats", "sealed_baseline", "snapshot_preflight"):
+    for name in ("base_model", "dataset", "groot", "groot_manifest", "cosmos", "modality", "config", "runtime_stats", "sealed_baseline", "snapshot_preflight"):
         parser.add_argument(f"--{name.replace('_', '-')}", dest=name, type=Path)
     parser.add_argument("--gpu-uuid")
     args = parser.parse_args()
