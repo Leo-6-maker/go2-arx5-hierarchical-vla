@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0145_C10_END_TO_END_COMPATIBILITY_REPORT_V1",
+  "status": "PASS_CPU_STATIC_SYNTHETIC_ONLY",
+  "token": "STAGE45F_CORELAB_PI0145_C10_END_TO_END_COMPATIBILITY_READY_FOR_PI_REVIEW",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0145",
+    "issue_comment": 5645246857,
+    "pr": 65,
+    "pointer_comment": 5645265432
+  },
+  "support_branch": "stage45f/corelab-evidence-convergence",
+  "implementation_head": "734678113e9e640c25d44412a266941232485fa0",
+  "producer_consumer": {
+    "producer_branch": "stage45e/h200-unified-replication-campaign",
+    "producer_head": "9c47850e1e4f5176034813f585061bc5b21e3bb1",
+    "producer_schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2",
+    "consumer_entrypoint": "scripts/stage45f_corelab_evidence_convergence.py::verify_campaign",
+    "packet_entrypoint": "scripts/stage45f_corelab_evidence_convergence.py::build_packet(campaign_path=...)",
+    "adapter": "scripts/stage45f_corelab_pi0145_v2_adapter.py",
+    "contract_manifest": "manifests/STAGE45F_PI0145_VANDA_C10_PRODUCER_CONSUMER_V1.json",
+    "source_read_only": true
+  },
+  "changed_files": {
+    "scripts/stage45f_corelab_evidence_convergence.py": "047ee30fcb3cb38b8e6aa84e75194e04e66dace524b05d48dc796e3c64d72cd2",
+    "scripts/stage45f_corelab_pi0145_v2_adapter.py": "b635775d2168c193f810205d97f737a0844cdf9d01f94493ecee44406ce664c4",
+    "tests/test_stage45f_pi0145_c10_v2_adapter.py": "4f1e4a4ba7cddbb0c92e8b8749c70bc9e97906557a5053ae504aecbffbb23c7a",
+    "manifests/STAGE45F_PI0145_VANDA_C10_PRODUCER_CONSUMER_V1.json": "5cdbf3d0e39701b0bc27909af212c35c900244fb59ebf6a0dff89fb26682a345"
+  },
+  "behavioral_evidence": {
+    "synthetic_result_summary_handoff_inventory": "PASS_SYNTHETIC_ONLY",
+    "exact_c10_arms": 18,
+    "phase_route_units": 9,
+    "historical_reference_bindings": 8,
+    "standard_and_recovered_lineages": "PASS",
+    "typed_boolean_counter_mapping": "PASS",
+    "exact_window_noise_sampler_contract": "PASS",
+    "physical_primary_normalized_route_local": "PASS",
+    "duplicate_arm_mutation": "REJECTED",
+    "tampered_descriptor_and_target_xyz_mutation": "REJECTED",
+    "real_entrypoint_rejects_synthetic": "PASS",
+    "neutral_packet_entrypoint_rejects_synthetic": "PASS"
+  },
+  "tests": {
+    "command": "PYTHONPATH=scripts python3 -m unittest -v tests/test_stage45f_pi0145_c10_v2_adapter.py tests/test_stage45f_corelab_evidence_convergence.py tests/test_stage45f_corelab_pi0143_compat.py tests/test_stage45f_corelab_pi0136.py tests/test_stage45f_corelab_pi0137.py",
+    "result": "26 passed",
+    "stdout_stderr_sha256": "aad0398f6fdec85eadf2c5bcf132b6421405af9a92d62f1172df2d44f9952f96",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "full_dependency_suite": "NOT_RUN; unavailable optional dependencies remain outside this CPU/static gate"
+  },
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "gpu": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "icl_tensor_materialization": 0,
+    "real_h200_campaign_ingested": false,
+    "merge": 0,
+    "winner_selection": 0
+  },
+  "claim_boundary": "The synthetic producer-shaped fixture proves behavioral adapter wiring and fail-closed boundaries only; it is not Vanda scientific evidence and does not authorize real C10 convergence. A genuine Vanda V2 result remains subject to all typed source, seal, inventory, handoff, TRAIN24, and historical-reference checks."
+}
