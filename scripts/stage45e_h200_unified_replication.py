@@ -439,8 +439,10 @@ def verify_historical(root: Path, route: str) -> dict[str, Any]:
         base_tree = result.get("base_tree_sha256") or preflight.get("base_tree_sha256")
         full24_tree = result.get("full24_tree_sha256") or preflight.get("full24_tree_sha256")
         require(base_tree == BASE_TREE and full24_tree == FULL24_TREE, "historical Legacy source identity drift")
-        require(result.get("runtime_stats_sha256") == RUNTIME_STATS_SHA and result.get("optimizer_steps") == 2000, "historical Legacy recipe/stats drift")
-        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json") for step in (1000, 2000)}}
+        stats_sha = result.get("runtime_stats_sha256") or result.get("structured_stats_sha256") or preflight.get("runtime_stats_sha256")
+        stats_payload_sha = result.get("runtime_stats_payload_sha256") or result.get("structured_stats_payload_sha256") or preflight.get("runtime_stats_payload_sha256") or preflight.get("statistics_payload_sha256")
+        require(stats_sha == RUNTIME_STATS_SHA and stats_payload_sha == RUNTIME_STATS_PAYLOAD_SHA and result.get("optimizer_steps") == 2000, "historical Legacy recipe/stats drift")
+        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree, "runtime_stats_sha256": stats_sha, "runtime_stats_payload_sha256": stats_payload_sha}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json") for step in (1000, 2000)}}
     result_path = root / "stage45e_l1_training_result.json"
     result = read_json(result_path)
     require(result.get("training_seed") == 2222 and result.get("training_steps") == 2000, "historical L1 seed2222 identity drift")
