@@ -131,6 +131,7 @@ def test_diagnostic_wrapper_leaves_route_output_fresh_for_canonical_helper() -> 
     assert "pre_model_sidecar" in run_phase
     assert "write_json(pre_model_sidecar, pre_model_record)" in run_phase
     assert "write_json(output / \"pre_model_admission.json\", pre_model_record)" in run_phase
+    assert "sys.path.insert(0, str(paths[\"groot\"]))" in run_phase
     # The wrapper must not create the route output before calling the helper;
     # canonical E4/D1/D2A helpers enforce their own fresh-root contract.
     helper_call = run_phase.index("result = module.e4(route_args)")

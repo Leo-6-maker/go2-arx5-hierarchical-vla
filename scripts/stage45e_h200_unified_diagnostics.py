@@ -294,6 +294,10 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     # The dynamic import below is the first point where the accepted runtime
     # can import Torch/GR00T transitively.  Every identity and freshness
     # predicate above has already passed at this point.
+    # Bind the accepted GR00T source explicitly because the PBS launcher
+    # intentionally clears PYTHONPATH.  This only changes import resolution;
+    # it does not import model code before the admission record is sealed.
+    sys.path.insert(0, str(paths["groot"]))
     module = _load_module(route_script)
     module.REPO = route_repo
     module.BRANCH = ROUTE_BRANCHES[route]
