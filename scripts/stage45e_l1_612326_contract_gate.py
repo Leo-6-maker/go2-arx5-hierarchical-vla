@@ -26,6 +26,8 @@ FULL24_STATS_PAYLOAD_SHA256 = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed
 L1_MATRIX_SHA256 = "b844c1c9a0400ad25ed55d43eb9d5cfe932435bb52340539038e7f4d6ace93a9"
 XYZ_WEIGHTS = {"x": 1.401885, "y": 0.472436, "z": 1.125678}
 FORMULA = "sum((prediction-target)^2 * binary_action_mask * l1_loss_weight) / binary_action_mask.sum()"
+REPRODUCED_WEIGHT_EVIDENCE_STATUS = "REPRODUCED_RUNTIME_COEFFICIENT_EVIDENCE"
+REPRODUCED_WEIGHT_EVIDENCE_SCHEMA = "STAGE45E_L1_REPRODUCED_RUNTIME_COEFFICIENT_EVIDENCE_V1"
 
 EXPECTED_TRAINING_RECIPE = {
     "base_mode": "FRESH_BASE_NO_RESUME",
@@ -175,7 +177,65 @@ def _input_audit(path: Path) -> dict[str, Any]:
     }
 
 
-def bind(base_acceptance_path: Path, training_root: Path, output_path: Path) -> dict[str, Any]:
+def _runtime_weight_evidence(path: Path) -> dict[str, Any]:
+    path = Path(path).expanduser().resolve()
+    document = read_json(path)
+    require(document.get("schema") == REPRODUCED_WEIGHT_EVIDENCE_SCHEMA, "reproduced runtime-weight evidence schema drift")
+    require(document.get("status") == REPRODUCED_WEIGHT_EVIDENCE_STATUS, "reproduced runtime-weight evidence status drift")
+    require(document.get("historical_training_head") == TRAINING_HEAD, "reproduced evidence historical training HEAD drift")
+    require(document.get("source_semantics") == "FROZEN_612326_L1_CONFIG_AND_LOSS", "reproduced evidence source semantics drift")
+    evidence = document.get("evidence")
+    require(isinstance(evidence, Mapping), "reproduced runtime-weight evidence payload missing")
+    require(evidence.get("schema") == "STAGE45E_L1_RUNTIME_EFFECTIVE_WEIGHT_EVIDENCE_V1", "runtime-weight evidence payload schema drift")
+    require(evidence.get("status") == "CAPTURED_READONLY_FROM_FORWARD_TENSOR_DTYPE", "runtime-weight evidence capture status drift")
+    require(evidence.get("configured_xyz_loss_weights_float32") == XYZ_WEIGHTS, "reproduced configured XYZ weights drift")
+    effective = evidence.get("effective_xyz_loss_weights_after_runtime_cast")
+    require(isinstance(effective, Mapping) and set(effective) == set(XYZ_WEIGHTS), "reproduced effective XYZ weights missing")
+    for axis in XYZ_WEIGHTS:
+        value = effective[axis]
+        require(isinstance(value, (int, float)) and not isinstance(value, bool), f"reproduced effective {axis} weight is not numeric")
+        require(value == value and abs(float(value)) != float("inf"), f"reproduced effective {axis} weight is non-finite")
+    require(evidence.get("configured_matrix_float32_sha256") == L1_MATRIX_SHA256, "reproduced weight matrix SHA drift")
+    require(evidence.get("active_scalar_count_per_sample") == 190, "reproduced active scalar count drift")
+    require(evidence.get("weight_tensor_dtype") == evidence.get("action_loss_dtype"), "runtime weight/action-loss dtype mismatch")
+    require(evidence.get("weight_tensor_device_type") == "cuda", "reproduced weight tensor was not observed on CUDA")
+    require(evidence.get("loss_tensor_mutated") is False and evidence.get("mask_tensor_mutated") is False, "reproduced evidence mutated runtime tensors")
+    counters = document.get("execution_counters")
+    require(isinstance(counters, Mapping), "reproduced canary counters missing")
+    expected_counters = {
+        "model_construction": 1,
+        "model_forward": 1,
+        "action_head_forwards": 1,
+        "backward": 0,
+        "optimizer_steps": 0,
+        "checkpoint_writes": 0,
+        "training": 0,
+        "validation_e_read": False,
+        "holdout_f_read": False,
+    }
+    for field, expected in expected_counters.items():
+        require(counters.get(field) == expected, f"reproduced canary counter drift: {field}")
+    require(document.get("evaluation_executed") is False, "reproduced canary claims evaluation")
+    require(document.get("automatic_retry") is False, "reproduced canary permits retry")
+    return {
+        "path": str(path),
+        "sha256": sha256_file(path),
+        "schema": document["schema"],
+        "status": document["status"],
+        "execution_head": document.get("execution_head"),
+        "historical_training_head": document["historical_training_head"],
+        "evidence": dict(evidence),
+        "execution_counters": dict(counters),
+        "claim_boundary": document.get("claim_boundary"),
+    }
+
+
+def bind(
+    base_acceptance_path: Path,
+    training_root: Path,
+    output_path: Path,
+    runtime_weight_evidence_path: Path | None = None,
+) -> dict[str, Any]:
     base_acceptance_path = Path(base_acceptance_path).expanduser().resolve()
     training_root = Path(training_root).expanduser().resolve()
     require(training_root.is_dir() and not training_root.is_symlink(), "historical training root unavailable")
@@ -198,6 +258,10 @@ def bind(base_acceptance_path: Path, training_root: Path, output_path: Path) -> 
     require(runtime_contract["mask_folding"] is False and input_audit["code_contract"]["mask_folding"] is False, "mask folding observed")
     require(runtime_contract["adaptive_renormalization"] is False and input_audit["code_contract"]["adaptive_renormalization"] is False, "adaptive renormalization observed")
     require(runtime["sides"]["binding"]["training_recipe"] == input_audit["training_recipe"], "runtime/input training recipe disagree")
+
+    reproduced_weight_evidence = None
+    if runtime_weight_evidence_path is not None:
+        reproduced_weight_evidence = _runtime_weight_evidence(runtime_weight_evidence_path)
 
     final = {
         "schema": "STAGE45E_L1_612326_CONTRACT_BOUND_ACCEPTANCE_V1",
@@ -239,8 +303,17 @@ def bind(base_acceptance_path: Path, training_root: Path, output_path: Path) -> 
             "validation_e_read": False,
             "holdout_f_read": False,
         },
-        "claim_boundary": "This acceptance proves the completed 612326 artifacts were produced under the frozen PI0123 L1 contract and training recipe. It does not recover historically unrecorded effective runtime coefficient dtype/values and does not authorize evaluation.",
+        "claim_boundary": "This acceptance proves the completed 612326 artifacts were produced under the frozen PI0123 L1 contract and training recipe. It does not authorize evaluation.",
     }
+    if reproduced_weight_evidence is not None:
+        final["scientific_contract"]["runtime_effective_weight_dtype_captured"] = True
+        final["scientific_contract"]["runtime_effective_weight_evidence_status"] = REPRODUCED_WEIGHT_EVIDENCE_STATUS
+        final["scientific_contract"]["reproduced_runtime_weight_evidence"] = reproduced_weight_evidence
+        final["claim_boundary"] = (
+            "This acceptance proves the completed 612326 artifacts were produced under the frozen PI0123 L1 contract and training recipe. "
+            "Runtime effective coefficient dtype/values are attached as one separately reproduced, no-update forward observation at the recorded execution HEAD; "
+            "they are not historical 612326 telemetry. This acceptance does not authorize evaluation."
+        )
     require(isinstance(final["checkpoint_1000"], Mapping) and isinstance(final["checkpoint_2000"], Mapping), "base acceptance checkpoint records missing")
     write_json(output_path, final)
     return final
@@ -269,6 +342,7 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--base-acceptance", type=Path)
     p.add_argument("--training-root", type=Path)
     p.add_argument("--output", type=Path)
+    p.add_argument("--runtime-weight-evidence", type=Path)
     return p
 
 
@@ -278,7 +352,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(plan(), indent=2, sort_keys=True, allow_nan=False))
         return 0
     require(args.base_acceptance is not None and args.training_root is not None and args.output is not None, "--bind requires base-acceptance, training-root, output")
-    result = bind(args.base_acceptance, args.training_root, args.output)
+    result = bind(args.base_acceptance, args.training_root, args.output, args.runtime_weight_evidence)
     print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
     return 0
 

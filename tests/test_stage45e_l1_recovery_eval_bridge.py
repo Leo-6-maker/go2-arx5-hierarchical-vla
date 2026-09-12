@@ -148,3 +148,15 @@ def test_bridge_rejects_fake_historical_pass_result(tmp_path: Path) -> None:
     _write_json(training / "stage45e_l1_training_result.json", {"status": "fabricated"})
     with pytest.raises(bridge.RecoveryEvalBridgeError, match="historical PASS training result"):
         bridge.bridge(acceptance, training, tmp_path / "out.json")
+
+
+def test_bridge_requires_and_preserves_reproduced_weight_attachment(tmp_path: Path) -> None:
+    training, acceptance = _fixture(tmp_path)
+    value = json.loads(acceptance.read_text(encoding="utf-8"))
+    contract = value["scientific_contract"]
+    contract["runtime_effective_weight_evidence_status"] = bridge.REPRODUCED_WEIGHT_EVIDENCE_STATUS
+    contract["reproduced_runtime_weight_evidence"] = {"status": bridge.REPRODUCED_WEIGHT_EVIDENCE_STATUS, "path": "/scratch/reproduced.json"}
+    _write_json(acceptance, value)
+    result = bridge.bridge(acceptance, training, tmp_path / "out.json")
+    assert result["runtime_effective_weight_evidence_status"] == bridge.REPRODUCED_WEIGHT_EVIDENCE_STATUS
+    assert result["reproduced_runtime_weight_evidence"]["status"] == bridge.REPRODUCED_WEIGHT_EVIDENCE_STATUS

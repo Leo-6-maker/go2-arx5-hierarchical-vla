@@ -28,6 +28,7 @@ FULL24_STATS_SHA256 = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd
 FULL24_STATS_PAYLOAD_SHA256 = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
 L1_MATRIX_SHA256 = "b844c1c9a0400ad25ed55d43eb9d5cfe932435bb52340539038e7f4d6ace93a9"
 XYZ_WEIGHTS = {"x": 1.401885, "y": 0.472436, "z": 1.125678}
+REPRODUCED_WEIGHT_EVIDENCE_STATUS = "REPRODUCED_RUNTIME_COEFFICIENT_EVIDENCE"
 FORBIDDEN_TOP_LEVEL_IMPORTS = {
     "torch", "transformers", "gr00t", "cuda", "subprocess", "numpy",
 }
@@ -197,7 +198,18 @@ def bridge(acceptance_path: Path, training_root: Path, output_path: Path) -> dic
         "L1@2000": _checkpoint_match(training_root, acceptance, 2000),
     }
     weight_evidence_status = scientific_contract.get("runtime_effective_weight_evidence_status")
-    require(weight_evidence_status in {"CAPTURED", "NOT_CAPTURED_IN_HISTORICAL_CANARY"}, "runtime weight evidence status drift")
+    require(
+        weight_evidence_status in {
+            "CAPTURED",
+            "NOT_CAPTURED_IN_HISTORICAL_CANARY",
+            REPRODUCED_WEIGHT_EVIDENCE_STATUS,
+        },
+        "runtime weight evidence status drift",
+    )
+    if weight_evidence_status == REPRODUCED_WEIGHT_EVIDENCE_STATUS:
+        reproduced = scientific_contract.get("reproduced_runtime_weight_evidence")
+        require(isinstance(reproduced, Mapping), "reproduced runtime-weight evidence attachment missing")
+        require(reproduced.get("status") == REPRODUCED_WEIGHT_EVIDENCE_STATUS, "reproduced runtime-weight attachment status drift")
 
     result = {
         "schema": "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V2",
@@ -217,6 +229,7 @@ def bridge(acceptance_path: Path, training_root: Path, output_path: Path) -> dic
             "normalization_unchanged": True,
         },
         "runtime_effective_weight_evidence_status": weight_evidence_status,
+        "reproduced_runtime_weight_evidence": scientific_contract.get("reproduced_runtime_weight_evidence"),
         "evaluation_authorized_by_this_bridge": False,
         "final_train24_token_emitted": False,
         "execution_counters": {

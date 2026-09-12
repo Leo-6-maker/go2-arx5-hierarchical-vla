@@ -107,7 +107,7 @@ def validate_recovered_input(path: Path, training_root: Path) -> dict[str, Any]:
         normalized[label] = dict(record)
     require(
         value.get("runtime_effective_weight_evidence_status")
-        in {"CAPTURED", "NOT_CAPTURED_IN_HISTORICAL_CANARY"},
+        in {"CAPTURED", "NOT_CAPTURED_IN_HISTORICAL_CANARY", "REPRODUCED_RUNTIME_COEFFICIENT_EVIDENCE"},
         "recovered runtime-weight evidence status drift",
     )
     return {

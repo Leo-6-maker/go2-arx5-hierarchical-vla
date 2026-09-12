@@ -147,3 +147,49 @@ def test_contract_gate_preserves_historical_dtype_gap(tmp_path: Path) -> None:
     contract = result["scientific_contract"]
     assert contract["runtime_effective_weight_dtype_captured"] is False
     assert contract["runtime_effective_weight_evidence_status"] == "NOT_CAPTURED_IN_HISTORICAL_CANARY"
+
+
+def test_contract_gate_binds_one_reproduced_no_update_observation(tmp_path: Path) -> None:
+    training, base_acceptance = _fixture(tmp_path)
+    evidence = {
+        "schema": gate.REPRODUCED_WEIGHT_EVIDENCE_SCHEMA,
+        "status": gate.REPRODUCED_WEIGHT_EVIDENCE_STATUS,
+        "execution_head": "a" * 40,
+        "historical_training_head": gate.TRAINING_HEAD,
+        "source_semantics": "FROZEN_612326_L1_CONFIG_AND_LOSS",
+        "evidence": {
+            "schema": "STAGE45E_L1_RUNTIME_EFFECTIVE_WEIGHT_EVIDENCE_V1",
+            "status": "CAPTURED_READONLY_FROM_FORWARD_TENSOR_DTYPE",
+            "configured_xyz_loss_weights_float32": dict(gate.XYZ_WEIGHTS),
+            "effective_xyz_loss_weights_after_runtime_cast": {"x": 1.4, "y": 0.47, "z": 1.12},
+            "configured_matrix_float32_sha256": gate.L1_MATRIX_SHA256,
+            "active_scalar_count_per_sample": 190,
+            "weight_tensor_dtype": "torch.bfloat16",
+            "action_loss_dtype": "torch.bfloat16",
+            "weight_tensor_device_type": "cuda",
+            "loss_tensor_mutated": False,
+            "mask_tensor_mutated": False,
+        },
+        "execution_counters": {
+            "model_construction": 1,
+            "model_forward": 1,
+            "action_head_forwards": 1,
+            "backward": 0,
+            "optimizer_steps": 0,
+            "checkpoint_writes": 0,
+            "training": 0,
+            "validation_e_read": False,
+            "holdout_f_read": False,
+        },
+        "evaluation_executed": False,
+        "automatic_retry": False,
+        "claim_boundary": "reproduced, not historical",
+    }
+    evidence_path = tmp_path / "reproduced.json"
+    _write_json(evidence_path, evidence)
+    result = gate.bind(base_acceptance, training, tmp_path / "out.json", evidence_path)
+    contract = result["scientific_contract"]
+    assert contract["runtime_effective_weight_dtype_captured"] is True
+    assert contract["runtime_effective_weight_evidence_status"] == gate.REPRODUCED_WEIGHT_EVIDENCE_STATUS
+    assert contract["reproduced_runtime_weight_evidence"]["sha256"] == gate.sha256_file(evidence_path)
+    assert "not historical" in result["claim_boundary"]
