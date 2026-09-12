@@ -929,16 +929,84 @@ def duplicate_l1_provenance(root: Path = DUPLICATE_L1_ROOT) -> dict[str, Any]:
 
     root = Path(root).resolve()
     result_path = root / "stage45e_l1_training_result.json"
+    input_audit_path = root / "stage45e_l1_input_audit.json"
+    runtime_binding_path = root / "stage45e_l1_runtime_binding.json"
     require(root.is_dir() and not root.is_symlink(), f"duplicate L1 root unavailable: {root}")
     require(result_path.is_file() and not result_path.is_symlink(), f"duplicate L1 result unavailable: {result_path}")
+    require(input_audit_path.is_file() and not input_audit_path.is_symlink(), f"duplicate L1 input audit unavailable: {input_audit_path}")
+    require(runtime_binding_path.is_file() and not runtime_binding_path.is_symlink(), f"duplicate L1 runtime binding unavailable: {runtime_binding_path}")
     result = read_json(result_path)
-    require(result.get("training_seed") == 2222, "612342 duplicate seed drift")
+    input_audit = read_json(input_audit_path)
+    runtime_binding = read_json(runtime_binding_path)
+    require(result.get("schema") == "VANDA_STAGE45E_L1_H200_TRAINING_RESULT_V1", "612342 duplicate result schema drift")
+    require(result.get("status") == "STAGE45E_L1_VANDA_H200_TRAIN24_COMPLETE_FOR_PI_REVIEW", "612342 duplicate result status drift")
+    require(result.get("training_steps") == 2000 and result.get("optimizer_steps") == 2000 and result.get("backward_steps") == 2000, "612342 duplicate training closure drift")
+    gpu = result.get("gpu", {})
+    gpu_name = str(gpu.get("gpu_name", gpu.get("name", "")))
+    require("H200" in gpu_name.upper(), "612342 duplicate result is not H200")
+    require(input_audit.get("schema") == "VANDA_STAGE45E_L1_INPUT_AUDIT_V1" and input_audit.get("status") == "PASS", "612342 duplicate input audit drift")
+    input_identities = input_audit.get("identities", {})
+    require(input_identities.get("training_config_sha256") == CONFIG_SHA, "612342 duplicate training config identity drift")
+
+    expected_recipe = {
+        "base_mode": "FRESH_BASE_NO_RESUME",
+        "bf16": True,
+        "dataloader_num_workers": 0,
+        "eval_strategy": "no",
+        "fp16": False,
+        "global_batch_size": 1,
+        "gradient_accumulation_steps": 1,
+        "learning_rate": 1e-4,
+        "lr_scheduler_type": "cosine",
+        "max_grad_norm": 1.0,
+        "max_steps": 2000,
+        "optimizer": "adamw_torch",
+        "resume_from_checkpoint": False,
+        "save_only_model": False,
+        "save_steps": [1000, 2000],
+        "seed": 2222,
+        "tf32": True,
+        "weight_decay": 1e-5,
+        "warmup_ratio": 0.0,
+        "warmup_steps": 10,
+    }
+    expected_recipe["trainable_modules"] = ["projector", "diffusion_model"]
+    expected_recipe["frozen_modules"] = ["visual", "llm", "vlln", "vl_self_attention"]
+
+    def require_recipe(recipe: Any, label: str) -> None:
+        require(isinstance(recipe, Mapping), f"612342 {label} training recipe missing")
+        for key, expected in expected_recipe.items():
+            require(recipe.get(key) == expected, f"612342 {label} recipe drift in {key}")
+
+    require_recipe(input_audit.get("training_recipe"), "input-audit")
+    binding_payload = runtime_binding.get("binding")
+    observed_payload = runtime_binding.get("observed")
+    require_recipe(binding_payload.get("training_recipe") if isinstance(binding_payload, Mapping) else None, "binding")
+    require_recipe(observed_payload.get("training_recipe") if isinstance(observed_payload, Mapping) else None, "observed")
+    result_input = result.get("input_audit", {})
+    for key, expected in {
+        "base_tree_sha256": BASE_TREE,
+        "full24_tree_sha256": FULL24_TREE,
+        "full24_stats_sha256": RUNTIME_STATS_SHA,
+        "full24_stats_payload_sha256": RUNTIME_STATS_PAYLOAD_SHA,
+    }.items():
+        require(result_input.get(key) == expected, f"612342 duplicate {key} drift")
+    structured_stats = result.get("structured_stats", {})
+    require(structured_stats.get("statistics_payload_sha256") == RUNTIME_STATS_PAYLOAD_SHA, "612342 duplicate structured stats payload drift")
+    require(structured_stats.get("stats_sha256") == RUNTIME_STATS_SHA, "612342 duplicate structured stats SHA drift")
     return {
         "route": "l1",
         "seed": 2222,
         "root": str(root),
         "result_path": str(result_path),
         "result_sha256": sha256_file(result_path),
+        "input_audit_path": str(input_audit_path),
+        "input_audit_sha256": sha256_file(input_audit_path),
+        "runtime_binding_path": str(runtime_binding_path),
+        "runtime_binding_sha256": sha256_file(runtime_binding_path),
+        "training_lineage_head": result.get("execution_head"),
+        "checkpoint_1000_tree_sha256": result.get("checkpoint_1000", {}).get("tree_sha256"),
+        "checkpoint_2000_tree_sha256": result.get("checkpoint_2000", {}).get("tree_sha256"),
         "source_kind": "DUPLICATE_RETRY_NOT_PRIMARY",
         "primary_admissible": False,
     }
