@@ -752,9 +752,48 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
     return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
 
 
+def audit_inputs(args: argparse.Namespace) -> dict[str, Any]:
+    """Verify all late-bound inputs without observing or constructing a GPU model."""
+
+    storage = Path(args.storage_root).resolve()
+    source_identities = verify_sources(args, Path(args.n2_repo).resolve())
+    route_worktrees = {route: observe_worktree(Path(getattr(args, f"{route}_repo")), route) for route in ROUTES}
+    historical = {"legacy": verify_historical(Path(args.legacy_history), "legacy"), "l1": verify_historical(Path(args.l1_history), "l1")}
+    supplemental = {
+        "groot_manifest": Path(args.groot_manifest).resolve(),
+        "release": Path(args.release).resolve(),
+        "video_qualification": Path(args.video_qualification).resolve(),
+        "ffmpeg_root": Path(args.ffmpeg_root).resolve(),
+    }
+    for name, path in supplemental.items():
+        require(path.exists() and not path.is_symlink(), f"supplemental path unavailable: {name}: {path}")
+    highwater_record = high_water(storage)
+    return {
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_INPUT_AUDIT_V1",
+        "status": "PASS_CPU_ONLY",
+        "source_identities": source_identities,
+        "route_worktrees": route_worktrees,
+        "historical_lineages": historical,
+        "supplemental_paths": {key: str(value) for key, value in supplemental.items()},
+        "high_water": highwater_record,
+        "gpu": 0,
+        "model_imported": False,
+        "model_construction": 0,
+        "model_forward": 0,
+        "training": 0,
+        "backward": 0,
+        "optimizer_steps": 0,
+        "Validation-E": 0,
+        "Holdout-F": 0,
+        "WBC": 0,
+        "simulator": 0,
+        "hardware": 0,
+    }
+
+
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--mode", choices=("static", "high-water", "campaign"), default="static")
+    p.add_argument("--mode", choices=("static", "high-water", "audit-inputs", "campaign"), default="static")
     p.add_argument("--storage-root", type=Path, default=STORAGE_ROOT)
     p.add_argument("--n2-repo", type=Path, default=WORKTREE_ROOT / "n2")
     p.add_argument("--legacy-repo", type=Path, default=WORKTREE_ROOT / "legacy")
@@ -775,6 +814,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             result = static_audit()
         elif args.mode == "high-water":
             result = high_water(Path(args.storage_root))
+        elif args.mode == "audit-inputs":
+            result = audit_inputs(args)
         else:
             result = campaign(args)
         print(json.dumps(result, indent=2, sort_keys=True, default=str), flush=True)
