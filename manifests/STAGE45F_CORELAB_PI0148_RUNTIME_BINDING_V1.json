@@ -1,0 +1,77 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0148_RUNTIME_BINDING_V1",
+  "status": "CPU_STATIC_READY_RUNTIME_DISCOVERY_AND_TOY_SMOKE",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0148",
+    "issue_11_comment": 5646319460,
+    "pr_68_pointer_comment": 5646321640,
+    "branch": "stage45f/corelab-local-device-runtime-smoke",
+    "base_head": "2447a8876593b6e260d2cd7986357e85c27d9abd",
+    "merge": false
+  },
+  "historical_runtime_candidates": [
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+      "source": "RTX4080S_R0_RUNTIME_INVENTORY:runtimes.stage10_python; Stage21/45E launcher records",
+      "role": "GR00T_STAGE10_MODEL_RUNTIME"
+    },
+    {
+      "path": "/opt/miniconda3/envs/isaacgym/bin/python",
+      "source": "hpc/pbs/stage40_b1.pbs and Stage16/40 native runtime records",
+      "role": "NATIVE_STAGE40_RUNTIME"
+    }
+  ],
+  "artifact_policy": {
+    "statuses": [
+      "PRESENT_VERIFIED",
+      "PRESENT_UNVERIFIED",
+      "ABSENT_AT_CHECKED_PATH",
+      "UNKNOWN_NOT_CHECKED",
+      "ACCESS_DENIED"
+    ],
+    "no_checkpoint_load": true,
+    "no_tree_rehash_without_source_binding": true,
+    "full24_at_2000_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+  },
+  "toy_cuda_smoke": {
+    "operation": "32x32 identity matmul",
+    "dtypes": ["float32", "bfloat16"],
+    "calls_per_dtype": 2,
+    "max_calls_per_device": 4,
+    "max_devices": 2,
+    "max_calls_total": 8,
+    "device_roles": ["4080S", "5080"],
+    "one_attempt_per_uuid": true,
+    "stop_on_failure": true,
+    "install_or_upgrade": false,
+    "model_import": false,
+    "autograd": false,
+    "warmup_or_benchmark": false
+  },
+  "next_model_request": {
+    "status": "REQUEST_ONLY_NOT_EXECUTED",
+    "checkpoint": "FULL24@2000",
+    "window_id": "stage22_expert_red_target_train_a:expert-0000",
+    "conditioning_passes": 1,
+    "action_head_calls": 4,
+    "sampler_steps": 4,
+    "timestep_ids": [0, 250, 500, 750],
+    "target_xyz_in_model_input": false,
+    "model_forward": 0
+  },
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "ICL": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "real_h200_campaign_ingested": false
+  }
+}
