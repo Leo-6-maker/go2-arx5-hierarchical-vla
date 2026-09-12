@@ -1,19 +1,21 @@
 {
-  "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0133_V1",
+  "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0134_V1",
   "status": "CPU_STATIC_READY",
   "stage": "Stage45E",
   "authority": {
     "issue": 11,
-    "issue_comment": 5642852068,
-    "pi_gate": "PI_GATE_STATE_0133",
-    "pointer_pr": 63,
-    "pointer_comment": 5642854134,
+    "issue_comment": 5643644410,
+    "pi_gate": "PI_GATE_STATE_0134",
+    "pointer_pr": 64,
+    "pointer_comment": 5643648786,
+    "previous_pi_gate": "PI_GATE_STATE_0133",
+    "previous_issue_comment": 5642852068,
     "pr49_frozen": true,
     "science_branches_are_not_merged": true
   },
   "orchestration_repository": {
     "branch": "stage45e/h200-unified-replication-campaign",
-    "base_head": "c68611a9a577bd23314afaed9c6ffb7fc829e9b2",
+    "base_head": "7cdf3c3505b5b0f88a04a2e3d213efa9dda0f7a9",
     "working_tree_required_clean": true,
     "foreign_cwd_supported": true,
     "empty_pythonpath_supported": true
@@ -131,7 +133,13 @@
     "minimum_name": "H200",
     "minimum_vram_mib": 81920,
     "allow_shared_gpu": false,
-    "max_science_allocations": 3,
+    "max_science_allocations": 8,
+    "previous_science_allocations_consumed": 3,
+    "additional_science_allocations_authorized": 5,
+    "target_additional_allocations": 2,
+    "legacy_seed2223_2224_reuse_required": true,
+    "l1_seed2223_pre_model_retry_authorized": true,
+    "historical_legacy_seed2222_reuse_rule": "reuse_only_if_h200_exact_frozen_legacy_recipe_proven",
     "max_zero_science_probes": 2,
     "pbs_qsub": true,
     "no_precision_batch_offload_sharding_changes": true
@@ -142,7 +150,8 @@
     "diagnostics_subdirectory": "diagnostics",
     "failure_subdirectory": "failures",
     "estimated_training_root_bytes": 51318519711,
-    "planned_new_training_roots": 7,
+    "full_campaign_training_roots": 7,
+    "planned_new_training_roots": 5,
     "required_free_margin_fraction": 0.15,
     "preserve_accepted_evidence": true,
     "fresh_root_per_lineage_and_phase": true

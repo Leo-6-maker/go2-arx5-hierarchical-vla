@@ -26,7 +26,8 @@ from typing import Any, Mapping, Sequence
 
 
 REPO = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0133_V1.json"
+MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0134_V1.json"
+PI_GATE = "PI_GATE_STATE_0134"
 ROUTE_HEADS = {
     "legacy": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
     "l1": "186efc2977e2795bebf0dfe97d6f503a672716de",
@@ -89,8 +90,9 @@ def git(repo: Path, *args: str) -> str:
 
 def static_audit() -> dict[str, Any]:
     manifest = read_json(MANIFEST_PATH)
-    require(manifest.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0133_V1", "PI0133 unified manifest schema drift")
-    require(manifest.get("authority", {}).get("pi_gate") == "PI_GATE_STATE_0133", "PI0133 authority drift")
+    require(manifest.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0134_V1", "PI0134 unified manifest schema drift")
+    require(manifest.get("authority", {}).get("pi_gate") == PI_GATE, "PI0134 authority drift")
+    require(manifest.get("authority", {}).get("issue_comment") == 5643644410, "PI0134 issue authority drift")
     require(manifest.get("diagnostic_contract", {}).get("total_model_side_calls") == 8976, "diagnostic ceiling drift")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
@@ -172,7 +174,7 @@ def _phase_budget(phase: str, arm_count: int) -> dict[str, int]:
 
 def _validate_admission(admission_path: Path, route: str, phase: str, output: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     admission = read_json(admission_path)
-    require(admission.get("status") == "PASS" and admission.get("pi_gate") == "PI_GATE_STATE_0133", "campaign admission is not a PI0133 PASS")
+    require(admission.get("status") == "PASS" and admission.get("pi_gate") == PI_GATE, "campaign admission is not a PI0134 PASS")
     require(admission.get("route_worktrees", {}).get(route, {}).get("head") == ROUTE_HEADS[route], f"{route} admission HEAD drift")
     require(admission.get("route_worktrees", {}).get(route, {}).get("branch") == ROUTE_BRANCHES[route], f"{route} admission branch drift")
     require(not output.exists() and not output.is_symlink(), f"diagnostic output must be fresh: {output}")
@@ -257,7 +259,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         "status": "PASS",
         "route": route,
         "phase": phase,
-        "pi_gate": "PI_GATE_STATE_0133",
+        "pi_gate": PI_GATE,
         "route_head": ROUTE_HEADS[route],
         "route_branch": ROUTE_BRANCHES[route],
         "route_repo": str(route_repo),
@@ -287,7 +289,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     module = _load_module(route_script)
     module.REPO = route_repo
     module.BRANCH = ROUTE_BRANCHES[route]
-    module.PI_GATE = "PI_GATE_STATE_0133"
+    module.PI_GATE = PI_GATE
     module.RUNTIME_STATS_SHA = stats_sha
     module.RUNTIME_STATS_PAYLOAD_SHA = payload_sha
     identity = admission["source_identities"]
@@ -296,7 +298,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     def patched_require(condition: bool, message: str) -> None:
         # The historical route helper has a four-arm budget assertion.  The
         # unified wrapper replaces only that aggregate assertion with the
-        # PI0133 exact arm-count check below; all other route assertions stay
+        # PI0134 exact arm-count check below; all other route assertions stay
         # fail-closed.
         if not condition and ("total budget drift" in message or "total_model_side_calls" in message):
             return
@@ -338,7 +340,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         unified = {
             "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_PHASE_SEAL_V1",
             "status": "PASS",
-            "pi_gate": "PI_GATE_STATE_0133",
+            "pi_gate": PI_GATE,
             "route": route,
             "phase": phase,
             "route_branch": ROUTE_BRANCHES[route],

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0133 packed H200 orchestration and CPU closure for Stage45E.
+"""PI0134 packed H200 orchestration and CPU closure for Stage45E.
 
 The static and high-water paths are CPU-only.  The explicit ``campaign``
 path is intended to run inside one PBS H200 allocation and invokes the three
@@ -30,7 +30,7 @@ from typing import Any, Iterable, Mapping, Sequence
 
 
 REPO = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0133_V1.json"
+MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0134_V1.json"
 PYTHON = Path("/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python")
 STORAGE_ROOT = Path("/hpctmp/e1192548/stage45e_h200_unified_replication_20260912")
 WORKTREE_ROOT = Path("/scratch/e1192548/stage45e_h200_unified_worktrees")
@@ -85,6 +85,14 @@ ALL_SEEDS = (2222, 2223, 2224)
 ROUTES = ("legacy", "l1", "n2")
 ESTIMATED_TRAINING_ROOT_BYTES = 51_318_519_711
 MIN_FREE_BYTES = 64 * 1024**3
+PI_GATE = "PI_GATE_STATE_0134"
+PI_ISSUE_COMMENT = 5643644410
+CHECKPOINT_STATE_FILES = ("optimizer.pt", "scheduler.pt", "rng_state.pth", "trainer_state.json")
+CHECKPOINT_HASH_PREFIX = {
+    "legacy": "stage45e_legacy",
+    "l1": "stage45e_l1",
+    "n2": "stage45e",
+}
 
 
 def require(condition: bool, message: str) -> None:
@@ -193,14 +201,18 @@ def cosmos_digest(root: Path) -> str:
 
 def load_manifest() -> dict[str, Any]:
     value = read_json(MANIFEST_PATH)
-    require(value.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0133_V1", "PI0133 unified manifest schema drift")
+    require(value.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0134_V1", "PI0134 unified manifest schema drift")
     return value
 
 
 def static_audit() -> dict[str, Any]:
     manifest = load_manifest()
-    require(manifest["authority"]["pi_gate"] == "PI_GATE_STATE_0133" and manifest["authority"]["issue_comment"] == 5642852068, "PI0133 authority drift")
+    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_ISSUE_COMMENT, "PI0134 authority drift")
     require(manifest["orchestration_repository"]["branch"] == "stage45e/h200-unified-replication-campaign", "orchestration branch drift")
+    require(manifest["gpu_policy"]["max_science_allocations"] == 8, "PI0134 allocation ceiling drift")
+    require(manifest["gpu_policy"]["previous_science_allocations_consumed"] == 3, "PI0134 consumed allocation count drift")
+    require(manifest["gpu_policy"]["additional_science_allocations_authorized"] == 5, "PI0134 continuation allocation count drift")
+    require(manifest["gpu_policy"]["target_additional_allocations"] <= 2, "PI0134 target allocation drift")
     require(manifest["diagnostic_contract"]["total_model_side_calls"] == 8976, "diagnostic total drift")
     require(manifest["diagnostic_contract"]["e4"]["total_model_side_calls"] == 1680, "E4 ceiling drift")
     require(manifest["diagnostic_contract"]["d1"]["total_model_side_calls"] == 3840, "D1 ceiling drift")
@@ -228,6 +240,9 @@ def static_audit() -> dict[str, Any]:
         "top_level_forbidden_imports": forbidden,
         "branch_separation": True,
         "fresh_base_training_lineages": 7,
+        "max_science_allocations": 8,
+        "previous_science_allocations_consumed": 3,
+        "additional_science_allocations_authorized": 5,
         "e4_model_side_calls": 1680,
         "d1_model_side_calls": 3840,
         "d2a_model_side_calls": 3456,
@@ -248,7 +263,7 @@ def static_audit() -> dict[str, Any]:
 
 
 def _gpu_observation() -> dict[str, Any]:
-    require(os.environ.get("PBS_JOBID"), "PI0133 campaign requires PBS_JOBID")
+    require(os.environ.get("PBS_JOBID"), "PI0134 campaign requires PBS_JOBID")
     query = "index,name,uuid,memory.total,memory.used"
     result = subprocess.run(["nvidia-smi", f"--query-gpu={query}", "--format=csv,noheader,nounits"], capture_output=True, text=True, check=False)
     require(result.returncode == 0, f"nvidia-smi failed: {result.stderr[-1000:]}")
@@ -258,7 +273,7 @@ def _gpu_observation() -> dict[str, Any]:
             fields = [part.strip() for part in line.split(",")]
             require(len(fields) == 5, f"malformed nvidia-smi row: {line}")
             rows.append({"index": int(fields[0]), "name": fields[1], "uuid": fields[2], "memory_total_mib": int(fields[3]), "memory_used_mib": int(fields[4])})
-    require(len(rows) == 1 and rows[0]["index"] == 0, f"PI0133 requires one H200 at index 0: {rows}")
+    require(len(rows) == 1 and rows[0]["index"] == 0, f"PI0134 requires one H200 at index 0: {rows}")
     require("H200" in rows[0]["name"].upper() and rows[0]["memory_total_mib"] >= 80 * 1024, f"H200 identity/VRAM gate failed: {rows}")
     return {"schema": "VANDA_STAGE45E_UNIFIED_H200_ADMISSION_GPU_V1", "host": subprocess.check_output(["hostname"], text=True).strip(), "pbs_jobid": os.environ["PBS_JOBID"], "selected_device": "cuda:0", "rows": rows, "nvidia_smi_query": query, "nvidia_smi_stdout_sha256": sha256_bytes((result.stdout + "\n").encode())}
 
@@ -339,11 +354,13 @@ def observe_worktree(repo: Path, route: str) -> dict[str, Any]:
     return {"repo": str(repo), "branch": branch, "head": head, "clean": True}
 
 
-def high_water(storage: Path, *, output: Path | None = None) -> dict[str, Any]:
+def high_water(storage: Path, *, output: Path | None = None, planned_training_roots: int | None = None) -> dict[str, Any]:
     storage = Path(storage).resolve()
     require(storage.is_dir() and not storage.is_symlink(), f"storage root unavailable: {storage}")
+    planned = len(TRAINING_QUEUE) if planned_training_roots is None else int(planned_training_roots)
+    require(0 <= planned <= len(TRAINING_QUEUE), f"planned training root count is outside the frozen queue: {planned}")
     usage = shutil.disk_usage(storage)
-    estimate = ESTIMATED_TRAINING_ROOT_BYTES * len(TRAINING_QUEUE)
+    estimate = ESTIMATED_TRAINING_ROOT_BYTES * planned
     required = int(estimate * 1.15) + MIN_FREE_BYTES
     value = {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_HIGH_WATER_V1",
@@ -352,7 +369,7 @@ def high_water(storage: Path, *, output: Path | None = None) -> dict[str, Any]:
         "free_bytes": usage.free,
         "estimated_training_bytes": estimate,
         "required_free_bytes_with_15_percent_margin_and_guard": required,
-        "planned_training_roots": len(TRAINING_QUEUE),
+        "planned_training_roots": planned,
         "estimated_root_bytes": ESTIMATED_TRAINING_ROOT_BYTES,
         "accepted_evidence_deleted": False,
         "free_margin_sufficient": usage.free >= required,
@@ -363,17 +380,60 @@ def high_water(storage: Path, *, output: Path | None = None) -> dict[str, Any]:
     return value
 
 
-def _historical_checkpoint(root: Path, step: int, key: str) -> dict[str, Any]:
-    checkpoint = root / f"checkpoint-{step}"
-    require(checkpoint.is_dir() and not checkpoint.is_symlink(), f"historical checkpoint unavailable: {checkpoint}")
+def _verify_checkpoint_artifact(route: str, root: Path, step: int, record: Mapping[str, Any]) -> dict[str, Any]:
+    """Reconcile a sealed checkpoint record with its immutable on-disk tree.
+
+    This is deliberately CPU/read-only.  A result JSON alone is not sufficient
+    to reuse a lineage: trainer state, required optimizer state, byte totals,
+    and the route-specific tree digest must all agree with the files currently
+    materialized under the accepted root.
+    """
+
+    require(route in CHECKPOINT_HASH_PREFIX, f"unknown checkpoint route: {route}")
+    checkpoint = Path(root) / f"checkpoint-{step}"
+    try:
+        mode = checkpoint.lstat().st_mode
+    except OSError as exc:
+        raise RuntimeError(f"checkpoint unavailable: {checkpoint}") from exc
+    require(stat.S_ISDIR(mode) and not stat.S_ISLNK(mode), f"checkpoint root is unsafe: {checkpoint}")
+    require(isinstance(record, Mapping), f"checkpoint record is not an object: {checkpoint}")
+    require(record.get("status") in ("PASS", "COMPLETE"), f"checkpoint status drift: {checkpoint}")
+    require(record.get("expected_step") == step and record.get("global_step") == step, f"checkpoint step record drift: {checkpoint}")
+    require(record.get("required_state_files_present") is True and record.get("missing_state_files", []) == [], f"checkpoint state record drift: {checkpoint}")
+    state = read_json(checkpoint / "trainer_state.json")
+    require(state.get("global_step") == step, f"trainer state global_step drift: {checkpoint}")
+    for name in CHECKPOINT_STATE_FILES:
+        path = checkpoint / name
+        try:
+            mode = path.lstat().st_mode
+        except OSError as exc:
+            raise RuntimeError(f"required checkpoint state is absent: {path}") from exc
+        require(stat.S_ISREG(mode) and not stat.S_ISLNK(mode), f"required checkpoint state is unsafe: {path}")
+    entries = regular_tree_entries(checkpoint, f"{CHECKPOINT_HASH_PREFIX[route]}/{checkpoint.name}")
+    actual = {
+        "path": str(checkpoint),
+        "global_step": state.get("global_step"),
+        "expected_step": step,
+        "required_state_files_present": True,
+        "missing_state_files": [],
+        "tree_sha256": tree_digest(entries),
+        "file_count": len(entries),
+        "total_bytes": sum(int(item["bytes"]) for item in entries),
+        "status": "PASS",
+    }
+    require(actual["tree_sha256"] == record.get("tree_sha256"), f"checkpoint tree hash drift: {checkpoint}")
+    require(actual["file_count"] == record.get("file_count"), f"checkpoint file-count drift: {checkpoint}")
+    require(actual["total_bytes"] == record.get("total_bytes"), f"checkpoint byte-count drift: {checkpoint}")
+    return actual
+
+
+def _historical_checkpoint(root: Path, step: int, key: str, route: str) -> dict[str, Any]:
     result = read_json(root / key)
     record = result.get(f"checkpoint_{step}", {})
-    require(record.get("status", "PASS") in ("PASS", "COMPLETE", None), f"historical checkpoint status drift: {root}/{step}")
-    require(record.get("tree_sha256"), f"historical checkpoint tree hash missing: {root}/{step}")
-    return {"path": str(checkpoint), "tree_sha256": record["tree_sha256"], "global_step": step}
+    return _verify_checkpoint_artifact(route, root, step, record)
 
 
-def _historical_training_args(root: Path) -> dict[str, Any]:
+def _historical_training_args(root: Path, seed: int = 2222) -> dict[str, Any]:
     """Read sealed TrainingArguments without constructing a model."""
 
     path = Path(root) / "training_args.bin"
@@ -404,7 +464,7 @@ def _historical_training_args(root: Path) -> dict[str, Any]:
         "dataloader_num_workers": getattr(args, "dataloader_num_workers", None),
     }
     expected = {
-        "seed": 2222,
+        "seed": seed,
         "max_steps": 2000,
         "per_device_train_batch_size": 1,
         "gradient_accumulation_steps": 1,
@@ -442,7 +502,7 @@ def verify_historical(root: Path, route: str) -> dict[str, Any]:
         stats_sha = result.get("runtime_stats_sha256") or result.get("structured_stats_sha256") or preflight.get("runtime_stats_sha256")
         stats_payload_sha = result.get("runtime_stats_payload_sha256") or result.get("structured_stats_payload_sha256") or preflight.get("runtime_stats_payload_sha256") or preflight.get("statistics_payload_sha256")
         require(stats_sha == RUNTIME_STATS_SHA and stats_payload_sha == RUNTIME_STATS_PAYLOAD_SHA and result.get("optimizer_steps") == 2000, "historical Legacy recipe/stats drift")
-        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree, "runtime_stats_sha256": stats_sha, "runtime_stats_payload_sha256": stats_payload_sha}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json") for step in (1000, 2000)}}
+        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "source_preflight": {"path": str(preflight_path), "sha256": sha256_file(preflight_path), "base_tree_sha256": base_tree, "full24_tree_sha256": full24_tree, "runtime_stats_sha256": stats_sha, "runtime_stats_payload_sha256": stats_payload_sha}, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json", route) for step in (1000, 2000)}}
     result_path = root / "stage45e_l1_training_result.json"
     result = read_json(result_path)
     training_args = _historical_training_args(root)
@@ -452,7 +512,7 @@ def verify_historical(root: Path, route: str) -> dict[str, Any]:
     require("H200" in gpu_name.upper(), "historical L1 seed2222 is not proven H200")
     require(result.get("normalization_unchanged") is True and result.get("mask_unchanged") is True, "historical L1 contract drift")
     require(result.get("optimizer_steps") == 2000, "historical L1 recipe drift")
-    return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45e_l1_training_result.json") for step in (1000, 2000)}}
+    return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45e_l1_training_result.json", route) for step in (1000, 2000)}}
 
 
 def _result_file(route: str, root: Path) -> Path:
@@ -486,6 +546,76 @@ def _training_pass(route: str, result: Mapping[str, Any], seed: int) -> bool:
     )
 
 
+def _sealed_gpu_identity(result: Mapping[str, Any], route: str, seed: int) -> dict[str, Any]:
+    gpu = result.get("gpu", {})
+    if isinstance(gpu, Mapping) and isinstance(gpu.get("rows"), list):
+        rows = gpu.get("rows", [])
+        require(len(rows) == 1, f"{route} seed{seed} GPU provenance is not singular")
+        observed = rows[0]
+    else:
+        require(isinstance(gpu, Mapping), f"{route} seed{seed} GPU provenance is not an object")
+        observed = gpu
+    name = str(observed.get("name", observed.get("gpu_name", "")))
+    index = observed.get("index", observed.get("gpu_index", 0))
+    memory = observed.get("memory_total_mib", observed.get("memory_total", observed.get("memory_total_mb")))
+    if memory is None and observed.get("total_vram_bytes") is not None:
+        memory = int(observed["total_vram_bytes"]) // 1024**2
+    uuid = observed.get("uuid", observed.get("gpu_uuid"))
+    require("H200" in name.upper(), f"{route} seed{seed} is not sealed as H200: {observed}")
+    require(index in (0, "0"), f"{route} seed{seed} is not bound to cuda:0: {observed}")
+    require(isinstance(memory, (int, float)) and not isinstance(memory, bool) and int(memory) >= 80 * 1024, f"{route} seed{seed} H200 VRAM provenance is below floor: {observed}")
+    require(isinstance(uuid, str) and uuid.startswith("GPU-"), f"{route} seed{seed} GPU UUID provenance is missing: {observed}")
+    return {"name": name, "index": int(index), "memory_total_mib": int(memory), "uuid": uuid}
+
+
+def _accepted_training_lineage(route: str, root: Path, seed: int) -> dict[str, Any]:
+    """Accept one complete lineage only after CPU reconciliation of its tree."""
+
+    root = Path(root).resolve()
+    try:
+        mode = root.lstat().st_mode
+    except OSError as exc:
+        raise RuntimeError(f"training lineage root unavailable: {root}") from exc
+    require(stat.S_ISDIR(mode) and not stat.S_ISLNK(mode), f"training lineage root is unsafe: {root}")
+    path = _result_file(route, root)
+    result = read_json(path)
+    require(_training_pass(route, result, seed), f"{route} seed{seed} did not produce a complete exact 2000-step lineage")
+    require(result.get("training_steps") == 2000 and result.get("optimizer_steps") == 2000, f"{route} seed{seed} step/optimizer closure drift")
+    require(result.get("starting_checkpoint", "BASE") in ("BASE", "exact BASE"), f"{route} seed{seed} did not start from BASE")
+    training_args = _historical_training_args(root, seed)
+    gpu = _sealed_gpu_identity(result, route, seed)
+    require(result.get("validation_e_read") is False and result.get("holdout_f_read") is False, f"{route} seed{seed} validation boundary drift")
+    require(result.get("wbc_steps", 0) == 0 and result.get("simulator_steps", 0) == 0 and not result.get("hardware", False), f"{route} seed{seed} downstream execution boundary drift")
+    if route == "legacy":
+        require(result.get("n2_statistics_override") is False, f"Legacy seed{seed} carries an N2 statistics override")
+    if route == "l1":
+        require(result.get("normalization_unchanged") is True and result.get("mask_unchanged") is True and result.get("decoder_unchanged") is True, f"L1 seed{seed} contract flags drift")
+    if route == "n2":
+        require(result.get("n2_stats_sha256") == N2_STATS_SHA and result.get("n2_stats_payload_sha256") == N2_STATS_PAYLOAD_SHA, f"N2 seed{seed} statistics identity drift")
+    checkpoints = {
+        str(step): _verify_checkpoint_artifact(route, root, step, result.get(f"checkpoint_{step}", {}))
+        for step in (1000, 2000)
+    }
+    return {
+        "route": route,
+        "seed": seed,
+        "root": str(root),
+        "result_path": str(path),
+        "result_sha256": sha256_file(path),
+        "result": result,
+        "training_args": training_args,
+        "gpu_acceptance": gpu,
+        "checkpoints": checkpoints,
+        "acceptance": {
+            "status": "PASS_READ_ONLY",
+            "h200_identity": True,
+            "exact_recipe": True,
+            "trainer_state": True,
+            "checkpoint_tree_binding": True,
+        },
+    }
+
+
 def find_completed_training(storage: Path, route: str, seed: int) -> list[dict[str, Any]]:
     roots: list[dict[str, Any]] = []
     training = Path(storage) / "training"
@@ -497,9 +627,7 @@ def find_completed_training(storage: Path, route: str, seed: int) -> list[dict[s
             continue
         result_path = _result_file(route, root)
         if result_path.is_file() and not result_path.is_symlink():
-            result = read_json(result_path)
-            if _training_pass(route, result, seed):
-                roots.append({"root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result})
+            roots.append(_accepted_training_lineage(route, root, seed))
     return roots
 
 
@@ -509,6 +637,22 @@ def _incomplete_training_roots(storage: Path, route: str, seed: int) -> list[Pat
         return []
     prefix = f"{route}_seed{seed}_"
     return [root for root in sorted(training.iterdir(), key=lambda item: item.name) if root.is_dir() and not root.is_symlink() and root.name.startswith(prefix) and not _result_file(route, root).is_file()]
+
+
+def _planned_fresh_training_count(storage: Path) -> int:
+    """Count only future fresh roots; completed accepted roots stay reserved."""
+
+    count = 0
+    for route, seed in TRAINING_QUEUE:
+        completed = find_completed_training(storage, route, seed)
+        require(len(completed) <= 1, f"multiple complete {route} seed{seed} lineages exist; refusing performance-based selection")
+        if completed:
+            continue
+        incomplete = _incomplete_training_roots(storage, route, seed)
+        prior_failures = [evidence for root in incomplete if (evidence := _authorized_pre_model_retry(route, seed, root)) is not None]
+        require(len(prior_failures) == len(incomplete), f"unclassified incomplete {route} seed{seed} lineage blocks storage planning: {incomplete}")
+        count += 1
+    return count
 
 
 def _root_name(route: str, seed: int, job_id: str) -> str:
@@ -575,10 +719,46 @@ def _training_command(args: argparse.Namespace, route: str, seed: int, output: P
 
 
 def _training_result(route: str, root: Path, seed: int) -> dict[str, Any]:
-    path = _result_file(route, root)
-    result = read_json(path)
-    require(_training_pass(route, result, seed), f"{route} seed{seed} did not produce a complete exact 2000-step lineage")
-    return {"route": route, "seed": seed, "root": str(root), "result_path": str(path), "result_sha256": sha256_file(path), "result": result}
+    return _accepted_training_lineage(route, root, seed)
+
+
+def _authorized_pre_model_retry(route: str, seed: int, root: Path) -> dict[str, Any] | None:
+    """Return evidence only for the PI0134-authorized L1 pre-import retry."""
+
+    if (route, seed) != ("l1", 2223):
+        return None
+    failure_path = Path(root) / "stage45e_l1_failure.json"
+    if not failure_path.is_file() or failure_path.is_symlink():
+        return None
+    failure = read_json(failure_path)
+    if failure.get("status") != "FAIL" or failure.get("training_seed") != seed:
+        return None
+    if failure.get("model_imported") is not False:
+        return None
+    if failure.get("model_construction_started") not in (None, False):
+        return None
+    if failure.get("model_construction_completed") not in (None, False):
+        return None
+    if failure.get("training_started") not in (None, False):
+        return None
+    if failure.get("backward_started") not in (None, False):
+        return None
+    if failure.get("optimizer_steps_observed") not in (None, 0):
+        return None
+    if failure.get("checkpoint_writes_observed") not in (None, 0):
+        return None
+    if failure.get("action_head_forwards") not in (None, 0):
+        return None
+    checkpoint_dirs = [item for item in Path(root).iterdir() if item.name.startswith("checkpoint-")]
+    if checkpoint_dirs:
+        return None
+    return {
+        "path": str(failure_path),
+        "sha256": sha256_file(failure_path),
+        "status": "FAIL_PRE_MODEL_IMPORT",
+        "model_imported": False,
+        "retry_reason": "PI0134_L1_SEED2223_OFFLINE_ENVIRONMENT_FAILURE_BEFORE_MODEL_IMPORT",
+    }
 
 
 def _bind_lineages(args: argparse.Namespace, storage: Path, campaign_root: Path) -> tuple[dict[str, dict[int, dict[str, Any]]], list[dict[str, Any]]]:
@@ -595,16 +775,21 @@ def _bind_lineages(args: argparse.Namespace, storage: Path, campaign_root: Path)
             completed = find_completed_training(storage, route, seed)
             require(len(completed) <= 1, f"multiple complete {route} seed{seed} lineages exist; refusing performance-based selection")
             if completed:
-                lineages[route][seed] = _training_result(route, Path(completed[0]["root"]), seed)
+                lineages[route][seed] = completed[0]
                 plan.append({"route": route, "seed": seed, "action": "REUSE_COMPLETE_READ_ONLY", "root": completed[0]["root"], "result_sha256": completed[0]["result_sha256"]})
                 continue
             incomplete = _incomplete_training_roots(storage, route, seed)
-            require(not incomplete, f"incomplete prior {route} seed{seed} lineage exists; preserve and audit before any retry: {incomplete}")
+            prior_failures = [evidence for root in incomplete if (evidence := _authorized_pre_model_retry(route, seed, root)) is not None]
+            require(len(prior_failures) == len(incomplete), f"incomplete prior {route} seed{seed} lineage is not an authorized pre-model retry: {incomplete}")
             root = storage / "training" / _root_name(route, seed, str(os.environ["PBS_JOBID"]))
             require(not root.exists(), f"new training root unexpectedly exists: {root}")
             lineages[route][seed] = {"route": route, "seed": seed, "root": str(root), "pending": True}
-            plan.append({"route": route, "seed": seed, "action": "FRESH_BASE_2000", "root": str(root)})
-    write_json(campaign_root / "lineage_plan.json", {"schema": "VANDA_STAGE45E_UNIFIED_LINEAGE_PLAN_V1", "status": "BOUND_BEFORE_TRAINING", "queue": plan, "historical_reuse": {route: lineages[route].get(2222, {}).get("root") for route in ROUTES}, "timestamp_utc": now_utc()})
+            item = {"route": route, "seed": seed, "action": "FRESH_BASE_2000", "root": str(root)}
+            if prior_failures:
+                item["prior_failure_seals"] = prior_failures
+                item["retry_authorization"] = "PRE_MODEL_FAILURE_ONLY"
+            plan.append(item)
+    write_json(campaign_root / "lineage_plan.json", {"schema": "VANDA_STAGE45E_UNIFIED_LINEAGE_PLAN_V1", "status": "BOUND_BEFORE_TRAINING", "queue": plan, "fresh_base_count": sum(item["action"] == "FRESH_BASE_2000" for item in plan), "historical_reuse": {route: lineages[route].get(2222, {}).get("root") for route in ROUTES}, "timestamp_utc": now_utc()})
     return lineages, plan
 
 
@@ -701,7 +886,7 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
     summary = {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V1",
         "status": "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE",
-        "pi_gate": "PI_GATE_STATE_0133",
+        "pi_gate": PI_GATE,
         "campaign_root": str(campaign_root),
         "source_identities": source_identities,
         "high_water": highwater_record,
@@ -738,7 +923,7 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
         "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V1",
         "status": "PASS",
         "token": "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
-        "pi_gate": "PI_GATE_STATE_0133",
+        "pi_gate": PI_GATE,
         "campaign_root": str(campaign_root),
         "cpu_summary": str(campaign_root / "cpu_summary.json"),
         "cpu_summary_sha256": sha256_file(campaign_root / "cpu_summary.json"),
@@ -770,23 +955,25 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
     for name in ("training", "diagnostics", "failures", "provenance", "campaigns"):
         (storage / name).mkdir(parents=True, exist_ok=True)
     job_id = os.environ["PBS_JOBID"]
-    campaign_root = storage / "campaigns" / f"pi0133_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}_{re.sub(r'[^A-Za-z0-9_.-]+', '_', job_id)}"
+    campaign_root = storage / "campaigns" / f"pi0134_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}_{re.sub(r'[^A-Za-z0-9_.-]+', '_', job_id)}"
     campaign_root.mkdir(parents=True, exist_ok=False)
     gpu = _gpu_observation()
-    highwater_record = high_water(storage, output=campaign_root / "high_water.json")
     orchestration_branch = git(REPO, "branch", "--show-current")
     orchestration_head = git(REPO, "rev-parse", "HEAD")
     require(orchestration_branch == "stage45e/h200-unified-replication-campaign", f"orchestration branch drift: {orchestration_branch}")
     require(git(REPO, "status", "--porcelain=v1", "--untracked-files=all") == "", "orchestration checkout is dirty")
     source_identities = verify_sources(args, Path(args.n2_repo).resolve())
     route_worktrees = {route: observe_worktree(Path(getattr(args, f"{route}_repo")), route) for route in ROUTES}
-    historical = {"legacy": verify_historical(Path(args.legacy_history), "legacy"), "l1": verify_historical(Path(args.l1_history), "l1")}
+    lineages, plan = _bind_lineages(args, storage, campaign_root)
+    historical = {"legacy": lineages["legacy"][2222], "l1": lineages["l1"][2222]}
+    fresh_base_count = sum(item["action"] == "FRESH_BASE_2000" for item in plan)
+    highwater_record = high_water(storage, output=campaign_root / "high_water.json", planned_training_roots=fresh_base_count)
     phase_spec_paths = {phase: {route: str(campaign_root / "specs" / f"{phase}_{route}.json") for route in ROUTES} for phase in ("E4", "D1", "D2A")}
     admission = {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V1",
         "status": "PASS",
-        "pi_gate": "PI_GATE_STATE_0133",
-        "issue_comment": 5642852068,
+        "pi_gate": PI_GATE,
+        "issue_comment": PI_ISSUE_COMMENT,
         "orchestration_head": orchestration_head,
         "orchestration_branch": orchestration_branch,
         "pbs_jobid": job_id,
@@ -794,6 +981,9 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         "source_identities": source_identities,
         "route_worktrees": route_worktrees,
         "historical_lineages": historical,
+        "lineage_plan": str(campaign_root / "lineage_plan.json"),
+        "lineage_queue": plan,
+        "fresh_base_training_roots": fresh_base_count,
         "phase_specs": phase_spec_paths,
         "storage_root": str(storage),
         "high_water": highwater_record,
@@ -813,7 +1003,6 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         "timestamp_utc": now_utc(),
     }
     write_json(campaign_root / "campaign_admission.json", admission)
-    lineages, plan = _bind_lineages(args, storage, campaign_root)
     canary = _run_canary(args, campaign_root, gpu)
     args.canary = canary
     args.gpu_uuid = gpu["rows"][0]["uuid"]
@@ -825,7 +1014,7 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         route, seed = item["route"], int(item["seed"])
         root = Path(item["root"])
         command = _training_command(args, route, seed, root, canary)
-        _run_command(campaign_root, f"train_{route}_seed{seed}", command, extra_env={"STAGE45E_L1_AUTHORITY_TOKEN": "PI_GATE_STATE_0133"})
+        _run_command(campaign_root, f"train_{route}_seed{seed}", command, extra_env={"STAGE45E_L1_AUTHORITY_TOKEN": PI_GATE})
         lineages[route][seed] = _training_result(route, root, seed)
         append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "TRAINING_LINEAGE_PASS", "route": route, "seed": seed, "root": str(root), "result_sha256": lineages[route][seed]["result_sha256"], "timestamp_utc": now_utc()})
     phase_specs = build_phase_specs(lineages, campaign_root)
@@ -852,7 +1041,7 @@ def audit_inputs(args: argparse.Namespace) -> dict[str, Any]:
     }
     for name, path in supplemental.items():
         require(path.exists() and not path.is_symlink(), f"supplemental path unavailable: {name}: {path}")
-    highwater_record = high_water(storage)
+    highwater_record = high_water(storage, planned_training_roots=_planned_fresh_training_count(storage))
     return {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_INPUT_AUDIT_V1",
         "status": "PASS_CPU_ONLY",
@@ -898,7 +1087,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.mode == "static":
             result = static_audit()
         elif args.mode == "high-water":
-            result = high_water(Path(args.storage_root))
+            storage = Path(args.storage_root)
+            result = high_water(storage, planned_training_roots=_planned_fresh_training_count(storage))
         elif args.mode == "audit-inputs":
             result = audit_inputs(args)
         else:
