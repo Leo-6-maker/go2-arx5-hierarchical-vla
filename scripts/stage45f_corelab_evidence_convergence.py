@@ -422,6 +422,10 @@ def _expected_phase_budget(phase: str, route: str) -> dict[str, int]:
 
 
 def _verify_inventory(root: Path, inventory_path: Path) -> dict[str, Any]:
+    root = root.resolve()
+    inventory_path = inventory_path.resolve()
+    require(inventory_path.is_relative_to(root), "campaign inventory must be inside campaign root")
+    _safe_input_path(inventory_path)
     inventory = read_json(inventory_path)
     require(inventory.get("status") == "PASS" and isinstance(inventory.get("entries"), list), "campaign inventory is not sealed PASS")
     for index, entry in enumerate(inventory["entries"]):
@@ -450,6 +454,10 @@ def verify_campaign(campaign_path: Path, output_path: Path | None = None) -> dic
     require(root.is_dir() and not root.is_symlink(), f"Vanda campaign root unavailable: {root}")
     summary_path = Path(value.get("cpu_summary", "")).resolve()
     inventory_path = Path(value.get("cpu_inventory", "")).resolve()
+    require(summary_path.is_relative_to(root), "Vanda CPU summary must be inside campaign root")
+    require(inventory_path.is_relative_to(root), "Vanda CPU inventory must be inside campaign root")
+    _safe_input_path(summary_path)
+    _safe_input_path(inventory_path)
     require(summary_path.is_file() and inventory_path.is_file(), "Vanda CPU summary/inventory unavailable")
     require(sha256_file(summary_path) == value.get("cpu_summary_sha256"), "Vanda CPU summary SHA drift")
     require(sha256_file(inventory_path) == value.get("cpu_inventory_sha256"), "Vanda CPU inventory SHA drift")
