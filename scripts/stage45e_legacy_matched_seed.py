@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Stage45E matched Legacy FULL24 seed replication runner.
+"""Stage45E matched Legacy FULL24 H200 seed replication runner.
 
 The static path is dependency-light and fail-closed.  Runtime modes are
-explicitly invoked on the authorized RTX 4080S and use only the accepted
+explicitly invoked on one admitted Hopper H200 and use only the accepted
 legacy FULL24 route (no N2 statistics override).  Training and diagnostics
 write raw-first, hash-bound evidence; no Validation-E/Holdout-F/WBC/sim or
 hardware path exists in this runner.
@@ -34,8 +34,8 @@ for item in (SCRIPTS, SRC):
 MANIFEST_PATH = REPO / "manifests/STAGE45E_LEGACY_MATCHED_SEED_REPLICATION_V1.json"
 STAGE = "Stage45E"
 BRANCH = "stage45e/legacy-full24-matched-seed-replication"
-PI_GATE = "PI_GATE_STATE_0131"
-PI_COMMENT = 5642616832
+PI_GATE = "PI_GATE_STATE_0133"
+PI_COMMENT = 5642852068
 BASE_HEAD = "d762e731d2c11ceea3c001c37ac27890fe6f4e70"
 BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
@@ -46,7 +46,8 @@ COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
-GPU_UUID = "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+GPU_UUID = None
+MIN_H200_VRAM_MIB = 80 * 1024
 HORIZON = 40
 UNIVERSAL_DIM = 132
 RAW_SHAPE = (1, HORIZON, UNIVERSAL_DIM)
@@ -131,8 +132,8 @@ def tree_digest(entries: Iterable[Mapping[str, Any]]) -> str:
 
 def manifest() -> dict[str, Any]:
     value = read_json(MANIFEST_PATH)
-    require(value.get("schema") == "CORELAB_STAGE45E_LEGACY_MATCHED_SEED_REPLICATION_V1", "manifest schema drift")
-    require(value.get("authority", {}).get("pi_gate") == PI_GATE and value["authority"].get("issue_comment") == PI_COMMENT, "PI0131 authority drift")
+    require(value.get("schema") == "CORELAB_STAGE45E_LEGACY_H200_MATCHED_SEED_REPLICATION_PI0133_V1", "H200 manifest schema drift")
+    require(value.get("authority", {}).get("pi_gate") == PI_GATE and value["authority"].get("issue_comment") == PI_COMMENT, "PI0133 authority drift")
     require(value.get("repository", {}).get("branch") == BRANCH and value["repository"].get("base_head") == BASE_HEAD, "branch/base identity drift")
     return value
 
@@ -144,6 +145,10 @@ def static_audit() -> dict[str, Any]:
     require(value["diagnostics"]["c3_d1"]["total_model_side_calls"] == 960, "D1 budget drift")
     require(value["diagnostics"]["c4_d2a"]["total_model_side_calls"] == 864, "D2A budget drift")
     require(value["legacy_route"]["n2_statistics_forbidden"] is True, "N2 route must be forbidden")
+    require(value["gpu_policy"]["host_role"] == "Vanda Hopper H200", "H200 host role drift")
+    require(value["gpu_policy"]["minimum_vram_mib"] == MIN_H200_VRAM_MIB, "H200 VRAM floor drift")
+    require(value["gpu_policy"]["selected_device"] == "cuda:0", "selected H200 device drift")
+    require(value["gpu_policy"]["allow_shared_gpu"] is False, "shared H200 is not allowed")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
     top_imports: list[str] = []
@@ -162,6 +167,7 @@ def static_audit() -> dict[str, Any]:
         "manifest_sha256": sha256_file(MANIFEST_PATH),
         "top_level_forbidden_imports": forbidden,
         "legacy_stats_route": "FULL24_RUNTIME_V2",
+        "gpu_policy": value["gpu_policy"],
         "n2_override_present_at_static": False,
         "training_seeds": [2223, 2224],
         "training_steps": 2000,
@@ -178,7 +184,7 @@ def paths(args: argparse.Namespace) -> dict[str, Path]:
     return result
 
 
-def gpu_identity(expected: str = GPU_UUID) -> dict[str, Any]:
+def gpu_identity(expected: str | None = GPU_UUID) -> dict[str, Any]:
     query = subprocess.run(["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,memory.used", "--format=csv,noheader,nounits"], capture_output=True, text=True, check=False)
     require(query.returncode == 0, f"nvidia-smi failed: {query.stderr[-1000:]}")
     rows = []
@@ -187,10 +193,11 @@ def gpu_identity(expected: str = GPU_UUID) -> dict[str, Any]:
             fields = [part.strip() for part in line.split(",")]
             require(len(fields) == 5, f"unexpected nvidia-smi row: {line}")
             rows.append({"index": fields[0], "name": fields[1], "uuid": fields[2], "memory_total_mib": int(fields[3]), "memory_used_mib_at_start": int(fields[4])})
-    selected = [row for row in rows if row["uuid"] == expected]
-    require(len(selected) == 1, f"requested GPU UUID not unique: {expected}; observed={rows}")
+    require(len(rows) == 1 and rows[0]["index"] == "0", f"PI0133 requires exactly one visible H200 at index 0: {rows}")
+    selected = [row for row in rows if expected is None or row["uuid"] == expected]
+    require(len(selected) == 1, f"requested H200 UUID not unique: {expected}; observed={rows}")
     gpu = selected[0]
-    require("RTX 4080 SUPER" in gpu["name"] and gpu["memory_total_mib"] >= 30000, f"wrong Corelab GPU: {gpu}")
+    require("H200" in gpu["name"].upper() and gpu["memory_total_mib"] >= MIN_H200_VRAM_MIB, f"wrong H200 resource: {gpu}")
     gpu["host"] = subprocess.check_output(["hostname"], text=True).strip()
     gpu["query_sha256"] = sha256_bytes(query.stdout.encode())
     return gpu
@@ -330,7 +337,7 @@ def canary(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def train(args: argparse.Namespace) -> dict[str, Any]:
-    require(args.seed in (2223, 2224), "only PI0131 seeds 2223/2224 are allowed")
+    require(args.seed in (2223, 2224), "PI0133 Legacy permits only new seeds 2223/2224")
     p = paths(args)
     identity = verify_identities(p)
     gpu = gpu_identity(args.gpu_uuid or GPU_UUID)

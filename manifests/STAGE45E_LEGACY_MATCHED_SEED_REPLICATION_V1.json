@@ -1,13 +1,13 @@
 {
-  "schema": "CORELAB_STAGE45E_LEGACY_MATCHED_SEED_REPLICATION_V1",
-  "status": "IMPLEMENTED_CPU_STATIC_READY",
+  "schema": "CORELAB_STAGE45E_LEGACY_H200_MATCHED_SEED_REPLICATION_PI0133_V1",
+  "status": "PI0133_H200_PLAN_CPU_STATIC_READY",
   "stage": "Stage45E",
   "authority": {
     "issue": 11,
-    "pi_gate": "PI_GATE_STATE_0131",
-    "issue_comment": 5642616832,
-    "pointer_pr": 56,
-    "pointer_comment": 5642618075,
+    "pi_gate": "PI_GATE_STATE_0133",
+    "issue_comment": 5642852068,
+    "pointer_pr": 63,
+    "pointer_comment": 5642854134,
     "execution_pr": 62
   },
   "repository": {
@@ -124,6 +124,16 @@
     "total_action_head_calls": 2016,
     "total_model_side_calls": 2304
   },
+  "gpu_policy": {
+    "host_role": "Vanda Hopper H200",
+    "minimum_name": "H200",
+    "minimum_vram_mib": 81920,
+    "preferred_uuid": null,
+    "selected_device": "cuda:0",
+    "allow_shared_gpu": false,
+    "one_model_or_optimizer_at_a_time": true,
+    "must_not_kill_other_processes": true
+  },
   "cpu_closure": {
     "reconstruct_n2_r1_r2_g2_rows_from_sealed_npy": true,
     "rerun_g2": false,
@@ -150,7 +160,7 @@
     "simulator": true,
     "hardware": true,
     "merge": true,
-    "PBS": true
+    "PBS": false
   },
   "return_token": "STAGE45E_LEGACY_MATCHED_SEED_REPLICATION_COMPLETE_FOR_PI_REVIEW"
 }
