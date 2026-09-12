@@ -553,6 +553,7 @@ def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     handoff = json.loads(Path(fixture["vanda_c10_handoff"]).read_text())
     row_index = json.loads(Path(fixture["canonical_row_index"]).read_text())
     metric_index = json.loads(Path(fixture["c10_metric_index"]).read_text())
+    relocation_map = json.loads(Path(fixture["path_relocation_map"]).read_text())
 
     assert final["schema"] == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2"
     assert summary["schema"] == "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2"
@@ -573,6 +574,10 @@ def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     assert metric_index["source_row_contract"]["current_row_count"] == 336
     assert metric_index["source_row_contract"]["historical_row_count"] == 96
     assert metric_index["paired_comparison_count"] == 27
+    assert relocation_map["schema"] == "VANDA_STAGE45E_PI0149_PATH_RELOCATION_MAP_V1"
+    assert relocation_map["resolution_only"] is True
+    assert relocation_map["sealed_documents_must_not_be_rewritten"] is True
+    assert fixture["path_relocation_map_sha256"] == campaign.sha256_file(Path(fixture["path_relocation_map"]))
     assert all(item["row_count"] == 24 for item in metric_index["arms"].values())
     assert all(not Path(item["rows_json"]).is_absolute() for item in metric_index["arms"].values())
     assert all(item["source_row_schema"] == campaign.SYNTHETIC_E4_ROW_SCHEMA for item in metric_index["arms"].values())
@@ -595,6 +600,7 @@ def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     assert any(value > 0 for value in deltas)
     assert any(value == 0 for value in deltas)
     assert final["canonical_row_index_sha256"] == fixture["canonical_row_index_sha256"]
+    assert final["path_relocation_map_sha256"] == fixture["path_relocation_map_sha256"]
     assert final["c10_metric_index_sha256"] == fixture["c10_metric_index_sha256"]
     assert final["c10_handoff_sha256"] == fixture["vanda_c10_handoff_sha256"]
     assert final["synthetic_test_only"] == "SYNTHETIC_TEST_ONLY"

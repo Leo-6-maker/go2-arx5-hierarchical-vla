@@ -849,6 +849,9 @@ def validate_pi0149_contract_manifest() -> dict[str, Any]:
     envelope = value.get("envelope_contract", {})
     require(envelope.get("raw_before_derived") is True and envelope.get("normalized_and_physical_namespaces_separate") is True, "PI0149 envelope boundary drift")
     require(envelope.get("unknown_counts_block") is True and envelope.get("unsafe_paths_block") is True, "PI0149 fail-closed envelope drift")
+    require(envelope.get("relocation_map_required_for_absolute_paths") is True, "PI0149 relocation-map contract drift")
+    require("PATH_RELOCATION_MAP.json" in envelope.get("required_documents", []), "PI0149 relocation-map document missing")
+    require("final_result->path_relocation_map" in envelope.get("required_bindings", []), "PI0149 relocation-map binding missing")
     train24 = value.get("train24_contract", {})
     require(train24.get("schema") == TRAIN24_CONTRACT_SCHEMA, "PI0149 TRAIN24 contract schema drift")
     require(train24.get("split") == "TRAIN24" and train24.get("window_count") == 24, "PI0149 TRAIN24 cardinality drift")
@@ -873,10 +876,16 @@ def validate_pi0149_contract_manifest() -> dict[str, Any]:
     require(synthetic.get("old_generation_tar_sha256") == "f11f9aec6e8ae9d09d30b3a02864d56a277eca4687412124e1e0ad28989caa78", "PI0149 predecessor tar binding drift")
     require(synthetic.get("old_generation_must_be_preserved") is True and synthetic.get("old_v1_translation_forbidden") is True, "PI0149 old-generation policy drift")
     require(synthetic.get("must_be_generated_by_native_producer_functions") is True, "PI0149 producer-generation policy drift")
+    old_tar = REPO / "artifacts/pi0147_native_fixture_079e288.tar"
+    require(old_tar.is_file() and not old_tar.is_symlink(), "PI0149 predecessor tar is unavailable")
+    require(sha256_file(old_tar) == synthetic["old_generation_tar_sha256"], "PI0149 predecessor tar bytes changed")
     recovered = value.get("recovered_input_identity", {})
     require(recovered.get("approved_input_v2_sha256") == RECOVERED_L1_INPUT_V2_SHA256, "PI0149 approved recovered input drift")
     require(recovered.get("reported_later_copy_sha256") == "534ecfa32d6eb62b6ff385832a942e9ca66bc5f4b16650a0315a5fc7118dba46", "PI0149 reported recovered copy drift")
     require(recovered.get("approved_identity_must_not_be_replaced") is True, "PI0149 recovered identity replacement policy drift")
+    delivery = value.get("delivery", {})
+    require(delivery.get("relocation_map_required_when_absolute_paths_are_present") is True, "PI0149 delivery relocation policy drift")
+    require(delivery.get("relocation_map_is_resolution_only_not_a_byte_rewrite") is True, "PI0149 relocation rewrite policy drift")
     completion = value.get("completion", {})
     require(completion.get("intermediate_pointer") == "STAGE45E_VANDA_PI0149_NATIVE_FIXTURE_DELIVERED_FOR_CORELAB", "PI0149 intermediate token drift")
     require(completion.get("final_ready_token") == "STAGE45E_VANDA_PI0149_NATIVE_HANDOFF_AND_PRIMARY_BINDING_READY_FOR_PI_REVIEW", "PI0149 final token drift")
@@ -3663,6 +3672,10 @@ def _write_native_v2_serialization(
             "path": external.get("canonical_row_index_path"),
             "sha256": external.get("canonical_row_index_sha256"),
         },
+        "path_relocation_map": {
+            "path": external.get("path_relocation_map_path"),
+            "sha256": external.get("path_relocation_map_sha256"),
+        },
         "c10_metric_index": {
             "path": external.get("c10_metric_index_path"),
             "sha256": external.get("c10_metric_index_sha256"),
@@ -3717,6 +3730,7 @@ def _write_native_v2_serialization(
         "external_inventory": external["inventory_path"],
         "external_inventory_sha256": external["inventory_sha256"],
         "canonical_row_index": {"path": external.get("canonical_row_index_path"), "sha256": external.get("canonical_row_index_sha256")},
+        "path_relocation_map": {"path": external.get("path_relocation_map_path"), "sha256": external.get("path_relocation_map_sha256")},
         "c10_metric_index": {
             "path": external.get("c10_metric_index_path"),
             "sha256": external.get("c10_metric_index_sha256"),
@@ -3759,6 +3773,8 @@ def _write_native_v2_serialization(
         "c10_handoff_sha256": external["handoff_sha256"],
         "canonical_row_index": external.get("canonical_row_index_path"),
         "canonical_row_index_sha256": external.get("canonical_row_index_sha256"),
+        "path_relocation_map": external.get("path_relocation_map_path"),
+        "path_relocation_map_sha256": external.get("path_relocation_map_sha256"),
         "c10_metric_index": external.get("c10_metric_index_path"),
         "c10_metric_index_sha256": external.get("c10_metric_index_sha256"),
         "c10_physical_e4_row_count": external.get("c10_physical_e4_row_count", 0),
@@ -4536,6 +4552,38 @@ def _write_synthetic_c10_metric_index(
     }
 
 
+def _write_synthetic_path_relocation_map(fixture_root: Path) -> dict[str, Any]:
+    """Record how absolute producer provenance paths are resolved after unpack.
+
+    The fixture is intentionally generated in a temporary source directory, so
+    its sealed JSON documents contain absolute paths.  Those bytes must remain
+    immutable when another host unpacks the archive.  This map gives a reader
+    a deterministic logical replacement prefix while making clear that it is
+    not permission to rewrite, rehash, or reinterpret the sealed documents.
+    """
+
+    fixture_root = Path(fixture_root).resolve()
+    path = fixture_root / "PATH_RELOCATION_MAP.json"
+    write_json(path, {
+        "schema": "VANDA_STAGE45E_PI0149_PATH_RELOCATION_MAP_V1",
+        "status": "SYNTHETIC_TEST_ONLY",
+        "archive_root": fixture_root.name,
+        "source_fixture_root": str(fixture_root),
+        "source_fixture_root_sha256": sha256_bytes(str(fixture_root).encode()),
+        "receiver_root_token": "RECEIVER_FIXTURE_ROOT",
+        "source_prefix": str(fixture_root),
+        "logical_replacement_prefix": "RECEIVER_FIXTURE_ROOT",
+        "resolution_only": True,
+        "sealed_documents_must_not_be_rewritten": True,
+        "sealed_documents_must_not_be_rehashed_after_relocation": True,
+        "relative_rows_json_resolution": "resolve vanda_producer/c10_metric_index/rows/*.json from the unpacked archive_root",
+        "absolute_paths_are_provenance_only": True,
+        "receiver_must_preserve_archive_root": True,
+        "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+    })
+    return {"path": str(path), "sha256": sha256_file(path)}
+
+
 def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
     """Build a transferable native V2 producer fixture (CPU/test-only).
 
@@ -4742,12 +4790,15 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
         synthetic_lineages,
         source_identity=source_identity,
     )
+    relocation_map = _write_synthetic_path_relocation_map(fixture_root)
     vanda_closure.update({
         "c10_metric_index_path": metric_index["path"],
         "c10_metric_index_sha256": metric_index["sha256"],
         "c10_physical_e4_row_count": metric_index["physical_metric_row_count"],
         "c10_pairing_count": metric_index["paired_comparison_count"],
         "c10_metric_index_kind": metric_index["index_kind"],
+        "path_relocation_map_path": relocation_map["path"],
+        "path_relocation_map_sha256": relocation_map["sha256"],
     })
     serialized = _write_native_v2_serialization(
         producer_root,
@@ -4782,6 +4833,8 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
         "c10_metric_index_sha256": metric_index["sha256"],
         "c10_physical_e4_row_count": metric_index["physical_metric_row_count"],
         "c10_pairing_count": metric_index["paired_comparison_count"],
+        "path_relocation_map": relocation_map["path"],
+        "path_relocation_map_sha256": relocation_map["sha256"],
         "c10_handoff": vanda_closure["handoff_path"],
         "c10_handoff_sha256": vanda_closure["handoff_sha256"],
         "native_v2_campaign": serialized["final_path"],
@@ -4813,6 +4866,7 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
         "external_inventory": {"path": vanda_closure["inventory_path"], "sha256": vanda_closure["inventory_sha256"]},
         "canonical_row_index": {"path": vanda_closure["canonical_row_index_path"], "sha256": vanda_closure["canonical_row_index_sha256"]},
         "c10_metric_index": {"path": metric_index["path"], "sha256": metric_index["sha256"], "physical_metric_row_count": metric_index["physical_metric_row_count"], "paired_comparison_count": metric_index["paired_comparison_count"]},
+        "path_relocation_map": {"path": relocation_map["path"], "sha256": relocation_map["sha256"]},
         "c10_handoff": {"path": vanda_closure["handoff_path"], "sha256": vanda_closure["handoff_sha256"]},
         "native_v2": True,
         "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
@@ -4841,6 +4895,8 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
         "c10_metric_index_sha256": metric_index["sha256"],
         "c10_physical_e4_row_count": metric_index["physical_metric_row_count"],
         "c10_pairing_count": metric_index["paired_comparison_count"],
+        "path_relocation_map": relocation_map["path"],
+        "path_relocation_map_sha256": relocation_map["sha256"],
         "vanda_c10_handoff": vanda_closure["handoff_path"],
         "vanda_c10_handoff_sha256": vanda_closure["handoff_sha256"],
         "native_v2_campaign": serialized["final_path"],

@@ -51,6 +51,7 @@
       "CPU_EVIDENCE_INVENTORY.json",
       "C10_HANDOFF.json",
       "canonical_row_index.json",
+      "PATH_RELOCATION_MAP.json",
       "c10_metric_index/canonical_e4_metric_index.json",
       "c10_metric_index/rows/*.json",
       "phase_specs",
@@ -64,6 +65,7 @@
       "final_result->inventory",
       "final_result->handoff",
       "final_result->canonical_row_index",
+      "final_result->path_relocation_map",
       "final_result->c10_metric_index",
       "summary->phase_seals",
       "phase_seal->phase_spec",
@@ -78,6 +80,7 @@
     "normalized_and_physical_namespaces_separate": true,
     "unknown_counts_block": true,
     "unsafe_paths_block": true,
+    "relocation_map_required_for_absolute_paths": true,
     "sealed_json_bytes_must_not_be_rewritten_for_relocation": true
   },
   "train24_contract": {
@@ -197,7 +200,8 @@
     "transport": "existing_project_relay_or_committed_tests_fixture",
     "receiver_receipt_required_for_received_status": true,
     "safe_unpack_required": true,
-    "relocation_map_required_when_absolute_paths_are_present": true
+    "relocation_map_required_when_absolute_paths_are_present": true,
+    "relocation_map_is_resolution_only_not_a_byte_rewrite": true
   },
   "completion": {
     "intermediate_pointer": "STAGE45E_VANDA_PI0149_NATIVE_FIXTURE_DELIVERED_FOR_CORELAB",
