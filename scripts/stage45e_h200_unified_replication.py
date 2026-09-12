@@ -1149,6 +1149,8 @@ def _historical_row_identity(row: Mapping[str, Any]) -> dict[str, Any]:
         checkpoint_label = checkpoint_value
         checkpoint_tree = identity.get("checkpoint_tree_sha256", row.get("checkpoint_tree_sha256"))
     sampler = row.get("sampler") if isinstance(row.get("sampler"), Mapping) else {}
+    decoded_action = row.get("decoded_action") if isinstance(row.get("decoded_action"), Mapping) else {}
+    decoder_details = decoded_action.get("decoder_details") if isinstance(decoded_action.get("decoder_details"), Mapping) else {}
     window_id = identity.get("window_id", row.get("window_id"))
     target_id = identity.get("target_id", row.get("target_id"))
     if target_id is None and row.get("schema") == "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1":
@@ -1171,8 +1173,11 @@ def _historical_row_identity(row: Mapping[str, Any]) -> dict[str, Any]:
         "probe_seed": identity.get("noise_seed", identity.get("seed", row.get("seed", sampler.get("seed")))),
         "solver": identity.get("solver", sampler.get("name")),
         "stats_route": identity.get("stats_route", row.get("stats_route")),
-        "stats_sha256": identity.get("stats_sha256", row.get("stats_sha256")),
-        "stats_payload_sha256": identity.get("stats_payload_sha256", row.get("stats_payload_sha256")),
+        # The accepted L1 row schema stores the two immutable stats hashes in
+        # decoded_action.decoder_details; do not treat their absence from the
+        # row top level as an implicit identity match.
+        "stats_sha256": identity.get("stats_sha256", row.get("stats_sha256", decoder_details.get("stats_sha256"))),
+        "stats_payload_sha256": identity.get("stats_payload_sha256", row.get("stats_payload_sha256", decoder_details.get("statistics_payload_sha256"))),
         "target_xyz_in_model_input": identity.get("target_xyz_in_model_input", row.get("target_xyz_in_model_input")),
         "raw_before_derived": row.get("raw_before_derived"),
     }

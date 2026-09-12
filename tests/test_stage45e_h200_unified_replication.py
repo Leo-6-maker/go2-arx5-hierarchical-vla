@@ -507,9 +507,13 @@ def test_l1_raw_manifest_order_and_selected_binding_are_fail_closed(tmp_path: Pa
         "schema": "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1",
         "checkpoint": {"label": "L1@1000", "sha256": checkpoint_sha},
         "window_id": window_id,
+        "decoded_action": {"decoder_details": {"stats_sha256": campaign.RUNTIME_STATS_SHA, "statistics_payload_sha256": campaign.RUNTIME_STATS_PAYLOAD_SHA}},
         "raw_prediction_artifact": {"path": raw_record["path"], "sha256": raw_sha, "array_sha256": array_sha, "shape": [1, 40, 132]},
     }]
-    assert campaign._historical_row_identity(selected[0])["target_id"] == "red_target_train_a"
+    identity = campaign._historical_row_identity(selected[0])
+    assert identity["target_id"] == "red_target_train_a"
+    assert identity["stats_sha256"] == campaign.RUNTIME_STATS_SHA
+    assert identity["stats_payload_sha256"] == campaign.RUNTIME_STATS_PAYLOAD_SHA
     proof = campaign._audit_l1_raw_prediction_order(manifest, selected, source_root.resolve())
     assert proof["raw_before_derived"] is True
     assert proof["selected_raw_record_count"] == 1
