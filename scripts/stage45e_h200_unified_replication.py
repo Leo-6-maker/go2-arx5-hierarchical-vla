@@ -2207,6 +2207,24 @@ def training_lineage_identity(lineage: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def fresh_training_lineage_count(campaign_root: Path) -> int:
+    """Read the immutable campaign plan instead of guessing training history.
+
+    Matched-confirmation campaigns may reuse every accepted training lineage.
+    The serializer must therefore derive this field from the sealed plan that
+    was written before execution; a historical seven-lineage default would
+    falsely claim that a read-only confirmation trained new models.
+    """
+
+    plan_path = Path(campaign_root).resolve() / "lineage_plan.json"
+    if not plan_path.is_file() or plan_path.is_symlink():
+        return 0
+    plan = read_json(plan_path)
+    value = plan.get("fresh_base_count")
+    require(isinstance(value, int) and not isinstance(value, bool) and value >= 0, "lineage plan fresh_base_count is not a strict JSON integer")
+    return value
+
+
 def evaluator_identity(args: argparse.Namespace | None = None) -> dict[str, Any]:
     """Bind the common evaluator separately from route training HEADs."""
 
@@ -3876,6 +3894,7 @@ def _write_native_v2_serialization(
     campaign_root = Path(campaign_root).resolve()
     evaluator = dict(evaluator or {})
     orchestration = dict(orchestration or {})
+    fresh_training_lineages = fresh_training_lineage_count(campaign_root)
     totals = _native_phase_totals()
     phase_seals: dict[str, dict[str, Any]] = {phase: {} for phase in DIAGNOSTIC_PHASES}
     for phase in DIAGNOSTIC_PHASES:
@@ -3902,7 +3921,7 @@ def _write_native_v2_serialization(
     summary: dict[str, Any] = {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2",
         "status": "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE",
-        "pi_gate": PI0149_GATE if synthetic_test_only else PI_GATE,
+        "pi_gate": PI0149_GATE if synthetic_test_only else PI0152_GATE,
         "campaign_root": str(campaign_root),
         "source_identities": dict(source_identities),
         "high_water": dict(highwater_record),
@@ -3955,8 +3974,8 @@ def _write_native_v2_serialization(
             "merge": False,
         },
         "campaign_history": {
-            "training_occurred": True,
-            "fresh_training_lineages": 7,
+            "training_occurred": fresh_training_lineages > 0,
+            "fresh_training_lineages": fresh_training_lineages,
             "diagnostic_model_calls_occurred": (
                 None
                 if accounting.get("all_attempted_model_calls") is None
@@ -4030,7 +4049,7 @@ def _write_native_v2_serialization(
         "c10_metric_index_sha256": external.get("c10_metric_index_sha256"),
         "c10_physical_e4_row_count": external.get("c10_physical_e4_row_count", 0),
         "c10_pairing_count": external.get("c10_pairing_count", 0),
-        "fresh_training_lineages": 7,
+        "fresh_training_lineages": fresh_training_lineages,
         "historical_legacy_seed2222_reused": True,
         "historical_l1_seed2222_reused": True,
         "cpu_closure_execution": summary["cpu_closure_execution"],

@@ -58,6 +58,18 @@ def test_pi0152_execution_overlay_preserves_historical_contract_and_l1_token() -
     assert campaign.L1_ROUTE_AUTHORITY_TOKEN != authority["pi_gate"]
 
 
+def test_serializer_reads_actual_fresh_lineage_count_from_campaign_plan(tmp_path: Path) -> None:
+    root = tmp_path / "campaign"
+    root.mkdir()
+    (root / "lineage_plan.json").write_text(json.dumps({"fresh_base_count": 0}), encoding="utf-8")
+    assert campaign.fresh_training_lineage_count(root) == 0
+    (root / "lineage_plan.json").write_text(json.dumps({"fresh_base_count": 7}), encoding="utf-8")
+    assert campaign.fresh_training_lineage_count(root) == 7
+    (root / "lineage_plan.json").write_text(json.dumps({"fresh_base_count": True}), encoding="utf-8")
+    with pytest.raises(RuntimeError):
+        campaign.fresh_training_lineage_count(root)
+
+
 def test_legacy_v1_pre_model_failure_is_source_bound_zero_and_retryable(tmp_path: Path) -> None:
     root = tmp_path / "pi0134_E4_legacy"
     root.mkdir()
