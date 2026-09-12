@@ -28,9 +28,9 @@ from typing import Any, Mapping, Sequence
 REPO = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0133_V1.json"
 ROUTE_HEADS = {
-    "legacy": "b66e06dd724bfab7a7dcac68c9cd96a4f3f84f7f",
+    "legacy": "fccf87a20116b719e8de281125110573c9bf0a91",
     "l1": "186efc2977e2795bebf0dfe97d6f503a672716de",
-    "n2": "5f68ceec4d01908c0d36d5dd68ee55694bab75d4",
+    "n2": "a13fe3736fef987a4eb17ed102d37fad267da223",
 }
 ROUTE_BRANCHES = {
     "legacy": "stage45e/legacy-full24-matched-seed-replication",

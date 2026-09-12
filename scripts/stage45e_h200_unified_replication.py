@@ -55,14 +55,17 @@ RUNTIME_STATS_PAYLOAD_SHA = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d
 N2_STATS_SHA = "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677"
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
 GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+GROOT_MANIFEST_SHA = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
+GROOT_MANIFEST_PAYLOAD_SHA = "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8e3c50e0a43e5b8250"
+GROOT_PAYLOAD_TREE = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 ROUTE_HEADS = {
-    "legacy": "b66e06dd724bfab7a7dcac68c9cd96a4f3f84f7f",
+    "legacy": "fccf87a20116b719e8de281125110573c9bf0a91",
     "l1": "186efc2977e2795bebf0dfe97d6f503a672716de",
-    "n2": "5f68ceec4d01908c0d36d5dd68ee55694bab75d4",
+    "n2": "a13fe3736fef987a4eb17ed102d37fad267da223",
 }
 ROUTE_BRANCHES = {
     "legacy": "stage45e/legacy-full24-matched-seed-replication",
@@ -286,7 +289,19 @@ def verify_sources(args: argparse.Namespace, n2_repo: Path) -> dict[str, Any]:
     require(n2_file_sha == N2_STATS_SHA and n2_doc.get("statistics_payload_sha256") == N2_STATS_PAYLOAD_SHA, "N2 stats artifact drift")
     require(sha256_file(paths["modality"]) == MODALITY_SHA, "modality identity drift")
     require(sha256_file(paths["config"]) == CONFIG_SHA, "training config identity drift")
-    require(git(paths["groot"], "rev-parse", "HEAD") == GROOT_COMMIT, "GR00T source commit drift")
+    groot_manifest = Path(args.groot_manifest).resolve()
+    require(groot_manifest.is_file() and not groot_manifest.is_symlink(), "GR00T snapshot manifest unavailable")
+    sys.path.insert(0, str(REPO / "scripts"))
+    from stage45b_groot_source_snapshot import verify_extracted
+
+    snapshot = verify_extracted(
+        paths["groot"],
+        groot_manifest,
+        expected_manifest_file_sha256=GROOT_MANIFEST_SHA,
+        expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA,
+        expected_payload_tree_sha256=GROOT_PAYLOAD_TREE,
+    )
+    require(snapshot.get("origin_commit") == GROOT_COMMIT, "GR00T source commit drift")
     require((paths["cosmos"] / "refs/main").read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos revision drift")
     cosmos_tree = cosmos_digest(paths["cosmos"])
     require(cosmos_tree == COSMOS_TREE, f"Cosmos tree drift: {cosmos_tree}")
@@ -302,6 +317,8 @@ def verify_sources(args: argparse.Namespace, n2_repo: Path) -> dict[str, Any]:
         "modality_sha256": MODALITY_SHA,
         "config_sha256": CONFIG_SHA,
         "groot_commit": GROOT_COMMIT,
+        "groot_snapshot": snapshot,
+        "groot_manifest_sha256": GROOT_MANIFEST_SHA,
         "cosmos_revision": COSMOS_REVISION,
         "cosmos_tree_sha256": cosmos_tree,
         "paths": {key: str(value) for key, value in paths.items()},
@@ -441,8 +458,8 @@ def _root_name(route: str, seed: int, job_id: str) -> str:
 
 
 def _common_route_args(args: argparse.Namespace) -> list[str]:
-    names = ("base_model", "dataset", "groot", "cosmos", "modality", "config", "runtime_stats", "sealed_baseline", "snapshot_preflight")
-    flags = {"base_model": "--base-model", "dataset": "--dataset", "groot": "--groot", "cosmos": "--cosmos", "modality": "--modality", "config": "--config", "runtime_stats": "--runtime-stats", "sealed_baseline": "--sealed-baseline", "snapshot_preflight": "--snapshot-preflight"}
+    names = ("base_model", "dataset", "groot", "groot_manifest", "cosmos", "modality", "config", "runtime_stats", "sealed_baseline", "snapshot_preflight")
+    flags = {"base_model": "--base-model", "dataset": "--dataset", "groot": "--groot", "groot_manifest": "--groot-manifest", "cosmos": "--cosmos", "modality": "--modality", "config": "--config", "runtime_stats": "--runtime-stats", "sealed_baseline": "--sealed-baseline", "snapshot_preflight": "--snapshot-preflight"}
     result: list[str] = []
     for name in names:
         result.extend((flags[name], str(Path(getattr(args, name)).resolve())))
