@@ -39,6 +39,7 @@ def _training_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
             "phase": "POST_TRAINING_AUDIT",
             "execution_head": recovery.TRAINING_HEAD,
             "training_started": True,
+            "backward_started": True,
             "action_head_forwards": 2000,
             "validation_e_read": False,
             "holdout_f_read": False,
