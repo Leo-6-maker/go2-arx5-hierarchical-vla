@@ -1,0 +1,13 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0149_SINGLE_WINDOW_SMOKE_V1",
+  "status": "LATE_BOUND_RUNTIME_BINDING",
+  "authority": {"pi_gate": "PI_GATE_STATE_0149", "issue_11_comment": 5646608846},
+  "host_policy": {"host": "corelab-4080s", "gpu_uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd", "runtime_interpreter_role": "STAGE10_RUNTIME_VENV_PYTHON_LATE_BOUND", "minimum_free_vram_mib": 14336, "allow_gpu_fallback": false, "allow_retry": false},
+  "checkpoint": {"label": "FULL24@2000", "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"},
+  "train": {"dataset_id": "FULL24_EXISTING_TRAIN", "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789", "split": "TRAIN", "window_id": "stage22_expert_red_target_train_a:expert-0000", "target_xyz_in_model_input": false},
+  "stats": {"file_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337", "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75", "route": "FULL24_RUNTIME_V2_STATS_BRIDGE"},
+  "sources": {"groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1", "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561", "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9", "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"},
+  "sampler": {"name": "source-mapped-four-step-Euler-action-head-graph", "timestep_ids": [0, 250, 500, 750], "dt": 0.25, "conditioning_passes": 1, "action_head_calls": 4, "public_sampler_calls": 0},
+  "noise": {"seed": 4242, "status": "NEW_ENGINEERING_PROBE_NOISE", "reference_equivalence": "NOT_CLAIMED"},
+  "locked_boundaries": {"training": 0, "new_data": 0, "ICL": 0, "H200": 0, "PBS": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "merge": 0}
+}
