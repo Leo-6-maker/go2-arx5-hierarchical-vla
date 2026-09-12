@@ -64,6 +64,7 @@ class CorelabEvidenceConvergenceTest(unittest.TestCase):
             rows_path = root / (label.replace("(", "_").replace(")", "").replace("@", "_") + ".json")
             rows_path.write_text(json.dumps(rows, sort_keys=True) + "\n")
             route_cfg = manifest["h200_campaign_surfaces"]["routes"][route]
+            frozen = manifest["h200_campaign_surfaces"]["frozen_sources"]
             arms[label] = {
                 "rows_json": str(rows_path),
                 "rows_sha256": convergence.sha256_file(rows_path),
@@ -85,6 +86,15 @@ class CorelabEvidenceConvergenceTest(unittest.TestCase):
                     "metric_identity": "accepted Stage44R metrics",
                     "sampler_identity": "accepted H200 E4 row semantics",
                     "raw_before_derived": True,
+                    "full_state_checkpoint": True,
+                    "completed_step": step,
+                    "target_xyz_in_model_input": False,
+                    "base_tree_sha256": frozen["base_tree_sha256"],
+                    "full24_tree_sha256": frozen["full24_tree_sha256"],
+                    "training_result_sha256": zero,
+                    "trainer_state_sha256": zero,
+                    "hardware_runtime_sha256": zero,
+                    "training_recipe_sha256": zero,
                     "validation_e_read": False,
                     "holdout_f_read": False,
                 },
@@ -110,12 +120,33 @@ class CorelabEvidenceConvergenceTest(unittest.TestCase):
             self.assertFalse(packet["winner_declared"])
             self.assertEqual(len(packet["arm_summaries"]), 18)
             self.assertEqual(len(packet["paired_comparisons"]), 21)
+            self.assertIn("N2", packet["three_seed_descriptive"]["route_minus_legacy"])
+            self.assertFalse(packet["three_seed_descriptive"]["window_iid_inference"])
+            first_pair = packet["paired_comparisons"]["n2_minus_legacy_seed2222_at_1000"]
+            self.assertEqual(first_pair["physical_delta_exact_sign_counts"]["absolute_progress_m"]["zero"], 24)
             self.assertFalse(packet["validation_e_read"])
             self.assertEqual(packet["execution_boundary"]["model_forward"], 0)
 
     def test_locked_path_is_rejected_before_read(self) -> None:
         with self.assertRaises(convergence.ConvergenceError):
             convergence.read_json(Path("/tmp/Validation-E/not-an-input.json"))
+
+    def test_all_undefined_optional_cosine_is_preserved(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="stage45f-convergence-cosine-") as directory:
+            root = Path(directory)
+            index_path = self._index(root)
+            index = json.loads(index_path.read_text())
+            for spec in index["arms"].values():
+                rows_path = Path(spec["rows_json"])
+                rows = json.loads(rows_path.read_text())
+                for row in rows:
+                    row["metrics"]["target"]["endpoint_target_vector_cosine"] = None
+                rows_path.write_text(json.dumps(rows, sort_keys=True) + "\n")
+                spec["rows_sha256"] = convergence.sha256_file(rows_path)
+            index_path.write_text(json.dumps(index, sort_keys=True) + "\n")
+            packet = convergence.build_packet(index_path, root / "packet.json")
+            summary = packet["arm_summaries"]["LEGACY(seed2222)@1000"]["physical"]["endpoint_target_vector_cosine"]
+            self.assertEqual(summary["status"], "ALL_UNDEFINED_ACCEPTED")
 
 
 if __name__ == "__main__":

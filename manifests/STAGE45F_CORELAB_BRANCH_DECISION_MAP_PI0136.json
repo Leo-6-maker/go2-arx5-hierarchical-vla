@@ -1,0 +1,40 @@
+{
+  "schema": "CORELAB_STAGE45F_BRANCH_DECISION_READINESS_MAP_V1",
+  "status": "LOCKED_PLAN_ONLY",
+  "decision_state": "PI_DECISION_REQUIRED",
+  "branches": {
+    "RECIPE_FREEZE_TO_VALIDATION": {
+      "required_evidence": "one physically credible and seed-consistent TRAIN24 candidate with endpoint/progress gains reported jointly with path/roughness and complete E4/D1/D2A provenance",
+      "confounds_to_rule_out": ["hardware substitution", "normalization-scale comparison", "performance-selected retry", "missing seed or tier", "posthoc threshold"],
+      "execution_enabled": false
+    },
+    "EXPOSURE_SCALING": {
+      "required_evidence": "consistent within-route @1000 to @2000 improvement across training seeds without a clear plateau",
+      "confounds_to_rule_out": ["fresh 4000 cosine horizon differs during first 2000 steps", "resume after 2000 differs from fresh training", "fixed scheduler horizon differs", "sample exposure not reconstructed"],
+      "execution_enabled": false
+    },
+    "STATIC_DATA_EXPANSION": {
+      "required_evidence": "coverage/support limitation after objective, exposure, and rollout-state explanations are audited",
+      "confounds_to_rule_out": ["normalization recomputation", "changed sampling mix", "changed label semantics", "Validation-E tuning"],
+      "execution_enabled": false
+    },
+    "DATA_PLUS_NORMALIZATION": {
+      "required_evidence": "new data support forces or explicitly motivates changed q01/q99 or other statistics",
+      "confounds_to_rule_out": ["mislabeling as data-only", "unbound old/new stats", "changed clipping without attribution"],
+      "execution_enabled": false
+    },
+    "ROLLOUT_STATE_AUGMENTATION_DAGGER": {
+      "required_evidence": "D1/local field is credible while D2A demonstrates substantial TF-to-FR degradation or visited-state distribution shift",
+      "confounds_to_rule_out": ["GR00T self-labeling", "missing independent simulator expert/oracle", "changed action ABI", "unsealed visited-state provenance"],
+      "execution_enabled": false
+    },
+    "N2_X_L1_FACTORIAL_INTERACTION": {
+      "required_evidence": "single-factor N2 and L1 provide distinct credible benefits warranting an interaction test",
+      "confounds_to_rule_out": ["unreplicated single factors", "silent N2+L1 execution", "changed loss denominator", "changed normalization or training budget"],
+      "execution_enabled": false
+    }
+  },
+  "automatic_branch_selection": false,
+  "Validation-E_read": false,
+  "Holdout-F_read": false
+}

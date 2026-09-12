@@ -3,8 +3,12 @@
   "status": "CPU_STATIC_PREP_ONLY",
   "authority": {
     "issue": 11,
-    "pi_gate": "PI_GATE_STATE_0135",
-    "issue_comment": 5644024946,
+    "pi_gate": "PI_GATE_STATE_0136",
+    "issue_comment": 5644220978,
+    "active_pr": 65,
+    "active_pr_pointer_comment": 5644222625,
+    "accepted_head_at_gate": "183f71480ceb44d79605a9fdf9d2a7fba6710885",
+    "extends_pi_gate": "PI_GATE_STATE_0135",
     "candidate_selection_pr": 58,
     "candidate_selection_head": "253906ce6543c1122a8e8bc4686074b6caea89b1",
     "stage45f_prep_pr": 61,
@@ -45,7 +49,8 @@
         "normalization": "FULL24_RUNTIME_V2",
         "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
         "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
-        "loss": "standard legacy loss"
+        "loss": "standard legacy loss",
+        "t16_active_scalars": 190
       },
       "L1": {
         "branch": "stage45e/l1-matched-seed-replication",
@@ -55,7 +60,10 @@
         "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
         "loss_blob_sha256": "a9d7923c6b03a4c981bb870b59c7038cb9894eb5",
         "loss_xyz_weights": {"x": 1.401885, "y": 0.472436, "z": 1.125678},
-        "loss": "physical-error-aware XYZ loss"
+        "loss": "physical-error-aware XYZ loss",
+        "loss_denominator": "binary_action_mask.sum()",
+        "continuous_weight_tensor_separate": true,
+        "t16_active_scalars": 190
       },
       "N2": {
         "branch": "stage45e/n2-h200-matched-seed-replication",
@@ -63,7 +71,11 @@
         "normalization": "N2_BALANCED_XYZ_STATS",
         "stats_sha256": "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677",
         "stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
-        "loss": "standard legacy loss"
+        "loss": "standard legacy loss",
+        "xyz_common_half_range_m": 0.107349471,
+        "robust_centers_unchanged": true,
+        "non_xyz_equal_full24": true,
+        "t16_active_scalars": 190
       }
     },
     "frozen_sources": {
@@ -74,6 +86,22 @@
       "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
       "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
       "config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+    },
+    "training_recipe": {
+      "max_steps": 2000,
+      "checkpoint_steps": [1000, 2000],
+      "optimizer": "AdamW",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.00001,
+      "scheduler": "cosine",
+      "warmup_steps": 10,
+      "max_grad_norm": 1.0,
+      "per_device_train_batch_size": 1,
+      "gradient_accumulation_steps": 1,
+      "bf16": true,
+      "fp16": false,
+      "trainable_modules": ["projector", "diffusion"],
+      "frozen_modules": ["vision_encoder", "language_model", "vlln"]
     }
   },
   "matrix": {
@@ -122,7 +150,9 @@
     "progress_sign_values": ["POSITIVE", "ZERO", "NEGATIVE"]
   },
   "pairing_policy": {
+    "contract_frozen_before_final_h200_metrics": true,
     "same_seed_same_window": true,
+    "same_checkpoint_tier": true,
     "same_target_breakdown": true,
     "exposure_delta_2000_minus_1000": true,
     "three_seed_descriptive_aggregate": true,
@@ -132,6 +162,30 @@
     "cross_route_primary_space": "decoded physical metrics",
     "normalized_metrics": "route-specific descriptive/mechanistic only",
     "packet_status": "PI_DECISION_REQUIRED"
+  },
+  "n2_cross_hardware": {
+    "status": "PREPARED_NOT_EXECUTED",
+    "route": "N2",
+    "hardware_order": ["RTX4080S", "H200"],
+    "historical_4080s_head": "d762e731d2c11ceea3c001c37ac27890fe6f4e70",
+    "h200_head": "6d8a7f132e325faea35346b36497ceb76390b2c3",
+    "seeds": [2222, 2223, 2224],
+    "checkpoint_steps": [1000, 2000],
+    "same_window_pairing": true,
+    "stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "accepted_stats_file_sha256_by_hardware": {
+      "RTX4080S": "0c9450e6e70b33230c790dc8da9d98313449951c5fb570117316c840bb25fdbb",
+      "H200": "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677"
+    },
+    "claim_boundary": "hardware-associated replication robustness only; no hardware causality, performance selection, or substitution into the primary H200 matrix"
+  },
+  "mechanism_packet": {
+    "status": "PREPARED_NOT_EXECUTED",
+    "families": ["E4", "D1", "D2A", "EXPOSURE", "SEED", "N2_CROSS_HARDWARE"],
+    "d1_metric_space": "route-local teacher-forced/local-field diagnostics",
+    "d2a_metric_space": "descriptive TF-to-FR degradation and block-substitution attribution",
+    "d2a_is_not_additive_causal_decomposition": true,
+    "output_status": "PI_DECISION_REQUIRED"
   },
   "diagnostic_budget": {
     "training": {"per_new_seed_max_steps": 2000, "checkpoint_steps": [1000, 2000]},
@@ -144,10 +198,13 @@
     "candidate_must_be_pi_selected": true,
     "binds_before_validation_read": true,
     "required_fields": [
-      "route_intervention_identity", "training_branch_head", "checkpoint_tree",
-      "base_tree", "dataset_tree", "normalization_stats", "loss_objective",
-      "seed_policy", "training_recipe", "sampler", "decoder", "metric_schema",
-      "train24_packet_sha256", "evidence_inventory_sha256", "validation_generation"
+      "selection_generation_id", "route_intervention_identity", "training_branch_head",
+      "checkpoint_trees", "base_tree", "dataset_tree", "split_lock",
+      "normalization_stats", "loss_objective", "trainable_frozen_modules",
+      "optimizer_lr_wd_scheduler_warmup", "batch_gradacc_precision", "seed_policy",
+      "model_source_cosmos", "structured_action_state_abi", "sampler_e4_semantics",
+      "decoder_physical_metric_implementation", "train24_packet_sha256",
+      "evidence_inventory_sha256", "validation_generation"
     ],
     "validation_generation": 1,
     "automatic_selection": false,
@@ -160,10 +217,27 @@
     "requires_new_pi_gate": true,
     "requires_recipe_freeze_before_read": true,
     "holdout_f_read": false,
-    "first_unseen_claim_requires_empty_prior_access_ledger": true
+    "first_unseen_claim_requires_empty_prior_access_ledger": true,
+    "generation_one_is_never_reusable_after_first_read": true,
+    "no_post_validation_tuning_under_generation_one": true,
+    "execution_enabled": false,
+    "PI_GATE_REQUIRED": true
+  },
+  "stage45f_branch_decision_map": {
+    "status": "LOCKED_PLAN_ONLY",
+    "branches": [
+      "RECIPE_FREEZE_TO_VALIDATION",
+      "EXPOSURE_SCALING",
+      "STATIC_DATA_EXPANSION",
+      "DATA_PLUS_NORMALIZATION",
+      "ROLLOUT_STATE_AUGMENTATION_DAGGER",
+      "N2_X_L1_FACTORIAL_INTERACTION"
+    ],
+    "automatic_branch_selection": false
   },
   "return_tokens": {
     "intermediate": "STAGE45E_CORELAB_H200_CAMPAIGN_INDEPENDENT_AUDIT_READY",
-    "final": "STAGE45E_THREE_ROUTE_EVIDENCE_CONVERGENCE_READY_FOR_PI_DECISION"
+    "final": "STAGE45F_CORELAB_THREE_ROUTE_EVIDENCE_CONVERGENCE_READY_FOR_PI",
+    "blocked": "STAGE45F_CORELAB_H200_EVIDENCE_BLOCKED_FOR_PI_REVIEW"
   }
 }

@@ -1,0 +1,40 @@
+{
+  "schema": "CORELAB_STAGE45F_LINEAGE_ACCEPTANCE_LEDGER_V1",
+  "status": "BLOCKED_PENDING_VANDA_SEALED_IDENTITIES",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0136",
+    "issue_11_comment": 5644220978
+  },
+  "policy": {
+    "completed_lineage_is_immutable": true,
+    "pre_model_or_pre_step0_retry_same_recipe_only": true,
+    "later_eval_failure_uses_read_only_recovery": true,
+    "performance_based_retry_selection": false,
+    "duplicate_complete_lineage_requires_pi": true,
+    "completed_phase_rerun_for_convenience": false
+  },
+  "arms": [
+    {"arm":"LEGACY(seed2222)@1000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_REUSE_OR_FRESH_PROVENANCE_DECISION","duplicate_complete_lineages":0},
+    {"arm":"LEGACY(seed2222)@2000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_REUSE_OR_FRESH_PROVENANCE_DECISION","duplicate_complete_lineages":0},
+    {"arm":"LEGACY(seed2223)@1000","audit_state":"BLOCKED","blocker":"CANDIDATE_ACCEPTED_IMMUTABLE_PENDING_CORELAB_CHECKPOINT_TREE_AND_TRAINER_STATE_CLOSURE","observed_lineage":"612918.hopper-m-02","duplicate_complete_lineages":0},
+    {"arm":"LEGACY(seed2223)@2000","audit_state":"BLOCKED","blocker":"CANDIDATE_ACCEPTED_IMMUTABLE_PENDING_CORELAB_CHECKPOINT_TREE_AND_TRAINER_STATE_CLOSURE","observed_lineage":"612918.hopper-m-02","duplicate_complete_lineages":0},
+    {"arm":"LEGACY(seed2224)@1000","audit_state":"BLOCKED","blocker":"CANDIDATE_ACCEPTED_IMMUTABLE_PENDING_CORELAB_CHECKPOINT_TREE_AND_TRAINER_STATE_CLOSURE","observed_lineage":"612918.hopper-m-02","duplicate_complete_lineages":0},
+    {"arm":"LEGACY(seed2224)@2000","audit_state":"BLOCKED","blocker":"CANDIDATE_ACCEPTED_IMMUTABLE_PENDING_CORELAB_CHECKPOINT_TREE_AND_TRAINER_STATE_CLOSURE","observed_lineage":"612918.hopper-m-02","duplicate_complete_lineages":0},
+    {"arm":"N2(seed2222)@1000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"N2(seed2222)@2000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"N2(seed2223)@1000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"N2(seed2223)@2000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"N2(seed2224)@1000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"N2(seed2224)@2000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"L1(seed2222)@1000","audit_state":"BLOCKED","blocker":"HISTORICAL_ACCEPTED_LINEAGE_PENDING_FINAL_H200_CAMPAIGN_ADAPTER_AND_ROWS","duplicate_complete_lineages":0},
+    {"arm":"L1(seed2222)@2000","audit_state":"BLOCKED","blocker":"HISTORICAL_ACCEPTED_LINEAGE_PENDING_FINAL_H200_CAMPAIGN_ADAPTER_AND_ROWS","duplicate_complete_lineages":0},
+    {"arm":"L1(seed2223)@1000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"L1(seed2223)@2000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"L1(seed2224)@1000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0},
+    {"arm":"L1(seed2224)@2000","audit_state":"BLOCKED","blocker":"PENDING_VANDA_H200_TRAINING_AND_SEALED_CHECKPOINT_IDENTITY","duplicate_complete_lineages":0}
+  ],
+  "pass_arm_count": 0,
+  "blocked_arm_count": 18,
+  "accepted_completed_lineages_must_not_be_retrained": ["LEGACY(seed2223)", "LEGACY(seed2224)", "L1(seed2222)_HISTORICAL"],
+  "scientific_selection_performed": false
+}

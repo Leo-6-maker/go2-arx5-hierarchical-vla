@@ -1,0 +1,75 @@
+{
+  "schema": "CORELAB_STAGE45F_ROUTE_HEAD_LEDGER_V1",
+  "status": "PASS_SHADOW_AUDIT_NO_HEAD_ADVANCEMENT",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0136",
+    "issue_11_comment": 5644220978,
+    "pr_65_comment": 5644222625
+  },
+  "last_audited_utc": "2026-09-12T06:38:19Z",
+  "surfaces": [
+    {
+      "route": "LEGACY",
+      "branch": "stage45e/legacy-full24-matched-seed-replication",
+      "head_sha": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
+      "parent_sha": "fccf87a20116b719e8de281125110573c9bf0a91",
+      "previous_audited_head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
+      "head_advanced": false,
+      "changed_files": [],
+      "classification": "MECHANICAL_PROVENANCE_RUNTIME_ONLY",
+      "classification_basis": "NO_HEAD_ADVANCEMENT_SINCE_PI0135_AUDIT",
+      "frozen_contract_identities": ["BASE", "FULL24", "FULL24_RUNTIME_V2", "STANDARD_LEGACY_LOSS", "SEEDS_2222_2223_2224", "CHECKPOINTS_1000_2000"],
+      "observed_execution_status": "LEGACY_2223_2224_COMPLETE_ON_H200_PENDING_CORELAB_READONLY_TREE_CLOSURE",
+      "accepted_completed_lineages": ["LEGACY(seed2223)", "LEGACY(seed2224)"],
+      "known_failed_roots": ["CORELAB_PI0131_GPU0_STEP0_OOM_FAILURE_SEAL_40c70c0b36276f49a23dfae179ca7f3607953bd51f6b2c1da8757b2c7ac3ab79"]
+    },
+    {
+      "route": "L1",
+      "branch": "stage45e/l1-matched-seed-replication",
+      "head_sha": "186efc2977e2795bebf0dfe97d6f503a672716de",
+      "parent_sha": "775fe1ded0b280c6dbe3e9004a40bb2a23a6e322",
+      "previous_audited_head": "186efc2977e2795bebf0dfe97d6f503a672716de",
+      "head_advanced": false,
+      "changed_files": [],
+      "classification": "MECHANICAL_PROVENANCE_RUNTIME_ONLY",
+      "classification_basis": "NO_HEAD_ADVANCEMENT_SINCE_PI0135_AUDIT",
+      "frozen_contract_identities": ["BASE", "FULL24", "FULL24_RUNTIME_V2", "L1_LOSS_BLOB_a9d7923c", "XYZ_WEIGHTS_1.401885_0.472436_1.125678", "SEEDS_2222_2223_2224", "CHECKPOINTS_1000_2000"],
+      "observed_execution_status": "L1_2222_HISTORICAL_ACCEPTED;_L1_2223_2224_PENDING_VANDA_PI0134",
+      "accepted_completed_lineages": ["L1(seed2222)_HISTORICAL"],
+      "known_failed_roots": ["H200_JOB_612918_L1_CHILD_PRE_MODEL_OFFLINE_ENV_FAILURE"]
+    },
+    {
+      "route": "N2",
+      "branch": "stage45e/n2-h200-matched-seed-replication",
+      "head_sha": "6d8a7f132e325faea35346b36497ceb76390b2c3",
+      "parent_sha": "a13fe3736fef987a4eb17ed102d37fad267da223",
+      "previous_audited_head": "6d8a7f132e325faea35346b36497ceb76390b2c3",
+      "head_advanced": false,
+      "changed_files": [],
+      "classification": "MECHANICAL_PROVENANCE_RUNTIME_ONLY",
+      "classification_basis": "NO_HEAD_ADVANCEMENT_SINCE_PI0135_AUDIT",
+      "frozen_contract_identities": ["BASE", "FULL24", "N2_BALANCED_XYZ_STATS", "STANDARD_LEGACY_LOSS", "SEEDS_2222_2223_2224", "CHECKPOINTS_1000_2000"],
+      "observed_execution_status": "N2_H200_2222_2223_2224_PENDING_VANDA_PI0134",
+      "accepted_completed_lineages": [],
+      "known_failed_roots": []
+    },
+    {
+      "route": "ORCHESTRATION",
+      "branch": "stage45e/h200-unified-replication-campaign",
+      "head_sha": "9b6be6c3da50fec0540c19f677d763a0a41bc007",
+      "parent_sha": "10440904df733b99c33da79e8194fe236ddfb8ea",
+      "previous_audited_head": "9b6be6c3da50fec0540c19f677d763a0a41bc007",
+      "head_advanced": false,
+      "changed_files": [],
+      "classification": "MECHANICAL_PROVENANCE_RUNTIME_ONLY",
+      "classification_basis": "NO_HEAD_ADVANCEMENT_SINCE_PI0135_AUDIT",
+      "frozen_contract_identities": ["ROUTE_HEAD_BINDINGS", "PI0134_ALLOCATION_POLICY", "E4_D1_D2A_BUDGET_8976", "NO_SCIENTIFIC_ROUTE_SEMANTICS"],
+      "observed_execution_status": "PI0134_CAMPAIGN_PARTIAL_NOT_FINAL",
+      "accepted_completed_lineages": ["LEGACY(seed2223)", "LEGACY(seed2224)"],
+      "known_failed_roots": ["H200_JOB_612893_PRE_SCIENCE_STORAGE_VISIBILITY_FAILURE", "H200_JOB_612910_PRE_CANARY_NATIVE_VIDEO_RUNTIME_FAILURE", "H200_JOB_612918_L1_CHILD_PRE_MODEL_OFFLINE_ENV_FAILURE"]
+    }
+  ],
+  "scientific_contract_change_detected": false,
+  "vanda_branches_modified_by_corelab": false,
+  "vanda_output_roots_modified_by_corelab": false
+}

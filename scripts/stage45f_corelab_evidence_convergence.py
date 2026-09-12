@@ -56,6 +56,14 @@ NORMALIZED_METRICS = (
     "active_max_abs",
     "raw_active_outside_neg1_pos1_fraction",
 )
+PHYSICAL_PREFERENCES = {
+    "final_target_distance_m": "LOWER",
+    "absolute_progress_m": "HIGHER",
+    "minimum_target_distance_m": "LOWER",
+    "endpoint_target_vector_cosine": "HIGHER",
+    "path_length_m": "TRADEOFF_REPORT_JOINTLY",
+    "roughness_position_second_difference_m": "TRADEOFF_REPORT_JOINTLY",
+}
 
 
 class ConvergenceError(RuntimeError):
@@ -140,6 +148,13 @@ def manifest() -> dict[str, Any]:
     require(len(matrix.get("arms", [])) == 18, "three-route matrix must contain exactly 18 arms")
     policy = value.get("pairing_policy", {})
     require(policy.get("no_automatic_winner") is True and policy.get("packet_status") == "PI_DECISION_REQUIRED", "winner/decision policy drift")
+    routes = value.get("h200_campaign_surfaces", {}).get("routes", {})
+    require(routes.get("LEGACY", {}).get("t16_active_scalars") == 190, "LEGACY T16 mask drift")
+    require(routes.get("L1", {}).get("loss_denominator") == "binary_action_mask.sum()", "L1 denominator semantics drift")
+    require(routes.get("L1", {}).get("continuous_weight_tensor_separate") is True and routes.get("L1", {}).get("t16_active_scalars") == 190, "L1 weight/mask semantics drift")
+    require(routes.get("N2", {}).get("xyz_common_half_range_m") == 0.107349471, "N2 XYZ half-range drift")
+    require(routes.get("N2", {}).get("robust_centers_unchanged") is True and routes.get("N2", {}).get("non_xyz_equal_full24") is True, "N2 stats contract drift")
+    require(routes.get("N2", {}).get("t16_active_scalars") == 190, "N2 T16 mask drift")
     return value
 
 
@@ -204,7 +219,17 @@ def _validate_provenance(label: str, spec: Mapping[str, Any]) -> dict[str, Any]:
     require(provenance.get("hardware") == "H200", f"{label}: primary matrix is not H200-bound")
     require(provenance.get("validation_e_read") is False and provenance.get("holdout_f_read") is False, f"{label}: locked split read indicated")
     require(provenance.get("raw_before_derived") is True, f"{label}: raw-before-derived contract missing")
-    for field in ("checkpoint_tree_sha256", "evidence_seal_sha256", "lineage_artifact_sha256"):
+    require(provenance.get("full_state_checkpoint") is True, f"{label}: full-state checkpoint closure missing")
+    require(provenance.get("completed_step") == step, f"{label}: trainer/checkpoint step drift")
+    require(provenance.get("target_xyz_in_model_input") is False, f"{label}: target XYZ provenance drift")
+    frozen = manifest()["h200_campaign_surfaces"]["frozen_sources"]
+    require(provenance.get("base_tree_sha256") == frozen["base_tree_sha256"], f"{label}: BASE tree drift")
+    require(provenance.get("full24_tree_sha256") == frozen["full24_tree_sha256"], f"{label}: FULL24 tree drift")
+    for field in (
+        "checkpoint_tree_sha256", "evidence_seal_sha256", "lineage_artifact_sha256",
+        "training_result_sha256", "trainer_state_sha256", "hardware_runtime_sha256",
+        "training_recipe_sha256",
+    ):
         _sha(provenance.get(field), f"{label}.provenance.{field}")
     for field in ("decoder_identity", "metric_identity", "sampler_identity"):
         require(isinstance(provenance.get(field), str) and provenance[field].strip(), f"{label}: {field} missing")
@@ -273,14 +298,23 @@ def _summary(values: Sequence[float]) -> dict[str, Any]:
     return {"count": len(ordered), "min": ordered[0], "max": ordered[-1], "mean": sum(ordered) / len(ordered), "median": median, "p95": ordered[p95_index]}
 
 
+def _optional_summary(values: Sequence[float]) -> dict[str, Any]:
+    return _summary(values) if values else {"count": 0, "status": "ALL_UNDEFINED_ACCEPTED"}
+
+
 def _arm_summary(arm: Mapping[str, Any]) -> dict[str, Any]:
     rows = arm["rows"]
+    provenance = arm["provenance"]
     return {
         "label": arm["label"],
         "route": arm["route"],
         "seed": arm["seed"],
         "step": arm["step"],
-        "physical": {metric: _summary([row["physical"][metric] for row in rows if row["physical"][metric] is not None]) for metric in PHYSICAL_METRICS},
+        "checkpoint_tree_sha256": provenance["checkpoint_tree_sha256"],
+        "lineage_artifact_sha256": provenance["lineage_artifact_sha256"],
+        "evidence_seal_sha256": provenance["evidence_seal_sha256"],
+        "rows_sha256": arm["rows_sha256"],
+        "physical": {metric: _optional_summary([row["physical"][metric] for row in rows if row["physical"][metric] is not None]) for metric in PHYSICAL_METRICS},
         "normalized_route_local": {metric: _summary([row["normalized"][metric] for row in rows]) for metric in NORMALIZED_METRICS},
         "progress_sign_counts": {sign: sum(row["progress_sign"] == sign for row in rows) for sign in ("POSITIVE", "ZERO", "NEGATIVE")},
         "safety_gate_counts": {str(decision).lower(): sum(row["safety_gate_decision"] == decision for row in rows) for decision in ("ACCEPT", "WARN", None)},
@@ -311,12 +345,67 @@ def _paired(left: Mapping[str, Any], right: Mapping[str, Any], name: str) -> dic
         "right": right["label"],
         "window_count": 24,
         "physical_delta_right_minus_left": {metric: _summary(values) for metric, values in deltas.items() if values},
+        "physical_delta_exact_sign_counts": {
+            metric: {
+                "negative": sum(value < 0.0 for value in values),
+                "zero": sum(value == 0.0 for value in values),
+                "positive": sum(value > 0.0 for value in values),
+            }
+            for metric, values in deltas.items() if values
+        },
+        "physical_metric_preferences": PHYSICAL_PREFERENCES,
         "by_target": {target: {metric: _summary(values) for metric, values in metrics.items() if values} for target, metrics in by_target.items()},
         "progress_sign_transition_counts_left_to_right": dict(sorted(transitions.items())),
         "window_rows": window_rows,
         "normalized_cross_route_comparison": False,
         "statistical_claim": "DESCRIPTIVE_PAIRED_ONLY_NO_IID_INFERENCE",
     }
+
+
+def _three_seed_descriptive(pairs: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {"route_minus_legacy": {}, "exposure_2000_minus_1000": {}}
+    for route in ("N2", "L1"):
+        result["route_minus_legacy"][route] = {}
+        for step in STEPS:
+            records = [pairs[f"{route.lower()}_minus_legacy_seed{seed}_at_{step}"] for seed in SEEDS]
+            metrics: dict[str, Any] = {}
+            for metric in PHYSICAL_METRICS:
+                seed_means = {str(seed): records[index]["physical_delta_right_minus_left"].get(metric, {}).get("mean") for index, seed in enumerate(SEEDS)}
+                values = [value for value in seed_means.values() if value is not None]
+                metrics[metric] = {
+                    "per_seed_mean_delta_right_minus_left": seed_means,
+                    "three_seed_descriptive": _optional_summary(values),
+                    "seed_mean_exact_sign_counts": {
+                        "negative": sum(value < 0.0 for value in values),
+                        "zero": sum(value == 0.0 for value in values),
+                        "positive": sum(value > 0.0 for value in values),
+                        "undefined": 3 - len(values),
+                    },
+                    "preference": PHYSICAL_PREFERENCES[metric],
+                }
+            result["route_minus_legacy"][route][str(step)] = metrics
+    for route in ROUTES:
+        records = [pairs[f"{route.lower()}_exposure_seed{seed}"] for seed in SEEDS]
+        metrics = {}
+        for metric in PHYSICAL_METRICS:
+            seed_means = {str(seed): records[index]["physical_delta_right_minus_left"].get(metric, {}).get("mean") for index, seed in enumerate(SEEDS)}
+            values = [value for value in seed_means.values() if value is not None]
+            metrics[metric] = {
+                "per_seed_mean_delta_2000_minus_1000": seed_means,
+                "three_seed_descriptive": _optional_summary(values),
+                "seed_mean_exact_sign_counts": {
+                    "negative": sum(value < 0.0 for value in values),
+                    "zero": sum(value == 0.0 for value in values),
+                    "positive": sum(value > 0.0 for value in values),
+                    "undefined": 3 - len(values),
+                },
+                "preference": PHYSICAL_PREFERENCES[metric],
+            }
+        result["exposure_2000_minus_1000"][route] = metrics
+    result["replication_unit"] = "training seed"
+    result["window_iid_inference"] = False
+    result["p_value_computed"] = False
+    return result
 
 
 def _failure_taxonomy(arms: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -371,6 +460,7 @@ def build_packet(index_path: Path, output_path: Path) -> dict[str, Any]:
             right = arms[f"{route}(seed{seed})@2000"]
             pairs[f"{route.lower()}_exposure_seed{seed}"] = _paired(left, right, f"{route}_exposure_seed{seed}")
     taxonomy = _failure_taxonomy(arms)
+    three_seed = _three_seed_descriptive(pairs)
     packet = {
         "schema": "CORELAB_STAGE45F_THREE_ROUTE_TRAIN24_DECISION_PACKET_V1",
         "status": "PASS_DESCRIPTIVE_H200_TRAIN24_ONLY",
@@ -392,6 +482,7 @@ def build_packet(index_path: Path, output_path: Path) -> dict[str, Any]:
         "source_index_path": index["source_index_path"],
         "arm_summaries": summaries,
         "paired_comparisons": pairs,
+        "three_seed_descriptive": three_seed,
         "failure_taxonomy": taxonomy,
         "claim_boundary": {
             "same_seed_same_window_pairing": True,
