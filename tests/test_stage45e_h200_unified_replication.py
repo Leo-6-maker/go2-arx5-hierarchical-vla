@@ -43,6 +43,21 @@ def test_manifest_has_exact_pi0134_budget_queue_and_continuation_ceiling() -> No
     assert manifest["evidence_contract"]["c10_arm_count"] == 18
 
 
+def test_pi0152_execution_overlay_preserves_historical_contract_and_l1_token() -> None:
+    authority = campaign.execution_authority()
+    assert authority == {
+        "pi_gate": "PI_GATE_STATE_0152",
+        "issue_comment": 5647237688,
+        "pr_comment": 5647241465,
+        "historical_contract_gate": "PI_GATE_STATE_0143",
+        "historical_contract_issue_comment": 5644782159,
+        "allocation_ledger_gate": "PI_GATE_STATE_0143",
+        "allocation_ledger_max": 8,
+    }
+    assert campaign.L1_ROUTE_AUTHORITY_TOKEN == "PI_GATE_STATE_0123"
+    assert campaign.L1_ROUTE_AUTHORITY_TOKEN != authority["pi_gate"]
+
+
 def test_pi0143_allocation_manifest_is_append_only_and_fail_closed() -> None:
     manifest = json.loads((ROOT / "manifests/STAGE45E_H200_ALLOCATION_LEDGER_PI0143_V1.json").read_text())
     assert manifest["seeded_consumed_ordinals"] == [1, 2, 3]

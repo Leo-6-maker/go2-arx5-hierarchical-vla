@@ -93,6 +93,14 @@ CHECKPOINT_HASH_PREFIX = {
 PI_GATE = "PI_GATE_STATE_0143"
 PI_ISSUE_COMMENT = 5644782159
 PI_PR_COMMENT = 5644783564
+# PI0152 is the current execution authority.  PI0143 remains the immutable
+# allocation-ledger/science-contract authority; it is not silently rewritten.
+PI0152_GATE = "PI_GATE_STATE_0152"
+PI0152_ISSUE_COMMENT = 5647237688
+PI0152_PR_COMMENT = 5647241465
+# The L1 runner has its own frozen route admission contract.  The
+# orchestration gate must not be passed as that route-local token.
+L1_ROUTE_AUTHORITY_TOKEN = "PI_GATE_STATE_0123"
 RECOVERED_L1_ROOT = Path("/scratch/e1192548/stage45e_l1_h200_20260911_377b5012_612326.hopper-m-02")
 RECOVERED_L1_V2_ROOT = Path("/scratch/e1192548/stage45e_l1_612326_recovery_v2_20260912_2e2780110b62")
 RECOVERED_L1_ACCEPTANCE = RECOVERED_L1_V2_ROOT / "stage45e_l1_612326_contract_bound_acceptance.json"
@@ -2158,6 +2166,20 @@ def orchestration_identity() -> dict[str, Any]:
         "branch": git(REPO, "branch", "--show-current"),
         "head": git(REPO, "rev-parse", "HEAD"),
         "working_tree_clean": git(REPO, "status", "--porcelain=v1", "--untracked-files=all") == "",
+    }
+
+
+def execution_authority() -> dict[str, Any]:
+    """Describe the current gate overlay without mutating frozen contracts."""
+
+    return {
+        "pi_gate": PI0152_GATE,
+        "issue_comment": PI0152_ISSUE_COMMENT,
+        "pr_comment": PI0152_PR_COMMENT,
+        "historical_contract_gate": PI_GATE,
+        "historical_contract_issue_comment": PI_ISSUE_COMMENT,
+        "allocation_ledger_gate": PI_GATE,
+        "allocation_ledger_max": ALLOCATION_LEDGER_MAX,
     }
 
 
@@ -5027,7 +5049,9 @@ def write_campaign_failure_seal(
     failure = {
         "schema": "VANDA_STAGE45E_UNIFIED_ORCHESTRATION_FAILURE_SEAL_V1",
         "status": "BLOCKED",
-        "pi_gate": PI_GATE,
+        "pi_gate": state.get("execution_gate", PI_GATE),
+        "execution_authority": dict(state.get("execution_authority", execution_authority())),
+        "historical_contract_gate": PI_GATE,
         "campaign_root": str(campaign_root),
         "allocation_identity": dict(state.get("allocation_identity", {})),
         "last_completed_lineage": state.get("last_completed_lineage"),
@@ -5152,9 +5176,11 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
     for name in ("training", "diagnostics", "failures", "provenance", "campaigns"):
         (storage / name).mkdir(parents=True, exist_ok=True)
     job_id = os.environ["PBS_JOBID"]
-    campaign_root = storage / "campaigns" / f"pi0143_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}_{re.sub(r'[^A-Za-z0-9_.-]+', '_', job_id)}"
+    campaign_root = storage / "campaigns" / f"pi0152_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}_{re.sub(r'[^A-Za-z0-9_.-]+', '_', job_id)}"
     campaign_root.mkdir(parents=True, exist_ok=False)
     state: dict[str, Any] = {
+        "execution_gate": PI0152_GATE,
+        "execution_authority": execution_authority(),
         "failure_stage": "ALLOCATION_ADMISSION",
         "last_completed_lineage": None,
         "last_completed_unit": None,
@@ -5204,8 +5230,11 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         admission = {
             "schema": "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V2",
             "status": "PASS",
-            "pi_gate": PI_GATE,
-            "issue_comment": PI_ISSUE_COMMENT,
+            "pi_gate": PI0152_GATE,
+            "issue_comment": PI0152_ISSUE_COMMENT,
+            "execution_authority": execution_authority(),
+            "historical_contract_gate": PI_GATE,
+            "historical_contract_issue_comment": PI_ISSUE_COMMENT,
             "orchestration_identity": orchestration,
             "evaluator_identity": evaluator,
             "pbs_jobid": job_id,
@@ -5253,7 +5282,7 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
             root = Path(item["root"])
             command = _training_command(args, route, seed, root, canary)
             _mark_model_child_in_progress(state, f"TRAINING_{route}_SEED{seed}", kind="training")
-            _run_command(campaign_root, f"train_{route}_seed{seed}", command, extra_env={"STAGE45E_L1_AUTHORITY_TOKEN": PI_GATE})
+            _run_command(campaign_root, f"train_{route}_seed{seed}", command, extra_env={"STAGE45E_L1_AUTHORITY_TOKEN": L1_ROUTE_AUTHORITY_TOKEN})
             lineages[route][seed] = _training_result(route, root, seed)
             _mark_model_child_pass(state, f"TRAINING_{route}_SEED{seed}", kind="training")
             state["last_completed_lineage"] = {"route": route, "seed": seed}
@@ -5272,7 +5301,7 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         final = cpu_closure(args, campaign_root, phase_roots, lineages, source_identities, highwater_record, phase_specs=phase_specs, diagnostic_run=diagnostic_run, evaluator=evaluator, orchestration=orchestration)
         append_allocation_outcome(ledger_path, pbs_jobid=job_id, outcome={"status": "PASS", "campaign_root": str(campaign_root), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "attempted_model_calls": final["all_attempted_model_calls"], "model_imported": True, "model_forward": True, "training": True})
         write_json(storage / "provenance" / f"{campaign_root.name}_final_result.json", final)
-        return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
+        return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "execution_authority": execution_authority(), "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
     except Exception:
         try:
             attempts_for_failure = diagnostic_run.get("attempts_by_unit", {})
