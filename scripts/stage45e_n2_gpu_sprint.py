@@ -327,7 +327,9 @@ def _verify_core_identities(paths: Mapping[str, Path]) -> dict[str, Any]:
         expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA,
         expected_payload_tree_sha256=GROOT_PAYLOAD_TREE,
     )
-    require(groot_snapshot.get("origin_commit") == GROOT_COMMIT, "GR00T source commit mismatch")
+    groot_manifest = read_json(paths["groot_manifest"])
+    require(groot_manifest.get("origin_commit") == GROOT_COMMIT, "GR00T source commit mismatch")
+    groot_snapshot["origin_commit"] = GROOT_COMMIT
     refs = paths["cosmos"] / "refs/main"
     require(refs.is_file() and not refs.is_symlink() and refs.read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos revision mismatch")
     return {"base_tree_sha256": base_tree, "full24": dataset, "runtime_stats": runtime_check, "n2_verification": verified_n2, "n2_stats_sha256": sha256_file(paths["n2_stats"]), "groot_commit": GROOT_COMMIT, "groot_snapshot": groot_snapshot, "groot_manifest_sha256": GROOT_MANIFEST_SHA, "cosmos_revision": COSMOS_REVISION}
