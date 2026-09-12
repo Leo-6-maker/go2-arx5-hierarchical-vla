@@ -1,16 +1,16 @@
 {
-  "schema": "STAGE45F_CORELAB_PI0146_LOCAL_DEVICE_RUNTIME_SMOKE_V1",
-  "status": "Q0_READ_ONLY_CENSUS_AND_B2_PLAN_ONLY",
+  "schema": "STAGE45F_CORELAB_PI0147_LOCAL_DEVICE_RUNTIME_SMOKE_V2",
+  "status": "Q0_READ_ONLY_ENDPOINT_CENSUS_AND_B2_PLAN_ONLY",
   "authority": {
-    "pi_gate": "PI_GATE_STATE_0146",
-    "issue_11_comment": 5645700727,
+    "pi_gate": "PI_GATE_STATE_0147",
+    "issue_11_comment": 5646090676,
     "support_branch": "stage45f/corelab-local-device-runtime-smoke",
     "base_head": "3cd8d11c211a344c09f08280af1105f4dbbac219",
     "no_merge": true
   },
   "scope": {
-    "B0": "read-only local 4080S/5080 device, runtime and approved-artifact census",
-    "B1": "NOT_EXECUTED_BY_Q0_SCOPE",
+    "B0": "read-only authorized 4080S/5080 endpoint, runtime, occupancy and approved-artifact census",
+    "B1": "bounded non-model CUDA smoke only after endpoint/runtime admission; not admitted in this report",
     "B2": "fixed-checkpoint inference qualification plan only; no model construction/forward"
   },
   "approved_artifacts": {
@@ -28,6 +28,35 @@
       "materialization_path": null
     }
   },
+  "authorized_endpoint_observations": {
+    "gpu4080s": {
+      "host": "corelab-4080s",
+      "driver_version": "580.173.02",
+      "python_executable": "/usr/bin/python3",
+      "runtime": {"torch": "MISSING", "transformers": "MISSING", "accelerate": "MISSING", "safetensors": "MISSING", "numpy": "1.26.4"},
+      "devices": [
+        {"index": 0, "name": "NVIDIA GeForce RTX 4080 SUPER", "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad", "memory_total_mib": 32760, "memory_used_mib": 8027, "memory_free_mib": 24203, "occupancy": "BUSY", "process": {"pid": 805399, "name": "python", "used_memory_mib": 7888}},
+        {"index": 1, "name": "NVIDIA GeForce RTX 4080 SUPER", "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd", "memory_total_mib": 16376, "memory_used_mib": 37, "memory_free_mib": 15899, "occupancy": "LOW_USE_NO_COMPUTE_PROCESS_REPORTED"}
+      ],
+      "artifact_paths": "UNKNOWN_NO_APPROVED_ENDPOINT_LOCAL_PATH"
+    },
+    "gpu5080-1": {
+      "host": "corelab-5080-1",
+      "driver_version": "580.159.03",
+      "python_executable": "/usr/bin/python3",
+      "runtime": {"torch": "MISSING", "transformers": "MISSING", "accelerate": "MISSING", "safetensors": "MISSING", "numpy": "1.26.4"},
+      "devices": [{"index": 0, "name": "NVIDIA GeForce RTX 5080", "uuid": "GPU-f80137b8-bf59-834c-9446-912572146f8c", "memory_total_mib": 16303, "memory_used_mib": 319, "memory_free_mib": 15514, "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED"}],
+      "artifact_paths": "UNKNOWN_NO_APPROVED_ENDPOINT_LOCAL_PATH"
+    },
+    "gpu5080-2": {
+      "host": "corelab-5080-2",
+      "driver_version": "580.159.03",
+      "python_executable": "/usr/bin/python3",
+      "runtime": {"torch": "MISSING", "transformers": "MISSING", "accelerate": "MISSING", "safetensors": "MISSING", "numpy": "1.26.4"},
+      "devices": [{"index": 0, "name": "NVIDIA GeForce RTX 5080", "uuid": "GPU-5f26fc0a-023a-0c90-4e3b-bd31ea5f1383", "memory_total_mib": 16303, "memory_used_mib": 91, "memory_free_mib": 15741, "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED"}],
+      "artifact_paths": "UNKNOWN_NO_APPROVED_ENDPOINT_LOCAL_PATH"
+    }
+  },
   "future_smoke": {
     "status": "PLAN_ONLY_REQUIRES_NEXT_PI_GATE",
     "engineering_reference_only": true,
@@ -41,6 +70,16 @@
     "target_xyz_in_model_input": false,
     "predeclared_tolerance": "PI must freeze raw/physical tolerance before any later execution",
     "device_binding": "one explicitly observed 4080S or 5080 UUID; no assumption of shared host"
+  },
+  "non_model_cuda_smoke": {
+    "operation": "32x32 identity matmul only",
+    "dtypes": ["float32", "bfloat16"],
+    "max_calls_per_device": 4,
+    "max_calls_total": 8,
+    "failure_policy": "stop_on_first_failure",
+    "install_or_upgrade_allowed": false,
+    "actual_calls": 0,
+    "status": "BLOCKED_AUTHORIZED_GPU_LAUNCHER_REQUIRED"
   },
   "execution_boundary": {
     "model_construction": 0,

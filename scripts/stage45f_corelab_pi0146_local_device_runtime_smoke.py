@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""PI0146 B0/B2 read-only local device and artifact census.
+"""PI0147 B0/B2 read-only device, runtime and artifact census.
 
-This module deliberately does not import the Torch, GR00T, Transformers or a
-simulator.  It records the host/device state that is observable at the
-Corelab login node and turns already-approved manifest identities into a
-plan for a later, explicitly released fixed-checkpoint smoke.  It never
-constructs a model, performs CUDA work, opens a checkpoint, or resolves a
-scratch path by guesswork.
+This module deliberately does not import Torch, GR00T, Transformers or a
+simulator.  It records the bounded read-only observations made through the
+authorized Corelab endpoint aliases and turns approved manifest identities
+into a plan for a later, explicitly released fixed-checkpoint smoke.  It
+never constructs a model, performs CUDA work, opens a checkpoint, or resolves
+an endpoint-local scratch path by guesswork.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
 
-SCHEMA = "STAGE45F_CORELAB_PI0146_LOCAL_DEVICE_RUNTIME_SMOKE_V1"
+SCHEMA = "STAGE45F_CORELAB_PI0147_LOCAL_DEVICE_RUNTIME_SMOKE_V2"
 BASE_HEAD = "3cd8d11c211a344c09f08280af1105f4dbbac219"
 CHECKPOINT_TREE = "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
 DATASET_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
@@ -44,6 +44,109 @@ _APPROVED_MANIFESTS = (
     "manifests/STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1.json",
     "manifests/STAGE45C_TRAIN24_LATE_BINDING_CANDIDATE_V1.json",
 )
+
+
+# These are the exact read-only observations from the bounded SSH census in
+# PI0147.  They are intentionally data, not connection logic: no guessed host
+# or retry loop can turn an unchecked endpoint into a claim of absence.
+AUTHORIZED_ENDPOINT_OBSERVATIONS: dict[str, dict[str, Any]] = {
+    "gpu4080s": {
+        "host": "corelab-4080s",
+        "alias": "gpu4080s",
+        "status": "OBSERVED",
+        "driver_version": "580.173.02",
+        "python_executable": "/usr/bin/python3",
+        "runtime_packages": {
+            "torch": {"status": "MISSING"},
+            "transformers": {"status": "MISSING"},
+            "accelerate": {"status": "MISSING"},
+            "safetensors": {"status": "MISSING"},
+            "numpy": {"status": "PRESENT", "version": "1.26.4"},
+        },
+        "devices": [
+            {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 4080 SUPER",
+                "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+                "memory_total_mib": 32760,
+                "memory_used_mib": 8027,
+                "memory_free_mib": 24203,
+                "occupancy": "BUSY",
+                "processes": [{"pid": 805399, "name": "python", "used_memory_mib": 7888}],
+            },
+            {
+                "index": 1,
+                "name": "NVIDIA GeForce RTX 4080 SUPER",
+                "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+                "memory_total_mib": 16376,
+                "memory_used_mib": 37,
+                "memory_free_mib": 15899,
+                "occupancy": "LOW_USE_NO_COMPUTE_PROCESS_REPORTED",
+                "processes": [],
+            },
+        ],
+        "approved_artifact_paths": {
+            "status": "UNKNOWN",
+            "reason": "No endpoint-local materialization path is present in the approved manifests; no path was guessed.",
+        },
+    },
+    "gpu5080-1": {
+        "host": "corelab-5080-1",
+        "alias": "gpu5080-1",
+        "status": "OBSERVED",
+        "driver_version": "580.159.03",
+        "python_executable": "/usr/bin/python3",
+        "runtime_packages": {
+            "torch": {"status": "MISSING"},
+            "transformers": {"status": "MISSING"},
+            "accelerate": {"status": "MISSING"},
+            "safetensors": {"status": "MISSING"},
+            "numpy": {"status": "PRESENT", "version": "1.26.4"},
+        },
+        "devices": [{
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5080",
+            "uuid": "GPU-f80137b8-bf59-834c-9446-912572146f8c",
+            "memory_total_mib": 16303,
+            "memory_used_mib": 319,
+            "memory_free_mib": 15514,
+            "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED",
+            "processes": [],
+        }],
+        "approved_artifact_paths": {
+            "status": "UNKNOWN",
+            "reason": "No endpoint-local materialization path is present in the approved manifests; no path was guessed.",
+        },
+    },
+    "gpu5080-2": {
+        "host": "corelab-5080-2",
+        "alias": "gpu5080-2",
+        "status": "OBSERVED",
+        "driver_version": "580.159.03",
+        "python_executable": "/usr/bin/python3",
+        "runtime_packages": {
+            "torch": {"status": "MISSING"},
+            "transformers": {"status": "MISSING"},
+            "accelerate": {"status": "MISSING"},
+            "safetensors": {"status": "MISSING"},
+            "numpy": {"status": "PRESENT", "version": "1.26.4"},
+        },
+        "devices": [{
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5080",
+            "uuid": "GPU-5f26fc0a-023a-0c90-4e3b-bd31ea5f1383",
+            "memory_total_mib": 16303,
+            "memory_used_mib": 91,
+            "memory_free_mib": 15741,
+            "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED",
+            "processes": [],
+        }],
+        "approved_artifact_paths": {
+            "status": "UNKNOWN",
+            "reason": "No endpoint-local materialization path is present in the approved manifests; no path was guessed.",
+        },
+    },
+}
 
 
 class CensusError(RuntimeError):
@@ -249,17 +352,75 @@ def fixed_checkpoint_smoke_plan(artifacts: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def non_model_cuda_smoke_admission(
+    observations: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Decide whether the tiny identity-matmul smoke is admissible.
+
+    The smoke is not run by this module.  Admission requires an observed free
+    device *and* a usable CUDA launcher/runtime; a missing Torch distribution
+    therefore blocks it even when nvidia-smi reports a free GPU.  Keeping the
+    budget here makes a future executor unable to silently expand the scope.
+    """
+
+    eligible: list[dict[str, Any]] = []
+    blocked: list[dict[str, Any]] = []
+    for alias, endpoint in observations.items():
+        packages = endpoint.get("runtime_packages", {})
+        torch_status = packages.get("torch", {}).get("status") if isinstance(packages, Mapping) else None
+        for device in endpoint.get("devices", []):
+            occupancy = device.get("occupancy")
+            if occupancy in {"FREE_NO_COMPUTE_PROCESS_REPORTED", "LOW_USE_NO_COMPUTE_PROCESS_REPORTED"} and torch_status == "PRESENT":
+                eligible.append({"alias": alias, "uuid": device.get("uuid"), "max_calls": 4})
+            else:
+                blocked.append({
+                    "alias": alias,
+                    "uuid": device.get("uuid"),
+                    "reason": "FREE_DEVICE_OR_CUDA_LAUNCHER_PREREQUISITE_NOT_MET",
+                    "occupancy": occupancy,
+                    "torch_status": torch_status,
+                })
+    return {
+        "status": "READY_NOT_EXECUTED" if eligible else "BLOCKED_AUTHORIZED_GPU_LAUNCHER_REQUIRED",
+        "scope": {
+            "operation": "32x32 identity matmul only",
+            "dtypes": ["float32", "bfloat16"],
+            "max_calls_per_device": 4,
+            "max_calls_total": 8,
+            "failure_policy": "stop_on_first_failure",
+            "install_or_upgrade_allowed": False,
+        },
+        "eligible_devices": eligible,
+        "blocked_devices": blocked,
+        "actual_calls": 0,
+        "failure": None,
+    }
+
+
 def build_report(repo_root: Path, *, runner: Callable[..., Any] = subprocess.run) -> dict[str, Any]:
     artifacts = artifact_inventory(repo_root)
     devices = device_census(runner)
+    endpoint_observations = json.loads(json.dumps(AUTHORIZED_ENDPOINT_OBSERVATIONS, sort_keys=True))
+    cuda_smoke = non_model_cuda_smoke_admission(endpoint_observations)
     return {
         "schema": SCHEMA,
-        "status": "Q0_READ_ONLY_CENSUS_COMPLETE",
-        "gate": {"name": "PI_GATE_STATE_0146", "issue_comment": 5645700727, "branch_base": BASE_HEAD},
-        "device_census": devices,
+        "status": "Q0_READ_ONLY_ENDPOINT_CENSUS_COMPLETE",
+        "gate": {"name": "PI_GATE_STATE_0147", "issue_comment": 5646090676, "branch_base": BASE_HEAD},
+        "local_control_host_census": devices,
+        "authorized_endpoint_observations": endpoint_observations,
         "package_metadata": package_metadata(),
         "approved_artifact_inventory": artifacts,
         "fixed_checkpoint_smoke_plan": fixed_checkpoint_smoke_plan(artifacts),
+        "non_model_cuda_smoke_admission": cuda_smoke,
+        "real_gr00t_request": {
+            "status": "NOT_SUBMITTED_PREREQUISITES_BLOCKED",
+            "reason": "No authorized endpoint currently has both the exact launcher/runtime and approved artifact materialization required for a request.",
+            "request_only_when": [
+                "one observed free GPU UUID is bound",
+                "endpoint-local exact Python/CUDA runtime is present",
+                "approved FULL24@2000 and FULL24_RUNTIME_V2 paths are resolved without guessing",
+            ],
+        },
         "execution_boundary": {
             "model_construction": 0,
             "model_forward": 0,
@@ -278,8 +439,8 @@ def build_report(repo_root: Path, *, runner: Callable[..., Any] = subprocess.run
             "real_h200_campaign_ingested": False,
         },
         "skips": [
-            "B1 non-model CUDA smoke not executed: current Q0 instruction explicitly forbids CUDA computation.",
-            "No remote 4080S/5080 host was queried; this census is local-host only and nvidia-smi is unavailable here.",
+            "Non-model CUDA smoke not executed: all observed endpoints lack the exact CUDA launcher/runtime (Torch is missing), so admission is fail-closed.",
+            "No endpoint-local artifact path was guessed; approved-manifest materialization remains UNKNOWN where no path was supplied.",
             "No checkpoint/statistics bytes were materialized or downloaded; recorded identities remain plan-bound.",
         ],
     }
@@ -293,7 +454,7 @@ def main() -> int:
     report = build_report(args.repo_root)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"status": report["status"], "device_status": report["device_census"]["status"], "output": str(args.output)}, sort_keys=True))
+    print(json.dumps({"status": report["status"], "cuda_smoke_status": report["non_model_cuda_smoke_admission"]["status"], "output": str(args.output)}, sort_keys=True))
     return 0
 
 

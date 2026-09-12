@@ -56,6 +56,16 @@ class LocalDeviceRuntimeSmokeTests(unittest.TestCase):
         self.assertEqual(plan["execution_boundary"]["model_forward"], 0)
         self.assertEqual(plan["execution_boundary"]["cuda_compute"], 0)
 
+    def test_authorized_endpoint_observations_are_explicit_and_cuda_smoke_is_bounded(self):
+        observations = self.mod.AUTHORIZED_ENDPOINT_OBSERVATIONS
+        self.assertEqual(set(observations), {"gpu4080s", "gpu5080-1", "gpu5080-2"})
+        self.assertEqual(observations["gpu4080s"]["devices"][0]["occupancy"], "BUSY")
+        self.assertEqual(observations["gpu5080-1"]["devices"][0]["occupancy"], "FREE_NO_COMPUTE_PROCESS_REPORTED")
+        admission = self.mod.non_model_cuda_smoke_admission(observations)
+        self.assertEqual(admission["status"], "BLOCKED_AUTHORIZED_GPU_LAUNCHER_REQUIRED")
+        self.assertEqual(admission["actual_calls"], 0)
+        self.assertEqual(admission["scope"]["max_calls_total"], 8)
+
     def test_script_has_no_forbidden_top_level_runtime_import(self):
         source = SCRIPT.read_text(encoding="utf-8")
         tree = ast.parse(source)
@@ -74,10 +84,11 @@ class LocalDeviceRuntimeSmokeTests(unittest.TestCase):
 
     def test_manifest_is_valid_json_and_zero_science(self):
         manifest = json.loads((ROOT / "manifests/STAGE45F_CORELAB_PI0146_LOCAL_DEVICE_RUNTIME_SMOKE_V1.json").read_text())
-        self.assertEqual(manifest["status"], "Q0_READ_ONLY_CENSUS_AND_B2_PLAN_ONLY")
+        self.assertEqual(manifest["status"], "Q0_READ_ONLY_ENDPOINT_CENSUS_AND_B2_PLAN_ONLY")
         self.assertFalse(manifest["future_smoke"]["engineering_reference_only"] is False)
         self.assertEqual(manifest["execution_boundary"]["model_forward"], 0)
         self.assertEqual(manifest["execution_boundary"]["cuda_compute"], 0)
+        self.assertEqual(manifest["non_model_cuda_smoke"]["max_calls_total"], 8)
 
 
 if __name__ == "__main__":

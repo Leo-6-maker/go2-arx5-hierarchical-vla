@@ -1,0 +1,414 @@
+{
+  "approved_artifact_inventory": {
+    "approved_manifests": [
+      {
+        "exists": true,
+        "manifest": "manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json",
+        "schema": "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1"
+      },
+      {
+        "exists": true,
+        "manifest": "manifests/STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1.json",
+        "schema": "CORELAB_STAGE45C_CHECKPOINT_RUNTIME_MAPPING_V1"
+      },
+      {
+        "exists": true,
+        "manifest": "manifests/STAGE45C_TRAIN24_LATE_BINDING_CANDIDATE_V1.json",
+        "schema": "CORELAB_STAGE45C_TRAIN24_LATE_BINDING_CANDIDATE_V1"
+      }
+    ],
+    "checkpoint": {
+      "bytes_present": false,
+      "label": "FULL24@2000",
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+    },
+    "dataset": {
+      "bytes_present": false,
+      "label": "FULL24_EXISTING_TRAIN",
+      "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
+    },
+    "explicit_path_checks": [
+      {
+        "exists": true,
+        "field": "runtime_adapter.path",
+        "is_dir": false,
+        "is_file": true,
+        "manifest": "manifests/STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1.json",
+        "path_checked": "/mnt/LocalHDD1/HomeNFS/liuyu-nfs/Projects/go2-arx5-hierarchical-vla-rtx4080s/scripts/stage45d_d1_corelab_runtime_adapter.py",
+        "recorded_path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
+        "source": "approved_manifest"
+      }
+    ],
+    "historical_comparator": {
+      "label": "STRUCTURED@1000",
+      "materialization_path": null,
+      "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+      "stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+      "tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137"
+    },
+    "stats": {
+      "bytes_present": false,
+      "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+      "route": "FULL24_RUNTIME_V2",
+      "sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
+    }
+  },
+  "authorized_endpoint_observations": {
+    "gpu4080s": {
+      "alias": "gpu4080s",
+      "approved_artifact_paths": {
+        "reason": "No endpoint-local materialization path is present in the approved manifests; no path was guessed.",
+        "status": "UNKNOWN"
+      },
+      "devices": [
+        {
+          "index": 0,
+          "memory_free_mib": 24203,
+          "memory_total_mib": 32760,
+          "memory_used_mib": 8027,
+          "name": "NVIDIA GeForce RTX 4080 SUPER",
+          "occupancy": "BUSY",
+          "processes": [
+            {
+              "name": "python",
+              "pid": 805399,
+              "used_memory_mib": 7888
+            }
+          ],
+          "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+        },
+        {
+          "index": 1,
+          "memory_free_mib": 15899,
+          "memory_total_mib": 16376,
+          "memory_used_mib": 37,
+          "name": "NVIDIA GeForce RTX 4080 SUPER",
+          "occupancy": "LOW_USE_NO_COMPUTE_PROCESS_REPORTED",
+          "processes": [],
+          "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd"
+        }
+      ],
+      "driver_version": "580.173.02",
+      "host": "corelab-4080s",
+      "python_executable": "/usr/bin/python3",
+      "runtime_packages": {
+        "accelerate": {
+          "status": "MISSING"
+        },
+        "numpy": {
+          "status": "PRESENT",
+          "version": "1.26.4"
+        },
+        "safetensors": {
+          "status": "MISSING"
+        },
+        "torch": {
+          "status": "MISSING"
+        },
+        "transformers": {
+          "status": "MISSING"
+        }
+      },
+      "status": "OBSERVED"
+    },
+    "gpu5080-1": {
+      "alias": "gpu5080-1",
+      "approved_artifact_paths": {
+        "reason": "No endpoint-local materialization path is present in the approved manifests; no path was guessed.",
+        "status": "UNKNOWN"
+      },
+      "devices": [
+        {
+          "index": 0,
+          "memory_free_mib": 15514,
+          "memory_total_mib": 16303,
+          "memory_used_mib": 319,
+          "name": "NVIDIA GeForce RTX 5080",
+          "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED",
+          "processes": [],
+          "uuid": "GPU-f80137b8-bf59-834c-9446-912572146f8c"
+        }
+      ],
+      "driver_version": "580.159.03",
+      "host": "corelab-5080-1",
+      "python_executable": "/usr/bin/python3",
+      "runtime_packages": {
+        "accelerate": {
+          "status": "MISSING"
+        },
+        "numpy": {
+          "status": "PRESENT",
+          "version": "1.26.4"
+        },
+        "safetensors": {
+          "status": "MISSING"
+        },
+        "torch": {
+          "status": "MISSING"
+        },
+        "transformers": {
+          "status": "MISSING"
+        }
+      },
+      "status": "OBSERVED"
+    },
+    "gpu5080-2": {
+      "alias": "gpu5080-2",
+      "approved_artifact_paths": {
+        "reason": "No endpoint-local materialization path is present in the approved manifests; no path was guessed.",
+        "status": "UNKNOWN"
+      },
+      "devices": [
+        {
+          "index": 0,
+          "memory_free_mib": 15741,
+          "memory_total_mib": 16303,
+          "memory_used_mib": 91,
+          "name": "NVIDIA GeForce RTX 5080",
+          "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED",
+          "processes": [],
+          "uuid": "GPU-5f26fc0a-023a-0c90-4e3b-bd31ea5f1383"
+        }
+      ],
+      "driver_version": "580.159.03",
+      "host": "corelab-5080-2",
+      "python_executable": "/usr/bin/python3",
+      "runtime_packages": {
+        "accelerate": {
+          "status": "MISSING"
+        },
+        "numpy": {
+          "status": "PRESENT",
+          "version": "1.26.4"
+        },
+        "safetensors": {
+          "status": "MISSING"
+        },
+        "torch": {
+          "status": "MISSING"
+        },
+        "transformers": {
+          "status": "MISSING"
+        }
+      },
+      "status": "OBSERVED"
+    }
+  },
+  "execution_boundary": {
+    "Holdout-F": 0,
+    "ICL": 0,
+    "Validation-E": 0,
+    "WBC": 0,
+    "backward": 0,
+    "cuda_compute": 0,
+    "hardware": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "new_data": 0,
+    "optimizer_steps": 0,
+    "pbs": 0,
+    "real_h200_campaign_ingested": false,
+    "simulator": 0,
+    "training": 0
+  },
+  "fixed_checkpoint_smoke_plan": {
+    "authority_class": "engineering_reference_only",
+    "availability": {
+      "checkpoint_bytes": false,
+      "dataset_bytes": false,
+      "missing_bytes_must_block": true,
+      "stats_bytes": false
+    },
+    "checkpoint": {
+      "label": "FULL24@2000",
+      "substitution_allowed": false,
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+    },
+    "cohort": {
+      "split": "TRAIN_ONLY",
+      "target_xyz_in_model_input": false,
+      "window_count": 1,
+      "window_id": "stage22_expert_red_target_train_a:expert-0000"
+    },
+    "execution_boundary": {
+      "Holdout-F": 0,
+      "Validation-E": 0,
+      "WBC": 0,
+      "backward": 0,
+      "cuda_compute": 0,
+      "hardware": 0,
+      "model_construction": 0,
+      "model_forward": 0,
+      "optimizer_steps": 0,
+      "pbs": 0,
+      "simulator": 0,
+      "training": 0
+    },
+    "planned_call_ceiling": {
+      "action_head_calls": 4,
+      "conditioning_passes": 1,
+      "total_model_side_calls": 5
+    },
+    "predeclared_evidence": {
+      "checkpoint_sha_bound": true,
+      "finite_required": true,
+      "physical_decoder": "canonical StructuredActionV1 only",
+      "raw_before_derived": true,
+      "tolerance_rule": "PI must freeze raw/physical tolerance before execution; no post-hoc threshold"
+    },
+    "runtime": {
+      "body_rgb_shape": [
+        96,
+        96,
+        3
+      ],
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+      "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "input_keys": [
+        "body_rgb",
+        "wrist_rgb",
+        "state"
+      ],
+      "language": "move the end effector to the red target",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "state_v1_shape": [
+        10
+      ],
+      "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+      "stats_route": "FULL24_RUNTIME_V2",
+      "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "wrist_rgb_shape": [
+        96,
+        96,
+        3
+      ]
+    },
+    "sampler": {
+      "development_seed": 4242,
+      "noise_shape": [
+        1,
+        40,
+        132
+      ],
+      "official_public_sampler_called": false,
+      "same_noise_across_checkpoints": true,
+      "steps": 4,
+      "timestep_ids": [
+        0,
+        250,
+        500,
+        750
+      ]
+    },
+    "status": "PLAN_ONLY_REQUIRES_NEXT_PI_GATE"
+  },
+  "gate": {
+    "branch_base": "3cd8d11c211a344c09f08280af1105f4dbbac219",
+    "issue_comment": 5646090676,
+    "name": "PI_GATE_STATE_0147"
+  },
+  "local_control_host_census": {
+    "cuda_compute_calls": 0,
+    "gpu_rows": [],
+    "hostname": "corelab-amd-server",
+    "inventory_command": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=index,name,uuid,memory.total,memory.used,memory.free,driver_version",
+        "--format=csv,noheader"
+      ],
+      "returncode": null,
+      "stderr": "[Errno 2] No such file or directory: 'nvidia-smi'",
+      "stdout": ""
+    },
+    "model_forward_calls": 0,
+    "nvidia_smi_available": false,
+    "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.39",
+    "process_command": {
+      "argv": [
+        "nvidia-smi",
+        "--query-compute-apps=gpu_uuid,pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "returncode": null,
+      "stderr": "[Errno 2] No such file or directory: 'nvidia-smi'",
+      "stdout": ""
+    },
+    "process_rows": [],
+    "status": "BLOCKED_DEVICE_UNAVAILABLE"
+  },
+  "non_model_cuda_smoke_admission": {
+    "actual_calls": 0,
+    "blocked_devices": [
+      {
+        "alias": "gpu4080s",
+        "occupancy": "BUSY",
+        "reason": "FREE_DEVICE_OR_CUDA_LAUNCHER_PREREQUISITE_NOT_MET",
+        "torch_status": "MISSING",
+        "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+      },
+      {
+        "alias": "gpu4080s",
+        "occupancy": "LOW_USE_NO_COMPUTE_PROCESS_REPORTED",
+        "reason": "FREE_DEVICE_OR_CUDA_LAUNCHER_PREREQUISITE_NOT_MET",
+        "torch_status": "MISSING",
+        "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd"
+      },
+      {
+        "alias": "gpu5080-1",
+        "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED",
+        "reason": "FREE_DEVICE_OR_CUDA_LAUNCHER_PREREQUISITE_NOT_MET",
+        "torch_status": "MISSING",
+        "uuid": "GPU-f80137b8-bf59-834c-9446-912572146f8c"
+      },
+      {
+        "alias": "gpu5080-2",
+        "occupancy": "FREE_NO_COMPUTE_PROCESS_REPORTED",
+        "reason": "FREE_DEVICE_OR_CUDA_LAUNCHER_PREREQUISITE_NOT_MET",
+        "torch_status": "MISSING",
+        "uuid": "GPU-5f26fc0a-023a-0c90-4e3b-bd31ea5f1383"
+      }
+    ],
+    "eligible_devices": [],
+    "failure": null,
+    "scope": {
+      "dtypes": [
+        "float32",
+        "bfloat16"
+      ],
+      "failure_policy": "stop_on_first_failure",
+      "install_or_upgrade_allowed": false,
+      "max_calls_per_device": 4,
+      "max_calls_total": 8,
+      "operation": "32x32 identity matmul only"
+    },
+    "status": "BLOCKED_AUTHORIZED_GPU_LAUNCHER_REQUIRED"
+  },
+  "package_metadata": {
+    "distributions": {
+      "accelerate": null,
+      "numpy": null,
+      "safetensors": null,
+      "torch": null,
+      "transformers": null
+    },
+    "python": "3.12.3"
+  },
+  "real_gr00t_request": {
+    "reason": "No authorized endpoint currently has both the exact launcher/runtime and approved artifact materialization required for a request.",
+    "request_only_when": [
+      "one observed free GPU UUID is bound",
+      "endpoint-local exact Python/CUDA runtime is present",
+      "approved FULL24@2000 and FULL24_RUNTIME_V2 paths are resolved without guessing"
+    ],
+    "status": "NOT_SUBMITTED_PREREQUISITES_BLOCKED"
+  },
+  "schema": "STAGE45F_CORELAB_PI0147_LOCAL_DEVICE_RUNTIME_SMOKE_V2",
+  "skips": [
+    "Non-model CUDA smoke not executed: all observed endpoints lack the exact CUDA launcher/runtime (Torch is missing), so admission is fail-closed.",
+    "No endpoint-local artifact path was guessed; approved-manifest materialization remains UNKNOWN where no path was supplied.",
+    "No checkpoint/statistics bytes were materialized or downloaded; recorded identities remain plan-bound."
+  ],
+  "status": "Q0_READ_ONLY_ENDPOINT_CENSUS_COMPLETE"
+}
