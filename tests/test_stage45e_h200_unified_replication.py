@@ -56,6 +56,9 @@ def test_no_top_level_model_imports_or_scheduler_mutation() -> None:
         assert not imports.intersection({"torch", "gr00t", "transformers", "jax", "tensorflow"})
     source = (ROOT / "scripts/stage45e_h200_unified_replication.py").read_text()
     assert "subprocess.run" in source
+    assert '"HF_HUB_OFFLINE": "1"' in source
+    assert '"TRANSFORMERS_OFFLINE": "1"' in source
+    assert '"HF_DATASETS_OFFLINE": "1"' in source
     assert "qsub(" not in source
     assert "git merge" not in source
 

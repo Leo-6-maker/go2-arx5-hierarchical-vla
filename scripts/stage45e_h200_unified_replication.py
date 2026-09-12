@@ -534,7 +534,15 @@ def _run_command(campaign_root: Path, name: str, command: Sequence[str], *, extr
     stderr_path = logs / f"{name}.stderr.log"
     write_json(record_path, {"schema": "VANDA_STAGE45E_UNIFIED_SUBPROCESS_RECORD_V1", "name": name, "command": [str(item) for item in command], "cwd": "/tmp", "pythonpath": "", "started_utc": now_utc()})
     environment = os.environ.copy()
-    environment.update({"PYTHONPATH": "", "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1", "CUDA_VISIBLE_DEVICES": "0"})
+    environment.update({
+        "PYTHONPATH": "",
+        "PYTHONNOUSERSITE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "CUDA_VISIBLE_DEVICES": "0",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "HF_DATASETS_OFFLINE": "1",
+    })
     if extra_env:
         environment.update(extra_env)
     started = time.time()
