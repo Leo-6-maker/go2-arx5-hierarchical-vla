@@ -85,6 +85,8 @@ def test_legacy_v1_pre_model_failure_is_source_bound_zero_and_retryable(tmp_path
         "traceback": "stage45e_legacy_matched_seed.py def e4",
     }
     (root / "unified_failure_seal.json").write_text(json.dumps(failure), encoding="utf-8")
+    (root / "cache").mkdir()
+    (root / "tmp").mkdir()
     counts = campaign._attempt_call_counts(root)
     assert counts["model_side_calls"] == 0
     assert counts["counters_complete"] is True

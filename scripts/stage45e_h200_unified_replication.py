@@ -3087,11 +3087,26 @@ def _legacy_v1_pre_model_failure_proof(root: Path, failure: Mapping[str, Any]) -
     if pre_model.get("training") not in (False, 0) or pre_model.get("backward") not in (False, 0) or pre_model.get("optimizer_steps") not in (0, False):
         return None
 
+    # The second immutable PI0134 V1 attempt was launched through the older
+    # wrapper, which created empty ``cache`` and ``tmp`` directories before
+    # the import failure.  They are mechanical scratch entries, not evidence
+    # of model execution.  Accept them only when they are real, non-symlinked,
+    # and empty; any file or nested entry remains fail-closed.
     try:
-        entries = sorted(item.name for item in Path(root).iterdir() if not item.is_symlink())
+        allowed_files = {"pre_model_admission.json", "unified_failure_seal.json"}
+        allowed_empty_directories = {"cache", "tmp"}
+        for item in Path(root).iterdir():
+            if item.is_symlink():
+                return None
+            if item.name in allowed_files:
+                if not item.is_file():
+                    return None
+                continue
+            if item.name not in allowed_empty_directories or not item.is_dir():
+                return None
+            if any(item.iterdir()):
+                return None
     except OSError:
-        return None
-    if any(name not in {"pre_model_admission.json", "unified_failure_seal.json"} for name in entries):
         return None
     return {
         "proof_kind": proof_kind,
