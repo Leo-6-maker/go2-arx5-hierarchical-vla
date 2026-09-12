@@ -605,6 +605,7 @@ def e4(args: argparse.Namespace) -> dict[str, Any]:
             require(hook_counter["count"] == 96, f"E4 per-arm action-head budget drift: {label}={hook_counter['count']}")
             require(len(rows) == 24, f"E4 row count drift: {label}")
             all_rows[label] = rows
+            write_json(output / f"rows_{label.replace('@', '_at_')}.json", rows)
             write_json(output / f"aggregate_{label.replace('@', '_at_')}.json", aggregate_evaluation_rows(rows))
             del model
             torch.cuda.empty_cache()
