@@ -1,0 +1,78 @@
+{
+  "schema": "STAGE45F_CORELAB_VANDA_SCHEMA_SHADOW_AUDIT_V1",
+  "status": "PASS_EXPLICIT_ADAPTERS_PREPARED",
+  "authority": {"pi_gate": "PI_GATE_STATE_0137", "issue_comment": 5644315256},
+  "audit_policy": {
+    "field_guessing": false,
+    "path_label_inference": false,
+    "consumer_checks_weakened": false,
+    "scientific_semantics_changed": false,
+    "adapter_style": "exact producer schema to canonical consumer field map"
+  },
+  "surfaces": {
+    "LEGACY": {
+      "pr": 62,
+      "branch": "stage45e/legacy-full24-matched-seed-replication",
+      "head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
+      "normalization": "FULL24_RUNTIME_V2",
+      "loss": "standard legacy loss",
+      "training_result_schema": "CORELAB_STAGE45E_LEGACY_FULL24_MATCHED_SEED_TRAINING_RESULT_V1",
+      "unified_diagnostic_helper": "LEGACY_HEAD:scripts/stage45e_legacy_matched_seed.py",
+      "e4_row_schema": "CORELAB_STAGE45E_LEGACY_E4_ROW_V1",
+      "e4_seal_schema": "CORELAB_STAGE45E_LEGACY_E4_SEAL_V1",
+      "d1_schemas": ["CORELAB_STAGE45E_LEGACY_D1_RAW_V1", "CORELAB_STAGE45E_LEGACY_D1_DERIVED_V1", "CORELAB_STAGE45E_LEGACY_D1_ROW_V1", "CORELAB_STAGE45E_LEGACY_D1_SEAL_V1"],
+      "d2a_schemas": ["CORELAB_STAGE45E_LEGACY_D2A_RAW_V1", "CORELAB_STAGE45E_LEGACY_D2A_DERIVED_V1", "CORELAB_STAGE45E_LEGACY_D2A_ROW_V1", "CORELAB_STAGE45E_LEGACY_D2A_SEAL_V1"],
+      "counter_path": "counters.{conditioning_passes,action_head_calls,raw_rows}",
+      "checkpoint_identity_field": "checkpoint_tree_sha256"
+    },
+    "L1": {
+      "pr": 63,
+      "branch": "stage45e/l1-matched-seed-replication",
+      "head": "186efc2977e2795bebf0dfe97d6f503a672716de",
+      "normalization": "FULL24_RUNTIME_V2",
+      "loss": "physical-error-aware XYZ loss; binary_action_mask.sum denominator",
+      "training_result_schema": "VANDA_STAGE45E_L1_H200_TRAINING_RESULT_V1",
+      "unified_diagnostic_helper": "LEGACY_HEAD:scripts/stage45e_legacy_matched_seed.py",
+      "e4_row_schema": "CORELAB_STAGE45E_LEGACY_E4_ROW_V1",
+      "e4_seal_schema": "CORELAB_STAGE45E_LEGACY_E4_SEAL_V1",
+      "d1_schemas": ["CORELAB_STAGE45E_LEGACY_D1_RAW_V1", "CORELAB_STAGE45E_LEGACY_D1_DERIVED_V1", "CORELAB_STAGE45E_LEGACY_D1_ROW_V1", "CORELAB_STAGE45E_LEGACY_D1_SEAL_V1"],
+      "d2a_schemas": ["CORELAB_STAGE45E_LEGACY_D2A_RAW_V1", "CORELAB_STAGE45E_LEGACY_D2A_DERIVED_V1", "CORELAB_STAGE45E_LEGACY_D2A_ROW_V1", "CORELAB_STAGE45E_LEGACY_D2A_SEAL_V1"],
+      "counter_path": "counters.{conditioning_passes,action_head_calls,raw_rows}",
+      "checkpoint_identity_field": "checkpoint_tree_sha256"
+    },
+    "N2": {
+      "pr": 64,
+      "branch": "stage45e/n2-h200-matched-seed-replication",
+      "head": "6d8a7f132e325faea35346b36497ceb76390b2c3",
+      "normalization": "N2_BALANCED_XYZ_STATS",
+      "loss": "standard legacy loss",
+      "training_result_schema": "CORELAB_STAGE45E_N2_REPLICATION_TRAINING_RESULT_V1",
+      "unified_diagnostic_helper": "LEGACY_HEAD:scripts/stage45e_legacy_matched_seed.py",
+      "e4_row_schema": "CORELAB_STAGE45E_LEGACY_E4_ROW_V1",
+      "e4_seal_schema": "CORELAB_STAGE45E_LEGACY_E4_SEAL_V1",
+      "d1_schemas": ["CORELAB_STAGE45E_LEGACY_D1_RAW_V1", "CORELAB_STAGE45E_LEGACY_D1_DERIVED_V1", "CORELAB_STAGE45E_LEGACY_D1_ROW_V1", "CORELAB_STAGE45E_LEGACY_D1_SEAL_V1"],
+      "d2a_schemas": ["CORELAB_STAGE45E_LEGACY_D2A_RAW_V1", "CORELAB_STAGE45E_LEGACY_D2A_DERIVED_V1", "CORELAB_STAGE45E_LEGACY_D2A_ROW_V1", "CORELAB_STAGE45E_LEGACY_D2A_SEAL_V1"],
+      "counter_path": "counters.{conditioning_passes,action_head_calls,raw_rows}",
+      "checkpoint_identity_field": "checkpoint_tree_sha256"
+    },
+    "ORCHESTRATION": {
+      "branch": "stage45e/h200-unified-replication-campaign",
+      "head": "5aa7b225da14bbfca053cde8041d6b85d6505a79",
+      "delta_from_pi0136_head": "MECHANICAL_OUTPUT_LIFECYCLE_ONLY",
+      "phase_spec_schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V1",
+      "wrapper_phase_seal_schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_PHASE_SEAL_V1",
+      "cpu_summary_schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V1",
+      "inventory_schema": "VANDA_STAGE45E_H200_CPU_EVIDENCE_INVENTORY_V1",
+      "result_schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V1",
+      "counter_path": "phase_seals.<phase>.<route>.budget.{conditioning_passes,action_head_calls,raw_rows}",
+      "inventory_binding_fields": ["cpu_inventory", "cpu_inventory_sha256"]
+    }
+  },
+  "canonical_adapter_output": {
+    "schema": "STAGE45F_H200_TRAIN24_EVIDENCE_INDEX_V1",
+    "arm_count": 18,
+    "rows_per_arm": 24,
+    "explicit_required_fields": ["route", "seed", "step", "route_branch", "route_head", "checkpoint_tree_sha256", "rows_json", "rows_sha256", "stats_sha256", "stats_payload_sha256", "normalization_identity", "loss_identity", "decoder_identity", "metric_identity", "sampler_identity"]
+  },
+  "real_h200_campaign_ingested": false
+}

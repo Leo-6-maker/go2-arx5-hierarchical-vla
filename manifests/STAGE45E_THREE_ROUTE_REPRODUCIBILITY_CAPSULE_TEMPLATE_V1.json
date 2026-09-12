@@ -1,0 +1,27 @@
+{
+  "schema": "STAGE45E_THREE_ROUTE_REPRODUCIBILITY_CAPSULE_V1",
+  "status": "TEMPLATE_UNBOUND_REAL_EVIDENCE",
+  "authority": {"pi_gate": "PI_GATE_STATE_0137", "issue_comment": 5644315256},
+  "storage_policy": {
+    "immutable_references_only": true,
+    "copy_large_checkpoint_bytes": false,
+    "delete_or_rewrite_accepted_evidence": false,
+    "destructive_deduplication": false
+  },
+  "required_reference_groups": [
+    "git_heads",
+    "training_lineages",
+    "checkpoint_trees",
+    "pbs_jobs",
+    "final_seal_result_inventory",
+    "train24_row_bundles_18",
+    "d1_d2a_evidence",
+    "historical_4080s_n2",
+    "corelab_reconstruction",
+    "neutral_decision_packet",
+    "cpu_reproduction_commands_and_schemas"
+  ],
+  "real_h200_campaign_ingested": false,
+  "decision_state": "PI_DECISION_REQUIRED",
+  "execution_enabled": false
+}

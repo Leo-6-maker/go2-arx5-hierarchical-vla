@@ -1,0 +1,18 @@
+{
+  "schema": "STAGE45F_CORELAB_BRANCH_HANDOFF_COMPATIBILITY_V1",
+  "status": "PASS_PLAN_ONLY",
+  "authority": {"pi_gate": "PI_GATE_STATE_0137", "issue_comment": 5644315256},
+  "consumer_contract": "STAGE45F_POST_SELECTION_RECIPE_FREEZE_HANDOFF_V1",
+  "branches": {
+    "EXPOSURE_SCALING": {"decision_state": "PI_DECISION_REQUIRED", "execution_enabled": false},
+    "STATIC_DATA_EXPANSION": {"decision_state": "PI_DECISION_REQUIRED", "execution_enabled": false},
+    "DATA_PLUS_NORMALIZATION": {"decision_state": "PI_DECISION_REQUIRED", "execution_enabled": false},
+    "ROLLOUT_STATE_AUGMENTATION_DAGGER": {"decision_state": "PI_DECISION_REQUIRED", "execution_enabled": false},
+    "N2_X_L1_FACTORIAL_INTERACTION": {"decision_state": "PI_DECISION_REQUIRED", "execution_enabled": false},
+    "VALIDATION_E": {"decision_state": "PI_DECISION_REQUIRED", "execution_enabled": false}
+  },
+  "automatic_branch_selection": false,
+  "winner_inference": false,
+  "validation_e_read": false,
+  "holdout_f_read": false
+}

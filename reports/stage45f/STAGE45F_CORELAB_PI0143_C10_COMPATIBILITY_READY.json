@@ -1,0 +1,48 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0143_C10_COMPATIBILITY_REPORT_V1",
+  "status": "PASS_CPU_STATIC",
+  "token": "STAGE45F_CORELAB_PI0143_C10_COMPATIBILITY_READY_FOR_PI_REVIEW",
+  "authority": {"pi_gate": "PI_GATE_STATE_0143", "issue_comment": 5644782159, "pr": 65, "pointer_comment": 5644785385},
+  "base_head": "dcd6621d4d8eeffcb535c94fdf894d008d453179",
+  "requirements": {
+    "standard_and_recovered_lineage": "PASS",
+    "identity_separation_training_evaluation_adapter_orchestration": "PASS",
+    "n2_rtx4080s_outer_stats_sha_corrected": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_rtx4080s_payload_sha": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "external_diagnostic_handoff": "PASS_READONLY",
+    "accepted_unique_vs_all_attempted_and_training_history": "PASS",
+    "stage45c_stage45e_explicit_row_canonicalization": "PASS",
+    "l1_secondary_reconstruction_cpu_only": "PASS_PRIMARY_PHYSICAL_PRESERVED",
+    "decoder_metric_semantic_equivalence": "PASS",
+    "window_noise_sampler_identity": "PASS",
+    "l1_vs_n2_direct_paired_delta": "PASS_DESCRIPTIVE_ONLY",
+    "strict_recipe_freeze_one_route_one_tier_three_seeds": "PASS"
+  },
+  "mutation_tests": {
+    "source_schema_drift": "PASS",
+    "source_sha_tamper": "PASS",
+    "recovered_lineage": "PASS",
+    "noise_window_mismatch": "PASS",
+    "stats_mismatch": "PASS",
+    "missing_duplicate_arms": "PASS",
+    "mixed_tier_missing_seed_recipe": "PASS",
+    "locked_validation_holdout_paths": "PASS",
+    "synthetic_vs_real_admission": "PASS"
+  },
+  "tests": {"python_unittest": "21 passed", "compileall": "PASS", "json_validation": "PASS", "git_diff_check": "PASS"},
+  "execution_boundary": {
+    "gpu": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "winner_selection": 0,
+    "merge": 0
+  },
+  "real_h200_campaign_ingested": false
+}

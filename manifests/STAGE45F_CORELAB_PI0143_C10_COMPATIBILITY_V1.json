@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0143_C10_COMPATIBILITY_V1",
+  "status": "CPU_STATIC_COMPATIBILITY_PREP_ONLY",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0143",
+    "issue_comment": 5644782159,
+    "pr": 65,
+    "pr_comment": 5644785385,
+    "starting_head": "dcd6621d4d8eeffcb535c94fdf894d008d453179"
+  },
+  "upstream": {
+    "groot_n17_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
+  },
+  "lineage_variants": {
+    "STANDARD_PASS_RESULT": {
+      "required_source_kind": "STANDARD_PASS_RESULT",
+      "training_result_required": true,
+      "producer_fabrication": false
+    },
+    "RECOVERED_PRIMARY": {
+      "required_source_kind": "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT",
+      "training_result_required": false,
+      "recovered_input_v2_required": true,
+      "producer_fabrication": false,
+      "primary_retry_substitution": false
+    }
+  },
+  "route_identity_fields": [
+    "training_head",
+    "evaluation_head",
+    "adapter_head",
+    "orchestration_head"
+  ],
+  "n2_rtx4080s_stats": {
+    "outer_file_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "route": "N2",
+    "hardware": "RTX4080S"
+  },
+  "canonical_row_adapters": {
+    "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1": "STAGE45F_C10_ROW_CONVERTER_STAGE45C_V1",
+    "CORELAB_STAGE45E_LEGACY_E4_ROW_V1": "STAGE45F_C10_ROW_CONVERTER_LEGACY_E4_V1",
+    "CORELAB_STAGE45E_LEGACY_D1_ROW_V1": "STAGE45F_C10_ROW_CONVERTER_LEGACY_D1_V1",
+    "CORELAB_STAGE45E_LEGACY_D2A_ROW_V1": "STAGE45F_C10_ROW_CONVERTER_LEGACY_D2A_V1"
+  },
+  "diagnostic_consumption": {
+    "external_inventory_required": true,
+    "external_handoff_required": true,
+    "accepted_unique_calls_distinct_from_all_attempted": true,
+    "reused_readonly_calls": 0,
+    "nominal_accepted_unique_ceiling": 8976
+  },
+  "train24_contract": {
+    "split": "TRAIN24",
+    "window_count": 24,
+    "window_order": "target-major_then_snapshot-major",
+    "per_window_noise_required": true,
+    "sampler_identity_required": true,
+    "target_xyz_in_model_input": false,
+    "source_descriptor_required": true
+  },
+  "recipe_freeze": {
+    "exact_route_count": 1,
+    "exact_checkpoint_tier_count": 1,
+    "required_seeds": [2222, 2223, 2224],
+    "mixed_tier": false,
+    "best_seed_selection": false,
+    "missing_seed": false
+  },
+  "execution_boundary": {
+    "gpu": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "winner_selection": 0,
+    "merge": 0
+  }
+}

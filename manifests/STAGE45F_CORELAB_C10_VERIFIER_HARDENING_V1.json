@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE45F_CORELAB_C10_VERIFIER_HARDENING_V1",
+  "status": "CPU_STATIC_SYNTHETIC_ONLY",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0137",
+    "issue_comment": 5644315256,
+    "active_pr": 65,
+    "pr_pointer_comment": 5644316210,
+    "accepted_starting_head": "dcd6621d4d8eeffcb535c94fdf894d008d453179"
+  },
+  "real_h200_campaign_ingested": false,
+  "mutation_cases": [
+    {"case": "missing_arm", "reason_code": "MISSING_REQUIRED_ARM"},
+    {"case": "duplicate_arm", "reason_code": "DUPLICATE_ARM_IDENTITY"},
+    {"case": "wrong_route_seed_or_tier", "reason_code": "ARM_AXIS_MISMATCH"},
+    {"case": "checkpoint_tree_sha_mismatch", "reason_code": "CHECKPOINT_TREE_SHA_MISMATCH"},
+    {"case": "row_bundle_sha_mismatch", "reason_code": "ROW_BUNDLE_SHA_MISMATCH"},
+    {"case": "upstream_seal_result_inventory_sha_mismatch", "reason_code": "UPSTREAM_ARTIFACT_SHA_MISMATCH"},
+    {"case": "stale_or_rewritten_inventory_entry", "reason_code": "INVENTORY_IMMUTABILITY_VIOLATION"},
+    {"case": "summary_or_inventory_outside_campaign_root", "reason_code": "CAMPAIGN_ROOT_ESCAPE"},
+    {"case": "symlink_traversal_or_path_escape", "reason_code": "UNSAFE_PATH_ESCAPE"},
+    {"case": "execution_head_or_route_branch_mismatch", "reason_code": "EXECUTION_LINEAGE_IDENTITY_MISMATCH"},
+    {"case": "route_scientific_contract_drift", "reason_code": "ROUTE_SCIENTIFIC_CONTRACT_DRIFT"},
+    {"case": "call_counter_budget_mismatch", "reason_code": "CALL_COUNTER_BUDGET_MISMATCH"},
+    {"case": "train24_window_identity_or_target_xyz_drift", "reason_code": "TRAIN24_ROW_CONTRACT_DRIFT"},
+    {"case": "nonfinite_metric_or_raw_metadata", "reason_code": "NONFINITE_EVIDENCE"},
+    {"case": "validation_or_holdout_contamination", "reason_code": "LOCKED_SPLIT_CONTAMINATION"},
+    {"case": "performance_selected_retry_lineage", "reason_code": "PERFORMANCE_SELECTED_LINEAGE_REPLACEMENT"},
+    {"case": "unsupported_schema_or_heuristic_guessing", "reason_code": "UNSUPPORTED_SCHEMA_NO_HEURISTICS"}
+  ],
+  "policy": {
+    "synthetic_mutations_only": true,
+    "scientific_thresholds_added": false,
+    "automatic_scientific_repair": false,
+    "all_failures_machine_readable": true,
+    "winner_selection": false
+  },
+  "execution_boundary": {
+    "gpu": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0
+  }
+}
