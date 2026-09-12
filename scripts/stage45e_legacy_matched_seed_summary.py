@@ -79,7 +79,10 @@ def json_roundtrip(value: Any) -> Any:
     in-memory mapping directly would report a false provenance mismatch.
     """
 
-    return json.loads(json.dumps(value, sort_keys=True, allow_nan=False, default=str))
+    # Do not sort before this conversion: Python 3 cannot order a mapping
+    # containing both the in-memory ``None`` key and string keys.  Ordering is
+    # irrelevant after the JSON parse; all downstream file writes are sorted.
+    return json.loads(json.dumps(value, sort_keys=False, allow_nan=False, default=str))
 
 
 def numeric_summary(values: Sequence[float]) -> dict[str, Any]:
