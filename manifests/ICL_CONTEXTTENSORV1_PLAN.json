@@ -15,6 +15,15 @@
     "checkpoint_or_locked_split_reads": false,
     "missing_payload_policy": "explicit missingness mask; no imputation or invention"
   },
+  "source_membership": {
+    "split": "TRAIN24",
+    "source_kind": "SEALED_TRAIN_DESCRIPTOR",
+    "descriptor_identity_required": true,
+    "immutable_membership_sha256_required": true,
+    "window_order": "target-major_then_snapshot-major",
+    "membership_mutation_policy": "reject; no caller-supplied replacement"
+  },
+  "availability_source": "source-derived; available_time is carried from immutable source and cannot be caller-overridden",
   "metadata_only_fields": [
     "context_id",
     "query_id",
@@ -59,6 +68,10 @@
     "model_visible_paths_are_exact_allowlist": true,
     "target_id_and_all_provenance_are_excluded": true
   },
+  "nested_schemas": {
+    "interaction_history.timing": {"fields": ["dt"], "dtype": "float32", "units": "seconds", "missingness": "not_allowed", "metadata_fields_rejected_recursively": true},
+    "failure_outcome_context.outcome_label": {"dtype": "string", "allowed_values": ["no_progress_observed", "progress_observed", "recovered", "unrecovered", "unknown"], "metadata_fields_rejected_recursively": true}
+  },
   "tensor_layout": {
     "schema": "ContextTensorV1",
     "status": "PLAN_ONLY",
@@ -68,7 +81,7 @@
     "event_mask": {"shape": ["B", "N"], "dtype": "bool", "meaning": "true for populated causal event slots"},
     "section_mask": {"shape": ["B", "N", 4], "dtype": "bool", "section_order": ["task_demo_context", "interaction_history", "failure_outcome_context", "local_dynamics_context"]},
     "missingness_mask": {"shape": ["B", "N", "F"], "dtype": "bool", "meaning": "true only when an explicitly nullable resolved payload is absent"},
-    "temporal_order": "event_time ascending, then available_time ascending, then immutable source identity; query_time is an inclusive cutoff",
+    "temporal_order": "event_time ascending, then available_time ascending, then model-visible payload identity; query_time is an inclusive cutoff",
     "padding": "masked zero padding only after causal filtering; no semantic zero imputation"
   },
   "physical_semantics": {
@@ -76,7 +89,7 @@
     "units": "source-declared units, SI where the immutable source contract declares SI; no guessed conversion",
     "normalization": "identity must be explicitly supplied by a future PI-selected adapter; no Stage45E stats are implicitly reused",
     "command_vs_response": "commanded payload and executed/observed response payload remain distinct",
-    "local_dynamics_closed_transition": "state_before/state_after/delta and dt are required before a transition can be visible"
+    "local_dynamics_closed_transition": "event_time + dt <= available_time <= query_time; state_before/state_after/delta and dt are required before a transition can be visible"
   },
   "structured_action_abi": {"schema": "StructuredActionV1", "shape": [40, 132], "active_scalars": 190, "decoder_semantics": "unchanged"},
   "execution_boundary": {"tensor_materialization": 0, "model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0, "winner_selection": 0}

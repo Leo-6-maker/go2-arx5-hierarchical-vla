@@ -4,7 +4,7 @@
   "status": "PREPARATION_ONLY",
   "upstream": {"project": "isaac-gr00t", "model": "GR00T N1.7", "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"},
   "path_policy": {"pathless": true, "filesystem_paths_allowed": false, "artifact_references_by": "immutable id + SHA256"},
-  "causal_query": {"query_time_inclusive": true, "future_information_allowed": false, "relative_time_rule": "event_time <= available_time <= query_time", "availability_field": "available_time", "availability_is_latest_included_datum": true},
+  "causal_query": {"query_time_inclusive": true, "future_information_allowed": false, "relative_time_rule": "event_time <= available_time <= query_time", "availability_field": "available_time", "availability_is_latest_included_datum": true, "ordering_law": "event_time ascending, then available_time ascending, then model-visible payload identity", "local_dynamics_closure_law": "event_time + dt <= available_time <= query_time; state_after/delta are closed by available_time"},
   "sections": {
     "task_demo_context": {
       "purpose": "historical task demonstration available before the query",
@@ -17,6 +17,7 @@
       "purpose": "causal observations and prior commands before the query",
         "fields": ["event_time", "available_time", "observation_state_digest", "commanded_action_digest", "executed_or_observed_response_digest", "delta_state_digest", "timing"],
         "availability_rule": "event_time <= available_time <= query_time; response/delta are available by available_time",
+        "timing_schema": {"fields": ["dt"], "dtype": "float32", "units": "seconds", "missingness": "not_allowed", "metadata_fields_rejected_recursively": true},
       "executed_response_optional": true,
       "missing_executed_response_representation": "null; never inferred"
     },
@@ -24,12 +25,14 @@
       "purpose": "historical failed attempt and observed outcome before a retry query",
         "fields": ["attempt_id", "failure_observation_digest", "outcome_label", "observed_recovery_digest", "event_time", "available_time"],
         "availability_rule": "event_time <= available_time <= query_time; null recovery does not invent an earlier time",
-      "future_corrective_action_allowed": false
+      "future_corrective_action_allowed": false,
+      "outcome_label_schema": {"dtype": "string", "allowed_values": ["no_progress_observed", "progress_observed", "recovered", "unrecovered", "unknown"], "metadata_fields_rejected_recursively": true}
     },
     "local_dynamics_context": {
       "purpose": "observed local command-response transitions",
         "fields": ["event_time", "available_time", "state_before_digest", "commanded_action_digest", "executed_or_observed_response_digest", "state_after_digest", "delta_state_digest", "dt"],
-        "availability_rule": "event_time <= available_time <= query_time; complete transition/state_after is closed by available_time",
+      "availability_rule": "event_time <= available_time <= query_time; complete transition/state_after is closed by available_time",
+      "transition_closure_rule": "event_time + dt <= available_time <= query_time",
       "physical_trace_required": true,
       "missing_response_representation": "null; no fabricated dynamics"
     }
@@ -75,6 +78,7 @@
     "model_visible_fields_are_resolved_payload_only": true,
     "target_id_model_visible": false,
     "filesystem_and_provenance_metadata_model_visible": false,
+    "nested_model_visible_metadata_rejected": ["target_id", "target_xyz", "query_time", "source_id", "source_digest", "source_sha", "source_path", "demo_id", "attempt_id", "provenance", "checkpoint", "notes", "Validation-E", "Holdout-F"],
     "tensor_plan_schema": "ICL_CONTEXTTENSORV1_PLAN"
   },
   "availability_aliases": {

@@ -87,6 +87,59 @@ class Stage45FICLContextV1Test(unittest.TestCase):
         expert["failure_outcome_context"][0]["future_expert_action"] = context_v1.ZERO_SHA256
         self.assert_rejected(expert, "FUTURE_EXPERT_INFORMATION")
 
+    def test_nested_timing_is_exact_and_metadata_is_not_model_visible(self) -> None:
+        timing_key = copy.deepcopy(self.fixture)
+        timing_key["interaction_history"][0]["timing"]["target_id"] = "target-a"
+        self.assert_rejected(timing_key, "MODEL_VISIBILITY_DRIFT")
+        timing_field = copy.deepcopy(self.fixture)
+        timing_field["interaction_history"][0]["timing"]["latency_s"] = 0.1
+        self.assert_rejected(timing_field, "MODEL_VISIBILITY_DRIFT")
+        scalar = copy.deepcopy(self.fixture)
+        scalar["interaction_history"][0]["timing"]["dt"] = "source_digest"
+        self.assert_rejected(scalar, "MODEL_VISIBILITY_DRIFT")
+
+    def test_causal_order_uses_event_then_availability_not_metadata_ids(self) -> None:
+        first = copy.deepcopy(self.fixture["interaction_history"][0])
+        second = copy.deepcopy(first)
+        first["available_time"] = 0.9
+        first["observation_state_digest"] = context_v1.ZERO_SHA256
+        second["available_time"] = 0.7
+        second["observation_state_digest"] = "1" * 64
+        ordered = context_v1._canonical_section("interaction_history", [first, second])
+        reversed_order = context_v1._canonical_section("interaction_history", [second, first])
+        self.assertEqual(ordered, reversed_order)
+        self.assertEqual([item["available_time"] for item in ordered], [0.7, 0.9])
+        # At equal event/availability, changing metadata IDs cannot move the
+        # distinguishable visible payloads.
+        failure_a = copy.deepcopy(self.fixture["failure_outcome_context"][0])
+        failure_b = copy.deepcopy(failure_a)
+        failure_a["outcome_label"] = "progress_observed"
+        failure_a["attempt_id"] = "z-id"
+        failure_b["outcome_label"] = "no_progress_observed"
+        failure_b["attempt_id"] = "a-id"
+        left = context_v1._canonical_section("failure_outcome_context", [failure_a, failure_b])
+        failure_a["attempt_id"], failure_b["attempt_id"] = "a-renamed", "z-renamed"
+        right = context_v1._canonical_section("failure_outcome_context", [failure_a, failure_b])
+        self.assertEqual([item["outcome_label"] for item in left], [item["outcome_label"] for item in right])
+        # If visible payloads are identical, metadata is only a deterministic
+        # final tie-breaker; changing input order still cannot change output.
+        same_visible_a = copy.deepcopy(failure_a)
+        same_visible_b = copy.deepcopy(failure_a)
+        same_visible_a["attempt_id"], same_visible_b["attempt_id"] = "z-same", "a-same"
+        same_left = context_v1._canonical_section("failure_outcome_context", [same_visible_a, same_visible_b])
+        same_right = context_v1._canonical_section("failure_outcome_context", [same_visible_b, same_visible_a])
+        self.assertEqual(same_left, same_right)
+
+    def test_local_transition_closure_and_scalar_parity_counterexample(self) -> None:
+        transition = copy.deepcopy(self.fixture)
+        transition["local_dynamics_context"][0]["event_time"] = 0.9
+        transition["local_dynamics_context"][0]["available_time"] = 0.95
+        self.assert_rejected(transition, "CAUSAL_TIMESTAMP_VIOLATION")
+        counterexample = context_v1.c1_zero_gate_attention_counterexample()
+        self.assertEqual(counterexample["old_output"], 1.0)
+        self.assertEqual(counterexample["zero_context_output"], 0.5)
+        self.assertFalse(counterexample["exact_parity_from_zero_values"])
+
     def test_locked_split_and_path_leakage_fail_closed(self) -> None:
         locked = copy.deepcopy(self.fixture)
         locked["notes"] = "Holdout-F is not available"
@@ -137,6 +190,12 @@ class Stage45FICLContextV1Test(unittest.TestCase):
         self.assertTrue(options["selection_policy"]["PI_DECISION_REQUIRED"])
         self.assertEqual(options["options"]["C1_ACTION_SIDE_CONTEXT_TOKENS"]["gr00t_dimension_binding"], "input_embedding_dim=1536")
         self.assertEqual(options["options"]["C2_VL_MEMORY_CONTEXT_TOKENS"]["gr00t_dimension_binding"], "backbone_embedding_dim=2048")
+        c1_gate = options["options"]["C1_ACTION_SIDE_CONTEXT_TOKENS"]["gate"]
+        self.assertEqual(c1_gate["base_policy_parity"], "DESIGN_OBLIGATION_NOT_PROVEN")
+        self.assertEqual(c1_gate["zero_gate_contract"], "isolated_context_residual_or_mask_preserving_bypass")
+        plan = json.loads((ROOT / "manifests/ICL_CONTEXTTENSORV1_PLAN.json").read_text(encoding="utf-8"))
+        self.assertEqual(plan["source_membership"]["split"], "TRAIN24")
+        self.assertTrue(plan["source_membership"]["immutable_membership_sha256_required"])
 
 
 if __name__ == "__main__":

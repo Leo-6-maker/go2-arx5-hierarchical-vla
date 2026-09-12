@@ -1,0 +1,34 @@
+{
+  "schema": "STAGE45F_ICL_C1_PARITY_COUNTEREXAMPLE_V1",
+  "status": "CPU_SCALAR_PLAN_ONLY",
+  "authority": "PI_GATE_STATE_0145",
+  "construction": {
+    "original_keys": 1,
+    "context_keys": 1,
+    "original_score": 0.0,
+    "context_score": 0.0,
+    "original_value": 1.0,
+    "context_value": 0.0
+  },
+  "expected": {
+    "original_softmax_output": 1.0,
+    "zero_context_appended_output": 0.5,
+    "exact_parity_from_zero_values": false
+  },
+  "c1_obligation": {
+    "zero_gate_alpha0": 0,
+    "architecture": "C1_ACTION_SIDE_CONTEXT_TOKENS",
+    "context_dim": 1536,
+    "preserve_original_positions_and_attention_denominator": true,
+    "isolated_context_residual_receives_gradient": true,
+    "claim": "DESIGN_OBLIGATION_NOT_PROVEN_BY_ZERO_VALUES_ALONE"
+  },
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "gpu": 0,
+    "tensor_materialization": 0,
+    "pbs": 0
+  }
+}
