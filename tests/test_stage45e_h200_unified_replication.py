@@ -71,3 +71,12 @@ def test_pbs_uses_cluster_routing_queue_and_single_h200() -> None:
     assert "#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb" in pbs
     assert "#PBS -q gpu" not in pbs
     assert "/hpctmp/e1192548/stage45e_h200_unified_replication_20260912" in pbs
+
+
+def test_pbs_binds_qualified_native_video_runtime_before_python() -> None:
+    pbs = (ROOT / "hpc/pbs/stage45e_h200_unified_replication.pbs").read_text()
+    assert "FFMPEG_RUNTIME_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__" in pbs
+    assert 'TORCHCODEC_PACKAGE_ROOT="${TORCH_SITE}/torchcodec"' in pbs
+    assert 'TORCH_LIBRARY_ROOT="${TORCH_SITE}/torch/lib"' in pbs
+    assert 'export LD_LIBRARY_PATH="${FFMPEG_RUNTIME_ROOT}/lib:${FFMPEG_RUNTIME_ROOT}/compat:${TORCHCODEC_PACKAGE_ROOT}:${TORCH_LIBRARY_ROOT}:${AMBIENT_LD_LIBRARY_PATH}"' in pbs
+    assert pbs.index("export LD_LIBRARY_PATH=") < pbs.index("exec \"$ORCH_PY\"")

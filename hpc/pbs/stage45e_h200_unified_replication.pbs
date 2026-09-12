@@ -10,6 +10,20 @@ set -eu
 ORCH_REPO=/scratch/e1192548/stage45e_h200_unified_worktrees/orchestration
 ORCH_PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
 STORAGE_ROOT=/hpctmp/e1192548/stage45e_h200_unified_replication_20260912
+FFMPEG_RUNTIME_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+TORCH_SITE=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages
+TORCHCODEC_PACKAGE_ROOT="${TORCH_SITE}/torchcodec"
+TORCH_LIBRARY_ROOT="${TORCH_SITE}/torch/lib"
+
+# Keep the native video decoder binding identical to the already-qualified
+# Stage45B/D2A H200 envelopes.  The orchestration subprocesses inherit this
+# environment; without it torchcodec can import but cannot load FFmpeg 6.
+test -d "${FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${TORCHCODEC_PACKAGE_ROOT}"
+test -d "${TORCH_LIBRARY_ROOT}"
+AMBIENT_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${FFMPEG_RUNTIME_ROOT}/lib:${FFMPEG_RUNTIME_ROOT}/compat:${TORCHCODEC_PACKAGE_ROOT}:${TORCH_LIBRARY_ROOT}:${AMBIENT_LD_LIBRARY_PATH}"
 
 unset PYTHONPATH
 export PYTHONNOUSERSITE=1
