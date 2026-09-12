@@ -164,12 +164,28 @@ PI0147_CORELAB_HEAD_AT_GATE = "943410cfbd15bd95479a9379bf4256f8ccb96a65"
 PI0147_PRODUCER_HEAD_AT_GATE = "d1f20121b8c386ec5d17c7c799a5103402634ec9"
 PI0147_CONTRACT_PATH = REPO / "manifests/STAGE45F_PI0147_VANDA_C10_PRODUCER_CONSUMER_V1.json"
 PI0147_CONTRACT_SCHEMA = "STAGE45F_PI0147_VANDA_C10_PRODUCER_CONSUMER_V1"
+PI0149_GATE = "PI_GATE_STATE_0149"
+PI0149_ISSUE_COMMENT = 5646608846
+PI0149_PR_COMMENT = 5646611444
+PI0149_CORELAB_HEAD_AT_GATE = "d080f4e0011e9c2bed4827dc1c6988c761b2ed0f"
+PI0149_CONTRACT_PATH = REPO / "manifests/STAGE45F_PI0149_VANDA_C10_PRODUCER_CONSUMER_V2.json"
+PI0149_CONTRACT_SCHEMA = "STAGE45F_PI0149_VANDA_C10_PRODUCER_CONSUMER_V2"
 TRAIN24_CONTRACT_SCHEMA = "VANDA_STAGE45E_TRAIN24_PHASE_CONTRACT_V1"
 TRAIN24_SOURCE_DESCRIPTOR_SCHEMA = "VANDA_STAGE45E_TRAIN24_SOURCE_DESCRIPTOR_V1"
 PHASE_PROTOCOL_SCHEMA = "VANDA_STAGE45E_PHASE_PROTOCOL_V1"
 CANONICAL_ROW_INDEX_SCHEMA = "VANDA_STAGE45E_CANONICAL_ROW_INDEX_V1"
-NATIVE_PRODUCER_POINTER_SCHEMA = "VANDA_STAGE45E_PI0147_NATIVE_PRODUCER_POINTER_V1"
-NATIVE_FIXTURE_SCHEMA = "VANDA_STAGE45E_PI0147_NATIVE_PRODUCER_FIXTURE_V2"
+PI0147_NATIVE_PRODUCER_POINTER_SCHEMA = "VANDA_STAGE45E_PI0147_NATIVE_PRODUCER_POINTER_V1"
+PI0147_NATIVE_FIXTURE_SCHEMA = "VANDA_STAGE45E_PI0147_NATIVE_PRODUCER_FIXTURE_V2"
+PI0149_NATIVE_PRODUCER_POINTER_SCHEMA = "VANDA_STAGE45E_PI0149_NATIVE_PRODUCER_POINTER_V2"
+PI0149_NATIVE_FIXTURE_SCHEMA = "VANDA_STAGE45E_PI0149_NATIVE_PRODUCER_FIXTURE_V3"
+NATIVE_PRODUCER_POINTER_SCHEMA = PI0149_NATIVE_PRODUCER_POINTER_SCHEMA
+NATIVE_FIXTURE_SCHEMA = PI0149_NATIVE_FIXTURE_SCHEMA
+SYNTHETIC_E4_ROW_SCHEMA = "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1"
+SYNTHETIC_D1_ROW_SCHEMA = "SYNTHETIC_TEST_ONLY_NATIVE_V2_D1_PROBE_ROW_V1"
+SYNTHETIC_D2A_ROW_SCHEMA = "SYNTHETIC_TEST_ONLY_NATIVE_V2_D2A_PROBE_ROW_V1"
+SYNTHETIC_RAW_RECORD_SCHEMA = "SYNTHETIC_TEST_ONLY_NATIVE_V2_RAW_RECORD_V1"
+SYNTHETIC_DERIVED_RECORD_SCHEMA = "SYNTHETIC_TEST_ONLY_NATIVE_V2_DERIVED_RECORD_V1"
+SYNTHETIC_C10_METRIC_INDEX_SCHEMA = "STAGE45F_H200_TRAIN24_EVIDENCE_INDEX_V1"
 SYNTHETIC_PRODUCER_HEAD = "4f6f6f9bc6df4d92a21e8f94e06b3c52f9d0a7be"
 NOISE_MANIFESTS = {
     "E4": {
@@ -796,10 +812,95 @@ def validate_pi0147_contract_manifest() -> dict[str, Any]:
     }
 
 
+def validate_pi0149_contract_manifest() -> dict[str, Any]:
+    """Validate the PI0149 native-row/metric-index contract on CPU only."""
+
+    value = read_json(PI0149_CONTRACT_PATH)
+    require(value.get("schema") == PI0149_CONTRACT_SCHEMA, "PI0149 contract schema drift")
+    authority = value.get("authority", {})
+    require(authority.get("issue") == 11 and authority.get("issue_comment") == PI0149_ISSUE_COMMENT, "PI0149 authority drift")
+    require(authority.get("pi_gate") == PI0149_GATE, "PI0149 gate drift")
+    require(authority.get("pointer_pr") == 66 and authority.get("pointer_comment") == PI0149_PR_COMMENT, "PI0149 pointer drift")
+    require(all(authority.get(field) == expected for field, expected in {
+        "h200": 0,
+        "pbs": 0,
+        "model_forward": 0,
+        "training": 0,
+        "merge": False,
+    }.items()), "PI0149 forbidden execution boundary drift")
+    producer = value.get("producer", {})
+    require(producer.get("branch") == "stage45e/h200-unified-replication-campaign", "PI0149 producer branch drift")
+    require(producer.get("head_at_gate") == "079e2886bd596f5dc52a98522e824e892fd4f825", "PI0149 producer gate HEAD drift")
+    require(producer.get("head_binding") == "orchestration_identity.producer_source_head", "PI0149 producer source-head binding drift")
+    require(producer.get("script") == "scripts/stage45e_h200_unified_replication.py", "PI0149 producer script drift")
+    require(producer.get("result_schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2", "PI0149 result schema drift")
+    require(set(producer.get("native_entrypoints", [])) == {
+        "build_phase_specs",
+        "build_external_evidence_closure",
+        "_write_native_v2_serialization",
+        "build_corelab_producer_fixture",
+        "_write_synthetic_c10_metric_index",
+    }, "PI0149 native entrypoint drift")
+    consumer = value.get("consumer", {})
+    require(consumer.get("branch") == "stage45f/corelab-evidence-convergence", "PI0149 consumer branch drift")
+    require(consumer.get("head_at_gate") == PI0149_CORELAB_HEAD_AT_GATE, "PI0149 consumer HEAD drift")
+    require(consumer.get("entrypoint") == "scripts/stage45f_corelab_evidence_convergence.py::build_packet", "PI0149 consumer entrypoint drift")
+    require(consumer.get("synthetic_mode_is_not_real_admission") is True, "PI0149 synthetic admission boundary drift")
+    envelope = value.get("envelope_contract", {})
+    require(envelope.get("raw_before_derived") is True and envelope.get("normalized_and_physical_namespaces_separate") is True, "PI0149 envelope boundary drift")
+    require(envelope.get("unknown_counts_block") is True and envelope.get("unsafe_paths_block") is True, "PI0149 fail-closed envelope drift")
+    train24 = value.get("train24_contract", {})
+    require(train24.get("schema") == TRAIN24_CONTRACT_SCHEMA, "PI0149 TRAIN24 contract schema drift")
+    require(train24.get("split") == "TRAIN24" and train24.get("window_count") == 24, "PI0149 TRAIN24 cardinality drift")
+    require(train24.get("window_ids_are_explicit") is True and train24.get("window_noise_identity_is_array_bound") is True, "PI0149 window/noise identity drift")
+    phases = value.get("phase_contract", {})
+    require(set(phases) == set(DIAGNOSTIC_PHASES), "PI0149 phase contract set drift")
+    require(phases["E4"].get("noise_field") == "noise_sha256_by_window", "PI0149 E4 noise typing drift")
+    require(phases["D1"].get("noise_field") == "noise_sha256_by_seed_window", "PI0149 D1 noise typing drift")
+    require(phases["D2A"].get("free_path_reset") is False, "PI0149 D2A reset semantics drift")
+    history = value.get("historical_bindings", {})
+    require(history.get("required_count") == 8 and len(history.get("references", [])) == 8, "PI0149 historical binding count drift")
+    require(history.get("read_only") is True and history.get("must_open_and_rehash_files") is True, "PI0149 historical rehash contract drift")
+    cardinality = value.get("cardinality_contract", {})
+    require(cardinality.get("arms") == 18 and cardinality.get("phase_route_units") == 9, "PI0149 arm/unit cardinality drift")
+    require(cardinality.get("phase_reference_index_entries") == 1296, "PI0149 phase reference cardinality drift")
+    require(cardinality.get("canonical_e4_rows") == 432 and cardinality.get("canonical_e4_pairings") == 27, "PI0149 physical metric cardinality drift")
+    metric_index = value.get("metric_index_contract", {})
+    require(metric_index.get("schema") == SYNTHETIC_C10_METRIC_INDEX_SCHEMA, "PI0149 metric index schema drift")
+    require(metric_index.get("physical_metric_rows") == 432 and metric_index.get("paired_comparisons") == 27, "PI0149 metric index counts drift")
+    require(metric_index.get("reference_index_is_not_physical_metrics") is True, "PI0149 reference/metric namespace drift")
+    synthetic = value.get("synthetic_fixture_contract", {})
+    require(synthetic.get("old_generation_tar_sha256") == "f11f9aec6e8ae9d09d30b3a02864d56a277eca4687412124e1e0ad28989caa78", "PI0149 predecessor tar binding drift")
+    require(synthetic.get("old_generation_must_be_preserved") is True and synthetic.get("old_v1_translation_forbidden") is True, "PI0149 old-generation policy drift")
+    require(synthetic.get("must_be_generated_by_native_producer_functions") is True, "PI0149 producer-generation policy drift")
+    recovered = value.get("recovered_input_identity", {})
+    require(recovered.get("approved_input_v2_sha256") == RECOVERED_L1_INPUT_V2_SHA256, "PI0149 approved recovered input drift")
+    require(recovered.get("reported_later_copy_sha256") == "534ecfa32d6eb62b6ff385832a942e9ca66bc5f4b16650a0315a5fc7118dba46", "PI0149 reported recovered copy drift")
+    require(recovered.get("approved_identity_must_not_be_replaced") is True, "PI0149 recovered identity replacement policy drift")
+    completion = value.get("completion", {})
+    require(completion.get("intermediate_pointer") == "STAGE45E_VANDA_PI0149_NATIVE_FIXTURE_DELIVERED_FOR_CORELAB", "PI0149 intermediate token drift")
+    require(completion.get("final_ready_token") == "STAGE45E_VANDA_PI0149_NATIVE_HANDOFF_AND_PRIMARY_BINDING_READY_FOR_PI_REVIEW", "PI0149 final token drift")
+    return {
+        "schema": "VANDA_STAGE45F_PI0149_CONTRACT_STATIC_VALIDATION_V1",
+        "status": "PASS",
+        "path": str(PI0149_CONTRACT_PATH),
+        "sha256": sha256_file(PI0149_CONTRACT_PATH),
+        "historical_binding_count": history["required_count"],
+        "phase_reference_index_entries": cardinality["phase_reference_index_entries"],
+        "canonical_e4_rows": metric_index["physical_metric_rows"],
+        "canonical_e4_pairings": metric_index["paired_comparisons"],
+        "h200": 0,
+        "pbs": 0,
+        "model_forward": 0,
+        "training": 0,
+    }
+
+
 def static_audit() -> dict[str, Any]:
     manifest = load_manifest()
     allocation_manifest = validate_committed_allocation_manifest()
     native_contract = validate_pi0147_contract_manifest()
+    pi0149_contract = validate_pi0149_contract_manifest()
     require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_ISSUE_COMMENT, "PI0143 authority drift")
     require(manifest["authority"]["pointer_pr"] == 66 and manifest["authority"]["pointer_comment"] == PI_PR_COMMENT, "PI0143 pointer drift")
     require(manifest["orchestration_repository"]["branch"] == "stage45e/h200-unified-replication-campaign", "orchestration branch drift")
@@ -843,6 +944,8 @@ def static_audit() -> dict[str, Any]:
         "manifest_sha256": sha256_file(MANIFEST_PATH),
         "pi0147_contract_sha256": native_contract["sha256"],
         "pi0147_contract_validation": native_contract,
+        "pi0149_contract_sha256": pi0149_contract["sha256"],
+        "pi0149_contract_validation": pi0149_contract,
         "allocation_ledger_manifest_sha256": allocation_manifest["sha256"],
         "allocation_ledger_manifest_validation": allocation_manifest["validation"],
         "top_level_forbidden_imports": forbidden,
@@ -3381,6 +3484,7 @@ def build_external_evidence_closure(
             for window_index, window_id in enumerate(HISTORICAL_DIAGNOSTIC_WINDOWS):
                 row = {
                     "row_id": f"{arm['label']}::{phase}::{window_id}",
+                    "source_row_key": f"{arm['label']}::{phase}::{window_id}",
                     "label": arm["label"],
                     "phase": phase,
                     "route": arm["route"],
@@ -3392,7 +3496,9 @@ def build_external_evidence_closure(
                     "train24_contract_sha256": _sha256_mapping(contract),
                     "source_episode_window_identity": contract["source_episode_window_identity"][window_index],
                     "phase_protocol_sha256": _sha256_mapping(protocol),
-                    "row_source": {key: value for key, value in reference.items() if key in {"descriptor_path", "descriptor_sha256", "seal_file", "rows_file", "seal_sha256", "rows_sha256", "reference_kind"}},
+                    "row_source": {key: value for key, value in reference.items() if key in {"descriptor_path", "descriptor_sha256", "seal_file", "rows_file", "raw_file", "derived_file", "seal_sha256", "rows_sha256", "raw_sha256", "derived_sha256", "row_count", "raw_record_count", "derived_record_count", "reference_kind", "source_row_schema"}},
+                    "index_kind": "PHASE_REFERENCE_INDEX_NOT_PHYSICAL_METRICS",
+                    "physical_metric_row": False,
                 }
                 if "noise_sha256_by_window" in protocol:
                     row["noise_identity"] = {
@@ -3418,6 +3524,11 @@ def build_external_evidence_closure(
         "window_count": 24,
         "phase_row_counts": phase_row_counts,
         "entry_count": len(canonical_entries),
+        "index_kind": "PHASE_REFERENCE_INDEX_NOT_PHYSICAL_METRICS",
+        "physical_metric_rows_in_index": 0,
+        "physical_metric_source_rows_available": True,
+        "e4_reference_entry_count": 432,
+        "physical_metric_index_required_for_canonicalizer": True,
         "source_rows_untouched": True,
         "entries": canonical_entries,
     }
@@ -3438,6 +3549,9 @@ def build_external_evidence_closure(
         "canonical_row_index": str(canonical_path),
         "canonical_row_index_sha256": sha256_file(canonical_path),
         "canonical_row_index_schema": CANONICAL_ROW_INDEX_SCHEMA,
+        "canonical_row_index_kind": "PHASE_REFERENCE_INDEX_NOT_PHYSICAL_METRICS",
+        "physical_metric_index_separate": True,
+        "physical_metric_row_count": 0,
         "arms": arms,
         "arm_count": len(arms),
         "required_arm_count": 18,
@@ -3458,6 +3572,8 @@ def build_external_evidence_closure(
         "handoff_sha256": sha256_file(handoff_path),
         "handoff": handoff,
         "descriptors": descriptors,
+        "canonical_index_kind": "PHASE_REFERENCE_INDEX_NOT_PHYSICAL_METRICS",
+        "physical_metric_rows_in_index": 0,
     }
 
 
@@ -3530,7 +3646,7 @@ def _write_native_v2_serialization(
     summary: dict[str, Any] = {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2",
         "status": "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE",
-        "pi_gate": PI0147_GATE if synthetic_test_only else PI_GATE,
+        "pi_gate": PI0149_GATE if synthetic_test_only else PI_GATE,
         "campaign_root": str(campaign_root),
         "source_identities": dict(source_identities),
         "high_water": dict(highwater_record),
@@ -3546,6 +3662,13 @@ def _write_native_v2_serialization(
         "canonical_row_index": {
             "path": external.get("canonical_row_index_path"),
             "sha256": external.get("canonical_row_index_sha256"),
+        },
+        "c10_metric_index": {
+            "path": external.get("c10_metric_index_path"),
+            "sha256": external.get("c10_metric_index_sha256"),
+            "physical_metric_row_count": external.get("c10_physical_e4_row_count", 0),
+            "paired_comparison_count": external.get("c10_pairing_count", 0),
+            "index_kind": external.get("c10_metric_index_kind"),
         },
         "evaluator_identity": evaluator,
         "orchestration_identity": orchestration,
@@ -3594,6 +3717,13 @@ def _write_native_v2_serialization(
         "external_inventory": external["inventory_path"],
         "external_inventory_sha256": external["inventory_sha256"],
         "canonical_row_index": {"path": external.get("canonical_row_index_path"), "sha256": external.get("canonical_row_index_sha256")},
+        "c10_metric_index": {
+            "path": external.get("c10_metric_index_path"),
+            "sha256": external.get("c10_metric_index_sha256"),
+            "physical_metric_row_count": external.get("c10_physical_e4_row_count", 0),
+            "paired_comparison_count": external.get("c10_pairing_count", 0),
+            "index_kind": external.get("c10_metric_index_kind"),
+        },
         "c10_handoff_excluded": True,
         "synthetic_test_only": "SYNTHETIC_TEST_ONLY" if synthetic_test_only else False,
     }
@@ -3611,7 +3741,7 @@ def _write_native_v2_serialization(
         "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2",
         "status": "PASS",
         "token": "SYNTHETIC_TEST_ONLY_NATIVE_V2_FIXTURE_READY" if synthetic_test_only else "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
-        "pi_gate": PI0147_GATE if synthetic_test_only else PI_GATE,
+        "pi_gate": PI0149_GATE if synthetic_test_only else PI_GATE,
         "campaign_root": str(campaign_root),
         "cpu_summary": str(summary_path),
         "cpu_summary_sha256": sha256_file(summary_path),
@@ -3629,6 +3759,10 @@ def _write_native_v2_serialization(
         "c10_handoff_sha256": external["handoff_sha256"],
         "canonical_row_index": external.get("canonical_row_index_path"),
         "canonical_row_index_sha256": external.get("canonical_row_index_sha256"),
+        "c10_metric_index": external.get("c10_metric_index_path"),
+        "c10_metric_index_sha256": external.get("c10_metric_index_sha256"),
+        "c10_physical_e4_row_count": external.get("c10_physical_e4_row_count", 0),
+        "c10_pairing_count": external.get("c10_pairing_count", 0),
         "fresh_training_lineages": 7,
         "historical_legacy_seed2222_reused": True,
         "historical_l1_seed2222_reused": True,
@@ -3649,31 +3783,541 @@ def _write_native_v2_serialization(
         "inventory_path": str(inventory_path),
         "inventory_sha256": inventory_sha,
         "sha256sums_path": str(sums_path),
+        "c10_metric_index_path": external.get("c10_metric_index_path"),
+        "c10_metric_index_sha256": external.get("c10_metric_index_sha256"),
+    }
+
+
+def _synthetic_source_identity() -> dict[str, Any]:
+    """Separate the real producer source identity from synthetic stand-ins."""
+
+    source_head = git(REPO, "rev-parse", "HEAD")
+    return {
+        "producer_source_head": source_head,
+        "producer_script": "scripts/stage45e_h200_unified_replication.py",
+        "producer_script_sha256": sha256_file(Path(__file__).resolve()),
+        "synthetic_lineage_head": SYNTHETIC_PRODUCER_HEAD,
+    }
+
+
+def _synthetic_target_from_window(window_id: str) -> str:
+    return window_id.split(":expert-", 1)[0].removeprefix("stage22_expert_")
+
+
+def _synthetic_arm_label(route: str, seed: int, step: int) -> str:
+    return f"{route.upper()}(seed{seed})@{step}"
+
+
+def _synthetic_metric_values(route: str, seed: int, step: int, window_index: int, *, probe_index: int = 0) -> dict[str, Any]:
+    """Return deterministic, finite physical/route-local synthetic metrics.
+
+    These values are deliberately descriptive fixture values.  They are not
+    model outputs and are only used to prove that the downstream canonicalizer
+    reads source rows and computes paired deltas rather than counting index
+    references.
+    """
+
+    target_index, snapshot_index = divmod(window_index, 6)
+    initial = 0.55 + (0.02 * target_index) + (0.001 * snapshot_index)
+    if route == "legacy":
+        route_offset = 0.0
+    elif route == "l1":
+        route_offset = -0.001 if snapshot_index % 3 == 0 else 0.001
+    else:
+        if (window_index + seed) % 3 == 0:
+            route_offset = 0.0
+        else:
+            route_offset = 0.001 if (window_index + seed) % 2 else -0.001
+    # Every fourth window deliberately has a zero exposure delta; the other
+    # windows have a small positive 2000-minus-1000 delta.  This gives the
+    # consumer deterministic positive/negative/zero paired sanity cases.
+    exposure_offset = 0.0 if step == 1000 or window_index % 4 == 0 else 0.0005
+    progress = 0.02 + route_offset + exposure_offset + (probe_index * 0.00001)
+    final = initial - progress
+    minimum = final - 0.0005 - (0.00001 * ((window_index + probe_index) % 3))
+    roughness = 0.001 + (0.0001 * ((window_index + probe_index) % 5))
+    cosine = 0.75 + (0.01 * ((target_index + snapshot_index + probe_index) % 5))
+    path_length = 0.12 + (0.002 * snapshot_index) + (0.001 * target_index) + abs(route_offset)
+    return {
+        "target": {
+            "initial_target_distance_m": initial,
+            "minimum_target_distance_m": minimum,
+            "minimum_target_index": 39,
+            "final_target_distance_m": final,
+            "absolute_progress_m": progress,
+            "best_progress_m": initial - minimum,
+            "progress_sign": "POSITIVE" if progress > 1.0e-9 else ("ZERO" if abs(progress) <= 1.0e-9 else "NEGATIVE"),
+            "endpoint_displacement_m": [progress, 0.0, 0.0],
+            "target_displacement_m": [initial, 0.0, 0.0],
+            "endpoint_target_vector_cosine": cosine,
+            "path_length_m": path_length,
+            "roughness_position_second_difference_m": {
+                "count": 38,
+                "min": roughness / 2.0,
+                "median": roughness,
+                "mean": roughness,
+                "p95": roughness * 1.5,
+                "max": roughness * 2.0,
+            },
+            "sample_count": 40,
+        },
+        "position_rmse_m": 0.01 + abs(route_offset) + (0.0001 * snapshot_index),
+        "position_max_abs_m": 0.02 + abs(route_offset),
+        "endpoint_error_m": 0.015 + abs(route_offset),
+        "prediction_path_length_m": path_length,
+        "expert_path_length_m": 0.1 + (0.001 * target_index),
+        "prediction_roughness_position_second_difference_m": {"mean": roughness, "count": 38},
+        "expert_roughness_position_second_difference_m": {"mean": 0.0008, "count": 38},
+        "roughness_ratio": roughness / 0.0008,
+        "eef_rot6d_rmse": 0.02 + (0.0001 * target_index),
+        "eef_rot6d_max_abs": 0.04 + (0.0001 * target_index),
+        "gripper_rmse": 0.03,
+        "gripper_max_abs": 0.05,
+        "full_action_rmse_mixed_units": 0.02,
+    }
+
+
+def _synthetic_normalized_values(route: str, seed: int, step: int, window_index: int, *, probe_index: int = 0) -> dict[str, float]:
+    route_base = {"legacy": 0.10, "l1": 0.08, "n2": 0.06}[route]
+    value = route_base + (0.001 * (window_index % 7)) + (0.0001 * (seed - 2222)) + (0.00001 * probe_index)
+    return {
+        "active_rmse": value,
+        "active_mae": value / 2.0,
+        "active_max_abs": value * 2.0,
+        "raw_active_outside_neg1_pos1_fraction": 0.0,
+    }
+
+
+def _synthetic_jsonl(path: Path, records: Sequence[Mapping[str, Any]]) -> None:
+    """Write an immutable JSONL bundle in one fsynced operation."""
+
+    path = Path(path)
+    require(not path.exists() and not path.is_symlink(), f"refusing to overwrite synthetic bundle: {path}")
+    require(records, f"synthetic bundle must contain records: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as handle:
+        for record in records:
+            handle.write(json.dumps(record, sort_keys=True, allow_nan=False, default=str) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _synthetic_phase_noise_identity(spec_doc: Mapping[str, Any], phase: str, window_id: str, *, probe_seed: int | None = None) -> dict[str, Any]:
+    protocol = spec_doc["phase_protocol"]
+    if phase == "D1":
+        digest = protocol["noise_sha256_by_seed_window"][str(probe_seed)][window_id]
+        return {"probe_seed": probe_seed, "window_id": window_id, "array_sha256": digest, "manifest_sha256": protocol["manifest"]["sha256"]}
+    digest = protocol["noise_sha256_by_window"][window_id]
+    return {"window_id": window_id, "array_sha256": digest, "manifest_sha256": protocol["manifest"]["sha256"]}
+
+
+def _synthetic_e4_metric_row(
+    *,
+    route: str,
+    seed: int,
+    step: int,
+    window_index: int,
+    checkpoint_tree_sha256: str,
+    stats_sha256: str,
+    stats_payload_sha256: str,
+    raw_path: Path,
+    raw_sha256: str,
+    raw_record_id: str,
+    raw_array_sha256: str,
+    derived_path: Path,
+    derived_sha256: str,
+    derived_record_id: str,
+    train24_contract_sha256: str,
+    phase_protocol_sha256: str,
+    noise_identity: Mapping[str, Any],
+    source_kind: str = "CURRENT_SYNTHETIC_SOURCE",
+) -> dict[str, Any]:
+    window_id = HISTORICAL_DIAGNOSTIC_WINDOWS[window_index]
+    label = _synthetic_arm_label(route, seed, step)
+    metrics = _synthetic_metric_values(route, seed, step, window_index)
+    decoded_array_sha = sha256_bytes(f"SYNTHETIC_DECODED_ACTION:{label}:{window_id}".encode())
+    return {
+        "schema": SYNTHETIC_E4_ROW_SCHEMA,
+        "row_id": f"{label}::E4::{window_id}",
+        "window_id": window_id,
+        "raw_prediction_artifact": {
+            "path": str(raw_path),
+            "sha256": raw_sha256,
+            "array_sha256": raw_array_sha256,
+            "shape": [1, 40, 132],
+            "record_id": raw_record_id,
+        },
+        "derived_evidence_reference": {
+            "path": str(derived_path),
+            "sha256": derived_sha256,
+            "record_id": derived_record_id,
+        },
+        "checkpoint": {"label": label, "sha256": checkpoint_tree_sha256},
+        "model": {"label": label, "sha256": checkpoint_tree_sha256},
+        "model_runtime_identity": {"sha256": sha256_bytes(b"SYNTHETIC_RUNTIME_IDENTITY"), "label": "SYNTHETIC_TEST_ONLY_RUNTIME"},
+        "decoded_action": {
+            "array_sha256": decoded_array_sha,
+            "shape": [40, 10],
+            "decoder_details": {
+                "decoder": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
+                "decoder_bridge": "SYNTHETIC_TEST_ONLY_RUNTIME_V2_STATS_AND_STAGE40_MATERIALIZER",
+                "stats_sha256": stats_sha256,
+                "statistics_payload_sha256": stats_payload_sha256,
+                "raw_shape": [1, 40, 132],
+                "physical_shape": [40, 10],
+            },
+        },
+        "metrics": metrics,
+        "normalized_metrics": _synthetic_normalized_values(route, seed, step, window_index),
+        "sampler": {
+            "name": "source-mapped-four-step-Euler-action-head-graph",
+            "steps_observed": 4,
+            "timestep_ids": [0, 250, 500, 750],
+            "official_public_sampler_called": False,
+        },
+        "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+        "tcp_semantic_id": "x5_link6_gripper_center",
+        "target_id": _synthetic_target_from_window(window_id),
+        "target_xyz_in_model_input": False,
+        "finite": True,
+        "raw_before_derived": True,
+        "source_kind": source_kind,
+        "train24_contract_sha256": train24_contract_sha256,
+        "phase_protocol_sha256": phase_protocol_sha256,
+        "noise_identity": dict(noise_identity),
+        "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+    }
+
+
+def _synthetic_probe_row(
+    *,
+    phase: str,
+    route: str,
+    seed: int,
+    step: int,
+    window_index: int,
+    probe_index: int,
+    checkpoint_tree_sha256: str,
+    stats_sha256: str,
+    stats_payload_sha256: str,
+    raw_path: Path,
+    raw_sha256: str,
+    raw_record_id: str,
+    derived_path: Path,
+    derived_sha256: str,
+    derived_record_id: str,
+    train24_contract_sha256: str,
+    phase_protocol_sha256: str,
+    noise_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    window_id = HISTORICAL_DIAGNOSTIC_WINDOWS[window_index]
+    label = _synthetic_arm_label(route, seed, step)
+    if phase == "D1":
+        probe_seed = 2223 + (probe_index // 3)
+        time_index = probe_index % 3
+        times = PHASE_TIMES["D1"]
+        buckets = PHASE_TIMESTEP_BUCKETS["D1"]
+        schema = SYNTHETIC_D1_ROW_SCHEMA
+        axes = {"probe_seed": probe_seed, "time_index": time_index, "time": times[time_index], "timestep_bucket": buckets[time_index], "path": "TEACHER_FORCED"}
+    else:
+        time_index = probe_index
+        schema = SYNTHETIC_D2A_ROW_SCHEMA
+        axes = {"time_index": time_index, "time": PHASE_TIMES["D2A"][time_index], "timestep_bucket": PHASE_TIMESTEP_BUCKETS["D2A"][time_index], "paths": ["TEACHER_FORCED", "FREE_RUNNING"], "free_running_no_reset": True}
+    return {
+        "schema": schema,
+        "row_id": f"{label}::{phase}::{window_id}::probe-{probe_index:02d}",
+        "phase": phase,
+        "route": route,
+        "arm_label": label,
+        "seed": seed,
+        "checkpoint_step": step,
+        "window_index": window_index,
+        "window_id": window_id,
+        **axes,
+        "checkpoint": {"label": label, "tree_sha256": checkpoint_tree_sha256},
+        "stats_identity": {"stats_sha256": stats_sha256, "stats_payload_sha256": stats_payload_sha256},
+        "train24_contract_sha256": train24_contract_sha256,
+        "phase_protocol_sha256": phase_protocol_sha256,
+        "noise_identity": dict(noise_identity),
+        "raw_evidence": {"path": str(raw_path), "sha256": raw_sha256, "record_id": raw_record_id, "call_count": 1 if phase == "D1" else 2},
+        "derived_evidence": {"path": str(derived_path), "sha256": derived_sha256, "record_id": derived_record_id},
+        "normalized_metrics": _synthetic_normalized_values(route, seed, step, window_index, probe_index=probe_index),
+        "raw_before_derived": True,
+        "target_xyz_in_model_input": False,
+        "finite": True,
+        "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+    }
+
+
+def _write_synthetic_phase_source_bundle(
+    phase_root: Path,
+    phase: str,
+    route: str,
+    spec_doc: Mapping[str, Any],
+    *,
+    historical: bool = False,
+) -> dict[str, Any]:
+    """Write complete phase-specific source/raw/derived fixture rows."""
+
+    phase_root = Path(phase_root).resolve()
+    raw_path = phase_root / "synthetic_raw_records.jsonl"
+    derived_path = phase_root / "synthetic_derived_records.jsonl"
+    rows_path = phase_root / "synthetic_source_rows.jsonl"
+    stats_sha = N2_STATS_SHA if route == "n2" else RUNTIME_STATS_SHA
+    stats_payload_sha = N2_STATS_PAYLOAD_SHA if route == "n2" else RUNTIME_STATS_PAYLOAD_SHA
+    contract_sha = _sha256_mapping(spec_doc["train24_contract"])
+    protocol_sha = _sha256_mapping(spec_doc["phase_protocol"])
+    raw_records: list[dict[str, Any]] = []
+    derived_records: list[dict[str, Any]] = []
+    row_specs: list[dict[str, Any]] = []
+    selected = spec_doc.get("checkpoints", [])
+    expected_probe_count = {"E4": 1, "D1": 9, "D2A": 4}[phase]
+    for checkpoint in selected:
+        label = checkpoint["label"]
+        seed = int(checkpoint["seed"])
+        step = int(checkpoint["step"])
+        for window_index, window_id in enumerate(HISTORICAL_DIAGNOSTIC_WINDOWS):
+            for probe_index in range(expected_probe_count):
+                record_id = f"{label}::{phase}::{window_id}::probe-{probe_index:02d}"
+                call_count = 4 if phase == "E4" else 1 if phase == "D1" else 2
+                probe_seed = 2223 + (probe_index // 3) if phase == "D1" else None
+                raw_array_sha = sha256_bytes(f"SYNTHETIC_RAW_ARRAY:{record_id}".encode())
+                raw_records.append({
+                    "schema": SYNTHETIC_RAW_RECORD_SCHEMA,
+                    "record_id": record_id,
+                    "phase": phase,
+                    "route": route,
+                    "arm_label": label,
+                    "seed": seed,
+                    "checkpoint_step": step,
+                    "window_index": window_index,
+                    "window_id": window_id,
+                    "probe_index": probe_index,
+                    "probe_seed": probe_seed,
+                    "call_count": call_count,
+                    "raw_shape": [1, 40, 132],
+                    "raw_dtype": "float32",
+                    "array_sha256": raw_array_sha,
+                    "noise_identity": _synthetic_phase_noise_identity(spec_doc, phase, window_id, probe_seed=probe_seed),
+                    "train24_contract_sha256": contract_sha,
+                    "phase_protocol_sha256": protocol_sha,
+                    "raw_before_derived": True,
+                    "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+                })
+                # Derived rows are emitted only after the complete raw record
+                # list has been serialized; this ordering is part of the
+                # source contract even though both files are later immutable.
+                derived_records.append({
+                    "schema": SYNTHETIC_DERIVED_RECORD_SCHEMA,
+                    "record_id": f"{record_id}::derived",
+                    "raw_record_id": record_id,
+                    "phase": phase,
+                    "route": route,
+                    "arm_label": label,
+                    "window_id": window_id,
+                    "probe_index": probe_index,
+                    "probe_seed": probe_seed,
+                    "metric_namespace": "DECODED_PHYSICAL_ACTION" if phase == "E4" else "PHASE_SPECIFIC_PROBE_DIAGNOSTIC",
+                    "metrics": _synthetic_metric_values(route, seed, step, window_index, probe_index=probe_index),
+                    "normalized_metrics": _synthetic_normalized_values(route, seed, step, window_index, probe_index=probe_index),
+                    "noise_identity": _synthetic_phase_noise_identity(spec_doc, phase, window_id, probe_seed=probe_seed),
+                    "train24_contract_sha256": contract_sha,
+                    "phase_protocol_sha256": protocol_sha,
+                    "raw_before_derived": True,
+                    "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+                })
+                row_specs.append({
+                    "phase": phase,
+                    "route": route,
+                    "seed": seed,
+                    "step": step,
+                    "window_index": window_index,
+                    "probe_index": probe_index,
+                    "label": label,
+                    "checkpoint_tree_sha256": checkpoint["tree_sha256"],
+                    "noise_identity": _synthetic_phase_noise_identity(spec_doc, phase, window_id, probe_seed=probe_seed),
+                    "raw_record_id": record_id,
+                    "derived_record_id": f"{record_id}::derived",
+                    "raw_array_sha256": raw_array_sha,
+                })
+    _synthetic_jsonl(raw_path, raw_records)
+    raw_sha = sha256_file(raw_path)
+    _synthetic_jsonl(derived_path, derived_records)
+    derived_sha = sha256_file(derived_path)
+    rows: list[dict[str, Any]] = []
+    for item in row_specs:
+        if phase == "E4":
+            rows.append(_synthetic_e4_metric_row(
+                route=item["route"], seed=item["seed"], step=item["step"], window_index=item["window_index"],
+                checkpoint_tree_sha256=item["checkpoint_tree_sha256"], stats_sha256=stats_sha, stats_payload_sha256=stats_payload_sha,
+                raw_path=raw_path, raw_sha256=raw_sha, raw_record_id=item["raw_record_id"], raw_array_sha256=item["raw_array_sha256"],
+                derived_path=derived_path, derived_sha256=derived_sha, derived_record_id=item["derived_record_id"],
+                train24_contract_sha256=contract_sha, phase_protocol_sha256=protocol_sha, noise_identity=item["noise_identity"],
+                source_kind="HISTORICAL_SYNTHETIC_SOURCE" if historical else "CURRENT_SYNTHETIC_SOURCE",
+            ))
+        else:
+            rows.append(_synthetic_probe_row(
+                phase=phase, route=item["route"], seed=item["seed"], step=item["step"], window_index=item["window_index"], probe_index=item["probe_index"],
+                checkpoint_tree_sha256=item["checkpoint_tree_sha256"], stats_sha256=stats_sha, stats_payload_sha256=stats_payload_sha,
+                raw_path=raw_path, raw_sha256=raw_sha, raw_record_id=item["raw_record_id"], derived_path=derived_path, derived_sha256=derived_sha,
+                derived_record_id=item["derived_record_id"], train24_contract_sha256=contract_sha, phase_protocol_sha256=protocol_sha,
+                noise_identity=item["noise_identity"],
+            ))
+    _synthetic_jsonl(rows_path, rows)
+    schema = SYNTHETIC_E4_ROW_SCHEMA if phase == "E4" else SYNTHETIC_D1_ROW_SCHEMA if phase == "D1" else SYNTHETIC_D2A_ROW_SCHEMA
+    return {
+        "rows_path": rows_path,
+        "raw_path": raw_path,
+        "derived_path": derived_path,
+        "rows_sha256": sha256_file(rows_path),
+        "raw_sha256": raw_sha,
+        "derived_sha256": derived_sha,
+        "row_count": len(rows),
+        "raw_record_count": len(raw_records),
+        "derived_record_count": len(derived_records),
+        "source_row_schema": schema,
+        "raw_before_derived": True,
+        "rows": rows,
     }
 
 
 def _synthetic_historical_reference(root: Path, label: str, phase: str, step: int) -> dict[str, Any]:
-    """Make one sealed historical reference for the test-only handoff."""
+    """Make one complete, sealed historical reference for the test handoff."""
 
     root = Path(root).resolve()
     phase_root = root / label / phase / str(step)
     phase_root.mkdir(parents=True, exist_ok=False)
-    seal_path = phase_root / "historical_seal.json"
+    route = label.split("_", 1)[0]
+    checkpoint_tree = (HISTORICAL_L1_CHECKPOINT_TREES if route == "l1" else HISTORICAL_LEGACY_CHECKPOINT_TREES)[step]
+    stats_sha = RUNTIME_STATS_SHA
+    stats_payload_sha = RUNTIME_STATS_PAYLOAD_SHA
+    contract_sha = sha256_bytes(f"SYNTHETIC_HISTORICAL_TRAIN24_CONTRACT:{route}:{phase}:{step}".encode())
+    protocol_sha = sha256_bytes(f"SYNTHETIC_HISTORICAL_PHASE_PROTOCOL:{route}:{phase}:{step}".encode())
+    raw_path = phase_root / "historical_raw_records.jsonl"
+    derived_path = phase_root / "historical_derived_records.jsonl"
     rows_path = phase_root / "historical_rows.jsonl"
+    probes = {"E4": 1, "D1": 9, "D2A": 4}[phase]
+    raw_records: list[dict[str, Any]] = []
+    derived_records: list[dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
+    arm_route = route
+    seed = 2222
+    arm_label = _synthetic_arm_label(arm_route, seed, step)
+    for window_index, window_id in enumerate(HISTORICAL_DIAGNOSTIC_WINDOWS):
+        for probe_index in range(probes):
+            record_id = f"{arm_label}::{phase}::{window_id}::probe-{probe_index:02d}"
+            raw_array_sha = sha256_bytes(f"SYNTHETIC_HISTORICAL_RAW_ARRAY:{record_id}".encode())
+            probe_seed = 2223 + (probe_index // 3) if phase == "D1" else None
+            noise_identity = {
+                "window_id": window_id,
+                "array_sha256": sha256_bytes(
+                    f"SYNTHETIC_HISTORICAL_NOISE:{probe_seed if probe_seed is not None else 'window'}:{window_id}".encode()
+                ),
+                "manifest_sha256": sha256_bytes(b"SYNTHETIC_HISTORICAL_NOISE_MANIFEST"),
+            }
+            if probe_seed is not None:
+                noise_identity["probe_seed"] = probe_seed
+            raw_records.append({
+                "schema": SYNTHETIC_RAW_RECORD_SCHEMA,
+                "record_id": record_id,
+                "phase": phase,
+                "route": route,
+                "arm_label": arm_label,
+                "seed": seed,
+                "checkpoint_step": step,
+                "window_index": window_index,
+                "window_id": window_id,
+                "probe_index": probe_index,
+                "probe_seed": probe_seed,
+                "call_count": 4 if phase == "E4" else 1 if phase == "D1" else 2,
+                "raw_shape": [1, 40, 132],
+                "raw_dtype": "float32",
+                "array_sha256": raw_array_sha,
+                "noise_identity": noise_identity,
+                "train24_contract_sha256": contract_sha,
+                "phase_protocol_sha256": protocol_sha,
+                "raw_before_derived": True,
+                "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+            })
+            derived_id = f"{record_id}::derived"
+            derived_records.append({
+                "schema": SYNTHETIC_DERIVED_RECORD_SCHEMA,
+                "record_id": derived_id,
+                "raw_record_id": record_id,
+                "phase": phase,
+                "route": route,
+                "arm_label": arm_label,
+                "window_id": window_id,
+                "probe_index": probe_index,
+                "probe_seed": probe_seed,
+                "metrics": _synthetic_metric_values(route, seed, step, window_index, probe_index=probe_index),
+                "noise_identity": noise_identity,
+                "train24_contract_sha256": contract_sha,
+                "phase_protocol_sha256": protocol_sha,
+                "raw_before_derived": True,
+                "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+            })
+    _synthetic_jsonl(raw_path, raw_records)
+    raw_sha = sha256_file(raw_path)
+    _synthetic_jsonl(derived_path, derived_records)
+    derived_sha = sha256_file(derived_path)
+    for window_index, window_id in enumerate(HISTORICAL_DIAGNOSTIC_WINDOWS):
+        for probe_index in range(probes):
+            record_id = f"{arm_label}::{phase}::{window_id}::probe-{probe_index:02d}"
+            if phase == "E4":
+                row_noise_identity = {
+                    "window_id": window_id,
+                    "array_sha256": sha256_bytes(f"SYNTHETIC_HISTORICAL_NOISE:window:{window_id}".encode()),
+                    "manifest_sha256": sha256_bytes(b"SYNTHETIC_HISTORICAL_NOISE_MANIFEST"),
+                }
+                rows.append(_synthetic_e4_metric_row(
+                    route=route, seed=seed, step=step, window_index=window_index,
+                    checkpoint_tree_sha256=checkpoint_tree, stats_sha256=stats_sha, stats_payload_sha256=stats_payload_sha,
+                    raw_path=raw_path, raw_sha256=raw_sha, raw_record_id=record_id,
+                    raw_array_sha256=sha256_bytes(f"SYNTHETIC_HISTORICAL_RAW_ARRAY:{record_id}".encode()),
+                    derived_path=derived_path, derived_sha256=derived_sha, derived_record_id=f"{record_id}::derived",
+                    train24_contract_sha256=contract_sha, phase_protocol_sha256=protocol_sha,
+                    noise_identity=row_noise_identity,
+                    source_kind="HISTORICAL_SYNTHETIC_SOURCE",
+                ))
+            else:
+                row_noise_identity = {
+                    "probe_seed": 2223 + (probe_index // 3) if phase == "D1" else None,
+                    "window_id": window_id,
+                    "array_sha256": sha256_bytes(
+                        f"SYNTHETIC_HISTORICAL_NOISE:{2223 + (probe_index // 3) if phase == 'D1' else 'window'}:{window_id}".encode()
+                    ),
+                    "manifest_sha256": sha256_bytes(b"SYNTHETIC_HISTORICAL_NOISE_MANIFEST"),
+                }
+                if phase != "D1":
+                    row_noise_identity.pop("probe_seed")
+                rows.append(_synthetic_probe_row(
+                    phase=phase, route=route, seed=seed, step=step, window_index=window_index, probe_index=probe_index,
+                    checkpoint_tree_sha256=checkpoint_tree, stats_sha256=stats_sha, stats_payload_sha256=stats_payload_sha,
+                    raw_path=raw_path, raw_sha256=raw_sha, raw_record_id=record_id, derived_path=derived_path, derived_sha256=derived_sha,
+                    derived_record_id=f"{record_id}::derived", train24_contract_sha256=contract_sha, phase_protocol_sha256=protocol_sha,
+                    noise_identity=row_noise_identity,
+                ))
+    _synthetic_jsonl(rows_path, rows)
+    seal_path = phase_root / "historical_seal.json"
     write_json(seal_path, {
-        "schema": "SYNTHETIC_TEST_ONLY_HISTORICAL_PHASE_SEAL_V1",
+        "schema": "SYNTHETIC_TEST_ONLY_HISTORICAL_PHASE_SEAL_V2",
         "status": "PASS",
         "phase": phase,
-        "route": label.split("_", 1)[0],
+        "route": route,
+        "seed": seed,
         "step": step,
+        "checkpoint_tree_sha256": checkpoint_tree,
         "raw_before_derived": True,
-        "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
-    })
-    append_jsonl(rows_path, {
-        "schema": "SYNTHETIC_TEST_ONLY_HISTORICAL_ROW_V1",
-        "phase": phase,
-        "step": step,
-        "raw_before_derived": True,
+        "row_bundle": [str(rows_path)],
+        "raw_bundle": [str(raw_path)],
+        "derived_bundle": [str(derived_path)],
+        "source_row_schema": SYNTHETIC_E4_ROW_SCHEMA if phase == "E4" else SYNTHETIC_D1_ROW_SCHEMA if phase == "D1" else SYNTHETIC_D2A_ROW_SCHEMA,
+        "row_count": len(rows),
+        "raw_record_count": len(raw_records),
+        "derived_record_count": len(derived_records),
+        "stats_sha256": stats_sha,
+        "stats_payload_sha256": stats_payload_sha,
         "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
     })
     return {
@@ -3681,11 +4325,214 @@ def _synthetic_historical_reference(root: Path, label: str, phase: str, step: in
         "status": "PASS_READ_ONLY",
         "seal_file": {"path": str(seal_path), "sha256": sha256_file(seal_path)},
         "rows_file": {"path": str(rows_path), "sha256": sha256_file(rows_path)},
+        "raw_file": {"path": str(raw_path), "sha256": raw_sha},
+        "derived_file": {"path": str(derived_path), "sha256": derived_sha},
         "seal_sha256": sha256_file(seal_path),
         "rows_sha256": sha256_file(rows_path),
+        "raw_sha256": raw_sha,
+        "derived_sha256": derived_sha,
+        "row_count": len(rows),
+        "raw_record_count": len(raw_records),
+        "derived_record_count": len(derived_records),
         "raw_before_derived": True,
         "target_xyz_in_model_input": False,
+        "checkpoint_tree_sha256": checkpoint_tree,
+        "source_row_schema": SYNTHETIC_E4_ROW_SCHEMA if phase == "E4" else SYNTHETIC_D1_ROW_SCHEMA if phase == "D1" else SYNTHETIC_D2A_ROW_SCHEMA,
         "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+    }
+
+
+def _read_synthetic_jsonl(path: Path) -> list[dict[str, Any]]:
+    """Read a producer-owned JSONL source bundle without path rewriting."""
+
+    path = Path(path).resolve()
+    require(path.is_file() and not path.is_symlink(), f"synthetic JSONL source is unavailable: {path}")
+    records: list[dict[str, Any]] = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        require(line.strip(), f"synthetic JSONL source has a blank line: {path}:{line_number}")
+        record = json.loads(line)
+        require(isinstance(record, dict), f"synthetic JSONL record is not an object: {path}:{line_number}")
+        records.append(record)
+    require(records, f"synthetic JSONL source is empty: {path}")
+    return records
+
+
+def _synthetic_metric_index_provenance(
+    route: str,
+    seed: int,
+    step: int,
+    lineage: Mapping[str, Any],
+    *,
+    evidence_seal_sha256: str,
+    checkpoint_tree_sha256: str | None = None,
+) -> dict[str, Any]:
+    """Build the exact Corelab C10 arm provenance for a test-only row set."""
+
+    label = _synthetic_arm_label(route, seed, step)
+    checkpoint = lineage.get("checkpoints", {}).get(str(step), {})
+    checkpoint_tree = checkpoint_tree_sha256 or checkpoint.get("tree_sha256") or lineage.get("result", {}).get(f"checkpoint_{step}", {}).get("tree_sha256")
+    require(isinstance(checkpoint_tree, str) and len(checkpoint_tree) == 64, f"synthetic checkpoint tree missing: {label}")
+    checkpoint_path = Path(str(lineage["root"])).resolve() / f"checkpoint-{step}"
+    trainer_state_path = checkpoint_path / "trainer_state.json"
+    require(trainer_state_path.is_file() and not trainer_state_path.is_symlink(), f"synthetic trainer state missing: {label}")
+    result_sha = lineage.get("result_sha256")
+    require(isinstance(result_sha, str) and len(result_sha) == 64, f"synthetic lineage result hash missing: {label}")
+    route_upper = route.upper()
+    return {
+        "route": route_upper,
+        "seed": seed,
+        "step": step,
+        "row_checkpoint_label": label,
+        "route_branch": ROUTE_BRANCHES[route],
+        "route_head": ROUTE_HEADS[route],
+        "normalization_identity": "N2_BALANCED_XYZ_STATS" if route == "n2" else "FULL24_RUNTIME_V2",
+        "stats_sha256": N2_STATS_SHA if route == "n2" else RUNTIME_STATS_SHA,
+        "stats_payload_sha256": N2_STATS_PAYLOAD_SHA if route == "n2" else RUNTIME_STATS_PAYLOAD_SHA,
+        "hardware": "H200",
+        "validation_e_read": False,
+        "holdout_f_read": False,
+        "raw_before_derived": True,
+        "full_state_checkpoint": True,
+        "completed_step": step,
+        "target_xyz_in_model_input": False,
+        "base_tree_sha256": BASE_TREE,
+        "full24_tree_sha256": FULL24_TREE,
+        "checkpoint_tree_sha256": checkpoint_tree,
+        "evidence_seal_sha256": evidence_seal_sha256,
+        "lineage_artifact_sha256": result_sha,
+        "training_result_sha256": result_sha,
+        "trainer_state_sha256": sha256_file(trainer_state_path),
+        "hardware_runtime_sha256": sha256_bytes(f"SYNTHETIC_TEST_ONLY_H200_RUNTIME:{route}".encode()),
+        "training_recipe_sha256": sha256_bytes(f"SYNTHETIC_TEST_ONLY_FROZEN_RECIPE:{route}".encode()),
+        "decoder_identity": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
+        "metric_identity": "go2arx5_vla.evaluation.trajectory_metrics.comparison_metrics",
+        "sampler_identity": "source-mapped-four-step-Euler-action-head-graph",
+    }
+
+
+def _write_synthetic_c10_metric_index(
+    producer_root: Path,
+    phase_roots: Mapping[str, Mapping[str, Path]],
+    phase_specs: Mapping[str, Mapping[str, Path]],
+    lineages: Mapping[str, Mapping[int, Mapping[str, Any]]],
+    *,
+    source_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Materialize the 432 E4 metric rows consumed by Corelab's real loader.
+
+    ``canonical_row_index.json`` remains a 1,296-entry phase-reference index.
+    This separate index contains actual 24-row arrays for each of the 18 arms,
+    including the two preserved historical E4 arms for Legacy and L1.  The
+    values are explicitly synthetic and are never presented as model output.
+    """
+
+    producer_root = Path(producer_root).resolve()
+    package_root = producer_root.parent.resolve()
+    index_root = producer_root / "c10_metric_index"
+    rows_root = index_root / "rows"
+    rows_root.mkdir(parents=True, exist_ok=False)
+    arm_specs: dict[str, dict[str, Any]] = {}
+    current_e4_row_count = 0
+    historical_e4_row_count = 0
+    expected_labels = [
+        _synthetic_arm_label(route, seed, step)
+        for route in ROUTES
+        for seed in ALL_SEEDS
+        for step in (1000, 2000)
+    ]
+    for route in ROUTES:
+        current_rows = _read_synthetic_jsonl(Path(phase_roots["E4"][route]).resolve() / "synthetic_source_rows.jsonl")
+        current_by_label: dict[str, list[dict[str, Any]]] = {}
+        for row in current_rows:
+            if row.get("schema") == SYNTHETIC_E4_ROW_SCHEMA:
+                current_by_label.setdefault(str(row.get("checkpoint", {}).get("label")), []).append(row)
+        for seed in ALL_SEEDS:
+            lineage = lineages[route][seed]
+            for step in (1000, 2000):
+                label = _synthetic_arm_label(route, seed, step)
+                current_spec = read_json(Path(phase_specs["E4"][route]).resolve())
+                is_current = any(item.get("label") == label for item in current_spec.get("checkpoints", []))
+                historical_ref = None
+                if not is_current:
+                    historical_by_step = lineage.get("historical_diagnostic_evidence", {}).get("E4")
+                    if isinstance(historical_by_step, Mapping):
+                        historical_ref = historical_by_step.get(str(step))
+                    require(isinstance(historical_ref, Mapping), f"synthetic historical E4 reference missing: {label}")
+                    rows = _read_synthetic_jsonl(Path(str(historical_ref["rows_file"]["path"])).resolve())
+                    source_kind = "HISTORICAL_READ_ONLY_SYNTHETIC_SOURCE"
+                    evidence_seal_sha = str(historical_ref["seal_sha256"])
+                    historical_e4_row_count += len(rows)
+                else:
+                    rows = current_by_label.get(label, [])
+                    source_kind = "CURRENT_SYNTHETIC_SOURCE"
+                    evidence_seal_sha = sha256_file(Path(phase_roots["E4"][route]).resolve() / "unified_phase_seal.json")
+                    current_e4_row_count += len(rows)
+                require(len(rows) == 24, f"synthetic E4 source row count drift for {label}: {len(rows)}")
+                require([row.get("window_id") for row in rows] == list(HISTORICAL_DIAGNOSTIC_WINDOWS), f"synthetic E4 window order drift: {label}")
+                require(all(row.get("target_xyz_in_model_input") is False and row.get("finite") is True for row in rows), f"synthetic E4 row safety drift: {label}")
+                rows_path = rows_root / f"{route.upper()}_seed{seed}_{step}.json"
+                write_json(rows_path, rows)
+                rows_sha = sha256_file(rows_path)
+                rows_relative = Path(os.path.relpath(rows_path, package_root)).as_posix()
+                row_checkpoint_tree = rows[0].get("checkpoint", {}).get("sha256") if rows else None
+                provenance = _synthetic_metric_index_provenance(
+                    route,
+                    seed,
+                    step,
+                    lineage,
+                    evidence_seal_sha256=evidence_seal_sha,
+                    checkpoint_tree_sha256=row_checkpoint_tree,
+                )
+                arm_specs[label] = {
+                    "provenance": provenance,
+                    "rows_json": rows_relative,
+                    "rows_json_bundle_relative": rows_relative,
+                    "rows_sha256": rows_sha,
+                    "row_count": len(rows),
+                    "source_kind": source_kind,
+                    "source_row_schema": SYNTHETIC_E4_ROW_SCHEMA,
+                    "source_row_sha256": sha256_bytes(_canonical_json_bytes(rows)),
+                    "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+                }
+    require(list(arm_specs) == expected_labels, "synthetic C10 metric index arm order/set drift")
+    require(current_e4_row_count == 336, f"synthetic current E4 row count drift: {current_e4_row_count}")
+    require(historical_e4_row_count == 96, f"synthetic historical E4 row count drift: {historical_e4_row_count}")
+    index_path = index_root / "canonical_e4_metric_index.json"
+    index_doc = {
+        "schema": SYNTHETIC_C10_METRIC_INDEX_SCHEMA,
+        "status": "SYNTHETIC_TEST_ONLY",
+        "split": "TRAIN24",
+        "validation_e_read": False,
+        "holdout_f_read": False,
+        "index_kind": "PHYSICAL_E4_METRIC_ROWS_FROM_SOURCE_BUNDLES",
+        "canonical_row_index_is_reference_only": True,
+        "canonical_row_index_semantics": "PHASE_REFERENCE_INDEX_NOT_PHYSICAL_METRICS",
+        "source_identity": dict(source_identity),
+        "source_row_contract": {
+            "schema": SYNTHETIC_E4_ROW_SCHEMA,
+            "window_count_per_arm": 24,
+            "current_row_count": current_e4_row_count,
+            "historical_row_count": historical_e4_row_count,
+            "physical_metric_row_count": current_e4_row_count + historical_e4_row_count,
+            "source_rows_are_not_model_outputs": True,
+        },
+        "arms": arm_specs,
+        "arm_count": len(arm_specs),
+        "physical_metric_row_count": current_e4_row_count + historical_e4_row_count,
+        "paired_comparison_count": 27,
+        "pairing_semantics": "Corelab build_packet computes same-seed physical-metric pairings",
+        "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
+    }
+    write_json(index_path, index_doc)
+    return {
+        "path": str(index_path),
+        "sha256": sha256_file(index_path),
+        "physical_metric_row_count": current_e4_row_count + historical_e4_row_count,
+        "current_e4_row_count": current_e4_row_count,
+        "historical_e4_row_count": historical_e4_row_count,
+        "paired_comparison_count": 27,
+        "arm_count": len(arm_specs),
+        "index_kind": index_doc["index_kind"],
     }
 
 
@@ -3703,7 +4550,7 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
     fixture_root = requested_root
     if fixture_root.exists():
         require(fixture_root.is_dir(), f"synthetic fixture parent is not a directory: {fixture_root}")
-        fixture_root = fixture_root / "stage45e_pi0147_native_producer_fixture"
+        fixture_root = fixture_root / "stage45e_pi0149_native_producer_fixture"
     require(not fixture_root.exists(), f"refusing to overwrite synthetic fixture root: {fixture_root}")
     fixture_root.mkdir(parents=True, exist_ok=False)
     producer_root = fixture_root / "vanda_producer"
@@ -3767,8 +4614,17 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
                 })
             synthetic_lineages[route][seed] = lineage
 
-    evaluator = {"role": "SYNTHETIC_TEST_ONLY_EVALUATOR", "identity": "PI0147_NATIVE_V2"}
-    orchestration = {"role": "SYNTHETIC_TEST_ONLY_ORCHESTRATION", "branch": "stage45e/h200-unified-replication-campaign", "head": SYNTHETIC_PRODUCER_HEAD}
+    source_identity = _synthetic_source_identity()
+    evaluator = {"role": "SYNTHETIC_TEST_ONLY_EVALUATOR", "identity": "PI0149_NATIVE_V2"}
+    orchestration = {
+        "role": "SYNTHETIC_TEST_ONLY_ORCHESTRATION",
+        "branch": "stage45e/h200-unified-replication-campaign",
+        # This is a test-only stand-in for the synthetic lineage.  It is not
+        # the source identity of the producer code that generated this file.
+        "head": SYNTHETIC_PRODUCER_HEAD,
+        "synthetic_stand_in_head": SYNTHETIC_PRODUCER_HEAD,
+        **source_identity,
+    }
     phase_specs = build_phase_specs(
         synthetic_lineages,
         producer_root,
@@ -3784,8 +4640,8 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
             phase_root = producer_root / "phase_roots" / f"{phase}_{route}"
             phase_root.mkdir(parents=True)
             inner_path = phase_root / "seal.json"
-            row_path = phase_root / "synthetic_rows.jsonl"
             spec_doc = read_json(phase_specs[phase][route])
+            bundle = _write_synthetic_phase_source_bundle(phase_root, phase, route, spec_doc)
             write_json(inner_path, {
                 "schema": "SYNTHETIC_TEST_ONLY_INNER_SEAL_V2",
                 "status": "PASS",
@@ -3793,14 +4649,14 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
                 "route": route,
                 "train24_contract_sha256": _sha256_mapping(spec_doc["train24_contract"]),
                 "phase_protocol_sha256": _sha256_mapping(spec_doc["phase_protocol"]),
-                "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
-            })
-            append_jsonl(row_path, {
-                "schema": "SYNTHETIC_TEST_ONLY_NATIVE_V2_ROW_BUNDLE_V1",
-                "status": "RAW_SEALED_BEFORE_DERIVED",
-                "phase": phase,
-                "route": route,
-                "window_ids": list(HISTORICAL_DIAGNOSTIC_WINDOWS),
+                "source_row_schema": bundle["source_row_schema"],
+                "source_row_count": bundle["row_count"],
+                "source_row_sha256": bundle["rows_sha256"],
+                "raw_record_count": bundle["raw_record_count"],
+                "raw_sha256": bundle["raw_sha256"],
+                "derived_record_count": bundle["derived_record_count"],
+                "derived_sha256": bundle["derived_sha256"],
+                "raw_before_derived": bundle["raw_before_derived"],
                 "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
             })
             budget = _expected_phase_totals(phase)[route]
@@ -3830,8 +4686,16 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
                 "WBC": 0,
                 "simulator": 0,
                 "hardware": 0,
-                "source_row_schema": "SYNTHETIC_TEST_ONLY_NATIVE_V2_ROW_BUNDLE_V1",
-                "row_bundle": [str(row_path)],
+                "source_row_schema": bundle["source_row_schema"],
+                "row_bundle": [str(bundle["rows_path"])],
+                "raw_bundle": [str(bundle["raw_path"])],
+                "derived_bundle": [str(bundle["derived_path"])],
+                "source_row_count": bundle["row_count"],
+                "source_row_sha256": bundle["rows_sha256"],
+                "raw_record_count": bundle["raw_record_count"],
+                "raw_sha256": bundle["raw_sha256"],
+                "derived_record_count": bundle["derived_record_count"],
+                "derived_sha256": bundle["derived_sha256"],
                 "stats_sha256": N2_STATS_SHA if route == "n2" else RUNTIME_STATS_SHA,
                 "stats_payload_sha256": N2_STATS_PAYLOAD_SHA if route == "n2" else RUNTIME_STATS_PAYLOAD_SHA,
                 "training_lineage_identities": [item["training_lineage_identity"] for item in spec_doc["checkpoints"]],
@@ -3871,12 +4735,26 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
         evaluator=evaluator,
         orchestration=orchestration,
     )
+    metric_index = _write_synthetic_c10_metric_index(
+        producer_root,
+        phase_roots,
+        phase_specs,
+        synthetic_lineages,
+        source_identity=source_identity,
+    )
+    vanda_closure.update({
+        "c10_metric_index_path": metric_index["path"],
+        "c10_metric_index_sha256": metric_index["sha256"],
+        "c10_physical_e4_row_count": metric_index["physical_metric_row_count"],
+        "c10_pairing_count": metric_index["paired_comparison_count"],
+        "c10_metric_index_kind": metric_index["index_kind"],
+    })
     serialized = _write_native_v2_serialization(
         producer_root,
         phase_roots,
         phase_specs,
         synthetic_lineages,
-        {"synthetic_test_only": True, "train24_source": str(source_root)},
+        {"synthetic_test_only": True, "train24_source": str(source_root), **source_identity},
         {"synthetic_test_only": True, "free_margin_sufficient": True},
         vanda_closure,
         accounting,
@@ -3886,17 +4764,24 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
     )
     pointer_path = producer_root / "NATIVE_PRODUCER_POINTER.json"
     write_json(pointer_path, {
-        "schema": NATIVE_PRODUCER_POINTER_SCHEMA,
+        "schema": PI0149_NATIVE_PRODUCER_POINTER_SCHEMA,
         "status": "SYNTHETIC_TEST_ONLY_NATIVE_V2_READY",
         "producer_head": SYNTHETIC_PRODUCER_HEAD,
+        "producer_source_head": source_identity["producer_source_head"],
+        "producer_script_sha256": source_identity["producer_script_sha256"],
+        "synthetic_stand_in_head": SYNTHETIC_PRODUCER_HEAD,
         "producer_script": "scripts/stage45e_h200_unified_replication.py",
         "producer_serialization": "build_phase_specs -> build_external_evidence_closure -> _write_native_v2_serialization",
-        "contract_schema": TRAIN24_CONTRACT_SCHEMA,
-        "contract_sha256": sha256_file(PI0147_CONTRACT_PATH) if PI0147_CONTRACT_PATH.is_file() else None,
+        "contract_schema": PI0149_CONTRACT_SCHEMA,
+        "contract_sha256": sha256_file(PI0149_CONTRACT_PATH) if PI0149_CONTRACT_PATH.is_file() else None,
         "external_inventory": vanda_closure["inventory_path"],
         "external_inventory_sha256": vanda_closure["inventory_sha256"],
         "canonical_row_index": vanda_closure["canonical_row_index_path"],
         "canonical_row_index_sha256": vanda_closure["canonical_row_index_sha256"],
+        "c10_metric_index": metric_index["path"],
+        "c10_metric_index_sha256": metric_index["sha256"],
+        "c10_physical_e4_row_count": metric_index["physical_metric_row_count"],
+        "c10_pairing_count": metric_index["paired_comparison_count"],
         "c10_handoff": vanda_closure["handoff_path"],
         "c10_handoff_sha256": vanda_closure["handoff_sha256"],
         "native_v2_campaign": serialized["final_path"],
@@ -3913,23 +4798,28 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
     })
     fixture_manifest_path = fixture_root / "fixture_manifest.json"
     write_json(fixture_manifest_path, {
-        "schema": NATIVE_FIXTURE_SCHEMA,
+        "schema": PI0149_NATIVE_FIXTURE_SCHEMA,
         "status": "SYNTHETIC_TEST_ONLY_NATIVE_V2_READY",
         "producer_head": SYNTHETIC_PRODUCER_HEAD,
-        "contract_sha256": sha256_file(PI0147_CONTRACT_PATH) if PI0147_CONTRACT_PATH.is_file() else None,
+        "producer_source_head": source_identity["producer_source_head"],
+        "producer_script_sha256": source_identity["producer_script_sha256"],
+        "synthetic_stand_in_head": SYNTHETIC_PRODUCER_HEAD,
+        "contract_sha256": sha256_file(PI0149_CONTRACT_PATH) if PI0149_CONTRACT_PATH.is_file() else None,
+        "contract_schema": PI0149_CONTRACT_SCHEMA,
         "native_pointer": {"path": str(pointer_path), "sha256": sha256_file(pointer_path)},
         "native_campaign": {"path": serialized["final_path"], "sha256": sha256_file(serialized["final_path"])},
         "native_summary": {"path": serialized["summary_path"], "sha256": sha256_file(serialized["summary_path"])},
         "native_inventory": {"path": serialized["inventory_path"], "sha256": serialized["inventory_sha256"]},
         "external_inventory": {"path": vanda_closure["inventory_path"], "sha256": vanda_closure["inventory_sha256"]},
         "canonical_row_index": {"path": vanda_closure["canonical_row_index_path"], "sha256": vanda_closure["canonical_row_index_sha256"]},
+        "c10_metric_index": {"path": metric_index["path"], "sha256": metric_index["sha256"], "physical_metric_row_count": metric_index["physical_metric_row_count"], "paired_comparison_count": metric_index["paired_comparison_count"]},
         "c10_handoff": {"path": vanda_closure["handoff_path"], "sha256": vanda_closure["handoff_sha256"]},
         "native_v2": True,
         "synthetic_test_only": "SYNTHETIC_TEST_ONLY",
         "execution_boundary": {"gpu": 0, "pbs": 0, "model_forward": 0, "training": 0},
     })
     return {
-        "schema": NATIVE_FIXTURE_SCHEMA,
+        "schema": PI0149_NATIVE_FIXTURE_SCHEMA,
         "status": "SYNTHETIC_TEST_ONLY_NATIVE_V2_READY",
         "synthetic_test_only": True,
         "fixture_root": str(fixture_root),
@@ -3938,12 +4828,19 @@ def build_corelab_producer_fixture(root: Path) -> dict[str, Any]:
         "producer_root": str(producer_root),
         "producer_pointer": str(pointer_path),
         "producer_pointer_sha256": sha256_file(pointer_path),
-        "contract_manifest": str(PI0147_CONTRACT_PATH),
-        "contract_manifest_sha256": sha256_file(PI0147_CONTRACT_PATH) if PI0147_CONTRACT_PATH.is_file() else None,
+        "contract_manifest": str(PI0149_CONTRACT_PATH),
+        "contract_manifest_sha256": sha256_file(PI0149_CONTRACT_PATH) if PI0149_CONTRACT_PATH.is_file() else None,
+        "producer_source_head": source_identity["producer_source_head"],
+        "producer_script_sha256": source_identity["producer_script_sha256"],
+        "synthetic_stand_in_head": SYNTHETIC_PRODUCER_HEAD,
         "vanda_external_inventory": vanda_closure["inventory_path"],
         "vanda_external_inventory_sha256": vanda_closure["inventory_sha256"],
         "canonical_row_index": vanda_closure["canonical_row_index_path"],
         "canonical_row_index_sha256": vanda_closure["canonical_row_index_sha256"],
+        "c10_metric_index": metric_index["path"],
+        "c10_metric_index_sha256": metric_index["sha256"],
+        "c10_physical_e4_row_count": metric_index["physical_metric_row_count"],
+        "c10_pairing_count": metric_index["paired_comparison_count"],
         "vanda_c10_handoff": vanda_closure["handoff_path"],
         "vanda_c10_handoff_sha256": vanda_closure["handoff_sha256"],
         "native_v2_campaign": serialized["final_path"],

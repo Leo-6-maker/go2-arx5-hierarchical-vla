@@ -531,6 +531,17 @@ def test_pi0147_native_contract_is_cpu_static_and_explicit() -> None:
     assert result["pbs"] == 0
 
 
+def test_pi0149_native_rows_contract_is_cpu_static_and_explicit() -> None:
+    result = campaign.validate_pi0149_contract_manifest()
+    assert result["status"] == "PASS"
+    assert result["historical_binding_count"] == 8
+    assert result["phase_reference_index_entries"] == 1296
+    assert result["canonical_e4_rows"] == 432
+    assert result["canonical_e4_pairings"] == 27
+    assert result["h200"] == 0
+    assert result["pbs"] == 0
+
+
 def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     fixture = campaign.build_corelab_producer_fixture(tmp_path)
     assert fixture["schema"] == campaign.NATIVE_FIXTURE_SCHEMA
@@ -541,16 +552,50 @@ def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     pointer = json.loads(Path(fixture["producer_pointer"]).read_text())
     handoff = json.loads(Path(fixture["vanda_c10_handoff"]).read_text())
     row_index = json.loads(Path(fixture["canonical_row_index"]).read_text())
+    metric_index = json.loads(Path(fixture["c10_metric_index"]).read_text())
 
     assert final["schema"] == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2"
     assert summary["schema"] == "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2"
     assert pointer["schema"] == campaign.NATIVE_PRODUCER_POINTER_SCHEMA
     assert handoff["native_v2"] is True
     assert handoff["arm_count"] == 18
+    assert pointer["producer_source_head"] == campaign.git(campaign.REPO, "rev-parse", "HEAD")
+    assert pointer["producer_source_head"] != pointer["synthetic_stand_in_head"]
+    assert len(pointer["producer_script_sha256"]) == 64
     assert row_index["schema"] == campaign.CANONICAL_ROW_INDEX_SCHEMA
     assert row_index["entry_count"] == 18 * 24 * 3
     assert row_index["phase_row_counts"] == {"E4": 432, "D1": 432, "D2A": 432}
+    assert row_index["index_kind"] == "PHASE_REFERENCE_INDEX_NOT_PHYSICAL_METRICS"
+    assert row_index["physical_metric_rows_in_index"] == 0
+    assert metric_index["schema"] == campaign.SYNTHETIC_C10_METRIC_INDEX_SCHEMA
+    assert metric_index["arm_count"] == 18
+    assert metric_index["physical_metric_row_count"] == 432
+    assert metric_index["source_row_contract"]["current_row_count"] == 336
+    assert metric_index["source_row_contract"]["historical_row_count"] == 96
+    assert metric_index["paired_comparison_count"] == 27
+    assert all(item["row_count"] == 24 for item in metric_index["arms"].values())
+    assert all(not Path(item["rows_json"]).is_absolute() for item in metric_index["arms"].values())
+    assert all(item["source_row_schema"] == campaign.SYNTHETIC_E4_ROW_SCHEMA for item in metric_index["arms"].values())
+    metric_rows = {
+        label: json.loads((Path(fixture["fixture_root"]) / item["rows_json"]).read_text())
+        for label, item in metric_index["arms"].items()
+    }
+    assert all(len(rows) == 24 for rows in metric_rows.values())
+    assert all(rows[0]["schema"] == campaign.SYNTHETIC_E4_ROW_SCHEMA for rows in metric_rows.values())
+    assert all(rows[0]["raw_before_derived"] is True for rows in metric_rows.values())
+    # The rows carry actual physical values; paired sign diversity proves the
+    # downstream packet has something to compute, rather than only an index.
+    deltas = []
+    for seed in campaign.ALL_SEEDS:
+        for step in (1000, 2000):
+            legacy = metric_rows[f"LEGACY(seed{seed})@{step}"]
+            n2 = metric_rows[f"N2(seed{seed})@{step}"]
+            deltas.extend(n2[i]["metrics"]["target"]["absolute_progress_m"] - legacy[i]["metrics"]["target"]["absolute_progress_m"] for i in range(24))
+    assert any(value < 0 for value in deltas)
+    assert any(value > 0 for value in deltas)
+    assert any(value == 0 for value in deltas)
     assert final["canonical_row_index_sha256"] == fixture["canonical_row_index_sha256"]
+    assert final["c10_metric_index_sha256"] == fixture["c10_metric_index_sha256"]
     assert final["c10_handoff_sha256"] == fixture["vanda_c10_handoff_sha256"]
     assert final["synthetic_test_only"] == "SYNTHETIC_TEST_ONLY"
     assert final["token"] == "SYNTHETIC_TEST_ONLY_NATIVE_V2_FIXTURE_READY"
@@ -561,3 +606,8 @@ def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     d1 = json.loads(d1_spec.read_text())
     assert "noise_sha256_by_window" not in d1["phase_protocol"]
     assert "noise_sha256_by_seed_window" in d1["phase_protocol"]
+
+    historical_d1 = next(Path(path) for path in Path(fixture["producer_root"]).glob("historical_references/*/D1/*/historical_rows.jsonl"))
+    historical_rows = [json.loads(line) for line in historical_d1.read_text().splitlines()]
+    assert len(historical_rows) == 24 * 9
+    assert {row["noise_identity"]["probe_seed"] for row in historical_rows} == {2223, 2224, 2225}
