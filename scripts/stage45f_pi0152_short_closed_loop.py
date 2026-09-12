@@ -203,8 +203,14 @@ def _prepare_env(runtime_root: Path, *, gpu_uuid: str, native_env_root: Path, is
         path.mkdir(parents=True, exist_ok=False)
     bind = isaacgym_python / "isaacgym" / "_bindings" / "linux-x86_64"
     pyroot = native_env_root / "lib" / "python3.8" / "site-packages"
-    torch_lib = pyroot / "torch" / "lib"
-    env_lib = native_env_root / "lib"
+    # The historical native_py38_4080 venv supplies WBC-only packages (notably
+    # yapf), while its interpreter deliberately inherits Torch/Isaac libraries
+    # from the adjacent public_native environment.  Keep that exact layering;
+    # adding the venv site directory to PYTHONPATH would shadow stdlib typing.
+    public_env = native_env_root.parent / "public_native" / "python_env"
+    torch_pyroot = pyroot if (pyroot / "torch" / "lib").is_dir() else public_env / "lib" / "python3.8" / "site-packages"
+    torch_lib = torch_pyroot / "torch" / "lib"
+    env_lib = native_env_root / "lib" if (native_env_root / "lib" / "libpython3.8.so.1.0").is_file() else public_env / "lib"
     ninja = native_env_root / "bin" / "ninja"
     require(bind.is_dir() and torch_lib.is_dir() and env_lib.is_dir() and ninja.is_file(), "native runtime libraries/ninja are incomplete")
     current_path = os.environ.get("PATH", "")
