@@ -380,7 +380,7 @@ def high_water(storage: Path, *, output: Path | None = None, planned_training_ro
     return value
 
 
-def _verify_checkpoint_artifact(route: str, root: Path, step: int, record: Mapping[str, Any]) -> dict[str, Any]:
+def _verify_checkpoint_artifact(route: str, root: Path, step: int, record: Mapping[str, Any], *, hash_prefix: str | None = None) -> dict[str, Any]:
     """Reconcile a sealed checkpoint record with its immutable on-disk tree.
 
     This is deliberately CPU/read-only.  A result JSON alone is not sufficient
@@ -409,7 +409,8 @@ def _verify_checkpoint_artifact(route: str, root: Path, step: int, record: Mappi
         except OSError as exc:
             raise RuntimeError(f"required checkpoint state is absent: {path}") from exc
         require(stat.S_ISREG(mode) and not stat.S_ISLNK(mode), f"required checkpoint state is unsafe: {path}")
-    entries = regular_tree_entries(checkpoint, f"{CHECKPOINT_HASH_PREFIX[route]}/{checkpoint.name}")
+    prefix = hash_prefix or CHECKPOINT_HASH_PREFIX[route]
+    entries = regular_tree_entries(checkpoint, f"{prefix}/{checkpoint.name}")
     actual = {
         "path": str(checkpoint),
         "global_step": state.get("global_step"),
@@ -430,7 +431,8 @@ def _verify_checkpoint_artifact(route: str, root: Path, step: int, record: Mappi
 def _historical_checkpoint(root: Path, step: int, key: str, route: str) -> dict[str, Any]:
     result = read_json(root / key)
     record = result.get(f"checkpoint_{step}", {})
-    return _verify_checkpoint_artifact(route, root, step, record)
+    historical_prefix = "stage45b" if route == "legacy" else CHECKPOINT_HASH_PREFIX[route]
+    return _verify_checkpoint_artifact(route, root, step, record, hash_prefix=historical_prefix)
 
 
 def _historical_training_args(root: Path, seed: int = 2222) -> dict[str, Any]:
