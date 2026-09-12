@@ -214,6 +214,13 @@ def _prepare_env(runtime_root: Path, *, gpu_uuid: str, native_env_root: Path, is
     ninja = native_env_root / "bin" / "ninja"
     require(bind.is_dir() and torch_lib.is_dir() and env_lib.is_dir() and ninja.is_file(), "native runtime libraries/ninja are incomplete")
     current_path = os.environ.get("PATH", "")
+    # Updating PYTHONPATH in-process does not retroactively change sys.path;
+    # insert the explicitly bound support roots as well so the native runner
+    # sees the sealed pytorch3d compatibility shim without shadowing stdlib
+    # typing from the historical venv.
+    for import_root in (REPO / "scripts", REPO / "src", wbc_source, isaacgym_python, native_compat):
+        if str(import_root) not in sys.path:
+            sys.path.insert(0, str(import_root))
     os.environ.update({
         "CUDA_VISIBLE_DEVICES": gpu_uuid, "NVIDIA_VISIBLE_DEVICES": gpu_uuid,
         "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1", "HOME": str(home), "TMPDIR": str(tmp), "TMP": str(tmp), "TEMP": str(tmp),
