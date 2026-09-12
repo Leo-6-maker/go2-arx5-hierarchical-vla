@@ -70,3 +70,4 @@ def test_pbs_uses_cluster_routing_queue_and_single_h200() -> None:
     assert "#PBS -q auto" in pbs
     assert "#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb" in pbs
     assert "#PBS -q gpu" not in pbs
+    assert "/hpctmp/e1192548/stage45e_h200_unified_replication_20260912" in pbs

@@ -9,7 +9,7 @@ set -eu
 
 ORCH_REPO=/scratch/e1192548/stage45e_h200_unified_worktrees/orchestration
 ORCH_PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
-STORAGE_ROOT=/Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912
+STORAGE_ROOT=/hpctmp/e1192548/stage45e_h200_unified_replication_20260912
 
 unset PYTHONPATH
 export PYTHONNOUSERSITE=1
@@ -30,7 +30,7 @@ exec "$ORCH_PY" "$ORCH_REPO/scripts/stage45e_h200_unified_replication.py" \
   --modality /scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py \
   --config /scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml \
   --runtime-stats /scratch/e1192548/stage45b_pi0083_runtime_parquet_v2/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json \
-  --n2-stats /Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912/provenance/STAGE45E_N2_BALANCED_XYZ_STATS_PI0133.json \
+  --n2-stats /hpctmp/e1192548/stage45e_h200_unified_replication_20260912/provenance/STAGE45E_N2_BALANCED_XYZ_STATS_PI0133.json \
   --sealed-baseline /scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910 \
   --snapshot-preflight /scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910/stage45c_runtime_preflight.json \
   --legacy-history /scratch/e1192548/stage45b_pi0087_b2_h200_20260909T052311Z \

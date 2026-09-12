@@ -32,7 +32,7 @@ from typing import Any, Iterable, Mapping, Sequence
 REPO = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0133_V1.json"
 PYTHON = Path("/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python")
-STORAGE_ROOT = Path("/Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912")
+STORAGE_ROOT = Path("/hpctmp/e1192548/stage45e_h200_unified_replication_20260912")
 WORKTREE_ROOT = Path("/scratch/e1192548/stage45e_h200_unified_worktrees")
 DEFAULTS = {
     "base_model": Path("/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B"),
@@ -42,7 +42,7 @@ DEFAULTS = {
     "modality": Path("/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py"),
     "config": Path("/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml"),
     "runtime_stats": Path("/scratch/e1192548/stage45b_pi0083_runtime_parquet_v2/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json"),
-    "n2_stats": Path("/Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912/provenance/STAGE45E_N2_BALANCED_XYZ_STATS_PI0133.json"),
+    "n2_stats": Path("/hpctmp/e1192548/stage45e_h200_unified_replication_20260912/provenance/STAGE45E_N2_BALANCED_XYZ_STATS_PI0133.json"),
     "sealed_baseline": Path("/scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910"),
     "snapshot_preflight": Path("/scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910/stage45c_runtime_preflight.json"),
     "legacy_history": Path("/scratch/e1192548/stage45b_pi0087_b2_h200_20260909T052311Z"),
