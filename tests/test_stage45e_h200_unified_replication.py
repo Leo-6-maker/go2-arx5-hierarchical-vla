@@ -63,3 +63,10 @@ def test_no_top_level_model_imports_or_scheduler_mutation() -> None:
 def test_high_water_calculation_keeps_margin() -> None:
     expected = campaign.ESTIMATED_TRAINING_ROOT_BYTES * len(campaign.TRAINING_QUEUE)
     assert int(expected * 1.15) + campaign.MIN_FREE_BYTES > expected
+
+
+def test_pbs_uses_cluster_routing_queue_and_single_h200() -> None:
+    pbs = (ROOT / "hpc/pbs/stage45e_h200_unified_replication.pbs").read_text()
+    assert "#PBS -q auto" in pbs
+    assert "#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb" in pbs
+    assert "#PBS -q gpu" not in pbs
