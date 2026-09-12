@@ -600,11 +600,23 @@ def _video_frame_probe(dataset: Path, ffmpeg_runtime: Path, expected: Mapping[st
         "video_frame_matches_canonical": {},
         "status": "SKIPPED",
     }
-    try:
-        from torchcodec.decoders import VideoDecoder
-    except Exception as exc:
-        result.update({"status": "BLOCKED", "error_type": type(exc).__name__, "error": str(exc)[-2000:]})
-        return result
+    # Use a fresh child interpreter.  A parent process may have imported a
+    # TorchCodec module before the isolated LD_LIBRARY_PATH was installed;
+    # probing in a child prevents that cached loader failure from masking the
+    # repaired runtime.
+    probe_code = r'''
+import hashlib, json, sys
+import numpy as np
+from torchcodec.decoders import VideoDecoder
+path = sys.argv[1]
+decoder = VideoDecoder(path, device="cpu", dimension_order="NHWC", num_ffmpeg_threads=0)
+packet = decoder.get_frames_at([0])
+frames = packet.data.detach().cpu().numpy()
+if tuple(frames.shape) != (1, 96, 96, 3) or frames.dtype != np.uint8:
+    raise RuntimeError(f"decoded frame ABI drift: {frames.shape} {frames.dtype}")
+frame = np.asarray(frames[0])
+print(json.dumps({"frame_count": len(decoder), "frame_shape": list(frame.shape), "frame_dtype": str(frame.dtype), "frame_sha256": hashlib.sha256(frame.tobytes()).hexdigest()}, sort_keys=True))
+'''
     video_root = Path(dataset) / "videos" / "chunk-000"
     for key, relative in (
         ("body_rgb", Path("observation.images.external_rgb") / "episode_000000.mp4"),
@@ -615,16 +627,16 @@ def _video_frame_probe(dataset: Path, ffmpeg_runtime: Path, expected: Mapping[st
             result["video_paths"][key] = {"path": str(path), "status": "UNAVAILABLE"}
             continue
         try:
-            decoder = VideoDecoder(str(path), device="cpu", dimension_order="NHWC", num_ffmpeg_threads=0)
-            packet = decoder.get_frames_at([0])
-            frames = packet.data.detach().cpu().numpy()
-            require(tuple(frames.shape) == (1, 96, 96, 3) and frames.dtype == np.uint8, f"decoded video frame ABI drift: {path}")
-            frame = np.asarray(frames[0])
-            actual_sha = sha256_bytes(frame.tobytes())
+            probe = subprocess.run([sys.executable, "-c", probe_code, str(path)], capture_output=True, text=True, check=False, env=os.environ.copy())
+            require(probe.returncode == 0, f"fresh torchcodec probe failed: {probe.stderr[-2000:]}")
+            lines = [line for line in probe.stdout.splitlines() if line.strip()]
+            require(lines, "fresh torchcodec probe produced no JSON")
+            decoded = json.loads(lines[-1])
+            actual_sha = str(decoded["frame_sha256"])
             expected_sha = str(expected[f"{key}_sha256"])
             result["video_paths"][key] = {
-                "path": str(path), "file_sha256": sha256_file(path), "frame_shape": list(frame.shape),
-                "frame_dtype": str(frame.dtype), "frame_sha256": actual_sha,
+                "path": str(path), "file_sha256": sha256_file(path), "frame_shape": decoded["frame_shape"],
+                "frame_dtype": decoded["frame_dtype"], "frame_count": decoded["frame_count"], "frame_sha256": actual_sha,
             }
             result["video_frame_matches_canonical"][key] = actual_sha == expected_sha
         except Exception as exc:
@@ -1209,7 +1221,7 @@ def _analyze_existing_raw(args: argparse.Namespace) -> dict[str, Any]:
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("audit", "preflight", "execute", "analyze-raw"), required=True)
+    parser.add_argument("--mode", choices=("audit", "preflight", "execute", "analyze-raw", "qualify-pixels"), required=True)
     parser.add_argument("--stage43-root", type=Path, required=True)
     parser.add_argument("--n2-root", type=Path, required=True)
     parser.add_argument("--n2-stats", type=Path, required=True)
@@ -1262,6 +1274,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         require(args.raw_root is not None, "--raw-root is required for analyze-raw")
         value = _analyze_existing_raw(args)
         print(json.dumps({"status": value.get("status"), "token": value.get("token"), "rows": len(value.get("rows", [])), "output_root": str(Path(args.output_root).resolve())}, sort_keys=True))
+        return 0
+    if args.mode == "qualify-pixels":
+        require(args.ffmpeg_runtime is not None, "--ffmpeg-runtime is required for qualify-pixels")
+        train_input_npz, train_input_manifest = _train_input_paths(args)
+        output = Path(args.output_root).resolve()
+        require(not output.exists(), f"pixel qualification output root must be fresh: {output}")
+        output.mkdir(parents=True, exist_ok=False)
+        paths = _paths(args)
+        env_info = _prepare_env(paths, output, "CPU", Path(args.ffmpeg_runtime))
+        qualification, _ = qualify_train_pixels(paths, output, Path(args.ffmpeg_runtime), train_input_npz, train_input_manifest)
+        result = {"schema": "CORELAB_STAGE45F_PI0152_PIXEL_RECOVERY_PROBE_V1", "status": qualification["status"], "qualification": qualification, "isolated_runtime": env_info, "model_forward": 0, "gpu": False, "training": False, "wbc": False, "simulator": False, "hardware": False}
+        digest = write_json(output / "pixel_recovery_probe.json", result)
+        write_json(output / "pixel_recovery_probe.json.sha256", {"sha256": digest, "file": "pixel_recovery_probe.json"})
+        print(json.dumps({"status": result["status"], "output_root": str(output), "result_sha256": digest}, sort_keys=True))
         return 0
     value = _execute(args)
     print(json.dumps({"status": value.get("status"), "token": value.get("token"), "counters": value.get("counters"), "output_root": str(Path(args.output_root).resolve())}, sort_keys=True))
