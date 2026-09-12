@@ -373,19 +373,70 @@ def _historical_checkpoint(root: Path, step: int, key: str) -> dict[str, Any]:
     return {"path": str(checkpoint), "tree_sha256": record["tree_sha256"], "global_step": step}
 
 
+def _historical_training_args(root: Path) -> dict[str, Any]:
+    """Read the sealed Legacy TrainingArguments without constructing a model."""
+
+    path = Path(root) / "training_args.bin"
+    require(path.is_file() and not path.is_symlink(), f"historical training args unavailable: {path}")
+    try:
+        import torch
+
+        try:
+            args = torch.load(path, map_location="cpu", weights_only=False)
+        except TypeError:  # compatibility with the older sealed runtime
+            args = torch.load(path, map_location="cpu")
+    except Exception as exc:
+        raise RuntimeError(f"historical training args unreadable: {path}: {exc}") from exc
+    scheduler = getattr(args, "lr_scheduler_type", "")
+    fields = {
+        "seed": getattr(args, "seed", None),
+        "max_steps": getattr(args, "max_steps", None),
+        "per_device_train_batch_size": getattr(args, "per_device_train_batch_size", None),
+        "gradient_accumulation_steps": getattr(args, "gradient_accumulation_steps", None),
+        "learning_rate": getattr(args, "learning_rate", None),
+        "weight_decay": getattr(args, "weight_decay", None),
+        "lr_scheduler_type": str(getattr(scheduler, "value", scheduler)),
+        "warmup_steps": getattr(args, "warmup_steps", None),
+        "max_grad_norm": getattr(args, "max_grad_norm", None),
+        "bf16": getattr(args, "bf16", None),
+        "fp16": getattr(args, "fp16", None),
+        "tf32": getattr(args, "tf32", None),
+        "dataloader_num_workers": getattr(args, "dataloader_num_workers", None),
+    }
+    expected = {
+        "seed": 2222,
+        "max_steps": 2000,
+        "per_device_train_batch_size": 1,
+        "gradient_accumulation_steps": 1,
+        "learning_rate": 1e-4,
+        "weight_decay": 1e-5,
+        "lr_scheduler_type": "cosine",
+        "warmup_steps": 10,
+        "max_grad_norm": 1.0,
+        "bf16": True,
+        "fp16": False,
+        "tf32": True,
+        "dataloader_num_workers": 0,
+    }
+    for key, value in expected.items():
+        require(fields[key] == value, f"historical Legacy recipe drift in {key}: {fields[key]!r}")
+    return {"path": str(path), "sha256": sha256_file(path), "fields": fields}
+
+
 def verify_historical(root: Path, route: str) -> dict[str, Any]:
     root = Path(root).resolve()
     require(root.is_dir() and not root.is_symlink(), f"historical {route} root unavailable: {root}")
     if route == "legacy":
         result_path = root / "stage45b_training_result.json"
         result = read_json(result_path)
-        require(result.get("seed") == 2222 and result.get("training_steps") == 2000, "historical Legacy seed2222 identity drift")
+        training_args = _historical_training_args(root)
+        require(training_args["fields"]["seed"] == 2222 and result.get("training_steps") == 2000, "historical Legacy seed2222 identity drift")
         gpu = result.get("gpu", {})
         gpu_name = str(gpu.get("gpu_name", gpu.get("name", "")))
         require("H200" in gpu_name.upper(), "historical Legacy seed2222 is not proven H200")
         require(result.get("base_tree_sha256") == BASE_TREE and result.get("full24_tree_sha256") == FULL24_TREE, "historical Legacy source identity drift")
         require(result.get("runtime_stats_sha256") == RUNTIME_STATS_SHA and result.get("optimizer_steps") == 2000, "historical Legacy recipe/stats drift")
-        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json") for step in (1000, 2000)}}
+        return {"route": route, "seed": 2222, "root": str(root), "result_path": str(result_path), "result_sha256": sha256_file(result_path), "result": result, "training_args": training_args, "checkpoints": {str(step): _historical_checkpoint(root, step, "stage45b_training_result.json") for step in (1000, 2000)}}
     result_path = root / "stage45e_l1_training_result.json"
     result = read_json(result_path)
     require(result.get("training_seed") == 2222 and result.get("training_steps") == 2000, "historical L1 seed2222 identity drift")
