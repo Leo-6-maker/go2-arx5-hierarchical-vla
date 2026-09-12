@@ -133,6 +133,20 @@ def test_checkpoint_acceptance_reconciles_state_and_tree(tmp_path: Path) -> None
     }
     accepted = campaign._verify_checkpoint_artifact("legacy", root, 1000, record)
     assert accepted["tree_sha256"] == record["tree_sha256"]
+    recovery_record = {
+        "path": str(checkpoint),
+        "global_step": 1000,
+        "required_state_files": list(campaign.CHECKPOINT_STATE_FILES),
+        "training_steps_verified": 1000,
+        "optimizer_steps_verified": 1000,
+        "backward_steps_verified": 1000,
+        "optimizer_step_log_count": 1000,
+        "tree_sha256": record["tree_sha256"],
+        "file_count": record["file_count"],
+        "total_bytes": record["total_bytes"],
+    }
+    recovered = campaign._verify_checkpoint_artifact("legacy", root, 1000, recovery_record)
+    assert recovered["tree_sha256"] == recovery_record["tree_sha256"]
     (checkpoint / "scheduler.pt").write_bytes(b"tampered")
     with pytest.raises(RuntimeError, match="checkpoint tree hash drift|checkpoint byte-count drift"):
         campaign._verify_checkpoint_artifact("legacy", root, 1000, record)
