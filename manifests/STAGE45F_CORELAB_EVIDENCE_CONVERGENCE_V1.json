@@ -1,0 +1,169 @@
+{
+  "schema": "CORELAB_STAGE45F_EVIDENCE_CONVERGENCE_V1",
+  "status": "CPU_STATIC_PREP_ONLY",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0135",
+    "issue_comment": 5644024946,
+    "candidate_selection_pr": 58,
+    "candidate_selection_head": "253906ce6543c1122a8e8bc4686074b6caea89b1",
+    "stage45f_prep_pr": 61,
+    "stage45f_prep_head": "2e9d5190c84da8215b665f840b93ded9c69edeed"
+  },
+  "repository": {
+    "support_branch": "stage45f/corelab-evidence-convergence",
+    "base_head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
+    "working_tree_required_clean": true,
+    "merge_allowed": false
+  },
+  "execution_boundary": {
+    "gpu": 0,
+    "cuda_model_execution": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "winner_selection": 0
+  },
+  "h200_campaign_surfaces": {
+    "orchestration": {
+      "branch": "stage45e/h200-unified-replication-campaign",
+      "head": "9b6be6c3da50fec0540c19f677d763a0a41bc007",
+      "manifest": "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0134_V1.json"
+    },
+    "routes": {
+      "LEGACY": {
+        "branch": "stage45e/legacy-full24-matched-seed-replication",
+        "head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
+        "normalization": "FULL24_RUNTIME_V2",
+        "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+        "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+        "loss": "standard legacy loss"
+      },
+      "L1": {
+        "branch": "stage45e/l1-matched-seed-replication",
+        "head": "186efc2977e2795bebf0dfe97d6f503a672716de",
+        "normalization": "FULL24_RUNTIME_V2",
+        "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+        "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+        "loss_blob_sha256": "a9d7923c6b03a4c981bb870b59c7038cb9894eb5",
+        "loss_xyz_weights": {"x": 1.401885, "y": 0.472436, "z": 1.125678},
+        "loss": "physical-error-aware XYZ loss"
+      },
+      "N2": {
+        "branch": "stage45e/n2-h200-matched-seed-replication",
+        "head": "6d8a7f132e325faea35346b36497ceb76390b2c3",
+        "normalization": "N2_BALANCED_XYZ_STATS",
+        "stats_sha256": "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677",
+        "stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+        "loss": "standard legacy loss"
+      }
+    },
+    "frozen_sources": {
+      "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+      "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+    }
+  },
+  "matrix": {
+    "split": "TRAIN24",
+    "routes": ["LEGACY", "N2", "L1"],
+    "seeds": [2222, 2223, 2224],
+    "checkpoint_steps": [1000, 2000],
+    "window_count": 24,
+    "window_order": "target-major_then-snapshot-major",
+    "arms": [
+      "LEGACY(seed2222)@1000", "LEGACY(seed2222)@2000",
+      "LEGACY(seed2223)@1000", "LEGACY(seed2223)@2000",
+      "LEGACY(seed2224)@1000", "LEGACY(seed2224)@2000",
+      "N2(seed2222)@1000", "N2(seed2222)@2000",
+      "N2(seed2223)@1000", "N2(seed2223)@2000",
+      "N2(seed2224)@1000", "N2(seed2224)@2000",
+      "L1(seed2222)@1000", "L1(seed2222)@2000",
+      "L1(seed2223)@1000", "L1(seed2223)@2000",
+      "L1(seed2224)@1000", "L1(seed2224)@2000"
+    ],
+    "required_hardware": "H200 for the primary three-route matrix",
+    "historical_4080s_n2_is_secondary_context_only": true
+  },
+  "row_contract": {
+    "accepted_schema": "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1",
+    "raw_before_derived": true,
+    "target_xyz_in_model_input": false,
+    "finite": true,
+    "checkpoint_sha_must_equal_provenance_tree": true,
+    "no_folder_name_identity_inference": true,
+    "no_missing_field_substitution": true,
+    "physical_metric_fields": [
+      "metrics.target.final_target_distance_m",
+      "metrics.target.absolute_progress_m",
+      "metrics.target.minimum_target_distance_m",
+      "metrics.target.endpoint_target_vector_cosine",
+      "metrics.target.path_length_m",
+      "metrics.target.roughness_position_second_difference_m.mean"
+    ],
+    "normalized_route_internal_fields": [
+      "normalized_metrics.active_rmse",
+      "normalized_metrics.active_mae",
+      "normalized_metrics.active_max_abs",
+      "normalized_metrics.raw_active_outside_neg1_pos1_fraction"
+    ],
+    "progress_sign_values": ["POSITIVE", "ZERO", "NEGATIVE"]
+  },
+  "pairing_policy": {
+    "same_seed_same_window": true,
+    "same_target_breakdown": true,
+    "exposure_delta_2000_minus_1000": true,
+    "three_seed_descriptive_aggregate": true,
+    "windows_are_not_iid_training_replications": true,
+    "no_p_values": true,
+    "no_automatic_winner": true,
+    "cross_route_primary_space": "decoded physical metrics",
+    "normalized_metrics": "route-specific descriptive/mechanistic only",
+    "packet_status": "PI_DECISION_REQUIRED"
+  },
+  "diagnostic_budget": {
+    "training": {"per_new_seed_max_steps": 2000, "checkpoint_steps": [1000, 2000]},
+    "E4": {"conditioning_passes": 336, "action_head_calls": 1344, "total_model_side_calls": 1680},
+    "D1": {"conditioning_passes": 384, "action_head_calls": 3456, "total_model_side_calls": 3840},
+    "D2A": {"conditioning_passes": 384, "action_head_calls": 3072, "total_model_side_calls": 3456}
+  },
+  "recipe_freeze": {
+    "status": "PLAN_ONLY",
+    "candidate_must_be_pi_selected": true,
+    "binds_before_validation_read": true,
+    "required_fields": [
+      "route_intervention_identity", "training_branch_head", "checkpoint_tree",
+      "base_tree", "dataset_tree", "normalization_stats", "loss_objective",
+      "seed_policy", "training_recipe", "sampler", "decoder", "metric_schema",
+      "train24_packet_sha256", "evidence_inventory_sha256", "validation_generation"
+    ],
+    "validation_generation": 1,
+    "automatic_selection": false,
+    "execution_authorized": false
+  },
+  "validation_e_admission": {
+    "status": "LOCKED_PLAN_ONLY",
+    "paths_may_be_opened": false,
+    "read_authorized": false,
+    "requires_new_pi_gate": true,
+    "requires_recipe_freeze_before_read": true,
+    "holdout_f_read": false,
+    "first_unseen_claim_requires_empty_prior_access_ledger": true
+  },
+  "return_tokens": {
+    "intermediate": "STAGE45E_CORELAB_H200_CAMPAIGN_INDEPENDENT_AUDIT_READY",
+    "final": "STAGE45E_THREE_ROUTE_EVIDENCE_CONVERGENCE_READY_FOR_PI_DECISION"
+  }
+}
