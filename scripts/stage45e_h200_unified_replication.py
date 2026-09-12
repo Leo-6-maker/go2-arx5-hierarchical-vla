@@ -2991,6 +2991,18 @@ def _attempt_call_counts(root: Path) -> dict[str, Any]:
     elif failure_path.is_file() and not failure_path.is_symlink():
         document = read_json(failure_path)
         status = "FAILED_ATTEMPT"
+        legacy_proof = _legacy_v1_pre_model_failure_proof(root, document)
+        if legacy_proof is not None:
+            return {
+                "conditioning_passes": 0,
+                "action_head_calls": 0,
+                "raw_rows": 0,
+                "model_side_calls": 0,
+                "status": status,
+                "counters_complete": True,
+                "counter_source": "SOURCE_BOUND_PRE_MODEL_FAILURE_PROOF",
+                "counter_proof": legacy_proof,
+            }
         counters = document.get("observed_counters") or document.get("counters") or {}
         if not counters:
             pre_model = document.get("pre_model_admission")
@@ -3030,6 +3042,69 @@ def _attempt_call_counts(root: Path) -> dict[str, Any]:
         "status": status,
         "counters_complete": counters_complete,
         "counter_source": "SEALED_COUNTERS" if counters else "SEALED_DOCUMENT",
+    }
+
+
+def _legacy_v1_pre_model_failure_proof(root: Path, failure: Mapping[str, Any]) -> dict[str, Any] | None:
+    """Prove zero model calls for two known PI0134 V1 pre-model failures.
+
+    These immutable failures predate the V2 tri-state seal.  A zero is only
+    emitted when the exact route/traceback is a known pre-import boundary,
+    the matching pre-model sidecar proves all execution counters are zero,
+    and the attempt contains no raw/derived output.  All other legacy seals
+    remain UNKNOWN and therefore block continuation.
+    """
+
+    if failure.get("schema") != "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V1":
+        return None
+    if failure.get("status") != "BLOCKED" or failure.get("retry_or_substitution") is not False:
+        return None
+    if failure.get("phase") != "E4" or failure.get("route") != "legacy":
+        return None
+    if failure.get("route_head") != ROUTE_HEADS["legacy"]:
+        return None
+    error = str(failure.get("error", ""))
+    traceback_text = str(failure.get("traceback", ""))
+    proof_kind: str | None = None
+    if error.startswith("RuntimeError: E4 output must be fresh:") and "stage45e_legacy_matched_seed.py" in traceback_text and "def e4" in traceback_text:
+        proof_kind = "LEGACY_E4_FRESH_OUTPUT_BEFORE_LOAD_CONTEXT"
+    elif error == "ModuleNotFoundError: No module named 'gr00t'" and "_bind_cosmos_processor" in traceback_text and "stage45e_legacy_matched_seed.py" in traceback_text:
+        proof_kind = "LEGACY_E4_GR00T_IMPORT_BEFORE_MODEL_CONSTRUCTION"
+    if proof_kind is None:
+        return None
+
+    pre_model_value = failure.get("pre_model_admission")
+    pre_model_path = Path(str(pre_model_value)).resolve() if pre_model_value else Path(root) / "pre_model_admission.json"
+    if not pre_model_path.is_file() or pre_model_path.is_symlink():
+        return None
+    pre_model = read_json(pre_model_path)
+    if pre_model.get("schema") != "VANDA_STAGE45E_UNIFIED_DIAGNOSTICS_PRE_MODEL_ADMISSION_V1" or pre_model.get("status") != "PASS":
+        return None
+    if pre_model.get("phase") != "E4" or pre_model.get("route") != "legacy":
+        return None
+    if pre_model.get("model_imported") is not False or pre_model.get("model_construction") not in (0, False) or pre_model.get("model_forward") not in (0, False):
+        return None
+    if pre_model.get("training") not in (False, 0) or pre_model.get("backward") not in (False, 0) or pre_model.get("optimizer_steps") not in (0, False):
+        return None
+
+    try:
+        entries = sorted(item.name for item in Path(root).iterdir() if not item.is_symlink())
+    except OSError:
+        return None
+    if any(name not in {"pre_model_admission.json", "unified_failure_seal.json"} for name in entries):
+        return None
+    return {
+        "proof_kind": proof_kind,
+        "failure_seal_sha256": sha256_file(Path(root) / "unified_failure_seal.json"),
+        "pre_model_admission_path": str(pre_model_path),
+        "pre_model_admission_sha256": sha256_file(pre_model_path),
+        "raw_and_derived_outputs_absent": True,
+        "model_imported": False,
+        "model_construction": 0,
+        "model_forward": 0,
+        "training": False,
+        "backward": False,
+        "optimizer_steps": 0,
     }
 
 
@@ -3216,6 +3291,8 @@ def _diagnostic_retry_allowed(candidate: Mapping[str, Any]) -> bool:
     if not failure_path.is_file() or failure_path.is_symlink():
         return False
     failure = read_json(failure_path)
+    if _legacy_v1_pre_model_failure_proof(root, failure) is not None:
+        return True
     if failure.get("retry_eligibility") != "PRE_MODEL_ONLY":
         return False
     execution = failure.get("execution_state", {})
@@ -3732,7 +3809,11 @@ def _write_native_v2_serialization(
         "campaign_history": {
             "training_occurred": True,
             "fresh_training_lineages": 7,
-            "diagnostic_model_calls_occurred": accounting.get("all_attempted_model_calls", 0) > 0,
+            "diagnostic_model_calls_occurred": (
+                None
+                if accounting.get("all_attempted_model_calls") is None
+                else accounting.get("all_attempted_model_calls") > 0
+            ),
             "diagnostic_attempts_observed": len(accounting.get("attempt_inventory", [])),
         },
         "synthetic_test_only": "SYNTHETIC_TEST_ONLY" if synthetic_test_only else False,

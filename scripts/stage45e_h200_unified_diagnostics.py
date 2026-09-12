@@ -28,6 +28,9 @@ from typing import Any, Mapping, Sequence
 REPO = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = REPO / "manifests/STAGE45E_H200_UNIFIED_REPLICATION_PI0143_V1.json"
 PI_GATE = "PI_GATE_STATE_0143"
+PI0152_GATE = "PI_GATE_STATE_0152"
+PI0152_ISSUE_COMMENT = 5647237688
+PI0152_PR_COMMENT = 5647241465
 ROUTE_HEADS = {
     "legacy": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
     "l1": "186efc2977e2795bebf0dfe97d6f503a672716de",
@@ -175,7 +178,20 @@ def _phase_budget(phase: str, arm_count: int) -> dict[str, int]:
 def _validate_admission(admission_path: Path, route: str, phase: str, output: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     admission = read_json(admission_path)
     require(admission.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V2", "campaign admission schema is not PI0143 V2")
-    require(admission.get("status") == "PASS" and admission.get("pi_gate") == PI_GATE, "campaign admission is not a PI0143 PASS")
+    require(admission.get("status") == "PASS", "campaign admission is not a PASS")
+    observed_gate = admission.get("pi_gate")
+    if observed_gate == PI0152_GATE:
+        authority = admission.get("execution_authority", {})
+        require(admission.get("historical_contract_gate") == PI_GATE, "PI0152 admission lost historical PI0143 contract binding")
+        require(
+            authority.get("pi_gate") == PI0152_GATE
+            and authority.get("issue_comment") == PI0152_ISSUE_COMMENT
+            and authority.get("pr_comment") == PI0152_PR_COMMENT
+            and authority.get("historical_contract_gate") == PI_GATE,
+            "PI0152 execution authority overlay drift",
+        )
+    else:
+        require(observed_gate == PI_GATE, "campaign admission is not a PI0143/PI0152 PASS")
     require(admission.get("route_worktrees", {}).get(route, {}).get("head") == ROUTE_HEADS[route], f"{route} admission HEAD drift")
     require(admission.get("route_worktrees", {}).get(route, {}).get("branch") == ROUTE_BRANCHES[route], f"{route} admission branch drift")
     require(not output.exists() and not output.is_symlink(), f"diagnostic output must be fresh: {output}")
@@ -295,6 +311,8 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
             "route": route,
             "phase": phase,
             "pi_gate": PI_GATE,
+            "execution_authority": admission.get("execution_authority", {}),
+            "historical_contract_gate": admission.get("historical_contract_gate", PI_GATE),
             "route_head": ROUTE_HEADS[route],
             "route_branch": ROUTE_BRANCHES[route],
             "route_repo": str(route_repo),
@@ -392,6 +410,8 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
             "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_PHASE_SEAL_V2",
             "status": "PASS",
             "pi_gate": PI_GATE,
+            "execution_authority": admission.get("execution_authority", {}),
+            "historical_contract_gate": admission.get("historical_contract_gate", PI_GATE),
             "route": route,
             "phase": phase,
             "route_branch": ROUTE_BRANCHES[route],

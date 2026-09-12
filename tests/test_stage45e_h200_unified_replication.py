@@ -58,6 +58,71 @@ def test_pi0152_execution_overlay_preserves_historical_contract_and_l1_token() -
     assert campaign.L1_ROUTE_AUTHORITY_TOKEN != authority["pi_gate"]
 
 
+def test_legacy_v1_pre_model_failure_is_source_bound_zero_and_retryable(tmp_path: Path) -> None:
+    root = tmp_path / "pi0134_E4_legacy"
+    root.mkdir()
+    pre_model = {
+        "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTICS_PRE_MODEL_ADMISSION_V1",
+        "status": "PASS",
+        "phase": "E4",
+        "route": "legacy",
+        "model_imported": False,
+        "model_construction": 0,
+        "model_forward": 0,
+        "training": False,
+        "backward": False,
+        "optimizer_steps": 0,
+    }
+    (root / "pre_model_admission.json").write_text(json.dumps(pre_model), encoding="utf-8")
+    failure = {
+        "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V1",
+        "status": "BLOCKED",
+        "phase": "E4",
+        "route": "legacy",
+        "route_head": campaign.ROUTE_HEADS["legacy"],
+        "retry_or_substitution": False,
+        "error": "RuntimeError: E4 output must be fresh: /tmp/attempt",
+        "traceback": "stage45e_legacy_matched_seed.py def e4",
+    }
+    (root / "unified_failure_seal.json").write_text(json.dumps(failure), encoding="utf-8")
+    counts = campaign._attempt_call_counts(root)
+    assert counts["model_side_calls"] == 0
+    assert counts["counters_complete"] is True
+    assert counts["counter_source"] == "SOURCE_BOUND_PRE_MODEL_FAILURE_PROOF"
+    assert campaign._diagnostic_retry_allowed({"root": str(root)}) is True
+
+
+def test_diagnostics_accepts_pi0152_execution_overlay(tmp_path: Path) -> None:
+    checkpoint = tmp_path / "checkpoint-1000"
+    checkpoint.mkdir()
+    (checkpoint / "trainer_state.json").write_text(json.dumps({"global_step": 1000}), encoding="utf-8")
+    for name in ("optimizer.pt", "scheduler.pt", "rng_state.pth"):
+        (checkpoint / name).write_bytes(name.encode())
+    spec_path = tmp_path / "E4_legacy.json"
+    spec_path.write_text(json.dumps({
+        "schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V2",
+        "route": "legacy",
+        "phase": "E4",
+        "checkpoints": [{"path": str(checkpoint), "step": 1000}],
+        "budget": {"arms": 1, "conditioning_passes": 24, "action_head_calls": 96, "raw_rows": 24},
+    }), encoding="utf-8")
+    admission_path = tmp_path / "campaign_admission.json"
+    admission_path.write_text(json.dumps({
+        "schema": "VANDA_STAGE45E_H200_UNIFIED_CAMPAIGN_ADMISSION_V2",
+        "status": "PASS",
+        "pi_gate": campaign.PI0152_GATE,
+        "historical_contract_gate": campaign.PI_GATE,
+        "execution_authority": campaign.execution_authority(),
+        "route_worktrees": {
+            "legacy": {"branch": diagnostics.ROUTE_BRANCHES["legacy"], "head": diagnostics.ROUTE_HEADS["legacy"]},
+        },
+        "phase_specs": {"E4": {"legacy": str(spec_path)}},
+    }), encoding="utf-8")
+    admission, spec = diagnostics._validate_admission(admission_path, "legacy", "E4", tmp_path / "fresh-output")
+    assert admission["pi_gate"] == campaign.PI0152_GATE
+    assert spec["phase"] == "E4"
+
+
 def test_pi0143_allocation_manifest_is_append_only_and_fail_closed() -> None:
     manifest = json.loads((ROOT / "manifests/STAGE45E_H200_ALLOCATION_LEDGER_PI0143_V1.json").read_text())
     assert manifest["seeded_consumed_ordinals"] == [1, 2, 3]
