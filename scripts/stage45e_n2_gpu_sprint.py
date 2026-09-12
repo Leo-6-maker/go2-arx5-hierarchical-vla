@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Corelab Stage45E N2 replication/mechanism GPU sprint.
+"""Vanda Stage45E N2 H200 matched-seed replication runner.
 
-The static entry point is dependency-light and checks the PI0125 manifest,
+The static entry point is dependency-light and checks the PI0133 manifest,
 the frozen N2 contract, and all four fixed GPU budgets.  Runtime phases are
 explicit and path-bound.  They use the already accepted Stage38/45C direct
 action-head graph and never call the public sampler, WBC, simulator, PBS, or
@@ -38,10 +38,10 @@ import stage45e_n2_statistics as n2  # noqa: E402
 
 MANIFEST_PATH = REPO / "manifests/STAGE45E_N2_GPU_REPLICATION_MECHANISM_SPRINT_V1.json"
 STAGE = "Stage45E"
-BRANCH = "stage45e/n2-gpu-replication-mechanism-sprint"
-BASE_HEAD = "a476a581f4d9a5ad104e691d4037762c6f1685ba"
-PI_GATE = "PI_GATE_STATE_0130"
-PI_COMMENT = 5642258588
+BRANCH = "stage45e/n2-h200-matched-seed-replication"
+BASE_HEAD = "d762e731d2c11ceea3c001c37ac27890fe6f4e70"
+PI_GATE = "PI_GATE_STATE_0133"
+PI_COMMENT = 5642852068
 BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 RUNTIME_STATS_SHA = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337"
@@ -53,7 +53,8 @@ COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
-PREFERRED_GPU_UUID = "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+PREFERRED_GPU_UUID = None
+MIN_H200_VRAM_MIB = 80 * 1024
 HORIZON = 40
 UNIVERSAL_DIM = 132
 RAW_SHAPE = (1, HORIZON, UNIVERSAL_DIM)
@@ -204,30 +205,31 @@ def tree_digest(entries: Iterable[Mapping[str, Any]]) -> str:
 
 def _manifest() -> dict[str, Any]:
     value = read_json(MANIFEST_PATH)
-    require(value.get("schema") == "CORELAB_STAGE45E_N2_GPU_REPLICATION_MECHANISM_SPRINT_V1", "sprint manifest schema drift")
+    require(value.get("schema") == "CORELAB_STAGE45E_N2_H200_MATCHED_SEED_REPLICATION_PI0133_V1", "H200 manifest schema drift")
     return value
 
 
 def static_audit() -> dict[str, Any]:
     manifest = _manifest()
-    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_COMMENT, "PI0130 authority drift")
+    require(manifest["authority"]["pi_gate"] == PI_GATE and manifest["authority"]["issue_comment"] == PI_COMMENT, "PI0133 authority drift")
     require(manifest["repository"]["branch"] == BRANCH and manifest["repository"]["base_head"] == BASE_HEAD, "sprint branch/base drift")
     require(manifest["frozen_identities"]["base_tree_sha256"] == BASE_TREE, "BASE identity drift")
     require(manifest["frozen_identities"]["full24_tree_sha256"] == FULL24_TREE, "FULL24 identity drift")
     require(manifest["n2_intervention"]["xyz_common_half_range_m"] == n2.HALF_RANGE_M, "N2 half-range drift")
     require(manifest["n2_intervention"]["mask_active_scalars"] == 190, "T16 mask drift")
-    require(manifest["continuation"]["order"] == ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"], "continuation order drift")
-    require(set(manifest["continuation"]["forbidden_phases"]) >= {"G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"}, "continuation forbidden-phase drift")
-    require(manifest["training"]["seeds"] == [2223, 2224] and manifest["training"]["max_steps"] == 2000, "replication training budget drift")
-    require(manifest["g2_train24_evaluation"]["total_model_side_calls"] == 480, "G2 budget drift")
-    require(manifest["g3_d1_teacher_forced_local_flow"]["conditioning_passes"] == 96, "G3 conditioning budget drift")
-    require(manifest["g3_d1_teacher_forced_local_flow"]["action_head_calls"] == 864, "G3 action-head budget drift")
-    require(manifest["g3_d1_teacher_forced_local_flow"]["total_model_side_calls"] == 960, "G3 budget drift")
-    require(manifest["g4_d2a_tf_vs_fr"]["total_model_side_calls"] == 864, "G4 budget drift")
-    require(manifest["g5_d1_n2_at_1000"]["conditioning_passes"] == 72, "G5-D1 conditioning budget drift")
-    require(manifest["g5_d1_n2_at_1000"]["action_head_calls"] == 648, "G5-D1 action-head budget drift")
-    require(manifest["g5_d1_n2_at_1000"]["total_model_side_calls"] == 720, "G5-D1 budget drift")
-    require(manifest["g5_d2a_n2_at_1000"]["total_model_side_calls"] == 648, "G5-D2A budget drift")
+    require(manifest["continuation"]["order"] == ["H200_ADMISSION", "FRESH_BASE_SEEDS", "N2_E4", "N2_D1", "N2_D2A", "CPU_CLOSURE"], "H200 continuation order drift")
+    require(set(manifest["continuation"]["forbidden_phases"]) >= {"Validation-E", "Holdout-F", "WBC", "simulator", "hardware", "D2B"}, "H200 continuation forbidden-phase drift")
+    require(manifest["training"]["seeds"] == [2222, 2223, 2224] and manifest["training"]["max_steps"] == 2000, "H200 replication training budget drift")
+    require(manifest["evaluation"]["arms"] == 6, "N2 E4 arm count drift")
+    require(manifest["evaluation"]["conditioning_passes"] == 144, "N2 E4 conditioning budget drift")
+    require(manifest["evaluation"]["action_head_calls"] == 576, "N2 E4 action-head budget drift")
+    require(manifest["evaluation"]["total_model_side_calls"] == 720, "N2 E4 budget drift")
+    require(manifest["diagnostics"]["d1"]["conditioning_passes"] == 144, "N2 D1 conditioning budget drift")
+    require(manifest["diagnostics"]["d1"]["action_head_calls"] == 1296, "N2 D1 action-head budget drift")
+    require(manifest["diagnostics"]["d1"]["total_model_side_calls"] == 1440, "N2 D1 budget drift")
+    require(manifest["diagnostics"]["d2a"]["conditioning_passes"] == 144, "N2 D2A conditioning budget drift")
+    require(manifest["diagnostics"]["d2a"]["action_head_calls"] == 1152, "N2 D2A action-head budget drift")
+    require(manifest["diagnostics"]["d2a"]["total_model_side_calls"] == 1296, "N2 D2A budget drift")
     source = Path(__file__).read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(Path(__file__)))
     imports: list[str] = []
@@ -238,18 +240,16 @@ def static_audit() -> dict[str, Any]:
             imports.append(node.module.split(".", 1)[0])
     forbidden_imports = sorted(set(imports).intersection({"torch", "transformers", "gr00t", "isaacgym", "omni"}))
     return {
-        "schema": "CORELAB_STAGE45E_N2_GPU_SPRINT_STATIC_AUDIT_V1",
+        "schema": "CORELAB_STAGE45E_N2_H200_MATCHED_SEED_STATIC_AUDIT_V1",
         "status": "PASS" if not forbidden_imports else "BLOCKED",
         "manifest_sha256": sha256_file(MANIFEST_PATH),
         "top_level_forbidden_imports": forbidden_imports,
         "branch": BRANCH,
         "base_head": BASE_HEAD,
-        "g1_seeds": [2223, 2224],
-        "g2_calls": 480,
-        "g3_calls": 864,
-        "g4_calls": 864,
-        "g5_d1_calls": 648,
-        "g5_d2a_calls": 648,
+        "training_seeds": list(manifest["training"]["seeds"]),
+        "e4_calls": 720,
+        "d1_calls": 1440,
+        "d2a_calls": 1296,
         "continuation_order": manifest["continuation"]["order"],
         "forbidden_continuation_phases": manifest["continuation"]["forbidden_phases"],
         "execution_boundary": {"model_construction": 0, "gr00t_forwards": 0, "training_steps": 0, "optimizer_steps": 0, "gpu": False, "PBS": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
@@ -276,7 +276,7 @@ def _paths(args: argparse.Namespace, *, include_legacy: bool = False) -> dict[st
     return result
 
 
-def gpu_identity(expected_uuid: str = PREFERRED_GPU_UUID) -> dict[str, Any]:
+def gpu_identity(expected_uuid: str | None = PREFERRED_GPU_UUID) -> dict[str, Any]:
     query = subprocess.run(["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,memory.used", "--format=csv,noheader,nounits"], capture_output=True, text=True, check=False)
     require(query.returncode == 0, f"nvidia-smi failed: {query.stderr[-500:]}")
     rows = []
@@ -286,10 +286,11 @@ def gpu_identity(expected_uuid: str = PREFERRED_GPU_UUID) -> dict[str, Any]:
         fields = [item.strip() for item in line.split(",")]
         require(len(fields) == 5, f"unexpected nvidia-smi row: {line!r}")
         rows.append({"index": fields[0], "name": fields[1], "uuid": fields[2], "memory_total_mib": int(fields[3]), "memory_used_mib_at_start": int(fields[4])})
-    selected = [item for item in rows if item["uuid"] == expected_uuid]
-    require(len(selected) == 1, f"preferred RTX4080S UUID is not unique: {rows!r}")
+    require(len(rows) == 1 and rows[0]["index"] == "0", f"PI0133 requires exactly one visible H200 at index 0: {rows!r}")
+    selected = [item for item in rows if expected_uuid is None or item["uuid"] == expected_uuid]
+    require(len(selected) == 1, f"requested H200 UUID is not unique: {expected_uuid}; observed={rows!r}")
     value = selected[0]
-    require("RTX 4080 SUPER" in value["name"] and value["memory_total_mib"] >= 30000, f"preferred 32GB RTX4080S not observed: {value!r}")
+    require("H200" in value["name"].upper() and value["memory_total_mib"] >= MIN_H200_VRAM_MIB, f"H200 identity/capacity not observed: {value!r}")
     value["host"] = subprocess.check_output(["hostname"], text=True).strip()
     value["query_sha256"] = sha256_bytes(query.stdout.encode("utf-8"))
     return value
@@ -372,7 +373,7 @@ def compare_statistics(left: Any, right: Any, atol: float = 1e-12) -> bool:
 
 
 def train_one(args: argparse.Namespace) -> dict[str, Any]:
-    require(args.seed in (2223, 2224), "G1 permits only seeds 2223 and 2224")
+    require(args.seed in N2_SEEDS, "PI0133 permits only N2 seeds 2222/2223/2224")
     paths = _paths(args)
     identity = _verify_core_identities(paths)
     gpu = gpu_identity(args.gpu_uuid or PREFERRED_GPU_UUID)
@@ -713,6 +714,20 @@ def _diagnostic_checkpoint_specs(binding: Mapping[str, Any], phase: str) -> list
             }
             for seed in N2_SEEDS
         ]
+    if phase in {"N2_D1", "N2_D2A"}:
+        specs: list[dict[str, Any]] = []
+        for seed in N2_SEEDS:
+            info = binding["n2"][seed]
+            for step in (1000, 2000):
+                specs.append({
+                    "label": f"N2(seed{seed})@{step}",
+                    "path": Path(info["root"]) / f"checkpoint-{step}",
+                    "tree": info["checkpoints"][str(step)]["tree_sha256"],
+                    "stats": "n2",
+                    "seed": seed,
+                    "step": step,
+                })
+        return specs
     specs = [
         {"label": "FULL24@2000", "path": binding["legacy_full24_2000"], "tree": binding["legacy_full24_2000_tree_sha256"], "stats": "runtime"},
     ]
@@ -767,8 +782,9 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
     try:
         is_d1 = phase.endswith("_D1")
         is_g5 = phase.startswith("G5_")
+        is_n2_route = phase.startswith("N2_")
         n2_roots = _diagnostic_n2_roots(args)
-        binding = _require_n2_paths(args, n2_roots=n2_roots) if is_g5 else _require_legacy_paths(args, n2_roots=n2_roots)
+        binding = _require_n2_paths(args, n2_roots=n2_roots) if (is_g5 or is_n2_route) else _require_legacy_paths(args, n2_roots=n2_roots)
         paths = _paths(args)
         identity = _verify_core_identities(paths)
         gpu = gpu_identity(args.gpu_uuid or PREFERRED_GPU_UUID)
@@ -895,6 +911,8 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
             "G4_D2A": {"model_construction": 4, "conditioning_passes": 96, "action_head_calls": 768, "model_forward": 768, "raw_stage_count": 384},
             "G5_D1": {"model_construction": 3, "conditioning_passes": 72, "action_head_calls": 648, "model_forward": 648, "raw_stage_count": 648},
             "G5_D2A": {"model_construction": 3, "conditioning_passes": 72, "action_head_calls": 576, "model_forward": 576, "raw_stage_count": 288},
+            "N2_D1": {"model_construction": 6, "conditioning_passes": 144, "action_head_calls": 1296, "model_forward": 1296, "raw_stage_count": 1296},
+            "N2_D2A": {"model_construction": 6, "conditioning_passes": 144, "action_head_calls": 1152, "model_forward": 1152, "raw_stage_count": 576},
         }[phase]
         for key, value in expected.items():
             require(counters[key] == value, f"{phase} total budget drift {key}: {counters[key]} != {value}")
@@ -904,6 +922,137 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
     except Exception as exc:
         _sync_failure_boundary(counters, phase=phase)
         write_json(output / "FAILURE_SEAL.json", {"schema": f"CORELAB_STAGE45E_N2_{phase}_FAILURE_SEAL_V1", "status": "BLOCKED", "phase": phase, "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc(), "counters": counters, "execution_boundary": dict(_BOUNDARY), "retry_or_substitution": False, "timestamp_utc": now_utc()}, overwrite=True)
+        raise
+
+
+def n2_e4_eval(args: argparse.Namespace) -> dict[str, Any]:
+    """Evaluate all six N2 H200 checkpoint arms on the frozen TRAIN24 E4 graph."""
+
+    import numpy as np
+
+    paths = _paths(args)
+    identity = _verify_core_identities(paths)
+    n2_roots = _diagnostic_n2_roots(args)
+    binding = _require_n2_paths(args, n2_roots=n2_roots)
+    output = Path(args.output_root).resolve()
+    require(not output.exists(), f"N2 E4 output root must be fresh: {output}")
+    output.mkdir(parents=True, exist_ok=False)
+    gpu = gpu_identity(args.gpu_uuid or PREFERRED_GPU_UUID)
+    prepare_env(paths, output, gpu)
+    torch, ev, _processor, _embodiment, records, baseline_noise, context = _load_sealed_context(paths)
+    windows, noise_bank = context
+    require(len(records) == 24 and len(windows) == 24, "N2 E4 TRAIN24 materialization drift")
+    import stage38_structured_offline_evaluation as stage38
+    from stage45c_h200_eval_runtime_adapter import _sample_one
+    from go2arx5_vla.evaluation.checkpoint_eval import aggregate_evaluation_rows
+
+    n2_doc = read_json(paths["n2_stats"])
+    specs = []
+    for seed in N2_SEEDS:
+        info = binding["n2"][seed]
+        for step in (1000, 2000):
+            specs.append({
+                "label": f"N2(seed{seed})@{step}",
+                "seed": seed,
+                "step": step,
+                "path": Path(info["root"]) / f"checkpoint-{step}",
+                "tree": info["checkpoints"][str(step)]["tree_sha256"],
+            })
+    raw_manifest = output / "raw_predictions.jsonl"
+    raw_manifest.write_text("", encoding="utf-8")
+    counters = {
+        "gpu": True, "model_construction": 0, "conditioning_passes": 0,
+        "action_head_calls": 0, "model_forward": 0, "raw_rows": 0,
+        "training": False, "backward_steps": 0, "optimizer_steps": 0,
+        "checkpoint_writes": 0, "public_sampler_calls": 0, "get_action_calls": 0,
+        "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0,
+    }
+    all_rows: dict[str, list[dict[str, Any]]] = {}
+    try:
+        for spec in specs:
+            label = spec["label"]
+            model = stage38._load_structured_model(spec["path"], "cuda:0")
+            counters["model_construction"] += 1
+            hook_counter = {"count": 0}
+            hook = model.action_head.model.register_forward_hook(
+                lambda *_args, **_kwargs: hook_counter.__setitem__("count", hook_counter["count"] + 1)
+            )
+            rows: list[dict[str, Any]] = []
+            try:
+                for index, (window, record) in enumerate(zip(windows, records)):
+                    with torch.inference_mode():
+                        raw, calls = _sample_one(model, window["model_inputs"], noise_bank[index], torch)
+                    counters["conditioning_passes"] += 1
+                    counters["action_head_calls"] += calls
+                    counters["model_forward"] += calls
+                    raw_np = raw.detach().cpu().numpy().astype("float32", copy=False)
+                    require(raw_np.shape == RAW_SHAPE and np.isfinite(raw_np).all(), f"N2 E4 raw shape/finite drift: {label}/{index}")
+                    raw_path = output / "raw" / label.replace("@", "_at_") / f"{index:02d}.npy"
+                    raw_path.parent.mkdir(parents=True, exist_ok=True)
+                    np.save(raw_path, raw_np, allow_pickle=False)
+                    raw_sha = sha256_file(raw_path)
+                    physical, details = ev._decode_with_stats(
+                        raw_np, record["state_v1"], n2_doc,
+                        stats_sha256=N2_STATS_SHA, payload_sha256=N2_STATS_PAYLOAD_SHA,
+                        chunk_id=record["window_id"], timestamps=record["source_timestamps"],
+                        observation_timestamp=float(record["observation_timestamp"]),
+                    )
+                    normalized = ev._normalized_metrics(
+                        raw_np, record["expert_physical_action"], record["state_v1"],
+                        record["source_timestamps"], n2_doc,
+                    )
+                    checkpoint = {"label": label, "tree_sha256": spec["tree"], "seed": spec["seed"], "step": spec["step"]}
+                    row = ev._evaluation_row(
+                        raw_np, physical, details, normalized, record, checkpoint,
+                        raw_path.relative_to(output), raw_sha, GROOT_COMMIT,
+                    )
+                    row.update({
+                        "schema": "VANDA_STAGE45E_N2_H200_E4_ROW_V1",
+                        "stats_route": "N2_BALANCED_XYZ_STATS",
+                        "sampler": {"steps_observed": calls, "timestep_ids": list(T16), "dt": DT, "official_public_sampler_called": False},
+                        "target_xyz_in_model_input": False,
+                        "finite": True,
+                    })
+                    rows.append(row)
+                    with raw_manifest.open("a", encoding="utf-8") as handle:
+                        handle.write(json.dumps({
+                            "checkpoint": checkpoint, "window_id": record["window_id"],
+                            "path": str(raw_path.relative_to(output)), "file_sha256": raw_sha,
+                            "array_sha256": sha256_bytes(raw_np.tobytes()),
+                            "stats_route": "N2_BALANCED_XYZ_STATS", "sampler_calls_observed": calls,
+                        }, sort_keys=True) + "\n")
+                    counters["raw_rows"] += 1
+            finally:
+                hook.remove()
+            require(hook_counter["count"] == 96, f"N2 E4 action-head budget drift: {label}={hook_counter['count']}")
+            require(len(rows) == 24, f"N2 E4 row count drift: {label}")
+            all_rows[label] = rows
+            write_json(output / f"rows_{label.replace('@', '_at_')}.json", rows)
+            write_json(output / f"aggregate_{label.replace('@', '_at_')}.json", aggregate_evaluation_rows(rows))
+            del model
+            torch.cuda.empty_cache()
+        require((counters["conditioning_passes"], counters["action_head_calls"], counters["model_forward"], counters["raw_rows"]) == (144, 576, 576, 144), f"N2 E4 total budget drift: {counters}")
+        seal = {
+            "schema": "VANDA_STAGE45E_N2_H200_E4_SEAL_V1", "status": "PASS", "token": "N2_E4_PASS",
+            "pi_gate": PI_GATE, "branch": BRANCH, "repository_head": git("rev-parse", "HEAD"),
+            "identity": identity, "checkpoint_count": 6, "checkpoints": [
+                {"label": spec["label"], "seed": spec["seed"], "step": spec["step"], "tree_sha256": spec["tree"], "rows": 24, "action_head_calls": 96}
+                for spec in specs
+            ], "counters": counters, "raw_predictions_manifest_sha256": sha256_file(raw_manifest),
+            "gpu": gpu, "training": False, "optimizer_steps": 0, "Validation-E": 0,
+            "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "target_xyz_in_model_input": False,
+            "timestamp_utc": now_utc(),
+        }
+        write_json(output / "seal.json", seal)
+        return seal
+    except Exception as exc:
+        _sync_failure_boundary(counters, phase="N2_E4")
+        write_json(output / "FAILURE_SEAL.json", {
+            "schema": "VANDA_STAGE45E_N2_H200_E4_FAILURE_SEAL_V1", "status": "BLOCKED",
+            "pi_gate": PI_GATE, "phase": "N2_E4", "error": f"{type(exc).__name__}: {exc}",
+            "traceback": traceback.format_exc(), "counters": counters,
+            "execution_boundary": dict(_BOUNDARY), "retry_or_substitution": False, "timestamp_utc": now_utc(),
+        }, overwrite=True)
         raise
 
 
@@ -1030,7 +1179,7 @@ def reset_boundary() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("static", "admission", "train", "g2", "g3", "g4", "g5d1", "g5d2a", "continue-g3-g4-g5", "sprint"), default="static")
+    parser.add_argument("--mode", choices=("static", "admission", "train", "g2", "g3", "g4", "g5d1", "g5d2a", "n2-e4", "n2-d1", "n2-d2a", "continue-g3-g4-g5", "sprint"), default="static")
     parser.add_argument("--base-model", dest="base_model", type=Path)
     parser.add_argument("--dataset", type=Path)
     parser.add_argument("--groot", type=Path)
@@ -1079,10 +1228,19 @@ def main() -> int:
         elif args.mode == "g5d2a":
             require(args.output_root is not None, "g5d2a requires output root")
             result = g5_d2a_eval(args)
+        elif args.mode == "n2-e4":
+            require(args.output_root is not None, "n2-e4 requires output root")
+            result = n2_e4_eval(args)
+        elif args.mode == "n2-d1":
+            require(args.output_root is not None, "n2-d1 requires output root")
+            result = _diagnostic_runtime(args, "N2_D1")
+        elif args.mode == "n2-d2a":
+            require(args.output_root is not None, "n2-d2a requires output root")
+            result = _diagnostic_runtime(args, "N2_D2A")
         elif args.mode == "continue-g3-g4-g5":
             result = run_continuation_g3_g4_g5(args)
         else:
-            raise RuntimeError("legacy --mode sprint is disabled under PI0130; use --mode continue-g3-g4-g5")
+            raise RuntimeError("legacy --mode sprint is disabled under PI0133; use the packed unified H200 orchestration entrypoint")
         print(json.dumps(result, indent=2, sort_keys=True, default=str))
         return 0
     except Exception as exc:

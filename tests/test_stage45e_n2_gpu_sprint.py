@@ -1,4 +1,4 @@
-"""CPU/static regression checks for the PI0130 Corelab continuation."""
+"""CPU/static regression checks for the PI0133 H200 N2 replication lane."""
 
 from __future__ import annotations
 
@@ -13,22 +13,22 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import stage45e_n2_gpu_sprint as sprint  # noqa: E402
 
 
-def test_pi0125_manifest_and_budget_are_frozen() -> None:
+def test_pi0133_manifest_and_budget_are_frozen() -> None:
     manifest = json.loads(sprint.MANIFEST_PATH.read_text(encoding="utf-8"))
-    assert manifest["authority"]["issue_comment"] == 5642258588
+    assert manifest["authority"]["issue_comment"] == 5642852068
     assert manifest["repository"]["branch"] == sprint.BRANCH
     assert manifest["repository"]["base_head"] == sprint.BASE_HEAD
-    assert manifest["training"]["seeds"] == [2223, 2224]
-    assert manifest["g2_train24_evaluation"]["total_model_side_calls"] == 480
-    assert manifest["g3_d1_teacher_forced_local_flow"]["conditioning_passes"] == 96
-    assert manifest["g3_d1_teacher_forced_local_flow"]["total_model_side_calls"] == 960
-    assert manifest["g4_d2a_tf_vs_fr"]["total_model_side_calls"] == 864
-    assert manifest["g5_d1_n2_at_1000"]["action_head_calls"] == 648
-    assert manifest["g5_d1_n2_at_1000"]["conditioning_passes"] == 72
-    assert manifest["g5_d1_n2_at_1000"]["total_model_side_calls"] == 720
-    assert manifest["g5_d2a_n2_at_1000"]["action_head_calls"] == 576
-    assert manifest["g5_d2a_n2_at_1000"]["conditioning_passes"] == 72
-    assert manifest["g5_d2a_n2_at_1000"]["total_model_side_calls"] == 648
+    assert manifest["training"]["seeds"] == [2222, 2223, 2224]
+    assert manifest["evaluation"]["arms"] == 6
+    assert manifest["evaluation"]["action_head_calls"] == 576
+    assert manifest["evaluation"]["conditioning_passes"] == 144
+    assert manifest["evaluation"]["total_model_side_calls"] == 720
+    assert manifest["diagnostics"]["d1"]["action_head_calls"] == 1296
+    assert manifest["diagnostics"]["d1"]["conditioning_passes"] == 144
+    assert manifest["diagnostics"]["d1"]["total_model_side_calls"] == 1440
+    assert manifest["diagnostics"]["d2a"]["action_head_calls"] == 1152
+    assert manifest["diagnostics"]["d2a"]["conditioning_passes"] == 144
+    assert manifest["diagnostics"]["d2a"]["total_model_side_calls"] == 1296
     assert manifest["legacy_exact_checkpoint_relay"]["bundle_bytes"] == 41779394560
     assert manifest["legacy_exact_checkpoint_relay"]["bundle_sha256"] == "a022480f3882988aee3831f14f817b265525d87ec6486d879d9d525025771a05"
     assert manifest["n2_intervention"]["mask_active_scalars"] == 190
@@ -58,23 +58,29 @@ def test_legacy_comparator_is_late_bound() -> None:
     assert "no scratch-path substitution" in source
 
 
-def test_g5_is_n2_1000_only_and_has_no_2000_rerun() -> None:
+def test_h200_gpu_contract_is_generic_and_seed_complete() -> None:
     manifest = json.loads(sprint.MANIFEST_PATH.read_text(encoding="utf-8"))
-    for key in ("g5_d1_n2_at_1000", "g5_d2a_n2_at_1000"):
-        assert manifest[key]["checkpoints"] == ["N2(seed2222)@1000", "N2(seed2223)@1000", "N2(seed2224)@1000"]
-        assert manifest[key]["rerun_2000"] is False
+    assert manifest["gpu_policy"]["host_role"] == "Vanda Hopper H200"
+    assert manifest["gpu_policy"]["preferred_uuid"] is None
+    assert manifest["gpu_policy"]["minimum_vram_mib"] == 81920
+    assert sprint.N2_SEEDS == (2222, 2223, 2224)
+    assert sprint.MIN_H200_VRAM_MIB == 81920
     source = (ROOT / "scripts/stage45e_n2_gpu_sprint.py").read_text(encoding="utf-8")
-    assert "def g5_d1_eval" in source
-    assert "def g5_d2a_eval" in source
-    assert "CORELAB_STAGE45E_N2_G5_D1_RAW_STAGE_V1" not in source  # schemas are phase-derived
+    assert 'choices=("static", "admission", "train", "g2", "g3", "g4", "g5d1", "g5d2a", "n2-e4", "n2-d1", "n2-d2a", "continue-g3-g4-g5", "sprint")' in source
+    assert "H200" in source
+    assert "RTX4080S" not in source
 
 
-def test_pi0130_continuation_source_contract() -> None:
-    from scripts import stage45e_n2_live_runner_source_contract as contract
-
-    result = contract.audit(ROOT / "scripts/stage45e_n2_gpu_sprint.py", sprint.MANIFEST_PATH)
-    assert result["status"] == "PASS_STATIC_SOURCE_CONTRACT"
-    assert result["d1_conditioning_reuse"]["conditioning_inside_noise_seed_loop"] is False
-    assert result["continuation_order"] == ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"]
-    assert result["model_forward"] == 0
-    assert result["gpu"] == 0
+def test_pi0133_diagnostic_modes_are_present_without_top_level_model_import() -> None:
+    source = (ROOT / "scripts/stage45e_n2_gpu_sprint.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    imports: list[str] = []
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            imports.extend(alias.name.split(".", 1)[0] for alias in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imports.append(node.module.split(".", 1)[0])
+    assert not set(imports).intersection({"torch", "transformers", "gr00t", "isaacgym", "omni"})
+    assert "def n2_e4_eval" in source
+    assert "def _diagnostic_runtime" in source
+    assert "N2_D1" in source and "N2_D2A" in source

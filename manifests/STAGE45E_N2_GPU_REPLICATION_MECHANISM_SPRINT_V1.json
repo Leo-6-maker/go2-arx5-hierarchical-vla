@@ -1,31 +1,31 @@
 {
-  "schema": "CORELAB_STAGE45E_N2_GPU_REPLICATION_MECHANISM_SPRINT_V1",
-  "status": "IMPLEMENTED_CPU_STATIC_READY",
+  "schema": "CORELAB_STAGE45E_N2_H200_MATCHED_SEED_REPLICATION_PI0133_V1",
+  "status": "PI0133_H200_PLAN_CPU_STATIC_READY",
   "stage": "Stage45E",
   "authority": {
     "issue": 11,
-    "pi_gate": "PI_GATE_STATE_0130",
-    "issue_comment": 5642258588,
-    "pointer_pr": 56,
-    "pointer_comment": 5642259704,
+    "pi_gate": "PI_GATE_STATE_0133",
+    "issue_comment": 5642852068,
+    "pointer_pr": 63,
+    "pointer_comment": 5642854134,
     "prep_reference_pr": 60,
     "prep_reference_head": "c3866a504a01db25ac2cf35d9f75ed1699f5b359"
   },
   "repository": {
-    "branch": "stage45e/n2-gpu-replication-mechanism-sprint",
-    "base_head": "a476a581f4d9a5ad104e691d4037762c6f1685ba",
-    "canonical_pr_53_unchanged": true,
+    "branch": "stage45e/n2-h200-matched-seed-replication",
+    "base_head": "d762e731d2c11ceea3c001c37ac27890fe6f4e70",
+    "parent_n2_branch_immutable": true,
     "working_tree_required_clean": true,
     "new_draft_pr_required": true
   },
-  "question": "Do independent N2 seeds reproduce exposure recovery, and which local-flow/rollout mechanisms explain it?",
+  "question": "Under one H200-controlled recipe matrix, how does the frozen N2 normalization intervention replicate across seeds?",
   "continuation": {
-    "order": ["G3_D1", "G4_D2A", "G5_D1", "G5_D2A"],
-    "forbidden_phases": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"],
-    "entrypoint": "continue-g3-g4-g5",
+    "order": ["H200_ADMISSION", "FRESH_BASE_SEEDS", "N2_E4", "N2_D1", "N2_D2A", "CPU_CLOSURE"],
+    "forbidden_phases": ["Validation-E", "Holdout-F", "WBC", "simulator", "hardware", "D2B", "FULL24@4000"],
+    "entrypoint": "stage45e_n2_gpu_sprint.py",
     "cpu_summary_after_gpu_queue": true,
-    "rerun_g1": false,
-    "rerun_g2": false
+    "rerun_completed_seed": false,
+    "automatic_retry": false
   },
   "frozen_identities": {
     "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
@@ -51,7 +51,7 @@
     "target_xyz_in_model_input": false
   },
   "training": {
-    "seeds": [2223, 2224],
+    "seeds": [2222, 2223, 2224],
     "starting_checkpoint": "exact BASE",
     "max_steps": 2000,
     "save_steps": [1000, 2000],
@@ -71,9 +71,10 @@
     "resume_from_n2_2000": false,
     "optimizer_step_budget_per_seed": 2000
   },
-  "g2_train24_evaluation": {
-    "checkpoints": ["R1@1000", "R1@2000", "R2@1000", "R2@2000"],
-    "source_checkpoint_labels": {"R1": 2223, "R2": 2224},
+  "evaluation": {
+    "checkpoints": ["N2(seed2222)@1000", "N2(seed2222)@2000", "N2(seed2223)@1000", "N2(seed2223)@2000", "N2(seed2224)@1000", "N2(seed2224)@2000"],
+    "arms": 6,
+    "source_checkpoint_labels": {"seed2222": 2222, "seed2223": 2223, "seed2224": 2224},
     "cohort": "FULL24_EXISTING_TRAIN",
     "split": "TRAIN",
     "window_count": 24,
@@ -82,9 +83,9 @@
     "development_seed": 4242,
     "timestep_ids": [0, 250, 500, 750],
     "dt": 0.25,
-    "action_head_calls": 384,
-    "conditioning_passes": 96,
-    "total_model_side_calls": 480,
+    "action_head_calls": 576,
+    "conditioning_passes": 144,
+    "total_model_side_calls": 720,
     "same_noise_across_checkpoints": true,
     "public_sampler_calls": 0,
     "get_action_calls": 0
@@ -159,6 +160,26 @@
     "rerun_2000": false,
     "automatic_retry": false
   },
+  "diagnostics": {
+    "d1": {
+      "name": "N2_H200_D1_teacher_forced_local_flow",
+      "checkpoint_count": 6,
+      "noise_seeds": [2223, 2224, 2225],
+      "t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+      "conditioning_passes": 144,
+      "action_head_calls": 1296,
+      "total_model_side_calls": 1440
+    },
+    "d2a": {
+      "name": "N2_H200_D2A_teacher_vs_free",
+      "checkpoint_count": 6,
+      "noise_seed": 4242,
+      "t_values": [0.0, 0.25, 0.5, 0.75],
+      "conditioning_passes": 144,
+      "action_head_calls": 1152,
+      "total_model_side_calls": 1296
+    }
+  },
   "legacy_exact_checkpoint_relay": {
     "bundle_bytes": 41779394560,
     "bundle_sha256": "a022480f3882988aee3831f14f817b265525d87ec6486d879d9d525025771a05",
@@ -166,18 +187,18 @@
     "full24_2000_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
     "payload_regular_file_count": 38,
     "payload_total_bytes": 41779331343,
-    "materialization": "late-bound fresh Corelab destination; independent tree rehash required",
+    "materialization": "late-bound H200 lineage; independent tree rehash required",
     "substitution_allowed": false
   },
-  "historical_execution_order": ["G0_ADMISSION", "G1_REPLICATION_TRAINING", "G2_TRAIN24_E4"],
-  "execution_order": ["G3_D1_LOCAL_FLOW", "G4_D2A_TF_VS_FR", "G5_D1_N2_AT_1000", "G5_D2A_N2_AT_1000"],
+  "historical_execution_order": [],
+  "execution_order": ["H200_ADMISSION", "FRESH_BASE_SEED2222", "FRESH_BASE_SEED2223", "FRESH_BASE_SEED2224", "N2_E4", "N2_D1", "N2_D2A"],
   "gpu_policy": {
-    "host_role": "Corelab RTX",
-    "preferred_name": "NVIDIA GeForce RTX 4080 SUPER",
-    "preferred_vram_mib": 32760,
-    "preferred_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "host_role": "Vanda Hopper H200",
+    "minimum_name": "H200",
+    "minimum_vram_mib": 81920,
+    "preferred_uuid": null,
     "selected_device": "cuda:0",
-    "allow_shared_gpu": true,
+    "allow_shared_gpu": false,
     "must_not_kill_other_processes": true,
     "must_not_reprioritize": true,
     "single_stage40_workload": true,
@@ -189,8 +210,8 @@
     "fresh_output_root_per_seed_and_phase": true,
     "failure_seal_required": true,
     "checkpoint_tree_sha256_bound_after_materialization": true,
-    "cpu_aggregation_deferred_until_after_g5": true,
-    "exact_relay_materialization_required_before_g3": true
+    "cpu_aggregation_deferred_until_after_gpu_queue": true,
+    "exact_relay_materialization_required": false
   },
   "locked": {
     "N1": true,
@@ -207,11 +228,11 @@
     "simulator": true,
     "hardware": true,
     "merge": true,
-    "PBS": true
+    "PBS": false
   },
   "return_tokens": {
-    "resource_blocked": "STAGE45E_N2_CORELAB_RESOURCE_BLOCKED_FOR_PI_REVIEW",
-    "sprint_complete": "STAGE45E_N2_CORELAB_GPU_SPRINT_G3_G4_G5_COMPLETE_FOR_PI_REVIEW"
+    "resource_blocked": "STAGE45E_N2_H200_RESOURCE_BLOCKED_FOR_PI_REVIEW",
+    "replication_complete": "STAGE45E_N2_H200_REPLICATION_COMPLETE_FOR_PI_REVIEW"
   },
   "execution_boundary_now": {
     "model_construction": 0,
