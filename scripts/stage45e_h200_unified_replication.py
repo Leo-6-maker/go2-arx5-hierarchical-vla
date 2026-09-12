@@ -3088,10 +3088,11 @@ def _legacy_v1_pre_model_failure_proof(root: Path, failure: Mapping[str, Any]) -
         return None
 
     # The second immutable PI0134 V1 attempt was launched through the older
-    # wrapper, which created empty ``cache`` and ``tmp`` directories before
-    # the import failure.  They are mechanical scratch entries, not evidence
-    # of model execution.  Accept them only when they are real, non-symlinked,
-    # and empty; any file or nested entry remains fail-closed.
+    # wrapper, which created ``cache``/``tmp`` scratch entries before the
+    # import failure.  The cache also contains an input-bound Cosmos symlink.
+    # These are mechanical setup entries, not evidence of model execution.
+    # Accept only the exact empty/bound layouts; any other file, symlink, or
+    # nested entry remains fail-closed.
     try:
         allowed_files = {"pre_model_admission.json", "unified_failure_seal.json"}
         allowed_empty_directories = {"cache", "tmp"}
@@ -3104,7 +3105,39 @@ def _legacy_v1_pre_model_failure_proof(root: Path, failure: Mapping[str, Any]) -
                 continue
             if item.name not in allowed_empty_directories or not item.is_dir():
                 return None
-            if any(item.iterdir()):
+            if item.name == "tmp":
+                if any(item.iterdir()):
+                    return None
+                continue
+
+            # Exact pre-model cache shape emitted by the historical wrapper:
+            # cache/xdg/ (empty) and cache/huggingface/hub/ followed by one
+            # symlink to the already-bound Cosmos input tree.  Do not accept
+            # arbitrary cache contents or a symlink to another artifact.
+            cache_entries = {child.name: child for child in item.iterdir()}
+            if set(cache_entries) != {"xdg", "huggingface"}:
+                return None
+            xdg = cache_entries["xdg"]
+            huggingface = cache_entries["huggingface"]
+            if xdg.is_symlink() or not xdg.is_dir() or any(xdg.iterdir()):
+                return None
+            if huggingface.is_symlink() or not huggingface.is_dir():
+                return None
+            hub_entries = {child.name: child for child in huggingface.iterdir()}
+            if set(hub_entries) != {"hub"}:
+                return None
+            hub = hub_entries["hub"]
+            if hub.is_symlink() or not hub.is_dir():
+                return None
+            model_entries = {child.name: child for child in hub.iterdir()}
+            model_name = "models--nvidia--Cosmos-Reason2-2B"
+            if set(model_entries) != {model_name}:
+                return None
+            model_link = model_entries[model_name]
+            expected_cosmos = DEFAULTS["cosmos"].resolve()
+            if not model_link.is_symlink() or model_link.resolve() != expected_cosmos:
+                return None
+            if not expected_cosmos.is_dir() or expected_cosmos.is_symlink():
                 return None
     except OSError:
         return None

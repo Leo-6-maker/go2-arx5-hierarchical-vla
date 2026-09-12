@@ -94,6 +94,40 @@ def test_legacy_v1_pre_model_failure_is_source_bound_zero_and_retryable(tmp_path
     assert campaign._diagnostic_retry_allowed({"root": str(root)}) is True
 
 
+def test_legacy_v1_pre_model_failure_accepts_exact_bound_cosmos_cache(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    root = tmp_path / "pi0134_E4_legacy"
+    root.mkdir()
+    cosmos = tmp_path / "cosmos"
+    cosmos.mkdir()
+    monkeypatch.setitem(campaign.DEFAULTS, "cosmos", cosmos)
+    cache = root / "cache"
+    (cache / "xdg").mkdir(parents=True)
+    hub = cache / "huggingface" / "hub"
+    hub.mkdir(parents=True)
+    (hub / "models--nvidia--Cosmos-Reason2-2B").symlink_to(cosmos, target_is_directory=True)
+    (root / "tmp").mkdir()
+    (root / "pre_model_admission.json").write_text(json.dumps({
+        "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTICS_PRE_MODEL_ADMISSION_V1",
+        "status": "PASS", "phase": "E4", "route": "legacy",
+        "model_imported": False, "model_construction": 0,
+        "model_forward": 0, "training": False, "backward": False,
+        "optimizer_steps": 0,
+    }), encoding="utf-8")
+    (root / "unified_failure_seal.json").write_text(json.dumps({
+        "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V1",
+        "status": "BLOCKED", "phase": "E4", "route": "legacy",
+        "route_head": campaign.ROUTE_HEADS["legacy"],
+        "retry_or_substitution": False,
+        "error": "ModuleNotFoundError: No module named 'gr00t'",
+        "traceback": "File '/scratch/legacy/scripts/stage45e_legacy_matched_seed.py', line 582, in e4\\n"
+        "File '/scratch/legacy/scripts/stage45b_full24_fresh_base_train.py', line 281, in _bind_cosmos_processor",
+    }), encoding="utf-8")
+    counts = campaign._attempt_call_counts(root)
+    assert counts["model_side_calls"] == 0
+    assert counts["counters_complete"] is True
+    assert campaign._diagnostic_retry_allowed({"root": str(root)}) is True
+
+
 def test_diagnostics_accepts_pi0152_execution_overlay(tmp_path: Path) -> None:
     checkpoint = tmp_path / "checkpoint-1000"
     checkpoint.mkdir()
