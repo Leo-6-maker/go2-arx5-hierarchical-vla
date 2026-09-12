@@ -1,0 +1,92 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0146_C10_BLOCKED_REPORT_V1",
+  "status": "BLOCKED_ON_PINNED_PRODUCER",
+  "token": "STAGE45F_CORELAB_PI0146_C10_BLOCKED_ON_PINNED_PRODUCER",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0146",
+    "issue_comment": 5645700727,
+    "pr": 65,
+    "consumer_base_head": "3cd8d11c211a344c09f08280af1105f4dbbac219"
+  },
+  "producer_consumer": {
+    "producer_branch": "stage45e/h200-unified-replication-campaign",
+    "producer_head": "7497bcdb57d56fadc880355db94f8fbb1625fe45",
+    "producer_script": "scripts/stage45e_h200_unified_replication.py",
+    "producer_script_blob_sha1": "5fd19e24d2531164cf160e239e08c70b6a4b1044",
+    "consumer_branch": "stage45f/corelab-evidence-convergence",
+    "consumer_entrypoint": "scripts/stage45f_corelab_evidence_convergence.py::verify_campaign",
+    "adapter": "scripts/stage45f_corelab_pi0145_v2_adapter.py",
+    "contract_manifest": "manifests/STAGE45F_PI0146_VANDA_C10_PRODUCER_CONSUMER_V1.json",
+    "contract_manifest_sha256": "62633d7394a31bc2f55b2c4b2ee69750b31e6bae1e32682fffdc305c7b1c2369"
+  },
+  "native_producer_audit": {
+    "functions_invoked": [
+      "build_phase_specs",
+      "build_external_evidence_closure"
+    ],
+    "native_descriptor_units_emitted": 9,
+    "native_descriptor_sample": "E4:legacy",
+    "native_final_result_emitted": false,
+    "consumer_kernel": "validate_external_inventory",
+    "synthetic_artifacts": true,
+    "synthetic_artifacts_are_not_campaign_evidence": true,
+    "failed_predicate": "PRODUCER_PREREQUISITE_MISSING: E4:legacy.train24_contract",
+    "secondary_required_predicate": "PRODUCER_PREREQUISITE_MISSING: <unit>.train24_contract.noise_sha256_by_window",
+    "observed_native_gap": "Pinned Vanda native descriptors contain phase/spec/seal/row/stat identities but no TRAIN24 window/noise contract; Corelab does not infer it from noise_seed or labels."
+  },
+  "canonical_chain": {
+    "native_producer_to_shared_inventory": "BLOCKED_AT_PRODUCER_PREREQUISITE",
+    "per_item_rehash": "NOT_REACHED_AFTER_FAIL_CLOSED_PREREQUISITE",
+    "canonical_index_rows": "NOT_BUILT",
+    "neutral_packet": "NOT_BUILT",
+    "completion_authority": false
+  },
+  "tests": {
+    "command": "python3 -m unittest discover -s tests -p 'test_stage45f_*.py' -v",
+    "result": "28 passed",
+    "stdout_sha256": "b65e4c4fb080aa881e1a71aa90e0481c31cef10a2dff7eba959699dbb1830b15",
+    "native_producer_gap_test": "PASS_EXPECTED_BLOCK",
+    "positive_checks": [
+      "native build_phase_specs emitted 9 phase/route descriptors",
+      "native build_external_evidence_closure emitted descriptor/seal/row edges",
+      "typed zero-boundary mapping",
+      "exact 18-arm synthetic handoff mapping",
+      "nested synthetic marker rejection",
+      "historical lineage kind separation",
+      "packet/index helper remains fail-closed"
+    ],
+    "negative_checks": [
+      "missing train24_contract rejected with machine-readable producer prerequisite",
+      "missing noise_sha256_by_window is reserved as a producer prerequisite",
+      "synthetic fixture rejected by real verify_campaign",
+      "duplicate arm rejected",
+      "target XYZ mutation rejected",
+      "nonzero model/backward/optimizer/public-sampler and nested merge rejected"
+    ],
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "gpu": 0,
+    "cuda": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "ICL": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "real_h200_campaign_ingested": false,
+    "merge": 0,
+    "winner_selection": 0
+  },
+  "implementation_head": "c4b9e468d33e39caeca9d559179ab4ca1ab41a38",
+  "claim_boundary": "This is a truthful producer-side block. Native serialization was audited and its output was sent to the shared verifier; no producer-shaped Corelab fixture was used to claim end-to-end real evidence. The missing TRAIN24/noise contract must be added by Vanda or supplied in the actual producer artifact before per-item canonical rows and the neutral packet can be admitted.",
+  "next_gate_request": "Vanda must publish a pinned producer artifact containing exact TRAIN24 window order, per-window noise digests, sampler identity and the corresponding sealed result/handoff. Corelab can then rerun the same shared verifier and packet path without changing the scientific recipe."
+}
