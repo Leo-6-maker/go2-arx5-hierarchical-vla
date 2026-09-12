@@ -1149,11 +1149,24 @@ def _historical_row_identity(row: Mapping[str, Any]) -> dict[str, Any]:
         checkpoint_label = checkpoint_value
         checkpoint_tree = identity.get("checkpoint_tree_sha256", row.get("checkpoint_tree_sha256"))
     sampler = row.get("sampler") if isinstance(row.get("sampler"), Mapping) else {}
+    window_id = identity.get("window_id", row.get("window_id"))
+    target_id = identity.get("target_id", row.get("target_id"))
+    if target_id is None and row.get("schema") == "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1":
+        # This accepted pre-flag L1 schema carries target identity in the
+        # canonical window key, not in a separate target_id field.  Restrict
+        # the derivation to that exact schema and exact TRAIN24 key grammar;
+        # arbitrary filenames or free-form strings never become identities.
+        prefix = "stage22_expert_"
+        suffix = ":"
+        if isinstance(window_id, str) and window_id.startswith(prefix) and suffix in window_id:
+            candidate = window_id[len(prefix):].split(suffix, 1)[0]
+            if candidate in HISTORICAL_DIAGNOSTIC_TARGETS:
+                target_id = candidate
     return {
         "checkpoint_label": checkpoint_label,
         "checkpoint_tree_sha256": checkpoint_tree,
-        "window_id": identity.get("window_id", row.get("window_id")),
-        "target_id": identity.get("target_id", row.get("target_id")),
+        "window_id": window_id,
+        "target_id": target_id,
         "window_index": identity.get("window_index", row.get("window_index")),
         "probe_seed": identity.get("noise_seed", identity.get("seed", row.get("seed", sampler.get("seed")))),
         "solver": identity.get("solver", sampler.get("name")),
