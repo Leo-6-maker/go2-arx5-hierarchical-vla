@@ -222,12 +222,19 @@ def validate_diagnostic_accounting(document: Mapping[str, Any]) -> dict[str, Any
         require(type(value) is int and value >= 0, f"{field} must be an explicit non-negative integer")
         totals[field] = value
     require(totals["accepted_unique_scientific_calls"] == 8976, "accepted unique diagnostic budget drift")
+    require(totals["reused_readonly_model_calls"] == 0, "new diagnostic accounting must not relabel reused read-only calls")
     attempts = document.get("diagnostic_attempt_inventory")
     require(isinstance(attempts, list) and attempts, "diagnostic_attempt_inventory is missing or empty")
     attempted_total = 0
     failed_total = 0
+    attempt_keys: set[str] = set()
+    allowed_statuses = {"PASS_ACCEPTED", "FAILED_ATTEMPT", "BLOCKED", "UNKNOWN"}
     for index, item in enumerate(attempts):
         require(isinstance(item, Mapping), f"diagnostic attempt inventory item {index} is not an object")
+        unit_key = item.get("unit_key")
+        require(isinstance(unit_key, str) and unit_key and unit_key not in attempt_keys, f"diagnostic attempt inventory duplicate/invalid unit_key at {index}")
+        attempt_keys.add(unit_key)
+        require(item.get("status") in allowed_statuses, f"diagnostic attempt inventory status invalid at {index}")
         counts = item.get("counts")
         require(isinstance(counts, Mapping), f"diagnostic attempt inventory counts missing at {index}")
         require(counts.get("counters_complete") is True, f"diagnostic attempt counters unknown at {index}")
@@ -256,6 +263,48 @@ def _tree_digest(entries: Sequence[Mapping[str, Any]]) -> str:
     for entry in sorted(entries, key=lambda item: str(item["path"])):
         digest.update(f"{entry['path']}\0{entry['bytes']}\0{entry['sha256']}\n".encode("utf-8"))
     return digest.hexdigest()
+
+
+def _route_stats_identity(route: str) -> Mapping[str, Any]:
+    routes = convergence.manifest().get("h200_campaign_surfaces", {}).get("routes", {})
+    identity = routes.get(str(route).upper())
+    require(isinstance(identity, Mapping), f"route stats contract missing: {route}")
+    return identity
+
+
+def _validate_phase_train24_contract(train24: Mapping[str, Any], *, phase: str, unit: str) -> None:
+    """Require phase-specific noise/protocol identity; never infer from labels."""
+
+    require(train24.get("phase") == phase, f"{unit}: phase-specific TRAIN24 contract drift")
+    require(train24.get("split") == "TRAIN24" and train24.get("window_count") == 24, f"{unit}: TRAIN24 descriptor drift")
+    require(train24.get("window_ids") == list(convergence.WINDOW_IDS), f"{unit}: TRAIN24 window order drift")
+    require(train24.get("target_xyz_in_model_input") is False, f"{unit}: target XYZ hidden input marked true")
+    if phase == "E4":
+        noise = train24.get("noise_sha256_by_window")
+        require(isinstance(noise, Mapping) and set(noise) == set(convergence.WINDOW_IDS), f"{unit}: E4 noise array identity missing")
+        for window, digest in noise.items():
+            _sha(digest, f"{unit}.noise_sha256_by_window.{window}")
+        sampler = train24.get("sampler")
+        require(isinstance(sampler, Mapping), f"{unit}: E4 sampler identity missing")
+        require(sampler.get("steps_observed") == 4 and sampler.get("timestep_ids") == [0, 250, 500, 750], f"{unit}: E4 sampler/timestep drift")
+        require(sampler.get("official_public_sampler_called") is False, f"{unit}: E4 public sampler boundary drift")
+    elif phase == "D1":
+        noise = train24.get("noise_sha256_by_window_and_flow_time")
+        require(isinstance(noise, Mapping) and set(noise) == set(convergence.WINDOW_IDS), f"{unit}: D1 flow-time noise identity missing")
+        for window, buckets in noise.items():
+            require(isinstance(buckets, Mapping) and buckets, f"{unit}: D1 flow-time bucket map missing for {window}")
+            for bucket, digest in buckets.items():
+                _sha(digest, f"{unit}.noise_sha256_by_window_and_flow_time.{window}.{bucket}")
+        require(train24.get("teacher_forced") is True and train24.get("robot_state_rollout") is False, f"{unit}: D1 teacher/local-flow semantics drift")
+    else:
+        noise = train24.get("noise_sha256_by_window")
+        require(isinstance(noise, Mapping) and set(noise) == set(convergence.WINDOW_IDS), f"{unit}: D2A noise identity missing")
+        for window, digest in noise.items():
+            _sha(digest, f"{unit}.noise_sha256_by_window.{window}")
+        paths = train24.get("action_space_paths")
+        require(paths == ["TEACHER_FORCED", "FREE_RUNNING"], f"{unit}: D2A teacher/free path semantics drift")
+        require(train24.get("action_space_only") is True and train24.get("environment_reset") is False, f"{unit}: D2A reset/space semantics drift")
+        require(type(train24.get("integration_steps")) is int and train24["integration_steps"] > 0, f"{unit}: D2A integration step identity missing")
 
 
 def validate_external_inventory(
@@ -323,19 +372,10 @@ def validate_external_inventory(
         # The producer's V2 update carries this descriptor explicitly.  It is
         # the only accepted source for window/noise/sampler pairing; the
         # consumer never guesses these fields from a filename or label.
-        require(train24.get("split") == "TRAIN24" and train24.get("window_count") == 24, f"{unit}: TRAIN24 descriptor drift")
-        require(train24.get("window_ids") == list(convergence.WINDOW_IDS), f"{unit}: TRAIN24 window order drift")
-        noise = train24.get("noise_sha256_by_window")
-        # JSON object key order is not an identity (the producer writes
-        # canonical JSON with sorted keys).  The explicit window_ids sequence
-        # above is the ordering law; the noise map must cover that sequence
-        # exactly, with no extras or omissions.
-        require(isinstance(noise, Mapping) and set(noise) == set(convergence.WINDOW_IDS), f"PRODUCER_PREREQUISITE_MISSING: {unit}.train24_contract.noise_sha256_by_window")
-        for window, digest in noise.items():
-            _sha(digest, f"{unit}.noise_sha256_by_window.{window}")
-        sampler = train24.get("sampler")
-        require(isinstance(sampler, Mapping) and sampler.get("steps_observed") == 4 and sampler.get("official_public_sampler_called") is False, f"{unit}: sampler identity drift")
-        require(train24.get("target_xyz_in_model_input") is False, f"{unit}: target XYZ hidden input marked true")
+        _validate_phase_train24_contract(train24, phase=descriptor["phase"], unit=unit)
+        route_stats = _route_stats_identity(descriptor["route"])
+        require(descriptor.get("stats_sha256") == route_stats.get("stats_sha256"), f"{unit}: route stats SHA is not the permitted source identity")
+        require(descriptor.get("stats_payload_sha256") == route_stats.get("stats_payload_sha256"), f"{unit}: route stats payload SHA is not the permitted source identity")
         checked[unit] = {"descriptor_sha256": entry["sha256"], "row_count": len(checked_rows), "source_row_schema": source_schema, "stats_sha256": descriptor["stats_sha256"], "stats_payload_sha256": descriptor["stats_payload_sha256"]}
     return {"schema": "CORELAB_STAGE45F_VANDA_EXTERNAL_INVENTORY_VERIFIED_V2", "status": "PASS_SYNTHETIC_ONLY" if synthetic else "PASS_READONLY", "synthetic_test_only": synthetic, "entry_count": len(checked), "units": checked}
 
@@ -360,6 +400,12 @@ def validate_c10_handoff(
     require(isinstance(arms, list) and len(arms) == 18, "C10 handoff arm list must contain 18 entries")
     labels = [item.get("label") for item in arms if isinstance(item, Mapping)]
     require(len(labels) == 18 and len(set(labels)) == 18 and set(labels) == _expected_arm_labels(), "C10 handoff arm identity is not exact/unique")
+    inventory_path = _path(value.get("external_inventory"), "c10_handoff.external_inventory", root=campaign_root, inside=True)
+    expected_inventory_sha = _sha(value.get("external_inventory_sha256"), "c10_handoff.external_inventory_sha256")
+    require(convergence.sha256_file(inventory_path) == expected_inventory_sha, "C10 external inventory SHA drift")
+    inventory_doc = convergence.read_json(inventory_path)
+    inventory_descriptors = inventory_doc.get("descriptors")
+    require(isinstance(inventory_descriptors, Mapping), "C10 external inventory descriptor map missing")
     expected_historical = {
         f"LEGACY(seed2222)@{step}": set(PHASES) for step in convergence.STEPS
     }
@@ -377,19 +423,27 @@ def validate_c10_handoff(
             expected_source = "HISTORICAL_READ_ONLY" if phase in expected_historical.get(label, set()) else "CURRENT_PHASE_UNIT"
             require(item.get("source") == expected_source, f"{label}/{phase}: historical/current source mapping drift")
             if expected_source == "CURRENT_PHASE_UNIT":
-                _path(item.get("descriptor_path"), f"{label}/{phase}.descriptor_path")
-                _sha(item.get("descriptor_sha256"), f"{label}/{phase}.descriptor_sha256")
+                descriptor_path = _path(item.get("descriptor_path"), f"{label}/{phase}.descriptor_path", root=campaign_root, inside=True)
+                descriptor_sha = _sha(item.get("descriptor_sha256"), f"{label}/{phase}.descriptor_sha256")
+                unit = f"{phase}:{route.lower()}"
+                inventory_ref = inventory_descriptors.get(unit)
+                require(isinstance(inventory_ref, Mapping), f"{label}/{phase}: descriptor unit missing from inventory")
+                require(Path(inventory_ref.get("path", "")).resolve() == descriptor_path and inventory_ref.get("sha256") == descriptor_sha, f"{label}/{phase}: arm descriptor edge is not inventory-bound")
             else:
                 require(item.get("reference_kind") == "HISTORICAL_SEALED_READ_ONLY", f"{label}/{phase}: historical reference kind drift")
                 _sha(item.get("seal_sha256"), f"{label}/{phase}.seal_sha256")
                 _sha(item.get("rows_sha256"), f"{label}/{phase}.rows_sha256")
-                if not allow_synthetic:
-                    seal_path = _descriptor_path_reference(item.get("seal_file"), f"{label}/{phase}.seal_file")
-                    rows_path = _descriptor_path_reference(item.get("rows_file"), f"{label}/{phase}.rows_file")
-                    require(convergence.sha256_file(seal_path) == item["seal_sha256"], f"{label}/{phase}: historical seal file SHA mismatch")
-                    require(convergence.sha256_file(rows_path) == item["rows_sha256"], f"{label}/{phase}: historical rows file SHA mismatch")
+                seal_path = _descriptor_path_reference(item.get("seal_file"), f"{label}/{phase}.seal_file")
+                rows_path = _descriptor_path_reference(item.get("rows_file"), f"{label}/{phase}.rows_file")
+                require(convergence.sha256_file(seal_path) == item["seal_sha256"], f"{label}/{phase}: historical seal file SHA mismatch")
+                require(convergence.sha256_file(rows_path) == item["rows_sha256"], f"{label}/{phase}: historical rows file SHA mismatch")
         lineage = arm.get("training_lineage_identity")
         require(isinstance(lineage, Mapping), f"{label}: training lineage identity missing")
+        checkpoint_trees = lineage.get("checkpoint_trees")
+        require(isinstance(checkpoint_trees, Mapping), f"{label}: checkpoint tree map missing from lineage")
+        _sha(arm.get("tree_sha256"), f"{label}.tree_sha256")
+        require(arm.get("tree_sha256") == checkpoint_trees.get(str(step)), f"{label}: checkpoint tree is not lineage-bound")
+        require(lineage.get("route") == route.lower() and lineage.get("seed") == seed, f"{label}: lineage axes drift")
         source_kind = lineage.get("source_kind")
         expected_kind = "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT" if route.upper() == "L1" and seed == 2222 else "STANDARD_PASS_RESULT"
         require(source_kind == expected_kind, f"{label}: training source kind drift")
@@ -401,9 +455,6 @@ def validate_c10_handoff(
     for key in ("Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
         require(locked.get(key) == 0, f"C10 handoff locked boundary drift: {key}")
     require(value.get("source_rows_untouched") is True, "C10 source-row immutability marker missing")
-    inventory_path = _path(value.get("external_inventory"), "c10_handoff.external_inventory", root=campaign_root, inside=True)
-    expected_inventory_sha = _sha(value.get("external_inventory_sha256"), "c10_handoff.external_inventory_sha256")
-    require(convergence.sha256_file(inventory_path) == expected_inventory_sha, "C10 external inventory SHA drift")
     inventory = validate_external_inventory(inventory_path, campaign_root=campaign_root, allow_synthetic=allow_synthetic)
     return {
         "schema": "CORELAB_STAGE45F_C10_HANDOFF_VERIFIED_V2",
@@ -596,9 +647,16 @@ def _canonical_v2_view_relaxed_marker(document: Mapping[str, Any], source_path: 
     return {**dict(document), **boundaries, "_corelab_v2_source": {"schema": V2_RESULT_SCHEMA, "sha256": source_sha, "producer_head": orchestration["head"], "pinned_producer_surface": VANDA_PRODUCER_HEAD, "producer_script": VANDA_PRODUCER_SCRIPT, "producer_consumer_contract_sha256": contract["manifest_sha256"]}}, {"root": root, "summary": summary, "summary_path": summary_path, "inventory_path": inventory_path, "handoff_path": handoff_path}
 
 
-def _synthetic_train24_contract() -> dict[str, Any]:
+def _synthetic_train24_contract(phase: str) -> dict[str, Any]:
     noise = {window: hashlib.sha256(window.encode("utf-8")).hexdigest() for window in convergence.WINDOW_IDS}
-    return {"split": "TRAIN24", "window_count": 24, "window_ids": list(convergence.WINDOW_IDS), "noise_sha256_by_window": noise, "sampler": {"name": "canonical-E4", "steps_observed": 4, "official_public_sampler_called": False}, "target_xyz_in_model_input": False}
+    common = {"phase": phase, "split": "TRAIN24", "window_count": 24, "window_ids": list(convergence.WINDOW_IDS), "target_xyz_in_model_input": False}
+    if phase == "E4":
+        common.update({"noise_sha256_by_window": noise, "sampler": {"name": "canonical-E4", "steps_observed": 4, "timestep_ids": [0, 250, 500, 750], "official_public_sampler_called": False}})
+    elif phase == "D1":
+        common.update({"noise_sha256_by_window_and_flow_time": {window: {str(bucket): digest for bucket, digest in enumerate((noise[window], noise[window], noise[window], noise[window]))} for window in convergence.WINDOW_IDS}, "teacher_forced": True, "robot_state_rollout": False})
+    else:
+        common.update({"noise_sha256_by_window": noise, "action_space_paths": ["TEACHER_FORCED", "FREE_RUNNING"], "action_space_only": True, "environment_reset": False, "integration_steps": 4})
+    return common
 
 
 def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
@@ -612,6 +670,8 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
     source_root.mkdir()
     descriptors_root = campaign / "evidence_units"
     descriptors_root.mkdir()
+    historical_root = campaign / "historical_read_only"
+    historical_root.mkdir()
     phase_seals: dict[str, dict[str, Any]] = {}
     descriptor_refs: dict[str, dict[str, Any]] = {}
     lineage_standard = {"role": "TRAINING_LINEAGE", "source_kind": "STANDARD_PASS_RESULT", "producer_fabrication": False}
@@ -650,7 +710,7 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
                 "evaluation_identity": {"role": "COMMON_EVALUATOR_ADAPTER", "synthetic": True},
                 "orchestration_identity": {"role": "ORCHESTRATION_WRAPPER", "head": VANDA_PRODUCER_HEAD},
                 "row_bundle": [{"path": str(rows), "sha256": convergence.sha256_file(rows), "schema": "VANDA_STAGE45E_SYNTHETIC_RAW_ROW_BUNDLE_V1"}],
-                "train24_contract": _synthetic_train24_contract(),
+                "train24_contract": _synthetic_train24_contract(phase),
                 "unified_seal": {"path": str(seal_path), "sha256": convergence.sha256_file(seal_path)},
                 "inner_seal": {"path": str(inner), "sha256": convergence.sha256_file(inner)},
                 "phase_spec": {"path": str(phase_spec_path), "sha256": convergence.sha256_file(phase_spec_path)},
@@ -674,11 +734,19 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
                 for phase in PHASES:
                     unit = f"{phase}:{route.lower()}"
                     if phase in historical:
-                        evidence[phase] = {"source": "HISTORICAL_READ_ONLY", "reference_kind": "HISTORICAL_SEALED_READ_ONLY", "seal_sha256": hashlib.sha256(f"{label}:{phase}:seal".encode()).hexdigest(), "rows_sha256": hashlib.sha256(f"{label}:{phase}:rows".encode()).hexdigest()}
+                        hist_dir = historical_root / label.replace("/", "_") / phase
+                        hist_dir.mkdir(parents=True, exist_ok=True)
+                        seal_file = hist_dir / "seal.json"
+                        rows_file = hist_dir / "rows.json"
+                        seal_file.write_text(json.dumps({"schema": "SYNTHETIC_TEST_ONLY_HISTORICAL_SEAL", "label": label, "phase": phase, "status": "PASS", "synthetic_test_only": SYNTHETIC_MARKER}, sort_keys=True) + "\n", encoding="utf-8")
+                        rows_file.write_text(json.dumps({"schema": "SYNTHETIC_TEST_ONLY_HISTORICAL_ROWS", "label": label, "phase": phase, "rows": 24, "synthetic_test_only": SYNTHETIC_MARKER}, sort_keys=True) + "\n", encoding="utf-8")
+                        evidence[phase] = {"source": "HISTORICAL_READ_ONLY", "reference_kind": "HISTORICAL_SEALED_READ_ONLY", "seal_sha256": convergence.sha256_file(seal_file), "rows_sha256": convergence.sha256_file(rows_file), "seal_file": {"path": str(seal_file), "sha256": convergence.sha256_file(seal_file)}, "rows_file": {"path": str(rows_file), "sha256": convergence.sha256_file(rows_file)}}
                     else:
                         reference = descriptor_refs[unit]
                         evidence[phase] = {"source": "CURRENT_PHASE_UNIT", "descriptor_path": reference["path"], "descriptor_sha256": reference["sha256"]}
-                arms.append({"label": label, "route": route.lower(), "seed": seed, "step": step, "training_lineage_identity": lineage_recovered if route == "L1" and seed == 2222 else lineage_standard, "diagnostic_evidence": evidence})
+                lineage = dict(lineage_recovered if route == "L1" and seed == 2222 else lineage_standard)
+                lineage.update({"route": route.lower(), "seed": seed, "checkpoint_trees": {str(item): hashlib.sha256(f"{route}:{seed}:{item}:checkpoint".encode()).hexdigest() for item in convergence.STEPS}})
+                arms.append({"label": label, "route": route.lower(), "seed": seed, "step": step, "tree_sha256": lineage["checkpoint_trees"][str(step)], "training_lineage_identity": lineage, "diagnostic_evidence": evidence})
     handoff = {"schema": C10_HANDOFF_SCHEMA, "status": "PASS", "synthetic_test_only": SYNTHETIC_MARKER, "campaign_root": str(campaign), "external_inventory": str(inventory_path), "external_inventory_sha256": convergence.sha256_file(inventory_path), "arms": arms, "arm_count": 18, "required_arm_count": 18, "locked_boundaries": {"Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0}, "source_rows_untouched": True}
     handoff_path = campaign / "C10_HANDOFF.json"
     handoff_path.write_text(json.dumps(handoff, sort_keys=True) + "\n", encoding="utf-8")

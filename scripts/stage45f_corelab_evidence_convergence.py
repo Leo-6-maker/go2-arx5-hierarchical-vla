@@ -483,10 +483,21 @@ def build_packet(index_path: Path, output_path: Path, campaign_path: Path | None
             for route in ("N2", "L1"):
                 right = arms[f"{route}(seed{seed})@{step}"]
                 pairs[f"{route.lower()}_minus_legacy_seed{seed}_at_{step}"] = _paired(legacy, right, f"{route}_minus_LEGACY_seed{seed}_at_{step}")
+            # Direct intervention comparison is a separate, same-seed /
+            # same-tier pairing.  Keep it explicit rather than inferring it
+            # from the two route-vs-Legacy deltas.
+            pairs[f"l1_minus_n2_seed{seed}_at_{step}"] = _paired(
+                arms[f"N2(seed{seed})@{step}"],
+                arms[f"L1(seed{seed})@{step}"],
+                f"L1_minus_N2_seed{seed}_at_{step}",
+            )
         for route in ROUTES:
             left = arms[f"{route}(seed{seed})@1000"]
             right = arms[f"{route}(seed{seed})@2000"]
             pairs[f"{route.lower()}_exposure_seed{seed}"] = _paired(left, right, f"{route}_exposure_seed{seed}")
+    canonical_row_count = sum(len(arm["rows"]) for arm in arms.values())
+    require(canonical_row_count == 432, "canonical E4 row count drift")
+    require(len(pairs) == 27, "paired comparison count drift")
     taxonomy = _failure_taxonomy(arms)
     three_seed = _three_seed_descriptive(pairs)
     packet = {
@@ -504,6 +515,8 @@ def build_packet(index_path: Path, output_path: Path, campaign_path: Path | None
         "routes": list(ROUTES),
         "seeds": list(SEEDS),
         "checkpoint_steps": list(STEPS),
+        "canonical_e4_row_count": canonical_row_count,
+        "paired_comparison_count": len(pairs),
         "primary_metric_space": "decoded physical metrics",
         "normalized_metric_space": "route-specific descriptive/mechanistic only",
         "source_index_sha256": index["source_index_sha256"],

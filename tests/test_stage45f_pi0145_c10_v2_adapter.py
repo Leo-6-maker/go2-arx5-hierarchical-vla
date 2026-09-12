@@ -118,6 +118,14 @@ class PI0145VandaV2AdapterTest(unittest.TestCase):
             unit = "E4:legacy"
             inventory["descriptors"][unit]["sha256"] = convergence.sha256_file(descriptor_path)
             inventory_path.write_text(json.dumps(inventory, sort_keys=True) + "\n", encoding="utf-8")
+            # Rebind the arm edge as a producer would have to do when
+            # resealing a descriptor.  The verifier must then reach the
+            # mutated target-XYZ field rather than stopping at an earlier
+            # stale edge mismatch.
+            for arm in handoff["arms"]:
+                ref = arm["diagnostic_evidence"]["E4"]
+                if ref.get("source") == "CURRENT_PHASE_UNIT" and ref.get("descriptor_path") == str(descriptor_path):
+                    ref["descriptor_sha256"] = convergence.sha256_file(descriptor_path)
             # The producer's CPU inventory includes the descriptor bytes.  A
             # properly resealed descriptor therefore requires a resealed
             # inventory and final-result pointer; otherwise the verifier must
