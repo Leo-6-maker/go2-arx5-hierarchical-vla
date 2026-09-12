@@ -522,13 +522,40 @@ def test_l1_raw_manifest_order_and_selected_binding_are_fail_closed(tmp_path: Pa
         campaign._audit_l1_raw_prediction_order(manifest, selected, source_root.resolve())
 
 
-def test_v6_fixture_is_consumed_by_pinned_corelab_verifier(tmp_path: Path) -> None:
+def test_pi0147_native_contract_is_cpu_static_and_explicit() -> None:
+    result = campaign.validate_pi0147_contract_manifest()
+    assert result["status"] == "PASS"
+    assert result["historical_binding_count"] == 8
+    assert result["phase_count"] == 3
+    assert result["h200"] == 0
+    assert result["pbs"] == 0
+
+
+def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     fixture = campaign.build_corelab_producer_fixture(tmp_path)
+    assert fixture["schema"] == campaign.NATIVE_FIXTURE_SCHEMA
     assert fixture["synthetic_test_only"] is True
-    source = campaign.git(campaign.REPO, "show", f"{campaign.CORELAB_PR65_VERIFIER_HEAD}:{campaign.CORELAB_PR65_VERIFIER_PATH}")
-    namespace = {"__name__": "corelab_v6_fixture_verifier", "__file__": str(campaign.REPO / campaign.CORELAB_PR65_VERIFIER_PATH)}
-    exec(compile(source, campaign.CORELAB_PR65_VERIFIER_PATH, "exec"), namespace)
-    verified = namespace["verify_campaign"](Path(fixture["corelab_campaign"]))
-    assert verified["status"] == "PASS_READONLY_PROVENANCE_VERIFIED"
-    assert verified["checked_phase_seals"] == 9
-    assert fixture["corelab_verifier_source_head"] == campaign.CORELAB_PR65_VERIFIER_HEAD
+
+    final = json.loads(Path(fixture["native_v2_campaign"]).read_text())
+    summary = json.loads(Path(fixture["native_v2_summary"]).read_text())
+    pointer = json.loads(Path(fixture["producer_pointer"]).read_text())
+    handoff = json.loads(Path(fixture["vanda_c10_handoff"]).read_text())
+    row_index = json.loads(Path(fixture["canonical_row_index"]).read_text())
+
+    assert final["schema"] == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2"
+    assert summary["schema"] == "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2"
+    assert pointer["schema"] == campaign.NATIVE_PRODUCER_POINTER_SCHEMA
+    assert handoff["native_v2"] is True
+    assert handoff["arm_count"] == 18
+    assert row_index["schema"] == campaign.CANONICAL_ROW_INDEX_SCHEMA
+    assert row_index["entry_count"] == 18 * 24 * 3
+    assert row_index["phase_row_counts"] == {"E4": 432, "D1": 432, "D2A": 432}
+    assert final["canonical_row_index_sha256"] == fixture["canonical_row_index_sha256"]
+    assert final["c10_handoff_sha256"] == fixture["vanda_c10_handoff_sha256"]
+    assert final["synthetic_test_only"] == "SYNTHETIC_TEST_ONLY"
+    assert "corelab_v1" not in json.dumps(final).lower()
+
+    d1_spec = next(Path(path) for path in Path(fixture["producer_root"]).glob("specs/D1_*.json"))
+    d1 = json.loads(d1_spec.read_text())
+    assert "noise_sha256_by_window" not in d1["phase_protocol"]
+    assert "noise_sha256_by_seed_window" in d1["phase_protocol"]

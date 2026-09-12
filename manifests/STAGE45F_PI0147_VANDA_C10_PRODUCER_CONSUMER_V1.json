@@ -1,0 +1,173 @@
+{
+  "schema": "STAGE45F_PI0147_VANDA_C10_PRODUCER_CONSUMER_V1",
+  "status": "CPU_STATIC_NATIVE_CONTRACT_READY",
+  "authority": {
+    "issue": 11,
+    "issue_comment": 5646090676,
+    "pi_gate": "PI_GATE_STATE_0147",
+    "pointer_pr": 66,
+    "pointer_comment": 5646092971,
+    "h200": 0,
+    "pbs": 0,
+    "model_forward": 0,
+    "training": 0,
+    "merge": false,
+    "synthetic_fixture_is_not_real_campaign": true
+  },
+  "producer": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "branch": "stage45e/h200-unified-replication-campaign",
+    "head_at_gate": "d1f20121b8c386ec5d17c7c799a5103402634ec9",
+    "head_binding": "orchestration_identity.head",
+    "script": "scripts/stage45e_h200_unified_replication.py",
+    "native_entrypoints": [
+      "build_phase_specs",
+      "build_external_evidence_closure",
+      "_write_native_v2_serialization"
+    ],
+    "result_schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2",
+    "summary_schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2",
+    "inventory_schema": "VANDA_STAGE45E_H200_CPU_EVIDENCE_INVENTORY_V2",
+    "serialization": "V2_RESULT_SUMMARY_EXTERNAL_DESCRIPTOR_INVENTORY_C10_NATIVE",
+    "source_rows_untouched": true,
+    "real_execution_required_for_real_admission": true
+  },
+  "consumer": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "branch": "stage45f/corelab-evidence-convergence",
+    "head_at_gate": "943410cfbd15bd95479a9379bf4256f8ccb96a65",
+    "head_binding": "consumer_runtime_identity.head",
+    "entrypoint": "scripts/stage45f_corelab_evidence_convergence.py",
+    "adapter": "scripts/stage45f_corelab_pi0145_v2_adapter.py",
+    "shared_validation_kernel": true,
+    "native_producer_head_update_required": true,
+    "standalone_history_cannot_be_real_c10": true
+  },
+  "envelope_contract": {
+    "required_documents": [
+      "final_result.json",
+      "cpu_summary.json",
+      "CPU_EVIDENCE_INVENTORY.json",
+      "C10_HANDOFF.json",
+      "canonical_row_index.json",
+      "phase_specs",
+      "phase_seals",
+      "external_descriptors",
+      "attempt_inventory",
+      "historical_references"
+    ],
+    "required_bindings": [
+      "final_result→summary",
+      "final_result→inventory",
+      "final_result→handoff",
+      "final_result→canonical_row_index",
+      "summary→phase_seals",
+      "phase_seal→phase_spec",
+      "phase_spec→TRAIN24_contract",
+      "phase_spec→phase_protocol",
+      "arm→descriptor→inventory→seal→rows→checkpoint",
+      "handoff→all_18_arms_and_8_historical_bindings",
+      "attempt_accounting→accepted_unique_and_failure_totals"
+    ],
+    "raw_before_derived": true,
+    "target_xyz_in_model_input": false,
+    "normalized_and_physical_namespaces_separate": true,
+    "unknown_counts_block": true,
+    "unsafe_paths_block": true
+  },
+  "train24_contract": {
+    "schema": "VANDA_STAGE45E_TRAIN24_PHASE_CONTRACT_V1",
+    "split": "TRAIN24",
+    "window_count": 24,
+    "window_order": "target-major_then-snapshot-major",
+    "window_identity": "source episode identity + window file SHA256",
+    "source_descriptor_schema": "VANDA_STAGE45E_TRAIN24_SOURCE_DESCRIPTOR_V1",
+    "source_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "window_ids_are_explicit": true,
+    "window_noise_identity_is_array_bound": true,
+    "noise_hash_algorithm": "SHA256(raw_contiguous_float32_array_bytes)",
+    "synthetic_source_requires_marker": "SYNTHETIC_TEST_ONLY"
+  },
+  "phase_contract": {
+    "E4": {
+      "path_semantics": "four-step Euler action-head graph",
+      "times": [0.0, 0.25, 0.5, 0.75],
+      "timestep_buckets": [0, 250, 500, 750],
+      "dt": 0.25,
+      "noise_identity": "per-window float32 array SHA from frozen E4 manifest",
+      "noise_field": "noise_sha256_by_window"
+    },
+    "D1": {
+      "path_semantics": "teacher-forced local-flow probes",
+      "times": [0.0677624179, 0.3696694356, 0.7837719744],
+      "timestep_buckets": [67, 369, 783],
+      "noise_identity": "seed×window float32 array SHA from frozen D1 manifest",
+      "noise_field": "noise_sha256_by_seed_window",
+      "probe_seeds": [2223, 2224, 2225]
+    },
+    "D2A": {
+      "path_semantics": "matched teacher-bridge and non-reset free-running paths",
+      "times": [0.0, 0.25, 0.5, 0.75],
+      "timestep_buckets": [0, 250, 500, 750],
+      "dt": 0.25,
+      "noise_identity": "per-window float32 array SHA from frozen D2A manifest",
+      "noise_field": "noise_sha256_by_window",
+      "teacher_free_labeled_calls": true,
+      "free_path_reset": false
+    }
+  },
+  "historical_bindings": {
+    "required_count": 8,
+    "references": [
+      "legacy_seed2222_E4_1000",
+      "legacy_seed2222_E4_2000",
+      "legacy_seed2222_D1_1000",
+      "legacy_seed2222_D1_2000",
+      "legacy_seed2222_D2A_1000",
+      "legacy_seed2222_D2A_2000",
+      "l1_seed2222_E4_1000",
+      "l1_seed2222_E4_2000"
+    ],
+    "read_only": true,
+    "must_open_and_rehash_files": true,
+    "l1_raw_rows": 72,
+    "l1_derived_rows": 72,
+    "l1_selected_rows": 24,
+    "recovered_primary_is_only_l1_seed2222": true
+  },
+  "cardinality_contract": {
+    "arms": 18,
+    "phase_route_units": 9,
+    "canonical_e4_rows": 432,
+    "canonical_e4_pairings": 27,
+    "fresh_training_lineages": 7,
+    "nominal_diagnostic_model_side_calls": 8976,
+    "checks_must_be_observed_not_written_as_constants": true
+  },
+  "synthetic_fixture_contract": {
+    "schema": "VANDA_STAGE45E_PI0147_NATIVE_PRODUCER_FIXTURE_V2",
+    "must_be_generated_by_native_producer_functions": true,
+    "old_v1_translation_forbidden": true,
+    "synthetic_test_only_marker_required_at_all_envelopes": true,
+    "real_completion_token_forbidden": true,
+    "gpu": 0,
+    "pbs": 0,
+    "model_forward": 0,
+    "training": 0
+  },
+  "recovered_input_identity": {
+    "approved_input_v2_sha256": "211411c307e30242cf5b4e65288e8c9eb2b446164aaec83de4ffd913ca9c8101",
+    "reported_later_copy_sha256": "534ecfa32d6eb62b6ff385832a942e9ca66bc5f4b16650a0315a5fc7118dba46",
+    "approved_identity_must_not_be_replaced": true,
+    "later_copy_requires_read_only_object_level_reconciliation": true,
+    "synthetic_override_for_real_audit_forbidden": true
+  },
+  "completion": {
+    "intermediate_pointer": "NATIVE_PRODUCER_READY_FOR_CORELAB",
+    "producer_ready_token": "STAGE45E_VANDA_PI0147_NATIVE_PRODUCER_READY_FOR_CORELAB",
+    "final_ready_token": "STAGE45E_VANDA_PI0147_NATIVE_PRODUCER_C10_READY_FOR_PI_REVIEW",
+    "blocked_identity_token": "BLOCKED_RECOVERED_L1_INPUT_IDENTITY_RECONCILIATION",
+    "h200_continuation_requires_independent_pi_review": true,
+    "stop_after_return": true
+  }
+}
