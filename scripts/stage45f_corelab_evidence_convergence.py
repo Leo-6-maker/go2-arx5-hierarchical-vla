@@ -444,7 +444,13 @@ def load_index(path: Path) -> dict[str, Any]:
     return {"schema": value["schema"], "split": "TRAIN24", "validation_e_read": False, "holdout_f_read": False, "arms": arms, "source_index_sha256": sha256_file(path), "source_index_path": str(Path(path).resolve())}
 
 
-def build_packet(index_path: Path, output_path: Path) -> dict[str, Any]:
+def build_packet(index_path: Path, output_path: Path, campaign_path: Path | None = None) -> dict[str, Any]:
+    campaign_verification: dict[str, Any] | None = None
+    if campaign_path is not None:
+        # Keep Vanda admission on the same public packet path.  A packet must
+        # never be built from a V2 handoff that has not passed the exact
+        # producer/schema/provenance adapter first.
+        campaign_verification = verify_campaign(Path(campaign_path))
     index = load_index(index_path)
     arms = index["arms"]
     summaries = {label: _arm_summary(arm) for label, arm in arms.items()}
@@ -480,6 +486,7 @@ def build_packet(index_path: Path, output_path: Path) -> dict[str, Any]:
         "normalized_metric_space": "route-specific descriptive/mechanistic only",
         "source_index_sha256": index["source_index_sha256"],
         "source_index_path": index["source_index_path"],
+        "source_campaign_result": campaign_verification,
         "arm_summaries": summaries,
         "paired_comparisons": pairs,
         "three_seed_descriptive": three_seed,
@@ -531,7 +538,7 @@ def _verify_inventory(root: Path, inventory_path: Path) -> dict[str, Any]:
     return {"sha256": sha256_file(inventory_path), "entry_count": len(inventory["entries"])}
 
 
-def verify_campaign(campaign_path: Path, output_path: Path | None = None) -> dict[str, Any]:
+def _verify_campaign_v1(campaign_path: Path, output_path: Path | None = None) -> dict[str, Any]:
     value = read_json(campaign_path)
     require(value.get("schema") == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V1", "Vanda final result schema drift")
     require(value.get("status") == "PASS" and value.get("token") == "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW", "Vanda campaign is not a completed PASS")
@@ -601,6 +608,26 @@ def verify_campaign(campaign_path: Path, output_path: Path | None = None) -> dic
     return result
 
 
+def verify_campaign(campaign_path: Path, output_path: Path | None = None) -> dict[str, Any]:
+    """Verify a Vanda final result through the real C10 entrypoint.
+
+    PI0145 explicitly requires the producer's V2 document to be adapted at
+    admission time.  Dispatching here (rather than asking callers to invoke a
+    helper manually) keeps the actual ``verify-campaign`` and downstream
+    packet entrypoint on one fail-closed path.  V1 remains readable for
+    historical compatibility; V2 is handled by the typed producer adapter.
+    """
+
+    value = read_json(campaign_path)
+    schema = value.get("schema")
+    if schema == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2":
+        from stage45f_corelab_pi0145_v2_adapter import verify_v2_campaign
+
+        return verify_v2_campaign(campaign_path, output_path)
+    require(schema == "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V1", "unsupported Vanda final result schema; no heuristic relabeling")
+    return _verify_campaign_v1(campaign_path, output_path)
+
+
 def recipe_freeze_plan() -> dict[str, Any]:
     cfg = manifest()
     return {
@@ -640,8 +667,9 @@ def validation_plan() -> dict[str, Any]:
 
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(description=__doc__)
-    value.add_argument("--mode", choices=("static", "verify-campaign", "build-packet", "recipe-freeze-plan", "validation-plan"), default="static")
+    value.add_argument("--mode", choices=("static", "verify-campaign", "verify-vanda-v2-synthetic", "build-packet", "recipe-freeze-plan", "validation-plan"), default="static")
     value.add_argument("--input", type=Path)
+    value.add_argument("--campaign", type=Path, help="optional Vanda final result to admit before packet construction")
     value.add_argument("--output", type=Path)
     return value
 
@@ -657,7 +685,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     require(args.input is not None, f"--input required for {args.mode}")
     if args.mode == "build-packet":
         require(args.output is not None, "--output required for build-packet")
-        print(json.dumps(build_packet(args.input, args.output), indent=2, sort_keys=True, allow_nan=False)); return 0
+        print(json.dumps(build_packet(args.input, args.output, args.campaign), indent=2, sort_keys=True, allow_nan=False)); return 0
+    if args.mode == "verify-vanda-v2-synthetic":
+        from stage45f_corelab_pi0145_v2_adapter import verify_synthetic_v2_fixture
+
+        result = verify_synthetic_v2_fixture(args.input)
+        print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False)); return 0
     result = verify_campaign(args.input, args.output)
     print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False)); return 0
 

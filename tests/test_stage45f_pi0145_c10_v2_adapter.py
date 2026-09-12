@@ -1,0 +1,135 @@
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+import tempfile
+import unittest
+import sys
+
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import stage45f_corelab_evidence_convergence as convergence
+import stage45f_corelab_pi0145_v2_adapter as adapter
+
+
+class PI0145VandaV2AdapterTest(unittest.TestCase):
+    def test_vanda_producer_fixture_reaches_synthetic_c10_consumer_and_real_entry_rejects_it(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="stage45f-pi0145-v2-") as directory:
+            final_path = adapter.build_synthetic_vanda_v2_fixture(Path(directory) / "fixture")
+            result = adapter.verify_synthetic_v2_fixture(final_path)
+            self.assertEqual(result["status"], "PASS_SYNTHETIC_ONLY")
+            self.assertEqual(result["checked_arms"], 18)
+            self.assertEqual(result["checked_phase_seals"], 9)
+            self.assertFalse(result["real_h200_campaign_ingested"])
+            with self.assertRaises(adapter.V2AdapterError):
+                # This is the actual public entrypoint.  The synthetic marker
+                # is deliberately rejected before it can be treated as real
+                # H200 campaign evidence.
+                convergence.verify_campaign(final_path)
+            with self.assertRaises(adapter.V2AdapterError):
+                # The neutral packet path performs the same admission before
+                # it opens an evidence index, so synthetic evidence cannot be
+                # smuggled into a decision packet either.
+                convergence.build_packet(Path(directory) / "missing-index.json", Path(directory) / "packet.json", final_path)
+
+    def test_v2_typed_history_and_integer_zero_counters_are_explicit(self) -> None:
+        good = {
+            "campaign_history": {"training_occurred": True},
+            "cpu_closure_execution": {
+                "gpu": 0, "pbs": 0, "training": 0, "model_construction": 0,
+                "model_forward": 0, "Validation-E": 0, "Holdout-F": 0,
+                "WBC": 0, "simulator": 0, "hardware": 0,
+                "model_imported": False,
+            },
+            "merge": False,
+        }
+        mapped = adapter.typed_boundary_mapping(good)
+        self.assertFalse(mapped["training"])
+        self.assertTrue(mapped["history_training"])
+        for field in ("training_occurred", "gpu", "training"):
+            broken = copy.deepcopy(good)
+            if field == "training_occurred":
+                broken["campaign_history"][field] = 1
+            else:
+                broken["cpu_closure_execution"][field] = False
+            with self.subTest(field=field):
+                with self.assertRaises(adapter.V2AdapterError):
+                    adapter.typed_boundary_mapping(broken)
+        missing = copy.deepcopy(good)
+        del missing["cpu_closure_execution"]["pbs"]
+        with self.assertRaises(adapter.V2AdapterError):
+            adapter.typed_boundary_mapping(missing)
+
+    def test_handoff_requires_exact_historical_mapping_and_rejects_duplicate_arm(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="stage45f-pi0145-mutation-") as directory:
+            final_path = adapter.build_synthetic_vanda_v2_fixture(Path(directory) / "fixture")
+            result_path = Path(final_path)
+            payload = json.loads(result_path.read_text(encoding="utf-8"))
+            handoff_path = Path(payload["c10_handoff"])
+            handoff = json.loads(handoff_path.read_text(encoding="utf-8"))
+            handoff["arms"][1]["label"] = handoff["arms"][0]["label"]
+            handoff_path.write_text(json.dumps(handoff, sort_keys=True) + "\n", encoding="utf-8")
+            payload["c10_handoff_sha256"] = convergence.sha256_file(handoff_path)
+            result_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+            with self.assertRaises(adapter.V2AdapterError) as caught:
+                adapter.verify_synthetic_v2_fixture(result_path)
+            self.assertIn("arm identity", str(caught.exception))
+
+    def test_descriptor_mutation_and_window_contract_are_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="stage45f-pi0145-descriptor-") as directory:
+            final_path = adapter.build_synthetic_vanda_v2_fixture(Path(directory) / "fixture")
+            payload = json.loads(Path(final_path).read_text(encoding="utf-8"))
+            handoff = json.loads(Path(payload["c10_handoff"]).read_text(encoding="utf-8"))
+            current_ref = next(
+                arm["diagnostic_evidence"]["E4"]
+                for arm in handoff["arms"]
+                if arm["diagnostic_evidence"]["E4"].get("source") == "CURRENT_PHASE_UNIT"
+            )
+            descriptor_path = Path(current_ref["descriptor_path"])
+            descriptor = json.loads(descriptor_path.read_text(encoding="utf-8"))
+            descriptor["train24_contract"]["target_xyz_in_model_input"] = True
+            descriptor_path.write_text(json.dumps(descriptor, sort_keys=True) + "\n", encoding="utf-8")
+            inventory_path = Path(handoff["external_inventory"])
+            inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+            unit = "E4:legacy"
+            inventory["descriptors"][unit]["sha256"] = convergence.sha256_file(descriptor_path)
+            inventory_path.write_text(json.dumps(inventory, sort_keys=True) + "\n", encoding="utf-8")
+            # The producer's CPU inventory includes the descriptor bytes.  A
+            # properly resealed descriptor therefore requires a resealed
+            # inventory and final-result pointer; otherwise the verifier must
+            # (correctly) stop at immutable inventory drift first.
+            cpu_inventory_path = Path(payload["cpu_inventory"])
+            cpu_inventory = json.loads(cpu_inventory_path.read_text(encoding="utf-8"))
+            for entry in cpu_inventory["entries"]:
+                if entry["path"] == str(descriptor_path.relative_to(Path(payload["campaign_root"]))):
+                    entry["sha256"] = convergence.sha256_file(descriptor_path)
+                    entry["bytes"] = descriptor_path.stat().st_size
+                if entry["path"] == str(inventory_path.relative_to(Path(payload["campaign_root"]))):
+                    entry["sha256"] = convergence.sha256_file(inventory_path)
+                    entry["bytes"] = inventory_path.stat().st_size
+            cpu_inventory_path.write_text(json.dumps(cpu_inventory, sort_keys=True) + "\n", encoding="utf-8")
+            payload["cpu_inventory_sha256"] = convergence.sha256_file(cpu_inventory_path)
+            handoff["external_inventory_sha256"] = convergence.sha256_file(inventory_path)
+            handoff_path = Path(payload["c10_handoff"])
+            handoff_path.write_text(json.dumps(handoff, sort_keys=True) + "\n", encoding="utf-8")
+            payload["c10_handoff_sha256"] = convergence.sha256_file(handoff_path)
+            Path(final_path).write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+            with self.assertRaises(adapter.V2AdapterError) as caught:
+                adapter.verify_synthetic_v2_fixture(final_path)
+            self.assertIn("target XYZ", str(caught.exception))
+
+    def test_source_contract_and_no_model_imports(self) -> None:
+        contract = json.loads((ROOT / "manifests/STAGE45F_PI0145_VANDA_C10_PRODUCER_CONSUMER_V1.json").read_text(encoding="utf-8"))
+        self.assertEqual(contract["producer"]["head"], adapter.VANDA_PRODUCER_HEAD)
+        self.assertEqual(contract["consumer"]["entrypoint"], "scripts/stage45f_corelab_evidence_convergence.py::verify_campaign")
+        self.assertFalse(contract["synthetic_policy"]["real_verify_campaign_accepts"])
+        source = (ROOT / "scripts/stage45f_corelab_pi0145_v2_adapter.py").read_text(encoding="utf-8")
+        for forbidden in ("import torch", "import numpy", "import gr00t", "import subprocess", "from torch", "from numpy"):
+            self.assertNotIn(forbidden, source)
+
+
+if __name__ == "__main__":
+    unittest.main()
