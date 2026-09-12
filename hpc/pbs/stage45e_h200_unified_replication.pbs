@@ -1,0 +1,40 @@
+#PBS -N st45e_unified
+#PBS -P CFP03-CF-004
+#PBS -q gpu
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=48:00:00
+#PBS -j oe
+
+set -eu
+
+ORCH_REPO=/scratch/e1192548/stage45e_h200_unified_worktrees/orchestration
+ORCH_PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+STORAGE_ROOT=/Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912
+
+unset PYTHONPATH
+export PYTHONNOUSERSITE=1
+export PYTHONDONTWRITEBYTECODE=1
+cd /tmp
+
+exec "$ORCH_PY" "$ORCH_REPO/scripts/stage45e_h200_unified_replication.py" \
+  --mode campaign \
+  --storage-root "$STORAGE_ROOT" \
+  --n2-repo /scratch/e1192548/stage45e_h200_unified_worktrees/n2 \
+  --legacy-repo /scratch/e1192548/stage45e_h200_unified_worktrees/legacy \
+  --l1-repo /scratch/e1192548/stage45e_h200_unified_worktrees/l1 \
+  --base-model /scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B \
+  --dataset /scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train \
+  --groot /scratch/e1192548/stage45c_pi0094_native_runtime_20260909/groot-source-v4 \
+  --groot-manifest /scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45B_GROOT_SOURCE_SNAPSHOT_V2.manifest.json \
+  --cosmos /scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B \
+  --modality /scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py \
+  --config /scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml \
+  --runtime-stats /scratch/e1192548/stage45b_pi0083_runtime_parquet_v2/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json \
+  --n2-stats /Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912/provenance/STAGE45E_N2_BALANCED_XYZ_STATS_PI0133.json \
+  --sealed-baseline /scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910 \
+  --snapshot-preflight /scratch/e1192548/stage45c_pi0100_h200_train24_eval_74e77d83d85e_20260910/stage45c_runtime_preflight.json \
+  --legacy-history /scratch/e1192548/stage45b_pi0087_b2_h200_20260909T052311Z \
+  --l1-history /scratch/e1192548/stage45e_l1_h200_20260911_f77f9e02_612342.hopper-m-02 \
+  --release /scratch/e1192548/stage45b_pi0087_admission_IWmsW5/STAGE45B_B2_TRAINING_RELEASE_V2.json \
+  --video-qualification /scratch/e1192548/stage45b_pi0087_final_video_qual_DXDgKu/VANDA_STAGE45B_PI0087_FINAL_ADMISSION_QUALIFIED.json \
+  --ffmpeg-root /scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf

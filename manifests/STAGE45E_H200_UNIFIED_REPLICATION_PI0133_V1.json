@@ -1,0 +1,177 @@
+{
+  "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_PI0133_V1",
+  "status": "CPU_STATIC_READY",
+  "stage": "Stage45E",
+  "authority": {
+    "issue": 11,
+    "issue_comment": 5642852068,
+    "pi_gate": "PI_GATE_STATE_0133",
+    "pointer_pr": 63,
+    "pointer_comment": 5642854134,
+    "pr49_frozen": true,
+    "science_branches_are_not_merged": true
+  },
+  "orchestration_repository": {
+    "branch": "stage45e/h200-unified-replication-campaign",
+    "base_head": "c68611a9a577bd23314afaed9c6ffb7fc829e9b2",
+    "working_tree_required_clean": true,
+    "foreign_cwd_supported": true,
+    "empty_pythonpath_supported": true
+  },
+  "science_routes": {
+    "legacy": {
+      "branch": "stage45e/legacy-full24-matched-seed-replication",
+      "head": "b66e06dd724bfab7a7dcac68c9cd96a4f3f84f7f",
+      "normalization": "FULL24_RUNTIME_V2",
+      "fresh_training_seeds": [2223, 2224],
+      "historical_seed2222_reuse": true
+    },
+    "l1": {
+      "branch": "stage45e/l1-matched-seed-replication",
+      "head": "186efc2977e2795bebf0dfe97d6f503a672716de",
+      "normalization": "FULL24_RUNTIME_V2",
+      "fresh_training_seeds": [2223, 2224],
+      "historical_seed2222_reuse": true,
+      "intervention": "accepted L1 physical-error-aware XYZ loss checkpoint only"
+    },
+    "n2": {
+      "branch": "stage45e/n2-h200-matched-seed-replication",
+      "head": "5f68ceec4d01908c0d36d5dd68ee55694bab75d4",
+      "normalization": "N2_BALANCED_XYZ_STATS",
+      "fresh_training_seeds": [2222, 2223, 2224],
+      "historical_seed2222_reuse": false
+    }
+  },
+  "frozen_inputs": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "runtime_v2_stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "runtime_v2_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "n2_stats_file_sha256": "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  },
+  "training_contract": {
+    "routes": ["LEGACY", "L1", "N2"],
+    "fresh_base": true,
+    "max_steps": 2000,
+    "checkpoint_steps": [1000, 2000],
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "warmup_steps": 10,
+    "max_grad_norm": 1.0,
+    "bf16": true,
+    "fp16": false,
+    "tf32": true,
+    "workers": 0,
+    "one_model_at_a_time": true,
+    "queue": [
+      {"route": "LEGACY", "seed": 2223},
+      {"route": "LEGACY", "seed": 2224},
+      {"route": "L1", "seed": 2223},
+      {"route": "L1", "seed": 2224},
+      {"route": "N2", "seed": 2222},
+      {"route": "N2", "seed": 2223},
+      {"route": "N2", "seed": 2224}
+    ],
+    "training_lineages": 7,
+    "historical_legacy_seed2222_is_reused": true,
+    "historical_l1_seed2222_is_reused": true
+  },
+  "diagnostic_contract": {
+    "cohort": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN",
+    "window_count": 24,
+    "window_order": "target-major_then-snapshot-major",
+    "target_xyz_in_model_input": false,
+    "development_seed": 4242,
+    "times": [0.0, 0.25, 0.5, 0.75],
+    "timestep_buckets": [0, 250, 500, 750],
+    "dt": 0.25,
+    "sampler": "source-mapped-four-step-Euler-action-head-graph",
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "e4": {
+      "new_checkpoint_arms": 14,
+      "conditioning_passes": 336,
+      "action_head_calls": 1344,
+      "total_model_side_calls": 1680
+    },
+    "d1": {
+      "checkpoint_arms": 16,
+      "conditioning_passes": 384,
+      "action_head_calls": 3456,
+      "total_model_side_calls": 3840,
+      "noise_seeds": [2223, 2224, 2225],
+      "t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+      "timestep_buckets": [67, 369, 783]
+    },
+    "d2a": {
+      "checkpoint_arms": 16,
+      "conditioning_passes": 384,
+      "action_head_calls": 3072,
+      "total_model_side_calls": 3456,
+      "noise_seed": 4242,
+      "free_running_reset": false
+    },
+    "total_model_side_calls": 8976
+  },
+  "gpu_policy": {
+    "host_role": "Vanda Hopper H200",
+    "visible_gpu_count": 1,
+    "selected_device": "cuda:0",
+    "minimum_name": "H200",
+    "minimum_vram_mib": 81920,
+    "allow_shared_gpu": false,
+    "max_science_allocations": 3,
+    "max_zero_science_probes": 2,
+    "pbs_qsub": true,
+    "no_precision_batch_offload_sharding_changes": true
+  },
+  "storage": {
+    "root": "/Project_Storage/CFP-03/CFP03-CF-004/stage45e_h200_unified_replication_20260912",
+    "training_subdirectory": "training",
+    "diagnostics_subdirectory": "diagnostics",
+    "failure_subdirectory": "failures",
+    "estimated_training_root_bytes": 51318519711,
+    "planned_new_training_roots": 7,
+    "required_free_margin_fraction": 0.15,
+    "preserve_accepted_evidence": true,
+    "fresh_root_per_lineage_and_phase": true
+  },
+  "execution_order": [
+    "H200_ADMISSION",
+    "H200_RESOURCE_CANARY",
+    "FRESH_BASE_TRAINING_QUEUE",
+    "E4",
+    "D1",
+    "D2A",
+    "CPU_CLOSURE"
+  ],
+  "forbidden": [
+    "Validation-E",
+    "Holdout-F",
+    "WBC",
+    "simulator",
+    "hardware",
+    "D2B",
+    "FULL24@4000",
+    "new_seed",
+    "extra_solver",
+    "merge",
+    "performance_based_run_selection",
+    "automatic_retry_after_model_start"
+  ],
+  "completion": {
+    "token": "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
+    "stop_after_cpu_closure": true
+  }
+}
