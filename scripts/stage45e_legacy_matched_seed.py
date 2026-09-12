@@ -296,8 +296,9 @@ def canary(args: argparse.Namespace) -> dict[str, Any]:
     core_paths = {"base_model": p["base_model"], "dataset": p["dataset"], "groot": p["groot"], "cosmos": p["cosmos"], "config": p["config"]}
     pipeline, config, model, dataset, collator = core._load_pipeline(core_paths, output)
     import torch
-    core._BOUNDARY.clear()
-    core._BOUNDARY.update({"gpu": True, "model_constructed": 1, "gr00t_forwards": 0, "training_steps": 0, "backward_steps": 0, "optimizer_steps": 0, "checkpoint_writes": 0})
+    if hasattr(core, "_LAST_EXECUTION_BOUNDARY"):
+        core._LAST_EXECUTION_BOUNDARY.clear()
+        core._LAST_EXECUTION_BOUNDARY.update({"gpu": True, "model_constructed": True, "gr00t_forwards": 0, "training_steps": 0, "backward_steps": 0, "optimizer_steps": 0, "checkpoint_writes": 0})
     device = torch.device("cuda:0")
     model.to(device)
     model.eval()
