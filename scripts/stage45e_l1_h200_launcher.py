@@ -234,7 +234,10 @@ def execute(expected_head: str) -> int:
         ]
         train_rc = run_child("train", train_argv, training_root.with_name(training_root.name + ".child.json"), environment, output_root=training_root)
         _require(train_rc == 0, f"L1 training child failed with returncode={train_rc}")
-        training_result = _parse_result(training_root / "stage45e_l1_training_result.json", admission.FULL_PASS_TOKEN)
+        training_result = _parse_result(
+            training_root / "stage45e_l1_training_result.json",
+            admission.TRAINING_ONLY_TOKEN,
+        )
         _require(training_result.get("execution_head") == expected_head, "training child HEAD drift")
 
         phase = "EVAL_CHILD"

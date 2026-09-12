@@ -42,6 +42,11 @@ import stage45e_l1_runtime_admission as admission  # noqa: E402
 from go2arx5_vla import stage45e_l1_loss as l1  # noqa: E402
 
 
+# This literal is intentionally duplicated in the source contract so a
+# training artifact can never be mistaken for the evaluator's final token.
+TRAINING_ONLY_TOKEN = "STAGE45E_L1_TRAINING_COMPLETE_FOR_EVAL"
+
+
 DEFAULTS = {
     "base_model": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
     "dataset": "/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train",
@@ -743,6 +748,14 @@ def _one_batch_backward_canary(
     # different experiment.
     with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
         outputs = model(inputs)
+    # Record the dtype-specific effective coefficients in future training
+    # evidence.  This is a detached observation only; the historical 612326
+    # canary did not serialize it and must retain that claim boundary.
+    from go2arx5_vla.stage45e_l1_runtime_weight_evidence import capture_effective_weight_evidence
+
+    runtime_weight_evidence = capture_effective_weight_evidence(
+        torch, outputs["action_loss"], inputs["action_mask"]
+    )
     loss = outputs["loss"]
     _require(bool(torch.isfinite(loss).item()), "L1 canary loss is non-finite")
     loss.backward()
@@ -773,6 +786,7 @@ def _one_batch_backward_canary(
         "stats_unchanged": True,
         "mask_unchanged": True,
         "normalization_unchanged": True,
+        "runtime_weight_evidence": runtime_weight_evidence,
     }
     optimizer.zero_grad(set_to_none=True)
     del optimizer, outputs, batch, inputs, model, pipeline
@@ -865,8 +879,9 @@ def execute(args: argparse.Namespace) -> int:
         state["checkpoint_writes_observed"] = 2
         result = {
             "schema": "VANDA_STAGE45E_L1_H200_TRAINING_RESULT_V1",
-            "status": admission.FULL_PASS_TOKEN,
-            "token": admission.FULL_PASS_TOKEN,
+            "status": TRAINING_ONLY_TOKEN,
+            "token": TRAINING_ONLY_TOKEN,
+            "training_completion_token": TRAINING_ONLY_TOKEN,
             "stage": admission.STAGE,
             "pi_gate": admission.PI_GATE_COMMENT,
             "branch": checkout["observed_branch"],
@@ -878,6 +893,7 @@ def execute(args: argparse.Namespace) -> int:
             "input_audit": input_audit,
             "l1_patch": l1_install,
             "one_batch_backward_canary": canary,
+            "runtime_weight_evidence": canary["runtime_weight_evidence"],
             "checkpoint_1000": checkpoint_1000,
             "checkpoint_2000": checkpoint_2000,
             "structured_stats": sidecar,
@@ -942,6 +958,7 @@ def execute(args: argparse.Namespace) -> int:
 
 def plan() -> dict[str, Any]:
     static = admission.validate_static_contract()
+    _require(TRAINING_ONLY_TOKEN == admission.TRAINING_ONLY_TOKEN, "training-only token binding drift")
     code = _validate_l1_code()
     return {
         "schema": "VANDA_STAGE45E_L1_H200_TRAINING_PLAN_V1",

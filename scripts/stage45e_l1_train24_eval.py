@@ -39,10 +39,12 @@ for _path in (SRC, SCRIPTS):
         sys.path.insert(0, str(_path))
 
 import stage45e_l1_runtime_admission as admission  # noqa: E402
+import stage45e_l1_eval_recovery_adapter as recovery_adapter  # noqa: E402
 
 
 EVAL_SCHEMA = "VANDA_STAGE45E_L1_TRAIN24_E4_EVALUATION_V1"
 EVAL_SEAL_SCHEMA = "VANDA_STAGE45E_L1_TRAIN24_E4_EVALUATION_SEAL_V1"
+RECOVERED_INPUT_SCHEMA = "STAGE45E_L1_RECOVERED_TRAINING_EVAL_INPUT_V2"
 PI_GATE = admission.PI_GATE_COMMENT
 DEVICE = admission.DEVICE
 SNAPSHOT_ROOT = Path("/scratch/e1192548/stage45d_d1_train24_descriptor_closure_20260911_v1")
@@ -436,37 +438,34 @@ def _build_binding(checkout: Mapping[str, Any], gpu: Mapping[str, Any], runtime:
     return common, observed
 
 
-def _audit_artifacts(args: argparse.Namespace, training_root: Path) -> dict[str, Any]:
+def _audit_artifacts(
+    args: argparse.Namespace,
+    training_root: Path,
+    recovered_eval_input: Path,
+) -> dict[str, Any]:
     import stage45e_l1_h200_train as train
     import stage45c_h200_eval_runtime_adapter as stage45c
 
     base_args = _namespace(args)
     paths = train._paths(base_args)
+    recovered = recovery_adapter.validate_recovered_input(recovered_eval_input, training_root)
     # The training-side audit is reused only for accepted source artifacts;
     # it does not import Torch/GR00T and does not inspect a model output.
     input_audit = train._validate_inputs(paths)
     closure = stage45c._verify_train24_descriptor_closure(Path(args.snapshot_root), paths["full24_dataset"])
     _require(len(closure["snapshots"]) == 24, "TRAIN24 descriptor closure count drift")
 
-    training_result_path = training_root / TRAIN_RESULT_NAME
-    _require(training_result_path.is_file() and not training_result_path.is_symlink(), "L1 training result is missing")
-    training_result = json.loads(training_result_path.read_text(encoding="utf-8"))
-    _require(training_result.get("status") == admission.FULL_PASS_TOKEN, "L1 training result is not PASS")
-    _require(training_result.get("token") == admission.FULL_PASS_TOKEN, "L1 training token drift")
-    _require(training_result.get("execution_head") == args.expected_head, "training result HEAD drift")
-    _require(training_result.get("branch") == admission.BRANCH, "training result branch drift")
-    _require(training_result.get("normalization_unchanged") is True, "training changed normalization")
-    _require(training_result.get("mask_unchanged") is True, "training changed mask")
-    _require(training_result.get("decoder_unchanged") is True, "training changed decoder")
-    _require(training_result.get("training_steps") == 2000 and training_result.get("optimizer_steps") == 2000, "training step closure drift")
-    _require(training_result.get("validation_e_read") is False and training_result.get("holdout_f_read") is False, "locked data was read")
-    intervention = training_result.get("intervention")
-    _require(intervention == admission.L1_CONTRACT, "training L1 intervention identity drift")
-    _require(training_result.get("structured_stats", {}).get("statistics_payload_sha256") == admission.FULL24_STATS_PAYLOAD_SHA256, "training statistics changed")
-
     legacy = _verify_checkpoint(Path(args.legacy_checkpoint), "checkpoint-2000", LEGACY_TREE_SHA256)
-    l1_1000 = _verify_checkpoint(training_root / "checkpoint-1000", "stage45e_l1/checkpoint-1000", training_result["checkpoint_1000"]["tree_sha256"])
-    l1_2000 = _verify_checkpoint(training_root / "checkpoint-2000", "stage45e_l1/checkpoint-2000", training_result["checkpoint_2000"]["tree_sha256"])
+    l1_1000 = _verify_checkpoint(
+        training_root / "checkpoint-1000",
+        "stage45e_l1/checkpoint-1000",
+        recovered["checkpoints"]["L1@1000"]["tree_sha256"],
+    )
+    l1_2000 = _verify_checkpoint(
+        training_root / "checkpoint-2000",
+        "stage45e_l1/checkpoint-2000",
+        recovered["checkpoints"]["L1@2000"]["tree_sha256"],
+    )
     _require(l1_1000["global_step"] == 1000 and l1_2000["global_step"] == 2000, "L1 checkpoint global-step drift")
 
     resolved_paths = {key: str(value.resolve()) for key, value in paths.items()}
@@ -476,11 +475,12 @@ def _audit_artifacts(args: argparse.Namespace, training_root: Path) -> dict[str,
         "l1_training_root": str(training_root.resolve()),
         "l1_checkpoint_1000": str((training_root / "checkpoint-1000").resolve()),
         "l1_checkpoint_2000": str((training_root / "checkpoint-2000").resolve()),
+        "recovered_eval_input": str(recovered_eval_input.resolve()),
     })
     return {
         "input_audit": input_audit,
         "descriptor_closure": closure,
-        "training_result": training_result,
+        "recovered_input": recovered,
         "checkpoints": {"FULL24@2000": legacy, "L1@1000": l1_1000, "L1@2000": l1_2000},
         "paths": resolved_paths,
         "stats_route": "STAGE45C_RUNTIME_V2_STATS_BRIDGE_FOR_ALL_THREE_ARMS",
@@ -536,64 +536,42 @@ def _mean(values: Sequence[float]) -> float:
 
 
 def _paired_summary(rows_by_arm: Mapping[str, Sequence[Mapping[str, Any]]]) -> dict[str, Any]:
-    order = list(admission.CHECKPOINT_ORDER)
-    row_maps = {label: {str(row["window_id"]): row for row in rows_by_arm[label]} for label in order}
-    _require(all(len(row_maps[label]) == admission.EVAL_WINDOW_COUNT for label in order), "paired row cardinality drift")
-    base = order[0]
-    pairs = {
-        "L1@1000_minus_FULL24@2000": ("L1@1000", base),
-        "L1@2000_minus_FULL24@2000": ("L1@2000", base),
-    }
-
-    def target_of(window_id: str) -> str:
-        return window_id.split(":", 1)[0].removeprefix("stage22_expert_")
-
-    def describe(left: str, right: str, window_ids: Sequence[str]) -> dict[str, Any]:
-        flattened = {label: {wid: _flatten_numeric(row_maps[label][wid].get("metrics", {})) for wid in window_ids} for label in (left, right)}
-        keys = sorted(set().union(*(set(flattened[label][wid]) for label in (left, right) for wid in window_ids)))
-        result: dict[str, Any] = {"left": left, "right": right, "window_count": len(window_ids), "metric_delta_left_minus_right": {}}
-        for key in keys:
-            values = [flattened[left][wid][key] - flattened[right][wid][key] for wid in window_ids if key in flattened[left][wid] and key in flattened[right][wid]]
-            if values:
-                result["metric_delta_left_minus_right"][key] = {
-                    "count": len(values),
-                    "mean": _mean(values),
-                    "min": float(min(values)),
-                    "max": float(max(values)),
-                }
-        return result
-
-    output: dict[str, Any] = {"baseline": base, "pairs": {}}
-    all_windows = list(WINDOW_IDS)
-    for pair_name, (left, right) in pairs.items():
-        by_target = {
-            target: describe(left, right, [wid for wid in all_windows if target_of(wid) == target])
-            for target in sorted({target_of(wid) for wid in all_windows})
-        }
-        output["pairs"][pair_name] = {
-            "overall": describe(left, right, all_windows),
-            "by_target": by_target,
-            "by_window": {wid: describe(left, right, [wid]) for wid in all_windows},
-        }
-    return output
+    # Keep the evaluator's row semantics in one CPU-only recovery adapter so
+    # the exposure comparison is present for every completed evaluation.
+    return recovery_adapter.paired_summary_complete(rows_by_arm)
 
 
-def _inventory(root: Path) -> tuple[Path, str]:
-    inventory = root / "inventory" / "SHA256SUMS"
-    inventory.parent.mkdir(parents=True, exist_ok=False)
-    files = sorted(path for path in root.rglob("*") if path.is_file() and path != inventory)
-    payload = ("\n".join(f"{sha256_file(path)}  {path.relative_to(root).as_posix()}" for path in files) + "\n").encode("utf-8")
-    temporary = inventory.with_name(f".{inventory.name}.tmp.{os.getpid()}")
-    temporary.write_bytes(payload)
-    with temporary.open("rb") as handle:
-        os.fsync(handle.fileno())
-    os.replace(temporary, inventory)
-    return inventory, sha256_bytes(payload)
+def _inventory(root: Path) -> tuple[Path, str, int]:
+    """Create a non-cyclic inventory over the finalized immutable evidence.
+
+    The final seal and result are written only after this inventory, so neither
+    artifact can be accidentally included and rewritten into a self-referential
+    checksum set.
+    """
+
+    relative_paths = [
+        "stage45e_l1_eval_static_guard.json",
+        "stage45e_l1_eval_runtime_binding.json",
+        "stage45e_l1_eval_pre_model_admission.json",
+        "stage45e_l1_eval_artifact_audit.json",
+        "sampler_noise_manifest.json",
+        "raw_predictions.jsonl",
+        "cpu_summary.json",
+        "telemetry.json",
+    ]
+    relative_paths.extend(
+        path.relative_to(root).as_posix()
+        for pattern in ("aggregate_*.json", "rows/*.json", "raw/**/*.npy")
+        for path in sorted(root.glob(pattern))
+    )
+    result = recovery_adapter.build_immutable_inventory(root, relative_paths)
+    return root / result["path"], result["sha256"], result["entry_count"]
 
 
 def execute(args: argparse.Namespace) -> int:
     output_root = Path(args.output_root).expanduser().resolve()
     training_root = Path(args.training_root).expanduser().resolve()
+    recovered_eval_input = Path(args.recovered_eval_input).expanduser().resolve()
     counters: dict[str, Any] = {
         "model_import_started": False,
         "model_construction": 0,
@@ -613,13 +591,17 @@ def execute(args: argparse.Namespace) -> int:
     phase = "START"
     try:
         _require(not output_root.exists() and not output_root.is_symlink(), f"evaluation output root is not fresh: {output_root}")
+        _require(
+            recovery_adapter.RECOVERED_INPUT_SCHEMA == RECOVERED_INPUT_SCHEMA,
+            "recovered-input schema binding drift",
+        )
         checkout = checkout_observation(args.expected_head)
         gpu = gpu_observation()
         runtime = runtime_identity(gpu)
         guard = static_guard()
         _require(guard["status"] == "PASS", "evaluation static guard failed")
         phase = "PRE_MODEL_ARTIFACT_AUDIT"
-        artifact_audit = _audit_artifacts(args, training_root)
+        artifact_audit = _audit_artifacts(args, training_root, recovered_eval_input)
         paths = artifact_audit["paths"]
         binding, observed = _build_binding(checkout, gpu, runtime, paths, output_root)
         admission_result = admission.validate_pre_model_binding(
@@ -797,6 +779,7 @@ def execute(args: argparse.Namespace) -> int:
         _require(counters["model_forward"] == admission.EVAL_ACTION_HEAD_CALLS, "model-forward call budget drift")
         _require(counters["raw_prediction_count"] == admission.EVAL_ACTION_HEAD_CALLS // len(admission.EVAL_T_VALUES), "raw artifact count drift")
         _require(counters["derived_row_count"] == counters["raw_prediction_count"], "raw/derived cardinality drift")
+        row_bundles = recovery_adapter.persist_row_bundles(output_root, rows_by_arm)
         paired = _paired_summary(rows_by_arm)
         cpu_summary = {
             "schema": "VANDA_STAGE45E_L1_TRAIN24_E4_CPU_SUMMARY_V1",
@@ -810,6 +793,7 @@ def execute(args: argparse.Namespace) -> int:
             "dt": admission.EVAL_DT,
             "aggregate_by_checkpoint": {item["checkpoint"]: item["aggregate"] for item in checkpoint_summaries},
             "paired_summary": paired,
+            "row_bundles": row_bundles,
             "independence_boundary": "descriptive paired comparison; seed/t probes share each TRAIN window",
         }
         write_json_durable(output_root / "cpu_summary.json", cpu_summary)
@@ -844,6 +828,8 @@ def execute(args: argparse.Namespace) -> int:
             "runtime_binding_sha256": canonical_sha(binding),
             "runtime_identity_sha256": runtime_binding_sha,
             "training_root": str(training_root),
+            "recovered_eval_input": str(recovered_eval_input),
+            "recovered_eval_input_sha256": sha256_file(recovered_eval_input),
             "output_root": str(output_root),
             "artifact_identities": artifact_audit["checkpoints"],
             "call_budget": admission.EVAL_CALL_BUDGET,
@@ -861,23 +847,31 @@ def execute(args: argparse.Namespace) -> int:
             "checkpoint_writes": 0,
             "automatic_retry": False,
         }
-        write_json_durable(output_root / "stage45e_l1_eval_seal.json", seal)
-        inventory_path, inventory_sha = _inventory(output_root)
+        inventory_path, inventory_sha, inventory_entries = _inventory(output_root)
         seal["inventory_path"] = str(inventory_path)
         seal["inventory_sha256"] = inventory_sha
+        seal["inventory_entry_count"] = inventory_entries
+        seal["inventory_is_noncyclic"] = True
+        seal["inventory_final_seal_excluded"] = True
+        seal["inventory_final_result_excluded"] = True
         write_json_durable(output_root / "stage45e_l1_eval_seal.json", seal)
         completion = {
             "schema": EVAL_SCHEMA,
             "status": admission.FULL_PASS_TOKEN,
             "token": admission.FULL_PASS_TOKEN,
             "execution_head": checkout["observed_head"],
-            "training_result": str(training_root / TRAIN_RESULT_NAME),
+            "training_result": None,
+            "training_result_is_required": False,
+            "recovered_eval_input": str(recovered_eval_input),
+            "recovered_eval_input_sha256": sha256_file(recovered_eval_input),
             "evaluation_seal": str(output_root / "stage45e_l1_eval_seal.json"),
             "evaluation_seal_sha256": sha256_file(output_root / "stage45e_l1_eval_seal.json"),
             "cpu_summary": str(output_root / "cpu_summary.json"),
             "cpu_summary_sha256": sha256_file(output_root / "cpu_summary.json"),
             "inventory_path": str(inventory_path),
             "inventory_sha256": inventory_sha,
+            "inventory_entry_count": inventory_entries,
+            "inventory_is_noncyclic": True,
             "call_budget": admission.EVAL_CALL_BUDGET,
             "observed_counters": counters,
             "normalization_unchanged": True,
@@ -953,6 +947,7 @@ def _parser() -> argparse.ArgumentParser:
     modes.add_argument("--plan-only", action="store_true")
     modes.add_argument("--execute", action="store_true")
     parser.add_argument("--training-root", type=Path)
+    parser.add_argument("--recovered-eval-input", type=Path)
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--legacy-checkpoint", type=Path, default=LEGACY_FULL24_2000)
     parser.add_argument("--snapshot-root", type=Path, default=SNAPSHOT_ROOT)
@@ -968,8 +963,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.plan_only:
         print(json.dumps(plan(), indent=2, sort_keys=True, allow_nan=False))
         return 0
-    if args.training_root is None or args.output_root is None or not args.expected_head:
-        parser.error("--execute requires --training-root, --output-root, and --expected-head")
+    if (
+        args.training_root is None
+        or args.recovered_eval_input is None
+        or args.output_root is None
+        or not args.expected_head
+    ):
+        parser.error(
+            "--execute requires --training-root, --recovered-eval-input, "
+            "--output-root, and --expected-head"
+        )
     return execute(args)
 
 

@@ -26,6 +26,10 @@ AUTHORITY_TOKEN = "PI_GATE_STATE_0123"
 BRANCH = "stage45e/l1-physical-error-aware-loss"
 BASE_EXECUTION_HEAD = "a843294780c1392369bfc987e468857c63fc13a5"
 SMOKE_PASS_TOKEN = "STAGE45E_L1_H200_SMOKE_PASS_AUTO_CONTINUE_FULL"
+# Training and TRAIN24 evaluation have deliberately distinct completion
+# tokens.  A recovered-input evaluation must never impersonate a historical
+# training-result artifact.
+TRAINING_ONLY_TOKEN = "STAGE45E_L1_TRAINING_COMPLETE_FOR_EVAL"
 FULL_PASS_TOKEN = "STAGE45E_L1_VANDA_H200_TRAIN24_COMPLETE_FOR_PI_REVIEW"
 RUNTIME_BINDING_SCHEMA = "VANDA_STAGE45E_L1_H200_RUNTIME_BINDING_V1"
 ADMISSION_RESULT_SCHEMA = "VANDA_STAGE45E_L1_H200_RUNTIME_ADMISSION_V1"
@@ -253,7 +257,11 @@ def validate_static_contract() -> dict[str, Any]:
         "dataset_identity": copy.deepcopy(DATASET_IDENTITY),
         "source_identities": copy.deepcopy(SOURCE_IDENTITIES),
         "locked_boundaries": copy.deepcopy(LOCKED_BOUNDARIES),
-        "return_tokens": {"smoke": SMOKE_PASS_TOKEN, "full": FULL_PASS_TOKEN},
+        "return_tokens": {
+            "smoke": SMOKE_PASS_TOKEN,
+            "training_only": TRAINING_ONLY_TOKEN,
+            "full": FULL_PASS_TOKEN,
+        },
     }
 
 
@@ -358,6 +366,7 @@ __all__ = [
     "EVAL_CALL_BUDGET",
     "EVAL_SAMPLER_CONTRACT",
     "FULL_PASS_TOKEN",
+    "TRAINING_ONLY_TOKEN",
     "L1AdmissionError",
     "L1_CONTRACT",
     "LOCKED_BOUNDARIES",
