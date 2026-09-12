@@ -215,7 +215,9 @@ def preflight(binding: Mapping[str, Any]) -> dict[str, Any]:
     dataset_identity = frozen._verify_dataset(paths["full24_dataset"])
     _require(dataset_identity.get("tree_sha256") == DATASET_TREE, "FULL24 TRAIN tree mismatch")
     stats_identity = frozen._verify_runtime_stats(paths["full24_runtime_statistics"])
-    _require(stats_identity.get("sha256") == STATS_SHA and stats_identity.get("payload_sha256") == STATS_PAYLOAD_SHA, "runtime-V2 stats identity mismatch")
+    stats_document = _read_json(paths["full24_runtime_statistics"])
+    _require(stats_identity.get("sha256") == STATS_SHA and stats_document.get("statistics_payload_sha256") == STATS_PAYLOAD_SHA, "runtime-V2 stats identity mismatch")
+    stats_identity = {**stats_identity, "payload_sha256": stats_document.get("statistics_payload_sha256")}
     _require(_sha256(paths["modality_config"]) == MODALITY_SHA, "modality SHA mismatch")
     snapshot_records = frozen._verify_snapshots(paths["snapshot_root"])
     first = snapshot_records[0]
