@@ -441,7 +441,28 @@ def load_index(path: Path) -> dict[str, Any]:
     require(set(arms_value.keys()) == set(expected_labels), "evidence index arm set drift")
     arms = {label: _load_arm(label, arms_value[label]) for label in expected_labels}
     require(all(arm["route"] in ROUTES and arm["seed"] in SEEDS and arm["step"] in STEPS for arm in arms.values()), "evidence index arm axes invalid")
-    return {"schema": value["schema"], "split": "TRAIN24", "validation_e_read": False, "holdout_f_read": False, "arms": arms, "source_index_sha256": sha256_file(path), "source_index_path": str(Path(path).resolve())}
+    binding = value.get("campaign_binding")
+    canonical_binding_sha = None
+    if isinstance(binding, Mapping):
+        canonical_value = dict(value)
+        canonical_binding = dict(binding)
+        canonical_binding.pop("index_sha256", None)
+        canonical_value["campaign_binding"] = canonical_binding
+        canonical_binding_sha = hashlib.sha256(json.dumps(canonical_value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")).hexdigest()
+    return {"schema": value["schema"], "split": "TRAIN24", "validation_e_read": False, "holdout_f_read": False, "arms": arms, "campaign_binding": binding, "canonical_index_binding_sha256": canonical_binding_sha, "source_index_sha256": sha256_file(path), "source_index_path": str(Path(path).resolve())}
+
+
+def _bind_campaign_to_index(index: Mapping[str, Any], campaign: Mapping[str, Any]) -> dict[str, Any]:
+    """Require the canonical index to name the exact verified campaign."""
+
+    binding = index.get("campaign_binding")
+    require(isinstance(binding, Mapping), "real C10 packet requires campaign_binding in the canonical index")
+    require(binding.get("campaign_result_sha256") == campaign.get("campaign_result_sha256"), "campaign/index result SHA mismatch")
+    require(binding.get("c10_handoff_sha256") == campaign.get("c10_handoff_sha256"), "campaign/index C10 handoff SHA mismatch")
+    require(binding.get("producer_head") == campaign.get("producer_head"), "campaign/index producer HEAD mismatch")
+    require(binding.get("real_h200_campaign_ingested") is True, "campaign/index real-ingestion authority mismatch")
+    require(binding.get("index_sha256") == index.get("canonical_index_binding_sha256"), "canonical index binding hash missing or stale")
+    return {"campaign_result_sha256": binding["campaign_result_sha256"], "c10_handoff_sha256": binding["c10_handoff_sha256"], "producer_head": binding["producer_head"], "index_sha256": binding["index_sha256"]}
 
 
 def build_packet(index_path: Path, output_path: Path, campaign_path: Path | None = None) -> dict[str, Any]:
@@ -452,6 +473,7 @@ def build_packet(index_path: Path, output_path: Path, campaign_path: Path | None
         # producer/schema/provenance adapter first.
         campaign_verification = verify_campaign(Path(campaign_path))
     index = load_index(index_path)
+    campaign_binding = _bind_campaign_to_index(index, campaign_verification) if campaign_verification is not None else None
     arms = index["arms"]
     summaries = {label: _arm_summary(arm) for label, arm in arms.items()}
     pairs: dict[str, Any] = {}
@@ -487,6 +509,7 @@ def build_packet(index_path: Path, output_path: Path, campaign_path: Path | None
         "source_index_sha256": index["source_index_sha256"],
         "source_index_path": index["source_index_path"],
         "source_campaign_result": campaign_verification,
+        "campaign_binding": campaign_binding,
         "arm_summaries": summaries,
         "paired_comparisons": pairs,
         "three_seed_descriptive": three_seed,

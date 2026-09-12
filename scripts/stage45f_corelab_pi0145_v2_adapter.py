@@ -26,8 +26,10 @@ import stage45f_corelab_evidence_convergence as convergence
 
 
 VANDA_PRODUCER_HEAD = "9c47850e1e4f5176034813f585061bc5b21e3bb1"
+PI0146_VANDA_PRODUCER_HEAD = "7497bcdb57d56fadc880355db94f8fbb1625fe45"
 VANDA_PRODUCER_SCRIPT = "scripts/stage45e_h200_unified_replication.py"
 PRODUCER_CONTRACT_PATH = convergence.REPO / "manifests/STAGE45F_PI0145_VANDA_C10_PRODUCER_CONSUMER_V1.json"
+PI0146_CONTRACT_PATH = convergence.REPO / "manifests/STAGE45F_PI0146_VANDA_C10_PRODUCER_CONSUMER_V1.json"
 V2_RESULT_SCHEMA = "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2"
 V2_SUMMARY_SCHEMAS = {
     "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2",
@@ -116,6 +118,44 @@ def validate_producer_contract() -> dict[str, Any]:
     return {"manifest_sha256": convergence.sha256_file(PRODUCER_CONTRACT_PATH), "producer_head": producer["head"], "consumer_branch": consumer["branch"], "consumer_entrypoint": consumer["entrypoint"]}
 
 
+def validate_pi0146_producer_contract() -> dict[str, Any]:
+    """Validate the separately pinned native-producer audit contract."""
+
+    contract = convergence.read_json(PI0146_CONTRACT_PATH)
+    require(contract.get("schema") == "STAGE45F_PI0146_VANDA_C10_PRODUCER_CONSUMER_V1", "PI0146 producer/consumer contract schema drift")
+    producer = contract.get("producer")
+    consumer = contract.get("consumer")
+    require(isinstance(producer, Mapping) and isinstance(consumer, Mapping), "PI0146 producer/consumer sides missing")
+    require(producer.get("branch") == "stage45e/h200-unified-replication-campaign", "PI0146 producer branch drift")
+    require(producer.get("head") == PI0146_VANDA_PRODUCER_HEAD, "PI0146 pinned native producer HEAD drift")
+    require(producer.get("script") == VANDA_PRODUCER_SCRIPT and producer.get("result_schema") == V2_RESULT_SCHEMA, "PI0146 producer schema/source drift")
+    require(producer.get("read_only_source") is True, "PI0146 producer source must remain read-only")
+    require(consumer.get("branch") == "stage45f/corelab-evidence-convergence", "PI0146 consumer branch drift")
+    require(consumer.get("entrypoint") == "scripts/stage45f_corelab_evidence_convergence.py::verify_campaign", "PI0146 consumer entrypoint drift")
+    return {"manifest_sha256": convergence.sha256_file(PI0146_CONTRACT_PATH), "producer_head": producer["head"], "consumer_branch": consumer["branch"], "consumer_entrypoint": consumer["entrypoint"]}
+
+
+def _synthetic_markers(value: Any, *, path: str = "$") -> list[str]:
+    """Find synthetic markers at every nested evidence envelope."""
+
+    found: list[str] = []
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            child_path = f"{path}.{key}"
+            if (key in {"synthetic_fixture", "synthetic_test_only"} and child is True) or child == SYNTHETIC_MARKER:
+                found.append(child_path)
+            found.extend(_synthetic_markers(child, path=child_path))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            found.extend(_synthetic_markers(child, path=f"{path}[{index}]"))
+    return sorted(set(found))
+
+
+def require_no_synthetic_markers(value: Any, *, field: str = "document") -> None:
+    markers = _synthetic_markers(value, path=field)
+    require(not markers, f"synthetic evidence marker is not admissible: {','.join(markers)}")
+
+
 def typed_boundary_mapping(document: Mapping[str, Any]) -> dict[str, Any]:
     """Convert V2 nested history/closure fields without defaulting missing data."""
 
@@ -127,11 +167,12 @@ def typed_boundary_mapping(document: Mapping[str, Any]) -> dict[str, Any]:
     require(training_occurred is True, "campaign_history.training_occurred must preserve historical training")
     # These are counters in V2, not booleans.  A missing key is not equivalent
     # to zero, and True is not accepted as the integer 1/0 here.
-    for key in ("gpu", "pbs", "training", "model_construction", "model_forward", "Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
+    for key in ("gpu", "pbs", "training", "model_construction", "model_forward", "backward", "optimizer_steps", "public_sampler_calls", "get_action_calls", "Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
         _typed_zero_counter(closure.get(key), f"cpu_closure_execution.{key}")
+    require(closure.get("model_imported") is False, "cpu_closure_execution.model_imported must be boolean false")
     _typed_bool(closure.get("model_imported"), "cpu_closure_execution.model_imported")
-    _typed_bool(closure.get("merge", False), "cpu_closure_execution.merge") if "merge" in closure else None
-    require(document.get("merge") is False, "V2 top-level merge must be boolean false")
+    require(type(closure.get("merge")) is bool and closure.get("merge") is False, "cpu_closure_execution.merge must be boolean false")
+    require(type(document.get("merge")) is bool and document.get("merge") is False, "V2 top-level merge must be boolean false")
     for key in ("Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
         if key in document:
             require(document[key] == 0, f"V2 top-level {key} must remain zero")
@@ -149,6 +190,8 @@ def typed_boundary_mapping(document: Mapping[str, Any]) -> dict[str, Any]:
             "cpu_closure_execution.training": "canonical.training (integer counter zero -> boolean false)",
             "cpu_closure_execution.gpu": "canonical.execution_boundary.gpu (integer counter zero)",
             "cpu_closure_execution.pbs": "canonical.execution_boundary.pbs (integer counter zero)",
+            "cpu_closure_execution.model_imported": "typed boolean false",
+            "cpu_closure_execution.merge": "typed boolean false",
         },
     }
 
@@ -158,14 +201,46 @@ def validate_summary_boundaries(summary: Mapping[str, Any]) -> None:
 
     closure = summary.get("cpu_closure_execution")
     if isinstance(closure, Mapping):
-        for key in ("gpu", "pbs", "training", "model_construction", "model_forward", "Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
+        for key in ("gpu", "pbs", "training", "model_construction", "model_forward", "backward", "optimizer_steps", "public_sampler_calls", "get_action_calls", "Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
             _typed_zero_counter(closure.get(key), f"cpu_summary.cpu_closure_execution.{key}")
+        require(closure.get("model_imported") is False, "cpu_summary.cpu_closure_execution.model_imported must be boolean false")
         _typed_bool(closure.get("model_imported"), "cpu_summary.cpu_closure_execution.model_imported")
     else:
         # Older V2 summaries may expose the lock fields at the summary root;
         # require every field explicitly in that form as well.
         for key in ("Validation-E", "Holdout-F", "WBC", "simulator", "hardware"):
             require(summary.get(key) == 0, f"cpu_summary.{key} must be integer zero")
+
+
+def validate_diagnostic_accounting(document: Mapping[str, Any]) -> dict[str, Any]:
+    """Reconcile sealed call totals with the producer's attempt inventory."""
+
+    fields = ("accepted_unique_scientific_calls", "all_attempted_model_calls", "failed_attempt_model_calls", "reused_readonly_model_calls")
+    totals: dict[str, int] = {}
+    for field in fields:
+        value = document.get(field)
+        require(type(value) is int and value >= 0, f"{field} must be an explicit non-negative integer")
+        totals[field] = value
+    require(totals["accepted_unique_scientific_calls"] == 8976, "accepted unique diagnostic budget drift")
+    attempts = document.get("diagnostic_attempt_inventory")
+    require(isinstance(attempts, list) and attempts, "diagnostic_attempt_inventory is missing or empty")
+    attempted_total = 0
+    failed_total = 0
+    for index, item in enumerate(attempts):
+        require(isinstance(item, Mapping), f"diagnostic attempt inventory item {index} is not an object")
+        counts = item.get("counts")
+        require(isinstance(counts, Mapping), f"diagnostic attempt inventory counts missing at {index}")
+        require(counts.get("counters_complete") is True, f"diagnostic attempt counters unknown at {index}")
+        calls = counts.get("model_side_calls")
+        require(type(calls) is int and calls >= 0, f"diagnostic attempt model_side_calls invalid at {index}")
+        attempted_total += calls
+        if item.get("status") == "FAILED_ATTEMPT":
+            failed_total += calls
+    require(attempted_total == totals["all_attempted_model_calls"], "all-attempted total does not match attempt inventory")
+    require(failed_total == totals["failed_attempt_model_calls"], "failed-attempt total does not match attempt inventory")
+    require(totals["failed_attempt_model_calls"] <= totals["all_attempted_model_calls"], "failed attempts exceed all attempts")
+    require(totals["accepted_unique_scientific_calls"] <= totals["all_attempted_model_calls"], "accepted unique calls exceed all attempts")
+    return {"accepted_unique": totals["accepted_unique_scientific_calls"], "all_attempted": attempted_total, "failed": failed_total, "inventory_entries": len(attempts)}
 
 
 def _descriptor_path_reference(item: Mapping[str, Any], field: str) -> Path:
@@ -176,6 +251,13 @@ def _descriptor_path_reference(item: Mapping[str, Any], field: str) -> Path:
     return path
 
 
+def _tree_digest(entries: Sequence[Mapping[str, Any]]) -> str:
+    digest = hashlib.sha256()
+    for entry in sorted(entries, key=lambda item: str(item["path"])):
+        digest.update(f"{entry['path']}\0{entry['bytes']}\0{entry['sha256']}\n".encode("utf-8"))
+    return digest.hexdigest()
+
+
 def validate_external_inventory(
     inventory_path: Path,
     *,
@@ -184,6 +266,8 @@ def validate_external_inventory(
 ) -> dict[str, Any]:
     inventory_path = _path(inventory_path, "external_inventory", root=campaign_root, inside=True)
     inventory = convergence.read_json(inventory_path)
+    if not allow_synthetic:
+        require_no_synthetic_markers(inventory, field="external_inventory")
     require(inventory.get("schema") == EXTERNAL_INVENTORY_SCHEMA, "Vanda external inventory schema drift")
     require(inventory.get("status") == "PASS", "Vanda external inventory is not PASS")
     synthetic = inventory.get("synthetic_test_only") == SYNTHETIC_MARKER or inventory.get("synthetic_fixture") is True
@@ -198,10 +282,25 @@ def validate_external_inventory(
         entry = descriptors[unit]
         descriptor_path = _descriptor_path_reference(entry, f"descriptors[{unit}]")
         descriptor = convergence.read_json(descriptor_path)
+        if not allow_synthetic:
+            require_no_synthetic_markers(descriptor, field=f"descriptor[{unit}]")
         require(descriptor.get("unit_key") == unit, f"descriptor unit identity drift: {unit}")
         require(descriptor.get("status") == "PASS", f"descriptor is not PASS: {unit}")
         if descriptor.get("synthetic_test_only") == SYNTHETIC_MARKER or descriptor.get("synthetic_fixture") is True:
             require(allow_synthetic, f"synthetic descriptor rejected by real admission: {unit}")
+        for edge_name in ("unified_seal", "inner_seal", "phase_spec"):
+            edge = descriptor.get(edge_name)
+            edge_path = _descriptor_path_reference(edge, f"{unit}.{edge_name}")
+            edge_doc = convergence.read_json(edge_path)
+            if edge_name == "phase_spec":
+                require(edge_doc.get("phase") == descriptor.get("phase") and edge_doc.get("route") == descriptor.get("route"), f"{unit}: phase-spec edge identity drift")
+            else:
+                require(edge_doc.get("status") == "PASS", f"{unit}: {edge_name} is not PASS")
+        # Check the producer-owned window/noise contract before secondary
+        # schema details so a native producer omission returns an actionable
+        # upstream prerequisite rather than a generic consumer-shape error.
+        train24 = descriptor.get("train24_contract")
+        require(isinstance(train24, Mapping), f"PRODUCER_PREREQUISITE_MISSING: {unit}.train24_contract")
         source_schema = descriptor.get("source_row_schema")
         require(isinstance(source_schema, str) and source_schema and source_schema != "ROW_BUNDLE_FILE_SET_V1", f"{unit}: generic row schema fallback is not semantic provenance")
         _sha(descriptor.get("source_row_sha256"), f"{unit}.source_row_sha256")
@@ -213,14 +312,17 @@ def validate_external_inventory(
         for row_index, row_ref in enumerate(rows):
             row_path = _descriptor_path_reference(row_ref, f"{unit}.row_bundle[{row_index}]")
             checked_rows.append({"path": str(row_path), "sha256": row_ref["sha256"]})
+        require(_tree_digest([{"path": Path(item["path"]).name, "bytes": Path(item["path"]).stat().st_size, "sha256": item["sha256"]} for item in checked_rows]) == descriptor.get("source_row_sha256"), f"{unit}: source row tree SHA drift")
         require(isinstance(descriptor.get("training_lineage_identities"), list) and descriptor["training_lineage_identities"], f"{unit}: training lineage identities missing")
-        require(isinstance(descriptor.get("evaluation_identity"), Mapping), f"{unit}: evaluator identity missing")
-        require(isinstance(descriptor.get("orchestration_identity"), Mapping), f"{unit}: orchestration identity missing")
+        evaluation_identity = descriptor.get("evaluation_identity")
+        orchestration_identity = descriptor.get("orchestration_identity")
+        require(isinstance(evaluation_identity, Mapping) and evaluation_identity, f"{unit}: evaluator identity missing")
+        require(isinstance(orchestration_identity, Mapping) and orchestration_identity, f"{unit}: orchestration identity missing")
+        if not allow_synthetic:
+            require(orchestration_identity.get("head") == PI0146_VANDA_PRODUCER_HEAD, f"{unit}: producer/orchestration HEAD drift")
         # The producer's V2 update carries this descriptor explicitly.  It is
         # the only accepted source for window/noise/sampler pairing; the
         # consumer never guesses these fields from a filename or label.
-        train24 = descriptor.get("train24_contract")
-        require(isinstance(train24, Mapping), f"{unit}: TRAIN24 window/noise/sampler contract missing")
         require(train24.get("split") == "TRAIN24" and train24.get("window_count") == 24, f"{unit}: TRAIN24 descriptor drift")
         require(train24.get("window_ids") == list(convergence.WINDOW_IDS), f"{unit}: TRAIN24 window order drift")
         noise = train24.get("noise_sha256_by_window")
@@ -228,7 +330,7 @@ def validate_external_inventory(
         # canonical JSON with sorted keys).  The explicit window_ids sequence
         # above is the ordering law; the noise map must cover that sequence
         # exactly, with no extras or omissions.
-        require(isinstance(noise, Mapping) and set(noise) == set(convergence.WINDOW_IDS), f"{unit}: per-window noise identity/order missing")
+        require(isinstance(noise, Mapping) and set(noise) == set(convergence.WINDOW_IDS), f"PRODUCER_PREREQUISITE_MISSING: {unit}.train24_contract.noise_sha256_by_window")
         for window, digest in noise.items():
             _sha(digest, f"{unit}.noise_sha256_by_window.{window}")
         sampler = train24.get("sampler")
@@ -246,6 +348,8 @@ def validate_c10_handoff(
 ) -> dict[str, Any]:
     handoff_path = _path(handoff_path, "c10_handoff")
     value = convergence.read_json(handoff_path)
+    if not allow_synthetic:
+        require_no_synthetic_markers(value, field="c10_handoff")
     require(value.get("schema") == C10_HANDOFF_SCHEMA, "Vanda C10 handoff schema drift")
     require(value.get("status") == "PASS", "Vanda C10 handoff is not PASS")
     synthetic = value.get("synthetic_test_only") == SYNTHETIC_MARKER or value.get("synthetic_fixture") is True
@@ -279,10 +383,16 @@ def validate_c10_handoff(
                 require(item.get("reference_kind") == "HISTORICAL_SEALED_READ_ONLY", f"{label}/{phase}: historical reference kind drift")
                 _sha(item.get("seal_sha256"), f"{label}/{phase}.seal_sha256")
                 _sha(item.get("rows_sha256"), f"{label}/{phase}.rows_sha256")
+                if not allow_synthetic:
+                    seal_path = _descriptor_path_reference(item.get("seal_file"), f"{label}/{phase}.seal_file")
+                    rows_path = _descriptor_path_reference(item.get("rows_file"), f"{label}/{phase}.rows_file")
+                    require(convergence.sha256_file(seal_path) == item["seal_sha256"], f"{label}/{phase}: historical seal file SHA mismatch")
+                    require(convergence.sha256_file(rows_path) == item["rows_sha256"], f"{label}/{phase}: historical rows file SHA mismatch")
         lineage = arm.get("training_lineage_identity")
         require(isinstance(lineage, Mapping), f"{label}: training lineage identity missing")
         source_kind = lineage.get("source_kind")
-        require(source_kind in {"STANDARD_PASS_RESULT", "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT"}, f"{label}: unsupported training source kind")
+        expected_kind = "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT" if route.upper() == "L1" and seed == 2222 else "STANDARD_PASS_RESULT"
+        require(source_kind == expected_kind, f"{label}: training source kind drift")
         lineage_kinds.add(source_kind)
         require(lineage.get("producer_fabrication") is False, f"{label}: producer-side lineage fabrication")
     require(lineage_kinds == {"STANDARD_PASS_RESULT", "CONTRACT_BOUND_READONLY_RECOVERY_NOT_HISTORICAL_PASS_RESULT"}, "C10 handoff must retain standard and recovered lineage variants")
@@ -310,11 +420,13 @@ def validate_c10_handoff(
 
 
 def _canonical_v2_view(document: Mapping[str, Any], source_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
-    contract = validate_producer_contract()
+    contract = validate_pi0146_producer_contract()
+    require_no_synthetic_markers(document)
     require(document.get("schema") == V2_RESULT_SCHEMA, "Vanda V2 result schema drift")
     require(document.get("status") == "PASS" and document.get("token") == REAL_COMPLETION_TOKEN, "Vanda V2 campaign is not a completed PASS")
     require(document.get("synthetic_test_only") is not True and document.get("synthetic_fixture") is not True, "synthetic fixture cannot enter real campaign verification")
     boundaries = typed_boundary_mapping(document)
+    accounting = validate_diagnostic_accounting(document)
     source_path = Path(source_path).resolve()
     source_sha = convergence.sha256_file(source_path)
     root = Path(document.get("campaign_root", "")).resolve()
@@ -324,6 +436,7 @@ def _canonical_v2_view(document: Mapping[str, Any], source_path: Path) -> tuple[
     require(convergence.sha256_file(summary_path) == _sha(document.get("cpu_summary_sha256"), "cpu_summary_sha256"), "Vanda CPU summary SHA drift")
     require(convergence.sha256_file(inventory_path) == _sha(document.get("cpu_inventory_sha256"), "cpu_inventory_sha256"), "Vanda CPU inventory SHA drift")
     summary = convergence.read_json(summary_path)
+    require_no_synthetic_markers(summary, field="cpu_summary")
     require(summary.get("schema") in V2_SUMMARY_SCHEMAS and summary.get("status") == "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE", "Vanda V2 CPU summary schema/status drift")
     require(summary.get("descriptive_only") is True and summary.get("no_performance_based_winner") is True, "Vanda V2 summary claim boundary drift")
     validate_summary_boundaries(summary)
@@ -340,6 +453,7 @@ def _canonical_v2_view(document: Mapping[str, Any], source_path: Path) -> tuple[
     require(isinstance(orchestration, Mapping), "Vanda V2 orchestration identity missing")
     producer_head = orchestration.get("head")
     _git_sha(producer_head, "orchestration_identity.head")
+    require(producer_head == PI0146_VANDA_PRODUCER_HEAD, "orchestration producer HEAD is not the pinned PI0146 producer")
     handoff_path = _path(document.get("c10_handoff"), "c10_handoff")
     require(convergence.sha256_file(handoff_path) == _sha(document.get("c10_handoff_sha256"), "c10_handoff_sha256"), "Vanda C10 handoff SHA drift")
     canonical = dict(document)
@@ -350,12 +464,12 @@ def _canonical_v2_view(document: Mapping[str, Any], source_path: Path) -> tuple[
         "schema": document["schema"],
         "sha256": source_sha,
         "producer_head": producer_head,
-        "pinned_producer_surface": VANDA_PRODUCER_HEAD,
+        "pinned_producer_surface": PI0146_VANDA_PRODUCER_HEAD,
         "producer_script": VANDA_PRODUCER_SCRIPT,
         "producer_consumer_contract_sha256": contract["manifest_sha256"],
         "typed_boundary_mapping": boundaries["typed_fields"],
     }
-    return canonical, {"root": root, "summary": summary, "summary_path": summary_path, "inventory_path": inventory_path, "handoff_path": handoff_path, "producer_head": producer_head}
+    return canonical, {"root": root, "summary": summary, "summary_path": summary_path, "inventory_path": inventory_path, "handoff_path": handoff_path, "producer_head": producer_head, "accounting": accounting}
 
 
 def verify_v2_campaign(campaign_path: Path, output_path: Path | None = None) -> dict[str, Any]:
@@ -451,9 +565,12 @@ def _canonical_v2_view_for_synthetic(document: Mapping[str, Any], source_path: P
 
 def _canonical_v2_view_relaxed_marker(document: Mapping[str, Any], source_path: Path, *, allow_synthetic: bool) -> tuple[dict[str, Any], dict[str, Any]]:
     contract = validate_producer_contract()
+    if not allow_synthetic:
+        require_no_synthetic_markers(document)
     require(document.get("schema") == V2_RESULT_SCHEMA, "Vanda V2 result schema drift")
     require(document.get("status") == "PASS" and document.get("token") == REAL_COMPLETION_TOKEN, "Vanda synthetic V2 result must retain PASS serialization token")
     boundaries = typed_boundary_mapping(document)
+    validate_diagnostic_accounting(document)
     source_path = Path(source_path).resolve()
     source_sha = convergence.sha256_file(source_path)
     root = Path(document.get("campaign_root", "")).resolve()
@@ -518,17 +635,25 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
             }
             seal_path = phase_root / "unified_phase_seal.json"
             seal_path.write_text(json.dumps(seal, sort_keys=True) + "\n", encoding="utf-8")
+            phase_spec_path = phase_root / "phase_spec.json"
+            phase_spec_path.write_text(json.dumps({"schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V2", "phase": phase, "route": route, "synthetic_test_only": SYNTHETIC_MARKER}, sort_keys=True) + "\n", encoding="utf-8")
             descriptor = {
                 "schema": "VANDA_STAGE45E_EXTERNAL_DIAGNOSTIC_EVIDENCE_DESCRIPTOR_V1", "status": "PASS", "unit_key": unit,
                 "phase": phase, "route": route, "synthetic_test_only": SYNTHETIC_MARKER,
-                "source_row_schema": "VANDA_STAGE45E_SYNTHETIC_RAW_ROW_BUNDLE_V1", "source_row_sha256": convergence.sha256_file(rows),
+                "source_row_schema": "VANDA_STAGE45E_SYNTHETIC_RAW_ROW_BUNDLE_V1", "source_row_sha256": _tree_digest([{"path": rows.name, "bytes": rows.stat().st_size, "sha256": convergence.sha256_file(rows)}]),
                 "stats_sha256": convergence.manifest()["h200_campaign_surfaces"]["routes"][route.upper()]["stats_sha256"],
                 "stats_payload_sha256": convergence.manifest()["h200_campaign_surfaces"]["routes"][route.upper()]["stats_payload_sha256"],
-                "training_lineage_identities": [lineage_recovered if route == "l1" else lineage_standard],
+                # Only the accepted recovered L1 seed2222 lineage is a
+                # read-only recovery.  L1 seed2223/2224 remain standard
+                # producer lineages in the matched three-seed contract.
+                "training_lineage_identities": [lineage_recovered, lineage_standard] if route == "l1" else [lineage_standard],
                 "evaluation_identity": {"role": "COMMON_EVALUATOR_ADAPTER", "synthetic": True},
                 "orchestration_identity": {"role": "ORCHESTRATION_WRAPPER", "head": VANDA_PRODUCER_HEAD},
                 "row_bundle": [{"path": str(rows), "sha256": convergence.sha256_file(rows), "schema": "VANDA_STAGE45E_SYNTHETIC_RAW_ROW_BUNDLE_V1"}],
                 "train24_contract": _synthetic_train24_contract(),
+                "unified_seal": {"path": str(seal_path), "sha256": convergence.sha256_file(seal_path)},
+                "inner_seal": {"path": str(inner), "sha256": convergence.sha256_file(inner)},
+                "phase_spec": {"path": str(phase_spec_path), "sha256": convergence.sha256_file(phase_spec_path)},
             }
             descriptor_path = descriptors_root / f"{phase}_{route}.json"
             descriptor_path.write_text(json.dumps(descriptor, sort_keys=True) + "\n", encoding="utf-8")
@@ -553,14 +678,14 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
                     else:
                         reference = descriptor_refs[unit]
                         evidence[phase] = {"source": "CURRENT_PHASE_UNIT", "descriptor_path": reference["path"], "descriptor_sha256": reference["sha256"]}
-                arms.append({"label": label, "route": route.lower(), "seed": seed, "step": step, "training_lineage_identity": lineage_recovered if route == "L1" else lineage_standard, "diagnostic_evidence": evidence})
+                arms.append({"label": label, "route": route.lower(), "seed": seed, "step": step, "training_lineage_identity": lineage_recovered if route == "L1" and seed == 2222 else lineage_standard, "diagnostic_evidence": evidence})
     handoff = {"schema": C10_HANDOFF_SCHEMA, "status": "PASS", "synthetic_test_only": SYNTHETIC_MARKER, "campaign_root": str(campaign), "external_inventory": str(inventory_path), "external_inventory_sha256": convergence.sha256_file(inventory_path), "arms": arms, "arm_count": 18, "required_arm_count": 18, "locked_boundaries": {"Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0}, "source_rows_untouched": True}
     handoff_path = campaign / "C10_HANDOFF.json"
     handoff_path.write_text(json.dumps(handoff, sort_keys=True) + "\n", encoding="utf-8")
     expected_totals = {phase: {key: sum(convergence._expected_phase_budget(phase, route)[key] for route in convergence.ROUTES) for key in ("conditioning_passes", "action_head_calls", "raw_rows")} for phase in PHASES}
     for phase, values in expected_totals.items():
         values["total_model_side_calls"] = values["conditioning_passes"] + values["action_head_calls"]
-    summary = {"schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2", "status": "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE", "campaign_root": str(campaign), "phase_totals": expected_totals, "phase_seals": phase_seals, "descriptive_only": True, "no_performance_based_winner": True, "orchestration_identity": {"role": "ORCHESTRATION_WRAPPER", "head": VANDA_PRODUCER_HEAD}, "synthetic_test_only": SYNTHETIC_MARKER, "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0}}
+    summary = {"schema": "VANDA_STAGE45E_H200_UNIFIED_CPU_EVIDENCE_SUMMARY_V2", "status": "PASS_READONLY_FROM_SEALED_GPU_EVIDENCE", "campaign_root": str(campaign), "phase_totals": expected_totals, "phase_seals": phase_seals, "descriptive_only": True, "no_performance_based_winner": True, "orchestration_identity": {"role": "ORCHESTRATION_WRAPPER", "head": VANDA_PRODUCER_HEAD}, "synthetic_test_only": SYNTHETIC_MARKER, "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0, "get_action_calls": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "merge": False}}
     summary_path = campaign / "cpu_summary.json"
     summary_path.write_text(json.dumps(summary, sort_keys=True) + "\n", encoding="utf-8")
     inventory_entries = []
@@ -570,7 +695,7 @@ def build_synthetic_vanda_v2_fixture(root: Path) -> Path:
     cpu_inventory = {"schema": "VANDA_STAGE45E_H200_CPU_EVIDENCE_INVENTORY_V2", "status": "PASS", "synthetic_test_only": SYNTHETIC_MARKER, "entries": inventory_entries, "entry_count": len(inventory_entries), "external_inventory": str(inventory_path), "external_inventory_sha256": convergence.sha256_file(inventory_path), "c10_handoff_excluded": True}
     cpu_inventory_path = campaign / "CPU_EVIDENCE_INVENTORY.json"
     cpu_inventory_path.write_text(json.dumps(cpu_inventory, sort_keys=True) + "\n", encoding="utf-8")
-    final = {"schema": V2_RESULT_SCHEMA, "status": "PASS", "token": REAL_COMPLETION_TOKEN, "synthetic_test_only": SYNTHETIC_MARKER, "campaign_root": str(campaign), "cpu_summary": str(summary_path), "cpu_summary_sha256": convergence.sha256_file(summary_path), "cpu_inventory": str(cpu_inventory_path), "cpu_inventory_sha256": convergence.sha256_file(cpu_inventory_path), "phase_totals": expected_totals, "total_model_side_calls": 8976, "accepted_unique_scientific_calls": 8976, "all_attempted_model_calls": 8976, "failed_attempt_model_calls": 0, "reused_readonly_model_calls": 0, "c10_handoff": str(handoff_path), "c10_handoff_sha256": convergence.sha256_file(handoff_path), "fresh_training_lineages": 7, "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0, "get_action_calls": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0}, "campaign_history": {"training_occurred": True, "fresh_training_lineages": 7}, "merge": False}
+    final = {"schema": V2_RESULT_SCHEMA, "status": "PASS", "token": REAL_COMPLETION_TOKEN, "synthetic_test_only": SYNTHETIC_MARKER, "campaign_root": str(campaign), "cpu_summary": str(summary_path), "cpu_summary_sha256": convergence.sha256_file(summary_path), "cpu_inventory": str(cpu_inventory_path), "cpu_inventory_sha256": convergence.sha256_file(cpu_inventory_path), "phase_totals": expected_totals, "total_model_side_calls": 8976, "accepted_unique_scientific_calls": 8976, "all_attempted_model_calls": 8976, "failed_attempt_model_calls": 0, "reused_readonly_model_calls": 0, "diagnostic_attempt_inventory": [{"unit_key": "SYNTHETIC", "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}}], "c10_handoff": str(handoff_path), "c10_handoff_sha256": convergence.sha256_file(handoff_path), "fresh_training_lineages": 7, "cpu_closure_execution": {"gpu": 0, "pbs": 0, "model_imported": False, "model_construction": 0, "model_forward": 0, "training": 0, "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0, "get_action_calls": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "merge": False}, "campaign_history": {"training_occurred": True, "fresh_training_lineages": 7}, "merge": False}
     final_path = campaign / "final_result.json"
     final_path.write_text(json.dumps(final, sort_keys=True) + "\n", encoding="utf-8")
     return final_path

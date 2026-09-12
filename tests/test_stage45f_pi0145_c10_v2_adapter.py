@@ -39,9 +39,11 @@ class PI0145VandaV2AdapterTest(unittest.TestCase):
         good = {
             "campaign_history": {"training_occurred": True},
             "cpu_closure_execution": {
-                "gpu": 0, "pbs": 0, "training": 0, "model_construction": 0,
-                "model_forward": 0, "Validation-E": 0, "Holdout-F": 0,
+            "gpu": 0, "pbs": 0, "training": 0, "model_construction": 0,
+            "model_forward": 0, "Validation-E": 0, "Holdout-F": 0,
                 "WBC": 0, "simulator": 0, "hardware": 0,
+                "backward": 0, "optimizer_steps": 0, "public_sampler_calls": 0,
+                "get_action_calls": 0, "merge": False,
                 "model_imported": False,
             },
             "merge": False,
@@ -62,6 +64,25 @@ class PI0145VandaV2AdapterTest(unittest.TestCase):
         del missing["cpu_closure_execution"]["pbs"]
         with self.assertRaises(adapter.V2AdapterError):
             adapter.typed_boundary_mapping(missing)
+
+        # PI0146 failure surface: typed forbidden counters/flags must not be
+        # silently accepted when a producer reports a nonzero value or the
+        # wrong JSON type, including the nested merge flag.
+        for field, value in (
+            ("model_imported", True),
+            ("backward", 7),
+            ("optimizer_steps", 7),
+            ("public_sampler_calls", 7),
+        ):
+            broken = copy.deepcopy(good)
+            broken["cpu_closure_execution"][field] = value
+            with self.subTest(field=field):
+                with self.assertRaises(adapter.V2AdapterError):
+                    adapter.typed_boundary_mapping(broken)
+        nested_merge = copy.deepcopy(good)
+        nested_merge["cpu_closure_execution"]["merge"] = True
+        with self.assertRaises(adapter.V2AdapterError):
+            adapter.typed_boundary_mapping(nested_merge)
 
     def test_handoff_requires_exact_historical_mapping_and_rejects_duplicate_arm(self) -> None:
         with tempfile.TemporaryDirectory(prefix="stage45f-pi0145-mutation-") as directory:
@@ -129,6 +150,11 @@ class PI0145VandaV2AdapterTest(unittest.TestCase):
         source = (ROOT / "scripts/stage45f_corelab_pi0145_v2_adapter.py").read_text(encoding="utf-8")
         for forbidden in ("import torch", "import numpy", "import gr00t", "import subprocess", "from torch", "from numpy"):
             self.assertNotIn(forbidden, source)
+
+    def test_nested_synthetic_markers_are_rejected(self) -> None:
+        with self.assertRaises(adapter.V2AdapterError) as caught:
+            adapter.require_no_synthetic_markers({"summary": {"phase_seals": [{"synthetic_test_only": "SYNTHETIC_TEST_ONLY"}]}})
+        self.assertIn("synthetic evidence marker", str(caught.exception))
 
 
 if __name__ == "__main__":

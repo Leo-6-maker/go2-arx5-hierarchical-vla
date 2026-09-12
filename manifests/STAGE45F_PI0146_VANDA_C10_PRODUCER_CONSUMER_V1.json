@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE45F_PI0146_VANDA_C10_PRODUCER_CONSUMER_V1",
+  "status": "CPU_STATIC_NATIVE_PRODUCER_AUDIT",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0146",
+    "issue_comment": 5645700727,
+    "pr": 65,
+    "consumer_base_head": "3cd8d11c211a344c09f08280af1105f4dbbac219"
+  },
+  "producer": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "branch": "stage45e/h200-unified-replication-campaign",
+    "head": "7497bcdb57d56fadc880355db94f8fbb1625fe45",
+    "script": "scripts/stage45e_h200_unified_replication.py",
+    "result_schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2",
+    "native_cpu_functions": ["build_phase_specs", "build_external_evidence_closure", "cpu_closure"],
+    "read_only_source": true
+  },
+  "consumer": {
+    "branch": "stage45f/corelab-evidence-convergence",
+    "entrypoint": "scripts/stage45f_corelab_evidence_convergence.py::verify_campaign",
+    "adapter": "scripts/stage45f_corelab_pi0145_v2_adapter.py",
+    "packet_entrypoint": "scripts/stage45f_corelab_evidence_convergence.py::build_packet(campaign_path=...)"
+  },
+  "required_native_edges": {
+    "descriptor_to_phase_spec": true,
+    "descriptor_to_seal": true,
+    "descriptor_to_rows": true,
+    "arm_to_checkpoint_tree": true,
+    "arm_to_training_lineage": true,
+    "historical_file_rehash": true,
+    "train24_contract": {
+      "split": "TRAIN24",
+      "window_count": 24,
+      "window_ids": "exact frozen target-major_then_snapshot-major order",
+      "noise_sha256_by_window": "required producer field; no inference from noise_seed",
+      "sampler_identity": "phase-typed and required"
+    },
+    "stats_identity": "exact route-local outer and payload SHA",
+    "producer_head": "must equal pinned native head"
+  },
+  "synthetic_policy": {
+    "local_fixture_allowed": true,
+    "real_admission_from_fixture": false,
+    "native_producer_required_for_e2e": true,
+    "completion_authority_emitted": false
+  },
+  "execution_boundary": {
+    "gpu": 0,
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "real_h200_campaign_ingested": false,
+    "merge": 0
+  }
+}
