@@ -226,7 +226,9 @@ def verify_identities(p: Mapping[str, Path]) -> dict[str, Any]:
         expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA,
         expected_payload_tree_sha256=GROOT_PAYLOAD_TREE,
     )
-    require(groot_snapshot.get("origin_commit") == GROOT_COMMIT, "GR00T source commit mismatch")
+    groot_manifest = read_json(p["groot_manifest"])
+    require(groot_manifest.get("origin_commit") == GROOT_COMMIT, "GR00T source commit mismatch")
+    groot_snapshot["origin_commit"] = GROOT_COMMIT
     refs = p["cosmos"] / "refs/main"
     require(refs.is_file() and refs.read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos revision mismatch")
     # The tree hash is expensive but is the accepted immutable Cosmos identity.
