@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE45E_L1_MATCHED_SEED_REPLICATION_PI0132_V1",
+  "status": "AUTHORIZED_PLAN_NOT_EXECUTED",
+  "pi_gate": {
+    "issue": 11,
+    "comment_id": 5642816702,
+    "gate": "PI_GATE_STATE_0132"
+  },
+  "branch": "stage45e/l1-matched-seed-replication",
+  "parent_evidence": {
+    "pr": 57,
+    "head": "c68611a9a577bd23314afaed9c6ffb7fc829e9b2",
+    "historical_training_head_seed2222": "377b50125a9127fe65d7f3db896f9396c7c3fbc2",
+    "l1_loss_blob_sha": "a9d7923c6b03a4c981bb870b59c7038cb9894eb5"
+  },
+  "scientific_question": "Holding FULL24 data, FULL24 runtime-V2 normalization, L1 physical-error-aware XYZ loss, model, optimizer/scheduler, training budget and evaluation protocol fixed, does the L1 intervention replicate across training seeds 2222/2223/2224, and how do its @1000->@2000 local-field and TF->FR mechanisms behave across seeds?",
+  "frozen_contract": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "full24_runtime_v2_stats_file_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "action_shape": [40, 132],
+    "active_scalar_count": 190,
+    "target_xyz_in_model_input": false,
+    "l1_xyz_weights": {
+      "x": 1.401885,
+      "y": 0.472436,
+      "z": 1.125678
+    },
+    "loss_denominator": "binary_action_mask.sum()",
+    "mask_folding": false,
+    "adaptive_renormalization": false,
+    "trainable": ["projector", "diffusion_model"],
+    "frozen": ["visual_backbone", "LLM", "VLLN"],
+    "max_steps": 2000,
+    "checkpoint_steps": [1000, 2000],
+    "batch_size": 1,
+    "gradient_accumulation": 1,
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "warmup_steps": 10,
+    "max_grad_norm": 1.0,
+    "bf16": true,
+    "fp16": false
+  },
+  "new_training_seeds": [2223, 2224],
+  "h200": {
+    "authorized": true,
+    "preferred_visible_gpu_count": 1,
+    "device": "cuda:0",
+    "agent_may_request_pbs_autonomously": true
+  },
+  "diagnostics": {
+    "train24_e4_new_checkpoints": {
+      "checkpoint_count": 4,
+      "conditioning": 96,
+      "action_head": 384,
+      "model_side_total": 480
+    },
+    "d1_all_l1_checkpoints": {
+      "checkpoint_count": 6,
+      "conditioning": 144,
+      "action_head": 1296,
+      "model_side_total": 1440
+    },
+    "d2a_all_l1_checkpoints": {
+      "checkpoint_count": 6,
+      "conditioning": 144,
+      "action_head": 1152,
+      "model_side_total": 1296
+    },
+    "total_new_diagnostic_ceiling": {
+      "conditioning": 384,
+      "action_head": 2832,
+      "model_side_total": 3216
+    }
+  },
+  "engineering_autonomy": {
+    "mechanical_repairs_allowed": true,
+    "pbs_h200_re_request_same_scientific_unit_allowed": true,
+    "preserve_all_failure_roots": true,
+    "no_performance_based_retry_or_lineage_selection": true,
+    "prefer_read_only_recovery_after_complete_training_lineage": true
+  },
+  "scientific_stop_conditions": [
+    "loss_or_weight_change",
+    "normalization_or_statistics_change",
+    "dataset_split_sampling_or_relabeling_change",
+    "model_input_or_action_state_abi_change",
+    "trainable_module_change",
+    "optimizer_lr_scheduler_precision_batch_or_exposure_change",
+    "seed_outside_2223_2224",
+    "steps_above_2000",
+    "decoder_e4_d1_d2a_semantics_change",
+    "validation_e_or_holdout_f_read",
+    "n2_or_n2_plus_l1",
+    "wbc_simulator_or_hardware",
+    "causal_or_winner_decision"
+  ],
+  "locked": {
+    "validation_e": true,
+    "holdout_f": true,
+    "new_data": true,
+    "dagger": true,
+    "n2": true,
+    "n2_plus_l1": true,
+    "steps_4000_8000": true,
+    "wbc": true,
+    "simulator": true,
+    "hardware": true,
+    "merge": true
+  },
+  "completion_token": "STAGE45E_L1_MATCHED_SEED_REPLICATION_MECHANISM_COMPLETE_FOR_PI_REVIEW"
+}
