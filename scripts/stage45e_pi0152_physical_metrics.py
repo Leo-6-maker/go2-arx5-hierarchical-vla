@@ -121,7 +121,7 @@ def build_report(campaign_root: Path) -> dict[str, Any]:
 
     def add_arm(label: str, route: str, seed: int, step: int, source_kind: str, rows_path: Path, raw_path: Path, source_phase: str, declared: Mapping[str, Any] | None = None) -> None:
         rows = _read_rows(rows_path)
-        if source_kind == "HISTORICAL_LEGACY_D2B_E4":
+        if source_kind.startswith("HISTORICAL_LEGACY_D2B_E4"):
             rows = [
                 row for row in rows
                 if row.get("identity", {}).get("solver") == "E4"
