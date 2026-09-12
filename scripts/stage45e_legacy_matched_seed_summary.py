@@ -69,6 +69,19 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False, default=str) + "\n", encoding="utf-8")
 
 
+def json_roundtrip(value: Any) -> Any:
+    """Apply the exact JSON key coercion used by sealed aggregate files.
+
+    ``aggregate_evaluation_rows`` intentionally keeps ``None`` as a Python
+    mapping key for the in-memory safety-gate counts.  JSON serialization
+    represents that key as the string ``"null"``.  Historical Stage45E seals
+    therefore contain ``safety_gate_decision_counts.null``; comparing the
+    in-memory mapping directly would report a false provenance mismatch.
+    """
+
+    return json.loads(json.dumps(value, sort_keys=True, allow_nan=False, default=str))
+
+
 def numeric_summary(values: Sequence[float]) -> dict[str, Any]:
     import numpy as np
     arr = np.asarray(list(values), dtype=np.float64)
@@ -144,10 +157,14 @@ def reconstruct_n2_g2(ev: Any, sealed: Mapping[str, Any], records: Sequence[Mapp
     for label, rows in by_label.items():
         aggregate = aggregate_evaluation_rows(rows)
         expected = read_json(g2_root / f"aggregate_{label.replace('@', '_at_')}.json")
-        mismatches = ev._compare_json(aggregate, expected, tolerance=1.0e-12)
+        # Compare the JSON-materialized form, not the pre-serialization Python
+        # object.  This preserves the accepted historical ``null`` key while
+        # keeping all numeric/row/decode semantics unchanged.
+        aggregate_for_compare = json_roundtrip(aggregate)
+        mismatches = ev._compare_json(aggregate_for_compare, expected, tolerance=1.0e-12)
         require(not mismatches, f"sealed G2 aggregate reproduction failed for {label}: {mismatches[:8]}")
         write_json(output / f"reconstructed_{label.replace('@', '_at_')}_rows.json", rows)
-        write_json(output / f"reconstructed_{label.replace('@', '_at_')}_aggregate.json", aggregate)
+        write_json(output / f"reconstructed_{label.replace('@', '_at_')}_aggregate.json", aggregate_for_compare)
         reproduction[label] = {"status": "PASS", "rows": 24, "computed_aggregate_sha256": sha256_file(output / f"reconstructed_{label.replace('@', '_at_')}_aggregate.json"), "sealed_aggregate_sha256": sha256_file(g2_root / f"aggregate_{label.replace('@', '_at_')}.json"), "mismatch_count": 0, "checkpoint_tree_sha256": checkpoint_meta[label]["tree_sha256"]}
     return by_label, reproduction
 
