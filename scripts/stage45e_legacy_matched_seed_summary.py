@@ -216,6 +216,23 @@ def failure_taxonomy(rows: Mapping[str, Sequence[Mapping[str, Any]]]) -> dict[st
     return result
 
 
+def cross_seed_summary(rows: Mapping[str, Sequence[Mapping[str, Any]]]) -> dict[str, Any]:
+    """Descriptive across-seed summaries; no inferential test or winner."""
+    result: dict[str, Any] = {"schema": "CORELAB_STAGE45E_LEGACY_MATCHED_SEED_CROSS_SEED_V1", "groups": {}}
+    for route in ("LEGACY", "N2"):
+        for step in (1000, 2000):
+            labels = [f"{route}(seed{seed})@{step}" for seed in (2222, 2223, 2224)]
+            values = [row for label in labels for row in rows[label]]
+            result["groups"][f"{route}@{step}"] = {
+                "seed_count": 3,
+                "window_count": len(values),
+                "physical": {field: numeric_summary([float(row["metrics"][field]) for row in values]) for field in ("position_rmse_m", "endpoint_error_m", "full_action_rmse_mixed_units")},
+                "target": {field: numeric_summary([float(row["metrics"]["target"][field]) for row in values]) for field in ("initial_target_distance_m", "minimum_target_distance_m", "final_target_distance_m", "absolute_progress_m", "best_progress_m")},
+                "progress_sign_counts": {sign: sum(row["metrics"]["target"]["progress_sign"] == sign for row in values) for sign in ("POSITIVE", "ZERO", "NEGATIVE")},
+            }
+    return result
+
+
 def run(args: argparse.Namespace) -> dict[str, Any]:
     require(args.mode == "cpu", "CPU summary has no runtime mode")
     output = Path(args.output_root).resolve()
@@ -241,8 +258,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     write_json(output / "matched_paired_comparisons.json", pairs)
     target = per_target(rows); write_json(output / "matched_per_target_summary.json", target)
     taxonomy = failure_taxonomy(rows); write_json(output / "matched_failure_taxonomy.json", taxonomy)
+    cross_seed = cross_seed_summary(rows); write_json(output / "matched_cross_seed_summary.json", cross_seed)
     aggregate_hashes = {label: sha256_file(output / f"reconstructed_{label.replace('@', '_at_')}_aggregate.json") for label in n2_rows}
-    result = {"schema": "CORELAB_STAGE45E_LEGACY_MATCHED_SEED_CPU_CLOSURE_V1", "status": "PASS", "pi_gate": "PI_GATE_STATE_0131", "baseline_reproduction": baseline_reproduction, "n2_g2_reproduction": n2_reproduction, "matched_arms": sorted(rows), "paired_comparisons_sha256": sha256_file(output / "matched_paired_comparisons.json"), "per_target_sha256": sha256_file(output / "matched_per_target_summary.json"), "failure_taxonomy_sha256": sha256_file(output / "matched_failure_taxonomy.json"), "n2_reconstructed_aggregate_sha256": aggregate_hashes, "route_policy": {"cross_route_primary": "decoded physical metrics", "normalized": "route-specific descriptive only", "automatic_winner": False, "iid_significance": False}, "execution_boundary": {"gpu": False, "model_construction": 0, "model_forward": 0, "training": 0, "PBS": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0}, "timestamp_utc": now_utc(), "return_token": "STAGE45E_LEGACY_MATCHED_SEED_REPLICATION_COMPLETE_FOR_PI_REVIEW"}
+    result = {"schema": "CORELAB_STAGE45E_LEGACY_MATCHED_SEED_CPU_CLOSURE_V1", "status": "PASS", "pi_gate": "PI_GATE_STATE_0131", "baseline_reproduction": baseline_reproduction, "n2_g2_reproduction": n2_reproduction, "matched_arms": sorted(rows), "paired_comparisons_sha256": sha256_file(output / "matched_paired_comparisons.json"), "per_target_sha256": sha256_file(output / "matched_per_target_summary.json"), "cross_seed_sha256": sha256_file(output / "matched_cross_seed_summary.json"), "failure_taxonomy_sha256": sha256_file(output / "matched_failure_taxonomy.json"), "n2_reconstructed_aggregate_sha256": aggregate_hashes, "route_policy": {"cross_route_primary": "decoded physical metrics", "normalized": "route-specific descriptive only", "automatic_winner": False, "iid_significance": False}, "execution_boundary": {"gpu": False, "model_construction": 0, "model_forward": 0, "training": 0, "PBS": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0}, "timestamp_utc": now_utc(), "return_token": "STAGE45E_LEGACY_MATCHED_SEED_REPLICATION_COMPLETE_FOR_PI_REVIEW"}
     write_json(output / "cpu_closure_result.json", result)
     return result
 
