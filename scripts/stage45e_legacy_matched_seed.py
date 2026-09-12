@@ -221,7 +221,7 @@ def git_external(repo: Path, *args: str) -> str:
 
 
 def cosmos_digest(root: Path) -> str:
-    entries: list[str] = []
+    entries: list[dict[str, Any]] = []
     root = Path(root).resolve()
     require(root.is_dir() and not root.is_symlink(), f"Cosmos root unavailable: {root}")
     def visit(directory: Path, relative: Path) -> None:
@@ -229,18 +229,21 @@ def cosmos_digest(root: Path) -> str:
             rel = (relative / item.name).as_posix()
             mode = item.lstat().st_mode
             if stat.S_ISDIR(mode):
-                entries.append(f"directory\t{rel}\t0\t-\t-\t-")
+                entries.append({"path": rel, "kind": "directory", "size_bytes": 0, "sha256": None, "target": None, "resolved_path": None})
                 visit(item, relative / item.name)
             elif stat.S_ISLNK(mode):
                 resolved = item.resolve(strict=True)
                 require(resolved.is_file() and resolved.is_relative_to(root), f"Cosmos symlink escapes root: {item}")
-                entries.append(f"symlink\t{rel}\t{resolved.stat().st_size}\t{sha256_file(resolved)}\t{os.readlink(item)}\t{resolved.relative_to(root).as_posix()}")
+                entries.append({"path": rel, "kind": "symlink", "size_bytes": int(resolved.stat().st_size), "sha256": sha256_file(resolved), "target": os.readlink(item), "resolved_path": resolved.relative_to(root).as_posix()})
             elif stat.S_ISREG(mode):
-                entries.append(f"regular_file\t{rel}\t{item.stat().st_size}\t{sha256_file(item)}\t-\t-")
+                entries.append({"path": rel, "kind": "regular_file", "size_bytes": int(item.stat().st_size), "sha256": sha256_file(item), "target": None, "resolved_path": None})
             else:
                 raise RuntimeError(f"unsupported Cosmos entry: {item}")
     visit(root, Path("."))
-    return sha256_bytes(("\n".join(sorted(entries)) + "\n").encode())
+    lines = []
+    for entry in sorted(entries, key=lambda value: str(value["path"])):
+        lines.append("\t".join((str(entry["kind"]), str(entry["path"]), str(entry.get("size_bytes", 0)), str(entry.get("sha256") or "-"), str(entry.get("target") or "-"), str(entry.get("resolved_path") or "-"))))
+    return sha256_bytes(("\n".join(lines) + "\n").encode())
 
 
 def prepare_env(p: Mapping[str, Path], output: Path, gpu: Mapping[str, Any]) -> None:
