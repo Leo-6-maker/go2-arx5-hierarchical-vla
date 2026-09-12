@@ -295,7 +295,7 @@ def test_campaign_failure_seal_preserves_actual_unknown_state(tmp_path: Path) ->
             "last_completed_lineage": {"route": "legacy", "seed": 2224},
             "last_completed_unit": "E4:n2",
             "pending_queue": [{"route": "D1", "seed": 2222}],
-            "execution_state": {"model_imported": "UNKNOWN", "model_forward": "UNKNOWN", "training": True},
+            "execution_state": {"model_imported": "UNKNOWN", "model_forward": "UNKNOWN", "training": "UNKNOWN"},
         },
     )
     document = result["document"]
