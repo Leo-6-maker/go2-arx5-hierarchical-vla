@@ -1,0 +1,68 @@
+{
+  "schema": "CORELAB_STAGE45F_LOCAL_INITIAL_STATE_PILOT_V1",
+  "authority": {
+    "stage": "Stage45F",
+    "pi_gate": "PI_GATE_STATE_0150",
+    "issue_comment": 5646782242,
+    "pr_pointer_comment": 5646788382,
+    "return_token": "CORELAB_PI0150_LOCAL_INITIAL_STATE_PILOT_FOR_PI_REVIEW"
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "base_head": "d762e731d2c11ceea3c001c37ac27890fe6f4e70",
+    "source_branch": "stage45e/n2-gpu-replication-mechanism-sprint"
+  },
+  "scientific_question": "Does the fixed N2 seed2223@2000 policy produce a different and target-directed decoded EEF trajectory when the sealed Stage43 initial condition changes?",
+  "local_reference": {
+    "label": "N2(seed2223)@2000",
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "training_result_sha256": "f6c5c37bf3f9e86eee026f49599262d0894471f033bdb3d59662219d2f6466bd",
+    "seed": 2223,
+    "starting_checkpoint": "BASE",
+    "training_steps": 2000,
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
+  },
+  "stage43_input": {
+    "bundle_schema": "CORELAB_STAGE43_EXECUTION_BUNDLE_V1",
+    "condition_order": ["C0_NOMINAL", "C1_X_PLUS_5CM", "C2_X_MINUS_5CM", "C3_Y_PLUS_5CM", "C4_Y_MINUS_5CM"],
+    "observation_selection": "sealed q0 S0 only",
+    "base_delta_variable": "pre_episode_robot_base_xy_only",
+    "target_world_m": [0.3, 0.1, 0.58],
+    "target_xyz_in_model_input": false
+  },
+  "train_reference": {
+    "window_id": "stage22_expert_red_target_train_a:expert-0000",
+    "selection": "first sealed TRAIN24 snapshot only",
+    "target_xyz_in_model_input": false
+  },
+  "sampler": {
+    "development_seed": 4242,
+    "noise_shape": [1, 40, 132],
+    "timestep_ids": [0, 250, 500, 750],
+    "dt": 0.25,
+    "same_noise_for_all_observations": true,
+    "public_sampler_called": false
+  },
+  "budget": {
+    "observations": 6,
+    "model_construction_attempts": 1,
+    "conditioning_passes": 6,
+    "action_head_calls": 24,
+    "model_forward_windows": 6
+  },
+  "execution_boundary": {
+    "training": false,
+    "backward": false,
+    "optimizer_steps": 0,
+    "pbs": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "icl": false,
+    "merge": false
+  },
+  "claim_boundary": "local model-side decoded-output diagnostic only; not a closed-loop, robustness, winner, or Stage45E replacement result"
+}
