@@ -63,9 +63,9 @@ COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 ROUTE_HEADS = {
-    "legacy": "fccf87a20116b719e8de281125110573c9bf0a91",
+    "legacy": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62",
     "l1": "186efc2977e2795bebf0dfe97d6f503a672716de",
-    "n2": "a13fe3736fef987a4eb17ed102d37fad267da223",
+    "n2": "6d8a7f132e325faea35346b36497ceb76390b2c3",
 }
 ROUTE_BRANCHES = {
     "legacy": "stage45e/legacy-full24-matched-seed-replication",
@@ -301,7 +301,9 @@ def verify_sources(args: argparse.Namespace, n2_repo: Path) -> dict[str, Any]:
         expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA,
         expected_payload_tree_sha256=GROOT_PAYLOAD_TREE,
     )
-    require(snapshot.get("origin_commit") == GROOT_COMMIT, "GR00T source commit drift")
+    snapshot_manifest = read_json(groot_manifest)
+    require(snapshot_manifest.get("origin_commit") == GROOT_COMMIT, "GR00T source commit drift")
+    snapshot["origin_commit"] = GROOT_COMMIT
     require((paths["cosmos"] / "refs/main").read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos revision drift")
     cosmos_tree = cosmos_digest(paths["cosmos"])
     require(cosmos_tree == COSMOS_TREE, f"Cosmos tree drift: {cosmos_tree}")
