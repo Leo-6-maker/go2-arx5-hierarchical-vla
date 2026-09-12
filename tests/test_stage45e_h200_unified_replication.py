@@ -125,6 +125,18 @@ def test_checkpoint_acceptance_reconciles_state_and_tree(tmp_path: Path) -> None
         campaign._verify_checkpoint_artifact("legacy", root, 1000, record)
 
 
+def test_diagnostic_wrapper_leaves_route_output_fresh_for_canonical_helper() -> None:
+    source = (ROOT / "scripts/stage45e_h200_unified_diagnostics.py").read_text()
+    run_phase = source[source.index("def run_phase"):source.index("def main")]
+    assert "pre_model_sidecar" in run_phase
+    assert "write_json(pre_model_sidecar, pre_model_record)" in run_phase
+    assert "write_json(output / \"pre_model_admission.json\", pre_model_record)" in run_phase
+    # The wrapper must not create the route output before calling the helper;
+    # canonical E4/D1/D2A helpers enforce their own fresh-root contract.
+    helper_call = run_phase.index("result = module.e4(route_args)")
+    assert "output.mkdir(parents=True, exist_ok=False)" not in run_phase[:helper_call]
+
+
 def test_pbs_uses_cluster_routing_queue_and_single_h200() -> None:
     pbs = (ROOT / "hpc/pbs/stage45e_h200_unified_replication.pbs").read_text()
     assert "#PBS -q auto" in pbs

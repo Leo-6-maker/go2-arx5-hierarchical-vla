@@ -253,8 +253,13 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     route_script = helper_script
     require(route_script.is_file() and not route_script.is_symlink(), f"route diagnostic source unavailable: {route_script}")
     specs = spec_doc["checkpoints"]
-    output.mkdir(parents=True, exist_ok=False)
-    write_json(output / "pre_model_admission.json", {
+    # The accepted route helpers own creation of the diagnostic output root
+    # and require it not to exist at their entrypoint.  Keep the pre-model
+    # admission durable in a sibling sidecar until the helper has created its
+    # root; materialize the exact same record inside the root afterwards.
+    pre_model_sidecar = output.parent / f".{output.name}.pre_model_admission.json"
+    require(not pre_model_sidecar.exists() and not pre_model_sidecar.is_symlink(), f"pre-model admission sidecar must be fresh: {pre_model_sidecar}")
+    pre_model_record = {
         "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTICS_PRE_MODEL_ADMISSION_V1",
         "status": "PASS",
         "route": route,
@@ -282,7 +287,10 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         "WBC": 0,
         "simulator": 0,
         "hardware": 0,
-    })
+        "output_root": str(output),
+        "sidecar_path": str(pre_model_sidecar),
+    }
+    write_json(pre_model_sidecar, pre_model_record)
     # The dynamic import below is the first point where the accepted runtime
     # can import Torch/GR00T transitively.  Every identity and freshness
     # predicate above has already passed at this point.
@@ -324,6 +332,8 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     route_args.seed2224_root = route_args.seed2223_root
     try:
         result = module.e4(route_args) if phase == "E4" else module.diagnostic(route_args, phase)
+        require(output.is_dir() and not output.is_symlink(), f"route diagnostic did not create a directory output root: {output}")
+        write_json(output / "pre_model_admission.json", pre_model_record)
         inner_seal_path = output / "seal.json"
         require(inner_seal_path.is_file(), "route diagnostic did not produce seal.json")
         inner_seal = read_json(inner_seal_path)
@@ -369,12 +379,21 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         write_json(output / "unified_phase_seal.json", unified)
         return unified
     except Exception as exc:
+        # Preserve the pre-model record even when the route helper fails
+        # after creating the root.  If import/initialization fails before the
+        # helper owns the root, create a failure-only root now, after all
+        # admission checks and the dynamic import attempt have failed.
+        if not output.exists():
+            output.mkdir(parents=True, exist_ok=False)
+        if output.is_dir() and not output.is_symlink() and not (output / "pre_model_admission.json").exists():
+            write_json(output / "pre_model_admission.json", pre_model_record)
         failure = {
             "schema": "VANDA_STAGE45E_UNIFIED_DIAGNOSTIC_FAILURE_SEAL_V1",
             "status": "BLOCKED",
             "route": route,
             "phase": phase,
             "route_head": ROUTE_HEADS[route],
+            "pre_model_admission": str(output / "pre_model_admission.json"),
             "error": f"{type(exc).__name__}: {exc}",
             "traceback": traceback.format_exc(),
             "retry_or_substitution": False,
