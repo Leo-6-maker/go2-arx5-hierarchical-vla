@@ -1,0 +1,22 @@
+{
+  "schema": "STAGE45F_ICL_COMPUTE_RISK_REGISTER_V1",
+  "status": "PLAN_ONLY",
+  "budget_estimates": {
+    "I0": {"conditioning_passes": 648, "action_head_calls": 2592, "model_forward": 0, "note": "planning estimate only; 3 selected seeds x 9 context variants x 24 windows x E4=4"},
+    "I1": {"training_runs": "TBD after PI recipe", "checkpoint_tiers": [1000, 2000], "model_forward": 0, "training": 0},
+    "I2": {"training_runs": "TBD after PI recipe", "model_forward": 0, "training": 0},
+    "I3": {"rollout_episodes": "TBD after separate simulator gate", "model_forward": 0, "training": 0, "simulator": 0}
+  },
+  "risks": [
+    {"id": "CONTEXT_IGNORED", "signal": "relevant ~= shuffled/irrelevant", "mitigation": "matched controls and dropout/shuffle negatives"},
+    {"id": "SHORTCUT_LEAKAGE", "signal": "context encodes future label/target XYZ", "mitigation": "causal timestamps, forbidden-key validator, synthetic mutation tests"},
+    {"id": "TOKEN_IMAGE_PRESSURE", "signal": "sequence/image limits exceeded", "mitigation": "preflight token/image budget; no silent truncation"},
+    {"id": "LATENCY", "signal": "context path increases inference latency", "mitigation": "measure per option before selection"},
+    {"id": "STALE_CONTEXT", "signal": "stale/irrelevant control indistinguishable", "mitigation": "timestamp and freshness fields"},
+    {"id": "RETRIEVAL_MISMATCH", "signal": "demo identity does not match task/query", "mitigation": "immutable demo/source identity and explicit match metadata"},
+    {"id": "DYNAMICS_CONFOUNDING", "signal": "commanded action confused with executed response", "mitigation": "separate fields; null missing response"},
+    {"id": "SEED_SELECTION_BIAS", "signal": "best seed selected after observing outcomes", "mitigation": "full selected three-seed cohort; PI-only selection"}
+  ],
+  "selection_policy": {"automatic_winner": false, "PI_DECISION_REQUIRED": true},
+  "execution_boundary": {"gpu": 0, "model_forward": 0, "training": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0}
+}

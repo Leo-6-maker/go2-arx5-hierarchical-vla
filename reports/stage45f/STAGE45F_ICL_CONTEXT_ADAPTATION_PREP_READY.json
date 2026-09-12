@@ -1,0 +1,111 @@
+{
+  "schema": "STAGE45F_ICL_CONTEXT_ADAPTATION_PREP_REPORT_V1",
+  "status": "PASS_CPU_STATIC_PREPARATION_ONLY",
+  "token": "STAGE45F_ICL_CONTEXT_ADAPTATION_PREP_READY_FOR_PI_REVIEW",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0143",
+    "issue_comment": 5644782159,
+    "pr": 65,
+    "pointer_comment": 5644785385,
+    "phase1_token": "STAGE45F_CORELAB_PI0143_C10_COMPATIBILITY_READY_FOR_PI_REVIEW",
+    "phase1_head": "0f4e97a407abc6e6edfb9383b77c08231edc5f1f",
+    "support_branch": "stage45f/icl-context-adaptation-prep",
+    "stacked_on_branch": "stage45f/corelab-evidence-convergence",
+    "stacked_on_head": "0f4e97a407abc6e6edfb9383b77c08231edc5f1f"
+  },
+  "upstream": {
+    "project": "isaac-gr00t",
+    "model": "GR00T N1.7",
+    "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+  },
+  "artifacts": [
+    {"path": "manifests/ICL_CONTEXTV1_CONTRACT.json", "sha256": "a6a52556a8f06dddbcd0a76d0e9787481ad9991dacdf5c7dc573b195e4e2f01d"},
+    {"path": "manifests/STAGE45F_GR00T_CONTEXT_CAPABILITY_AUDIT_V1.json", "sha256": "09505948feb18e8ef5f375f7669b9b1e3c21e125a031d0bd6cd8f64f792fea3f"},
+    {"path": "manifests/STAGE45F_ICL_INTEGRATION_OPTIONS_V1.json", "sha256": "fef7e52bb0ac550ad9a618ebb93aaa6ded66b1afebef368f6ffcb14151b0e28a"},
+    {"path": "manifests/STAGE45F_ICL_EXPERIMENT_LADDER_V1.json", "sha256": "5cf1edba0f82bf003881762eba40de7d3589da542933c87a81a3a00652ba05de"},
+    {"path": "manifests/STAGE45F_ICL_COMPUTE_RISK_REGISTER_V1.json", "sha256": "dbe5f63d340b0bb341b5b403c044c180311fa8a510770d35105a55c04ce9fc59"},
+    {"path": "scripts/stage45f_icl_context_v1.py", "sha256": "7d7957ee4d1941a2ad4488570fd1d790717d96ecf3f439c9ddc482ff738bce44"},
+    {"path": "tests/test_stage45f_icl_context_v1.py", "sha256": "5343739cc6e6e335238fca04bc74b20e5f1932986604e8f24926f5d3ce6d5d7e"},
+    {"path": "docs/stages/STAGE45F_ICL_CONTEXT_ADAPTATION_PREP.md", "sha256": "443c1c545d529d31be0c40d4b06d6ae14a72e86fe195a84efd7ba233df90c95e"}
+  ],
+  "context_v1": {
+    "schema": "ICL_CONTEXTV1_RECORD_V1",
+    "builder_identity": "STAGE45F_ICL_CONTEXTV1_CPU_BUILDER_V1",
+    "pathless": true,
+    "source_identity": "immutable artifact_id + SHA256; no filesystem path",
+    "sections": ["task_demo_context", "interaction_history", "failure_outcome_context", "local_dynamics_context"],
+    "causal_rule": "event_time <= query_time",
+    "missing_response": "explicit null; never inferred",
+    "local_dynamics": "state_before/state_after/delta digests and positive dt required",
+    "target_xyz_in_model_input": false,
+    "future_expert_labels_or_actions": false,
+    "structured_action_abi": {"schema": "StructuredActionV1", "shape": [40, 132], "active_scalars": 190, "decoder_semantics": "Stage44R/Stage45C unchanged"}
+  },
+  "source_capability_audit": {
+    "status": "PASS_READONLY_SOURCE_AUDIT",
+    "facts": {
+      "action_horizon": 40,
+      "state_history_length": 1,
+      "max_seq_len": 1024,
+      "num_inference_timesteps": 4,
+      "video_shape": "(B,T,H,W,C) uint8",
+      "state_shape": "(B,T,D) float32",
+      "modalities": ["video", "state", "language"],
+      "rtc_scope": "low-level action-head primitive; not wired into server-client policy path"
+    },
+    "source_file_sha256": {
+      "model_config": "379ff708496a73b25b12f4656850284a16fde0e205828e2a0c0be0af61463744",
+      "action_head": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c",
+      "policy_validation": "ad1183a3ce1ebed6cace4a9cb8c5a123e823a0760ebf46f3694639a5ad1521ec",
+      "qwen_backbone": "e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52",
+      "processor": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+      "rtc_documentation": "a11002f2955fc16d65118a3bd15fa6647afdf405e89abfc78f25f2e5fdfe2fb0"
+    }
+  },
+  "integration_families": {
+    "options": ["A_MULTIFRAME_MULTIMODAL_PROMPT", "B_EXTENDED_STATE_HISTORY", "C_CONTEXT_ENCODER_K_TOKENS", "D_EXPLICIT_MEMORY_CROSS_ATTENTION"],
+    "automatic_selection": false,
+    "winner_inference": false,
+    "pi_decision_required": true
+  },
+  "experiment_ladder": {
+    "context_variants": ["NO_CONTEXT", "RELEVANT_CONTEXT", "SHUFFLED_CONTEXT", "STALE_IRRELEVANT_CONTEXT", "DEMO_ONLY", "HISTORY_ONLY", "FAILURE_ONLY", "DYNAMICS_ONLY", "FULL_CONTEXTV1"],
+    "experiments": ["I0_FROZEN_POLICY_CONTEXT_SENSITIVITY", "I1_CONTEXT_ADAPTER_ONLY", "I2_CONTEXT_AWARE_JOINT_POST_TRAINING", "I3_HISTORY_CONDITIONED_DAGGER"],
+    "execution_enabled": false,
+    "model_forward": 0,
+    "training": 0,
+    "simulator": 0,
+    "validation_e": 0,
+    "holdout_f": 0
+  },
+  "cpu_regression": {
+    "status": "PASS",
+    "token": "STAGE45F_ICL_CONTEXTV1_CPU_REGRESSION_PASS",
+    "mutation_count": 7,
+    "reason_codes": ["CAUSAL_TIMESTAMP_VIOLATION", "FORBIDDEN_TARGET_XYZ", "LOCKED_SPLIT_CONTAMINATION", "FUTURE_EXPERT_INFORMATION", "PATH_LEAKAGE", "MISSING_EXPLICIT_NULL_RESPONSE", "INVALID_SHA256"],
+    "order_invariant": true,
+    "no_top_level_model_imports": true
+  },
+  "tests": {
+    "targeted_unittest": "29 passed (C10/C11-C17/ICL context suite)",
+    "compileall_scripts_and_tests": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "gpu": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "winner_selection": 0,
+    "merge": 0
+  },
+  "real_h200_campaign_ingested": false,
+  "stop_gate": "STAGE45F_ICL_CONTEXT_ADAPTATION_PREP_READY_FOR_PI_REVIEW"
+}

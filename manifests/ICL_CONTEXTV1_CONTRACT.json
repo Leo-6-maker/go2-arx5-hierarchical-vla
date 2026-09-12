@@ -1,0 +1,45 @@
+{
+  "schema": "ICL_CONTEXTV1_CONTRACT",
+  "version": "1.0",
+  "status": "PREPARATION_ONLY",
+  "upstream": {"project": "isaac-gr00t", "model": "GR00T N1.7", "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"},
+  "path_policy": {"pathless": true, "filesystem_paths_allowed": false, "artifact_references_by": "immutable id + SHA256"},
+  "causal_query": {"query_time_inclusive": true, "future_information_allowed": false, "relative_time_rule": "event_time <= query_time"},
+  "sections": {
+    "task_demo_context": {
+      "purpose": "historical task demonstration available before the query",
+      "fields": ["demo_id", "demo_source_sha256", "language", "observation_digest", "commanded_action_digest", "demo_time_range"],
+      "past_actions_allowed": true,
+      "future_expert_label_allowed": false
+    },
+    "interaction_history": {
+      "purpose": "causal observations and prior commands before the query",
+      "fields": ["event_time", "observation_state_digest", "commanded_action_digest", "executed_or_observed_response_digest", "delta_state_digest", "timing"],
+      "executed_response_optional": true,
+      "missing_executed_response_representation": "null; never inferred"
+    },
+    "failure_outcome_context": {
+      "purpose": "historical failed attempt and observed outcome before a retry query",
+      "fields": ["attempt_id", "failure_observation_digest", "outcome_label", "observed_recovery_digest", "event_time"],
+      "future_corrective_action_allowed": false
+    },
+    "local_dynamics_context": {
+      "purpose": "observed local command-response transitions",
+      "fields": ["event_time", "state_before_digest", "commanded_action_digest", "executed_or_observed_response_digest", "state_after_digest", "delta_state_digest", "dt"],
+      "physical_trace_required": true,
+      "missing_response_representation": "null; no fabricated dynamics"
+    }
+  },
+  "forbidden_inputs": {
+    "target_xyz_world": true,
+    "Validation-E": true,
+    "Holdout-F": true,
+    "future_expert_label_or_action": true,
+    "future_observation": true,
+    "absolute_filesystem_paths": true,
+    "source_path_guessing": true
+  },
+  "output_abi": {"structured_action_schema": "StructuredActionV1", "shape": [40, 132], "active_scalars": 190, "decoder": "accepted Stage44R/Stage45C semantics unchanged"},
+  "context_identity": {"repeated_window_cluster_preserved": true, "source_sha_required": true, "builder_identity_required": true},
+  "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0}
+}

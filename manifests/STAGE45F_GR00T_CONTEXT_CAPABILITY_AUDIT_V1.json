@@ -1,0 +1,21 @@
+{
+  "schema": "STAGE45F_GR00T_CONTEXT_CAPABILITY_AUDIT_V1",
+  "status": "PASS_READONLY_SOURCE_AUDIT",
+  "source": {"repository": "isaac-gr00t", "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"},
+  "files": {
+    "model_config": {"path": "gr00t/configs/model/gr00t_n1d7.py", "sha256": "379ff708496a73b25b12f4656850284a16fde0e205828e2a0c0be0af61463744", "facts": {"action_horizon": 40, "state_history_length": 1, "max_seq_len": 1024, "num_inference_timesteps": 4, "backbone_embedding_dim": 2048, "input_embedding_dim": 1536}},
+    "action_head": {"path": "gr00t/model/gr00t_n1d7/gr00t_n1d7.py", "sha256": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c", "line_refs": {"state_history": [210, 225], "action_head_flow": [350, 432], "rtc": [358, 397], "cross_attention": [247, 269]}, "facts": {"state_encoder_input": "[B, state_history_length, max_state_dim] reshaped to [B,1,-1]", "action_head_output": "[B,action_horizon,action_dim]", "rtc_scope": "low-level action-head primitive; previous action inpainting", "structured_action_abi_change": false}},
+    "policy_validation": {"path": "gr00t/policy/gr00t_policy.py", "sha256": "ad1183a3ce1ebed6cace4a9cb8c5a123e823a0760ebf46f3694639a5ad1521ec", "line_refs": {"video_shape": [224, 232], "state_shape": [229, 233], "modalities": [244, 246], "reset": [483, 490]}, "facts": {"video_shape": "(B,T,H,W,C) uint8", "state_shape": "(B,T,D) float32", "modalities": ["video", "state", "language"]}},
+    "qwen_backbone": {"path": "gr00t/model/modules/qwen3_backbone.py", "sha256": "e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52", "line_refs": {"vl_inputs": [360, 364]}, "facts": {"inputs": ["input_ids", "attention_mask", "pixel_values", "image_grid_thw"], "image_token_mask": true}},
+    "processor": {"path": "gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py", "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f", "line_refs": {"chat_template": [567, 575], "image_processing": [487, 504], "action_mask": [531, 546]}, "facts": {"chat_template": "processor.apply_chat_template with image content then language", "action_mask": "max_action_horizon x max_action_dim"}},
+    "rtc_documentation": {"path": "getting_started/real_world_deployment.md", "sha256": "a11002f2955fc16d65118a3bd15fa6647afdf405e89abfc78f25f2e5fdfe2fb0", "line_refs": {"rtc_boundary": [413, 413]}, "facts": {"policy_server_rtc": "not wired; options unused in server-client path", "claim_class": "currently_supported_low_level_primitive_only"}}
+  },
+  "capability_classification": {
+    "currently_supported": ["current multimodal video+language+state path", "state history tensor when configured", "action-head conditioning on VL/state features", "low-level RTC primitive"],
+    "mechanically_extensible": ["additional causal state frames", "pathless metadata/context builder", "explicit context token interface with checkpoint/schema changes"],
+    "requires_training_to_be_meaningful": ["new ContextEncoder conditioning", "explicit memory/cross-attention", "context-sensitive frozen-policy behavior beyond existing inputs"]
+  },
+  "safe_insertion_points": ["preprocessor metadata-to-context builder", "explicit context encoder before action-head conditioning", "documented multimodal prompt extension"],
+  "unsafe_without_new_gate": ["changing StructuredActionV1 shape/decoder", "injecting target XYZ", "future labels/actions", "altering frozen pretrained weights", "model forward/training"],
+  "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0}
+}
