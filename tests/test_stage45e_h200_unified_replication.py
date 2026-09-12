@@ -553,6 +553,8 @@ def test_native_fixture_uses_producer_v2_serialization(tmp_path: Path) -> None:
     assert final["canonical_row_index_sha256"] == fixture["canonical_row_index_sha256"]
     assert final["c10_handoff_sha256"] == fixture["vanda_c10_handoff_sha256"]
     assert final["synthetic_test_only"] == "SYNTHETIC_TEST_ONLY"
+    assert final["token"] == "SYNTHETIC_TEST_ONLY_NATIVE_V2_FIXTURE_READY"
+    assert "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW" not in json.dumps(final)
     assert "corelab_v1" not in json.dumps(final).lower()
 
     d1_spec = next(Path(path) for path in Path(fixture["producer_root"]).glob("specs/D1_*.json"))

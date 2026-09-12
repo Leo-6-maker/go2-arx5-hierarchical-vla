@@ -3610,7 +3610,7 @@ def _write_native_v2_serialization(
     final: dict[str, Any] = {
         "schema": "VANDA_STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_RESULT_V2",
         "status": "PASS",
-        "token": "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
+        "token": "SYNTHETIC_TEST_ONLY_NATIVE_V2_FIXTURE_READY" if synthetic_test_only else "STAGE45E_H200_UNIFIED_THREE_ROUTE_REPLICATION_COMPLETE_FOR_PI_REVIEW",
         "pi_gate": PI0147_GATE if synthetic_test_only else PI_GATE,
         "campaign_root": str(campaign_root),
         "cpu_summary": str(summary_path),
