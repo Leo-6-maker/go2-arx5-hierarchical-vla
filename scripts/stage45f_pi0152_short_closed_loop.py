@@ -272,12 +272,13 @@ def _run(args: argparse.Namespace) -> Dict[str, Any]:
     base_doc = read_json(base_bundle)
     evidence.validate_stage43_bundle(base_doc)
     binding["stage43_repository_head"] = base_doc["repository"]["head"]
+    overlay_path, overlay_doc = _make_overlay(base_bundle, output_root, n2_root=n2_root, n2_stats=n2_stats, full24=full24, binding=binding)
     # Patch only the two verifier constants that encode the late-bound model
     # and stats identity.  All Stage43 protocol/SafetyGate/WBC code remains
-    # byte-identical and the original bundle remains immutable.
+    # byte-identical and the original bundle remains immutable.  The base
+    # bundle was validated above with its historical STRUCTURED@1000 values.
     evidence.STRUCTURED_CHECKPOINT_TREE_SHA256 = EXPECTED_N2_TREE
     evidence.STRUCTURED_STATS_SHA256 = EXPECTED_N2_STATS_SHA
-    overlay_path, overlay_doc = _make_overlay(base_bundle, output_root, n2_root=n2_root, n2_stats=n2_stats, full24=full24, binding=binding)
     gpu_snapshot = _nvidia_snapshot()
     gpu = _select_gpu(gpu_snapshot, args.gpu_uuid)
     env_info = _prepare_env(output_root / "runtime", gpu_uuid=str(gpu["uuid"]), native_env_root=Path(args.native_env_root), isaacgym_python=Path(args.isaacgym_python), native_compat=Path(args.native_compat_root), wbc_source=Path(args.wbc_source_root))
