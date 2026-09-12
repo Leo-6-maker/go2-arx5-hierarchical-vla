@@ -544,6 +544,29 @@ def test_campaign_failure_seal_preserves_actual_unknown_state(tmp_path: Path) ->
     assert document["unknown_counter_attempts"] == 1
 
 
+def test_failure_seal_preserves_prior_canary_execution_state() -> None:
+    state = {
+        "execution_state": {
+            "model_imported": False,
+            "model_construction": 0,
+            "model_forward": 0,
+            "training": False,
+            "backward": False,
+            "optimizer_steps": 0,
+        },
+        "execution_lifecycle": {},
+    }
+    campaign._mark_model_child_pass(state, "RESOURCE_CANARY", kind="canary")
+    campaign._mark_model_child_in_progress(state, "DIAGNOSTICS", kind="diagnostic")
+    assert state["execution_state"]["model_imported"] is True
+    assert state["execution_state"]["model_construction"] == 1
+    assert state["execution_state"]["model_forward"] == 1
+    assert state["execution_state"]["training"] is False
+    assert state["execution_state"]["backward"] is False
+    assert state["execution_state"]["optimizer_steps"] == 0
+    assert campaign._model_execution_started(state) is True
+
+
 def test_v2_scientific_identity_ignores_allocation_timestamp_but_binds_inputs() -> None:
     base = {"schema": "VANDA_STAGE45E_UNIFIED_PHASE_SPEC_V2", "phase": "E4", "route": "legacy", "timestamp_utc": "2026-01-01T00:00:00Z", "checkpoints": [{"tree_sha256": "a" * 64}], "science_contract": {"noise_seed": 4242, "stats_sha256": campaign.RUNTIME_STATS_SHA}}
     later = dict(base, timestamp_utc="2026-01-02T00:00:00Z")

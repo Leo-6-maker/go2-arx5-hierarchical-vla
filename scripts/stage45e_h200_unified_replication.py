@@ -5091,11 +5091,30 @@ def _mark_model_child_in_progress(state: dict[str, Any], stage: str, *, kind: st
     state["failure_stage"] = stage
     state["active_child"] = {"stage": stage, "kind": kind, "status": "IN_PROGRESS"}
     execution_state = dict(state.get("execution_state", {}))
-    execution_state.update({"model_imported": "UNKNOWN", "model_construction": "UNKNOWN", "model_forward": "UNKNOWN"})
+    unknown_values = {"UNKNOWN", "IN_PROGRESS", "UNKNOWN_AFTER_FAILURE"}
+
+    def known_positive(value: Any) -> bool:
+        return value is True or (isinstance(value, int) and not isinstance(value, bool) and value > 0)
+
+    # Once a preceding child has actually imported/constructed/forwarded, a
+    # later child cannot make that historical fact unknown.  Preserve the
+    # positive observation while keeping a newly launched child conservative.
+    for key in ("model_imported", "model_construction", "model_forward"):
+        if not known_positive(execution_state.get(key)) and execution_state.get(key) not in unknown_values:
+            execution_state[key] = "UNKNOWN"
     if kind == "diagnostic":
-        execution_state.update({"training": False, "backward": False, "optimizer_steps": 0})
+        for key in ("training", "backward"):
+            value = execution_state.get(key)
+            if not known_positive(value) and value not in unknown_values:
+                execution_state[key] = False
+        value = execution_state.get("optimizer_steps")
+        if not known_positive(value) and value not in unknown_values:
+            execution_state["optimizer_steps"] = 0
     else:
-        execution_state.update({"training": "UNKNOWN", "backward": "UNKNOWN", "optimizer_steps": "UNKNOWN"})
+        for key in ("training", "backward", "optimizer_steps"):
+            value = execution_state.get(key)
+            if not known_positive(value) and value not in unknown_values:
+                execution_state[key] = "UNKNOWN"
     state["execution_state"] = execution_state
     lifecycle = dict(state.get("execution_lifecycle", {}))
     lifecycle.update({
