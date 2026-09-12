@@ -77,6 +77,9 @@ class Stage45FICLContextV1Test(unittest.TestCase):
             available[section][0]["event_time"] = 0.8
             available[section][0]["available_time"] = 1.1
             self.assert_rejected(available, "CAUSAL_TIMESTAMP_VIOLATION")
+        missing_availability = copy.deepcopy(self.fixture)
+        del missing_availability["local_dynamics_context"][0]["available_time"]
+        self.assert_rejected(missing_availability, "AVAILABILITY_TIME_MISSING")
         target = copy.deepcopy(self.fixture)
         target["target_xyz_world"] = [0.30, 0.10, 0.58]
         self.assert_rejected(target, "FORBIDDEN_TARGET_XYZ")

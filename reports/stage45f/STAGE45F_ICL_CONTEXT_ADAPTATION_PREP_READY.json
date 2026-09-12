@@ -27,8 +27,8 @@
     {"path": "manifests/STAGE45F_ICL_INTEGRATION_OPTIONS_V1.json", "sha256": "abb35d6ea616ff73b4913a2515adf1a8f9ba2c9b4078c67a2b1bd958e5c9f30f"},
     {"path": "manifests/STAGE45F_ICL_EXPERIMENT_LADDER_V1.json", "sha256": "4103a47884ddee8fa62a58a7824505790fd7bb1b33ed1320e48b4e0ee8c29306"},
     {"path": "manifests/STAGE45F_ICL_COMPUTE_RISK_REGISTER_V1.json", "sha256": "2c3927df8f305b435a014ab487a17333550577384e5003b8ed2f6d42420c5be8"},
-    {"path": "scripts/stage45f_icl_context_v1.py", "sha256": "5e3c0fc591a6a02650bbdbad798bd6cfaa6e3409ce8740c378d497416eeb8315"},
-    {"path": "tests/test_stage45f_icl_context_v1.py", "sha256": "8a631f575bf69048e910e44947350e70f7e8ad4c802d6dd4810e677f5d22e47e"},
+    {"path": "scripts/stage45f_icl_context_v1.py", "sha256": "5cdf241b283b62c84161369261908c9ddf929169d81d15d0befd558293150005"},
+    {"path": "tests/test_stage45f_icl_context_v1.py", "sha256": "ce1f2bb482e6055dd9a260ed98551244e4021633ac3311714da5c2c4b3e2b36c"},
     {"path": "docs/stages/STAGE45F_ICL_CONTEXT_ADAPTATION_PREP.md", "sha256": "6c0fe1ac15a9bebfe5c13440719f8d74dde6e78d306d85093c7ec1d0dff8ea5a"}
   ],
   "context_v1": {
@@ -94,8 +94,8 @@
   "cpu_regression": {
     "status": "PASS",
     "token": "STAGE45F_ICL_CONTEXTV1_CPU_REGRESSION_PASS",
-    "mutation_count": 10,
-    "reason_codes": ["CAUSAL_TIMESTAMP_VIOLATION", "FORBIDDEN_TARGET_XYZ", "LOCKED_SPLIT_CONTAMINATION", "FUTURE_EXPERT_INFORMATION", "PATH_LEAKAGE", "MISSING_EXPLICIT_NULL_RESPONSE", "INVALID_SHA256", "MODEL_VISIBILITY_DRIFT"],
+    "mutation_count": 11,
+    "reason_codes": ["CAUSAL_TIMESTAMP_VIOLATION", "AVAILABILITY_TIME_MISSING", "FORBIDDEN_TARGET_XYZ", "LOCKED_SPLIT_CONTAMINATION", "FUTURE_EXPERT_INFORMATION", "PATH_LEAKAGE", "MISSING_EXPLICIT_NULL_RESPONSE", "INVALID_SHA256", "MODEL_VISIBILITY_DRIFT"],
     "availability_mutations": ["interaction event_time < query_time < available_time", "local dynamics event_time < query_time < available_time", "failure/outcome event_time < query_time < available_time"],
     "metadata_visibility_mutation": "target_id insertion rejected with MODEL_VISIBILITY_DRIFT",
     "order_invariant": true,

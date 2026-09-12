@@ -601,6 +601,9 @@ def cpu_regression() -> dict[str, Any]:
     failure_availability["failure_outcome_context"][0]["event_time"] = 0.8
     failure_availability["failure_outcome_context"][0]["available_time"] = 1.1
     mutations.append(("failure_future_availability", _expect_rejection(failure_availability, "CAUSAL_TIMESTAMP_VIOLATION")["reason_code"]))
+    missing_availability = copy.deepcopy(baseline)
+    del missing_availability["local_dynamics_context"][0]["available_time"]
+    mutations.append(("missing_availability_time", _expect_rejection(missing_availability, "AVAILABILITY_TIME_MISSING")["reason_code"]))
     xyz = copy.deepcopy(baseline)
     xyz["target_xyz_world"] = [0.3, 0.1, 0.58]
     mutations.append(("target_xyz_injection", _expect_rejection(xyz, "FORBIDDEN_TARGET_XYZ")["reason_code"]))
