@@ -1,0 +1,18 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0146_CONTEXT_GRADIENT_CLARIFICATION_V1",
+  "status": "CPU_STATIC_DOCUMENTATION_ONLY",
+  "authority": {"pi_gate": "PI_GATE_STATE_0146", "issue_11_comment": 5645700727, "pr": 67},
+  "design": {
+    "equation": "v = v_base + alpha * R_phi",
+    "alpha_initial": 0,
+    "gate_gradient_at_alpha0": "may be nonzero when R_phi is nonzero",
+    "context_parameter_gradient_at_alpha0": "zero from alpha scaling",
+    "claim_boundary": "not every ContextEncoder/projector parameter receives nonzero initialization gradient",
+    "stall_condition": "zeroing both alpha and R_phi can stall gate learning",
+    "model_forward": 0,
+    "backward": 0,
+    "training": 0
+  },
+  "scientific_contract_changed": false,
+  "execution_boundary": {"gpu": 0, "model_forward": 0, "training": 0, "backward": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "merge": 0}
+}

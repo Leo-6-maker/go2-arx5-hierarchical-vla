@@ -193,6 +193,13 @@ class Stage45FICLContextV1Test(unittest.TestCase):
         c1_gate = options["options"]["C1_ACTION_SIDE_CONTEXT_TOKENS"]["gate"]
         self.assertEqual(c1_gate["base_policy_parity"], "DESIGN_OBLIGATION_NOT_PROVEN")
         self.assertEqual(c1_gate["zero_gate_contract"], "isolated_context_residual_or_mask_preserving_bypass")
+        self.assertEqual(c1_gate["gate_gradient_at_alpha0"], "may_be_nonzero when R_phi is nonzero: dv/dalpha = R_phi")
+        self.assertEqual(c1_gate["context_encoder_gradient_at_alpha0"], "initially_zero_from_alpha_scaling: dv/dphi = alpha * dR_phi/dphi")
+        self.assertIn("not_claim", c1_gate["gradient_claim_boundary"])
+        self.assertIn("stall", c1_gate["zero_gate_learning_risk"])
+        equations = options["architecture_contract"]["c1_gradient_equations"]
+        self.assertEqual(equations["gate"], "dv/dalpha at alpha=0 = R_phi (may be nonzero)")
+        self.assertEqual(equations["context_parameters"], "dv/dphi at alpha=0 = alpha * dR_phi/dphi = 0")
         plan = json.loads((ROOT / "manifests/ICL_CONTEXTTENSORV1_PLAN.json").read_text(encoding="utf-8"))
         self.assertEqual(plan["source_membership"]["split"], "TRAIN24")
         self.assertTrue(plan["source_membership"]["immutable_membership_sha256_required"])

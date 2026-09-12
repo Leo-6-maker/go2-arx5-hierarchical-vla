@@ -74,11 +74,17 @@ are separate architectures; C2 is not an alias of the deeper family.
 
 The C1 zero gate is a parity obligation, not a claim that concatenating zero
 context values preserves attention.  At zero gate the original state/action
-positions and attention denominator must remain unchanged, while the isolated
-context residual still receives a learnable gradient.  The CPU scalar
+positions and attention denominator must remain unchanged.  For the isolated
+residual design `v = v_base + alpha * R_phi`, the gate derivative at
+`alpha=0` is `dv/dalpha = R_phi` and may be nonzero, while the context
+encoder/projector derivative is `dv/dphi = alpha * dR_phi/dphi` and is
+initially zero.  Thus “the context path is learnable” must not be read as a
+claim that every context parameter receives a nonzero initialization gradient.
+If both the gate and its driving residual are zeroed, even gate learning can
+stall; the implementation must preserve this distinction.  The CPU scalar
 counterexample in `c1_zero_gate_attention_counterexample()` records a
 one-key output changing from `1` to `1/2` when an unmasked zero context key is
-appended; no model forward is used.
+appended; no model forward or backward is used.
 
 The ladder distinguishes `I0_EXISTING_INTERFACE_CONTEXT_PROBE` (only existing
 checkpoint-compatible multimodal/image/language inputs) from
