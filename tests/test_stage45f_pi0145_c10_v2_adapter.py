@@ -70,6 +70,39 @@ class PI0145VandaV2AdapterTest(unittest.TestCase):
             adapter.validate_diagnostic_accounting(document)
         self.assertIn("ATTEMPT_ID_MISSING", str(caught.exception))
 
+    def test_attempt_accounting_rejects_unknown_or_missing_counts(self) -> None:
+        root = hashlib.sha256(b"unknown-counts").hexdigest()
+        unknown = self._accounting([
+            {"unit_key": "E4:legacy", "attempt_id": "job-unknown", "attempt_root_sha256": root, "status": "UNKNOWN", "counts": {"model_side_calls": 0, "counters_complete": False}},
+        ], attempted=0, failed=0)
+        with self.assertRaises(adapter.V2AdapterError) as caught:
+            adapter.validate_diagnostic_accounting(unknown)
+        self.assertIn("counters unknown", str(caught.exception))
+
+        missing = self._accounting([
+            {"unit_key": "E4:legacy", "attempt_id": "job-missing", "attempt_root_sha256": root, "status": "BLOCKED", "counts": {"counters_complete": True}},
+        ], attempted=0, failed=0)
+        with self.assertRaises(adapter.V2AdapterError) as caught:
+            adapter.validate_diagnostic_accounting(missing)
+        self.assertIn("model_side_calls invalid", str(caught.exception))
+
+    def test_attempt_accounting_rejects_each_counter_reconciliation_drift(self) -> None:
+        root = hashlib.sha256(b"reconciliation").hexdigest()
+        base = self._accounting([
+            {"unit_key": "D1:n2", "attempt_id": "job-failed", "attempt_root_sha256": root, "status": "FAILED_ATTEMPT", "counts": {"model_side_calls": 7, "counters_complete": True}},
+            {"unit_key": "D1:n2", "attempt_id": "job-pass", "attempt_root_sha256": hashlib.sha256(b"reconciliation-pass").hexdigest(), "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 8976, "counters_complete": True}},
+        ])
+        for field, value in (
+            ("accepted_unique_scientific_calls", 8975),
+            ("all_attempted_model_calls", 8982),
+            ("failed_attempt_model_calls", 6),
+        ):
+            broken = copy.deepcopy(base)
+            broken[field] = value
+            with self.subTest(field=field):
+                with self.assertRaises(adapter.V2AdapterError):
+                    adapter.validate_diagnostic_accounting(broken)
+
     def test_vanda_producer_fixture_reaches_synthetic_c10_consumer_and_real_entry_rejects_it(self) -> None:
         with tempfile.TemporaryDirectory(prefix="stage45f-pi0145-v2-") as directory:
             final_path = adapter.build_synthetic_vanda_v2_fixture(Path(directory) / "fixture")
