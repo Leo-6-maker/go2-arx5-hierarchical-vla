@@ -281,6 +281,17 @@ def test_diagnostic_accounting_separates_unique_and_failed_attempts() -> None:
     assert report["reused_readonly_model_calls"] == 0
 
 
+def test_diagnostic_accounting_counts_readonly_reuse_separately() -> None:
+    report = campaign.diagnostic_accounting(
+        {"E4:legacy": [{"phase": "E4", "route": "legacy", "root": "/sealed", "status": "PASS_ACCEPTED", "counts": {"model_side_calls": 1680}}]},
+        {"E4:legacy": {"counts": {"model_side_calls": 1680}, "reused_readonly": True}},
+    )
+    assert report["accepted_unique_scientific_calls"] == 1680
+    assert report["all_attempted_model_calls"] == 1680
+    assert report["reused_readonly_model_calls"] == 1680
+    assert report["reused_readonly_model_calls_by_unit"]["E4:legacy"] == 1680
+
+
 def test_duplicate_diagnostic_passes_block_continuation(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     diagnostics_root = tmp_path / "diagnostics"
     diagnostics_root.mkdir()

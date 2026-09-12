@@ -1655,6 +1655,7 @@ def diagnostic_accounting(
     """Report unique accepted work separately from every attempted call."""
 
     accepted_unique_by_unit: dict[str, int] = {}
+    reused_readonly_by_unit: dict[str, int] = {}
     all_attempted_by_attempt: list[dict[str, Any]] = []
     failed_attempt_by_attempt: list[dict[str, Any]] = []
     for unit in DIAGNOSTIC_UNIT_KEYS:
@@ -1662,8 +1663,10 @@ def diagnostic_accounting(
         if accepted is not None:
             counts = accepted.get("counts", {})
             accepted_unique_by_unit[unit] = int(counts.get("model_side_calls", 0))
+            reused_readonly_by_unit[unit] = int(counts.get("model_side_calls", 0)) if accepted.get("reused_readonly") is True else 0
         else:
             accepted_unique_by_unit[unit] = 0
+            reused_readonly_by_unit[unit] = 0
         for attempt in attempts_by_unit.get(unit, ()):
             item = {
                 "unit_key": unit,
@@ -1674,6 +1677,7 @@ def diagnostic_accounting(
                 "seal_path": attempt.get("seal_path"),
                 "seal_sha256": attempt.get("seal_sha256"),
                 "counts": dict(attempt.get("counts", {})),
+                "reused_readonly": attempt.get("reused_readonly", False),
             }
             all_attempted_by_attempt.append(item)
             if item["status"] == "FAILED_ATTEMPT":
@@ -1683,7 +1687,8 @@ def diagnostic_accounting(
         "accepted_unique_scientific_calls": sum(accepted_unique_by_unit.values()),
         "all_attempted_model_calls": sum(int(item["counts"].get("model_side_calls", 0)) for item in all_attempted_by_attempt),
         "failed_attempt_model_calls": sum(int(item["counts"].get("model_side_calls", 0)) for item in failed_attempt_by_attempt),
-        "reused_readonly_model_calls": 0,
+        "reused_readonly_model_calls": sum(reused_readonly_by_unit.values()),
+        "reused_readonly_model_calls_by_unit": reused_readonly_by_unit,
         "attempt_inventory": all_attempted_by_attempt,
         "failed_attempt_inventory": failed_attempt_by_attempt,
     }
@@ -1712,7 +1717,14 @@ def select_diagnostic_attempt(
     return {"unit_key": f"{phase}:{route}", "candidates": candidates, "accepted": accepted[0] if accepted else None, "needs_fresh_attempt": not bool(accepted)}
 
 
-def run_diagnostics(args: argparse.Namespace, campaign_root: Path, admission_path: Path, phase_specs: Mapping[str, Mapping[str, Path]]) -> dict[str, Any]:
+def run_diagnostics(
+    args: argparse.Namespace,
+    campaign_root: Path,
+    admission_path: Path,
+    phase_specs: Mapping[str, Mapping[str, Path]],
+    *,
+    state: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     diagnostic_script = REPO / "scripts/stage45e_h200_unified_diagnostics.py"
     helper_script = Path(args.legacy_repo).resolve() / "scripts/stage45e_legacy_matched_seed.py"
     phase_roots: dict[str, dict[str, Path]] = {"E4": {}, "D1": {}, "D2A": {}}
@@ -1728,20 +1740,33 @@ def run_diagnostics(args: argparse.Namespace, campaign_root: Path, admission_pat
             selection = select_diagnostic_attempt(evidence_root, phase, route, spec_path=spec_path, expected_evaluator=expected_evaluator)
             attempts_by_unit[unit_key] = selection["candidates"]
             if selection["accepted"] is not None:
-                accepted_by_unit[unit_key] = selection["accepted"]
+                accepted = dict(selection["accepted"])
+                accepted["reused_readonly"] = True
+                accepted_by_unit[unit_key] = accepted
                 phase_roots[phase][route] = Path(selection["accepted"]["root"])
+                if state is not None:
+                    state["last_completed_unit"] = unit_key
+                    state["active_child"] = {"stage": unit_key, "kind": "diagnostic", "status": "REUSED_READ_ONLY"}
                 append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "DIAGNOSTIC_REUSED_READ_ONLY", "unit_key": unit_key, "root": selection["accepted"]["root"], "model_calls": 0, "timestamp_utc": now_utc()})
                 continue
             output = evidence_root / f"{campaign_root.name}_{phase}_{route}"
             stats = Path(args.n2_stats).resolve() if route == "n2" else Path(args.runtime_stats).resolve()
             command = [str(PYTHON), str(diagnostic_script), "--mode", "run", "--route", route, "--phase", phase, "--route-repo", str(Path(getattr(args, f"{route}_repo")).resolve()), "--helper-script", str(helper_script), "--admission", str(admission_path), "--output-root", str(output), "--base-model", str(Path(args.base_model).resolve()), "--dataset", str(Path(args.dataset).resolve()), "--groot", str(Path(args.groot).resolve()), "--cosmos", str(Path(args.cosmos).resolve()), "--modality", str(Path(args.modality).resolve()), "--config", str(Path(args.config).resolve()), "--stats", str(stats), "--sealed-baseline", str(Path(args.sealed_baseline).resolve()), "--snapshot-preflight", str(Path(args.snapshot_preflight).resolve())]
+            if state is not None:
+                state["failure_stage"] = unit_key
+                state["active_child"] = {"stage": unit_key, "kind": "diagnostic", "status": "IN_PROGRESS"}
             _run_command(campaign_root, f"diagnostic_{phase}_{route}", command)
             selection = select_diagnostic_attempt(evidence_root, phase, route, spec_path=spec_path, expected_evaluator=expected_evaluator)
             attempts_by_unit[unit_key] = selection["candidates"]
             complete = [candidate for candidate in selection["candidates"] if candidate.get("root") == str(output) and candidate.get("status") == "PASS_ACCEPTED"]
             require(len(complete) == 1, f"new diagnostic unit did not produce one accepted PASS: {unit_key}")
-            accepted_by_unit[unit_key] = _validate_diagnostic_pass(complete[0], phase=phase, route=route, spec_path=spec_path, expected_evaluator=expected_evaluator)
+            accepted = _validate_diagnostic_pass(complete[0], phase=phase, route=route, spec_path=spec_path, expected_evaluator=expected_evaluator)
+            accepted["reused_readonly"] = False
+            accepted_by_unit[unit_key] = accepted
             phase_roots[phase][route] = output
+            if state is not None:
+                state["last_completed_unit"] = unit_key
+                state["active_child"] = {"stage": unit_key, "kind": "diagnostic", "status": "PASS"}
     return {
         "phase_roots": phase_roots,
         "attempts_by_unit": attempts_by_unit,
@@ -2128,7 +2153,7 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
         "accepted_unique_scientific_calls": accounting["accepted_unique_scientific_calls"],
         "all_attempted_model_calls": accounting["all_attempted_model_calls"],
         "failed_attempt_model_calls": accounting["failed_attempt_model_calls"],
-        "reused_readonly_model_calls": 0,
+        "reused_readonly_model_calls": accounting["reused_readonly_model_calls"],
         "diagnostic_attempt_inventory": accounting["attempt_inventory"],
         "c10_handoff": external["handoff_path"],
         "c10_handoff_sha256": external["handoff_sha256"],
@@ -2142,6 +2167,18 @@ def cpu_closure(args: argparse.Namespace, campaign_root: Path, phase_roots: Mapp
     }
     write_json(campaign_root / "final_result.json", final)
     return final
+
+
+def _diagnostic_attempt_snapshot(args: argparse.Namespace) -> dict[str, list[dict[str, Any]]]:
+    """Collect immutable diagnostic attempts after a partial child failure."""
+
+    evidence_root = Path(getattr(args, "diagnostic_evidence_root", None) or Path(args.storage_root) / "diagnostics").resolve()
+    snapshot: dict[str, list[dict[str, Any]]] = {}
+    for phase in DIAGNOSTIC_PHASES:
+        for route in ROUTES:
+            unit = f"{phase}:{route}"
+            snapshot[unit] = discover_diagnostic_attempts(evidence_root, phase, route)
+    return snapshot
 
 
 def campaign(args: argparse.Namespace) -> dict[str, Any]:
@@ -2262,7 +2299,7 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "PHASE_SPECS_SEALED", "timestamp_utc": now_utc()})
         state["failure_stage"] = "DIAGNOSTICS"
         _mark_model_child_in_progress(state, "DIAGNOSTICS", kind="diagnostic")
-        diagnostic_run = run_diagnostics(args, campaign_root, campaign_root / "campaign_admission.json", phase_specs)
+        diagnostic_run = run_diagnostics(args, campaign_root, campaign_root / "campaign_admission.json", phase_specs, state=state)
         _mark_model_child_pass(state, "DIAGNOSTICS", kind="diagnostic")
         state["last_completed_unit"] = "D2A:n2"
         append_jsonl(campaign_root / "campaign_events.jsonl", {"event": "E4_D1_D2A_SEALED", "timestamp_utc": now_utc()})
@@ -2274,7 +2311,10 @@ def campaign(args: argparse.Namespace) -> dict[str, Any]:
         return {"status": "PASS", "token": final["token"], "campaign_root": str(campaign_root), "final_result": str(campaign_root / "final_result.json"), "final_result_sha256": sha256_file(campaign_root / "final_result.json"), "orchestration_head": orchestration_head, "route_heads": ROUTE_HEADS, "phase_totals": final["phase_totals"]}
     except Exception:
         try:
-            failure = write_campaign_failure_seal(campaign_root, state=state, lineages=lineages, attempts_by_unit=diagnostic_run.get("attempts_by_unit", {}))
+            attempts_for_failure = diagnostic_run.get("attempts_by_unit", {})
+            if not attempts_for_failure:
+                attempts_for_failure = _diagnostic_attempt_snapshot(args)
+            failure = write_campaign_failure_seal(campaign_root, state=state, lineages=lineages, attempts_by_unit=attempts_for_failure)
             append_allocation_outcome(ledger_path, pbs_jobid=job_id, outcome={"status": "BLOCKED", "campaign_root": str(campaign_root), "failure_seal_sha256": failure["sha256"], "attempted_model_calls": failure["document"]["attempted_model_calls"], "failed_attempt_model_calls": failure["document"]["failed_attempt_model_calls"], "model_imported": failure["document"]["execution_state"].get("model_imported"), "model_forward": failure["document"]["execution_state"].get("model_forward"), "training": failure["document"]["execution_state"].get("training")})
         except Exception:
             # Never hide the original orchestration error behind an evidence
