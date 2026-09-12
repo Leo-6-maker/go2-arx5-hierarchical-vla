@@ -28,8 +28,9 @@ class Stage45FICLContextV1Test(unittest.TestCase):
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["upstream_commit"], context_v1.UPSTREAM_COMMIT)
         self.assertEqual(result["context_variant_count"], 9)
-        self.assertEqual(result["integration_option_count"], 4)
-        self.assertEqual(result["experiment_count"], 4)
+        self.assertEqual(result["integration_option_count"], 5)
+        self.assertEqual(result["experiment_count"], 5)
+        self.assertEqual(result["i0_existing_interface_variant_count"], 4)
         self.assertEqual(result["forbidden_top_level_imports"], [])
         self.assertTrue(all(value == 0 for value in result["execution_boundary"].values()))
 
@@ -53,10 +54,29 @@ class Stage45FICLContextV1Test(unittest.TestCase):
         self.assertFalse(left["target_xyz_in_model_input"])
         self.assertEqual(left["record_count"], 1)
 
+    def test_tensorization_plan_excludes_metadata_and_keeps_abi(self) -> None:
+        result = context_v1.build_tensorization_plan(self.fixture)
+        self.assertEqual(result["status"], "PLAN_ONLY_NO_TENSOR_MATERIALIZATION")
+        self.assertFalse(result["target_id_forwarded"])
+        self.assertFalse(result["context_metadata_forwarded"])
+        self.assertNotIn("target_id", result["model_visible_fields"])
+        self.assertIn("local_dynamics_context.state_after_payload_resolved", result["model_visible_fields"])
+        plan = json.loads((ROOT / "manifests/ICL_CONTEXTTENSORV1_PLAN.json").read_text(encoding="utf-8"))
+        self.assertEqual(context_v1.validate_tensorization_plan(plan)["status"], "PASS_CPU_ONLY_PLAN")
+        plan["model_visible_fields"].append("target_id")
+        with self.assertRaises(context_v1.ContextV1Error) as caught:
+            context_v1.validate_tensorization_plan(plan)
+        self.assertEqual(caught.exception.reason_code, "MODEL_VISIBILITY_DRIFT")
+
     def test_future_information_and_target_injection_fail_closed(self) -> None:
         future = copy.deepcopy(self.fixture)
         future["interaction_history"][0]["event_time"] = 1.1
         self.assert_rejected(future, "CAUSAL_TIMESTAMP_VIOLATION")
+        for section in ("interaction_history", "local_dynamics_context", "failure_outcome_context"):
+            available = copy.deepcopy(self.fixture)
+            available[section][0]["event_time"] = 0.8
+            available[section][0]["available_time"] = 1.1
+            self.assert_rejected(available, "CAUSAL_TIMESTAMP_VIOLATION")
         target = copy.deepcopy(self.fixture)
         target["target_xyz_world"] = [0.30, 0.10, 0.58]
         self.assert_rejected(target, "FORBIDDEN_TARGET_XYZ")
@@ -106,9 +126,14 @@ class Stage45FICLContextV1Test(unittest.TestCase):
             self.assertFalse(experiment["execution_enabled"])
             self.assertEqual(experiment["model_forward"], 0)
             self.assertEqual(experiment["training"], 0)
+        self.assertIn("I0_EXISTING_INTERFACE_CONTEXT_PROBE", ladder["experiments"])
+        self.assertIn("I0_ADAPTER_ZERO_GATE_PARITY", ladder["experiments"])
+        self.assertTrue(ladder["experiments"]["I0_ADAPTER_ZERO_GATE_PARITY"]["actual_forward_locked_until_future_gate"])
         options = json.loads((ROOT / "manifests/STAGE45F_ICL_INTEGRATION_OPTIONS_V1.json").read_text(encoding="utf-8"))
         self.assertFalse(options["selection_policy"]["automatic_selection"])
         self.assertTrue(options["selection_policy"]["PI_DECISION_REQUIRED"])
+        self.assertEqual(options["options"]["C1_ACTION_SIDE_CONTEXT_TOKENS"]["gr00t_dimension_binding"], "input_embedding_dim=1536")
+        self.assertEqual(options["options"]["C2_VL_MEMORY_CONTEXT_TOKENS"]["gr00t_dimension_binding"], "backbone_embedding_dim=2048")
 
 
 if __name__ == "__main__":

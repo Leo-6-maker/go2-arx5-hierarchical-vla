@@ -2,7 +2,8 @@
   "schema": "STAGE45F_ICL_COMPUTE_RISK_REGISTER_V1",
   "status": "PLAN_ONLY",
   "budget_estimates": {
-    "I0": {"conditioning_passes": 648, "action_head_calls": 2592, "model_forward": 0, "note": "planning estimate only; 3 selected seeds x 9 context variants x 24 windows x E4=4"},
+    "I0_EXISTING_INTERFACE_CONTEXT_PROBE": {"conditioning_passes": 288, "action_head_calls": 1152, "model_forward": 0, "execution_enabled": false, "variants": ["NO_CONTEXT", "RELEVANT_CONTEXT", "SHUFFLED_CONTEXT", "STALE_IRRELEVANT_CONTEXT"], "note": "planning estimate only; 3 selected seeds x 4 existing-interface variants x 24 windows x E4=4; C1/C2/D are not counted as frozen probes"},
+    "I0_ADAPTER_ZERO_GATE_PARITY": {"conditioning_passes": 0, "action_head_calls": 0, "model_forward": 0, "training": 0, "execution_enabled": false, "note": "static/future contract only; no forward parity run"},
     "I1": {"training_runs": "TBD after PI recipe", "checkpoint_tiers": [1000, 2000], "model_forward": 0, "training": 0},
     "I2": {"training_runs": "TBD after PI recipe", "model_forward": 0, "training": 0},
     "I3": {"rollout_episodes": "TBD after separate simulator gate", "model_forward": 0, "training": 0, "simulator": 0}
@@ -17,6 +18,6 @@
     {"id": "DYNAMICS_CONFOUNDING", "signal": "commanded action confused with executed response", "mitigation": "separate fields; null missing response"},
     {"id": "SEED_SELECTION_BIAS", "signal": "best seed selected after observing outcomes", "mitigation": "full selected three-seed cohort; PI-only selection"}
   ],
-  "selection_policy": {"automatic_winner": false, "PI_DECISION_REQUIRED": true},
+  "selection_policy": {"automatic_winner": false, "PI_DECISION_REQUIRED": true, "i0_scope_frozen_existing_interface_only": true},
   "execution_boundary": {"gpu": 0, "model_forward": 0, "training": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0}
 }

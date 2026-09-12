@@ -1,31 +1,35 @@
 {
   "schema": "ICL_CONTEXTV1_CONTRACT",
-  "version": "1.0",
+  "version": "1.1",
   "status": "PREPARATION_ONLY",
   "upstream": {"project": "isaac-gr00t", "model": "GR00T N1.7", "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"},
   "path_policy": {"pathless": true, "filesystem_paths_allowed": false, "artifact_references_by": "immutable id + SHA256"},
-  "causal_query": {"query_time_inclusive": true, "future_information_allowed": false, "relative_time_rule": "event_time <= query_time"},
+  "causal_query": {"query_time_inclusive": true, "future_information_allowed": false, "relative_time_rule": "event_time <= available_time <= query_time", "availability_field": "available_time", "availability_is_latest_included_datum": true},
   "sections": {
     "task_demo_context": {
       "purpose": "historical task demonstration available before the query",
-      "fields": ["demo_id", "demo_source_sha256", "language", "observation_digest", "commanded_action_digest", "demo_time_range"],
+        "fields": ["demo_id", "demo_source_sha256", "language", "observation_digest", "commanded_action_digest", "demo_time_range"],
+        "availability_rule": "demo_time_range[1] <= query_time",
       "past_actions_allowed": true,
       "future_expert_label_allowed": false
     },
     "interaction_history": {
       "purpose": "causal observations and prior commands before the query",
-      "fields": ["event_time", "observation_state_digest", "commanded_action_digest", "executed_or_observed_response_digest", "delta_state_digest", "timing"],
+        "fields": ["event_time", "available_time", "observation_state_digest", "commanded_action_digest", "executed_or_observed_response_digest", "delta_state_digest", "timing"],
+        "availability_rule": "event_time <= available_time <= query_time; response/delta are available by available_time",
       "executed_response_optional": true,
       "missing_executed_response_representation": "null; never inferred"
     },
     "failure_outcome_context": {
       "purpose": "historical failed attempt and observed outcome before a retry query",
-      "fields": ["attempt_id", "failure_observation_digest", "outcome_label", "observed_recovery_digest", "event_time"],
+        "fields": ["attempt_id", "failure_observation_digest", "outcome_label", "observed_recovery_digest", "event_time", "available_time"],
+        "availability_rule": "event_time <= available_time <= query_time; null recovery does not invent an earlier time",
       "future_corrective_action_allowed": false
     },
     "local_dynamics_context": {
       "purpose": "observed local command-response transitions",
-      "fields": ["event_time", "state_before_digest", "commanded_action_digest", "executed_or_observed_response_digest", "state_after_digest", "delta_state_digest", "dt"],
+        "fields": ["event_time", "available_time", "state_before_digest", "commanded_action_digest", "executed_or_observed_response_digest", "state_after_digest", "delta_state_digest", "dt"],
+        "availability_rule": "event_time <= available_time <= query_time; complete transition/state_after is closed by available_time",
       "physical_trace_required": true,
       "missing_response_representation": "null; no fabricated dynamics"
     }
@@ -39,7 +43,46 @@
     "absolute_filesystem_paths": true,
     "source_path_guessing": true
   },
+  "model_visibility": {
+    "metadata_only_fields": [
+      "context_id", "query_id", "window_id", "target_id", "builder_identity",
+      "upstream", "source_identity", "task_demo_context.demo_id",
+      "task_demo_context.demo_source_sha256", "task_demo_context.demo_time_range",
+      "interaction_history.event_time", "interaction_history.available_time",
+      "failure_outcome_context.attempt_id", "failure_outcome_context.event_time",
+      "failure_outcome_context.available_time", "local_dynamics_context.event_time",
+      "local_dynamics_context.available_time"
+    ],
+    "model_visible_fields": [
+      "task_demo_context.language",
+      "task_demo_context.observation_payload_resolved",
+      "task_demo_context.commanded_action_payload_resolved",
+      "interaction_history.observation_state_payload_resolved",
+      "interaction_history.commanded_action_payload_resolved",
+      "interaction_history.executed_or_observed_response_payload_resolved",
+      "interaction_history.delta_state_payload_resolved",
+      "interaction_history.timing_payload",
+      "failure_outcome_context.failure_observation_payload_resolved",
+      "failure_outcome_context.outcome_label",
+      "failure_outcome_context.observed_recovery_payload_resolved",
+      "local_dynamics_context.state_before_payload_resolved",
+      "local_dynamics_context.commanded_action_payload_resolved",
+      "local_dynamics_context.executed_or_observed_response_payload_resolved",
+      "local_dynamics_context.state_after_payload_resolved",
+      "local_dynamics_context.delta_state_payload_resolved",
+      "local_dynamics_context.dt_payload"
+    ],
+    "model_visible_fields_are_resolved_payload_only": true,
+    "target_id_model_visible": false,
+    "filesystem_and_provenance_metadata_model_visible": false,
+    "tensor_plan_schema": "ICL_CONTEXTTENSORV1_PLAN"
+  },
+  "availability_aliases": {
+    "interaction_history": "available_time",
+    "local_dynamics_context": "available_time",
+    "failure_outcome_context": "available_time"
+  },
   "output_abi": {"structured_action_schema": "StructuredActionV1", "shape": [40, 132], "active_scalars": 190, "decoder": "accepted Stage44R/Stage45C semantics unchanged"},
   "context_identity": {"repeated_window_cluster_preserved": true, "source_sha_required": true, "builder_identity_required": true},
-  "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0}
+  "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0, "winner_selection": 0, "merge": 0}
 }

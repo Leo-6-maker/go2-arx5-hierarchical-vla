@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CPU-only ContextV1 builder and leakage/causality verifier for PI0143.
+"""CPU-only ContextV1 builder and leakage/causality verifier for PI0144.
 
 The module deliberately stops at a pathless, immutable context artifact.  It
 does not import a model framework, construct a model, read a checkpoint, or
@@ -28,9 +28,11 @@ CAPABILITY_PATH = REPO / "manifests/STAGE45F_GR00T_CONTEXT_CAPABILITY_AUDIT_V1.j
 OPTIONS_PATH = REPO / "manifests/STAGE45F_ICL_INTEGRATION_OPTIONS_V1.json"
 LADDER_PATH = REPO / "manifests/STAGE45F_ICL_EXPERIMENT_LADDER_V1.json"
 RISK_PATH = REPO / "manifests/STAGE45F_ICL_COMPUTE_RISK_REGISTER_V1.json"
+TENSOR_PLAN_PATH = REPO / "manifests/ICL_CONTEXTTENSORV1_PLAN.json"
 
 CONTEXT_SCHEMA = "ICL_CONTEXTV1_RECORD_V1"
 INDEX_SCHEMA = "ICL_CONTEXTV1_INDEX_V1"
+CONTEXT_VERSION = "1.1"
 BUILDER_IDENTITY = "STAGE45F_ICL_CONTEXTV1_CPU_BUILDER_V1"
 UPSTREAM_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 ZERO_SHA256 = "0" * 64
@@ -43,15 +45,15 @@ SECTION_FIELDS = {
         "commanded_action_digest", "demo_time_range",
     ),
     "interaction_history": (
-        "event_time", "observation_state_digest", "commanded_action_digest",
+        "event_time", "available_time", "observation_state_digest", "commanded_action_digest",
         "executed_or_observed_response_digest", "delta_state_digest", "timing",
     ),
     "failure_outcome_context": (
         "attempt_id", "failure_observation_digest", "outcome_label",
-        "observed_recovery_digest", "event_time",
+        "observed_recovery_digest", "event_time", "available_time",
     ),
     "local_dynamics_context": (
-        "event_time", "state_before_digest", "commanded_action_digest",
+        "event_time", "available_time", "state_before_digest", "commanded_action_digest",
         "executed_or_observed_response_digest", "state_after_digest",
         "delta_state_digest", "dt",
     ),
@@ -64,6 +66,34 @@ RECORD_REQUIRED_FIELDS = {
 RECORD_OPTIONAL_FIELDS = {"window_id", "target_id", "notes"}
 SOURCE_FIELDS = {"artifact_id", "sha256"}
 UPSTREAM_FIELDS = {"project", "model", "commit"}
+METADATA_ONLY_PATHS = {
+    "context_id", "query_id", "window_id", "target_id", "builder_identity",
+    "upstream", "source_identity", "task_demo_context.demo_id",
+    "task_demo_context.demo_source_sha256", "task_demo_context.demo_time_range",
+    "interaction_history.event_time", "interaction_history.available_time",
+    "failure_outcome_context.attempt_id", "failure_outcome_context.event_time",
+    "failure_outcome_context.available_time", "local_dynamics_context.event_time",
+    "local_dynamics_context.available_time",
+}
+MODEL_VISIBLE_PATHS = {
+    "task_demo_context.language",
+    "task_demo_context.observation_payload_resolved",
+    "task_demo_context.commanded_action_payload_resolved",
+    "interaction_history.observation_state_payload_resolved",
+    "interaction_history.commanded_action_payload_resolved",
+    "interaction_history.executed_or_observed_response_payload_resolved",
+    "interaction_history.delta_state_payload_resolved",
+    "interaction_history.timing_payload",
+    "failure_outcome_context.failure_observation_payload_resolved",
+    "failure_outcome_context.outcome_label",
+    "failure_outcome_context.observed_recovery_payload_resolved",
+    "local_dynamics_context.state_before_payload_resolved",
+    "local_dynamics_context.commanded_action_payload_resolved",
+    "local_dynamics_context.executed_or_observed_response_payload_resolved",
+    "local_dynamics_context.state_after_payload_resolved",
+    "local_dynamics_context.delta_state_payload_resolved",
+    "local_dynamics_context.dt_payload",
+}
 
 # These are semantic traps, rather than a general-purpose natural-language
 # filter.  They are checked on keys and scalar values; an ordinary language
@@ -91,6 +121,7 @@ REASON_CODES = {
     "DYNAMICS_TRACE_MISSING", "BUILDER_IDENTITY_DRIFT", "ABI_DRIFT",
     "DUPLICATE_QUERY_ID", "CONTEXT_ORDER_DRIFT", "UPSTREAM_IDENTITY_DRIFT",
     "EXECUTION_BOUNDARY_DRIFT", "STATIC_IMPORT_VIOLATION",
+    "AVAILABILITY_TIME_MISSING", "MODEL_VISIBILITY_DRIFT", "TENSOR_PLAN_DRIFT",
 }
 FORBIDDEN_IMPORTS = {
     "torch", "numpy", "transformers", "gr00t", "subprocess", "jax",
@@ -225,11 +256,78 @@ def _check_digest(value: Any, field: str, *, nullable: bool = False) -> None:
     _sha256(value, field, nullable=nullable)
 
 
+def validate_tensorization_plan(value: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    """Validate the plan-only ContextTensorV1 visibility and tensor ABI."""
+    plan = _read_json(TENSOR_PLAN_PATH) if value is None else value
+    demand(isinstance(plan, Mapping), "TENSOR_PLAN_DRIFT", "tensorization plan must be an object")
+    demand(plan.get("schema") == "ICL_CONTEXTTENSORV1_PLAN" and plan.get("version") == "1.0", "TENSOR_PLAN_DRIFT", "ContextTensorV1 plan schema/version drift")
+    demand(plan.get("status") == "PLAN_ONLY_NO_TENSOR_MATERIALIZATION", "TENSOR_PLAN_DRIFT", "tensorization plan is executable")
+    upstream = plan.get("upstream")
+    demand(isinstance(upstream, Mapping) and upstream.get("commit") == UPSTREAM_COMMIT and upstream.get("project") == "isaac-gr00t" and upstream.get("model") == "GR00T N1.7", "UPSTREAM_IDENTITY_DRIFT", "tensor plan upstream drift")
+    _git_sha(upstream["commit"], "tensor_plan.upstream.commit")
+    resolver = plan.get("resolver")
+    demand(isinstance(resolver, Mapping) and resolver.get("identity") == "STAGE45F_ICL_CONTEXTV1_IMMUTABLE_DIGEST_RESOLVER_V1", "TENSOR_PLAN_DRIFT", "resolver identity drift")
+    demand(resolver.get("filesystem_paths") is False and resolver.get("checkpoint_or_locked_split_reads") is False, "PATH_LEAKAGE", "tensor resolver may read paths/locked splits")
+    metadata = plan.get("metadata_only_fields")
+    visible = plan.get("model_visible_fields")
+    demand(isinstance(metadata, list) and isinstance(visible, list) and len(metadata) == len(set(metadata)) and len(visible) == len(set(visible)), "MODEL_VISIBILITY_DRIFT", "visibility lists are malformed or duplicated")
+    demand(set(metadata) == METADATA_ONLY_PATHS, "MODEL_VISIBILITY_DRIFT", "metadata-only whitelist drift")
+    demand(set(visible) == MODEL_VISIBLE_PATHS, "MODEL_VISIBILITY_DRIFT", "model-visible whitelist drift")
+    demand(not set(metadata).intersection(visible), "MODEL_VISIBILITY_DRIFT", "metadata field entered model-visible set")
+    demand(not any("target_id" in str(path) or "source_identity" in str(path) or "demo_id" in str(path) or "attempt_id" in str(path) for path in visible), "MODEL_VISIBILITY_DRIFT", "metadata shortcut appears in model-visible set")
+    digest_resolution = plan.get("digest_resolution")
+    demand(isinstance(digest_resolution, Mapping) and all(digest_resolution.get(key) is True for key in ("record_digest_fields_are_references_not_model_inputs", "resolved_payload_must_match_referenced_sha256", "model_visible_paths_are_exact_allowlist", "target_id_and_all_provenance_are_excluded")), "MODEL_VISIBILITY_DRIFT", "digest resolution policy drift")
+    layout = plan.get("tensor_layout")
+    demand(isinstance(layout, Mapping) and layout.get("schema") == "ContextTensorV1" and layout.get("status") == "PLAN_ONLY", "TENSOR_PLAN_DRIFT", "ContextTensorV1 layout status drift")
+    demand(layout.get("event_slots", {}).get("shape") == ["B", "N", "F"] and layout.get("event_slots", {}).get("dtype") == "float32", "TENSOR_PLAN_DRIFT", "event tensor shape/dtype drift")
+    demand(layout.get("language_tokens", {}).get("shape") == ["B", "N_text"] and layout.get("language_tokens", {}).get("dtype") == "int32", "TENSOR_PLAN_DRIFT", "language tensor shape/dtype drift")
+    for name, shape, dtype in (("event_mask", ["B", "N"], "bool"), ("section_mask", ["B", "N", 4], "bool"), ("missingness_mask", ["B", "N", "F"], "bool")):
+        item = layout.get(name, {})
+        demand(item.get("shape") == shape and item.get("dtype") == dtype, "TENSOR_PLAN_DRIFT", f"{name} shape/dtype drift")
+    demand(layout.get("section_mask", {}).get("section_order") == list(SECTIONS), "TENSOR_PLAN_DRIFT", "section order drift")
+    abi = plan.get("structured_action_abi")
+    demand(isinstance(abi, Mapping) and abi.get("schema") == "StructuredActionV1" and abi.get("shape") == STRUCTURED_SHAPE and abi.get("active_scalars") == ACTIVE_SCALARS and abi.get("decoder_semantics") == "unchanged", "ABI_DRIFT", "tensor plan StructuredAction ABI drift")
+    boundary = plan.get("execution_boundary", {})
+    demand(isinstance(boundary, Mapping) and all(value == 0 for value in boundary.values()), "EXECUTION_BOUNDARY_DRIFT", "tensor plan execution boundary is nonzero")
+    return {
+        "schema": "ICL_CONTEXTTENSORV1_PLAN_VALIDATION_RESULT_V1",
+        "status": "PASS_CPU_ONLY_PLAN",
+        "resolver_identity": resolver["identity"],
+        "model_visible_count": len(visible),
+        "metadata_only_count": len(metadata),
+        "target_id_model_visible": False,
+        "pathless": True,
+        "tensor_materialization": 0,
+        "model_forward": 0,
+    }
+
+
+def build_tensorization_plan(context: Mapping[str, Any]) -> dict[str, Any]:
+    """Return a plan-only view; no record metadata or payload is tensorized."""
+    validate_context(context)
+    validation = validate_tensorization_plan()
+    plan = _read_json(TENSOR_PLAN_PATH)
+    return {
+        "schema": "ICL_CONTEXTTENSORV1_PLAN_ONLY_RESULT_V1",
+        "status": "PLAN_ONLY_NO_TENSOR_MATERIALIZATION",
+        "resolver_identity": plan["resolver"]["identity"],
+        "model_visible_fields": list(plan["model_visible_fields"]),
+        "metadata_only_fields_excluded": list(plan["metadata_only_fields"]),
+        "context_payload_materialized": False,
+        "context_metadata_forwarded": False,
+        "target_id_forwarded": False,
+        "validation": validation,
+        "execution_boundary": {"tensor_materialization": 0, "model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0},
+    }
+
+
 def _check_section_entry(section: str, entry: Mapping[str, Any], query_time: float, index: int) -> None:
     location = f"{section}[{index}]"
     allowed = set(SECTION_FIELDS[section])
     if section in {"interaction_history", "local_dynamics_context"}:
         demand("executed_or_observed_response_digest" in entry, "MISSING_EXPLICIT_NULL_RESPONSE", f"{location} response key absent; use explicit null")
+    if section in {"interaction_history", "local_dynamics_context", "failure_outcome_context"}:
+        demand("available_time" in entry, "AVAILABILITY_TIME_MISSING", f"{location}.available_time is required")
     _check_exact_keys(entry, allowed, allowed, location)
     if section == "task_demo_context":
         _identifier(entry["demo_id"], f"{location}.demo_id")
@@ -244,7 +342,12 @@ def _check_section_entry(section: str, entry: Mapping[str, Any], query_time: flo
         demand(start <= end <= query_time, "CAUSAL_TIMESTAMP_VIOLATION", f"{location}.demo_time_range is after query")
         return
     event_time = _finite(entry["event_time"], f"{location}.event_time")
-    demand(event_time <= query_time, "CAUSAL_TIMESTAMP_VIOLATION", f"{location}.event_time is after query")
+    if section in {"interaction_history", "local_dynamics_context", "failure_outcome_context"}:
+        available_time = _finite(entry["available_time"], f"{location}.available_time")
+        demand(event_time <= available_time <= query_time, "CAUSAL_TIMESTAMP_VIOLATION", f"{location} violates event_time <= available_time <= query_time")
+    else:
+        available_time = event_time
+        demand(event_time <= query_time, "CAUSAL_TIMESTAMP_VIOLATION", f"{location}.event_time is after query")
     if section == "interaction_history":
         _check_digest(entry["observation_state_digest"], f"{location}.observation_state_digest")
         _check_digest(entry["commanded_action_digest"], f"{location}.commanded_action_digest")
@@ -290,7 +393,7 @@ def validate_context(context: Mapping[str, Any], *, query_time: float | None = N
     demand(isinstance(context, Mapping), "SCHEMA_DRIFT", "context must be an object")
     _scan_forbidden(context)
     _check_exact_keys(context, RECORD_REQUIRED_FIELDS | RECORD_OPTIONAL_FIELDS, RECORD_REQUIRED_FIELDS, "context")
-    demand(context.get("schema") == CONTEXT_SCHEMA and context.get("version") == "1.0", "SCHEMA_DRIFT", "ContextV1 schema/version drift")
+    demand(context.get("schema") == CONTEXT_SCHEMA and context.get("version") == CONTEXT_VERSION, "SCHEMA_DRIFT", "ContextV1 schema/version drift")
     _identifier(context["context_id"], "context_id")
     _identifier(context["query_id"], "query_id")
     observed_query_time = _finite(context["query_time"], "query_time")
@@ -329,8 +432,12 @@ def validate_context(context: Mapping[str, Any], *, query_time: float | None = N
         "section_counts": {section: len(context[section]) for section in SECTIONS},
         "pathless": True,
         "causal_cutoff": observed_query_time,
+        "availability_time_law": "event_time <= available_time <= query_time",
+        "availability_checked_sections": ["interaction_history", "failure_outcome_context", "local_dynamics_context"],
         "future_information_rejected": True,
         "target_xyz_injected": False,
+        "model_visible_fields_resolved_only": True,
+        "metadata_only_fields_excluded": True,
         "structured_action_abi": {"schema": "StructuredActionV1", "shape": STRUCTURED_SHAPE, "active_scalars": ACTIVE_SCALARS},
     }
 
@@ -352,7 +459,7 @@ def build_context_record(
     """Build a deterministic, pathless ContextV1 record from explicit data."""
     result: dict[str, Any] = {
         "schema": CONTEXT_SCHEMA,
-        "version": "1.0",
+        "version": CONTEXT_VERSION,
         "context_id": context_id,
         "query_id": query_id,
         "query_time": query_time,
@@ -402,7 +509,7 @@ def build_context_index(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "records": canonical,
         "record_count": len(canonical),
         "repeated_window_cluster_preserved": True,
-        "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0},
+        "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0, "winner_selection": 0, "merge": 0},
     }
 
 
@@ -423,6 +530,7 @@ def synthetic_context_fixture() -> dict[str, Any]:
     }
     interaction = {
         "event_time": 0.6,
+        "available_time": 0.6,
         "observation_state_digest": _fixture_digest(4),
         "commanded_action_digest": _fixture_digest(5),
         "executed_or_observed_response_digest": None,
@@ -435,9 +543,11 @@ def synthetic_context_fixture() -> dict[str, Any]:
         "outcome_label": "no_progress_observed",
         "observed_recovery_digest": _fixture_digest(7),
         "event_time": 0.7,
+        "available_time": 0.9,
     }
     dynamics = {
         "event_time": 0.8,
+        "available_time": 0.95,
         "state_before_digest": _fixture_digest(8),
         "commanded_action_digest": _fixture_digest(9),
         "executed_or_observed_response_digest": _fixture_digest(10),
@@ -467,6 +577,8 @@ def cpu_regression() -> dict[str, Any]:
     """Run deterministic builder, order-invariance, and leakage mutations."""
     baseline = synthetic_context_fixture()
     first = validate_context(baseline)
+    tensor_result = build_tensorization_plan(baseline)
+    demand(tensor_result["target_id_forwarded"] is False and tensor_result["context_metadata_forwarded"] is False, "MODEL_VISIBILITY_DRIFT", "metadata entered tensorization result")
     reversed_record = copy.deepcopy(baseline)
     for section in SECTIONS:
         reversed_record[section] = list(reversed(reversed_record[section]))
@@ -477,6 +589,18 @@ def cpu_regression() -> dict[str, Any]:
     future = copy.deepcopy(baseline)
     future["interaction_history"][0]["event_time"] = 2.0
     mutations.append(("future_timestamp", _expect_rejection(future, "CAUSAL_TIMESTAMP_VIOLATION")["reason_code"]))
+    interaction_availability = copy.deepcopy(baseline)
+    interaction_availability["interaction_history"][0]["event_time"] = 0.8
+    interaction_availability["interaction_history"][0]["available_time"] = 1.1
+    mutations.append(("interaction_future_availability", _expect_rejection(interaction_availability, "CAUSAL_TIMESTAMP_VIOLATION")["reason_code"]))
+    dynamics_availability = copy.deepcopy(baseline)
+    dynamics_availability["local_dynamics_context"][0]["event_time"] = 0.85
+    dynamics_availability["local_dynamics_context"][0]["available_time"] = 1.1
+    mutations.append(("dynamics_future_availability", _expect_rejection(dynamics_availability, "CAUSAL_TIMESTAMP_VIOLATION")["reason_code"]))
+    failure_availability = copy.deepcopy(baseline)
+    failure_availability["failure_outcome_context"][0]["event_time"] = 0.8
+    failure_availability["failure_outcome_context"][0]["available_time"] = 1.1
+    mutations.append(("failure_future_availability", _expect_rejection(failure_availability, "CAUSAL_TIMESTAMP_VIOLATION")["reason_code"]))
     xyz = copy.deepcopy(baseline)
     xyz["target_xyz_world"] = [0.3, 0.1, 0.58]
     mutations.append(("target_xyz_injection", _expect_rejection(xyz, "FORBIDDEN_TARGET_XYZ")["reason_code"]))
@@ -495,14 +619,25 @@ def cpu_regression() -> dict[str, Any]:
     fabricated = copy.deepcopy(baseline)
     fabricated["interaction_history"][0]["executed_or_observed_response_digest"] = "not-a-sha"
     mutations.append(("fabricated_response", _expect_rejection(fabricated, "INVALID_SHA256")["reason_code"]))
+    visibility_mutation = _read_json(TENSOR_PLAN_PATH)
+    visibility_mutation["model_visible_fields"].append("target_id")
+    try:
+        validate_tensorization_plan(visibility_mutation)
+    except ContextV1Error as exc:
+        demand(exc.reason_code == "MODEL_VISIBILITY_DRIFT", "MODEL_VISIBILITY_DRIFT", f"metadata visibility mutation yielded {exc.reason_code}")
+        visibility_result = {"reason_code": exc.reason_code, "rejected": True}
+    else:
+        reject("MODEL_VISIBILITY_DRIFT", "metadata visibility mutation unexpectedly accepted")
     return {
         "schema": "STAGE45F_ICL_CONTEXTV1_CPU_REGRESSION_RESULT_V1",
         "status": "PASS",
         "token": "STAGE45F_ICL_CONTEXTV1_CPU_REGRESSION_PASS",
         "baseline": first,
+        "tensor_plan": tensor_result,
         "order_invariant": True,
         "mutation_results": [{"name": name, "reason_code": code, "rejected": True} for name, code in mutations],
         "mutation_count": len(mutations),
+        "metadata_visibility_mutation": visibility_result,
         "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
     }
 
@@ -524,21 +659,34 @@ def static_audit() -> dict[str, Any]:
     options = _read_json(OPTIONS_PATH)
     ladder = _read_json(LADDER_PATH)
     risk = _read_json(RISK_PATH)
-    demand(contract.get("schema") == "ICL_CONTEXTV1_CONTRACT" and contract.get("status") == "PREPARATION_ONLY", "SCHEMA_DRIFT", "ContextV1 contract drift")
+    tensor_plan = _read_json(TENSOR_PLAN_PATH)
+    demand(contract.get("schema") == "ICL_CONTEXTV1_CONTRACT" and contract.get("version") == "1.1" and contract.get("status") == "PREPARATION_ONLY", "SCHEMA_DRIFT", "ContextV1 contract drift")
     demand(contract.get("upstream", {}).get("commit") == UPSTREAM_COMMIT, "UPSTREAM_IDENTITY_DRIFT", "contract upstream drift")
     demand(contract.get("path_policy", {}).get("pathless") is True and contract.get("path_policy", {}).get("filesystem_paths_allowed") is False, "PATH_LEAKAGE", "path policy drift")
+    demand(contract.get("causal_query", {}).get("relative_time_rule") == "event_time <= available_time <= query_time" and contract.get("causal_query", {}).get("availability_field") == "available_time", "EXECUTION_BOUNDARY_DRIFT", "availability-time law drift")
     demand(contract.get("output_abi", {}).get("shape") == STRUCTURED_SHAPE and contract.get("output_abi", {}).get("active_scalars") == ACTIVE_SCALARS, "ABI_DRIFT", "StructuredAction ABI drift")
+    visibility = contract.get("model_visibility", {})
+    demand(visibility.get("target_id_model_visible") is False and visibility.get("model_visible_fields_are_resolved_payload_only") is True and visibility.get("tensor_plan_schema") == "ICL_CONTEXTTENSORV1_PLAN", "MODEL_VISIBILITY_DRIFT", "ContextV1 model visibility contract drift")
+    demand(set(visibility.get("metadata_only_fields", [])) == METADATA_ONLY_PATHS, "MODEL_VISIBILITY_DRIFT", "ContextV1 metadata-only fields drift")
+    demand(set(visibility.get("model_visible_fields", [])) == MODEL_VISIBLE_PATHS, "MODEL_VISIBILITY_DRIFT", "ContextV1 model-visible fields drift")
+    for section in ("interaction_history", "failure_outcome_context", "local_dynamics_context"):
+        demand("available_time" in contract.get("sections", {}).get(section, {}).get("fields", []), "AVAILABILITY_TIME_MISSING", f"contract missing {section}.available_time")
     contract_boundary = contract.get("execution_boundary", {})
     demand(all(value == 0 for value in contract_boundary.values()), "EXECUTION_BOUNDARY_DRIFT", "contract execution boundary is nonzero")
     demand(capability.get("source", {}).get("commit") == UPSTREAM_COMMIT and capability.get("status") == "PASS_READONLY_SOURCE_AUDIT", "UPSTREAM_IDENTITY_DRIFT", "capability audit drift")
-    demand(set(options.get("options", {})) == {"A_MULTIFRAME_MULTIMODAL_PROMPT", "B_EXTENDED_STATE_HISTORY", "C_CONTEXT_ENCODER_K_TOKENS", "D_EXPLICIT_MEMORY_CROSS_ATTENTION"}, "SCHEMA_DRIFT", "integration options are not the four neutral families")
+    demand(set(options.get("options", {})) == {"A_MULTIFRAME_MULTIMODAL_PROMPT", "B_EXTENDED_STATE_HISTORY", "C1_ACTION_SIDE_CONTEXT_TOKENS", "C2_VL_MEMORY_CONTEXT_TOKENS", "D_EXPLICIT_MEMORY_CROSS_ATTENTION"}, "SCHEMA_DRIFT", "integration options are not the five neutral families")
     demand(options.get("selection_policy", {}).get("automatic_selection") is False and options.get("selection_policy", {}).get("PI_DECISION_REQUIRED") is True, "EXECUTION_BOUNDARY_DRIFT", "option selection policy drift")
+    architecture = options.get("architecture_contract", {})
+    demand(architecture.get("c1_action_side_dim") == 1536 and architecture.get("c2_vl_memory_dim") == 2048 and architecture.get("c1_zero_gate_alpha0") == 0 and architecture.get("c1_final_action_tokens") == 40 and architecture.get("c2_attention_mask") is True and architecture.get("c2_image_mask") is False, "TENSOR_PLAN_DRIFT", "C1/C2 architecture contract drift")
     variants = ladder.get("context_variants")
     demand(isinstance(variants, list) and len(variants) == 9 and len(set(variants)) == 9, "SCHEMA_DRIFT", "context variant ladder drift")
     experiments = ladder.get("experiments", {})
-    demand(set(experiments) == {"I0_FROZEN_POLICY_CONTEXT_SENSITIVITY", "I1_CONTEXT_ADAPTER_ONLY", "I2_CONTEXT_AWARE_JOINT_POST_TRAINING", "I3_HISTORY_CONDITIONED_DAGGER"}, "SCHEMA_DRIFT", "I0-I3 ladder drift")
+    demand(set(experiments) == {"I0_EXISTING_INTERFACE_CONTEXT_PROBE", "I0_ADAPTER_ZERO_GATE_PARITY", "I1_CONTEXT_ADAPTER_ONLY", "I2_CONTEXT_AWARE_JOINT_POST_TRAINING", "I3_HISTORY_CONDITIONED_DAGGER"}, "SCHEMA_DRIFT", "I0-I3 ladder drift")
     demand(all(item.get("execution_enabled") is False and item.get("model_forward") == 0 and item.get("training") == 0 for item in experiments.values()), "EXECUTION_BOUNDARY_DRIFT", "I0-I3 execution boundary drift")
+    demand(experiments["I0_EXISTING_INTERFACE_CONTEXT_PROBE"].get("new_modules") is False and experiments["I0_EXISTING_INTERFACE_CONTEXT_PROBE"].get("new_parameter_shape") is False, "EXECUTION_BOUNDARY_DRIFT", "I0 existing-interface scope drift")
+    demand(experiments["I0_ADAPTER_ZERO_GATE_PARITY"].get("actual_forward_locked_until_future_gate") is True and experiments["I1_CONTEXT_ADAPTER_ONLY"].get("first_learned_context_stage") is True, "EXECUTION_BOUNDARY_DRIFT", "I0/I1 adapter boundary drift")
     demand(risk.get("selection_policy", {}).get("automatic_winner") is False and risk.get("selection_policy", {}).get("PI_DECISION_REQUIRED") is True, "EXECUTION_BOUNDARY_DRIFT", "risk selection policy drift")
+    validate_tensorization_plan(tensor_plan)
     return {
         "schema": "STAGE45F_ICL_CONTEXTV1_STATIC_AUDIT_RESULT_V1",
         "status": "PASS",
@@ -550,11 +698,13 @@ def static_audit() -> dict[str, Any]:
             "options": convergence.sha256_file(OPTIONS_PATH),
             "ladder": convergence.sha256_file(LADDER_PATH),
             "risk": convergence.sha256_file(RISK_PATH),
+            "tensor_plan": convergence.sha256_file(TENSOR_PLAN_PATH),
         },
         "context_variant_count": len(variants),
-        "integration_option_count": 4,
-        "experiment_count": 4,
-        "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "winner_selection": 0},
+        "integration_option_count": 5,
+        "experiment_count": 5,
+        "i0_existing_interface_variant_count": len(experiments["I0_EXISTING_INTERFACE_CONTEXT_PROBE"]["variants"]),
+        "execution_boundary": {"model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0, "winner_selection": 0, "merge": 0},
     }
 
 

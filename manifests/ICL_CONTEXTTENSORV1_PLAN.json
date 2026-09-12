@@ -1,0 +1,83 @@
+{
+  "schema": "ICL_CONTEXTTENSORV1_PLAN",
+  "version": "1.0",
+  "status": "PLAN_ONLY_NO_TENSOR_MATERIALIZATION",
+  "source_context_schema": "ICL_CONTEXTV1_RECORD_V1",
+  "upstream": {
+    "project": "isaac-gr00t",
+    "model": "GR00T N1.7",
+    "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+  },
+  "resolver": {
+    "identity": "STAGE45F_ICL_CONTEXTV1_IMMUTABLE_DIGEST_RESOLVER_V1",
+    "input": "validated ContextV1 digest references only",
+    "filesystem_paths": false,
+    "checkpoint_or_locked_split_reads": false,
+    "missing_payload_policy": "explicit missingness mask; no imputation or invention"
+  },
+  "metadata_only_fields": [
+    "context_id",
+    "query_id",
+    "window_id",
+    "target_id",
+    "builder_identity",
+    "upstream",
+    "source_identity",
+    "task_demo_context.demo_id",
+    "task_demo_context.demo_source_sha256",
+    "task_demo_context.demo_time_range",
+    "interaction_history.event_time",
+    "interaction_history.available_time",
+    "failure_outcome_context.attempt_id",
+    "failure_outcome_context.event_time",
+    "failure_outcome_context.available_time",
+    "local_dynamics_context.event_time",
+    "local_dynamics_context.available_time"
+  ],
+  "model_visible_fields": [
+    "task_demo_context.language",
+    "task_demo_context.observation_payload_resolved",
+    "task_demo_context.commanded_action_payload_resolved",
+    "interaction_history.observation_state_payload_resolved",
+    "interaction_history.commanded_action_payload_resolved",
+    "interaction_history.executed_or_observed_response_payload_resolved",
+    "interaction_history.delta_state_payload_resolved",
+    "interaction_history.timing_payload",
+    "failure_outcome_context.failure_observation_payload_resolved",
+    "failure_outcome_context.outcome_label",
+    "failure_outcome_context.observed_recovery_payload_resolved",
+    "local_dynamics_context.state_before_payload_resolved",
+    "local_dynamics_context.commanded_action_payload_resolved",
+    "local_dynamics_context.executed_or_observed_response_payload_resolved",
+    "local_dynamics_context.state_after_payload_resolved",
+    "local_dynamics_context.delta_state_payload_resolved",
+    "local_dynamics_context.dt_payload"
+  ],
+  "digest_resolution": {
+    "record_digest_fields_are_references_not_model_inputs": true,
+    "resolved_payload_must_match_referenced_sha256": true,
+    "model_visible_paths_are_exact_allowlist": true,
+    "target_id_and_all_provenance_are_excluded": true
+  },
+  "tensor_layout": {
+    "schema": "ContextTensorV1",
+    "status": "PLAN_ONLY",
+    "batch_symbol": "B",
+    "event_slots": {"shape": ["B", "N", "F"], "dtype": "float32", "N": "PI-selected bounded slots; section-major, causal-time order", "F": "fixed field vector defined by the selected future adapter"},
+    "language_tokens": {"shape": ["B", "N_text"], "dtype": "int32", "source": "task_demo_context.language only", "tokenizer_identity": "PI-selected future processor; not invoked here"},
+    "event_mask": {"shape": ["B", "N"], "dtype": "bool", "meaning": "true for populated causal event slots"},
+    "section_mask": {"shape": ["B", "N", 4], "dtype": "bool", "section_order": ["task_demo_context", "interaction_history", "failure_outcome_context", "local_dynamics_context"]},
+    "missingness_mask": {"shape": ["B", "N", "F"], "dtype": "bool", "meaning": "true only when an explicitly nullable resolved payload is absent"},
+    "temporal_order": "event_time ascending, then available_time ascending, then immutable source identity; query_time is an inclusive cutoff",
+    "padding": "masked zero padding only after causal filtering; no semantic zero imputation"
+  },
+  "physical_semantics": {
+    "frame": "source-declared frame tag is required; no implicit frame conversion",
+    "units": "source-declared units, SI where the immutable source contract declares SI; no guessed conversion",
+    "normalization": "identity must be explicitly supplied by a future PI-selected adapter; no Stage45E stats are implicitly reused",
+    "command_vs_response": "commanded payload and executed/observed response payload remain distinct",
+    "local_dynamics_closed_transition": "state_before/state_after/delta and dt are required before a transition can be visible"
+  },
+  "structured_action_abi": {"schema": "StructuredActionV1", "shape": [40, 132], "active_scalars": 190, "decoder_semantics": "unchanged"},
+  "execution_boundary": {"tensor_materialization": 0, "model_forward": 0, "training": 0, "gpu": 0, "pbs": 0, "Validation-E": 0, "Holdout-F": 0, "simulator": 0, "WBC": 0, "hardware": 0, "winner_selection": 0}
+}
