@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE45F_CORELAB_PI0148_RUNTIME_BINDING_AND_TOY_SMOKE_READY_V1",
+  "status": "PASS_TOY_CUDA_SMOKE_MODEL_REQUEST_ONLY",
+  "gate": {"name": "PI_GATE_STATE_0148", "issue_11_comment": 5646319460},
+  "script_commit": "358cb58d0251c6e6fccb37d665bfaf19706e9c87",
+  "runtime": {
+    "interpreter": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "torch_cuda": "12.8",
+    "runtime_probe": "RUNTIME_METADATA_VERIFIED",
+    "source": "RTX4080S_R0_RUNTIME_INVENTORY:runtimes.stage10_python; Stage21/45E launcher records"
+  },
+  "endpoints": [
+    {
+      "role": "4080S",
+      "host": "corelab-4080s",
+      "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+      "device": "NVIDIA GeForce RTX 4080 SUPER",
+      "report": "reports/stage45f/STAGE45F_CORELAB_PI0148_TOY_SMOKE_4080S.json",
+      "report_sha256": "8bf1c967c0823495beb5faa3308f9e84db89f1dd2e45714aac127739c5f3eca5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "smoke": {"status": "PASS", "attempted_calls": 4, "completed_calls": 4, "max_abs_error": 0.0, "dtypes": ["float32", "bfloat16"], "peak_allocated_bytes": 8536064, "peak_reserved_bytes": 23068672}
+    },
+    {
+      "role": "5080",
+      "host": "corelab-5080-2",
+      "uuid": "GPU-5f26fc0a-023a-0c90-4e3b-bd31ea5f1383",
+      "device": "NVIDIA GeForce RTX 5080",
+      "report": "reports/stage45f/STAGE45F_CORELAB_PI0148_TOY_SMOKE_5080.json",
+      "report_sha256": "2f191118c356e3f64d092951144955af66687082eedb39d241a205bcff2970ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "smoke": {"status": "PASS", "attempted_calls": 4, "completed_calls": 4, "max_abs_error": 0.0, "dtypes": ["float32", "bfloat16"], "peak_allocated_bytes": 8536064, "peak_reserved_bytes": 23068672}
+    }
+  ],
+  "artifact_observations": {
+    "stage10_base_directory": "PRESENT_UNVERIFIED",
+    "stage10_modality": "PRESENT_VERIFIED",
+    "full24_at_2000": "ABSENT_AT_CHECKED_PATH",
+    "runtime_v2_stats": "ABSENT_AT_CHECKED_PATH",
+    "no_checkpoint_loaded": true
+  },
+  "budget": {"per_device_max": 4, "total_max": 8, "actual_total": 8, "failed_attempts": 0, "installs_or_upgrades": 0},
+  "next_model_request": {
+    "status": "REQUEST_ONLY_NOT_EXECUTED",
+    "checkpoint": "FULL24@2000",
+    "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+    "window_id": "stage22_expert_red_target_train_a:expert-0000",
+    "conditioning_passes": 1,
+    "action_head_calls": 4,
+    "timestep_ids": [0, 250, 500, 750],
+    "target_xyz_in_model_input": false
+  },
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "pbs": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "ICL": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "real_h200_campaign_ingested": false
+  }
+}
