@@ -53,6 +53,10 @@ RUNTIME_STATS_PAYLOAD_SHA = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d
 N2_STATS_SHA = "e88ff3ec5626130ca8a08006abe1ada70d34424af4b0d3bacf64db57149d7677"
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
 GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+GROOT_MANIFEST_SHA = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
+GROOT_MANIFEST_PAYLOAD_SHA = "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8e3c50e0a43e5b8250"
+GROOT_PAYLOAD_TREE = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
+DEFAULT_GROOT_MANIFEST = Path("/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45B_GROOT_SOURCE_SNAPSHOT_V2.manifest.json")
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
@@ -261,13 +265,16 @@ def static_audit() -> dict[str, Any]:
 
 
 def _paths(args: argparse.Namespace, *, include_legacy: bool = False) -> dict[str, Path]:
-    names = ("base_model", "dataset", "groot", "cosmos", "modality", "config", "runtime_stats", "n2_stats", "sealed_baseline", "snapshot_preflight")
+    names = ("base_model", "dataset", "groot", "groot_manifest", "cosmos", "modality", "config", "runtime_stats", "n2_stats", "sealed_baseline", "snapshot_preflight")
     if include_legacy:
         names += ("legacy_full24_2000", "legacy_full24_1000", "structured_1000")
     result: dict[str, Path] = {}
     for name in names:
         value = getattr(args, name, None)
         if value is None:
+            if name == "groot_manifest":
+                result[name] = DEFAULT_GROOT_MANIFEST.resolve()
+                continue
             raise RuntimeError(f"--{name.replace('_', '-')} is required")
         result[name] = Path(value).resolve()
     for name, path in result.items():
@@ -313,10 +320,17 @@ def _verify_core_identities(paths: Mapping[str, Path]) -> dict[str, Any]:
     require(sha256_file(paths["n2_stats"]) == N2_STATS_SHA and n2_doc.get("statistics_payload_sha256") == N2_STATS_PAYLOAD_SHA, "N2 stats identity mismatch")
     require(sha256_file(paths["modality"]) == MODALITY_SHA, "modality identity mismatch")
     require(sha256_file(paths["config"]) == CONFIG_SHA, "training config identity mismatch")
-    require(git_in(paths["groot"], "rev-parse", "HEAD") == GROOT_COMMIT, "GR00T source commit mismatch")
+    from stage45b_groot_source_snapshot import verify_extracted
+    groot_snapshot = verify_extracted(
+        paths["groot"], paths["groot_manifest"],
+        expected_manifest_file_sha256=GROOT_MANIFEST_SHA,
+        expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA,
+        expected_payload_tree_sha256=GROOT_PAYLOAD_TREE,
+    )
+    require(groot_snapshot.get("origin_commit") == GROOT_COMMIT, "GR00T source commit mismatch")
     refs = paths["cosmos"] / "refs/main"
     require(refs.is_file() and not refs.is_symlink() and refs.read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos revision mismatch")
-    return {"base_tree_sha256": base_tree, "full24": dataset, "runtime_stats": runtime_check, "n2_verification": verified_n2, "n2_stats_sha256": sha256_file(paths["n2_stats"]), "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION}
+    return {"base_tree_sha256": base_tree, "full24": dataset, "runtime_stats": runtime_check, "n2_verification": verified_n2, "n2_stats_sha256": sha256_file(paths["n2_stats"]), "groot_commit": GROOT_COMMIT, "groot_snapshot": groot_snapshot, "groot_manifest_sha256": GROOT_MANIFEST_SHA, "cosmos_revision": COSMOS_REVISION}
 
 
 def git_in(repo: Path, *args: str) -> str:
@@ -1187,6 +1201,7 @@ def main() -> int:
     parser.add_argument("--base-model", dest="base_model", type=Path)
     parser.add_argument("--dataset", type=Path)
     parser.add_argument("--groot", type=Path)
+    parser.add_argument("--groot-manifest", dest="groot_manifest", type=Path)
     parser.add_argument("--cosmos", type=Path)
     parser.add_argument("--modality", type=Path)
     parser.add_argument("--config", type=Path)
