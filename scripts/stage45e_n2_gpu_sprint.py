@@ -77,6 +77,15 @@ G5_D2A_T_VALUES = G4_T_VALUES
 G5_D2A_T_BUCKETS = G4_T_BUCKETS
 
 _BOUNDARY: dict[str, Any] = {}
+# Runtime processor construction registers the embodiment globally inside the
+# GR00T package.  The PI0130 continuation is intentionally a single process,
+# so rebuilding that processor for G4/G5 raises a duplicate-registration
+# assertion even though the scientific inputs are unchanged.  Cache the
+# sealed, read-only context by exact path identity and reuse it across phases.
+# This is a lifecycle repair only: models are still constructed and released
+# independently for each checkpoint/phase, and no inference is performed by
+# the cache itself.
+_SEALED_CONTEXT_CACHE: dict[tuple[str, ...], tuple[Any, Any, Any, Any, list[dict[str, Any]], Mapping[str, Any], Any]] = {}
 
 
 def now_utc() -> str:
@@ -407,6 +416,10 @@ def train_one(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _load_sealed_context(paths: Mapping[str, Path]) -> tuple[Any, Any, Any, Any, list[dict[str, Any]], Mapping[str, Any], Any]:
+    cache_key = tuple(str(Path(paths[name]).resolve()) for name in ("groot", "base_model", "dataset", "modality", "cosmos", "snapshot_preflight", "sealed_baseline"))
+    cached = _SEALED_CONTEXT_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
     import torch
     import stage45e_n2_train24_eval as ev
     from stage45b_full24_fresh_base_train import _bind_cosmos_processor
@@ -418,7 +431,9 @@ def _load_sealed_context(paths: Mapping[str, Path]) -> tuple[Any, Any, Any, Any,
     windows = ev._make_windows(processor, embodiment, modality_configs, paths["dataset"], records)
     require(len(windows) == 24, "TRAIN24 window count drift")
     noise_bank = ev._make_noise_bank(torch, baseline_noise)
-    return torch, ev, processor, embodiment, records, baseline_noise, (windows, noise_bank)
+    context = (torch, ev, processor, embodiment, records, baseline_noise, (windows, noise_bank))
+    _SEALED_CONTEXT_CACHE[cache_key] = context
+    return context
 
 
 def _checkpoint_hash(path: Path) -> str:
