@@ -3066,7 +3066,7 @@ def _legacy_v1_pre_model_failure_proof(root: Path, failure: Mapping[str, Any]) -
     error = str(failure.get("error", ""))
     traceback_text = str(failure.get("traceback", ""))
     proof_kind: str | None = None
-    if error.startswith("RuntimeError: E4 output must be fresh:") and "stage45e_legacy_matched_seed.py" in traceback_text and "def e4" in traceback_text:
+    if error.startswith("RuntimeError: E4 output must be fresh:") and "stage45e_legacy_matched_seed.py" in traceback_text and " in e4" in traceback_text:
         proof_kind = "LEGACY_E4_FRESH_OUTPUT_BEFORE_LOAD_CONTEXT"
     elif error == "ModuleNotFoundError: No module named 'gr00t'" and "_bind_cosmos_processor" in traceback_text and "stage45e_legacy_matched_seed.py" in traceback_text:
         proof_kind = "LEGACY_E4_GR00T_IMPORT_BEFORE_MODEL_CONSTRUCTION"

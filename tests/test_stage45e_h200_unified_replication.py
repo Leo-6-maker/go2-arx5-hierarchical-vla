@@ -82,7 +82,7 @@ def test_legacy_v1_pre_model_failure_is_source_bound_zero_and_retryable(tmp_path
         "route_head": campaign.ROUTE_HEADS["legacy"],
         "retry_or_substitution": False,
         "error": "RuntimeError: E4 output must be fresh: /tmp/attempt",
-        "traceback": "stage45e_legacy_matched_seed.py def e4",
+        "traceback": "File '/scratch/legacy/scripts/stage45e_legacy_matched_seed.py', line 576, in e4",
     }
     (root / "unified_failure_seal.json").write_text(json.dumps(failure), encoding="utf-8")
     (root / "cache").mkdir()
