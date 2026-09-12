@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""PI0150 bounded Corelab initial-state decoded-output pilot.
+"""PI0152 bounded Corelab local-policy characterization.
 
 The default/audit and preflight paths are CPU/static.  ``execute`` is the one
-explicit model attempt authorized by PI0150: one fixed N2 seed2223@2000
+explicit model attempts authorized by PI0152: one fixed N2 seed2223@2000
 checkpoint, five sealed Stage43 q0 observations plus one sealed TRAIN24
 reference, common seed-4242 noise, and the accepted four-step T16 action-head
 graph.  All node-local paths are supplied late; no path is guessed by the
@@ -16,6 +16,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import stat
@@ -35,12 +36,12 @@ for item in (SCRIPTS, SRC):
         sys.path.insert(0, str(item))
 
 STAGE = "Stage45F"
-PI_GATE = "PI_GATE_STATE_0151"
-PI_COMMENT = 5647041070
-PR_POINTER_COMMENT = 5647043444
-RETURN_TOKEN = "CORELAB_PI0151_LOCAL_INITIAL_STATE_MAINLINE_RESULT_FOR_PI_REVIEW"
+PI_GATE = "PI_GATE_STATE_0152"
+PI_COMMENT = 5647237688
+PR_POINTER_COMMENT = 5647244579
+RETURN_TOKEN = "CORELAB_PI0152_POLICY_CHARACTERIZATION_FOR_PI_REVIEW"
 BRANCH = "stage45f/corelab-local-initial-state-pilot"
-BASE_HEAD = "d762e731d2c11ceea3c001c37ac27890fe6f4e70"
+BASE_HEAD = "9fef9064979192b66161e91ed0e7d0ab505b0364"
 LOCAL_SEED = 2223
 TRAIN_STEPS = 2000
 CHECKPOINT_TREE = "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152"
@@ -83,6 +84,10 @@ TARGET_WORLD_M = (0.30, 0.10, 0.58)
 CONDITIONS = ("C0_NOMINAL", "C1_X_PLUS_5CM", "C2_X_MINUS_5CM", "C3_Y_PLUS_5CM", "C4_Y_MINUS_5CM")
 TRAIN_WINDOW_ID = "stage22_expert_red_target_train_a:expert-0000"
 MANIFEST_PATH = REPO / "manifests/STAGE45F_CORELAB_LOCAL_INITIAL_STATE_PILOT_V1.json"
+EXPECTED_NOISE_ARRAY_SHA = "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd"
+EXPECTED_NOISE_FILE_SHA = "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922"
+MAX_NEW_ATTEMPTS = 2
+DEFAULT_ATTEMPT_NAME = "recovery-01"
 
 
 class PilotError(RuntimeError):
@@ -167,6 +172,21 @@ def _paths(args: argparse.Namespace) -> dict[str, Path]:
         require(value is not None, f"missing late-bound path --{name.replace('_', '-')}")
         result[name] = Path(value).resolve()
     return result
+
+
+def _train_input_paths(args: argparse.Namespace) -> tuple[Path, Path]:
+    """Resolve the accepted Stage44 TRAIN pixel snapshot late-bound.
+
+    The Stage45C video materializer is intentionally not used as a source of
+    truth here: PI0152 permits consuming a complete, source-bound canonical
+    pixel artifact when the video dependency is broken.  Both paths therefore
+    remain explicit execution arguments rather than repository defaults.
+    """
+    npz_value = getattr(args, "train_input_npz", None)
+    manifest_value = getattr(args, "train_input_manifest", None)
+    require(npz_value is not None, "missing late-bound path --train-input-npz")
+    require(manifest_value is not None, "missing late-bound path --train-input-manifest")
+    return Path(npz_value).resolve(), Path(manifest_value).resolve()
 
 
 def _git_head(path: Path) -> str:
@@ -381,7 +401,7 @@ def collect_audit(args: argparse.Namespace) -> dict[str, Any]:
     runtime = _runtime_audit(paths)
     train = _train_snapshot_audit(paths)
     return {
-        "schema": "CORELAB_STAGE45F_LOCAL_INITIAL_STATE_PILOT_AUDIT_V1",
+        "schema": "CORELAB_STAGE45F_PI0152_LOCAL_INITIAL_STATE_AUDIT_V1",
         "status": "PASS",
         "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_pointer_comment": PR_POINTER_COMMENT},
         "repository": {"branch": git("branch", "--show-current"), "head": git("rev-parse", "HEAD"), "base_head": BASE_HEAD, "worktree_clean": git("status", "--porcelain=v1") == ""},
@@ -404,14 +424,14 @@ def preflight(args: argparse.Namespace, *, output: Path | None = None) -> dict[s
     audit = collect_audit(args)
     gpu = _gpu_observation(args.gpu_uuid)
     paths = _paths(args)
-    output_root = Path(args.output_root).resolve() if args.output_root else REPO / "stage45f_pi0151_output"
+    output_root = Path(args.output_root).resolve() if args.output_root else REPO / "stage45f_pi0152_output"
     output_parent = output_root.parent
     _safe_dir(output_parent, "output parent")
     dataset_free_bytes = shutil.disk_usage(paths["dataset"]).free
     output_free_bytes = shutil.disk_usage(output_parent).free
     require(output_free_bytes >= MIN_OUTPUT_FREE_BYTES, f"insufficient output/cache free storage: {output_free_bytes}")
     value = {
-        "schema": "CORELAB_STAGE45F_LOCAL_INITIAL_STATE_PILOT_PREFLIGHT_V2",
+        "schema": "CORELAB_STAGE45F_PI0152_LOCAL_INITIAL_STATE_PREFLIGHT_V1",
         "status": "PASS",
         "audit": audit,
         "gpu": gpu,
@@ -443,7 +463,27 @@ def preflight(args: argparse.Namespace, *, output: Path | None = None) -> dict[s
     return value
 
 
-def _prepare_env(paths: Mapping[str, Path], output: Path, gpu_uuid: str) -> None:
+def _prepare_env(paths: Mapping[str, Path], output: Path, gpu_uuid: str, ffmpeg_runtime: Path) -> dict[str, Any]:
+    """Prepare an isolated process environment for the recovery generation.
+
+    Only PATH/LD_LIBRARY_PATH are changed, and only for this worker.  The
+    system FFmpeg/driver and other users' environments are never modified.
+    """
+    ffmpeg_runtime = Path(ffmpeg_runtime).resolve()
+    _safe_dir(ffmpeg_runtime, "FFmpeg runtime root")
+    ffmpeg_bin = ffmpeg_runtime / "bin" / "ffmpeg"
+    ffprobe_bin = ffmpeg_runtime / "bin" / "ffprobe"
+    ffmpeg_lib = ffmpeg_runtime / "lib"
+    _safe_file(ffmpeg_bin, "isolated FFmpeg binary")
+    _safe_file(ffprobe_bin, "isolated FFprobe binary")
+    _safe_dir(ffmpeg_lib, "isolated FFmpeg library directory")
+    version = subprocess.run([str(ffmpeg_bin), "-version"], capture_output=True, text=True, check=False)
+    require(version.returncode == 0, f"isolated FFmpeg version probe failed: {version.stderr[-500:]}")
+    first_line = version.stdout.splitlines()[0] if version.stdout.splitlines() else ""
+    match = re.search(r"ffmpeg version (\d+)", first_line)
+    require(match is not None, f"cannot parse isolated FFmpeg version: {first_line!r}")
+    major = int(match.group(1))
+    require(4 <= major <= 7, f"isolated FFmpeg major is incompatible with torchcodec 0.8.0: {major}")
     cache = output / "cache"
     tmp = output / "tmp"
     cache.mkdir(parents=True, exist_ok=False)
@@ -453,11 +493,17 @@ def _prepare_env(paths: Mapping[str, Path], output: Path, gpu_uuid: str) -> None
     (cache / "xdg").mkdir(parents=True, exist_ok=False)
     cosmos_link = hub / "models--nvidia--Cosmos-Reason2-2B"
     cosmos_link.symlink_to(paths["cosmos"], target_is_directory=True)
+    old_path = os.environ.get("PATH", "")
+    old_ld = os.environ.get("LD_LIBRARY_PATH", "")
+    path_value = str(ffmpeg_runtime / "bin") + (os.pathsep + old_path if old_path else "")
+    ld_value = str(ffmpeg_lib) + (os.pathsep + old_ld if old_ld else "")
     os.environ.update({
         # UUID binding remaps the selected physical card to cuda:0 inside the
         # worker; never infer the device from a mutable ordinal.
         "CUDA_VISIBLE_DEVICES": str(gpu_uuid),
         "NVIDIA_VISIBLE_DEVICES": str(gpu_uuid),
+        "PATH": path_value,
+        "LD_LIBRARY_PATH": ld_value,
         "TMPDIR": str(tmp), "TMP": str(tmp), "TEMP": str(tmp),
         "XDG_CACHE_HOME": str(cache / "xdg"),
         "HF_HOME": str(cache / "huggingface"),
@@ -467,6 +513,16 @@ def _prepare_env(paths: Mapping[str, Path], output: Path, gpu_uuid: str) -> None
         "STAGE45B_LABEL_ANCHOR_RECONCILIATION": "1",
         "STAGE45E_N2_STATS_ARTIFACT": str(paths["n2_stats"]),
     })
+    return {
+        "root": str(ffmpeg_runtime),
+        "ffmpeg": str(ffmpeg_bin),
+        "ffprobe": str(ffprobe_bin),
+        "lib_dir": str(ffmpeg_lib),
+        "version_first_line": first_line,
+        "major": major,
+        "path_prefix": str(ffmpeg_runtime / "bin"),
+        "ld_library_path_prefix": str(ffmpeg_lib),
+    }
 
 
 def _stage43_model_inputs(processor: Any, embodiment: Any, condition: Mapping[str, Any], condition_root: Path) -> Mapping[str, Any]:
@@ -493,6 +549,188 @@ def _stage43_model_inputs(processor: Any, embodiment: Any, condition: Mapping[st
     require("action" not in model_inputs and "action_mask" not in model_inputs, f"Stage43 action label leaked: {condition_id}")
     for forbidden in ("target_position_world_m", "target_xyz", "target_world_m"):
         require(forbidden not in model_inputs, f"Stage43 target leaked into model input: {condition_id}")
+    return model_inputs
+
+
+def _read_ppm_rgb(path: Path) -> Any:
+    """Read a canonical P6 RGB frame without introducing an image library."""
+    import numpy as np
+
+    _safe_file(path, "canonical RGB frame")
+    payload = path.read_bytes()
+    cursor = 0
+
+    def token() -> bytes:
+        nonlocal cursor
+        while cursor < len(payload) and payload[cursor] in b" \t\r\n":
+            cursor += 1
+        if cursor < len(payload) and payload[cursor] == ord("#"):
+            while cursor < len(payload) and payload[cursor] not in b"\r\n":
+                cursor += 1
+            return token()
+        start = cursor
+        while cursor < len(payload) and payload[cursor] not in b" \t\r\n":
+            cursor += 1
+        return payload[start:cursor]
+
+    require(token() == b"P6", f"canonical RGB frame is not P6: {path}")
+    width, height, maximum = int(token()), int(token()), int(token())
+    require((width, height, maximum) == (96, 96, 255), f"canonical RGB frame ABI drift: {path}")
+    while cursor < len(payload) and payload[cursor] in b" \t\r\n":
+        cursor += 1
+    raw = payload[cursor:]
+    require(len(raw) == width * height * 3, f"canonical RGB frame byte count drift: {path}")
+    return np.frombuffer(raw, dtype=np.uint8).reshape(height, width, 3).copy()
+
+
+def _video_frame_probe(dataset: Path, ffmpeg_runtime: Path, expected: Mapping[str, Any]) -> dict[str, Any]:
+    """Probe frame zero under the repaired decoder, never loading a model.
+
+    The accepted Stage44 NPZ is the canonical input when the materialized
+    LeRobot video is not byte-equivalent.  A mismatch is recorded explicitly,
+    not silently treated as a successful video replay.
+    """
+    import numpy as np
+
+    result: dict[str, Any] = {
+        "decoder": "torchcodec.decoders.VideoDecoder",
+        "runtime_root": str(Path(ffmpeg_runtime).resolve()),
+        "frame_index": 0,
+        "video_paths": {},
+        "video_frame_matches_canonical": {},
+        "status": "SKIPPED",
+    }
+    try:
+        from torchcodec.decoders import VideoDecoder
+    except Exception as exc:
+        result.update({"status": "BLOCKED", "error_type": type(exc).__name__, "error": str(exc)[-2000:]})
+        return result
+    video_root = Path(dataset) / "videos" / "chunk-000"
+    for key, relative in (
+        ("body_rgb", Path("observation.images.external_rgb") / "episode_000000.mp4"),
+        ("wrist_rgb", Path("observation.images.wrist_rgb") / "episode_000000.mp4"),
+    ):
+        path = video_root / relative
+        if not path.is_file():
+            result["video_paths"][key] = {"path": str(path), "status": "UNAVAILABLE"}
+            continue
+        try:
+            decoder = VideoDecoder(str(path), device="cpu", dimension_order="NHWC", num_ffmpeg_threads=0)
+            packet = decoder.get_frames_at([0])
+            frames = packet.data.detach().cpu().numpy()
+            require(tuple(frames.shape) == (1, 96, 96, 3) and frames.dtype == np.uint8, f"decoded video frame ABI drift: {path}")
+            frame = np.asarray(frames[0])
+            actual_sha = sha256_bytes(frame.tobytes())
+            expected_sha = str(expected[f"{key}_sha256"])
+            result["video_paths"][key] = {
+                "path": str(path), "file_sha256": sha256_file(path), "frame_shape": list(frame.shape),
+                "frame_dtype": str(frame.dtype), "frame_sha256": actual_sha,
+            }
+            result["video_frame_matches_canonical"][key] = actual_sha == expected_sha
+        except Exception as exc:
+            result["video_paths"][key] = {"path": str(path), "status": "ERROR", "error_type": type(exc).__name__, "error": str(exc)[-2000:]}
+            result["video_frame_matches_canonical"][key] = False
+    result["status"] = "PASS" if all(key in result["video_paths"] and result["video_paths"][key].get("status") != "ERROR" for key in ("body_rgb", "wrist_rgb")) else "PARTIAL"
+    result["canonical_input_consumer"] = "accepted_stage44_npz_when_video_frame_not_identical"
+    return result
+
+
+def qualify_train_pixels(paths: Mapping[str, Path], output: Path, ffmpeg_runtime: Path, train_input_npz: Path, train_input_manifest: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Prove the fixed TRAIN pixel identity before any GR00T import.
+
+    The accepted Stage44 input NPZ is source-bound by its manifest and exact
+    array digests.  If the repaired video decoder yields different pixels, the
+    canonical NPZ is consumed and the mismatch is preserved in evidence.
+    """
+    import numpy as np
+
+    _safe_file(train_input_npz, "accepted TRAIN input NPZ")
+    _safe_file(train_input_manifest, "accepted TRAIN input manifest")
+    manifest = read_json(train_input_manifest)
+    rows = manifest.get("rows", [])
+    row = next((item for item in rows if item.get("example_id") == TRAIN_WINDOW_ID), None)
+    require(isinstance(row, Mapping), f"accepted Stage44 TRAIN input row missing: {TRAIN_WINDOW_ID}")
+    expected_file_sha = str(row.get("input_npz_sha256"))
+    require(sha256_file(train_input_npz) == expected_file_sha, "accepted TRAIN input NPZ SHA drift")
+    with np.load(train_input_npz, allow_pickle=False) as data:
+        require(set(data.files) == {"body_rgb", "wrist_rgb", "state"}, "accepted TRAIN input key drift")
+        body = np.asarray(data["body_rgb"])
+        wrist = np.asarray(data["wrist_rgb"])
+        state = np.asarray(data["state"])
+    require(body.shape == (96, 96, 3) and body.dtype == np.uint8, "accepted TRAIN body RGB ABI drift")
+    require(wrist.shape == (96, 96, 3) and wrist.dtype == np.uint8, "accepted TRAIN wrist RGB ABI drift")
+    require(state.shape == (10,) and state.dtype == np.float32 and np.isfinite(state).all(), "accepted TRAIN StateV1 ABI drift")
+    body_sha = sha256_bytes(body.tobytes()); wrist_sha = sha256_bytes(wrist.tobytes()); state_sha = sha256_bytes(state.tobytes())
+    require(body_sha == str(row.get("body_sha256")), "accepted TRAIN body pixel SHA drift")
+    require(wrist_sha == str(row.get("wrist_sha256")), "accepted TRAIN wrist pixel SHA drift")
+    require(state_sha == str(row.get("state_v1_sha256")), "accepted TRAIN StateV1 SHA drift")
+    require(row.get("target_xyz_in_model_input") is False, "accepted TRAIN target channel is not excluded")
+
+    source_snapshot: dict[str, Any] = {"status": "UNAVAILABLE"}
+    snapshot_path_value = row.get("snapshot_path")
+    if snapshot_path_value:
+        snapshot_path = Path(str(snapshot_path_value))
+        if snapshot_path.is_file():
+            snapshot = read_json(snapshot_path)
+            source_snapshot = {"path": str(snapshot_path), "sha256": sha256_file(snapshot_path), "status": "PASS"}
+            for key, array, field in (("body_rgb", body, "body_frame_path"), ("wrist_rgb", wrist, "wrist_frame_path")):
+                source_path_value = snapshot.get(field)
+                if source_path_value and Path(str(source_path_value)).is_file():
+                    source_array = _read_ppm_rgb(Path(str(source_path_value)))
+                    source_snapshot[f"{key}_path"] = str(Path(str(source_path_value)))
+                    source_snapshot[f"{key}_file_sha256"] = sha256_file(Path(str(source_path_value)))
+                    source_snapshot[f"{key}_array_sha256"] = sha256_bytes(source_array.tobytes())
+                    source_snapshot[f"{key}_matches_canonical"] = bool(np.array_equal(source_array, array))
+                    require(source_snapshot[f"{key}_matches_canonical"], f"canonical snapshot {key} pixels do not match accepted NPZ")
+                else:
+                    source_snapshot[f"{key}_status"] = "UNAVAILABLE"
+        else:
+            source_snapshot = {"path": str(snapshot_path), "status": "UNAVAILABLE"}
+
+    expected = {"body_rgb_sha256": body_sha, "wrist_rgb_sha256": wrist_sha}
+    video_probe = _video_frame_probe(paths["dataset"], ffmpeg_runtime, expected)
+    qualification = {
+        "schema": "CORELAB_STAGE45F_PI0152_TRAIN_PIXEL_QUALIFICATION_V1",
+        "status": "PASS",
+        "window_id": TRAIN_WINDOW_ID,
+        "accepted_manifest_path": str(train_input_manifest),
+        "accepted_manifest_sha256": sha256_file(train_input_manifest),
+        "input_npz_path": str(train_input_npz),
+        "input_npz_sha256": sha256_file(train_input_npz),
+        "array_identity": {
+            "body_rgb": {"shape": list(body.shape), "dtype": str(body.dtype), "sha256": body_sha},
+            "wrist_rgb": {"shape": list(wrist.shape), "dtype": str(wrist.dtype), "sha256": wrist_sha},
+            "state": {"shape": list(state.shape), "dtype": str(state.dtype), "sha256": state_sha},
+        },
+        "manifest_row_identity": {"body_sha256": row.get("body_sha256"), "wrist_sha256": row.get("wrist_sha256"), "state_v1_sha256": row.get("state_v1_sha256"), "target_xyz_in_model_input": False},
+        "source_snapshot": source_snapshot,
+        "video_probe": video_probe,
+        "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+        "target_xyz_in_model_input": False,
+        "consumer": "accepted_stage44_input_npz",
+        "model_forward": 0,
+        "gpu": False,
+    }
+    write_json(output / "train_pixel_qualification.json", qualification)
+    return qualification, {"body": body, "wrist": wrist, "state": state}
+
+
+def _train_model_inputs(processor: Any, embodiment: Any, arrays: Mapping[str, Any]) -> Mapping[str, Any]:
+    """Build the TRAIN reference from the source-bound canonical pixel arrays."""
+    from gr00t.data.types import MessageType, VLAStepData
+
+    step = VLAStepData(
+        images={"external_rgb": [arrays["body"]], "wrist_rgb": [arrays["wrist"]]},
+        states={"eef_9d": arrays["state"][:9][None, :], "gripper_position": arrays["state"][9:10][None, :]},
+        actions={}, text=LANGUAGE, embodiment=embodiment,
+    )
+    processed = processor([{"type": MessageType.EPISODE_STEP.value, "content": step}])
+    batch = processor.collator([processed])
+    model_inputs = batch.get("inputs", {})
+    require(isinstance(model_inputs, Mapping), "canonical TRAIN model input is not a mapping")
+    require("action" not in model_inputs and "action_mask" not in model_inputs, "canonical TRAIN action label leaked")
+    for forbidden in ("target_position_world_m", "target_xyz", "target_world_m"):
+        require(forbidden not in model_inputs, f"canonical TRAIN target leaked into model input: {forbidden}")
     return model_inputs
 
 
@@ -523,18 +761,22 @@ def _write_npy(path: Path, array: Any) -> str:
     return sha256_file(path)
 
 
-def _attempt_lock(control_root: Path, *, repository_head: str, output_root: Path, gpu: Mapping[str, Any], noise_sha256: str) -> tuple[Path, dict[str, Any]]:
-    """Atomically consume the single PI0151 model attempt.
+def _attempt_lock(control_root: Path, *, repository_head: str, output_root: Path, gpu: Mapping[str, Any], noise_sha256: str, attempt_name: str = DEFAULT_ATTEMPT_NAME) -> tuple[Path, dict[str, Any]]:
+    """Atomically consume one explicitly named PI0152 recovery attempt.
 
     A STARTED lock is intentionally retained after crashes.  This prevents an
-    exception/OOM from being silently converted into a retry or card switch.
+    exception/OOM from being silently converted into a retry or card switch;
+    a second lock can only be selected explicitly within PI0152's two-attempt
+    ceiling.
     """
+    require(attempt_name in ("recovery-01", "recovery-02"), f"invalid PI0152 attempt name: {attempt_name}")
     control_root = Path(control_root).resolve()
     control_root.mkdir(parents=True, exist_ok=True)
-    lock_path = control_root / "stage45f_pi0151_attempt.lock.json"
+    lock_path = control_root / f"stage45f_pi0152_{attempt_name}_attempt.lock.json"
     attempt = {
-        "schema": "CORELAB_STAGE45F_PI0151_ATTEMPT_LOCK_V1",
-        "attempt_id": f"pi0151-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')}-{os.getpid()}-{uuid.uuid4().hex[:8]}",
+        "schema": "CORELAB_STAGE45F_PI0152_ATTEMPT_LOCK_V1",
+        "attempt_name": attempt_name,
+        "attempt_id": f"pi0152-{attempt_name}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')}-{os.getpid()}-{uuid.uuid4().hex[:8]}",
         "status": "STARTED",
         "repository_head": repository_head,
         "output_root": str(output_root),
@@ -565,23 +807,42 @@ def _finish_attempt(lock_path: Path, attempt: Mapping[str, Any], *, status: str,
     write_json(lock_path, value, overwrite=True)
 
 
-def _noise_artifact(torch: Any, output: Path) -> tuple[Any, dict[str, Any]]:
-    """Generate and fsync the historical torch CPU noise before model import."""
-    generator = torch.Generator(device="cpu")
-    generator.manual_seed(DEVELOPMENT_SEED)
-    noise = torch.randn(RAW_SHAPE, generator=generator, device="cpu", dtype=torch.float32).contiguous()
-    require(tuple(int(v) for v in noise.shape) == RAW_SHAPE and bool(torch.isfinite(noise).all().item()), "common noise invalid")
-    array = noise.numpy()
-    file_sha = _write_npy(output / "noise" / "common_x0.npy", array)
+def _noise_artifact(torch: Any, output: Path, source: Path) -> tuple[Any, dict[str, Any]]:
+    """Copy and validate the accepted PI0151 noise byte-for-byte."""
+    import numpy as np
+
+    source = Path(source).resolve()
+    _safe_file(source, "saved common noise source")
+    source_file_sha = sha256_file(source)
+    require(source_file_sha == EXPECTED_NOISE_FILE_SHA, f"saved common noise file SHA drift: {source_file_sha}")
+    loaded = np.load(source, allow_pickle=False)
+    require(not isinstance(loaded, np.lib.npyio.NpzFile), "saved common noise must be a single .npy array")
+    array = np.asarray(loaded)
+    require(array.shape == RAW_SHAPE and array.dtype == np.float32 and np.isfinite(array).all(), "saved common noise ABI/finite drift")
     array_sha = sha256_bytes(array.tobytes())
+    require(array_sha == EXPECTED_NOISE_ARRAY_SHA, f"saved common noise array SHA drift: {array_sha}")
+    destination = output / "noise" / "common_x0.npy"
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    require(not destination.exists(), f"refusing to overwrite noise evidence: {destination}")
+    with source.open("rb") as source_handle, destination.open("wb") as destination_handle:
+        shutil.copyfileobj(source_handle, destination_handle)
+        destination_handle.flush()
+        os.fsync(destination_handle.fileno())
+    file_sha = sha256_file(destination)
+    require(file_sha == source_file_sha == EXPECTED_NOISE_FILE_SHA, "copied noise file SHA drift")
+    noise = torch.from_numpy(array.copy()).contiguous()
+    require(tuple(int(v) for v in noise.shape) == RAW_SHAPE and bool(torch.isfinite(noise).all().item()), "common noise invalid")
     metadata = {
-        "schema": "CORELAB_STAGE45F_PI0151_FIXED_NOISE_V1",
+        "schema": "CORELAB_STAGE45F_PI0152_FIXED_NOISE_REUSE_V1",
         "seed": DEVELOPMENT_SEED,
         "shape": list(RAW_SHAPE),
         "dtype": "float32",
         "array_sha256": array_sha,
         "file_sha256": file_sha,
-        "source": "torch.randn(CPU, generator=seed-4242)",
+        "source_path": str(source),
+        "source_file_sha256": source_file_sha,
+        "source_array_sha256": array_sha,
+        "source_generation": "PI0151 sealed common_x0.npy; copied byte-for-byte",
         "same_noise_for_all_observations": True,
     }
     write_json(output / "noise" / "common_x0.json", metadata)
@@ -728,16 +989,22 @@ def _analyze_raw_records(raw_records: Sequence[Mapping[str, Any]], output: Path,
 def _execute(args: argparse.Namespace) -> dict[str, Any]:
     import numpy as np
 
+    require(getattr(args, "ffmpeg_runtime", None) is not None, "--ffmpeg-runtime is required for PI0152 execute")
+    require(getattr(args, "noise_source", None) is not None, "--noise-source is required for PI0152 execute")
     paths = _paths(args)
+    train_input_npz, train_input_manifest = _train_input_paths(args)
     output = Path(args.output_root).resolve()
-    control_root = Path(args.control_root).resolve() if args.control_root else output.parent / "stage45f_pi0151_control"
-    lock_candidate = control_root / "stage45f_pi0151_attempt.lock.json"
+    attempt_name = str(getattr(args, "attempt_name", DEFAULT_ATTEMPT_NAME))
+    require(attempt_name in ("recovery-01", "recovery-02"), f"invalid PI0152 attempt name: {attempt_name}")
+    control_root = Path(args.control_root).resolve() if args.control_root else output.parent / "stage45f_pi0152_control"
+    lock_candidate = control_root / f"stage45f_pi0152_{attempt_name}_attempt.lock.json"
     require(not lock_candidate.exists(), f"ATTEMPT_ALREADY_CONSUMED: {lock_candidate}")
     admission = preflight(args)
     require(not output.exists(), f"pilot output root must be fresh: {output}")
     output.mkdir(parents=True, exist_ok=False)
     write_json(output / "admission.json", admission)
-    _prepare_env(paths, output, str(admission["selected_gpu_uuid"]))
+    env_info = _prepare_env(paths, output, str(admission["selected_gpu_uuid"]), Path(args.ffmpeg_runtime))
+    write_json(output / "isolated_runtime.json", env_info)
     counters: dict[str, Any] = {
         "model_attempt_started": False, "model_construction": 0,
         "conditioning_passes_attempted": 0, "conditioning_passes_completed": 0, "conditioning_passes": 0,
@@ -756,10 +1023,13 @@ def _execute(args: argparse.Namespace) -> dict[str, Any]:
         # noise is sealed before any GR00T/model module or weight is imported.
         import torch
 
-        common_noise, noise_meta = _noise_artifact(torch, output)
+        common_noise, noise_meta = _noise_artifact(torch, output, Path(args.noise_source))
+        train_pixel_qualification, train_arrays = qualify_train_pixels(
+            paths, output, Path(args.ffmpeg_runtime), train_input_npz, train_input_manifest,
+        )
         lock_path, attempt_record = _attempt_lock(
             control_root, repository_head=git("rev-parse", "HEAD"), output_root=output,
-            gpu=admission["gpu"], noise_sha256=noise_meta["array_sha256"],
+            gpu=admission["gpu"], noise_sha256=noise_meta["array_sha256"], attempt_name=attempt_name,
         )
         counters["model_attempt_started"] = True
         write_json(output / "attempt_start.json", {**attempt_record, "noise": noise_meta})
@@ -781,10 +1051,10 @@ def _execute(args: argparse.Namespace) -> dict[str, Any]:
         preflight_doc = read_json(paths["snapshot_preflight"])
         snapshots = ev._snapshot_lookup(preflight_doc["snapshots"])
         train_snapshot = next(item for item in snapshots if item.get("window_id") == TRAIN_WINDOW_ID)
-        train_windows = ev._make_windows(processor, embodiment, modality_configs, paths["dataset"], [train_snapshot])
-        require(len(train_windows) == 1, "TRAIN reference window materialization drift")
+        train_state = np.asarray(train_snapshot["state_v1"], dtype=np.float32)
+        require(train_state.shape == (STATE_DIM,) and np.array_equal(train_state, train_arrays["state"]), "canonical TRAIN StateV1 disagrees with sealed snapshot")
         # The frozen execution order is TRAIN reference, then C0..C4.
-        observations.append({"label": "TRAIN_a_expert-0000", "model_inputs": train_windows[0]["model_inputs"], "snapshot": train_snapshot, "kind": "TRAIN24_REFERENCE"})
+        observations.append({"label": "TRAIN_a_expert-0000", "model_inputs": _train_model_inputs(processor, embodiment, train_arrays), "snapshot": train_snapshot, "kind": "TRAIN24_REFERENCE"})
         for condition in CONDITIONS:
             record = next(item for item in stage43_audit["conditions"] if item["condition_id"] == condition)
             model_inputs = _stage43_model_inputs(processor, embodiment, record, paths["stage43_root"] / "conditions" / condition)
@@ -847,7 +1117,7 @@ def _execute(args: argparse.Namespace) -> dict[str, Any]:
         # fsynced.  A decoder/report error therefore cannot consume another
         # model call.
         rows, artifacts = _analyze_raw_records(raw_records, output, n2_doc, ev, np)
-        report = {"schema": "CORELAB_STAGE45F_LOCAL_INITIAL_STATE_PILOT_RESULT_V2", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_pointer_comment": PR_POINTER_COMMENT}, "repository": {"branch": git("branch", "--show-current"), "head": git("rev-parse", "HEAD"), "base_head": BASE_HEAD}, "local_reference": {"seed": LOCAL_SEED, "checkpoint_tree_sha256": CHECKPOINT_TREE, "training_result_sha256": TRAINING_RESULT_SHA, "n2_stats_sha256": N2_STATS_SHA, "n2_stats_payload_sha256": N2_STATS_PAYLOAD_SHA}, "runtime": {"python": sys.version.split()[0], "torch": torch.__version__, "cuda": torch.version.cuda, "gpu_start": admission["gpu"], "gpu_uuid": admission["selected_gpu_uuid"], "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES")}, "inputs": {"stage43_bundle_sha256": admission["audit"]["stage43"]["bundle_sha256"], "stage43_condition_count": 5, "train_window_id": TRAIN_WINDOW_ID, "common_noise_seed": DEVELOPMENT_SEED, "common_noise_array_sha256": noise_meta["array_sha256"], "common_noise_file_sha256": noise_meta["file_sha256"], "target_xyz_in_model_input": False}, "counters": counters, "rows": rows, "artifacts": {"raw_predictions_manifest_sha256": sha256_file(raw_manifest), **artifacts}, "execution_boundary": {"training": False, "backward": False, "optimizer_steps": 0, "pbs": False, "validation_e_read": False, "holdout_f_read": False, "wbc": False, "simulator": False, "hardware": False, "icl": False, "merge": False}, "claim_boundary": "decoded model-side initial-state diagnostic only; no closed-loop success or route selection claim", "timestamp_utc": now_utc()}
+        report = {"schema": "CORELAB_STAGE45F_LOCAL_INITIAL_STATE_PILOT_RESULT_V3", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_pointer_comment": PR_POINTER_COMMENT}, "repository": {"branch": git("branch", "--show-current"), "head": git("rev-parse", "HEAD"), "base_head": BASE_HEAD}, "local_reference": {"seed": LOCAL_SEED, "checkpoint_tree_sha256": CHECKPOINT_TREE, "training_result_sha256": TRAINING_RESULT_SHA, "n2_stats_sha256": N2_STATS_SHA, "n2_stats_payload_sha256": N2_STATS_PAYLOAD_SHA}, "runtime": {"python": sys.version.split()[0], "torch": torch.__version__, "cuda": torch.version.cuda, "gpu_start": admission["gpu"], "gpu_uuid": admission["selected_gpu_uuid"], "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"), "isolated_ffmpeg": env_info}, "inputs": {"stage43_bundle_sha256": admission["audit"]["stage43"]["bundle_sha256"], "stage43_condition_count": 5, "train_window_id": TRAIN_WINDOW_ID, "train_input_npz_sha256": train_pixel_qualification["input_npz_sha256"], "train_input_manifest_sha256": train_pixel_qualification["accepted_manifest_sha256"], "train_pixel_qualification_sha256": sha256_file(output / "train_pixel_qualification.json"), "common_noise_seed": DEVELOPMENT_SEED, "common_noise_array_sha256": noise_meta["array_sha256"], "common_noise_file_sha256": noise_meta["file_sha256"], "target_xyz_in_model_input": False}, "counters": counters, "rows": rows, "artifacts": {"raw_predictions_manifest_sha256": sha256_file(raw_manifest), **artifacts}, "execution_boundary": {"training": False, "backward": False, "optimizer_steps": 0, "pbs": False, "validation_e_read": False, "holdout_f_read": False, "wbc": False, "simulator": False, "hardware": False, "icl": False, "merge": False}, "claim_boundary": "decoded model-side initial-state diagnostic only; no closed-loop success or route selection claim", "timestamp_utc": now_utc(), "attempt_name": attempt_name}
         report_sha = write_json(output / "pilot_result.json", report)
         write_json(output / "pilot_result.json.sha256", {"sha256": report_sha, "file": "pilot_result.json"})
         report["report_sha256"] = report_sha
@@ -880,6 +1150,11 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--gpu-uuid", default=None)
     parser.add_argument("--control-root", type=Path)
     parser.add_argument("--output-root", type=Path)
+    parser.add_argument("--ffmpeg-runtime", type=Path)
+    parser.add_argument("--noise-source", type=Path)
+    parser.add_argument("--train-input-npz", type=Path)
+    parser.add_argument("--train-input-manifest", type=Path)
+    parser.add_argument("--attempt-name", choices=("recovery-01", "recovery-02"), default=DEFAULT_ATTEMPT_NAME)
     return parser
 
 

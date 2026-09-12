@@ -13,14 +13,16 @@ MANIFEST = ROOT / "manifests/STAGE45F_CORELAB_LOCAL_INITIAL_STATE_PILOT_V1.json"
 class LocalInitialStatePilotStaticTests(unittest.TestCase):
     def test_manifest_contract(self):
         value = json.loads(MANIFEST.read_text(encoding="utf-8"))
-        self.assertEqual(value["authority"]["pi_gate"], "PI_GATE_STATE_0151")
-        self.assertEqual(value["authority"]["issue_comment"], 5647041070)
-        self.assertEqual(value["authority"]["pr_pointer_comment"], 5647043444)
-        self.assertEqual(value["repository"]["base_head"], "d762e731d2c11ceea3c001c37ac27890fe6f4e70")
+        self.assertEqual(value["authority"]["pi_gate"], "PI_GATE_STATE_0152")
+        self.assertEqual(value["authority"]["issue_comment"], 5647237688)
+        self.assertEqual(value["authority"]["pr_pointer_comment"], 5647244579)
+        self.assertEqual(value["repository"]["base_head"], "9fef9064979192b66161e91ed0e7d0ab505b0364")
         self.assertEqual(value["local_reference"]["seed"], 2223)
         self.assertEqual(value["budget"]["conditioning_passes"], 6)
         self.assertEqual(value["budget"]["action_head_calls"], 24)
         self.assertFalse(value["stage43_input"]["target_xyz_in_model_input"])
+        self.assertEqual(value["authority"]["return_token"], "CORELAB_PI0152_POLICY_CHARACTERIZATION_FOR_PI_REVIEW")
+        self.assertEqual(value["recovery"]["max_new_worker_attempts"], 2)
 
     def test_no_top_level_runtime_imports(self):
         tree = ast.parse(SCRIPT.read_text(encoding="utf-8"), filename=str(SCRIPT))
@@ -34,7 +36,7 @@ class LocalInitialStatePilotStaticTests(unittest.TestCase):
 
     def test_required_modes_and_fail_closed_boundary_are_source_bound(self):
         text = SCRIPT.read_text(encoding="utf-8")
-        for token in ("--mode", "audit", "preflight", "execute", "failure_seal.json", "target_xyz_in_model_input"):
+        for token in ("--mode", "audit", "preflight", "execute", "failure_seal.json", "target_xyz_in_model_input", "--ffmpeg-runtime", "train_pixel_qualification"):
             self.assertIn(token, text)
         self.assertIn("action_head_calls\"] == 24", text)
         self.assertIn("conditioning_passes\"] == 6", text)
@@ -74,6 +76,13 @@ class LocalInitialStatePilotStaticTests(unittest.TestCase):
         self.assertIn("_analyze_raw_records(raw_records", text)
         self.assertLess(text.index("raw_records.append"), text.rindex("_analyze_raw_records(raw_records"))
         self.assertIn("CPU-only raw->decoded->metrics phase", text)
+
+    def test_pi0152_reuses_exact_noise_and_separate_attempt_names(self):
+        text = SCRIPT.read_text(encoding="utf-8")
+        self.assertIn("EXPECTED_NOISE_ARRAY_SHA", text)
+        self.assertIn("EXPECTED_NOISE_FILE_SHA", text)
+        self.assertIn("stage45f_pi0152_", text)
+        self.assertIn("accepted_stage44_input_npz", text)
 
 
 if __name__ == "__main__":

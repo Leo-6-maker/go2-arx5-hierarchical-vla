@@ -2,14 +2,14 @@
   "schema": "CORELAB_STAGE45F_LOCAL_INITIAL_STATE_PILOT_V1",
   "authority": {
     "stage": "Stage45F",
-    "pi_gate": "PI_GATE_STATE_0151",
-    "issue_comment": 5647041070,
-    "pr_pointer_comment": 5647043444,
-    "return_token": "CORELAB_PI0151_LOCAL_INITIAL_STATE_MAINLINE_RESULT_FOR_PI_REVIEW"
+    "pi_gate": "PI_GATE_STATE_0152",
+    "issue_comment": 5647237688,
+    "pr_pointer_comment": 5647244579,
+    "return_token": "CORELAB_PI0152_POLICY_CHARACTERIZATION_FOR_PI_REVIEW"
   },
   "repository": {
     "branch": "stage45f/corelab-local-initial-state-pilot",
-    "base_head": "d762e731d2c11ceea3c001c37ac27890fe6f4e70",
+    "base_head": "9fef9064979192b66161e91ed0e7d0ab505b0364",
     "source_branch": "stage45e/n2-gpu-replication-mechanism-sprint"
   },
   "scientific_question": "Does the fixed N2 seed2223@2000 policy produce a different and target-directed decoded EEF trajectory when the sealed Stage43 initial condition changes?",
@@ -46,7 +46,7 @@
   },
   "budget": {
     "observations": 6,
-    "model_construction_attempts": 1,
+    "model_construction_attempts": 2,
     "conditioning_passes": 6,
     "action_head_calls": 24,
     "model_forward_windows": 6
@@ -64,5 +64,13 @@
     "icl": false,
     "merge": false
   },
-  "claim_boundary": "local model-side decoded-output diagnostic only; not a closed-loop, robustness, winner, or Stage45E replacement result"
+    "claim_boundary": "PI0152 fixed-policy offline initial-state characterization; C2 short simulation is separately gated and never a hardware or generalization claim",
+  "recovery": {
+    "old_pi0151_failure_preserved": true,
+    "max_new_worker_attempts": 2,
+    "ffmpeg_scope": "isolated project runtime only",
+    "fixed_noise_array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "fixed_noise_file_sha256": "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922",
+    "train_pixel_source": "accepted Stage44 source-bound input NPZ; video mismatch is recorded rather than substituted"
+  }
 }
