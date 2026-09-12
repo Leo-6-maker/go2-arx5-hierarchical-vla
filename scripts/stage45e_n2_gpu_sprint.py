@@ -650,6 +650,35 @@ def _diagnostic_call(torch: Any, stage38: Any, model: Any, conditioning: tuple[A
     return output
 
 
+def _sealed_snapshot_adapter(record: Mapping[str, Any]) -> Any:
+    """Materialize the label-only snapshot view from sealed preflight fields.
+
+    The accepted Stage45C preflight intentionally records the canonical
+    parquet identity, whose historical absolute path is not portable to
+    Corelab.  G3/G4 only need the already-sealed state/timestamp/label fields
+    for the exact StructuredAction encode; the local TRAIN24 loader supplies
+    the image/state observation.  No historical scratch path is dereferenced.
+    """
+
+    import numpy as np
+    from types import SimpleNamespace
+
+    state_values = np.asarray(record["state_v1"], dtype=np.float32)
+    timestamps = np.asarray(record["source_timestamps"], dtype=np.float64)
+    require(state_values.shape == (10,) and np.isfinite(state_values).all(), "sealed snapshot StateV1 shape/finite drift")
+    require(timestamps.shape == (HORIZON,) and np.isfinite(timestamps).all(), "sealed snapshot timestamp shape/finite drift")
+    state = SimpleNamespace(as_array=lambda: state_values.copy())
+    return SimpleNamespace(
+        example_id=str(record["window_id"]),
+        state_v1=state,
+        future_timestamps=timestamps,
+        source_frame="NATIVE_WBC_RELATIVE_REFERENCE",
+        tcp_semantic_id="x5_link6_gripper_center",
+        observation_timestamp=float(record["observation_timestamp"]),
+        physical_action=np.asarray(record["expert_physical_action"], dtype=np.float64),
+    )
+
+
 def _diagnostic_checkpoint_specs(binding: Mapping[str, Any], phase: str) -> list[dict[str, Any]]:
     """Return late-bound checkpoint specs for the frozen diagnostic phase.
 
@@ -734,9 +763,8 @@ def _diagnostic_runtime(args: argparse.Namespace, phase: str) -> dict[str, Any]:
         torch, ev, _processor, _embodiment, records, baseline_noise, context = _load_sealed_context(paths)
         windows, _baseline_noise_bank = context
         require(len(records) == 24 and len(windows) == 24, "diagnostic TRAIN24 materialization drift")
-        import stage26_h1_c1_fixed_noise_local_flow as stage26
         import stage38_structured_offline_evaluation as stage38
-        snapshots = [stage26._load_snapshot(Path(record["path"])) for record in records]
+        snapshots = [_sealed_snapshot_adapter(record) for record in records]
         runtime_doc = read_json(paths["runtime_stats"])
         n2_doc = read_json(paths["n2_stats"])
         stats = {
