@@ -533,10 +533,17 @@ def _checkpoint_spec(route: str, seed: int, step: int, lineage: Mapping[str, Any
 
 
 def build_phase_specs(lineages: Mapping[str, Mapping[int, Mapping[str, Any]]], campaign_root: Path) -> dict[str, dict[str, Path]]:
-    all_specs = {route: [_checkpoint_spec(route, seed, step, lineages[route][seed]) for seed in ALL_SEEDS for step in (1000, 2000)] for route in ROUTES}
-    e4_specs = {route: [item for item in all_specs[route] if not (route == "legacy" and item["seed"] == 2222) and not (route == "l1" and item["seed"] == 2222)] for route in ROUTES}
-    # The E4 route label list above intentionally excludes both historical
-    # seed-2222 arms; N2 has all three fresh arms.  D1/D2A include all arms.
+    # Legacy seed2222 already has an accepted D1/D2A artifact and is reused
+    # read-only in CPU closure.  It is intentionally absent from current
+    # model-call specs; L1 seed2222 is also reused only for its own arm.
+    all_specs = {
+        "legacy": [_checkpoint_spec("legacy", seed, step, lineages["legacy"][seed]) for seed in (2223, 2224) for step in (1000, 2000)],
+        "l1": [_checkpoint_spec("l1", seed, step, lineages["l1"][seed]) for seed in ALL_SEEDS for step in (1000, 2000)],
+        "n2": [_checkpoint_spec("n2", seed, step, lineages["n2"][seed]) for seed in ALL_SEEDS for step in (1000, 2000)],
+    }
+    e4_specs = {route: [item for item in all_specs[route] if not (route == "l1" and item["seed"] == 2222)] for route in ROUTES}
+    # E4 therefore has 4 LEGACY + 4 L1 + 6 N2 = 14 new checkpoint arms;
+    # D1/D2A have 4 LEGACY + 6 L1 + 6 N2 = 16 active arms.
     phase_specs: dict[str, dict[str, Path]] = {"E4": {}, "D1": {}, "D2A": {}}
     for phase, selected in (("E4", e4_specs), ("D1", all_specs), ("D2A", all_specs)):
         for route in ROUTES:
@@ -556,8 +563,8 @@ def _expected_phase_totals(phase: str) -> dict[str, dict[str, int]]:
     if phase == "E4":
         return {"legacy": {"arms": 4, "conditioning_passes": 96, "action_head_calls": 384, "raw_rows": 96}, "l1": {"arms": 4, "conditioning_passes": 96, "action_head_calls": 384, "raw_rows": 96}, "n2": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 576, "raw_rows": 144}}
     if phase == "D1":
-        return {"legacy": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1296, "raw_rows": 1296}, "l1": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1296, "raw_rows": 1296}, "n2": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1296, "raw_rows": 1296}}
-    return {"legacy": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}, "l1": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}, "n2": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}}
+        return {"legacy": {"arms": 4, "conditioning_passes": 96, "action_head_calls": 864, "raw_rows": 864}, "l1": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1296, "raw_rows": 1296}, "n2": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1296, "raw_rows": 1296}}
+    return {"legacy": {"arms": 4, "conditioning_passes": 96, "action_head_calls": 768, "raw_rows": 384}, "l1": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}, "n2": {"arms": 6, "conditioning_passes": 144, "action_head_calls": 1152, "raw_rows": 576}}
 
 
 def run_diagnostics(args: argparse.Namespace, campaign_root: Path, admission_path: Path, phase_specs: Mapping[str, Mapping[str, Path]]) -> dict[str, dict[str, Path]]:
