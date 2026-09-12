@@ -855,7 +855,10 @@ def _write_trajectory_svg(path: Path, rows: Sequence[Mapping[str, Any]]) -> str:
     colors = ("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b")
     series = []
     for idx, row in enumerate(rows):
-        decoded = np.load(Path(row["decoded_path"]), allow_pickle=False)
+        decoded_path = Path(row["decoded_path"])
+        if not decoded_path.is_absolute():
+            decoded_path = Path(path).parent / decoded_path
+        decoded = np.load(decoded_path, allow_pickle=False)
         anchor = np.asarray(row["anchor_world_m"], dtype=float)
         world = decoded[:, :3] + anchor[None, :]
         series.append((str(row["label"]), world, colors[idx % len(colors)]))
@@ -926,7 +929,7 @@ def _analyze_raw_records(raw_records: Sequence[Mapping[str, Any]], output: Path,
         }
         row: dict[str, Any] = {
             "index": int(item["index"]), "label": item["label"], "kind": item["kind"], "window_id": snapshot["window_id"],
-            "raw_path": str(raw_path.relative_to(output)), "raw_sha256": item["raw_sha256"],
+            "raw_path": str(raw_path.relative_to(output)) if raw_path.is_relative_to(output) else str(raw_path), "raw_sha256": item["raw_sha256"],
             "decoded_path": str(decoded_path.relative_to(output)), "decoded_file_sha256": decoded_file_sha,
             "decoded_array_sha256": sha256_bytes(np.asarray(physical, dtype=np.float64).tobytes()),
             "noise_sha256": item["noise_sha256"], "decode": decode_details, "target_metrics": target_metrics,
@@ -968,9 +971,9 @@ def _analyze_raw_records(raw_records: Sequence[Mapping[str, Any]], output: Path,
         recommendation = "优先申请同预算 independent-expert 监督/条件动作生成对照，区分首条计划错误与状态访问监督缺失；不自动启动。"
     conclusion = output / "one_page_conclusion.md"
     lines = [
-        "# PI0151 local initial-state model diagnostic",
+        "# PI0152 local-policy initial-state model diagnostic",
         "",
-        "本报告仅覆盖固定 N2 seed2223@2000、固定 seed-4242 noise 和六个已封存 observation 的离线 GR00T decoded EEF 输出；没有 WBC/simulator/hardware。",
+        "本报告仅覆盖固定 N2 seed2223@2000、已复用的 seed-4242 noise 和六个已封存 observation 的离线 GR00T decoded EEF 输出；没有 WBC/simulator/hardware。",
         "",
         f"- Stage43 measured-start progress: positive={positive}, negative={negative}, total={len(stage_rows)}.",
         f"- TRAIN reference: `{rows[0]['label']}`；其 expert comparison 仅作训练样本参考，不等同于泛化验证。",
@@ -1133,9 +1136,80 @@ def _execute(args: argparse.Namespace) -> dict[str, Any]:
         raise
 
 
+def _analyze_existing_raw(args: argparse.Namespace) -> dict[str, Any]:
+    """Rebuild C1 derived evidence from an already sealed raw attempt.
+
+    This mode is deliberately CPU-only and never imports Torch/GR00T.  It is
+    used after a report/serialization failure so the six model outputs remain
+    immutable and no model call is repeated.
+    """
+    import numpy as np
+
+    paths = _paths(args)
+    raw_root = Path(args.raw_root).resolve()
+    _safe_dir(raw_root, "sealed raw attempt root")
+    raw_manifest = raw_root / "raw_predictions.jsonl"
+    _safe_file(raw_manifest, "sealed raw prediction manifest")
+    output = Path(args.output_root).resolve()
+    require(not output.exists(), f"CPU analysis output root must be fresh: {output}")
+    output.mkdir(parents=True, exist_ok=False)
+
+    stage43 = _stage43_audit(paths["stage43_root"])
+    preflight_doc = read_json(paths["snapshot_preflight"])
+    import stage45e_n2_train24_eval as ev
+    snapshots = ev._snapshot_lookup(preflight_doc["snapshots"])
+    snapshot_by_id = {item["window_id"]: item for item in snapshots}
+    snapshot_by_label = {"TRAIN_a_expert-0000": snapshot_by_id[TRAIN_WINDOW_ID]}
+    for condition in stage43["conditions"]:
+        snapshot_by_label[condition["condition_id"]] = _make_observation_snapshot(condition)
+
+    raw_records: list[dict[str, Any]] = []
+    lines = [line for line in raw_manifest.read_text(encoding="utf-8").splitlines() if line.strip()]
+    require(len(lines) == 6, f"sealed raw manifest row count drift: {len(lines)}")
+    seen_indices: set[int] = set()
+    for raw_line in lines:
+        item = json.loads(raw_line)
+        index = int(item["index"])
+        label = str(item["label"])
+        require(index not in seen_indices and 0 <= index < 6, f"sealed raw manifest index drift: {index}")
+        seen_indices.add(index)
+        raw_path = Path(str(item["raw_path"]))
+        if not raw_path.is_absolute():
+            raw_path = raw_root / raw_path
+        raw_path = raw_path.resolve()
+        _safe_file(raw_path, f"sealed raw array {label}")
+        require(sha256_file(raw_path) == str(item["raw_sha256"]), f"sealed raw SHA drift: {label}")
+        snapshot = snapshot_by_label.get(label)
+        require(snapshot is not None, f"sealed raw label is not recognized: {label}")
+        raw_records.append({"index": index, "label": label, "kind": item["kind"], "snapshot": snapshot, "raw_path": raw_path, "raw_sha256": item["raw_sha256"], "noise_sha256": item["noise_sha256"]})
+    raw_records.sort(key=lambda item: item["index"])
+    require([item["index"] for item in raw_records] == list(range(6)), "sealed raw manifest order drift")
+    n2_doc = read_json(paths["n2_stats"])
+    rows, artifacts = _analyze_raw_records(raw_records, output, n2_doc, ev, np)
+    result = {
+        "schema": "CORELAB_STAGE45F_PI0152_CPU_RAW_REANALYSIS_V1",
+        "status": "COMPLETED",
+        "token": RETURN_TOKEN,
+        "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_pointer_comment": PR_POINTER_COMMENT},
+        "repository": {"branch": git("branch", "--show-current"), "head": git("rev-parse", "HEAD")},
+        "source_attempt_root": str(raw_root),
+        "source_raw_manifest_sha256": sha256_file(raw_manifest),
+        "source_raw_rows": 6,
+        "rows": rows,
+        "artifacts": artifacts,
+        "counters": {"model_forward": 0, "conditioning_passes": 0, "action_head_calls": 0, "training": False, "gpu": False, "wbc": False, "simulator": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False},
+        "claim_boundary": "CPU-only reconstruction of sealed PI0152 raw model outputs; no new inference and no closed-loop claim",
+        "timestamp_utc": now_utc(),
+    }
+    result_sha = write_json(output / "cpu_reanalysis.json", result)
+    write_json(output / "cpu_reanalysis.json.sha256", {"sha256": result_sha, "file": "cpu_reanalysis.json"})
+    result["result_sha256"] = result_sha
+    return result
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("audit", "preflight", "execute"), required=True)
+    parser.add_argument("--mode", choices=("audit", "preflight", "execute", "analyze-raw"), required=True)
     parser.add_argument("--stage43-root", type=Path, required=True)
     parser.add_argument("--n2-root", type=Path, required=True)
     parser.add_argument("--n2-stats", type=Path, required=True)
@@ -1155,6 +1229,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--train-input-npz", type=Path)
     parser.add_argument("--train-input-manifest", type=Path)
     parser.add_argument("--attempt-name", choices=("recovery-01", "recovery-02"), default=DEFAULT_ATTEMPT_NAME)
+    parser.add_argument("--raw-root", type=Path)
     return parser
 
 
@@ -1183,6 +1258,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(value, sort_keys=True))
         return 0
     require(args.output_root is not None, "--output-root is required for execute")
+    if args.mode == "analyze-raw":
+        require(args.raw_root is not None, "--raw-root is required for analyze-raw")
+        value = _analyze_existing_raw(args)
+        print(json.dumps({"status": value.get("status"), "token": value.get("token"), "rows": len(value.get("rows", [])), "output_root": str(Path(args.output_root).resolve())}, sort_keys=True))
+        return 0
     value = _execute(args)
     print(json.dumps({"status": value.get("status"), "token": value.get("token"), "counters": value.get("counters"), "output_root": str(Path(args.output_root).resolve())}, sort_keys=True))
     return 0
