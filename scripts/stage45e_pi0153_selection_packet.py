@@ -25,7 +25,6 @@ PI_GATE = "PI_GATE_STATE_0153"
 ISSUE_COMMENT = 5649870843
 PR_NUMBER = 66
 EXECUTION_HEAD = "eab15ec185203d69c03ab82b7843bcaea9200281"
-EXPECTED_ANALYSIS_HEAD = "8391910df13dc458247807aab696d3b5e808bab7"
 EXPECTED_WINDOWS = tuple(
     f"stage22_expert_{target}:expert-{index:04d}"
     for target in (
@@ -966,8 +965,9 @@ def build_packet(campaign_root: Path, output_dir: Path) -> dict[str, Any]:
     diagnostic = build_phase_diagnostic_summary(campaign_root)
     accounting = build_row_call_accounting(campaign_root, report, final_result, cpu_summary, rows)
     analysis_identity = _git_identity(Path(__file__).resolve().parents[1])
-    require(analysis_identity["head"] == EXPECTED_ANALYSIS_HEAD, f"analysis HEAD drift: {analysis_identity['head']}")
     require(analysis_identity["working_tree_clean"], "analysis worktree must be clean when packet is built")
+    analysis_identity["script_path"] = str(Path(__file__).resolve())
+    analysis_identity["script_sha256"] = sha256_file(Path(__file__).resolve())
     source_inventory = build_source_inventory(campaign_root, report, physical_source_info)
     artifact_hashes = {
         "final_result": sha256_file(campaign_root / "final_result.json"),
