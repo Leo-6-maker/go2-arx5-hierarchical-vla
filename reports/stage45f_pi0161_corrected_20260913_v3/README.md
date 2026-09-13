@@ -1,6 +1,7 @@
 # PI0161 — corrected PI0160 evidence
 
-**Return token:** `CORELAB_PI0161_FRAME_SYNC_CLOSURE_FOR_PI_REVIEW`  
+**Return token:** `CORELAB_PI0161_FRAME_SYNC_CLOSURE_FOR_PI_REVIEW`
+
 **Status:** `PARTIAL` — CPU correction complete; new B/C execution is blocked by the historical accounting gate.
 
 Authority is Issue #11 comment `5652160514` / PR #69 comment `5652164343`. The
