@@ -426,7 +426,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             inputs = old._build_c1_inputs(processor, embodiment, {"body": body, "wrist": wrist, "state": state}, train=True)
             _assert_boundary(inputs, label)
             inputs_by_condition[label] = inputs
-            audit_by_condition[label] = old._state_audit(processor, embodiment, np.asarray(state, dtype=np.float32), inputs, label)
+            audit_by_condition[label] = _state_audit(processor, embodiment, np.asarray(state, dtype=np.float32), inputs, label)
 
         model = _load_structured_model(Path(args.model_path), f"cuda:{gpu['selected']['index']}")
         counters["model_construction_attempts"] = 1
