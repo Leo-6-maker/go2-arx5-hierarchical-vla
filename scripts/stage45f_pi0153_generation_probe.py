@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0153 bounded same-input/same-noise generation-path comparison.
+"""PI0155 bounded same-input/same-noise generation-path comparison.
 
 The probe is deliberately a small, fail-closed diagnostic.  It uses exactly
 two immutable inputs (the accepted TRAIN window and the archived Stage43 C0
@@ -13,7 +13,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import inspect
 import json
+import multiprocessing
 import os
 import random
 import stat
@@ -33,10 +35,10 @@ for item in (SCRIPTS, SRC):
     if str(item) not in sys.path:
         sys.path.insert(0, str(item))
 
-PI_GATE = "PI_GATE_STATE_0153"
-PI_COMMENT = 5649870843
-PR_COMMENT = 5649873155
-RETURN_TOKEN = "CORELAB_PI0153_FIRST_ACTION_SEMANTICS_AND_GENERATION_FOR_PI_REVIEW"
+PI_GATE = "PI_GATE_STATE_0155"
+PI_COMMENT = 5650148861
+PR_COMMENT = 5650151180
+RETURN_TOKEN = "CORELAB_PI0155_GENERATION_PATH_DIAGNOSIS_FOR_PI_REVIEW"
 CHECKPOINT_TREE = "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152"
 N2_STATS_SHA = "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb"
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
@@ -54,6 +56,8 @@ MAX_QUERIES = 4
 MAX_CONDITIONING = 4
 MAX_HEAD_CALLS = 16
 MAX_MODEL_CALLS = 20
+AUTHORIZED_GPU_UUID = "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+COSMOS_REPO_ID = "nvidia/Cosmos-Reason2-2B"
 
 
 class ProbeError(RuntimeError):
@@ -131,15 +135,34 @@ def write_json(path: Path, value: Any) -> str:
 
 
 def _array_summary(value: Any) -> dict[str, Any]:
+    """Record numerical float32 telemetry and an original-dtype bit hash.
+
+    ``bfloat16`` cannot be converted directly to NumPy.  The numerical view
+    is therefore explicitly float32, while ``raw_dtype_sha256`` is computed
+    from the contiguous bytes of the original tensor before that cast.  These
+    are intentionally separate evidence fields.
+    """
     import torch
 
     if isinstance(value, torch.Tensor):
         tensor = value.detach().to(device="cpu")
-        array = tensor.numpy()
-        result: dict[str, Any] = {"kind": "tensor", "shape": list(array.shape), "dtype": str(tensor.dtype), "sha256": sha256_array(array), "finite": bool(np.isfinite(array).all()) if np.issubdtype(array.dtype, np.number) else None}
-        if np.issubdtype(array.dtype, np.number) and array.size:
-            floating = array.astype(np.float64, copy=False)
-            result.update({"min": float(np.min(floating)), "max": float(np.max(floating)), "mean": float(np.mean(floating))})
+        original_dtype = str(tensor.dtype)
+        # torch.Tensor.view(torch.uint8) is dtype-safe for bf16 and avoids the
+        # unsupported bf16->NumPy conversion.  The byte hash is not a numeric
+        # hash and must never be compared to the float32 summary hash.
+        raw_bytes = tensor.contiguous().view(torch.uint8).numpy().tobytes()
+        numeric = tensor.float().contiguous().numpy()
+        result: dict[str, Any] = {
+            "kind": "tensor",
+            "shape": list(tensor.shape),
+            "dtype": original_dtype,
+            "raw_dtype_sha256": hashlib.sha256(raw_bytes).hexdigest(),
+            "numeric_float32_sha256": sha256_array(numeric),
+            "numeric_summary_dtype": "float32",
+            "finite": bool(np.isfinite(numeric).all()) if np.issubdtype(numeric.dtype, np.number) else None,
+        }
+        if np.issubdtype(numeric.dtype, np.number) and numeric.size:
+            result.update({"min": float(np.min(numeric)), "max": float(np.max(numeric)), "mean": float(np.mean(numeric))})
         return result
     if isinstance(value, np.ndarray):
         result = {"kind": "ndarray", "shape": list(value.shape), "dtype": str(value.dtype), "sha256": sha256_array(value), "finite": bool(np.isfinite(value).all()) if np.issubdtype(value.dtype, np.number) else None}
@@ -286,7 +309,17 @@ def _injectable_worker_call(model: Any, worker_inputs: Mapping[str, Any], noise:
             device = kwargs.get("device", None)
             dtype = kwargs.get("dtype", None)
             value = torch.from_numpy(np.asarray(noise, dtype=np.float32).copy()).to(device=device, dtype=dtype)
-            injected.append({"shape": list(shape), "dtype": str(value.dtype), "device": str(value.device), "array_sha256_float32": sha256_array(noise), "array_sha256_cast": sha256_array(value.detach().to(device="cpu").numpy())})
+            cpu_value = value.detach().to(device="cpu")
+            raw_bytes = cpu_value.contiguous().view(torch.uint8).numpy().tobytes()
+            injected.append({
+                "shape": list(shape),
+                "dtype": str(value.dtype),
+                "device": str(value.device),
+                "source_float32_sha256": sha256_array(noise),
+                "model_entry_numeric_float32_sha256": sha256_array(cpu_value.float().contiguous().numpy()),
+                "model_entry_raw_dtype_sha256": hashlib.sha256(raw_bytes).hexdigest(),
+                "call_signature": {"args_length": len(args), "kwargs_keys": sorted(str(key) for key in kwargs)},
+            })
             return value
         return original_randn(*args, **kwargs)
 
@@ -303,27 +336,52 @@ def _injectable_worker_call(model: Any, worker_inputs: Mapping[str, Any], noise:
             hook.remove()
     finally:
         torch.randn = original_randn
+    require(len(injected) == 1, f"worker fixed x0 injection count mismatch: {len(injected)}")
     raw = prediction["action_pred"].float().detach().to(device="cpu").contiguous().numpy().astype(np.float32)
     require(raw.shape == RAW_SHAPE and np.isfinite(raw).all(), "worker raw output ABI/finite drift")
     calls = int(getattr(model, "_pi0153_action_head_calls", 0)) - calls_before
     require(calls == 4, f"worker action-head call count mismatch: {calls}")
-    return raw, {"path": "stage21_same_scene_groot_inference._run_one_raw/model.get_action", "fixed_noise_injection": injected, "prepared": captured, "model_get_action_seed": seed, "worker_module_sha256": sha256_file(Path(worker.__file__).resolve())}, calls
+    return raw, {"path": "stage21_same_scene_groot_inference._run_one_raw/model.get_action", "fixed_noise_injection": injected, "noise_injection_status": "EXACTLY_ONE", "prepared": captured, "model_get_action_seed": seed, "worker_module_sha256": sha256_file(Path(worker.__file__).resolve())}, calls
 
 
 def _c1_call(model: Any, model_inputs: Mapping[str, Any], noise: np.ndarray, torch: Any, sampler: Any) -> tuple[np.ndarray, dict[str, Any], int]:
     _set_seed(4242, torch)
     noise_tensor = torch.from_numpy(np.asarray(noise, dtype=np.float32).copy()).contiguous()
+    model_parameter = next(model.parameters())
+    effective_noise = noise_tensor.to(device=model_parameter.device, dtype=model_parameter.dtype)
+    effective_cpu = effective_noise.detach().to(device="cpu")
+    effective_raw_bytes = effective_cpu.contiguous().view(torch.uint8).numpy().tobytes()
     calls_before = int(getattr(model, "_pi0153_action_head_calls", 0))
     hook = model.action_head.model.register_forward_hook(lambda *_args, **_kwargs: setattr(model, "_pi0153_action_head_calls", int(getattr(model, "_pi0153_action_head_calls", 0)) + 1))
     try:
-        value, captured = _capture_prepare(model, lambda: sampler(model, model_inputs, noise_tensor, torch))
+        sampled, captured = _capture_prepare(model, lambda: sampler(model, model_inputs, noise_tensor, torch))
     finally:
         hook.remove()
+    require(isinstance(sampled, tuple) and len(sampled) == 2, "_sample_one must return (raw, observed_sampler_calls)")
+    value, observed_sampler_calls = sampled
+    require(int(observed_sampler_calls) == 4, f"_sample_one reported sampler calls mismatch: {observed_sampler_calls}")
     raw = value.detach().to(device="cpu", dtype=torch.float32).contiguous().numpy() if hasattr(value, "detach") else np.asarray(value, dtype=np.float32)
     require(raw.shape == RAW_SHAPE and np.isfinite(raw).all(), "C1 raw output ABI/finite drift")
     calls = int(getattr(model, "_pi0153_action_head_calls", 0)) - calls_before
     require(calls == 4, f"C1 action-head call count mismatch: {calls}")
-    return raw, {"path": "stage45c_h200_eval_runtime_adapter._sample_one", "fixed_noise_injection": [{"shape": list(noise.shape), "dtype": "torch.float32->model_dtype", "array_sha256_float32": sha256_array(noise)}], "prepared": captured, "sampler_timestep_ids": [0, 250, 500, 750], "sampler_dt": 0.25, "sampler_module_sha256": sha256_file(Path(sampler.__module__.replace(".", "/") + ".py")) if False else None}, calls
+    return raw, {
+        "path": "stage45c_h200_eval_runtime_adapter._sample_one",
+        "fixed_noise_injection": [{
+            "shape": list(noise.shape),
+            "source_float32_sha256": sha256_array(noise),
+            "model_entry_dtype": str(effective_cpu.dtype),
+            "model_entry_device": str(effective_cpu.device),
+            "model_entry_numeric_float32_sha256": sha256_array(effective_cpu.float().contiguous().numpy()),
+            "model_entry_raw_dtype_sha256": hashlib.sha256(effective_raw_bytes).hexdigest(),
+            "injection_count": 1,
+        }],
+        "noise_injection_status": "EXACTLY_ONE_DIRECT_ARGUMENT",
+        "prepared": captured,
+        "sampler_timestep_ids": [0, 250, 500, 750],
+        "sampler_dt": 0.25,
+        "observed_sampler_calls": int(observed_sampler_calls),
+        "sampler_module_sha256": sha256_file(Path(sampler.__module__.replace(".", "/") + ".py")) if False else None,
+    }, calls
 
 
 def _decode_metrics(raw: np.ndarray, state: np.ndarray, anchor: np.ndarray, stats_path: Path, label: str) -> dict[str, Any]:
@@ -352,9 +410,164 @@ def _gpu_snapshot() -> dict[str, Any]:
         fields = [value.strip() for value in line.split(",")]
         require(len(fields) == 6, f"malformed nvidia-smi row: {line!r}")
         rows.append({"index": int(fields[0]), "name": fields[1], "uuid": fields[2], "memory_total_mib": int(fields[3]), "memory_used_mib": int(fields[4]), "memory_free_mib": int(fields[5])})
-    selected = next((row for row in rows if row["index"] == 0), None)
-    require(selected is not None, "GPU0 is unavailable")
-    return {"hostname": subprocess.check_output(["hostname"], text=True).strip(), "query_sha256": hashlib.sha256(query.stdout.encode("utf-8")).hexdigest(), "selected": selected, "all": rows}
+    selected = next((row for row in rows if row["uuid"] == AUTHORIZED_GPU_UUID), None)
+    require(selected is not None, f"authorized GPU UUID is unavailable: {AUTHORIZED_GPU_UUID}")
+    return {"hostname": subprocess.check_output(["hostname"], text=True).strip(), "query_sha256": hashlib.sha256(query.stdout.encode("utf-8")).hexdigest(), "authorized_uuid": AUTHORIZED_GPU_UUID, "selected": selected, "all": rows}
+
+
+def _bind_local_cosmos_runtime(stage10_root: Path, cosmos_snapshot: Path) -> dict[str, Any]:
+    """Bind the nested Qwen backbone loader to the audited local snapshot.
+
+    The historical helper patches only ``processing_gr00t_n1d7.build_processor``.
+    GR00T construction reaches the nested ``Qwen3VLForConditionalGeneration``
+    loader through ``Qwen3Backbone`` and otherwise receives the Hub repo ID
+    from the checkpoint config.  This scoped classmethod shim preserves that
+    canonical ID for dispatch while rewriting only the same exact local files
+    to the sealed snapshot, with offline mode enabled before Transformers is
+    imported.  No credential or checkpoint file is changed.
+    """
+    snapshot = Path(cosmos_snapshot).resolve()
+    require(snapshot.is_dir() and not snapshot.is_symlink(), f"Cosmos snapshot unavailable: {snapshot}")
+    hub_root = snapshot.parents[2]
+    require(hub_root.is_dir(), f"Cosmos HF cache root unavailable: {hub_root}")
+    os.environ.update({
+        "HF_HUB_CACHE": str(hub_root),
+        "TRANSFORMERS_CACHE": str(hub_root),
+        "HF_HOME": str(hub_root.parent),
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "HF_DATASETS_OFFLINE": "1",
+        "HF_HUB_DISABLE_TELEMETRY": "1",
+    })
+    import transformers
+
+    cls = getattr(transformers, "Qwen3VLForConditionalGeneration", None)
+    require(cls is not None, "installed Transformers has no Qwen3VLForConditionalGeneration")
+    marker = "_pi0155_original_from_pretrained"
+    if not hasattr(cls, marker):
+        descriptor = inspect.getattr_static(cls, "from_pretrained")
+        if isinstance(descriptor, classmethod):
+            original = descriptor.__func__
+        else:
+            # Transformers currently inherits this classmethod from
+            # PreTrainedModel; getattr_static returns the underlying function
+            # on versions that expose it without the descriptor wrapper.
+            require(callable(descriptor), "unexpected Qwen3VL from_pretrained descriptor")
+            original = descriptor
+
+        def load_local(bound_cls: Any, model_name: Any, *args: Any, **kwargs: Any):
+            resolved_name = model_name
+            if str(model_name) == COSMOS_REPO_ID:
+                resolved_name = str(snapshot)
+                kwargs["local_files_only"] = True
+            return original(bound_cls, resolved_name, *args, **kwargs)
+
+        setattr(cls, marker, original)
+        cls.from_pretrained = classmethod(load_local)
+    return {
+        "repo_id": COSMOS_REPO_ID,
+        "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+        "snapshot": str(snapshot),
+        "hub_cache": str(hub_root),
+        "loader": "transformers.Qwen3VLForConditionalGeneration.from_pretrained canonical-id→sealed-snapshot",
+        "offline": True,
+        "stage10_root": str(Path(stage10_root).resolve()),
+    }
+
+
+def _processor_audit_child(queue: Any, kind: str, stage10_root: str, base_model: str, dataset: str, modality: str, cosmos_snapshot: str, observation_path: str) -> None:
+    """Build one real processor in an isolated CPU process and summarize it."""
+    try:
+        root = Path(stage10_root)
+        base = Path(base_model)
+        dataset_path = Path(dataset)
+        modality_path = Path(modality)
+        snapshot = Path(cosmos_snapshot)
+        _bind_local_cosmos_runtime(root, snapshot)
+        sys.path.insert(0, str(root / "src" / "isaac-gr00t"))
+        sys.path.insert(0, str(SCRIPTS))
+        import stage21_same_scene_groot_inference as worker
+        from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor
+        from stage40_b0_model_control import _bind_local_cosmos_processor
+
+        _bind_local_cosmos_processor(root, snapshot)
+        observation = _load_observation(Path(observation_path))
+        if kind == "C1_RUNTIME_BUILDER":
+            processor, embodiment, _ = _build_runtime_processor(
+                groot_source=root / "src" / "isaac-gr00t",
+                base_checkpoint=base,
+                dataset_dir=dataset_path,
+                modality_path=modality_path,
+                cosmos_snapshot=snapshot,
+            )
+            inputs = _build_c1_inputs(processor, embodiment, {"body": observation["body_rgb"], "wrist": observation["wrist_rgb"], "state": observation["state"]}, train=False)
+        elif kind == "WORKER_BUILDER":
+            processor, embodiment = worker._build_processor(root, base, dataset_path / "meta", modality_path)
+            inputs = _build_worker_inputs(processor, embodiment, observation)[1]
+        else:
+            raise ProbeError(f"unknown processor audit kind: {kind}")
+        queue.put({"status": "PASS", "kind": kind, "observation_file_sha256": sha256_file(Path(observation_path)), "input_keys": sorted(_model_input_keys(inputs)), "input_summary": _array_summary(inputs)})
+    except Exception as exc:
+        queue.put({"status": "BLOCKED", "kind": kind, "error_type": type(exc).__name__, "error": str(exc)[-2000:]})
+
+
+def _processor_audit(stage10_root: Path, base_model: Path, dataset: Path, modality: Path, cosmos_snapshot: Path, observations: Sequence[Path]) -> dict[str, Any]:
+    """Compare the actual C1 and deployment processor builders, process-isolated."""
+    context = multiprocessing.get_context("fork")
+    records: list[dict[str, Any]] = []
+    for observation in observations:
+        for kind in ("C1_RUNTIME_BUILDER", "WORKER_BUILDER"):
+            queue = context.Queue()
+            proc = context.Process(target=_processor_audit_child, args=(queue, kind, str(stage10_root), str(base_model), str(dataset), str(modality), str(cosmos_snapshot), str(observation)))
+            proc.start()
+            proc.join(300)
+            if proc.is_alive():
+                proc.terminate()
+                proc.join()
+                records.append({"status": "BLOCKED", "kind": kind, "observation": str(observation), "error": "processor child timeout"})
+            elif queue.empty():
+                records.append({"status": "BLOCKED", "kind": kind, "observation": str(observation), "error": f"processor child exited with code {proc.exitcode} without result"})
+            else:
+                record = queue.get()
+                record["observation"] = str(observation)
+                records.append(record)
+            queue.close()
+    pairs: list[dict[str, Any]] = []
+    for observation in observations:
+        left = next((row for row in records if row.get("observation") == str(observation) and row.get("kind") == "C1_RUNTIME_BUILDER"), None)
+        right = next((row for row in records if row.get("observation") == str(observation) and row.get("kind") == "WORKER_BUILDER"), None)
+        if left and right and left.get("status") == right.get("status") == "PASS":
+            left_keys, right_keys = left.get("input_keys", []), right.get("input_keys", [])
+            pairs.append({"observation": str(observation), "both_pass": True, "input_keys_equal": left_keys == right_keys, "first_difference": _first_summary_difference(left.get("input_summary"), right.get("input_summary")), "c1_input_keys": left_keys, "worker_input_keys": right_keys})
+        else:
+            pairs.append({"observation": str(observation), "both_pass": False, "left_status": left.get("status") if left else None, "right_status": right.get("status") if right else None})
+    require(all(row.get("both_pass") for row in pairs), "isolated real processor builder audit did not PASS")
+    return {"status": "PASS", "isolation": "forked CPU process per builder/input", "records": records, "pairs": pairs}
+
+
+def _first_summary_difference(left: Any, right: Any, prefix: str = "") -> str | None:
+    """Return a deterministic first differing summary path, if any."""
+    if type(left) is not type(right):
+        return prefix or "<root>"
+    if isinstance(left, Mapping):
+        for key in sorted(set(left) | set(right), key=str):
+            if key not in left or key not in right:
+                return f"{prefix}.{key}" if prefix else str(key)
+            difference = _first_summary_difference(left[key], right[key], f"{prefix}.{key}" if prefix else str(key))
+            if difference is not None:
+                return difference
+        return None
+    if isinstance(left, list):
+        if len(left) != len(right):
+            return f"{prefix}.length"
+        for index, (a, b) in enumerate(zip(left, right)):
+            difference = _first_summary_difference(a, b, f"{prefix}[{index}]")
+            if difference is not None:
+                return difference
+        return None
+    if left != right:
+        return prefix or "<root>"
+    return None
 
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
@@ -375,6 +588,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     c1_condition = _load_c1_condition_inputs(Path(args.stage43_c0_root), "C0_NOMINAL", Path(args.archived_c0_input))
     require(np.array_equal(c1_condition["state"], archived["state"]), "archived C0 state mismatch")
 
+    # Configure offline cache and patch the nested Qwen loader before importing
+    # GR00T/Transformers helpers.  The processor helper below remains the
+    # accepted local binding; this second binding closes the model-construction
+    # resolver that previously attempted the gated Hub repo.
+    cosmos_binding = _bind_local_cosmos_runtime(Path(args.stage10_root), Path(args.cosmos_snapshot))
     import torch
     import stage21_same_scene_groot_inference as worker
     from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor
@@ -382,21 +600,50 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     from stage45c_h200_eval_runtime_adapter import _sample_one
     from stage40_b0_model_control import _bind_local_cosmos_processor
 
-    _bind_local_cosmos_processor(Path(args.stage10_root), Path(args.cosmos_snapshot))
+    processor_binding = _bind_local_cosmos_processor(Path(args.stage10_root), Path(args.cosmos_snapshot))
+    try:
+        processor_audit = _processor_audit(
+            Path(args.stage10_root),
+            Path(args.base_model),
+            Path(args.dataset),
+            Path(args.modality),
+            Path(args.cosmos_snapshot),
+            (Path(args.train_input), Path(args.archived_c0_input)),
+        )
+    except Exception as exc:
+        failure = {
+            "schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_FAILURE_V1",
+            "status": "BLOCKED",
+            "phase": "isolated_processor_audit",
+            "error_type": type(exc).__name__,
+            "error": str(exc)[-2000:],
+            "counters": {"queries": 0, "conditioning": 0, "action_head_calls": 0, "model_side_calls": 0, "model_construction_attempts": 0, "exceptions": 1},
+            "no_retry": True,
+            "gpu": gpu,
+            "identities": checkpoint_identity,
+            "cosmos_binding": cosmos_binding,
+            "processor_binding": processor_binding,
+            "execution_boundary": {"model_constructed": False, "new_training": False, "training": False, "pbs": False, "simulator": False, "wbc": False, "validation_e_read": False, "holdout_f_read": False},
+        }
+        write_json(output / "failure_seal.json", failure)
+        raise
     c1_processor, c1_embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=Path(args.base_model), dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
     # ``_build_processor`` re-imports the modality module and registers the
     # same embodiment a second time in this process.  The accepted lifecycle
     # repair is to reuse the already validated runtime processor/context while
     # comparing the distinct deployment ``get_action`` call boundary.
+    # The two real builders were exercised in isolated CPU processes above.
+    # Reusing the C1 instance in this single model process avoids a second
+    # global modality registration; the worker call boundary remains distinct.
     worker_processor, worker_embodiment = c1_processor, c1_embodiment
     try:
-        model = _load_structured_model(checkpoint, "cuda:0")
+        model = _load_structured_model(checkpoint, f"cuda:{gpu['selected']['index']}")
     except Exception as exc:
         # Keep a machine-readable, immutable failure record when model
         # construction starts but cannot complete (for example, a gated
         # backbone access failure).  The PI0153 rule is fail-closed: no retry
         # or alternate device is attempted after this point.
-        failure = {"schema": "CORELAB_STAGE45F_PI0153_GENERATION_PROBE_FAILURE_V1", "status": "BLOCKED", "phase": "model_construction", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": {"queries": 0, "conditioning": 0, "action_head_calls": 0, "model_side_calls": 0, "model_construction_attempts": 1, "exceptions": 1}, "no_retry": True, "gpu": gpu, "identities": checkpoint_identity, "execution_boundary": {"model_constructed": False, "new_training": False, "training": False, "pbs": False, "simulator": False, "wbc": False, "validation_e_read": False, "holdout_f_read": False}}
+        failure = {"schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_FAILURE_V1", "status": "BLOCKED", "phase": "model_construction", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": {"queries": 0, "conditioning": 0, "action_head_calls": 0, "model_side_calls": 0, "model_construction_attempts": 1, "exceptions": 1}, "no_retry": True, "gpu": gpu, "identities": checkpoint_identity, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "execution_boundary": {"model_constructed": False, "new_training": False, "training": False, "pbs": False, "simulator": False, "wbc": False, "validation_e_read": False, "holdout_f_read": False}}
         write_json(output / "failure_seal.json", failure)
         raise
     model.eval()
@@ -409,11 +656,30 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         ("C0_NOMINAL", False, archived, _build_c1_inputs(c1_processor, c1_embodiment, {"body": c1_condition["body"], "wrist": c1_condition["wrist"], "state": c1_condition["state"]}, train=False), _build_worker_inputs(worker_processor, worker_embodiment, archived)[0], np.asarray(archived["state"], dtype=np.float32), np.asarray(args.c0_anchor, dtype=np.float64)),
     ]
     results: list[dict[str, Any]] = []
-    counters = {"queries": 0, "conditioning": 0, "action_head_calls": 0, "model_side_calls": 0, "worker_attempts": 1, "model_construction": 1, "exceptions": 0}
+    counters = {
+        "queries": 0,
+        "conditioning": 0,
+        "conditioning_completed": 0,
+        "conditioning_unknown": 0,
+        "action_head_calls": 0,
+        "action_head_calls_completed": 0,
+        "action_head_calls_unknown": 0,
+        "model_side_calls": 0,
+        "model_side_calls_entered": 0,
+        "model_side_calls_completed": 0,
+        "model_side_calls_unknown": 0,
+        "worker_attempts": 1,
+        "model_construction": 1,
+        "exceptions": 0,
+    }
     for label, _train, observation, c1_inputs, worker_inputs, state, anchor in inputs:
         for path_name in ("C1_SAMPLE_ONE", "WORKER_GET_ACTION"):
+            require(counters["queries"] < MAX_QUERIES, "query budget exhausted before query entry")
+            require(counters["model_side_calls"] + 1 <= MAX_MODEL_CALLS, "model-side budget exhausted before conditioning entry")
             counters["queries"] += 1
             counters["conditioning"] += 1
+            counters["model_side_calls"] += 1
+            counters["model_side_calls_entered"] += 1
             _set_seed(4242, torch)
             head_before = int(getattr(model, "_pi0153_action_head_calls", 0))
             start = time.perf_counter()
@@ -426,13 +692,23 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 counters["exceptions"] += 1
                 observed_after_failure = max(0, int(getattr(model, "_pi0153_action_head_calls", 0)) - head_before)
                 counters["action_head_calls"] += observed_after_failure
+                counters["action_head_calls_completed"] += observed_after_failure
                 counters["model_side_calls"] += observed_after_failure
-                failure = {"schema": "CORELAB_STAGE45F_PI0153_GENERATION_PROBE_FAILURE_V1", "status": "PARTIAL", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": counters, "no_retry": True, "gpu": gpu}
+                counters["model_side_calls_entered"] += observed_after_failure
+                counters["model_side_calls_completed"] += observed_after_failure
+                counters["conditioning_unknown"] += 1
+                counters["model_side_calls_unknown"] += 1
+                failure = {"schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_FAILURE_V1", "status": "PARTIAL", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": counters, "no_retry": True, "gpu": gpu, "cosmos_binding": cosmos_binding, "processor_audit": processor_audit}
                 write_json(output / "failure_seal.json", failure)
                 raise
             elapsed = time.perf_counter() - start
             counters["action_head_calls"] += int(calls)
+            counters["action_head_calls_completed"] += int(calls)
             counters["model_side_calls"] += int(calls)
+            counters["model_side_calls_entered"] += int(calls)
+            counters["conditioning_completed"] += 1
+            counters["model_side_calls_completed"] += 1 + int(calls)
+            require(counters["model_side_calls"] <= MAX_MODEL_CALLS, "model-side budget exceeded after query")
             raw_path = output / f"raw_{len(results):02d}_{label}_{path_name}.npy"
             np.save(raw_path, raw, allow_pickle=False)
             decoded = _decode_metrics(raw, state, anchor, stats_path, f"{label}:{path_name}")
@@ -441,11 +717,33 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
     by_key = {(row["label"], row["path"]): row for row in results}
     comparisons = []
+    from go2arx5_vla.structured_action import structured_action_mask
+    active_mask = np.asarray(structured_action_mask("T16"), dtype=bool)
+    require(active_mask.shape == (HORIZON, ACTION_DIM) and int(np.count_nonzero(active_mask)) == 190, "StructuredAction active mask drift")
+
+    def delta_summary(delta: np.ndarray) -> dict[str, Any]:
+        value = np.asarray(delta, dtype=np.float64)
+        return {"max_abs": float(np.max(np.abs(value))), "rmse": float(np.sqrt(np.mean(value * value))), "count": int(value.size)}
+
     for label in ("TRAIN_a_expert-0000", "C0_NOMINAL"):
         left, right = by_key[(label, "C1_SAMPLE_ONE")], by_key[(label, "WORKER_GET_ACTION")]
         left_raw = np.load(left["raw_path"], allow_pickle=False)
         right_raw = np.load(right["raw_path"], allow_pickle=False)
+        raw_delta = left_raw - right_raw
+        left_noise = left["path_details"].get("fixed_noise_injection", [{}])[0]
+        right_noise = right["path_details"].get("fixed_noise_injection", [{}])[0]
         comparisons.append({"label": label, "same_input_file": left["input_file_sha256"] == right["input_file_sha256"], "same_input_arrays": left["input_arrays"] == right["input_arrays"], "same_noise_array": True, "raw_max_abs_delta": float(np.max(np.abs(left_raw - right_raw))), "raw_rmse": float(np.sqrt(np.mean((left_raw - right_raw) ** 2))), "raw_equal_bytes": bool(np.array_equal(left_raw, right_raw)), "decoded_max_abs_delta": float(np.max(np.abs(np.asarray(left["decoded"]["decoded_physical_sha256"] != right["decoded"]["decoded_physical_sha256"])) if False else np.asarray([]))) if False else None, "interpretation": "path-equivalence diagnostic; output difference is not a task-success claim"})
+        comparisons[-1].update({
+            "same_noise_array": left_noise.get("source_float32_sha256") == right_noise.get("source_float32_sha256") == NOISE_ARRAY_SHA,
+            "effective_noise_numeric_equal": left_noise.get("model_entry_numeric_float32_sha256") == right_noise.get("model_entry_numeric_float32_sha256"),
+            "effective_noise_raw_dtype_equal": left_noise.get("model_entry_raw_dtype_sha256") == right_noise.get("model_entry_raw_dtype_sha256"),
+            "raw_active_190": delta_summary(raw_delta[0][active_mask]),
+            "raw_xyz_active": delta_summary(raw_delta[0][:15, :3]),
+            "raw_rot6d_active": delta_summary(raw_delta[0][:15, 3:9]),
+            "raw_timing_active": delta_summary(raw_delta[0][:15, 9]),
+            "raw_gripper_active": delta_summary(raw_delta[0][:, 10]),
+            "raw_padding": delta_summary(raw_delta[0][:, 11:]),
+        })
 
     # Add a second decoded delta without retaining large arrays in JSON.
     for comparison in comparisons:
@@ -466,9 +764,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             decoder.EXPECTED_STRUCTURED_STATS_SHA256 = previous
         comparison["decoded_physical_max_abs_delta"] = float(np.max(np.abs(np.asarray(lp) - np.asarray(rp))))
         comparison["decoded_physical_rmse"] = float(np.sqrt(np.mean((np.asarray(lp) - np.asarray(rp)) ** 2)))
+        physical_delta = np.asarray(lp, dtype=np.float64) - np.asarray(rp, dtype=np.float64)
+        comparison["decoded_xyz"] = delta_summary(physical_delta[:, :3])
+        comparison["decoded_rot6d"] = delta_summary(physical_delta[:, 3:9])
+        comparison["decoded_gripper"] = delta_summary(physical_delta[:, 9])
         comparison["prepared_input_summaries_equal"] = left["path_details"].get("prepared") == right["path_details"].get("prepared")
 
-    report = {"schema": "CORELAB_STAGE45F_PI0153_GENERATION_PROBE_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": "stage45f/corelab-local-initial-state-pilot"}, "identities": {**checkpoint_identity, "noise_array_sha256": NOISE_ARRAY_SHA, "model_dtype": model_dtype, "parameter_names_sha256": sha256_json(parameter_names), "parameter_dtypes": parameter_dtypes, "worker_module_sha256": sha256_file(Path(worker.__file__).resolve())}, "inputs": [{"label": label, "file_sha256": observation["file_sha256"], "body_sha256": observation["body_sha256"], "wrist_sha256": observation["wrist_sha256"], "state_sha256": observation["state_sha256"], "target_keys": observation["target_keys"], "target_xyz_in_model_input": False} for label, _, observation, *_ in inputs], "gpu": gpu, "results": results, "comparisons": comparisons, "counters": counters, "budget": {"max_queries": MAX_QUERIES, "max_conditioning": MAX_CONDITIONING, "max_action_head_calls": MAX_HEAD_CALLS, "max_model_side_calls": MAX_MODEL_CALLS, "consumed_queries": counters["queries"], "consumed_conditioning": counters["conditioning"], "consumed_action_head_calls": counters["action_head_calls"], "consumed_model_side_calls": counters["model_side_calls"]}, "execution_boundary": {"new_training": False, "training": False, "gpu": True, "pbs": False, "simulator": False, "wbc": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "icl": False, "new_data": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "same-input/same-x0 generation-path diagnostic only; no route selection, closed-loop, or task-success claim"}
+    report = {"schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": "stage45f/corelab-local-initial-state-pilot"}, "identities": {**checkpoint_identity, "noise_array_sha256": NOISE_ARRAY_SHA, "model_dtype": model_dtype, "parameter_names_sha256": sha256_json(parameter_names), "parameter_dtypes": parameter_dtypes, "worker_module_sha256": sha256_file(Path(worker.__file__).resolve()), "cosmos_binding": cosmos_binding, "processor_binding": processor_binding}, "inputs": [{"label": label, "file_sha256": observation["file_sha256"], "body_sha256": observation["body_sha256"], "wrist_sha256": observation["wrist_sha256"], "state_sha256": observation["state_sha256"], "target_keys": observation["target_keys"], "target_xyz_in_model_input": False} for label, _, observation, *_ in inputs], "processor_audit": processor_audit, "gpu": gpu, "results": results, "comparisons": comparisons, "counters": counters, "budget": {"max_queries": MAX_QUERIES, "max_conditioning": MAX_CONDITIONING, "max_action_head_calls": MAX_HEAD_CALLS, "max_model_side_calls": MAX_MODEL_CALLS, "consumed_queries": counters["queries"], "consumed_conditioning": counters["conditioning"], "consumed_action_head_calls": counters["action_head_calls"], "consumed_model_side_calls": counters["model_side_calls"], "consumed_model_side_calls_entered": counters["model_side_calls_entered"], "consumed_model_side_calls_completed": counters["model_side_calls_completed"], "consumed_model_side_calls_unknown": counters["model_side_calls_unknown"]}, "execution_boundary": {"new_training": False, "training": False, "gpu": True, "pbs": False, "simulator": False, "wbc": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "icl": False, "new_data": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "same-input/same-x0 generation-path diagnostic only; raw active-190/group and decoded XYZ deltas are descriptive; no route selection, closed-loop, or task-success claim"}
     report_sha = write_json(output / "pi0153_generation_probe.json", report)
     write_json(output / "pi0153_generation_probe.json.sha256", {"file": "pi0153_generation_probe.json", "sha256": report_sha})
     return {**report, "report_sha256": report_sha}
