@@ -200,8 +200,21 @@ def _state_hashes(native: Any, env: Any, tensor_hash: Any) -> dict[str, Any]:
     return {"root": tensor_hash(native.root_states), "dof": tensor_hash(native.dof_state), "arm_history": tensor_hash(env.arm_obs_history), "dog_history": tensor_hash(env.dog_obs_history), "episode": int(native.episode_length_buf[0].detach().cpu().item()), "reset_buf": bool(native.reset_buf[0].detach().cpu().item()), "wbc_forward_count": int(native.stage21_wbc_forward_count), "reference_update_count": int(native.stage21_reference_update_count)}
 
 
-def _capture_snapshot(native: Any, *, output: Path, condition: str, snapshot_id: str, sim_time: float, anchor: np.ndarray, target: np.ndarray, capture_scene: Any, current_eef: Any, current_state: Any, build_chunk: Any, expert_cfg: Any, write_ppm: Any, tensor_hash: Any) -> tuple[dict[str, Any], Any]:
+def _capture_snapshot(native: Any, *, output: Path, condition: str, snapshot_id: str, sim_time: float, anchor: np.ndarray, target: np.ndarray, capture_scene: Any, current_eef: Any, current_state: Any, build_chunk: Any, expert_cfg: Any, write_ppm: Any, tensor_hash: Any, post_scene_root_delta: Sequence[float] | None = None) -> tuple[dict[str, Any], Any]:
     body, wrist = capture_scene(native)
+    # IsaacGym's graphics/result fetch can repopulate the derived rigid-body
+    # view from the pre-step simulator state when the one-time indexed root
+    # write happened immediately before S0.  The accepted initial-condition
+    # protocol has zero settling/physics steps, so re-apply only the declared
+    # XY delta to that cache after rendering.  This does not mutate the
+    # simulator, DOF state, history, or lifecycle; it makes the measured S0
+    # tensors used for the expert/model input agree with the sealed setup
+    # event.  Later q1--q3 captures are post-physics and do not use this path.
+    if post_scene_root_delta is not None:
+        delta = np.asarray(post_scene_root_delta, dtype=np.float64)
+        require(delta.shape == (3,) and np.isfinite(delta).all(), "post-scene root delta is invalid")
+        if float(np.linalg.norm(delta)) > 0.0:
+            _refresh_eef_from_rigid_body(native, root_delta=delta)
     eef_world, quat = current_eef(native)
     eef_local = np.asarray(eef_world, dtype=np.float64) - anchor
     target_local = target - anchor
@@ -255,7 +268,15 @@ def _run_condition(args: argparse.Namespace, condition: str, trajectory: Mapping
         expert_cfg = native_helpers["expert_config"](horizon=HORIZON, action_sample_period_s=ACTION_PERIOD, motion_duration_s=MOTION_DURATION)
         gate = native_helpers["gate"]()
         sim_time = 0.0
-        snapshot, chunk = _capture_snapshot(native, output=output, condition=condition, snapshot_id="q0", sim_time=sim_time, anchor=anchor, target=TARGET_WORLD, capture_scene=capture_scene, current_eef=current_eef, current_state=current_state, build_chunk=native_helpers["build_chunk"], expert_cfg=expert_cfg, write_ppm=native_helpers["write_ppm"], tensor_hash=tensor_hash)
+        snapshot, chunk = _capture_snapshot(native, output=output, condition=condition, snapshot_id="q0", sim_time=sim_time, anchor=anchor, target=TARGET_WORLD, capture_scene=capture_scene, current_eef=current_eef, current_state=current_state, build_chunk=native_helpers["build_chunk"], expert_cfg=expert_cfg, write_ppm=native_helpers["write_ppm"], tensor_hash=tensor_hash, post_scene_root_delta=DELTAS[condition])
+        # The setup helper and the q0 snapshot must describe the same measured
+        # post-reset state.  Fail closed if rendering/result-fetch lifecycle
+        # would silently restore the nominal tensors (the v3 run exposed this
+        # exact scientific invalidity).
+        expected_eef = np.asarray(setup["eef_world_after_m"], dtype=np.float64)
+        expected_state = np.asarray(setup["s0"]["state_v1"], dtype=np.float32)
+        require(np.allclose(np.asarray(snapshot["eef_world_m"], dtype=np.float64), expected_eef, rtol=0.0, atol=1e-6), f"q0 EEF disagrees with post-reset setup for {condition}")
+        require(np.array_equal(np.asarray(snapshot["state_v1"], dtype=np.float32), expected_state), f"q0 StateV1 disagrees with post-reset setup for {condition}")
         gate_result = gate.evaluate(chunk, now=sim_time, achieved_position=np.asarray(snapshot["eef_local_m"], dtype=np.float64), achieved_orientation=current_eef(native)[1])
         gates.append({"snapshot_id": "q0", "result": gate_result.as_dict()})
         require(gate_result.decision.value != "REJECT", f"SafetyGate rejected q0: {gate_result.as_dict()}")
