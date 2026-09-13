@@ -187,7 +187,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     raw_root = Path(args.raw_root).resolve()
     admission = read_json(raw_root / "admission.json")
     require(admission.get("authority", {}).get("pi_gate") == PI_GATE, "raw admission gate drift")
-    require(admission.get("counters", {}).get("action_head_calls") == 12 and admission.get("counters", {}).get("conditioning_completed") == 4, "raw admission counter drift")
+    lock_path = Path(args.control_lock).resolve()
+    lock = read_json(lock_path)
+    require(lock.get("schema") == "CORELAB_STAGE45F_PI0159_ATTEMPT_LOCK_V1", "control lock schema drift")
+    require(lock.get("output_root") == str(raw_root), "control lock output-root drift")
+    require(lock.get("status") == "BLOCKED_OR_FAILED", "raw attempt status drift")
+    lock_counters = lock.get("counters", {})
+    require(lock_counters.get("action_head_calls") == 12 and lock_counters.get("conditioning_completed") == 4, "raw control-lock counter drift")
+    require(lock_counters.get("model_side_calls") == 16 and lock_counters.get("model_construction_attempts") == 1, "raw control-lock model budget drift")
     records = _raw_records(raw_root, runner)
     train = runner._load_observation(Path(args.train_input), TRAIN_INPUT_FILE_SHA, "canonical TRAIN/T")
     c0 = runner._load_observation(Path(args.archived_c0_input), C0_INPUT_FILE_SHA, "archived C0/C")
@@ -308,6 +315,12 @@ raw-first ABI on post-policy states. Do not start it automatically.
 """
     hashes["one_page_conclusion_sha256"] = write_text(output / "one_page_conclusion.md", conclusion)
     report = {"schema": "CORELAB_STAGE45F_PI0159_CONDITIONING_MECHANISM_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "science_classification": classification, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "model_attempt_repository_head": admission.get("repository_head") or admission.get("repository", {}).get("execution_head"), "reconstruction_script_head": str(args.repository_head)}, "raw_attempt": {"root": str(raw_root), "admission_sha256": sha256_file(raw_root / "admission.json"), "original_status": admission.get("status"), "original_counters": admission.get("counters"), "raw_rows": len(records)}, "identities": {"n2_stats_sha256": N2_STATS_SHA, "n2_stats_payload_sha256": N2_STATS_PAYLOAD_SHA, "train_input_sha256": TRAIN_INPUT_FILE_SHA, "c0_input_sha256": C0_INPUT_FILE_SHA, "native_expert_snapshot": str(Path(args.native_a).resolve()), "groot_commit": runner.GROOT_COMMIT, "cosmos_revision": runner.COSMOS_REVISION, "cosmos_tree_sha256": runner.COSMOS_TREE, "modality_sha256": runner.MODALITY_SHA, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding}, "anchor_reconciliation": anchor_reconciliation, "conditions": condition_rows, "condition_differences": differences, "processed_state_audit": audit_by_condition, "prior_c0_reference": {"path": str(Path(args.prior_c0_analysis).resolve()), "sha256": sha256_file(Path(args.prior_c0_analysis))}, "flow": {"t_values": list(T_VALUES), "t_buckets": list(T_BUCKETS), "equations": ["x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)*v_hat"], "active_mask_shape": [HORIZON, ACTION_DIM], "active_scalars": 190}, "outputs": hashes, "counters": {"original_model_construction_attempts": admission.get("counters", {}).get("model_construction_attempts"), "original_conditioning_completed": admission.get("counters", {}).get("conditioning_completed"), "original_action_head_calls": admission.get("counters", {}).get("action_head_calls"), "original_model_side_calls": admission.get("counters", {}).get("model_side_calls"), "cpu_reconstruction_model_calls": 0, "raw_rows": len(records)}, "budget": {"original_conditioning": 4, "original_action_head_calls": 12, "original_model_side_calls": 16, "cpu_reconstruction_model_calls": 0}, "effect_summary": {"state_mean_active_delta_rmse": state_effect, "vision_mean_active_delta_rmse": vision_effect, "state_mean_tail_delta_xyz_rmse": state_tail_effect, "vision_mean_tail_delta_xyz_rmse": vision_tail_effect}, "execution_boundary": {"original_model_forward": 16, "reconstruction_model_forward": 0, "model_construction": 0, "training": False, "backward": False, "optimizer_step": 0, "public_sampler": False, "free_running_inference": False, "icl": False, "new_data": False, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "validation_e_read": False, "holdout_f_read": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "fixed-policy teacher-forced conditioning and decoded-tail characterization only; no task-success, WBC, closed-loop, world-frame TRAIN, ICL, training, or generalization claim", "raw_first": True}
+    # The admission file intentionally records the pre-forward boundary; the
+    # post-forward counters live in the immutable attempt lock.  Bind both so
+    # the recovered packet cannot silently report null counters.
+    report["repository"]["model_attempt_repository_head"] = lock.get("repository_head") or admission.get("repository", {}).get("execution_head")
+    report["raw_attempt"].update({"control_lock": str(lock_path), "control_lock_sha256": sha256_file(lock_path), "original_status": lock.get("status"), "original_error_type": lock.get("error_type"), "original_counters": lock_counters})
+    report["counters"] = {"original_model_construction_attempts": lock_counters.get("model_construction_attempts"), "original_conditioning_completed": lock_counters.get("conditioning_completed"), "original_action_head_calls": lock_counters.get("action_head_calls"), "original_model_side_calls": lock_counters.get("model_side_calls"), "cpu_reconstruction_model_calls": 0, "raw_rows": len(records)}
     report_sha = write_json(output / "pi0159_conditioning_mechanism.json", report)
     hashes["report_sha256"] = report_sha
     evidence_sha = write_json(output / "evidence_hashes.json", {**hashes, "raw_attempt_admission_sha256": sha256_file(raw_root / "admission.json"), "raw_sha256_by_row": {f"{row['condition']}:t{row['bucket']}": row["raw_file_sha256"] for row in records}})
@@ -318,6 +331,7 @@ def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--repository-head", required=True)
     p.add_argument("--raw-root", required=True, type=Path)
+    p.add_argument("--control-lock", required=True, type=Path)
     p.add_argument("--output-root", required=True, type=Path)
     p.add_argument("--stage10-root", required=True, type=Path)
     p.add_argument("--base-model", required=True, type=Path)
