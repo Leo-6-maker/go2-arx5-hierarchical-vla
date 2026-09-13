@@ -15,6 +15,77 @@ import stage45f_pi0163_ffmpeg_capsule_bootstrap as bootstrap
 
 
 class PI0163SupportTests(unittest.TestCase):
+    def _allocation8_raw_fixture(self, root: Path) -> Path:
+        import numpy as np
+
+        raw_root = root / "raw" / "Legacy_seed2222_at_2000"
+        raw_root.mkdir(parents=True)
+        records = []
+        for index, window_id in enumerate(
+            f"stage22_expert_red_target_holdout_e:expert-{index:04d}" for index in range(6)
+        ):
+            array = np.full((1, 40, 132), float(index), dtype=np.float32)
+            path = raw_root / f"window-{index:02d}.npy"
+            np.save(path, array, allow_pickle=False)
+            raw_bytes = path.read_bytes()
+            records.append({
+                "schema": "STAGE45F_PI0154_RAW_PREDICTION_V1",
+                "checkpoint": {"label": "Legacy(seed2222)@2000", "route": "Legacy", "seed": 2222, "tier": 2000},
+                "window_id": window_id,
+                "path": str(path.relative_to(root)),
+                "file_sha256": hashlib.sha256(raw_bytes).hexdigest(),
+                "array_sha256": hashlib.sha256(np.ascontiguousarray(array).tobytes()).hexdigest(),
+                "shape": [1, 40, 132],
+                "dtype": "float32",
+                "timestep_ids": [0, 250, 500, 750],
+                "action_head_calls_observed": 4,
+                "decoded": False,
+                "noise_sha256": f"noise-{index}",
+            })
+        (root / "raw_predictions.jsonl").write_text(
+            "".join(json.dumps(record, sort_keys=True) + "\n" for record in records),
+            encoding="utf-8",
+        )
+        return root
+
+    def _aggregate_rows(self, recovery: object) -> list[dict[str, object]]:
+        fields = {
+            "position_rmse_m": 1.0,
+            "position_max_abs_m": 1.0,
+            "endpoint_error_m": 1.0,
+            "prediction_path_length_m": 1.0,
+            "expert_path_length_m": 1.0,
+            "eef_rot6d_rmse": 1.0,
+            "eef_rot6d_max_abs": 1.0,
+            "gripper_rmse": 1.0,
+            "gripper_max_abs": 1.0,
+            "full_action_rmse_mixed_units": 1.0,
+            "roughness_ratio": 1.0,
+        }
+        target = {
+            "initial_target_distance_m": 1.0,
+            "minimum_target_distance_m": 0.5,
+            "final_target_distance_m": 0.25,
+            "absolute_progress_m": 0.75,
+            "best_progress_m": 0.75,
+            "path_length_m": 1.0,
+            "progress_sign": "POSITIVE",
+            "endpoint_target_vector_cosine": 1.0,
+            "roughness_position_second_difference_m": {"mean": 0.0},
+        }
+        return [
+            {
+                "window_id": window_id,
+                "checkpoint": {"label": "fixture", "sha256": "checkpoint"},
+                "model": {"label": "fixture", "sha256": "model"},
+                "metrics": {**fields, "target": target},
+                "raw_prediction_artifact": {"array_sha256": f"raw-{index}"},
+                "decoded_action": {"array_sha256": f"decoded-{index}"},
+                "safety_gate_decision": "ACCEPT",
+            }
+            for index, window_id in enumerate(recovery.EXPECTED_WINDOW_IDS)
+        ]
+
     def _fixture(self, root: Path, *, escaping: bool = False) -> tuple[Path, str, str, str]:
         lib_bytes = b"abc"
         compat_bytes = b"xyz"
@@ -145,57 +216,103 @@ class PI0163SupportTests(unittest.TestCase):
 
         plan = recovery.plan()
         self.assertEqual(plan["status"], "PASS_STATIC_NOT_EXECUTED")
-        self.assertEqual(plan["new_calls"], {"conditioning": 35, "action_head": 140, "model_side_total": 175})
-        self.assertEqual(plan["reused_raw_queries"], 1)
+        self.assertEqual(plan["new_calls"], {"conditioning": 30, "action_head": 120, "model_side_total": 150})
+        self.assertEqual(plan["reused_raw_queries"], 6)
         self.assertEqual(plan["training"], 0)
         self.assertEqual(plan["holdout_f_read"], 0)
         self.assertFalse(plan["raw_inventory_verified"])
 
-    def test_recovery_aggregate_binds_six_validation_e_windows(self) -> None:
-        source = Path("scripts/stage45f_pi0163_validation_e_recovery.py").read_text(encoding="utf-8")
-        self.assertIn(
-            "aggregate_evaluation_rows(action_rows, expected_window_ids=evaluator.WINDOW_IDS)",
-            source,
-        )
+    def test_recovery_aggregate_behaviorally_accepts_six_and_rejects_count_or_order(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+        from go2arx5_vla.evaluation.checkpoint_eval import EvaluationContractError, aggregate_evaluation_rows
 
-    def test_raw_inventory_self_verifies_one_preserved_and_thirty_five_missing(self) -> None:
+        rows = self._aggregate_rows(recovery)
+        aggregate = aggregate_evaluation_rows(rows, expected_window_ids=recovery.EXPECTED_WINDOW_IDS)
+        self.assertEqual(aggregate["window_count"], 6)
+        self.assertEqual(aggregate["window_ids"], list(recovery.EXPECTED_WINDOW_IDS))
+        with self.assertRaises(EvaluationContractError):
+            aggregate_evaluation_rows(rows[:-1], expected_window_ids=recovery.EXPECTED_WINDOW_IDS)
+        wrong_order = list(rows)
+        wrong_order[0], wrong_order[1] = wrong_order[1], wrong_order[0]
+        with self.assertRaises(EvaluationContractError):
+            aggregate_evaluation_rows(wrong_order, expected_window_ids=recovery.EXPECTED_WINDOW_IDS)
+
+    def test_raw_inventory_self_verifies_six_preserved_and_thirty_missing(self) -> None:
         import stage45f_pi0163_validation_e_recovery as recovery
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            raw_path = root / recovery.EXPECTED_RAW_RELATIVE_PATH
-            raw_path.parent.mkdir(parents=True)
-            raw_path.write_bytes(b"raw-fixture")
-            record = {
-                "schema": recovery.EXPECTED_RAW_SCHEMA,
-                "checkpoint": {"label": recovery.EXPECTED_REUSED_ARM, "route": "Legacy", "seed": 2222, "tier": 2000},
-                "window_id": recovery.EXPECTED_REUSED_WINDOW,
-                "path": recovery.EXPECTED_RAW_RELATIVE_PATH,
-                "file_sha256": hashlib.sha256(b"raw-fixture").hexdigest(),
-                "shape": list(recovery.EXPECTED_RAW_SHAPE),
-                "dtype": "float32",
-                "timestep_ids": list(recovery.EXPECTED_TIMESTEPS),
-                "action_head_calls_observed": 4,
-                "decoded": False,
-            }
-            (root / "raw_predictions.jsonl").write_text(json.dumps(record) + "\n", encoding="utf-8")
-            inventory = recovery.raw_inventory(root)
-            self.assertEqual(inventory["preserved_raw_count"], 1)
-            self.assertEqual(inventory["missing_raw_count"], 35)
+            inventory = recovery.raw_inventory(self._allocation8_raw_fixture(root))
+            inventory = recovery.validate_allocation8_inventory(inventory)
+            self.assertEqual(inventory["preserved_raw_count"], 6)
+            self.assertEqual(inventory["missing_raw_count"], 30)
             self.assertEqual(inventory["preserved_cells"][0]["arm"], recovery.EXPECTED_REUSED_ARM)
-            self.assertEqual(len(inventory["missing_cells"]), 35)
+            self.assertEqual(len(inventory["missing_cells"]), 30)
+
+    def test_fully_preserved_first_arm_is_model_skipped_behaviorally(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            inventory = recovery.validate_allocation8_inventory(recovery.raw_inventory(self._allocation8_raw_fixture(root)))
+            execution_plan = recovery.recovery_execution_plan(inventory)
+            self.assertEqual(execution_plan["model_load_attempts"], 5)
+            self.assertEqual(execution_plan["new_queries"], 30)
+            self.assertEqual(execution_plan["model_loads_by_arm"][recovery.EXPECTED_REUSED_ARM], 0)
+            self.assertEqual(execution_plan["forward_cells_by_arm"][recovery.EXPECTED_REUSED_ARM], 0)
+            self.assertEqual(execution_plan["forward_cells_by_arm"]["L1(seed2222)@2000"], 6)
 
     def test_raw_inventory_rejects_extra_array_without_manifest_record(self) -> None:
         import stage45f_pi0163_validation_e_recovery as recovery
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            raw_path = root / recovery.EXPECTED_RAW_RELATIVE_PATH
-            raw_path.parent.mkdir(parents=True)
-            raw_path.write_bytes(b"raw-fixture")
-            extra = root / "raw" / "Legacy_seed2222_at_2000" / "window-01.npy"
+            self._allocation8_raw_fixture(root)
+            extra = root / "raw" / "Legacy_seed2222_at_2000" / "window-06.npy"
             extra.write_bytes(b"extra")
-            (root / "raw_predictions.jsonl").write_text("\n", encoding="utf-8")
+            with self.assertRaises(Exception):
+                recovery.raw_inventory(root)
+
+    def test_raw_inventory_rejects_duplicate_manifest_record(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._allocation8_raw_fixture(root)
+            manifest = root / "raw_predictions.jsonl"
+            first = manifest.read_text(encoding="utf-8").splitlines()[0]
+            manifest.write_text(manifest.read_text(encoding="utf-8") + first + "\n", encoding="utf-8")
+            with self.assertRaises(Exception):
+                recovery.raw_inventory(root)
+
+    def test_raw_inventory_rejects_manifest_file_missing_from_directory(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._allocation8_raw_fixture(root)
+            (root / "raw" / "Legacy_seed2222_at_2000" / "window-05.npy").unlink()
+            with self.assertRaises(Exception):
+                recovery.raw_inventory(root)
+
+    def test_raw_inventory_rejects_symlink_entry(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._allocation8_raw_fixture(root)
+            link = root / "raw" / "Legacy_seed2222_at_2000" / "window-06.npy"
+            link.symlink_to("window-00.npy")
+            with self.assertRaises(Exception):
+                recovery.raw_inventory(root)
+
+    def test_raw_inventory_rejects_extra_directory(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._allocation8_raw_fixture(root)
+            (root / "raw" / "unexpected").mkdir()
             with self.assertRaises(Exception):
                 recovery.raw_inventory(root)
 
