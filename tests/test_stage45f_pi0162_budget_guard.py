@@ -33,6 +33,20 @@ def _claim_from_second_process(path: str, queue: multiprocessing.queues.Queue) -
 
 
 class PI0162BudgetGuardTests(unittest.TestCase):
+    def test_new_sync_runner_does_not_mutate_derived_cache(self) -> None:
+        runner = Path(__file__).resolve().parents[1] / "scripts" / "stage45f_pi0162_guarded_sync_expert.py"
+        text = runner.read_text(encoding="utf-8")
+        self.assertNotIn("_refresh_eef_from_rigid_body", text)
+        self.assertIn("load_reference_chunk", text)
+        self.assertIn("synchronized_bootstrap_tick", text)
+        self.assertIn("gr00t_output_sent_to_wbc", text)
+
+    def test_existing_shared_step_hook_is_optional(self) -> None:
+        helper = Path(__file__).resolve().parents[1] / "scripts" / "stage40_live_one_handoff.py"
+        text = helper.read_text(encoding="utf-8")
+        self.assertIn("before_step: Any | None = None", text)
+        self.assertIn("if before_step is not None", text)
+
     def test_concurrent_process_cannot_claim_active_campaign(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             ledger_path = str(Path(directory) / "fixed" / "ledger.json")
