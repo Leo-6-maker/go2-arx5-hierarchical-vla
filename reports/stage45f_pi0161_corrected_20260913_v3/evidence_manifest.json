@@ -1,0 +1,63 @@
+{
+  "schema": "CORELAB_PI0161_CORRECTED_EVIDENCE_MANIFEST_V1",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0161",
+    "issue_comment": 5652160514,
+    "pr_comment": 5652164343
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "source_experiment_head": "1522865703d0259ed0db5181eaccd9e7aa5f46d9",
+    "correction_commit": "c690c56"
+  },
+  "status": "PARTIAL",
+  "token": "CORELAB_PI0161_FRAME_SYNC_CLOSURE_FOR_PI_REVIEW",
+  "node_local_output_root": "/var/cache/users/liuyu-nfs/stage45f_pi0161_corrected_20260913_v3",
+  "source_roots": {
+    "expert": "/var/cache/users/liuyu-nfs/stage45f_pi0160_matched_reset_expert_20260913_v7",
+    "model": "/var/cache/users/liuyu-nfs/stage45f_pi0160_matched_reset_model_20260913_v3"
+  },
+  "source_hashes": {
+    "expert_result": "56e6035efe486cda720b286a63f5879b3d85f14766253a232f4842144e37b6a8",
+    "expert_admission": "5d839039ba4f289913ed10001e1c6c93a44c87f6e11f860487e40b4226af82d2",
+    "expert_evidence": "56e8b0840500de607d3e1d8f57f048411e14b7c73d424de9b11ee5d49d554bd1",
+    "model_result": "fd79a35299f94cf1fa5bbe25b88938585752b7bd7cd210859ad951040ad64257",
+    "model_admission": "a38120a6b34953d9680427517a566f83f688524454de6021bc86da5efe0a8152",
+    "model_evidence": "cfbd52252db43d36f5f26907744a49e6da31f77261c0ebe5b82942d9b066db48",
+    "model_raw_manifest": "3cf6b8081ed6606ef676d9104a91e61d33efd13e08c9a37b12b60d24a7925171",
+    "model_table": "a21484cd0c70f5a543d6f1b90318461a3997e4ed2cf233127dd8905b775f0117",
+    "model_clipping": "a00a0a415b32fa1fbecd898b73e081d70d4d3c123048eb74d833350769613568",
+    "model_trajectory": "70634a88153f71d21b9d92979803ab4a8f70931882992c34e6182ff261599ad3",
+    "model_conclusion": "ff2f396aedcf6283d6bb5d8fb37710c457f9feec5e7ca6bf65a7d5109232eae4"
+  },
+  "derived_hashes": {
+    "expert_corrected_metrics.csv": "e9df8379bdec5fc3e606f95d153a6f5f078a37a75ac943c890f8d8aa182f4259",
+    "model_corrected_field_metrics.csv": "86ba2ba8160566ca96fcb7d50562a72a1df9cd4e2efb5a2263b1e85fc875b94f",
+    "c1_persistence_audit.json": "af6c14ba05501352dba6c5091311122fb18be52d09f53671f76c56840e389177a",
+    "clipping_codec_audit.json": "a11e27a8e9631e66ad077508d931c8dad98360bbe69c48bcc2ffe6ea0813c974",
+    "attempt_ledger.json": "ca7e4beb76d406092ad7452431cd275bc710a270a31d8c5d1434134a51ff7732",
+    "static_audit.json": "73b53733e8223d518ace2d92e5ac67f2a0350a3a45dc58949c8fa6c9d384d1ed",
+    "pi0160_corrected_result.json": "5e236d0f0cfa98739e6a6a7c2c20591d4305344e186885a254094ee2b61c079c",
+    "evidence_hashes.json": "421969fea7a0494804a23b16d10eade90d4d6abcfe6561092d8b57646b6b0169"
+  },
+  "accounting": {
+    "known_simulator_instance_lower_bound": 14,
+    "pi0160_simulator_instance_cap": 7,
+    "unknown_attempt_artifacts": [
+      "stage45f_pi0160_matched_reset_expert_20260913_v1",
+      "stage45f_pi0160_matched_reset_expert_20260913_v5"
+    ],
+    "new_execution_allowed": false
+  },
+  "execution_boundary": {
+    "new_simulator_instances": 0,
+    "new_wbc_ticks": 0,
+    "new_gr00t_forward": 0,
+    "new_model_side_calls": 0,
+    "training": false,
+    "validation_e": false,
+    "holdout_f": false,
+    "hardware": false,
+    "merge": false
+  }
+}
