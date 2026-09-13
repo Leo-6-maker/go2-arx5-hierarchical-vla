@@ -1,0 +1,410 @@
+{
+  "schema": "PI0165_SUPERVISION_HANDOFF_V1",
+  "status": "CPU_STATIC_HANDOFF_READY",
+  "return_token": "PI0165_SUPERVISION_HANDOFF_V1",
+  "purpose": "Hand the frozen PI0164 controlled-supervision training path to Vanda without changing the recipe, source contract, or data boundary.",
+  "owner": {
+    "prepared_by": "Corelab",
+    "next_owner": "Vanda",
+    "handoff_mode": "training_takeover_only",
+    "execution_status": "NOT_EXECUTED_BY_CORELAB"
+  },
+  "repository": {
+    "remote": "git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git",
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "current_head": "a1feacc8471df50f0b0a84d83924b8c9e63cc9a6",
+    "current_head_verified_against_pr": true,
+    "current_head_verification_pr_number": 69,
+    "pull_request": {
+      "number": 69,
+      "state": "open",
+      "draft": true,
+      "base": "stage45e/n2-gpu-replication-mechanism-sprint",
+      "head": "stage45f/corelab-local-initial-state-pilot",
+      "head_sha": "a1feacc8471df50f0b0a84d83924b8c9e63cc9a6",
+      "url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/69"
+    },
+    "protocol_base_head": "cf4857666a47c9bd723e92842680e31c5e46c380",
+    "pi0163_evidence_head": "f0cb83de0fa373152611a37814320f86eef76588",
+    "pi0164_evidence_head": "c51cdbbe0e86ea9669775383977f13c5e4ab3619",
+    "worktree_clean_before_artifact": true,
+    "worktree_clean_after_artifact": false,
+    "source_head_for_future_run": "a1feacc8471df50f0b0a84d83924b8c9e63cc9a6"
+  },
+  "history_review": {
+    "method": ["git log", "git show", "git diff", "repo search"],
+    "relevant_commits": [
+      {
+        "sha": "cf4857666a47c9bd723e92842680e31c5e46c380",
+        "subject": "Record PI0163 synchronized baseline evidence",
+        "role": "sealed PI0163 evidence packet"
+      },
+      {
+        "sha": "f0cb83de0fa373152611a37814320f86eef76588",
+        "subject": "Repair PI0163 synchronized q0 and two-condition accounting",
+        "role": "selected-condition q0 and budget-contract repair"
+      },
+      {
+        "sha": "6f65a5b4e7c4a1e30af0ef4c36eef8e46cccd195",
+        "subject": "Add PI0164 controlled supervision pilot runner",
+        "role": "frozen E/S overlay, manifest, and static tests"
+      },
+      {
+        "sha": "40968ddf4a2e57376ce74766317b5393ae444c70",
+        "subject": "Record PI0164 recovery and complete runtime library path",
+        "role": "runtime binding recovery"
+      },
+      {
+        "sha": "c51cdbbe0e86ea9669775383977f13c5e4ab3619",
+        "subject": "Use venv prefix for PI0164 native libraries",
+        "role": "process-local venv library resolution"
+      },
+      {
+        "sha": "a1feacc8471df50f0b0a84d83924b8c9e63cc9a6",
+        "subject": "Record PI0164 blocked pilot evidence",
+        "role": "blocked-attempt evidence only; no runner change"
+      }
+    ],
+    "interpretation": "The current HEAD adds the PI0164 evidence record after the execution HEAD; the PI0164 runner implementation is unchanged from c51cdbb and is bound below by its current file hash."
+  },
+  "implementation_anchors": {
+    "structured_training_factory": {
+      "path": "src/go2arx5_vla/stage38_structured_training.py",
+      "sha256": "8179d5a8e35be6f052a28129dcab49262aacb34829e379df367cb1a0721ef2ce",
+      "role": "StructuredActionV1 label construction, T16 mask, TRAIN-only statistics, N2 bounds bridge, and read-only dataset factory",
+      "contract_facts": [
+        "Uses the official GR00T processor for observations, language, and state.",
+        "Builds labels from the authoritative TRAIN parquet timestamp/action/state columns.",
+        "Normalizes with MINMAX_TO_NEG1_POS1, q01/q99 selected bounds, clipping enabled, and inactive mask values zeroed.",
+        "Accepts the N2 override only after proving all non-XYZ statistics and keys match generated TRAIN statistics.",
+        "Forbids validation/evaluation dataset construction in the structured factory and does not mutate the source dataset."
+      ]
+    },
+    "structured_training_launcher_reference": {
+      "path": "scripts/stage38_structured_train.py",
+      "sha256": "92181bfba64a1540971c1c2ceccadba3cf89cd478b907533b61ce0b05dc191ab",
+      "role": "historical Stage38-D CPU/PBS launcher reference only; not the PI0164 entrypoint",
+      "do_not_substitute": "Its H200/PBS and fresh BASE-to-2000 contract is different from the PI0164 N2 continuation."
+    },
+    "pi0163_q0_producer_and_contract": [
+      {
+        "path": "scripts/stage45f_pi0162_guarded_sync_expert.py",
+        "sha256": "11e91df5244b6c50792c94d04be9968f164520e415ae3423d5299cb5a3002dcb",
+        "role": "synchronized expert/q0 production and PI0163 budget binding"
+      },
+      {
+        "path": "scripts/stage45f_pi0160_n2_q0_diagnostic.py",
+        "sha256": "16296e884fad4f33c5ec27a426a269697d0dbdd76475b615ef77f5710b8e3b14",
+        "role": "PI0163 fixed-N2 q0 model-side diagnostic consumer"
+      },
+      {
+        "path": "tests/test_stage45f_pi0163_contract.py",
+        "sha256": "9739a76d155d6d9e935865b8af71686a806dbe58c2e0287112ff5b2342712daa",
+        "role": "CPU contract checks for q0 ABI and selected-condition accounting"
+      }
+    ],
+    "pi0164_training_runner": {
+      "path": "scripts/stage45f_pi0164_controlled_supervision.py",
+      "sha256": "1976480b84761f5839119840d801a99809a7a4aaf210247c6bf34ea183b9570b",
+      "role": "active direct training entrypoint",
+      "entrypoint": "python3 scripts/stage45f_pi0164_controlled_supervision.py --mode train",
+      "implementation_facts": [
+        "Imports torch/GR00T only after repository, input-identity, q0, and resource admission checks.",
+        "Calls the official gr00t.experiment.experiment.run with a narrow DatasetFactory overlay.",
+        "Uses a fresh optimizer/scheduler/RNG arm and refuses resume, substitution, automatic retry, or step extension.",
+        "Stops after the first failed arm and writes a failure seal; it never enters PBS, WBC, simulator, ICL, Validation-E, or Holdout-F."
+      ]
+    },
+    "pi0164_post_training_evaluator": {
+      "path": "scripts/stage45f_pi0164_fr_eval.py",
+      "sha256": "d1cfed5b26c52924043f56cdcae5c97e28f7d1487a7a2661b7fe24751ea0182e",
+      "role": "post-training FR evaluator only; held for a separate explicit gate"
+    },
+    "n2_statistics": {
+      "statistics_builder_path": "scripts/stage45e_n2_statistics.py",
+      "statistics_builder_sha256": "5760a88713b908612169126cd35e5bd8602fa5b1f56efd81c746ceaf17d77fc7",
+      "n2_corelab_path": "scripts/stage45e_n2_corelab.py",
+      "n2_corelab_sha256": "bcd59116257624bdc80ceecaf36511f125ca4c57b944613ce8df5bdccaf6db71",
+      "role": "N2 normalization provenance and CPU/static contract; do not substitute its separate fresh-BASE trainer for PI0164"
+    },
+    "pi0164_manifest": {
+      "path": "manifests/STAGE45F_PI0164_CONTROLLED_SUPERVISION_PILOT_V1.json",
+      "sha256": "38667063f5146ae61483844fbc74bc1eff99ebf855e1c44d115379121f86adb2"
+    },
+    "n2_manifest": {
+      "path": "manifests/STAGE45E_N2_BALANCED_XYZ_NORMALIZATION_V1.json",
+      "sha256": "1ec84aa9fa9da2c019f2fe4659eea852f8ab812657d277b67d06991b8e99d81d"
+    }
+  },
+  "fixed_contract": {
+    "structured_action": {
+      "schema": "StructuredActionV1",
+      "timing_mode": "T16",
+      "geometry": "K16",
+      "raw_shape": [1, 40, 132],
+      "decoded_shape": [40, 10],
+      "mask_shape": [40, 132],
+      "active_scalars": 190,
+      "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+      "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+      "tcp_semantic_id": "x5_link6_gripper_center",
+      "target_xyz_in_model_input": false
+    },
+    "identities": {
+      "n2_checkpoint": {
+        "label": "N2(seed2223)@2000",
+        "tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152"
+      },
+      "n2_statistics": {
+        "file_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+        "statistics_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
+      },
+      "n2_manifest": {
+        "normalization": "MINMAX_TO_NEG1_POS1",
+        "selected_bounds": ["q01", "q99"],
+        "intervention": "XYZ selected bounds only; non-XYZ statistics unchanged",
+        "common_xyz_half_range_m": 0.107349471
+      },
+      "full24_dataset": {
+        "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+        "episodes": 24,
+        "frames": 960,
+        "regular_file_count": 85,
+        "total_bytes": 919661,
+        "split": "TRAIN_ONLY"
+      },
+      "base_model_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+    },
+    "pi0163_q0": {
+      "label": "PI0163_C1_X_PLUS_5CM_q0",
+      "condition": "C1_X_PLUS_5CM",
+      "source": "STAGE22_SAME_SCENE_EXPERT",
+      "expert_chunk_sha256": "36deefb15ec152aad579ab0f1ec6f8a730446fd3eca0bccab833d794feab1c25",
+      "npz_sha256": "e0376e138bb1610a557164d3afffa3da1d7d0446a3b28406374360bbe7c441ad",
+      "json_sha256": "a4d53a962af98b074b8a9f4a88a2b238e15254db362b2be06b2134d454c67e06",
+      "qualification": [
+        "strictly increasing timestamps",
+        "eef_local equals StateV1[:3]",
+        "finite [40,10] expert action",
+        "target excluded from model input"
+      ],
+      "fallback": "STOP_ON_ANY_HASH_OR_ABI_FAILURE; do not substitute TRAIN-a or another q0"
+    }
+  },
+  "training_recipe": {
+    "entrypoint": "scripts/stage45f_pi0164_controlled_supervision.py",
+    "mode": "train",
+    "start_from": "exact N2(seed2223)@2000 checkpoint",
+    "fresh_optimizer_and_scheduler": true,
+    "arms": {
+      "E": {
+        "updates": 256,
+        "full24_slots": 256,
+        "q0_slots": 0,
+        "label_source": "FULL24 only"
+      },
+      "S": {
+        "updates": 256,
+        "full24_slots": 128,
+        "q0_slots": 128,
+        "q0_slot_rule": "zero-based sequence position % 2 == 1",
+        "label_source": "same FULL24 sequence with exact PI0163 C1 q0 overlay"
+      }
+    },
+    "slot_sequence": {
+      "seed": 6164,
+      "generator": "random.Random(6164); shuffle range(24) per cycle; truncate to 256",
+      "sequence_length": 256,
+      "sequence_sha256": "cc14ca8ab624ef312df7dc510930876c29fb521ca907505f54c9ed3af0d4f3f8",
+      "full24_slot_reference": "(episode_index=sequence_value, step_index=0)"
+    },
+    "optimization": {
+      "optimizer": "adamw_torch",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.00001,
+      "scheduler": "cosine",
+      "warmup_steps": 10,
+      "batch_size": 1,
+      "gradient_accumulation_steps": 1,
+      "bf16": true,
+      "fp16": false,
+      "tf32": true,
+      "dataloader_workers": 0,
+      "eval_strategy": "no",
+      "trainable_modules": ["projector", "diffusion"],
+      "frozen_modules": ["visual", "llm", "vlln"],
+      "loss": "masked StructuredActionV1 flow matching",
+      "active_scalars": 190
+    },
+    "checkpoint_policy": {
+      "save_steps": [64, 128, 192, 256],
+      "required_state_files": ["optimizer.pt", "scheduler.pt", "rng_state.pth", "trainer_state.json"],
+      "fresh_output_root": true,
+      "resume_from_checkpoint": false,
+      "post_hoc_selection": false,
+      "nominal_total_updates": 512
+    }
+  },
+  "pi0164_completed_evidence": {
+    "status": "BLOCKED_PARTIAL_RESOURCE",
+    "evidence_readme": "reports/stage45f_pi0164_controlled_supervision_20260913/README.md",
+    "evidence_readme_sha256": "8e25caa8a6b13c9a9504469d8ca044adb4693ff3158a4dc64c15d9c43ddc8f03",
+    "evidence_manifest": "reports/stage45f_pi0164_controlled_supervision_20260913/evidence_manifest.json",
+    "evidence_manifest_sha256": "38aa780bba992c45ac7e9188480cfc18b84dc92181c91dcc9a12685ad39f808c",
+    "attempts": [
+      {
+        "recovery_index": 0,
+        "admission_sha256": "fedceb4c6913a9a859d3a2d1030f5c3613813491d49a265fcda616b773b91084",
+        "failure_seal_sha256": "1b83b3b43e9622e616c7986a00b3c2ed40d07567a9f7d09f7ed07adfcc48a7e6",
+        "error": "ImportError / torchcodec native library load",
+        "model_constructions": 1,
+        "model_forwards": 0,
+        "optimizer_steps": 0
+      },
+      {
+        "recovery_index": 1,
+        "admission_sha256": "2b6727baaedfd9597964a52fc0e914516c731f35ba23c7dcdcbdb80594080925",
+        "failure_seal_sha256": "a32cca65674b445c880d8b9c5e5d14bff3d759c7cef8876ec6a4550e2a03a437",
+        "error": "ImportError / torchcodec native library load",
+        "model_constructions": 1,
+        "model_forwards": 0,
+        "optimizer_steps": 0
+      },
+      {
+        "recovery_index": 2,
+        "admission_sha256": "8b68de43d2d47a0a97c0a11749296dc0e3bf9abc377edce3578b67dab97fef0f",
+        "failure_seal_sha256": "4369318998cccaea8e4da1fdd1af8ca8dbd89a7d67b9cad653a3a4d803387144",
+        "error": "OutOfMemoryError / AdamW state allocation",
+        "model_constructions": 1,
+        "model_forwards": 1,
+        "optimizer_steps": 0
+      }
+    ],
+    "totals": {
+      "model_constructions": 3,
+      "model_forwards": 1,
+      "optimizer_steps": 0,
+      "training_updates": 0,
+      "E_started": true,
+      "S_started": false,
+      "fr_queries": 0,
+      "recoveries_consumed": 2
+    },
+    "claim_boundary": "No PI0164 E/S learning, improvement, or winner claim is supported; the only completed comparison reference is sealed pre-pilot N2 TRAIN24 evidence."
+  },
+  "handoff_to_vanda": {
+    "required_before_start": [
+      "Obtain a new explicit PI gate; the old PI0164 gate and its two mechanical recoveries are consumed.",
+      "Use a new output root; never resume or overwrite any old PI0164 attempt root.",
+      "Materialize every late-bound input and verify the fixed hash/tree identities before model construction.",
+      "Use the unmodified PI0164 runner on an authorized RTX 4080 SUPER with at least 30000 MiB total and at least 12000 MiB free; the current runner does not admit H200.",
+      "Keep the exact seed, slot sequence, N2 stats, q0, optimizer, precision, module freeze, and checkpoint cadence above."
+    ],
+    "late_bound_inputs": {
+      "base_model": "caller-supplied regular tree; verify tree_sha256=8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "n2_checkpoint": "caller-supplied regular tree; verify tree_sha256=09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+      "full24_dataset": "caller-supplied regular tree; verify tree_sha256=2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+      "n2_stats": "caller-supplied regular JSON; verify file_sha256=0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb and payload_sha256=508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+      "q0_npz": "caller-supplied sealed PI0163 relay; verify sha256=e0376e138bb1610a557164d3afffa3da1d7d0446a3b28406374360bbe7c441ad",
+      "q0_json": "caller-supplied sealed PI0163 relay; verify sha256=a4d53a962af98b074b8a9f4a88a2b238e15254db362b2be06b2134d454c67e06",
+      "groot": "caller-supplied checkout/materialization; verify HEAD=51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "cosmos": "caller-supplied cache/snapshot; verify revision=9ce19a195e423419c349abfc86fd07178b230561 and tree_sha256=1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "modality": "caller-supplied regular file; verify sha256=e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "config": "caller-supplied regular file; verify sha256=9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+    },
+    "run_template_only": "${PYTHON} scripts/stage45f_pi0164_controlled_supervision.py --mode train --base-model ${BASE_MODEL} --checkpoint ${N2_CHECKPOINT} --dataset ${FULL24_DATASET} --groot ${GROOT_SOURCE} --cosmos ${COSMOS_CACHE_OR_MODEL_ROOT} --modality ${MODALITY_CONFIG} --config ${TRAINING_CONFIG} --n2-stats ${N2_STATS} --q0-npz ${Q0_NPZ} --q0-json ${Q0_JSON} --gpu-uuid ${AUTHORIZED_4080S_UUID} --output-root ${NEW_PI0165_OUTPUT_ROOT} --recovery-index ${NEW_GATE_RECOVERY_INDEX}",
+    "materialized_source_rule": "If Vanda runs from a sealed node-local source materialization, pass --repository-head a1feacc8471df50f0b0a84d83924b8c9e63cc9a6; otherwise use a clean checkout of the named branch at that HEAD.",
+    "runner_resource_contract": {
+      "gpu_name_contains": "4080 SUPER",
+      "minimum_total_memory_mib": 30000,
+      "minimum_free_memory_mib": 12000,
+      "must_not_kill_or_reprioritize_other_processes": true,
+      "h200_with_unmodified_runner": false,
+      "h200_note": "An H200 path would require a separately reviewed runner change and is outside this handoff."
+    },
+    "failure_semantics": [
+      "Any identity or ABI drift is fail-closed before model construction.",
+      "Any training exception must remain sealed as BLOCKED; do not retry automatically, substitute a checkpoint/q0, or extend the step budget.",
+      "A checkpoint is valid only when its global step and optimizer/scheduler/RNG/trainer state files pass the runner contract for 64, 128, 192, and 256.",
+      "Do not run the FR evaluator, Validation-E, Holdout-F, ICL, WBC, simulator, hardware, or data generation as part of this training handoff."
+    ]
+  },
+  "cpu_only_boundary": {
+    "corelab_gpu_used": false,
+    "shared_4080s_polled": false,
+    "training_executed": false,
+    "model_constructed": false,
+    "model_forward": 0,
+    "optimizer_steps": 0,
+    "pbs_submissions": 0,
+    "c0_modified_or_rerun": false,
+    "validation_e_payload_read": false,
+    "holdout_f_payload_read": false,
+    "new_probe_added": false,
+    "new_sim_added": false,
+    "new_wbc_added": false,
+    "new_icl_added": false
+  },
+  "holds": {
+    "C0": "HOLD; do not repair, rerun, or reinterpret the C0 observability failure.",
+    "Validation-E": "HOLD; payload not read.",
+    "Holdout-F": "HOLD; payload not read.",
+    "GPU": "HOLD for Corelab; Vanda may execute only after a new PI gate and resource admission.",
+    "shared_4080S": "No Corelab polling or workload launch.",
+    "probe_sim_wbc_icl": "HOLD; no new probe, simulator, WBC, or ICL work.",
+    "post_training_FR": "HOLD; separate explicit gate required."
+  },
+  "cpu_validation": {
+    "pi0164_static_self_check": {
+      "status": "PASS",
+      "schema": "CORELAB_PI0164_STATIC_SELF_CHECK_V1",
+      "slot_count": 256,
+      "sequence_sha256": "cc14ca8ab624ef312df7dc510930876c29fb521ca907505f54c9ed3af0d4f3f8",
+      "gpu": false,
+      "model_forward": 0,
+      "training": 0
+    },
+    "pi0164_unit_tests": {
+      "status": "PASS",
+      "command": "python3 -m unittest -v tests.test_stage45f_pi0164_controlled_supervision",
+      "summary": "4 passed"
+    },
+    "py_compile": {
+      "status": "PASS",
+      "scope": [
+        "scripts/stage45f_pi0164_controlled_supervision.py",
+        "scripts/stage45f_pi0164_fr_eval.py",
+        "scripts/stage45e_n2_statistics.py",
+        "scripts/stage45e_n2_corelab.py",
+        "src/go2arx5_vla/stage38_structured_training.py"
+      ]
+    },
+    "json_parse": {
+      "status": "PASS",
+      "scope": [
+        "manifests/STAGE45F_PI0164_CONTROLLED_SUPERVISION_PILOT_V1.json",
+        "manifests/STAGE45E_N2_BALANCED_XYZ_NORMALIZATION_V1.json",
+        "reports/stage45f_pi0163_synchronized_baseline_20260913/evidence_manifest.json",
+        "reports/stage45f_pi0164_controlled_supervision_20260913/evidence_manifest.json"
+      ]
+    },
+    "git_diff_check": "PASS",
+    "payload_access": {
+      "Validation-E": false,
+      "Holdout-F": false
+    }
+  },
+  "artifact_scope": {
+    "only_deliverable": "reports/stage45f_pi0165_supervision_handoff_20260914/PI0165_SUPERVISION_HANDOFF_V1.json",
+    "source_checkout_note": "The artifact is intentionally the only uncommitted file; Vanda must use a clean checkout/materialization of source_head_for_future_run or commit this artifact before running from the same checkout.",
+    "previous_evidence_modified": false,
+    "training_code_modified": false,
+    "new_runtime_or_dependency_added": false,
+    "handoff_is_ready_for_vanda": true
+  }
+}
