@@ -47,7 +47,8 @@ PI0165A_TAKEOVER_GATE = 5654552673
 PI0165A_ERRATUM = 5654559228
 RETURN_TOKEN = "VANDA_PI0163_VALIDATION_E_GEN1_FOR_PI_REVIEW"
 EXPECTED_JOB = "614704.hopper-m-02"
-RECOVERY_ALLOCATION = 7
+EXPECTED_ALLOCATION_7_FAILURE_JOB = "615030.hopper-m-02"
+RECOVERY_ALLOCATION = 8
 MAX_TOTAL_ALLOCATIONS = 8
 EXPECTED_RAW_SCHEMA = "STAGE45F_PI0154_RAW_PREDICTION_V1"
 EXPECTED_TARGET_ID = "red_target_holdout_e"
@@ -332,13 +333,22 @@ def _source_failure_ref(config: Mapping[str, Any]) -> dict[str, Any]:
     return {"path": str(path), "sha256": observed, "phase": payload.get("phase"), "current": payload.get("current"), "actual_counters": payload.get("actual_counters", {})}
 
 
-def _allocation_failure_ref(config: Mapping[str, Any]) -> dict[str, Any]:
-    ref = _evidence_ref(config, "pi0163_alloc6_failure_path", "pi0163_alloc6_failure_sha256")
+def _allocation_failure_ref(
+    config: Mapping[str, Any],
+    *,
+    path_key: str = "pi0163_alloc6_failure_path",
+    sha_key: str = "pi0163_alloc6_failure_sha256",
+    allocation_label: str = "allocation-6",
+) -> dict[str, Any]:
+    ref = _evidence_ref(config, path_key, sha_key)
     payload = load_json(Path(ref["path"]))
-    require(isinstance(payload, Mapping), "PI0163 allocation-6 failure seal is not an object")
-    require(payload.get("status") == "BLOCKED", "PI0163 allocation-6 failure status drift")
-    require(payload.get("model_import_started") is False and payload.get("model_execution_started") is False, "PI0163 allocation-6 crossed the model boundary")
-    require(payload.get("training") is False and payload.get("holdout_f_read") is False, "PI0163 allocation-6 boundary drift")
+    require(isinstance(payload, Mapping), f"PI0163 {allocation_label} failure seal is not an object")
+    require(payload.get("status") == "BLOCKED", f"PI0163 {allocation_label} failure status drift")
+    require(
+        payload.get("model_import_started") is False and payload.get("model_execution_started") is False,
+        f"PI0163 {allocation_label} crossed the model boundary",
+    )
+    require(payload.get("training") is False and payload.get("holdout_f_read") is False, f"PI0163 {allocation_label} boundary drift")
     return {
         **ref,
         "status": payload.get("status"),
@@ -566,6 +576,7 @@ def execute(config_path: Path) -> int:
         require(config.get("pi0163_recovery_allocation") == RECOVERY_ALLOCATION, "PI0163 recovery allocation drift")
         require(config.get("max_total_allocations") == MAX_TOTAL_ALLOCATIONS, "PI0163 allocation ceiling drift")
         require(config.get("pi0163_previous_job_id") == EXPECTED_JOB, "PI0163 previous job drift")
+        require(config.get("pi0163_alloc7_failure_job_id") == EXPECTED_ALLOCATION_7_FAILURE_JOB, "PI0163 allocation-7 failure job drift")
         output_root = Path(str(config["output_root"])).resolve()
         source_root = continuation.regular_directory(Path(str(config["pi0163_recovery_source_root"])), "PI0163 recovery source root")
         require(not output_root.exists() and not output_root.is_symlink(), "PI0163 recovery output root must be fresh")
@@ -574,6 +585,12 @@ def execute(config_path: Path) -> int:
         phase = "RECOVERY_SOURCE_AUDIT"
         source_failure = _source_failure_ref(config)
         allocation_6_failure = _allocation_failure_ref(config)
+        allocation_7_failure = _allocation_failure_ref(
+            config,
+            path_key="pi0163_alloc7_failure_path",
+            sha_key="pi0163_alloc7_failure_sha256",
+            allocation_label="allocation-7",
+        )
         actual_raw_inventory = raw_inventory(source_root)
         write_json(output_root / "stage45f_pi0163_raw_inventory.json", actual_raw_inventory)
         source_record, source_raw_path, source_manifest = _read_single_raw_record(source_root)
@@ -600,6 +617,7 @@ def execute(config_path: Path) -> int:
             "source_root": str(source_root),
             "source_failure": source_failure,
             "allocation_6_failure": allocation_6_failure,
+            "allocation_7_failure": allocation_7_failure,
             "raw_inventory": actual_raw_inventory,
             "valid_raw_reused": True,
             "scientific_contract_changed": False,
@@ -657,6 +675,7 @@ def execute(config_path: Path) -> int:
             "effective_runner_config_sha256": sha256_file(effective_config_path),
             "source_failure": source_failure,
             "allocation_6_failure": allocation_6_failure,
+            "allocation_7_failure": allocation_7_failure,
             "raw_inventory": actual_raw_inventory,
             "raw_inventory_path": str(output_root / "stage45f_pi0163_raw_inventory.json"),
             "raw_inventory_sha256": sha256_file(output_root / "stage45f_pi0163_raw_inventory.json"),
@@ -666,7 +685,7 @@ def execute(config_path: Path) -> int:
             "nominal_calls": EXPECTED_NOMINAL,
             "new_calls_after_reuse": {"conditioning": 35, "action_head": 140, "model_side_total": 175},
             "cumulative_call_ceiling": {"conditioning": 42, "action_head": 168, "model_side_total": 210},
-            "model_load_accounting": {"historical_prior": 1, "allocation_5": 1, "allocation_6_failure": 0, "allocation_7_reserved": 6, "cumulative_reserved": 8},
+            "model_load_accounting": {"historical_prior": 1, "allocation_5": 1, "allocation_6_failure": 0, "allocation_7_failure": 0, "allocation_8_reserved": 6, "cumulative_reserved": 8},
             "holdout_f_read": False,
             "training": False,
             "model_imported": False,
@@ -903,6 +922,7 @@ def execute(config_path: Path) -> int:
                 {"job_id": "614586.hopper-m-02", "ordinal": 4, "status": "FAILED_BEFORE_MODEL_IMPORT", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0},
                 {"job_id": EXPECTED_JOB, "ordinal": 5, "status": "PARTIAL_AFTER_VALID_RAW", "model_load_attempts": 1, "model_loads_completed": 1, "conditioning": 1, "action_head": 4, "raw_rows": 1, "derived_rows": 0, "failure_phase": source_failure["phase"]},
                 {"job_id": "614858.hopper-m-02", "ordinal": 6, "status": "BLOCKED_STALE_EXPECTED_HEAD", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0, "derived_rows": 0, "failure_phase": allocation_6_failure["phase"]},
+                {"job_id": EXPECTED_ALLOCATION_7_FAILURE_JOB, "ordinal": 7, "status": "BLOCKED_PBS_PRE_SUBMIT_CHECKOUT_DIRTY", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0, "derived_rows": 0, "failure_phase": allocation_7_failure["phase"]},
                 {"job_id": os.environ.get("PBS_JOBID"), "ordinal": RECOVERY_ALLOCATION, "status": "COMPLETED_RECOVERY", "model_load_attempts": counters["model_loads_attempted"], "model_loads_completed": counters["model_loads_completed"], "conditioning": 35, "action_head": 140, "raw_rows": 35, "derived_rows": 36, "reused_raw_rows": 1},
             ],
             "model_load_attempts": 8,
@@ -989,6 +1009,7 @@ def execute(config_path: Path) -> int:
             "allocation_5_bootstrap": prior_alloc5_bootstrap,
             "allocation_5_compute_import": prior_alloc5_import,
             "allocation_6_failure": allocation_6_failure,
+            "allocation_7_failure": allocation_7_failure,
             "raw_inventory_path": str(output_root / "stage45f_pi0163_raw_inventory.json"),
             "raw_inventory_sha256": sha256_file(output_root / "stage45f_pi0163_raw_inventory.json"),
             "raw_inventory": actual_raw_inventory,
@@ -1044,6 +1065,7 @@ def execute(config_path: Path) -> int:
                 "pi0165a_erratum": PI0165A_ERRATUM,
             },
             "allocation_6_failure": allocation_6_failure,
+            "allocation_7_failure": allocation_7_failure,
             "raw_inventory": actual_raw_inventory,
             "raw_output_count": 36,
             "derived_output_count": 36,
