@@ -52,6 +52,8 @@ STARTING_HEAD = "f4fdb01e5071b530d6997ec2d0a17666cdeacddb"
 EXPECTED_HEAD = STARTING_HEAD
 
 CHECKPOINT_TREE = "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152"
+BASE_PROCESSOR_CONFIG_SHA = "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be"
+BASE_STATISTICS_SHA = "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9"
 N2_STATS_SHA = "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb"
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
 NOISE_ARRAY_SHA = "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd"
@@ -395,6 +397,25 @@ def _verify_checkpoint(checkpoint: Path, stats_path: Path) -> dict[str, Any]:
     return {"checkpoint_tree_sha256": tree, "checkpoint_file_count": len(entries), "checkpoint_total_bytes": sum(int(e["bytes"]) for e in entries), "stats_sha256": stats_sha, "stats_payload_sha256": stats["statistics_payload_sha256"], "checkpoint_path": str(checkpoint), "stats_path": str(stats_path)}
 
 
+def _verify_base_processor(base_checkpoint: Path) -> dict[str, Any]:
+    """Bind the immutable BASE processor metadata used to build inference inputs."""
+    base_checkpoint = Path(base_checkpoint).resolve()
+    require(base_checkpoint.is_dir() and not base_checkpoint.is_symlink(), f"BASE processor root unavailable: {base_checkpoint}")
+    processor_config = base_checkpoint / "processor_config.json"
+    statistics = base_checkpoint / "statistics.json"
+    require(processor_config.is_file() and not processor_config.is_symlink(), f"BASE processor_config unavailable: {processor_config}")
+    require(statistics.is_file() and not statistics.is_symlink(), f"BASE statistics unavailable: {statistics}")
+    processor_sha = sha256_file(processor_config)
+    statistics_sha = sha256_file(statistics)
+    require(processor_sha == BASE_PROCESSOR_CONFIG_SHA, f"BASE processor_config identity drift: {processor_sha}")
+    require(statistics_sha == BASE_STATISTICS_SHA, f"BASE statistics identity drift: {statistics_sha}")
+    return {
+        "base_processor_root": str(base_checkpoint),
+        "base_processor_config_sha256": processor_sha,
+        "base_statistics_sha256": statistics_sha,
+    }
+
+
 def _load_previous_probe():
     path = SCRIPTS / "stage45f_pi0153_generation_probe.py"
     spec = importlib.util.spec_from_file_location("pi0157_previous_probe", path)
@@ -586,8 +607,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
     gpu = _gpu_snapshot()
     checkpoint = Path(args.model_path).resolve()
+    base_checkpoint = Path(args.base_model).resolve()
     stats_path = Path(args.n2_stats).resolve()
     identities = _verify_checkpoint(checkpoint, stats_path)
+    base_identity = _verify_base_processor(base_checkpoint)
     noise = _load_npy(Path(args.noise), RAW_SHAPE, NOISE_ARRAY_SHA, NOISE_FILE_SHA, "fixed x0")
     train_npz = _load_observation(Path(args.train_input), TRAIN_INPUT_FILE_SHA, "canonical TRAIN/T")
     c0_npz = _load_observation(Path(args.archived_c0_input), C0_INPUT_FILE_SHA, "archived C0/C")
@@ -610,7 +633,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": execution_head, "head": execution_head},
         "runtime": {"gpu": gpu, "python": sys.executable, "no_model_forward_before_admission": True},
         "raw_first": True,
-        "fixed_identity": {**identities, "noise_array_sha256": NOISE_ARRAY_SHA, "noise_file_sha256": NOISE_FILE_SHA, "train_file_sha256": TRAIN_INPUT_FILE_SHA, "c0_file_sha256": C0_INPUT_FILE_SHA, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE, "modality_sha256": MODALITY_SHA},
+        "fixed_identity": {**identities, **base_identity, "noise_array_sha256": NOISE_ARRAY_SHA, "noise_file_sha256": NOISE_FILE_SHA, "train_file_sha256": TRAIN_INPUT_FILE_SHA, "c0_file_sha256": C0_INPUT_FILE_SHA, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE, "modality_sha256": MODALITY_SHA},
         "input_order": ["N1_NATIVE_a", "N2_NATIVE_b", "N3_NATIVE_c", "N4_NATIVE_d", "X1_VT_SC", "X2_VC_ST", "Z1_CONST128_ST", "Z2_CONST128_SC"],
         "native_a_matches_canonical_T": native_a_matches_t,
         "budget": {"nominal_queries": NOMINAL_QUERIES, "nominal_action_head_calls": NOMINAL_HEAD_CALLS, "nominal_model_side_calls": NOMINAL_MODEL_SIDE_CALLS, "max_queries_including_mechanical": MAX_QUERIES, "max_action_head_calls": MAX_HEAD_CALLS, "max_model_side_calls": MAX_MODEL_SIDE_CALLS, "prior_closed_diagnostic": PRIOR_CLOSED_DIAGNOSTIC},
@@ -634,7 +657,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         from go2arx5_vla.structured_action import structured_action_mask
 
         processor_binding = __import__("stage40_b0_model_control", fromlist=["_bind_local_cosmos_processor"])._bind_local_cosmos_processor(Path(args.stage10_root), Path(args.cosmos_snapshot))
-        processor, embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=checkpoint, dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
+        processor, embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=base_checkpoint, dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
 
         # Build every condition with the real processor before any forward.
         items = {
@@ -791,7 +814,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "science_classification": science,
             "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT},
             "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": execution_head, "head": execution_head},
-            "identities": {**identities, "noise_array_sha256": NOISE_ARRAY_SHA, "noise_file_sha256": NOISE_FILE_SHA, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE, "modality_sha256": MODALITY_SHA, "model_dtype": model_dtype, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding},
+            "identities": {**identities, **base_identity, "noise_array_sha256": NOISE_ARRAY_SHA, "noise_file_sha256": NOISE_FILE_SHA, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE, "modality_sha256": MODALITY_SHA, "model_dtype": model_dtype, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding},
             "native_input_identity": [{key: value for key, value in item.items() if key not in {"body", "wrist", "state", "expert"}} for item in natives.values()],
             "canonical_inputs": {key: {k: value for k, value in val.items() if k not in {"body_rgb", "wrist_rgb", "state"}} for key, val in (("T", train_npz), ("C", c0_npz))},
             "native_a_matches_canonical_T": native_a_matches_t,
@@ -825,6 +848,7 @@ def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--repository-head", required=True)
     p.add_argument("--stage10-root", required=True, type=Path)
+    p.add_argument("--base-model", required=True, type=Path, help="SHA-bound BASE processor/model metadata root; model weights come from --model-path")
     p.add_argument("--model-path", required=True, type=Path)
     p.add_argument("--dataset", required=True, type=Path)
     p.add_argument("--modality", required=True, type=Path)

@@ -17,6 +17,7 @@ class PI0157ConditioningDependenceStaticTests(unittest.TestCase):
         self.assertEqual(value["authority"]["pr_pointer_comment"], 5651064217)
         self.assertEqual(value["authority"]["starting_head"], "f4fdb01e5071b530d6997ec2d0a17666cdeacddb")
         self.assertEqual(value["fixed_model"]["checkpoint_tree_sha256"], "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152")
+        self.assertEqual(value["fixed_model"]["base_processor_config_sha256"], "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be")
         self.assertEqual(value["fixed_model"]["active_scalars"], 190)
         self.assertEqual(value["fixed_noise"]["shape"], [1, 40, 132])
         self.assertEqual(len(value["conditions"]["order"]), 8)
