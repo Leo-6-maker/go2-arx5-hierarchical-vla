@@ -121,7 +121,11 @@ def run_probe(*, mode: str, ffmpeg_root: Path, video: Path, cosmos_root: Path, r
     )
     resolved_path = Path(str(resolved)).resolve(strict=True)
     expected_snapshot = (cosmos_root / "snapshots" / expected_cosmos_revision).resolve(strict=True)
-    require(resolved_path.is_relative_to(expected_snapshot), f"offline resolver escaped accepted Cosmos snapshot: {resolved_path}")
+    require(resolved_path.is_relative_to(cosmos_root), f"offline resolver escaped accepted Cosmos cache root: {resolved_path}")
+    refs_main = cosmos_root / "refs" / "main"
+    require(refs_main.is_file() and refs_main.read_text(encoding="utf-8").strip() == expected_cosmos_revision, "Cosmos refs/main does not pin the accepted revision")
+    snapshot_config = (expected_snapshot / "config.json").resolve(strict=True)
+    require(snapshot_config == resolved_path, "offline resolver did not bind to the pinned snapshot config blob")
 
     result = {
         "schema": SCHEMA,
