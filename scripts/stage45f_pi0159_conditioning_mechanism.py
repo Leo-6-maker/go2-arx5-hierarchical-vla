@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-from dataclasses import replace
 import hashlib
 import importlib.util
 import json
@@ -381,9 +380,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         cosmos_binding = old._bind_local_cosmos_runtime(Path(args.stage10_root), Path(args.cosmos_snapshot))
         import torch
         from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor, _load_snapshot, _teacher_forced_local_flow
-        from stage38_structured_offline_evaluation import _load_structured_model, _structured_label_and_normalizer
+        from stage38_structured_offline_evaluation import _load_structured_model
         import stage45c_h200_eval_runtime_adapter as runtime
-        from go2arx5_vla.structured_action import reconcile_stage45b_label_anchor, structured_action_mask
+        from go2arx5_vla.structured_action import encode_structured_action, reconcile_stage45b_label_anchor, structured_action_mask
+        from go2arx5_vla.stage38_structured_training import StructuredActionNormalizer
         processor, embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=Path(args.base_model), dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
 
         snapshot = _load_snapshot(native_path)
@@ -393,12 +393,23 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         # invariant.  Reconcile only the label-side state representation using
         # the existing Stage45B mechanical helper; model inputs and physical
         # expert samples remain untouched and the residual is sealed below.
-        reconciled_state, anchor_reconciliation = reconcile_stage45b_label_anchor(
-            expert[0], np.asarray(snapshot.state_v1.as_array(), dtype=np.float64)
+        label_state = np.asarray(snapshot.state_v1.as_array(), dtype=np.float32).astype(np.float64)
+        reconciled_state, anchor_reconciliation = reconcile_stage45b_label_anchor(expert[0], label_state)
+        # Keep the exact Stage38 encoding law, but avoid its historical
+        # float32 state cast at this one label-only boundary.  The physical
+        # expert and observation state are read-only; this removes only the
+        # representational ULP that otherwise violates the unchanged 1e-9
+        # anchor predicate.
+        label = encode_structured_action(
+            expert[0], np.asarray(snapshot.future_timestamps, dtype=np.float64), reconciled_state,
+            timing_mode="T16", chunk_id=f"stage38e:{snapshot.example_id}",
+            source_frame=snapshot.source_frame, tcp_semantic_id=snapshot.tcp_semantic_id,
+            observation_timestamp=float(snapshot.observation_timestamp),
+            provenance={"stage": "Stage38-E", "source_timestamp_authority": "Stage22 snapshot"},
         )
-        snapshot_for_label = replace(snapshot, state_v1=snapshot.state_v1.__class__.from_array(reconciled_state))
-        _, _, x1 = _structured_label_and_normalizer(expert, snapshot_for_label, stats_doc)
-        x1 = np.asarray(x1, dtype=np.float32)[None, ...]
+        normalizer = StructuredActionNormalizer(stats_doc["statistics"], clip_outliers=True)
+        x1 = np.asarray(normalizer.normalize(label), dtype=np.float32)[None, ...]
+        require(int(np.count_nonzero(label.mask)) == 190, "expert label active mask drift")
         require(x1.shape == RAW_SHAPE and np.isfinite(x1).all(), f"expert normalized target ABI drift: {x1.shape}")
         mask = np.asarray(structured_action_mask("T16"), dtype=bool)
         require(mask.shape == (HORIZON, ACTION_DIM) and int(mask.sum()) == 190, "T16 active mask drift")
