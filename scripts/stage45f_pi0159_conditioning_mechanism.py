@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from dataclasses import replace
 import hashlib
 import importlib.util
 import json
@@ -382,12 +383,21 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor, _load_snapshot, _teacher_forced_local_flow
         from stage38_structured_offline_evaluation import _load_structured_model, _structured_label_and_normalizer
         import stage45c_h200_eval_runtime_adapter as runtime
-        from go2arx5_vla.structured_action import structured_action_mask
+        from go2arx5_vla.structured_action import reconcile_stage45b_label_anchor, structured_action_mask
         processor, embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=Path(args.base_model), dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
 
         snapshot = _load_snapshot(native_path)
         expert = np.asarray(snapshot.physical_action, dtype=np.float64)[None, ...]
-        _, _, x1 = _structured_label_and_normalizer(expert, snapshot, stats_doc)
+        # The sealed expert pose and StateV1 are physically identical, but a
+        # few JSON/rotation roundings can fail the unchanged 1e-9 codec
+        # invariant.  Reconcile only the label-side state representation using
+        # the existing Stage45B mechanical helper; model inputs and physical
+        # expert samples remain untouched and the residual is sealed below.
+        reconciled_state, anchor_reconciliation = reconcile_stage45b_label_anchor(
+            expert[0], np.asarray(snapshot.state_v1.as_array(), dtype=np.float64)
+        )
+        snapshot_for_label = replace(snapshot, state_v1=snapshot.state_v1.__class__.from_array(reconciled_state))
+        _, _, x1 = _structured_label_and_normalizer(expert, snapshot_for_label, stats_doc)
         x1 = np.asarray(x1, dtype=np.float32)[None, ...]
         require(x1.shape == RAW_SHAPE and np.isfinite(x1).all(), f"expert normalized target ABI drift: {x1.shape}")
         mask = np.asarray(structured_action_mask("T16"), dtype=bool)
@@ -516,6 +526,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         output_hashes["conditions_csv_sha256"] = write_csv(output / "conditions.csv", condition_rows, ["condition", "source_label", "t_value", "t_bucket", "local_field_active_rmse", "local_field_active_max_abs", "local_field_xyz_rmse", "active_delta_vs_train_rmse", "active_delta_vs_train_max_abs", "tail_path_length_m", "tail_roughness_mean", "tail_displacement_m", "tail_delta_xyz_rmse", "tail_delta_xyz_max_abs", "processor_information_loss", "processor_clip_dimensions", "raw_file_sha256"])
         output_hashes["condition_differences_json_sha256"] = write_json(output / "condition_differences.json", difference_rows)
         output_hashes["state_audit_json_sha256"] = write_json(output / "processed_state_audit.json", audit_by_condition)
+        output_hashes["anchor_reconciliation_json_sha256"] = write_json(output / "anchor_reconciliation.json", anchor_reconciliation)
         output_hashes["raw_manifest_json_sha256"] = write_json(output / "raw_manifest.json", raw_rows)
         output_hashes["prior_c0_reference_json_sha256"] = write_json(output / "prior_c0_reference.json", prior_reference)
         output_hashes["trajectory_svg_sha256"] = _make_svg({condition: physical_by_condition[condition][T_BUCKETS[-1]]["standardized_T"] for condition in condition_specs}, output / "trajectory_plot.svg")
@@ -550,7 +561,7 @@ raw-first ABI and compare teacher-forced local-field error on states sampled
 after policy execution. Do not start that intervention automatically.
 """
         output_hashes["one_page_conclusion_sha256"] = write_text(output / "one_page_conclusion.md", conclusion)
-        report = {"schema": "CORELAB_STAGE45F_PI0159_CONDITIONING_MECHANISM_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "science_classification": classification, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "identities": {**identities, "noise_array_sha256": NOISE_ARRAY_SHA, "noise_file_sha256": NOISE_FILE_SHA, "train_input_sha256": TRAIN_INPUT_FILE_SHA, "c0_input_sha256": C0_INPUT_FILE_SHA, "native_expert_snapshot_sha256": native_sha, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE, "modality_sha256": MODALITY_SHA, "model_dtype": model_dtype, "cosmos_binding": cosmos_binding}, "conditions": condition_rows, "condition_differences": difference_rows, "processed_state_audit": audit_by_condition, "prior_c0_reference": prior_reference, "flow": {"t_values": list(T_VALUES), "t_buckets": list(T_BUCKETS), "equations": ["x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)*v_hat"], "active_mask_shape": [HORIZON, ACTION_DIM], "active_scalars": 190}, "outputs": output_hashes, "counters": {**counters, "raw_rows": len(raw_rows), "cumulative_new_model_side_calls": counters["model_side_calls"]}, "budget": {"conditioning_cap": MAX_CONDITIONING, "action_head_cap": MAX_HEAD_CALLS, "model_side_cap": MAX_MODEL_SIDE_CALLS, "conditioning_used": counters["conditioning_completed"], "action_head_used": counters["action_head_calls"], "model_side_used": counters["model_side_calls"]}, "effect_summary": {"state_mean_active_delta_rmse": state_effect, "vision_mean_active_delta_rmse": vision_effect, "state_mean_tail_delta_xyz_rmse": tail_effect_state, "vision_mean_tail_delta_xyz_rmse": tail_effect_vision}, "execution_boundary": {"model_forward": counters["model_side_calls"], "model_construction": counters["model_construction_attempts"], "training": False, "backward": False, "optimizer_step": 0, "public_sampler": False, "free_running_inference": False, "icl": False, "new_data": False, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "validation_e_read": False, "holdout_f_read": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "fixed-policy teacher-forced conditioning and tail characterization only; no task-success, WBC, closed-loop, world-frame TRAIN, ICL, training, or generalization claim", "raw_first": True}
+        report = {"schema": "CORELAB_STAGE45F_PI0159_CONDITIONING_MECHANISM_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "science_classification": classification, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "identities": {**identities, "noise_array_sha256": NOISE_ARRAY_SHA, "noise_file_sha256": NOISE_FILE_SHA, "train_input_sha256": TRAIN_INPUT_FILE_SHA, "c0_input_sha256": C0_INPUT_FILE_SHA, "native_expert_snapshot_sha256": native_sha, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE, "modality_sha256": MODALITY_SHA, "model_dtype": model_dtype, "cosmos_binding": cosmos_binding}, "anchor_reconciliation": anchor_reconciliation, "conditions": condition_rows, "condition_differences": difference_rows, "processed_state_audit": audit_by_condition, "prior_c0_reference": prior_reference, "flow": {"t_values": list(T_VALUES), "t_buckets": list(T_BUCKETS), "equations": ["x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)*v_hat"], "active_mask_shape": [HORIZON, ACTION_DIM], "active_scalars": 190}, "outputs": output_hashes, "counters": {**counters, "raw_rows": len(raw_rows), "cumulative_new_model_side_calls": counters["model_side_calls"]}, "budget": {"conditioning_cap": MAX_CONDITIONING, "action_head_cap": MAX_HEAD_CALLS, "model_side_cap": MAX_MODEL_SIDE_CALLS, "conditioning_used": counters["conditioning_completed"], "action_head_used": counters["action_head_calls"], "model_side_used": counters["model_side_calls"]}, "effect_summary": {"state_mean_active_delta_rmse": state_effect, "vision_mean_active_delta_rmse": vision_effect, "state_mean_tail_delta_xyz_rmse": tail_effect_state, "vision_mean_tail_delta_xyz_rmse": tail_effect_vision}, "execution_boundary": {"model_forward": counters["model_side_calls"], "model_construction": counters["model_construction_attempts"], "training": False, "backward": False, "optimizer_step": 0, "public_sampler": False, "free_running_inference": False, "icl": False, "new_data": False, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "validation_e_read": False, "holdout_f_read": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "fixed-policy teacher-forced conditioning and tail characterization only; no task-success, WBC, closed-loop, world-frame TRAIN, ICL, training, or generalization claim", "raw_first": True}
         report_sha = write_json(output / "pi0159_conditioning_mechanism.json", report)
         output_hashes["report_sha256"] = report_sha
         evidence_sha = write_json(output / "evidence_hashes.json", {**output_hashes, "admission_sha256": admission_sha, "raw_sha256_by_row": {f"{row['condition']}:t{row['t_bucket']}": row["raw_file_sha256"] for row in raw_rows}})

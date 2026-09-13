@@ -43,6 +43,12 @@
     "native_expert_target_metadata_only": true,
     "c0_measured_world_bridge_not_used_for_teacher_target": true
   },
+  "label_anchor_precision": {
+    "method": "existing Stage45B reconcile_stage45b_label_anchor",
+    "scope": "label-side StateV1 copy only; physical expert and model observation StateV1 remain untouched",
+    "semantic_tolerance": "1e-6 position/rotation input proof, unchanged codec invariant 1e-9 after representation reconciliation",
+    "must_record_original_residual": true
+  },
   "conditions": {
     "order": [
       "TRAIN_REFERENCE",

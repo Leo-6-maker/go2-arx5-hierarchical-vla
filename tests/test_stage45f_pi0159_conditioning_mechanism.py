@@ -71,6 +71,7 @@ class PI0159StaticTests(unittest.TestCase):
         source = SCRIPT.read_text(encoding="utf-8")
         for token in ("x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)*v_hat", "raw_first", "target_xyz_in_model_input", "torch.inference_mode", "free_running_inference", "STATE_C0_VISION_TRAIN", "VISION_C0_STATE_TRAIN"):
             self.assertIn(token, source)
+        self.assertIn("reconcile_stage45b_label_anchor", source)
         self.assertIn("public_sampler", source)
         self.assertIn("No public sampler", source)
 
