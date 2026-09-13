@@ -1,0 +1,29 @@
+{
+  "frame": {
+    "anchor_translation": "existing sealed materialization; no re-anchoring or target-dependent transform",
+    "decoded_target_metric_frame": "WORLD_FRAME_METRES",
+    "source_action_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "target_vector": "target_world - decoded_start_world"
+  },
+  "metrics": {
+    "absolute_progress_m": "initial target distance minus final target distance; positive is distance reduction.",
+    "best_progress_m": "initial target distance minus minimum target distance.",
+    "endpoint_error_m": "norm(decoded final XYZ - expert final XYZ); not target distance.",
+    "endpoint_target_vector_cosine": "cosine(decoded endpoint displacement, target vector from decoded start).",
+    "final_target_distance_m": "Euclidean decoded final EEF position to target; target distance, not expert error.",
+    "minimum_target_distance_m": "minimum target distance over decoded trajectory.",
+    "position_rmse_m": "RMSE of decoded-vs-expert XYZ over H40.",
+    "prediction_path_length_m": "sum of decoded successive XYZ segment norms.",
+    "roughness_ratio": "mean decoded XYZ second-difference norm divided by expert XYZ second-difference mean; dimensionless."
+  },
+  "paired": {
+    "delta": "left minus right on the same window_id/target/seed/tier key",
+    "exposure": "@2000 versus @1000 within the same route and seed: 9 comparisons.",
+    "intervention_vs_legacy": "L1 or N2 versus Legacy at the same tier and seed: 12 comparisons.",
+    "l1_vs_n2": "L1 versus N2 at the same tier and seed: 6 comparisons.",
+    "no_iid_or_significance_claim": true,
+    "no_weighted_score": true
+  },
+  "schema": "VANDA_STAGE45E_PI0153_METRIC_FRAME_DEFINITIONS_V1",
+  "status": "PASS_EXPLICIT_PHYSICAL_METRIC_SEMANTICS"
+}
