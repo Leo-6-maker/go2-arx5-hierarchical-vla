@@ -1,0 +1,101 @@
+{
+  "schema": "CORELAB_STAGE45F_PI0155_GENERATION_RESULT_V1",
+  "status": "PARTIAL_BLOCKED_AFTER_MODEL_ATTEMPT",
+  "token": "CORELAB_PI0155_GENERATION_PATH_DIAGNOSIS_FOR_PI_REVIEW",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0155",
+    "issue_comment": 5650148861,
+    "pr_comment": 5650151180
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "head": "128980d7c95424f90211fac4391618e768ab9a06",
+    "worktree_clean_before_result_commit": true
+  },
+  "fixed_inputs": {
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "source_noise_array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "train_input_sha256": "3b525a5a628d3a9ee71894fdd9c6c77b2e888406e87926594700314768181866",
+    "archived_c0_input_sha256": "67ca605ca90e05633b22dd0447e4873ee29c6a4b31be983b94c11db35f9932be"
+  },
+  "runtime": {
+    "host": "corelab-4080s",
+    "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "gpu_index_in_snapshot": 0,
+    "gpu_free_mib_at_admission": 32091,
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "cuda": "12.8",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "cosmos_local_loader": "Qwen3VLForConditionalGeneration.from_pretrained canonical-id to sealed snapshot",
+    "hf_offline": true
+  },
+  "processor_audit": {
+    "status": "PASS",
+    "builders": ["C1_RUNTIME_BUILDER", "WORKER_BUILDER"],
+    "inputs": 2,
+    "isolation": "forked CPU process per builder/input",
+    "first_difference": null,
+    "input_keys_equal": true,
+    "target_xyz_in_model_input": false
+  },
+  "attempt": {
+    "model_construction_attempts": 1,
+    "model_construction_status": "PASS",
+    "query_order": ["TRAIN/C1"],
+    "query_attempts": 1,
+    "conditioning_entered": 1,
+    "conditioning_completed": 0,
+    "conditioning_unknown": 1,
+    "action_head_calls_entered": 0,
+    "action_head_calls_completed": 0,
+    "action_head_calls_unknown": 0,
+    "model_side_calls_accounted": 1,
+    "model_side_calls_entered": 1,
+    "model_side_calls_completed": 0,
+    "model_side_calls_unknown": 1,
+    "raw_arrays_saved": 0,
+    "retries": 0,
+    "failure_type": "RuntimeError",
+    "failure": "Inference tensors cannot be saved for backward",
+    "failure_phase": "TRAIN/C1 action-head graph after conditioning",
+    "failure_seal_path": "/var/cache/users/liuyu-nfs/stage45f_pi0155_generation_probe_20260913/failure_seal.json",
+    "failure_seal_sha256": "baae8ad299730ae15c2eb195ef255426bd387333feb2efa37305381d5f51afaa",
+    "no_retry": true
+  },
+  "budget": {
+    "max_query_attempts": 4,
+    "max_conditioning": 4,
+    "max_action_head_calls": 16,
+    "max_model_side_calls": 20,
+    "consumed_query_attempts": 1,
+    "consumed_conditioning": 1,
+    "consumed_action_head_calls": 0,
+    "consumed_model_side_calls": 1
+  },
+  "cpu_supplement": {
+    "train_frame_source": "REFERENCE_ORIGIN_DERIVED_NOT_PROVEN_MEASURED_EEF",
+    "train_absolute_world_metrics": "UNVERIFIED",
+    "historical_c2_actual_x0": "UNKNOWN_NOT_RECORDED",
+    "expert_relative_path_length_m": 0.12269180229491666,
+    "hold_relative_path_length_m": 0.0
+  },
+  "execution_boundary": {
+    "new_model_forward": 1,
+    "new_conditioning": 1,
+    "new_action_head": 0,
+    "training": false,
+    "pbs": false,
+    "icl": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "safety_gate_relaxed": false
+  },
+  "recommendation": "Request a new PI mechanical-recovery gate for the same fixed-input comparison with an explicit no-grad/clone boundary; do not interpret this runtime failure scientifically."
+}
