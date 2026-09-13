@@ -496,13 +496,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--expected-code-commit")
     parser.add_argument("--stats", type=Path)
+    parser.add_argument("--prior-use-report", type=Path)
     args = parser.parse_args(argv)
     try:
         if args.static:
             result = static_plan()
         else:
             require(args.source_root is not None and args.output_root is not None and args.expected_code_commit and args.stats is not None, "--admit requires source/output/code-commit/stats")
-            result = admit(args.source_root.resolve(), args.output_root.resolve(), expected_code_commit=args.expected_code_commit, stats_path=args.stats.resolve())
+            prior_use_report = None
+            if args.prior_use_report is not None:
+                loaded_prior_use_report = load_json(args.prior_use_report.resolve(strict=True))
+                require(isinstance(loaded_prior_use_report, Mapping), "prior-use report must be a JSON object")
+                prior_use_report = loaded_prior_use_report
+            result = admit(
+                args.source_root.resolve(),
+                args.output_root.resolve(),
+                expected_code_commit=args.expected_code_commit,
+                stats_path=args.stats.resolve(),
+                prior_use_report=prior_use_report,
+            )
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0
     except Exception as exc:
