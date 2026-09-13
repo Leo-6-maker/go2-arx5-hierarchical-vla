@@ -1,0 +1,117 @@
+{
+  "schema": "CORELAB_PI0160_MATCHED_RESET_PACKET_V1",
+  "status": "PARTIAL",
+  "token": "CORELAB_PI0160_MATCHED_RESET_EXPERT_FOR_PI_REVIEW",
+  "authority": {
+    "issue_comment": 5651703057,
+    "pi_gate": "PI_GATE_STATE_0160",
+    "pr_comment": 5651704759
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "expert_execution_head": "719d57d33801edbd8e7940299b5bc52857f326a7",
+    "model_execution_head": "357046ade78cc31924c34d6fdd0067343cc8d546",
+    "current_pushed_head": "357046ade78cc31924c34d6fdd0067343cc8d546"
+  },
+  "fixed_inputs": {
+    "target_id": "red_target_train_a",
+    "target_world_m": [0.3, 0.1, 0.58],
+    "target_xyz_in_model_input": false,
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "checkpoint_file_count": 19,
+    "checkpoint_total_bytes": 20889823145,
+    "n2_stats_file_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "noise_array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "noise_file_sha256": "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922",
+    "sampler": "E4",
+    "timesteps": [0, 250, 500, 750],
+    "teacher_t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+    "teacher_t_buckets": [67, 369, 783],
+    "flow": [
+      "x_t=(1-t)x0+t*x1",
+      "v_target=x1-x0",
+      "x1_hat=x_t+(1-t)*v_hat"
+    ],
+    "active_mask_shape": [40, 132],
+    "active_scalar_count": 190
+  },
+  "runtime": {
+    "host": "corelab-4080s",
+    "gpu_index": 0,
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "gpu_memory_total_mib": 32760,
+    "gpu_memory_used_mib": 10031,
+    "gpu_memory_free_mib": 22199,
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "cuda": "12.8",
+    "model_dtype": "torch.bfloat16",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+  },
+  "raw_evidence": {
+    "expert_root": "/var/cache/users/liuyu-nfs/stage45f_pi0160_matched_reset_expert_20260913_v7",
+    "expert_result_sha256": "56e6035efe486cda720b286a63f5879b3d85f14766253a232f4842144e37b6a8",
+    "expert_admission_sha256": "5d839039ba4f289913ed10001e1c6c93a44c87f6e11f860487e40b4226af82d2",
+    "expert_evidence_hashes_sha256": "56e8b0840500de607d3e1d8f57f048411e14b7c73d424de9b11ee5d49d554bd1",
+    "expert_result_sha256_field": "56e6035efe486cda720b286a63f5879b3d85f14766253a232f4842144e37b6a8",
+    "model_root": "/var/cache/users/liuyu-nfs/stage45f_pi0160_matched_reset_model_20260913_v3",
+    "model_result_sha256": "fd79a35299f94cf1fa5bbe25b88938585752b7bd7cd210859ad951040ad64257",
+    "model_admission_sha256": "a38120a6b34953d9680427517a566f83f688524454de6021bc86da5efe0a8152",
+    "model_evidence_hashes_sha256": "cfbd52252db43d36f5f26907744a49e6da31f77261c0ebe5b82942d9b066db48",
+    "raw_manifest_sha256": "3cf6b8081ed6606ef676d9104a91e61d33efd13e08c9a37b12b60d24a7925171",
+    "model_table_sha256": "a21484cd0c70f5a543d6f1b90318461a3997e4ed2cf233127dd8905b775f0117",
+    "clipping_sha256": "a00a0a415b32fa1fbecd898b73e081d70d4d3c123048eb74d833350769613568",
+    "trajectory_svg_sha256": "70634a88153f71d21b9d92979803ab4a8f70931882992c34e6182ff261599ad3",
+    "conclusion_sha256": "ff2f396aedcf6283d6bb5d8fb37710c457f9feec5e7ca6bf65a7d5109232eae4",
+    "q0_body_sha256_all_conditions": "8a04fca6a41ae409b5c75d905fe8b2ae95c2aafc1b203850fc9ac43c093595ba",
+    "q0_wrist_sha256_all_conditions": "205f0e6b8d03232d009a3d149558ae1b62ba4099cb1d07fdb0b4beb2c51b8334"
+  },
+  "counts": {
+    "expert_conditions_started": 5,
+    "expert_conditions_complete": 4,
+    "expert_wbc_steps": 1031,
+    "expert_reference_updates": 13,
+    "expert_gr00t_forward": 0,
+    "model_construction": 1,
+    "model_conditioning": 10,
+    "model_action_head": 35,
+    "model_side_calls": 45,
+    "model_fr_queries": 5,
+    "model_teacher_queries": 5,
+    "model_raw_rows": 20,
+    "model_start_residual_nonzero": 0
+  },
+  "execution_boundary": {
+    "gr00t_output_sent_to_wbc": false,
+    "training": false,
+    "backward": false,
+    "optimizer_step": 0,
+    "icl": false,
+    "pbs": false,
+    "h200": false,
+    "hardware": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "new_data": false,
+    "safety_gate_relaxed": false
+  },
+  "condition_failure": {
+    "condition": "C1_X_PLUS_5CM",
+    "type": "ExpertCampaignError",
+    "message": "C1_X_PLUS_5CM segment 1 terminated: TRACKING_ABORT, rows=2",
+    "rows_saved": 49,
+    "snapshots_saved": 2,
+    "wbc_steps": 51,
+    "reference_updates": 1,
+    "retry_after_start": false
+  },
+  "local_files": {
+    "summary_csv": "matched_summary.csv",
+    "conclusion": "README.md",
+    "source_note": "All numeric rows are CPU-derived from the immutable node-local raw packets; no new model or simulator calls were made while producing this repository view."
+  }
+}
