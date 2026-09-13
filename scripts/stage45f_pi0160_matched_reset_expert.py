@@ -200,6 +200,24 @@ def _state_hashes(native: Any, env: Any, tensor_hash: Any) -> dict[str, Any]:
     return {"root": tensor_hash(native.root_states), "dof": tensor_hash(native.dof_state), "arm_history": tensor_hash(env.arm_obs_history), "dog_history": tensor_hash(env.dog_obs_history), "episode": int(native.episode_length_buf[0].detach().cpu().item()), "reset_buf": bool(native.reset_buf[0].detach().cpu().item()), "wbc_forward_count": int(native.stage21_wbc_forward_count), "reference_update_count": int(native.stage21_reference_update_count)}
 
 
+def _refresh_eef_from_rigid_body(native: Any, *, root_delta: np.ndarray) -> None:
+    """Synchronize the derived rigid-body cache after the S0 root write.
+
+    The native simulator's first graphics/result fetch may restore the last
+    fetched rigid-body tensor before any physics step.  PI0160 explicitly
+    takes zero settling ticks before S0, so this helper mirrors the accepted
+    Stage43 cache-only synchronization: apply only the declared translation
+    to the robot rigid-body positions, leaving orientation/velocity/DOF and
+    all lifecycle/history state untouched.
+    """
+
+    import torch
+
+    rigid = native.rigid_body_state.view(native.num_envs, native.num_bodies, 13)
+    shift = torch.as_tensor(np.asarray(root_delta, dtype=np.float32), dtype=rigid.dtype, device=rigid.device)
+    rigid[:, :, :3].add_(shift.view(1, 1, 3))
+
+
 def _capture_snapshot(native: Any, *, output: Path, condition: str, snapshot_id: str, sim_time: float, anchor: np.ndarray, target: np.ndarray, capture_scene: Any, current_eef: Any, current_state: Any, build_chunk: Any, expert_cfg: Any, write_ppm: Any, tensor_hash: Any, post_scene_root_delta: Sequence[float] | None = None) -> tuple[dict[str, Any], Any]:
     body, wrist = capture_scene(native)
     # IsaacGym's graphics/result fetch can repopulate the derived rigid-body
