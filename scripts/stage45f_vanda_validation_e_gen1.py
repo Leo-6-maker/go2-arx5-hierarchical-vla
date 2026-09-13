@@ -488,7 +488,7 @@ def validate_artifacts(config: Mapping[str, Any], binding: Mapping[str, Any], ex
         path_value = checkpoint_config.get(label)
         require(isinstance(path_value, str), f"checkpoint path missing: {label}")
         path = _regular_dir(Path(path_value), f"checkpoint {label}")
-        observed, entries = tree_sha256(path, f"{label}/")
+        observed, entries = tree_sha256(path, path.name)
         require(observed == arm["tree_sha256"], f"checkpoint tree SHA drift: {label}: {observed}")
         state_path = _regular(path / "trainer_state.json", f"trainer state {label}")
         state = json.loads(state_path.read_text(encoding="utf-8"))
