@@ -1,0 +1,48 @@
+#!/bin/bash
+# PI0154: first matched Validation-E transfer test.
+# One H200, one job, one model at a time; no training or retry.
+
+#PBS -N st45f_val_e
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=02:00:00
+#PBS -r n
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0154_REPO:?Set the exact clean Validation-E checkout}"
+: "${PI0154_EXPECTED_HEAD:?Set the exact Validation-E HEAD}"
+: "${PI0154_PYTHON:?Set the admitted H200 Python}"
+: "${PI0154_CONFIG:?Set the immutable late-bound execution config}"
+: "${PI0154_FFMPEG_ROOT:?Set the qualified native FFmpeg runtime root}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${PI0154_PYTHON}"
+resolved_python="$(readlink -f "${PI0154_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "Validation-E Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
+test -d "${PI0154_FFMPEG_ROOT}/lib"
+test -d "${PI0154_FFMPEG_ROOT}/compat"
+test "$(git -C "${PI0154_REPO}" branch --show-current)" = "stage45f/vanda-validation-e-gen1-l1-2000"
+test "$(git -C "${PI0154_REPO}" rev-parse HEAD)" = "${PI0154_EXPECTED_HEAD}"
+test -z "$(git -C "${PI0154_REPO}" status --porcelain=v1 --untracked-files=all)"
+test -f "${PI0154_CONFIG}"
+
+site="$(dirname "${PI0154_PYTHON}")/../lib/python3.12/site-packages"
+test -d "${site}/torchcodec"
+test -d "${site}/torch/lib"
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0154_FFMPEG_ROOT}/lib:${PI0154_FFMPEG_ROOT}/compat:${site}/torchcodec:${site}/torch/lib:${ambient_ld_library_path}"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+unset PYTHONPATH 2>/dev/null || true
+
+# Absolute-path entrypoint from a foreign CWD; the Python program performs
+# admission checks before importing Torch/GR00T.
+cd "${TMPDIR:-/tmp}"
+exec "${PI0154_PYTHON}" "${PI0154_REPO}/scripts/stage45f_vanda_validation_e_gen1.py" --execute --config "${PI0154_CONFIG}"
