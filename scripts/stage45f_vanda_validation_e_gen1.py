@@ -444,7 +444,17 @@ def validate_artifacts(config: Mapping[str, Any], binding: Mapping[str, Any], ex
 
     require(not admission.model_imports_present(), "model-side module already imported before execution admission")
     freeze = admission.load_json(admission.FREEZE_PATH)
-    admission._validate_freeze(freeze, expected_code_commit=expected_head)
+    support_checkout = freeze.get("support_checkout")
+    require(isinstance(support_checkout, Mapping), "freeze support checkout is missing")
+    evaluation_code_commit = str(config.get("evaluation_code_commit", ""))
+    require(evaluation_code_commit, "execution config is missing evaluation code commit")
+    admission._validate_freeze(freeze, expected_code_commit=evaluation_code_commit)
+    run_text(["git", "-C", str(REPO), "merge-base", "--is-ancestor", evaluation_code_commit, expected_head])
+    changed_evaluation_paths = run_text([
+        "git", "-C", str(REPO), "diff", "--name-only", f"{evaluation_code_commit}..{expected_head}", "--",
+        *[str(item) for item in support_checkout["evaluation_code_paths"]],
+    ])
+    require(not changed_evaluation_paths, f"evaluation code changed after frozen code commit: {changed_evaluation_paths}")
     require(binding.get("execution_head") == expected_head, "admission HEAD differs from execution HEAD")
     require(binding.get("execution_branch") == EXPECTED_BRANCH, "admission branch drift")
     require(binding.get("pi_gate") == EXPECTED_GATE and binding.get("pr_pointer") == admission.EXPECTED_PR_POINTER, "admission authority drift")

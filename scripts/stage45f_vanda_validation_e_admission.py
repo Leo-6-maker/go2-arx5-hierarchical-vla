@@ -357,12 +357,14 @@ def admit(
     output_root: Path,
     *,
     expected_code_commit: str,
+    execution_head: str | None = None,
     stats_path: Path,
     prior_use_report: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     freeze = load_json(FREEZE_PATH)
     require(isinstance(freeze, Mapping), "recipe freeze must be an object")
     freeze_validation = _validate_freeze(freeze, expected_code_commit=expected_code_commit)
+    bound_execution_head = execution_head or expected_code_commit
     require(not output_root.exists() and not output_root.is_symlink(), f"admission output must be fresh: {output_root}")
     stats_path = _regular_file(stats_path, "runtime stats")
     require(sha256_file(stats_path) == EXPECTED_STATS_SHA, "runtime stats file SHA mismatch")
@@ -417,7 +419,7 @@ def admit(
         "pr_pointer": EXPECTED_PR_POINTER,
         "authority_token": "PI_GATE_STATE_0154",
         "execution_branch": EXPECTED_BRANCH,
-        "execution_head": expected_code_commit,
+        "execution_head": bound_execution_head,
         "recipe_freeze": {
             "path": str(FREEZE_PATH),
             "sha256": freeze_validation["freeze_sha256"],
@@ -466,7 +468,7 @@ def admit(
         "schema": "STAGE45F_PI0154_VALIDATION_E_ADMISSION_RESULT_V1",
         "status": "PASS_PRE_MODEL",
         "token": "VANDA_PI0154_VALIDATION_E_ADMISSION_RECORDED",
-        "execution_head": expected_code_commit,
+        "execution_head": bound_execution_head,
         "freeze_sha256": freeze_validation["freeze_sha256"],
         "binding_path": str(binding_path),
         "binding_sha256": sha256_file(binding_path),
@@ -495,6 +497,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--source-root", type=Path)
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--expected-code-commit")
+    parser.add_argument("--execution-head")
     parser.add_argument("--stats", type=Path)
     parser.add_argument("--prior-use-report", type=Path)
     args = parser.parse_args(argv)
@@ -502,7 +505,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.static:
             result = static_plan()
         else:
-            require(args.source_root is not None and args.output_root is not None and args.expected_code_commit and args.stats is not None, "--admit requires source/output/code-commit/stats")
+            require(args.source_root is not None and args.output_root is not None and args.expected_code_commit and args.execution_head and args.stats is not None, "--admit requires source/output/code-commit/execution-head/stats")
             prior_use_report = None
             if args.prior_use_report is not None:
                 loaded_prior_use_report = load_json(args.prior_use_report.resolve(strict=True))
@@ -512,6 +515,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 args.source_root.resolve(),
                 args.output_root.resolve(),
                 expected_code_commit=args.expected_code_commit,
+                execution_head=args.execution_head,
                 stats_path=args.stats.resolve(),
                 prior_use_report=prior_use_report,
             )
