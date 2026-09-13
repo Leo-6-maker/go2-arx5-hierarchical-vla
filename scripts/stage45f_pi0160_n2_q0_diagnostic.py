@@ -198,9 +198,14 @@ def select_gpu(snapshot: Mapping[str, Any], requested: str | None) -> dict[str, 
 
 
 def verify_fixed_inputs(args: argparse.Namespace, expert_summary: Mapping[str, Any]) -> dict[str, Any]:
-    require(expert_summary.get("status") == "COMPLETED", f"expert campaign is not complete: {expert_summary.get('status')}")
+    # PI0160 permits a real expert tracking/gate negative result to remain in
+    # the fixed cohort.  Such an episode is PARTIAL, but its already-captured
+    # q0 reference is still eligible for the model-side diagnostic.  Only a
+    # missing/invalid q0 will exclude that condition (and is fail-closed in
+    # load_expert_q0 below).
+    require(expert_summary.get("status") in {"COMPLETED", "PARTIAL"}, f"expert campaign is not usable: {expert_summary.get('status')}")
     require(list(item.get("condition_id") for item in expert_summary.get("conditions", [])) == list(CONDITION_ORDER), "expert condition order drift")
-    require(all(item.get("status") == "PASS" for item in expert_summary["conditions"]), "model diagnostics require five qualified expert conditions")
+    require(all(item.get("status") in {"PASS", "PARTIAL"} and int(item.get("snapshots", 0)) >= 1 for item in expert_summary["conditions"]), "model diagnostics require a sealed q0 for every fixed condition")
     checkpoint = Path(args.model_path).resolve()
     stats = Path(args.n2_stats).resolve()
     noise = Path(args.noise).resolve()
@@ -230,7 +235,17 @@ def load_expert_q0(expert_root: Path, condition: str) -> dict[str, Any]:
     path = Path(expert_root) / "conditions" / condition / "snapshots" / "q0.npz"
     meta_path = Path(expert_root) / "conditions" / condition / "condition_metadata.json"
     require(path.is_file() and not path.is_symlink(), f"missing expert q0: {path}")
-    require(meta_path.is_file() and read_json(meta_path).get("status") == "PASS", f"expert condition not PASS: {condition}")
+    # PASS conditions have the full condition metadata.  A condition that
+    # ended in a real tracking/gate negative result may only have failure.json;
+    # PI0160 still authorizes its valid q0 observation/reference.  Do not turn
+    # a no-row startup failure into a model input.
+    if meta_path.is_file():
+        require(read_json(meta_path).get("status") == "PASS", f"expert condition metadata is not PASS: {condition}")
+    else:
+        failure_path = path.parent.parent / "failure.json"
+        require(failure_path.is_file(), f"expert condition has no PASS metadata or failure record: {condition}")
+        failure = read_json(failure_path)
+        require(failure.get("status") == "PARTIAL" and int(failure.get("snapshots_saved", 0)) >= 1, f"expert partial condition has no valid q0: {condition}")
     with np.load(path, allow_pickle=False) as data:
         required = {"body_rgb", "wrist_rgb", "state_v1", "expert_physical_local", "expert_timestamps", "eef_world_m", "eef_local_m", "anchor_world_m", "target_world_m"}
         require(required.issubset(set(data.files)), f"expert q0 keys drift for {condition}: {data.files}")
