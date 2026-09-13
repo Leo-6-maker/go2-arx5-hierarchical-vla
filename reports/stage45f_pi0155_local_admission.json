@@ -1,0 +1,79 @@
+{
+  "schema": "CORELAB_STAGE45F_PI0155_LOCAL_ADMISSION_V1",
+  "status": "ADMITTED_FOR_BOUNDED_EXECUTION",
+  "token": "CORELAB_PI0155_LOCAL_ADMISSION_RECORDED",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0155",
+    "issue_comment": 5650148861,
+    "pr_comment": 5650151180
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "head": "5d05ed77f7a55b6f564172e3826eed65a917c656",
+    "worktree_clean_at_record": true
+  },
+  "fixed_identity": {
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "source_noise_array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "train_input_sha256": "3b525a5a628d3a9ee71894fdd9c6c77b2e888406e87926594700314768181866",
+    "archived_c0_input_sha256": "67ca605ca90e05633b22dd0447e4873ee29c6a4b31be983b94c11db35f9932be",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
+  },
+  "runtime": {
+    "host": "corelab-4080s",
+    "python": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+    "python_version": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "cuda": "12.8",
+    "authorized_gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "gpu_index_at_admission": 0,
+    "gpu_total_mib": 32760,
+    "gpu_used_mib": 139,
+    "gpu_free_mib": 32091,
+    "selection_rule": "UUID-bound; ordinal is informational only",
+    "cosmos_snapshot": "/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1/materialized/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+    "offline_nested_loader_binding": "Qwen3VLForConditionalGeneration.from_pretrained canonical-id to sealed snapshot",
+    "hf_offline": true
+  },
+  "cpu_preflight": {
+    "py_compile": "PASS",
+    "git_diff_check": "PASS",
+    "unittest_pi0155_generation": "3/3 PASS",
+    "isolated_real_processor_builders": "2 builders x 2 inputs PASS",
+    "target_metadata_excluded": true,
+    "structured_action_active_scalars": 190,
+    "model_forwards_before_admission": 0,
+    "training_before_admission": false
+  },
+  "budget": {
+    "max_query_attempts": 4,
+    "max_conditioning": 4,
+    "max_action_head_calls": 16,
+    "max_model_side_calls": 20,
+    "new_model_construction_attempts_allowed": 2,
+    "prior_pi0153_model_construction_attempts": 1,
+    "consumed_query_attempts": 0,
+    "consumed_conditioning": 0,
+    "consumed_action_head_calls": 0,
+    "consumed_model_side_calls": 0
+  },
+  "execution_boundary": {
+    "model_forward": 0,
+    "conditioning": 0,
+    "action_head": 0,
+    "training": false,
+    "pbs": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "icl": false
+  }
+}
