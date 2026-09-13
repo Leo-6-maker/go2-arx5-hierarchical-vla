@@ -192,6 +192,16 @@ def prepare_environment(root: Path, gpu: Mapping[str, Any], cosmos: Path, n2_sta
     (cache / "xdg").mkdir(parents=True, exist_ok=False)
     (hub / COSMOS_MODEL_DIR).symlink_to(_cosmos_model_root(cosmos), target_is_directory=True)
     old_ld = os.environ.get("LD_LIBRARY_PATH", "")
+    venv_root = Path(sys.executable).resolve().parents[1]
+    torch_lib = venv_root / "lib" / "python3.12" / "site-packages" / "torch" / "lib"
+    env_lib = venv_root / "lib"
+    ld_parts = [FFMPEG6_LIB]
+    if torch_lib.is_dir():
+        ld_parts.append(str(torch_lib))
+    if env_lib.is_dir():
+        ld_parts.append(str(env_lib))
+    if old_ld:
+        ld_parts.append(old_ld)
     os.environ.update({
         "CUDA_VISIBLE_DEVICES": str(gpu["index"]),
         "TMPDIR": str(tmp), "TMP": str(tmp), "TEMP": str(tmp),
@@ -199,7 +209,7 @@ def prepare_environment(root: Path, gpu: Mapping[str, Any], cosmos: Path, n2_sta
         "HF_HUB_CACHE": str(hub), "TRANSFORMERS_CACHE": str(hub),
         "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1",
         "HF_HUB_DISABLE_TELEMETRY": "1", "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1",
-        "LD_LIBRARY_PATH": FFMPEG6_LIB if not old_ld else FFMPEG6_LIB + os.pathsep + old_ld,
+        "LD_LIBRARY_PATH": os.pathsep.join(ld_parts),
         "STAGE45B_LABEL_ANCHOR_RECONCILIATION": "1",
         "STAGE45E_N2_STATS_ARTIFACT": str(n2_stats),
         "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",

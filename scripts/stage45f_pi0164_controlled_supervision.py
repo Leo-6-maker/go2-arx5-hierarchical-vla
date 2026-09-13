@@ -395,7 +395,20 @@ def prepare_environment(output: Path, gpu: Mapping[str, Any], cosmos: Path, n2_s
     (cache / "xdg").mkdir(parents=True, exist_ok=False)
     (hub / COSMOS_MODEL_DIR).symlink_to(_cosmos_model_root(cosmos), target_is_directory=True)
     old_ld = os.environ.get("LD_LIBRARY_PATH", "")
-    ld = FFMPEG6_LIB if not old_ld else FFMPEG6_LIB + os.pathsep + old_ld
+    # TorchCodec's native core links both the sealed FFmpeg6 payload and the
+    # active venv's libtorch/libc10 objects.  Keep this process-local and put
+    # FFmpeg first so libav* resolution cannot fall through to system FFmpeg8.
+    venv_root = Path(sys.executable).resolve().parents[1]
+    torch_lib = venv_root / "lib" / "python3.12" / "site-packages" / "torch" / "lib"
+    env_lib = venv_root / "lib"
+    ld_parts = [FFMPEG6_LIB]
+    if torch_lib.is_dir():
+        ld_parts.append(str(torch_lib))
+    if env_lib.is_dir():
+        ld_parts.append(str(env_lib))
+    if old_ld:
+        ld_parts.append(old_ld)
+    ld = os.pathsep.join(ld_parts)
     os.environ.update(
         {
             "CUDA_VISIBLE_DEVICES": str(gpu["index"]),
@@ -642,6 +655,7 @@ def train_arm(
         "schema": "CORELAB_PI0164_TRAINING_BINDING_V1",
         "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT},
         "arm": arm,
+        "mechanical_recovery_index": int(args.recovery_index),
         "repository": dict(repository),
         "checkpoint": identities["n2_checkpoint"],
         "stats": identities["n2_stats"],
@@ -718,6 +732,7 @@ def train_arm(
             "schema": "CORELAB_PI0164_TRAINING_FAILURE_SEAL_V1",
             "status": "BLOCKED",
             "arm": arm,
+            "mechanical_recovery_index": int(args.recovery_index),
             "error_type": type(exc).__name__,
             "error": str(exc)[-4000:],
             "traceback": traceback.format_exc(),
@@ -740,6 +755,7 @@ def train_arm(
         "schema": "CORELAB_PI0164_TRAINING_ARM_RESULT_V1",
         "status": "PASS",
         "arm": arm,
+        "mechanical_recovery_index": int(args.recovery_index),
         "starting_checkpoint_tree_sha256": CHECKPOINT_TREE,
         "training_seed": TRAIN_SEED,
         "optimizer_steps": MAX_STEPS,
@@ -804,6 +820,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     if args.mode == "static":
         return static_self_check()
     require(args.mode == "train", f"unsupported mode: {args.mode}")
+    require(0 <= int(args.recovery_index) <= 2, "PI0164 training recovery index exceeds gate allowance")
     repository = _repository_binding(args)
     head = repository["head"]
     identities = _external_identities(args)
@@ -822,6 +839,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "q0": {key: value for key, value in q0.items() if key not in {"body", "wrist", "state", "expert", "timestamps", "anchor", "target"}},
         "q0_qualification": q0["qualification"],
         "training": {"arms": ["E", "S"], "updates_per_arm": MAX_STEPS, "total_nominal_updates": 2 * MAX_STEPS, "seed": TRAIN_SEED, "q_policy": "qualified C1 q0; fallback TRAIN-a/expert-0000 only if qualification fails", "q_fallback_used": False},
+        "mechanical_recovery_index": int(args.recovery_index),
         "resource": {"selected": gpu, "snapshot": snapshot, "shared_gpu": True, "no_process_interference": True},
         "execution_boundary_before_training": {"gpu": False, "model_construction": 0, "model_forward": 0, "training": False, "backward": False, "optimizer_steps": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": False, "PBS": 0},
         "timestamp_utc": now_utc(),
@@ -864,6 +882,7 @@ def main() -> int:
     parser.add_argument("--gpu-uuid")
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--repository-head", help="Authorized source HEAD when running from a sealed node-local materialization")
+    parser.add_argument("--recovery-index", type=int, default=0, help="PI-authorized mechanical training recovery number (0..2)")
     args = parser.parse_args()
     try:
         value = run(args)
