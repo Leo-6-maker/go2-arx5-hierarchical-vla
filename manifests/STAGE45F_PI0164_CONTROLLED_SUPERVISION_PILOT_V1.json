@@ -1,0 +1,150 @@
+{
+  "schema": "CORELAB_PI0164_CONTROLLED_SUPERVISION_PILOT_V1",
+  "status": "AUTHORIZED_FOR_CORELAB_LOCAL_EXECUTION",
+  "authority": {
+    "issue": 11,
+    "pi_gate": "PI_GATE_STATE_0164",
+    "issue_comment": 5653126447,
+    "pr": 69,
+    "pr_comment": 5653131645,
+    "starting_head": "cf4857666a47c9bd723e92842680e31c5e46c380"
+  },
+  "question": "Does one fixed, qualified q0 supervision source improve free-running EEF generation beyond an equal-budget FULL24-only update?",
+  "q_source": {
+    "preferred": "PI0163_C1_X_PLUS_5CM_q0",
+    "qualification": [
+      "independent STAGE22_SAME_SCENE_EXPERT source",
+      "strictly increasing expert timestamps",
+      "q0 eef_local equals StateV1[:3]",
+      "target excluded from model input",
+      "finite [40,10] expert local trajectory and [96,96,3] RGB observations"
+    ],
+    "fallback": "FULL24 red_target_train_a / expert-0000",
+    "fallback_record": "FALLBACK_TRAIN_A_FIT_PROBE",
+    "q1_and_unsynchronized_q0_excluded": true
+  },
+  "source_identities": {
+    "n2_checkpoint_seed2223_at_2000_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  },
+  "dataset": {
+    "id": "FULL24_EXISTING_TRAIN",
+    "role": "TRAIN_ONLY",
+    "window_count": 24,
+    "frame_count": 960,
+    "target_order": [
+      "red_target_train_a",
+      "red_target_train_b",
+      "red_target_train_c",
+      "red_target_train_d"
+    ],
+    "window_order": "target-major_then-snapshot-major",
+    "new_data_generation": false,
+    "stats_route": "N2_BALANCED_XYZ",
+    "stats_recomputed": false
+  },
+  "arms": {
+    "E": {
+      "name": "FULL24_ONLY",
+      "updates": 256,
+      "slot_source": "deterministic seed-6164 cycle-shuffled FULL24"
+    },
+    "S": {
+      "name": "FIFTY_PERCENT_FULL24_PLUS_FIXED_Q",
+      "updates": 256,
+      "slot_source": "same E slot sequence; zero-based odd positions replaced by Q",
+      "full24_slots": 128,
+      "q_slots": 128
+    }
+  },
+  "sampler": {
+    "seed": 6164,
+    "paired_e_slots_identical": true,
+    "training_noise_and_t_stream": "fresh seed-6164 process per arm; same optimizer/model call schedule",
+    "eval_x0_used_for_training": false
+  },
+  "recipe": {
+    "starting_checkpoint": "N2 seed2223@2000",
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "cosine_horizon_updates": 256,
+    "warmup_steps": 10,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "bf16": true,
+    "fp16": false,
+    "tf32": true,
+    "workers": 0,
+    "trainable_modules": ["projector", "diffusion"],
+    "frozen_modules": ["visual", "llm", "vlln"],
+    "loss": "masked StructuredActionV1 flow matching",
+    "timing": "T16",
+    "active_scalars": 190,
+    "horizon": 40,
+    "action_dim": 132,
+    "relative_action": true,
+    "l1_loss": false,
+    "icl": false
+  },
+  "evaluation": {
+    "checkpoints": ["N2_baseline@2000", "E@256", "S@256"],
+    "cohort": "FULL24_EXISTING_TRAIN plus qualified C1 q0 when available",
+    "sampler": "E4",
+    "timestep_ids": [0, 250, 500, 750],
+    "dt": 0.25,
+    "same_x0_across_checkpoints": true,
+    "raw_before_derived": true,
+    "primary_metrics": ["source-frame XYZ endpoint error", "XYZ RMSE", "path length", "absolute roughness", "speed", "original SafetyGate"],
+    "train_world_metrics": "UNVERIFIED",
+    "no_best_checkpoint_selection": true
+  },
+  "budget": {
+    "nominal_optimizer_updates": 512,
+    "optimizer_steps_hard_cap": 576,
+    "microbatch_attempts_hard_cap": 640,
+    "eval_queries_nominal": 75,
+    "eval_model_calls_nominal": 375,
+    "eval_queries_hard_cap": 77,
+    "eval_conditioning_hard_cap": 77,
+    "eval_action_head_hard_cap": 308,
+    "eval_model_calls_hard_cap": 385,
+    "model_construction_hard_cap": 6,
+    "gpu_hours_hard_cap": 8,
+    "training_recoveries_hard_cap": 2
+  },
+  "execution_boundary": {
+    "new_simulator": 0,
+    "new_wbc": 0,
+    "new_hardware": 0,
+    "pbs_submissions": 0,
+    "h200": 0,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "icl_training": 0,
+    "data_generation": 0
+  },
+  "locked": {
+    "c0_recollection": true,
+    "c1_parity_redesign": true,
+    "teacher_matrix": true,
+    "stats_change": true,
+    "loss_change": true,
+    "module_change": true,
+    "seed_change": true,
+    "noise_change": true,
+    "step_extension": true,
+    "validation_e": true,
+    "holdout_f": true,
+    "merge": true
+  }
+}
