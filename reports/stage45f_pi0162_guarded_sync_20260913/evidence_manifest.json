@@ -1,0 +1,64 @@
+{
+  "schema": "CORELAB_PI0162_GUARDED_SYNC_REPORT_V1",
+  "status": "BLOCKED",
+  "execution_head": "630694960e060a40bfb802e40b432c293bfff08c",
+  "authority": {
+    "issue_comment": 5652576782,
+    "pr_comment": 5652578721
+  },
+  "node": "corelab-4080s",
+  "old_processes_stopped": true,
+  "history": {
+    "audit_path": "/var/cache/users/liuyu-nfs/stage45f_pi0162/audit.json",
+    "audit_sha256": "b2d74e824da6311a992191fc6e377475791ba8f337efda16c8f913cbf7ded168",
+    "pi0160_overage_preserved": true,
+    "v1_v5_unknown_preserved": true,
+    "historical_rerun": false
+  },
+  "ledger": {
+    "campaign_id": "PI0162_CORELAB_20260913",
+    "path": "/var/cache/users/liuyu-nfs/stage45f_pi0162_campaign_20260913/ledger.json",
+    "sha256": "bd1bd9fff65443e0e378c6d9197da0734c7af042469390f2cbd1b2796c13f834",
+    "used": {
+      "simulator_constructor": 3,
+      "explicit_control_tick": 0,
+      "reference_update": 0,
+      "groot_constructor": 0,
+      "conditioning": 0,
+      "action_head": 0,
+      "model_side_call": 0
+    },
+    "caps": {
+      "simulator_constructor": 3,
+      "explicit_control_tick": 738,
+      "reference_update": 12,
+      "groot_constructor": 2,
+      "conditioning": 6,
+      "action_head": 21,
+      "model_side_call": 27
+    },
+    "reservations_never_refunded": true,
+    "active_campaign_after_stop": false
+  },
+  "outputs": {
+    "v1_result_sha256": "c2685d724f9f9146acef4db436d33954ee33828d821c1fcdfff62e0fc1b89218",
+    "v2_result_sha256": "2389d3e8f7470153eeb84fdef0c8560d162760e243e6ae727a99e542784f12e4",
+    "v3_result_sha256": "65fe658913b313077fe0f6a33230b9352ad729ed01c3b80261494a7eb2eb4198",
+    "v3_c0_failure_sha256": "66b9a712b98a71be1f9e575be2171d2fde73e721be1cdda9bc99858d04ae350e",
+    "v3_c1_failure_sha256": "392bc27143845f323bf3c8cb1f0b081ad87a97b1eab5b626ab2ce117321391f7"
+  },
+  "new_execution": {
+    "simulator_constructor": 3,
+    "native_wbc_tick": 0,
+    "reference_update": 0,
+    "gr00t_constructor": 0,
+    "gr00t_forward": 0,
+    "training": 0,
+    "icl": 0,
+    "wbc": 0,
+    "hardware": 0,
+    "pbs": 0,
+    "validation_e_read": 0,
+    "holdout_f_read": 0
+  }
+}
