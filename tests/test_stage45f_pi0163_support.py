@@ -136,6 +136,7 @@ class PI0163SupportTests(unittest.TestCase):
         self.assertIn("stage45f_pi0159_validation_e_continuation.py", source)
         self.assertIn("stage45f_pi0163_validation_e_recovery.py", source)
         self.assertIn("PI0163_RECOVERY_MODE", source)
+        self.assertIn("--pre-submit", source)
         self.assertNotIn("sleep", source)
         self.assertNotIn("qsub", source)
 
@@ -148,6 +149,48 @@ class PI0163SupportTests(unittest.TestCase):
         self.assertEqual(plan["reused_raw_queries"], 1)
         self.assertEqual(plan["training"], 0)
         self.assertEqual(plan["holdout_f_read"], 0)
+        self.assertFalse(plan["raw_inventory_verified"])
+
+    def test_raw_inventory_self_verifies_one_preserved_and_thirty_five_missing(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            raw_path = root / recovery.EXPECTED_RAW_RELATIVE_PATH
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_bytes(b"raw-fixture")
+            record = {
+                "schema": recovery.EXPECTED_RAW_SCHEMA,
+                "checkpoint": {"label": recovery.EXPECTED_REUSED_ARM, "route": "Legacy", "seed": 2222, "tier": 2000},
+                "window_id": recovery.EXPECTED_REUSED_WINDOW,
+                "path": recovery.EXPECTED_RAW_RELATIVE_PATH,
+                "file_sha256": hashlib.sha256(b"raw-fixture").hexdigest(),
+                "shape": list(recovery.EXPECTED_RAW_SHAPE),
+                "dtype": "float32",
+                "timestep_ids": list(recovery.EXPECTED_TIMESTEPS),
+                "action_head_calls_observed": 4,
+                "decoded": False,
+            }
+            (root / "raw_predictions.jsonl").write_text(json.dumps(record) + "\n", encoding="utf-8")
+            inventory = recovery.raw_inventory(root)
+            self.assertEqual(inventory["preserved_raw_count"], 1)
+            self.assertEqual(inventory["missing_raw_count"], 35)
+            self.assertEqual(inventory["preserved_cells"][0]["arm"], recovery.EXPECTED_REUSED_ARM)
+            self.assertEqual(len(inventory["missing_cells"]), 35)
+
+    def test_raw_inventory_rejects_extra_array_without_manifest_record(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            raw_path = root / recovery.EXPECTED_RAW_RELATIVE_PATH
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_bytes(b"raw-fixture")
+            extra = root / "raw" / "Legacy_seed2222_at_2000" / "window-01.npy"
+            extra.write_bytes(b"extra")
+            (root / "raw_predictions.jsonl").write_text("\n", encoding="utf-8")
+            with self.assertRaises(Exception):
+                recovery.raw_inventory(root)
 
     def test_snapshot_dataclass_is_bridged_without_changing_metrics(self) -> None:
         import stage45f_pi0163_validation_e_recovery as recovery

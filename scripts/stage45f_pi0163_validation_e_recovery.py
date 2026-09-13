@@ -24,6 +24,7 @@ import json
 import os
 from pathlib import Path
 import socket
+import subprocess
 import sys
 from typing import Any, Sequence
 
@@ -41,8 +42,13 @@ import stage45f_pi0159_validation_e_continuation as continuation  # noqa: E402
 PI0163_GATE = 5652818601
 PI0163_POINTER = 5652824228
 PI0163_TOKEN = "PI_GATE_STATE_0163"
+PI0165_SCIENCE_GATE = 5654073910
+PI0165A_TAKEOVER_GATE = 5654552673
+PI0165A_ERRATUM = 5654559228
 RETURN_TOKEN = "VANDA_PI0163_VALIDATION_E_GEN1_FOR_PI_REVIEW"
 EXPECTED_JOB = "614704.hopper-m-02"
+RECOVERY_ALLOCATION = 7
+MAX_TOTAL_ALLOCATIONS = 8
 EXPECTED_RAW_SCHEMA = "STAGE45F_PI0154_RAW_PREDICTION_V1"
 EXPECTED_TARGET_ID = "red_target_holdout_e"
 EXPECTED_REUSED_ARM = "Legacy(seed2222)@2000"
@@ -50,12 +56,17 @@ EXPECTED_REUSED_WINDOW = "stage22_expert_red_target_holdout_e:expert-0000"
 EXPECTED_RAW_RELATIVE_PATH = "raw/Legacy_seed2222_at_2000/window-00.npy"
 EXPECTED_RAW_SHAPE = (1, 40, 132)
 EXPECTED_TIMESTEPS = [0, 250, 500, 750]
+EXPECTED_WINDOW_IDS = tuple(
+    f"stage22_expert_red_target_holdout_e:expert-{index:04d}"
+    for index in range(6)
+)
 EXPECTED_NOMINAL = {"conditioning": 36, "action_head": 144, "model_side_total": 180, "raw_outputs": 36}
 EXPECTED_ARM_KEYS = tuple(
     (route, seed)
     for seed in (2222, 2223, 2224)
     for route in ("Legacy", "L1")
 )
+EXPECTED_ARM_LABELS = tuple(f"{route}(seed{seed})@2000" for route, seed in EXPECTED_ARM_KEYS)
 FORBIDDEN_TOP_LEVEL = {"torch", "transformers", "gr00t", "cuda", "cv2", "numpy"}
 FORBIDDEN_CALLS = {
     "backward",
@@ -123,25 +134,183 @@ def _copy_exact_text_line(source: Path, destination: Path) -> None:
     require(destination.read_bytes().endswith(b"\n"), f"JSONL source has no terminal newline: {source}")
 
 
-def _read_single_raw_record(source_root: Path) -> tuple[dict[str, Any], Path, Path]:
+def _read_raw_manifest(source_root: Path) -> tuple[Path, list[dict[str, Any]]]:
     manifest = source_root / "raw_predictions.jsonl"
     require(manifest.is_file() and not manifest.is_symlink(), f"recovery raw manifest is missing: {manifest}")
-    lines = [line for line in manifest.read_text(encoding="utf-8").splitlines() if line.strip()]
-    require(len(lines) == 1, f"recovery source must contain exactly one raw record, found {len(lines)}")
-    record = json.loads(lines[0])
-    require(isinstance(record, Mapping), "recovery raw record is not an object")
-    record = dict(record)
+    records: list[dict[str, Any]] = []
+    for line_number, line in enumerate(manifest.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        value = json.loads(line)
+        require(isinstance(value, Mapping), f"recovery raw record {line_number} is not an object")
+        records.append(dict(value))
+    return manifest, records
+
+
+def _expected_raw_path(label: str, window_index: int) -> str:
+    return f"raw/{_label_path(label)}/window-{window_index:02d}.npy"
+
+
+def _validate_raw_record_identity(record: Mapping[str, Any], source_root: Path) -> dict[str, Any]:
     require(record.get("schema") == EXPECTED_RAW_SCHEMA, "recovery raw schema drift")
-    require(record.get("checkpoint", {}).get("label") == EXPECTED_REUSED_ARM, "recovery raw checkpoint drift")
-    require(record.get("window_id") == EXPECTED_REUSED_WINDOW, "recovery raw window drift")
-    require(record.get("path") == EXPECTED_RAW_RELATIVE_PATH, "recovery raw path drift")
+    checkpoint = record.get("checkpoint")
+    require(isinstance(checkpoint, Mapping), "recovery raw checkpoint is not an object")
+    label = checkpoint.get("label")
+    require(label in EXPECTED_ARM_LABELS, f"recovery raw checkpoint is outside the frozen matrix: {label!r}")
+    window_id = record.get("window_id")
+    require(window_id in EXPECTED_WINDOW_IDS, f"recovery raw window is outside Validation-E: {window_id!r}")
+    window_index = EXPECTED_WINDOW_IDS.index(str(window_id))
+    path_value = record.get("path")
+    require(isinstance(path_value, str), "recovery raw path is not text")
+    relative_path = Path(path_value)
+    require(not relative_path.is_absolute() and relative_path.as_posix() == path_value, "recovery raw path is not a normalized relative path")
+    expected_path = _expected_raw_path(str(label), window_index)
+    require(path_value == expected_path, f"recovery raw path drift: {path_value} != {expected_path}")
     require(record.get("timestep_ids") == EXPECTED_TIMESTEPS, "recovery raw E4 timestep drift")
     require(record.get("action_head_calls_observed") == 4, "recovery raw action-head count drift")
     require(record.get("decoded") is False, "recovery raw was already decoded")
     require(record.get("shape") == list(EXPECTED_RAW_SHAPE), "recovery raw shape metadata drift")
-    raw_path = source_root / str(record["path"])
+    require(record.get("dtype") == "float32", "recovery raw dtype metadata drift")
+    raw_path = source_root / relative_path
     require(raw_path.is_file() and not raw_path.is_symlink(), f"recovery raw array is missing: {raw_path}")
-    require(sha256_file(raw_path) == record.get("file_sha256"), "recovery raw file SHA drift")
+    observed_sha = sha256_file(raw_path)
+    require(observed_sha == record.get("file_sha256"), "recovery raw file SHA drift")
+    return {
+        "arm": str(label),
+        "window_id": str(window_id),
+        "path": path_value,
+        "file_sha256": observed_sha,
+        "bytes": int(raw_path.stat().st_size),
+        "record": dict(record),
+    }
+
+
+def raw_inventory(source_root: Path) -> dict[str, Any]:
+    """Enumerate the actual raw cells and derive preserved/missing counts."""
+
+    source_root = continuation.regular_directory(Path(source_root), "PI0163 raw inventory source root")
+    manifest, records = _read_raw_manifest(source_root)
+    entries = [_validate_raw_record_identity(record, source_root) for record in records]
+    by_cell: dict[tuple[str, str], dict[str, Any]] = {}
+    for entry in entries:
+        key = (entry["arm"], entry["window_id"])
+        require(key not in by_cell, f"duplicate raw inventory cell: {key}")
+        by_cell[key] = entry
+
+    raw_directory = source_root / "raw"
+    require(raw_directory.is_dir() and not raw_directory.is_symlink(), f"recovery raw directory is missing: {raw_directory}")
+    discovered_paths: list[str] = []
+    for path in sorted(raw_directory.rglob("*")):
+        if path.is_symlink():
+            raise RuntimeError(f"recovery raw inventory contains a symlink: {path}")
+        if path.is_file():
+            relative = path.relative_to(source_root).as_posix()
+            require(relative.endswith(".npy"), f"recovery raw directory contains a non-array file: {relative}")
+            discovered_paths.append(relative)
+    manifest_paths = sorted(entry["path"] for entry in entries)
+    require(discovered_paths == manifest_paths, "raw inventory files and manifest records disagree")
+
+    expected_cells = [(label, window_id) for label in EXPECTED_ARM_LABELS for window_id in EXPECTED_WINDOW_IDS]
+    preserved_cells = [
+        {"arm": label, "window_id": window_id, "path": by_cell[(label, window_id)]["path"], "file_sha256": by_cell[(label, window_id)]["file_sha256"]}
+        for label, window_id in expected_cells
+        if (label, window_id) in by_cell
+    ]
+    missing_cells = [
+        {"arm": label, "window_id": window_id}
+        for label, window_id in expected_cells
+        if (label, window_id) not in by_cell
+    ]
+    require(len(preserved_cells) == 1, f"actual raw inventory preserved count is {len(preserved_cells)}, expected 1")
+    require(len(missing_cells) == 35, f"actual raw inventory missing count is {len(missing_cells)}, expected 35")
+    require(
+        (preserved_cells[0]["arm"], preserved_cells[0]["window_id"]) == (EXPECTED_REUSED_ARM, EXPECTED_REUSED_WINDOW),
+        "actual raw inventory preserved cell is not the admitted 614704 cell",
+    )
+    return {
+        "schema": "STAGE45F_PI0163_RAW_CELL_INVENTORY_V1",
+        "status": "PASS_ACTUAL_RAW_INVENTORY",
+        "source_root": str(source_root),
+        "raw_manifest_path": str(manifest),
+        "raw_manifest_sha256": sha256_file(manifest),
+        "expected_arm_count": len(EXPECTED_ARM_LABELS),
+        "expected_window_count_per_arm": len(EXPECTED_WINDOW_IDS),
+        "expected_cell_count": len(expected_cells),
+        "raw_manifest_record_count": len(entries),
+        "raw_file_count": len(discovered_paths),
+        "preserved_raw_count": len(preserved_cells),
+        "missing_raw_count": len(missing_cells),
+        "preserved_cells": preserved_cells,
+        "missing_cells": missing_cells,
+        "manifest_paths": manifest_paths,
+        "scientific_contract_changed": False,
+    }
+
+
+def _git_text(repo: Path, *arguments: str) -> str:
+    completed = subprocess.run(
+        ["git", "-C", str(Path(repo).resolve()), *arguments],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    require(completed.returncode == 0, f"git command failed: {' '.join(arguments)}: {completed.stderr.strip()}")
+    return completed.stdout.strip()
+
+
+def pre_submit(config_path: Path, *, repo: Path = REPO) -> dict[str, Any]:
+    """Run the CPU-only gate that must pass before qsub is called."""
+
+    config = continuation._config(config_path.resolve(strict=True))
+    expected_head = str(config["expected_head"])
+    observed_head = _git_text(repo, "rev-parse", "HEAD")
+    observed_branch = _git_text(repo, "branch", "--show-current")
+    observed_status = _git_text(repo, "status", "--porcelain=v1", "--untracked-files=all")
+    require(observed_branch == continuation.EXPECTED_BRANCH, f"pre-submit branch drift: {observed_branch}")
+    require(observed_head == expected_head, f"pre-submit expected_head mismatch: {expected_head} != {observed_head}")
+    require(not observed_status, "pre-submit checkout is not clean, including untracked files")
+    require(config.get("pi0163_support_head") in (None, expected_head), "pre-submit support HEAD drift")
+    require(config.get("pi0163_recovery_allocation") == RECOVERY_ALLOCATION, "pre-submit recovery allocation drift")
+    require(config.get("max_total_allocations") == MAX_TOTAL_ALLOCATIONS, "pre-submit allocation ceiling drift")
+    source_root = continuation.regular_directory(Path(str(config["pi0163_recovery_source_root"])), "PI0163 recovery source root")
+    inventory = raw_inventory(source_root)
+    require(inventory["raw_manifest_sha256"] == str(config["pi0163_recovery_source_raw_manifest_sha256"]), "pre-submit raw manifest SHA drift")
+    preserved = inventory["preserved_cells"]
+    require(len(preserved) == 1, "pre-submit preserved raw count drift")
+    require(preserved[0]["file_sha256"] == str(config["pi0163_recovery_source_raw_sha256"]), "pre-submit preserved raw SHA drift")
+    output_root = Path(str(config["output_root"])).resolve()
+    require(not output_root.exists() and not output_root.is_symlink(), "pre-submit output root is not fresh")
+    guard = static_guard()
+    require(guard["status"] == "PASS", "pre-submit recovery static guard failed")
+    return {
+        "schema": "STAGE45F_PI0163_RECOVERY_PRE_SUBMIT_GATE_V1",
+        "status": "PASS_PRE_SUBMIT_CPU_ONLY",
+        "repo": str(Path(repo).resolve()),
+        "branch": observed_branch,
+        "expected_head": expected_head,
+        "observed_head": observed_head,
+        "clean_worktree": True,
+        "config_path": str(config_path.resolve()),
+        "config_sha256": sha256_file(config_path.resolve()),
+        "raw_inventory": inventory,
+        "static_guard": guard,
+        "output_root": str(output_root),
+        "model_imported": False,
+        "gpu_requested": False,
+        "qsub_called": False,
+        "scientific_contract_changed": False,
+    }
+
+
+def _read_single_raw_record(source_root: Path) -> tuple[dict[str, Any], Path, Path]:
+    manifest, records = _read_raw_manifest(source_root)
+    require(len(records) == 1, f"recovery source must contain exactly one raw record, found {len(records)}")
+    record = records[0]
+    entry = _validate_raw_record_identity(record, source_root)
+    require(entry["arm"] == EXPECTED_REUSED_ARM, "recovery raw checkpoint drift")
+    require(entry["window_id"] == EXPECTED_REUSED_WINDOW, "recovery raw window drift")
+    require(entry["path"] == EXPECTED_RAW_RELATIVE_PATH, "recovery raw path drift")
+    raw_path = source_root / entry["path"]
     return record, raw_path, manifest
 
 
@@ -161,6 +330,22 @@ def _source_failure_ref(config: Mapping[str, Any]) -> dict[str, Any]:
     require(payload.get("status") == "PARTIAL", "PI0163 allocation-5 failure status drift")
     require(payload.get("model_execution_started") is True and payload.get("holdout_f_read") is False, "PI0163 allocation-5 failure provenance drift")
     return {"path": str(path), "sha256": observed, "phase": payload.get("phase"), "current": payload.get("current"), "actual_counters": payload.get("actual_counters", {})}
+
+
+def _allocation_failure_ref(config: Mapping[str, Any]) -> dict[str, Any]:
+    ref = _evidence_ref(config, "pi0163_alloc6_failure_path", "pi0163_alloc6_failure_sha256")
+    payload = load_json(Path(ref["path"]))
+    require(isinstance(payload, Mapping), "PI0163 allocation-6 failure seal is not an object")
+    require(payload.get("status") == "BLOCKED", "PI0163 allocation-6 failure status drift")
+    require(payload.get("model_import_started") is False and payload.get("model_execution_started") is False, "PI0163 allocation-6 crossed the model boundary")
+    require(payload.get("training") is False and payload.get("holdout_f_read") is False, "PI0163 allocation-6 boundary drift")
+    return {
+        **ref,
+        "status": payload.get("status"),
+        "phase": payload.get("phase"),
+        "error": payload.get("error"),
+        "actual_counters": payload.get("actual_counters", {}),
+    }
 
 
 def _install_snapshot_mapping_compat(runtime: Any) -> dict[str, Any]:
@@ -223,6 +408,8 @@ def static_guard() -> dict[str, Any]:
         "mapping_compatibility": "_install_snapshot_mapping_compat" in source and "physical_action" in source,
         "raw_before_derived": "raw_predictions.jsonl" in source and "derived_rows.jsonl" in source,
         "cumulative_accounting": "cumulative_campaign_accounting" in source and "model_load_attempts" in source,
+        "actual_raw_inventory": "def raw_inventory" in source and "preserved_raw_count" in source and "missing_raw_count" in source,
+        "pre_submit_expected_head": "def pre_submit" in source and "pre-submit expected_head mismatch" in source,
         "holdout_locked": '"holdout_f_read": False' in source,
         "training_locked": '"training": False' in source,
         "no_adaptive_retry": '"automatic_retry": False' in source,
@@ -237,6 +424,8 @@ def static_guard() -> dict[str, Any]:
         "pbs": 0,
         "training": 0,
         "holdout_f_read": 0,
+        "actual_raw_inventory": 1,
+        "pre_submit_expected_head": 1,
         "scientific_contract_changed": False,
     }
 
@@ -366,7 +555,16 @@ def execute(config_path: Path) -> int:
     try:
         config = continuation._config(config_path.resolve(strict=True))
         require(config.get("pi0163_gate") == PI0163_GATE and config.get("pi0163_pointer") == PI0163_POINTER, "PI0163 authority drift")
-        require(config.get("pi0163_recovery_allocation") == 6, "PI0163 recovery allocation drift")
+        require(
+            config.get("latest_controlling_gate") == {
+                "pi0165_science": PI0165_SCIENCE_GATE,
+                "pi0165a_takeover": PI0165A_TAKEOVER_GATE,
+                "pi0165a_erratum": PI0165A_ERRATUM,
+            },
+            "latest controlling gate drift",
+        )
+        require(config.get("pi0163_recovery_allocation") == RECOVERY_ALLOCATION, "PI0163 recovery allocation drift")
+        require(config.get("max_total_allocations") == MAX_TOTAL_ALLOCATIONS, "PI0163 allocation ceiling drift")
         require(config.get("pi0163_previous_job_id") == EXPECTED_JOB, "PI0163 previous job drift")
         output_root = Path(str(config["output_root"])).resolve()
         source_root = continuation.regular_directory(Path(str(config["pi0163_recovery_source_root"])), "PI0163 recovery source root")
@@ -375,6 +573,9 @@ def execute(config_path: Path) -> int:
         output_root.mkdir(parents=False, exist_ok=False)
         phase = "RECOVERY_SOURCE_AUDIT"
         source_failure = _source_failure_ref(config)
+        allocation_6_failure = _allocation_failure_ref(config)
+        actual_raw_inventory = raw_inventory(source_root)
+        write_json(output_root / "stage45f_pi0163_raw_inventory.json", actual_raw_inventory)
         source_record, source_raw_path, source_manifest = _read_single_raw_record(source_root)
         require(sha256_file(source_manifest) == str(config["pi0163_recovery_source_raw_manifest_sha256"]), "PI0163 recovery source manifest SHA drift")
         require(sha256_file(source_raw_path) == str(config["pi0163_recovery_source_raw_sha256"]), "PI0163 recovery source raw SHA drift")
@@ -389,10 +590,17 @@ def execute(config_path: Path) -> int:
         binding["pi0163_recovery"] = {
             "gate": PI0163_GATE,
             "pointer": PI0163_POINTER,
-            "allocation_ordinal": 6,
+            "latest_controlling_gate": {
+                "pi0165_science": PI0165_SCIENCE_GATE,
+                "pi0165a_takeover": PI0165A_TAKEOVER_GATE,
+                "pi0165a_erratum": PI0165A_ERRATUM,
+            },
+            "allocation_ordinal": RECOVERY_ALLOCATION,
             "previous_job_id": EXPECTED_JOB,
             "source_root": str(source_root),
             "source_failure": source_failure,
+            "allocation_6_failure": allocation_6_failure,
+            "raw_inventory": actual_raw_inventory,
             "valid_raw_reused": True,
             "scientific_contract_changed": False,
         }
@@ -432,9 +640,14 @@ def execute(config_path: Path) -> int:
             "pi_gate": PI0163_GATE,
             "pointer": PI0163_POINTER,
             "authority_token": PI0163_TOKEN,
+            "latest_controlling_gate": {
+                "pi0165_science": PI0165_SCIENCE_GATE,
+                "pi0165a_takeover": PI0165A_TAKEOVER_GATE,
+                "pi0165a_erratum": PI0165A_ERRATUM,
+            },
             "execution_head": config["expected_head"],
             "execution_branch": continuation.EXPECTED_BRANCH,
-            "recovery_allocation": 6,
+            "recovery_allocation": RECOVERY_ALLOCATION,
             "previous_job_id": EXPECTED_JOB,
             "prior_admission": {key: value for key, value in prior.items() if key not in {"binding"}},
             "runtime_binding": runtime_binding,
@@ -443,13 +656,17 @@ def execute(config_path: Path) -> int:
             "effective_runner_config_path": str(effective_config_path),
             "effective_runner_config_sha256": sha256_file(effective_config_path),
             "source_failure": source_failure,
+            "allocation_6_failure": allocation_6_failure,
+            "raw_inventory": actual_raw_inventory,
+            "raw_inventory_path": str(output_root / "stage45f_pi0163_raw_inventory.json"),
+            "raw_inventory_sha256": sha256_file(output_root / "stage45f_pi0163_raw_inventory.json"),
             "source_raw_reuse": source_reuse,
             "allocation_5_bootstrap": prior_alloc5_bootstrap,
             "allocation_5_compute_import": prior_alloc5_import,
             "nominal_calls": EXPECTED_NOMINAL,
             "new_calls_after_reuse": {"conditioning": 35, "action_head": 140, "model_side_total": 175},
             "cumulative_call_ceiling": {"conditioning": 42, "action_head": 168, "model_side_total": 210},
-            "model_load_accounting": {"historical_prior": 1, "allocation_5": 1, "allocation_6_reserved": 6, "cumulative_reserved": 8},
+            "model_load_accounting": {"historical_prior": 1, "allocation_5": 1, "allocation_6_failure": 0, "allocation_7_reserved": 6, "cumulative_reserved": 8},
             "holdout_f_read": False,
             "training": False,
             "model_imported": False,
@@ -677,15 +894,16 @@ def execute(config_path: Path) -> int:
         evaluator.write_json_durable(output_root / "cpu_summary.json", cpu_summary)
         cumulative = {
             "schema": "STAGE45F_PI0163_CUMULATIVE_CAMPAIGN_ACCOUNTING_V1",
-            "allocations_consumed": 6,
-            "allocation_ceiling": 6,
+            "allocations_consumed": RECOVERY_ALLOCATION,
+            "allocation_ceiling": MAX_TOTAL_ALLOCATIONS,
             "allocations": [
                 {"job_id": "614203.hopper-m-02", "ordinal": 1, "status": "FAILED_BEFORE_PYTHON_MODEL_BOUNDARY", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0},
                 {"job_id": "614226.hopper-m-02", "ordinal": 2, "status": "PARTIAL_FAILED_AT_MODEL_LOAD", "model_load_attempts": 1, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0},
                 {"job_id": "614574.hopper-m-02", "ordinal": 3, "status": "FAILED_BEFORE_MODEL_IMPORT", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0},
                 {"job_id": "614586.hopper-m-02", "ordinal": 4, "status": "FAILED_BEFORE_MODEL_IMPORT", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0},
                 {"job_id": EXPECTED_JOB, "ordinal": 5, "status": "PARTIAL_AFTER_VALID_RAW", "model_load_attempts": 1, "model_loads_completed": 1, "conditioning": 1, "action_head": 4, "raw_rows": 1, "derived_rows": 0, "failure_phase": source_failure["phase"]},
-                {"job_id": os.environ.get("PBS_JOBID"), "ordinal": 6, "status": "COMPLETED_RECOVERY", "model_load_attempts": counters["model_loads_attempted"], "model_loads_completed": counters["model_loads_completed"], "conditioning": 35, "action_head": 140, "raw_rows": 35, "derived_rows": 36, "reused_raw_rows": 1},
+                {"job_id": "614858.hopper-m-02", "ordinal": 6, "status": "BLOCKED_STALE_EXPECTED_HEAD", "model_load_attempts": 0, "model_loads_completed": 0, "conditioning": 0, "action_head": 0, "raw_rows": 0, "derived_rows": 0, "failure_phase": allocation_6_failure["phase"]},
+                {"job_id": os.environ.get("PBS_JOBID"), "ordinal": RECOVERY_ALLOCATION, "status": "COMPLETED_RECOVERY", "model_load_attempts": counters["model_loads_attempted"], "model_loads_completed": counters["model_loads_completed"], "conditioning": 35, "action_head": 140, "raw_rows": 35, "derived_rows": 36, "reused_raw_rows": 1},
             ],
             "model_load_attempts": 8,
             "model_loads_completed": 7,
@@ -746,7 +964,7 @@ def execute(config_path: Path) -> int:
             "pbs_jobid": os.environ.get("PBS_JOBID"),
             "host": socket.gethostname(),
             "runtime": runtime_identity,
-            "recovery_allocation": 6,
+            "recovery_allocation": RECOVERY_ALLOCATION,
             "previous_job_id": EXPECTED_JOB,
             "previous_failure": source_failure,
             "source_raw_reuse": source_reuse,
@@ -763,8 +981,17 @@ def execute(config_path: Path) -> int:
             "nominal_calls": EXPECTED_NOMINAL,
             "actual_counters": counters,
             "cumulative_campaign_accounting": cumulative,
+            "latest_controlling_gate": {
+                "pi0165_science": PI0165_SCIENCE_GATE,
+                "pi0165a_takeover": PI0165A_TAKEOVER_GATE,
+                "pi0165a_erratum": PI0165A_ERRATUM,
+            },
             "allocation_5_bootstrap": prior_alloc5_bootstrap,
             "allocation_5_compute_import": prior_alloc5_import,
+            "allocation_6_failure": allocation_6_failure,
+            "raw_inventory_path": str(output_root / "stage45f_pi0163_raw_inventory.json"),
+            "raw_inventory_sha256": sha256_file(output_root / "stage45f_pi0163_raw_inventory.json"),
+            "raw_inventory": actual_raw_inventory,
             "admission_path": str(continuation_binding_path),
             "admission_sha256": sha256_file(continuation_binding_path),
             "pre_model_admission_path": str(output_root / "stage45f_pi0163_pre_model_admission.json"),
@@ -811,6 +1038,13 @@ def execute(config_path: Path) -> int:
             "conclusion_sha256": sha256_file(conclusion_path),
             "actual_counters": counters,
             "cumulative_campaign_accounting": cumulative,
+            "latest_controlling_gate": {
+                "pi0165_science": PI0165_SCIENCE_GATE,
+                "pi0165a_takeover": PI0165A_TAKEOVER_GATE,
+                "pi0165a_erratum": PI0165A_ERRATUM,
+            },
+            "allocation_6_failure": allocation_6_failure,
+            "raw_inventory": actual_raw_inventory,
             "raw_output_count": 36,
             "derived_output_count": 36,
             "seed_paired_summary": seed_summary,
@@ -834,6 +1068,11 @@ def execute(config_path: Path) -> int:
                 "pi_gate": PI0163_GATE,
                 "pr_pointer": PI0163_POINTER,
                 "authority_token": PI0163_TOKEN,
+                "latest_controlling_gate": {
+                    "pi0165_science": PI0165_SCIENCE_GATE,
+                    "pi0165a_takeover": PI0165A_TAKEOVER_GATE,
+                    "pi0165a_erratum": PI0165A_ERRATUM,
+                },
                 "execution_head": config.get("expected_head") if config else None,
                 "execution_branch": continuation.EXPECTED_BRANCH,
                 "pbs_jobid": os.environ.get("PBS_JOBID"),
@@ -861,9 +1100,9 @@ def execute(config_path: Path) -> int:
         return 2
 
 
-def plan() -> dict[str, Any]:
+def plan(raw_inventory_root: Path | None = None) -> dict[str, Any]:
     guard = static_guard()
-    return {
+    result: dict[str, Any] = {
         "schema": "STAGE45F_PI0163_RECOVERY_PLAN_V1",
         "status": "PASS_STATIC_NOT_EXECUTED" if guard["status"] == "PASS" else "FAIL",
         "static_guard": guard,
@@ -873,19 +1112,44 @@ def plan() -> dict[str, Any]:
         "new_calls": {"conditioning": 35, "action_head": 140, "model_side_total": 175},
         "training": 0,
         "holdout_f_read": 0,
+        "raw_inventory_verified": False,
+        "raw_inventory_required_before_qsub": True,
         "return_token": RETURN_TOKEN,
     }
+    if raw_inventory_root is not None:
+        inventory = raw_inventory(raw_inventory_root)
+        result.update({
+            "status": "PASS_STATIC_AND_RAW_INVENTORY" if guard["status"] == "PASS" else "FAIL",
+            "raw_inventory_verified": True,
+            "raw_inventory": inventory,
+            "reused_raw_queries": inventory["preserved_raw_count"],
+            "new_queries": inventory["missing_raw_count"],
+            "new_calls": {
+                "conditioning": inventory["missing_raw_count"],
+                "action_head": inventory["missing_raw_count"] * 4,
+                "model_side_total": inventory["missing_raw_count"] * 5,
+            },
+        })
+    return result
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--plan-only", action="store_true")
+    modes.add_argument("--pre-submit", action="store_true")
     modes.add_argument("--execute", action="store_true")
     parser.add_argument("--config", type=Path)
+    parser.add_argument("--raw-inventory-root", type=Path)
+    parser.add_argument("--repo", type=Path, default=REPO)
     args = parser.parse_args(argv)
     if args.plan_only:
-        print(json.dumps(plan(), indent=2, sort_keys=True))
+        inventory_root = args.raw_inventory_root.resolve(strict=True) if args.raw_inventory_root is not None else None
+        print(json.dumps(plan(inventory_root), indent=2, sort_keys=True))
+        return 0
+    if args.pre_submit:
+        require(args.config is not None, "--pre-submit requires --config")
+        print(json.dumps(pre_submit(args.config.resolve(strict=True), repo=args.repo.resolve(strict=True)), indent=2, sort_keys=True))
         return 0
     require(args.config is not None, "--execute requires --config")
     return execute(args.config.resolve(strict=True))

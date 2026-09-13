@@ -47,6 +47,7 @@ case "${resolved_python}" in
   *) echo "PI0163 Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
 esac
 test -f "${PI0163_CONFIG}"
+"${PI0163_PYTHON}" "${PI0163_REPO}/scripts/stage45f_pi0163_validation_e_recovery.py" --pre-submit --config "${PI0163_CONFIG}" --repo "${PI0163_REPO}"
 test -f "${PI0163_FFMPEG_CAPSULE}"
 test "$(sha256sum "${PI0163_FFMPEG_CAPSULE}" | awk '{print $1}')" = "${PI0163_FFMPEG_CAPSULE_SHA256}"
 if [[ -e "${PI0163_BOOTSTRAP_RECORD}" || -L "${PI0163_BOOTSTRAP_RECORD}" ]]; then exit 1; fi
