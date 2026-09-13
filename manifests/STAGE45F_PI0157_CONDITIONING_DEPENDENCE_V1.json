@@ -1,0 +1,137 @@
+{
+  "schema": "CORELAB_STAGE45F_PI0157_CONDITIONING_DEPENDENCE_V1",
+  "authority": {
+    "stage": "Stage45F",
+    "pi_gate": "PI_GATE_STATE_0157",
+    "issue_comment": 5651062080,
+    "pr_pointer_comment": 5651064217,
+    "return_token": "CORELAB_PI0157_CONDITIONING_DEPENDENCE_FOR_PI_REVIEW",
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "starting_head": "f4fdb01e5071b530d6997ec2d0a17666cdeacddb"
+  },
+  "scientific_question": "Under one fixed N2 policy, do native TRAIN observations, complete StateV1 substitution, paired camera substitution, and a constant-128 visual control change the active decoded action?",
+  "fixed_model": {
+    "checkpoint_label": "N2 seed2223@2000",
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "dtype": "bfloat16",
+    "batch": 1,
+    "horizon": 40,
+    "action_dim": 132,
+    "timing_mode": "T16",
+    "sampler_timestep_ids": [0, 250, 500, 750],
+    "sampler_dt": 0.25,
+    "language": "move the end effector to the red target",
+    "target_xyz_in_model_input": false,
+    "state_dim": 10,
+    "active_scalars": 190
+  },
+  "fixed_noise": {
+    "array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "file_sha256": "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922",
+    "shape": [1, 40, 132],
+    "dtype": "float32",
+    "common_random_number": true
+  },
+  "sealed_references": {
+    "canonical_train_t_file_sha256": "3b525a5a628d3a9ee71894fdd9c6c77b2e888406e87926594700314768181866",
+    "archived_c0_c_file_sha256": "67ca605ca90e05633b22dd0447e4873ee29c6a4b31be983b94c11db35f9932be",
+    "baseline_raw_reuse": ["T", "C"],
+    "native_train_sources": [
+      "stage22_expert_red_target_train_a:expert-0000",
+      "stage22_expert_red_target_train_b:expert-0000",
+      "stage22_expert_red_target_train_c:expert-0000",
+      "stage22_expert_red_target_train_d:expert-0000"
+    ],
+    "expert_labels_cpu_only": true,
+    "target_xyz_metadata_only": true
+  },
+  "conditions": {
+    "order": [
+      "N1_NATIVE_a",
+      "N2_NATIVE_b",
+      "N3_NATIVE_c",
+      "N4_NATIVE_d",
+      "X1_VT_SC",
+      "X2_VC_ST",
+      "Z1_CONST128_ST",
+      "Z2_CONST128_SC"
+    ],
+    "N1_NATIVE_a": "native TRAIN-a body+wrist+StateV1; reuse T raw only after exact array equality",
+    "N2_NATIVE_b": "native TRAIN-b body+wrist+StateV1",
+    "N3_NATIVE_c": "native TRAIN-c body+wrist+StateV1",
+    "N4_NATIVE_d": "native TRAIN-d body+wrist+StateV1",
+    "X1_VT_SC": "canonical T body+wrist with archived C StateV1",
+    "X2_VC_ST": "archived C body+wrist with canonical T StateV1",
+    "Z1_CONST128_ST": "constant 128 body+wrist with canonical T StateV1",
+    "Z2_CONST128_SC": "constant 128 body+wrist with archived C StateV1"
+  },
+  "decode_and_metrics": {
+    "decoder": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
+    "decoder_semantics": "unchanged Stage40 inverse-normalization/materialization law with N2 stats bridge",
+    "raw_first": true,
+    "standardized_anchor_diagnostic": "all conditions additionally decode with fixed T StateV1 anchor; actual-anchor p0 is never treated as learned state sensitivity",
+    "train_world_metrics": "UNVERIFIED",
+    "c0_world_metrics": "accepted Stage43 measured-E​​EF bridge only",
+    "c0_prefix_tail": "index 0/10/20/39 and fixed prefix/tail summaries; no post-hoc endpoint selection",
+    "active_mask": "structured_action_mask(T16), shape [40,132], 190 true scalars"
+  },
+  "budget": {
+    "nominal_new_queries": 8,
+    "nominal_conditioning": 8,
+    "nominal_action_head_calls": 32,
+    "nominal_model_side_calls": 40,
+    "mechanical_recovery_allowance": 2,
+    "hard_query_cap": 10,
+    "hard_conditioning_cap": 10,
+    "hard_action_head_cap": 40,
+    "hard_model_side_cap": 50,
+    "model_construction_cap": 3,
+    "prior_closed_diagnostic": {
+      "queries": 5,
+      "conditioning": 5,
+      "action_head_calls": 16,
+      "model_side_calls": 21
+    }
+  },
+  "execution_boundary": {
+    "training": false,
+    "backward": false,
+    "optimizer_step": 0,
+    "icl": false,
+    "new_data": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "pbs": false,
+    "h200": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "safety_gate_relaxed": false,
+    "merge": false
+  },
+  "report_requirements": {
+    "artifacts": [
+      "admission.json",
+      "conditions.csv",
+      "condition_differences.json",
+      "expert_comparison.csv",
+      "processed_state_audit.json",
+      "c0_prefix_tail_analysis.json",
+      "trajectory_plot.svg",
+      "one_page_conclusion.md",
+      "pi0157_conditioning_dependence.json",
+      "evidence_hashes.json"
+    ],
+    "raw_arrays": "node-local only, immediate save and SHA-bound; do not commit large data",
+    "result_classification": ["COMPLETED", "PARTIAL", "BLOCKED"],
+    "science_classification": ["SUPPORTED", "MIXED", "INCONCLUSIVE"],
+    "single_recommendation": true
+  },
+  "claim_boundary": "This is a fixed-policy conditioning/materialization sensitivity characterization. It is not a task-success, WBC, closed-loop, hardware, training, ICL, or generalization claim."
+}
