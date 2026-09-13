@@ -337,14 +337,40 @@ def _frame_ppm(path: Path) -> Any:
 
 
 def _anchor_from_snapshot(payload: Mapping[str, Any]) -> list[float]:
+    """Recover the documented native frame origin from retained telemetry.
+
+    The original Stage22 E descriptors did not serialize the native anchor as
+    a standalone field.  They do retain the same observation in both world
+    and native-relative coordinates, so the frame origin is their difference.
+    This is a frame-transform audit, not target-based recentering or a
+    measured-start rewrite of the predicted trajectory.
+    """
+
+    import numpy as np
+
+    state_payload = payload.get("state_v1")
+    require(isinstance(state_payload, Mapping), f"snapshot StateV1 is missing: {payload.get('example_id')}")
+    state = np.asarray(state_payload.get("values"), dtype=np.float64)
+    telemetry = payload.get("raw_telemetry")
+    require(isinstance(telemetry, Mapping), f"snapshot raw telemetry is missing: {payload.get('example_id')}")
+    local = np.asarray(telemetry.get("achieved_position_local_m"), dtype=np.float64)
+    world = np.asarray(telemetry.get("achieved_position_world_m"), dtype=np.float64)
+    require(state.shape == (10,) and local.shape == (3,) and world.shape == (3,), f"snapshot frame-origin shapes drift: {payload.get('example_id')}")
+    require(np.isfinite(state).all() and np.isfinite(local).all() and np.isfinite(world).all(), f"snapshot frame-origin values are nonfinite: {payload.get('example_id')}")
+    state_error = float(np.max(np.abs(local - state[:3])))
+    require(state_error <= admission.FRAME_STATE_TOLERANCE_M, f"snapshot StateV1/local frame-origin mismatch: {payload.get('example_id')}: {state_error}")
+    anchor = world - local
     for container_name in ("raw_telemetry", "provenance"):
         container = payload.get(container_name)
-        if isinstance(container, Mapping):
-            for key in ("anchor_world_m", "native_anchor_world_m"):
-                value = container.get(key)
-                if isinstance(value, (list, tuple)) and len(value) == 3:
-                    return [float(item) for item in value]
-    raise ValidationExecutionError(f"snapshot lacks explicit anchor_world_m: {payload.get('example_id')}")
+        if not isinstance(container, Mapping):
+            continue
+        for key in ("anchor_world_m", "native_anchor_world_m"):
+            if key not in container:
+                continue
+            explicit = np.asarray(container.get(key), dtype=np.float64)
+            require(explicit.shape == (3,) and np.isfinite(explicit).all(), f"snapshot explicit frame origin is invalid: {payload.get('example_id')}")
+            require(float(np.max(np.abs(explicit - anchor))) <= admission.FRAME_STATE_TOLERANCE_M, f"snapshot explicit frame origin disagrees: {payload.get('example_id')}")
+    return [float(item) for item in anchor]
 
 
 def validate_snapshot_records(binding: Mapping[str, Any]) -> list[dict[str, Any]]:
@@ -378,6 +404,9 @@ def validate_snapshot_records(binding: Mapping[str, Any]) -> list[dict[str, Any]
         require(sha256_file(body) == record.get("body_frame_sha256"), f"body frame SHA drift: {expected_id}")
         require(sha256_file(wrist) == record.get("wrist_frame_sha256"), f"wrist frame SHA drift: {expected_id}")
         anchor = _anchor_from_snapshot(payload)
+        bound_anchor = np.asarray(record.get("frame_origin", {}).get("anchor_world_m") if isinstance(record.get("frame_origin"), Mapping) else record.get("anchor_world_m"), dtype=np.float64)
+        require(bound_anchor.shape == (3,) and np.isfinite(bound_anchor).all(), f"admitted frame origin is missing: {expected_id}")
+        require(float(np.max(np.abs(bound_anchor - np.asarray(anchor, dtype=np.float64)))) <= admission.FRAME_STATE_TOLERANCE_M, f"admitted frame origin drift: {expected_id}")
         target = payload.get("target_position_world_m")
         require(isinstance(target, list) and len(target) == 3 and np.isfinite(np.asarray(target, dtype=np.float64)).all(), f"target metadata drift: {expected_id}")
         physical = np.concatenate([desired, gripper], axis=1)
@@ -394,6 +423,11 @@ def validate_snapshot_records(binding: Mapping[str, Any]) -> list[dict[str, Any]
             "observation_timestamp": float(payload["observation_timestamp"]),
             "expert_physical_action": physical,
             "anchor_world_m": np.asarray(anchor, dtype=np.float64),
+            "frame_origin_audit": {
+                "source": "raw_telemetry.achieved_position_world_m-minus-achieved_position_local_m",
+                "target_recentered": False,
+                "measured_start_recentered": False,
+            },
             "target_world_m": np.asarray(target, dtype=np.float64),
             "source_frame": SOURCE_FRAME,
             "tcp_semantic_id": TCP_SEMANTIC_ID,
@@ -888,7 +922,7 @@ def execute(config_path: Path) -> int:
                     "schema": FAILURE_SCHEMA,
                     "status": "PARTIAL" if counters["model_import_started"] else "BLOCKED",
                     "pi_gate": EXPECTED_GATE,
-                    "execution_head": current.get("checkpoint") or None,
+                    "execution_head": expected_head,
                     "branch": EXPECTED_BRANCH,
                     "pbs_jobid": os.environ.get("PBS_JOBID"),
                     "phase": phase,

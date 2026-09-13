@@ -15,6 +15,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import stat
@@ -44,6 +45,19 @@ EXPECTED_BUCKETS = [0, 250, 500, 750]
 EXPECTED_NOISE_SEED = 4242
 EXPECTED_NOISE_SHAPE = [1, 40, 132]
 FORBIDDEN_TOP_LEVEL = {"torch", "transformers", "gr00t", "cuda", "cv2", "numpy"}
+FORBIDDEN_IMPORT_PREFIXES = (
+    "torch",
+    "transformers",
+    "gr00t",
+    "numpy",
+    "cv2",
+    "isaacgym",
+    "go2arx5_vla",
+)
+FRAME_ORIGIN_SPREAD_TOLERANCE_M = 1e-7
+FRAME_STATE_TOLERANCE_M = 1e-7
+EXPECTED_ACTION_PERIOD_S = 0.05
+EXPECTED_LANGUAGE = "move the end effector to the red target"
 
 
 class AdmissionError(RuntimeError):
@@ -122,6 +136,18 @@ def _top_level_static_guard() -> dict[str, Any]:
     }
 
 
+def model_imports_present(imported_modules: Mapping[str, Any] | None = None) -> list[str]:
+    """Return model/runtime modules already present before model admission."""
+
+    modules = sys.modules if imported_modules is None else imported_modules
+    return sorted(
+        name
+        for name in modules
+        if isinstance(name, str)
+        and any(name == prefix or name.startswith(prefix + ".") for prefix in FORBIDDEN_IMPORT_PREFIXES)
+    )
+
+
 def _validate_freeze(freeze: Mapping[str, Any], *, expected_code_commit: str | None = None) -> dict[str, Any]:
     require(freeze.get("schema") == EXPECTED_SCHEMA, "recipe freeze schema drift")
     require(freeze.get("status") == EXPECTED_STATUS, "recipe freeze status drift")
@@ -193,6 +219,62 @@ def _regular_file(path: Path, label: str) -> Path:
     return path.resolve()
 
 
+def _finite_numbers(value: Any, length: int, label: str) -> list[float]:
+    require(isinstance(value, list) and len(value) == length, f"{label} must have length {length}")
+    result: list[float] = []
+    for item in value:
+        require(isinstance(item, (int, float)) and not isinstance(item, bool), f"{label} contains non-number")
+        number = float(item)
+        require(math.isfinite(number), f"{label} contains non-finite value")
+        result.append(number)
+    return result
+
+
+def _frame_origin_audit(payload: Mapping[str, Any], path: Path) -> dict[str, Any]:
+    """Bind the native relative origin without target-based recentering.
+
+    The retained Stage22 descriptor does not serialize the native anchor as a
+    separate field.  Its raw telemetry does serialize the same observed EEF
+    in world and native-relative coordinates.  Their difference is the frame
+    transform origin; it is audited against StateV1 and shared across all six
+    snapshots.  It is never inferred from the target or from an output.
+    """
+
+    state_payload = payload.get("state_v1")
+    require(isinstance(state_payload, Mapping), f"StateV1 is missing: {path}")
+    require(state_payload.get("schema") == "StateV1", f"StateV1 schema drift: {path}")
+    require(state_payload.get("layout") == ["eef_xyz[3]", "eef_rot6d_rows[6]", "gripper[1]"], f"StateV1 layout drift: {path}")
+    state = _finite_numbers(state_payload.get("values"), 10, f"StateV1 values {path}")
+    telemetry = payload.get("raw_telemetry")
+    require(isinstance(telemetry, Mapping), f"raw telemetry is missing: {path}")
+    local = _finite_numbers(telemetry.get("achieved_position_local_m"), 3, f"achieved local EEF {path}")
+    world = _finite_numbers(telemetry.get("achieved_position_world_m"), 3, f"achieved world EEF {path}")
+    state_error = max(abs(local[index] - state[index]) for index in range(3))
+    require(state_error <= FRAME_STATE_TOLERANCE_M, f"StateV1/local EEF mismatch: {path}: {state_error}")
+    anchor = [world[index] - local[index] for index in range(3)]
+    require(all(math.isfinite(item) for item in anchor), f"frame origin is non-finite: {path}")
+    explicit_values: list[dict[str, Any]] = []
+    for container_name in ("raw_telemetry", "provenance", None):
+        container = payload if container_name is None else payload.get(container_name)
+        if not isinstance(container, Mapping):
+            continue
+        for key in ("anchor_world_m", "native_anchor_world_m"):
+            if key not in container:
+                continue
+            explicit = _finite_numbers(container.get(key), 3, f"{key} {path}")
+            error = max(abs(explicit[index] - anchor[index]) for index in range(3))
+            require(error <= FRAME_STATE_TOLERANCE_M, f"explicit frame origin disagrees with world/local telemetry: {path}: {error}")
+            explicit_values.append({"container": container_name or "top_level", "key": key, "max_abs_error_m": error})
+    return {
+        "anchor_world_m": anchor,
+        "source": "raw_telemetry.achieved_position_world_m-minus-achieved_position_local_m",
+        "state_v1_local_max_abs_error_m": state_error,
+        "explicit_anchor_checks": explicit_values,
+        "target_recentered": False,
+        "measured_start_recentered": False,
+    }
+
+
 def _read_snapshot_descriptor(path: Path, expected_id: str) -> dict[str, Any]:
     path = _regular_file(path, "snapshot descriptor")
     payload = load_json(path)
@@ -209,8 +291,29 @@ def _read_snapshot_descriptor(path: Path, expected_id: str) -> dict[str, Any]:
     require(isinstance(gripper, list) and len(gripper) == 40 and all(isinstance(row, list) and len(row) == 1 for row in gripper), f"E snapshot gripper labels are not H40x1: {path}")
     require(payload.get("source_frame") == "NATIVE_WBC_RELATIVE_REFERENCE", f"E source frame drift: {path}")
     require(payload.get("tcp_semantic_id") == "x5_link6_gripper_center", f"E TCP identity drift: {path}")
+    provenance = payload.get("provenance")
+    require(isinstance(provenance, Mapping), f"E provenance is missing: {path}")
+    require(provenance.get("language") == EXPECTED_LANGUAGE, f"E language provenance drift: {path}")
+    require(provenance.get("target_excluded_from_model_input") is True, f"E provenance target exclusion drift: {path}")
+    require(provenance.get("label_source") == "deterministic_smoothstep_position_hold", f"E label source drift: {path}")
+    observation = payload.get("observation_timestamp")
+    require(isinstance(observation, (int, float)) and not isinstance(observation, bool) and math.isfinite(float(observation)), f"E observation timestamp drift: {path}")
+    timestamp_values = _finite_numbers(timestamps, 40, f"E timestamps {path}")
+    require(abs(timestamp_values[0] - float(observation)) <= 1e-7, f"E timestamp origin drift: {path}")
+    require(all(abs(timestamp_values[index + 1] - timestamp_values[index] - EXPECTED_ACTION_PERIOD_S) <= 1e-8 for index in range(39)), f"E timestamp spacing drift: {path}")
+    state_payload = payload.get("state_v1")
+    require(isinstance(state_payload, Mapping), f"E StateV1 is missing: {path}")
+    state_values = _finite_numbers(state_payload.get("values"), 10, f"E StateV1 values {path}")
+    desired_values = [[float(item) for item in row] for row in desired]
+    gripper_values = [[float(item) for item in row] for row in gripper]
+    require(all(math.isfinite(item) for row in desired_values for item in row), f"E desired label is non-finite: {path}")
+    require(all(math.isfinite(item) for row in gripper_values for item in row), f"E gripper label is non-finite: {path}")
+    require(max(abs(desired_values[0][index] - state_values[index]) for index in range(9)) <= FRAME_STATE_TOLERANCE_M, f"E label does not bind StateV1 pose: {path}")
+    frame_origin = _frame_origin_audit(payload, path)
     body = _regular_file(Path(str(payload.get("body_frame_path"))), "E body frame")
     wrist = _regular_file(Path(str(payload.get("wrist_frame_path"))), "E wrist frame")
+    require(provenance.get("body_frame_sha256") == sha256_file(body), f"E body frame provenance SHA drift: {path}")
+    require(provenance.get("wrist_frame_sha256") == sha256_file(wrist), f"E wrist frame provenance SHA drift: {path}")
     return {
         "snapshot_id": expected_id,
         "descriptor_path": str(path),
@@ -226,6 +329,7 @@ def _read_snapshot_descriptor(path: Path, expected_id: str) -> dict[str, Any]:
         "tcp_semantic_id": payload.get("tcp_semantic_id"),
         "target_id": payload.get("target_id"),
         "observation_timestamp": payload.get("observation_timestamp"),
+        "frame_origin": frame_origin,
         "state_shape": [10],
         "label_shape": [40, 10],
         "payload": dict(payload),
@@ -267,6 +371,24 @@ def admit(
     records = []
     for index, path in enumerate(snapshot_paths):
         records.append(_read_snapshot_descriptor(path, EXPECTED_SNAPSHOT_IDS[index]))
+    origins = [record["frame_origin"] for record in records]
+    canonical_origin = list(origins[0]["anchor_world_m"])
+    origin_errors = [
+        max(abs(float(origin["anchor_world_m"][axis]) - canonical_origin[axis]) for axis in range(3))
+        for origin in origins
+    ]
+    max_origin_spread = max(origin_errors)
+    require(max_origin_spread <= FRAME_ORIGIN_SPREAD_TOLERANCE_M, f"E frame origin is not shared across six windows: {max_origin_spread}")
+    frame_origin = {
+        "schema": "STAGE45F_NATIVE_FRAME_ORIGIN_BINDING_V1",
+        "anchor_world_m": canonical_origin,
+        "source": "raw_telemetry.achieved_position_world_m-minus-achieved_position_local_m",
+        "max_cross_window_spread_m": max_origin_spread,
+        "spread_tolerance_m": FRAME_ORIGIN_SPREAD_TOLERANCE_M,
+        "target_recentered": False,
+        "measured_start_recentered": False,
+        "state_v1_and_world_transform_audited": True,
+    }
     finished = now_utc()
     output_root.mkdir(parents=True, exist_ok=False)
     access_ledger = {
@@ -284,6 +406,7 @@ def admit(
         "simulator_collection": False,
         "new_data_generated": False,
         "records": [{key: value for key, value in record.items() if key != "payload"} for record in records],
+        "frame_origin": frame_origin,
         "prior_e_use_check": dict(prior_use_report or {"status": "NOT_PROVIDED", "absence_is_not_evidence": True}),
     }
     write_json_durable(output_root / "validation_e_access_ledger.json", access_ledger)
@@ -309,6 +432,7 @@ def admit(
             "split_lock_sha256": EXPECTED_SPLIT_LOCK_SHA,
             "snapshot_ids": list(EXPECTED_SNAPSHOT_IDS),
             "snapshot_records": [{key: value for key, value in record.items() if key != "payload"} for record in records],
+            "frame_origin": frame_origin,
             "access_ledger": str((output_root / "validation_e_access_ledger.json").resolve()),
             "access_ledger_sha256": sha256_file(output_root / "validation_e_access_ledger.json"),
             "target_xyz_in_model_input": False,
@@ -323,6 +447,7 @@ def admit(
             "metric_source_sha256": freeze["shared_runtime_identity"]["metrics_source_sha256"],
             "decoder_source_sha256": freeze["shared_runtime_identity"]["decoder_source_sha256"],
             "recenter_target": False,
+            "frame_origin_binding": frame_origin,
         },
         "model_imported": False,
         "model_construction": False,
