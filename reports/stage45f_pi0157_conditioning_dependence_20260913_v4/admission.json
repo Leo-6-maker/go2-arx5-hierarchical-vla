@@ -1,0 +1,108 @@
+{
+  "authority": {
+    "issue_comment": 5651062080,
+    "pi_gate": "PI_GATE_STATE_0157",
+    "pr_comment": 5651064217
+  },
+  "budget": {
+    "max_action_head_calls": 40,
+    "max_model_side_calls": 50,
+    "max_queries_including_mechanical": 10,
+    "nominal_action_head_calls": 32,
+    "nominal_model_side_calls": 40,
+    "nominal_queries": 8,
+    "prior_closed_diagnostic": {
+      "action_head_calls": 16,
+      "conditioning": 5,
+      "model_side_calls": 21,
+      "queries": 5
+    }
+  },
+  "fixed_identity": {
+    "base_processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "base_processor_root": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B",
+    "base_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+    "c0_file_sha256": "67ca605ca90e05633b22dd0447e4873ee29c6a4b31be983b94c11db35f9932be",
+    "checkpoint_file_count": 19,
+    "checkpoint_path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000",
+    "checkpoint_total_bytes": 20889823145,
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "noise_array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "noise_file_sha256": "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922",
+    "stats_path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_ac11dc8_inputs/STAGE45E_N2_STRUCTURED_STATS_V1_0edbb4e.json",
+    "stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "train_file_sha256": "3b525a5a628d3a9ee71894fdd9c6c77b2e888406e87926594700314768181866"
+  },
+  "forbidden": {
+    "hardware": false,
+    "holdout_f_read": false,
+    "icl": false,
+    "pbs": false,
+    "safety_gate_relaxed": false,
+    "simulator": false,
+    "training": false,
+    "validation_e_read": false,
+    "wbc": false
+  },
+  "input_order": [
+    "N1_NATIVE_a",
+    "N2_NATIVE_b",
+    "N3_NATIVE_c",
+    "N4_NATIVE_d",
+    "X1_VT_SC",
+    "X2_VC_ST",
+    "Z1_CONST128_ST",
+    "Z2_CONST128_SC"
+  ],
+  "native_a_matches_canonical_T": true,
+  "raw_first": true,
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "execution_head": "d19f9d9c2b896a3eaf7d8f40cdefc0ebf39183bf",
+    "head": "d19f9d9c2b896a3eaf7d8f40cdefc0ebf39183bf",
+    "protocol_starting_head": "f4fdb01e5071b530d6997ec2d0a17666cdeacddb"
+  },
+  "runtime": {
+    "gpu": {
+      "all": [
+        {
+          "index": 0,
+          "memory_free_mib": 32091,
+          "memory_total_mib": 32760,
+          "memory_used_mib": 139,
+          "name": "NVIDIA GeForce RTX 4080 SUPER",
+          "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+        },
+        {
+          "index": 1,
+          "memory_free_mib": 15869,
+          "memory_total_mib": 16376,
+          "memory_used_mib": 67,
+          "name": "NVIDIA GeForce RTX 4080 SUPER",
+          "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd"
+        }
+      ],
+      "authorized_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "hostname": "corelab-4080s",
+      "query_sha256": "cd5a951ca794dff23dfe383341ba18b79b743586480d0db22be753172a3c84ea",
+      "selected": {
+        "index": 0,
+        "memory_free_mib": 32091,
+        "memory_total_mib": 32760,
+        "memory_used_mib": 139,
+        "name": "NVIDIA GeForce RTX 4080 SUPER",
+        "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+      }
+    },
+    "no_model_forward_before_admission": true,
+    "python": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python"
+  },
+  "schema": "CORELAB_STAGE45F_PI0157_CONDITIONING_ADMISSION_V1",
+  "status": "ADMITTED_FOR_BOUNDED_EXECUTION",
+  "token": "CORELAB_PI0157_CONDITIONING_ADMISSION_RECORDED"
+}
