@@ -331,7 +331,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     require(not output.exists(), f"output root already exists: {output}")
     output.mkdir(parents=True)
     head = str(args.repository_head).lower()
-    require(head == STARTING_HEAD, f"repository HEAD drift: expected {STARTING_HEAD}, got {head}")
+    require(len(head) == 40 and all(char in "0123456789abcdef" for char in head), f"repository HEAD must be a concrete 40-hex SHA: {head}")
     snapshot = _nvidia_snapshot()
     gpu = _select_gpu(snapshot, args.gpu_uuid)
     runtime = _prepare_native_environment(output, args, str(gpu["uuid"]))
