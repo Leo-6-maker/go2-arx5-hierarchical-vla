@@ -215,7 +215,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor, _load_snapshot
     from stage40_b0_model_control import _bind_local_cosmos_processor
     processor_binding = _bind_local_cosmos_processor(Path(args.stage10_root), Path(args.cosmos_snapshot))
-    processor, embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=Path(args.base_model), dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
+    base_processor_root = Path(admission["fixed_identities"]["base_processor_root"]).resolve()
+    require(base_processor_root.is_dir() and not base_processor_root.is_symlink(), f"sealed BASE processor root unavailable: {base_processor_root}")
+    require(sha256_file(base_processor_root / "processor_config.json") == admission["fixed_identities"]["base_processor_config_sha256"], "sealed BASE processor config drift")
+    require(sha256_file(base_processor_root / "statistics.json") == admission["fixed_identities"]["base_statistics_sha256"], "sealed BASE statistics drift")
+    processor, embodiment, _ = _build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=base_processor_root, dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
     audit_by_condition = {}
     for condition, (body, wrist, state, _) in condition_specs.items():
         inputs = old._build_c1_inputs(processor, embodiment, {"body": body, "wrist": wrist, "state": state}, train=True)
