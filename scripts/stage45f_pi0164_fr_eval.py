@@ -34,6 +34,7 @@ N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a
 FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
+COSMOS_MODEL_DIR = "models--nvidia--Cosmos-Reason2-2B"
 N2_X0_ARRAY_SHA = "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd"
 N2_X0_FILE_SHA = "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922"
 Q0_NPZ_SHA = "e0376e138bb1610a557164d3afffa3da1d7d0446a3b28406374360bbe7c441ad"
@@ -143,6 +144,15 @@ def tree_digest(entries: Sequence[Mapping[str, Any]]) -> str:
     return digest.hexdigest()
 
 
+def _cosmos_model_root(root: Path) -> Path:
+    """Resolve either a HF hub cache root or its model-specific directory."""
+    root = Path(root).resolve()
+    nested = root / COSMOS_MODEL_DIR
+    if nested.is_dir() and (nested / "refs" / "main").is_file():
+        return nested
+    return root
+
+
 def gpu_snapshot() -> dict[str, Any]:
     query = subprocess.run(
         ["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,memory.used,memory.free", "--format=csv,noheader,nounits"],
@@ -180,7 +190,7 @@ def prepare_environment(root: Path, gpu: Mapping[str, Any], cosmos: Path, n2_sta
     hub = cache / "huggingface" / "hub"
     hub.mkdir(parents=True, exist_ok=False)
     (cache / "xdg").mkdir(parents=True, exist_ok=False)
-    (hub / "models--nvidia--Cosmos-Reason2-2B").symlink_to(cosmos, target_is_directory=True)
+    (hub / COSMOS_MODEL_DIR).symlink_to(_cosmos_model_root(cosmos), target_is_directory=True)
     old_ld = os.environ.get("LD_LIBRARY_PATH", "")
     os.environ.update({
         "CUDA_VISIBLE_DEVICES": str(gpu["index"]),
@@ -434,8 +444,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         sys.path.insert(0, str(Path(args.repo_src).resolve()))
     from stage45e_n2_train24_eval import _load_runtime_processor
     from stage45b_full24_fresh_base_train import _bind_cosmos_processor
-    _bind_cosmos_processor(Path(args.cosmos).resolve() / "snapshots" / COSMOS_REVISION)
-    paths = {"groot": Path(args.groot).resolve(), "base_model": Path(args.base_model).resolve(), "dataset": Path(args.dataset).resolve(), "modality": Path(args.modality).resolve(), "cosmos": Path(args.cosmos).resolve()}
+    cosmos_model = _cosmos_model_root(Path(args.cosmos).resolve())
+    _bind_cosmos_processor(cosmos_model / "snapshots" / COSMOS_REVISION)
+    paths = {"groot": Path(args.groot).resolve(), "base_model": Path(args.base_model).resolve(), "dataset": Path(args.dataset).resolve(), "modality": Path(args.modality).resolve(), "cosmos": cosmos_model}
     processor, embodiment, modality_configs = _load_runtime_processor(paths)
     windows = __import__("stage45e_n2_train24_eval")._make_windows(processor, embodiment, modality_configs, Path(args.dataset).resolve(), snapshot_records)
     require(len(windows) == 24, "prepared TRAIN24 window count drift")

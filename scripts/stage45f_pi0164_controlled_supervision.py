@@ -57,6 +57,7 @@ FULL24_TREE = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 GROOT_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+COSMOS_MODEL_DIR = "models--nvidia--Cosmos-Reason2-2B"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 CONFIG_SHA = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
 NOISE_ARRAY_SHA = "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd"
@@ -209,6 +210,15 @@ def _cosmos_tree_digest(root: Path) -> tuple[str, int]:
     return digest.hexdigest(), len(entries)
 
 
+def _cosmos_model_root(root: Path) -> Path:
+    """Resolve either a HF hub cache root or its model-specific directory."""
+    root = Path(root).resolve()
+    nested = root / COSMOS_MODEL_DIR
+    if nested.is_dir() and (nested / "refs" / "main").is_file():
+        return nested
+    return root
+
+
 def gpu_snapshot() -> dict[str, Any]:
     result = subprocess.run(
         [
@@ -289,11 +299,12 @@ def _external_identities(args: argparse.Namespace) -> dict[str, Any]:
     require(sha256_file(config) == CONFIG_SHA, "training config identity drift")
     groot_head = git_remote(groot, "rev-parse", "HEAD")
     require(groot_head == GROOT_COMMIT, f"GR00T source commit drift: {groot_head}")
-    refs_main = cosmos / "refs" / "main"
+    cosmos_model = _cosmos_model_root(cosmos)
+    refs_main = cosmos_model / "refs" / "main"
     require(refs_main.is_file() and not refs_main.is_symlink(), f"Cosmos refs/main unavailable: {refs_main}")
     cosmos_revision = refs_main.read_text(encoding="utf-8").strip()
     require(cosmos_revision == COSMOS_REVISION, f"Cosmos revision drift: {cosmos_revision}")
-    cosmos_tree, cosmos_count = _cosmos_tree_digest(cosmos)
+    cosmos_tree, cosmos_count = _cosmos_tree_digest(cosmos_model)
     require(cosmos_tree == COSMOS_TREE, f"Cosmos tree drift: {cosmos_tree}")
     n2_doc = read_json(n2_stats)
     require(n2_doc.get("statistics_payload_sha256") == N2_STATS_PAYLOAD_SHA, "N2 statistics payload SHA drift")
@@ -307,6 +318,8 @@ def _external_identities(args: argparse.Namespace) -> dict[str, Any]:
         "training_config_sha256": CONFIG_SHA,
         "groot_commit": groot_head,
         "cosmos_revision": cosmos_revision,
+        "cosmos_cache_root": str(cosmos),
+        "cosmos_model_root": str(cosmos_model),
         "cosmos_tree_sha256": cosmos_tree,
         "cosmos_entry_count": cosmos_count,
     }
@@ -380,7 +393,7 @@ def prepare_environment(output: Path, gpu: Mapping[str, Any], cosmos: Path, n2_s
     hub = cache / "huggingface" / "hub"
     hub.mkdir(parents=True, exist_ok=False)
     (cache / "xdg").mkdir(parents=True, exist_ok=False)
-    (hub / "models--nvidia--Cosmos-Reason2-2B").symlink_to(cosmos, target_is_directory=True)
+    (hub / COSMOS_MODEL_DIR).symlink_to(_cosmos_model_root(cosmos), target_is_directory=True)
     old_ld = os.environ.get("LD_LIBRARY_PATH", "")
     ld = FFMPEG6_LIB if not old_ld else FFMPEG6_LIB + os.pathsep + old_ld
     os.environ.update(
@@ -660,12 +673,22 @@ def train_arm(
     sys.path.insert(0, str(Path(args.groot).resolve()))
     from stage45b_full24_fresh_base_train import _bind_cosmos_processor
 
-    cosmos_snapshot = Path(args.cosmos).resolve() / "snapshots" / COSMOS_REVISION
+    cosmos_snapshot = _cosmos_model_root(Path(args.cosmos).resolve()) / "snapshots" / COSMOS_REVISION
     require(cosmos_snapshot.is_dir(), f"Cosmos snapshot unavailable: {cosmos_snapshot}")
     _bind_cosmos_processor(cosmos_snapshot)
     config = _load_config(Path(args.config).resolve(), output, Path(args.checkpoint).resolve(), Path(args.dataset).resolve())
     overlay = _install_dataset_factory(config, q0, stats_doc, arm)
     write_json(output / "sampler_overlay.json", {"schema": "CORELAB_PI0164_DETERMINISTIC_SLOT_OVERLAY_V1", **overlay, "seed": TRAIN_SEED, "no_eval_x0_used_for_training": True, "paired_e_slots_identical": True})
+
+    # Each arm is a fresh optimizer/scheduler/RNG run under the fixed PI seed.
+    # The official trainer also seeds its dataloader, but explicit process-local
+    # seeding here makes the fresh-arm boundary observable and deterministic.
+    import torch
+
+    random.seed(TRAIN_SEED)
+    torch.manual_seed(TRAIN_SEED)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(TRAIN_SEED)
 
     # Count complete model calls even if a later save/serialization operation
     # fails.  The count is observational only and cannot change the budget.
