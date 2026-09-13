@@ -30,11 +30,15 @@ def test_pi0153_scripts_are_syntax_valid_and_lazy_runtime_imports() -> None:
 
 def test_generation_probe_keeps_fixed_budget_and_exact_worker_boundary() -> None:
     source = PROBE.read_text(encoding="utf-8")
-    assert "MAX_QUERIES = 4" in source
-    assert "MAX_CONDITIONING = 4" in source
-    assert "MAX_HEAD_CALLS = 16" in source
-    assert "MAX_MODEL_CALLS = 20" in source
+    assert "MAX_QUERIES = 5" in source
+    assert "MAX_CONDITIONING = 5" in source
+    assert "MAX_HEAD_CALLS = 20" in source
+    assert "MAX_MODEL_CALLS = 25" in source
+    assert "NOMINAL_QUERIES = 4" in source
+    assert "NOMINAL_MODEL_CALLS = 20" in source
     assert "model.get_action(**worker_inputs)" in source
+    assert "torch.inference_mode()" in source
+    assert "_inference_query(torch" in source
     assert "value.detach().to(device=\"cpu\", dtype=torch.float32)" in source
     # PI0155 requires the real deployment builder in a separate CPU process;
     # the model process itself still reuses the validated C1 instance to avoid
@@ -48,7 +52,7 @@ def test_generation_probe_keeps_fixed_budget_and_exact_worker_boundary() -> None
 def test_pi0155_repairs_are_explicit_and_supplement_is_cpu_only() -> None:
     source = PROBE.read_text(encoding="utf-8")
     supplement = SUPPLEMENT.read_text(encoding="utf-8")
-    assert 'PI_GATE = "PI_GATE_STATE_0155"' in source
+    assert 'PI_GATE = "PI_GATE_STATE_0156"' in source
     assert "isinstance(sampled, tuple) and len(sampled) == 2" in source
     assert 'noise_injection_status": "EXACTLY_ONE' in source
     assert 'model_side_calls_unknown' in source

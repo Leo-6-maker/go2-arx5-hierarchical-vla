@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0155 bounded same-input/same-noise generation-path comparison.
+"""PI0156 bounded same-input/same-noise generation-path comparison.
 
 The probe is deliberately a small, fail-closed diagnostic.  It uses exactly
 two immutable inputs (the accepted TRAIN window and the archived Stage43 C0
@@ -35,10 +35,10 @@ for item in (SCRIPTS, SRC):
     if str(item) not in sys.path:
         sys.path.insert(0, str(item))
 
-PI_GATE = "PI_GATE_STATE_0155"
-PI_COMMENT = 5650148861
-PR_COMMENT = 5650151180
-RETURN_TOKEN = "CORELAB_PI0155_GENERATION_PATH_DIAGNOSIS_FOR_PI_REVIEW"
+PI_GATE = "PI_GATE_STATE_0156"
+PI_COMMENT = 5650620343
+PR_COMMENT = 5650623655
+RETURN_TOKEN = "CORELAB_PI0156_FIXED_INPUT_PATH_COMPARISON_FOR_PI_REVIEW"
 CHECKPOINT_TREE = "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152"
 N2_STATS_SHA = "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb"
 N2_STATS_PAYLOAD_SHA = "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572"
@@ -52,10 +52,27 @@ RAW_SHAPE = (1, HORIZON, ACTION_DIM)
 TARGET = np.asarray([0.30, 0.10, 0.58], dtype=np.float64)
 TIMESTAMPS = np.arange(HORIZON, dtype=np.float64) * 0.05
 LANGUAGE = "move the end effector to the red target"
-MAX_QUERIES = 4
-MAX_CONDITIONING = 4
-MAX_HEAD_CALLS = 16
-MAX_MODEL_CALLS = 20
+# The fixed scientific comparison has four queries (4 conditioning + 16
+# action-head calls).  PI0156 also authorizes one mechanical recovery query;
+# these ceilings make that allowance explicit without adding a fifth science
+# condition.  The loop below intentionally contains only the four fixed
+# input/path pairs.
+MAX_QUERIES = 5
+MAX_CONDITIONING = 5
+MAX_HEAD_CALLS = 20
+MAX_MODEL_CALLS = 25
+NOMINAL_QUERIES = 4
+NOMINAL_CONDITIONING = 4
+NOMINAL_HEAD_CALLS = 16
+NOMINAL_MODEL_CALLS = 20
+PRIOR_CONSUMED_QUERIES = 1
+PRIOR_CONSUMED_CONDITIONING = 1
+PRIOR_CONSUMED_HEAD_CALLS = 0
+PRIOR_CONSUMED_MODEL_CALLS = 1
+CUMULATIVE_QUERY_LIMIT = 6
+CUMULATIVE_CONDITIONING_LIMIT = 6
+CUMULATIVE_HEAD_LIMIT = 20
+CUMULATIVE_MODEL_CALL_LIMIT = 26
 AUTHORIZED_GPU_UUID = "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
 COSMOS_REPO_ID = "nvidia/Cosmos-Reason2-2B"
 
@@ -247,6 +264,20 @@ def _capture_prepare(model: Any, call: Any) -> tuple[Any, dict[str, Any]]:
     return value, captured
 
 
+def _inference_query(torch: Any, call: Any) -> Any:
+    """Execute one complete model query under the no-autograd boundary.
+
+    This is deliberately a wrapper around the *whole* query rather than an
+    ``eval()`` toggle or a tensor clone.  It covers processor-produced inputs,
+    conditioning, state/action encoders, every sampler/worker update, and raw
+    extraction.  In particular, features created by an inner inference-mode
+    helper cannot be handed to a parameterized action operator with autograd
+    re-enabled halfway through the query.
+    """
+    with torch.inference_mode():
+        return call()
+
+
 def _build_c1_inputs(processor: Any, embodiment: Any, item: Mapping[str, Any], *, train: bool) -> Mapping[str, Any]:
     from gr00t.data.types import MessageType, VLAStepData
 
@@ -331,7 +362,7 @@ def _injectable_worker_call(model: Any, worker_inputs: Mapping[str, Any], noise:
             # Preserve the deployment worker's call boundary exactly: the
             # collator returns a top-level ``inputs`` keyword, and the worker
             # invokes ``model.get_action(**inputs)`` once per query.
-            prediction, captured = _capture_prepare(model, lambda: model.get_action(**worker_inputs))
+            prediction, captured = _inference_query(torch, lambda: _capture_prepare(model, lambda: model.get_action(**worker_inputs)))
         finally:
             hook.remove()
     finally:
@@ -354,7 +385,7 @@ def _c1_call(model: Any, model_inputs: Mapping[str, Any], noise: np.ndarray, tor
     calls_before = int(getattr(model, "_pi0153_action_head_calls", 0))
     hook = model.action_head.model.register_forward_hook(lambda *_args, **_kwargs: setattr(model, "_pi0153_action_head_calls", int(getattr(model, "_pi0153_action_head_calls", 0)) + 1))
     try:
-        sampled, captured = _capture_prepare(model, lambda: sampler(model, model_inputs, noise_tensor, torch))
+        sampled, captured = _inference_query(torch, lambda: _capture_prepare(model, lambda: sampler(model, model_inputs, noise_tensor, torch)))
     finally:
         hook.remove()
     require(isinstance(sampled, tuple) and len(sampled) == 2, "_sample_one must return (raw, observed_sampler_calls)")
@@ -612,7 +643,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         )
     except Exception as exc:
         failure = {
-            "schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_FAILURE_V1",
+            "schema": "CORELAB_STAGE45F_PI0156_GENERATION_PROBE_FAILURE_V1",
             "status": "BLOCKED",
             "phase": "isolated_processor_audit",
             "error_type": type(exc).__name__,
@@ -643,7 +674,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         # construction starts but cannot complete (for example, a gated
         # backbone access failure).  The PI0153 rule is fail-closed: no retry
         # or alternate device is attempted after this point.
-        failure = {"schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_FAILURE_V1", "status": "BLOCKED", "phase": "model_construction", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": {"queries": 0, "conditioning": 0, "action_head_calls": 0, "model_side_calls": 0, "model_construction_attempts": 1, "exceptions": 1}, "no_retry": True, "gpu": gpu, "identities": checkpoint_identity, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "execution_boundary": {"model_constructed": False, "new_training": False, "training": False, "pbs": False, "simulator": False, "wbc": False, "validation_e_read": False, "holdout_f_read": False}}
+        failure = {"schema": "CORELAB_STAGE45F_PI0156_GENERATION_PROBE_FAILURE_V1", "status": "BLOCKED", "phase": "model_construction", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": {"queries": 0, "conditioning": 0, "action_head_calls": 0, "model_side_calls": 0, "model_construction_attempts": 1, "exceptions": 1}, "no_retry": True, "gpu": gpu, "identities": checkpoint_identity, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "execution_boundary": {"model_constructed": False, "new_training": False, "training": False, "pbs": False, "simulator": False, "wbc": False, "validation_e_read": False, "holdout_f_read": False}}
         write_json(output / "failure_seal.json", failure)
         raise
     model.eval()
@@ -698,7 +729,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 counters["model_side_calls_completed"] += observed_after_failure
                 counters["conditioning_unknown"] += 1
                 counters["model_side_calls_unknown"] += 1
-                failure = {"schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_FAILURE_V1", "status": "PARTIAL", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": counters, "no_retry": True, "gpu": gpu, "cosmos_binding": cosmos_binding, "processor_audit": processor_audit}
+                failure = {"schema": "CORELAB_STAGE45F_PI0156_GENERATION_PROBE_FAILURE_V1", "status": "PARTIAL", "error_type": type(exc).__name__, "error": str(exc)[-2000:], "counters": counters, "no_retry": True, "gpu": gpu, "cosmos_binding": cosmos_binding, "processor_audit": processor_audit}
                 write_json(output / "failure_seal.json", failure)
                 raise
             elapsed = time.perf_counter() - start
@@ -770,7 +801,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         comparison["decoded_gripper"] = delta_summary(physical_delta[:, 9])
         comparison["prepared_input_summaries_equal"] = left["path_details"].get("prepared") == right["path_details"].get("prepared")
 
-    report = {"schema": "CORELAB_STAGE45F_PI0155_GENERATION_PROBE_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": "stage45f/corelab-local-initial-state-pilot"}, "identities": {**checkpoint_identity, "noise_array_sha256": NOISE_ARRAY_SHA, "model_dtype": model_dtype, "parameter_names_sha256": sha256_json(parameter_names), "parameter_dtypes": parameter_dtypes, "worker_module_sha256": sha256_file(Path(worker.__file__).resolve()), "cosmos_binding": cosmos_binding, "processor_binding": processor_binding}, "inputs": [{"label": label, "file_sha256": observation["file_sha256"], "body_sha256": observation["body_sha256"], "wrist_sha256": observation["wrist_sha256"], "state_sha256": observation["state_sha256"], "target_keys": observation["target_keys"], "target_xyz_in_model_input": False} for label, _, observation, *_ in inputs], "processor_audit": processor_audit, "gpu": gpu, "results": results, "comparisons": comparisons, "counters": counters, "budget": {"max_queries": MAX_QUERIES, "max_conditioning": MAX_CONDITIONING, "max_action_head_calls": MAX_HEAD_CALLS, "max_model_side_calls": MAX_MODEL_CALLS, "consumed_queries": counters["queries"], "consumed_conditioning": counters["conditioning"], "consumed_action_head_calls": counters["action_head_calls"], "consumed_model_side_calls": counters["model_side_calls"], "consumed_model_side_calls_entered": counters["model_side_calls_entered"], "consumed_model_side_calls_completed": counters["model_side_calls_completed"], "consumed_model_side_calls_unknown": counters["model_side_calls_unknown"]}, "execution_boundary": {"new_training": False, "training": False, "gpu": True, "pbs": False, "simulator": False, "wbc": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "icl": False, "new_data": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "same-input/same-x0 generation-path diagnostic only; raw active-190/group and decoded XYZ deltas are descriptive; no route selection, closed-loop, or task-success claim"}
+    report = {"schema": "CORELAB_STAGE45F_PI0156_GENERATION_PROBE_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": "stage45f/corelab-local-initial-state-pilot"}, "identities": {**checkpoint_identity, "noise_array_sha256": NOISE_ARRAY_SHA, "model_dtype": model_dtype, "parameter_names_sha256": sha256_json(parameter_names), "parameter_dtypes": parameter_dtypes, "worker_module_sha256": sha256_file(Path(worker.__file__).resolve()), "cosmos_binding": cosmos_binding, "processor_binding": processor_binding}, "inputs": [{"label": label, "file_sha256": observation["file_sha256"], "body_sha256": observation["body_sha256"], "wrist_sha256": observation["wrist_sha256"], "state_sha256": observation["state_sha256"], "target_keys": observation["target_keys"], "target_xyz_in_model_input": False} for label, _, observation, *_ in inputs], "processor_audit": processor_audit, "results": results, "comparisons": comparisons, "counters": counters, "budget": {"max_queries": MAX_QUERIES, "max_conditioning": MAX_CONDITIONING, "max_action_head_calls": MAX_HEAD_CALLS, "max_model_side_calls": MAX_MODEL_CALLS, "nominal_science": {"queries": NOMINAL_QUERIES, "conditioning": NOMINAL_CONDITIONING, "action_head_calls": NOMINAL_HEAD_CALLS, "model_side_calls": NOMINAL_MODEL_CALLS}, "authorized_new": {"queries": MAX_QUERIES, "conditioning": MAX_CONDITIONING, "action_head_calls": MAX_HEAD_CALLS, "model_side_calls": MAX_MODEL_CALLS}, "prior_consumed": {"queries": PRIOR_CONSUMED_QUERIES, "conditioning": PRIOR_CONSUMED_CONDITIONING, "action_head_calls": PRIOR_CONSUMED_HEAD_CALLS, "model_side_calls": PRIOR_CONSUMED_MODEL_CALLS}, "cumulative_limit": {"queries": CUMULATIVE_QUERY_LIMIT, "conditioning": CUMULATIVE_CONDITIONING_LIMIT, "action_head_calls": CUMULATIVE_HEAD_LIMIT, "model_side_calls": CUMULATIVE_MODEL_CALL_LIMIT}, "consumed_queries": counters["queries"], "consumed_conditioning": counters["conditioning"], "consumed_action_head_calls": counters["action_head_calls"], "consumed_model_side_calls": counters["model_side_calls"], "cumulative_consumed_queries": PRIOR_CONSUMED_QUERIES + counters["queries"], "cumulative_consumed_conditioning": PRIOR_CONSUMED_CONDITIONING + counters["conditioning"], "cumulative_consumed_action_head_calls": PRIOR_CONSUMED_HEAD_CALLS + counters["action_head_calls"], "cumulative_consumed_model_side_calls": PRIOR_CONSUMED_MODEL_CALLS + counters["model_side_calls"], "consumed_model_side_calls_entered": counters["model_side_calls_entered"], "consumed_model_side_calls_completed": counters["model_side_calls_completed"], "consumed_model_side_calls_unknown": counters["model_side_calls_unknown"]}, "execution_boundary": {"new_training": False, "training": False, "gpu": True, "pbs": False, "simulator": False, "wbc": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "icl": False, "new_data": False, "safety_gate_relaxed": False, "retry": False}, "claim_boundary": "same-input/same-x0 generation-path diagnostic only; raw active-190/group and decoded XYZ deltas are descriptive; no route selection, closed-loop, or task-success claim"}
     report_sha = write_json(output / "pi0153_generation_probe.json", report)
     write_json(output / "pi0153_generation_probe.json.sha256", {"file": "pi0153_generation_probe.json", "sha256": report_sha})
     return {**report, "report_sha256": report_sha}
