@@ -243,6 +243,20 @@ def _source_physical_metrics(row: Mapping[str, Any]) -> dict[str, float | None]:
     }
 
 
+def _source_progress_sign(row: Mapping[str, Any]) -> str:
+    metrics = row.get("metrics")
+    if not isinstance(metrics, Mapping):
+        physical = row.get("physical")
+        endpoint = physical.get("free_running_endpoint") if isinstance(physical, Mapping) else None
+        metrics = endpoint.get("trajectory_metrics") if isinstance(endpoint, Mapping) else None
+    require(isinstance(metrics, Mapping), "source row has no progress metrics namespace")
+    target = metrics.get("target")
+    require(isinstance(target, Mapping), "source row has no progress target namespace")
+    value = target.get("progress_sign")
+    require(isinstance(value, str) and value, "source row has no progress sign")
+    return value
+
+
 def _report_physical_metrics(row: Mapping[str, Any]) -> dict[str, float | None]:
     physical = row.get("physical_metrics")
     require(isinstance(physical, Mapping), "physical report row has no physical_metrics")
@@ -413,7 +427,7 @@ def build_physical_rows(campaign_root: Path, report: Mapping[str, Any]) -> tuple
                     "stats_route": report_row.get("stats_route"),
                     "checkpoint_tree_sha256": report_row.get("checkpoint_tree_sha256"),
                     "physical_metrics_namespace": report_row.get("physical_metrics_namespace"),
-                    "progress_sign": str(source_row["metrics"]["target"].get("progress_sign")),
+                    "progress_sign": _source_progress_sign(source_row),
                     "metrics": source_metrics,
                 }
             )
