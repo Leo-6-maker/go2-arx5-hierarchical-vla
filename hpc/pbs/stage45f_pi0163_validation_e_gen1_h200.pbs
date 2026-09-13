@@ -1,0 +1,98 @@
+#!/bin/bash
+# PI0163: compute-node FFmpeg visibility repair and direct continuation of the
+# already frozen PI0154/PI0159 Validation-E generation 1. This is the single
+# actual submission entrypoint: no outer retry loop and no polling for missing
+# paths. The accepted runtime capsule is materialized and checked in this
+# allocation, then the import-only probe and frozen runner execute in the same
+# allocation. There is no training, public sampler, or Holdout-F.
+
+#PBS -N st45f_pi0163
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=02:00:00
+#PBS -r n
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0163_REPO:?Set the exact clean Validation-E checkout}"
+: "${PI0163_EXPECTED_HEAD:?Set the exact support HEAD}"
+: "${PI0163_PYTHON:?Set the admitted H200 Python}"
+: "${PI0163_CONFIG:?Set the immutable Validation-E config}"
+: "${PI0163_FFMPEG_CAPSULE:?Set the accepted FFmpeg runtime capsule}"
+: "${PI0163_FFMPEG_CAPSULE_SHA256:?Set the capsule SHA256}"
+: "${PI0163_RUNTIME_ID:?Set the accepted FFmpeg runtime identity}"
+: "${PI0163_MANIFEST_SHA256:?Set the accepted FFmpeg manifest SHA256}"
+: "${PI0163_OUTPUT_ROOT:?Set the fresh persistent output root}"
+: "${PI0163_BOOTSTRAP_RECORD:?Set the persistent bootstrap record path}"
+: "${PI0163_COMPUTE_IMPORT_RECORD:?Set the persistent compute import record path}"
+: "${PI0163_VIDEO:?Set the accepted CPU probe video}"
+: "${PI0163_COSMOS_ROOT:?Set the accepted Cosmos cache root}"
+: "${PI0163_HF_HOME:?Set the accepted HF home}"
+: "${PI0163_HF_HUB_CACHE:?Set the accepted HF hub cache}"
+: "${PI0163_COSMOS_REVISION:?Set the accepted Cosmos revision}"
+: "${PBS_JOBID:?PBS_JOBID is required}"
+
+test -x "${PI0163_PYTHON}"
+resolved_python="$(readlink -f "${PI0163_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "PI0163 Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
+test -f "${PI0163_CONFIG}"
+test -f "${PI0163_FFMPEG_CAPSULE}"
+test "$(sha256sum "${PI0163_FFMPEG_CAPSULE}" | awk '{print $1}')" = "${PI0163_FFMPEG_CAPSULE_SHA256}"
+if [[ -e "${PI0163_BOOTSTRAP_RECORD}" || -L "${PI0163_BOOTSTRAP_RECORD}" ]]; then exit 1; fi
+if [[ -e "${PI0163_COMPUTE_IMPORT_RECORD}" || -L "${PI0163_COMPUTE_IMPORT_RECORD}" ]]; then exit 1; fi
+if [[ -e "${PI0163_OUTPUT_ROOT}" || -L "${PI0163_OUTPUT_ROOT}" ]]; then exit 1; fi
+test "$(git -C "${PI0163_REPO}" branch --show-current)" = "stage45f/vanda-validation-e-gen1-l1-2000"
+test "$(git -C "${PI0163_REPO}" rev-parse HEAD)" = "${PI0163_EXPECTED_HEAD}"
+test -z "$(git -C "${PI0163_REPO}" status --porcelain=v1 --untracked-files=all)"
+
+site="$(dirname "${PI0163_PYTHON}")/../lib/python3.12/site-packages"
+test -d "${site}/torchcodec"
+test -d "${site}/torch/lib"
+test -d "$(dirname "${PI0163_OUTPUT_ROOT}")"
+test -d "$(dirname "${PI0163_BOOTSTRAP_RECORD}")"
+test -d "$(dirname "${PI0163_COMPUTE_IMPORT_RECORD}")"
+test -d "${PI0163_COSMOS_ROOT}"
+test -d "${PI0163_HF_HUB_CACHE}"
+test -f "${PI0163_VIDEO}"
+
+runtime_stage="${TMPDIR:-/tmp}/stage45f_pi0163_ffmpeg_${PBS_JOBID//[^A-Za-z0-9_-]/_}"
+if [[ -e "${runtime_stage}" || -L "${runtime_stage}" ]]; then exit 1; fi
+
+cd "${TMPDIR:-/tmp}"
+"${PI0163_PYTHON}" "${PI0163_REPO}/scripts/stage45f_pi0163_ffmpeg_capsule_bootstrap.py" \
+  --capsule "${PI0163_FFMPEG_CAPSULE}" \
+  --capsule-sha256 "${PI0163_FFMPEG_CAPSULE_SHA256}" \
+  --expected-runtime-id "${PI0163_RUNTIME_ID}" \
+  --expected-manifest-sha256 "${PI0163_MANIFEST_SHA256}" \
+  --destination "${runtime_stage}" \
+  --record "${PI0163_BOOTSTRAP_RECORD}"
+
+test -d "${runtime_stage}/lib"
+test -d "${runtime_stage}/compat"
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${runtime_stage}/lib:${runtime_stage}/compat:${site}/torchcodec:${site}/torch/lib:${ambient_ld_library_path}"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HOME="${PI0163_HF_HOME}" HF_HUB_CACHE="${PI0163_HF_HUB_CACHE}" HUGGINGFACE_HUB_CACHE="${PI0163_HF_HUB_CACHE}" TRANSFORMERS_CACHE="${PI0163_HF_HUB_CACHE}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+unset PYTHONPATH 2>/dev/null || true
+
+"${PI0163_PYTHON}" "${PI0163_REPO}/scripts/stage45f_pi0163_runtime_import_probe.py" \
+  --mode compute \
+  --ffmpeg-root "${runtime_stage}" \
+  --video "${PI0163_VIDEO}" \
+  --cosmos-root "${PI0163_COSMOS_ROOT}" \
+  --cosmos-revision "${PI0163_COSMOS_REVISION}" \
+  --record "${PI0163_COMPUTE_IMPORT_RECORD}"
+
+# This absolute-path invocation is the only model entrypoint. It retains the
+# frozen continuation's admission-before-model-import and exact six-arm
+# Validation-E contract. It runs immediately after the same-job bootstrap;
+# there is no second smoke or retry wrapper.
+exec "${PI0163_PYTHON}" "${PI0163_REPO}/scripts/stage45f_pi0159_validation_e_continuation.py" --execute --config "${PI0163_CONFIG}"
