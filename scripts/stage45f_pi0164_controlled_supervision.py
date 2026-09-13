@@ -398,7 +398,9 @@ def prepare_environment(output: Path, gpu: Mapping[str, Any], cosmos: Path, n2_s
     # TorchCodec's native core links both the sealed FFmpeg6 payload and the
     # active venv's libtorch/libc10 objects.  Keep this process-local and put
     # FFmpeg first so libav* resolution cannot fall through to system FFmpeg8.
-    venv_root = Path(sys.executable).resolve().parents[1]
+    # ``sys.executable`` is a symlink to the system interpreter on this venv;
+    # sys.prefix retains the actual virtual-environment root.
+    venv_root = Path(sys.prefix).resolve()
     torch_lib = venv_root / "lib" / "python3.12" / "site-packages" / "torch" / "lib"
     env_lib = venv_root / "lib"
     ld_parts = [FFMPEG6_LIB]
