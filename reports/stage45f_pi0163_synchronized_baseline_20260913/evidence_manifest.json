@@ -1,0 +1,85 @@
+{
+  "schema": "CORELAB_PI0163_SYNCHRONIZED_BASELINE_EVIDENCE_V1",
+  "status": "PARTIAL",
+  "return_token": "CORELAB_PI0163_SYNCHRONIZED_BASELINE_FOR_PI_REVIEW",
+  "authority": {
+    "issue_comment": 5652818601,
+    "pr_comment": 5652821773,
+    "pi_gate": "PI_GATE_STATE_0163"
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "execution_head": "f0cb83de0fa373152611a37814320f86eef76588"
+  },
+  "conditions": {
+    "C0_NOMINAL": {
+      "status": "BLOCKED",
+      "reason_code": "SYNC_OR_OBSERVABILITY_BLOCKED",
+      "reason": "target not observable at C0_NOMINAL/q0",
+      "failure_sha256": "ff66d4ca8861c7208ce087e77473d9e4fb01d2399942ef041b5704e1aecaa710",
+      "bootstrap_wbc": 1,
+      "reference_updates": 0,
+      "q0": false,
+      "model_side_calls": 0
+    },
+    "C1_X_PLUS_5CM": {
+      "status": "PARTIAL",
+      "q0_qualified": true,
+      "q0_npz_sha256": "e0376e138bb1610a557164d3afffa3da1d7d0446a3b28406374360bbe7c441ad",
+      "q0_json_sha256": "a4d53a962af98b074b8a9f4a88a2b238e15254db362b2be06b2134d454c67e06",
+      "rows_on_disk": 50,
+      "snapshots": 2,
+      "wbc_steps": 51,
+      "reference_updates": 2,
+      "termination": "TRACKING_ABORT",
+      "safety_gate": ["ACCEPT", "ACCEPT"],
+      "model": {
+        "fr_queries": 1,
+        "teacher_queries": 1,
+        "conditioning": 2,
+        "action_head": 7,
+        "model_side_calls": 9,
+        "raw_rows": 4
+      }
+    }
+  },
+  "ledger": {
+    "path": "/var/cache/users/liuyu-nfs/stage45f_pi0163_campaign_20260913/ledger.json",
+    "sha256": "4b5f9fa4de61d38ef23be9740be1119e8800f5c9b22f64c0148bfae6aa647616",
+    "used": {
+      "simulator_constructor": 2,
+      "explicit_control_tick": 52,
+      "reference_update": 2,
+      "groot_constructor": 1,
+      "conditioning": 2,
+      "action_head": 7,
+      "model_side_call": 9
+    },
+    "active": null,
+    "cap_rejections": 0,
+    "stale_process_reclaims": 1
+  },
+  "model": {
+    "result_sha256": "2f3f7e0c3afd5672a2cca273a6919192c0da1c74de520017b62d61001aa8ba87",
+    "admission_sha256": "4411fdd6a4ba253ccbed15dc479bc121c242a10daf9c5a51e2baa5b784690351",
+    "raw_manifest_sha256": "3b1c7b81c4675da25055e026290c8f3fae310a8d32ec7850190ce7596398c735",
+    "raw_sha256": {
+      "C1_X_PLUS_5CM_fr": "e4cd63edc76fc6bec46c7eec221d39e171e1846f719a9b62da977dd9e1ff40dc",
+      "C1_X_PLUS_5CM_teacher_t067": "833635de33d891d53580b527a8acf445b2943701e5d7e123b5401b052787ca4b",
+      "C1_X_PLUS_5CM_teacher_t369": "20b58b62680d98144deb0c34a11b2fa309d2480559889b7ccee4ea2a6515bcf6",
+      "C1_X_PLUS_5CM_teacher_t783": "47e69ff2b6854c656f26142dfcb77da0266988b8e8725d54bdde9d05eb31b705"
+    }
+  },
+  "forbidden_operations": {
+    "training": false,
+    "backward": false,
+    "optimizer_step": 0,
+    "pbs": false,
+    "h200": false,
+    "icl": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_consumed_gr00t": false,
+    "hardware_control": false
+  }
+}
