@@ -266,6 +266,9 @@ def _delta(value: np.ndarray) -> dict[str, Any]:
 
 def _field_blocks(value: np.ndarray, mask: np.ndarray) -> dict[str, Any]:
     x = np.asarray(value, dtype=np.float64)
+    if x.shape == (1, HORIZON, ACTION_DIM):
+        x = x[0]
+    require(x.shape == (HORIZON, ACTION_DIM), f"field block ABI drift: {x.shape}")
     return {"active_190": _delta(x[mask]), "xyz": _delta(x[:, :3]), "rot6d": _delta(x[:, 3:9]), "gripper": _delta(x[:, 10]), "timing": _delta(x[:, 9]), "padding": _delta(x[:, 11:])}
 
 
