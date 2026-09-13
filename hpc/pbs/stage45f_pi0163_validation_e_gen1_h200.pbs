@@ -32,7 +32,13 @@ set -euo pipefail
 : "${PI0163_HF_HOME:?Set the accepted HF home}"
 : "${PI0163_HF_HUB_CACHE:?Set the accepted HF hub cache}"
 : "${PI0163_COSMOS_REVISION:?Set the accepted Cosmos revision}"
+: "${PI0163_RECOVERY_MODE:?Set 0 for fresh continuation or 1 for raw-preserving recovery}"
 : "${PBS_JOBID:?PBS_JOBID is required}"
+
+case "${PI0163_RECOVERY_MODE}" in
+  0|1) ;;
+  *) echo "PI0163_RECOVERY_MODE must be 0 or 1" >&2; exit 1 ;;
+esac
 
 test -x "${PI0163_PYTHON}"
 resolved_python="$(readlink -f "${PI0163_PYTHON}")"
@@ -93,6 +99,10 @@ unset PYTHONPATH 2>/dev/null || true
 
 # This absolute-path invocation is the only model entrypoint. It retains the
 # frozen continuation's admission-before-model-import and exact six-arm
-# Validation-E contract. It runs immediately after the same-job bootstrap;
-# there is no second smoke or retry wrapper.
+# Validation-E contract. Recovery preserves the valid raw row and executes
+# only the remaining queries. Both modes run immediately after the same-job
+# bootstrap; there is no second smoke or retry wrapper.
+if [[ "${PI0163_RECOVERY_MODE}" == "1" ]]; then
+  exec "${PI0163_PYTHON}" "${PI0163_REPO}/scripts/stage45f_pi0163_validation_e_recovery.py" --execute --config "${PI0163_CONFIG}"
+fi
 exec "${PI0163_PYTHON}" "${PI0163_REPO}/scripts/stage45f_pi0159_validation_e_continuation.py" --execute --config "${PI0163_CONFIG}"

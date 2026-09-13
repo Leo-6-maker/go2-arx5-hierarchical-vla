@@ -134,8 +134,49 @@ class PI0163SupportTests(unittest.TestCase):
         self.assertIn("stage45f_pi0163_ffmpeg_capsule_bootstrap.py", source)
         self.assertIn("stage45f_pi0163_runtime_import_probe.py", source)
         self.assertIn("stage45f_pi0159_validation_e_continuation.py", source)
+        self.assertIn("stage45f_pi0163_validation_e_recovery.py", source)
+        self.assertIn("PI0163_RECOVERY_MODE", source)
         self.assertNotIn("sleep", source)
         self.assertNotIn("qsub", source)
+
+    def test_recovery_plan_is_cpu_static_and_uses_mapping_compatibility(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        plan = recovery.plan()
+        self.assertEqual(plan["status"], "PASS_STATIC_NOT_EXECUTED")
+        self.assertEqual(plan["new_calls"], {"conditioning": 35, "action_head": 140, "model_side_total": 175})
+        self.assertEqual(plan["reused_raw_queries"], 1)
+        self.assertEqual(plan["training"], 0)
+        self.assertEqual(plan["holdout_f_read"], 0)
+
+    def test_snapshot_dataclass_is_bridged_without_changing_metrics(self) -> None:
+        import stage45f_pi0163_validation_e_recovery as recovery
+
+        class Snapshot:
+            physical_action = [[1.0]]
+
+        case = self
+
+        class Runtime:
+            def _evaluation_row(self, raw, physical, details, window, checkpoint, runtime_sha, raw_path, raw_sha):
+                self_snapshot = window["snapshot"]
+                case.assertIsInstance(self_snapshot, dict)
+                case.assertEqual(self_snapshot["expert_physical_action"], [[1.0]])
+                return {"ok": True}
+
+        runtime = Runtime()
+        recovery._install_snapshot_mapping_compat(runtime)
+        row = runtime._evaluation_row(
+            None,
+            None,
+            {},
+            {"snapshot": Snapshot(), "anchor_world_m": [0.0, 0.0, 0.0], "target_world_m": [1.0, 1.0, 1.0]},
+            {},
+            "runtime",
+            "raw.npy",
+            "raw-sha",
+        )
+        self.assertEqual(row, {"ok": True})
 
     def test_import_probe_has_no_top_level_model_import(self) -> None:
         source = Path("scripts/stage45f_pi0163_runtime_import_probe.py").read_text(encoding="utf-8")
