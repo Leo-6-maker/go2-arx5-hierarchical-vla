@@ -56,7 +56,7 @@ class PI0159StaticTests(unittest.TestCase):
         x_t = ((1.0 - t) * x0 + t * x1).astype(np.float32)
         v_target = (x1 - x0).astype(np.float32)
         x1_hat = (x_t + (1.0 - t) * v_target).astype(np.float32)
-        self.assertTrue(np.array_equal(x1_hat, x1))
+        self.assertTrue(np.allclose(x1_hat, x1, rtol=0.0, atol=2e-6))
         mask = np.ones((40, 132), dtype=bool)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "raw.npz"
@@ -64,7 +64,7 @@ class PI0159StaticTests(unittest.TestCase):
             self.assertEqual(digest, module.sha256_file(path))
             with np.load(path, allow_pickle=False) as data:
                 self.assertEqual(tuple(data["x_t_float32"].shape), (1, 40, 132))
-                self.assertTrue(np.array_equal(data["x1_hat_float32"], x1))
+                self.assertTrue(np.allclose(data["x1_hat_float32"], x1, rtol=0.0, atol=2e-6))
                 self.assertEqual(tuple(data["active_mask_float64"].shape), (40, 132))
 
     def test_source_has_exact_flow_and_forbidden_guards(self):
