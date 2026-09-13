@@ -26,10 +26,25 @@ from typing import Any, Callable, Iterator, Mapping
 
 
 SCHEMA = "CORELAB_PI0162_BUDGET_LEDGER_V1"
+PI0163_SCHEMA = "CORELAB_PI0163_BUDGET_LEDGER_V1"
 DEFAULT_BUDGETS = {
     "simulator_constructor": 3,
     "explicit_control_tick": 738,
     "reference_update": 12,
+    "groot_constructor": 2,
+    "conditioning": 6,
+    "action_head": 21,
+    "model_side_call": 27,
+}
+
+# PI0163 is a new forward-only campaign.  Its ledger must not inherit the
+# consumed PI0162 reservations, while retaining the same atomic/no-refund
+# accounting implementation.  Selection is explicit by campaign id so a
+# caller cannot accidentally reopen an old ledger with new caps.
+PI0163_BUDGETS = {
+    "simulator_constructor": 4,
+    "explicit_control_tick": 984,
+    "reference_update": 16,
     "groot_constructor": 2,
     "conditioning": 6,
     "action_head": 21,
@@ -97,9 +112,9 @@ def _write_atomic(path: Path, value: Mapping[str, Any]) -> str:
             os.unlink(tmp)
 
 
-def _empty_ledger(campaign_id: str, budgets: Mapping[str, int]) -> dict[str, Any]:
+def _empty_ledger(campaign_id: str, budgets: Mapping[str, int], schema: str) -> dict[str, Any]:
     return {
-        "schema": SCHEMA,
+        "schema": schema,
         "campaign_id": campaign_id,
         "hostname": platform.node(),
         "created_at": _now(),
@@ -122,11 +137,15 @@ class BudgetLedger:
         budgets: Mapping[str, int] | None = None,
         output_root: str | os.PathLike[str] | None = None,
         process_uuid: str | None = None,
+        schema: str | None = None,
     ) -> None:
         self.path = Path(ledger_path).expanduser().resolve()
         self.lock_path = Path(str(self.path) + ".lock")
         self.campaign_id = str(campaign_id)
-        self.budgets = {str(k): int(v) for k, v in (budgets or DEFAULT_BUDGETS).items()}
+        inferred_pi0163 = self.campaign_id.startswith("PI0163_CORELAB")
+        selected_budgets = budgets if budgets is not None else (PI0163_BUDGETS if inferred_pi0163 else DEFAULT_BUDGETS)
+        self.budgets = {str(k): int(v) for k, v in selected_budgets.items()}
+        self.schema = str(schema or (PI0163_SCHEMA if inferred_pi0163 else SCHEMA))
         if any(v < 0 for v in self.budgets.values()):
             raise ValueError("budget caps must be non-negative")
         self.output_root = None if output_root is None else str(Path(output_root).expanduser().resolve())
@@ -148,14 +167,14 @@ class BudgetLedger:
                     except (OSError, json.JSONDecodeError) as exc:
                         raise LedgerMismatch(f"ledger unreadable: {self.path}: {exc}") from exc
                 else:
-                    state = _empty_ledger(self.campaign_id, self.budgets)
+                    state = _empty_ledger(self.campaign_id, self.budgets, self.schema)
                 self._validate_identity(state)
                 yield state
             finally:
                 fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
 
     def _validate_identity(self, state: Mapping[str, Any]) -> None:
-        if state.get("schema") != SCHEMA:
+        if state.get("schema") != self.schema:
             raise LedgerMismatch("budget ledger schema mismatch")
         if state.get("campaign_id") != self.campaign_id:
             raise LedgerMismatch("campaign id mismatch")

@@ -256,11 +256,12 @@ def _capture_sync_snapshot(*, native: Any, env: Any, condition: str, snapshot_id
         "model_input_excludes": ["target_position_world_m", "target_id", "eef_world_m", "expert_physical_local", "condition_id"],
         "language": LANGUAGE,
     }
-    npz_path = snap_dir / f"{snapshot_id}.npz"
-    np.savez_compressed(npz_path, body_rgb=np.asarray(body, dtype=np.uint8), wrist_rgb=np.asarray(wrist, dtype=np.uint8), state_v1=state, eef_world_m=eef_world, eef_local_m=eef_local, anchor_world_m=anchor, target_world_m=TARGET_WORLD)
-    payload["snapshot_npz"] = str(npz_path)
-    payload["snapshot_npz_sha256"] = sha256_file(npz_path)
-    write_json(snap_dir / f"{snapshot_id}.json", payload)
+    # Build the expert chunk before publishing the q0 artifact.  Earlier
+    # PI0162 code published an observation-only NPZ and added the expert label
+    # only to JSON afterwards; ``load_expert_q0`` quite correctly rejected
+    # that producer/consumer mismatch.  The replacement is a single complete
+    # NPZ (all producer fields, including expert label/timestamps) followed by
+    # the hash-bound JSON metadata, so no consumer can observe a half-q0.
     require(payload["target_observable"], f"SYNC_OR_OBSERVABILITY_BLOCKED: target not observable at {condition}/{snapshot_id}")
     chunk = build_chunk(
         chunk_id=f"{condition}-{snapshot_id}",
@@ -279,7 +280,30 @@ def _capture_sync_snapshot(*, native: Any, env: Any, condition: str, snapshot_id
     payload["expert_physical_local"] = physical.tolist()
     payload["expert_timestamps"] = np.asarray(chunk.point_timestamps, dtype=np.float64).tolist()
     payload["expert_physical_local_sha256"] = sha256_array(physical)
-    write_json(snap_dir / f"{snapshot_id}.json", payload, overwrite=True)
+    npz_path = snap_dir / f"{snapshot_id}.npz"
+    tmp_npz = snap_dir / f".{snapshot_id}.tmp.npz"
+    require(not npz_path.exists() and not tmp_npz.exists(), f"refusing to overwrite q0 artifact: {npz_path}")
+    np.savez_compressed(
+        tmp_npz,
+        body_rgb=np.asarray(body, dtype=np.uint8),
+        wrist_rgb=np.asarray(wrist, dtype=np.uint8),
+        state_v1=state,
+        eef_world_m=eef_world,
+        eef_local_m=eef_local,
+        anchor_world_m=anchor,
+        target_world_m=TARGET_WORLD,
+        expert_physical_local=physical,
+        expert_timestamps=np.asarray(chunk.point_timestamps, dtype=np.float64),
+    )
+    # numpy appends .npz only when the supplied name has no .npz suffix;
+    # ``tmp_npz`` deliberately has the suffix, so this is the exact path.
+    require(tmp_npz.is_file(), f"q0 temporary NPZ was not written: {tmp_npz}")
+    with tmp_npz.open("rb") as handle:
+        os.fsync(handle.fileno())
+    os.replace(tmp_npz, npz_path)
+    payload["snapshot_npz"] = str(npz_path)
+    payload["snapshot_npz_sha256"] = sha256_file(npz_path)
+    write_json(snap_dir / f"{snapshot_id}.json", payload)
     return payload, chunk
 
 
@@ -503,6 +527,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     output = Path(args.output_root).resolve()
     require(not output.exists(), f"output root already exists: {output}")
     output.mkdir(parents=True)
+    global CONDITION_ORDER
+    selected_conditions = tuple(str(item).strip() for item in str(args.conditions).split(",") if str(item).strip()) if args.conditions else CONDITION_ORDER
+    require(selected_conditions and len(set(selected_conditions)) == len(selected_conditions) and all(item in DELTAS for item in selected_conditions), f"invalid condition selection: {selected_conditions}")
+    CONDITION_ORDER = selected_conditions
     head = str(args.repository_head).lower()
     require(len(head) == 40 and all(c in "0123456789abcdef" for c in head), f"repository HEAD must be concrete SHA: {head}")
     snapshot = _nvidia_snapshot()
@@ -525,6 +553,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "history_audit": {"path": str(args.history_audit) if args.history_audit else None, "sha256": sha256_file(Path(args.history_audit)) if args.history_audit and Path(args.history_audit).is_file() else None, "pi0160_overage_preserved": True, "v1_v5_unknown_preserved": True},
         "execution_boundary": {"gr00t_forward": 0, "model_forward": 0, "training": False, "backward": False, "optimizer_step": 0, "wbc_expert_only": True, "gr00t_output_sent_to_wbc": False, "icl": False, "pbs": False, "h200": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "merge": False},
     }
+    if str(args.campaign_id).startswith("PI0163_CORELAB"):
+        admission["schema"] = "CORELAB_PI0163_SYNCHRONIZED_ADMISSION_V1"
+        admission["token"] = "CORELAB_PI0163_LAUNCH_AND_DATA_ADMISSION_RECORDED"
+        admission["authority"] = {"pi_gate": "PI_GATE_STATE_0163", "issue_comment": 5652818601, "pr_comment": 5652821773}
+        admission["conditions"] = [{"condition_id": c, "delta_base_xy_m": list(DELTAS[c])} for c in CONDITION_ORDER]
+        if args.import_only_evidence:
+            import_path = Path(args.import_only_evidence).resolve()
+            require(import_path.is_file() and not import_path.is_symlink(), f"import-only evidence unavailable: {import_path}")
+            admission["runtime_import_only"] = {"path": str(import_path), "sha256": sha256_file(import_path)}
     admission_sha = write_json(output / "admission.json", admission)
     from stage21_native_receding_horizon import _build_native, _capture_scene, _current_eef, _current_state_v1, _load_pose_file, _policy_step, _set_target
     from stage40_live_one_handoff import _step_rows, _tensor_hash
@@ -563,6 +600,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "claim_boundary": "two post-native-tick synchronized independent-expert references; no learned-policy/WBC handoff and no task-success claim",
         "recommendation": "If synchronized q0s remain valid while fixed N2 FR still degrades, authorize a matched visited-state supervision intervention; do not change seed/noise/stats automatically.",
     }
+    if str(args.campaign_id).startswith("PI0163_CORELAB"):
+        summary["schema"] = "CORELAB_PI0163_SYNCHRONIZED_EXPERT_RESULT_V1"
+        summary["token"] = "CORELAB_PI0163_SYNCHRONIZED_BASELINE_FOR_PI_REVIEW"
+        summary["authority"] = {"pi_gate": "PI_GATE_STATE_0163", "issue_comment": 5652818601, "pr_comment": 5652821773}
+        summary["runtime_import_only"] = admission.get("runtime_import_only")
+        summary["nominal_model_counts"] = {"conditioning": 2 * len(CONDITION_ORDER), "action_head": 7 * len(CONDITION_ORDER), "model_side": 9 * len(CONDITION_ORDER)}
     result_sha = write_json(output / "pi0160_matched_expert_result.json", summary)
     summary["result_sha256"] = result_sha
     write_json(output / "evidence_hashes.json", {"admission_sha256": admission_sha, "result_sha256": result_sha, "budget_ledger_snapshot_sha256": summary["budget_ledger"]["snapshot_sha256"], "condition_metadata_sha256": {item["condition_id"]: sha256_file(Path(item["output_dir"]) / "condition_metadata.json") if Path(item["output_dir"], "condition_metadata.json").is_file() else None for item in results}})
@@ -582,6 +625,8 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--output-root", required=True, type=Path)
     p.add_argument("--budget-ledger", required=True, type=Path)
     p.add_argument("--campaign-id", default="PI0162_CORELAB_20260913")
+    p.add_argument("--conditions", default=None, help="comma-separated conditions; PI0163 selects C0_NOMINAL,C1_X_PLUS_5CM")
+    p.add_argument("--import-only-evidence", type=Path, default=None)
     p.add_argument("--history-audit", type=Path, default=None)
     p.add_argument("--gpu-uuid", default=None)
     return p

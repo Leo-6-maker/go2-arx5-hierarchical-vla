@@ -378,6 +378,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     output.mkdir(parents=True)
     head = str(args.repository_head).lower()
     require(len(head) == 40 and all(char in "0123456789abcdef" for char in head), f"repository HEAD must be a concrete 40-hex SHA: {head}")
+    pi0163 = str(args.campaign_id).startswith("PI0163_CORELAB")
     # PI0162 may select only the newly qualified C0/C1 q0s.  The default keeps
     # the historical PI0160 five-condition behavior unchanged.
     global CONDITION_ORDER
@@ -394,6 +395,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     x0 = np.asarray(np.load(Path(args.noise), allow_pickle=False), dtype=np.float32)
     admission = {"schema": "CORELAB_PI0162_MODEL_ADMISSION_V1" if args.budget_ledger else "CORELAB_PI0160_MODEL_ADMISSION_V1", "status": "ADMITTED_FOR_DIRECT_EXECUTION", "authority": {"pi_gate": "PI_GATE_STATE_0162" if args.budget_ledger else PI_GATE, "issue_comment": 5652576782 if args.budget_ledger else PI_COMMENT, "pr_comment": 5652578721 if args.budget_ledger else PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "expert_root": str(expert_root), "expert_result_sha256": sha256_file(expert_root / "pi0160_matched_expert_result.json"), "fixed_identities": identities, "gpu": {"selected": gpu, "snapshot": snapshot}, "protocol": {"condition_order": list(CONDITION_ORDER), "fr": {"sampler": "E4", "timesteps": list(TIMESTEP_IDS), "dt": SAMPLER_DT, "per_condition_heads": 4}, "teacher": {"t_values": list(T_VALUES), "t_buckets": list(T_BUCKETS), "flow": ["x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)v_hat"], "per_condition_heads": 3}, "target_xyz_in_model_input": False, "gr00t_output_sent_to_wbc": False, "raw_first": True}, "budget": {"conditioning_cap": 6 if args.budget_ledger else 10, "action_head_cap": 21 if args.budget_ledger else 35, "model_side_cap": 27 if args.budget_ledger else 45, "model_construction_cap": 2 if args.budget_ledger else 1, "nominal_calls": 18 if args.budget_ledger else 45, "ledger_path": str(Path(args.budget_ledger).resolve()) if args.budget_ledger else None}, "execution_boundary": {"gr00t_forward": 0, "model_forward": 0, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False}
     }
+    if pi0163:
+        admission["schema"] = "CORELAB_PI0163_MODEL_ADMISSION_V1"
+        admission["authority"] = {"pi_gate": "PI_GATE_STATE_0163", "issue_comment": 5652818601, "pr_comment": 5652821773}
     admission_sha = write_json(output / "model_admission.json", admission)
     guard = None
     if args.budget_ledger:
@@ -443,6 +447,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     import torch
     hook_calls = {"count": 0}
     hook = model.action_head.model.register_forward_hook(lambda *_args, **_kwargs: hook_calls.__setitem__("count", hook_calls["count"] + 1))
+    # One FR conditioning plus one teacher-conditioning per selected q0;
+    # each q0 has four FR heads and three teacher heads.  Derive the finish
+    # contract from the selection instead of retaining the old five-condition
+    # 10/35/45 assertion.
+    expected_conditioning = 2 * len(CONDITION_ORDER)
+    expected_action_heads = 7 * len(CONDITION_ORDER)
+    expected_model_calls = 9 * len(CONDITION_ORDER)
     counters = {"model_construction_attempts": 1, "conditioning_entered": 0, "conditioning_completed": 0, "action_head_calls": 0, "model_side_calls": 0, "fr_queries": 0, "teacher_queries": 0, "exceptions": 0}
     raw_rows: list[dict[str, Any]] = []
     decoded_rows: list[dict[str, Any]] = []
@@ -518,13 +529,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 decoded_rows.append(row)
                 if bucket == T_BUCKETS[-1]:
                     paths[f"{condition}:T{bucket}"] = physical
-            require(counters["model_side_calls"] <= 45 and counters["conditioning_completed"] <= 10 and counters["action_head_calls"] <= 35, "PI0160 model budget exceeded")
+            require(counters["model_side_calls"] <= expected_model_calls and counters["conditioning_completed"] <= expected_conditioning and counters["action_head_calls"] <= expected_action_heads, "selected-condition model budget exceeded")
     except Exception:
         counters["exceptions"] += 1
         raise
     finally:
         hook.remove()
-    require(counters["conditioning_completed"] == 10 and counters["action_head_calls"] == 35 and counters["model_side_calls"] == 45, f"PI0160 model counters drift: {counters}")
+    require(counters["conditioning_completed"] == expected_conditioning and counters["action_head_calls"] == expected_action_heads and counters["model_side_calls"] == expected_model_calls, f"selected-condition model counters drift: {counters}")
     fields = ["condition", "mode", "t_bucket", "t_value", "raw_path", "raw_file_sha256", "action_head_calls", "conditioning_calls", "endpoint_error_to_expert_m", "xyz_rmse_to_expert_m", "physical_rmse_to_expert", "initial_target_error_m", "minimum_target_error_m", "final_target_error_m", "absolute_progress_m", "best_progress_m", "progress_sign", "expert_final_target_error_m", "expert_progress_m", "start_residual_m", "path_length_m", "roughness_m", "speed_rms_mps", "teacher_field_active_rmse", "teacher_field_active_max_abs", "teacher_field_xyz_rmse", "zero_field_active_rmse", "zero_field_xyz_rmse", "implied_endpoint_vs_zero_xyz_rmse", "decode_stats_sha256", "clip"]
     table_sha = write_csv(output / "matched_expert_model_table.csv", decoded_rows, fields)
     raw_manifest_sha = write_json(output / "raw_manifest.json", [{"condition": row["condition"], "mode": row["mode"], "t_bucket": row.get("t_bucket", ""), "raw_path": row["raw_path"], "raw_file_sha256": row["raw_file_sha256"]} for row in raw_rows])
@@ -555,8 +566,8 @@ is reported separately from model error.
 
 ## Counters
 
-`model_construction=1`, `conditioning=10`, `action_head=35`,
-`model_side=45`; training/backward/optimizer=0.  Expert-side counters and
+`model_construction=1`, `conditioning={expected_conditioning}`, `action_head={expected_action_heads}`,
+`model_side={expected_model_calls}` for {len(CONDITION_ORDER)} selected conditions; training/backward/optimizer=0.  Expert-side counters and
 SafetyGate decisions remain in the sealed `pi0160_matched_expert_result.json`.
 
 ## Single recommendation
@@ -569,6 +580,13 @@ training; do not change seed, noise, decoder, or SafetyGate automatically.
     evidence = {"model_admission_sha256": admission_sha, "table_sha256": table_sha, "raw_manifest_sha256": raw_manifest_sha, "clipping_sha256": clipping_sha, "trajectory_svg_sha256": trajectory_sha, "conclusion_sha256": conclusion_sha, "raw_rows": {f"{row['condition']}:{row['mode']}:t{row.get('t_bucket', '')}": row["raw_file_sha256"] for row in raw_rows}}
     evidence_sha = write_json(output / "evidence_hashes.json", evidence)
     report = {"schema": "CORELAB_PI0160_MATCHED_RESET_EXPERT_MODEL_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "fixed_identities": identities, "runtime": {"model_dtype": model_dtype, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE}, "conditions": decoded_rows, "clipping_and_label_quality": clipping, "anchor_reconciliation": anchor_reconciliation, "outputs": evidence, "counters": counters, "expert_counters": expert_summary.get("counters", {}), "execution_boundary": {"gr00t_forward": 45, "model_forward": 45, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False, "safety_gate_relaxed": False}, "claim_boundary": "matched independent-expert reference and fixed-N2 q0 FR/local-field characterization; no model-to-WBC closed-loop or task-success claim", "recommendation": "Use matched visited-state expert/local-field supervision as the single next intervention candidate."}
+    report["expected_selected_condition_counts"] = {"conditions": len(CONDITION_ORDER), "conditioning": expected_conditioning, "action_head": expected_action_heads, "model_side": expected_model_calls}
+    report["execution_boundary"]["gr00t_forward"] = expected_model_calls
+    report["execution_boundary"]["model_forward"] = expected_model_calls
+    if pi0163:
+        report["schema"] = "CORELAB_PI0163_N2_Q0_MODEL_RESULT_V1"
+        report["token"] = "CORELAB_PI0163_SYNCHRONIZED_BASELINE_FOR_PI_REVIEW"
+        report["authority"] = {"pi_gate": "PI_GATE_STATE_0163", "issue_comment": 5652818601, "pr_comment": 5652821773}
     report_sha = write_json(output / "pi0160_matched_reset_expert_model_result.json", report)
     if guard is not None:
         snapshot = guard.snapshot()
