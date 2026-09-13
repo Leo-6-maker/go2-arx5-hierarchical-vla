@@ -204,8 +204,11 @@ def verify_fixed_inputs(args: argparse.Namespace, expert_summary: Mapping[str, A
     # missing/invalid q0 will exclude that condition (and is fail-closed in
     # load_expert_q0 below).
     require(expert_summary.get("status") in {"COMPLETED", "PARTIAL"}, f"expert campaign is not usable: {expert_summary.get('status')}")
-    require(list(item.get("condition_id") for item in expert_summary.get("conditions", [])) == list(CONDITION_ORDER), "expert condition order drift")
-    require(all(item.get("status") in {"PASS", "PARTIAL"} and int(item.get("snapshots", 0)) >= 1 for item in expert_summary["conditions"]), "model diagnostics require a sealed q0 for every fixed condition")
+    summary_conditions = list(expert_summary.get("conditions", []))
+    summary_ids = [str(item.get("condition_id")) for item in summary_conditions]
+    require(all(condition in summary_ids for condition in CONDITION_ORDER), "expert condition order does not contain requested PI0162 conditions")
+    selected = {str(item.get("condition_id")): item for item in summary_conditions}
+    require(all(selected[condition].get("status") in {"PASS", "PARTIAL"} and int(selected[condition].get("snapshots", 0)) >= 1 for condition in CONDITION_ORDER), "model diagnostics require a sealed q0 for every requested condition")
     checkpoint = Path(args.model_path).resolve()
     stats = Path(args.n2_stats).resolve()
     noise = Path(args.noise).resolve()
@@ -375,6 +378,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     output.mkdir(parents=True)
     head = str(args.repository_head).lower()
     require(len(head) == 40 and all(char in "0123456789abcdef" for char in head), f"repository HEAD must be a concrete 40-hex SHA: {head}")
+    # PI0162 may select only the newly qualified C0/C1 q0s.  The default keeps
+    # the historical PI0160 five-condition behavior unchanged.
+    global CONDITION_ORDER
+    selected_conditions = tuple(str(item).strip() for item in str(args.conditions).split(",") if str(item).strip()) if args.conditions else CONDITION_ORDER
+    require(selected_conditions and all(item in ("C0_NOMINAL", "C1_X_PLUS_5CM", "C2_X_MINUS_5CM", "C3_Y_PLUS_5CM", "C4_Y_MINUS_5CM") for item in selected_conditions), f"invalid condition selection: {selected_conditions}")
+    CONDITION_ORDER = selected_conditions
     expert_root = Path(args.expert_root).resolve()
     expert_summary = read_json(expert_root / "pi0160_matched_expert_result.json")
     identities = verify_fixed_inputs(args, expert_summary)
@@ -383,9 +392,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     q0 = {condition: load_expert_q0(expert_root, condition) for condition in CONDITION_ORDER}
     stats_doc = read_json(Path(args.n2_stats))
     x0 = np.asarray(np.load(Path(args.noise), allow_pickle=False), dtype=np.float32)
-    admission = {"schema": "CORELAB_PI0160_MODEL_ADMISSION_V1", "status": "ADMITTED_FOR_DIRECT_EXECUTION", "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "expert_root": str(expert_root), "expert_result_sha256": sha256_file(expert_root / "pi0160_matched_expert_result.json"), "fixed_identities": identities, "gpu": {"selected": gpu, "snapshot": snapshot}, "protocol": {"condition_order": list(CONDITION_ORDER), "fr": {"sampler": "E4", "timesteps": list(TIMESTEP_IDS), "dt": SAMPLER_DT, "per_condition_heads": 4}, "teacher": {"t_values": list(T_VALUES), "t_buckets": list(T_BUCKETS), "flow": ["x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)v_hat"], "per_condition_heads": 3}, "target_xyz_in_model_input": False, "gr00t_output_sent_to_wbc": False, "raw_first": True}, "budget": {"conditioning_cap": 10, "action_head_cap": 35, "model_side_cap": 45, "model_construction_cap": 1}, "execution_boundary": {"gr00t_forward": 45, "model_forward": 45, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False}
+    admission = {"schema": "CORELAB_PI0162_MODEL_ADMISSION_V1" if args.budget_ledger else "CORELAB_PI0160_MODEL_ADMISSION_V1", "status": "ADMITTED_FOR_DIRECT_EXECUTION", "authority": {"pi_gate": "PI_GATE_STATE_0162" if args.budget_ledger else PI_GATE, "issue_comment": 5652576782 if args.budget_ledger else PI_COMMENT, "pr_comment": 5652578721 if args.budget_ledger else PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "expert_root": str(expert_root), "expert_result_sha256": sha256_file(expert_root / "pi0160_matched_expert_result.json"), "fixed_identities": identities, "gpu": {"selected": gpu, "snapshot": snapshot}, "protocol": {"condition_order": list(CONDITION_ORDER), "fr": {"sampler": "E4", "timesteps": list(TIMESTEP_IDS), "dt": SAMPLER_DT, "per_condition_heads": 4}, "teacher": {"t_values": list(T_VALUES), "t_buckets": list(T_BUCKETS), "flow": ["x_t=(1-t)x0+t*x1", "v_target=x1-x0", "x1_hat=x_t+(1-t)v_hat"], "per_condition_heads": 3}, "target_xyz_in_model_input": False, "gr00t_output_sent_to_wbc": False, "raw_first": True}, "budget": {"conditioning_cap": 6 if args.budget_ledger else 10, "action_head_cap": 21 if args.budget_ledger else 35, "model_side_cap": 27 if args.budget_ledger else 45, "model_construction_cap": 2 if args.budget_ledger else 1, "nominal_calls": 18 if args.budget_ledger else 45, "ledger_path": str(Path(args.budget_ledger).resolve()) if args.budget_ledger else None}, "execution_boundary": {"gr00t_forward": 0, "model_forward": 0, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False}
     }
     admission_sha = write_json(output / "model_admission.json", admission)
+    guard = None
+    if args.budget_ledger:
+        from stage45f_pi0162_budget_guard import BudgetLedger
+        guard = BudgetLedger(args.budget_ledger, args.campaign_id, output_root=output)
     old_probe = load_module(SCRIPTS / "stage45f_pi0153_generation_probe.py", "pi0160_input_probe")
     flow = load_module(SCRIPTS / "stage26_h1_c1_fixed_noise_local_flow.py", "pi0160_flow_helpers")
     runtime = load_module(SCRIPTS / "stage45c_h200_eval_runtime_adapter.py", "pi0160_runtime_adapter")
@@ -421,6 +434,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         require(x1_by_condition[condition].shape == RAW_SHAPE and np.isfinite(x1_by_condition[condition]).all(), f"{condition} normalized expert label drift")
         label_by_condition[condition] = label
         clipping[condition] = {"active_label_scalars": int(np.count_nonzero(label.mask)), "active_mask_shape": list(label.mask.shape), "normalized_clipped_scalar_count": int(np.count_nonzero(np.abs(x1_by_condition[condition][0][mask]) >= 1.0)), "label_codec_roundtrip_input_untouched": True, "label_side_anchor_reconciliation": reconciliation, "stats_route": N2_STATS_SHA}
+    if guard is not None:
+        guard.reserve("groot_constructor", phase="n2_q0_model_constructor", head=head)
     model = _load_structured_model(Path(args.model_path), "cuda:0")
     model.eval()
     model_dtype = str(next(model.parameters()).dtype)
@@ -439,6 +454,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             counters["fr_queries"] += 1
             counters["conditioning_entered"] += 1
             before = hook_calls["count"]
+            if guard is not None:
+                guard.reserve("conditioning", condition=condition, mode="FR", query_index=counters["fr_queries"], head=head)
+                guard.reserve("model_side_call", condition=condition, mode="FR", query_index=counters["fr_queries"], call_role="conditioning", head=head)
+                for head_index in range(4):
+                    guard.reserve("action_head", condition=condition, mode="FR", query_index=counters["fr_queries"], head_index=head_index, head=head)
+                    guard.reserve("model_side_call", condition=condition, mode="FR", query_index=counters["fr_queries"], call_role="action_head", head_index=head_index, head=head)
             with torch.inference_mode():
                 raw, heads = runtime._sample_one(model, inputs_by_condition[condition], torch.from_numpy(x0), torch)
             observed = hook_calls["count"] - before
@@ -460,6 +481,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             # model-visible conditioning.
             counters["teacher_queries"] += 1
             counters["conditioning_entered"] += 1
+            if guard is not None:
+                guard.reserve("conditioning", condition=condition, mode="MATCHED_LOCAL_FIELD", query_index=counters["teacher_queries"], call_role="conditioning", head=head)
+                guard.reserve("model_side_call", condition=condition, mode="MATCHED_LOCAL_FIELD", query_index=counters["teacher_queries"], call_role="conditioning", head=head)
             with torch.inference_mode():
                 _, action_input, processed, _state_features = runtime._prepare_model_conditioning(model, inputs_by_condition[condition])
             counters["conditioning_completed"] += 1
@@ -470,6 +494,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 model_x_t = torch.from_numpy(x_t).to(device=processed.backbone_features.device, dtype=next(model.parameters()).dtype)
                 t_tensor = torch.full((1,), int(bucket), device=processed.backbone_features.device, dtype=torch.long)
                 before = hook_calls["count"]
+                if guard is not None:
+                    guard.reserve("action_head", condition=condition, mode="MATCHED_LOCAL_FIELD", query_index=counters["teacher_queries"], t_bucket=int(bucket), head=head)
+                    guard.reserve("model_side_call", condition=condition, mode="MATCHED_LOCAL_FIELD", query_index=counters["teacher_queries"], call_role="action_head", t_bucket=int(bucket), head=head)
                 with torch.inference_mode():
                     v_hat_tensor = flow._teacher_forced_local_flow(action_head=model.action_head, backbone_output=processed, action_input=action_input, noisy_action=model_x_t, t_discretized=t_tensor)
                 observed = hook_calls["count"] - before
@@ -543,6 +570,13 @@ training; do not change seed, noise, decoder, or SafetyGate automatically.
     evidence_sha = write_json(output / "evidence_hashes.json", evidence)
     report = {"schema": "CORELAB_PI0160_MATCHED_RESET_EXPERT_MODEL_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "fixed_identities": identities, "runtime": {"model_dtype": model_dtype, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE}, "conditions": decoded_rows, "clipping_and_label_quality": clipping, "anchor_reconciliation": anchor_reconciliation, "outputs": evidence, "counters": counters, "expert_counters": expert_summary.get("counters", {}), "execution_boundary": {"gr00t_forward": 45, "model_forward": 45, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False, "safety_gate_relaxed": False}, "claim_boundary": "matched independent-expert reference and fixed-N2 q0 FR/local-field characterization; no model-to-WBC closed-loop or task-success claim", "recommendation": "Use matched visited-state expert/local-field supervision as the single next intervention candidate."}
     report_sha = write_json(output / "pi0160_matched_reset_expert_model_result.json", report)
+    if guard is not None:
+        snapshot = guard.snapshot()
+        guard.close("PI0162_MODEL_PROCESS_CLOSED")
+        report["budget_ledger"] = {"campaign_id": args.campaign_id, "path": str(Path(args.budget_ledger).resolve()), "used": snapshot["used"], "snapshot": snapshot}
+        # Re-seal the report with the ledger snapshot bound after all raw
+        # evidence has been produced.  This does not alter decoded values.
+        report_sha = write_json(output / "pi0160_matched_reset_expert_model_result.json", report, overwrite=True)
     return {**report, "report_sha256": report_sha, "evidence_hashes_sha256": evidence_sha}
 
 
@@ -560,6 +594,9 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--noise", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--gpu-uuid", default=None)
+    parser.add_argument("--conditions", default=None, help="comma-separated selected q0 conditions (PI0162 may use C0_NOMINAL,C1_X_PLUS_5CM)")
+    parser.add_argument("--budget-ledger", type=Path, default=None)
+    parser.add_argument("--campaign-id", default="PI0162_CORELAB_20260913")
     return parser
 
 

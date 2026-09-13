@@ -197,11 +197,16 @@ def _request_model(*, native: Any, mailbox: Path, request_id: str, seed: int, si
 
 
 def _step_rows(native: Any, env: Any, actors: Any, *, chunk: Any, sim_time: float, steps: int,
-               update_count: int) -> tuple[list[dict[str, Any]], float, str | None]:
+               update_count: int, before_step: Any | None = None) -> tuple[list[dict[str, Any]], float, str | None]:
     rows: list[dict[str, Any]] = []
     termination: str | None = None
     dt = float(native.dt)
     for step in range(int(steps)):
+        # Optional callers (PI0162's persistent budget guard) reserve the
+        # native tick before the underlying policy/controller call.  Existing
+        # Stage40 callers omit this hook and retain byte-for-byte behavior.
+        if before_step is not None:
+            before_step(step=step, sim_time=float(sim_time), update_count=int(update_count))
         done, policy = _policy_step(native, env, actors)
         sim_time += dt
         event = native.pop_stage16_termination()
