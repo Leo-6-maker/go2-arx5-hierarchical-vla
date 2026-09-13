@@ -296,6 +296,27 @@ def tree_sha256(root: Path, prefix: str) -> tuple[str, list[dict[str, Any]]]:
     return digest.hexdigest(), entries
 
 
+def checkpoint_hash_prefix(arm: Mapping[str, Any], checkpoint: Path) -> str:
+    """Return the accepted manifest namespace for a checkpoint tree.
+
+    The historical Legacy seed2222 artifact predates the unified replication
+    campaign and was sealed with the bare checkpoint directory name.  The
+    newer Legacy and L1 artifacts were sealed under their route namespaces.
+    These are identity namespaces, not labels that may be selected to make a
+    digest match; the mapping is intentionally explicit and fail-closed.
+    """
+
+    route = str(arm.get("route"))
+    seed = int(arm.get("seed"))
+    if route == "Legacy" and seed == 2222:
+        return checkpoint.name
+    if route == "Legacy" and seed in {2223, 2224}:
+        return f"stage45e_legacy/{checkpoint.name}"
+    if route == "L1" and seed in {2222, 2223, 2224}:
+        return f"stage45e_l1/{checkpoint.name}"
+    raise ValidationExecutionError(f"unsupported checkpoint identity namespace: route={route!r}, seed={seed}")
+
+
 def _frame_ppm(path: Path) -> Any:
     """Read the native P6 frame without a model/video runtime dependency."""
 
@@ -488,12 +509,13 @@ def validate_artifacts(config: Mapping[str, Any], binding: Mapping[str, Any], ex
         path_value = checkpoint_config.get(label)
         require(isinstance(path_value, str), f"checkpoint path missing: {label}")
         path = _regular_dir(Path(path_value), f"checkpoint {label}")
-        observed, entries = tree_sha256(path, path.name)
+        hash_prefix = checkpoint_hash_prefix(arm, path)
+        observed, entries = tree_sha256(path, hash_prefix)
         require(observed == arm["tree_sha256"], f"checkpoint tree SHA drift: {label}: {observed}")
         state_path = _regular(path / "trainer_state.json", f"trainer state {label}")
         state = json.loads(state_path.read_text(encoding="utf-8"))
         require(int(state.get("global_step")) == 2000, f"checkpoint tier drift: {label}")
-        checkpoint_audit.append({"label": label, "route": arm["route"], "seed": arm["seed"], "tier": arm["tier"], "path": str(path), "tree_sha256": observed, "file_count": len(entries), "total_bytes": sum(int(item["bytes"]) for item in entries), "trainer_state_sha256": sha256_file(state_path)})
+        checkpoint_audit.append({"label": label, "route": arm["route"], "seed": arm["seed"], "tier": arm["tier"], "path": str(path), "hash_prefix": hash_prefix, "tree_sha256": observed, "file_count": len(entries), "total_bytes": sum(int(item["bytes"]) for item in entries), "trainer_state_sha256": sha256_file(state_path)})
     snapshot_lock = _regular(REPO / "manifests/STAGE22_VALIDATION_SNAPSHOT_LOCK_V1.json", "snapshot lock")
     split_lock = _regular(REPO / "manifests/STAGE22_TARGET_SPLIT_LOCK_V1.json", "split lock")
     require(sha256_file(snapshot_lock) == admission.EXPECTED_SNAPSHOT_LOCK_SHA, "snapshot lock SHA drift")

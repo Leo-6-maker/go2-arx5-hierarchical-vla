@@ -43,6 +43,24 @@ class ValidationEFrameContractTests(unittest.TestCase):
             self.assertEqual(entries_with_slash, entries_without_slash)
             self.assertEqual(entries_with_slash[0]["path"], "arm/file.bin")
 
+    def test_checkpoint_hash_namespace_matches_accepted_lineages(self) -> None:
+        checkpoint = Path("checkpoint-2000")
+
+        self.assertEqual(
+            runner.checkpoint_hash_prefix({"route": "Legacy", "seed": 2222}, checkpoint),
+            "checkpoint-2000",
+        )
+        self.assertEqual(
+            runner.checkpoint_hash_prefix({"route": "Legacy", "seed": 2223}, checkpoint),
+            "stage45e_legacy/checkpoint-2000",
+        )
+        self.assertEqual(
+            runner.checkpoint_hash_prefix({"route": "L1", "seed": 2222}, checkpoint),
+            "stage45e_l1/checkpoint-2000",
+        )
+        with self.assertRaises(runner.ValidationExecutionError):
+            runner.checkpoint_hash_prefix({"route": "N2", "seed": 2222}, checkpoint)
+
     def test_frame_origin_uses_world_minus_relative_without_target(self) -> None:
         payload = _snapshot_payload()
 
