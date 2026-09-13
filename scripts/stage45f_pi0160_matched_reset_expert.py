@@ -395,8 +395,17 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         write_json(output / f"{condition}_admission.json", {"condition_id": condition, "gpu": live, "model_attempt_started": False, "gr00t_forward_count": 0})
         result = _run_condition(args, condition, trajectory, output, helpers)
         results.append(result)
-        if result["status"] != "PASS":
-            break
+        # A valid expert episode may end in a real tracking/gate negative
+        # result.  PI0160 requires that fixed cohort members after that
+        # condition still run in the pre-registered order; only an invalid
+        # launcher/admission failure should stop the whole campaign.  The
+        # per-condition runner already seals the failure and records its
+        # actual counters, so continue while preserving the negative result.
+        if result["status"] == "BLOCKED" and result.get("rows", 0) == 0:
+            # No usable S0/reference evidence was produced.  This is a
+            # technical condition failure, but later independent resets remain
+            # valid and are still attempted under the cohort cap.
+            continue
     passed = sum(item["status"] == "PASS" for item in results)
     status = "COMPLETED" if passed == len(CONDITION_ORDER) else ("PARTIAL" if passed else "BLOCKED")
     summary = {"schema": "CORELAB_PI0160_MATCHED_EXPERT_RESULT_V1", "status": status, "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "head": head}, "target": {"target_id": TARGET_ID, "target_world_m": TARGET_WORLD.tolist(), "language": LANGUAGE, "target_xyz_in_model_input": False}, "conditions": results, "counters": {"conditions_started": len(results), "conditions_passed": passed, "conditions_expected": len(CONDITION_ORDER), "expert_wbc_steps": int(sum(item["wbc_steps"] for item in results)), "reference_updates": int(sum(item["reference_updates"] for item in results)), "gr00t_forward_count": 0, "model_forward_count": 0, "model_construction_attempts": 0, "training_steps": 0, "safety_gate_rejects": int(sum(1 for item in results if item.get("error") and "SafetyGate rejected" in str(item["error"]))), "raw_model_rows": 0}, "planned_budget": {"native_ticks": 1225, "binds": 5, "reference_updates": 15, "gr00t_forward": 0, "model_calls_after_expert": {"conditioning": 10, "action_head": 35, "model_side": 45, "model_construction": 1}}, "gpu": {"selected": gpu, "initial_snapshot": snapshot}, "runtime": runtime, "admission_sha256": admission_sha, "execution_boundary": {"expert_wbc_simulator": True, "gr00t_forward": 0, "model_forward": 0, "training": False, "icl": False, "pbs": False, "h200": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False, "merge": False}, "claim_boundary": "matched independent-expert reference and fixed-policy diagnostics; no model-to-WBC closed-loop or task-success claim", "recommendation": "Use matched visited-state teacher/local-field supervision as the single next intervention candidate; do not alter seed/noise or SafetyGate from this packet."}
