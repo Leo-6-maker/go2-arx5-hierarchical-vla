@@ -75,6 +75,16 @@ PHYSICAL_DIM = 10
 RAW_SHAPE = (1, HORIZON, ACTION_DIM)
 TIMESTAMPS = np.arange(HORIZON, dtype=np.float64) * 0.05
 TARGET_WORLD = np.asarray([0.30, 0.10, 0.58], dtype=np.float64)
+# The four native TRAIN snapshots intentionally cover four distinct target
+# fixtures.  These coordinates are metadata-only and are never passed to the
+# model; binding them here prevents a mislabeled snapshot from entering the
+# paired expert comparison while preserving the pre-registered target order.
+NATIVE_TARGETS = {
+    "a": np.asarray([0.30, 0.10, 0.58], dtype=np.float64),
+    "b": np.asarray([0.30, -0.10, 0.58], dtype=np.float64),
+    "c": np.asarray([0.30, 0.05, 0.64], dtype=np.float64),
+    "d": np.asarray([0.30, -0.05, 0.63], dtype=np.float64),
+}
 C0_MEASURED_EEF_WORLD = np.asarray([0.3318595886230469, -0.11061844229698181, 0.655968964099884], dtype=np.float64)
 MAX_QUERIES = 10
 MAX_CONDITIONING = 10
@@ -285,7 +295,9 @@ def _load_native_snapshot(path: Path, expected_id: str) -> dict[str, Any]:
     require(doc.get("language") is None or doc.get("language") == LANGUAGE, f"native language drift: {path}")
     require(doc.get("target_excluded_from_model_input") is True, f"native target exclusion marker missing: {path}")
     target = np.asarray(doc.get("target_position_world_m"), dtype=np.float64)
-    require(target.shape == (3,) and np.array_equal(target, TARGET_WORLD), f"native target identity drift: {path}")
+    require(target.shape == (3,) and np.isfinite(target).all(), f"native target identity drift: {path}")
+    suffix = expected_id.split("_train_", 1)[-1].split(":", 1)[0]
+    require(suffix in NATIVE_TARGETS and np.array_equal(target, NATIVE_TARGETS[suffix]), f"native target identity drift: {path}")
     body_path = Path(doc.get("body_frame_path", "")).resolve()
     wrist_path = Path(doc.get("wrist_frame_path", "")).resolve()
     require(body_path.parent == path.parent and wrist_path.parent == path.parent, f"native frame path escaped snapshot: {path}")

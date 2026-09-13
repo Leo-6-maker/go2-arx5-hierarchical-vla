@@ -20,6 +20,7 @@ class PI0157ConditioningDependenceStaticTests(unittest.TestCase):
         self.assertEqual(value["fixed_model"]["active_scalars"], 190)
         self.assertEqual(value["fixed_noise"]["shape"], [1, 40, 132])
         self.assertEqual(len(value["conditions"]["order"]), 8)
+        self.assertEqual(value["sealed_references"]["native_train_target_metadata_only"]["b"], [0.3, -0.1, 0.58])
         self.assertEqual(value["budget"]["nominal_model_side_calls"], 40)
         self.assertEqual(value["budget"]["hard_model_side_cap"], 50)
         self.assertFalse(value["fixed_model"]["target_xyz_in_model_input"])
