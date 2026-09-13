@@ -53,7 +53,10 @@ class PI0163SupportTests(unittest.TestCase):
             for directory in ("lib", "compat"):
                 info = tarfile.TarInfo(directory)
                 info.type = tarfile.DIRTYPE
-                info.mode = 0o755
+                # Match the production capsule's non-writable payload roots;
+                # extraction must defer restoring this mode until children
+                # have been materialized.
+                info.mode = 0o555
                 handle.addfile(info)
             for name, data in (
                 ("lib/libavutil.so.58.29.100", lib_bytes),
@@ -100,6 +103,8 @@ class PI0163SupportTests(unittest.TestCase):
             self.assertEqual(result["status"], "PASS")
             self.assertEqual(result["payload_entry_count"], 3)
             self.assertTrue((root / "destination/lib/libavutil.so.58").is_symlink())
+            self.assertEqual((root / "destination/lib").stat().st_mode & 0o7777, 0o555)
+            self.assertEqual((root / "destination/compat").stat().st_mode & 0o7777, 0o555)
             self.assertEqual(json.loads((root / "record.json").read_text())["capsule_sha256"], archive_sha)
 
     def test_fixture_rejects_escaping_symlink(self) -> None:

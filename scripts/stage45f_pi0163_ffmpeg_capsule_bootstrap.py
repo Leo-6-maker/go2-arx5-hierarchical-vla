@@ -161,13 +161,19 @@ def archive_members(capsule: Path, payload: Mapping[str, Mapping[str, Any]]) -> 
 def extract_members(capsule: Path, destination: Path, members: Sequence[tarfile.TarInfo]) -> None:
     require(not destination.exists() and not destination.is_symlink(), f"fresh destination required: {destination}")
     destination.mkdir(parents=True, exist_ok=False)
+    directory_modes: list[tuple[Path, int]] = []
     with tarfile.open(capsule, mode="r:") as archive:
         for member in members:
             name = normalized_member_name(member.name)
             target = safe_destination(destination, name)
             if member.isdir():
                 target.mkdir(parents=True, exist_ok=False)
-                os.chmod(target, member.mode & 0o7777)
+                # A sealed archive may carry a non-writable directory mode
+                # (the production capsule uses 0555 for lib/compat).  Keep
+                # the directory writable while materializing its children,
+                # then restore the archived mode after all payload entries
+                # have been written.
+                directory_modes.append((target, member.mode & 0o7777))
             elif member.issym():
                 target.parent.mkdir(parents=True, exist_ok=True)
                 os.symlink(member.linkname, target)
@@ -184,6 +190,8 @@ def extract_members(capsule: Path, destination: Path, members: Sequence[tarfile.
                     output.flush()
                     os.fsync(output.fileno())
                 os.chmod(target, member.mode & 0o7777)
+    for directory, mode in directory_modes:
+        os.chmod(directory, mode)
 
 
 def verify_extracted(destination: Path, manifest: Mapping[str, Any], payload: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
