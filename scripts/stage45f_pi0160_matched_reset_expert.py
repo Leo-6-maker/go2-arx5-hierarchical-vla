@@ -158,8 +158,9 @@ def _prepare_native_environment(output: Path, args: argparse.Namespace, gpu_uuid
     torch_pyroot = pyroot if (pyroot / "torch" / "lib").is_dir() else public_env / "lib" / "python3.8" / "site-packages"
     torch_lib = torch_pyroot / "torch" / "lib"
     env_lib = native_env_root / "lib" if (native_env_root / "lib" / "libpython3.8.so.1.0").is_file() else public_env / "lib"
+    libpython = env_lib / "libpython3.8.so.1.0"
     ninja = native_env_root / "bin" / "ninja"
-    require(bind.is_dir() and torch_lib.is_dir() and env_lib.is_dir() and ninja.is_file(), "qualified native runtime layering is incomplete")
+    require(bind.is_dir() and torch_lib.is_dir() and env_lib.is_dir() and libpython.is_file() and ninja.is_file(), "qualified native runtime layering is incomplete")
     for import_root in (SCRIPTS, REPO / "src", wbc_source, isaacgym_python, native_compat):
         if str(import_root) not in sys.path:
             sys.path.insert(0, str(import_root))
@@ -182,7 +183,7 @@ def _prepare_native_environment(output: Path, args: argparse.Namespace, gpu_uuid
         "PATH": str(native_env_root / "bin") + os.pathsep + current_path,
         "PYTHONPATH": os.pathsep.join((str(SCRIPTS), str(REPO / "src"), str(wbc_source), str(isaacgym_python), str(native_compat))),
         "LD_LIBRARY_PATH": os.pathsep.join((str(bind), str(torch_lib), str(env_lib))),
-        "LD_PRELOAD": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+        "LD_PRELOAD": os.pathsep.join((str(libpython), "/usr/lib/x86_64-linux-gnu/libstdc++.so.6")),
         "CUDA_CACHE_PATH": str(dirs["cache"] / "cuda"),
         "TORCH_HOME": str(dirs["cache"] / "torch"),
         "HF_HUB_OFFLINE": "1",
@@ -192,7 +193,7 @@ def _prepare_native_environment(output: Path, args: argparse.Namespace, gpu_uuid
         "GROOT_PATCH_MISTRAL": "1",
         "NO_ALBUMENTATIONS_UPDATE": "1",
     })
-    return {"native_env_root": str(native_env_root), "isaacgym_python": str(isaacgym_python), "native_compat_root": str(native_compat), "wbc_source_root": str(wbc_source), "bind_dir": str(bind), "torch_lib_dir": str(torch_lib), "env_lib_dir": str(env_lib), "ninja": str(ninja), "gpu_uuid": str(gpu_uuid), "python": platform.python_version(), "isolated": True}
+    return {"native_env_root": str(native_env_root), "isaacgym_python": str(isaacgym_python), "native_compat_root": str(native_compat), "wbc_source_root": str(wbc_source), "bind_dir": str(bind), "torch_lib_dir": str(torch_lib), "env_lib_dir": str(env_lib), "libpython": str(libpython), "ninja": str(ninja), "gpu_uuid": str(gpu_uuid), "python": platform.python_version(), "isolated": True}
 
 
 def _state_hashes(native: Any, env: Any, tensor_hash: Any) -> dict[str, Any]:
@@ -335,6 +336,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     snapshot = _nvidia_snapshot()
     gpu = _select_gpu(snapshot, args.gpu_uuid)
     runtime = _prepare_native_environment(output, args, str(gpu["uuid"]))
+    # gym_38.so has a direct libpython dependency.  The historical launcher
+    # preloads it at process start; this in-process entry point must reproduce
+    # that binding before the first IsaacGym import.
+    import ctypes
+    ctypes.CDLL(runtime["libpython"], mode=ctypes.RTLD_GLOBAL)
     admission = {"schema": "CORELAB_PI0160_MATCHED_EXPERT_ADMISSION_V1", "status": "ADMITTED_FOR_DIRECT_EXECUTION", "token": ADMISSION_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "head": head}, "target": {"target_id": TARGET_ID, "target_world_m": TARGET_WORLD.tolist(), "language": LANGUAGE, "target_xyz_in_model_input": False}, "conditions": [{"condition_id": c, "delta_base_xy_m": list(DELTAS[c])} for c in CONDITION_ORDER], "schedule_native_ticks": list(SCHEDULE), "expert_config": {"horizon": HORIZON, "action_sample_period_s": ACTION_PERIOD, "motion_duration_s": MOTION_DURATION, "orientation": "constant_current", "gripper": 0.5}, "gpu": {"selected": gpu, "snapshot": snapshot}, "runtime": runtime, "budget": {"technical_recovery_attempts_cap": 2, "simulator_instance_attempts_cap": 7, "native_ticks_cap": 1715, "binds_cap": 7, "reference_updates_cap": 21, "planned_conditions": 5, "planned_ticks": 1225, "planned_binds": 5, "planned_updates": 15}, "execution_boundary": {"expert_wbc_simulator": True, "gr00t_forward": 0, "model_forward": 0, "training": False, "icl": False, "pbs": False, "h200": False, "hardware": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False, "merge": False}}
     admission_sha = write_json(output / "admission.json", admission)
     # Native imports occur only after the admission artifact is sealed.
