@@ -151,6 +151,13 @@ class PI0163SupportTests(unittest.TestCase):
         self.assertEqual(plan["holdout_f_read"], 0)
         self.assertFalse(plan["raw_inventory_verified"])
 
+    def test_recovery_aggregate_binds_six_validation_e_windows(self) -> None:
+        source = Path("scripts/stage45f_pi0163_validation_e_recovery.py").read_text(encoding="utf-8")
+        self.assertIn(
+            "aggregate_evaluation_rows(action_rows, expected_window_ids=evaluator.WINDOW_IDS)",
+            source,
+        )
+
     def test_raw_inventory_self_verifies_one_preserved_and_thirty_five_missing(self) -> None:
         import stage45f_pi0163_validation_e_recovery as recovery
 

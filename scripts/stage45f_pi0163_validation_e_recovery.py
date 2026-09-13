@@ -878,7 +878,11 @@ def execute(config_path: Path) -> int:
                 gc.collect()
                 torch.cuda.empty_cache()
             rows_by_arm[label] = action_rows
-            aggregate = aggregate_evaluation_rows(action_rows)
+            # The frozen Validation-E recovery cohort has six red_target_holdout_e
+            # windows per arm.  checkpoint_eval's default is the unrelated
+            # 24-window FULL24 train cohort, so bind the already validated
+            # six-window list explicitly at this mechanical boundary.
+            aggregate = aggregate_evaluation_rows(action_rows, expected_window_ids=evaluator.WINDOW_IDS)
             aggregate["route"] = arm["route"]
             aggregate["seed"] = arm["seed"]
             aggregate["tier"] = arm["tier"]
