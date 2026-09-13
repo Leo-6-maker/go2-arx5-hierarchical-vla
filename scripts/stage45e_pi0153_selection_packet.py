@@ -811,7 +811,8 @@ def build_row_call_accounting(campaign_root: Path, report: Mapping[str, Any], fi
     failed = accounting.get("failed_attempt_model_calls")
     overlap = accounting.get("overlapped_recovery_model_calls")
     require(accepted == 8976 and all_attempted == 8976 and failed == 120 and overlap == 120, "call accounting drift")
-    require(final_result.get("training") is False and final_result.get("fresh_training_lineages") == 0, "training boundary drift")
+    require(final_result.get("fresh_training_lineages") == 0, "fresh-training lineage boundary drift")
+    require(report.get("training") == 0 and report.get("model_forward") == 0 and report.get("pbs") == 0 and report.get("gpu") == 0, "analysis execution boundary drift")
     return {
         "schema": "VANDA_STAGE45E_PI0153_ROW_AND_CALL_ACCOUNTING_V1",
         "status": "PASS_DEDUPLICATED_SOURCE_BOUND_ACCOUNTING",
