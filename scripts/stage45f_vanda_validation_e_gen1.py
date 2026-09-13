@@ -288,6 +288,7 @@ def tree_entries(root: Path, prefix: str) -> list[dict[str, Any]]:
 
 
 def tree_sha256(root: Path, prefix: str) -> tuple[str, list[dict[str, Any]]]:
+    prefix = prefix.rstrip("/")
     entries = tree_entries(root, prefix)
     digest = hashlib.sha256()
     for entry in entries:

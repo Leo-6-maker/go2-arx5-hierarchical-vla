@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
 
@@ -29,6 +31,18 @@ def _snapshot_payload() -> dict[str, object]:
 
 
 class ValidationEFrameContractTests(unittest.TestCase):
+    def test_checkpoint_tree_prefix_is_canonicalized(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "file.bin").write_bytes(b"pi0154")
+
+            digest_with_slash, entries_with_slash = runner.tree_sha256(root, "arm/")
+            digest_without_slash, entries_without_slash = runner.tree_sha256(root, "arm")
+
+            self.assertEqual(digest_with_slash, digest_without_slash)
+            self.assertEqual(entries_with_slash, entries_without_slash)
+            self.assertEqual(entries_with_slash[0]["path"], "arm/file.bin")
+
     def test_frame_origin_uses_world_minus_relative_without_target(self) -> None:
         payload = _snapshot_payload()
 
