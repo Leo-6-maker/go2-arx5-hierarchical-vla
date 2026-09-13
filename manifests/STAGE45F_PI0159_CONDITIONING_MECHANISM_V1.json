@@ -1,0 +1,108 @@
+{
+  "schema": "CORELAB_STAGE45F_PI0159_CONDITIONING_MECHANISM_V1",
+  "authority": {
+    "stage": "Stage45F",
+    "pi_gate": "PI_GATE_STATE_0159",
+    "issue_comment": 5651409238,
+    "pr_comment": 5651409688,
+    "return_token": "CORELAB_PI0159_CONDITIONING_MECHANISM_FOR_PI_REVIEW",
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "starting_head": "e14b5b587eafc8c2e50aa5da1375aa2428cbffaa"
+  },
+  "scientific_question": "Under fixed N2 seed2223@2000 and a fixed expert local-flow target, do StateV1 substitution, paired vision substitution, or both change the teacher-forced active action field and its decoded tail?",
+  "fixed_model": {
+    "checkpoint_label": "N2 seed2223@2000",
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "base_processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "base_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "dtype": "bfloat16",
+    "batch": 1,
+    "horizon": 40,
+    "action_dim": 132,
+    "timing_mode": "T16",
+    "active_scalars": 190,
+    "target_xyz_in_model_input": false
+  },
+  "fixed_noise": {
+    "array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "file_sha256": "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922",
+    "shape": [1, 40, 132],
+    "dtype": "float32",
+    "role": "fixed x0 in the local-flow algebra; no free-running sampler call"
+  },
+  "fixed_references": {
+    "canonical_train_input_sha256": "3b525a5a628d3a9ee71894fdd9c6c77b2e888406e87926594700314768181866",
+    "archived_c0_input_sha256": "67ca605ca90e05633b22dd0447e4873ee29c6a4b31be983b94c11db35f9932be",
+    "native_expert_id": "stage22_expert_red_target_train_a:expert-0000",
+    "native_expert_target_metadata_only": true,
+    "c0_measured_world_bridge_not_used_for_teacher_target": true
+  },
+  "conditions": {
+    "order": [
+      "TRAIN_REFERENCE",
+      "STATE_C0_VISION_TRAIN",
+      "VISION_C0_STATE_TRAIN",
+      "C0_FULL"
+    ],
+    "TRAIN_REFERENCE": "canonical TRAIN body+wrist+StateV1",
+    "STATE_C0_VISION_TRAIN": "TRAIN body+wrist with archived C0 StateV1",
+    "VISION_C0_STATE_TRAIN": "archived C0 body+wrist with TRAIN StateV1",
+    "C0_FULL": "archived C0 body+wrist+StateV1",
+    "model_visible": ["body_rgb", "wrist_rgb", "state", "language"],
+    "model_hidden": ["target_position_world_m", "target_id", "expert_label", "condition_metadata"]
+  },
+  "flow": {
+    "t_values": [0.06776241796562847, 0.36966943557751086, 0.7837719744658148],
+    "t_buckets": [67, 369, 783],
+    "x_t": "(1-t)*x0+t*x1",
+    "v_target": "x1-x0",
+    "implied_endpoint": "x_t+(1-t)*v_hat",
+    "source": "Stage45D reviewed teacher-forced/local-flow algebra",
+    "mask": "structured_action_mask(T16), shape [40,132], 190 active scalars"
+  },
+  "decoder": {
+    "bridge": "Stage45C runtime-V2 stats with Stage40 inverse-normalization/materialization law",
+    "standardized_anchor_view": "decode every condition with TRAIN StateV1 to separate action response from anchor mechanics",
+    "actual_anchor_view": "retained as mechanical diagnostic only",
+    "world_target_metrics": "not claimed"
+  },
+  "budget": {
+    "conditioning_passes": 4,
+    "action_head_calls": 12,
+    "model_side_calls": 16,
+    "model_construction_attempts": 1,
+    "public_sampler_calls": 0,
+    "free_running_queries": 0
+  },
+  "evidence": {
+    "raw_first": true,
+    "raw_location": "node-local output root/raw",
+    "raw_bundle_fields": ["x0_float32", "x_t_float32", "v_target_float32", "v_hat_float32", "x1_hat_float32", "active_mask_float64", "state_v1_float32", "t_value", "t_bucket"],
+    "derived_cpu_after_raw": true
+  },
+  "execution_boundary": {
+    "model_forward": true,
+    "training": false,
+    "backward": false,
+    "optimizer_step": 0,
+    "public_sampler": false,
+    "free_running_inference": false,
+    "icl": false,
+    "new_data": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "pbs": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "safety_gate_relaxed": false,
+    "merge": false
+  },
+  "claim_boundary": "fixed-policy teacher-forced conditioning and decoded-tail characterization only; no task-success, WBC, closed-loop, world-frame TRAIN, ICL, training, or generalization claim"
+}
