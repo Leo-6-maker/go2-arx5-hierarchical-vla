@@ -379,7 +379,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     from stage38_structured_offline_evaluation import _load_structured_model
     processor_binding = _bind_local_cosmos_processor(Path(args.stage10_root), Path(args.cosmos_snapshot))
     processor, embodiment, _ = flow._build_runtime_processor(groot_source=Path(args.stage10_root) / "src" / "isaac-gr00t", base_checkpoint=Path(args.base_model), dataset_dir=Path(args.dataset), modality_path=Path(args.modality), cosmos_snapshot=Path(args.cosmos_snapshot))
-    from go2arx5_vla.structured_action import encode_structured_action, structured_action_mask
+    from go2arx5_vla.structured_action import encode_structured_action, reconcile_stage45b_label_anchor, structured_action_mask
     from go2arx5_vla.stage38_structured_training import StructuredActionNormalizer
     mask = np.asarray(structured_action_mask("T16"), dtype=bool)
     require(mask.shape == (HORIZON, ACTION_DIM) and int(mask.sum()) == 190, "T16 mask drift")
@@ -387,17 +387,25 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     inputs_by_condition: dict[str, Mapping[str, Any]] = {}
     x1_by_condition: dict[str, np.ndarray] = {}
     label_by_condition: dict[str, Any] = {}
+    anchor_reconciliation: dict[str, Any] = {}
     clipping: dict[str, Any] = {}
     for condition in CONDITION_ORDER:
         item = q0[condition]
         inputs = old_probe._build_c1_inputs(processor, embodiment, {"body": item["body"], "wrist": item["wrist"], "state": item["state"]}, train=False)
         assert_input_boundary(inputs, condition)
         inputs_by_condition[condition] = inputs
-        label = encode_structured_action(item["expert"], item["timestamps"], item["state"], timing_mode="T16", chunk_id=f"PI0160:{condition}:expert", source_frame="NATIVE_WBC_RELATIVE_REFERENCE", tcp_semantic_id="x5_link6_gripper_center", observation_timestamp=float(item["timestamps"][0]), provenance={"stage": "PI0160", "source": "independent_same_scene_expert"})
+        # Preserve the measured observation state byte-for-byte for model
+        # inputs.  The accepted Stage45B label-side anchor reconciliation is
+        # needed only for the strict rotational codec tolerance; it copies the
+        # pose-0 rotation/position from the immutable expert label and records
+        # the residual rather than altering the physical expert trajectory.
+        label_state, reconciliation = reconcile_stage45b_label_anchor(item["expert"], item["state"])
+        anchor_reconciliation[condition] = reconciliation
+        label = encode_structured_action(item["expert"], item["timestamps"], label_state, timing_mode="T16", chunk_id=f"PI0160:{condition}:expert", source_frame="NATIVE_WBC_RELATIVE_REFERENCE", tcp_semantic_id="x5_link6_gripper_center", observation_timestamp=float(item["timestamps"][0]), provenance={"stage": "PI0160", "source": "independent_same_scene_expert", "label_side_anchor_reconciliation": True})
         x1_by_condition[condition] = np.asarray(normalizer.normalize(label), dtype=np.float32)[None, ...]
         require(x1_by_condition[condition].shape == RAW_SHAPE and np.isfinite(x1_by_condition[condition]).all(), f"{condition} normalized expert label drift")
         label_by_condition[condition] = label
-        clipping[condition] = {"active_label_scalars": int(np.count_nonzero(label.mask)), "active_mask_shape": list(label.mask.shape), "normalized_clipped_scalar_count": int(np.count_nonzero(np.abs(x1_by_condition[condition][0][mask]) >= 1.0)), "label_codec_roundtrip_input_untouched": True, "stats_route": N2_STATS_SHA}
+        clipping[condition] = {"active_label_scalars": int(np.count_nonzero(label.mask)), "active_mask_shape": list(label.mask.shape), "normalized_clipped_scalar_count": int(np.count_nonzero(np.abs(x1_by_condition[condition][0][mask]) >= 1.0)), "label_codec_roundtrip_input_untouched": True, "label_side_anchor_reconciliation": reconciliation, "stats_route": N2_STATS_SHA}
     model = _load_structured_model(Path(args.model_path), "cuda:0")
     model.eval()
     model_dtype = str(next(model.parameters()).dtype)
@@ -518,7 +526,7 @@ training; do not change seed, noise, decoder, or SafetyGate automatically.
     conclusion_sha = write_text(output / "one_page_conclusion.md", conclusion)
     evidence = {"model_admission_sha256": admission_sha, "table_sha256": table_sha, "raw_manifest_sha256": raw_manifest_sha, "clipping_sha256": clipping_sha, "trajectory_svg_sha256": trajectory_sha, "conclusion_sha256": conclusion_sha, "raw_rows": {f"{row['condition']}:{row['mode']}:t{row.get('t_bucket', '')}": row["raw_file_sha256"] for row in raw_rows}}
     evidence_sha = write_json(output / "evidence_hashes.json", evidence)
-    report = {"schema": "CORELAB_PI0160_MATCHED_RESET_EXPERT_MODEL_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "fixed_identities": identities, "expert_root": str(expert_root), "expert_result_sha256": sha256_file(expert_root / "pi0160_matched_expert_result.json"), "runtime": {"model_dtype": model_dtype, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE}, "conditions": decoded_rows, "clipping_and_label_quality": clipping, "outputs": evidence, "counters": counters, "expert_counters": expert_summary.get("counters", {}), "execution_boundary": {"gr00t_forward": 45, "model_forward": 45, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False, "safety_gate_relaxed": False}, "claim_boundary": "matched independent-expert reference and fixed-N2 q0 FR/local-field characterization; no model-to-WBC closed-loop or task-success claim", "recommendation": "Use matched visited-state expert/local-field supervision as the single next intervention candidate."}
+    report = {"schema": "CORELAB_PI0160_MATCHED_RESET_EXPERT_MODEL_RESULT_V1", "status": "COMPLETED", "token": RETURN_TOKEN, "authority": {"pi_gate": PI_GATE, "issue_comment": PI_COMMENT, "pr_comment": PR_COMMENT}, "repository": {"branch": BRANCH, "protocol_starting_head": STARTING_HEAD, "execution_head": head}, "fixed_identities": identities, "runtime": {"model_dtype": model_dtype, "cosmos_binding": cosmos_binding, "processor_binding": processor_binding, "groot_commit": GROOT_COMMIT, "cosmos_revision": COSMOS_REVISION, "cosmos_tree_sha256": COSMOS_TREE}, "conditions": decoded_rows, "clipping_and_label_quality": clipping, "anchor_reconciliation": anchor_reconciliation, "outputs": evidence, "counters": counters, "expert_counters": expert_summary.get("counters", {}), "execution_boundary": {"gr00t_forward": 45, "model_forward": 45, "training": False, "backward": False, "optimizer_step": 0, "wbc": False, "simulator": False, "hardware": False, "pbs": False, "icl": False, "validation_e_read": False, "holdout_f_read": False, "gr00t_output_sent_to_wbc": False, "safety_gate_relaxed": False}, "claim_boundary": "matched independent-expert reference and fixed-N2 q0 FR/local-field characterization; no model-to-WBC closed-loop or task-success claim", "recommendation": "Use matched visited-state expert/local-field supervision as the single next intervention candidate."}
     report_sha = write_json(output / "pi0160_matched_reset_expert_model_result.json", report)
     return {**report, "report_sha256": report_sha, "evidence_hashes_sha256": evidence_sha}
 
