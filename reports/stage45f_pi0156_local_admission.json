@@ -1,0 +1,123 @@
+{
+  "schema": "CORELAB_STAGE45F_PI0156_LOCAL_ADMISSION_V1",
+  "status": "ADMITTED_FOR_BOUNDED_EXECUTION",
+  "token": "CORELAB_PI0156_LOCAL_ADMISSION_RECORDED",
+  "authority": {
+    "pi_gate": "PI_GATE_STATE_0156",
+    "issue_comment": 5650620343,
+    "pr_comment": 5650623655
+  },
+  "repository": {
+    "branch": "stage45f/corelab-local-initial-state-pilot",
+    "head": "8a66654e8e72bbbccd21d2e6e7a84183be6bd620",
+    "worktree_clean_at_record": true,
+    "repair": "complete-query torch.inference_mode wrapper for C1 and worker"
+  },
+  "runtime": {
+    "host": "corelab-4080s",
+    "python": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+    "python_version": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "cuda": "12.8",
+    "cuda_available": true,
+    "selected_gpu_index": 0,
+    "selected_gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "selected_gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "selected_gpu_total_mib": 32760,
+    "selected_gpu_used_mib": 139,
+    "selected_gpu_free_mib": 32091,
+    "selection_rule": "authorized UUID bound; ordinal 0 recorded for this admission",
+    "nvidia_smi_query_sha256": "97f8bf0720694cb5c6d33ac6a1db0153c43f42b20ef618fe0b22ffde20a5dce3",
+    "other_compute_processes": "none observed at admission",
+    "hf_offline": true,
+    "cosmos_snapshot": "/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1/materialized/cosmos_reason2_2b_hf_cache/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+  },
+  "fixed_identity": {
+    "checkpoint_path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000",
+    "checkpoint_tree_sha256": "09bb76cb2b74a48644c120201042671fb7eaa42da3603ffb84c62f49a35d6152",
+    "checkpoint_file_count": 19,
+    "checkpoint_total_bytes": 20889823145,
+    "n2_stats_path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_ac11dc8_inputs/STAGE45E_N2_STRUCTURED_STATS_V1_0edbb4e.json",
+    "n2_stats_sha256": "0c9450e6aeb0765eebc676414b2a6a84f71dddb7eea1de5453551f062b25fdbb",
+    "n2_stats_payload_sha256": "508d4a8845e3bf5928416a506b95046ec0bb6c2be3eecbd09c39684a00865572",
+    "noise_path": "/var/cache/users/liuyu-nfs/stage45f_pi0152_recovery01_20260913/noise/common_x0.npy",
+    "noise_array_sha256": "5924010a4e506159b654d0d6164125da5bf0e513ff410bf6e8e5f964a9ab50bd",
+    "noise_file_sha256": "83590e27b22847260a5c7cc2af365c088b352ccafc056ad741418a6e98168922",
+    "train_input_sha256": "3b525a5a628d3a9ee71894fdd9c6c77b2e888406e87926594700314768181866",
+    "archived_c0_input_sha256": "67ca605ca90e05633b22dd0447e4873ee29c6a4b31be983b94c11db35f9932be",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "worker_module_sha256": "fd7c32584a97bc14fa13d190043cffa27ab77aa8335189dfe40950a6827a2ae3"
+  },
+  "cpu_preflight": {
+    "py_compile": "PASS",
+    "git_diff_check": "PASS",
+    "pi0153_static_regression": "4/4 PASS",
+    "pi0155_generation_regression": "3/3 PASS",
+    "pi0156_inference_boundary_regression": "1/1 PASS",
+    "old_split_boundary_raises_inference_tensor_error": true,
+    "complete_wrapper_parameterized_operator_passes": true,
+    "target_metadata_excluded": true,
+    "structured_action_active_scalars": 190,
+    "model_forwards_before_admission": 0,
+    "training_before_admission": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc": false,
+    "simulator": false
+  },
+  "query_contract": {
+    "order": [
+      "TRAIN/C1",
+      "TRAIN/worker",
+      "C0/C1",
+      "C0/worker"
+    ],
+    "noise": "same saved float32 x0; C1 direct argument and worker scoped randn injection",
+    "sampler_steps": [0, 250, 500, 750],
+    "sampler_dt": 0.25,
+    "query_inference_boundary": "torch.inference_mode covers input preparation, conditioning, four updates and raw extraction",
+    "raw_first": true,
+    "safety_gate_relaxed": false
+  },
+  "budget": {
+    "nominal_new_queries": 4,
+    "nominal_new_conditioning": 4,
+    "nominal_new_action_head_calls": 16,
+    "nominal_new_model_side_calls": 20,
+    "mechanical_recovery_query_allowance": 1,
+    "new_query_attempt_limit": 5,
+    "new_conditioning_limit": 5,
+    "new_action_head_limit": 20,
+    "new_model_side_limit": 25,
+    "prior_consumed_queries": 1,
+    "prior_consumed_conditioning": 1,
+    "prior_consumed_action_head_calls": 0,
+    "prior_consumed_model_side_calls": 1,
+    "cumulative_query_limit": 6,
+    "cumulative_conditioning_limit": 6,
+    "cumulative_action_head_limit": 20,
+    "cumulative_model_side_limit": 26,
+    "consumed_at_admission": {
+      "queries": 0,
+      "conditioning": 0,
+      "action_head_calls": 0,
+      "model_side_calls": 0
+    }
+  },
+  "execution_boundary": {
+    "model_forward": 0,
+    "conditioning": 0,
+    "action_head": 0,
+    "model_construction": 0,
+    "training": false,
+    "pbs": false,
+    "icl": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "validation_e_read": false,
+    "holdout_f_read": false
+  }
+}
