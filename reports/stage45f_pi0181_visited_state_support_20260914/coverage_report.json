@@ -1,0 +1,1342 @@
+{
+  "active_action_dimensions": 10,
+  "condition_order": [
+    "C0_NOMINAL",
+    "C1_X_PLUS_5CM",
+    "C2_X_MINUS_5CM",
+    "C3_Y_PLUS_5CM",
+    "C4_Y_MINUS_5CM"
+  ],
+  "full24": {
+    "file_count": 85,
+    "holdout_f_read": false,
+    "meta_info_sha256": "96af91f6ac9d9b607b28bfb5717fbe38eb67bed51c3fefdad4d3cf246e646ba6",
+    "root": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage22/native_expert/lerobot_train",
+    "split": {
+      "train": "0:24",
+      "validation": "24:24"
+    },
+    "split_lock_sha256": "658da6731852d4bebc2f3b02052d736c6e0a80f23ad2056befb65c59a57403b6",
+    "state_shape": [
+      960,
+      10
+    ],
+    "total_bytes": 919661,
+    "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "validation_e_read": false
+  },
+  "holdout_f_read": false,
+  "new_model_calls": 0,
+  "new_simulator_steps": 0,
+  "per_row": {
+    "C0_NOMINAL-q0": {
+      "condition_id": "C0_NOMINAL",
+      "first_difference_discrepancy": 0.014511082520791753,
+      "nearest_full24_eef_xyz_l2": 0.14151223088527148,
+      "nearest_full24_state_l2": 1.4309505717318114,
+      "policy_vs_expert_active10d_l2": 1.1201878974053145,
+      "policy_vs_expert_active10d_rmse": 0.056009394870265725,
+      "progress_m": 2.7755575615628914e-17,
+      "q_index": 0,
+      "roughness_discrepancy": 0.012731398182883116,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C0_NOMINAL-q0",
+          "initial_position_discontinuity_m": 0.14240001814576767,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7877529525132825,
+            "mean": 0.24557722520221484,
+            "median": 0.19592402301605086,
+            "p95": 0.7125641557053484
+          },
+          "se3_arc_length_m": 0.47887558914431905,
+          "translation_path_length_m": 0.47887558914431905
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.22615579835424585,
+      "wbc_tracking_rms_position_m": 0.020284673125949365
+    },
+    "C0_NOMINAL-q1": {
+      "condition_id": "C0_NOMINAL",
+      "first_difference_discrepancy": 0.014906050447027943,
+      "nearest_full24_eef_xyz_l2": 0.12826415925094495,
+      "nearest_full24_state_l2": 1.4334971602391402,
+      "policy_vs_expert_active10d_l2": 1.3003983998331974,
+      "policy_vs_expert_active10d_rmse": 0.06501991999165987,
+      "progress_m": -0.030241509438320102,
+      "q_index": 1,
+      "roughness_discrepancy": 0.01297307048501268,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C0_NOMINAL-q1",
+          "initial_position_discontinuity_m": 0.14240004405844536,
+          "initial_rotation_discontinuity_rad": 2.1073424255447017e-08,
+          "linear_speed_mps": {
+            "max": 0.7818717138414443,
+            "mean": 0.24296842334022634,
+            "median": 0.18106918572815087,
+            "p95": 0.7169757642433893
+          },
+          "se3_arc_length_m": 0.47378842551344136,
+          "translation_path_length_m": 0.47378842551344136
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.256397307792566,
+      "wbc_tracking_rms_position_m": 0.02048748277905933
+    },
+    "C0_NOMINAL-q2": {
+      "condition_id": "C0_NOMINAL",
+      "first_difference_discrepancy": 0.01559732034684666,
+      "nearest_full24_eef_xyz_l2": 0.15205231882501824,
+      "nearest_full24_state_l2": 1.419639211582405,
+      "policy_vs_expert_active10d_l2": 1.4891296377468544,
+      "policy_vs_expert_active10d_rmse": 0.07445648188734272,
+      "progress_m": -0.07055338293477326,
+      "q_index": 2,
+      "roughness_discrepancy": 0.012948670718544207,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C0_NOMINAL-q2",
+          "initial_position_discontinuity_m": 0.14240004681642618,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.781718980920677,
+            "mean": 0.24465872020656726,
+            "median": 0.1950327485076953,
+            "p95": 0.7239249890493117
+          },
+          "se3_arc_length_m": 0.47708450440280614,
+          "translation_path_length_m": 0.47708450440280614
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.29670918128901913,
+      "wbc_tracking_rms_position_m": 0.021389500424052917
+    },
+    "C0_NOMINAL-q3": {
+      "condition_id": "C0_NOMINAL",
+      "first_difference_discrepancy": 0.016297430246106078,
+      "nearest_full24_eef_xyz_l2": 0.19485394285337995,
+      "nearest_full24_state_l2": 1.4085572978432275,
+      "policy_vs_expert_active10d_l2": 1.6968170605322068,
+      "policy_vs_expert_active10d_rmse": 0.08484085302661035,
+      "progress_m": -0.1199384140761291,
+      "q_index": 3,
+      "roughness_discrepancy": 0.013007021679682554,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C0_NOMINAL-q3",
+          "initial_position_discontinuity_m": 0.14240005341609707,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7744068946779638,
+            "mean": 0.24294830287301364,
+            "median": 0.17688512367322454,
+            "p95": 0.7226064662093833
+          },
+          "se3_arc_length_m": 0.4737491906023767,
+          "translation_path_length_m": 0.4737491906023767
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.34609421243037497,
+      "wbc_tracking_rms_position_m": 0.018156885534495935
+    },
+    "C1_X_PLUS_5CM-q0": {
+      "condition_id": "C1_X_PLUS_5CM",
+      "first_difference_discrepancy": 0.014751255327702478,
+      "nearest_full24_eef_xyz_l2": 0.12512488557847437,
+      "nearest_full24_state_l2": 1.4293978240148888,
+      "policy_vs_expert_active10d_l2": 1.2273425955543797,
+      "policy_vs_expert_active10d_rmse": 0.06136712977771899,
+      "progress_m": 0.0,
+      "q_index": 0,
+      "roughness_discrepancy": 0.012746087796057317,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C1_X_PLUS_5CM-q0",
+          "initial_position_discontinuity_m": 0.19086123521725923,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7877529525132827,
+            "mean": 0.24557722520221484,
+            "median": 0.1959240230160506,
+            "p95": 0.7125641557053487
+          },
+          "se3_arc_length_m": 0.4788755891443191,
+          "translation_path_length_m": 0.4788755891443191
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.23839548222069107,
+      "wbc_tracking_rms_position_m": 0.020284667247143257
+    },
+    "C1_X_PLUS_5CM-q1": {
+      "condition_id": "C1_X_PLUS_5CM",
+      "first_difference_discrepancy": 0.015278177926573213,
+      "nearest_full24_eef_xyz_l2": 0.13748806948730857,
+      "nearest_full24_state_l2": 1.4343271445748735,
+      "policy_vs_expert_active10d_l2": 1.4296848234478876,
+      "policy_vs_expert_active10d_rmse": 0.07148424117239437,
+      "progress_m": -0.0413299100739431,
+      "q_index": 1,
+      "roughness_discrepancy": 0.012973889128580409,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C1_X_PLUS_5CM-q1",
+          "initial_position_discontinuity_m": 0.142400036527457,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7771116083646534,
+            "mean": 0.24373524360129808,
+            "median": 0.1840448581226697,
+            "p95": 0.7162304624533619
+          },
+          "se3_arc_length_m": 0.4752837250225314,
+          "translation_path_length_m": 0.4752837250225314
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.27972539229463417,
+      "wbc_tracking_rms_position_m": 0.020981200805004048
+    },
+    "C1_X_PLUS_5CM-q2": {
+      "condition_id": "C1_X_PLUS_5CM",
+      "first_difference_discrepancy": 0.016005743981623296,
+      "nearest_full24_eef_xyz_l2": 0.17734282853964228,
+      "nearest_full24_state_l2": 1.4190351003979744,
+      "policy_vs_expert_active10d_l2": 1.630696784112746,
+      "policy_vs_expert_active10d_rmse": 0.0815348392056373,
+      "progress_m": -0.08825196559700604,
+      "q_index": 2,
+      "roughness_discrepancy": 0.013100218508742063,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C1_X_PLUS_5CM-q2",
+          "initial_position_discontinuity_m": 0.14240001899794483,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7828339962982604,
+            "mean": 0.24409398167605545,
+            "median": 0.19576079780789193,
+            "p95": 0.7186581120080026
+          },
+          "se3_arc_length_m": 0.4759832642683083,
+          "translation_path_length_m": 0.4759832642683083
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.3266474478176971,
+      "wbc_tracking_rms_position_m": 0.019586921170261434
+    },
+    "C1_X_PLUS_5CM-q3": {
+      "condition_id": "C1_X_PLUS_5CM",
+      "first_difference_discrepancy": 0.016937148074547832,
+      "nearest_full24_eef_xyz_l2": 0.2038358731602188,
+      "nearest_full24_state_l2": 1.4093420854371133,
+      "policy_vs_expert_active10d_l2": 1.8438807041886718,
+      "policy_vs_expert_active10d_rmse": 0.09219403520943359,
+      "progress_m": -0.13932224985638436,
+      "q_index": 3,
+      "roughness_discrepancy": 0.013061020100090076,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C1_X_PLUS_5CM-q3",
+          "initial_position_discontinuity_m": 0.1424000407961324,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7838661563630139,
+            "mean": 0.24716862590308208,
+            "median": 0.1952923771077048,
+            "p95": 0.7206199716864846
+          },
+          "se3_arc_length_m": 0.4819788205110103,
+          "translation_path_length_m": 0.4819788205110103
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.37771773207707543,
+      "wbc_tracking_rms_position_m": 0.01967976361156963
+    },
+    "C2_X_MINUS_5CM-q0": {
+      "condition_id": "C2_X_MINUS_5CM",
+      "first_difference_discrepancy": 0.014350467709892225,
+      "nearest_full24_eef_xyz_l2": 0.1714502504326329,
+      "nearest_full24_state_l2": 1.4342457741143542,
+      "policy_vs_expert_active10d_l2": 1.0383643936965319,
+      "policy_vs_expert_active10d_rmse": 0.05191821968482661,
+      "progress_m": 0.0,
+      "q_index": 0,
+      "roughness_discrepancy": 0.012727617297408525,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C2_X_MINUS_5CM-q0",
+          "initial_position_discontinuity_m": 0.09553806367808616,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.787752952513283,
+            "mean": 0.24557722520221498,
+            "median": 0.19592402301605039,
+            "p95": 0.7125641557053484
+          },
+          "se3_arc_length_m": 0.4788755891443192,
+          "translation_path_length_m": 0.4788755891443192
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.22463411739858857,
+      "wbc_tracking_rms_position_m": 0.020285111571760453
+    },
+    "C2_X_MINUS_5CM-q1": {
+      "condition_id": "C2_X_MINUS_5CM",
+      "first_difference_discrepancy": 0.014693746009409795,
+      "nearest_full24_eef_xyz_l2": 0.1378398117508247,
+      "nearest_full24_state_l2": 1.4344031066627134,
+      "policy_vs_expert_active10d_l2": 1.1887391545689054,
+      "policy_vs_expert_active10d_rmse": 0.05943695772844527,
+      "progress_m": -0.016683876168169826,
+      "q_index": 1,
+      "roughness_discrepancy": 0.012858736329834376,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C2_X_MINUS_5CM-q1",
+          "initial_position_discontinuity_m": 0.14240002620134198,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7864283194202915,
+            "mean": 0.24425243974244495,
+            "median": 0.18960025218549498,
+            "p95": 0.7102191892369791
+          },
+          "se3_arc_length_m": 0.4762922574977677,
+          "translation_path_length_m": 0.4762922574977677
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.2413179935667584,
+      "wbc_tracking_rms_position_m": 0.022746129437935962
+    },
+    "C2_X_MINUS_5CM-q2": {
+      "condition_id": "C2_X_MINUS_5CM",
+      "first_difference_discrepancy": 0.015317528146659548,
+      "nearest_full24_eef_xyz_l2": 0.13883539951043194,
+      "nearest_full24_state_l2": 1.4195089032228738,
+      "policy_vs_expert_active10d_l2": 1.36330969269792,
+      "policy_vs_expert_active10d_rmse": 0.068165484634896,
+      "progress_m": -0.05113431512390987,
+      "q_index": 2,
+      "roughness_discrepancy": 0.012890263731368215,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C2_X_MINUS_5CM-q2",
+          "initial_position_discontinuity_m": 0.1424000506232543,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7835851818376065,
+            "mean": 0.24544232261596863,
+            "median": 0.19143379853075795,
+            "p95": 0.7173862808841177
+          },
+          "se3_arc_length_m": 0.47861252910113905,
+          "translation_path_length_m": 0.47861252910113905
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.27576843252249844,
+      "wbc_tracking_rms_position_m": 0.020921309990282265
+    },
+    "C2_X_MINUS_5CM-q3": {
+      "condition_id": "C2_X_MINUS_5CM",
+      "first_difference_discrepancy": 0.01590500852025487,
+      "nearest_full24_eef_xyz_l2": 0.16952115980128038,
+      "nearest_full24_state_l2": 1.4017493676131505,
+      "policy_vs_expert_active10d_l2": 1.5410545704538772,
+      "policy_vs_expert_active10d_rmse": 0.07705272852269386,
+      "progress_m": -0.08807090665071338,
+      "q_index": 3,
+      "roughness_discrepancy": 0.013015212857762585,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C2_X_MINUS_5CM-q3",
+          "initial_position_discontinuity_m": 0.14240002637490784,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7801365823818112,
+            "mean": 0.24508845186101821,
+            "median": 0.19372630436541952,
+            "p95": 0.7286367796083063
+          },
+          "se3_arc_length_m": 0.47792248112898555,
+          "translation_path_length_m": 0.47792248112898555
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.31270502404930195,
+      "wbc_tracking_rms_position_m": 0.018839810890303343
+    },
+    "C3_Y_PLUS_5CM-q0": {
+      "condition_id": "C3_Y_PLUS_5CM",
+      "first_difference_discrepancy": 0.013922081630889496,
+      "nearest_full24_eef_xyz_l2": 0.1757998791115538,
+      "nearest_full24_state_l2": 1.4366237860593583,
+      "policy_vs_expert_active10d_l2": 0.9710154629797086,
+      "policy_vs_expert_active10d_rmse": 0.048550773148985434,
+      "progress_m": 0.0,
+      "q_index": 0,
+      "roughness_discrepancy": 0.012692197948083734,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C3_Y_PLUS_5CM-q0",
+          "initial_position_discontinuity_m": 0.13695540522292612,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7874744199348382,
+            "mean": 0.24542285064973918,
+            "median": 0.19577657301278617,
+            "p95": 0.7123085490240556
+          },
+          "se3_arc_length_m": 0.4785745587669915,
+          "translation_path_length_m": 0.4785745587669915
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.1805120512880179,
+      "wbc_tracking_rms_position_m": 0.020103473219433152
+    },
+    "C3_Y_PLUS_5CM-q1": {
+      "condition_id": "C3_Y_PLUS_5CM",
+      "first_difference_discrepancy": 0.014355597731153339,
+      "nearest_full24_eef_xyz_l2": 0.16308918173308595,
+      "nearest_full24_state_l2": 1.4382836216800916,
+      "policy_vs_expert_active10d_l2": 1.1719497859984822,
+      "policy_vs_expert_active10d_rmse": 0.058597489299924116,
+      "progress_m": -0.03475950418813059,
+      "q_index": 1,
+      "roughness_discrepancy": 0.012888479530964577,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C3_Y_PLUS_5CM-q1",
+          "initial_position_discontinuity_m": 0.1424000574309865,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7790100972882436,
+            "mean": 0.24305006540466942,
+            "median": 0.18943167628735472,
+            "p95": 0.7121397332125912
+          },
+          "se3_arc_length_m": 0.4739476275391054,
+          "translation_path_length_m": 0.4739476275391054
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.21527155547614849,
+      "wbc_tracking_rms_position_m": 0.020975874623528686
+    },
+    "C3_Y_PLUS_5CM-q2": {
+      "condition_id": "C3_Y_PLUS_5CM",
+      "first_difference_discrepancy": 0.015077023136360355,
+      "nearest_full24_eef_xyz_l2": 0.17760467185509438,
+      "nearest_full24_state_l2": 1.4238139434605364,
+      "policy_vs_expert_active10d_l2": 1.3772002180398109,
+      "policy_vs_expert_active10d_rmse": 0.06886001090199054,
+      "progress_m": -0.08039018848293217,
+      "q_index": 2,
+      "roughness_discrepancy": 0.012935234408775231,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C3_Y_PLUS_5CM-q2",
+          "initial_position_discontinuity_m": 0.14240002297990165,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.781654079065201,
+            "mean": 0.24472053677499972,
+            "median": 0.1957106707234884,
+            "p95": 0.7189828945437775
+          },
+          "se3_arc_length_m": 0.47720504671124964,
+          "translation_path_length_m": 0.47720504671124964
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.26090223977095006,
+      "wbc_tracking_rms_position_m": 0.019636037676286654
+    },
+    "C3_Y_PLUS_5CM-q3": {
+      "condition_id": "C3_Y_PLUS_5CM",
+      "first_difference_discrepancy": 0.01576086677470866,
+      "nearest_full24_eef_xyz_l2": 0.20398119176394328,
+      "nearest_full24_state_l2": 1.4102487517696252,
+      "policy_vs_expert_active10d_l2": 1.5967586797247695,
+      "policy_vs_expert_active10d_rmse": 0.07983793398623848,
+      "progress_m": -0.13404239496429937,
+      "q_index": 3,
+      "roughness_discrepancy": 0.013038672858618003,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C3_Y_PLUS_5CM-q3",
+          "initial_position_discontinuity_m": 0.1424000137875119,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7786357850548881,
+            "mean": 0.24235454298234488,
+            "median": 0.1797451554446838,
+            "p95": 0.7253573773952052
+          },
+          "se3_arc_length_m": 0.4725913588155725,
+          "translation_path_length_m": 0.4725913588155725
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.31455444625231727,
+      "wbc_tracking_rms_position_m": 0.018178112503987154
+    },
+    "C4_Y_MINUS_5CM-q0": {
+      "condition_id": "C4_Y_MINUS_5CM",
+      "first_difference_discrepancy": 0.015184213388266895,
+      "nearest_full24_eef_xyz_l2": 0.1189362282010219,
+      "nearest_full24_state_l2": 1.4270077700215023,
+      "policy_vs_expert_active10d_l2": 1.2806834927912414,
+      "policy_vs_expert_active10d_rmse": 0.06403417463956207,
+      "progress_m": 0.0,
+      "q_index": 0,
+      "roughness_discrepancy": 0.012814887666839653,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C4_Y_MINUS_5CM-q0",
+          "initial_position_discontinuity_m": 0.16370323213096233,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.7873945361525265,
+            "mean": 0.2456077754912377,
+            "median": 0.1949710933789417,
+            "p95": 0.7118468190570865
+          },
+          "se3_arc_length_m": 0.47893516220791366,
+          "translation_path_length_m": 0.47893516220791366
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.27332816870117416,
+      "wbc_tracking_rms_position_m": 0.020237501683124035
+    },
+    "C4_Y_MINUS_5CM-q1": {
+      "condition_id": "C4_Y_MINUS_5CM",
+      "first_difference_discrepancy": 0.01561053228523658,
+      "nearest_full24_eef_xyz_l2": 0.0980630818142109,
+      "nearest_full24_state_l2": 1.4298961521466744,
+      "policy_vs_expert_active10d_l2": 1.4452299803811295,
+      "policy_vs_expert_active10d_rmse": 0.07226149901905649,
+      "progress_m": -0.02713932697107002,
+      "q_index": 1,
+      "roughness_discrepancy": 0.012920032304408252,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C4_Y_MINUS_5CM-q1",
+          "initial_position_discontinuity_m": 0.14240001639678285,
+          "initial_rotation_discontinuity_rad": 2.1073424255447017e-08,
+          "linear_speed_mps": {
+            "max": 0.780334828203204,
+            "mean": 0.2443056857699491,
+            "median": 0.19635664143073908,
+            "p95": 0.7198160410639777
+          },
+          "se3_arc_length_m": 0.47639608725140087,
+          "translation_path_length_m": 0.47639608725140087
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.3004674956722442,
+      "wbc_tracking_rms_position_m": 0.02217988588968317
+    },
+    "C4_Y_MINUS_5CM-q2": {
+      "condition_id": "C4_Y_MINUS_5CM",
+      "first_difference_discrepancy": 0.016235097342507363,
+      "nearest_full24_eef_xyz_l2": 0.12023559822398905,
+      "nearest_full24_state_l2": 1.409746025689171,
+      "policy_vs_expert_active10d_l2": 1.6117869459729242,
+      "policy_vs_expert_active10d_rmse": 0.0805893472986462,
+      "progress_m": -0.06399700519643281,
+      "q_index": 2,
+      "roughness_discrepancy": 0.013075606112742227,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C4_Y_MINUS_5CM-q2",
+          "initial_position_discontinuity_m": 0.1424000514349516,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 0.780790490188087,
+            "mean": 0.24445033974152322,
+            "median": 0.19618863379442472,
+            "p95": 0.7132338424404809
+          },
+          "se3_arc_length_m": 0.4766781624959703,
+          "translation_path_length_m": 0.4766781624959703
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.33732517389760697,
+      "wbc_tracking_rms_position_m": 0.018612937843358428
+    },
+    "C4_Y_MINUS_5CM-q3": {
+      "condition_id": "C4_Y_MINUS_5CM",
+      "first_difference_discrepancy": 0.01693096392439933,
+      "nearest_full24_eef_xyz_l2": 0.1678810516561936,
+      "nearest_full24_state_l2": 1.4009320856003207,
+      "policy_vs_expert_active10d_l2": 1.7934227214482308,
+      "policy_vs_expert_active10d_rmse": 0.08967113607241153,
+      "progress_m": -0.10550035906842409,
+      "q_index": 3,
+      "roughness_discrepancy": 0.013112505907868952,
+      "safety_gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "C4_Y_MINUS_5CM-q3",
+          "initial_position_discontinuity_m": 0.14239999752165758,
+          "initial_rotation_discontinuity_rad": 2.1073424255447017e-08,
+          "linear_speed_mps": {
+            "max": 0.7831329548803098,
+            "mean": 0.24440318799041336,
+            "median": 0.18920911313923897,
+            "p95": 0.7149276132215145
+          },
+          "se3_arc_length_m": 0.4765862165813063,
+          "translation_path_length_m": 0.4765862165813063
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "target_distance_m": 0.37882852776959824,
+      "wbc_tracking_rms_position_m": 0.01846874896666164
+    }
+  },
+  "policy_vs_expert_comparison": "same observed state, active StructuredActionV1 physical 10D, descriptive only",
+  "q_order": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "row_count": 20,
+  "schema": "CORELAB_PI0181_VISITED_STATE_COVERAGE_REPORT_V1",
+  "status": "READY",
+  "summary": {
+    "first_difference_discrepancy_mean": 0.01538136677354789,
+    "nearest_full24_eef_xyz_l2_max": 0.20398119176394328,
+    "nearest_full24_eef_xyz_l2_mean": 0.15518559072172605,
+    "nearest_full24_state_l2_max": 1.4382836216800916,
+    "nearest_full24_state_l2_mean": 1.4225602841930904,
+    "policy_vs_expert_active10d_l2_max": 1.8438807041886718,
+    "policy_vs_expert_active10d_l2_mean": 1.4058826500787394,
+    "policy_vs_expert_active10d_rmse_mean": 0.07029413250393697,
+    "progress_m_by_row": [
+      2.7755575615628914e-17,
+      -0.030241509438320102,
+      -0.07055338293477326,
+      -0.1199384140761291,
+      0.0,
+      -0.0413299100739431,
+      -0.08825196559700604,
+      -0.13932224985638436,
+      0.0,
+      -0.016683876168169826,
+      -0.05113431512390987,
+      -0.08807090665071338,
+      0.0,
+      -0.03475950418813059,
+      -0.08039018848293217,
+      -0.13404239496429937,
+      0.0,
+      -0.02713932697107002,
+      -0.06399700519643281,
+      -0.10550035906842409
+    ],
+    "q_progression": {
+      "0": [
+        2.7755575615628914e-17,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1": [
+        -0.030241509438320102,
+        -0.0413299100739431,
+        -0.016683876168169826,
+        -0.03475950418813059,
+        -0.02713932697107002
+      ],
+      "2": [
+        -0.07055338293477326,
+        -0.08825196559700604,
+        -0.05113431512390987,
+        -0.08039018848293217,
+        -0.06399700519643281
+      ],
+      "3": [
+        -0.1199384140761291,
+        -0.13932224985638436,
+        -0.08807090665071338,
+        -0.13404239496429937,
+        -0.10550035906842409
+      ]
+    },
+    "roughness_discrepancy_mean": 0.012925541177713338,
+    "safety_gate_distribution": {
+      "ACCEPT": 20
+    },
+    "state_diversity_nearest_other_l2_max": 0.06351617829475711,
+    "state_diversity_nearest_other_l2_mean": 0.05224910719544098,
+    "state_diversity_pairwise_l2_min": 0.04980495346888741,
+    "target_distance_m_by_row": [
+      0.22615579835424585,
+      0.256397307792566,
+      0.29670918128901913,
+      0.34609421243037497,
+      0.23839548222069107,
+      0.27972539229463417,
+      0.3266474478176971,
+      0.37771773207707543,
+      0.22463411739858857,
+      0.2413179935667584,
+      0.27576843252249844,
+      0.31270502404930195,
+      0.1805120512880179,
+      0.21527155547614849,
+      0.26090223977095006,
+      0.31455444625231727,
+      0.27332816870117416,
+      0.3004674956722442,
+      0.33732517389760697,
+      0.37882852776959824
+    ]
+  },
+  "target_exclusion_boundary": "target XYZ and expert labels are metadata/supervision only; model input is body RGB + wrist RGB + StateV1 + language",
+  "target_id": "red_target_train_a",
+  "target_world_m": [
+    0.3,
+    0.1,
+    0.58
+  ],
+  "validation_e_read": false
+}

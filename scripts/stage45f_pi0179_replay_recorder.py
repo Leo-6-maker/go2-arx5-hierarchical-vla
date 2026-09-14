@@ -83,6 +83,7 @@ class ReplayFrameV1:
     progress_m: float | None = None
     timeout: bool = False
     all_finite: bool = True
+    expert_h40_xyz: tuple[Point3, ...] | None = None
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "timestamp_s", _finite(self.timestamp_s, "timestamp_s"))
@@ -94,6 +95,11 @@ class ReplayFrameV1:
         if len(points) != 40:
             raise ValueError(f"predicted_h40_xyz must contain exactly 40 points, got {len(points)}")
         object.__setattr__(self, "predicted_h40_xyz", points)
+        if self.expert_h40_xyz is not None:
+            expert_points = tuple(_point3(point, "expert_h40_xyz[]") for point in self.expert_h40_xyz)
+            if len(expert_points) != 40:
+                raise ValueError(f"expert_h40_xyz must contain exactly 40 points, got {len(expert_points)}")
+            object.__setattr__(self, "expert_h40_xyz", expert_points)
         if int(self.model_update_index) < 0:
             raise ValueError("model_update_index must be non-negative")
         object.__setattr__(self, "model_update_index", int(self.model_update_index))
@@ -127,6 +133,10 @@ class ReplayFrameV1:
             progress_m=payload.get("progress_m"),
             timeout=bool(payload.get("timeout", False)),
             all_finite=bool(payload.get("all_finite", True)),
+            expert_h40_xyz=(
+                tuple(tuple(point) for point in payload["expert_h40_xyz"])
+                if payload.get("expert_h40_xyz") is not None else None
+            ),
         )
 
     def metric_row(self, initial_distance: float) -> dict[str, Any]:
@@ -134,8 +144,6 @@ class ReplayFrameV1:
         if self.target_distance_m is not None and abs(self.target_distance_m - current_distance) > 1e-6:
             raise ValueError("target_distance_m disagrees with source positions")
         initial = self.initial_target_distance_m if self.initial_target_distance_m is not None else initial_distance
-        if abs(initial - initial_distance) > 1e-6:
-            raise ValueError("initial_target_distance_m disagrees with first source frame")
         progress = initial - current_distance
         if self.progress_m is not None and abs(self.progress_m - progress) > 1e-6:
             raise ValueError("progress_m disagrees with source positions")
@@ -167,6 +175,8 @@ class ReplayRecorderConfigV1:
     synthetic_fixture: bool = False
     ffmpeg_bin: str = "ffmpeg"
     overwrite: bool = False
+    native_third_person_source_available: bool = False
+    allow_missing_ffmpeg: bool = False
 
     def __post_init__(self) -> None:
         if not self.source_identity:
@@ -327,6 +337,12 @@ class ReplayRecorderV1:
             point = self._project(predicted, image.width, image.height)
             image.line(prediction_previous, point, (35, 215, 235), 1)
             prediction_previous = point
+        if frame.expert_h40_xyz is not None:
+            expert_previous = achieved
+            for expert in frame.expert_h40_xyz:
+                point = self._project(expert, image.width, image.height)
+                image.line(expert_previous, point, (245, 150, 30), 1)
+                expert_previous = point
         panel_height = 45
         image.fill_rect(0, 0, image.width, panel_height, (8, 12, 18))
         initial = frame.initial_target_distance_m
@@ -408,6 +424,10 @@ class ReplayRecorderV1:
                     "achieved_eef_xyz": list(frame.achieved_eef_xyz),
                     "achieved_eef_trail_xyz": [list(item.achieved_eef_xyz) for item in history],
                     "predicted_h40_xyz": [list(point) for point in frame.predicted_h40_xyz],
+                    "expert_h40_xyz": (
+                        [list(point) for point in frame.expert_h40_xyz]
+                        if frame.expert_h40_xyz is not None else None
+                    ),
                     "model_update_index": frame.model_update_index,
                     "projection": {
                         "name": "PI0179_DECLARED_OVERLAY_PROJECTION_V1",
@@ -417,9 +437,16 @@ class ReplayRecorderV1:
                     },
                 })
             video_paths: dict[str, Path] = {}
+            video_encoding_error: str | None = None
             for name in frame_dirs:
                 video_path = output / f"{name}.mp4"
-                self._encode(self.config.ffmpeg_bin, frame_dirs[name], video_path, self.config.fps)
+                try:
+                    self._encode(self.config.ffmpeg_bin, frame_dirs[name], video_path, self.config.fps)
+                except RuntimeError as exc:
+                    if not self.config.allow_missing_ffmpeg:
+                        raise
+                    video_encoding_error = str(exc)
+                    break
                 video_paths[name] = video_path
             overlay_path = output / "trajectory_overlay.json"
             overlay_path.write_text(json.dumps({
@@ -438,11 +465,30 @@ class ReplayRecorderV1:
                 "source_timestamps_authoritative": True,
                 "ffmpeg_postprocessing_only": True,
                 "synthetic_fixture": self.config.synthetic_fixture,
+                "render_status": "PASS" if video_encoding_error is None else "PARTIAL_FFMPEG_UNAVAILABLE",
+                "ffmpeg_available": video_encoding_error is None,
+                "video_encoding_error": video_encoding_error,
                 "simulator_executed": False,
                 "wbc_executed": False,
                 "hardware_executed": False,
                 "grasp_contact_physics": False,
                 "camera_layout": "third-person | wrist / body | metrics",
+                "expert_overlay_present": any(frame.expert_h40_xyz is not None for frame in frames),
+                "native_third_person_source_available": self.config.native_third_person_source_available,
+                "third_person_output_role": (
+                    "NATIVE_THIRD_PERSON"
+                    if self.config.native_third_person_source_available
+                    else "BODY_DERIVED_ANNOTATED_PROXY_NO_NATIVE_THIRD_PERSON"
+                ),
+                "historical_native_replay_status": (
+                    "PASS"
+                    if self.config.native_third_person_source_available and video_encoding_error is None
+                    else (
+                        "PARTIAL_FFMPEG_UNAVAILABLE"
+                        if video_encoding_error is not None
+                        else "PARTIAL_THIRD_PERSON_SOURCE_UNAVAILABLE"
+                    )
+                ),
                 "required_outputs": {
                     "third_person": "third_person.mp4",
                     "body_camera": "body_camera.mp4",

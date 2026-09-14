@@ -1,0 +1,54 @@
+{
+  "camera_layout": "third-person | wrist / body | metrics",
+  "classification": "PI0181_HISTORICAL_NATIVE_REPLAY",
+  "expert_overlay_present": true,
+  "ffmpeg_available": false,
+  "ffmpeg_postprocessing_only": true,
+  "files": {
+    "frame_metrics": {
+      "path": "frame_metrics.jsonl",
+      "sha256": "a4acde95dc06c210531e8142c11d01051287b897f0803e7d002615208d599711"
+    },
+    "trajectory_overlay": {
+      "path": "trajectory_overlay.json",
+      "sha256": "be103a96d08e8c17f2482a68a7aec3fb95fb89559a034cbb90bb7993f8634980"
+    }
+  },
+  "frame_count": 20,
+  "frames_json_sha256": "e2598d830d2cb924f86e191facd146429e8e6cc9c1811d3a76dcf7619a211674",
+  "grasp_contact_physics": false,
+  "hardware_executed": false,
+  "historical_native_replay_status": "PARTIAL_FFMPEG_UNAVAILABLE",
+  "historical_source_note": "Stage43 accepted body/wrist RGB and native WBC rows; no native third-person camera payload exists, so third_person.mp4 is a body-derived annotated proxy.",
+  "native_third_person_source_available": false,
+  "render_status": "PARTIAL_FFMPEG_UNAVAILABLE",
+  "required_outputs": {
+    "body_camera": "body_camera.mp4",
+    "frame_metrics": "frame_metrics.jsonl",
+    "side_by_side": "side_by_side.mp4",
+    "third_person": "third_person.mp4",
+    "trajectory_overlay": "trajectory_overlay.json",
+    "wrist_camera": "wrist_camera.mp4"
+  },
+  "schema": "STAGE45F_PI0179_REPLAY_MANIFEST_V1",
+  "simulator_executed": false,
+  "source_fps_declared": 20.0,
+  "source_frame_manifest_sha256": "aa23fede355057e4f3c0fbd1b57bdd0e0885e6952e37ccf801aafeaeb0d0a8d5",
+  "source_frame_shape_hw": [
+    96,
+    96
+  ],
+  "source_identity": {
+    "kind": "SEALED_STAGE43_HISTORICAL_NATIVE_EVIDENCE",
+    "new_model_calls": 0,
+    "new_simulator_steps": 0,
+    "stage43_cohort_manifest_sha256": "62e95728ea6da7a0d90613e52adabc0737f3b116f63d4f01ebb680387ea2de48",
+    "stage43_result_sha256": "e635ecaa321bde38903be45781e9b47063ba6b81c2bc810b1a1ae64925ecfcdb",
+    "stage43_seal_sha256": "668bee50dc38997403a065d5f4831662731715cf28c289af3982e4f9abbf7283"
+  },
+  "source_timestamps_authoritative": true,
+  "synthetic_fixture": false,
+  "third_person_output_role": "BODY_DERIVED_ANNOTATED_PROXY_NO_NATIVE_THIRD_PERSON",
+  "video_encoding_error": "FFmpeg executable is unavailable: ffmpeg",
+  "wbc_executed": false
+}
