@@ -835,11 +835,19 @@ def _noise_manifest(output_root: Path, hashes: list[str]) -> None:
         write_json(path, record)
 
 
+def _raw_checkpoint_identity(arm: Mapping[str, Any]) -> dict[str, Any]:
+    label = str(arm["label"])
+    route = "L1" if label.startswith("L1(") else "Legacy"
+    seed = int(label.split("seed", 1)[1].split(")", 1)[0])
+    return {**dict(arm), "route": route, "seed": seed, "tier": 2000}
+
+
 def _raw_record(output_root: Path, arm: Mapping[str, Any], window_index: int, raw_np: Any, noise_sha: str, gpu_uuid: str | None) -> dict[str, Any]:
     import numpy as np
     import stage45f_vanda_validation_e_gen1 as evaluator
 
     label = str(arm["label"])
+    checkpoint = _raw_checkpoint_identity(arm)
     path = output_root / raw_path(label, window_index)
     require(not path.exists() and not path.is_symlink(), f"raw path is not fresh: {path}")
     evaluator.write_npy_durable(path, raw_np)
@@ -847,7 +855,7 @@ def _raw_record(output_root: Path, arm: Mapping[str, Any], window_index: int, ra
     array_sha = sha256_bytes(np.ascontiguousarray(raw_np).astype(np.float32, copy=False).tobytes())
     record = {
         "schema": RAW_SCHEMA,
-        "checkpoint": dict(arm),
+        "checkpoint": checkpoint,
         "window_id": EXPECTED_WINDOWS[window_index],
         "path": path.relative_to(output_root).as_posix(),
         "file_sha256": file_sha,

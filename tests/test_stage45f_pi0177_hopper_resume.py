@@ -59,6 +59,12 @@ class PI0185RunnerTests(unittest.TestCase):
         self.assertEqual(guard["pbs_submissions"], 0)
         self.assertTrue(guard["markers"]["no_h200_submit"])
 
+    def test_raw_checkpoint_identity_contains_recovery_fields(self) -> None:
+        identity = runner._raw_checkpoint_identity({"label": "L1(seed2224)@2000", "tree_sha256": "tree"})
+        self.assertEqual(identity["route"], "L1")
+        self.assertEqual(identity["seed"], 2224)
+        self.assertEqual(identity["tier"], 2000)
+
     def test_h200_gpu_admission_binds_uuid(self) -> None:
         with tempfile.TemporaryDirectory() as directory, patch.dict("os.environ", {"PBS_JOBID": "616085.hopper-m-02"}, clear=False), patch.object(
             runner,
