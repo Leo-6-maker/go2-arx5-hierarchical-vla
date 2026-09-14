@@ -333,6 +333,9 @@ def artifact_audit(config: Mapping[str, Any], checkout: Mapping[str, Any], freez
     require(sha256_file(modality) == MODALITY_SHA, "modality SHA drift")
     require(sha256_file(base_model / "processor_config.json") == BASE_PROCESSOR_CONFIG_SHA, "BASE processor config SHA drift")
     require(sha256_file(base_model / "statistics.json") == BASE_PROCESSOR_STATS_SHA, "BASE processor statistics SHA drift")
+    base_entries = tree_entries(base_model, "payload/GR00T-N1.7-3B")
+    base_tree = tree_digest(base_entries)
+    require(base_tree == BASE_TREE_SHA, f"BASE model tree SHA drift: {base_tree}")
     require(sha256_file(groot_manifest) == GROOT_MANIFEST_SHA, "GR00T source manifest SHA drift")
     checkpoint_prefix = checkpoint.name
     checkpoint_entries = tree_entries(checkpoint, checkpoint_prefix)
@@ -361,6 +364,8 @@ def artifact_audit(config: Mapping[str, Any], checkout: Mapping[str, Any], freez
     cosmos_digest, cosmos_entries = runtime_adapter.cosmos_tree_digest(cosmos)
     require(cosmos_digest == COSMOS_TREE_SHA, f"Cosmos tree SHA drift: {cosmos_digest}")
     cosmos_snapshot = regular_dir(cosmos / "snapshots" / COSMOS_REVISION, "Cosmos pinned snapshot")
+    cosmos_ref = regular_file(cosmos / "refs" / "main", "Cosmos refs/main")
+    require(cosmos_ref.read_text(encoding="utf-8").strip() == COSMOS_REVISION, "Cosmos refs/main revision drift")
     require("numpy" not in sys.modules and "torch" not in sys.modules, "runtime artifact audit imported a model-side module")
     return {
         "schema": "CORELAB_PI0170_ARTIFACT_RUNTIME_ADMISSION_V1",
@@ -378,13 +383,14 @@ def artifact_audit(config: Mapping[str, Any], checkout: Mapping[str, Any], freez
             "stats": str(stats),
             "source_root": str(Path(str(config["source_root"])).resolve()),
         },
+        "base_model": {"tree_sha256": base_tree, "file_count": len(base_entries), "processor_config_sha256": BASE_PROCESSOR_CONFIG_SHA, "statistics_sha256": BASE_PROCESSOR_STATS_SHA},
         "checkpoint": {"label": CHECKPOINT_LABEL, "tree_sha256": checkpoint_tree, "file_count": len(checkpoint_entries), "global_step": 2000},
         "dataset": dataset_identity,
         "stats": stats_identity,
         "groot_manifest": groot_manifest_identity,
         "groot_source_commit": groot_git or GROOT_SOURCE_COMMIT,
         "groot_payload_tree_sha256": GROOT_PAYLOAD_TREE_SHA,
-        "cosmos": {"tree_sha256": cosmos_digest, "entry_count": cosmos_entries, "revision": COSMOS_REVISION},
+        "cosmos": {"tree_sha256": cosmos_digest, "entry_count": cosmos_entries, "revision": COSMOS_REVISION, "refs_main_sha256": sha256_file(cosmos_ref)},
         "modality_sha256": MODALITY_SHA,
         "validation_e_payload_read": False,
         "holdout_f_read": False,
