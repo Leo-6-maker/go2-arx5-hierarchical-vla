@@ -1,0 +1,103 @@
+{
+  "schema": "STAGE45F_PI0178_FAST_LOOP_READINESS_V1",
+  "status": "READY_NOT_EXECUTED",
+  "authority": {
+    "issue_11_comment": 5663122737,
+    "pr_73_pointer": 5663124714,
+    "source_head": "ce3c0179f3974648cdf6527e145d0328b0ac9262",
+    "support_branch": "stage45f/corelab-fast-loop-readiness"
+  },
+  "pi0177_runner_review": {
+    "pr": 74,
+    "head": "da47605ac16c4d4906bae0c8f6eaaf86d0fb3e5e",
+    "branch": "stage45f/localpc-validation-e-hopper-resume",
+    "cpu_static": "PASS",
+    "cpu_regression": "3/3 PASS",
+    "train_only_canary": {
+      "cohort": "FULL24",
+      "window": "first frozen TRAIN24 window",
+      "model_loads": 1,
+      "conditioning": 1,
+      "action_head": 4,
+      "validation_e_model_calls": 0
+    }
+  },
+  "visited_state_q0": {
+    "source": "PI0163_C1_X_PLUS_5CM_q0",
+    "condition": "C1_X_PLUS_5CM",
+    "target_id": "red_target_train_a",
+    "npz_sha256": "e0376e138bb1610a557164d3afffa3da1d7d0446a3b28406374360bbe7c441ad",
+    "json_sha256": "a4d53a962af98b074b8a9f4a88a2b238e15254db362b2be06b2134d454c67e06",
+    "expert_chunk_sha256": "36deefb15ec152aad579ab0f1ec6f8a730446fd3eca0bccab833d794feab1c25",
+    "required_abi": {
+      "state_v1": [10],
+      "expert_action": [40, 10],
+      "body_rgb": [96, 96, 3],
+      "wrist_rgb": [96, 96, 3],
+      "timestamps": 40
+    },
+    "target_excluded_from_model_input": true,
+    "validation_e_read": false,
+    "holdout_f_read": false
+  },
+  "exposure_matched_schedule": {
+    "seed": 6164,
+    "updates_per_arm": 256,
+    "sequence_sha256": "cc14ca8ab624ef312df7dc510930876c29fb521ca907505f54c9ed3af0d4f3f8",
+    "E": "FULL24-only",
+    "S": "zero-based odd positions use the fixed synchronized C1-q0; all other positions use the identical FULL24 sequence",
+    "E_full24_slots": 256,
+    "S_full24_slots": 128,
+    "S_q0_slots": 128
+  },
+  "training_runspec": {
+    "status": "PREPARED_NOT_EXECUTED",
+    "base_checkpoint_selection": "PI_LATE_BOUND",
+    "reference_only_checkpoint": "N2(seed2223)@2000",
+    "optimizer": "adamw_torch",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "scheduler": "cosine",
+    "warmup_steps": 10,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "bf16": true,
+    "trainable_modules": ["projector", "diffusion"],
+    "frozen_modules": ["visual", "llm", "vlln"],
+    "loss": "masked StructuredActionV1 flow matching",
+    "timing": "T16",
+    "checkpoint_steps": [64, 128, 192, 256],
+    "training_executed": false,
+    "optimizer_steps": 0,
+    "checkpoint_writes": 0
+  },
+  "candidate_promotion": {
+    "status": "READY_NOT_EXECUTED",
+    "fixed_dev_cases": ["C0_NOMINAL", "C1_X_PLUS_5CM", "C2_X_MINUS_5CM", "C3_Y_PLUS_5CM", "C4_Y_MINUS_5CM"],
+    "dev_seed": 4242,
+    "target_world_m": [0.3, 0.1, 0.58],
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "model_side_metrics": ["target_progress_m", "final_target_distance_m", "path_length_m", "roughness_m", "safety_gate_decision", "all_finite", "action_shape"],
+    "closed_loop_metrics": ["initial_target_distance_m", "final_target_distance_m", "target_progress_m", "safety_gate_decision", "safety_gate_issues", "wbc_tracking_status", "wbc_tracking_abort_phase", "tracking_rms_m", "eef_path_length_m", "eef_roughness_m"],
+    "wbc_executed": false,
+    "simulator_executed": false,
+    "case_selection_after_result": false
+  },
+  "hard_zeroes": {
+    "validation_e_model_calls": 0,
+    "validation_e_new_payload_read": 0,
+    "holdout_f_read": 0,
+    "training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "checkpoint_writes": 0,
+    "h200_submissions": 0,
+    "pbs_submissions": 0,
+    "wbc_steps": 0,
+    "simulator_steps": 0,
+    "hardware_steps": 0,
+    "hf_checkpoint_transfer": 0,
+    "scientific_winner_selection": 0
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE45F_PI0179_FAST_LOOP_VISUALIZATION_READINESS_V1",
+  "authority": {
+    "issue_11_comment": 5663251430,
+    "pr_73_pointer": 5663253408,
+    "upstream_readiness_manifest": "manifests/STAGE45F_PI0178_FAST_LOOP_READINESS_V1.json",
+    "support_branch": "stage45f/corelab-fast-loop-readiness"
+  },
+  "hard_zeroes": {
+    "validation_e_model_calls": 0,
+    "holdout_f_reads": 0,
+    "new_training": 0,
+    "backward": 0,
+    "optimizer_steps": 0,
+    "new_wbc_execution": 0,
+    "new_simulator_rollout": 0,
+    "hardware": 0,
+    "new_scientific_method": 0,
+    "merge": 0,
+    "grasp_contact_physics": 0
+  },
+  "localpc_runner_qualification": {
+    "source_pr": 74,
+    "source_head": "da47605ac16c4d4906bae0c8f6eaaf86d0fb3e5e",
+    "input": "exact Legacy(seed2222)@2000 + first frozen TRAIN24 window",
+    "ceiling": {
+      "model_loads": 1,
+      "conditioning": 1,
+      "action_heads": 4,
+      "raw_outputs": 1,
+      "validation_e_model_calls": 0
+    },
+    "cpu_static_status": "PASS",
+    "cpu_regression_status": "3/3 PASS",
+    "gpu_canary_status": "AUTHORIZED_BUT_NOT_YET_EXECUTED"
+  },
+  "replay_recorder": {
+    "script": "scripts/stage45f_pi0179_replay_recorder.py",
+    "classification": "ENGINEERING_REPLAY_SMOKE",
+    "required_outputs": [
+      "third_person.mp4",
+      "body_camera.mp4",
+      "wrist_camera.mp4",
+      "side_by_side.mp4",
+      "trajectory_overlay.json",
+      "frame_metrics.jsonl",
+      "manifest.json"
+    ],
+    "third_person_overlay": [
+      "robot_and_arm",
+      "red_target",
+      "achieved_eef",
+      "achieved_eef_trail",
+      "predicted_h40",
+      "receding_horizon_update_index"
+    ],
+    "telemetry": [
+      "target_distance_current_and_initial",
+      "progress",
+      "safety_gate",
+      "wbc_tracking_rms",
+      "lifecycle",
+      "abort_reason"
+    ],
+    "ffmpeg_role": "post-processing-only",
+    "native_simulator_smoke": "NOT_CLAIMED",
+    "synthetic_fixture_smoke": "ENGINEERING_REPLAY_SMOKE_ONLY"
+  },
+  "grasp_boundary": {
+    "status": "DESIGN_NOTE_ONLY",
+    "document": "docs/stage45f_pi0179_reach_first_grasp_later.md",
+    "eef_and_gripper_channels_separate": true
+  },
+  "status": "PREPARED_NOT_EXECUTED"
+}
