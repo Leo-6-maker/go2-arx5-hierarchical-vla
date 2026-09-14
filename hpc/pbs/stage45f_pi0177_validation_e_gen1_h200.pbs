@@ -1,108 +1,108 @@
 #!/bin/bash
-# PI0180: one admitted H200 allocation for the remaining Validation-E raw
+# PI0185: one admitted H200 allocation for the remaining Validation-E raw
 # cells. Runtime bootstrap and import-only probe run in this same allocation.
 # PBS output is kept outside the scientific checkout.
 
-#PBS -N st45f_pi0180
+#PBS -N st45f_pi0185
 #PBS -P CFP03-CF-004
 #PBS -q auto
 #PBS -l select=1:ngpus=1:ncpus=12:mem=225gb:gpu_model=H200
 #PBS -l walltime=04:00:00
 #PBS -r n
-#PBS -o /scratch/e1192548/stage45f_pi0180_logs/
-#PBS -e /scratch/e1192548/stage45f_pi0180_logs/
+#PBS -o /scratch/e1192548/stage45f_pi0185_logs/
+#PBS -e /scratch/e1192548/stage45f_pi0185_logs/
 
 set -euo pipefail
 
-: "${PI0180_REPO:?Set the exact clean PI0180 checkout}"
-: "${PI0180_PYTHON:?Set the admitted Hopper Python}"
-: "${PI0180_CONFIG:?Set the immutable PI0180 config}"
-: "${PI0180_EXPECTED_HEAD:?Set the exact PI0180 checkout HEAD}"
-: "${PI0180_CONTINUATION:?Set 0 for primary or 1 for the single continuation}"
-: "${PI0180_FFMPEG_CAPSULE:?Set the accepted FFmpeg runtime capsule}"
-: "${PI0180_FFMPEG_CAPSULE_SHA256:?Set the capsule SHA256}"
-: "${PI0180_RUNTIME_ID:?Set the accepted FFmpeg runtime identity}"
-: "${PI0180_MANIFEST_SHA256:?Set the accepted FFmpeg manifest SHA256}"
-: "${PI0180_OUTPUT_ROOT:?Set the existing preflight output root}"
-: "${PI0180_BOOTSTRAP_RECORD:?Set the fresh bootstrap record path}"
-: "${PI0180_COMPUTE_IMPORT_RECORD:?Set the fresh compute import record path}"
-: "${PI0180_VIDEO:?Set the accepted CPU probe video}"
-: "${PI0180_COSMOS_ROOT:?Set the accepted Cosmos cache root}"
-: "${PI0180_HF_HOME:?Set the accepted HF home}"
-: "${PI0180_HF_HUB_CACHE:?Set the accepted HF hub cache}"
-: "${PI0180_COSMOS_REVISION:?Set the accepted Cosmos revision}"
+: "${PI0185_REPO:?Set the exact clean PI0185 checkout}"
+: "${PI0185_PYTHON:?Set the admitted Hopper Python}"
+: "${PI0185_CONFIG:?Set the immutable PI0185 config}"
+: "${PI0185_EXPECTED_HEAD:?Set the exact PI0185 checkout HEAD}"
+: "${PI0185_CONTINUATION:?Set 0 for primary or 1 for the single continuation}"
+: "${PI0185_FFMPEG_CAPSULE:?Set the accepted FFmpeg runtime capsule}"
+: "${PI0185_FFMPEG_CAPSULE_SHA256:?Set the capsule SHA256}"
+: "${PI0185_RUNTIME_ID:?Set the accepted FFmpeg runtime identity}"
+: "${PI0185_MANIFEST_SHA256:?Set the accepted FFmpeg manifest SHA256}"
+: "${PI0185_OUTPUT_ROOT:?Set the existing preflight output root}"
+: "${PI0185_BOOTSTRAP_RECORD:?Set the fresh bootstrap record path}"
+: "${PI0185_COMPUTE_IMPORT_RECORD:?Set the fresh compute import record path}"
+: "${PI0185_VIDEO:?Set the accepted CPU probe video}"
+: "${PI0185_COSMOS_ROOT:?Set the accepted Cosmos cache root}"
+: "${PI0185_HF_HOME:?Set the accepted HF home}"
+: "${PI0185_HF_HUB_CACHE:?Set the accepted HF hub cache}"
+: "${PI0185_COSMOS_REVISION:?Set the accepted Cosmos revision}"
 : "${PBS_JOBID:?PBS_JOBID is required}"
 
-case "${PI0180_CONTINUATION}" in
+case "${PI0185_CONTINUATION}" in
   0|1) ;;
-  *) echo "PI0180_CONTINUATION must be 0 or 1" >&2; exit 1 ;;
+  *) echo "PI0185_CONTINUATION must be 0 or 1" >&2; exit 1 ;;
 esac
 
-test -x "${PI0180_PYTHON}"
-resolved_python="$(readlink -f "${PI0180_PYTHON}")"
+test -x "${PI0185_PYTHON}"
+resolved_python="$(readlink -f "${PI0185_PYTHON}")"
 case "${resolved_python}" in
   /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
-  *) echo "PI0180 Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+  *) echo "PI0185 Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
 esac
-test -f "${PI0180_CONFIG}"
-test -d "${PI0180_OUTPUT_ROOT}"
-test "$(git -C "${PI0180_REPO}" branch --show-current)" = "stage45f/localpc-validation-e-hopper-resume"
-test "$(git -C "${PI0180_REPO}" rev-parse HEAD)" = "${PI0180_EXPECTED_HEAD}"
+test -f "${PI0185_CONFIG}"
+test -d "${PI0185_OUTPUT_ROOT}"
+test "$(git -C "${PI0185_REPO}" branch --show-current)" = "stage45f/localpc-validation-e-hopper-resume"
+test "$(git -C "${PI0185_REPO}" rev-parse HEAD)" = "${PI0185_EXPECTED_HEAD}"
 # PBS creates its joined stdout/stderr files in the checkout before the job
 # script starts.  Ignore only those scheduler-owned names; all other dirt is
 # still a hard failure.
-repo_dirty="$(git -C "${PI0180_REPO}" status --porcelain=v1 --untracked-files=all | awk '$1 == "??" && $2 ~ /^st45f_pi0177\.[oe][0-9]+$/ { next } { print }')"
+repo_dirty="$(git -C "${PI0185_REPO}" status --porcelain=v1 --untracked-files=all | awk '$1 == "??" && $2 ~ /^st45f_pi0185\.[oe][0-9]+$/ { next } { print }')"
 test -z "${repo_dirty}"
 
-test -f "${PI0180_FFMPEG_CAPSULE}"
-test "$(sha256sum "${PI0180_FFMPEG_CAPSULE}" | awk '{print $1}')" = "${PI0180_FFMPEG_CAPSULE_SHA256}"
-test -d "${PI0180_COSMOS_ROOT}"
-test -d "${PI0180_HF_HUB_CACHE}"
-test -f "${PI0180_VIDEO}"
-test -d "$(dirname "${PI0180_OUTPUT_ROOT}")"
-test -d "$(dirname "${PI0180_BOOTSTRAP_RECORD}")"
-test -d "$(dirname "${PI0180_COMPUTE_IMPORT_RECORD}")"
-case "${PI0180_BOOTSTRAP_RECORD}" in "${PI0180_OUTPUT_ROOT}"/*) ;; *) exit 1 ;; esac
-case "${PI0180_COMPUTE_IMPORT_RECORD}" in "${PI0180_OUTPUT_ROOT}"/*) ;; *) exit 1 ;; esac
-if [[ -e "${PI0180_BOOTSTRAP_RECORD}" || -L "${PI0180_BOOTSTRAP_RECORD}" ]]; then exit 1; fi
-if [[ -e "${PI0180_COMPUTE_IMPORT_RECORD}" || -L "${PI0180_COMPUTE_IMPORT_RECORD}" ]]; then exit 1; fi
+test -f "${PI0185_FFMPEG_CAPSULE}"
+test "$(sha256sum "${PI0185_FFMPEG_CAPSULE}" | awk '{print $1}')" = "${PI0185_FFMPEG_CAPSULE_SHA256}"
+test -d "${PI0185_COSMOS_ROOT}"
+test -d "${PI0185_HF_HUB_CACHE}"
+test -f "${PI0185_VIDEO}"
+test -d "$(dirname "${PI0185_OUTPUT_ROOT}")"
+test -d "$(dirname "${PI0185_BOOTSTRAP_RECORD}")"
+test -d "$(dirname "${PI0185_COMPUTE_IMPORT_RECORD}")"
+case "${PI0185_BOOTSTRAP_RECORD}" in "${PI0185_OUTPUT_ROOT}"/*) ;; *) exit 1 ;; esac
+case "${PI0185_COMPUTE_IMPORT_RECORD}" in "${PI0185_OUTPUT_ROOT}"/*) ;; *) exit 1 ;; esac
+if [[ -e "${PI0185_BOOTSTRAP_RECORD}" || -L "${PI0185_BOOTSTRAP_RECORD}" ]]; then exit 1; fi
+if [[ -e "${PI0185_COMPUTE_IMPORT_RECORD}" || -L "${PI0185_COMPUTE_IMPORT_RECORD}" ]]; then exit 1; fi
 
-site="$(dirname "${PI0180_PYTHON}")/../lib/python3.12/site-packages"
+site="$(dirname "${PI0185_PYTHON}")/../lib/python3.12/site-packages"
 test -d "${site}/torchcodec"
 test -d "${site}/torch/lib"
-runtime_stage="${TMPDIR:-/tmp}/stage45f_pi0180_ffmpeg_${PBS_JOBID//[^A-Za-z0-9_-]/_}"
+runtime_stage="${TMPDIR:-/tmp}/stage45f_pi0185_ffmpeg_${PBS_JOBID//[^A-Za-z0-9_-]/_}"
 if [[ -e "${runtime_stage}" || -L "${runtime_stage}" ]]; then exit 1; fi
 
 cd "${TMPDIR:-/tmp}"
-"${PI0180_PYTHON}" "${PI0180_REPO}/scripts/stage45f_pi0163_ffmpeg_capsule_bootstrap.py" \
-  --capsule "${PI0180_FFMPEG_CAPSULE}" \
-  --capsule-sha256 "${PI0180_FFMPEG_CAPSULE_SHA256}" \
-  --expected-runtime-id "${PI0180_RUNTIME_ID}" \
-  --expected-manifest-sha256 "${PI0180_MANIFEST_SHA256}" \
+"${PI0185_PYTHON}" "${PI0185_REPO}/scripts/stage45f_pi0163_ffmpeg_capsule_bootstrap.py" \
+  --capsule "${PI0185_FFMPEG_CAPSULE}" \
+  --capsule-sha256 "${PI0185_FFMPEG_CAPSULE_SHA256}" \
+  --expected-runtime-id "${PI0185_RUNTIME_ID}" \
+  --expected-manifest-sha256 "${PI0185_MANIFEST_SHA256}" \
   --destination "${runtime_stage}" \
-  --record "${PI0180_BOOTSTRAP_RECORD}"
+  --record "${PI0185_BOOTSTRAP_RECORD}"
 
 test -d "${runtime_stage}/lib"
 test -d "${runtime_stage}/compat"
 ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="${runtime_stage}/lib:${runtime_stage}/compat:${site}/torchcodec:${site}/torch/lib:${ambient_ld_library_path}"
 export CUDA_VISIBLE_DEVICES=0
-export HF_HOME="${PI0180_HF_HOME}" HF_HUB_CACHE="${PI0180_HF_HUB_CACHE}" HUGGINGFACE_HUB_CACHE="${PI0180_HF_HUB_CACHE}" TRANSFORMERS_CACHE="${PI0180_HF_HUB_CACHE}"
+export HF_HOME="${PI0185_HF_HOME}" HF_HUB_CACHE="${PI0185_HF_HUB_CACHE}" HUGGINGFACE_HUB_CACHE="${PI0185_HF_HUB_CACHE}" TRANSFORMERS_CACHE="${PI0185_HF_HUB_CACHE}"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
 export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
 unset PYTHONPATH 2>/dev/null || true
 
-"${PI0180_PYTHON}" "${PI0180_REPO}/scripts/stage45f_pi0163_runtime_import_probe.py" \
+"${PI0185_PYTHON}" "${PI0185_REPO}/scripts/stage45f_pi0163_runtime_import_probe.py" \
   --mode compute \
   --ffmpeg-root "${runtime_stage}" \
-  --video "${PI0180_VIDEO}" \
-  --cosmos-root "${PI0180_COSMOS_ROOT}" \
-  --cosmos-revision "${PI0180_COSMOS_REVISION}" \
-  --record "${PI0180_COMPUTE_IMPORT_RECORD}"
+  --video "${PI0185_VIDEO}" \
+  --cosmos-root "${PI0185_COSMOS_ROOT}" \
+  --cosmos-revision "${PI0185_COSMOS_REVISION}" \
+  --record "${PI0185_COMPUTE_IMPORT_RECORD}"
 
-case "${PI0180_CONTINUATION}" in
-  0) exec "${PI0180_PYTHON}" "${PI0180_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --config "${PI0180_CONFIG}" --repo "${PI0180_REPO}" ;;
-  1) exec "${PI0180_PYTHON}" "${PI0180_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --continuation --config "${PI0180_CONFIG}" --repo "${PI0180_REPO}" ;;
-  *) echo "PI0180_CONTINUATION must be 0 or 1" >&2; exit 1 ;;
+case "${PI0185_CONTINUATION}" in
+  0) exec "${PI0185_PYTHON}" "${PI0185_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --config "${PI0185_CONFIG}" --repo "${PI0185_REPO}" ;;
+  1) exec "${PI0185_PYTHON}" "${PI0185_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --continuation --config "${PI0185_CONFIG}" --repo "${PI0185_REPO}" ;;
+  *) echo "PI0185_CONTINUATION must be 0 or 1" >&2; exit 1 ;;
 esac

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""PI0180 Validation-E generation-1 Hopper completion runner.
+"""PI0185 Validation-E generation-1 Hopper completion runner.
 
-The parent process owns the durable ledger and starts one fresh child for each
-unfinished checkpoint arm.  Children load exactly one checkpoint, seal raw
-arrays, and exit; decoding and all scientific readout happen later in the
-CPU-only parent posthoc phase.  The module is standard-library-only until a
-child has crossed the immutable preflight boundary.
+The parent checks frozen identities and raw inventory, then starts one fresh
+child for each unfinished checkpoint arm.  Children load exactly one
+checkpoint, seal raw arrays, and exit; decoding and all scientific readout
+happen later in the CPU-only parent posthoc phase.  Per-process timing is
+optional telemetry and never controls whether a valid raw cell is reused.
 """
 
 from __future__ import annotations
@@ -23,6 +23,7 @@ import socket
 import stat
 import subprocess
 import sys
+import tempfile
 import time
 from typing import Any
 
@@ -37,19 +38,19 @@ for _path in (SRC, SCRIPTS):
 import stage45f_pi0159_validation_e_continuation as continuation  # noqa: E402
 
 
-PI_GATE = 5664544367
+PI_GATE = 5666484505
 PR71_POINTER = 5661697942
 PR73_DONOR = 5661699939
 SOURCE_HEAD = "ce3c0179f3974648cdf6527e145d0328b0ac9262"
 BRANCH = "stage45f/localpc-validation-e-hopper-resume"
 DONOR_HEAD = "bdc0a3f68210927629d3b64a4cda97b0af030efc"
 FREEZE_PATH = REPO / "manifests/STAGE45F_PI0154_VALIDATION_E_GEN1_RECIPE_FREEZE_V1.json"
-RETURN_TOKEN = "LOCALPC_PI0180_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED"
-SCIENCE_HOLD = "LOCALPC_PI0180_SCIENCE_REVIEW_HOLD"
-SCHEMA = "STAGE45F_PI0180_VALIDATION_E_GEN1_HOPPER_RESUME_V1"
-LEDGER_SCHEMA = "STAGE45F_PI0180_EXECUTION_LEDGER_V1"
+RETURN_TOKEN = "LOCALPC_PI0185_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED"
+SCIENCE_HOLD = "LOCALPC_PI0185_SCIENCE_REVIEW_HOLD"
+SCHEMA = "STAGE45F_PI0185_VALIDATION_E_GEN1_HOPPER_RESUME_V1"
+TIMING_SCHEMA = "STAGE45F_PI0185_TIMING_V1"
 RAW_SCHEMA = "STAGE45F_PI0154_RAW_PREDICTION_V1"
-DERIVED_SCHEMA = "STAGE45F_PI0180_DERIVED_EVIDENCE_REFERENCE_V1"
+DERIVED_SCHEMA = "STAGE45F_PI0185_DERIVED_EVIDENCE_REFERENCE_V1"
 TARGET_ID = "red_target_holdout_e"
 NOISE_SEED = 4242
 TIMESTEP_IDS = [0, 250, 500, 750]
@@ -97,17 +98,17 @@ FORBIDDEN_TOP_LEVEL = {"torch", "transformers", "gr00t", "cuda", "cv2", "numpy"}
 FORBIDDEN_CALLS = {"backward", "get_action", "qsub", "save_checkpoint", "save_model", "save_pretrained", "train"}
 
 
-class PI0180Error(RuntimeError):
+class PI0185Error(RuntimeError):
     pass
 
 
-class MechanicalInterruption(PI0180Error):
+class MechanicalInterruption(PI0185Error):
     pass
 
 
 def require(condition: bool, message: str) -> None:
     if not condition:
-        raise PI0180Error(message)
+        raise PI0185Error(message)
 
 
 def now_utc() -> str:
@@ -137,7 +138,25 @@ def load_json(path: Path) -> Any:
 
 
 def write_json(path: Path, value: Any, *, overwrite: bool = False) -> None:
-    continuation.write_json_durable(Path(path), value, overwrite=overwrite)
+    path = Path(path)
+    if not overwrite:
+        require(not path.exists() and not path.is_symlink(), f"JSON record must be fresh: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp.{os.getpid()}")
+    with temporary.open("wb") as handle:
+        handle.write((json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8"))
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
+    try:
+        directory_fd = os.open(path.parent, os.O_RDONLY)
+    except OSError:
+        directory_fd = None
+    if directory_fd is not None:
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
 
 
 def append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
@@ -156,7 +175,7 @@ def write_text(path: Path, value: str, *, overwrite: bool = False) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.tmp.{os.getpid()}")
     temporary.write_text(value, encoding="utf-8")
-    with temporary.open("rb") as handle:
+    with temporary.open("r+b") as handle:
         os.fsync(handle.fileno())
     os.replace(temporary, path)
     try:
@@ -225,18 +244,20 @@ def static_guard() -> dict[str, Any]:
     )
     raw_before_decode = source.index("RAW_SEALED") < source.index("_decode_v2")
     markers = {
-        "append_only_ledger": "class ExecutionLedger" in source and "append_jsonl" in source,
+        "raw_inventory_authority": "_validate_output_raw" in source and "missing_cells" in source,
         "fresh_child_per_arm": "--arm-child" in source and "subprocess.run(command" in source,
         "raw_before_decode": raw_before_decode,
         "cpu_posthoc": "def cpu_posthoc" in source and "CPU_POSTHOC" in source,
         "resume_safe": "missing_cells" in source and "NEW_CEILING" in source,
-        "phase_telemetry": "rss_bytes" in source and "cuda_memory" in source,
+        "optional_timing": "TIMING_SCHEMA" in source and "timing" in source,
+        "minimal_rehearsal": "def integration_rehearsal" in source and "--rehearsal" in source,
+        "no_shared_global_ledger": ("execution_" + "master_v2.jsonl") not in source and ("Master" + "Ledger") not in source,
         "no_training": '"training": False' in source,
         "holdout_f_locked": '"holdout_f_read": False' in source,
         "no_h200_submit": not qsub_call_seen,
     }
     return {
-        "schema": "STAGE45F_PI0180_EXECUTION_STATIC_GUARD_V1",
+        "schema": "STAGE45F_PI0185_EXECUTION_STATIC_GUARD_V1",
         "status": "PASS" if not forbidden_imports and not forbidden_calls and all(markers.values()) else "FAIL",
         "top_level_forbidden_imports": forbidden_imports,
         "forbidden_call_hits": sorted(set(forbidden_calls)),
@@ -272,8 +293,8 @@ def _cuda_memory() -> dict[str, Any]:
     }
 
 
-class ExecutionLedger:
-    """Append-only phase ledger; one child is active at a time."""
+class TimingLog:
+    """Per-process optional timing log; never share one path across processes."""
 
     def __init__(self, path: Path, *, generation: str, gpu_uuid: str | None) -> None:
         self.path = Path(path)
@@ -298,7 +319,7 @@ class ExecutionLedger:
     def emit(self, event: str, *, phase: str, **details: Any) -> int:
         self.sequence += 1
         record = {
-            "schema": LEDGER_SCHEMA,
+            "schema": TIMING_SCHEMA,
             "sequence": self.sequence,
             "event": event,
             "phase": phase,
@@ -351,18 +372,18 @@ def _copy_file_durable(source: Path, destination: Path) -> None:
 
 def _load_config(config_path: Path) -> dict[str, Any]:
     value = load_json(config_path.resolve(strict=True))
-    require(isinstance(value, Mapping), "PI0180 config is not an object")
+    require(isinstance(value, Mapping), "PI0185 config is not an object")
     config = dict(value)
-    require(config.get("schema") == SCHEMA, "PI0180 config schema drift")
-    require(config.get("pi_gate") == PI_GATE, "PI0180 gate drift")
-    require(config.get("branch") == BRANCH, "PI0180 branch drift")
-    require(config.get("source_head") == SOURCE_HEAD, "PI0180 source HEAD drift")
-    require(config.get("donor_head") == DONOR_HEAD, "PI0180 donor HEAD drift")
-    require(config.get("expected_calls") == EXPECTED_CALLS, "PI0180 nominal call budget drift")
-    require(config.get("new_call_ceiling") == NEW_CEILING, "PI0180 recovery ceiling drift")
-    require(config.get("holdout_f_read") is False and config.get("training") is False, "PI0180 execution boundary opened")
-    require(config.get("checkpoint_arms") == list(EXPECTED_ARM_LABELS), "PI0180 checkpoint order drift")
-    require(config.get("window_ids") == list(EXPECTED_WINDOWS), "PI0180 window order drift")
+    require(config.get("schema") == SCHEMA, "PI0185 config schema drift")
+    require(config.get("pi_gate") == PI_GATE, "PI0185 gate drift")
+    require(config.get("branch") == BRANCH, "PI0185 branch drift")
+    require(config.get("source_head") == SOURCE_HEAD, "PI0185 source HEAD drift")
+    require(config.get("donor_head") == DONOR_HEAD, "PI0185 donor HEAD drift")
+    require(config.get("expected_calls") == EXPECTED_CALLS, "PI0185 nominal call budget drift")
+    require(config.get("new_call_ceiling") == NEW_CEILING, "PI0185 recovery ceiling drift")
+    require(config.get("holdout_f_read") is False and config.get("training") is False, "PI0185 execution boundary opened")
+    require(config.get("checkpoint_arms") == list(EXPECTED_ARM_LABELS), "PI0185 checkpoint order drift")
+    require(config.get("window_ids") == list(EXPECTED_WINDOWS), "PI0185 window order drift")
     require(config.get("ffmpeg_capsule") == EXPECTED_FFMPEG_CAPSULE, "FFmpeg capsule path drift")
     require(config.get("ffmpeg_capsule_sha256") == EXPECTED_FFMPEG_CAPSULE_SHA, "FFmpeg capsule SHA drift")
     require(config.get("ffmpeg_runtime_id") == EXPECTED_FFMPEG_RUNTIME_ID, "FFmpeg runtime identity drift")
@@ -382,7 +403,7 @@ def _checkout_audit(repo: Path, expected_head: str) -> dict[str, Any]:
     status = "\n".join(
         line
         for line in status.splitlines()
-        if not line.startswith(("?? st45f_pi0177.o", "?? st45f_pi0177.e"))
+        if not line.startswith(("?? st45f_pi0185.o", "?? st45f_pi0185.e"))
     )
     require(Path(root).resolve() == repo, f"repository root drift: {root}")
     require(branch == BRANCH, f"branch drift: {branch}")
@@ -397,7 +418,7 @@ def _checkout_audit(repo: Path, expected_head: str) -> dict[str, Any]:
         "tests/test_stage45f_pi0177_hopper_resume.py",
         "hpc/pbs/stage45f_pi0177_validation_e_gen1_h200.pbs",
     }
-    require(set(changed) <= allowed, f"unexpected changes outside PI0180 addition: {changed}")
+    require(set(changed) <= allowed, f"unexpected changes outside PI0185 addition: {changed}")
     return {"root": root, "branch": branch, "head": head, "clean": True, "changed_paths": changed}
 
 
@@ -424,7 +445,7 @@ def _checkpoint_prefix(label: str) -> str:
         return "stage45e_legacy/checkpoint-2000"
     if label.startswith("L1("):
         return "stage45e_l1/checkpoint-2000"
-    raise PI0180Error(f"unsupported checkpoint label: {label}")
+    raise PI0185Error(f"unsupported checkpoint label: {label}")
 
 
 def _artifact_audit(config: Mapping[str, Any], binding: Mapping[str, Any], expected_head: str) -> dict[str, Any]:
@@ -485,7 +506,7 @@ def _artifact_audit(config: Mapping[str, Any], binding: Mapping[str, Any], expec
     windows = evaluator.validate_snapshot_records(binding)
     require([item["window_id"] for item in windows] == list(EXPECTED_WINDOWS), "Validation-E snapshot order drift")
     return {
-        "schema": "STAGE45F_PI0180_PRE_MODEL_ARTIFACT_AUDIT_V1",
+        "schema": "STAGE45F_PI0185_PRE_MODEL_ARTIFACT_AUDIT_V1",
         "status": "PASS",
         "execution_head": expected_head,
         "base": {"path": str(base), "tree_sha256": base_tree, "file_count": len(base_entries)},
@@ -553,7 +574,7 @@ def _preserved_reuse(config: Mapping[str, Any], inventory: Mapping[str, Any], ou
         require(matching is not None, f"preserved raw cell missing after reuse: {key}")
         require(matching["file_sha256"] == source_item["file_sha256"] and matching["array_sha256"] == source_item["array_sha256"], f"preserved raw bytes drift: {key}")
     reuse = {
-        "schema": "STAGE45F_PI0180_VALID_RAW_REUSE_V1",
+        "schema": "STAGE45F_PI0185_VALID_RAW_REUSE_V1",
         "status": "PASS_BYTE_PRESERVED",
         "source_root": str(source_root),
         "source_manifest": str(source_manifest),
@@ -639,7 +660,7 @@ def _prepare_output(config: Mapping[str, Any], source_inventory: Mapping[str, An
     runtime_binding = _runtime_binding(config, output_root)
     reuse = _preserved_reuse(config, source_inventory, output_root)
     inventory = _validate_output_raw(config, output_root, source_inventory)
-    write_json(output_root / "stage45f_pi0180_initial_raw_inventory.json", inventory)
+    write_json(output_root / "stage45f_pi0185_initial_raw_inventory.json", inventory)
     return output_root, runtime_binding
 
 
@@ -648,7 +669,7 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
     expected_head = str(config["expected_head"])
     checkout = _checkout_audit(repo, expected_head)
     guard = static_guard()
-    require(guard["status"] == "PASS", "PI0180 static guard failed")
+    require(guard["status"] == "PASS", "PI0185 static guard failed")
     freeze = _freeze_audit(expected_head)
     binding = load_json(regular_file(Path(str(config["admission_path"])), "Validation-E admission"))
     require(isinstance(binding, Mapping), "Validation-E admission is not an object")
@@ -659,7 +680,7 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
     effective_path = output_root / "effective_config.json"
     write_json(effective_path, config)
     record = {
-        "schema": "STAGE45F_PI0180_PRE_MODEL_ADMISSION_V1",
+        "schema": "STAGE45F_PI0185_PRE_MODEL_ADMISSION_V1",
         "status": "PASS_PRE_MODEL",
         "pi_gate": PI_GATE,
         "pr71_pointer": PR71_POINTER,
@@ -690,32 +711,17 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
         "qsub_called": False,
         "scientific_contract_changed": False,
     }
-    write_json(output_root / "stage45f_pi0180_preflight.json", record)
-    ledger = ExecutionLedger(output_root / "execution_ledger.jsonl", generation="Validation-E-gen1", gpu_uuid=None)
-    ledger.emit("PRE_MODEL_ADMISSION", phase="ADMISSION", execution_head=expected_head, validation_e_model_calls=0, qsub_called=False)
-    for item in source_inventory["preserved_cells"]:
-        ledger.emit(
-            "RAW_REUSED",
-            phase="RAW_SEAL",
-            arm=item["arm"],
-            window_id=item["window_id"],
-            path=item["path"],
-            file_sha256=item["file_sha256"],
-            array_sha256=item["array_sha256"],
-            raw_reused_without_model_call=True,
-            source_allocation=8,
-            validation_e_model_calls=0,
-        )
+    write_json(output_root / "stage45f_pi0185_preflight.json", record)
     print(json.dumps(record, indent=2, sort_keys=True))
     return record
 
 
 def _load_preflight(config: Mapping[str, Any]) -> tuple[Path, dict[str, Any], dict[str, Any]]:
     output_root = Path(str(config["output_root"])).resolve()
-    preflight_path = regular_file(output_root / "stage45f_pi0180_preflight.json", "PI0180 preflight")
+    preflight_path = regular_file(output_root / "stage45f_pi0185_preflight.json", "PI0185 preflight")
     record = load_json(preflight_path)
-    require(isinstance(record, Mapping) and record.get("status") == "PASS_PRE_MODEL", "PI0180 preflight is not PASS")
-    require(record.get("execution_head") == config.get("expected_head") and record.get("execution_branch") == BRANCH, "PI0180 preflight identity drift")
+    require(isinstance(record, Mapping) and record.get("status") == "PASS_PRE_MODEL", "PI0185 preflight is not PASS")
+    require(record.get("execution_head") == config.get("expected_head") and record.get("execution_branch") == BRANCH, "PI0185 preflight identity drift")
     runtime_binding = load_json(regular_file(output_root / "runtime_binding.json", "runtime binding"))
     require(isinstance(runtime_binding, Mapping), "runtime binding is not an object")
     environment = runtime_binding.get("environment")
@@ -736,7 +742,7 @@ def _observe_h200_gpu(output_root: Path) -> dict[str, Any]:
     require("H200" in gpu_name.upper(), f"admitted GPU is not H200: {gpu_name}")
     require(rows[0]["total_vram_mib"] * 1024**2 >= 80 * 1024**3, "admitted H200 VRAM is below 80 GiB")
     gpu = {
-        "schema": "STAGE45F_PI0180_OBSERVED_H200_GPU_V1",
+        "schema": "STAGE45F_PI0185_OBSERVED_H200_GPU_V1",
         "host": socket.gethostname(),
         "pbs_jobid": os.environ["PBS_JOBID"],
         "selected_device": "cuda:0",
@@ -757,7 +763,7 @@ def _observe_h200_gpu(output_root: Path) -> dict[str, Any]:
         require(old.get("gpu_uuid") == gpu.get("gpu_uuid"), "GPU UUID changed inside one allocation")
         return dict(old)
     record = {
-        "schema": "STAGE45F_PI0180_GPU_RUNTIME_ADMISSION_V1",
+        "schema": "STAGE45F_PI0185_GPU_RUNTIME_ADMISSION_V1",
         "status": "PASS",
         "gpu": gpu,
         "gpu_uuid": gpu["gpu_uuid"],
@@ -780,10 +786,10 @@ def _runtime_record_path(output_root: Path, environment_key: str, label: str) ->
     return regular_file(path, label)
 
 
-def _record_runtime_admission(config: Mapping[str, Any], output_root: Path, ledger: ExecutionLedger) -> dict[str, Any]:
+def _record_runtime_admission(config: Mapping[str, Any], output_root: Path, ledger: TimingLog) -> dict[str, Any]:
     bootstrap_token = ledger.begin("RUNTIME_BOOTSTRAP", runtime_id=EXPECTED_FFMPEG_RUNTIME_ID)
     try:
-        bootstrap_path = _runtime_record_path(output_root, "PI0180_BOOTSTRAP_RECORD", "runtime bootstrap record")
+        bootstrap_path = _runtime_record_path(output_root, "PI0185_BOOTSTRAP_RECORD", "runtime bootstrap record")
         bootstrap = load_json(bootstrap_path)
         require(isinstance(bootstrap, Mapping) and bootstrap.get("status") == "PASS", "runtime bootstrap did not PASS")
         require(bootstrap.get("source_runtime_id") == EXPECTED_FFMPEG_RUNTIME_ID, "runtime bootstrap identity drift")
@@ -796,7 +802,7 @@ def _record_runtime_admission(config: Mapping[str, Any], output_root: Path, ledg
 
     probe_token = ledger.begin("RUNTIME_IMPORT_PROBE", runtime_id=EXPECTED_FFMPEG_RUNTIME_ID)
     try:
-        probe_path = _runtime_record_path(output_root, "PI0180_COMPUTE_IMPORT_RECORD", "runtime import probe record")
+        probe_path = _runtime_record_path(output_root, "PI0185_COMPUTE_IMPORT_RECORD", "runtime import probe record")
         probe = load_json(probe_path)
         require(isinstance(probe, Mapping) and probe.get("status") == "PASS", "runtime import probe did not PASS")
         require(probe.get("mode") == "compute", "runtime import probe mode drift")
@@ -813,7 +819,7 @@ def _record_runtime_admission(config: Mapping[str, Any], output_root: Path, ledg
 def _noise_manifest(output_root: Path, hashes: list[str]) -> None:
     path = output_root / "sampler_noise_manifest.json"
     record = {
-        "schema": "STAGE45F_PI0180_CPU_FLOAT32_NOISE_BANK_V1",
+        "schema": "STAGE45F_PI0185_CPU_FLOAT32_NOISE_BANK_V1",
         "seed": NOISE_SEED,
         "device": "cpu",
         "dtype": "float32",
@@ -863,30 +869,218 @@ def _raw_record(output_root: Path, arm: Mapping[str, Any], window_index: int, ra
     return record
 
 
+def _write_bytes_durable(path: Path, value: bytes) -> None:
+    path = Path(path)
+    require(not path.exists() and not path.is_symlink(), f"binary record must be fresh: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp.{os.getpid()}")
+    with temporary.open("xb") as handle:
+        handle.write(value)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
+    try:
+        directory_fd = os.open(path.parent, os.O_RDONLY)
+    except OSError:
+        directory_fd = None
+    if directory_fd is not None:
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
+
+
+def _rehearsal_npy() -> tuple[bytes, bytes]:
+    payload = b"\x00" * (1 * 40 * 132 * 4)
+    header = b"{'descr': '<f4', 'fortran_order': False, 'shape': (1, 40, 132), }"
+    while (10 + len(header) + 1) % 16:
+        header += b" "
+    header += b"\n"
+    return b"\x93NUMPY\x01\x00" + len(header).to_bytes(2, "little") + header + payload, payload
+
+
+def _rehearsal_payload(path: Path) -> bytes:
+    data = regular_file(path, "rehearsal raw").read_bytes()
+    require(data[:6] == b"\x93NUMPY" and data[6:8] == b"\x01\x00", f"rehearsal raw is not NPY v1: {path}")
+    header_length = int.from_bytes(data[8:10], "little")
+    payload_start = 10 + header_length
+    require(b"'shape': (1, 40, 132)" in data[10:payload_start], f"rehearsal raw shape drift: {path}")
+    payload = data[payload_start:]
+    require(len(payload) == 1 * 40 * 132 * 4, f"rehearsal raw byte count drift: {path}")
+    return payload
+
+
+REHEARSAL_CELLS = (("arm-a", "window-0"), ("arm-a", "window-1"))
+
+
+def _rehearsal_records(root: Path) -> dict[tuple[str, str], dict[str, Any]]:
+    manifest = regular_file(root / "raw_predictions.jsonl", "rehearsal raw manifest")
+    records: dict[tuple[str, str], dict[str, Any]] = {}
+    for line_number, line in enumerate(manifest.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        record = json.loads(line)
+        require(isinstance(record, Mapping), f"rehearsal raw record {line_number} is not an object")
+        key = (str(record.get("arm")), str(record.get("window_id")))
+        require(key in REHEARSAL_CELLS and key not in records, f"rehearsal raw cell invalid or duplicated: {key}")
+        raw_path = (root / str(record["path"])).resolve()
+        require(raw_path.is_relative_to(root.resolve()), f"rehearsal raw escaped root: {raw_path}")
+        payload = _rehearsal_payload(raw_path)
+        require(sha256_file(raw_path) == record.get("file_sha256"), f"rehearsal file SHA drift: {key}")
+        require(sha256_bytes(payload) == record.get("array_sha256"), f"rehearsal array SHA drift: {key}")
+        require(record.get("raw_before_decode") is True and record.get("decoded") is False, f"rehearsal seal order drift: {key}")
+        records[key] = dict(record)
+    return records
+
+
+def _rehearsal_missing(records: Mapping[tuple[str, str], Mapping[str, Any]]) -> list[dict[str, str]]:
+    # ponytail: keep the same plain missing-cell mapping used by production resume.
+    return [{"arm": arm, "window_id": window_id} for arm, window_id in REHEARSAL_CELLS if (arm, window_id) not in records]
+
+
+def _rehearsal_child(root: Path, arm: str, window_id: str, timing_path: Path | None) -> dict[str, Any]:
+    records = _rehearsal_records(root)
+    key = (arm, window_id)
+    require(key in REHEARSAL_CELLS and key not in records, f"rehearsal child was not given an unfinished cell: {key}")
+    raw_path = root / "raw" / safe_label(arm) / f"{safe_label(window_id)}.npy"
+    file_bytes, payload = _rehearsal_npy()
+    _write_bytes_durable(raw_path, file_bytes)
+    record = {
+        "schema": "STAGE45F_PI0185_REHEARSAL_RAW_V1",
+        "arm": arm,
+        "checkpoint": {"label": arm},
+        "window_id": window_id,
+        "path": raw_path.relative_to(root).as_posix(),
+        "file_sha256": sha256_file(raw_path),
+        "array_sha256": sha256_bytes(payload),
+        "shape": [1, 40, 132],
+        "dtype": "float32",
+        "raw_before_decode": True,
+        "decoded": False,
+    }
+    append_jsonl(root / "raw_predictions.jsonl", record)
+    if timing_path is not None:
+        append_jsonl(timing_path, {"schema": TIMING_SCHEMA, "event": "RAW_SEALED", "phase": "RAW_SEALED", "arm": arm, "window_id": window_id})
+    return record
+
+
+def _rehearsal_parent(root: Path, phase: str) -> dict[str, Any]:
+    records = _rehearsal_records(root)
+    missing = _rehearsal_missing(records)
+    require(missing, f"rehearsal {phase} has no unfinished cells")
+    requested = missing[:1]
+    child_results: list[dict[str, Any]] = []
+    for cell in requested:
+        timing_path = root / "timing" / f"{phase}_{safe_label(cell['arm'])}_{safe_label(cell['window_id'])}.jsonl"
+        command = [
+            sys.executable,
+            str(Path(__file__).resolve()),
+            "--rehearsal-child",
+            "--rehearsal-root",
+            str(root),
+            "--arm",
+            cell["arm"],
+            "--window-id",
+            cell["window_id"],
+            "--timing-path",
+            str(timing_path),
+        ]
+        completed = subprocess.run(command, capture_output=True, text=True, check=False)
+        log_base = root / "rehearsal_logs" / f"{phase}_{safe_label(cell['window_id'])}"
+        write_text(log_base.with_suffix(".stdout.log"), completed.stdout)
+        write_text(log_base.with_suffix(".stderr.log"), completed.stderr)
+        require(completed.returncode == 0, f"rehearsal child failed: {completed.stderr[-1200:]}")
+        child_results.append({"cell": cell, "returncode": completed.returncode, "timing_path": str(timing_path.relative_to(root))})
+    after = _rehearsal_records(root)
+    remaining = _rehearsal_missing(after)
+    require(len(remaining) == 1 if phase == "first" else not remaining, f"rehearsal {phase} missing-cell result drift: {remaining}")
+    result = {"phase": phase, "requested_cells": requested, "remaining_missing_cells": remaining, "child_results": child_results, "parent_continued_after_child": True}
+    write_json(root / f"{phase}_parent_result.json", result)
+    print(json.dumps(result, sort_keys=True))
+    return result
+
+
+def integration_rehearsal(root: Path | None = None) -> dict[str, Any]:
+    owned_root: tempfile.TemporaryDirectory[str] | None = None
+    if root is None:
+        owned_root = tempfile.TemporaryDirectory(prefix="stage45f_pi0185_rehearsal_")
+        root = Path(owned_root.name)
+    else:
+        root = Path(root)
+        root.mkdir(parents=True, exist_ok=True)
+        require(not any(root.iterdir()), f"rehearsal root is not fresh: {root}")
+    (root / "raw").mkdir()
+    (root / "timing").mkdir()
+    write_text(root / "raw_predictions.jsonl", "")
+
+    def run_phase(phase: str) -> tuple[int, dict[str, Any]]:
+        completed = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve()), "--rehearsal-parent", "--rehearsal-root", str(root), "--rehearsal-phase", phase],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        require(completed.returncode == 0, f"rehearsal parent {phase} failed: {completed.stderr[-1200:]}")
+        result = json.loads(completed.stdout.splitlines()[-1])
+        require(isinstance(result, Mapping), f"rehearsal parent {phase} result is not an object")
+        return completed.returncode, dict(result)
+
+    first_code, first = run_phase("first")
+    write_text(root / "timing" / "malformed_optional_telemetry.jsonl", "{not-json\n")
+    restart_code, restart = run_phase("restart")
+    records = _rehearsal_records(root)
+    require(not _rehearsal_missing(records), "rehearsal did not finish all dummy cells")
+    valid_timing = _timing_records(root)
+    require(len(valid_timing) == 2, f"rehearsal timing record count drift: {len(valid_timing)}")
+    require(first["requested_cells"] == [dict(arm=REHEARSAL_CELLS[0][0], window_id=REHEARSAL_CELLS[0][1])], "rehearsal first selection drift")
+    require(restart["requested_cells"] == [dict(arm=REHEARSAL_CELLS[1][0], window_id=REHEARSAL_CELLS[1][1])], "rehearsal restart did not skip sealed raw")
+    result = {
+        "schema": "STAGE45F_PI0185_INTEGRATION_REHEARSAL_V1",
+        "status": "PASS",
+        "zero_model_execution": True,
+        "initial_missing_cells": len(REHEARSAL_CELLS),
+        "sealed_raw_cells": len(records),
+        "remaining_missing_cells": 0,
+        "parent_child_process_exit_codes": {"first": first_code, "restart": restart_code, "first_child": first["child_results"][0]["returncode"], "restart_child": restart["child_results"][0]["returncode"]},
+        "parent_continued_after_child": first["parent_continued_after_child"] and restart["parent_continued_after_child"],
+        "restart_skipped_sealed_raw": True,
+        "raw_manifest_sha256": sha256_file(root / "raw_predictions.jsonl"),
+        "raw_file_sha256": {f"{arm}:{window}": records[(arm, window)]["file_sha256"] for arm, window in REHEARSAL_CELLS},
+        "malformed_optional_telemetry_ignored": True,
+        "root": str(root),
+    }
+    write_json(root / "rehearsal_result.json", result)
+    if owned_root is not None:
+        owned_root.cleanup()
+    return result
+
+
 def _signal_handler(signum: int, _frame: Any) -> None:
     raise MechanicalInterruption(f"received signal {signum}")
 
 
-def arm_child(config_path: Path, arm_label: str) -> int:
+def arm_child(config_path: Path, arm_label: str, *, timing_path: Path | None = None, attempt_id: str | None = None) -> int:
     config = _load_config(config_path)
     require(arm_label in EXPECTED_ARM_LABELS, f"unknown arm: {arm_label}")
     output_root, preflight_record, runtime_binding = _load_preflight(config)
     source_inventory = _source_inventory(config)
     inventory = _validate_output_raw(config, output_root, source_inventory)
     missing = [(str(item["arm"]), str(item["window_id"])) for item in inventory["missing_cells"] if str(item["arm"]) == arm_label]
-    ledger = ExecutionLedger(output_root / "execution_ledger.jsonl", generation="Validation-E-gen1", gpu_uuid=None)
+    attempt = attempt_id or f"{os.environ.get('PBS_JOBID', 'local')}_{safe_label(arm_label)}_{os.getpid()}"
+    timing_path = timing_path or output_root / "timing" / f"child_{safe_label(attempt)}.jsonl"
+    ledger = TimingLog(timing_path, generation="Validation-E-gen1", gpu_uuid=None)
     current: dict[str, Any] = {"arm": arm_label, "window_id": None, "step": None, "phase": "CHILD_START"}
     signal.signal(signal.SIGTERM, _signal_handler)
     signal.signal(signal.SIGINT, _signal_handler)
     if not missing:
         ledger.emit("CHILD_ARM_SKIPPED", phase="ARM_CHILD", arm=arm_label, reason="all_cells_already_sealed")
-        print(f"PI0180_CHILD_ARM_SKIPPED {arm_label}")
+        print(f"PI0185_CHILD_ARM_SKIPPED {arm_label}")
         return 0
-    require(ledger.count_begin("MODEL_LOAD") + 1 <= NEW_CEILING["model_loads"], "PI0180 model-load ceiling exceeded")
-    require(ledger.count_begin("CONDITIONING") + len(missing) <= NEW_CEILING["conditioning"], "PI0180 conditioning ceiling exceeded")
-    require(ledger.count_begin("ACTION_HEAD") + len(missing) * 4 <= NEW_CEILING["action_head"], "PI0180 action-head ceiling exceeded")
-    require(ledger.count_begin("CONDITIONING") + ledger.count_begin("ACTION_HEAD") + len(missing) * 5 <= NEW_CEILING["model_side_total"], "PI0180 model-side ceiling exceeded")
-    gpu_uuid = os.environ.get("PI0180_GPU_UUID")
+    require(ledger.count_begin("MODEL_LOAD") + 1 <= NEW_CEILING["model_loads"], "PI0185 model-load ceiling exceeded")
+    require(ledger.count_begin("CONDITIONING") + len(missing) <= NEW_CEILING["conditioning"], "PI0185 conditioning ceiling exceeded")
+    require(ledger.count_begin("ACTION_HEAD") + len(missing) * 4 <= NEW_CEILING["action_head"], "PI0185 action-head ceiling exceeded")
+    require(ledger.count_begin("CONDITIONING") + ledger.count_begin("ACTION_HEAD") + len(missing) * 5 <= NEW_CEILING["model_side_total"], "PI0185 model-side ceiling exceeded")
+    gpu_uuid = os.environ.get("PI0185_GPU_UUID")
     if not gpu_uuid:
         gpu_admission = load_json(regular_file(output_root / "gpu_runtime_admission.json", "GPU runtime admission"))
         gpu_uuid = str(gpu_admission["gpu_uuid"])
@@ -972,7 +1166,7 @@ def arm_child(config_path: Path, arm_label: str) -> int:
             torch.cuda.empty_cache()
             ledger.end(release_token, arm=arm_label)
         ledger.emit("ARM_CHILD_COMPLETE", phase="ARM_CHILD", arm=arm_label, raw_cells_sealed=len(missing), validation_e_model_calls=0)
-        print(f"PI0180_CHILD_ARM_COMPLETE {arm_label} {len(missing)}")
+        print(f"PI0185_CHILD_ARM_COMPLETE {arm_label} {len(missing)}")
         return 0
     except BaseException as exc:
         phase = current["phase"]
@@ -980,8 +1174,7 @@ def arm_child(config_path: Path, arm_label: str) -> int:
             ledger.emit("INTERRUPTION", phase=phase, arm=arm_label, current=current, error=str(exc))
         else:
             ledger.emit("ERROR", phase=phase, arm=arm_label, current=current, error=f"{type(exc).__name__}: {exc}")
-        append_jsonl(output_root / "child_failures.jsonl", {"schema": "STAGE45F_PI0180_CHILD_FAILURE_V1", "status": "INTERRUPTED" if isinstance(exc, MechanicalInterruption) else "ERROR", "arm": arm_label, "phase": phase, "current": current, "error": f"{type(exc).__name__}: {exc}", "validation_e_model_calls": 0})
-        print(f"PI0180_CHILD_ARM_FAILED {arm_label}: {type(exc).__name__}: {exc}", file=sys.stderr)
+        print(f"PI0185_CHILD_ARM_FAILED {arm_label}: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 143 if isinstance(exc, MechanicalInterruption) else 2
 
 
@@ -993,10 +1186,26 @@ def _freeze_arms(preflight_record: Mapping[str, Any]) -> list[dict[str, Any]]:
     return [dict(item) for item in entries]
 
 
-def _ledger_counts(ledger_path: Path) -> dict[str, int]:
-    ledger = ExecutionLedger.__new__(ExecutionLedger)
-    ledger.path = ledger_path
-    records = ledger._records()
+def _timing_records(output_root: Path) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    timing_dir = Path(output_root) / "timing"
+    if not timing_dir.exists():
+        return records
+    for path in sorted(timing_dir.glob("*.jsonl")):
+        try:
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if line.strip():
+                    record = json.loads(line)
+                    if isinstance(record, Mapping) and record.get("schema") == TIMING_SCHEMA:
+                        records.append(dict(record))
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            # Telemetry is diagnostic only; raw inventory remains authoritative.
+            continue
+    return records
+
+
+def _ledger_counts(output_root: Path) -> dict[str, int]:
+    records = _timing_records(output_root)
     return {
         "model_loads": sum(1 for item in records if item.get("event") == "BEGIN" and item.get("phase") == "MODEL_LOAD"),
         "conditioning": sum(1 for item in records if item.get("event") == "BEGIN" and item.get("phase") == "CONDITIONING"),
@@ -1055,7 +1264,7 @@ def _validate_derived_manifest(output_root: Path, raw_records: Mapping[tuple[str
     return result
 
 
-def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: Mapping[str, Any], ledger: ExecutionLedger) -> dict[str, Any]:
+def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: Mapping[str, Any], ledger: TimingLog) -> dict[str, Any]:
     import numpy as np
     import stage45c_h200_eval_runtime_adapter as runtime
     import stage45f_vanda_validation_e_gen1 as evaluator
@@ -1131,19 +1340,19 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
         seed_summary.append({"seed": seed, "window_count": len(rows), "mean_l1_minus_legacy": {field: sum(float(row[field]) for row in rows) / len(rows) for field in fields}, "descriptive_only": True})
     write_json(output_root / "paired_summary.json", paired, overwrite=(output_root / "paired_summary.json").exists())
     target_summary = {
-        "schema": "STAGE45F_PI0180_TARGET_DISTANCE_PROGRESS_PATH_ROUGHNESS_SUMMARY_V1",
+        "schema": "STAGE45F_PI0185_TARGET_DISTANCE_PROGRESS_PATH_ROUGHNESS_SUMMARY_V1",
         "descriptive_only": True,
         "arms": {label: [rows_by_arm[label][index]["metrics"]["target"] | {"window_id": rows_by_arm[label][index]["window_id"], "roughness": rows_by_arm[label][index]["metrics"]["prediction_roughness_position_second_difference_m"]} for index in range(6)] for label in EXPECTED_ARM_LABELS},
         "paired_by_seed": seed_summary,
         "target_excluded_from_model_input": True,
     }
     write_json(output_root / "target_progress_path_roughness_summary.json", target_summary, overwrite=(output_root / "target_progress_path_roughness_summary.json").exists())
-    counts = _ledger_counts(output_root / "execution_ledger.jsonl")
-    require(counts["model_loads"] <= NEW_CEILING["model_loads"] and counts["conditioning"] <= NEW_CEILING["conditioning"] and counts["action_head"] <= NEW_CEILING["action_head"] and counts["model_side_total"] <= NEW_CEILING["model_side_total"], "PI0180 ledger ceiling drift")
+    counts = _ledger_counts(output_root)
+    require(counts["model_loads"] <= NEW_CEILING["model_loads"] and counts["conditioning"] <= NEW_CEILING["conditioning"] and counts["action_head"] <= NEW_CEILING["action_head"] and counts["model_side_total"] <= NEW_CEILING["model_side_total"], "PI0185 timing ceiling drift")
     final_inventory = _validate_output_raw(config, output_root, source_inventory)
     write_json(output_root / "final_raw_inventory.json", final_inventory, overwrite=(output_root / "final_raw_inventory.json").exists())
     evidence_entries = []
-    excluded = {"evidence_inventory.json", "stage45f_pi0180_final_seal.json"}
+    excluded = {"evidence_inventory.json", "stage45f_pi0185_final_seal.json"}
     for directory, _, filenames in os.walk(output_root, followlinks=False):
         for filename in sorted(filenames):
             path = Path(directory) / filename
@@ -1153,7 +1362,7 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
             require(path.is_file(), f"evidence entry is not regular: {path}")
             evidence_entries.append({"path": relative, "bytes": int(path.stat().st_size), "sha256": sha256_file(path)})
     evidence_entries.sort(key=lambda item: item["path"])
-    write_json(output_root / "evidence_inventory.json", {"schema": "STAGE45F_PI0180_EVIDENCE_INVENTORY_V1", "entries": evidence_entries, "entry_count": len(evidence_entries), "excluded": sorted(excluded)}, overwrite=(output_root / "evidence_inventory.json").exists())
+    write_json(output_root / "evidence_inventory.json", {"schema": "STAGE45F_PI0185_EVIDENCE_INVENTORY_V1", "entries": evidence_entries, "entry_count": len(evidence_entries), "excluded": sorted(excluded)}, overwrite=(output_root / "evidence_inventory.json").exists())
     result = {
         "schema": SCHEMA,
         "status": "COMPLETED",
@@ -1174,7 +1383,7 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
         "raw_manifest_sha256": sha256_file(output_root / "raw_predictions.jsonl"),
         "derived_manifest": str(output_root / "derived_rows.jsonl"),
         "derived_manifest_sha256": sha256_file(output_root / "derived_rows.jsonl"),
-        "execution_ledger": str(output_root / "execution_ledger.jsonl"),
+        "timing_logs": [str(path) for path in sorted((output_root / "timing").glob("*.jsonl"))],
         "gpu_runtime_admission": load_json(output_root / "gpu_runtime_admission.json"),
         "target_progress_path_roughness_summary": str(output_root / "target_progress_path_roughness_summary.json"),
         "paired_summary": str(output_root / "paired_summary.json"),
@@ -1193,13 +1402,22 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
         "hardware": 0,
         "scientific_winner_selected": False,
     }
-    write_json(output_root / "stage45f_pi0180_result.json", result, overwrite=(output_root / "stage45f_pi0180_result.json").exists())
-    seal = {**result, "schema": "STAGE45F_PI0180_VALIDATION_E_GEN1_FINAL_SEAL_V1", "final_result_sha256": sha256_file(output_root / "stage45f_pi0180_result.json"), "evidence_inventory_sha256": sha256_file(output_root / "evidence_inventory.json"), "final_raw_inventory_sha256": sha256_file(output_root / "final_raw_inventory.json")}
-    write_json(output_root / "stage45f_pi0180_final_seal.json", seal, overwrite=(output_root / "stage45f_pi0180_final_seal.json").exists())
-    ledger.emit("FINAL_SEAL", phase="FINAL_SEAL", status="COMPLETED", result_path="stage45f_pi0180_result.json", result_file_sha256=sha256_file(output_root / "stage45f_pi0180_result.json"), raw_count=36, derived_count=36, science_hold=SCIENCE_HOLD)
+    write_json(output_root / "stage45f_pi0185_result.json", result, overwrite=(output_root / "stage45f_pi0185_result.json").exists())
+    seal = {**result, "schema": "STAGE45F_PI0185_VALIDATION_E_GEN1_FINAL_SEAL_V1", "final_result_sha256": sha256_file(output_root / "stage45f_pi0185_result.json"), "evidence_inventory_sha256": sha256_file(output_root / "evidence_inventory.json"), "final_raw_inventory_sha256": sha256_file(output_root / "final_raw_inventory.json")}
+    write_json(output_root / "stage45f_pi0185_final_seal.json", seal, overwrite=(output_root / "stage45f_pi0185_final_seal.json").exists())
+    ledger.emit("FINAL_SEAL", phase="FINAL_SEAL", status="COMPLETED", result_path="stage45f_pi0185_result.json", result_file_sha256=sha256_file(output_root / "stage45f_pi0185_result.json"), raw_count=36, derived_count=36, science_hold=SCIENCE_HOLD)
     print(RETURN_TOKEN)
     print(SCIENCE_HOLD)
     return result
+
+
+def _fresh_timing_path(output_root: Path, prefix: str) -> Path:
+    timing_dir = output_root / "timing"
+    timing_dir.mkdir(parents=True, exist_ok=True)
+    suffix = f"{os.environ.get('PBS_JOBID', 'local')}_{os.getpid()}"
+    path = timing_dir / f"{prefix}_{safe_label(suffix)}.jsonl"
+    require(not path.exists() and not path.is_symlink(), f"timing path is not fresh: {path}")
+    return path
 
 
 def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
@@ -1208,56 +1426,58 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
     repo = Path(str(config.get("repo", REPO))).resolve()
     _checkout_audit(repo, str(config["expected_head"]))
     guard = static_guard()
-    require(guard["status"] == "PASS", "PI0180 static guard failed at execution")
+    require(guard["status"] == "PASS", "PI0185 static guard failed at execution")
     source_inventory = _source_inventory(config)
     _validate_output_raw(config, output_root, source_inventory)
-    if (output_root / "stage45f_pi0180_final_seal.json").exists():
-        result = load_json(output_root / "stage45f_pi0180_result.json")
+    if (output_root / "stage45f_pi0185_final_seal.json").exists():
+        result = load_json(output_root / "stage45f_pi0185_result.json")
         require(result.get("status") == "COMPLETED", "existing final result is not completed")
         print(RETURN_TOKEN)
         print(SCIENCE_HOLD)
         return 0
-    ledger_path = output_root / "execution_ledger.jsonl"
-    prior_records = []
-    if ledger_path.exists():
-        prior_records = [json.loads(line) for line in ledger_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    primary_runs = sum(1 for item in prior_records if item.get("event") == "EXECUTION_OPEN" and item.get("continuation") is False)
-    continuation_runs = sum(1 for item in prior_records if item.get("event") == "EXECUTION_OPEN" and item.get("continuation") is True)
-    if continuation_mode:
-        require(primary_runs == 1 and continuation_runs == 0, "PI0180 continuation allocation is not the single authorized final continuation")
-    else:
-        require(primary_runs == 0 and continuation_runs == 0, "PI0180 primary allocation was already consumed")
-    ledger = ExecutionLedger(ledger_path, generation="Validation-E-gen1", gpu_uuid=None)
+    timing_path = _fresh_timing_path(output_root, "parent_continuation" if continuation_mode else "parent_primary")
+    ledger = TimingLog(timing_path, generation="Validation-E-gen1", gpu_uuid=None)
     _record_runtime_admission(config, output_root, ledger)
     gpu_admission = _observe_h200_gpu(output_root)
     ledger.gpu_uuid = str(gpu_admission["gpu_uuid"])
-    os.environ["PI0180_GPU_UUID"] = str(gpu_admission["gpu_uuid"])
+    os.environ["PI0185_GPU_UUID"] = str(gpu_admission["gpu_uuid"])
     ledger.emit("EXECUTION_OPEN", phase="ADMISSION", continuation=continuation_mode, gpu_uuid=gpu_admission["gpu_uuid"], runtime_admission_status="PASS", qsub_called=False)
-    for label in EXPECTED_ARM_LABELS:
+    for arm_index, label in enumerate(EXPECTED_ARM_LABELS):
         inventory = _validate_output_raw(config, output_root, source_inventory)
         missing = [(str(item["arm"]), str(item["window_id"])) for item in inventory["missing_cells"] if str(item["arm"]) == label]
         if not missing:
             ledger.emit("ARM_ALREADY_COMPLETE", phase="ARM_CHILD", arm=label, raw_cells=6)
             continue
-        counts = _ledger_counts(output_root / "execution_ledger.jsonl")
-        require(counts["model_loads"] < NEW_CEILING["model_loads"], "PI0180 model-load ceiling exhausted before child")
-        command = [sys.executable, str(Path(__file__).resolve()), "--arm-child", "--config", str(config_path.resolve()), "--arm", label]
+        counts = _ledger_counts(output_root)
+        require(counts["model_loads"] < NEW_CEILING["model_loads"], "PI0185 model-load ceiling exhausted before child")
+        attempt_id = f"{os.environ.get('PBS_JOBID', 'local')}_{arm_index:02d}_{safe_label(label)}"
+        child_timing = output_root / "timing" / f"child_{safe_label(attempt_id)}.jsonl"
+        before = _load_raw_records(output_root)
+        command = [sys.executable, str(Path(__file__).resolve()), "--arm-child", "--config", str(config_path.resolve()), "--arm", label, "--timing-path", str(child_timing), "--attempt-id", attempt_id]
         child_env = dict(os.environ)
         child_env["PYTHONUNBUFFERED"] = "1"
+        ledger.emit("ARM_CHILD_START", phase="ARM_CHILD", arm=label, attempt_id=attempt_id, timing_path=str(child_timing.relative_to(output_root)), missing_cells=missing)
         completed = subprocess.run(command, capture_output=True, text=True, check=False, env=child_env)
-        log_base = output_root / "child_logs" / f"{safe_label(label)}_{counts['model_loads'] + 1}"
+        log_base = output_root / "child_logs" / safe_label(attempt_id)
         write_text(log_base.with_suffix(".stdout.log"), completed.stdout)
         write_text(log_base.with_suffix(".stderr.log"), completed.stderr)
-        ledger.emit("ARM_CHILD_EXIT", phase="ARM_CHILD", arm=label, returncode=completed.returncode, missing_cells_requested=len(missing), stdout_log=str(log_base.with_suffix(".stdout.log").relative_to(output_root)), stderr_log=str(log_base.with_suffix(".stderr.log").relative_to(output_root)))
-        require(completed.returncode == 0, f"PI0180 child failed for {label}: {completed.stderr[-1200:]}")
         after = _validate_output_raw(config, output_root, source_inventory)
+        after_records = _load_raw_records(output_root)
+        for key, before_record in before.items():
+            require(key in after_records, f"raw cell disappeared after child: {key}")
+            require(after_records[key]["file_sha256"] == before_record["file_sha256"], f"raw file SHA changed on resume: {key}")
+            require(after_records[key]["array_sha256"] == before_record["array_sha256"], f"raw array SHA changed on resume: {key}")
+        changed = sorted(key for key in after_records if key not in before)
+        require(set(changed) <= set(missing), f"child sealed an unexpected raw cell: {changed}")
+        ledger.emit("ARM_CHILD_EXIT", phase="ARM_CHILD", arm=label, attempt_id=attempt_id, returncode=completed.returncode, missing_cells_requested=len(missing), raw_delta=changed, stdout_log=str(log_base.with_suffix(".stdout.log").relative_to(output_root)), stderr_log=str(log_base.with_suffix(".stderr.log").relative_to(output_root)))
+        require(completed.returncode == 0, f"PI0185 child failed for {label}: {completed.stderr[-1200:]}")
         require(not any(str(item["arm"]) == label for item in after["missing_cells"]), f"child did not seal all requested cells: {label}")
     return_code = 0
     try:
         cpu_posthoc(config, output_root, preflight_record, ledger)
     except Exception as exc:
         ledger.emit("ERROR", phase="CPU_POSTHOC", error=f"{type(exc).__name__}: {exc}")
-        write_json(output_root / "stage45f_pi0180_failure.json", {"schema": "STAGE45F_PI0180_FAILURE_SEAL_V1", "status": "PARTIAL", "token": "LOCALPC_PI0180_VALIDATION_E_GEN1_FOR_PI_REVIEW — PARTIAL", "phase": "CPU_POSTHOC", "error": f"{type(exc).__name__}: {exc}", "actual_counters": _ledger_counts(output_root / "execution_ledger.jsonl"), "raw_inventory": _output_inventory(output_root), "training": False, "holdout_f_read": False})
+        write_json(output_root / "stage45f_pi0185_failure.json", {"schema": "STAGE45F_PI0185_FAILURE_SEAL_V1", "status": "PARTIAL", "token": "LOCALPC_PI0185_VALIDATION_E_GEN1_FOR_PI_REVIEW — PARTIAL", "phase": "CPU_POSTHOC", "error": f"{type(exc).__name__}: {exc}", "actual_counters": _ledger_counts(output_root), "raw_inventory": _output_inventory(output_root), "training": False, "holdout_f_read": False})
         return_code = 2
     return return_code
 
@@ -1267,7 +1487,7 @@ def posthoc_only(config_path: Path) -> int:
     output_root, preflight_record, _runtime = _load_preflight(config)
     source_inventory = _source_inventory(config)
     _validate_output_raw(config, output_root, source_inventory)
-    ledger = ExecutionLedger(output_root / "execution_ledger.jsonl", generation="Validation-E-gen1", gpu_uuid=None)
+    ledger = TimingLog(_fresh_timing_path(output_root, "posthoc"), generation="Validation-E-gen1", gpu_uuid=None)
     cpu_posthoc(config, output_root, preflight_record, ledger)
     return 0
 
@@ -1275,7 +1495,7 @@ def posthoc_only(config_path: Path) -> int:
 def plan() -> dict[str, Any]:
     guard = static_guard()
     return {
-        "schema": "STAGE45F_PI0180_VALIDATION_E_GEN1_PLAN_V1",
+        "schema": "STAGE45F_PI0185_VALIDATION_E_GEN1_PLAN_V1",
         "status": "PASS_STATIC_NOT_EXECUTED" if guard["status"] == "PASS" else "FAIL",
         "pi_gate": PI_GATE,
         "source_head": SOURCE_HEAD,
@@ -1288,6 +1508,7 @@ def plan() -> dict[str, Any]:
         "fresh_child_per_arm": True,
         "raw_before_decode": True,
         "cpu_posthoc": True,
+        "integration_rehearsal": True,
         "training": 0,
         "holdout_f_read": 0,
         "h200_submissions_by_runner": 0,
@@ -1304,13 +1525,32 @@ def main(argv: Sequence[str] | None = None) -> int:
     modes.add_argument("--execute", action="store_true")
     modes.add_argument("--arm-child", action="store_true")
     modes.add_argument("--posthoc-only", action="store_true")
+    modes.add_argument("--rehearsal", action="store_true")
+    modes.add_argument("--rehearsal-parent", action="store_true")
+    modes.add_argument("--rehearsal-child", action="store_true")
     parser.add_argument("--config", type=Path)
     parser.add_argument("--repo", type=Path, default=REPO)
     parser.add_argument("--arm")
+    parser.add_argument("--window-id")
+    parser.add_argument("--timing-path", type=Path)
+    parser.add_argument("--attempt-id")
+    parser.add_argument("--rehearsal-root", type=Path)
+    parser.add_argument("--rehearsal-phase", choices=("first", "restart"))
     parser.add_argument("--continuation", action="store_true")
     args = parser.parse_args(argv)
     if args.plan_only:
         print(json.dumps(plan(), indent=2, sort_keys=True))
+        return 0
+    if args.rehearsal:
+        print(json.dumps(integration_rehearsal(args.rehearsal_root), indent=2, sort_keys=True))
+        return 0
+    if args.rehearsal_parent:
+        require(args.rehearsal_root is not None and args.rehearsal_phase is not None, "rehearsal parent requires --rehearsal-root and --rehearsal-phase")
+        _rehearsal_parent(args.rehearsal_root.resolve(), args.rehearsal_phase)
+        return 0
+    if args.rehearsal_child:
+        require(args.rehearsal_root is not None and args.arm is not None and args.window_id is not None, "rehearsal child requires --rehearsal-root, --arm, and --window-id")
+        _rehearsal_child(args.rehearsal_root.resolve(), args.arm, args.window_id, args.timing_path.resolve() if args.timing_path else None)
         return 0
     require(args.config is not None, "selected mode requires --config")
     config_path = args.config.resolve(strict=True)
@@ -1319,7 +1559,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.arm_child:
         require(args.arm is not None, "--arm-child requires --arm")
-        return arm_child(config_path, args.arm)
+        return arm_child(config_path, args.arm, timing_path=args.timing_path, attempt_id=args.attempt_id)
     if args.posthoc_only:
         return posthoc_only(config_path)
     return execute(config_path, continuation_mode=args.continuation)
