@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 sys.path.insert(0, "scripts")
 import stage45f_pi0172_rtx4080_validation_e as execution
@@ -23,6 +24,20 @@ class PI0172RTX4080ValidationETests(unittest.TestCase):
         self.assertEqual(plan["h200_portability"]["allocation"], 8)
         self.assertTrue(plan["h200_portability"]["descriptive_only"])
         self.assertFalse(plan["h200_portability"]["submission"])
+        self.assertFalse(plan["h200_portability"]["primary_completion_gate"])
+        self.assertTrue(plan["resource"]["foreign_processes_allowed"])
+
+    def test_shared_foreign_process_metadata_does_not_block_admission(self) -> None:
+        snapshots = [
+            {"host": "corelab-4080s", "gpus": [{"name": "NVIDIA GeForce RTX 4080 SUPER", "uuid": "GPU-test", "total_vram_mib": 32760, "used_vram_mib": 500, "free_vram_mib": 32260}], "foreign_compute_processes": [{"gpu_uuid": "GPU-test", "pid": 7, "process_name": "other-user", "used_memory_mib": 500}]},
+            {"host": "corelab-4080s", "gpus": [{"name": "NVIDIA GeForce RTX 4080 SUPER", "uuid": "GPU-test", "total_vram_mib": 32760, "used_vram_mib": 600, "free_vram_mib": 32160}], "foreign_compute_processes": [{"gpu_uuid": "GPU-test", "pid": 7, "process_name": "other-user", "used_memory_mib": 600}]},
+        ]
+        with mock.patch.object(execution, "occupancy_snapshot", side_effect=snapshots), mock.patch.object(execution.time, "sleep"):
+            admitted = execution.resource_admission({"occupancy_snapshot_interval_seconds": 0.01}, purpose="unit-test")
+        self.assertTrue(admitted["same_uuid"])
+        self.assertTrue(admitted["foreign_processes_allowed"])
+        self.assertEqual(admitted["foreign_process_interference"], "ALLOWED_READ_ONLY_METADATA")
+        self.assertEqual(admitted["foreign_process_metadata_by_snapshot"][0][0]["pid"], 7)
 
     def test_manifest_matches_code_identity_and_ledger_contract(self) -> None:
         manifest = json.loads(Path("manifests/STAGE45F_PI0172_RTX4080_VALIDATION_E_V1.json").read_text(encoding="utf-8"))

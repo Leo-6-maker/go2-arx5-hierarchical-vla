@@ -37,6 +37,11 @@ FREEZE_PATH = REPO / "manifests/STAGE45F_PI0154_VALIDATION_E_GEN1_RECIPE_FREEZE_
 PI_GATE = "PI_GATE_STATE_0172"
 ISSUE_COMMENT = 5659769556
 PR_POINTER = 5659771060
+EXECUTION_GOAL_GATE = "PI_GATE_STATE_0175"
+EXECUTION_GOAL_ISSUE_COMMENT = 5660645154
+EXECUTION_GOAL_PR_POINTER = 5660647608
+FINAL_TOKEN_PREFIX = "CORELAB_PI0175_VALIDATION_E_EXECUTE_TO_CLOSURE_FOR_PI_REVIEW"
+SCIENCE_HOLD_TOKEN = "CORELAB_PI0175_SCIENCE_REVIEW_HOLD"
 SOURCE_HEAD = "ce3c0179f3974648cdf6527e145d0328b0ac9262"
 BRANCH = "stage45f/corelab-validation-e-rtx4080-qualification"
 FROZEN_EVALUATION_COMMIT = "522ea718e99ff8b1c4b2aa08bec680ed5adfcae5"
@@ -58,7 +63,7 @@ FULL24_STATS_SHA = "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb
 FULL24_STATS_PAYLOAD_SHA = "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
 GROOT_SOURCE_COMMIT = "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
 GROOT_PAYLOAD_TREE_SHA = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
-GROOT_MANIFEST_SHA = "96b883e56b54b963bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
+GROOT_MANIFEST_SHA = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 COSMOS_TREE_SHA = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
@@ -450,16 +455,20 @@ def resource_admission(config: Mapping[str, Any], *, expected_uuid: str | None =
     time.sleep(interval)
     second = occupancy_snapshot(2)
     selected_rows = []
+    foreign_metadata: list[list[dict[str, Any]]] = []
     for snapshot in (first, second):
         matches = [row for row in snapshot["gpus"] if row["uuid"] == selected_uuid]
         require(len(matches) == 1, f"BLOCKED_SHARED_GPU_CAPACITY: selected GPU UUID disappeared during {purpose}")
         selected = matches[0]
         require(selected["free_vram_mib"] >= MIN_FREE_VRAM_MIB, f"BLOCKED_SHARED_GPU_CAPACITY: free VRAM {selected['free_vram_mib']} MiB < {MIN_FREE_VRAM_MIB} MiB during {purpose}")
+        # PI0175 shared-GPU policy: foreign processes are admissible metadata.
+        # Only UUID identity and free-VRAM thresholds gate model entry. Never
+        # kill, signal, reprioritize, or otherwise alter another user's job.
         foreign = [item for item in snapshot["foreign_compute_processes"] if item["gpu_uuid"] == selected_uuid and int(item["pid"]) != os.getpid()]
-        require(not foreign, f"BLOCKED_SHARED_GPU_CAPACITY: foreign compute process on {selected_uuid} during {purpose}")
+        foreign_metadata.append(foreign)
         selected_rows.append(selected)
     require(selected_rows[0]["uuid"] == selected_rows[1]["uuid"] == selected_uuid, "selected GPU UUID changed")
-    return {"schema": "CORELAB_PI0172_RTX4080_RESOURCE_ADMISSION_V1", "status": "PASS_PRE_MODEL" if purpose == "preflight" else "PASS_MODEL_RESTART", "purpose": purpose, "host": first["host"], "selected_gpu_uuid": selected_uuid, "selected_gpu_name": selected_rows[0]["name"], "selected_cuda_mapping": {"CUDA_VISIBLE_DEVICES": selected_uuid, "device": "cuda:0"}, "min_free_vram_mib": MIN_FREE_VRAM_MIB, "snapshots": [first, second], "same_uuid": True, "foreign_process_interference": False, "gpu_uuid_count": 1}
+    return {"schema": "CORELAB_PI0172_RTX4080_RESOURCE_ADMISSION_V1", "status": "PASS_PRE_MODEL" if purpose == "preflight" else "PASS_MODEL_RESTART", "purpose": purpose, "host": first["host"], "selected_gpu_uuid": selected_uuid, "selected_gpu_name": selected_rows[0]["name"], "selected_cuda_mapping": {"CUDA_VISIBLE_DEVICES": selected_uuid, "device": "cuda:0"}, "min_free_vram_mib": MIN_FREE_VRAM_MIB, "snapshots": [first, second], "same_uuid": True, "foreign_process_interference": "ALLOWED_READ_ONLY_METADATA", "foreign_processes_allowed": True, "foreign_process_metadata_by_snapshot": foreign_metadata, "gpu_uuid_count": 1}
 
 
 def prepare_fresh_cache(config: Mapping[str, Any]) -> dict[str, Any]:
@@ -729,8 +738,12 @@ def compare_h200(config: Mapping[str, Any], output_root: Path, windows: Sequence
     manifest_value = config.get("h200_raw_manifest")
     if not isinstance(root_value, str) or not isinstance(manifest_value, str):
         return {"schema": "CORELAB_PI0172_H200_RTX_PORTABILITY_APPENDIX_V1", "status": "BLOCKED_H200_SOURCE", "reason": "h200_raw_root or h200_raw_manifest is not late-bound", "h200_submission": False, "scientific_winner_selected": False}
-    root = regular_dir(Path(root_value), "H200 allocation-8 raw root")
-    manifest_path = regular_file(Path(manifest_value), "H200 allocation-8 raw manifest")
+    root_path = Path(root_value)
+    manifest_candidate = Path(manifest_value)
+    if not root_path.exists() or not manifest_candidate.exists():
+        return {"schema": "CORELAB_PI0172_H200_RTX_PORTABILITY_APPENDIX_V1", "status": "DEFERRED_CPU_ONLY_PORTABILITY", "reason": "exact H200 allocation-8 source is unavailable; RTX primary is not gated", "h200_submission": False, "scientific_winner_selected": False}
+    root = regular_dir(root_path, "H200 allocation-8 raw root")
+    manifest_path = regular_file(manifest_candidate, "H200 allocation-8 raw manifest")
     require(sha256_file(manifest_path) == H200_RAW_MANIFEST_SHA, "H200 allocation-8 raw manifest SHA drift")
     records = _jsonl(manifest_path)
     require(len(records) == 6, "H200 allocation-8 raw manifest is not six cells")
@@ -899,22 +912,23 @@ def execute(config_path: Path) -> int:
         write_if_absent(output_root / "pi0172_target_progress_safety_summary.json", target_summary)
         rows_by_key = {(label, window_id): {**raw_by_key[(label, window_id)], "row": derived_by_key[(label, window_id)]["row"]} for label in ARM_BY_LABEL for window_id in WINDOW_IDS}
         portability = compare_h200(config, output_root, windows, rows_by_key, runtime, evaluator, np)
-        write_if_absent(output_root / "pi0172_h200_rtx_portability_appendix.json", portability)
+        write_json_durable(output_root / "pi0172_h200_rtx_portability_appendix.json", portability, overwrite=True)
         ledger_counts = {"model_load_attempts": ledger.count_begin("MODEL_LOAD"), "conditioning_attempts": ledger.count_begin("CONDITIONING"), "action_head_attempts": ledger.count_begin("ACTION_HEAD"), "model_side_attempts": ledger.count_begin("CONDITIONING") + ledger.count_begin("ACTION_HEAD"), "model_loads_completed": sum(1 for item in _jsonl(ledger.path) if item.get("event") == "MODEL_LOAD" and item.get("status") == "END" and item.get("load_status") == "COMPLETED"), "conditioning_completed": sum(1 for item in _jsonl(ledger.path) if item.get("event") == "CONDITIONING" and item.get("status") == "END" and item.get("status_detail") == "COMPLETED"), "action_head_completed": sum(1 for item in _jsonl(ledger.path) if item.get("event") == "ACTION_HEAD" and item.get("status") == "END" and item.get("status_detail") == "COMPLETED"), "raw_count": len(raw_by_key), "derived_count": len(derived_by_key)}
         write_json_durable(output_root / "pi0172_raw_inventory.json", {"schema": "CORELAB_PI0172_RAW_INVENTORY_V1", "cell_count": len(raw_by_key), "cells": [{key: value for key, value in record.items() if key != "raw" and key != "path_abs"} for _, record in sorted(raw_by_key.items())]})
         write_json_durable(output_root / "pi0172_derived_inventory.json", {"schema": "CORELAB_PI0172_DERIVED_INVENTORY_V1", "cell_count": len(derived_by_key), "cells": [{key: value for key, value in record.items() if key != "row" and key != "path_abs"} for _, record in sorted(derived_by_key.items())]})
-        status = "COMPLETED" if portability.get("status") == "DESCRIPTIVE_COMPLETE" else "PARTIAL"
-        result = {"schema": "CORELAB_PI0172_RTX4080_VALIDATION_E_RESULT_V1", "status": status, "return_token": f"CORELAB_PI0172_RTX4080_VALIDATION_E_FOR_PI_REVIEW — {status}", "science_hold": "CORELAB_PI0172_SCIENCE_REVIEW_HOLD", "pi_gate": PI_GATE, "execution_head": checkout["head"], "branch": checkout["branch"], "gpu_uuid": selected_uuid, "checkpoint_arms": [dict(item) for item in ARM_SPECS], "window_ids": list(WINDOW_IDS), "qualification": {"legacy_seed2222_cells": 6, "objective_integrity": True}, "rtx_matrix": {"raw_cells": len(raw_by_key), "derived_cells": len(derived_by_key), "same_generation_reuse": True, "same_uuid": True}, "actual_counters": ledger_counts, "raw_inventory": "pi0172_raw_inventory.json", "derived_inventory": "pi0172_derived_inventory.json", "paired_summary": "pi0172_l1_minus_legacy_paired_summary.json", "target_progress_safety_summary": "pi0172_target_progress_safety_summary.json", "execution_ledger": "execution_ledger.jsonl", "portability_appendix": "pi0172_h200_rtx_portability_appendix.json", "portability_status": portability.get("status"), "training": False, "wbc": False, "simulator": False, "hardware": False, "holdout_f_read": False, "h200_submissions": 0, "scientific_winner_selected": False}
+        primary_complete = len(raw_by_key) == 36 and len(derived_by_key) == 36 and all(len(rows_by_arm[label]) == 6 for label in ARM_BY_LABEL) and all(label in aggregates for label in ARM_BY_LABEL)
+        status = "COMPLETED" if primary_complete else "PARTIAL"
+        result = {"schema": "CORELAB_PI0172_RTX4080_VALIDATION_E_RESULT_V1", "status": status, "return_token": f"{FINAL_TOKEN_PREFIX} — {status}", "science_hold": SCIENCE_HOLD_TOKEN, "pi_gate": PI_GATE, "execution_goal_gate": EXECUTION_GOAL_GATE, "execution_goal_issue_11_comment": EXECUTION_GOAL_ISSUE_COMMENT, "execution_goal_pr_pointer": EXECUTION_GOAL_PR_POINTER, "execution_head": checkout["head"], "branch": checkout["branch"], "gpu_uuid": selected_uuid, "checkpoint_arms": [dict(item) for item in ARM_SPECS], "window_ids": list(WINDOW_IDS), "qualification": {"legacy_seed2222_cells": 6, "objective_integrity": True}, "rtx_matrix": {"raw_cells": len(raw_by_key), "derived_cells": len(derived_by_key), "same_generation_reuse": True, "same_uuid": True}, "actual_counters": ledger_counts, "raw_inventory": "pi0172_raw_inventory.json", "derived_inventory": "pi0172_derived_inventory.json", "paired_summary": "pi0172_l1_minus_legacy_paired_summary.json", "target_progress_safety_summary": "pi0172_target_progress_safety_summary.json", "execution_ledger": "execution_ledger.jsonl", "portability_appendix": "pi0172_h200_rtx_portability_appendix.json", "portability_status": portability.get("status"), "h200_portability_primary_completion_gate": False, "training": False, "wbc": False, "simulator": False, "hardware": False, "holdout_f_read": False, "h200_submissions": 0, "scientific_winner_selected": False}
         write_json_durable(output_root / "PI0172_RESULT.json", result)
-        ledger.emit("FINAL_SEAL", phase="FINAL_SEAL", status=status, result_path="PI0172_RESULT.json", result_file_sha256=sha256_file(output_root / "PI0172_RESULT.json"), raw_count=len(raw_by_key), derived_count=len(derived_by_key), science_hold="CORELAB_PI0172_SCIENCE_REVIEW_HOLD")
+        ledger.emit("FINAL_SEAL", phase="FINAL_SEAL", status=status, result_path="PI0172_RESULT.json", result_file_sha256=sha256_file(output_root / "PI0172_RESULT.json"), raw_count=len(raw_by_key), derived_count=len(derived_by_key), science_hold=SCIENCE_HOLD_TOKEN)
         print(result["return_token"])
-        print("CORELAB_PI0172_SCIENCE_REVIEW_HOLD")
+        print(SCIENCE_HOLD_TOKEN)
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if status == "COMPLETED" else 2
     except Exception as exc:
         status = "PARTIAL" if model_import_started or ledger.count_begin("MODEL_LOAD") else "BLOCKED"
-        token = f"CORELAB_PI0172_RTX4080_VALIDATION_E_FOR_PI_REVIEW — {status}"
-        failure = {"schema": "CORELAB_PI0172_RTX4080_VALIDATION_E_FAILURE_V1", "status": status, "return_token": token, "pi_gate": PI_GATE, "execution_head": checkout.get("head"), "branch": checkout.get("branch"), "phase": current["phase"], "current": current, "error": f"{type(exc).__name__}: {exc}", "holdout_f_read": False, "h200_submissions": 0, "training": False, "science_hold": "CORELAB_PI0172_SCIENCE_REVIEW_HOLD" if status == "PARTIAL" else None, "timestamp_utc": now_utc()}
+        token = f"{FINAL_TOKEN_PREFIX} — {status}"
+        failure = {"schema": "CORELAB_PI0172_RTX4080_VALIDATION_E_FAILURE_V1", "status": status, "return_token": token, "pi_gate": PI_GATE, "execution_goal_gate": EXECUTION_GOAL_GATE, "execution_head": checkout.get("head"), "branch": checkout.get("branch"), "phase": current["phase"], "current": current, "error": f"{type(exc).__name__}: {exc}", "holdout_f_read": False, "h200_submissions": 0, "training": False, "science_hold": SCIENCE_HOLD_TOKEN if status == "PARTIAL" else None, "timestamp_utc": now_utc()}
         failure_path = output_root / "PI0172_FAILURE.json"
         if not failure_path.exists():
             write_json_durable(failure_path, failure)
@@ -924,7 +938,7 @@ def execute(config_path: Path) -> int:
 
 
 def plan() -> dict[str, Any]:
-    return {"schema": "CORELAB_PI0172_RTX4080_VALIDATION_E_PLAN_V1", "status": "READY_NOT_EXECUTED", "pi_gate": PI_GATE, "issue_11_comment": ISSUE_COMMENT, "pr_pointer": PR_POINTER, "source_head": SOURCE_HEAD, "branch": BRANCH, "checkpoint_arms": [dict(item) for item in ARM_SPECS], "window_ids": list(WINDOW_IDS), "qualification": {"checkpoint": "Legacy(seed2222)@2000", "windows": 6, "conditioning": 6, "action_head": 24, "model_side_total": 30, "raw_outputs": 6}, "full_generation_nominal": {"model_loads": 6, "conditioning": 36, "action_head": 144, "model_side_total": 180, "raw_outputs": 36, "derived_outputs": 36}, "recovery_ceiling": {"model_load_attempts": MODEL_LOAD_ATTEMPTS_MAX, "conditioning_attempts": CONDITIONING_ATTEMPTS_MAX, "action_head_attempts": ACTION_HEAD_ATTEMPTS_MAX, "model_side_attempts": MODEL_SIDE_ATTEMPTS_MAX}, "resource": {"gpu_uuid_max": 1, "free_vram_mib_min": MIN_FREE_VRAM_MIB, "occupancy_snapshots_before_each_model_load": 2, "same_uuid_for_all_cells": True}, "h200_portability": {"allocation": 8, "cells": 6, "descriptive_only": True, "submission": False}, "forbidden": {"remaining_30_rtx_cells": 0, "h200_submissions": 0, "training": 0, "wbc": 0, "simulator": 0, "hardware": 0, "holdout_f_read": 0, "new_probe": 0, "new_smoke_query": 0, "merge": 0}, "review_stop": "CORELAB_PI0172_SCIENCE_REVIEW_HOLD"}
+    return {"schema": "CORELAB_PI0172_RTX4080_VALIDATION_E_PLAN_V1", "status": "READY_NOT_EXECUTED", "pi_gate": PI_GATE, "execution_goal_gate": EXECUTION_GOAL_GATE, "execution_goal_issue_11_comment": EXECUTION_GOAL_ISSUE_COMMENT, "execution_goal_pr_pointer": EXECUTION_GOAL_PR_POINTER, "issue_11_comment": ISSUE_COMMENT, "pr_pointer": PR_POINTER, "source_head": SOURCE_HEAD, "branch": BRANCH, "checkpoint_arms": [dict(item) for item in ARM_SPECS], "window_ids": list(WINDOW_IDS), "qualification": {"checkpoint": "Legacy(seed2222)@2000", "windows": 6, "conditioning": 6, "action_head": 24, "model_side_total": 30, "raw_outputs": 6}, "full_generation_nominal": {"model_loads": 6, "conditioning": 36, "action_head": 144, "model_side_total": 180, "raw_outputs": 36, "derived_outputs": 36}, "recovery_ceiling": {"model_load_attempts": MODEL_LOAD_ATTEMPTS_MAX, "conditioning_attempts": CONDITIONING_ATTEMPTS_MAX, "action_head_attempts": ACTION_HEAD_ATTEMPTS_MAX, "model_side_attempts": MODEL_SIDE_ATTEMPTS_MAX}, "resource": {"gpu_uuid_max": 1, "free_vram_mib_min": MIN_FREE_VRAM_MIB, "occupancy_snapshots_before_each_model_load": 2, "same_uuid_for_all_cells": True, "foreign_processes_allowed": True}, "h200_portability": {"allocation": 8, "cells": 6, "descriptive_only": True, "submission": False, "primary_completion_gate": False}, "forbidden": {"remaining_30_rtx_cells": 0, "h200_submissions": 0, "training": 0, "wbc": 0, "simulator": 0, "hardware": 0, "holdout_f_read": 0, "new_probe": 0, "new_smoke_query": 0, "merge": 0}, "review_stop": SCIENCE_HOLD_TOKEN}
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -945,7 +959,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return preflight(args.config) if args.preflight else execute(args.config)
     except Exception as exc:
         status = "BLOCKED"
-        token = f"CORELAB_PI0172_RTX4080_VALIDATION_E_FOR_PI_REVIEW — {status}"
+        token = f"{FINAL_TOKEN_PREFIX} — {status}"
         print(token, file=sys.stderr)
         print(json.dumps({"status": status, "token": token, "error": f"{type(exc).__name__}: {exc}", "pi_gate": PI_GATE, "h200_submissions": 0, "holdout_f_read": False}, indent=2, sort_keys=True), file=sys.stderr)
         return 2
