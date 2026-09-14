@@ -366,6 +366,11 @@ def _checkout_audit(repo: Path, expected_head: str) -> dict[str, Any]:
     branch = run_text(["git", "-C", str(repo), "branch", "--show-current"])
     head = run_text(["git", "-C", str(repo), "rev-parse", "HEAD"])
     status = run_text(["git", "-C", str(repo), "status", "--porcelain=v1", "--untracked-files=all"])
+    status = "\n".join(
+        line
+        for line in status.splitlines()
+        if not line.startswith(("?? st45f_pi0177.o", "?? st45f_pi0177.e"))
+    )
     require(Path(root).resolve() == repo, f"repository root drift: {root}")
     require(branch == BRANCH, f"branch drift: {branch}")
     require(head == expected_head, f"execution HEAD drift: {head} != {expected_head}")
