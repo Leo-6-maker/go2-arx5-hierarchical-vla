@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 from pathlib import Path
+import subprocess
 import tarfile
 import tempfile
 import unittest
@@ -248,6 +249,80 @@ class PI0163SupportTests(unittest.TestCase):
             self.assertEqual(inventory["missing_raw_count"], 30)
             self.assertEqual(inventory["preserved_cells"][0]["arm"], recovery.EXPECTED_REUSED_ARM)
             self.assertEqual(len(inventory["missing_cells"]), 30)
+
+    def test_isolated_raw_verification_keeps_parent_clean_before_frozen_admission(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._allocation8_raw_fixture(root)
+            probe = r'''
+import json
+from pathlib import Path
+import sys
+
+sys.path.insert(0, sys.argv[1])
+import stage45f_pi0163_validation_e_recovery as recovery
+
+assert "numpy" not in sys.modules
+inventory = recovery.validate_allocation8_inventory(recovery.raw_inventory_isolated(Path(sys.argv[2])))
+assert "numpy" not in sys.modules
+import stage45f_vanda_validation_e_gen1 as evaluator
+before = evaluator.admission.model_imports_present()
+try:
+    evaluator.validate_artifacts({}, {}, "")
+except evaluator.ValidationExecutionError as exc:
+    frozen_error = str(exc)
+else:
+    raise AssertionError("frozen validate_artifacts unexpectedly accepted an empty config")
+print(json.dumps({
+    "preserved_raw_count": inventory["preserved_raw_count"],
+    "missing_raw_count": inventory["missing_raw_count"],
+    "before_validate_artifacts": before,
+    "numpy_in_parent_after_verification": "numpy" in sys.modules,
+    "frozen_error": frozen_error,
+}, sort_keys=True))
+'''
+            completed = subprocess.run(
+                [sys.executable, "-c", probe, "scripts", str(root)],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            result = json.loads(completed.stdout)
+            self.assertEqual(result["preserved_raw_count"], 6)
+            self.assertEqual(result["missing_raw_count"], 30)
+            self.assertEqual(result["before_validate_artifacts"], [])
+            self.assertFalse(result["numpy_in_parent_after_verification"])
+            self.assertEqual(result["frozen_error"], "execution config is missing evaluation code commit")
+
+    def test_frozen_guard_rejects_deliberate_parent_numpy_contamination(self) -> None:
+        probe = r'''
+import json
+import sys
+
+sys.path.insert(0, "scripts")
+import numpy
+import stage45f_vanda_validation_e_gen1 as evaluator
+
+present = evaluator.admission.model_imports_present()
+try:
+    evaluator.validate_artifacts({}, {}, "")
+except evaluator.ValidationExecutionError as exc:
+    frozen_error = str(exc)
+else:
+    raise AssertionError("frozen validate_artifacts accepted deliberate NumPy contamination")
+print(json.dumps({"present": present, "frozen_error": frozen_error}, sort_keys=True))
+'''
+        completed = subprocess.run(
+            [sys.executable, "-c", probe],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        result = json.loads(completed.stdout)
+        self.assertIn("numpy", result["present"])
+        self.assertEqual(result["frozen_error"], "model-side module already imported before execution admission")
 
     def test_fully_preserved_first_arm_is_model_skipped_behaviorally(self) -> None:
         import stage45f_pi0163_validation_e_recovery as recovery
