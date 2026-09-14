@@ -32,7 +32,24 @@
     },
     "cpu_static_status": "PASS",
     "cpu_regression_status": "3/3 PASS",
-    "gpu_canary_status": "AUTHORIZED_BUT_NOT_YET_EXECUTED"
+    "gpu_canary_status": "PARTIAL_PRE_MODEL_RUNTIME_BLOCK",
+    "canary_report": "reports/stage45f_pi0179_train24_canary_20260914/PI0179_TRAIN24_CANARY_REPORT_V1.json",
+    "resource_admission": {
+      "status": "PASS",
+      "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+      "snapshot_count_per_attempt": 2,
+      "minimum_observed_total_mib": 32760,
+      "minimum_observed_free_mib": 22469,
+      "foreign_process_policy": "allowed_read_only_no_kill_signal_reprioritize"
+    },
+    "completed_counters": {
+      "model_load_attempts": 1,
+      "model_loads_completed": 0,
+      "conditioning": 0,
+      "action_heads": 0,
+      "raw_outputs": 0
+    }
   },
   "replay_recorder": {
     "script": "scripts/stage45f_pi0179_replay_recorder.py",
@@ -64,12 +81,13 @@
     ],
     "ffmpeg_role": "post-processing-only",
     "native_simulator_smoke": "NOT_CLAIMED",
-    "synthetic_fixture_smoke": "ENGINEERING_REPLAY_SMOKE_ONLY"
+    "synthetic_fixture_smoke": "PASS_ENGINEERING_REPLAY_SMOKE_ONLY",
+    "synthetic_fixture_output_not_committed": true
   },
   "grasp_boundary": {
     "status": "DESIGN_NOTE_ONLY",
     "document": "docs/stage45f_pi0179_reach_first_grasp_later.md",
     "eef_and_gripper_channels_separate": true
   },
-  "status": "PREPARED_NOT_EXECUTED"
+  "status": "PARTIAL_CANARY_RUNTIME_BLOCK_PI_REVIEW"
 }

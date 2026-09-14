@@ -1,0 +1,98 @@
+{
+  "schema": "PI0179_TRAIN24_CANARY_REPORT_V1",
+  "authority": {
+    "issue_11_comment": 5663251430,
+    "pr_73_pointer": 5663253408,
+    "source_pr": 74,
+    "source_runner_head": "da47605ac16c4d4906bae0c8f6eaaf86d0fb3e5e",
+    "support_pr": 75,
+    "support_head": "2b5f42b744ca140450eb84ac2da843b13dde69ea"
+  },
+  "status": "PARTIAL",
+  "claim_boundary": "No valid TRAIN24 raw was produced; no scientific qualification claim is made.",
+  "artifact_admission": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "legacy_seed2222_checkpoint_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+    "full24_dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "full24_runtime_stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "groot_manifest_sha256": "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "train24_windows_admitted": 24,
+    "first_window_only": true,
+    "target_excluded_from_model_input": true
+  },
+  "resource_admission": {
+    "status": "PASS",
+    "gpu_index": 0,
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "minimum_total_mib": 30000,
+    "minimum_free_mib": 12288,
+    "observed_minimum_total_mib": 32760,
+    "observed_minimum_free_mib": 22469,
+    "two_snapshots_each_attempt": true,
+    "foreign_processes_allowed_read_only": true,
+    "foreign_process_interference": false,
+    "remote_evidence_root": "/var/cache/users/liuyu-nfs/stage45f_pi0179_train24_canary_20260914",
+    "initial_admission_sha256": "5c284594ae6a5e8b5a1ae9fb28d1cf248411e274daaa450e89237517226ba7a4",
+    "recovery_admission_sha256": "04587b99f143f1b46325f8873c47f8a488e8ce32d6683aed3c2281a814033b6f"
+  },
+  "runner_execution": {
+    "authorized_ceiling": {
+      "model_loads": 1,
+      "conditioning": 1,
+      "action_heads": 4,
+      "raw_outputs": 1,
+      "model_side_total": 5
+    },
+    "actual": {
+      "model_load_attempts": 1,
+      "model_loads_completed": 0,
+      "conditioning": 0,
+      "action_heads": 0,
+      "model_side_completed": 0,
+      "raw_outputs": 0,
+      "raw_seal": false,
+      "decode_derived": false,
+      "model_release": false
+    },
+    "validation_e_model_calls": 0,
+    "holdout_f_read": false,
+    "training": false,
+    "backward": false,
+    "optimizer_steps": 0,
+    "checkpoint_writes": 0,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false
+  },
+  "failure_evidence": {
+    "first_failure_phase": "WINDOW_PREPARATION",
+    "first_failure": "TorchCodec native library unavailable before model load; existing FFmpeg v6 library path was identified and tested independently.",
+    "first_failure_log_sha256": "765c283ad81d3a28c1d77fdacaee1cdf0de5450e92bac5b1f36d3caa894daa95",
+    "recovery_failure_phase": "MODEL_LOAD",
+    "recovery_failure": "Transformers could not resolve the Qwen3VL backbone config from local cache because HF_HOME/HF_HUB_CACHE was not bound to the sealed Cosmos cache.",
+    "recovery_failure_log_sha256": "70914a0d8a81ddb0ca70c46e69ab1eb9e116da8120c00d7356c9689455ff33f2",
+    "ffmpeg_ld_library_path_tested": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13c/runtime_env/public_native/python_env/lib",
+    "torchcodec_import_with_ffmpeg_path": "PASS",
+    "cosmos_config_local_cache_probe": "PASS",
+    "required_future_environment_binding": {
+      "HF_HOME": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface",
+      "HF_HUB_CACHE": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub",
+      "TRANSFORMERS_CACHE": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub"
+    },
+    "no_third_attempt_started": true
+  },
+  "durable_preflight": {
+    "status": "PASS_CPU_STATIC",
+    "file_sha256": "65bf28c4a29149bec65c1e1369f02c6771d97f035914ac2aeada388cedbc75a9",
+    "validation_e_model_calls": 0,
+    "holdout_f_read": false,
+    "training": false
+  },
+  "next_gate": "PI_REVIEW_REQUIRED_BEFORE_ANY_FURTHER_MODEL_LOAD",
+  "output_result_file": null
+}
