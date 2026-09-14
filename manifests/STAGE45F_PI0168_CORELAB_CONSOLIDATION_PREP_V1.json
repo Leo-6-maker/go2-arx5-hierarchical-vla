@@ -1,0 +1,144 @@
+{
+  "schema": "STAGE45F_PI0168_CORELAB_CONSOLIDATION_PREP_V1",
+  "status": "READY_FOR_PI_REVIEW",
+  "result_token": "CORELAB_PI0168_REPOSITORY_CONSOLIDATION_PREP_FOR_PI_REVIEW — READY",
+  "authority": {
+    "issue_number": 11,
+    "issue_gate_comment_id": 5658063963,
+    "issue_gate_token": "PI_GATE_STATE_0168",
+    "pr69_number": 69,
+    "pr69_launch_pointer_comment_id": 5658065067,
+    "pr71_number": 71,
+    "pr71_reviewed_head_at_issuance": "940df1ab6f428fd0260fe836e36d4cd98c6161e3"
+  },
+  "ownership": {
+    "corelab_role": "zero-model static audit and repository-consolidation preparation",
+    "vanda_role": "sole active Validation-E scientific execution owner",
+    "next_owner": "VANDA",
+    "review_state": "HOLD_GPT_PI_REVIEW"
+  },
+  "checkout": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "branch": "stage45f/corelab-execution-risk-consolidation-prep",
+    "base_branch": "stage45f/vanda-validation-e-gen1-l1-2000",
+    "created_from_sha": "940df1ab6f428fd0260fe836e36d4cd98c6161e3",
+    "draft_pr_number": null,
+    "draft_pr_title": "Stage45F: Corelab execution-risk audit and consolidation prep"
+  },
+  "allowed_changed_paths": [
+    "reports/stage45f_pi0168_corelab_consolidation/EXECUTION_CHAIN_AND_FAILURE_MODE_AUDIT.md",
+    "reports/stage45f_pi0168_corelab_consolidation/REPOSITORY_TOPOLOGY_AND_ARCHIVE_PLAN.md",
+    "reports/stage45f_pi0168_corelab_consolidation/POST_VALIDATION_HARNESS_ARCHITECTURE.md",
+    "reports/stage45f_pi0168_corelab_consolidation/CURRENT_RESEARCH_STATE_DRAFT.md",
+    "manifests/STAGE45F_PI0168_CORELAB_CONSOLIDATION_PREP_V1.json",
+    "scripts/stage45f_pi0168_repo_static_audit.py",
+    "tests/test_stage45f_pi0168_repo_static_audit.py"
+  ],
+  "audit": {
+    "schema": "STAGE45F_PI0168_REPOSITORY_STATIC_AUDIT_V1",
+    "source_snapshot": "940df1ab6f428fd0260fe836e36d4cd98c6161e3",
+    "status": "PASS_STATIC_AUDIT_WITH_KNOWN_PI0167_BLOCKER",
+    "missing_targets": [],
+    "python_syntax_failures": [],
+    "top_level_forbidden_imports": {
+      "src/go2arx5_vla/evaluation/checkpoint_eval.py": [
+        {"line": 22, "module": "numpy", "classification": "IMPORT_PURITY_DEFECT_IF_PRE_ADMISSION"}
+      ]
+    },
+    "known_pi0167_blocker": {
+      "classification": "KNOWN_PI0167_BLOCKER",
+      "file": "scripts/stage45f_pi0163_validation_e_recovery.py",
+      "numpy_import_line": 220,
+      "raw_inventory_call_lines": [393, 870],
+      "first_validate_artifacts_call_line": 1028,
+      "mechanical_fix_class": "ISOLATED_CHILD_PROCESS_BEFORE_PARENT_ADMISSION",
+      "owner": "VANDA",
+      "new_p0": false
+    },
+    "target_sha256": {
+      "scripts/stage45f_pi0163_validation_e_recovery.py": "099e724a570f7050745d992a763cb24f466a6121cb296b6f98f34cbc29b51534",
+      "scripts/stage45f_pi0159_validation_e_continuation.py": "5b55c50f733fe0550f723df72d3da5e24ced6749e07b4c31577a521f3504ed71",
+      "scripts/stage45f_vanda_validation_e_admission.py": "52db7df1dbd33ba91dbe540356174f6f2a918cf8158d46e46b3bbff57415059f",
+      "scripts/stage45f_vanda_validation_e_gen1.py": "f04a35d7743789fab0d69305f94219a322f6468a51762bef28826b1c40c34692",
+      "scripts/stage45c_h200_eval_runtime_adapter.py": "16ed0355ed63c03724f44ea509de9a9832a21fa1e2e446914ac535963830d3d4",
+      "scripts/stage26_h1_c1_fixed_noise_local_flow.py": "566fd27907b5b05fb188c531692bcd134dfab4adf430585dbc2bd6a805feb42a",
+      "src/go2arx5_vla/evaluation/checkpoint_eval.py": "f65c38e3b7e03e3e0d788c4f91d101a1d243e1eccc2df9bd330bd5f124801536"
+    },
+    "static_context_sha256": {
+      "hpc/pbs/stage45f_pi0163_validation_e_gen1_h200.pbs": "f04ed31991a7f0aae5d6a73aa079ff086baae1c44caabda9ce7acea82dc90871",
+      "hpc/pbs/stage45f_validation_e_gen1_h200.pbs": "3e8ffe042cbaa2321eb3ea34bd7ea98ced76cf6a54165697dd47b285c0a69b4d",
+      "hpc/pbs/stage45f_pi0159_validation_e_continuation_h200.pbs": "91f1595f6a1e684b7efe29315e58eb69098f2ecc7b0084f9eb5cc8b342aec6e3",
+      "scripts/stage45f_pi0163_ffmpeg_capsule_bootstrap.py": "e89d318546bcb5550770c18b17fed40bfc228e620cda3ec53d7b4952245b047c",
+      "scripts/stage45f_pi0163_runtime_import_probe.py": "6fd346b550c93965f0d6376522023998ec530dcc8bc766c90dd9c4e60afd8af0"
+    },
+    "audit_process_project_runtime_imports": false
+  },
+  "findings": {
+    "new_p0": 0,
+    "p1": 2,
+    "p2": 3,
+    "pr71_p0_comment_posted": false,
+    "p0_comment_reason": "No new P0; PI0167 is already published and Vanda-owned."
+  },
+  "zero_execution_counters": {
+    "validation_e_payload_reads": 0,
+    "holdout_f_payload_reads": 0,
+    "model_calls": 0,
+    "training_steps": 0,
+    "backward_steps": 0,
+    "optimizer_steps": 0,
+    "checkpoint_writes": 0,
+    "gpu_calls": 0,
+    "cuda_calls": 0,
+    "pbs_submissions": 0,
+    "pbs_polls": 0,
+    "simulator_calls": 0,
+    "wbc_calls": 0,
+    "new_probe_sim_wbc_icl": 0,
+    "dependency_installations": 0
+  },
+  "historical_failure_matrix": [
+    {"ordinal": 1, "job_id": "614203.hopper-m-02", "status": "FAILED_BEFORE_PYTHON_MODEL_BOUNDARY", "model_load_attempts": 0, "raw_rows": 0},
+    {"ordinal": 2, "job_id": "614226.hopper-m-02", "status": "PARTIAL_FAILED_AT_MODEL_LOAD", "model_load_attempts": 1, "model_loads_completed": 0, "raw_rows": 0},
+    {"ordinal": 3, "job_id": "614574.hopper-m-02", "status": "FAILED_BEFORE_MODEL_IMPORT", "model_load_attempts": 0, "raw_rows": 0},
+    {"ordinal": 4, "job_id": "614586.hopper-m-02", "status": "FAILED_BEFORE_MODEL_IMPORT", "model_load_attempts": 0, "raw_rows": 0},
+    {"ordinal": 5, "job_id": "614704.hopper-m-02", "status": "PARTIAL_AFTER_VALID_RAW", "model_load_attempts": 1, "conditioning": 1, "action_head": 4, "raw_rows": 1},
+    {"ordinal": 6, "job_id": "614858.hopper-m-02", "status": "BLOCKED_STALE_EXPECTED_HEAD", "model_load_attempts": 0, "raw_rows": 0},
+    {"ordinal": 7, "job_id": "615030.hopper-m-02", "status": "BLOCKED_PBS_PRE_SUBMIT_CHECKOUT_DIRTY", "model_load_attempts": 0, "raw_rows": 0},
+    {"ordinal": 8, "job_id": "615034.hopper-m-02", "status": "PARTIAL_EVALUATION_CONTRACT", "model_load_attempts": 1, "conditioning": 6, "action_head": 24, "raw_rows": 6, "derived_rows": 6},
+    {"ordinal": 9, "job_id": "615124.hopper-m-02", "status": "BLOCKED_PRE_ADMISSION_IMPORT_POLLUTION", "new_model_calls": 0, "preserved_raw_rows": 6, "missing_raw_rows": 30}
+  ],
+  "topology_classification_counts_for_prs_46_49_51_to_71": {
+    "ACTIVE_EXECUTION": 1,
+    "ACTIVE_SUPPORT": 0,
+    "SEALED_HISTORY": 6,
+    "PREP_ONLY_SUPERSEDED": 6,
+    "ARCHIVE_CANDIDATE": 3,
+    "SCIENCE_RESULT_NOT_YET_CONSOLIDATED": 7,
+    "total": 23,
+    "open_total": 22
+  },
+  "proposed_post_validation_schemas": [
+    "RUN_SPEC_V1",
+    "EVIDENCE_REUSE_PLAN_V1",
+    "MODEL_CALL_LEDGER_V1",
+    "POSTHOC_SEAL_V1"
+  ],
+  "post_validation_consolidation_sequence": [
+    "Vanda emits a truthful Validation-E raw/derived/failure seal.",
+    "Bind accepted source, protocol, raw/evidence, counters, and inventory hashes.",
+    "Port only portable validation/hash/counter/process-boundary semantics; retain runtime adapters separately.",
+    "Update canonical navigation in a separate PI-reviewed documentation change.",
+    "Handle archive candidates only after PI approval with immutable provenance preserved."
+  ],
+  "live_pr71_delta": {
+    "vanda_head_moved": "pending_final_live_read",
+    "new_head": "pending_final_live_read",
+    "delta_files": [],
+    "does_delta_invalidate_audit": "pending_final_live_read",
+    "unaudited_live_delta": "pending_final_live_read"
+  },
+  "recommendation_next_experiment": null,
+  "no_pr71_source_changes": true,
+  "no_repository_cleanup_actions": true
+}
