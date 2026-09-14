@@ -1,0 +1,163 @@
+{
+  "schema": "CORELAB_PI0170_RTX4080_VALIDATION_QUALIFICATION_MANIFEST_V1",
+  "authority": {
+    "issue_11_comment": 5659393287,
+    "pr_72_comment": 5659394477,
+    "gate": "PI_GATE_STATE_0170",
+    "source_head": "ce3c0179f3974648cdf6527e145d0328b0ac9262",
+    "branch": "stage45f/corelab-validation-e-rtx4080-qualification",
+    "draft_pr_title": "[Stage45F] Corelab RTX4080 Validation-E qualification",
+    "review_stop": "GPT/PI review"
+  },
+  "scope": {
+    "checkpoint": {
+      "route": "Legacy",
+      "seed": 2222,
+      "tier": 2000,
+      "label": "Legacy(seed2222)@2000",
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+    },
+    "target_id": "red_target_holdout_e",
+    "split": "validation",
+    "window_ids": [
+      "stage22_expert_red_target_holdout_e:expert-0000",
+      "stage22_expert_red_target_holdout_e:expert-0001",
+      "stage22_expert_red_target_holdout_e:expert-0002",
+      "stage22_expert_red_target_holdout_e:expert-0003",
+      "stage22_expert_red_target_holdout_e:expert-0004",
+      "stage22_expert_red_target_holdout_e:expert-0005"
+    ],
+    "target_xyz_in_model_input": false,
+    "holdout_f_read": false
+  },
+  "frozen_runtime": {
+    "recipe_freeze": "manifests/STAGE45F_PI0154_VALIDATION_E_GEN1_RECIPE_FREEZE_V1.json",
+    "evaluation_code_commit": "522ea718e99ff8b1c4b2aa08bec680ed5adfcae5",
+    "full24_dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "full24_stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "full24_stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "full24_split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "snapshot_lock_sha256": "23c35e2204b9555c8431a3f86fd7e1767740bf7196341972e847bc43c141aec8",
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "groot_payload_tree_sha256": "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b",
+    "groot_manifest_sha256": "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "base_model_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "base_processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "base_processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9"
+  },
+  "execution_contract": {
+    "noise_seed": 4242,
+    "noise_dtype": "float32",
+    "noise_device": "cpu",
+    "noise_shape": [1, 40, 132],
+    "timestep_ids": [0, 250, 500, 750],
+    "t_values": [0.0, 0.25, 0.5, 0.75],
+    "dt": 0.25,
+    "raw_shape": [1, 40, 132],
+    "decoded_shape": [40, 10],
+    "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "language": "move the end effector to the red target",
+    "sampler": "direct-source-mapped-action-head-E4",
+    "public_sampler_calls": 0,
+    "get_action_calls": 0
+  },
+  "budgets": {
+    "gpu_uuid_max": 1,
+    "model_load_attempts_max": 1,
+    "model_loads_completed_max": 1,
+    "conditioning_max": 6,
+    "action_head_max": 24,
+    "model_side_max": 30,
+    "raw_outputs": 6,
+    "training_steps": 0,
+    "backward_steps": 0,
+    "optimizer_steps": 0,
+    "checkpoint_writes": 0,
+    "h200_submissions": 0
+  },
+  "resource_admission": {
+    "host": "corelab-4080s",
+    "gpu_name_contains": "RTX 4080",
+    "prefer_total_vram_mib_at_least": 30000,
+    "free_vram_mib_at_least": 12288,
+    "occupancy_snapshots": 2,
+    "same_uuid_for_all_windows": true,
+    "foreign_process_interference": false,
+    "selection": "explicit GPU UUID; CUDA_VISIBLE_DEVICES is bound to that UUID after the two snapshots",
+    "foreign_process_action": "metadata only; never kill or reprioritize"
+  },
+  "h200_portability_anchor": {
+    "allocation": 8,
+    "submission": false,
+    "source_manifest_sha256": "0ebe595377d32164ff395d9d0f6d779b74a3654e473f12863eca2c6e83d0f8df",
+    "source_root_late_bound": true,
+    "cells": [
+      {
+        "window": "expert-0000",
+        "file_sha256": "f987e669e5a0e203542856b33e19a1e1e9e570c842e3c49ed0d78819cd8fec51",
+        "array_sha256": "0027e64ba351792acf562f11fdba74d4e7ce5aed4800a5b86973fc01a35019c8"
+      },
+      {
+        "window": "expert-0001",
+        "file_sha256": "5846a7c274877848d7c96c3c35feefb48d33f1bbf6c80236c7dd708505eed3bb",
+        "array_sha256": "2ad146989464e1b1e976f14768d4883ac3f736401d073c9f5a22b84369edc155"
+      },
+      {
+        "window": "expert-0002",
+        "file_sha256": "98b80fe6847e933fa919a71b26515d591faa385daecae4053f8a60f298e28c2b",
+        "array_sha256": "4a08cdace2001e515ab0b15d7dc1f8febe485f72e38021579958305eccc5d7b1"
+      },
+      {
+        "window": "expert-0003",
+        "file_sha256": "70666f2248c819e48a32e726cdf94a73e645b920780e0c9c50aa0590bf37c9a7",
+        "array_sha256": "728551e60fddf495bc2abec6b6937ce1f2ec6fa1b0c337c496cd20b213479995"
+      },
+      {
+        "window": "expert-0004",
+        "file_sha256": "49605ae01b4917d8392d6867af1af4a5bedae09f21bd944942f865ec814c3fe7",
+        "array_sha256": "b8537ecf3323a1f935849fdd9b5a774af431e7e647835c83cf47c72fc332d973"
+      },
+      {
+        "window": "expert-0005",
+        "file_sha256": "01d635ec796151ebbfeec6835ea3ab4a909ec3a5ef6c0074220b5c89d84204fe",
+        "array_sha256": "6120ef8365ff5ae5717addfce77470bb9070759be9eeb80e03050ba78943fa87"
+      }
+    ],
+    "raw_comparison": {
+      "byte_equality": true,
+      "array_exact_equality": true,
+      "max_abs": true,
+      "mean_abs": true,
+      "rmse": true,
+      "shape_dtype_finite": true
+    },
+    "decoded_comparison": {
+      "overall": true,
+      "xyz": true,
+      "rot6d": true,
+      "gripper": true,
+      "target_distance_progress_path_roughness": true,
+      "safety_gate_if_present": true
+    },
+    "scientific_winner_selected": false
+  },
+  "locked_boundaries": {
+    "remaining_30_rtx_cells": false,
+    "h200_submission": false,
+    "training": false,
+    "backward": false,
+    "optimizer": false,
+    "checkpoint_write": false,
+    "wbc": false,
+    "simulator": false,
+    "hardware": false,
+    "holdout_f": false,
+    "new_probe": false,
+    "new_smoke_query": false,
+    "merge": false
+  }
+}
