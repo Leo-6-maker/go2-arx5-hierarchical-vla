@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import subprocess
 import sys
 import time
@@ -141,12 +142,27 @@ def plan() -> dict[str, Any]:
     }
 
 
-def run_canary(config_path: Path, runner_script: Path, repo: Path, python_bin: str, interval_s: float) -> dict[str, Any]:
+def run_canary(
+    config_path: Path,
+    runner_script: Path,
+    repo: Path,
+    python_bin: str,
+    interval_s: float,
+    *,
+    recovery: bool = False,
+    ld_library_path: str | None = None,
+) -> dict[str, Any]:
     config = _json(config_path)
     output_root = Path(str(config["output_root"])).resolve()
     require(output_root.is_dir(), f"CPU/static output root is unavailable: {output_root}")
-    admission_path = output_root / "resource_admission.json"
-    require(not admission_path.exists(), "resource admission already recorded; no repeat")
+    admission_path = output_root / ("resource_admission_recovery.json" if recovery else "resource_admission.json")
+    if recovery:
+        require((output_root / "resource_admission.json").is_file(), "recovery requires the original admission record")
+        require(not (output_root / "canary_result.json").exists(), "recovery is only allowed before a canary result")
+        previous_error = (output_root / "canary_wrapper.stderr.log").read_text(encoding="utf-8") if (output_root / "canary_wrapper.stderr.log").is_file() else ""
+        require("libtorchcodec" in previous_error or "TorchCodec" in previous_error, "recovery is limited to the recorded TorchCodec runtime blocker")
+    else:
+        require(not admission_path.exists(), "resource admission already recorded; no repeat")
     gpu_index = int(config.get("gpu_index", 0))
     snapshots = [_gpu_snapshot()]
     if interval_s > 0:
@@ -168,6 +184,7 @@ def run_canary(config_path: Path, runner_script: Path, repo: Path, python_bin: s
         "wbc": False,
         "simulator": False,
         "hardware": False,
+        "recovery": recovery,
     }
     _write_json(admission_path, admission_record)
     command = [
@@ -179,9 +196,14 @@ def run_canary(config_path: Path, runner_script: Path, repo: Path, python_bin: s
         "--config",
         str(config_path.resolve()),
     ]
-    completed = subprocess.run(command, capture_output=True, text=True, check=False)
-    (output_root / "canary_wrapper.stdout.log").write_text(completed.stdout, encoding="utf-8")
-    (output_root / "canary_wrapper.stderr.log").write_text(completed.stderr, encoding="utf-8")
+    child_env = dict(os.environ)
+    if ld_library_path:
+        child_env["LD_LIBRARY_PATH"] = ld_library_path
+    completed = subprocess.run(command, capture_output=True, text=True, check=False, env=child_env)
+    stdout_name = "canary_wrapper_recovery.stdout.log" if recovery else "canary_wrapper.stdout.log"
+    stderr_name = "canary_wrapper_recovery.stderr.log" if recovery else "canary_wrapper.stderr.log"
+    (output_root / stdout_name).write_text(completed.stdout, encoding="utf-8")
+    (output_root / stderr_name).write_text(completed.stderr, encoding="utf-8")
     result_path = output_root / "canary_result.json"
     require(completed.returncode == 0 and result_path.is_file(), f"PI0177 canary failed: {completed.stderr[-1200:]}")
     result = _json(result_path)
@@ -201,6 +223,8 @@ def run_canary(config_path: Path, runner_script: Path, repo: Path, python_bin: s
         "resource_admission": admission,
         "runner_result": "canary_result.json",
         "runner_command": command,
+        "ld_library_path": ld_library_path,
+        "recovery": recovery,
         "runner_status": result,
         "foreign_process_interference": False,
         "validation_e_model_calls": 0,
@@ -220,18 +244,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--plan-only", action="store_true")
     modes.add_argument("--run", action="store_true")
+    parser.add_argument("--recovery", action="store_true", help="retry only the recorded pre-model TorchCodec blocker")
     parser.add_argument("--config", type=Path)
     parser.add_argument("--runner-script", type=Path)
     parser.add_argument("--repo", type=Path)
     parser.add_argument("--python", dest="python_bin", default=sys.executable)
     parser.add_argument("--snapshot-interval-s", type=float, default=1.0)
+    parser.add_argument("--ld-library-path")
     args = parser.parse_args(argv)
     if args.plan_only:
         print(json.dumps(plan(), indent=2, sort_keys=True))
         return 0
     require(args.config and args.runner_script and args.repo, "--run requires --config, --runner-script, and --repo")
     require(math.isfinite(args.snapshot_interval_s) and args.snapshot_interval_s >= 0.0, "snapshot interval must be finite and non-negative")
-    print(json.dumps(run_canary(args.config.resolve(strict=True), args.runner_script.resolve(strict=True), args.repo.resolve(strict=True), args.python_bin, args.snapshot_interval_s), indent=2, sort_keys=True))
+    print(json.dumps(run_canary(
+        args.config.resolve(strict=True),
+        args.runner_script.resolve(strict=True),
+        args.repo.resolve(strict=True),
+        args.python_bin,
+        args.snapshot_interval_s,
+        recovery=args.recovery,
+        ld_library_path=args.ld_library_path,
+    ), indent=2, sort_keys=True))
     return 0
 
 
