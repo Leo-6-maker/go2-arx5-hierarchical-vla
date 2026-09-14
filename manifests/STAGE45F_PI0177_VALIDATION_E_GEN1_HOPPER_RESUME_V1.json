@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE45F_PI0177_VALIDATION_E_GEN1_HOPPER_RESUME_V1",
-  "status": "FROZEN_EXECUTION_MECHANISM_BOUND_TO_PI0177",
+  "schema": "STAGE45F_PI0180_VALIDATION_E_GEN1_HOPPER_RESUME_V1",
+  "status": "FROZEN_EXECUTION_MECHANISM_BOUND_TO_PI0180",
   "authority": {
-    "issue_11_comment": 5661695527,
+    "issue_11_comment": 5664544367,
     "pr_71_comment": 5661697942,
     "pr_73_comment": 5661699939,
     "source_head": "ce3c0179f3974648cdf6527e145d0328b0ac9262",
@@ -60,6 +60,8 @@
     "continuation_only_for_missing_cells": true
   },
   "phase_order": [
+    "RUNTIME_BOOTSTRAP",
+    "RUNTIME_IMPORT_PROBE",
     "PROCESSOR_BUILD",
     "WINDOW_PREPARATION",
     "NOISE_BANK_READY",
@@ -80,7 +82,7 @@
     "cpu_posthoc": true,
     "interruption_safe_resume": true,
     "rtx_specific_admission": false,
-    "gpu_model_allowlist": ["H100", "H200"],
+    "gpu_model_allowlist": ["H200"],
     "single_visible_gpu": true,
     "single_gpu_uuid_per_allocation": true
   },
@@ -118,7 +120,7 @@
     "arm_aggregates": 6,
     "paired_cells": 18,
     "seed_summaries": 3,
-    "return_token": "LOCALPC_PI0177_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED",
-    "science_hold": "LOCALPC_PI0177_SCIENCE_REVIEW_HOLD"
+    "return_token": "LOCALPC_PI0180_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED",
+    "science_hold": "LOCALPC_PI0180_SCIENCE_REVIEW_HOLD"
   }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0177 Validation-E generation-1 Hopper completion runner.
+"""PI0180 Validation-E generation-1 Hopper completion runner.
 
 The parent process owns the durable ledger and starts one fresh child for each
 unfinished checkpoint arm.  Children load exactly one checkpoint, seal raw
@@ -37,19 +37,19 @@ for _path in (SRC, SCRIPTS):
 import stage45f_pi0159_validation_e_continuation as continuation  # noqa: E402
 
 
-PI_GATE = 5661695527
+PI_GATE = 5664544367
 PR71_POINTER = 5661697942
 PR73_DONOR = 5661699939
 SOURCE_HEAD = "ce3c0179f3974648cdf6527e145d0328b0ac9262"
 BRANCH = "stage45f/localpc-validation-e-hopper-resume"
 DONOR_HEAD = "bdc0a3f68210927629d3b64a4cda97b0af030efc"
 FREEZE_PATH = REPO / "manifests/STAGE45F_PI0154_VALIDATION_E_GEN1_RECIPE_FREEZE_V1.json"
-RETURN_TOKEN = "LOCALPC_PI0177_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED"
-SCIENCE_HOLD = "LOCALPC_PI0177_SCIENCE_REVIEW_HOLD"
-SCHEMA = "STAGE45F_PI0177_VALIDATION_E_GEN1_HOPPER_RESUME_V1"
-LEDGER_SCHEMA = "STAGE45F_PI0177_EXECUTION_LEDGER_V1"
+RETURN_TOKEN = "LOCALPC_PI0180_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED"
+SCIENCE_HOLD = "LOCALPC_PI0180_SCIENCE_REVIEW_HOLD"
+SCHEMA = "STAGE45F_PI0180_VALIDATION_E_GEN1_HOPPER_RESUME_V1"
+LEDGER_SCHEMA = "STAGE45F_PI0180_EXECUTION_LEDGER_V1"
 RAW_SCHEMA = "STAGE45F_PI0154_RAW_PREDICTION_V1"
-DERIVED_SCHEMA = "STAGE45F_PI0177_DERIVED_EVIDENCE_REFERENCE_V1"
+DERIVED_SCHEMA = "STAGE45F_PI0180_DERIVED_EVIDENCE_REFERENCE_V1"
 TARGET_ID = "red_target_holdout_e"
 NOISE_SEED = 4242
 TIMESTEP_IDS = [0, 250, 500, 750]
@@ -63,6 +63,12 @@ EXPECTED_GROOT_PAYLOAD_TREE = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370f
 EXPECTED_GROOT_MANIFEST_SHA = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
 EXPECTED_COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 EXPECTED_COSMOS_TREE = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
+EXPECTED_FFMPEG_CAPSULE = "/hpctmp/e1192548/stage45f_pi0163_ffmpeg_capsule_v1/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf.tar"
+EXPECTED_FFMPEG_CAPSULE_SHA = "3ddd7e94d2f97cedf77998bc9516143a427ce87945b31203689b8456283a633a"
+EXPECTED_FFMPEG_RUNTIME_ID = "9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf"
+EXPECTED_FFMPEG_MANIFEST_SHA = "6160d579b98dc5ee4b114ada4a4e00e88ee13df6ed1fc3d308b5879d67027d2c"
+EXPECTED_FFMPEG_RUNTIME_ROOT = "/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf"
+EXPECTED_VIDEO = "/scratch/e1192548/leon-storage/runs/stage39_vis_offline_mp4_20260906/v0_c0_expert.mp4"
 EXPECTED_MODALITY_SHA = "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031"
 EXPECTED_BASE_TREE = "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4"
 EXPECTED_BASE_CONFIG_SHA = "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be"
@@ -91,17 +97,17 @@ FORBIDDEN_TOP_LEVEL = {"torch", "transformers", "gr00t", "cuda", "cv2", "numpy"}
 FORBIDDEN_CALLS = {"backward", "get_action", "qsub", "save_checkpoint", "save_model", "save_pretrained", "train"}
 
 
-class PI0177Error(RuntimeError):
+class PI0180Error(RuntimeError):
     pass
 
 
-class MechanicalInterruption(PI0177Error):
+class MechanicalInterruption(PI0180Error):
     pass
 
 
 def require(condition: bool, message: str) -> None:
     if not condition:
-        raise PI0177Error(message)
+        raise PI0180Error(message)
 
 
 def now_utc() -> str:
@@ -230,7 +236,7 @@ def static_guard() -> dict[str, Any]:
         "no_h200_submit": not qsub_call_seen,
     }
     return {
-        "schema": "STAGE45F_PI0177_EXECUTION_STATIC_GUARD_V1",
+        "schema": "STAGE45F_PI0180_EXECUTION_STATIC_GUARD_V1",
         "status": "PASS" if not forbidden_imports and not forbidden_calls and all(markers.values()) else "FAIL",
         "top_level_forbidden_imports": forbidden_imports,
         "forbidden_call_hits": sorted(set(forbidden_calls)),
@@ -345,18 +351,25 @@ def _copy_file_durable(source: Path, destination: Path) -> None:
 
 def _load_config(config_path: Path) -> dict[str, Any]:
     value = load_json(config_path.resolve(strict=True))
-    require(isinstance(value, Mapping), "PI0177 config is not an object")
+    require(isinstance(value, Mapping), "PI0180 config is not an object")
     config = dict(value)
-    require(config.get("schema") == SCHEMA, "PI0177 config schema drift")
-    require(config.get("pi_gate") == PI_GATE, "PI0177 gate drift")
-    require(config.get("branch") == BRANCH, "PI0177 branch drift")
-    require(config.get("source_head") == SOURCE_HEAD, "PI0177 source HEAD drift")
-    require(config.get("donor_head") == DONOR_HEAD, "PI0177 donor HEAD drift")
-    require(config.get("expected_calls") == EXPECTED_CALLS, "PI0177 nominal call budget drift")
-    require(config.get("new_call_ceiling") == NEW_CEILING, "PI0177 recovery ceiling drift")
-    require(config.get("holdout_f_read") is False and config.get("training") is False, "PI0177 execution boundary opened")
-    require(config.get("checkpoint_arms") == list(EXPECTED_ARM_LABELS), "PI0177 checkpoint order drift")
-    require(config.get("window_ids") == list(EXPECTED_WINDOWS), "PI0177 window order drift")
+    require(config.get("schema") == SCHEMA, "PI0180 config schema drift")
+    require(config.get("pi_gate") == PI_GATE, "PI0180 gate drift")
+    require(config.get("branch") == BRANCH, "PI0180 branch drift")
+    require(config.get("source_head") == SOURCE_HEAD, "PI0180 source HEAD drift")
+    require(config.get("donor_head") == DONOR_HEAD, "PI0180 donor HEAD drift")
+    require(config.get("expected_calls") == EXPECTED_CALLS, "PI0180 nominal call budget drift")
+    require(config.get("new_call_ceiling") == NEW_CEILING, "PI0180 recovery ceiling drift")
+    require(config.get("holdout_f_read") is False and config.get("training") is False, "PI0180 execution boundary opened")
+    require(config.get("checkpoint_arms") == list(EXPECTED_ARM_LABELS), "PI0180 checkpoint order drift")
+    require(config.get("window_ids") == list(EXPECTED_WINDOWS), "PI0180 window order drift")
+    require(config.get("ffmpeg_capsule") == EXPECTED_FFMPEG_CAPSULE, "FFmpeg capsule path drift")
+    require(config.get("ffmpeg_capsule_sha256") == EXPECTED_FFMPEG_CAPSULE_SHA, "FFmpeg capsule SHA drift")
+    require(config.get("ffmpeg_runtime_id") == EXPECTED_FFMPEG_RUNTIME_ID, "FFmpeg runtime identity drift")
+    require(config.get("ffmpeg_manifest_sha256") == EXPECTED_FFMPEG_MANIFEST_SHA, "FFmpeg manifest SHA drift")
+    require(config.get("ffmpeg_runtime_root") == EXPECTED_FFMPEG_RUNTIME_ROOT, "FFmpeg runtime root drift")
+    require(config.get("video") == EXPECTED_VIDEO, "runtime probe video drift")
+    require(config.get("cosmos_revision") == EXPECTED_COSMOS_REVISION, "Cosmos revision drift")
     return config
 
 
@@ -384,7 +397,7 @@ def _checkout_audit(repo: Path, expected_head: str) -> dict[str, Any]:
         "tests/test_stage45f_pi0177_hopper_resume.py",
         "hpc/pbs/stage45f_pi0177_validation_e_gen1_h200.pbs",
     }
-    require(set(changed) <= allowed, f"unexpected changes outside PI0177 addition: {changed}")
+    require(set(changed) <= allowed, f"unexpected changes outside PI0180 addition: {changed}")
     return {"root": root, "branch": branch, "head": head, "clean": True, "changed_paths": changed}
 
 
@@ -411,7 +424,7 @@ def _checkpoint_prefix(label: str) -> str:
         return "stage45e_legacy/checkpoint-2000"
     if label.startswith("L1("):
         return "stage45e_l1/checkpoint-2000"
-    raise PI0177Error(f"unsupported checkpoint label: {label}")
+    raise PI0180Error(f"unsupported checkpoint label: {label}")
 
 
 def _artifact_audit(config: Mapping[str, Any], binding: Mapping[str, Any], expected_head: str) -> dict[str, Any]:
@@ -472,7 +485,7 @@ def _artifact_audit(config: Mapping[str, Any], binding: Mapping[str, Any], expec
     windows = evaluator.validate_snapshot_records(binding)
     require([item["window_id"] for item in windows] == list(EXPECTED_WINDOWS), "Validation-E snapshot order drift")
     return {
-        "schema": "STAGE45F_PI0177_PRE_MODEL_ARTIFACT_AUDIT_V1",
+        "schema": "STAGE45F_PI0180_PRE_MODEL_ARTIFACT_AUDIT_V1",
         "status": "PASS",
         "execution_head": expected_head,
         "base": {"path": str(base), "tree_sha256": base_tree, "file_count": len(base_entries)},
@@ -540,7 +553,7 @@ def _preserved_reuse(config: Mapping[str, Any], inventory: Mapping[str, Any], ou
         require(matching is not None, f"preserved raw cell missing after reuse: {key}")
         require(matching["file_sha256"] == source_item["file_sha256"] and matching["array_sha256"] == source_item["array_sha256"], f"preserved raw bytes drift: {key}")
     reuse = {
-        "schema": "STAGE45F_PI0177_VALID_RAW_REUSE_V1",
+        "schema": "STAGE45F_PI0180_VALID_RAW_REUSE_V1",
         "status": "PASS_BYTE_PRESERVED",
         "source_root": str(source_root),
         "source_manifest": str(source_manifest),
@@ -563,6 +576,33 @@ def _preserved_reuse(config: Mapping[str, Any], inventory: Mapping[str, Any], ou
     }
     write_json(output_root / "raw_reuse.json", reuse, overwrite=(output_root / "raw_reuse.json").exists())
     return reuse
+
+
+def _runtime_capsule_audit(config: Mapping[str, Any]) -> dict[str, Any]:
+    capsule = regular_file(Path(str(config["ffmpeg_capsule"])), "FFmpeg runtime capsule")
+    capsule_sha256 = sha256_file(capsule)
+    require(capsule_sha256 == EXPECTED_FFMPEG_CAPSULE_SHA, "FFmpeg runtime capsule SHA drift")
+    runtime_root = regular_dir(Path(str(config["ffmpeg_runtime_root"])), "sealed FFmpeg runtime root")
+    manifest = regular_file(runtime_root / "STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1.json", "sealed FFmpeg runtime manifest")
+    require(sha256_file(manifest) == EXPECTED_FFMPEG_MANIFEST_SHA, "sealed FFmpeg runtime manifest SHA drift")
+    import tarfile
+
+    with tarfile.open(capsule, mode="r:") as archive:
+        member = archive.getmember("STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1.json")
+        manifest_file = archive.extractfile(member)
+        require(manifest_file is not None, "FFmpeg capsule manifest cannot be read")
+        require(sha256_bytes(manifest_file.read()) == EXPECTED_FFMPEG_MANIFEST_SHA, "FFmpeg capsule manifest SHA drift")
+    return {
+        "capsule_path": str(capsule),
+        "capsule_bytes": int(capsule.stat().st_size),
+        "capsule_sha256": capsule_sha256,
+        "runtime_root": str(runtime_root),
+        "runtime_id": EXPECTED_FFMPEG_RUNTIME_ID,
+        "manifest_sha256": EXPECTED_FFMPEG_MANIFEST_SHA,
+        "manifest_path": str(manifest),
+        "video_path": EXPECTED_VIDEO,
+        "compute_node_bootstrap_required": True,
+    }
 
 
 def _output_inventory(output_root: Path) -> dict[str, Any]:
@@ -599,7 +639,7 @@ def _prepare_output(config: Mapping[str, Any], source_inventory: Mapping[str, An
     runtime_binding = _runtime_binding(config, output_root)
     reuse = _preserved_reuse(config, source_inventory, output_root)
     inventory = _validate_output_raw(config, output_root, source_inventory)
-    write_json(output_root / "stage45f_pi0177_initial_raw_inventory.json", inventory)
+    write_json(output_root / "stage45f_pi0180_initial_raw_inventory.json", inventory)
     return output_root, runtime_binding
 
 
@@ -608,17 +648,18 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
     expected_head = str(config["expected_head"])
     checkout = _checkout_audit(repo, expected_head)
     guard = static_guard()
-    require(guard["status"] == "PASS", "PI0177 static guard failed")
+    require(guard["status"] == "PASS", "PI0180 static guard failed")
     freeze = _freeze_audit(expected_head)
     binding = load_json(regular_file(Path(str(config["admission_path"])), "Validation-E admission"))
     require(isinstance(binding, Mapping), "Validation-E admission is not an object")
     source_inventory = _source_inventory(config)
     artifact_audit = _artifact_audit(config, binding, expected_head)
+    runtime_envelope = _runtime_capsule_audit(config)
     output_root, runtime_binding = _prepare_output(config, source_inventory)
     effective_path = output_root / "effective_config.json"
     write_json(effective_path, config)
     record = {
-        "schema": "STAGE45F_PI0177_PRE_MODEL_ADMISSION_V1",
+        "schema": "STAGE45F_PI0180_PRE_MODEL_ADMISSION_V1",
         "status": "PASS_PRE_MODEL",
         "pi_gate": PI_GATE,
         "pr71_pointer": PR71_POINTER,
@@ -631,6 +672,7 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
         "static_guard": guard,
         "freeze": freeze,
         "artifact_audit": artifact_audit,
+        "runtime_envelope": runtime_envelope,
         "source_raw_inventory": source_inventory,
         "source_raw_manifest_sha256": EXPECTED_SOURCE_RAW_MANIFEST_SHA,
         "runtime_binding_path": str(output_root / "runtime_binding.json"),
@@ -648,7 +690,7 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
         "qsub_called": False,
         "scientific_contract_changed": False,
     }
-    write_json(output_root / "stage45f_pi0177_preflight.json", record)
+    write_json(output_root / "stage45f_pi0180_preflight.json", record)
     ledger = ExecutionLedger(output_root / "execution_ledger.jsonl", generation="Validation-E-gen1", gpu_uuid=None)
     ledger.emit("PRE_MODEL_ADMISSION", phase="ADMISSION", execution_head=expected_head, validation_e_model_calls=0, qsub_called=False)
     for item in source_inventory["preserved_cells"]:
@@ -670,10 +712,10 @@ def preflight(config_path: Path, repo: Path) -> dict[str, Any]:
 
 def _load_preflight(config: Mapping[str, Any]) -> tuple[Path, dict[str, Any], dict[str, Any]]:
     output_root = Path(str(config["output_root"])).resolve()
-    preflight_path = regular_file(output_root / "stage45f_pi0177_preflight.json", "PI0177 preflight")
+    preflight_path = regular_file(output_root / "stage45f_pi0180_preflight.json", "PI0180 preflight")
     record = load_json(preflight_path)
-    require(isinstance(record, Mapping) and record.get("status") == "PASS_PRE_MODEL", "PI0177 preflight is not PASS")
-    require(record.get("execution_head") == config.get("expected_head") and record.get("execution_branch") == BRANCH, "PI0177 preflight identity drift")
+    require(isinstance(record, Mapping) and record.get("status") == "PASS_PRE_MODEL", "PI0180 preflight is not PASS")
+    require(record.get("execution_head") == config.get("expected_head") and record.get("execution_branch") == BRANCH, "PI0180 preflight identity drift")
     runtime_binding = load_json(regular_file(output_root / "runtime_binding.json", "runtime binding"))
     require(isinstance(runtime_binding, Mapping), "runtime binding is not an object")
     environment = runtime_binding.get("environment")
@@ -682,7 +724,7 @@ def _load_preflight(config: Mapping[str, Any]) -> tuple[Path, dict[str, Any], di
     return output_root, dict(record), dict(runtime_binding)
 
 
-def _observe_auto_gpu(output_root: Path) -> dict[str, Any]:
+def _observe_h200_gpu(output_root: Path) -> dict[str, Any]:
     raw = run_text(["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,memory.used", "--format=csv,noheader,nounits"])
     rows = []
     for line in raw.splitlines():
@@ -691,10 +733,10 @@ def _observe_auto_gpu(output_root: Path) -> dict[str, Any]:
         rows.append({"index": int(fields[0]), "name": fields[1], "uuid": fields[2], "total_vram_mib": int(fields[3]), "used_vram_mib": int(fields[4])})
     require(len(rows) == 1 and rows[0]["index"] == 0, f"expected exactly one visible GPU at index 0: {rows}")
     gpu_name = str(rows[0]["name"])
-    require(any(model in gpu_name.upper() for model in ("H100", "H200")), f"admitted GPU is not H100/H200: {gpu_name}")
-    require(rows[0]["total_vram_mib"] * 1024**2 >= 80 * 1024**3, "admitted H100/H200 VRAM is below 80 GiB")
+    require("H200" in gpu_name.upper(), f"admitted GPU is not H200: {gpu_name}")
+    require(rows[0]["total_vram_mib"] * 1024**2 >= 80 * 1024**3, "admitted H200 VRAM is below 80 GiB")
     gpu = {
-        "schema": "STAGE45F_PI0177_OBSERVED_AUTO_GPU_V1",
+        "schema": "STAGE45F_PI0180_OBSERVED_H200_GPU_V1",
         "host": socket.gethostname(),
         "pbs_jobid": os.environ["PBS_JOBID"],
         "selected_device": "cuda:0",
@@ -706,15 +748,16 @@ def _observe_auto_gpu(output_root: Path) -> dict[str, Any]:
         "all_visible_gpus": rows,
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         "nvidia_smi_stdout_sha256": sha256_bytes((raw + "\n").encode("utf-8")),
-        "allowed_gpu_models": ["H100", "H200"],
+        "allowed_gpu_models": ["H200"],
     }
-    path = output_root / "gpu_runtime_admission.json"
+    job_key = "".join(character if character.isalnum() or character in "_-" else "_" for character in os.environ["PBS_JOBID"])
+    path = output_root / f"gpu_runtime_admission_{job_key}.json"
     if path.exists():
         old = load_json(path)
         require(old.get("gpu_uuid") == gpu.get("gpu_uuid"), "GPU UUID changed inside one allocation")
         return dict(old)
     record = {
-        "schema": "STAGE45F_PI0177_GPU_RUNTIME_ADMISSION_V1",
+        "schema": "STAGE45F_PI0180_GPU_RUNTIME_ADMISSION_V1",
         "status": "PASS",
         "gpu": gpu,
         "gpu_uuid": gpu["gpu_uuid"],
@@ -723,13 +766,54 @@ def _observe_auto_gpu(output_root: Path) -> dict[str, Any]:
         "validation_e_model_calls_before_admission": 0,
     }
     write_json(path, record)
+    summary_path = output_root / "gpu_runtime_admission.json"
+    if not summary_path.exists():
+        write_json(summary_path, record)
     return record
+
+
+def _runtime_record_path(output_root: Path, environment_key: str, label: str) -> Path:
+    value = os.environ.get(environment_key)
+    require(value, f"{environment_key} is required after runtime probe")
+    path = Path(value).resolve()
+    require(path.parent.is_relative_to(output_root.resolve()), f"{label} escaped output root: {path}")
+    return regular_file(path, label)
+
+
+def _record_runtime_admission(config: Mapping[str, Any], output_root: Path, ledger: ExecutionLedger) -> dict[str, Any]:
+    bootstrap_token = ledger.begin("RUNTIME_BOOTSTRAP", runtime_id=EXPECTED_FFMPEG_RUNTIME_ID)
+    try:
+        bootstrap_path = _runtime_record_path(output_root, "PI0180_BOOTSTRAP_RECORD", "runtime bootstrap record")
+        bootstrap = load_json(bootstrap_path)
+        require(isinstance(bootstrap, Mapping) and bootstrap.get("status") == "PASS", "runtime bootstrap did not PASS")
+        require(bootstrap.get("source_runtime_id") == EXPECTED_FFMPEG_RUNTIME_ID, "runtime bootstrap identity drift")
+        require(bootstrap.get("source_manifest_sha256") == EXPECTED_FFMPEG_MANIFEST_SHA, "runtime bootstrap manifest drift")
+        require(bootstrap.get("capsule_sha256") == EXPECTED_FFMPEG_CAPSULE_SHA, "runtime bootstrap capsule drift")
+        ledger.end(bootstrap_token, status="PASS", record_path=str(bootstrap_path), record_sha256=sha256_file(bootstrap_path), destination=bootstrap.get("destination"))
+    except Exception as exc:
+        ledger.end(bootstrap_token, status="ERROR", error=f"{type(exc).__name__}: {exc}")
+        raise
+
+    probe_token = ledger.begin("RUNTIME_IMPORT_PROBE", runtime_id=EXPECTED_FFMPEG_RUNTIME_ID)
+    try:
+        probe_path = _runtime_record_path(output_root, "PI0180_COMPUTE_IMPORT_RECORD", "runtime import probe record")
+        probe = load_json(probe_path)
+        require(isinstance(probe, Mapping) and probe.get("status") == "PASS", "runtime import probe did not PASS")
+        require(probe.get("mode") == "compute", "runtime import probe mode drift")
+        require(probe.get("model_construction") is False and int(probe.get("model_forward", -1)) == 0, "runtime import probe crossed model execution")
+        require(probe.get("validation_e_read") is False and probe.get("holdout_f_read") is False, "runtime import probe read scientific payload")
+        require(probe.get("cosmos", {}).get("revision") == EXPECTED_COSMOS_REVISION, "runtime import probe Cosmos revision drift")
+        ledger.end(probe_token, status="PASS", record_path=str(probe_path), record_sha256=sha256_file(probe_path), ffmpeg_root=probe.get("ffmpeg_root"), torch=probe.get("torch"), torchcodec=probe.get("torchcodec"))
+    except Exception as exc:
+        ledger.end(probe_token, status="ERROR", error=f"{type(exc).__name__}: {exc}")
+        raise
+    return {"bootstrap": dict(bootstrap), "probe": dict(probe)}
 
 
 def _noise_manifest(output_root: Path, hashes: list[str]) -> None:
     path = output_root / "sampler_noise_manifest.json"
     record = {
-        "schema": "STAGE45F_PI0177_CPU_FLOAT32_NOISE_BANK_V1",
+        "schema": "STAGE45F_PI0180_CPU_FLOAT32_NOISE_BANK_V1",
         "seed": NOISE_SEED,
         "device": "cpu",
         "dtype": "float32",
@@ -796,14 +880,16 @@ def arm_child(config_path: Path, arm_label: str) -> int:
     signal.signal(signal.SIGINT, _signal_handler)
     if not missing:
         ledger.emit("CHILD_ARM_SKIPPED", phase="ARM_CHILD", arm=arm_label, reason="all_cells_already_sealed")
-        print(f"PI0177_CHILD_ARM_SKIPPED {arm_label}")
+        print(f"PI0180_CHILD_ARM_SKIPPED {arm_label}")
         return 0
-    require(ledger.count_begin("MODEL_LOAD") + 1 <= NEW_CEILING["model_loads"], "PI0177 model-load ceiling exceeded")
-    require(ledger.count_begin("CONDITIONING") + len(missing) <= NEW_CEILING["conditioning"], "PI0177 conditioning ceiling exceeded")
-    require(ledger.count_begin("ACTION_HEAD") + len(missing) * 4 <= NEW_CEILING["action_head"], "PI0177 action-head ceiling exceeded")
-    require(ledger.count_begin("CONDITIONING") + ledger.count_begin("ACTION_HEAD") + len(missing) * 5 <= NEW_CEILING["model_side_total"], "PI0177 model-side ceiling exceeded")
-    gpu_admission = load_json(regular_file(output_root / "gpu_runtime_admission.json", "GPU runtime admission"))
-    gpu_uuid = str(gpu_admission["gpu_uuid"])
+    require(ledger.count_begin("MODEL_LOAD") + 1 <= NEW_CEILING["model_loads"], "PI0180 model-load ceiling exceeded")
+    require(ledger.count_begin("CONDITIONING") + len(missing) <= NEW_CEILING["conditioning"], "PI0180 conditioning ceiling exceeded")
+    require(ledger.count_begin("ACTION_HEAD") + len(missing) * 4 <= NEW_CEILING["action_head"], "PI0180 action-head ceiling exceeded")
+    require(ledger.count_begin("CONDITIONING") + ledger.count_begin("ACTION_HEAD") + len(missing) * 5 <= NEW_CEILING["model_side_total"], "PI0180 model-side ceiling exceeded")
+    gpu_uuid = os.environ.get("PI0180_GPU_UUID")
+    if not gpu_uuid:
+        gpu_admission = load_json(regular_file(output_root / "gpu_runtime_admission.json", "GPU runtime admission"))
+        gpu_uuid = str(gpu_admission["gpu_uuid"])
     ledger.gpu_uuid = gpu_uuid
     try:
         import numpy as np
@@ -886,7 +972,7 @@ def arm_child(config_path: Path, arm_label: str) -> int:
             torch.cuda.empty_cache()
             ledger.end(release_token, arm=arm_label)
         ledger.emit("ARM_CHILD_COMPLETE", phase="ARM_CHILD", arm=arm_label, raw_cells_sealed=len(missing), validation_e_model_calls=0)
-        print(f"PI0177_CHILD_ARM_COMPLETE {arm_label} {len(missing)}")
+        print(f"PI0180_CHILD_ARM_COMPLETE {arm_label} {len(missing)}")
         return 0
     except BaseException as exc:
         phase = current["phase"]
@@ -894,8 +980,8 @@ def arm_child(config_path: Path, arm_label: str) -> int:
             ledger.emit("INTERRUPTION", phase=phase, arm=arm_label, current=current, error=str(exc))
         else:
             ledger.emit("ERROR", phase=phase, arm=arm_label, current=current, error=f"{type(exc).__name__}: {exc}")
-        append_jsonl(output_root / "child_failures.jsonl", {"schema": "STAGE45F_PI0177_CHILD_FAILURE_V1", "status": "INTERRUPTED" if isinstance(exc, MechanicalInterruption) else "ERROR", "arm": arm_label, "phase": phase, "current": current, "error": f"{type(exc).__name__}: {exc}", "validation_e_model_calls": 0})
-        print(f"PI0177_CHILD_ARM_FAILED {arm_label}: {type(exc).__name__}: {exc}", file=sys.stderr)
+        append_jsonl(output_root / "child_failures.jsonl", {"schema": "STAGE45F_PI0180_CHILD_FAILURE_V1", "status": "INTERRUPTED" if isinstance(exc, MechanicalInterruption) else "ERROR", "arm": arm_label, "phase": phase, "current": current, "error": f"{type(exc).__name__}: {exc}", "validation_e_model_calls": 0})
+        print(f"PI0180_CHILD_ARM_FAILED {arm_label}: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 143 if isinstance(exc, MechanicalInterruption) else 2
 
 
@@ -1045,7 +1131,7 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
         seed_summary.append({"seed": seed, "window_count": len(rows), "mean_l1_minus_legacy": {field: sum(float(row[field]) for row in rows) / len(rows) for field in fields}, "descriptive_only": True})
     write_json(output_root / "paired_summary.json", paired, overwrite=(output_root / "paired_summary.json").exists())
     target_summary = {
-        "schema": "STAGE45F_PI0177_TARGET_DISTANCE_PROGRESS_PATH_ROUGHNESS_SUMMARY_V1",
+        "schema": "STAGE45F_PI0180_TARGET_DISTANCE_PROGRESS_PATH_ROUGHNESS_SUMMARY_V1",
         "descriptive_only": True,
         "arms": {label: [rows_by_arm[label][index]["metrics"]["target"] | {"window_id": rows_by_arm[label][index]["window_id"], "roughness": rows_by_arm[label][index]["metrics"]["prediction_roughness_position_second_difference_m"]} for index in range(6)] for label in EXPECTED_ARM_LABELS},
         "paired_by_seed": seed_summary,
@@ -1053,11 +1139,11 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
     }
     write_json(output_root / "target_progress_path_roughness_summary.json", target_summary, overwrite=(output_root / "target_progress_path_roughness_summary.json").exists())
     counts = _ledger_counts(output_root / "execution_ledger.jsonl")
-    require(counts["model_loads"] <= NEW_CEILING["model_loads"] and counts["conditioning"] <= NEW_CEILING["conditioning"] and counts["action_head"] <= NEW_CEILING["action_head"] and counts["model_side_total"] <= NEW_CEILING["model_side_total"], "PI0177 ledger ceiling drift")
+    require(counts["model_loads"] <= NEW_CEILING["model_loads"] and counts["conditioning"] <= NEW_CEILING["conditioning"] and counts["action_head"] <= NEW_CEILING["action_head"] and counts["model_side_total"] <= NEW_CEILING["model_side_total"], "PI0180 ledger ceiling drift")
     final_inventory = _validate_output_raw(config, output_root, source_inventory)
     write_json(output_root / "final_raw_inventory.json", final_inventory, overwrite=(output_root / "final_raw_inventory.json").exists())
     evidence_entries = []
-    excluded = {"evidence_inventory.json", "stage45f_pi0177_final_seal.json"}
+    excluded = {"evidence_inventory.json", "stage45f_pi0180_final_seal.json"}
     for directory, _, filenames in os.walk(output_root, followlinks=False):
         for filename in sorted(filenames):
             path = Path(directory) / filename
@@ -1067,7 +1153,7 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
             require(path.is_file(), f"evidence entry is not regular: {path}")
             evidence_entries.append({"path": relative, "bytes": int(path.stat().st_size), "sha256": sha256_file(path)})
     evidence_entries.sort(key=lambda item: item["path"])
-    write_json(output_root / "evidence_inventory.json", {"schema": "STAGE45F_PI0177_EVIDENCE_INVENTORY_V1", "entries": evidence_entries, "entry_count": len(evidence_entries), "excluded": sorted(excluded)}, overwrite=(output_root / "evidence_inventory.json").exists())
+    write_json(output_root / "evidence_inventory.json", {"schema": "STAGE45F_PI0180_EVIDENCE_INVENTORY_V1", "entries": evidence_entries, "entry_count": len(evidence_entries), "excluded": sorted(excluded)}, overwrite=(output_root / "evidence_inventory.json").exists())
     result = {
         "schema": SCHEMA,
         "status": "COMPLETED",
@@ -1107,10 +1193,10 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
         "hardware": 0,
         "scientific_winner_selected": False,
     }
-    write_json(output_root / "stage45f_pi0177_result.json", result, overwrite=(output_root / "stage45f_pi0177_result.json").exists())
-    seal = {**result, "schema": "STAGE45F_PI0177_VALIDATION_E_GEN1_FINAL_SEAL_V1", "final_result_sha256": sha256_file(output_root / "stage45f_pi0177_result.json"), "evidence_inventory_sha256": sha256_file(output_root / "evidence_inventory.json"), "final_raw_inventory_sha256": sha256_file(output_root / "final_raw_inventory.json")}
-    write_json(output_root / "stage45f_pi0177_final_seal.json", seal, overwrite=(output_root / "stage45f_pi0177_final_seal.json").exists())
-    ledger.emit("FINAL_SEAL", phase="FINAL_SEAL", status="COMPLETED", result_path="stage45f_pi0177_result.json", result_file_sha256=sha256_file(output_root / "stage45f_pi0177_result.json"), raw_count=36, derived_count=36, science_hold=SCIENCE_HOLD)
+    write_json(output_root / "stage45f_pi0180_result.json", result, overwrite=(output_root / "stage45f_pi0180_result.json").exists())
+    seal = {**result, "schema": "STAGE45F_PI0180_VALIDATION_E_GEN1_FINAL_SEAL_V1", "final_result_sha256": sha256_file(output_root / "stage45f_pi0180_result.json"), "evidence_inventory_sha256": sha256_file(output_root / "evidence_inventory.json"), "final_raw_inventory_sha256": sha256_file(output_root / "final_raw_inventory.json")}
+    write_json(output_root / "stage45f_pi0180_final_seal.json", seal, overwrite=(output_root / "stage45f_pi0180_final_seal.json").exists())
+    ledger.emit("FINAL_SEAL", phase="FINAL_SEAL", status="COMPLETED", result_path="stage45f_pi0180_result.json", result_file_sha256=sha256_file(output_root / "stage45f_pi0180_result.json"), raw_count=36, derived_count=36, science_hold=SCIENCE_HOLD)
     print(RETURN_TOKEN)
     print(SCIENCE_HOLD)
     return result
@@ -1122,16 +1208,15 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
     repo = Path(str(config.get("repo", REPO))).resolve()
     _checkout_audit(repo, str(config["expected_head"]))
     guard = static_guard()
-    require(guard["status"] == "PASS", "PI0177 static guard failed at execution")
+    require(guard["status"] == "PASS", "PI0180 static guard failed at execution")
     source_inventory = _source_inventory(config)
     _validate_output_raw(config, output_root, source_inventory)
-    if (output_root / "stage45f_pi0177_final_seal.json").exists():
-        result = load_json(output_root / "stage45f_pi0177_result.json")
+    if (output_root / "stage45f_pi0180_final_seal.json").exists():
+        result = load_json(output_root / "stage45f_pi0180_result.json")
         require(result.get("status") == "COMPLETED", "existing final result is not completed")
         print(RETURN_TOKEN)
         print(SCIENCE_HOLD)
         return 0
-    gpu_admission = _observe_auto_gpu(output_root)
     ledger_path = output_root / "execution_ledger.jsonl"
     prior_records = []
     if ledger_path.exists():
@@ -1139,11 +1224,15 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
     primary_runs = sum(1 for item in prior_records if item.get("event") == "EXECUTION_OPEN" and item.get("continuation") is False)
     continuation_runs = sum(1 for item in prior_records if item.get("event") == "EXECUTION_OPEN" and item.get("continuation") is True)
     if continuation_mode:
-        require(primary_runs == 1 and continuation_runs == 0, "PI0177 continuation allocation is not the single authorized final continuation")
+        require(primary_runs == 1 and continuation_runs == 0, "PI0180 continuation allocation is not the single authorized final continuation")
     else:
-        require(primary_runs == 0 and continuation_runs == 0, "PI0177 primary allocation was already consumed")
-    ledger = ExecutionLedger(ledger_path, generation="Validation-E-gen1", gpu_uuid=str(gpu_admission["gpu_uuid"]))
-    ledger.emit("EXECUTION_OPEN", phase="ADMISSION", continuation=continuation_mode, gpu_uuid=gpu_admission["gpu_uuid"], qsub_called=False)
+        require(primary_runs == 0 and continuation_runs == 0, "PI0180 primary allocation was already consumed")
+    ledger = ExecutionLedger(ledger_path, generation="Validation-E-gen1", gpu_uuid=None)
+    _record_runtime_admission(config, output_root, ledger)
+    gpu_admission = _observe_h200_gpu(output_root)
+    ledger.gpu_uuid = str(gpu_admission["gpu_uuid"])
+    os.environ["PI0180_GPU_UUID"] = str(gpu_admission["gpu_uuid"])
+    ledger.emit("EXECUTION_OPEN", phase="ADMISSION", continuation=continuation_mode, gpu_uuid=gpu_admission["gpu_uuid"], runtime_admission_status="PASS", qsub_called=False)
     for label in EXPECTED_ARM_LABELS:
         inventory = _validate_output_raw(config, output_root, source_inventory)
         missing = [(str(item["arm"]), str(item["window_id"])) for item in inventory["missing_cells"] if str(item["arm"]) == label]
@@ -1151,7 +1240,7 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
             ledger.emit("ARM_ALREADY_COMPLETE", phase="ARM_CHILD", arm=label, raw_cells=6)
             continue
         counts = _ledger_counts(output_root / "execution_ledger.jsonl")
-        require(counts["model_loads"] < NEW_CEILING["model_loads"], "PI0177 model-load ceiling exhausted before child")
+        require(counts["model_loads"] < NEW_CEILING["model_loads"], "PI0180 model-load ceiling exhausted before child")
         command = [sys.executable, str(Path(__file__).resolve()), "--arm-child", "--config", str(config_path.resolve()), "--arm", label]
         child_env = dict(os.environ)
         child_env["PYTHONUNBUFFERED"] = "1"
@@ -1160,7 +1249,7 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
         write_text(log_base.with_suffix(".stdout.log"), completed.stdout)
         write_text(log_base.with_suffix(".stderr.log"), completed.stderr)
         ledger.emit("ARM_CHILD_EXIT", phase="ARM_CHILD", arm=label, returncode=completed.returncode, missing_cells_requested=len(missing), stdout_log=str(log_base.with_suffix(".stdout.log").relative_to(output_root)), stderr_log=str(log_base.with_suffix(".stderr.log").relative_to(output_root)))
-        require(completed.returncode == 0, f"PI0177 child failed for {label}: {completed.stderr[-1200:]}")
+        require(completed.returncode == 0, f"PI0180 child failed for {label}: {completed.stderr[-1200:]}")
         after = _validate_output_raw(config, output_root, source_inventory)
         require(not any(str(item["arm"]) == label for item in after["missing_cells"]), f"child did not seal all requested cells: {label}")
     return_code = 0
@@ -1168,7 +1257,7 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
         cpu_posthoc(config, output_root, preflight_record, ledger)
     except Exception as exc:
         ledger.emit("ERROR", phase="CPU_POSTHOC", error=f"{type(exc).__name__}: {exc}")
-        write_json(output_root / "stage45f_pi0177_failure.json", {"schema": "STAGE45F_PI0177_FAILURE_SEAL_V1", "status": "PARTIAL", "token": "LOCALPC_PI0177_VALIDATION_E_GEN1_FOR_PI_REVIEW — PARTIAL", "phase": "CPU_POSTHOC", "error": f"{type(exc).__name__}: {exc}", "actual_counters": _ledger_counts(output_root / "execution_ledger.jsonl"), "raw_inventory": _output_inventory(output_root), "training": False, "holdout_f_read": False})
+        write_json(output_root / "stage45f_pi0180_failure.json", {"schema": "STAGE45F_PI0180_FAILURE_SEAL_V1", "status": "PARTIAL", "token": "LOCALPC_PI0180_VALIDATION_E_GEN1_FOR_PI_REVIEW — PARTIAL", "phase": "CPU_POSTHOC", "error": f"{type(exc).__name__}: {exc}", "actual_counters": _ledger_counts(output_root / "execution_ledger.jsonl"), "raw_inventory": _output_inventory(output_root), "training": False, "holdout_f_read": False})
         return_code = 2
     return return_code
 
@@ -1186,7 +1275,7 @@ def posthoc_only(config_path: Path) -> int:
 def plan() -> dict[str, Any]:
     guard = static_guard()
     return {
-        "schema": "STAGE45F_PI0177_VALIDATION_E_GEN1_PLAN_V1",
+        "schema": "STAGE45F_PI0180_VALIDATION_E_GEN1_PLAN_V1",
         "status": "PASS_STATIC_NOT_EXECUTED" if guard["status"] == "PASS" else "FAIL",
         "pi_gate": PI_GATE,
         "source_head": SOURCE_HEAD,
