@@ -1,0 +1,38 @@
+#!/bin/bash
+# PI0177: one admitted H200 allocation for the remaining Validation-E raw
+# cells.  The pre-model audit and Corelab qualification happen before this
+# entrypoint; this file only runs the already-admitted child-per-arm runner.
+
+#PBS -N st45f_pi0177
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=02:00:00
+#PBS -r n
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0177_REPO:?Set the exact clean PI0177 checkout}"
+: "${PI0177_PYTHON:?Set the admitted H200 Python}"
+: "${PI0177_CONFIG:?Set the immutable PI0177 config}"
+: "${PI0177_EXPECTED_HEAD:?Set the exact PI0177 checkout HEAD}"
+: "${PI0177_CONTINUATION:?Set 0 for primary or 1 for the single continuation}"
+: "${PBS_JOBID:?PBS_JOBID is required}"
+
+test -x "${PI0177_PYTHON}"
+resolved_python="$(readlink -f "${PI0177_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "PI0177 Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
+test -f "${PI0177_CONFIG}"
+test "$(git -C "${PI0177_REPO}" branch --show-current)" = "stage45f/localpc-validation-e-hopper-resume"
+test "$(git -C "${PI0177_REPO}" rev-parse HEAD)" = "${PI0177_EXPECTED_HEAD}"
+test -z "$(git -C "${PI0177_REPO}" status --porcelain=v1 --untracked-files=all)"
+
+case "${PI0177_CONTINUATION}" in
+  0) exec "${PI0177_PYTHON}" "${PI0177_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --config "${PI0177_CONFIG}" --repo "${PI0177_REPO}" ;;
+  1) exec "${PI0177_PYTHON}" "${PI0177_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --continuation --config "${PI0177_CONFIG}" --repo "${PI0177_REPO}" ;;
+  *) echo "PI0177_CONTINUATION must be 0 or 1" >&2; exit 1 ;;
+esac
