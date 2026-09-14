@@ -343,8 +343,10 @@ def aggregate_evaluation_rows(
         if roughness_ratios
         else None
     )
+    # JSON object keys are strings; keep the missing-decision bucket stable
+    # instead of letting sort_keys compare None with the named decisions.
     safety_counts = {
-        decision: int(sum(row.get("safety_gate_decision") == decision for row in normalized))
+        "null" if decision is None else decision: int(sum(row.get("safety_gate_decision") == decision for row in normalized))
         for decision in ("ACCEPT", "WARN", None)
     }
     return {

@@ -116,6 +116,7 @@ class TestStage45CEvaluator(unittest.TestCase):
         self.assertEqual(aggregate["window_count"], 24)
         self.assertEqual(aggregate["target_metrics"]["count"], 24)
         self.assertEqual(aggregate["safety_gate_decision_counts"]["ACCEPT"], 24)
+        self.assertEqual(aggregate["safety_gate_decision_counts"]["null"], 0)
         self.assertTrue(aggregate["raw_predictions_preserved_separately"])
         rows[1], rows[2] = rows[2], rows[1]
         with self.assertRaises(EvaluationContractError):
