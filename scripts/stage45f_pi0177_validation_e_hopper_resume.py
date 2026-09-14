@@ -873,7 +873,7 @@ def arm_child(config_path: Path, arm_label: str) -> int:
     output_root, preflight_record, runtime_binding = _load_preflight(config)
     source_inventory = _source_inventory(config)
     inventory = _validate_output_raw(config, output_root, source_inventory)
-    missing = [(label, window_id) for label, window_id in inventory["missing_cells"] if label == arm_label]
+    missing = [(str(item["arm"]), str(item["window_id"])) for item in inventory["missing_cells"] if str(item["arm"]) == arm_label]
     ledger = ExecutionLedger(output_root / "execution_ledger.jsonl", generation="Validation-E-gen1", gpu_uuid=None)
     current: dict[str, Any] = {"arm": arm_label, "window_id": None, "step": None, "phase": "CHILD_START"}
     signal.signal(signal.SIGTERM, _signal_handler)
