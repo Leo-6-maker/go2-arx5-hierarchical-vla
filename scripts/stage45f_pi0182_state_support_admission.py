@@ -188,7 +188,8 @@ def read_frozen_runtime_bindings() -> dict[str, Any]:
     require(shared["base_processor_statistics_sha256"] == BASE_PROCESSOR_STATISTICS_SHA256, "PI0154 processor stats SHA drift")
     require(shared["full24_runtime_stats_sha256"] == FULL24_RUNTIME_STATS_SHA256, "FULL24 runtime stats SHA drift")
     require(shared["full24_runtime_stats_payload_sha256"] == FULL24_RUNTIME_STATS_PAYLOAD_SHA256, "FULL24 runtime stats payload SHA drift")
-    require(read_json(REPO / "manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json")["bound_identities"]["full24_tree_sha256"] == FULL24_TREE_SHA256, "FULL24 tree binding drift")
+    full24_design = read_json(REPO / "manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json")
+    require(full24_design["data_ladder"]["level_1"]["canonical_tree_sha256"] == FULL24_TREE_SHA256, "FULL24 tree binding drift")
     return {
         "base_processor_config_sha256": PROCESSOR_CONFIG_SHA256,
         "base_processor_statistics_sha256": BASE_PROCESSOR_STATISTICS_SHA256,
