@@ -1467,8 +1467,12 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
         ledger.emit("ARM_CHILD_START", phase="ARM_CHILD", arm=label, attempt_id=attempt_id, timing_path=str(child_timing.relative_to(output_root)), missing_cells=missing)
         completed = subprocess.run(command, capture_output=True, text=True, check=False, env=child_env)
         log_base = output_root / "child_logs" / safe_label(attempt_id)
-        write_text(log_base.with_suffix(".stdout.log"), completed.stdout)
-        write_text(log_base.with_suffix(".stderr.log"), completed.stderr)
+        # Use the full attempt name: Path.with_suffix() would collapse a PBS
+        # job id such as 616434.hopper-m-02 into the same log basename.
+        stdout_log = log_base.with_name(log_base.name + ".stdout.log")
+        stderr_log = log_base.with_name(log_base.name + ".stderr.log")
+        write_text(stdout_log, completed.stdout)
+        write_text(stderr_log, completed.stderr)
         after = _validate_output_raw(config, output_root, source_inventory)
         after_records = _load_raw_records(output_root)
         for key, before_record in before.items():
@@ -1477,7 +1481,7 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
             require(after_records[key]["array_sha256"] == before_record["array_sha256"], f"raw array SHA changed on resume: {key}")
         changed = sorted(key for key in after_records if key not in before)
         require(set(changed) <= set(missing), f"child sealed an unexpected raw cell: {changed}")
-        ledger.emit("ARM_CHILD_EXIT", phase="ARM_CHILD", arm=label, attempt_id=attempt_id, returncode=completed.returncode, missing_cells_requested=len(missing), raw_delta=changed, stdout_log=str(log_base.with_suffix(".stdout.log").relative_to(output_root)), stderr_log=str(log_base.with_suffix(".stderr.log").relative_to(output_root)))
+        ledger.emit("ARM_CHILD_EXIT", phase="ARM_CHILD", arm=label, attempt_id=attempt_id, returncode=completed.returncode, missing_cells_requested=len(missing), raw_delta=changed, stdout_log=str(stdout_log.relative_to(output_root)), stderr_log=str(stderr_log.relative_to(output_root)))
         require(completed.returncode == 0, f"PI0185 child failed for {label}: {completed.stderr[-1200:]}")
         require(not any(str(item["arm"]) == label for item in after["missing_cells"]), f"child did not seal all requested cells: {label}")
     return_code = 0
