@@ -1,0 +1,321 @@
+{
+  "adapter_audit": {
+    "action_mask_sha256_float32": "90eff3df6e3193d9cfa9be5b7fae29be7fbdd75ccd8531528a2f15ea300b4c8e",
+    "active_scalar_count": 190,
+    "adapter_class": "StructuredStateSupportAdapterV1",
+    "adapter_output_keys": [
+      "action",
+      "action_mask",
+      "body_rgb",
+      "language",
+      "state",
+      "wrist_rgb"
+    ],
+    "adapter_path": "src/go2arx5_vla/stage38_structured_training.py",
+    "adapter_source_sha256": "35a26dd1a47198cade377af9b002721cb3085b08f665c89f55e149cfd464993b",
+    "codec_source_sha256": "2355659e3af869bc9e4f235e746f967961e4fe9be9f5da4e0959af1866764315",
+    "forbidden_model_input_fields": [
+      "anchor_world_m",
+      "current_eef_world_m",
+      "expert_action_structured_v1",
+      "expert_provenance",
+      "historical_decoded",
+      "historical_raw",
+      "progress_m",
+      "safety_gate",
+      "target_distance_m",
+      "target_world_m",
+      "wbc_segment"
+    ],
+    "model_input_fields": [
+      "body_rgb",
+      "wrist_rgb",
+      "state_v1",
+      "language"
+    ],
+    "negative_test": {
+      "case_count": 40,
+      "cases": [
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C0_NOMINAL-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C0_NOMINAL-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C0_NOMINAL-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C0_NOMINAL-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C0_NOMINAL-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C0_NOMINAL-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C0_NOMINAL-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C0_NOMINAL-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C1_X_PLUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C1_X_PLUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C1_X_PLUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C1_X_PLUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C1_X_PLUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C1_X_PLUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C1_X_PLUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C1_X_PLUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C2_X_MINUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C2_X_MINUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C2_X_MINUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C2_X_MINUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C2_X_MINUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C2_X_MINUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C2_X_MINUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C2_X_MINUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C3_Y_PLUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C3_Y_PLUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C3_Y_PLUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C3_Y_PLUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C3_Y_PLUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C3_Y_PLUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C3_Y_PLUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C3_Y_PLUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C4_Y_MINUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C4_Y_MINUS_5CM-q0",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C4_Y_MINUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C4_Y_MINUS_5CM-q1",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C4_Y_MINUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C4_Y_MINUS_5CM-q2",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: target_world_m",
+          "field": "target_world_m",
+          "row_id": "C4_Y_MINUS_5CM-q3",
+          "status": "PASS"
+        },
+        {
+          "error": "forbidden target/telemetry field crossed model boundary: historical_decoded",
+          "field": "historical_decoded",
+          "row_id": "C4_Y_MINUS_5CM-q3",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    "official_launch_binding": {
+      "factory_path": "src/go2arx5_vla/stage38_structured_training.py:install_structured_dataset_factory",
+      "frozen_stats_env": "STAGE45F_FROZEN_STRUCTURED_STATS_PATH + STAGE45F_FROZEN_STRUCTURED_STATS_SHA256",
+      "late_bound_remaining": [
+        "PI-selected Legacy/L1 base checkpoint",
+        "H200 allocation/start"
+      ],
+      "model_constructed": false,
+      "processor_invoked": false,
+      "stage45b_label_reconciliation": "LABEL_ONLY_STATE_EEF_ANCHOR_TO_PHYSICAL_ACTION_POSE0; physical expert action and observation StateV1 remain unchanged"
+    },
+    "rows_admitted": 20,
+    "s20_statistics_recomputed": false,
+    "schema": "CORELAB_PI0182_STRUCTURED_TRAINING_ADAPTER_AUDIT_V1",
+    "statistics_guard": "_structured_stats replaced with fail-closed sentinel during all 20 adapter admissions",
+    "stats_path": "/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1/materialized/metadata/structured_action_statistics.json",
+    "stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "status": "PASS"
+  },
+  "runtime_bindings": {
+    "base_processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "base_processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+    "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "full24_runtime_statistics_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "full24_runtime_statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "processor_recompute_allowed": false,
+    "s20_statistics_recompute_allowed": false,
+    "s20_statistics_source": "EXACT_STAGE38_STRUCTURED_ACTION_STATISTICS_ONLY",
+    "source_mapping_sha256": "aa03d16c6c2352c911f8624d2876b6727f5a3ccdaa18795e2003a4a0c7cf1665",
+    "structured_action_statistics_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  },
+  "s20_statistics_recomputed": false,
+  "schema": "CORELAB_PI0182_STATS_PROCESSOR_BINDING_V1",
+  "stats_path": "/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1/materialized/metadata/structured_action_statistics.json",
+  "stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+  "status": "PASS"
+}

@@ -1,0 +1,157 @@
+{
+  "arms": {
+    "E": {
+      "FULL24": 256,
+      "STATE_SUPPORT20": 0,
+      "updates": 256
+    },
+    "S20": {
+      "FULL24": 128,
+      "STATE_SUPPORT20": 128,
+      "updates": 256
+    }
+  },
+  "authority": {
+    "accepted_head": "df827767a144913d80bbba6f30fef4fa3ad3bb49",
+    "issue_11_comment": 5665436865,
+    "pr_75_pointer": 5665439699
+  },
+  "backward_steps": 0,
+  "base_checkpoint": {
+    "allowed_values": [
+      "Legacy",
+      "L1"
+    ],
+    "scientific_selection_executed": false,
+    "selection": "PI_LATE_BOUND"
+  },
+  "frozen_identity": {
+    "base_processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "base_processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+    "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "full24_runtime_statistics_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "full24_runtime_statistics_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "full24_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "processor_recompute_allowed": false,
+    "s20_statistics_recompute_allowed": false,
+    "s20_statistics_source": "EXACT_STAGE38_STRUCTURED_ACTION_STATISTICS_ONLY",
+    "source_mapping_sha256": "aa03d16c6c2352c911f8624d2876b6727f5a3ccdaa18795e2003a4a0c7cf1665",
+    "structured_action_statistics_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+  },
+  "gpu_execution": 0,
+  "h200_submissions": 0,
+  "holdout_f_read": false,
+  "input_contract": {
+    "expert_action_role": "supervision_only",
+    "historical_policy_output_in_model_input": false,
+    "model_input_fields": [
+      "body_rgb",
+      "wrist_rgb",
+      "state_v1",
+      "language"
+    ],
+    "target_and_telemetry_role": "metadata_only",
+    "target_xyz_in_model_input": false
+  },
+  "late_bound_remaining": [
+    "PI-selected Legacy/L1 base checkpoint",
+    "H200 allocation and launch"
+  ],
+  "model_constructed": false,
+  "optimizer_steps": 0,
+  "package_id": "MULTI_VISITED20_V1",
+  "row_origin_overlay": {
+    "condition_origin_counts": {
+      "C0_NOMINAL:AUTONOMOUS_VISITED": 3,
+      "C0_NOMINAL:INITIAL_SUPPORT": 1,
+      "C1_X_PLUS_5CM:AUTONOMOUS_VISITED": 3,
+      "C1_X_PLUS_5CM:INITIAL_SUPPORT": 1,
+      "C2_X_MINUS_5CM:AUTONOMOUS_VISITED": 3,
+      "C2_X_MINUS_5CM:INITIAL_SUPPORT": 1,
+      "C3_Y_PLUS_5CM:AUTONOMOUS_VISITED": 3,
+      "C3_Y_PLUS_5CM:INITIAL_SUPPORT": 1,
+      "C4_Y_MINUS_5CM:AUTONOMOUS_VISITED": 3,
+      "C4_Y_MINUS_5CM:INITIAL_SUPPORT": 1
+    },
+    "origin_counts": {
+      "AUTONOMOUS_VISITED": 15,
+      "INITIAL_SUPPORT": 5
+    },
+    "path": "origin_classified_rows.jsonl",
+    "row_count": 20,
+    "sha256": "ab08414ac5cdda3cfadf1a08e5a85ccc3ec96fec74b32b6bf34bb5625f84f876",
+    "source_payloads_regenerated": false,
+    "source_rows_sha256": "1476c947eff892f3d38f87969deb7d777b2ba5086043e2f1b4a987df0895a16d"
+  },
+  "runspec": {
+    "action_dim": 132,
+    "batch_size": 1,
+    "frozen_modules": [
+      "visual",
+      "llm",
+      "vlln"
+    ],
+    "gradient_accumulation_steps": 1,
+    "horizon": 40,
+    "learning_rate": 0.0001,
+    "loss": "masked StructuredActionV1 flow matching",
+    "optimizer": "AdamW",
+    "precision": "bf16",
+    "rng_seed": 6164,
+    "schedule": "cosine",
+    "target_excluded_from_model_input": true,
+    "timing": "T16",
+    "trainable_modules": [
+      "projector",
+      "diffusion"
+    ],
+    "warmup_updates": 10,
+    "weight_decay": 1e-05
+  },
+  "schedule": {
+    "exposure_report_sha256": "520d96a9368f38c281c68a5b7c1138db5997173449641e3a9617de6805670c09",
+    "pairing": "E and S20 share every retained FULL24 position; S20 substitutes deterministic VISITED20 on odd positions",
+    "per_condition_q_origin": {
+      "C0_NOMINAL:q0:INITIAL_SUPPORT": 6,
+      "C0_NOMINAL:q1:AUTONOMOUS_VISITED": 6,
+      "C0_NOMINAL:q2:AUTONOMOUS_VISITED": 6,
+      "C0_NOMINAL:q3:AUTONOMOUS_VISITED": 6,
+      "C1_X_PLUS_5CM:q0:INITIAL_SUPPORT": 6,
+      "C1_X_PLUS_5CM:q1:AUTONOMOUS_VISITED": 7,
+      "C1_X_PLUS_5CM:q2:AUTONOMOUS_VISITED": 6,
+      "C1_X_PLUS_5CM:q3:AUTONOMOUS_VISITED": 6,
+      "C2_X_MINUS_5CM:q0:INITIAL_SUPPORT": 6,
+      "C2_X_MINUS_5CM:q1:AUTONOMOUS_VISITED": 6,
+      "C2_X_MINUS_5CM:q2:AUTONOMOUS_VISITED": 7,
+      "C2_X_MINUS_5CM:q3:AUTONOMOUS_VISITED": 7,
+      "C3_Y_PLUS_5CM:q0:INITIAL_SUPPORT": 7,
+      "C3_Y_PLUS_5CM:q1:AUTONOMOUS_VISITED": 7,
+      "C3_Y_PLUS_5CM:q2:AUTONOMOUS_VISITED": 6,
+      "C3_Y_PLUS_5CM:q3:AUTONOMOUS_VISITED": 7,
+      "C4_Y_MINUS_5CM:q0:INITIAL_SUPPORT": 7,
+      "C4_Y_MINUS_5CM:q1:AUTONOMOUS_VISITED": 7,
+      "C4_Y_MINUS_5CM:q2:AUTONOMOUS_VISITED": 6,
+      "C4_Y_MINUS_5CM:q3:AUTONOMOUS_VISITED": 6
+    },
+    "schedule_sha256": "defd516cc2922d34ea5fcafef35b0c44288d8e78c4791c66cc51c7c7cd402e5e",
+    "seed": 6164
+  },
+  "schema": "CORELAB_PI0182_STATE_SUPPORT_TRAINING_ADMISSION_PACKAGE_V1",
+  "simulator_steps": 0,
+  "status": "READY",
+  "structured_training_adapter": {
+    "admission_status": "PASS",
+    "class": "StructuredStateSupportAdapterV1",
+    "codec_source_sha256": "2355659e3af869bc9e4f235e746f967961e4fe9be9f5da4e0959af1866764315",
+    "negative_target_leakage_test": "PASS",
+    "official_factory_frozen_stats_switch": "STAGE45F_FROZEN_STRUCTURED_STATS_PATH + STAGE45F_FROZEN_STRUCTURED_STATS_SHA256",
+    "path": "src/go2arx5_vla/stage38_structured_training.py",
+    "s20_stats_recomputed": false,
+    "source_sha256": "35a26dd1a47198cade377af9b002721cb3085b08f665c89f55e149cfd464993b"
+  },
+  "training_executed": false,
+  "validation_e_read": false,
+  "wbc_steps": 0
+}
