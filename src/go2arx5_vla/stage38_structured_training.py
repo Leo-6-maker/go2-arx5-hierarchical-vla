@@ -15,6 +15,7 @@ the immutable TINY1 source tree.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -155,6 +156,35 @@ def _structured_stats(labels: Sequence[StructuredActionV1], *, use_percentiles: 
     }
 
 
+def _load_frozen_structured_statistics(path: Path, expected_sha256: str) -> dict[str, Any]:
+    """Load a preregistered statistics document without deriving new stats."""
+
+    path = Path(path)
+    if not path.is_file() or path.is_symlink():
+        raise ValueError(f"frozen structured statistics are not a regular file: {path}")
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    if digest != str(expected_sha256):
+        raise ValueError(
+            "frozen structured statistics SHA256 mismatch: "
+            f"expected {expected_sha256}, got {digest}"
+        )
+    document = json.loads(path.read_text(encoding="utf-8"))
+    statistics = document.get("statistics", document)
+    if not isinstance(statistics, Mapping):
+        raise ValueError("frozen structured statistics payload must be a mapping")
+    # Constructing the normalizer is the only validation needed here.  It
+    # validates the exact 132-dimensional bounds without looking at S20 rows.
+    StructuredActionNormalizer(statistics)
+    expected_mask = structured_action_mask(STRUCTURED_TIMING_MODE).tolist()
+    if statistics.get("active_mask") != expected_mask:
+        raise ValueError("frozen structured statistics action mask mismatch")
+    result = dict(statistics)
+    result["source_file"] = str(path)
+    result["source_file_sha256"] = digest
+    result["statistics_recomputed"] = False
+    return result
+
+
 @dataclass(frozen=True)
 class StructuredActionNormalizer:
     """Representation-specific min/max normalizer used at the model boundary."""
@@ -195,6 +225,146 @@ class StructuredActionNormalizer:
         return dict(self.metadata)
 
 
+STRUCTURED_TRAINING_MODEL_INPUT_FIELDS = (
+    "body_rgb",
+    "wrist_rgb",
+    "state_v1",
+    "language",
+)
+STRUCTURED_TRAINING_FORBIDDEN_MODEL_INPUT_FIELDS = frozenset(
+    {
+        "target_world_m",
+        "target_distance_m",
+        "progress_m",
+        "current_eef_world_m",
+        "anchor_world_m",
+        "historical_raw",
+        "historical_decoded",
+        "expert_action_structured_v1",
+        "expert_provenance",
+        "wbc_segment",
+        "safety_gate",
+    }
+)
+
+
+class StructuredActionTargetLeakageError(ValueError):
+    """Raised when metadata or target information crosses the model boundary."""
+
+
+@dataclass(frozen=True)
+class StructuredStateSupportAdapterV1:
+    """CPU admission adapter for PI0182 state-support rows.
+
+    This is the same label boundary used by the Stage38 GR00T dataset factory:
+    dense physical H40 expert actions are encoded as ``StructuredActionV1``
+    and normalized with a pre-existing statistics document.  The adapter only
+    accepts the four preregistered observation fields and returns the flat
+    keys consumed by ``get_datapoint``.  It intentionally has no GR00T, torch,
+    model, CUDA, simulator, or statistics-generation dependency.
+
+    ``processor_config_sha256`` and ``processor_statistics_sha256`` are
+    provenance locks, not inputs to the codec.  They are carried here so a
+    launch-time processor cannot silently be swapped after PI selects a base
+    checkpoint.
+    """
+
+    normalizer: StructuredActionNormalizer
+    processor_config_sha256: str
+    processor_statistics_sha256: str
+    structured_statistics_sha256: str
+    modality_sha256: str
+    timing_mode: str = STRUCTURED_TIMING_MODE
+
+    def __post_init__(self) -> None:
+        if self.timing_mode != STRUCTURED_TIMING_MODE:
+            raise ValueError(f"StructuredActionV1 timing mode is fixed to {STRUCTURED_TIMING_MODE}")
+        for name in (
+            "processor_config_sha256",
+            "processor_statistics_sha256",
+            "structured_statistics_sha256",
+            "modality_sha256",
+        ):
+            value = str(getattr(self, name))
+            if len(value) != 64 or any(character not in "0123456789abcdef" for character in value):
+                raise ValueError(f"{name} must be a lowercase SHA256 digest")
+
+    @property
+    def model_input_fields(self) -> tuple[str, ...]:
+        return STRUCTURED_TRAINING_MODEL_INPUT_FIELDS
+
+    def _validate_model_inputs(self, model_inputs: Mapping[str, Any]) -> dict[str, Any]:
+        keys = set(model_inputs)
+        expected = set(STRUCTURED_TRAINING_MODEL_INPUT_FIELDS)
+        forbidden = sorted(keys & STRUCTURED_TRAINING_FORBIDDEN_MODEL_INPUT_FIELDS)
+        if forbidden:
+            raise StructuredActionTargetLeakageError(
+                "forbidden target/telemetry field crossed model boundary: "
+                + ", ".join(forbidden)
+            )
+        unexpected = sorted(keys - expected)
+        missing = sorted(expected - keys)
+        if unexpected or missing:
+            raise StructuredActionTargetLeakageError(
+                f"model input whitelist mismatch; unexpected={unexpected}, missing={missing}"
+            )
+
+        body = np.asarray(model_inputs["body_rgb"])
+        wrist = np.asarray(model_inputs["wrist_rgb"])
+        state = np.asarray(model_inputs["state_v1"], dtype=np.float64).reshape(-1)
+        language = model_inputs["language"]
+        if body.ndim != 3 or body.shape[-1] != 3 or not np.isfinite(body.astype(np.float64)).all():
+            raise ValueError("body_rgb must be a finite HxWx3 array")
+        if wrist.ndim != 3 or wrist.shape[-1] != 3 or not np.isfinite(wrist.astype(np.float64)).all():
+            raise ValueError("wrist_rgb must be a finite HxWx3 array")
+        if state.shape != (STRUCTURED_ACTIVE_DENSE_DIM,) or not np.isfinite(state).all():
+            raise ValueError(f"state_v1 must be finite [{STRUCTURED_ACTIVE_DENSE_DIM}]")
+        if not isinstance(language, str) or not language.strip():
+            raise ValueError("language must be a non-empty string")
+        return {
+            "body_rgb": body.copy(),
+            "wrist_rgb": wrist.astype(np.float32, copy=True),
+            "state_v1": state.astype(np.float32, copy=True),
+            "language": language,
+        }
+
+    def build_datapoint(
+        self,
+        model_inputs: Mapping[str, Any],
+        *,
+        expert_action: Any,
+        source_timestamps: Any,
+        chunk_id: str,
+        observation_timestamp: float | None = None,
+        provenance: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Build one model-bound sample without recomputing statistics."""
+
+        inputs = self._validate_model_inputs(model_inputs)
+        label = encode_structured_action(
+            expert_action,
+            source_timestamps,
+            inputs["state_v1"],
+            timing_mode=self.timing_mode,
+            chunk_id=chunk_id,
+            source_frame=DEFAULT_MOTION_INTENT_V2_FRAME,
+            tcp_semantic_id=DEFAULT_MOTION_INTENT_V2_TCP,
+            observation_timestamp=observation_timestamp,
+            provenance=provenance,
+        )
+        normalized = self.normalizer.normalize(label)
+        return {
+            "body_rgb": inputs["body_rgb"],
+            "wrist_rgb": inputs["wrist_rgb"],
+            # The official processor calls this model-facing field ``state``;
+            # the source-side contract remains the frozen StateV1 vector.
+            "state": inputs["state_v1"],
+            "language": inputs["language"],
+            "action": normalized,
+            "action_mask": label.mask.astype(np.float32, copy=True),
+        }
+
+
 def build_structured_gr00t_dataset_factory():
     """Return a GR00T-compatible dataset factory with on-the-fly labels.
 
@@ -219,6 +389,7 @@ def build_structured_gr00t_dataset_factory():
             timing_mode: str,
             use_percentiles: bool,
             stage45b_label_reconciliation: bool = False,
+            frozen_structured_statistics: Mapping[str, Any] | None = None,
             **kwargs: Any,
         ):
             modality_configs = kwargs.get("modality_configs")
@@ -243,9 +414,14 @@ def build_structured_gr00t_dataset_factory():
             super().__init__(*args, **kwargs)
             labels = self._collect_training_labels()
             self.structured_action_labels = labels
-            self.structured_action_statistics = _structured_stats(
-                labels, use_percentiles=self.use_percentiles
-            )
+            if frozen_structured_statistics is None:
+                self.structured_action_statistics = _structured_stats(
+                    labels, use_percentiles=self.use_percentiles
+                )
+            else:
+                self.structured_action_statistics = dict(frozen_structured_statistics)
+                self.structured_action_statistics["label_count_at_runtime"] = int(len(labels))
+                self.structured_action_statistics["statistics_recomputed"] = False
             self.structured_action_normalizer = StructuredActionNormalizer(
                 self.structured_action_statistics,
                 clip_outliers=True,
@@ -400,6 +576,18 @@ def build_structured_gr00t_dataset_factory():
         def build(self, processor: Any):
             if self.config.training.eval_strategy != "no":
                 raise ValueError("Stage38-D forbids validation/evaluation dataset construction")
+            frozen_statistics: Mapping[str, Any] | None = None
+            frozen_path = os.environ.get("STAGE45F_FROZEN_STRUCTURED_STATS_PATH")
+            if frozen_path:
+                frozen_sha256 = os.environ.get("STAGE45F_FROZEN_STRUCTURED_STATS_SHA256")
+                if not frozen_sha256:
+                    raise ValueError(
+                        "STAGE45F_FROZEN_STRUCTURED_STATS_SHA256 is required when "
+                        "STAGE45F_FROZEN_STRUCTURED_STATS_PATH is set"
+                    )
+                frozen_statistics = _load_frozen_structured_statistics(
+                    Path(frozen_path), frozen_sha256
+                )
             all_datasets = []
             all_weights = []
             for dataset_spec in self.config.data.datasets:
@@ -420,6 +608,7 @@ def build_structured_gr00t_dataset_factory():
                             os.environ.get("STAGE45B_LABEL_ANCHOR_RECONCILIATION", "0")
                             == "1"
                         ),
+                        frozen_structured_statistics=frozen_statistics,
                     )
                     all_datasets.append(dataset)
                     all_weights.append(float(dataset_spec.mix_ratio))
@@ -477,6 +666,10 @@ def install_structured_dataset_factory() -> type:
 
 __all__ = [
     "StructuredActionNormalizer",
+    "StructuredActionTargetLeakageError",
+    "StructuredStateSupportAdapterV1",
+    "STRUCTURED_TRAINING_MODEL_INPUT_FIELDS",
+    "STRUCTURED_TRAINING_FORBIDDEN_MODEL_INPUT_FIELDS",
     "build_structured_gr00t_dataset_factory",
     "install_structured_dataset_factory",
 ]
