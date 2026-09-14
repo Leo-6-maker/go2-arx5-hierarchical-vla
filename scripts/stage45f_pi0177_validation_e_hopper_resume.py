@@ -71,8 +71,8 @@ EXPECTED_SNAPSHOT_LOCK_SHA = "23c35e2204b9555c8431a3f86fd7e1767740bf7196341972e8
 EXPECTED_SPLIT_LOCK_SHA = "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246"
 EXPECTED_ARM_KEYS = tuple(
     (route, seed)
-    for seed in (2222, 2223, 2224)
     for route in ("Legacy", "L1")
+    for seed in (2222, 2223, 2224)
 )
 EXPECTED_ARM_LABELS = tuple(f"{route}(seed{seed})@2000" for route, seed in EXPECTED_ARM_KEYS)
 EXPECTED_WINDOWS = tuple(f"stage22_expert_{TARGET_ID}:expert-{index:04d}" for index in range(6))
