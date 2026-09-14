@@ -677,22 +677,42 @@ def _load_preflight(config: Mapping[str, Any]) -> tuple[Path, dict[str, Any], di
     return output_root, dict(record), dict(runtime_binding)
 
 
-def _observe_h200(output_root: Path) -> dict[str, Any]:
-    import stage45f_vanda_validation_e_gen1 as evaluator
-
-    gpu = evaluator.observe_gpu()
-    path = output_root / "h200_runtime_admission.json"
+def _observe_auto_gpu(output_root: Path) -> dict[str, Any]:
+    raw = run_text(["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,memory.used", "--format=csv,noheader,nounits"])
+    rows = []
+    for line in raw.splitlines():
+        fields = [item.strip() for item in line.split(",")]
+        require(len(fields) == 5, f"malformed nvidia-smi row: {line}")
+        rows.append({"index": int(fields[0]), "name": fields[1], "uuid": fields[2], "total_vram_mib": int(fields[3]), "used_vram_mib": int(fields[4])})
+    require(len(rows) == 1 and rows[0]["index"] == 0, f"expected exactly one visible GPU at index 0: {rows}")
+    gpu_name = str(rows[0]["name"])
+    require(any(model in gpu_name.upper() for model in ("H100", "H200")), f"admitted GPU is not H100/H200: {gpu_name}")
+    require(rows[0]["total_vram_mib"] * 1024**2 >= 80 * 1024**3, "admitted H100/H200 VRAM is below 80 GiB")
+    gpu = {
+        "schema": "STAGE45F_PI0177_OBSERVED_AUTO_GPU_V1",
+        "host": socket.gethostname(),
+        "pbs_jobid": os.environ["PBS_JOBID"],
+        "selected_device": "cuda:0",
+        "gpu_name": gpu_name,
+        "gpu_uuid": rows[0]["uuid"],
+        "total_vram_bytes": rows[0]["total_vram_mib"] * 1024**2,
+        "memory_used_mib_at_admission": rows[0]["used_vram_mib"],
+        "visible_gpu_count": 1,
+        "all_visible_gpus": rows,
+        "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+        "nvidia_smi_stdout_sha256": sha256_bytes((raw + "\n").encode("utf-8")),
+        "allowed_gpu_models": ["H100", "H200"],
+    }
+    path = output_root / "gpu_runtime_admission.json"
     if path.exists():
         old = load_json(path)
-        require(old.get("gpu_uuid") == gpu.get("gpu_uuid"), "H200 GPU UUID changed inside one allocation")
+        require(old.get("gpu_uuid") == gpu.get("gpu_uuid"), "GPU UUID changed inside one allocation")
         return dict(old)
     record = {
-        "schema": "STAGE45F_PI0177_H200_RUNTIME_ADMISSION_V1",
+        "schema": "STAGE45F_PI0177_GPU_RUNTIME_ADMISSION_V1",
         "status": "PASS",
-        "host": socket.gethostname(),
-        "pbs_jobid": os.environ.get("PBS_JOBID"),
         "gpu": gpu,
-        "gpu_uuid": gpu.get("gpu_uuid"),
+        "gpu_uuid": gpu["gpu_uuid"],
         "selected_device": "cuda:0",
         "model_loads_before_admission": 0,
         "validation_e_model_calls_before_admission": 0,
@@ -777,7 +797,7 @@ def arm_child(config_path: Path, arm_label: str) -> int:
     require(ledger.count_begin("CONDITIONING") + len(missing) <= NEW_CEILING["conditioning"], "PI0177 conditioning ceiling exceeded")
     require(ledger.count_begin("ACTION_HEAD") + len(missing) * 4 <= NEW_CEILING["action_head"], "PI0177 action-head ceiling exceeded")
     require(ledger.count_begin("CONDITIONING") + ledger.count_begin("ACTION_HEAD") + len(missing) * 5 <= NEW_CEILING["model_side_total"], "PI0177 model-side ceiling exceeded")
-    gpu_admission = load_json(regular_file(output_root / "h200_runtime_admission.json", "H200 runtime admission"))
+    gpu_admission = load_json(regular_file(output_root / "gpu_runtime_admission.json", "GPU runtime admission"))
     gpu_uuid = str(gpu_admission["gpu_uuid"])
     ledger.gpu_uuid = gpu_uuid
     try:
@@ -1064,7 +1084,7 @@ def cpu_posthoc(config: Mapping[str, Any], output_root: Path, preflight_record: 
         "derived_manifest": str(output_root / "derived_rows.jsonl"),
         "derived_manifest_sha256": sha256_file(output_root / "derived_rows.jsonl"),
         "execution_ledger": str(output_root / "execution_ledger.jsonl"),
-        "h200_runtime_admission": load_json(output_root / "h200_runtime_admission.json"),
+        "gpu_runtime_admission": load_json(output_root / "gpu_runtime_admission.json"),
         "target_progress_path_roughness_summary": str(output_root / "target_progress_path_roughness_summary.json"),
         "paired_summary": str(output_root / "paired_summary.json"),
         "seed_paired_summary": seed_summary,
@@ -1106,7 +1126,7 @@ def execute(config_path: Path, *, continuation_mode: bool = False) -> int:
         print(RETURN_TOKEN)
         print(SCIENCE_HOLD)
         return 0
-    gpu_admission = _observe_h200(output_root)
+    gpu_admission = _observe_auto_gpu(output_root)
     ledger_path = output_root / "execution_ledger.jsonl"
     prior_records = []
     if ledger_path.exists():

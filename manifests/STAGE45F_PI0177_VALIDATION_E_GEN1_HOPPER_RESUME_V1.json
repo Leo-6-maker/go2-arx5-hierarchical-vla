@@ -79,7 +79,10 @@
     "raw_before_decode_seal": true,
     "cpu_posthoc": true,
     "interruption_safe_resume": true,
-    "rtx_specific_admission": false
+    "rtx_specific_admission": false,
+    "gpu_model_allowlist": ["H100", "H200"],
+    "single_visible_gpu": true,
+    "single_gpu_uuid_per_allocation": true
   },
   "corelab_qualification": {
     "cpu_static_required": true,

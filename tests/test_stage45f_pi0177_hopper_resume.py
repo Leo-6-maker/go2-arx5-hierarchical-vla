@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +45,22 @@ class PI0177RunnerTests(unittest.TestCase):
         self.assertFalse(guard["model_imported"])
         self.assertEqual(guard["pbs_submissions"], 0)
         self.assertTrue(guard["markers"]["no_h200_submit"])
+
+    def test_auto_gpu_admission_accepts_h100_and_binds_uuid(self) -> None:
+        with tempfile.TemporaryDirectory() as directory, patch.dict("os.environ", {"PBS_JOBID": "616085.hopper-m-02"}, clear=False), patch.object(
+            runner,
+            "run_text",
+            return_value="0, NVIDIA H100 80GB HBM3, GPU-test, 81920, 0",
+        ), patch.object(
+            runner,
+            "write_json",
+            side_effect=lambda path, value: path.write_text(json.dumps(value), encoding="utf-8"),
+        ):
+            first = runner._observe_auto_gpu(Path(directory))
+            second = runner._observe_auto_gpu(Path(directory))
+        self.assertEqual(first["gpu"]["gpu_name"], "NVIDIA H100 80GB HBM3")
+        self.assertEqual(first["gpu_uuid"], "GPU-test")
+        self.assertEqual(second["gpu_uuid"], "GPU-test")
 
 
 if __name__ == "__main__":

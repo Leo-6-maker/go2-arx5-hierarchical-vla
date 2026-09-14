@@ -1,6 +1,6 @@
 #!/bin/bash
-# PI0177: one admitted H200 allocation for the remaining Validation-E raw
-# cells.  The pre-model audit and Corelab qualification happen before this
+# PI0177: one admitted auto GPU allocation (H100 or H200) for the remaining
+# Validation-E raw cells.  The pre-model audit and Corelab qualification happen before this
 # entrypoint; this file only runs the already-admitted child-per-arm runner.
 
 #PBS -N st45f_pi0177
@@ -14,7 +14,7 @@
 set -euo pipefail
 
 : "${PI0177_REPO:?Set the exact clean PI0177 checkout}"
-: "${PI0177_PYTHON:?Set the admitted H200 Python}"
+: "${PI0177_PYTHON:?Set the admitted Hopper Python}"
 : "${PI0177_CONFIG:?Set the immutable PI0177 config}"
 : "${PI0177_EXPECTED_HEAD:?Set the exact PI0177 checkout HEAD}"
 : "${PI0177_CONTINUATION:?Set 0 for primary or 1 for the single continuation}"
@@ -29,7 +29,11 @@ esac
 test -f "${PI0177_CONFIG}"
 test "$(git -C "${PI0177_REPO}" branch --show-current)" = "stage45f/localpc-validation-e-hopper-resume"
 test "$(git -C "${PI0177_REPO}" rev-parse HEAD)" = "${PI0177_EXPECTED_HEAD}"
-test -z "$(git -C "${PI0177_REPO}" status --porcelain=v1 --untracked-files=all)"
+# PBS creates its joined stdout/stderr files in the checkout before the job
+# script starts.  Ignore only those scheduler-owned names; all other dirt is
+# still a hard failure.
+repo_dirty="$(git -C "${PI0177_REPO}" status --porcelain=v1 --untracked-files=all | awk '$1 == "??" && $2 ~ /^st45f_pi0177\.[oe][0-9]+$/ { next } { print }')"
+test -z "${repo_dirty}"
 
 case "${PI0177_CONTINUATION}" in
   0) exec "${PI0177_PYTHON}" "${PI0177_REPO}/scripts/stage45f_pi0177_validation_e_hopper_resume.py" --execute --config "${PI0177_CONFIG}" --repo "${PI0177_REPO}" ;;
