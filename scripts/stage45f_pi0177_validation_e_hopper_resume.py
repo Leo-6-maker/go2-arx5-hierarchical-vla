@@ -414,7 +414,9 @@ def _checkout_audit(repo: Path, expected_head: str) -> dict[str, Any]:
     allowed = {
         "scripts/stage45f_pi0177_validation_e_hopper_resume.py",
         "scripts/stage45f_pi0177_corelab_qualification.py",
+        "src/go2arx5_vla/evaluation/checkpoint_eval.py",
         "manifests/STAGE45F_PI0177_VALIDATION_E_GEN1_HOPPER_RESUME_V1.json",
+        "tests/test_stage45c_evaluator.py",
         "tests/test_stage45f_pi0177_hopper_resume.py",
         "hpc/pbs/stage45f_pi0177_validation_e_gen1_h200.pbs",
     }
