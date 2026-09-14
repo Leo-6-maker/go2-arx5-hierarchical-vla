@@ -311,6 +311,7 @@ def target_leakage_and_adapter_audit(
         processor_statistics_sha256=str(runtime_bindings["base_processor_statistics_sha256"]),
         structured_statistics_sha256=str(runtime_bindings["structured_action_statistics_sha256"]),
         modality_sha256=str(runtime_bindings["modality_sha256"]),
+        stage45b_label_reconciliation=True,
     )
     require(adapter.model_input_fields == STRUCTURED_TRAINING_MODEL_INPUT_FIELDS, "adapter whitelist drift")
     accepted = 0
@@ -415,6 +416,7 @@ def target_leakage_and_adapter_audit(
             "frozen_stats_env": "STAGE45F_FROZEN_STRUCTURED_STATS_PATH + STAGE45F_FROZEN_STRUCTURED_STATS_SHA256",
             "model_constructed": False,
             "processor_invoked": False,
+            "stage45b_label_reconciliation": "LABEL_ONLY_STATE_EEF_ANCHOR_TO_PHYSICAL_ACTION_POSE0; physical expert action and observation StateV1 remain unchanged",
             "late_bound_remaining": ["PI-selected Legacy/L1 base checkpoint", "H200 allocation/start"],
         },
     }

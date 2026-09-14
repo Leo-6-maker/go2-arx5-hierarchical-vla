@@ -275,6 +275,7 @@ class StructuredStateSupportAdapterV1:
     structured_statistics_sha256: str
     modality_sha256: str
     timing_mode: str = STRUCTURED_TIMING_MODE
+    stage45b_label_reconciliation: bool = False
 
     def __post_init__(self) -> None:
         if self.timing_mode != STRUCTURED_TIMING_MODE:
@@ -341,16 +342,27 @@ class StructuredStateSupportAdapterV1:
         """Build one model-bound sample without recomputing statistics."""
 
         inputs = self._validate_model_inputs(model_inputs)
+        physical_action = np.asarray(expert_action, dtype=np.float64)
+        label_state = inputs["state_v1"]
+        reconciliation: dict[str, Any] | None = None
+        if self.stage45b_label_reconciliation:
+            label_state, reconciliation = reconcile_stage45b_label_anchor(
+                physical_action,
+                label_state,
+            )
+        label_provenance = dict(provenance or {})
+        if reconciliation is not None:
+            label_provenance["stage45b_label_anchor_reconciliation"] = reconciliation
         label = encode_structured_action(
-            expert_action,
+            physical_action,
             source_timestamps,
-            inputs["state_v1"],
+            label_state,
             timing_mode=self.timing_mode,
             chunk_id=chunk_id,
             source_frame=DEFAULT_MOTION_INTENT_V2_FRAME,
             tcp_semantic_id=DEFAULT_MOTION_INTENT_V2_TCP,
             observation_timestamp=observation_timestamp,
-            provenance=provenance,
+            provenance=label_provenance,
         )
         normalized = self.normalizer.normalize(label)
         return {
