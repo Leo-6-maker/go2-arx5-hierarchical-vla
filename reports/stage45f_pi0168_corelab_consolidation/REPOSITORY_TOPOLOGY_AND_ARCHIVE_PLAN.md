@@ -37,9 +37,9 @@ This is a navigation and future-handling plan only. It does not close, merge, de
 | #68 | `PI0146 bounded local device census and model bridge plan` | `stage45f/corelab-local-device-runtime-smoke` -> `d98798cfa79c37a01a48a28771e8673a54c5d57f` | Local device/runtime bridge support | `ARCHIVE_CANDIDATE` | No current PI0168 role; future archive only after PI review. |
 | #69 | `Stage45F: bounded local initial-state pilot` | `#56` -> `217ec2525c33bb8115d86773e5e42fe01d6c4c62` | Corelab local pilot and prior handoff provenance | `ARCHIVE_CANDIDATE` | Standby/historical; superseded as formal cross-agent provenance by this PI0168 packet. Do not close now. |
 | #70 | `chore/github-connection-smoke-test-20260913` | `main` -> `140074f7cda3de2115906e93a3d0fa7f893e1d42` | Closed connection smoke test | `ARCHIVE_CANDIDATE` | Already closed; retain only as audit history unless PI requests cleanup. |
-| #71 | `[Stage45F] PI0154 matched Validation-E generation 1` | `stage45e/h200-unified-replication-campaign` -> `940df1ab6f428fd0260fe836e36d4cd98c6161e3` at issuance | Vanda-owned Validation-E execution/recovery | `ACTIVE_EXECUTION` | Vanda is the sole active science owner. The final live head movement is explicitly recorded below; Corelab did not edit it. |
+| #71 | `[Stage45F] PI0154 matched Validation-E generation 1` | `stage45e/h200-unified-replication-campaign` -> `ce3c0179f3974648cdf6527e145d0328b0ac9262` current live (audited issuance snapshot `940df1ab6f428fd0260fe836e36d4cd98c6161e3`) | Vanda-owned Validation-E execution/recovery | `ACTIVE_EXECUTION` | Vanda is the sole active science owner. The post-issuance delta is classified as partial audit invalidation; Corelab did not edit it. |
 
-The new PI0168 branch/Draft PR is the current `ACTIVE_SUPPORT` packet. Its PR number is filled into the manifest and GitHub handoff after the first audit commit creates a non-empty diff.
+The new PI0168 branch/Draft PR #72 is the current `ACTIVE_SUPPORT` packet. For the requested #46/#49/#51–#71 inventory, the open classification counts are `ACTIVE_EXECUTION=1`, `SEALED_HISTORY=6`, `PREP_ONLY_SUPERSEDED=6`, `ARCHIVE_CANDIDATE=2`, and `SCIENCE_RESULT_NOT_YET_CONSOLIDATED=7` (22 open PRs; #70 is closed). Including PI0168 PR #72 adds `ACTIVE_SUPPORT=1` and makes 23 open PRs in this review surface.
 
 ## Navigation drift
 

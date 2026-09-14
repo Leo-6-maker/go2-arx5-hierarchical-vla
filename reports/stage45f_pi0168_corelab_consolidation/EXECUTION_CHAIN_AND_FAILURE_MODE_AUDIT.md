@@ -86,14 +86,14 @@ The rows below are an evidence matrix, not a replacement for payload inspection.
 
 ## Live PR #71 movement check
 
-At the final check, the live PR #71 head must be read again. If it differs from the issuance snapshot, the exact classification is appended here and copied into the manifest. The audit never edits or rebases PR #71.
+The final live PR #71 read found one post-issuance commit. The audit never edits or rebases PR #71.
 
 ```text
-VANDA_HEAD_MOVED: pending_final_live_read
-NEW_HEAD: pending_final_live_read
-DELTA_FILES: pending_final_live_read
-DOES_DELTA_INVALIDATE_AUDIT: pending_final_live_read
-UNAUDITED_LIVE_DELTA: pending_final_live_read
+VANDA_HEAD_MOVED: true
+NEW_HEAD: ce3c0179f3974648cdf6527e145d0328b0ac9262
+DELTA_FILES: scripts/stage45f_pi0163_validation_e_recovery.py (+247/-133); scripts/stage45f_pi0167_raw_inventory_verifier.py (added +43); tests/test_stage45f_pi0163_support.py (+75)
+DOES_DELTA_INVALIDATE_AUDIT: partial
+UNAUDITED_LIVE_DELTA: commit ce3c0179 isolates the PI0167 raw-inventory verifier and updates recovery support/tests; the issuance-snapshot chain, topology, and known-blocker classification remain bounded to 940df1ab, while the current recovery import-order implementation is not fully re-audited by this packet.
 ```
 
 The bounded conclusion remains: this packet is repository-consolidation preparation for PI review, not a claim that a moved Vanda execution head has been fully re-audited.

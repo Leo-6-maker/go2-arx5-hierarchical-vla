@@ -8,9 +8,9 @@ This draft is controlled by GitHub live state, not by a local path or an earlier
 |---|---|
 | Issue #11 gate | Comment `5658063963`, `PI_GATE_STATE_0168` |
 | Launch pointer | PR #69 comment `5658065067`, read before the Issue #11 gate |
-| Audited Vanda snapshot | PR #71 head `940df1ab6f428fd0260fe836e36d4cd98c6161e3` at gate issuance |
+| Audited Vanda snapshot | PR #71 head `940df1ab6f428fd0260fe836e36d4cd98c6161e3` at gate issuance; current live head `ce3c0179f3974648cdf6527e145d0328b0ac9262` |
 | Vanda ownership | PR #71 remains the active Validation-E execution surface; Corelab has no active science execution role |
-| Corelab branch | `stage45f/corelab-execution-risk-consolidation-prep`, created from the exact audited snapshot |
+| Corelab branch / Draft PR | `stage45f/corelab-execution-risk-consolidation-prep`, PR #72, created from the exact audited snapshot |
 | Corelab work | Static execution-risk audit, topology/archive preparation, and post-Validation harness design only |
 | Scientific recommendation | None. This packet does not choose the next experiment, tier, arm, or resource. |
 
@@ -56,14 +56,14 @@ No step above authorizes a new model/GPU/training/simulator/WBC run, modifies PR
 
 ## Final live-head classification
 
-This exact block is completed immediately before handoff publication and is duplicated in the manifest:
+This exact block was completed by the final GitHub live read and is duplicated in the manifest:
 
 ```text
-VANDA_HEAD_MOVED: pending_final_live_read
-NEW_HEAD: pending_final_live_read
-DELTA_FILES: pending_final_live_read
-DOES_DELTA_INVALIDATE_AUDIT: pending_final_live_read
-UNAUDITED_LIVE_DELTA: pending_final_live_read
+VANDA_HEAD_MOVED: true
+NEW_HEAD: ce3c0179f3974648cdf6527e145d0328b0ac9262
+DELTA_FILES: scripts/stage45f_pi0163_validation_e_recovery.py (+247/-133); scripts/stage45f_pi0167_raw_inventory_verifier.py (added +43); tests/test_stage45f_pi0163_support.py (+75)
+DOES_DELTA_INVALIDATE_AUDIT: partial
+UNAUDITED_LIVE_DELTA: current PI0167 recovery isolation changes are Vanda-owned and not fully re-audited here; the PI0168 packet remains bounded to the 940df1ab issuance snapshot.
 ```
 
 ## Review gate

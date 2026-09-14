@@ -22,7 +22,8 @@
     "branch": "stage45f/corelab-execution-risk-consolidation-prep",
     "base_branch": "stage45f/vanda-validation-e-gen1-l1-2000",
     "created_from_sha": "940df1ab6f428fd0260fe836e36d4cd98c6161e3",
-    "draft_pr_number": null,
+    "draft_pr_number": 72,
+    "base_branch_head_at_pr_creation": "ce3c0179f3974648cdf6527e145d0328b0ac9262",
     "draft_pr_title": "Stage45F: Corelab execution-risk audit and consolidation prep"
   },
   "allowed_changed_paths": [
@@ -132,11 +133,15 @@
     "Handle archive candidates only after PI approval with immutable provenance preserved."
   ],
   "live_pr71_delta": {
-    "vanda_head_moved": "pending_final_live_read",
-    "new_head": "pending_final_live_read",
-    "delta_files": [],
-    "does_delta_invalidate_audit": "pending_final_live_read",
-    "unaudited_live_delta": "pending_final_live_read"
+    "vanda_head_moved": true,
+    "new_head": "ce3c0179f3974648cdf6527e145d0328b0ac9262",
+    "delta_files": [
+      {"path": "scripts/stage45f_pi0163_validation_e_recovery.py", "status": "modified", "additions": 247, "deletions": 133},
+      {"path": "scripts/stage45f_pi0167_raw_inventory_verifier.py", "status": "added", "additions": 43, "deletions": 0},
+      {"path": "tests/test_stage45f_pi0163_support.py", "status": "modified", "additions": 75, "deletions": 0}
+    ],
+    "does_delta_invalidate_audit": "partial",
+    "unaudited_live_delta": "ce3c0179 isolates the PI0167 raw-inventory verifier and updates recovery support/tests; issuance-snapshot conclusions remain bounded to 940df1ab while the current recovery import-order implementation is not fully re-audited here."
   },
   "recommendation_next_experiment": null,
   "no_pr71_source_changes": true,
