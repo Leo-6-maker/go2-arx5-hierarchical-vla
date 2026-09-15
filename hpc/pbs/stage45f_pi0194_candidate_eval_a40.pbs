@@ -5,7 +5,7 @@
 # before starting the first worker or native simulator.
 #PBS -N pi0194_cl
 #PBS -q interactive_gpu
-#PBS -l select=1:ncpus=12:ngpus=1
+#PBS -l select=1:ncpus=36:ngpus=1:mem=240gb
 #PBS -l walltime=02:00:00
 #PBS -j oe
 
@@ -15,22 +15,27 @@ set -euo pipefail
 : "${PI0194_BINDING:?}"
 : "${PI0194_EXPECTED_HEAD:?}"
 
-APPTAINER="${PI0194_APPTAINER:-/cm/shared/apps/singularity/1.3.1/bin/apptainer}"
+APPTAINER="${PI0194_APPTAINER:-/cm/shared/apps/apptainer/1.4.1/bin/apptainer}"
 NATIVE_IMAGE="${PI0194_NATIVE_IMAGE:-/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
 NATIVE_SITE="${PI0194_NATIVE_SITE:-/scratch/leonliu/pi0191_runtime/torch_cu121_v1/site-packages}"
-
-test -x "${APPTAINER}"
-test -f "${NATIVE_IMAGE}"
-test -f "${PI0194_BINDING}"
-
-GPU_UUID="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | sed -n '1p' | tr -d '[:space:]')"
-GPU_COUNT="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
-test "${GPU_COUNT}" = 1
 
 RUN_LOG_ROOT="${PI0194_RUN_LOG_ROOT:-$(dirname "${PI0194_BINDING}")/runs/${PBS_JOBID}}"
 test ! -e "${RUN_LOG_ROOT}"
 mkdir -p "${RUN_LOG_ROOT}"
 exec > >(tee -a "${RUN_LOG_ROOT}/pbs.log") 2>&1
+printf 'PI0194 wrapper start job=%s host=%s\n' "${PBS_JOBID}" "$(hostname)"
+
+test -x "${APPTAINER}"
+test -f "${NATIVE_IMAGE}"
+test -f "${PI0194_BINDING}"
+"${APPTAINER}" --version
+
+GPU_UUID="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | sed -n '1p' | tr -d '[:space:]')"
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+test "${GPU_COUNT}" = 1
+test "${GPU_NAME}" = "NVIDIA A40"
+printf 'PI0194 GPU name=%s uuid=%s count=%s\n' "${GPU_NAME}" "${GPU_UUID}" "${GPU_COUNT}"
 
 cd "${PI0194_REPO}"
 test "$(git rev-parse HEAD)" = "${PI0194_EXPECTED_HEAD}"
