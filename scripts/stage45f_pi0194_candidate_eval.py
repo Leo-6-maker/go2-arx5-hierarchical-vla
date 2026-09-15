@@ -51,6 +51,7 @@ LANGUAGE = "move the end effector to the red target"
 SOURCE_FRAME = "NATIVE_WBC_RELATIVE_REFERENCE"
 TCP_ID = "x5_link6_gripper_center"
 ACTION_CONTRACT = "STRUCTURED_ACTION_V1"
+CONTAINER_MODEL_PYTHON = "/opt/miniconda3/envs/isaacgym/bin/python"
 CANDIDATE_ORDER = ("PARENT", "E", "S20")
 CONDITION_ORDER = (
     "C0_NOMINAL",
@@ -467,8 +468,15 @@ def validate_binding(binding_path: Path, *, expected_head: str | None = None, ch
     cosmos = _regular(Path(paths["cosmos_snapshot"]), "cosmos_snapshot directory")
     wbc_root = _regular(Path(paths["wbc_source_root"]), "wbc_source_root directory")
     relay_manifest_path = _regular(Path(paths["relay_manifest"]), "relay manifest")
-    model_python = _regular(Path(paths["model_python"]), "model Python")
-    require(os.access(model_python, os.X_OK), "model Python is not executable")
+    model_python_value = str(paths["model_python"])
+    if model_python_value == CONTAINER_MODEL_PYTHON:
+        # The PBS entrypoint runs inside the frozen Isaac image.  This path is
+        # intentionally image-local and therefore cannot be checked from the
+        # host filesystem before Apptainer starts.
+        model_python = Path(CONTAINER_MODEL_PYTHON)
+    else:
+        model_python = _regular(Path(model_python_value), "model Python")
+        require(os.access(model_python, os.X_OK), "model Python is not executable")
     structured_stats = _regular(Path(paths["structured_stats"]), "structured stats")
     modality = _regular(Path(paths["modality_config"]), "modality config")
     trajectory = _regular(Path(paths["trajectory"]), "trajectory")
