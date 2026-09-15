@@ -7,6 +7,9 @@
 #PBS -q interactive_gpu
 #PBS -l select=1:ncpus=36:ngpus=1:mem=240gb
 #PBS -l walltime=02:00:00
+# PBS owns stdout before this script starts. Keep that scheduler-owned file
+# outside the Git checkout so the strict clean-worktree admission stays valid.
+#PBS -o /scratch/leonliu/pi0194_candidate_eval_a40.scheduler.log
 #PBS -j oe
 
 set -euo pipefail
