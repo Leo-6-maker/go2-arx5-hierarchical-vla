@@ -741,7 +741,7 @@ def _scientific_abort_evidence(root: Path, result: Mapping[str, Any]) -> bool:
                 return True
     error = result.get("error") or {}
     message = str(error.get("message", ""))
-    return "NATIVE_TASK_TERMINATION" in message or (
+    return "NATIVE_TASK_TERMINATION" in message or "reached done/reset" in message.lower() or (
         "termination" in message.lower() and any(key in error for key in ("termination_code", "reset_buf", "done"))
     )
 
@@ -780,7 +780,9 @@ def _validate_cell_evidence(root: Path, *, stage43_evidence: Any) -> Dict[str, A
         require(int(final_counter.get(key, -1)) == value, "counter evidence mismatch: %s" % key)
     require(0 <= counts["reference_update_count"] <= UPDATES_PER_CELL and 0 <= counts["wbc_step_count"] <= TICKS_PER_CELL, "cell counter exceeds frozen budget")
     segment_lengths = [int(value) for value in stage43_result.get("wbc_segment_lengths", [])]
-    require(all(value >= 0 for value in segment_lengths) and sum(segment_lengths) == counts["wbc_step_count"], "WBC segment counter is inconsistent")
+    require(all(value >= 0 for value in segment_lengths), "WBC segment counter is inconsistent")
+    if sum(segment_lengths) != counts["wbc_step_count"]:
+        require(_scientific_abort_evidence(root, stage43_result), "WBC segment counter is inconsistent")
     status = str(stage43_result.get("status"))
     if status == "PASS":
         require(cases == FORWARDS_PER_CELL and counts["reference_update_count"] == UPDATES_PER_CELL and counts["wbc_step_count"] == TICKS_PER_CELL, "PASS cell did not complete the frozen schedule")
@@ -1080,6 +1082,16 @@ def _resume_cell_record(root: Path, candidate: str, condition: str, *, stage43_e
         record = read_json(record_path, canonical=True)
         require(record.get("candidate") == candidate and record.get("condition_id") == condition, "cell registration identity drift")
         if record.get("status") == "ENGINEERING_BLOCKED":
+            if (root / "condition_result.json").is_file() and (root / "condition_manifest.json").is_file():
+                try:
+                    inspection = _validate_cell_evidence(root, stage43_evidence=stage43_evidence)
+                except Exception:
+                    return record
+                if inspection["status"] in {"SCIENTIFIC_REJECT", "SCIENTIFIC_ABORT"}:
+                    previous_path = root / "pi0196_cell_result.previous_engineering.json"
+                    require(not previous_path.exists(), "previous engineering cell record already exists")
+                    record_path.rename(previous_path)
+                    return _persist_cell_result(root, candidate, condition, 139 if record.get("stage43_runner_return_code") == 139 else 2, stage43_evidence=stage43_evidence)
             return record
         inspection = _validate_cell_evidence(root, stage43_evidence=stage43_evidence)
         require(record.get("status") == inspection["status"], "cell status drift")
@@ -1093,6 +1105,20 @@ def _resume_cell_record(root: Path, candidate: str, condition: str, *, stage43_e
         inferred_code = 0 if read_json(root / "condition_result.json").get("status") == "PASS" else 2
         return _persist_cell_result(root, candidate, condition, inferred_code, stage43_evidence=stage43_evidence)
     raise AdapterError("cell directory exists without complete terminal evidence: %s" % root)
+
+
+def _archive_blocked_attempt(output_root: Path) -> None:
+    result_path = output_root / "result_seal.json"
+    if not result_path.exists():
+        return
+    previous = read_json(result_path, canonical=True)
+    require(previous.get("status") == "BLOCKED", "resume cannot alter a completed result seal")
+    require((previous.get("stop_reason") or {}).get("status") == "ENGINEERING_BLOCKED", "resume requires a prior engineering stop")
+    for name in ("scorecard.json", "evidence_manifest.json", "result_seal.json"):
+        source = output_root / name
+        archive = output_root / ("previous_" + name)
+        require(source.exists() and not archive.exists(), "resume summary archive path is not fresh: %s" % name)
+        source.rename(archive)
 
 
 def _cell_result(root: Path, candidate: str, condition: str, runner_code: int) -> Dict[str, Any]:
@@ -1312,6 +1338,7 @@ def execute(binding_path: Path, *, expected_head: str, gpu_uuid: str, sim_device
     output_root = Path(binding["paths"]["output_root"]).resolve()
     if resume:
         require(output_root.is_dir() and not output_root.is_symlink(), "continuation output root is unavailable for resume: %s" % output_root)
+        _archive_blocked_attempt(output_root)
         require(not (output_root / "result_seal.json").exists(), "continuation output root is already sealed")
         admission_path = _regular(output_root / "admission.json", "continuation admission", False)
         admission = read_json(admission_path, canonical=True)

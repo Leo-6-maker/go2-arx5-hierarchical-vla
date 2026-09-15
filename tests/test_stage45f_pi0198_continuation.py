@@ -73,6 +73,35 @@ class PI0198ContinuationTests(unittest.TestCase):
             record = MODULE._persist_cell_result(root, "S20", "C1_X_PLUS_5CM", 2, stage43_evidence=_ManifestStub())
             self.assertEqual(record["status"], "SCIENTIFIC_ABORT")
 
+    def test_done_reset_partial_segment_is_scientific_abort(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = _cell_fixture(Path(directory) / "cell", decision="WARN", error={"message": "Stage43 C0_NOMINAL segment 2 reached done/reset", "type": "RuntimeError"}, aborted=True)
+            result = MODULE.read_json(root / "condition_result.json")
+            result["wbc_step_count"] = 102
+            result["wbc_segment_lengths"] = [49, 49]
+            MODULE.write_json(root / "condition_result.json", result)
+            counter = MODULE.read_json(root / "counter_observations.json")
+            counter["final"]["wbc_step_count"] = 102
+            MODULE.write_json(root / "counter_observations.json", counter)
+            record = MODULE._persist_cell_result(root, "S20", "C0_NOMINAL", 139, stage43_evidence=_ManifestStub())
+            self.assertEqual(record["status"], "SCIENTIFIC_ABORT")
+            self.assertTrue(record["post_persistence_native_teardown"])
+
+    def test_resume_reclassifies_persisted_abort_without_rerun(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = _cell_fixture(Path(directory) / "cell", decision="WARN", error={"message": "Stage43 C0_NOMINAL segment 2 reached done/reset", "type": "RuntimeError"}, aborted=True)
+            result = MODULE.read_json(root / "condition_result.json")
+            result["wbc_step_count"] = 102
+            result["wbc_segment_lengths"] = [49, 49]
+            MODULE.write_json(root / "condition_result.json", result)
+            counter = MODULE.read_json(root / "counter_observations.json")
+            counter["final"]["wbc_step_count"] = 102
+            MODULE.write_json(root / "counter_observations.json", counter)
+            MODULE._persist_engineering_cell(root, "S20", "C0_NOMINAL", runner_code=139, message="cell evidence closure failed", child_log=None)
+            record = MODULE._resume_cell_record(root, "S20", "C0_NOMINAL", stage43_evidence=_ManifestStub())
+            self.assertEqual(record["status"], "SCIENTIFIC_ABORT")
+            self.assertTrue((root / "pi0196_cell_result.previous_engineering.json").is_file())
+
     def test_incomplete_rc139_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             root = _cell_fixture(Path(directory) / "cell", decision="REJECT", error={"message": "SAFETYGATE_REJECT_C0", "type": "RuntimeError"})
