@@ -79,10 +79,10 @@ class PI0198ContinuationTests(unittest.TestCase):
             result = MODULE.read_json(root / "condition_result.json")
             result["wbc_step_count"] = 102
             result["wbc_segment_lengths"] = [49, 49]
-            MODULE.write_json(root / "condition_result.json", result)
+            MODULE.write_json(root / "condition_result.json", result, overwrite=True)
             counter = MODULE.read_json(root / "counter_observations.json")
             counter["final"]["wbc_step_count"] = 102
-            MODULE.write_json(root / "counter_observations.json", counter)
+            MODULE.write_json(root / "counter_observations.json", counter, overwrite=True)
             record = MODULE._persist_cell_result(root, "S20", "C0_NOMINAL", 139, stage43_evidence=_ManifestStub())
             self.assertEqual(record["status"], "SCIENTIFIC_ABORT")
             self.assertTrue(record["post_persistence_native_teardown"])
@@ -93,10 +93,10 @@ class PI0198ContinuationTests(unittest.TestCase):
             result = MODULE.read_json(root / "condition_result.json")
             result["wbc_step_count"] = 102
             result["wbc_segment_lengths"] = [49, 49]
-            MODULE.write_json(root / "condition_result.json", result)
+            MODULE.write_json(root / "condition_result.json", result, overwrite=True)
             counter = MODULE.read_json(root / "counter_observations.json")
             counter["final"]["wbc_step_count"] = 102
-            MODULE.write_json(root / "counter_observations.json", counter)
+            MODULE.write_json(root / "counter_observations.json", counter, overwrite=True)
             MODULE._persist_engineering_cell(root, "S20", "C0_NOMINAL", runner_code=139, message="cell evidence closure failed", child_log=None)
             record = MODULE._resume_cell_record(root, "S20", "C0_NOMINAL", stage43_evidence=_ManifestStub())
             self.assertEqual(record["status"], "SCIENTIFIC_ABORT")
