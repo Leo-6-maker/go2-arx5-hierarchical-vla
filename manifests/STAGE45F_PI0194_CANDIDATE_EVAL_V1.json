@@ -1,0 +1,117 @@
+{
+  "schema": "CORELAB_STAGE45F_PI0194_CANDIDATE_EVAL_V1",
+  "status": "READY_FOR_PI_REVIEW_NOT_EXECUTED",
+  "authority": {
+    "issue_11_comment": 5677804074,
+    "pr_75_comment": 5677809759,
+    "released_pr": 75
+  },
+  "historical_stage43": {
+    "accepted_head": "b2a70dcec0765cf69819bb76c180e5c92ae3eac3",
+    "bundle_sha256": "127d95a2a5b9a6a40e864e029d85fd09a9e4dd55441aae58071502aa76700da6",
+    "result_sha256": "e635ecaa321bde38903be45781e9b47063ba6b81c2bc810b1a1ae64925ecfcdb",
+    "result_seal_sha256": "668bee50dc38997403a065d5f4831662731715cf28c289af3982e4f9abbf7283",
+    "cohort_manifest_sha256": "62e95728ea6da7a0d90613e52adabc0737f3b116f63d4f01ebb680387ea2de48",
+    "trajectory_sha256": "e09d03e4f837234a1ed7504f6d16f202a40d7fab2c3cbbc0f2e2fa17b0b33722"
+  },
+  "task": {
+    "dev_seed": 4242,
+    "target_world_m": [0.3, 0.1, 0.58],
+    "language": "move the end effector to the red target",
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "target_xyz_in_model_input": false,
+    "action_contract": "STRUCTURED_ACTION_V1",
+    "raw_shape": [1, 40, 132],
+    "decoded_shape": [40, 10]
+  },
+  "matrix": {
+    "candidate_order": ["PARENT", "E", "S20"],
+    "condition_order": [
+      "C0_NOMINAL",
+      "C1_X_PLUS_5CM",
+      "C2_X_MINUS_5CM",
+      "C3_Y_PLUS_5CM",
+      "C4_Y_MINUS_5CM"
+    ],
+    "condition_deltas_m": {
+      "C0_NOMINAL": [0.0, 0.0, 0.0],
+      "C1_X_PLUS_5CM": [0.05, 0.0, 0.0],
+      "C2_X_MINUS_5CM": [-0.05, 0.0, 0.0],
+      "C3_Y_PLUS_5CM": [0.0, 0.05, 0.0],
+      "C4_Y_MINUS_5CM": [0.0, -0.05, 0.0]
+    },
+    "gr00t_forwards_per_cell": 4,
+    "reference_updates_per_cell": 3,
+    "native_ticks_per_cell": [49, 49, 49, 98],
+    "maximum_cells": 15,
+    "maximum_gr00t_forwards": 60,
+    "maximum_reference_updates": 45,
+    "maximum_native_ticks": 3675
+  },
+  "candidates": {
+    "PARENT": {
+      "label": "PARENT L1(seed2223)@2000",
+      "tree_sha256": "231e2cff6690242601147b3812298c806030f6562116df248e8b45c5ce53cd16",
+      "tree_prefix": "stage45e_l1/checkpoint-2000",
+      "global_step": 2000
+    },
+    "E": {
+      "label": "E@256",
+      "tree_sha256": "f91f4fd3cf3c440127c57d49cdd2dde52ce6a1294bd17a05710fba1026b9361b",
+      "tree_prefix": "617089/E/checkpoint-256",
+      "global_step": 256,
+      "sequence_sha256": "06297d681228c4192f708a73361a0bc1c1782021d20cbd6cfb67c19088f2dcda"
+    },
+    "S20": {
+      "label": "S20@256",
+      "tree_sha256": "64c082022bb6786efa0d8f706b33e36f6bfca8c4af13db41664dccff697c882d",
+      "tree_prefix": "617089/S20/checkpoint-256",
+      "global_step": 256,
+      "sequence_sha256": "d30c73f50668c243078e3b70001a53989758ed33a45d228dc2a1801d07e97f2d"
+    }
+  },
+  "frozen_runtime": {
+    "structured_checkpoint_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "structured_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "tiny1_dataset_tree_sha256": "541bf4a1b9ea459637525ef11fceea5c7f192c0902f6013f0331a2a668038157",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "wbc_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+    "wbc_arm_sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+    "wbc_dog_sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
+  },
+  "frozen_files": {
+    "scripts/stage43_corelab_evidence.py": "4d85ebfb3c69ceb59bd8a7e22ea0c24f8a92f5af96ce1d3e5d78ecc8829edf73",
+    "scripts/stage43_corelab_initial_condition.py": "f7318f2478cc295d405444cc6691d3522e10f49cfdb7c661ad102558406e9f7e",
+    "scripts/stage40_corelab_phase.py": "24f069eaf640fac36d65c1ed5168a3ef30b2a2b06b26b5236a26b06682eeadbd",
+    "scripts/stage40_live_one_handoff.py": "1df21f0ee2b907cd6c1b3c94a14023e7f23a5b24dc2cd383c377ed74f5594314",
+    "scripts/stage21_same_scene_groot_worker.py": "311814d8a0119a9fc5d1d45a930260cdf46c8a6ce5e4b93932a7bae8214e797b",
+    "scripts/stage21_same_scene_groot_inference.py": "fd7c32584a97bc14fa13d190043cffa27ab77aa8335189dfe40950a6827a2ae3",
+    "scripts/stage21_native_receding_horizon.py": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00",
+    "src/go2arx5_vla/evaluation/checkpoint_eval.py": "f65c38e3b7e03e3e0d788c4f91d101a1d243e1eccc2df9bd330bd5f124801536",
+    "src/go2arx5_vla/stage40_structured_decode.py": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae"
+  },
+  "locked_boundaries": [
+    "training",
+    "backward",
+    "optimizer",
+    "Validation-E",
+    "Holdout-F",
+    "ICL",
+    "DAgger",
+    "new_visited_state_collection",
+    "WBC_source_change",
+    "sim_change",
+    "hardware_control",
+    "representation_change",
+    "loss_change",
+    "normalization_change",
+    "horizon_change",
+    "solver_change",
+    "decoder_change",
+    "merge"
+  ],
+  "return_token": "VANDA_PI0194_E_S20_CLOSED_LOOP_SCORECARD"
+}
