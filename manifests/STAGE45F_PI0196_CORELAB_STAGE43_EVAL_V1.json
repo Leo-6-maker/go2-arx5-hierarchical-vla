@@ -1,0 +1,105 @@
+{
+  "schema": "CORELAB_PI0196_STAGE43_REUSE_EVAL_V1",
+  "status": "ENGINEERING_READY_NOT_EXECUTED",
+  "authority": {
+    "issue_comment": 5679726040,
+    "pr_comment": 5679729481,
+    "released_pr": 75
+  },
+  "task": {
+    "dev_seed": 4242,
+    "target_world_m": [0.3, 0.1, 0.58],
+    "language": "move the end effector to the red target",
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "target_xyz_in_model_input": false,
+    "action_contract": "STRUCTURED_ACTION_V1"
+  },
+  "matrix": {
+    "candidate_order": ["PARENT", "E", "S20"],
+    "condition_order": [
+      "C0_NOMINAL",
+      "C1_X_PLUS_5CM",
+      "C2_X_MINUS_5CM",
+      "C3_Y_PLUS_5CM",
+      "C4_Y_MINUS_5CM"
+    ],
+    "condition_deltas_m": {
+      "C0_NOMINAL": [0.0, 0.0, 0.0],
+      "C1_X_PLUS_5CM": [0.05, 0.0, 0.0],
+      "C2_X_MINUS_5CM": [-0.05, 0.0, 0.0],
+      "C3_Y_PLUS_5CM": [0.0, 0.05, 0.0],
+      "C4_Y_MINUS_5CM": [0.0, -0.05, 0.0]
+    },
+    "gr00t_forwards_per_cell": 4,
+    "reference_updates_per_cell": 3,
+    "native_ticks_per_cell": [49, 49, 49, 98],
+    "maximum_cells": 15,
+    "maximum_gr00t_forwards": 60,
+    "maximum_reference_updates": 45,
+    "maximum_native_ticks": 3675
+  },
+  "candidates": {
+    "PARENT": {
+      "label": "PARENT L1(seed2223)@2000",
+      "tree_sha256": "231e2cff6690242601147b3812298c806030f6562116df248e8b45c5ce53cd16",
+      "global_step": 2000
+    },
+    "E": {
+      "label": "E@256",
+      "tree_sha256": "f91f4fd3cf3c440127c57d49cdd2dde52ce6a1294bd17a05710fba1026b9361b",
+      "global_step": 256
+    },
+    "S20": {
+      "label": "S20@256",
+      "tree_sha256": "64c082022bb6786efa0d8f706b33e36f6bfca8c4af13db41664dccff697c882d",
+      "global_step": 256
+    }
+  },
+  "historical_stage43": {
+    "accepted_head": "b2a70dcec0765cf69819bb76c180e5c92ae3eac3",
+    "bundle_sha256": "127d95a2a5b9a6a40e864e029d85fd09a9e4dd55441aae58071502aa76700da6",
+    "result_sha256": "e635ecaa321bde38903be45781e9b47063ba6b81c2bc810b1a1ae64925ecfcdb",
+    "result_seal_sha256": "668bee50dc38997403a065d5f4831662731715cf28c289af3982e4f9abbf7283",
+    "cohort_manifest_sha256": "62e95728ea6da7a0d90613e52adabc0737f3b116f63d4f01ebb680387ea2de48",
+    "trajectory_sha256": "e09d03e4f837234a1ed7504f6d16f202a40d7fab2c3cbbc0f2e2fa17b0b33722"
+  },
+  "ownership": {
+    "checkpoint_identity_tree_closure": true,
+    "candidate_late_binding_only": true,
+    "stage43_stage40_runtime_delegated": true,
+    "stage43_stage40_historical_files_immutable": true,
+    "independent_worker_loop": false,
+    "independent_wbc_loop": false,
+    "independent_condition_semantics": false
+  },
+  "locked": [
+    "training",
+    "backward",
+    "optimizer",
+    "Validation-E",
+    "Holdout-F",
+    "ICL",
+    "DAgger",
+    "new_visited_state_collection",
+    "hardware",
+    "metric_threshold_change",
+    "metric_dependent_retry",
+    "VANDA_ALLOCATION_13"
+  ],
+  "return_tokens": {
+    "admission": "CORELAB_PI0196_STAGE43_REUSE_EVAL_ADMISSION — READY / BLOCKED",
+    "scorecard": "CORELAB_PI0196_E_S20_CLOSED_LOOP_SCORECARD — STATE_SUPPORT_SUPPORTED / STATE_SUPPORT_NOT_SUPPORTED / MIXED_FOR_PI_REVIEW"
+  },
+  "frozen_files": {
+    "scripts/stage43_corelab_evidence.py": "4d85ebfb3c69ceb59bd8a7e22ea0c24f8a92f5af96ce1d3e5d78ecc8829edf73",
+    "scripts/stage43_corelab_initial_condition.py": "f7318f2478cc295d405444cc6691d3522e10f49cfdb7c661ad102558406e9f7e",
+    "scripts/stage40_corelab_phase.py": "24f069eaf640fac36d65c1ed5168a3ef30b2a2b06b26b5236a26b06682eeadbd",
+    "scripts/stage40_live_one_handoff.py": "1df21f0ee2b907cd6c1b3c94a14023e7f23a5b24dc2cd383c377ed74f5594314",
+    "scripts/stage21_same_scene_groot_worker.py": "311814d8a0119a9fc5d1d45a930260cdf46c8a6ce5e4b93932a7bae8214e797b",
+    "scripts/stage21_same_scene_groot_inference.py": "fd7c32584a97bc14fa13d190043cffa27ab77aa8335189dfe40950a6827a2ae3",
+    "scripts/stage21_native_receding_horizon.py": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00",
+    "src/go2arx5_vla/evaluation/checkpoint_eval.py": "f65c38e3b7e03e3e0d788c4f91d101a1d243e1eccc2df9bd330bd5f124801536",
+    "src/go2arx5_vla/stage40_structured_decode.py": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae"
+  }
+}
