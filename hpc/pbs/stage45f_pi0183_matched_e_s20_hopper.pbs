@@ -24,6 +24,8 @@ set -euo pipefail
 : "$PI0183_GROOT_SOURCE"
 : "$PI0183_GROOT_MANIFEST"
 : "$PI0183_COSMOS_ROOT"
+: "$PI0183_HF_HOME"
+: "$PI0183_HF_HUB_CACHE"
 : "$PI0183_MODALITY"
 : "$PI0183_CONFIG"
 : "$PI0183_STATS"
@@ -78,10 +80,37 @@ export GROOT_HF_LOCAL_FIRST=1
 export GROOT_PATCH_MISTRAL=1
 export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
 
-export HF_HOME="$(dirname "$(dirname "$PI0183_COSMOS_ROOT")")"
-export HF_HUB_CACHE="$HF_HOME/hub"
+export HF_HOME="$PI0183_HF_HOME"
+export HF_HUB_CACHE="$PI0183_HF_HUB_CACHE"
 export HUGGINGFACE_HUB_CACHE="$HF_HUB_CACHE"
 export TRANSFORMERS_CACHE="$HF_HUB_CACHE"
+"$PI0183_PYTHON" - "$PI0183_HF_HUB_CACHE" "$PI0183_COSMOS_ROOT" <<'PY'
+from pathlib import Path
+import os
+import sys
+
+from huggingface_hub import snapshot_download
+
+revision = "9ce19a195e423419c349abfc86fd07178b230561"
+hub_cache = Path(sys.argv[1]).resolve(strict=True)
+cosmos_root = Path(sys.argv[2]).resolve(strict=True)
+model_cache = (hub_cache / "models--nvidia--Cosmos-Reason2-2B").resolve(strict=True)
+snapshot = (cosmos_root / "snapshots" / revision).resolve(strict=True)
+assert model_cache == cosmos_root, (model_cache, cosmos_root)
+assert (cosmos_root / "refs" / "main").read_text(encoding="utf-8").strip() == revision
+assert snapshot.is_dir()
+assert os.environ.get("HF_HUB_OFFLINE") == "1"
+assert os.environ.get("TRANSFORMERS_OFFLINE") == "1"
+assert os.environ.get("HF_DATASETS_OFFLINE") == "1"
+resolved = Path(snapshot_download(
+    repo_id="nvidia/Cosmos-Reason2-2B",
+    revision=revision,
+    cache_dir=str(hub_cache),
+    local_files_only=True,
+)).resolve(strict=True)
+assert resolved == snapshot, (resolved, snapshot)
+print(f"PI0183_OFFLINE_RESOLVER_PASS {resolved}")
+PY
 "$PI0183_PYTHON" "$PI0183_REPO/scripts/stage45f_pi0163_runtime_import_probe.py" \
   --mode compute \
   --ffmpeg-root "$PI0183_FFMPEG_ROOT" \
