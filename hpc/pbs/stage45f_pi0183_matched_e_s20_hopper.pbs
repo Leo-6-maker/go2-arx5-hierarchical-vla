@@ -1,0 +1,123 @@
+#!/bin/bash
+# PI0183 matched E/S20 training on one Hopper allocation.
+# ponytail: one shell wrapper is enough; the Python entrypoint owns validation.
+#PBS -N st45f_pi0183
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=04:00:00
+#PBS -r n
+
+set -euo pipefail
+
+: "$PI0183_REPO"
+: "$PI0183_EXPECTED_HEAD"
+: "$PI0183_PYTHON"
+: "$PI0183_OUTPUT_BASE"
+: "$PI0183_NEUTRAL_BASE"
+: "$PI0183_PROBE_VIDEO"
+: "$PI0183_SCHEDULE"
+: "$PI0183_ROWS"
+: "$PI0183_SUPPORT_ROOT"
+: "$PI0183_DATASET"
+: "$PI0183_BASE_MODEL"
+: "$PI0183_GROOT_SOURCE"
+: "$PI0183_GROOT_MANIFEST"
+: "$PI0183_COSMOS_ROOT"
+: "$PI0183_MODALITY"
+: "$PI0183_CONFIG"
+: "$PI0183_STATS"
+: "$PI0183_FFMPEG_ROOT"
+: "$PI0183_TORCH_SITE"
+
+run_id="$(echo "$PBS_JOBID" | tr -c 'A-Za-z0-9_.-' '_')"
+run_root="$PI0183_OUTPUT_BASE/$run_id"
+neutral_root="$PI0183_NEUTRAL_BASE/$run_id"
+mkdir -p "$run_root" "$neutral_root"
+test ! -e "$run_root/E" && test ! -e "$run_root/S20"
+exec >"$neutral_root/job.log" 2>&1
+
+hostname
+date -u
+actual_head="$(git -C "$PI0183_REPO" rev-parse HEAD)"
+test "$actual_head" = "$PI0183_EXPECTED_HEAD"
+test -z "$(git -C "$PI0183_REPO" status --porcelain)"
+git -C "$PI0183_REPO" branch --show-current
+
+gpu_count="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {n++} END {print n+0}')"
+test "$gpu_count" -eq 1
+gpu_uuid="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {print $1; exit}')"
+gpu_free_mib="$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | awk 'NR==1 {print int($1)}')"
+test "$gpu_free_mib" -ge 12288
+{
+  echo "uuid=$gpu_uuid"
+  nvidia-smi --query-gpu=index,name,uuid,memory.total,memory.free,memory.used --format=csv
+  echo "compute_apps:"
+  nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+} >"$neutral_root/gpu_admission.txt"
+export CUDA_VISIBLE_DEVICES=0
+
+ffmpeg_lib="$PI0183_FFMPEG_ROOT/lib"
+ffmpeg_compat="$PI0183_FFMPEG_ROOT/compat"
+torchcodec_root="$PI0183_TORCH_SITE/torchcodec"
+torch_library_root="$PI0183_TORCH_SITE/torch/lib"
+test -d "$ffmpeg_lib" && test -d "$ffmpeg_compat"
+test -d "$torchcodec_root" && test -d "$torch_library_root"
+ambient_ld="$(printenv LD_LIBRARY_PATH || true)"
+if test -n "$ambient_ld"; then
+  export LD_LIBRARY_PATH="$ffmpeg_lib:$ffmpeg_compat:$torchcodec_root:$torch_library_root:$ambient_ld"
+else
+  export LD_LIBRARY_PATH="$ffmpeg_lib:$ffmpeg_compat:$torchcodec_root:$torch_library_root"
+fi
+export PYTHONNOUSERSITE=1
+export PYTHONDONTWRITEBYTECODE=1
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1
+export GROOT_PATCH_MISTRAL=1
+export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
+
+export HF_HOME="$(dirname "$(dirname "$PI0183_COSMOS_ROOT")")"
+export HF_HUB_CACHE="$HF_HOME/hub"
+export HUGGINGFACE_HUB_CACHE="$HF_HUB_CACHE"
+export TRANSFORMERS_CACHE="$HF_HUB_CACHE"
+"$PI0183_PYTHON" "$PI0183_REPO/scripts/stage45f_pi0163_runtime_import_probe.py" \
+  --mode compute \
+  --ffmpeg-root "$PI0183_FFMPEG_ROOT" \
+  --video "$PI0183_PROBE_VIDEO" \
+  --cosmos-root "$PI0183_COSMOS_ROOT" \
+  --cosmos-revision 9ce19a195e423419c349abfc86fd07178b230561 \
+  --record "$neutral_root/runtime_import_probe.json"
+
+"$PI0183_PYTHON" "$PI0183_REPO/scripts/stage45f_pi0183_matched_training.py" \
+  --train --arm E --output "$run_root/E" \
+  --schedule "$PI0183_SCHEDULE" \
+  --rows "$PI0183_ROWS" \
+  --support-root "$PI0183_SUPPORT_ROOT" \
+  --dataset "$PI0183_DATASET" \
+  --base-model "$PI0183_BASE_MODEL" \
+  --groot-source "$PI0183_GROOT_SOURCE" \
+  --groot-manifest "$PI0183_GROOT_MANIFEST" \
+  --cosmos-root "$PI0183_COSMOS_ROOT" \
+  --modality "$PI0183_MODALITY" \
+  --config "$PI0183_CONFIG" \
+  --stats "$PI0183_STATS" \
+  --ffmpeg-root "$PI0183_FFMPEG_ROOT"
+"$PI0183_PYTHON" "$PI0183_REPO/scripts/stage45f_pi0183_matched_training.py" \
+  --train --arm S20 --output "$run_root/S20" \
+  --schedule "$PI0183_SCHEDULE" \
+  --rows "$PI0183_ROWS" \
+  --support-root "$PI0183_SUPPORT_ROOT" \
+  --dataset "$PI0183_DATASET" \
+  --base-model "$PI0183_BASE_MODEL" \
+  --groot-source "$PI0183_GROOT_SOURCE" \
+  --groot-manifest "$PI0183_GROOT_MANIFEST" \
+  --cosmos-root "$PI0183_COSMOS_ROOT" \
+  --modality "$PI0183_MODALITY" \
+  --config "$PI0183_CONFIG" \
+  --stats "$PI0183_STATS" \
+  --ffmpeg-root "$PI0183_FFMPEG_ROOT"
+
+date -u
+echo "PI0183_TRAINING_BOTH_ARMS_COMPLETE"
