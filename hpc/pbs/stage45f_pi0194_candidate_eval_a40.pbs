@@ -18,6 +18,7 @@ set -euo pipefail
 APPTAINER="${PI0197_APPTAINER:-/cm/shared/apps/apptainer/1.4.1/bin/apptainer}"
 NATIVE_IMAGE="${PI0197_NATIVE_IMAGE:-/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
 NATIVE_SITE="${PI0197_NATIVE_SITE:-/scratch/leonliu/pi0191_runtime/torch_cu121_v1/site-packages}"
+GROOT_SITE="${PI0197_GROOT_SITE:-/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime/runtime/venv/lib/python3.12/site-packages}"
 
 RUN_LOG_ROOT="${PI0197_RUN_LOG_ROOT:-$(dirname "${PI0197_BINDING}")/runs/${PBS_JOBID}}"
 test ! -e "${RUN_LOG_ROOT}"
@@ -27,6 +28,7 @@ printf 'PI0197 wrapper start job=%s host=%s\n' "${PBS_JOBID}" "$(hostname)"
 
 test -x "${APPTAINER}"
 test -f "${NATIVE_IMAGE}"
+test -d "${GROOT_SITE}"
 test -f "${PI0197_BINDING}"
 "${APPTAINER}" --version
 
@@ -57,6 +59,7 @@ NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/o
   --bind /nfs:/nfs \
   --bind "${PI0197_REPO}:${PI0197_REPO}:ro" \
   --bind "${NATIVE_SITE}:/runtime/site-packages:ro" \
+  --bind "${GROOT_SITE}:/runtime/groot-site:ro" \
   --bind "/scratch/leonliu/pi0197_runtime/stage43_corelab_controlled_cohort_20260908:/var/cache/users/liuyu-nfs/stage43_corelab_controlled_cohort_20260908:ro" \
   --bind "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1:/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1:ro" \
   --bind "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10:ro" \
