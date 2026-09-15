@@ -370,7 +370,7 @@ def validate_runtime_inputs(args: argparse.Namespace) -> tuple[dict[str, Any], d
     return schedule, rows, identities, paths
 
 
-def prepare_runtime(output_root: Path, cosmos_root: Path, ffmpeg_root: Path, *, trace_only: bool) -> dict[str, str]:
+def prepare_runtime(output_root: Path, cosmos_root: Path, ffmpeg_root: Path, groot_source: Path, *, trace_only: bool) -> dict[str, str]:
     require(not output_root.exists() and not output_root.is_symlink(), f"runtime output must be fresh: {output_root}")
     output_root.mkdir(parents=True, exist_ok=False)
     cache = output_root / "runtime_cache"
@@ -407,6 +407,7 @@ def prepare_runtime(output_root: Path, cosmos_root: Path, ffmpeg_root: Path, *, 
     os.environ.update(values)
     if trace_only:
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    sys.path.insert(0, str(groot_source))
     sys.path.insert(0, str(SRC))
     sys.path.insert(0, str(SCRIPTS))
     return values
@@ -615,7 +616,7 @@ def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: M
 
 def build_runtime_dataset(args: argparse.Namespace, output_root: Path, *, trace_only: bool):
     schedule, rows, identities, paths = validate_runtime_inputs(args)
-    env = prepare_runtime(output_root, args.cosmos_root, args.ffmpeg_root, trace_only=trace_only)
+    env = prepare_runtime(output_root, args.cosmos_root, args.ffmpeg_root, args.groot_source, trace_only=trace_only)
     os.environ.update({
         "STAGE45F_FROZEN_STRUCTURED_STATS_PATH": str(args.stats),
         "STAGE45F_FROZEN_STRUCTURED_STATS_SHA256": STRUCTURED_STATS_SHA256,
@@ -678,7 +679,7 @@ def runtime_trace(args: argparse.Namespace) -> int:
 def train(args: argparse.Namespace) -> int:
     output_root = args.output
     schedule, rows, identities, paths = validate_runtime_inputs(args)
-    env = prepare_runtime(output_root, args.cosmos_root, args.ffmpeg_root, trace_only=False)
+    env = prepare_runtime(output_root, args.cosmos_root, args.ffmpeg_root, args.groot_source, trace_only=False)
     os.environ.update({
         "STAGE45F_FROZEN_STRUCTURED_STATS_PATH": str(args.stats),
         "STAGE45F_FROZEN_STRUCTURED_STATS_SHA256": STRUCTURED_STATS_SHA256,
