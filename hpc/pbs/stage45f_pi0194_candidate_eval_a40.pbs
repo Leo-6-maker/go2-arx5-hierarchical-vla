@@ -55,6 +55,17 @@ export PI0197_CACHE="${RUN_LOG_ROOT}/runtime/cache"
 export TORCH_EXTENSIONS_DIR="${PI0197_CACHE}/torch_extensions"
 mkdir -p "${PI0197_HOME}" "${PI0197_TMP}" "${PI0197_CACHE}" "${TORCH_EXTENSIONS_DIR}"
 
+RUN_ARGS=(
+  --execute "${PI0197_BINDING}"
+  --expected-head "${PI0197_EXPECTED_HEAD}"
+  --gpu-uuid "${GPU_UUID}"
+  --sim-device cuda:0
+  --seed 4242
+)
+if [[ "${PI0198_RESUME:-0}" == "1" ]]; then
+  RUN_ARGS+=(--resume)
+fi
+
 NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
 
 "${APPTAINER}" exec --nv --cleanenv \
@@ -83,8 +94,4 @@ NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/o
   PYTHONPATH="${PI0197_REPO}:${PI0197_REPO}/src:${PI0197_REPO}/scripts:/runtime/site-packages" \
   /opt/miniconda3/envs/isaacgym/bin/python -B \
   "${PI0197_REPO}/scripts/stage45f_pi0194_candidate_eval.py" \
-  --execute "${PI0197_BINDING}" \
-  --expected-head "${PI0197_EXPECTED_HEAD}" \
-  --gpu-uuid "${GPU_UUID}" \
-  --sim-device cuda:0 \
-  --seed 4242
+  "${RUN_ARGS[@]}"
