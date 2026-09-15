@@ -19,6 +19,7 @@ APPTAINER="${PI0197_APPTAINER:-/cm/shared/apps/apptainer/1.4.1/bin/apptainer}"
 NATIVE_IMAGE="${PI0197_NATIVE_IMAGE:-/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif}"
 NATIVE_SITE="${PI0197_NATIVE_SITE:-/scratch/leonliu/pi0191_runtime/torch_cu121_v1/site-packages}"
 GROOT_SITE="${PI0197_GROOT_SITE:-/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime/runtime/venv/lib/python3.12/site-packages}"
+NATIVE_NINJA="${PI0197_RUNTIME_NINJA:-/scratch/leonliu/pi0197_runtime/pi0197_ninja_target_v4_08639e19/bin/ninja}"
 
 RUN_LOG_ROOT="${PI0197_RUN_LOG_ROOT:-$(dirname "${PI0197_BINDING}")/runs/${PBS_JOBID}}"
 test ! -e "${RUN_LOG_ROOT}"
@@ -29,6 +30,7 @@ printf 'PI0197 wrapper start job=%s host=%s\n' "${PBS_JOBID}" "$(hostname)"
 test -x "${APPTAINER}"
 test -f "${NATIVE_IMAGE}"
 test -d "${GROOT_SITE}"
+test -x "${NATIVE_NINJA}"
 test -f "${PI0197_BINDING}"
 "${APPTAINER}" --version
 
@@ -50,7 +52,8 @@ export PI0197_WORKER_LD_LIBRARY_PATH="${PI0197_WORKER_LD_LIBRARY_PATH:-/runtime/
 export PI0197_HOME="${RUN_LOG_ROOT}/runtime/home"
 export PI0197_TMP="${RUN_LOG_ROOT}/runtime/tmp"
 export PI0197_CACHE="${RUN_LOG_ROOT}/runtime/cache"
-mkdir -p "${PI0197_HOME}" "${PI0197_TMP}" "${PI0197_CACHE}"
+export TORCH_EXTENSIONS_DIR="${PI0197_CACHE}/torch_extensions"
+mkdir -p "${PI0197_HOME}" "${PI0197_TMP}" "${PI0197_CACHE}" "${TORCH_EXTENSIONS_DIR}"
 
 NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
 
@@ -60,6 +63,7 @@ NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/o
   --bind "${PI0197_REPO}:${PI0197_REPO}:ro" \
   --bind "${NATIVE_SITE}:/runtime/site-packages:ro" \
   --bind "${GROOT_SITE}:/runtime/groot-site:ro" \
+  --bind "$(dirname "${NATIVE_NINJA}"):/runtime/ninja/bin:ro" \
   --bind "/scratch/leonliu/pi0197_runtime/stage43_corelab_controlled_cohort_20260908:/var/cache/users/liuyu-nfs/stage43_corelab_controlled_cohort_20260908:ro" \
   --bind "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1:/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1:ro" \
   --bind "/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10:ro" \
@@ -73,7 +77,8 @@ NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/o
   XDG_CACHE_HOME="${PI0197_CACHE}" \
   HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
   PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0 \
-  PATH="/usr/local/nvidia/bin:${PATH}" \
+  TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR}" \
+  PATH="/usr/local/nvidia/bin:/runtime/ninja/bin:${PATH}" \
   LD_LIBRARY_PATH="${NATIVE_LD}" \
   PYTHONPATH="${PI0197_REPO}:${PI0197_REPO}/src:${PI0197_REPO}/scripts:/runtime/site-packages" \
   /opt/miniconda3/envs/isaacgym/bin/python -B \
