@@ -103,7 +103,7 @@ class PI0196CorelabStage43ReuseTests(unittest.TestCase):
                 },
             }
 
-        parent = aggregate(0.1, [0.5] * 5)
+        parent = aggregate(0.1, [0.5] * 5, status="SCIENTIFIC_REJECT")
         e = aggregate(0.2, [0.4, 0.41, 0.42, 0.43, 0.44])
         s20 = aggregate(0.25, [0.3, 0.31, 0.45, 0.33, 0.34])
         result = MODULE._classify_scorecard({"PARENT": parent, "E": e, "S20": s20})

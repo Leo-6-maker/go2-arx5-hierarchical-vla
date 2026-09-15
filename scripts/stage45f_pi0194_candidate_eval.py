@@ -38,7 +38,17 @@ ISSUE_COMMENT = 5680082654
 PR_POINTER_COMMENT = 5680088636
 BRANCH = "stage45f/corelab-fast-loop-readiness"
 ADMISSION_TOKEN = "LOCALPC_PI0197_STAGE43_REUSE_EVAL_ADMISSION"
-RETURN_TOKEN = "LOCALPC_PI0197_VANDA_E_S20_CLOSED_LOOP_SCORECARD"
+RETURN_TOKEN = "LOCALPC_PI0198_E_S20_CONTINUATION_SCORECARD"
+PI0198_ISSUE_COMMENT = 5682985875
+PI0198_PR_POINTER_COMMENT = 5682993112
+CONTINUATION_SCHEMA = "CORELAB_PI0198_STAGE43_CONTINUATION_V1"
+CELL_SEAL_SCHEMA = "CORELAB_PI0198_STAGE43_CELL_SEAL_V1"
+RUNNER_SCRIPT = REPO / "scripts" / "stage43_corelab_initial_condition.py"
+PRIOR_CELL = ("PARENT", "C0_NOMINAL")
+PRIOR_RESULT_SHA256 = "8f7938c231eeb61270640b6cb41c51856267a9130150f2ab3a1dc452e288a6b9"
+PRIOR_MANIFEST_SHA256 = "295273d6745c4418c1cb58b6b17c5b004f9d85f1089b3e79a98640b8d22979ff"
+PRIOR_RAW_FILE_SHA256 = "f042b946ff61f695b727b32c8508588348cf396d5299e5ab3135b16e3ab478dd"
+PRIOR_DECODED_FILE_SHA256 = "66821f79b8834649eae329c32b89c1ee7ddac78ea7cc7fa033e544b7ccf1ddf9"
 
 STAGE43_ACCEPTED_HEAD = "b2a70dcec0765cf69819bb76c180e5c92ae3eac3"
 STAGE43_BUNDLE_REPOSITORY_HEAD = "d042ecd51af437040103892d9b2e2a6acdd00a9b"
@@ -690,40 +700,410 @@ def _classify_failure(result: Mapping[str, Any]) -> str:
     return "ENGINEERING_BLOCKED"
 
 
-def _cell_result(root: Path, candidate: str, condition: str, runner_code: int) -> Dict[str, Any]:
-    stage43_result = read_json(root / "condition_result.json")
-    stage43_status = str(stage43_result.get("status"))
-    if stage43_status == "PASS":
-        status = "PASS"
+def _npz_records(path: Path, *, expected_shape: Tuple[int, ...], expected_count: int, expected_dtype: Optional[str] = None) -> Dict[str, Any]:
+    import numpy as np
+
+    archive_path = _regular(path, "NPZ evidence", False)
+    records = []
+    with np.load(archive_path, allow_pickle=False) as archive:
+        keys = sorted(str(key) for key in archive.files)
+        require(len(keys) == expected_count, "NPZ evidence case count mismatch: %s" % archive_path)
+        for key in keys:
+            value = np.asarray(archive[key])
+            require(tuple(value.shape) == tuple(expected_shape), "NPZ evidence shape mismatch: %s/%s" % (archive_path, key))
+            if expected_dtype is not None:
+                require(str(value.dtype) == expected_dtype, "NPZ evidence dtype mismatch: %s/%s" % (archive_path, key))
+            require(bool(np.isfinite(value).all()), "NPZ evidence is not finite: %s/%s" % (archive_path, key))
+            records.append({
+                "key": key,
+                "shape": list(value.shape),
+                "dtype": str(value.dtype),
+                "finite": True,
+                "array_sha256": hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest(),
+            })
+    return {"path": str(archive_path), "bytes": int(archive_path.stat().st_size), "sha256": sha256_file(archive_path), "records": records}
+
+
+def _scientific_abort_evidence(root: Path, result: Mapping[str, Any]) -> bool:
+    for name in ("rows_before_handoff.json", "rows_after_handoff.json"):
+        path = root / name
+        if path.is_file() and not path.is_symlink():
+            document = read_json(path)
+            for segment in document.get("segments", []):
+                for row in segment:
+                    if bool(row.get("done")) or bool(row.get("reset_buf")) or str(row.get("termination_code", "NONE")) != "NONE":
+                        return True
+    counter_path = root / "counter_observations.json"
+    if counter_path.is_file() and not counter_path.is_symlink():
+        document = read_json(counter_path)
+        for event in document.get("events", []):
+            if event.get("termination") not in (None, "", "NONE"):
+                return True
+    error = result.get("error") or {}
+    message = str(error.get("message", ""))
+    return "NATIVE_TASK_TERMINATION" in message or (
+        "termination" in message.lower() and any(key in error for key in ("termination_code", "reset_buf", "done"))
+    )
+
+
+def _validate_cell_evidence(root: Path, *, stage43_evidence: Any) -> Dict[str, Any]:
+    result_path = _regular(root / "condition_result.json", "condition result", False)
+    manifest_path = _regular(root / "condition_manifest.json", "condition manifest", False)
+    stage43_result = read_json(result_path)
+    manifest = read_json(manifest_path, canonical=True)
+    stage43_evidence.verify_condition_manifest(manifest, root)
+    cases = int(stage43_result.get("cases", stage43_result.get("gr00t_forward_count", 0)))
+    require(1 <= cases <= FORWARDS_PER_CELL, "persisted cell case count is outside the scientific contract")
+    require(int(stage43_result.get("gr00t_forward_count", cases)) == cases, "persisted GR00T counter is inconsistent")
+    raw = _npz_records(root / "raw_action_d132.npz", expected_shape=(1, 40, 132), expected_count=cases, expected_dtype="float32")
+    decoded = _npz_records(root / "decoded_action_d10_h40.npz", expected_shape=(40, 10), expected_count=cases, expected_dtype="float64")
+    require([item["key"] for item in raw["records"]] == [item["key"] for item in decoded["records"]], "raw/decoded case keys differ")
+    gate = read_json(root / "safety_gate.json")
+    require(gate.get("schema") == "CORELAB_STAGE43_SAFETYGATE_EVIDENCE_V1", "SafetyGate evidence schema drift")
+    decisions = list(gate.get("decisions", []))
+    gate_cases = gate.get("cases")
+    require(len(decisions) == cases and isinstance(gate_cases, list) and len(gate_cases) == cases, "SafetyGate evidence is incomplete")
+    for item, decision in zip(gate_cases, decisions):
+        require(isinstance(item, dict) and item.get("decision") == decision, "SafetyGate decision vector is inconsistent")
+        require(decision in {"ACCEPT", "WARN", "REJECT"}, "unknown SafetyGate decision")
+        require(isinstance(item.get("issues"), list) and isinstance(item.get("metrics"), dict) and isinstance(item.get("provenance"), dict), "SafetyGate case evidence is incomplete")
+    require(list(stage43_result.get("safety_gate_decisions", decisions)) == decisions, "condition result/SafetyGate decision mismatch")
+    counter = read_json(root / "counter_observations.json")
+    final_counter = counter.get("final")
+    require(isinstance(final_counter, dict), "counter evidence final snapshot is missing")
+    counts = {
+        "gr00t_forward_count": int(stage43_result.get("gr00t_forward_count", 0)),
+        "reference_update_count": int(stage43_result.get("reference_update_count", 0)),
+        "wbc_step_count": int(stage43_result.get("wbc_step_count", 0)),
+    }
+    for key, value in counts.items():
+        require(int(final_counter.get(key, -1)) == value, "counter evidence mismatch: %s" % key)
+    require(0 <= counts["reference_update_count"] <= UPDATES_PER_CELL and 0 <= counts["wbc_step_count"] <= TICKS_PER_CELL, "cell counter exceeds frozen budget")
+    segment_lengths = [int(value) for value in stage43_result.get("wbc_segment_lengths", [])]
+    require(all(value >= 0 for value in segment_lengths) and sum(segment_lengths) == counts["wbc_step_count"], "WBC segment counter is inconsistent")
+    status = str(stage43_result.get("status"))
+    if status == "PASS":
+        require(cases == FORWARDS_PER_CELL and counts["reference_update_count"] == UPDATES_PER_CELL and counts["wbc_step_count"] == TICKS_PER_CELL, "PASS cell did not complete the frozen schedule")
+        require(all(decision != "REJECT" for decision in decisions), "PASS cell contains a SafetyGate reject")
+        seal_path = _regular(root / "condition_seal.json", "PASS condition seal", False)
+        seal = read_json(seal_path, canonical=True)
+        result_sha = sha256_file(result_path)
+        manifest_sha = sha256_file(manifest_path)
+        require(seal.get("schema") == "CORELAB_STAGE43_CONDITION_SEAL_V1" and seal.get("status") == "PASS", "PASS condition seal schema/status drift")
+        require(seal.get("result_sha256") == result_sha and seal.get("condition_manifest_sha256") == manifest_sha, "PASS condition seal hash mismatch")
+        checksum_path = root / "condition_seal.json.sha256"
+        require(checksum_path.is_file() and not checksum_path.is_symlink(), "PASS condition seal checksum is missing")
+        require(checksum_path.read_text(encoding="utf-8").split()[0] == sha256_file(seal_path), "PASS condition seal checksum mismatch")
+        terminal = "PASS"
+    elif any(decision == "REJECT" for decision in decisions):
+        require(isinstance(stage43_result.get("error"), dict), "SafetyGate reject has no terminal error")
+        terminal = "SCIENTIFIC_REJECT"
+    elif _scientific_abort_evidence(root, stage43_result):
+        terminal = "SCIENTIFIC_ABORT"
+    else:
+        terminal = "ENGINEERING_BLOCKED"
+    return {
+        "status": terminal,
+        "stage43_status": status,
+        "stage43_result": stage43_result,
+        "condition_result_sha256": sha256_file(result_path),
+        "condition_manifest_sha256": sha256_file(manifest_path),
+        "raw": raw,
+        "decoded": decoded,
+        "gate_decisions": decisions,
+        "segment_lengths": segment_lengths,
+        "counts": counts,
+        "terminal_cause": stage43_result.get("error"),
+    }
+
+
+def _parent_c0_forensic(prior_root: Path, *, stage43_evidence: Any) -> Dict[str, Any]:
+    import numpy as np
+
+    cell_root = _regular(Path(prior_root) / PRIOR_CELL[0] / PRIOR_CELL[1], "prior PARENT/C0 root", True)
+    require(sha256_file(cell_root / "condition_result.json") == PRIOR_RESULT_SHA256, "prior PARENT/C0 condition result identity drift")
+    require(sha256_file(cell_root / "condition_manifest.json") == PRIOR_MANIFEST_SHA256, "prior PARENT/C0 condition manifest identity drift")
+    require(sha256_file(cell_root / "raw_action_d132.npz") == PRIOR_RAW_FILE_SHA256, "prior PARENT/C0 raw archive identity drift")
+    require(sha256_file(cell_root / "decoded_action_d10_h40.npz") == PRIOR_DECODED_FILE_SHA256, "prior PARENT/C0 decoded archive identity drift")
+    inspection = _validate_cell_evidence(cell_root, stage43_evidence=stage43_evidence)
+    require(inspection["status"] == "SCIENTIFIC_REJECT", "prior PARENT/C0 is not the accepted scientific reject")
+    result = inspection["stage43_result"]
+    gate = read_json(cell_root / "safety_gate.json")
+    observations = []
+    for index, item in enumerate(gate["cases"]):
+        observations.append({
+            "query_index": index,
+            "chunk_id": item.get("metrics", {}).get("chunk_id"),
+            "decision": item.get("decision"),
+            "issue_codes": [issue.get("code") for issue in item.get("issues", [])],
+            "linear_speed_mps": item.get("metrics", {}).get("linear_speed_mps"),
+            "angular_speed_radps": item.get("metrics", {}).get("angular_speed_radps"),
+        })
+    q3 = observations[-1]
+    with np.load(cell_root / "decoded_action_d10_h40.npz", allow_pickle=False) as archive:
+        decoded = np.asarray(archive[q3["chunk_id"]], dtype=np.float64)
+    timestamps = np.arange(40, dtype=np.float64) * 0.05
+    linear_speeds = np.linalg.norm(np.diff(decoded[:, :3], axis=0), axis=1) / np.diff(timestamps)
+    peak_index = int(np.argmax(linear_speeds))
+    from go2arx5_vla.contracts.trajectory import TrajectoryChunkV1
+    from go2arx5_vla.trajectory.so3 import matrix_to_quat, rot6d_rows_to_matrix
+    from go2arx5_vla.safety import TrajectorySafetyGateV1
+    request = next(item for item in read_json(cell_root / "worker_request.json")["requests"] if item.get("request_id") == q3["chunk_id"])
+    orientation = matrix_to_quat(rot6d_rows_to_matrix(decoded[:, 3:9]))
+    chunk = TrajectoryChunkV1(
+        chunk_id=q3["chunk_id"], source="PI0198_FORENSIC", observation_timestamp=float(request["observation_timestamp"]),
+        point_timestamps=timestamps, eef_position=decoded[:, :3], eef_orientation=orientation,
+        source_frame=str(request["source_frame"]), tcp_semantic_id=str(request["tcp_semantic_id"]),
+        validity_start=0.0, validity_end=1.95, gripper=decoded[:, 9],
+    )
+    recomputed = TrajectorySafetyGateV1().evaluate(chunk, now=float(request["observation_timestamp"]))
+    existing_metrics = gate["cases"][-1]["metrics"]
+    require(abs(float(recomputed.metrics["linear_speed_mps"]["max"]) - float(existing_metrics["linear_speed_mps"]["max"])) < 1.0e-9, "q3 linear speed forensic mismatch")
+    require(abs(float(recomputed.metrics["translation_path_length_m"]) - float(existing_metrics["translation_path_length_m"])) < 1.0e-9, "q3 path forensic mismatch")
+    import go2arx5_vla.safety.trajectory_gate as gate_module
+    gate_source = Path(gate_module.__file__).resolve()
+    git = subprocess.run(["git", "-C", str(REPO), "hash-object", str(gate_source)], capture_output=True, text=True, check=False)
+    return {
+        "schema": "CORELAB_PI0198_PARENT_C0_FORENSIC_V1",
+        "historical_root": str(cell_root),
+        "historical_root_mutated": False,
+        "condition_result_sha256": sha256_file(cell_root / "condition_result.json"),
+        "condition_manifest_sha256": sha256_file(cell_root / "condition_manifest.json"),
+        "raw_archive": inspection["raw"],
+        "decoded_archive": inspection["decoded"],
+        "queries": observations,
+        "q3_recomputed": {
+            "decision": recomputed.decision.value,
+            "issue_codes": [issue.code for issue in recomputed.issues],
+            "linear_speed_mps": recomputed.metrics["linear_speed_mps"],
+            "angular_speed_radps": recomputed.metrics["angular_speed_radps"],
+            "translation_path_length_m": recomputed.metrics["translation_path_length_m"],
+            "peak_segment_index_zero_based": peak_index,
+            "peak_segment_points_zero_based": [peak_index, peak_index + 1],
+            "peak_point_index_one_based": peak_index + 1,
+            "peak_speed_mps": float(linear_speeds[peak_index]),
+        },
+        "frozen_threshold": {"linear_speed_warn_mps": 1.0, "linear_speed_reject_mps": 2.0, "provenance": "TEST_ONLY"},
+        "gate_source": {
+            "path": str(gate_source),
+            "sha256": sha256_file(gate_source),
+            "git_blob_oid": git.stdout.strip() if git.returncode == 0 else None,
+            "class": "TrajectorySafetyGateV1",
+        },
+        "stage43_status": result.get("status"),
+        "scientific_status": inspection["status"],
+    }
+
+
+def _continuation_order() -> List[Tuple[str, str]]:
+    return [(candidate, condition) for candidate in CANDIDATE_ORDER for condition in CONDITION_ORDER if (candidate, condition) != PRIOR_CELL]
+
+
+def _verify_prior_cell(prior_root: Path, *, stage43_evidence: Any) -> Dict[str, Any]:
+    cell_root = _regular(Path(prior_root) / PRIOR_CELL[0] / PRIOR_CELL[1], "prior PARENT/C0 root", True)
+    record = read_json(cell_root / "pi0196_cell_result.json", canonical=True)
+    require(record.get("candidate") == PRIOR_CELL[0] and record.get("condition_id") == PRIOR_CELL[1] and record.get("status") == "SCIENTIFIC_REJECT", "prior PARENT/C0 registration drift")
+    forensic = _validate_cell_evidence(cell_root, stage43_evidence=stage43_evidence)
+    require(forensic["status"] == "SCIENTIFIC_REJECT", "prior PARENT/C0 scientific status drift")
+    require(forensic["condition_result_sha256"] == PRIOR_RESULT_SHA256 and forensic["condition_manifest_sha256"] == PRIOR_MANIFEST_SHA256, "prior PARENT/C0 evidence hashes drift")
+    return {
+        "cell": record,
+        "root": str(cell_root),
+        "condition_result_sha256": forensic["condition_result_sha256"],
+        "condition_manifest_sha256": forensic["condition_manifest_sha256"],
+        "raw_archive_sha256": forensic["raw"]["sha256"],
+        "decoded_archive_sha256": forensic["decoded"]["sha256"],
+        "status": "SCIENTIFIC_REJECT",
+        "reused_read_only": True,
+    }
+
+
+def _ensure_continuation(output_root: Path, prior_root: Path, *, prior: Mapping[str, Any], stage43_evidence: Any) -> Dict[str, Any]:
+    forensic_path = output_root / "parent_c0_forensic.json"
+    expected_forensic = _parent_c0_forensic(prior_root, stage43_evidence=stage43_evidence)
+    if forensic_path.exists():
+        forensic = read_json(forensic_path, canonical=True)
+        require(forensic == expected_forensic, "PARENT/C0 forensic record drift")
+    else:
+        write_json(forensic_path, expected_forensic)
+        forensic = expected_forensic
+    manifest_path = output_root / "continuation_manifest.json"
+    payload = {
+        "schema": CONTINUATION_SCHEMA,
+        "status": "READY",
+        "authority": {"issue_comment": PI0198_ISSUE_COMMENT, "pr_comment": PI0198_PR_POINTER_COMMENT},
+        "prior_cell": {"candidate": PRIOR_CELL[0], "condition_id": PRIOR_CELL[1], "root": prior["root"], "status": prior["status"], "reused_read_only": True, "condition_result_sha256": prior["condition_result_sha256"], "condition_manifest_sha256": prior["condition_manifest_sha256"], "raw_archive_sha256": prior["raw_archive_sha256"], "decoded_archive_sha256": prior["decoded_archive_sha256"]},
+        "forensic": {"path": forensic_path.name, "sha256": sha256_file(forensic_path)},
+        "continuation_order": [{"candidate": candidate, "condition_id": condition} for candidate, condition in _continuation_order()],
+        "budget": {"maximum_cells": MAX_CELLS, "maximum_gr00t_forwards": MAX_FORWARDS, "maximum_reference_updates": MAX_UPDATES, "maximum_native_ticks": MAX_TICKS},
+        "mature_runner": str(RUNNER_SCRIPT.relative_to(REPO)).replace("\\", "/"),
+        "subprocess_per_cell": True,
+        "historical_runtime_files_modified": False,
+    }
+    if manifest_path.exists():
+        existing = read_json(manifest_path, canonical=True)
+        require(existing == payload, "PI0198 continuation manifest drift")
+        return existing
+    write_json(manifest_path, payload)
+    return payload
+
+
+def _child_command(*, base: Mapping[str, Any], overlay_path: Path, candidate: str, condition: str, condition_root: Path, binding: Mapping[str, Any], expected_head: str, gpu_uuid: str, sim_device: str, seed: int) -> List[str]:
+    values = [
+        "--bundle", str(overlay_path), "--output-dir", str(condition_root), "--condition-id", condition,
+        "--repository-head", str(base["repository"]["head"]), "--gpu-uuid", gpu_uuid,
+        "--source-root", str(base["artifacts"]["wbc_source"]["path"]), "--trajectory", str(base["artifacts"]["trajectory"]["path"]),
+        "--arm", str(base["artifacts"]["wbc_arm_checkpoint"]["path"]), "--dog", str(base["artifacts"]["wbc_dog_checkpoint"]["path"]),
+        "--stage10-root", str(base["artifacts"]["stage10_root"]["path"]), "--base-model-path", str(base["artifacts"]["base_model_path"]["path"]),
+        "--model-path", str(binding["candidate_paths"][candidate]), "--dataset-dir", str(base["artifacts"]["dataset_dir"]["path"]),
+        "--modality-config", str(base["artifacts"]["modality_config"]["path"]), "--cosmos-snapshot", str(base["artifacts"]["cosmos_snapshot_path"]["path"]),
+        "--structured-stats", str(Path(binding["candidate_paths"][candidate]) / "experiment_cfg" / "structured_action_statistics.json"),
+        "--model-python", str(binding["paths"]["model_python"]), "--wbc-source-root", str(base["artifacts"]["wbc_source"]["path"]),
+        "--sim-device", sim_device, "--seed", str(seed), "--response-timeout-s", "300.0", "--worker-ready-timeout-s", "1200.0",
+    ]
+    argv = [str(RUNNER_SCRIPT)] + values
+    bootstrap = (
+        "import runpy,sys;"
+        "import stage43_corelab_evidence as _e;"
+        "import go2arx5_vla.stage40_structured_decode as _d;"
+        "_e.STRUCTURED_CHECKPOINT_TREE_SHA256=%r;"
+        "_e.STRUCTURED_STATS_SHA256=%r;"
+        "_d.EXPECTED_STRUCTURED_STATS_SHA256=%r;"
+        "sys.argv=%r;"
+        "runpy.run_path(%r,run_name='__main__')"
+        % (CANDIDATES[candidate]["tree_sha256"], CANDIDATES[candidate]["stats_sha256"], CANDIDATES[candidate]["stats_sha256"], argv, str(RUNNER_SCRIPT))
+    )
+    return [sys.executable, "-B", "-c", bootstrap]
+
+
+def _persist_engineering_cell(root: Path, candidate: str, condition: str, *, runner_code: Optional[int], message: str, child_log: Optional[Path] = None) -> Dict[str, Any]:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "pi0196_cell_result.json"
+    payload = {
+        "schema": CELL_SCHEMA,
+        "status": "ENGINEERING_BLOCKED",
+        "candidate": candidate,
+        "condition_id": condition,
+        "stage43_runner_status": "NOT_PERSISTED",
+        "stage43_runner_return_code": None if runner_code is None else int(runner_code),
+        "stage43_condition_result_sha256": None,
+        "condition_manifest_sha256": None,
+        "terminal_seal_sha256": None,
+        "post_persistence_native_teardown": False,
+        "cases": 0,
+        "model_worker_started": bool((root / "worker.log").is_file()),
+        "gr00t_forward_count": 0,
+        "reference_update_count": 0,
+        "wbc_step_count": 0,
+        "metrics": None,
+        "model_metrics": [],
+        "error": {"type": "ENGINEERING_BLOCKED", "message": message, "child_log": None if child_log is None else str(child_log)},
+    }
+    if path.exists():
+        existing = read_json(path, canonical=True)
+        require(existing == payload, "existing engineering cell record drift")
+        return existing
+    write_json(path, payload)
+    return payload
+
+
+def _persist_cell_result(root: Path, candidate: str, condition: str, runner_code: int, *, stage43_evidence: Any, child_log: Optional[Path] = None) -> Dict[str, Any]:
+    inspection = _validate_cell_evidence(root, stage43_evidence=stage43_evidence)
+    status = inspection["status"]
+    code = 139 if int(runner_code) in (-11, 139) else int(runner_code)
+    if status == "PASS":
+        require(code in (0, 139), "PASS cell returned an unexpected runner code")
         metrics = _derive_achieved_metrics(root)
         model_metrics = _derive_model_metrics(root)
     else:
-        status = _classify_failure(stage43_result)
+        require(status in {"SCIENTIFIC_REJECT", "SCIENTIFIC_ABORT"}, "cell evidence is not a terminal scientific outcome")
+        require(code in (2, 139), "scientific terminal cell returned an unexpected runner code")
         metrics = None
         model_metrics = []
+    post_teardown = code == 139
+    terminal_seal = {
+        "schema": CELL_SEAL_SCHEMA,
+        "candidate": candidate,
+        "condition_id": condition,
+        "status": status,
+        "stage43_status": inspection["stage43_status"],
+        "runner_return_code": code,
+        "post_persistence_native_teardown": post_teardown,
+        "condition_result_sha256": inspection["condition_result_sha256"],
+        "condition_manifest_sha256": inspection["condition_manifest_sha256"],
+        "raw_archive_sha256": inspection["raw"]["sha256"],
+        "decoded_archive_sha256": inspection["decoded"]["sha256"],
+        "terminal_cause": inspection["terminal_cause"],
+    }
+    terminal_seal_path = root / "pi0198_cell_seal.json"
+    if terminal_seal_path.exists():
+        existing_seal = read_json(terminal_seal_path, canonical=True)
+        require(existing_seal == terminal_seal, "existing PI0198 cell seal drift")
+    else:
+        terminal_seal_sha = write_json(terminal_seal_path, terminal_seal)
+    terminal_seal_sha = sha256_file(terminal_seal_path)
     payload = {
         "schema": CELL_SCHEMA,
         "status": status,
         "candidate": candidate,
         "condition_id": condition,
-        "stage43_runner_status": stage43_status,
-        "stage43_runner_return_code": int(runner_code),
-        "stage43_condition_result_sha256": sha256_file(root / "condition_result.json"),
-        "cases": int(stage43_result.get("cases", stage43_result.get("gr00t_forward_count", 0))),
-        "model_worker_started": bool((root / "worker.log").is_file() or stage43_result.get("cases", 0)),
-        "gr00t_forward_count": int(stage43_result.get("gr00t_forward_count", 0)),
-        "reference_update_count": int(stage43_result.get("reference_update_count", 0)),
-        "wbc_step_count": int(stage43_result.get("wbc_step_count", 0)),
+        "stage43_runner_status": inspection["stage43_status"],
+        "stage43_runner_return_code": code,
+        "stage43_condition_result_sha256": inspection["condition_result_sha256"],
+        "condition_manifest_sha256": inspection["condition_manifest_sha256"],
+        "terminal_seal_sha256": terminal_seal_sha,
+        "post_persistence_native_teardown": post_teardown,
+        "cases": inspection["counts"]["gr00t_forward_count"],
+        "model_worker_started": bool((root / "worker.log").is_file() or inspection["counts"]["gr00t_forward_count"]),
+        "gr00t_forward_count": inspection["counts"]["gr00t_forward_count"],
+        "reference_update_count": inspection["counts"]["reference_update_count"],
+        "wbc_step_count": inspection["counts"]["wbc_step_count"],
         "metrics": metrics,
         "model_metrics": model_metrics,
-        "error": stage43_result.get("error"),
+        "terminal_scientific_cause": inspection["terminal_cause"],
+        "error": inspection["stage43_result"].get("error"),
     }
-    write_json(root / "pi0196_cell_result.json", payload)
+    if child_log is not None:
+        payload["child_log"] = str(child_log)
+    record_path = root / "pi0196_cell_result.json"
+    if record_path.exists():
+        existing = read_json(record_path, canonical=True)
+        require(existing == payload, "existing PI0198 cell record drift")
+        return existing
+    write_json(record_path, payload)
     return payload
 
 
-def _aggregate_candidate(root: Path, candidate: str) -> Dict[str, Any]:
-    cells = [read_json(root / condition / "pi0196_cell_result.json") for condition in CONDITION_ORDER if (root / condition / "pi0196_cell_result.json").is_file()]
+def _resume_cell_record(root: Path, candidate: str, condition: str, *, stage43_evidence: Any) -> Optional[Dict[str, Any]]:
+    record_path = root / "pi0196_cell_result.json"
+    if record_path.exists():
+        record = read_json(record_path, canonical=True)
+        require(record.get("candidate") == candidate and record.get("condition_id") == condition, "cell registration identity drift")
+        if record.get("status") == "ENGINEERING_BLOCKED":
+            return record
+        inspection = _validate_cell_evidence(root, stage43_evidence=stage43_evidence)
+        require(record.get("status") == inspection["status"], "cell status drift")
+        require(record.get("stage43_condition_result_sha256") == inspection["condition_result_sha256"] and record.get("condition_manifest_sha256") == inspection["condition_manifest_sha256"], "cell evidence hash drift")
+        seal_path = _regular(root / "pi0198_cell_seal.json", "PI0198 cell seal", False)
+        require(record.get("terminal_seal_sha256") == sha256_file(seal_path), "cell terminal seal hash drift")
+        return record
+    if not root.exists():
+        return None
+    if (root / "condition_result.json").is_file() and (root / "condition_manifest.json").is_file():
+        inferred_code = 0 if read_json(root / "condition_result.json").get("status") == "PASS" else 2
+        return _persist_cell_result(root, candidate, condition, inferred_code, stage43_evidence=stage43_evidence)
+    raise AdapterError("cell directory exists without complete terminal evidence: %s" % root)
+
+
+def _cell_result(root: Path, candidate: str, condition: str, runner_code: int) -> Dict[str, Any]:
+    import stage43_corelab_evidence as stage43_evidence
+
+    return _persist_cell_result(root, candidate, condition, runner_code, stage43_evidence=stage43_evidence)
+
+
+def _aggregate_candidate(root: Path, candidate: str, *, extra_cells: Sequence[Mapping[str, Any]] = ()) -> Dict[str, Any]:
+    cells = [dict(cell) for cell in extra_cells]
+    cells.extend(read_json(root / condition / "pi0196_cell_result.json") for condition in CONDITION_ORDER if (root / condition / "pi0196_cell_result.json").is_file())
     actual = [cell["metrics"] for cell in cells if isinstance(cell.get("metrics"), dict)]
     statuses = [str(cell.get("status")) for cell in cells]
     def values(key: str) -> List[float]:
@@ -849,115 +1229,132 @@ def _write_evidence_manifest(root: Path) -> str:
             })
         elif not stat.S_ISDIR(mode):
             raise AdapterError("evidence tree contains a non-regular entry: %s" % path)
-    return write_json(root / "evidence_manifest.json", {
+    payload = {
         "schema": "CORELAB_PI0196_EVIDENCE_MANIFEST_V1",
         "status": "PASS",
         "root": str(root),
         "excluded_from_manifest": ["evidence_manifest.json", "result_seal.json"],
         "file_count": len(files),
         "files": files,
-    })
+    }
+    destination = root / "evidence_manifest.json"
+    if destination.exists():
+        existing = read_json(destination, canonical=True)
+        require(existing == payload, "existing evidence manifest drift")
+        return sha256_file(destination)
+    return write_json(destination, payload)
 
 
-def execute(binding_path: Path, *, expected_head: str, gpu_uuid: str, sim_device: str, seed: int) -> int:
+def _aggregate_snapshot(output_root: Path, prior_cell: Mapping[str, Any]) -> Dict[str, Dict[str, Any]]:
+    return {
+        candidate: _aggregate_candidate(output_root / candidate, candidate, extra_cells=(prior_cell,) if candidate == PRIOR_CELL[0] else ())
+        for candidate in CANDIDATE_ORDER
+    }
+
+
+def _budget_totals(aggregates: Mapping[str, Mapping[str, Any]]) -> Dict[str, int]:
+    return {
+        "gr00t_forwards": sum(int(item.get("gr00t_forward_count", 0)) for item in aggregates.values()),
+        "reference_updates": sum(int(item.get("reference_update_count", 0)) for item in aggregates.values()),
+        "native_ticks": sum(int(item.get("wbc_step_count", 0)) for item in aggregates.values()),
+    }
+
+
+def _ensure_overlay(output_root: Path, base: Mapping[str, Any], candidate: str, candidate_path: Path) -> Path:
+    overlay_path = output_root / "overlays" / (candidate + ".json")
+    expected = _make_overlay(base, candidate, candidate_path)
+    if overlay_path.exists():
+        require(read_json(overlay_path, canonical=True) == expected, "existing candidate overlay drift: %s" % candidate)
+    else:
+        write_json(overlay_path, expected)
+    return overlay_path
+
+
+def _run_cell_subprocess(*, base: Mapping[str, Any], overlay_path: Path, candidate: str, condition: str, condition_root: Path, binding: Mapping[str, Any], gpu_uuid: str, sim_device: str, seed: int, child_log: Path) -> int:
+    child_log.parent.mkdir(parents=True, exist_ok=True)
+    command = _child_command(
+        base=base, overlay_path=overlay_path, candidate=candidate, condition=condition,
+        condition_root=condition_root, binding=binding, expected_head=str(base["repository"]["head"]),
+        gpu_uuid=gpu_uuid, sim_device=sim_device, seed=seed,
+    )
+    with child_log.open("wb") as handle:
+        completed = subprocess.run(command, cwd=str(REPO), env=os.environ.copy(), stdout=handle, stderr=subprocess.STDOUT, check=False)
+    return 139 if completed.returncode in (-11, 139) else int(completed.returncode)
+
+
+def _execute_cell(*, output_root: Path, base: Mapping[str, Any], candidate: str, condition: str, binding: Mapping[str, Any], gpu_uuid: str, sim_device: str, seed: int, stage43_evidence: Any) -> Dict[str, Any]:
+    condition_root = output_root / candidate / condition
+    existing = _resume_cell_record(condition_root, candidate, condition, stage43_evidence=stage43_evidence)
+    if existing is not None:
+        return existing
+    overlay_path = _ensure_overlay(output_root, base, candidate, Path(binding["candidate_paths"][candidate]))
+    child_log = output_root / "child_logs" / (candidate + "__" + condition + ".log")
+    try:
+        runner_code = _run_cell_subprocess(
+            base=base, overlay_path=overlay_path, candidate=candidate, condition=condition,
+            condition_root=condition_root, binding=binding, gpu_uuid=gpu_uuid, sim_device=sim_device,
+            seed=seed, child_log=child_log,
+        )
+    except Exception as exc:
+        return _persist_engineering_cell(condition_root, candidate, condition, runner_code=None, message="child launch failed: %s: %s" % (type(exc).__name__, exc), child_log=child_log)
+    if not condition_root.exists():
+        return _persist_engineering_cell(condition_root, candidate, condition, runner_code=runner_code, message="child exited without a condition evidence root", child_log=child_log)
+    try:
+        return _persist_cell_result(condition_root, candidate, condition, runner_code, stage43_evidence=stage43_evidence, child_log=child_log)
+    except Exception as exc:
+        return _persist_engineering_cell(condition_root, candidate, condition, runner_code=runner_code, message="cell evidence closure failed: %s: %s" % (type(exc).__name__, exc), child_log=child_log)
+
+
+def execute(binding_path: Path, *, expected_head: str, gpu_uuid: str, sim_device: str, seed: int, resume: bool = False) -> int:
     require(seed == DEV_SEED, "PI0196 seed is fixed at 4242")
     binding = read_json(Path(binding_path), canonical=True)
-    admission = validate_binding(binding_path, expected_head=expected_head, check_output_fresh=True, exact_runtime=True)
+    admission = validate_binding(binding_path, expected_head=expected_head, check_output_fresh=not resume, exact_runtime=True)
     output_root = Path(binding["paths"]["output_root"]).resolve()
-    output_root.mkdir(parents=True, exist_ok=False)
-    admission["gpu"] = _gpu_uuid_snapshot(gpu_uuid)
-    write_json(output_root / "admission.json", admission)
+    if resume:
+        require(output_root.is_dir() and not output_root.is_symlink(), "continuation output root is unavailable for resume: %s" % output_root)
+        require(not (output_root / "result_seal.json").exists(), "continuation output root is already sealed")
+        admission_path = _regular(output_root / "admission.json", "continuation admission", False)
+        admission = read_json(admission_path, canonical=True)
+    else:
+        output_root.mkdir(parents=True, exist_ok=False)
+        admission["gpu"] = _gpu_uuid_snapshot(gpu_uuid)
+        write_json(output_root / "admission.json", admission)
 
     import stage43_corelab_evidence as stage43_evidence
-    import stage43_corelab_initial_condition as stage43_runner
     import go2arx5_vla.stage40_structured_decode as structured_decode
 
     base = read_json(Path(binding["paths"]["stage43_bundle"]), canonical=True)
     base_head = base["repository"]["head"]
-    aggregates = {}
+    prior_root_value = binding.get("paths", {}).get("prior_output_root")
+    require(isinstance(prior_root_value, str) and prior_root_value, "PI0198 prior output root is missing from binding")
+    prior = _verify_prior_cell(Path(prior_root_value), stage43_evidence=stage43_evidence)
+    continuation = _ensure_continuation(output_root, Path(prior_root_value), prior=prior, stage43_evidence=stage43_evidence)
     execution_status = "COMPLETED"
     stop_reason = None
-    old_tree = stage43_evidence.STRUCTURED_CHECKPOINT_TREE_SHA256
-    old_stats = stage43_evidence.STRUCTURED_STATS_SHA256
-    old_decode_stats = structured_decode.EXPECTED_STRUCTURED_STATS_SHA256
-    try:
-        for candidate in CANDIDATE_ORDER:
-            candidate_root = output_root / candidate
-            candidate_root.mkdir()
-            spec = CANDIDATES[candidate]
-            stage43_evidence.STRUCTURED_CHECKPOINT_TREE_SHA256 = spec["tree_sha256"]
-            stage43_evidence.STRUCTURED_STATS_SHA256 = spec["stats_sha256"]
-            structured_decode.EXPECTED_STRUCTURED_STATS_SHA256 = spec["stats_sha256"]
-            overlay = _make_overlay(base, candidate, Path(binding["candidate_paths"][candidate]))
-            overlay_path = output_root / "overlays" / (candidate + ".json")
-            write_json(overlay_path, overlay)
-            for condition in CONDITION_ORDER:
-                condition_root = candidate_root / condition
-                run_args = argparse.Namespace(
-                    bundle=overlay_path,
-                    output_dir=condition_root,
-                    condition_id=condition,
-                    repository_head=base_head,
-                    gpu_uuid=gpu_uuid,
-                    source_root=Path(base["artifacts"]["wbc_source"]["path"]),
-                    trajectory=Path(base["artifacts"]["trajectory"]["path"]),
-                    arm=Path(base["artifacts"]["wbc_arm_checkpoint"]["path"]),
-                    dog=Path(base["artifacts"]["wbc_dog_checkpoint"]["path"]),
-                    stage10_root=Path(base["artifacts"]["stage10_root"]["path"]),
-                    base_model_path=Path(base["artifacts"]["base_model_path"]["path"]),
-                    model_path=Path(binding["candidate_paths"][candidate]),
-                    dataset_dir=Path(base["artifacts"]["dataset_dir"]["path"]),
-                    modality_config=Path(base["artifacts"]["modality_config"]["path"]),
-                    cosmos_snapshot=Path(base["artifacts"]["cosmos_snapshot_path"]["path"]),
-                    structured_stats=Path(binding["candidate_paths"][candidate]) / "experiment_cfg" / "structured_action_statistics.json",
-                    model_python=Path(binding["paths"]["model_python"]),
-                    wbc_source_root=Path(base["artifacts"]["wbc_source"]["path"]),
-                    sim_device=sim_device,
-                    seed=seed,
-                    response_timeout_s=300.0,
-                    worker_ready_timeout_s=1200.0,
-                )
-                try:
-                    runner_code = int(stage43_runner._run(run_args))
-                except Exception as exc:
-                    # Preserve an engineering failure as a cell record even if
-                    # the mature runner fails before it can serialize its own
-                    # pointer.  This branch never retries or fabricates science.
-                    condition_root.mkdir(parents=True, exist_ok=True)
-                    pointer = condition_root / "condition_result.json"
-                    if not pointer.exists():
-                        write_json(
-                            pointer,
-                            {
-                                "schema": "CORELAB_STAGE43_CONDITION_RESULT_V1",
-                                "status": "BLOCKED",
-                                "cases": 0,
-                                "gr00t_forward_count": 0,
-                                "reference_update_count": 0,
-                                "wbc_step_count": 0,
-                                "error": {"type": type(exc).__name__, "message": str(exc)},
-                            },
-                        )
-                    runner_code = 2
-                cell = _cell_result(condition_root, candidate, condition, runner_code)
-                if cell["status"] != "PASS":
-                    execution_status = "PARTIAL" if cell["status"] in ("SCIENTIFIC_REJECT", "SCIENTIFIC_ABORT") else "BLOCKED"
-                    stop_reason = {"candidate": candidate, "condition": condition, "status": cell["status"]}
-                    break
-            aggregates[candidate] = _aggregate_candidate(candidate_root, candidate)
-            if stop_reason is not None:
-                break
-    finally:
-        stage43_evidence.STRUCTURED_CHECKPOINT_TREE_SHA256 = old_tree
-        stage43_evidence.STRUCTURED_STATS_SHA256 = old_stats
-        structured_decode.EXPECTED_STRUCTURED_STATS_SHA256 = old_decode_stats
-    for candidate in CANDIDATE_ORDER:
-        if candidate not in aggregates:
-            aggregates[candidate] = _aggregate_candidate(output_root / candidate, candidate) if (output_root / candidate).exists() else _aggregate_candidate(output_root / candidate, candidate)
+    for candidate, condition in _continuation_order():
+        (output_root / candidate).mkdir(parents=True, exist_ok=True)
+        cell = _execute_cell(
+            output_root=output_root, base=base, candidate=candidate, condition=condition,
+            binding=binding, gpu_uuid=gpu_uuid, sim_device=sim_device, seed=seed,
+            stage43_evidence=stage43_evidence,
+        )
+        if cell["status"] == "ENGINEERING_BLOCKED":
+            execution_status = "BLOCKED"
+            stop_reason = {"candidate": candidate, "condition": condition, "status": cell["status"], "error": cell.get("error")}
+            break
+        totals = _budget_totals(_aggregate_snapshot(output_root, prior["cell"]))
+        require(totals["gr00t_forwards"] <= MAX_FORWARDS and totals["reference_updates"] <= MAX_UPDATES and totals["native_ticks"] <= MAX_TICKS, "cumulative cell budget exceeded")
+    aggregates = _aggregate_snapshot(output_root, prior["cell"])
     scorecard = _classify_scorecard(aggregates)
     scorecard["execution_status"] = execution_status
     scorecard["stop_reason"] = stop_reason
-    write_json(output_root / "scorecard.json", scorecard)
+    scorecard["continuation_manifest_sha256"] = sha256_file(output_root / "continuation_manifest.json")
+    scorecard["prior_cell_reused_read_only"] = True
+    scorecard_path = output_root / "scorecard.json"
+    if scorecard_path.exists():
+        require(read_json(scorecard_path, canonical=True) == scorecard, "existing scorecard drift")
+    else:
+        write_json(scorecard_path, scorecard)
     evidence_manifest_sha = _write_evidence_manifest(output_root)
     seal = {
         "schema": "CORELAB_PI0196_RESULT_SEAL_V1",
@@ -968,6 +1365,8 @@ def execute(binding_path: Path, *, expected_head: str, gpu_uuid: str, sim_device
         "scorecard_sha256": sha256_file(output_root / "scorecard.json"),
         "admission_sha256": sha256_file(output_root / "admission.json"),
         "evidence_manifest_sha256": evidence_manifest_sha,
+        "continuation_manifest_sha256": sha256_file(output_root / "continuation_manifest.json"),
+        "prior_cell_reused_read_only": True,
         "counters": {
             "model_loads": sum(int(candidate.get("model_worker_started_count", 0)) for candidate in aggregates.values()),
             "model_forward_cells": sum(int(candidate.get("model_forward_cell_count", 0)) for candidate in aggregates.values()),
@@ -983,7 +1382,11 @@ def execute(binding_path: Path, *, expected_head: str, gpu_uuid: str, sim_device
         },
         "stop_reason": stop_reason,
     }
-    write_json(output_root / "result_seal.json", seal)
+    result_path = output_root / "result_seal.json"
+    if result_path.exists():
+        require(read_json(result_path, canonical=True) == seal, "existing result seal drift")
+    else:
+        write_json(result_path, seal)
     return 0 if execution_status == "COMPLETED" else 2
 
 
@@ -998,6 +1401,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--gpu-uuid")
     parser.add_argument("--sim-device", default="cuda:0")
     parser.add_argument("--seed", type=int, default=DEV_SEED)
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args(argv)
     selected = sum(bool(value) for value in (args.plan, args.static_check, args.metric_regression, args.verify_binding, args.execute))
     if selected != 1:
@@ -1017,7 +1421,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print(json.dumps(result, sort_keys=True), flush=True)
         return 0
     require(args.execute is not None and args.gpu_uuid is not None, "--execute requires --gpu-uuid")
-    return execute(args.execute, expected_head=args.expected_head, gpu_uuid=args.gpu_uuid, sim_device=args.sim_device, seed=args.seed)
+    return execute(args.execute, expected_head=args.expected_head, gpu_uuid=args.gpu_uuid, sim_device=args.sim_device, seed=args.seed, resume=args.resume)
 
 
 if __name__ == "__main__":
