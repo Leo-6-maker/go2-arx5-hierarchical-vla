@@ -593,8 +593,8 @@ def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: M
                     yield self._support_sample(row_id)
 
     class ScheduledFactory:
-        def __init__(self, factory_config: Any):
-            self.config = factory_config
+        def __init__(self, config: Any):
+            self.config = config
 
         def build(self, processor: Any):
             original_shards = self.config.data.num_shards_per_epoch
