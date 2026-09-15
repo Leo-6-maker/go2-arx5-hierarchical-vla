@@ -531,7 +531,9 @@ def validate_binding(
         require(isinstance(paths.get(key), str) and paths[key], "binding path missing: %s" % key)
     if check_output_fresh:
         require(not Path(paths["output_root"]).exists(), "output root is not fresh: %s" % paths["output_root"])
-    relay = read_json(_regular(Path(paths["relay_manifest"]), "relay manifest", False), canonical=True)
+    # The sealed PI0191 relay manifest is an older pretty-printed JSON artifact;
+    # its byte-level authority is the per-file/tree hashes, not serialization.
+    relay = read_json(_regular(Path(paths["relay_manifest"]), "relay manifest", False), canonical=False)
     require(relay.get("schema") == "VANDA_PI0191_RELAY_MANIFEST_V1" and relay.get("status") == "PASS", "relay manifest is not PASS")
     candidate_paths = binding.get("candidate_paths", {})
     require(set(candidate_paths) == set(CANDIDATE_ORDER), "candidate path set drift")
