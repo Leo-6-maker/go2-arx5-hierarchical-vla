@@ -495,7 +495,7 @@ def validate_binding(binding_path: Path, *, expected_head: str | None = None, ch
     require(isinstance(candidate_paths, dict) and set(candidate_paths) == set(CANDIDATE_ORDER), "candidate path key set drift")
     inventories: dict[str, Any] = {}
     for candidate in CANDIDATE_ORDER:
-        candidate_path = _regular(Path(candidate_paths.get(candidate, "")), f"{candidate} candidate")
+        candidate_path = _regular(Path(candidate_paths.get(candidate, "")), "candidate")
         inventories[candidate] = _verify_candidate_tree(candidate_path, candidate, relay_manifest)
     output_root = Path(paths["output_root"]).expanduser()
     if check_output_fresh:
