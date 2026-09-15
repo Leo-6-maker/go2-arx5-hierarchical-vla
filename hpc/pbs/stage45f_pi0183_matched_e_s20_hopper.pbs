@@ -48,10 +48,16 @@ git -C "$PI0183_REPO" branch --show-current
 
 gpu_count="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {n++} END {print n+0}')"
 test "$gpu_count" -eq 1
+gpu_name="$(nvidia-smi --query-gpu=name --format=csv,noheader | awk 'NF {print; exit}')"
+case "$gpu_name" in
+  *H100*|*H200*) ;;
+  *) echo "unsupported GPU: $gpu_name" >&2; exit 2 ;;
+esac
 gpu_uuid="$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {print $1; exit}')"
 gpu_free_mib="$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | awk 'NR==1 {print int($1)}')"
 test "$gpu_free_mib" -ge 12288
 {
+  echo "name=$gpu_name"
   echo "uuid=$gpu_uuid"
   nvidia-smi --query-gpu=index,name,uuid,memory.total,memory.free,memory.used --format=csv
   echo "compute_apps:"
