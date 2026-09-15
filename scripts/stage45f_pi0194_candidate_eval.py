@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0196 candidate late-binding over the accepted Stage43 runner.
+"""PI0197 candidate late-binding over the accepted Stage43 runner.
 
 This is deliberately a small Stage45F shim.  It owns only checkpoint
 identity/tree closure, candidate late-binding, fixed matrix orchestration, and
@@ -33,14 +33,15 @@ REPO = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = REPO / "manifests" / "STAGE45F_PI0196_CORELAB_STAGE43_EVAL_V1.json"
 SCHEMA = "CORELAB_PI0196_STAGE43_REUSE_EVAL_V1"
 CELL_SCHEMA = "CORELAB_PI0196_STAGE43_CELL_V1"
-PI_GATE = "PI_GATE_STATE_0196"
-ISSUE_COMMENT = 5679726040
-PR_POINTER_COMMENT = 5679729481
+PI_GATE = "PI_GATE_STATE_0197"
+ISSUE_COMMENT = 5680082654
+PR_POINTER_COMMENT = 5680088636
 BRANCH = "stage45f/corelab-fast-loop-readiness"
-ADMISSION_TOKEN = "CORELAB_PI0196_STAGE43_REUSE_EVAL_ADMISSION"
-RETURN_TOKEN = "CORELAB_PI0196_E_S20_CLOSED_LOOP_SCORECARD"
+ADMISSION_TOKEN = "LOCALPC_PI0197_STAGE43_REUSE_EVAL_ADMISSION"
+RETURN_TOKEN = "LOCALPC_PI0197_VANDA_E_S20_CLOSED_LOOP_SCORECARD"
 
 STAGE43_ACCEPTED_HEAD = "b2a70dcec0765cf69819bb76c180e5c92ae3eac3"
+STAGE43_BUNDLE_REPOSITORY_HEAD = "d042ecd51af437040103892d9b2e2a6acdd00a9b"
 STAGE43_BUNDLE_SHA256 = "127d95a2a5b9a6a40e864e029d85fd09a9e4dd55441aae58071502aa76700da6"
 STAGE43_RESULT_SHA256 = "e635ecaa321bde38903be45781e9b47063ba6b81c2bc810b1a1ae64925ecfcdb"
 STAGE43_RESULT_SEAL_SHA256 = "668bee50dc38997403a065d5f4831662731715cf28c289af3982e4f9abbf7283"
@@ -446,7 +447,9 @@ def _runtime_admission(
     bundle_path = _regular(Path(paths["stage43_bundle"]), "Stage43 bundle", False)
     base = read_json(bundle_path, canonical=True)
     require(sha256_file(bundle_path) == STAGE43_BUNDLE_SHA256, "Stage43 bundle SHA drift")
-    require(base.get("repository", {}).get("head") == STAGE43_ACCEPTED_HEAD, "Stage43 accepted HEAD drift")
+    # The sealed bundle was emitted at d042; accepted Stage43 HEAD b2a70 is
+    # its subsequent lineage commit, not the byte-level bundle repository head.
+    require(base.get("repository", {}).get("head") == STAGE43_BUNDLE_REPOSITORY_HEAD, "Stage43 bundle repository HEAD drift")
     _verify_bundle_paths(base)
 
     # These imports are intentionally inside admission.  They prove the
@@ -820,7 +823,9 @@ def _gpu_uuid_snapshot(requested_uuid: str) -> Dict[str, Any]:
         require(len(fields) == 5, "malformed nvidia-smi row")
         rows.append({"index": int(fields[0]), "name": fields[1], "uuid": fields[2], "memory_total_mib": int(fields[3]), "memory_free_mib": int(fields[4])})
     selected = [row for row in rows if row["uuid"] == requested_uuid]
-    require(len(selected) == 1 and "RTX 4080 SUPER" in selected[0]["name"] and selected[0]["memory_total_mib"] >= 30000, "requested Corelab 32GB RTX4080S is not uniquely present")
+    selected_name = selected[0]["name"] if len(selected) == 1 else ""
+    allowed_name = "RTX 4080 SUPER" in selected_name or selected_name == "NVIDIA A40"
+    require(len(selected) == 1 and allowed_name and selected[0]["memory_total_mib"] >= 30000, "requested RTX4080S/A40 is not uniquely present")
     return {"rows": rows, "selected": selected[0], "query_sha256": hashlib.sha256(completed.stdout.encode("utf-8")).hexdigest()}
 
 
