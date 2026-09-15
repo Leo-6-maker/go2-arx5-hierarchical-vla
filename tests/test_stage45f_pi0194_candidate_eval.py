@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 SCRIPT = Path(__file__).parents[1] / "scripts" / "stage45f_pi0194_candidate_eval.py"
+PBS = Path(__file__).parents[1] / "hpc" / "pbs" / "stage45f_pi0194_candidate_eval_a40.pbs"
 sys.path.insert(0, str(SCRIPT.parents[1] / "src"))
 SPEC = importlib.util.spec_from_file_location("stage45f_pi0194_candidate_eval", SCRIPT)
 assert SPEC and SPEC.loader
@@ -38,6 +39,13 @@ class PI0194CandidateEvalTests(unittest.TestCase):
         self.assertEqual(result["simulator_steps_in_plan"], 0)
         self.assertEqual(result["training_in_plan"], 0)
         self.assertEqual(set(result["frozen_files"]), set(MODULE.FROZEN_FILES))
+
+    def test_pbs_stdout_is_explicitly_bound_outside_git_checkout(self):
+        text = PBS.read_text(encoding="utf-8")
+        self.assertIn("#PBS -o /scratch/leonliu/pi0194_candidate_eval_a40.scheduler.log", text)
+        self.assertIn("#PBS -j oe", text)
+        self.assertIn('git status --short --untracked-files=all', text)
+        self.assertNotIn("#PBS -o ${", text)
 
     def test_tree_closure_rejects_symlink_and_extra_entries(self):
         with tempfile.TemporaryDirectory(prefix="pi0194_tree_") as directory:
