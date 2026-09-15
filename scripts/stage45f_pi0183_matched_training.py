@@ -42,6 +42,7 @@ CONFIG_SHA256 = "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7
 PROCESSOR_CONFIG_SHA256 = "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be"
 PROCESSOR_STATS_SHA256 = "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9"
 BASE_TREE_SHA256 = "231e2cff6690242601147b3812298c806030f6562116df248e8b45c5ce53cd16"
+BASE_TREE_PREFIX = "stage45e_l1/checkpoint-2000"
 GROOT_MANIFEST_SHA256 = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
 GROOT_MANIFEST_PAYLOAD_SHA256 = "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8e3c50e0a43e5b8250"
 GROOT_PAYLOAD_TREE_SHA256 = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
@@ -337,7 +338,7 @@ def validate_runtime_inputs(args: argparse.Namespace) -> tuple[dict[str, Any], d
         require(getattr(args, name) is not None, f"missing runtime input: {name}")
     schedule, rows, identities, paths = static_validate(args)
     _regular_dir(args.base_model, "base checkpoint")
-    base_tree, base_entries = tree_digest(args.base_model, "payload/GR00T-N1.7-3B")
+    base_tree, base_entries = tree_digest(args.base_model, BASE_TREE_PREFIX)
     require(base_tree == BASE_TREE_SHA256, f"base checkpoint tree mismatch: {base_tree}")
     trainer_state = read_json(_child(args.base_model, "trainer_state.json", "base trainer state"))
     require(int(trainer_state.get("global_step", -1)) == 2000, "base checkpoint global_step drift")
