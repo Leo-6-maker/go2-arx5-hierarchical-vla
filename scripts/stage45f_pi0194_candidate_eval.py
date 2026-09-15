@@ -462,7 +462,7 @@ def validate_binding(binding_path: Path, *, expected_head: str | None = None, ch
         lowered = value.lower()
         require("validation-e" not in lowered and "holdout-f" not in lowered, f"locked data path: {key}")
     stage10_root = _regular(Path(paths["stage10_root"]), "stage10 root")
-    base_model = _regular(Path(paths["base_model_path"]), "base model")
+    base_model = _regular(Path(paths["base_model_path"]), "base model directory")
     structured_checkpoint = _regular(Path(paths["structured_checkpoint"]), "structured_checkpoint directory")
     dataset = _regular(Path(paths["dataset_dir"]), "dataset_dir directory")
     cosmos = _regular(Path(paths["cosmos_snapshot"]), "cosmos_snapshot directory")
