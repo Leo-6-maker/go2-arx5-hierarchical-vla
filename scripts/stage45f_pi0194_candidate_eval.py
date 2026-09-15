@@ -376,7 +376,11 @@ def _verify_candidate_tree(candidate: Path, name: str, relay_manifest: Mapping[s
     spec = CANDIDATES[name]
     candidate = _regular(candidate, "candidate")
     actual_entries = _tree_entries(candidate, spec["tree_prefix"])
-    actual_relative = sorted(str(item["path"]).removeprefix(spec["tree_prefix"] + "/") for item in actual_entries)
+    actual_by_relative = {
+        str(item["path"]).removeprefix(spec["tree_prefix"] + "/"): item
+        for item in actual_entries
+    }
+    actual_relative = sorted(actual_by_relative)
     require(actual_relative == list(CHECKPOINT_FILES), f"{name} checkpoint file closure has extra or missing files")
     if spec["arm_manifest"] is not None:
         arm = str(spec["arm_manifest"])
@@ -396,8 +400,7 @@ def _verify_candidate_tree(candidate: Path, name: str, relay_manifest: Mapping[s
         observed_entries: list[dict[str, Any]] = []
         for relative in CHECKPOINT_FILES:
             expected = expected_by_relative[relative]
-            path = candidate / relative
-            observed = {"path": f"{prefix}{relative}", "bytes": int(path.stat().st_size), "sha256": sha256_file(path)}
+            observed = actual_by_relative[relative]
             require(observed["bytes"] == int(expected["bytes"]) and observed["sha256"] == str(expected["sha256"]), f"{name} file identity drift: {relative}")
             observed_entries.append(observed)
         tree_sha = _tree_digest(observed_entries)
