@@ -1,0 +1,80 @@
+#!/bin/bash
+# PI0208 G1: model-side screen only; no WBC/simulator/training.
+# ponytail: use the existing Stage45C/Stage40 runtime and one auto Hopper GPU.
+#PBS -N st45g_pi0208
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=04:00:00
+#PBS -r n
+
+set -euo pipefail
+
+REPO=/scratch/e1192548/stage45f_pi0188_hopper_worktree_v3
+PYTHON=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+EXPECTED_HEAD=${PI0208_EXPECTED_HEAD:?PI0208_EXPECTED_HEAD is required}
+RUN_ROOT=/hpctmp/e1192548/stage45g_pi0208_hopper_model_screen_20260917/${PBS_JOBID//[^A-Za-z0-9_.-]/_}
+NEUTRAL_ROOT=/scratch/e1192548/pi0208_hopper_screen_neutral_20260917/${PBS_JOBID//[^A-Za-z0-9_.-]/_}
+
+E256=/hpctmp/e1192548/stage45f_pi0188_es20_training/617089.hopper-m-02_/E/checkpoint-256
+C80=/hpctmp/e1192548/stage45g_pi0205_hopper_training_20260916/620054.hopper-m-02/C80/checkpoint-80
+S25=/hpctmp/e1192548/stage45g_pi0205_hopper_training_20260916/620054.hopper-m-02/S25/checkpoint-80
+S50=/hpctmp/e1192548/stage45g_pi0205_hopper_training_20260916/620054.hopper-m-02/S50/checkpoint-80
+DATASET=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train
+SNAPSHOT_ROOT=/scratch/e1192548/stage45d_d1_train24_descriptor_closure_20260911_v1
+ROWS=$REPO/reports/stage45f_pi0182_state_support_training_admission_20260914/origin_classified_rows.jsonl
+SUPPORT_ROOT=$REPO/reports/stage45f_pi0181_visited_state_support_20260914
+GROOT_SOURCE=/scratch/e1192548/stage45c_pi0094_native_runtime_20260909/groot-source-v4
+GROOT_MANIFEST=/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45B_GROOT_SOURCE_SNAPSHOT_V2.manifest.json
+COSMOS_ROOT=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B
+MODALITY=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py
+CONFIG=/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml
+STATS=/scratch/e1192548/full24_runtime_v2_stats_export_20260910/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json
+FFMPEG_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+TORCH_SITE=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages
+
+mkdir -p "$RUN_ROOT" "$NEUTRAL_ROOT"
+test ! -e "$RUN_ROOT/pre_model_audit.json"
+exec >"$NEUTRAL_ROOT/job.log" 2>&1
+
+hostname
+date -u
+test "$(git -C "$REPO" rev-parse HEAD)" = "$EXPECTED_HEAD"
+test -z "$(git -C "$REPO" status --porcelain --untracked-files=all)"
+test "$(git -C "$REPO" branch --show-current)" = stage45g/e256-state-support-dose-response
+
+gpu_count=$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {n++} END {print n+0}')
+test "$gpu_count" -eq 1
+gpu_name=$(nvidia-smi --query-gpu=name --format=csv,noheader | awk 'NF {print; exit}')
+case "$gpu_name" in *H100*|*H200*) ;; *) echo "unsupported GPU: $gpu_name" >&2; exit 2 ;; esac
+gpu_free_mib=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | awk 'NR==1 {print int($1)}')
+test "$gpu_free_mib" -ge 12288
+nvidia-smi --query-gpu=index,name,uuid,memory.total,memory.free,memory.used --format=csv
+nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv || true
+export CUDA_VISIBLE_DEVICES=0
+
+FFMPEG_LIB=$FFMPEG_ROOT/lib
+FFMPEG_COMPAT=$FFMPEG_ROOT/compat
+TORCHCODEC=$TORCH_SITE/torchcodec
+TORCH_LIB=$TORCH_SITE/torch/lib
+test -d "$FFMPEG_LIB" -a -d "$FFMPEG_COMPAT" -a -d "$TORCHCODEC" -a -d "$TORCH_LIB"
+ambient_ld=${LD_LIBRARY_PATH:-}
+export LD_LIBRARY_PATH="$FFMPEG_LIB:$FFMPEG_COMPAT:$TORCHCODEC:$TORCH_LIB${ambient_ld:+:$ambient_ld}"
+unset PYTHONPATH
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
+export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
+
+"$PYTHON" "$REPO/scripts/stage45g_pi0208_hopper_model_screen.py" \
+  --output "$RUN_ROOT" \
+  --expected-head "$EXPECTED_HEAD" \
+  --e256 "$E256" --c80 "$C80" --s25 "$S25" --s50 "$S50" \
+  --dataset "$DATASET" --snapshot-root "$SNAPSHOT_ROOT" \
+  --rows "$ROWS" --support-root "$SUPPORT_ROOT" \
+  --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
+  --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
+  --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
+
+date -u
+echo PI0208_G1_HOPPER_MODEL_SCREEN_COMPLETE
