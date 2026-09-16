@@ -25,6 +25,7 @@ RUNNER = REPO / "scripts" / "stage43_corelab_initial_condition.py"
 EVAL_ROOT = Path(os.environ["PI0200_EVAL_ROOT"]).resolve()
 BASE_BUNDLE = Path(os.environ["PI0200_STAGE43_BUNDLE"]).resolve()
 TRAINING_ROOT = Path(os.environ["PI0200_TRAINING_ROOT"]).resolve()
+MODEL_PYTHON = Path(os.environ.get("PI0200_MODEL_PYTHON", str(REPO / "scripts" / "stage45f_pi0197_model_python.sh"))).resolve()
 GPU_UUID = os.environ["PI0200_GPU_UUID"]
 CURRENT_HEAD = os.environ["PI0200_HEAD"]
 CORRECTED_RUNNER_SHA256 = os.environ["PI0200_CORRECTED_RUNNER_SHA256"]
@@ -214,7 +215,7 @@ def main() -> int:
         "status": "READY",
         "execution_head": CURRENT_HEAD,
         "gpu_uuid": GPU_UUID,
-        "paths": {"stage43_bundle": str(BASE_BUNDLE), "model_python": str(REPO / "scripts" / "stage45f_pi0197_model_python.sh"), "output_root": str(EVAL_ROOT)},
+        "paths": {"stage43_bundle": str(BASE_BUNDLE), "model_python": str(MODEL_PYTHON), "output_root": str(EVAL_ROOT)},
         "candidate_paths": {arm: str(TRAINING_ROOT / arm / "checkpoint-80") for arm in ARMS},
         "stage43_historical_bundle_sha256": EXPECTED_BUNDLE_SHA256,
         "stage43_historical_runner_sha256": base["executable_lineage"]["runner_sha256"],
