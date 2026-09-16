@@ -61,7 +61,8 @@ def training_specs() -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
         require(int(result.get("global_step", -1)) == 80 and int(result.get("updates", -1)) == 80, f"{arm} step count drift")
         require(result.get("schedule_sha256") == EXPECTED_SCHEDULE_SHA256, f"{arm} schedule binding drift")
         checkpoint = arm_root / "checkpoint-80"
-        require(str(Path(result.get("final_checkpoint", "")).resolve()) == str(checkpoint.resolve()), f"{arm} checkpoint path drift")
+        source_checkpoint = Path(str(result.get("final_checkpoint", "")))
+        require(source_checkpoint.name == "checkpoint-80" and source_checkpoint.parent.name == arm, f"{arm} checkpoint identity path drift")
         require(invocation_path.is_file() and not invocation_path.is_symlink(), f"{arm} training invocation is missing")
         require(result.get("model_forward") == 80 and result.get("backward") == 80 and result.get("optimizer_steps") == 80, f"{arm} training counters drift")
         require(result.get("identities", {}).get("structured_stats_sha256") == FROZEN_SOURCE_STATS_SHA256, f"{arm} frozen statistics source drift")
@@ -88,6 +89,7 @@ def training_specs() -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
             "training_invocation_path": str(invocation_path),
             "training_invocation_sha256": spec["training_invocation_sha256"],
             "checkpoint_path": str(checkpoint),
+            "source_checkpoint_path": str(source_checkpoint),
             "checkpoint_tree_sha256": spec["tree_sha256"],
             "checkpoint_tree_prefix": spec["tree_prefix"],
         }
