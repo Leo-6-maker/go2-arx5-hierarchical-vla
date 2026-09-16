@@ -33,6 +33,7 @@ SCHEDULE_SHA256 = "03634d5adec0366f1f8550f8cb10f48cc0096dc6e2d69f4d9de4a90c10376
 SCHEDULE_SCHEMA = "CORELAB_PI0200_E256_SUPPORT_DOSE_SCHEDULE_V1"
 ARM_ORDER = ("C80", "S25", "S50")
 UPDATE_COUNT = 80
+BASE_GLOBAL_STEP = 256
 ROWS_SHA256 = "ab08414ac5cdda3cfadf1a08e5a85ccc3ec96fec74b32b6bf34bb5625f84f876"
 VISITED_TREE_SHA256 = "f5ccefcb17594d563dce24aae3e476b7c56d2e6e75304a7358b4ec887aafb416"
 EXPERT_TREE_SHA256 = "9b77dbddaf7b7fca6aacf55b0f68b202b398c8f1aa1dd0f0437d5dc18398be13"
@@ -360,7 +361,7 @@ def validate_runtime_inputs(args: argparse.Namespace) -> tuple[dict[str, Any], d
     base_tree, base_entries = tree_digest(args.base_model, BASE_TREE_PREFIX)
     require(base_tree == BASE_TREE_SHA256, f"base checkpoint tree mismatch: {base_tree}")
     trainer_state = read_json(_child(args.base_model, "trainer_state.json", "base trainer state"))
-    require(int(trainer_state.get("global_step", -1)) == 2000, "base checkpoint global_step drift")
+    require(int(trainer_state.get("global_step", -1)) == BASE_GLOBAL_STEP, "base checkpoint global_step drift")
     for name in ("optimizer.pt", "scheduler.pt", "rng_state.pth"):
         _child(args.base_model, name, f"base {name}")
     _regular_dir(args.groot_source, "GR00T source")
