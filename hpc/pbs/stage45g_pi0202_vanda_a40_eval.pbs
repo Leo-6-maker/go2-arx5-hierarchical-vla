@@ -2,8 +2,8 @@
 # PI0202: restore the proven PI0198 A40 envelope, preflight once, then score C80/S25/S50.
 #PBS -N pi0202_eval
 #PBS -q interactive_gpu
-# GN-A40-031 completed PI0198 job 1365183 under this exact runtime envelope.
-#PBS -l select=1:ncpus=36:ngpus=1:mem=240gb:host=gn-a40-031
+# Let PBS select any available Vanda A40 node; the wrapper still requires one A40 GPU.
+#PBS -l select=1:ncpus=36:ngpus=1:mem=240gb
 #PBS -l walltime=12:00:00
 #PBS -o /scratch/leonliu/pi0200_e256_support_dose_response_20260916/pbs_pi0202_eval.log
 #PBS -j oe
