@@ -33,8 +33,8 @@ STATS=/scratch/e1192548/full24_runtime_v2_stats_export_20260910/STAGE45B_FULL24_
 FFMPEG_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
 TORCH_SITE=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages
 
-mkdir -p "$RUN_ROOT" "$NEUTRAL_ROOT"
-test ! -e "$RUN_ROOT/pre_model_audit.json"
+test ! -e "$RUN_ROOT"
+mkdir -p "$NEUTRAL_ROOT"
 exec >"$NEUTRAL_ROOT/job.log" 2>&1
 
 hostname
