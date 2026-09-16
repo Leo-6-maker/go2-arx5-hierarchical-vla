@@ -1303,8 +1303,15 @@ def _run_cell_subprocess(*, base: Mapping[str, Any], overlay_path: Path, candida
         condition_root=condition_root, binding=binding, expected_head=str(base["repository"]["head"]),
         gpu_uuid=gpu_uuid, sim_device=sim_device, seed=seed,
     )
+    # ponytail: IsaacGym is stable with the same bootstrap on stdin, but can
+    # segfault when that bootstrap is supplied through Python's -c path.
+    if len(command) >= 5 and command[3] == "-c":
+        child_input = command[4]
+        command = [command[0], command[1], command[2], "-"]
+    else:
+        child_input = None
     with child_log.open("wb") as handle:
-        completed = subprocess.run(command, cwd=str(REPO), env=os.environ.copy(), stdout=handle, stderr=subprocess.STDOUT, check=False)
+        completed = subprocess.run(command, input=child_input.encode("utf-8") if child_input is not None else None, cwd=str(REPO), env=os.environ.copy(), stdout=handle, stderr=subprocess.STDOUT, check=False)
     return 139 if completed.returncode in (-11, 139) else int(completed.returncode)
 
 
