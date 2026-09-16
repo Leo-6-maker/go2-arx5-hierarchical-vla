@@ -16,7 +16,10 @@ import stage45f_pi0194_candidate_eval as native_eval
 import stage43_corelab_evidence as stage43_evidence
 
 
-ARMS = ("C80", "S25", "S50")
+_arm_text = os.environ.get("PI0208_ARMS", "C80,S25,S50")
+ARMS = tuple(item.strip() for item in _arm_text.split(",") if item.strip())
+if not ARMS or any(item not in {"C80", "S25", "S50"} for item in ARMS) or len(set(ARMS)) != len(ARMS):
+    raise RuntimeError("PI0208_ARMS must contain unique values from C80,S25,S50")
 CONDITIONS = tuple(native_eval.CONDITION_ORDER)
 RUNNER = REPO / "scripts" / "stage43_corelab_initial_condition.py"
 EVAL_ROOT = Path(os.environ["PI0200_EVAL_ROOT"]).resolve()
@@ -126,9 +129,25 @@ def child_command(*, base: Mapping[str, Any], overlay_path: Path, candidate: str
 
 
 def scorecard(aggregates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
-    c80 = aggregates["C80"]
-    s25 = aggregates["S25"]
-    s50 = aggregates["S50"]
+    c80 = aggregates.get("C80")
+    s25 = aggregates.get("S25")
+    s50 = aggregates.get("S50")
+    if ARMS == ("S50",):
+        s50_complete = (
+            s50["cell_count"] == len(CONDITIONS)
+            and s50["complete_cell_count"] == len(CONDITIONS)
+            and s50["engineering_blocked_count"] == 0
+        )
+        return {
+            "schema": "CORELAB_PI0208_G2_S50_DIAGNOSTIC_SCORECARD_V1",
+            "classification": "S50_DESCRIPTIVE_COMPLETE" if s50_complete else "S50_DESCRIPTIVE_INCOMPLETE",
+            "basis": "S50 is a descriptive dose diagnostic after the primary C80/S25 confirmation",
+            "primary_comparison": None,
+            "S50": s50,
+            "S50_role": "descriptive_diagnostic_only",
+            "automatic_promotion_gate": False,
+        }
+    require(c80 is not None and s25 is not None, "C80 and S25 are required for the primary scorecard")
     complete = all(
         item.get("cell_count") == len(CONDITIONS)
         and item.get("complete_cell_count") == len(CONDITIONS)
@@ -155,7 +174,7 @@ def scorecard(aggregates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
         classification = "MIXED_FOR_PI_REVIEW"
         basis = "C80 or S25 contains an incomplete, rejected, aborted, or engineering-blocked cell"
     return {
-        "schema": "CORELAB_PI0200_TERMINAL_SCORECARD_V1",
+        "schema": "CORELAB_PI0208_G2_PRIMARY_SCORECARD_V1" if s50 is None else "CORELAB_PI0200_TERMINAL_SCORECARD_V1",
         "classification": classification,
         "basis": basis,
         "primary_comparison": "S25_vs_C80",
@@ -164,7 +183,7 @@ def scorecard(aggregates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
         "S50": s50,
         "matched_condition_S25_final_distance_wins": s25_wins,
         "matched_condition_C80_final_distance_wins": c80_wins,
-        "S50_role": "descriptive_diagnostic_only",
+        "S50_role": "descriptive_diagnostic_only" if s50 is not None else None,
         "automatic_promotion_gate": complete,
     }
 
@@ -262,7 +281,15 @@ def main() -> int:
         "admission_sha256": native_eval.sha256_file(EVAL_ROOT / "admission.json"),
         "binding_sha256": native_eval.sha256_file(EVAL_ROOT / "binding.json"),
         "evidence_manifest_sha256": evidence_sha,
-        "counters": {"model_loads": 15, "model_forward_cells": 15, "gr00t_forwards": 60, "reference_updates": 45, "native_ticks": 3675, "training": 0, "backward": 0, "optimizer": 0, "Validation-E": 0, "Holdout-F": 0, "WBC": 0, "simulator": 0, "hardware": 0},
+        "counters": {
+            "model_loads": len(ARMS),
+            "model_forward_cells": len(ARMS) * len(CONDITIONS),
+            "gr00t_forwards": len(ARMS) * len(CONDITIONS) * native_eval.FORWARDS_PER_CELL,
+            "reference_updates": len(ARMS) * len(CONDITIONS) * native_eval.UPDATES_PER_CELL,
+            "native_ticks": len(ARMS) * len(CONDITIONS) * native_eval.TICKS_PER_CELL,
+            "training": 0, "backward": 0, "optimizer": 0, "Validation-E": 0, "Holdout-F": 0,
+            "WBC": 0, "simulator": 0, "hardware": 0,
+        },
     }
     native_eval.write_json(EVAL_ROOT / "result_seal.json", seal)
     print(json.dumps({"status": card["classification"], "scorecard": str(EVAL_ROOT / "scorecard.json"), "evidence_manifest_sha256": evidence_sha}, sort_keys=True))
