@@ -250,7 +250,15 @@ def _verify_training_record(path: Path, checkpoint: Path, key: str) -> dict[str,
     result = read_json(path)
     expected_arm = ARM_SPECS[key]["arm"]
     require(result.get("status") == "PASS" and result.get("arm") == expected_arm, f"{key} training result is not PASS")
-    step = int(result.get("global_step", -1))
+    reported_step = result.get("global_step")
+    if reported_step is None:
+        # The accepted historical E record omits this field; the sealed
+        # checkpoint trainer_state is the authoritative step record.
+        step = int(read_json(checkpoint / "trainer_state.json").get("global_step", -1))
+        step_source = "checkpoint.trainer_state.json"
+    else:
+        step = int(reported_step)
+        step_source = "training_result.json"
     require(step == ARM_SPECS[key]["step"], f"{key} global step drift")
     require(str(Path(result.get("final_checkpoint", "")).resolve()) == str(checkpoint.resolve()), f"{key} checkpoint path drift")
     require(int(result.get("model_forward", -1)) == step and int(result.get("backward", -1)) == step and int(result.get("optimizer_steps", -1)) == step, f"{key} training counters drift")
@@ -259,7 +267,7 @@ def _verify_training_record(path: Path, checkpoint: Path, key: str) -> dict[str,
         require(result.get("identities", {}).get("base_checkpoint", {}).get("tree_sha256") == ARM_SPECS["E256"]["tree"], f"{key} base identity drift")
     else:
         require(result.get("identities", {}).get("base_checkpoint", {}).get("tree_sha256") == "231e2cff6690242601147b3812298c806030f6562116df248e8b45c5ce53cd16", "E base identity drift")
-    return {"path": str(path), "sha256": sha256_file(path), "schema": result.get("schema"), "arm": expected_arm, "global_step": step, "forward": int(result["model_forward"]), "backward": int(result["backward"]), "optimizer_steps": int(result["optimizer_steps"])}
+    return {"path": str(path), "sha256": sha256_file(path), "schema": result.get("schema"), "arm": expected_arm, "global_step": step, "global_step_source": step_source, "reported_global_step": reported_step, "forward": int(result["model_forward"]), "backward": int(result["backward"]), "optimizer_steps": int(result["optimizer_steps"])}
 
 
 def _verify_checkpoint(key: str, path: Path) -> dict[str, Any]:
