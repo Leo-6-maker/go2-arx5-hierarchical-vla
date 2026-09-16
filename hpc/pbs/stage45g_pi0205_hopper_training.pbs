@@ -11,7 +11,7 @@
 set -euo pipefail
 
 REPO=/scratch/e1192548/stage45f_pi0188_hopper_worktree_v3
-EXPECTED_HEAD=4d608884d1cd25cfba56e3dfe88c90cc537898dd
+EXPECTED_HEAD=${PI0205_EXPECTED_HEAD:?PI0205_EXPECTED_HEAD is required}
 PYTHON=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
 OUTPUT_BASE=/hpctmp/e1192548/stage45g_pi0205_hopper_training_20260916
 NEUTRAL_BASE=/scratch/e1192548/pi0205_hopper_neutral_20260916
