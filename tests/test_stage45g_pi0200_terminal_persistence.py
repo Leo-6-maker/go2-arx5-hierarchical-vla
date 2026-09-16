@@ -40,7 +40,8 @@ def test_terminal_segments_are_buffered_before_fail_closed_checks() -> None:
 
 def test_pi0202_restores_proven_a40_envelope_before_science() -> None:
     text = WRAPPER.read_text(encoding="utf-8")
-    assert "host=gn-a40-031" in text
+    assert "host=gn-a40-031" not in text
+    assert "#PBS -l select=1:ncpus=36:ngpus=1:mem=240gb" in text
     assert "ubuntu-desktop_24.04-cu12.6.2-isaac.sif" in text
     assert "--cleanenv" in text
     assert text.index("stage45g_pi0202_native_preflight.py") < text.rindex('"${DRIVER}"')
