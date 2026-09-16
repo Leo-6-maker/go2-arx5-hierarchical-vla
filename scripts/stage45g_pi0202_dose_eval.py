@@ -21,7 +21,7 @@ ARMS = tuple(item.strip() for item in _arm_text.split(",") if item.strip())
 if not ARMS or any(item not in {"C80", "S25", "S50"} for item in ARMS) or len(set(ARMS)) != len(ARMS):
     raise RuntimeError("PI0208_ARMS must contain unique values from C80,S25,S50")
 CONDITIONS = tuple(native_eval.CONDITION_ORDER)
-RUNNER = REPO / "scripts" / "stage43_corelab_initial_condition.py"
+RUNNER = Path(os.environ.get("PI0200_RUNNER", str(REPO / "scripts" / "stage43_corelab_initial_condition.py"))).resolve()
 EVAL_ROOT = Path(os.environ["PI0200_EVAL_ROOT"]).resolve()
 BASE_BUNDLE = Path(os.environ["PI0200_STAGE43_BUNDLE"]).resolve()
 TRAINING_ROOT = Path(os.environ["PI0200_TRAINING_ROOT"]).resolve()
@@ -221,6 +221,7 @@ def main() -> int:
         "candidate_paths": {arm: str(TRAINING_ROOT / arm / "checkpoint-80") for arm in ARMS},
         "stage43_historical_bundle_sha256": EXPECTED_BUNDLE_SHA256,
         "stage43_historical_runner_sha256": base["executable_lineage"]["runner_sha256"],
+        "authorized_runner_path": str(RUNNER),
         "authorized_corrected_runner_sha256": CORRECTED_RUNNER_SHA256,
         "stage43_evidence_source_sha256": SOURCE_SHA256,
         "training": training_records,
