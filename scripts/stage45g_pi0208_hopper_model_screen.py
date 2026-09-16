@@ -275,10 +275,12 @@ def _verify_checkpoint(key: str, path: Path) -> dict[str, Any]:
     entries_tree, entries = training.tree_digest(path, spec["prefix"])
     require(len(entries) == 19, f"{key} checkpoint file count drift: {len(entries)}")
     require(entries_tree == spec["tree"], f"{key} checkpoint tree drift: {entries_tree}")
+    processor_config_sha256 = sha256_file(path / "processor_config.json")
+    statistics_sha256 = sha256_file(path / "statistics.json")
     stats = _verify_structured_stats(path / "experiment_cfg" / "structured_action_statistics.json")
     state = read_json(path / "trainer_state.json")
     require(int(state.get("global_step", -1)) == spec["step"], f"{key} trainer state step drift")
-    return {"label": spec["label"], "path": str(path.resolve()), "tree_sha256": entries_tree, "tree_prefix": spec["prefix"], "file_count": len(entries), "total_bytes": sum(int(item["bytes"]) for item in entries), "global_step": spec["step"], "structured_stats": stats}
+    return {"label": spec["label"], "path": str(path.resolve()), "tree_sha256": entries_tree, "tree_prefix": spec["prefix"], "file_count": len(entries), "total_bytes": sum(int(item["bytes"]) for item in entries), "global_step": spec["step"], "processor_config_sha256": processor_config_sha256, "statistics_sha256": statistics_sha256, "structured_stats": stats}
 
 
 def audit_inputs(args: argparse.Namespace, gpu: Mapping[str, Any]) -> dict[str, Any]:
@@ -315,6 +317,8 @@ def audit_inputs(args: argparse.Namespace, gpu: Mapping[str, Any]) -> dict[str, 
         result_path = checkpoint.parent / "training_result.json"
         invocation_path = checkpoint.parent / "training_invocation.json"
         records[key] = {"result": _verify_training_record(result_path, checkpoint, key), "invocation": {"path": str(invocation_path), "sha256": sha256_file(_regular(invocation_path, f"{key} training invocation"))}}
+    require(len({item["processor_config_sha256"] for item in checkpoints.values()}) == 1, "checkpoint-local processor config drift across arms")
+    require(len({item["statistics_sha256"] for item in checkpoints.values()}) == 1, "checkpoint-local statistics drift across arms")
     descriptor = stage45c._verify_train24_descriptor_closure(args.snapshot_root, args.dataset)
     return {"checkout": checkout, "gpu": dict(gpu), "dataset": dataset, "support_rows": rows_identity, "support_packs": {"visited": visited, "expert": expert}, "groot": groot, "groot_manifest": {"path": str(manifest), "sha256": sha256_file(manifest)}, "modality": {"path": str(modality), "sha256": sha256_file(modality)}, "config": {"path": str(config), "sha256": sha256_file(config)}, "full24_runtime_stats": runtime_stats, "cosmos": {"root": str(cosmos_root), "revision": COSMOS_REVISION, "tree_sha256": cosmos_tree, "entry_count": cosmos_entries}, "checkpoints": checkpoints, "training_records": records, "descriptor_closure": descriptor, "screen_seed": SCREEN_SEED}
 
@@ -462,7 +466,7 @@ def execute(args: argparse.Namespace) -> dict[str, Any]:
     require(not any(name == "torch" or name.startswith(("torch.", "transformers", "gr00t", "isaacgym")) for name in sys.modules), "model runtime imported before pre-model seal")
 
     from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor
-    runtime_processor, embodiment, modality_configs = _build_runtime_processor(groot_source=args.groot_source.resolve(), base_checkpoint=args.e256.resolve(), dataset_dir=args.dataset.resolve(), modality_path=args.modality.resolve(), cosmos_snapshot=args.cosmos_root.resolve() / "snapshots" / COSMOS_REVISION)
+    runtime_processor, embodiment, modality_configs = _build_runtime_processor(groot_source=args.groot_source.resolve(), base_checkpoint=args.e256.resolve(), dataset_dir=args.dataset.resolve(), modality_path=args.modality.resolve(), cosmos_snapshot=args.cosmos_root.resolve() / "snapshots" / COSMOS_REVISION, expected_processor_config_sha256=audit["checkpoints"]["E256"]["processor_config_sha256"], expected_statistics_sha256=audit["checkpoints"]["E256"]["statistics_sha256"])
     full_windows = stage45c._prepare_train24_windows(runtime_processor, embodiment, modality_configs, args.dataset.resolve(), audit["descriptor_closure"]["snapshots"])
     require(len(full_windows) == 24, "FULL24 window materialization drift")
     for index, window in enumerate(full_windows):

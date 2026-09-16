@@ -662,6 +662,8 @@ def _build_runtime_processor(
     dataset_dir: Path,
     modality_path: Path,
     cosmos_snapshot: Path,
+    expected_processor_config_sha256: str = EXPECTED_BASE_PROCESSOR_CONFIG_SHA256,
+    expected_statistics_sha256: str = EXPECTED_BASE_STATISTICS_SHA256,
 ) -> tuple[Any, Any, Any]:
     """Build the exact custom processor used by the Stage22 training path."""
 
@@ -685,9 +687,9 @@ def _build_runtime_processor(
 
     processor_config_path = base_checkpoint / "processor_config.json"
     statistics_path = base_checkpoint / "statistics.json"
-    if _sha256_file(processor_config_path) != EXPECTED_BASE_PROCESSOR_CONFIG_SHA256:
+    if _sha256_file(processor_config_path) != expected_processor_config_sha256:
         raise ValueError("BASE processor_config.json SHA256 mismatch")
-    if _sha256_file(statistics_path) != EXPECTED_BASE_STATISTICS_SHA256:
+    if _sha256_file(statistics_path) != expected_statistics_sha256:
         raise ValueError("BASE statistics.json SHA256 mismatch")
     flat_stats_path = dataset_dir / "meta" / "stats.json"
     relative_stats_path = dataset_dir / "meta" / "relative_stats.json"
