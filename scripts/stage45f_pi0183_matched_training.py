@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Minimal PI0183 E/S20 schedule consumer and matched trainer.
+"""Minimal PI0205 C80/S25/S50 schedule consumer and matched trainer.
 
 --trace is dependency-free and validates the frozen schedule plus the real
 FULL24/support paths. --trace-runtime uses the actual GR00T processor, dataset
@@ -29,7 +29,10 @@ for _path in (SRC, SCRIPTS):
     if str(_path) not in sys.path:
         sys.path.insert(0, str(_path))
 
-SCHEDULE_SHA256 = "defd516cc2922d34ea5fcafef35b0c44288d8e78c4791c66cc51c7c7cd402e5e"
+SCHEDULE_SHA256 = "03634d5adec0366f1f8550f8cb10f48cc0096dc6e2d69f4d9de4a90c10376bb7"
+SCHEDULE_SCHEMA = "CORELAB_PI0200_E256_SUPPORT_DOSE_SCHEDULE_V1"
+ARM_ORDER = ("C80", "S25", "S50")
+UPDATE_COUNT = 80
 ROWS_SHA256 = "ab08414ac5cdda3cfadf1a08e5a85ccc3ec96fec74b32b6bf34bb5625f84f876"
 VISITED_TREE_SHA256 = "f5ccefcb17594d563dce24aae3e476b7c56d2e6e75304a7358b4ec887aafb416"
 EXPERT_TREE_SHA256 = "9b77dbddaf7b7fca6aacf55b0f68b202b398c8f1aa1dd0f0437d5dc18398be13"
@@ -48,7 +51,7 @@ GROOT_MANIFEST_PAYLOAD_SHA256 = "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8
 GROOT_PAYLOAD_TREE_SHA256 = "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b"
 COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 
-DEFAULT_SCHEDULE = REPO / "reports/stage45f_pi0181_visited_state_support_20260914/s20_schedule.json"
+DEFAULT_SCHEDULE = REPO / "reports/stage45g_pi0200_e256_support_dose_response_20260916/dose_response_schedule.json"
 DEFAULT_ROWS = REPO / "reports/stage45f_pi0182_state_support_training_admission_20260914/origin_classified_rows.jsonl"
 DEFAULT_SUPPORT_ROOT = REPO / "reports/stage45f_pi0181_visited_state_support_20260914"
 DEFAULT_DATASET = Path("/var/cache/users/liuyu-nfs/stage45c_pi0100_train24_eval/evidence_completion_v3_pi0101_track_s/payload/full24_dataset/lerobot_train")
@@ -164,28 +167,42 @@ def load_schedule(path: Path) -> dict[str, Any]:
     observed = sha256_file(path)
     require(observed == SCHEDULE_SHA256, f"schedule SHA mismatch: {observed}")
     schedule = read_json(path)
-    require(schedule.get("schema") == "CORELAB_PI0181_S20_DETERMINISTIC_SCHEDULE_V1", "schedule schema drift")
-    require(schedule.get("seed") == 6164 and schedule.get("update_count") == 256, "schedule seed/count drift")
-    require(schedule.get("full24_slot_count") == 24 and schedule.get("visited_row_count") == 20, "schedule cardinality drift")
-    require(len(schedule.get("full24_sequence", [])) == 256, "full24 sequence length drift")
+    require(schedule.get("schema") == SCHEDULE_SCHEMA, "schedule schema drift")
+    require(schedule.get("status") == "SEALED", "schedule status drift")
+    require(schedule.get("seed") == 6164 and schedule.get("update_count") == UPDATE_COUNT, "schedule seed/count drift")
+    require(schedule.get("full24_tree_sha256") == FULL24_TREE_SHA256, "schedule FULL24 tree drift")
+    require(schedule.get("source_rows_sha256") == ROWS_SHA256, "schedule row binding drift")
+    require(schedule.get("source_schedule_sha256") == "defd516cc2922d34ea5fcafef35b0c44288d8e78c4791c66cc51c7c7cd402e5e", "source schedule binding drift")
+    full24_sequence = schedule.get("full24_sequence", [])
+    require(len(full24_sequence) == UPDATE_COUNT, "full24 sequence length drift")
+    require(all(isinstance(slot, int) and 0 <= slot < 24 for slot in full24_sequence), "full24 sequence value drift")
     require(len(schedule.get("visited_cycle", [])) == 20, "visited cycle length drift")
-    require(isinstance(schedule.get("full24_sequence_sha256"), str), "full24 sequence digest missing")
-    require(isinstance(schedule.get("visited_cycle_sha256"), str), "visited cycle digest missing")
-    for arm in ("E", "S20"):
-        slots = schedule.get(arm)
-        require(isinstance(slots, list) and len(slots) == 256, f"{arm} schedule length drift")
-        require([int(slot["position"]) for slot in slots] == list(range(256)), f"{arm} positions are not contiguous")
+    require(canonical_sha(full24_sequence) == schedule.get("full24_sequence_sha256"), "full24 sequence digest drift")
+    require(canonical_sha(schedule["visited_cycle"]) == schedule.get("visited_cycle_sha256"), "visited cycle digest drift")
+    arms = schedule.get("arms")
+    require(isinstance(arms, dict), "schedule arms missing")
+    expected_counts = {
+        "C80": {"FULL24": 80, "STATE_SUPPORT20": 0},
+        "S25": {"FULL24": 60, "STATE_SUPPORT20": 20},
+        "S50": {"FULL24": 40, "STATE_SUPPORT20": 40},
+    }
+    for arm in ARM_ORDER:
+        arm_spec = arms.get(arm)
+        require(isinstance(arm_spec, dict), f"{arm} schedule missing")
+        slots = arm_spec.get("slots")
+        require(isinstance(slots, list) and len(slots) == UPDATE_COUNT, f"{arm} schedule length drift")
+        require(arm_spec.get("sequence_count") == UPDATE_COUNT, f"{arm} sequence count drift")
+        require(arm_spec.get("counts") == expected_counts[arm], f"{arm} schedule counts drift")
+        require(canonical_sha(slots) == arm_spec.get("sequence_sha256"), f"{arm} sequence digest drift")
+        require([int(slot["position"]) for slot in slots] == list(range(UPDATE_COUNT)), f"{arm} positions are not contiguous")
         for slot in slots:
             require(slot["source"] in {"FULL24", "VISITED20"}, f"unknown {arm} source")
             if slot["source"] == "FULL24":
                 require(slot["visited_row_id"] is None and 0 <= int(slot["full24_slot"]) < 24, f"invalid {arm} FULL24 slot")
+                require(int(slot["full24_slot"]) == int(full24_sequence[int(slot["position"])]), f"{arm} FULL24 master binding drift")
             else:
                 require(slot["full24_slot"] is None and isinstance(slot["visited_row_id"], str), f"invalid {arm} support slot")
-    require(all(slot["source"] == "FULL24" for slot in schedule["E"]), "E is not FULL24-only")
-    require(sum(slot["source"] == "FULL24" for slot in schedule["S20"]) == 128, "S20 FULL24 count drift")
-    require(sum(slot["source"] == "VISITED20" for slot in schedule["S20"]) == 128, "S20 support count drift")
-    for position in range(0, 256, 2):
-        require(schedule["S20"][position]["full24_slot"] == schedule["E"][position]["full24_slot"], f"paired FULL24 drift at {position}")
+        schedule[arm] = slots
     return schedule
 
 
@@ -251,7 +268,7 @@ def validate_dataset(dataset: Path) -> dict[str, Any]:
 
 
 def trace_sequence(schedule: Mapping[str, Any], arm: str) -> list[dict[str, Any]]:
-    require(arm in {"E", "S20"}, f"unsupported arm: {arm}")
+    require(arm in ARM_ORDER, f"unsupported arm: {arm}")
     sequence = []
     for slot in schedule[arm]:
         if slot["source"] == "FULL24":
@@ -265,7 +282,7 @@ def trace_sequence(schedule: Mapping[str, Any], arm: str) -> list[dict[str, Any]
             "full24_slot": slot["full24_slot"],
             "visited_row_id": slot["visited_row_id"],
         })
-    require(len(sequence) == 256, f"{arm} trace length drift")
+    require(len(sequence) == UPDATE_COUNT, f"{arm} trace length drift")
     return sequence
 
 
@@ -288,6 +305,8 @@ def static_validate(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str,
             optional[label.replace(" ", "_")] = digest
     return schedule, rows, {
         "schedule_sha256": SCHEDULE_SHA256,
+        "schedule_schema": SCHEDULE_SCHEMA,
+        "structured_stats_sha256": STRUCTURED_STATS_SHA256,
         "rows": rows_identity,
         "dataset": dataset_identity,
         "visited_pack": visited_identity,
@@ -298,7 +317,7 @@ def static_validate(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str,
 
 def static_trace(args: argparse.Namespace) -> int:
     schedule, rows, identities, paths = static_validate(args)
-    arms = ("E", "S20") if args.arm == "both" else (args.arm,)
+    arms = ARM_ORDER if args.arm == "all" else (args.arm,)
     traces = {}
     for arm in arms:
         sequence = trace_sequence(schedule, arm)
@@ -315,7 +334,7 @@ def static_trace(args: argparse.Namespace) -> int:
             "sequence": sequence,
         }
     result = {
-        "schema": "CORELAB_PI0183_MATCHED_E_S20_CPU_TRACE_V1",
+        "schema": "CORELAB_PI0205_DOSE_SCHEDULE_CPU_TRACE_V1",
         "status": "PASS",
         "timestamp_utc": now_utc(),
         "arms": traces,
@@ -429,7 +448,7 @@ def bind_cosmos_processor(cosmos_root: Path) -> None:
         processing.build_processor = build_local_processor
 
 
-def load_config(args: argparse.Namespace, output_root: Path) -> Any:
+def load_config(args: argparse.Namespace, output_root: Path, update_count: int) -> Any:
     from gr00t.configs.base_config import get_default_config
     from stage38_structured_train import normalize_loaded_modality_configs
     config = get_default_config().load(args.config)
@@ -439,8 +458,8 @@ def load_config(args: argparse.Namespace, output_root: Path) -> Any:
     config.training.start_from_checkpoint = str(args.base_model)
     config.training.resume_from_checkpoint = False
     config.training.save_only_model = False
-    config.training.max_steps = 256
-    config.training.save_steps = 256
+    config.training.max_steps = update_count
+    config.training.save_steps = update_count
     config.training.save_total_limit = 1
     config.training.optim = "adamw_torch"
     config.training.learning_rate = 1e-4
@@ -474,7 +493,7 @@ def load_config(args: argparse.Namespace, output_root: Path) -> Any:
     config.model.use_percentiles = True
     normalize_loaded_modality_configs(config)
     require(config.training.start_from_checkpoint == str(args.base_model), "base binding drift")
-    require(config.training.max_steps == 256 and config.training.save_steps == 256, "step binding drift")
+    require(config.training.max_steps == update_count and config.training.save_steps == update_count, "step binding drift")
     require(config.data.seed == 6164 and config.data.num_shards_per_epoch == 1, "seed/sampler binding drift")
     require(config.training.eval_strategy == "no" and config.training.resume_from_checkpoint is False, "eval/resume binding drift")
     return config
@@ -515,7 +534,7 @@ def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: M
             )
 
         def __len__(self) -> int:
-            return 256
+            return len(self.slots)
 
         def get_dataset_statistics(self) -> dict[str, Any]:
             return dict(self.statistics)
@@ -625,7 +644,7 @@ def build_runtime_dataset(args: argparse.Namespace, output_root: Path, *, trace_
         "STAGE45F_PI0183_SUPPORT_ROOT": str(args.support_root),
     })
     bind_cosmos_processor(args.cosmos_root)
-    config = load_config(args, output_root)
+    config = load_config(args, output_root, int(schedule["update_count"]))
     install_scheduled_factory(config, args, schedule, rows, PROCESSOR_CONFIG_SHA256)
     from gr00t.model.gr00t_n1d7.setup import Gr00tN1d7Pipeline
     save_cfg_dir = output_root / "experiment_cfg"
@@ -654,7 +673,7 @@ def runtime_trace(args: argparse.Namespace) -> int:
         seen.append(item["sample_id"])
     require(seen == [item["sample_id"] for item in expected], "runtime trace sequence mismatch")
     result = {
-        "schema": "CORELAB_PI0183_MATCHED_E_S20_RUNTIME_CPU_TRACE_V1",
+        "schema": "CORELAB_PI0205_DOSE_RUNTIME_CPU_TRACE_V1",
         "status": "PASS",
         "timestamp_utc": now_utc(),
         "arm": args.arm,
@@ -679,6 +698,9 @@ def runtime_trace(args: argparse.Namespace) -> int:
 def train(args: argparse.Namespace) -> int:
     output_root = args.output
     schedule, rows, identities, paths = validate_runtime_inputs(args)
+    schedule_updates = int(schedule["update_count"])
+    updates = schedule_updates if args.max_steps is None else int(args.max_steps)
+    require(1 <= updates <= schedule_updates, f"max_steps must be in [1, {schedule_updates}]")
     env = prepare_runtime(output_root, args.cosmos_root, args.ffmpeg_root, args.groot_source, trace_only=False)
     os.environ.update({
         "STAGE45F_FROZEN_STRUCTURED_STATS_PATH": str(args.stats),
@@ -688,17 +710,17 @@ def train(args: argparse.Namespace) -> int:
         "STAGE45F_PI0183_SUPPORT_ROOT": str(args.support_root),
     })
     bind_cosmos_processor(args.cosmos_root)
-    config = load_config(args, output_root)
+    config = load_config(args, output_root, updates)
     install_scheduled_factory(config, args, schedule, rows, PROCESSOR_CONFIG_SHA256)
     metadata = {
-        "schema": "CORELAB_PI0183_MATCHED_ARM_TRAINING_INVOCATION_V1",
+        "schema": "CORELAB_PI0205_DOSE_ARM_TRAINING_INVOCATION_V1",
         "status": "STARTED",
         "timestamp_utc": now_utc(),
         "arm": args.arm,
         "base_family": "L1",
         "base_seed": 2223,
         "seed": 6164,
-        "updates": 256,
+        "updates": updates,
         "schedule_sha256": SCHEDULE_SHA256,
         "sequence_sha256": canonical_sha(trace_sequence(schedule, args.arm)),
         "identities": identities,
@@ -714,22 +736,31 @@ def train(args: argparse.Namespace) -> int:
     write_json(output_root / "training_invocation.json", metadata)
     from gr00t.experiment.experiment import run as gr00t_run
     gr00t_run(config)
-    trainer_state = read_json(_child(output_root, "checkpoint-256/trainer_state.json", "final trainer state"))
-    require(int(trainer_state.get("global_step", -1)) == 256, "final global_step is not 256")
+    final_checkpoint = output_root / f"checkpoint-{updates}"
+    trainer_state = read_json(_child(final_checkpoint, "trainer_state.json", "final trainer state"))
+    require(int(trainer_state.get("global_step", -1)) == updates, f"final global_step is not {updates}")
+    checkpoint_prefix = f"pi0205_{args.arm}/checkpoint-{updates}"
+    checkpoint_tree, checkpoint_entries = tree_digest(final_checkpoint, checkpoint_prefix)
     result = {
-        "schema": "CORELAB_PI0183_MATCHED_ARM_TRAINING_RESULT_V1",
+        "schema": "CORELAB_PI0205_DOSE_ARM_TRAINING_RESULT_V1",
         "status": "PASS",
         "timestamp_utc": now_utc(),
         "arm": args.arm,
         "output_root": str(output_root),
-        "final_checkpoint": str(output_root / "checkpoint-256"),
+        "final_checkpoint": str(final_checkpoint),
+        "global_step": updates,
+        "updates": updates,
         "schedule_sha256": SCHEDULE_SHA256,
         "sequence_sha256": canonical_sha(trace_sequence(schedule, args.arm)),
         "identities": identities,
         "model_construction": True,
-        "model_forward": 256,
-        "backward": 256,
-        "optimizer_steps": 256,
+        "model_forward": updates,
+        "backward": updates,
+        "optimizer_steps": updates,
+        "checkpoint_tree_sha256": checkpoint_tree,
+        "checkpoint_tree_prefix": checkpoint_prefix,
+        "checkpoint_file_count": len(checkpoint_entries),
+        "checkpoint_bytes": sum(int(entry["bytes"]) for entry in checkpoint_entries),
         "Validation-E": 0,
         "Holdout-F": 0,
         "WBC": 0,
@@ -747,7 +778,8 @@ def build_parser() -> argparse.ArgumentParser:
     modes.add_argument("--trace", action="store_true")
     modes.add_argument("--trace-runtime", action="store_true")
     modes.add_argument("--train", action="store_true")
-    parser.add_argument("--arm", choices=("E", "S20", "both"), required=True)
+    parser.add_argument("--arm", choices=(*ARM_ORDER, "all"), required=True)
+    parser.add_argument("--max-steps", type=int, help="short discarded canary only; defaults to the sealed 80 updates")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--schedule", type=Path, default=DEFAULT_SCHEDULE)
     parser.add_argument("--rows", type=Path, default=DEFAULT_ROWS)
@@ -769,7 +801,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.trace:
             return static_trace(args)
-        require(args.arm in {"E", "S20"}, "--trace-runtime/--train require --arm E or S20")
+        require(args.arm in ARM_ORDER, "--trace-runtime/--train require one of C80, S25, S50")
         if args.trace_runtime:
             return runtime_trace(args)
         return train(args)
