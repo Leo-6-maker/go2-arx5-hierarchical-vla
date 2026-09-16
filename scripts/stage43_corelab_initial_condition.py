@@ -475,10 +475,10 @@ def _run(args: argparse.Namespace) -> int:
         for handoff_index in range(evidence.COHORT_REFERENCE_UPDATE_COUNT):
             before_counter = _counter_snapshot(cases, native)
             segment, sim_time, termination = _step_rows(native, env, actors, chunk=current_chunk, sim_time=sim_time, steps=handoff_steps, update_count=handoff_index)
-            _check_rows(segment, "Stage43 %s segment %d" % (condition_id, handoff_index))
-            rows_before.append(segment)
             after_counter = _counter_snapshot(cases, native)
+            rows_before.append(segment)
             counter_events.append({"event": "WBC_SEGMENT", "condition_id": condition_id, "segment_index": handoff_index, "steps_expected": handoff_steps, "steps_observed": len(segment), "before": before_counter, "after": after_counter, "termination": termination})
+            _check_rows(segment, "Stage43 %s segment %d" % (condition_id, handoff_index))
             _require(len(segment) == handoff_steps and after_counter["wbc_step_count"] - before_counter["wbc_step_count"] == handoff_steps, "Stage43 WBC segment count mismatch")
             state_before = {"eef_world_m": _current_eef(native)[0].tolist(), "state_v1": _current_state_v1(native).as_array().tolist(), "state_v1_sha256": _array_sha(_current_state_v1(native).as_array())}
             next_chunk, _ = _request_with_counters(native=native, env=env, mailbox=mailbox, request_id=condition_id + "-q" + str(handoff_index + 1), seed=args.seed, sim_time=sim_time, gate=gate, adapter=adapter, args=worker_args, cases=cases, counter_events=counter_events)
@@ -490,10 +490,10 @@ def _run(args: argparse.Namespace) -> int:
             handoffs.append(update_event); state_events.append(update_state); executor_events.append(update_event.get("executor_update")); current_chunk = next_chunk
         before_counter = _counter_snapshot(cases, native)
         final_segment, sim_time, termination = _step_rows(native, env, actors, chunk=current_chunk, sim_time=sim_time, steps=2 * handoff_steps, update_count=evidence.COHORT_REFERENCE_UPDATE_COUNT)
-        _check_rows(final_segment, "Stage43 %s completion" % condition_id)
-        rows_after.append(final_segment)
         after_counter = _counter_snapshot(cases, native)
+        rows_after.append(final_segment)
         counter_events.append({"event": "WBC_COMPLETION_SEGMENT", "condition_id": condition_id, "steps_expected": 2 * handoff_steps, "steps_observed": len(final_segment), "before": before_counter, "after": after_counter, "termination": termination})
+        _check_rows(final_segment, "Stage43 %s completion" % condition_id)
         _require(len(final_segment) == 2 * handoff_steps and after_counter["wbc_step_count"] - before_counter["wbc_step_count"] == 2 * handoff_steps, "Stage43 completion segment count mismatch")
         native_time = float(native.traj_sim_time[0].detach().cpu().item()); ref_s = float(native.traj_batch.s_ref(native.traj_sim_time)[0].detach().cpu().item()); ref_L = float(native.traj_batch.L[0].detach().cpu().item()); ref_duration = float(current_chunk.validity_end - current_chunk.validity_start)
         endpoint = bool(native_time >= ref_duration - max(float(native.dt) * 0.5, 1e-9) and ref_s >= ref_L - max(1e-4, 1e-3 * max(ref_L, 1.0)))
