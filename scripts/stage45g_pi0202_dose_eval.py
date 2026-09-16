@@ -210,8 +210,12 @@ def main() -> int:
         arm: native_eval._verify_candidate_tree(TRAINING_ROOT / arm / "checkpoint-80", arm, {})
         for arm in ARMS
     }
-    require(not EVAL_ROOT.exists(), f"evaluation root is not fresh: {EVAL_ROOT}")
-    EVAL_ROOT.mkdir(parents=True)
+    if EVAL_ROOT.exists():
+        require(os.environ.get("PI0208_RESUME_PRESEEDED") == "1", f"evaluation root is not fresh: {EVAL_ROOT}")
+        require(not (EVAL_ROOT / "result_seal.json").exists(), "preseeded evaluation root is already sealed")
+        require(not (EVAL_ROOT / "scorecard.json").exists(), "preseeded evaluation root already has a scorecard")
+    else:
+        EVAL_ROOT.mkdir(parents=True)
     binding = {
         "schema": "CORELAB_PI0200_STAGE43_EVAL_BINDING_V1",
         "status": "READY",
