@@ -5,7 +5,6 @@ from pathlib import Path
 
 
 SOURCE = Path(__file__).parents[1] / "scripts" / "stage43_corelab_initial_condition.py"
-PREFLIGHT = Path(__file__).parents[1] / "scripts" / "stage45g_pi0202_native_preflight.py"
 WRAPPER = Path(__file__).parents[1] / "hpc" / "pbs" / "stage45g_pi0202_vanda_a40_eval.pbs"
 
 
@@ -45,15 +44,14 @@ def test_pi0202_restores_proven_a40_envelope_before_science() -> None:
     assert "#PBS -l select=1:ncpus=36:ngpus=1:mem=240gb" in text
     assert "ubuntu-desktop_24.04-cu12.6.2-isaac.sif" in text
     assert "--cleanenv" in text
-    assert text.index("stage45g_pi0202_native_preflight.py") < text.rindex('"${DRIVER}"')
+    assert "stage45g_pi0202_native_preflight.py" not in text
     assert "stage45g_pi0202_dose_eval.py" in text
 
 
 def test_pi0203_persists_before_native_teardown() -> None:
     source = SOURCE.read_text(encoding="utf-8")
+    run = ast.get_source_segment(source, next(node for node in ast.walk(ast.parse(source)) if isinstance(node, ast.FunctionDef) and node.name == "_run"))
+    assert run.index("native, env, actors, _, _ = _build_native") < run.index("worker = _start_worker")
     assert source.index("worker_return_code = _stop_worker") < source.index("materialized = _materialize")
     assert source.index("materialized = _materialize") < source.index("_write_durable_json(root / \"run_result.json\"")
     assert source.index("_write_durable_json(root / \"run_result.json\"") < source.index("env.close()")
-
-    preflight = PREFLIGHT.read_text(encoding="utf-8")
-    assert preflight.index("_write_marker(args.marker, marker)") < preflight.index("env.close()")

@@ -477,11 +477,11 @@ def _run(args: argparse.Namespace) -> int:
         worker_args.dog = Path(bundle["artifacts"]["wbc_dog_checkpoint"]["path"])
         worker_args.mode = "model_receding"
         worker_args.source_root = Path(bundle["artifacts"]["wbc_source"]["path"])
-        worker = _start_worker(worker_args, mailbox, root / "worker.log")
         native, env, actors, _, _ = _build_native(_native_args(worker_args), trajectory)
         _require(float(native.dt) > 0.0 and np.isfinite(float(native.dt)), "native dt is invalid")
         handoff_steps = int(round(HANDOFF_S / float(native.dt)))
         _require((handoff_steps, handoff_steps, handoff_steps, 2 * handoff_steps) == evidence.COHORT_SEGMENT_SCHEDULE, "observed native dt does not yield frozen 49/49/49/98 schedule")
+        worker = _start_worker(worker_args, mailbox, root / "worker.log")
         gate = TrajectorySafetyGateV1()
         adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(expected_source_frame=evidence.SOURCE_FRAME, wbc_frame=evidence.SOURCE_FRAME, tcp_semantic_id=evidence.TCP_SEMANTIC_ID, stale_timeout_s=0.75))
         setup = _apply_initial_base_delta(native, env, condition_id, evidence.COHORT_DELTAS_M[condition_id])
