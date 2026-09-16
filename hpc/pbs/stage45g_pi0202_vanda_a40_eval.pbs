@@ -131,12 +131,25 @@ run_container() {
 
 GYM_SO=/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so
 run_container /bin/bash -c "sha256sum '${GYM_SO}'; ldd '${GYM_SO}'"
+set +e
 run_container /opt/miniconda3/envs/isaacgym/bin/python -B \
   "${REPO}/scripts/stage45g_pi0202_native_preflight.py" \
   --source-root /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare \
   --trajectory /var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R2_native_camera_20260907/trajectory_input.npz \
   --sim-device cuda:0 \
-  --seed 4242
-printf 'PI0202 native preflight PASS model_forward=0 wbc_science_rows=0 raw=0\n'
+  --seed 4242 \
+  --marker "${RUN_ROOT}/native_preflight.json"
+PREFLIGHT_RC=$?
+set -e
+test -s "${RUN_ROOT}/native_preflight.json"
+grep -q '"status": "PASS"' "${RUN_ROOT}/native_preflight.json"
+grep -q '"model_forward": 0' "${RUN_ROOT}/native_preflight.json"
+grep -q '"raw": 0' "${RUN_ROOT}/native_preflight.json"
+grep -q '"wbc_science_rows": 0' "${RUN_ROOT}/native_preflight.json"
+case "${PREFLIGHT_RC}" in
+  0|139) ;;
+  *) exit "${PREFLIGHT_RC}" ;;
+esac
+printf 'PI0203 native preflight PASS model_forward=0 wbc_science_rows=0 raw=0 teardown_rc=%s\n' "${PREFLIGHT_RC}"
 
 run_container /opt/miniconda3/envs/isaacgym/bin/python -B "${DRIVER}"

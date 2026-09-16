@@ -59,6 +59,23 @@ def _require(condition: bool, message: str) -> None:
         raise RuntimeError(message)
 
 
+def _sync_evidence_tree(root: Path) -> None:
+    """Flush already-materialized evidence before native teardown."""
+
+    for path in sorted(root.rglob("*")):
+        if path.is_file() and not path.is_symlink():
+            with path.open("r+b") as handle:
+                handle.flush()
+                os.fsync(handle.fileno())
+
+
+def _write_durable_json(path: Path, value: Any) -> None:
+    _write_json(path, value)
+    with path.open("r+b") as handle:
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
 def _host_snapshot(path: Path, label: str) -> Dict[str, Any]:
     process: Dict[str, int] = {}
     try:
@@ -512,24 +529,31 @@ def _run(args: argparse.Namespace) -> int:
                 _telemetry_sample(root, telemetry, "after_native")
         except Exception as exc:
             error = error or {"type": type(exc).__name__, "message": str(exc)}
-        if env is not None:
-            try:
-                env.close()
-            except Exception:
-                pass
-        worker_return_code = _stop_worker(worker, mailbox)
+        try:
+            worker_return_code = _stop_worker(worker, mailbox)
+        except Exception as exc:
+            error = error or {"type": type(exc).__name__, "message": str(exc)}
         try:
             _telemetry_sample(root, telemetry, "after_condition")
         except Exception as exc:
             error = error or {"type": type(exc).__name__, "message": str(exc)}
         try:
             materialized = _materialize(args=args, bundle=bundle, root=root, mailbox=mailbox, condition_id=condition_id, setup=setup, cases=cases, rows_before=rows_before, rows_after=rows_after, bind_events=bind_events, handoffs=handoffs, executor_events=executor_events, state_events=state_events, counter_events=counter_events, telemetry=telemetry, native=native, worker_return_code=worker_return_code, status=status, completion=completion, metrics=metrics, artifact_checks=artifact_checks, error=error)
+            _sync_evidence_tree(root)
         except Exception as exc:
             error = error or {"type": type(exc).__name__, "message": str(exc)}; status = "BLOCKED"; materialized = None
             _write_json(root / "materialize_error.json", error)
-    result_payload = {"schema": "CORELAB_STAGE43_CONDITION_RESULT_POINTER_V1", "condition_id": condition_id, "status": status, "error": error, "materialized": None if materialized is None else {"result_sha256": materialized["result_sha256"], "manifest_sha256": materialized["manifest_sha256"]}}
-    _write_json(root / "run_result.json", result_payload)
-    print(json.dumps({"stage": evidence.STAGE_ID, "condition_id": condition_id, "status": status, "output_dir": str(root), "cases": len(cases), "wbc_steps": int(getattr(native, "stage21_wbc_forward_count", 0)) if native is not None else 0, "reference_updates": int(getattr(native, "stage21_reference_update_count", 0)) if native is not None else 0, "error": error}, sort_keys=True), flush=True)
+        result_payload = {"schema": "CORELAB_STAGE43_CONDITION_RESULT_POINTER_V1", "condition_id": condition_id, "status": status, "error": error, "materialized": None if materialized is None else {"result_sha256": materialized["result_sha256"], "manifest_sha256": materialized["manifest_sha256"]}}
+        _write_durable_json(root / "run_result.json", result_payload)
+        print(json.dumps({"stage": evidence.STAGE_ID, "condition_id": condition_id, "status": status, "output_dir": str(root), "cases": len(cases), "wbc_steps": int(getattr(native, "stage21_wbc_forward_count", 0)) if native is not None else 0, "reference_updates": int(getattr(native, "stage21_reference_update_count", 0)) if native is not None else 0, "error": error}, sort_keys=True), flush=True)
+        # Keep native teardown as the final native operation.  A SIGSEGV here
+        # is recoverable only when the persisted pointer and cell evidence are
+        # already complete; the parent verifier enforces that boundary.
+        if env is not None:
+            try:
+                env.close()
+            except Exception:
+                pass
     return 0 if status == "PASS" else 2
 
 
