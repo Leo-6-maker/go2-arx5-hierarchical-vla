@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 SOURCE = Path(__file__).parents[1] / "scripts" / "stage43_corelab_initial_condition.py"
+WRAPPER = Path(__file__).parents[1] / "hpc" / "pbs" / "stage45g_pi0202_vanda_a40_eval.pbs"
 
 
 def _call_name(node: ast.AST) -> str | None:
@@ -35,3 +36,12 @@ def test_terminal_segments_are_buffered_before_fail_closed_checks() -> None:
         check = calls.index("_check_rows")
         assert any(name in calls[:check] for name in ("rows_before.append", "rows_after.append"))
         assert "counter_events.append" in calls[:check]
+
+
+def test_pi0202_restores_proven_a40_envelope_before_science() -> None:
+    text = WRAPPER.read_text(encoding="utf-8")
+    assert "host=gn-a40-031" in text
+    assert "ubuntu-desktop_24.04-cu12.6.2-isaac.sif" in text
+    assert "--cleanenv" in text
+    assert text.index("stage45g_pi0202_native_preflight.py") < text.rindex('"${DRIVER}"')
+    assert "stage45g_pi0202_dose_eval.py" in text

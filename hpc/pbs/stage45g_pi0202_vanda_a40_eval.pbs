@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+# PI0202: restore the proven PI0198 A40 envelope, preflight once, then score C80/S25/S50.
+#PBS -N pi0202_eval
+#PBS -q interactive_gpu
+# GN-A40-031 completed PI0198 job 1365183 under this exact runtime envelope.
+#PBS -l select=1:ncpus=36:ngpus=1:mem=240gb:host=gn-a40-031
+#PBS -l walltime=12:00:00
+#PBS -o /scratch/leonliu/pi0200_e256_support_dose_response_20260916/pbs_pi0202_eval.log
+#PBS -j oe
+
+set -euo pipefail
+
+ROOT=/scratch/leonliu/pi0200_e256_support_dose_response_20260916
+REPO=/scratch/leonliu/pi0197_runtime/repo_09c485c
+: "${PI0202_EXPECTED_HEAD:?}"
+EXPECTED_HEAD=${PI0202_EXPECTED_HEAD}
+APPTAINER=/cm/shared/apps/apptainer/1.4.1/bin/apptainer
+IMAGE=/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/packages/ubuntu-desktop_24.04-cu12.6.2-isaac.sif
+NATIVE_SITE=/scratch/leonliu/pi0191_runtime/torch_cu121_v1/site-packages
+GROOT_SITE=/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1/materialized/stage22_runtime/runtime/venv/lib/python3.12/site-packages
+NATIVE_NINJA=/scratch/leonliu/pi0197_runtime/pi0197_ninja_target_v4_08639e19/bin/ninja
+DRIVER=${REPO}/scripts/stage45g_pi0202_dose_eval.py
+TRAINING_ROOT=${ROOT}/training
+EVAL_ROOT=${ROOT}/evaluation_pi0202
+STAGE43_ROOT=/scratch/leonliu/pi0197_runtime/stage43_corelab_controlled_cohort_20260908
+STAGE40_ROOT=/scratch/leonliu/leon-storage/stage40_frozen_inputs_20260907_v1
+TINY1=${STAGE40_ROOT}/materialized/tiny1_h2stats_lerobot_v2/tiny1_h2stats_lerobot_v2
+WBC_ROOT=${STAGE40_ROOT}/materialized/wbc/WBCTrackingShare
+TRAJECTORY=/scratch/leonliu/pi0192_stage43_input_relay/E1_W0_00.npz
+STAGE43_BUNDLE=${STAGE43_ROOT}/stage43_execution_bundle.json
+MODEL_PYTHON=${REPO}/scripts/stage45f_pi0197_model_python.sh
+
+JOB_TAG=${PBS_JOBID//[^A-Za-z0-9_.-]/_}
+RUN_ROOT=${ROOT}/pi0202_jobs/${JOB_TAG}
+test ! -e "${EVAL_ROOT}"
+mkdir -p "${RUN_ROOT}"
+exec > >(tee -a "${RUN_ROOT}/pbs.log") 2>&1
+printf 'PI0202 evaluation start job=%s host=%s\n' "${PBS_JOBID}" "$(hostname)"
+
+test -x "${APPTAINER}"
+test -f "${IMAGE}"
+test -d "${NATIVE_SITE}"
+test -d "${GROOT_SITE}"
+test -x "${NATIVE_NINJA}"
+test -f "${DRIVER}"
+test -f "${STAGE43_BUNDLE}"
+test -f "${MODEL_PYTHON}"
+test -d "${TINY1}"
+test -d "${WBC_ROOT}"
+test -f "${TRAJECTORY}"
+test -d "${TRAINING_ROOT}/C80/checkpoint-80"
+test -d "${TRAINING_ROOT}/S25/checkpoint-80"
+test -d "${TRAINING_ROOT}/S50/checkpoint-80"
+for ARM in C80 S25 S50; do
+  test -f "${TRAINING_ROOT}/${ARM}/training_result.json"
+  test -f "${TRAINING_ROOT}/${ARM}/training_invocation.json"
+done
+"${APPTAINER}" --version
+sha256sum "${IMAGE}"
+nvidia-smi
+test "$(git -C "${REPO}" rev-parse HEAD)" = "${EXPECTED_HEAD}"
+test -z "$(git -C "${REPO}" status --short --untracked-files=all)"
+test "$(sha256sum "${REPO}/scripts/stage43_corelab_evidence.py" | cut -d' ' -f1)" = 4d85ebfb3c69ceb59bd8a7e22ea0c24f8a92f5af96ce1d3e5d78ecc8829edf73
+CORRECTED_RUNNER_SHA256=$(sha256sum "${REPO}/scripts/stage43_corelab_initial_condition.py" | cut -d' ' -f1)
+printf 'PI0202 corrected runner sha256=%s\n' "${CORRECTED_RUNNER_SHA256}"
+
+GPU_COUNT=$(nvidia-smi --query-gpu=uuid --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')
+GPU_NAME=$(nvidia-smi --query-gpu=name --format=csv,noheader | sed -n '1p' | sed 's/[[:space:]]*$//')
+GPU_UUID=$(nvidia-smi --query-gpu=uuid --format=csv,noheader | sed -n '1p' | tr -d '[:space:]')
+test "${GPU_COUNT}" = 1
+test "${GPU_NAME}" = "NVIDIA A40"
+printf 'PI0202 evaluation admission name=%s uuid=%s count=%s visible=%s\n' "${GPU_NAME}" "${GPU_UUID}" "${GPU_COUNT}" "${CUDA_VISIBLE_DEVICES:-unset}"
+for SNAPSHOT in 1 2; do
+  nvidia-smi --query-gpu=timestamp,index,uuid,name,memory.total,memory.used,memory.free,utilization.gpu --format=csv,noheader > "${RUN_ROOT}/gpu_admission_${SNAPSHOT}.csv"
+  nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader > "${RUN_ROOT}/gpu_processes_${SNAPSHOT}.csv" || true
+  sleep 1
+done
+
+export CUDA_VISIBLE_DEVICES=0
+export PI0197_FFMPEG_BIN=/usr/bin/ffmpeg
+export PI0197_WORKER_LD_LIBRARY_PATH=/runtime/site-packages/torch/lib:/opt/miniconda3/envs/isaacgym/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu
+export PI0200_HEAD="${EXPECTED_HEAD}"
+export PI0200_GPU_UUID="${GPU_UUID}"
+export PI0200_CORRECTED_RUNNER_SHA256="${CORRECTED_RUNNER_SHA256}"
+export PI0200_STAGE43_SOURCE_SHA256=4d85ebfb3c69ceb59bd8a7e22ea0c24f8a92f5af96ce1d3e5d78ecc8829edf73
+export PI0200_REPO="${REPO}"
+export PI0200_TRAINING_ROOT="${TRAINING_ROOT}"
+export PI0200_EVAL_ROOT="${EVAL_ROOT}"
+export PI0200_STAGE43_BUNDLE=/var/cache/users/liuyu-nfs/stage43_corelab_controlled_cohort_20260908/stage43_execution_bundle.json
+export PI0202_EXPECTED_HEAD="${EXPECTED_HEAD}"
+
+NATIVE_LD="/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/.singularity.d/libs:/opt/miniconda3/envs/isaacgym/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cudnn/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_runtime/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cublas/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cusparse/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cufft/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/curand/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/nvjitlink/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda_nvrtc/lib:/opt/miniconda3/envs/isaacgym/lib/python3.8/site-packages/nvidia/cuda/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:${NATIVE_SITE}/torch/lib"
+
+HOME_DIR=${RUN_ROOT}/runtime/home
+TMP_DIR=${RUN_ROOT}/runtime/tmp
+CACHE_DIR=${RUN_ROOT}/runtime/cache
+mkdir -p "${HOME_DIR}" "${TMP_DIR}" "${CACHE_DIR}/torch_extensions"
+
+run_container() {
+"${APPTAINER}" exec --nv --cleanenv \
+  --bind /scratch:/scratch \
+  --bind /nfs:/nfs \
+  --bind "${REPO}:${REPO}:ro" \
+  --bind "${NATIVE_SITE}:/runtime/site-packages:ro" \
+  --bind "${GROOT_SITE}:/runtime/groot-site:ro" \
+  --bind "$(dirname "${NATIVE_NINJA}"):/runtime/ninja/bin:ro" \
+  --bind "${STAGE43_ROOT}:/var/cache/users/liuyu-nfs/stage43_corelab_controlled_cohort_20260908:ro" \
+  --bind "${STAGE40_ROOT}:/var/cache/users/liuyu-nfs/stage40_frozen_inputs_20260907_v1:ro" \
+  --bind "${STAGE40_ROOT}/materialized/stage22_runtime:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10:ro" \
+  --bind "${STAGE40_ROOT}/materialized/groot_base_model/GR00T-N1.7-3B:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B:ro" \
+  --bind "${STAGE40_ROOT}/materialized/modality/go2_arx5_modality.py:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/artifacts/go2_arx5_modality.py:ro" \
+  --bind "${TINY1}:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage23/action_pipeline_20260903_p0/tiny1_h2stats_lerobot_v2:ro" \
+  --bind "${WBC_ROOT}:/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare:ro" \
+  --bind "${TRAJECTORY}:/var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R2_native_camera_20260907/trajectory_input.npz:ro" \
+  "${IMAGE}" env \
+  HOME="${HOME_DIR}" TMPDIR="${TMP_DIR}" TMP="${TMP_DIR}" TEMP="${TMP_DIR}" \
+  XDG_CACHE_HOME="${CACHE_DIR}" TORCH_EXTENSIONS_DIR="${CACHE_DIR}/torch_extensions" \
+  HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1 \
+  PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=0 \
+  PATH="/usr/local/nvidia/bin:/runtime/ninja/bin:${PATH}" \
+  LD_LIBRARY_PATH="${NATIVE_LD}" \
+  PYTHONPATH="${REPO}:${REPO}/src:${REPO}/scripts:/runtime/site-packages" \
+  PI0200_HEAD="${PI0200_HEAD}" PI0200_GPU_UUID="${PI0200_GPU_UUID}" \
+  PI0200_CORRECTED_RUNNER_SHA256="${PI0200_CORRECTED_RUNNER_SHA256}" \
+  PI0200_STAGE43_SOURCE_SHA256="${PI0200_STAGE43_SOURCE_SHA256}" \
+  PI0200_REPO="${PI0200_REPO}" PI0200_TRAINING_ROOT="${PI0200_TRAINING_ROOT}" \
+  PI0200_EVAL_ROOT="${PI0200_EVAL_ROOT}" PI0200_STAGE43_BUNDLE="${PI0200_STAGE43_BUNDLE}" \
+  PI0202_EXPECTED_HEAD="${PI0202_EXPECTED_HEAD}" \
+  "$@"
+}
+
+GYM_SO=/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so
+run_container /bin/bash -c "sha256sum '${GYM_SO}'; ldd '${GYM_SO}'"
+run_container /opt/miniconda3/envs/isaacgym/bin/python -B \
+  "${REPO}/scripts/stage45g_pi0202_native_preflight.py" \
+  --source-root /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare \
+  --trajectory /var/cache/users/liuyu-nfs/go2-arx5-vla-stage40-rtx4080s/R2_native_camera_20260907/trajectory_input.npz \
+  --sim-device cuda:0 \
+  --seed 4242
+printf 'PI0202 native preflight PASS model_forward=0 wbc_science_rows=0 raw=0\n'
+
+run_container /opt/miniconda3/envs/isaacgym/bin/python -B "${DRIVER}"
