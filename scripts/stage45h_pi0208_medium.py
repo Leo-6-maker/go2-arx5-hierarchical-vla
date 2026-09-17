@@ -520,7 +520,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     env["TORCH_EXTENSIONS_DIR"] = str(runtime_root / "torch_extensions")
     env["TRITON_CACHE_DIR"] = str(runtime_root / "triton")
     env["STAGE45H_NATIVE_LEGACY_SITE"] = str(native_legacy_site)
-    env["PATH"] = os.pathsep.join([str(resolved_python.parent), env.get("PATH", "")])
+    env["PATH"] = os.pathsep.join([str(native_python.parent), str(resolved_python.parent), env.get("PATH", "")])
     env["LD_PRELOAD"] = str(native_preload)
     env["PYTHONPATH"] = os.pathsep.join(
         [str(repo / "scripts"), str(repo / "src"), str(isaacgym_python), str(native_compat_root)]
