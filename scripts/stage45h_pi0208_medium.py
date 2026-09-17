@@ -27,6 +27,9 @@ from typing import Any, Mapping, Sequence
 REPO = Path(__file__).resolve().parents[1]
 SRC = REPO / "src"
 SCRIPTS = REPO / "scripts"
+for _import_root in (SRC, SCRIPTS):
+    if str(_import_root) not in sys.path:
+        sys.path.insert(0, str(_import_root))
 
 STAGE43_BUNDLE_SHA256 = "127d95a2a5b9a6a40e864e029d85fd09a9e4dd55441aae58071502aa76700da6"
 BASE_S25_TREE_SHA256 = "93b8cd12dd1aa34ae1be91aa0e39baeacae0e189c72ea83d48a764a93c796492"
