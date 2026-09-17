@@ -459,10 +459,10 @@ def _child_bootstrap(*, runner: Path, bundle: Path, output: Path, condition_id: 
     # paths before native/model construction.  Keeping the argv explicit also
     # makes the child invocation auditable in the log.
     return "\n".join([
-        "import runpy, sys",
+        "import os, runpy, sys",
         "import typing as _stdlib_typing",
         "from pathlib import Path",
-        "_native_legacy_site = Path(sys.executable).parent.parent / 'lib/python3.8/site-packages'",
+        "_native_legacy_site = Path(os.environ['STAGE45H_NATIVE_LEGACY_SITE'])",
         "if not _native_legacy_site.is_dir(): raise RuntimeError(f'legacy native site-packages missing: {_native_legacy_site}')",
         "sys.path.insert(0, str(_native_legacy_site))",
         f"sys.path.insert(0, {str(Path(runner).resolve().parent)!r})",
@@ -494,6 +494,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     env.update({"CUDA_VISIBLE_DEVICES": "0", "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1", "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1", "GROOT_HF_LOCAL_FIRST": "1", "GROOT_PATCH_MISTRAL": "1"})
     native_python = Path(sys.executable)
     resolved_python = native_python.resolve()
+    native_legacy_site = native_python.parent.parent / "lib" / "python3.8" / "site-packages"
     native_public_root = resolved_python.parents[2]
     isaacgym_python = native_public_root / "isaacgym" / "python"
     native_compat_root = Path(os.environ.get("STAGE45H_NATIVE_COMPAT_ROOT", "/home/liuyu-nfs/stage13c_staging/native_compat"))
@@ -504,6 +505,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     native_preload = Path(os.environ.get("STAGE45H_NATIVE_PRELOAD", "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"))
     require(native_lib_root.is_dir(), f"native Python library root missing: {native_lib_root}")
     require(native_torch_lib.is_dir(), f"native Torch library root missing: {native_torch_lib}")
+    require(native_legacy_site.is_dir(), f"historical native site-packages missing: {native_legacy_site}")
     require(native_preload.is_file(), f"host C++ runtime missing: {native_preload}")
     runtime_root = output.parent / (output.name + ".runtime")
     for name in ("home", "tmp", "cache", "config", "data", "torch_extensions", "triton"):
@@ -517,6 +519,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     env["XDG_DATA_HOME"] = str(runtime_root / "data")
     env["TORCH_EXTENSIONS_DIR"] = str(runtime_root / "torch_extensions")
     env["TRITON_CACHE_DIR"] = str(runtime_root / "triton")
+    env["STAGE45H_NATIVE_LEGACY_SITE"] = str(native_legacy_site)
     env["PATH"] = os.pathsep.join([str(resolved_python.parent), env.get("PATH", "")])
     env["LD_PRELOAD"] = str(native_preload)
     env["PYTHONPATH"] = os.pathsep.join(
