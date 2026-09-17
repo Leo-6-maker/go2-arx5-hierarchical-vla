@@ -30,7 +30,8 @@ GROOT_MANIFEST=/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45
 COSMOS_ROOT=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B
 MODALITY=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py
 CONFIG=/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml
-STATS=/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/checkpoint-1000/experiment_cfg/structured_action_statistics.json
+TRAIN_STATS=/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/checkpoint-1000/experiment_cfg/structured_action_statistics.json
+SCREEN_STATS=/scratch/e1192548/stage45b_pi0083_runtime_parquet_v2/STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2.json
 SNAPSHOT_ROOT=/scratch/e1192548/stage45d_d1_train24_descriptor_closure_20260911_v1
 FFMPEG_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
 TORCH_SITE=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages
@@ -69,7 +70,8 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
 export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
 
-test -f "$ROWS" -a -f "$EVAL_ROWS" -a -d "$SUPPORT_ROOT" -a -d "$EVAL_SUPPORT_ROOT" -a -f "$STATS"
+test -f "$ROWS" -a -f "$EVAL_ROWS" -a -d "$SUPPORT_ROOT" -a -d "$EVAL_SUPPORT_ROOT" -a -f "$TRAIN_STATS" -a -f "$SCREEN_STATS"
+test "$(sha256sum "$SCREEN_STATS" | awk '{print $1}')" = 3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337
 if test ! -f "$SCHEDULE"; then
   "$PYTHON" "$REPO/scripts/stage45h_pi0208_medium.py" schedule \
     --output "$SCHEDULE" --rows "$ROWS" --support-root "$SUPPORT_ROOT"
@@ -80,7 +82,7 @@ fi
   --output-root "$TRAINING_ROOT" --dataset "$DATASET" --base-model "$BASE_MODEL" \
   --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
   --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
-  --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
+  --stats "$TRAIN_STATS" --ffmpeg-root "$FFMPEG_ROOT"
 
 "$PYTHON" "$REPO/scripts/stage45h_pi0208_medium.py" screen \
   --output-root "$SCREEN_ROOT" --training-root "$TRAINING_ROOT" \
@@ -88,7 +90,7 @@ fi
   --snapshot-root "$SNAPSHOT_ROOT" --dataset "$DATASET" \
   --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
   --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
-  --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
+  --stats "$SCREEN_STATS" --ffmpeg-root "$FFMPEG_ROOT"
 
 date -u
 echo PI0208_STAGE45H_HOPPER_TRAINING_AND_SCREEN_COMPLETE
