@@ -516,7 +516,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
         [str(repo / "scripts"), str(repo / "src"), str(isaacgym_python), str(native_compat_root)]
     )
     env["LD_LIBRARY_PATH"] = os.pathsep.join(
-        [str(native_lib_root), str(native_torch_lib)]
+        ["/usr/lib/x86_64-linux-gnu", "/lib/x86_64-linux-gnu", str(native_lib_root), str(native_torch_lib)]
         + ([env["LD_LIBRARY_PATH"]] if env.get("LD_LIBRARY_PATH") else [])
     )
     with log.open("w", encoding="utf-8") as handle:
