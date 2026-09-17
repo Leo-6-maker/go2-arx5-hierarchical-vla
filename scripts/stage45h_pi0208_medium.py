@@ -462,6 +462,8 @@ def _child_bootstrap(*, runner: Path, bundle: Path, output: Path, condition_id: 
         "import runpy, sys",
         "from pathlib import Path",
         f"sys.path.insert(0, {str(Path(runner).resolve().parent)!r})",
+        f"sys.path.insert(0, {str(repo.resolve() / 'src')!r})",
+        f"sys.path.insert(0, {str(repo.resolve())!r})",
         "import stage43_corelab_evidence as _e",
         "import stage45h_pi0208_medium as _h",
         f"_e.COHORT_ORDER = {ids!r}",
