@@ -548,6 +548,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ffmpeg-root", type=Path)
     parser.add_argument("--arm")
     parser.add_argument("--training-root", type=Path)
+    parser.add_argument("--snapshot-root", type=Path)
     parser.add_argument("--candidate-root", type=Path)
     parser.add_argument("--control-screen", type=Path)
     parser.add_argument("--expected-head")
