@@ -47,7 +47,7 @@ hostname
 date -u
 test "$(git -C "$REPO" rev-parse HEAD)" = "$EXPECTED_HEAD"
 test -z "$(git -C "$REPO" status --porcelain --untracked-files=all)"
-test ! -e "$ARM_ROOT" && test ! -L "$ARM_ROOT"
+test ! -L "$ARM_ROOT"
 test "$(sha256sum "$SCHEDULE" | awk '{print $1}')" = 66c36fce2b4b95c324a6690d7558eb37afb05a57f9665dbd6d2b2b30455fe963
 
 gpu_count=$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {n++} END {print n+0}')
@@ -74,12 +74,18 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
 export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
 
-"$PYTHON" "$REPO/scripts/stage45i_pi0209_velocity_profile.py" train-arm \
-  --arm "$ARM" --schedule "$SCHEDULE" --rows "$ROWS" --support-root "$SUPPORT_ROOT" \
-  --output-root "$TRAINING_ROOT" --dataset "$DATASET" --base-model "$BASE_MODEL" \
-  --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
-  --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
-  --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
+if [ -e "$ARM_ROOT" ]; then
+  test -f "$ARM_ROOT/training_result.json"
+  "$PYTHON" -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d["status"] == "PASS" and d["arm"] == sys.argv[2] and d["global_step"] == 2000 and d["model_forward"] == 2000 and d["backward"] == 2000 and d["optimizer_steps"] == 2000' "$ARM_ROOT/training_result.json" "$ARM"
+  echo "PI0209_TRAINING_REUSE=PASS arm=$ARM"
+else
+  "$PYTHON" "$REPO/scripts/stage45i_pi0209_velocity_profile.py" train-arm \
+    --arm "$ARM" --schedule "$SCHEDULE" --rows "$ROWS" --support-root "$SUPPORT_ROOT" \
+    --output-root "$TRAINING_ROOT" --dataset "$DATASET" --base-model "$BASE_MODEL" \
+    --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
+    --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
+    --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
+fi
 
 "$PYTHON" "$REPO/scripts/stage45i_pi0209_velocity_profile.py" screen-arm \
   --arm "$ARM" --output-root "$SCREEN_ROOT" --training-root "$TRAINING_ROOT" \
