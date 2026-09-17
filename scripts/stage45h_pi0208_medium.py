@@ -53,6 +53,8 @@ ACTION_DIM = 10
 COLLECTION_COUNT = 128
 EVAL_NEW_COUNT = 11
 EVAL_COUNT = 16
+# Each held-out condition is exported as the frozen q0-q3 four-row segment.
+EVAL_ROW_COUNT = EVAL_COUNT * 4
 UPDATE_COUNT = 2000
 SUPPORT_UPDATES = 400
 SUPPORT_FRACTION = 0.20
@@ -915,7 +917,7 @@ def _medium_screen_support_windows(processor: Any, embodiment: Any, rows: Mappin
             },
             "support_origin_class": row.get("origin_class", "MEDIUM_HELD_OUT_EVAL_ONLY"),
         })
-    require(len(windows) == EVAL_COUNT, f"medium screen support window count drift: {len(windows)}")
+    require(len(windows) == EVAL_ROW_COUNT, f"medium screen support window count drift: {len(windows)}")
     return windows
 
 
@@ -969,7 +971,7 @@ def _medium_screen_rule(summaries: Mapping[str, Mapping[str, Any]]) -> dict[str,
             "support_endpoint_lower": sup_support["mean_endpoint_error_m"] < ctrl_support["mean_endpoint_error_m"],
             "full24_trajectory_within_1_10x": sup_full["mean_trajectory_error_m"] <= 1.10 * ctrl_full["mean_trajectory_error_m"],
             "full24_endpoint_within_1_10x": sup_full["mean_endpoint_error_m"] <= 1.10 * ctrl_full["mean_endpoint_error_m"],
-            "no_new_nonfinite_abi_or_reject": sup_support["finite_count"] == EVAL_COUNT and sup_full["finite_count"] == 24 and sup_support["abi_valid_count"] == EVAL_COUNT and sup_full["abi_valid_count"] == 24 and no_reject,
+            "no_new_nonfinite_abi_or_reject": sup_support["finite_count"] == EVAL_ROW_COUNT and sup_full["finite_count"] == 24 and sup_support["abi_valid_count"] == EVAL_ROW_COUNT and sup_full["abi_valid_count"] == 24 and no_reject,
         }
         per_seed[seed]["positive"] = all(per_seed[seed].values())
     positive = sum(bool(value["positive"]) for value in per_seed.values())
@@ -1001,7 +1003,7 @@ def screen(args: argparse.Namespace) -> int:
 
     groot_identity = verify_extracted(args.groot_source, args.groot_manifest, expected_manifest_file_sha256=GROOT_MANIFEST_SHA256, expected_manifest_payload_sha256=GROOT_MANIFEST_PAYLOAD_SHA256, expected_payload_tree_sha256=GROOT_PAYLOAD_TREE_SHA256)
     rows = load_rows(args.rows, args.support_root, minimum=1)
-    require(len(rows) == EVAL_COUNT, f"medium evaluation row count drift: {len(rows)}")
+    require(len(rows) == EVAL_ROW_COUNT, f"medium evaluation row count drift: {len(rows)}")
     training_root = args.training_root.resolve()
     candidate_paths: dict[str, Path] = {}
     candidate_records: dict[str, Any] = {}
@@ -1031,7 +1033,7 @@ def screen(args: argparse.Namespace) -> int:
         window["index"] = index
     support_windows = _medium_screen_support_windows(runtime_processor, embodiment, rows, args.support_root.resolve())
     windows = full_windows + support_windows
-    require(len(windows) == 24 + EVAL_COUNT, "medium screen window count drift")
+    require(len(windows) == 24 + EVAL_ROW_COUNT, "medium screen window count drift")
     write_json(output / "screen_manifest.json", {"schema": "LOCALPC_PI0208_STAGE45H_MEDIUM_SCREEN_MANIFEST_V1", "status": "SEALED_BEFORE_MODEL_LOAD", "checkpoint_order": list(ARM_ORDER), "surface_order": ["FULL24", "MEDIUM_SUPPORT_EVAL"], "window_ids": {surface: [window["window_id"] for window in windows if window["surface"] == surface] for surface in ("FULL24", "MEDIUM_SUPPORT_EVAL")}, "seed": 4242, "noise_shape": [1, 40, 132], "same_noise_across_checkpoints": True, "sampler": {"timesteps": list(stage45c.TIMESTEP_IDS), "dt": stage45c.SAMPLER_DT, "carried_state": True, "official_public_sampler_called": False}, "decoder_stats_sha256": screen_impl.STATS_SHA256, "target_xyz_in_model_input": False, "evaluation_rows_sha256": sha256_file(args.rows)})
     torch, load_model = stage45c._load_torch_runtime()
     require(torch.cuda.is_available(), "CUDA unavailable")
@@ -1089,7 +1091,7 @@ def screen(args: argparse.Namespace) -> int:
             torch.cuda.empty_cache()
         require(hook_count["count"] == len(windows) * len(stage45c.TIMESTEP_IDS), f"screen action-head count drift: {arm}")
         rows_by_arm[arm] = arm_rows
-        summaries[arm] = _medium_screen_summary(arm_rows, {"FULL24": 24, "MEDIUM_SUPPORT_EVAL": EVAL_COUNT})
+        summaries[arm] = _medium_screen_summary(arm_rows, {"FULL24": 24, "MEDIUM_SUPPORT_EVAL": EVAL_ROW_COUNT})
     require(counters == {"model_construction": len(ARM_ORDER), "conditioning_passes": len(ARM_ORDER) * len(windows), "action_head_calls": len(ARM_ORDER) * len(windows) * 4, "model_forward": len(ARM_ORDER) * len(windows) * 4, "raw_prediction_count": len(ARM_ORDER) * len(windows), "derived_row_count": len(ARM_ORDER) * len(windows)}, f"screen counters drift: {counters}")
     result = {"schema": "LOCALPC_PI0208_STAGE45H_MEDIUM_HOPPER_SCREEN_V1", "status": "PASS", "execution_head": args.expected_head, "checkpoint_order": list(ARM_ORDER), "summaries": summaries, "rule": _medium_screen_rule(summaries), "counters": counters, "gpu": {"name": torch.cuda.get_device_name(torch.device("cuda:0")), "uuid": _gpu_uuid()}, "scientific_zeroes": {"training": 0, "backward": 0, "optimizer_steps": 0, "WBC": 0, "simulator": 0, "hardware": 0, "Validation-E": 0, "Holdout-F": 0}, "candidate_records": candidate_records}
     write_json(output / "screen_result.json", result)
