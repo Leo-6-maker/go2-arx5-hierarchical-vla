@@ -503,7 +503,7 @@ def load_config(args: argparse.Namespace, output_root: Path, update_count: int, 
     return config
 
 
-def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mapping[str, Mapping[str, Any]], processor_config_sha256: str):
+def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mapping[str, Mapping[str, Any]], processor_config_sha256: str, *, velocity_context: Any | None = None, velocity_materializer: Any | None = None):
     import numpy as np
     import torch
     from gr00t.data.dataset.sharded_mixture_dataset import ShardedMixtureDataset
@@ -528,6 +528,9 @@ def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: M
             self.slots = list(schedule[args.arm])
             self.rows = rows
             self.last_sample_id: str | None = None
+            self.velocity_context = velocity_context
+            self.velocity_materializer = velocity_materializer
+            self._last_expert_physical: np.ndarray | None = None
             self.adapter = StructuredStateSupportAdapterV1(
                 normalizer=full_dataset.structured_action_normalizer,
                 processor_config_sha256=processor_config_sha256,
@@ -600,6 +603,7 @@ def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: M
             )
             processed["action"] = datapoint["action"]
             processed["action_mask"] = datapoint["action_mask"]
+            self._last_expert_physical = expert_action.astype(np.float32, copy=True)
             return processed
 
         def __iter__(self):
@@ -608,12 +612,21 @@ def install_scheduled_factory(config: Any, args: argparse.Namespace, schedule: M
                     full24_slot = int(slot["full24_slot"])
                     self.last_sample_id = f"FULL24:{full24_slot}"
                     episode_data = self.full_dataset.episode_loader[full24_slot]
-                    yield self.full_dataset.get_datapoint(episode_data, 0, episode_index=full24_slot)
+                    sample = self.full_dataset.get_datapoint(episode_data, 0, episode_index=full24_slot)
+                    if self.velocity_context is not None:
+                        require(self.velocity_materializer is not None, "velocity label materializer is missing")
+                        label = self.full_dataset._label_from_frame(episode_data, full24_slot, 0)
+                        self.velocity_context(self.velocity_materializer(label), self.last_sample_id)
+                    yield sample
                 else:
                     row_id = str(slot["visited_row_id"])
                     require(row_id in self.rows, f"unknown support row: {row_id}")
                     self.last_sample_id = f"STATE_SUPPORT20:{row_id}"
-                    yield self._support_sample(row_id)
+                    sample = self._support_sample(row_id)
+                    if self.velocity_context is not None:
+                        require(self._last_expert_physical is not None, "support expert label context is missing")
+                        self.velocity_context(self._last_expert_physical, self.last_sample_id)
+                    yield sample
 
     class ScheduledFactory:
         def __init__(self, config: Any):
