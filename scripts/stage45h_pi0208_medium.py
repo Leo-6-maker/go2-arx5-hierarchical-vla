@@ -419,8 +419,8 @@ def verify_medium_bundle(bundle: Mapping[str, Any], *, expected_head: str | None
         require(stage.get("candidate_tree_sha256") == BASE_S25_TREE_SHA256, "collection candidate tree is not S25@80")
         require(stage.get("candidate_tree_prefix") == BASE_S25_TREE_PREFIX, "collection candidate tree prefix drift")
     artifacts = bundle.get("artifacts", {})
-    required_files = ("structured_stats", "modality", "trajectory", "wbc_arm_checkpoint", "wbc_dog_checkpoint")
-    required_dirs = ("structured_checkpoint", "tiny1_dataset", "cosmos_snapshot", "wbc_source", "stage10_root", "base_model_path", "model_path", "dataset_dir", "modality_config", "cosmos_snapshot_path")
+    required_files = ("structured_stats", "modality", "modality_config", "trajectory", "wbc_arm_checkpoint", "wbc_dog_checkpoint")
+    required_dirs = ("structured_checkpoint", "tiny1_dataset", "cosmos_snapshot", "wbc_source", "stage10_root", "base_model_path", "model_path", "dataset_dir", "cosmos_snapshot_path")
     for key in required_dirs:
         item = artifacts.get(key)
         require(isinstance(item, Mapping), f"bundle artifact missing: {key}")
