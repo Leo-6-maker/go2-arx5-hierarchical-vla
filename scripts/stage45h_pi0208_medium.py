@@ -29,8 +29,10 @@ SRC = REPO / "src"
 SCRIPTS = REPO / "scripts"
 
 STAGE43_BUNDLE_SHA256 = "127d95a2a5b9a6a40e864e029d85fd09a9e4dd55441aae58071502aa76700da6"
-BASE_E_TREE_SHA256 = "f91f4fd3cf3c440127c57d49cdd2dde52ce6a1294bd17a05710fba1026b9361b"
-BASE_E_TREE_PREFIX = "617089/E/checkpoint-256"
+BASE_S25_TREE_SHA256 = "93b8cd12dd1aa34ae1be91aa0e39baeacae0e189c72ea83d48a764a93c796492"
+BASE_S25_TREE_PREFIX = "pi0205_S25/checkpoint-80"
+BASE_S25_GLOBAL_STEP = 80
+BASE_S25_LABEL = "S25@80"
 FULL24_TREE_SHA256 = "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789"
 GROOT_MANIFEST_SHA256 = "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11"
 GROOT_MANIFEST_PAYLOAD_SHA256 = "a9f10b837b6086137fa519cc148275a25bf6a5f98d58df8e3c50e0a43e5b8250"
@@ -51,6 +53,7 @@ EVAL_COUNT = 16
 UPDATE_COUNT = 2000
 SUPPORT_UPDATES = 400
 SUPPORT_FRACTION = 0.20
+MAX_SUPPORT_ROWS = COLLECTION_COUNT * 4
 SEEDS = (7101, 7102, 7103)
 ARM_ORDER = tuple([f"MCTRL_{seed}" for seed in SEEDS] + [f"MSUP_{seed}" for seed in SEEDS])
 
@@ -180,11 +183,16 @@ def _polar_deltas(count: int, radius: float, phase: float, prefix: str) -> dict[
     return values
 
 
+def _coordinate_key(delta: Sequence[float]) -> tuple[float, float, float]:
+    return tuple(_clean_float(float(value)) for value in delta)  # type: ignore[return-value]
+
+
 def cohort_manifest() -> dict[str, Any]:
-    collection = _polar_deltas(32, 0.01, math.pi / 64.0, "MH_COL")
+    collection_phase = math.pi / 32.0
+    collection = _polar_deltas(32, 0.01, collection_phase, "MH_COL")
     for radius in (0.025, 0.04, 0.05):
         offset = len(collection)
-        values = _polar_deltas(32, radius, math.pi / 64.0, "MH_COL")
+        values = _polar_deltas(32, radius, collection_phase, "MH_COL")
         collection.update({f"MH_COL_{offset + index:03d}": delta for index, delta in enumerate(values.values())})
     require(len(collection) == COLLECTION_COUNT, "collection cohort count drift")
     eval_new = _polar_deltas(EVAL_NEW_COUNT, 0.035, math.pi / 22.0, "MH_EVAL")
@@ -198,6 +206,9 @@ def cohort_manifest() -> dict[str, Any]:
     }
     require(len(evaluation) == EVAL_COUNT, "evaluation cohort count drift")
     require(not set(collection).intersection(evaluation), "collection/evaluation ID overlap")
+    collection_coordinates = {_coordinate_key(delta) for delta in collection.values()}
+    evaluation_coordinates = {_coordinate_key(delta) for delta in evaluation.values()}
+    require(not collection_coordinates.intersection(evaluation_coordinates), "collection/evaluation coordinates overlap")
     return {
         "schema": "LOCALPC_PI0208_STAGE45H_COHORT_MANIFEST_V1",
         "status": "SEALED",
@@ -208,10 +219,14 @@ def cohort_manifest() -> dict[str, Any]:
         "collection_condition_order": list(collection),
         "collection_deltas_m": collection,
         "collection_count": len(collection),
-        "collection_generation_rule": "4 deterministic XY polar rings; 32 angles per ring; radii 0.010/0.025/0.040/0.050 m; phase pi/64; one pre-S0 root-state translation only",
+        "collection_radii_m": [0.01, 0.025, 0.04, 0.05],
+        "collection_phase_rad": math.pi / 32.0,
+        "collection_generation_rule": "4 deterministic XY polar rings; 32 angles per ring; radii 0.010/0.025/0.040/0.050 m; phase pi/32; one pre-S0 root-state translation only",
         "evaluation_condition_order": list(evaluation),
         "evaluation_deltas_m": evaluation,
         "evaluation_count": len(evaluation),
+        "evaluation_radius_m": 0.035,
+        "evaluation_phase_rad": math.pi / 22.0,
         "evaluation_generation_rule": "Stage43 C0-C4 plus 11 deterministic XY points at radius 0.035 m, phase pi/22; disjoint from collection by radius",
         "target_excluded_from_model_input": True,
         "validation_e_read": False,
@@ -221,7 +236,9 @@ def cohort_manifest() -> dict[str, Any]:
 
 
 def make_schedule(row_ids: Sequence[str], seed: int) -> dict[str, Any]:
-    require(len(row_ids) >= SUPPORT_UPDATES, f"need at least {SUPPORT_UPDATES} unique support rows")
+    available_rows = sorted({str(row_id) for row_id in row_ids})
+    require(len(available_rows) == len(row_ids), "support row IDs must be unique")
+    require(len(available_rows) >= SUPPORT_UPDATES, f"need at least {SUPPORT_UPDATES} unique support rows")
     rng = random.Random(int(seed))
     full: list[int] = []
     while len(full) < UPDATE_COUNT:
@@ -231,9 +248,10 @@ def make_schedule(row_ids: Sequence[str], seed: int) -> dict[str, Any]:
     full = full[:UPDATE_COUNT]
     positions = list(range(0, UPDATE_COUNT, 5))
     require(len(positions) == SUPPORT_UPDATES, "support position count drift")
-    support = list(row_ids[:SUPPORT_UPDATES])
+    support = list(available_rows)
     order_rng = random.Random(int(seed) + 45_001)
     order_rng.shuffle(support)
+    support = support[:SUPPORT_UPDATES]
     require(len(set(support)) == SUPPORT_UPDATES, "support rows are reused within arm")
     ctrl = [{"position": index, "source": "FULL24", "full24_slot": int(slot), "support_row_id": None} for index, slot in enumerate(full)]
     sup = []
@@ -248,13 +266,17 @@ def make_schedule(row_ids: Sequence[str], seed: int) -> dict[str, Any]:
         "update_count": UPDATE_COUNT,
         "support_fraction": SUPPORT_FRACTION,
         "support_update_count": SUPPORT_UPDATES,
+        "support_pool_count": len(available_rows),
+        "support_pool_sha256": canonical_sha(available_rows),
+        "selected_support_row_ids": support,
+        "selected_support_row_ids_sha256": canonical_sha(support),
         "master_full24_sequence": full,
         "master_full24_sequence_sha256": canonical_sha(full),
         "support_positions": positions,
         "support_positions_sha256": canonical_sha(positions),
         "MCTRL": ctrl,
         "MSUP": sup,
-        "pairing_rule": "MCTRL and MSUP share the exact 2000-position FULL24 master sequence; MSUP replaces positions 0,5,...,1995 without replacement",
+        "pairing_rule": "MCTRL and MSUP share the exact 2000-position FULL24 master sequence; MSUP replaces positions 0,5,...,1995 with a seed-deterministic without-replacement sample from the complete valid support pool",
     }
 
 
@@ -288,6 +310,7 @@ def load_rows(path: Path, support_root: Path, *, minimum: int = SUPPORT_UPDATES)
         _row_file(support_root, row, "expert_label_npz", f"expert row {row_id}")
         rows[row_id] = row
     require(len(rows) >= minimum, f"support row count {len(rows)} < {minimum}")
+    require(len(rows) <= MAX_SUPPORT_ROWS, f"support row count {len(rows)} > {MAX_SUPPORT_ROWS}")
     return rows
 
 
@@ -334,10 +357,15 @@ def prepare_bundle(args: argparse.Namespace) -> int:
     base_path = regular_file(args.stage43_bundle, "Stage43 bundle")
     require(sha256_file(base_path) == STAGE43_BUNDLE_SHA256, "historical Stage43 bundle SHA drift")
     base = read_json(base_path, canonical=True)
+    require(args.model_label == BASE_S25_LABEL, "Stage45H collection candidate must be S25@80")
+    require(args.model_tree_prefix == BASE_S25_TREE_PREFIX, "Stage45H S25 tree prefix drift")
     model = regular_dir(args.model_path, "candidate checkpoint")
     tree, entries = tree_digest(model, args.model_tree_prefix)
+    require(tree == BASE_S25_TREE_SHA256, f"S25@80 candidate tree drift: {tree}")
     if args.expected_tree:
         require(tree == args.expected_tree, f"candidate tree drift: {tree}")
+    trainer_state = child(model, "trainer_state.json", "S25@80 trainer state")
+    require(int(read_json(trainer_state).get("global_step", -1)) == BASE_S25_GLOBAL_STEP, "S25@80 global step drift")
     stats = regular_file(args.structured_stats, "structured statistics")
     bundle = copy.deepcopy(base)
     bundle["schema"] = "LOCALPC_PI0208_STAGE45H_EXECUTION_BUNDLE_V1"
@@ -345,6 +373,7 @@ def prepare_bundle(args: argparse.Namespace) -> int:
     bundle["repository"] = {"branch": args.branch, "head": args.repository_head}
     bundle["stage45h"] = {
         "status": "SEALED",
+        "binding_role": "COLLECTION_SOURCE_S25",
         "candidate_label": args.model_label,
         "candidate_tree_sha256": tree,
         "candidate_tree_prefix": args.model_tree_prefix,
@@ -380,6 +409,12 @@ def verify_medium_bundle(bundle: Mapping[str, Any], *, expected_head: str | None
         require(bundle.get("repository", {}).get("head") == expected_head, "Stage45H repository HEAD drift")
     stage = bundle.get("stage45h", {})
     require(stage.get("candidate_tree_verified") is True, "candidate tree was not verified before execution")
+    role = stage.get("binding_role")
+    require(role in {"COLLECTION_SOURCE_S25", "EVALUATION_CANDIDATE"}, "Stage45H binding role drift")
+    if role == "COLLECTION_SOURCE_S25":
+        require(stage.get("candidate_label") == BASE_S25_LABEL, "collection candidate label is not S25@80")
+        require(stage.get("candidate_tree_sha256") == BASE_S25_TREE_SHA256, "collection candidate tree is not S25@80")
+        require(stage.get("candidate_tree_prefix") == BASE_S25_TREE_PREFIX, "collection candidate tree prefix drift")
     artifacts = bundle.get("artifacts", {})
     required_files = ("structured_stats", "modality", "trajectory", "wbc_arm_checkpoint", "wbc_dog_checkpoint")
     required_dirs = ("structured_checkpoint", "tiny1_dataset", "cosmos_snapshot", "wbc_source", "stage10_root", "base_model_path", "model_path", "dataset_dir", "modality_config", "cosmos_snapshot_path")
@@ -464,14 +499,58 @@ def _condition_pass(root: Path) -> bool:
     return result.get("status") == "PASS" and seal.get("status") == "PASS" and int(result.get("cases", -1)) == 4
 
 
-def _extract_pack(stage_root: Path, output_root: Path, condition_ids: Sequence[str], origin_class: str) -> list[dict[str, Any]]:
+def _extract_pack(
+    stage_root: Path,
+    output_root: Path,
+    condition_ids: Sequence[str],
+    origin_class: str,
+    *,
+    cohort_manifest_sha256: str,
+    bundle_sha256: str,
+    repository_head: str,
+) -> list[dict[str, Any]]:
     import stage45f_pi0181_visited_state_support as support
 
     support.CONDITION_ORDER = tuple(condition_ids)
     support.VISITED_ROW_COUNT = 4 * len(condition_ids)
     rows, _ = support.extract_rows(stage_root, output_root)
     for row in rows:
+        condition_root = stage_root / "conditions" / str(row["condition_id"])
+        historical = row.pop("source_stage43", None)
+        row["source_stage43_input"] = historical
+        row["source_stage45h"] = {
+            "schema": "LOCALPC_PI0208_STAGE45H_CONDITION_PROVENANCE_V1",
+            "repository_head": repository_head,
+            "cohort_manifest_sha256": cohort_manifest_sha256,
+            "bundle_sha256": bundle_sha256,
+            "candidate_label": BASE_S25_LABEL,
+            "candidate_tree_sha256": BASE_S25_TREE_SHA256,
+            "origin_class": origin_class,
+            "condition_manifest_sha256": sha256_file(condition_root / "condition_manifest.json"),
+            "condition_result_sha256": sha256_file(condition_root / "condition_result.json"),
+            "condition_seal_sha256": sha256_file(condition_root / "condition_seal.json"),
+        }
         row["origin_class"] = origin_class
+    for manifest_name in ("visited_pack_manifest.json", "expert_label_manifest.json"):
+        manifest_path = output_root / manifest_name
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        historical = {
+            key: manifest.pop(key)
+            for key in ("stage43_result_sha256", "stage43_seal_sha256", "stage43_cohort_manifest_sha256")
+            if key in manifest
+        }
+        manifest["source_stage43_input"] = historical
+        manifest["source_stage45h"] = {
+            "schema": "LOCALPC_PI0208_STAGE45H_PACK_PROVENANCE_V1",
+            "repository_head": repository_head,
+            "cohort_manifest_sha256": cohort_manifest_sha256,
+            "bundle_sha256": bundle_sha256,
+            "candidate_label": BASE_S25_LABEL,
+            "candidate_tree_sha256": BASE_S25_TREE_SHA256,
+            "origin_class": origin_class,
+            "condition_ids": list(condition_ids),
+        }
+        write_json(manifest_path, manifest, overwrite=True)
     rows_path = output_root / "rows.jsonl"
     with rows_path.open("w", encoding="utf-8") as handle:
         for row in rows:
@@ -481,6 +560,7 @@ def _extract_pack(stage_root: Path, output_root: Path, condition_ids: Sequence[s
 
 def collect(args: argparse.Namespace) -> int:
     manifest = read_json(args.cohort_manifest, canonical=True)
+    require(manifest == cohort_manifest(), "Stage45H cohort manifest does not match the current frozen generator")
     bundle = read_json(args.bundle, canonical=True)
     verify_medium_bundle(bundle, expected_head=args.repository_head)
     output = args.output.resolve()
@@ -490,27 +570,51 @@ def collect(args: argparse.Namespace) -> int:
     eval_ids = tuple(manifest["evaluation_condition_order"])
     collection_deltas = manifest["collection_deltas_m"]
     eval_deltas = manifest["evaluation_deltas_m"]
+    require(len(collection_ids) == COLLECTION_COUNT, "collection cohort count drift")
+    require(len(eval_ids) == EVAL_COUNT, "evaluation cohort count drift")
     gpu_uuid = _gpu_uuid()
     runner = args.runner.resolve()
-    for group, ids, deltas in (("collection", collection_ids, collection_deltas), ("evaluation", eval_ids, eval_deltas)):
-        for condition_id in ids:
-            root = output / f"{group}_cells" / condition_id
-            if root.exists():
-                require(_condition_pass(root), f"existing incomplete {group} cell: {condition_id}")
-                continue
-            root.parent.mkdir(parents=True, exist_ok=True)
-            rc = _run_child(
-                runner=runner, bundle=args.bundle.resolve(), output=root, condition_id=condition_id,
-                delta_map=deltas, repository_head=args.repository_head, gpu_uuid=gpu_uuid,
-                model_python=args.model_python.resolve(), candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
-                candidate_tree_sha=str(bundle["stage45h"]["candidate_tree_sha256"]), log=output / "child_logs" / f"{group}__{condition_id}.log", repo=args.repo.resolve(),
-            )
-            if not _condition_pass(root):
-                raise Stage45HError(f"{group}/{condition_id} did not produce a PASS seal (rc={rc})")
+    completed_collection_ids: list[str] = []
+    collection_failures: list[dict[str, Any]] = []
+    for condition_id in collection_ids:
+        root = output / "collection_cells" / "conditions" / condition_id
+        if root.exists():
+            if _condition_pass(root):
+                completed_collection_ids.append(condition_id)
+            else:
+                collection_failures.append({"condition_id": condition_id, "status": "INCOMPLETE_EXISTING"})
+            continue
+        root.parent.mkdir(parents=True, exist_ok=True)
+        rc = _run_child(
+            runner=runner, bundle=args.bundle.resolve(), output=root, condition_id=condition_id,
+            delta_map=collection_deltas, repository_head=args.repository_head, gpu_uuid=gpu_uuid,
+            model_python=args.model_python.resolve(), candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
+            candidate_tree_sha=str(bundle["stage45h"]["candidate_tree_sha256"]), log=output / "child_logs" / f"collection__{condition_id}.log", repo=args.repo.resolve(),
+        )
+        if _condition_pass(root):
+            completed_collection_ids.append(condition_id)
+        else:
+            collection_failures.append({"condition_id": condition_id, "status": "FAILED", "return_code": rc, "log": str((output / "child_logs" / f"collection__{condition_id}.log").relative_to(output))})
+
+    for condition_id in eval_ids:
+        root = output / "evaluation_cells" / "conditions" / condition_id
+        if root.exists():
+            require(_condition_pass(root), f"existing incomplete evaluation cell: {condition_id}")
+            continue
+        root.parent.mkdir(parents=True, exist_ok=True)
+        rc = _run_child(
+            runner=runner, bundle=args.bundle.resolve(), output=root, condition_id=condition_id,
+            delta_map=eval_deltas, repository_head=args.repository_head, gpu_uuid=gpu_uuid,
+            model_python=args.model_python.resolve(), candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
+            candidate_tree_sha=str(bundle["stage45h"]["candidate_tree_sha256"]), log=output / "child_logs" / f"evaluation__{condition_id}.log", repo=args.repo.resolve(),
+        )
+        require(_condition_pass(root), f"evaluation cell failed: {condition_id} rc={rc}")
+
+    require(len(completed_collection_ids) * 4 >= SUPPORT_UPDATES, "completed collection cells cannot supply 400 rows")
     collection_pack = output / "collection_pack"
     eval_pack = output / "evaluation_pack"
-    collection_rows = _extract_pack(output / "collection_cells", collection_pack, collection_ids, "AUTONOMOUS_VISITED")
-    eval_rows = _extract_pack(output / "evaluation_cells", eval_pack, eval_ids, "MEDIUM_HELD_OUT_EVAL_ONLY")
+    collection_rows = _extract_pack(output / "collection_cells", collection_pack, completed_collection_ids, "AUTONOMOUS_VISITED", cohort_manifest_sha256=sha256_file(args.cohort_manifest), bundle_sha256=sha256_file(args.bundle), repository_head=args.repository_head)
+    eval_rows = _extract_pack(output / "evaluation_cells", eval_pack, eval_ids, "MEDIUM_HELD_OUT_EVAL_ONLY", cohort_manifest_sha256=sha256_file(args.cohort_manifest), bundle_sha256=sha256_file(args.bundle), repository_head=args.repository_head)
     unique: list[dict[str, Any]] = []
     seen: set[tuple[str, str, str, str]] = set()
     for row in collection_rows:
@@ -533,15 +637,17 @@ def collect(args: argparse.Namespace) -> int:
         "candidate_tree_sha256": bundle["stage45h"]["candidate_tree_sha256"],
         "candidate_label": bundle["stage45h"]["candidate_label"],
         "gpu_uuid": gpu_uuid,
-        "collection_condition_count": len(collection_ids),
+        "collection_condition_target_count": len(collection_ids),
+        "collection_condition_completed_count": len(completed_collection_ids),
+        "collection_failures": collection_failures,
         "evaluation_condition_count": len(eval_ids),
         "collection_rows": len(collection_rows),
         "unique_valid_support_rows": len(unique),
         "evaluation_rows": len(eval_rows),
         "medium_rows_sha256": sha256_file(medium_rows),
         "medium_eval_rows_sha256": sha256_file(medium_eval_rows),
-        "new_model_forwards": (len(collection_ids) + len(eval_ids)) * 4,
-        "new_wbc_ticks": (len(collection_ids) + len(eval_ids)) * (49 + 49 + 49 + 98),
+        "new_model_forwards": (len(completed_collection_ids) + len(eval_ids)) * 4,
+        "new_wbc_ticks": (len(completed_collection_ids) + len(eval_ids)) * (49 + 49 + 49 + 98),
         "expert_relabels": len(unique),
         "validation_e_read": False,
         "holdout_f_read": False,
@@ -556,10 +662,10 @@ def _validate_training_inputs(args: argparse.Namespace, rows: Mapping[str, Mappi
         require(getattr(args, name) is not None, f"missing training input: {name}")
     from stage45f_pi0183_matched_training import tree_digest as old_tree_digest
 
-    base_tree, base_entries = old_tree_digest(args.base_model, BASE_E_TREE_PREFIX)
-    require(base_tree == BASE_E_TREE_SHA256, f"E@256 base tree drift: {base_tree}")
-    trainer_state = read_json(child(args.base_model, "trainer_state.json", "E@256 trainer state"))
-    require(int(trainer_state.get("global_step", -1)) == 256, "E@256 global step drift")
+    base_tree, base_entries = old_tree_digest(args.base_model, BASE_S25_TREE_PREFIX)
+    require(base_tree == BASE_S25_TREE_SHA256, f"S25@80 base tree drift: {base_tree}")
+    trainer_state = read_json(child(args.base_model, "trainer_state.json", "S25@80 trainer state"))
+    require(int(trainer_state.get("global_step", -1)) == BASE_S25_GLOBAL_STEP, "S25@80 global step drift")
     dataset_tree, dataset_entries = old_tree_digest(args.dataset, "payload/lerobot_train")
     require(dataset_tree == FULL24_TREE_SHA256 and len(dataset_entries) == 85, f"FULL24 tree drift: {dataset_tree}")
     require(sha256_file(args.groot_manifest) == GROOT_MANIFEST_SHA256, "GR00T manifest SHA drift")
@@ -575,7 +681,7 @@ def _validate_training_inputs(args: argparse.Namespace, rows: Mapping[str, Mappi
     regular_dir(args.ffmpeg_root / "lib", "FFmpeg lib")
     regular_dir(args.ffmpeg_root / "compat", "FFmpeg compat")
     require(len(rows) >= SUPPORT_UPDATES, "support row count below schedule requirement")
-    return {"base_tree_sha256": base_tree, "base_file_count": len(base_entries), "dataset_tree_sha256": dataset_tree, "dataset_file_count": len(dataset_entries), "groot": groot, "stats_sha256": sha256_file(args.stats), "rows": len(rows)}
+    return {"base_label": BASE_S25_LABEL, "base_global_step": BASE_S25_GLOBAL_STEP, "base_tree_sha256": base_tree, "base_file_count": len(base_entries), "dataset_tree_sha256": dataset_tree, "dataset_file_count": len(dataset_entries), "groot": groot, "stats_sha256": sha256_file(args.stats), "rows": len(rows)}
 
 
 def train_one(args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mapping[str, Mapping[str, Any]], arm: str, seed: int) -> dict[str, Any]:
@@ -610,10 +716,13 @@ def train_one(args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mappi
         "status": "STARTED",
         "arm": arm,
         "seed": seed,
+        "process_pid": os.getpid(),
         "updates": UPDATE_COUNT,
         "schedule_sha256": sha256_file(args.schedule),
         "arm_sequence_sha256": canonical_sha(sequence),
-        "base_checkpoint_tree_sha256": BASE_E_TREE_SHA256,
+        "base_checkpoint_label": BASE_S25_LABEL,
+        "base_checkpoint_global_step": BASE_S25_GLOBAL_STEP,
+        "base_checkpoint_tree_sha256": BASE_S25_TREE_SHA256,
         "support_fraction": SUPPORT_FRACTION if arm.startswith("MSUP") else 0.0,
         "support_updates": SUPPORT_UPDATES if arm.startswith("MSUP") else 0,
         "runtime_environment": env,
@@ -644,7 +753,9 @@ def train_one(args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mappi
         "updates": UPDATE_COUNT,
         "schedule_sha256": sha256_file(args.schedule),
         "arm_sequence_sha256": canonical_sha(sequence),
-        "base_checkpoint_tree_sha256": BASE_E_TREE_SHA256,
+        "base_checkpoint_label": BASE_S25_LABEL,
+        "base_checkpoint_global_step": BASE_S25_GLOBAL_STEP,
+        "base_checkpoint_tree_sha256": BASE_S25_TREE_SHA256,
         "checkpoint_tree_sha256": checkpoint_tree,
         "checkpoint_tree_prefix": prefix,
         "checkpoint_file_count": len(entries),
@@ -654,7 +765,7 @@ def train_one(args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mappi
         "optimizer_steps": UPDATE_COUNT,
         "support_updates": SUPPORT_UPDATES if arm.startswith("MSUP") else 0,
         "support_fraction": SUPPORT_FRACTION if arm.startswith("MSUP") else 0.0,
-        "identities": {"base_checkpoint": {"tree_sha256": BASE_E_TREE_SHA256}, "structured_stats_sha256": STRUCTURED_SOURCE_STATS_SHA256, "full24_tree_sha256": FULL24_TREE_SHA256},
+        "identities": {"base_checkpoint": {"label": BASE_S25_LABEL, "global_step": BASE_S25_GLOBAL_STEP, "tree_sha256": BASE_S25_TREE_SHA256}, "structured_stats_sha256": STRUCTURED_SOURCE_STATS_SHA256, "full24_tree_sha256": FULL24_TREE_SHA256},
         "Validation-E": 0,
         "Holdout-F": 0,
         "WBC": 0,
@@ -672,10 +783,33 @@ def train_all(args: argparse.Namespace) -> int:
     records = []
     for arm in ARM_ORDER:
         seed = int(arm.split("_")[-1])
-        records.append(train_one(args, schedule, rows, arm, seed))
+        command = [
+            sys.executable, str(Path(__file__).resolve()), "train-arm",
+            "--arm", arm, "--schedule", str(args.schedule), "--rows", str(args.rows),
+            "--support-root", str(args.support_root), "--output-root", str(args.output_root),
+            "--dataset", str(args.dataset), "--base-model", str(args.base_model),
+            "--groot-source", str(args.groot_source), "--groot-manifest", str(args.groot_manifest),
+            "--cosmos-root", str(args.cosmos_root), "--modality", str(args.modality),
+            "--config", str(args.config), "--stats", str(args.stats), "--ffmpeg-root", str(args.ffmpeg_root),
+        ]
+        process = subprocess.run(command, cwd=str(REPO), env=os.environ.copy(), check=False)
+        require(process.returncode == 0, f"{arm} fresh training process failed: rc={process.returncode}")
+        result_path = args.output_root / arm / "training_result.json"
+        result = read_json(result_path)
+        require(result.get("status") == "PASS" and int(result.get("global_step", -1)) == UPDATE_COUNT, f"{arm} child result is not PASS")
+        records.append({"arm": arm, "status": "PASS", "checkpoint_tree_sha256": result.get("checkpoint_tree_sha256"), "result_sha256": sha256_file(result_path)})
     result = {"schema": "LOCALPC_PI0208_STAGE45H_TRAINING_RESULT_SET_V1", "status": "PASS", "arm_order": list(ARM_ORDER), "records": records, "identities": identities, "updates_per_arm": UPDATE_COUNT, "total_forward": len(ARM_ORDER) * UPDATE_COUNT, "total_backward": len(ARM_ORDER) * UPDATE_COUNT, "total_optimizer_steps": len(ARM_ORDER) * UPDATE_COUNT, "Validation-E": 0, "Holdout-F": 0}
     write_json(args.output_root / "training_result_set.json", result, overwrite=True)
     print(json.dumps({"status": "PASS", "output": str(args.output_root / 'training_result_set.json'), "arms": len(records), "updates_per_arm": UPDATE_COUNT}, sort_keys=True))
+    return 0
+
+
+def train_arm(args: argparse.Namespace) -> int:
+    require(args.arm in ARM_ORDER, f"unknown training arm: {args.arm}")
+    schedule = read_json(args.schedule, canonical=True)
+    rows = load_rows(args.rows, args.support_root)
+    result = train_one(args, schedule, rows, args.arm, int(args.arm.split("_")[-1]))
+    print(json.dumps({"status": "PASS", "arm": args.arm, "result": result}, sort_keys=True))
     return 0
 
 
@@ -922,6 +1056,7 @@ def _candidate_bundle(template: Mapping[str, Any], checkpoint: Path, result: Map
     bundle["repository"] = {"branch": "stage45h/medium-dagger-lite-state-support", "head": head}
     bundle["stage45h"] = {
         "status": "SEALED",
+        "binding_role": "EVALUATION_CANDIDATE",
         "candidate_label": arm,
         "candidate_tree_sha256": tree,
         "candidate_tree_prefix": prefix,
@@ -1124,7 +1259,7 @@ def evaluate(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=("cohort", "schedule", "prepare-bundle", "collect", "train", "screen", "evaluate"))
+    parser.add_argument("mode", choices=("cohort", "schedule", "prepare-bundle", "collect", "train", "train-arm", "screen", "evaluate"))
     parser.add_argument("--output", type=Path)
     parser.add_argument("--cohort-manifest", type=Path)
     parser.add_argument("--schedule", type=Path)
@@ -1157,6 +1292,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--config", type=Path)
     parser.add_argument("--stats", type=Path)
     parser.add_argument("--ffmpeg-root", type=Path)
+    parser.add_argument("--arm")
     return parser
 
 
@@ -1184,6 +1320,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             for name in ("output_root", "training_root", "cohort_manifest", "bundle_template", "screen_result", "expected_head", "runner", "model_python", "repo"):
                 require(getattr(args, name), f"--{name.replace('_', '-')} required")
             return evaluate(args)
+        if args.mode == "train-arm":
+            for name in ("arm", "schedule", "rows", "support_root", "output_root", "dataset", "base_model", "groot_source", "groot_manifest", "cosmos_root", "modality", "config", "stats", "ffmpeg_root"):
+                require(getattr(args, name), f"--{name.replace('_', '-')} required")
+            return train_arm(args)
         require(args.schedule if hasattr(args, "schedule") else args.rows, "training schedule/rows required")
         require(args.schedule is not None, "--schedule required")
         require(args.rows is not None and args.support_root is not None and args.output_root is not None, "training paths required")
