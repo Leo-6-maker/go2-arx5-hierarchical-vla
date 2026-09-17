@@ -1019,7 +1019,6 @@ def screen(args: argparse.Namespace) -> int:
     processor_hashes = {sha256_file(path / "processor_config.json") for path in candidate_paths.values()}
     statistics_hashes = {sha256_file(path / "statistics.json") for path in candidate_paths.values()}
     require(len(processor_hashes) == 1 and len(statistics_hashes) == 1, "candidate-local processor/statistics drift")
-    output.mkdir(parents=True, exist_ok=False)
     env = training.prepare_runtime(output, args.cosmos_root, args.ffmpeg_root, args.groot_source, trace_only=False)
     write_json(output / "pre_model_audit.json", {"schema": "LOCALPC_PI0208_STAGE45H_SCREEN_PRE_MODEL_AUDIT_V1", "status": "PASS", "expected_head": args.expected_head, "dataset_tree_sha256": dataset_tree, "groot": groot_identity, "candidate_records": candidate_records, "runtime_environment": env, "model_loads": 0, "model_forwards": 0, "WBC": 0, "simulator": 0, "training": 0, "Validation-E": 0, "Holdout-F": 0})
     from stage26_h1_c1_fixed_noise_local_flow import _build_runtime_processor
