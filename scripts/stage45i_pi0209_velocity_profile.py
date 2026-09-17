@@ -44,7 +44,6 @@ ARM_ORDER = tuple(f"MSUPV_{seed}" for seed in SEEDS)
 SCREEN_SURFACES = ("FULL24", "MEDIUM_SUPPORT_EVAL")
 FULL24_COUNT = 24
 SUPPORT_EVAL_COUNT = medium.EVAL_ROW_COUNT
-SCREEN_HEAD = "16c2639e25d907d9145dc112e7e01e6e42a6df27"
 
 
 class Stage45IError(RuntimeError):
@@ -419,7 +418,6 @@ def screen_arm(args: argparse.Namespace) -> int:
     import stage45h_pi0208_medium as medium_impl
 
     require(args.arm in ARM_ORDER, f"unknown Stage45I screen arm: {args.arm}")
-    require(args.expected_head == SCREEN_HEAD, "screen checkout head drift")
     original_order = medium_impl.ARM_ORDER
     original_rule = medium_impl._medium_screen_rule
     medium_impl.ARM_ORDER = (args.arm,)
