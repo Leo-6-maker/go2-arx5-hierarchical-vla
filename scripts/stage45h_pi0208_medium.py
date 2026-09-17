@@ -732,6 +732,24 @@ def _validate_training_inputs(args: argparse.Namespace, rows: Mapping[str, Mappi
     return {"base_label": BASE_S25_LABEL, "base_global_step": BASE_S25_GLOBAL_STEP, "base_tree_sha256": base_tree, "base_file_count": len(base_entries), "dataset_tree_sha256": dataset_tree, "dataset_file_count": len(dataset_entries), "groot": groot, "stats_sha256": sha256_file(args.stats), "rows": len(rows)}
 
 
+def _stage45f_schedule(schedule_slots: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    # ponytail: adapt the thin PI0208 schema at the mature Stage45F boundary; keep the sealed schedule bytes unchanged.
+    adapted: list[dict[str, Any]] = []
+    for slot in schedule_slots:
+        item = dict(slot)
+        source = str(item.get("source"))
+        require(source in {"FULL24", "STATE_SUPPORT_MEDIUM"}, f"unknown PI0208 schedule source: {source}")
+        support_row_id = item.get("support_row_id")
+        if source == "STATE_SUPPORT_MEDIUM":
+            require(isinstance(support_row_id, str) and support_row_id, "support schedule row id missing")
+        else:
+            require(support_row_id is None, "FULL24 slot unexpectedly carries support row")
+            support_row_id = None
+        item["visited_row_id"] = support_row_id
+        adapted.append(item)
+    return adapted
+
+
 def train_one(args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mapping[str, Mapping[str, Any]], arm: str, seed: int) -> dict[str, Any]:
     import stage45f_pi0183_matched_training as training
 
@@ -752,7 +770,7 @@ def train_one(args: argparse.Namespace, schedule: Mapping[str, Any], rows: Mappi
         "STAGE45H_SUPPORT_ROOT": str(args.support_root),
     })
     training.bind_cosmos_processor(args.cosmos_root)
-    arm_schedule = {arm: list(schedule["arms"][arm])}
+    arm_schedule = {arm: _stage45f_schedule(schedule["arms"][arm])}
     train_args = argparse.Namespace(**vars(args))
     train_args.arm = arm
     train_args.schedule = args.schedule
