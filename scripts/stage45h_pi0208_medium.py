@@ -897,9 +897,13 @@ def _medium_screen_support_windows(processor: Any, embodiment: Any, rows: Mappin
             anchor = np.asarray(archive["anchor_world_m"], dtype=np.float64).reshape(-1)
             target = np.asarray(archive["target_world_m"], dtype=np.float64).reshape(-1)
         with np.load(expert_path, allow_pickle=False) as archive:
+            expert_raw = np.asarray(archive["expert_action_structured_v1"])
+            expert = np.asarray(expert_raw, dtype=np.float64)
             timestamps = np.asarray(archive["source_timestamps"], dtype=np.float64)
-        require(body.shape == (96, 96, 3) and wrist.shape == (96, 96, 3) and state.shape == (10,), f"medium screen input shape drift: {row_id}")
+        require(body.shape == (96, 96, 3) and wrist.shape == (96, 96, 3) and state.shape == (10,) and expert.shape == (HORIZON, ACTION_DIM), f"medium screen input shape drift: {row_id}")
+        require(np.isfinite(expert).all(), f"medium screen expert label nonfinite: {row_id}")
         require(timestamps.shape == (HORIZON,) and np.isfinite(timestamps).all(), f"medium screen timestamp drift: {row_id}")
+        require(sha256_bytes(np.ascontiguousarray(expert_raw).tobytes()) == row["expert_action_sha256"], f"medium screen expert SHA drift: {row_id}")
         require(np.array_equal(target, np.asarray(TARGET_WORLD, dtype=np.float64)), f"medium screen target drift: {row_id}")
         windows.append({
             "surface": "MEDIUM_SUPPORT_EVAL",
@@ -910,6 +914,7 @@ def _medium_screen_support_windows(processor: Any, embodiment: Any, rows: Mappin
                 "window_id": row_id,
                 "target_world_m": target.tolist(),
                 "state_v1": state.tolist(),
+                "expert_physical_action": expert.tolist(),
                 "source_timestamps": timestamps.tolist(),
                 "observation_timestamp": float(row["observation_timestamp_s"]),
                 "anchor_world_m": anchor.tolist(),
