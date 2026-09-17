@@ -135,7 +135,10 @@ def _child(root: Path, relative: str, label: str) -> Path:
     require("\x00" not in relative and "\\" not in relative, f"unsafe {label} path: {relative!r}")
     root = root.resolve()
     path = (root / relative).resolve()
-    require(path.is_relative_to(root), f"{label} escapes root: {relative}")
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise HarnessError(f"{label} escapes root: {relative}") from exc
     _regular_file(path, label)
     return path
 
