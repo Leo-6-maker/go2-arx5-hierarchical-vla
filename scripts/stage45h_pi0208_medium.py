@@ -460,6 +460,7 @@ def _child_bootstrap(*, runner: Path, bundle: Path, output: Path, condition_id: 
     # makes the child invocation auditable in the log.
     return "\n".join([
         "import runpy, sys",
+        "import typing as _stdlib_typing",
         "from pathlib import Path",
         f"sys.path.insert(0, {str(Path(runner).resolve().parent)!r})",
         f"sys.path.insert(0, {str(repo.resolve() / 'src')!r})",
