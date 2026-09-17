@@ -9,9 +9,10 @@
 #PBS -r n
 
 set -euo pipefail
+trap 'rc=$?; echo "PI0209_PREMODEL_FAILURE line=$LINENO rc=$rc command=$BASH_COMMAND"; exit $rc' ERR
 
 REPO=/scratch/e1192548/pi0209_stage45i_hopper_20260917/repo
-EXPECTED_HEAD=a313672f9754a537234fd5104d5aadc82b9b612c
+EXPECTED_HEAD=${PI0209_EXPECTED_HEAD:?PI0209_EXPECTED_HEAD is required}
 PYTHON=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
 ROOT=/scratch/e1192548/pi0209_stage45i_hopper_20260917
 ARM=${PI0209_ARM:?PI0209_ARM is required}
