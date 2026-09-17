@@ -461,9 +461,9 @@ def _child_bootstrap(*, runner: Path, bundle: Path, output: Path, condition_id: 
     return "\n".join([
         "import runpy, sys",
         "from pathlib import Path",
+        f"sys.path.insert(0, {str(Path(runner).resolve().parent)!r})",
         "import stage43_corelab_evidence as _e",
         "import stage45h_pi0208_medium as _h",
-        f"sys.path.insert(0, {str(Path(runner).resolve().parent)!r})",
         f"_e.COHORT_ORDER = {ids!r}",
         f"_e.COHORT_IDS = {ids!r}",
         f"_e.COHORT_DELTAS_M = {dict(delta_map)!r}",
