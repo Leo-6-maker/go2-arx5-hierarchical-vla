@@ -499,7 +499,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     native_torch_lib = native_lib_root / "python3.8" / "site-packages" / "torch" / "lib"
     require(native_lib_root.is_dir(), f"native Python library root missing: {native_lib_root}")
     require(native_torch_lib.is_dir(), f"native Torch library root missing: {native_torch_lib}")
-    runtime_root = output / "runtime"
+    runtime_root = output.parent / (output.name + ".runtime")
     for name in ("home", "tmp", "cache", "config", "data", "torch_extensions", "triton"):
         (runtime_root / name).mkdir(parents=True, exist_ok=True)
     env["HOME"] = str(runtime_root / "home")
