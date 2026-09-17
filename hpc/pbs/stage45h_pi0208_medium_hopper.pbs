@@ -10,18 +10,18 @@
 
 set -euo pipefail
 
-REPO=/scratch/e1192548/stage45h_pi0208_worktree
+REPO=/scratch/e1192548/pi0208_stage45h_hopper_20260917/repo
 EXPECTED_HEAD=${PI0208_EXPECTED_HEAD:?PI0208_EXPECTED_HEAD is required}
 PYTHON=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
-INPUT_ROOT=/scratch/e1192548/stage45h_pi0208_inputs
+INPUT_ROOT=/scratch/e1192548/pi0208_stage45h_hopper_20260917/input_v1/collection_v16
 SUPPORT_ROOT=$INPUT_ROOT/collection_pack
 EVAL_SUPPORT_ROOT=$INPUT_ROOT/evaluation_pack
 ROWS=$INPUT_ROOT/medium_rows.jsonl
 EVAL_ROWS=$INPUT_ROOT/medium_eval_rows.jsonl
-SCHEDULE=$INPUT_ROOT/medium_schedules.json
-TRAINING_ROOT=/hpctmp/e1192548/stage45h_pi0208_medium_training
-SCREEN_ROOT=/hpctmp/e1192548/stage45h_pi0208_medium_screen
-NEUTRAL_ROOT=/scratch/e1192548/stage45h_pi0208_neutral
+SCHEDULE=/scratch/e1192548/pi0208_stage45h_hopper_20260917/input_v1/preflight/medium_schedules_v1.json
+TRAINING_ROOT=/hpctmp/e1192548/pi0208_stage45h_medium_training_v1
+SCREEN_ROOT=/hpctmp/e1192548/pi0208_stage45h_medium_screen_v1
+NEUTRAL_ROOT=/scratch/e1192548/pi0208_stage45h_neutral_v1
 
 DATASET=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train
 BASE_MODEL=/hpctmp/e1192548/stage45g_pi0205_hopper_training_20260916/620054.hopper-m-02/S25/checkpoint-80
@@ -30,7 +30,7 @@ GROOT_MANIFEST=/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45
 COSMOS_ROOT=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B
 MODALITY=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py
 CONFIG=/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml
-STATS=$INPUT_ROOT/structured_action_statistics.json
+STATS=/scratch/e1192548/leon-storage/runs/stage38_structured_groot_offline_20260906/stage38d_train_a7f6880/checkpoint-1000/experiment_cfg/structured_action_statistics.json
 SNAPSHOT_ROOT=/scratch/e1192548/stage45d_d1_train24_descriptor_closure_20260911_v1
 FFMPEG_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
 TORCH_SITE=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages
@@ -69,7 +69,7 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
 export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
 
-test -f "$ROWS" -a -f "$EVAL_ROWS" -a -d "$SUPPORT_ROOT" -a -d "$EVAL_SUPPORT_ROOT" -a -f "$STATS" -a -f "$INPUT_ROOT/full24_runtime_statistics.json"
+test -f "$ROWS" -a -f "$EVAL_ROWS" -a -d "$SUPPORT_ROOT" -a -d "$EVAL_SUPPORT_ROOT" -a -f "$STATS"
 if test ! -f "$SCHEDULE"; then
   "$PYTHON" "$REPO/scripts/stage45h_pi0208_medium.py" schedule \
     --output "$SCHEDULE" --rows "$ROWS" --support-root "$SUPPORT_ROOT"
@@ -88,7 +88,7 @@ fi
   --snapshot-root "$SNAPSHOT_ROOT" --dataset "$DATASET" \
   --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
   --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
-  --stats "$INPUT_ROOT/full24_runtime_statistics.json" --ffmpeg-root "$FFMPEG_ROOT"
+  --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
 
 date -u
 echo PI0208_STAGE45H_HOPPER_TRAINING_AND_SCREEN_COMPLETE
