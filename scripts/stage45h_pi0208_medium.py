@@ -633,7 +633,7 @@ def collect(args: argparse.Namespace) -> int:
         rc = _run_child(
             runner=runner, bundle=args.bundle.resolve(), output=root, condition_id=condition_id,
             delta_map=collection_deltas, repository_head=args.repository_head, gpu_uuid=gpu_uuid,
-            model_python=args.model_python.resolve(), candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
+            model_python=args.model_python, candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
             candidate_tree_sha=str(bundle["stage45h"]["candidate_tree_sha256"]), log=output / "child_logs" / f"collection__{condition_id}.log", repo=args.repo.resolve(),
         )
         if _condition_pass(root):
@@ -650,7 +650,7 @@ def collect(args: argparse.Namespace) -> int:
         rc = _run_child(
             runner=runner, bundle=args.bundle.resolve(), output=root, condition_id=condition_id,
             delta_map=eval_deltas, repository_head=args.repository_head, gpu_uuid=gpu_uuid,
-            model_python=args.model_python.resolve(), candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
+            model_python=args.model_python, candidate_stats_sha=str(bundle["artifacts"]["structured_stats"]["sha256"]),
             candidate_tree_sha=str(bundle["stage45h"]["candidate_tree_sha256"]), log=output / "child_logs" / f"evaluation__{condition_id}.log", repo=args.repo.resolve(),
         )
         require(_condition_pass(root), f"evaluation cell failed: {condition_id} rc={rc}")
@@ -1280,7 +1280,7 @@ def evaluate(args: argparse.Namespace) -> int:
             if root.exists():
                 require(_condition_pass(root), f"existing incomplete evaluation cell: {arm}/{condition_id}")
             else:
-                rc = _run_child(runner=args.runner.resolve(), bundle=overlays[arm], output=root, condition_id=condition_id, delta_map=deltas, repository_head=args.expected_head, gpu_uuid=gpu_uuid, model_python=args.model_python.resolve(), candidate_stats_sha=stats_sha, candidate_tree_sha=str(candidates[arm]["checkpoint_tree_sha256"]), log=output / "child_logs" / f"{arm}__{condition_id}.log", repo=args.repo.resolve())
+                rc = _run_child(runner=args.runner.resolve(), bundle=overlays[arm], output=root, condition_id=condition_id, delta_map=deltas, repository_head=args.expected_head, gpu_uuid=gpu_uuid, model_python=args.model_python, candidate_stats_sha=stats_sha, candidate_tree_sha=str(candidates[arm]["checkpoint_tree_sha256"]), log=output / "child_logs" / f"{arm}__{condition_id}.log", repo=args.repo.resolve())
                 require(_condition_pass(root), f"evaluation cell failed: {arm}/{condition_id} rc={rc}")
             cell = _cell_metrics(root)
             cell_result_path = root / "cell_result.json"
