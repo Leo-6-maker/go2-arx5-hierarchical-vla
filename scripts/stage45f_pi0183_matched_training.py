@@ -449,7 +449,7 @@ def bind_cosmos_processor(cosmos_root: Path) -> None:
         processing.build_processor = build_local_processor
 
 
-def load_config(args: argparse.Namespace, output_root: Path, update_count: int) -> Any:
+def load_config(args: argparse.Namespace, output_root: Path, update_count: int, *, seed: int = 6164) -> Any:
     from gr00t.configs.base_config import get_default_config
     from stage38_structured_train import normalize_loaded_modality_configs
     config = get_default_config().load(args.config)
@@ -477,7 +477,7 @@ def load_config(args: argparse.Namespace, output_root: Path, update_count: int) 
     config.training.use_wandb = False
     config.training.transformers_local_files_only = True
     config.training.transformers_cache_dir = os.environ["HF_HUB_CACHE"]
-    config.data.seed = 6164
+    config.data.seed = int(seed)
     config.data.num_shards_per_epoch = 1
     require(len(config.data.datasets) == 1, "exactly one FULL24 dataset is required")
     config.data.datasets[0].dataset_paths = [str(args.dataset)]
@@ -495,7 +495,7 @@ def load_config(args: argparse.Namespace, output_root: Path, update_count: int) 
     normalize_loaded_modality_configs(config)
     require(config.training.start_from_checkpoint == str(args.base_model), "base binding drift")
     require(config.training.max_steps == update_count and config.training.save_steps == update_count, "step binding drift")
-    require(config.data.seed == 6164 and config.data.num_shards_per_epoch == 1, "seed/sampler binding drift")
+    require(config.data.seed == int(seed) and config.data.num_shards_per_epoch == 1, "seed/sampler binding drift")
     require(config.training.eval_strategy == "no" and config.training.resume_from_checkpoint is False, "eval/resume binding drift")
     return config
 

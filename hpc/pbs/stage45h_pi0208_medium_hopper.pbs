@@ -1,0 +1,94 @@
+#!/bin/bash
+# PI0208 Stage45H: six matched 2000-update arms, then the frozen Hopper screen.
+# ponytail: one PBS envelope and the existing Stage38 trainer; no new worker.
+#PBS -N st45h_pi0208
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=48:00:00
+#PBS -r n
+
+set -euo pipefail
+
+REPO=/scratch/e1192548/stage45h_pi0208_worktree
+EXPECTED_HEAD=${PI0208_EXPECTED_HEAD:?PI0208_EXPECTED_HEAD is required}
+PYTHON=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+INPUT_ROOT=/scratch/e1192548/stage45h_pi0208_inputs
+SUPPORT_ROOT=$INPUT_ROOT/collection_pack
+EVAL_SUPPORT_ROOT=$INPUT_ROOT/evaluation_pack
+ROWS=$INPUT_ROOT/medium_rows.jsonl
+EVAL_ROWS=$INPUT_ROOT/medium_eval_rows.jsonl
+SCHEDULE=$INPUT_ROOT/medium_schedules.json
+TRAINING_ROOT=/hpctmp/e1192548/stage45h_pi0208_medium_training
+SCREEN_ROOT=/hpctmp/e1192548/stage45h_pi0208_medium_screen
+NEUTRAL_ROOT=/scratch/e1192548/stage45h_pi0208_neutral
+
+DATASET=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/lerobot_train
+BASE_MODEL=/hpctmp/e1192548/stage45f_pi0188_es20_training/617089.hopper-m-02_/E/checkpoint-256
+GROOT_SOURCE=/scratch/e1192548/stage45c_pi0094_native_runtime_20260909/groot-source-v4
+GROOT_MANIFEST=/scratch/e1192548/stage45b_pi0086_groot_snapshot__zhu4zz2/STAGE45B_GROOT_SOURCE_SNAPSHOT_V2.manifest.json
+COSMOS_ROOT=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B
+MODALITY=/scratch/e1192548/stage22_handoff_deb920a_20260902/payload/modality/go2_arx5_modality.py
+CONFIG=/scratch/e1192548/stage28_h2_20260904/stage28_h2_600695.hopper-m-02/h2_training/experiment_cfg/config.yaml
+STATS=$INPUT_ROOT/structured_action_statistics.json
+SNAPSHOT_ROOT=/scratch/e1192548/stage45d_d1_train24_descriptor_closure_20260911_v1
+FFMPEG_ROOT=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+TORCH_SITE=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages
+
+run_id=$(printf '%s' "$PBS_JOBID" | tr -c 'A-Za-z0-9_.-' '_')
+neutral_root=$NEUTRAL_ROOT/$run_id
+mkdir -p "$neutral_root"
+exec >"$neutral_root/job.log" 2>&1
+
+hostname
+date -u
+test "$(git -C "$REPO" rev-parse HEAD)" = "$EXPECTED_HEAD"
+test -z "$(git -C "$REPO" status --porcelain --untracked-files=all)"
+test "$(git -C "$REPO" branch --show-current)" = stage45h/medium-dagger-lite-state-support
+
+gpu_count=$(nvidia-smi --query-gpu=uuid --format=csv,noheader | awk 'NF {n++} END {print n+0}')
+test "$gpu_count" -eq 1
+gpu_name=$(nvidia-smi --query-gpu=name --format=csv,noheader | awk 'NF {print; exit}')
+case "$gpu_name" in *H100*|*H200*) ;; *) echo "unsupported GPU: $gpu_name" >&2; exit 2 ;; esac
+gpu_free_mib=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | awk 'NR==1 {print int($1)}')
+test "$gpu_free_mib" -ge 12288
+nvidia-smi --query-gpu=index,name,uuid,memory.total,memory.free,memory.used --format=csv
+nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv || true
+export CUDA_VISIBLE_DEVICES=0
+
+FFMPEG_LIB=$FFMPEG_ROOT/lib
+FFMPEG_COMPAT=$FFMPEG_ROOT/compat
+TORCHCODEC=$TORCH_SITE/torchcodec
+TORCH_LIB=$TORCH_SITE/torch/lib
+test -d "$FFMPEG_LIB" -a -d "$FFMPEG_COMPAT" -a -d "$TORCHCODEC" -a -d "$TORCH_LIB"
+ambient_ld=${LD_LIBRARY_PATH:-}
+export LD_LIBRARY_PATH="$FFMPEG_LIB:$FFMPEG_COMPAT:$TORCHCODEC:$TORCH_LIB${ambient_ld:+:$ambient_ld}"
+unset PYTHONPATH
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
+export GROOT_COMMIT_HASH=51d4c89f72fda44cbf77285c6a8114b52676b8a1
+
+test -f "$ROWS" -a -f "$EVAL_ROWS" -a -d "$SUPPORT_ROOT" -a -d "$EVAL_SUPPORT_ROOT" -a -f "$STATS" -a -f "$INPUT_ROOT/full24_runtime_statistics.json"
+if test ! -f "$SCHEDULE"; then
+  "$PYTHON" "$REPO/scripts/stage45h_pi0208_medium.py" schedule \
+    --output "$SCHEDULE" --rows "$ROWS" --support-root "$SUPPORT_ROOT"
+fi
+
+"$PYTHON" "$REPO/scripts/stage45h_pi0208_medium.py" train \
+  --schedule "$SCHEDULE" --rows "$ROWS" --support-root "$SUPPORT_ROOT" \
+  --output-root "$TRAINING_ROOT" --dataset "$DATASET" --base-model "$BASE_MODEL" \
+  --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
+  --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
+  --stats "$STATS" --ffmpeg-root "$FFMPEG_ROOT"
+
+"$PYTHON" "$REPO/scripts/stage45h_pi0208_medium.py" screen \
+  --output-root "$SCREEN_ROOT" --training-root "$TRAINING_ROOT" \
+  --expected-head "$EXPECTED_HEAD" --rows "$EVAL_ROWS" --support-root "$EVAL_SUPPORT_ROOT" \
+  --snapshot-root "$SNAPSHOT_ROOT" --dataset "$DATASET" \
+  --groot-source "$GROOT_SOURCE" --groot-manifest "$GROOT_MANIFEST" \
+  --cosmos-root "$COSMOS_ROOT" --modality "$MODALITY" --config "$CONFIG" \
+  --stats "$INPUT_ROOT/full24_runtime_statistics.json" --ffmpeg-root "$FFMPEG_ROOT"
+
+date -u
+echo PI0208_STAGE45H_HOPPER_TRAINING_AND_SCREEN_COMPLETE
