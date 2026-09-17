@@ -489,8 +489,25 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     env = os.environ.copy()
     env.update({"CUDA_VISIBLE_DEVICES": "0", "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1", "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1", "GROOT_HF_LOCAL_FIRST": "1", "GROOT_PATCH_MISTRAL": "1"})
     native_python = Path(sys.executable)
+    resolved_python = native_python.resolve()
+    native_public_root = resolved_python.parents[2]
+    isaacgym_python = native_public_root / "isaacgym" / "python"
+    native_compat_root = Path(os.environ.get("STAGE45H_NATIVE_COMPAT_ROOT", "/home/liuyu-nfs/stage13c_staging/native_compat"))
+    require(isaacgym_python.is_dir(), f"historical IsaacGym runtime missing: {isaacgym_python}")
+    require(native_compat_root.is_dir(), f"historical native compatibility root missing: {native_compat_root}")
+    native_lib_root = resolved_python.parents[1] / "lib"
+    native_torch_lib = native_lib_root / "python3.8" / "site-packages" / "torch" / "lib"
+    require(native_lib_root.is_dir(), f"native Python library root missing: {native_lib_root}")
+    require(native_torch_lib.is_dir(), f"native Torch library root missing: {native_torch_lib}")
+    env["PYTHONPATH"] = os.pathsep.join(
+        [str(repo / "scripts"), str(repo / "src"), str(isaacgym_python), str(native_compat_root)]
+    )
+    env["LD_LIBRARY_PATH"] = os.pathsep.join(
+        [str(native_lib_root), str(native_torch_lib)]
+        + ([env["LD_LIBRARY_PATH"]] if env.get("LD_LIBRARY_PATH") else [])
+    )
     with log.open("w", encoding="utf-8") as handle:
-        process = subprocess.run([str(native_python), "-B", "-u", "-"], input=bootstrap, text=True, cwd=str(repo), env=env, stdout=handle, stderr=subprocess.STDOUT, check=False)
+        process = subprocess.run([str(resolved_python), "-B", "-u", "-"], input=bootstrap, text=True, cwd=str(repo), env=env, stdout=handle, stderr=subprocess.STDOUT, check=False)
     return int(process.returncode)
 
 
