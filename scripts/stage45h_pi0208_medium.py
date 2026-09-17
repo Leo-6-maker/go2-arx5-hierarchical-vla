@@ -497,8 +497,10 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     require(native_compat_root.is_dir(), f"historical native compatibility root missing: {native_compat_root}")
     native_lib_root = resolved_python.parents[1] / "lib"
     native_torch_lib = native_lib_root / "python3.8" / "site-packages" / "torch" / "lib"
+    native_preload = Path(os.environ.get("STAGE45H_NATIVE_PRELOAD", "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"))
     require(native_lib_root.is_dir(), f"native Python library root missing: {native_lib_root}")
     require(native_torch_lib.is_dir(), f"native Torch library root missing: {native_torch_lib}")
+    require(native_preload.is_file(), f"host C++ runtime missing: {native_preload}")
     runtime_root = output.parent / (output.name + ".runtime")
     for name in ("home", "tmp", "cache", "config", "data", "torch_extensions", "triton"):
         (runtime_root / name).mkdir(parents=True, exist_ok=True)
@@ -512,6 +514,7 @@ def _run_child(*, runner: Path, bundle: Path, output: Path, condition_id: str, d
     env["TORCH_EXTENSIONS_DIR"] = str(runtime_root / "torch_extensions")
     env["TRITON_CACHE_DIR"] = str(runtime_root / "triton")
     env["PATH"] = os.pathsep.join([str(resolved_python.parent), env.get("PATH", "")])
+    env["LD_PRELOAD"] = str(native_preload)
     env["PYTHONPATH"] = os.pathsep.join(
         [str(repo / "scripts"), str(repo / "src"), str(isaacgym_python), str(native_compat_root)]
     )
