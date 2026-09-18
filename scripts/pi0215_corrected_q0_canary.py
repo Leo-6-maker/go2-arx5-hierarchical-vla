@@ -82,8 +82,8 @@ def main() -> int:
         _current_eef,
         _load_pose_file,
         _policy_step,
-        _step_rows,
     )
+    from stage40_live_one_handoff import _step_rows
     from stage43_corelab_initial_condition import _apply_initial_base_delta, _initial_bind
 
     required_modules = [
