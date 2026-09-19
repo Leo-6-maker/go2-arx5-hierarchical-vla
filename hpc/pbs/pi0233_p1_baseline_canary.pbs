@@ -24,7 +24,7 @@ case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed $
 export HF_HUB_OFFLINE=1
 export TRANSFORMERS_OFFLINE=1
 export PYTHONUNBUFFERED=1
-test "$(git -C "${VLA_SOURCE}" rev-parse HEAD)" = "83779cbf"
+test "$(git -C "${VLA_SOURCE}" rev-parse HEAD)" = "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a"
 export PYTHONPATH="${VLA_SOURCE}/src:${PREP}/scripts:${STAGE10}/src/isaac-gr00t"
 
 cd "${PREP}"
