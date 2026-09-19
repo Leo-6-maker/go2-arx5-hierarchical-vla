@@ -226,8 +226,9 @@ def validate_admission(admission_path: Path) -> dict[str, Any]:
         "target_xyz_in_model_input": False, "wbc_execution": False,
         "dev_e_source_read_count": 0, "final_f_source_read_count": 0,
     }
-    if runtime != expected_runtime:
-        raise EvaluationContractError("runtime contract mismatch")
+    for key, expected in expected_runtime.items():
+        if runtime.get(key) != expected:
+            raise EvaluationContractError(f"runtime contract mismatch for {key}")
     if admission.get("evaluation_order") != list(STEPS) or admission.get("expected_forward_count_per_profile") != EXPECTED_FORWARD_COUNT:
         raise EvaluationContractError("evaluation order or forward count mismatch")
     _source_ref_matches(admission["runner"])
