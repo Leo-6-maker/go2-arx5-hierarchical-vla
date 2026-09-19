@@ -93,6 +93,9 @@ def _read_first_frame(path: Path) -> np.ndarray:
     return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)[None, ...]
 
 
+from stage21_same_scene_groot_inference import _run_one  # compatibility export; canonical dense-relative path
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage10-root", type=Path, required=True)
