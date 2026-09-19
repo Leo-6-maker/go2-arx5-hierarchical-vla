@@ -18,6 +18,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -311,6 +312,25 @@ def checkpoint_record(path: Path, expected_step: int, expected_max_steps: int) -
     }
 
 
+def archived_checkpoint_records(path: Path) -> tuple[dict[str, dict[str, Any]], str]:
+    deadline = time.monotonic() + float(os.environ.get("PI0228_ARCHIVE_WAIT_SECONDS", "900"))
+    expected = {2500, 5000, 7500, 10000}
+    while time.monotonic() < deadline:
+        if path.is_file():
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                records = payload.get("checkpoints")
+                if payload.get("schema") == "PI0228_CHECKPOINT_ARCHIVE_MANIFEST_V1" and payload.get("status") == "COMPLETE" and isinstance(records, dict) and set(map(int, records)) == expected:
+                    for step, record in records.items():
+                        if not record.get("verified") or int(record.get("global_step", -1)) != int(step) or int(record.get("max_steps", -1)) != MAX_STEPS:
+                            raise PI0228Error(f"invalid archived checkpoint record: {step}")
+                    return records, sha256_file(path)
+            except (OSError, json.JSONDecodeError, TypeError, ValueError, PI0228Error):
+                pass
+        time.sleep(10)
+    raise PI0228Error(f"verified checkpoint archive manifest not available: {path}")
+
+
 def run_official(config: Any, groot_source: Path) -> None:
     source = str(groot_source)
     if source not in sys.path:
@@ -367,14 +387,20 @@ def train(args: argparse.Namespace, report: dict[str, Any], runtime: dict[str, A
     config = build_config(args, output, steps=MAX_STEPS, save_steps=SAVE_STEPS, save_limit=5)
     report["config"] = config_summary(config)
     run_official(config, args.groot_source)
-    records = {
-        str(step): checkpoint_record(output / f"checkpoint-{step}", step, expected_max_steps=MAX_STEPS)
-        for step in (2500, 5000, 7500, 10000)
-    }
+    archive_manifest = os.environ.get("PI0228_CHECKPOINT_ARCHIVE_MANIFEST")
+    if archive_manifest:
+        records, archive_manifest_sha256 = archived_checkpoint_records(Path(archive_manifest))
+    else:
+        records = {
+            str(step): checkpoint_record(output / f"checkpoint-{step}", step, expected_max_steps=MAX_STEPS)
+            for step in (2500, 5000, 7500, 10000)
+        }
+        archive_manifest_sha256 = None
     seal = {
         "schema": "PI0228_H200_DENSE_RELATIVE_CHECKPOINT_SEAL_V1",
         "status": "PASS",
         "checkpoints": records,
+        "checkpoint_archive_manifest_sha256": archive_manifest_sha256,
         "scientific_contract_changed": False,
         "dev_e_source_read_count": 0,
         "final_f_source_read_count": 0,

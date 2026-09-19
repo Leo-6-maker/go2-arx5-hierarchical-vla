@@ -27,6 +27,7 @@ set -euo pipefail
 PI0228_PYTHON="${PI0228_PYTHON:-${PI0228_STAGE10_ROOT}/runtime/venv/bin/python}"
 PI0228_RUN_ROOT="${PI0228_SCRATCH_ROOT%/}/pi0228_h200_large_adapt_v1_${PBS_JOBID}"
 PI0228_RUN_MODE="${PI0228_RUN_MODE:-preflight}"
+export PI0228_CHECKPOINT_ARCHIVE_MANIFEST="${PI0228_CHECKPOINT_ARCHIVE_MANIFEST:-${PI0228_RUN_ROOT}/pi0228_checkpoint_archive_manifest.json}"
 
 test -d "${PI0228_FFMPEG_RUNTIME_ROOT}/lib"
 test -d "${PI0228_FFMPEG_RUNTIME_ROOT}/compat"
