@@ -10,7 +10,9 @@
 set -euo pipefail
 
 PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+STAGE10=/scratch/e1192548/stage22_h200_runtime_deb920_20260902
 PREP=/scratch/e1192548/pi0228_h200_prep_20260919
+VLA_SOURCE=/scratch/e1192548/go2-arx5-hierarchical-vla_takeover
 RUN_ROOT=/scratch/e1192548/pi0233_p1_baseline_canary_${PBS_JOBID}
 CACHE_ROOT=/scratch/e1192548/pi0233_p1_baseline_cache_${PBS_JOBID}
 
@@ -22,6 +24,8 @@ case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed $
 export HF_HUB_OFFLINE=1
 export TRANSFORMERS_OFFLINE=1
 export PYTHONUNBUFFERED=1
+test "$(git -C "${VLA_SOURCE}" rev-parse HEAD)" = "83779cbf"
+export PYTHONPATH="${VLA_SOURCE}/src:${PREP}/scripts:${STAGE10}/src/isaac-gr00t"
 
 cd "${PREP}"
 "${PY}" -u scripts/pi0233_p1_baseline_canary.py \
