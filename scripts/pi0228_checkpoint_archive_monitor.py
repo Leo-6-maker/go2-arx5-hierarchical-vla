@@ -74,7 +74,7 @@ for path in root.rglob("*"):
 entries.sort(key=lambda item: item["path"])
 tree = hashlib.sha256()
 for item in entries:
-    tree.update(f"pi0228/checkpoint-{step}/{item['path']}\\0{item['bytes']}\\0{item['sha256']}\\n".encode())
+    tree.update(f"pi0228/checkpoint-{step}/{item['path']}\0{item['bytes']}\0{item['sha256']}\n".encode())
 print(json.dumps({"file_count": len(entries), "total_bytes": sum(item["bytes"] for item in entries), "tree_sha256": tree.hexdigest(), "entries": entries}, sort_keys=True))
 '''
 
