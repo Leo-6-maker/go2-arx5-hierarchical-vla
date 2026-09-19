@@ -119,7 +119,11 @@ def require_empty_or_preflight(root: Path) -> None:
         return
     if not root.is_dir():
         raise PI0228Error(f"output root is not a directory: {root}")
-    unexpected = [p.name for p in root.iterdir() if p.name != "pi0228_preflight.json"]
+    unexpected = [
+        p.name
+        for p in root.iterdir()
+        if p.name not in {"pi0228_preflight.json", "pi0228_run_manifest.json"}
+    ]
     if unexpected:
         raise PI0228Error(f"refusing to reuse non-empty output root: {unexpected[:5]}")
 
