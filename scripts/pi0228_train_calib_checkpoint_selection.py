@@ -11,7 +11,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -20,18 +19,15 @@ from typing import Any
 import numpy as np
 
 
-TRAIN_TARGETS = {
-    "a": np.asarray([0.30, 0.10, 0.58], dtype=np.float64),
-    "b": np.asarray([0.30, -0.10, 0.58], dtype=np.float64),
-    "c": np.asarray([0.30, 0.05, 0.64], dtype=np.float64),
-    "d": np.asarray([0.30, -0.05, 0.63], dtype=np.float64),
-}
 EXPECTED_STEPS = (2500, 5000, 7500, 10000)
 SEED = 22301
 ACTION_DT_S = 0.05
 SOURCE_FRAME = "NATIVE_WBC_RELATIVE_REFERENCE"
 TCP_SEMANTIC_ID = "x5_link6_gripper_center"
 LANGUAGE = "move the end effector to the red target"
+MODEL_INPUT_KEYS = ["body_rgb", "wrist_rgb", "state"]
+TARGET_AUTHORITY_SCHEMA = "PI0228_TRAIN_CALIB_TARGET_AUTHORITY_V1"
+PI0227_GRID_MANIFEST_SHA256 = "d6e6e51ebf7b9e9a43cb691e8896fa2ddfe10de43f936aede4fa2898ac3f2bc4"
 
 
 def sha256_file(path: Path) -> str:
@@ -100,12 +96,53 @@ def _load_calib_rows(dataset_dir: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def _target_for(source_episode_id: str) -> tuple[str, np.ndarray]:
-    match = re.search(r"_train_([a-d])_", source_episode_id)
-    if match is None:
-        raise ValueError(f"source episode is not A-D TRAIN data: {source_episode_id}")
-    key = match.group(1)
-    return f"red_target_train_{key}", TRAIN_TARGETS[key]
+def _source_rollout_id(source_episode_id: str) -> str:
+    rollout_id, separator, _ = source_episode_id.partition(":obs-")
+    if not separator or not rollout_id:
+        raise ValueError(f"invalid source episode ID: {source_episode_id}")
+    return rollout_id
+
+
+def _load_target_authority(path: Path) -> tuple[dict[str, Any], dict[str, tuple[str, np.ndarray]]]:
+    _reject_locked_path(path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema") != TARGET_AUTHORITY_SCHEMA or payload.get("status") != "PASS":
+        raise ValueError("TRAIN-CALIB target authority is not PASS")
+    if payload.get("role") != "TRAIN_CALIB":
+        raise ValueError("target authority is not bound to TRAIN-CALIB")
+    if payload.get("source_grid_manifest_sha256") != PI0227_GRID_MANIFEST_SHA256:
+        raise ValueError("target authority is not bound to the frozen PI0227 grid manifest")
+    if payload.get("target_xyz_in_model_input") is not False:
+        raise ValueError("target authority boundary drift")
+    entries = payload.get("rollouts")
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("target authority has no rollout entries")
+    authority: dict[str, tuple[str, np.ndarray]] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("invalid target authority rollout entry")
+        rollout_id = str(entry.get("source_rollout_id", ""))
+        target_id = str(entry.get("target_id", ""))
+        target = np.asarray(entry.get("target_position_world_m"), dtype=np.float64)
+        if not rollout_id or not target_id or rollout_id in authority:
+            raise ValueError(f"invalid or duplicate target authority rollout: {rollout_id}")
+        if target.shape != (3,) or not np.isfinite(target).all():
+            raise ValueError(f"invalid target_position_world_m for {rollout_id}")
+        authority[rollout_id] = (target_id, target)
+    expected_count = payload.get("source_rollout_count")
+    if expected_count is not None and int(expected_count) != len(authority):
+        raise ValueError("target authority rollout count mismatch")
+    return payload, authority
+
+
+def _target_for(
+    source_episode_id: str, authority: dict[str, tuple[str, np.ndarray]]
+) -> tuple[str, np.ndarray]:
+    rollout_id = _source_rollout_id(source_episode_id)
+    try:
+        return authority[rollout_id]
+    except KeyError as exc:
+        raise ValueError(f"missing authoritative target for {rollout_id}") from exc
 
 
 def _build_chunk(decoded: np.ndarray, *, chunk_id: str):
@@ -141,6 +178,17 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("evaluation dataset does not match sealed TRAIN-CALIB root")
     if args.seed != SEED:
         raise ValueError(f"PI0228 selection seed is frozen at {SEED}")
+    authority_payload, target_authority = _load_target_authority(args.target_authority)
+    if authority_payload.get("calib_seal_sha256") != sha256_file(args.seal):
+        raise ValueError("target authority is bound to a different TRAIN-CALIB seal")
+    if authority_payload.get("train_calib_tree_sha256") != seal["train_calib"].get("tree_sha256"):
+        raise ValueError("target authority is bound to a different TRAIN-CALIB tree")
+    source_rollouts = {_source_rollout_id(str(row["source_episode_id"])) for row in rows}
+    authority_rollouts = set(target_authority)
+    if source_rollouts != authority_rollouts:
+        missing = sorted(source_rollouts - authority_rollouts)
+        extra = sorted(authority_rollouts - source_rollouts)
+        raise ValueError(f"target authority rollout mismatch: missing={missing[:3]} extra={extra[:3]}")
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     sys.path.insert(0, str(args.stage10_root / "src" / "isaac-gr00t"))
@@ -182,14 +230,14 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             language=LANGUAGE, seed=args.seed, device=args.device,
         )
         forward_count += 1
-        target_id, target = _target_for(str(row["source_episode_id"]))
+        source_rollout_id = _source_rollout_id(str(row["source_episode_id"]))
+        target_id, target = _target_for(str(row["source_episode_id"]), target_authority)
         chunk_value = _build_chunk(decoded, chunk_id=f"pi0228-calib-{index:04d}")
         state_quat = matrix_to_quat(rot6d_rows_to_matrix(state[3:9].reshape(1, 6)))[0]
         gate_result = gate.evaluate(
             chunk_value, now=0.0, achieved_position=state[:3], achieved_orientation=state_quat
         )
         distances = np.linalg.norm(decoded[0, :, :3].astype(np.float64) - target[None, :], axis=1)
-        source_rollout_id = str(row["source_episode_id"]).split(":obs-", 1)[0]
         records.append({
             "episode_index": index,
             "source_episode_id": str(row["source_episode_id"]),
@@ -203,7 +251,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             "decoded_sha256": sha256_array(decoded),
             "latency_s": float(latency),
             "gpu": gpu,
-            "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+            "model_input_keys": MODEL_INPUT_KEYS,
             "target_xyz_in_model_input": False,
             "wbc_execution": False,
         })
@@ -224,7 +272,9 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "action_contract": "official_dense_relative_H40",
         "action_dt_s": ACTION_DT_S,
         "calib_seal_sha256": sha256_file(args.seal),
-        "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+        "target_authority_sha256": sha256_file(args.target_authority),
+        "target_authority_source_grid_manifest_sha256": authority_payload["source_grid_manifest_sha256"],
+        "model_input_keys": MODEL_INPUT_KEYS,
         "target_xyz_in_model_input": False,
         "wbc_execution": False,
         "forward_count": forward_count,
@@ -305,10 +355,59 @@ def select(args: argparse.Namespace) -> dict[str, Any]:
     return result
 
 
+def _self_test() -> dict[str, Any]:
+    import tempfile
+
+    nominal = "pi0227_persistent_train_a_j00_nominal_s00_c0_r00_r00_227000"
+    jittered = "pi0227_persistent_train_b_j01_xp015_s00_c0_r00_r00_227036"
+    with tempfile.TemporaryDirectory(prefix="pi0228-target-authority-") as directory:
+        path = Path(directory) / "authority.json"
+        path.write_text(
+            json.dumps(
+                {
+                    "schema": TARGET_AUTHORITY_SCHEMA,
+                    "status": "PASS",
+                    "role": "TRAIN_CALIB",
+                    "source_grid_manifest_sha256": PI0227_GRID_MANIFEST_SHA256,
+                    "target_xyz_in_model_input": False,
+                    "source_rollout_count": 2,
+                    "rollouts": [
+                        {
+                            "source_rollout_id": nominal,
+                            "target_id": "red_target_train_a_j00_nominal",
+                            "target_position_world_m": [0.30, 0.10, 0.58],
+                        },
+                        {
+                            "source_rollout_id": jittered,
+                            "target_id": "red_target_train_b_j01_xp015",
+                            "target_position_world_m": [0.315, -0.10, 0.58],
+                        },
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+        _, authority = _load_target_authority(path)
+        nominal_id, nominal_target = _target_for(nominal + ":obs-0000", authority)
+        jitter_id, jitter_target = _target_for(jittered + ":obs-0000", authority)
+        assert nominal_id.endswith("j00_nominal")
+        assert jitter_id.endswith("j01_xp015")
+        assert np.allclose(nominal_target, [0.30, 0.10, 0.58])
+        assert np.allclose(jitter_target, [0.315, -0.10, 0.58])
+        assert not np.allclose(jitter_target, nominal_target)
+        assert MODEL_INPUT_KEYS == ["body_rgb", "wrist_rgb", "state"]
+    return {
+        "status": "PASS",
+        "nominal_and_non_nominal_rollouts": 2,
+        "target_xyz_in_model_input": False,
+        "model_input_keys": MODEL_INPUT_KEYS,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=("evaluate", "select"), required=True)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--mode", choices=("evaluate", "select", "self-test"), required=True)
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--stage10-root", type=Path)
     parser.add_argument("--base-model", type=Path)
     parser.add_argument("--model-path", type=Path)
@@ -317,19 +416,22 @@ def main() -> int:
     parser.add_argument("--modality-config", type=Path)
     parser.add_argument("--cosmos-snapshot", type=Path)
     parser.add_argument("--seal", type=Path)
+    parser.add_argument("--target-authority", type=Path)
     parser.add_argument("--checkpoint-step", type=int)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--profiles", type=Path, nargs="*")
     parser.add_argument("--profile-steps", type=int, nargs="*")
     args = parser.parse_args()
-    if args.mode == "evaluate":
-        required = ("stage10_root", "base_model", "model_path", "train_dataset", "calib_dataset", "modality_config", "cosmos_snapshot", "seal", "checkpoint_step")
+    if args.mode == "self-test":
+        result = _self_test()
+    elif args.mode == "evaluate":
+        required = ("stage10_root", "base_model", "model_path", "train_dataset", "calib_dataset", "modality_config", "cosmos_snapshot", "seal", "target_authority", "checkpoint_step", "output")
         if any(getattr(args, name) is None for name in required):
-            parser.error("evaluate requires stage10/model/dataset/modality/Cosmos/seal/checkpoint inputs")
+            parser.error("evaluate requires stage10/model/dataset/modality/Cosmos/seal/target-authority/checkpoint/output inputs")
         result = evaluate(args)
     else:
-        if len(args.profiles or []) != 4 or len(args.profile_steps or []) != 4:
+        if len(args.profiles or []) != 4 or len(args.profile_steps or []) != 4 or args.output is None:
             parser.error("select requires four --profiles and four --profile-steps values")
         result = select(args)
     print(json.dumps(_jsonable(result), indent=2))
