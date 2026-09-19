@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# PI0236: fixed TRAIN-CALIB evaluation; no WBC, training, DEV-E, or Final-F.
+
+#PBS -N pi0236_calib_eval
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+PREP=/scratch/e1192548/pi0228_h200_prep_20260919
+VLA_SOURCE=/scratch/e1192548/go2-arx5-hierarchical-vla_takeover
+ADMISSION=${PREP}/evidence/pi0236_s2_evaluator_admission.json
+RUNNER=${PREP}/scripts/pi0236_train_calib_eval.py
+RUN_ROOT=/scratch/e1192548/pi0236_train_calib_eval_${PBS_JOBID}
+CACHE_ROOT=/scratch/e1192548/pi0236_train_calib_cache_${PBS_JOBID}
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;; esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONUNBUFFERED=1
+export PYTHONPATH="${VLA_SOURCE}/src:${PREP}/scripts:${PREP}/src:${PYTHONPATH:-}"
+
+cd "${PREP}"
+"${PY}" -u "${RUNNER}" \
+  --admission "${ADMISSION}" \
+  --output-root "${RUN_ROOT}" \
+  --cache-root "${CACHE_ROOT}"
