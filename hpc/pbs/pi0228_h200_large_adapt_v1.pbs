@@ -20,10 +20,20 @@ set -euo pipefail
 : "${PI0228_COSMOS_CACHE_ROOT:?set Cosmos cache root}"
 : "${PI0228_COSMOS_SNAPSHOT:?set pinned Cosmos snapshot}"
 : "${PBS_JOBID:?PBS_JOBID must be present}"
+: "${PI0228_FFMPEG_RUNTIME_ROOT:?set sealed Stage45B FFmpeg runtime root}"
+: "${PI0228_TORCHCODEC_PACKAGE_ROOT:?set exact torchcodec package root}"
+: "${PI0228_TORCH_LIBRARY_ROOT:?set exact torch library root}"
 
 PI0228_PYTHON="${PI0228_PYTHON:-${PI0228_STAGE10_ROOT}/runtime/venv/bin/python}"
 PI0228_RUN_ROOT="${PI0228_SCRATCH_ROOT%/}/pi0228_h200_large_adapt_v1_${PBS_JOBID}"
 PI0228_RUN_MODE="${PI0228_RUN_MODE:-preflight}"
+
+test -d "${PI0228_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${PI0228_FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${PI0228_TORCHCODEC_PACKAGE_ROOT}"
+test -d "${PI0228_TORCH_LIBRARY_ROOT}"
+PI0228_AMBIENT_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0228_FFMPEG_RUNTIME_ROOT}/lib:${PI0228_FFMPEG_RUNTIME_ROOT}/compat:${PI0228_TORCHCODEC_PACKAGE_ROOT}:${PI0228_TORCH_LIBRARY_ROOT}:${PI0228_AMBIENT_LD_LIBRARY_PATH}"
 
 GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
 GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
@@ -48,7 +58,12 @@ if [[ "${PI0228_RUN_MODE}" == "preflight" ]]; then
   echo "PI0228_H200_PREFLIGHT_PASS"
   exit 0
 fi
-[[ "${PI0228_RUN_MODE}" == "train" ]] || { echo "FAIL_CLOSED: invalid run mode" >&2; exit 2; }
+[[ "${PI0228_RUN_MODE}" == "smoke" || "${PI0228_RUN_MODE}" == "train" ]] || { echo "FAIL_CLOSED: invalid run mode" >&2; exit 2; }
 : "${PI0228_TRAIN_AUTHORIZATION:?explicit PI0228 authorization required}"
-"${PI0228_PYTHON}" scripts/pi0228_h200_large_adapt_v1.py --train "${COMMON[@]}" --authorization "${PI0228_TRAIN_AUTHORIZATION}"
-echo "PI0228_H200_LARGE_ADAPT_V1_COMPLETE"
+if [[ "${PI0228_RUN_MODE}" == "smoke" ]]; then
+  "${PI0228_PYTHON}" scripts/pi0228_h200_large_adapt_v1.py --smoke "${COMMON[@]}" --authorization "${PI0228_TRAIN_AUTHORIZATION}"
+  echo "PI0228_H200_EXACT_SMOKE_PASS"
+else
+  "${PI0228_PYTHON}" scripts/pi0228_h200_large_adapt_v1.py --train "${COMMON[@]}" --authorization "${PI0228_TRAIN_AUTHORIZATION}"
+  echo "PI0228_H200_LARGE_ADAPT_V1_COMPLETE"
+fi

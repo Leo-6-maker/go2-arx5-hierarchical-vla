@@ -30,10 +30,11 @@ EXPECTED_MODALITY_SHA = "244f37f28e62b7b392a1598b78e78f00e67693f6c08a606b3c53588
 EXPECTED_COSMOS_REVISION = "9ce19a195e423419c349abfc86fd07178b230561"
 EXPECTED_COSMOS_TREE_SHA = "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9"
 EXPECTED_BASE_INDEX_SHA = "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
-EXPECTED_TRAIN_TREE_SHA = "65efd21c2b150502a0f8f59e9a6f0fbd3b069c2dd026b59004b4d4e74548910"
-EXPECTED_TRAIN_FILES = 29388
+EXPECTED_TRAIN_TREE_SHA = "66559a759c187fdf4d55c175a0808417369c033323e35710b6ca8aeda3786e81"
+EXPECTED_TRAIN_FILES = 29389
 EXPECTED_TRAIN_EPISODES = 9792
 EXPECTED_TRAIN_CHUNKS = 10
+EXPECTED_TRAIN_QUALIFIED_MANIFEST_SHA = "2ffa10ac51bf2327159ae7c208aa524f73666f6e72a3bf39d1e1aa141a15f847"
 SEED = 22301
 MAX_STEPS = 10000
 SAVE_STEPS = 2500
@@ -138,6 +139,9 @@ def verify_inputs(args: argparse.Namespace) -> dict[str, Any]:
         raise PI0228Error("TRAIN dataset metadata is missing")
     if not (args.dataset_dir / "meta" / "relative_stats.json").is_file():
         raise PI0228Error("TRAIN relative_stats.json is missing")
+    qualified_manifest = args.dataset_dir / "meta" / "stage19_qualified_manifest.json"
+    if sha256_file(qualified_manifest) != EXPECTED_TRAIN_QUALIFIED_MANIFEST_SHA:
+        raise PI0228Error("TRAIN official qualification manifest SHA mismatch")
     info = json.loads((args.dataset_dir / "meta" / "info.json").read_text(encoding="utf-8"))
     observed_tree, entries = tree_sha256(args.dataset_dir, "train")
     if observed_tree != EXPECTED_TRAIN_TREE_SHA:
@@ -195,6 +199,10 @@ def bind_offline_runtime(args: argparse.Namespace, output_root: Path) -> dict[st
     stage38 = load_module(STAGE38, "pi0228_stage38_binding")
     cache_binding = stage38.bind_cosmos_cache(cache_root)
     processor_binding = stage38.bind_cosmos_processor()
+    try:
+        from torchcodec.decoders import VideoDecoder  # noqa: F401
+    except Exception as exc:
+        raise PI0228Error(f"Stage45B torchcodec preload failed: {type(exc).__name__}: {exc}") from exc
     return {
         "hf_home": os.environ["HF_HOME"],
         "hf_hub_cache": os.environ["HF_HUB_CACHE"],
@@ -202,6 +210,7 @@ def bind_offline_runtime(args: argparse.Namespace, output_root: Path) -> dict[st
         "transformers_offline": True,
         "cache_binding": cache_binding,
         "processor_binding": processor_binding,
+        "torchcodec_preloaded": True,
         "structured_factory_called": False,
     }
 
