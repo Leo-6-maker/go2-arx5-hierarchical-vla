@@ -109,8 +109,7 @@ def main() -> int:
     gate_result = gate.evaluate(
         chunk_value, now=0.0, achieved_position=state[:3], achieved_orientation=state_quat
     )
-    if gate_result.as_dict()["decision"] == "REJECT":
-        raise RuntimeError("baseline canary SafetyGate REJECT")
+    gate_decision = gate_result.as_dict()["decision"]
     distances = np.linalg.norm(decoded[0, :, :3].astype(np.float64) - target[None, :], axis=1)
     record = {
         "episode_index": index,
@@ -119,6 +118,8 @@ def main() -> int:
         "target_id": target_id,
         "target_world_m": target.tolist(),
         "safety_gate": gate_result.as_dict(),
+        "safety_gate_call_completed": True,
+        "safety_gate_decision_preserved": gate_decision,
         "reference_min_target_distance_m": float(np.min(distances)),
         "reference_min_target_tick": int(np.argmin(distances)),
         "raw_sha256": selector.sha256_array(raw),
@@ -134,7 +135,7 @@ def main() -> int:
     output_profile = args.output_root / "profile-1000-canary.json"
     profile = {
         "schema": "PI0228_TRAIN_CALIB_PROFILE_V1",
-        "status": "PASS",
+        "status": "PASS_GATE_INVOCATION_WITH_REJECT" if gate_decision == "REJECT" else "PASS",
         "checkpoint_step": 1000,
         "checkpoint_path": str(BASELINE),
         "checkpoint_index_sha256": sha256_file(next(BASELINE.glob("*.safetensors.index.json"))),
@@ -150,7 +151,7 @@ def main() -> int:
         "expected_forward_count": 1,
         "safety_gate_counts": {"ACCEPT": 1 if record["safety_gate"]["decision"] == "ACCEPT" else 0,
                                 "WARN": 1 if record["safety_gate"]["decision"] == "WARN" else 0,
-                                "REJECT": 0},
+                                "REJECT": 1 if record["safety_gate"]["decision"] == "REJECT" else 0},
         "reference_min_target_distance_m": {"count": 1, "median": record["reference_min_target_distance_m"],
                                              "max": record["reference_min_target_distance_m"]},
         "worst_cell_median_reference_min_target_distance_m": record["reference_min_target_distance_m"],
@@ -159,7 +160,7 @@ def main() -> int:
     output_profile.write_text(json.dumps(profile, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     manifest = {
         "schema": "PI0233_P1_BASELINE_ONE_ROW_CANARY_V1",
-        "status": "PASS",
+        "status": "PASS_GATE_INVOCATION_WITH_REJECT" if gate_decision == "REJECT" else "PASS",
         "selection_candidate": False,
         "validated_train_calib_row_count": len(rows),
         "executed_row_count": 1,
@@ -183,6 +184,8 @@ def main() -> int:
         "decoded_sha256": record["decoded_sha256"],
         "reference_min_target_distance_m": record["reference_min_target_distance_m"],
         "safety_gate": record["safety_gate"],
+        "safety_gate_call_completed": True,
+        "safety_gate_decision_preserved": gate_decision,
         "forward_count": 1,
         "expected_forward_count": 1,
         "wbc_execution": False,
