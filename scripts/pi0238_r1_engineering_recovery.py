@@ -30,6 +30,8 @@ import numpy as np
 import pi0238_audit_to_sim as legacy
 
 
+R2_PROTOCOL_COMMIT = "9f766201420680956967c6ffc5ffea71cb4990d4"
+R2_AUDITED_PARENT = "e4817bbae47919687b3748eea5e536b41e04c972"
 R1_PROTOCOL_COMMIT = "b940fc9c1186ce01e14c13638f251f1e5e051b76"
 R1_AUDITED_PARENT = "d553ca3a9f1145f72e131f2d66aefd5c32200f1e"
 ORIGINAL_PROTOCOL_COMMIT = "044e4d5ef8b4c1effb8236190c0eb083fa49979b"
@@ -131,9 +133,9 @@ def cfg_paths(cfg: Mapping[str, Any]) -> dict[str, Path]:
 
 def load_config(path: Path) -> dict[str, Any]:
     payload = json_load(path)
-    require(payload.get("schema") == "PI0238_R1_RESOLVED_LAUNCH_V1", "resolved_launch schema drift")
-    require(payload.get("protocol_commit") == R1_PROTOCOL_COMMIT, "R1 protocol commit drift")
-    require(payload.get("audited_parent") == R1_AUDITED_PARENT, "R1 audited parent drift")
+    require(payload.get("schema") == "PI0238_R2_RESOLVED_LAUNCH_V1", "resolved_launch schema drift")
+    require(payload.get("protocol_commit") == R2_PROTOCOL_COMMIT, "R2 protocol commit drift")
+    require(payload.get("audited_parent") == R2_AUDITED_PARENT, "R2 audited parent drift")
     return payload
 
 
@@ -880,7 +882,7 @@ def g3(args: argparse.Namespace) -> dict[str, Any]:
 
 def g4(args: argparse.Namespace) -> dict[str, Any]:
     paths = cfg_paths(args.config)
-    pre = json_load(paths["output_root"] / "evidence" / "r1_preflight.json")
+    pre = json_load(paths["output_root"] / "evidence" / "r2_preflight.json")
     evidence = paths["output_root"] / "evidence"
     phase_files = {
         "g0": evidence / "g0_identity_and_access.json",
@@ -888,7 +890,15 @@ def g4(args: argparse.Namespace) -> dict[str, Any]:
         "g2": evidence / "g2_full_label_gate_census.json",
         "g3": evidence / "g3_actual_batch_trace.json",
     }
-    blockers = list(pre["g4_admission"]["blockers"])
+    blocker_records: list[dict[str, Any]] = [
+        item if isinstance(item, dict) else {"code": str(item), "type": "UNCLASSIFIED", "stage": "G4"}
+        for item in pre["g4_admission"]["blockers"]
+    ]
+
+    def add_blocker(code: str, kind: str, stage: str = "G4") -> None:
+        if not any(item.get("code") == code for item in blocker_records):
+            blocker_records.append({"code": code, "type": kind, "stage": stage})
+
     phase = {
         name: json_load(path) if path.is_file() else {"execution_status": "NOT_RUN"}
         for name, path in phase_files.items()
@@ -903,28 +913,28 @@ def g4(args: argparse.Namespace) -> dict[str, Any]:
             "PASS_WITH_QUOTA_UNOBSERVED",
             "PASS_WITH_CAPACITY_UNPROVEN",
         }:
-            blockers.append(f"{name.upper()}_NOT_COMPLETE")
+            add_blocker(f"{name.upper()}_NOT_COMPLETE", "EVIDENCE", name.upper())
     g3_result = phase["g3"]
     if g3_result.get("parity_status") != "PASS":
-        blockers.append("G3_PARITY_NOT_PASS")
+        add_blocker("G3_PARITY_NOT_PASS", "SCIENCE", "G3")
     if g3_result.get("numerical_status") != "PASS":
-        blockers.append("G3_NUMERICAL_STATUS_NOT_PASS")
+        add_blocker("G3_NUMERICAL_STATUS_NOT_PASS", "SCIENCE", "G3")
     processor_contract = g3_result.get("processor_contract", {})
     resolved_equal = processor_contract.get(
         "resolved_equal",
         g3_result.get("parity", {}).get("processor_train_eval_resolved_equal", False),
     )
     if not resolved_equal:
-        blockers.append("TRAIN_EVAL_PROCESSOR_CONTRACT_MISMATCH")
+        add_blocker("TRAIN_EVAL_PROCESSOR_CONTRACT_MISMATCH", "SCIENCE", "G3")
     if not pre["quota"].get("admission_capacity_pass", False):
-        blockers.append("FILESYSTEM_QUOTA_CAPACITY_NOT_PROVEN")
-    blockers = list(dict.fromkeys(blockers))
-    admitted = not blockers
+        add_blocker("FILESYSTEM_QUOTA_CAPACITY_NOT_PROVEN", "RESOURCE", "G4")
+    admitted = not blocker_records
     result = {
-        "schema": "PI0238_R1_G4_DIAGNOSTIC_ADMISSION_V2",
+        "schema": "PI0238_R2_G4_DIAGNOSTIC_ADMISSION_V3",
         "execution_status": "ADMISSION_READY_H200_REQUIRED" if admitted else "NOT_ADMITTED",
         "g4_admitted": admitted,
-        "blockers": blockers,
+        "blockers": [item["code"] for item in blocker_records],
+        "blocker_records": blocker_records,
         "admission_checks": {
             "preflight": pre["status"],
             "phase_execution": phase_status,
@@ -940,7 +950,7 @@ def g4(args: argparse.Namespace) -> dict[str, Any]:
         "selected_checkpoint": "NONE",
         "reason": (
             "CPU phase records independent admission only; H200 G4 is not run here"
-            if admitted else "one or more admission predicates are not proven"
+            if admitted else "one or more typed admission predicates are not proven"
         ),
     }
     write_json(paths["output_root"] / "evidence" / "g4_diagnostic_admission.json", result)
@@ -963,19 +973,33 @@ def g5(args: argparse.Namespace) -> dict[str, Any]:
             json_load(path) if path.is_file()
             else {"execution_status": "NOT_RUN", "reason": "missing evidence"}
         )
-    blockers = statuses["g4"].get("blockers", [])
+    blocker_records = statuses["g4"].get("blocker_records", [])
+    if not blocker_records:
+        blocker_records = [
+            {"code": str(item), "type": "UNCLASSIFIED", "stage": "G4"}
+            for item in statuses["g4"].get("blockers", [])
+        ]
+    phase_status = {
+        phase: value.get("execution_status", value.get("status"))
+        for phase, value in statuses.items()
+    }
+    if any(item.get("type") in {"RESOURCE", "ENGINEERING"} for item in blocker_records):
+        classification = "BLOCKED_ENGINEERING_OR_RESOURCE"
+    elif any(item.get("type") == "SCIENCE" for item in blocker_records):
+        classification = "STOP_FOR_PI_RECIPE_DECISION"
+    elif any(value in {None, "NOT_RUN", "BLOCKED", "FAIL_READ_ONLY"} for value in phase_status.values()):
+        classification = "DIAGNOSTIC_NOT_ESTABLISHED"
+    else:
+        classification = "STOP_FOR_PI_RECIPE_DECISION"
     result = {
-        "schema": "PI0238_R1_G5_DECISION_PACKAGE_V2",
+        "schema": "PI0238_R2_G5_DECISION_PACKAGE_V3",
         "status": "STOP_FOR_PI_RECIPE_DECISION",
-        "classification": (
-            "BLOCKED_ENGINEERING_OR_RESOURCE" if blockers else "SCIENCE_BLOCKER"
-        ),
+        "classification": classification,
         "selected_checkpoint": "NONE",
-        "phase_status": {
-            phase: value.get("execution_status", value.get("status"))
-            for phase, value in statuses.items()
-        },
-        "g4_blockers": blockers,
+        "phase_status": phase_status,
+        "g4_blockers": [item["code"] for item in blocker_records],
+        "g4_blocker_records": blocker_records,
+        "classification_basis": "typed blocker records and explicit phase statuses; not blocker-list emptiness",
         "scientific_conclusion": (
             "This R1 package makes no training-recipe conclusion; "
             "it separates engineering/resource state from scientific evidence."
@@ -999,6 +1023,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--make-launch", action="store_true")
     parser.add_argument("--preflight-only", action="store_true")
+    parser.add_argument("--initialize", action="store_true")
     parser.add_argument("--phase", choices=("g0", "g1", "g2", "g3", "g4", "g5"))
     parser.add_argument("--launch-config", type=Path, required=True)
     parser.add_argument("--python", type=Path)
@@ -1019,7 +1044,10 @@ def main() -> int:
     cfg = load_config(args.launch_config)
     namespace = config_namespace(cfg, args.phase or "preflight")
     if args.preflight_only:
-        print(json.dumps(preflight(namespace), indent=2))
+        print(json.dumps(preflight(namespace, initialize=False), indent=2))
+        return 0
+    if args.initialize:
+        print(json.dumps(preflight(namespace, initialize=True), indent=2))
         return 0
     require(args.phase is not None, "--phase is required")
     try:
@@ -1070,12 +1098,14 @@ def make_launch(args: argparse.Namespace) -> dict[str, Any]:
         for phase in ("g0", "g1", "g2", "g3", "g4", "g5")
     }
     payload = {
-        "schema": "PI0238_R1_RESOLVED_LAUNCH_V1",
-        "protocol_commit": R1_PROTOCOL_COMMIT,
+        "schema": "PI0238_R2_RESOLVED_LAUNCH_V1",
+        "protocol_commit": R2_PROTOCOL_COMMIT,
         "original_protocol_commit": ORIGINAL_PROTOCOL_COMMIT,
         "pi0237_protocol_commit": PI0237_PROTOCOL_COMMIT,
-        "audited_parent": R1_AUDITED_PARENT,
-        "branch": "pi0238/engineering-recovery-r1",
+        "audited_parent": R2_AUDITED_PARENT,
+        "r1_protocol_commit": R1_PROTOCOL_COMMIT,
+        "r1_audited_parent": R1_AUDITED_PARENT,
+        "branch": "pi0238/manifest-first-recovery-r2",
         "paths": {key: str(value) for key, value in paths.items()},
         "implementation": {
             "script_sha256": sha256_file(paths["script"]),
@@ -1104,6 +1134,7 @@ def make_launch(args: argparse.Namespace) -> dict[str, Any]:
             "target_xyz_in_model_input": False,
             "dev_e_source_read_count": 0, "final_f_source_read_count": 0,
             "g4_query_budget": 256,
+            "r2_cpu_storage_limit_bytes": 1 << 30,
         },
         "read_boundary": {
             "preflight_full_tree": False, "dev_e_source_read_count": 0,
@@ -1154,12 +1185,45 @@ def quota_snapshot(path: Path) -> dict[str, Any]:
     }
     parsed = {name: quota_parse(item) for name, item in commands.items()}
     observed = any(item["parseable"] for item in parsed.values())
+    observation_path = path if path.exists() else path.parent
+    usage = disk_usage(observation_path)
+    statvfs = os.statvfs(observation_path)
+    free_inodes = int(statvfs.f_bavail)
+    cpu_budget = 1 << 30
+    cpu_floor = max(2 << 30, 3 * cpu_budget)
+    cpu_storage_ok = usage["free_bytes"] >= cpu_floor and free_inodes >= 10_000
+    # A quota command can be syntactically parseable without exposing the
+    # byte/inode limit for this exact fileset.  Do not turn that into G4 PASS.
+    quota_limit_bytes = None
+    quota_limit_inodes = None
+    capacity_pass = bool(
+        observed
+        and quota_limit_bytes is not None
+        and quota_limit_inodes is not None
+        and usage["free_bytes"] >= quota_limit_bytes
+        and free_inodes >= quota_limit_inodes
+    )
+    report_hashes = {
+        name: sha256_bytes((item["stdout"] + item["stderr"]).encode())
+        for name, item in commands.items()
+    }
     return {
         "commands": commands, "parsed": parsed,
         "status": "OBSERVED_PARSEABLE" if observed else "FILESYSTEM_QUOTA_UNOBSERVED",
-        "admission_capacity_pass": False,
-        "df_observation": disk_usage(path),
-        "interpretation": "df/free and a small write probe cannot establish fileset byte/inode quota",
+        "admission_capacity_pass": capacity_pass,
+        "capacity_evidence": {
+            "fileset_observation_path": str(observation_path),
+            "quota_limit_bytes": quota_limit_bytes,
+            "quota_limit_inodes": quota_limit_inodes,
+            "df_observation": usage,
+            "free_inodes": free_inodes,
+            "cpu_output_budget_bytes": cpu_budget,
+            "cpu_min_free_bytes": cpu_floor,
+            "cpu_storage_limited_diagnostic_only": cpu_storage_ok,
+            "report_sha256": report_hashes,
+            "calculation": "G4 requires parsed byte and inode limits for the measured fileset; df/free only gates the R2 CPU-limited continuation.",
+        },
+        "interpretation": "quota reports without exact byte/inode limits remain FILESYSTEM_QUOTA_UNOBSERVED; CPU continuation is separately bounded by statvfs and 1 GiB output/cache budget",
     }
 
 
@@ -1211,7 +1275,8 @@ print(json.dumps(out))
             str(paths["stage10_root"]), str(paths["modality_config"]),
             str(paths["vla_source"]), str(paths["prep_root"]),
         ],
-        cwd=Path(paths["tmp_root"]), env=env
+        # Verify-only must not create or depend on the attempt's tmp directory.
+        cwd=Path(paths["script"]).parent, env=env
     )
     require(
         result["returncode"] == 0,
@@ -1274,7 +1339,7 @@ def write_probe(root: Path) -> dict[str, Any]:
     return result
 
 
-def preflight(args: argparse.Namespace) -> dict[str, Any]:
+def preflight(args: argparse.Namespace, *, initialize: bool = False) -> dict[str, Any]:
     cfg = args.config
     paths = cfg_paths(cfg)
     scratch = Path("/scratch/e1192548")
@@ -1283,9 +1348,10 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
             continue
         path_no_symlink(path, allow_missing=False)
         require(under(path, scratch), f"path outside approved scratch: {name}={path}")
+    path_no_symlink(paths["launch_config"], allow_missing=False)
     for name in ("output_root", "cache_root", "tmp_root"):
         path = paths[name]
-        require(not path.exists(), f"new R1 path already exists: {name}={path}")
+        require(not path.exists(), f"new R2 path already exists: {name}={path}")
         require(under(path, scratch), f"new path outside approved scratch: {path}")
     require(paths["script"].resolve() == Path(__file__).resolve(), "runner identity is not staged script")
     require(sha256_file(paths["script"]) == cfg["implementation"]["script_sha256"], "runner SHA drift")
@@ -1293,13 +1359,18 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
     require(mature_script.is_file(), f"mature runner missing: {mature_script}")
     require(sha256_file(mature_script) == cfg["implementation"]["mature_script_sha256"], "mature runner SHA drift")
     require(sha256_file(paths["pbs"]) == cfg["implementation"]["pbs_sha256"], "PBS SHA drift")
-    require(sha256_file(paths["protocol"]) == cfg["implementation"]["protocol_sha256"], "R1 protocol SHA drift")
+    require(sha256_file(paths["protocol"]) == cfg["implementation"]["protocol_sha256"], "R2 protocol SHA drift")
     require(sha256_file(paths["original_protocol"]) == cfg["implementation"]["original_protocol_sha256"], "original protocol SHA drift")
     require(sha256_file(paths["modality_config"]) == P237_MODALITY_SHA, "modality file SHA drift")
-    paths["cache_root"].mkdir(parents=True, exist_ok=False)
-    paths["tmp_root"].mkdir(parents=True, exist_ok=False)
-    probe = write_probe(paths["output_root"] / "preflight_probe")
-    inventory = inventory_parse(
+
+    s2_path = paths["p237_root"] / "evidence" / "pi0236_s2_evaluator_admission.json"
+    require(s2_path.is_file(), f"sealed S2 admission missing: {s2_path}")
+    fresh_resolution = legacy.resolve_sealed_checkpoints(
+        legacy.json_load(s2_path)["fresh_family"],
+        expected_root=paths["fresh_root"],
+        require_exists=True,
+    )
+    inventory = legacy.inventory_parse(
         paths["p237_root"] / "evidence" / "pi0237_evidence_inventory.sha256",
         paths["p237_root"] / "evidence",
         [paths["p237_root"] / "evidence", paths["prep_root"] / "evidence"],
@@ -1314,28 +1385,38 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
     qstat_text = qstat["stdout"] + qstat["stderr"]
     own_job = os.environ.get("PBS_JOBID")
     active_other_jobs = pbs_job_lines(qstat_text, own_job)
-    blockers = []
+    blockers: list[dict[str, Any]] = []
     if quota["status"] != "OBSERVED_PARSEABLE":
-        blockers.append("FILESYSTEM_QUOTA_UNOBSERVED")
+        blockers.append({"code": "FILESYSTEM_QUOTA_UNOBSERVED", "type": "RESOURCE", "stage": "G4"})
+    if qstat["returncode"] != 0:
+        blockers.append({"code": "QSTAT_UNOBSERVED", "type": "RESOURCE", "stage": "PREFLIGHT"})
     if active_other_jobs:
-        blockers.append("OTHER_ACTIVE_JOBS_PRESENT")
+        blockers.append({"code": "OTHER_ACTIVE_JOBS_PRESENT", "type": "RESOURCE", "stage": "PREFLIGHT", "jobs": active_other_jobs})
     result = {
-        "schema": "PI0238_R1_PREFLIGHT_V1",
-        "status": "PASS_WITH_QUOTA_UNOBSERVED" if quota["status"] != "OBSERVED_PARSEABLE" else "PASS",
-        "argv": list(sys.argv), "python": sys.executable, "python_version": platform.python_version(),
+        "schema": "PI0238_R2_PREFLIGHT_V2",
+        "mode": "INITIALIZE" if initialize else "VERIFY_ONLY",
+        "status": "CPU_STORAGE_LIMITED_DIAGNOSTIC_ONLY" if not blockers or all(item["code"] == "FILESYSTEM_QUOTA_UNOBSERVED" for item in blockers) else "BLOCKED_ENGINEERING_OR_RESOURCE",
+        "argv": list(sys.argv), "cwd": str(Path.cwd()), "python": sys.executable, "python_version": platform.python_version(),
         "paths": {key: str(value) for key, value in paths.items()},
-        "implementation": {**cfg["implementation"], "mature_script": {"path": str(mature_script), "sha256": sha256_file(mature_script)}}, "runtime_import": import_root,
-        "inventory": inventory, "quota": quota, "write_probe": probe, "qstat": qstat,
+        "implementation": {**cfg["implementation"], "mature_script": {"path": str(mature_script), "sha256": sha256_file(mature_script)}},
+        "runtime_import": import_root,
+        "sealed_checkpoint_resolution": {"manifest": str(s2_path), **fresh_resolution},
+        "inventory": inventory, "quota": quota,
+        "write_probe": {"status": "PENDING_INITIALIZE" if not initialize else "NOT_RUN"}, "qstat": qstat,
         "active_other_jobs": active_other_jobs, "own_job": own_job,
         "read_boundary": cfg["read_boundary"], "full_tree_hashes": "NOT_RUN_IN_PREFLIGHT",
         "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0,
         "g4_admission": {
             "allowed": False, "status": "NOT_ADMITTED",
-            "blockers": blockers or ["G4_REQUIRES_H200_AND_QUOTA_CAPACITY"],
+            "blockers": blockers or [{"code": "G4_REQUIRES_H200_AND_CAPACITY_PROOF", "type": "ADMISSION", "stage": "G4"}],
         },
     }
-    paths["output_root"].mkdir(parents=True, exist_ok=True)
-    write_json(paths["output_root"] / "evidence" / "r1_preflight.json", result)
+    if initialize:
+        paths["cache_root"].mkdir(parents=True, exist_ok=False)
+        paths["tmp_root"].mkdir(parents=True, exist_ok=False)
+        paths["output_root"].mkdir(parents=True, exist_ok=False)
+        result["write_probe"] = write_probe(paths["output_root"] / "preflight_probe")
+        write_json(paths["output_root"] / "evidence" / "r2_preflight.json", result)
     return result
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# PI0238-R1: one resolved-launch CPU audit job.
+# PI0238-R2: one resolved-launch CPU audit job.
 # The site may route auto to small and allocate a GPU; CUDA is explicitly disabled.
 # No old PI0238 PBS is reused and no job is submitted by this file itself.
 #PBS -N pi0238-r1-audit
@@ -26,24 +26,22 @@ run_phase() {
   "$PI0238_PYTHON" "$PI0238_SCRIPT" --phase "$phase" --launch-config "$PI0238_LAUNCH_CONFIG"
 }
 
-# The exact same resolved launch is used for preflight and every phase.
+# Verify-only has no output/cache/tmp side effects; initialize is the single
+# owner-bound creation step for this attempt.
 "$PI0238_PYTHON" "$PI0238_SCRIPT" --preflight-only --launch-config "$PI0238_LAUNCH_CONFIG"
-run_phase g0
-run_phase g1
-run_phase g2
-run_phase g3
-run_phase g4
 
-# If admission ever becomes true, leave the H200 execution to the separate
-# bounded G4 launcher; this CPU job must not silently enable CUDA.
-if "$PI0238_PYTHON" - "$PI0238_LAUNCH_CONFIG" <<'PY'
-import json, sys
-from pathlib import Path
-cfg = json.loads(Path(sys.argv[1]).read_text())
-out = Path(cfg["paths"]["output_root"]) / "evidence" / "g4_diagnostic_admission.json"
-print(json.loads(out.read_text()).get("g4_admitted", False))
-PY
-then
-  exit 0
-fi
-run_phase g5
+"$PI0238_PYTHON" "$PI0238_SCRIPT" --initialize --launch-config "$PI0238_LAUNCH_CONFIG"
+
+phase_failed=0
+for phase in g0 g1 g2 g3; do
+  if ! run_phase "$phase"; then
+    phase_failed=1
+    break
+  fi
+done
+
+run_phase g4 || phase_failed=1
+
+# This CPU job never starts G4 inference; it only records the admission result.
+run_phase g5 || phase_failed=1
+exit "$phase_failed"

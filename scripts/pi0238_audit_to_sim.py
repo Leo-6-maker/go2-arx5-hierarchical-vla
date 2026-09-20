@@ -13,6 +13,7 @@ import csv
 import copy
 import dataclasses
 import hashlib
+import importlib
 import importlib.util
 import json
 import math
@@ -141,6 +142,116 @@ def tree_sha256(root: Path, prefix: str) -> tuple[str, int, int]:
     for relative, size, sha256 in sorted(entries):
         digest.update(f"{prefix}/{relative}\0{size}\0{sha256}\n".encode())
     return digest.hexdigest(), len(entries), sum(size for _, size, _ in entries)
+
+
+def _no_symlink_path(path: Path, *, allow_missing: bool = False) -> Path:
+    """Resolve a manifest path without accepting a symlink escape."""
+    path = Path(path)
+    require(path.is_absolute(), f"manifest path is not absolute: {path}")
+    current = Path(path.anchor)
+    for part in path.parts[1:]:
+        current /= part
+        if current.is_symlink():
+            raise DiagnosticBlocker(f"manifest path contains symlink: {current}")
+        if not current.exists() and not allow_missing:
+            raise DiagnosticBlocker(f"manifest path component is missing: {current}")
+        if not current.exists():
+            break
+    return path.resolve(strict=not allow_missing)
+
+
+def _under(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def resolve_sealed_checkpoints(
+    fresh_family: Mapping[str, Any],
+    *,
+    expected_root: Path | None = None,
+    require_exists: bool = True,
+) -> dict[str, Any]:
+    """Resolve the sealed S2 checkpoint list; this is the only checkpoint authority."""
+    require(fresh_family.get("job_id") == FRESH_JOB, "fresh family is not 623593")
+    raw_root = fresh_family.get("root")
+    require(isinstance(raw_root, str) and raw_root, "fresh family root is missing")
+    root = _no_symlink_path(Path(raw_root), allow_missing=not require_exists)
+    if expected_root is not None:
+        expected = _no_symlink_path(Path(expected_root), allow_missing=not require_exists)
+        require(root == expected, f"sealed fresh root drift: {root} != {expected}")
+    raw_entries = fresh_family.get("checkpoints")
+    require(isinstance(raw_entries, list), "sealed checkpoint list is not a list")
+    require(len(raw_entries) == 4, "sealed checkpoint list must contain exactly four entries")
+    expected_steps = {2500, 5000, 7500, 10000}
+    by_step: dict[int, dict[str, Any]] = {}
+    by_path: set[Path] = set()
+    for entry in raw_entries:
+        require(isinstance(entry, Mapping), "sealed checkpoint entry is not an object")
+        step = entry.get("checkpoint_step")
+        require(type(step) is int and step in expected_steps, f"invalid sealed checkpoint step: {step!r}")
+        require(step not in by_step, f"duplicate sealed checkpoint step: {step}")
+        candidate = entry.get("selection_candidate")
+        require(type(candidate) is bool and candidate is True, f"selection_candidate is not strict true at step {step}")
+        raw_path = entry.get("path")
+        require(isinstance(raw_path, str) and raw_path, f"missing checkpoint path at step {step}")
+        path = _no_symlink_path(Path(raw_path), allow_missing=not require_exists)
+        require(_under(path, root), f"sealed checkpoint escapes fresh root: {path}")
+        require(path.name == f"checkpoint-{step}", f"checkpoint step/name mismatch: {path}")
+        require(path not in by_path, f"duplicate sealed checkpoint path: {path}")
+        if require_exists:
+            require(path.is_dir(), f"sealed checkpoint directory missing: {path}")
+        by_path.add(path)
+        by_step[step] = {
+            "checkpoint_step": step,
+            "raw_path": raw_path,
+            "resolved_path": str(path),
+            "path": str(path),
+            "exists": path.is_dir(),
+            "selection_candidate": True,
+            "sealed_tree_sha256": entry.get("tree_sha256"),
+        }
+    require(set(by_step) == expected_steps, "sealed checkpoint steps are incomplete")
+    return {
+        "job_id": FRESH_JOB,
+        "root": str(root),
+        "checkpoints": {str(step): by_step[step] for step in sorted(by_step)},
+    }
+
+
+def inventory_parse(path: Path, base_dir: Path, allowed_roots: list[Path]) -> dict[str, Any]:
+    """Parse a hash inventory relative to its declared artifact base."""
+    require(path.is_file() and not path.is_symlink(), f"inventory missing or unsafe: {path}")
+    rows: list[dict[str, Any]] = []
+    seen: set[Path] = set()
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not line.strip():
+            continue
+        match = re.match(r"^([0-9a-fA-F]{64})\s+(.+?)\s*$", line)
+        require(match is not None, f"malformed inventory line {line_no}")
+        expected, raw_path = match.groups()
+        candidate = Path(raw_path)
+        candidate = candidate if candidate.is_absolute() else Path(base_dir) / candidate
+        resolved = _no_symlink_path(candidate, allow_missing=False)
+        require(any(_under(resolved, root) for root in allowed_roots), f"inventory path outside allowlist: {raw_path}")
+        require(resolved not in seen, f"duplicate inventory path: {resolved}")
+        seen.add(resolved)
+        require(resolved.is_file() and not resolved.is_symlink(), f"inventory unsafe/missing: {resolved}")
+        actual = sha256_file(resolved)
+        rows.append({
+            "line": line_no,
+            "raw_path": raw_path,
+            "base_dir": str(Path(base_dir).resolve()),
+            "resolved_path": str(resolved),
+            "expected_sha256": expected.lower(),
+            "actual_sha256": actual,
+            "match": expected.lower() == actual,
+        })
+    require(rows, "empty evidence inventory cannot pass")
+    require(all(row["match"] for row in rows), "evidence inventory hash mismatch")
+    return {"path": str(path), "base_dir": str(Path(base_dir).resolve()), "count": len(rows), "rows": rows, "all_match": True}
 
 
 def parse_identity(rollout_id: str) -> dict[str, str]:
@@ -377,46 +488,26 @@ def g0(args: argparse.Namespace) -> dict[str, Any]:
         resolved[role] = {"path": str(path.resolve()), "sha256": sha256_file(path) if path.is_file() else None}
     fresh = json_load(old / "pi0236_s2_evaluator_admission.json").get("fresh_family", {})
     require(fresh.get("job_id") == FRESH_JOB, "fresh family is not 623593")
-    fresh_root = Path(str(fresh.get("root")))
-    require(fresh_root.is_dir(), f"fresh family root missing: {fresh_root}")
-    sealed_checkpoints = {
-        int(item["checkpoint_step"]): item
-        for item in fresh.get("checkpoints", [])
-    }
-    require(set(sealed_checkpoints) == {2500, 5000, 7500, 10000}, "sealed fresh checkpoint family listing drift")
-    fresh_dirs = {}
-    for step in (2500, 5000, 7500, 10000):
-        sealed = sealed_checkpoints[step]
-        checkpoint_path = Path(str(sealed["path"]))
-        try:
-            checkpoint_path.resolve().relative_to(fresh_root.resolve())
-        except ValueError as exc:
-            raise DiagnosticBlocker(f"sealed checkpoint escapes fresh family root: {checkpoint_path}") from exc
-        require(checkpoint_path.name == f"checkpoint-{step}", f"sealed checkpoint name drift: {checkpoint_path}")
-        require(bool(sealed.get("selection_candidate")), f"sealed checkpoint is not a selection candidate: {checkpoint_path}")
-        fresh_dirs[str(step)] = {
-            "path": str(checkpoint_path),
-            "exists": checkpoint_path.is_dir(),
-            "sealed_tree_sha256": sealed.get("tree_sha256"),
-        }
-    require(all(item["exists"] for item in fresh_dirs.values()), "fresh checkpoint family is incomplete")
+    fresh_resolution = resolve_sealed_checkpoints(
+        fresh,
+        expected_root=getattr(args, "fresh_root", None),
+        require_exists=True,
+    )
+    fresh_root = Path(fresh_resolution["root"])
+    fresh_dirs = fresh_resolution["checkpoints"]
     evidence_inventory = old / "pi0237_evidence_inventory.sha256"
-    inventory = []
-    for line in evidence_inventory.read_text(encoding="utf-8").splitlines():
-        parts = line.split(maxsplit=1)
-        if len(parts) != 2:
-            continue
-        expected, raw_path = parts
-        path = Path(raw_path)
-        inventory.append({"path": str(path), "expected_sha256": expected, "exists": path.is_file(), "actual_sha256": sha256_file(path) if path.is_file() else None, "match": path.is_file() and sha256_file(path) == expected})
-    require(all(item["match"] for item in inventory), "PI0237 evidence inventory mismatch")
+    inventory = inventory_parse(
+        evidence_inventory,
+        args.p237_root / "evidence",
+        [args.p237_root / "evidence", args.prep_root / "evidence"],
+    )
     p0 = {
         "schema": "PI0238_G0_IDENTITY_AND_ACCESS_V1",
         "status": "PASS_WITH_QUOTA_UNOBSERVED" if not quota_observed else "PASS_WITH_CAPACITY_UNPROVEN",
         "protocol_commit": PROTOCOL_COMMIT, "audited_execution_commit": AUDITED_EXECUTION_COMMIT,
         "sealed_pi0237_protocol_commit": PI0237_PROTOCOL_COMMIT, "pi0236_run_manifest": {"path": str(run_path), "sha256": sha256_file(run_path)},
         "profile_hashes": {str(step): EXPECTED_PROFILES[step] for step in PROFILE_STEPS}, "profile_forward_counts": {str(step): profiles[step]["forward_count"] for step in PROFILE_STEPS},
-        "fresh_family": {"job_id": FRESH_JOB, "root": str(fresh_root), "checkpoints": fresh_dirs},
+        "fresh_family": fresh_resolution,
         "cohort": {"path": str(cohort_json), "train_count": 64, "calib_count": 64, "train_sha256": EXPECTED_OLD["cohort_csv"], "json_sha256": EXPECTED_OLD["cohort_json"]},
         "dataset": {"train_rollouts": len({x["source_rollout_id"] for x in train_meta.values()}), "calib_rollouts": len({x["source_rollout_id"] for x in calib_meta.values()}), "rollout_intersection": 0, "trees": tree_results, "split_locks": split_lock},
         "runtime_identity": resolved, "active_job_query": job_state, "evidence_inventory": {"path": str(evidence_inventory), "count": len(inventory), "all_match": all(item["match"] for item in inventory)},
@@ -637,11 +728,33 @@ def training_config_summary(args: argparse.Namespace) -> dict[str, Any]:
     return module._config_summary(config)
 
 
+def bind_modality_source(args: argparse.Namespace) -> tuple[Any, dict[str, Any]]:
+    """Bind the actual G3 process to the same pinned modality file as preflight."""
+    modality_path = Path(args.modality_config).resolve()
+    original_sys_path = list(sys.path)
+    sys.path[:0] = [
+        str(modality_path.parent),
+        str(args.prep_root / "scripts"),
+        str(args.vla_source / "src"),
+        str(args.stage10_root / "src" / "isaac-gr00t"),
+    ]
+    sys.modules.pop(modality_path.stem, None)
+    module = importlib.import_module(modality_path.stem)
+    actual = Path(module.__file__).resolve()
+    require(actual == modality_path, f"G3 modality origin drift: {actual}")
+    actual_sha = sha256_file(actual)
+    require(actual_sha == sha256_file(modality_path), "G3 modality file changed during bind")
+    # Keep the original interpreter paths, including stdlib/site-packages;
+    # only the pinned project paths are prepended for subsequent imports.
+    require(any("site-packages" in path or "python" in path for path in sys.path), "G3 stdlib/site-packages path was discarded")
+    return module, {"path": str(actual), "sha256": actual_sha, "original_sys_path_count": len(original_sys_path)}
+
+
 def g3(args: argparse.Namespace) -> dict[str, Any]:
     os.environ["HF_HUB_OFFLINE"] = "1"; os.environ["TRANSFORMERS_OFFLINE"] = "1"
-    cache = args.output_root / "cache"; os.environ["HF_HOME"] = str(cache / "huggingface"); os.environ["HF_HUB_CACHE"] = str(cache / "huggingface" / "hub"); os.environ["TRANSFORMERS_CACHE"] = os.environ["HF_HUB_CACHE"]
+    cache = args.cache_root; os.environ["HF_HOME"] = str(cache / "huggingface"); os.environ["HF_HUB_CACHE"] = str(cache / "huggingface" / "hub"); os.environ["TRANSFORMERS_CACHE"] = os.environ["HF_HUB_CACHE"]
+    go2_arx5_modality, modality_origin = bind_modality_source(args)
     sys.path[:0] = [str(args.prep_root / "scripts"), str(args.vla_source / "src"), str(args.stage10_root / "src" / "isaac-gr00t")]
-    import go2_arx5_modality  # type: ignore
     from gr00t.data.dataset.lerobot_episode_loader import LeRobotEpisodeLoader  # type: ignore
     from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset  # type: ignore
     from gr00t.data.embodiment_tags import EmbodimentTag  # type: ignore
@@ -731,10 +844,15 @@ def g3(args: argparse.Namespace) -> dict[str, Any]:
         unclipped10 = np.concatenate([np.asarray(unclipped["eef_9d"]), np.asarray(unclipped["gripper_position"])], axis=-1)
         original_norm = action_array[index, :, :10]
         normalized_roundtrip_max_abs = float(np.max(np.abs(actual_norm10 - original_norm)))
-        numerical_rows.append({"split": split, "episode_index": int(item["episode_index"]), "source_episode_id": item["source_episode_id"], "normalized_roundtrip_max_abs": normalized_roundtrip_max_abs, "float64_cast_control_max_abs": None, "preclip_out_of_range_count": int(np.count_nonzero(np.abs(unclipped10) > 1.0)), "clip_changed_count": int(np.count_nonzero(np.abs(unclipped10 - actual_norm10) > 0.0)), "clip_outliers": bool(getattr(state_action, "clip_outliers", False)), "normalization_params_source": "real StateActionProcessor.norm_params"})
+        raw_action64 = {"eef_9d": decoded[:, :9].astype(np.float64), "gripper_position": decoded[:, 9:].astype(np.float64)}
+        raw_state64 = {"eef_9d": state[None, :9].astype(np.float64), "gripper_position": state[None, 9:].astype(np.float64)}
+        float64_norm = state_action.apply_action(raw_action64, embodiment.value, state=raw_state64)
+        float64_norm10 = np.concatenate([np.asarray(float64_norm["eef_9d"]), np.asarray(float64_norm["gripper_position"])], axis=-1)
+        float64_cast_control_max_abs = float(np.max(np.abs(float64_norm10.astype(np.float64) - actual_norm10.astype(np.float64))))
+        numerical_rows.append({"split": split, "episode_index": int(item["episode_index"]), "source_episode_id": item["source_episode_id"], "normalized_roundtrip_max_abs": normalized_roundtrip_max_abs, "float64_cast_control_max_abs": float64_cast_control_max_abs, "preclip_out_of_range_count": int(np.count_nonzero(np.abs(unclipped10) > 1.0)), "clip_changed_count": int(np.count_nonzero(np.abs(unclipped10 - actual_norm10) > 0.0)), "clip_outliers": bool(getattr(state_action, "clip_outliers", False)), "normalization_params_source": "real StateActionProcessor.norm_params"})
         errors.append({"split": split, "episode_index": int(item["episode_index"]), "source_episode_id": item["source_episode_id"], "action_tensor_sha256": sha256_array(action_array[index]), "expert_action_sha256": sha256_array(expert_action), "decoded_sha256": sha256_array(decoded), "decoded_shape": list(decoded.shape), **physical, "finite": bool(np.isfinite(decoded).all()), "raw_rot6d_quality": raw_rot6d_quality(decoded)})
     norm_excess = [row for row in numerical_rows if row["normalized_roundtrip_max_abs"] > PHYSICAL_TOL["normalized"]]
-    parity = {"train_processor": train_contract, "eval_processor": eval_contract, "processor_train_eval_resolved_equal": train_contract == eval_contract, "train_dataset_class": f"{type(next(iter(datasets.values()))).__module__}.{type(next(iter(datasets.values()))).__name__}", "language": "move the end effector to the red target", "action_horizon": HORIZON, "action_contract": "official_dense_relative_H40", "target_xyz_in_model_input": False, "augmentation": "not enabled by this direct official collator path"}
+    parity = {"train_processor": train_contract, "eval_processor": eval_contract, "processor_train_eval_resolved_equal": train_contract == eval_contract, "modality_origin": modality_origin, "train_dataset_class": f"{type(next(iter(datasets.values()))).__module__}.{type(next(iter(datasets.values()))).__name__}", "language": "move the end effector to the red target", "action_horizon": HORIZON, "action_contract": "official_dense_relative_H40", "target_xyz_in_model_input": False, "augmentation": "not enabled by this direct official collator path"}
     require(first_state is not None and first_expert_action is not None, "G3 did not retain first sample controls")
     shifted_state = first_state.copy()
     shifted_state[0] += 0.01
