@@ -1059,6 +1059,8 @@ def make_launch(args: argparse.Namespace) -> dict[str, Any]:
     require(not paths["cache_root"].exists(), f"new cache root exists: {paths['cache_root']}")
     require(not paths["tmp_root"].exists(), f"new tmp root exists: {paths['tmp_root']}")
     require(paths["script"].is_file() and paths["pbs"].is_file(), "staged runner/PBS missing")
+    mature_script = paths["script"].with_name("pi0238_audit_to_sim.py")
+    require(mature_script.is_file(), f"staged mature runner missing: {mature_script}")
     phase_argv = {
         phase: [
             str(args.python), str(paths["script"]), "--phase", phase,
@@ -1076,6 +1078,7 @@ def make_launch(args: argparse.Namespace) -> dict[str, Any]:
         "paths": {key: str(value) for key, value in paths.items()},
         "implementation": {
             "script_sha256": sha256_file(paths["script"]),
+            "mature_script_sha256": sha256_file(mature_script),
             "pbs_sha256": sha256_file(paths["pbs"]),
             "protocol_sha256": sha256_file(paths["protocol"]),
             "original_protocol_sha256": sha256_file(paths["original_protocol"]),
@@ -1285,6 +1288,9 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
         require(under(path, scratch), f"new path outside approved scratch: {path}")
     require(paths["script"].resolve() == Path(__file__).resolve(), "runner identity is not staged script")
     require(sha256_file(paths["script"]) == cfg["implementation"]["script_sha256"], "runner SHA drift")
+    mature_script = paths["script"].with_name("pi0238_audit_to_sim.py")
+    require(mature_script.is_file(), f"mature runner missing: {mature_script}")
+    require(sha256_file(mature_script) == cfg["implementation"]["mature_script_sha256"], "mature runner SHA drift")
     require(sha256_file(paths["pbs"]) == cfg["implementation"]["pbs_sha256"], "PBS SHA drift")
     require(sha256_file(paths["protocol"]) == cfg["implementation"]["protocol_sha256"], "R1 protocol SHA drift")
     require(sha256_file(paths["original_protocol"]) == cfg["implementation"]["original_protocol_sha256"], "original protocol SHA drift")
@@ -1317,7 +1323,7 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
         "status": "PASS_WITH_QUOTA_UNOBSERVED" if quota["status"] != "OBSERVED_PARSEABLE" else "PASS",
         "argv": list(sys.argv), "python": sys.executable, "python_version": platform.python_version(),
         "paths": {key: str(value) for key, value in paths.items()},
-        "implementation": cfg["implementation"], "runtime_import": import_root,
+        "implementation": {**cfg["implementation"], "mature_script": {"path": str(mature_script), "sha256": sha256_file(mature_script)}}, "runtime_import": import_root,
         "inventory": inventory, "quota": quota, "write_probe": probe, "qstat": qstat,
         "active_other_jobs": active_other_jobs, "own_job": own_job,
         "read_boundary": cfg["read_boundary"], "full_tree_hashes": "NOT_RUN_IN_PREFLIGHT",
