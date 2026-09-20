@@ -892,15 +892,28 @@ def g4(args: argparse.Namespace) -> dict[str, Any]:
         name: json_load(path) if path.is_file() else {"execution_status": "NOT_RUN"}
         for name, path in phase_files.items()
     }
+    phase_status = {}
     for name, result in phase.items():
-        if result.get("execution_status") != "COMPLETE":
+        status = result.get("execution_status", result.get("status"))
+        phase_status[name] = status
+        if status not in {
+            "COMPLETE",
+            "PASS_READ_ONLY",
+            "PASS_WITH_QUOTA_UNOBSERVED",
+            "PASS_WITH_CAPACITY_UNPROVEN",
+        }:
             blockers.append(f"{name.upper()}_NOT_COMPLETE")
     g3_result = phase["g3"]
     if g3_result.get("parity_status") != "PASS":
         blockers.append("G3_PARITY_NOT_PASS")
     if g3_result.get("numerical_status") != "PASS":
         blockers.append("G3_NUMERICAL_STATUS_NOT_PASS")
-    if not g3_result.get("processor_contract", {}).get("resolved_equal", False):
+    processor_contract = g3_result.get("processor_contract", {})
+    resolved_equal = processor_contract.get(
+        "resolved_equal",
+        g3_result.get("parity", {}).get("processor_train_eval_resolved_equal", False),
+    )
+    if not resolved_equal:
         blockers.append("TRAIN_EVAL_PROCESSOR_CONTRACT_MISMATCH")
     if not pre["quota"].get("admission_capacity_pass", False):
         blockers.append("FILESYSTEM_QUOTA_CAPACITY_NOT_PROVEN")
@@ -913,10 +926,10 @@ def g4(args: argparse.Namespace) -> dict[str, Any]:
         "blockers": blockers,
         "admission_checks": {
             "preflight": pre["status"],
-            "phase_execution": {name: value.get("execution_status") for name, value in phase.items()},
+            "phase_execution": phase_status,
             "g3_parity": g3_result.get("parity_status"),
             "g3_numerical": g3_result.get("numerical_status"),
-            "processor_contract_equal": g3_result.get("processor_contract", {}).get("resolved_equal"),
+            "processor_contract_equal": resolved_equal,
             "quota_capacity_pass": pre["quota"].get("admission_capacity_pass", False),
             "cuda_disabled_cpu_phase": True,
             "h200_execution": "NOT_STARTED",
@@ -1009,10 +1022,13 @@ def main() -> int:
         return 0
     require(args.phase is not None, "--phase is required")
     try:
-        result = {
-            "g0": g0, "g1": g1, "g2": g2,
-            "g3": g3, "g4": g4, "g5": g5,
-        }[args.phase](namespace)
+        # Reuse the repository's mature G0-G3 audit implementation.  R1 owns
+        # only launch/preflight and the closed G4/G5 admission/reporting shell.
+        phase_handlers = {
+            "g0": legacy.g0, "g1": legacy.g1, "g2": legacy.g2,
+            "g3": legacy.g3, "g4": g4, "g5": g5,
+        }
+        result = phase_handlers[args.phase](namespace)
     except Exception as exc:
         root = cfg_paths(cfg)["output_root"]
         root.mkdir(parents=True, exist_ok=True)

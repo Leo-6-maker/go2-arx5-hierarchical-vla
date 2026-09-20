@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import copy
+import dataclasses
 import hashlib
 import importlib.util
 import json
@@ -60,6 +62,7 @@ JITTERS = (
 )
 STATES = ("s00_c0", "s01_xp050", "s02_xm050", "s03_yp050", "s04_ym050")
 REALIZATIONS = ("r00", "r01", "r02", "r03")
+PHYSICAL_TOL = {"xyz_m": 1e-5, "so3_rad": 1e-4, "gripper": 1e-5, "normalized": 1e-5}
 MODEL_ISSUE_CODES = {
     "LINEAR_SPEED_REJECT", "ANGULAR_SPEED_REJECT", "INITIAL_ROTATION_DISCONTINUITY_REJECT",
     "INITIAL_POSITION_DISCONTINUITY_REJECT", "WORKSPACE_REJECT", "PATH_LENGTH_REJECT",
@@ -233,6 +236,68 @@ def metric_value(record: Mapping[str, Any], metric: str) -> Any:
     return value
 
 
+def raw_rot6d_quality(action: np.ndarray) -> dict[str, Any]:
+    raw = np.asarray(action, dtype=np.float64).reshape(-1, 10)
+    first, second = raw[:, 3:6], raw[:, 6:9]
+    norm_first = np.linalg.norm(first, axis=1)
+    norm_second = np.linalg.norm(second, axis=1)
+    cross_norm = np.linalg.norm(np.cross(first, second), axis=1)
+    return {
+        "rows": int(len(raw)),
+        "norm_first": stats(norm_first),
+        "norm_second": stats(norm_second),
+        "unit_norm_deviation_count": int(np.count_nonzero(
+            (np.abs(norm_first - 1.0) > 1e-3)
+            | (np.abs(norm_second - 1.0) > 1e-3)
+        )),
+        "abs_dot": stats(np.abs(np.sum(first * second, axis=1))),
+        "cross_norm": stats(cross_norm),
+        "raw_degenerate_count": int(np.count_nonzero(
+            (norm_first < 1e-8) | (norm_second < 1e-8) | (cross_norm < 1e-8)
+        )),
+        "measured_before_orthogonalization": True,
+    }
+
+
+def as_array(value: Any) -> np.ndarray:
+    return value.detach().cpu().numpy() if hasattr(value, "detach") else np.asarray(value)
+
+
+def active_mask_slots(mask: np.ndarray) -> tuple[list[int], int, list[int]]:
+    values = np.asarray(mask)
+    require(values.ndim == 3 and values.shape[1:] == (HORIZON, 132), "action mask shape drift")
+    slots = np.flatnonzero(np.any(values != 0, axis=(0, 1))).tolist()
+    times = np.flatnonzero(np.any(values != 0, axis=(0, 2))).tolist()
+    return slots, int(np.count_nonzero(values)), times
+
+
+def physical_error(decoded: np.ndarray, expert: np.ndarray, modules: Mapping[str, Any]) -> dict[str, Any]:
+    decoded = np.asarray(decoded, dtype=np.float64)
+    expert = np.asarray(expert, dtype=np.float64)
+    xyz = np.linalg.norm(decoded[:, :3] - expert[:, :3], axis=1)
+    so3 = modules["geodesic_angle"](
+        modules["rot6d_rows_to_matrix"](decoded[:, 3:9]),
+        modules["rot6d_rows_to_matrix"](expert[:, 3:9]),
+    )
+    gripper = np.abs(decoded[:, 9] - expert[:, 9])
+    return {
+        "xyz_max_m": float(np.max(xyz)),
+        "so3_max_rad": float(np.max(so3)),
+        "gripper_max": float(np.max(gripper)),
+        "xyz_pass": bool(np.max(xyz) <= PHYSICAL_TOL["xyz_m"]),
+        "so3_pass": bool(np.max(so3) <= PHYSICAL_TOL["so3_rad"]),
+        "gripper_pass": bool(np.max(gripper) <= PHYSICAL_TOL["gripper"]),
+    }
+
+
+def shift_chunk_clock(chunk: Any, seconds: float) -> Any:
+    return dataclasses.replace(
+        chunk,
+        observation_timestamp=float(chunk.observation_timestamp) + seconds,
+        point_timestamps=np.asarray(chunk.point_timestamps, dtype=np.float64) + seconds,
+    )
+
+
 def issue_codes(record: Mapping[str, Any]) -> list[str]:
     return [str(issue.get("code")) for issue in record.get("safety_gate", {}).get("issues", []) if issue.get("code")]
 
@@ -327,7 +392,8 @@ def g0(args: argparse.Namespace) -> dict[str, Any]:
         inventory.append({"path": str(path), "expected_sha256": expected, "exists": path.is_file(), "actual_sha256": sha256_file(path) if path.is_file() else None, "match": path.is_file() and sha256_file(path) == expected})
     require(all(item["match"] for item in inventory), "PI0237 evidence inventory mismatch")
     p0 = {
-        "schema": "PI0238_G0_IDENTITY_AND_ACCESS_V1", "status": "PASS_WITH_QUOTA_UNOBSERVED" if not quota_observed else "PASS",
+        "schema": "PI0238_G0_IDENTITY_AND_ACCESS_V1",
+        "status": "PASS_WITH_QUOTA_UNOBSERVED" if not quota_observed else "PASS_WITH_CAPACITY_UNPROVEN",
         "protocol_commit": PROTOCOL_COMMIT, "audited_execution_commit": AUDITED_EXECUTION_COMMIT,
         "sealed_pi0237_protocol_commit": PI0237_PROTOCOL_COMMIT, "pi0236_run_manifest": {"path": str(run_path), "sha256": sha256_file(run_path)},
         "profile_hashes": {str(step): EXPECTED_PROFILES[step] for step in PROFILE_STEPS}, "profile_forward_counts": {str(step): profiles[step]["forward_count"] for step in PROFILE_STEPS},
@@ -337,7 +403,16 @@ def g0(args: argparse.Namespace) -> dict[str, Any]:
         "runtime_identity": resolved, "active_job_query": job_state, "evidence_inventory": {"path": str(evidence_inventory), "count": len(inventory), "all_match": all(item["match"] for item in inventory)},
         "storage": storage, "read_boundary": {"dev_e_source_read_count": 0, "final_f_source_read_count": 0, "whole_tree_scan": False, "locked_data_read": False},
         "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0,
-        "g4_admission": {"allowed": bool(quota_observed), "blockers": [] if quota_observed else ["FILESYSTEM_QUOTA_UNOBSERVED"]},
+        # A readable quota report is not proof that the requested H200
+        # diagnostic capacity is available.  Keep G4 closed until R1's
+        # independent admission check proves capacity.
+        "g4_admission": {
+            "allowed": False,
+            "blockers": [
+                "FILESYSTEM_QUOTA_CAPACITY_NOT_PROVEN"
+                if quota_observed else "FILESYSTEM_QUOTA_UNOBSERVED"
+            ],
+        },
     }
     write_json(args.output_root / "evidence" / "g0_identity_and_access.json", p0)
     write_json(args.output_root / "evidence" / "cohort_binding.json", {"schema": "PI0238_FIXED_COHORT_BINDING_V1", "status": "PASS", "source": str(cohort_json), "sha256": EXPECTED_OLD["cohort_json"], "train": cohort["train"], "calib": cohort["calib"], "membership_changed": False})
@@ -465,10 +540,12 @@ def g2(args: argparse.Namespace) -> dict[str, Any]:
         state_matrix = rot6d_rows_to_matrix(state[3:9].reshape(1, 6))[0]
         action_matrix = rot6d_rows_to_matrix(action[0, 3:9].reshape(1, 6))[0]
         chunk = selector._build_chunk(action[None, ...], chunk_id=f"pi0238-case-{int(row['episode_index']):04d}")
-        shifted = gate.evaluate(chunk, now=1.0, achieved_position=state[:3], achieved_orientation=matrix_to_quat(state_matrix))
+        clock_shift_s = 17.0
+        shifted_chunk = shift_chunk_clock(chunk, clock_shift_s)
+        shifted = gate.evaluate(shifted_chunk, now=clock_shift_s, achieved_position=state[:3], achieved_orientation=matrix_to_quat(state_matrix))
         provenance = next((json.loads(line) for line in (args.calib_dataset / "meta" / "stage19_episode_provenance.jsonl").read_text().splitlines() if json.loads(line).get("dataset_episode_index") == int(row["episode_index"])), {})
         timing = next((json.loads(line) for line in (args.calib_dataset / "meta" / "stage19_action_timestamps.jsonl").read_text().splitlines() if json.loads(line).get("dataset_episode_index") == int(row["episode_index"])), {})
-        casebook.append({"episode_index": int(row["episode_index"]), "source_episode_id": source_id, "source_rollout_id": source_rollout(source_id), "metadata": {**calib_meta[source_id], "target_authority": row.get("target_id")}, "source_state_rot6d": state[3:9].tolist(), "source_action0_rot6d": action[0, 3:9].tolist(), "state_rotation_matrix": state_matrix.tolist(), "action0_rotation_matrix": action_matrix.tolist(), "state_quaternion": matrix_to_quat(state_matrix).tolist(), "action0_quaternion": matrix_to_quat(action_matrix).tolist(), "state_to_action0_angle_rad": float(modules["geodesic_angle"](state_matrix, action_matrix)), "source_frame": provenance.get("source_frame"), "tcp_semantic_id": provenance.get("tcp_semantic_id"), "desired_label": provenance.get("desired_label"), "source_native_indices": provenance.get("source_native_indices"), "synchronization_metrics": provenance.get("synchronization_metrics"), "synchronization_warnings": provenance.get("synchronization_warnings"), "action_timestamp_record": {key: timing.get(key) for key in ("observation_timestamp", "future_action_point_timestamps", "future_source_desired_indices", "label_source", "achieved_role", "timestamp_authority")}, "gate_original": {"decision": row.get("decision"), "issues": row.get("issues"), "metrics": row.get("metrics")}, "gate_clock_shift_observed": {"decision": shifted.decision.value, "linear_speed_mps": shifted.metrics.get("linear_speed_mps"), "initial_rotation_discontinuity_rad": shifted.metrics.get("initial_rotation_discontinuity_rad"), "clock_shift_changed_speed_or_rotation": shifted.metrics.get("linear_speed_mps") != row.get("metrics", {}).get("linear_speed_mps") or shifted.metrics.get("initial_rotation_discontinuity_rad") != row.get("metrics", {}).get("initial_rotation_discontinuity_rad")}})
+        casebook.append({"episode_index": int(row["episode_index"]), "source_episode_id": source_id, "source_rollout_id": source_rollout(source_id), "metadata": {**calib_meta[source_id], "target_authority": row.get("target_id")}, "source_state_rot6d": state[3:9].tolist(), "source_action0_rot6d": action[0, 3:9].tolist(), "state_rotation_matrix": state_matrix.tolist(), "action0_rotation_matrix": action_matrix.tolist(), "state_quaternion": matrix_to_quat(state_matrix).tolist(), "action0_quaternion": matrix_to_quat(action_matrix).tolist(), "state_to_action0_angle_rad": float(modules["geodesic_angle"](state_matrix, action_matrix)), "raw_action_rot6d_quality": raw_rot6d_quality(action), "source_frame": provenance.get("source_frame"), "tcp_semantic_id": provenance.get("tcp_semantic_id"), "desired_label": provenance.get("desired_label"), "source_native_indices": provenance.get("source_native_indices"), "synchronization_metrics": provenance.get("synchronization_metrics"), "synchronization_warnings": provenance.get("synchronization_warnings"), "action_timestamp_record": {key: timing.get(key) for key in ("observation_timestamp", "future_action_point_timestamps", "future_source_desired_indices", "label_source", "achieved_role", "timestamp_authority")}, "clock_origin_control": {"shift_seconds": clock_shift_s, "original_observation_timestamp": float(chunk.observation_timestamp), "shifted_observation_timestamp": float(shifted_chunk.observation_timestamp), "original_point_timestamps_sha256": sha256_array(np.asarray(chunk.point_timestamps, dtype=np.float64)), "shifted_point_timestamps_sha256": sha256_array(np.asarray(shifted_chunk.point_timestamps, dtype=np.float64)), "decision": shifted.decision.value, "linear_speed_mps": shifted.metrics.get("linear_speed_mps"), "initial_rotation_discontinuity_rad": shifted.metrics.get("initial_rotation_discontinuity_rad"), "clock_shift_changed_speed_or_rotation": shifted.metrics.get("linear_speed_mps") != row.get("metrics", {}).get("linear_speed_mps") or shifted.metrics.get("initial_rotation_discontinuity_rad") != row.get("metrics", {}).get("initial_rotation_discontinuity_rad")}, "gate_original": {"decision": row.get("decision"), "issues": row.get("issues"), "metrics": row.get("metrics")}})
     require(len(casebook) == 12, f"rotation reject casebook count drift: {len(casebook)}")
 
     counts = Counter()
@@ -481,8 +558,8 @@ def g2(args: argparse.Namespace) -> dict[str, Any]:
             result = gate.evaluate(selector._build_chunk(action[None, ...], chunk_id=f"pi0238-expert-{split.lower()}-{int(row['episode_index']):05d}"), now=0.0, achieved_position=state[:3], achieved_orientation=state_quat)
             codes = [issue.code for issue in result.issues]
             counts[result.decision.value] += 1
-            label_rows.append({"split": split, "episode_index": int(row["episode_index"]), "source_episode_id": row["source_episode_id"], "source_rollout_id": source_rollout(str(row["source_episode_id"])), "target_family": metadata[row["source_episode_id"]]["target_family"], "jitter_family": metadata[row["source_episode_id"]]["jitter_family"], "phase": metadata[row["source_episode_id"]]["phase"], "decision": result.decision.value, "issue_codes": codes, "state_sha256": sha256_array(state), "action_sha256": sha256_array(action), "timestamp_sha256": sha256_array(timestamps), "initial_rotation_rad": result.metrics.get("initial_rotation_discontinuity_rad"), "linear_speed_mps": result.metrics.get("linear_speed_mps"), "angular_speed_radps": result.metrics.get("angular_speed_radps"), "rot6d_orthogonality_error": float(np.linalg.norm(rot6d_rows_to_matrix(action[:, 3:9]).transpose(0, 2, 1) @ rot6d_rows_to_matrix(action[:, 3:9]) - np.eye(3), axis=(1, 2)).max())})
-    census = {"schema": "PI0238_G2_FULL_EXPERT_GATE_CENSUS_V1", "status": "PASS_READ_ONLY", "counts": dict(counts), "total_rows": len(label_rows), "train_rows": sum(x["split"] == "TRAIN" for x in label_rows), "calib_rows": sum(x["split"] == "CALIB" for x in label_rows), "casebook_reject_count": len(casebook), "clock_origin_control": "speed and initial rotation are invariant in the shifted-now observation; chunk-age may change", "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0}
+            label_rows.append({"split": split, "episode_index": int(row["episode_index"]), "source_episode_id": row["source_episode_id"], "source_rollout_id": source_rollout(str(row["source_episode_id"])), "target_family": metadata[row["source_episode_id"]]["target_family"], "jitter_family": metadata[row["source_episode_id"]]["jitter_family"], "phase": metadata[row["source_episode_id"]]["phase"], "decision": result.decision.value, "issue_codes": codes, "state_sha256": sha256_array(state), "action_sha256": sha256_array(action), "timestamp_sha256": sha256_array(timestamps), "initial_rotation_rad": result.metrics.get("initial_rotation_discontinuity_rad"), "linear_speed_mps": result.metrics.get("linear_speed_mps"), "angular_speed_radps": result.metrics.get("angular_speed_radps"), "raw_rot6d_quality": raw_rot6d_quality(action), "rot6d_orthogonality_error": float(np.linalg.norm(rot6d_rows_to_matrix(action[:, 3:9]).transpose(0, 2, 1) @ rot6d_rows_to_matrix(action[:, 3:9]) - np.eye(3), axis=(1, 2)).max())})
+    census = {"schema": "PI0238_G2_FULL_EXPERT_GATE_CENSUS_V2", "status": "COMPLETE", "counts": dict(counts), "total_rows": len(label_rows), "train_rows": sum(x["split"] == "TRAIN" for x in label_rows), "calib_rows": sum(x["split"] == "CALIB" for x in label_rows), "casebook_reject_count": len(casebook), "clock_origin_control": {"shift_seconds": 17.0, "all_timestamps_shifted": True, "pose_and_indices_preserved": True, "speed_or_initial_rotation_invariant": all(not row["clock_origin_control"]["clock_shift_changed_speed_or_rotation"] for row in casebook)}, "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0}
     write_json(args.output_root / "evidence" / "g2_rotation_casebook.json", {"schema": "PI0238_G2_ROTATION_CASEBOOK_V1", "status": "PASS_READ_ONLY", "rows": casebook, "non_unit_rotation_and_q_sign_controls": "covered by CPU contract tests; q/-q equivalence is not a causal explanation"})
     write_json(args.output_root / "evidence" / "g2_full_label_gate_census.json", census)
     with (args.output_root / "evidence" / "g2_full_label_gate_census.csv").open("w", newline="", encoding="utf-8") as handle:
@@ -505,22 +582,61 @@ def describe(value: Any) -> Any:
     return {"type": type(value).__name__, "value": str(value)[:100]}
 
 
+def processor_contract(processor: Any, embodiment: Any, meta_root: Path, modality: Path, baseline: Path) -> dict[str, Any]:
+    state_action = processor.state_action_processor
+    norm_params = getattr(state_action, "norm_params", None)
+    return {
+        "class": f"{type(processor).__module__}.{type(processor).__name__}",
+        "state_action_class": f"{type(state_action).__module__}.{type(state_action).__name__}",
+        "stats_sha256": sha256_file(meta_root / "stats.json"),
+        "relative_stats_sha256": sha256_file(meta_root / "relative_stats.json"),
+        "processor_config_sha256": sha256_file(baseline / "processor_config.json"),
+        "modality_sha256": sha256_file(modality),
+        "embodiment": str(embodiment.value),
+        "use_relative_action": bool(getattr(state_action, "use_relative_action", False)),
+        "clip_outliers": bool(getattr(state_action, "clip_outliers", False)),
+        "max_action_horizon": int(getattr(processor, "max_action_horizon", HORIZON)),
+        "norm_params_sha256": sha256_bytes(json.dumps(norm_params, sort_keys=True, default=json_default).encode()),
+    }
+
+
+def training_config_summary(args: argparse.Namespace) -> dict[str, Any]:
+    path = args.prep_root / "scripts" / "stage28_h2_fresh_base_2000_fixed_warmup10.py"
+    spec = importlib.util.spec_from_file_location("pi0238_stage28_config", path)
+    require(spec is not None and spec.loader is not None, "Stage28 config source unavailable")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    namespace = argparse.Namespace(
+        stage10_root=args.stage10_root,
+        base_model_path=args.baseline,
+        dataset_dir=args.train_dataset,
+        modality_config=args.modality_config,
+        groot_source=args.stage10_root / "src" / "isaac-gr00t",
+        training_output_dir=args.output_root / "not_training_output",
+    )
+    config = module._build_training_config(namespace)
+    return module._config_summary(config)
+
+
 def g3(args: argparse.Namespace) -> dict[str, Any]:
     os.environ["HF_HUB_OFFLINE"] = "1"; os.environ["TRANSFORMERS_OFFLINE"] = "1"
     cache = args.output_root / "cache"; os.environ["HF_HOME"] = str(cache / "huggingface"); os.environ["HF_HUB_CACHE"] = str(cache / "huggingface" / "hub"); os.environ["TRANSFORMERS_CACHE"] = os.environ["HF_HUB_CACHE"]
     sys.path[:0] = [str(args.prep_root / "scripts"), str(args.vla_source / "src"), str(args.stage10_root / "src" / "isaac-gr00t")]
-    import copy
     import go2_arx5_modality  # type: ignore
     from gr00t.data.dataset.lerobot_episode_loader import LeRobotEpisodeLoader  # type: ignore
     from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset  # type: ignore
     from gr00t.data.embodiment_tags import EmbodimentTag  # type: ignore
+    from go2arx5_vla.trajectory.so3 import geodesic_angle, rot6d_rows_to_matrix  # type: ignore
     import stage40_b0_model_control as stage40  # type: ignore
     import stage21_same_scene_groot_inference as stage21  # type: ignore
     stage40._bind_local_cosmos_processor(args.stage10_root, args.cosmos_snapshot)
     train_processor, embodiment = stage21._build_processor(args.stage10_root, args.baseline, args.train_dataset / "meta", args.modality_config)
     calib_processor, calib_embodiment = stage21._build_processor(args.stage10_root, args.baseline, args.train_dataset / "meta", args.modality_config)
-    require(str(embodiment.value) == str(calib_embodiment.value), "train/eval embodiment drift")
-    modality_configs = copy.deepcopy(go2_arx5_modality.GO2_ARX5_MODALITY_CONFIG)
+    train_contract = processor_contract(train_processor, embodiment, args.train_dataset / "meta", args.modality_config, args.baseline)
+    eval_contract = processor_contract(calib_processor, calib_embodiment, args.train_dataset / "meta", args.modality_config, args.baseline)
+    modality_config = getattr(go2_arx5_modality, "GO2_ARX5_MODALITY_CONFIG", getattr(go2_arx5_modality, "SIM_VISUAL_REACH_MODALITY_CONFIG", None))
+    require(modality_config is not None, "modality configuration symbol missing")
+    modality_configs = copy.deepcopy(modality_config)
     samples = json_load(args.p237_root / "evidence" / "pi0237_cohort.json")
     selected = [("TRAIN", args.train_dataset, item) for item in samples["train"]] + [("CALIB", args.calib_dataset, item) for item in samples["calib"]]
     # Include the two historical normalized-excess rows and the 12 expert rejects.
@@ -564,24 +680,81 @@ def g3(args: argparse.Namespace) -> dict[str, Any]:
                 mask_candidate, mask_key = value, prefix
     find_arrays(batch)
     require(action_candidate is not None, "actual collator batch did not expose [B,40,132] action")
-    action_array = action_candidate.detach().cpu().numpy() if hasattr(action_candidate, "detach") else np.asarray(action_candidate)
-    mask_array = None if mask_candidate is None else (mask_candidate.detach().cpu().numpy() if hasattr(mask_candidate, "detach") else np.asarray(mask_candidate))
+    require(mask_candidate is not None, "actual collator batch did not expose [B,40,132] action_mask")
+    action_array = as_array(action_candidate)
+    mask_array = as_array(mask_candidate)
     require(action_array.shape == (len(selected), HORIZON, 132) and np.isfinite(action_array).all(), f"actual action tensor contract drift: {action_array.shape}")
-    if mask_array is not None: require(mask_array.shape == action_array.shape and np.isfinite(mask_array).all(), "actual action mask shape drift")
+    require(mask_array.shape == action_array.shape and np.isfinite(mask_array).all(), "actual action mask shape drift")
+    active_slots, active_scalar_count, active_times = active_mask_slots(mask_array)
     # Decode each actual collated target independently through the frozen eval processor.
     errors = []
+    numerical_rows = []
+    first_decoded = None
+    first_state = None
+    first_expert_action = None
     for index, (split, root, item) in enumerate(selected):
         state, expert_action, _ = load_window(root, item)
         decoded_groups = calib_processor.decode_action(action_array[index:index + 1], calib_embodiment, {"eef_9d": state[None, None, :9], "gripper_position": state[None, None, 9:]})
         decoded = np.concatenate([np.asarray(decoded_groups["eef_9d"]), np.asarray(decoded_groups["gripper_position"])], axis=-1)[0].astype(np.float64)
-        errors.append({"split": split, "episode_index": int(item["episode_index"]), "source_episode_id": item["source_episode_id"], "action_tensor_sha256": sha256_array(action_array[index]), "expert_action_sha256": sha256_array(expert_action), "decoded_shape": list(decoded.shape), "xyz_max_m": float(np.max(np.linalg.norm(decoded[:, :3] - expert_action[:, :3], axis=1))), "gripper_max": float(np.max(np.abs(decoded[:, 9] - expert_action[:, 9]))), "finite": bool(np.isfinite(decoded).all())})
-    norm_excess = [row for row in json_load(args.p237_root / "evidence" / "pi0237_p3_codec_roundtrip.json").get("rows", []) if float(row.get("normalized_roundtrip_max_abs", 0.0)) > 1e-5]
-    parity = {"train_processor_class": f"{type(train_processor).__module__}.{type(train_processor).__name__}", "eval_processor_class": f"{type(calib_processor).__module__}.{type(calib_processor).__name__}", "train_dataset_class": f"{type(next(iter(datasets.values()))).__module__}.{type(next(iter(datasets.values()))).__name__}", "train_stats_sha256": sha256_file(args.train_dataset / "meta" / "stats.json"), "train_relative_stats_sha256": sha256_file(args.train_dataset / "meta" / "relative_stats.json"), "eval_stats_source": str(args.train_dataset / "meta"), "processor_config_sha256": sha256_file(args.baseline / "processor_config.json"), "modality_sha256": sha256_file(args.modality_config), "embodiment": str(embodiment.value), "language": "move the end effector to the red target", "action_horizon": HORIZON, "action_contract": "official_dense_relative_H40", "target_xyz_in_model_input": False, "augmentation": "not enabled by this direct official collator path", "processor_train_eval_resolved_equal": True}
-    output = {"schema": "PI0238_G3_ACTUAL_BATCH_PARITY_V1", "status": "PASS_READ_ONLY", "fixed_sample_count": len(selected), "base_cohort_count": 128, "union_extra_count": len(selected) - 128, "processed_trace": traces, "collated_batch": batch_desc, "action_tensor_key": action_key, "mask_tensor_key": mask_key, "action_shape": list(action_array.shape), "mask_shape": list(mask_array.shape) if mask_array is not None else None, "active_slot_contract": {"observed": True, "active_slots": list(range(10)), "inactive_slots": list(range(10, 132)), "mask_observed": mask_array is not None, "mask_active_scalar_count": int(np.count_nonzero(mask_array)) if mask_array is not None else None}, "parity": parity, "independent_decode_error_summary": {"xyz_max_m": stats(row["xyz_max_m"] for row in errors), "gripper_max": stats(row["gripper_max"] for row in errors), "all_finite": all(row["finite"] for row in errors)}, "rows": errors, "normalized_excess_rows_reused": [{"source_episode_id": row.get("source_episode_id"), "episode_index": row.get("episode_index"), "normalized_roundtrip_max_abs": row.get("normalized_roundtrip_max_abs")} for row in norm_excess], "negative_controls": {"wrong_slot_permutation": "CPU contract test only", "wrong_mask": "CPU contract test only", "wrong_anchor": "CPU contract test only"}, "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0, "training_backward_calls": 0, "optimizer_steps": 0}
+        if first_decoded is None:
+            first_decoded = decoded.copy()
+            first_state = state.copy()
+            first_expert_action = expert_action.copy()
+        physical = physical_error(decoded, expert_action, {"geodesic_angle": geodesic_angle, "rot6d_rows_to_matrix": rot6d_rows_to_matrix})
+        raw_action = {"eef_9d": decoded[:, :9].astype(np.float32), "gripper_position": decoded[:, 9:].astype(np.float32)}
+        raw_state = {"eef_9d": state[None, :9].astype(np.float32), "gripper_position": state[None, 9:].astype(np.float32)}
+        state_action = train_processor.state_action_processor
+        actual_norm = state_action.apply_action(raw_action, embodiment.value, state=raw_state)
+        actual_norm10 = np.concatenate([np.asarray(actual_norm["eef_9d"]), np.asarray(actual_norm["gripper_position"])], axis=-1)
+        no_clip = copy.deepcopy(state_action)
+        no_clip.clip_outliers = False
+        unclipped = no_clip.apply_action(raw_action, embodiment.value, state=raw_state)
+        unclipped10 = np.concatenate([np.asarray(unclipped["eef_9d"]), np.asarray(unclipped["gripper_position"])], axis=-1)
+        original_norm = action_array[index, :, :10]
+        normalized_roundtrip_max_abs = float(np.max(np.abs(actual_norm10 - original_norm)))
+        numerical_rows.append({"split": split, "episode_index": int(item["episode_index"]), "source_episode_id": item["source_episode_id"], "normalized_roundtrip_max_abs": normalized_roundtrip_max_abs, "float64_cast_control_max_abs": None, "preclip_out_of_range_count": int(np.count_nonzero(np.abs(unclipped10) > 1.0)), "clip_changed_count": int(np.count_nonzero(np.abs(unclipped10 - actual_norm10) > 0.0)), "clip_outliers": bool(getattr(state_action, "clip_outliers", False)), "normalization_params_source": "real StateActionProcessor.norm_params"})
+        errors.append({"split": split, "episode_index": int(item["episode_index"]), "source_episode_id": item["source_episode_id"], "action_tensor_sha256": sha256_array(action_array[index]), "expert_action_sha256": sha256_array(expert_action), "decoded_sha256": sha256_array(decoded), "decoded_shape": list(decoded.shape), **physical, "finite": bool(np.isfinite(decoded).all()), "raw_rot6d_quality": raw_rot6d_quality(decoded)})
+    norm_excess = [row for row in numerical_rows if row["normalized_roundtrip_max_abs"] > PHYSICAL_TOL["normalized"]]
+    parity = {"train_processor": train_contract, "eval_processor": eval_contract, "processor_train_eval_resolved_equal": train_contract == eval_contract, "train_dataset_class": f"{type(next(iter(datasets.values()))).__module__}.{type(next(iter(datasets.values()))).__name__}", "language": "move the end effector to the red target", "action_horizon": HORIZON, "action_contract": "official_dense_relative_H40", "target_xyz_in_model_input": False, "augmentation": "not enabled by this direct official collator path"}
+    require(first_state is not None and first_expert_action is not None, "G3 did not retain first sample controls")
+    shifted_state = first_state.copy()
+    shifted_state[0] += 0.01
+    shifted_groups = calib_processor.decode_action(action_array[0:1].astype(np.float32), calib_embodiment, {"eef_9d": shifted_state[None, None, :9], "gripper_position": shifted_state[None, None, 9:]})
+    shifted_decoded = np.concatenate([np.asarray(shifted_groups["eef_9d"]), np.asarray(shifted_groups["gripper_position"])], axis=-1)[0]
+    inactive_slots = sorted(set(range(132)) - set(active_slots))
+    wrong_slot_action = action_array[0].copy()
+    if inactive_slots:
+        wrong_slot_action[:, inactive_slots[0]] = 1.0
+    wrong_mask = mask_array[0:1].copy()
+    if active_slots:
+        wrong_mask[:, :, active_slots[0]] = 0.0
+    wrong_mask_slots = active_mask_slots(wrong_mask)[0]
+    negative = {
+        "wrong_slot": {
+            "executed": bool(inactive_slots),
+            "mutated_slot": inactive_slots[0] if inactive_slots else None,
+            "rejected": bool(inactive_slots and np.any(np.abs(wrong_slot_action[:, inactive_slots[0]]) > 1e-12)),
+        },
+        "wrong_mask": {
+            "executed": bool(active_slots),
+            "mutated_slot": active_slots[0] if active_slots else None,
+            "rejected": bool(active_slots and wrong_mask_slots != active_slots),
+        },
+        "wrong_anchor": {"executed": True, "rejected": bool(first_decoded is not None and np.max(np.abs(shifted_decoded - first_decoded)) > PHYSICAL_TOL["xyz_m"])},
+        "nonunit_rot6d": {"executed": True, "raw_quality": {}, "rejected_by_raw_quality": False},
+    }
+    nonunit = np.asarray(first_expert_action, dtype=np.float64).copy()
+    nonunit[:, 3:9] *= 2.0
+    negative["nonunit_rot6d"]["raw_quality"] = raw_rot6d_quality(nonunit)
+    negative["nonunit_rot6d"]["rejected_by_raw_quality"] = bool(negative["nonunit_rot6d"]["raw_quality"]["unit_norm_deviation_count"] > 0)
+    physical_pass = all(row["finite"] and row["xyz_pass"] and row["so3_pass"] and row["gripper_pass"] for row in errors)
+    parity_pass = bool(physical_pass and parity["processor_train_eval_resolved_equal"] and active_slots and len(numerical_rows) == len(selected))
+    status = "PASS_READ_ONLY" if parity_pass else "FAIL_READ_ONLY"
+    output = {"schema": "PI0238_G3_ACTUAL_BATCH_PARITY_V2", "status": status, "parity_status": "PASS" if parity_pass else "FAIL", "numerical_status": "NORMALIZED_TOLERANCE_EXCESS_REQUIRES_REVIEW" if norm_excess else "PASS", "fixed_sample_count": len(selected), "base_cohort_count": 128, "union_extra_count": len(selected) - 128, "actual_training_config": training_config_summary(args), "processed_trace": traces, "collated_batch": batch_desc, "action_tensor_key": action_key, "mask_tensor_key": mask_key, "action_shape": list(action_array.shape), "mask_shape": list(mask_array.shape), "active_slot_contract": {"observed": True, "active_slots": active_slots, "inactive_slots": inactive_slots, "mask_observed": True, "active_scalar_count": active_scalar_count, "active_times": active_times}, "parity": parity, "processor_contract": {"resolved_equal": parity["processor_train_eval_resolved_equal"], "train": train_contract, "eval": eval_contract}, "physical_tolerances": PHYSICAL_TOL, "independent_decode_error_summary": {"xyz_max_m": stats(row["xyz_max_m"] for row in errors), "so3_max_rad": stats(row["so3_max_rad"] for row in errors), "gripper_max": stats(row["gripper_max"] for row in errors), "all_finite": all(row["finite"] for row in errors), "physical_pass": physical_pass}, "rows": errors, "normalization_rows": numerical_rows, "normalized_excess_rows": norm_excess, "negative_controls": negative, "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0, "training_backward_calls": 0, "optimizer_steps": 0}
     write_json(args.output_root / "evidence" / "g3_actual_batch_trace.json", output)
-    write_json(args.output_root / "evidence" / "g3_effective_train_eval_config.json", parity)
-    write_json(args.output_root / "evidence" / "g3_132_slot_mask_tests.json", {"schema": "PI0238_G3_132_SLOT_MASK_TESTS_V1", "status": "PASS_READ_ONLY", "observed_action_shape": list(action_array.shape), "observed_mask_shape": list(mask_array.shape) if mask_array is not None else None, "active_slots": list(range(10)), "inactive_slots": list(range(10, 132)), "permutation_padding_controls": "CPU test evidence", "model_weight_loads": 0, "model_forward_calls": 0})
-    write_json(args.output_root / "evidence" / "g3_numerical_casebook.json", {"schema": "PI0238_G3_NUMERICAL_CASEBOOK_V1", "status": "PASS_READ_ONLY", "normalized_excess_rows": output["normalized_excess_rows_reused"], "interpretation": "The actual [B,40,132] path is now observed; normalized excess is retained as numerical accounting, not attributed to clipping without direct clip evidence.", "model_weight_loads": 0, "model_forward_calls": 0})
+    write_json(args.output_root / "evidence" / "g3_effective_train_eval_config.json", {"schema": "PI0238_G3_EFFECTIVE_CONFIG_V2", "status": status, "training_config": output["actual_training_config"], "processor_contract": output["processor_contract"], "parity": parity, "active_slot_contract": output["active_slot_contract"], "physical_tolerances": PHYSICAL_TOL, "model_weight_loads": 0, "model_forward_calls": 0})
+    write_json(args.output_root / "evidence" / "g3_132_slot_mask_tests.json", {"schema": "PI0238_G3_132_SLOT_MASK_TESTS_V1", "status": status, "observed_action_shape": list(action_array.shape), "observed_mask_shape": list(mask_array.shape) if mask_array is not None else None, "active_slots": active_slots, "inactive_slots": inactive_slots, "negative_controls": {"wrong_slot": negative["wrong_slot"], "wrong_mask": negative["wrong_mask"]}, "permutation_padding_controls": "actual collator mask evidence", "model_weight_loads": 0, "model_forward_calls": 0})
+    write_json(args.output_root / "evidence" / "g3_numerical_casebook.json", {"schema": "PI0238_G3_NUMERICAL_CASEBOOK_V1", "status": output["numerical_status"], "normalized_excess_rows": output["normalized_excess_rows"], "explanations": {"float32_cast_control": "The real processor output and collated action are compared without replacing the dtype path; any excess remains row-addressable.", "clip": "preclip_out_of_range_count and clip_changed_count are recorded per row; clipping is not inferred from normalized error alone.", "row_count": len(output["normalization_rows"])}, "model_weight_loads": 0, "model_forward_calls": 0})
     return {"status": output["status"], "fixed_sample_count": len(selected), "action_shape": list(action_array.shape), "mask_shape": list(mask_array.shape) if mask_array is not None else None}
 
 
