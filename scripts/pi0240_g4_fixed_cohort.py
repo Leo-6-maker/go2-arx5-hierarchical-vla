@@ -11,6 +11,7 @@ import sys
 import time
 from collections import Counter
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import numpy as np
@@ -175,7 +176,12 @@ def main() -> int:
         raise RuntimeError(f"fixed cohort drift: {len(ordered)}")
     authority = json.loads((args.p237_root / "evidence" / "pi0228_train_calib_target_authority.json").read_text(encoding="utf-8"))
     targets = target_map(authority)
-    modality, modality_identity = mature.bind_modality_source(args)
+    modality, modality_identity = mature.bind_modality_source(SimpleNamespace(
+        modality_config=args.modality_config,
+        prep_root=args.code_root,
+        vla_source=args.code_root,
+        stage10_root=args.stage10_root,
+    ))
     modality_config = getattr(modality, "GO2_ARX5_MODALITY_CONFIG", getattr(modality, "SIM_VISUAL_REACH_MODALITY_CONFIG", None))
     if modality_config is None:
         raise RuntimeError("modality config missing")
