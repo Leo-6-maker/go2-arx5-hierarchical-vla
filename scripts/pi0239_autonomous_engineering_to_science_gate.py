@@ -151,6 +151,20 @@ def module_identity(module: Any) -> dict[str, Any]:
     return {"module": module.__name__, "file": str(path), "sha256": sha256_file(path)}
 
 
+def source_identity(value: Any) -> dict[str, Any]:
+    """Return source identity for functions, classes, and callable instances."""
+    target = value if inspect.isfunction(value) or inspect.ismethod(value) or inspect.isclass(value) else type(value)
+    source = inspect.getsourcefile(target)
+    name = getattr(value, "__qualname__", type(value).__qualname__)
+    module = getattr(value, "__module__", type(value).__module__)
+    path = Path(source).resolve() if source else None
+    return {
+        "qualified": f"{module}.{name}",
+        "source": str(path) if path else "NOT_OBSERVED_IN_SEALED_ARTIFACT",
+        "sha256": sha256_file(path) if path else None,
+    }
+
+
 def loaded_ffmpeg_maps() -> list[str]:
     path = Path(f"/proc/{os.getpid()}/maps")
     if not path.exists():
@@ -166,16 +180,13 @@ def runtime_probe(args: SimpleNamespace, cfg: Mapping[str, Any]) -> dict[str, An
     from torchcodec.decoders import VideoDecoder  # type: ignore
     import stage21_same_scene_groot_inference as stage21  # type: ignore
     import stage40_b0_model_control as stage40  # type: ignore
-    import go2_arx5_modality  # type: ignore
     from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset  # type: ignore
     from gr00t.data.dataset.lerobot_episode_loader import LeRobotEpisodeLoader  # type: ignore
+    go2_arx5_modality, modality_origin = mature.bind_modality_source(args)
     stage40._bind_local_cosmos_processor(args.stage10_root, args.cosmos_snapshot)
     processor, embodiment = stage21._build_processor(
         args.stage10_root, args.baseline, args.train_dataset / "meta", args.modality_config
     )
-    def source_identity(value: Any) -> dict[str, Any]:
-        source = inspect.getsourcefile(value) or inspect.getsourcefile(type(value))
-        return {"qualified": f"{getattr(value, '__module__', type(value).__module__)}.{getattr(value, '__qualname__', type(value).__qualname__)}", "source": str(Path(source).resolve()) if source else "NOT_OBSERVED_IN_SEALED_ARTIFACT", "sha256": sha256_file(Path(source).resolve()) if source else None}
     core = Path(torchcodec.__file__).resolve().parent / "libtorchcodec_core6.so"
     ldd = run_capture(["ldd", str(core)]) if core.exists() else {"argv": ["ldd", str(core)], "returncode": 127, "stdout": "", "stderr": "missing core6"}
     modality = Path(go2_arx5_modality.__file__).resolve()
@@ -193,7 +204,7 @@ def runtime_probe(args: SimpleNamespace, cfg: Mapping[str, Any]) -> dict[str, An
         "ldd_torchcodec_core6": ldd,
         "stage21": module_identity(stage21),
         "stage40": module_identity(stage40),
-        "modality": {"file": str(modality), "sha256": sha256_file(modality)},
+        "modality": {"file": str(modality), "sha256": sha256_file(modality), "binding": modality_origin},
         "dataset_class": f"{ShardedSingleStepDataset.__module__}.{ShardedSingleStepDataset.__name__}",
         "episode_loader_class": f"{LeRobotEpisodeLoader.__module__}.{LeRobotEpisodeLoader.__name__}",
         "stage45b_manifest": {"path": str(args.stage45b_manifest), "sha256": sha256_file(args.stage45b_manifest)},
