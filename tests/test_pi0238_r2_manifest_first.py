@@ -234,7 +234,7 @@ class ManifestFirstTests(unittest.TestCase):
             self.assertTrue(calls, "wrapper dispatch did not invoke mature resolver")
             result = json.loads((paths["output_root"] / "evidence" / "g0_identity_and_access.json").read_text())
             self.assertEqual(result["fresh_family"]["checkpoints"]["2500"]["path"], str((fresh / "training" / "checkpoint-2500").resolve()))
-            self.assertEqual(result["inventory"]["rows"][0]["resolved_path"], str(artifact.resolve()))
+            self.assertEqual(result["evidence_inventory"]["rows"][0]["resolved_path"], str(artifact.resolve()))
 
 
 if __name__ == "__main__":
