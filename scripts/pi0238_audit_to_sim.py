@@ -776,20 +776,24 @@ def g3(args: argparse.Namespace) -> dict[str, Any]:
     modality_configs = copy.deepcopy(modality_config)
     samples = json_load(args.p237_root / "evidence" / "pi0237_cohort.json")
     selected = [("TRAIN", args.train_dataset, item) for item in samples["train"]] + [("CALIB", args.calib_dataset, item) for item in samples["calib"]]
-    # Include the two historical normalized-excess rows and the 12 expert rejects.
-    old_p3 = json_load(args.p237_root / "evidence" / "pi0237_p3_codec_roundtrip.json")
     extras: dict[tuple[str, int], tuple[str, Path, dict[str, Any]]] = {}
-    for row in old_p3.get("rows", []):
-        if float(row.get("normalized_roundtrip_max_abs", 0.0)) > 1e-5:
-            key = (str(row["source_episode_id"]), int(row["episode_index"]))
-            if key not in {(str(x[2]["source_episode_id"]), int(x[2]["episode_index"])) for x in selected}:
-                extras[key] = ("CALIB" if row.get("split") == "CALIB" else "TRAIN", args.calib_dataset if row.get("split") == "CALIB" else args.train_dataset, row)
-    for row in json_load(args.p237_root / "evidence" / "pi0237_p2_expert_gate.json")["rows"]:
-        if row.get("decision") == "REJECT":
-            key = (str(row["source_episode_id"]), int(row["episode_index"]))
-            if key not in {(str(x[2]["source_episode_id"]), int(x[2]["episode_index"])) for x in selected}:
-                extras[key] = ("CALIB", args.calib_dataset, row)
-    selected.extend(extras.values())
+    sample_limit = getattr(args, "sample_limit", None)
+    if sample_limit is not None:
+        selected = selected[:sample_limit]
+    else:
+        # Include the two historical normalized-excess rows and the 12 expert rejects.
+        old_p3 = json_load(args.p237_root / "evidence" / "pi0237_p3_codec_roundtrip.json")
+        for row in old_p3.get("rows", []):
+            if float(row.get("normalized_roundtrip_max_abs", 0.0)) > 1e-5:
+                key = (str(row["source_episode_id"]), int(row["episode_index"]))
+                if key not in {(str(x[2]["source_episode_id"]), int(x[2]["episode_index"])) for x in selected}:
+                    extras[key] = ("CALIB" if row.get("split") == "CALIB" else "TRAIN", args.calib_dataset if row.get("split") == "CALIB" else args.train_dataset, row)
+        for row in json_load(args.p237_root / "evidence" / "pi0237_p2_expert_gate.json")["rows"]:
+            if row.get("decision") == "REJECT":
+                key = (str(row["source_episode_id"]), int(row["episode_index"]))
+                if key not in {(str(x[2]["source_episode_id"]), int(x[2]["episode_index"])) for x in selected}:
+                    extras[key] = ("CALIB", args.calib_dataset, row)
+        selected.extend(extras.values())
     require(len(selected) <= 142, f"G3 fixed union exceeded 142: {len(selected)}")
     datasets = {str(args.train_dataset): ShardedSingleStepDataset(args.train_dataset, EmbodimentTag.NEW_EMBODIMENT, modality_configs, shard_size=128, episode_sampling_rate=1.0, seed=SEED, allow_padding=False), str(args.calib_dataset): ShardedSingleStepDataset(args.calib_dataset, EmbodimentTag.NEW_EMBODIMENT, modality_configs, shard_size=128, episode_sampling_rate=1.0, seed=SEED, allow_padding=False)}
     for dataset in datasets.values(): dataset.processor = train_processor
@@ -899,7 +903,7 @@ def g3(args: argparse.Namespace) -> dict[str, Any]:
     physical_pass = all(row["finite"] and row["xyz_pass"] and row["so3_pass"] and row["gripper_pass"] for row in errors)
     parity_pass = bool(physical_pass and parity["processor_train_eval_resolved_equal"] and active_slots and len(numerical_rows) == len(selected))
     status = "PASS_READ_ONLY" if parity_pass else "FAIL_READ_ONLY"
-    output = {"schema": "PI0238_G3_ACTUAL_BATCH_PARITY_V2", "status": status, "parity_status": "PASS" if parity_pass else "FAIL", "numerical_status": "NORMALIZED_TOLERANCE_EXCESS_REQUIRES_REVIEW" if norm_excess else "PASS", "fixed_sample_count": len(selected), "base_cohort_count": 128, "union_extra_count": len(selected) - 128, "actual_training_config": training_config_summary(args), "processed_trace": traces, "collated_batch": batch_desc, "action_tensor_key": action_key, "mask_tensor_key": mask_key, "action_shape": list(action_array.shape), "mask_shape": list(mask_array.shape), "active_slot_contract": {"observed": True, "active_slots": active_slots, "inactive_slots": inactive_slots, "mask_observed": True, "active_scalar_count": active_scalar_count, "active_times": active_times}, "parity": parity, "processor_contract": {"resolved_equal": parity["processor_train_eval_resolved_equal"], "train": train_contract, "eval": eval_contract}, "physical_tolerances": PHYSICAL_TOL, "independent_decode_error_summary": {"xyz_max_m": stats(row["xyz_max_m"] for row in errors), "so3_max_rad": stats(row["so3_max_rad"] for row in errors), "gripper_max": stats(row["gripper_max"] for row in errors), "all_finite": all(row["finite"] for row in errors), "physical_pass": physical_pass}, "gate_summary": dict(Counter(row["gate"]["decision"] for row in errors)), "rows": errors, "normalization_rows": numerical_rows, "normalized_excess_rows": norm_excess, "negative_controls": negative, "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0, "training_backward_calls": 0, "optimizer_steps": 0}
+    output = {"schema": "PI0238_G3_ACTUAL_BATCH_PARITY_V2", "status": status, "parity_status": "PASS" if parity_pass else "FAIL", "numerical_status": "NORMALIZED_TOLERANCE_EXCESS_REQUIRES_REVIEW" if norm_excess else "PASS", "smoke_only": sample_limit is not None, "fixed_sample_count": len(selected), "base_cohort_count": 1 if sample_limit is not None else 128, "union_extra_count": len(extras), "actual_training_config": training_config_summary(args), "processed_trace": traces, "collated_batch": batch_desc, "action_tensor_key": action_key, "mask_tensor_key": mask_key, "action_shape": list(action_array.shape), "mask_shape": list(mask_array.shape), "active_slot_contract": {"observed": True, "active_slots": active_slots, "inactive_slots": inactive_slots, "mask_observed": True, "active_scalar_count": active_scalar_count, "active_times": active_times}, "parity": parity, "processor_contract": {"resolved_equal": parity["processor_train_eval_resolved_equal"], "train": train_contract, "eval": eval_contract}, "physical_tolerances": PHYSICAL_TOL, "independent_decode_error_summary": {"xyz_max_m": stats(row["xyz_max_m"] for row in errors), "so3_max_rad": stats(row["so3_max_rad"] for row in errors), "gripper_max": stats(row["gripper_max"] for row in errors), "all_finite": all(row["finite"] for row in errors), "physical_pass": physical_pass}, "gate_summary": dict(Counter(row["gate"]["decision"] for row in errors)), "rows": errors, "normalization_rows": numerical_rows, "normalized_excess_rows": norm_excess, "negative_controls": negative, "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0, "training_backward_calls": 0, "optimizer_steps": 0}
     write_json(args.output_root / "evidence" / "g3_actual_batch_trace.json", output)
     write_json(args.output_root / "evidence" / "g3_effective_train_eval_config.json", {"schema": "PI0238_G3_EFFECTIVE_CONFIG_V2", "status": status, "training_config": output["actual_training_config"], "processor_contract": output["processor_contract"], "parity": parity, "active_slot_contract": output["active_slot_contract"], "physical_tolerances": PHYSICAL_TOL, "model_weight_loads": 0, "model_forward_calls": 0})
     write_json(args.output_root / "evidence" / "g3_132_slot_mask_tests.json", {"schema": "PI0238_G3_132_SLOT_MASK_TESTS_V1", "status": status, "observed_action_shape": list(action_array.shape), "observed_mask_shape": list(mask_array.shape) if mask_array is not None else None, "active_slots": active_slots, "inactive_slots": inactive_slots, "negative_controls": {"wrong_slot": negative["wrong_slot"], "wrong_mask": negative["wrong_mask"]}, "permutation_padding_controls": "actual collator mask evidence", "model_weight_loads": 0, "model_forward_calls": 0})
@@ -927,6 +931,7 @@ def main() -> int:
     parser.add_argument("--cosmos-snapshot", type=Path, required=True)
     parser.add_argument("--modality-config", type=Path, required=True)
     parser.add_argument("--protocol", type=Path, required=True)
+    parser.add_argument("--sample-limit", type=int, choices=(1,))
     args = parser.parse_args()
     args.output_root.mkdir(parents=True, exist_ok=True)
     try:
