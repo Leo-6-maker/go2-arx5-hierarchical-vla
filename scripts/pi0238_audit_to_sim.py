@@ -125,8 +125,7 @@ def run_capture(command: list[str]) -> dict[str, Any]:
 def tree_sha256(root: Path, prefix: str) -> tuple[str, int, int]:
     require(root.is_dir() and not root.is_symlink(), f"dataset root is not a regular directory: {root}")
     digest = hashlib.sha256()
-    count = 0
-    total = 0
+    entries: list[tuple[str, int, str]] = []
     for directory, dirnames, filenames in os.walk(root, followlinks=False):
         base = Path(directory)
         for dirname in dirnames:
@@ -135,10 +134,10 @@ def tree_sha256(root: Path, prefix: str) -> tuple[str, int, int]:
             path = base / filename
             require(path.is_file() and not path.is_symlink(), f"unsafe sealed tree file: {path}")
             size = path.stat().st_size
-            digest.update(f"{prefix}/{path.relative_to(root).as_posix()}\0{size}\0{sha256_file(path)}\n".encode())
-            count += 1
-            total += size
-    return digest.hexdigest(), count, total
+            entries.append((path.relative_to(root).as_posix(), size, sha256_file(path)))
+    for relative, size, sha256 in sorted(entries):
+        digest.update(f"{prefix}/{relative}\0{size}\0{sha256}\n".encode())
+    return digest.hexdigest(), len(entries), sum(size for _, size, _ in entries)
 
 
 def parse_identity(rollout_id: str) -> dict[str, str]:
