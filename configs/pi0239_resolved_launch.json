@@ -1,0 +1,55 @@
+{
+  "schema": "PI0239_RESOLVED_LAUNCH_V1",
+  "protocol_commit": "451bbd231b60f7534bb7c08c654f81d7bea322ee",
+  "audited_parent": "a30905e03d4009abc419cb7b60b39da3032cfef8",
+  "branch": "pi0239/autonomous-engineering-to-science-gate",
+  "reservation_bytes": 536870912,
+  "paths": {
+    "output_root": "/scratch/e1192548/pi0239_g3_audit_20260920T2000Z",
+    "cache_root": "/scratch/e1192548/pi0239_g3_audit_20260920T2000Z_cache",
+    "tmp_root": "/scratch/e1192548/pi0239_g3_audit_20260920T2000Z_tmp",
+    "r2_root": "/scratch/e1192548/pi0238_r2_audit_20260920T1630Z",
+    "p237_root": "/scratch/e1192548/pi0237_failure_attribution_20260920T014727Z",
+    "run_root": "/scratch/e1192548/pi0236_train_calib_eval_624097.hopper-m-02",
+    "train_dataset": "/scratch/e1192548/pi0227_large_adapt_v1_inputs/train_dataset",
+    "calib_dataset": "/scratch/e1192548/pi0227_large_adapt_v1_inputs/train_calib_dataset",
+    "prep_root": "/scratch/e1192548/pi0228_h200_prep_20260919",
+    "vla_source": "/scratch/e1192548/go2-arx5-hierarchical-vla_takeover",
+    "stage10_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902",
+    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+    "baseline": "/scratch/e1192548/pi0227_large_adapt_v1_inputs/checkpoint-1000",
+    "fresh_root": "/scratch/e1192548/pi0228_h200_large_adapt_v1_623593.hopper-m-02",
+    "cosmos_snapshot": "/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_cache_root": "/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home",
+    "modality_config": "/scratch/e1192548/pi0227_h200_prep_20260919/inputs/go2_arx5_modality.py",
+    "stage45b_root": "/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf",
+    "stage45b_manifest": "/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1.json",
+    "torchcodec_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages/torchcodec",
+    "torch_lib_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages/torch/lib",
+    "protocol": "/scratch/e1192548/pi0239_autonomous_engineering_20260920T2000Z_code/docs/protocols/PI0239_AUTONOMOUS_ENGINEERING_UNTIL_SCIENCE_FAIL.md",
+    "script": "/scratch/e1192548/pi0239_autonomous_engineering_20260920T2000Z_code/scripts/pi0239_autonomous_engineering_to_science_gate.py",
+    "mature_script": "/scratch/e1192548/pi0239_autonomous_engineering_20260920T2000Z_code/scripts/pi0238_audit_to_sim.py",
+    "r1_helper": "/scratch/e1192548/pi0239_autonomous_engineering_20260920T2000Z_code/scripts/pi0238_r1_engineering_recovery.py",
+    "pbs": "/scratch/e1192548/pi0239_autonomous_engineering_20260920T2000Z_code/hpc/pbs/pi0239_g3_stage45b.pbs",
+    "launch_config": "/scratch/e1192548/pi0239_autonomous_engineering_20260920T2000Z_code/pi0239_resolved_launch.json"
+  },
+  "implementation": {
+    "script_sha256": "97DD9F9FF28BC15D20CDB39674726026BAFE73B6230FFCAB3BCEA328F76E1DC3",
+    "mature_script_sha256": "4373FFB6305BE142F91BE83F6092B52B96260EC1A7C05873CBD30A9105B19871",
+    "r1_helper_sha256": "DFA24F1693531D980F7D86AA8FA25104B310DF113436370030380B16A4788EA5",
+    "pbs_sha256": "46F79C8B5412DA04624A9DD0FB172E796E53D25CA7B22C11088807D9160BB84A",
+    "protocol_sha256": "5C958A0CD575C9A63C74FB15EE598EB896E10594055ABBD6FBA9C8AE6B1A2A0F"
+  },
+  "reuse": {
+    "evidence_sha256": {
+      "g0_identity_and_access.json": "5546a86323f79516a9d3be266b21ecedc8c4863a57e4cd7e77d4ee17c7eaf893",
+      "cohort_binding.json": "5cdb497f83f983da76767d00a0436410af8f73b6485d90f4e51f671c61297142",
+      "g1_failure_decomposition.json": "2fd5e643467c12989c70096fe8b93dd463bd03e5a892118e4cd624493cd8c769",
+      "g1_records.csv": "61d50c3ae2416586fc0f7736678f8ed6534190cf5f1e146262e38d3cb097d151",
+      "g2_full_label_gate_census.json": "5939a4db8e009772507056ba7e9df3e5cc1a2c1c59138984f3373e167d407400",
+      "g2_full_label_gate_census.csv": "3643530e6db543b11389c399e4e15522a134e2bac6693b22a34762ee08c2bee5",
+      "g2_rotation_casebook.json": "4cd93c5dd5fc1e602fba028dda7cb3d0e9b0548b2398873eacb95f54d29b698c",
+      "g2_source_window_alignment.json": "c0c7ffe3f03647f80455cc8b2a138edfc61a719601307b5b855dd0f78db697c7"
+    }
+  }
+}

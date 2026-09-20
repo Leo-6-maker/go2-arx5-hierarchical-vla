@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# PI0239: one resumable G2-clock/G3 CPU audit attempt.
+# G0-G2 census is reused; this job never loads model weights or calls GR00T.
+# The exact Stage45B FFmpeg6 environment is bound by the Python runner.
+#PBS -N pi0239-g3
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -V
+
+set -euo pipefail
+: "${PI0239_LAUNCH_CONFIG:?missing PI0239_LAUNCH_CONFIG}"
+: "${PI0239_PYTHON:?missing PI0239_PYTHON}"
+: "${PI0239_SCRIPT:?missing PI0239_SCRIPT}"
+
+export CUDA_VISIBLE_DEVICES=""
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONNOUSERSITE=1
+export PYTHONPATH=""
+
+run_phase() {
+  local phase="$1"
+  "$PI0239_PYTHON" "$PI0239_SCRIPT" --phase "$phase" --launch-config "$PI0239_LAUNCH_CONFIG"
+}
+
+run_phase preflight
+run_phase initialize
+run_phase reuse
+run_phase clock
+run_phase g3
