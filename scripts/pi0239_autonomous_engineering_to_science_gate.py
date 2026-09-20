@@ -14,6 +14,7 @@ import hashlib
 import importlib
 import importlib.metadata
 import importlib.util
+import inspect
 import json
 import os
 import platform
@@ -168,6 +169,13 @@ def runtime_probe(args: SimpleNamespace, cfg: Mapping[str, Any]) -> dict[str, An
     import go2_arx5_modality  # type: ignore
     from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset  # type: ignore
     from gr00t.data.dataset.lerobot_episode_loader import LeRobotEpisodeLoader  # type: ignore
+    stage40._bind_local_cosmos_processor(args.stage10_root, args.cosmos_snapshot)
+    processor, embodiment = stage21._build_processor(
+        args.stage10_root, args.baseline, args.train_dataset / "meta", args.modality_config
+    )
+    def source_identity(value: Any) -> dict[str, Any]:
+        source = inspect.getsourcefile(value) or inspect.getsourcefile(type(value))
+        return {"qualified": f"{getattr(value, '__module__', type(value).__module__)}.{getattr(value, '__qualname__', type(value).__qualname__)}", "source": str(Path(source).resolve()) if source else "NOT_OBSERVED_IN_SEALED_ARTIFACT", "sha256": sha256_file(Path(source).resolve()) if source else None}
     core = Path(torchcodec.__file__).resolve().parent / "libtorchcodec_core6.so"
     ldd = run_capture(["ldd", str(core)]) if core.exists() else {"argv": ["ldd", str(core)], "returncode": 127, "stdout": "", "stderr": "missing core6"}
     modality = Path(go2_arx5_modality.__file__).resolve()
@@ -189,7 +197,14 @@ def runtime_probe(args: SimpleNamespace, cfg: Mapping[str, Any]) -> dict[str, An
         "dataset_class": f"{ShardedSingleStepDataset.__module__}.{ShardedSingleStepDataset.__name__}",
         "episode_loader_class": f"{LeRobotEpisodeLoader.__module__}.{LeRobotEpisodeLoader.__name__}",
         "stage45b_manifest": {"path": str(args.stage45b_manifest), "sha256": sha256_file(args.stage45b_manifest)},
+        "stage45b_root": str(args.stage45b_root),
         "ld_library_path": os.environ.get("LD_LIBRARY_PATH", ""),
+        "processor": source_identity(type(processor)),
+        "collator": source_identity(processor.collator),
+        "decode_action": source_identity(processor.decode_action),
+        "stage21_build_processor": source_identity(stage21._build_processor),
+        "stage21_run_one": source_identity(stage21._run_one),
+        "embodiment": str(embodiment.value),
         "model_weight_loads": 0,
         "model_forward_calls": 0,
         "get_action_calls": 0,
@@ -361,6 +376,8 @@ def clock_control(args: SimpleNamespace) -> dict[str, Any]:
         invariant = bool(
             all(set(original_leaves[key]) == set(shifted_leaves[key]) for key in keys)
             and all(abs(delta) <= 1e-10 for values in deltas.values() for delta in values.values())
+            and original_result.decision.value == shifted_result.decision.value
+            and sorted(issue.code for issue in original_result.issues) == sorted(issue.code for issue in shifted_result.issues)
         )
         controls.append({
             "episode_index": int(row["episode_index"]), "source_episode_id": str(row["source_episode_id"]),
