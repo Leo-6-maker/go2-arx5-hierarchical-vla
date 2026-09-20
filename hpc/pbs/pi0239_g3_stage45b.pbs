@@ -20,6 +20,7 @@ set -euo pipefail
 : "${PI0239_LAUNCH_CONFIG:?missing PI0239_LAUNCH_CONFIG}"
 : "${PI0239_PYTHON:?missing PI0239_PYTHON}"
 : "${PI0239_SCRIPT:?missing PI0239_SCRIPT}"
+: "${PI0239_OUTPUT_ROOT:?missing PI0239_OUTPUT_ROOT}"
 
 export CUDA_VISIBLE_DEVICES=""
 export HF_HUB_OFFLINE=1
@@ -33,7 +34,11 @@ run_phase() {
 }
 
 run_phase preflight
-run_phase initialize
+if [[ -d "$PI0239_OUTPUT_ROOT/evidence" ]]; then
+  echo "PI0239 phase resume: preserving existing output/evidence"
+else
+  run_phase initialize
+fi
 run_phase reuse
 run_phase clock
 run_phase g3

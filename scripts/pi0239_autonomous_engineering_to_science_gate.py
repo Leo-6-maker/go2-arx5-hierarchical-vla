@@ -269,7 +269,8 @@ def preflight(args: SimpleNamespace, cfg: Mapping[str, Any], *, initialize: bool
         if initialize:
             require(not path.exists(), f"PI0239 path already exists: {path}")
         else:
-            require(not path.exists(), f"verify-only path unexpectedly exists: {path}")
+            if path.exists():
+                require(path.is_dir(), f"resume path is not a directory: {path}")
     require(sha256_file(paths["protocol"]).lower() == str(cfg["implementation"]["protocol_sha256"]).lower(), "protocol hash drift")
     require(sha256_file(paths["script"]).lower() == str(cfg["implementation"]["script_sha256"]).lower(), "runner hash drift")
     require(sha256_file(paths["mature_script"]).lower() == str(cfg["implementation"]["mature_script_sha256"]).lower(), "mature runner hash drift")
@@ -342,8 +343,25 @@ def clock_control(args: SimpleNamespace) -> dict[str, Any]:
         original_result = gate.evaluate(chunk, now=0.0, achieved_position=state[:3], achieved_orientation=modules["matrix_to_quat"](state_matrix))
         shifted_result = gate.evaluate(shifted, now=17.0, achieved_position=state[:3], achieved_orientation=modules["matrix_to_quat"](state_matrix))
         keys = ("linear_speed_mps", "angular_speed_radps", "initial_rotation_discontinuity_rad")
-        deltas = {key: float(shifted_result.metrics.get(key)) - float(original_result.metrics.get(key)) for key in keys}
-        invariant = all(np.isclose(deltas[key], 0.0, rtol=0.0, atol=1e-10) for key in keys)
+        def leaves(value: Any, prefix: str = "") -> dict[str, float]:
+            if isinstance(value, Mapping):
+                result: dict[str, float] = {}
+                for child_key, child_value in value.items():
+                    result.update(leaves(child_value, f"{prefix}.{child_key}" if prefix else str(child_key)))
+                return result
+            if isinstance(value, (int, float, np.integer, np.floating)) and np.isfinite(float(value)):
+                return {prefix: float(value)}
+            return {}
+        original_leaves = {key: leaves(original_result.metrics.get(key), key) for key in keys}
+        shifted_leaves = {key: leaves(shifted_result.metrics.get(key), key) for key in keys}
+        deltas = {
+            key: {leaf: shifted_leaves[key].get(leaf) - value for leaf, value in original_leaves[key].items() if leaf in shifted_leaves[key]}
+            for key in keys
+        }
+        invariant = bool(
+            all(set(original_leaves[key]) == set(shifted_leaves[key]) for key in keys)
+            and all(abs(delta) <= 1e-10 for values in deltas.values() for delta in values.values())
+        )
         controls.append({
             "episode_index": int(row["episode_index"]), "source_episode_id": str(row["source_episode_id"]),
             "original": {"decision": original_result.decision.value, "issues": [issue.code for issue in original_result.issues], "metrics": original_result.metrics},
@@ -414,12 +432,14 @@ def main() -> int:
     except ScienceFailure as exc:
         evidence = ns.output_root / "evidence"
         evidence.mkdir(parents=True, exist_ok=True)
-        write_json(evidence / f"{args.phase}_science_failure.json", {"status": "SCIENCE_FAIL", "error": str(exc), "selected_checkpoint": "NONE", "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0})
+        suffix = os.environ.get("PBS_JOBID", str(os.getpid())).replace("/", "_")
+        write_json(evidence / f"{args.phase}_science_failure_{suffix}.json", {"status": "SCIENCE_FAIL", "error": str(exc), "selected_checkpoint": "NONE", "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0})
         raise
     except Exception as exc:
         evidence = ns.output_root / "evidence"
         evidence.mkdir(parents=True, exist_ok=True)
-        write_json(evidence / f"{args.phase}_engineering_failure.json", {"status": "ENGINEERING_FAILURE", "error_type": type(exc).__name__, "error": str(exc), "argv": sys.argv, "selected_checkpoint": "NONE", "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0})
+        suffix = os.environ.get("PBS_JOBID", str(os.getpid())).replace("/", "_")
+        write_json(evidence / f"{args.phase}_engineering_failure_{suffix}.json", {"status": "ENGINEERING_FAILURE", "error_type": type(exc).__name__, "error": str(exc), "argv": sys.argv, "selected_checkpoint": "NONE", "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0})
         raise
 
 
