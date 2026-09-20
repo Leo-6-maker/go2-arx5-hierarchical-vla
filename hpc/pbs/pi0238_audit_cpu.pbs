@@ -1,6 +1,7 @@
 #!/bin/bash
 # PI0238 G0-G3: one bounded CPU-only audit job; no model/forward/WBC/sim.
 #PBS -N pi0238-g0g3
+#PBS -P CFP03-CF-004
 #PBS -q interactive
 #PBS -l select=1:ncpus=2:mem=16gb
 #PBS -l walltime=02:00:00
