@@ -920,6 +920,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--phase", choices=("g0", "g1", "g2", "g3"), required=True)
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--cache-root", type=Path, required=True)
     parser.add_argument("--p237-root", type=Path, required=True)
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--train-dataset", type=Path, required=True)
