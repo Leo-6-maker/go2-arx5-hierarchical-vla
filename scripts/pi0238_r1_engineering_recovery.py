@@ -1032,8 +1032,6 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
 
 
 
@@ -1577,3 +1575,7 @@ def g1(args: argparse.Namespace) -> dict[str, Any]:
     }
     write_json(paths["output_root"] / "evidence" / "g1_failure_decomposition.json", result)
     return result
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
