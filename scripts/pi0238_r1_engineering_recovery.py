@@ -77,6 +77,10 @@ def sha256_json(value: Any) -> str:
     ).hexdigest()
 
 
+def sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
 def run_capture(
     argv: list[str],
     *,
