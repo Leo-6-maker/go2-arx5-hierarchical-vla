@@ -22,6 +22,7 @@ import random
 import re
 import subprocess
 import sys
+import tempfile
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -713,20 +714,27 @@ def processor_contract(processor: Any, embodiment: Any, meta_root: Path, modalit
 
 def training_config_summary(args: argparse.Namespace) -> dict[str, Any]:
     path = args.prep_root / "scripts" / "stage28_h2_fresh_base_2000_fixed_warmup10.py"
-    spec = importlib.util.spec_from_file_location("pi0238_stage28_config", path)
-    require(spec is not None and spec.loader is not None, "Stage28 config source unavailable")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    namespace = argparse.Namespace(
-        stage10_root=args.stage10_root,
-        base_model_path=args.baseline,
-        dataset_dir=args.train_dataset,
-        modality_config=args.modality_config,
-        groot_source=args.stage10_root / "src" / "isaac-gr00t",
-        training_output_dir=args.output_root / "not_training_output",
-    )
-    config = module._build_training_config(namespace)
-    return module._config_summary(config)
+    require(path.is_file(), "Stage28 config source unavailable")
+    code = """import argparse, importlib.util, json, sys
+from pathlib import Path
+script, stage10, baseline, dataset, modality, output = map(Path, sys.argv[1:])
+spec = importlib.util.spec_from_file_location('pi0238_stage28_config', script)
+assert spec is not None and spec.loader is not None
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+args = argparse.Namespace(stage10_root=stage10, base_model_path=baseline, dataset_dir=dataset, modality_config=modality, groot_source=stage10 / 'src' / 'isaac-gr00t', training_output_dir=output.parent / 'not_training_output')
+output.write_text(json.dumps(module._config_summary(module._build_training_config(args)), sort_keys=True), encoding='utf-8')
+"""
+    with tempfile.TemporaryDirectory(prefix="pi0240-config-") as temp:
+        output = Path(temp) / "summary.json"
+        result = subprocess.run(
+            [sys.executable, "-c", code, str(path), str(args.stage10_root), str(args.baseline), str(args.train_dataset), str(args.modality_config), str(output)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        require(result.returncode == 0 and output.is_file(), f"isolated Stage28 config construction failed: {result.stderr}")
+        return json_load(output)
 
 
 def bind_modality_source(args: argparse.Namespace) -> tuple[Any, dict[str, Any]]:
