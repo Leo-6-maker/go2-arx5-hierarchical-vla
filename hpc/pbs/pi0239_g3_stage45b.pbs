@@ -40,5 +40,9 @@ else
   run_phase initialize
 fi
 run_phase reuse
-run_phase clock
+if [[ -s "$PI0239_OUTPUT_ROOT/evidence/g2_clock_control_rev2.json" ]]; then
+  echo "PI0239 phase reuse: G2 clock-control revision already PASS"
+else
+  run_phase clock
+fi
 run_phase g3
