@@ -156,6 +156,7 @@ def main() -> int:
     import pandas as pd
     import pi0238_audit_to_sim as mature
     import pi0228_train_calib_checkpoint_selection as selector
+    import stage20s_infer_groot as stage20
     import stage21_same_scene_groot_inference as stage21
     import stage40_b0_model_control as stage40
     from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset
@@ -222,7 +223,7 @@ def main() -> int:
         chunk = index // 1000; stem = f"episode_{index:06d}.mp4"
         body_path = root / "videos" / f"chunk-{chunk:03d}" / "observation.images.external_rgb" / stem
         wrist_path = root / "videos" / f"chunk-{chunk:03d}" / "observation.images.wrist_rgb" / stem
-        body = stage21._read_first_frame(body_path)[0]; wrist = stage21._read_first_frame(wrist_path)[0]
+        body = stage20._read_first_frame(body_path)[0]; wrist = stage20._read_first_frame(wrist_path)[0]
         observation = {"body_rgb": body, "wrist_rgb": wrist, "state": state}
         attempt = {"event": "ATTEMPTED", "model_role": args.model_role, "split": split, "episode_index": index, "source_episode_id": item["source_episode_id"], "seed": SEED, "time": time.time()}
         append_jsonl(ledger, attempt)
