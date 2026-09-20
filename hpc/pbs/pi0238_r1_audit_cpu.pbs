@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# PI0238-R1: one resolved-launch CPU audit job.
+# The site may route auto to small and allocate a GPU; CUDA is explicitly disabled.
+# No old PI0238 PBS is reused and no job is submitted by this file itself.
+#PBS -N pi0238-r1-audit
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -V
+
+set -euo pipefail
+: "\${PI0238_LAUNCH_CONFIG:?missing PI0238_LAUNCH_CONFIG}"
+: "\${PI0238_PYTHON:?missing PI0238_PYTHON}"
+: "\${PI0238_SCRIPT:?missing PI0238_SCRIPT}"
+
+export CUDA_VISIBLE_DEVICES=""
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONNOUSERSITE=1
+export PYTHONPATH=""
+
+run_phase() {
+  local phase="$1"
+  "$PI0238_PYTHON" "$PI0238_SCRIPT" --phase "$phase" --launch-config "$PI0238_LAUNCH_CONFIG"
+}
+
+# The exact same resolved launch is used for preflight and every phase.
+"$PI0238_PYTHON" "$PI0238_SCRIPT" --preflight-only --launch-config "$PI0238_LAUNCH_CONFIG"
+run_phase g0
+run_phase g1
+run_phase g2
+run_phase g3
+run_phase g4
+
+# If admission ever becomes true, leave the H200 execution to the separate
+# bounded G4 launcher; this CPU job must not silently enable CUDA.
+if "$PI0238_PYTHON" - "$PI0238_LAUNCH_CONFIG" <<'PY'
+import json, sys
+from pathlib import Path
+cfg = json.loads(Path(sys.argv[1]).read_text())
+out = Path(cfg["paths"]["output_root"]) / "evidence" / "g4_diagnostic_admission.json"
+print(json.loads(out.read_text()).get("g4_admitted", False))
+PY
+then
+  exit 0
+fi
+run_phase g5
