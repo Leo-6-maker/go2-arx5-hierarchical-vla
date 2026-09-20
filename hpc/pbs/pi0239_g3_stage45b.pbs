@@ -4,7 +4,9 @@
 # The exact Stage45B FFmpeg6 environment is bound by the Python runner.
 #PBS -N pi0239-g3-cpu
 #PBS -P CFP03-CF-004
-#PBS -q auto
+# Direct execution queue avoids the site's auto-route GPU floor for this
+# zero-model CPU phase.
+#PBS -q medium
 # G3 is a zero-model CPU audit; requesting a GPU only routes it into the
 # unavailable GPU pool and is not part of the scientific contract.
 # Explicit zero prevents the site's auto-route GPU floor from adding ngpus=1.
