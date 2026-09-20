@@ -2,8 +2,9 @@
 # PI0238 G0-G3: one bounded CPU-only audit job; no model/forward/WBC/sim.
 #PBS -N pi0238-g0g3
 #PBS -P CFP03-CF-004
-#PBS -q interactive
-#PBS -l select=1:ncpus=2:mem=16gb
+# Let the site route this short CPU audit to the platform's standard node.
+# CUDA is disabled below; no model or GPU work is performed.
+#PBS -q auto
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -V
