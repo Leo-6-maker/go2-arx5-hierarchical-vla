@@ -379,7 +379,26 @@ def g0(args: argparse.Namespace) -> dict[str, Any]:
     require(fresh.get("job_id") == FRESH_JOB, "fresh family is not 623593")
     fresh_root = Path(str(fresh.get("root")))
     require(fresh_root.is_dir(), f"fresh family root missing: {fresh_root}")
-    fresh_dirs = {str(step): {"path": str(fresh_root / f"checkpoint-{step}"), "exists": (fresh_root / f"checkpoint-{step}").is_dir()} for step in (2500, 5000, 7500, 10000)}
+    sealed_checkpoints = {
+        int(item["checkpoint_step"]): item
+        for item in fresh.get("checkpoints", [])
+    }
+    require(set(sealed_checkpoints) == {2500, 5000, 7500, 10000}, "sealed fresh checkpoint family listing drift")
+    fresh_dirs = {}
+    for step in (2500, 5000, 7500, 10000):
+        sealed = sealed_checkpoints[step]
+        checkpoint_path = Path(str(sealed["path"]))
+        try:
+            checkpoint_path.resolve().relative_to(fresh_root.resolve())
+        except ValueError as exc:
+            raise DiagnosticBlocker(f"sealed checkpoint escapes fresh family root: {checkpoint_path}") from exc
+        require(checkpoint_path.name == f"checkpoint-{step}", f"sealed checkpoint name drift: {checkpoint_path}")
+        require(bool(sealed.get("selection_candidate")), f"sealed checkpoint is not a selection candidate: {checkpoint_path}")
+        fresh_dirs[str(step)] = {
+            "path": str(checkpoint_path),
+            "exists": checkpoint_path.is_dir(),
+            "sealed_tree_sha256": sealed.get("tree_sha256"),
+        }
     require(all(item["exists"] for item in fresh_dirs.values()), "fresh checkpoint family is incomplete")
     evidence_inventory = old / "pi0237_evidence_inventory.sha256"
     inventory = []

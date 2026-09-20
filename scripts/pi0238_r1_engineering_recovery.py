@@ -94,10 +94,11 @@ def run_capture(
 
 
 def pbs_job_lines(text: str, own_job: str | None = None) -> list[str]:
+    own_prefix = own_job.split(".", 1)[0] if own_job else None
     return [
         line for line in text.splitlines()
         if re.match(r"^\s*\d+\.[A-Za-z0-9_.-]+\b", line)
-        and (not own_job or own_job not in line)
+        and (not own_prefix or not re.match(rf"^\s*{re.escape(own_prefix)}(?:[.\s-])", line))
     ]
 
 
