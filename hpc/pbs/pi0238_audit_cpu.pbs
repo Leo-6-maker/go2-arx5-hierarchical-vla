@@ -4,6 +4,7 @@
 #PBS -P CFP03-CF-004
 # Let the site route this short CPU audit to the platform's standard node.
 # CUDA is disabled below; no model or GPU work is performed.
+#PBS -l select=1
 #PBS -q auto
 #PBS -l walltime=02:00:00
 #PBS -j oe
