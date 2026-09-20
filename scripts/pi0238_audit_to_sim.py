@@ -511,7 +511,7 @@ def g0(args: argparse.Namespace) -> dict[str, Any]:
         "fresh_family": fresh_resolution,
         "cohort": {"path": str(cohort_json), "train_count": 64, "calib_count": 64, "train_sha256": EXPECTED_OLD["cohort_csv"], "json_sha256": EXPECTED_OLD["cohort_json"]},
         "dataset": {"train_rollouts": len({x["source_rollout_id"] for x in train_meta.values()}), "calib_rollouts": len({x["source_rollout_id"] for x in calib_meta.values()}), "rollout_intersection": 0, "trees": tree_results, "split_locks": split_lock},
-        "runtime_identity": resolved, "active_job_query": job_state, "evidence_inventory": {"path": str(evidence_inventory), "count": len(inventory), "all_match": all(item["match"] for item in inventory)},
+        "runtime_identity": resolved, "active_job_query": job_state, "evidence_inventory": inventory,
         "storage": storage, "read_boundary": {"dev_e_source_read_count": 0, "final_f_source_read_count": 0, "whole_tree_scan": False, "locked_data_read": False},
         "model_weight_loads": 0, "model_forward_calls": 0, "get_action_calls": 0,
         # A readable quota report is not proof that the requested H200
