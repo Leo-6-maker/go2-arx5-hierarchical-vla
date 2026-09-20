@@ -1152,10 +1152,11 @@ stage10 = Path(sys.argv[1])
 modality = Path(sys.argv[2])
 vla = Path(sys.argv[3])
 prep = Path(sys.argv[4])
+original_sys_path = list(sys.path)
 sys.path[:] = [
     str(stage10 / "src" / "isaac-gr00t"),
     str(modality.parent), str(prep / "scripts"), str(vla / "src")
-] + [p for p in sys.path if "site-packages" in p]
+] + [p for p in original_sys_path if p]
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 sys.modules.pop(modality.stem, None)
 module = importlib.import_module(modality.stem)
