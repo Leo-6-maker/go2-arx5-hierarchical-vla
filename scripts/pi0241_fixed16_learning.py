@@ -77,6 +77,27 @@ def sha256_json(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def find_action_mask(value: Any) -> tuple[np.ndarray, np.ndarray]:
+    action = mask = None
+
+    def visit(child: Any, name: str = "") -> None:
+        nonlocal action, mask
+        if isinstance(child, Mapping):
+            for key, nested in child.items():
+                visit(nested, f"{name}.{key}" if name else str(key))
+        elif hasattr(child, "shape") and tuple(int(dim) for dim in child.shape) == (1, 40, 132):
+            array = child.detach().cpu().numpy() if hasattr(child, "detach") else np.asarray(child)
+            if "mask" in name.lower():
+                mask = array
+            elif action is None:
+                action = array
+
+    visit(value)
+    if action is None or mask is None:
+        raise PI0241Error("collator did not expose [1,40,132] action and mask")
+    return action, mask
+
+
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -327,6 +348,8 @@ def prepare(args: argparse.Namespace) -> None:
             raise PI0241Error(f"selected expert row is REJECT: {source_id}")
         tensor_path = Path(record["tensor"]["path"])
         if not tensor_path.is_file():
+            tensor_path = args.g4_root / "baseline1000" / "cells" / f"train-{int(row['episode_index']):06d}.npz"
+        if not tensor_path.is_file():
             raise PI0241Error(f"missing PI0240 tensor: {tensor_path}")
         with np.load(tensor_path, allow_pickle=False) as payload:
             decoded = np.asarray(payload["decoded"])[0].astype(np.float64)
@@ -470,22 +493,8 @@ def functional_preflight(args: argparse.Namespace) -> None:
         raise PI0241Error("functional preflight unexpectedly built an eval dataset")
     datapoint = next(iter(train_dataset))
     batch = pipeline.processor.collator([datapoint])
-    action = mask = None
-
-    def visit(value: Any, name: str = "") -> None:
-        nonlocal action, mask
-        if isinstance(value, Mapping):
-            for key, child in value.items():
-                visit(child, f"{name}.{key}" if name else str(key))
-        elif hasattr(value, "shape") and tuple(int(dim) for dim in value.shape) == (1, 40, 132):
-            array = value.detach().cpu().numpy() if hasattr(value, "detach") else np.asarray(value)
-            if "mask" in name.lower():
-                mask = array
-            elif action is None:
-                action = array
-
-    visit(batch)
-    if action is None or mask is None or not np.isfinite(action).all() or not np.isfinite(mask).all():
+    action, mask = find_action_mask(batch)
+    if not np.isfinite(action).all() or not np.isfinite(mask).all():
         raise PI0241Error("functional preflight did not produce finite [1,40,132] action/mask")
     active_slots = np.flatnonzero(np.any(mask != 0, axis=(0, 1))).tolist()
     if active_slots != list(range(10)):
@@ -543,6 +552,7 @@ def install_fixed_dataset_factory(card: Mapping[str, Any], training_output: Path
     selected = read_json(Path(card["cohort"]["path"]))["rows"]
     schedule = read_json(Path(card["schedule"]["path"]))["rows"]
     consumption_path = training_output / "pi0241_sample_consumption.jsonl"
+    contract_path = training_output / "pi0241_sample_contracts.jsonl"
 
     class FixedScheduleMixture(ShardedMixtureDataset):
         def __iter__(self):
@@ -550,18 +560,36 @@ def install_fixed_dataset_factory(card: Mapping[str, Any], training_output: Path
                 raise PI0241Error("fixed1000 schedule was requested more than once")
             self._pi0241_started = True
             dataset = self.datasets[0]
+            audited: set[int] = set()
             for ordinal, planned in enumerate(schedule, start=1):
                 if int(planned["optimizer_step"]) != ordinal:
                     raise PI0241Error("fixed1000 schedule ordinal drift")
                 fixed = selected[int(planned["fixed_index"])]
                 episode_index = int(fixed["episode_index"])
                 datapoint = dataset.get_datapoint(dataset.episode_loader[episode_index], 0)
+                fixed_index = int(planned["fixed_index"])
+                if fixed_index not in audited:
+                    action, mask = find_action_mask(self.processor.collator([datapoint]))
+                    active_slots = np.flatnonzero(np.any(mask != 0, axis=(0, 1))).tolist()
+                    append_jsonl(
+                        contract_path,
+                        {
+                            "fixed_index": fixed_index,
+                            "source_episode_id": fixed["source_episode_id"],
+                            "action_sha256": sha256_array(action),
+                            "mask_sha256": sha256_array(mask),
+                            "active_slots": active_slots,
+                            "action_shape": list(action.shape),
+                            "mask_shape": list(mask.shape),
+                        },
+                    )
+                    audited.add(fixed_index)
                 append_jsonl(
                     consumption_path,
                     {
                         "yield_ordinal": ordinal,
                         "optimizer_step": int(planned["optimizer_step"]),
-                        "fixed_index": int(planned["fixed_index"]),
+                        "fixed_index": fixed_index,
                         "episode_index": episode_index,
                         "source_episode_id": fixed["source_episode_id"],
                         "observation_index": 0,
@@ -815,9 +843,12 @@ def train(args: argparse.Namespace) -> None:
     pi0228 = load_module(Path(paths["code_root"]) / "scripts" / "pi0228_h200_large_adapt_v1.py", "pi0241_pi0228_train")
     pi0228.run_official(config, Path(paths["groot_source"]))
     consumption = [json.loads(line) for line in (training_output / "pi0241_sample_consumption.jsonl").read_text().splitlines()]
+    contracts = [json.loads(line) for line in (training_output / "pi0241_sample_contracts.jsonl").read_text().splitlines()]
     planned = read_json(Path(card["schedule"]["path"]))["rows"]
     if len(consumption) != 1000 or [row["source_episode_id"] for row in consumption] != [row["source_episode_id"] for row in planned]:
         raise PI0241Error("actual sample consumption differs from fixed1000 schedule")
+    if len(contracts) != 16 or {row["fixed_index"] for row in contracts} != set(range(16)) or any(row["active_slots"] != list(range(10)) for row in contracts):
+        raise PI0241Error("actual fixed16 action/mask contracts are incomplete")
     actual_dirs = sorted(path.name for path in training_output.glob("checkpoint-*") if path.is_dir())
     expected_dirs = [f"checkpoint-{step}" for step in CHECKPOINT_STEPS]
     if actual_dirs != expected_dirs:
@@ -840,6 +871,7 @@ def train(args: argparse.Namespace) -> None:
         "elapsed_s": time.time() - started,
         "canonical_optimizer_steps": 1000,
         "actual_sample_consumption": 1000,
+        "sample_contracts": contracts,
         "schedule_sha256": card["schedule"]["sha256"],
         "config": summary,
         "update_integrity": update_integrity,
@@ -908,6 +940,11 @@ def screen_and_close(args: argparse.Namespace) -> None:
     )
     gate = TrajectorySafetyGateV1()
     modules = {"geodesic_angle": geodesic_angle, "rot6d_rows_to_matrix": rot6d_rows_to_matrix}
+    authority = read_json(Path(paths["p237_root"]) / "evidence" / "pi0228_train_calib_target_authority.json")
+    targets = {
+        (str(row["anchor_id"]).removeprefix("train_"), str(row["jitter_id"])): np.asarray(row["target_position_world_m"], dtype=np.float64)
+        for row in authority["rollouts"]
+    }
     screen_root = Path(paths["output_root"]) / "screen"
     all_records = []
     for step in SCREEN_STEPS:
@@ -955,6 +992,8 @@ def screen_and_close(args: argparse.Namespace) -> None:
                 achieved_orientation=state_quat,
             )
             metrics = _rmse_metrics(decoded10, expert, modules)
+            jitter = str(fixed["jitter_family"]).split("_", 1)[0]
+            target = targets[(str(fixed["target_family"]), jitter)]
             tensor_path = step_root / "cells" / f"train-{int(fixed['episode_index']):06d}.npz"
             tensor_path.parent.mkdir(parents=True, exist_ok=True)
             np.savez_compressed(tensor_path, raw=raw, decoded=decoded, expert=expert, state=state, action_mask=mask, body_rgb=body, wrist_rgb=wrist)
@@ -966,6 +1005,7 @@ def screen_and_close(args: argparse.Namespace) -> None:
                 "target_family": fixed["target_family"],
                 "phase": int(fixed["phase"]),
                 **metrics,
+                "target_min_distance_m": float(np.min(np.linalg.norm(decoded10[:, :3] - target[None, :], axis=1))),
                 "gate_decision": gate_result.decision.value,
                 "gate": gate_result.as_dict(),
                 "raw_sha256": sha256_array(raw),
