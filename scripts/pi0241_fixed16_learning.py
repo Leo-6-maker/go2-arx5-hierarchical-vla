@@ -220,6 +220,13 @@ def _resolved_config(args: argparse.Namespace, output_dir: Path) -> tuple[Any, d
         groot_source=args.groot_source,
     )
     config = pi0228.build_config(helper, output_dir, steps=MAX_STEPS, save_steps=250, save_limit=3)
+    embodiment = config.data.datasets[0].embodiment_tag
+    if embodiment not in config.data.modality_configs:
+        raise PI0241Error(f"dataset embodiment has no modality config: {embodiment}")
+    # The official processor validates every supplied embodiment.  This run has
+    # one dataset/embodiment, so do not leak unrelated default H50 configs into
+    # the otherwise H40 processor construction.
+    config.data.modality_configs = {embodiment: config.data.modality_configs[embodiment]}
     config.training.max_grad_norm = 1.0
     config.training.lr_scheduler_type = "cosine"
     config.training.dataloader_num_workers = 0
@@ -251,6 +258,7 @@ def _resolved_config(args: argparse.Namespace, output_dir: Path) -> tuple[Any, d
             "adam_beta1": 0.9,
             "adam_beta2": 0.999,
             "adam_epsilon": 1e-8,
+            "modality_config_keys": [str(embodiment)],
         }
     )
     expected = {
