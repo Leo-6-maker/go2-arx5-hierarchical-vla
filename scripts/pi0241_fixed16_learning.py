@@ -95,6 +95,16 @@ def git_head(path: Path) -> str:
     return subprocess.check_output(["git", "-C", str(path), "rev-parse", "HEAD"], text=True).strip()
 
 
+def resolved_head(path: Path, environment_name: str) -> str:
+    value = os.environ.get(environment_name)
+    if value is None:
+        value = git_head(path)
+    value = value.strip().lower()
+    if len(value) != 40 or any(character not in "0123456789abcdef" for character in value):
+        raise PI0241Error(f"invalid {environment_name} commit identity")
+    return value
+
+
 def select_fixed16(train_rows: list[Mapping[str, Any]]) -> list[dict[str, Any]]:
     """Apply the preregistered outcome-independent stratum/hash rule."""
 
@@ -361,7 +371,7 @@ def prepare(args: argparse.Namespace) -> None:
         "audited_parent": AUDITED_PARENT,
         "host": args.host,
         "implementation": {
-            "code_head": git_head(args.code_root),
+            "code_head": resolved_head(args.code_root, "PI0241_CODE_HEAD"),
             "script_path": str(Path(__file__).resolve()),
             "script_sha256": sha256_file(Path(__file__).resolve()),
         },
@@ -389,7 +399,7 @@ def prepare(args: argparse.Namespace) -> None:
         "initializer": {"role": "PI0226_ADAPTED_BASELINE1000", "files": _model_files(args.base_model_path)},
         "train_metadata": {path.name: sha256_file(path) for path in stats_files},
         "modality_sha256": sha256_file(args.modality_config),
-        "groot_source_head": git_head(args.groot_source),
+        "groot_source_head": resolved_head(args.groot_source, "PI0241_GROOT_SOURCE_HEAD"),
         "resolved_config": config_summary,
         "screen": {"steps": list(SCREEN_STEPS), "step0_reused": True, "unique_cells": 64},
         "target_xyz_in_model_input": False,
