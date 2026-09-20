@@ -2,10 +2,12 @@
 # PI0239: one resumable G2-clock/G3 CPU audit attempt.
 # G0-G2 census is reused; this job never loads model weights or calls GR00T.
 # The exact Stage45B FFmpeg6 environment is bound by the Python runner.
-#PBS -N pi0239-g3
+#PBS -N pi0239-g3-cpu
 #PBS -P CFP03-CF-004
 #PBS -q auto
-#PBS -l select=1:ngpus=1
+# G3 is a zero-model CPU audit; requesting a GPU only routes it into the
+# unavailable GPU pool and is not part of the scientific contract.
+#PBS -l select=1:ncpus=12:mem=225GB
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -V
