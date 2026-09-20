@@ -7,7 +7,8 @@
 #PBS -q auto
 # G3 is a zero-model CPU audit; requesting a GPU only routes it into the
 # unavailable GPU pool and is not part of the scientific contract.
-#PBS -l select=1:ncpus=12:mem=225GB
+# Explicit zero prevents the site's auto-route GPU floor from adding ngpus=1.
+#PBS -l select=1:ncpus=12:mem=225GB:ngpus=0
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -V
