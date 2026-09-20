@@ -1,0 +1,48 @@
+{
+  "schema": "PI0237_PROTOCOL_BINDING_V1",
+  "protocol_commit": "6e83c5494772190f5c8082f730f06723d9c9bfda",
+  "protocol_path": "docs/protocols/PI0237_FAILURE_ATTRIBUTION_DIAGNOSTICS_V1.md",
+  "protocol_blob_sha256": "9e055861c0c36789bab8098591855040a3ed66f5",
+  "protocol_file_sha256": "befb53c770dd12bb5526f82ad71ef984c24eac30bcb025cc0a3cab6058a87335",
+  "canonical_issue_comment": "5746790269",
+  "pi0236_result_comment": "5746476491",
+  "execution_branch": "pi0237/failure-attribution-execution",
+  "base_commit": "6e83c5494772190f5c8082f730f06723d9c9bfda",
+  "diagnostic_script": {
+    "path": "scripts/pi0237_failure_attribution.py",
+    "sha256": "80bf7aa9b7668853cbcb58b03078a9efc9dbb9a91a991f0fa14fe8512f3001f2"
+  },
+  "cpu_test": {
+    "path": "tests/test_pi0237_failure_attribution.py",
+    "sha256": "b00bddd904444ecb6bf88a176470a758ed26af63790afef93815c5b49ce973b9",
+    "remote_result": "3 tests passed"
+  },
+  "remote_output_root": "/scratch/e1192548/pi0237_failure_attribution_20260920T014727Z",
+  "fresh_family": {
+    "job_id": "623593",
+    "train_tree_sha256": "66559a759c187fdf4d55c175a0808417369c033323e35710b6ca8aeda3786e81",
+    "calib_tree_sha256": "f53e85e8245735ec0f9a3ee9d1008d20385a4cfd8100eb66a15c015d7ecaf371"
+  },
+  "runtime_identity": {
+    "frozen_selector_sha256": "e3ff2066d4a1e9a4aed55bb4dfe03775dc59d960b447f7c0bc68d7e3a8309cf6",
+    "stage20_helper_sha256": "fa20288932a1da9c4e1f24a60e1b5114c4faa216c4d1d0da361faca598a143b0",
+    "stage21_helper_sha256": "d0885d824d066a718406777d9de80ee32945c8defaca9ddd9e4fd834df807683",
+    "stage40_binding_sha256": "e715bc5c456e8648a3f6e4adb2dc8d08e9a0db6ad41d0b67e913f630406b1587",
+    "provider_sha256": "94a1c74c480249f952f4ea27ecac8d0871c88c1d2625fb9b2351ca37641409f0",
+    "safety_gate_sha256": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4",
+    "so3_sha256": "668135c8db99496f31409b0382e39ceb3bbd962cac422d3273aaf54b357f1e7a",
+    "materialization_sha256": "1520b95a4e1a8087d1035df0e1d6ea8183fd2477d9d8adbd7e3a77081ce2f6b3",
+    "run_one_is_canonical_stage21": true,
+    "model_weight_loads": 0,
+    "model_forward_calls": 0,
+    "get_action_calls": 0
+  },
+  "selection": {
+    "selected_checkpoint": "NONE",
+    "p4_admission": "BLOCKED_BY_P2_EXPERT_REJECTS_AND_P3_TOLERANCE_EXCESS",
+    "selector_modified": false,
+    "wbc_run": false,
+    "dev_e_read": 0,
+    "final_f_read": 0
+  }
+}
