@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # PI0238-R2: one resolved-launch CPU audit job.
-# The site may route auto to small; this audit is CPU-only and CUDA is explicitly disabled.
+# The site routes auto to small, whose floor reserves one GPU; CUDA remains explicitly disabled.
 # No old PI0238 PBS is reused and no job is submitted by this file itself.
 #PBS -N pi0238-r1-audit
 #PBS -P CFP03-CF-004
 #PBS -q auto
-#PBS -l select=1:ncpus=12:mem=225GB
+#PBS -l select=1:ngpus=1
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -V

@@ -1128,7 +1128,7 @@ def make_launch(args: argparse.Namespace) -> dict[str, Any]:
         },
         "resource_request": {
             "project": "CFP03-CF-004", "queue": "auto",
-            "select": "select=1:ncpus=12:mem=225GB", "walltime": "02:00:00",
+            "select": "select=1:ngpus=1", "walltime": "02:00:00",
             "cuda_disabled": True, "model_activity": 0,
         },
         "contract": {
