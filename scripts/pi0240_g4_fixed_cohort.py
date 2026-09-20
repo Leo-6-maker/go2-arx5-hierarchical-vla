@@ -10,6 +10,7 @@ import os
 import sys
 import time
 from collections import Counter
+from collections.abc import Mapping
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
@@ -76,7 +77,7 @@ def find_action_and_mask(batch: Any) -> tuple[np.ndarray, np.ndarray]:
 
     def visit(value: Any, name: str = "") -> None:
         nonlocal action, mask
-        if isinstance(value, dict):
+        if isinstance(value, Mapping):
             for key, child in value.items():
                 visit(child, f"{name}.{key}" if name else str(key))
         elif hasattr(value, "shape") and tuple(int(x) for x in value.shape) == (1, 40, 132):
@@ -139,6 +140,8 @@ def main() -> int:
     if args.self_test:
         assert stats([3.0, 4.0])["max"] == 4.0
         assert target_map({"rollouts": [{"anchor_id": "train_a", "jitter_id": "j00", "target_position_world_m": [1, 2, 3]}]})[("a", "j00")].tolist() == [1, 2, 3]
+        action, mask = find_action_and_mask({"inputs": {"action": np.zeros((1, 40, 132)), "action_mask": np.ones((1, 40, 132))}})
+        assert action.shape == mask.shape == (1, 40, 132)
         print("PASS")
         return 0
     required = (args.model_role, args.model_path, args.baseline, args.train_dataset, args.calib_dataset, args.p237_root, args.stage10_root, args.code_root, args.modality_config, args.cosmos_snapshot, args.output_root)
@@ -212,8 +215,6 @@ def main() -> int:
         index = int(item["episode_index"]); key = (split, index)
         if key in completed:
             continue
-        attempt = {"event": "ATTEMPTED", "model_role": args.model_role, "split": split, "episode_index": index, "source_episode_id": item["source_episode_id"], "seed": SEED, "time": time.time()}
-        append_jsonl(ledger, attempt)
         dataset = datasets[str(root)]
         datapoint = dataset.get_datapoint(dataset.episode_loader[index], 0)
         expert132, mask = find_action_and_mask(processor.collator([datapoint]))
@@ -223,6 +224,8 @@ def main() -> int:
         wrist_path = root / "videos" / f"chunk-{chunk:03d}" / "observation.images.wrist_rgb" / stem
         body = stage21._read_first_frame(body_path)[0]; wrist = stage21._read_first_frame(wrist_path)[0]
         observation = {"body_rgb": body, "wrist_rgb": wrist, "state": state}
+        attempt = {"event": "ATTEMPTED", "model_role": args.model_role, "split": split, "episode_index": index, "source_episode_id": item["source_episode_id"], "seed": SEED, "time": time.time()}
+        append_jsonl(ledger, attempt)
         raw, decoded, latency, gpu = stage21._run_one(model, processor, embodiment, observation, language=LANGUAGE, seed=SEED, device=args.device)
         if raw.shape != (1, 40, 132) or decoded.shape != (1, 40, 10) or not np.isfinite(raw).all() or not np.isfinite(decoded).all():
             raise RuntimeError(f"illegal model output at {args.model_role}/{split}/{index}")
