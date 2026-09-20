@@ -224,7 +224,11 @@ def _resolved_config(args: argparse.Namespace, output_dir: Path) -> tuple[Any, d
             "load_bf16": bool(config.model.load_bf16),
             "backbone_trainable_params_fp32": bool(config.model.backbone_trainable_params_fp32),
             "state_dropout_prob": float(config.model.state_dropout_prob),
-            "random_rotation_angle": float(config.model.random_rotation_angle),
+            "random_rotation_angle": (
+                None
+                if config.model.random_rotation_angle is None
+                else float(config.model.random_rotation_angle)
+            ),
             "shortest_image_edge": int(config.model.shortest_image_edge),
             "crop_fraction": float(config.model.crop_fraction),
             "save_steps_effective": list(CHECKPOINT_STEPS),
