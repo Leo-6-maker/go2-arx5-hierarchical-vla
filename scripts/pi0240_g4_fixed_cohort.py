@@ -238,7 +238,7 @@ def main() -> int:
         record = {
             "schema": "PI0240_G4_CELL_V1", "model_role": args.model_role, "split": split, "episode_index": index,
             "source_episode_id": item["source_episode_id"], "source_rollout_id": item["source_rollout_id"], "target_family": item["target_family"], "jitter_family": item["jitter_family"], "phase": item["phase"],
-            "input": {"keys": ["body_rgb", "wrist_rgb", "state"], "body_sha256": sha256_array(body), "wrist_sha256": sha256_array(wrist), "state_sha256": sha256_array(state), "target_xyz_in_model_input": False},
+            "input": {"keys": ["body_rgb", "wrist_rgb", "state"], "body_sha256": sha256_array(body), "wrist_sha256": sha256_array(wrist), "state_sha256": sha256_array(state), "body_file_sha256": sha256_file(body_path), "wrist_file_sha256": sha256_file(wrist_path), "target_xyz_in_model_input": False},
             "tensor": {"path": str(tensor_path), "raw_sha256": sha256_array(raw), "decoded_sha256": sha256_array(decoded), "expert_sha256": sha256_array(expert), "mask_sha256": sha256_array(mask), "active_slots": mature.active_mask_slots(mask)[0]},
             "fit": metric_bundle(decoded[0].astype(np.float64), expert.astype(np.float64), modules),
             "target_min_distance_m": float(np.min(np.linalg.norm(decoded[0, :, :3].astype(np.float64) - target[None, :], axis=1))),
@@ -259,7 +259,7 @@ def main() -> int:
         "so3_mean_rad": {split: stats([row["fit"]["so3_rad"]["mean"] for row in records if row["split"] == split]) for split in ("TRAIN", "CALIB")},
         "gripper_mean": {split: stats([row["fit"]["gripper_abs"]["mean"] for row in records if row["split"] == split]) for split in ("TRAIN", "CALIB")},
         "model_extra_issue_counts": dict(Counter(issue for row in records for issue in row["model_extra_issues"])),
-        "elapsed_s": time.time() - started, "selected_checkpoint": "NONE", "wbc_steps": 0, "training_backward_calls": 0, "optimizer_steps": 0, "dev_e_read_count": 0, "final_f_read_count": 0,
+        "elapsed_s": time.time() - started, "model_weight_loads": 1, "model_forward_calls": len(records), "get_action_calls": len(records), "selected_checkpoint": "NONE", "wbc_steps": 0, "training_backward_calls": 0, "optimizer_steps": 0, "dev_e_read_count": 0, "final_f_read_count": 0,
     }
     write_json(role_root / "summary.json", summary)
     print(json.dumps(summary, indent=2, sort_keys=True))
