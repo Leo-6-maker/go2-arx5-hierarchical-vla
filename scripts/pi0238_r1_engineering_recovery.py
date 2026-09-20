@@ -1101,7 +1101,7 @@ def make_launch(args: argparse.Namespace) -> dict[str, Any]:
 def quota_parse(raw: Mapping[str, Any]) -> dict[str, Any]:
     text = "\n".join(str(raw.get(key, "")) for key in ("stdout", "stderr"))
     numbers = re.findall(
-        r"(?<![A-Za-z])\d+(?:\.\d+)?\s*(?:K|M|G|T|KiB|MiB|GiB|TiB)?",
+        r"(?<![A-Za-z0-9])\d+(?:\.\d+)?\s*(?:K|M|G|T|KiB|MiB|GiB|TiB)?(?![A-Za-z0-9])",
         text, flags=re.I
     )
     lower = text.lower()
