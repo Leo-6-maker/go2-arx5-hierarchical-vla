@@ -244,7 +244,7 @@ def _resolved_config(args: argparse.Namespace, output_dir: Path) -> tuple[Any, d
         "save_total_limit": 3,
         "warmup_steps": 10,
         "warmup_ratio": 0.0,
-        "scheduler": "SchedulerType.COSINE",
+        "scheduler": "cosine",
         "optimizer": "adamw_torch",
         "learning_rate": 1e-4,
         "weight_decay": 1e-5,
