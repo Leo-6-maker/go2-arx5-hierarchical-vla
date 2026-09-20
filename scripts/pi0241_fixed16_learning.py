@@ -15,6 +15,7 @@ import importlib.util
 import json
 import math
 import os
+import subprocess
 import sys
 import time
 from collections import Counter
@@ -88,6 +89,10 @@ def load_module(path: Path, name: str) -> Any:
     sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def git_head(path: Path) -> str:
+    return subprocess.check_output(["git", "-C", str(path), "rev-parse", "HEAD"], text=True).strip()
 
 
 def select_fixed16(train_rows: list[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -355,6 +360,11 @@ def prepare(args: argparse.Namespace) -> None:
         "protocol_commit": PROTOCOL_COMMIT,
         "audited_parent": AUDITED_PARENT,
         "host": args.host,
+        "implementation": {
+            "code_head": git_head(args.code_root),
+            "script_path": str(Path(__file__).resolve()),
+            "script_sha256": sha256_file(Path(__file__).resolve()),
+        },
         "paths": {
             "code_root": str(args.code_root),
             "groot_source": str(args.groot_source),
@@ -379,7 +389,7 @@ def prepare(args: argparse.Namespace) -> None:
         "initializer": {"role": "PI0226_ADAPTED_BASELINE1000", "files": _model_files(args.base_model_path)},
         "train_metadata": {path.name: sha256_file(path) for path in stats_files},
         "modality_sha256": sha256_file(args.modality_config),
-        "groot_source_head": os.environ.get("PI0241_GROOT_SOURCE_HEAD", "51d4c89f72fda44cbf77285c6a8114b52676b8a1"),
+        "groot_source_head": git_head(args.groot_source),
         "resolved_config": config_summary,
         "screen": {"steps": list(SCREEN_STEPS), "step0_reused": True, "unique_cells": 64},
         "target_xyz_in_model_input": False,
@@ -406,7 +416,80 @@ def _verify_card(path: Path) -> dict[str, Any]:
         item = card[key]
         if sha256_file(Path(item["path"])) != item["sha256"]:
             raise PI0241Error(f"run card {key} changed")
+    if sha256_file(Path(__file__).resolve()) != card["implementation"]["script_sha256"]:
+        raise PI0241Error("PI0241 implementation changed after run-card seal")
     return card
+
+
+def functional_preflight(args: argparse.Namespace) -> None:
+    """Exercise the real training processor/fixed dataset/collator without a model."""
+
+    card = _verify_card(args.run_card)
+    bind_runtime(card)
+    paths = card["paths"]
+    output = Path(paths["output_root"]) / "functional_preflight"
+    if output.exists():
+        raise PI0241Error(f"refusing to reuse functional preflight output: {output}")
+    cfg_dir = output / "experiment_cfg"
+    cfg_dir.mkdir(parents=True)
+    install_fixed_dataset_factory(card, output)
+    config_args = argparse.Namespace(
+        code_root=Path(paths["code_root"]),
+        groot_source=Path(paths["groot_source"]),
+        stage10_root=Path(paths["stage10_root"]),
+        base_model_path=Path(paths["base_model_path"]),
+        train_dataset=Path(paths["train_dataset"]),
+        modality_config=Path(paths["modality_config"]),
+    )
+    config, summary = _resolved_config(config_args, output / "training")
+    if summary != card["resolved_config"]:
+        raise PI0241Error("functional preflight config differs from sealed config")
+    from gr00t.model.gr00t_n1d7.setup import Gr00tN1d7Pipeline
+
+    pipeline = Gr00tN1d7Pipeline(config, cfg_dir)
+    train_dataset, eval_dataset = pipeline._create_dataset(cfg_dir)
+    if eval_dataset is not None:
+        raise PI0241Error("functional preflight unexpectedly built an eval dataset")
+    datapoint = next(iter(train_dataset))
+    batch = pipeline.processor.collator([datapoint])
+    action = mask = None
+
+    def visit(value: Any, name: str = "") -> None:
+        nonlocal action, mask
+        if isinstance(value, Mapping):
+            for key, child in value.items():
+                visit(child, f"{name}.{key}" if name else str(key))
+        elif hasattr(value, "shape") and tuple(int(dim) for dim in value.shape) == (1, 40, 132):
+            array = value.detach().cpu().numpy() if hasattr(value, "detach") else np.asarray(value)
+            if "mask" in name.lower():
+                mask = array
+            elif action is None:
+                action = array
+
+    visit(batch)
+    if action is None or mask is None or not np.isfinite(action).all() or not np.isfinite(mask).all():
+        raise PI0241Error("functional preflight did not produce finite [1,40,132] action/mask")
+    active_slots = np.flatnonzero(np.any(mask != 0, axis=(0, 1))).tolist()
+    if active_slots != list(range(10)):
+        raise PI0241Error(f"functional preflight active slots drift: {active_slots}")
+    consumption = [json.loads(line) for line in (output / "pi0241_sample_consumption.jsonl").read_text().splitlines()]
+    planned = read_json(Path(card["schedule"]["path"]))["rows"][0]
+    if len(consumption) != 1 or consumption[0]["source_episode_id"] != planned["source_episode_id"]:
+        raise PI0241Error("functional preflight did not consume fixed schedule row 1")
+    report = {
+        "schema": "PI0241_FUNCTIONAL_PREFLIGHT_V1",
+        "status": "PASS_NO_MODEL",
+        "action_shape": list(action.shape),
+        "mask_shape": list(mask.shape),
+        "active_slots": active_slots,
+        "first_source_episode_id": consumption[0]["source_episode_id"],
+        "model_loads": 0,
+        "model_forwards": 0,
+        "backward": 0,
+        "optimizer_steps": 0,
+    }
+    write_json(output / "functional_preflight.json", report)
+    print(json.dumps(report, indent=2))
 
 
 def bind_runtime(card: Mapping[str, Any]) -> dict[str, Any]:
@@ -927,6 +1010,7 @@ def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser()
     mode = result.add_mutually_exclusive_group(required=True)
     mode.add_argument("--prepare", action="store_true")
+    mode.add_argument("--functional-preflight", action="store_true")
     mode.add_argument("--train", action="store_true")
     mode.add_argument("--screen-and-close", action="store_true")
     result.add_argument("--run-card", type=Path)
@@ -954,6 +1038,10 @@ def main() -> int:
         if any(value is None for value in required):
             raise PI0241Error("prepare requires all identity/path arguments")
         prepare(args)
+    elif args.functional_preflight:
+        if args.run_card is None:
+            raise PI0241Error("functional preflight requires --run-card")
+        functional_preflight(args)
     elif args.train:
         if args.run_card is None:
             raise PI0241Error("train requires --run-card")
