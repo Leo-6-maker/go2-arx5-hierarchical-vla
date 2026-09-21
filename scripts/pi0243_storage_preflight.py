@@ -17,8 +17,10 @@ from typing import Any
 
 
 CHECKPOINT_BYTES = 20_889_600_105
-RESERVATION_BYTES = 128 * 1024**3
-RESERVATION_PARTS = 8
+PEAK_CHECKPOINT_BYTES = 4 * CHECKPOINT_BYTES
+HEADROOM_BYTES = math.ceil(0.20 * PEAK_CHECKPOINT_BYTES)
+RESERVATION_BYTES = PEAK_CHECKPOINT_BYTES + HEADROOM_BYTES
+RESERVATION_PARTS = 12
 
 
 def run(command: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -88,7 +90,7 @@ def reserve_remote(host: str, root: Path, size: int, label: str) -> dict[str, An
     path = root / f".pi0243_capacity_reservation_{label}"
     code = (
         "import concurrent.futures,os,sys\n"
-        "prefix=sys.argv[1]; n=int(sys.argv[2]); parts=min(8,max(1,n//(1024**3)))\n"
+        "prefix=sys.argv[1]; n=int(sys.argv[2]); parts=min(12,max(1,n//(1024**3)))\n"
         "os.makedirs(os.path.dirname(prefix),exist_ok=True)\n"
         "sizes=[n//parts]*parts; sizes[-1]+=n-sum(sizes)\n"
         "def one(item):\n"
@@ -140,8 +142,8 @@ def main() -> int:
     args = parser.parse_args()
     work = snapshot(args.work_root)
     durable = remote_snapshot(args.durable_host, args.durable_root)
-    peak_without_headroom = 4 * CHECKPOINT_BYTES
-    headroom = max(10 * 1024**3, math.ceil(0.20 * peak_without_headroom))
+    peak_without_headroom = PEAK_CHECKPOINT_BYTES
+    headroom = max(10 * 1024**3, HEADROOM_BYTES)
     result: dict[str, Any] = {
         "schema": "PI0243_STORAGE_ADMISSION_V1",
         "status": "RUNNING",
