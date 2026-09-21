@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import math
@@ -17,6 +18,7 @@ from typing import Any
 
 CHECKPOINT_BYTES = 20_889_600_105
 RESERVATION_BYTES = 128 * 1024**3
+RESERVATION_PARTS = 8
 
 
 def run(command: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -56,31 +58,50 @@ def remote_snapshot(host: str, path: Path) -> dict[str, Any]:
 def reserve_local(path: Path, size: int) -> dict[str, Any]:
     path.parent.mkdir(parents=True, exist_ok=True)
     started = time.time()
-    fd = os.open(path, os.O_RDWR | os.O_CREAT | os.O_EXCL, 0o600)
-    try:
-        if not hasattr(os, "posix_fallocate"):
-            raise RuntimeError("Python has no posix_fallocate")
-        os.posix_fallocate(fd, 0, size)
-        os.fsync(fd)
-        stat = os.fstat(fd)
-        allocated = int(getattr(stat, "st_blocks", 0)) * 512
-        if allocated < size:
-            raise RuntimeError(f"reservation is sparse or under-allocated: {allocated} < {size}")
-        return {"status": "PASS", "bytes": size, "allocated_bytes": allocated, "elapsed_s": time.time() - started}
-    finally:
-        os.close(fd)
-        path.unlink(missing_ok=True)
+    part_count = min(RESERVATION_PARTS, max(1, size // (1024**3)))
+    part_sizes = [size // part_count] * part_count
+    part_sizes[-1] += size - sum(part_sizes)
+
+    def reserve_part(item: tuple[Path, int]) -> int:
+        part_path, part_size = item
+        fd = os.open(part_path, os.O_RDWR | os.O_CREAT | os.O_EXCL, 0o600)
+        try:
+            if not hasattr(os, "posix_fallocate"):
+                raise RuntimeError("Python has no posix_fallocate")
+            os.posix_fallocate(fd, 0, part_size)
+            os.fsync(fd)
+            allocated = int(getattr(os.fstat(fd), "st_blocks", 0)) * 512
+            if allocated < part_size:
+                raise RuntimeError(f"reservation is sparse or under-allocated: {allocated} < {part_size}")
+            return allocated
+        finally:
+            os.close(fd)
+            part_path.unlink(missing_ok=True)
+
+    parts = [(path.with_name(f"{path.name}.part-{index}"), part_size) for index, part_size in enumerate(part_sizes)]
+    with ThreadPoolExecutor(max_workers=part_count) as pool:
+        allocated = sum(pool.map(reserve_part, parts))
+    return {"status": "PASS", "bytes": size, "allocated_bytes": allocated, "parts": part_count, "elapsed_s": time.time() - started}
 
 
 def reserve_remote(host: str, root: Path, size: int, label: str) -> dict[str, Any]:
     path = root / f".pi0243_capacity_reservation_{label}"
     code = (
-        "import os,sys,time; p=sys.argv[1]; n=int(sys.argv[2]); "
-        "os.makedirs(os.path.dirname(p),exist_ok=True); t=time.time(); "
-        "fd=os.open(p,os.O_RDWR|os.O_CREAT|os.O_EXCL,0o600); "
-        "os.posix_fallocate(fd,0,n); os.fsync(fd); s=os.fstat(fd); "
-        "a=getattr(s,'st_blocks',0)*512; print(f'{a}'); os.close(fd); os.unlink(p); "
-        "raise SystemExit(0 if a>=n else 3)"
+        "import concurrent.futures,os,sys\n"
+        "prefix=sys.argv[1]; n=int(sys.argv[2]); parts=min(8,max(1,n//(1024**3)))\n"
+        "os.makedirs(os.path.dirname(prefix),exist_ok=True)\n"
+        "sizes=[n//parts]*parts; sizes[-1]+=n-sum(sizes)\n"
+        "def one(item):\n"
+        "    p,m=item; fd=os.open(p,os.O_RDWR|os.O_CREAT|os.O_EXCL,0o600)\n"
+        "    try:\n"
+        "        os.posix_fallocate(fd,0,m); os.fsync(fd); a=getattr(os.fstat(fd),'st_blocks',0)*512\n"
+        "        if a<m: raise RuntimeError(f'sparse or under-allocated: {a} < {m}')\n"
+        "        return a\n"
+        "    finally:\n"
+        "        os.close(fd); os.unlink(p)\n"
+        "paths=[(f'{prefix}.part-{i}',m) for i,m in enumerate(sizes)]\n"
+        "with concurrent.futures.ThreadPoolExecutor(max_workers=parts) as pool: allocated=sum(pool.map(one,paths))\n"
+        "print(allocated)\n"
     )
     result = remote_python(host, code, [str(path), str(size)], check=False)
     if result.returncode:
