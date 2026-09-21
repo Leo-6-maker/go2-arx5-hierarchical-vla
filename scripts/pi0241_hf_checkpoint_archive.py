@@ -103,7 +103,9 @@ def retain_screen_model(checkpoint: Path, run_root: Path, step: int) -> Path:
         for source in sorted(checkpoint.glob(pattern)):
             if source.is_file():
                 target = destination / source.name
-                shutil.copy2(source, target)
+                # Same-fileset hardlinks preserve screen readability without a second
+                # 9.5 GiB model payload while the full Trainer tree is still present.
+                os.link(source, target)
                 copied.append(source.name)
     if not any(name.startswith("model") for name in copied) or not (destination / "config.json").is_file():
         raise RuntimeError(f"checkpoint-{step} has no complete screen model payload")
@@ -128,19 +130,33 @@ def main() -> int:
         checkpoint = args.run_root / "training" / f"checkpoint-{step}"
         local = stable_inventory(checkpoint, step, args.checkpoint_timeout_seconds, args.poll_seconds)
         prefix = f"checkpoints/checkpoint-{step}"
-        api.upload_folder(folder_path=str(checkpoint), repo_id=args.repo_id, repo_type="model", path_in_repo=prefix, commit_message=f"PI0241 full Trainer checkpoint {step}")
         remote = remote_inventory(api, args.repo_id, prefix)
         expected = {f"{prefix}/{entry['path']}": entry for entry in local["entries"]}
         observed = {entry["path"]: entry for entry in remote}
-        if set(expected) != set(observed):
-            raise RuntimeError(f"HF inventory mismatch at step {step}")
-        for path, entry in expected.items():
-            remote_entry = observed[path]
-            if remote_entry.get("size") is not None and int(remote_entry["size"]) != int(entry["bytes"]):
-                raise RuntimeError(f"HF size mismatch: {path}")
-            remote_sha = remote_entry.get("sha256")
-            if remote_sha is not None and remote_sha != entry["sha256"]:
-                raise RuntimeError(f"HF LFS SHA mismatch: {path}")
+        matches = set(expected) == set(observed)
+        if matches:
+            for path, entry in expected.items():
+                remote_entry = observed[path]
+                if remote_entry.get("size") is not None and int(remote_entry["size"]) != int(entry["bytes"]):
+                    matches = False
+                    break
+                remote_sha = remote_entry.get("sha256")
+                if remote_sha is not None and remote_sha != entry["sha256"]:
+                    matches = False
+                    break
+        if not matches:
+            api.upload_folder(folder_path=str(checkpoint), repo_id=args.repo_id, repo_type="model", path_in_repo=prefix, commit_message=f"PI0241 full Trainer checkpoint {step}")
+            remote = remote_inventory(api, args.repo_id, prefix)
+            observed = {entry["path"]: entry for entry in remote}
+            if set(expected) != set(observed):
+                raise RuntimeError(f"HF inventory mismatch at step {step}")
+            for path, entry in expected.items():
+                remote_entry = observed[path]
+                if remote_entry.get("size") is not None and int(remote_entry["size"]) != int(entry["bytes"]):
+                    raise RuntimeError(f"HF size mismatch: {path}")
+                remote_sha = remote_entry.get("sha256")
+                if remote_sha is not None and remote_sha != entry["sha256"]:
+                    raise RuntimeError(f"HF LFS SHA mismatch: {path}")
         manifest_file = args.run_root / f"pi0241_checkpoint_{step}_manifest.json"
         manifest_file.write_text(json.dumps({"schema": "PI0241_CHECKPOINT_MANIFEST_V1", "step": step, **local}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         api.upload_file(path_or_fileobj=str(manifest_file), path_in_repo=f"manifests/checkpoint-{step}.json", repo_id=args.repo_id, repo_type="model", commit_message=f"PI0241 manifest {step}")
