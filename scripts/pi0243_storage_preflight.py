@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import os
+import shlex
 import shutil
 import subprocess
 import time
@@ -23,6 +24,13 @@ def run(command: list[str], *, check: bool = True) -> subprocess.CompletedProces
     if check and result.returncode:
         raise RuntimeError(f"command failed ({result.returncode}): {' '.join(command)}\n{result.stderr[-2000:]}")
     return result
+
+
+def remote_python(host: str, code: str, args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
+    remote_command = "python3 -c " + shlex.quote(code)
+    if args:
+        remote_command += " " + " ".join(shlex.quote(arg) for arg in args)
+    return run(["ssh", host, remote_command], check=check)
 
 
 def snapshot(path: Path) -> dict[str, Any]:
@@ -42,7 +50,7 @@ def remote_snapshot(host: str, path: Path) -> dict[str, Any]:
         "u=shutil.disk_usage(p); s=os.statvfs(p); "
         "print(json.dumps({'path':os.path.realpath(p),'disk_usage':{'total_bytes':u.total,'used_bytes':u.used,'free_bytes':u.free},'statvfs':{'block_size':s.f_frsize,'available_bytes':s.f_bavail*s.f_frsize,'free_bytes':s.f_bfree*s.f_frsize,'free_inodes':s.f_favail}}))"
     )
-    return json.loads(run(["ssh", host, "python3", "-c", code, str(path)]).stdout)
+    return json.loads(remote_python(host, code, [str(path)]).stdout)
 
 
 def reserve_local(path: Path, size: int) -> dict[str, Any]:
@@ -74,7 +82,7 @@ def reserve_remote(host: str, root: Path, size: int, label: str) -> dict[str, An
         "a=getattr(s,'st_blocks',0)*512; print(f'{a}'); os.close(fd); os.unlink(p); "
         "raise SystemExit(0 if a>=n else 3)"
     )
-    result = run(["ssh", host, "python3", "-c", code, str(path), str(size)], check=False)
+    result = remote_python(host, code, [str(path), str(size)], check=False)
     if result.returncode:
         raise RuntimeError(f"remote capacity reservation failed: {result.stderr[-2000:]}")
     allocated = int(result.stdout.strip().splitlines()[-1])
