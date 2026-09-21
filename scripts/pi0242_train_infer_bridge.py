@@ -1725,7 +1725,8 @@ def r1_finalize(args: argparse.Namespace) -> dict[str, Any]:
             "execution_host": args.execution_host,
             "execution_device": args.execution_device,
             "groot_head": _git_head(Path(card["paths"]["groot_source"])),
-            "code_head": _git_head(args.code_root),
+            "finalizer_code_head": _git_head(args.code_root),
+            "science_execution_code_head": args.science_code_head,
         },
         "action_head_config": stock_records[0]["r1_action_head_config"],
         "selected_checkpoint": "NONE",
@@ -2141,6 +2142,7 @@ def main() -> int:
     parser.add_argument("--execution-job")
     parser.add_argument("--execution-host")
     parser.add_argument("--execution-device")
+    parser.add_argument("--science-code-head")
     args = parser.parse_args()
     if args.phase == "p0":
         result = p0(args)
