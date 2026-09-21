@@ -37,10 +37,10 @@ class PI0243CheckpointPersistenceTests(unittest.TestCase):
             )
             self.assertEqual(receipt["status"], "DURABLE_VERIFIED")
             receipt_path = base / "receipts" / "checkpoint-1000.durable_receipt.json"
-            verify_receipt(base / "durable" / "checkpoint-1000", receipt_path, expected_step=1000, expected_max_steps=5000, family="TEST")
-            (base / "durable" / "checkpoint-1000" / "optimizer.pt").write_bytes(b"truncated")
+            verify_receipt(base / "durable" / "training" / "checkpoint-1000", receipt_path, expected_step=1000, expected_max_steps=5000, family="TEST")
+            (base / "durable" / "training" / "checkpoint-1000" / "optimizer.pt").write_bytes(b"truncated")
             with self.assertRaises(PersistenceError):
-                verify_receipt(base / "durable" / "checkpoint-1000", receipt_path, expected_step=1000, expected_max_steps=5000, family="TEST")
+                verify_receipt(base / "durable" / "training" / "checkpoint-1000", receipt_path, expected_step=1000, expected_max_steps=5000, family="TEST")
 
     def test_wrong_step_and_max_steps_fail_closed(self):
         with tempfile.TemporaryDirectory() as temporary:

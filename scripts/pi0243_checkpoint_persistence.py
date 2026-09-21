@@ -195,11 +195,11 @@ def publish_checkpoint(
 
     record = checkpoint_record(source, expected_step=expected_step, expected_max_steps=expected_max_steps, family=family)
     safe_job = re.sub(r"[^A-Za-z0-9_.-]", "_", job_id or "local")
-    final = durable_root / f"checkpoint-{expected_step}"
-    partial = durable_root / f"checkpoint-{expected_step}.partial-{safe_job}-{os.getpid()}"
+    final = durable_root / "training" / f"checkpoint-{expected_step}"
+    partial = durable_root / "training" / f"checkpoint-{expected_step}.partial-{safe_job}-{os.getpid()}"
 
     if durable_host:
-        _run(["ssh", durable_host, "mkdir", "-p", str(durable_root)])
+        _run(["ssh", durable_host, "mkdir", "-p", str(final.parent)])
         if _remote_exists(durable_host, str(final)):
             existing = _remote_inventory(durable_host, str(final), label=f"pi0243/{family}/checkpoint-{expected_step}")
             existing_record = {**record, "inventory": existing}
