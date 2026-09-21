@@ -15,6 +15,7 @@ from pi0241_fixed16_learning import (
     CHECKPOINT_STEPS,
     MAX_STEPS,
     PI0241Error,
+    SEED,
     _resolved_config,
     _verify_card,
     bind_runtime,
@@ -26,6 +27,34 @@ from pi0241_fixed16_learning import (
     sha256_file,
     write_json,
 )
+
+
+def _bind_resume_seed_compatibility(resume_step: int) -> None:
+    """Keep the fixed schedule while satisfying the official resume hook."""
+    from gr00t.model.gr00t_n1d7 import setup as gr00t_setup
+
+    factory = gr00t_setup.DatasetFactory
+    original_build = factory.build
+    expected_seed = SEED + resume_step
+
+    def build(self: Any, processor: Any):
+        train_dataset, eval_dataset = original_build(self, processor)
+
+        def reset_seed(seed: int) -> None:
+            if int(seed) != expected_seed:
+                raise PI0241Error(
+                    f"unexpected resume seed {seed}; expected {expected_seed}"
+                )
+            # The fixed iterator is schedule-addressed and never consults dataset.seed.
+            print(
+                f"PI0241 resume seed compatibility accepted {expected_seed}; "
+                f"fixed schedule seed remains {SEED}"
+            )
+
+        train_dataset.reset_seed = reset_seed
+        return train_dataset, eval_dataset
+
+    factory.build = build
 
 
 def _archive(path: Path, timeout: float) -> dict[str, Any]:
@@ -138,6 +167,7 @@ def main() -> int:
     if summary != card["resolved_config"]:
         raise PI0241Error("recovery resolved config differs from sealed config")
     config.training.resume_from_checkpoint = True
+    _bind_resume_seed_compatibility(resume_step=500)
     pi0228 = load_module(Path(paths["code_root"]) / "scripts" / "pi0228_h200_large_adapt_v1.py", "pi0241_pi0228_recovery")
     pi0228.run_official(config, Path(paths["groot_source"]))
 
