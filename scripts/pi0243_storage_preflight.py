@@ -144,6 +144,7 @@ def main() -> int:
     durable = remote_snapshot(args.durable_host, args.durable_root)
     peak_without_headroom = PEAK_CHECKPOINT_BYTES
     headroom = max(10 * 1024**3, HEADROOM_BYTES)
+    planned_durable_bound = 3 * CHECKPOINT_BYTES + headroom
     result: dict[str, Any] = {
         "schema": "PI0243_STORAGE_ADMISSION_V1",
         "status": "RUNNING",
@@ -153,11 +154,11 @@ def main() -> int:
         "durable_host": args.durable_host,
         "quota_status": "UNKNOWN",
         "checkpoint_size_basis": {"source": "PI0241 sealed full Trainer checkpoint-1000", "bytes": CHECKPOINT_BYTES, "file_count": 18},
-        "capacity_plan": {"retain_all": True, "peak_without_headroom_bytes": peak_without_headroom, "headroom_bytes": headroom, "planned_work_bound_bytes": peak_without_headroom + headroom, "planned_durable_bound_bytes": 3 * CHECKPOINT_BYTES + headroom},
+        "capacity_plan": {"retain_all": True, "peak_without_headroom_bytes": peak_without_headroom, "headroom_bytes": headroom, "planned_work_bound_bytes": peak_without_headroom + headroom, "planned_durable_bound_bytes": planned_durable_bound},
     }
     try:
         result["work_reservation"] = reserve_local(args.work_root / f".pi0243_capacity_reservation_{args.label}", RESERVATION_BYTES)
-        result["durable_reservation"] = reserve_remote(args.durable_host, args.durable_root, RESERVATION_BYTES, args.label)
+        result["durable_reservation"] = reserve_remote(args.durable_host, args.durable_root, planned_durable_bound, args.label)
         result["durable_probe"] = durable_probe(args.durable_host, args.durable_root, args.label)
         result["status"] = "CAPACITY_PASS_DURABLE_HANDOFF_PASS"
     except Exception as exc:
