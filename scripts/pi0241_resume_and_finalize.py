@@ -107,6 +107,58 @@ def _skip_redundant_final_save(training_output: Path) -> None:
     Trainer.save_model = save_model
 
 
+def _release_resume_checkpoint_after_optimizer_load(
+    training_output: Path,
+    archive_manifest: Path,
+    checkpoint500_record: dict[str, Any],
+) -> None:
+    """Release checkpoint-500 only after Trainer restored its full state."""
+    from transformers import Trainer
+
+    checkpoint = (training_output / "checkpoint-500").resolve()
+    screen_model = (training_output.parent / "screen_models" / "checkpoint-500").resolve()
+    archive = read_json(archive_manifest)
+    archived = (archive.get("checkpoints") or {}).get("500")
+    if not isinstance(archived, dict) or not archived.get("verified"):
+        raise PI0241Error("verified HF checkpoint-500 archive record is required")
+    if archived.get("tree_sha256") != checkpoint500_record.get("tree_sha256"):
+        raise PI0241Error("local checkpoint-500 does not match its archived tree")
+    if not screen_model.is_dir():
+        raise PI0241Error(f"checkpoint-500 screen model is missing: {screen_model}")
+
+    original_load = Trainer._load_optimizer_and_scheduler
+    release_record = training_output.parent / "pi0241_checkpoint500_release_after_optimizer_load.json"
+
+    def load_optimizer_and_scheduler(self: Any, resume_from_checkpoint: Any) -> Any:
+        result = original_load(self, resume_from_checkpoint)
+        if resume_from_checkpoint is None or Path(resume_from_checkpoint).resolve() != checkpoint:
+            return result
+        if not checkpoint.is_dir():
+            raise PI0241Error("resume checkpoint disappeared after optimizer restore")
+        write_json(release_record, {
+            "schema": "PI0241_CHECKPOINT_RELEASE_V1",
+            "status": "RELEASING",
+            "reason": "optimizer_and_scheduler_restore_completed",
+            "job_id": os.environ.get("PBS_JOBID"),
+            "checkpoint": str(checkpoint),
+            "screen_model": str(screen_model),
+            "archive_manifest": str(archive_manifest),
+            "archive_tree_sha256": archived["tree_sha256"],
+            "local_tree_sha256": checkpoint500_record["tree_sha256"],
+            "released_at_unix": time.time(),
+        })
+        shutil.rmtree(checkpoint)
+        write_json(release_record, {
+            **read_json(release_record),
+            "status": "RELEASED",
+            "released_at_unix": time.time(),
+        })
+        print(f"PI0241 released resume checkpoint after optimizer restore: {checkpoint}")
+        return result
+
+    Trainer._load_optimizer_and_scheduler = load_optimizer_and_scheduler
+
+
 def _archive(path: Path, timeout: float) -> dict[str, Any]:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -184,7 +236,7 @@ def main() -> int:
     checkpoint1000 = training / "checkpoint-1000"
     if not checkpoint500.is_dir():
         raise PI0241Error("complete checkpoint-500 is required for recovery")
-    checkpoint_record(checkpoint500, 500)
+    checkpoint500_record = checkpoint_record(checkpoint500, 500)
     marker = output_root / "pi0241_recovery_manifest.json"
     if marker.exists():
         raise PI0241Error(f"refusing to reuse recovery output: {marker}")
@@ -219,6 +271,11 @@ def main() -> int:
     config.training.resume_from_checkpoint = True
     _bind_resume_compatibility(resume_step=500, training_output=training)
     _skip_redundant_final_save(training)
+    _release_resume_checkpoint_after_optimizer_load(
+        training_output=training,
+        archive_manifest=args.archive_manifest,
+        checkpoint500_record=checkpoint500_record,
+    )
     pi0228 = load_module(Path(paths["code_root"]) / "scripts" / "pi0228_h200_large_adapt_v1.py", "pi0241_pi0228_recovery")
     pi0228.run_official(config, Path(paths["groot_source"]))
 
