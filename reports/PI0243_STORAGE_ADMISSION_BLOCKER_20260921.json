@@ -1,0 +1,91 @@
+{
+  "schema": "PI0243_STORAGE_ADMISSION_BLOCKER_V1",
+  "protocol_commit": "5644d54d2f23ae412a2c4d57441563ed73d66d8e",
+  "execution_commit": "1d3dbf0",
+  "branch": "pi0243/storage-admitted-continuation",
+  "scientific_identity": "PI0243_STAGE_A_ORIGINAL_RECIPE_UNCHANGED",
+  "selected_checkpoint": "NONE",
+  "stage_a_submitted": false,
+  "model_activity": {
+    "weight_loads": 0,
+    "forward": 0,
+    "backward": 0,
+    "optimizer": 0
+  },
+  "local_regression": {
+    "pi0243_tests": "7/7 PASS",
+    "python_compile": "PASS",
+    "pbs_shell_syntax": "PASS"
+  },
+  "resume_decision": {
+    "status": "NOT_RESUMABLE",
+    "source": "/scratch/e1192548/pi0241_fixed16_v1_20260921/training/checkpoint-1000.incomplete-625370.hopper-m-02",
+    "reason": "config-only partial; model shards, optimizer, scheduler, RNG and trainer state are absent"
+  },
+  "preflight_attempts": [
+    {
+      "job": "626707.hopper-m-02",
+      "result": "ENGINEERING_FAIL",
+      "reason": "remote python -c quoting split the command before snapshot",
+      "evidence_sha256": "93a967b2d1fd9e52e9055eab31df3f46e6ed74182c1bbf185bb352badb040122"
+    },
+    {
+      "job": "626720.hopper-m-02",
+      "result": "ENGINEERING_CANCELLED",
+      "reason": "single-stream non-sparse reservation was too slow; no admission JSON",
+      "evidence_sha256": "c5ac73e88aee4b6088d291fcebe3fac9514e4ccb6e20d5fad2bea37642f83774"
+    },
+    {
+      "job": "626742.hopper-m-02",
+      "result": "ENGINEERING_CANCELLED",
+      "reason": "parallel reservation still used an unnecessarily large 128 GiB bound",
+      "evidence_sha256": "a76346586699c440416b8fb5fccdbaea8967d6109752729b0741b1c8662ab749"
+    },
+    {
+      "job": "626759.hopper-m-02",
+      "binding": "Project_Storage/CFP-03/CFP03-CF-004",
+      "result": "CAPACITY_NOT_PROVEN",
+      "planned_durable_bound_bytes": 79380480399,
+      "error": "Errno 122 Disk quota exceeded",
+      "manifest_sha256": "0e05997bdc25cb2555da92071db02a378580daeb5582bc9d4477b30fd6442330",
+      "pbs_log_sha256": "3d56339e1f46456f84c59de14b125ea32201f7dc64c315aa2ea8a879e6422f70"
+    },
+    {
+      "job": "626778.hopper-m-02",
+      "binding": "Project_Storage/CFP-03/CFP03-CF-004",
+      "result": "CAPACITY_NOT_PROVEN",
+      "planned_durable_bound_bytes": 79380480399,
+      "error": "Errno 122 Disk quota exceeded",
+      "manifest_sha256": "78a7207070d05562ea3c663847ef9387819101e83bfbaf59feed449d7d86169d",
+      "pbs_log_sha256": "c4fd36c8da22107977bb8addb55d5a074b2748c2eff9def4b5577934087ea034"
+    },
+    {
+      "job": "626799.hopper-m-02",
+      "binding": "scratch hpfs-main work+durable same-fileset",
+      "result": "CAPACITY_NOT_PROVEN",
+      "planned_combined_bound_bytes": 179650560903,
+      "error": "Errno 122 Disk quota exceeded",
+      "manifest_sha256": "7b3899c34b3f43f642f52b54d2f68c6c5a29c04c73c6bef05a79a59e0616c546",
+      "pbs_log_sha256": "edef8b54eafd68bbff93085cb939874bef6ec53bf98d05f72338a21da3f90144"
+    }
+  ],
+  "quota_observations": {
+    "project_storage_df_free_bytes": 532524802048,
+    "scratch_df_free_bytes": 3549648656531456,
+    "quota_status": "UNKNOWN",
+    "interpretation": "df free space is not user/project quota; both durable tests returned EDQUOT"
+  },
+  "hf_publisher": {
+    "hopper_login": "huggingface_hub import available; no local token found",
+    "corelab_login": "huggingface_hub not installed",
+    "write_probe": "NOT_RUN",
+    "status": "HF_AUTH_REQUIRED"
+  },
+  "scientific_gate": "HELD_EXTERNAL_INFRASTRUCTURE",
+  "next_requirement": "provide an authorized durable fileset with >=79.38 GB effective quota, or an authenticated HF/other durable publisher; do not paste credentials into chat",
+  "evidence_paths": [
+    "/nfs/home/svu/e1192548/pi0243_stage_a_admitted_20260921_meta/storage_preflight_r3.json",
+    "/nfs/home/svu/e1192548/pi0243_stage_a_admitted_20260921_meta/storage_preflight_r4.json",
+    "/nfs/home/svu/e1192548/pi0243_stage_a_admitted_20260921_meta/storage_preflight_scratch.json"
+  ]
+}
