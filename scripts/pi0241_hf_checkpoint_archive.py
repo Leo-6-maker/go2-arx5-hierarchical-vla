@@ -174,7 +174,9 @@ def main() -> int:
         api.upload_file(path_or_fileobj=str(manifest_file), path_in_repo=f"manifests/checkpoint-{step}.json", repo_id=args.repo_id, repo_type="model", commit_message=f"PI0241 manifest {step}")
         records[str(step)] = {"verified": True, "global_step": step, "max_steps": MAX_STEPS, "file_count": local["file_count"], "total_bytes": local["total_bytes"], "tree_sha256": local["tree_sha256"], "repo_id": args.repo_id, "remote_prefix": prefix, "remote_transient_released": False}
         write_manifest(args.manifest, {"schema": SCHEMA, "status": "PARTIAL", "repo_id": args.repo_id, "started_unix": started, "checkpoints": records})
-        if step < 1000:
+        # Keep checkpoint-500 locally until finalization; resume recovery needs its
+        # optimizer, scheduler, RNG, and trainer state even after HF archival.
+        if step < 500:
             screen_model = retain_screen_model(checkpoint, args.run_root, step)
             shutil.rmtree(checkpoint)
             records[str(step)]["screen_model_path"] = str(screen_model)
