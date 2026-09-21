@@ -4,7 +4,9 @@
 
 #PBS -N pi0243_stage
 #PBS -P CFP03-CF-004
-#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+# hopper-26 lacks the project-storage mount required by the sealed run card;
+# hopper-30 was verified read/write by the PI0243 archive probe.
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB:host=hopper-30
 #PBS -l walltime=48:00:00
 #PBS -j oe
 
@@ -27,6 +29,8 @@ test -d "${PI0243_FFMPEG_RUNTIME_ROOT}/lib"
 test -d "${PI0243_FFMPEG_RUNTIME_ROOT}/compat"
 test -d "${PI0243_TORCHCODEC_PACKAGE_ROOT}"
 test -d "${PI0243_TORCH_LIBRARY_ROOT}"
+test -r "${PI0243_RUN_CARD}" || { echo "FAIL_CLOSED: run card is not readable on compute node: ${PI0243_RUN_CARD}" >&2; exit 2; }
+test -w "$(dirname "${PI0243_RUN_CARD}")" || { echo "FAIL_CLOSED: run-card directory is not writable on compute node: $(dirname "${PI0243_RUN_CARD}")" >&2; exit 2; }
 
 ambient_ld="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="${PI0243_FFMPEG_RUNTIME_ROOT}/lib:${PI0243_FFMPEG_RUNTIME_ROOT}/compat:${PI0243_TORCHCODEC_PACKAGE_ROOT}:${PI0243_TORCH_LIBRARY_ROOT}:${ambient_ld}"
