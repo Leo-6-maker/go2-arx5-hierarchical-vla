@@ -60,10 +60,9 @@ def _bind_resume_compatibility(resume_step: int, training_output: Path) -> None:
 
             fixed16.append_jsonl = append
             try:
-                iterator = original_iter(dataset)
-                for _ in range(resume_step):
-                    next(iterator)
-                yield from iterator
+                # The official Trainer skips the saved global_step from the
+                # restored TrainerState.  Do not skip the fixed schedule here.
+                yield from original_iter(dataset)
             finally:
                 fixed16.append_jsonl = original_append
 
@@ -288,6 +287,9 @@ def main() -> int:
     if summary != card["resolved_config"]:
         raise PI0241Error("recovery resolved config differs from sealed config")
     config.training.resume_from_checkpoint = True
+    # The formal checkpoints already contain 250 and 500.  Recovery only
+    # needs the final 1000 checkpoint after the official state skip.
+    config.training.save_steps = MAX_STEPS
     _bind_resume_compatibility(resume_step=500, training_output=training)
     _skip_redundant_final_save(training)
     _release_resume_checkpoint_after_optimizer_load(
