@@ -230,7 +230,8 @@ def make_card(args: argparse.Namespace) -> None:
     schedule_file = args.output_root / "stage_exposure_schedule.json"
     write_json(cohort_file, {"schema": "PI0243_STAGE_COHORT_V1", "view": spec["view"], "rows": rows})
     write_json(schedule_file, {"schema": "PI0243_STAGE_EXPOSURE_V1", "seed": SEED, "rows": schedule})
-    fixed16_rows = legacy.select_fixed16(cohort["train"])
+    fixed16_cohort = read_json(Path(paths["p237_root"]) / "evidence" / "pi0237_cohort.json")
+    fixed16_rows = legacy.select_fixed16(fixed16_cohort["train"])
     card_seed = {
         "schema": "PI0243_RUN_CARD_V1",
         "status": "SEALED_READY_TO_EXECUTE",
