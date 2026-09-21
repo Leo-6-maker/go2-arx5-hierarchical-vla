@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# PI0243 storage-only node admission.  No model, CUDA, dataset or trainer use.
+#PBS -N pi0243-storage
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ncpus=2:mem=8GB
+#PBS -l walltime=00:30:00
+#PBS -j oe
+
+set -euo pipefail
+
+WORK_ROOT="${PI0243_WORK_ROOT:?set PI0243_WORK_ROOT}"
+DURABLE_HOST="${PI0243_DURABLE_HOST:?set PI0243_DURABLE_HOST}"
+DURABLE_ROOT="${PI0243_DURABLE_ROOT:?set PI0243_DURABLE_ROOT}"
+PYTHON="${PI0243_PYTHON:-/usr/bin/python3}"
+CODE_ROOT="${PI0243_PROJECT_ROOT:?set PI0243_PROJECT_ROOT}"
+LABEL="${PBS_JOBID:?unknown-job}"
+OUTPUT="${PI0243_PREFLIGHT_OUTPUT:?set PI0243_PREFLIGHT_OUTPUT}"
+
+export CUDA_VISIBLE_DEVICES=""
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONUNBUFFERED=1
+
+"${PYTHON}" "${CODE_ROOT}/scripts/pi0243_storage_preflight.py" \
+  --work-root "${WORK_ROOT}" \
+  --durable-host "${DURABLE_HOST}" \
+  --durable-root "${DURABLE_ROOT}" \
+  --output "${OUTPUT}" \
+  --label "${LABEL}"
+
+rsync -a --partial "${OUTPUT}" "${DURABLE_HOST}:${DURABLE_ROOT}/storage_admission_${LABEL}.json"
