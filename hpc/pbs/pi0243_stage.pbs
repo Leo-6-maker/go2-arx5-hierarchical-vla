@@ -20,6 +20,9 @@ set -euo pipefail
 : "${PI0243_OUTPUT_MIRROR_ROOT:?set PI0243_OUTPUT_MIRROR_ROOT}"
 : "${PI0243_ARCHIVE_HOST:?set PI0243_ARCHIVE_HOST}"
 : "${PI0243_ARCHIVE_ROOT:?set PI0243_ARCHIVE_ROOT}"
+: "${PI0243_DURABLE_HOST:?set PI0243_DURABLE_HOST}"
+: "${PI0243_DURABLE_ROOT:?set PI0243_DURABLE_ROOT}"
+: "${PI0243_CHECKPOINT_FAMILY:?set PI0243_CHECKPOINT_FAMILY}"
 : "${PI0243_PHASE:?set PI0243_PHASE}"
 : "${PI0243_STAGE:?set PI0243_STAGE}"
 : "${PI0243_FFMPEG_RUNTIME_ROOT:?set PI0243_FFMPEG_RUNTIME_ROOT}"
@@ -38,6 +41,7 @@ test -r "${PI0243_METADATA_MIRROR_ROOT}/stage_cohort.json" || { echo "FAIL_CLOSE
 test -r "${PI0243_METADATA_MIRROR_ROOT}/stage_exposure_schedule.json" || { echo "FAIL_CLOSED: mirrored schedule is not readable" >&2; exit 2; }
 mkdir -p "${PI0243_OUTPUT_MIRROR_ROOT}"
 test -w "${PI0243_OUTPUT_MIRROR_ROOT}" || { echo "FAIL_CLOSED: compute output mirror is not writable: ${PI0243_OUTPUT_MIRROR_ROOT}" >&2; exit 2; }
+test -n "${PI0243_DURABLE_ROOT}" || { echo "FAIL_CLOSED: durable root is empty" >&2; exit 2; }
 
 ambient_ld="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="${PI0243_FFMPEG_RUNTIME_ROOT}/lib:${PI0243_FFMPEG_RUNTIME_ROOT}/compat:${PI0243_TORCHCODEC_PACKAGE_ROOT}:${PI0243_TORCH_LIBRARY_ROOT}:${ambient_ld}"
@@ -57,7 +61,10 @@ archive_output() {
   local source_root="${PI0243_OUTPUT_MIRROR_ROOT}"
   local destination="${PI0243_ARCHIVE_HOST}:${PI0243_ARCHIVE_ROOT}/"
   test -d "${source_root}"
-  rsync -a --partial --human-readable "${source_root}/" "${destination}"
+  # Checkpoints are handed off and verified by the save callback.  The exit
+  # sync only publishes metadata, logs and screen evidence; it is not the
+  # sole checkpoint durability mechanism.
+  rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "${source_root}/" "${destination}"
 }
 case "${PI0243_PHASE}" in
   train)

@@ -673,6 +673,7 @@ def install_update_audit(training_output: Path) -> None:
                 "status": "RUNNING",
                 "audit_steps": sorted(audit_steps),
                 "events": [],
+                "checkpoint_receipts": [],
             }
 
         @staticmethod
@@ -775,6 +776,28 @@ def install_update_audit(training_output: Path) -> None:
             # only the sealed checkpoint set is written.
             control.should_save = step in CHECKPOINT_STEPS
             return control
+
+        def on_save(self, args, state, control, **kwargs):
+            durable_root = os.environ.get("PI0243_DURABLE_ROOT")
+            if not durable_root:
+                return
+            step = int(state.global_step)
+            if step not in CHECKPOINT_STEPS:
+                return
+            from pi0243_checkpoint_persistence import publish_checkpoint
+
+            receipt = publish_checkpoint(
+                training_output / f"checkpoint-{step}",
+                durable_host=os.environ.get("PI0243_DURABLE_HOST") or None,
+                durable_root=Path(durable_root),
+                expected_step=step,
+                expected_max_steps=int(getattr(args, "max_steps", MAX_STEPS)),
+                family=os.environ.get("PI0243_CHECKPOINT_FAMILY", "PI0243_STAGE_A_V1"),
+                receipt_root=training_output.parent / "durable_receipts",
+                job_id=os.environ.get("PBS_JOBID", "local"),
+            )
+            self.report["checkpoint_receipts"].append(receipt)
+            self.flush()
 
         def on_train_end(self, args, state, control, **kwargs):
             self.report["status"] = "COMPLETE"

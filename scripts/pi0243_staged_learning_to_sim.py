@@ -283,6 +283,8 @@ def make_card(args: argparse.Namespace) -> None:
             "legacy_sha256": sha256_file(args.code_root / "scripts" / "pi0241_fixed16_learning.py"),
             "pi0228_path": str((args.code_root / "scripts" / "pi0228_h200_large_adapt_v1.py").resolve()),
             "pi0228_sha256": sha256_file(args.code_root / "scripts" / "pi0228_h200_large_adapt_v1.py"),
+            "persistence_path": str((args.code_root / "scripts" / "pi0243_checkpoint_persistence.py").resolve()),
+            "persistence_sha256": sha256_file(args.code_root / "scripts" / "pi0243_checkpoint_persistence.py"),
         },
         "initializer": {"path": str(args.initializer.resolve()), "files": legacy._model_files(args.initializer)},
         "fixed16_source_ids": [str(row["source_episode_id"]) for row in fixed16_rows],
@@ -291,6 +293,14 @@ def make_card(args: argparse.Namespace) -> None:
         "selected_checkpoint": "NONE",
         "forbidden_counts": {"calib_queries": 0, "wbc_steps": 0, "sim_steps": 0, "dev_e_reads": 0, "final_f_reads": 0, "dagger_steps": 0},
     }
+    if args.durable_root:
+        card_seed["storage"] = {
+            "durable_host": args.durable_host,
+            "durable_root": str(args.durable_root.resolve()),
+            "checkpoint_family": "PI0243_STAGE_A_V1",
+            "layout": "retain_all",
+            "hf_status": "HF_REMOTE_COPY_PENDING",
+        }
     card = dict(card_seed)
     _, config_summary = resolved_config(card, args.output_root / "training", legacy, pi0228)
     card["resolved_config"] = config_summary
@@ -316,6 +326,9 @@ def verify_card(path: Path) -> dict[str, Any]:
     ):
         if sha256_file(Path(implementation[path_key])) != implementation[hash_key]:
             raise PI0243Error(f"implementation changed after card seal: {path_key}")
+    if "persistence_path" in implementation:
+        if sha256_file(Path(implementation["persistence_path"])) != implementation["persistence_sha256"]:
+            raise PI0243Error("implementation changed after card seal: persistence_path")
     cohort_path = _mapped_stage_path(card, card["cohort"]["path"], "PI0243_METADATA_MIRROR_ROOT")
     schedule_path = _mapped_stage_path(card, card["schedule"]["path"], "PI0243_METADATA_MIRROR_ROOT")
     if sha256_file(cohort_path) != card["cohort"]["sha256"] or sha256_file(schedule_path) != card["schedule"]["sha256"]:
@@ -364,6 +377,21 @@ def train_stage(args: argparse.Namespace) -> None:
     checkpoints = {}
     for step in card["stage"]["checkpoints"]:
         checkpoints[str(step)] = pi0228.checkpoint_record(output / f"checkpoint-{step}", int(step), int(card["stage"]["max_steps"]))
+    storage = card.get("storage")
+    if not isinstance(storage, Mapping) or not storage.get("durable_root"):
+        raise PI0243Error("storage admission binding is missing")
+    from pi0243_checkpoint_persistence import verify_receipt
+
+    durable_receipts = {}
+    for step in card["stage"]["checkpoints"]:
+        receipt_path = Path(card["paths"]["output_root"]) / "durable_receipts" / f"checkpoint-{int(step)}.durable_receipt.json"
+        durable_receipts[str(step)] = verify_receipt(
+            output / f"checkpoint-{int(step)}",
+            receipt_path,
+            expected_step=int(step),
+            expected_max_steps=int(card["stage"]["max_steps"]),
+            family=str(storage["checkpoint_family"]),
+        )
     audit = read_json(output / "pi0241_update_audit.json")
     if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != int(card["stage"]["max_steps"]):
         raise PI0243Error("update audit incomplete")
@@ -386,6 +414,8 @@ def train_stage(args: argparse.Namespace) -> None:
         "config": summary,
         "update_integrity": update_integrity,
         "checkpoints": checkpoints,
+        "durable_receipts": durable_receipts,
+        "storage": storage,
         "sample_contract_count": len(contracts),
         "selected_checkpoint": "NONE",
         "forbidden_counts": card["forbidden_counts"],
@@ -495,6 +525,21 @@ def screen_stage(args: argparse.Namespace) -> None:
         model_path = Path(card["paths"]["initializer"]) if int(step) == 0 else Path(card["paths"]["output_root"]) / "training" / f"checkpoint-{int(step)}"
         if not model_path.is_dir():
             raise PI0243Error(f"screen model missing: {model_path}")
+        if int(step) != 0:
+            storage = card.get("storage")
+            if not isinstance(storage, Mapping) or not storage.get("checkpoint_family"):
+                raise PI0243Error("screen storage binding is missing")
+            from pi0243_checkpoint_persistence import verify_receipt
+
+            verify_receipt(
+                model_path,
+                Path(card["paths"]["output_root"])
+                / "durable_receipts"
+                / f"checkpoint-{int(step)}.durable_receipt.json",
+                expected_step=int(step),
+                expected_max_steps=int(card["stage"]["max_steps"]),
+                family=str(storage["checkpoint_family"]),
+            )
         model = AutoModel.from_pretrained(model_path, local_files_only=True, trust_remote_code=True)
         model.eval().to(device=args.device, dtype=torch.bfloat16)
         for example in examples:
@@ -593,6 +638,8 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--cosmos-snapshot", type=Path)
     p.add_argument("--cosmos-cache-root", type=Path)
     p.add_argument("--output-root", type=Path)
+    p.add_argument("--durable-host")
+    p.add_argument("--durable-root", type=Path)
     p.add_argument("--device", default="cuda:0")
     return p
 
