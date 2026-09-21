@@ -11,6 +11,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+import pi0241_fixed16_learning as fixed16
+
 from pi0241_fixed16_learning import (
     CHECKPOINT_STEPS,
     MAX_STEPS,
@@ -29,16 +31,43 @@ from pi0241_fixed16_learning import (
 )
 
 
-def _bind_resume_seed_compatibility(resume_step: int) -> None:
-    """Keep the fixed schedule while satisfying the official resume hook."""
+def _bind_resume_compatibility(resume_step: int, training_output: Path) -> None:
+    """Resume the remaining fixed rows and satisfy the official resume hook."""
     from gr00t.model.gr00t_n1d7 import setup as gr00t_setup
 
     factory = gr00t_setup.DatasetFactory
     original_build = factory.build
     expected_seed = SEED + resume_step
+    consumption_path = (training_output / "pi0241_sample_consumption.jsonl").resolve()
+    contract_path = (training_output / "pi0241_sample_contracts.jsonl").resolve()
 
     def build(self: Any, processor: Any):
         train_dataset, eval_dataset = original_build(self, processor)
+
+        dataset_type = type(train_dataset)
+        original_iter = dataset_type.__iter__
+
+        def resumed_iter(dataset: Any):
+            original_append = fixed16.append_jsonl
+
+            def append(path: Path, value: Any) -> None:
+                resolved = Path(path).resolve()
+                if resolved == contract_path:
+                    return
+                if resolved == consumption_path and int(value.get("yield_ordinal", 0)) <= resume_step:
+                    return
+                original_append(path, value)
+
+            fixed16.append_jsonl = append
+            try:
+                iterator = original_iter(dataset)
+                for _ in range(resume_step):
+                    next(iterator)
+                yield from iterator
+            finally:
+                fixed16.append_jsonl = original_append
+
+        dataset_type.__iter__ = resumed_iter
 
         def reset_seed(seed: int) -> None:
             if int(seed) != expected_seed:
@@ -55,6 +84,27 @@ def _bind_resume_seed_compatibility(resume_step: int) -> None:
         return train_dataset, eval_dataset
 
     factory.build = build
+
+
+def _skip_redundant_final_save(training_output: Path) -> None:
+    """The complete checkpoint is already the sealed artifact; avoid a second root copy."""
+    from transformers import Trainer
+
+    original_save_model = Trainer.save_model
+
+    def save_model(self: Any, *args: Any, **kwargs: Any) -> Any:
+        output_dir = kwargs.get("output_dir")
+        if output_dir is None and args:
+            output_dir = args[0]
+        target = Path(output_dir or self.args.output_dir)
+        checkpoint = target / "checkpoint-1000"
+        required = ("optimizer.pt", "scheduler.pt", "rng_state.pth", "trainer_state.json")
+        if int(getattr(self.state, "global_step", -1)) == MAX_STEPS and all((checkpoint / name).is_file() for name in required):
+            print(f"PI0241 skipped redundant final root save; sealed checkpoint exists at {checkpoint}")
+            return None
+        return original_save_model(self, *args, **kwargs)
+
+    Trainer.save_model = save_model
 
 
 def _archive(path: Path, timeout: float) -> dict[str, Any]:
@@ -167,7 +217,8 @@ def main() -> int:
     if summary != card["resolved_config"]:
         raise PI0241Error("recovery resolved config differs from sealed config")
     config.training.resume_from_checkpoint = True
-    _bind_resume_seed_compatibility(resume_step=500)
+    _bind_resume_compatibility(resume_step=500, training_output=training)
+    _skip_redundant_final_save(training)
     pi0228 = load_module(Path(paths["code_root"]) / "scripts" / "pi0228_h200_large_adapt_v1.py", "pi0241_pi0228_recovery")
     pi0228.run_official(config, Path(paths["groot_source"]))
 
