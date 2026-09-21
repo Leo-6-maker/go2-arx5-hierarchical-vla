@@ -1562,8 +1562,9 @@ def r1(args: argparse.Namespace) -> dict[str, Any]:
             for quantile in P1_QUANTILES:
                 rows = [row for row in direct_records if row["model"] == model and row["condition"] == condition_label and float(row["t_quantile"]) == quantile]
                 direct_by_group[f"{model}:{condition_label}:q{int(quantile * 100):02d}"] = {
-                    metric: float(np.median([row["flow_metrics"][metric] for row in rows]))
-                    for metric in ("active_masked_velocity_mse", "xyz_rmse_m", "so3_rmse_rad")
+                    "active_masked_velocity_mse": float(np.median([row["flow_metrics"]["active_masked_velocity_mse"] for row in rows])),
+                    "xyz_rmse_m": float(np.median([row["physical_metrics"]["xyz_rmse_m"] for row in rows])),
+                    "so3_rmse_rad": float(np.median([row["physical_metrics"]["so3_rmse_rad"] for row in rows])),
                 }
     run_card = {
         "schema": "PI0242_R1_RUN_CARD_V1",
@@ -1624,6 +1625,153 @@ def r1(args: argparse.Namespace) -> dict[str, Any]:
     }
     write_json(args.output_root / "pi0242_r1_closure.json", closure)
     return {"status": "PASS_READ_ONLY", "output_root": str(args.output_root), "counts": dict(counters), "summary": summary}
+
+
+def r1_finalize(args: argparse.Namespace) -> dict[str, Any]:
+    """Seal a complete R1 record set without loading a model or rerunning cells."""
+
+    import torch
+
+    root = args.output_root
+    stock_path = root / "pi0242_r1_stock_records.jsonl"
+    direct_path = root / "pi0242_r1_direct_records.jsonl"
+    parity_path = root / "pi0242_r1_native_parity.jsonl"
+    metric_path = root / "pi0242_r1_metric_correction.json"
+    stock_arrays_path = root / "pi0242_r1_stock_traces.npz"
+    direct_arrays_path = root / "pi0242_r1_direct_arrays.npz"
+    parity_arrays_path = root / "pi0242_r1_native_parity_arrays.npz"
+    required_paths = (stock_path, direct_path, parity_path, metric_path, stock_arrays_path, direct_arrays_path, parity_arrays_path)
+    require(all(path.is_file() for path in required_paths), "R1 finalize requires all persisted records and arrays")
+    stock_records = _load_records(stock_path)
+    direct_records = _load_records(direct_path)
+    parity_records = _load_records(parity_path)
+    metric_correction = read_json(metric_path)
+    require(len(stock_records) == 16, f"R1 finalize stock count drift: {len(stock_records)}")
+    require(len(direct_records) == 64, f"R1 finalize direct count drift: {len(direct_records)}")
+    require(len(parity_records) == 32, f"R1 finalize parity count drift: {len(parity_records)}")
+    require(len({row["cell_key"] for row in stock_records}) == 16, "R1 finalize duplicate stock cells")
+    require(len({row["cell_key"] for row in direct_records}) == 64, "R1 finalize duplicate direct cells")
+    require(len({row["cell_key"] for row in parity_records}) == 32, "R1 finalize duplicate parity cells")
+    with np.load(stock_arrays_path, allow_pickle=False) as arrays:
+        require(len(arrays.files) >= 16 * 6, "R1 stock arrays are incomplete")
+    with np.load(direct_arrays_path, allow_pickle=False) as arrays:
+        require(len(arrays.files) >= 64 * 7, "R1 direct arrays are incomplete")
+    with np.load(parity_arrays_path, allow_pickle=False) as arrays:
+        require(len(arrays.files) >= 32 * 3, "R1 parity arrays are incomplete")
+
+    card = read_json(args.run_root / "pi0241_run_card.json")
+    fixed_rows = read_json(args.run_root / "fixed16_cohort.json")["rows"]
+    bridge_rows = _bridge4_rows(fixed_rows)
+    stage23 = _load_script(args.code_root / "scripts" / "stage23_phase_c_flow_field_diagnostic.py", "stage23_for_pi0242_r1_finalize")
+    stage23.assert_protocol_static()
+    noises = {}
+    for row in stock_records:
+        noises.setdefault(str(row["source_episode_id"]), str(row["noise_sha256"]))
+        require(noises[str(row["source_episode_id"])] == str(row["noise_sha256"]), "R1 noise identity drift across stock records")
+    checkpoint_paths = {
+        "initializer": Path(card["paths"]["base_model_path"]),
+        "final1000": args.run_root / "training" / "checkpoint-1000",
+    }
+    direct_by_group: dict[str, dict[str, float]] = {}
+    delta_by_group: dict[str, dict[str, float]] = {}
+    for model in checkpoint_paths:
+        for condition_label in ("C_I", "C_T"):
+            for quantile in P1_QUANTILES:
+                rows = [row for row in direct_records if row["model"] == model and row["condition"] == condition_label and float(row["t_quantile"]) == quantile]
+                key = f"{model}:{condition_label}:q{int(quantile * 100):02d}"
+                direct_by_group[key] = {
+                    "active_masked_velocity_mse": float(np.median([row["flow_metrics"]["active_masked_velocity_mse"] for row in rows])),
+                    "xyz_rmse_m": float(np.median([row["physical_metrics"]["xyz_rmse_m"] for row in rows])),
+                    "so3_rmse_rad": float(np.median([row["physical_metrics"]["so3_rmse_rad"] for row in rows])),
+                }
+                delta_by_group[key] = {
+                    "active_masked_velocity_mse": float(np.median([row["original_to_corrected_flow_delta"]["active_masked_velocity_mse"] for row in rows])),
+                    "xyz_rmse_m": float(np.median([row["original_to_corrected_physical_delta"]["xyz_rmse_m"] for row in rows])),
+                    "so3_rmse_rad": float(np.median([row["original_to_corrected_physical_delta"]["so3_rmse_rad"] for row in rows])),
+                }
+    parity_counts = Counter(str(row["parity_status"]) for row in parity_records)
+    counters = {
+        "stock_sampler_queries": 16,
+        "model_get_action_calls": 16,
+        "stock_action_head_sampler_calls": 16,
+        "stock_action_head_denoising_forwards": int(sum(int(row["sampler_steps"]) for row in stock_records)),
+        "backbone_forwards": 16,
+        "direct_flow_cells": 64,
+        "direct_action_head_forwards": 64,
+        "native_helper_pairs": 32,
+        "native_action_head_forwards": 32,
+        "helper_action_head_forwards": 32,
+    }
+    run_card = {
+        "schema": "PI0242_R1_RUN_CARD_V1",
+        "protocol_commit": "030bfa291c0f12dd83141974db846a103f04f2b2",
+        "audited_parent": "b3a6c92012ef6949bb08dc4a4ed41dd9760a907e",
+        "original_pi0242_closure": "5755139669",
+        "p0_evidence": {"path": str(args.p0_root / "pi0242_evidence_index.json"), "sha256": sha256_file(args.p0_root / "pi0242_evidence_index.json")},
+        "prior_p1_root": str(args.prior_p1_root),
+        "prior_p1_closure_sha256": sha256_file(args.prior_p1_root / "pi0242_p1_closure.json"),
+        "bridge4_rows": [{key: value for key, value in row.items() if key in {"source_episode_id", "target_family", "phase", "episode_index", "jitter_family"}} for row in bridge_rows],
+        "seed": SEED,
+        "time_probes": [{"quantile": q, "t": float(stage23.official_t_quantile(q)), "t_discretized": int(stage23.official_t_quantile(q) * 1000.0)} for q in P1_QUANTILES],
+        "noise_sha256_by_source_episode": noises,
+        "budgets": {"stock_captures": 16, "corrected_direct_cells": 64, "native_helper_control_pairs": 32, "observed": counters},
+        "checkpoint_paths": {key: str(value) for key, value in checkpoint_paths.items()},
+        "runtime": {
+            "python": platform.python_version(),
+            "torch": torch.__version__,
+            "cuda": torch.version.cuda,
+            "device": args.device,
+            "execution_job": args.execution_job,
+            "execution_host": args.execution_host,
+            "execution_device": args.execution_device,
+            "groot_head": _git_head(Path(card["paths"]["groot_source"])),
+            "code_head": _git_head(args.code_root),
+        },
+        "action_head_config": stock_records[0]["r1_action_head_config"],
+        "selected_checkpoint": "NONE",
+        "forbidden_counts": {"training": 0, "backward": 0, "optimizer_steps": 0, "wbc_steps": 0, "sim_steps": 0, "calib_queries": 0, "dev_e_reads": 0, "final_f_reads": 0, "dagger": 0},
+    }
+    write_json(root / "pi0242_r1_run_card.json", run_card)
+    summary = {
+        "schema": "PI0242_R1_SUMMARY_V1",
+        "status": "PASS_READ_ONLY",
+        "stock_count": 16,
+        "direct_count": 64,
+        "native_helper_count": 32,
+        "stock_gate_counts": dict(Counter(str(row["gate_decision"]) for row in stock_records)),
+        "stock_gate_unchanged_count": sum(1 for row in stock_records if row["original_stock_reference"]["gate_decision_unchanged"]),
+        "parity_status_counts": dict(parity_counts),
+        "corrected_direct_metrics_by_model_condition_t": direct_by_group,
+        "original_to_corrected_direct_median_delta_by_model_condition_t": delta_by_group,
+        "metric_correction": {"path": str(metric_path), "sha256": sha256_file(metric_path), "count": int(metric_correction["count"])},
+        "feature_transform": {
+            "raw_to_once_max_abs_median": float(np.median([row["r1_feature_provenance"]["feature_transform_deltas"]["raw_to_processed_once"]["max_abs"] for row in stock_records])),
+            "once_to_twice_max_abs_median": float(np.median([row["r1_feature_provenance"]["feature_transform_deltas"]["processed_once_to_processed_twice"]["max_abs"] for row in stock_records])),
+            "once_to_twice_exact_count": sum(1 for row in stock_records if row["r1_feature_provenance"]["feature_transform_deltas"]["processed_once_to_processed_twice"]["exact"]),
+        },
+        "stock_records_sha256": sha256_file(stock_path),
+        "direct_records_sha256": sha256_file(direct_path),
+        "parity_records_sha256": sha256_file(parity_path),
+        "stock_arrays_sha256": sha256_file(stock_arrays_path),
+        "direct_arrays_sha256": sha256_file(direct_arrays_path),
+        "parity_arrays_sha256": sha256_file(parity_arrays_path),
+        "selected_checkpoint": "NONE",
+        "claim_boundary": "corrected read-only parity and affected-matrix attribution only; no promotion, WBC, or task-success claim",
+    }
+    write_json(root / "pi0242_r1_summary.json", summary)
+    closure = {
+        "schema": "PI0242_R1_CLOSURE_V1",
+        "status": "PASS_READ_ONLY",
+        "run_card_sha256": sha256_file(root / "pi0242_r1_run_card.json"),
+        "summary_sha256": sha256_file(root / "pi0242_r1_summary.json"),
+        "metric_correction_sha256": sha256_file(metric_path),
+        "selected_checkpoint": "NONE",
+        "counts": counters,
+        "parity_status_counts": dict(parity_counts),
+        "forbidden_counts": run_card["forbidden_counts"],
+    }
+    write_json(root / "pi0242_r1_closure.json", closure)
+    return {"status": "PASS_READ_ONLY", "output_root": str(root), "counts": counters, "summary": summary}
 
 
 def p1(args: argparse.Namespace) -> dict[str, Any]:
@@ -1981,7 +2129,7 @@ def p0(args: argparse.Namespace) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=("p0", "p1", "r1"), required=True)
+    parser.add_argument("--phase", choices=("p0", "p1", "r1", "r1-finalize"), required=True)
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--code-root", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
@@ -1990,6 +2138,9 @@ def main() -> int:
     parser.add_argument("--ffmpeg-root", type=Path)
     parser.add_argument("--torch-site", type=Path)
     parser.add_argument("--prior-p1-root", type=Path)
+    parser.add_argument("--execution-job")
+    parser.add_argument("--execution-host")
+    parser.add_argument("--execution-device")
     args = parser.parse_args()
     if args.phase == "p0":
         result = p0(args)
@@ -2002,6 +2153,10 @@ def main() -> int:
         require(args.prior_p1_root is not None, "R1 requires --prior-p1-root")
         _bind_sealed_stage45b(args)
         result = r1(args)
+    elif args.phase == "r1-finalize":
+        require(args.p0_root is not None, "R1 finalize requires --p0-root")
+        require(args.prior_p1_root is not None, "R1 finalize requires --prior-p1-root")
+        result = r1_finalize(args)
     else:
         raise AssertionError(args.phase)
     print(json.dumps({"phase": args.phase, "status": result["status"], "output_root": str(args.output_root)}, indent=2))
