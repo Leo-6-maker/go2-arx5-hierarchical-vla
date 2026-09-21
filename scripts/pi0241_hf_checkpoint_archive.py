@@ -130,9 +130,16 @@ def main() -> int:
 
     api = HfApi(token=os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN"))
     api.create_repo(repo_id=args.repo_id, repo_type="model", private=False, exist_ok=True)
-    records = {}
+    if args.manifest.is_file():
+        prior = json.loads(args.manifest.read_text(encoding="utf-8"))
+        records = dict(prior.get("checkpoints", {}))
+    else:
+        records = {}
     started = time.time()
     for step in STEPS:
+        prior = records.get(str(step), {})
+        if prior.get("verified") and prior.get("remote_transient_released") and Path(prior.get("screen_model_path", "")).is_dir():
+            continue
         checkpoint = args.run_root / "training" / f"checkpoint-{step}"
         local = stable_inventory(checkpoint, step, args.checkpoint_timeout_seconds, args.poll_seconds)
         prefix = f"checkpoints/checkpoint-{step}"
