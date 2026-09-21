@@ -67,20 +67,19 @@ def remote_inventory(api, repo_id: str, prefix: str) -> list[dict]:
 
     result = []
     try:
-        entries = api.list_repo_tree(repo_id=repo_id, path_in_repo=prefix, recursive=True, repo_type="model")
+        for entry in api.list_repo_tree(repo_id=repo_id, path_in_repo=prefix, recursive=True, repo_type="model"):
+            path = getattr(entry, "path", None)
+            # list_repo_tree also returns directory nodes; the local inventory is files only.
+            if path is None or getattr(entry, "size", None) is None:
+                continue
+            lfs = getattr(entry, "lfs", None)
+            if isinstance(lfs, dict):
+                remote_sha = lfs.get("sha256")
+            else:
+                remote_sha = getattr(lfs, "sha256", None)
+            result.append({"path": path, "size": getattr(entry, "size", None), "sha256": remote_sha})
     except EntryNotFoundError:
         return result
-    for entry in entries:
-        path = getattr(entry, "path", None)
-        # list_repo_tree also returns directory nodes; the local inventory is files only.
-        if path is None or getattr(entry, "size", None) is None:
-            continue
-        lfs = getattr(entry, "lfs", None)
-        if isinstance(lfs, dict):
-            remote_sha = lfs.get("sha256")
-        else:
-            remote_sha = getattr(lfs, "sha256", None)
-        result.append({"path": path, "size": getattr(entry, "size", None), "sha256": remote_sha})
     return result
 
 
