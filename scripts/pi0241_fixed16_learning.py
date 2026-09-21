@@ -804,13 +804,18 @@ def checkpoint_record(path: Path, expected_step: int) -> dict[str, Any]:
     for child in sorted(path.rglob("*")):
         if child.is_file() and not child.is_symlink():
             entries.append({"path": child.relative_to(path).as_posix(), "bytes": child.stat().st_size, "sha256": sha256_file(child)})
+    tree = hashlib.sha256()
+    for entry in entries:
+        tree.update(
+            f"pi0241/checkpoint-{expected_step}/{entry['path']}\0{entry['bytes']}\0{entry['sha256']}\n".encode()
+        )
     return {
         "path": str(path),
         "global_step": expected_step,
         "max_steps": MAX_STEPS,
         "file_count": len(entries),
         "total_bytes": sum(row["bytes"] for row in entries),
-        "tree_sha256": sha256_json(entries),
+        "tree_sha256": tree.hexdigest(),
         "entries": entries,
     }
 
@@ -849,11 +854,31 @@ def train(args: argparse.Namespace) -> None:
         raise PI0241Error("actual sample consumption differs from fixed1000 schedule")
     if len(contracts) != 16 or {row["fixed_index"] for row in contracts} != set(range(16)) or any(row["active_slots"] != list(range(10)) for row in contracts):
         raise PI0241Error("actual fixed16 action/mask contracts are incomplete")
-    actual_dirs = sorted(path.name for path in training_output.glob("checkpoint-*") if path.is_dir())
-    expected_dirs = [f"checkpoint-{step}" for step in CHECKPOINT_STEPS]
-    if actual_dirs != expected_dirs:
-        raise PI0241Error(f"checkpoint ladder drift: {actual_dirs}")
-    checkpoints = {str(step): checkpoint_record(training_output / f"checkpoint-{step}", step) for step in CHECKPOINT_STEPS}
+    archive_path = Path(os.environ.get("PI0241_ARCHIVE_MANIFEST", str(Path(paths["output_root"]) / "pi0241_checkpoint_archive.json")))
+    archive_deadline = time.monotonic() + float(os.environ.get("PI0241_ARCHIVE_WAIT_SECONDS", "21600"))
+    archive = None
+    while time.monotonic() < archive_deadline:
+        if archive_path.is_file():
+            try:
+                candidate = read_json(archive_path)
+                if candidate.get("schema") == "PI0241_CHECKPOINT_ARCHIVE_V1" and candidate.get("status") == "COMPLETE":
+                    archive = candidate
+                    break
+            except (OSError, ValueError, json.JSONDecodeError):
+                pass
+        time.sleep(10)
+    if archive is None:
+        raise PI0241Error("complete HF checkpoint archive manifest was not produced")
+    checkpoints = {}
+    for step in CHECKPOINT_STEPS:
+        local_checkpoint = training_output / f"checkpoint-{step}"
+        if local_checkpoint.is_dir():
+            checkpoints[str(step)] = checkpoint_record(local_checkpoint, step)
+        else:
+            remote_record = (archive.get("checkpoints") or {}).get(str(step))
+            if not isinstance(remote_record, dict) or not remote_record.get("verified"):
+                raise PI0241Error(f"checkpoint-{step} is absent locally and not remotely verified")
+            checkpoints[str(step)] = remote_record
     audit = read_json(training_output / "pi0241_update_audit.json")
     if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != 1000:
         raise PI0241Error("update audit incomplete")
@@ -876,6 +901,7 @@ def train(args: argparse.Namespace) -> None:
         "config": summary,
         "update_integrity": update_integrity,
         "checkpoints": checkpoints,
+        "archive_manifest": {"path": str(archive_path), "sha256": sha256_file(archive_path), "repo_id": archive.get("repo_id")},
         "selected_checkpoint": "NONE",
         "forbidden_counts": card["forbidden_counts"],
     }
@@ -955,6 +981,10 @@ def screen_and_close(args: argparse.Namespace) -> None:
         model = None
         if step:
             model_path = Path(paths["output_root"]) / "training" / f"checkpoint-{step}"
+            if not model_path.is_dir():
+                model_path = Path(paths["output_root"]) / "screen_models" / f"checkpoint-{step}"
+            if not model_path.is_dir():
+                raise PI0241Error(f"screen checkpoint-{step} is unavailable locally")
             model = AutoModel.from_pretrained(model_path, local_files_only=True, trust_remote_code=True)
             model.eval().to(device=args.device, dtype=torch.bfloat16)
         for fixed in selected:
