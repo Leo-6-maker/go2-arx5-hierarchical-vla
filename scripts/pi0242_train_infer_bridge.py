@@ -1191,8 +1191,8 @@ def _native_helper_pair(
             return torch.from_numpy(noise).to(device=kwargs.get("device", device), dtype=kwargs.get("dtype", dtype))
         return original_randn(*args, **kwargs)
 
-    def fixed_sample_time(batch_size: int, sample_device: Any, sample_dtype: Any) -> Any:
-        return torch.full((batch_size,), float(t_value), device=sample_device, dtype=sample_dtype)
+    def fixed_sample_time(batch_size: int, device: Any, dtype: Any) -> Any:
+        return torch.full((batch_size,), float(t_value), device=device, dtype=dtype)
 
     try:
         torch.randn = hooked_randn
