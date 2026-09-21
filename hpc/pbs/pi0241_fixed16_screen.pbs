@@ -40,5 +40,6 @@ case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed $
 
 cd "${PI0241_PROJECT_ROOT}"
 exec "${PI0241_PYTHON}" -u scripts/pi0241_fixed16_learning.py \
+  --screen-and-close \
   --run-card "${PI0241_RUN_CARD}" \
   --device cuda:0
