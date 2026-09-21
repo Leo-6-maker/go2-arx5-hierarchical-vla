@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# PI0241: read-only 64-cell screen for step 0/250/500/1000.
+# It consumes the sealed training output and writes only screen evidence.
+
+#PBS -N pi0241_screen
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0241_PROJECT_ROOT:?set the PI0241 checkout}"
+: "${PI0241_STAGE10_ROOT:?set the Stage10 root}"
+: "${PI0241_GR00T_SOURCE:?set the GR00T source}"
+: "${PI0241_RUN_CARD:?set the sealed run card}"
+: "${PI0241_FFMPEG_RUNTIME_ROOT:?set the FFmpeg6 runtime}"
+: "${PI0241_TORCHCODEC_PACKAGE_ROOT:?set the torchcodec package root}"
+: "${PI0241_TORCH_LIBRARY_ROOT:?set the torch library root}"
+: "${PBS_JOBID:?PBS_JOBID must be present}"
+
+PI0241_PYTHON="${PI0241_PYTHON:-${PI0241_STAGE10_ROOT}/runtime/venv/bin/python}"
+test -x "${PI0241_PYTHON}"
+test -d "${PI0241_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${PI0241_FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${PI0241_TORCHCODEC_PACKAGE_ROOT}"
+test -d "${PI0241_TORCH_LIBRARY_ROOT}"
+
+ambient_ld="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0241_FFMPEG_RUNTIME_ROOT}/lib:${PI0241_FFMPEG_RUNTIME_ROOT}/compat:${PI0241_TORCHCODEC_PACKAGE_ROOT}:${PI0241_TORCH_LIBRARY_ROOT}:${ambient_ld}"
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONUNBUFFERED=1
+export PYTHONPATH="${PI0241_PROJECT_ROOT}/src:${PI0241_PROJECT_ROOT}/scripts:${PI0241_GR00T_SOURCE}:${PYTHONPATH:-}"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1 || { echo "FAIL_CLOSED: expected one visible GPU, observed ${GPU_COUNT}" >&2; exit 2; }
+case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;; esac
+
+cd "${PI0241_PROJECT_ROOT}"
+exec "${PI0241_PYTHON}" -u scripts/pi0241_fixed16_learning.py \
+  --run-card "${PI0241_RUN_CARD}" \
+  --device cuda:0
