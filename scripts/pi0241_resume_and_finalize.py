@@ -54,7 +54,7 @@ def _bind_resume_compatibility(resume_step: int, training_output: Path) -> None:
                 resolved = Path(path).resolve()
                 if resolved == contract_path:
                     return
-                if resolved == consumption_path and int(value.get("yield_ordinal", 0)) <= resume_step:
+                if resolved == consumption_path:
                     return
                 original_append(path, value)
 
