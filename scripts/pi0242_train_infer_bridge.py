@@ -532,6 +532,104 @@ def _tensor_cpu_float32(value: Any) -> np.ndarray:
     return np.asarray(value, dtype=np.float32)
 
 
+def _snapshot_tree(value: Any, *, to_cpu: bool = False) -> Any:
+    """Make an independent tensor/container snapshot without changing dtype."""
+
+    if hasattr(value, "detach") and hasattr(value, "clone"):
+        snapshot = value.detach().clone()
+        return snapshot.cpu() if to_cpu else snapshot
+    if isinstance(value, Mapping):
+        snapshot = copy.deepcopy(value)
+        for key, item in value.items():
+            snapshot[key] = _snapshot_tree(item, to_cpu=to_cpu)
+        return snapshot
+    if isinstance(value, tuple):
+        return tuple(_snapshot_tree(item, to_cpu=to_cpu) for item in value)
+    if isinstance(value, list):
+        return [_snapshot_tree(item, to_cpu=to_cpu) for item in value]
+    return copy.deepcopy(value)
+
+
+def _move_tree(value: Any, *, device: Any) -> Any:
+    """Move an independent snapshot to a model device while preserving dtype."""
+
+    if hasattr(value, "detach") and hasattr(value, "to"):
+        return value.detach().clone().to(device=device)
+    if isinstance(value, Mapping):
+        moved = copy.deepcopy(value)
+        for key, item in value.items():
+            moved[key] = _move_tree(item, device=device)
+        return moved
+    if isinstance(value, tuple):
+        return tuple(_move_tree(item, device=device) for item in value)
+    if isinstance(value, list):
+        return [_move_tree(item, device=device) for item in value]
+    return copy.deepcopy(value)
+
+
+def _tensor_provenance(value: Any) -> dict[str, Any]:
+    import torch
+
+    tensor = value.detach()
+    cpu = tensor.contiguous().cpu()
+    raw = cpu.view(torch.uint8).numpy().tobytes()
+    return {
+        "shape": [int(item) for item in tensor.shape],
+        "dtype": str(tensor.dtype),
+        "device": str(tensor.device),
+        "sha256": sha256_bytes(raw),
+    }
+
+
+def _backbone_provenance(value: Any) -> dict[str, Any]:
+    fields: dict[str, Any] = {}
+    if isinstance(value, Mapping):
+        for key in ("backbone_features", "backbone_attention_mask", "image_mask"):
+            if key in value and hasattr(value[key], "detach"):
+                fields[key] = _tensor_provenance(value[key])
+    return fields
+
+
+def _feature_delta(left: Any, right: Any) -> dict[str, Any]:
+    left_np = _tensor_cpu_float32(left)
+    right_np = _tensor_cpu_float32(right)
+    require(left_np.shape == right_np.shape, f"feature shape mismatch: {left_np.shape} != {right_np.shape}")
+    delta = right_np.astype(np.float64) - left_np.astype(np.float64)
+    return {
+        "shape": list(left_np.shape),
+        "exact": bool(np.array_equal(left_np, right_np)),
+        "max_abs": float(np.max(np.abs(delta))) if delta.size else 0.0,
+        "rmse": float(np.sqrt(np.mean(delta**2))) if delta.size else 0.0,
+    }
+
+
+def _feature_transform_provenance(raw: Any, once: Any, twice: Any) -> dict[str, Any]:
+    require(isinstance(raw, Mapping) and isinstance(once, Mapping) and isinstance(twice, Mapping), "backbone snapshots must be mappings")
+    require("backbone_features" in raw and "backbone_features" in once and "backbone_features" in twice, "backbone feature field missing")
+    return {
+        "raw": _backbone_provenance(raw),
+        "processed_once": _backbone_provenance(once),
+        "processed_twice": _backbone_provenance(twice),
+        "feature_transform_deltas": {
+            "raw_to_processed_once": _feature_delta(raw["backbone_features"], once["backbone_features"]),
+            "processed_once_to_processed_twice": _feature_delta(once["backbone_features"], twice["backbone_features"]),
+            "raw_to_processed_twice": _feature_delta(raw["backbone_features"], twice["backbone_features"]),
+        },
+    }
+
+
+def _action_head_config_summary(action_head: Any) -> dict[str, Any]:
+    config = getattr(action_head, "config", None)
+    return {
+        "use_vlln": bool(getattr(config, "use_vlln", False)),
+        "vl_self_attention_type": type(action_head.vl_self_attention).__name__,
+        "vlln_type": type(action_head.vlln).__name__,
+        "vl_self_attention_cfg": _jsonable(getattr(config, "vl_self_attention_cfg", None)),
+        "use_alternate_vl_dit": bool(getattr(config, "use_alternate_vl_dit", False)),
+        "add_pos_embed": bool(getattr(config, "add_pos_embed", False)),
+    }
+
+
 def _build_p1_conditions(
     args: argparse.Namespace,
     card: Mapping[str, Any],
@@ -704,9 +802,12 @@ def _physical_profile(decoded: np.ndarray, expert: np.ndarray, state: np.ndarray
     predicted = np.asarray(decoded, dtype=np.float64)[0]
     label = np.asarray(expert, dtype=np.float64)
     xyz_error = predicted[:, :3] - label[:, :3]
-    rotation_error = _geodesic(_rot6d_rows_to_matrix(predicted[:, 3:9]), _rot6d_rows_to_matrix(label[:, 3:9]))
+    predicted_rotations = _rot6d_rows_to_matrix(predicted[:, 3:9])
+    label_rotations = _rot6d_rows_to_matrix(label[:, 3:9])
+    rotation_error = _geodesic(predicted_rotations, label_rotations)
     linear_speed = np.linalg.norm(np.diff(predicted[:, :3], axis=0), axis=1) / DT
-    angular_speed = rotation_error[1:] / DT
+    angular_speed = _geodesic(predicted_rotations[:-1], predicted_rotations[1:]) / DT
+    expert_angular_speed = _geodesic(label_rotations[:-1], label_rotations[1:]) / DT
     return {
         "xyz_rmse_m": float(np.sqrt(np.mean(np.sum(xyz_error**2, axis=1)))),
         "xyz_max_m": float(np.max(np.linalg.norm(xyz_error, axis=1))),
@@ -716,6 +817,8 @@ def _physical_profile(decoded: np.ndarray, expert: np.ndarray, state: np.ndarray
         "endpoint_xyz_error_m": float(np.linalg.norm(predicted[-1, :3] - label[-1, :3])),
         "max_linear_speed_mps": float(np.max(linear_speed)) if linear_speed.size else 0.0,
         "max_angular_speed_radps": float(np.max(angular_speed)) if angular_speed.size else 0.0,
+        "expert_max_angular_speed_radps": float(np.max(expert_angular_speed)) if expert_angular_speed.size else 0.0,
+        "angular_speed_definition": "geodesic(predicted[t], predicted[t+1])/dt",
         "target_min_distance_m": float(np.min(np.linalg.norm(predicted[:, :3] - target[None, :], axis=1))),
     }
 
@@ -759,7 +862,13 @@ def _stock_query(
     prepared_policy, action_inputs = _p1_prepare_inputs(model, {"policy_inputs": policy}, stage21)
     backbone_outputs: list[Any] = []
     trace: list[dict[str, Any]] = []
-    backbone_handle = model.backbone.register_forward_hook(lambda _module, _inputs, output: backbone_outputs.append(output))
+    def capture_backbone(_module: Any, _inputs: tuple[Any, ...], output: Any) -> None:
+        # The official action head mutates this container during native get_action.
+        # Keep a detached CPU copy before that mutation; direct probes never use
+        # the live object returned by the stock call.
+        backbone_outputs.append(_snapshot_tree(output, to_cpu=True))
+
+    backbone_handle = model.backbone.register_forward_hook(capture_backbone)
     encoder = model.action_head.action_encoder
     decoder = model.action_head.action_decoder
 
@@ -810,11 +919,25 @@ def _stock_query(
     require(len(backbone_outputs) == 1, f"P1 expected one backbone forward, observed {len(backbone_outputs)}")
     require(trace and all("v" in row for row in trace), "P1 stock sampler trace is incomplete")
     raw = _tensor_cpu_float32(prediction["action_pred"])
+    raw_backbone = backbone_outputs[0]
+    model_device = next(iter(model.parameters())).device
+    with torch.inference_mode():
+        once_device = _move_tree(raw_backbone, device=model_device)
+        processed_once = model.action_head.process_backbone_output(once_device)
+        twice_device = _snapshot_tree(processed_once)
+        processed_twice = model.action_head.process_backbone_output(twice_device)
+    once_backbone = _snapshot_tree(processed_once, to_cpu=True)
+    twice_backbone = _snapshot_tree(processed_twice, to_cpu=True)
     return {
         "raw": raw,
         "noise": captured[0],
         "trace": trace,
-        "backbone_output": backbone_outputs[0],
+        "backbone_raw": raw_backbone,
+        "backbone_once": once_backbone,
+        "backbone_twice": twice_backbone,
+        "backbone_output": once_backbone,
+        "feature_provenance": _feature_transform_provenance(raw_backbone, once_backbone, twice_backbone),
+        "action_head_config": _action_head_config_summary(model.action_head),
         "action_inputs": action_inputs,
         "elapsed_s": float(elapsed),
         "sampler_steps": len(trace),
@@ -979,6 +1102,530 @@ def _stock_record(
     return record, arrays
 
 
+def _register_pre_hook_with_kwargs(module: Any, callback: Callable[..., None]) -> Any:
+    try:
+        return module.register_forward_pre_hook(callback, with_kwargs=True)
+    except TypeError:
+        return module.register_forward_pre_hook(lambda hooked_module, inputs: callback(hooked_module, inputs, {}))
+
+
+def _numeric_diff(left: Any, right: Any) -> dict[str, Any]:
+    left_np = _tensor_cpu_float32(left) if hasattr(left, "detach") else np.asarray(left, dtype=np.float32)
+    right_np = _tensor_cpu_float32(right) if hasattr(right, "detach") else np.asarray(right, dtype=np.float32)
+    if left_np.shape != right_np.shape:
+        return {"shape_left": list(left_np.shape), "shape_right": list(right_np.shape), "shape_equal": False}
+    delta = right_np.astype(np.float64) - left_np.astype(np.float64)
+    return {
+        "shape": list(left_np.shape),
+        "shape_equal": True,
+        "exact": bool(np.array_equal(left_np, right_np)),
+        "max_abs": float(np.max(np.abs(delta))) if delta.size else 0.0,
+        "rmse": float(np.sqrt(np.mean(delta**2))) if delta.size else 0.0,
+    }
+
+
+def _call_field(call: Mapping[str, Any], name: str) -> Any | None:
+    kwargs = call.get("kwargs", {})
+    if isinstance(kwargs, Mapping) and name in kwargs:
+        return kwargs[name]
+    return None
+
+
+def _native_helper_pair(
+    *,
+    model: Any,
+    stage26: Any,
+    stock: Mapping[str, Any],
+    condition: Mapping[str, Any],
+    t_value: float,
+) -> tuple[dict[str, Any], dict[str, np.ndarray]]:
+    """Compare native action-head.forward with Stage26 on captured native inputs."""
+
+    import torch
+
+    device = next(iter(model.parameters())).device
+    dtype = next(iter(model.parameters())).dtype
+    action = np.asarray(condition["expert_normalized"], dtype=np.float32)
+    mask = np.asarray(condition["action_mask"], dtype=np.float32)
+    noise = np.asarray(stock["noise"], dtype=np.float32)
+    fixed = _fixed_from_noise(action, noise, t_value)
+    base_action_input = _snapshot_tree(stock["action_inputs"])
+    native_action_input = _snapshot_tree(base_action_input)
+    native_action_input["action"] = torch.from_numpy(action).to(device=device, dtype=dtype)
+    native_action_input["action_mask"] = torch.from_numpy(mask).to(device=device, dtype=dtype)
+    raw_backbone = _move_tree(stock["backbone_raw"], device=device)
+
+    native_encoder: dict[str, Any] = {}
+    native_decoder: dict[str, Any] = {}
+    native_dit: dict[str, Any] = {}
+
+    def capture_encoder(_module: Any, inputs: tuple[Any, ...]) -> None:
+        if len(inputs) >= 2:
+            native_encoder["x"] = _snapshot_tree(inputs[0])
+            native_encoder["t"] = _snapshot_tree(inputs[1])
+            if len(inputs) >= 3:
+                native_encoder["embodiment_id"] = _snapshot_tree(inputs[2])
+
+    def capture_decoder(_module: Any, _inputs: tuple[Any, ...], output: Any) -> None:
+        value = output[0] if isinstance(output, (tuple, list)) else output
+        native_decoder["full"] = _snapshot_tree(value)
+        native_decoder["predicted_velocity"] = _snapshot_tree(value[:, -HORIZON:])
+
+    def capture_dit(_module: Any, inputs: tuple[Any, ...], kwargs: Mapping[str, Any]) -> None:
+        native_dit["args"] = _snapshot_tree(inputs)
+        native_dit["kwargs"] = _snapshot_tree(kwargs)
+
+    encoder_handle = model.action_head.action_encoder.register_forward_pre_hook(capture_encoder)
+    decoder_handle = model.action_head.action_decoder.register_forward_hook(capture_decoder)
+    dit_handle = _register_pre_hook_with_kwargs(model.action_head.model, capture_dit)
+    original_randn = torch.randn
+    original_sample_time = model.action_head.sample_time
+    consumed = False
+
+    def hooked_randn(*args: Any, **kwargs: Any) -> Any:
+        nonlocal consumed
+        size = kwargs.get("size", args[0] if args else None)
+        shape = tuple(int(value) for value in size) if isinstance(size, (tuple, list, torch.Size)) else None
+        if shape == (1, HORIZON, UNIVERSAL_DIM) and not consumed:
+            consumed = True
+            return torch.from_numpy(noise).to(device=kwargs.get("device", device), dtype=kwargs.get("dtype", dtype))
+        return original_randn(*args, **kwargs)
+
+    def fixed_sample_time(batch_size: int, sample_device: Any, sample_dtype: Any) -> Any:
+        return torch.full((batch_size,), float(t_value), device=sample_device, dtype=sample_dtype)
+
+    try:
+        torch.randn = hooked_randn
+        model.action_head.sample_time = fixed_sample_time
+        with torch.inference_mode():
+            model.action_head.forward(raw_backbone, native_action_input)
+    finally:
+        torch.randn = original_randn
+        model.action_head.sample_time = original_sample_time
+        encoder_handle.remove()
+        decoder_handle.remove()
+        dit_handle.remove()
+
+    require(consumed, "R1 native control did not consume its fixed noise")
+    require("x" in native_encoder and "t" in native_encoder, "R1 native action-encoder capture missing")
+    require("predicted_velocity" in native_decoder, "R1 native action-decoder capture missing")
+    require("kwargs" in native_dit, "R1 native diffusion call capture missing")
+    native_kwargs = native_dit["kwargs"]
+    required = ("hidden_states", "encoder_hidden_states", "timestep", "image_mask", "backbone_attention_mask")
+    require(all(name in native_kwargs for name in required), f"R1 native diffusion arguments missing: {required}")
+
+    helper_backbone = _move_tree(stock["backbone_once"], device=device)
+    helper_backbone["backbone_features"] = _snapshot_tree(native_kwargs["encoder_hidden_states"])
+    helper_backbone["backbone_attention_mask"] = _snapshot_tree(native_kwargs["backbone_attention_mask"])
+    helper_backbone["image_mask"] = _snapshot_tree(native_kwargs["image_mask"])
+    helper_action_input = _snapshot_tree(base_action_input)
+    helper_encoder: dict[str, Any] = {}
+    helper_dit: dict[str, Any] = {}
+
+    def capture_helper_encoder(_module: Any, inputs: tuple[Any, ...]) -> None:
+        if len(inputs) >= 2:
+            helper_encoder["x"] = _snapshot_tree(inputs[0])
+            helper_encoder["t"] = _snapshot_tree(inputs[1])
+
+    def capture_helper_dit(_module: Any, inputs: tuple[Any, ...], kwargs: Mapping[str, Any]) -> None:
+        helper_dit["args"] = _snapshot_tree(inputs)
+        helper_dit["kwargs"] = _snapshot_tree(kwargs)
+
+    helper_encoder_handle = model.action_head.action_encoder.register_forward_pre_hook(capture_helper_encoder)
+    helper_dit_handle = _register_pre_hook_with_kwargs(model.action_head.model, capture_helper_dit)
+    try:
+        with torch.inference_mode():
+            helper_predicted = stage26._teacher_forced_local_flow(
+                action_head=model.action_head,
+                backbone_output=helper_backbone,
+                action_input=helper_action_input,
+                noisy_action=native_encoder["x"],
+                t_discretized=native_encoder["t"],
+            )
+    finally:
+        helper_encoder_handle.remove()
+        helper_dit_handle.remove()
+
+    require("x" in helper_encoder and "t" in helper_encoder, "R1 helper action-encoder capture missing")
+    require("kwargs" in helper_dit, "R1 helper diffusion call capture missing")
+    native_pred = native_decoder["predicted_velocity"]
+    helper_pred = helper_predicted
+    fields = ("hidden_states", "encoder_hidden_states", "timestep", "image_mask", "backbone_attention_mask")
+    input_diffs = {
+        "action_encoder_x": _numeric_diff(native_encoder["x"], helper_encoder["x"]),
+        "action_encoder_t": _numeric_diff(native_encoder["t"], helper_encoder["t"]),
+        "diffusion_inputs": {
+            name: _numeric_diff(_call_field(native_dit, name), _call_field(helper_dit, name))
+            for name in fields
+        },
+    }
+    output_diff = _numeric_diff(native_pred, helper_pred)
+    exact_inputs = all(
+        bool(item.get("exact", False))
+        for item in (
+            input_diffs["action_encoder_x"],
+            input_diffs["action_encoder_t"],
+            *input_diffs["diffusion_inputs"].values(),
+        )
+    )
+    parity_status = "EXACT" if exact_inputs and bool(output_diff.get("exact", False)) else "FLOAT_DIFFERENCE"
+    record = {
+        "schema": "PI0242_R1_NATIVE_HELPER_PARITY_V1",
+        "kind": "native_helper_control",
+        "t_value": float(t_value),
+        "t_discretized": int(native_encoder["t"].detach().cpu().reshape(-1)[0].item()),
+        "noise_sha256": sha256_array(noise),
+        "condition_hash": str(condition["condition_hash"]),
+        "native_input_provenance": {
+            "action_encoder_x": _tensor_provenance(native_encoder["x"]),
+            "action_encoder_t": _tensor_provenance(native_encoder["t"]),
+            "diffusion_kwargs": {name: _tensor_provenance(_call_field(native_dit, name)) for name in fields},
+        },
+        "input_diffs": input_diffs,
+        "output_diff": output_diff,
+        "parity_status": parity_status,
+        "native_forward": True,
+        "helper_forward": True,
+        "training": False,
+        "backward": False,
+        "optimizer_step": False,
+        "wbc_executed": False,
+    }
+    arrays = {
+        "native_predicted_velocity": _tensor_cpu_float32(native_pred),
+        "helper_predicted_velocity": _tensor_cpu_float32(helper_pred),
+        "predicted_velocity_delta": _tensor_cpu_float32(helper_pred - native_pred),
+    }
+    return record, arrays
+
+
+def _r1_metric_correction(
+    *,
+    args: argparse.Namespace,
+    card: Mapping[str, Any],
+    fixed_rows: Sequence[Mapping[str, Any]],
+    target_map: Mapping[tuple[str, str], np.ndarray],
+) -> dict[str, Any]:
+    """Recompute only the angular-speed sidecar from the sealed old NPZ."""
+
+    old_root = args.prior_p1_root
+    records_path = old_root / "pi0242_bridge_records.jsonl"
+    arrays_path = old_root / "pi0242_p1_stock_traces.npz"
+    require(records_path.is_file() and arrays_path.is_file(), "R1 prior P1 stock artifacts are incomplete")
+    old_records = [row for row in _load_records(records_path) if row.get("kind") == "stock_sampler"]
+    rows_by_source = {str(row["source_episode_id"]): row for row in fixed_rows}
+    tensor_by_source = {
+        str(row["source_episode_id"]): Path(str(row["tensor_path"]))
+        for row in card["selected_inputs"]
+    }
+    corrected: list[dict[str, Any]] = []
+    with np.load(arrays_path, allow_pickle=False) as arrays:
+        for old in old_records:
+            source_id = str(old["source_episode_id"])
+            row = rows_by_source[source_id]
+            target_key = (str(row["target_family"]), str(row["jitter_family"]).split("_", 1)[0])
+            with np.load(tensor_by_source[source_id], allow_pickle=False) as payload:
+                decoded = np.asarray(arrays[f"{old['cell_key']}__decoded"], dtype=np.float32)
+                expert = np.asarray(payload["expert"], dtype=np.float32)
+                state = np.asarray(payload["state"], dtype=np.float32)
+            new_metrics = _physical_profile(decoded, expert, state, target_map[target_key])
+            old_metrics = dict(old["physical_metrics"])
+            corrected.append({
+                "schema": "PI0242_R1_METRIC_CORRECTION_V1",
+                "kind": "stock_metric_correction",
+                "cell_key": str(old["cell_key"]),
+                "source_episode_id": source_id,
+                "model": str(old["model"]),
+                "condition": str(old["condition"]),
+                "gate_decision_preserved": str(old["gate_decision"]),
+                "old_max_angular_speed_radps": old_metrics.get("max_angular_speed_radps"),
+                "corrected_max_angular_speed_radps": new_metrics["max_angular_speed_radps"],
+                "delta_max_angular_speed_radps": None
+                if old_metrics.get("max_angular_speed_radps") is None
+                else new_metrics["max_angular_speed_radps"] - float(old_metrics["max_angular_speed_radps"]),
+                "corrected_expert_max_angular_speed_radps": new_metrics["expert_max_angular_speed_radps"],
+                "definition": new_metrics["angular_speed_definition"],
+                "decoded_sha256": sha256_array(decoded),
+                "original_record_path": str(records_path),
+                "original_arrays_path": str(arrays_path),
+                "safety_gate_recomputed": False,
+            })
+    path = args.output_root / "pi0242_r1_metric_correction.json"
+    payload = {
+        "schema": "PI0242_R1_METRIC_CORRECTION_V1",
+        "status": "PASS_READ_ONLY",
+        "source_records_sha256": sha256_file(records_path),
+        "source_arrays_sha256": sha256_file(arrays_path),
+        "count": len(corrected),
+        "rows": corrected,
+        "gate_decisions_untouched": True,
+    }
+    write_json(path, payload)
+    return {"path": str(path), "sha256": sha256_file(path), "count": len(corrected), "rows": corrected}
+
+
+def _r1_metric_delta(corrected: Mapping[str, Any], original: Mapping[str, Any]) -> dict[str, float]:
+    return {
+        key: float(corrected[key]) - float(original[key])
+        for key in ("active_masked_velocity_mse", "xyz_rmse_m", "so3_rmse_rad")
+        if key in corrected and key in original
+    }
+
+
+def r1(args: argparse.Namespace) -> dict[str, Any]:
+    import gc
+    import torch
+
+    require(args.prior_p1_root is not None, "R1 requires --prior-p1-root")
+    require(not args.output_root.exists(), f"R1 output root already exists: {args.output_root}")
+    args.output_root.mkdir(parents=True, exist_ok=False)
+    p0_admission = read_json(args.p0_root / "pi0242_p0_admission.json")
+    require(p0_admission.get("status") == "PASS", "R1 requires sealed P0 PASS")
+    prior_closure = read_json(args.prior_p1_root / "pi0242_p1_closure.json")
+    require(prior_closure.get("status") == "PASS_READ_ONLY", "R1 prior P1 closure is not valid")
+    card = read_json(args.run_root / "pi0241_run_card.json")
+    fixed_rows = read_json(args.run_root / "fixed16_cohort.json")["rows"]
+    bridge_rows = _bridge4_rows(fixed_rows)
+    paths = card["paths"]
+    conditions = _build_p1_conditions(args, card, bridge_rows)
+    target_map = _target_map(card)
+    metric_correction = _r1_metric_correction(args=args, card=card, fixed_rows=bridge_rows, target_map=target_map)
+
+    import stage21_same_scene_groot_inference as stage21
+
+    stage26 = _load_script(args.code_root / "scripts" / "stage26_h1_c1_fixed_noise_local_flow.py", "stage26_for_pi0242_r1")
+    stage23 = _load_script(args.code_root / "scripts" / "stage23_phase_c_flow_field_diagnostic.py", "stage23_for_pi0242_r1")
+    stage23.assert_protocol_static()
+    selector = _load_script(args.code_root / "scripts" / "pi0228_train_calib_checkpoint_selection.py", "selector_for_pi0242_r1")
+    from go2arx5_vla.safety import TrajectorySafetyGateV1
+
+    gate = TrajectorySafetyGateV1()
+    checkpoint_paths = {
+        "initializer": Path(paths["base_model_path"]),
+        "final1000": args.run_root / "training" / "checkpoint-1000",
+    }
+    for label, path in checkpoint_paths.items():
+        require((path / "config.json").is_file() and (path / "model.safetensors.index.json").is_file(), f"R1 {label} checkpoint identity incomplete: {path}")
+
+    prior_records = _load_records(args.prior_p1_root / "pi0242_bridge_records.jsonl")
+    prior_by_cell = {str(row["cell_key"]): row for row in prior_records}
+    output_stock = args.output_root / "pi0242_r1_stock_records.jsonl"
+    output_direct = args.output_root / "pi0242_r1_direct_records.jsonl"
+    output_parity = args.output_root / "pi0242_r1_native_parity.jsonl"
+    stock_arrays: dict[str, np.ndarray] = {}
+    direct_arrays: dict[str, np.ndarray] = {}
+    parity_arrays: dict[str, np.ndarray] = {}
+    noises: dict[str, np.ndarray] = {}
+    counters = Counter()
+    parity_records: list[dict[str, Any]] = []
+    direct_records: list[dict[str, Any]] = []
+    stock_records: list[dict[str, Any]] = []
+
+    with output_stock.open("w", encoding="utf-8") as stock_handle, output_direct.open("w", encoding="utf-8") as direct_handle, output_parity.open("w", encoding="utf-8") as parity_handle:
+        for model_label, checkpoint in checkpoint_paths.items():
+            model = _load_p1_model(checkpoint, Path(paths["groot_source"]), args.device)
+            try:
+                for row in bridge_rows:
+                    source_id = str(row["source_episode_id"])
+                    target_key = (str(row["target_family"]), str(row["jitter_family"]).split("_", 1)[0])
+                    require(target_key in target_map, f"R1 target authority missing: {target_key}")
+                    row_for_metrics = dict(row)
+                    tensor_path = next(item["tensor_path"] for item in card["selected_inputs"] if item["source_episode_id"] == source_id)
+                    with np.load(tensor_path, allow_pickle=False) as payload:
+                        row_for_metrics["expert"] = np.asarray(payload["expert"], dtype=np.float32)
+                    row_for_metrics["target"] = target_map[target_key]
+                    for condition_label in ("C_I", "C_T"):
+                        condition = conditions[condition_label][source_id]
+                        cell_key = f"{model_label}__{condition_label}__{source_id.split(':', 1)[0]}"
+                        fixed_noise = None if model_label == "initializer" and condition_label == "C_I" else noises.get(source_id)
+                        require(fixed_noise is not None or (model_label == "initializer" and condition_label == "C_I"), f"R1 missing paired noise: {source_id}")
+                        stock = _stock_query(model, condition["policy_inputs"], stage21, fixed_noise)
+                        if fixed_noise is None:
+                            noises[source_id] = np.asarray(stock["noise"], dtype=np.float32)
+                        require(np.array_equal(np.asarray(stock["noise"], dtype=np.float32), noises[source_id]), f"R1 paired noise mismatch: {source_id}")
+                        stock_record, stock_payload = _stock_record(
+                            stock=stock,
+                            condition=condition,
+                            row=row_for_metrics,
+                            model_label=model_label,
+                            condition_label=condition_label,
+                            target=target_map[target_key],
+                            selector=selector,
+                            gate=gate,
+                            cell_key=cell_key,
+                        )
+                        old_stock = prior_by_cell.get(cell_key, {})
+                        stock_record["r1_feature_provenance"] = stock["feature_provenance"]
+                        stock_record["r1_action_head_config"] = stock["action_head_config"]
+                        stock_record["original_stock_reference"] = {
+                            "record_path": str(args.prior_p1_root / "pi0242_bridge_records.jsonl"),
+                            "gate_decision": old_stock.get("gate_decision"),
+                            "raw_universal_action_sha256": old_stock.get("raw_universal_action_sha256"),
+                            "gate_decision_unchanged": old_stock.get("gate_decision") == stock_record["gate_decision"],
+                        }
+                        stock_handle.write(json.dumps(_jsonable(stock_record), sort_keys=True) + "\n")
+                        stock_handle.flush()
+                        stock_records.append(stock_record)
+                        stock_arrays.update(stock_payload)
+                        counters["stock_sampler_queries"] += 1
+                        counters["model_get_action_calls"] += 1
+                        counters["backbone_forwards"] += 1
+                        counters["stock_action_head_sampler_calls"] += 1
+                        counters["stock_action_head_denoising_forwards"] += int(stock["sampler_steps"])
+
+                        for t_index, quantile in enumerate(P1_QUANTILES):
+                            t_value = float(stage23.official_t_quantile(quantile))
+                            direct_key = f"{cell_key}__t{t_index}"
+                            direct_record, direct_payload = _direct_query(
+                                model=model,
+                                stage26=stage26,
+                                stage23=stage23,
+                                processed_backbone=_move_tree(stock["backbone_once"], device=next(iter(model.parameters())).device),
+                                action_inputs=stock["action_inputs"],
+                                condition=condition,
+                                row=row_for_metrics,
+                                model_label=model_label,
+                                condition_label=condition_label,
+                                noise=noises[source_id],
+                                t_quantile=quantile,
+                                t_value=t_value,
+                                cell_key=direct_key,
+                            )
+                            original = prior_by_cell.get(direct_key, {})
+                            direct_record["r1_feature_provenance"] = stock["feature_provenance"]
+                            direct_record["original_reference"] = {
+                                "record_path": str(args.prior_p1_root / "pi0242_bridge_records.jsonl"),
+                                "cell_key": direct_key,
+                                "raw_predicted_velocity_sha256": original.get("raw_predicted_velocity_sha256"),
+                                "implied_universal_action_sha256": original.get("implied_universal_action_sha256"),
+                                "flow_metrics": original.get("flow_metrics"),
+                                "physical_metrics": original.get("physical_metrics"),
+                            }
+                            direct_record["original_to_corrected_flow_delta"] = _r1_metric_delta(direct_record["flow_metrics"], original.get("flow_metrics", {}))
+                            direct_record["original_to_corrected_physical_delta"] = {
+                                key: float(direct_record["physical_metrics"][key]) - float(original["physical_metrics"][key])
+                                for key in ("xyz_rmse_m", "so3_rmse_rad")
+                                if key in original.get("physical_metrics", {})
+                            }
+                            direct_handle.write(json.dumps(_jsonable(direct_record), sort_keys=True) + "\n")
+                            direct_handle.flush()
+                            direct_records.append(direct_record)
+                            direct_arrays.update(direct_payload)
+                            counters["direct_flow_cells"] += 1
+                            counters["direct_action_head_forwards"] += 1
+
+                        for parity_quantile in (0.0, 0.5):
+                            parity_value = float(stage23.official_t_quantile(parity_quantile))
+                            parity_record, parity_payload = _native_helper_pair(
+                                model=model,
+                                stage26=stage26,
+                                stock=stock,
+                                condition=condition,
+                                t_value=parity_value,
+                            )
+                            parity_record.update({
+                                "model": model_label,
+                                "condition": condition_label,
+                                "source_episode_id": source_id,
+                                "target_family": str(row["target_family"]),
+                                "phase": int(row["phase"]),
+                                "cell_key": f"{cell_key}__parity_q{int(parity_quantile * 100):02d}",
+                                "t_quantile": parity_quantile,
+                                "feature_provenance": stock["feature_provenance"],
+                            })
+                            parity_handle.write(json.dumps(_jsonable(parity_record), sort_keys=True) + "\n")
+                            parity_handle.flush()
+                            parity_records.append(parity_record)
+                            parity_arrays.update({f"{parity_record['cell_key']}__{key}": value for key, value in parity_payload.items()})
+                            counters["native_helper_pairs"] += 1
+                            counters["native_action_head_forwards"] += 1
+                            counters["helper_action_head_forwards"] += 1
+            finally:
+                del model
+                gc.collect()
+                torch.cuda.empty_cache()
+
+    require(counters["stock_sampler_queries"] == 16, f"R1 stock capture budget drift: {counters['stock_sampler_queries']}")
+    require(counters["direct_flow_cells"] == 64, f"R1 direct budget drift: {counters['direct_flow_cells']}")
+    require(counters["native_helper_pairs"] == 32, f"R1 parity budget drift: {counters['native_helper_pairs']}")
+    stock_path = args.output_root / "pi0242_r1_stock_traces.npz"
+    direct_path = args.output_root / "pi0242_r1_direct_arrays.npz"
+    parity_path = args.output_root / "pi0242_r1_native_parity_arrays.npz"
+    np.savez_compressed(stock_path, **stock_arrays)
+    np.savez_compressed(direct_path, **direct_arrays)
+    np.savez_compressed(parity_path, **parity_arrays)
+
+    parity_counts = Counter(str(row["parity_status"]) for row in parity_records)
+    direct_by_group: dict[str, dict[str, float]] = {}
+    for model in checkpoint_paths:
+        for condition_label in ("C_I", "C_T"):
+            for quantile in P1_QUANTILES:
+                rows = [row for row in direct_records if row["model"] == model and row["condition"] == condition_label and float(row["t_quantile"]) == quantile]
+                direct_by_group[f"{model}:{condition_label}:q{int(quantile * 100):02d}"] = {
+                    metric: float(np.median([row["flow_metrics"][metric] for row in rows]))
+                    for metric in ("active_masked_velocity_mse", "xyz_rmse_m", "so3_rmse_rad")
+                }
+    run_card = {
+        "schema": "PI0242_R1_RUN_CARD_V1",
+        "protocol_commit": "030bfa291c0f12dd83141974db846a103f04f2b2",
+        "audited_parent": "b3a6c92012ef6949bb08dc4a4ed41dd9760a907e",
+        "original_pi0242_closure": "5755139669",
+        "p0_evidence": {"path": str(args.p0_root / "pi0242_evidence_index.json"), "sha256": sha256_file(args.p0_root / "pi0242_evidence_index.json")},
+        "prior_p1_root": str(args.prior_p1_root),
+        "prior_p1_closure_sha256": sha256_file(args.prior_p1_root / "pi0242_p1_closure.json"),
+        "bridge4_rows": [{key: value for key, value in row.items() if key in {"source_episode_id", "target_family", "phase", "episode_index", "jitter_family"}} for row in bridge_rows],
+        "seed": SEED,
+        "time_probes": [{"quantile": q, "t": float(stage23.official_t_quantile(q)), "t_discretized": int(stage23.official_t_quantile(q) * 1000.0)} for q in P1_QUANTILES],
+        "noise_sha256_by_source_episode": {key: sha256_array(value) for key, value in sorted(noises.items())},
+        "budgets": {"stock_captures": 16, "corrected_direct_cells": 64, "native_helper_control_pairs": 32, "observed": dict(counters)},
+        "checkpoint_paths": {key: str(value) for key, value in checkpoint_paths.items()},
+        "runtime": {"python": platform.python_version(), "torch": torch.__version__, "cuda": torch.version.cuda, "device": args.device, "groot_head": _git_head(Path(paths["groot_source"])), "code_head": _git_head(args.code_root)},
+        "action_head_config": stock_records[0]["r1_action_head_config"],
+        "selected_checkpoint": "NONE",
+        "forbidden_counts": {"training": 0, "backward": 0, "optimizer_steps": 0, "wbc_steps": 0, "sim_steps": 0, "calib_queries": 0, "dev_e_reads": 0, "final_f_reads": 0, "dagger": 0},
+    }
+    write_json(args.output_root / "pi0242_r1_run_card.json", run_card)
+    summary = {
+        "schema": "PI0242_R1_SUMMARY_V1",
+        "status": "PASS_READ_ONLY",
+        "stock_count": len(stock_records),
+        "direct_count": len(direct_records),
+        "native_helper_count": len(parity_records),
+        "stock_gate_counts": dict(Counter(str(row["gate_decision"]) for row in stock_records)),
+        "stock_gate_unchanged_count": sum(1 for row in stock_records if row["original_stock_reference"]["gate_decision_unchanged"]),
+        "parity_status_counts": dict(parity_counts),
+        "corrected_direct_metrics_by_model_condition_t": direct_by_group,
+        "metric_correction": metric_correction,
+        "feature_transform": {
+            "raw_to_once_max_abs_median": float(np.median([row["r1_feature_provenance"]["feature_transform_deltas"]["raw_to_processed_once"]["max_abs"] for row in stock_records])),
+            "once_to_twice_max_abs_median": float(np.median([row["r1_feature_provenance"]["feature_transform_deltas"]["processed_once_to_processed_twice"]["max_abs"] for row in stock_records])),
+            "once_to_twice_exact_count": sum(1 for row in stock_records if row["r1_feature_provenance"]["feature_transform_deltas"]["processed_once_to_processed_twice"]["exact"]),
+        },
+        "stock_records_sha256": sha256_file(output_stock),
+        "direct_records_sha256": sha256_file(output_direct),
+        "parity_records_sha256": sha256_file(output_parity),
+        "stock_arrays_sha256": sha256_file(stock_path),
+        "direct_arrays_sha256": sha256_file(direct_path),
+        "parity_arrays_sha256": sha256_file(parity_path),
+        "selected_checkpoint": "NONE",
+        "claim_boundary": "corrected read-only parity and affected-matrix attribution only; no promotion, WBC, or task-success claim",
+    }
+    write_json(args.output_root / "pi0242_r1_summary.json", summary)
+    closure = {
+        "schema": "PI0242_R1_CLOSURE_V1",
+        "status": "PASS_READ_ONLY",
+        "run_card_sha256": sha256_file(args.output_root / "pi0242_r1_run_card.json"),
+        "summary_sha256": sha256_file(args.output_root / "pi0242_r1_summary.json"),
+        "metric_correction_sha256": metric_correction["sha256"],
+        "selected_checkpoint": "NONE",
+        "counts": dict(counters),
+        "parity_status_counts": dict(parity_counts),
+        "forbidden_counts": run_card["forbidden_counts"],
+    }
+    write_json(args.output_root / "pi0242_r1_closure.json", closure)
+    return {"status": "PASS_READ_ONLY", "output_root": str(args.output_root), "counts": dict(counters), "summary": summary}
+
+
 def p1(args: argparse.Namespace) -> dict[str, Any]:
     import gc
     import torch
@@ -1053,7 +1700,8 @@ def p1(args: argparse.Namespace) -> dict[str, Any]:
                     counters["backbone_forwards"] += 1
                     counters["stock_action_head_sampler_calls"] += 1
                     counters["stock_action_head_denoising_forwards"] += int(stock["sampler_steps"])
-                    processed_backbone = model.action_head.process_backbone_output(stock["backbone_output"])
+                    model_device = next(iter(model.parameters())).device
+                    processed_backbone = _move_tree(stock["backbone_once"], device=model_device)
                     for t_index, quantile in enumerate(P1_QUANTILES):
                         t_value = float(stage23.official_t_quantile(quantile))
                         direct_key = f"{cell_key}__t{t_index}"
@@ -1333,7 +1981,7 @@ def p0(args: argparse.Namespace) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=("p0", "p1"), required=True)
+    parser.add_argument("--phase", choices=("p0", "p1", "r1"), required=True)
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--code-root", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
@@ -1341,6 +1989,7 @@ def main() -> int:
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--ffmpeg-root", type=Path)
     parser.add_argument("--torch-site", type=Path)
+    parser.add_argument("--prior-p1-root", type=Path)
     args = parser.parse_args()
     if args.phase == "p0":
         result = p0(args)
@@ -1348,6 +1997,11 @@ def main() -> int:
         require(args.p0_root is not None, "P1 requires --p0-root")
         _bind_sealed_stage45b(args)
         result = p1(args)
+    elif args.phase == "r1":
+        require(args.p0_root is not None, "R1 requires --p0-root")
+        require(args.prior_p1_root is not None, "R1 requires --prior-p1-root")
+        _bind_sealed_stage45b(args)
+        result = r1(args)
     else:
         raise AssertionError(args.phase)
     print(json.dumps({"phase": args.phase, "status": result["status"], "output_root": str(args.output_root)}, indent=2))
