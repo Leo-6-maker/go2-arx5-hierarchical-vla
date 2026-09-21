@@ -127,6 +127,7 @@ def _release_resume_checkpoint_after_optimizer_load(
         raise PI0241Error(f"checkpoint-500 screen model is missing: {screen_model}")
 
     original_load = Trainer._load_optimizer_and_scheduler
+    original_rng_load = Trainer._load_rng_state
     release_record = training_output.parent / "pi0241_checkpoint500_release_after_optimizer_load.json"
 
     def load_optimizer_and_scheduler(self: Any, resume_from_checkpoint: Any) -> Any:
@@ -135,9 +136,17 @@ def _release_resume_checkpoint_after_optimizer_load(
             return result
         if not checkpoint.is_dir():
             raise PI0241Error("resume checkpoint disappeared after optimizer restore")
+        retained = {"trainer_state.json", "rng_state.pth"}
+        for child in checkpoint.iterdir():
+            if child.name in retained:
+                continue
+            if child.is_dir():
+                shutil.rmtree(child)
+            else:
+                child.unlink()
         write_json(release_record, {
             "schema": "PI0241_CHECKPOINT_RELEASE_V1",
-            "status": "RELEASING",
+            "status": "TRIMMED_AFTER_OPTIMIZER_RESTORE",
             "reason": "optimizer_and_scheduler_restore_completed",
             "job_id": os.environ.get("PBS_JOBID"),
             "checkpoint": str(checkpoint),
@@ -145,18 +154,28 @@ def _release_resume_checkpoint_after_optimizer_load(
             "archive_manifest": str(archive_manifest),
             "archive_tree_sha256": archived["tree_sha256"],
             "local_tree_sha256": checkpoint500_record["tree_sha256"],
+            "retained_files_until_rng_restore": sorted(retained),
             "released_at_unix": time.time(),
         })
-        shutil.rmtree(checkpoint)
+        print(f"PI0241 trimmed resume checkpoint after optimizer restore: {checkpoint}")
+        return result
+
+    def load_rng_state(self: Any, resume_from_checkpoint: Any) -> Any:
+        result = original_rng_load(self, resume_from_checkpoint)
+        if resume_from_checkpoint is None or Path(resume_from_checkpoint).resolve() != checkpoint:
+            return result
+        if checkpoint.is_dir():
+            shutil.rmtree(checkpoint)
         write_json(release_record, {
             **read_json(release_record),
             "status": "RELEASED",
             "released_at_unix": time.time(),
         })
-        print(f"PI0241 released resume checkpoint after optimizer restore: {checkpoint}")
+        print(f"PI0241 released resume checkpoint after RNG restore: {checkpoint}")
         return result
 
     Trainer._load_optimizer_and_scheduler = load_optimizer_and_scheduler
+    Trainer._load_rng_state = load_rng_state
 
 
 def _archive(path: Path, timeout: float) -> dict[str, Any]:
