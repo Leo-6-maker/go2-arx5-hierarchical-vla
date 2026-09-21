@@ -72,6 +72,41 @@ def write_json(path: Path, value: Any) -> None:
     tmp.replace(path)
 
 
+def _mapped_stage_path(card: Mapping[str, Any], raw_path: str | Path, env_name: str) -> Path:
+    """Map only the sealed stage root; all scientific input paths stay untouched."""
+
+    mirror = os.environ.get(env_name)
+    source_root = Path(card["paths"]["output_root"])
+    path = Path(raw_path)
+    if not mirror:
+        return path
+    try:
+        relative = path.relative_to(source_root)
+    except ValueError:
+        return path
+    return Path(mirror) / relative
+
+
+def runtime_card(card: Mapping[str, Any]) -> dict[str, Any]:
+    """Use compute-visible mirrors without changing the sealed scientific card."""
+
+    runtime = json.loads(json.dumps(card))
+    metadata_root = os.environ.get("PI0243_METADATA_MIRROR_ROOT")
+    output_root = os.environ.get("PI0243_OUTPUT_MIRROR_ROOT")
+    if not metadata_root or not output_root:
+        return runtime
+    for key in ("cohort", "schedule"):
+        runtime[key]["path"] = str(_mapped_stage_path(card, card[key]["path"], "PI0243_METADATA_MIRROR_ROOT"))
+    runtime["paths"]["output_root"] = str(output_root)
+    runtime["runtime_path_map"] = {
+        "sealed_stage_root": str(card["paths"]["output_root"]),
+        "metadata_mirror_root": str(metadata_root),
+        "output_mirror_root": str(output_root),
+        "scientific_paths_unchanged": True,
+    }
+    return runtime
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -268,7 +303,9 @@ def verify_card(path: Path) -> dict[str, Any]:
         raise PI0243Error("run card SHA mismatch")
     if sha256_file(Path(card["implementation"]["script_path"])) != card["implementation"]["script_sha256"]:
         raise PI0243Error("implementation changed after card seal")
-    if sha256_file(Path(card["cohort"]["path"])) != card["cohort"]["sha256"] or sha256_file(Path(card["schedule"]["path"])) != card["schedule"]["sha256"]:
+    cohort_path = _mapped_stage_path(card, card["cohort"]["path"], "PI0243_METADATA_MIRROR_ROOT")
+    schedule_path = _mapped_stage_path(card, card["schedule"]["path"], "PI0243_METADATA_MIRROR_ROOT")
+    if sha256_file(cohort_path) != card["cohort"]["sha256"] or sha256_file(schedule_path) != card["schedule"]["sha256"]:
         raise PI0243Error("cohort or schedule changed after card seal")
     return card
 
@@ -280,7 +317,7 @@ def configure_legacy(card: Mapping[str, Any], legacy: Any) -> None:
 
 
 def train_stage(args: argparse.Namespace) -> None:
-    card = verify_card(args.run_card)
+    card = runtime_card(verify_card(args.run_card))
     stage_key = str(args.stage).lower()
     if card["stage"]["stage"].lower() != stage_key or args.authorization != AUTH[stage_key]:
         raise PI0243Error("stage or authorization mismatch")
@@ -298,6 +335,8 @@ def train_stage(args: argparse.Namespace) -> None:
     if summary != card["resolved_config"]:
         raise PI0243Error("resolved config drift")
     write_json(output / "resolved_config.json", summary)
+    if card.get("runtime_path_map"):
+        write_json(Path(card["paths"]["output_root"]) / "pi0243_runtime_path_map.json", card["runtime_path_map"])
     started = time.time()
     pi0228.run_official(config, Path(card["paths"]["groot_source"]))
     consumption_path = output / "pi0241_sample_consumption.jsonl"
@@ -414,7 +453,7 @@ def _screen_metrics(model: np.ndarray, expert: np.ndarray, legacy: Any) -> dict[
 
 
 def screen_stage(args: argparse.Namespace) -> None:
-    card = verify_card(args.run_card)
+    card = runtime_card(verify_card(args.run_card))
     legacy = legacy_module(Path(card["paths"]["code_root"]))
     configure_legacy(card, legacy)
     legacy.bind_runtime(card)

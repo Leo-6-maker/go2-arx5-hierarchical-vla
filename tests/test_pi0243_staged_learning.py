@@ -1,4 +1,5 @@
 import importlib.util
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -36,6 +37,27 @@ class PI0243ScheduleTests(unittest.TestCase):
         hwc = np.zeros((8, 9, 3), dtype=np.uint8)
         self.assertEqual(MODULE._image_hwc(chw).shape, (8, 9, 3))
         self.assertEqual(MODULE._image_hwc(hwc).shape, (8, 9, 3))
+
+    def test_runtime_card_maps_only_sealed_stage_root(self):
+        card = {"paths": {"output_root": "/sealed/stage"}, "cohort": {"path": "/sealed/stage/stage_cohort.json"}, "schedule": {"path": "/sealed/stage/stage_exposure_schedule.json"}}
+        old_metadata = os.environ.get("PI0243_METADATA_MIRROR_ROOT")
+        old_output = os.environ.get("PI0243_OUTPUT_MIRROR_ROOT")
+        os.environ["PI0243_METADATA_MIRROR_ROOT"] = "/home/meta/stage"
+        os.environ["PI0243_OUTPUT_MIRROR_ROOT"] = "/scratch/run"
+        try:
+            mapped = MODULE.runtime_card(card)
+        finally:
+            if old_metadata is None:
+                os.environ.pop("PI0243_METADATA_MIRROR_ROOT", None)
+            else:
+                os.environ["PI0243_METADATA_MIRROR_ROOT"] = old_metadata
+            if old_output is None:
+                os.environ.pop("PI0243_OUTPUT_MIRROR_ROOT", None)
+            else:
+                os.environ["PI0243_OUTPUT_MIRROR_ROOT"] = old_output
+        self.assertEqual(Path(mapped["cohort"]["path"]), Path("/home/meta/stage/stage_cohort.json"))
+        self.assertEqual(mapped["paths"]["output_root"], "/scratch/run")
+        self.assertEqual(card["paths"]["output_root"], "/sealed/stage")
 
 
 if __name__ == "__main__":
