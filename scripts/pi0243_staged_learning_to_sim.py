@@ -276,7 +276,14 @@ def make_card(args: argparse.Namespace) -> None:
         "paths": paths,
         "cohort": {"path": str(cohort_file), "sha256": sha256_file(cohort_file), "count": len(rows), "source_cohort_sha256": cohort_sha},
         "schedule": {"path": str(schedule_file), "sha256": sha256_file(schedule_file), "count": len(schedule)},
-        "implementation": {"script_path": str(Path(__file__).resolve()), "script_sha256": sha256_file(Path(__file__).resolve())},
+        "implementation": {
+            "script_path": str(Path(__file__).resolve()),
+            "script_sha256": sha256_file(Path(__file__).resolve()),
+            "legacy_path": str((args.code_root / "scripts" / "pi0241_fixed16_learning.py").resolve()),
+            "legacy_sha256": sha256_file(args.code_root / "scripts" / "pi0241_fixed16_learning.py"),
+            "pi0228_path": str((args.code_root / "scripts" / "pi0228_h200_large_adapt_v1.py").resolve()),
+            "pi0228_sha256": sha256_file(args.code_root / "scripts" / "pi0228_h200_large_adapt_v1.py"),
+        },
         "initializer": {"path": str(args.initializer.resolve()), "files": legacy._model_files(args.initializer)},
         "fixed16_source_ids": [str(row["source_episode_id"]) for row in fixed16_rows],
         "processor": {"modality_sha256": sha256_file(args.modality_config), "stats_root": str((args.train_dataset / "meta").resolve()), "identity": "C_T"},
@@ -301,8 +308,14 @@ def verify_card(path: Path) -> dict[str, Any]:
         raise PI0243Error("run card is not sealed")
     if seal.get("run_card_sha256") != sha256_file(path):
         raise PI0243Error("run card SHA mismatch")
-    if sha256_file(Path(card["implementation"]["script_path"])) != card["implementation"]["script_sha256"]:
-        raise PI0243Error("implementation changed after card seal")
+    implementation = card["implementation"]
+    for path_key, hash_key in (
+        ("script_path", "script_sha256"),
+        ("legacy_path", "legacy_sha256"),
+        ("pi0228_path", "pi0228_sha256"),
+    ):
+        if sha256_file(Path(implementation[path_key])) != implementation[hash_key]:
+            raise PI0243Error(f"implementation changed after card seal: {path_key}")
     cohort_path = _mapped_stage_path(card, card["cohort"]["path"], "PI0243_METADATA_MIRROR_ROOT")
     schedule_path = _mapped_stage_path(card, card["schedule"]["path"], "PI0243_METADATA_MIRROR_ROOT")
     if sha256_file(cohort_path) != card["cohort"]["sha256"] or sha256_file(schedule_path) != card["schedule"]["sha256"]:

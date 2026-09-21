@@ -770,10 +770,10 @@ def install_update_audit(training_output: Path) -> None:
 
         def on_step_end(self, args, state, control, **kwargs):
             step = int(state.global_step)
-            if step == 750:
-                control.should_save = False
-            elif step in CHECKPOINT_STEPS:
-                control.should_save = True
+            # PI0241's default interval is 250, but staged protocols can use
+            # non-uniform checkpoint steps.  Override the Trainer default so
+            # only the sealed checkpoint set is written.
+            control.should_save = step in CHECKPOINT_STEPS
             return control
 
         def on_train_end(self, args, state, control, **kwargs):
