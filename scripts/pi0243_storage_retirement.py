@@ -150,8 +150,9 @@ def verify_remote_tree(api, repo_id: str, prefix: str, revision: str, expected: 
 
 
 def verify_manifest_file(api, repo_id: str, path: Path, remote_path: str, revision: str, token: str | None) -> dict:
-    observed = remote_files(api, repo_id, remote_path, revision)
-    if set(observed) != {remote_path}:
+    parent = remote_path.rsplit("/", 1)[0] if "/" in remote_path else ""
+    observed = remote_files(api, repo_id, parent, revision)
+    if remote_path not in observed:
         return {"status": "FAIL_FILE_SET", "path": remote_path, "observed": sorted(observed)}
     local_size = path.stat().st_size
     if observed[remote_path]["size"] != local_size:
