@@ -194,6 +194,36 @@ def upload_failed(api, repo_id: str, local: Path, prefix: str) -> dict:
     return {"status": "UPLOADED", "prefix": prefix, "tree": expected}
 
 
+def archive_failed_local(local: Path, archive_root: Path, job: str) -> dict:
+    expected = tree_inventory(local)
+    if expected.get("status") != "PRESENT":
+        return expected
+    destination = archive_root / job
+    if destination.exists():
+        observed = tree_inventory(destination)
+        if observed.get("status") != "PRESENT" or [
+            (item["path"], item["bytes"], item["sha256"])
+            for item in observed["entries"]
+        ] != [
+            (item["path"], item["bytes"], item["sha256"])
+            for item in expected["entries"]
+        ]:
+            raise RuntimeError(f"conflicting local failed-attempt archive: {destination}")
+        return {"status": "LOCAL_ARCHIVE_MATCHED", "path": str(destination), "tree": observed}
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(local, destination, symlinks=False)
+    observed = tree_inventory(destination)
+    if [
+        (item["path"], item["bytes"], item["sha256"])
+        for item in observed["entries"]
+    ] != [
+        (item["path"], item["bytes"], item["sha256"])
+        for item in expected["entries"]
+    ]:
+        raise RuntimeError(f"local failed-attempt archive mismatch: {destination}")
+    return {"status": "LOCAL_ARCHIVE", "path": str(destination), "tree": observed}
+
+
 def candidate(run_root: Path, relative: str, kind: str) -> dict:
     path = run_root / relative
     return {"id": relative.replace("/", "_"), "kind": kind, "path": str(path), "inventory": tree_inventory(path)}
@@ -212,6 +242,7 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--active-job", action="append", default=[])
     parser.add_argument("--protected-path", action="append", default=[])
+    parser.add_argument("--failed-archive-root", type=Path)
     parser.add_argument("--delete", action="store_true")
     args = parser.parse_args()
 
@@ -237,7 +268,12 @@ def main() -> int:
     for job, relative in (("625381", "recovery_audit.failed-625381"), ("625384", "recovery_audit.failed-625384")):
         failed[job] = candidate(args.run_root, relative, "failed_attempt")
         if failed[job]["inventory"].get("status") == "PRESENT":
-            failed[job]["archive"] = upload_failed(api, args.repo_id, Path(failed[job]["path"]), f"failed-attempts/{job}")
+            if args.failed_archive_root is not None:
+                failed[job]["archive"] = archive_failed_local(
+                    Path(failed[job]["path"]), args.failed_archive_root, job
+                )
+            else:
+                failed[job]["archive"] = upload_failed(api, args.repo_id, Path(failed[job]["path"]), f"failed-attempts/{job}")
 
     final_rev = revision(api, args.repo_id)
     if final_rev != rev:
@@ -259,7 +295,7 @@ def main() -> int:
     )
     failed_verified = all(
         record.get("inventory", {}).get("status") != "PRESENT"
-        or record.get("archive", {}).get("status") in {"UPLOADED", "ALREADY_MATCHED"}
+        or record.get("archive", {}).get("status") in {"UPLOADED", "ALREADY_MATCHED", "LOCAL_ARCHIVE", "LOCAL_ARCHIVE_MATCHED"}
         for record in failed.values()
     )
     dependency = {"active_jobs": args.active_job, "protected_paths": args.protected_path, "status": "PASS"}
