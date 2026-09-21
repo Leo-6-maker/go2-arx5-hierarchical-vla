@@ -63,8 +63,14 @@ def stable_inventory(root: Path, step: int, timeout: float, poll: float) -> dict
 
 
 def remote_inventory(api, repo_id: str, prefix: str) -> list[dict]:
+    from huggingface_hub.errors import EntryNotFoundError
+
     result = []
-    for entry in api.list_repo_tree(repo_id=repo_id, path_in_repo=prefix, recursive=True, repo_type="model"):
+    try:
+        entries = api.list_repo_tree(repo_id=repo_id, path_in_repo=prefix, recursive=True, repo_type="model")
+    except EntryNotFoundError:
+        return result
+    for entry in entries:
         path = getattr(entry, "path", None)
         # list_repo_tree also returns directory nodes; the local inventory is files only.
         if path is None or getattr(entry, "size", None) is None:
