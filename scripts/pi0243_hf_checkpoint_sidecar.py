@@ -15,12 +15,12 @@ from pathlib import Path
 from pi0243_checkpoint_persistence import checkpoint_record, write_json_durable
 
 
-def stable_record(root: Path, step: int, max_steps: int, timeout: float, poll: float) -> dict:
+def stable_record(root: Path, step: int, max_steps: int, family: str, timeout: float, poll: float) -> dict:
     deadline = time.monotonic() + timeout
     previous = None
     while time.monotonic() < deadline:
         try:
-            record = checkpoint_record(root, expected_step=step, expected_max_steps=max_steps, family="PI0243_STAGE_A_V1")
+            record = checkpoint_record(root, expected_step=step, expected_max_steps=max_steps, family=family)
         except (OSError, ValueError, RuntimeError):
             time.sleep(poll)
             continue
@@ -34,7 +34,7 @@ def stable_record(root: Path, step: int, max_steps: int, timeout: float, poll: f
 
 def publish(args: argparse.Namespace, step: int) -> dict:
     root = args.output_root / "training" / f"checkpoint-{step}"
-    source = stable_record(root, step, args.max_steps, args.checkpoint_timeout, args.poll_seconds)
+    source = stable_record(root, step, args.max_steps, args.family, args.checkpoint_timeout, args.poll_seconds)
     prefix = f"{args.path_prefix.rstrip('/')}/checkpoint-{step}"
     manifest_path = f"{args.path_prefix.rstrip('/')}/manifests/checkpoint-{step}.json"
     command = [
@@ -62,7 +62,7 @@ def publish(args: argparse.Namespace, step: int) -> dict:
     receipt = {
         "schema": "PI0243_DURABLE_CHECKPOINT_RECEIPT_V1",
         "status": "DURABLE_VERIFIED",
-        "family": "PI0243_STAGE_A_V1",
+        "family": args.family,
         "checkpoint_step": step,
         "max_steps": args.max_steps,
         "job_id": os.environ.get("PBS_JOBID", "local"),
@@ -91,6 +91,7 @@ def main() -> int:
     parser.add_argument("--path-prefix", required=True)
     parser.add_argument("--max-steps", type=int, required=True)
     parser.add_argument("--steps", type=int, nargs="+", required=True)
+    parser.add_argument("--family", default="PI0243_STAGE_A_V1")
     parser.add_argument("--poll-seconds", type=float, default=10.0)
     parser.add_argument("--checkpoint-timeout", type=float, default=21600.0)
     parser.add_argument("--state-path", type=Path, required=True)
