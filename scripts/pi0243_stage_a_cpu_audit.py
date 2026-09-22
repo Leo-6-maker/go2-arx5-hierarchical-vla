@@ -154,6 +154,7 @@ def audit_screen_contract(card: dict[str, Any], root: Path) -> dict[str, Any]:
         seed=config.data.seed,
         allow_padding=config.data.allow_padding,
     )
+    dataset.set_processor(processor)
     contracts = {row["source_episode_id"]: row for row in read_jsonl(root / "training" / "pi0241_sample_contracts.jsonl")}
     rows = read_json(root / "stage_cohort.json")["rows"]
     observed = []
