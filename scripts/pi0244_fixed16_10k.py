@@ -203,6 +203,7 @@ def verify_card(path: Path) -> tuple[Any, dict[str, Any]]:
         raise PI0244Error("PI0244 checkpoint family mismatch")
     diff = card.get("resolved_diff", {})
     diff_path = Path(diff.get("path", ""))
+    diff_path = base._mapped_stage_path(card, diff_path, "PI0243_METADATA_MIRROR_ROOT")
     if not diff_path.is_file() or sha256_file(diff_path) != diff.get("sha256"):
         raise PI0244Error("resolved_diff is missing or changed")
     payload = json.loads(diff_path.read_text(encoding="utf-8"))
