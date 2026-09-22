@@ -799,12 +799,16 @@ def reconcile_recovery(args: argparse.Namespace) -> None:
 
 
 def verify_recovery(args: argparse.Namespace) -> None:
-    base, card, plan, root = _load_recovery_plan(args.plan, args.run_card)
+    base, card, plan, root = _load_recovery_plan(args.plan, args.run_card, runner_path=args.runner_snapshot)
     _assert_archive_environment(plan)
     resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
     job_id = str(args.job_id)
     safe_job_id = re.sub(r"[^A-Za-z0-9_.-]", "_", job_id)
     attempt_root = root / "recovery_attempts" / f"{resume_step}-to-{stop_step}" / safe_job_id
+    if args.runner_snapshot is not None:
+        expected_snapshot = attempt_root / "source_snapshot" / "pi0244_fixed16_10k.py"
+        if args.runner_snapshot.resolve() != expected_snapshot.resolve() or sha256_file(expected_snapshot) != plan.get("active_runner_sha256"):
+            raise PI0244Error("verification runner snapshot is not the exact runner sealed in the recovery plan")
     result_path = attempt_root / "segment_result.json"
     result = json.loads(result_path.read_text(encoding="utf-8"))
     if result.get("job_id") != job_id or result.get("status") != "TRAINED_AWAITING_DURABLE_ARCHIVE" or result.get("plan_sha256") != sha256_file(args.plan):
