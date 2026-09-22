@@ -1,0 +1,38 @@
+{
+  "schema": "PI0243_STORAGE_ADMISSION_HF_V1",
+  "protocol_commit": "5644d54d2f23ae412a2c4d57441563ed73d66d8e",
+  "execution_commit": "ba0261b",
+  "status": "CAPACITY_PASS_HF_HANDOFF_PASS",
+  "work_root": "/scratch/e1192548/pi0243_stage_a_admitted_20260921_work",
+  "work_capacity": {
+    "reservation_bytes": 100270080504,
+    "allocated_bytes": 100270129152,
+    "parts": 12,
+    "status": "PASS",
+    "elapsed_s": 841.0088021755219
+  },
+  "durable": {
+    "kind": "huggingface_public",
+    "repo_id": "leoyuer/pi0243-stage-a-admitted-v1",
+    "evidence": "PI0243_HF_PUBLIC_ARCHIVE_CLOSURE_20260922.json",
+    "status": "PASS"
+  },
+  "quota_status": "UNKNOWN",
+  "scientific_identity_unchanged": true,
+  "consumer_readability": "HF control readback PASS; archived model shards and optimizer LFS SHA/size verified",
+  "model_activity": {
+    "weight_loads": 0,
+    "forward": 0,
+    "backward": 0,
+    "optimizer": 0,
+    "WBC": 0,
+    "sim": 0
+  },
+  "retain_all_same_fileset_preflight": {
+    "status": "IN_PROGRESS",
+    "label": "retain_all_after_hf_cleanup_20260922_localhost",
+    "planned_combined_bound_bytes": 179650560903
+  },
+  "selected_checkpoint": "NONE",
+  "next_action": "complete same-fileset retain-all proof; then bind Stage A run card and use the mature callback"
+}
