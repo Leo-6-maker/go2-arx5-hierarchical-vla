@@ -11,6 +11,7 @@
 #PBS -e /scratch/e1192548/pi0244_m16_10k_logs/
 
 set -euo pipefail
+trap 'rc=$?; echo "PI0244_PRETRAIN_FAILURE: line=${LINENO} status=${rc}" >&2' ERR
 
 : "${PI0243_PROJECT_ROOT:?set PI0243_PROJECT_ROOT}"
 : "${PI0243_STAGE10_ROOT:?set PI0243_STAGE10_ROOT}"
