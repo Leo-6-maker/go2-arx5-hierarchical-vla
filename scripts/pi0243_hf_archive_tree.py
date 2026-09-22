@@ -13,15 +13,21 @@ from pi0243_checkpoint_persistence import inventory
 
 
 def remote_inventory(api, repo_id: str, prefix: str) -> list[dict]:
+    from huggingface_hub.errors import RemoteEntryNotFoundError
+
     result = []
-    for entry in api.list_repo_tree(repo_id=repo_id, path_in_repo=prefix, recursive=True, repo_type="model"):
-        path = getattr(entry, "path", None)
-        size = getattr(entry, "size", None)
-        if path is None or size is None:
-            continue
-        lfs = getattr(entry, "lfs", None)
-        remote_sha = lfs.get("sha256") if isinstance(lfs, dict) else getattr(lfs, "sha256", None)
-        result.append({"path": path, "bytes": int(size), "sha256": remote_sha})
+    try:
+        entries = api.list_repo_tree(repo_id=repo_id, path_in_repo=prefix, recursive=True, repo_type="model")
+        for entry in entries:
+            path = getattr(entry, "path", None)
+            size = getattr(entry, "size", None)
+            if path is None or size is None:
+                continue
+            lfs = getattr(entry, "lfs", None)
+            remote_sha = lfs.get("sha256") if isinstance(lfs, dict) else getattr(lfs, "sha256", None)
+            result.append({"path": path, "bytes": int(size), "sha256": remote_sha})
+    except RemoteEntryNotFoundError:
+        return []
     return sorted(result, key=lambda item: item["path"])
 
 
