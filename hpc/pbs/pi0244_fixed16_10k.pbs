@@ -3,9 +3,12 @@
 # this shell only binds the new family, prefix, output root, and 10K sidecar.
 #PBS -N pi0244_m16_10k
 #PBS -P CFP03-CF-004
+#PBS -q auto
 #PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
 #PBS -l walltime=48:00:00
-#PBS -j oe
+# PBS stage-out must target a shared scratch directory visible from compute nodes.
+#PBS -o /scratch/e1192548/pi0244_m16_10k_logs/
+#PBS -e /scratch/e1192548/pi0244_m16_10k_logs/
 
 set -euo pipefail
 
