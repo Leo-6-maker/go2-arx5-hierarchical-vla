@@ -139,36 +139,57 @@ def durable_probe(host: str, root: Path, label: str) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--work-root", type=Path, required=True)
-    parser.add_argument("--durable-host", required=True)
-    parser.add_argument("--durable-root", type=Path, required=True)
+    parser.add_argument("--durable-host")
+    parser.add_argument("--durable-root", type=Path)
+    parser.add_argument("--hf-evidence", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--label", required=True)
     args = parser.parse_args()
+    if args.hf_evidence is None and (not args.durable_host or args.durable_root is None):
+        parser.error("provide durable host/root or --hf-evidence")
+    if args.hf_evidence is not None and (args.durable_host or args.durable_root is not None):
+        parser.error("--hf-evidence is exclusive with durable host/root")
     work = snapshot(args.work_root)
-    durable = remote_snapshot(args.durable_host, args.durable_root)
     peak_without_headroom = PEAK_CHECKPOINT_BYTES
     headroom = max(10 * 1024**3, HEADROOM_BYTES)
     planned_durable_bound = 3 * CHECKPOINT_BYTES + headroom
-    same_fileset = same_fileset_binding(args.work_root, args.durable_root)
     result: dict[str, Any] = {
         "schema": "PI0243_STORAGE_ADMISSION_V1",
         "status": "RUNNING",
         "model_activity": {"weight_loads": 0, "forward": 0, "backward": 0, "optimizer": 0},
         "work_root": work,
-        "durable_root": durable,
-        "durable_host": args.durable_host,
         "quota_status": "UNKNOWN",
         "checkpoint_size_basis": {"source": "PI0241 sealed full Trainer checkpoint-1000", "bytes": CHECKPOINT_BYTES, "file_count": 18},
-        "capacity_plan": {"retain_all": True, "same_fileset": same_fileset, "peak_without_headroom_bytes": peak_without_headroom, "headroom_bytes": headroom, "planned_work_bound_bytes": peak_without_headroom + headroom, "planned_durable_bound_bytes": planned_durable_bound, "planned_combined_bound_bytes": (peak_without_headroom + headroom + planned_durable_bound) if same_fileset else None},
+        "capacity_plan": {"retain_all": True, "peak_without_headroom_bytes": peak_without_headroom, "headroom_bytes": headroom, "planned_work_bound_bytes": peak_without_headroom + headroom, "planned_durable_bound_bytes": planned_durable_bound},
     }
     try:
-        if same_fileset:
-            result["combined_fileset_reservation"] = reserve_remote(args.durable_host, args.durable_root, RESERVATION_BYTES + planned_durable_bound, args.label)
-        else:
+        if args.hf_evidence is not None:
+            evidence = json.loads(args.hf_evidence.read_text(encoding="utf-8"))
+            if evidence.get("public") is not True or evidence.get("repo_id") != "leoyuer/pi0243-stage-a-admitted-v1":
+                raise RuntimeError("HF evidence is not the authorized public PI0243 repository")
+            if evidence.get("pi0226_initializer", {}).get("verification") != "DURABLE_VERIFIED":
+                raise RuntimeError("HF initializer archive is not DURABLE_VERIFIED")
+            fresh = evidence.get("pi0228_fresh_623593", {}).get("checkpoints", {})
+            if set(fresh) != {"2500", "5000", "7500", "10000"} or any(
+                int(record.get("file_count", 0)) != 18 for record in fresh.values()
+            ):
+                raise RuntimeError("HF fresh checkpoint archive evidence is incomplete")
+            result["hf_durable_handoff"] = {"status": "PASS", "evidence": str(args.hf_evidence.resolve()), "repo_id": evidence["repo_id"]}
             result["work_reservation"] = reserve_local(args.work_root / f".pi0243_capacity_reservation_{args.label}", RESERVATION_BYTES)
-            result["durable_reservation"] = reserve_remote(args.durable_host, args.durable_root, planned_durable_bound, args.label)
-        result["durable_probe"] = durable_probe(args.durable_host, args.durable_root, args.label)
-        result["status"] = "CAPACITY_PASS_DURABLE_HANDOFF_PASS"
+            result["status"] = "CAPACITY_PASS_HF_HANDOFF_PASS"
+        else:
+            durable = remote_snapshot(args.durable_host, args.durable_root)
+            result["durable_root"] = durable
+            result["durable_host"] = args.durable_host
+            same_fileset = same_fileset_binding(args.work_root, args.durable_root)
+            result["capacity_plan"]["same_fileset"] = same_fileset
+            if same_fileset:
+                result["combined_fileset_reservation"] = reserve_remote(args.durable_host, args.durable_root, RESERVATION_BYTES + planned_durable_bound, args.label)
+            else:
+                result["work_reservation"] = reserve_local(args.work_root / f".pi0243_capacity_reservation_{args.label}", RESERVATION_BYTES)
+                result["durable_reservation"] = reserve_remote(args.durable_host, args.durable_root, planned_durable_bound, args.label)
+            result["durable_probe"] = durable_probe(args.durable_host, args.durable_root, args.label)
+            result["status"] = "CAPACITY_PASS_DURABLE_HANDOFF_PASS"
     except Exception as exc:
         result["status"] = "CAPACITY_NOT_PROVEN"
         result["error_type"] = type(exc).__name__
@@ -177,7 +198,7 @@ def main() -> int:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, sort_keys=True))
-    return 0 if result["status"] == "CAPACITY_PASS_DURABLE_HANDOFF_PASS" else 2
+    return 0 if result["status"] in {"CAPACITY_PASS_DURABLE_HANDOFF_PASS", "CAPACITY_PASS_HF_HANDOFF_PASS"} else 2
 
 
 if __name__ == "__main__":
