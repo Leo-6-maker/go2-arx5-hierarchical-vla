@@ -214,7 +214,7 @@ def _original_legacy_sha256(code_root: Path) -> str:
     return hashlib.sha256(result.stdout).hexdigest()
 
 
-def _execution_binding(card_path: Path, card: Mapping[str, Any]) -> dict[str, Any]:
+def _execution_binding(card_path: Path, card: Mapping[str, Any], runner_path: Path | None = None) -> dict[str, Any]:
     code_root = Path(card["paths"]["code_root"])
     legacy_path = Path(card["implementation"]["legacy_path"])
     pinned = str(card["implementation"]["legacy_sha256"])
@@ -227,7 +227,7 @@ def _execution_binding(card_path: Path, card: Mapping[str, Any]) -> dict[str, An
         "sealed_legacy_sha256": pinned,
         "audited_legacy_git_sha256": original,
         "active_legacy_sha256": sha256_file(legacy_path),
-        "active_runner_sha256": sha256_file(Path(__file__).resolve()),
+        "active_runner_sha256": sha256_file(runner_path or Path(__file__).resolve()),
         "r0_source_commit": R0_SOURCE_COMMIT,
         "protocol_commit": PROTOCOL_COMMIT,
     }
@@ -337,7 +337,12 @@ def _assert_archive_environment(plan: Mapping[str, Any]) -> None:
         raise PI0244Error("PBS HF repo/prefix do not match the sealed recovery storage plan")
 
 
-def verify_card(path: Path, *, bind_overlay: bool = False) -> tuple[Any, dict[str, Any]]:
+def verify_card(
+    path: Path,
+    *,
+    bind_overlay: bool = False,
+    runner_path: Path | None = None,
+) -> tuple[Any, dict[str, Any]]:
     raw = json.loads(path.read_text(encoding="utf-8"))
     code_root = Path(raw["paths"]["code_root"])
     base = load_base(code_root)
@@ -359,7 +364,7 @@ def verify_card(path: Path, *, bind_overlay: bool = False) -> tuple[Any, dict[st
     legacy_path = Path(implementation["legacy_path"])
     current_legacy_sha = sha256_file(legacy_path)
     if current_legacy_sha != SEALED_LEGACY_SHA256:
-        binding = _execution_binding(path, raw)
+        binding = _execution_binding(path, raw, runner_path=runner_path)
         runtime_root = Path(base.runtime_card(raw)["paths"]["output_root"])
         binding_path = runtime_root / "execution_bindings" / f"{binding['binding_id']}.json"
         if bind_overlay:
@@ -486,8 +491,12 @@ def plan_recovery(args: argparse.Namespace) -> Path:
     return plan_path
 
 
-def _load_recovery_plan(plan_path: Path, run_card: Path) -> tuple[Any, dict[str, Any], dict[str, Any], Path]:
-    base, card = verify_card(run_card)
+def _load_recovery_plan(
+    plan_path: Path,
+    run_card: Path,
+    runner_path: Path | None = None,
+) -> tuple[Any, dict[str, Any], dict[str, Any], Path]:
+    base, card = verify_card(run_card, runner_path=runner_path)
     runtime = base.runtime_card(card)
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
     seal = json.loads(plan_path.with_suffix(".seal.json").read_text(encoding="utf-8"))
@@ -495,7 +504,7 @@ def _load_recovery_plan(plan_path: Path, run_card: Path) -> tuple[Any, dict[str,
         raise PI0244Error("recovery plan seal/status mismatch")
     if plan.get("run_card_sha256") != sha256_file(run_card) or plan.get("protocol_commit") != PROTOCOL_COMMIT:
         raise PI0244Error("recovery plan is bound to a different run card or protocol")
-    binding = _execution_binding(run_card, card)
+    binding = _execution_binding(run_card, card, runner_path=runner_path)
     if plan.get("execution_binding_id") != binding["binding_id"]:
         raise PI0244Error("recovery source code changed after plan seal")
     storage_binding = _storage_binding(Path(runtime["paths"]["output_root"]), card, run_card)
@@ -536,6 +545,149 @@ def validate_recovery_plan(args: argparse.Namespace) -> None:
     print(json.dumps({"status": "PASS_RECOVERY_PLAN_PREFLIGHT", "plan_sha256": sha256_file(args.plan), "resume_step": resume_step, "stop_step": stop_step, "resume_tree_sha256": record["tree_sha256"], "hf_repo_id": plan["storage"]["repo_id"], "hf_path_prefix": plan["storage"]["path_prefix"], "model_load": False, "forward": False}, sort_keys=True))
 
 
+def _boundary_checkpoint_complete(output_root: Path, stop_step: int) -> bool:
+    checkpoint = output_root / f"checkpoint-{stop_step}"
+    try:
+        state = json.loads((checkpoint / "trainer_state.json").read_text(encoding="utf-8"))
+        index = json.loads((checkpoint / "model.safetensors.index.json").read_text(encoding="utf-8"))
+        shards = set(index["weight_map"].values())
+        required = {"optimizer.pt", "scheduler.pt", "rng_state.pth"}
+        return (
+            int(state.get("global_step", -1)) == stop_step
+            and int(state.get("max_steps", -1)) == MAX_STEPS
+            and bool(shards)
+            and all(Path(name).name == name and (checkpoint / name).is_file() and (checkpoint / name).stat().st_size > 0 for name in shards | required)
+        )
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+        return False
+
+
+def _guard_final_checkpoint_export(original: Any, stop_step: int) -> Any:
+    def guarded(trainer: Any, *args: Any, **kwargs: Any) -> Any:
+        output_dir = kwargs.get("output_dir", args[0] if args else None)
+        internal_call = kwargs.get("_internal_call", args[1] if len(args) > 1 else False)
+        if (
+            output_dir is None
+            and not internal_call
+            and int(getattr(getattr(trainer, "state", None), "global_step", -1)) == stop_step
+            and _boundary_checkpoint_complete(Path(trainer.args.output_dir), stop_step)
+        ):
+            print(json.dumps({"status": "PI0244_REDUNDANT_FINAL_EXPORT_SKIPPED", "checkpoint_step": stop_step, "checkpoint_root": str(Path(trainer.args.output_dir) / f"checkpoint-{stop_step}")}, sort_keys=True))
+            return None
+        return original(trainer, *args, **kwargs)
+
+    return guarded
+
+
+def _run_recovery_training(pi0228: Any, config: Any, groot_source: Path, stop_step: int) -> None:
+    from transformers.trainer import Trainer
+
+    original = Trainer.save_model
+    Trainer.save_model = _guard_final_checkpoint_export(original, stop_step)
+    try:
+        pi0228.run_official(config, groot_source)
+    finally:
+        Trainer.save_model = original
+
+
+def _close_recovery_segment(
+    args: argparse.Namespace,
+    base: Any,
+    card: dict[str, Any],
+    plan: dict[str, Any],
+    root: Path,
+    job_id: str,
+    attempt_root: Path,
+    reconciliation: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
+    result_path = attempt_root / "segment_result.json"
+    if result_path.exists():
+        raise PI0244Error("recovery segment result already exists; refusing to overwrite first-valid evidence")
+    runtime = base.runtime_card(card)
+    legacy = base.legacy_module(Path(card["paths"]["code_root"]))
+    base.configure_legacy(card, legacy)
+    legacy.bind_runtime(card)
+    pi0228 = base.pi0228_module(Path(card["paths"]["code_root"]))
+    _, summary = base.resolved_config(runtime, attempt_root, legacy, pi0228)
+    if summary != card["resolved_config"]:
+        raise PI0244Error("recovery resolved config differs from sealed R0 recipe")
+
+    rows = _fixed_schedule(base, card)[resume_step:stop_step]
+    consumption_path = attempt_root / "pi0241_sample_consumption.jsonl"
+    consumption = [json.loads(line) for line in consumption_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    fields = ("optimizer_step", "fixed_index", "episode_index", "source_episode_id")
+    if len(consumption) != len(rows) or any(any(actual.get(key) != planned.get(key) for key in fields) or int(actual.get("yield_ordinal", -1)) != int(planned["optimizer_step"]) for actual, planned in zip(consumption, rows)):
+        raise PI0244Error("recovered sample consumption differs from the sealed schedule suffix")
+
+    contracts_path = attempt_root / "pi0241_sample_contracts.jsonl"
+    contracts = [json.loads(line) for line in contracts_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    if len(contracts) != 16 or {int(row.get("fixed_index", -1)) for row in contracts} != set(range(16)) or any(row.get("active_slots") != list(range(10)) or row.get("action_shape") != [1, 40, 132] or row.get("mask_shape") != [1, 40, 132] for row in contracts):
+        raise PI0244Error("recovery action/mask contract differs from sealed fixed16 H40 dense-relative ABI")
+    training_root = root / "training"
+    original_contracts_path = training_root / "pi0241_sample_contracts.jsonl"
+    original_contracts = [json.loads(line) for line in original_contracts_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    original_by_index = {int(row["fixed_index"]): row for row in original_contracts}
+    if len(original_by_index) != 16 or set(original_by_index) != set(range(16)):
+        raise PI0244Error("original attempt does not contain the complete fixed16 action/mask contract")
+    for row in contracts:
+        original = original_by_index[int(row["fixed_index"])]
+        if any(row.get(key) != original.get(key) for key in ("source_episode_id", "action_sha256", "mask_sha256", "active_slots", "action_shape", "mask_shape")):
+            raise PI0244Error("resumed TRAIN action/mask differs from the original fixed-window contract")
+
+    audit_path = attempt_root / "pi0241_update_audit.json"
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != stop_step or int(audit.get("expected_end_step", -1)) != stop_step:
+        raise PI0244Error("recovery optimizer/update audit did not reach the planned segment boundary")
+    membership = audit.get("optimizer_membership", {})
+    final_parameters = audit.get("final_parameters", {})
+    update_integrity = {
+        "projector_updated": float(final_parameters.get("projector", {}).get("delta_l2", 0.0)) > 0.0,
+        "diffusion_updated": float(final_parameters.get("diffusion", {}).get("delta_l2", 0.0)) > 0.0,
+        "frozen_backbone_unchanged": float(final_parameters.get("frozen_backbone", {}).get("delta_l2", 1.0)) == 0.0,
+        "frozen_vlln_unchanged": float(final_parameters.get("frozen_vlln", {}).get("delta_l2", 1.0)) == 0.0,
+        "optimizer_membership_valid": not membership.get("missing_trainable") and not membership.get("illegal_frozen"),
+    }
+    first_gradient = next((row for row in audit.get("events", []) if row.get("event") == "PRE_OPTIMIZER" and int(row.get("step", -1)) == resume_step + 1), None)
+    if first_gradient is None or not first_gradient.get("gradient_finite") or not all(update_integrity.values()):
+        raise PI0244Error("recovery gradient/update or frozen-parameter integrity failed")
+
+    target = training_root / f"checkpoint-{stop_step}"
+    state = json.loads((target / "trainer_state.json").read_text(encoding="utf-8"))
+    if int(state.get("global_step", -1)) != stop_step or int(state.get("max_steps", -1)) != MAX_STEPS or not _boundary_checkpoint_complete(training_root, stop_step):
+        raise PI0244Error("recovery boundary checkpoint is incomplete or has the wrong Trainer state")
+    checkpoint = legacy.checkpoint_record(target, stop_step)
+    result = {
+        "schema": "PI0244_R0_RECOVERY_SEGMENT_V1",
+        "status": "TRAINED_AWAITING_DURABLE_ARCHIVE",
+        "experiment": EXPERIMENT,
+        "plan_sha256": sha256_file(args.plan),
+        "job_id": job_id,
+        "segment": plan["segment"],
+        "resume_checkpoint_tree_sha256": plan["resume_checkpoint"]["tree_sha256"],
+        "resume_step": resume_step,
+        "stop_step": stop_step,
+        "schedule_suffix_sha256": plan["schedule_suffix_sha256"],
+        "consumed_rows": len(consumption),
+        "consumption_sha256": sha256_file(consumption_path),
+        "contracts_count": len(contracts),
+        "contracts_sha256": sha256_file(contracts_path),
+        "update_audit_sha256": sha256_file(audit_path),
+        "update_integrity": update_integrity,
+        "first_gradient": first_gradient,
+        "checkpoint_tree_sha256": checkpoint["tree_sha256"],
+        "checkpoint_bytes": checkpoint["total_bytes"],
+        "resolved_config_sha256": _json_sha256(summary),
+        "resume_from_checkpoint": True,
+        "selected_checkpoint": "NONE",
+    }
+    if reconciliation is not None:
+        result["post_run_reconciliation"] = reconciliation
+    _write_once(result_path, result)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return result
+
+
 def recover(args: argparse.Namespace) -> None:
     base, card, plan, root = _load_recovery_plan(args.plan, args.run_card)
     _assert_archive_environment(plan)
@@ -569,70 +721,44 @@ def recover(args: argparse.Namespace) -> None:
         stop_after_step=stop_step,
         checkpoint_output=training_root,
     )
-    pi0228.run_official(config, Path(card["paths"]["groot_source"]))
-    rows = _fixed_schedule(base, card)[resume_step:stop_step]
-    consumption_path = attempt_root / "pi0241_sample_consumption.jsonl"
-    consumption = [json.loads(line) for line in consumption_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    fields = ("optimizer_step", "fixed_index", "episode_index", "source_episode_id")
-    if len(consumption) != len(rows) or any(any(actual.get(key) != planned.get(key) for key in fields) or int(actual.get("yield_ordinal", -1)) != int(planned["optimizer_step"]) for actual, planned in zip(consumption, rows)):
-        raise PI0244Error("recovered sample consumption differs from the sealed schedule suffix")
-    contracts_path = attempt_root / "pi0241_sample_contracts.jsonl"
-    contracts = [json.loads(line) for line in contracts_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    if any(row.get("active_slots") != list(range(10)) or row.get("action_shape") != [1, 40, 132] or row.get("mask_shape") != [1, 40, 132] for row in contracts):
-        raise PI0244Error("recovery action/mask contract differs from sealed H40 dense-relative ABI")
-    original_contracts_path = training_root / "pi0241_sample_contracts.jsonl"
-    original_contracts = [json.loads(line) for line in original_contracts_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    original_by_index = {int(row["fixed_index"]): row for row in original_contracts}
-    if len(original_by_index) != 16 or set(original_by_index) != set(range(16)):
-        raise PI0244Error("original attempt does not contain the complete fixed16 action/mask contract")
-    for row in contracts:
-        original = original_by_index.get(int(row["fixed_index"]))
-        if original is None or any(row.get(key) != original.get(key) for key in ("source_episode_id", "action_sha256", "mask_sha256", "active_slots", "action_shape", "mask_shape")):
-            raise PI0244Error("resumed TRAIN action/mask differs from the original fixed-window contract")
-    audit_path = attempt_root / "pi0241_update_audit.json"
-    audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != stop_step or int(audit.get("expected_end_step", -1)) != stop_step:
-        raise PI0244Error("recovery optimizer/update audit did not reach the planned segment boundary")
-    membership = audit.get("optimizer_membership", {})
-    final_parameters = audit.get("final_parameters", {})
-    update_integrity = {
-        "projector_updated": float(final_parameters.get("projector", {}).get("delta_l2", 0.0)) > 0.0,
-        "diffusion_updated": float(final_parameters.get("diffusion", {}).get("delta_l2", 0.0)) > 0.0,
-        "frozen_backbone_unchanged": float(final_parameters.get("frozen_backbone", {}).get("delta_l2", 1.0)) == 0.0,
-        "frozen_vlln_unchanged": float(final_parameters.get("frozen_vlln", {}).get("delta_l2", 1.0)) == 0.0,
-        "optimizer_membership_valid": not membership.get("missing_trainable") and not membership.get("illegal_frozen"),
-    }
-    first_gradient = next((row for row in audit.get("events", []) if row.get("event") == "PRE_OPTIMIZER" and int(row.get("step", -1)) == resume_step + 1), None)
-    if first_gradient is None or not first_gradient.get("gradient_finite") or not all(update_integrity.values()):
-        raise PI0244Error("recovery gradient/update or frozen-parameter integrity failed")
-    target = training_root / f"checkpoint-{stop_step}"
-    checkpoint = legacy.checkpoint_record(target, stop_step)
-    result = {
-        "schema": "PI0244_R0_RECOVERY_SEGMENT_V1",
-        "status": "TRAINED_AWAITING_DURABLE_ARCHIVE",
-        "experiment": EXPERIMENT,
-        "plan_sha256": sha256_file(args.plan),
-        "job_id": job_id,
-        "segment": plan["segment"],
-        "resume_checkpoint_tree_sha256": plan["resume_checkpoint"]["tree_sha256"],
-        "resume_step": resume_step,
-        "stop_step": stop_step,
-        "schedule_suffix_sha256": plan["schedule_suffix_sha256"],
-        "consumed_rows": len(consumption),
-        "consumption_sha256": sha256_file(consumption_path),
-        "contracts_count": len(contracts),
-        "contracts_sha256": sha256_file(contracts_path),
-        "update_audit_sha256": sha256_file(audit_path),
-        "update_integrity": update_integrity,
-        "first_gradient": first_gradient,
-        "checkpoint_tree_sha256": checkpoint["tree_sha256"],
-        "checkpoint_bytes": checkpoint["total_bytes"],
-        "resolved_config_sha256": _json_sha256(summary),
-        "resume_from_checkpoint": True,
-        "selected_checkpoint": "NONE",
-    }
-    _write_once(attempt_root / "segment_result.json", result)
-    print(json.dumps(result, indent=2, sort_keys=True))
+    _run_recovery_training(pi0228, config, Path(card["paths"]["groot_source"]), stop_step)
+    _close_recovery_segment(args, base, card, plan, root, job_id, attempt_root)
+
+
+def reconcile_recovery(args: argparse.Namespace) -> None:
+    if args.job_id is None or args.runner_snapshot is None or args.failure_log is None:
+        raise PI0244Error("reconcile-recovery requires exact job id, sealed runner snapshot, and failure log")
+    raw_card = json.loads(args.run_card.read_text(encoding="utf-8"))
+    root = Path(raw_card["paths"]["output_root"])
+    plan = json.loads(args.plan.read_text(encoding="utf-8"))
+    resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
+    safe_job_id = re.sub(r"[^A-Za-z0-9_.-]", "_", str(args.job_id))
+    attempt_root = root / "recovery_attempts" / f"{resume_step}-to-{stop_step}" / safe_job_id
+    expected_snapshot = attempt_root / "source_snapshot" / "pi0244_fixed16_10k.py"
+    if args.runner_snapshot.resolve() != expected_snapshot.resolve() or sha256_file(expected_snapshot) != plan.get("active_runner_sha256"):
+        raise PI0244Error("reconciliation runner snapshot is not the exact runner sealed in the recovery plan")
+    if args.failure_log.name != f"{args.job_id}.ER":
+        raise PI0244Error("reconciliation failure log is not the exact job stderr artifact")
+    failure_text = args.failure_log.read_text(encoding="utf-8", errors="replace")
+    if "Disk quota exceeded" not in failure_text or "trainer.save_model()" not in failure_text:
+        raise PI0244Error("failure log does not prove the known redundant final-export quota failure")
+    base, card, plan, root = _load_recovery_plan(args.plan, args.run_card, runner_path=args.runner_snapshot)
+    _assert_archive_environment(plan)
+    _close_recovery_segment(
+        args,
+        base,
+        card,
+        plan,
+        root,
+        str(args.job_id),
+        attempt_root,
+        reconciliation={
+            "mode": "POST_EXIT_BOUNDARY_CHECKPOINT_RECONCILIATION",
+            "pbs_exit_status": 1,
+            "failure_log_sha256": sha256_file(args.failure_log),
+            "runner_snapshot_sha256": sha256_file(args.runner_snapshot),
+        },
+    )
 
 
 def verify_recovery(args: argparse.Namespace) -> None:
@@ -1231,12 +1357,44 @@ def self_test() -> None:
         final_records.write_text("".join(json.dumps(row) + "\n" for row in final_rows), encoding="utf-8")
         rejected = _screen_closeout(root, expected)
         assert rejected["status"] == "SCIENCE_FAIL_M16_10K_BUDGET" and rejected["metrics"]["gate_rejects"] == 1
+    with tempfile.TemporaryDirectory(prefix="pi0244-final-export-") as temporary:
+        output_root = Path(temporary)
+        checkpoint = output_root / "checkpoint-7500"
+        checkpoint.mkdir()
+        (checkpoint / "trainer_state.json").write_text(json.dumps({"global_step": 7500, "max_steps": MAX_STEPS}), encoding="utf-8")
+        (checkpoint / "model.safetensors.index.json").write_text(json.dumps({"weight_map": {"w": "model-00001.safetensors"}}), encoding="utf-8")
+        for name in ("model-00001.safetensors", "optimizer.pt", "scheduler.pt", "rng_state.pth"):
+            (checkpoint / name).write_bytes(b"ok")
+
+        class DummyTrainer:
+            def __init__(self) -> None:
+                self.args = SimpleNamespace(output_dir=str(output_root))
+                self.state = SimpleNamespace(global_step=7500)
+                self.calls: list[tuple[tuple[Any, ...], dict[str, Any]]] = []
+
+            def save_model(self, *args: Any, **kwargs: Any) -> None:
+                self.calls.append((args, kwargs))
+
+        original_save = DummyTrainer.save_model
+        DummyTrainer.save_model = _guard_final_checkpoint_export(original_save, 7500)
+        trainer = DummyTrainer()
+        trainer.save_model()
+        assert not trainer.calls
+        trainer.save_model(str(checkpoint), True)
+        assert len(trainer.calls) == 1
+        trainer.state.global_step = 7499
+        trainer.save_model()
+        assert len(trainer.calls) == 2
+        trainer.state.global_step = 7500
+        (checkpoint / "model-00001.safetensors").unlink()
+        trainer.save_model()
+        assert len(trainer.calls) == 3
     print("PI0244_SELF_TEST_PASS")
 
 
 def parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=("prepare", "train", "plan-recovery", "validate-plan", "recover", "verify-recovery", "retire-checkpoint", "finalize-training", "screen", "self-test"), required=True)
+    parser.add_argument("--phase", choices=("prepare", "train", "plan-recovery", "validate-plan", "recover", "reconcile-recovery", "verify-recovery", "retire-checkpoint", "finalize-training", "screen", "self-test"), required=True)
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--code-root", type=Path)
@@ -1259,6 +1417,8 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--stop-step", type=int)
     parser.add_argument("--plan", type=Path)
     parser.add_argument("--job-id")
+    parser.add_argument("--runner-snapshot", type=Path)
+    parser.add_argument("--failure-log", type=Path)
     parser.add_argument("--step", type=int)
     parser.add_argument("--for-screen", action="store_true")
     return parser
@@ -1290,6 +1450,10 @@ def main() -> int:
         if args.run_card is None or args.plan is None:
             raise PI0244Error("recover requires run card and sealed plan")
         recover(args)
+    elif args.phase == "reconcile-recovery":
+        if args.run_card is None or args.plan is None:
+            raise PI0244Error("reconcile-recovery requires run card and sealed plan")
+        reconcile_recovery(args)
     elif args.phase == "verify-recovery":
         if args.run_card is None or args.plan is None or args.job_id is None:
             raise PI0244Error("verify-recovery requires run card, plan, and exact PBS job id")
