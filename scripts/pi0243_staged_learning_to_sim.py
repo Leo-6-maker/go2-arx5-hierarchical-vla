@@ -461,7 +461,7 @@ def _image_hwc(value: Any) -> np.ndarray:
 
 def _dataset_and_examples(card: Mapping[str, Any], legacy: Any, pi0228: Any, processor: Any, embodiment: Any) -> list[dict[str, Any]]:
     import gr00t.data.embodiment_tags as embodiment_tags
-    from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset
+    from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset, extract_step_data
 
     cfg, _ = resolved_config(card, Path(card["paths"]["output_root"]) / "screen_cfg", legacy, pi0228)
     spec = cfg.data.datasets[0]
@@ -480,10 +480,25 @@ def _dataset_and_examples(card: Mapping[str, Any], legacy: Any, pi0228: Any, pro
     rows = read_json(Path(card["cohort"]["path"]))["rows"]
     examples = []
     for row in rows:
-        dp = dataset.get_datapoint(dataset.episode_loader[int(row["episode_index"])], 0)
-        state_full = _to_numpy(dp["state"]).reshape(-1)
-        state = state_full[:10].astype(np.float32)
-        images = dp["vlm_content"]["images"]
+        episode = dataset.episode_loader[int(row["episode_index"])]
+        dp = dataset.get_datapoint(episode, 0)
+        raw_step = extract_step_data(
+            episode,
+            0,
+            cfg.data.modality_configs[spec.embodiment_tag],
+            embodiment_tags.EmbodimentTag(spec.embodiment_tag),
+            cfg.data.allow_padding,
+        )
+        state = np.concatenate(
+            [
+                _to_numpy(raw_step.states["eef_9d"]).reshape(-1),
+                _to_numpy(raw_step.states["gripper_position"]).reshape(-1),
+            ]
+        ).astype(np.float32)[:10]
+        images = [
+            raw_step.images["external_rgb"][0],
+            raw_step.images["wrist_rgb"][0],
+        ]
         body, wrist = _image_hwc(images[0]), _image_hwc(images[1])
         normalized = _to_numpy(dp["action"]).astype(np.float32)
         if normalized.shape != (40, 132):

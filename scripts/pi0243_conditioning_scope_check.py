@@ -170,6 +170,8 @@ def main() -> int:
     legacy.install_fixed_dataset_factory(card, training_boundary)
     config, resolved = stage.resolved_config(card, cfg_dir, legacy, pi0228)
     from gr00t.data.types import MessageType, VLAStepData
+    from gr00t.data.dataset.sharded_single_step_dataset import extract_step_data
+    from gr00t.data.embodiment_tags import EmbodimentTag
     from gr00t.model.gr00t_n1d7.setup import Gr00tN1d7Pipeline
 
     pipeline = Gr00tN1d7Pipeline(config, cfg_dir)
@@ -203,9 +205,20 @@ def main() -> int:
         datapoint = dataset.get_datapoint(episode, 0)
         ct_batch = ct_processor.collator([datapoint])
         ct_policy = bridge._policy_inputs(ct_batch)
-        state_full = np.asarray(datapoint["state"]).reshape(-1)
-        state = state_full[:10].astype(np.float32)
-        images = datapoint["vlm_content"]["images"]
+        raw_step = extract_step_data(
+            episode,
+            0,
+            config.data.modality_configs[config.data.datasets[0].embodiment_tag],
+            EmbodimentTag(config.data.datasets[0].embodiment_tag),
+            config.data.allow_padding,
+        )
+        state = np.concatenate(
+            [
+                np.asarray(raw_step.states["eef_9d"]).reshape(-1),
+                np.asarray(raw_step.states["gripper_position"]).reshape(-1),
+            ]
+        ).astype(np.float32)[:10]
+        images = [raw_step.images["external_rgb"][0], raw_step.images["wrist_rgb"][0]]
         body = stage._image_hwc(images[0])
         wrist = stage._image_hwc(images[1])
         message = VLAStepData(
