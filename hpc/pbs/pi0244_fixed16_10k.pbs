@@ -46,8 +46,13 @@ export LD_LIBRARY_PATH="${PI0243_FFMPEG_RUNTIME_ROOT}/lib:${PI0243_FFMPEG_RUNTIM
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
 export PYTHONPATH="${PI0243_PROJECT_ROOT}/src:${PI0243_PROJECT_ROOT}/scripts:${PI0243_GR00T_SOURCE}:${PYTHONPATH:-}"
 
-GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
-GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+if ! GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader 2>&1)"; then
+  echo "FAIL_CLOSED: nvidia-smi query failed: ${GPU_QUERY}" >&2
+  exit 2
+fi
+GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+echo "PI0244_GPU_PREFLIGHT: host=${HOSTNAME:-unknown} count=${GPU_COUNT} name=${GPU_NAME:-unknown} cuda_visible=${CUDA_VISIBLE_DEVICES:-unset}"
 test "${GPU_COUNT}" -eq 1
 case "${GPU_NAME}" in *H200*|*H100*) ;; *) echo "FAIL_CLOSED: expected H200/H100, observed ${GPU_NAME}" >&2; exit 2 ;; esac
 
