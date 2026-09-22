@@ -84,7 +84,7 @@ start_hf_sidecar() {
   fi
   HF_SIDECAR_LOG="${PI0243_OUTPUT_MIRROR_ROOT}/hf_checkpoint_sidecar.log"
   HF_SIDECAR_STATE="${PI0243_OUTPUT_MIRROR_ROOT}/hf_checkpoint_sidecar.jsonl"
-  "${PI0243_HF_PUBLISHER_PYTHON:-/usr/bin/python3}" -u scripts/pi0243_hf_checkpoint_sidecar.py \
+  "${PI0243_HF_PUBLISHER_PYTHON:-${PI0243_STAGE10_ROOT}/runtime/venv/bin/python}" -u scripts/pi0243_hf_checkpoint_sidecar.py \
     --output-root "${PI0243_OUTPUT_MIRROR_ROOT}" \
     --repo-id "${PI0243_HF_REPO_ID}" \
     --token-file "${PI0243_HF_TOKEN_FILE}" \
