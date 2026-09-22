@@ -1,7 +1,7 @@
 {
   "schema": "PI0243_STORAGE_ADMISSION_HF_V1",
   "protocol_commit": "5644d54d2f23ae412a2c4d57441563ed73d66d8e",
-  "execution_commit": "ba0261b",
+  "execution_commit": "dc49898",
   "status": "CAPACITY_PASS_HF_HANDOFF_PASS",
   "work_root": "/scratch/e1192548/pi0243_stage_a_admitted_20260921_work",
   "work_capacity": {
@@ -36,5 +36,5 @@
     "interpretation": "local retain-all durable copy is not admissible; HF public archive remains the durable path"
   },
   "selected_checkpoint": "NONE",
-  "next_action": "complete same-fileset retain-all proof; then bind Stage A run card and use the mature callback"
+  "next_action": "Stage-A run-card sealed after runtime correction; submit one HF-backed training job"
 }

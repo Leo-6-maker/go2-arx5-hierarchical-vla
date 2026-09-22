@@ -1,0 +1,40 @@
+{
+  "schema": "PI0243_STAGE_A_PREPARE_ENGINEERING_V1",
+  "status": "SEALED_READY_TO_EXECUTE",
+  "first_attempt": {
+    "output_root": "/scratch/e1192548/pi0243_stage_a_hf_20260922",
+    "interpreter": "/usr/bin/python3",
+    "failure": "TypeError: unsupported operand type(s) for |: types.GenericAlias and NoneType",
+    "classification": "ENGINEERING_RUNTIME_MISMATCH",
+    "science_activity": {
+      "model_loads": 0,
+      "forward": 0,
+      "backward": 0,
+      "optimizer": 0,
+      "WBC": 0,
+      "sim": 0
+    }
+  },
+  "repair": {
+    "cause": "system Python 3.9 cannot execute the sealed GR00T 3.12 type syntax",
+    "action": "reuse the sealed Stage22 runtime interpreter; no scientific configuration changed",
+    "interpreter": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+    "version": "Python 3.12.3",
+    "torch": "2.9.0+cu128"
+  },
+  "retry": {
+    "output_root": "/scratch/e1192548/pi0243_stage_a_hf_20260922_retry1",
+    "run_card": "/scratch/e1192548/pi0243_stage_a_hf_20260922_retry1/pi0243_run_card.json",
+    "run_card_sha256": "569b5d4e0e221422621a1b9b05b9fa18970d399f7febed7d278685a0b89fe8e7",
+    "status": "SEALED_READY_TO_EXECUTE",
+    "stage": "A",
+    "view": 16,
+    "max_steps": 5000,
+    "checkpoint_steps": [1000, 2500, 5000],
+    "seed": 22301,
+    "storage_kind": "huggingface_public",
+    "hf_repo_id": "leoyuer/pi0243-stage-a-admitted-v1",
+    "hf_path_prefix": "pi0243-stage-a-hf-20260922-retry1"
+  },
+  "selected_checkpoint": "NONE"
+}
