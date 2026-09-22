@@ -66,12 +66,17 @@ case "${GPU_NAME}" in *H200*|*H100*) ;; *) echo "FAIL_CLOSED: expected H200/H100
 cd "${PI0243_PROJECT_ROOT}"
 archive_output() {
   local source_root="${PI0243_OUTPUT_MIRROR_ROOT}"
-  local destination="${PI0243_ARCHIVE_HOST}:${PI0243_ARCHIVE_ROOT}/"
   test -d "${source_root}"
   # Checkpoints are handed off and verified by the save callback.  The exit
   # sync only publishes metadata, logs and screen evidence; it is not the
   # sole checkpoint durability mechanism.
-  rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "${source_root}/" "${destination}"
+  if [[ "${PI0243_ARCHIVE_HOST}" == "local" ]]; then
+    mkdir -p "${PI0243_ARCHIVE_ROOT}"
+    rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "${source_root}/" "${PI0243_ARCHIVE_ROOT}/"
+  else
+    local destination="${PI0243_ARCHIVE_HOST}:${PI0243_ARCHIVE_ROOT}/"
+    rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "${source_root}/" "${destination}"
+  fi
 }
 start_hf_sidecar() {
   if [[ -z "${PI0243_HF_REPO_ID:-}" ]]; then

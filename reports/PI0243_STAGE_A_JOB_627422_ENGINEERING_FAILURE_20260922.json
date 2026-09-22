@@ -1,0 +1,31 @@
+{
+  "schema": "PI0243_STAGE_A_ENGINEERING_FAILURE_V1",
+  "job_id": "627422.hopper-m-02",
+  "status": "ENGINEERING_FAILURE",
+  "node": "hopper-18",
+  "exit_status": 3,
+  "science_activity": {
+    "model_loads": 0,
+    "forward": 0,
+    "backward": 0,
+    "optimizer": 0,
+    "WBC": 0,
+    "sim": 0,
+    "checkpoints": 0
+  },
+  "root_causes": [
+    {
+      "kind": "cli_contract",
+      "evidence": "pi0243_staged_learning_to_sim.py accepts --stage choices a,b,c; submitted value was A",
+      "repair": "submit the sealed Stage-A card with PI0243_STAGE=a"
+    },
+    {
+      "kind": "pbs_archive_transport",
+      "evidence": "rsync to localhost SSH closed on the compute node",
+      "repair": "use a local rsync branch for the shared scratch archive; no scientific files or recipe changed"
+    }
+  ],
+  "stdout_stderr": "/scratch/e1192548/pi0243_storage_admitted_20260921/pi0243_stage.o627422",
+  "output_root": "/scratch/e1192548/pi0243_stage_a_hf_20260922_retry1",
+  "selected_checkpoint": "NONE"
+}
