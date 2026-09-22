@@ -728,8 +728,8 @@ def recover(args: argparse.Namespace) -> None:
 def reconcile_recovery(args: argparse.Namespace) -> None:
     if args.job_id is None or args.runner_snapshot is None or args.failure_log is None:
         raise PI0244Error("reconcile-recovery requires exact job id, sealed runner snapshot, and failure log")
-    raw_card = json.loads(args.run_card.read_text(encoding="utf-8"))
-    root = Path(raw_card["paths"]["output_root"])
+    base_for_path, card_for_path = verify_card(args.run_card, runner_path=args.runner_snapshot)
+    root = Path(base_for_path.runtime_card(card_for_path)["paths"]["output_root"])
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
     safe_job_id = re.sub(r"[^A-Za-z0-9_.-]", "_", str(args.job_id))
