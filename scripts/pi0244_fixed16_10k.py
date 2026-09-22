@@ -1130,10 +1130,15 @@ def _restore_full_checkpoint(base: Any, card: Mapping[str, Any], root: Path, ste
     token = token_path.read_text(encoding="utf-8").strip()
     if not token:
         raise PI0244Error("HF token file is empty")
+    hf_constants = None
     os.environ["HF_HUB_OFFLINE"] = "0"
     os.environ.pop("TRANSFORMERS_OFFLINE", None)
     try:
-        from huggingface_hub import hf_hub_download
+        from huggingface_hub import constants as hf_constants, hf_hub_download
+
+        # HF_HUB_OFFLINE is cached in huggingface_hub.constants at import time;
+        # changing only os.environ leaves an already-imported runtime offline.
+        hf_constants.HF_HUB_OFFLINE = False
 
         for entry in inventory:
             relative = str(entry["path"])
@@ -1179,6 +1184,8 @@ def _restore_full_checkpoint(base: Any, card: Mapping[str, Any], root: Path, ste
             os.replace(temporary, quarantine)
         raise
     finally:
+        if hf_constants is not None:
+            hf_constants.HF_HUB_OFFLINE = True
         os.environ["HF_HUB_OFFLINE"] = "1"
         os.environ["TRANSFORMERS_OFFLINE"] = "1"
     return local, True
@@ -1302,6 +1309,22 @@ def self_test() -> None:
     spec = stage_spec("a")
     assert spec["view"] == "16" and spec["max_steps"] == 10000
     assert spec["checkpoints"] == CHECKPOINTS and spec["screens"] == SCREENS
+    from huggingface_hub import constants as hf_constants
+
+    prior_hf_flag = hf_constants.HF_HUB_OFFLINE
+    prior_hf_env = os.environ.get("HF_HUB_OFFLINE")
+    try:
+        hf_constants.HF_HUB_OFFLINE = True
+        os.environ["HF_HUB_OFFLINE"] = "0"
+        assert hf_constants.HF_HUB_OFFLINE is True
+        hf_constants.HF_HUB_OFFLINE = False
+        assert hf_constants.HF_HUB_OFFLINE is False
+    finally:
+        hf_constants.HF_HUB_OFFLINE = prior_hf_flag
+        if prior_hf_env is None:
+            os.environ.pop("HF_HUB_OFFLINE", None)
+        else:
+            os.environ["HF_HUB_OFFLINE"] = prior_hf_env
     current = [{"source_episode_id": f"s{i % 16}"} for i in range(10000)]
     parent = current[:5000]
     result = validate_schedule_rows(current, parent)
