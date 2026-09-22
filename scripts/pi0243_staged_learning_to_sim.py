@@ -474,6 +474,9 @@ def _dataset_and_examples(card: Mapping[str, Any], legacy: Any, pi0228: Any, pro
         seed=cfg.data.seed,
         allow_padding=cfg.data.allow_padding,
     )
+    # The direct screen path does not go through ShardedMixtureDataset.merge_statistics;
+    # bind the same sealed processor before the first datapoint read.
+    dataset.set_processor(processor)
     rows = read_json(Path(card["cohort"]["path"]))["rows"]
     examples = []
     for row in rows:
