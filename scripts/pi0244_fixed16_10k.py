@@ -35,6 +35,7 @@ MAX_STEPS = 10000
 CHECKPOINTS = [2500, 5000, 7500, 10000]
 SCREENS = [0, 2500, 5000, 7500, 10000]
 PREFIX_STEPS = 5000
+RECOVERY_STORAGE_AUTH_COMMENT = "5782281194"
 
 
 class PI0244Error(RuntimeError):
@@ -247,6 +248,95 @@ def _write_once(path: Path, value: Mapping[str, Any]) -> None:
             raise PI0244Error(f"refusing to overwrite sealed evidence: {path}")
 
 
+def _receipt_repo(receipt: Mapping[str, Any], card: Mapping[str, Any], step: int) -> str:
+    prefix = str(card["storage"]["path_prefix"]).strip("/")
+    durable_path = str(receipt.get("durable_path", ""))
+    suffix = f"/{prefix}/checkpoint-{step}"
+    if not durable_path.endswith(suffix):
+        raise PI0244Error(f"checkpoint-{step} durable path differs from the sealed family prefix")
+    repo_id = durable_path[: -len(suffix)]
+    if repo_id.count("/") != 1:
+        raise PI0244Error(f"checkpoint-{step} durable path has an invalid repository identity")
+    return repo_id
+
+
+def _storage_binding(root: Path, card: Mapping[str, Any], card_path: Path, *, create: bool = False) -> dict[str, Any]:
+    path = root / "pi0244_recovery_storage_binding.json"
+    seal_path = path.with_suffix(".seal.json")
+    if not path.is_file():
+        if not create:
+            raise PI0244Error("append-only recovery storage binding is missing")
+        code_root = Path(card["paths"]["code_root"])
+        persistence = load_base(code_root).load_module(code_root / "scripts" / "pi0243_checkpoint_persistence.py", "pi0244_persistence")
+        source_receipts: dict[str, Any] = {}
+        repo_ids = set()
+        for step in (2500, 5000):
+            checkpoint = root / "training" / f"checkpoint-{step}"
+            receipt_path = root / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+            receipt = persistence.verify_receipt(checkpoint, receipt_path, expected_step=step, expected_max_steps=MAX_STEPS, family=FAMILY)
+            if receipt.get("status") != "DURABLE_VERIFIED" or not receipt.get("hf_manifest_commit_id"):
+                raise PI0244Error(f"checkpoint-{step} has no complete durable HF receipt")
+            repo_ids.add(_receipt_repo(receipt, card, step))
+            inventory = receipt.get("source_record", {}).get("inventory", {})
+            if len(receipt.get("durable_inventory", [])) != int(inventory.get("file_count", -1)):
+                raise PI0244Error(f"checkpoint-{step} durable inventory is incomplete")
+            source_receipts[str(step)] = {
+                "receipt_sha256": sha256_file(receipt_path),
+                "durable_path": receipt["durable_path"],
+                "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
+                "tree_sha256": inventory["tree_sha256"],
+                "file_count": inventory["file_count"],
+                "total_bytes": inventory["total_bytes"],
+            }
+        if len(repo_ids) != 1:
+            raise PI0244Error("checkpoint-2500 and checkpoint-5000 receipts do not share one HF repository")
+        payload = {
+            "schema": "PI0244_R0_RECOVERY_STORAGE_BINDING_V1",
+            "status": "SEALED_APPEND_ONLY_RECOVERY_BINDING",
+            "authorization_issue_comment_id": RECOVERY_STORAGE_AUTH_COMMENT,
+            "run_card_sha256": sha256_file(card_path),
+            "card_repo_id": str(card["storage"]["repo_id"]),
+            "effective_repo_id": next(iter(repo_ids)),
+            "path_prefix": str(card["storage"]["path_prefix"]).strip("/"),
+            "family": FAMILY,
+            "source_receipts": source_receipts,
+            "reason": "continue R0 at the already receipt-verified public archive destination without rewriting the sealed run card",
+        }
+        _write_once(path, payload)
+        _write_once(seal_path, {"schema": "PI0244_RECOVERY_STORAGE_BINDING_SEAL_V1", "sha256": sha256_file(path)})
+    binding = json.loads(path.read_text(encoding="utf-8"))
+    seal = json.loads(seal_path.read_text(encoding="utf-8"))
+    if (
+        seal.get("sha256") != sha256_file(path)
+        or binding.get("status") != "SEALED_APPEND_ONLY_RECOVERY_BINDING"
+        or binding.get("authorization_issue_comment_id") != RECOVERY_STORAGE_AUTH_COMMENT
+        or binding.get("run_card_sha256") != sha256_file(card_path)
+        or binding.get("card_repo_id") != card["storage"]["repo_id"]
+        or binding.get("path_prefix") != str(card["storage"]["path_prefix"]).strip("/")
+        or binding.get("family") != FAMILY
+    ):
+        raise PI0244Error("append-only recovery storage binding does not match the sealed card")
+    for step in (2500, 5000):
+        receipt_path = root / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        pinned = binding.get("source_receipts", {}).get(str(step), {})
+        if (
+            pinned.get("receipt_sha256") != sha256_file(receipt_path)
+            or receipt.get("durable_path") != pinned.get("durable_path")
+            or _receipt_repo(receipt, card, step) != binding.get("effective_repo_id")
+            or receipt.get("hf_manifest_commit_id") != pinned.get("hf_manifest_commit_id")
+            or receipt.get("source_record", {}).get("inventory", {}).get("tree_sha256") != pinned.get("tree_sha256")
+        ):
+            raise PI0244Error(f"checkpoint-{step} differs from the sealed recovery storage binding")
+    return binding
+
+
+def _assert_archive_environment(plan: Mapping[str, Any]) -> None:
+    storage = plan.get("storage", {})
+    if os.environ.get("PI0243_HF_REPO_ID") != storage.get("repo_id") or os.environ.get("PI0243_HF_PATH_PREFIX", "").strip("/") != storage.get("path_prefix"):
+        raise PI0244Error("PBS HF repo/prefix do not match the sealed recovery storage plan")
+
+
 def verify_card(path: Path, *, bind_overlay: bool = False) -> tuple[Any, dict[str, Any]]:
     raw = json.loads(path.read_text(encoding="utf-8"))
     code_root = Path(raw["paths"]["code_root"])
@@ -332,6 +422,7 @@ def plan_recovery(args: argparse.Namespace) -> Path:
     binding = _seal_recovery_binding(base, card, args.run_card)
     runtime = base.runtime_card(card)
     root = Path(runtime["paths"]["output_root"])
+    storage_binding = _storage_binding(root, card, args.run_card, create=True)
     training_root = root / "training"
     resume_step, stop_step = args.resume_step, args.stop_step
     checkpoints = _checkpoint_paths(training_root)
@@ -378,7 +469,12 @@ def plan_recovery(args: argparse.Namespace) -> Path:
             "durable_tree_sha256": receipt["source_record"]["inventory"]["tree_sha256"],
             "hf_manifest_commit_id": receipt.get("hf_manifest_commit_id"),
         },
-        "storage": {"repo_id": card["storage"]["repo_id"], "path_prefix": card["storage"]["path_prefix"], "family": FAMILY},
+        "storage": {
+            "repo_id": storage_binding["effective_repo_id"],
+            "path_prefix": storage_binding["path_prefix"],
+            "binding_sha256": sha256_file(root / "pi0244_recovery_storage_binding.json"),
+            "family": FAMILY,
+        },
         "allowed_config_diff": {"training.resume_from_checkpoint": {"sealed": False, "runtime": True}},
         "target_xyz_in_model_input": False,
         "selected_checkpoint": "NONE",
@@ -402,6 +498,14 @@ def _load_recovery_plan(plan_path: Path, run_card: Path) -> tuple[Any, dict[str,
     binding = _execution_binding(run_card, card)
     if plan.get("execution_binding_id") != binding["binding_id"]:
         raise PI0244Error("recovery source code changed after plan seal")
+    storage_binding = _storage_binding(Path(runtime["paths"]["output_root"]), card, run_card)
+    if plan.get("storage") != {
+        "repo_id": storage_binding["effective_repo_id"],
+        "path_prefix": storage_binding["path_prefix"],
+        "binding_sha256": sha256_file(Path(runtime["paths"]["output_root"]) / "pi0244_recovery_storage_binding.json"),
+        "family": FAMILY,
+    }:
+        raise PI0244Error("recovery plan storage identity differs from its append-only binding")
     segment = plan.get("segment", {})
     resume_step, stop_step = int(segment.get("resume_step", -1)), int(segment.get("stop_step", -1))
     if (resume_step, stop_step) not in {(5000, 7500), (7500, 10000)}:
@@ -412,8 +516,29 @@ def _load_recovery_plan(plan_path: Path, run_card: Path) -> tuple[Any, dict[str,
     return base, card, plan, Path(runtime["paths"]["output_root"])
 
 
+def validate_recovery_plan(args: argparse.Namespace) -> None:
+    base, card, plan, root = _load_recovery_plan(args.plan, args.run_card)
+    _assert_archive_environment(plan)
+    resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
+    training_root = root / "training"
+    checkpoints = _checkpoint_paths(training_root)
+    if max(checkpoints, default=-1) != resume_step or (training_root / f"checkpoint-{stop_step}").exists():
+        raise PI0244Error("recovery source/destination checkpoint state differs from the sealed plan")
+    legacy = base.legacy_module(Path(card["paths"]["code_root"]))
+    base.configure_legacy(card, legacy)
+    source = training_root / f"checkpoint-{resume_step}"
+    record = legacy.checkpoint_record(source, resume_step)
+    receipt_path = root / "durable_receipts" / f"checkpoint-{resume_step}.durable_receipt.json"
+    persistence = base.load_module(Path(card["paths"]["code_root"]) / "scripts" / "pi0243_checkpoint_persistence.py", "pi0244_persistence")
+    receipt = persistence.verify_receipt(source, receipt_path, expected_step=resume_step, expected_max_steps=MAX_STEPS, family=FAMILY)
+    if record["tree_sha256"] != plan["resume_checkpoint"]["tree_sha256"] or sha256_file(receipt_path) != plan["resume_checkpoint"]["receipt_sha256"] or receipt.get("durable_path") != f"{plan['storage']['repo_id']}/{plan['storage']['path_prefix']}/checkpoint-{resume_step}":
+        raise PI0244Error("resume checkpoint or durable receipt differs from the sealed plan")
+    print(json.dumps({"status": "PASS_RECOVERY_PLAN_PREFLIGHT", "plan_sha256": sha256_file(args.plan), "resume_step": resume_step, "stop_step": stop_step, "resume_tree_sha256": record["tree_sha256"], "hf_repo_id": plan["storage"]["repo_id"], "hf_path_prefix": plan["storage"]["path_prefix"], "model_load": False, "forward": False}, sort_keys=True))
+
+
 def recover(args: argparse.Namespace) -> None:
     base, card, plan, root = _load_recovery_plan(args.plan, args.run_card)
+    _assert_archive_environment(plan)
     runtime = base.runtime_card(card)
     resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
     training_root = root / "training"
@@ -512,6 +637,7 @@ def recover(args: argparse.Namespace) -> None:
 
 def verify_recovery(args: argparse.Namespace) -> None:
     base, card, plan, root = _load_recovery_plan(args.plan, args.run_card)
+    _assert_archive_environment(plan)
     resume_step, stop_step = (int(plan["segment"][key]) for key in ("resume_step", "stop_step"))
     job_id = str(args.job_id)
     safe_job_id = re.sub(r"[^A-Za-z0-9_.-]", "_", job_id)
@@ -524,7 +650,8 @@ def verify_recovery(args: argparse.Namespace) -> None:
     receipt_path = root / "durable_receipts" / f"checkpoint-{stop_step}.durable_receipt.json"
     persistence = base.load_module(Path(card["paths"]["code_root"]) / "scripts" / "pi0243_checkpoint_persistence.py", "pi0244_persistence")
     receipt = persistence.verify_receipt(checkpoint_path, receipt_path, expected_step=stop_step, expected_max_steps=MAX_STEPS, family=FAMILY)
-    if receipt.get("hf_manifest_commit_id") is None or receipt.get("status") != "DURABLE_VERIFIED":
+    expected_durable_path = f"{plan['storage']['repo_id']}/{plan['storage']['path_prefix']}/checkpoint-{stop_step}"
+    if receipt.get("hf_manifest_commit_id") is None or receipt.get("status") != "DURABLE_VERIFIED" or receipt.get("durable_path") != expected_durable_path:
         raise PI0244Error("recovered checkpoint has no verified immutable HF revision")
     legacy = base.legacy_module(Path(card["paths"]["code_root"]))
     base.configure_legacy(card, legacy)
@@ -552,6 +679,7 @@ def verify_recovery(args: argparse.Namespace) -> None:
 def retire_local_checkpoint(args: argparse.Namespace) -> None:
     base, card = verify_card(args.run_card)
     root = Path(base.runtime_card(card)["paths"]["output_root"])
+    storage_binding = _storage_binding(root, card, args.run_card)
     training = root / "training"
     target = training / f"checkpoint-{args.step}"
     receipt_path = root / "durable_receipts" / f"checkpoint-{args.step}.durable_receipt.json"
@@ -577,7 +705,7 @@ def retire_local_checkpoint(args: argparse.Namespace) -> None:
     base.configure_legacy(card, legacy)
     persistence = base.load_module(Path(card["paths"]["code_root"]) / "scripts" / "pi0243_checkpoint_persistence.py", "pi0244_persistence")
     receipt = persistence.verify_receipt(target, receipt_path, expected_step=int(args.step), expected_max_steps=MAX_STEPS, family=FAMILY)
-    remote_expected = f"{card['storage']['repo_id']}/{card['storage']['path_prefix'].rstrip('/')}/checkpoint-{args.step}"
+    remote_expected = f"{storage_binding['effective_repo_id']}/{storage_binding['path_prefix']}/checkpoint-{args.step}"
     if receipt.get("durable_path") != remote_expected or not receipt.get("hf_manifest_commit_id"):
         raise PI0244Error("checkpoint does not have the pinned public-HF durable receipt")
     record = legacy.checkpoint_record(target, int(args.step))
@@ -604,6 +732,7 @@ def retire_local_checkpoint(args: argparse.Namespace) -> None:
 def finalize_training(args: argparse.Namespace) -> None:
     base, card = verify_card(args.run_card)
     root = Path(base.runtime_card(card)["paths"]["output_root"])
+    storage_binding = _storage_binding(root, card, args.run_card)
     rows = _fixed_schedule(base, card)
     original_path = root / "training" / "pi0241_sample_consumption.jsonl"
     original = [json.loads(line) for line in original_path.read_text(encoding="utf-8").splitlines() if line.strip()]
@@ -657,6 +786,9 @@ def finalize_training(args: argparse.Namespace) -> None:
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         if receipt.get("status") != "DURABLE_VERIFIED" or int(receipt.get("checkpoint_step", -1)) != step or int(receipt.get("max_steps", -1)) != MAX_STEPS or receipt.get("family") != FAMILY:
             raise PI0244Error(f"checkpoint-{step} durable receipt identity mismatch")
+        expected_durable_path = f"{storage_binding['effective_repo_id']}/{storage_binding['path_prefix']}/checkpoint-{step}"
+        if receipt.get("durable_path") != expected_durable_path or not re.fullmatch(r"[a-f0-9]{40}", str(receipt.get("hf_manifest_commit_id", ""))):
+            raise PI0244Error(f"checkpoint-{step} durable receipt differs from the recovery storage binding")
         local = root / "training" / f"checkpoint-{step}"
         if local.is_dir():
             persistence = base.load_module(Path(card["paths"]["code_root"]) / "scripts" / "pi0243_checkpoint_persistence.py", "pi0244_persistence")
@@ -686,6 +818,9 @@ def finalize_training(args: argparse.Namespace) -> None:
         "original_attempt_rows_retained_but_only_steps_1_to_5000_used_from_checkpoint_5000": len(original),
         "recovery_segments": segment_bindings,
         "checkpoints": checkpoints,
+        "recovery_storage_binding_sha256": sha256_file(root / "pi0244_recovery_storage_binding.json"),
+        "effective_hf_repo_id": storage_binding["effective_repo_id"],
+        "effective_hf_path_prefix": storage_binding["path_prefix"],
         "target_xyz_in_model_input": False,
         "selected_checkpoint": "NONE",
     }
@@ -801,7 +936,8 @@ def _restore_full_checkpoint(base: Any, card: Mapping[str, Any], root: Path, ste
         persistence.verify_receipt(local, receipt_path, expected_step=step, expected_max_steps=MAX_STEPS, family=FAMILY)
         return local, False
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    storage = card["storage"]
+    storage_binding = _storage_binding(root, card, root / "pi0243_run_card.json")
+    storage = {**card["storage"], "repo_id": storage_binding["effective_repo_id"], "path_prefix": storage_binding["path_prefix"]}
     prefix = f"{storage['path_prefix'].rstrip('/')}/checkpoint-{step}"
     expected_path = f"{storage['repo_id']}/{prefix}"
     if (
@@ -926,6 +1062,9 @@ def screen(args: argparse.Namespace) -> None:
     training_manifest = root / "pi0244_training_manifest.json"
     if not training_manifest.is_file() or json.loads(training_manifest.read_text(encoding="utf-8")).get("status") != "PASS_R0_TRAINING_CLOSED":
         raise PI0244Error("80-cell screen is blocked until recovered 10K training and all four archives are closed")
+    storage_binding = _storage_binding(root, card, args.run_card)
+    if json.loads(training_manifest.read_text(encoding="utf-8")).get("recovery_storage_binding_sha256") != sha256_file(root / "pi0244_recovery_storage_binding.json"):
+        raise PI0244Error("R0 training closure is not bound to the current recovery archive")
     cohort_path = base._mapped_stage_path(card, card["cohort"]["path"], "PI0243_METADATA_MIRROR_ROOT")
     cohort = json.loads(cohort_path.read_text(encoding="utf-8"))["rows"]
     expected = {str(row["source_episode_id"]): int(row["episode_index"]) for row in cohort}
@@ -1001,6 +1140,39 @@ def self_test() -> None:
     result = validate_schedule_rows(current, parent)
     assert result["length"] == 10000 and set(result["source_counts"].values()) == {625}
     assert set(_config_differences({"max_steps": 5000, "scheduler": "cosine"}, {"max_steps": 10000, "scheduler": "cosine"})) == {"max_steps"}
+    storage_card = {"storage": {"path_prefix": "pi0244-m16-10k-v1-r1"}}
+    assert _receipt_repo(
+        {"durable_path": "leoyuer/pi0243-stage-a-admitted-v1/pi0244-m16-10k-v1-r1/checkpoint-2500"},
+        storage_card,
+        2500,
+    ) == "leoyuer/pi0243-stage-a-admitted-v1"
+    try:
+        _receipt_repo({"durable_path": "other/repo/wrong-prefix/checkpoint-2500"}, storage_card, 2500)
+    except PI0244Error:
+        pass
+    else:
+        raise AssertionError("wrong durable archive prefix was not rejected")
+    prior_repo, prior_prefix = os.environ.get("PI0243_HF_REPO_ID"), os.environ.get("PI0243_HF_PATH_PREFIX")
+    try:
+        os.environ["PI0243_HF_REPO_ID"] = "leoyuer/pi0243-stage-a-admitted-v1"
+        os.environ["PI0243_HF_PATH_PREFIX"] = "pi0244-m16-10k-v1-r1"
+        _assert_archive_environment({"storage": {"repo_id": "leoyuer/pi0243-stage-a-admitted-v1", "path_prefix": "pi0244-m16-10k-v1-r1"}})
+        os.environ["PI0243_HF_REPO_ID"] = "wrong/repo"
+        try:
+            _assert_archive_environment({"storage": {"repo_id": "leoyuer/pi0243-stage-a-admitted-v1", "path_prefix": "pi0244-m16-10k-v1-r1"}})
+        except PI0244Error:
+            pass
+        else:
+            raise AssertionError("mismatched HF environment was not rejected")
+    finally:
+        if prior_repo is None:
+            os.environ.pop("PI0243_HF_REPO_ID", None)
+        else:
+            os.environ["PI0243_HF_REPO_ID"] = prior_repo
+        if prior_prefix is None:
+            os.environ.pop("PI0243_HF_PATH_PREFIX", None)
+        else:
+            os.environ["PI0243_HF_PATH_PREFIX"] = prior_prefix
     legacy_path = Path(__file__).with_name("pi0241_fixed16_learning.py")
     legacy_spec = importlib.util.spec_from_file_location("pi0244_selftest_legacy", legacy_path)
     assert legacy_spec is not None and legacy_spec.loader is not None
@@ -1064,7 +1236,7 @@ def self_test() -> None:
 
 def parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=("prepare", "train", "plan-recovery", "recover", "verify-recovery", "retire-checkpoint", "finalize-training", "screen", "self-test"), required=True)
+    parser.add_argument("--phase", choices=("prepare", "train", "plan-recovery", "validate-plan", "recover", "verify-recovery", "retire-checkpoint", "finalize-training", "screen", "self-test"), required=True)
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--code-root", type=Path)
@@ -1110,6 +1282,10 @@ def main() -> int:
         if args.run_card is None or args.resume_step is None or args.stop_step is None:
             raise PI0244Error("plan-recovery requires run card and authorized segment")
         print(plan_recovery(args))
+    elif args.phase == "validate-plan":
+        if args.run_card is None or args.plan is None:
+            raise PI0244Error("validate-plan requires run card and sealed recovery plan")
+        validate_recovery_plan(args)
     elif args.phase == "recover":
         if args.run_card is None or args.plan is None:
             raise PI0244Error("recover requires run card and sealed plan")

@@ -97,6 +97,7 @@ case "${PI0244_PHASE:-train}" in
       *) echo "FAIL_CLOSED: unauthorized recovery segment ${PI0244_RESUME_STEP}:${PI0244_STOP_STEP}" >&2; exit 2 ;;
     esac
     test -r "${PI0244_PLAN}"
+    CUDA_VISIBLE_DEVICES="" "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase validate-plan --run-card "${PI0243_RUN_CARD}" --plan "${PI0244_PLAN}"
     safe_job_id="$(printf '%s' "${PBS_JOBID}" | tr -c 'A-Za-z0-9_.-' '_')"
     sidecar_root="${PI0243_OUTPUT_MIRROR_ROOT}/recovery_sidecars"
     mkdir -p "${sidecar_root}"
