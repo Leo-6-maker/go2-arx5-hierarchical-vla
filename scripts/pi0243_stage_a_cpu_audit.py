@@ -160,8 +160,9 @@ def audit_screen_contract(card: dict[str, Any], root: Path) -> dict[str, Any]:
     observed = []
     for row in rows:
         dp = dataset.get_datapoint(dataset.episode_loader[int(row["episode_index"])], 0)
-        action = np.asarray(dp["action"])
-        mask = np.asarray(dp["action_mask"])
+        action, mask = legacy.find_action_mask(processor.collator([dp]))
+        action = np.asarray(action)
+        mask = np.asarray(mask)
         expected = contracts.get(row["source_episode_id"])
         if expected is None or action.shape != (1, 40, 132) or mask.shape != (1, 40, 132):
             raise RuntimeError(f"screen/training sample mismatch: {row['source_episode_id']}")
