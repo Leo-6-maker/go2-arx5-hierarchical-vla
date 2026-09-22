@@ -562,6 +562,32 @@ def _boundary_checkpoint_complete(output_root: Path, stop_step: int) -> bool:
         return False
 
 
+def _checkpoint_parameter_delta(before: Path, after: Path, name: str) -> dict[str, Any]:
+    import numpy as np
+    from safetensors import safe_open
+
+    tensors = []
+    for checkpoint in (before, after):
+        index = json.loads((checkpoint / "model.safetensors.index.json").read_text(encoding="utf-8"))
+        shard = index.get("weight_map", {}).get(name)
+        if not isinstance(shard, str) or Path(shard).name != shard:
+            raise PI0244Error(f"checkpoint does not map the audited parameter safely: {name}")
+        with safe_open(str(checkpoint / shard), framework="np", device="cpu") as handle:
+            tensors.append(np.asarray(handle.get_tensor(name), dtype=np.float64).copy())
+    if tensors[0].shape != tensors[1].shape:
+        raise PI0244Error(f"checkpoint parameter shape changed: {name}")
+    delta = tensors[1] - tensors[0]
+    if not np.isfinite(delta).all():
+        raise PI0244Error(f"checkpoint parameter delta is non-finite: {name}")
+    return {
+        "name": name,
+        "shape": list(tensors[0].shape),
+        "delta_l2": float(np.linalg.norm(delta.reshape(-1))),
+        "delta_max_abs": float(np.max(np.abs(delta))),
+        "changed_values": int(np.count_nonzero(delta)),
+    }
+
+
 def _guard_final_checkpoint_export(original: Any, stop_step: int) -> Any:
     def guarded(trainer: Any, *args: Any, **kwargs: Any) -> Any:
         output_dir = kwargs.get("output_dir", args[0] if args else None)
@@ -641,8 +667,18 @@ def _close_recovery_segment(
         raise PI0244Error("recovery optimizer/update audit did not reach the planned segment boundary")
     membership = audit.get("optimizer_membership", {})
     final_parameters = audit.get("final_parameters", {})
+    target = training_root / f"checkpoint-{stop_step}"
+    state = json.loads((target / "trainer_state.json").read_text(encoding="utf-8"))
+    if int(state.get("global_step", -1)) != stop_step or int(state.get("max_steps", -1)) != MAX_STEPS or not _boundary_checkpoint_complete(training_root, stop_step):
+        raise PI0244Error("recovery boundary checkpoint is incomplete or has the wrong Trainer state")
+    projector_name = audit.get("representatives", {}).get("projector")
+    if not projector_name or legacy._parameter_group(projector_name) != "projector":
+        raise PI0244Error("update audit has no valid projector representative")
+    projector_checkpoint_delta = _checkpoint_parameter_delta(
+        training_root / f"checkpoint-{resume_step}", target, projector_name
+    )
     update_integrity = {
-        "projector_updated": float(final_parameters.get("projector", {}).get("delta_l2", 0.0)) > 0.0,
+        "projector_updated": projector_checkpoint_delta["delta_l2"] > 0.0,
         "diffusion_updated": float(final_parameters.get("diffusion", {}).get("delta_l2", 0.0)) > 0.0,
         "frozen_backbone_unchanged": float(final_parameters.get("frozen_backbone", {}).get("delta_l2", 1.0)) == 0.0,
         "frozen_vlln_unchanged": float(final_parameters.get("frozen_vlln", {}).get("delta_l2", 1.0)) == 0.0,
@@ -652,10 +688,6 @@ def _close_recovery_segment(
     if first_gradient is None or not first_gradient.get("gradient_finite") or not all(update_integrity.values()):
         raise PI0244Error("recovery gradient/update or frozen-parameter integrity failed")
 
-    target = training_root / f"checkpoint-{stop_step}"
-    state = json.loads((target / "trainer_state.json").read_text(encoding="utf-8"))
-    if int(state.get("global_step", -1)) != stop_step or int(state.get("max_steps", -1)) != MAX_STEPS or not _boundary_checkpoint_complete(training_root, stop_step):
-        raise PI0244Error("recovery boundary checkpoint is incomplete or has the wrong Trainer state")
     checkpoint = legacy.checkpoint_record(target, stop_step)
     result = {
         "schema": "PI0244_R0_RECOVERY_SEGMENT_V1",
@@ -674,6 +706,11 @@ def _close_recovery_segment(
         "contracts_sha256": sha256_file(contracts_path),
         "update_audit_sha256": sha256_file(audit_path),
         "update_integrity": update_integrity,
+        "projector_update_evidence": {
+            "comparison": f"checkpoint-{resume_step} to checkpoint-{stop_step}",
+            "checkpoint_parameter": projector_checkpoint_delta,
+            "audit_first_4096_probe": final_parameters.get("projector"),
+        },
         "first_gradient": first_gradient,
         "checkpoint_tree_sha256": checkpoint["tree_sha256"],
         "checkpoint_bytes": checkpoint["total_bytes"],
@@ -1313,6 +1350,25 @@ def self_test() -> None:
         pass
     else:
         raise AssertionError("schedule ordinal drift was not rejected")
+    with tempfile.TemporaryDirectory(prefix="pi0244-parameter-delta-") as temporary:
+        import numpy as np
+        from safetensors.numpy import save_file
+
+        root = Path(temporary)
+        name = "action_head.state_encoder.layer1.W"
+        before, after = root / "checkpoint-5000", root / "checkpoint-7500"
+        before.mkdir()
+        after.mkdir()
+        initial = np.zeros((2, 4096), dtype=np.float32)
+        updated = initial.copy()
+        updated.reshape(-1)[5000] = 1.0
+        for checkpoint, tensor in ((before, initial), (after, updated)):
+            save_file({name: tensor}, str(checkpoint / "model.safetensors"))
+            (checkpoint / "model.safetensors.index.json").write_text(
+                json.dumps({"weight_map": {name: "model.safetensors"}}), encoding="utf-8"
+            )
+        delta = _checkpoint_parameter_delta(before, after, name)
+        assert delta["delta_l2"] == 1.0 and delta["changed_values"] == 1
     with tempfile.TemporaryDirectory(prefix="pi0244-screen-") as temporary:
         import numpy as np
 
