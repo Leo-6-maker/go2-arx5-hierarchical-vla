@@ -127,6 +127,8 @@ def audit_screen_contract(card: dict[str, Any], root: Path) -> dict[str, Any]:
     code_root = Path(card["paths"]["code_root"])
     stage10_root = Path(card["paths"]["stage10_root"])
     sys.path[:0] = [str(code_root / "scripts"), str(code_root / "src"), str(stage10_root / "src" / "isaac-gr00t")]
+    legacy = load_module(code_root / "scripts" / "pi0241_fixed16_learning.py", "pi0243_cpu_legacy")
+    legacy.bind_runtime(card)
     stage21 = load_module(code_root / "scripts" / "stage21_same_scene_groot_inference.py", "pi0243_cpu_stage21")
     processor, embodiment = stage21._build_processor(
         stage10_root,
