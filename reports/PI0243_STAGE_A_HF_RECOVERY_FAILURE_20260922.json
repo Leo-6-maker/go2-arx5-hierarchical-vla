@@ -1,0 +1,15 @@
+{
+  "schema": "PI0243_STAGE_A_HF_RECOVERY_FAILURE_V1",
+  "status": "ENGINEERING_RUNTIME_COMPATIBILITY_FAILURE",
+  "training_job": "627454.hopper-m-02",
+  "training_steps": 5000,
+  "science_activity": {
+    "additional_training": 0,
+    "WBC": 0,
+    "sim": 0
+  },
+  "failure": "sealed runtime huggingface_hub exposes EntryNotFoundError, while archive helper imported RemoteEntryNotFoundError",
+  "repair": "fallback import to EntryNotFoundError; no archive or scientific contract change",
+  "affected_operation": "HF public checkpoint recovery for existing checkpoint-1000/2500/5000",
+  "selected_checkpoint": "NONE"
+}

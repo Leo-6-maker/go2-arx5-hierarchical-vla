@@ -13,7 +13,10 @@ from pi0243_checkpoint_persistence import inventory
 
 
 def remote_inventory(api, repo_id: str, prefix: str) -> list[dict]:
-    from huggingface_hub.errors import RemoteEntryNotFoundError
+    try:
+        from huggingface_hub.errors import RemoteEntryNotFoundError
+    except ImportError:  # sealed runtime uses the older public exception name
+        from huggingface_hub.errors import EntryNotFoundError as RemoteEntryNotFoundError
 
     result = []
     try:
