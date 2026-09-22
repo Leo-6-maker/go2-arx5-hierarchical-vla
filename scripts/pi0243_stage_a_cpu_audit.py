@@ -48,6 +48,52 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+def _parameter_group(name: str) -> str:
+    if any(token in name for token in ("action_head.state_encoder", "action_head.action_encoder", "action_head.action_decoder", "action_head.position_embedding")):
+        return "projector"
+    if "action_head.model" in name:
+        return "diffusion"
+    if "action_head.vlln" in name or "action_head.vl_self_attention" in name:
+        return "frozen_vlln"
+    if "backbone" in name:
+        return "frozen_backbone"
+    return "other"
+
+
+def full_parameter_update(initializer: Path, checkpoint: Path) -> dict[str, dict[str, Any]]:
+    """Compare sealed model shards without constructing or running a model."""
+
+    from safetensors import safe_open
+    import torch
+
+    groups = {
+        name: {"tensors": 0, "nonzero": 0, "sum_sq": 0.0, "max_l2": 0.0}
+        for name in ("projector", "diffusion", "frozen_vlln", "frozen_backbone", "other")
+    }
+    final_shards = sorted(checkpoint.glob("model-*.safetensors"))
+    if not final_shards:
+        raise RuntimeError(f"missing model shards: {checkpoint}")
+    for final_shard in final_shards:
+        initial_shard = initializer / final_shard.name
+        if not initial_shard.is_file():
+            raise RuntimeError(f"initializer shard missing: {initial_shard}")
+        with safe_open(str(final_shard), framework="pt", device="cpu") as final_file:
+            with safe_open(str(initial_shard), framework="pt", device="cpu") as initial_file:
+                if set(final_file.keys()) != set(initial_file.keys()):
+                    raise RuntimeError(f"model shard key mismatch: {final_shard.name}")
+                for name in final_file.keys():
+                    group = groups[_parameter_group(name)]
+                    delta = (final_file.get_tensor(name).float() - initial_file.get_tensor(name).float()).reshape(-1)
+                    l2 = float(torch.linalg.vector_norm(delta).item())
+                    group["tensors"] += 1
+                    group["nonzero"] += int(l2 > 0.0)
+                    group["sum_sq"] += float(torch.sum(delta * delta).item())
+                    group["max_l2"] = max(group["max_l2"], l2)
+    for group in groups.values():
+        group["full_group_l2"] = float(group.pop("sum_sq") ** 0.5)
+    return groups
+
+
 def finalize_training(card: dict[str, Any], root: Path) -> dict[str, Any]:
     training = root / "training"
     schedule = read_json(root / "stage_exposure_schedule.json")["rows"]
@@ -88,11 +134,15 @@ def finalize_training(card: dict[str, Any], root: Path) -> dict[str, Any]:
     if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != 5000:
         raise RuntimeError("update audit is not complete at step 5000")
     final = audit.get("final_parameters", {})
+    full_update = full_parameter_update(
+        Path(card["paths"]["initializer"]),
+        training / "checkpoint-5000",
+    )
     update_integrity = {
-        "projector_updated": float(final.get("projector", {}).get("delta_l2", 0.0)) > 0.0,
-        "diffusion_updated": float(final.get("diffusion", {}).get("delta_l2", 0.0)) > 0.0,
-        "frozen_backbone_unchanged": float(final.get("frozen_backbone", {}).get("delta_l2", 1.0)) == 0.0,
-        "frozen_vlln_unchanged": float(final.get("frozen_vlln", {}).get("delta_l2", 1.0)) == 0.0,
+        "projector_updated": full_update["projector"]["nonzero"] > 0,
+        "diffusion_updated": full_update["diffusion"]["nonzero"] > 0,
+        "frozen_backbone_unchanged": full_update["frozen_backbone"]["nonzero"] == 0,
+        "frozen_vlln_unchanged": full_update["frozen_vlln"]["nonzero"] == 0,
         "optimizer_membership_valid": not audit.get("optimizer_membership", {}).get("missing_trainable")
         and not audit.get("optimizer_membership", {}).get("illegal_frozen"),
     }
@@ -107,6 +157,8 @@ def finalize_training(card: dict[str, Any], root: Path) -> dict[str, Any]:
         "schedule_sha256": card["schedule"]["sha256"],
         "config": card["resolved_config"],
         "update_integrity": update_integrity,
+        "full_parameter_update": full_update,
+        "representative_update_audit": final,
         "checkpoints": checkpoints,
         "durable_receipts": receipts,
         "storage": storage,
