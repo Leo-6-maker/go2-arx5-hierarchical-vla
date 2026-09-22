@@ -29,9 +29,11 @@
     "sim": 0
   },
   "retain_all_same_fileset_preflight": {
-    "status": "IN_PROGRESS",
+    "status": "CAPACITY_NOT_PROVEN",
     "label": "retain_all_after_hf_cleanup_20260922_localhost",
-    "planned_combined_bound_bytes": 179650560903
+    "planned_combined_bound_bytes": 179650560903,
+    "error": "Errno 122 Disk quota exceeded",
+    "interpretation": "local retain-all durable copy is not admissible; HF public archive remains the durable path"
   },
   "selected_checkpoint": "NONE",
   "next_action": "complete same-fileset retain-all proof; then bind Stage A run card and use the mature callback"

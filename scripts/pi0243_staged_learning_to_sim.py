@@ -293,13 +293,28 @@ def make_card(args: argparse.Namespace) -> None:
         "selected_checkpoint": "NONE",
         "forbidden_counts": {"calib_queries": 0, "wbc_steps": 0, "sim_steps": 0, "dev_e_reads": 0, "final_f_reads": 0, "dagger_steps": 0},
     }
+    if args.durable_root and args.hf_repo_id:
+        raise PI0243Error("choose local durable storage or HF public storage, not both")
     if args.durable_root:
         card_seed["storage"] = {
+            "kind": "local",
             "durable_host": args.durable_host,
             "durable_root": str(args.durable_root.resolve()),
             "checkpoint_family": "PI0243_STAGE_A_V1",
             "layout": "retain_all",
             "hf_status": "HF_REMOTE_COPY_PENDING",
+        }
+    elif args.hf_repo_id:
+        if args.hf_token_file is None or args.hf_path_prefix is None:
+            raise PI0243Error("HF storage requires token file and path prefix")
+        card_seed["storage"] = {
+            "kind": "huggingface_public",
+            "repo_id": args.hf_repo_id,
+            "token_file": str(args.hf_token_file.resolve()),
+            "path_prefix": args.hf_path_prefix,
+            "checkpoint_family": "PI0243_STAGE_A_V1",
+            "layout": "retain_all_local_hf_durable",
+            "hf_status": "HF_WRITE_VERIFIED",
         }
     card = dict(card_seed)
     _, config_summary = resolved_config(card, args.output_root / "training", legacy, pi0228)
@@ -378,8 +393,13 @@ def train_stage(args: argparse.Namespace) -> None:
     for step in card["stage"]["checkpoints"]:
         checkpoints[str(step)] = pi0228.checkpoint_record(output / f"checkpoint-{step}", int(step), int(card["stage"]["max_steps"]))
     storage = card.get("storage")
-    if not isinstance(storage, Mapping) or not storage.get("durable_root"):
+    if not isinstance(storage, Mapping) or not storage.get("checkpoint_family"):
         raise PI0243Error("storage admission binding is missing")
+    if storage.get("kind") == "huggingface_public":
+        if os.environ.get("PI0243_HF_REPO_ID") != storage.get("repo_id") or os.environ.get("PI0243_HF_PATH_PREFIX") != storage.get("path_prefix"):
+            raise PI0243Error("HF storage binding differs from sealed run card")
+    elif not storage.get("durable_root"):
+        raise PI0243Error("local storage binding is missing durable root")
     from pi0243_checkpoint_persistence import verify_receipt
 
     durable_receipts = {}
@@ -640,6 +660,9 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--output-root", type=Path)
     p.add_argument("--durable-host")
     p.add_argument("--durable-root", type=Path)
+    p.add_argument("--hf-repo-id")
+    p.add_argument("--hf-token-file", type=Path)
+    p.add_argument("--hf-path-prefix")
     p.add_argument("--device", default="cuda:0")
     return p
 

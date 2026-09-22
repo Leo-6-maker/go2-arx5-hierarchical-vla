@@ -20,8 +20,6 @@ set -euo pipefail
 : "${PI0243_OUTPUT_MIRROR_ROOT:?set PI0243_OUTPUT_MIRROR_ROOT}"
 : "${PI0243_ARCHIVE_HOST:?set PI0243_ARCHIVE_HOST}"
 : "${PI0243_ARCHIVE_ROOT:?set PI0243_ARCHIVE_ROOT}"
-: "${PI0243_DURABLE_HOST:?set PI0243_DURABLE_HOST}"
-: "${PI0243_DURABLE_ROOT:?set PI0243_DURABLE_ROOT}"
 : "${PI0243_CHECKPOINT_FAMILY:?set PI0243_CHECKPOINT_FAMILY}"
 : "${PI0243_PHASE:?set PI0243_PHASE}"
 : "${PI0243_STAGE:?set PI0243_STAGE}"
@@ -41,7 +39,16 @@ test -r "${PI0243_METADATA_MIRROR_ROOT}/stage_cohort.json" || { echo "FAIL_CLOSE
 test -r "${PI0243_METADATA_MIRROR_ROOT}/stage_exposure_schedule.json" || { echo "FAIL_CLOSED: mirrored schedule is not readable" >&2; exit 2; }
 mkdir -p "${PI0243_OUTPUT_MIRROR_ROOT}"
 test -w "${PI0243_OUTPUT_MIRROR_ROOT}" || { echo "FAIL_CLOSED: compute output mirror is not writable: ${PI0243_OUTPUT_MIRROR_ROOT}" >&2; exit 2; }
-test -n "${PI0243_DURABLE_ROOT}" || { echo "FAIL_CLOSED: durable root is empty" >&2; exit 2; }
+if [[ -n "${PI0243_HF_REPO_ID:-}" ]]; then
+  : "${PI0243_HF_TOKEN_FILE:?set PI0243_HF_TOKEN_FILE}"
+  : "${PI0243_HF_PATH_PREFIX:?set PI0243_HF_PATH_PREFIX}"
+  test -r "${PI0243_HF_TOKEN_FILE}" || { echo "FAIL_CLOSED: HF token file is unreadable" >&2; exit 2; }
+  unset PI0243_DURABLE_HOST PI0243_DURABLE_ROOT
+else
+  : "${PI0243_DURABLE_HOST:?set PI0243_DURABLE_HOST}"
+  : "${PI0243_DURABLE_ROOT:?set PI0243_DURABLE_ROOT}"
+  test -n "${PI0243_DURABLE_ROOT}" || { echo "FAIL_CLOSED: durable root is empty" >&2; exit 2; }
+fi
 
 ambient_ld="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="${PI0243_FFMPEG_RUNTIME_ROOT}/lib:${PI0243_FFMPEG_RUNTIME_ROOT}/compat:${PI0243_TORCHCODEC_PACKAGE_ROOT}:${PI0243_TORCH_LIBRARY_ROOT}:${ambient_ld}"
@@ -66,14 +73,45 @@ archive_output() {
   # sole checkpoint durability mechanism.
   rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "${source_root}/" "${destination}"
 }
+start_hf_sidecar() {
+  if [[ -z "${PI0243_HF_REPO_ID:-}" ]]; then
+    return 0
+  fi
+  HF_SIDECAR_LOG="${PI0243_OUTPUT_MIRROR_ROOT}/hf_checkpoint_sidecar.log"
+  HF_SIDECAR_STATE="${PI0243_OUTPUT_MIRROR_ROOT}/hf_checkpoint_sidecar.jsonl"
+  "${PI0243_HF_PUBLISHER_PYTHON:-/usr/bin/python3}" -u scripts/pi0243_hf_checkpoint_sidecar.py \
+    --output-root "${PI0243_OUTPUT_MIRROR_ROOT}" \
+    --repo-id "${PI0243_HF_REPO_ID}" \
+    --token-file "${PI0243_HF_TOKEN_FILE}" \
+    --path-prefix "${PI0243_HF_PATH_PREFIX}" \
+    --max-steps "${PI0243_MAX_STEPS:-5000}" \
+    --steps ${PI0243_CHECKPOINT_STEPS:-1000 2500 5000} \
+    --state-path "${HF_SIDECAR_STATE}" >"${HF_SIDECAR_LOG}" 2>&1 &
+  HF_SIDECAR_PID=$!
+}
+wait_hf_sidecar() {
+  if [[ -z "${HF_SIDECAR_PID:-}" ]]; then
+    return 0
+  fi
+  wait "${HF_SIDECAR_PID}"
+}
 case "${PI0243_PHASE}" in
   train)
+    start_hf_sidecar
     set +e
     "${PI0243_PYTHON}" -u scripts/pi0243_staged_learning_to_sim.py \
       --phase train --stage "${PI0243_STAGE}" --run-card "${PI0243_RUN_CARD}" \
       --authorization "${PI0243_AUTHORIZATION:?set PI0243_AUTHORIZATION}"
     run_status=$?
     set -e
+    if [[ "${run_status}" -eq 0 ]]; then
+      wait_hf_sidecar || run_status=$?
+    else
+      if [[ -n "${HF_SIDECAR_PID:-}" ]]; then
+        kill "${HF_SIDECAR_PID}" 2>/dev/null || true
+        wait "${HF_SIDECAR_PID}" 2>/dev/null || true
+      fi
+    fi
     archive_output || { echo "FAIL_CLOSED: output archive failed" >&2; exit 3; }
     exit "${run_status}"
     ;;
