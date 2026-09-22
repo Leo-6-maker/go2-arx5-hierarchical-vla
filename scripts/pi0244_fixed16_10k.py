@@ -103,7 +103,8 @@ def validate_schedule_rows(current: list[Mapping[str, Any]], parent: list[Mappin
     return {"length": len(current), "prefix_steps": PREFIX_STEPS, "source_counts": dict(sorted(counts.items()))}
 
 
-def _read_rows(path: Path) -> list[dict[str, Any]]:
+def _read_rows(path: Path | str) -> list[dict[str, Any]]:
+    path = Path(path)
     payload = json.loads(path.read_text(encoding="utf-8"))
     rows = payload.get("rows")
     if not isinstance(rows, list):
