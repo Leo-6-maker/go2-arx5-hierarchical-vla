@@ -1,0 +1,39 @@
+{
+  "schema": "PI0243_STAGE_A_HF_ARCHIVE_RECOVERY_CLOSURE_V1",
+  "status": "DURABLE_VERIFIED",
+  "training_job": "627454.hopper-m-02",
+  "training_status": "5000/5000_COMPLETE",
+  "archive_runtime": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+  "repo_id": "leoyuer/pi0243-stage-a-admitted-v1",
+  "path_prefix": "pi0243-stage-a-hf-20260922-retry1",
+  "checkpoints": [
+    {
+      "step": 1000,
+      "status": "DURABLE_VERIFIED",
+      "total_bytes": 20889599778,
+      "tree_sha256": "fbc0131175b72bfe8cd30647962c71de7e490ee39792f39ecbf717836f322101",
+      "manifest_commit_id": "814ec7989805adffe153d27cea019c078a55c28f"
+    },
+    {
+      "step": 2500,
+      "status": "DURABLE_VERIFIED",
+      "total_bytes": 20889807848,
+      "tree_sha256": "b0cbe2a53c41eae999a701cf5d3e986c283e518765dac66c24b60a904aa48ee8",
+      "manifest_commit_id": "bbeaac695145c5b01faf8c40e12860292eda4b9e"
+    },
+    {
+      "step": 5000,
+      "status": "DURABLE_VERIFIED",
+      "total_bytes": 20890156805,
+      "tree_sha256": "e2da0e2460f003a4a178e36a05cb80394ca55a4748413eff334e414a0ffc6393",
+      "manifest_commit_id": "2b078bba96e121eaa1b8fdaf4c94c2a5b41db71c"
+    }
+  ],
+  "receipt_root": "/scratch/e1192548/pi0243_stage_a_hf_20260922_retry1/durable_receipts",
+  "science_counters": {
+    "additional_training": 0,
+    "WBC": 0,
+    "sim": 0,
+    "selected_checkpoint": "NONE"
+  }
+}
