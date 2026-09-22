@@ -88,6 +88,48 @@ case "${PI0244_PHASE:-train}" in
     archive_output || { echo "FAIL_CLOSED: output archive failed" >&2; exit 3; }
     exit "${run_status}"
     ;;
+  recover)
+    : "${PI0244_PLAN:?set sealed recovery plan path}"
+    : "${PI0244_RESUME_STEP:?set exact recovery source step}"
+    : "${PI0244_STOP_STEP:?set exact recovery stop step}"
+    case "${PI0244_RESUME_STEP}:${PI0244_STOP_STEP}" in
+      5000:7500|7500:10000) ;;
+      *) echo "FAIL_CLOSED: unauthorized recovery segment ${PI0244_RESUME_STEP}:${PI0244_STOP_STEP}" >&2; exit 2 ;;
+    esac
+    test -r "${PI0244_PLAN}"
+    safe_job_id="$(printf '%s' "${PBS_JOBID}" | tr -c 'A-Za-z0-9_.-' '_')"
+    sidecar_root="${PI0243_OUTPUT_MIRROR_ROOT}/recovery_sidecars"
+    mkdir -p "${sidecar_root}"
+    sidecar_log="${sidecar_root}/${PI0243_OUTPUT_MIRROR_ROOT##*/}-${PI0244_RESUME_STEP}-to-${PI0244_STOP_STEP}-${safe_job_id}.log"
+    sidecar_state="${sidecar_root}/${PI0244_RESUME_STEP}-to-${PI0244_STOP_STEP}-${safe_job_id}.jsonl"
+    "${PI0243_PUBLISHER_PYTHON:-${PI0243_STAGE10_ROOT}/runtime/venv/bin/python}" -u scripts/pi0243_hf_checkpoint_sidecar.py \
+      --output-root "${PI0243_OUTPUT_MIRROR_ROOT}" \
+      --repo-id "${PI0243_HF_REPO_ID}" \
+      --token-file "${PI0243_HF_TOKEN_FILE}" \
+      --path-prefix "${PI0243_HF_PATH_PREFIX}" \
+      --family "PI0244_M16_10K_V1" \
+      --max-steps 10000 --steps "${PI0244_STOP_STEP}" --state-path "${sidecar_state}" >"${sidecar_log}" 2>&1 &
+    HF_SIDECAR_PID=$!
+    set +e
+    "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase recover --run-card "${PI0243_RUN_CARD}" --plan "${PI0244_PLAN}"
+    run_status=$?
+    set -e
+    if [[ "${run_status}" -eq 0 ]]; then
+      wait "${HF_SIDECAR_PID}" || run_status=$?
+    else
+      kill "${HF_SIDECAR_PID}" 2>/dev/null || true
+      wait "${HF_SIDECAR_PID}" 2>/dev/null || true
+    fi
+    if [[ "${run_status}" -eq 0 ]]; then
+      set +e
+      "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase verify-recovery --run-card "${PI0243_RUN_CARD}" --plan "${PI0244_PLAN}" --job-id "${PBS_JOBID}"
+      verify_status=$?
+      set -e
+      [[ "${verify_status}" -eq 0 ]] || run_status="${verify_status}"
+    fi
+    archive_output || { echo "FAIL_CLOSED: output archive failed" >&2; exit 3; }
+    exit "${run_status}"
+    ;;
   screen)
     set +e
     "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase screen --run-card "${PI0243_RUN_CARD}" --device "${PI0243_DEVICE:-cuda:0}"

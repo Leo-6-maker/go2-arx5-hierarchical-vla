@@ -543,14 +543,27 @@ def bind_runtime(card: Mapping[str, Any]) -> dict[str, Any]:
     return {"offline": True, "cosmos": cosmos, "torchcodec": True}
 
 
-def install_fixed_dataset_factory(card: Mapping[str, Any], training_output: Path) -> None:
+def fixed_schedule_suffix(schedule: list[Mapping[str, Any]], resume_after_step: int) -> list[Mapping[str, Any]]:
+    if not isinstance(resume_after_step, int) or not 0 <= resume_after_step < len(schedule):
+        raise PI0241Error(f"resume cursor outside fixed schedule: {resume_after_step}")
+    for ordinal, row in enumerate(schedule, start=1):
+        if int(row.get("optimizer_step", -1)) != ordinal:
+            raise PI0241Error(f"fixed schedule ordinal drift at step {ordinal}")
+    return schedule[resume_after_step:]
+
+
+def install_fixed_dataset_factory(
+    card: Mapping[str, Any], training_output: Path, *, resume_after_step: int = 0
+) -> None:
     from gr00t.data.dataset.sharded_mixture_dataset import ShardedMixtureDataset
     from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepDataset
     from gr00t.data.embodiment_tags import EmbodimentTag
     from gr00t.model.gr00t_n1d7 import setup as gr00t_setup
 
     selected = read_json(Path(card["cohort"]["path"]))["rows"]
-    schedule = read_json(Path(card["schedule"]["path"]))["rows"]
+    schedule = fixed_schedule_suffix(
+        read_json(Path(card["schedule"]["path"]))["rows"], resume_after_step
+    )
     consumption_path = training_output / "pi0241_sample_consumption.jsonl"
     contract_path = training_output / "pi0241_sample_contracts.jsonl"
 
@@ -561,7 +574,7 @@ def install_fixed_dataset_factory(card: Mapping[str, Any], training_output: Path
             self._pi0241_started = True
             dataset = self.datasets[0]
             audited: set[int] = set()
-            for ordinal, planned in enumerate(schedule, start=1):
+            for ordinal, planned in enumerate(schedule, start=resume_after_step + 1):
                 if int(planned["optimizer_step"]) != ordinal:
                     raise PI0241Error("fixed1000 schedule ordinal drift")
                 fixed = selected[int(planned["fixed_index"])]
@@ -598,8 +611,11 @@ def install_fixed_dataset_factory(card: Mapping[str, Any], training_output: Path
                 yield datapoint
 
         def reset_seed(self, seed: int):
-            if int(seed) != SEED:
-                raise PI0241Error("PI0241 does not authorize shifted-seed resume")
+            expected_seed = SEED + resume_after_step
+            if int(seed) != expected_seed:
+                raise PI0241Error(
+                    f"unexpected fixed-schedule resume seed {seed}; expected {expected_seed}"
+                )
             self.seed = int(seed)
 
     class FixedDatasetFactory:
@@ -648,14 +664,30 @@ def _parameter_group(name: str) -> str:
     return "other"
 
 
-def install_update_audit(training_output: Path) -> None:
+def install_update_audit(
+    training_output: Path,
+    *,
+    audit_steps: set[int] | None = None,
+    expected_end_step: int = MAX_STEPS,
+    stop_after_step: int | None = None,
+    checkpoint_output: Path | None = None,
+) -> None:
     import torch
     from transformers import TrainerCallback
     from gr00t.experiment import experiment as experiment_module
 
     base_trainer = experiment_module.Gr00tTrainer
     audit_path = training_output / "pi0241_update_audit.json"
-    audit_steps = set(range(1, 13)) | {32, 250, 500, 1000}
+    audit_steps = (
+        set(range(1, 13)) | {32, 250, 500, 1000}
+        if audit_steps is None
+        else {int(step) for step in audit_steps}
+    )
+    if any(step < 1 for step in audit_steps):
+        raise PI0241Error("update audit steps must be positive")
+    if expected_end_step < 1 or (stop_after_step is not None and not 1 <= stop_after_step <= expected_end_step):
+        raise PI0241Error("invalid update-audit segment boundary")
+    checkpoint_root = checkpoint_output or training_output
 
     class UpdateAudit(TrainerCallback):
         def __init__(self, model: Any):
@@ -775,6 +807,8 @@ def install_update_audit(training_output: Path) -> None:
             # non-uniform checkpoint steps.  Override the Trainer default so
             # only the sealed checkpoint set is written.
             control.should_save = step in CHECKPOINT_STEPS
+            if stop_after_step is not None and step >= stop_after_step:
+                control.should_training_stop = True
             return control
 
         def on_save(self, args, state, control, **kwargs):
@@ -787,21 +821,22 @@ def install_update_audit(training_output: Path) -> None:
             from pi0243_checkpoint_persistence import publish_checkpoint
 
             receipt = publish_checkpoint(
-                training_output / f"checkpoint-{step}",
+                checkpoint_root / f"checkpoint-{step}",
                 durable_host=os.environ.get("PI0243_DURABLE_HOST") or None,
                 durable_root=Path(durable_root),
                 expected_step=step,
                 expected_max_steps=int(getattr(args, "max_steps", MAX_STEPS)),
                 family=os.environ.get("PI0243_CHECKPOINT_FAMILY", "PI0243_STAGE_A_V1"),
-                receipt_root=training_output.parent / "durable_receipts",
+                receipt_root=checkpoint_root.parent / "durable_receipts",
                 job_id=os.environ.get("PBS_JOBID", "local"),
             )
             self.report["checkpoint_receipts"].append(receipt)
             self.flush()
 
         def on_train_end(self, args, state, control, **kwargs):
-            self.report["status"] = "COMPLETE"
             self.report["global_step"] = int(state.global_step)
+            self.report["expected_end_step"] = int(expected_end_step)
+            self.report["status"] = "COMPLETE" if int(state.global_step) == expected_end_step else "INCOMPLETE"
             self.report["final_parameters"] = {
                 group: self.snapshot(name) for group, name in self.representatives.items()
             }
