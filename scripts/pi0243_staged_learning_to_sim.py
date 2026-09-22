@@ -261,6 +261,7 @@ def make_card(args: argparse.Namespace) -> None:
     }
     rows, cohort_sha = source_rows(paths, spec["view"], legacy)
     schedule = exposure_schedule(rows, int(spec["max_steps"]))
+    checkpoint_family = "PI0243_STAGE_A_V1" if spec["stage"] == "A" else f"PI0243_STAGE_{spec['stage']}_V1"
     cohort_file = args.output_root / "stage_cohort.json"
     schedule_file = args.output_root / "stage_exposure_schedule.json"
     write_json(cohort_file, {"schema": "PI0243_STAGE_COHORT_V1", "view": spec["view"], "rows": rows})
@@ -300,7 +301,7 @@ def make_card(args: argparse.Namespace) -> None:
             "kind": "local",
             "durable_host": args.durable_host,
             "durable_root": str(args.durable_root.resolve()),
-            "checkpoint_family": "PI0243_STAGE_A_V1",
+            "checkpoint_family": checkpoint_family,
             "layout": "retain_all",
             "hf_status": "HF_REMOTE_COPY_PENDING",
         }
@@ -312,7 +313,7 @@ def make_card(args: argparse.Namespace) -> None:
             "repo_id": args.hf_repo_id,
             "token_file": str(args.hf_token_file.resolve()),
             "path_prefix": args.hf_path_prefix,
-            "checkpoint_family": "PI0243_STAGE_A_V1",
+            "checkpoint_family": checkpoint_family,
             "layout": "retain_all_local_hf_durable",
             "hf_status": "HF_WRITE_VERIFIED",
         }
