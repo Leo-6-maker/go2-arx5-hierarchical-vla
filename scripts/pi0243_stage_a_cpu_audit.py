@@ -11,7 +11,6 @@ import json
 import os
 import sys
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any
 
 import numpy as np
@@ -137,15 +136,9 @@ def audit_screen_contract(card: dict[str, Any], root: Path) -> dict[str, Any]:
         Path(card["paths"]["modality_config"]),
     )
     pi0228 = load_module(code_root / "scripts" / "pi0228_h200_large_adapt_v1.py", "pi0243_cpu_pi0228")
-    helper = SimpleNamespace(
-        stage10_root=stage10_root,
-        base_model_path=Path(card["paths"]["initializer"]),
-        dataset_dir=Path(card["paths"]["train_dataset"]),
-        modality_config=Path(card["paths"]["modality_config"]),
-        groot_source=Path(card["paths"]["groot_source"]),
-    )
-    config = pi0228.build_config(helper, root / "cpu_contract_cfg", steps=5000, save_steps=250, save_limit=5)
-    if pi0228.config_summary(config) != card["resolved_config"]:
+    stage = load_module(code_root / "scripts" / "pi0243_staged_learning_to_sim.py", "pi0243_cpu_stage")
+    config, resolved = stage.resolved_config(card, root / "cpu_contract_cfg", legacy, pi0228)
+    if resolved != card["resolved_config"]:
         raise RuntimeError("training config summary differs from sealed card")
 
     from gr00t.data.embodiment_tags import EmbodimentTag
