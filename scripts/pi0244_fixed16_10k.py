@@ -1092,6 +1092,14 @@ def _screen_closeout(root: Path, expected: Mapping[str, int]) -> dict[str, Any]:
     }
 
 
+def _remove_hf_download_cache(restore_root: Path) -> None:
+    cache = restore_root / ".cache"
+    if cache.is_symlink():
+        raise PI0244Error(f"refusing to remove checkpoint restore cache symlink: {cache}")
+    if cache.is_dir():
+        shutil.rmtree(cache)
+
+
 def _restore_full_checkpoint(base: Any, card: Mapping[str, Any], root: Path, step: int) -> tuple[Path, bool]:
     training_root = root / "training"
     local = training_root / f"checkpoint-{step}"
@@ -1167,9 +1175,7 @@ def _restore_full_checkpoint(base: Any, card: Mapping[str, Any], root: Path, ste
                         os.replace(candidate, destination)
                     except OSError:
                         shutil.copyfile(candidate, destination)
-        for child in list(temporary.iterdir()):
-            if child.is_dir():
-                shutil.rmtree(child)
+        _remove_hf_download_cache(temporary)
         record = legacy.checkpoint_record(temporary, step)
         restored_entries = [{key: entry[key] for key in ("path", "bytes", "sha256")} for entry in record["entries"]]
         source_entries = [{key: entry[key] for key in ("path", "bytes", "sha256")} for entry in inventory]
@@ -1325,6 +1331,16 @@ def self_test() -> None:
             os.environ.pop("HF_HUB_OFFLINE", None)
         else:
             os.environ["HF_HUB_OFFLINE"] = prior_hf_env
+    with tempfile.TemporaryDirectory(prefix="pi0244-restore-cleanup-") as temporary:
+        root = Path(temporary)
+        (root / ".cache" / "huggingface" / "download").mkdir(parents=True)
+        (root / ".cache" / "huggingface" / "download" / "lock").write_text("cache", encoding="utf-8")
+        (root / "experiment_cfg").mkdir()
+        protected = root / "experiment_cfg" / "keep.yaml"
+        protected.write_text("checkpoint metadata", encoding="utf-8")
+        _remove_hf_download_cache(root)
+        assert not (root / ".cache").exists()
+        assert protected.read_text(encoding="utf-8") == "checkpoint metadata"
     current = [{"source_episode_id": f"s{i % 16}"} for i in range(10000)]
     parent = current[:5000]
     result = validate_schedule_rows(current, parent)
