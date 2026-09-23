@@ -232,6 +232,31 @@ def recover(run_card_path: Path, pbs_stdout: Path) -> dict[str, Any]:
     return {"reconciliation": recovery, "manifest_sha256": sha256_file(manifest_path), "closure_sha256": sha256_file(closure_path), "status": closure["status"]}
 
 
+def audit_parameters(run_card_path: Path) -> dict[str, Any]:
+    card_hint = read_json(run_card_path)
+    runner = load_runner(Path(card_hint["r2_implementation"]["runner_path"]))
+    base, card = runner.verify_card(run_card_path)
+    audit_module = base.load_module(
+        Path(card["paths"]["code_root"]) / "scripts" / "pi0243_stage_a_cpu_audit.py",
+        "pi0244_r2_full_parameter_audit",
+    )
+    output = audit_module.full_parameter_update(
+        Path(card["paths"]["initializer"]),
+        Path(card["paths"]["output_root"]) / "training" / f"checkpoint-{card['stage']['max_steps']}",
+    )
+    return {
+        "schema": "PI0244_R2_CPU_FULL_PARAMETER_DELTA_AUDIT_V1",
+        "status": "COMPLETE",
+        "checkpoint_step": int(card["stage"]["max_steps"]),
+        "initializer_role": card["initializer"]["role"],
+        "run_card_sha256": sha256_file(run_card_path),
+        "model_weights_constructed": False,
+        "model_forwards": 0,
+        "backward_optimizer_scheduler_steps": 0,
+        "groups": output,
+    }
+
+
 def self_test() -> None:
     accepted = reconcile_audit({"status": "INCOMPLETE", "global_step": 10000, "expected_end_step": 1000}, 10000, 1000)
     assert accepted["kind"] == "stale_import_time_default_reconciled"
@@ -251,11 +276,17 @@ def self_test() -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--parameter-audit-only", action="store_true")
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--pbs-stdout", type=Path)
     args = parser.parse_args()
     if args.self_test:
         self_test()
+        return 0
+    if args.parameter_audit_only:
+        if args.run_card is None:
+            parser.error("--run-card is required for --parameter-audit-only")
+        print(json.dumps(audit_parameters(args.run_card), indent=2, sort_keys=True))
         return 0
     if args.run_card is None or args.pbs_stdout is None:
         parser.error("--run-card and --pbs-stdout are required")
