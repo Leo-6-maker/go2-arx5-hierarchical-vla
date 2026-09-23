@@ -185,12 +185,12 @@ def validate_projector_evidence(
     }
 
 
-def load_runner(path: Path) -> Any:
-    spec = importlib.util.spec_from_file_location("pi0244_r2_recovery_runner", path)
+def load_runner(path: Path, name: str = "pi0244_r2_recovery_runner") -> Any:
+    spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import sealed R2 runner: {path}")
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
+    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -252,7 +252,12 @@ def recover(run_card_path: Path, pbs_stdout: Path, projector_evidence_path: Path
         if row.get("action_shape") != [1, 40, 132] or row.get("mask_shape") != [1, 40, 132] or row.get("active_slots") != list(range(10)):
             raise RuntimeError(f"sample action/mask contract mismatch: {row.get('source_episode_id')}")
 
-    from pi0243_checkpoint_persistence import verify_receipt, write_json_durable
+    persistence = load_runner(
+        Path(card["paths"]["code_root"]) / "scripts" / "pi0243_checkpoint_persistence.py",
+        "pi0243_checkpoint_persistence_r2_recovery",
+    )
+    verify_receipt = persistence.verify_receipt
+    write_json_durable = persistence.write_json_durable
 
     checkpoints: dict[str, dict[str, Any]] = {}
     receipts: dict[str, dict[str, Any]] = {}
