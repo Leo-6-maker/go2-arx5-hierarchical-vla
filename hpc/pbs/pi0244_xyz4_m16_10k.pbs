@@ -2,6 +2,7 @@
 # PI0244 R2/XYZ4: reuse the sealed Stage28/PI0243 trainer, with a thin loss adapter.
 #PBS -N pi0244x_xyz4_m16_10k
 #PBS -P CFP03-CF-004
+#PBS -W group_list=HPC_Users_3104
 #PBS -q auto
 #PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
 #PBS -l walltime=48:00:00
@@ -34,7 +35,14 @@ test -d "$PI0243_FFMPEG_RUNTIME_ROOT/lib"
 test -d "$PI0243_FFMPEG_RUNTIME_ROOT/compat"
 test -d "$PI0243_TORCHCODEC_PACKAGE_ROOT"
 test -d "$PI0243_TORCH_LIBRARY_ROOT"
-test -r "$PI0243_RUN_CARD"
+echo "PI0244_R2_PATH_CONTEXT: host=${HOSTNAME:-unknown}"
+id
+findmnt -T "$PI0243_RUN_CARD" -o TARGET,SOURCE,FSTYPE 2>&1 || true
+if ! test -r "$PI0243_RUN_CARD"; then
+  echo "FAIL_CLOSED: sealed run card is unreadable on compute: $PI0243_RUN_CARD" >&2
+  namei -l "$PI0243_RUN_CARD" >&2 || true
+  exit 2
+fi
 test -r "$PI0243_METADATA_MIRROR_ROOT/stage_cohort.json"
 test -r "$PI0243_METADATA_MIRROR_ROOT/stage_exposure_schedule.json"
 test -r "$PI0243_HF_TOKEN_FILE"
