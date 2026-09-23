@@ -39,6 +39,12 @@ class P1BindingTests(unittest.TestCase):
     def test_stock_cell_uses_explicitly_bound_paths(self):
         self.assertIn("paths", inspect.signature(one).parameters)
 
+    def test_hopper_wrapper_uses_unix_line_endings(self):
+        wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0245_p1_stock_h200.pbs"
+        contents = wrapper.read_bytes()
+        self.assertTrue(contents.startswith(b"#!/usr/bin/env bash\n"))
+        self.assertNotIn(b"\r", contents)
+
 
 if __name__ == "__main__":
     unittest.main()
