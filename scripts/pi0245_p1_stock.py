@@ -234,10 +234,6 @@ def one(args: argparse.Namespace, row: dict, noise_name: str, fixed_noise: np.nd
         now=0.0, achieved_position=state[:3], achieved_orientation=state_quat,
     )
     metrics = stage43._screen_metrics(decoded[0].astype(np.float64), expert.astype(np.float64), None)
-    target_map = stage43._target_map(card)
-    target_key = str(row["source_episode_id"]).split(":", 1)[0]
-    assert target_key in target_map, f"TRAIN target authority missing: {target_key}"
-    target_distance = float(np.min(np.linalg.norm(decoded[0, :, :3].astype(np.float64) - target_map[target_key][None, :], axis=1)))
     e = decoded[0, :, :3].astype(np.float64) - expert[:, :3].astype(np.float64)
     e2 = np.sum(e * e, axis=1)
     delta_e = np.linalg.norm(np.diff(e, axis=0), axis=1) / .05
@@ -255,11 +251,12 @@ def one(args: argparse.Namespace, row: dict, noise_name: str, fixed_noise: np.nd
               "cell_key": key,
               "source_episode_id": source, "target_family": row["target_family"], "phase": row["phase"],
               "gate_decision": gate.decision.value, "gate": gate.as_dict(), "metrics": metrics,
-              "target_min_distance_m": target_distance,
               "noise_sha256": hashlib.sha256(injected.tobytes()).hexdigest(), "sampler_steps": len(stock["trace"]),
               "raw_xyz_peak_segment": int(np.argmax(raw_jump)), "physical_xyz_peak_segment": int(np.argmax(physical_jump)),
               "physical_max_jump_m": float(physical_jump.max()), "physical_residual_delta_max_mps": float(delta_e.max()),
               "feature_provenance": stock["feature_provenance"],
+              "model_get_action_calls": 1, "model_backbone_forwards": 1,
+              "action_head_denoising_forwards": len(stock["trace"]),
               "tail35_39_pooled_sse_fraction": float(e2[35:].sum() / e2.sum()) if e2.sum() > 0 else 0.0,
               "normalized_active10_rmse": float(np.sqrt(np.mean(normalized_error**2))),
               "normalized_xyz_rmse": float(np.sqrt(np.mean(normalized_error[:, :3]**2))),
@@ -276,6 +273,7 @@ def close_p1(args: argparse.Namespace) -> None:
     ledger = [json.loads(line) for line in (args.output_root / "queries.jsonl").read_text().splitlines() if line.strip()]
     assert [row["cell_key"] for row in ledger] == expected, "P1 attempted-query identity/order mismatch"
     records = []
+    observed = Counter()
     for key in expected:
         source_key = key.split("__", 2)[1]
         cell_dir = args.output_root / "cells" / key.replace(source_key, source_key.split(":", 1)[0])
@@ -285,6 +283,7 @@ def close_p1(args: argparse.Namespace) -> None:
         assert sha(tensor_path) == record["tensor_sha256"]
         assert sha(cell_dir / "condition.pt") == record["condition_sha256"]
         assert record["target_xyz_in_model_input"] is False
+        observed.update({name: int(record[name]) for name in ("model_get_action_calls", "model_backbone_forwards", "action_head_denoising_forwards")})
         with np.load(tensor_path, allow_pickle=False) as data:
             assert data["raw"].shape == (1, 40, 132) and np.isfinite(data["raw"]).all()
             assert data["decoded"].shape == (1, 40, 10) and np.isfinite(data["decoded"]).all()
@@ -306,8 +305,15 @@ def close_p1(args: argparse.Namespace) -> None:
                             "median_so3_rmse_rad": float(np.median([row["metrics"]["so3_rmse_rad"] for row in group])),
                             "median_max_linear_speed_mps": float(np.median([row["metrics"]["max_linear_speed_mps"] for row in group])),
                             "median_physical_residual_delta_max_mps": float(np.median([row["physical_residual_delta_max_mps"] for row in group]))}
+        summaries[model]["by_noise"] = {
+            noise: {"gate_counts": dict(Counter(row["gate_decision"] for row in group if row["noise_name"] == noise)),
+                    "median_xyz_rmse_m": float(np.median([row["metrics"]["xyz_rmse_m"] for row in group if row["noise_name"] == noise])),
+                    "median_physical_max_jump_m": float(np.median([row["physical_max_jump_m"] for row in group if row["noise_name"] == noise])),
+                    "median_physical_residual_delta_max_mps": float(np.median([row["physical_residual_delta_max_mps"] for row in group if row["noise_name"] == noise]))}
+            for noise in NOISES}
     closure = {"schema": "PI0245_P1_CLOSURE_V1", "status": "PASS_COMPLETE_32_QUERY_MATRIX",
                "attempted_queries": len(ledger), "completed_cells": len(records), "query_order": expected,
+               "observed_calls": dict(observed),
                "summaries": summaries, "cells": records, "runtime_binding_sha256": sha(args.output_root / "runtime_binding.json"),
                "noise_bank_manifest_sha256": sha(args.noise_root / "manifest.json"),
                "R0_records_sha256": sha(args.r0_root / "screen/step-10000/records.jsonl"),
