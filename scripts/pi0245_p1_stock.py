@@ -21,6 +21,10 @@ SOURCES = (
 )
 RECORD_SHA = "4c502ab316ba9b4b800bfc743c9c5ecb1668a14d8b998f4c7a0f101cf5ed0d76"
 NOISES = ("N0", "N1", "N2", "N0_roll11")
+PATH_OVERLAY_KEYS = frozenset({
+    "code_root", "groot_source", "stage10_root", "cosmos_snapshot",
+    "processor_base_model", "train_dataset", "modality_config", "output_root",
+})
 
 
 def sha(path: Path) -> str:
@@ -57,6 +61,29 @@ def durable_torch(path: Path, value) -> None:
     os.replace(temporary, path)
 
 
+def resolve_tensor_path(root: Path, recorded_path: str) -> Path:
+    recorded = Path(recorded_path)
+    assert recorded.name and recorded.parent.name == "cells" and ".." not in recorded.parts, f"unexpected sealed tensor path: {recorded_path}"
+    cell_root = (root / "screen/step-10000/cells").resolve()
+    resolved = cell_root / recorded.name
+    assert resolved.resolve().parent == cell_root, f"tensor escaped screen cell root: {recorded_path}"
+    return resolved
+
+
+def resolve_path_overlay(card: dict, overlay_path: Path | None) -> dict[str, str]:
+    paths = dict(card["paths"])
+    if overlay_path is None:
+        return paths
+    overlay = json.loads(overlay_path.read_text())
+    assert overlay["schema"] == "PI0245_PATH_OVERLAY_V1"
+    assert overlay["source_run_card_sha256"] == card["_sha256"]
+    overrides = overlay["paths"]
+    assert set(overrides) <= PATH_OVERLAY_KEYS, f"non-path override: {set(overrides) - PATH_OVERLAY_KEYS}"
+    assert all(isinstance(value, str) and value for value in overrides.values())
+    paths.update(overrides)
+    return paths
+
+
 def sources(root: Path) -> dict[str, dict]:
     records_path = root / "screen/step-10000/records.jsonl"
     assert sha(records_path) == RECORD_SHA
@@ -65,8 +92,9 @@ def sources(root: Path) -> dict[str, dict]:
     selected = {row["source_episode_id"]: row for row in rows if row["source_episode_id"] in SOURCES}
     assert set(selected) == set(SOURCES)
     for row in selected.values():
-        path = Path(row["tensor_path"])
-        assert path.resolve().parent == (root / "screen/step-10000/cells").resolve()
+        row["recorded_tensor_path"] = row["tensor_path"]
+        path = resolve_tensor_path(root, row["tensor_path"])
+        row["tensor_path"] = str(path)
         assert sha(path) == row["tensor_sha256"]
         with np.load(path, allow_pickle=False) as tensor:
             assert tensor["raw"].shape == (1, 40, 132)
@@ -129,7 +157,7 @@ def encode_expert(processor, embodiment, expert: np.ndarray, state: np.ndarray) 
 
 
 def one(args: argparse.Namespace, row: dict, noise_name: str, fixed_noise: np.ndarray,
-        *, model, model_files, processor, embodiment, bridge, selector, stage43) -> None:
+        *, paths: dict[str, str], model, model_files, processor, embodiment, bridge, selector, stage43) -> None:
     import torch
     from gr00t.data.types import MessageType, VLAStepData
     from go2arx5_vla.safety import TrajectorySafetyGateV1
@@ -151,9 +179,6 @@ def one(args: argparse.Namespace, row: dict, noise_name: str, fixed_noise: np.nd
         print(json.dumps({"status": "REUSED_FIRST_VALID", "cell": str(cell)}), flush=True)
         return
 
-    card = json.loads(args.run_card.read_text())
-    paths = card["paths"]
-    assert str(paths["output_root"]) == str(args.r0_root)
     with np.load(row["tensor_path"], allow_pickle=False) as prior:
         body = prior["body_rgb"].copy()
         wrist = prior["wrist_rgb"].copy()
@@ -183,6 +208,7 @@ def one(args: argparse.Namespace, row: dict, noise_name: str, fixed_noise: np.nd
     cell.mkdir(parents=True, exist_ok=False)
     durable_torch(cell / "condition.pt", policy)
     attempted = {"source_episode_id": source, "model_name": model_name, "noise_name": noise_name, **model_files,
+                 "recorded_tensor_path": row["recorded_tensor_path"], "resolved_tensor_path": row["tensor_path"],
                  "condition_sha256": sha(cell / "condition.pt"), "condition_identity": condition_identity,
                  "processor_config_sha256": sha(Path(paths["processor_base_model"]) / "processor_config.json"),
                  "relative_stats_sha256": sha(Path(paths["train_dataset"]) / "meta/relative_stats.json"),
@@ -330,6 +356,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--r0-root", type=Path, required=True)
     parser.add_argument("--run-card", type=Path, required=True)
+    parser.add_argument("--path-overlay", type=Path)
+    parser.add_argument("--p0-binding", type=Path)
     parser.add_argument("--noise-root", type=Path, required=True)
     parser.add_argument("--model-root", type=Path, required=True)
     parser.add_argument("--model-name", choices=("R0", "R2"), required=True)
@@ -355,7 +383,9 @@ def main() -> None:
     if args.model_preflight:
         print(json.dumps({"status": "PASS_P1_MODEL_FILE_PREFLIGHT", **verify_model_files(args.model_root)}))
         return
-    paths = json.loads(args.run_card.read_text())["paths"]
+    card = json.loads(args.run_card.read_text())
+    card["_sha256"] = sha(args.run_card)
+    paths = resolve_path_overlay(card, args.path_overlay)
     code_root = Path(paths["code_root"])
     sys.path[:0] = [str(code_root / "scripts"), str(code_root / "src"), str(paths["groot_source"])]
     os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "1"
@@ -392,8 +422,10 @@ def main() -> None:
     modules = []
     for path in runtime_files:
         modules.append({"path": str(path), "sha256": sha(path)})
-    p0_binding_path = Path("/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p0/effective_processor_xyz_v2.json")
+    p0_binding_path = args.p0_binding or (args.output_root.parent / "p0/effective_processor_xyz_v2.json")
     runtime_binding = {"schema": "PI0245_P1_RUNTIME_BINDING_V1", "run_card_sha256": sha(args.run_card),
+                       "path_overlay_sha256": sha(args.path_overlay) if args.path_overlay else None,
+                       "effective_paths": paths,
                        "r0_records_sha256": sha(args.r0_root / "screen/step-10000/records.jsonl"),
                        "noise_manifest_sha256": sha(args.noise_root / "manifest.json"),
                        "p0_effective_processor_xyz_sha256": sha(p0_binding_path),
@@ -414,7 +446,7 @@ def main() -> None:
     cells = [(source, name) for source in SOURCES for name in NOISES] if args.all else [(SOURCES[args.source_index], args.noise_name)]
     for source, name in cells:
         one(args, rows[source], name, noises[name], model=model, model_files=model_files, processor=processor,
-            embodiment=embodiment, bridge=bridge, selector=selector, stage43=stage43)
+            paths=paths, embodiment=embodiment, bridge=bridge, selector=selector, stage43=stage43)
     if args.all:
         ledger_path = args.output_root / "queries.jsonl"
         if ledger_path.is_file() and len([line for line in ledger_path.read_text().splitlines() if line.strip()]) == 32:
