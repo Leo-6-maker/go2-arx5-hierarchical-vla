@@ -2,6 +2,7 @@
 #PBS -N pi0245_p1_stock
 #PBS -P CFP03-CF-004
 #PBS -q auto
+#PBS -W group_list=HPC_Users_3104
 #PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
 #PBS -l walltime=04:00:00
 #PBS -o /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs/
@@ -23,7 +24,15 @@ ARCHIVE=/Project_Storage/CFP-03/CFP03-CF-004/pi0245_physical_temporal_pilot_2026
 R0=/Project_Storage/CFP-03/CFP03-CF-004/pi0245_physical_temporal_pilot_20260924/models/R0
 R2=/Project_Storage/CFP-03/CFP03-CF-004/pi0245_physical_temporal_pilot_20260924/models/R2
 
-mkdir -p "${OUT}" "${ARCHIVE}" /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs
+printf 'PI0245_P1_STORAGE_PREFLIGHT host=%s job=%s\n' "${HOSTNAME:-unknown}" "${PBS_JOBID:-unknown}"
+id
+groups
+findmnt -T /Project_Storage || true
+namei -l /Project_Storage/CFP-03/CFP03-CF-004 || true
+test -d /Project_Storage/CFP-03/CFP03-CF-004
+test -w /Project_Storage/CFP-03/CFP03-CF-004
+mkdir -p "${OUT}" /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs
+mkdir -p "${ARCHIVE}"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
 export PYTHONPATH="${CODE}/scripts:${CODE}/src:${GROOT}:${PYTHONPATH:-}"
 

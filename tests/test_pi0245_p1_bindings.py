@@ -45,6 +45,13 @@ class P1BindingTests(unittest.TestCase):
         self.assertTrue(contents.startswith(b"#!/usr/bin/env bash\n"))
         self.assertNotIn(b"\r", contents)
 
+    def test_p1_wrapper_requests_storage_group_and_checks_mount_before_creation(self):
+        wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0245_p1_stock_h200.pbs"
+        text = wrapper.read_text()
+        self.assertIn("#PBS -W group_list=HPC_Users_3104", text)
+        self.assertLess(text.index("test -d /Project_Storage/CFP-03/CFP03-CF-004"), text.index('mkdir -p "${ARCHIVE}"'))
+        self.assertLess(text.index("test -w /Project_Storage/CFP-03/CFP03-CF-004"), text.index("nvidia-smi"))
+
 
 if __name__ == "__main__":
     unittest.main()
