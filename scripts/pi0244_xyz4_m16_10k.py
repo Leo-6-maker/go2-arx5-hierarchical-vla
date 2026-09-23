@@ -675,7 +675,15 @@ def verify_card(path: Path, *, require_capacity: bool = True) -> tuple[Any, dict
         if capacity.get("status") != "PASS" or not proof.is_file() or sha256_file(proof) != capacity.get("proof_sha256"):
             raise R2Error("R2 non-sparse storage capacity admission is incomplete")
         proof_data = json.loads(proof.read_text(encoding="utf-8"))
-        if proof_data.get("status") != "PASS_NONSPARSE_FSYNC_RESERVATION" or int(proof_data.get("reservation_bytes", -1)) != int(capacity.get("reservation_bytes", -2)) or proof_data.get("prepared_run_card_sha256") != card.get("capacity_preparation_card_sha256"):
+        reservation = proof_data.get("reservation", {})
+        if (
+            proof_data.get("status") != "PASS_NONSPARSE_FSYNC_RESERVATION"
+            or int(proof_data.get("reservation_bytes", -1)) != int(capacity.get("reservation_bytes", -2))
+            or proof_data.get("prepared_run_card_sha256") != card.get("capacity_preparation_card_sha256")
+            or reservation.get("allocation_methods") != ["dense_write_fsync_readback"]
+            or int(reservation.get("allocated_bytes", 0)) < int(capacity.get("reservation_bytes", 0))
+            or len(reservation.get("dense_readback_sha256s", [])) != int(reservation.get("parts", 0))
+        ):
             raise R2Error("R2 storage proof does not match the final sealed capacity binding")
     return base, card
 
@@ -702,7 +710,7 @@ def admit_capacity(run_card: Path) -> None:
         helper = base.load_module(Path(card["r2_implementation"]["storage_preflight_path"]), "pi0244x_storage_preflight")
         root = Path(card["paths"]["output_root"])
         before = helper.snapshot(root)
-        measured = helper.reserve_local(root / ".pi0244x_capacity_reservation", reservation)
+        measured = helper.reserve_local(root / ".pi0244x_capacity_reservation", reservation, force_dense=True)
         after = helper.snapshot(root)
         proof = {
             "schema": "PI0244X_STORAGE_CAPACITY_PROOF_V1",
@@ -719,7 +727,7 @@ def admit_capacity(run_card: Path) -> None:
             "statvfs_before": before["statvfs"],
             "statvfs_after": after["statvfs"],
             "same_fileset_as_output": True,
-            "proof_method": "posix_fallocate + fsync + allocated st_blocks verification; temporary reservation files removed by the mature helper",
+            "proof_method": "dense non-zero writes + fsync + allocated st_blocks + full readback SHA256 per part; temporary reservation files removed by the mature helper",
         }
         write_json(proof_path, proof, once=True)
     card["capacity_preparation_card_sha256"] = proof["prepared_run_card_sha256"]

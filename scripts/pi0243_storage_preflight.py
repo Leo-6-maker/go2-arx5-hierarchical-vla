@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+import errno
 import hashlib
 import json
 import math
@@ -61,33 +62,79 @@ def remote_snapshot(host: str, path: Path) -> dict[str, Any]:
     return json.loads(remote_python(host, code, [str(path)]).stdout)
 
 
-def reserve_local(path: Path, size: int) -> dict[str, Any]:
+def reserve_local(path: Path, size: int, *, force_dense: bool = False) -> dict[str, Any]:
     path.parent.mkdir(parents=True, exist_ok=True)
     started = time.time()
     part_count = min(RESERVATION_PARTS, max(1, size // (1024**3)))
     part_sizes = [size // part_count] * part_count
     part_sizes[-1] += size - sum(part_sizes)
 
-    def reserve_part(item: tuple[Path, int]) -> int:
+    def reserve_part(item: tuple[Path, int]) -> dict[str, Any]:
         part_path, part_size = item
         fd = os.open(part_path, os.O_RDWR | os.O_CREAT | os.O_EXCL, 0o600)
         try:
-            if not hasattr(os, "posix_fallocate"):
-                raise RuntimeError("Python has no posix_fallocate")
-            os.posix_fallocate(fd, 0, part_size)
-            os.fsync(fd)
-            allocated = int(getattr(os.fstat(fd), "st_blocks", 0)) * 512
-            if allocated < part_size:
-                raise RuntimeError(f"reservation is sparse or under-allocated: {allocated} < {part_size}")
-            return allocated
+            allocated = 0
+            method = "posix_fallocate"
+            if not force_dense and hasattr(os, "posix_fallocate"):
+                try:
+                    os.posix_fallocate(fd, 0, part_size)
+                except OSError as exc:
+                    if exc.errno not in {errno.EINVAL, errno.ENOSYS, errno.EOPNOTSUPP}:
+                        raise
+                    method = "dense_write_fsync_readback"
+                else:
+                    os.fsync(fd)
+                    allocated = int(getattr(os.fstat(fd), "st_blocks", 0)) * 512
+                    if allocated < part_size:
+                        method = "dense_write_fsync_readback"
+            else:
+                method = "dense_write_fsync_readback"
+
+            digest = hashlib.sha256()
+            if method == "dense_write_fsync_readback":
+                os.ftruncate(fd, 0)
+                remaining = part_size
+                while remaining:
+                    block = os.urandom(min(8 * 1024 * 1024, remaining))
+                    digest.update(block)
+                    view = memoryview(block)
+                    while view:
+                        written = os.write(fd, view)
+                        if written <= 0:
+                            raise OSError("short write during dense capacity reservation")
+                        view = view[written:]
+                    remaining -= len(block)
+                os.fsync(fd)
+                allocated = int(getattr(os.fstat(fd), "st_blocks", 0)) * 512
+                if allocated < part_size:
+                    raise RuntimeError(f"dense reservation is under-allocated: {allocated} < {part_size}")
+                os.lseek(fd, 0, os.SEEK_SET)
+                observed = hashlib.sha256()
+                while True:
+                    block = os.read(fd, 8 * 1024 * 1024)
+                    if not block:
+                        break
+                    observed.update(block)
+                if observed.digest() != digest.digest():
+                    raise RuntimeError("dense capacity reservation readback hash mismatch")
+            return {"allocated_bytes": allocated, "method": method, "readback_sha256": digest.hexdigest() if method == "dense_write_fsync_readback" else None}
         finally:
             os.close(fd)
             part_path.unlink(missing_ok=True)
 
     parts = [(path.with_name(f"{path.name}.part-{index}"), part_size) for index, part_size in enumerate(part_sizes)]
     with ThreadPoolExecutor(max_workers=part_count) as pool:
-        allocated = sum(pool.map(reserve_part, parts))
-    return {"status": "PASS", "bytes": size, "allocated_bytes": allocated, "parts": part_count, "elapsed_s": time.time() - started}
+        records = list(pool.map(reserve_part, parts))
+    methods = sorted({row["method"] for row in records})
+    return {
+        "status": "PASS",
+        "bytes": size,
+        "allocated_bytes": sum(row["allocated_bytes"] for row in records),
+        "parts": part_count,
+        "allocation_methods": methods,
+        "dense_readback_sha256s": [row["readback_sha256"] for row in records if row["readback_sha256"]],
+        "elapsed_s": time.time() - started,
+    }
 
 
 def reserve_remote(host: str, root: Path, size: int, label: str) -> dict[str, Any]:
