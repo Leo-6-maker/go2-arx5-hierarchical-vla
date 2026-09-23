@@ -112,7 +112,11 @@ def validate_projector_evidence(
         raise RuntimeError("projector update evidence schema mismatch")
     if evidence.get("status") != "PASS_SOURCE_AND_PINNED_ARCHIVE_PREFIX_PARITY":
         raise RuntimeError("projector source/archive sample parity did not pass")
-    if evidence.get("run_card_sha256") != sha256_file(run_card_path) or int(evidence.get("checkpoint_step", -1)) != int(card["stage"]["max_steps"]):
+    if (
+        evidence.get("run_card_sha256") != sha256_file(run_card_path)
+        or evidence.get("execution_binding_id") != card.get("r2_execution_binding", {}).get("binding_id")
+        or int(evidence.get("checkpoint_step", -1)) != int(card["stage"]["max_steps"])
+    ):
         raise RuntimeError("projector evidence is bound to another run or checkpoint")
     if evidence.get("method", {}).get("projector_tensor_count") != 15 or evidence.get("method", {}).get("sampled_prefix_count_per_checkpoint") != 15:
         raise RuntimeError("projector evidence does not cover all 15 tensors")
