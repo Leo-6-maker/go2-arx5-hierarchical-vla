@@ -22,6 +22,7 @@ AUDITED_PARENT = "48c732d2195af2820a804baaede68c96a0390dc3"
 AUTHORIZATION = "PI0244_R2_XYZ4_RELEASE_GO"
 EXPERIMENT = "PI0244X_XYZ4_M16_10K_V1"
 FAMILY = EXPERIMENT
+HF_REPO_ID = "leoyuer/pi0243-stage-a-admitted-v1"
 HF_PREFIX = "pi0244x-xyz4-m16-10k-v1"
 R0_EXPERIMENT = "PI0244_M16_10K_V1"
 R0_CLOSURE_SHA256 = "4a64898d05377ad23a7022ae16921ceb2bb2d80e330cf7433e7c3595a5de9851"
@@ -447,6 +448,7 @@ def prepare(args: argparse.Namespace) -> None:
         receipt_rows[str(step)] = {
             "receipt_path": str(path),
             "receipt_sha256": sha256_file(path),
+            "durable_path": str(receipt["durable_path"]),
             "bytes": int(inventory["total_bytes"]),
             "tree_sha256": inventory["tree_sha256"],
             "file_count": int(inventory["file_count"]),
@@ -469,7 +471,7 @@ def prepare(args: argparse.Namespace) -> None:
         output_root=args.output_root.resolve(),
         durable_host=None,
         durable_root=None,
-        hf_repo_id=parent["storage"]["repo_id"],
+        hf_repo_id=HF_REPO_ID,
         hf_token_file=Path(parent["storage"]["token_file"]),
         hf_path_prefix=HF_PREFIX,
     )
@@ -557,6 +559,8 @@ def prepare(args: argparse.Namespace) -> None:
         "update_dtype_audit_sha256": R0_UPDATE_AUDIT_SHA256,
         "r1_p32_decision": "NOT_APPLICABLE",
         "r1_evidence_boundary": "471 trainable tensors FP32 plus checkpoint-2500 FloatStorage; not a claim that every forward operation is FP32",
+        "card_hf_repo_id": parent["storage"]["repo_id"],
+        "receipt_path_repo_ids": sorted({str(row["durable_path"]).split("/")[0] + "/" + str(row["durable_path"]).split("/")[1] for row in receipt_rows.values()}),
         "screen_status": r0_closure["status"],
         "selected_checkpoint": "NONE",
     }
@@ -580,6 +584,12 @@ def prepare(args: argparse.Namespace) -> None:
         "schedule_equal_all_10000_rows": True,
         "cohort_equal_all_16_rows": True,
         "initializer_equal_file_inventory": True,
+        "r2_hf_storage_resolution": {
+            "parent_card_repo_id": parent["storage"]["repo_id"],
+            "r2_repo_id": HF_REPO_ID,
+            "r2_prefix": HF_PREFIX,
+            "reason": "parent card repo ID returned 404; account-owned public repo with an unused R2 prefix was live-verified",
+        },
         "only_scientific_change": card["loss_intervention"],
         "old_p1_exact_replay": "HISTORICAL_CT_REPLAY_UNAVAILABLE_FROM_SEALED_ARTIFACTS",
         "r1_p32": {"status": "NOT_APPLICABLE", "evidence_sha256": R0_UPDATE_AUDIT_SHA256},
@@ -611,7 +621,7 @@ def verify_card(path: Path, *, require_capacity: bool = True) -> tuple[Any, dict
     base = load_base(code_root)
     if card.get("experiment") != EXPERIMENT or card.get("protocol_commit") != PROTOCOL_COMMIT or card.get("stage") != stage_spec("a"):
         raise R2Error("R2 run-card identity mismatch")
-    if card.get("storage", {}).get("checkpoint_family") != FAMILY or card["storage"].get("path_prefix") != HF_PREFIX:
+    if card.get("storage", {}).get("checkpoint_family") != FAMILY or card["storage"].get("repo_id") != HF_REPO_ID or card["storage"].get("path_prefix") != HF_PREFIX:
         raise R2Error("R2 HF family/prefix mismatch")
     if sha256_file(Path(card["r2_implementation"]["runner_path"])) != card["r2_implementation"]["runner_sha256"]:
         raise R2Error("R2 runner changed after run-card sealing")
