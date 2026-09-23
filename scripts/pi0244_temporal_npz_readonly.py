@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -24,6 +25,7 @@ def file_sha(path: Path) -> str:
 
 
 def profile(root: Path, expected_ids: set[str], expected_sha: str, lo: np.ndarray, hi: np.ndarray) -> dict:
+    from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix
     records = root / "screen" / "step-10000" / "records.jsonl"
     assert file_sha(records) == expected_sha
     rows = [json.loads(line) for line in records.read_text().splitlines() if line.strip()]
@@ -49,6 +51,12 @@ def profile(root: Path, expected_ids: set[str], expected_sha: str, lo: np.ndarra
         clipped = np.clip(raw, -1.0, 1.0)
         relative = (clipped + 1.0) * (hi - lo) / 2.0 + lo
         pred = arrays["decoded"][0, :, :3].astype(np.float64)
+        state = arrays["state"].astype(np.float64).reshape(-1)
+        assert state.shape == (10,)
+        rotation = rot6d_rows_to_matrix(state[3:9])
+        reconstructed = relative @ rotation.T + state[:3]
+        decode_error = float(np.max(np.abs(reconstructed - pred)))
+        assert decode_error < 1e-5, (source, decode_error)
         expert = arrays["expert"][:, :3].astype(np.float64)
         err = pred - expert
         e2 = np.sum(err * err, axis=1)
@@ -87,6 +95,7 @@ def profile(root: Path, expected_ids: set[str], expected_sha: str, lo: np.ndarra
             "raw_xyz_clipped_scalars_total": int(np.sum(np.abs(raw) > 1.0)),
             "raw_xyz_clipped_scalars_t37_38": int(np.sum(np.abs(raw[37:39]) > 1.0)),
             "decoded_relative_jump_max_abs_mismatch": geometry_max_error,
+            "decoded_world_xyz_max_abs_mismatch_m": decode_error,
         })
         inputs[source] = {key: arrays[key] for key in ("expert", "action_mask", "state", "body_rgb", "wrist_rgb")}
         error_sq.append(e2)
@@ -139,7 +148,11 @@ def main() -> None:
     parser.add_argument("--r0-root", type=Path, required=True)
     parser.add_argument("--r2-root", type=Path, required=True)
     parser.add_argument("--relative-stats", type=Path, required=True)
+    parser.add_argument("--project-source", type=Path, required=True)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    sys.path.insert(0, str(args.project_source / "src"))
+    assert (args.project_source / "src" / "go2arx5_vla" / "trajectory" / "so3.py").is_file()
     assert file_sha(args.report) == REPORT_SHA
     sealed = json.loads(args.report.read_text())
     assert sealed["errors"] == [] and sealed["selected_checkpoint"] == "NONE"
@@ -153,14 +166,24 @@ def main() -> None:
     for source in ids:
         assert all(np.array_equal(r0["_inputs"][source][key], r2["_inputs"][source][key]) for key in r0["_inputs"][source])
     del r0["_inputs"], r2["_inputs"]
-    print(json.dumps({
+    result = {
         "schema": "PI0244_R0_R2_TEMPORAL_NPZ_READONLY_V1",
         "source_report_sha256": REPORT_SHA,
         "relative_stats_sha256": file_sha(args.relative_stats),
+        "project_so3_sha256": file_sha(args.project_source / "src" / "go2arx5_vla" / "trajectory" / "so3.py"),
+        "norm_scale_xyz_m": ((hi - lo) / 2.0).tolist(),
+        "norm_offset_xyz_m": ((hi + lo) / 2.0).tolist(),
+        "norm_scale_offset_shape": [40, 3],
         "read_scope": "sealed R0/R2 final10000 TRAIN only, original fixed16",
         "new_model_queries": 0, "weight_loads": 0, "training_steps": 0, "wbc_steps": 0,
         "R0": r0, "R2": r2,
-    }, sort_keys=True, separators=(",", ":")))
+    }
+    payload = json.dumps(result, sort_keys=True, separators=(",", ":")) + "\n"
+    if args.output:
+        args.output.write_text(payload)
+        print(json.dumps({"output": str(args.output), "sha256": file_sha(args.output)}))
+    else:
+        print(payload, end="")
 
 
 if __name__ == "__main__":
