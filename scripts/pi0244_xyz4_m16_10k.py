@@ -72,7 +72,13 @@ def write_json(path: Path, value: Mapping[str, Any], *, once: bool = False) -> N
     os.replace(tmp, path)
 
 
-def xyz4_loss(action_loss: Any, action_mask: Any, *, capture_details: bool = False) -> tuple[Any, dict[str, Any]]:
+def xyz4_loss(
+    action_loss: Any,
+    action_mask: Any,
+    *,
+    xyz_weight: float = 4.0,
+    capture_details: bool = False,
+) -> tuple[Any, dict[str, Any]]:
     import torch
 
     if tuple(action_loss.shape) != tuple(action_mask.shape):
@@ -80,7 +86,7 @@ def xyz4_loss(action_loss: Any, action_mask: Any, *, capture_details: bool = Fal
     if action_loss.ndim != 3 or action_loss.shape[1:] != (HORIZON, ACTION_WIDTH):
         raise R2Error(f"expected [B,40,132] action tensors; got {tuple(action_loss.shape)}")
     weights = action_loss.new_ones((1, 1, ACTION_WIDTH))
-    weights[..., :3] = 4.0
+    weights[..., :3] = xyz_weight
     numerator = (weights * action_loss).sum()
     denominator = (weights * action_mask).sum()
     weighted = numerator / (denominator + 1e-6)
@@ -100,7 +106,7 @@ def xyz4_loss(action_loss: Any, action_mask: Any, *, capture_details: bool = Fal
     values = {
         "formula": "sum(weight*already_masked_action_loss)/(sum(weight*action_mask)+1e-6)",
         "xyz_slots": [0, 1, 2],
-        "xyz_weight": 4.0,
+        "xyz_weight": float(xyz_weight),
         "other_weight": 1.0,
         "action_shape": list(action_loss.shape),
         "action_loss_dtype": str(action_loss.dtype),
@@ -258,7 +264,7 @@ def self_test() -> None:
     per_element = (prediction - target).square()
     masked = per_element * mask
     native = masked.sum() / (mask.sum() + 1e-6)
-    same, _ = xyz4_loss(masked, mask)
+    same, _ = xyz4_loss(masked, mask, xyz_weight=1.0)
     native_grad = torch.autograd.grad(native, prediction, retain_graph=True)[0]
     same_grad = torch.autograd.grad(same, prediction, retain_graph=True)[0]
     torch.testing.assert_close(same, native, rtol=0.0, atol=0.0)
