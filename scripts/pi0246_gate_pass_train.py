@@ -62,7 +62,7 @@ def t_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> di
     root = runtime_root.resolve()
     parent = Path(card["paths"]["campaign_code_root"])
     code_root = Path(card["paths"]["code_root"])
-    parent_delta = parent / "pi0245_physical_delta.py"
+    parent_delta = code_root / "scripts" / "pi0245_physical_delta.py"
     runtime_delta = root / "pi0245_physical_delta.py"
     if sha256_file(runtime_delta) != sha256_file(parent_delta):
         raise CampaignError("T runtime physical-delta helper differs from the sealed PI0245 helper")

@@ -21,9 +21,9 @@ class TRuntimeBindingTest(unittest.TestCase):
             campaign.mkdir()
             runtime.mkdir()
             (code_root / "scripts").mkdir(parents=True)
-            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py"):
-                (code_root / "scripts" / name).write_text(name, encoding="utf-8")
-            (campaign / "pi0245_physical_delta.py").write_text("frozen helper\n", encoding="utf-8")
+            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py", "pi0245_physical_delta.py"):
+                contents = "frozen helper\n" if name == "pi0245_physical_delta.py" else name
+                (code_root / "scripts" / name).write_text(contents, encoding="utf-8")
             (campaign / "pi0246_gate_pass_train.py").write_text("parent trainer\n", encoding="utf-8")
             (campaign / "pi0245_native_overlay.py").write_text("parent overlay\n", encoding="utf-8")
             (campaign / "pi0245_p1_stock.py").write_text("parent p1 runner\n", encoding="utf-8")
