@@ -68,6 +68,7 @@ test "$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d' | wc -l)
 gpu_name=$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d')
 echo "$gpu_name" | grep -qi H200
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+"$venv/bin/python" -u "$runtime/pi0246_gate_pass_train.py" --functional-preflight --run-card "$card"
 "$venv/bin/python" -u "$runtime/pi0246_gate_pass_train.py" --train --run-card "$card"
 "$venv/bin/python" -u "$runtime/pi0246_reconcile_c_update.py" \
   --run-card "$card" --training-root "$output/training" \

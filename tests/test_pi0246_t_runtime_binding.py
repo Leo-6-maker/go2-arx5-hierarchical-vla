@@ -34,6 +34,13 @@ class TRuntimeBindingTest(unittest.TestCase):
         self.assertIn('--functional-preflight|--train', source)
         self.assertIn('"$mode" --run-card "$PI0246_T_RUN_CARD"', source)
 
+    def test_h200_wrapper_runs_no_model_preflight_before_training(self) -> None:
+        wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0246_gate_pass_t_logged_h200.pbs"
+        source = wrapper.read_text(encoding="utf-8")
+        preflight = source.index("--functional-preflight --run-card")
+        training = source.index("--train --run-card")
+        self.assertLess(preflight, training)
+
     def test_t_runtime_seal_binds_staged_code_and_frozen_card(self) -> None:
         with TemporaryDirectory() as temporary:
             tmp_path = Path(temporary)
