@@ -57,6 +57,21 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def validate_execution_profile(profile: str, pbs_job_id: str | None, device_count: int, device_name: str | None) -> dict[str, Any]:
+    if profile == "H200_PBS":
+        if not pbs_job_id or device_count != 1 or not device_name or "H200" not in device_name:
+            raise CampaignError(f"H200_PBS requires one PBS H200; job={pbs_job_id!r}, devices={device_count}, name={device_name!r}")
+        launcher = "PBS"
+    elif profile == "CORELAB_4080S_DIRECT":
+        if pbs_job_id or device_count != 1 or device_name != "NVIDIA GeForce RTX 4080 SUPER":
+            raise CampaignError(f"CORELAB_4080S_DIRECT requires one direct 4080 SUPER; job={pbs_job_id!r}, devices={device_count}, name={device_name!r}")
+        launcher = "direct"
+    else:
+        raise CampaignError(f"unsupported execution profile: {profile}")
+    return {"profile": profile, "launcher": launcher, "device_count": device_count,
+            "device_name": device_name, "pbs_job_id": pbs_job_id}
+
+
 def t_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> dict[str, Any]:
     card = read_json(card_path)
     root = runtime_root.resolve()
@@ -72,6 +87,7 @@ def t_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> di
         "family": card["family"],
         "loss": card["loss"],
         "seed": card["seed"],
+        "execution_profile": card.get("execution_profile", "H200_PBS"),
         "resolved_config_sha256": canonical_sha256(card["resolved_config"]),
         "runtime_root": str(root),
         "trainer_sha256": sha256_file(root / "pi0246_gate_pass_train.py"),
@@ -361,11 +377,12 @@ def train(args: argparse.Namespace) -> None:
     training_output = output / "training"
     if training_output.exists():
         raise CampaignError(f"refusing to overwrite training attempt: {training_output}")
-    if not os.environ.get("PBS_JOBID"):
-        raise CampaignError("formal PI0246 training must run as a PBS job")
     import torch
-    if torch.cuda.device_count() != 1 or "H200" not in torch.cuda.get_device_name(0):
-        raise CampaignError(f"PI0246 fine-tuning requires exactly one Hopper H200; visible={torch.cuda.device_count()}, device={torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CUDA unavailable'}")
+    visible_devices = torch.cuda.device_count()
+    execution = validate_execution_profile(
+        str(card.get("execution_profile", "H200_PBS")), os.environ.get("PBS_JOBID"),
+        visible_devices, torch.cuda.get_device_name(0) if visible_devices == 1 else None,
+    )
     if int(card["optimizer"]["max_steps"]) != STEPS or int(card["schedule"]["count"]) != STEPS:
         raise CampaignError("fixed 2000-step contract mismatch")
     if sha256_file(Path(card["cohort"]["path"])) != card["cohort"]["sha256"] or sha256_file(Path(card["schedule"]["path"])) != card["schedule"]["sha256"]:
@@ -380,6 +397,7 @@ def train(args: argparse.Namespace) -> None:
     fixed.MAX_STEPS = STEPS
     fixed.CHECKPOINT_STEPS = CHECKPOINTS
     runtime = fixed.bind_runtime(card)
+    runtime["execution"] = execution
     training_output.mkdir(parents=True)
     fixed.install_fixed_dataset_factory(card, training_output)
     fixed.install_update_audit(training_output, audit_steps={1, 10, 100, 1000, 2000}, expected_end_step=STEPS)
@@ -501,7 +519,7 @@ def train(args: argparse.Namespace) -> None:
         "arm": arm, "family": card["family"], "run_card_sha256": sha256_file(args.run_card),
         "p1_closure_sha256": sha256_file(Path(card["p1_closure_path"])), "p1_cells": len(p1["cells"]),
         "elapsed_s": time.time() - started, "global_step": STEPS, "sample_consumption": len(consumption),
-        "pbs_job_id": os.environ["PBS_JOBID"],
+        "pbs_job_id": execution["pbs_job_id"], "execution": execution,
         "schedule_sha256": card["schedule"]["sha256"], "sample_contracts": contracts,
         "update_integrity": integrity, "update_audit_sha256": sha256_file(training_output / "pi0241_update_audit.json"),
         "projector_reconciliation_required": projector_reconciliation_required,
