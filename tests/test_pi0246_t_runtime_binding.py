@@ -17,13 +17,15 @@ class TRuntimeBindingTest(unittest.TestCase):
             campaign = tmp_path / "campaign"
             runtime = tmp_path / "runtime"
             code_root = tmp_path / "code"
+            p1_root = tmp_path / "pi0245" / "p1"
             output = tmp_path / "T"
             campaign.mkdir()
             runtime.mkdir()
             (code_root / "scripts").mkdir(parents=True)
-            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py", "pi0245_physical_delta.py"):
-                contents = "frozen helper\n" if name == "pi0245_physical_delta.py" else name
-                (code_root / "scripts" / name).write_text(contents, encoding="utf-8")
+            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py"):
+                (code_root / "scripts" / name).write_text(name, encoding="utf-8")
+            (p1_root.parent / "code").mkdir(parents=True)
+            (p1_root.parent / "code" / "pi0245_physical_delta.py").write_text("frozen helper\n", encoding="utf-8")
             (campaign / "pi0246_gate_pass_train.py").write_text("parent trainer\n", encoding="utf-8")
             (campaign / "pi0245_native_overlay.py").write_text("parent overlay\n", encoding="utf-8")
             (campaign / "pi0245_p1_stock.py").write_text("parent p1 runner\n", encoding="utf-8")
@@ -37,7 +39,8 @@ class TRuntimeBindingTest(unittest.TestCase):
                 "schema": "PI0246_ARM_RUN_CARD_V1", "status": "SEALED_READY_NOT_STARTED",
                 "arm": "T", "family": train.ARMS["T"][0], "loss": train.ARMS["T"][1],
                 "seed": train.SEED, "resolved_config": {"max_steps": train.STEPS},
-                "paths": {"campaign_code_root": str(campaign), "code_root": str(code_root), "output_root": str(output)},
+                "paths": {"campaign_code_root": str(campaign), "code_root": str(code_root),
+                          "p1_root": str(p1_root), "output_root": str(output)},
             }
             card_path = tmp_path / "T_run_card.json"
             card_path.write_text(json.dumps(card), encoding="utf-8")
