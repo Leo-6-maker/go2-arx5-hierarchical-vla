@@ -1,6 +1,6 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T20:59:01Z",
+  "updated_at_utc": "2026-09-24T21:06:22Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
   "execution_commit": "76b529135dde2123aaa9b2b57e654dce028d9abc",
   "active_stage": "C_CHECKPOINT_2000_ARCHIVE_READBACK",
@@ -73,7 +73,7 @@
   },
   "selected_checkpoint": "NONE",
   "continuation_observation": {
-      "recorded_at_utc": "2026-09-24T20:59:01Z",
+      "recorded_at_utc": "2026-09-24T21:06:22Z",
     "prior_committed_snapshot_preserved": true,
     "C": {
       "job_id": "630383.hopper-m-02",
@@ -82,8 +82,8 @@
       "checkpoint_2000_tree_sha256": "29c90d1a7f13d3e374b1bb66786483dce8bdf2a343833a04b9f700584568ab3f",
       "checkpoint_2000_source_manifest_sha256": "494e8f146ca0795dbc8862361ef60b7377b39b16b43a4f0305d55c2aba52d304",
       "remote_partial_path": "/home/liuyu-nfs/pi0246_gate_pass_archive_20260924/C/checkpoint-2000.partial",
-      "remote_partial_last_observed_utc": "2026-09-24T20:59:01Z",
-      "remote_partial_observed_bytes": 7431556944,
+      "remote_partial_last_observed_utc": "2026-09-24T21:06:22Z",
+      "remote_partial_observed_bytes": 7938150224,
       "remote_partial_observed_files": 4,
       "local_scp_process_id": 6200,
       "local_exec_session_id": 97175,
@@ -137,6 +137,16 @@
       "observed_at_utc": "2026-09-24T20:58:53Z",
       "hopper_qstat_active_jobs": 0,
       "active_non_scheduler_owner": "existing local SCP process 6200 / exec session 97175 to Corelab; do not duplicate"
+    },
+    "network_path_recheck": {
+      "observed_at_utc": "2026-09-24T21:06:22Z",
+      "local_to_corelab_configured_ssh_alias": "corelab-amd-server -> 10.248.54.20:65522; working",
+      "local_to_hopper_configured_ssh_alias": "nus-hopper -> hopper.nus.edu.sg:22; working",
+      "hopper_to_corelab_known_endpoint_tcp": "timeout at 10.248.54.20:65522",
+      "corelab_to_hopper_known_hostname": "hopper.nus.edu.sg DNS lookup failed",
+      "host_key_checks_disabled": false,
+      "unverified_addresses_tried": false,
+      "action": "continue the existing local-to-Corelab SCP transfer; no duplicate or route bypass"
     },
     "screen": {
       "S0_first_valid_cells": 16,
