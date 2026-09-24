@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import json
 from tempfile import TemporaryDirectory
 import unittest
@@ -11,6 +12,28 @@ import pi0246_gate_pass_train as train
 
 
 class TRuntimeBindingTest(unittest.TestCase):
+    def test_functional_preflight_uses_real_dataset_path_without_model_setup(self) -> None:
+        source = inspect.getsource(train.functional_preflight)
+        self.assertIn("build_runtime_config", source)
+        self.assertIn("pipeline._create_dataset", source)
+        self.assertNotIn("pipeline.setup(", source)
+        self.assertNotIn("AutoModel", source)
+        self.assertNotIn("run_official(", source)
+
+    def test_corelab_wrapper_binds_verified_ffmpeg6_before_training(self) -> None:
+        wrapper = Path(__file__).resolve().parents[1] / "scripts" / "pi0246_corelab_t_train.sh"
+        source = wrapper.read_text(encoding="utf-8")
+        for key in (
+            "ffmpeg6_root", "ffmpeg6_manifest", "ffmpeg6_manifest_sha256",
+            "ffmpeg6_bootstrap_record", "ffmpeg6_bootstrap_record_sha256",
+            "ffmpeg6_capsule_sha256", "torchcodec_library_root", "torch_library_root",
+        ):
+            self.assertIn(f".paths.{key}", source)
+        self.assertIn('export LD_LIBRARY_PATH="$ffmpeg_root/lib:$ffmpeg_root/compat:$torchcodec_root:$torch_library_root:', source)
+        self.assertLess(source.index('export LD_LIBRARY_PATH='), source.index('exec "$PI0246_T_PYTHON"'))
+        self.assertIn('--functional-preflight|--train', source)
+        self.assertIn('"$mode" --run-card "$PI0246_T_RUN_CARD"', source)
+
     def test_t_runtime_seal_binds_staged_code_and_frozen_card(self) -> None:
         with TemporaryDirectory() as temporary:
             tmp_path = Path(temporary)

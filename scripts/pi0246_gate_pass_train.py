@@ -185,8 +185,7 @@ def summarize_config(pi0228: Any, config: Any, embodiment: str) -> dict[str, Any
     return result
 
 
-def make_config(paths: dict[str, str], output: Path) -> tuple[Any, Any, dict[str, Any]]:
-    fixed = load_module(Path(paths["code_root"]) / "scripts/pi0241_fixed16_learning.py", "pi0246_pi0241")
+def build_runtime_config(paths: dict[str, str], output: Path, fixed: Any) -> tuple[Any, Any, dict[str, Any]]:
     pi0228 = fixed.load_module(Path(paths["code_root"]) / "scripts/pi0228_h200_large_adapt_v1.py", "pi0246_pi0228")
     args = argparse.Namespace(
         stage10_root=Path(paths["stage10_root"]),
@@ -210,7 +209,86 @@ def make_config(paths: dict[str, str], output: Path) -> tuple[Any, Any, dict[str
     config.data.num_shards_per_epoch = 1000
     embodiment = config.data.datasets[0].embodiment_tag
     config.data.modality_configs = {embodiment: config.data.modality_configs[embodiment]}
-    return fixed, pi0228, summarize_config(pi0228, config, embodiment)
+    return pi0228, config, summarize_config(pi0228, config, embodiment)
+
+
+def make_config(paths: dict[str, str], output: Path) -> tuple[Any, Any, dict[str, Any]]:
+    fixed = load_module(Path(paths["code_root"]) / "scripts/pi0241_fixed16_learning.py", "pi0246_pi0241")
+    pi0228, _, summary = build_runtime_config(paths, output, fixed)
+    return fixed, pi0228, summary
+
+
+def functional_preflight(args: argparse.Namespace) -> None:
+    card = read_json(args.run_card)
+    seal = read_json(args.run_card.with_name("run_card.seal.json"))
+    if (
+        seal.get("sha256") != sha256_file(args.run_card)
+        or card.get("schema") != "PI0246_ARM_RUN_CARD_V1"
+        or card.get("status") != "SEALED_READY_NOT_STARTED"
+        or card.get("arm") != "T"
+        or card.get("family") != ARMS["T"][0]
+        or card.get("loss") != ARMS["T"][1]
+    ):
+        raise CampaignError("functional preflight requires the sealed PI0246 T card")
+    runtime_root = Path(os.environ["PI0246_T_RUNTIME_ROOT"])
+    wrapper = Path(os.environ["PI0246_T_RUNTIME_WRAPPER"])
+    binding = verify_t_runtime(
+        args.run_card, runtime_root, wrapper, Path(os.environ["PI0246_T_RUNTIME_BINDING"]),
+        os.environ["PI0246_T_RUNTIME_BINDING_SHA256"],
+    )
+    paths = card["paths"]
+    import torch
+    visible = torch.cuda.device_count()
+    execution = validate_execution_profile(
+        str(card.get("execution_profile", "H200_PBS")), os.environ.get("PBS_JOBID"),
+        visible, torch.cuda.get_device_name(0) if visible == 1 else None,
+    )
+    fixed = load_module(Path(paths["code_root"]) / "scripts/pi0241_fixed16_learning.py", "pi0246_pi0241_preflight")
+    fixed.MAX_STEPS = STEPS
+    fixed.CHECKPOINT_STEPS = CHECKPOINTS
+    runtime = fixed.bind_runtime(card)
+    output = Path(paths["output_root"]) / "functional_preflight_t_v1"
+    if output.exists():
+        raise CampaignError(f"refusing to reuse functional preflight output: {output}")
+    output.mkdir(parents=True)
+    fixed.install_fixed_dataset_factory(card, output)
+    _, config, summary = build_runtime_config(paths, output / "training", fixed)
+    if summary != card["resolved_config"]:
+        raise CampaignError("functional preflight config differs from sealed T config")
+    cfg_dir = output / "experiment_cfg"
+    cfg_dir.mkdir()
+    from gr00t.model.gr00t_n1d7.setup import Gr00tN1d7Pipeline
+
+    # Pipeline construction and _create_dataset load the processor/data only; setup() would load model weights.
+    pipeline = Gr00tN1d7Pipeline(config, cfg_dir)
+    train_dataset, eval_dataset = pipeline._create_dataset(cfg_dir)
+    if eval_dataset is not None:
+        raise CampaignError("functional preflight unexpectedly constructed an eval dataset")
+    datapoint = next(iter(train_dataset))
+    action, mask = fixed.find_action_mask(pipeline.processor.collator([datapoint]))
+    if list(action.shape) != [1, 40, 132] or list(mask.shape) != [1, 40, 132]:
+        raise CampaignError(f"functional preflight action/mask shape mismatch: {action.shape}, {mask.shape}")
+    if not fixed.np.isfinite(action).all() or not fixed.np.isfinite(mask).all():
+        raise CampaignError("functional preflight produced nonfinite action/mask values")
+    active_slots = fixed.np.flatnonzero(fixed.np.any(mask != 0, axis=(0, 1))).tolist()
+    if active_slots != list(range(10)):
+        raise CampaignError(f"functional preflight active action slots drift: {active_slots}")
+    consumption_path = output / "pi0241_sample_consumption.jsonl"
+    consumption = [json.loads(line) for line in consumption_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    planned = read_json(Path(card["schedule"]["path"]))["rows"][0]
+    if len(consumption) != 1 or consumption[0]["source_episode_id"] != planned["source_episode_id"]:
+        raise CampaignError("functional preflight did not decode the first sealed TRAIN schedule row")
+    report = {
+        "schema": "PI0246_T_FUNCTIONAL_PREFLIGHT_V1", "status": "PASS_NO_MODEL",
+        "run_card_sha256": sha256_file(args.run_card), "runtime_binding_sha256": binding["sha256"],
+        "config_sha256": canonical_sha256(summary), "execution": execution,
+        "runtime": runtime, "source_episode_id": consumption[0]["source_episode_id"],
+        "action_shape": list(action.shape), "mask_shape": list(mask.shape), "active_slots": active_slots,
+        "eval_dataset": None, "model_weight_loads": 0, "model_forwards": 0,
+        "get_action_calls": 0, "backward_calls": 0, "optimizer_steps": 0,
+    }
+    write_json(output / "functional_preflight.json", report)
+    print(json.dumps(report, indent=2, sort_keys=True))
 
 
 def prepare(args: argparse.Namespace) -> None:
@@ -401,28 +479,7 @@ def train(args: argparse.Namespace) -> None:
     training_output.mkdir(parents=True)
     fixed.install_fixed_dataset_factory(card, training_output)
     fixed.install_update_audit(training_output, audit_steps={1, 10, 100, 1000, 2000}, expected_end_step=STEPS)
-    pi0228 = load_module(Path(paths["code_root"]) / "scripts/pi0228_h200_large_adapt_v1.py", "pi0246_pi0228_train")
-    helper_args = argparse.Namespace(
-        stage10_root=Path(paths["stage10_root"]), base_model_path=Path(paths["base_model_path"]),
-        dataset_dir=Path(paths["train_dataset"]), modality_config=Path(paths["modality_config"]),
-        groot_source=Path(paths["groot_source"]),
-    )
-    config = pi0228.build_config(helper_args, training_output, steps=STEPS, save_steps=1000, save_limit=3)
-    config.training.max_grad_norm = 1.0
-    config.training.lr_scheduler_type = "cosine"
-    config.training.learning_rate = 1e-5
-    config.training.weight_decay = 1e-5
-    config.training.dataloader_num_workers = 0
-    config.training.gradient_checkpointing = False
-    config.training.num_gpus = 1
-    config.training.eval_strategy = "no"
-    config.training.logging_steps = 1
-    config.training.seed = SEED
-    config.data.seed = SEED
-    config.data.num_shards_per_epoch = 1000
-    embodiment = config.data.datasets[0].embodiment_tag
-    config.data.modality_configs = {embodiment: config.data.modality_configs[embodiment]}
-    summary = summarize_config(pi0228, config, embodiment)
+    pi0228, config, summary = build_runtime_config(paths, training_output, fixed)
     if summary != card["resolved_config"]:
         raise CampaignError("runtime config differs from sealed arm card")
     write_json(training_output / "resolved_config.json", summary)
@@ -538,6 +595,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--prepare", action="store_true")
+    mode.add_argument("--functional-preflight", action="store_true")
     mode.add_argument("--train", action="store_true")
     mode.add_argument("--seal-t-runtime", action="store_true")
     parser.add_argument("--r0-card", type=Path)
@@ -556,6 +614,10 @@ def main() -> int:
         if any(value is None for value in required):
             parser.error("--prepare requires R0/P0/P1 identities and output root")
         prepare(args)
+    elif args.functional_preflight:
+        if args.run_card is None:
+            parser.error("--functional-preflight requires --run-card")
+        functional_preflight(args)
     elif args.train:
         if args.run_card is None:
             parser.error("--train requires --run-card")
