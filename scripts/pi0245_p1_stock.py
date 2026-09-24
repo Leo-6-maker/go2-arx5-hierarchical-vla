@@ -24,6 +24,7 @@ NOISES = ("N0", "N1", "N2", "N0_roll11")
 PATH_OVERLAY_KEYS = frozenset({
     "code_root", "groot_source", "stage10_root", "cosmos_snapshot",
     "processor_base_model", "train_dataset", "modality_config", "output_root",
+    "r0_root", "noise_root", "model_base_root", "p1_runner",
 })
 
 
@@ -372,6 +373,15 @@ def main() -> None:
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--close-p1", action="store_true")
     args = parser.parse_args()
+    card = json.loads(args.run_card.read_text())
+    card["_sha256"] = sha(args.run_card)
+    paths = resolve_path_overlay(card, args.path_overlay)
+    for key, attribute in (("r0_root", "r0_root"), ("noise_root", "noise_root"),
+                           ("output_root", "output_root")):
+        if key in paths:
+            setattr(args, attribute, Path(paths[key]))
+    if "model_base_root" in paths:
+        args.model_root = Path(paths["model_base_root"]) / args.model_name
     if args.close_p1:
         close_p1(args)
         return
@@ -383,9 +393,6 @@ def main() -> None:
     if args.model_preflight:
         print(json.dumps({"status": "PASS_P1_MODEL_FILE_PREFLIGHT", **verify_model_files(args.model_root)}))
         return
-    card = json.loads(args.run_card.read_text())
-    card["_sha256"] = sha(args.run_card)
-    paths = resolve_path_overlay(card, args.path_overlay)
     code_root = Path(paths["code_root"])
     sys.path[:0] = [str(code_root / "scripts"), str(code_root / "src"), str(paths["groot_source"])]
     os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "1"
