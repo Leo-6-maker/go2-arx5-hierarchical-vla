@@ -1,6 +1,6 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T05:14:27Z",
+  "updated_at_utc": "2026-09-24T05:29:00Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
   "execution_commit": "b0027c8d019a08f39cd7cc66e97e3e7d899f9cd3",
   "active_stage": "P1_R0_STOCK_QUERIES",
@@ -54,5 +54,15 @@
     "629669.hopper-m-02",
     "629993.hopper-m-02"
   ],
+  "last_resource_route_diagnostic": {
+    "observed_at_utc": "2026-09-24T05:29:00Z",
+    "ssh_control": "nus-hopper resolved through existing SSH config; qstat reachable",
+    "auto_route_destinations": ["small", "medium", "large", "special"],
+    "one_gpu_route": "small only (small min/max 1/2 GPUs; from_route_only=true)",
+    "other_routes": "medium min 3 GPUs; large min 8 GPUs; special ACL excludes this account",
+    "current_small_queue": "279 queued, 75 running; scheduler comment is insufficient ngpus",
+    "corelab_probe": "current corelab-amd-server exposes AMD Cezanne only; no NVIDIA device node or nvidia-smi; local Windows GPU is MX450 2GB",
+    "action": "retain single 630018 owner; do not inflate GPU request or submit a duplicate"
+  },
   "selected_checkpoint": "NONE"
 }
