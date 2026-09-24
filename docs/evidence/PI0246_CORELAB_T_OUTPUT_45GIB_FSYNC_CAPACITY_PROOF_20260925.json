@@ -1,0 +1,21 @@
+{
+  "schema": "pi0246_same_filesystem_capacity_probe_v1",
+  "recorded_utc": "2026-09-24T20:35:38Z",
+  "target_output_root": "/home/liuyu-nfs/pi0246_gate_pass_campaign_20260924/CORELAB_T_4080S/output",
+  "filesystem": "corelab-amd-server-eth:/mnt/LocalHDD1/HomeNFS/liuyu-nfs",
+  "probe_file": "/home/liuyu-nfs/pi0246_gate_pass_campaign_20260924/CORELAB_T_4080S/output/.pi0246_T_45GiB_capacity_probe_20260925.tmp",
+  "command": "dd if=/dev/zero bs=16M count=2880 conv=fsync status=progress",
+  "expected_bytes": 48318382080,
+  "observed_file_bytes": 48318382080,
+  "allocated_512_byte_blocks": 94371840,
+  "allocated_bytes": 48318382080,
+  "exit_status": 0,
+  "durability": "dd conv=fsync completed successfully",
+  "df_available_bytes_after_probe_during_C_archive": 464307355648,
+  "probe_removed_after_exact_size_and_allocation_verification": true,
+  "df_available_bytes_after_probe_removal": 464902946816,
+  "latest_df_available_bytes": 512218890240,
+  "latest_df_observed_utc": "2026-09-24T20:42:26Z",
+  "quota_status": "UNKNOWN",
+  "scope_note": "Proves a 45 GiB nonsparse write and fsync on the exact T output filesystem; does not prove or claim a user/project quota limit."
+}

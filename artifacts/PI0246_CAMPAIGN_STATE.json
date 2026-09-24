@@ -1,9 +1,9 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T05:53:53Z",
+  "updated_at_utc": "2026-09-24T20:42:26Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
-  "execution_commit": "2425fdfe5fa5ad0bcd08cfc34c4bdd79c1af1b8a",
-  "active_stage": "P1_R0_STOCK_QUERIES_ENGINEERING_RECOVERY",
+  "execution_commit": "76b529135dde2123aaa9b2b57e654dce028d9abc",
+  "active_stage": "C_CHECKPOINT_2000_ARCHIVE_READBACK",
   "active_job": null,
   "latest_attempt": {
     "job_id": "630018.hopper-m-02",
@@ -25,10 +25,10 @@
     "query_order": "R0 then R2; each follows the sealed source and four-noise order",
     "r0_expected_count": 16,
     "r2_expected_count": 16,
-    "attempted_queries": 0,
-    "completed_valid_cells": 0,
+    "attempted_queries": 32,
+    "completed_valid_cells": 32,
     "output_root": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_hf_cache_bound",
-    "archive_status": "NOT_STARTED",
+    "archive_status": "COMPLETE",
     "durable_receipt": null,
     "identities": {
       "runner_sha256": "5c55764a3667b2f6206bbdef17b64f2d0a91c8ee3990cc8ce9ce7adfe1c75657",
@@ -38,20 +38,26 @@
       "noise_manifest_sha256": "a98bb142616c7ab558ccd788e996ae10e7b85a2a729770bdc0f65d3da8f99df9",
       "r0_model_restore_manifest_sha256": "192198543572ca77c517cf639631ccef13d770ebaeabc712d5e800ae471a890c",
       "r0_records_sha256": "4c502ab316ba9b4b800bfc743c9c5ecb1668a14d8b998f4c7a0f101cf5ed0d76"
-    }
+    },
+    "rerun": false,
+    "closure_sha256": "77712a2598ae7f8d8a076139c4160ec480c4d9ff624b2e45be9a0a51a55cc70a"
   },
   "training": {
     "updates": 0,
     "backward_calls": 0,
     "optimizer_steps": 0,
-    "arms_started": []
+    "arms_started": [],
+    "snapshot_as_of_utc": "2026-09-24T05:53:53Z"
   },
   "preserved_engineering_attempts": [
     "629660.hopper-m-02",
     "629662.hopper-m-02",
     "629669.hopper-m-02",
     "629993.hopper-m-02",
-    "630018.hopper-m-02"
+    "630018.hopper-m-02",
+    "630367.hopper-m-02",
+    "630382.hopper-m-02",
+    "630383.hopper-m-02"
   ],
   "last_resource_route_diagnostic": {
     "observed_at_utc": "2026-09-24T05:53:53Z",
@@ -65,5 +71,70 @@
     "current_hopper_queue": "qstat -u e1192548 empty after 630018 terminal F; no active owner",
     "action": "cache-binding wrapper fix and exact-runtime CPU preflight passed; no P1 query yet. Preserve 630018 and resume only with a single owner after the execution route is finalized."
   },
-  "selected_checkpoint": "NONE"
+  "selected_checkpoint": "NONE",
+  "continuation_observation": {
+      "recorded_at_utc": "2026-09-24T20:42:26Z",
+    "prior_committed_snapshot_preserved": true,
+    "C": {
+      "job_id": "630383.hopper-m-02",
+      "completed_updates": 2000,
+      "checkpoint_1000_tree_sha256": "f68e6cb8b7d5cea3cf5a7c3ddf15653b5e08474cb9955fa3b8d2d93913b0ddd4",
+      "checkpoint_2000_tree_sha256": "29c90d1a7f13d3e374b1bb66786483dce8bdf2a343833a04b9f700584568ab3f",
+      "checkpoint_2000_source_manifest_sha256": "494e8f146ca0795dbc8862361ef60b7377b39b16b43a4f0305d55c2aba52d304",
+      "remote_partial_path": "/home/liuyu-nfs/pi0246_gate_pass_archive_20260924/C/checkpoint-2000.partial",
+      "remote_partial_last_observed_utc": "2026-09-24T20:42:26Z",
+      "remote_partial_observed_bytes": 6585061200,
+      "remote_partial_observed_files": 4,
+      "remote_readback_verified": false,
+      "training_manifest_preserved_as_written": true,
+      "engineering_reconciliation_sha256": "566c32cd75434210a276293941dfcbd01fbb38956e765f09021d62e664012778"
+    },
+    "T": {
+      "authorized": true,
+      "status": "preflight_pass_not_started",
+      "optimizer_updates": 0,
+      "run_card_sha256": "128aebc0cccd81655010e84d877d769ec5db5e78a4c91ccc1aa981aff40c8dbd",
+      "runtime_binding_sha256": "963d18a2dfbee2f7689e6e74c58ff721411d7b53d6993e740fc408a069890442",
+      "trainer_sha256": "0995b2ddcc0c5c689f58fbbfe5435604f5af3ec93fe0a811aa3e2069c1a28549",
+      "wrapper_sha256": "3b134918ddceb2c300eeb9349894f7e4590aadcf767a85a4e3781c37435fecc6",
+      "preflight_report_sha256": "c8a887d68ad3d972a5b0e056f69fa4fda9439e7a76e505af9d2fac16078e6381",
+      "checkpoint_output_path": "/home/liuyu-nfs/pi0246_gate_pass_campaign_20260924/CORELAB_T_4080S/output",
+      "public_hf_relay": {
+        "authorized": true,
+        "write_credential_visible_in_checked_local_and_corelab_4080s_contexts": false,
+        "upload_attempted": false,
+        "R0_public_source_repo": "leoyuer/pi0243-stage-a-admitted-v1",
+        "R0_revision": "f89f94a914c5f041a9499804a53b499c95f87724",
+        "R0_source_readback_matches_T_card_sha256": true
+      }
+    },
+    "storage": {
+      "filesystem": "corelab-amd-server-eth:/mnt/LocalHDD1/HomeNFS/liuyu-nfs",
+      "same_output_filesystem_nonsparse_fsync_probe": {
+        "evidence_path": "docs/evidence/PI0246_CORELAB_T_OUTPUT_45GIB_FSYNC_CAPACITY_PROOF_20260925.json",
+        "probe_bytes": 48318382080,
+        "allocated_512_byte_blocks": 94371840,
+        "allocated_bytes": 48318382080,
+        "dd_exit_status": 0,
+        "df_available_bytes_after_probe": 464307355648,
+        "probe_removed_after_exact_size_and_allocation_verification": true,
+        "df_available_bytes_after_probe_removal": 464902946816,
+        "latest_df_available_bytes": 512218890240,
+        "latest_df_observed_utc": "2026-09-24T20:42:26Z",
+        "quota_status": "UNKNOWN"
+      }
+    },
+    "HF": {
+      "relay_authorized": true,
+      "write_credential_visible_in_checked_contexts": false,
+      "upload_attempted": false,
+      "token_values_read_or_logged": false
+    },
+    "screen": {
+      "S0_first_valid_cells": 16,
+      "additional_valid_cells": 0,
+      "total_planned_cells": 80,
+      "no_S0_rerun": true
+    }
+  }
 }
