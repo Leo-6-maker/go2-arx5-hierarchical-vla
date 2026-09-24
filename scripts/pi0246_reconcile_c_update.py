@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only reconciliation of PI0246 C training's sampled projector probe."""
+"""Read-only reconciliation of PI0246 C/T training's sampled projector probe."""
 
 from __future__ import annotations
 
@@ -69,12 +69,13 @@ def compare_projector(base: Path, checkpoint: Path) -> dict:
 def reconcile(card_path: Path, training: Path, output: Path) -> dict:
     card = read(card_path)
     seal = read(card_path.with_name("run_card.seal.json"))
-    if seal.get("sha256") != sha(card_path):
-        raise RuntimeError("C sealed run-card hash mismatch")
+    arm = card.get("arm")
+    if arm not in {"C", "T"} or seal.get("sha256") != sha(card_path):
+        raise RuntimeError("C/T sealed run-card identity mismatch")
     manifest_path = training.parent / "training_manifest.json"
     manifest = read(manifest_path)
-    if manifest.get("run_card_sha256") != sha(card_path):
-        raise RuntimeError("C training manifest is not bound to this run card")
+    if manifest.get("arm") != arm or manifest.get("run_card_sha256") != sha(card_path):
+        raise RuntimeError("C/T training manifest is not bound to this arm card")
     if Path(fixed16.__file__).resolve() != (Path(card["paths"]["code_root"]) / "scripts/pi0241_fixed16_learning.py").resolve():
         raise RuntimeError("parameter classifier import is not the run-card code root")
     audit_path = training / "pi0241_update_audit.json"
@@ -83,15 +84,15 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
     consumed = [json.loads(line) for line in (training / "pi0241_sample_consumption.jsonl").read_text().splitlines() if line.strip()]
     contracts = [json.loads(line) for line in (training / "pi0241_sample_contracts.jsonl").read_text().splitlines() if line.strip()]
     if len(schedule) != 2000 or len(consumed) != 2000 or [r["source_episode_id"] for r in consumed] != [r["source_episode_id"] for r in schedule]:
-        raise RuntimeError("C sample-consumption evidence is incomplete or differs from the sealed schedule")
+        raise RuntimeError("C/T sample-consumption evidence is incomplete or differs from the sealed schedule")
     if len(contracts) != 16 or {int(r["fixed_index"]) for r in contracts} != set(range(16)):
-        raise RuntimeError("C action/mask contract evidence is incomplete")
+        raise RuntimeError("C/T action/mask contract evidence is incomplete")
     if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != 2000:
         raise RuntimeError("C update audit is not complete at step 2000")
     original_integrity = manifest.get("update_integrity", {})
     non_projector_checks = {key: value for key, value in original_integrity.items() if key != "projector_updated"}
-    if not non_projector_checks or not all(non_projector_checks.values()) or original_integrity.get("projector_updated") is not False:
-        raise RuntimeError(f"C failure is not isolated to the sampled projector probe: {original_integrity}")
+    if not non_projector_checks or not all(non_projector_checks.values()) or not isinstance(original_integrity.get("projector_updated"), bool):
+        raise RuntimeError(f"C/T update audit has failures beyond the sampled projector probe: {original_integrity}")
     membership = audit["optimizer_membership"]
     if membership["missing_trainable"] or membership["illegal_frozen"]:
         raise RuntimeError("optimizer membership audit failed")
@@ -104,11 +105,11 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
             raise RuntimeError(f"checkpoint-{step} full Trainer receipt mismatch")
         updates[str(step)] = compare_projector(Path(card["paths"]["base_model_path"]), checkpoint)
     final = audit["final_parameters"]
-    status = "TRAINING_INTEGRITY_RECONCILED_PROJECTOR_SAMPLE_FALSE_NEGATIVE"
+    status = f"TRAINING_INTEGRITY_RECONCILED_{arm}_FULL_PROJECTOR_TENSORS"
     if any(not updates[str(step)]["changed_tensor_count"] for step in (1000, 2000)):
         status = "PROJECTOR_UPDATE_NOT_CONFIRMED"
     result = {
-        "schema": "PI0246_C_READONLY_UPDATE_RECONCILIATION_V1",
+        "schema": f"PI0246_{arm}_READONLY_UPDATE_RECONCILIATION_V1",
         "status": status,
         "source": {
             "reconciliation_script_sha256": sha(Path(__file__).resolve()),
@@ -132,7 +133,7 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
             key: final.get(key) for key in ("diffusion", "frozen_backbone", "frozen_vlln")
         },
         "full_projector_tensor_differences_vs_r0": updates,
-        "interpretation": "The training wrapper sampled only the first 4096 values of one representative projector tensor. The read-only full tensor comparison is authoritative for whether projector tensors changed; original manifests remain untouched.",
+        "interpretation": "The sampled projector probe is not treated as authoritative. Read-only full tensor comparisons at steps 1000 and 2000 are authoritative; original training manifests remain untouched.",
         "selected_checkpoint": "NONE",
     }
     output.parent.mkdir(parents=True, exist_ok=True)

@@ -3,6 +3,9 @@
 
 from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
 from typing import Any
 
 import torch
@@ -10,11 +13,16 @@ import torch
 from pi0245_physical_delta import physical_delta_loss
 
 
-def install(head_cls: type, *, scale: torch.Tensor, offset: torch.Tensor, state_min: torch.Tensor, state_max: torch.Tensor, treatment: bool) -> dict[str, Any]:
+def install(head_cls: type, *, scale: torch.Tensor, offset: torch.Tensor, state_min: torch.Tensor, state_max: torch.Tensor, treatment: bool, audit_path: Path | None = None) -> dict[str, Any]:
     if getattr(head_cls, "_pi0245_overlay", False):
         raise RuntimeError("PI0245 overlay already installed")
+    if treatment and audit_path is None:
+        raise RuntimeError("PI0245 treatment requires a same-forward audit path")
+    if audit_path is not None and audit_path.exists():
+        raise RuntimeError(f"refusing to append to an existing forward audit: {audit_path}")
     native_forward = head_cls.forward
-    audit: dict[str, Any] = {"forward_calls": 0, "first_forward": None}
+    audit: dict[str, Any] = {"forward_calls": 0, "first_forward": None,
+                             "forward_log_path": str(audit_path) if audit_path is not None else None}
 
     def forward(self: Any, backbone_output: Any, action_input: Any) -> Any:
         actions = action_input.action
@@ -71,6 +79,21 @@ def install(head_cls: type, *, scale: torch.Tensor, offset: torch.Tensor, state_
         if treatment:
             output["loss"] = native + 0.1 * auxiliary
         audit["forward_calls"] += 1
+        if treatment:
+            row = {
+                "forward_index": audit["forward_calls"],
+                "native_loss": float(native.detach().float().item()),
+                "physical_delta_loss": float(auxiliary.detach().float().item()),
+                "total_loss": float(output["loss"].detach().float().item()),
+                "tau": tau.detach().float().cpu().reshape(-1).tolist(),
+                **details,
+            }
+            assert audit_path is not None
+            with audit_path.open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n")
+                stream.flush()
+                if audit["forward_calls"] % 100 == 0:
+                    os.fsync(stream.fileno())
         if audit["first_forward"] is None:
             audit["first_forward"] = {
                 "native_loss": float(native.detach().float().item()),

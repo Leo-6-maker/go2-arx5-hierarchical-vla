@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 import sys
 import time
@@ -49,6 +50,75 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: handle.read(8 * 1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def canonical_sha256(value: Any) -> str:
+    payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, default=str).encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def t_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> dict[str, Any]:
+    card = read_json(card_path)
+    root = runtime_root.resolve()
+    parent = Path(card["paths"]["campaign_code_root"])
+    code_root = Path(card["paths"]["code_root"])
+    parent_delta = parent / "pi0245_physical_delta.py"
+    runtime_delta = root / "pi0245_physical_delta.py"
+    if sha256_file(runtime_delta) != sha256_file(parent_delta):
+        raise CampaignError("T runtime physical-delta helper differs from the sealed PI0245 helper")
+    return {
+        "schema": "PI0246_T_SAME_FORWARD_LOGGING_RUNTIME_V1",
+        "run_card_sha256": sha256_file(card_path),
+        "family": card["family"],
+        "loss": card["loss"],
+        "seed": card["seed"],
+        "resolved_config_sha256": canonical_sha256(card["resolved_config"]),
+        "runtime_root": str(root),
+        "trainer_sha256": sha256_file(root / "pi0246_gate_pass_train.py"),
+        "overlay_sha256": sha256_file(root / "pi0245_native_overlay.py"),
+        "physical_delta_sha256": sha256_file(runtime_delta),
+        "parent_physical_delta_sha256": sha256_file(parent_delta),
+        "wrapper_path": str(wrapper.resolve()),
+        "wrapper_sha256": sha256_file(wrapper),
+        "parent_campaign_root": str(parent.resolve()),
+        "parent_campaign_trainer_sha256": sha256_file(parent / "pi0246_gate_pass_train.py"),
+        "parent_native_overlay_sha256": sha256_file(parent / "pi0245_native_overlay.py"),
+        "campaign_p1_runner_sha256": sha256_file(parent / "pi0245_p1_stock.py"),
+        "training_helpers": {
+            name: sha256_file(code_root / "scripts" / name)
+            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py", "pi0246_reconcile_c_update.py")
+        },
+        "sealer_sha256": sha256_file(Path(__file__).resolve()),
+    }
+
+
+def seal_t_runtime(card_path: Path, runtime_root: Path, wrapper: Path) -> dict[str, Any]:
+    card = read_json(card_path)
+    seal = read_json(card_path.with_name("run_card.seal.json"))
+    if seal.get("sha256") != sha256_file(card_path) or card.get("arm") != "T" or card.get("loss") != ARMS["T"][1]:
+        raise CampaignError("T runtime requires the unchanged sealed T card")
+    if (Path(card["paths"]["output_root"]) / "training").exists():
+        raise CampaignError("T training output already exists; refusing to reseal or overwrite")
+    identity = t_runtime_identity(card_path, runtime_root, wrapper)
+    manifest = runtime_root / "T_runtime_binding.json"
+    receipt = manifest.with_name("T_runtime_binding.seal.json")
+    if manifest.exists() or receipt.exists():
+        raise CampaignError("T runtime binding already exists")
+    write_json(manifest, identity)
+    write_json(receipt, {"sha256": sha256_file(manifest)})
+    return {"status": "PASS_T_RUNTIME_SEALED", "binding": identity, "binding_sha256": sha256_file(manifest)}
+
+
+def verify_t_runtime(card_path: Path, runtime_root: Path, wrapper: Path, binding_path: Path, expected_sha256: str) -> dict[str, Any]:
+    identity = t_runtime_identity(card_path, runtime_root, wrapper)
+    seal_path = binding_path.with_name("T_runtime_binding.seal.json")
+    binding = read_json(binding_path)
+    seal = read_json(seal_path)
+    if sha256_file(binding_path) != expected_sha256 or seal.get("sha256") != expected_sha256 or binding != identity:
+        raise CampaignError("T runtime binding, card, wrapper, or staged source SHA mismatch")
+    return {"status": "PASS_T_RUNTIME_BINDING", "sha256": expected_sha256,
+            "trainer_sha256": identity["trainer_sha256"], "overlay_sha256": identity["overlay_sha256"],
+            "wrapper_sha256": identity["wrapper_sha256"]}
 
 
 def load_module(path: Path, name: str) -> Any:
@@ -267,6 +337,16 @@ def train(args: argparse.Namespace) -> None:
     arm = str(card["arm"])
     if arm not in ARMS or card["family"] != ARMS[arm][0] or card["loss"] != ARMS[arm][1]:
         raise CampaignError("arm/family/loss binding mismatch")
+    t_binding = None
+    t_runtime_root = None
+    if arm == "T":
+        t_runtime_root = Path(os.environ["PI0246_T_RUNTIME_ROOT"])
+        t_wrapper = Path(os.environ["PI0246_T_RUNTIME_WRAPPER"])
+        t_binding_path = Path(os.environ["PI0246_T_RUNTIME_BINDING"])
+        t_binding = verify_t_runtime(
+            args.run_card, t_runtime_root, t_wrapper, t_binding_path,
+            os.environ["PI0246_T_RUNTIME_BINDING_SHA256"],
+        )
     p1_script = load_module(Path(card["paths"]["campaign_code_root"]) / "pi0245_p1_stock.py", "pi0246_p1_identity")
     expected_order = [f"{model}__{source}__{noise}" for model in ("R0", "R2") for source in p1_script.SOURCES for noise in p1_script.NOISES]
     p1 = verify_p1(
@@ -329,16 +409,20 @@ def train(args: argparse.Namespace) -> None:
     write_json(training_output / "resolved_config.json", summary)
     if arm == "T":
         import torch
-        sys.path.insert(0, str(Path(paths["campaign_code_root"])))
+        assert t_runtime_root is not None and t_binding is not None
+        sys.path.insert(0, str(t_runtime_root))
         from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7ActionHead
-        from pi0245_native_overlay import install
+        overlay_module = load_module(t_runtime_root / "pi0245_native_overlay.py", "pi0246_t_native_overlay")
         effective = read_json(Path(paths["p0_effective"]))
-        overlay_audit = install(
+        forward_log = training_output / "pi0245_native_overlay_forward.jsonl"
+        overlay_audit = overlay_module.install(
             Gr00tN1d7ActionHead, scale=torch.tensor(effective["scale_xyz_m"], dtype=torch.float32),
             offset=torch.tensor(effective["offset_xyz_m"], dtype=torch.float32),
             state_min=torch.tensor(effective["state_min"], dtype=torch.float32),
             state_max=torch.tensor(effective["state_max"], dtype=torch.float32), treatment=True,
+            audit_path=forward_log,
         )
+        overlay_audit["runtime_binding_sha256"] = t_binding["sha256"]
     else:
         overlay_audit = None
     started = time.time()
@@ -358,6 +442,39 @@ def train(args: argparse.Namespace) -> None:
         raise CampaignError("optimizer/update audit is incomplete")
     if [int(read_json(training_output / f"checkpoint-{step}/trainer_state.json")["global_step"]) for step in CHECKPOINTS] != list(CHECKPOINTS):
         raise CampaignError("full Trainer checkpoint steps are incomplete")
+    same_forward_audit = None
+    if arm == "T":
+        forward_log = training_output / "pi0245_native_overlay_forward.jsonl"
+        forward_rows = [json.loads(line) for line in forward_log.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if len(forward_rows) != STEPS or [int(row.get("forward_index", -1)) for row in forward_rows] != list(range(1, STEPS + 1)):
+            raise CampaignError("T same-forward component/tau audit is incomplete")
+        required_fields = {"native_loss", "physical_delta_loss", "total_loss", "tau", "valid_transitions", "saturated_xyz"}
+        for row in forward_rows:
+            if not required_fields.issubset(row):
+                raise CampaignError("T same-forward audit is missing a required component")
+            numeric = [row["native_loss"], row["physical_delta_loss"], row["total_loss"], *row["tau"]]
+            if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in numeric):
+                raise CampaignError("T same-forward audit contains nonfinite values")
+            if len(row["tau"]) != 1 or not 0.0 <= float(row["tau"][0]) <= 1.0:
+                raise CampaignError("T same-forward audit tau shape/range is invalid")
+            if not math.isclose(float(row["total_loss"]), float(row["native_loss"]) + 0.1 * float(row["physical_delta_loss"]), rel_tol=1e-5, abs_tol=1e-7):
+                raise CampaignError("T same-forward loss components do not sum to the prescribed objective")
+            if not 0 < int(row["valid_transitions"]) <= 39 or not 0 <= int(row["saturated_xyz"]) <= 120:
+                raise CampaignError("T same-forward audit transition/saturation count is invalid")
+        same_forward_audit = {
+            "status": "COMPLETE", "rows": len(forward_rows),
+            "sha256": sha256_file(forward_log),
+            "first_forward": forward_rows[0], "last_forward": forward_rows[-1],
+            "native_loss_min": min(float(row["native_loss"]) for row in forward_rows),
+            "native_loss_max": max(float(row["native_loss"]) for row in forward_rows),
+            "physical_delta_loss_min": min(float(row["physical_delta_loss"]) for row in forward_rows),
+            "physical_delta_loss_max": max(float(row["physical_delta_loss"]) for row in forward_rows),
+            "valid_transitions_min": min(int(row["valid_transitions"]) for row in forward_rows),
+            "valid_transitions_max": max(int(row["valid_transitions"]) for row in forward_rows),
+            "saturated_xyz_total": sum(int(row["saturated_xyz"]) for row in forward_rows),
+        }
+        overlay_audit["forward_log_sha256"] = same_forward_audit["sha256"]
+        overlay_audit["update_audit_sha256"] = sha256_file(training_output / "pi0241_update_audit.json")
     checkpoints = {str(step): fixed.checkpoint_record(training_output / f"checkpoint-{step}", step) for step in CHECKPOINTS}
     update = audit["final_parameters"]
     integrity = {
@@ -367,21 +484,33 @@ def train(args: argparse.Namespace) -> None:
         "frozen_vlln_unchanged": float(update["frozen_vlln"]["delta_l2"]) == 0,
         "optimizer_membership_valid": not audit["optimizer_membership"]["missing_trainable"] and not audit["optimizer_membership"]["illegal_frozen"],
     }
+    if arm == "T":
+        integrity["same_forward_audit_complete"] = same_forward_audit is not None and same_forward_audit["rows"] == STEPS
+    projector_reconciliation_required = (
+        arm == "T" and not integrity["projector_updated"]
+        and all(value for key, value in integrity.items() if key != "projector_updated")
+    )
     result = {
         "schema": "PI0246_ARM_TRAINING_MANIFEST_V1",
-        "status": "PASS_TRAINING_INTEGRITY" if all(integrity.values()) else "SCIENCE_FAIL_OPTIMIZATION_OR_CONTRACT",
+        "status": (
+            "TRAINING_COMPLETE_PROJECTOR_RECONCILIATION_REQUIRED" if projector_reconciliation_required
+            else "PASS_TRAINING_INTEGRITY" if all(integrity.values())
+            else "SCIENCE_FAIL_OPTIMIZATION_OR_CONTRACT"
+        ),
         "arm": arm, "family": card["family"], "run_card_sha256": sha256_file(args.run_card),
         "p1_closure_sha256": sha256_file(Path(card["p1_closure_path"])), "p1_cells": len(p1["cells"]),
         "elapsed_s": time.time() - started, "global_step": STEPS, "sample_consumption": len(consumption),
         "pbs_job_id": os.environ["PBS_JOBID"],
         "schedule_sha256": card["schedule"]["sha256"], "sample_contracts": contracts,
         "update_integrity": integrity, "update_audit_sha256": sha256_file(training_output / "pi0241_update_audit.json"),
+        "projector_reconciliation_required": projector_reconciliation_required,
         "checkpoints": checkpoints, "runtime_binding": runtime,
         "overlay": overlay_audit, "selected_checkpoint": "NONE",
+        "same_forward_audit": same_forward_audit,
         "forbidden_counts": card["forbidden_counts"],
     }
     write_json(output / "training_manifest.json", result)
-    if not all(integrity.values()):
+    if not all(integrity.values()) and not projector_reconciliation_required:
         raise CampaignError("optimizer/update integrity failure")
     print(json.dumps(result, indent=2, sort_keys=True))
 
@@ -391,6 +520,7 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--prepare", action="store_true")
     mode.add_argument("--train", action="store_true")
+    mode.add_argument("--seal-t-runtime", action="store_true")
     parser.add_argument("--r0-card", type=Path)
     parser.add_argument("--r0-root", type=Path)
     parser.add_argument("--r0-model-root", type=Path)
@@ -399,16 +529,23 @@ def main() -> int:
     parser.add_argument("--campaign-code-root", type=Path)
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--run-card", type=Path)
+    parser.add_argument("--runtime-root", type=Path)
+    parser.add_argument("--wrapper", type=Path)
     args = parser.parse_args()
     if args.prepare:
         required = (args.r0_card, args.r0_root, args.r0_model_root, args.p0_effective, args.p1_root, args.campaign_code_root, args.output_root)
         if any(value is None for value in required):
             parser.error("--prepare requires R0/P0/P1 identities and output root")
         prepare(args)
-    else:
+    elif args.train:
         if args.run_card is None:
             parser.error("--train requires --run-card")
         train(args)
+    else:
+        required = (args.run_card, args.runtime_root, args.wrapper)
+        if any(value is None for value in required):
+            parser.error("--seal-t-runtime requires --run-card, --runtime-root, and --wrapper")
+        print(json.dumps(seal_t_runtime(args.run_card, args.runtime_root, args.wrapper), indent=2, sort_keys=True))
     return 0
 
 

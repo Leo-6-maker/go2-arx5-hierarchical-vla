@@ -7,6 +7,7 @@ import json
 import argparse
 import inspect
 import sys
+import tempfile
 from pathlib import Path
 
 import torch
@@ -77,13 +78,37 @@ def main() -> None:
     assert torch.equal(direct_next, observed_next)
     assert audit["forward_calls"] == 1 and audit["first_forward"]["valid_transitions"] == 39
     assert torch.randn.__name__ == "randn"
+    class TreatmentHead(nn.Module):
+        def __init__(self) -> None:
+            super().__init__()
+            self.action_encoder = nn.Linear(132, 132, bias=False)
+            self.action_decoder = nn.Linear(132, 132, bias=False)
+
+        sample_time = FakeHead.sample_time
+        forward = FakeHead.forward
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        log_path = Path(temp_dir) / "forward.jsonl"
+        treatment = install(TreatmentHead, scale=scale, offset=offset, state_min=state_min,
+                           state_max=state_max, treatment=True, audit_path=log_path)
+        logged_head = TreatmentHead()
+        torch.manual_seed(22301)
+        treatment_output = logged_head(None, batch)
+        treatment_output["loss"].backward()
+        logged_rows = [json.loads(line) for line in log_path.read_text(encoding="utf-8").splitlines()]
+        assert len(logged_rows) == 1 and logged_rows[0]["forward_index"] == 1
+        assert logged_rows[0]["valid_transitions"] == 39 and treatment["forward_calls"] == 1
+        assert logged_head.action_decoder.weight.grad is not None
     sys.path.insert(0, str(args.groot_source))
     from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7ActionHead
     source = inspect.getsource(Gr00tN1d7ActionHead.forward)
     assert "noise = torch.randn(actions.shape" in source and "t = self.sample_time" in source
     assert "action_loss = F.mse_loss(pred_actions, velocity" in source
     original = Gr00tN1d7ActionHead.forward
-    native_audit = install(Gr00tN1d7ActionHead, scale=scale, offset=offset, state_min=state_min, state_max=state_max, treatment=True)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        native_audit = install(Gr00tN1d7ActionHead, scale=scale, offset=offset, state_min=state_min,
+                               state_max=state_max, treatment=True,
+                               audit_path=Path(temp_dir) / "native-forward.jsonl")
     assert native_audit["forward_calls"] == 0 and Gr00tN1d7ActionHead.forward is not original
     Gr00tN1d7ActionHead.forward = original
     del Gr00tN1d7ActionHead._pi0245_overlay
