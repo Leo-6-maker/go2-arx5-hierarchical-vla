@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.pi0245_p1_stock import one, resolve_path_overlay, resolve_tensor_path
+from scripts.pi0245_p1_stock import one, resolve_path_overlay, resolve_tensor_path, verify_model_files
 
 
 class P1BindingTests(unittest.TestCase):
@@ -39,6 +39,17 @@ class P1BindingTests(unittest.TestCase):
     def test_stock_cell_uses_explicitly_bound_paths(self):
         self.assertIn("paths", inspect.signature(one).parameters)
 
+    def test_model_restore_hash_mismatch_fails_closed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "weights.bin").write_bytes(b"actual bytes")
+            (root / "pi0245_inference_restore.json").write_text(json.dumps({
+                "optimizer_restored": False,
+                "files": [{"path": "weights.bin", "sha256": "0" * 64}],
+            }))
+            with self.assertRaisesRegex(AssertionError, "model source drift"):
+                verify_model_files(root)
+
     def test_hopper_wrapper_uses_unix_line_endings(self):
         wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0245_p1_stock_h200.pbs"
         contents = wrapper.read_bytes()
@@ -52,6 +63,13 @@ class P1BindingTests(unittest.TestCase):
         self.assertNotIn("/Project_Storage", text)
         self.assertIn("p1_noise_bank", text)
         self.assertIn("${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}", text)
+        self.assertIn("MODEL_BASE=${PI0245_MODEL_BASE:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/models}", text)
+        self.assertIn('test -r "${MODEL_ROOT}/pi0245_inference_restore.json"', text)
+        self.assertNotIn('${MODEL_BASE}/R0/pi0245_inference_restore.json', text)
+        self.assertNotIn('${MODEL_BASE}/R2/pi0245_inference_restore.json', text)
+        preflight_only = text.index('if [[ "${PREFLIGHT_ONLY}" == "1" ]]')
+        self.assertLess(preflight_only, text.index('nvidia-smi --query-gpu=name'))
+        self.assertIn('PI0245_P1_PREFLIGHT_ONLY must be 0 or 1', text)
         self.assertEqual(text.count("--model-name \"${MODEL_NAME}\" --output-root \"${OUT}\" --source-index 0 --noise-name N0 --all"), 1)
         self.assertIn("PI0245_P1_ARCHIVE_PENDING", text)
 

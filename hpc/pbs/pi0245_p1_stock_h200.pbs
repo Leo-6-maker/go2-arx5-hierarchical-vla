@@ -20,12 +20,17 @@ CARD=${RUN_ROOT}/pi0243_run_card.json
 NOISE=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_noise_bank
 SCRIPT=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/code/pi0245_p1_stock.py
 OUT=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1
-MODEL_BASE=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/models
+MODEL_BASE=${PI0245_MODEL_BASE:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/models}
 NOISE=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_noise_bank
 MODEL_NAME=${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}
+PREFLIGHT_ONLY=${PI0245_P1_PREFLIGHT_ONLY:-0}
 case "${MODEL_NAME}" in
   R0|R2) MODEL_ROOT="${MODEL_BASE}/${MODEL_NAME}" ;;
   *) echo "unsupported P1 model ${MODEL_NAME}" >&2; exit 2 ;;
+esac
+case "${PREFLIGHT_ONLY}" in
+  0|1) ;;
+  *) echo "PI0245_P1_PREFLIGHT_ONLY must be 0 or 1" >&2; exit 2 ;;
 esac
 
 printf 'PI0245_P1_COMPUTE_INPUT_PREFLIGHT host=%s job=%s\n' "${HOSTNAME:-unknown}" "${PBS_JOBID:-unknown}"
@@ -43,8 +48,7 @@ test -r "${CARD}"
 test -r "${RUN_ROOT}/pi0243_run_card.seal.json"
 test -r "${SCRIPT}"
 test -r "${NOISE}/manifest.json"
-test -r "${MODEL_BASE}/R0/pi0245_inference_restore.json"
-test -r "${MODEL_BASE}/R2/pi0245_inference_restore.json"
+test -r "${MODEL_ROOT}/pi0245_inference_restore.json"
 test -r "${RUN_ROOT}/screen/step-10000/records.jsonl"
 
 CARD_SHA="$(sha256sum "${CARD}" | awk '{print $1}')"
@@ -52,6 +56,11 @@ test "${CARD_SHA}" = "12e09718d5499aece46800b348f733d1bb506400d0468cb128f233f571
 "${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --model-preflight
 "${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --bind-preflight
 "${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --label-preflight
+
+if [[ "${PREFLIGHT_ONLY}" == "1" ]]; then
+  echo "PI0245_P1_PREFLIGHT_ONLY_PASS model=${MODEL_NAME} model_root=${MODEL_ROOT}"
+  exit 0
+fi
 
 GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader)"
 GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
