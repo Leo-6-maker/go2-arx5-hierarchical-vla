@@ -69,7 +69,7 @@ class P1BindingTests(unittest.TestCase):
         self.assertIn(".paths.noise_root", text)
         self.assertIn(".paths.p1_runner", text)
         self.assertIn("${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}", text)
-        self.assertIn("PATH_OVERLAY=${PI0245_PATH_OVERLAY:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_path_overlay_r1_v2.json}", text)
+        self.assertIn("PATH_OVERLAY=${PI0245_PATH_OVERLAY:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_path_overlay_r1_hf_cache_v3.json}", text)
         self.assertIn("RUN_ROOT=\"$(jq -er '.paths.r0_root' \"${PATH_OVERLAY}\")\"", text)
         self.assertIn("MODEL_BASE=\"$(jq -er '.paths.model_base_root' \"${PATH_OVERLAY}\")\"", text)
         self.assertIn('test -r "${MODEL_ROOT}/pi0245_inference_restore.json"', text)

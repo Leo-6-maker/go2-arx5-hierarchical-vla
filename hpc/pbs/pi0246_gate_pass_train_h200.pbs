@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#PBS -N pi0246_gate_pass
+#PBS -P CFP03-CF-004
+#PBS -W group_list=HPC_Users_3104
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=16:00:00
+#PBS -o /scratch/e1192548/pi0246_gate_pass_logs/
+#PBS -e /scratch/e1192548/pi0246_gate_pass_logs/
+
+set -euo pipefail
+trap 'rc=$?; echo "PI0246_TRAIN_FAILURE line=${LINENO} status=${rc}" >&2' ERR
+
+card=${PI0246_RUN_CARD:?sealed C or T card required}
+expected=${PI0246_RUN_CARD_SHA256:?sealed card SHA required}
+arm=${PI0246_ARM:?C or T required}
+case "$arm" in C|T) ;; *) exit 2 ;; esac
+test -r "$card"
+test "$(sha256sum "$card" | cut -d ' ' -f 1)" = "$expected"
+test "$(jq -er .arm "$card")" = "$arm"
+
+code=$(jq -er .paths.code_root "$card")
+campaign=$(jq -er .paths.campaign_code_root "$card")
+stage10=$(jq -er .paths.stage10_root "$card")
+groot=$(jq -er .paths.groot_source "$card")
+output=$(jq -er .paths.output_root "$card")
+ff=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+venv="$stage10/runtime/venv"
+test -r "$campaign/pi0246_gate_pass_train.py"
+test -r "$campaign/pi0245_p1_stock.py"
+test -x "$venv/bin/python"
+test -d "$ff/lib"
+test -d "$output"
+test -w "$output"
+available=$(stat -f -c '%a %s' "$output" | awk '{print $1*$2}')
+awk -v a="$available" 'BEGIN {exit !(a >= 60*1024*1024*1024)}' || { echo "FAIL_CLOSED: <60 GiB scratch checkpoint headroom" >&2; exit 2; }
+
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$campaign:$code/scripts:$code/src:$groot:${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1
+test "$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d' | wc -l)" -eq 1
+nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+"$venv/bin/python" -u "$campaign/pi0246_gate_pass_train.py" --train --run-card "$card"
