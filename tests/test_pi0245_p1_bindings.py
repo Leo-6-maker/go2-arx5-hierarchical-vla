@@ -55,6 +55,16 @@ class P1BindingTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, "model source drift"):
                 verify_model_files(root)
 
+    def test_model_restore_missing_file_fails_closed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "pi0245_inference_restore.json").write_text(json.dumps({
+                "optimizer_restored": False,
+                "files": [{"path": "missing.safetensors", "sha256": "0" * 64}],
+            }))
+            with self.assertRaisesRegex(AssertionError, "model source drift"):
+                verify_model_files(root)
+
     def test_hopper_wrapper_uses_unix_line_endings(self):
         wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0245_p1_stock_h200.pbs"
         contents = wrapper.read_bytes()
