@@ -27,6 +27,16 @@ def read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def bind_offline_runtime(paths: dict[str, str]) -> None:
+    sys.path[:0] = [str(Path(paths["code_root"]) / "scripts"), str(Path(paths["code_root"]) / "src"), paths["groot_source"]]
+    cache = Path(paths["stage10_root"]) / "cache/huggingface"
+    assert (cache / "hub").is_dir(), f"sealed Hugging Face cache absent: {cache}"
+    os.environ["HF_HOME"] = str(cache)
+    os.environ["HF_HUB_CACHE"] = str(cache / "hub")
+    os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "1"
+    os.environ["NO_ALBUMENTATIONS_UPDATE"] = "1"
+
+
 def inputs(root: Path) -> tuple[list[dict], dict[str, str], dict]:
     cohort = root / "screen_inputs/fixed16_cohort.json"
     records = root / "r0/screen/step-10000/records.jsonl"
@@ -100,8 +110,7 @@ def run(args: argparse.Namespace) -> None:
     else:
         assert restore["checkpoint_step"] == step and restore["optimizer_restored"] is False
         assert cards[arm]["family"] in restore["prefix"]
-    sys.path[:0] = [str(Path(paths["code_root"]) / "scripts"), str(Path(paths["code_root"]) / "src"), paths["groot_source"]]
-    os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "1"
+    bind_offline_runtime(paths)
     import torch
     from transformers import AutoModel
     from go2arx5_vla.safety import TrajectorySafetyGateV1
@@ -244,8 +253,7 @@ def main() -> None:
     args = parser.parse_args()
     rows, paths, cards = inputs(args.stage_root)
     if args.preflight:
-        sys.path[:0] = [str(Path(paths["code_root"]) / "scripts"), str(Path(paths["code_root"]) / "src"), paths["groot_source"]]
-        os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "1"
+        bind_offline_runtime(paths)
         import pi0242_train_infer_bridge as bridge
         import pi0243_staged_learning_to_sim as stage43
         import stage21_same_scene_groot_inference as stage21
