@@ -1,6 +1,6 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T20:46:17Z",
+  "updated_at_utc": "2026-09-24T20:59:01Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
   "execution_commit": "76b529135dde2123aaa9b2b57e654dce028d9abc",
   "active_stage": "C_CHECKPOINT_2000_ARCHIVE_READBACK",
@@ -73,7 +73,7 @@
   },
   "selected_checkpoint": "NONE",
   "continuation_observation": {
-      "recorded_at_utc": "2026-09-24T20:46:17Z",
+      "recorded_at_utc": "2026-09-24T20:59:01Z",
     "prior_committed_snapshot_preserved": true,
     "C": {
       "job_id": "630383.hopper-m-02",
@@ -82,9 +82,11 @@
       "checkpoint_2000_tree_sha256": "29c90d1a7f13d3e374b1bb66786483dce8bdf2a343833a04b9f700584568ab3f",
       "checkpoint_2000_source_manifest_sha256": "494e8f146ca0795dbc8862361ef60b7377b39b16b43a4f0305d55c2aba52d304",
       "remote_partial_path": "/home/liuyu-nfs/pi0246_gate_pass_archive_20260924/C/checkpoint-2000.partial",
-      "remote_partial_last_observed_utc": "2026-09-24T20:46:17Z",
-      "remote_partial_observed_bytes": 6851202896,
+      "remote_partial_last_observed_utc": "2026-09-24T20:59:01Z",
+      "remote_partial_observed_bytes": 7431556944,
       "remote_partial_observed_files": 4,
+      "local_scp_process_id": 6200,
+      "local_exec_session_id": 97175,
       "remote_readback_verified": false,
       "training_manifest_preserved_as_written": true,
       "engineering_reconciliation_sha256": "566c32cd75434210a276293941dfcbd01fbb38956e765f09021d62e664012778"
@@ -127,8 +129,14 @@
     "HF": {
       "relay_authorized": true,
       "write_credential_visible_in_checked_contexts": false,
+      "checked_shell_profiles_for_variable_assignments": "no HF write-token assignment found in Corelab AMD login, Corelab 4080S, or Hopper profiles",
       "upload_attempted": false,
       "token_values_read_or_logged": false
+    },
+    "owner_check": {
+      "observed_at_utc": "2026-09-24T20:58:53Z",
+      "hopper_qstat_active_jobs": 0,
+      "active_non_scheduler_owner": "existing local SCP process 6200 / exec session 97175 to Corelab; do not duplicate"
     },
     "screen": {
       "S0_first_valid_cells": 16,
