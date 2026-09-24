@@ -1,0 +1,45 @@
+{
+  "schema": "PI0246_CAMPAIGN_STATE_V1",
+  "updated_at_utc": "2026-09-24T04:46:58Z",
+  "execution_branch": "pi0246/gate-pass-campaign-20260924",
+  "execution_commit": "b69d713",
+  "active_stage": "P1_R0_STOCK_QUERIES",
+  "active_job": {
+    "job_id": "629993.hopper-m-02",
+    "state": "Q",
+    "queue": "small",
+    "requested_gpus": 1,
+    "compute_host": null,
+    "scheduler_reason": "Insufficient amount of resource: ngpus"
+  },
+  "p1": {
+    "expected_query_count": 32,
+    "query_order": "R0 then R2; each follows the sealed source and four-noise order",
+    "r0_expected_count": 16,
+    "r2_expected_count": 16,
+    "attempted_queries": 0,
+    "completed_valid_cells": 0,
+    "output_root": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1",
+    "archive_status": "NOT_STARTED",
+    "durable_receipt": null,
+    "identities": {
+      "runner_sha256": "26fe0ad508a7daae3b0a57a4f3652bc52696a0138b445b45152d56317c5c992e",
+      "wrapper_sha256": "aae79b156f841181675ac03d5f29ef3dda1088962579f8c866b1cc5eaf80139e",
+      "noise_manifest_sha256": "a98bb142616c7ab558ccd788e996ae10e7b85a2a729770bdc0f65d3da8f99df9",
+      "r0_model_restore_manifest_sha256": "192198543572ca77c517cf639631ccef13d770ebaeabc712d5e800ae471a890c",
+      "r0_records_sha256": "4c502ab316ba9b4b800bfc743c9c5ecb1668a14d8b998f4c7a0f101cf5ed0d76"
+    }
+  },
+  "training": {
+    "updates": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "arms_started": []
+  },
+  "preserved_engineering_attempts": [
+    "629660.hopper-m-02",
+    "629662.hopper-m-02",
+    "629669.hopper-m-02"
+  ],
+  "selected_checkpoint": "NONE"
+}
