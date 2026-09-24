@@ -45,12 +45,15 @@ class P1BindingTests(unittest.TestCase):
         self.assertTrue(contents.startswith(b"#!/usr/bin/env bash\n"))
         self.assertNotIn(b"\r", contents)
 
-    def test_p1_wrapper_requests_storage_group_and_checks_mount_before_creation(self):
+    def test_p1_wrapper_uses_compute_visible_inputs_and_one_model_per_job(self):
         wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0245_p1_stock_h200.pbs"
         text = wrapper.read_text()
         self.assertIn("#PBS -W group_list=HPC_Users_3104", text)
-        self.assertLess(text.index("test -d /Project_Storage/CFP-03/CFP03-CF-004"), text.index('mkdir -p "${ARCHIVE}"'))
-        self.assertLess(text.index("test -w /Project_Storage/CFP-03/CFP03-CF-004"), text.index("nvidia-smi"))
+        self.assertNotIn("/Project_Storage", text)
+        self.assertIn("p1_noise_bank", text)
+        self.assertIn("${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}", text)
+        self.assertEqual(text.count("--model-name \"${MODEL_NAME}\" --output-root \"${OUT}\" --source-index 0 --noise-name N0 --all"), 1)
+        self.assertIn("PI0245_P1_ARCHIVE_PENDING", text)
 
 
 if __name__ == "__main__":

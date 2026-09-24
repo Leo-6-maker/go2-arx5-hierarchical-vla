@@ -20,47 +20,38 @@ CARD=${RUN_ROOT}/pi0243_run_card.json
 NOISE=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_noise_bank
 SCRIPT=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/code/pi0245_p1_stock.py
 OUT=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1
-ARCHIVE=/Project_Storage/CFP-03/CFP03-CF-004/pi0245_physical_temporal_pilot_20260924/p1
-R0=/Project_Storage/CFP-03/CFP03-CF-004/pi0245_physical_temporal_pilot_20260924/models/R0
-R2=/Project_Storage/CFP-03/CFP03-CF-004/pi0245_physical_temporal_pilot_20260924/models/R2
+MODEL_BASE=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/models
+NOISE=/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_noise_bank
+MODEL_NAME=${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}
+case "${MODEL_NAME}" in
+  R0|R2) MODEL_ROOT="${MODEL_BASE}/${MODEL_NAME}" ;;
+  *) echo "unsupported P1 model ${MODEL_NAME}" >&2; exit 2 ;;
+esac
 
-printf 'PI0245_P1_STORAGE_PREFLIGHT host=%s job=%s\n' "${HOSTNAME:-unknown}" "${PBS_JOBID:-unknown}"
+printf 'PI0245_P1_COMPUTE_INPUT_PREFLIGHT host=%s job=%s\n' "${HOSTNAME:-unknown}" "${PBS_JOBID:-unknown}"
 id
 groups
-findmnt -T /Project_Storage || true
-namei -l /Project_Storage/CFP-03/CFP03-CF-004 || true
-test -d /Project_Storage/CFP-03/CFP03-CF-004
-test -w /Project_Storage/CFP-03/CFP03-CF-004
+findmnt -T /scratch/e1192548 || true
+test -d "${MODEL_ROOT}"
+test -r "${NOISE}/manifest.json"
 mkdir -p "${OUT}" /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs
-mkdir -p "${ARCHIVE}"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
 export PYTHONPATH="${CODE}/scripts:${CODE}/src:${GROOT}:${PYTHONPATH:-}"
-
-archive() {
-  rc=$?
-  trap - EXIT
-  if [[ -d "${OUT}" && -d "${ARCHIVE}" ]]; then
-    rsync -a --checksum --partial "${OUT}/" "${ARCHIVE}/" || rc=90
-  fi
-  exit "${rc}"
-}
-trap archive EXIT
 
 test -x "${RUNTIME}"
 test -r "${CARD}"
 test -r "${RUN_ROOT}/pi0243_run_card.seal.json"
 test -r "${SCRIPT}"
 test -r "${NOISE}/manifest.json"
-test -r "${R0}/pi0245_inference_restore.json"
-test -r "${R2}/pi0245_inference_restore.json"
+test -r "${MODEL_BASE}/R0/pi0245_inference_restore.json"
+test -r "${MODEL_BASE}/R2/pi0245_inference_restore.json"
 test -r "${RUN_ROOT}/screen/step-10000/records.jsonl"
 
 CARD_SHA="$(sha256sum "${CARD}" | awk '{print $1}')"
 test "${CARD_SHA}" = "12e09718d5499aece46800b348f733d1bb506400d0468cb128f233f571f75191"
-"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${R0}" --model-name R0 --output-root "${OUT}" --source-index 0 --noise-name N0 --model-preflight
-"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${R2}" --model-name R2 --output-root "${OUT}" --source-index 0 --noise-name N0 --model-preflight
-"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${R0}" --model-name R0 --output-root "${OUT}" --source-index 0 --noise-name N0 --bind-preflight
-"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${R0}" --model-name R0 --output-root "${OUT}" --source-index 0 --noise-name N0 --label-preflight
+"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --model-preflight
+"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --bind-preflight
+"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --label-preflight
 
 GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader)"
 GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
@@ -69,5 +60,5 @@ echo "PI0245_P1_GPU_PREFLIGHT host=${HOSTNAME:-unknown} count=${GPU_COUNT} name=
 test "${GPU_COUNT}" -eq 1
 case "${GPU_NAME}" in *H200*|*H100*) ;; *) echo "unexpected GPU ${GPU_NAME}" >&2; exit 2 ;; esac
 
-"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${R0}" --model-name R0 --output-root "${OUT}" --source-index 0 --noise-name N0 --all
-"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${R2}" --model-name R2 --output-root "${OUT}" --source-index 0 --noise-name N0 --all
+"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --all
+echo "PI0245_P1_ARCHIVE_PENDING output=${OUT}"
