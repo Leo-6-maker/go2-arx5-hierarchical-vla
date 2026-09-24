@@ -11,10 +11,14 @@
 set -euo pipefail
 trap 'rc=$?; echo "PI0245_P1_FAILURE line=${LINENO} status=${rc}" >&2' ERR
 
-PATH_OVERLAY=${PI0245_PATH_OVERLAY:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_path_overlay_r1_v2.json}
+PATH_OVERLAY=${PI0245_PATH_OVERLAY:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_path_overlay_r1_hf_cache_v3.json}
 MODEL_NAME=${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}
 PREFLIGHT_ONLY=${PI0245_P1_PREFLIGHT_ONLY:-0}
 test -r "${PATH_OVERLAY}"
+COSMOS_SNAPSHOT="$(jq -er '.paths.cosmos_snapshot' "${PATH_OVERLAY}")"
+COSMOS_HUB_CACHE="$(dirname "$(dirname "$(dirname "${COSMOS_SNAPSHOT}")")")"
+COSMOS_HF_HOME="$(dirname "${COSMOS_HUB_CACHE}")"
+COSMOS_REVISION="$(basename "${COSMOS_SNAPSHOT}")"
 RUN_ROOT="$(jq -er '.paths.r0_root' "${PATH_OVERLAY}")"
 NOISE="$(jq -er '.paths.noise_root' "${PATH_OVERLAY}")"
 MODEL_BASE="$(jq -er '.paths.model_base_root' "${PATH_OVERLAY}")"
@@ -41,6 +45,8 @@ findmnt -T /scratch/e1192548 || true
 test -d "${MODEL_ROOT}"
 test -r "${NOISE}/manifest.json"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
+export HF_HOME="${COSMOS_HF_HOME}" HF_HUB_CACHE="${COSMOS_HUB_CACHE}"
+export HUGGINGFACE_HUB_CACHE="${HF_HUB_CACHE}" TRANSFORMERS_CACHE="${HF_HUB_CACHE}"
 export PYTHONPATH="${CODE}/scripts:${CODE}/src:${GROOT}:${PYTHONPATH:-}"
 
 test -x "${RUNTIME}"
@@ -59,6 +65,11 @@ echo "PI0245_P1_PATH_BINDING overlay_sha256=${OVERLAY_SHA} run_card_sha256=${CAR
 for key in code_root groot_source stage10_root cosmos_snapshot processor_base_model train_dataset modality_config; do
   test -e "$(jq -er --arg key "${key}" '.paths[$key]' "${PATH_OVERLAY}")"
 done
+COSMOS_REPO_CACHE="${HF_HUB_CACHE}/models--nvidia--Cosmos-Reason2-2B"
+test -r "${COSMOS_SNAPSHOT}/config.json"
+test "$(cat "${COSMOS_REPO_CACHE}/refs/main")" = "${COSMOS_REVISION}"
+echo "PI0245_P1_COSMOS_HF_BINDING hf_home=${HF_HOME} hub_cache=${HF_HUB_CACHE} revision=${COSMOS_REVISION}"
+"${RUNTIME}" -c 'from transformers import AutoConfig; c = AutoConfig.from_pretrained("nvidia/Cosmos-Reason2-2B", local_files_only=True); assert c.model_type == "qwen3_vl", c.model_type; print("PI0245_P1_COSMOS_OFFLINE_CONFIG_PASS model_type=" + c.model_type)'
 mkdir -p "${OUT}" /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs
 test -w "${OUT}"
 for args in model-preflight bind-preflight label-preflight; do
