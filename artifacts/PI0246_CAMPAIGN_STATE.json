@@ -1,25 +1,23 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T05:29:00Z",
+  "updated_at_utc": "2026-09-24T05:53:53Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
-  "execution_commit": "b0027c8d019a08f39cd7cc66e97e3e7d899f9cd3",
-  "active_stage": "P1_R0_STOCK_QUERIES",
-  "active_job": {
-    "job_id": "630018.hopper-m-02",
-    "state": "Q",
-    "queue": "small",
-    "submit_queue": "auto",
-    "requested_gpus": 1,
-    "compute_host": null,
-    "scheduler_reason": "Insufficient amount of resource: ngpus"
-  },
+  "execution_commit": "2425fdfe5fa5ad0bcd08cfc34c4bdd79c1af1b8a",
+  "active_stage": "P1_R0_STOCK_QUERIES_ENGINEERING_RECOVERY",
+  "active_job": null,
   "latest_attempt": {
     "job_id": "630018.hopper-m-02",
-    "state": "Q",
+    "state": "F",
     "queue": "small",
-    "exit_status": null,
-    "compute_host": null,
-    "scheduler_reason": "Insufficient amount of resource: ngpus; awaiting allocation",
+    "exit_status": 1,
+    "compute_host": "hopper-30",
+    "failure_class": "ENGINEERING_OFFLINE_HF_CACHE_BINDING",
+    "failure_summary": "GR00T nested Qwen3VL backbone requested nvidia/Cosmos-Reason2-2B while the wrapper had offline mode enabled but had not bound HF_HOME/HF_HUB_CACHE to the sealed Cosmos snapshot cache.",
+    "gr00t_load_attempted": true,
+    "gr00t_load_completed": false,
+    "get_action_attempted": false,
+    "p1_queries_attempted": 0,
+    "valid_cells": 0,
     "scientific_activity": false
   },
   "p1": {
@@ -29,13 +27,13 @@
     "r2_expected_count": 16,
     "attempted_queries": 0,
     "completed_valid_cells": 0,
-    "output_root": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1",
+    "output_root": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_hf_cache_bound",
     "archive_status": "NOT_STARTED",
     "durable_receipt": null,
     "identities": {
       "runner_sha256": "5c55764a3667b2f6206bbdef17b64f2d0a91c8ee3990cc8ce9ce7adfe1c75657",
-      "wrapper_sha256": "9b3717648371395888681ee544de595f6a992a9c7b0345e143a234cf8046527a",
-      "path_overlay_sha256": "17be935fa6322e692283f07fa642873f7a1b9e25737c48c94e50e8bf8d47cd68",
+      "wrapper_sha256": "10afc64c0170b2403fc11bec59e8da0a4a61afbf5ff02baa0092275097b6e984",
+      "path_overlay_sha256": "5dc87e8287efaadc49b940a5dafe71befed22b42c63b8be146a5bb6b179a3208",
       "run_card_sha256": "12e09718d5499aece46800b348f733d1bb506400d0468cb128f233f571f75191",
       "noise_manifest_sha256": "a98bb142616c7ab558ccd788e996ae10e7b85a2a729770bdc0f65d3da8f99df9",
       "r0_model_restore_manifest_sha256": "192198543572ca77c517cf639631ccef13d770ebaeabc712d5e800ae471a890c",
@@ -52,17 +50,20 @@
     "629660.hopper-m-02",
     "629662.hopper-m-02",
     "629669.hopper-m-02",
-    "629993.hopper-m-02"
+    "629993.hopper-m-02",
+    "630018.hopper-m-02"
   ],
   "last_resource_route_diagnostic": {
-    "observed_at_utc": "2026-09-24T05:29:00Z",
+    "observed_at_utc": "2026-09-24T05:53:53Z",
     "ssh_control": "nus-hopper resolved through existing SSH config; qstat reachable",
     "auto_route_destinations": ["small", "medium", "large", "special"],
     "one_gpu_route": "small only (small min/max 1/2 GPUs; from_route_only=true)",
     "other_routes": "medium min 3 GPUs; large min 8 GPUs; special ACL excludes this account",
     "current_small_queue": "279 queued, 75 running; scheduler comment is insufficient ngpus",
-    "corelab_probe": "current corelab-amd-server exposes AMD Cezanne only; no NVIDIA device node or nvidia-smi; local Windows GPU is MX450 2GB",
-    "action": "retain single 630018 owner; do not inflate GPU request or submit a duplicate"
+    "corelab_probe": "SSH-key route corelab-amd-server -> corelab-4080s verified; GPU0 32760 MiB total / 25731 MiB free with a pre-existing process using 6499 MiB, GPU1 16376 MiB total / 15871 MiB free. Do not terminate or interfere with the existing process.",
+    "corelab_data_check": "six TRAIN metadata files including relative_stats and Stage19 dataset/video manifests have byte-identical SHA256 to the Hopper materialized TRAIN view; selected video/tensor transfer identity is not yet fully staged.",
+    "current_hopper_queue": "qstat -u e1192548 empty after 630018 terminal F; no active owner",
+    "action": "cache-binding wrapper fix and exact-runtime CPU preflight passed; no P1 query yet. Preserve 630018 and resume only with a single owner after the execution route is finalized."
   },
   "selected_checkpoint": "NONE"
 }
