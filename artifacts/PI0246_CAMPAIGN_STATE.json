@@ -1,8 +1,8 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T21:06:22Z",
+  "updated_at_utc": "2026-09-24T21:31:50Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
-  "execution_commit": "76b529135dde2123aaa9b2b57e654dce028d9abc",
+  "execution_commit": "483f1b4002c4eebca4f609e8291ec00380d2122f",
   "active_stage": "C_CHECKPOINT_2000_ARCHIVE_READBACK",
   "active_job": null,
   "latest_attempt": {
@@ -73,7 +73,7 @@
   },
   "selected_checkpoint": "NONE",
   "continuation_observation": {
-      "recorded_at_utc": "2026-09-24T21:06:22Z",
+      "recorded_at_utc": "2026-09-24T21:31:50Z",
     "prior_committed_snapshot_preserved": true,
     "C": {
       "job_id": "630383.hopper-m-02",
@@ -82,9 +82,13 @@
       "checkpoint_2000_tree_sha256": "29c90d1a7f13d3e374b1bb66786483dce8bdf2a343833a04b9f700584568ab3f",
       "checkpoint_2000_source_manifest_sha256": "494e8f146ca0795dbc8862361ef60b7377b39b16b43a4f0305d55c2aba52d304",
       "remote_partial_path": "/home/liuyu-nfs/pi0246_gate_pass_archive_20260924/C/checkpoint-2000.partial",
-      "remote_partial_last_observed_utc": "2026-09-24T21:06:22Z",
-      "remote_partial_observed_bytes": 7938150224,
+      "remote_partial_last_observed_utc": "2026-09-24T21:31:50Z",
+      "remote_partial_observed_bytes": 9267351376,
       "remote_partial_observed_files": 4,
+      "training_manifest_sha256_source": "494e8f146ca0795dbc8862361ef60b7377b39b16b43a4f0305d55c2aba52d304",
+      "training_manifest_sha256_remote_matches": true,
+      "archive_verifier_sha256": "a18507d51a66f4b063f417a5ae47f7da2bc9db4c6a7fa4b87a6a720da4cf82f90",
+      "archive_verifier_staged_and_hash_matched": true,
       "local_scp_process_id": 6200,
       "local_exec_session_id": 97175,
       "remote_readback_verified": false,
@@ -101,6 +105,9 @@
       "wrapper_sha256": "3b134918ddceb2c300eeb9349894f7e4590aadcf767a85a4e3781c37435fecc6",
       "preflight_report_sha256": "c8a887d68ad3d972a5b0e056f69fa4fda9439e7a76e505af9d2fac16078e6381",
       "checkpoint_output_path": "/home/liuyu-nfs/pi0246_gate_pass_campaign_20260924/CORELAB_T_4080S/output",
+      "latest_gpu_probe_utc": "2026-09-24T21:31:50Z",
+      "latest_gpu0": "RTX 4080 SUPER; 32760 MiB total; 81 MiB used; 0 percent utilization",
+      "latest_training_output_exists": false,
       "public_hf_relay": {
         "authorized": true,
         "write_credential_visible_in_checked_local_and_corelab_4080s_contexts": false,
