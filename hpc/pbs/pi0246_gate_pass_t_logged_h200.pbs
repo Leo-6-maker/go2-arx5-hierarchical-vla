@@ -32,20 +32,22 @@ binding_seal="$runtime/T_runtime_binding.seal.json"
 test -r "$runtime/pi0246_gate_pass_train.py"
 test -r "$runtime/pi0245_native_overlay.py"
 test -r "$runtime/pi0245_physical_delta.py"
+test -r "$runtime/pi0246_reconcile_c_update.py"
 test -r "$wrapper"
 test -r "$binding" && test -r "$binding_seal"
 binding_sha=$(jq -er .sha256 "$binding_seal")
 test "$(sha256sum "$binding" | cut -d ' ' -f 1)" = "$binding_sha"
-for helper in pi0241_fixed16_learning.py pi0228_h200_large_adapt_v1.py pi0246_reconcile_c_update.py; do
+for helper in pi0241_fixed16_learning.py pi0228_h200_large_adapt_v1.py; do
   expected_helper=$(jq -er --arg name "$helper" '.training_helpers[$name]' "$binding")
   test "$(sha256sum "$code/scripts/$helper" | cut -d ' ' -f 1)" = "$expected_helper"
 done
+expected_reconciliation=$(jq -er .reconciliation_script_sha256 "$binding")
+test "$(sha256sum "$runtime/pi0246_reconcile_c_update.py" | cut -d ' ' -f 1)" = "$expected_reconciliation"
 test -r "$campaign/pi0246_gate_pass_train.py"
 test -r "$campaign/pi0245_native_overlay.py"
 test -r "$campaign/pi0245_physical_delta.py"
 test -r "$campaign/pi0245_p1_stock.py"
 test -r "$code/scripts/pi0241_fixed16_learning.py"
-test -r "$code/scripts/pi0246_reconcile_c_update.py"
 test -x "$venv/bin/python"
 test -d "$ff/lib"
 test -d "$output"
@@ -67,7 +69,7 @@ gpu_name=$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d')
 echo "$gpu_name" | grep -qi H200
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
 "$venv/bin/python" -u "$runtime/pi0246_gate_pass_train.py" --train --run-card "$card"
-"$venv/bin/python" -u "$code/scripts/pi0246_reconcile_c_update.py" \
+"$venv/bin/python" -u "$runtime/pi0246_reconcile_c_update.py" \
   --run-card "$card" --training-root "$output/training" \
   --output "$output/training_reconciliation.json"
 reconciliation_status=$(jq -er .status "$output/training_reconciliation.json")

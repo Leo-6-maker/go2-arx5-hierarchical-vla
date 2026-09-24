@@ -78,6 +78,7 @@ def t_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> di
         "overlay_sha256": sha256_file(root / "pi0245_native_overlay.py"),
         "physical_delta_sha256": sha256_file(runtime_delta),
         "parent_physical_delta_sha256": sha256_file(parent_delta),
+        "reconciliation_script_sha256": sha256_file(root / "pi0246_reconcile_c_update.py"),
         "wrapper_path": str(wrapper.resolve()),
         "wrapper_sha256": sha256_file(wrapper),
         "parent_campaign_root": str(parent.resolve()),
@@ -86,7 +87,7 @@ def t_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> di
         "campaign_p1_runner_sha256": sha256_file(parent / "pi0245_p1_stock.py"),
         "training_helpers": {
             name: sha256_file(code_root / "scripts" / name)
-            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py", "pi0246_reconcile_c_update.py")
+            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py")
         },
         "sealer_sha256": sha256_file(Path(__file__).resolve()),
     }
