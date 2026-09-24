@@ -1,16 +1,26 @@
 {
   "schema": "PI0246_CAMPAIGN_STATE_V1",
-  "updated_at_utc": "2026-09-24T04:46:58Z",
+  "updated_at_utc": "2026-09-24T05:14:27Z",
   "execution_branch": "pi0246/gate-pass-campaign-20260924",
-  "execution_commit": "b69d713",
+  "execution_commit": "b0027c8d019a08f39cd7cc66e97e3e7d899f9cd3",
   "active_stage": "P1_R0_STOCK_QUERIES",
   "active_job": {
-    "job_id": "629993.hopper-m-02",
+    "job_id": "630018.hopper-m-02",
     "state": "Q",
     "queue": "small",
+    "submit_queue": "auto",
     "requested_gpus": 1,
     "compute_host": null,
     "scheduler_reason": "Insufficient amount of resource: ngpus"
+  },
+  "latest_attempt": {
+    "job_id": "630018.hopper-m-02",
+    "state": "Q",
+    "queue": "small",
+    "exit_status": null,
+    "compute_host": null,
+    "scheduler_reason": "Insufficient amount of resource: ngpus; awaiting allocation",
+    "scientific_activity": false
   },
   "p1": {
     "expected_query_count": 32,
@@ -23,8 +33,10 @@
     "archive_status": "NOT_STARTED",
     "durable_receipt": null,
     "identities": {
-      "runner_sha256": "26fe0ad508a7daae3b0a57a4f3652bc52696a0138b445b45152d56317c5c992e",
-      "wrapper_sha256": "aae79b156f841181675ac03d5f29ef3dda1088962579f8c866b1cc5eaf80139e",
+      "runner_sha256": "5c55764a3667b2f6206bbdef17b64f2d0a91c8ee3990cc8ce9ce7adfe1c75657",
+      "wrapper_sha256": "9b3717648371395888681ee544de595f6a992a9c7b0345e143a234cf8046527a",
+      "path_overlay_sha256": "17be935fa6322e692283f07fa642873f7a1b9e25737c48c94e50e8bf8d47cd68",
+      "run_card_sha256": "12e09718d5499aece46800b348f733d1bb506400d0468cb128f233f571f75191",
       "noise_manifest_sha256": "a98bb142616c7ab558ccd788e996ae10e7b85a2a729770bdc0f65d3da8f99df9",
       "r0_model_restore_manifest_sha256": "192198543572ca77c517cf639631ccef13d770ebaeabc712d5e800ae471a890c",
       "r0_records_sha256": "4c502ab316ba9b4b800bfc743c9c5ecb1668a14d8b998f4c7a0f101cf5ed0d76"
@@ -39,7 +51,8 @@
   "preserved_engineering_attempts": [
     "629660.hopper-m-02",
     "629662.hopper-m-02",
-    "629669.hopper-m-02"
+    "629669.hopper-m-02",
+    "629993.hopper-m-02"
   ],
   "selected_checkpoint": "NONE"
 }
