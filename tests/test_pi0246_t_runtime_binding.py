@@ -48,6 +48,13 @@ class TRuntimeBindingTest(unittest.TestCase):
         self.assertIn("stat -f -c '%a %s' \"$quota_root\"", source)
         self.assertNotIn("stat -f -c '%a %s' \"$output\"", source)
 
+    def test_h200_wrapper_does_not_require_parent_delta_at_campaign_root(self) -> None:
+        wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0246_gate_pass_t_logged_h200.pbs"
+        source = wrapper.read_text(encoding="utf-8")
+        self.assertIn('test -r "$runtime/pi0245_physical_delta.py"', source)
+        self.assertNotIn('test -r "$campaign/pi0245_physical_delta.py"', source)
+        self.assertIn('test -r "$campaign/pi0245_p1_stock.py"', source)
+
     def test_t_runtime_seal_binds_staged_code_and_frozen_card(self) -> None:
         with TemporaryDirectory() as temporary:
             tmp_path = Path(temporary)

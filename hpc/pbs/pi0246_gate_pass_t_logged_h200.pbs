@@ -45,7 +45,6 @@ expected_reconciliation=$(jq -er .reconciliation_script_sha256 "$binding")
 test "$(sha256sum "$runtime/pi0246_reconcile_c_update.py" | cut -d ' ' -f 1)" = "$expected_reconciliation"
 test -r "$campaign/pi0246_gate_pass_train.py"
 test -r "$campaign/pi0245_native_overlay.py"
-test -r "$campaign/pi0245_physical_delta.py"
 test -r "$campaign/pi0245_p1_stock.py"
 test -r "$code/scripts/pi0241_fixed16_learning.py"
 test -x "$venv/bin/python"
