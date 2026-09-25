@@ -234,7 +234,9 @@ def run(args: argparse.Namespace) -> None:
     arm, step = PROFILES[args.profile]
     identity = validate_inference_view(args.stage_root, args.model_root, step)
     restore, model_files = identity["restore"], identity["model_files"]
-    validate_s0_packets(args.output_root, rows)
+    s0_packets = {row["source_episode_id"]: row for row in validate_s0_packets(args.output_root, rows)}
+    inference_view_sha = p1.sha(args.model_root / "INFERENCE_VIEW_VERIFIED.json")
+    runner_sha = p1.sha(Path(__file__).resolve())
     bind_offline_runtime(paths)
     import torch
     from transformers import AutoModel
@@ -271,7 +273,19 @@ def run(args: argparse.Namespace) -> None:
         if (cell / "record.json").exists():
             record = validate_existing(cell, source, args.profile)
             assert source in {value["source_episode_id"] for value in attempted}
+            attempt_record = read_json(cell / "attempt.json")
+            ledger_record = next(value for value in attempted if value["source_episode_id"] == source)
+            s0 = s0_packets[source]
+            assert all(record.get(key) == value for key, value in attempt_record.items() if key != "schema")
+            assert attempt_record == ledger_record
             assert record["model_manifest_sha256"] == model_files["manifest_sha256"]
+            assert record["model_revision"] == model_files["revision"]
+            assert record["family"] == PT_FAMILY and record["checkpoint_step"] == step
+            assert record["run_card_sha256"] == PT_CARD_SHA
+            assert record["full_checkpoint_receipt_sha256"] == PT_RECEIPT_SHA[step]
+            assert record["inference_view_sha256"] == inference_view_sha
+            assert record["condition_sha256"] == s0["condition_sha256"]
+            assert record["noise_packet_sha256"] == s0["noise_packet_sha256"]
             if source not in {value["source_episode_id"] for value in completed}:
                 with records.open("a", encoding="utf-8") as handle:
                     handle.write(json.dumps(record, sort_keys=True) + "\n"); handle.flush(); os.fsync(handle.fileno())
@@ -302,10 +316,10 @@ def run(args: argparse.Namespace) -> None:
                    "source_episode_id": source, "source_tensor_sha256": row["tensor_sha256"],
                    "condition_sha256": condition_sha, "condition_identity": identity,
                    "model_manifest_sha256": model_files["manifest_sha256"], "model_revision": model_files["revision"],
-                   "runner_sha256": p1.sha(Path(__file__).resolve()), "target_xyz_in_model_input": False,
+                   "runner_sha256": runner_sha, "target_xyz_in_model_input": False,
                    "family": PT_FAMILY, "checkpoint_step": step,
                    "run_card_sha256": PT_CARD_SHA, "full_checkpoint_receipt_sha256": PT_RECEIPT_SHA[step],
-                   "inference_view_sha256": p1.sha(args.model_root / "INFERENCE_VIEW_VERIFIED.json")}
+                   "inference_view_sha256": inference_view_sha}
         p1.durable_json(cell / "attempt.json", attempt)
         with ledger.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(attempt, sort_keys=True) + "\n"); handle.flush(); os.fsync(handle.fileno())
@@ -383,7 +397,7 @@ def main() -> None:
     if args.preflight:
         arm, step = PROFILES[args.profile]
         view_identity = validate_inference_view(args.stage_root, args.model_root, step)
-        validate_s0_packets(args.output_root, rows)
+        s0_packets = validate_s0_packets(args.output_root, rows)
         bind_offline_runtime(paths)
         import pi0242_train_infer_bridge as bridge
         import pi0243_staged_learning_to_sim as stage43
@@ -399,6 +413,8 @@ def main() -> None:
                           "profile": args.profile, "step": step, "cohort_sha256": COHORT_SHA,
                           "conditioning_identity_row0": identity, "cards": {key: p1.sha(args.stage_root / f"screen_inputs/{key}_run_card.json") for key in ("C", "T")},
                           "pt_card_sha256": PT_CARD_SHA,
+                          "runner_sha256": p1.sha(Path(__file__).resolve()),
+                          "s0_packets": s0_packets,
                           "receipt_sha256": view_identity["receipt_sha256"],
                           "inference_view_sha256": p1.sha(args.model_root / "INFERENCE_VIEW_VERIFIED.json"),
                           "model_loads": 0, "queries": 0, "optimizer_steps": 0}))
