@@ -19,8 +19,10 @@ RECORD_SHA = p1.RECORD_SHA
 P1_CLOSURE_SHA = "77712a2598ae7f8d8a076139c4160ec480c4d9ff624b2e45be9a0a51a55cc70b"
 C_CARD_SHA = "f3a9fdffffce91d97891dc0b919c5b64cb12a8819292eb2ad78e34c7c3188601"
 T_CARD_SHA = "469c0a29571e05c30d50cf63ab0a13d8e3495a91469044bcf14feb840600e938"
+P_CARD_SHA = "7aa496963ee99ed241bad1506779a63e1f0383617a008f4ac09cfefde04041ce"
 PROFILES = {"S0": (None, 0), "C1000": ("C", 1000), "C2000": ("C", 2000),
-            "T1000": ("T", 1000), "T2000": ("T", 2000)}
+            "T1000": ("T", 1000), "T2000": ("T", 2000),
+            "P1000": ("P", 1000), "P2000": ("P", 2000)}
 
 
 def read_json(path: Path) -> dict:
@@ -42,10 +44,12 @@ def inputs(root: Path) -> tuple[list[dict], dict[str, str], dict]:
     records = root / "r0/screen/step-10000/records.jsonl"
     c_card = root / "screen_inputs/C_run_card.json"
     t_card = root / "screen_inputs/T_run_card.json"
+    p_card = root / "screen_inputs/P_run_card.json"
     assert p1.sha(cohort) == COHORT_SHA and p1.sha(records) == RECORD_SHA
     assert p1.sha(c_card) == C_CARD_SHA and p1.sha(t_card) == T_CARD_SHA
+    assert p1.sha(p_card) == P_CARD_SHA
     assert p1.sha(root / "p1_corelab/p1_closure.json") == P1_CLOSURE_SHA
-    cards = {"C": read_json(c_card), "T": read_json(t_card)}
+    cards = {"C": read_json(c_card), "T": read_json(t_card), "P": read_json(p_card)}
     for arm, card in cards.items():
         assert card["arm"] == arm and card["cohort"]["sha256"] == COHORT_SHA
     rows = [json.loads(line) for line in records.read_text(encoding="utf-8").splitlines() if line.strip()]

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PI0246 C/T arms, reusing the sealed PI0241 fixed-dataset and update audit."""
+"""PI0246 C/T/P arms, reusing the sealed PI0241 fixed-dataset and update audit."""
 
 from __future__ import annotations
 
@@ -33,6 +33,14 @@ ARM_DEFS = {**ARMS, "P": P_ARM}
 
 class CampaignError(RuntimeError):
     pass
+
+
+def needs_projector_reconciliation(arm: str, integrity: dict[str, bool]) -> bool:
+    return (
+        arm in {"T", "P"}
+        and not integrity.get("projector_updated", False)
+        and all(value for key, value in integrity.items() if key != "projector_updated")
+    )
 
 
 def read_json(path: Path) -> Any:
@@ -725,10 +733,7 @@ def train(args: argparse.Namespace) -> None:
     }
     if arm in {"T", "P"}:
         integrity["same_forward_audit_complete"] = same_forward_audit is not None and same_forward_audit["rows"] == STEPS
-    projector_reconciliation_required = (
-        arm == "T" and not integrity["projector_updated"]
-        and all(value for key, value in integrity.items() if key != "projector_updated")
-    )
+    projector_reconciliation_required = needs_projector_reconciliation(arm, integrity)
     result = {
         "schema": f"PI0246_ARM_{arm}_TRAINING_MANIFEST_V1",
         "status": (

@@ -10,6 +10,15 @@ SPEC.loader.exec_module(CAMPAIGN)
 
 
 class ScheduleTests(unittest.TestCase):
+    def test_projector_probe_fallback_is_available_for_t_and_p_only(self):
+        integrity = {"projector_updated": False, "diffusion_updated": True,
+                     "frozen_backbone_unchanged": True, "optimizer_membership_valid": True}
+        self.assertTrue(CAMPAIGN.needs_projector_reconciliation("T", integrity))
+        self.assertTrue(CAMPAIGN.needs_projector_reconciliation("P", integrity))
+        self.assertFalse(CAMPAIGN.needs_projector_reconciliation("C", integrity))
+        integrity["diffusion_updated"] = False
+        self.assertFalse(CAMPAIGN.needs_projector_reconciliation("P", integrity))
+
     def test_accepts_exact_r0_prefix_with_125_exposures_per_window(self):
         cohort = [{"source_episode_id": f"source-{index}"} for index in range(16)]
         schedule = [
