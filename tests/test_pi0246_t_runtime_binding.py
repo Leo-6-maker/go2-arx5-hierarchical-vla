@@ -41,6 +41,13 @@ class TRuntimeBindingTest(unittest.TestCase):
         training = source.index("--train --run-card")
         self.assertLess(preflight, training)
 
+    def test_h200_wrapper_checks_user_quota_root_not_nfs_global_free_space(self) -> None:
+        wrapper = Path(__file__).resolve().parents[1] / "hpc" / "pbs" / "pi0246_gate_pass_t_logged_h200.pbs"
+        source = wrapper.read_text(encoding="utf-8")
+        self.assertIn('quota_root="/scratch/$(id -un)"', source)
+        self.assertIn("stat -f -c '%a %s' \"$quota_root\"", source)
+        self.assertNotIn("stat -f -c '%a %s' \"$output\"", source)
+
     def test_t_runtime_seal_binds_staged_code_and_frozen_card(self) -> None:
         with TemporaryDirectory() as temporary:
             tmp_path = Path(temporary)

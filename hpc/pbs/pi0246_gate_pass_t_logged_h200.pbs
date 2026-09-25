@@ -54,7 +54,13 @@ test -d "$output"
 test ! -e "$output/training"
 test ! -e "$output/training_reconciliation.json"
 test -w "$output"
-available=$(stat -f -c '%a %s' "$output" | awk '{print $1*$2}')
+quota_root="/scratch/$(id -un)"
+case "$output" in
+  "$quota_root"/*) ;;
+  *) echo "FAIL_CLOSED: output is outside account quota root: $quota_root" >&2; exit 2 ;;
+esac
+available=$(stat -f -c '%a %s' "$quota_root" | awk '{print $1*$2}')
+echo "PI0246_T_QUOTA_PROBE root=$quota_root available_bytes=$available"
 awk -v a="$available" 'BEGIN {exit !(a >= 60*1024*1024*1024)}' || { echo "FAIL_CLOSED: <60 GiB scratch checkpoint headroom" >&2; exit 2; }
 
 export PI0246_T_RUNTIME_ROOT="$runtime"
