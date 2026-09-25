@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only full-projector reconciliation for PI0246 C/T/P training."""
+"""Read-only full-projector reconciliation for PI0246 C/T/P/PT training."""
 
 from __future__ import annotations
 
@@ -70,8 +70,8 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
     card = read(card_path)
     seal = read(card_path.with_name("run_card.seal.json"))
     arm = card.get("arm")
-    if arm not in {"C", "T", "P"} or seal.get("sha256") != sha(card_path):
-        raise RuntimeError("C/T/P sealed run-card identity mismatch")
+    if arm not in {"C", "T", "P", "PT"} or seal.get("sha256") != sha(card_path):
+        raise RuntimeError("C/T/P/PT sealed run-card identity mismatch")
     manifest_path = training.parent / "training_manifest.json"
     manifest = read(manifest_path)
     if manifest.get("arm") != arm or manifest.get("run_card_sha256") != sha(card_path):
@@ -110,6 +110,9 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
         status = "PROJECTOR_UPDATE_NOT_CONFIRMED"
     effective_integrity = dict(original_integrity)
     effective_integrity["projector_updated"] = status != "PROJECTOR_UPDATE_NOT_CONFIRMED"
+    overlay_root = (Path(manifest["runtime_binding"]["runtime_root"]) if arm == "PT"
+                    else Path(card["paths"]["campaign_code_root"]))
+    overlay_name = "pi0246_pt_combined_overlay.py" if arm == "PT" else "pi0245_native_overlay.py"
     result = {
         "schema": f"PI0246_{arm}_READONLY_UPDATE_RECONCILIATION_V1",
         "status": status,
@@ -117,7 +120,7 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
             "reconciliation_script_sha256": sha(Path(__file__).resolve()),
             "parameter_classifier_sha256": sha(Path(fixed16.__file__).resolve()),
             "campaign_trainer_sha256": sha(Path(card["paths"]["campaign_code_root"]) / "pi0246_gate_pass_train.py"),
-            "native_overlay_sha256": sha(Path(card["paths"]["campaign_code_root"]) / "pi0245_native_overlay.py"),
+            "native_overlay_sha256": sha(overlay_root / overlay_name),
             "run_card_sha256": sha(card_path),
             "training_manifest_sha256": sha(manifest_path),
             "original_training_status": manifest.get("status"),
