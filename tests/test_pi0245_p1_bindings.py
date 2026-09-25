@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.pi0245_p1_stock import one, resolve_path_overlay, resolve_tensor_path, verify_model_files
+from scripts.pi0245_p1_stock import NOISES, SOURCES, close_p1, one, resolve_path_overlay, resolve_tensor_path, verify_model_files
 
 
 class P1BindingTests(unittest.TestCase):
@@ -92,6 +92,19 @@ class P1BindingTests(unittest.TestCase):
         self.assertIn('PI0245_P1_PREFLIGHT_ONLY must be 0 or 1', text)
         self.assertEqual(text.count("--model-name \"${MODEL_NAME}\" --output-root \"${OUT}\" --source-index 0 --noise-name N0 --all"), 1)
         self.assertIn("PI0245_P1_ARCHIVE_PENDING", text)
+
+    def test_single_model_runtime_binding_does_not_require_sibling_restore_manifest(self):
+        source = inspect.getsource(__import__("scripts.pi0245_p1_stock", fromlist=["main"]).main)
+        self.assertNotIn("model_restore_manifests", source)
+        self.assertNotIn("args.model_root.parent", source)
+
+    def test_final_p1_closure_rejects_single_model_even_with_all_its_cells(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            rows = [{"cell_key": f"R0__{source}__{noise}"} for source in SOURCES for noise in NOISES]
+            (output / "queries.jsonl").write_text("".join(json.dumps(row) + "\n" for row in rows))
+            with self.assertRaisesRegex(AssertionError, "identity/order mismatch"):
+                close_p1(type("Args", (), {"output_root": output})())
 
 
 if __name__ == "__main__":

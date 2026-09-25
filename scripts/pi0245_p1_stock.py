@@ -301,12 +301,18 @@ def close_p1(args: argparse.Namespace) -> None:
     assert [row["cell_key"] for row in ledger] == expected, "P1 attempted-query identity/order mismatch"
     records = []
     observed = Counter()
+    model_manifest_hashes = {name: set() for name in ("R0", "R2")}
     for key in expected:
         source_key = key.split("__", 2)[1]
         cell_dir = args.output_root / "cells" / key.replace(source_key, source_key.split(":", 1)[0])
         record_path, tensor_path = cell_dir / "record.json", cell_dir / "tensors.npz"
         record = json.loads(record_path.read_text())
         assert record["cell_key"] == key and record["schema"] == "PI0245_P1_STOCK_CELL_V1"
+        model_name = key.split("__", 1)[0]
+        assert record["model_name"] == model_name, f"P1 model identity mismatch: {key}"
+        restore_sha = record.get("manifest_sha256")
+        assert isinstance(restore_sha, str) and len(restore_sha) == 64, f"P1 restore identity missing: {key}"
+        model_manifest_hashes[model_name].add(restore_sha)
         assert sha(tensor_path) == record["tensor_sha256"]
         assert sha(cell_dir / "condition.pt") == record["condition_sha256"]
         assert record["target_xyz_in_model_input"] is False
@@ -322,7 +328,9 @@ def close_p1(args: argparse.Namespace) -> None:
                         "physical_max_jump_m": record["physical_max_jump_m"],
                         "physical_residual_delta_max_mps": record["physical_residual_delta_max_mps"],
                         "raw_xyz_peak_segment": record["raw_xyz_peak_segment"],
-                        "physical_xyz_peak_segment": record["physical_xyz_peak_segment"]})
+            "physical_xyz_peak_segment": record["physical_xyz_peak_segment"]})
+    assert all(len(model_manifest_hashes[name]) == 1 for name in ("R0", "R2")), \
+        f"P1 model restore identity drift: {model_manifest_hashes}"
     summaries = {}
     for model in ("R0", "R2"):
         group = [json.loads((args.output_root / "cells" / key.replace(key.split("__", 2)[1], key.split("__", 2)[1].split(":", 1)[0]) / "record.json").read_text())
@@ -436,7 +444,6 @@ def main() -> None:
                        "r0_records_sha256": sha(args.r0_root / "screen/step-10000/records.jsonl"),
                        "noise_manifest_sha256": sha(args.noise_root / "manifest.json"),
                        "p0_effective_processor_xyz_sha256": sha(p0_binding_path),
-                       "model_restore_manifests": {name: sha(args.model_root.parent / name / "pi0245_inference_restore.json") for name in ("R0", "R2")},
                        "cosmos_binding": cosmos_binding,
                        "modality_config_sha256": sha(Path(paths["modality_config"])),
                        "relative_stats_sha256": sha(Path(paths["train_dataset"]) / "meta/relative_stats.json"),
