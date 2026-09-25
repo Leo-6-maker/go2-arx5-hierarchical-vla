@@ -4,6 +4,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import pi0246_paired_screen as screen
+import pi0246_verify_paired_profile as verifier
 
 
 def test_p_arm_adds_only_the_authorized_checkpoint_profiles():
@@ -13,3 +14,9 @@ def test_p_arm_adds_only_the_authorized_checkpoint_profiles():
     assert screen.PROFILES["P1000"] == ("P", 1000)
     assert screen.PROFILES["P2000"] == ("P", 2000)
 
+
+def test_cpu_verifier_dispatches_p_cells_to_the_p_extension():
+    assert verifier.screen_module_name("P1000") == "pi0246_paired_screen_P_extension"
+    assert verifier.screen_module_name("P2000") == "pi0246_paired_screen_P_extension"
+    assert verifier.screen_module_name("C2000") == "pi0246_paired_screen"
+    assert set(("P1000", "P2000")).issubset(verifier.PROFILE_CHOICES)

@@ -36,6 +36,27 @@ def inference_identity(receipt: dict, repo: str, archive_prefix: str, step: int,
     }
 
 
+def inference_view_receipt(restore: dict, full_receipt_sha256: str, source_tree_sha256: str,
+                           restore_manifest_sha256: str) -> dict:
+    files = restore["files"]
+    return {
+        "schema": "PI0246_INFERENCE_VIEW_VERIFICATION_V1",
+        "status": "INFERENCE_VIEW_VERIFIED",
+        "family": restore["family"],
+        "checkpoint_step": restore["checkpoint_step"],
+        "repo_id": restore["repo_id"],
+        "hf_archive_path": restore["hf_archive_path"],
+        "prefix": restore["prefix"],
+        "revision": restore["revision"],
+        "full_checkpoint_receipt_sha256": full_receipt_sha256,
+        "source_tree_sha256": source_tree_sha256,
+        "restore_manifest_sha256": restore_manifest_sha256,
+        "optimizer_restored": False,
+        "file_count": len(files),
+        "files": files,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--receipt", type=Path, required=True)
@@ -81,7 +102,21 @@ def main() -> None:
     if target.exists() and target.read_text() != payload:
         raise RuntimeError("prior restore manifest differs")
     target.write_text(payload)
-    print(json.dumps({"status": "PASS_PINNED_MODEL_ONLY_RESTORE", "model_root": str(args.model_root), "manifest_sha256": sha(target), "file_count": len(results), "repo_id": repo, "revision": revision}))
+    extra = {}
+    if args.model_family is not None:
+        view_receipt = inference_view_receipt(
+            record,
+            sha(args.receipt),
+            receipt["source_record"]["inventory"]["tree_sha256"],
+            sha(target),
+        )
+        view_receipt_path = args.model_root / "INFERENCE_VIEW_VERIFIED.json"
+        view_payload = json.dumps(view_receipt, sort_keys=True, separators=(",", ":")) + "\n"
+        if view_receipt_path.exists() and view_receipt_path.read_text() != view_payload:
+            raise RuntimeError("prior inference-view verification receipt differs")
+        view_receipt_path.write_text(view_payload)
+        extra["view_receipt_sha256"] = sha(view_receipt_path)
+    print(json.dumps({"status": "PASS_PINNED_MODEL_ONLY_RESTORE", "model_root": str(args.model_root), "manifest_sha256": sha(target), "file_count": len(results), "repo_id": repo, "revision": revision, **extra}))
 
 
 if __name__ == "__main__":

@@ -33,6 +33,31 @@ class RestoreStepTest(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             module.inference_identity(receipt, "repo", "path", 1000, "OTHER_FAMILY")
 
+    def test_inference_view_receipt_binds_full_and_model_only_identities(self):
+        hub = types.ModuleType("huggingface_hub")
+        hub.hf_hub_download = lambda **_kwargs: None
+        script = Path(__file__).resolve().parents[1] / "scripts/pi0245_restore_inference_model.py"
+        spec = importlib.util.spec_from_file_location("pi0245_view_receipt_test", script)
+        module = importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules, {"huggingface_hub": hub}):
+            spec.loader.exec_module(module)
+        restore = {
+            "family": "PI0246_P_PHYSPOS_M16_2K_V1", "checkpoint_step": 2000,
+            "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+            "hf_archive_path": "leoyuer/pi0246-gate-pass-campaign/arms/P/checkpoint-2000",
+            "prefix": "PI0246_P_PHYSPOS_M16_2K_V1/checkpoint-2000",
+            "revision": "a" * 40, "model_root": "/model/P2000",
+            "optimizer_restored": False,
+            "files": [{"path": "model.safetensors.index.json", "bytes": 1, "sha256": "b" * 64}],
+        }
+        receipt = module.inference_view_receipt(restore, "c" * 64, "d" * 64, "e" * 64)
+        self.assertEqual(receipt["status"], "INFERENCE_VIEW_VERIFIED")
+        self.assertFalse(receipt["optimizer_restored"])
+        self.assertEqual(receipt["full_checkpoint_receipt_sha256"], "c" * 64)
+        self.assertEqual(receipt["source_tree_sha256"], "d" * 64)
+        self.assertEqual(receipt["restore_manifest_sha256"], "e" * 64)
+        self.assertEqual(receipt["file_count"], 1)
+
     def test_requested_step_is_required(self):
         class ReachedDownload(Exception):
             pass

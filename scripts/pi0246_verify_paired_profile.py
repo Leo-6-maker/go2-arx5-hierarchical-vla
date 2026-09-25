@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import importlib
 import json
 import math
 import os
@@ -16,25 +17,37 @@ import numpy as np
 import pi0246_paired_screen as screen
 import pi0245_p1_stock as p1
 
+PROFILE_CHOICES = tuple(dict.fromkeys((*screen.PROFILES, "P1000", "P2000")))
+
+
+def screen_module_name(profile: str) -> str:
+    return "pi0246_paired_screen_P_extension" if profile in {"P1000", "P2000"} else "pi0246_paired_screen"
+
 
 def verify(stage_root: Path, output_root: Path, model_root: Path, profile: str, report_path: Path) -> dict:
-    rows, paths, cards = screen.inputs(stage_root)
+    paired_screen = importlib.import_module(screen_module_name(profile))
+    rows, paths, cards = paired_screen.inputs(stage_root)
     ids = [row["source_episode_id"] for row in rows]
     profile_root = output_root / profile
     ledger = [json.loads(line) for line in (profile_root / "queries.jsonl").read_text().splitlines() if line.strip()]
     records = [json.loads(line) for line in (profile_root / "records.jsonl").read_text().splitlines() if line.strip()]
     if [row.get("source_episode_id") for row in ledger] != ids or [row.get("source_episode_id") for row in records] != ids:
         raise RuntimeError("profile does not contain the exact sealed 16-source order")
-    arm, step = screen.PROFILES[profile]
-    restore = screen.read_json(model_root / "pi0245_inference_restore.json")
+    arm, step = paired_screen.PROFILES[profile]
+    restore = paired_screen.read_json(model_root / "pi0245_inference_restore.json")
     model = p1.verify_model_files(model_root)
     if arm is None:
         if model["manifest_sha256"] != cards["C"]["parent"]["restore_manifest_sha256"]:
             raise RuntimeError("S0 model identity differs from the sealed R0 initializer")
     elif int(restore.get("checkpoint_step", -1)) != step or restore.get("optimizer_restored") is not False:
         raise RuntimeError("profile inference view is not the requested weights-only checkpoint")
-    if arm is not None and cards[arm]["family"] not in str(restore.get("prefix", "")):
-        raise RuntimeError("profile inference view belongs to another arm/family")
+    if arm is not None:
+        family = cards[arm]["family"]
+        if (restore.get("family") != family
+                or restore.get("prefix") != f"{family}/checkpoint-{step}"
+                or restore.get("hf_archive_path") != f"{restore.get('repo_id')}/arms/{arm}/checkpoint-{step}"
+                or restore.get("revision") != model["revision"]):
+            raise RuntimeError("profile inference view does not bind the card family, step, HF path, and pinned model revision")
     for query, record in zip(ledger, records):
         if query.get("source_episode_id") != record.get("source_episode_id") or query.get("model_manifest_sha256") != model["manifest_sha256"]:
             raise RuntimeError("query ledger and profile record provenance differ")
@@ -49,7 +62,7 @@ def verify(stage_root: Path, output_root: Path, model_root: Path, profile: str, 
         if (int(record.get("get_action_calls", 0)), int(record.get("backbone_forwards", 0))) != (1, 1):
             raise RuntimeError("valid cell does not have exactly one policy/backbone query")
         cell = profile_root / "cells" / record["source_episode_id"].split(":", 1)[0]
-        screen.validate_existing(cell, record["source_episode_id"], profile)
+        paired_screen.validate_existing(cell, record["source_episode_id"], profile)
         payload = np.load(cell / "tensors.npz", allow_pickle=False)
         with payload:
             required = {"raw", "decoded", "expert", "action_mask", "state", "body_rgb", "wrist_rgb",
@@ -86,7 +99,7 @@ def verify(stage_root: Path, output_root: Path, model_root: Path, profile: str, 
                     source_noise, initial_noise = packet["source_float32"], packet["initial_float32"]
             if not np.array_equal(payload["noise_source_float32"], source_noise) or not np.array_equal(payload["noise_initial"], initial_noise):
                 raise RuntimeError("stored query noise differs from the fixed source packet")
-    screen.bind_offline_runtime(paths)
+    paired_screen.bind_offline_runtime(paths)
     from go2arx5_vla.safety import TrajectorySafetyGateV1
     from go2arx5_vla.trajectory.so3 import matrix_to_quat, rot6d_rows_to_matrix
     import pi0228_train_calib_checkpoint_selection as selector
@@ -132,7 +145,7 @@ def verify(stage_root: Path, output_root: Path, model_root: Path, profile: str, 
         "schema": "PI0246_PAIRED_PROFILE_CPU_VERIFICATION_V1", "status": "PASS_READONLY_PROFILE_REPLAY",
         "profile": profile, "records": len(records), "model_queries": 0, "model_weights_loaded": 0,
         "verifier_sha256": p1.sha(Path(__file__).resolve()),
-        "runner_sha256": p1.sha(Path(screen.__file__).resolve()),
+        "runner_sha256": p1.sha(Path(paired_screen.__file__).resolve()),
         "records_sha256": p1.sha(profile_root / "records.jsonl"),
         "queries_sha256": p1.sha(profile_root / "queries.jsonl"),
         "model_manifest_sha256": model["manifest_sha256"], "model_revision": model["revision"],
@@ -152,7 +165,7 @@ def main() -> None:
     parser.add_argument("--stage-root", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--model-root", type=Path, required=True)
-    parser.add_argument("--profile", choices=screen.PROFILES, required=True)
+    parser.add_argument("--profile", choices=PROFILE_CHOICES, required=True)
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
     os.environ["CUDA_VISIBLE_DEVICES"] = ""
