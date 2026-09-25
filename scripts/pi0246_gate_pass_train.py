@@ -232,7 +232,6 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
     card = read_json(card_path)
     root = runtime_root.resolve()
     paths = card["paths"]
-    stage10 = Path(paths["stage10_root"])
     parent_runtime = card["parent_loss_runtime"]
     parent_binding_path = Path(parent_runtime["binding_path"])
     parent_binding = read_json(parent_binding_path)
@@ -288,7 +287,7 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
             for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py")
         },
         "checkpoint_archive_helpers": {
-            name: sha256_file(stage10 / "scripts" / name)
+            name: sha256_file(Path(paths["code_root"]) / "scripts" / name)
             for name in ("pi0243_hf_checkpoint_sidecar.py", "pi0243_hf_archive_tree.py", "pi0243_checkpoint_persistence.py")
         },
         "hf_readback_helper_sha256": sha256_file(campaign_root / "scripts/pi0243_storage_retirement.py"),
