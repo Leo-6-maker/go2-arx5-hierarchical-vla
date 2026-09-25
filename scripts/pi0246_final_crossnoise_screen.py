@@ -123,8 +123,8 @@ def main() -> None:
     model_files = {name: p1.verify_model_files(model_roots[name]) for name in MODELS}
     if set(noises) != set(p1.NOISES) or set(rows) != set(p1.SOURCES):
         raise RuntimeError("sealed bridge4/noise identities or ordering differ")
-    sys.path[:0] = [str(Path(paths["code_root"]) / "scripts"), str(Path(paths["code_root"]) / "src"), paths["groot_source"]]
-    os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "1"
+    import pi0246_paired_screen as screen
+    screen.bind_offline_runtime(paths)
     os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
     import stage40_b0_model_control as stage40
     cosmos_binding = stage40._bind_local_cosmos_processor(Path(paths["stage10_root"]), Path(paths["cosmos_snapshot"]))
@@ -148,7 +148,7 @@ def main() -> None:
     runtime_paths = {**paths, "output_root": str(args.output_root),
                      "run_card": str(card_paths["run_card"]), "path_overlay": str(card_paths["overlay"]),
                      "noise_root": str(args.noise_root), "model_roots": {k: str(v) for k, v in model_roots.items()}}
-    runtime_files = [Path(__file__).resolve(), Path(p1.__file__).resolve(), Path(stage21.__file__).resolve(),
+    runtime_files = [Path(__file__).resolve(), Path(p1.__file__).resolve(), Path(screen.__file__).resolve(), Path(stage21.__file__).resolve(),
                      Path(bridge.__file__).resolve(), Path(selector.__file__).resolve(), Path(stage43.__file__).resolve(),
                      Path(stage40.__file__).resolve()]
     binding = {"schema": "PI0246_C_T_FINAL_CROSSNOISE_RUNTIME_V1", "stage_run_card_sha256": p1.sha(card_paths["run_card"]),
