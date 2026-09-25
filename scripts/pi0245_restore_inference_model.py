@@ -24,12 +24,25 @@ def wanted(name: str) -> bool:
     return name in {"config.json", "embodiment_id.json", "processor_config.json", "statistics.json", "model.safetensors.index.json"} or name.endswith(".safetensors") or name.startswith("experiment_cfg/")
 
 
+def inference_identity(receipt: dict, repo: str, archive_prefix: str, step: int, model_family: str | None) -> dict:
+    if model_family is None:
+        return {"prefix": archive_prefix}
+    if receipt.get("family") != model_family:
+        raise RuntimeError("requested model family differs from durable checkpoint receipt")
+    return {
+        "family": model_family,
+        "prefix": f"{model_family}/checkpoint-{step}",
+        "hf_archive_path": f"{repo}/{archive_prefix}",
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--receipt", type=Path, required=True)
     parser.add_argument("--model-root", type=Path, required=True)
     parser.add_argument("--cache-root", type=Path, required=True)
     parser.add_argument("--expected-step", type=int, default=10000)
+    parser.add_argument("--model-family")
     args = parser.parse_args()
     receipt = json.loads(args.receipt.read_text())
     assert args.expected_step > 0
@@ -61,7 +74,8 @@ def main() -> None:
         else:
             os.symlink(source, target)
         results.append({"path": relative, "bytes": entry["bytes"], "sha256": entry["sha256"]})
-    record = {"schema": "PI0245_PINNED_INFERENCE_MODEL_RESTORE_V1", "checkpoint_step": args.expected_step, "receipt_sha256": sha(args.receipt), "repo_id": repo, "prefix": prefix, "revision": revision, "model_root": str(args.model_root), "file_count": len(results), "files": results, "optimizer_restored": False}
+    identity = inference_identity(receipt, repo, prefix, args.expected_step, args.model_family)
+    record = {"schema": "PI0245_PINNED_INFERENCE_MODEL_RESTORE_V1", "checkpoint_step": args.expected_step, "receipt_sha256": sha(args.receipt), "repo_id": repo, **identity, "revision": revision, "model_root": str(args.model_root), "file_count": len(results), "files": results, "optimizer_restored": False}
     target = args.model_root / "pi0245_inference_restore.json"
     payload = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
     if target.exists() and target.read_text() != payload:

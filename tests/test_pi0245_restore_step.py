@@ -11,6 +11,28 @@ from unittest.mock import patch
 
 
 class RestoreStepTest(unittest.TestCase):
+    def test_logical_family_keeps_real_hf_path(self):
+        hub = types.ModuleType("huggingface_hub")
+        hub.hf_hub_download = lambda **_kwargs: None
+        script = Path(__file__).resolve().parents[1] / "scripts/pi0245_restore_inference_model.py"
+        spec = importlib.util.spec_from_file_location("pi0245_restore_identity_test", script)
+        module = importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules, {"huggingface_hub": hub}):
+            spec.loader.exec_module(module)
+
+        receipt = {"family": "PI0246_P_PHYSPOS_M16_2K_V1"}
+        identity = module.inference_identity(
+            receipt,
+            "leoyuer/pi0246-gate-pass-campaign",
+            "arms/P/checkpoint-1000",
+            1000,
+            "PI0246_P_PHYSPOS_M16_2K_V1",
+        )
+        self.assertEqual(identity["prefix"], "PI0246_P_PHYSPOS_M16_2K_V1/checkpoint-1000")
+        self.assertEqual(identity["hf_archive_path"], "leoyuer/pi0246-gate-pass-campaign/arms/P/checkpoint-1000")
+        with self.assertRaises(RuntimeError):
+            module.inference_identity(receipt, "repo", "path", 1000, "OTHER_FAMILY")
+
     def test_requested_step_is_required(self):
         class ReachedDownload(Exception):
             pass
