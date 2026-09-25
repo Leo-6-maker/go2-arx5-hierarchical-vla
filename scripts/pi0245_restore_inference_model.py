@@ -9,9 +9,6 @@ import json
 import os
 from pathlib import Path
 
-from huggingface_hub import hf_hub_download
-
-
 def sha(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -22,6 +19,17 @@ def sha(path: Path) -> str:
 
 def wanted(name: str) -> bool:
     return name in {"config.json", "embodiment_id.json", "processor_config.json", "statistics.json", "model.safetensors.index.json"} or name.endswith(".safetensors") or name.startswith("experiment_cfg/")
+
+
+def validate_model_index(model_root: Path, entries: list[dict]) -> None:
+    index = json.loads((model_root / "model.safetensors.index.json").read_text(encoding="utf-8"))
+    weight_map = index.get("weight_map")
+    if not isinstance(weight_map, dict) or not weight_map:
+        raise RuntimeError("model index has no non-empty weight_map")
+    referenced = set(weight_map.values())
+    available = {entry["path"] for entry in entries if entry["path"].endswith(".safetensors")}
+    if len(referenced) < 2 or referenced != available:
+        raise RuntimeError("inference view does not contain exactly the indexed model shards")
 
 
 def inference_identity(receipt: dict, repo: str, archive_prefix: str, step: int, model_family: str | None) -> dict:
@@ -75,10 +83,14 @@ def main() -> None:
     revision = receipt["hf_manifest_commit_id"]
     assert len(revision) == 40
     entries = [entry for entry in receipt["source_record"]["inventory"]["entries"] if wanted(entry["path"])]
-    assert len(entries) >= 8 and sum(entry["path"].endswith(".safetensors") for entry in entries) >= 2
+    names = {entry["path"] for entry in entries}
+    assert {"config.json", "model.safetensors.index.json"} <= names
+    assert sum(name.endswith(".safetensors") for name in names) >= 2
     args.model_root.mkdir(parents=True, exist_ok=True)
     args.cache_root.mkdir(parents=True, exist_ok=True)
     results = []
+    from huggingface_hub import hf_hub_download
+
     for entry in entries:
         relative = entry["path"]
         target = args.model_root / relative
@@ -95,6 +107,7 @@ def main() -> None:
         else:
             os.symlink(source, target)
         results.append({"path": relative, "bytes": entry["bytes"], "sha256": entry["sha256"]})
+    validate_model_index(args.model_root, entries)
     identity = inference_identity(receipt, repo, prefix, args.expected_step, args.model_family)
     record = {"schema": "PI0245_PINNED_INFERENCE_MODEL_RESTORE_V1", "checkpoint_step": args.expected_step, "receipt_sha256": sha(args.receipt), "repo_id": repo, **identity, "revision": revision, "model_root": str(args.model_root), "file_count": len(results), "files": results, "optimizer_restored": False}
     target = args.model_root / "pi0245_inference_restore.json"

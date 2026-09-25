@@ -6,9 +6,39 @@ import unittest
 from pathlib import Path
 
 from scripts.pi0246_checkpoint_inference_view import make_view
+from scripts.pi0245_restore_inference_model import validate_model_index
 
 
 class CheckpointInferenceViewTests(unittest.TestCase):
+    def test_model_only_inference_view_accepts_four_file_checkpoint_scope(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "model.safetensors.index.json").write_text(json.dumps({
+                "weight_map": {"layer.a": "model-00001-of-00002.safetensors",
+                               "layer.b": "model-00002-of-00002.safetensors"}
+            }))
+            entries = [
+                {"path": "config.json"},
+                {"path": "model.safetensors.index.json"},
+                {"path": "model-00001-of-00002.safetensors"},
+                {"path": "model-00002-of-00002.safetensors"},
+            ]
+            validate_model_index(root, entries)
+
+    def test_model_index_rejects_a_missing_shard(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "model.safetensors.index.json").write_text(json.dumps({
+                "weight_map": {"layer.a": "model-00001-of-00002.safetensors",
+                               "layer.b": "model-00002-of-00002.safetensors"}
+            }))
+            with self.assertRaisesRegex(RuntimeError, "exactly the indexed model shards"):
+                validate_model_index(root, [
+                    {"path": "config.json"},
+                    {"path": "model.safetensors.index.json"},
+                    {"path": "model-00001-of-00002.safetensors"},
+                ])
+
     def test_view_binds_archived_model_files_without_mutating_checkpoint(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

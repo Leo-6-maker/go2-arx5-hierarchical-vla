@@ -17,10 +17,12 @@ import numpy as np
 import pi0246_paired_screen as screen
 import pi0245_p1_stock as p1
 
-PROFILE_CHOICES = tuple(dict.fromkeys((*screen.PROFILES, "P1000", "P2000")))
+PROFILE_CHOICES = tuple(dict.fromkeys((*screen.PROFILES, "P1000", "P2000", "PT1000", "PT2000")))
 
 
 def screen_module_name(profile: str) -> str:
+    if profile in {"PT1000", "PT2000"}:
+        return "pi0246_paired_screen_PT_extension"
     return "pi0246_paired_screen_P_extension" if profile in {"P1000", "P2000"} else "pi0246_paired_screen"
 
 
@@ -36,6 +38,7 @@ def verify(stage_root: Path, output_root: Path, model_root: Path, profile: str, 
     arm, step = paired_screen.PROFILES[profile]
     restore = paired_screen.read_json(model_root / "pi0245_inference_restore.json")
     model = p1.verify_model_files(model_root)
+    pt_view = paired_screen.validate_inference_view(stage_root, model_root, step) if arm == "PT" else None
     if arm is None:
         if model["manifest_sha256"] != cards["C"]["parent"]["restore_manifest_sha256"]:
             raise RuntimeError("S0 model identity differs from the sealed R0 initializer")
@@ -55,6 +58,14 @@ def verify(stage_root: Path, output_root: Path, model_root: Path, profile: str, 
             raise RuntimeError("profile contains a non-valid or wrong-profile cell")
         if record.get("model_manifest_sha256") != model["manifest_sha256"] or record.get("model_revision") != model["revision"]:
             raise RuntimeError("cell model identity differs from the verified inference view")
+        if arm == "PT" and (
+            record.get("family") != paired_screen.PT_FAMILY
+            or int(record.get("checkpoint_step", -1)) != step
+            or record.get("run_card_sha256") != paired_screen.PT_CARD_SHA
+            or record.get("full_checkpoint_receipt_sha256") != pt_view["receipt_sha256"]
+            or record.get("inference_view_sha256") != p1.sha(model_root / "INFERENCE_VIEW_VERIFIED.json")
+        ):
+            raise RuntimeError("PT profile cell is not bound to the sealed run card and inference view")
         if record.get("source_tensor_sha256") != rows[ids.index(record["source_episode_id"])]["tensor_sha256"]:
             raise RuntimeError("cell source tensor is not the fixed TRAIN source row")
         if record.get("target_xyz_in_model_input") is not False:
