@@ -27,6 +27,8 @@ ARMS = {
     "C": ("PI0245_C_NATIVE_M16_2K_V1", "L_native"),
     "T": ("PI0245_T_PHYSDELTA_M16_2K_V1", "L_native + 0.1 * L_phys_delta"),
 }
+P_ARM = ("PI0246_P_PHYSPOS_M16_2K_V1", "L_native + 0.1 * L_phys_pos")
+ARM_DEFS = {**ARMS, "P": P_ARM}
 
 
 class CampaignError(RuntimeError):
@@ -138,6 +140,64 @@ def verify_t_runtime(card_path: Path, runtime_root: Path, wrapper: Path, binding
             "wrapper_sha256": identity["wrapper_sha256"]}
 
 
+def p_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> dict[str, Any]:
+    card = read_json(card_path)
+    root = runtime_root.resolve()
+    paths = card["paths"]
+    parent_delta = Path(paths["p1_root"]).parent / "code" / "pi0245_physical_delta.py"
+    runtime_delta = root / "pi0245_physical_delta.py"
+    if sha256_file(runtime_delta) != sha256_file(parent_delta):
+        raise CampaignError("P runtime physical decoder differs from the sealed PI0245 helper")
+    return {
+        "schema": "PI0246_P_PHYSPOS_SAME_FORWARD_RUNTIME_V1",
+        "run_card_sha256": sha256_file(card_path),
+        "family": card["family"], "loss": card["loss"], "seed": card["seed"],
+        "execution_profile": card.get("execution_profile", "H200_PBS"),
+        "resolved_config_sha256": canonical_sha256(card["resolved_config"]),
+        "runtime_root": str(root),
+        "trainer_sha256": sha256_file(root / "pi0246_gate_pass_train.py"),
+        "position_overlay_sha256": sha256_file(root / "pi0246_physical_position.py"),
+        "physical_decoder_sha256": sha256_file(runtime_delta),
+        "parent_physical_decoder_sha256": sha256_file(parent_delta),
+        "wrapper_path": str(wrapper.resolve()), "wrapper_sha256": sha256_file(wrapper),
+        "p1_runner_sha256": sha256_file(Path(paths["campaign_code_root"]) / "pi0245_p1_stock.py"),
+        "training_helpers": {
+            name: sha256_file(Path(paths["code_root"]) / "scripts" / name)
+            for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py")
+        },
+        "sealer_sha256": sha256_file(Path(__file__).resolve()),
+    }
+
+
+def seal_p_runtime(card_path: Path, runtime_root: Path, wrapper: Path) -> dict[str, Any]:
+    card = read_json(card_path)
+    seal = read_json(card_path.with_name("run_card.seal.json"))
+    if seal.get("sha256") != sha256_file(card_path) or card.get("arm") != "P" or card.get("loss") != P_ARM[1]:
+        raise CampaignError("P runtime requires the sealed P card")
+    if (Path(card["paths"]["output_root"]) / "training").exists():
+        raise CampaignError("P training output already exists; refusing to reseal or overwrite")
+    identity = p_runtime_identity(card_path, runtime_root, wrapper)
+    manifest = runtime_root / "P_runtime_binding.json"
+    receipt = manifest.with_name("P_runtime_binding.seal.json")
+    if manifest.exists() or receipt.exists():
+        raise CampaignError("P runtime binding already exists")
+    write_json(manifest, identity)
+    write_json(receipt, {"sha256": sha256_file(manifest)})
+    return {"status": "PASS_P_RUNTIME_SEALED", "binding": identity, "binding_sha256": sha256_file(manifest)}
+
+
+def verify_p_runtime(card_path: Path, runtime_root: Path, wrapper: Path, binding_path: Path, expected_sha256: str) -> dict[str, Any]:
+    identity = p_runtime_identity(card_path, runtime_root, wrapper)
+    binding = read_json(binding_path)
+    seal = read_json(binding_path.with_name("P_runtime_binding.seal.json"))
+    if sha256_file(binding_path) != expected_sha256 or seal.get("sha256") != expected_sha256 or binding != identity:
+        raise CampaignError("P runtime binding, card, wrapper, or staged source SHA mismatch")
+    return {"status": "PASS_P_RUNTIME_BINDING", "sha256": expected_sha256,
+            "trainer_sha256": identity["trainer_sha256"],
+            "position_overlay_sha256": identity["position_overlay_sha256"],
+            "wrapper_sha256": identity["wrapper_sha256"]}
+
+
 def load_module(path: Path, name: str) -> Any:
     spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
@@ -221,21 +281,21 @@ def make_config(paths: dict[str, str], output: Path) -> tuple[Any, Any, dict[str
 def functional_preflight(args: argparse.Namespace) -> None:
     card = read_json(args.run_card)
     seal = read_json(args.run_card.with_name("run_card.seal.json"))
-    if (
-        seal.get("sha256") != sha256_file(args.run_card)
-        or card.get("schema") != "PI0246_ARM_RUN_CARD_V1"
-        or card.get("status") != "SEALED_READY_NOT_STARTED"
-        or card.get("arm") != "T"
-        or card.get("family") != ARMS["T"][0]
-        or card.get("loss") != ARMS["T"][1]
-    ):
-        raise CampaignError("functional preflight requires the sealed PI0246 T card")
-    runtime_root = Path(os.environ["PI0246_T_RUNTIME_ROOT"])
-    wrapper = Path(os.environ["PI0246_T_RUNTIME_WRAPPER"])
-    binding = verify_t_runtime(
-        args.run_card, runtime_root, wrapper, Path(os.environ["PI0246_T_RUNTIME_BINDING"]),
-        os.environ["PI0246_T_RUNTIME_BINDING_SHA256"],
-    )
+    arm = str(card.get("arm"))
+    if (seal.get("sha256") != sha256_file(args.run_card)
+            or card.get("schema") != "PI0246_ARM_RUN_CARD_V1"
+            or card.get("status") != "SEALED_READY_NOT_STARTED"
+            or arm not in {"T", "P"}
+            or card.get("family") != ARM_DEFS[arm][0]
+            or card.get("loss") != ARM_DEFS[arm][1]):
+        raise CampaignError("functional preflight requires a sealed PI0246 T or P card")
+    prefix = f"PI0246_{arm}_RUNTIME"
+    runtime_root = Path(os.environ[f"{prefix}_ROOT"])
+    wrapper = Path(os.environ[f"{prefix}_WRAPPER"])
+    binding_path = Path(os.environ[f"{prefix}_BINDING"])
+    expected_binding = os.environ[f"{prefix}_BINDING_SHA256"]
+    binding = (verify_t_runtime(args.run_card, runtime_root, wrapper, binding_path, expected_binding)
+               if arm == "T" else verify_p_runtime(args.run_card, runtime_root, wrapper, binding_path, expected_binding))
     paths = card["paths"]
     import torch
     visible = torch.cuda.device_count()
@@ -247,7 +307,7 @@ def functional_preflight(args: argparse.Namespace) -> None:
     fixed.MAX_STEPS = STEPS
     fixed.CHECKPOINT_STEPS = CHECKPOINTS
     runtime = fixed.bind_runtime(card)
-    output = Path(paths["output_root"]) / "functional_preflight_t_v1"
+    output = Path(paths["output_root"]) / f"functional_preflight_{arm.lower()}_v1"
     if output.exists():
         raise CampaignError(f"refusing to reuse functional preflight output: {output}")
     output.mkdir(parents=True)
@@ -279,7 +339,7 @@ def functional_preflight(args: argparse.Namespace) -> None:
     if len(consumption) != 1 or consumption[0]["source_episode_id"] != planned["source_episode_id"]:
         raise CampaignError("functional preflight did not decode the first sealed TRAIN schedule row")
     report = {
-        "schema": "PI0246_T_FUNCTIONAL_PREFLIGHT_V1", "status": "PASS_NO_MODEL",
+        "schema": f"PI0246_{arm}_FUNCTIONAL_PREFLIGHT_V1", "status": "PASS_NO_MODEL",
         "run_card_sha256": sha256_file(args.run_card), "runtime_binding_sha256": binding["sha256"],
         "config_sha256": canonical_sha256(summary), "execution": execution,
         "runtime": runtime, "source_episode_id": consumption[0]["source_episode_id"],
@@ -422,6 +482,83 @@ def verify_p1(path: Path, *, expected_order: list[str], expected_r0_manifest_sha
     return closure
 
 
+def prepare_p(args: argparse.Namespace) -> None:
+    source_path = args.source_run_card
+    source = read_json(source_path)
+    seal = read_json(source_path.with_name("run_card.seal.json"))
+    if (seal.get("sha256") != sha256_file(source_path)
+            or source.get("arm") != "T" or source.get("family") != ARMS["T"][0]
+            or source.get("loss") != ARMS["T"][1]
+            or source.get("status") != "SEALED_READY_NOT_STARTED"):
+        raise CampaignError("P preparation requires the exact sealed T card as its frozen config template")
+    if args.output_root.exists():
+        raise CampaignError(f"refusing to reuse P output root: {args.output_root}")
+    paths = source["paths"]
+    effective = Path(paths["p0_effective"])
+    if sha256_file(effective) != EXPECTED_P0_SHA256:
+        raise CampaignError("P0 effective scale-aware decoder binding changed")
+    p1_script = load_module(Path(paths["campaign_code_root"]) / "pi0245_p1_stock.py", "pi0246_p1_prepare")
+    expected_order = [f"{model}__{source_id}__{noise}" for model in ("R0", "R2") for source_id in p1_script.SOURCES for noise in p1_script.NOISES]
+    closure = verify_p1(
+        Path(source["p1_closure_path"]), expected_order=expected_order,
+        expected_r0_manifest_sha256=source["parent"]["restore_manifest_sha256"],
+        expected_r0_revision=source["parent"]["revision"],
+        expected_r0_records_sha256=p1_script.RECORD_SHA,
+    )
+    restore_path = Path(paths["base_model_path"]) / "pi0245_inference_restore.json"
+    restore = read_json(restore_path)
+    restore_sha = sha256_file(restore_path)
+    if (not Path(paths["base_model_path"]).is_dir()
+            or restore_sha != source["parent"]["restore_manifest_sha256"]
+            or restore.get("revision") != source["parent"]["revision"]
+            or restore.get("files") != source["parent"]["files"]
+            or restore.get("optimizer_restored") is not False):
+        raise CampaignError("P initializer is not the sealed R0-final10000 weights-only tree")
+    model_identity = {"manifest_sha256": restore_sha, "revision": restore["revision"]}
+    card = json.loads(json.dumps(source))
+    card.update({
+        "arm": "P", "family": P_ARM[0], "loss": P_ARM[1],
+        "paths": {**paths, "output_root": str(args.output_root)},
+        "branch_admission": {
+            "issue_comment_id": 5825569583,
+            "C2000": "VALID_JOINT_GATE_FAIL",
+            "T2000": "VALID_JOINT_GATE_FAIL",
+            "cross_noise_diagnostic_only": True,
+        },
+        "loss_contract": {
+            "native": "L_native", "auxiliary": "L_phys_pos", "coefficient": 0.1,
+            "same_native_forward": True, "normalized_physical_reference_m": 0.05,
+            "decoder": "PI0245 scale-aware XYZ inverse-normalization and fixed-reference frame",
+            "mask": "all three XYZ slots valid at the point",
+            "reduction": "sum of squared XYZ residuals, mean over valid points; no division by 3",
+        },
+        "archive": {
+            "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+            "path_prefix": "P",
+            "public": True,
+            "checkpoint_steps": list(CHECKPOINTS),
+        },
+    })
+    args.output_root.mkdir(parents=True)
+    card_path = args.output_root / "run_card.json"
+    write_json(card_path, card)
+    card_sha = sha256_file(card_path)
+    write_json(args.output_root / "run_card.seal.json", {"sha256": card_sha})
+    prepared = {
+        "schema": "PI0246_P_PREPARATION_V1", "status": "READY_NOT_STARTED",
+        "source_T_card_sha256": sha256_file(source_path), "run_card_sha256": card_sha,
+        "p1_closure_sha256": sha256_file(Path(source["p1_closure_path"])),
+        "p1_cells": len(closure["cells"]), "initializer_manifest_sha256": model_identity["manifest_sha256"],
+        "cohort_sha256": card["cohort"]["sha256"], "schedule_sha256": card["schedule"]["sha256"],
+        "steps": STEPS, "checkpoint_steps": list(CHECKPOINTS), "optimizer": card["optimizer"],
+        "loss_contract": card["loss_contract"], "training_started": False,
+        "selected_checkpoint": "NONE",
+    }
+    write_json(args.output_root / "preparation.json", prepared)
+    write_json(args.output_root / "preparation.seal.json", {"sha256": sha256_file(args.output_root / "preparation.json")})
+    print(json.dumps(prepared, indent=2, sort_keys=True))
+
+
 def train(args: argparse.Namespace) -> None:
     card = read_json(args.run_card)
     if card.get("schema") != "PI0246_ARM_RUN_CARD_V1" or card.get("status") != "SEALED_READY_NOT_STARTED":
@@ -430,10 +567,12 @@ def train(args: argparse.Namespace) -> None:
     if seal.get("sha256") != sha256_file(args.run_card):
         raise CampaignError("arm card seal mismatch")
     arm = str(card["arm"])
-    if arm not in ARMS or card["family"] != ARMS[arm][0] or card["loss"] != ARMS[arm][1]:
+    if arm not in ARM_DEFS or card["family"] != ARM_DEFS[arm][0] or card["loss"] != ARM_DEFS[arm][1]:
         raise CampaignError("arm/family/loss binding mismatch")
     t_binding = None
     t_runtime_root = None
+    p_binding = None
+    p_runtime_root = None
     if arm == "T":
         t_runtime_root = Path(os.environ["PI0246_T_RUNTIME_ROOT"])
         t_wrapper = Path(os.environ["PI0246_T_RUNTIME_WRAPPER"])
@@ -441,6 +580,14 @@ def train(args: argparse.Namespace) -> None:
         t_binding = verify_t_runtime(
             args.run_card, t_runtime_root, t_wrapper, t_binding_path,
             os.environ["PI0246_T_RUNTIME_BINDING_SHA256"],
+        )
+    elif arm == "P":
+        p_runtime_root = Path(os.environ["PI0246_P_RUNTIME_ROOT"])
+        p_wrapper = Path(os.environ["PI0246_P_RUNTIME_WRAPPER"])
+        p_binding = verify_p_runtime(
+            args.run_card, p_runtime_root, p_wrapper,
+            Path(os.environ["PI0246_P_RUNTIME_BINDING"]),
+            os.environ["PI0246_P_RUNTIME_BINDING_SHA256"],
         )
     p1_script = load_module(Path(card["paths"]["campaign_code_root"]) / "pi0245_p1_stock.py", "pi0246_p1_identity")
     expected_order = [f"{model}__{source}__{noise}" for model in ("R0", "R2") for source in p1_script.SOURCES for noise in p1_script.NOISES]
@@ -483,22 +630,31 @@ def train(args: argparse.Namespace) -> None:
     if summary != card["resolved_config"]:
         raise CampaignError("runtime config differs from sealed arm card")
     write_json(training_output / "resolved_config.json", summary)
-    if arm == "T":
+    if arm in {"T", "P"}:
         import torch
-        assert t_runtime_root is not None and t_binding is not None
-        sys.path.insert(0, str(t_runtime_root))
+        runtime_root = t_runtime_root if arm == "T" else p_runtime_root
+        runtime_binding = t_binding if arm == "T" else p_binding
+        assert runtime_root is not None and runtime_binding is not None
+        sys.path.insert(0, str(runtime_root))
         from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7ActionHead
-        overlay_module = load_module(t_runtime_root / "pi0245_native_overlay.py", "pi0246_t_native_overlay")
         effective = read_json(Path(paths["p0_effective"]))
-        forward_log = training_output / "pi0245_native_overlay_forward.jsonl"
+        overlay_kwargs = {
+            "scale": torch.tensor(effective["scale_xyz_m"], dtype=torch.float32),
+            "offset": torch.tensor(effective["offset_xyz_m"], dtype=torch.float32),
+            "state_min": torch.tensor(effective["state_min"], dtype=torch.float32),
+            "state_max": torch.tensor(effective["state_max"], dtype=torch.float32),
+            "treatment": True,
+        }
+        if arm == "T":
+            overlay_module = load_module(runtime_root / "pi0245_native_overlay.py", "pi0246_t_native_overlay")
+            forward_log = training_output / "pi0245_native_overlay_forward.jsonl"
+        else:
+            overlay_module = load_module(runtime_root / "pi0246_physical_position.py", "pi0246_p_position_overlay")
+            forward_log = training_output / "pi0246_physical_position_forward.jsonl"
         overlay_audit = overlay_module.install(
-            Gr00tN1d7ActionHead, scale=torch.tensor(effective["scale_xyz_m"], dtype=torch.float32),
-            offset=torch.tensor(effective["offset_xyz_m"], dtype=torch.float32),
-            state_min=torch.tensor(effective["state_min"], dtype=torch.float32),
-            state_max=torch.tensor(effective["state_max"], dtype=torch.float32), treatment=True,
-            audit_path=forward_log,
+            Gr00tN1d7ActionHead, **overlay_kwargs, audit_path=forward_log,
         )
-        overlay_audit["runtime_binding_sha256"] = t_binding["sha256"]
+        overlay_audit["runtime_binding_sha256"] = runtime_binding["sha256"]
     else:
         overlay_audit = None
     started = time.time()
@@ -519,34 +675,41 @@ def train(args: argparse.Namespace) -> None:
     if [int(read_json(training_output / f"checkpoint-{step}/trainer_state.json")["global_step"]) for step in CHECKPOINTS] != list(CHECKPOINTS):
         raise CampaignError("full Trainer checkpoint steps are incomplete")
     same_forward_audit = None
-    if arm == "T":
-        forward_log = training_output / "pi0245_native_overlay_forward.jsonl"
+    if arm in {"T", "P"}:
+        forward_log = training_output / (
+            "pi0245_native_overlay_forward.jsonl" if arm == "T"
+            else "pi0246_physical_position_forward.jsonl"
+        )
         forward_rows = [json.loads(line) for line in forward_log.read_text(encoding="utf-8").splitlines() if line.strip()]
         if len(forward_rows) != STEPS or [int(row.get("forward_index", -1)) for row in forward_rows] != list(range(1, STEPS + 1)):
-            raise CampaignError("T same-forward component/tau audit is incomplete")
-        required_fields = {"native_loss", "physical_delta_loss", "total_loss", "tau", "valid_transitions", "saturated_xyz"}
+            raise CampaignError(f"{arm} same-forward component/tau audit is incomplete")
+        aux_key = "physical_delta_loss" if arm == "T" else "physical_position_loss"
+        count_key = "valid_transitions" if arm == "T" else "valid_points"
+        max_count = 39 if arm == "T" else 40
+        required_fields = {"native_loss", aux_key, "total_loss", "tau", count_key, "saturated_xyz"}
         for row in forward_rows:
             if not required_fields.issubset(row):
-                raise CampaignError("T same-forward audit is missing a required component")
-            numeric = [row["native_loss"], row["physical_delta_loss"], row["total_loss"], *row["tau"]]
+                raise CampaignError(f"{arm} same-forward audit is missing a required component")
+            numeric = [row["native_loss"], row[aux_key], row["total_loss"], *row["tau"]]
             if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in numeric):
-                raise CampaignError("T same-forward audit contains nonfinite values")
+                raise CampaignError(f"{arm} same-forward audit contains nonfinite values")
             if len(row["tau"]) != 1 or not 0.0 <= float(row["tau"][0]) <= 1.0:
-                raise CampaignError("T same-forward audit tau shape/range is invalid")
-            if not math.isclose(float(row["total_loss"]), float(row["native_loss"]) + 0.1 * float(row["physical_delta_loss"]), rel_tol=1e-5, abs_tol=1e-7):
-                raise CampaignError("T same-forward loss components do not sum to the prescribed objective")
-            if not 0 < int(row["valid_transitions"]) <= 39 or not 0 <= int(row["saturated_xyz"]) <= 120:
-                raise CampaignError("T same-forward audit transition/saturation count is invalid")
+                raise CampaignError(f"{arm} same-forward audit tau shape/range is invalid")
+            if not math.isclose(float(row["total_loss"]), float(row["native_loss"]) + 0.1 * float(row[aux_key]), rel_tol=1e-5, abs_tol=1e-7):
+                raise CampaignError(f"{arm} same-forward loss components do not sum to the prescribed objective")
+            if not 0 < int(row[count_key]) <= max_count or not 0 <= int(row["saturated_xyz"]) <= 120:
+                raise CampaignError(f"{arm} same-forward mask/saturation count is invalid")
         same_forward_audit = {
             "status": "COMPLETE", "rows": len(forward_rows),
+            "auxiliary_loss_name": aux_key, "valid_count_name": count_key,
             "sha256": sha256_file(forward_log),
             "first_forward": forward_rows[0], "last_forward": forward_rows[-1],
             "native_loss_min": min(float(row["native_loss"]) for row in forward_rows),
             "native_loss_max": max(float(row["native_loss"]) for row in forward_rows),
-            "physical_delta_loss_min": min(float(row["physical_delta_loss"]) for row in forward_rows),
-            "physical_delta_loss_max": max(float(row["physical_delta_loss"]) for row in forward_rows),
-            "valid_transitions_min": min(int(row["valid_transitions"]) for row in forward_rows),
-            "valid_transitions_max": max(int(row["valid_transitions"]) for row in forward_rows),
+            "auxiliary_loss_min": min(float(row[aux_key]) for row in forward_rows),
+            "auxiliary_loss_max": max(float(row[aux_key]) for row in forward_rows),
+            "valid_count_min": min(int(row[count_key]) for row in forward_rows),
+            "valid_count_max": max(int(row[count_key]) for row in forward_rows),
             "saturated_xyz_total": sum(int(row["saturated_xyz"]) for row in forward_rows),
         }
         overlay_audit["forward_log_sha256"] = same_forward_audit["sha256"]
@@ -560,17 +723,17 @@ def train(args: argparse.Namespace) -> None:
         "frozen_vlln_unchanged": float(update["frozen_vlln"]["delta_l2"]) == 0,
         "optimizer_membership_valid": not audit["optimizer_membership"]["missing_trainable"] and not audit["optimizer_membership"]["illegal_frozen"],
     }
-    if arm == "T":
+    if arm in {"T", "P"}:
         integrity["same_forward_audit_complete"] = same_forward_audit is not None and same_forward_audit["rows"] == STEPS
     projector_reconciliation_required = (
         arm == "T" and not integrity["projector_updated"]
         and all(value for key, value in integrity.items() if key != "projector_updated")
     )
     result = {
-        "schema": "PI0246_ARM_TRAINING_MANIFEST_V1",
+        "schema": f"PI0246_ARM_{arm}_TRAINING_MANIFEST_V1",
         "status": (
             "TRAINING_COMPLETE_PROJECTOR_RECONCILIATION_REQUIRED" if projector_reconciliation_required
-            else "PASS_TRAINING_INTEGRITY" if all(integrity.values())
+            else ("PASS_P_TRAINING_INTEGRITY" if arm == "P" else "PASS_TRAINING_INTEGRITY") if all(integrity.values())
             else "SCIENCE_FAIL_OPTIMIZATION_OR_CONTRACT"
         ),
         "arm": arm, "family": card["family"], "run_card_sha256": sha256_file(args.run_card),
@@ -595,9 +758,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--prepare", action="store_true")
+    mode.add_argument("--prepare-p", action="store_true")
     mode.add_argument("--functional-preflight", action="store_true")
     mode.add_argument("--train", action="store_true")
     mode.add_argument("--seal-t-runtime", action="store_true")
+    mode.add_argument("--seal-p-runtime", action="store_true")
     parser.add_argument("--r0-card", type=Path)
     parser.add_argument("--r0-root", type=Path)
     parser.add_argument("--r0-model-root", type=Path)
@@ -608,12 +773,17 @@ def main() -> int:
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--runtime-root", type=Path)
     parser.add_argument("--wrapper", type=Path)
+    parser.add_argument("--source-run-card", type=Path)
     args = parser.parse_args()
     if args.prepare:
         required = (args.r0_card, args.r0_root, args.r0_model_root, args.p0_effective, args.p1_root, args.campaign_code_root, args.output_root)
         if any(value is None for value in required):
             parser.error("--prepare requires R0/P0/P1 identities and output root")
         prepare(args)
+    elif args.prepare_p:
+        if args.source_run_card is None or args.output_root is None:
+            parser.error("--prepare-p requires --source-run-card and --output-root")
+        prepare_p(args)
     elif args.functional_preflight:
         if args.run_card is None:
             parser.error("--functional-preflight requires --run-card")
@@ -622,11 +792,16 @@ def main() -> int:
         if args.run_card is None:
             parser.error("--train requires --run-card")
         train(args)
-    else:
+    elif args.seal_t_runtime:
         required = (args.run_card, args.runtime_root, args.wrapper)
         if any(value is None for value in required):
             parser.error("--seal-t-runtime requires --run-card, --runtime-root, and --wrapper")
         print(json.dumps(seal_t_runtime(args.run_card, args.runtime_root, args.wrapper), indent=2, sort_keys=True))
+    else:
+        required = (args.run_card, args.runtime_root, args.wrapper)
+        if any(value is None for value in required):
+            parser.error("--seal-p-runtime requires --run-card, --runtime-root, and --wrapper")
+        print(json.dumps(seal_p_runtime(args.run_card, args.runtime_root, args.wrapper), indent=2, sort_keys=True))
     return 0
 
 
