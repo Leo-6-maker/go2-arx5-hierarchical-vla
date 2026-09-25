@@ -21,6 +21,8 @@ test "$(jq -er .arm "$card")" = PT
 test "$(jq -er .family "$card")" = PI0246_PT_PHYSPOS_PHYSDELTA_M16_2K_V1
 test "$(jq -er .loss "$card")" = 'L_native + 0.1 * L_phys_pos + 0.1 * L_phys_delta'
 test "$(jq -er .predecessor_failure.status "$card")" = VALID_JOINT_GATE_FAIL
+test "$(jq -er .archive.path_prefix "$card")" = arms/PT
+test "$(jq -er .archive.rolling_full_trainer_checkpoints "$card")" = true
 
 code=$(jq -er .paths.code_root "$card")
 campaign=$(jq -er .paths.campaign_code_root "$card")
@@ -52,14 +54,22 @@ test ! -e "$output/functional_preflight_pt_v1"
 test -r "$output/predecessor_evidence/P2000_cpu_verification.json"
 test -r "$output/predecessor_evidence/P2000_inference_view_verified.json"
 case "$output" in /scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT) ;; *) echo "FAIL_CLOSED: unexpected PT output root: $output" >&2; exit 2 ;; esac
+: "${PI0243_HF_TOKEN_FILE:?set PI0243_HF_TOKEN_FILE for the public HF rolling archive}"
+test -r "$PI0243_HF_TOKEN_FILE" && test -s "$PI0243_HF_TOKEN_FILE"
 available=$(stat -f -c '%a %s' /scratch/e1192548 | awk '{print $1*$2}')
 echo "PI0246_PT_QUOTA_PROBE root=/scratch/e1192548 available_bytes=$available"
-awk -v a="$available" 'BEGIN {exit !(a >= 60*1024*1024*1024)}' || { echo "FAIL_CLOSED: <60 GiB for two full Trainer checkpoints" >&2; exit 2; }
+required=$(jq -er .archive.required_free_bytes "$card")
+reference_bytes=$(jq -er .archive.reference_checkpoint_bytes "$card")
+headroom=$(jq -er .archive.scratch_headroom_bytes "$card")
+test "$required" -eq "$((reference_bytes + headroom))"
+test "$(jq -er .archive.reference_checkpoint_tree_sha256 "$card")" = "$(jq -er .predecessor_failure.P2000_full_checkpoint_tree_sha256 "$card")"
+awk -v a="$available" -v r="$required" 'BEGIN {exit !(a >= r)}' || { echo "FAIL_CLOSED: insufficient same-fileset headroom for one full checkpoint plus sealed reserve" >&2; exit 2; }
 
 export PI0246_PT_RUNTIME_ROOT="$runtime"
 export PI0246_PT_RUNTIME_WRAPPER="$wrapper"
 export PI0246_PT_RUNTIME_BINDING="$binding"
 export PI0246_PT_RUNTIME_BINDING_SHA256="$binding_sha"
+export PI0246_PT_RUN_CARD="$card"
 export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
 export PYTHONPATH="$runtime:$campaign:$code/scripts:$code/src:$groot:${PYTHONPATH:-}"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1
@@ -77,12 +87,3 @@ test "$reconcile_status" = TRAINING_INTEGRITY_RECONCILED_PT_FULL_PROJECTOR_TENSO
   echo "PT optimizer/projector reconciliation did not pass: $reconcile_status" >&2
   exit 3
 }
-
-# Archive full Trainer states; an upload failure preserves local checkpoints for recovery.
-: "${PI0243_HF_TOKEN_FILE:?set PI0243_HF_TOKEN_FILE for the public HF archive}"
-test -r "$PI0243_HF_TOKEN_FILE"
-"$venv/bin/python" -u "$stage10/scripts/pi0243_hf_checkpoint_sidecar.py" \
-  --output-root "$output" --repo-id leoyuer/pi0246-gate-pass-campaign \
-  --token-file "$PI0243_HF_TOKEN_FILE" --path-prefix arms/PT --max-steps 2000 \
-  --steps 1000 2000 --family PI0246_PT_PHYSPOS_PHYSDELTA_M16_2K_V1 \
-  --state-path "$output/hf_archive_state.json" --checkpoint-timeout 21600

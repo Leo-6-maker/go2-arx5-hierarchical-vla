@@ -55,7 +55,7 @@ class ScheduleTests(unittest.TestCase):
             CAMPAIGN.write_json(receipt_path, {
                 "status": "DURABLE_VERIFIED", "family": CAMPAIGN.P_ARM[0], "checkpoint_step": 2000,
                 "max_steps": 2000, "hf_manifest_commit_id": revision,
-                "source_record": {"inventory": {"tree_sha256": tree_sha}},
+                "source_record": {"inventory": {"tree_sha256": tree_sha, "total_bytes": 123}},
             })
             view_path, verification_path = root / "view.json", root / "verification.json"
             CAMPAIGN.write_json(view_path, {
@@ -124,6 +124,119 @@ class ScheduleTests(unittest.TestCase):
             with self.assertRaises(CAMPAIGN.CampaignError):
                 CAMPAIGN.verify_p1(path, expected_order=expected, expected_r0_manifest_sha256=manifest_sha,
                                    expected_r0_revision="pinned-r0", expected_r0_records_sha256="b" * 64)
+
+    def test_pt_retirement_requires_a_matching_durable_hf_receipt(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "PT"
+            training = output / "training"
+            target = training / "checkpoint-1000"
+            target.mkdir(parents=True)
+            (target / "trainer_state.json").write_text("sealed full checkpoint\n", encoding="utf-8")
+            digest = "a" * 64
+            record = {
+                "schema": "PI0243_DURABLE_CHECKPOINT_RECORD_V1",
+                "family": "PT_FAMILY", "checkpoint_step": 1000, "max_steps": 2000,
+                "global_step": 1000,
+                "inventory": {
+                    "file_count": 1, "total_bytes": 23, "tree_sha256": "b" * 64,
+                    "entries": [{"path": "trainer_state.json", "bytes": 23, "sha256": digest}],
+                },
+            }
+            receipt_path = output / "durable_receipts" / "checkpoint-1000.durable_receipt.json"
+            readback_path = output / "durable_receipts" / "checkpoint-1000.hf_readback.json"
+            receipt_path.parent.mkdir(parents=True)
+            receipt = {
+                "status": "DURABLE_VERIFIED", "family": "PT_FAMILY", "checkpoint_step": 1000,
+                "max_steps": 2000, "durable_host": "huggingface",
+                "durable_path": "leoyuer/pi0246-gate-pass-campaign/arms/PT/checkpoint-1000",
+                "hf_manifest_commit_id": "f" * 40, "source_record": record,
+                "durable_inventory": [{
+                    "path": "arms/PT/checkpoint-1000/trainer_state.json", "bytes": 23, "sha256": "c" * 64,
+                }],
+            }
+            CAMPAIGN.write_json(receipt_path, receipt)
+            with self.assertRaises(CAMPAIGN.CampaignError):
+                CAMPAIGN.retire_pt_checkpoint_after_verified_archive(
+                    output, training, 1000, record, receipt_path, readback_path,
+                    repo_id="leoyuer/pi0246-gate-pass-campaign", prefix="arms/PT", family="PT_FAMILY",
+                )
+            self.assertTrue(target.is_dir())
+            receipt["durable_inventory"][0]["sha256"] = digest
+            CAMPAIGN.write_json(receipt_path, receipt)
+            CAMPAIGN.write_json(readback_path, {
+                "status": "PASS_PT_FULL_HF_READBACK", "family": "PT_FAMILY",
+                "checkpoint_step": 1000, "max_steps": 2000,
+                "repo_id": "leoyuer/pi0246-gate-pass-campaign", "path_prefix": "arms/PT",
+                "revision": "f" * 40, "source_tree_sha256": "b" * 64, "file_count": 1,
+                "files": [{"path": "arms/PT/checkpoint-1000/trainer_state.json", "bytes": 23, "sha256": digest}],
+            })
+            intent, completed = CAMPAIGN.retire_pt_checkpoint_after_verified_archive(
+                output, training, 1000, record, receipt_path, readback_path,
+                repo_id="leoyuer/pi0246-gate-pass-campaign", prefix="arms/PT", family="PT_FAMILY",
+            )
+            self.assertFalse(target.exists())
+            self.assertEqual(CAMPAIGN.read_json(intent)["status"], "DURABLE_HF_COPY_VERIFIED_DELETE_AUTHORIZED")
+            self.assertEqual(CAMPAIGN.read_json(completed)["status"], "LOCAL_COPY_REMOVED_AFTER_DURABLE_VERIFICATION")
+
+    def test_pt_readback_hashes_non_lfs_files_at_the_pinned_revision(self):
+        record = {"inventory": {
+            "tree_sha256": "a" * 64,
+            "entries": [
+                {"path": "weights.safetensors", "bytes": 8, "sha256": "b" * 64},
+                {"path": "config.json", "bytes": 2, "sha256": "c" * 64},
+            ],
+        }}
+        receipt = {
+            "hf_manifest_commit_id": "d" * 40,
+            "durable_inventory": [
+                {"path": "arms/PT/checkpoint-2000/weights.safetensors", "bytes": 8, "sha256": "b" * 64},
+                {"path": "arms/PT/checkpoint-2000/config.json", "bytes": 2, "sha256": None},
+            ],
+        }
+
+        class StorageHelper:
+            @staticmethod
+            def stream_remote_sha(repo_id, path, revision, token):
+                self.assertEqual(repo_id, "leoyuer/pi0246-gate-pass-campaign")
+                self.assertEqual(revision, "d" * 40)
+                self.assertEqual(token, "test-token-not-a-secret")
+                return "c" * 64
+
+        result = CAMPAIGN.verify_pt_hf_readback(
+            receipt, record, storage_helper=StorageHelper(), token="test-token-not-a-secret",
+            repo_id="leoyuer/pi0246-gate-pass-campaign", prefix="arms/PT",
+            family="PT_FAMILY", step=2000,
+        )
+        self.assertEqual(result["status"], "PASS_PT_FULL_HF_READBACK")
+        self.assertEqual(result["file_count"], 2)
+        self.assertEqual(result["files"][1]["method"], "pinned_revision_stream_sha256")
+
+    def test_pt_campaign_snapshot_is_isolated_and_byte_bound(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source, runtime, code, snapshot = (root / name for name in ("source", "runtime", "code", "pt-code"))
+            for directory in (source, runtime, code / "scripts", snapshot / "scripts"):
+                directory.mkdir(parents=True)
+            files = {
+                source / "pi0245_p1_stock.py": "p1 runner\n",
+                runtime / "pi0246_gate_pass_train.py": "trainer\n",
+                runtime / "pi0246_reconcile_c_update.py": "reconcile\n",
+                code / "scripts/pi0243_storage_retirement.py": "readback helper\n",
+            }
+            destinations = {
+                snapshot / "pi0245_p1_stock.py": files[source / "pi0245_p1_stock.py"],
+                snapshot / "pi0246_gate_pass_train.py": files[runtime / "pi0246_gate_pass_train.py"],
+                snapshot / "scripts/pi0246_reconcile_c_update.py": files[runtime / "pi0246_reconcile_c_update.py"],
+                snapshot / "scripts/pi0243_storage_retirement.py": files[code / "scripts/pi0243_storage_retirement.py"],
+            }
+            for path, content in {**files, **destinations}.items():
+                path.write_text(content, encoding="utf-8")
+            CAMPAIGN.validate_pt_campaign_snapshot(snapshot, source, runtime, code)
+            (snapshot / "pi0245_p1_stock.py").write_text("changed runner\n", encoding="utf-8")
+            with self.assertRaises(CAMPAIGN.CampaignError):
+                CAMPAIGN.validate_pt_campaign_snapshot(snapshot, source, runtime, code)
+            with self.assertRaises(CAMPAIGN.CampaignError):
+                CAMPAIGN.validate_pt_campaign_snapshot(source / "nested", source, runtime, code)
 
 
 if __name__ == "__main__":

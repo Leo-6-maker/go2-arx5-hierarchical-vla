@@ -11,6 +11,7 @@ import math
 import os
 import shutil
 import statistics
+import subprocess
 import sys
 import time
 from collections import Counter
@@ -55,6 +56,24 @@ def write_json(path: Path, value: Any) -> None:
     temporary = path.with_suffix(path.suffix + f".tmp.{os.getpid()}")
     temporary.write_text(json.dumps(value, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
     os.replace(temporary, path)
+
+
+def write_json_durable(path: Path, value: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + f".tmp.{os.getpid()}")
+    with temporary.open("w", encoding="utf-8") as stream:
+        stream.write(json.dumps(value, indent=2, sort_keys=True, default=str) + "\n")
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+    try:
+        descriptor = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(descriptor)
+        finally:
+            os.close(descriptor)
+    except OSError:
+        pass
 
 
 def sha256_file(path: Path) -> str:
@@ -213,6 +232,7 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
     card = read_json(card_path)
     root = runtime_root.resolve()
     paths = card["paths"]
+    stage10 = Path(paths["stage10_root"])
     parent_runtime = card["parent_loss_runtime"]
     parent_binding_path = Path(parent_runtime["binding_path"])
     parent_binding = read_json(parent_binding_path)
@@ -234,6 +254,16 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
             or sha256_file(runtime_delta) != sha256_file(parent_delta)
             or sha256_file(runtime_position) != sha256_file(parent_position)):
         raise CampaignError("PT helpers differ from the sealed P physical-loss/decoder implementation")
+    campaign_root = Path(paths["campaign_code_root"])
+    campaign_p1 = sha256_file(campaign_root / "pi0245_p1_stock.py")
+    if campaign_p1 != parent_binding.get("p1_runner_sha256"):
+        raise CampaignError("PT campaign P1 runner differs from the sealed P runtime")
+    campaign_trainer = sha256_file(campaign_root / "pi0246_gate_pass_train.py")
+    runtime_trainer = sha256_file(root / "pi0246_gate_pass_train.py")
+    campaign_reconcile = sha256_file(campaign_root / "scripts/pi0246_reconcile_c_update.py")
+    runtime_reconcile = sha256_file(root / "pi0246_reconcile_c_update.py")
+    if campaign_trainer != runtime_trainer or campaign_reconcile != runtime_reconcile:
+        raise CampaignError("PT campaign and runtime trainer/reconciliation copies differ")
     return {
         "schema": "PI0246_PT_SINGLE_FORWARD_RUNTIME_V1",
         "run_card_sha256": sha256_file(card_path), "family": card["family"], "loss": card["loss"],
@@ -247,6 +277,9 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
         "parent_loss_runtime_binding_sha256": sha256_file(parent_binding_path),
         "parent_position_sha256": sha256_file(parent_position),
         "parent_physical_delta_sha256": sha256_file(parent_delta),
+        "campaign_p1_runner_sha256": campaign_p1,
+        "campaign_trainer_sha256": campaign_trainer,
+        "reconcile_script_sha256": campaign_reconcile,
         "wrapper_path": str(wrapper.resolve()), "wrapper_sha256": sha256_file(wrapper),
         "source_p_card_sha256": card["predecessor_failure"]["P_run_card_sha256"],
         "p2000_verification_sha256": card["predecessor_failure"]["P2000_cpu_verification_sha256"],
@@ -254,6 +287,11 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
             name: sha256_file(Path(paths["code_root"]) / "scripts" / name)
             for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py")
         },
+        "checkpoint_archive_helpers": {
+            name: sha256_file(stage10 / "scripts" / name)
+            for name in ("pi0243_hf_checkpoint_sidecar.py", "pi0243_hf_archive_tree.py", "pi0243_checkpoint_persistence.py")
+        },
+        "hf_readback_helper_sha256": sha256_file(campaign_root / "scripts/pi0243_storage_retirement.py"),
         "sealer_sha256": sha256_file(Path(__file__).resolve()),
     }
 
@@ -295,6 +333,308 @@ def load_module(path: Path, name: str) -> Any:
     sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def validate_pt_archive_receipt(receipt: dict[str, Any], record: dict[str, Any], *,
+                                repo_id: str, prefix: str, family: str, step: int) -> None:
+    path = f"{prefix}/checkpoint-{step}"
+    expected_record = record
+    if (not isinstance(record, dict) or receipt.get("status") != "DURABLE_VERIFIED" or receipt.get("family") != family
+            or int(receipt.get("checkpoint_step", -1)) != step
+            or int(receipt.get("max_steps", -1)) != STEPS
+            or receipt.get("durable_host") != "huggingface"
+            or receipt.get("durable_path") != f"{repo_id}/{path}"
+            or not receipt.get("hf_manifest_commit_id")
+            or receipt.get("source_record") != expected_record):
+        raise CampaignError(f"checkpoint-{step} HF receipt does not bind the complete local Trainer tree")
+    expected = {
+        f"{path}/{entry['path']}": (int(entry["bytes"]), entry["sha256"])
+        for entry in expected_record["inventory"]["entries"]
+    }
+    observed_rows = receipt.get("durable_inventory")
+    if not isinstance(observed_rows, list):
+        raise CampaignError(f"checkpoint-{step} HF receipt has no remote inventory")
+    observed = {str(row.get("path")): row for row in observed_rows}
+    if set(observed) != set(expected):
+        raise CampaignError(f"checkpoint-{step} HF remote file set differs from the local inventory")
+    for remote_path, (size, digest) in expected.items():
+        row = observed[remote_path]
+        if int(row.get("bytes", -1)) != size or row.get("sha256") not in (None, digest):
+            raise CampaignError(f"checkpoint-{step} HF remote size/hash mismatch: {remote_path}")
+
+
+def verify_pt_hf_readback(receipt: dict[str, Any], record: dict[str, Any], *,
+                          storage_helper: Any, token: str, repo_id: str,
+                          prefix: str, family: str, step: int) -> dict[str, Any]:
+    commit = receipt["hf_manifest_commit_id"]
+    remote = {str(row["path"]): row for row in receipt["durable_inventory"]}
+    files = []
+    for entry in record["inventory"]["entries"]:
+        path = f"{prefix}/checkpoint-{step}/{entry['path']}"
+        row = remote[path]
+        digest = row.get("sha256")
+        method = "hf_lfs_sha256"
+        if digest is None:
+            digest = storage_helper.stream_remote_sha(repo_id, path, commit, token)
+            method = "pinned_revision_stream_sha256"
+        if digest != entry["sha256"]:
+            raise CampaignError(f"checkpoint-{step} pinned HF readback SHA mismatch: {path}")
+        files.append({"path": path, "bytes": int(entry["bytes"]), "sha256": digest, "method": method})
+    return {
+        "schema": "PI0246_PT_FULL_HF_READBACK_V1", "status": "PASS_PT_FULL_HF_READBACK",
+        "family": family, "checkpoint_step": step, "max_steps": STEPS,
+        "repo_id": repo_id, "path_prefix": prefix, "revision": commit,
+        "source_tree_sha256": record["inventory"]["tree_sha256"],
+        "file_count": len(files), "files": files,
+    }
+
+
+def retire_pt_checkpoint_after_verified_archive(output: Path, training_output: Path, step: int,
+                                                record: dict[str, Any], receipt_path: Path,
+                                                readback_path: Path,
+                                                *, repo_id: str, prefix: str, family: str) -> tuple[Path, Path]:
+    target = training_output / f"checkpoint-{step}"
+    if (target.is_symlink() or target.resolve().parent != training_output.resolve()
+            or target.resolve() != (training_output / f"checkpoint-{step}").resolve()):
+        raise CampaignError("PT retirement target escaped the exact training directory")
+    intent_path = output / "checkpoint_retirements" / f"checkpoint-{step}.predelete.json"
+    complete_path = output / "checkpoint_retirements" / f"checkpoint-{step}.deleted.json"
+    if intent_path.exists() or complete_path.exists():
+        raise CampaignError(f"checkpoint-{step} already has retirement evidence; refusing overwrite")
+    current = record
+    receipt = read_json(receipt_path)
+    validate_pt_archive_receipt(receipt, current, repo_id=repo_id, prefix=prefix, family=family, step=step)
+    readback = read_json(readback_path)
+    expected_files = {
+        f"{prefix}/checkpoint-{step}/{entry['path']}": (int(entry["bytes"]), entry["sha256"])
+        for entry in current["inventory"]["entries"]
+    }
+    observed_files = {str(row.get("path")): row for row in readback.get("files", [])}
+    if (readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+            or readback.get("revision") != receipt.get("hf_manifest_commit_id")
+            or readback.get("repo_id") != repo_id or readback.get("path_prefix") != prefix
+            or readback.get("family") != family or readback.get("checkpoint_step") != step
+            or readback.get("source_tree_sha256") != current["inventory"]["tree_sha256"]
+            or readback.get("file_count") != len(expected_files)
+            or set(observed_files) != set(expected_files)):
+        raise CampaignError(f"checkpoint-{step} lacks a complete pinned-revision HF readback")
+    for path, (size, digest) in expected_files.items():
+        item = observed_files[path]
+        if int(item.get("bytes", -1)) != size or item.get("sha256") != digest:
+            raise CampaignError(f"checkpoint-{step} HF readback record mismatch: {path}")
+    receipt_sha = sha256_file(receipt_path)
+    readback_sha = sha256_file(readback_path)
+    intent_path.parent.mkdir(parents=True, exist_ok=True)
+    write_json_durable(intent_path, {
+        "schema": "PI0246_PT_LOCAL_CHECKPOINT_RETIREMENT_V1",
+        "status": "DURABLE_HF_COPY_VERIFIED_DELETE_AUTHORIZED",
+        "checkpoint_step": step, "checkpoint_path": str(target.resolve()),
+        "checkpoint_record": current, "checkpoint_record_sha256": canonical_sha256(current),
+        "durable_receipt_sha256": receipt_sha,
+        "full_hf_readback_path": str(readback_path), "full_hf_readback_sha256": readback_sha,
+        "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
+        "reason": "single-checkpoint scratch capacity; retain complete Trainer state in public HF before local retirement",
+    })
+    shutil.rmtree(target)
+    if target.exists():
+        raise CampaignError(f"checkpoint-{step} local copy remains after retirement")
+    write_json_durable(complete_path, {
+        "schema": "PI0246_PT_LOCAL_CHECKPOINT_RETIREMENT_COMPLETE_V1",
+        "status": "LOCAL_COPY_REMOVED_AFTER_DURABLE_VERIFICATION",
+        "checkpoint_step": step,
+        "predelete_intent_sha256": sha256_file(intent_path),
+        "durable_receipt_sha256": receipt_sha,
+        "full_hf_readback_sha256": readback_sha,
+        "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
+    })
+    return intent_path, complete_path
+
+
+def install_pt_rolling_archive(training_output: Path, output: Path, card: dict[str, Any],
+                               runtime_binding: dict[str, Any]) -> None:
+    """Archive each full Trainer save, verify it, then retire only that new local copy."""
+    from transformers import TrainerCallback
+    from gr00t.experiment import experiment as experiment_module
+
+    token_path = Path(os.environ.get("PI0243_HF_TOKEN_FILE", ""))
+    if not token_path.is_file() or not token_path.read_text(encoding="utf-8").strip():
+        raise CampaignError("PT rolling archive requires the configured readable HF token file")
+    paths = card["paths"]
+    archive = card["archive"]
+    repo_id = str(archive["repo_id"])
+    prefix = str(archive["path_prefix"])
+    if repo_id != "leoyuer/pi0246-gate-pass-campaign" or prefix != "arms/PT":
+        raise CampaignError("PT archive destination differs from the sealed independent public-HF prefix")
+    stage10 = Path(paths["stage10_root"])
+    helper_hashes = runtime_binding["checkpoint_archive_helpers"]
+    for name, expected_hash in helper_hashes.items():
+        if sha256_file(stage10 / "scripts" / name) != expected_hash:
+            raise CampaignError(f"PT archive helper differs from its runtime binding: {name}")
+    sidecar = stage10 / "scripts/pi0243_hf_checkpoint_sidecar.py"
+    persistence_path = stage10 / "scripts/pi0243_checkpoint_persistence.py"
+    persistence = load_module(persistence_path, "pi0246_pt_checkpoint_persistence")
+    reconcile_path = Path(paths["campaign_code_root"]) / "scripts/pi0246_reconcile_c_update.py"
+    if sha256_file(reconcile_path) != runtime_binding["reconcile_script_sha256"]:
+        raise CampaignError("PT projector reconciliation source differs from its runtime binding")
+    reconciler = load_module(reconcile_path, "pi0246_pt_projector_reconcile")
+    storage_path = Path(paths["campaign_code_root"]) / "scripts/pi0243_storage_retirement.py"
+    if sha256_file(storage_path) != runtime_binding["hf_readback_helper_sha256"]:
+        raise CampaignError("PT HF readback helper differs from its runtime binding")
+    storage_helper = load_module(storage_path, "pi0246_pt_hf_readback")
+    base = experiment_module.Gr00tTrainer
+    state_path = output / "hf_archive_state.json"
+    tensor_root = training_output / "projector_reconciliation"
+
+    class ArchiveOnSave(TrainerCallback):
+        def on_save(self, args, state, control, **kwargs):
+            step = int(state.global_step)
+            if step not in CHECKPOINTS:
+                return control
+            target = training_output / f"checkpoint-{step}"
+            receipt_path = output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+            if receipt_path.exists():
+                raise CampaignError(f"checkpoint-{step} already has archive/retirement evidence; refusing overwrite")
+            record = persistence.checkpoint_record(
+                target, expected_step=step, expected_max_steps=STEPS, family=card["family"],
+            )
+            comparison = reconciler.compare_projector(Path(paths["base_model_path"]), target)
+            tensor_root.mkdir(parents=True, exist_ok=True)
+            tensor_path = tensor_root / f"checkpoint-{step}.json"
+            write_json_durable(tensor_path, {
+                "schema": "PI0246_PT_PROJECTOR_TENSOR_RECONCILIATION_V1",
+                "status": "PASS_PROJECTOR_TENSOR_COMPARE",
+                "arm": "PT", "checkpoint_step": step,
+                "run_card_sha256": sha256_file(Path(os.environ["PI0246_PT_RUN_CARD"])),
+                "initializer_manifest_sha256": card["parent"]["restore_manifest_sha256"],
+                "checkpoint_tree_sha256": record["inventory"]["tree_sha256"],
+                "reconciliation_script_sha256": runtime_binding["reconcile_script_sha256"],
+                "comparison": comparison,
+            })
+            command = [
+                sys.executable, str(sidecar), "--output-root", str(output),
+                "--repo-id", repo_id, "--token-file", str(token_path),
+                "--path-prefix", prefix, "--steps", str(step),
+                "--family", str(card["family"]), "--max-steps", str(STEPS),
+                "--state-path", str(state_path), "--checkpoint-timeout", "21600",
+            ]
+            environment = dict(os.environ)
+            environment["HF_HUB_OFFLINE"] = "0"
+            environment.pop("TRANSFORMERS_OFFLINE", None)
+            process = subprocess.run(command, text=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT, env=environment)
+            archive_log = output / f"checkpoint-{step}.hf-archive.log"
+            archive_log.write_text(process.stdout, encoding="utf-8")
+            with archive_log.open("rb") as stream:
+                os.fsync(stream.fileno())
+            if process.returncode != 0:
+                raise CampaignError(f"checkpoint-{step} HF archive failed; local checkpoint retained: {process.stdout[-3000:]}")
+            current = persistence.checkpoint_record(
+                target, expected_step=step, expected_max_steps=STEPS, family=card["family"],
+            )
+            if current != record:
+                raise CampaignError(f"checkpoint-{step} changed during HF archive; local copy retained")
+            receipt = read_json(receipt_path)
+            validate_pt_archive_receipt(
+                receipt, current, repo_id=repo_id, prefix=prefix, family=card["family"], step=step,
+            )
+            token = token_path.read_text(encoding="utf-8").strip()
+            readback = verify_pt_hf_readback(
+                receipt, current, storage_helper=storage_helper, token=token,
+                repo_id=repo_id, prefix=prefix, family=card["family"], step=step,
+            )
+            readback_path = output / "durable_receipts" / f"checkpoint-{step}.hf_readback.json"
+            write_json_durable(readback_path, readback)
+            retire_pt_checkpoint_after_verified_archive(
+                output, training_output, step, current, receipt_path, readback_path,
+                repo_id=repo_id, prefix=prefix, family=card["family"],
+            )
+            print(f"PT checkpoint-{step} archived and locally retired after hash/readback verification")
+            return control
+
+    class ArchiveTrainer(base):
+        def __init__(self, *args: Any, **kwargs: Any):
+            super().__init__(*args, **kwargs)
+            self.add_callback(ArchiveOnSave())
+
+    experiment_module.Gr00tTrainer = ArchiveTrainer
+
+
+def pt_checkpoint_manifest_record(output: Path, training_output: Path, card: dict[str, Any], step: int) -> dict[str, Any]:
+    receipt_path = output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+    readback_path = output / "durable_receipts" / f"checkpoint-{step}.hf_readback.json"
+    intent_path = output / "checkpoint_retirements" / f"checkpoint-{step}.predelete.json"
+    completion_path = output / "checkpoint_retirements" / f"checkpoint-{step}.deleted.json"
+    tensor_path = training_output / "projector_reconciliation" / f"checkpoint-{step}.json"
+    target = training_output / f"checkpoint-{step}"
+    if target.exists() or target.is_symlink():
+        raise CampaignError(f"checkpoint-{step} local full-state copy was not retired after archival")
+    receipt = read_json(receipt_path)
+    record = receipt.get("source_record")
+    validate_pt_archive_receipt(
+        receipt, record, repo_id=card["archive"]["repo_id"], prefix=card["archive"]["path_prefix"],
+        family=card["family"], step=step,
+    )
+    if (record.get("global_step") != step or record.get("max_steps") != STEPS
+            or record.get("inventory", {}).get("file_count") != 18):
+        raise CampaignError(f"checkpoint-{step} durable full Trainer inventory is incomplete")
+    intent, completion = read_json(intent_path), read_json(completion_path)
+    receipt_sha = sha256_file(receipt_path)
+    readback = read_json(readback_path)
+    readback_sha = sha256_file(readback_path)
+    expected_readback = {
+        f"{card['archive']['path_prefix']}/checkpoint-{step}/{entry['path']}": (int(entry["bytes"]), entry["sha256"])
+        for entry in record["inventory"]["entries"]
+    }
+    observed_readback = {str(row.get("path")): row for row in readback.get("files", [])}
+    if (intent.get("status") != "DURABLE_HF_COPY_VERIFIED_DELETE_AUTHORIZED"
+            or intent.get("checkpoint_record") != record
+            or intent.get("durable_receipt_sha256") != receipt_sha
+            or intent.get("hf_manifest_commit_id") != receipt.get("hf_manifest_commit_id")
+            or intent.get("full_hf_readback_path") != str(readback_path)
+            or intent.get("full_hf_readback_sha256") != readback_sha
+            or completion.get("status") != "LOCAL_COPY_REMOVED_AFTER_DURABLE_VERIFICATION"
+            or completion.get("predelete_intent_sha256") != sha256_file(intent_path)
+            or completion.get("durable_receipt_sha256") != receipt_sha):
+        raise CampaignError(f"checkpoint-{step} local-retirement evidence does not close against its HF receipt")
+    if (completion.get("full_hf_readback_sha256") != readback_sha
+            or readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+            or readback.get("family") != card["family"]
+            or readback.get("checkpoint_step") != step or readback.get("max_steps") != STEPS
+            or readback.get("repo_id") != card["archive"]["repo_id"]
+            or readback.get("path_prefix") != card["archive"]["path_prefix"]
+            or readback.get("revision") != receipt.get("hf_manifest_commit_id")
+            or readback.get("source_tree_sha256") != record["inventory"]["tree_sha256"]
+            or readback.get("file_count") != len(expected_readback)
+            or set(observed_readback) != set(expected_readback)
+            or any(int(observed_readback[path].get("bytes", -1)) != size
+                   or observed_readback[path].get("sha256") != digest
+                   for path, (size, digest) in expected_readback.items())):
+        raise CampaignError(f"checkpoint-{step} pinned HF full-file readback does not verify")
+    tensors = read_json(tensor_path)
+    comparison = tensors.get("comparison", {})
+    if (tensors.get("status") != "PASS_PROJECTOR_TENSOR_COMPARE"
+            or tensors.get("run_card_sha256") != sha256_file(Path(card["paths"]["output_root"]) / "run_card.json")
+            or tensors.get("initializer_manifest_sha256") != card["parent"]["restore_manifest_sha256"]
+            or tensors.get("checkpoint_tree_sha256") != record["inventory"]["tree_sha256"]
+            or tensors.get("checkpoint_step") != step
+            or not comparison.get("tensor_count")
+            or comparison.get("changed_tensor_count") != comparison.get("tensor_count")):
+        raise CampaignError(f"checkpoint-{step} full projector tensor reconciliation is missing or mismatched")
+    return {
+        **record,
+        "file_count": record["inventory"]["file_count"],
+        "total_bytes": record["inventory"]["total_bytes"],
+        "durable_receipt_path": str(receipt_path), "durable_receipt_sha256": receipt_sha,
+        "hf_readback_path": str(readback_path), "hf_readback_sha256": readback_sha,
+        "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
+        "durable_path": receipt["durable_path"], "local_retired_after_verified_archive": True,
+        "retirement_intent_sha256": sha256_file(intent_path),
+        "retirement_completion_sha256": sha256_file(completion_path),
+        "projector_reconciliation_path": str(tensor_path),
+        "projector_reconciliation_sha256": sha256_file(tensor_path),
+        "projector_tensor_count": comparison["tensor_count"],
+        "projector_changed_tensor_count": comparison["changed_tensor_count"],
+    }
 
 
 def validate_parent_p_runtime(card_path: Path, binding_path: Path, expected_sha256: str) -> dict[str, Any]:
@@ -732,7 +1072,27 @@ def verify_p_final_failure(source_card_path: Path, verification_path: Path, view
         "P2000_queries_sha256": report["queries_sha256"],
         "P2000_revision": report["model_revision"],
         "P2000_model_manifest_sha256": report["model_manifest_sha256"],
+        "P2000_full_checkpoint_bytes": int(receipt["source_record"]["inventory"]["total_bytes"]),
+        "P2000_full_checkpoint_tree_sha256": receipt["source_record"]["inventory"]["tree_sha256"],
     }
+
+
+def validate_pt_campaign_snapshot(campaign_root: Path, source_campaign_root: Path,
+                                  runtime_root: Path, code_root: Path) -> None:
+    campaign_root, source_campaign_root = campaign_root.resolve(), source_campaign_root.resolve()
+    if (campaign_root == source_campaign_root or source_campaign_root in campaign_root.parents
+            or campaign_root in source_campaign_root.parents):
+        raise CampaignError("PT campaign snapshot must be isolated from the sealed P campaign tree")
+    staged_sources = {
+        "pi0245_p1_stock.py": source_campaign_root / "pi0245_p1_stock.py",
+        "pi0246_gate_pass_train.py": runtime_root / "pi0246_gate_pass_train.py",
+        "scripts/pi0246_reconcile_c_update.py": runtime_root / "pi0246_reconcile_c_update.py",
+        "scripts/pi0243_storage_retirement.py": code_root / "scripts/pi0243_storage_retirement.py",
+    }
+    for relative, source_file in staged_sources.items():
+        staged_file = campaign_root / relative
+        if not staged_file.is_file() or sha256_file(staged_file) != sha256_file(source_file):
+            raise CampaignError(f"isolated PT campaign snapshot is missing or differs: {relative}")
 
 
 def prepare_pt(args: argparse.Namespace) -> None:
@@ -758,7 +1118,15 @@ def prepare_pt(args: argparse.Namespace) -> None:
         raise CampaignError("PT initializer differs from the sealed R0-final10000 source")
     if args.output_root.exists():
         raise CampaignError(f"refusing to reuse PT output root: {args.output_root}")
-    pt_paths = {**paths, "output_root": str(args.output_root)}
+    if args.campaign_code_root is None:
+        raise CampaignError("PT requires an isolated campaign code snapshot; refusing to modify the sealed P code root")
+    campaign_root = args.campaign_code_root.resolve()
+    source_campaign_root = Path(paths["campaign_code_root"]).resolve()
+    validate_pt_campaign_snapshot(
+        campaign_root, source_campaign_root, Path(__file__).resolve().parent,
+        Path(paths["code_root"]),
+    )
+    pt_paths = {**paths, "campaign_code_root": str(campaign_root), "output_root": str(args.output_root)}
     _, _, summary = make_config(pt_paths, args.output_root / "training")
     if summary != source["resolved_config"]:
         raise CampaignError("PT resolved training configuration differs from P/R0 frozen configuration")
@@ -788,7 +1156,14 @@ def prepare_pt(args: argparse.Namespace) -> None:
                 "reduction": "sum squared XYZ increment residual, mean over valid transitions; no division by 3",
             },
         },
-        "archive": {**source["archive"], "path_prefix": "PT", "checkpoint_steps": list(CHECKPOINTS)},
+        "archive": {
+            **source["archive"], "path_prefix": "arms/PT", "checkpoint_steps": list(CHECKPOINTS),
+            "rolling_full_trainer_checkpoints": True,
+            "reference_checkpoint_bytes": admission["P2000_full_checkpoint_bytes"],
+            "reference_checkpoint_tree_sha256": admission["P2000_full_checkpoint_tree_sha256"],
+            "scratch_headroom_bytes": 4 * 1024**3,
+            "required_free_bytes": admission["P2000_full_checkpoint_bytes"] + 4 * 1024**3,
+        },
     })
     args.output_root.mkdir(parents=True)
     evidence_dir = args.output_root / "predecessor_evidence"
@@ -831,6 +1206,7 @@ def train(args: argparse.Namespace) -> None:
     p_runtime_root = None
     pt_binding = None
     pt_runtime_root = None
+    pt_runtime_identity_record = None
     if arm == "T":
         t_runtime_root = Path(os.environ["PI0246_T_RUNTIME_ROOT"])
         t_wrapper = Path(os.environ["PI0246_T_RUNTIME_WRAPPER"])
@@ -855,6 +1231,7 @@ def train(args: argparse.Namespace) -> None:
             args.run_card, pt_runtime_root, pt_wrapper, pt_binding_path,
             os.environ["PI0246_PT_RUNTIME_BINDING_SHA256"],
         )
+        pt_runtime_identity_record = read_json(pt_binding_path)
     p1_script = load_module(Path(card["paths"]["campaign_code_root"]) / "pi0245_p1_stock.py", "pi0246_p1_identity")
     expected_order = [f"{model}__{source}__{noise}" for model in ("R0", "R2") for source in p1_script.SOURCES for noise in p1_script.NOISES]
     p1 = verify_p1(
@@ -892,6 +1269,8 @@ def train(args: argparse.Namespace) -> None:
     training_output.mkdir(parents=True)
     fixed.install_fixed_dataset_factory(card, training_output)
     fixed.install_update_audit(training_output, audit_steps={1, 10, 100, 1000, 2000}, expected_end_step=STEPS)
+    if arm == "PT":
+        install_pt_rolling_archive(training_output, output, card, pt_runtime_identity_record)
     pi0228, config, summary = build_runtime_config(paths, training_output, fixed)
     if summary != card["resolved_config"]:
         raise CampaignError("runtime config differs from sealed arm card")
@@ -942,7 +1321,10 @@ def train(args: argparse.Namespace) -> None:
     audit = read_json(training_output / "pi0241_update_audit.json")
     if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != STEPS:
         raise CampaignError("optimizer/update audit is incomplete")
-    if [int(read_json(training_output / f"checkpoint-{step}/trainer_state.json")["global_step"]) for step in CHECKPOINTS] != list(CHECKPOINTS):
+    if arm == "PT":
+        for step in CHECKPOINTS:
+            pt_checkpoint_manifest_record(output, training_output, card, step)
+    elif [int(read_json(training_output / f"checkpoint-{step}/trainer_state.json")["global_step"]) for step in CHECKPOINTS] != list(CHECKPOINTS):
         raise CampaignError("full Trainer checkpoint steps are incomplete")
     same_forward_audit = None
     if arm in {"T", "P", "PT"}:
@@ -988,7 +1370,10 @@ def train(args: argparse.Namespace) -> None:
         }
         overlay_audit["forward_log_sha256"] = same_forward_audit["sha256"]
         overlay_audit["update_audit_sha256"] = sha256_file(training_output / "pi0241_update_audit.json")
-    checkpoints = {str(step): fixed.checkpoint_record(training_output / f"checkpoint-{step}", step) for step in CHECKPOINTS}
+    if arm == "PT":
+        checkpoints = {str(step): pt_checkpoint_manifest_record(output, training_output, card, step) for step in CHECKPOINTS}
+    else:
+        checkpoints = {str(step): fixed.checkpoint_record(training_output / f"checkpoint-{step}", step) for step in CHECKPOINTS}
     update = audit["final_parameters"]
     integrity = {
         "projector_updated": float(update["projector"]["delta_l2"]) > 0,
@@ -1015,11 +1400,13 @@ def train(args: argparse.Namespace) -> None:
         "update_integrity": integrity, "update_audit_sha256": sha256_file(training_output / "pi0241_update_audit.json"),
         "projector_reconciliation_required": projector_reconciliation_required,
         "checkpoints": checkpoints, "runtime_binding": runtime,
+        "pt_runtime_binding": pt_runtime_identity_record if arm == "PT" else None,
+        "pt_runtime_binding_sha256": pt_binding.get("sha256") if arm == "PT" else None,
         "overlay": overlay_audit, "selected_checkpoint": "NONE",
         "same_forward_audit": same_forward_audit,
         "forbidden_counts": card["forbidden_counts"],
     }
-    write_json(output / "training_manifest.json", result)
+    write_json_durable(output / "training_manifest.json", result)
     if not all(integrity.values()) and not projector_reconciliation_required:
         raise CampaignError("optimizer/update integrity failure")
     print(json.dumps(result, indent=2, sort_keys=True))
@@ -1062,9 +1449,9 @@ def main() -> int:
         prepare_p(args)
     elif args.prepare_pt:
         required = (args.source_run_card, args.p_verification, args.p_inference_view,
-                    args.p_runtime_binding, args.output_root)
+                    args.p_runtime_binding, args.campaign_code_root, args.output_root)
         if any(value is None for value in required):
-            parser.error("--prepare-pt requires P card, P2000 CPU verification, inference-view/runtime receipts, and output root")
+            parser.error("--prepare-pt requires P identity receipts, an isolated campaign code snapshot, and output root")
         prepare_pt(args)
     elif args.functional_preflight:
         if args.run_card is None:

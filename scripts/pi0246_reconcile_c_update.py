@@ -99,19 +99,85 @@ def reconcile(card_path: Path, training: Path, output: Path) -> dict:
     updates = {}
     for step in (1000, 2000):
         checkpoint = training / f"checkpoint-{step}"
-        state = read(checkpoint / "trainer_state.json")
         receipt = manifest["checkpoints"][str(step)]
-        if int(state["global_step"]) != step or int(receipt["global_step"]) != step or int(receipt["file_count"]) != 18:
-            raise RuntimeError(f"checkpoint-{step} full Trainer receipt mismatch")
-        updates[str(step)] = compare_projector(Path(card["paths"]["base_model_path"]), checkpoint)
+        if arm == "PT":
+            durable = read(Path(receipt["durable_receipt_path"]))
+            readback_path = Path(receipt["hf_readback_path"])
+            readback = read(readback_path)
+            intent_path = training.parent / "checkpoint_retirements" / f"checkpoint-{step}.predelete.json"
+            completion_path = training.parent / "checkpoint_retirements" / f"checkpoint-{step}.deleted.json"
+            intent, completion = read(intent_path), read(completion_path)
+            local_record = {key: receipt[key] for key in ("schema", "family", "checkpoint_step", "max_steps", "global_step", "inventory")}
+            expected_readback = {
+                f"{card['archive']['path_prefix']}/checkpoint-{step}/{entry['path']}": (int(entry["bytes"]), entry["sha256"])
+                for entry in local_record["inventory"]["entries"]
+            }
+            observed_readback = {str(row.get("path")): row for row in readback.get("files", [])}
+            if (checkpoint.exists() or checkpoint.is_symlink() or receipt.get("local_retired_after_verified_archive") is not True
+                    or receipt.get("global_step") != step or receipt.get("file_count") != 18
+                    or durable.get("status") != "DURABLE_VERIFIED"
+                    or durable.get("source_record") != local_record
+                    or durable.get("hf_manifest_commit_id") != receipt.get("hf_manifest_commit_id")
+                    or durable.get("durable_path") != receipt.get("durable_path")
+                    or receipt.get("durable_receipt_sha256") != sha(Path(receipt["durable_receipt_path"]))
+                    or intent.get("status") != "DURABLE_HF_COPY_VERIFIED_DELETE_AUTHORIZED"
+                    or intent.get("checkpoint_record") != local_record
+                    or intent.get("durable_receipt_sha256") != receipt.get("durable_receipt_sha256")
+                    or intent.get("hf_manifest_commit_id") != receipt.get("hf_manifest_commit_id")
+                    or intent.get("full_hf_readback_path") != str(readback_path)
+                    or intent.get("full_hf_readback_sha256") != receipt.get("hf_readback_sha256")
+                    or completion.get("status") != "LOCAL_COPY_REMOVED_AFTER_DURABLE_VERIFICATION"
+                    or completion.get("predelete_intent_sha256") != sha(intent_path)
+                    or completion.get("durable_receipt_sha256") != receipt.get("durable_receipt_sha256")
+                    or completion.get("full_hf_readback_sha256") != receipt.get("hf_readback_sha256")
+                    or receipt.get("hf_readback_sha256") != sha(readback_path)
+                    or readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+                    or readback.get("family") != card["family"]
+                    or readback.get("checkpoint_step") != step or readback.get("max_steps") != 2000
+                    or readback.get("repo_id") != card["archive"]["repo_id"]
+                    or readback.get("path_prefix") != card["archive"]["path_prefix"]
+                    or readback.get("revision") != receipt.get("hf_manifest_commit_id")
+                    or readback.get("source_tree_sha256") != local_record["inventory"]["tree_sha256"]
+                    or readback.get("file_count") != len(expected_readback)
+                    or set(observed_readback) != set(expected_readback)
+                    or any(int(observed_readback[path].get("bytes", -1)) != size
+                           or observed_readback[path].get("sha256") != digest
+                           for path, (size, digest) in expected_readback.items())):
+                raise RuntimeError(f"checkpoint-{step} rolling archive/retirement chain is invalid")
+            tensor_path = Path(receipt["projector_reconciliation_path"])
+            tensors = read(tensor_path)
+            comparison = tensors.get("comparison", {})
+            if (receipt.get("projector_reconciliation_sha256") != sha(tensor_path)
+                    or tensors.get("status") != "PASS_PROJECTOR_TENSOR_COMPARE"
+                    or tensors.get("checkpoint_tree_sha256") != receipt["inventory"]["tree_sha256"]
+                    or tensors.get("initializer_manifest_sha256") != card["parent"]["restore_manifest_sha256"]
+                    or tensors.get("checkpoint_step") != step
+                    or tensors.get("reconciliation_script_sha256") != sha(Path(__file__).resolve())
+                    or not comparison.get("tensor_count")
+                    or comparison.get("changed_tensor_count") != comparison.get("tensor_count")):
+                raise RuntimeError(f"checkpoint-{step} complete projector tensor evidence is invalid")
+            updates[str(step)] = comparison
+        else:
+            state = read(checkpoint / "trainer_state.json")
+            if int(state["global_step"]) != step or int(receipt["global_step"]) != step or int(receipt["file_count"]) != 18:
+                raise RuntimeError(f"checkpoint-{step} full Trainer receipt mismatch")
+            updates[str(step)] = compare_projector(Path(card["paths"]["base_model_path"]), checkpoint)
     final = audit["final_parameters"]
     status = f"TRAINING_INTEGRITY_RECONCILED_{arm}_FULL_PROJECTOR_TENSORS"
     if any(updates[str(step)]["changed_tensor_count"] != updates[str(step)]["tensor_count"] for step in (1000, 2000)):
         status = "PROJECTOR_UPDATE_NOT_CONFIRMED"
     effective_integrity = dict(original_integrity)
     effective_integrity["projector_updated"] = status != "PROJECTOR_UPDATE_NOT_CONFIRMED"
-    overlay_root = (Path(manifest["runtime_binding"]["runtime_root"]) if arm == "PT"
-                    else Path(card["paths"]["campaign_code_root"]))
+    if arm == "PT":
+        pt_binding = manifest.get("pt_runtime_binding") or {}
+        pt_binding_path = Path(pt_binding.get("runtime_root", "")) / "PT_runtime_binding.json"
+        if (not pt_binding_path.is_file()
+                or sha(pt_binding_path) != manifest.get("pt_runtime_binding_sha256")
+                or read(pt_binding_path) != pt_binding):
+            raise RuntimeError("PT runtime binding does not match the training manifest")
+        overlay_root = Path(pt_binding["runtime_root"])
+    else:
+        overlay_root = Path(card["paths"]["campaign_code_root"])
     overlay_name = "pi0246_pt_combined_overlay.py" if arm == "PT" else "pi0245_native_overlay.py"
     result = {
         "schema": f"PI0246_{arm}_READONLY_UPDATE_RECONCILIATION_V1",
