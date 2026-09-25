@@ -228,6 +228,10 @@ def verify_p_runtime(card_path: Path, runtime_root: Path, wrapper: Path, binding
             "wrapper_sha256": identity["wrapper_sha256"]}
 
 
+def checkpoint_archive_helper_root(paths: dict[str, Any]) -> Path:
+    return Path(paths["code_root"]) / "scripts"
+
+
 def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> dict[str, Any]:
     card = read_json(card_path)
     root = runtime_root.resolve()
@@ -287,7 +291,7 @@ def pt_runtime_identity(card_path: Path, runtime_root: Path, wrapper: Path) -> d
             for name in ("pi0241_fixed16_learning.py", "pi0228_h200_large_adapt_v1.py")
         },
         "checkpoint_archive_helpers": {
-            name: sha256_file(Path(paths["code_root"]) / "scripts" / name)
+            name: sha256_file(checkpoint_archive_helper_root(paths) / name)
             for name in ("pi0243_hf_checkpoint_sidecar.py", "pi0243_hf_archive_tree.py", "pi0243_checkpoint_persistence.py")
         },
         "hf_readback_helper_sha256": sha256_file(campaign_root / "scripts/pi0243_storage_retirement.py"),
@@ -464,13 +468,13 @@ def install_pt_rolling_archive(training_output: Path, output: Path, card: dict[s
     prefix = str(archive["path_prefix"])
     if repo_id != "leoyuer/pi0246-gate-pass-campaign" or prefix != "arms/PT":
         raise CampaignError("PT archive destination differs from the sealed independent public-HF prefix")
-    stage10 = Path(paths["stage10_root"])
+    helper_root = checkpoint_archive_helper_root(paths)
     helper_hashes = runtime_binding["checkpoint_archive_helpers"]
     for name, expected_hash in helper_hashes.items():
-        if sha256_file(stage10 / "scripts" / name) != expected_hash:
+        if sha256_file(helper_root / name) != expected_hash:
             raise CampaignError(f"PT archive helper differs from its runtime binding: {name}")
-    sidecar = stage10 / "scripts/pi0243_hf_checkpoint_sidecar.py"
-    persistence_path = stage10 / "scripts/pi0243_checkpoint_persistence.py"
+    sidecar = helper_root / "pi0243_hf_checkpoint_sidecar.py"
+    persistence_path = helper_root / "pi0243_checkpoint_persistence.py"
     persistence = load_module(persistence_path, "pi0246_pt_checkpoint_persistence")
     reconcile_path = Path(paths["campaign_code_root"]) / "scripts/pi0246_reconcile_c_update.py"
     if sha256_file(reconcile_path) != runtime_binding["reconcile_script_sha256"]:

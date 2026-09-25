@@ -10,6 +10,12 @@ SPEC.loader.exec_module(CAMPAIGN)
 
 
 class ScheduleTests(unittest.TestCase):
+    def test_checkpoint_archive_helpers_use_code_root(self):
+        self.assertEqual(
+            CAMPAIGN.checkpoint_archive_helper_root({"code_root": Path("sealed-code"), "stage10_root": Path("runtime")}),
+            Path("sealed-code/scripts"),
+        )
+
     def test_projector_probe_fallback_covers_physical_loss_arms(self):
         integrity = {"projector_updated": False, "diffusion_updated": True,
                      "frozen_backbone_unchanged": True, "optimizer_membership_valid": True}
