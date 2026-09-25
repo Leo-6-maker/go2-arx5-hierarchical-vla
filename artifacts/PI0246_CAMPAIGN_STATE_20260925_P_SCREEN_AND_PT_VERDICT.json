@@ -77,6 +77,18 @@
     "historical_artifact_modified": false
   },
   "next_action": "STOP_FOR_PI_NEW_HYPOTHESIS; no further arm authorized by this campaign",
+  "latest_live_recheck": {
+    "observed_at_utc": "2026-09-25T12:32:48Z",
+    "hopper_qstat_owner_query": "qstat -u e1192548 exited 0 with no active jobs returned",
+    "historical_job_629669": "F/Exit_status=1/Stageout_status=1 on hopper-22; preserved logs",
+    "job_629669_stdout_sha256": "f29ce791afae64fcb4208827cda7e423ff183de2120112c5048dc48dcd04e262",
+    "job_629669_stderr_sha256": "725140e3bb8a6440d727375477744b2759705e790db17f7974e3994c776025ab",
+    "paired_closeout": "docs/evidence/PI0246_R1_PAIRED_TERMINAL_CLOSEOUT_20260925.json",
+    "paired_closeout_sha256": "1076236be2946d59ea58589767a0fe4ba23cb7a0764d31e73f4292f2b70decb3",
+    "paired_closeout_rows": 112,
+    "model_queries": 0,
+    "training_updates": 0
+  },
   "selected_checkpoint": "NONE",
   "locked_activity": ["M64", "FULL", "CALIB", "selector", "WBC", "sim", "DEV-E", "DEV-F", "Final-F", "DAgger", "hardware", "PR merge"]
 }
