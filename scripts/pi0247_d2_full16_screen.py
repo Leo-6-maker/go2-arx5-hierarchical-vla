@@ -95,10 +95,12 @@ def prepare_inputs(card: dict, context: dict) -> dict:
     assert len(sources) == 16 and set(sources) == set(audit_rows)
     s0_root = Path(card["paths"]["s0_packets_root"])
     p1_cells = context["source_cells"]
-    d2_cells, d2_noise = {}, {}
+    d2_cells, d2_noise, d2_noise_packet_paths = {}, {}, {}
     noise_b1 = context["noise"]["N1"]
     noise_b1_sha = hashlib.sha256(noise_b1.tobytes()).hexdigest()
     assert noise_b1_sha == audit["authorized_b1_source_tensor_sha256"]
+    source_rows_by_id = {row["source_episode_id"]: row for row in source_rows}
+    source_input_root = Path(card["paths"]["source_inputs_root"])
 
     import pi0242_train_infer_bridge as query_bridge
     for row in source_rows:
@@ -115,6 +117,9 @@ def prepare_inputs(card: dict, context: dict) -> dict:
         policy = torch.load(packet_dir / "condition.pt", map_location="cpu", weights_only=False)
         condition_identity = query_bridge._canonical_hash(query_bridge._leaf_inventory(policy))
         assert condition_identity == record["condition_identity"] == source_audit["condition_identity"]
+        source_row = source_rows_by_id[source]
+        source_tensor = Path(source_row["resolved_tensor_path"])
+        assert p1.sha(source_tensor) == source_row["tensor_sha256"] == source_audit["source_tensor_sha256"]
         with np.load(packet_dir / "noise_packet.npz", allow_pickle=False) as data:
             b0 = data["source_float32"].copy()
             initial = data["initial_float32"].copy()
@@ -123,13 +128,28 @@ def prepare_inputs(card: dict, context: dict) -> dict:
         assert b0_sha == source_audit["b0_source_tensor_sha256"]
         assert not np.array_equal(b0, noise_b1)
         d2_noise[source] = {"B0": b0, "B1": noise_b1}
-        s0_info = {"cell_path": str(packet_dir), "condition_identity": condition_identity}
-        d2_cells[source] = {"B0": s0_info, "B1": s0_info}
+        source_input = source_input_root / base
+        source_input.mkdir(parents=True, exist_ok=True)
+        for name, target in (
+            ("record.json", packet_dir / "record.json"),
+            ("condition.pt", packet_dir / "condition.pt"),
+            ("tensors.npz", source_tensor),
+        ):
+            link = source_input / name
+            if link.is_symlink():
+                assert link.resolve() == target.resolve()
+            else:
+                assert not link.exists(), f"unexpected source input file: {link}"
+                link.symlink_to(target)
+        source_info = {"cell_path": str(source_input), "condition_identity": condition_identity}
+        d2_cells[source] = {"B0": source_info, "B1": source_info}
+        d2_noise_packet_paths[source] = str(packet_dir / "noise_packet.npz")
         if source in p1_cells:
             assert p1_cells[source]["N1"]["condition_identity"] == condition_identity
             d2_cells[source]["B1"] = p1_cells[source]["N1"]
 
     context["d2_noise"] = d2_noise
+    context["d2_noise_packet_paths"] = d2_noise_packet_paths
     context["source_cells"] = d2_cells
     context["d2_audit"] = audit
     context["d2_audit_rows"] = audit_rows
@@ -296,9 +316,8 @@ def run(args: argparse.Namespace) -> None:
             if group == "B1" and source in context["d2_p1_source_cells"]:
                 record = reused_d1[source]
             else:
-                source_dir = Path(context["source_cells"][source][group]["cell_path"])
                 if group == "B0":
-                    noise_path = source_dir / "noise_packet.npz"
+                    noise_path = Path(context["d2_noise_packet_paths"][source])
                     noise_sha = p1.sha(noise_path)
                     context["noise"][group] = context["d2_noise"][source][group]
                 else:
