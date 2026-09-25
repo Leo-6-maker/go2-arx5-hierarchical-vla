@@ -152,7 +152,7 @@ def validate_inference_view(root: Path, model_root: Path, step: int) -> dict:
     restore = read_json(model_root / "pi0245_inference_restore.json")
     view = read_json(model_root / "INFERENCE_VIEW_VERIFIED.json")
     model_files = p1.verify_model_files(model_root)
-    from pi0245_restore_inference_model import validate_model_index
+    from pi0245_restore_inference_model_PT import validate_model_index
 
     validate_model_index(model_root, restore["files"])
     expected_path = f"{PT_REPO}/arms/PT/checkpoint-{step}"
