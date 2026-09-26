@@ -428,6 +428,7 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
     prefix, repo_id, family = card["archive"]["path_prefix"], card["archive"]["repo_id"], card["family"]
     core.validate_pt_archive_receipt(receipt, record, repo_id=repo_id, prefix=prefix, family=family, step=1000)
     expected = {f"{prefix}/checkpoint-1000/{row['path']}": row for row in record["inventory"]["entries"]}
+    manifest_path = f"{prefix}/manifests/checkpoint-1000.json"
     observed = {str(row.get("path")): row for row in readback.get("files", [])}
     revision = receipt.get("hf_manifest_commit_id")
     if (receipt.get("status") != "DURABLE_VERIFIED"
@@ -452,24 +453,38 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
     offline = {name: os.environ.get(name) for name in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE")}
     os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "0"
     try:
-        from huggingface_hub import HfApi
+        from huggingface_hub import HfApi, hf_hub_download
         api = HfApi(token=token)
         api.whoami()
         info = api.model_info(repo_id=repo_id, files_metadata=True)
         siblings = {str(getattr(row, "rfilename", "")): row for row in (getattr(info, "siblings", None) or [])}
         current = {path: row for path, row in siblings.items()
                    if path == prefix or path.startswith(prefix.rstrip("/") + "/")}
+        manifest_file = Path(hf_hub_download(repo_id=repo_id, filename=manifest_path,
+                                             revision=revision, token=token))
+        manifest = life.read_json(manifest_file)
     finally:
         for name, value in offline.items():
             if value is None:
                 os.environ.pop(name, None)
             else:
                 os.environ[name] = value
-    if getattr(info, "private", None) is not False or getattr(info, "sha", None) != revision or set(current) != set(expected):
+    expected_prefix_files = {*expected, manifest_path}
+    if (getattr(info, "private", None) is not False or getattr(info, "sha", None) != revision
+            or set(current) != expected_prefix_files):
         raise life.LUError("PI0248 current public-HF prefix is not exactly the verified step-1000 checkpoint")
     for path, entry in expected.items():
         if getattr(current[path], "size", None) != int(entry["bytes"]):
             raise life.LUError(f"PI0248 current public-HF prefix size differs at {path}")
+    if (getattr(current[manifest_path], "size", None) != manifest_file.stat().st_size
+            or manifest.get("schema") != "PI0243_HF_ARCHIVED_TREE_V1"
+            or manifest.get("status") != "DURABLE_VERIFIED" or manifest.get("repo_id") != repo_id
+            or manifest.get("public") is not True or manifest.get("path") != f"{prefix}/checkpoint-1000"
+            or any(manifest.get("local", {}).get(key) != record["inventory"].get(key)
+                   for key in ("root", "file_count", "total_bytes", "entries"))
+            or manifest.get("remote") != receipt.get("durable_inventory")
+            or manifest.get("verification") != {"file_set_size_hash": "PASS", "consumer_control_readback": "PASS"}):
+        raise life.LUError("PI0248 step-1000 HF manifest does not bind the verified Trainer checkpoint")
 
     result = {
         "schema": "PI0248_HF_RESUME_PREFIX_PREFLIGHT_V1", "status": "PASS_PI0248_HF_RESUME_PREFIX",
@@ -480,6 +495,7 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
         "source_card_sha256": old_card_sha, "source_preflight_sha256": lineage["preflight_sha256"],
         "durable_receipt_sha256": life.sha256_file(receipt_path),
         "full_hf_readback_sha256": life.sha256_file(readback_path),
+        "manifest_sha256": life.sha256_file(manifest_file),
         "checkpoint_tree_sha256": record["inventory"]["tree_sha256"],
         "checkpoint_file_count": len(expected), "observed_prefix_files": sorted(current),
     }
