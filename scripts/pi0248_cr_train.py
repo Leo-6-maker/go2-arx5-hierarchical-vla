@@ -378,8 +378,113 @@ def _verify_card(path: Path, arm: str) -> dict[str, Any]:
             or life.sha256_file(Path(source["rotation_check_path"])) != source["rotation_check_sha256"]
             or life.sha256_file(Path(source["g0_report_path"])) != source["g0_report_sha256"]):
         raise life.LUError("PI0248 source evidence changed after card sealing")
+    lineage = source.get("resume_prefix_lineage")
+    if lineage:
+        for path_key, hash_key in (("card_path", "card_sha256"), ("preflight_path", "preflight_sha256"),
+                                   ("durable_receipt_path", "durable_receipt_sha256"),
+                                   ("readback_path", "readback_sha256")):
+            if life.sha256_file(Path(lineage[path_key])) != lineage[hash_key]:
+                raise life.LUError(f"PI0248 resume-prefix lineage changed: {path_key}")
     life.STEPS, life.CHECKPOINTS = STEPS, CHECKPOINTS
     return card
+
+
+def _science_card(card: dict[str, Any]) -> dict[str, Any]:
+    result = copy.deepcopy(card)
+    result.pop("execution_update_commit", None)
+    for key in ("execution_driver_root", "execution_driver", "pbs_script"):
+        result["paths"].pop(key, None)
+    for key in ("execution_code_commit", "execution_code_sha256", "custom_execution_code_sha256",
+                "resume_prefix_lineage"):
+        result["source"].pop(key, None)
+    return result
+
+
+def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: bool) -> dict[str, Any]:
+    lineage = card["source"].get("resume_prefix_lineage")
+    if card["arm"] != "C" or not lineage:
+        raise life.LUError("PI0248 exact C resume lacks sealed prefix lineage")
+    old_card = life._verify_card(Path(lineage["card_path"]), "C")
+    if _science_card(old_card) != _science_card(card):
+        raise life.LUError("PI0248 exact-resume card changed the sealed C science contract")
+    old_card_sha = life.sha256_file(Path(lineage["card_path"]))
+    prior = life.read_json(Path(lineage["preflight_path"]))
+    if (prior.get("schema") != "PI0247_LU_HF_ONLINE_PREFLIGHT_V1" or prior.get("status") != "PASS"
+            or prior.get("arm") != "C" or prior.get("run_card_sha256") != old_card_sha
+            or prior.get("repo_id") != card["archive"]["repo_id"]
+            or prior.get("target_prefix") != card["archive"]["path_prefix"]
+            or prior.get("target_prefix_empty") is not True or prior.get("repo_public") is not True
+            or prior.get("identity_verified") is not True
+            or prior.get("write_probe", {}).get("readback") != "PASS"):
+        raise life.LUError("PI0248 prior empty-prefix preflight is not bound to its original C card")
+
+    output = Path(card["paths"]["output_root"])
+    receipt_path = Path(lineage["durable_receipt_path"])
+    readback_path = Path(lineage["readback_path"])
+    receipt, readback = life.read_json(receipt_path), life.read_json(readback_path)
+    record = receipt.get("source_record")
+    core = life.load_module(Path(card["paths"]["training_runtime_root"]) / "pi0246_gate_pass_train.py",
+                            "pi0248_resume_prefix_core")
+    prefix, repo_id, family = card["archive"]["path_prefix"], card["archive"]["repo_id"], card["family"]
+    core.validate_pt_archive_receipt(receipt, record, repo_id=repo_id, prefix=prefix, family=family, step=1000)
+    expected = {f"{prefix}/checkpoint-1000/{row['path']}": row for row in record["inventory"]["entries"]}
+    observed = {str(row.get("path")): row for row in readback.get("files", [])}
+    revision = receipt.get("hf_manifest_commit_id")
+    if (receipt.get("status") != "DURABLE_VERIFIED"
+            or readback.get("schema") != "PI0247_LU_FULL_HF_READBACK_V1"
+            or readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+            or readback.get("pi0247_status") != "PASS_PI0247_LU_FULL_HF_READBACK"
+            or readback.get("repo_id") != repo_id or readback.get("path_prefix") != prefix
+            or readback.get("checkpoint_step") != 1000 or readback.get("revision") != revision
+            or readback.get("source_tree_sha256") != record["inventory"]["tree_sha256"]
+            or readback.get("source_record_sha256") != core.canonical_sha256(record)
+            or set(observed) != set(expected)):
+        raise life.LUError("PI0248 step-1000 durable receipt/readback do not close the prior C prefix")
+    for path, entry in expected.items():
+        if (int(observed[path].get("bytes", -1)) != int(entry["bytes"])
+                or observed[path].get("sha256") != entry["sha256"]):
+            raise life.LUError(f"PI0248 step-1000 readback differs at {path}")
+
+    token_path = Path(card["archive"]["token_file"])
+    token = token_path.read_text(encoding="utf-8").strip()
+    if not token:
+        raise life.LUError("PI0248 resume-prefix check lacks the configured HF identity")
+    from huggingface_hub import HfApi
+    api = HfApi(token=token)
+    api.whoami()
+    info = api.model_info(repo_id=repo_id, files_metadata=True)
+    siblings = {str(getattr(row, "rfilename", "")): row for row in (getattr(info, "siblings", None) or [])}
+    current = {path: row for path, row in siblings.items()
+               if path == prefix or path.startswith(prefix.rstrip("/") + "/")}
+    if getattr(info, "private", None) is not False or getattr(info, "sha", None) != revision or set(current) != set(expected):
+        raise life.LUError("PI0248 current public-HF prefix is not exactly the verified step-1000 checkpoint")
+    for path, entry in expected.items():
+        if getattr(current[path], "size", None) != int(entry["bytes"]):
+            raise life.LUError(f"PI0248 current public-HF prefix size differs at {path}")
+
+    result = {
+        "schema": "PI0248_HF_RESUME_PREFIX_PREFLIGHT_V1", "status": "PASS_PI0248_HF_RESUME_PREFIX",
+        "arm": "C", "run_card_sha256": life.sha256_file(card_path), "resume_after_step": 1000,
+        "repo_id": repo_id, "target_prefix": prefix, "target_prefix_empty": False,
+        "prefix_was_empty_before_first_publish": True, "current_prefix_checkpoint_steps": [1000],
+        "repo_public": True, "identity_verified": True, "current_repo_revision": revision,
+        "source_card_sha256": old_card_sha, "source_preflight_sha256": lineage["preflight_sha256"],
+        "durable_receipt_sha256": life.sha256_file(receipt_path),
+        "full_hf_readback_sha256": life.sha256_file(readback_path),
+        "checkpoint_tree_sha256": record["inventory"]["tree_sha256"],
+        "checkpoint_file_count": len(expected), "observed_prefix_files": sorted(current),
+    }
+    result_path = output / f"hf_resume_preflight_{result['run_card_sha256']}.json"
+    if create:
+        if result_path.exists() and life.read_json(result_path) != result:
+            raise life.LUError("PI0248 resume-prefix preflight receipt conflicts with existing evidence")
+        if not result_path.exists():
+            life.write_json(result_path, result)
+    else:
+        saved = life.read_json(result_path)
+        if any(saved.get(key) != value for key, value in result.items()):
+            raise life.LUError("PI0248 sealed resume-prefix preflight receipt changed before training")
+    return result
 
 
 def _patch_overlay(module: Any, card: dict[str, Any], resume_after: int) -> None:
@@ -506,6 +611,39 @@ def _install_adapters(card_path: Path, arm: str, resume_after: int) -> tuple[dic
     life._verify_code = lambda card, repo_code, shared_root, training_root: _verify_code(
         card, repo_code, shared_root, training_root, original_verify_code
     )
+    original_hf_verify = life._verify_hf_preflight_receipt
+    original_hf_preflight = life.hf_preflight
+
+    def verify_hf_preflight(card: dict[str, Any], card_path: Path) -> dict[str, Any]:
+        if card["arm"] == "C" and resume_after:
+            return _resume_prefix_preflight(card, card_path, create=False)
+        return original_hf_verify(card, card_path)
+
+    def hf_preflight(args: argparse.Namespace) -> None:
+        if args.resume_after_step != resume_after:
+            raise life.LUError("PI0248 HF preflight cursor differs from the installed run mode")
+        if args.arm == "C" and resume_after:
+            result = _resume_prefix_preflight(life._verify_card(args.run_card, args.arm), args.run_card, create=True)
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return
+        receipt_path = Path(life._verify_card(args.run_card, args.arm)["paths"]["output_root"]) / "hf_preflight_receipt.json"
+        if receipt_path.is_file():
+            old = life.read_json(receipt_path)
+            if old.get("run_card_sha256") != life.sha256_file(args.run_card):
+                if (old.get("schema") != "PI0247_LU_HF_ONLINE_PREFLIGHT_V1" or old.get("status") != "PASS"
+                        or old.get("arm") != args.arm or old.get("target_prefix_empty") is not True):
+                    raise life.LUError("refusing to replace nonempty or unverified prior HF preflight evidence")
+                backup = receipt_path.with_name(f"hf_preflight_receipt.previous_{old['run_card_sha256']}.json")
+                if backup.exists():
+                    if life.sha256_file(backup) != life.sha256_file(receipt_path):
+                        raise life.LUError("preserved prior HF preflight receipt conflicts with the current file")
+                else:
+                    shutil.copy2(receipt_path, backup)
+                receipt_path.unlink()
+        original_hf_preflight(args)
+
+    life._verify_hf_preflight_receipt = verify_hf_preflight
+    life.hf_preflight = hf_preflight
     original_load = life.load_module
 
     def load_module(path: Path, name: str) -> Any:
@@ -529,6 +667,52 @@ def _install_adapters(card_path: Path, arm: str, resume_after: int) -> tuple[dic
         original_chain(audit, output, mode_path=mode_path)
 
     life._install_u_chain_check = install_chain
+    original_archive_install = life._install_hf_rolling_archive
+
+    def install_archive(card: dict[str, Any], persistence: Any, card_path: Path, train_core: Any) -> None:
+        if card["arm"] == "C" and resume_after:
+            output = Path(card["paths"]["output_root"])
+            checkpoint = output / "training" / f"checkpoint-{resume_after}"
+            receipt = life.read_json(output / "durable_receipts" / f"checkpoint-{resume_after}.durable_receipt.json")
+            record = receipt["source_record"]
+            if persistence.checkpoint_record(
+                    checkpoint, expected_step=resume_after, expected_max_steps=STEPS, family=card["family"]) != record:
+                raise life.LUError("restored step-1000 checkpoint differs from its durable archive record")
+            helper_path = Path(card["paths"]["code_root"]) / "scripts/pi0241_reconcile_update_integrity.py"
+            if life.sha256_file(helper_path) != card["source"]["execution_code_sha256"]["pi0241_reconcile_update_integrity.py"]:
+                raise life.LUError("step-1000 projector reconciliation source changed")
+            helper = life.load_module(helper_path, "pi0248_resume_projector_reconciliation")
+            report = {
+                "schema": "PI0247_LU_PROJECTOR_RECONCILIATION_V1",
+                "status": "PASS_FULL_PROJECTOR_TENSOR_COMPARE", "arm": "C",
+                "checkpoint_step": resume_after, "run_card_sha256": life.sha256_file(card_path),
+                "initializer_tree_sha256": card["initializer"]["full_checkpoint_tree_sha256"],
+                "checkpoint_tree_sha256": record["inventory"]["tree_sha256"],
+                "reconciliation_script_sha256": life.sha256_file(helper_path),
+                "comparison": helper.compare(
+                    helper.projector_tensors(Path(card["initializer"]["path"])),
+                    helper.projector_tensors(checkpoint),
+                ),
+            }
+            projector_path = output / "projector_reconciliation" / f"checkpoint-{resume_after}.json"
+            if projector_path.is_file():
+                old = life.read_json(projector_path)
+                if old != report and old.get("run_card_sha256") != report["run_card_sha256"]:
+                    backup = projector_path.with_name(
+                        f"checkpoint-{resume_after}.previous_{old.get('run_card_sha256', 'unbound')}.json")
+                    if backup.exists():
+                        if life.sha256_file(backup) != life.sha256_file(projector_path):
+                            raise life.LUError("preserved projector reconciliation conflicts with prior evidence")
+                    else:
+                        shutil.copy2(projector_path, backup)
+                    projector_path.unlink()
+                elif old != report:
+                    raise life.LUError("step-1000 projector reconciliation conflicts with this exact-resume card")
+            if not projector_path.exists():
+                life.write_json(projector_path, report)
+        original_archive_install(card, persistence, card_path, train_core)
+
+    life._install_hf_rolling_archive = install_archive
     original_finalize = life.finalize
 
     def finalize(args: argparse.Namespace) -> None:
