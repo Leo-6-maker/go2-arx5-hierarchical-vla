@@ -1,0 +1,38 @@
+{
+  "schema": "PI0247_LU_PBS_FAILURE_RECEIPT_V1",
+  "status": "PRE_TRAINING_WRAPPER_FAILURE",
+  "execution_code_commit": "7dbb5eeff362a358f9a0a852d0f5908cc5ab4040",
+  "jobs": {
+    "L": {
+      "job_id": "633185.hopper-m-02",
+      "run_card_sha256": "5e37af9db3e3c209090442fb34a5432579f740046e6f67c3be33d196e7589bb8",
+      "exit_status": 1,
+      "pbs_exit_host": "hopper-19",
+      "pbs_cpu_time": "00:00:00",
+      "pbs_memory_used": "4824kb",
+      "pbs_walltime_used": "00:00:00",
+      "pbs_wrapper_line": 26,
+      "stderr_sha256": "7785897cc4e2bee344d8d9e1740e6fae9e933598c20ecd186543f741636937b0",
+      "stdout_sha256": "ba7f390ab211ed782d184ee8e143e39c40cd6a78d8132dcd021ab52995e311b5"
+    },
+    "U": {
+      "job_id": "633190.hopper-m-02",
+      "run_card_sha256": "078cda5ee1341f98a527a5a17d6f48611610e07a041e6f4a111496ffc0a239fd",
+      "exit_status": 1,
+      "pbs_exit_host": "hopper-19",
+      "pbs_cpu_time": "00:00:00",
+      "pbs_memory_used": "4824kb",
+      "pbs_walltime_used": "00:00:02",
+      "pbs_wrapper_line": 26,
+      "stderr_sha256": "c956632d2c10a2def639e162a18c3070f9a0e04b884b869c37b5c516f4a8551e",
+      "stdout_sha256": "b8ca3f6ab3af02ed648975f37884fa6d536f6ecc3980fdf7b0d861fbfa9ad783"
+    }
+  },
+  "root_cause": "PBS line 26 compared jq's normalized numeric output 0.00001 as text against 1e-05.",
+  "model_load_attempted": false,
+  "optimizer_updates": 0,
+  "training_outputs_created": false,
+  "tmpfs_checkpoints_created": false,
+  "hf_archives_created": false,
+  "logs_preserved": true
+}
