@@ -122,6 +122,10 @@ def _verify_p_initializer(bootstrap: dict[str, Any]) -> dict[str, Any]:
             raise LUError(f"P-final2000 initializer is missing required archived model file: {name}")
         if local.stat().st_size != int(saved["bytes"]) or sha256_file(local) != saved["sha256"]:
             raise LUError(f"P-final2000 local initializer differs from its verified Trainer checkpoint: {name}")
+    processor_config = root / "processor_config.json"
+    if (not processor_config.is_file()
+            or read_json(processor_config).get("processor_class") != "Gr00tN1d7Processor"):
+        raise LUError("P-final2000 checkpoint lacks its sealed GR00T processor configuration")
     files = _model_files(root)
     if not any(row["path"].endswith(".safetensors") for row in files):
         raise LUError("P-final2000 local model root has no safetensors shards")
@@ -200,7 +204,7 @@ def _verify_runtime_bindings(paths: dict[str, Any], bindings: dict[str, Any]) ->
 
 def _card_with_p_runtime_paths(card: dict[str, Any]) -> dict[str, Any]:
     paths = card["paths"]
-    p_card_path = Path(paths["base_model_path"]).parent / "run_card.json"
+    p_card_path = Path(paths["base_model_path"]).parents[1] / "run_card.json"
     p_binding = read_json(Path(card["source"]["runtime_bindings"]["P"]["path"]))
     expected = p_binding["run_card_sha256"]
     if (sha256_file(p_card_path) != expected
@@ -519,7 +523,7 @@ def _validate_initializer_runtime(card: dict[str, Any]) -> None:
     root = Path(card["initializer"]["path"])
     receipt = read_json(Path(card["initializer"]["durable_receipt_path"]))
     entries = {row["path"]: row for row in receipt["source_record"]["inventory"]["entries"]}
-    for name in ("config.json", "model.safetensors.index.json", "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors"):
+    for name in ("config.json", "model.safetensors.index.json", "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors", "processor_config.json"):
         local = root / name
         archived = entries.get(name)
         if (archived is None or not local.is_file() or local.stat().st_size != int(archived["bytes"])
