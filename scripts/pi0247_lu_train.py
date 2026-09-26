@@ -704,6 +704,11 @@ def _install_hf_rolling_archive(
     runner = Path(card["paths"]["repo_code_root"]) / "scripts/pi0247_lu_train.py"
 
     class ArchiveOnSave(TrainerCallback):
+        def on_step_end(self, args: Any, state: Any, control: Any, **kwargs: Any) -> Any:
+            if int(state.global_step) in CHECKPOINTS:
+                _validate_storage(card, resume=True)
+            return control
+
         def on_save(self, args: Any, state: Any, control: Any, **kwargs: Any) -> Any:
             step = int(state.global_step)
             if step not in CHECKPOINTS:
