@@ -234,8 +234,16 @@ def screen(step):
              'inference_restore_sha256':model_files['manifest_sha256'],'runner_sha256':sha(__file__),
              'loss_contract':fit['loss_contract'],'processor_identity':fit['processor_identity'],
              'resource':{'device':'cuda:0'}}
-    write(root/'score_card.json',score)
-    score_sha = sha(root/'score_card.json')
+    base_score_path = root/'score_card.json'
+    active_score_path = base_score_path
+    if base_score_path.exists():
+        saved = read(base_score_path)
+        assert {k:v for k,v in saved.items() if k!='runner_sha256'} == {k:v for k,v in score.items() if k!='runner_sha256'}
+        if saved['runner_sha256'] != score['runner_sha256']:
+            score['engineering_parent_score_card_sha256'] = sha(base_score_path)
+            active_score_path = root/f"score_card_repair_{score['runner_sha256'][:12]}.json"
+    write(active_score_path,score)
+    score_sha = sha(active_score_path)
     model = AutoModel.from_pretrained(model_root,local_files_only=True,trust_remote_code=True)
     model.eval().to(device='cuda:0',dtype=torch.bfloat16)
     assert model.action_head.num_inference_timesteps==4
@@ -255,12 +263,26 @@ def screen(step):
                 continue
             ctx['noise'][noise] = ctx['m64_noise'][source][noise]
             ctx['facts']['noise_files_sha256'][noise] = sha(ctx['m64_packets'][source][noise])
-            record = d1.run_one(args=argparse.Namespace(output_root=root),card=score,card_sha=score_sha,
+            old_cell = root/'cells'/f"M64{step}__S4__{source.split(':',1)[0]}__{noise}"
+            if (old_cell/'record.json').is_file():
+                cached = d1.collect_record(old_cell/'record.json',ctx['p1'])
+                if cached['source_episode_id']==source:
+                    assert cached['condition_identity']==ctx['source_cells'][source][noise]['condition_identity']
+                    assert cached['model_manifest_sha256']==model_files['manifest_sha256']
+                    assert cached['noise_source_sha256']==hashlib.sha256(ctx['noise'][noise].tobytes()).hexdigest()
+                    rows.append({**cached,'noise_name':noise,'source_cell':str(old_cell),
+                                 'record_sha256':sha(old_cell/'record.json'),'score_card_path':str(base_score_path)})
+                    continue
+            # Full window identity belongs in the directory; the frozen D1 helper keeps its original cell key.
+            query_root = root/f"observations/source-{source_row['episode_index']:06d}"
+            record = d1.run_one(args=argparse.Namespace(output_root=query_root),card=score,card_sha=score_sha,
                                context=ctx,model_name=f'M64{step}',runtime={'id':'S4','steps':4,'inactive':'stock'},
                                source=source,noise_name=noise,model=model,model_files=model_files,
                                bridge=bridge,selector=selector,stage43=stage43,gate=TrajectorySafetyGateV1())
-            cell = root/'cells'/record['cell_key']
-            rows.append({**record,'noise_name':noise,'source_cell':str(cell),'record_sha256':sha(cell/'record.json')})
+            cell = query_root/'cells'/record['cell_key']
+            assert record['source_episode_id']==source
+            rows.append({**record,'noise_name':noise,'source_cell':str(cell),'record_sha256':sha(cell/'record.json'),
+                         'score_card_path':str(active_score_path)})
     assert len(rows)==64*len(noises) and len({(r['source_episode_id'],r['noise_name']) for r in rows})==len(rows)
     groups = {n:group([r for r in rows if r['noise_name']==n],64,step==5000) for n in noises}
     subsets = {n:group([r for r in rows if r['noise_name']==n and r['source_episode_id'] in old16],16,step==5000) for n in noises}
@@ -268,6 +290,7 @@ def screen(step):
     report = {'schema':'PI0247_M64_SCREEN_REPORT_V1','stage':'M64','checkpoint_step':step,'selected_checkpoint':'NONE',
               'status':('PASS_M64_SUPPORT_EXPANSION' if passed else 'SCIENCE_FAIL_M64_SUPPORT_EXPANSION') if step==5000 else 'OBSERVATION_ONLY',
               'score_card_sha256':score_sha,'score_card':score,'group_results':groups,'old16_group_results':subsets,
+              'execution_cards':[{'path':str(p),'sha256':sha(p)} for p in dict.fromkeys((base_score_path,active_score_path))],
               'counts':{'logical_cells':len(rows),'reused_valid_cells':16 if step==0 else 0,
                         'new_queries':len(rows)-(16 if step==0 else 0),'new_head_evaluations':4*(len(rows)-(16 if step==0 else 0))},'cells':rows}
     write(root/'screen_report.json',report)

@@ -632,7 +632,7 @@ def _verify_hf_preflight_receipt(card: dict[str, Any], card_path: Path) -> dict[
     return receipt
 
 
-def _validate_storage(card: dict[str, Any], *, resume: bool = False) -> dict[str, Any]:
+def _validate_storage(card: dict[str, Any], *, resume: bool = False, resume_checkpoint_bytes: int = 0) -> dict[str, Any]:
     output = Path(card["paths"]["output_root"]).resolve()
     if (output / "training").exists() and not resume:
         raise LUError("refusing to reuse an existing fresh-training directory")
@@ -646,12 +646,13 @@ def _validate_storage(card: dict[str, Any], *, resume: bool = False) -> dict[str
     quota_path, scratch_free = min(quota_stats, key=lambda row: row[1])
     reference_bytes = int(card["initializer"]["full_checkpoint_bytes"])
     required = reference_bytes + 4 * 1024**3
-    if scratch_free < required:
+    if scratch_free + resume_checkpoint_bytes < required:
         raise LUError(f"CHECKPOINT_STORAGE_BLOCKED: available={scratch_free} required={required} path={quota_path}")
     return {
         "persistent_filesystem": str(output),
         "persistent_capacity_probe_path": str(quota_path),
         "persistent_free_bytes_before_training": scratch_free,
+        "verified_resume_bytes_released_after_trainer_state_load": resume_checkpoint_bytes,
         "required_persistent_bytes": required,
         "checkpoint_storage_mode": "HF_PUBLIC_ROLLING_SINGLE_CHECKPOINT",
         "full_trainer_checkpoint_bytes": reference_bytes,
@@ -1042,7 +1043,7 @@ def train(args: argparse.Namespace) -> None:
     _validate_initializer_runtime(card)
     hf = _verify_hf_preflight_receipt(card, args.run_card)
     output = Path(paths["output_root"])
-    storage = _validate_storage(card, resume=bool(resume_after))
+    storage = None if resume_after else _validate_storage(card)
     import torch
     if torch.cuda.device_count() != 1 or "h200" not in torch.cuda.get_device_name(0).lower():
         raise LUError("PI0247 training requires the authorized single-H200 PBS allocation")
@@ -1088,6 +1089,8 @@ def train(args: argparse.Namespace) -> None:
         resume_source, source_checkpoint_record, _ = _restore_checkpoint_from_hf(
             card, output, resume_source.parent, resume_after, persistence, train_core, restore_receipt_path,
         )
+        storage = _validate_storage(card, resume=True,
+                                    resume_checkpoint_bytes=int(source_checkpoint_record["inventory"]["total_bytes"]))
         if arm == "U":
             for name, expected_rows in (("pi0247_U_rollout_forward.jsonl", resume_after),):
                 source = output / "training" / name
