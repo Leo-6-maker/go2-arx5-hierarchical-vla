@@ -30,3 +30,13 @@ Commit 0a37e542f3d653964c894bb550d428557282462f fixes only that serialization bo
 - C job 634402.hopper-m-02 is running on one Hopper H200 with Mail_Points=n. Exact restore passed from the pinned step-1000 archive; the optimizer state and remaining 1,000-row continuation are bound by resume_record.json. Logs reached GR00T Starting training and Resuming from checkpoint. The resumed update count is pending read-only verification.
 
 The sealed 2,000-update recipe, 64-row table, S4 objective, fresh optimizer, LR 1e-5, and final-2000-only paired gates remain unchanged. R remains required after C regardless of C's verdict; selected_checkpoint=NONE. No gate verdict is assigned yet.
+
+## C completion and R start — 2026-09-27, 06:51 SGT
+
+This update supersedes the pending C status above. Job 634402.hopper-m-02 exited 0 on one Hopper H200 with Mail_Points=n. The exact step-1000 restore passed, and C completed the remaining 1,000 optimizer updates for 2,000 total. Its in-run finalizer wrote PASS_TRAINING_INTEGRITY and PASS_PI0248_CR_TRAINING_INTEGRITY; selected_checkpoint remains NONE.
+
+- C’s full 2,000-row sample, S4 rollout, and mode-restoration records close at step 2,000. The final checkpoint has nine files / 20,882,645,968 bytes, tree SHA-256 d72cb37db3f2f3931a7adacf24c2ff8736e4c1dc4836e3a4c75dd3087758425b, public-HF revision 001d86cc3492304e4df2816b3182a5e826daa0b7, durable receipt SHA-256 90b061d4e9238c88cd805cd8bfda5793ef5377efc4639389aeccc19b0ffb8516, and full readback SHA-256 4966403bdefb74f3777755701c31d43bc3b7746007d8108125eef726760d2bb3. The verified local checkpoint copy was retired.
+- A separate second invocation of the existing PI0247 finalizer refused to replace the PI0248-enriched training manifest. The in-job finalizer had already completed with PASS and both manifest hashes remain intact; no retraining was performed.
+- R job 634405.hopper-m-02 is now running on one Hopper H200 with Mail_Points=n. Its sealed card SHA-256 is 181b724d39ba3a41ed1abebe11d9a9c3c3358ad81a7a82d87d3e515c6ca70c6b. Its public-HF write/readback preflight passed with the independent R prefix empty. R is a fresh-optimizer 2,000-update run and remains required regardless of C's verdict.
+
+Both arms retain the sealed fixed 64-row schedule, S4 objectives, LR 1e-5, and final-2000-only gates. Paired noise identity and the two-noise four-gate verdict await R completion. No scientific verdict is assigned; selected_checkpoint=NONE.
