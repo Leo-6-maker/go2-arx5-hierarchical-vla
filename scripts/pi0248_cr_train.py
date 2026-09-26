@@ -449,13 +449,22 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
     token = token_path.read_text(encoding="utf-8").strip()
     if not token:
         raise life.LUError("PI0248 resume-prefix check lacks the configured HF identity")
-    from huggingface_hub import HfApi
-    api = HfApi(token=token)
-    api.whoami()
-    info = api.model_info(repo_id=repo_id, files_metadata=True)
-    siblings = {str(getattr(row, "rfilename", "")): row for row in (getattr(info, "siblings", None) or [])}
-    current = {path: row for path, row in siblings.items()
-               if path == prefix or path.startswith(prefix.rstrip("/") + "/")}
+    offline = {name: os.environ.get(name) for name in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE")}
+    os.environ["HF_HUB_OFFLINE"] = os.environ["TRANSFORMERS_OFFLINE"] = "0"
+    try:
+        from huggingface_hub import HfApi
+        api = HfApi(token=token)
+        api.whoami()
+        info = api.model_info(repo_id=repo_id, files_metadata=True)
+        siblings = {str(getattr(row, "rfilename", "")): row for row in (getattr(info, "siblings", None) or [])}
+        current = {path: row for path, row in siblings.items()
+                   if path == prefix or path.startswith(prefix.rstrip("/") + "/")}
+    finally:
+        for name, value in offline.items():
+            if value is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = value
     if getattr(info, "private", None) is not False or getattr(info, "sha", None) != revision or set(current) != set(expected):
         raise life.LUError("PI0248 current public-HF prefix is not exactly the verified step-1000 checkpoint")
     for path, entry in expected.items():
