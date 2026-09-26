@@ -1,0 +1,143 @@
+{
+  "L": {
+    "checkpoints": {
+      "1000": {
+        "bytes": 20882507448,
+        "files": 9,
+        "full_readback": "PASS_PI0247_LU_FULL_HF_READBACK",
+        "hf_revision": "cbc5d2d9e99c19324af7668d5d82856de85a778a",
+        "tree_sha256": "482258bbd4f7166437fe5432c78f45196bb9ee2e6284b3ea11325becf50ba9aa"
+      },
+      "2000": {
+        "bytes": 20882646143,
+        "files": 9,
+        "full_readback": "PASS_PI0247_LU_FULL_HF_READBACK",
+        "hf_revision": "c5a334cdb18196a4817c94b9d0ae005b2f01f527",
+        "tree_sha256": "3d475b7755c3cbb1a71a672d77667a47a7aa017e976d4f02bdfcb3e84ff7ea14"
+      }
+    },
+    "failure_explanation": "After HF archive retirement, Trainer recreated small config/processor sidecars under checkpoint directories; the old finalizer treated directory existence as remaining full-state payload.",
+    "finalizer_regression": {
+      "coefficient_mismatch_rejected": true,
+      "model_loads": 0,
+      "remaining_archived_full_state_rejected": true,
+      "residual_config_sidecars_accepted": true,
+      "selfcheck_result_path": "reports/evidence/PI0247_LU_FINALIZER_CLOSEOUT_633415_20260926/finalizer_selfcheck_result.json",
+      "status": "PASS"
+    },
+    "job_id": "633415.hopper-m-02",
+    "optimizer_updates": 2000,
+    "pbs_exit_class": "ENGINEERING_FINALIZER_PATH_CHECK",
+    "pbs_exit_status": 1,
+    "pbs_stderr_sha256": "35c1c98ae0325b72f593f52b448709445d6a60bfc136c258be537bc0a527a350",
+    "pbs_stdout_sha256": "fd1497b0a05ee18a2847881fa63733ee3819402de9011abd027dcca2634e9e82",
+    "read_only_closeout": {
+      "diffusion_updated": true,
+      "execution_state_sha256": "e8312310fbad3e8a052870428c6705308f61394b920e6bb6938b1a8b55792e2b",
+      "finalizer_code_commit": "ebca5491c2c9a28e755d492c13794d95f315e988",
+      "finalizer_script_sha256": "e2c4209d2de7b23e191b8c8bef09f31596d9aec6565d2a7e9a0e14560716b9e9",
+      "frozen_backbone_unchanged": true,
+      "frozen_vlln_unchanged": true,
+      "manifest_sha256": "6ca1e106aa7afd4c8f16f2c8d010becf3c17c945be8ba70f86ca810e8b00e984",
+      "optimizer_membership_valid": true,
+      "projector_updated": true,
+      "selected_checkpoint": "NONE",
+      "status": "PASS_TRAINING_INTEGRITY"
+    },
+    "run_card_sha256": "54fb7423c1dceb2be918515a50b4d118ea2917a83e129ef0098840fd97c618e5",
+    "sample_consumption_records": 2000,
+    "training_source_commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
+    "update_audit_sha256": "48474716a89ffda3f19931d47d21c88dc3af7b1835161acf0a343e93e1725cee",
+    "update_audit_status": "COMPLETE"
+  },
+  "U": {
+    "code_commit": "ebca5491c2c9a28e755d492c13794d95f315e988",
+    "hf_preflight": {
+      "no_model_weights_downloaded": true,
+      "public_repo": true,
+      "receipt_sha256": "b691724d5723bee1e151288f4e9da2e3c34f2b443e2f1ae31fd4d8a0737149bd",
+      "status": "PASS",
+      "target_prefix_empty": true,
+      "write_probe_readback": "PASS"
+    },
+    "normalized_full_card_sha256_before_after": "b1ad3e0f441505ca4ae8f1eef0134ed46eced656e160eb4025ca08930ab1fb22",
+    "optimizer_updates": 0,
+    "parent_run_card_sha256": "3555aadc9723f7b54f23e2c60882b407337d4b8f2f10c18c8128583708e927a1",
+    "pbs_job": {
+      "hold_types": "n",
+      "job_id": "633503.hopper-m-02",
+      "optimizer_updates": 0,
+      "queue": "small",
+      "requested": "1 H200, 12 CPUs, 225 GB RAM, 16 hours",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+      "state": "Q",
+      "training_started": false
+    },
+    "run_card_sha256": "ad350ff4cdb9e8b77aa32d5a7cf13c0f797e68b271fcd6fe66704222ef8adcd4",
+    "selected_checkpoint": "NONE",
+    "source_rebind": "FINALIZER_FIX_ONLY",
+    "source_runtime_initializer_capacity_validation": "PASS",
+    "training_started": false
+  },
+  "authority": {
+    "canonical_issue": 11,
+    "evidence_branch": "pi0247/execution-20260926",
+    "evidence_parent_commit": "c7e1dba",
+    "execution_token": "PI0247_R1_L_REPLAY_AFTER_ENGINEERING_FAILURE_GO",
+    "latest_execution_authority_comment": 5844159421,
+    "mainline_execution_authority": "PI0247_R1_MAINLINE_LU_CONTINUATION_GO",
+    "pr_pointer": 77
+  },
+  "forbidden_actions": {
+    "CALIB_reads": false,
+    "DAgger": false,
+    "DEV_F": false,
+    "FULL": false,
+    "M64": false,
+    "PR_merge": false,
+    "WBC_or_sim": false,
+    "hardware": false
+  },
+  "next": "Keep the single authorized U2000 job 633503; on allocation complete U2000, then apply the original final-only two-noise-group gates. No new scientific GO is requested.",
+  "purpose": "PI_PROGRESS_REVIEW",
+  "recorded_at_utc": "2026-09-26T09:37:12Z",
+  "schema": "PI0247_R1_PROGRESS_UPDATE_L_CLOSEOUT_U_SUBMITTED_V1",
+  "science": {
+    "633321_engineering_attempt_updates": 1000,
+    "633321_updates_remain_in_raw_compute_accounting": true,
+    "d1": {
+      "selected_runtime": "S4",
+      "status": "COMPLETE"
+    },
+    "d2": {
+      "B0": "FAIL",
+      "B1": "FAIL",
+      "status": "COMPLETE"
+    },
+    "new_screening_cells_or_queries": 0,
+    "no_d1_d2_reruns": true,
+    "pi0246_history": {
+      "cells": 208,
+      "preserved": true,
+      "updates": 8000
+    },
+    "scientific_screen_verdict": "NOT_YET_AVAILABLE",
+    "selected_checkpoint": "NONE"
+  },
+  "scratch": {
+    "HF_public_is_checkpoint_source": true,
+    "P_initializer_preserved": true,
+    "allocated_file_bytes_retired": 9529204736,
+    "capacity_after_cleanup": {
+      "free_bytes": 25715277824,
+      "receipt": "reports/evidence/PI0247_LU_FINALIZER_CLOSEOUT_633415_20260926/U_capacity_after_cleanup.json",
+      "required_checkpoint_plus_reserve_bytes": 25184706243,
+      "status": "PASS_REQUIRED_RESERVE_AVAILABLE_FOR_U"
+    },
+    "local_pc_model_downloads": 0,
+    "logical_file_bytes_retired": 9529201304,
+    "matched_checkpoint_2000_revision": "c5a334cdb18196a4817c94b9d0ae005b2f01f527",
+    "retired_only_duplicate_training_root_model_shards_after_exact_pinned_hf_match": true,
+    "retirement_receipt": "reports/evidence/PI0247_LU_FINALIZER_CLOSEOUT_633415_20260926/L_final_model_replica_retirement_deleted.json"
+  }
+}
