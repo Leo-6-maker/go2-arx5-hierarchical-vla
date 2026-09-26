@@ -1027,6 +1027,16 @@ def _install_resume_checkpoint_release(
     Trainer._load_rng_state = load_rng_state
 
 
+def _exact_resume_trainer(base: Any, checkpoint: Path) -> Any:
+    """Keep TrainingConfig's bool ABI and pass the pinned path to Trainer."""
+    class ExactResumeTrainer(base):
+        def train(self: Any, resume_from_checkpoint: Any = None, **kwargs: Any) -> Any:
+            if resume_from_checkpoint is not True:
+                raise LUError("exact resume requires the registered True flag")
+            return super().train(resume_from_checkpoint=str(checkpoint), **kwargs)
+    return ExactResumeTrainer
+
+
 def train(args: argparse.Namespace) -> None:
     arm = args.arm
     resume_after = int(args.resume_after_step or 0)
@@ -1196,7 +1206,9 @@ def train(args: argparse.Namespace) -> None:
     if summary != card["resolved_config"]:
         raise LUError("resolved runtime config changed after card sealing")
     if resume_after:
-        config.training.resume_from_checkpoint = str(resume_source)
+        from gr00t.experiment import experiment as experiment_module
+        experiment_module.Gr00tTrainer = _exact_resume_trainer(experiment_module.Gr00tTrainer, resume_source)
+        config.training.resume_from_checkpoint = True
     write_json(training_output / "resolved_config.json", summary)
     write_json(output / "execution_state.json", {
         "status": "TRAINING_STARTED", "arm": arm, "family": card["family"],
