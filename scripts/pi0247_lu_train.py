@@ -40,6 +40,11 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def canonical_sha256(value: Any) -> str:
+    payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, default=str).encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.tmp.{os.getpid()}")
@@ -266,9 +271,9 @@ def prepare(args: argparse.Namespace) -> None:
     fixed.MAX_STEPS = STEPS
     fixed.CHECKPOINT_STEPS = CHECKPOINTS
     parent_path = Path(bootstrap["parent_resolved_config_path"])
-    if sha256_file(parent_path) != runtime_bindings["P"]["resolved_config_sha256"]:
-        raise LUError("P parent resolved config differs from both sealed runtime bindings")
     parent = read_json(parent_path)
+    if canonical_sha256(parent) != runtime_bindings["P"]["resolved_config_sha256"]:
+        raise LUError("P parent resolved config differs from both sealed runtime bindings")
     cards = {}
     code_files = {
         "pi0247_lu_train.py": code_root / "scripts/pi0247_lu_train.py",
