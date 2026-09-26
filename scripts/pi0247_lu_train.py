@@ -754,7 +754,6 @@ def train(args: argparse.Namespace) -> None:
     import torch
     if torch.cuda.device_count() != 1 or "h200" not in torch.cuda.get_device_name(0).lower():
         raise LUError("PI0247 training requires the authorized single-H200 PBS allocation")
-    from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7ActionHead
 
     train_core = load_module(training_root / "pi0246_gate_pass_train.py", "pi0247_lu_train_core")
     fixed = load_module(shared_root / "scripts/pi0241_fixed16_learning.py", "pi0247_lu_fixed16_train")
@@ -765,6 +764,8 @@ def train(args: argparse.Namespace) -> None:
     sys.path[:0] = [str(groot_runtime), str(training_root), str(shared_root / "scripts"), str(shared_root / "src"), str(paths["groot_source"])]
     fixed.bind_runtime(_card_with_p_runtime_paths(card))
     fixed.install_fixed_dataset_factory(card, training_output, resume_after_step=resume_after)
+    from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7ActionHead
+
     from gr00t.model.gr00t_n1d7 import setup as gr00t_setup
     processor_ref: dict[str, Any] = {}
     factory_type = gr00t_setup.DatasetFactory
