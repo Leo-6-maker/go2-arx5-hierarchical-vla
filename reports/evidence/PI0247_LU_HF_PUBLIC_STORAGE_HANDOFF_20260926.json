@@ -1,7 +1,7 @@
 {
   "schema": "PI0247_LU_HF_PUBLIC_STORAGE_HANDOFF_V1",
-  "recorded_at_utc": "2026-09-26T08:05:52Z",
-  "status": "L_SUBMITTED_QUEUED_FOR_H200_ALLOCATION",
+  "recorded_at_utc": "2026-09-26T08:15:05Z",
+  "status": "FULL_SIZE_STORAGE_PROBE_RUNNING_L_HELD",
   "authority": {
     "r1_canonical_issue_comment": 5844159421,
     "r1_execution_update_commit": "354bf97c95547e4110b29ee3d890f7a7d4cd6993",
@@ -33,10 +33,11 @@
     "canonical_L_replay_updates_completed": 0,
     "U_updates_completed": 0,
     "raw_L_updates_after_one_complete_replay": 3000,
-    "L_job_state": "QUEUED_NO_GPU_ALLOCATION",
+    "L_job_state": "USER_HELD_PENDING_FULL_SIZE_CAPACITY_PROOF",
     "L_job_execution_started": false,
     "U_job_submitted": false,
-    "active_pbs_jobs_for_user": 1
+    "active_pbs_jobs_for_user": 2,
+    "model_training_updates_since_replay_authorization": 0
   },
   "storage": {
     "project_storage_used": false,
@@ -143,7 +144,7 @@
     "local_optimizer_sha256": "c69e5563516be27e00edcb8d24babadbf48dbc97ee9468846875f3c408e97226",
     "local_initializer_deleted": false
   },
-  "next_action": "Wait for PBS auto-routed L job 633415 to obtain its requested H200; verify the allocation and pre-model gates from its log. Do not submit U before valid L training-integrity closure.",
+  "next_action": "Wait for 633422 full-size scratch write and cleanup receipt; then verify quota restored, release the existing L job 633415, and continue the same authorized L2000. Do not submit U.",
   "engineering_repairs": {
     "commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
     "pushed_to": "origin/pi0247/execution-20260926",
@@ -215,7 +216,7 @@
   },
   "pbs_submission": {
     "job_id": "633415.hopper-m-02",
-    "state": "Q",
+    "state": "H",
     "requested_queue": "auto",
     "routed_execution_queue": "small",
     "resource_list": "1 H200 GPU, 12 CPUs, 225 GB RAM, 16 hours, CFP03-CF-004",
@@ -224,6 +225,38 @@
     "model_training_started": false,
     "updates": 0,
     "logs_directory_empty_at_check": true,
-    "U_submitted": false
+    "U_submitted": false,
+    "hold_type": "user",
+    "hold_reason": "avoid starting L while the full-size write proof temporarily consumes the single-checkpoint scratch reserve",
+    "held_at_utc": "2026-09-26T08:08:06Z"
+  },
+  "capacity_probe": {
+    "job_id": "633422.hopper-m-02",
+    "state": "R",
+    "execution_host": "hopper-23",
+    "PBS_auto_route": "small",
+    "requested_work": "full-size scratch quota and atomic directory-rename proof; no model load or CUDA call",
+    "allocation_bytes": 20889738947,
+    "progress_bytes_at_record": 2931965635,
+    "progress_fraction": 0.14035434537687524,
+    "quota_available_bytes_during_write": 22791847936,
+    "reserve_bytes_required": 4294967296,
+    "run_card_initializer_bytes": 20889738947,
+    "probe_script_sha256": "b9edd242cf8890540e1be7bc95f8b90e27884b6aefbbe4b2e602422939a3abeb",
+    "pbs_script_sha256": "2a5bbc649512aa3bba6f209a512e63079302f82aa86e1526a6216ec6960909fc",
+    "full_write_result": "IN_PROGRESS"
+  },
+  "pbs_scheduler_observation": {
+    "auto_queue_type": "Route",
+    "route_destinations": [
+      "small",
+      "medium",
+      "large",
+      "special"
+    ],
+    "cpu_only_probe_effective_allocation": "site default still assigned one H200 GPU, 12 CPUs, 225GB RAM",
+    "current_policy": "single capacity proof only; probe contains no project model code, CUDA import, or training",
+    "medium_minimum_gpus": 3,
+    "large_minimum_gpus": 8
   }
 }
