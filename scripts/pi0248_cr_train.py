@@ -532,6 +532,40 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
     return result
 
 
+def _patch_resume_config_serialization(core: Any, checkpoint: Path) -> None:
+    original_build = core.build_runtime_config
+
+    def build_runtime_config(*args: Any, **kwargs: Any) -> Any:
+        pi0228, config, summary = original_build(*args, **kwargs)
+        original_run = pi0228.run_official
+
+        def run_official(config: Any, groot_source: Path) -> Any:
+            from gr00t.experiment import experiment as experiment_module
+            original_save = experiment_module.save_run_config_artifacts
+
+            def save_run_config_artifacts(*save_args: Any, **save_kwargs: Any) -> Any:
+                run_config = save_args[2] if len(save_args) > 2 else save_kwargs["config"]
+                resume_path = run_config.training.resume_from_checkpoint
+                if (not isinstance(resume_path, str) or Path(resume_path).resolve() != checkpoint.resolve()):
+                    raise life.LUError("C exact-resume config does not point to its pinned step-1000 checkpoint")
+                run_config.training.resume_from_checkpoint = True
+                try:
+                    return original_save(*save_args, **save_kwargs)
+                finally:
+                    run_config.training.resume_from_checkpoint = resume_path
+
+            experiment_module.save_run_config_artifacts = save_run_config_artifacts
+            try:
+                return original_run(config, groot_source)
+            finally:
+                experiment_module.save_run_config_artifacts = original_save
+
+        pi0228.run_official = run_official
+        return pi0228, config, summary
+
+    core.build_runtime_config = build_runtime_config
+
+
 def _patch_overlay(module: Any, card: dict[str, Any], resume_after: int) -> None:
     if card["arm"] == "C":
         if not resume_after:
@@ -695,6 +729,10 @@ def _install_adapters(card_path: Path, arm: str, resume_after: int) -> tuple[dic
         module = original_load(path, name)
         if path.name == "pi0247_u_rollout_overlay.py":
             _patch_overlay(module, card, resume_after)
+        elif path.name == "pi0246_gate_pass_train.py" and card["arm"] == "C" and resume_after:
+            _patch_resume_config_serialization(
+                module, Path(card["paths"]["output_root"]) / "training" / f"checkpoint-{resume_after}",
+            )
         return module
 
     life.load_module = load_module
