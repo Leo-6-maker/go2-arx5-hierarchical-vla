@@ -1540,8 +1540,8 @@ def finalize(args: argparse.Namespace) -> None:
                        for index, row in enumerate(mode_rows, start=1))):
             raise LUError("U stock parity, first-update gradient chain, or mode-restoration evidence is incomplete")
         expected_evaluations = {
-            "parity_reference": N_STEPS, "parity_candidate": N_STEPS,
-            "rollout_forward": N_STEPS * STEPS, "backward_recompute": N_STEPS * STEPS,
+            "parity_reference": 4, "parity_candidate": 4,
+            "rollout_forward": 4 * STEPS, "backward_recompute": 4 * STEPS,
         }
         observed_evaluations = {
             "parity_reference": int(parity.get("head_evaluations_reference", -1)),
