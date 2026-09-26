@@ -317,6 +317,15 @@ def install(
             torch.randn = original_randn
             h1.remove()
             h2.remove()
+        reference_cpu_rng = torch.random.get_rng_state()
+        reference_cuda_rng = torch.cuda.get_rng_state_all() if cuda_rng is not None else None
+        if not torch.equal(cpu_rng, reference_cpu_rng):
+            raise RuntimeError("PI0247 U native S4 reference consumed the CPU RNG beyond the shared epsilon")
+        if cuda_rng is not None and any(
+            not torch.equal(before, after)
+            for before, after in zip(cuda_rng, reference_cuda_rng)
+        ):
+            raise RuntimeError("PI0247 U native S4 reference consumed the CUDA RNG beyond the shared epsilon")
         if substitutions != 1 or len(reference_states) != N_STEPS or len(reference_velocities) != N_STEPS:
             raise RuntimeError(
                 f"PI0247 U reference parity cardinality mismatch: noise={substitutions}, "
@@ -325,15 +334,17 @@ def install(
         with torch.no_grad():
             candidate, candidate_states, candidate_velocities = rollout(
                 self, processed_backbone, processed_backbone.backbone_features, state_raw,
-                embodiment_id, stock_noise, checkpointed=True, phase="parity_candidate",
+                embodiment_id, stock_noise, checkpointed=False, phase="parity_candidate",
             )
-        if not torch.equal(cpu_rng, torch.random.get_rng_state()):
-            raise RuntimeError("PI0247 U parity consumed the CPU RNG")
+        candidate_cpu_rng = torch.random.get_rng_state()
+        candidate_cuda_rng = torch.cuda.get_rng_state_all() if cuda_rng is not None else None
+        if not torch.equal(reference_cpu_rng, candidate_cpu_rng):
+            raise RuntimeError("PI0247 U S4 candidate parity consumed the CPU RNG")
         if cuda_rng is not None and any(
             not torch.equal(before, after)
-            for before, after in zip(cuda_rng, torch.cuda.get_rng_state_all())
+            for before, after in zip(reference_cuda_rng, candidate_cuda_rng)
         ):
-            raise RuntimeError("PI0247 U parity consumed the CUDA RNG beyond the shared epsilon")
+            raise RuntimeError("PI0247 U S4 candidate parity consumed the CUDA RNG")
         step_state_max = [
             float((reference_states[i].float() - (stock_noise if i == 0 else candidate_states[i - 1].detach()).float()).abs().max().item())
             for i in range(N_STEPS)
@@ -401,6 +412,8 @@ def install(
             "status": "PASS_PI0247_U_S4_PARITY" if parity_ok else "FAIL_PI0247_U_S4_PARITY",
             "reference": "pinned Gr00tN1d7ActionHead.get_action; label-free condition; shared stock-dtype epsilon",
             "runtime_id": "S4", "steps": N_STEPS, "native_noise_substitutions": substitutions,
+            "rng_audit": {"cpu_unchanged_reference": True, "cuda_unchanged_reference": True,
+                          "cpu_unchanged_candidate": True, "cuda_unchanged_candidate": True},
             "expert_action_in_condition": False, "rtc_options": None,
             "native_epsilon": _tensor_identity(native_epsilon),
             "stock_noise": _tensor_identity(stock_noise), "step_tensor_identities": step_records,

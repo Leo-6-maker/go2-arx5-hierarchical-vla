@@ -26,6 +26,12 @@ def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def wanted_checkpoint_file(name: str) -> bool:
+    return (name in {"config.json", "embodiment_id.json", "processor_config.json", "statistics.json",
+                     "model.safetensors.index.json"} or name.endswith(".safetensors")
+            or name.startswith("experiment_cfg/"))
+
+
 def write_immutable(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(value, indent=2, sort_keys=True) + "\n"
@@ -43,6 +49,8 @@ def write_immutable(path: Path, value: dict[str, Any]) -> None:
 
 def verified_checkpoint(
     arm: str, step: int, run_card_path: Path, manifest_path: Path, checkpoint_path: Path,
+    *, execution_state_path: Path | None = None, durable_receipt_path: Path | None = None,
+    hf_readback_path: Path | None = None, materialization_receipt_path: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     if step not in (1000, 2000):
         raise RuntimeError("only the protocol checkpoint-1000 observation and checkpoint-2000 decision are allowed")
@@ -53,11 +61,19 @@ def verified_checkpoint(
     if seal.get("sha256") != run_card_sha:
         raise RuntimeError("L/U run card seal mismatch")
 
-    output = Path(run_card["paths"]["output_root"]).resolve(strict=True)
+    materialized = materialization_receipt_path is not None
+    output = Path(run_card["paths"]["output_root"])
     manifest = read_json(manifest_path)
-    state = read_json(output / "execution_state.json")
+    state = read_json(execution_state_path) if materialized and execution_state_path else read_json(
+        output / "execution_state.json"
+    )
     checkpoint = checkpoint_path.resolve(strict=True)
     record = manifest.get("checkpoints", {}).get(str(step), {})
+    recorded_checkpoint = Path(record.get("checkpoint_path", ""))
+    checkpoint_matches = (
+        recorded_checkpoint == output / "training" / f"checkpoint-{step}"
+        if materialized else recorded_checkpoint.resolve() == checkpoint
+    )
     if (
         run_card.get("schema") != "PI0247_LU_RUN_CARD_V1"
         or run_card.get("arm") != arm
@@ -70,14 +86,19 @@ def verified_checkpoint(
         or state.get("training_manifest_sha256") != sha(manifest_path)
         or record.get("step") != step
         or record.get("family") != run_card.get("family")
-        or Path(record.get("checkpoint_path", "")).resolve() != checkpoint
+        or not checkpoint_matches
     ):
         raise RuntimeError(f"checkpoint-{step} is not bound to a valid, unselected L/U training manifest")
 
-    archive_root = checkpoint.parent.parent
-    persistent_receipt = archive_root / "persistent_receipts" / f"checkpoint-{step}.durable_receipt.json"
-    hf_readback = archive_root / "hf_readbacks" / f"checkpoint-{step}.json"
-    if (sha(persistent_receipt) != record.get("persistent_receipt_sha256")
+    if materialized:
+        if not all((execution_state_path, durable_receipt_path, hf_readback_path)):
+            raise RuntimeError("HF materialization requires its closed training evidence package")
+        persistent_receipt, hf_readback = durable_receipt_path, hf_readback_path
+    else:
+        archive_root = checkpoint.parent.parent
+        persistent_receipt = archive_root / "persistent_receipts" / f"checkpoint-{step}.durable_receipt.json"
+        hf_readback = archive_root / "hf_readbacks" / f"checkpoint-{step}.json"
+    if (sha(persistent_receipt) != record.get("durable_receipt_sha256")
             or sha(hf_readback) != record.get("full_hf_readback_sha256")):
         raise RuntimeError(f"checkpoint-{step} durable receipt or HF readback changed after finalization")
     receipt = read_json(persistent_receipt)
@@ -89,6 +110,42 @@ def verified_checkpoint(
             or inventory.get("file_count") != record.get("file_count")
             or inventory.get("total_bytes") != record.get("total_bytes")):
         raise RuntimeError(f"checkpoint-{step} persistent receipt does not match the training manifest")
+    if materialized:
+        readback = read_json(hf_readback)
+        materialization = read_json(materialization_receipt_path)
+        expected_files = [
+            {key: row[key] for key in ("path", "bytes", "sha256")}
+            for row in inventory.get("entries", []) if wanted_checkpoint_file(row["path"])
+        ]
+        if (
+            readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+            or readback.get("pi0247_status") != "PASS_PI0247_LU_FULL_HF_READBACK"
+            or readback.get("revision") != record.get("hf_manifest_commit_id")
+            or readback.get("source_tree_sha256") != record.get("tree_sha256")
+            or readback.get("repo_id") != run_card.get("archive", {}).get("repo_id")
+            or readback.get("path_prefix") != run_card.get("archive", {}).get("path_prefix")
+            or materialization.get("schema") != "PI0247_LU_HF_INFERENCE_MATERIALIZATION_V1"
+            or materialization.get("arm") != arm
+            or materialization.get("checkpoint_step") != step
+            or materialization.get("repo_id") != readback.get("repo_id")
+            or materialization.get("path_prefix") != readback.get("path_prefix")
+            or materialization.get("revision") != readback.get("revision")
+            or materialization.get("source_checkpoint_tree_sha256") != record.get("tree_sha256")
+            or materialization.get("run_card_sha256") != run_card_sha
+            or materialization.get("training_manifest_sha256") != sha(manifest_path)
+            or materialization.get("durable_receipt_sha256") != sha(persistent_receipt)
+            or materialization.get("hf_readback_sha256") != sha(hf_readback)
+            or materialization.get("execution_state_sha256") != sha(execution_state_path)
+            or materialization.get("files") != expected_files
+            or sha(hf_readback) != record.get("full_hf_readback_sha256")
+        ):
+            raise RuntimeError(f"checkpoint-{step} HF materialization does not bind to the closed training receipt")
+        if manifest.get("execution_code_commit") != run_card.get("source", {}).get("execution_code_commit"):
+            raise RuntimeError("detached inference lineage disagrees with the sealed training source commit")
+        for row in expected_files:
+            path = checkpoint / row["path"]
+            if not path.is_file() or path.stat().st_size != row["bytes"] or sha(path) != row["sha256"]:
+                raise RuntimeError(f"materialized HF inference file differs from the sealed full readback: {path}")
     return run_card, manifest, receipt
 
 
@@ -96,12 +153,10 @@ def inference_view(
     step: int, checkpoint: Path, manifest_path: Path, run_card_path: Path,
     receipt: dict[str, Any], model_root: Path, p1: Any,
 ) -> dict[str, Any]:
-    from pi0246_checkpoint_inference_view import wanted
-
     checkpoint = checkpoint.resolve(strict=True)
     model_root = model_root.resolve()
     source_entries = receipt["source_record"]["inventory"]["entries"]
-    entries = [row for row in source_entries if wanted(row["path"])]
+    entries = [row for row in source_entries if wanted_checkpoint_file(row["path"])]
     names = {row["path"] for row in entries}
     if not {"config.json", "model.safetensors.index.json"} <= names or sum(
         name.endswith(".safetensors") for name in names
@@ -216,6 +271,8 @@ def build_screen(args: argparse.Namespace) -> dict[str, Any]:
 
     run_card, train_manifest, receipt = verified_checkpoint(
         args.arm, args.step, args.run_card, args.training_manifest, args.checkpoint,
+        execution_state_path=args.execution_state, durable_receipt_path=args.durable_receipt,
+        hf_readback_path=args.hf_readback, materialization_receipt_path=args.materialization_receipt,
     )
     d2_card, d2_card_sha = d2.read_card(args.d2_card, args.d2_card_sha)
     facts, context = d1.prepare(Path(d2_card["paths"]["stage_root"]), Path(d2_card["paths"]["code_root"]))
@@ -238,13 +295,33 @@ def build_screen(args: argparse.Namespace) -> dict[str, Any]:
                != d2_card.get("weights", [{}])[0].get("manifest_sha256")):
         raise RuntimeError("D2 gate/report binding does not authorize this final L/U screen")
 
-    lu_module_path = Path(run_card["paths"]["repo_code_root"]) / "scripts/pi0247_lu_train.py"
-    sys.path.insert(0, str(lu_module_path.parent))
-    import pi0247_lu_train as lu
-    lu._verify_card(args.run_card, args.arm)
-    lu._verify_code(run_card, Path(run_card["paths"]["repo_code_root"]),
-                    Path(run_card["paths"]["code_root"]), Path(run_card["paths"]["training_runtime_root"]))
-    lu._verify_runtime_bindings(run_card["paths"], run_card["source"]["runtime_bindings"])
+    if not args.materialization_receipt:
+        lu_module_path = Path(run_card["paths"]["repo_code_root"]) / "scripts/pi0247_lu_train.py"
+        sys.path.insert(0, str(lu_module_path.parent))
+        import pi0247_lu_train as lu
+        lu._verify_card(args.run_card, args.arm)
+        lu._verify_code(run_card, Path(run_card["paths"]["repo_code_root"]),
+                        Path(run_card["paths"]["code_root"]), Path(run_card["paths"]["training_runtime_root"]))
+        lu._verify_runtime_bindings(run_card["paths"], run_card["source"]["runtime_bindings"])
+
+    ct_paths = context["paths"]
+    modality_sha = d1.sha(Path(ct_paths["modality_config"]))
+    processor_config_sha = d1.sha(Path(ct_paths["processor_base_model"]) / "processor_config.json")
+    base_statistics_sha = d1.sha(Path(ct_paths["processor_base_model"]) / "statistics.json")
+    flat_stats_sha = d1.sha(Path(ct_paths["train_dataset"]) / "meta/stats.json")
+    relative_stats_sha = d1.sha(Path(ct_paths["train_dataset"]) / "meta/relative_stats.json")
+    ct_binding_path = Path(d2_card["paths"]["stage_root"]) / "p1_corelab/runtime_binding.json"
+    ct_binding = read_json(ct_binding_path)
+    t_parent = {row["path"]: row for row in context["cards"]["T"]["parent"]["files"]}
+    # ponytail: stage21 overlays NEW_EMBODIMENT from C_T; fingerprint the base statistics without using them for this embodiment.
+    if (modality_sha != run_card["source"]["modality_config_sha256"]
+            or ct_binding.get("p0_effective_processor_xyz_sha256") != run_card["source"]["p0_effective_sha256"]
+            or ct_binding.get("modality_config_sha256") != modality_sha
+            or ct_binding.get("relative_stats_sha256") != relative_stats_sha
+            or t_parent.get("processor_config.json", {}).get("sha256") != processor_config_sha
+            or ct_binding.get("processor_class")
+               != f"{type(context['processor']).__module__}.{type(context['processor']).__qualname__}"):
+        raise RuntimeError("the frozen C_T processor or statistics differ from the L training binding")
 
     args.output_root.mkdir(parents=True, exist_ok=True)
     model_root = args.output_root / f"inference_view_step_{args.step}"
@@ -268,12 +345,30 @@ def build_screen(args: argparse.Namespace) -> dict[str, Any]:
         "archive": {key: run_card["archive"][key] for key in ("repo_id", "path_prefix", "public")},
         "physical_contract": run_card["physical_contract"],
         "processor_identity": {
-            "modality_config_sha256": run_card["source"]["modality_config_sha256"],
+            "modality_config_sha256": modality_sha,
             "p0_effective_sha256": run_card["source"]["p0_effective_sha256"],
+            "frozen_C_T": {
+                "T_run_card_sha256": d1.sha(Path(d2_card["paths"]["stage_root"]) / "screen_inputs/T_run_card.json"),
+                "p1_closure_sha256": facts["p1_closure_sha256"],
+                "runtime_binding_sha256": d1.sha(ct_binding_path),
+                "processor_config_sha256": processor_config_sha,
+                "model_base_statistics_sha256": base_statistics_sha,
+                "T_card_base_statistics_sha256": t_parent.get("statistics.json", {}).get("sha256"),
+                "model_base_statistics_differs_from_T_parent": (
+                    base_statistics_sha != t_parent.get("statistics.json", {}).get("sha256")
+                ),
+                "NEW_EMBODIMENT_statistics_source": "C_T train_dataset/meta/stats.json",
+                "NEW_EMBODIMENT_stats_sha256": flat_stats_sha,
+                "relative_stats_sha256": relative_stats_sha,
+                "processor_class": ct_binding["processor_class"],
+            },
         },
         "run_card_sha256": sha(args.run_card),
         "training_manifest_sha256": sha(args.training_manifest),
         "checkpoint_tree_sha256": restore["checkpoint_tree_sha256"],
+        "hf_revision": train_manifest["checkpoints"][str(args.step)]["hf_manifest_commit_id"],
+        "hf_materialization_receipt_sha256": sha(args.materialization_receipt)
+            if args.materialization_receipt else None,
         "inference_restore_sha256": model_files["manifest_sha256"],
         "d2_run_card_sha256": d2_card_sha,
         "d1_run_card_sha256": d2_card["d1_run_card_sha256"],
@@ -355,6 +450,8 @@ def build_screen(args: argparse.Namespace) -> dict[str, Any]:
         "run_card_sha256": score_card["run_card_sha256"],
         "training_manifest_sha256": score_card["training_manifest_sha256"],
         "checkpoint_tree_sha256": score_card["checkpoint_tree_sha256"],
+        "hf_revision": score_card["hf_revision"],
+        "hf_materialization_receipt_sha256": score_card["hf_materialization_receipt_sha256"],
         "score_card_sha256": card_sha, "d2_report_sha256": d2_report_sha,
         "source_episode_ids": score_card["source_episode_ids"],
         "noise_identity": noise_identity, "thresholds_per_group": d2_report["thresholds_per_group"],
@@ -522,6 +619,10 @@ def main() -> None:
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--training-manifest", type=Path)
     parser.add_argument("--checkpoint", type=Path)
+    parser.add_argument("--execution-state", type=Path)
+    parser.add_argument("--durable-receipt", type=Path)
+    parser.add_argument("--hf-readback", type=Path)
+    parser.add_argument("--materialization-receipt", type=Path)
     parser.add_argument("--d2-card", type=Path)
     parser.add_argument("--d2-card-sha", type=Path)
     parser.add_argument("--output-root", type=Path)

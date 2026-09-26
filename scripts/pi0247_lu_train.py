@@ -34,6 +34,13 @@ R1_CANONICAL_COMMENT = 5844159421
 R1_PREVIOUS_CANONICAL_COMMENT = 5842565868
 R1_POINTER_COMMENT = 5842568324
 R1_ARCHIVE_PREFIX = "arms/PI0247/r1-replay-5844159421"
+R2_CANONICAL_COMMENT = 5845272077
+R2_POINTER_COMMENT = 5845274434
+R2_EXECUTION_AUTHORIZATION = "PI0247_R2_U_AND_PAIRED_VERDICT_GO"
+M64_STEPS = 5000
+M64_CHECKPOINTS = (1000, 2500, 5000)
+M64_RECIPE = "U_ROLLOUT_M16_2K"
+R2_AUTHORITY_COMMIT = "c0a1ca9d7b15f2b8383bb71fd333b8add39e5997"
 
 
 class LUError(RuntimeError):
@@ -208,7 +215,7 @@ def _verify_runtime_bindings(paths: dict[str, Any], bindings: dict[str, Any]) ->
 
 def _card_with_p_runtime_paths(card: dict[str, Any]) -> dict[str, Any]:
     paths = card["paths"]
-    p_card_path = Path(paths["base_model_path"]).parents[1] / "run_card.json"
+    p_card_path = Path(paths.get("p_run_card_path") or (Path(paths["base_model_path"]).parents[1] / "run_card.json"))
     p_binding = read_json(Path(card["source"]["runtime_bindings"]["P"]["path"]))
     expected = p_binding["run_card_sha256"]
     if (sha256_file(p_card_path) != expected
@@ -247,6 +254,8 @@ def _hf_preflight(repo_id: str, token_path: Path, prefixes: list[str], *, check_
 def _check_summary(summary: dict[str, Any], parent: dict[str, Any], initializer_path: str) -> None:
     expected = dict(parent)
     expected["start_from_checkpoint"] = initializer_path
+    if STEPS == M64_STEPS:
+        expected.update(max_steps=M64_STEPS, save_step_set=list(M64_CHECKPOINTS))
     if summary != expected:
         raise LUError("resolved L/U recipe differs from P except for the authorized P-final2000 initializer")
     exact = {
@@ -414,17 +423,115 @@ def prepare(args: argparse.Namespace) -> None:
     print(json.dumps({"status": "READY_NOT_STARTED", "cards": cards, "hf_preflight": hf}, indent=2, sort_keys=True))
 
 
+def _verify_m64_sources(card: dict[str, Any]) -> None:
+    source = card["source"]
+    fit_path = Path(source["fit_recipe_manifest_path"])
+    verdict_path = Path(source["paired_verdict_path"])
+    fit, verdict = read_json(fit_path), read_json(verdict_path)
+    if (sha256_file(fit_path) != source["fit_recipe_manifest_sha256"]
+            or sha256_file(verdict_path) != source["paired_verdict_sha256"]
+            or fit.get("schema") != "PI0247_FIT_RECIPE_MANIFEST_V1"
+            or fit.get("status") != "PASS_LU_FIT_RECIPE"
+            or fit.get("winner_arm") != "U"
+            or fit.get("selected_checkpoint") != "NONE"
+            or fit.get("runtime_id") != "S4"
+            or fit.get("family") != "PI0247_U_ROLLOUT_M16_2K_V1"
+            or verdict.get("route") != "AUTO_M64"
+            or verdict.get("status") != "PI0247_LU_FIT_RECIPE_QUALIFIED"
+            or verdict.get("winner_arm") != "U"
+            or verdict.get("selected_checkpoint") != "NONE"):
+        raise LUError("M64 card is not bound to the sealed U-qualified AUTO_M64 paired verdict")
+    if (fit.get("loss_contract") != card["loss_contract"]
+            or fit.get("loss_coefficients") != card["loss_coefficients"]
+            or fit.get("checkpoint_binding", {}).get("tree_sha256")
+               != card["initializer"].get("full_checkpoint_tree_sha256")
+            or fit.get("checkpoint_binding", {}).get("hf_manifest_commit_id")
+               != card["initializer"].get("screen_revision")
+            or fit.get("checkpoint_binding", {}).get("durable_receipt_sha256")
+               != card["initializer"].get("durable_receipt_sha256")):
+        raise LUError("M64 recipe or U2000 initializer identity changed after sealing")
+    for key in ("cohort", "schedule"):
+        record = card[key]
+        path = Path(record["path"])
+        if sha256_file(path) != record["sha256"]:
+            raise LUError(f"M64 sealed {key} hash mismatch")
+    cohort_rows = read_json(Path(card["cohort"]["path"]))["rows"]
+    schedule_doc = read_json(Path(card["schedule"]["path"]))
+    schedule = schedule_doc["rows"]
+    if len(cohort_rows) != 64 or len(schedule) != M64_STEPS or int(schedule_doc.get("seed", -1)) != SEED:
+        raise LUError("M64 sealed support or exposure schedule has the wrong cardinality/seed")
+    old16 = set(card["support"]["old16_source_ids"])
+    if (len(old16) != 16 or not old16.issubset({str(row["source_episode_id"]) for row in cohort_rows})
+            or old16 != set(fit["noise_identity"]["B0"])
+            or old16 != set(verdict["source_episode_ids"])
+            or int(card["support"].get("count", -1)) != 64):
+        raise LUError("M64 support does not retain the exact qualified old16 subset")
+    stage_path = Path(source["stage_b_card_path"])
+    if (sha256_file(stage_path) != source["stage_b_card_sha256"]
+            or read_json(stage_path.with_name("pi0243_run_card.seal.json"))["sha256"] != source["stage_b_card_sha256"]):
+        raise LUError("original Stage-B support seal mismatch")
+    if cohort_rows != sorted(cohort_rows, key=lambda row: (row["target_family"], row["phase"], row["source_episode_id"])):
+        raise LUError("M64 cohort ordering changed")
+    import numpy as np
+    rng = np.random.Generator(np.random.PCG64(SEED))
+    expected_order = []
+    while len(expected_order) < M64_STEPS:
+        expected_order.extend(int(i) for i in rng.permutation(64))
+    for step, (row, index) in enumerate(zip(schedule, expected_order), 1):
+        if (row["optimizer_step"] != step or row["fixed_index"] != index
+                or row["source_episode_id"] != cohort_rows[index]["source_episode_id"]
+                or row["episode_index"] != cohort_rows[index]["episode_index"]):
+            raise LUError(f"sealed M64 exposure/source identity mismatch at step {step}")
+    for arm in ("L", "U"):
+        for noise in ("B0", "B1"):
+            group = verdict["final2000_group_results"][arm][noise]
+            passed = (group["reject_count"] == 0 and group["median_xyz_rmse_m"] <= .020
+                      and group["p95_xyz_rmse_m"] <= .035 and group["median_so3_rmse_rad"] <= .050)
+            if (group["valid_count"] != 16 or group["invalid_count"] != 0
+                    or group["quality_pass"] != passed or passed != (arm == "U")):
+                raise LUError("paired final verdict does not uniquely qualify U")
+    initializer_view = read_json(Path(source["initializer_view_receipt_path"]))
+    if (sha256_file(Path(source["initializer_view_receipt_path"]))
+            != source["initializer_view_receipt_sha256"]
+            or initializer_view.get("status") != "PASS_U2000_PINNED_MODEL_VIEW"
+            or initializer_view.get("revision") != card["initializer"].get("screen_revision")
+            or initializer_view.get("checkpoint_tree_sha256")
+               != card["initializer"].get("full_checkpoint_tree_sha256")):
+        raise LUError("M64 U2000 local model view no longer matches its pinned HF receipt")
+
+
 def _verify_card(card_path: Path, arm: str) -> dict[str, Any]:
     card = read_json(card_path)
     seal_path = card_path.with_name("run_card.seal.json")
-    expected_family, expected_loss = PROFILES[arm]
-    current_binding = (card.get("canonical_issue_comment") == R1_CANONICAL_COMMENT
-                       and card.get("pointer_pr_comment") == R1_POINTER_COMMENT)
-    legacy_binding = (card.get("canonical_issue_comment") == R1_PREVIOUS_CANONICAL_COMMENT
-                      and card.get("pointer_pr_comment") == R1_POINTER_COMMENT)
-    expected_execution_authorization = (L_REPLAY_EXECUTION_AUTHORIZATION if arm == "L"
-                                       else MAINLINE_EXECUTION_AUTHORIZATION)
-    if (card.get("schema") != "PI0247_LU_RUN_CARD_V1"
+    if arm not in PROFILES:
+        raise LUError(f"unsupported PI0247 training arm: {arm}")
+    m64 = card.get("schema") == "PI0247_M64_RUN_CARD_V1"
+    if m64:
+        expected_family = f"PI0247_M64_{M64_RECIPE}_V1"
+        expected_loss = PROFILES["U"][1]
+        current_binding = (card.get("canonical_issue_comment") == R2_CANONICAL_COMMENT
+                           and card.get("pointer_pr_comment") == R2_POINTER_COMMENT)
+        legacy_binding = False
+        expected_execution_authorization = R2_EXECUTION_AUTHORIZATION
+        stage_ok = (
+            card.get("stage") == {"name": "M64", "steps": M64_STEPS,
+                                  "checkpoint_steps": list(M64_CHECKPOINTS),
+                                  "primary_screen_steps": [0, 1000, 2500, 5000],
+                                  "primary_noise": "B0", "final_noise": "B1"}
+            and card.get("qualified_recipe") == M64_RECIPE
+            and card.get("route") == "AUTO_M64"
+            and card.get("selected_checkpoint") == "NONE"
+        )
+    else:
+        expected_family, expected_loss = PROFILES[arm]
+        current_binding = (card.get("canonical_issue_comment") == R1_CANONICAL_COMMENT
+                           and card.get("pointer_pr_comment") == R1_POINTER_COMMENT)
+        legacy_binding = (card.get("canonical_issue_comment") == R1_PREVIOUS_CANONICAL_COMMENT
+                          and card.get("pointer_pr_comment") == R1_POINTER_COMMENT)
+        expected_execution_authorization = (L_REPLAY_EXECUTION_AUTHORIZATION if arm == "L"
+                                           else MAINLINE_EXECUTION_AUTHORIZATION)
+        stage_ok = card.get("schema") == "PI0247_LU_RUN_CARD_V1"
+    if (not stage_ok
             or card.get("status") != "SEALED_READY_NOT_STARTED"
             or card.get("authorization") != AUTHORIZATION
             or card.get("arm") != arm or card.get("family") != expected_family or card.get("loss") != expected_loss
@@ -434,6 +541,12 @@ def _verify_card(card_path: Path, arm: str) -> dict[str, Any]:
             or card.get("loss_coefficients") != LOSS_COEFFICIENTS
             or read_json(seal_path).get("sha256") != sha256_file(card_path)):
         raise LUError("run card or seal is not bound to the authorized PI0247 arm")
+    global STEPS, CHECKPOINTS
+    if m64:
+        STEPS, CHECKPOINTS = M64_STEPS, M64_CHECKPOINTS
+        _verify_m64_sources(card)
+    else:
+        STEPS, CHECKPOINTS = 2000, (1000, 2000)
     return card
 
 
@@ -457,6 +570,9 @@ def _verify_code(card: dict[str, Any], repo_code: Path, shared_root: Path, train
         "pi0243_hf_write_probe.py": shared_root / "scripts/pi0243_hf_write_probe.py",
         "pi0241_reconcile_update_integrity.py": shared_root / "scripts/pi0241_reconcile_update_integrity.py",
     }
+    if card.get("schema") == "PI0247_M64_RUN_CARD_V1":
+        mapping.pop("pi0247_lu_train_h200.pbs")
+        mapping["pi0247_m64_train_h200.pbs"] = repo_code / "hpc/pbs/pi0247_m64_train_h200.pbs"
     expected = card["source"]["execution_code_sha256"]
     for name, path in mapping.items():
         if sha256_file(path) != expected[name]:
@@ -547,7 +663,19 @@ def _validate_initializer_runtime(card: dict[str, Any]) -> None:
     root = Path(card["initializer"]["path"])
     receipt = read_json(Path(card["initializer"]["durable_receipt_path"]))
     entries = {row["path"]: row for row in receipt["source_record"]["inventory"]["entries"]}
-    for name in ("config.json", "model.safetensors.index.json", "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors", "processor_config.json"):
+    m64 = card.get("schema") == "PI0247_M64_RUN_CARD_V1"
+    if m64:
+        if (sha256_file(Path(card["initializer"]["durable_receipt_path"])) != card["initializer"]["durable_receipt_sha256"]
+                or receipt.get("hf_manifest_commit_id") != card["initializer"]["screen_revision"]
+                or receipt["source_record"]["inventory"]["tree_sha256"] != card["initializer"]["full_checkpoint_tree_sha256"]):
+            raise LUError("U2000 initializer durable identity mismatch")
+        view = read_json(Path(card["source"]["initializer_view_receipt_path"]))
+        for item in view["model_files"]:
+            local = root / item["path"]
+            if not local.is_file() or local.stat().st_size != item["bytes"] or sha256_file(local) != item["sha256"]:
+                raise LUError(f"U2000/C_T model-view file changed: {local}")
+    names = ("config.json", "model.safetensors.index.json", "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors")
+    for name in names if m64 else (*names, "processor_config.json"):
         local = root / name
         archived = entries.get(name)
         if (archived is None or not local.is_file() or local.stat().st_size != int(archived["bytes"])
@@ -870,7 +998,7 @@ def _install_resume_checkpoint_release(
         if checkpoint.is_symlink() or checkpoint.resolve().parent != checkpoint.parent.resolve() or not checkpoint.is_dir():
             raise LUError("exact resume checkpoint escaped its bound source directory")
         restored_record = persistence.checkpoint_record(
-            checkpoint, expected_step=1000, expected_max_steps=STEPS, family=card["family"],
+            checkpoint, expected_step=int(source_record["checkpoint_step"]), expected_max_steps=STEPS, family=card["family"],
         )
         if not _same_checkpoint(restored_record, source_record):
             raise LUError("loaded exact resume checkpoint differs from its pinned source record")
@@ -878,7 +1006,7 @@ def _install_resume_checkpoint_release(
         write_json(release_path, {
             "schema": "PI0247_LU_RESUME_CHECKPOINT_RELEASE_V1",
             "status": "RELEASED_AFTER_OPTIMIZER_SCHEDULER_AND_RNG_RESTORE",
-            "checkpoint_step": 1000, "checkpoint_path": str(checkpoint),
+            "checkpoint_step": int(source_record["checkpoint_step"]), "checkpoint_path": str(checkpoint),
             "source_tree_sha256": source_record["inventory"]["tree_sha256"],
             "durable_receipt_sha256": sha256_file(receipt_path),
             "hf_readback_sha256": sha256_file(readback_path),
@@ -894,9 +1022,10 @@ def _install_resume_checkpoint_release(
 def train(args: argparse.Namespace) -> None:
     arm = args.arm
     resume_after = int(args.resume_after_step or 0)
-    if resume_after not in (0, 1000):
-        raise LUError("PI0247 exact resume is bound to the sealed checkpoint-1000 cursor")
     card = _verify_card(args.run_card, arm)
+    valid_resume_steps = (0, *CHECKPOINTS[:-1])
+    if resume_after not in valid_resume_steps:
+        raise LUError(f"exact resume cursor must be one of the sealed nonfinal checkpoints: {valid_resume_steps}")
     paths = card["paths"]
     repo_code = Path(paths["repo_code_root"])
     shared_root = Path(paths["code_root"])
@@ -913,6 +1042,9 @@ def train(args: argparse.Namespace) -> None:
 
     persistence = load_module(shared_root / "scripts/pi0243_checkpoint_persistence.py", "pi0247_lu_persistence")
     train_core = load_module(training_root / "pi0246_gate_pass_train.py", "pi0247_lu_train_core")
+    train_core.STEPS = STEPS
+    if hasattr(train_core, "CHECKPOINTS"):
+        train_core.CHECKPOINTS = CHECKPOINTS
     if resume_after:
         if (output / "training_manifest.json").is_file():
             raise LUError("training manifest already exists; repair archive/finalize evidence without retraining")
@@ -1013,7 +1145,7 @@ def train(args: argparse.Namespace) -> None:
 
     checkpoint_output = training_output
     fixed.install_update_audit(
-        training_output, audit_steps={1, 10, 100, 1000, 2000},
+        training_output, audit_steps={1, 10, 100, *CHECKPOINTS},
         expected_end_step=STEPS, checkpoint_output=checkpoint_output,
     )
     _install_hf_rolling_archive(card, persistence, args.run_card, train_core)
@@ -1161,8 +1293,8 @@ def finalize(args: argparse.Namespace) -> None:
                 or resume_record.get("schedule_sha256") != card["schedule"]["sha256"]):
             raise LUError("winning recovery attempt is not bound to this run card and fixed schedule")
         resume_after = int(resume_record.get("resume_after_step", -1))
-        if resume_after != 1000:
-            raise LUError("winning exact-resume attempt does not start from checkpoint-1000")
+        if resume_after not in CHECKPOINTS[:-1]:
+            raise LUError("winning exact-resume attempt does not start from a sealed nonfinal checkpoint")
         prefix_audit = read_json(training_roots[0] / "pi0241_update_audit.json")
         prefix_event = next((row for row in prefix_audit.get("events", [])
                              if row.get("event") == "POST_OPTIMIZER" and int(row.get("step", -1)) == resume_after), None)
@@ -1203,12 +1335,13 @@ def finalize(args: argparse.Namespace) -> None:
             raise LUError(f"fixed16 contract changed during exact resume at fixed_index={index}")
         contracts_by_index[index] = row
     contracts = [contracts_by_index[index] for index in sorted(contracts_by_index)]
-    if (len(contracts) != 16 or {int(row["fixed_index"]) for row in contracts} != set(range(16))
+    support_count = int(card["cohort"].get("count", 16))
+    if (len(contracts) != support_count or {int(row["fixed_index"]) for row in contracts} != set(range(support_count))
             or any(row["active_slots"] != list(range(10)) or row["action_shape"] != [1, 40, 132]
                    or row["mask_shape"] != [1, 40, 132]
                    or row["source_episode_id"] != cohort[int(row["fixed_index"])]["source_episode_id"]
                    for row in contracts)):
-        raise LUError("actual fixed16 action/mask contracts are incomplete")
+        raise LUError(f"actual fixed-support action/mask contracts are incomplete: expected {support_count}")
 
     overlay_name = "pi0247_L_local_forward.jsonl" if arm == "L" else "pi0247_U_rollout_forward.jsonl"
     overlay_rows = []
@@ -1244,7 +1377,9 @@ def finalize(args: argparse.Namespace) -> None:
     checkpoints = {}
     checkpoint_records = {}
     projector_reports = {}
-    checkpoint_roots = {1000: training_roots[0], 2000: winning_root}
+    checkpoint_roots = {step: training_roots[0] for step in CHECKPOINTS}
+    if resume_record is not None:
+        checkpoint_roots.update({step: winning_root for step in CHECKPOINTS if step > resume_after})
     for step in CHECKPOINTS:
         archive_root = checkpoint_roots[step].parent
         local_path = checkpoint_roots[step] / f"checkpoint-{step}"
@@ -1327,33 +1462,34 @@ def finalize(args: argparse.Namespace) -> None:
             "projector_reconciliation_sha256": sha256_file(projector_path),
         }
     if resume_record is not None:
-        source_receipt_path = output / "durable_receipts" / "checkpoint-1000.durable_receipt.json"
-        source_readback_path = output / "hf_readbacks" / "checkpoint-1000.json"
+        source_receipt_path = output / "durable_receipts" / f"checkpoint-{resume_after}.durable_receipt.json"
+        source_readback_path = output / "hf_readbacks" / f"checkpoint-{resume_after}.json"
         restore_receipt_path = winning_root.parent / "resume_restore_receipt.json"
         release_path = winning_root.parent / "resume_checkpoint_release.json"
         restore_receipt = read_json(restore_receipt_path)
         release_receipt = read_json(release_path)
-        _assert_checkpoint_payload_retired(output / "training" / "checkpoint-1000", checkpoint_records[1000], 1000)
-        if (resume_record.get("source_checkpoint_path") != str(output / "training" / "checkpoint-1000")
+        _assert_checkpoint_payload_retired(output / "training" / f"checkpoint-{resume_after}", checkpoint_records[resume_after], resume_after)
+        if (resume_record.get("source_checkpoint_path") != str(output / "training" / f"checkpoint-{resume_after}")
                 or resume_record.get("source_checkpoint_tree_sha256")
-                   != checkpoint_records[1000]["inventory"]["tree_sha256"]
+                   != checkpoint_records[resume_after]["inventory"]["tree_sha256"]
                 or resume_record.get("durable_receipt_sha256") != sha256_file(source_receipt_path)
                 or resume_record.get("hf_readback_sha256") != sha256_file(source_readback_path)
                 or resume_record.get("restore_receipt_sha256") != sha256_file(restore_receipt_path)
                 or restore_receipt.get("status") != "PASS_PINNED_HF_EXACT_RESTORE"
-                or restore_receipt.get("source_record_sha256") != canonical_sha256(checkpoint_records[1000])
-                or restore_receipt.get("restored_tree_sha256") != checkpoint_records[1000]["inventory"]["tree_sha256"]
+                or restore_receipt.get("source_record_sha256") != canonical_sha256(checkpoint_records[resume_after])
+                or restore_receipt.get("restored_tree_sha256") != checkpoint_records[resume_after]["inventory"]["tree_sha256"]
                 or restore_receipt.get("revision") != read_json(source_receipt_path).get("hf_manifest_commit_id")
                 or restore_receipt.get("durable_receipt_sha256") != sha256_file(source_receipt_path)
                 or restore_receipt.get("hf_readback_sha256") != sha256_file(source_readback_path)
                 or release_receipt.get("status") != "RELEASED_AFTER_OPTIMIZER_SCHEDULER_AND_RNG_RESTORE"
-                or release_receipt.get("source_tree_sha256") != checkpoint_records[1000]["inventory"]["tree_sha256"]
+                or release_receipt.get("source_tree_sha256") != checkpoint_records[resume_after]["inventory"]["tree_sha256"]
                 or release_receipt.get("durable_receipt_sha256") != sha256_file(source_receipt_path)
                 or release_receipt.get("hf_readback_sha256") != sha256_file(source_readback_path)
                 or release_receipt.get("restore_receipt_sha256") != sha256_file(restore_receipt_path)):
             raise LUError("winning recovery manifest does not close the exact pinned-HF resume")
 
-    projector_delta = projector_reports[2000][0]["comparison"]
+    final_step = CHECKPOINTS[-1]
+    projector_delta = projector_reports[final_step][0]["comparison"]
     parameters = update_audit["final_parameters"]
     parameter_rows = [parameters] + ([prefix_parameters] if prefix_parameters is not None else [])
     memberships = [update_audit.get("optimizer_membership", {})]
@@ -1407,8 +1543,10 @@ def finalize(args: argparse.Namespace) -> None:
         })
 
     result = {
-        "schema": "PI0247_LU_TRAINING_MANIFEST_V1",
+        "schema": "PI0247_M64_TRAINING_MANIFEST_V1" if card.get("schema") == "PI0247_M64_RUN_CARD_V1"
+                  else "PI0247_LU_TRAINING_MANIFEST_V1",
         "status": "PASS_TRAINING_INTEGRITY" if all(integrity.values()) else "SCIENCE_FAIL_OPTIMIZATION_OR_CONTRACT",
+        "stage": "M64" if card.get("schema") == "PI0247_M64_RUN_CARD_V1" else "LU",
         "arm": arm, "family": card["family"], "authorization": AUTHORIZATION,
         "execution_authorization": card.get("execution_authorization"),
         "run_card_sha256": sha256_file(args.run_card),
@@ -1515,9 +1653,9 @@ def main() -> int:
     parser.add_argument("--bootstrap", type=Path)
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--arm", choices=tuple(PROFILES))
-    parser.add_argument("--step", type=int, choices=CHECKPOINTS)
+    parser.add_argument("--step", type=int, choices=(1000, 2000, 2500, 5000))
     parser.add_argument("--archive-root", type=Path)
-    parser.add_argument("--resume-after-step", type=int, choices=(1000,))
+    parser.add_argument("--resume-after-step", type=int, choices=(1000, 2500))
     args = parser.parse_args()
     if args.prepare:
         if args.bootstrap is None:
