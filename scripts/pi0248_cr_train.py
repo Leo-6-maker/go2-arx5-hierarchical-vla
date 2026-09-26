@@ -383,6 +383,24 @@ def _verify_card(path: Path, arm: str) -> dict[str, Any]:
 
 
 def _patch_overlay(module: Any, card: dict[str, Any], resume_after: int) -> None:
+    if card["arm"] == "C":
+        if not resume_after:
+            return
+        output = Path(card["paths"]["output_root"])
+        original_install = module.install
+
+        def install(head_cls: type, **kwargs: Any) -> dict[str, Any]:
+            audit_path = Path(kwargs["audit_path"])
+            source = output / "training" / audit_path.name
+            if not audit_path.exists():
+                rows = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines() if line.strip()]
+                if [int(row["forward_index"]) for row in rows] != list(range(1, resume_after + 1)):
+                    raise life.LUError("C exact resume lacks the complete S4/objective audit prefix")
+                shutil.copy2(source, audit_path)
+            return original_install(head_cls, **kwargs)
+
+        module.install = install
+        return
     if card["arm"] != "R":
         return
     import numpy as np
