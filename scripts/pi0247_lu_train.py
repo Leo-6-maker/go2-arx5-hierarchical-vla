@@ -90,6 +90,8 @@ def load_module(path: Path, name: str) -> Any:
     module = importlib.util.module_from_spec(spec)
     sys.modules[name] = module
     spec.loader.exec_module(module)
+    if path.name == "pi0246_gate_pass_train.py":
+        module.STEPS, module.CHECKPOINTS = STEPS, CHECKPOINTS
     return module
 
 
@@ -701,7 +703,7 @@ def _install_hf_rolling_archive(
     from transformers import TrainerCallback
     from gr00t.experiment import experiment as experiment_module
 
-    runner = Path(card["paths"]["repo_code_root"]) / "scripts/pi0247_lu_train.py"
+    runner = Path(__file__).resolve()
 
     class ArchiveOnSave(TrainerCallback):
         def on_step_end(self, args: Any, state: Any, control: Any, **kwargs: Any) -> Any:
