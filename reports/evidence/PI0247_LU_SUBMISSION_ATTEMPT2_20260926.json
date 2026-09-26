@@ -1,0 +1,40 @@
+{
+  "schema": "PI0247_LU_SUBMISSION_V1",
+  "attempt_id": "LU_ATTEMPT2_WRAPPER_NUMERIC_LR_FIX",
+  "supersedes_failed_attempt": [
+    "633185.hopper-m-02",
+    "633190.hopper-m-02"
+  ],
+  "authorization": "PI0247_GENERATION_TO_SELECTED_SIM_GO",
+  "status": "SUBMITTED_WAITING_FOR_GPU",
+  "execution_code_commit": "deb17bb59df92731e359e5aab3c4d67a71a09f35",
+  "preparation_evidence_head": "05b307387280fcbadc1e416faa32e242412ed900",
+  "pbs_template_sha256": "4a3c526c4019bb4884b2b4a19d220819fc08deac23c1686c89aa23160a02e79d",
+  "requested_queue": "auto",
+  "scheduler_routed_queue": "small",
+  "project": "CFP03-CF-004",
+  "resources": {
+    "select": "1:ngpus=1:ncpus=12:mem=225GB",
+    "walltime": "16:00:00",
+    "gpu": "H200"
+  },
+  "jobs": {
+    "L": {
+      "job_id": "633198.hopper-m-02",
+      "run_card_sha256": "3a888d475194dd5d31b32b852c708f3f9ea7ecc3f17215bfd9aa6642d17c0996",
+      "scheduler_state": "Q",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus"
+    },
+    "U": {
+      "job_id": "633199.hopper-m-02",
+      "run_card_sha256": "9bc0223a6c92fa04026f75be901d492637978450fc24d61f754dc87184775a62",
+      "scheduler_state": "H",
+      "dependency": "afterany:633198.hopper-m-02"
+    }
+  },
+  "canonical_issue_comment": 5836195300,
+  "pointer_pr_comment": 5836198355,
+  "attempt1_evidence": "reports/evidence/PI0247_LU_ATTEMPT1_20260926/failure_receipt.json",
+  "model_loaded": false,
+  "optimizer_updates": 0
+}
