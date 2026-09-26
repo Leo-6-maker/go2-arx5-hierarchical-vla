@@ -35,6 +35,7 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
     runner = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = runner
     spec.loader.exec_module(runner)
+    card["source"]["execution_code_sha256"]["pi0247_lu_train.py"] = runner.sha256_file(runner_path)
 
     output = fixture_root / "results"
     card["paths"]["output_root"] = str(output)
@@ -43,6 +44,9 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
     card_sha = runner.sha256_file(synthetic_card)
     write_json(fixture_root / "run_card.seal.json", {"sha256": card_sha})
     output.mkdir(parents=True)
+    storage = runner._validate_storage(card)
+    if storage["persistent_free_bytes_before_training"] < storage["required_persistent_bytes"]:
+        raise AssertionError("storage preflight accepted less than one checkpoint plus reserve")
     prefix = card["archive"]["path_prefix"]
     probe_path = f"control/PI0247/selfcheck/{card['arm']}.json"
     write_json(output / "hf_preflight_receipt.json", {
@@ -102,6 +106,9 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
 
     sys.path.insert(0, str(shared / "scripts"))
     import pi0243_checkpoint_persistence as persistence
+    train_core = runner.load_module(
+        training_runtime / "pi0246_gate_pass_train.py", "pi0247_lu_finalizer_selfcheck_core",
+    )
 
     for step in (1000, 2000):
         checkpoint = training / f"checkpoint-{step}"
@@ -116,11 +123,6 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
         record = persistence.checkpoint_record(
             checkpoint, expected_step=step, expected_max_steps=2000, family=card["family"],
         )
-        persistence.publish_checkpoint(
-            checkpoint, durable_host=None, durable_root=output,
-            expected_step=step, expected_max_steps=2000, family=card["family"],
-            receipt_root=output / "persistent_receipts", job_id="synthetic-finalizer-selfcheck",
-        )
         remote_files = [{
             "path": f"{prefix}/checkpoint-{step}/{entry['path']}",
             "bytes": entry["bytes"], "sha256": entry["sha256"],
@@ -133,29 +135,32 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
             "hf_manifest_commit_id": revision, "source_record": record,
             "durable_inventory": remote_files,
         })
-        write_json(output / "hf_readbacks" / f"checkpoint-{step}.json", {
-            "status": "PASS_PI0247_LU_FULL_HF_READBACK", "arm": card["arm"],
+        readback_path = output / "hf_readbacks" / f"checkpoint-{step}.json"
+        write_json(readback_path, {
+            "schema": "PI0247_LU_FULL_HF_READBACK_V1",
+            "status": "PASS_PT_FULL_HF_READBACK", "pi0247_status": "PASS_PI0247_LU_FULL_HF_READBACK",
+            "arm": card["arm"], "family": card["family"], "checkpoint_step": step,
+            "max_steps": 2000, "repo_id": card["archive"]["repo_id"], "path_prefix": prefix,
             "source_tree_sha256": record["inventory"]["tree_sha256"],
-            "revision": revision, "files": remote_files,
+            "source_record_sha256": runner.canonical_sha256(record),
+            "revision": revision, "file_count": len(remote_files), "files": remote_files,
         })
+        projector_path = output / "projector_reconciliation" / f"checkpoint-{step}.json"
+        write_json(projector_path, {
+            "schema": "PI0247_LU_PROJECTOR_RECONCILIATION_V1",
+            "status": "PASS_FULL_PROJECTOR_TENSOR_COMPARE", "arm": card["arm"],
+            "checkpoint_step": step, "run_card_sha256": card_sha,
+            "initializer_tree_sha256": card["initializer"]["full_checkpoint_tree_sha256"],
+            "checkpoint_tree_sha256": record["inventory"]["tree_sha256"],
+            "reconciliation_script_sha256": runner.sha256_file(shared / "scripts/pi0241_reconcile_update_integrity.py"),
+            "comparison": {"tensor_count": 1, "changed_tensor_count": 1},
+        })
+        train_core.retire_pt_checkpoint_after_verified_archive(
+            output, training, step, record,
+            output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json",
+            readback_path, repo_id=card["archive"]["repo_id"], prefix=prefix, family=card["family"],
+        )
 
-    original_load_module = runner.load_module
-
-    class SyntheticProjectorReconciliation:
-        @staticmethod
-        def projector_tensors(_root: Path) -> dict[str, int]:
-            return {"synthetic": 1}
-
-        @staticmethod
-        def compare(_before: dict[str, int], _after: dict[str, int]) -> dict[str, int]:
-            return {"tensor_count": 1, "changed_tensor_count": 1}
-
-    def load_module(path: Path, name: str) -> Any:
-        if name == "pi0247_lu_finalize_projector":
-            return SyntheticProjectorReconciliation
-        return original_load_module(path, name)
-
-    runner.load_module = load_module
     args = SimpleNamespace(run_card=synthetic_card, arm="L")
     runner.finalize(args)
     manifest_path = output / "training_manifest.json"
@@ -178,11 +183,47 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest["status"] != "PASS_TRAINING_INTEGRITY" or manifest["selected_checkpoint"] != "NONE":
         raise AssertionError("synthetic finalizer did not close the unselected training manifest")
+
+    resume_root = fixture_root / "resume_test"
+    resume_training = resume_root / "training"
+    resume_training.mkdir(parents=True)
+    resume_checkpoint = resume_training / "checkpoint-1000"
+    resume_checkpoint.mkdir()
+    for name in persistence.REQUIRED_FILES:
+        path = resume_checkpoint / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if name == "trainer_state.json":
+            write_json(path, {"global_step": 1000, "max_steps": 2000})
+        else:
+            path.write_bytes(("synthetic:" + name).encode())
+    restore_receipt_path = resume_root / "resume_restore_receipt.json"
+    restored, source_record, restore_receipt = runner._restore_checkpoint_from_hf(
+        card, output, resume_training, 1000, persistence, train_core, restore_receipt_path,
+    )
+    if restored != resume_checkpoint or restore_receipt["restored_from_hf"] is not False:
+        raise AssertionError("exact resume did not bind the local checkpoint to its pinned HF receipt")
+    from transformers import Trainer
+
+    original_rng_load = Trainer._load_rng_state
+    try:
+        Trainer._load_rng_state = lambda _self, _path: "rng-restored"
+        runner._install_resume_checkpoint_release(
+            restored, resume_root, card, persistence, source_record,
+            output / "durable_receipts/checkpoint-1000.durable_receipt.json",
+            output / "hf_readbacks/checkpoint-1000.json", restore_receipt_path,
+        )
+        rng_result = Trainer._load_rng_state(SimpleNamespace(), str(restored))
+    finally:
+        Trainer._load_rng_state = original_rng_load
+    release = json.loads((resume_root / "resume_checkpoint_release.json").read_text(encoding="utf-8"))
+    if rng_result != "rng-restored" or restored.exists() or release.get("status") != "RELEASED_AFTER_OPTIMIZER_SCHEDULER_AND_RNG_RESTORE":
+        raise AssertionError("exact resume checkpoint was not released after Trainer RNG restoration")
     return {
         "schema": "PI0247_LU_FINALIZER_SELF_CHECK_V1", "status": "PASS",
         "arm": card["arm"], "synthetic_updates": 2000,
         "coefficient_mismatch_rejected": coefficient_mismatch_rejected,
-        "projector_reconciliation_path_exercised": True,
+        "projector_reconciliation_hf_retirement_and_exact_resume_paths_exercised": True,
+        "storage_quota_probe_path": storage["persistent_capacity_probe_path"],
         "model_loads": 0, "selected_checkpoint": manifest["selected_checkpoint"],
         "manifest_sha256": manifest_sha,
     }
