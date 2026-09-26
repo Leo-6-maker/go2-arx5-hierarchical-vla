@@ -1,0 +1,188 @@
+{
+  "arm": "L",
+  "checkpoint_step": 1000,
+  "checkpoint_tree_sha256": "482258bbd4f7166437fe5432c78f45196bb9ee2e6284b3ea11325becf50ba9aa",
+  "comparison": {
+    "changed_tensor_count": 15,
+    "rows": [
+      {
+        "changed_elements": 1048571,
+        "delta_l2": 0.1320067087692201,
+        "delta_max_abs": 0.0012965539081051247,
+        "element_count": 33554432,
+        "name": "action_head.action_decoder.layer1.W",
+        "reference_shape": [
+          32,
+          1024,
+          1024
+        ]
+      },
+      {
+        "changed_elements": 1024,
+        "delta_l2": 0.003795621282097393,
+        "delta_max_abs": 0.0004674084484577179,
+        "element_count": 32768,
+        "name": "action_head.action_decoder.layer1.b",
+        "reference_shape": [
+          32,
+          1024
+        ]
+      },
+      {
+        "changed_elements": 10240,
+        "delta_l2": 0.03069164816021725,
+        "delta_max_abs": 0.00140031473711133,
+        "element_count": 4325376,
+        "name": "action_head.action_decoder.layer2.W",
+        "reference_shape": [
+          32,
+          1024,
+          132
+        ]
+      },
+      {
+        "changed_elements": 10,
+        "delta_l2": 0.00017698495359101964,
+        "delta_max_abs": 0.0001421509077772498,
+        "element_count": 4224,
+        "name": "action_head.action_decoder.layer2.b",
+        "reference_shape": [
+          32,
+          132
+        ]
+      },
+      {
+        "changed_elements": 202747,
+        "delta_l2": 0.03683182371566125,
+        "delta_max_abs": 0.002081945538520813,
+        "element_count": 6488064,
+        "name": "action_head.action_encoder.W1.W",
+        "reference_shape": [
+          32,
+          132,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 1536,
+        "delta_l2": 0.0008859505264733514,
+        "delta_max_abs": 0.00014721881598234177,
+        "element_count": 49152,
+        "name": "action_head.action_encoder.W1.b",
+        "reference_shape": [
+          32,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 4718566,
+        "delta_l2": 0.327076532445722,
+        "delta_max_abs": 0.0010108491405844688,
+        "element_count": 150994944,
+        "name": "action_head.action_encoder.W2.W",
+        "reference_shape": [
+          32,
+          3072,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 1536,
+        "delta_l2": 0.004624108586388032,
+        "delta_max_abs": 0.0006489301304100081,
+        "element_count": 49152,
+        "name": "action_head.action_encoder.W2.b",
+        "reference_shape": [
+          32,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 2359289,
+        "delta_l2": 0.17262872190319506,
+        "delta_max_abs": 0.0010228566825389862,
+        "element_count": 75497472,
+        "name": "action_head.action_encoder.W3.W",
+        "reference_shape": [
+          32,
+          1536,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 1536,
+        "delta_l2": 0.002146266024815373,
+        "delta_max_abs": 0.0003590621054172516,
+        "element_count": 49152,
+        "name": "action_head.action_encoder.W3.b",
+        "reference_shape": [
+          32,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 61438,
+        "delta_l2": 0.10078693651165639,
+        "delta_max_abs": 0.0015325825661420822,
+        "element_count": 1572864,
+        "name": "action_head.position_embedding.weight",
+        "reference_shape": [
+          1024,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 7830,
+        "delta_l2": 0.010775509424921274,
+        "delta_max_abs": 0.0006516780704259872,
+        "element_count": 4325376,
+        "name": "action_head.state_encoder.layer1.W",
+        "reference_shape": [
+          32,
+          132,
+          1024
+        ]
+      },
+      {
+        "changed_elements": 870,
+        "delta_l2": 0.0033576664710044755,
+        "delta_max_abs": 0.0004461617209017277,
+        "element_count": 32768,
+        "name": "action_head.state_encoder.layer1.b",
+        "reference_shape": [
+          32,
+          1024
+        ]
+      },
+      {
+        "changed_elements": 1336317,
+        "delta_l2": 0.16867264040998833,
+        "delta_max_abs": 0.0008075591176748276,
+        "element_count": 50331648,
+        "name": "action_head.state_encoder.layer2.W",
+        "reference_shape": [
+          32,
+          1024,
+          1536
+        ]
+      },
+      {
+        "changed_elements": 1536,
+        "delta_l2": 0.004886290244885941,
+        "delta_max_abs": 0.0004341523163020611,
+        "element_count": 49152,
+        "name": "action_head.state_encoder.layer2.b",
+        "reference_shape": [
+          32,
+          1536
+        ]
+      }
+    ],
+    "tensor_count": 15
+  },
+  "initializer_tree_sha256": "fd2c5fc80f00b0cc96ee80991a20dc6b0f7c50ddaf4af36e6de31cb7374e8538",
+  "reconciliation_script_sha256": "1baaa1e27b73ac686ff7e0b744b558d7946b414809824be5ca9524e567814f66",
+  "run_card_sha256": "54fb7423c1dceb2be918515a50b4d118ea2917a83e129ef0098840fd97c618e5",
+  "schema": "PI0247_LU_PROJECTOR_RECONCILIATION_V1",
+  "status": "PASS_FULL_PROJECTOR_TENSOR_COMPARE"
+}

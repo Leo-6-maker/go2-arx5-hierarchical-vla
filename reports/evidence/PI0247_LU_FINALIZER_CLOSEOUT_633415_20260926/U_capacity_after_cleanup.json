@@ -1,0 +1,22 @@
+{
+  "created_epoch_s": 1790414901.7073166,
+  "l_replica_retirement_sha256": "b74276c778ea061dac3538b26d568c74c66e3cef466eecdd145e0a0cb23c5747",
+  "schema": "PI0247_U_CAPACITY_AFTER_L_REPLICA_RETIREMENT_V1",
+  "status": "PASS_REQUIRED_RESERVE_AVAILABLE_FOR_U",
+  "storage_preflight": {
+    "checkpoint_steps": [
+      1000,
+      2000
+    ],
+    "checkpoint_storage_mode": "HF_PUBLIC_ROLLING_SINGLE_CHECKPOINT",
+    "full_trainer_checkpoint_bytes": 20889738947,
+    "local_checkpoint_retired_after_pinned_hf_readback": true,
+    "persistent_capacity_probe_path": "/scratch/e1192548",
+    "persistent_filesystem": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/U",
+    "persistent_free_bytes_before_training": 25716326400,
+    "required_persistent_bytes": 25184706243,
+    "tmpfs_is_not_a_checkpoint_source": true
+  },
+  "training_directory_absent": true,
+  "u_run_card_sha256": "3555aadc9723f7b54f23e2c60882b407337d4b8f2f10c18c8128583708e927a1"
+}
