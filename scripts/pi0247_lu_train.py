@@ -276,9 +276,9 @@ def prepare(args: argparse.Namespace) -> None:
         raise LUError("P parent resolved config differs from both sealed runtime bindings")
     cards = {}
     code_files = {
-        "pi0247_lu_train.py": code_root / "scripts/pi0247_lu_train.py",
-        "pi0247_u_rollout_overlay.py": code_root / "scripts/pi0247_u_rollout_overlay.py",
-        "pi0247_lu_train_h200.pbs": code_root / "hpc/pbs/pi0247_lu_train_h200.pbs",
+        "pi0247_lu_train.py": repo_code / "scripts/pi0247_lu_train.py",
+        "pi0247_u_rollout_overlay.py": repo_code / "scripts/pi0247_u_rollout_overlay.py",
+        "pi0247_lu_train_h200.pbs": repo_code / "hpc/pbs/pi0247_lu_train_h200.pbs",
         "pi0246_pt_combined_overlay.py": training_root / "pi0246_pt_combined_overlay.py",
         "pi0246_physical_position.py": training_root / "pi0246_physical_position.py",
         "pi0245_physical_delta.py": training_root / "pi0245_physical_delta.py",
