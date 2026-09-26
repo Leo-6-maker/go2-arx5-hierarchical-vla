@@ -14,7 +14,7 @@ import shutil
 import subprocess
 import sys
 import time
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 
@@ -1069,6 +1069,42 @@ def train(args: argparse.Namespace) -> None:
     finalize(args)
 
 
+def _assert_checkpoint_payload_retired(checkpoint_root: Path, record: dict[str, Any], step: int) -> None:
+    if checkpoint_root.is_symlink():
+        raise LUError(f"checkpoint-{step} local full-state path is a symlink")
+    if not checkpoint_root.exists():
+        return
+    if not checkpoint_root.is_dir():
+        raise LUError(f"checkpoint-{step} local full-state path is not a directory")
+    entries = record.get("inventory", {}).get("entries")
+    if not isinstance(entries, list) or not entries:
+        raise LUError(f"checkpoint-{step} archive inventory is missing")
+    root = checkpoint_root.resolve(strict=True)
+    seen: set[str] = set()
+    for entry in entries:
+        relative = entry.get("path") if isinstance(entry, dict) else None
+        if not isinstance(relative, str) or not relative or "\\" in relative:
+            raise LUError(f"checkpoint-{step} archive inventory has an invalid path")
+        posix_relative = PurePosixPath(relative)
+        if (posix_relative.is_absolute() or posix_relative.as_posix() != relative
+                or any(part in ("", ".", "..") for part in posix_relative.parts)
+                or relative in seen):
+            raise LUError(f"checkpoint-{step} archive inventory has an unsafe path: {relative}")
+        seen.add(relative)
+        candidate = checkpoint_root.joinpath(*posix_relative.parts)
+        cursor = checkpoint_root
+        for part in posix_relative.parts:
+            cursor = cursor / part
+            if cursor.is_symlink():
+                raise LUError(f"checkpoint-{step} local full-state path contains a symlink: {relative}")
+        try:
+            candidate.resolve(strict=False).relative_to(root)
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise LUError(f"checkpoint-{step} archive path escapes its local checkpoint: {relative}") from exc
+        if candidate.exists():
+            raise LUError(f"checkpoint-{step} local full-state payload was not retired: {relative}")
+
+
 def finalize(args: argparse.Namespace) -> None:
     """Close completed local evidence without loading a model or changing checkpoints."""
     arm = args.arm
@@ -1077,6 +1113,14 @@ def finalize(args: argparse.Namespace) -> None:
     _verify_code(card, Path(paths["repo_code_root"]), Path(paths["code_root"]), Path(paths["training_runtime_root"]))
     _verify_runtime_bindings(paths, card["source"]["runtime_bindings"])
     _validate_initializer_runtime(card)
+    finalizer_path = Path(__file__).resolve()
+    finalizer_sha = sha256_file(finalizer_path)
+    sealed_finalizer_sha = card["source"]["execution_code_sha256"]["pi0247_lu_train.py"]
+    finalizer_commit = os.environ.get("PI0247_FINALIZER_CODE_COMMIT")
+    if finalizer_sha == sealed_finalizer_sha:
+        finalizer_commit = finalizer_commit or card["source"]["execution_code_commit"]
+    elif not finalizer_commit:
+        raise LUError("read-only finalize requires an explicit commit for the unsealed finalizer source")
     output = Path(paths["output_root"])
     training_roots = [output / "training"]
     recovery_root = output / "recovery_attempts"
@@ -1210,12 +1254,11 @@ def finalize(args: argparse.Namespace) -> None:
         completion_path = archive_root / "checkpoint_retirements" / f"checkpoint-{step}.deleted.json"
         effective_prefix = (card["archive"]["path_prefix"] if archive_root == output
                             else f"{card['archive']['path_prefix']}/recovery/{archive_root.name}")
-        if local_path.exists() or local_path.is_symlink():
-            raise LUError(f"checkpoint-{step} local full-state copy was not retired after pinned HF verification")
         receipt = read_json(receipt_path)
         record = receipt.get("source_record")
         if not isinstance(record, dict):
             raise LUError(f"checkpoint-{step} durable HF receipt lacks its complete source record")
+        _assert_checkpoint_payload_retired(local_path, record, step)
         checkpoint_records[step] = record
         readback = read_json(readback_path)
         intent, completion = read_json(intent_path), read_json(completion_path)
@@ -1290,6 +1333,7 @@ def finalize(args: argparse.Namespace) -> None:
         release_path = winning_root.parent / "resume_checkpoint_release.json"
         restore_receipt = read_json(restore_receipt_path)
         release_receipt = read_json(release_path)
+        _assert_checkpoint_payload_retired(output / "training" / "checkpoint-1000", checkpoint_records[1000], 1000)
         if (resume_record.get("source_checkpoint_path") != str(output / "training" / "checkpoint-1000")
                 or resume_record.get("source_checkpoint_tree_sha256")
                    != checkpoint_records[1000]["inventory"]["tree_sha256"]
@@ -1306,8 +1350,7 @@ def finalize(args: argparse.Namespace) -> None:
                 or release_receipt.get("source_tree_sha256") != checkpoint_records[1000]["inventory"]["tree_sha256"]
                 or release_receipt.get("durable_receipt_sha256") != sha256_file(source_receipt_path)
                 or release_receipt.get("hf_readback_sha256") != sha256_file(source_readback_path)
-                or release_receipt.get("restore_receipt_sha256") != sha256_file(restore_receipt_path)
-                or (output / "training" / "checkpoint-1000").exists()):
+                or release_receipt.get("restore_receipt_sha256") != sha256_file(restore_receipt_path)):
             raise LUError("winning recovery manifest does not close the exact pinned-HF resume")
 
     projector_delta = projector_reports[2000][0]["comparison"]
@@ -1370,6 +1413,8 @@ def finalize(args: argparse.Namespace) -> None:
         "execution_authorization": card.get("execution_authorization"),
         "run_card_sha256": sha256_file(args.run_card),
         "execution_code_commit": card["source"]["execution_code_commit"],
+        "finalizer_code_commit": finalizer_commit,
+        "finalizer_script_sha256": finalizer_sha,
         "pbs_job_id": state.get("pbs_job_id"), "global_step": STEPS,
         "sample_consumption": len(consumption), "sample_contracts": contracts,
         "schedule_sha256": card["schedule"]["sha256"], "cohort_sha256": card["cohort"]["sha256"],

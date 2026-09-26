@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -17,7 +18,7 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def run(run_card: Path, output_root: Path) -> dict[str, Any]:
+def run(run_card: Path, output_root: Path, runner_script: Path | None = None) -> dict[str, Any]:
     card = json.loads(run_card.read_text(encoding="utf-8"))
     real_root = Path(card["paths"]["output_root"]).resolve()
     fixture_root = output_root.resolve()
@@ -28,14 +29,17 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
     shared = Path(card["paths"]["code_root"])
     training_runtime = Path(card["paths"]["training_runtime_root"])
     sys.path[:0] = [str(repo / "scripts"), str(shared / "scripts"), str(training_runtime)]
-    runner_path = repo / "scripts/pi0247_lu_train.py"
+    runner_path = runner_script or repo / "scripts/pi0247_lu_train.py"
     spec = importlib.util.spec_from_file_location("pi0247_lu_finalizer_under_test", runner_path)
     if spec is None or spec.loader is None:
         raise RuntimeError("cannot import sealed PI0247 finalizer")
     runner = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = runner
     spec.loader.exec_module(runner)
-    card["source"]["execution_code_sha256"]["pi0247_lu_train.py"] = runner.sha256_file(runner_path)
+    if runner_script is None:
+        card["source"]["execution_code_sha256"]["pi0247_lu_train.py"] = runner.sha256_file(runner_path)
+    else:
+        os.environ["PI0247_FINALIZER_CODE_COMMIT"] = "SELF_CHECK"
 
     output = fixture_root / "results"
     card["paths"]["output_root"] = str(output)
@@ -110,6 +114,7 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
         training_runtime / "pi0246_gate_pass_train.py", "pi0247_lu_finalizer_selfcheck_core",
     )
 
+    checkpoint_records = {}
     for step in (1000, 2000):
         checkpoint = training / f"checkpoint-{step}"
         checkpoint.mkdir()
@@ -123,6 +128,7 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
         record = persistence.checkpoint_record(
             checkpoint, expected_step=step, expected_max_steps=2000, family=card["family"],
         )
+        checkpoint_records[step] = record
         remote_files = [{
             "path": f"{prefix}/checkpoint-{step}/{entry['path']}",
             "bytes": entry["bytes"], "sha256": entry["sha256"],
@@ -160,6 +166,7 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
             output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json",
             readback_path, repo_id=card["archive"]["repo_id"], prefix=prefix, family=card["family"],
         )
+        write_json(training / f"checkpoint-{step}" / "experiment_cfg" / "sidecar_probe.json", {"kept": True})
 
     args = SimpleNamespace(run_card=synthetic_card, arm="L")
     runner.finalize(args)
@@ -183,6 +190,19 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest["status"] != "PASS_TRAINING_INTEGRITY" or manifest["selected_checkpoint"] != "NONE":
         raise AssertionError("synthetic finalizer did not close the unselected training manifest")
+    leftover = training / "checkpoint-1000" / checkpoint_records[1000]["inventory"]["entries"][0]["path"]
+    leftover.parent.mkdir(parents=True, exist_ok=True)
+    leftover.write_bytes(b"incomplete-local-copy")
+    full_state_copy_rejected = False
+    try:
+        runner.finalize(args)
+    except runner.LUError:
+        full_state_copy_rejected = True
+    finally:
+        leftover.unlink(missing_ok=True)
+    if not full_state_copy_rejected:
+        raise AssertionError("finalizer accepted a remaining archived full-state file")
+    runner.finalize(args)
 
     resume_root = fixture_root / "resume_test"
     resume_training = resume_root / "training"
@@ -222,6 +242,8 @@ def run(run_card: Path, output_root: Path) -> dict[str, Any]:
         "schema": "PI0247_LU_FINALIZER_SELF_CHECK_V1", "status": "PASS",
         "arm": card["arm"], "synthetic_updates": 2000,
         "coefficient_mismatch_rejected": coefficient_mismatch_rejected,
+        "residual_config_sidecars_accepted": True,
+        "full_state_copy_rejected": full_state_copy_rejected,
         "projector_reconciliation_hf_retirement_and_exact_resume_paths_exercised": True,
         "storage_quota_probe_path": storage["persistent_capacity_probe_path"],
         "model_loads": 0, "selected_checkpoint": manifest["selected_checkpoint"],
@@ -233,8 +255,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-card", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--runner-script", type=Path)
     args = parser.parse_args()
-    print(json.dumps(run(args.run_card, args.output_root), indent=2, sort_keys=True))
+    print(json.dumps(run(args.run_card, args.output_root, args.runner_script), indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
