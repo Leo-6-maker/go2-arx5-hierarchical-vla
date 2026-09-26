@@ -10,6 +10,7 @@ import math
 import os
 import shutil
 import sys
+import subprocess
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -532,6 +533,25 @@ def _install_adapters(card_path: Path, arm: str, resume_after: int) -> tuple[dic
     return card, life
 
 
+def _route_archive_sidecar(module: Any, card: dict[str, Any]) -> None:
+    original = module.subprocess
+    legacy_runner = (Path(card["paths"]["repo_code_root"]) / "scripts/pi0247_lu_train.py").resolve()
+    adapter_runner = Path(__file__).resolve()
+
+    class ArchiveSubprocess:
+        def __getattr__(self, name: str) -> Any:
+            return getattr(original, name)
+
+        def run(self, command: Any, *args: Any, **kwargs: Any) -> Any:
+            if (isinstance(command, (list, tuple)) and len(command) > 2
+                    and Path(command[1]).resolve() == legacy_runner
+                    and "--archive-sidecar" in command):
+                command = [command[0], str(adapter_runner), *command[2:]]
+            return original.run(command, *args, **kwargs)
+
+    module.subprocess = ArchiveSubprocess()
+
+
 def _winning_training_root(card: dict[str, Any]) -> Path:
     output = Path(card["paths"]["output_root"])
     candidates = [output / "training"]
@@ -702,6 +722,7 @@ def main() -> int:
     modes.add_argument("--prepare", action="store_true")
     modes.add_argument("--hf-preflight", action="store_true")
     modes.add_argument("--train", action="store_true")
+    modes.add_argument("--archive-sidecar", action="store_true")
     modes.add_argument("--finalize", action="store_true")
     parser.add_argument("--parent-card", type=Path)
     parser.add_argument("--m64-root", type=Path)
@@ -713,6 +734,8 @@ def main() -> int:
     parser.add_argument("--pbs-script", type=Path)
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--arm", choices=("C", "R"))
+    parser.add_argument("--step", type=int, choices=CHECKPOINTS)
+    parser.add_argument("--archive-root", type=Path)
     parser.add_argument("--resume-after-step", type=int, default=0)
     args = parser.parse_args()
     if args.prepare:
@@ -727,11 +750,16 @@ def main() -> int:
         if args.run_card is None or args.arm is None:
             parser.error("training, finalization, and HF preflight require --run-card and --arm")
         card, module = _install_adapters(args.run_card, args.arm, args.resume_after_step)
-        if args.hf_preflight:
+        if args.archive_sidecar:
+            if args.step is None or args.archive_root is None:
+                parser.error("--archive-sidecar requires --run-card, --arm, --step, and --archive-root")
+            module.archive_sidecar(args)
+        elif args.hf_preflight:
             module.hf_preflight(args)
         elif args.train:
             if args.resume_after_step not in (0, 1000):
                 parser.error("exact PI0248 resume cursor must be 0 or 1000")
+            _route_archive_sidecar(module, card)
             module.train(args)
         else:
             module.finalize(args)
