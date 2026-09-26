@@ -198,6 +198,19 @@ def _verify_runtime_bindings(paths: dict[str, Any], bindings: dict[str, Any]) ->
     }
 
 
+def _card_with_p_runtime_paths(card: dict[str, Any]) -> dict[str, Any]:
+    paths = card["paths"]
+    p_card_path = Path(paths["base_model_path"]).parent / "run_card.json"
+    p_binding = read_json(Path(card["source"]["runtime_bindings"]["P"]["path"]))
+    expected = p_binding["run_card_sha256"]
+    if (sha256_file(p_card_path) != expected
+            or read_json(p_card_path.with_name("run_card.seal.json")).get("sha256") != expected):
+        raise LUError("P-final initializer run card differs from its sealed runtime binding")
+    p_paths = read_json(p_card_path)["paths"]
+    inherited = {name: p_paths[name] for name in ("cosmos_cache_root", "cosmos_snapshot")}
+    return {**card, "paths": {**inherited, **paths}}
+
+
 def _hf_preflight(repo_id: str, token_path: Path, prefixes: list[str], *, check_empty: bool) -> dict[str, Any]:
     os.environ["HF_HUB_OFFLINE"] = "0"
     os.environ["TRANSFORMERS_OFFLINE"] = "0"
@@ -750,7 +763,7 @@ def train(args: argparse.Namespace) -> None:
     paths = card["paths"]
     groot_runtime = Path(paths["stage10_root"]) / "runtime"
     sys.path[:0] = [str(groot_runtime), str(training_root), str(shared_root / "scripts"), str(shared_root / "src"), str(paths["groot_source"])]
-    fixed.bind_runtime(card)
+    fixed.bind_runtime(_card_with_p_runtime_paths(card))
     fixed.install_fixed_dataset_factory(card, training_output, resume_after_step=resume_after)
     from gr00t.model.gr00t_n1d7 import setup as gr00t_setup
     processor_ref: dict[str, Any] = {}
