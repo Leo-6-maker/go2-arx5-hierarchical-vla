@@ -9,6 +9,7 @@ import importlib.util
 import json
 import math
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -26,6 +27,9 @@ PROFILES = {
 STEPS = 2000
 CHECKPOINTS = (1000, 2000)
 SEED = 22301
+LOSS_COEFFICIENTS = {"ell_pos": 0.1, "ell_delta": 0.1}
+R1_CANONICAL_COMMENT = 5842565868
+R1_POINTER_COMMENT = 5842568324
 
 
 class LUError(RuntimeError):
@@ -195,6 +199,8 @@ def _verify_runtime_bindings(paths: dict[str, Any], bindings: dict[str, Any]) ->
 
 
 def _hf_preflight(repo_id: str, token_path: Path, prefixes: list[str], *, check_empty: bool) -> dict[str, Any]:
+    os.environ["HF_HUB_OFFLINE"] = "0"
+    os.environ["TRANSFORMERS_OFFLINE"] = "0"
     if not token_path.is_file():
         raise LUError("configured HF token file is missing")
     token = token_path.read_text(encoding="utf-8").strip()
@@ -278,6 +284,7 @@ def prepare(args: argparse.Namespace) -> None:
     code_files = {
         "pi0247_lu_train.py": repo_code / "scripts/pi0247_lu_train.py",
         "pi0247_u_rollout_overlay.py": repo_code / "scripts/pi0247_u_rollout_overlay.py",
+        "pi0228_train_calib_checkpoint_selection.py": repo_code / "scripts/pi0228_train_calib_checkpoint_selection.py",
         "pi0247_lu_train_h200.pbs": repo_code / "hpc/pbs/pi0247_lu_train_h200.pbs",
         "pi0246_pt_combined_overlay.py": training_root / "pi0246_pt_combined_overlay.py",
         "pi0246_physical_position.py": training_root / "pi0246_physical_position.py",
@@ -290,6 +297,8 @@ def prepare(args: argparse.Namespace) -> None:
         "pi0243_hf_checkpoint_sidecar.py": shared_root / "scripts/pi0243_hf_checkpoint_sidecar.py",
         "pi0243_hf_archive_tree.py": shared_root / "scripts/pi0243_hf_archive_tree.py",
         "pi0243_storage_retirement.py": shared_root / "scripts/pi0243_storage_retirement.py",
+        "pi0243_hf_write_probe.py": shared_root / "scripts/pi0243_hf_write_probe.py",
+        "pi0241_reconcile_update_integrity.py": shared_root / "scripts/pi0241_reconcile_update_integrity.py",
     }
     code_hashes = {name: sha256_file(path) for name, path in code_files.items()}
     output_base = Path(paths["output_base"])
@@ -297,16 +306,14 @@ def prepare(args: argparse.Namespace) -> None:
         raise LUError(f"refusing to reuse existing PI0247 L/U output root: {output_base}")
     for arm in PROFILES:
         arm_root = output_base / arm
-        checkpoint_root = Path(paths["checkpoint_tmp_base"]) / arm
-        if arm_root.exists() or arm_root.is_symlink() or checkpoint_root.exists() or checkpoint_root.is_symlink():
-            raise LUError(f"refusing to reuse existing {arm} output or tmpfs root")
+        if arm_root.exists() or arm_root.is_symlink():
+            raise LUError(f"refusing to reuse existing {arm} output root")
     output_base.mkdir(parents=True)
     (output_base / "logs").mkdir()
     for arm, (family, loss) in PROFILES.items():
         arm_root = output_base / arm
-        checkpoint_root = Path(paths["checkpoint_tmp_base"]) / arm
-        arm_paths = {**paths, "output_root": str(arm_root), "checkpoint_tmp_root": str(checkpoint_root)}
-        pi0228, config, summary = train_core.build_runtime_config(arm_paths, checkpoint_root / "training", fixed)
+        arm_paths = {**paths, "output_root": str(arm_root)}
+        pi0228, config, summary = train_core.build_runtime_config(arm_paths, arm_root / "training", fixed)
         _check_summary(summary, parent, str(Path(paths["base_model_path"])))
         arm_root.mkdir(parents=True)
         archive = {
@@ -320,13 +327,15 @@ def prepare(args: argparse.Namespace) -> None:
         card = {
             "schema": "PI0247_LU_RUN_CARD_V1", "status": "SEALED_READY_NOT_STARTED",
             "authorization": AUTHORIZATION, "release_commit": bootstrap["release_commit"],
-            "canonical_issue_comment": 5836195300, "pointer_pr_comment": 5836198355,
+            "canonical_issue_comment": R1_CANONICAL_COMMENT, "pointer_pr_comment": R1_POINTER_COMMENT,
             "arm": arm, "family": family, "loss": loss, "seed": SEED,
+            "embodiment_tag": str(config.data.datasets[0].embodiment_tag),
             "d1_runtime_id": "S4", "cohort": bootstrap["cohort"], "schedule": bootstrap["schedule"],
             "input_identity_audit_sha256": bootstrap["input_identity_audit_sha256"],
             "d1_report_sha256": bootstrap["d1_report_sha256"], "d2_report_sha256": bootstrap["d2_report_sha256"],
             "initializer": initializer,
             "loss_contract": bootstrap["loss_contracts"][arm],
+            "loss_coefficients": LOSS_COEFFICIENTS,
             "optimizer": {
                 "steps": STEPS, "checkpoint_steps": list(CHECKPOINTS), "learning_rate": 1e-5,
                 "weight_decay": 1e-5, "max_grad_norm": 1.0, "batch_size": 1,
@@ -334,6 +343,7 @@ def prepare(args: argparse.Namespace) -> None:
                 "warmup_steps": 10, "optimizer_state": "fresh AdamW; no resume",
             },
             "resolved_config": summary, "paths": arm_paths, "archive": archive,
+            "execution_update_commit": bootstrap["execution_code_commit"],
             "resource": bootstrap["resource"], "hf_preflight": hf,
             "source": {
                 "execution_code_commit": bootstrap["execution_code_commit"],
@@ -388,6 +398,9 @@ def _verify_card(card_path: Path, arm: str) -> dict[str, Any]:
             or card.get("status") != "SEALED_READY_NOT_STARTED"
             or card.get("authorization") != AUTHORIZATION
             or card.get("arm") != arm or card.get("family") != expected_family or card.get("loss") != expected_loss
+            or card.get("canonical_issue_comment") != R1_CANONICAL_COMMENT
+            or card.get("pointer_pr_comment") != R1_POINTER_COMMENT
+            or card.get("loss_coefficients") != LOSS_COEFFICIENTS
             or read_json(seal_path).get("sha256") != sha256_file(card_path)):
         raise LUError("run card or seal is not bound to the authorized PI0247 arm")
     return card
@@ -397,6 +410,7 @@ def _verify_code(card: dict[str, Any], repo_code: Path, shared_root: Path, train
     mapping = {
         "pi0247_lu_train.py": repo_code / "scripts/pi0247_lu_train.py",
         "pi0247_u_rollout_overlay.py": repo_code / "scripts/pi0247_u_rollout_overlay.py",
+        "pi0228_train_calib_checkpoint_selection.py": repo_code / "scripts/pi0228_train_calib_checkpoint_selection.py",
         "pi0247_lu_train_h200.pbs": repo_code / "hpc/pbs/pi0247_lu_train_h200.pbs",
         "pi0246_pt_combined_overlay.py": training_root / "pi0246_pt_combined_overlay.py",
         "pi0246_physical_position.py": training_root / "pi0246_physical_position.py",
@@ -409,6 +423,8 @@ def _verify_code(card: dict[str, Any], repo_code: Path, shared_root: Path, train
         "pi0243_hf_checkpoint_sidecar.py": shared_root / "scripts/pi0243_hf_checkpoint_sidecar.py",
         "pi0243_hf_archive_tree.py": shared_root / "scripts/pi0243_hf_archive_tree.py",
         "pi0243_storage_retirement.py": shared_root / "scripts/pi0243_storage_retirement.py",
+        "pi0243_hf_write_probe.py": shared_root / "scripts/pi0243_hf_write_probe.py",
+        "pi0241_reconcile_update_integrity.py": shared_root / "scripts/pi0241_reconcile_update_integrity.py",
     }
     expected = card["source"]["execution_code_sha256"]
     for name, path in mapping.items():
@@ -416,36 +432,73 @@ def _verify_code(card: dict[str, Any], repo_code: Path, shared_root: Path, train
             raise LUError(f"PI0247 training source hash mismatch: {name}")
 
 
-def _verify_hf_prefix(card: dict[str, Any]) -> dict[str, Any]:
+def hf_preflight(args: argparse.Namespace) -> None:
+    card = _verify_card(args.run_card, args.arm)
     archive = card["archive"]
+    path = Path(card["paths"]["output_root"]) / "hf_preflight_receipt.json"
+    if path.exists():
+        print(json.dumps(_verify_hf_preflight_receipt(card, args.run_card), indent=2, sort_keys=True))
+        return
     result = _hf_preflight(archive["repo_id"], Path(archive["token_file"]), [archive["path_prefix"]], check_empty=True)
-    if not result["public"] or not result["prefixes_empty"]:
-        raise LUError("PI0247 HF archive destination did not pass the pre-model gate")
-    return result
+    probe_path = f"control/PI0247/preflight/{card['arm']}-{sha256_file(args.run_card)}-{time.time_ns()}.json"
+    probe = subprocess.run(
+        [sys.executable, str(Path(card["paths"]["code_root"]) / "scripts/pi0243_hf_write_probe.py"),
+         "--token-file", archive["token_file"], "--repo-id", archive["repo_id"], "--path", probe_path],
+        text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        env={**os.environ, "HF_HUB_OFFLINE": "0", "TRANSFORMERS_OFFLINE": "0"},
+    )
+    if probe.returncode:
+        raise LUError(f"HF authenticated write/readback preflight failed (exit {probe.returncode})")
+    probe_result = json.loads(probe.stdout.strip().splitlines()[-1])
+    if probe_result.get("readback") != "PASS" or probe_result.get("path") != probe_path:
+        raise LUError("HF write probe did not close with the sealed path")
+    receipt = {
+        "schema": "PI0247_LU_HF_ONLINE_PREFLIGHT_V1", "status": "PASS",
+        "arm": card["arm"], "run_card_sha256": sha256_file(args.run_card),
+        "repo_id": archive["repo_id"], "target_prefix": archive["path_prefix"],
+        "target_prefix_empty": result["prefixes_empty"], "repo_public": result["public"],
+        "identity_verified": result["token_identity_verified"], "write_probe": probe_result,
+        "completed_epoch_s": time.time(),
+    }
+    receipt["write_probe_path"] = probe_path
+    write_json(path, receipt)
+    print(json.dumps(receipt, indent=2, sort_keys=True))
 
 
-def _validate_storage(card: dict[str, Any]) -> dict[str, Any]:
+def _verify_hf_preflight_receipt(card: dict[str, Any], card_path: Path) -> dict[str, Any]:
+    path = Path(card["paths"]["output_root"]) / "hf_preflight_receipt.json"
+    receipt = read_json(path)
+    if (receipt.get("schema") != "PI0247_LU_HF_ONLINE_PREFLIGHT_V1"
+            or receipt.get("status") != "PASS"
+            or receipt.get("arm") != card["arm"]
+            or receipt.get("run_card_sha256") != sha256_file(card_path)
+            or receipt.get("repo_id") != card["archive"]["repo_id"]
+            or receipt.get("target_prefix") != card["archive"]["path_prefix"]
+            or receipt.get("target_prefix_empty") is not True
+            or receipt.get("repo_public") is not True
+            or receipt.get("identity_verified") is not True
+            or receipt.get("write_probe", {}).get("readback") != "PASS"
+            or receipt.get("write_probe_path") != receipt.get("write_probe", {}).get("path")):
+        raise LUError("content-bound online HF preflight receipt is missing or invalid")
+    return receipt
+
+
+def _validate_storage(card: dict[str, Any], *, resume: bool = False) -> dict[str, Any]:
     output = Path(card["paths"]["output_root"])
-    temporary = Path(card["paths"]["checkpoint_tmp_root"])
-    if not str(temporary.resolve()).startswith("/dev/shm/"):
-        raise LUError("full checkpoints must be written to node-local tmpfs")
-    if (output / "training").exists() or temporary.exists():
-        raise LUError("refusing to reuse existing training or temporary checkpoint output")
-    scratch = os.statvfs(output.parent)
+    if (output / "training").exists() and not resume:
+        raise LUError("refusing to reuse an existing fresh-training directory")
+    scratch = os.statvfs(output)
     scratch_free = scratch.f_bavail * scratch.f_frsize
-    tmpfs = os.statvfs("/dev/shm")
-    tmpfs_free = tmpfs.f_bavail * tmpfs.f_frsize
     reference_bytes = int(card["initializer"]["full_checkpoint_bytes"])
-    required = reference_bytes + max(reference_bytes // 5, 10 * 1024**3)
-    if scratch_free < 5 * 1024**3 or tmpfs_free < required:
-        raise LUError(f"insufficient pre-model storage: scratch={scratch_free} tmpfs={tmpfs_free} required_tmpfs={required}")
-    temporary.mkdir(parents=True)
+    required = 3 * reference_bytes + 10 * 1024**3
+    if scratch_free < required:
+        raise LUError(f"PERSISTENT_CHECKPOINT_STORAGE_BLOCKED: available={scratch_free} required={required}")
     return {
-        "scratch_free_bytes_before_training": scratch_free,
-        "tmpfs_free_bytes_before_training": tmpfs_free,
-        "required_tmpfs_bytes": required,
-        "checkpoint_tmp_root": str(temporary),
-        "full_checkpoints_use_node_local_tmpfs": True,
+        "persistent_filesystem": str(output),
+        "persistent_free_bytes_before_training": scratch_free,
+        "required_persistent_bytes": required,
+        "full_trainer_checkpoints_persisted_during_training": True,
+        "tmpfs_is_not_a_checkpoint_source": True,
     }
 
 
@@ -473,15 +526,11 @@ def _validate_initializer_runtime(card: dict[str, Any]) -> None:
         raise LUError("pinned GR00T runtime changed after card sealing")
 
 
-def _install_archive(card: dict[str, Any], train_core: Any, persistence: Any, storage: Any, checkpoint_tmp_root: Path) -> None:
+def _install_persistent_archive(card: dict[str, Any], persistence: Any, card_path: Path) -> None:
     from transformers import TrainerCallback
     from gr00t.experiment import experiment as experiment_module
 
-    archive = card["archive"]
-    output = Path(card["paths"]["output_root"])
-    token_path = Path(archive["token_file"])
-    sidecar = Path(card["paths"]["code_root"]) / "scripts/pi0243_hf_checkpoint_sidecar.py"
-    state_path = output / "hf_archive_state.json"
+    runner = Path(card["paths"]["repo_code_root"]) / "scripts/pi0247_lu_train.py"
 
     class ArchiveOnSave(TrainerCallback):
         def on_save(self, args: Any, state: Any, control: Any, **kwargs: Any) -> Any:
@@ -489,85 +538,36 @@ def _install_archive(card: dict[str, Any], train_core: Any, persistence: Any, st
             if step not in CHECKPOINTS:
                 return control
             target = Path(args.output_dir) / f"checkpoint-{step}"
-            expected_target = checkpoint_tmp_root / "training" / f"checkpoint-{step}"
-            if target.resolve() != expected_target.resolve() or target.is_symlink():
-                raise LUError("Trainer checkpoint escaped the sealed tmpfs path")
-            receipt_path = output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
-            readback_path = output / "hf_readbacks" / f"checkpoint-{step}.json"
-            if receipt_path.exists() or readback_path.exists():
-                raise LUError(f"checkpoint-{step} archive evidence already exists; refusing overwrite")
+            if target.resolve().parent != Path(args.output_dir).resolve() or target.is_symlink():
+                raise LUError("Trainer checkpoint escaped its persistent run directory")
             record = persistence.checkpoint_record(
                 target, expected_step=step, expected_max_steps=STEPS, family=card["family"],
             )
-            checkpoint_link = output / "training" / f"checkpoint-{step}"
-            if checkpoint_link.exists() or checkpoint_link.is_symlink():
-                raise LUError(f"checkpoint-{step} scratch archive link already exists; refusing overwrite")
-            checkpoint_link.symlink_to(target, target_is_directory=True)
-            command = [
-                sys.executable, str(sidecar), "--output-root", str(output),
-                "--repo-id", archive["repo_id"], "--token-file", str(token_path),
-                "--path-prefix", archive["path_prefix"], "--steps", str(step),
-                "--family", card["family"], "--max-steps", str(STEPS),
-                "--state-path", str(state_path), "--checkpoint-timeout", "21600",
-            ]
-            environment = dict(os.environ)
-            environment["HF_HUB_OFFLINE"] = "0"
-            environment.pop("TRANSFORMERS_OFFLINE", None)
-            delay = 30
-            attempt = 0
-            while True:
-                attempt += 1
-                result = subprocess.run(command, text=True, stdout=subprocess.PIPE,
-                                        stderr=subprocess.STDOUT, env=environment)
-                log = output / f"checkpoint-{step}.hf-archive.log"
-                with log.open("a", encoding="utf-8") as stream:
-                    stream.write(f"attempt={attempt} exit={result.returncode}\n{result.stdout}\n")
-                    stream.flush()
-                    os.fsync(stream.fileno())
-                if result.returncode == 0:
-                    break
-                lower = result.stdout.lower()
-                permanent = (
-                    "refusing to overwrite existing archive", "repository is not public",
-                    "token file is missing", "token file is empty", "403 client error",
-                    "401 client error", "gated repo", "repositorynotfounderror",
+            archive_root = Path(args.output_dir).parent
+            receipt_path = archive_root / "persistent_receipts" / f"checkpoint-{step}.durable_receipt.json"
+            if receipt_path.exists():
+                receipt = read_json(receipt_path)
+                if (receipt.get("source_record") != record or receipt.get("status") != "DURABLE_VERIFIED"
+                        or receipt.get("durable_path") != str(target)):
+                    raise LUError(f"checkpoint-{step} persistent receipt conflicts with current bytes")
+            else:
+                persistence.publish_checkpoint(
+                    target, durable_host=None, durable_root=archive_root,
+                    expected_step=step, expected_max_steps=STEPS, family=card["family"],
+                    receipt_root=archive_root / "persistent_receipts",
+                    job_id=os.environ.get("PBS_JOBID", "local"),
                 )
-                if any(message in lower for message in permanent):
-                    raise LUError(f"checkpoint-{step} archive has a non-retryable identity/access failure; local copy retained")
-                time.sleep(delay)
-                delay = min(delay * 2, 300)
-            payload = result.stdout[result.stdout.rfind("\n{") + 1 :].strip()
-            archive_result = json.loads(payload)
-            if archive_result.get("status") != "COMPLETE":
-                raise LUError(f"checkpoint-{step} archive sidecar did not close")
-            current = persistence.checkpoint_record(
-                target, expected_step=step, expected_max_steps=STEPS, family=card["family"],
+            result = subprocess.run(
+                [sys.executable, str(runner), "--archive-sidecar", "--run-card", str(card_path),
+                 "--arm", card["arm"], "--step", str(step), "--archive-root", str(archive_root)],
+                text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                env={**os.environ, "HF_HUB_OFFLINE": "0", "TRANSFORMERS_OFFLINE": "0"},
             )
-            if current != record:
-                raise LUError(f"checkpoint-{step} changed during HF upload; local copy retained")
-            receipt = read_json(receipt_path)
-            train_core.validate_pt_archive_receipt(
-                receipt, current, repo_id=archive["repo_id"], prefix=archive["path_prefix"],
-                family=card["family"], step=step,
-            )
-            readback = train_core.verify_pt_hf_readback(
-                receipt, current, storage_helper=storage,
-                token=token_path.read_text(encoding="utf-8").strip(),
-                repo_id=archive["repo_id"], prefix=archive["path_prefix"],
-                family=card["family"], step=step,
-            )
-            readback["schema"] = "PI0247_LU_FULL_HF_READBACK_V1"
-            readback["status"] = "PASS_PI0247_LU_FULL_HF_READBACK"
-            readback["arm"] = card["arm"]
-            readback["source_record_sha256"] = hashlib.sha256(
-                json.dumps(current, sort_keys=True, separators=(",", ":")).encode()
-            ).hexdigest()
-            write_json(readback_path, readback)
-            _retire_after_readback(
-                target, output, current, receipt, receipt_path, readback_path,
-                readback, archive["repo_id"], archive["path_prefix"], card["family"], step, card["arm"],
-            )
-            print(f"PI0247 {card['arm']} checkpoint-{step}: public HF full readback verified; tmpfs copy retired")
+            if result.returncode:
+                raise LUError(
+                    f"checkpoint-{step} remains persistent; isolated HF publisher failed with exit {result.returncode}"
+                )
+            print(f"PI0247 {card['arm']} checkpoint-{step}: persistent checkpoint and isolated HF readback verified")
             return control
 
     base = experiment_module.Gr00tTrainer
@@ -580,65 +580,80 @@ def _install_archive(card: dict[str, Any], train_core: Any, persistence: Any, st
     experiment_module.Gr00tTrainer = ArchiveTrainer
 
 
-def _retire_after_readback(
-    target: Path, output: Path, record: dict[str, Any], receipt: dict[str, Any],
-    receipt_path: Path, readback_path: Path, readback: dict[str, Any],
-    repo_id: str, prefix: str, family: str, step: int, arm: str,
-) -> None:
-    if (target.is_symlink() or target.resolve().parent != target.parent.resolve()
-            or target.resolve() != (target.parent / f"checkpoint-{step}").resolve()):
-        raise LUError("checkpoint retirement target escaped its sealed directory")
-    checkpoint_link = output / "training" / f"checkpoint-{step}"
-    if (not checkpoint_link.is_symlink() or checkpoint_link.resolve() != target.resolve()):
-        raise LUError("scratch archive link does not resolve to the sealed tmpfs checkpoint")
-    expected = {
-        f"{prefix}/checkpoint-{step}/{entry['path']}": (int(entry["bytes"]), entry["sha256"])
-        for entry in record["inventory"]["entries"]
-    }
-    observed = {row["path"]: row for row in readback["files"]}
-    if (readback.get("status") != "PASS_PI0247_LU_FULL_HF_READBACK"
-            or readback.get("revision") != receipt.get("hf_manifest_commit_id")
-            or readback.get("repo_id") != repo_id or readback.get("path_prefix") != prefix
-            or readback.get("family") != family or int(readback.get("checkpoint_step", -1)) != step
-            or readback.get("source_tree_sha256") != record["inventory"]["tree_sha256"]
-            or set(observed) != set(expected)):
-        raise LUError(f"checkpoint-{step} lacks complete pinned public-HF readback")
-    for path, (size, digest) in expected.items():
-        if int(observed[path].get("bytes", -1)) != size or observed[path].get("sha256") != digest:
-            raise LUError(f"checkpoint-{step} readback record mismatch: {path}")
-    base = output / "checkpoint_retirements"
-    intent = base / f"{arm}-checkpoint-{step}.predelete.json"
-    completion = base / f"{arm}-checkpoint-{step}.deleted.json"
-    if intent.exists() or completion.exists():
-        raise LUError(f"checkpoint-{step} already has retirement evidence")
-    write_json(intent, {
-        "schema": "PI0247_LU_LOCAL_CHECKPOINT_RETIREMENT_V1",
-        "status": "DURABLE_HF_COPY_VERIFIED_DELETE_AUTHORIZED",
-        "arm": arm, "family": family, "checkpoint_step": step,
-        "checkpoint_record": record,
-        "checkpoint_record_sha256": hashlib.sha256(json.dumps(record, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
-        "durable_receipt_sha256": sha256_file(receipt_path),
-        "full_hf_readback_sha256": sha256_file(readback_path),
-        "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
-        "reason": "verified public-HF checkpoint; retain tmpfs capacity for next sealed checkpoint",
-    })
-    checkpoint_link.unlink()
-    shutil.rmtree(target)
-    if target.exists():
-        raise LUError(f"checkpoint-{step} tmpfs copy remains after retirement")
-    write_json(completion, {
-        "schema": "PI0247_LU_LOCAL_CHECKPOINT_RETIREMENT_COMPLETE_V1",
-        "status": "LOCAL_COPY_REMOVED_AFTER_DURABLE_VERIFICATION",
-        "arm": arm, "checkpoint_step": step,
-        "predelete_intent_sha256": sha256_file(intent),
-        "durable_receipt_sha256": sha256_file(receipt_path),
-        "full_hf_readback_sha256": sha256_file(readback_path),
-        "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
-    })
+def archive_sidecar(args: argparse.Namespace) -> None:
+    os.environ["HF_HUB_OFFLINE"] = "0"
+    os.environ["TRANSFORMERS_OFFLINE"] = "0"
+    card = _verify_card(args.run_card, args.arm)
+    step = int(args.step)
+    if step not in CHECKPOINTS:
+        raise LUError("HF publisher accepts only the sealed checkpoint steps")
+    output = Path(card["paths"]["output_root"]).resolve()
+    archive_root = Path(args.archive_root or output).resolve()
+    if archive_root != output and (archive_root.parent != output / "recovery_attempts" or not archive_root.name):
+        raise LUError("HF publisher archive root is outside this sealed run's recovery directory")
+    archive = card["archive"]
+    target = archive_root / "training" / f"checkpoint-{step}"
+    train_core = load_module(Path(card["paths"]["training_runtime_root"]) / "pi0246_gate_pass_train.py", "pi0247_lu_archive_core")
+    persistence = load_module(Path(card["paths"]["code_root"]) / "scripts/pi0243_checkpoint_persistence.py", "pi0247_lu_archive_persistence")
+    storage = load_module(Path(card["paths"]["code_root"]) / "scripts/pi0243_storage_retirement.py", "pi0247_lu_archive_readback")
+    record = persistence.checkpoint_record(
+        target, expected_step=step, expected_max_steps=STEPS, family=card["family"],
+    )
+    effective_prefix = archive["path_prefix"] if archive_root == output else f"{archive['path_prefix']}/recovery/{archive_root.name}"
+    receipt_path = archive_root / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+    readback_path = archive_root / "hf_readbacks" / f"checkpoint-{step}.json"
+    if not receipt_path.exists():
+        command = [
+            sys.executable, str(Path(card["paths"]["code_root"]) / "scripts/pi0243_hf_checkpoint_sidecar.py"),
+            "--output-root", str(archive_root), "--repo-id", archive["repo_id"],
+            "--token-file", archive["token_file"], "--path-prefix", effective_prefix,
+            "--steps", str(step), "--family", card["family"], "--max-steps", str(STEPS),
+            "--state-path", str(archive_root / "hf_archive_state.json"), "--checkpoint-timeout", "21600",
+        ]
+        result = subprocess.run(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if result.returncode:
+            raise LUError(f"HF archive sidecar failed for checkpoint-{step} (exit {result.returncode})")
+    receipt = read_json(receipt_path)
+    train_core.validate_pt_archive_receipt(
+        receipt, record, repo_id=archive["repo_id"], prefix=effective_prefix,
+        family=card["family"], step=step,
+    )
+    if not readback_path.exists():
+        readback = train_core.verify_pt_hf_readback(
+            receipt, record, storage_helper=storage,
+            token=Path(archive["token_file"]).read_text(encoding="utf-8").strip(),
+            repo_id=archive["repo_id"], prefix=effective_prefix,
+            family=card["family"], step=step,
+        )
+        readback.update({
+            "schema": "PI0247_LU_FULL_HF_READBACK_V1",
+            "status": "PASS_PI0247_LU_FULL_HF_READBACK", "arm": card["arm"],
+            "source_record_sha256": canonical_sha256(record),
+        })
+        write_json(readback_path, readback)
+    else:
+        readback = read_json(readback_path)
+        expected = {
+            f"{effective_prefix}/checkpoint-{step}/{entry['path']}": (entry["bytes"], entry["sha256"])
+            for entry in record["inventory"]["entries"]
+        }
+        observed = {row.get("path"): row for row in readback.get("files", [])}
+        if (readback.get("status") != "PASS_PI0247_LU_FULL_HF_READBACK"
+                or readback.get("source_tree_sha256") != record["inventory"]["tree_sha256"]
+                or readback.get("revision") != receipt.get("hf_manifest_commit_id")
+                or set(observed) != set(expected)
+                or any(int(observed[path].get("bytes", -1)) != size or observed[path].get("sha256") != digest
+                       for path, (size, digest) in expected.items())):
+            raise LUError(f"checkpoint-{step} existing HF readback conflicts with its receipt")
+    print(json.dumps({"status": "COMPLETE", "step": step, "tree_sha256": record["inventory"]["tree_sha256"],
+                      "archive_root": str(archive_root), "prefix": effective_prefix}, sort_keys=True))
 
 
 def train(args: argparse.Namespace) -> None:
     arm = args.arm
+    resume_after = int(args.resume_after_step or 0)
+    if resume_after not in (0, 1000):
+        raise LUError("PI0247 exact resume is bound to the sealed checkpoint-1000 cursor")
     card = _verify_card(args.run_card, arm)
     paths = card["paths"]
     repo_code = Path(paths["repo_code_root"])
@@ -647,18 +662,81 @@ def train(args: argparse.Namespace) -> None:
     _verify_code(card, repo_code, shared_root, training_root)
     _verify_runtime_bindings(paths, card["source"]["runtime_bindings"])
     _validate_initializer_runtime(card)
-    hf = _verify_hf_prefix(card)
-    storage = _validate_storage(card)
+    hf = _verify_hf_preflight_receipt(card, args.run_card)
     output = Path(paths["output_root"])
-    training_output = output / "training"
-    training_output.mkdir(parents=True)
-    write_json(output / "pre_model_preflight.json", {
-        "status": "PASS_PRE_MODEL_PREFLIGHT", "arm": arm, "family": card["family"],
-        "authorization": AUTHORIZATION, "hf": hf, "storage": storage,
-        "initializer_manifest_sha256": card["initializer"]["screen_manifest_sha256"],
-        "cohort_sha256": card["cohort"]["sha256"], "schedule_sha256": card["schedule"]["sha256"],
-        "model_weights_downloaded": False,
-    })
+    storage = _validate_storage(card, resume=bool(resume_after))
+    persistence = load_module(shared_root / "scripts/pi0243_checkpoint_persistence.py", "pi0247_lu_persistence")
+    if resume_after:
+        if (output / "training_manifest.json").is_file():
+            raise LUError("training manifest already exists; repair archive/finalize evidence without retraining")
+        recovery_root = output / "recovery_attempts"
+        prior_roots = [output / "training"] + (sorted(recovery_root.glob("*/training")) if recovery_root.is_dir() else [])
+        for prior_root in prior_roots:
+            complete_path = prior_root / f"checkpoint-{STEPS}"
+            if complete_path.is_dir():
+                try:
+                    persistence.checkpoint_record(
+                        complete_path, expected_step=STEPS, expected_max_steps=STEPS, family=card["family"],
+                    )
+                except Exception:
+                    continue
+                raise LUError(
+                    f"valid checkpoint-{STEPS} already exists at {complete_path}; publish/finalize it without retraining"
+                )
+        resume_source = output / "training" / f"checkpoint-{resume_after}"
+        durable_receipt_path = output / "persistent_receipts" / f"checkpoint-{resume_after}.durable_receipt.json"
+        durable_receipt = persistence.verify_receipt(
+            resume_source, durable_receipt_path, expected_step=resume_after,
+            expected_max_steps=STEPS, family=card["family"],
+        )
+        resume_record = persistence.checkpoint_record(
+            resume_source, expected_step=resume_after, expected_max_steps=STEPS, family=card["family"],
+        )
+        if (durable_receipt.get("durable_host") != "local"
+                or durable_receipt.get("durable_path") != str(resume_source)
+                or durable_receipt.get("source_record") != resume_record):
+            raise LUError("exact resume source checkpoint is not the verified persistent Trainer state")
+        job = re.sub(r"[^A-Za-z0-9_.-]", "_", os.environ.get("PBS_JOBID", f"local-{time.time_ns()}"))
+        attempt_root = output / "recovery_attempts" / job
+        if attempt_root.exists():
+            raise LUError("refusing to reuse an existing exact-resume attempt directory")
+        attempt_root.mkdir(parents=True)
+        training_output = attempt_root / "training"
+        training_output.mkdir()
+        if arm == "U":
+            for name, expected_rows in (("pi0247_U_rollout_forward.jsonl", resume_after),):
+                source = output / "training" / name
+                rows = [line for line in source.read_text(encoding="utf-8").splitlines() if line.strip()]
+                if len(rows) != expected_rows:
+                    raise LUError(f"U exact resume source audit is not the full checkpoint prefix: {name}")
+                shutil.copy2(source, training_output / name)
+            mode_source = output / "u_mode_restoration_checks.jsonl"
+            mode_rows = [line for line in mode_source.read_text(encoding="utf-8").splitlines() if line.strip()]
+            if len(mode_rows) != resume_after:
+                raise LUError("U exact resume lacks one mode-restoration receipt per checkpoint-prefix update")
+            shutil.copy2(mode_source, attempt_root / "u_mode_restoration_checks.jsonl")
+        write_json(attempt_root / "resume_record.json", {
+            "schema": "PI0247_LU_EXACT_RESUME_V1", "status": "SEALED_RESUME_SOURCE",
+            "arm": arm, "resume_after_step": resume_after,
+            "run_card_sha256": sha256_file(args.run_card),
+            "source_checkpoint_path": str(resume_source),
+            "source_checkpoint_tree_sha256": resume_record["inventory"]["tree_sha256"],
+            "persistent_receipt_sha256": sha256_file(durable_receipt_path),
+            "schedule_sha256": card["schedule"]["sha256"],
+            "remaining_rows": STEPS - resume_after,
+            "optimizer_state": "restored exactly from full Trainer checkpoint",
+        })
+    else:
+        attempt_root = output
+        training_output = output / "training"
+        training_output.mkdir()
+        write_json(output / "pre_model_preflight.json", {
+            "status": "PASS_PRE_MODEL_PREFLIGHT", "arm": arm, "family": card["family"],
+            "authorization": AUTHORIZATION, "hf": hf, "storage": storage,
+            "initializer_manifest_sha256": card["initializer"]["screen_manifest_sha256"],
+            "cohort_sha256": card["cohort"]["sha256"], "schedule_sha256": card["schedule"]["sha256"],
+            "model_weights_downloaded": False,
+        })
 
     import torch
     if torch.cuda.device_count() != 1 or "h200" not in torch.cuda.get_device_name(0).lower():
@@ -669,19 +747,31 @@ def train(args: argparse.Namespace) -> None:
     fixed = load_module(shared_root / "scripts/pi0241_fixed16_learning.py", "pi0247_lu_fixed16_train")
     fixed.MAX_STEPS = STEPS
     fixed.CHECKPOINT_STEPS = CHECKPOINTS
-    persistence = load_module(shared_root / "scripts/pi0243_checkpoint_persistence.py", "pi0247_lu_persistence")
-    storage_helper = load_module(shared_root / "scripts/pi0243_storage_retirement.py", "pi0247_lu_hf_readback")
     paths = card["paths"]
     groot_runtime = Path(paths["stage10_root"]) / "runtime"
     sys.path[:0] = [str(groot_runtime), str(training_root), str(shared_root / "scripts"), str(shared_root / "src"), str(paths["groot_source"])]
     fixed.bind_runtime(card)
-    fixed.install_fixed_dataset_factory(card, training_output)
-    checkpoint_output = Path(paths["checkpoint_tmp_root"]) / "training"
+    fixed.install_fixed_dataset_factory(card, training_output, resume_after_step=resume_after)
+    from gr00t.model.gr00t_n1d7 import setup as gr00t_setup
+    processor_ref: dict[str, Any] = {}
+    factory_type = gr00t_setup.DatasetFactory
+    original_factory_build = factory_type.build
+
+    def capture_processor(factory: Any, processor: Any) -> Any:
+        processor_ref["value"] = processor
+        return original_factory_build(factory, processor)
+
+    factory_type.build = capture_processor
+
+    def get_processor() -> Any:
+        return processor_ref.get("value")
+
+    checkpoint_output = training_output
     fixed.install_update_audit(
         training_output, audit_steps={1, 10, 100, 1000, 2000},
         expected_end_step=STEPS, checkpoint_output=checkpoint_output,
     )
-    _install_archive(card, train_core, persistence, storage_helper, Path(paths["checkpoint_tmp_root"]))
+    _install_persistent_archive(card, persistence, args.run_card)
 
     effective = read_json(Path(paths["p0_effective"]))
     overlay_kwargs = {
@@ -702,32 +792,106 @@ def train(args: argparse.Namespace) -> None:
         parity_path = output / "pi0247_U_sampler_parity.json"
         overlay_audit = overlay.install(
             Gr00tN1d7ActionHead, **overlay_kwargs, audit_path=overlay_audit_path,
-            parity_path=parity_path, expected_r_star=card["d1_runtime_id"],
+            parity_path=parity_path, processor_getter=get_processor,
+            embodiment_tag=card["embodiment_tag"], resume_after_step=resume_after,
+            expected_r_star=card["d1_runtime_id"],
         )
-        _install_u_chain_check(overlay_audit, output)
+        mode_path = (attempt_root / "u_mode_restoration_checks.jsonl"
+                     if resume_after else output / "u_mode_restoration_checks.jsonl")
+        _install_u_chain_check(overlay_audit, output, mode_path=mode_path)
 
     pi0228, config, summary = train_core.build_runtime_config(paths, checkpoint_output, fixed)
     if summary != card["resolved_config"]:
         raise LUError("resolved runtime config changed after card sealing")
+    if resume_after:
+        config.training.resume_from_checkpoint = str(output / "training" / f"checkpoint-{resume_after}")
     write_json(training_output / "resolved_config.json", summary)
     write_json(output / "execution_state.json", {
         "status": "TRAINING_STARTED", "arm": arm, "family": card["family"],
         "run_card_sha256": sha256_file(args.run_card),
         "pbs_job_id": os.environ.get("PBS_JOBID"),
         "execution_code_commit": card["source"]["execution_code_commit"],
-        "started_epoch_s": time.time(),
+        "started_epoch_s": time.time(), "resume_after_step": resume_after,
+        "training_output": str(training_output),
     })
-    started = time.time()
     pi0228.run_official(config, Path(paths["groot_source"]))
 
-    consumption_path = training_output / "pi0241_sample_consumption.jsonl"
-    contracts_path = training_output / "pi0241_sample_contracts.jsonl"
-    consumption = [json.loads(line) for line in consumption_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    contracts = [json.loads(line) for line in contracts_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    finalize(args)
+
+
+def finalize(args: argparse.Namespace) -> None:
+    """Close completed local evidence without loading a model or changing checkpoints."""
+    arm = args.arm
+    card = _verify_card(args.run_card, arm)
+    paths = card["paths"]
+    _verify_code(card, Path(paths["repo_code_root"]), Path(paths["code_root"]), Path(paths["training_runtime_root"]))
+    _verify_runtime_bindings(paths, card["source"]["runtime_bindings"])
+    _validate_initializer_runtime(card)
+    output = Path(paths["output_root"])
+    training_roots = [output / "training"]
+    recovery_root = output / "recovery_attempts"
+    if recovery_root.is_dir():
+        training_roots.extend(sorted(recovery_root.glob("*/training")))
+    state_path = output / "execution_state.json"
+    state = read_json(state_path)
+    preflight = read_json(output / "pre_model_preflight.json")
+    _verify_hf_preflight_receipt(card, args.run_card)
+    if (state.get("arm") != arm or state.get("run_card_sha256") != sha256_file(args.run_card)
+            or preflight.get("status") != "PASS_PRE_MODEL_PREFLIGHT"
+            or preflight.get("model_weights_downloaded") is not False):
+        raise LUError("read-only finalize lacks the sealed pre-model admission record")
+
+    def rows_at(root: Path, name: str) -> list[dict[str, Any]]:
+        path = root / name
+        return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()] if path.is_file() else []
+
+    complete_audits = []
+    for root in training_roots:
+        path = root / "pi0241_update_audit.json"
+        if path.is_file():
+            audit = read_json(path)
+            if audit.get("status") == "COMPLETE" and int(audit.get("global_step", -1)) == STEPS:
+                complete_audits.append((path, audit, root))
+    if not complete_audits:
+        raise LUError("read-only finalize lacks a complete 2000-step update audit")
+    update_audit_path, update_audit, winning_root = max(complete_audits, key=lambda item: item[0].stat().st_mtime_ns)
+    resume_after = 0
+    resume_record = None
+    prefix_parameters = None
+    prefix_membership = None
+    if winning_root != training_roots[0]:
+        resume_record = read_json(winning_root.parent / "resume_record.json")
+        if (resume_record.get("status") != "SEALED_RESUME_SOURCE"
+                or resume_record.get("arm") != arm
+                or resume_record.get("run_card_sha256") != sha256_file(args.run_card)
+                or resume_record.get("schedule_sha256") != card["schedule"]["sha256"]):
+            raise LUError("winning recovery attempt is not bound to this run card and fixed schedule")
+        resume_after = int(resume_record.get("resume_after_step", -1))
+        if resume_after != 1000:
+            raise LUError("winning exact-resume attempt does not start from checkpoint-1000")
+        prefix_audit = read_json(training_roots[0] / "pi0241_update_audit.json")
+        prefix_event = next((row for row in prefix_audit.get("events", [])
+                             if row.get("event") == "POST_OPTIMIZER" and int(row.get("step", -1)) == resume_after), None)
+        if prefix_event is None:
+            raise LUError("exact-resume checkpoint prefix lacks its step-1000 optimizer reconciliation")
+        prefix_parameters = prefix_event.get("parameters", {})
+        prefix_membership = prefix_audit.get("optimizer_membership", {})
+
     cohort = read_json(Path(card["cohort"]["path"]))["rows"]
     planned = read_json(Path(card["schedule"]["path"]))["rows"]
+    if winning_root == training_roots[0]:
+        consumption = rows_at(winning_root, "pi0241_sample_consumption.jsonl")
+        contracts_all = rows_at(winning_root, "pi0241_sample_contracts.jsonl")
+    else:
+        consumption = [row for row in rows_at(training_roots[0], "pi0241_sample_consumption.jsonl")
+                       if int(row.get("optimizer_step", -1)) <= resume_after]
+        consumption.extend(row for row in rows_at(winning_root, "pi0241_sample_consumption.jsonl")
+                           if int(row.get("optimizer_step", -1)) > resume_after)
+        contracts_all = rows_at(training_roots[0], "pi0241_sample_contracts.jsonl")
+        contracts_all.extend(rows_at(winning_root, "pi0241_sample_contracts.jsonl"))
     if len(consumption) != STEPS or len(planned) != STEPS:
         raise LUError("actual TRAIN sample consumption differs from the sealed 2000-row schedule")
+    consumption.sort(key=lambda row: int(row.get("yield_ordinal", -1)))
     for ordinal, (actual, plan) in enumerate(zip(consumption, planned), start=1):
         fixed_index = int(plan["fixed_index"])
         if (fixed_index < 0 or fixed_index >= len(cohort)
@@ -738,118 +902,233 @@ def train(args: argparse.Namespace) -> None:
                 or actual.get("source_episode_id") != cohort[fixed_index]["source_episode_id"]
                 or int(actual.get("observation_index", -1)) != 0):
             raise LUError(f"actual TRAIN sample consumption differs from the sealed schedule at step {ordinal}")
+    contracts_by_index: dict[int, dict[str, Any]] = {}
+    for row in contracts_all:
+        index = int(row["fixed_index"])
+        if index in contracts_by_index and contracts_by_index[index] != row:
+            raise LUError(f"fixed16 contract changed during exact resume at fixed_index={index}")
+        contracts_by_index[index] = row
+    contracts = [contracts_by_index[index] for index in sorted(contracts_by_index)]
     if (len(contracts) != 16 or {int(row["fixed_index"]) for row in contracts} != set(range(16))
             or any(row["active_slots"] != list(range(10)) or row["action_shape"] != [1, 40, 132]
                    or row["mask_shape"] != [1, 40, 132]
                    or row["source_episode_id"] != cohort[int(row["fixed_index"])]["source_episode_id"]
                    for row in contracts)):
         raise LUError("actual fixed16 action/mask contracts are incomplete")
-    update_audit_path = training_output / "pi0241_update_audit.json"
-    update_audit = read_json(update_audit_path)
-    if update_audit.get("status") != "COMPLETE" or int(update_audit.get("global_step", -1)) != STEPS:
-        raise LUError("PI0247 update audit did not close at exactly 2000 steps")
-    checkpoints = {}
-    for step in CHECKPOINTS:
-        receipt_path = output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
-        readback_path = output / "hf_readbacks" / f"checkpoint-{step}.json"
-        intent = output / "checkpoint_retirements" / f"{arm}-checkpoint-{step}.predelete.json"
-        completion = output / "checkpoint_retirements" / f"{arm}-checkpoint-{step}.deleted.json"
-        receipt = read_json(receipt_path)
-        readback = read_json(readback_path)
-        if (receipt.get("status") != "DURABLE_VERIFIED" or receipt.get("family") != card["family"]
-                or int(receipt.get("checkpoint_step", -1)) != step
-                or readback.get("status") != "PASS_PI0247_LU_FULL_HF_READBACK"
-                or not intent.is_file() or not completion.is_file()):
-            raise LUError(f"checkpoint-{step} full public-HF archive/readback/retirement is incomplete")
-        checkpoints[str(step)] = {
-            "family": card["family"], "step": step,
-            "tree_sha256": receipt["source_record"]["inventory"]["tree_sha256"],
-            "total_bytes": receipt["source_record"]["inventory"]["total_bytes"],
-            "file_count": receipt["source_record"]["inventory"]["file_count"],
-            "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
-            "durable_receipt_sha256": sha256_file(receipt_path),
-            "full_hf_readback_sha256": sha256_file(readback_path),
-            "local_retirement_sha256": sha256_file(completion),
-        }
-    overlay_rows = [json.loads(line) for line in overlay_audit_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    if len(overlay_rows) != STEPS or [int(row["forward_index"]) for row in overlay_rows] != list(range(1, STEPS + 1)):
+
+    overlay_name = "pi0247_L_local_forward.jsonl" if arm == "L" else "pi0247_U_rollout_forward.jsonl"
+    overlay_rows = []
+    if winning_root == training_roots[0]:
+        active_overlay = [(winning_root, 0)]
+    elif arm == "U":
+        active_overlay = [(winning_root, 0)]
+    else:
+        active_overlay = [(training_roots[0], 0), (winning_root, resume_after)]
+    for root, offset in active_overlay:
+        local_rows = rows_at(root, overlay_name)
+        for row in local_rows:
+            schedule_step = int(row["forward_index"]) + offset
+            if root == training_roots[0] and winning_root != training_roots[0] and schedule_step > resume_after:
+                continue
+            row["_pi0247_schedule_step"] = schedule_step
+            overlay_rows.append(row)
+    overlay_rows.sort(key=lambda row: int(row["_pi0247_schedule_step"]))
+    if (len(overlay_rows) != STEPS
+            or [int(row["_pi0247_schedule_step"]) for row in overlay_rows] != list(range(1, STEPS + 1))):
         raise LUError(f"{arm} same-forward objective audit is incomplete")
     required = {"native_loss", "physical_position_loss", "physical_delta_loss", "total_loss"}
-    if any(not required.issubset(row) for row in overlay_rows):
-        raise LUError(f"{arm} objective component audit fields are incomplete")
     for row in overlay_rows:
         values = [float(row[key]) for key in ("native_loss", "physical_position_loss", "physical_delta_loss", "total_loss")]
-        if not all(math.isfinite(value) for value in values):
-            raise LUError(f"{arm} objective audit has nonfinite loss")
-        prescribed = values[0] + LAMBDA_POS * values[1] + LAMBDA_DELTA * values[2]
+        if not required.issubset(row) or not all(math.isfinite(value) for value in values):
+            raise LUError(f"{arm} objective audit has missing/nonfinite fields")
+        prescribed = (values[0] + float(card["loss_coefficients"]["ell_pos"]) * values[1]
+                      + float(card["loss_coefficients"]["ell_delta"]) * values[2])
         if not math.isclose(values[3], prescribed, rel_tol=1e-5, abs_tol=1e-7):
             raise LUError(f"{arm} objective terms do not sum to the sealed loss")
+
+    persistence = load_module(Path(paths["code_root"]) / "scripts/pi0243_checkpoint_persistence.py", "pi0247_lu_finalize_persistence")
+    train_core = load_module(Path(paths["training_runtime_root"]) / "pi0246_gate_pass_train.py", "pi0247_lu_finalize_core")
+    checkpoints = {}
+    checkpoint_records = {}
+    checkpoint_roots = {1000: training_roots[0], 2000: winning_root}
+    for step in CHECKPOINTS:
+        archive_root = checkpoint_roots[step].parent
+        local_path = checkpoint_roots[step] / f"checkpoint-{step}"
+        local_receipt_path = archive_root / "persistent_receipts" / f"checkpoint-{step}.durable_receipt.json"
+        receipt_path = archive_root / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+        readback_path = archive_root / "hf_readbacks" / f"checkpoint-{step}.json"
+        effective_prefix = (card["archive"]["path_prefix"] if archive_root == output
+                            else f"{card['archive']['path_prefix']}/recovery/{archive_root.name}")
+        record = persistence.checkpoint_record(
+            local_path, expected_step=step, expected_max_steps=STEPS, family=card["family"],
+        )
+        checkpoint_records[step] = record
+        persistence.verify_receipt(
+            local_path, local_receipt_path, expected_step=step,
+            expected_max_steps=STEPS, family=card["family"],
+        )
+        local_receipt = read_json(local_receipt_path)
+        receipt = read_json(receipt_path)
+        readback = read_json(readback_path)
+        local_tree = local_receipt.get("source_record", {}).get("inventory", {})
+        local_durable_tree = local_receipt.get("durable_inventory", {})
+        expected_files = {
+            f"{effective_prefix}/checkpoint-{step}/{entry['path']}": entry
+            for entry in record["inventory"]["entries"]
+        }
+        observed_files = {row.get("path"): row for row in readback.get("files", [])}
+        train_core.validate_pt_archive_receipt(
+            receipt, record, repo_id=card["archive"]["repo_id"], prefix=effective_prefix,
+            family=card["family"], step=step,
+        )
+        if (local_receipt.get("status") != "DURABLE_VERIFIED"
+                or local_receipt.get("family") != card["family"]
+                or int(local_receipt.get("checkpoint_step", -1)) != step
+                or local_receipt.get("durable_host") != "local"
+                or local_receipt.get("durable_path") != str(local_path)
+                or local_tree.get("tree_sha256") != record["inventory"]["tree_sha256"]
+                or int(local_tree.get("total_bytes", -1)) != int(record["inventory"]["total_bytes"])
+                or local_durable_tree.get("tree_sha256") != record["inventory"]["tree_sha256"]
+                or set(observed_files) != set(expected_files)
+                or readback.get("status") != "PASS_PI0247_LU_FULL_HF_READBACK"
+                or readback.get("source_tree_sha256") != record["inventory"]["tree_sha256"]
+                or readback.get("revision") != receipt.get("hf_manifest_commit_id")):
+            raise LUError(f"checkpoint-{step} persistence/archive/readback evidence does not close")
+        for remote_path, expected_entry in expected_files.items():
+            observed = observed_files[remote_path]
+            if (int(observed.get("bytes", -1)) != int(expected_entry["bytes"])
+                    or observed.get("sha256") != expected_entry["sha256"]):
+                raise LUError(f"checkpoint-{step} pinned HF readback differs at {remote_path}")
+        checkpoints[str(step)] = {
+            "family": card["family"], "step": step,
+            "checkpoint_path": str(local_path), "hf_prefix": effective_prefix,
+            "tree_sha256": record["inventory"]["tree_sha256"],
+            "total_bytes": record["inventory"]["total_bytes"],
+            "file_count": record["inventory"]["file_count"],
+            "hf_manifest_commit_id": receipt["hf_manifest_commit_id"],
+            "durable_receipt_sha256": sha256_file(receipt_path),
+            "persistent_receipt_sha256": sha256_file(local_receipt_path),
+            "full_hf_readback_sha256": sha256_file(readback_path),
+        }
+    if resume_record is not None:
+        source_receipt_path = output / "persistent_receipts" / "checkpoint-1000.durable_receipt.json"
+        if (resume_record.get("source_checkpoint_path") != str(output / "training" / "checkpoint-1000")
+                or resume_record.get("source_checkpoint_tree_sha256")
+                   != checkpoint_records[1000]["inventory"]["tree_sha256"]
+                or resume_record.get("persistent_receipt_sha256") != sha256_file(source_receipt_path)):
+            raise LUError("winning recovery manifest does not restore the exact persistent checkpoint-1000")
+
+    projector_helper = load_module(
+        Path(paths["code_root"]) / "scripts/pi0241_reconcile_update_integrity.py",
+        "pi0247_lu_finalize_projector",
+    )
+    projector_delta = projector_helper.compare(
+        projector_helper.projector_tensors(Path(card["initializer"]["path"])),
+        projector_helper.projector_tensors(checkpoint_roots[2000] / "checkpoint-2000"),
+    )
     parameters = update_audit["final_parameters"]
+    parameter_rows = [parameters] + ([prefix_parameters] if prefix_parameters is not None else [])
+    memberships = [update_audit.get("optimizer_membership", {})]
+    if prefix_membership is not None:
+        memberships.append(prefix_membership)
     integrity = {
-        "projector_updated": float(parameters["projector"]["delta_l2"]) > 0,
-        "diffusion_updated": float(parameters["diffusion"]["delta_l2"]) > 0,
-        "frozen_backbone_unchanged": float(parameters["frozen_backbone"]["delta_l2"]) == 0,
-        "frozen_vlln_unchanged": float(parameters["frozen_vlln"]["delta_l2"]) == 0,
-        "optimizer_membership_valid": not update_audit["optimizer_membership"]["missing_trainable"] and not update_audit["optimizer_membership"]["illegal_frozen"],
+        "projector_updated": projector_delta["changed_tensor_count"] > 0,
+        "diffusion_updated": any(float(row["diffusion"]["delta_l2"]) > 0 for row in parameter_rows),
+        "frozen_backbone_unchanged": all(float(row["frozen_backbone"]["delta_l2"]) == 0 for row in parameter_rows),
+        "frozen_vlln_unchanged": all(float(row["frozen_vlln"]["delta_l2"]) == 0 for row in parameter_rows),
+        "optimizer_membership_valid": all(not row.get("missing_trainable") and not row.get("illegal_frozen")
+                                           for row in memberships),
     }
+    rollout_audit = parity = None
     if arm == "U":
         parity = read_json(output / "pi0247_U_sampler_parity.json")
         chain = read_json(output / "u_first_update_chain_gradient.json")
-        if parity.get("status") != "PASS_PI0247_U_S4_PARITY" or chain.get("status") != "PASS_PI0247_U_FIRST_UPDATE_FULL_EULER_CHAIN":
-            raise LUError("U exact-runtime parity or first-update Euler chain-gradient gate failed")
-        if overlay_audit["parity_nonselection_rollouts"] != 2:
-            raise LUError("U sampler parity count differs from the sealed two-rollout pair")
-        evaluations = overlay_audit["head_evaluations"]
+        mode_path = winning_root.parent / "u_mode_restoration_checks.jsonl"
+        mode_rows = [json.loads(line) for line in mode_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if (parity.get("status") != "PASS_PI0247_U_S4_PARITY"
+                or not parity.get("gate_decision_equal") or not parity.get("gate_issues_equal")
+                or chain.get("status") != "PASS_PI0247_U_FIRST_UPDATE_FULL_EULER_CHAIN"
+                or set(chain.get("state_gradient_norms", {})) != {"1", "2", "3", "4"}
+                or len(mode_rows) != STEPS
+                or any(int(row.get("optimizer_step", -1)) != index or row.get("restored") is not True
+                       for index, row in enumerate(mode_rows, start=1))):
+            raise LUError("U stock parity, first-update gradient chain, or mode-restoration evidence is incomplete")
         expected_evaluations = {
-            "parity_reference": 4, "parity_candidate": 4,
-            "rollout_forward": 4 * STEPS, "backward_recompute": 4 * STEPS,
+            "parity_reference": N_STEPS, "parity_candidate": N_STEPS,
+            "rollout_forward": N_STEPS * STEPS, "backward_recompute": N_STEPS * STEPS,
         }
-        if (overlay_audit["training_rollouts"] != STEPS or overlay_audit["native_forwards"] != STEPS
-                or evaluations != expected_evaluations):
-            raise LUError(f"U full Euler forward/recompute counts do not close: {overlay_audit}")
-        if not (overlay_audit["mode_restoration_forward_checks"] == STEPS
-                and overlay_audit["mode_restoration_after_backward_checks"] == STEPS):
-            raise LUError("U action-head train/eval modes were not restored after all forward/backward passes")
-        integrity["full_euler_gradient_chain_verified"] = True
-        integrity["exact_s4_parity_verified"] = True
-        integrity["action_head_eval_autograd_mode_restored"] = True
+        observed_evaluations = {
+            "parity_reference": int(parity.get("head_evaluations_reference", -1)),
+            "parity_candidate": int(parity.get("head_evaluations_candidate", -1)),
+            "rollout_forward": int(mode_rows[-1].get("rollout_forward_head_evaluations", -1)),
+            "backward_recompute": int(mode_rows[-1].get("backward_recompute_head_evaluations", -1)),
+        }
+        if observed_evaluations != expected_evaluations:
+            raise LUError(f"U full Euler forward/recompute counts do not close: {observed_evaluations}")
+        rollout_audit = {
+            "native_forwards": STEPS, "training_rollouts": STEPS,
+            "parity_nonselection_rollouts": 2, "head_evaluations": observed_evaluations,
+            "mode_restoration_forward_checks": STEPS,
+            "mode_restoration_after_backward_checks": len(mode_rows),
+            "first_update_euler_gradient_norms": chain["state_gradient_norms"],
+        }
+        integrity.update({
+            "full_euler_gradient_chain_verified": True,
+            "exact_s4_parity_verified": True,
+            "action_head_eval_autograd_mode_restored": True,
+        })
+
     result = {
         "schema": "PI0247_LU_TRAINING_MANIFEST_V1",
         "status": "PASS_TRAINING_INTEGRITY" if all(integrity.values()) else "SCIENCE_FAIL_OPTIMIZATION_OR_CONTRACT",
         "arm": arm, "family": card["family"], "authorization": AUTHORIZATION,
         "run_card_sha256": sha256_file(args.run_card),
         "execution_code_commit": card["source"]["execution_code_commit"],
-        "pbs_job_id": os.environ.get("PBS_JOBID"), "global_step": STEPS,
+        "pbs_job_id": state.get("pbs_job_id"), "global_step": STEPS,
         "sample_consumption": len(consumption), "sample_contracts": contracts,
         "schedule_sha256": card["schedule"]["sha256"], "cohort_sha256": card["cohort"]["sha256"],
-        "elapsed_s": time.time() - started, "runtime_id": "S4",
-        "resolved_config": summary, "update_integrity": integrity,
-        "update_audit_sha256": sha256_file(update_audit_path),
+        "runtime_id": "S4", "resolved_config": card["resolved_config"],
+        "update_integrity": integrity, "update_audit_sha256": sha256_file(update_audit_path),
+        "full_projector_reconciliation": projector_delta,
         "objective_audit": {
-            "path": str(overlay_audit_path), "sha256": sha256_file(overlay_audit_path),
-            "rows": len(overlay_rows), "first": overlay_rows[0], "last": overlay_rows[-1],
-            "loss_coefficients": {"ell_pos": LAMBDA_POS, "ell_delta": LAMBDA_DELTA},
+            "path": [str(root / overlay_name) for root, _ in active_overlay if (root / overlay_name).is_file()],
+            "sha256": [sha256_file(root / overlay_name) for root, _ in active_overlay if (root / overlay_name).is_file()],
+            "rows": len(overlay_rows),
+            "first": overlay_rows[0], "last": overlay_rows[-1],
+            "loss_coefficients": card["loss_coefficients"],
         },
-        "rollout_audit": overlay_audit if arm == "U" else None,
-        "parity": read_json(output / "pi0247_U_sampler_parity.json") if arm == "U" else None,
+        "rollout_audit": rollout_audit, "parity": parity,
         "checkpoints": checkpoints, "selected_checkpoint": "NONE",
-        "archive_repo_id": card["archive"]["repo_id"], "archive_prefix": card["archive"]["path_prefix"],
+        "archive_repo_id": card["archive"]["repo_id"],
+        "archive_prefix": card["archive"]["path_prefix"],
         "forbidden_counts": card["forbidden_counts"],
     }
-    write_json(output / "training_manifest.json", result)
+    manifest_path = output / "training_manifest.json"
+    if manifest_path.exists() and read_json(manifest_path) != result:
+        raise LUError("read-only finalize refuses to replace a conflicting training manifest")
+    if not manifest_path.exists():
+        write_json(manifest_path, result)
     write_json(output / "execution_state.json", {
         "status": "TRAINING_COMPLETE", "arm": arm, "family": card["family"],
-        "training_manifest_sha256": sha256_file(output / "training_manifest.json"),
+        "training_manifest_sha256": sha256_file(manifest_path),
         "completed_epoch_s": time.time(), "selected_checkpoint": "NONE",
+        "pbs_job_id": state.get("pbs_job_id"), "run_card_sha256": sha256_file(args.run_card),
     })
-    print(json.dumps({"status": result["status"], "arm": arm, "steps": STEPS, "checkpoints": checkpoints}, indent=2, sort_keys=True))
+    print(json.dumps({"status": result["status"], "arm": arm, "steps": STEPS,
+                      "checkpoints": checkpoints}, indent=2, sort_keys=True))
 
 
-def _install_u_chain_check(audit: dict[str, Any], output: Path) -> None:
+def _install_u_chain_check(audit: dict[str, Any], output: Path, *, mode_path: Path | None = None) -> None:
     from transformers import TrainerCallback
     from gr00t.experiment import experiment as experiment_module
 
     base = experiment_module.Gr00tTrainer
+    mode_path = mode_path or output / "u_mode_restoration_checks.jsonl"
+    previous_modes = [json.loads(line) for line in mode_path.read_text(encoding="utf-8").splitlines() if line.strip()] if mode_path.exists() else []
+    if any(int(row.get("optimizer_step", -1)) != index or row.get("restored") is not True
+           for index, row in enumerate(previous_modes, start=1)):
+        raise LUError("existing U mode-restoration evidence is not a contiguous passing prefix")
+    audit["mode_restoration_after_backward_checks"] = len(previous_modes)
 
     class EulerChainAudit(TrainerCallback):
         def __init__(self, action_head: Any):
@@ -859,8 +1138,18 @@ def _install_u_chain_check(audit: dict[str, Any], output: Path) -> None:
             expected_modes = audit.get("native_mode_snapshot")
             if expected_modes is None or [bool(child.training) for child in self.action_head.modules()] != expected_modes:
                 raise LUError("U action-head modes were not restored after the Euler backward recomputation")
+            optimizer_step = int(state.global_step) + 1
+            with mode_path.open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps({
+                    "optimizer_step": optimizer_step, "restored": True,
+                    "rollout_forward_head_evaluations": audit["head_evaluations"]["rollout_forward"],
+                    "backward_recompute_head_evaluations": audit["head_evaluations"]["backward_recompute"],
+                }, sort_keys=True) + "\n")
+                stream.flush()
+                if optimizer_step % 100 == 0:
+                    os.fsync(stream.fileno())
             audit["mode_restoration_after_backward_checks"] += 1
-            if int(state.global_step) + 1 != 1:
+            if optimizer_step != 1:
                 return control
             values = audit["first_update_euler_gradient_norms"]
             if set(values) != {"1", "2", "3", "4"} or any(not math.isfinite(float(value)) or float(value) <= 0 for value in values.values()):
@@ -889,14 +1178,32 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--prepare", action="store_true")
     mode.add_argument("--train", action="store_true")
+    mode.add_argument("--hf-preflight", action="store_true")
+    mode.add_argument("--archive-sidecar", action="store_true")
+    mode.add_argument("--finalize", action="store_true")
     parser.add_argument("--bootstrap", type=Path)
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--arm", choices=tuple(PROFILES))
+    parser.add_argument("--step", type=int, choices=CHECKPOINTS)
+    parser.add_argument("--archive-root", type=Path)
+    parser.add_argument("--resume-after-step", type=int, choices=(1000,))
     args = parser.parse_args()
     if args.prepare:
         if args.bootstrap is None:
             parser.error("--prepare requires --bootstrap")
         prepare(args)
+    elif args.hf_preflight:
+        if args.run_card is None or args.arm is None:
+            parser.error("--hf-preflight requires --run-card and --arm")
+        hf_preflight(args)
+    elif args.archive_sidecar:
+        if args.run_card is None or args.arm is None or args.step is None:
+            parser.error("--archive-sidecar requires --run-card, --arm, and --step")
+        archive_sidecar(args)
+    elif args.finalize:
+        if args.run_card is None or args.arm is None:
+            parser.error("--finalize requires --run-card and --arm")
+        finalize(args)
     else:
         if args.run_card is None or args.arm is None:
             parser.error("--train requires --run-card and --arm")

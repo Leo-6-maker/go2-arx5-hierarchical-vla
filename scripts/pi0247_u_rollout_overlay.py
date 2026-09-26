@@ -7,6 +7,7 @@ import json
 import hashlib
 import math
 import os
+import numpy as np
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Any, Callable, Iterable
@@ -91,9 +92,21 @@ def _append_json(path: Path, row: dict[str, Any], count: int) -> None:
             os.fsync(stream.fileno())
 
 
+def _tensor_identity(value: torch.Tensor) -> dict[str, Any]:
+    tensor = value.detach().contiguous()
+    metadata = json.dumps({
+        "shape": list(tensor.shape), "dtype": str(tensor.dtype), "device": str(tensor.device),
+    }, sort_keys=True, separators=(",", ":")).encode()
+    raw = tensor.view(torch.uint8).cpu().numpy().tobytes()
+    return {
+        "sha256": hashlib.sha256(metadata + b"\0" + raw).hexdigest(),
+        "shape": list(tensor.shape), "dtype": str(tensor.dtype), "device": str(tensor.device),
+        "byte_count": len(raw),
+    }
+
+
 def _tensor_sha256(value: torch.Tensor) -> str:
-    payload = value.detach().contiguous().cpu().numpy().tobytes()
-    return hashlib.sha256(payload).hexdigest()
+    return _tensor_identity(value)["sha256"]
 
 
 def _physical_losses(
@@ -143,24 +156,41 @@ def install(
     state_max: torch.Tensor,
     audit_path: Path,
     parity_path: Path,
+    processor_getter: Callable[[], Any],
+    embodiment_tag: str,
+    resume_after_step: int = 0,
     expected_r_star: str = "S4",
 ) -> dict[str, Any]:
     if expected_r_star != "S4":
         raise RuntimeError("this PI0247 overlay is bound only to the frozen S4 runtime")
-    if audit_path.exists() or parity_path.exists():
+    existing_rows = []
+    existing_parity = None
+    if resume_after_step:
+        if not audit_path.is_file() or not parity_path.is_file():
+            raise RuntimeError("exact U resume requires the existing audit and parity receipt")
+        existing_rows = [json.loads(line) for line in audit_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        existing_parity = json.loads(parity_path.read_text(encoding="utf-8"))
+        if (len(existing_rows) != resume_after_step
+                or [int(row["forward_index"]) for row in existing_rows] != list(range(1, resume_after_step + 1))
+                or existing_parity.get("status") != "PASS_PI0247_U_S4_PARITY"):
+            raise RuntimeError("existing U evidence does not bind the exact resume cursor")
+    elif audit_path.exists() or parity_path.exists():
         raise RuntimeError("refusing to overwrite an existing PI0247 U audit")
     native_forward = head_cls.forward
     audit: dict[str, Any] = {
-        "native_forwards": 0,
-        "training_rollouts": 0,
-        "parity_nonselection_rollouts": 0,
-        "head_evaluations": {"parity_reference": 0, "parity_candidate": 0, "rollout_forward": 0, "backward_recompute": 0},
-        "parity": None,
+        "native_forwards": resume_after_step,
+        "training_rollouts": resume_after_step,
+        "parity_nonselection_rollouts": 2 if existing_parity else 0,
+        "head_evaluations": {"parity_reference": 4 if existing_parity else 0,
+                              "parity_candidate": 4 if existing_parity else 0,
+                              "rollout_forward": 4 * resume_after_step,
+                              "backward_recompute": 4 * resume_after_step},
+        "parity": existing_parity,
         "first_update_euler_gradient_norms": {},
         "native_mode_snapshot": None,
-        "mode_restoration_forward_checks": 0,
+        "mode_restoration_forward_checks": resume_after_step,
         "mode_restoration_after_backward_checks": 0,
-        "forwards": 0,
+        "forwards": resume_after_step,
     }
 
     def head_velocity(
@@ -244,7 +274,8 @@ def install(
         processed_backbone: Any,
         state_raw: torch.Tensor,
         embodiment_id: torch.Tensor,
-        epsilon: torch.Tensor,
+        native_epsilon: torch.Tensor,
+        stock_noise: torch.Tensor,
     ) -> dict[str, Any]:
         from transformers.feature_extraction_utils import BatchFeature
 
@@ -265,17 +296,17 @@ def install(
         original_randn = torch.randn
         substitutions = 0
         cpu_rng = torch.random.get_rng_state()
-        cuda_rng = torch.cuda.get_rng_state_all() if epsilon.is_cuda else None
+        cuda_rng = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None
 
         def replay_noise(*args: Any, **kwargs: Any) -> torch.Tensor:
             nonlocal substitutions
             requested = kwargs.get("size", args[0] if args else None)
-            if requested is not None and tuple(requested) == tuple(epsilon.shape):
-                requested_device = kwargs.get("device", epsilon.device)
-                requested_dtype = kwargs.get("dtype", epsilon.dtype)
-                if torch.device(requested_device) == epsilon.device and requested_dtype == epsilon.dtype:
+            if requested is not None and tuple(requested) == tuple(stock_noise.shape):
+                requested_device = kwargs.get("device", stock_noise.device)
+                requested_dtype = kwargs.get("dtype", stock_noise.dtype)
+                if torch.device(requested_device) == stock_noise.device and requested_dtype == stock_noise.dtype:
                     substitutions += 1
-                    return epsilon
+                    return stock_noise
             return original_randn(*args, **kwargs)
 
         try:
@@ -294,7 +325,7 @@ def install(
         with torch.no_grad():
             candidate, candidate_states, candidate_velocities = rollout(
                 self, processed_backbone, processed_backbone.backbone_features, state_raw,
-                embodiment_id, epsilon, checkpointed=True, phase="parity_candidate",
+                embodiment_id, stock_noise, checkpointed=True, phase="parity_candidate",
             )
         if not torch.equal(cpu_rng, torch.random.get_rng_state()):
             raise RuntimeError("PI0247 U parity consumed the CPU RNG")
@@ -304,7 +335,7 @@ def install(
         ):
             raise RuntimeError("PI0247 U parity consumed the CUDA RNG beyond the shared epsilon")
         step_state_max = [
-            float((reference_states[i].float() - (epsilon if i == 0 else candidate_states[i - 1].detach()).float()).abs().max().item())
+            float((reference_states[i].float() - (stock_noise if i == 0 else candidate_states[i - 1].detach()).float()).abs().max().item())
             for i in range(N_STEPS)
         ]
         step_velocity_max = [
@@ -312,16 +343,73 @@ def install(
             for i in range(N_STEPS)
         ]
         raw_max = float((reference.float() - candidate.detach().float()).abs().max().item())
-        physical_ref = decode_xyz(reference[..., :3].float(), _state_eef(state_raw, state_min, state_max), scale, offset)
-        physical_candidate = decode_xyz(candidate.detach()[..., :3].float(), _state_eef(state_raw, state_min, state_max), scale, offset)
+        state_eef = _state_eef(state_raw, state_min, state_max)
+        scale_device = scale.to(device=reference.device, dtype=torch.float32)
+        offset_device = offset.to(device=reference.device, dtype=torch.float32)
+        physical_ref = decode_xyz(reference[..., :3].float(), state_eef, scale_device, offset_device)
+        physical_candidate = decode_xyz(candidate.detach()[..., :3].float(), state_eef, scale_device, offset_device)
         xyz_max_m = float((physical_ref - physical_candidate).abs().max().item())
+        processor = processor_getter()
+        if processor is None:
+            raise RuntimeError("the fixed TRAIN processor was not captured for full U decoder parity")
+        from pi0228_train_calib_checkpoint_selection import _build_chunk
+        from go2arx5_vla.safety import TrajectorySafetyGateV1
+        from go2arx5_vla.trajectory.so3 import matrix_to_quat, rot6d_rows_to_matrix
+        from gr00t.data.embodiment_tags import EmbodimentTag
+
+        tag = EmbodimentTag(embodiment_tag)
+        processor_state = processor.state_action_processor
+        state_np = state_raw.detach().float().cpu().numpy()
+        state_groups: dict[str, np.ndarray] = {}
+        state_start = 0
+        for group in processor_state.modality_configs[tag.value]["state"].modality_keys:
+            dim = int(processor_state.norm_params[tag.value]["state"][group]["dim"].item())
+            state_groups[group] = state_np[..., state_start : state_start + dim]
+            state_start += dim
+        decode_state = processor_state.unapply_state(state_groups, tag.value)
+        def decode_and_gate(raw: torch.Tensor) -> tuple[np.ndarray, dict[str, Any]]:
+            raw_np = raw.detach().float().cpu().numpy()
+            groups = processor.decode_action(raw_np, tag, decode_state)
+            decoded = np.concatenate((np.asarray(groups["eef_9d"]), np.asarray(groups["gripper_position"])), axis=-1)
+            physical_state = np.asarray(decode_state["eef_9d"], dtype=np.float64)[0, -1]
+            chunk = _build_chunk(decoded, chunk_id="pi0247-u-stock-parity")
+            gate_result = TrajectorySafetyGateV1().evaluate(
+                chunk, now=0.0, achieved_position=physical_state[:3],
+                achieved_orientation=matrix_to_quat(rot6d_rows_to_matrix(physical_state[3:9].reshape(1, 6)))[0],
+            ).as_dict()
+            return decoded, gate_result
+
+        decoded_ref, gate_ref = decode_and_gate(reference)
+        decoded_candidate, gate_candidate = decode_and_gate(candidate)
+        decoded_max = float(np.max(np.abs(decoded_ref.astype(np.float64) - decoded_candidate.astype(np.float64))))
+        gate_issues_equal = gate_ref.get("issues") == gate_candidate.get("issues")
+        gate_equal = gate_ref.get("decision") == gate_candidate.get("decision") and gate_issues_equal
+        step_records = []
+        for index in range(N_STEPS):
+            candidate_input = stock_noise if index == 0 else candidate_states[index - 1].detach()
+            step_records.append({
+                "step": index + 1,
+                "reference_input": _tensor_identity(reference_states[index]),
+                "candidate_input": _tensor_identity(candidate_input),
+                "reference_velocity": _tensor_identity(reference_velocities[index]),
+                "candidate_velocity": _tensor_identity(candidate_velocities[index]),
+            })
+        parity_ok = (raw_max <= 1e-4 and xyz_max_m <= 1e-5
+                     and decoded_max <= 1e-4 and gate_equal
+                     and max(step_state_max + step_velocity_max) <= 1e-4)
         result = {
-            "status": "PASS_PI0247_U_S4_PARITY" if raw_max <= 1e-4 and xyz_max_m <= 1e-5 and max(step_state_max + step_velocity_max) <= 1e-4 else "FAIL_PI0247_U_S4_PARITY",
-            "reference": "pinned Gr00tN1d7ActionHead.get_action; label-free condition; shared native epsilon",
+            "status": "PASS_PI0247_U_S4_PARITY" if parity_ok else "FAIL_PI0247_U_S4_PARITY",
+            "reference": "pinned Gr00tN1d7ActionHead.get_action; label-free condition; shared stock-dtype epsilon",
             "runtime_id": "S4", "steps": N_STEPS, "native_noise_substitutions": substitutions,
             "expert_action_in_condition": False, "rtc_options": None,
+            "native_epsilon": _tensor_identity(native_epsilon),
+            "stock_noise": _tensor_identity(stock_noise), "step_tensor_identities": step_records,
             "step_input_max_abs": step_state_max, "step_velocity_max_abs": step_velocity_max,
             "raw_final_max_abs": raw_max, "decoded_xyz_max_abs_m": xyz_max_m,
+            "decoded_action_max_abs": decoded_max,
+            "gate_decision_equal": gate_ref.get("decision") == gate_candidate.get("decision"),
+            "gate_issues_equal": gate_issues_equal, "reference_gate": gate_ref,
+            "candidate_gate": gate_candidate,
             "nonselection_complete_rollouts": 2, "head_evaluations_reference": N_STEPS,
             "head_evaluations_candidate": N_STEPS, "global_rng_consumed": False,
         }
@@ -377,6 +465,8 @@ def install(
                 f"PI0247 U expected one native epsilon/tau, observed noise={len(captured)} tau={len(captured_time)}"
             )
         epsilon = captured[0]
+        vl_embeds = native["backbone_features"]
+        stock_noise = epsilon.to(device=vl_embeds.device, dtype=vl_embeds.dtype)
         mask = native["action_mask"]
         mode_snapshot = [bool(child.training) for child in self.modules()]
         if audit["native_mode_snapshot"] is None:
@@ -387,7 +477,7 @@ def install(
         if "action" in processed_backbone:
             processed_backbone.pop("action")
         if audit["parity"] is None:
-            verify_parity(self, raw_backbone, processed_backbone, state_raw, embodiment_id, epsilon)
+            verify_parity(self, raw_backbone, processed_backbone, state_raw, embodiment_id, epsilon, stock_noise)
 
         call_index = audit["forwards"] + 1
         audit["native_forwards"] += 1
@@ -406,9 +496,9 @@ def install(
                 state.register_hook(save_gradient)
 
             grad_hook = record_chain_grad
-        generated, _, _ = rollout(
+        generated, rollout_states, rollout_velocities = rollout(
             self, processed_backbone, native["backbone_features"], state_raw,
-            embodiment_id, epsilon, checkpointed=True, grad_hook=grad_hook,
+            embodiment_id, stock_noise, checkpointed=True, grad_hook=grad_hook,
         )
         if [bool(child.training) for child in self.modules()] != mode_snapshot:
             raise RuntimeError("PI0247 U rollout failed to restore the native action-head modes")
@@ -427,6 +517,11 @@ def install(
         row = {
             "forward_index": call_index,
             "native_loss": float(native["loss"].detach().float().item()),
+            "native_epsilon": _tensor_identity(epsilon),
+            "stock_initial_noise": _tensor_identity(stock_noise),
+            "stock_vl_features": _tensor_identity(vl_embeds),
+            "euler_states": [_tensor_identity(value) for value in rollout_states],
+            "euler_velocities": [_tensor_identity(value) for value in rollout_velocities],
             "native_epsilon_sha256": _tensor_sha256(epsilon),
             "native_tau": captured_time[0].detach().float().cpu().reshape(-1).tolist(),
             "physical_position_loss": float(position.detach().float().item()),
@@ -516,6 +611,12 @@ def self_check() -> dict[str, Any]:
     finite_difference = (evaluate(0.37 + delta, 0.61) - evaluate(0.37 - delta, 0.61)) / (2 * delta)
     if not math.isclose(analytic, finite_difference, rel_tol=1e-5, abs_tol=1e-7):
         raise AssertionError(f"U toy finite difference mismatch: autograd={analytic}, fd={finite_difference}")
+    stock_noise = torch.tensor([0.25, -0.5], dtype=torch.bfloat16)
+    stock_identity = _tensor_identity(stock_noise)
+    if (stock_identity != _tensor_identity(stock_noise.clone())
+            or stock_identity == _tensor_identity(stock_noise.float())
+            or stock_identity["byte_count"] != stock_noise.numel() * stock_noise.element_size()):
+        raise AssertionError("U noise identity lost its native dtype or raw bytes")
     for tensor in (parameter.grad, epsilon.grad, *[state for state in states]):
         if tensor is None or not torch.isfinite(tensor).all():
             raise AssertionError("U toy gradient is missing or nonfinite")
@@ -555,6 +656,7 @@ def self_check() -> dict[str, Any]:
         "finite_difference_parameter_gradient": finite_difference,
         "step_state_gradient_norms": gradients,
         "module_mode_restored": module.training,
+        "native_dtype_noise_identity": stock_identity,
         "local_estimate_objective_match": {
             "status": "PASS_PI0247_U_MATCHES_L_PHYSICAL_LOSSES",
             "position_abs_difference": position_difference,
