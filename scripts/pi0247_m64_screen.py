@@ -160,6 +160,22 @@ def group(rows, count, final):
     return result
 
 
+def archive_prefix(card, receipt, resume=None):
+    step = receipt['checkpoint_step']
+    output = Path(card['paths']['output_root'])
+    prefix = card['archive']['path_prefix']
+    if receipt['source'] != str(output/'training'/f'checkpoint-{step}'):
+        job = receipt['job_id']
+        assert job and all(c.isalnum() or c in '._-' for c in job)
+        assert receipt['source'] == str(output/'recovery_attempts'/job/'training'/f'checkpoint-{step}')
+        assert resume and resume['status']=='SEALED_RESUME_SOURCE' and resume['run_card_sha256']==CARD_SHA
+        assert resume['schedule_sha256']==card['schedule']['sha256'] and resume['resume_after_step']<step
+        assert resume['source_checkpoint_path']==str(output/'training'/f"checkpoint-{resume['resume_after_step']}")
+        prefix += '/recovery/'+job
+    assert receipt['durable_path']==card['archive']['repo_id']+'/'+prefix+f'/checkpoint-{step}'
+    return prefix
+
+
 def materialize(step):
     from huggingface_hub import snapshot_download
     card = read(START/'run_card.json')
@@ -169,12 +185,14 @@ def materialize(step):
     receipt, rb = read(receipt_path), read(readback_path)
     record = receipt['source_record']
     inventory = record['inventory']
-    prefix = card['archive']['path_prefix']+f'/checkpoint-{step}'
+    resume_path = M64/'resume_evidence'/receipt['job_id']/'resume_record.json'
+    base_prefix = archive_prefix(card,receipt,read(resume_path) if resume_path.exists() else None)
+    prefix = base_prefix+f'/checkpoint-{step}'
     assert receipt['status']=='DURABLE_VERIFIED' and receipt['family']==card['family']
     assert receipt['checkpoint_step']==step and receipt['max_steps']==5000
     assert rb['status']=='PASS_PT_FULL_HF_READBACK' and rb['pi0247_status']=='PASS_PI0247_LU_FULL_HF_READBACK'
     assert rb['revision']==receipt['hf_manifest_commit_id'] and rb['source_tree_sha256']==inventory['tree_sha256']
-    assert rb['repo_id']==card['archive']['repo_id'] and rb['path_prefix']==card['archive']['path_prefix']
+    assert rb['repo_id']==card['archive']['repo_id'] and rb['path_prefix']==base_prefix
     expected = {prefix+'/'+r['path']:r for r in inventory['entries']}
     observed = {r['path']:r for r in rb['files']}
     assert set(expected)==set(observed)
@@ -314,7 +332,19 @@ def main():
         rows[0]['gate_decision']='REJECT'
         assert not group(rows,64,True)['quality_pass']
         assert 'quality_pass' not in group(rows,64,False)
+        card={'paths':{'output_root':'/bound'},'archive':{'path_prefix':'arms/M64','repo_id':'public/repo'},'schedule':{'sha256':'fixed'}}
+        receipt={'source':'/bound/training/checkpoint-1000','checkpoint_step':1000,'durable_path':'public/repo/arms/M64/checkpoint-1000'}
+        assert archive_prefix(card,receipt)=='arms/M64'
+        receipt.update(source='/bound/recovery_attempts/job.1/training/checkpoint-2500',checkpoint_step=2500,
+                       job_id='job.1',durable_path='public/repo/arms/M64/recovery/job.1/checkpoint-2500')
+        resume={'status':'SEALED_RESUME_SOURCE','run_card_sha256':CARD_SHA,'schedule_sha256':'fixed',
+                'resume_after_step':1000,'source_checkpoint_path':'/bound/training/checkpoint-1000'}
+        assert archive_prefix(card,receipt,resume)=='arms/M64/recovery/job.1'
+        try: archive_prefix(card,receipt)
+        except AssertionError: pass
+        else: raise AssertionError('recovery requires its sealed resume record')
         print('PASS_M64_GROUP_CARDINALITY_AND_ORIGINAL_GATES')
+        print('PASS_M64_ORIGINAL_AND_EXACT_RESUME_ARCHIVE_BINDING')
     elif args.materialize:
         assert args.step in (1000,2500,5000)
         materialize(args.step)
