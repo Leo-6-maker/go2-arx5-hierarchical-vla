@@ -314,14 +314,14 @@ def prepare(args: argparse.Namespace) -> None:
     print(json.dumps(life.read_json(output / "paired_preparation.json"), indent=2, sort_keys=True))
 
 
-def _validate_initializer(card: dict[str, Any]) -> None:
+def _validate_initializer(card: dict[str, Any], original: Any = None) -> None:
     view_path = Path(card["source"]["initializer_view_receipt_path"])
     view = life.read_json(view_path)
     if (life.sha256_file(view_path) != card["source"]["initializer_view_receipt_sha256"]
             or view.get("status") != "PASS_PI0248_M64_FINAL5000_VIEW"
             or view.get("revision") != REVISION or view.get("checkpoint_tree_sha256") != TREE_SHA256):
         raise life.LUError("PI0248 M64-final5000 initializer view receipt mismatch")
-    original = life._validate_initializer_runtime
+    original = original or life._validate_initializer_runtime
     schema = card["schema"]
     card["schema"] = "PI0247_M64_RUN_CARD_V1"
     try:
@@ -330,8 +330,9 @@ def _validate_initializer(card: dict[str, Any]) -> None:
         card["schema"] = schema
 
 
-def _verify_code(card: dict[str, Any], repo_code: Path, shared_root: Path, training_root: Path) -> None:
-    original = life._verify_code
+def _verify_code(card: dict[str, Any], repo_code: Path, shared_root: Path, training_root: Path,
+                 original: Any = None) -> None:
+    original = original or life._verify_code
     schema = card["schema"]
     card["schema"] = "PI0247_M64_RUN_CARD_V1"
     try:
@@ -480,8 +481,12 @@ def _install_adapters(card_path: Path, arm: str, resume_after: int) -> tuple[dic
     life = _load_life(repo_code, driver_root)
     card = _verify_card(card_path, arm)
     life._verify_card = _verify_card
-    life._validate_initializer_runtime = _validate_initializer
-    life._verify_code = _verify_code
+    original_validate_initializer = life._validate_initializer_runtime
+    original_verify_code = life._verify_code
+    life._validate_initializer_runtime = lambda card: _validate_initializer(card, original_validate_initializer)
+    life._verify_code = lambda card, repo_code, shared_root, training_root: _verify_code(
+        card, repo_code, shared_root, training_root, original_verify_code
+    )
     original_load = life.load_module
 
     def load_module(path: Path, name: str) -> Any:
