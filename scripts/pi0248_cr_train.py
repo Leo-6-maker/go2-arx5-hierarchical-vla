@@ -419,6 +419,8 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
         raise life.LUError("PI0248 prior empty-prefix preflight is not bound to its original C card")
 
     output = Path(card["paths"]["output_root"])
+    card_sha = life.sha256_file(card_path)
+    result_path = output / f"hf_resume_preflight_{card_sha}.json"
     receipt_path = Path(lineage["durable_receipt_path"])
     readback_path = Path(lineage["readback_path"])
     receipt, readback = life.read_json(receipt_path), life.read_json(readback_path)
@@ -445,6 +447,20 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
         if (int(observed[path].get("bytes", -1)) != int(entry["bytes"])
                 or observed[path].get("sha256") != entry["sha256"]):
             raise life.LUError(f"PI0248 step-1000 readback differs at {path}")
+    if not create:
+        saved = life.read_json(result_path)
+        if (saved.get("schema") != "PI0248_HF_RESUME_PREFIX_PREFLIGHT_V1"
+                or saved.get("status") != "PASS_PI0248_HF_RESUME_PREFIX"
+                or saved.get("run_card_sha256") != card_sha or saved.get("resume_after_step") != 1000
+                or saved.get("repo_id") != repo_id or saved.get("target_prefix") != prefix
+                or saved.get("target_prefix_empty") is not False
+                or saved.get("prefix_was_empty_before_first_publish") is not True
+                or saved.get("source_card_sha256") != old_card_sha
+                or saved.get("durable_receipt_sha256") != life.sha256_file(receipt_path)
+                or saved.get("full_hf_readback_sha256") != life.sha256_file(readback_path)
+                or saved.get("checkpoint_tree_sha256") != record["inventory"]["tree_sha256"]):
+            raise life.LUError("PI0248 sealed resume-prefix preflight receipt changed before training")
+        return saved
 
     token_path = Path(card["archive"]["token_file"])
     token = token_path.read_text(encoding="utf-8").strip()
@@ -461,7 +477,7 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
         current = {path: row for path, row in siblings.items()
                    if path == prefix or path.startswith(prefix.rstrip("/") + "/")}
         manifest_file = Path(hf_hub_download(repo_id=repo_id, filename=manifest_path,
-                                             revision=revision, token=token))
+                                             revision=info.sha, token=token))
         manifest = life.read_json(manifest_file)
     finally:
         for name, value in offline.items():
@@ -470,12 +486,22 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
             else:
                 os.environ[name] = value
     expected_prefix_files = {*expected, manifest_path}
-    if (getattr(info, "private", None) is not False or getattr(info, "sha", None) != revision
-            or set(current) != expected_prefix_files):
+    if getattr(info, "private", None) is not False or set(current) != expected_prefix_files:
         raise life.LUError("PI0248 current public-HF prefix is not exactly the verified step-1000 checkpoint")
     for path, entry in expected.items():
-        if getattr(current[path], "size", None) != int(entry["bytes"]):
+        sibling = current[path]
+        if getattr(sibling, "size", None) != int(entry["bytes"]):
             raise life.LUError(f"PI0248 current public-HF prefix size differs at {path}")
+        lfs = getattr(sibling, "lfs", None)
+        lfs_sha = getattr(lfs, "sha256", None) if lfs is not None else None
+        if lfs_sha is not None:
+            if lfs_sha != entry["sha256"]:
+                raise life.LUError(f"PI0248 current public-HF LFS digest differs at {path}")
+        else:
+            downloaded = Path(hf_hub_download(repo_id=repo_id, filename=path,
+                                               revision=info.sha, token=token))
+            if life.sha256_file(downloaded) != entry["sha256"]:
+                raise life.LUError(f"PI0248 current public-HF file digest differs at {path}")
     if (getattr(current[manifest_path], "size", None) != manifest_file.stat().st_size
             or manifest.get("schema") != "PI0243_HF_ARCHIVED_TREE_V1"
             or manifest.get("status") != "DURABLE_VERIFIED" or manifest.get("repo_id") != repo_id
@@ -488,10 +514,10 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
 
     result = {
         "schema": "PI0248_HF_RESUME_PREFIX_PREFLIGHT_V1", "status": "PASS_PI0248_HF_RESUME_PREFIX",
-        "arm": "C", "run_card_sha256": life.sha256_file(card_path), "resume_after_step": 1000,
+        "arm": "C", "run_card_sha256": card_sha, "resume_after_step": 1000,
         "repo_id": repo_id, "target_prefix": prefix, "target_prefix_empty": False,
         "prefix_was_empty_before_first_publish": True, "current_prefix_checkpoint_steps": [1000],
-        "repo_public": True, "identity_verified": True, "current_repo_revision": revision,
+        "repo_public": True, "identity_verified": True, "current_repo_revision": getattr(info, "sha", None),
         "source_card_sha256": old_card_sha, "source_preflight_sha256": lineage["preflight_sha256"],
         "durable_receipt_sha256": life.sha256_file(receipt_path),
         "full_hf_readback_sha256": life.sha256_file(readback_path),
@@ -499,16 +525,10 @@ def _resume_prefix_preflight(card: dict[str, Any], card_path: Path, *, create: b
         "checkpoint_tree_sha256": record["inventory"]["tree_sha256"],
         "checkpoint_file_count": len(expected), "observed_prefix_files": sorted(current),
     }
-    result_path = output / f"hf_resume_preflight_{result['run_card_sha256']}.json"
-    if create:
-        if result_path.exists() and life.read_json(result_path) != result:
-            raise life.LUError("PI0248 resume-prefix preflight receipt conflicts with existing evidence")
-        if not result_path.exists():
-            life.write_json(result_path, result)
-    else:
-        saved = life.read_json(result_path)
-        if any(saved.get(key) != value for key, value in result.items()):
-            raise life.LUError("PI0248 sealed resume-prefix preflight receipt changed before training")
+    if result_path.exists() and life.read_json(result_path) != result:
+        raise life.LUError("PI0248 resume-prefix preflight receipt conflicts with existing evidence")
+    if not result_path.exists():
+        life.write_json(result_path, result)
     return result
 
 
