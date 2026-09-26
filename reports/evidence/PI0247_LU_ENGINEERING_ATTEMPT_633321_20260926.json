@@ -1,0 +1,86 @@
+{
+  "schema": "PI0247_LU_ENGINEERING_ATTEMPT_CLOSEOUT_V1",
+  "observed_at_utc": "2026-09-26T06:27:40Z",
+  "status": "ENGINEERING_FAILURE_NOT_SCIENTIFIC_RESULT",
+  "authorization": "PI0247_R1_MAINLINE_LU_CONTINUATION_GO",
+  "r1_plan_commit": "354bf97c95547e4110b29ee3d890f7a7d4cd6993",
+  "original_release_commit": "50e66efe6ccfbe814d04caf12499493821be7957",
+  "issue_11_r1_canonical_comment": 5842565868,
+  "pr_77_pointer_comment": 5842568324,
+  "execution_source": {
+    "code_commit": "1e5f919defa68c85cce9587820d1fedd74e4f668",
+    "runner_sha256": "dca259784fec4dcc8a515e78a782a6a90e24977bb5e2e9ef795e6af1cf0a5b34",
+    "pbs_sha256": "0d63cf77115b1f908eb2344fa791f7d6b13fd0a077f3aad419f63a564c122720"
+  },
+  "historical_submissions": [
+    {
+      "job_id": "633185.hopper-m-02",
+      "state": "F",
+      "exit_status": 1,
+      "card_sha256": "5e37af9db3e3c209090442fb34a5432579f740046e6f67c3be33d196e7589bb8",
+      "model_loaded": false,
+      "optimizer_updates": 0
+    },
+    {
+      "job_id": "633190.hopper-m-02",
+      "state": "F",
+      "exit_status": 1,
+      "dependency": "afterany:633185.hopper-m-02",
+      "card_sha256": "078cda5ee1341f98a527a5a17d6f48611610e07a041e6f4a111496ffc0a239fd",
+      "model_loaded": false,
+      "optimizer_updates": 0
+    }
+  ],
+  "current_attempt": {
+    "arm": "L",
+    "job_id": "633321.hopper-m-02",
+    "pbs_state": "F",
+    "exit_status": 1,
+    "exec_host": "hopper-25",
+    "gpu": "NVIDIA H200",
+    "run_card_sha256": "ca9def5caad524888eaa15f00d721d51b52e1370d632cd6cb406485ddf83cb73",
+    "training_output": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPAIRED/L/training",
+    "optimizer_updates_observed": 1000,
+    "sample_consumption_rows": 1000,
+    "local_forward_rows": 1000,
+    "failure_point": "Trainer checkpoint-1000 optimizer serialization",
+    "error": "RuntimeError: PytorchStreamWriter failed writing file data/529; unexpected pos 6716320832 vs 6716320732",
+    "optimizer_file": {
+      "path": "checkpoint-1000/optimizer.pt",
+      "bytes": 6724706304,
+      "zip_container_valid": false
+    },
+    "checkpoint_1000_complete": false,
+    "trainer_state_present": false,
+    "scheduler_state_present": false,
+    "rng_state_present": false,
+    "persistent_receipt_present": false,
+    "hf_archive_callback_reached": false,
+    "exact_resume_available": false,
+    "stdout_sha256": "08d1a4c01f3055068651f219b41d955e722ed19160fdedafcaad489d5b0c0f6a",
+    "stderr_sha256": "c5ab450a321dda6696050673d108eeeddeaec0051b845799b1e086dcf435f193"
+  },
+  "storage_observation": {
+    "scratch_free_bytes_observed_on_login_host": 3507170224111616,
+    "scratch_usage_percent_observed_on_login_host": 21,
+    "home_filesystem_free_bytes_observed_on_login_host": 10643107217408,
+    "quota_report": "NO_OUTPUT",
+    "compute_node_quota_or_errno": "UNKNOWN",
+    "confirmed_capacity_shortage": false
+  },
+  "science_accounting": {
+    "r1_arm_budget_steps": 2000,
+    "actual_optimizer_updates_in_failed_l_attempt": 1000,
+    "valid_l_checkpoint_steps": [],
+    "new_screen_cells_completed": 0,
+    "new_u_job_submitted": false,
+    "selected_checkpoint": "NONE",
+    "scientific_verdict": "NOT_ADJUDICATED",
+    "budget_conflict": "A fresh 2000-step L attempt would result in 3000 actual L optimizer updates across attempts; the failed attempt has no exact Trainer checkpoint for continuation."
+  },
+  "scheduler_observation": {
+    "observation": "qstat -u e1192548 returned no active jobs",
+    "observed_at_utc": "2026-09-26T06:27:40Z"
+  },
+  "next_action": "Do not submit U or start further optimizer updates until the exact-resume/budget disposition is resolved. Preserve the failed attempt and continue only non-training engineering work."
+}
