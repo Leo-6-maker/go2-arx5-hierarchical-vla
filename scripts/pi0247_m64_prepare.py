@@ -29,7 +29,7 @@ def main():
         raise run.LUError('qualified U training manifest identity mismatch')
     stage_b = run.read_json(a.stage_b_card)
     if (run.sha256_file(a.stage_b_card) != 'efe9b20a21a791dd781217460db6f83283c77702f1ab41d331483b0991b4450e'
-            or run.read_json(a.stage_b_card.with_name('pi0243_run_card.seal.json'))['sha256'] != run.sha256_file(a.stage_b_card)):
+            or run.read_json(a.stage_b_card.with_name('pi0243_run_card.seal.json'))['run_card_sha256'] != run.sha256_file(a.stage_b_card)):
         raise run.LUError('original 64-source Stage-B card mismatch')
     old16 = stage_b['fixed16_source_ids']
     if set(old16) != set(paired['source_episode_ids']) or set(old16) != set(fit['noise_identity']['B0']):

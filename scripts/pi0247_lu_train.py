@@ -468,7 +468,7 @@ def _verify_m64_sources(card: dict[str, Any]) -> None:
         raise LUError("M64 support does not retain the exact qualified old16 subset")
     stage_path = Path(source["stage_b_card_path"])
     if (sha256_file(stage_path) != source["stage_b_card_sha256"]
-            or read_json(stage_path.with_name("pi0243_run_card.seal.json"))["sha256"] != source["stage_b_card_sha256"]):
+            or read_json(stage_path.with_name("pi0243_run_card.seal.json"))["run_card_sha256"] != source["stage_b_card_sha256"]):
         raise LUError("original Stage-B support seal mismatch")
     if cohort_rows != sorted(cohort_rows, key=lambda row: (row["target_family"], row["phase"], row["source_episode_id"])):
         raise LUError("M64 cohort ordering changed")
