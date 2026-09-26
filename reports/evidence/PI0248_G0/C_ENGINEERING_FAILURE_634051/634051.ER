@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/scratch/e1192548/pi0248_m64_pose_repair_20260927/execution/pi0248_cr_train.py", line 737, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/scratch/e1192548/pi0248_m64_pose_repair_20260927/execution/pi0248_cr_train.py", line 730, in main
+    module.train(args)
+  File "/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/scripts/pi0247_lu_train.py", line 1038, in train
+    _verify_code(card, repo_code, shared_root, training_root)
+  File "/scratch/e1192548/pi0248_m64_pose_repair_20260927/execution/pi0248_cr_train.py", line 338, in _verify_code
+    original(card, repo_code, shared_root, training_root)
+  File "/scratch/e1192548/pi0248_m64_pose_repair_20260927/execution/pi0248_cr_train.py", line 338, in _verify_code
+    original(card, repo_code, shared_root, training_root)
+  File "/scratch/e1192548/pi0248_m64_pose_repair_20260927/execution/pi0248_cr_train.py", line 338, in _verify_code
+    original(card, repo_code, shared_root, training_root)
+  [Previous line repeated 994 more times]
+RecursionError: maximum recursion depth exceeded
+PI0248_CR_FAILURE line=65 status=1
