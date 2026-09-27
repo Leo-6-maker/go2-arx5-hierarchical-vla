@@ -632,7 +632,48 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
         _write_integrity(card, run_card, verified)
 
     life.finalize = finalize
+
+    original_train = life.train
+    original_subprocess_run = life.subprocess.run
+
+    def train_with_sidecar_route(args: argparse.Namespace) -> Any:
+        def route_run(command: Any, *run_args: Any, **run_kwargs: Any) -> Any:
+            command = _route_archive_sidecar(command, card, run_card)
+            return original_subprocess_run(command, *run_args, **run_kwargs)
+
+        life.subprocess.run = route_run
+        try:
+            return original_train(args)
+        finally:
+            life.subprocess.run = original_subprocess_run
+
+    life.train = train_with_sidecar_route
     return card, life
+
+
+def _route_archive_sidecar(command: Any, run_card: dict[str, Any], card_path: Path) -> Any:
+    if not isinstance(command, (list, tuple)) or len(command) < 3 or "--archive-sidecar" not in command:
+        return command
+    values = {}
+    for flag in ("--run-card", "--arm", "--step", "--archive-root"):
+        try:
+            index = command.index(flag)
+        except ValueError:
+            return command
+        if index + 1 >= len(command):
+            return command
+        values[flag] = str(command[index + 1])
+    if (values.get("--run-card") is None or Path(values["--run-card"]).resolve() != card_path.resolve()
+            or values.get("--arm") != run_card["arm"]
+            or values.get("--step") not in {str(step) for step in CHECKPOINTS}
+            or values.get("--archive-root") is None):
+        return command
+    base_runner = Path(run_card["paths"]["repo_code_root"]) / "scripts" / "pi0247_lu_train.py"
+    if Path(str(command[1])).resolve() != base_runner.resolve():
+        return command
+    routed = list(command)
+    routed[1] = str(Path(run_card["paths"]["execution_driver_root"]) / "pi0251_ce_train.py")
+    return tuple(routed) if isinstance(command, tuple) else routed
 
 
 def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
@@ -879,6 +920,24 @@ def _g1_cpu_selfcheck(output_path: Path, runtime_scripts: Path) -> dict[str, Any
         if routed.calls != expected_routes:
             raise AssertionError("PI0251 sidecar/finalizer route changed arm or checkpoint identity")
 
+        route_card_path = temp_root / "run_card.json"
+        base_runner = temp_root / "sealed_base" / "scripts" / "pi0247_lu_train.py"
+        wrapper_runner = temp_root / "execution" / "pi0251_ce_train.py"
+        unrelated_command = [sys.executable, "-c", "print('unrelated')"]
+        if _route_archive_sidecar(unrelated_command, {"arm": "C", "paths": {}}, route_card_path) is not unrelated_command:
+            raise AssertionError("PI0251 archive router changed an unrelated subprocess")
+        for arm in FAMILIES:
+            route_card = {"arm": arm, "paths": {
+                "repo_code_root": str(base_runner.parent.parent),
+                "execution_driver_root": str(wrapper_runner.parent),
+            }}
+            callback_command = [sys.executable, str(base_runner), "--archive-sidecar", "--run-card",
+                                str(route_card_path), "--arm", arm, "--step", "1000",
+                                "--archive-root", str(temp_root / arm)]
+            routed_command = _route_archive_sidecar(callback_command, route_card, route_card_path)
+            if routed_command[1] != str(wrapper_runner) or callback_command[1] != str(base_runner):
+                raise AssertionError(f"PI0251 {arm} rolling HF callback did not reach its archive sidecar")
+
         missing_doc = {"arm": "C", "family": FAMILIES["C"], "paths": {"output_root": str(temp_root / "C")}}
         missing_root = Path(missing_doc["paths"]["output_root"]) / "training"
         missing_root.mkdir(parents=True)
@@ -915,6 +974,7 @@ def _g1_cpu_selfcheck(output_path: Path, runtime_scripts: Path) -> dict[str, Any
                    "cpu_runtime_sources": {name: {"path": str(path), "sha256": _sha(path)}
                                            for name, path in source_files.items()},
                    "finalizer_sidecar_routes": "PASS",
+                   "archive_callback_routes": "PASS",
                    "sidecar_steps": list(CHECKPOINTS), "finalizer_arms": list(FAMILIES)})
     _write(output_path, result)
     return result
@@ -1057,7 +1117,8 @@ def prepare(args: argparse.Namespace) -> None:
     if (g1.get("status") != "PASS_PI0251_G1_CPU_FIXTURES"
             or g1.get("trainer_invoked_pre_forward_guard") is not True
             or g1.get("online_guard_rejects_source_key_tau_epsilon") is not True
-            or g1.get("finalizer_sidecar_routes") != "PASS"):
+            or g1.get("finalizer_sidecar_routes") != "PASS"
+            or g1.get("archive_callback_routes") != "PASS"):
         raise RuntimeError("PI0251 G1 CPU numerical/guard/lifecycle fixtures did not pass")
 
     view_root = args.initializer_view.resolve() if args.initializer_view else task_root / "initializer_X2000"
