@@ -203,6 +203,15 @@ def validate_as_executed_binding(card: dict, card_sha: str, arm: str, step: int,
     assert readback.get("status") == "PASS_PT_FULL_HF_READBACK"
     assert readback.get("revision") == expected_revision and readback.get("source_tree_sha256") == expected_tree
     assert readback.get("repo_id") == repo_id and len(readback.get("files", [])) == 9
+    archive_prefix = receipt["durable_path"][len(repo_id) + 1:]
+    suffix = f"/checkpoint-{step}"
+    assert archive_prefix.endswith(suffix)
+    assert readback.get("path_prefix") == archive_prefix[:-len(suffix)]
+    expected = {archive_prefix + "/" + row["path"]: row for row in inventory["entries"]}
+    observed = {row["path"]: row for row in readback["files"]}
+    assert set(expected) == set(observed)
+    assert all(observed[name]["sha256"] == row["sha256"] and observed[name]["bytes"] == row["bytes"]
+               for name, row in expected.items())
 
 
 def check_as_executed_evidence(card: dict, card_sha: str, metadata_root: Path, step: int,
@@ -543,12 +552,16 @@ def main() -> None:
         }
         checkpoint = {"status": "DURABLE_VERIFIED", "family": card["family"], "checkpoint_step": 1000,
             "max_steps": 2000, "hf_manifest_commit_id": PINNED_CHECKPOINTS[("R", 1000)][0],
-            "source_record": {"inventory": {"tree_sha256": PINNED_CHECKPOINTS[("R", 1000)][1], "entries": [{}] * 9}}}
+            "durable_path": "leoyuer/pi0246-gate-pass-campaign/arms/PI0248/m64-pose-repair-20260927/R/checkpoint-1000",
+            "source_record": {"inventory": {"tree_sha256": PINNED_CHECKPOINTS[("R", 1000)][1], "entries": [{"path": f"f{i}", "sha256": f"h{i}", "bytes": i} for i in range(9)]}}}
         readback = {"status": "PASS_PT_FULL_HF_READBACK", "revision": checkpoint["hf_manifest_commit_id"],
             "source_tree_sha256": integrity["checkpoints"]["1000"]["tree_sha256"],
-            "repo_id": card["archive"]["repo_id"], "files": [{}] * 9}
+            "repo_id": card["archive"]["repo_id"], "path_prefix": "arms/PI0248/m64-pose-repair-20260927/R",
+            "files": [{"path": f"arms/PI0248/m64-pose-repair-20260927/R/checkpoint-1000/f{i}",
+                       "sha256": f"h{i}", "bytes": i} for i in range(9)]}
         validate_as_executed_binding(card, "card", "R", 1000, integrity, deviation, checkpoint, readback, "receipt", "readback")
         for bad in (
+            None,
             {**integrity, "authorization": "wrong"},
             {**integrity, "checkpoints": {"1000": {**integrity["checkpoints"]["1000"], "revision": "wrong"}}},
         ):
