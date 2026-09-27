@@ -523,7 +523,12 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
             receipt = _json(receipt_path)
             snapshot = _resume_checkpoint_snapshot(doc, 1000)
             prefix = doc["archive"]["path_prefix"]
-            expected_files = snapshot["expected_files"]
+            manifest_remote_path = f"{prefix}/manifests/checkpoint-1000.json"
+            expected_files = sorted([*snapshot["expected_files"], manifest_remote_path])
+            manifest_path = Path(doc["paths"]["output_root"]) / "hf_readbacks" / "checkpoint-1000.manifest.json"
+            manifest_sha = _sha(manifest_path) if manifest_path.is_file() else None
+            if manifest_sha is not None and manifest_sha == receipt.get("resume_checkpoint_manifest_sha256"):
+                _validate_checkpoint_manifest(doc, 1000, snapshot["receipt"], _json(manifest_path))
             if (receipt.get("schema") != "PI0247_LU_HF_ONLINE_PREFLIGHT_V1"
                     or receipt.get("status") != "PASS" or receipt.get("arm") != doc["arm"]
                     or receipt.get("run_card_sha256") != _sha(path)
@@ -534,6 +539,8 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
                     or receipt.get("resume_checkpoint_step") != 1000
                     or receipt.get("resume_checkpoint_receipt_sha256") != snapshot["receipt_sha256"]
                     or receipt.get("resume_checkpoint_readback_sha256") != snapshot["readback_sha256"]
+                    or receipt.get("resume_checkpoint_manifest_sha256") != manifest_sha
+                    or manifest_sha is None
                     or receipt.get("repo_public") is not True or receipt.get("identity_verified") is not True
                     or receipt.get("write_probe", {}).get("readback") != "PASS"
                     or receipt.get("write_probe_path") != receipt.get("write_probe", {}).get("path")):
@@ -553,10 +560,25 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
             result = life._hf_preflight(archive["repo_id"], Path(archive["token_file"]),
                                         [archive["path_prefix"]], check_empty=False)
             prefix = archive["path_prefix"]
+            manifest_remote_path = f"{prefix}/manifests/checkpoint-1000.json"
+            expected_files = sorted([*snapshot["expected_files"], manifest_remote_path])
             existing = {name: sorted(files) for name, files in result["existing_prefix_files"].items()}
             found = existing.get(prefix, [])
-            if result["prefixes_empty"] is not False or found != snapshot["expected_files"]:
+            if result["prefixes_empty"] is not False or found != expected_files:
                 raise RuntimeError("PI0251 resume HF prefix contains files outside its pinned checkpoint-1000 record")
+            from huggingface_hub import hf_hub_download
+
+            manifest_source = Path(hf_hub_download(
+                repo_id=archive["repo_id"], filename=manifest_remote_path, repo_type="model",
+                revision=snapshot["receipt"]["hf_manifest_commit_id"],
+                token=Path(archive["token_file"]).read_text(encoding="utf-8").strip(),
+            ))
+            manifest_path = Path(doc["paths"]["output_root"]) / "hf_readbacks" / "checkpoint-1000.manifest.json"
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(manifest_source, manifest_path)
+            manifest = _json(manifest_path)
+            _validate_checkpoint_manifest(doc, 1000, snapshot["receipt"], manifest)
+            manifest_sha = _sha(manifest_path)
             probe_path = (f"control/PI0247/preflight/{doc['arm']}-{_sha(args.run_card)}-"
                           f"{life.time.time_ns()}.json")
             probe = life.subprocess.run(
@@ -580,6 +602,8 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
                 "resume_checkpoint_step": 1000,
                 "resume_checkpoint_receipt_sha256": snapshot["receipt_sha256"],
                 "resume_checkpoint_readback_sha256": snapshot["readback_sha256"],
+                "resume_checkpoint_manifest_path": str(manifest_path),
+                "resume_checkpoint_manifest_sha256": manifest_sha,
                 "completed_epoch_s": life.time.time(),
             }
             _write(receipt_path, receipt)
@@ -758,7 +782,49 @@ def _resume_checkpoint_snapshot(doc: dict[str, Any], step: int) -> dict[str, Any
                    or observed[name].get("sha256") != entry["sha256"] for name, entry in expected.items())):
         raise RuntimeError(f"PI0251 checkpoint-{step} durable receipt/readback does not close")
     return {"expected_files": sorted(expected), "receipt_sha256": _sha(receipt_path),
-            "readback_sha256": _sha(readback_path)}
+            "readback_sha256": _sha(readback_path), "receipt": receipt}
+
+
+def _validate_checkpoint_manifest(doc: dict[str, Any], step: int, receipt: dict[str, Any],
+                                  manifest: dict[str, Any]) -> None:
+    prefix = doc["archive"]["path_prefix"]
+    checkpoint_path = f"{prefix}/checkpoint-{step}"
+    inventory = receipt.get("source_record", {}).get("inventory", {})
+    entries = inventory.get("entries", [])
+    expected_local = {str(entry["path"]): entry for entry in entries}
+    local = manifest.get("local", {})
+    local_entries = {str(entry.get("path")): entry for entry in local.get("entries", [])}
+    expected_remote = {f"{checkpoint_path}/{entry['path']}": entry for entry in entries}
+    remote_entries = {str(entry.get("path")): entry for entry in manifest.get("remote", [])}
+    valid = (
+        manifest.get("schema") == "PI0243_HF_ARCHIVED_TREE_V1"
+        and manifest.get("status") == "DURABLE_VERIFIED"
+        and manifest.get("repo_id") == doc["archive"]["repo_id"]
+        and manifest.get("public") is True
+        and manifest.get("path") == checkpoint_path
+        and local.get("tree_sha256") == inventory.get("tree_sha256")
+        and set(local_entries) == set(expected_local)
+        and set(remote_entries) == set(expected_remote)
+        and manifest.get("verification", {}).get("file_set_size_hash") == "PASS"
+        and manifest.get("verification", {}).get("consumer_control_readback") == "PASS"
+    )
+    if valid:
+        for name, expected in expected_local.items():
+            actual = local_entries[name]
+            if (int(actual.get("bytes", -1)) != int(expected["bytes"])
+                    or actual.get("sha256") != expected.get("sha256")):
+                valid = False
+                break
+    if valid:
+        for name, expected in expected_remote.items():
+            actual = remote_entries[name]
+            remote_sha = actual.get("sha256")
+            if (int(actual.get("bytes", -1)) != int(expected["bytes"])
+                    or (remote_sha is not None and remote_sha != expected.get("sha256"))):
+                valid = False
+                break
+    if not valid:
+        raise RuntimeError(f"PI0251 checkpoint-{step} HF archive manifest differs from its durable inventory")
 
 
 def _route_archive_sidecar(command: Any, run_card: dict[str, Any], card_path: Path) -> Any:
@@ -1047,6 +1113,25 @@ def _g1_cpu_selfcheck(output_path: Path, runtime_scripts: Path) -> dict[str, Any
             routed_command = _route_archive_sidecar(callback_command, route_card, route_card_path)
             if routed_command[1] != str(wrapper_runner) or callback_command[1] != str(base_runner):
                 raise AssertionError(f"PI0251 {arm} rolling HF callback did not reach its archive sidecar")
+
+        manifest_doc = {"archive": {"repo_id": "test/model", "path_prefix": "arms/PI0251/C"}}
+        manifest_record = {"source_record": {"inventory": {
+            "tree_sha256": "tree", "entries": [{"path": "trainer_state.json", "bytes": 1, "sha256": "sha"}]}}}
+        manifest = {
+            "schema": "PI0243_HF_ARCHIVED_TREE_V1", "status": "DURABLE_VERIFIED",
+            "repo_id": "test/model", "public": True, "path": "arms/PI0251/C/checkpoint-1000",
+            "local": {"tree_sha256": "tree", "entries": [{"path": "trainer_state.json", "bytes": 1, "sha256": "sha"}]},
+            "remote": [{"path": "arms/PI0251/C/checkpoint-1000/trainer_state.json", "bytes": 1, "sha256": "sha"}],
+            "verification": {"file_set_size_hash": "PASS", "consumer_control_readback": "PASS"},
+        }
+        _validate_checkpoint_manifest(manifest_doc, 1000, manifest_record, manifest)
+        manifest["remote"].append({"path": "arms/PI0251/C/checkpoint-1000/extra", "bytes": 1, "sha256": "bad"})
+        try:
+            _validate_checkpoint_manifest(manifest_doc, 1000, manifest_record, manifest)
+        except RuntimeError:
+            pass
+        else:
+            raise AssertionError("PI0251 resume manifest accepted a public-prefix extra file")
 
         missing_doc = {"arm": "C", "family": FAMILIES["C"], "paths": {"output_root": str(temp_root / "C")}}
         missing_root = Path(missing_doc["paths"]["output_root"]) / "training"
