@@ -42,7 +42,7 @@ case "$resume_after" in 0|1000) ;; *) exit 2 ;; esac
 resume_args=()
 if [[ "$resume_after" != 0 ]]; then resume_args=(--resume-after-step "$resume_after"); fi
 runner="$driver_root/pi0251_ce_train.py"
-ff=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+ff=/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
 venv="$stage10/runtime/venv"
 test -x "$venv/bin/python" && test -d "$ff/lib"
 test -r "$runner" && test -r "$driver_root/pi0251_step_rng.py"
