@@ -226,8 +226,7 @@ def _validate_initializer(doc: dict[str, Any]) -> None:
     root = Path(init["path"])
     entries = {row["path"]: row for row in inventory.get("entries", [])}
     model_names = {"config.json", "model.safetensors.index.json",
-                   "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors",
-                   "processor_config.json", "statistics.json", "embodiment_id.json"}
+                   "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors"}
     observed = {str(row.get("path", "")).split(f"/checkpoint-2000/", 1)[-1]: row
                 for row in readback.get("files", []) if "/checkpoint-2000/" in str(row.get("path", ""))}
     if set(observed) != set(entries):
@@ -916,12 +915,14 @@ def _g1_cpu_selfcheck(output_path: Path, runtime_scripts: Path) -> dict[str, Any
     return result
 
 
-def _materialize_x2000_view(root: Path, repo_id: str, entries: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+def _materialize_x2000_view(
+    root: Path, repo_id: str, entries: dict[str, dict[str, Any]],
+    processor_root: Path, processor_files: dict[str, str],
+) -> list[dict[str, Any]]:
     import huggingface_hub
 
     names = ("config.json", "model.safetensors.index.json",
-             "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors",
-             "processor_config.json", "statistics.json", "embodiment_id.json")
+             "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors")
     root.mkdir(parents=True, exist_ok=True)
     for name in names:
         entry = entries.get(name)
@@ -940,6 +941,17 @@ def _materialize_x2000_view(root: Path, repo_id: str, entries: dict[str, dict[st
         local, entry = root / name, entries[name]
         if not local.is_file() or local.stat().st_size != int(entry["bytes"]) or _sha(local) != entry["sha256"]:
             raise RuntimeError(f"PI0251 anonymous pinned X2000 download failed readback: {name}")
+        files.append({"path": name, "bytes": local.stat().st_size, "sha256": _sha(local)})
+    for name, expected in processor_files.items():
+        source, local = processor_root / name, root / name
+        if not source.is_file() or _sha(source) != expected:
+            raise RuntimeError(f"PI0251 frozen C_T processor source changed: {name}")
+        if local.exists() and _sha(local) != expected:
+            raise RuntimeError(f"PI0251 refusing to replace conflicting C_T view file: {local}")
+        if not local.exists():
+            shutil.copy2(source, local)
+        if not local.is_file() or _sha(local) != expected:
+            raise RuntimeError(f"PI0251 copied C_T view file differs from its frozen hash: {name}")
         files.append({"path": name, "bytes": local.stat().st_size, "sha256": _sha(local)})
     return files
 
@@ -1033,8 +1045,11 @@ def prepare(args: argparse.Namespace) -> None:
         raise RuntimeError("PI0251 G1 CPU numerical/guard/lifecycle fixtures did not pass")
 
     view_root = task_root / "initializer_X2000"
-    model_files = _materialize_x2000_view(view_root, readback["repo_id"], entries)
     processor_bindings = parent["source"]["processor_bindings"]
+    model_files = _materialize_x2000_view(
+        view_root, readback["repo_id"], entries, Path(parent["paths"]["base_model_path"]),
+        processor_bindings["view_files"],
+    )
     identity = {key: value for key, value in processor_bindings.items() if key != "view_files"}
     rotation_path = Path(parent["source"]["rotation_check_path"])
     rotation = _json(rotation_path)
