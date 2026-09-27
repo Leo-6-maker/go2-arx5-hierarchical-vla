@@ -512,6 +512,82 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
     life._validate_initializer_runtime = _validate_initializer
     life._verify_code = _verify_code
 
+    if resume:
+        original_verify_hf_preflight = life._verify_hf_preflight_receipt
+        original_hf_preflight = life.hf_preflight
+
+        def verify_hf_preflight(doc: dict[str, Any], path: Path) -> dict[str, Any]:
+            if resume != 1000:
+                return original_verify_hf_preflight(doc, path)
+            receipt_path = Path(doc["paths"]["output_root"]) / "hf_preflight_receipt.json"
+            receipt = _json(receipt_path)
+            snapshot = _resume_checkpoint_snapshot(doc, 1000)
+            prefix = doc["archive"]["path_prefix"]
+            expected_files = snapshot["expected_files"]
+            if (receipt.get("schema") != "PI0247_LU_HF_ONLINE_PREFLIGHT_V1"
+                    or receipt.get("status") != "PASS" or receipt.get("arm") != doc["arm"]
+                    or receipt.get("run_card_sha256") != _sha(path)
+                    or receipt.get("repo_id") != doc["archive"]["repo_id"]
+                    or receipt.get("target_prefix") != prefix
+                    or receipt.get("target_prefix_empty") is not False
+                    or receipt.get("existing_prefix_files", {}).get(prefix) != expected_files
+                    or receipt.get("resume_checkpoint_step") != 1000
+                    or receipt.get("resume_checkpoint_receipt_sha256") != snapshot["receipt_sha256"]
+                    or receipt.get("resume_checkpoint_readback_sha256") != snapshot["readback_sha256"]
+                    or receipt.get("repo_public") is not True or receipt.get("identity_verified") is not True
+                    or receipt.get("write_probe", {}).get("readback") != "PASS"
+                    or receipt.get("write_probe_path") != receipt.get("write_probe", {}).get("path")):
+                raise RuntimeError("PI0251 resume HF preflight is not bound to the exact existing checkpoint-1000 prefix")
+            return receipt
+
+        def hf_preflight(args: argparse.Namespace) -> None:
+            if resume != 1000:
+                return original_hf_preflight(args)
+            doc = _verify_card(args.run_card, args.arm)
+            receipt_path = Path(doc["paths"]["output_root"]) / "hf_preflight_receipt.json"
+            if receipt_path.exists():
+                print(json.dumps(verify_hf_preflight(doc, args.run_card), indent=2, sort_keys=True))
+                return
+            snapshot = _resume_checkpoint_snapshot(doc, 1000)
+            archive = doc["archive"]
+            result = life._hf_preflight(archive["repo_id"], Path(archive["token_file"]),
+                                        [archive["path_prefix"]], check_empty=False)
+            prefix = archive["path_prefix"]
+            existing = {name: sorted(files) for name, files in result["existing_prefix_files"].items()}
+            found = existing.get(prefix, [])
+            if result["prefixes_empty"] is not False or found != snapshot["expected_files"]:
+                raise RuntimeError("PI0251 resume HF prefix contains files outside its pinned checkpoint-1000 record")
+            probe_path = (f"control/PI0247/preflight/{doc['arm']}-{_sha(args.run_card)}-"
+                          f"{life.time.time_ns()}.json")
+            probe = life.subprocess.run(
+                [sys.executable, str(Path(doc["paths"]["code_root"]) / "scripts/pi0243_hf_write_probe.py"),
+                 "--token-file", archive["token_file"], "--repo-id", archive["repo_id"], "--path", probe_path],
+                text=True, stdout=life.subprocess.PIPE, stderr=life.subprocess.PIPE,
+                env={**os.environ, "HF_HUB_OFFLINE": "0", "TRANSFORMERS_OFFLINE": "0"},
+            )
+            if probe.returncode or not probe.stdout.strip():
+                raise RuntimeError(f"PI0251 resume HF authenticated write probe failed (exit {probe.returncode})")
+            probe_result = json.loads(probe.stdout.strip().splitlines()[-1])
+            if probe_result.get("readback") != "PASS" or probe_result.get("path") != probe_path:
+                raise RuntimeError("PI0251 resume HF write probe did not close with its sealed path")
+            receipt = {
+                "schema": "PI0247_LU_HF_ONLINE_PREFLIGHT_V1", "status": "PASS",
+                "arm": doc["arm"], "run_card_sha256": _sha(args.run_card),
+                "repo_id": archive["repo_id"], "target_prefix": prefix,
+                "target_prefix_empty": False, "existing_prefix_files": existing,
+                "repo_public": result["public"], "identity_verified": result["token_identity_verified"],
+                "write_probe": probe_result, "write_probe_path": probe_path,
+                "resume_checkpoint_step": 1000,
+                "resume_checkpoint_receipt_sha256": snapshot["receipt_sha256"],
+                "resume_checkpoint_readback_sha256": snapshot["readback_sha256"],
+                "completed_epoch_s": life.time.time(),
+            }
+            _write(receipt_path, receipt)
+            print(json.dumps(receipt, indent=2, sort_keys=True))
+
+        life._verify_hf_preflight_receipt = verify_hf_preflight
+        life.hf_preflight = hf_preflight
+
     original_load = life.load_module
 
     def load_module(path: Path, name: str) -> Any:
@@ -649,6 +725,40 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
 
     life.train = train_with_sidecar_route
     return card, life
+
+
+def _resume_checkpoint_snapshot(doc: dict[str, Any], step: int) -> dict[str, Any]:
+    output = Path(doc["paths"]["output_root"])
+    receipt_path = output / "durable_receipts" / f"checkpoint-{step}.durable_receipt.json"
+    readback_path = output / "hf_readbacks" / f"checkpoint-{step}.json"
+    if not receipt_path.is_file() or not readback_path.is_file():
+        raise RuntimeError(f"PI0251 exact resume lacks checkpoint-{step} durable/readback evidence")
+    receipt, readback = _json(receipt_path), _json(readback_path)
+    record = receipt.get("source_record", {})
+    inventory = record.get("inventory", {})
+    train_core = life.load_module(Path(doc["paths"]["training_runtime_root"]) / "pi0246_gate_pass_train.py",
+                                  "pi0251_resume_hf_snapshot_core")
+    train_core.validate_pt_archive_receipt(
+        receipt, record, repo_id=doc["archive"]["repo_id"], prefix=doc["archive"]["path_prefix"],
+        family=doc["family"], step=step,
+    )
+    entries = inventory.get("entries", [])
+    expected = {
+        f"{doc['archive']['path_prefix']}/checkpoint-{step}/{entry['path']}": entry
+        for entry in entries
+    }
+    observed = {row.get("path"): row for row in readback.get("files", [])}
+    if (receipt.get("status") != "DURABLE_VERIFIED" or receipt.get("checkpoint_step") != step
+            or readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+            or readback.get("pi0247_status") != "PASS_PI0247_LU_FULL_HF_READBACK"
+            or readback.get("revision") != receipt.get("hf_manifest_commit_id")
+            or readback.get("source_tree_sha256") != inventory.get("tree_sha256")
+            or set(observed) != set(expected)
+            or any(int(observed[name].get("bytes", -1)) != int(entry["bytes"])
+                   or observed[name].get("sha256") != entry["sha256"] for name, entry in expected.items())):
+        raise RuntimeError(f"PI0251 checkpoint-{step} durable receipt/readback does not close")
+    return {"expected_files": sorted(expected), "receipt_sha256": _sha(receipt_path),
+            "readback_sha256": _sha(readback_path)}
 
 
 def _route_archive_sidecar(command: Any, run_card: dict[str, Any], card_path: Path) -> Any:
