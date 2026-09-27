@@ -231,8 +231,10 @@ def _validate_initializer(doc: dict[str, Any]) -> None:
                 for row in readback.get("files", []) if "/checkpoint-2000/" in str(row.get("path", ""))}
     if set(observed) != set(entries):
         raise RuntimeError("PI0251 X2000 HF readback does not cover the full durable Trainer checkpoint")
-    if any(not str(row.get("path", "")).startswith(doc["archive"]["path_prefix"] + "/")
-           for row in observed.values()):
+    x_parent = _json(Path(source["x2000_parent_run_card_path"]))
+    x_prefix = x_parent.get("archive", {}).get("path_prefix", "")
+    if not x_prefix or any(not str(row.get("path", "")).startswith(x_prefix + "/")
+                           for row in observed.values()):
         raise RuntimeError("PI0251 X2000 HF readback path is outside its sealed archive prefix")
     for name, entry in entries.items():
         row = observed[name]
@@ -1058,7 +1060,7 @@ def prepare(args: argparse.Namespace) -> None:
             or g1.get("finalizer_sidecar_routes") != "PASS"):
         raise RuntimeError("PI0251 G1 CPU numerical/guard/lifecycle fixtures did not pass")
 
-    view_root = task_root / "initializer_X2000"
+    view_root = args.initializer_view.resolve() if args.initializer_view else task_root / "initializer_X2000"
     processor_bindings = parent["source"]["processor_bindings"]
     model_files = _materialize_x2000_view(
         view_root, readback["repo_id"], parent["archive"]["path_prefix"], entries,
@@ -1263,6 +1265,7 @@ def main() -> int:
     parser.add_argument("--g1-receipt", type=Path)
     parser.add_argument("--g1-output", type=Path)
     parser.add_argument("--g1-runtime-scripts", type=Path)
+    parser.add_argument("--initializer-view", type=Path)
     parser.add_argument("--run-card", type=Path)
     parser.add_argument("--arm", choices=("C", "E"))
     parser.add_argument("--resume-after-step", type=int, choices=(0, 1000), default=0)
