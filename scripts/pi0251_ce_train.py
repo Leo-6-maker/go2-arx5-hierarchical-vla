@@ -231,6 +231,9 @@ def _validate_initializer(doc: dict[str, Any]) -> None:
                 for row in readback.get("files", []) if "/checkpoint-2000/" in str(row.get("path", ""))}
     if set(observed) != set(entries):
         raise RuntimeError("PI0251 X2000 HF readback does not cover the full durable Trainer checkpoint")
+    if any(not str(row.get("path", "")).startswith(doc["archive"]["path_prefix"] + "/")
+           for row in observed.values()):
+        raise RuntimeError("PI0251 X2000 HF readback path is outside its sealed archive prefix")
     for name, entry in entries.items():
         row = observed[name]
         if int(row.get("bytes", -1)) != int(entry["bytes"]) or row.get("sha256") != entry["sha256"]:
@@ -916,13 +919,19 @@ def _g1_cpu_selfcheck(output_path: Path, runtime_scripts: Path) -> dict[str, Any
 
 
 def _materialize_x2000_view(
-    root: Path, repo_id: str, entries: dict[str, dict[str, Any]],
+    root: Path, repo_id: str, archive_prefix: str, entries: dict[str, dict[str, Any]],
+    remote_paths: dict[str, str],
     processor_root: Path, processor_files: dict[str, str],
 ) -> list[dict[str, Any]]:
     import huggingface_hub
 
     names = ("config.json", "model.safetensors.index.json",
              "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors")
+    for name in names:
+        remote = remote_paths.get(name, "")
+        if (not remote.startswith(archive_prefix + "/")
+                or not remote.endswith(f"/checkpoint-2000/{name}")):
+            raise RuntimeError(f"PI0251 X2000 HF readback has no pinned remote model path: {name}")
     root.mkdir(parents=True, exist_ok=True)
     for name in names:
         entry = entries.get(name)
@@ -933,9 +942,14 @@ def _materialize_x2000_view(
             raise RuntimeError(f"PI0251 refusing to replace conflicting X2000 view file: {local}")
     missing = [name for name in names if not (root / name).is_file()]
     for name in missing:
-        huggingface_hub.hf_hub_download(
-            repo_id=repo_id, filename=name, revision=REVISION, token=False, local_dir=str(root),
-        )
+        remote = remote_paths.get(name, "")
+        downloaded = Path(huggingface_hub.hf_hub_download(
+            repo_id=repo_id, filename=remote, revision=REVISION, token=False, local_dir=str(root),
+        ))
+        local = root / name
+        if downloaded.resolve() != local.resolve():
+            local.parent.mkdir(parents=True, exist_ok=True)
+            os.replace(downloaded, local)
     files = []
     for name in names:
         local, entry = root / name, entries[name]
@@ -1047,7 +1061,9 @@ def prepare(args: argparse.Namespace) -> None:
     view_root = task_root / "initializer_X2000"
     processor_bindings = parent["source"]["processor_bindings"]
     model_files = _materialize_x2000_view(
-        view_root, readback["repo_id"], entries, Path(parent["paths"]["base_model_path"]),
+        view_root, readback["repo_id"], parent["archive"]["path_prefix"], entries,
+        {name: str(row["path"]) for name, row in observed.items()},
+        Path(parent["paths"]["base_model_path"]),
         processor_bindings["view_files"],
     )
     identity = {key: value for key, value in processor_bindings.items() if key != "view_files"}
