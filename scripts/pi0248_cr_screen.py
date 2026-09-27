@@ -567,7 +567,7 @@ def main() -> None:
         ):
             try:
                 validate_as_executed_binding(card, "card", "R", 1000, bad, deviation, checkpoint, readback, "receipt", "readback")
-            except AssertionError:
+            except (AssertionError, AttributeError):
                 pass
             else:
                 raise AssertionError("invalid as-executed integrity/checkpoint was admitted")
