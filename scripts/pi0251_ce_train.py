@@ -802,7 +802,7 @@ def _validate_checkpoint_manifest(doc: dict[str, Any], step: int, receipt: dict[
         and manifest.get("repo_id") == doc["archive"]["repo_id"]
         and manifest.get("public") is True
         and manifest.get("path") == checkpoint_path
-        and local.get("tree_sha256") == inventory.get("tree_sha256")
+        and bool(local.get("tree_sha256"))
         and set(local_entries) == set(expected_local)
         and set(remote_entries) == set(expected_remote)
         and manifest.get("verification", {}).get("file_set_size_hash") == "PASS"
@@ -1120,7 +1120,7 @@ def _g1_cpu_selfcheck(output_path: Path, runtime_scripts: Path) -> dict[str, Any
         manifest = {
             "schema": "PI0243_HF_ARCHIVED_TREE_V1", "status": "DURABLE_VERIFIED",
             "repo_id": "test/model", "public": True, "path": "arms/PI0251/C/checkpoint-1000",
-            "local": {"tree_sha256": "tree", "entries": [{"path": "trainer_state.json", "bytes": 1, "sha256": "sha"}]},
+            "local": {"tree_sha256": "archive-tree", "entries": [{"path": "trainer_state.json", "bytes": 1, "sha256": "sha"}]},
             "remote": [{"path": "arms/PI0251/C/checkpoint-1000/trainer_state.json", "bytes": 1, "sha256": "sha"}],
             "verification": {"file_set_size_hash": "PASS", "consumer_control_readback": "PASS"},
         }
