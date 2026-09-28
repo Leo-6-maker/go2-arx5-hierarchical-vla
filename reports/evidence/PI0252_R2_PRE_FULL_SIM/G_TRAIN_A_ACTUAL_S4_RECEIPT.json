@@ -1,0 +1,26 @@
+{
+  "schema": "PI0252_ACTUAL_S4_QUERY_RECEIPT_V1",
+  "status": "PASS",
+  "query_seed": 22301,
+  "head_calls": 4,
+  "noise_count": 1,
+  "noise": [
+    {
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0",
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "raw_tensor_sha256": "585570a70dbb0cfb597bfd49c6ffce1e77b598c744f2a89eb3e890455c9a0852"
+    }
+  ],
+  "noise_artifact": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/mailbox/responses/model-0000_initial_noise.npz",
+  "pure_noise": true,
+  "rtc": false,
+  "target_in_model_input": false,
+  "model_mode_after": "eval",
+  "error": null,
+  "forward_attempt_count": 1
+}

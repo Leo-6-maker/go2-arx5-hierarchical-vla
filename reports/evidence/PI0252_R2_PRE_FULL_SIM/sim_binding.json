@@ -1,0 +1,171 @@
+{
+  "action_sample_period_s": 0.05,
+  "authority_commit": "a5ccfba37a54e53b1ad1818a095edf67319aba9c",
+  "canonical": 5866382788,
+  "checkpoint_revision": "efecea485ae77000599d19171b02491f8d514f42",
+  "checkpoint_tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+  "corelab_training": false,
+  "current_model_files": [
+    {
+      "bytes": 2148,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000/config.json",
+      "resolved_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/config.json",
+      "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+    },
+    {
+      "bytes": 4993709288,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "resolved_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model-00001-of-00002.safetensors",
+      "sha256": "0c18bf8e69aa5d749deec0f5741d959000041420e36bbed1c912bdb23ce9fb43"
+    },
+    {
+      "bytes": 4535492016,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "resolved_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model-00002-of-00002.safetensors",
+      "sha256": "f0d2df3e26a2c6d4b4bf6d590512282cfc4109b89332b39ece58176f1c923574"
+    },
+    {
+      "bytes": 104912,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000/model.safetensors.index.json",
+      "resolved_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model.safetensors.index.json",
+      "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+    }
+  ],
+  "development_checkpoint": "G2000",
+  "formal_selected_checkpoint": "NONE",
+  "full_reference_completion": true,
+  "gpu_index": 0,
+  "gpu_sharing_user_authorized": true,
+  "horizon": 40,
+  "model_dtype": "bfloat16",
+  "native_control_dt_s": 0.02,
+  "original_runtime_canonical": 5733559806,
+  "processor_files": {
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/modality/go2_arx5_modality.py": "244f37f28e62b7b392a1598b78e78f00e67693f6c08a606b3c5358830ada8b25",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/processor_base/processor_config.json": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/processor_base/statistics.json": "33aa144909ade7b25d42ef962a711d38f58edd50d41937b65d28fcebe9d39763",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/train_dataset/meta/relative_stats.json": "10b52e09d40f3754e05bbecc5d86bbc3e0c60a9dc5d12501442177b15ac12ac9",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/train_dataset/meta/stats.json": "c24d465bc4acd594beb041b42f2e0f4ea955a67c7714e178ffdb313a61adb3f4"
+  },
+  "processor_mode": "eval",
+  "sampler_steps": 4,
+  "schema": "PI0252_R2_PRE_FULL_SIM_BINDING_V1",
+  "sim_gate_profile": {
+    "aging_age_s": 0.2,
+    "angular_speed_reject_radps": 4.0,
+    "angular_speed_warn_radps": 2.0,
+    "initial_position_reject_m": 0.75,
+    "initial_position_warn_m": 0.25,
+    "initial_rotation_reject_rad": 1.5,
+    "initial_rotation_warn_rad": 0.5,
+    "lambda_m_per_rad": 0.15,
+    "linear_speed_reject_mps": 2.0,
+    "linear_speed_warn_mps": 1.0,
+    "max_path_length_m": 5.0,
+    "min_arc_length_m": 1e-06,
+    "min_points": 2,
+    "stale_age_s": 0.75,
+    "threshold_provenance": {
+      "aging_age_s": "CONTROLLER_CONTRACT",
+      "angular_speed_reject_radps": "TEST_ONLY",
+      "angular_speed_warn_radps": "TEST_ONLY",
+      "initial_position_reject_m": "BENCHMARK_DERIVED",
+      "initial_position_warn_m": "BENCHMARK_DERIVED",
+      "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+      "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+      "linear_speed_reject_mps": "TEST_ONLY",
+      "linear_speed_warn_mps": "TEST_ONLY",
+      "max_path_length_m": "TEST_ONLY",
+      "min_arc_length_m": "CONTROLLER_CONTRACT",
+      "min_points": "CONTROLLER_CONTRACT",
+      "stale_age_s": "CONTROLLER_CONTRACT",
+      "workspace_reject_max_m": "TEST_ONLY",
+      "workspace_reject_min_m": "TEST_ONLY",
+      "workspace_warn_max_m": "GENERATOR_SUPPORT",
+      "workspace_warn_min_m": "GENERATOR_SUPPORT"
+    },
+    "workspace_reject_max_m": null,
+    "workspace_reject_min_m": null,
+    "workspace_warn_max_m": null,
+    "workspace_warn_min_m": null
+  },
+  "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+  "source_hashes": {
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/PI0225_native_canary_original.py": "3395e56a35bbe67d552d3a9da9dcaa789a9e25994688081935952f652600fc7e",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/pi0227_expert_reference_binding.py": "07c8fb05895dca684ab3bd32e68a2a7aba877c2f7924b52158cb3b99585c756d",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/pi0252_expert_control.py": "52a0574bcae8c2103008e56bc1542abe74bd8336fc4bcd77d5d294cdd5243e89",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/pi0252_g_model_worker.py": "744056cfe97c44502a2ab4f3669428d6b5987b9f70e745fa23848f8e97606f87",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/pi0252_g_one_chunk.py": "d5061941c51d96a6f86fe7083851065fc0464fbb1b95e5ae093f6fb743a1a14d",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/score_sim_evidence.py": "dd633eff64781d663b67b973c90bb6200792f62b57ede277dbb522d37beda4e2",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/seal_sim_binding.py": "64d383a9b39486907d2763239d24eeae8e2f01a60ef471ad090868cadb76da94"
+  },
+  "status": "PASS_CPU_BINDING",
+  "success_world_tcp_radius_m": 0.035,
+  "target_in_model_input": false,
+  "tasks": {
+    "A": {
+      "one_chunk_tick_cap": 500,
+      "query_seed": 22301,
+      "receding_prefix_steps": 4,
+      "receding_query_cap": 11,
+      "receding_tick_cap": 44,
+      "reset_seed": 22301,
+      "target_world_m": [
+        0.3,
+        0.1,
+        0.58
+      ],
+      "trajectory": "/home/liuyu-nfs/pi0223_goal_b_20260918/refs_r00/train-a_c0_continuous_reference.npz",
+      "trajectory_sha256": "7bb52ff7b5eb2de442de4906c88c6b3a009c0d2e53c19fa7e44bb339eefbaebe"
+    },
+    "B": {
+      "one_chunk_tick_cap": 500,
+      "query_seed": 22301,
+      "receding_prefix_steps": 4,
+      "receding_query_cap": 6,
+      "receding_tick_cap": 24,
+      "reset_seed": 22301,
+      "target_world_m": [
+        0.3,
+        -0.1,
+        0.58
+      ],
+      "trajectory": "/home/liuyu-nfs/pi0223_goal_b_20260918/refs_r00/train-b_c0_continuous_reference.npz",
+      "trajectory_sha256": "f7074c8d8bbb8c659622df2fb37dcf3a6db320a6acdb1b622fb17892c9e64d6f"
+    },
+    "C": {
+      "one_chunk_tick_cap": 500,
+      "query_seed": 22301,
+      "receding_prefix_steps": 4,
+      "receding_query_cap": 6,
+      "receding_tick_cap": 24,
+      "reset_seed": 22301,
+      "target_world_m": [
+        0.3,
+        0.05,
+        0.64
+      ],
+      "trajectory": "/home/liuyu-nfs/pi0223_goal_b_20260918/refs_r00/train-c_c0_continuous_reference.npz",
+      "trajectory_sha256": "3146ea329eac2bc965933c47ef20e13dad1758b33871fe711df7e53129fe20e1"
+    },
+    "D": {
+      "one_chunk_tick_cap": 500,
+      "query_seed": 22301,
+      "receding_prefix_steps": 4,
+      "receding_query_cap": 6,
+      "receding_tick_cap": 24,
+      "reset_seed": 22301,
+      "target_world_m": [
+        0.3,
+        -0.05,
+        0.63
+      ],
+      "trajectory": "/home/liuyu-nfs/pi0223_goal_b_20260918/refs_r00/train-d_c0_continuous_reference.npz",
+      "trajectory_sha256": "843ec7a4ee6f0b754dbbb76142493ea90a2dfd125d8bc73f8b0a00879b0bbc68"
+    }
+  },
+  "tcp_semantic_id": "x5_link6_gripper_center",
+  "wbc_current_readback_sha256": "9fb9ec9dfabf073230d5670448fd2bf5ef6ccb829332f3c737fa109087c6e178",
+  "wbc_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+  "zero_reference_updates_one_chunk": true
+}

@@ -1,0 +1,297 @@
+{
+  "schema": "PI0252_PRE_FULL_G_ONE_CHUNK_V1",
+  "goal": "PI0252_R2_G_QUALIFIED_SIM_FULL_CONTINUATION_GO",
+  "cell": "TRAIN-A_C0_G2000",
+  "decision": "MODEL_TASK_TRAJECTORY_ACCURACY_LIMITATION",
+  "qualification": "FAIL",
+  "development_checkpoint": "G2000",
+  "formal_selected_checkpoint": "NONE",
+  "checkpoint_revision": "efecea485ae77000599d19171b02491f8d514f42",
+  "checkpoint_tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+  "protocol": {
+    "checkpoint": "inference_view_step_2000",
+    "model_forward_count": 1,
+    "native_reference_updates": 0,
+    "persistent_reference": true,
+    "fresh_rgb_state_v1": true,
+    "dense_relative_matched_decode": true,
+    "safety_gate_unchanged": true,
+    "wbc_unchanged": true,
+    "target_position_world_m": [
+      0.3,
+      0.1,
+      0.58
+    ],
+    "success_radius_m": 0.035,
+    "action_period_s": 0.05,
+    "native_control_dt_s": 0.019999999552965164,
+    "complete_reference_duration": true,
+    "no_replan": true,
+    "no_reference_hot_swap": true,
+    "no_progress_reset_after_initial_bind": true,
+    "target_xyz_model_input": false,
+    "dev_e_unread": true,
+    "final_f_unread": true
+  },
+  "identity": {
+    "sim_binding_sha256": "74b8cce6872af2026f3b87f47246b5a814a852cf1207d9f6b0328039cd26fcb7",
+    "actual_sampler_receipt": {
+      "schema": "PI0252_ACTUAL_S4_QUERY_RECEIPT_V1",
+      "status": "PASS",
+      "query_seed": 22301,
+      "head_calls": 4,
+      "noise_count": 1,
+      "noise": [
+        {
+          "dtype": "torch.bfloat16",
+          "device": "cuda:0",
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "raw_tensor_sha256": "585570a70dbb0cfb597bfd49c6ffce1e77b598c744f2a89eb3e890455c9a0852"
+        }
+      ],
+      "noise_artifact": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/mailbox/responses/model-0000_initial_noise.npz",
+      "pure_noise": true,
+      "rtc": false,
+      "target_in_model_input": false,
+      "model_mode_after": "eval",
+      "error": null,
+      "forward_attempt_count": 1
+    },
+    "actual_sampler_receipt_sha256": "c91f135edbda93db0089a5ee3894119fb0ada0764d7ebffba4cf4a18d41f45e4",
+    "model_seed": 22301,
+    "native_reset_seed": 22301,
+    "checkpoint_dir": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000",
+    "checkpoint_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "full_checkpoint_readback": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/G2000/hf_readback.json",
+    "arm_checkpoint_sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+    "dog_checkpoint_sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+    "legacy_manifest_dog_sha256_field": "51776ddfd7173444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+    "legacy_manifest_dog_sha256_field_valid": false,
+    "wbc_source_tree_sha256_sealed": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+    "trajectory_path": "/home/liuyu-nfs/pi0223_goal_b_20260918/refs_r00/train-a_c0_continuous_reference.npz",
+    "trajectory_sha256": "7bb52ff7b5eb2de442de4906c88c6b3a009c0d2e53c19fa7e44bb339eefbaebe",
+    "anchor_world_m": [
+      0.45077773928642273,
+      0.032240841537714005,
+      0.650952160358429
+    ],
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center"
+  },
+  "model_reference": {
+    "artifact": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/mailbox/responses/model-0000.npz",
+    "raw_sha256": "375bf98c6af81ded4596f09f2c3c8ec934cb436cf954e03ff55bc4f0849bdc92",
+    "decoded_sha256": "3dd330633e79dcb2e04136eb1e6840f8d0509ef9172535368536a245ac5c09f4",
+    "worker_forward_count_delta": 1,
+    "decoded_shape": [
+      40,
+      10
+    ],
+    "decoded_world_target_stats": {
+      "count": 40,
+      "min_distance_m": 0.10497794769237719,
+      "min_distance_tick": 15,
+      "endpoint_distance_m": 0.17647578043478232,
+      "first_hit_tick": null,
+      "path_length_m": 0.6851267917018277,
+      "max_linear_speed_mps": 0.793706544077868,
+      "finite": true
+    },
+    "decoded_local_first_point_jump_m": 0.12097060081762022,
+    "oracle_world_target_stats": {
+      "count": 101,
+      "min_distance_m": 0.1579650951863215,
+      "min_distance_tick": 64,
+      "endpoint_distance_m": 0.17913615502976624,
+      "first_hit_tick": null,
+      "path_length_m": 0.27772374865384436,
+      "max_linear_speed_mps": 0.11011381873619001,
+      "finite": true
+    },
+    "oracle_npz_keys": [
+      "timestamp",
+      "position",
+      "quaternion"
+    ],
+    "oracle_vs_model_position_rmse_m": 0.23973082461622328,
+    "profile_from_matched_decoder": {
+      "finite": true,
+      "point_count": 40,
+      "duration_s": 1.9500000000000002,
+      "initial_position_discontinuity_m": 0.12097060081762022,
+      "initial_rotation_discontinuity_rad": 0.2646950277885037,
+      "translation_path_length_m": 0.6851267917018277,
+      "translation_step_m": {
+        "mean": 0.017567353633380196,
+        "median": 0.01652438134058074,
+        "p95": 0.028485427454938022,
+        "max": 0.0396853272038934
+      },
+      "rotation_step_rad": {
+        "mean": 0.012392663100655838,
+        "median": 0.01023710431397812,
+        "p95": 0.03056645000560749,
+        "max": 0.04110252908291459
+      },
+      "linear_speed_mps": {
+        "mean": 0.351347072667604,
+        "median": 0.33048762681161487,
+        "p95": 0.5697085490987599,
+        "max": 0.7937065440778682
+      },
+      "angular_speed_radps": {
+        "mean": 0.24785326201311678,
+        "median": 0.20474208627956222,
+        "p95": 0.6113290001121499,
+        "max": 0.822050581658292
+      },
+      "roughness_position_second_difference_m": {
+        "mean": 0.021279212852394987,
+        "median": 0.020416018728263402,
+        "p95": 0.038737186241355984,
+        "max": 0.04000340030550484
+      },
+      "workspace_min_m": [
+        -0.3423737585544586,
+        -0.0742318332195282,
+        -0.1147434189915657
+      ],
+      "workspace_max_m": [
+        -0.013195978477597237,
+        -0.008341578766703606,
+        0.09787746518850327
+      ],
+      "gt_comparison": "NOT_AVAILABLE_FOR_SAME_SCENE_CAMERA_SMOKE"
+    },
+    "safety_gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "model-0000",
+        "linear_speed_mps": {
+          "mean": 0.351347072667604,
+          "median": 0.33048762681161487,
+          "p95": 0.5697085490987599,
+          "max": 0.7937065440778682
+        },
+        "angular_speed_radps": {
+          "mean": 0.24785326201290808,
+          "median": 0.20474208627956222,
+          "p95": 0.6113290001120159,
+          "max": 0.8220505816584001
+        },
+        "translation_path_length_m": 0.6851267917018277,
+        "se3_arc_length_m": 0.691381241710172,
+        "initial_position_discontinuity_m": 0.12097060081762022,
+        "initial_rotation_discontinuity_rad": 0.2646950277885054,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "target_xyz_consumed_by_inference": false,
+    "inference_input_fields": [
+      "external_rgb",
+      "wrist_rgb",
+      "eef_9d",
+      "gripper_position",
+      "language"
+    ]
+  },
+  "physical_wbc": {
+    "status": "PHYSICAL_CLEAN",
+    "tracking_position_frame": "WORLD",
+    "achieved_world_target_stats": {
+      "count": 97,
+      "min_distance_m": 0.15649767760855235,
+      "min_distance_tick": 49,
+      "endpoint_distance_m": 0.20134563374433626,
+      "first_hit_tick": null,
+      "path_length_m": 0.5606336889758926,
+      "max_linear_speed_mps": 0.7723361625983407,
+      "finite": true
+    },
+    "first_hit_tick": null,
+    "termination": "REFERENCE_COMPLETE",
+    "protocol_stop": "REFERENCE_COMPLETE",
+    "native_events": [],
+    "native_termination_observed": false,
+    "tracking_error_max_m": 0.16681461002383685,
+    "tracking_error_mean_m": 0.13742363742946653,
+    "tracking_error_final_m": 0.1406965106780276,
+    "rows": 97,
+    "wbc_forward_count": 97,
+    "reference_updates": 0,
+    "telemetry_fields": [
+      "achieved_pos",
+      "achieved_quat",
+      "arm_action_6d",
+      "arm_dq",
+      "arm_q",
+      "base_ang_vel",
+      "base_feedforward_cmd",
+      "base_lin_vel",
+      "base_pos",
+      "base_quat",
+      "chunk_id",
+      "commands_dog",
+      "delta_velocity_cmd",
+      "desired_pos",
+      "desired_quat",
+      "dof_pos",
+      "dof_vel",
+      "dog_action_12d",
+      "dog_dq",
+      "dog_q",
+      "done",
+      "episode_length",
+      "internal_body_plan_9d",
+      "invalid_state",
+      "joint_limit_margin",
+      "joint_limit_violation",
+      "joint_pos_target",
+      "native_reference_local_time",
+      "reset_buf",
+      "termination_code",
+      "traj_L",
+      "traj_d_lat",
+      "traj_s",
+      "traj_s_ref",
+      "traj_timing_err",
+      "update_count"
+    ],
+    "tracking_trace": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/output/model_receding_rows.jsonl"
+  },
+  "source_outputs": {
+    "stage21_summary": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/output/model_receding_summary.json",
+    "stage21_summary_sha256": "80a753eaf7541ba1a5e5f6107df4cf65c3ccf2e437dfe3f8f253fcf383f27db1",
+    "stage21_rows": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/output/model_receding_rows.jsonl",
+    "stage21_rows_sha256": "f84e85461cc3c1ddf846c67347a939e446165f8a9272dc019063a34d99d71256",
+    "worker_mailbox": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/mailbox"
+  }
+}

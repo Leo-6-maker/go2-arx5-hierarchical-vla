@@ -1,0 +1,132 @@
+{
+  "authority_class": "STAGE39_WBC_CONTENT_AUTHORITY_V1_ATTESTED_FROM_SEALED_ARCHIVE",
+  "archive": {
+    "path": "/var/cache/users/liuyu-nfs/go2-arx5-experiment-e2/intake/incoming/WBCTrackingShare_20260831.zip",
+    "exists": true,
+    "is_symlink": false,
+    "is_regular_file": true,
+    "size_bytes": 963451251,
+    "sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+    "hash_match": true,
+    "expected_sha256": "b52a53bef87340e6244ead352fa434390faee65246cd32ab8e6648336a018167",
+    "expected_size_bytes": 963451251,
+    "size_match": true
+  },
+  "source_root": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare",
+  "historical_reported_tree_sha256": "63311df752c9aaa5289287849635309e558f79284c91b80ddf07ec5638992567",
+  "historical_reported_tree_is_current_predicate": false,
+  "expected_v2_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193",
+  "status": "PASS",
+  "archive_members": {
+    "member_count": 887,
+    "file_count": 742,
+    "directory_count": 145,
+    "v2_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+  },
+  "live_tree": {
+    "file_count": 742,
+    "directory_count": 145,
+    "v2_tree_sha256": "9d653c39c73d5755a29d46f4dff91b69120244f660f41a977db471d58ba8b193"
+  },
+  "archive_live_comparison": {
+    "missing_files": [],
+    "extra_files": [],
+    "changed_files": [],
+    "missing_directories": [],
+    "extra_directories": [],
+    "identical": true
+  },
+  "components": {
+    "arm_checkpoint": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 52693641,
+      "sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+      "hash_match": true,
+      "expected_sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a"
+    },
+    "dog_checkpoint": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 12607221,
+      "sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+      "hash_match": true,
+      "expected_sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
+    },
+    "native_config": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 28299,
+      "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb",
+      "hash_match": true,
+      "expected_sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+    },
+    "native_urdf": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 34918,
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+      "hash_match": true,
+      "expected_sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    },
+    "native_reach_table": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/reach_tables/go2_x5_2d.pt",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 32868,
+      "sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa",
+      "hash_match": true,
+      "expected_sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa"
+    },
+    "trajectory_module": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 24861,
+      "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a",
+      "hash_match": true,
+      "expected_sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+    },
+    "wbc_env": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 141128,
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+      "hash_match": true,
+      "expected_sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    "legged_robot": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/legged_robot.py",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 136506,
+      "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60",
+      "hash_match": true,
+      "expected_sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+    },
+    "wbc_wrapper": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env_wrapper.py",
+      "exists": true,
+      "is_symlink": false,
+      "is_regular_file": true,
+      "size_bytes": 36017,
+      "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7",
+      "hash_match": true,
+      "expected_sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+    }
+  },
+  "component_hashes_match": true
+}
