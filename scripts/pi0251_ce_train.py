@@ -635,7 +635,7 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
     audit_prefix = source.get("audit_prefix", "pi0251")
     paired_arms = tuple(source.get("paired_arms", ("C", "E")))
     reference_arm = source.get("reference_arm", paired_arms[0])
-    intervention_arm = source.get("intervention_arm", paired_arms[1])
+    intervention_arm = source.get("intervention_arm", paired_arms[1] if len(paired_arms) > 1 else None)
     is_paired_intervention = arm == intervention_arm
     objective_kind = source.get("objective_kind", "xyz_excess")
     schedule = _json(Path(doc["schedule"]["path"]))["rows"]
@@ -648,7 +648,7 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
     if objective_kind == "peak_linear_speed":
         dt_doc = _json(Path(source["dt_table_path"]))
         dt_by_fixed_index = {int(row["fixed_index"]): row["dt_s"] for row in dt_doc["rows"]}
-        if len(dt_by_fixed_index) != 64 or any(len(values) != 39 for values in dt_by_fixed_index.values()):
+        if len(dt_by_fixed_index) != int(doc["cohort"]["count"]) or any(len(values) != 39 for values in dt_by_fixed_index.values()):
             raise RuntimeError("PI0252 actual per-window timestamp table must contain 64 x 39 deltas")
         from pi0252_speed_margin import peak_speed_margin as speed_margin_fn
     output = Path(doc["paths"]["output_root"])
@@ -848,7 +848,7 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
     life = _load_life(preliminary["paths"])
     helper = _load_helper(preliminary["paths"])
     card = _verify_card(run_card, arm)
-    if card.get("protocol") == "PI0252":
+    if card.get("protocol") in ("PI0252", "PI0253"):
         life.AUTHORIZATION = card["authorization"]
         life.R1_CANONICAL_COMMENT = card["canonical_issue_comment"]
         life.R1_POINTER_COMMENT = card["pointer_pr_comment"]
@@ -1215,7 +1215,7 @@ def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
     audit_prefix = source.get("audit_prefix", "pi0251")
     paired_arms = tuple(source.get("paired_arms", ("C", "E")))
     reference_arm = source.get("reference_arm", paired_arms[0])
-    intervention_arm = source.get("intervention_arm", paired_arms[1])
+    intervention_arm = source.get("intervention_arm", paired_arms[1] if len(paired_arms) > 1 else None)
     objective_kind = source.get("objective_kind", "xyz_excess")
     root = helper._winning_training_root(doc)
     resume = 0 if root == output / "training" else int(_json(root.parent / "resume_record.json")["resume_after_step"])
