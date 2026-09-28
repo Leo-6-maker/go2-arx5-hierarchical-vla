@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Four fixed live side reports after FULL closure; reuse qualified Q unchanged."""
 import argparse
+import gc
 import json
 from pathlib import Path
 
@@ -71,6 +72,14 @@ def cpu_check():
         pass
     else:
         raise AssertionError('boundary accepted duplicate source/noise')
+    import weakref
+    class FakeModel:
+        def get_action(self, batch):
+            return batch
+    model = FakeModel(); original = model.get_action
+    model.get_action = original; reference = weakref.ref(model)
+    del model, original
+    gc.collect(); assert reference() is None
     print('PASS_CPU_FULL_LIVE_BOUNDARY_ZERO_PROJECT_QUERIES')
 
 
@@ -151,7 +160,8 @@ def main():
                 gate=live.gate(decoded, obs['state'], 'Q', artifact), policy_before_get_action=inventory,
                 baseline_receipt_sha256=sha(baseline), runner_sha256=sha(__file__), queries=1, head_forwards=4,
                 actual_noise=card['noises']['N_live'], initial_noise_tensor=initial[0], selected_checkpoint='NONE', optimizer_updates=0))
-            del stock, model
+            del stock, model, original
+            gc.collect()  # Drop the restored bound-method cycle before loading the next model.
             torch.cuda.empty_cache()
         record = read(receipt)
         assert record['admission'] == closed and record['artifact_sha256'] == sha(artifact)
