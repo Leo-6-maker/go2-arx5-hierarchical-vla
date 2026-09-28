@@ -1,0 +1,9 @@
+# Strict readback continuation for useful archived control
+
+FULL2500 now has the strict anonymous complete-content receipt for all nine Trainer objects / 20882714202 bytes at revision 289b3a8c98a8f8aa8cc62a94c26c3a827c154a4b, tree fadc5581ebfce50e79a94078d7d6434ee333a55f7e8c1f8e9350f475c5a580cb. The loaded-and-retired local Trainer was not redownloaded; every streamed byte was discarded after SHA/length verification. Its existing Corelab model-only CALIB workset is retained.
+
+A2000 is a useful archived control whose local inference payload was retired in this exact storage manifest. Inspection confirms its historical mature readback also uses LFS metadata for large objects. The same minimal verifier is therefore applied to this affected retained asset, in a separate finite Corelab CPU/network process (PID4159426), without model load, Trainer transfer/storage or GPU use. Exact revision 2a7945d49d17f3ec1801f2b2af6dba5e5bd6c100; tree f58ec02d44f1c250936d1b9687930669f12b4c2f6044c0df2c38f39dd36f379c; 20882646356 bytes. Strict status STREAMING_PENDING until the companion receipt completes. This does not traverse all historical HF revisions or expand deletion.
+
+A non-running launch snippet had an unmatched closing parenthesis; Python rejected it before executing any statement. The corrected launch was made once and the actual live PID was verified. Zero model queries, training updates, physical episodes or file deletions arose from that launch correction. The healthy scientific worker and Hopper readback program were unchanged.
+
+U2000 remains preserved in its previous fixed HF revision, with prior anonymous model-only content verification and historical Trainer provenance. It was not deleted in this storage round and no fresh full-Trainer streaming claim is made here. The current storage correction concerns G, the four formal FULL points and the affected A control; it does not relabel metadata/LFS receipts as fresh content reads.
