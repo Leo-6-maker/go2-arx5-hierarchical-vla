@@ -1,0 +1,68 @@
+{
+  "action_horizon": 40,
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_small_files": [
+    {
+      "bytes": 4792,
+      "runtime_path": "train_dataset/meta/stats.json",
+      "sha256": "c24d465bc4acd594beb041b42f2e0f4ea955a67c7714e178ffdb313a61adb3f4"
+    },
+    {
+      "bytes": 86289,
+      "runtime_path": "train_dataset/meta/relative_stats.json",
+      "sha256": "10b52e09d40f3754e05bbecc5d86bbc3e0c60a9dc5d12501442177b15ac12ac9"
+    },
+    {
+      "bytes": 1744,
+      "runtime_path": "modality/go2_arx5_modality.py",
+      "sha256": "244f37f28e62b7b392a1598b78e78f00e67693f6c08a606b3c5358830ada8b25"
+    }
+  ],
+  "original_model_base_statistics_distinct_from_T_parent": true,
+  "physical_dt_s": 0.05,
+  "processor_bindings": {
+    "NEW_EMBODIMENT_statistics_source": "C_T train_dataset/meta/stats.json",
+    "NEW_EMBODIMENT_stats_sha256": "c24d465bc4acd594beb041b42f2e0f4ea955a67c7714e178ffdb313a61adb3f4",
+    "T_card_base_statistics_sha256": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a",
+    "T_run_card_sha256": "469c0a29571e05c30d50cf63ab0a13d8e3495a91469044bcf14feb840600e938",
+    "model_base_statistics_differs_from_T_parent": true,
+    "model_base_statistics_sha256": "33aa144909ade7b25d42ef962a711d38f58edd50d41937b65d28fcebe9d39763",
+    "p1_closure_sha256": "77712a2598ae7f8d8a076139c4160ec480c4d9ff624b2e45be9a0a51a55cc70b",
+    "processor_class": "gr00t.model.gr00t_n1d7.processing_gr00t_n1d7.Gr00tN1d7Processor",
+    "processor_config_sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9",
+    "relative_stats_sha256": "10b52e09d40f3754e05bbecc5d86bbc3e0c60a9dc5d12501442177b15ac12ac9",
+    "runtime_binding_sha256": "d520ee2697a186600c6014b7887703b06b4e53ab2c3f6d79e44649ab8e1fb149",
+    "view_files": {
+      "embodiment_id.json": "5e8611697dc90b7b7a92cf2a8da926275c16f5966c5eb109e0216c3c51af15a1",
+      "processor_config.json": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9",
+      "statistics.json": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a"
+    }
+  },
+  "purpose": "Frozen qualified inference processor, TRAIN new-embodiment statistics and relative action statistics; independent companion to G and four full Trainer revisions",
+  "qualified_code_commit": "317a2e85419cacd396f4f989a4ce83f4776bb85b",
+  "runtime": "S4",
+  "schema": "PI0253_CT_RECOVERY_COMPANION_V1",
+  "unchanged_reused_HF_files": [
+    {
+      "bytes": 26965,
+      "full_content_readback_receipt_sha256": "17a91c186555af1fd6c230e457515bb754c5a4404c4a83a47bee355f6aec06f0",
+      "path": "baseline1000/processor_config.json",
+      "prefix": "evidence/PI0253/original-calib-baseline-20260929",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "f95e26f2abdcc5197aeb2f8259bb187aa0802521",
+      "runtime_path": "processor_base/processor_config.json",
+      "sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9"
+    },
+    {
+      "bytes": 4373398,
+      "full_content_readback_receipt_sha256": "17a91c186555af1fd6c230e457515bb754c5a4404c4a83a47bee355f6aec06f0",
+      "path": "baseline1000/statistics.json",
+      "prefix": "evidence/PI0253/original-calib-baseline-20260929",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "f95e26f2abdcc5197aeb2f8259bb187aa0802521",
+      "runtime_path": "processor_base/statistics.json",
+      "sha256": "33aa144909ade7b25d42ef962a711d38f58edd50d41937b65d28fcebe9d39763"
+    }
+  ]
+}
