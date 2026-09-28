@@ -1,0 +1,439 @@
+{
+  "archive": {
+    "checkpoint_steps": [
+      2500,
+      5000,
+      7500,
+      10000
+    ],
+    "full_trainer_checkpoints": true,
+    "path_prefix": "arms/PI0253/full-g-support-20260928/G",
+    "public": true,
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "token_file": "/nfs/home/svu/e1192548/.config/huggingface/token"
+  },
+  "arm": "G",
+  "authority_commit": "82554098fb55b39ceca4b955252f8952c91c0dc0",
+  "authorization": "PI0253_LIVE_BRIDGE_TO_FULL_SUPPORT_GO",
+  "canonical_issue_comment": 5870278574,
+  "cohort": {
+    "count": 9792,
+    "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_cohort.json",
+    "sha256": "08f3e13771ef00d892ef73b83d0247316e9c4cf41a9f7d84e26e83ee1fda1755"
+  },
+  "d1_runtime_id": "S4",
+  "embodiment_tag": "new_embodiment",
+  "execution_authorization": "PI0253_LIVE_BRIDGE_TO_FULL_SUPPORT_GO",
+  "execution_contract": {
+    "inherited_parity": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/pi0247_U_sampler_parity.json",
+      "sha256": "d4fb051546be12bb55f9c6602e5d7a810e43b9698ac04faf5d13d0ebcabb7504"
+    },
+    "model_only_1000_candidate": false,
+    "new_parity_queries": 0,
+    "pause_after_durable_2500_for_fixed_barrier": true,
+    "single_arm": true
+  },
+  "execution_update_commit": "985b60105aca4187699c7a3efcdcf60d0f35f8a9",
+  "family": "PI0253_FULL_G_SUPPORT_V1",
+  "forbidden_counts": {
+    "calib_reads": 0,
+    "dev_f_reads": 0,
+    "expert_prefix_inputs": 0,
+    "final_f_reads": 0,
+    "hardware_runs": 0,
+    "local_pc_model_weight_downloads": 0,
+    "rtc_conditioning": 0,
+    "truncated_rollout_gradients": 0,
+    "wbc_runs": 0
+  },
+  "hf_preflight": {
+    "status": "PENDING_PER_ARM_PUBLIC_PREFIX_PREFLIGHT"
+  },
+  "initializer": {
+    "durable_receipt_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/durable_receipts/checkpoint-2000.durable_receipt.json",
+    "durable_receipt_sha256": "ddb95fb3322bdf4d4ee6e984261f1ac93bce76dadef133389ecdebb7dadac246",
+    "full_checkpoint_bytes": 20882646394,
+    "full_checkpoint_tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+    "model_files": [
+      {
+        "bytes": 2148,
+        "materialization": "HARDLINK_VERIFIED_FINAL_MODEL",
+        "path": "config.json",
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      },
+      {
+        "bytes": 104912,
+        "materialization": "HARDLINK_VERIFIED_FINAL_MODEL",
+        "path": "model.safetensors.index.json",
+        "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+      },
+      {
+        "bytes": 4993709288,
+        "materialization": "HARDLINK_VERIFIED_FINAL_MODEL",
+        "path": "model-00001-of-00002.safetensors",
+        "sha256": "0c18bf8e69aa5d749deec0f5741d959000041420e36bbed1c912bdb23ce9fb43"
+      },
+      {
+        "bytes": 4535492016,
+        "materialization": "HARDLINK_VERIFIED_FINAL_MODEL",
+        "path": "model-00002-of-00002.safetensors",
+        "sha256": "f0d2df3e26a2c6d4b4bf6d590512282cfc4109b89332b39ece58176f1c923574"
+      },
+      {
+        "bytes": 2226,
+        "materialization": "FROZEN_CT_PROCESSOR",
+        "path": "embodiment_id.json",
+        "sha256": "5e8611697dc90b7b7a92cf2a8da926275c16f5966c5eb109e0216c3c51af15a1"
+      },
+      {
+        "bytes": 26965,
+        "materialization": "FROZEN_CT_PROCESSOR",
+        "path": "processor_config.json",
+        "sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9"
+      },
+      {
+        "bytes": 4374044,
+        "materialization": "FROZEN_CT_PROCESSOR",
+        "path": "statistics.json",
+        "sha256": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a"
+      }
+    ],
+    "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/initializer_G2000",
+    "screen_manifest_sha256": "1e946af9a6c3d43f118fb328a20b673a98c0d305090f189c5e21f86656237a22",
+    "screen_revision": "efecea485ae77000599d19171b02491f8d514f42",
+    "source_family": "PI0252R1_M64_G_V1"
+  },
+  "integrity_schema": "PI0253_FULL_TRAINING_INTEGRITY_V1",
+  "loss": "L_native + .4*ell_pos + .1*ell_delta + .1*ell_rot + .1*ell_speed_margin",
+  "loss_coefficients": {
+    "ell_delta": 0.1,
+    "ell_pos": 0.4,
+    "ell_rot": 0.1,
+    "ell_speed_margin": 0.1
+  },
+  "loss_contract": {
+    "S4_full_gradient": true,
+    "active_action_smoothing": false,
+    "actual_dt_table_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/evidence/pi0252_actual_h40_dt_table.json",
+    "actual_dt_table_sha256": "0b97de622ed7754414291e85e9166fd58450888c0b2b188ea5c641d931069018",
+    "backpropagate_through_all_euler_steps": true,
+    "ell_delta": "whole-window physical XYZ residual-increment mean square using fixed 0.05 s scale",
+    "ell_pos": "whole-window physical XYZ mean squared Euclidean error / (0.05 m)^2",
+    "ell_rot": "PI0248 C_T physical rotation chordal objective, theta_ref=0.05 rad",
+    "ell_speed_margin": "relu(max_j(sum_xyz(delta_xyz^2)/(2*actual_dt_j)^2)-0.81)",
+    "ell_speed_margin_lambda": 0.1,
+    "euler_steps": 4,
+    "expert_prefix_input": false,
+    "generation": "complete pure-noise label-free S4 rollout before physical losses",
+    "horizon": 40,
+    "objective": "J_A + 0.1*ell_speed_margin(a_free_S4)",
+    "physical_dt_s": 0.05,
+    "position_units": "m",
+    "rotation_theta_ref_rad": 0.05
+  },
+  "nonselection_parity_budget": {
+    "campaign_limit": 8,
+    "planned_per_arm": 2,
+    "prior_rollouts": 4,
+    "this_campaign_limit": 4,
+    "total_if_both_arms_complete": 8
+  },
+  "optimizer": {
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "batch_size": 1,
+    "checkpoint_steps": [
+      2500,
+      5000,
+      7500,
+      10000
+    ],
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 1e-05,
+    "max_grad_norm": 1.0,
+    "optimizer_state": "fresh AdamW/scheduler warm start from G2000; exact full state on subsequent resume",
+    "scheduler": "cosine",
+    "steps": 10000,
+    "warmup_steps": 10,
+    "weight_decay": 1e-05,
+    "workers": 0
+  },
+  "paths": {
+    "base_model_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/initializer_G2000",
+    "code_root": "/scratch/e1192548/pi0244_fixed16_10k_v1",
+    "execution_driver": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/execution/pi0253_full_train.py",
+    "execution_driver_root": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/execution",
+    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+    "initializer_view_receipt_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/initializer_C2000_view_receipt.json",
+    "legacy_execution_driver_root": "/scratch/e1192548/pi0248_m64_pose_repair_20260927/recovery_engineering_fix_744f126/execution",
+    "modality_config": "/scratch/e1192548/pi0227_h200_prep_20260919/inputs/go2_arx5_modality.py",
+    "output_base": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253",
+    "output_root": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G",
+    "p0_effective": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p0/effective_processor_xyz_v2.json",
+    "p_run_card_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/run_card.json",
+    "p_runtime_root": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P_runtime_position_20260925_v1",
+    "pbs_script": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/execution/pi0253_full_train_h200.pbs",
+    "repo_code_root": "/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e",
+    "stage10_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902",
+    "train_dataset": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0227/pi0227_large_adapt_v1_inputs/train_dataset",
+    "training_runtime_root": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT_runtime_combined_20260925_v3"
+  },
+  "physical_contract": {
+    "active_action_smoothing": false,
+    "decoder_unchanged": true,
+    "horizon": 40,
+    "native_forward_per_update": 1,
+    "physical_dt_s": 0.05,
+    "rstar": "S4",
+    "safety_gate_unchanged": true,
+    "u_checkpointed_euler_steps": 4,
+    "u_euler_steps": 4,
+    "u_full_rollout_per_update": 1
+  },
+  "pointer_pr_comment": 5870286088,
+  "protocol": "PI0253",
+  "release_commit": "50e66efe6ccfbe814d04caf12499493821be7957",
+  "resolved_config": {
+    "action_horizon": 40,
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "backbone_trainable_params_fp32": false,
+    "batch_size": 1,
+    "bf16": true,
+    "crop_fraction": 1.0,
+    "dataloader_num_workers": 0,
+    "eval_strategy": "no",
+    "fp16": false,
+    "gradient_accumulation_steps": 1,
+    "gradient_checkpointing": false,
+    "learning_rate": 1e-05,
+    "load_bf16": true,
+    "max_grad_norm": 1.0,
+    "max_steps": 10000,
+    "modality_config_keys": [
+      "new_embodiment"
+    ],
+    "num_gpus": 1,
+    "optimizer": "adamw_torch",
+    "random_rotation_angle": null,
+    "resume_from_checkpoint": false,
+    "save_only_model": false,
+    "save_step_set": [
+      2500,
+      5000,
+      7500,
+      10000
+    ],
+    "save_steps": 2500,
+    "save_total_limit": 3,
+    "scheduler": "cosine",
+    "seed": 22301,
+    "shortest_image_edge": 96,
+    "start_from_checkpoint": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/initializer_G2000",
+    "state_dropout_prob": 0.0,
+    "tf32": true,
+    "tune_diffusion_model": true,
+    "tune_llm": false,
+    "tune_projector": true,
+    "tune_visual": false,
+    "tune_vlln": false,
+    "use_relative_action": true,
+    "warmup_ratio": 0.0,
+    "warmup_steps": 10,
+    "weight_decay": 1e-05
+  },
+  "resource": {
+    "gpu": "H200",
+    "pbs_project": "CFP03-CF-004",
+    "queue": "auto",
+    "select": "1:ngpus=1:ncpus=12:mem=225GB",
+    "walltime": "16:00:00"
+  },
+  "schedule": {
+    "count": 10000,
+    "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_schedule.json",
+    "sha256": "8a44b52d861c9f3a44a5c2f0771187581f24a64383c607fa211d3e60b41bbb9f"
+  },
+  "schema": "PI0253_FULL_RUN_CARD_V1",
+  "seed": 22301,
+  "selected_checkpoint": "NONE",
+  "source": {
+    "audit_prefix": "pi0253",
+    "authorization": "PI0253_LIVE_BRIDGE_TO_FULL_SUPPORT_GO",
+    "bound_files": {
+      "G_card": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/run_card.json",
+        "sha256": "98c0cd42ee7d2ff522634539047bc5933dba8929d839a768909d4de79d9cdc84"
+      },
+      "G_integrity": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/pi0252_training_integrity.json",
+        "sha256": "6a07dd35ae682d84569852b5329da7efb3b0f93905d1abc152efe6bc98025ea2"
+      },
+      "G_parity": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/pi0247_U_sampler_parity.json",
+        "sha256": "d4fb051546be12bb55f9c6602e5d7a810e43b9698ac04faf5d13d0ebcabb7504"
+      },
+      "G_readback": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/hf_readbacks/checkpoint-2000.json",
+        "sha256": "1e946af9a6c3d43f118fb328a20b673a98c0d305090f189c5e21f86656237a22"
+      },
+      "G_receipt": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0252/r1-speed-margin-20260928/G/durable_receipts/checkpoint-2000.durable_receipt.json",
+        "sha256": "ddb95fb3322bdf4d4ee6e984261f1ac93bce76dadef133389ecdebb7dadac246"
+      },
+      "dt_table": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_actual_dt.json",
+        "sha256": "32babecd89c0cfe23d27cc7dbd8d86da3102c2ea34c9703d68d6c70dc998d4e6"
+      },
+      "full_support": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/full_support.json",
+        "sha256": "214e6837aff9664cb866714737bf43a42071a6c6f7fb925f1007c08510bb799b"
+      },
+      "initializer_view": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/initializer_G2000_view_receipt.json",
+        "sha256": "2227dcbcc229d0bfa6bdf02fef8043fb82fa9c526978f07d3a5d7df9b2e86c1e"
+      },
+      "rotation": {
+        "path": "/scratch/e1192548/pi0248_m64_pose_repair_20260927/recovery_engineering_fix_744f126/evidence/pi0248_rotation_cpu_check.json",
+        "sha256": "9f533ad139191d788472d3323030b2baf7f6a6ae96f8d2f6f4ae2d233a8bdd56"
+      },
+      "step_keys": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_step_keys.json",
+        "sha256": "d79b6980420e211480d39283251235274e5c49e4f378fdfaa122f3bf1665f0da"
+      }
+    },
+    "canonical_issue_comment": 5870278574,
+    "custom_execution_code_sha256": {
+      "pi0251_ce_train.py": "9996249358aa81ae08345b6a17ebc31334c33101c78b105b6585e3baae2953de",
+      "pi0251_step_rng.py": "b20856afa3ce1a9094bf573156d499ae04a94bd745da65524eefdd3f098fd130",
+      "pi0252_speed_margin.py": "cf28ff968be42798e106470e2fd7b9a1c20ad427e9442e0332a9014703ed208b",
+      "pi0253_full_train.py": "24f96a02ddd26a43d723cf7d803e7a67c427e8e610c84406b14a878621df47a7",
+      "pi0253_full_train_h200.pbs": "07951fbc91a6b1c4da060f78c99de85bbda8a19f5e1ea5f4fd765cb8193fc8df",
+      "pi0253_step_rng.py": "be6b073ab10e950366c1af57d30dcd89f893f39a6a0f67ae9cc5b5d7cda04fa0"
+    },
+    "dt_table_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_actual_dt.json",
+    "dt_table_sha256": "32babecd89c0cfe23d27cc7dbd8d86da3102c2ea34c9703d68d6c70dc998d4e6",
+    "execution_code_commit": "568fe6a16dfbf9aa6700375f668715efae655d7f",
+    "execution_code_sha256": {
+      "custom:pi0248_cr_train.py": "5b68a466ed7549b732fa25280e5765b3befcabb988326966ad6789c1f7adc923",
+      "custom:pi0248_cr_train_h200.pbs": "cb0e1848e2fde0cc872f27a8317b2979430dfad27adf98a04e8f0908773bf45b",
+      "custom:pi0248_rotation_cpu.py": "7b080a28f6d46627f04cbf0ad7a245f89bab79a5c77d6d4ace1fc973267081fb",
+      "pi0228_h200_large_adapt_v1.py": "a4b73d46d29d810d3da6b653efc360c3fe208838ec086779cfb6d1e1d822fd91",
+      "pi0228_train_calib_checkpoint_selection.py": "349ba45694679f5ca8a7125551f21916f98e8ee8be47ee18532b33d09b33167c",
+      "pi0241_fixed16_learning.py": "a7dc7a8c818fa2e1de88d3a9b76ed5e68de750d6f1887a45679d8f306cda9c7b",
+      "pi0241_reconcile_update_integrity.py": "1baaa1e27b73ac686ff7e0b744b558d7946b414809824be5ca9524e567814f66",
+      "pi0243_checkpoint_persistence.py": "77b67a23351c2ca7057dd84ac656f23d9b995badec92a194da21369fed1ba1dc",
+      "pi0243_hf_archive_tree.py": "c96687765cedae9bdd4c23221e15f5cc2585af96103cbfb5c81890079b6c5701",
+      "pi0243_hf_checkpoint_sidecar.py": "2e975638dd5d6579db0f1511b1438b2102fe24b59eb025324913c8fe761bbf41",
+      "pi0243_hf_write_probe.py": "3e174ba9ff6e7d09523ab2358952a9efba0ff8ecb6df967a8f138eb13ba9ab0a",
+      "pi0243_storage_retirement.py": "ae956e98323b484dc367a341e4693a476e31df08f9b950400a7c9bcb02cc2598",
+      "pi0245_physical_delta.py": "e89b647b4dd4529aa677f7f69fdd988b7c6692bffb8ef3c51c82db1b0a8826b3",
+      "pi0246_gate_pass_train.py": "f6f2857917b28fc506256da0e94a0bc8512650c3f5514eaa62e5a9a427393ac9",
+      "pi0246_physical_position.py": "23f45ad20251a665686d204dcba43d30ed57736b5f91023dbcf8fb455c6ab47c",
+      "pi0246_pt_combined_overlay.py": "8a528c7f7ed38d8e9231c17e68c2c7190a255f9765a6e6cce61b9784a81b69db",
+      "pi0247_lu_train.py": "39b3718a0a1ec173d0cc70b042c2f7ea2532bd83cf7671f41abba9880e3bb833",
+      "pi0247_m64_train_h200.pbs": "b7658ccbbfdb45f48b570d48771aa8d46a859bfe6c6da47df19ff0f363b3e531",
+      "pi0247_u_rollout_overlay.py": "2194373d94d02615f7753c5ce3fbf99b5530f30e9adf50c839a865677263cd7a",
+      "stage40_b0_model_control.py": "640a527b0604dc082242de1aa860e0fc647b0270ec3a62ce4e99485d7520cdd9"
+    },
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "initializer_view_receipt_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/initializer_G2000_view_receipt.json",
+    "initializer_view_receipt_sha256": "2227dcbcc229d0bfa6bdf02fef8043fb82fa9c526978f07d3a5d7df9b2e86c1e",
+    "intervention_arm": null,
+    "legacy_execution_code_commit": "744f1265b061b418c38d6561de45de103b08a6e7",
+    "legacy_execution_driver_root": "/scratch/e1192548/pi0248_m64_pose_repair_20260927/recovery_engineering_fix_744f126/execution",
+    "modality_config_sha256": "244f37f28e62b7b392a1598b78e78f00e67693f6c08a606b3c5358830ada8b25",
+    "objective_kind": "peak_linear_speed",
+    "p0_effective_sha256": "6351150ac04566e8238fbfa996869d5ba039256eb5b12d1a0b9bf8a7345ba702",
+    "paired_arms": [
+      "G"
+    ],
+    "pointer_pr_comment": 5870286088,
+    "processor_bindings": {
+      "NEW_EMBODIMENT_statistics_source": "C_T train_dataset/meta/stats.json",
+      "NEW_EMBODIMENT_stats_sha256": "c24d465bc4acd594beb041b42f2e0f4ea955a67c7714e178ffdb313a61adb3f4",
+      "T_card_base_statistics_sha256": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a",
+      "T_run_card_sha256": "469c0a29571e05c30d50cf63ab0a13d8e3495a91469044bcf14feb840600e938",
+      "model_base_statistics_differs_from_T_parent": true,
+      "model_base_statistics_sha256": "33aa144909ade7b25d42ef962a711d38f58edd50d41937b65d28fcebe9d39763",
+      "p1_closure_sha256": "77712a2598ae7f8d8a076139c4160ec480c4d9ff624b2e45be9a0a51a55cc70b",
+      "processor_class": "gr00t.model.gr00t_n1d7.processing_gr00t_n1d7.Gr00tN1d7Processor",
+      "processor_config_sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9",
+      "relative_stats_sha256": "10b52e09d40f3754e05bbecc5d86bbc3e0c60a9dc5d12501442177b15ac12ac9",
+      "runtime_binding_sha256": "d520ee2697a186600c6014b7887703b06b4e53ab2c3f6d79e44649ab8e1fb149",
+      "view_files": {
+        "embodiment_id.json": "5e8611697dc90b7b7a92cf2a8da926275c16f5966c5eb109e0216c3c51af15a1",
+        "processor_config.json": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9",
+        "statistics.json": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a"
+      }
+    },
+    "reference_arm": "G",
+    "rotation_check_path": "/scratch/e1192548/pi0248_m64_pose_repair_20260927/recovery_engineering_fix_744f126/evidence/pi0248_rotation_cpu_check.json",
+    "rotation_check_sha256": "9f533ad139191d788472d3323030b2baf7f6a6ae96f8d2f6f4ae2d233a8bdd56",
+    "runtime_bindings": {
+      "P": {
+        "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P_runtime_position_20260925_v1/P_runtime_binding.json",
+        "resolved_config_sha256": "e2b9f4a3582e36ece44c92345f0e2f09aca608fabfd36800e0ca4dae905ad4ef",
+        "run_card_sha256": "7aa496963ee99ed241bad1506779a63e1f0383617a008f4ac09cfefde04041ce",
+        "schema": "PI0246_P_PHYSPOS_SAME_FORWARD_RUNTIME_V1",
+        "sha256": "bc714188a2795233139b8b703f8476414e1b1918004a5fe137689683a1bd5b61"
+      },
+      "PT": {
+        "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT_runtime_combined_20260925_v3/PT_runtime_binding.json",
+        "resolved_config_sha256": "e2b9f4a3582e36ece44c92345f0e2f09aca608fabfd36800e0ca4dae905ad4ef",
+        "run_card_sha256": "9d8d0c34a98b077be22f696b4e45420c1719d8c733796ec9e7e2ea1473e5ff00",
+        "schema": "PI0246_PT_SINGLE_FORWARD_RUNTIME_V1",
+        "sha256": "ddb55e196215ea899f670fbbe42d0844d294a8b8a715d84b7dd96826b07506b2"
+      }
+    },
+    "step_key_table_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_step_keys.json",
+    "step_key_table_sha256": "d79b6980420e211480d39283251235274e5c49e4f378fdfaa122f3bf1665f0da",
+    "step_rng_module": "pi0253_step_rng.py",
+    "step_rng_module_name": "pi0253_full_rng_runtime",
+    "timestamp_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0227/pi0227_large_adapt_v1_inputs/train_dataset/meta/stage19_action_timestamps.jsonl",
+    "timestamp_sha256": "df3f8b6346c6ab9d8fd5269fbcaa712f24e4e5bc1ea119f25b22e5e4a9f4344b"
+  },
+  "stage": {
+    "checkpoint_steps": [
+      2500,
+      5000,
+      7500,
+      10000
+    ],
+    "model_only_observation_step": 1000,
+    "name": "FULL",
+    "source_revision": "efecea485ae77000599d19171b02491f8d514f42",
+    "steps": 10000
+  },
+  "status": "SEALED_READY_NOT_STARTED",
+  "storage_contract": {
+    "persistent_only": true,
+    "quota_headroom": "UNKNOWN",
+    "reserve_bytes": 10737418240
+  },
+  "support": {
+    "count": 64,
+    "old16_source_ids": [
+      "pi0227_persistent_train_a_j03_yp015_s04_ym050_r01_r01_227077:obs-0013",
+      "pi0227_persistent_train_a_j03_yp015_s03_yp050_r00_r00_227072:obs-0033",
+      "pi0227_persistent_train_a_j02_xm015_s02_xm050_r02_r02_227050:obs-0060",
+      "pi0227_persistent_train_a_j03_yp015_s04_ym050_r03_r03_227079:obs-0093",
+      "pi0227_persistent_train_b_j02_xm015_s03_yp050_r01_r01_227233:obs-0020",
+      "pi0227_persistent_train_b_j00_nominal_s00_c0_r02_r02_227182:obs-0033",
+      "pi0227_persistent_train_b_j02_xm015_s04_ym050_r02_r02_227238:obs-0073",
+      "pi0227_persistent_train_b_j00_nominal_s03_yp050_r00_r00_227192:obs-0100",
+      "pi0227_persistent_train_c_j01_xp015_s04_ym050_r03_r03_227399:obs-0013",
+      "pi0227_persistent_train_c_j03_yp015_s04_ym050_r01_r01_227437:obs-0026",
+      "pi0227_persistent_train_c_j02_xm015_s00_c0_r00_r00_227400:obs-0060",
+      "pi0227_persistent_train_c_j01_xp015_s01_xp050_r00_r00_227384:obs-0093",
+      "pi0227_persistent_train_d_j01_xp015_s03_yp050_r02_r02_227574:obs-0006",
+      "pi0227_persistent_train_d_j03_yp015_s00_c0_r02_r02_227602:obs-0046",
+      "pi0227_persistent_train_d_j00_nominal_s03_yp050_r02_r02_227554:obs-0053",
+      "pi0227_persistent_train_d_j00_nominal_s00_c0_r02_r02_227542:obs-0100"
+    ]
+  },
+  "training_manifest_family": "FULL"
+}
