@@ -1,0 +1,62 @@
+{
+  "action_contract": "official_dense_relative_H40",
+  "action_dt_s": 0.05,
+  "calib_seal_sha256": "cf8d673e80a684f0ef1ac0932f09eaf95a83ef8f45d7741933ffd50f822a7de5",
+  "cell_medians_reference_min_target_distance_m": {},
+  "cell_status_counts": {
+    "VALID": 1088
+  },
+  "checkpoint_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+  "checkpoint_path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0253/original_calib_inputs/baseline1000",
+  "checkpoint_step": 1000,
+  "cpu_replay": {
+    "checkpoint_step": 1000,
+    "count": 1088,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "profile_sha256": "e211dd1cd45157684fc6df38b028f8090a67711fbfbe10333b3a2dc3eab2679d",
+    "schema": "PI0253_FULL_CALIB_CPU_REPLAY_V1",
+    "status": "PASS_INDEPENDENT_CPU_REPLAY"
+  },
+  "expected_forward_count": 1088,
+  "forward_count": 1088,
+  "model_input_keys": [
+    "body_rgb",
+    "wrist_rgb",
+    "state"
+  ],
+  "new_head_forwards": 4352,
+  "new_model_queries": 1088,
+  "new_optimizer_updates": 0,
+  "physics_episodes": 0,
+  "profile_card_sha256": "ed1580932fa4ac659d4bbeed45055d4f921d5810bc4090ed5d80d0c382184c3d",
+  "profile_sha256": "e211dd1cd45157684fc6df38b028f8090a67711fbfbe10333b3a2dc3eab2679d",
+  "raw_HF_readback_sha256": "e33af4efd9ab8fcc2950819c1415f2b72a15e687ed7a7c8976061ebc3c5820b9",
+  "reference_min_target_distance_m": {
+    "count": 0,
+    "max": null,
+    "median": null
+  },
+  "reject_issue_counts": {
+    "ANGULAR_SPEED_REJECT": 63,
+    "INITIAL_POSITION_DISCONTINUITY_REJECT": 11,
+    "LINEAR_SPEED_REJECT": 1088,
+    "PATH_LENGTH_SANITY": 13
+  },
+  "role": "COMPARISON_ONLY_NOT_FORMAL_FULL_CANDIDATE",
+  "safety_gate_counts": {
+    "ACCEPT": 0,
+    "REJECT": 1088,
+    "WARN": 0
+  },
+  "schema": "PI0253_ORIGINAL_BASELINE_CALIB_OBSERVATION_V1",
+  "seed": 22301,
+  "selected_checkpoint": "NONE",
+  "source_profile_schema": "PI0228_TRAIN_CALIB_PROFILE_V1",
+  "status": "SAFETY_GATE_REJECT",
+  "target_authority_sha256": "06fa238a27485ecde39c75797fe9fd82dd1cdc5f5c79f5d5a5b3d9dcab7597e8",
+  "target_authority_source_grid_manifest_sha256": "d6e6e51ebf7b9e9a43cb691e8896fa2ddfe10de43f936aede4fa2898ac3f2bc4",
+  "target_xyz_in_model_input": false,
+  "wbc_execution": false,
+  "worst_cell_median_reference_min_target_distance_m": null
+}
