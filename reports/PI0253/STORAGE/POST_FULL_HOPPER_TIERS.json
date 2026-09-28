@@ -1,0 +1,120 @@
+{
+  "schema": "PI0253_POST_FULL_STORAGE_TIER_SNAPSHOT_V1",
+  "observed_epoch_s": 1790620710.9541385,
+  "host": "hopper-l-01",
+  "quota_headroom": "UNKNOWN",
+  "current_free_bytes": 437495267328,
+  "assets": [
+    {
+      "asset": "FULL2500",
+      "local_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/training/checkpoint-2500",
+      "local_state": "ABSENT",
+      "complete_trainer_location": "HF_ONLY",
+      "revision": "289b3a8c98a8f8aa8cc62a94c26c3a827c154a4b",
+      "tree": "fadc5581ebfce50e79a94078d7d6434ee333a55f7e8c1f8e9350f475c5a580cb",
+      "local_resume_available": false,
+      "formal_candidate_preserved": true
+    },
+    {
+      "asset": "FULL5000",
+      "local_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/checkpoint-5000",
+      "local_state": "METADATA_ONLY",
+      "complete_trainer_location": "HF_ONLY",
+      "revision": "a8ab7d38970294b52320beba636a10cb6a2d5afe",
+      "tree": "8cfe43038921d53e27f5408f2ac2307fadd05f568fe9171acc3d3e18db4ff570",
+      "local_resume_available": false,
+      "formal_candidate_preserved": true
+    },
+    {
+      "asset": "FULL7500",
+      "local_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/checkpoint-7500",
+      "local_state": "METADATA_ONLY",
+      "complete_trainer_location": "HF_ONLY",
+      "revision": "c25a4252675fae8616d0dc80e4251c91a81c319b",
+      "tree": "f91769fdb3ca6b55994470f04b7546d6c78285824aea47c24d8581f4cde25e26",
+      "local_resume_available": false,
+      "formal_candidate_preserved": true
+    },
+    {
+      "asset": "FULL10000",
+      "local_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/checkpoint-10000",
+      "local_state": "METADATA_ONLY",
+      "complete_trainer_location": "HF_ONLY",
+      "revision": "7bafb99f58f3ed9dea66e85fff8c8b79a7c9785d",
+      "tree": "a0ef6005f1ec178addbee8cf176a4bc997551065e1885e9df927780e77e11212",
+      "local_resume_available": false,
+      "formal_candidate_preserved": true
+    },
+    {
+      "asset": "G_initializer",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/initializer_G2000",
+      "local_state": "MODEL_ONLY",
+      "local_resume_available": false,
+      "files": [
+        {
+          "name": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "nlink": 2
+        },
+        {
+          "name": "model-00002-of-00002.safetensors",
+          "bytes": 4535492016,
+          "nlink": 2
+        }
+      ],
+      "retirement_in_this_storage_round": false,
+      "reason": "Protected current model/baseline scope; no further broad cleanup"
+    },
+    {
+      "asset": "original_adapted1000_baseline",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0227/pi0227_large_adapt_v1_inputs/checkpoint-1000",
+      "local_state": "MODEL_ONLY",
+      "local_resume_available": false,
+      "files": [
+        {
+          "name": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "nlink": 1
+        },
+        {
+          "name": "model-00002-of-00002.safetensors",
+          "bytes": 4535492016,
+          "nlink": 1
+        },
+        {
+          "name": "training_args.bin",
+          "bytes": 5905,
+          "nlink": 1
+        }
+      ],
+      "retirement_in_this_storage_round": false,
+      "reason": "Protected current model/baseline scope; no further broad cleanup"
+    },
+    {
+      "asset": "terminal_export",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training",
+      "local_state": "MODEL_ONLY",
+      "local_resume_available": false,
+      "files": [
+        {
+          "name": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "nlink": 1
+        },
+        {
+          "name": "model-00002-of-00002.safetensors",
+          "bytes": 4535492016,
+          "nlink": 1
+        },
+        {
+          "name": "training_args.bin",
+          "bytes": 5969,
+          "nlink": 1
+        }
+      ],
+      "retirement_in_this_storage_round": false,
+      "reason": "Protected current model/baseline scope; no further broad cleanup"
+    }
+  ],
+  "new_deletions": 0
+}

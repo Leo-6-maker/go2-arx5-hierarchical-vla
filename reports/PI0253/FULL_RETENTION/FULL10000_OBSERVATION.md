@@ -14,3 +14,6 @@ Original four thresholds unchanged: zeroREJECT, medianXYZ<=.020m, p95XYZ<=.035m,
 Complete original retention scope: reused G0/B064 + new FULL1000/B064 + FULL2500/5000/7500/10000 B0/B1 each128 =640 logical cells /576 new queries /2304 new head evaluations. FULL1000 remains observation only, never a formal candidate or resume source.
 
 All four formal complete Trainer points and actual10000-update integrity have closed. The authorized four fixed L/Nlive/Q side queries now run once on Corelab, PID3996717, followed by separate CPU replay. No physical episode. CALIB remains unread until those four side reports close. selected_checkpoint=NONE; only original selector may freeze the formal winner. No DEV/F, DAgger, hardware, WBC/gate changes, merge, mail or monitor.
+## Raw retention archive closure
+
+PUBLIC fixed revision6431cc401c72dac79741339a501e401282e7d6dd, prefixevidence/PI0253/full10000-20260929, treef0d80c82aaddd8c7d29c65bcb70ec70941e84b9183c68ff24d9fa43226507db7. All391 files /24,584,130bytes fully streamed and hashed: PASS_FULL_FILE_READBACK. No requery for archival.
