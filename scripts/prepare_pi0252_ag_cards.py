@@ -263,6 +263,7 @@ def main() -> int:
         expected_loss = recipe["losses"][arm]["loss"]
         doc.update({
             "schema": "PI0252_AG_RUN_CARD_V1", "protocol": "PI0252", "training_manifest_family": "AG",
+            "arm": arm,
             "integrity_schema": "PI0252_AG_TRAINING_INTEGRITY_V1", "status": "SEALED_READY_NOT_STARTED",
             "authorization": AUTH, "execution_authorization": AUTH,
             "canonical_issue_comment": CANONICAL, "pointer_pr_comment": POINTER,
