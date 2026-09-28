@@ -1,0 +1,76 @@
+{
+  "schema": "PASS_MODEL_PUBLIC_STORAGE_INDEX_V1",
+  "created_epoch": 1790610670.596157,
+  "models": [
+    {
+      "name": "U2000",
+      "repo": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "0296f5dca5cb46daf05b51f90c53e1df905a7203",
+      "prefix": "arms/PI0247/r2-u-and-paired-verdict-20260926/U/checkpoint-2000",
+      "public": true,
+      "pass_scope": "M16 fixed TRAIN B0/B1 PASS; no physical-success claim",
+      "verdict_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5846868900",
+      "inference_files": [
+        {
+          "bytes": 2148,
+          "path": "config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "04fb5aa896dbf3637ac6a9c3fbff523f9739362c2c7b21076cfe5b2917641366"
+        },
+        {
+          "bytes": 4535492016,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "2abdfa08d86c61f82acc7c3d9bd0cd53366310d9c4a49b43d7387edea22530a3"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        }
+      ],
+      "verification": "Anonymous full streaming byte-count and SHA256 assertions completed for all four inference files in verify_pass_models.py; each emitted its verified line in the Codex tool transcript.",
+      "full_trainer_tree_sha256": "dace0dd423c4c1c6297b26bd6da09aee1e99edf4238638c5a317356e417a920f",
+      "trainer_readback_scope": "Historical complete pinned Trainer readback retained. Current optional optimizer reread was stopped after inference verification; no current full-Trainer readback claim."
+    },
+    {
+      "name": "G2000",
+      "repo": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "efecea485ae77000599d19171b02491f8d514f42",
+      "prefix": "arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000",
+      "public": true,
+      "pass_scope": "M64 all64/old16 B0/B1 PASS; TRAIN-A/C0 physical FAIL retained; FULL initializer",
+      "verdict_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5866382788",
+      "inference_files": [
+        {
+          "bytes": 2148,
+          "path": "config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "0c18bf8e69aa5d749deec0f5741d959000041420e36bbed1c912bdb23ce9fb43"
+        },
+        {
+          "bytes": 4535492016,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "f0d2df3e26a2c6d4b4bf6d590512282cfc4109b89332b39ece58176f1c923574"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        }
+      ],
+      "verification": "Anonymous full streaming byte-count and SHA256 assertions completed for all four inference files in verify_pass_models.py; each emitted its verified line in the Codex tool transcript.",
+      "full_trainer_tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+      "trainer_readback_scope": "Historical complete pinned Trainer readback retained. Current optional optimizer reread was stopped after inference verification; no current full-Trainer readback claim."
+    }
+  ],
+  "note": "Existing immutable public checkpoints reused. Model quality PASS is bounded by the listed TRAIN screen; no formal selection or physical success is implied.",
+  "verification_runner_sha256": "dc2e331c5663073be3dd5f8a89a21ab199a6b824ed506382f0e03dee4a8792cb"
+}
