@@ -91,6 +91,7 @@ def validate_initializer(doc):
 
 
 def full_config(core):
+    core.STEPS, core.CHECKPOINTS = STEPS, SAVES
     original = core.build_runtime_config
 
     def build(*args, **kwargs):
