@@ -13,3 +13,8 @@ Complete training evidence archive is running on Hopper independently of evaluat
 FULL7500 raw evidence archive has completed full391-file streaming readback: PUBLIC revision5922ab1fbafdca3dd061ba5281d1af8206ca93b0, tree8849f21483ff69f85c0b1a2ec958b6c1f0e3f99bbe006dc9d98bd7f6ff039715, prefixevidence/PI0253/full7500-20260929,24,583,563bytes.
 
 All retention and the four fixed live side reports must close before CALIB is opened. selected_checkpoint=NONE. Existing intermediate quality FAILs remain valid observations, never candidate retirement. Storage closeout at reports/PI0253/STORAGE remains immutable; no additional broad cleanup. Mail/monitor, DEV/F, DAgger, hardware, WBC/gate edits and merge remain closed.
+## Complete training evidence archival closure
+
+PUBLIC revision f241e0716afb0c6e67b5d5f36fea3bfbd65efeac, prefix evidence/PI0253/full-training-closed-20260929, tree11d5fe4ff7525b04a2f868adcb83a362fa05c436712b984cec1cf2bf34ac26d7. All85 files /135,263,955bytes independently streamed and hashed at the fixed revision: PASS_FULL_FILE_READBACK. This includes the exact FULL-specific manifest and complete actual random/loss/gradient/mode/resume evidence, small checkpoint receipts, staged execution sources and job logs. No model/optimizer weights were copied to Corelab in this evidence archive.
+
+The first detached login-node archive process exited without a receipt or log error; its submission record remains. Reusing the identical sealed payload and mature archive helper in a connected foreground session completed successfully. Transport repair made0 training/model queries; no science was repeated. Helper differs from the Corelab version only in the three host path literals, SHA2564dfd2469ad270058e05e4f0c7de81fa10a37e7ed23dd41f738d6d0d1aa8d09ed.
