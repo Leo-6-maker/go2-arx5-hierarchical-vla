@@ -57,4 +57,24 @@ Exact continuation job **637051.hopper-m-02** was submitted at 2026-09-29 00:09:
 
 The actual persistent-fileset probe before submission reported 175,811,592,192 bytes free, with 31,620,064,634 bytes required for the next complete checkpoint plus 10 GiB reserve. Quota headroom remains `UNKNOWN`; this is not a quota proof. No new broad cleanup was performed in this goal.
 
-The complete first-valid retention arrays and exact original condition inputs are being preserved under HF PUBLIC prefix `evidence/PI0253/full-barrier-20260929`. The full streaming readback receipt will be appended after it actually closes; an in-progress upload/readback is not a preservation PASS.
+## Complete HF evidence readback
+
+The complete first-valid retention arrays, original source condition tensors, actual noise packets, qualified source report, CPU replays, cards and executed screen code are preserved in HF PUBLIC:
+
+- Prefix `evidence/PI0253/full-barrier-20260929`.
+- Fixed revision `5043765c8d3b35c1e7d036bf71bb96264e66dbc0`.
+- **795 files / 241,443,594 bytes**, tree `d75abaf5df60b181794bc2f1c226136594c92d40c8119933be50ffd77d648323`.
+- Status `PASS_FULL_FILE_READBACK`: every file was streamed from this fixed revision and its complete size/SHA256 matched the local inventory.
+- Receipt SHA256 `eabb61901ee0d3c179221cfae4437afcf2f115bddaf2e93e36ab66a6456cda69`.
+
+The earlier canonical correctly reported readback as in progress. This appended evidence closes preservation without rerunning a cell or retraining. Current continuation job 637051 was subsequently observed **R** on `hopper-17`, with no hold and email disabled. Actual loaded-state/first-suffix-update evidence is still separate from PBS running status.
+
+## Observed exact suffix
+
+Job `637051.hopper-m-02` actually loaded the complete optimizer/scheduler/RNG state and produced `RELEASED_AFTER_OPTIMIZER_SCHEDULER_AND_RNG_RESTORE`. The release receipt binds the same FULL2500 tree and archive/readback receipts; its SHA256 is `cbf3df964b3c81edb13a8881c48f802d014ef4d26869ff5b2ed13c43096295ad`. The restored local checkpoint was retired only after this load, while the pinned HF recovery source remains intact.
+
+At 2026-09-29 00:21:55 SGT, actual Trainer progress and mode records had both advanced through at least **2701/10000**. The read-only observation receipt is `FULL_EXACT_RESUME_OBSERVATION_637051.json`; it is not a full-training integrity/quality PASS.
+
+The first suffix record is exactly scheduled step2501, fixed/episode index8457, source `pi0227_persistent_train_d_j03_yp015_s04_ym050_r03_r03_227619:obs-0060`, yield ordinal2501. Its key is `PI0253|22301|stage=FULL|optimizer_step=2501`, seed8024279732684664450, and its pre-forward guard passed. This confirms the suffix began at the intended cursor rather than skipping again or restarting at step1.
+
+The same actual row retains S4, four checkpointed Euler steps, four backward recomputations, no expert action in condition, no active-value intervention, original loss coefficients (.4/.1/.1/.1), and restored mode. Cumulative rollout/backward head counts at step2501 are both10004, including the verified 2500-step prefix. These observations added **zero** model queries or optimizer updates beyond the authorized running training itself. Formal selected remains `NONE`; FULL5000/7500/10000, complete retention/live side reports and CALIB remain pending.
