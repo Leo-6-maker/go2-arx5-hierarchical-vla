@@ -16,25 +16,35 @@ from typing import Any
 
 SEED = 22301
 MAX_STEPS = 2000
-SCHEMA = "PI0251_STEP_ADDRESSED_TORCH_RNG_V1"
+PROTOCOL = "PI0251"
+STAGE = "M64_CE"
+SCHEMA = f"{PROTOCOL}_STEP_ADDRESSED_TORCH_RNG_V1"
 _ACTIVE_STEP = contextvars.ContextVar("pi0251_active_step", default=None)
+
+
+def configure_namespace(protocol: str, stage: str) -> None:
+    global PROTOCOL, STAGE, SCHEMA
+    if not protocol.isascii() or not protocol.isalnum() or not stage.isascii() or not stage.replace("_", "").isalnum():
+        raise ValueError("step RNG namespace must use ASCII identifiers")
+    PROTOCOL, STAGE = protocol, stage
+    SCHEMA = f"{protocol}_STEP_ADDRESSED_TORCH_RNG_V1"
 
 
 def step_key_seed(step: int) -> tuple[str, int]:
     if isinstance(step, bool) or not isinstance(step, int) or not 1 <= step <= MAX_STEPS:
-        raise ValueError(f"PI0251 optimizer step must be in [1,{MAX_STEPS}]")
-    key = f"PI0251|{SEED}|stage=M64_CE|optimizer_step={step}"
+        raise ValueError(f"{PROTOCOL} optimizer step must be in [1,{MAX_STEPS}]")
+    key = f"{PROTOCOL}|{SEED}|stage={STAGE}|optimizer_step={step}"
     seed = int.from_bytes(hashlib.sha256(key.encode("ascii")).digest()[:8], "big") & ((1 << 63) - 1)
     return key, seed
 
 
 def build_key_table(schedule_rows: list[Mapping[str, Any]]) -> list[dict[str, Any]]:
     if len(schedule_rows) != MAX_STEPS:
-        raise ValueError(f"PI0251 requires exactly {MAX_STEPS} exposure rows")
+        raise ValueError(f"{PROTOCOL} requires exactly {MAX_STEPS} exposure rows")
     result = []
     for step, row in enumerate(schedule_rows, 1):
         if int(row.get("optimizer_step", -1)) != step:
-            raise ValueError(f"PI0251 exposure schedule cursor mismatch at step {step}")
+            raise ValueError(f"{PROTOCOL} exposure schedule cursor mismatch at step {step}")
         key, seed = step_key_seed(step)
         result.append({"optimizer_step": step, "key": key, "seed": seed,
                        "fixed_index": int(row["fixed_index"]),
@@ -57,10 +67,10 @@ def rng_context(step: int, device: Any = None):
         device = torch.device(device)
         if device.type == "cuda":
             if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
-                raise RuntimeError("PI0251 RNG isolation requires the single visible job CUDA device")
+                raise RuntimeError(f"{PROTOCOL} RNG isolation requires the single visible job CUDA device")
             selected = [torch.cuda.current_device() if device.index is None else int(device.index)]
             if selected[0] != torch.cuda.current_device():
-                raise RuntimeError("PI0251 model device is not the current job CUDA device")
+                raise RuntimeError(f"{PROTOCOL} model device is not the current job CUDA device")
 
     @contextmanager
     def isolated():
@@ -115,7 +125,7 @@ def _payload_identity(value: Any) -> tuple[str, int]:
 def verify_identity(actual: Mapping[str, Any], expected: Mapping[str, Any], fields: tuple[str, ...]) -> None:
     mismatch = [field for field in fields if actual.get(field) != expected.get(field)]
     if mismatch:
-        raise RuntimeError(f"PI0251 online identity mismatch: {mismatch}")
+        raise RuntimeError(f"{PROTOCOL} online identity mismatch: {mismatch}")
 
 
 def install_training_step_rng(
@@ -130,24 +140,24 @@ def install_training_step_rng(
     if audit_path.exists():
         rows = [json.loads(line) for line in audit_path.read_text(encoding="utf-8").splitlines() if line.strip()]
     if len(rows) != int(resume_after_step):
-        raise ValueError("PI0251 RNG audit must be the exact contiguous restored prefix")
+        raise ValueError(f"{PROTOCOL} RNG audit must be the exact contiguous restored prefix")
     for step, row in enumerate(rows, 1):
         key, seed = step_key_seed(step)
         if row.get("optimizer_step") != step or row.get("key") != key or row.get("seed") != seed:
-            raise ValueError(f"PI0251 RNG audit prefix differs at step {step}")
+            raise ValueError(f"{PROTOCOL} RNG audit prefix differs at step {step}")
 
     class StepAddressedTrainer(trainer_type):
         def __init__(self, *args: Any, **kwargs: Any):
             super().__init__(*args, **kwargs)
             if int(getattr(self.args, "gradient_accumulation_steps", 1)) != 1:
-                raise RuntimeError("PI0251 step key requires one optimizer update per training_step")
+                raise RuntimeError(f"{PROTOCOL} step key requires one optimizer update per training_step")
             from transformers import TrainerCallback
 
             class VerifyBeforeOptimizer(TrainerCallback):
                 def on_pre_optimizer_step(self, args: Any, state: Any, control: Any, **kw: Any) -> Any:
                     expected = int(state.global_step) + 1
                     if expected > len(rows) or int(rows[expected - 1].get("optimizer_step", -1)) != expected:
-                        raise RuntimeError(f"PI0251 RNG key missing before optimizer update {expected}")
+                        raise RuntimeError(f"{PROTOCOL} RNG key missing before optimizer update {expected}")
                     return control
 
             self.add_callback(VerifyBeforeOptimizer())
@@ -155,7 +165,7 @@ def install_training_step_rng(
         def training_step(self, model: Any, inputs: Any, *args: Any, **kwargs: Any) -> Any:
             step = int(self.state.global_step) + 1
             if step < int(resume_after_step) + 1 or step > MAX_STEPS:
-                raise RuntimeError(f"PI0251 Trainer cursor is invalid: {step}")
+                raise RuntimeError(f"{PROTOCOL} Trainer cursor is invalid: {step}")
             key, seed = step_key_seed(step)
             input_sha256, tensor_count = _payload_identity(inputs)
             model_device = next(model.parameters()).device
@@ -172,7 +182,7 @@ def install_training_step_rng(
                       "model_input_sha256": input_sha256, "input_tensor_count": tensor_count,
                       "pre_forward_guard": guard_record}
             if len(rows) != step - 1:
-                raise RuntimeError(f"PI0251 Trainer step is duplicated or missing: {step}")
+                raise RuntimeError(f"{PROTOCOL} Trainer step is duplicated or missing: {step}")
             rows.append(record)
             with audit_path.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(record, sort_keys=True) + "\n")
@@ -181,7 +191,7 @@ def install_training_step_rng(
                     os.fsync(stream.fileno())
             return result
 
-    StepAddressedTrainer.__name__ = f"PI0251{trainer_type.__name__}"
+    StepAddressedTrainer.__name__ = f"{PROTOCOL}{trainer_type.__name__}"
     return StepAddressedTrainer
 
 

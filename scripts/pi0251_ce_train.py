@@ -101,6 +101,49 @@ def _processor_identity(rotation_check: dict[str, Any]) -> dict[str, Any]:
     return identity
 
 
+def _derive_actual_dt_rows(schedule_rows: list[dict[str, Any]], timestamp_path: Path) -> list[dict[str, Any]]:
+    plans: dict[int, dict[str, Any]] = {}
+    for row in schedule_rows:
+        fixed_index = int(row["fixed_index"])
+        previous = plans.setdefault(fixed_index, row)
+        if (previous["source_episode_id"] != row["source_episode_id"]
+                or int(previous["episode_index"]) != int(row["episode_index"])):
+            raise RuntimeError(f"PI0252 exposure schedule changed source for fixed_index={fixed_index}")
+    if len(plans) != 64:
+        raise RuntimeError("PI0252 timestamp binding requires the 64 unique frozen exposure windows")
+    wanted = {str(row["source_episode_id"]): row for row in plans.values()}
+    timestamps: dict[str, list[float]] = {}
+    with timestamp_path.open("r", encoding="utf-8") as stream:
+        for line in stream:
+            row = json.loads(line)
+            source_id = str(row.get("raw_episode_id", ""))
+            if source_id not in wanted:
+                continue
+            if source_id in timestamps:
+                raise RuntimeError(f"PI0252 timestamp source is duplicated: {source_id}")
+            plan = wanted[source_id]
+            if int(row.get("dataset_episode_index", -1)) != int(plan["episode_index"]):
+                raise RuntimeError(f"PI0252 timestamp episode index differs for {source_id}")
+            point_times = [float(value) for value in row.get("future_action_point_timestamps", [])]
+            if len(point_times) != 40 or any(not math.isfinite(value) for value in point_times):
+                raise RuntimeError(f"PI0252 timestamp window is incomplete for {source_id}")
+            dt_s = [right - left for left, right in zip(point_times, point_times[1:])]
+            if any(not math.isfinite(value) or value <= 0 or not math.isclose(value, 0.05, rel_tol=0, abs_tol=1e-12)
+                   for value in dt_s):
+                raise RuntimeError(f"PI0252 actual H40 timestamp delta is not 0.05 s for {source_id}")
+            timestamps[source_id] = dt_s
+            if len(timestamps) == len(wanted):
+                break
+    if set(timestamps) != set(wanted):
+        missing = sorted(set(wanted) - set(timestamps))
+        raise RuntimeError(f"PI0252 source timestamp rows are missing: {missing[:3]}")
+    return [{"fixed_index": fixed_index,
+             "episode_index": int(plans[fixed_index]["episode_index"]),
+             "source_episode_id": str(plans[fixed_index]["source_episode_id"]),
+             "dt_s": timestamps[str(plans[fixed_index]["source_episode_id"])]}
+            for fixed_index in sorted(plans)]
+
+
 def _verify_pair_binding(run_card: Path, doc: dict[str, Any]) -> None:
     source = doc["source"]
     binding = _json(Path(source["pair_run_binding_path"]))
@@ -137,8 +180,158 @@ def _verify_pair_binding(run_card: Path, doc: dict[str, Any]) -> None:
         raise RuntimeError("PI0251 X2000 ancestor integrity does not match its sealed parent card")
 
 
+def _verify_pi0252_card(path: Path, arm: str) -> dict[str, Any]:
+    global REVISION, TREE_SHA256
+    doc = _json(path)
+    source = doc.get("source", {})
+    stage = doc.get("stage", {})
+    init = doc.get("initializer", {})
+    protocol = "PI0252"
+    REVISION = str(init.get("screen_revision", ""))
+    TREE_SHA256 = str(init.get("full_checkpoint_tree_sha256", ""))
+    if (not REVISION or not TREE_SHA256 or arm not in ("A", "G")
+            or doc.get("schema") != "PI0252_AG_RUN_CARD_V1"
+            or doc.get("protocol") != protocol
+            or doc.get("status") != "SEALED_READY_NOT_STARTED"
+            or doc.get("canonical_issue_comment") != 5862818190
+            or doc.get("pointer_pr_comment") != 5862824588
+            or doc.get("authorization") != source.get("authorization")
+            or doc.get("execution_authorization") != doc.get("authorization")
+            or doc.get("arm") != arm or doc.get("selected_checkpoint") != "NONE"
+            or doc.get("d1_runtime_id") != "S4"
+            or stage.get("name") != "M64_AG" or stage.get("steps") != STEPS
+            or stage.get("checkpoint_steps") != list(CHECKPOINTS)
+            or stage.get("source_revision") != REVISION
+            or doc.get("optimizer", {}).get("steps") != STEPS
+            or doc.get("optimizer", {}).get("checkpoint_steps") != list(CHECKPOINTS)
+            or doc.get("optimizer", {}).get("learning_rate") != 1e-5
+            or doc.get("optimizer", {}).get("warmup_steps") != 10
+            or doc.get("cohort", {}).get("count") != 64
+            or doc.get("schedule", {}).get("count") != STEPS
+            or _json(path.with_name("run_card.seal.json")).get("sha256") != _sha(path)):
+        raise RuntimeError("PI0252 A/G run card or seal differs from the fixed C2000 S4 authorization")
+    expected_coefficients = {
+        "ell_pos": 0.4, "ell_delta": 0.1, "ell_rot": 0.1,
+        "ell_speed_margin": 0.1 if arm == "G" else 0.0,
+    }
+    expected_family = f"PI0252R1_M64_{arm}_V1"
+    expected_loss = ("L_native + 0.4*ell_pos(a_free_S4) + 0.1*ell_delta(a_free_S4) + 0.1*ell_rot(a_free_S4)"
+                    if arm == "A" else "J_A + 0.1*ell_speed_margin(a_free_S4)")
+    optimizer = doc.get("optimizer", {})
+    if (doc.get("loss_coefficients") != expected_coefficients
+            or doc.get("family") != expected_family or doc.get("loss") != expected_loss
+            or doc.get("seed") != SEED
+            or optimizer.get("weight_decay") != 1e-5
+            or optimizer.get("adam_beta1") != 0.9 or optimizer.get("adam_beta2") != 0.999
+            or optimizer.get("adam_epsilon") != 1e-8 or optimizer.get("max_grad_norm") != 1.0
+            or optimizer.get("batch_size") != 1 or optimizer.get("gradient_accumulation_steps") != 1
+            or optimizer.get("workers") != 0 or optimizer.get("scheduler") != "cosine"
+            or optimizer.get("optimizer_state") != "fresh AdamW; no C optimizer resume"
+            or doc.get("archive", {}).get("path_prefix") != f"arms/PI0252/r1-speed-margin-20260928/{arm}"
+            or source.get("objective_kind") != "peak_linear_speed"
+            or source.get("audit_prefix") != "pi0252"
+            or tuple(source.get("paired_arms", ())) != ("A", "G")
+            or source.get("reference_arm") != "A"
+            or source.get("intervention_arm") != "G"):
+        raise RuntimeError("PI0252 loss or paired-run contract differs from the frozen A/G recipe")
+    for binding_name, schema in (("pair_recipe_binding_path", "PI0252_AG_PAIR_RECIPE_V1"),
+                                 ("pair_run_binding_path", "PI0252_AG_PAIR_RUN_BINDING_V1")):
+        binding_path = Path(source[binding_name])
+        if (binding_name == "pair_recipe_binding_path"
+                and _sha(binding_path) != source["pair_recipe_binding_sha256"]):
+            raise RuntimeError(f"PI0252 sealed {binding_name} changed")
+        binding = _json(binding_path)
+        if (binding.get("schema") != schema or binding.get("status") != "SEALED"
+                or binding.get("selected_checkpoint") != "NONE"):
+            raise RuntimeError(f"PI0252 {binding_name} is not sealed")
+        if (binding_name == "pair_run_binding_path"
+                and binding.get("pair_recipe_binding_sha256") != source["pair_recipe_binding_sha256"]):
+            raise RuntimeError("PI0252 run binding does not point to the sealed A/G recipe")
+        if binding_name == "pair_run_binding_path":
+            cards = binding.get("cards", {})
+            if set(cards) != {"A", "G"}:
+                raise RuntimeError("PI0252 pair binding does not contain exactly A and G")
+            for paired_arm in ("A", "G"):
+                item = cards[paired_arm]
+                card_path = Path(item.get("path", ""))
+                if (not card_path.is_file() or _sha(card_path) != item.get("sha256")
+                        or _json(card_path).get("arm") != paired_arm
+                        or _json(card_path.with_name("run_card.seal.json")).get("sha256") != item.get("sha256")):
+                    raise RuntimeError(f"PI0252 {paired_arm} run card identity is not closed")
+            own = cards[arm]
+            if own.get("path") != str(path) or own.get("sha256") != _sha(path):
+                raise RuntimeError("PI0252 pair binding differs from this sealed card")
+    for name, digest_key in (("schedule", "schedule"),):
+        item = doc[name]
+        if _sha(Path(item["path"])) != item["sha256"]:
+            raise RuntimeError(f"PI0252 fixed 64/2000 {digest_key} changed")
+    for key in ("step_key_table", "dt_table"):
+        path_key, sha_key = f"{key}_path", f"{key}_sha256"
+        if _sha(Path(source[path_key])) != source[sha_key]:
+            raise RuntimeError(f"PI0252 sealed {key.replace('_', ' ')} changed")
+    timestamp_path = Path(source["timestamp_path"])
+    if _sha(timestamp_path) != source["timestamp_sha256"]:
+        raise RuntimeError("PI0252 actual timestamp source changed")
+    schedule_rows = _json(Path(doc["schedule"]["path"]))["rows"]
+    key_doc = _json(Path(source["step_key_table_path"]))
+    from pi0252_step_rng import build_key_table
+    if (key_doc.get("schema") != "PI0252_STEP_KEY_TABLE_V1" or key_doc.get("seed") != SEED
+            or key_doc.get("schedule_sha256") != doc["schedule"]["sha256"]
+            or key_doc.get("rows") != build_key_table(schedule_rows)):
+        raise RuntimeError("PI0252 keyed RNG table is not the frozen protocol namespace and schedule")
+    dt_doc = _json(Path(source["dt_table_path"]))
+    expected_dt_rows = _derive_actual_dt_rows(schedule_rows, timestamp_path)
+    if (dt_doc.get("schema") != "PI0252_ACTUAL_H40_DT_TABLE_V1"
+            or dt_doc.get("timestamp_sha256") != source["timestamp_sha256"]
+            or dt_doc.get("schedule_sha256") != doc["schedule"]["sha256"]
+            or dt_doc.get("rows") != expected_dt_rows):
+        raise RuntimeError("PI0252 64-window physical dt table differs from frozen timestamp rows")
+    pair_recipe_path = Path(source["pair_recipe_binding_path"])
+    recipe = _json(pair_recipe_path)
+    if (recipe.get("start_revision") != REVISION
+            or recipe.get("start_tree_sha256") != TREE_SHA256
+            or recipe.get("runtime_id") != "S4"
+            or recipe.get("optimizer_steps_each") != STEPS
+            or recipe.get("learning_rate") != 1e-5
+            or recipe.get("schedule_sha256") != doc["schedule"]["sha256"]
+            or recipe.get("step_key_table_sha256") != source["step_key_table_sha256"]
+            or recipe.get("dt_table_sha256") != source["dt_table_sha256"]
+            or recipe.get("pairing") != ["source", "key", "model_input_sha256", "native_tau_identity",
+                                           "native_epsilon", "stock_initial_noise"]
+            or recipe.get("losses", {}).get(arm, {}).get("coefficients") != expected_coefficients):
+        raise RuntimeError("PI0252 sealed A/G recipe differs from the fixed initializer or objective")
+    custom_paths = {
+        "pi0251_ce_train.py": Path(doc["paths"]["execution_driver_root"]) / "pi0251_ce_train.py",
+        "pi0252_ag_train.py": Path(doc["paths"]["execution_driver_root"]) / "pi0252_ag_train.py",
+        "pi0252_step_rng.py": Path(doc["paths"]["execution_driver_root"]) / "pi0252_step_rng.py",
+        "pi0252_speed_margin.py": Path(doc["paths"]["execution_driver_root"]) / "pi0252_speed_margin.py",
+        "pi0252_ag_train_h200.pbs": Path(doc["paths"]["pbs_script"]),
+        "pi0248_cr_train.py": Path(doc["paths"]["legacy_execution_driver_root"]) / "pi0248_cr_train.py",
+        "pi0248_rotation_cpu.py": Path(doc["paths"]["legacy_execution_driver_root"]) / "pi0248_rotation_cpu.py",
+    }
+    for name, expected in source["custom_execution_code_sha256"].items():
+        if name not in custom_paths or not custom_paths[name].is_file() or _sha(custom_paths[name]) != expected:
+            raise RuntimeError(f"PI0252 execution source changed: {name}")
+    g0_path = Path(source["g0_receipt_path"])
+    g1_path = Path(source["g1_cpu_selfcheck_path"])
+    if (_sha(g0_path) != source["g0_receipt_sha256"]
+            or _sha(g0_path) != "e184f76f8155a0445640b675ea7b559d99ceaed29cd92a722e54ab5f85bbae5d"
+            or _json(g0_path).get("status") != "PI0252_GATE_CONFIGURATION_BINDING_CONFLICT"
+            or _sha(g1_path) != source["g1_cpu_selfcheck_sha256"]
+            or _json(g1_path).get("status") != "PASS_PI0252_AG_CPU_FIXTURES"):
+        raise RuntimeError("PI0252 G0 or speed/guard CPU fixture receipt changed")
+    if arm == "G":
+        peer = Path(source["peer_run_card_path"])
+        if not peer.is_file() or _sha(peer) != source["peer_run_card_sha256"]:
+            raise RuntimeError("PI0252 G is not bound to the sealed A reference card")
+    life.STEPS, life.CHECKPOINTS = STEPS, CHECKPOINTS
+    return doc
+
+
 def _verify_card(path: Path, arm: str) -> dict[str, Any]:
     doc = _json(path)
+    if doc.get("protocol") == "PI0252":
+        return _verify_pi0252_card(path, arm)
     seal = _json(path.with_name("run_card.seal.json"))
     expected_prefix = f"arms/PI0251/xyz-excess-risk-20260928/{arm}"
     if (arm not in FAMILIES or doc.get("schema") != "PI0251_CE_RUN_CARD_V1"
@@ -201,6 +394,86 @@ def _verify_card(path: Path, arm: str) -> dict[str, Any]:
 
 def _validate_initializer(doc: dict[str, Any]) -> None:
     init, source = doc["initializer"], doc["source"]
+    if doc.get("protocol") == "PI0252":
+        receipt_path = Path(source["c2000_durable_receipt_path"])
+        readback_path = Path(source["c2000_hf_readback_path"])
+        integrity_path = Path(source["c2000_integrity_path"])
+        view_path = Path(source["initializer_view_receipt_path"])
+        parent_path = Path(source["c2000_parent_run_card_path"])
+        parent = _json(parent_path)
+        parent_sha = _sha(parent_path)
+        parent_integrity = _json(integrity_path)
+        if (_sha(receipt_path) != init["durable_receipt_sha256"]
+                or _sha(readback_path) != source["c2000_hf_readback_sha256"]
+                or _sha(integrity_path) != source["c2000_integrity_sha256"]
+                or _sha(view_path) != source["initializer_view_receipt_sha256"]
+                or parent_sha != source["c2000_parent_run_card_sha256"]
+                or _json(parent_path.with_name("run_card.seal.json")).get("sha256") != parent_sha
+                or parent.get("arm") != "C" or parent.get("selected_checkpoint") != "NONE"
+                or _sha(receipt_path) != source["c2000_durable_receipt_sha256"]
+                or parent_integrity.get("status") != "PASS_PI0251_C_TRAINING_INTEGRITY"
+                or parent_integrity.get("arm") != "C"
+                or parent_integrity.get("run_card_sha256") != parent_sha
+                or parent_integrity.get("optimizer_updates") != STEPS):
+            raise RuntimeError("PI0252 C2000 parent, integrity, durable, or HF receipt identity changed")
+        receipt, readback, view = _json(receipt_path), _json(readback_path), _json(view_path)
+        record = receipt.get("source_record", {})
+        inventory = record.get("inventory", {})
+        if (receipt.get("status") != "DURABLE_VERIFIED" or receipt.get("checkpoint_step") != 2000
+                or receipt.get("family") != init.get("source_family")
+                or receipt.get("hf_manifest_commit_id") != REVISION
+                or inventory.get("tree_sha256") != TREE_SHA256
+                or inventory.get("total_bytes") != int(init["full_checkpoint_bytes"])
+                or readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+                or readback.get("revision") != REVISION or readback.get("source_tree_sha256") != TREE_SHA256
+                or readback.get("repo_id") != doc["archive"]["repo_id"]
+                or view.get("status") != "PASS_PI0252_C2000_CT_VIEW"
+                or view.get("revision") != REVISION or view.get("checkpoint_tree_sha256") != TREE_SHA256
+                or view.get("source_durable_receipt_sha256") != _sha(receipt_path)):
+            raise RuntimeError("PI0252 C2000 durable receipt or initializer view identity mismatch")
+        entries = {row["path"]: row for row in inventory.get("entries", [])}
+        observed = {str(row.get("path", "")).split("/checkpoint-2000/", 1)[-1]: row
+                    for row in readback.get("files", []) if "/checkpoint-2000/" in str(row.get("path", ""))}
+        if set(observed) != set(entries):
+            raise RuntimeError("PI0252 C2000 HF readback does not cover its full Trainer state")
+        prefix = parent.get("archive", {}).get("path_prefix", "")
+        if not prefix or any(not str(row.get("path", "")).startswith(prefix + "/")
+                             for row in readback.get("files", [])):
+            raise RuntimeError("PI0252 C2000 readback path is outside its sealed HF archive")
+        for name, expected in entries.items():
+            item = observed[name]
+            if (int(item.get("bytes", -1)) != int(expected["bytes"])
+                    or item.get("sha256") != expected["sha256"]):
+                raise RuntimeError(f"PI0252 C2000 full readback differs from its durable inventory: {name}")
+        model_names = {"config.json", "model.safetensors.index.json",
+                       "model-00001-of-00002.safetensors", "model-00002-of-00002.safetensors"}
+        root = Path(init["path"])
+        for name in model_names:
+            expected = entries.get(name)
+            local = root / name
+            if (expected is None or not local.is_file() or local.stat().st_size != int(expected["bytes"])
+                    or _sha(local) != expected["sha256"]):
+                raise RuntimeError(f"PI0252 C2000 model-view file differs from pinned HF bytes: {name}")
+        bindings = source["processor_bindings"]
+        identity = {key: value for key, value in bindings.items() if key != "view_files"}
+        rotation = _json(Path(source["rotation_check_path"]))
+        if (_sha(Path(source["rotation_check_path"])) != source["rotation_check_sha256"]
+                or rotation.get("status") != "PASS_CPU_DECODER_AND_GRADIENT"
+                or _processor_identity(rotation) != identity):
+            raise RuntimeError("PI0252 frozen C_T processor/rotation binding differs from its CPU receipt")
+        for name, expected in bindings["view_files"].items():
+            local = root / name
+            if not local.is_file() or _sha(local) != expected:
+                raise RuntimeError(f"PI0252 frozen C_T processor view changed: {name}")
+        dataset = Path(doc["paths"]["train_dataset"]) / "meta"
+        for name, expected in (("stats.json", identity["NEW_EMBODIMENT_stats_sha256"]),
+                               ("relative_stats.json", identity["relative_stats_sha256"])):
+            if _sha(dataset / name) != expected:
+                raise RuntimeError(f"PI0252 frozen TRAIN statistics changed: {name}")
+        legacy = copy.deepcopy(doc)
+        legacy["schema"] = "PI0247_M64_RUN_CARD_V1"
+        base_validate_initializer(legacy)
+        return
     receipt_path = Path(source["x2000_durable_receipt_path"])
     readback_path = Path(source["x2000_hf_readback_path"])
     view_path = Path(source["initializer_view_receipt_path"])
@@ -319,27 +592,37 @@ def _last_jsonl(path: Path) -> dict[str, Any]:
     return json.loads(line)
 
 
+def _verify_paired_identity(step_rng: Any, actual: dict[str, Any], expected: dict[str, Any]) -> None:
+    step_rng.verify_identity(actual, expected, tuple(expected))
+
+
 def _peer_rows(doc: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    source = doc["source"]
+    prefix = source.get("audit_prefix", "pi0251")
+    paired_arms = tuple(source.get("paired_arms", ("C", "E")))
+    reference_arm = source.get("reference_arm", paired_arms[0])
+    peer_arm = source.get("peer_arm", reference_arm)
     peer_card = _json(Path(doc["source"]["peer_run_card_path"]))
     peer_out = Path(peer_card["paths"]["output_root"])
-    integrity_path = peer_out / "pi0251_training_integrity.json"
+    integrity_path = peer_out / f"{prefix}_training_integrity.json"
     integrity = _json(integrity_path)
-    if (integrity.get("status") != "PASS_PI0251_C_TRAINING_INTEGRITY"
-            or integrity.get("arm") != "C"
-            or integrity.get("run_card_sha256") != doc["source"]["peer_run_card_sha256"]
+    expected_status = source.get("peer_integrity_status", f"PASS_{doc.get('protocol', 'PI0251')}_{peer_arm}_TRAINING_INTEGRITY")
+    if (integrity.get("status") != expected_status
+            or integrity.get("arm") != peer_arm
+            or integrity.get("run_card_sha256") != source["peer_run_card_sha256"]
             or integrity.get("optimizer_updates") != STEPS):
-        raise RuntimeError("PI0251 E cannot start before C has a complete integrity PASS")
+        raise RuntimeError(f"{doc.get('protocol', 'PI0251')} {doc['arm']} cannot start before {peer_arm} has a complete integrity PASS")
     root = helper._winning_training_root(peer_card)
     resume = 0 if root == peer_out / "training" else int(_json(root.parent / "resume_record.json")["resume_after_step"])
     _, overlays = helper._overlay_rows(root)
-    rows = (_rows_for_root(peer_out, root, "pi0251_step_rng_audit.jsonl", resume),
+    rows = (_rows_for_root(peer_out, root, f"{prefix}_step_rng_audit.jsonl", resume),
             _rows_for_root(peer_out, root, "pi0241_sample_consumption.jsonl", resume),
-            _rows_for_root(peer_out, root, "pi0251_pair_identity.jsonl", resume))
+            _rows_for_root(peer_out, root, f"{prefix}_pair_identity.jsonl", resume))
     if len(overlays) != STEPS or any(len(items) != STEPS for items in rows):
-        raise RuntimeError("PI0251 C actual S4/source/input reference is incomplete")
+        raise RuntimeError(f"{doc.get('protocol', 'PI0251')} {peer_arm} actual S4/source/input reference is incomplete")
     if any(row.get("optimizer_step") != i or row.get("status") != "REFERENCE_CAPTURED"
            or row.get("before_backward") is not True for i, row in enumerate(rows[2], 1)):
-        raise RuntimeError("PI0251 C reference identity log is not a complete actual capture")
+        raise RuntimeError(f"{doc.get('protocol', 'PI0251')} {peer_arm} reference identity log is not a complete actual capture")
     return overlays, *rows
 
 
@@ -347,17 +630,33 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
     import torch
 
     arm = doc["arm"]
+    source = doc["source"]
+    protocol = doc.get("protocol", "PI0251")
+    audit_prefix = source.get("audit_prefix", "pi0251")
+    paired_arms = tuple(source.get("paired_arms", ("C", "E")))
+    reference_arm = source.get("reference_arm", paired_arms[0])
+    intervention_arm = source.get("intervention_arm", paired_arms[1])
+    is_paired_intervention = arm == intervention_arm
+    objective_kind = source.get("objective_kind", "xyz_excess")
     schedule = _json(Path(doc["schedule"]["path"]))["rows"]
-    if arm == "E":
+    if is_paired_intervention:
         peer_overlay, peer_rng, peer_samples, peer_pairs = _peer_rows(doc)
     else:
         peer_overlay = peer_rng = peer_samples = peer_pairs = []
+    dt_by_fixed_index = None
+    speed_margin_fn = None
+    if objective_kind == "peak_linear_speed":
+        dt_doc = _json(Path(source["dt_table_path"]))
+        dt_by_fixed_index = {int(row["fixed_index"]): row["dt_s"] for row in dt_doc["rows"]}
+        if len(dt_by_fixed_index) != 64 or any(len(values) != 39 for values in dt_by_fixed_index.values()):
+            raise RuntimeError("PI0252 actual per-window timestamp table must contain 64 x 39 deltas")
+        from pi0252_speed_margin import peak_speed_margin as speed_margin_fn
     output = Path(doc["paths"]["output_root"])
 
     def before_forward(active: dict[str, Any]) -> dict[str, Any]:
         step = int(active["optimizer_step"])
         if step < 1 or step > STEPS:
-            raise RuntimeError(f"PI0251 pre-forward guard received invalid optimizer step {step}")
+            raise RuntimeError(f"{protocol} pre-forward guard received invalid optimizer step {step}")
         training_root = runtime_state.get("training_root")
         sample = _last_jsonl(Path(training_root) / "pi0241_sample_consumption.jsonl") if training_root else {}
         plan = schedule[step - 1]
@@ -374,7 +673,7 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
         fields = ["source", "key", "seed", "model_input_sha256"]
         if not actual.get("model_input_sha256"):
             expected["model_input_sha256"] = "REQUIRED"
-        if arm == "E":
+        if is_paired_intervention:
             peer_sample = peer_samples[step - 1]
             peer_source = {key: peer_sample.get(key) for key in actual_source}
             expected.update({"source": peer_source, "key": peer_rng[step - 1].get("key"),
@@ -383,12 +682,12 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
         event = {"optimizer_step": step, "phase": "BEFORE_NATIVE_RANDOM_SAMPLING",
                  "actual": actual, "expected": expected, "status": "PASS"}
         try:
-            step_rng.verify_identity(actual, expected, tuple(fields))
+            _verify_paired_identity(step_rng, actual, {key: expected[key] for key in fields})
         except RuntimeError as error:
             event.update({"status": "FAIL", "error": str(error)})
-            _append(Path(training_root) / "pi0251_pre_forward_guard.jsonl", event, sync=True)
+            _append(Path(training_root) / f"{audit_prefix}_pre_forward_guard.jsonl", event, sync=True)
             raise
-        _append(Path(training_root) / "pi0251_pre_forward_guard.jsonl", event, sync=step % 100 == 0)
+        _append(Path(training_root) / f"{audit_prefix}_pre_forward_guard.jsonl", event, sync=step % 100 == 0)
         return {"status": "PASS", "event": "BEFORE_NATIVE_RANDOM_SAMPLING"}
 
     runtime_state["before_forward_guard"] = before_forward
@@ -399,11 +698,28 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
         original_physical = module._physical_losses
         original_append = module._append_json
         original_forward = head_cls.forward
-        state: dict[str, Any] = {"position": None, "tau_identity": None}
+        state: dict[str, Any] = {"position": None, "tau_identity": None, "speed": None}
 
         def physical(*args: Any, **kw: Any) -> Any:
             position, delta, details = original_physical(*args, **kw)
             state["position"] = position
+            if objective_kind == "peak_linear_speed":
+                generated, _, mask, state_eef, scale, offset = args[:6]
+                context = step_rng.active_step_context()
+                step = int(context["optimizer_step"]) if context else -1
+                if step < 1 or step > STEPS:
+                    raise RuntimeError("PI0252 speed objective has no active optimizer step")
+                fixed_index = int(schedule[step - 1]["fixed_index"])
+                dt_s = dt_by_fixed_index.get(fixed_index)
+                if dt_s is None:
+                    raise RuntimeError(f"PI0252 timestamp row is missing fixed_index={fixed_index}")
+                xyz = module.decode_xyz(generated[..., :3].float(), state_eef.float(),
+                                        scale.float(), offset.float())
+                margin, peak_z, segment, peak_speed = speed_margin_fn(
+                    xyz, torch.tensor(dt_s, device=xyz.device, dtype=torch.float32), mask)
+                state["speed"] = {"margin": margin, "peak_z": peak_z,
+                                  "segment": segment, "peak_speed_mps": peak_speed,
+                                  "fixed_index": fixed_index}
             return position, delta, details
 
         def append(path: Path, row: dict[str, Any], count: int) -> None:
@@ -411,15 +727,38 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
             step = int(context["optimizer_step"]) if context else -1
             position = state.get("position")
             if position is None or not state.get("tau_identity"):
-                raise RuntimeError("PI0251 actual ell_pos or native tau identity is missing before backward")
-            scaled = float(position.detach().float().item())
-            excess = max(scaled - 0.49, 0.0)
-            penalty = 0.4 * excess if arm == "E" else 0.0
-            row = {**row, "native_tau_identity": state["tau_identity"],
-                   "pi0251_arm": arm, "pi0251_ell_pos_scaled_xyz_mse": scaled,
-                   "pi0251_ell_excess": excess, "pi0251_excess_penalty": penalty,
-                   "pi0251_actual_training_loss": float(row["total_loss"])
-                   + 0.1 * float(row["physical_rotation_loss"]) + penalty}
+                raise RuntimeError(f"{protocol} actual ell_pos or native tau identity is missing before backward")
+            penalty = 0.0
+            objective_fields: dict[str, Any]
+            if objective_kind == "peak_linear_speed":
+                speed = state.get("speed")
+                if speed is None:
+                    raise RuntimeError("PI0252 speed margin was not computed before backward")
+                margin = float(speed["margin"].detach().float().item())
+                peak_z = float(speed["peak_z"].detach().float().item())
+                peak_speed = float(speed["peak_speed_mps"].detach().float().item())
+                segment = int(speed["segment"].detach().item())
+                speed_lambda = float(doc["loss_coefficients"].get("ell_speed_margin", 0.0))
+                penalty = speed_lambda * margin
+                objective_fields = {
+                    f"{protocol.lower()}_arm": arm,
+                    f"{protocol.lower()}_peak_z": peak_z,
+                    f"{protocol.lower()}_peak_speed_mps": peak_speed,
+                    f"{protocol.lower()}_peak_segment": segment,
+                    f"{protocol.lower()}_speed_margin": margin,
+                    f"{protocol.lower()}_speed_penalty": penalty,
+                    f"{protocol.lower()}_lambda_speed_margin": speed_lambda,
+                }
+            else:
+                scaled = float(position.detach().float().item())
+                excess = max(scaled - 0.49, 0.0)
+                penalty = 0.4 * excess if arm == "E" else 0.0
+                objective_fields = {"pi0251_arm": arm, "pi0251_ell_pos_scaled_xyz_mse": scaled,
+                                    "pi0251_ell_excess": excess, "pi0251_excess_penalty": penalty}
+            rotation_penalty = float(doc["loss_coefficients"]["ell_rot"]) * float(row["physical_rotation_loss"])
+            row = {**row, "native_tau_identity": state["tau_identity"], **objective_fields,
+                   f"{protocol.lower()}_actual_training_loss": float(row["total_loss"])
+                   + rotation_penalty + penalty}
             current_root = runtime_state.get("training_root")
             sample = _last_jsonl(Path(current_root) / "pi0241_sample_consumption.jsonl") if current_root else {}
             actual = {
@@ -437,7 +776,7 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
             expected = None
             if step < 1 or step > STEPS or count != step or int(row.get("forward_index", -1)) != step:
                 fields.append("optimizer_step")
-            if arm == "E" and 1 <= step <= STEPS:
+            if is_paired_intervention and 1 <= step <= STEPS:
                 ref_overlay, ref_rng, ref_sample, ref_pair = (
                     peer_overlay[step - 1], peer_rng[step - 1], peer_samples[step - 1], peer_pairs[step - 1])
                 expected = {
@@ -450,20 +789,18 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
                     "native_epsilon_sha256": ref_overlay.get("native_epsilon_sha256"),
                     "stock_initial_noise": ref_overlay.get("stock_initial_noise"),
                 }
-                fields.extend(field for field in expected if actual.get(field) != expected.get(field))
-                if fields:
-                    try:
-                        step_rng.verify_identity(actual, expected, tuple(expected))
-                    except RuntimeError:
-                        pass
+                try:
+                    _verify_paired_identity(step_rng, actual, expected)
+                except RuntimeError:
+                    fields.extend(field for field in expected if actual.get(field) != expected.get(field))
             pair_row = {"optimizer_step": step, "phase": "AFTER_NATIVE_SAMPLING_BEFORE_BACKWARD",
-                        "status": ("REFERENCE_CAPTURED" if arm == "C" else "PASS" if not fields else "FAIL"),
+                        "status": ("REFERENCE_CAPTURED" if arm == reference_arm else "PASS" if not fields else "FAIL"),
                         "before_backward": True, "mismatch_fields": fields,
                         "expected_identity": expected, **actual}
-            pair_path = Path(current_root) / "pi0251_pair_identity.jsonl"
+            pair_path = Path(current_root) / f"{audit_prefix}_pair_identity.jsonl"
             _append(pair_path, pair_row, sync=bool(fields) or step % 100 == 0)
             if fields:
-                raise RuntimeError(f"PI0251 C/E actual pre-backward identity failed at step {step}: {fields}")
+                raise RuntimeError(f"{protocol} {reference_arm}/{intervention_arm} actual pre-backward identity failed at step {step}: {fields}")
             original_append(path, row, count)
 
         def forward(self: Any, *args: Any, **kw: Any) -> Any:
@@ -484,10 +821,17 @@ def _install_overlay_runtime(module: Any, doc: dict[str, Any], step_rng: Any) ->
                     self.sample_time = original_sample_time
                 else:
                     del self.sample_time
-            if arm == "E":
+            if is_paired_intervention and objective_kind == "xyz_excess":
                 if state["position"] is None or not isinstance(result, dict) or "loss" not in result:
                     raise RuntimeError("PI0251 E excess term lacks the shared physical position tensor")
                 result["loss"] = result["loss"] + 0.4 * torch.relu(state["position"] - 0.49)
+            elif objective_kind == "peak_linear_speed":
+                speed = state.get("speed")
+                if speed is None or not isinstance(result, dict) or "loss" not in result:
+                    raise RuntimeError("PI0252 full S4 forward did not produce the differentiable speed endpoint")
+                speed_lambda = float(doc["loss_coefficients"].get("ell_speed_margin", 0.0))
+                if speed_lambda:
+                    result["loss"] = result["loss"] + speed_lambda * speed["margin"]
             return result
 
         module._physical_losses = physical
@@ -504,6 +848,10 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
     life = _load_life(preliminary["paths"])
     helper = _load_helper(preliminary["paths"])
     card = _verify_card(run_card, arm)
+    if card.get("protocol") == "PI0252":
+        life.AUTHORIZATION = card["authorization"]
+        life.R1_CANONICAL_COMMENT = card["canonical_issue_comment"]
+        life.R1_POINTER_COMMENT = card["pointer_pr_comment"]
     resume_after = resume
     runtime_state = {}
     base_validate_initializer = life._validate_initializer_runtime
@@ -658,8 +1006,10 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
                 "source": {"rotation_check_path": card["source"]["rotation_check_path"]},
                 "embodiment_tag": card["embodiment_tag"],
             }, resume)
-            rng_path = Path(card["paths"]["execution_driver_root"]) / "pi0251_step_rng.py"
-            rng_spec = importlib.util.spec_from_file_location("pi0251_step_rng_runtime", rng_path)
+            rng_name = card["source"].get("step_rng_module", "pi0251_step_rng.py")
+            rng_module_name = card["source"].get("step_rng_module_name", "pi0251_step_rng_runtime")
+            rng_path = Path(card["paths"]["execution_driver_root"]) / rng_name
+            rng_spec = importlib.util.spec_from_file_location(rng_module_name, rng_path)
             if rng_spec is None or rng_spec.loader is None:
                 raise RuntimeError("PI0251 step RNG module is unavailable")
             rng_module = importlib.util.module_from_spec(rng_spec)
@@ -685,7 +1035,11 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
         original_chain(audit, output, mode_path=mode_path)
         training_root = mode_path.parent / "training"
         runtime_state["training_root"] = training_root
-        rng_path = training_root / "pi0251_step_rng_audit.jsonl"
+        audit_prefix = card["source"].get("audit_prefix", "pi0251")
+        rng_audit_name = f"{audit_prefix}_step_rng_audit.jsonl"
+        pre_guard_name = f"{audit_prefix}_pre_forward_guard.jsonl"
+        pair_identity_name = f"{audit_prefix}_pair_identity.jsonl"
+        rng_path = training_root / rng_audit_name
         if resume:
             source = Path(card["paths"]["output_root"]) / "training" / rng_path.name
             prefix = _jsonl(source)
@@ -695,16 +1049,18 @@ def _install_adapters(run_card: Path, arm: str, resume: int) -> tuple[dict[str, 
                 shutil.copy2(source, rng_path)
             elif _sha(rng_path) != _sha(source):
                 raise RuntimeError("PI0251 exact-resume keyed-RNG prefix conflicts")
-            pre_source = Path(card["paths"]["output_root"]) / "training" / "pi0251_pre_forward_guard.jsonl"
+            pre_source = Path(card["paths"]["output_root"]) / "training" / pre_guard_name
             pre_target = training_root / pre_source.name
             if len(_jsonl(pre_source)) != resume:
                 raise RuntimeError("PI0251 exact resume lacks the complete pre-forward identity prefix")
             if not pre_target.exists():
                 shutil.copy2(pre_source, pre_target)
-            pair_source = Path(card["paths"]["output_root"]) / "training" / "pi0251_pair_identity.jsonl"
-            if card["arm"] in ("C", "E"):
+            pair_source = Path(card["paths"]["output_root"]) / "training" / pair_identity_name
+            pair_arms = tuple(card["source"].get("paired_arms", ("C", "E")))
+            reference_arm = card["source"].get("reference_arm", pair_arms[0])
+            if card["arm"] in pair_arms:
                 pair_rows = _jsonl(pair_source)
-                expected_status = "REFERENCE_CAPTURED" if card["arm"] == "C" else "PASS"
+                expected_status = "REFERENCE_CAPTURED" if card["arm"] == reference_arm else "PASS"
                 if len(pair_rows) != resume or any(row.get("status") != expected_status for row in pair_rows):
                     raise RuntimeError("PI0251 exact resume lacks its complete paired-identity prefix")
                 shutil.copy2(pair_source, training_root / pair_source.name)
@@ -854,6 +1210,13 @@ def _route_archive_sidecar(command: Any, run_card: dict[str, Any], card_path: Pa
 
 def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
     output = Path(doc["paths"]["output_root"])
+    source = doc["source"]
+    protocol = doc.get("protocol", "PI0251")
+    audit_prefix = source.get("audit_prefix", "pi0251")
+    paired_arms = tuple(source.get("paired_arms", ("C", "E")))
+    reference_arm = source.get("reference_arm", paired_arms[0])
+    intervention_arm = source.get("intervention_arm", paired_arms[1])
+    objective_kind = source.get("objective_kind", "xyz_excess")
     root = helper._winning_training_root(doc)
     resume = 0 if root == output / "training" else int(_json(root.parent / "resume_record.json")["resume_after_step"])
     audit_path, rows = helper._overlay_rows(root)
@@ -871,7 +1234,7 @@ def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
                 or row.get("lambda_delta") != coeff["ell_delta"]
                 or row.get("lambda_rotation") != coeff["ell_rot"]
                 or row.get("theta_ref_rad") != 0.05):
-            raise RuntimeError(f"PI0251 S4/loss-identity evidence is incomplete at step {index}")
+            raise RuntimeError(f"{protocol} S4/loss-identity evidence is incomplete at step {index}")
         values = {key: float(row[key]) for key in
                   ("native_loss", "physical_position_loss", "physical_delta_loss", "physical_rotation_loss", "total_loss")}
         base = values["native_loss"] + coeff["ell_pos"] * values["physical_position_loss"] + coeff["ell_delta"] * values["physical_delta_loss"]
@@ -879,59 +1242,82 @@ def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
         if (not all(math.isfinite(value) for value in (*values.values(), float(row.get("total_loss_with_rotation", math.nan))))
                 or not math.isclose(base, values["total_loss"], rel_tol=1e-5, abs_tol=1e-7)
                 or not math.isclose(total, float(row["total_loss_with_rotation"]), rel_tol=1e-5, abs_tol=1e-7)):
-            raise RuntimeError(f"PI0251 base objective terms do not sum at step {index}")
-        scaled = float(row.get("pi0251_ell_pos_scaled_xyz_mse", math.nan))
-        excess = max(scaled - 0.49, 0.0)
-        penalty = 0.4 * excess if doc["arm"] == "E" else 0.0
-        actual_loss = float(row.get("pi0251_actual_training_loss", math.nan))
-        expected_loss = float(row.get("total_loss_with_rotation", math.nan)) + penalty
-        if (row.get("pi0251_arm") != doc["arm"] or not math.isfinite(scaled)
-                or not math.isclose(float(row.get("pi0251_ell_excess", math.nan)), excess, rel_tol=0, abs_tol=1e-6)
-                or not math.isclose(float(row.get("pi0251_excess_penalty", math.nan)), penalty, rel_tol=1e-5, abs_tol=1e-7)
-                or not math.isclose(actual_loss, expected_loss, rel_tol=1e-5, abs_tol=1e-7)):
-            raise RuntimeError(f"PI0251 excess objective is inconsistent at step {index}")
+            raise RuntimeError(f"{protocol} base objective terms do not sum at step {index}")
+        actual_loss = float(row.get(f"{protocol.lower()}_actual_training_loss", math.nan))
+        expected_loss = float(row.get("total_loss_with_rotation", math.nan))
+        if objective_kind == "peak_linear_speed":
+            peak_z = float(row.get(f"{protocol.lower()}_peak_z", math.nan))
+            peak_speed = float(row.get(f"{protocol.lower()}_peak_speed_mps", math.nan))
+            segment = int(row.get(f"{protocol.lower()}_peak_segment", -1))
+            margin = max(peak_z - 0.81, 0.0) if math.isfinite(peak_z) else math.nan
+            speed_lambda = float(coeff.get("ell_speed_margin", 0.0))
+            penalty = speed_lambda * margin
+            actual_margin = float(row.get(f"{protocol.lower()}_speed_margin", math.nan))
+            actual_penalty = float(row.get(f"{protocol.lower()}_speed_penalty", math.nan))
+            if (row.get(f"{protocol.lower()}_arm") != doc["arm"]
+                    or not math.isfinite(peak_z) or not math.isfinite(peak_speed)
+                    or segment < 0 or segment >= 39
+                    or not math.isclose(peak_speed, 2.0 * math.sqrt(max(peak_z, 0.0)), rel_tol=1e-5, abs_tol=1e-6)
+                    or not math.isclose(actual_margin, margin, rel_tol=1e-5, abs_tol=1e-6)
+                    or not math.isclose(actual_penalty, penalty, rel_tol=1e-5, abs_tol=1e-7)
+                    or float(row.get(f"{protocol.lower()}_lambda_speed_margin", math.nan)) != speed_lambda):
+                raise RuntimeError(f"{protocol} peak-linear-speed objective is inconsistent at step {index}")
+            expected_loss += penalty
+        else:
+            scaled = float(row.get("pi0251_ell_pos_scaled_xyz_mse", math.nan))
+            excess = max(scaled - 0.49, 0.0)
+            penalty = 0.4 * excess if doc["arm"] == "E" else 0.0
+            if (row.get("pi0251_arm") != doc["arm"] or not math.isfinite(scaled)
+                    or not math.isclose(float(row.get("pi0251_ell_excess", math.nan)), excess, rel_tol=0, abs_tol=1e-6)
+                    or not math.isclose(float(row.get("pi0251_excess_penalty", math.nan)), penalty, rel_tol=1e-5, abs_tol=1e-7)):
+                raise RuntimeError(f"PI0251 excess objective is inconsistent at step {index}")
+            expected_loss += penalty
+        if not math.isclose(actual_loss, expected_loss, rel_tol=1e-5, abs_tol=1e-7):
+            raise RuntimeError(f"{protocol} actual objective differs from its frozen terms at step {index}")
         if (not row.get("native_epsilon_sha256") or not row.get("stock_initial_noise", {}).get("sha256")
                 or not row.get("native_tau_identity", {}).get("sha256")):
-            raise RuntimeError(f"PI0251 actual tau/epsilon/stock-noise identity is absent at step {index}")
-    rng_path = root / "pi0251_step_rng_audit.jsonl"
+            raise RuntimeError(f"{protocol} actual tau/epsilon/stock-noise identity is absent at step {index}")
+    rng_path = root / f"{audit_prefix}_step_rng_audit.jsonl"
     rng_rows = _rows_for_root(output, root, rng_path.name, resume)
     key_table = _json(Path(doc["source"]["step_key_table_path"]))["rows"]
     if len(rng_rows) != STEPS or len(key_table) != STEPS:
-        raise RuntimeError("PI0251 keyed RNG audit or key table is incomplete")
+        raise RuntimeError(f"{protocol} keyed RNG audit or key table is incomplete")
     for index, (actual, expected) in enumerate(zip(rng_rows, key_table), 1):
         if (actual.get("optimizer_step") != index or actual.get("key") != expected.get("key")
                 or actual.get("seed") != expected.get("seed") or not actual.get("model_input_sha256")
                 or expected.get("optimizer_step") != index
                 or actual.get("pre_forward_guard", {}).get("status") != "PASS"):
-            raise RuntimeError(f"PI0251 step-addressed RNG/input audit differs at update {index}")
+            raise RuntimeError(f"{protocol} step-addressed RNG/input audit differs at update {index}")
     schedule = _json(Path(doc["schedule"]["path"]))["rows"]
     consumption = _rows_for_root(output, root, "pi0241_sample_consumption.jsonl", resume)
     if len(consumption) != STEPS:
-        raise RuntimeError("PI0251 actual sample consumption is incomplete")
+        raise RuntimeError(f"{protocol} actual sample consumption is incomplete")
     for index, (sample, planned) in enumerate(zip(consumption, schedule), 1):
         if (int(sample.get("optimizer_step", -1)) != index
                 or int(sample.get("fixed_index", -1)) != int(planned["fixed_index"])
                 or sample.get("source_episode_id") != planned["source_episode_id"]
                 or int(sample.get("episode_index", -1)) != int(planned["episode_index"])
                 or int(sample.get("observation_index", -1)) != 0):
-            raise RuntimeError(f"PI0251 actual source differs from the sealed exposure row at update {index}")
-    pre_rows = _rows_for_root(output, root, "pi0251_pre_forward_guard.jsonl", resume)
+            raise RuntimeError(f"{protocol} actual source differs from the sealed exposure row at update {index}")
+    pre_name = f"{audit_prefix}_pre_forward_guard.jsonl"
+    pair_name = f"{audit_prefix}_pair_identity.jsonl"
+    pre_rows = _rows_for_root(output, root, pre_name, resume)
     if (len(pre_rows) != STEPS or any(row.get("optimizer_step") != i
                                       or row.get("phase") != "BEFORE_NATIVE_RANDOM_SAMPLING"
                                       or row.get("status") != "PASS" for i, row in enumerate(pre_rows, 1))):
-        raise RuntimeError("PI0251 pre-forward source/key guard evidence is incomplete")
-    pair_rows = _rows_for_root(output, root, "pi0251_pair_identity.jsonl", resume)
-    expected_pair_status = "REFERENCE_CAPTURED" if doc["arm"] == "C" else "PASS"
+        raise RuntimeError(f"{protocol} pre-forward source/key guard evidence is incomplete")
+    pair_rows = _rows_for_root(output, root, pair_name, resume)
+    expected_pair_status = "REFERENCE_CAPTURED" if doc["arm"] == reference_arm else "PASS"
     if (len(pair_rows) != STEPS or any(row.get("optimizer_step") != i
             or row.get("status") != expected_pair_status
             or row.get("before_backward") is not True for i, row in enumerate(pair_rows, 1))):
-        raise RuntimeError("PI0251 actual pre-backward identity receipt is incomplete or failed")
+        raise RuntimeError(f"{protocol} actual pre-backward identity receipt is incomplete or failed")
     checkpoint_receipts = _require_checkpoint_receipts(doc, root, resume)
     parity_path = output / "pi0247_U_sampler_parity.json"
     parity = _json(parity_path)
     if (parity.get("status") != "PASS_PI0247_U_S4_PARITY" or not parity.get("gate_decision_equal")
             or not parity.get("gate_issues_equal") or parity.get("expert_action_in_condition") is not False):
-        raise RuntimeError("PI0251 native S4/gate parity did not pass")
+        raise RuntimeError(f"{protocol} native S4/gate parity did not pass")
     chain_path = output / "u_first_update_chain_gradient.json"
     chain = _json(chain_path)
     gradients = chain.get("state_gradient_norms", {})
@@ -941,18 +1327,18 @@ def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
             or chain.get("mode_restored_after_forward") is not True
             or chain.get("mode_restored_after_backward") is not True
             or any(not math.isfinite(float(value)) or float(value) <= 0 for value in gradients.values())):
-        raise RuntimeError("PI0251 first-update four-step full-gradient evidence is incomplete")
+        raise RuntimeError(f"{protocol} first-update four-step full-gradient evidence is incomplete")
     mode_path = root.parent / "u_mode_restoration_checks.jsonl"
     modes = _jsonl(mode_path)
     if (len(modes) != STEPS or any(row.get("optimizer_step") != i or row.get("restored") is not True
                                    or int(row.get("rollout_forward_head_evaluations", -1)) != 4 * i
                                    or int(row.get("backward_recompute_head_evaluations", -1)) != 4 * i
                                    for i, row in enumerate(modes, 1))):
-        raise RuntimeError("PI0251 S4 mode restoration did not pass for all updates")
+        raise RuntimeError(f"{protocol} S4 mode restoration did not pass for all updates")
     return {"root": root, "rows": rows, "audit_path": audit_path, "resume_after_step": resume,
             "rng_path": rng_path, "rng_rows": rng_rows, "sample_rows": consumption,
-            "pre_path": root / "pi0251_pre_forward_guard.jsonl", "pre_rows": pre_rows,
-            "pair_path": root / "pi0251_pair_identity.jsonl", "pair_rows": pair_rows,
+            "pre_path": root / pre_name, "pre_rows": pre_rows,
+            "pair_path": root / pair_name, "pair_rows": pair_rows,
             "checkpoint_receipts": checkpoint_receipts,
             "mode_path": mode_path, "mode_rows": modes,
             "parity_path": parity_path, "chain_path": chain_path}
@@ -960,20 +1346,28 @@ def _preverify_training(doc: dict[str, Any], run_card: Path) -> dict[str, Any]:
 
 def _write_integrity(doc: dict[str, Any], run_card: Path, verified: dict[str, Any]) -> None:
     output, root = Path(doc["paths"]["output_root"]), verified["root"]
+    protocol = doc.get("protocol", "PI0251")
+    audit_prefix = doc["source"].get("audit_prefix", "pi0251")
+    paired_arms = tuple(doc["source"].get("paired_arms", ("C", "E")))
+    reference_arm = doc["source"].get("reference_arm", paired_arms[0])
+    schema = doc.get("integrity_schema", f"{protocol}_CE_TRAINING_INTEGRITY_V1")
+    integrity_status = f"PASS_{protocol}_{doc['arm']}_TRAINING_INTEGRITY"
     manifest_path = output / "training_manifest.json"
     manifest = _json(manifest_path)
     if manifest.get("status") != "PASS_TRAINING_INTEGRITY":
         raise RuntimeError("shared PI0247 read-only finalizer did not pass")
-    manifest.update({"schema": "PI0251_CE_TRAINING_MANIFEST_V1", "stage": "M64_CE_CONTINUATION",
-                     "authorization": AUTH, "execution_authorization": AUTH,
+    manifest.update({"schema": f"{protocol}_{doc.get('training_manifest_family', 'CE')}_TRAINING_MANIFEST_V1",
+                     "stage": doc.get("stage", {}).get("name", "M64_CE_CONTINUATION"),
+                     "authorization": doc["authorization"],
+                     "execution_authorization": doc["execution_authorization"],
                      "execution_code_commit": doc["source"]["execution_code_commit"],
                      "arm": doc["arm"], "family": doc["family"], "objective": doc["loss"],
                      "loss_coefficients": doc["loss_coefficients"], "selected_checkpoint": "NONE"})
-    pi_manifest_path = output / "pi0251_training_manifest.json"
+    pi_manifest_path = output / f"{protocol.lower()}_training_manifest.json"
     _write(pi_manifest_path, manifest)
     result = {
-        "schema": "PI0251_CE_TRAINING_INTEGRITY_V1",
-        "status": f"PASS_PI0251_{doc['arm']}_TRAINING_INTEGRITY",
+        "schema": schema,
+        "status": integrity_status,
         "arm": doc["arm"], "family": doc["family"], "run_card_sha256": _sha(run_card),
         "training_manifest_path": str(pi_manifest_path), "training_manifest_sha256": _sha(pi_manifest_path),
         "shared_lifecycle_manifest_sha256": _sha(manifest_path),
@@ -993,12 +1387,13 @@ def _write_integrity(doc: dict[str, Any], run_card: Path, verified: dict[str, An
         "mode_audit_path": str(verified["mode_path"]), "mode_audit_sha256": _sha(verified["mode_path"]),
         "mode_restoration_rows": len(verified["mode_rows"]),
         "parity_sha256": _sha(verified["parity_path"]), "gradient_chain_sha256": _sha(verified["chain_path"]),
-        "paired_identity_status": "REFERENCE_CAPTURED_ALL_2000" if doc["arm"] == "C" else "PASS_PRE_BACKWARD_ALL_2000",
+        "paired_identity_status": f"REFERENCE_CAPTURED_ALL_{STEPS}" if doc["arm"] == reference_arm
+        else f"PASS_PRE_BACKWARD_ALL_{STEPS}",
         "paired_identity_sha256": _sha(verified["pair_path"]),
         "checkpoints": manifest.get("checkpoints"), "resume_after_step": verified["resume_after_step"],
         "selected_checkpoint": "NONE", "sim_admitted": False,
     }
-    integrity_path = output / "pi0251_training_integrity.json"
+    integrity_path = output / f"{audit_prefix}_training_integrity.json"
     _write(integrity_path, result)
     state_path = output / "execution_state.json"
     state = _json(state_path)
@@ -1523,7 +1918,7 @@ def main() -> int:
     parser.add_argument("--g1-runtime-scripts", type=Path)
     parser.add_argument("--initializer-view", type=Path)
     parser.add_argument("--run-card", type=Path)
-    parser.add_argument("--arm", choices=("C", "E"))
+    parser.add_argument("--arm", choices=("C", "E", "A", "G"))
     parser.add_argument("--resume-after-step", type=int, choices=(0, 1000), default=0)
     parser.add_argument("--step", type=int, choices=(1000, 2000))
     parser.add_argument("--archive-root", type=Path)
