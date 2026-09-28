@@ -1,0 +1,630 @@
+{
+  "authority_commit": "82554098fb55b39ceca4b955252f8952c91c0dc0",
+  "checks": [
+    {
+      "claim": "A_attempt2/native timestamps and same-tick reconstruction; old minima and tracking remain distinct, discarded oracle unused",
+      "evidence": [
+        {
+          "path": "reports/PI0253/live_contract_support_audit.json",
+          "sha256": "be7492b7b8f2f9dc5f0a3a95b907e8050308b3fcc29792fe254ca7ca47ead373"
+        }
+      ],
+      "requirement": "D0_expert_time_and_tracking",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Four original unchanged-runtime controls reused; no new control episode",
+      "evidence": [
+        {
+          "path": "reports/PI0253/live_contract_support_audit.json",
+          "sha256": "be7492b7b8f2f9dc5f0a3a95b907e8050308b3fcc29792fe254ca7ca47ead373"
+        },
+        {
+          "path": "reports/PI0253/full_admission.json",
+          "sha256": "96228f628846c92a90104d7659bd1dfdd342200a8b6bdf9508321fd79e283bb7"
+        }
+      ],
+      "requirement": "D0_original_expert_controls",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Original M64 joint PASS retained; old TRAIN-A/C0 FAIL remains unchanged",
+      "evidence": [
+        {
+          "path": "reports/PI0253/G_qualification_index.json",
+          "sha256": "43c86f9e1ee99104eea4c335f887cfa10a705ca6e9ecc39c7c5e22b201413b72"
+        },
+        {
+          "path": "reports/PI0253/full_admission.json",
+          "sha256": "96228f628846c92a90104d7659bd1dfdd342200a8b6bdf9508321fd79e283bb7"
+        }
+      ],
+      "requirement": "D0_original_G_qualification",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Two exact existing tuples reused, six new; Q/S raw/decode/gate parity, old missing intermediate trace explicitly UNOBSERVED_NO_REQUERY",
+      "evidence": [
+        {
+          "path": "reports/PI0253/bridge_report.json",
+          "sha256": "6a482f5d9d470f73a5f83a8a6cf9d0e0053d5aca6d8c3fca58ef984b09f0a610"
+        },
+        {
+          "path": "reports/PI0253/D0_D1_HF_READBACK.json",
+          "sha256": "b3fad9cc859d010b9b2ee8e3738104a44c4e51cb43b470c58091b20ec11f74b9"
+        }
+      ],
+      "requirement": "D1_fixed8_bridge",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "9792 original TRAIN windows/612 rollouts, A-D start support; presence not sufficiency; no D0 CALIB/DEV/F/model read",
+      "evidence": [
+        {
+          "path": "reports/PI0253/full_support.json",
+          "sha256": "214e6837aff9664cb866714737bf43a42071a6c6f7fb925f1007c08510bb799b"
+        }
+      ],
+      "requirement": "D2_full_scope_support",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "All preregistered admission conditions closed before the single FULL stage",
+      "evidence": [
+        {
+          "path": "reports/PI0253/full_admission.json",
+          "sha256": "96228f628846c92a90104d7659bd1dfdd342200a8b6bdf9508321fd79e283bb7"
+        },
+        {
+          "path": "reports/PI0253/FULL_ENTRY_CPU_CHECK.json",
+          "sha256": "dd2b93c583d3614a79ba1d4e865fb02aeb12d0eb3d11fe021792cb5cc14a720a"
+        }
+      ],
+      "requirement": "D2_admission",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "One G2000 warm-start stage, fresh optimizer, unchanged loss/S4/H40/dt/frozen precision; CPU actual-entry checks and original save/cursor/finalizer contract",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_run_card.json",
+          "sha256": "3bece4c02d8158ec09a35fc597d6ffd34290b8d1559ea55ed877da75c6714277"
+        },
+        {
+          "path": "reports/PI0253/FULL_ENTRY_CPU_CHECK.json",
+          "sha256": "dd2b93c583d3614a79ba1d4e865fb02aeb12d0eb3d11fe021792cb5cc14a720a"
+        }
+      ],
+      "requirement": "FULL_entry_and_frozen_recipe",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "PBS actual exit0 observed; complete10000 endpoint and four original formal artifacts, no repeat training",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_TRAINING_EXECUTION_STATE.json",
+          "sha256": "698cf214877cf9689ca0f1f0a38a8d3cac33c4284478c388ae9516784b4afe0f"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_TRAINING_INTEGRITY.json",
+          "sha256": "568f63d2672847225fe26b5c805b855f9f401aee9b18d2f5c6b5976a74929b59"
+        }
+      ],
+      "requirement": "FULL_actual_10000_complete",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "All10000 raw rows checked:9792+208 source exposure, ASCII keyed seed, actual native/rollout random identities, physical loss sum, all-four-step gradients and mode restore; single-arm reference capture, not paired PASS",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/TRAINING_RAW_LEDGER_RECHECK.json",
+          "sha256": "99d94db2edd6daffaba50c4b1a7ed38ba8883cde9c8e4b2365f2fdf3c743276d"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_TRAINING_INTEGRITY.json",
+          "sha256": "568f63d2672847225fe26b5c805b855f9f401aee9b18d2f5c6b5976a74929b59"
+        }
+      ],
+      "requirement": "FULL_actual_random_samples_loss_modes",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete2500 Trainer loaded, suffix only;637034 metadata-only rejection has0updates; older attempts retained",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL2500_CPU_EXACT_RESTORE.json",
+          "sha256": "888d7558a6c59a049e30bac9386db096e8e69621634df48fe9f3fb073739f42d"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_EXACT_RESUME_OBSERVATION_637051.json",
+          "sha256": "a3ea9e97c04002d7f6fbe9671f313e381556096a2a6934ed81b79c062339682c"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_TRAINING_INTEGRITY.json",
+          "sha256": "568f63d2672847225fe26b5c805b855f9f401aee9b18d2f5c6b5976a74929b59"
+        }
+      ],
+      "requirement": "FULL_exact_resume_and_accounting",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "128 first-valid actual raw cells independently replayed; all64/old16 B0/B1 own four groups FAIL, protected formal artifact retained",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL2500_CPU_REPLAY.json",
+          "sha256": "33635b0ebf53fc3b9582c0448df645674bd3926717772cc42a2a98f6a30df7b0"
+        }
+      ],
+      "requirement": "FULL2500_retention128_CPU",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "128 first-valid actual raw cells independently replayed; all64/old16 B0/B1 own four groups FAIL, protected formal artifact retained",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL5000_CPU_REPLAY.json",
+          "sha256": "2d2649cc91d321c831210a70cac28ea99169a05e070f810fd250b09f1a06b420"
+        }
+      ],
+      "requirement": "FULL5000_retention128_CPU",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "128 first-valid actual raw cells independently replayed; all64/old16 B0/B1 own four groups FAIL, protected formal artifact retained",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL7500_CPU_REPLAY.json",
+          "sha256": "9aba1c88d136af9910d5cead21b9c4945a29e880eeb1ac9f6a7ea08f17d84f90"
+        }
+      ],
+      "requirement": "FULL7500_retention128_CPU",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "128 first-valid actual raw cells independently replayed; all64/old16 B0/B1 own four groups FAIL, protected formal artifact retained",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL10000_CPU_REPLAY.json",
+          "sha256": "f26734612cf6aa4939c90dcbf7d032b39c1c36a252c56ee6b29f95c339d185f3"
+        }
+      ],
+      "requirement": "FULL10000_retention128_CPU",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Original all64-speed rejection barrier not met;1000 model-only, not formal candidate or resume;64 reused G0 +64 midpoint +512 formal=640logical,576new",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL1000_cpu_replay.json",
+          "sha256": "90c2ce977932acf66852fd74a1ba261dd8c1e67b7a2aac2d12dd817015f99506"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL2500_cpu_replay.json",
+          "sha256": "33635b0ebf53fc3b9582c0448df645674bd3926717772cc42a2a98f6a30df7b0"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/barrier_verdict.json",
+          "sha256": "5196da1bdd77d7b4593e23091f01982bab3cf2888e5146bb29642a4d675c20cd"
+        }
+      ],
+      "requirement": "FULL_midpoint_barrier_and_1000_role",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Four fixed original L/N_live Q predictions after completed training, independent CPU replay; achieved TCP UNOBSERVED; no influence on loss or ranking",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_LIVE_REPORTS.json",
+          "sha256": "181024ea7f228094da3c77f89107d44d69927228a0fb4e8875cec2c13bde851e"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_LIVE_EVIDENCE_HF_READBACK.json",
+          "sha256": "50960137ca6c816e7099a0a229727b1056175e5b3ef52cf6c675ab6f563ecd6a"
+        }
+      ],
+      "requirement": "FULL_four_live_side_reports",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Original1088 sealed CALIB/target authority read after complete family/retention/live; original adapted1000 comparison-only; processor/statistics separately C_T-bound, CPU integration and boundaries passed",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_RUNTIME_INTEGRATION.json",
+          "sha256": "10f37f4402a9b648634f1bcf1d507203c34a95554dd5e096ad067b6dc9395917"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_CALIB_BINDINGS.json",
+          "sha256": "3857b7d6392875154d3fa18b2acabccb2028f6dbe758f60e57941c5f313276a7"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_ADAPTER_CPU_RECEIPT.json",
+          "sha256": "209436eccfbe03988e13f3a675e6f55519f04dcec771898b63b660a1396eaf79"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/ORIGINAL_CALIB_BASELINE_HF_READBACK.json",
+          "sha256": "17a91c186555af1fd6c230e457515bb754c5a4404c4a83a47bee355f6aec06f0"
+        }
+      ],
+      "requirement": "CALIB_admission_identity_and_CPU_boundaries",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Five1088 unique finite profiles and separate CPU raw replay;4352 candidate actual noise/policy matches to baseline;5440 actual first queries",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_READONLY_VERDICT_AUDIT.json",
+          "sha256": "de42a99d38d08d68a166e5237b7954714c41ad1376d4c536d722e384befbbc69"
+        }
+      ],
+      "requirement": "CALIB_all5_complete_actual_pairing",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Original unchanged selector:all four candidates have REJECT; immutable unique NONE freeze, separate read-only exception reproduction did not make a second selection",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_SELECTION.json",
+          "sha256": "e2d982b5bb0486a66d688293c8fcb26e5c2da4a4209f554598275a8c8c8063ae"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_PROVENANCE_LOCK.json",
+          "sha256": "f7b03be67084d970fb34bfff5aef1f35742634dff3ac3ab716fa85e352f7cd2c"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_CALIB_PIPELINE_FINAL_STATE.json",
+          "sha256": "d410a8d8ab5ae4f593bd0b5645ef11c4764b60d8e1449149c569697831fdc57d"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_READONLY_VERDICT_AUDIT.json",
+          "sha256": "de42a99d38d08d68a166e5237b7954714c41ad1376d4c536d722e384befbbc69"
+        }
+      ],
+      "requirement": "CALIB_original_unique_freeze",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Protocol section7.2 valid scientific stop; no winner/runner-up/G substitution, no new one-chunk/receding or actual TCP claim; section8 positive route not authorized by failed dependency",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_READONLY_VERDICT_AUDIT.json",
+          "sha256": "de42a99d38d08d68a166e5237b7954714c41ad1376d4c536d722e384befbbc69"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_SELECTION.json",
+          "sha256": "e2d982b5bb0486a66d688293c8fcb26e5c2da4a4209f554598275a8c8c8063ae"
+        }
+      ],
+      "requirement": "Winner_retention_and_TRAIN_conditional_stop",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_BASELINE_RAW_HF_READBACK.json",
+          "sha256": "e33af4efd9ab8fcc2950819c1415f2b72a15e687ed7a7c8976061ebc3c5820b9"
+        }
+      ],
+      "requirement": "Durable_evidence_CALIB_BASELINE_RAW_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_FULL2500_RAW_HF_READBACK.json",
+          "sha256": "965b1c68378263510c6738f14fc6027fc285c90012f114ada265cd27e5987351"
+        }
+      ],
+      "requirement": "Durable_evidence_CALIB_FULL2500_RAW_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_FULL5000_RAW_HF_READBACK.json",
+          "sha256": "4b98221017ceceb8af1e3bf91cc8f115f914502f70ebe968e96f18c997c271d5"
+        }
+      ],
+      "requirement": "Durable_evidence_CALIB_FULL5000_RAW_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_FULL7500_RAW_HF_READBACK.json",
+          "sha256": "78b6923c73ecc31d575629b01c35da389f1197f49f412ba6ed70cdfef283c9fd"
+        }
+      ],
+      "requirement": "Durable_evidence_CALIB_FULL7500_RAW_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_FULL10000_RAW_HF_READBACK.json",
+          "sha256": "ade87a7cdeb750374fb41deea0bee59c64082d2f6173d734c33249eafb864183"
+        }
+      ],
+      "requirement": "Durable_evidence_CALIB_FULL10000_RAW_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_SELECTION_EVIDENCE_HF_READBACK.json",
+          "sha256": "9df13c7a3b2f421aedd1324648440d08f054e90c4436542aeb2a8b122a297ba2"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL_SELECTION_EVIDENCE_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_TRAINING_EVIDENCE_HF_READBACK.json",
+          "sha256": "7a61cc55d754eb046efe24b9d1518b0c8588d71be4f294fd3ab7bdae3cf35f30"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL_TRAINING_EVIDENCE_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_LIVE_EVIDENCE_HF_READBACK.json",
+          "sha256": "50960137ca6c816e7099a0a229727b1056175e5b3ef52cf6c675ab6f563ecd6a"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL_LIVE_EVIDENCE_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_BARRIER_HF_READBACK.json",
+          "sha256": "eabb61901ee0d3c179221cfae4437afcf2f115bddaf2e93e36ab66a6456cda69"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL_BARRIER_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL5000_EVIDENCE_HF_READBACK.json",
+          "sha256": "195198f6985ffb341182d069403ea97a2d777f5089a91e871376212c0784e986"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL5000_EVIDENCE_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL7500_EVIDENCE_HF_READBACK.json",
+          "sha256": "5ff7bf46c59dc37f7961dcc133225081d48f9ab534c98b95452af892a5753058"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL7500_EVIDENCE_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Exact immutable PUBLIC evidence revision, complete per-file streaming byte/SHA receipts; no scientific repeat for archive/report",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL10000_EVIDENCE_HF_READBACK.json",
+          "sha256": "029a5c7364d7a1ce86e6330f775e00d65748848ccc20160035538baa751ab4cd"
+        }
+      ],
+      "requirement": "Durable_evidence_FULL10000_EVIDENCE_HF_READBACK.json",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete model/optimizer/scheduler/RNG/Trainer objects checked anonymously at pinned revision; streamed/discarded, no duplicate Trainer on Corelab or PC",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/G2000_FULL_STREAM_RECEIPT.json",
+          "sha256": "74d6307b20643423aecb8287329e7ed61db87a74f9a5d6cecfb57b08146a51e4"
+        }
+      ],
+      "requirement": "HF_full_Trainer_G2000",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete model/optimizer/scheduler/RNG/Trainer objects checked anonymously at pinned revision; streamed/discarded, no duplicate Trainer on Corelab or PC",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/FULL2500_FULL_STREAM_RECEIPT.json",
+          "sha256": "e3f83706cdf8b3b2327f6f2aa941bb4ed002ff2586579cb4c7ac048e01ea327a"
+        }
+      ],
+      "requirement": "HF_full_Trainer_FULL2500",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete model/optimizer/scheduler/RNG/Trainer objects checked anonymously at pinned revision; streamed/discarded, no duplicate Trainer on Corelab or PC",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/FULL5000_FULL_STREAM_RECEIPT.json",
+          "sha256": "6001b066498c9550a4bc73022820c8579b4bfd05500ebe43144a2c47a0fd7b3f"
+        }
+      ],
+      "requirement": "HF_full_Trainer_FULL5000",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete model/optimizer/scheduler/RNG/Trainer objects checked anonymously at pinned revision; streamed/discarded, no duplicate Trainer on Corelab or PC",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/FULL7500_FULL_STREAM_RECEIPT.json",
+          "sha256": "b954c53ceaa2935268cf4042ef7ef651b9cfee7a55f3a3a0da772ac79d830bc9"
+        }
+      ],
+      "requirement": "HF_full_Trainer_FULL7500",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete model/optimizer/scheduler/RNG/Trainer objects checked anonymously at pinned revision; streamed/discarded, no duplicate Trainer on Corelab or PC",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/FULL10000_FULL_STREAM_RECEIPT.json",
+          "sha256": "c37e378ceac1c8a39ce1b2b036392cc06e0ca2411209832a6667c6952c12272f"
+        }
+      ],
+      "requirement": "HF_full_Trainer_FULL10000",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Complete model/optimizer/scheduler/RNG/Trainer objects checked anonymously at pinned revision; streamed/discarded, no duplicate Trainer on Corelab or PC",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/A2000_FULL_STREAM_RECEIPT.json",
+          "sha256": "264589387a74562daee1897ddeb8a69227bdac14ff70f6a8f7759865d23389a6"
+        }
+      ],
+      "requirement": "HF_full_Trainer_A2000",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Current TRAIN new-embodiment/relative statistics and modality pinned; two original processor/base-stat files reused, no substitution or duplicate upload",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/CT_RECOVERY_COMPANION.json",
+          "sha256": "2fc34e2afc8b6bb0d0497d8f4bbf4e7c585267acdba6fa0e145d27ff6e1330e9"
+        },
+        {
+          "path": "reports/PI0253/STORAGE/CT_RECOVERY_COMPANION_HF_READBACK.json",
+          "sha256": "396d28ee3b0ca66b353e68df91fef12bf7f9247f6cb7e0a1dfdfa420fab9da53"
+        },
+        {
+          "path": "reports/PI0253/STORAGE/CT_RECOVERY_COMPANION_ANONYMOUS_READBACK.json",
+          "sha256": "16d68cf7e70f0d1bcc7614af83b8ff348de5de61b2ae02e7a46c7c087713e934"
+        }
+      ],
+      "requirement": "HF_shared_CT_companion",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "Bounded permanent36file/link removal on two storage mounts, AMD0; logical114350417486bytes, actual du/free separately, shared NFS once; UNKNOWN skipped/quotaUNKNOWN; datasets/evidence/current dependencies protected; metadata never resume; no later extra purge",
+      "evidence": [
+        {
+          "path": "reports/PI0253/STORAGE/CLOSEOUT.json",
+          "sha256": "a1ad7e0f6e48372bcbdddee5ce6d895fa8bf329e41809f5c82e6e1b26c1ae45a"
+        },
+        {
+          "path": "reports/PI0253/STORAGE/CLOSEOUT.md",
+          "sha256": "9739923d305ff9e10d6ef4be63715c2838c9d4fdc7c67e5bb76777ad15e0d043"
+        },
+        {
+          "path": "reports/PI0253/STORAGE/POST_FULL_HOPPER_TIERS.json",
+          "sha256": "8c9668c46a1b29295354eb06df8c773b6e55c53d344d108e0b20a8f9a19e2bea"
+        },
+        {
+          "path": "reports/PI0253/STORAGE/POST_FULL_CORELAB_TIERS.json",
+          "sha256": "bfc6c12dcd65da32357b3e25bb88880378eb2264bfa163f59368ab2e405ed9a8"
+        }
+      ],
+      "requirement": "Storage_exact_purge_and_tiers",
+      "status": "PROVEN"
+    },
+    {
+      "claim": "10000 canonical/raw updates;6026 offline new queries/24104native heads;sim0/parity0/newcontrols0; no old valid-cell repeat/new seed/loss/M64/DEV-F/DAgger/hardware/gate-WBC changes; no monitor or new mail; PR77 observed draft/open/unmerged",
+      "evidence": [
+        {
+          "path": "reports/PI0253/FULL_RETENTION/SCIENTIFIC_TERMINAL_REPORT.md",
+          "sha256": "9cde7a530995795df852a39d31cef5524698ac0b7af4d377264216b06a1426a6"
+        },
+        {
+          "path": "reports/PI0253/bridge_report.json",
+          "sha256": "6a482f5d9d470f73a5f83a8a6cf9d0e0053d5aca6d8c3fca58ef984b09f0a610"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/CALIB_READONLY_VERDICT_AUDIT.json",
+          "sha256": "de42a99d38d08d68a166e5237b7954714c41ad1376d4c536d722e384befbbc69"
+        },
+        {
+          "path": "reports/PI0253/FULL_RETENTION/FULL_LIVE_REPORTS.json",
+          "sha256": "181024ea7f228094da3c77f89107d44d69927228a0fb4e8875cec2c13bde851e"
+        }
+      ],
+      "requirement": "Scope_and_budget_stop",
+      "status": "PROVEN"
+    }
+  ],
+  "final_runtime_snapshots": [
+    {
+      "path": "reports/PI0253/STORAGE/FINAL_HOPPER_SNAPSHOT.json",
+      "sha256": "5f9bc89708456849e0015bb2b30e26f3470d3d13b848b7842e6cfb077caa09e1"
+    },
+    {
+      "path": "reports/PI0253/STORAGE/FINAL_CORELAB_SNAPSHOT.json",
+      "sha256": "2f1e78ec585cfc2fbb1f2916d6c5829b95f9d54ac8ff798490b3b0f8b0b56fef"
+    }
+  ],
+  "full_Trainer_public_index": [
+    {
+      "asset": "G2000",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "efecea485ae77000599d19171b02491f8d514f42",
+      "total_bytes": 20882646394,
+      "tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226"
+    },
+    {
+      "asset": "FULL2500",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "289b3a8c98a8f8aa8cc62a94c26c3a827c154a4b",
+      "total_bytes": 20882714202,
+      "tree_sha256": "fadc5581ebfce50e79a94078d7d6434ee333a55f7e8c1f8e9350f475c5a580cb"
+    },
+    {
+      "asset": "FULL5000",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "a8ab7d38970294b52320beba636a10cb6a2d5afe",
+      "total_bytes": 20883059724,
+      "tree_sha256": "8cfe43038921d53e27f5408f2ac2307fadd05f568fe9171acc3d3e18db4ff570"
+    },
+    {
+      "asset": "FULL7500",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "c25a4252675fae8616d0dc80e4251c91a81c319b",
+      "total_bytes": 20883406264,
+      "tree_sha256": "f91769fdb3ca6b55994470f04b7546d6c78285824aea47c24d8581f4cde25e26"
+    },
+    {
+      "asset": "FULL10000",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "7bafb99f58f3ed9dea66e85fff8c8b79a7c9785d",
+      "total_bytes": 20883752676,
+      "tree_sha256": "a0ef6005f1ec178addbee8cf176a4bc997551065e1885e9df927780e77e11212"
+    },
+    {
+      "asset": "A2000",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "2a7945d49d17f3ec1801f2b2af6dba5e5bd6c100",
+      "total_bytes": 20882646356,
+      "tree_sha256": "f58ec02d44f1c250936d1b9687930669f12b4c2f6044c0df2c38f39dd36f379c"
+    }
+  ],
+  "missing_required_items": [],
+  "new_physical_episodes": 0,
+  "positive_sim_route": "NOT_ADMITTED_NO_WINNER",
+  "schema": "PI0253_REQUIREMENT_COMPLETION_AUDIT_V1",
+  "scientific_terminal": "NO_ADMISSIBLE_CHECKPOINT",
+  "selected_checkpoint": "NONE",
+  "status": "PASS_PROTOCOL_SCIENTIFIC_STOP_ALL_REQUIRED_EVIDENCE_CLOSED",
+  "storage_authority_commit": "eb2ac1b76338fc5b3486809f6bb28e80529ed4b1",
+  "unknown_allowed": [
+    "quota_headroom",
+    "old_reused_live_intermediate_trace"
+  ]
+}
