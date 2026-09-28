@@ -44,6 +44,30 @@ def write(path, value):
     os.replace(temporary, path)
 
 
+def barrier(first, second, card_sha):
+    for step, report in ((1000,first),(2500,second)):
+        assert report['status']=='PASS_INDEPENDENT_CPU_REPLAY' and report['checkpoint_step']==step
+        b0=[r for r in report['cells'] if r['noise_name']=='B0']
+        assert len(b0)==len({r['source_episode_id'] for r in b0})==64
+        assert all(r['status']=='VALID' for r in b0)
+        assert report['B0_linear_speed_reject_count']==sum(r['linear_speed_reject'] for r in b0)
+    stop=first['B0_linear_speed_reject_count']==second['B0_linear_speed_reject_count']==64
+    return dict(schema='PI0253_FIXED_2500_BARRIER_VERDICT_V1',status='STOP_FIXED_SPEED_BARRIER' if stop else 'CONTINUE_FIXED_FULL',
+                run_card_sha256=card_sha,canonical_cursor=2500,canonical_terminal=10000,
+                B0_linear_speed_reject_1000=first['B0_linear_speed_reject_count'],B0_linear_speed_reject_2500=second['B0_linear_speed_reject_count'],
+                ordinary_intermediate_quality_fail_is_stop=False,new_optimizer=False,selected_checkpoint='NONE')
+
+
+def barrier_check():
+    def fixture(step,count):
+        return dict(status='PASS_INDEPENDENT_CPU_REPLAY',checkpoint_step=step,B0_linear_speed_reject_count=count,
+                    cells=[dict(source_episode_id=str(i),noise_name='B0',status='VALID',linear_speed_reject=i<count) for i in range(64)])
+    assert barrier(fixture(1000,64),fixture(2500,64),'synthetic')['status']=='STOP_FIXED_SPEED_BARRIER'
+    assert barrier(fixture(1000,63),fixture(2500,64),'synthetic')['status']=='CONTINUE_FIXED_FULL'
+    assert barrier(fixture(1000,64),fixture(2500,0),'synthetic')['status']=='CONTINUE_FIXED_FULL'
+    print('PASS_FIXED_BARRIER_CPU_LOGIC')
+
+
 def materialize(step):
     """Stream pinned model bytes on Corelab; optimizer state stays on Hopper/HF."""
     import requests
@@ -190,8 +214,17 @@ def cpu_replay(root, sources, old16, noises, packets, ctx):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--step',type=int,choices=(1000,2500,5000,7500,10000),required=True)
-    parser.add_argument('--prepare-only',action='store_true');parser.add_argument('--cpu',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--step',type=int,choices=(1000,2500,5000,7500,10000))
+    parser.add_argument('--prepare-only',action='store_true');parser.add_argument('--cpu',action='store_true')
+    parser.add_argument('--barrier',action='store_true');parser.add_argument('--barrier-check',action='store_true');args=parser.parse_args()
+    if args.barrier_check:
+        barrier_check();return
+    if args.barrier:
+        first,second=[read(ROOT/f'screen/FULL{s}/cpu_replay.json') for s in (1000,2500)]
+        result=barrier(first,second,sha(ROOT/'evidence/FULL/FULL_run_card.json'))
+        result['CPU_evidence']={str(s):sha(ROOT/f'screen/FULL{s}/cpu_replay.json') for s in (1000,2500)}
+        write(ROOT/'evidence/FULL/barrier_verdict.json',result);print(json.dumps(result),flush=True);return
+    assert args.step is not None
     if args.prepare_only:
         materialize(args.step);return
     import numpy as np
