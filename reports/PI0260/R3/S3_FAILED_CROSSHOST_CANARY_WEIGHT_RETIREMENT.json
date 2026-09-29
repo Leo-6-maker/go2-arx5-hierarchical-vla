@@ -1,0 +1,31 @@
+{
+  "schema": "PI0260_R3_FAILED_CANARY_WEIGHT_RETIREMENT_V1",
+  "status": "PERMANENTLY_RETIRED_WEIGHTS",
+  "host": "nus-hopper",
+  "class": "failed_crosshost_canary_no_scientific_or_resume_dependency",
+  "directory": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/Base/canary-cont/training",
+  "deleted_files": [
+    "checkpoint-8/model-00001-of-00002.safetensors",
+    "checkpoint-8/model-00002-of-00002.safetensors",
+    "checkpoint-8/optimizer.pt",
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors"
+  ],
+  "logical_deleted_bytes": 30411441912,
+  "before_available_kib": 31523840,
+  "after_available_kib": 61222912,
+  "actual_available_delta_kib": 29699072,
+  "quota_headroom": "UNKNOWN",
+  "hardlinks": 0,
+  "symlinks": 0,
+  "active_reference": 0,
+  "retained_small_evidence": [
+    "S3_BASE_CROSSHOST_CANARY_FAIL.json",
+    "canary-cont/training/*audit*.jsonl",
+    "canary-cont/training/checkpoint-8/trainer_state.json",
+    "canary-cont/training/S4_parity.json"
+  ],
+  "weight_recovery": "NOT_AVAILABLE_AND_NOT_REQUIRED",
+  "scientific_result": "FAIL_PREDECLARED_REAL_FULL_TRAINER_CANARY",
+  "protect_active_main": "Base/main/training/checkpoint-3000"
+}
