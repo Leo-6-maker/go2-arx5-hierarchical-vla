@@ -1,0 +1,98 @@
+{
+  "Base": {
+    "headers": [
+      {
+        "header_bytes": 103352,
+        "raw_header_sha256": "ab6a13a00c1d497b3c6a91c0d81fb2097e31bfb8ea9da51ec1648c8c2e272421",
+        "shard": "model-00001-of-00002.safetensors"
+      },
+      {
+        "header_bytes": 34192,
+        "raw_header_sha256": "dc560beef663998a04dad423af422ae8ac20dd6a8605dce048139db11eeef3a2",
+        "shard": "model-00002-of-00002.safetensors"
+      }
+    ],
+    "model_tensor_data_bytes": 0,
+    "prefix": "",
+    "repo": "nvidia/GR00T-N1.7-3B",
+    "revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "transport_bytes": 137576
+  },
+  "G": {
+    "headers": [
+      {
+        "header_bytes": 93408,
+        "raw_header_sha256": "78439be8bcac5ee23fe67dee78d3c63cdaed8b034de1f5f5c4e8466f1d50b95d",
+        "shard": "model-00001-of-00002.safetensors"
+      },
+      {
+        "header_bytes": 43944,
+        "raw_header_sha256": "618d19065b4fc9751de5a84593c3ee56be7710825a1c5d2918bd726d1d960be1",
+        "shard": "model-00002-of-00002.safetensors"
+      }
+    ],
+    "model_tensor_data_bytes": 0,
+    "prefix": "arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/",
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "efecea485ae77000599d19171b02491f8d514f42",
+    "transport_bytes": 137384
+  },
+  "GR00T_loads": 0,
+  "backward": 0,
+  "common_keys": 1030,
+  "common_proposed_overrides": {
+    "action_head_storage": "F32 including frozen vlln; frozen backbone BF16",
+    "backbone_trainable_params_fp32": false,
+    "state_dropout_prob": 0.0,
+    "trainable_scopes": [
+      "projector",
+      "diffusion"
+    ],
+    "tune_llm": false,
+    "tune_visual": false,
+    "tune_vlln": false
+  },
+  "config_differences": {
+    "backbone_trainable_params_fp32": [
+      null,
+      false
+    ],
+    "state_dropout_prob": [
+      0.2,
+      0.0
+    ],
+    "transformers_version": [
+      "4.57.1",
+      "4.57.3"
+    ],
+    "tune_llm": [
+      true,
+      false
+    ],
+    "tune_visual": [
+      true,
+      false
+    ],
+    "tune_vlln": [
+      true,
+      false
+    ]
+  },
+  "dtype_pairs": 537,
+  "model_tensor_data_bytes": 0,
+  "optimizer": 0,
+  "public_header_only_transport_bytes": 274960,
+  "queries": 0,
+  "status": "PASS_HEADER_AND_CONFIG_LINEAGE_COMPATIBILITY_NOT_MODEL_LOAD",
+  "tied_alias": {
+    "base_only_key": "backbone.model.lm_head.weight",
+    "base_shard": "model-00001-of-00002.safetensors",
+    "basis": "pinned Transformers v4.57.3 Qwen3-VL declares lm_head.weight as a tied key; safe serialization retains one shared tensor",
+    "paired_key": "backbone.model.model.language_model.embed_tokens.weight"
+  },
+  "unverified": [
+    "actual NEW_EMBODIMENT mapping/processor migration",
+    "new TRAIN-derived C_MT",
+    "eligible multitask data and executable matched training binding"
+  ]
+}
