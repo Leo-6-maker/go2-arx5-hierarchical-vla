@@ -26,9 +26,9 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--pilot',action='store_true');parser.add_argument('--authorization')
     parser.add_argument('--episode');parser.add_argument('--validate-only',action='store_true');args=parser.parse_args()
     registry=json.loads((ROOT/'design/task_registry_v1.json').read_text())
-    py,env=environment()
+    py,env=environment();code=Path(__file__).resolve().parent
     # Run the real native entry point's harmless default path before any physics.
-    subprocess.run([str(py),str(ROOT/'runtime/pi0255_collect.py')],env=env,check=True)
+    subprocess.run([str(py),str(code/'pi0255_collect.py')],env=env,check=True)
     if not (args.pilot or args.episode):
         print(json.dumps(dict(status='VALIDATED_NO_PHYSICS',GR00T_loads=0)));return
     assert not args.validate_only and args.authorization==AUTH
@@ -39,7 +39,7 @@ def main():
         if any(json.loads(p.read_text())['validity']=='VALID' for p in existing):continue
         log=ROOT/'logs'/(row['episode_id']+'-%02d.log'%len(existing))
         with log.open('wb') as stream:
-            done=subprocess.run([str(py),str(ROOT/'runtime/pi0255_collect.py'),'--episode',row['episode_id'],'--authorization',AUTH],env=env,stdout=stream,stderr=subprocess.STDOUT)
+            done=subprocess.run([str(py),str(code/'pi0255_collect.py'),'--episode',row['episode_id'],'--authorization',AUTH],env=env,stdout=stream,stderr=subprocess.STDOUT)
         if done.returncode:
             print(json.dumps(dict(status='ENGINEERING_ATTENTION',episode=row['episode_id'],exit_code=done.returncode,log=str(log))),flush=True)
             raise SystemExit(done.returncode)

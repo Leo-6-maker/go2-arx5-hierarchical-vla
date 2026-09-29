@@ -22,10 +22,11 @@ WBC=Path('/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingS
 AUTH='PI0255_MULTITASK_GENERALIZATION_READINESS_GO_V1'
 
 
-def append(path,row):
+def append(path,row,sync=True):
     Path(path).parent.mkdir(parents=True,exist_ok=True)
     with Path(path).open('a') as stream:
-        stream.write(json.dumps(row,sort_keys=True)+'\n');stream.flush();os.fsync(stream.fileno())
+        stream.write(json.dumps(row,sort_keys=True)+'\n');stream.flush()
+        if sync:os.fsync(stream.fileno())
 
 
 def array_sha(value):
@@ -102,9 +103,10 @@ def input_from_snapshot(path):
 
 def run_episode(episode_id):
     registry=json.loads((ROOT/'design/task_registry_v1.json').read_text())
-    seal=json.loads((ROOT/'design/execution_seal.json').read_text())
+    runtime=Path(__file__).resolve().parent
+    seal=json.loads((runtime/'execution_seal.json').read_text())
     assert seal['authority']==AUTH and seal['registry_sha256']==mt.sha(ROOT/'design/task_registry_v1.json')
-    for name,digest in seal['runtime_files'].items():assert mt.sha(ROOT/'runtime'/name)==digest,name
+    for name,digest in seal['runtime_files'].items():assert mt.sha(runtime/name)==digest,name
     assert seal['pre_execution_commit'] and seal['canonical_comment']
     episode=next(row for row in registry['episodes'] if row['episode_id']==episode_id);assert episode['execute']
     family=next(row for row in registry['families'] if row['family_id']==episode['family_id'])
@@ -112,7 +114,8 @@ def run_episode(episode_id):
     completed=[json.loads(p.read_text()) for p in episode_root.glob('attempt-*/result.json')]
     assert not any(r['validity']=='VALID' for r in completed),'first valid episode already exists'
     assert not any(p.name.startswith('attempt-') and not (p/'result.json').exists() for p in episode_root.iterdir()),'live or unresolved attempt exists'
-    out=episode_root/('attempt-%02d'%len(completed));out.mkdir();(out/'snapshots').mkdir();(out/'settling_frames').mkdir()
+    out=episode_root/('attempt-%02d'%len(completed));out.mkdir();(out/'snapshots').mkdir();(out/'settling_frames').mkdir();(out/'references').mkdir()
+    mt.write(out/'execution_seal.json',seal)
     source=json.loads((ROOT/'evidence/platform_source_readback.json').read_text())
     for row in source['components'].values():assert mt.sha(row['path'])==row['sha256']
     for row in source['native_helpers'].values():assert mt.sha(row['path'])==row['sha256']
@@ -163,8 +166,11 @@ def run_episode(episode_id):
                 gripper=np.full(40,.5),provenance=dict(registry_sha256=seal['registry_sha256'],privileged_geometry_expert_only=True))
         def handoff(c):
             position,quaternion=api._current_eef(native)
+            reference=out/'references'/(c.chunk_id+'.npz')
+            np.savez_compressed(reference,eef_position=c.eef_position,eef_orientation=c.eef_orientation,point_timestamps=c.point_timestamps,
+                achieved_native=position-anchor,achieved_orientation=quaternion,now=np.array(clock()),gripper=c.gripper,T_world_native=transform)
             verdict=gate.evaluate(c,now=clock(),achieved_position=position-anchor,achieved_orientation=quaternion)
-            row=dict(actual_sim_time_s=clock(),chunk_id=c.chunk_id,gate=verdict.as_dict())
+            row=dict(actual_sim_time_s=clock(),chunk_id=c.chunk_id,gate=verdict.as_dict(),reference_file=str(reference.relative_to(out)),reference_sha256=mt.sha(reference))
             if verdict.decision is GateDecision.REJECT:
                 handoffs.append(row);append(out/'handoffs.jsonl',row);return False
             load=native.initial_bind_reference(c) if native.stage21_wbc_forward_count==0 else native.load_reference_chunk(c)
@@ -188,7 +194,8 @@ def run_episode(episode_id):
                 telemetry=telemetry,WBC_policy=policy,
                 gripper_joint_measurements={name:dict(position=float(native.dof_pos[0,i].cpu().item()),velocity=float(native.dof_vel[0,i].cpu().item()))
                     for i,name in enumerate(native.dof_names) if name in ('x5_gripper_joint','x5_joint8')},parallel_gripper_executor='UNVERIFIED_NOT_COMMANDED')
-            append(out/'raw_ticks.jsonl',row);return row
+            # ponytail: flush each row; sync once before the final receipt on slow NFS.
+            append(out/'raw_ticks.jsonl',row,sync=False);return row
         p0,q0=api._current_eef(native);settle_origin=clock();previous=p0.copy();previous_time=clock();stable_start=None;last_handoff=-math.inf;last_settle_capture=-math.inf
         while clock()<5.-1e-9:
             now=clock()
@@ -259,6 +266,8 @@ def run_episode(episode_id):
         if native is not None:
             result['end_actual_sim_time_s']=float(native.gym.get_sim_time(native.sim));result['reference_load_events']=native._stage21_load_events
         if env is not None:env.close()
+        if (out/'raw_ticks.jsonl').exists():
+            with (out/'raw_ticks.jsonl').open('rb') as stream:os.fsync(stream.fileno())
         result['physics_started']=(out/'physics_started.json').exists()
         result['raw_ticks_sha256']=mt.sha(out/'raw_ticks.jsonl') if (out/'raw_ticks.jsonl').exists() else None
         mt.write(out/'result.json',result);append(ROOT/'attempt_results.jsonl',result)
@@ -276,6 +285,12 @@ def cpu_check(output):
         model=physics_audit(Fake,'CPU_FIXTURE_NOT_AN_EXPERT_EPISODE',out,ledger)()
         assert model.step(1,value=2)=='unchanged' and model.step(3)=='unchanged' and len(model.calls)==2
         assert len(ledger.read_text().splitlines())==1
+        from unittest.mock import patch
+        with patch('os.fsync') as calls:
+            append(root/'synchronous.jsonl',{'unchanged':1})
+            append(root/'buffered.jsonl',{'unchanged':1},sync=False)
+            assert calls.call_count==1
+        assert (root/'synchronous.jsonl').read_bytes()==(root/'buffered.jsonl').read_bytes()
         np.savez_compressed(root/'input.npz',body_rgb=np.zeros((96,96,3),np.uint8),wrist_rgb=np.zeros((96,96,3),np.uint8))
         packet=dict(input=dict(frames='input.npz',state_v1=[0.]*10,language='CPU'),audit=dict(target_world=[1,2,3]))
         mt.write(root/'input.json',packet);assert input_from_snapshot(root/'input.json')['language']=='CPU'
@@ -284,7 +299,7 @@ def cpu_check(output):
         except AssertionError:pass
         else:raise AssertionError('actual dataset loader accepted privilege')
     receipt=dict(status='PASS_REAL_COLLECTOR_STEP_AUDIT_AND_DATASET_LOADER_CPU',collector_sha256=mt.sha(__file__),
-        tests=['same_step_arguments_and_return','first_actual_step_once','actual_npz_JSON_loader','privilege_negative_through_actual_loader'],
+        tests=['same_step_arguments_and_return','first_actual_step_once','actual_npz_JSON_loader','privilege_negative_through_actual_loader','raw_log_bytes_equal_selective_fsync'],
         GR00T_loads=0,real_physics_steps=0)
     mt.write(Path(output)/'collector_cpu_receipt.json',receipt);print(json.dumps(receipt))
 
