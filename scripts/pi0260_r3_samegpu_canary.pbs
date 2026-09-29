@@ -11,15 +11,15 @@ set -euo pipefail
 root=/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3
 venv=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv
 ff=/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
-test "$(sha256sum "$root/execution/pi0260_r3_train.py" | cut -d ' ' -f 1)" = b324dfa72426177d6a39447e23215a2273cda7460f6544993f8da7eb11d23a12
-test "$(sha256sum "$root/execution/pi0260_r3_compare_canary.py" | cut -d ' ' -f 1)" = 5ce18622e30e7043f750ea42a99c678e37491587ac744a72735042533f30304a
+test "$(sha256sum "$root/execution/pi0260_r3_train.py" | cut -d ' ' -f 1)" = eafd1350f8b6553f5a83835ebde9ee7b8f03e1e8cbd56415cde2ce060323ac64
+test "$(sha256sum "$root/execution/pi0260_r3_compare_canary.py" | cut -d ' ' -f 1)" = c8070f3da8054bf97a0fa9121c13ca17b50ef13e3eeb565c045ca7254c27f843
 export HF_HOME=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home
 export HF_HUB_CACHE="$HF_HOME/hub" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
-export HF_HUB_DISABLE_TELEMETRY=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1 PYTHONUNBUFFERED=1
+export HF_HUB_DISABLE_TELEMETRY=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1 PYTHONUNBUFFERED=1 CUBLAS_WORKSPACE_CONFIG=:4096:8
 export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
 export PYTHONPATH="$root/execution:/scratch/e1192548/pi0244_fixed16_10k_v1/scripts:/scratch/e1192548/pi0244_fixed16_10k_v1/src:/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/scripts:/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/src:/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t:${PYTHONPATH:-}"
-for segment in 'canary-samegpu-cont 8 0' 'canary-samegpu-split 4 0' 'canary-samegpu-split 8 4'; do
+for segment in 'canary-deterministic-cont 8 0' 'canary-deterministic-split 4 0' 'canary-deterministic-split 8 4'; do
   read -r phase limit resume <<< "$segment"
   "$venv/bin/python" -u "$root/execution/pi0260_r3_train.py" --arm "${PI0260_R3_ARM:?}" --phase "$phase" --limit "$limit" --resume "$resume"
 done
-"$venv/bin/python" -u "$root/execution/pi0260_r3_compare_canary.py" --arm "$PI0260_R3_ARM" --continuous canary-samegpu-cont --split canary-samegpu-split
+"$venv/bin/python" -u "$root/execution/pi0260_r3_compare_canary.py" --arm "$PI0260_R3_ARM" --continuous canary-deterministic-cont --split canary-deterministic-split

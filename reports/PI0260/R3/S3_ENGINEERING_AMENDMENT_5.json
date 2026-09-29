@@ -1,0 +1,17 @@
+{
+  "schema": "PI0260_R3_S3_ENGINEERING_AMENDMENT_5",
+  "same_gpu_attempt": "638849.hopper-m-02",
+  "same_gpu_host": "hopper-26",
+  "same_gpu_complete_updates": 16,
+  "same_gpu_model_max_abs_at_8": 0.00002956204116344452,
+  "same_gpu_optimizer_max_abs_at_8": 0.00009814601799007505,
+  "same_gpu_scheduler_lr_abs_at_8": 0.0,
+  "same_gpu_verdict": "FAIL_PREDECLARED_1E-6_CANARY",
+  "G_attempt": "638846.hopper-m-02",
+  "G_status": "canceled after node-side startup stalled on hopper-27; no training directory, model forward or optimizer update",
+  "next_execution": "torch deterministic algorithms with CUBLAS_WORKSPACE_CONFIG=:4096:8, original dtype/model/loss/data/RNG and original 1e-6 comparison",
+  "technical_recovery_completed_updates_before_next": 16,
+  "trainer_sha256": "eafd1350f8b6553f5a83835ebde9ee7b8f03e1e8cbd56415cde2ce060323ac64",
+  "comparator_sha256": "c8070f3da8054bf97a0fa9121c13ca17b50ef13e3eeb565c045ca7254c27f843",
+  "science_contract_change": false
+}

@@ -176,6 +176,9 @@ def install(args, output):
 
 def run(args):
     assert os.environ.get('PBS_JOBID'), 'real training requires a PBS allocation'
+    assert os.environ.get('CUBLAS_WORKSPACE_CONFIG') == ':4096:8'
+    torch.use_deterministic_algorithms(True)
+    torch.backends.cudnn.benchmark = False
     assert torch.cuda.device_count()==1 and torch.cuda.get_device_properties(0).total_memory >= 100*(1<<30)
     output = ROOT/args.arm/args.phase/'training'
     output.mkdir(parents=True,exist_ok=True)

@@ -80,7 +80,7 @@ def compare(arm, continuous="canary-cont", split="canary-split"):
                 model_max_abs=model,model_tensors=tensors,optimizer_max_abs=optimizer,
                 optimizer_tensors=states,scheduler_lr_abs=lr_delta,
                 condition_epsilon_tau_equal=True,mode_restored_each_step=True)
-    out=ROOT/arm/('canary_compare.json' if continuous=='canary-cont' else 'canary_samegpu_compare.json');out.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+    out=ROOT/arm/('canary_compare.json' if continuous=='canary-cont' else continuous+'_compare.json');out.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
     print(json.dumps(result))
 
 
