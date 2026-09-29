@@ -1,0 +1,26 @@
+{
+  "schema": "PI0254_RAW_TRAINING_HEADS_INCLUDING_ENGINEERING_V2",
+  "valid_U576": {
+    "native_training": 4608,
+    "rollout_forward": 18432,
+    "backward_recompute": 18432
+  },
+  "invalid_U576_engineering": {
+    "native_training": 1,
+    "rollout_forward": 4
+  },
+  "raw_U576_head_forwards": 41477,
+  "raw_successful_optimizer_updates": 4608,
+  "R576_head_forwards": 0,
+  "R576_optimizer_updates": 0,
+  "source_files": [
+    {
+      "path": "U576/training/pi0254_training_head_forwards.jsonl",
+      "sha256": "a26937e708c8f128160ecb1af2d1497e14a76ef39b634f2ef0ce1c5424da3c69"
+    },
+    {
+      "path": "U576/engineering_attempts/637485.hopper-m-02/training/pi0254_training_head_forwards.jsonl",
+      "sha256": "1420870526aeb36ccd26eb148ed5cbd80486ff1170a2808f01df501f68045b78"
+    }
+  ]
+}
