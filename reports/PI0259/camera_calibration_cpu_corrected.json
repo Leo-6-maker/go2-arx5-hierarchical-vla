@@ -1,0 +1,921 @@
+{
+  "correction": "Eight contour sectors apply at common start only. Original per-frame reports retained. Endpoint thresholds unchanged.",
+  "image_pairs": 144,
+  "missing": [
+    "No processor or codec gate before fresh TRAIN data; raw gate on complete calibration references exported separately."
+  ],
+  "models": 0,
+  "original_camera_report_sha256": "f94f00b75135416b45554a0ccb24bc1a3efdaaf9b1a8b27720220afd596c507f",
+  "physics_steps": 0,
+  "raster_conventions": {
+    "depth": "IsaacGym camera-axis negative metres; -inf background",
+    "projection": "row homogeneous world @ view @ projection; NDC x right,y up; pixel x=(ndcx+1)*48,y=(1-ndcy)*48; raster pixel centers x+.5,y+.5",
+    "rgb": "RGB uint8;96x96;row-down,column-right",
+    "segmentation": "native integer actor IDs"
+  },
+  "raster_replay_source": "40769b6b85b92114a303bf0f416cd2ac167d43cdd05002eab9e131cbd36deae7",
+  "renderer_exit": "Native destructor SIGSEGV after final JSON was durably written. No rerender; all NPZ hashes/readback checked in CPU replay.",
+  "rigs": [
+    {
+      "calibration_frames": [],
+      "missing_geometry": [],
+      "pairs_so_far": 12,
+      "rig_index": 0,
+      "start_supported_tasks": [
+        "M3"
+      ],
+      "supported_tasks": []
+    },
+    {
+      "calibration_frames": [
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M1-c0",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M1-c0",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M1-c0",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M1-c0",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-000-M1-c1",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-000-M1-c1",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M1-c1",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M1-c1",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M2-c0",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M2-c0",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M2-c0",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M2-c1",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M2-c1",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-000-M2-c1",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M1-c0",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M1-c0",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M1-c0",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M1-c0",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-001-M1-c1",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-001-M1-c1",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M1-c1",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M1-c1",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M2-c0",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M2-c0",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M2-c0",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M2-c1",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M2-c1",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M2-c1",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-001-M3-c0",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-001-M3-c0",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M3-c0",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M3-c0",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M3-c1",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-001-M3-c1",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-001-M3-c1",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-001-M3-c1",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-002-M2-c0",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-002-M2-c0",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-002-M2-c0",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-002-M2-c1",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-002-M2-c1",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-002-M2-c1",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M1-c0",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M1-c0",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M1-c0",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M1-c0",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-003-M1-c1",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-003-M1-c1",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M1-c1",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M1-c1",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M2-c0",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M2-c0",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M2-c0",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M2-c1",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M2-c1",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M2-c1",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M3-c0",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-003-M3-c0",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M3-c0",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M3-c0",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M3-c1",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M3-c1",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-003-M3-c1",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-003-M3-c1",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M1-c0",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M1-c0",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M1-c0",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M1-c0",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-004-M1-c1",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-004-M1-c1",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M1-c1",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M1-c1",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M2-c0",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M2-c0",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M2-c0",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M2-c1",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M2-c1",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M2-c1",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-004-M3-c0",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-004-M3-c0",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M3-c0",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M3-c0",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M3-c1",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-004-M3-c1",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-004-M3-c1",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-004-M3-c1",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c0",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c0",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c0",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c0",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-005-M1-c1",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c1",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c1",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M1-c1",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M2-c0",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M2-c0",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M2-c0",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M2-c1",
+          "task": "M2",
+          "time": 3
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M2-c1",
+          "task": "M2",
+          "time": 6
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M2-c1",
+          "task": "M2",
+          "time": 7.5
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-005-M3-c0",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-005-M3-c0",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M3-c0",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M3-c0",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M3-c1",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "pass_necessary": true,
+          "sequence": "pi0259-cal-005-M3-c1",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-005-M3-c1",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "pass_necessary": false,
+          "sequence": "pi0259-cal-005-M3-c1",
+          "task": "M3",
+          "time": 16
+        }
+      ],
+      "missing_geometry": [
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M2-c0",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M2-c1",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c0",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c0",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c0",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c0",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c1",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c1",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c1",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-000-M3-c1",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-001-M2-c0",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-001-M2-c1",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c0",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c0",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c0",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c0",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c1",
+          "task": "M1",
+          "time": 1.5
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c1",
+          "task": "M1",
+          "time": 3
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c1",
+          "task": "M1",
+          "time": 4.5
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M1-c1",
+          "task": "M1",
+          "time": 6
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M2-c0",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M2-c1",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c0",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c0",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c0",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c0",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c1",
+          "task": "M3",
+          "time": 4
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c1",
+          "task": "M3",
+          "time": 8
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c1",
+          "task": "M3",
+          "time": 12
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-002-M3-c1",
+          "task": "M3",
+          "time": 16
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-003-M2-c0",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-003-M2-c1",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-004-M2-c0",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-004-M2-c1",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-005-M2-c0",
+          "task": "M2",
+          "time": 10
+        },
+        {
+          "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+          "sequence": "pi0259-cal-005-M2-c1",
+          "task": "M2",
+          "time": 10
+        }
+      ],
+      "pairs_so_far": 132,
+      "rig_index": 1,
+      "start_supported_tasks": [
+        "M2",
+        "M3"
+      ],
+      "supported_tasks": []
+    },
+    {
+      "calibration_frames": [],
+      "missing_geometry": [],
+      "pairs_so_far": 144,
+      "rig_index": 2,
+      "start_supported_tasks": [
+        "M3"
+      ],
+      "supported_tasks": []
+    }
+  ],
+  "rules_source": "3a326e93c165a916f912dfb22774dc6547f4d10ef27a10bb7216f1ef56e92678",
+  "schema": "PI0259_CAMERA_CALIBRATION_V1",
+  "selected_rig": null,
+  "status": "OBSERVATION_DESIGN_BLOCKED"
+}

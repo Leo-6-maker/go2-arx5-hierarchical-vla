@@ -1,0 +1,4527 @@
+{
+  "camera_outcome": {
+    "correction": "Eight contour sectors apply at common start only. Original per-frame reports retained. Endpoint thresholds unchanged.",
+    "image_pairs": 144,
+    "missing": [
+      "No processor or codec gate before fresh TRAIN data; raw gate on complete calibration references exported separately."
+    ],
+    "models": 0,
+    "original_camera_report_sha256": "f94f00b75135416b45554a0ccb24bc1a3efdaaf9b1a8b27720220afd596c507f",
+    "physics_steps": 0,
+    "raster_conventions": {
+      "depth": "IsaacGym camera-axis negative metres; -inf background",
+      "projection": "row homogeneous world @ view @ projection; NDC x right,y up; pixel x=(ndcx+1)*48,y=(1-ndcy)*48; raster pixel centers x+.5,y+.5",
+      "rgb": "RGB uint8;96x96;row-down,column-right",
+      "segmentation": "native integer actor IDs"
+    },
+    "raster_replay_source": "40769b6b85b92114a303bf0f416cd2ac167d43cdd05002eab9e131cbd36deae7",
+    "renderer_exit": "Native destructor SIGSEGV after final JSON was durably written. No rerender; all NPZ hashes/readback checked in CPU replay.",
+    "rigs": [
+      {
+        "calibration_frames": [],
+        "missing_geometry": [],
+        "pairs_so_far": 12,
+        "rig_index": 0,
+        "start_supported_tasks": [
+          "M3"
+        ],
+        "supported_tasks": []
+      },
+      {
+        "calibration_frames": [
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M1-c0",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M1-c0",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M1-c0",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M1-c0",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-000-M1-c1",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-000-M1-c1",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M1-c1",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M1-c1",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M2-c0",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M2-c0",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M2-c0",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M2-c1",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M2-c1",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-000-M2-c1",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M1-c0",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M1-c0",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M1-c0",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M1-c0",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-001-M1-c1",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-001-M1-c1",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M1-c1",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M1-c1",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M2-c0",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M2-c0",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M2-c0",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M2-c1",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M2-c1",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M2-c1",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-001-M3-c0",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-001-M3-c0",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M3-c0",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M3-c0",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M3-c1",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-001-M3-c1",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-001-M3-c1",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-001-M3-c1",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-002-M2-c0",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-002-M2-c0",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-002-M2-c0",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-002-M2-c1",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-002-M2-c1",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-002-M2-c1",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M1-c0",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M1-c0",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M1-c0",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M1-c0",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-003-M1-c1",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-003-M1-c1",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M1-c1",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M1-c1",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M2-c0",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M2-c0",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M2-c0",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M2-c1",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M2-c1",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M2-c1",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M3-c0",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-003-M3-c0",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M3-c0",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M3-c0",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M3-c1",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M3-c1",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-003-M3-c1",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-003-M3-c1",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M1-c0",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M1-c0",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M1-c0",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M1-c0",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-004-M1-c1",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-004-M1-c1",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M1-c1",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M1-c1",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M2-c0",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M2-c0",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M2-c0",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M2-c1",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M2-c1",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M2-c1",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-004-M3-c0",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-004-M3-c0",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M3-c0",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M3-c0",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M3-c1",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-004-M3-c1",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-004-M3-c1",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-004-M3-c1",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c0",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c0",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c0",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c0",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-005-M1-c1",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c1",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c1",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M1-c1",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M2-c0",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M2-c0",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M2-c0",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M2-c1",
+            "task": "M2",
+            "time": 3
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M2-c1",
+            "task": "M2",
+            "time": 6
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M2-c1",
+            "task": "M2",
+            "time": 7.5
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-005-M3-c0",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-005-M3-c0",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M3-c0",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M3-c0",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M3-c1",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "pass_necessary": true,
+            "sequence": "pi0259-cal-005-M3-c1",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-005-M3-c1",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "pass_necessary": false,
+            "sequence": "pi0259-cal-005-M3-c1",
+            "task": "M3",
+            "time": 16
+          }
+        ],
+        "missing_geometry": [
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M2-c0",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M2-c1",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c0",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c0",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c0",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c0",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c1",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c1",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c1",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-000-M3-c1",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-001-M2-c0",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-001-M2-c1",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c0",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c0",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c0",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c0",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c1",
+            "task": "M1",
+            "time": 1.5
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c1",
+            "task": "M1",
+            "time": 3
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c1",
+            "task": "M1",
+            "time": 4.5
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M1-c1",
+            "task": "M1",
+            "time": 6
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M2-c0",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M2-c1",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c0",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c0",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c0",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c0",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c1",
+            "task": "M3",
+            "time": 4
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c1",
+            "task": "M3",
+            "time": 8
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c1",
+            "task": "M3",
+            "time": 12
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-002-M3-c1",
+            "task": "M3",
+            "time": 16
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-003-M2-c0",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-003-M2-c1",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-004-M2-c0",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-004-M2-c1",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-005-M2-c0",
+            "task": "M2",
+            "time": 10
+          },
+          {
+            "reason": "NO_ACCEPTED_IK_PREFIX_AT_REGISTERED_POSE",
+            "sequence": "pi0259-cal-005-M2-c1",
+            "task": "M2",
+            "time": 10
+          }
+        ],
+        "pairs_so_far": 132,
+        "rig_index": 1,
+        "start_supported_tasks": [
+          "M2",
+          "M3"
+        ],
+        "supported_tasks": []
+      },
+      {
+        "calibration_frames": [],
+        "missing_geometry": [],
+        "pairs_so_far": 144,
+        "rig_index": 2,
+        "start_supported_tasks": [
+          "M3"
+        ],
+        "supported_tasks": []
+      }
+    ],
+    "rules_source": "3a326e93c165a916f912dfb22774dc6547f4d10ef27a10bb7216f1ef56e92678",
+    "schema": "PI0259_CAMERA_CALIBRATION_V1",
+    "selected_rig": null,
+    "status": "OBSERVATION_DESIGN_BLOCKED"
+  },
+  "code_commit": "06d2882bd6e53d450b3c6c6d470ddb9f03511b36",
+  "cohort": "OLD_EXPOSED_QUARANTINED_CALIBRATION_ONLY",
+  "counters": {
+    "WBC_actor_calls": 0,
+    "calibration_image_pairs": 144,
+    "calibration_sequences": 36,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "physics_steps": 0
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "entries": [
+    {
+      "bytes": 12489,
+      "path": "calibration/pi0259-cal-000-M1-c0/geometry.npz",
+      "sha256": "4493c2a6b6ec00dee4c34214a97cff80ba322e4c66d9ef47b133c908da59e02d"
+    },
+    {
+      "bytes": 163740,
+      "path": "calibration/pi0259-cal-000-M1-c0/raw_gate.json",
+      "sha256": "18587468aed9dfe1dddf62459787c132bfd4a0c982eb5872307e15d7af1d1c41"
+    },
+    {
+      "bytes": 900,
+      "path": "calibration/pi0259-cal-000-M1-c0/result.json",
+      "sha256": "47fb5e7754d2ae4845f0757c0c1c77dc0081fd9f444ee244e976aa99fd9f035a"
+    },
+    {
+      "bytes": 148304,
+      "path": "calibration/pi0259-cal-000-M1-c0/solver_ledger.json",
+      "sha256": "0abc61d1b2d7c8be37ab28f12b2e6446f9548a10ee286954179a2cd4737f96b0"
+    },
+    {
+      "bytes": 743,
+      "path": "calibration/pi0259-cal-000-M1-c0/started.json",
+      "sha256": "93e66e187124f6bfe44c381461867fef9fb0676c761a7c68a3fcc934abe9cdd3"
+    },
+    {
+      "bytes": 12372,
+      "path": "calibration/pi0259-cal-000-M1-c1/geometry.npz",
+      "sha256": "112a391d6c8bb336dcdea9e3400833145dff4d05c1d7bf9390fa8e9ec5a972e3"
+    },
+    {
+      "bytes": 163740,
+      "path": "calibration/pi0259-cal-000-M1-c1/raw_gate.json",
+      "sha256": "61d84b4fa3b95ee2c0981599af7a3316bdf320234bcdae5bd5622c266f123ec5"
+    },
+    {
+      "bytes": 913,
+      "path": "calibration/pi0259-cal-000-M1-c1/result.json",
+      "sha256": "bd4675ad6b0d42a6ab093d0d22374a1ea1831fdd1f9fcd110e38e201c4d7305e"
+    },
+    {
+      "bytes": 147981,
+      "path": "calibration/pi0259-cal-000-M1-c1/solver_ledger.json",
+      "sha256": "8bf6da9132babc91770c19f8759dc88fca22f88a1215d7118fedc5c83a6bb76c"
+    },
+    {
+      "bytes": 756,
+      "path": "calibration/pi0259-cal-000-M1-c1/started.json",
+      "sha256": "d8d101930f3535b0377dbff0a30e3e9f00c5ba160783f339db21767ecbedd1f2"
+    },
+    {
+      "bytes": 17266,
+      "path": "calibration/pi0259-cal-000-M2-c0/geometry.npz",
+      "sha256": "a3fe1b1b1d80e2ca78203d2a2c86d9421d39b8249db189010786e426e48913f2"
+    },
+    {
+      "bytes": 150441,
+      "path": "calibration/pi0259-cal-000-M2-c0/raw_gate.json",
+      "sha256": "b488fa18af5be70a9b51d386659afc4f61f87cc646044e7a2e2baed72aaf9a41"
+    },
+    {
+      "bytes": 929,
+      "path": "calibration/pi0259-cal-000-M2-c0/result.json",
+      "sha256": "6735d84a4563a1d7aad54bf5b3fd10551ec59ae038972c066b0aca2b2d8f8d48"
+    },
+    {
+      "bytes": 150344,
+      "path": "calibration/pi0259-cal-000-M2-c0/solver_ledger.json",
+      "sha256": "314ce9b3da7532f75d88f4205a78f435d129982077d44005752b1f776c7b1a85"
+    },
+    {
+      "bytes": 759,
+      "path": "calibration/pi0259-cal-000-M2-c0/started.json",
+      "sha256": "8a0af190e7989435dda30b852faeb085af0d9e09be38e48a9d8692d74e5dd50e"
+    },
+    {
+      "bytes": 17090,
+      "path": "calibration/pi0259-cal-000-M2-c1/geometry.npz",
+      "sha256": "d5f906e8a88a54f4f1c40e765a8f33ad9a5e067b32421ca544cc9fb8f682728a"
+    },
+    {
+      "bytes": 148578,
+      "path": "calibration/pi0259-cal-000-M2-c1/raw_gate.json",
+      "sha256": "7aa499c784e78a467a9b8d26a5a91255178855e9e33eb9fe5469bf13db864f1a"
+    },
+    {
+      "bytes": 942,
+      "path": "calibration/pi0259-cal-000-M2-c1/result.json",
+      "sha256": "d955ddc723ac54ca39ba399ff3694a2c090ac31f5de65a05eefe8496e994b2d6"
+    },
+    {
+      "bytes": 149499,
+      "path": "calibration/pi0259-cal-000-M2-c1/solver_ledger.json",
+      "sha256": "f286a4d3acc94d66fe1f1716f67b978339816ea3037359450a4dbea769807726"
+    },
+    {
+      "bytes": 763,
+      "path": "calibration/pi0259-cal-000-M2-c1/started.json",
+      "sha256": "a0e8be296220244ea218c36705333f283f21881d338626a2e702135da5fa2308"
+    },
+    {
+      "bytes": 8711,
+      "path": "calibration/pi0259-cal-000-M3-c0/geometry.npz",
+      "sha256": "25963bf1b7777547be41ebc1f97e13b2728ccb762ccdeb859c7d83ce2c4f482f"
+    },
+    {
+      "bytes": 24696,
+      "path": "calibration/pi0259-cal-000-M3-c0/raw_gate.json",
+      "sha256": "11ae8369bfae70729da68256dd09028dccbc25b6d7ad5d901e8232ffb51d005e"
+    },
+    {
+      "bytes": 1157,
+      "path": "calibration/pi0259-cal-000-M3-c0/result.json",
+      "sha256": "bfb58074cee5ef576f3b2e070ad1088a36fa708a80ae304f62c137fc589f76d5"
+    },
+    {
+      "bytes": 11754,
+      "path": "calibration/pi0259-cal-000-M3-c0/solver_ledger.json",
+      "sha256": "20b38a47dd0db04bfb7f353dde773f4fb64dd2a9d4c681367f0d339d6232e1f5"
+    },
+    {
+      "bytes": 977,
+      "path": "calibration/pi0259-cal-000-M3-c0/started.json",
+      "sha256": "81751b7f85bffda95aa9ba88dd50161c820a0312ea62eedd9c19ae072a2c92c7"
+    },
+    {
+      "bytes": 8693,
+      "path": "calibration/pi0259-cal-000-M3-c1/geometry.npz",
+      "sha256": "a4d8a58895276c3e147c4ea8dc44b60d913b1d60822e544819aa68e490f74678"
+    },
+    {
+      "bytes": 24696,
+      "path": "calibration/pi0259-cal-000-M3-c1/raw_gate.json",
+      "sha256": "1de022a47bca3ccd4875d91cfd65902962dcdc7d53d706cba73156b2ce849143"
+    },
+    {
+      "bytes": 1093,
+      "path": "calibration/pi0259-cal-000-M3-c1/result.json",
+      "sha256": "1aef84cc67a13785199e276d31a80be45db7574c3ee84adbfc0ecec98fd2f4f1"
+    },
+    {
+      "bytes": 11737,
+      "path": "calibration/pi0259-cal-000-M3-c1/solver_ledger.json",
+      "sha256": "c62a6b656f2a59f6432c62b5f3105cabb1b27daaf8b6d80f9ec92e715351b430"
+    },
+    {
+      "bytes": 913,
+      "path": "calibration/pi0259-cal-000-M3-c1/started.json",
+      "sha256": "cd90334dc8a134cd2df31a4f9c5d82b8d7282c56a2c1f20b3da26362e20ec1d5"
+    },
+    {
+      "bytes": 13582,
+      "path": "calibration/pi0259-cal-001-M1-c0/geometry.npz",
+      "sha256": "6c8d7080484b4d6c592efb39634e1c58395f23e644ab8fa84c9853ce08d82abe"
+    },
+    {
+      "bytes": 163737,
+      "path": "calibration/pi0259-cal-001-M1-c0/raw_gate.json",
+      "sha256": "3c022e1c1a3c1056387fec8ada58df8b957755cc1edd7ed4e83a1af576993a5a"
+    },
+    {
+      "bytes": 905,
+      "path": "calibration/pi0259-cal-001-M1-c0/result.json",
+      "sha256": "35b742f57305a9f9c9da4819e29d3230e97b0f0b432139d8ea480a331cb761ac"
+    },
+    {
+      "bytes": 149281,
+      "path": "calibration/pi0259-cal-001-M1-c0/solver_ledger.json",
+      "sha256": "8d21755a6314822ec0e471b9ebd8d80c14f5b8e55101a81ac71fc86bb2de76ad"
+    },
+    {
+      "bytes": 748,
+      "path": "calibration/pi0259-cal-001-M1-c0/started.json",
+      "sha256": "e0ba2fa55d009d74b4dd06f87c6d6266140293b0dcb5e451a652c70c87dccc11"
+    },
+    {
+      "bytes": 13436,
+      "path": "calibration/pi0259-cal-001-M1-c1/geometry.npz",
+      "sha256": "187eb916bbf135e34e44488868401adfdd0f3d49d95b0acde3c80a902cc8308c"
+    },
+    {
+      "bytes": 163737,
+      "path": "calibration/pi0259-cal-001-M1-c1/raw_gate.json",
+      "sha256": "ca1135b8182680df0bc7b90fa62b071802711d3d98529ab5d3428a109a888752"
+    },
+    {
+      "bytes": 918,
+      "path": "calibration/pi0259-cal-001-M1-c1/result.json",
+      "sha256": "d52c69ca9745f912653f4f0c8dd6c3e01badd817ef572ee7f6b266118e32ff29"
+    },
+    {
+      "bytes": 148174,
+      "path": "calibration/pi0259-cal-001-M1-c1/solver_ledger.json",
+      "sha256": "6530ffb889e4c9182bf8a7435e87662ed3baa4bd20b8b01ce11757bba0e349e1"
+    },
+    {
+      "bytes": 761,
+      "path": "calibration/pi0259-cal-001-M1-c1/started.json",
+      "sha256": "17f1f1d9269822256bdb23181ef3b36dcb9daae1f29e35b4e12931a5a75f7a38"
+    },
+    {
+      "bytes": 17471,
+      "path": "calibration/pi0259-cal-001-M2-c0/geometry.npz",
+      "sha256": "18b0e22f78719af8f99f28b0a7d2755d4487ebad6d2d260530c3b245f57f5987"
+    },
+    {
+      "bytes": 150460,
+      "path": "calibration/pi0259-cal-001-M2-c0/raw_gate.json",
+      "sha256": "f44f2df1354eb9a0e46601c2ae35ae4fdcf01f7b9dfd1090b444d30f99831994"
+    },
+    {
+      "bytes": 929,
+      "path": "calibration/pi0259-cal-001-M2-c0/result.json",
+      "sha256": "076e5c4ce8c38b3522a50add9ca9339ff1408575d03da1fe129987705165fff2"
+    },
+    {
+      "bytes": 150741,
+      "path": "calibration/pi0259-cal-001-M2-c0/solver_ledger.json",
+      "sha256": "09cc72679da5179547cd3800454e2ad0cbba79210b16e3854121ec1ff3af66e6"
+    },
+    {
+      "bytes": 759,
+      "path": "calibration/pi0259-cal-001-M2-c0/started.json",
+      "sha256": "96c983368245e37aa384d4546e5422d19525393d7831686bd58a9b3e0b1c18b8"
+    },
+    {
+      "bytes": 17290,
+      "path": "calibration/pi0259-cal-001-M2-c1/geometry.npz",
+      "sha256": "822f9e9b3f5faf3ecf3f2ee0e298142d1e817824f016fdc8591f8661c35e8eff"
+    },
+    {
+      "bytes": 148595,
+      "path": "calibration/pi0259-cal-001-M2-c1/raw_gate.json",
+      "sha256": "83f267873c76b790bf3a171fda0ecbd29230e81dbeeb834de5cef7d1bef8ef2e"
+    },
+    {
+      "bytes": 942,
+      "path": "calibration/pi0259-cal-001-M2-c1/result.json",
+      "sha256": "b5f8350f7e56cce04534fb337e012930e8411c129f280c622e4fec85c8de3f67"
+    },
+    {
+      "bytes": 149889,
+      "path": "calibration/pi0259-cal-001-M2-c1/solver_ledger.json",
+      "sha256": "3717fc8771f9aa351ec4b8e4be49066bde5fe25505370d4be5bd3f125e7aed54"
+    },
+    {
+      "bytes": 763,
+      "path": "calibration/pi0259-cal-001-M2-c1/started.json",
+      "sha256": "6223db777d25288fdd6e79ccf5fc60784c1f6afff9a0733937ecac32e77b2985"
+    },
+    {
+      "bytes": 22732,
+      "path": "calibration/pi0259-cal-001-M3-c0/geometry.npz",
+      "sha256": "f8a1c79bdf0e7a302724d7d9385e2d14e8b41ef9fa032c3dd90443b2ba40a20f"
+    },
+    {
+      "bytes": 351996,
+      "path": "calibration/pi0259-cal-001-M3-c0/raw_gate.json",
+      "sha256": "55b4c3255bd251adfedfe67480669ad30541536f83f3fc9ce5a91ed453c8886b"
+    },
+    {
+      "bytes": 1135,
+      "path": "calibration/pi0259-cal-001-M3-c0/result.json",
+      "sha256": "7c6983ada7f6284e5c29a3cd7922d1b02ccf63a256af53f22027ff69a68a59da"
+    },
+    {
+      "bytes": 339665,
+      "path": "calibration/pi0259-cal-001-M3-c0/solver_ledger.json",
+      "sha256": "a8f33da1207527063e62d060e70ec1fffcdd023781dbbbe28b9cdcf9c1fcd205"
+    },
+    {
+      "bytes": 977,
+      "path": "calibration/pi0259-cal-001-M3-c0/started.json",
+      "sha256": "f27724e93f96cca259ffe15ea30614b257fd9fd76fd9ab1bffb750464c86a89a"
+    },
+    {
+      "bytes": 22706,
+      "path": "calibration/pi0259-cal-001-M3-c1/geometry.npz",
+      "sha256": "aacfc625fb6eded5fece3bc6e2e645ef18c7eb99f48212201e6a9fafa3200b0d"
+    },
+    {
+      "bytes": 351996,
+      "path": "calibration/pi0259-cal-001-M3-c1/raw_gate.json",
+      "sha256": "4adc5e338feb83d3c3d22984ebe64bd44170ad3240006ef0a25cd9c186266360"
+    },
+    {
+      "bytes": 1071,
+      "path": "calibration/pi0259-cal-001-M3-c1/result.json",
+      "sha256": "2dff985ddbde43f5ccbfdd585e0149e62f0aebea5260e3b315a89276f5ed1333"
+    },
+    {
+      "bytes": 338970,
+      "path": "calibration/pi0259-cal-001-M3-c1/solver_ledger.json",
+      "sha256": "658b61a7e6623cf8ab5e03db86790caf78f324f46cea1d3f3b06b30b0e152128"
+    },
+    {
+      "bytes": 913,
+      "path": "calibration/pi0259-cal-001-M3-c1/started.json",
+      "sha256": "a02701c31019a039b69588446dcb0a6c74407ff7cc2740851c751cff61a4dd34"
+    },
+    {
+      "bytes": 8701,
+      "path": "calibration/pi0259-cal-002-M1-c0/geometry.npz",
+      "sha256": "d5e6bd6a0cfeeb15ec5e5d97ad41b0202b553dfa64b433c36a2a070e6b890a36"
+    },
+    {
+      "bytes": 22523,
+      "path": "calibration/pi0259-cal-002-M1-c0/raw_gate.json",
+      "sha256": "356f38ff4e65872e5193e396045eff3a35c0f1582fa122f9902243b9dec10c07"
+    },
+    {
+      "bytes": 930,
+      "path": "calibration/pi0259-cal-002-M1-c0/result.json",
+      "sha256": "3acfbeb360ee6c73406a1dde18df1084b63b8c5ada27fdab49cb9a77632ab29f"
+    },
+    {
+      "bytes": 18422,
+      "path": "calibration/pi0259-cal-002-M1-c0/solver_ledger.json",
+      "sha256": "14f8dc6c20df852c630f4814cf8000bda9ae8cd942d2fb216471eaae57a28f30"
+    },
+    {
+      "bytes": 761,
+      "path": "calibration/pi0259-cal-002-M1-c0/started.json",
+      "sha256": "038f95b58b6c35afb763e6f76c094b97262e562f3b01e84c8ac642be228dbe35"
+    },
+    {
+      "bytes": 8576,
+      "path": "calibration/pi0259-cal-002-M1-c1/geometry.npz",
+      "sha256": "91e54c2f778199f04370f71ff0cca55630eb943a690610664b0731f0a27ba48f"
+    },
+    {
+      "bytes": 22523,
+      "path": "calibration/pi0259-cal-002-M1-c1/raw_gate.json",
+      "sha256": "2feb70014040d18b29ad1251ef24e3863fb9c52aad8f7bff2bdb77688cced9c0"
+    },
+    {
+      "bytes": 912,
+      "path": "calibration/pi0259-cal-002-M1-c1/result.json",
+      "sha256": "4ac70be7c42ccae801468a83d9ec3850cd3c5467e373e8b4bdbac235e3b709c5"
+    },
+    {
+      "bytes": 18353,
+      "path": "calibration/pi0259-cal-002-M1-c1/solver_ledger.json",
+      "sha256": "f006eac24517ab27adf4a0da1020af7e986c62a5bcaf895db51ff2c15a8d7fc1"
+    },
+    {
+      "bytes": 743,
+      "path": "calibration/pi0259-cal-002-M1-c1/started.json",
+      "sha256": "311c0a794c7cf6026cee1f89739c392577d3207821fcb3b71c9d9461198994be"
+    },
+    {
+      "bytes": 16843,
+      "path": "calibration/pi0259-cal-002-M2-c0/geometry.npz",
+      "sha256": "a915ba7249607bb0120db562ca7e7ec43ffb09424c1d6555457d6e2098be218d"
+    },
+    {
+      "bytes": 150460,
+      "path": "calibration/pi0259-cal-002-M2-c0/raw_gate.json",
+      "sha256": "b101ebbffb6a829d038e7288fdcc2fd7f49653a75f52a9ee2ac2f5940ce859d6"
+    },
+    {
+      "bytes": 928,
+      "path": "calibration/pi0259-cal-002-M2-c0/result.json",
+      "sha256": "18c02469c74087f08ed856d902c101c036e77dec778fa6d33393b346550c9387"
+    },
+    {
+      "bytes": 150428,
+      "path": "calibration/pi0259-cal-002-M2-c0/solver_ledger.json",
+      "sha256": "21706ccf9b45df004e2b5066481663a7c7ff03f53fc32c21c04e982eeb7b173a"
+    },
+    {
+      "bytes": 758,
+      "path": "calibration/pi0259-cal-002-M2-c0/started.json",
+      "sha256": "4e11f102170569bee5080fd0ce88296f28a855d8f534a7ea55d1a7c9dac27c9f"
+    },
+    {
+      "bytes": 16661,
+      "path": "calibration/pi0259-cal-002-M2-c1/geometry.npz",
+      "sha256": "2afe500ef06c7a32d8ae1a7f510b25e0e5fbbc6a7012c6e2701031d2e9c20f2f"
+    },
+    {
+      "bytes": 148600,
+      "path": "calibration/pi0259-cal-002-M2-c1/raw_gate.json",
+      "sha256": "6b2dada7dd12de0bdb723dad2f8f36b2610104a77e8adc889a051bb0827aebee"
+    },
+    {
+      "bytes": 943,
+      "path": "calibration/pi0259-cal-002-M2-c1/result.json",
+      "sha256": "ecf5fc5701ee8da3ea34e1d4869dfafe124a844201d7a6df58036a1b5f80cea4"
+    },
+    {
+      "bytes": 149630,
+      "path": "calibration/pi0259-cal-002-M2-c1/solver_ledger.json",
+      "sha256": "de91e5d962818687518373cc794f47ff9322181b6b6a5de5bce68e052fe78088"
+    },
+    {
+      "bytes": 764,
+      "path": "calibration/pi0259-cal-002-M2-c1/started.json",
+      "sha256": "690129fbcfd52ed111b96ecfe4019e56ff4a8b3076117e3ab8036d2e91e3e152"
+    },
+    {
+      "bytes": 8686,
+      "path": "calibration/pi0259-cal-002-M3-c0/geometry.npz",
+      "sha256": "6b33675a1ed17c6453677f758d7588ffe320b408573bb38b106c1c180733c07b"
+    },
+    {
+      "bytes": 22864,
+      "path": "calibration/pi0259-cal-002-M3-c0/raw_gate.json",
+      "sha256": "2268f11c490a11078fedd07c40f4c687dd583d2b1d246fe9e6415e2ba20ebc18"
+    },
+    {
+      "bytes": 1128,
+      "path": "calibration/pi0259-cal-002-M3-c0/result.json",
+      "sha256": "711aa5ff3c7d77ab1d1bedfda61feaa5b803aad4d530655ed4606a54835375b6"
+    },
+    {
+      "bytes": 13213,
+      "path": "calibration/pi0259-cal-002-M3-c0/solver_ledger.json",
+      "sha256": "bb167a4c167826bea7a4f0caf11413180778e31d3c827bf61aabbe36262899e0"
+    },
+    {
+      "bytes": 948,
+      "path": "calibration/pi0259-cal-002-M3-c0/started.json",
+      "sha256": "2910589ce6b9637204010680873ab1cba3240c4a73f0e02550238d67fb0e74e6"
+    },
+    {
+      "bytes": 8670,
+      "path": "calibration/pi0259-cal-002-M3-c1/geometry.npz",
+      "sha256": "bda8f01d082d34672cd1cc69559548be1819753f0203528ce17bedadc4db7324"
+    },
+    {
+      "bytes": 22864,
+      "path": "calibration/pi0259-cal-002-M3-c1/raw_gate.json",
+      "sha256": "6a0203c85396624e7caf98456591b1500d07c71e2c6676005858204fec01adbf"
+    },
+    {
+      "bytes": 1122,
+      "path": "calibration/pi0259-cal-002-M3-c1/result.json",
+      "sha256": "4bcfe941e1f8cfe61560115ff18bab332abcae897191794d2533e874b2444bcd"
+    },
+    {
+      "bytes": 13194,
+      "path": "calibration/pi0259-cal-002-M3-c1/solver_ledger.json",
+      "sha256": "6ed2c44d0a1919c16f8f2591afb71c85dff4e5e34d44f75a6efaf81865ce90bb"
+    },
+    {
+      "bytes": 942,
+      "path": "calibration/pi0259-cal-002-M3-c1/started.json",
+      "sha256": "62a47e29b60dca59f95a29755fdb2b89fa0ed7bab6cea2fc16ba30e4a6ce5dcc"
+    },
+    {
+      "bytes": 13992,
+      "path": "calibration/pi0259-cal-003-M1-c0/geometry.npz",
+      "sha256": "fb56b6756d37eef2567fec6b4fc9c97bfaeb7ea8dea01dced0f779670189236b"
+    },
+    {
+      "bytes": 163698,
+      "path": "calibration/pi0259-cal-003-M1-c0/raw_gate.json",
+      "sha256": "f86dedbf4eab64a4065c804cd34e620224e3bd978375fad0ef682335f3863a4d"
+    },
+    {
+      "bytes": 913,
+      "path": "calibration/pi0259-cal-003-M1-c0/result.json",
+      "sha256": "fe26960629b2e9aab08ed7874ff07438a0564d23cc72681e1e6ef5827d6ab76f"
+    },
+    {
+      "bytes": 148755,
+      "path": "calibration/pi0259-cal-003-M1-c0/solver_ledger.json",
+      "sha256": "ece2047348a0b3ece689420a87e8a1ce85ecec33b9db31b5e0981d264af1d443"
+    },
+    {
+      "bytes": 756,
+      "path": "calibration/pi0259-cal-003-M1-c0/started.json",
+      "sha256": "c7d13c7631e8f34dcd143162d714c8066d9a328c15f75298f03a4a32c6e8ac90"
+    },
+    {
+      "bytes": 12944,
+      "path": "calibration/pi0259-cal-003-M1-c1/geometry.npz",
+      "sha256": "f46f0a1937690f87f6ac2925a1e7e6950e023f547246a6146b933b5bfa503d1d"
+    },
+    {
+      "bytes": 163687,
+      "path": "calibration/pi0259-cal-003-M1-c1/raw_gate.json",
+      "sha256": "e6f5ad46508de54ea681729f9f40bf6194c29a7662596904f8b743fb96a2342f"
+    },
+    {
+      "bytes": 910,
+      "path": "calibration/pi0259-cal-003-M1-c1/result.json",
+      "sha256": "54708cf787aabb0880ff18acb332d3e8c58e877bdd659d82fd8e9b1de990a7bb"
+    },
+    {
+      "bytes": 148681,
+      "path": "calibration/pi0259-cal-003-M1-c1/solver_ledger.json",
+      "sha256": "850a16108b1c47d16b68cc53a0217dc44c72f5e29a4fd05ebbb4df2deec46aa3"
+    },
+    {
+      "bytes": 753,
+      "path": "calibration/pi0259-cal-003-M1-c1/started.json",
+      "sha256": "65ad141ba71616cbb321aaa6fc2d731e0eaf57c64b75b8e168724d2e9bfff6ee"
+    },
+    {
+      "bytes": 17306,
+      "path": "calibration/pi0259-cal-003-M2-c0/geometry.npz",
+      "sha256": "bdd9016e6b781075debe0978f69b19b852e24411ea679f44057afe96efa06c47"
+    },
+    {
+      "bytes": 150459,
+      "path": "calibration/pi0259-cal-003-M2-c0/raw_gate.json",
+      "sha256": "323db231343a1f6917e4818aef4b37d18de472b11fac347e57d3f7de4b3e839a"
+    },
+    {
+      "bytes": 928,
+      "path": "calibration/pi0259-cal-003-M2-c0/result.json",
+      "sha256": "f88a63e67f52e28a12102eb80dd945ad264aca8eb5eaf18bb743c0efbf97dce7"
+    },
+    {
+      "bytes": 150474,
+      "path": "calibration/pi0259-cal-003-M2-c0/solver_ledger.json",
+      "sha256": "980281f8d794a679bab75374f9716e1895bdbe86f2b1d1b43f37796219cbffd0"
+    },
+    {
+      "bytes": 758,
+      "path": "calibration/pi0259-cal-003-M2-c0/started.json",
+      "sha256": "b5e10dc40776d389c445c44e57c59eeaa2e15988f86958bc9184d2930814ac06"
+    },
+    {
+      "bytes": 17558,
+      "path": "calibration/pi0259-cal-003-M2-c1/geometry.npz",
+      "sha256": "227086bb5a109e0e464eda241a0e26160c307c7145daaa62e7a32e7fcbeb190b"
+    },
+    {
+      "bytes": 148557,
+      "path": "calibration/pi0259-cal-003-M2-c1/raw_gate.json",
+      "sha256": "b3182834a532aba799b6fe2d8080b8798541b528eb860047a48b1e2e69bc81b4"
+    },
+    {
+      "bytes": 943,
+      "path": "calibration/pi0259-cal-003-M2-c1/result.json",
+      "sha256": "063ac5045d4a5b606fb56915cf43cba69457197e62d444795c324e513e54d1bf"
+    },
+    {
+      "bytes": 159297,
+      "path": "calibration/pi0259-cal-003-M2-c1/solver_ledger.json",
+      "sha256": "9824cf34260cb0856c8595e1e876bea26fea83f01b693105fe85deaee814c2ef"
+    },
+    {
+      "bytes": 764,
+      "path": "calibration/pi0259-cal-003-M2-c1/started.json",
+      "sha256": "9f6dc269e0cec3925588c3bb9d43e03e3aaecd4b1bf227a1e4504ca1ac7b9dcb"
+    },
+    {
+      "bytes": 21808,
+      "path": "calibration/pi0259-cal-003-M3-c0/geometry.npz",
+      "sha256": "589c45c48ba552c4224785ea1e77e59cffae964a4ea7784490cfa47003525adf"
+    },
+    {
+      "bytes": 352091,
+      "path": "calibration/pi0259-cal-003-M3-c0/raw_gate.json",
+      "sha256": "79420ca9b9d3cdc424d3e019401004ac6171765583a0de99c0aa16fabac95b03"
+    },
+    {
+      "bytes": 1106,
+      "path": "calibration/pi0259-cal-003-M3-c0/result.json",
+      "sha256": "e616c47e4ae79e891cf750c2e19ff84d6c9803bda5d53222f866709a67b1b66d"
+    },
+    {
+      "bytes": 340157,
+      "path": "calibration/pi0259-cal-003-M3-c0/solver_ledger.json",
+      "sha256": "0457780de57a8011bec2093a931a09505d51dfa24e0e38f6cfb95c877443f20b"
+    },
+    {
+      "bytes": 948,
+      "path": "calibration/pi0259-cal-003-M3-c0/started.json",
+      "sha256": "df35deab5158ccafdc3345a0a7e0f03d74a7fe0fd3ac3ad21f2527beddc724cb"
+    },
+    {
+      "bytes": 21288,
+      "path": "calibration/pi0259-cal-003-M3-c1/geometry.npz",
+      "sha256": "587e6f6d96ff6c34131c89eee907df3197ede57cb7bfcdfc866cb8c269cd6213"
+    },
+    {
+      "bytes": 352101,
+      "path": "calibration/pi0259-cal-003-M3-c1/raw_gate.json",
+      "sha256": "41a0dd18abe6dc7b14a134219618af9427edcd9a20cb68ddf663a6eea7c7ebde"
+    },
+    {
+      "bytes": 1100,
+      "path": "calibration/pi0259-cal-003-M3-c1/result.json",
+      "sha256": "6c25e32407c62b467b087a16630fe3f5ff804189ff27a5aaf4ee90544cc8a1ec"
+    },
+    {
+      "bytes": 338974,
+      "path": "calibration/pi0259-cal-003-M3-c1/solver_ledger.json",
+      "sha256": "c5eb112475f9ef8ade69cb2ddf4a6a3faddeb07bd55f046371f9f07aacceb6ce"
+    },
+    {
+      "bytes": 942,
+      "path": "calibration/pi0259-cal-003-M3-c1/started.json",
+      "sha256": "d3b55db2ebf1ebfe003f7740ea53e8d8a8978e1b8442e5486221d5e8e42b4b46"
+    },
+    {
+      "bytes": 13582,
+      "path": "calibration/pi0259-cal-004-M1-c0/geometry.npz",
+      "sha256": "6c8d7080484b4d6c592efb39634e1c58395f23e644ab8fa84c9853ce08d82abe"
+    },
+    {
+      "bytes": 163737,
+      "path": "calibration/pi0259-cal-004-M1-c0/raw_gate.json",
+      "sha256": "3dcb27a5aec954e8599031d23acf360eaa2a17e43a86c320cbf0fceec701ebc9"
+    },
+    {
+      "bytes": 900,
+      "path": "calibration/pi0259-cal-004-M1-c0/result.json",
+      "sha256": "2d5a1f6f747f73ad6c83430f807073604f23b106b4ac75726d1c3dd6c6856d14"
+    },
+    {
+      "bytes": 149281,
+      "path": "calibration/pi0259-cal-004-M1-c0/solver_ledger.json",
+      "sha256": "8d21755a6314822ec0e471b9ebd8d80c14f5b8e55101a81ac71fc86bb2de76ad"
+    },
+    {
+      "bytes": 743,
+      "path": "calibration/pi0259-cal-004-M1-c0/started.json",
+      "sha256": "569ee2ce5ee9cc1f5bd8ecc322e4632578bce5a4711e4f6558fa770fb6f99254"
+    },
+    {
+      "bytes": 13436,
+      "path": "calibration/pi0259-cal-004-M1-c1/geometry.npz",
+      "sha256": "187eb916bbf135e34e44488868401adfdd0f3d49d95b0acde3c80a902cc8308c"
+    },
+    {
+      "bytes": 163737,
+      "path": "calibration/pi0259-cal-004-M1-c1/raw_gate.json",
+      "sha256": "450999d56ad28515e1d2ca54c3a724dd55436f33131f9743a21cfcfdeb33e1e0"
+    },
+    {
+      "bytes": 913,
+      "path": "calibration/pi0259-cal-004-M1-c1/result.json",
+      "sha256": "960dbd96a221fa3e5e5b766de81764802198922854aebb09579d6270b06f887b"
+    },
+    {
+      "bytes": 148174,
+      "path": "calibration/pi0259-cal-004-M1-c1/solver_ledger.json",
+      "sha256": "6530ffb889e4c9182bf8a7435e87662ed3baa4bd20b8b01ce11757bba0e349e1"
+    },
+    {
+      "bytes": 756,
+      "path": "calibration/pi0259-cal-004-M1-c1/started.json",
+      "sha256": "03f0c794186b10450bd8cdaa81428fb2ed869d81ac820ef7c399854b37b20fd3"
+    },
+    {
+      "bytes": 17471,
+      "path": "calibration/pi0259-cal-004-M2-c0/geometry.npz",
+      "sha256": "18b0e22f78719af8f99f28b0a7d2755d4487ebad6d2d260530c3b245f57f5987"
+    },
+    {
+      "bytes": 150460,
+      "path": "calibration/pi0259-cal-004-M2-c0/raw_gate.json",
+      "sha256": "444adcc3799453a9d2a0ece7964dea7eff38c7a03749badf43575f8f9a399220"
+    },
+    {
+      "bytes": 929,
+      "path": "calibration/pi0259-cal-004-M2-c0/result.json",
+      "sha256": "704917276d901dc6078dc0c6830aa36ce9be2afc150fac290ccd7ccab5d386cf"
+    },
+    {
+      "bytes": 150741,
+      "path": "calibration/pi0259-cal-004-M2-c0/solver_ledger.json",
+      "sha256": "09cc72679da5179547cd3800454e2ad0cbba79210b16e3854121ec1ff3af66e6"
+    },
+    {
+      "bytes": 759,
+      "path": "calibration/pi0259-cal-004-M2-c0/started.json",
+      "sha256": "99a9e98ba1ddffc27f7afe13a5483da1abb78c0aefdc5ef7e2daa148636fb486"
+    },
+    {
+      "bytes": 17290,
+      "path": "calibration/pi0259-cal-004-M2-c1/geometry.npz",
+      "sha256": "822f9e9b3f5faf3ecf3f2ee0e298142d1e817824f016fdc8591f8661c35e8eff"
+    },
+    {
+      "bytes": 148595,
+      "path": "calibration/pi0259-cal-004-M2-c1/raw_gate.json",
+      "sha256": "4d8a2f709c5fab594567aed84bb98ab657ba4d4d4c587bfe4db62de591b9b3b4"
+    },
+    {
+      "bytes": 942,
+      "path": "calibration/pi0259-cal-004-M2-c1/result.json",
+      "sha256": "63c1b01e8846c1c4b60641cec5f0656f92a6d02da194389ba33573013894d914"
+    },
+    {
+      "bytes": 149889,
+      "path": "calibration/pi0259-cal-004-M2-c1/solver_ledger.json",
+      "sha256": "3717fc8771f9aa351ec4b8e4be49066bde5fe25505370d4be5bd3f125e7aed54"
+    },
+    {
+      "bytes": 763,
+      "path": "calibration/pi0259-cal-004-M2-c1/started.json",
+      "sha256": "11120ca0cf5f5625a5bd97f55ab6bd064f0be25e5d748878607ae7f6661e638c"
+    },
+    {
+      "bytes": 22732,
+      "path": "calibration/pi0259-cal-004-M3-c0/geometry.npz",
+      "sha256": "f8a1c79bdf0e7a302724d7d9385e2d14e8b41ef9fa032c3dd90443b2ba40a20f"
+    },
+    {
+      "bytes": 351996,
+      "path": "calibration/pi0259-cal-004-M3-c0/raw_gate.json",
+      "sha256": "e01e4d799f851dbeb677cef456ac07e2b71be8280f7c7359bc581d9f76957bea"
+    },
+    {
+      "bytes": 1135,
+      "path": "calibration/pi0259-cal-004-M3-c0/result.json",
+      "sha256": "9d7bc9010ff8f7582c1c1775df06c56e1a0cedc90a5ce51156ea018d1d484399"
+    },
+    {
+      "bytes": 339665,
+      "path": "calibration/pi0259-cal-004-M3-c0/solver_ledger.json",
+      "sha256": "a8f33da1207527063e62d060e70ec1fffcdd023781dbbbe28b9cdcf9c1fcd205"
+    },
+    {
+      "bytes": 977,
+      "path": "calibration/pi0259-cal-004-M3-c0/started.json",
+      "sha256": "37e9c99ec74f74f51dd4dc0240caf7da7649bc6c0972f51708a6f6a683288129"
+    },
+    {
+      "bytes": 22706,
+      "path": "calibration/pi0259-cal-004-M3-c1/geometry.npz",
+      "sha256": "aacfc625fb6eded5fece3bc6e2e645ef18c7eb99f48212201e6a9fafa3200b0d"
+    },
+    {
+      "bytes": 351996,
+      "path": "calibration/pi0259-cal-004-M3-c1/raw_gate.json",
+      "sha256": "df42d8ca62199607ec8d4269a585f57ffaace604212c74757ab030fdabb58750"
+    },
+    {
+      "bytes": 1071,
+      "path": "calibration/pi0259-cal-004-M3-c1/result.json",
+      "sha256": "43140e69dc91fb38b3d33b921291443b7fdc3358c2b6911253b07c87d891ea51"
+    },
+    {
+      "bytes": 338970,
+      "path": "calibration/pi0259-cal-004-M3-c1/solver_ledger.json",
+      "sha256": "658b61a7e6623cf8ab5e03db86790caf78f324f46cea1d3f3b06b30b0e152128"
+    },
+    {
+      "bytes": 913,
+      "path": "calibration/pi0259-cal-004-M3-c1/started.json",
+      "sha256": "ade5a6235a7db3c6b52d43222d462f733df19e4aaf05a251aec1f3d2afe42cce"
+    },
+    {
+      "bytes": 13853,
+      "path": "calibration/pi0259-cal-005-M1-c0/geometry.npz",
+      "sha256": "8a522a97c4b526314ebf24cd35c342daab8c0ce3ea5c9c674af487602a345b77"
+    },
+    {
+      "bytes": 163690,
+      "path": "calibration/pi0259-cal-005-M1-c0/raw_gate.json",
+      "sha256": "d6a4e32c67f376d5d0f0402c8bb781cc45858516d930edda0de980efbc4457ff"
+    },
+    {
+      "bytes": 918,
+      "path": "calibration/pi0259-cal-005-M1-c0/result.json",
+      "sha256": "8ecae9477be584cb428ffac815501ad900ae2cdc26da697100c39d6f8174d1c6"
+    },
+    {
+      "bytes": 149185,
+      "path": "calibration/pi0259-cal-005-M1-c0/solver_ledger.json",
+      "sha256": "8f2957ef80669595aacc7ce8d83bcb2f1f5681e073786a87c643c687aa48a864"
+    },
+    {
+      "bytes": 761,
+      "path": "calibration/pi0259-cal-005-M1-c0/started.json",
+      "sha256": "6fdaa9da9a4dbde89239f42886f7bd2b1a8ef86324ba348a04bceb737551dcc8"
+    },
+    {
+      "bytes": 12189,
+      "path": "calibration/pi0259-cal-005-M1-c1/geometry.npz",
+      "sha256": "13d696bcc84b26dfb895a5dc5e063f257918fe7bf214340ed263bcab043c299d"
+    },
+    {
+      "bytes": 163733,
+      "path": "calibration/pi0259-cal-005-M1-c1/raw_gate.json",
+      "sha256": "68ba19bbfc8f7e9576960bb602e042a9f75fca26556e68b35f4a97e61b6b0e39"
+    },
+    {
+      "bytes": 900,
+      "path": "calibration/pi0259-cal-005-M1-c1/result.json",
+      "sha256": "99c9ca3565758f9a5063061614fe485f62497693f19ebd44534bc572b6ac6761"
+    },
+    {
+      "bytes": 148251,
+      "path": "calibration/pi0259-cal-005-M1-c1/solver_ledger.json",
+      "sha256": "1a76f322d1945b896d2a0403d3095c8ea96ba8cb411217a2725152902d327b99"
+    },
+    {
+      "bytes": 743,
+      "path": "calibration/pi0259-cal-005-M1-c1/started.json",
+      "sha256": "e1a0f5f91871162a9913128c6d157147b554b0e247279ede14209873ab8fc02a"
+    },
+    {
+      "bytes": 17340,
+      "path": "calibration/pi0259-cal-005-M2-c0/geometry.npz",
+      "sha256": "e5a87e6ba1a86a7a59528446a5eba289d9f323825d98069e14ce08484779bd0c"
+    },
+    {
+      "bytes": 150446,
+      "path": "calibration/pi0259-cal-005-M2-c0/raw_gate.json",
+      "sha256": "e80dfbd7f591f44d740ad4b8a553b54f571d85655aa1bfcf76c78cb446ebe354"
+    },
+    {
+      "bytes": 928,
+      "path": "calibration/pi0259-cal-005-M2-c0/result.json",
+      "sha256": "d6464d51667f632d791a40f0587c00c8fb77d103b949562513cc7db903d9d58e"
+    },
+    {
+      "bytes": 150249,
+      "path": "calibration/pi0259-cal-005-M2-c0/solver_ledger.json",
+      "sha256": "6bf1c6445587047c405dff5246ef3c223a7698c9cead051c15461c62d03be642"
+    },
+    {
+      "bytes": 758,
+      "path": "calibration/pi0259-cal-005-M2-c0/started.json",
+      "sha256": "aafbab341144e97d71d1ac2a8a85077ca4f866c49bb97af009f2ecb487f81ae1"
+    },
+    {
+      "bytes": 17494,
+      "path": "calibration/pi0259-cal-005-M2-c1/geometry.npz",
+      "sha256": "428bb367e3ef6353756434685f7e8cc7a563a4c4a61f866418ee658b6926be22"
+    },
+    {
+      "bytes": 148576,
+      "path": "calibration/pi0259-cal-005-M2-c1/raw_gate.json",
+      "sha256": "c3e558c38f02a011ec371533d622055161f324ec139eb35d26fefd009f57f2de"
+    },
+    {
+      "bytes": 943,
+      "path": "calibration/pi0259-cal-005-M2-c1/result.json",
+      "sha256": "e5bd7e7f9469f362b5d7ba649158d15552a40b16de94ce84a41ef0e8fef49b35"
+    },
+    {
+      "bytes": 156931,
+      "path": "calibration/pi0259-cal-005-M2-c1/solver_ledger.json",
+      "sha256": "9ecf87a10d8fa856bf90ef66ee7e3faf5dc05be26060e1bf04c21933916db249"
+    },
+    {
+      "bytes": 764,
+      "path": "calibration/pi0259-cal-005-M2-c1/started.json",
+      "sha256": "470024a5689bd6d01b14437d5f00e2647257ca5e3bb7429fe7ce708f8959838d"
+    },
+    {
+      "bytes": 23376,
+      "path": "calibration/pi0259-cal-005-M3-c0/geometry.npz",
+      "sha256": "3162c7dad8a0ad8abce6f6f23e58bb9f5ce58227716b12c11e04017ddcc04ef5"
+    },
+    {
+      "bytes": 351961,
+      "path": "calibration/pi0259-cal-005-M3-c0/raw_gate.json",
+      "sha256": "18162af0021a961ebb06a1740844c2f4d7ea0faa88048bfbfa8ecb946d94e9ce"
+    },
+    {
+      "bytes": 1106,
+      "path": "calibration/pi0259-cal-005-M3-c0/result.json",
+      "sha256": "7e4ced7831e9c35d96f52a4afc1c390c151fabe8afd31012e7c510be12f97c6c"
+    },
+    {
+      "bytes": 339960,
+      "path": "calibration/pi0259-cal-005-M3-c0/solver_ledger.json",
+      "sha256": "3ec0b2eb06b9d4019681bf56b2b62fbb33623cf3b7cd4c7adb59af634d1a43c9"
+    },
+    {
+      "bytes": 948,
+      "path": "calibration/pi0259-cal-005-M3-c0/started.json",
+      "sha256": "93216abb7dd92911ee61f84f044bd3030cd94cf939261265dc23ed8692bd443c"
+    },
+    {
+      "bytes": 21441,
+      "path": "calibration/pi0259-cal-005-M3-c1/geometry.npz",
+      "sha256": "beb8d4291845817ee68571e4e9cfc55073fe56d8533f2de8463b0982bf0565a1"
+    },
+    {
+      "bytes": 352008,
+      "path": "calibration/pi0259-cal-005-M3-c1/raw_gate.json",
+      "sha256": "0f02da29696daa5fe01ef54d96accc7ef8d5ed9444c40837f9dbb8d47c015b9d"
+    },
+    {
+      "bytes": 1100,
+      "path": "calibration/pi0259-cal-005-M3-c1/result.json",
+      "sha256": "5af1347e6bf5c5383966fdfd0b42a4d1d56971cbd5148065e358f257b6351d6c"
+    },
+    {
+      "bytes": 338203,
+      "path": "calibration/pi0259-cal-005-M3-c1/solver_ledger.json",
+      "sha256": "222ac49e3b5df92e7e436611d227a320ba8f4768f6da55683f604719cb79601e"
+    },
+    {
+      "bytes": 942,
+      "path": "calibration/pi0259-cal-005-M3-c1/started.json",
+      "sha256": "8035b8b26fa2db2379151d7d5c57293e61a16668d2cb2a85c3b395dd4214a3e7"
+    },
+    {
+      "bytes": 165,
+      "path": "calibration_rigs/rig0/outcome.json",
+      "sha256": "b00dc5d7bcf53a6122d860afc9718c4574a15a77e87efae97525d155ee66c664"
+    },
+    {
+      "bytes": 50122,
+      "path": "calibration_rigs/rig0/pi0259-cal-000/common_start.json",
+      "sha256": "a72ad114fe5074d1bd120a36ac241f3b2e9ab0c61ad440cca41da2019ef80949"
+    },
+    {
+      "bytes": 32422,
+      "path": "calibration_rigs/rig0/pi0259-cal-000/common_start.npz",
+      "sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2"
+    },
+    {
+      "bytes": 50121,
+      "path": "calibration_rigs/rig0/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "174d798207a7865ae18a0692416381c5fd9915968ebd1492c24d46a0355531d7"
+    },
+    {
+      "bytes": 32422,
+      "path": "calibration_rigs/rig0/pi0259-cal-000/common_start_repeat.npz",
+      "sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2"
+    },
+    {
+      "bytes": 50190,
+      "path": "calibration_rigs/rig0/pi0259-cal-001/common_start.json",
+      "sha256": "2bb90ffe140d586565537363643e3d3944402f529a89bc819816dd26fcd3c532"
+    },
+    {
+      "bytes": 32161,
+      "path": "calibration_rigs/rig0/pi0259-cal-001/common_start.npz",
+      "sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0"
+    },
+    {
+      "bytes": 50189,
+      "path": "calibration_rigs/rig0/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "bb2c6150dd0312754da8cbdd87f2a13eda7242eae0d5a21386a7c722ed44be12"
+    },
+    {
+      "bytes": 32161,
+      "path": "calibration_rigs/rig0/pi0259-cal-001/common_start_repeat.npz",
+      "sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0"
+    },
+    {
+      "bytes": 50007,
+      "path": "calibration_rigs/rig0/pi0259-cal-002/common_start.json",
+      "sha256": "213df9de19dc8e66339d10e325933dbb0aa0f2e6be1d3b30a24e8d09d68751a3"
+    },
+    {
+      "bytes": 32714,
+      "path": "calibration_rigs/rig0/pi0259-cal-002/common_start.npz",
+      "sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938"
+    },
+    {
+      "bytes": 50006,
+      "path": "calibration_rigs/rig0/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "028a17c715c011a241aa3f380b96a82e24cb07d164a90ac1c5e78cfadf8021f1"
+    },
+    {
+      "bytes": 32714,
+      "path": "calibration_rigs/rig0/pi0259-cal-002/common_start_repeat.npz",
+      "sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938"
+    },
+    {
+      "bytes": 50103,
+      "path": "calibration_rigs/rig0/pi0259-cal-003/common_start.json",
+      "sha256": "ae8989f99aee8308db73fd3f7bd9599fde85d84e896e5f8f429f4b3cd24e40fe"
+    },
+    {
+      "bytes": 32708,
+      "path": "calibration_rigs/rig0/pi0259-cal-003/common_start.npz",
+      "sha256": "fcd5ecb7202c4ddd423354039c72423733c17dbe0c51ef80b1e73952299b8054"
+    },
+    {
+      "bytes": 50102,
+      "path": "calibration_rigs/rig0/pi0259-cal-003/common_start_repeat.json",
+      "sha256": "0a7d9937cd777ac097fbc1d8454575cad05195fee588ceed9e001396125a04ed"
+    },
+    {
+      "bytes": 32708,
+      "path": "calibration_rigs/rig0/pi0259-cal-003/common_start_repeat.npz",
+      "sha256": "fcd5ecb7202c4ddd423354039c72423733c17dbe0c51ef80b1e73952299b8054"
+    },
+    {
+      "bytes": 50190,
+      "path": "calibration_rigs/rig0/pi0259-cal-004/common_start.json",
+      "sha256": "2db010bc7e61b70b75cd95c448de1fbdc30865fbdd01d96b5cf357ec6d6c9d41"
+    },
+    {
+      "bytes": 32083,
+      "path": "calibration_rigs/rig0/pi0259-cal-004/common_start.npz",
+      "sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0"
+    },
+    {
+      "bytes": 50189,
+      "path": "calibration_rigs/rig0/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "86b64f8ea9a812c7244649603618195ad0b4ccdf447689661bc22028428ef883"
+    },
+    {
+      "bytes": 32083,
+      "path": "calibration_rigs/rig0/pi0259-cal-004/common_start_repeat.npz",
+      "sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0"
+    },
+    {
+      "bytes": 50032,
+      "path": "calibration_rigs/rig0/pi0259-cal-005/common_start.json",
+      "sha256": "5463bfe59b0eebfd6784a1ac79dc25d7b996a142987d4667e64ea49974c1a1c3"
+    },
+    {
+      "bytes": 32412,
+      "path": "calibration_rigs/rig0/pi0259-cal-005/common_start.npz",
+      "sha256": "3b40d554817e032952262dcaff367424b333d0d810f645e2c51e25004981b7cc"
+    },
+    {
+      "bytes": 50031,
+      "path": "calibration_rigs/rig0/pi0259-cal-005/common_start_repeat.json",
+      "sha256": "ec15e4197e7373a9a0be29012ce4021efb927c95d7e6b19d7b99d06342c02be9"
+    },
+    {
+      "bytes": 32412,
+      "path": "calibration_rigs/rig0/pi0259-cal-005/common_start_repeat.npz",
+      "sha256": "3b40d554817e032952262dcaff367424b333d0d810f645e2c51e25004981b7cc"
+    },
+    {
+      "bytes": 18815,
+      "path": "calibration_rigs/rig1/outcome.json",
+      "sha256": "8303e8f8005e4710df461c568a62b02687510bffb0814eaa138c4456915da33d"
+    },
+    {
+      "bytes": 50061,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/common_start.json",
+      "sha256": "af114cee7a6b7eec0bb0b9673438e1e29ca69af78645d562adfa4c7899c79887"
+    },
+    {
+      "bytes": 34362,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/common_start.npz",
+      "sha256": "40f6d9894e4d42823da782bac0add1f5c7906fb3f7e52d43f3f2a2ae2277aedb"
+    },
+    {
+      "bytes": 50060,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "f54f01c6a682c2ba8ec539b47f922a4d474ba178fe3915c84a5b8da01ab6bc51"
+    },
+    {
+      "bytes": 34362,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/common_start_repeat.npz",
+      "sha256": "40f6d9894e4d42823da782bac0add1f5c7906fb3f7e52d43f3f2a2ae2277aedb"
+    },
+    {
+      "bytes": 52819,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0030.json",
+      "sha256": "3f1dad88e554ffd8c4addeb1c86c4134840c1f38c804595ffe021f37229afbd8"
+    },
+    {
+      "bytes": 38934,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0030.npz",
+      "sha256": "a5b8bf82a35ac2c19a66edb5027c03cab0e8d42dce4b1be1aed3d8034fef12fb"
+    },
+    {
+      "bytes": 52752,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0060.json",
+      "sha256": "f6748faf28bc4a39668840d265cc4cbd827dfd179ad574807d7d95cf1e8868a2"
+    },
+    {
+      "bytes": 40196,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0060.npz",
+      "sha256": "97dd546959bd5b0c674a8a7c3e7738ad86152edaca7f98698cca9237185a6e34"
+    },
+    {
+      "bytes": 52878,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0090.json",
+      "sha256": "e5b29e4030db19e5c6d0d49f4887d3fb7391034dbf4580cf9494285ddb657104"
+    },
+    {
+      "bytes": 38447,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0090.npz",
+      "sha256": "14ab5f201de2c19c016e0ecbb6ec1862446ae4103990b39c9fc0d2c055c0b480"
+    },
+    {
+      "bytes": 52911,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0120.json",
+      "sha256": "44ee7fb9cca06682e6b88e31a81edce766346fb95b01fb30252ec517ada0dcc4"
+    },
+    {
+      "bytes": 38379,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c0-t0120.npz",
+      "sha256": "4fe469d6ea1656c96b13f9f17b5666cde942ddbe2ad0516a3664b87e4bd2ce9e"
+    },
+    {
+      "bytes": 52856,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0030.json",
+      "sha256": "77616a8427b524f97c0a7e83e72a13bb6dbc30e7b60a512ad0650338c1b9ae1e"
+    },
+    {
+      "bytes": 42043,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0030.npz",
+      "sha256": "32bc53b8e217db568b36e9bcc1e09ea5b266565f9a7183c8ae4da3da7c82d3cf"
+    },
+    {
+      "bytes": 52768,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0060.json",
+      "sha256": "60b68ad7942030919d4ef6663e2542bf6f2f11233e372fa1b3554f21a32e4be2"
+    },
+    {
+      "bytes": 42866,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0060.npz",
+      "sha256": "9ffffcbbff3fb451662d9f01d7dbdced51eff2586e33e861c8a95ab7cc1c2680"
+    },
+    {
+      "bytes": 52742,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0090.json",
+      "sha256": "4c261d8428a4b101165bb118db2e5c3485dd7797bb2f34fbc4b759b8e0765036"
+    },
+    {
+      "bytes": 40097,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0090.npz",
+      "sha256": "6dcd73f98c1972210a02936a0c386ea24e203703d197787e06943b106b90a404"
+    },
+    {
+      "bytes": 52747,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0120.json",
+      "sha256": "3226cfa05fab20d00e437e86687e5c6d522207df806b3a95aa650190e0a693c9"
+    },
+    {
+      "bytes": 41455,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0120.npz",
+      "sha256": "9748bffdd8574fad71e5c772e4325a4386b1db9ed4b2d95e0ca309d659e2c0c6"
+    },
+    {
+      "bytes": 52736,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c0-t0060.json",
+      "sha256": "4139778b6bd48fc448d0aebe317acf7de4371b594a65fb9d9eb803019e96d337"
+    },
+    {
+      "bytes": 33885,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c0-t0060.npz",
+      "sha256": "5fa9d5e6ad9d4f79b4840b6601c29dc5546787885be92d0bd634e7a689bd7562"
+    },
+    {
+      "bytes": 52673,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c0-t0120.json",
+      "sha256": "ae38e66097701f0f3613d5afedae83e395c651b1c302cb7d037f8a890aabe98b"
+    },
+    {
+      "bytes": 31971,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c0-t0120.npz",
+      "sha256": "aeacd09aea077ffb663e97bd082cab29ec8e141bf129a3be35f49a59ad70ae87"
+    },
+    {
+      "bytes": 52880,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c0-t0150.json",
+      "sha256": "aa8056ed2b3f8db8d3c326b61f9ec91bc3683a9c32cc8c799cc3b1ed00532537"
+    },
+    {
+      "bytes": 32295,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c0-t0150.npz",
+      "sha256": "d6884fb442bc112a344bbc1e1c2af89dae2e8c2ca9c441452d1017ea72d244df"
+    },
+    {
+      "bytes": 52780,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c1-t0060.json",
+      "sha256": "36728b2474e34b77d900d2e68896bd3a143f9a60e1f1d028c814edd31544a815"
+    },
+    {
+      "bytes": 32681,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c1-t0060.npz",
+      "sha256": "2542d86cfab811a63a757b685fa118759276a7a32842c48c2671f1b53e037835"
+    },
+    {
+      "bytes": 52778,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c1-t0120.json",
+      "sha256": "25e21b97aaf200de878930a0ac8459f9cbb907bdcb3304777c55e1bb6d026459"
+    },
+    {
+      "bytes": 31337,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c1-t0120.npz",
+      "sha256": "dc834b232c2c9955d9549f14770bef1c4786319e8acaccbd1ef7b7d61498374b"
+    },
+    {
+      "bytes": 52921,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c1-t0150.json",
+      "sha256": "e4fb2c851a46ad221c1dd47ba1e8b144bf5faccf17db8ca81f2dd6cfb0bde3a2"
+    },
+    {
+      "bytes": 32082,
+      "path": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M2-c1-t0150.npz",
+      "sha256": "b90cafc11c9c61b7c03fd528a2e6023f6c40ac6d85846730b5e8bb93b8667879"
+    },
+    {
+      "bytes": 50074,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/common_start.json",
+      "sha256": "0cd06d6cf97fc17e7a48091d35aa20792e60e9d6eff92a6fba276000b586c030"
+    },
+    {
+      "bytes": 34073,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/common_start.npz",
+      "sha256": "b820ef8a6d069e59b2891d111c72a25346f617434aef60c85952d5d7e6da1ae6"
+    },
+    {
+      "bytes": 50073,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "4f98f228a856e3b0660b33c0d1ad46aed0bd74a8ae9b005ca60a90f6ccd1a250"
+    },
+    {
+      "bytes": 34073,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/common_start_repeat.npz",
+      "sha256": "b820ef8a6d069e59b2891d111c72a25346f617434aef60c85952d5d7e6da1ae6"
+    },
+    {
+      "bytes": 52901,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0030.json",
+      "sha256": "08a1c41ca16e5ae645dda02cf66280962097a10e1b054a32cbf4dff85df9654e"
+    },
+    {
+      "bytes": 36468,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0030.npz",
+      "sha256": "baa847d9330647420c0905e4dfb76a35fafda8129f2775d3c3102916aa19d4fe"
+    },
+    {
+      "bytes": 52926,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0060.json",
+      "sha256": "b37420a68d04b9698f411460029aabe2dd5222afde9adc2feac6052ace38cbd3"
+    },
+    {
+      "bytes": 37714,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0060.npz",
+      "sha256": "8176d8236f21e085df1b610b775402db5dccfa02737190d9d1a4c49f3cd31d88"
+    },
+    {
+      "bytes": 52906,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0090.json",
+      "sha256": "d7e3e0a6939b28f3aaeb675261fcfd53f25e2c9a51d0e0c43cea9e98946e1af8"
+    },
+    {
+      "bytes": 40743,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0090.npz",
+      "sha256": "21c20ba182973881cf3deac4a003ebb20b56f9513fa95d3fb7937a313e63e207"
+    },
+    {
+      "bytes": 52975,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0120.json",
+      "sha256": "8e8fe0efad53ec5df5b7093d0d9c60d4ee772f2be3d889e153a45d00eee5da77"
+    },
+    {
+      "bytes": 40556,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c0-t0120.npz",
+      "sha256": "d59f1625d2e8ed61ee20c38e707768d907d0db91a4e09429960d96b3643cc53b"
+    },
+    {
+      "bytes": 52925,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0030.json",
+      "sha256": "35a116fced38fb1e2263f9bf9f3a7d8b6f8a9fc14d92a149e279e315d275a393"
+    },
+    {
+      "bytes": 39007,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0030.npz",
+      "sha256": "c2e2c763319ad166389888651b86cd3f0751315ed3f8790fc75df75883b27cca"
+    },
+    {
+      "bytes": 52777,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0060.json",
+      "sha256": "c7dc9e341607cc93ee53cd9664350218318b5616efaf94e553ef42b2be2a2ebd"
+    },
+    {
+      "bytes": 42344,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0060.npz",
+      "sha256": "8eca9546f4c7441ffaa04d1615fd08b84da6ec11880eff686353c4e048d48631"
+    },
+    {
+      "bytes": 52758,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0090.json",
+      "sha256": "b4baf2914cc242dc0a8ab27df74a9530740e4cfe8010c1f0fbb1e5f66d44e541"
+    },
+    {
+      "bytes": 38547,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0090.npz",
+      "sha256": "7133235a64e63cd4675a072f98c47366a98987a6d67854f6e7ce41a32d44dac7"
+    },
+    {
+      "bytes": 52741,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0120.json",
+      "sha256": "14a89afefeca315c72fc337afba64fca5c9a5a6d8b0679eab700c77e5f81e2af"
+    },
+    {
+      "bytes": 41084,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0120.npz",
+      "sha256": "509a63f2ae26dc24efd2c7db70bf91f93babc48d1d0e8a9d01cd3ed878252182"
+    },
+    {
+      "bytes": 52713,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c0-t0060.json",
+      "sha256": "8b52a97c0dd7b059811f5c292b91c61a8132b099f8069b6054bdc00a6824afe7"
+    },
+    {
+      "bytes": 33276,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c0-t0060.npz",
+      "sha256": "7d04caa25fa9d82a2a3dd4db08730363c9798d7a4c824b803fcd762decb54620"
+    },
+    {
+      "bytes": 52691,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c0-t0120.json",
+      "sha256": "ee1713f39bb0fe604add17fc95d6aaff09a414e2510cf1fbb48c3c3086ea3970"
+    },
+    {
+      "bytes": 31842,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c0-t0120.npz",
+      "sha256": "a2043cb555bd5034b01e12a8839f612fca816c72d9910fd255f0d69a3a22407c"
+    },
+    {
+      "bytes": 52714,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c0-t0150.json",
+      "sha256": "baeb849dabed193bf1454aaabf5adc687d52ea9e4d2d6aad375cac3748f3210b"
+    },
+    {
+      "bytes": 31885,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c0-t0150.npz",
+      "sha256": "179c6f9aef601db2e47fdbefb4d9085ad15b0bc29059383f06bd57ddbb7064d8"
+    },
+    {
+      "bytes": 52909,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c1-t0060.json",
+      "sha256": "a07598893d00e306c8436ade7d80a0eb6c4a88bcea1d6bfa87cb8bad4188d014"
+    },
+    {
+      "bytes": 31679,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c1-t0060.npz",
+      "sha256": "1ef48a53e563371ecdf4bf838cddfe5cb60db794ed0187815d2297d811b9e9e0"
+    },
+    {
+      "bytes": 52931,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c1-t0120.json",
+      "sha256": "57dfc068f4e0a0bd18ab3dc016d9ee2fe7334b81051c15cd9ba0e3533cfdc5d8"
+    },
+    {
+      "bytes": 30919,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c1-t0120.npz",
+      "sha256": "26fbc095ee703dac120dd733a3a3d46027aeaf7ac24f3d8df729f96cee7cd416"
+    },
+    {
+      "bytes": 52741,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c1-t0150.json",
+      "sha256": "12a2dfe823f0395a8274b327e15831da98d8b0996eb69e065432147a611e3c7e"
+    },
+    {
+      "bytes": 31682,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M2-c1-t0150.npz",
+      "sha256": "67f6fb33c0ec642e0a7088ba0ff54667f1fcb8a67500e607f7e70377eaa19025"
+    },
+    {
+      "bytes": 52984,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0080.json",
+      "sha256": "4939065009a45e25eabcac2ed618e50f542bad6c990da51e9259a73c0a72e290"
+    },
+    {
+      "bytes": 36885,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0080.npz",
+      "sha256": "8acb51fb66ccce081fd15bcf2488bbf0672aeefc3d598e771aec1047dfcf5005"
+    },
+    {
+      "bytes": 52928,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0160.json",
+      "sha256": "764edfb02210fdf466cb5501c4d433505e5fbd9e7246b67a9bd435e561c94f6a"
+    },
+    {
+      "bytes": 34121,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0160.npz",
+      "sha256": "076aaea4437d4545e6c354989e99ce7677398d38f7eb226523f4bf9cf1231c5a"
+    },
+    {
+      "bytes": 52744,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0240.json",
+      "sha256": "bdddb6e4bbe1161b489cf07a0f9fa48e862f78bb5fc8a881a6bf6f9d62edec23"
+    },
+    {
+      "bytes": 36843,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0240.npz",
+      "sha256": "6bce3e25d8ade301ff929a46c73b152a49856d4d08bb89141761b30daf13eb65"
+    },
+    {
+      "bytes": 52797,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0320.json",
+      "sha256": "0f9be21ec227df62ce3e41ead3ae1677418b3d353b1d39cc8371021d495a71b5"
+    },
+    {
+      "bytes": 39259,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0320.npz",
+      "sha256": "6f428f74e60dd4708ad99b18bcaa4fa1546d853cb19e7307a6e916578c778819"
+    },
+    {
+      "bytes": 52877,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0080.json",
+      "sha256": "d8655851fec07f218b2ff289ac60c0f7b217ae1fccc36f5da5a84f67c58d4168"
+    },
+    {
+      "bytes": 38945,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0080.npz",
+      "sha256": "fe32276cc0ada6cb00a326a4c23d74730f72a13274f91fad4c264c9a22bf4da8"
+    },
+    {
+      "bytes": 52778,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0160.json",
+      "sha256": "07c64f18e6c43f7f5ff1e8de5eeff9795586b3525b77c5abead3b48186414c62"
+    },
+    {
+      "bytes": 35890,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0160.npz",
+      "sha256": "de7825a04abdaa1a548318e78d57ba3f0809215e749ebbb2987f79e8be52732b"
+    },
+    {
+      "bytes": 52905,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0240.json",
+      "sha256": "ce155a0ed8661da43cbaa76d9b4731b4e6c92952ea722b74f655d392d4325a6f"
+    },
+    {
+      "bytes": 33940,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0240.npz",
+      "sha256": "b15a701df45ebb6ad9a360c85b763e54eabc31df16a4d679f85c7890a4cce5d0"
+    },
+    {
+      "bytes": 52979,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0320.json",
+      "sha256": "b10e6130e57483c3fb799e0d2068d2aa0ae54c2042463eb9768cc78130df3ce4"
+    },
+    {
+      "bytes": 36353,
+      "path": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0320.npz",
+      "sha256": "64be9b0b30f4152d7426f61b807ad49129ddf11e13511a3734083050d19bea11"
+    },
+    {
+      "bytes": 49979,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/common_start.json",
+      "sha256": "bdeb6ad18f5e81ea0d91798212d3f037064df2ffeed915f434e0197f4fa71d7c"
+    },
+    {
+      "bytes": 34660,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/common_start.npz",
+      "sha256": "b6cad268e36a2006199ab194b1d5fb48b0b12d1bb6fe59dd509ed9395f6de942"
+    },
+    {
+      "bytes": 49978,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "395ff47a1b47623c2b0b526f82470bffb8bd294e01200116a67d6d071f70154e"
+    },
+    {
+      "bytes": 34660,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/common_start_repeat.npz",
+      "sha256": "b6cad268e36a2006199ab194b1d5fb48b0b12d1bb6fe59dd509ed9395f6de942"
+    },
+    {
+      "bytes": 52725,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c0-t0060.json",
+      "sha256": "7f65c09345ef33ae7c0552064900ce7d6bf4dbda2189c7d088df76a98e421f56"
+    },
+    {
+      "bytes": 35914,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c0-t0060.npz",
+      "sha256": "2bb47c5953a04e6ddf3e1a6749b0cca0c1e63aad93336358afc34e7f265e0789"
+    },
+    {
+      "bytes": 52700,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c0-t0120.json",
+      "sha256": "6ca5e5eba4c9756078b2a0aa6e10c1a7cce47a8a25a3595d3fde450a79527d9c"
+    },
+    {
+      "bytes": 32159,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c0-t0120.npz",
+      "sha256": "3134a764070d06a6368cc1359a67203414256adb227dc5da34a1d132ed426cc5"
+    },
+    {
+      "bytes": 52857,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c0-t0150.json",
+      "sha256": "2905bdfdede4204ad07229e9ccee18464cc692fd283fd387db3cd57a38dd2fbe"
+    },
+    {
+      "bytes": 32802,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c0-t0150.npz",
+      "sha256": "9154e7f39c1cb3d572191707c4b920c717a43322f91478ef91cb102f5c7e904b"
+    },
+    {
+      "bytes": 52801,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c1-t0060.json",
+      "sha256": "0ec181ab09dc6534a78f966a1b463be64394eba9b03bf65a9dae5a1b136b2526"
+    },
+    {
+      "bytes": 37297,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c1-t0060.npz",
+      "sha256": "9a889635bcf2f4495c1f5d4473eb5ac0e2d06f022d090459e5897c51453aec14"
+    },
+    {
+      "bytes": 52781,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c1-t0120.json",
+      "sha256": "35e385746e2a0bb71c22bfdbe16fdcb4a36ba509765440184d9d8d066a7f3279"
+    },
+    {
+      "bytes": 31935,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c1-t0120.npz",
+      "sha256": "d19107cb4ab5a2b7a6739016093ccfb1fb6ce56dd69be889489bc25804852065"
+    },
+    {
+      "bytes": 52851,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c1-t0150.json",
+      "sha256": "521d1e7b0f25f52f2e21681b614b9f2683081d31902a1b89625fdf8eaffb2457"
+    },
+    {
+      "bytes": 32666,
+      "path": "calibration_rigs/rig1/pi0259-cal-002/pi0259-cal-002-M2-c1-t0150.npz",
+      "sha256": "2a22abc607ab121d8c926e3be02fdb04fce13e68663f1aa6e443574ab0de2633"
+    },
+    {
+      "bytes": 50108,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/common_start.json",
+      "sha256": "efdacdecae6709b7eb8978f1176caa5c5c244613ade898664f8307251d217566"
+    },
+    {
+      "bytes": 34682,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/common_start.npz",
+      "sha256": "19dad26a641123d62ea8ce6efb7aa651f33f530c49a0b28e99015455f9948fb0"
+    },
+    {
+      "bytes": 50107,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/common_start_repeat.json",
+      "sha256": "45a1d1fbc60e5305ddd06ae68db1169a81f039072720b82cd53524cdf04387f5"
+    },
+    {
+      "bytes": 34682,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/common_start_repeat.npz",
+      "sha256": "19dad26a641123d62ea8ce6efb7aa651f33f530c49a0b28e99015455f9948fb0"
+    },
+    {
+      "bytes": 52868,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0030.json",
+      "sha256": "a26721f122941bc3f484a8faa1f671045e372cbd71ef2d1a498815c3eab3619f"
+    },
+    {
+      "bytes": 40294,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0030.npz",
+      "sha256": "d9ac850a5be88e06c9d026e5f699a0dc2928fffd9aea99a27fc094f2420667a1"
+    },
+    {
+      "bytes": 52813,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0060.json",
+      "sha256": "1d3bc9b24f1a3bda675c5c8724ff5442938d96b83ae2d6649a81838b263f29b9"
+    },
+    {
+      "bytes": 39260,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0060.npz",
+      "sha256": "13d16db9e525024f585f61d15cd69c75f7730e5f41817480e16bc153c2f80019"
+    },
+    {
+      "bytes": 52776,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0090.json",
+      "sha256": "1b9e3182106348a3c0d5b422c9f4d0c5edc04506baa47f290523946e47e47081"
+    },
+    {
+      "bytes": 40808,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0090.npz",
+      "sha256": "a5436ec90621ecb60f6f7d60ab959bb8870cc1d1bd20d8c1b1b0006383768e6c"
+    },
+    {
+      "bytes": 52784,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0120.json",
+      "sha256": "eeb280e7dea9fe50e39ae352b87d25efd91d6aa4acd66485c4c45ebcd63623c1"
+    },
+    {
+      "bytes": 39810,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c0-t0120.npz",
+      "sha256": "36e089953ef1faf1755302d97d25f6b3c4527f2884b906fd0935e61fc18dfad9"
+    },
+    {
+      "bytes": 52736,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0030.json",
+      "sha256": "95220625e7227ba5aa5615260b8e4fdbbf70607b9958ade1abf64280f6b7c514"
+    },
+    {
+      "bytes": 38117,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0030.npz",
+      "sha256": "4c1f3e195900976eb368131962cefd69e4b32bfb550a20597a94cdc9537f17e3"
+    },
+    {
+      "bytes": 52757,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0060.json",
+      "sha256": "52cb48e58d459176efdbb3a3d48b34f850e27c28f87f16e6c631bf410e6b9ef0"
+    },
+    {
+      "bytes": 39331,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0060.npz",
+      "sha256": "2c1c09fa43007842122b76ba546dfd841cbad075ed332a24ea61f30ce648a500"
+    },
+    {
+      "bytes": 52778,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0090.json",
+      "sha256": "2c5382ec43f555c39b49c29c2743cfc5c4380915cf000e8c13bc6c1be502141d"
+    },
+    {
+      "bytes": 39554,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0090.npz",
+      "sha256": "e5cb19b00a2532b67839177c0d5e927519f8e9dd348a8731d828bf0cb01c9c8d"
+    },
+    {
+      "bytes": 52776,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0120.json",
+      "sha256": "5b15cddcfd45ffc9453a69076c0870b0d50600c39fd2416939b124bcbf88fcda"
+    },
+    {
+      "bytes": 37897,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0120.npz",
+      "sha256": "280082d85116148823d5b2d7f86f55572d088a1ffff8fe9a681df5886a06ba18"
+    },
+    {
+      "bytes": 52666,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c0-t0060.json",
+      "sha256": "3fbafd260f56a03d5406a04bcef3845cc63583aa89fc93556451bb0ffe2115bc"
+    },
+    {
+      "bytes": 32833,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c0-t0060.npz",
+      "sha256": "8cde9b584188c560eadae4bfcb2b8e6c7318ac6b5a29726eec43d9e60d589eb8"
+    },
+    {
+      "bytes": 52733,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c0-t0120.json",
+      "sha256": "cc64e6955bd1fd047d314668f06d90a1e815e35e6e3027c8ed45bddce3af9633"
+    },
+    {
+      "bytes": 31593,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c0-t0120.npz",
+      "sha256": "50a85962ebc202ca53928a41dfce2dc23a22824c25b8889b3f88418be8e0158f"
+    },
+    {
+      "bytes": 52766,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c0-t0150.json",
+      "sha256": "06aff3d0781a0372ee0cea7dc24226ee2f43df4ea3bb560e05269cfb20eccfba"
+    },
+    {
+      "bytes": 31485,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c0-t0150.npz",
+      "sha256": "b7af0fd8fcac55869ab838013707c7a873101d71f08f1886866600fdcfb2f136"
+    },
+    {
+      "bytes": 52844,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0060.json",
+      "sha256": "c9c8ae2b8b503297fabf1986ca9d9fb957f52593e49426059ba41fd0c55c5d5e"
+    },
+    {
+      "bytes": 31605,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0060.npz",
+      "sha256": "e2e12b4c962c435ecfb5ec61d05ab0aa8c9692d9142ff060c923ca1b78dc4341"
+    },
+    {
+      "bytes": 52673,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0120.json",
+      "sha256": "940198f24b5e30edfcf633dc8e9324444d3120367302c8bfd536e7da27ed4018"
+    },
+    {
+      "bytes": 30805,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0120.npz",
+      "sha256": "90842bc19ce5342c717dcf0933999d790a2c60c62690a170b4886c9ebc638b6c"
+    },
+    {
+      "bytes": 52762,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0150.json",
+      "sha256": "052c4b6831624165293fa10c53073a9559f88e844fe3f10dde687a1d625c46ee"
+    },
+    {
+      "bytes": 31271,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0150.npz",
+      "sha256": "b34940da8b399404c43b23821b0261cb5f59fd2ac6e377aef067b08d8e3c3093"
+    },
+    {
+      "bytes": 52747,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0080.json",
+      "sha256": "fcfb034c68c6b6dd2595bc8e1731ae8246513be9db69bc840402121f454cd863"
+    },
+    {
+      "bytes": 37296,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0080.npz",
+      "sha256": "e5cacf5e7e96dd04985f9a6e1a7e90b9b69e910bec1ebabbba970cea4cdf4c5d"
+    },
+    {
+      "bytes": 52825,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0160.json",
+      "sha256": "462589f066fa117c268b4374a93e1d4bc2eeaa6ba436188a535921249610c979"
+    },
+    {
+      "bytes": 34387,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0160.npz",
+      "sha256": "b6e84deeea410d294a1e22fcfc57d0bf4c7988ab94fed4597fdeb6dddf2f34fb"
+    },
+    {
+      "bytes": 52767,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0240.json",
+      "sha256": "294148bc9d90d568e5fa010be4955cca3310d7b865a606584e29f03a2f1e4021"
+    },
+    {
+      "bytes": 36469,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0240.npz",
+      "sha256": "89b75501967d7f2c4b39c9d8bb09a8dcb93c33662001de6e661ea20e33aafab7"
+    },
+    {
+      "bytes": 52797,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0320.json",
+      "sha256": "a429e4725a7aaf5266a8d97bf1cf164587016118f82d252c945c2ca791933f8d"
+    },
+    {
+      "bytes": 37846,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0320.npz",
+      "sha256": "661c37c24257443d464144524ad5bca1b122b98c42c82ea716b13c070aa5da89"
+    },
+    {
+      "bytes": 52772,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0080.json",
+      "sha256": "172a2025cc6dd9fff87a6ab8367ad67caf7831e28aef2bbecd11df868327c284"
+    },
+    {
+      "bytes": 36794,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0080.npz",
+      "sha256": "31e35b07933c25a91667e62502d061c3c4ae7d99e4ccfa5aa7c2c92e77724c7a"
+    },
+    {
+      "bytes": 52746,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0160.json",
+      "sha256": "2b91500c1143eeae2c7035c8a0c5e977bf4b4950e68e664e8ef7c0547916a5f4"
+    },
+    {
+      "bytes": 35905,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0160.npz",
+      "sha256": "ae0ef6ba77a60e60a0ba8f82604d914ae29cf8a875755f10b30bd2a80517a5a9"
+    },
+    {
+      "bytes": 52827,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0240.json",
+      "sha256": "bde82086ed9f549f420862a7aabd1e92419a5c213db1416a95787f84d8843e8f"
+    },
+    {
+      "bytes": 33972,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0240.npz",
+      "sha256": "5d53032d6463f4d80789b318703936e6a937e5cee51ff8854d1b2de438ab4496"
+    },
+    {
+      "bytes": 52739,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0320.json",
+      "sha256": "f62ea65b3c10f90aaf7d8aab8057a22c64167323d683c7bf40c53e7b73f5af8f"
+    },
+    {
+      "bytes": 36076,
+      "path": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0320.npz",
+      "sha256": "ca8597e4aa8afbe46c956e94e77fe9233a3a3f822cd52971a1e64684dbde65b1"
+    },
+    {
+      "bytes": 50074,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/common_start.json",
+      "sha256": "e311a8d2ff003614c0eb1dcc22495583a2b7eec43e374f2740576dfba0a150b6"
+    },
+    {
+      "bytes": 33994,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/common_start.npz",
+      "sha256": "808f0255ae0fdcd913c9017b81918f37a4cf3f08fe8dad8d44fc30b08022f24e"
+    },
+    {
+      "bytes": 50073,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "6f904494ee0a11ab0f5317c1bb0f5784a60d880167614e440dfd869396e78185"
+    },
+    {
+      "bytes": 33994,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/common_start_repeat.npz",
+      "sha256": "808f0255ae0fdcd913c9017b81918f37a4cf3f08fe8dad8d44fc30b08022f24e"
+    },
+    {
+      "bytes": 52901,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0030.json",
+      "sha256": "4f1b7de3879964cd231c6eda9cde7b72755d305396d8b1005d292dc051ef2eb2"
+    },
+    {
+      "bytes": 36403,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0030.npz",
+      "sha256": "baa4091a13b5be37df8ff53a668b2524deadad609b378015405af6926e6b9813"
+    },
+    {
+      "bytes": 52926,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0060.json",
+      "sha256": "1127b873ee494acf44d714e513f3b44b523804f8b11510405ea475e292dc369f"
+    },
+    {
+      "bytes": 37662,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0060.npz",
+      "sha256": "1912913721e21f97405335c35bf7d72005e8006bffa2c26a0ebe9e13f98ad673"
+    },
+    {
+      "bytes": 52906,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0090.json",
+      "sha256": "95bfc8b5ac608603ab46bfd805114a6d079b66aaa20a38066435794eba4ffae8"
+    },
+    {
+      "bytes": 40704,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0090.npz",
+      "sha256": "e00f5014eb3f64d1895de14871f350689bbc162a4c2851a7b3c92dbc9528ea51"
+    },
+    {
+      "bytes": 52975,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0120.json",
+      "sha256": "e250c3faceb2a3c01f78b55c17beb3e253e19bd08cac2bdb7773e46470abdddb"
+    },
+    {
+      "bytes": 40516,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c0-t0120.npz",
+      "sha256": "27f42d3ba2ac00b386fb88dc83e2913d6747f78145666ba27b2ee1caafec3949"
+    },
+    {
+      "bytes": 52925,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0030.json",
+      "sha256": "a4f2d6a81721486bb1729576c1117550df45f1c3fde2c1e72d1d1738cf7e0756"
+    },
+    {
+      "bytes": 38937,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0030.npz",
+      "sha256": "11439cfb2aeb73d9bdeb642e68b4ff06e809db469c78aef93e88511e0f40733c"
+    },
+    {
+      "bytes": 52777,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0060.json",
+      "sha256": "e679837aa23cb478b39bd68bc56d7068dbef46250a15bac42e82c5b11d93c952"
+    },
+    {
+      "bytes": 42302,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0060.npz",
+      "sha256": "27962b4f7bdcde2a3754d4ff36c2d02c8a01d10221fd938ea6923cb1e4e038d8"
+    },
+    {
+      "bytes": 52758,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0090.json",
+      "sha256": "8a67603b35be1565a07b8e20aaa8761ddf1595af81137af548534786e230bab7"
+    },
+    {
+      "bytes": 38503,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0090.npz",
+      "sha256": "60aad30cbc55f935d0fda1761d005884ef8b8e31d282cc1c5adc89504a171dbe"
+    },
+    {
+      "bytes": 52741,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0120.json",
+      "sha256": "50c78ddca55b9e5d66d397a7310b9d11fd04f41fc0a45c3ccd49d775545f7420"
+    },
+    {
+      "bytes": 41051,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0120.npz",
+      "sha256": "f28a69fc8bbc4a49b3c7d5731eb6795e343d5f22f7b8cb6b7edae879a7e44276"
+    },
+    {
+      "bytes": 52713,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c0-t0060.json",
+      "sha256": "6631750b8b55b9edf07d503eb530e594d20f5413a9b1531a2061f821823a9009"
+    },
+    {
+      "bytes": 33263,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c0-t0060.npz",
+      "sha256": "4657bd9fa4cb0d61ff32c5a024c241a4f29ac4eec7ca35e401e420edaadf52b4"
+    },
+    {
+      "bytes": 52691,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c0-t0120.json",
+      "sha256": "988fa66f8b7c987daaba7627d02a7ade8ba371a1827584a4ec49351375c412c8"
+    },
+    {
+      "bytes": 31827,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c0-t0120.npz",
+      "sha256": "6a070c6fde3c233ade5443f47cc40fded1b4d11e4efd8c78e66b61003c7e3a84"
+    },
+    {
+      "bytes": 52714,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c0-t0150.json",
+      "sha256": "d900f23d6b65a1d0edab43e704a67a4038885550c35e0ae097a29c9b702d262e"
+    },
+    {
+      "bytes": 31878,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c0-t0150.npz",
+      "sha256": "dfd3a7cbcf592db3a2286f3dd3c594ae0fea118cb6bebd5806fb019388bdf772"
+    },
+    {
+      "bytes": 52909,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c1-t0060.json",
+      "sha256": "feef0a9813dc0cd1864ec5c94fef8525ff98050b23057eee924b62af9df7909b"
+    },
+    {
+      "bytes": 31675,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c1-t0060.npz",
+      "sha256": "6b9c423d5c247f1fc46b4bed7c133469a8dc502269efa2ea3429a8ae57680a59"
+    },
+    {
+      "bytes": 52931,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c1-t0120.json",
+      "sha256": "e5197ade621876663f56ac2ea64ed173849beac3effebe263324f7fcc142933e"
+    },
+    {
+      "bytes": 30919,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c1-t0120.npz",
+      "sha256": "5b9559d3d2af54716d945f740e5e02203ea6b6386dc36d01c1fbffae7e040a0d"
+    },
+    {
+      "bytes": 52741,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c1-t0150.json",
+      "sha256": "7cc1855152b900280a6f06b1e3a7caf20becf3fdf0ce69273da8022334a254aa"
+    },
+    {
+      "bytes": 31684,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M2-c1-t0150.npz",
+      "sha256": "10fd9f87e61003ac0c4d2d3eacdb92b851393a377545166fe87ca3f5d10e121f"
+    },
+    {
+      "bytes": 52984,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0080.json",
+      "sha256": "23f2260fb5ee87ac91701be97092e3a0ef76fd6f165ec1fd9d9d63d901459f2c"
+    },
+    {
+      "bytes": 36820,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0080.npz",
+      "sha256": "bdc6197d0c4b53eb60eeb56606b6046487b535576e4a46e1bf959bb2550c10ed"
+    },
+    {
+      "bytes": 52928,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0160.json",
+      "sha256": "99c27943087f239fe744aea7e9be6655ee89cdaa382108f51828476af1468cdb"
+    },
+    {
+      "bytes": 34078,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0160.npz",
+      "sha256": "9794f62f497775dd36e9b48ae67b00b0fd87841d1f0956b9f7470c1606fb5916"
+    },
+    {
+      "bytes": 52744,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0240.json",
+      "sha256": "6356cae46fd5318ad99a036589f4ec85ad3b3dbc93d13122a60ae161b58429f9"
+    },
+    {
+      "bytes": 36809,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0240.npz",
+      "sha256": "e64e38420797e2103065eecc7baa5d441a1b62b7679cd8c6aa0de4eb80cd318f"
+    },
+    {
+      "bytes": 52797,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0320.json",
+      "sha256": "377361bb4e3a025f66b6f305292533d60735ba508d3c8130169dee3e2699c6a5"
+    },
+    {
+      "bytes": 39212,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0320.npz",
+      "sha256": "3189400028d9c9572838abbf1def80854dd6f5f397c945223b5723e572859b10"
+    },
+    {
+      "bytes": 52877,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0080.json",
+      "sha256": "85ce0329107627c0d3a3dbea3dc8af97380db6543c777e38965e15bf1f2b1ad5"
+    },
+    {
+      "bytes": 38909,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0080.npz",
+      "sha256": "6a4c4579179b058b69a288c27ccfbe0593bf0e812aa54bd8ca3a4c06d27470c0"
+    },
+    {
+      "bytes": 52778,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0160.json",
+      "sha256": "75d7862ccdcb22a6e91646cd480f6af7536261c2d492d67cba6abd41c6baaeba"
+    },
+    {
+      "bytes": 35855,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0160.npz",
+      "sha256": "d8ae5ad489768e3d73567e30f4e6642323deb2c639ea04f33858c854c5c8b6d2"
+    },
+    {
+      "bytes": 52905,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0240.json",
+      "sha256": "b5240cb13330c43373c9b0c4b2ee68dca4f7277d180df84ee661547ec8ec558c"
+    },
+    {
+      "bytes": 33900,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0240.npz",
+      "sha256": "c3edc0053a38a48d33ce1cb0730c1ac024b30892b9fe48f39847993ba0f8690e"
+    },
+    {
+      "bytes": 52979,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0320.json",
+      "sha256": "f65af7fef5251ae38d6a354b4faa8abaa71f4b65ec93ff963a6151b4353c3866"
+    },
+    {
+      "bytes": 36300,
+      "path": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0320.npz",
+      "sha256": "5de996ae749eed828f1cb1fa62a396b6648e4e8addb9b272c9c2b290ed35d753"
+    },
+    {
+      "bytes": 50080,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/common_start.json",
+      "sha256": "591cf783a76aefbc9fd5d765ad01cab7c776395638b86f5d72e5a157439de6c4"
+    },
+    {
+      "bytes": 34373,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/common_start.npz",
+      "sha256": "2c40f21a3d7efad52d39de6988dd59f6c4e1e0001eccee8ea8d0e5804a4bfa14"
+    },
+    {
+      "bytes": 50079,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/common_start_repeat.json",
+      "sha256": "f9ced3dd8cefe5640cbf981f40584a6c16a8fe5686f91608b6242d5e17ace719"
+    },
+    {
+      "bytes": 34373,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/common_start_repeat.npz",
+      "sha256": "2c40f21a3d7efad52d39de6988dd59f6c4e1e0001eccee8ea8d0e5804a4bfa14"
+    },
+    {
+      "bytes": 52933,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0030.json",
+      "sha256": "d496015416b5486a9814af382ba403fb23e1565966e2b81aedb4b80db44dc0c3"
+    },
+    {
+      "bytes": 37092,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0030.npz",
+      "sha256": "02b7f52cfef933fdd7f959aafcc28caf8835ef41ad2a44c1415835116e5e7123"
+    },
+    {
+      "bytes": 52830,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0060.json",
+      "sha256": "f85a5d55003c4ae434a8efb5171b09c3cdefbd21b85a853baf8810a62a078ceb"
+    },
+    {
+      "bytes": 39861,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0060.npz",
+      "sha256": "33f458405ba450fff448a19da41625a1bdaf7901c633c333a2bbbc6f1d5a234a"
+    },
+    {
+      "bytes": 52932,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0090.json",
+      "sha256": "ab38e60596bc95a483d7c1cc43e6fffb2eac466683ea0bdad5e2a0d3a9ab3765"
+    },
+    {
+      "bytes": 39822,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0090.npz",
+      "sha256": "db97610115317942f275e8730088547e228d75d3eea4fc854b9d8632ee502c5d"
+    },
+    {
+      "bytes": 52948,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0120.json",
+      "sha256": "418f228c21f68a0071db97921687d18e2158f3d5eb4dd0eefc00bfa27aa495d6"
+    },
+    {
+      "bytes": 40073,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c0-t0120.npz",
+      "sha256": "47a38c19388ffd9a778665178cbd15f15d1e7ec1393ceab3b0fc02f671eeb859"
+    },
+    {
+      "bytes": 52916,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0030.json",
+      "sha256": "10d29364d317d4a36ae1e5526acb89b8dd3f7a39c4963f647c9a05aa4b495bea"
+    },
+    {
+      "bytes": 40002,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0030.npz",
+      "sha256": "c19460e1431a74f663c126ae065f9c0b0cccd619d17d3b2b455e838853613cac"
+    },
+    {
+      "bytes": 52803,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0060.json",
+      "sha256": "0abe3e82c8cf46500d98adbb225e56ba9e960d7af005ae122330ab3c9940ed98"
+    },
+    {
+      "bytes": 41346,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0060.npz",
+      "sha256": "f317f6a03236ce6c885a42e1eac1e69c19d06f9471ad67fcb52dbe87c9e34be8"
+    },
+    {
+      "bytes": 52753,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0090.json",
+      "sha256": "3775d52354fe5a5d3d185aaaf9b5e1ad8a33dc07779fa33ce938cdfbc74a4e18"
+    },
+    {
+      "bytes": 41069,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0090.npz",
+      "sha256": "b3b29558ec48330904a2ec24f11db3e0c3a6990d783f00754466d028aad5649b"
+    },
+    {
+      "bytes": 52769,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0120.json",
+      "sha256": "6bb1f6edcc4ef83e18acd64316c6e96aed3bd081cee313371c23e3168f32ecde"
+    },
+    {
+      "bytes": 38852,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0120.npz",
+      "sha256": "3199dcbf6ed5039cb6b86fe591b1f7f7b8c8658c0ae75d986e8b88be755ebfc4"
+    },
+    {
+      "bytes": 52717,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c0-t0060.json",
+      "sha256": "6d10ea69766e9681c1d7220d7789f8fc4c4966d6cb9dfa3abe5cef74e2c57892"
+    },
+    {
+      "bytes": 33056,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c0-t0060.npz",
+      "sha256": "bc8c2b5ba7fd9a3eec489cb8d174524b3a8eb6c356f543008b9a0c40ce04b852"
+    },
+    {
+      "bytes": 52689,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c0-t0120.json",
+      "sha256": "e5593577dde848ecd2e3720cb011d4423fbd8991f5b1acd6efb281e78f0e9316"
+    },
+    {
+      "bytes": 31771,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c0-t0120.npz",
+      "sha256": "77e7ea15a37154e8ef216f9888f88c14cc5c746c0d8d406e97dd2e9012545f64"
+    },
+    {
+      "bytes": 52739,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c0-t0150.json",
+      "sha256": "ab2cea9417a497f90158b559d078f75f09fb36cdcbfee9d810effd8825d5f7b6"
+    },
+    {
+      "bytes": 31703,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c0-t0150.npz",
+      "sha256": "678929fb82a7c8fb9705a3f26959502337c59494a4347ffa4a1cc7cfcbc3a3bc"
+    },
+    {
+      "bytes": 52907,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c1-t0060.json",
+      "sha256": "e1ef9f7d95da1c8fff9c553f5ca9e309bc16bdc14fa43a965843cf9ff9599da1"
+    },
+    {
+      "bytes": 31742,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c1-t0060.npz",
+      "sha256": "a8d63d0ba9ac14b944fcf63e4115b145ff36278a1ab18018b8635f9102fca346"
+    },
+    {
+      "bytes": 52736,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c1-t0120.json",
+      "sha256": "b76ce626bc12b074be1a6e4a9fafc99e0c137937417f7e0badad7140c8049ab7"
+    },
+    {
+      "bytes": 30740,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c1-t0120.npz",
+      "sha256": "41d5e9d38805a49074c0cfcb22462be971d5474626d241574d63957f1e408ae8"
+    },
+    {
+      "bytes": 52770,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c1-t0150.json",
+      "sha256": "bc4cfd97719ceef6186e4357e2ed3d9ff6ff2593c29319e2b5ee12a72b3f59f9"
+    },
+    {
+      "bytes": 31212,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M2-c1-t0150.npz",
+      "sha256": "4653b4deeb5b73ef9bfbfb18a8811caee288bd030475f8eb002e1d8b0ef8ce05"
+    },
+    {
+      "bytes": 52955,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0080.json",
+      "sha256": "568ef4ce7224254e53f823c11633a911bd311742d35f9c919463d5aec3671de0"
+    },
+    {
+      "bytes": 36378,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0080.npz",
+      "sha256": "58f8c3fef1d8a4d425536941d945c7ac46322bd7fe2f1314ad4524a8484872a2"
+    },
+    {
+      "bytes": 52891,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0160.json",
+      "sha256": "a6504500bc8ebe28bf1d32a75f6366f2c1d55c67c7cd4b19787db5eded0dce92"
+    },
+    {
+      "bytes": 34173,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0160.npz",
+      "sha256": "a2a7567873be385c4b2383c5b624e48b4149b65c6ebefccb5e051cd64cffd201"
+    },
+    {
+      "bytes": 52761,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0240.json",
+      "sha256": "0e3bc24d2d3c2710df708d48bdba2d0862000bc090491592d5ef5dd4ce31fb26"
+    },
+    {
+      "bytes": 36138,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0240.npz",
+      "sha256": "c2a77b153f085adf2587aa0f11e756927daf69b152d98a08324d58d0cf749509"
+    },
+    {
+      "bytes": 52817,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0320.json",
+      "sha256": "1483cae5c5ac4efacf6e33b664b1986d600e841cd299e5c28a64967c6c0d0886"
+    },
+    {
+      "bytes": 38355,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0320.npz",
+      "sha256": "a50ad36346984d9b79893d5e5f3af95a43d4eceda89d8a810a4869cbcce9d027"
+    },
+    {
+      "bytes": 52825,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0080.json",
+      "sha256": "7754bb9f01bcb929c447fee5e218f35be667b80d7b6d3d6e0500bf9d1e2dfad8"
+    },
+    {
+      "bytes": 39389,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0080.npz",
+      "sha256": "4d66362a9fb5b7b30446a89c2da63150bcad7b3ceb029f8f8672cc962c214825"
+    },
+    {
+      "bytes": 52756,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0160.json",
+      "sha256": "77e8ff2577a75a4c745c503faac922d7e6756cae20c83505d467a4189bafe1fe"
+    },
+    {
+      "bytes": 34973,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0160.npz",
+      "sha256": "529d00ab2fb5457ae75616a9854382076ee919ef1d9321f5e9c7c40661939bcf"
+    },
+    {
+      "bytes": 52899,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0240.json",
+      "sha256": "db9c88ff780aee7b21b0ef1a2b74a2ffd92317d1242d61090c12c203df7c3322"
+    },
+    {
+      "bytes": 33925,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0240.npz",
+      "sha256": "c5c8ddfe6755b63f2489abc0aebf098c0f2c111deb56532a294aec43e68ec253"
+    },
+    {
+      "bytes": 52963,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0320.json",
+      "sha256": "2fec2275987eb5a169ddb795cc9135f1bf3e667f4d5d22d7ab48488a01bcc12c"
+    },
+    {
+      "bytes": 37332,
+      "path": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0320.npz",
+      "sha256": "e649e428685b85cbfcbfa93ae4474e75cb68ada49b01eedfa275ed71969dd408"
+    },
+    {
+      "bytes": 166,
+      "path": "calibration_rigs/rig2/outcome.json",
+      "sha256": "2cec07032ae4bf3f8ccfdd40d05d75676e3d72a6bb350c97adda6dc5214430eb"
+    },
+    {
+      "bytes": 50074,
+      "path": "calibration_rigs/rig2/pi0259-cal-000/common_start.json",
+      "sha256": "d378ab074e0d0000fa6740e94fc43d98b1fcba722e0ec146a96c8a3c0c0da734"
+    },
+    {
+      "bytes": 29992,
+      "path": "calibration_rigs/rig2/pi0259-cal-000/common_start.npz",
+      "sha256": "05a887930cd34e1e2425246c00d28e7e47bd24879ca26890327abf2d0dd0a996"
+    },
+    {
+      "bytes": 50073,
+      "path": "calibration_rigs/rig2/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "570f964f7c0001cd0815b63f9b7d929009eafe2aa4ff526b1675222ce994d815"
+    },
+    {
+      "bytes": 29992,
+      "path": "calibration_rigs/rig2/pi0259-cal-000/common_start_repeat.npz",
+      "sha256": "05a887930cd34e1e2425246c00d28e7e47bd24879ca26890327abf2d0dd0a996"
+    },
+    {
+      "bytes": 50137,
+      "path": "calibration_rigs/rig2/pi0259-cal-001/common_start.json",
+      "sha256": "3abaf31d8f17d4994be1ab14cacfb6b5936379bee5f56e7eb187ef5357ddd231"
+    },
+    {
+      "bytes": 29847,
+      "path": "calibration_rigs/rig2/pi0259-cal-001/common_start.npz",
+      "sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498"
+    },
+    {
+      "bytes": 50136,
+      "path": "calibration_rigs/rig2/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "c68e1bd1dbf46186d39049e148e209ad9df5a7d9302474236915e7169ceea70a"
+    },
+    {
+      "bytes": 29847,
+      "path": "calibration_rigs/rig2/pi0259-cal-001/common_start_repeat.npz",
+      "sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498"
+    },
+    {
+      "bytes": 49986,
+      "path": "calibration_rigs/rig2/pi0259-cal-002/common_start.json",
+      "sha256": "6f9bf30e9e81c24526dca226a4e2fd00a60c2bd648de34324c0a51fc82ac71cc"
+    },
+    {
+      "bytes": 30264,
+      "path": "calibration_rigs/rig2/pi0259-cal-002/common_start.npz",
+      "sha256": "b5f4af1e876217af94cb7cee7972c04573f44f1deb72c132267e8c439a4fafdf"
+    },
+    {
+      "bytes": 49985,
+      "path": "calibration_rigs/rig2/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "233b72a8344da5e4105aedea65b906a17f566a1b32992edf445a964d21e040e8"
+    },
+    {
+      "bytes": 30264,
+      "path": "calibration_rigs/rig2/pi0259-cal-002/common_start_repeat.npz",
+      "sha256": "b5f4af1e876217af94cb7cee7972c04573f44f1deb72c132267e8c439a4fafdf"
+    },
+    {
+      "bytes": 50115,
+      "path": "calibration_rigs/rig2/pi0259-cal-003/common_start.json",
+      "sha256": "f1d7541f6eaa0379a097bf900f41dfd95739918dee37c4dc1773f16fb540e1aa"
+    },
+    {
+      "bytes": 30410,
+      "path": "calibration_rigs/rig2/pi0259-cal-003/common_start.npz",
+      "sha256": "59a41eed7a01c168b685700827b92c4cdafe93951c675d882f9b8e5ea0acc455"
+    },
+    {
+      "bytes": 50114,
+      "path": "calibration_rigs/rig2/pi0259-cal-003/common_start_repeat.json",
+      "sha256": "5142576db17e06c011eebb67aaa04c9cd76e94cd3722fc704414fdf585370a53"
+    },
+    {
+      "bytes": 30410,
+      "path": "calibration_rigs/rig2/pi0259-cal-003/common_start_repeat.npz",
+      "sha256": "59a41eed7a01c168b685700827b92c4cdafe93951c675d882f9b8e5ea0acc455"
+    },
+    {
+      "bytes": 50137,
+      "path": "calibration_rigs/rig2/pi0259-cal-004/common_start.json",
+      "sha256": "6114bb391dbc185574ed08fb3c04e384ea209f9725a3564290a5ed2e26281ef9"
+    },
+    {
+      "bytes": 29767,
+      "path": "calibration_rigs/rig2/pi0259-cal-004/common_start.npz",
+      "sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4"
+    },
+    {
+      "bytes": 50136,
+      "path": "calibration_rigs/rig2/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "04a2fb828bf2572ab201c5866bf9162d5690967b3629cc6414813d090047d937"
+    },
+    {
+      "bytes": 29767,
+      "path": "calibration_rigs/rig2/pi0259-cal-004/common_start_repeat.npz",
+      "sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4"
+    },
+    {
+      "bytes": 50087,
+      "path": "calibration_rigs/rig2/pi0259-cal-005/common_start.json",
+      "sha256": "d2b86c1cda4a2d171f8bfb7e2e014e58df90bfc7ff040e0dcf1247ed0f5015df"
+    },
+    {
+      "bytes": 30087,
+      "path": "calibration_rigs/rig2/pi0259-cal-005/common_start.npz",
+      "sha256": "03fe72d3d109b65f82469592d40db0621dd5be346fb832f1f47ab0ccfdb7b55c"
+    },
+    {
+      "bytes": 50086,
+      "path": "calibration_rigs/rig2/pi0259-cal-005/common_start_repeat.json",
+      "sha256": "4c9bd79bbf75ca743888524f315177a18d8d3455076d0bbb85c56c2808b83146"
+    },
+    {
+      "bytes": 30087,
+      "path": "calibration_rigs/rig2/pi0259-cal-005/common_start_repeat.npz",
+      "sha256": "03fe72d3d109b65f82469592d40db0621dd5be346fb832f1f47ab0ccfdb7b55c"
+    },
+    {
+      "bytes": 268,
+      "path": "calibration_rigs/started.json",
+      "sha256": "dff74389cb6e7d89048a615baae91140dd2c91170e5d57ff0c36d28c7efbcc79"
+    },
+    {
+      "bytes": 13082,
+      "path": "design/FK_source_binding.json",
+      "sha256": "78b24f4b678dd8aae5e023e8e8cad35204c2ea7c0c1c660f5b3aa8bda187f804"
+    },
+    {
+      "bytes": 57150,
+      "path": "design/cue_geometry.json",
+      "sha256": "577ad1abe2115d506f3932ae60c7615668571ccaad11a6043dd2f118b05b04f5"
+    },
+    {
+      "bytes": 491571,
+      "path": "design/registry.json",
+      "sha256": "d6fbdf786ada0e914f6b07f3e7e56ed9595ae2f11bbe4353247c115dfb484dae"
+    },
+    {
+      "bytes": 37753,
+      "path": "evidence/calibration_geometry.json",
+      "sha256": "82aa9e26991871f9cc8208354a68b46d2e5213574d7002edff8eda426d9f03d3"
+    },
+    {
+      "bytes": 31594,
+      "path": "evidence/calibration_geometry.log",
+      "sha256": "22c959d675785109800238e609928b03d58cf82ddbc6cc1182ec423b0e8e4235"
+    },
+    {
+      "bytes": 23416,
+      "path": "evidence/camera_calibration.json",
+      "sha256": "f94f00b75135416b45554a0ccb24bc1a3efdaaf9b1a8b27720220afd596c507f"
+    },
+    {
+      "bytes": 2682,
+      "path": "evidence/camera_calibration.log",
+      "sha256": "30513efdd9ec824992ad4d407c7832d14b77aa1bdf83b263a6b9e9c0eb8f7b86"
+    },
+    {
+      "bytes": 23982,
+      "path": "evidence/camera_calibration_cpu_corrected.json",
+      "sha256": "39b940a8273b27a21eaf484ef55156a08c5b064837d7bf931ed163f6fce01532"
+    },
+    {
+      "bytes": 222,
+      "path": "evidence/camera_import_attempt0.log",
+      "sha256": "f0adf4b3526e6dfa2fcd9f086d7734238d6cff6e045b5fe6de90cc9f2153ad9a"
+    },
+    {
+      "bytes": 1111,
+      "path": "evidence/cpu_fixtures.json",
+      "sha256": "38ac64fc3b700c71620a45846dad8ca29d03e93b658c06026186b9b3d880ea30"
+    },
+    {
+      "bytes": 3828021,
+      "path": "evidence/raster_cpu_replay.json",
+      "sha256": "28f881991225ce5b1082c6d21b0e36169b6145cb6c29421136a68d209acb58ac"
+    },
+    {
+      "bytes": 2453,
+      "path": "evidence/raw_gate_summary.json",
+      "sha256": "ff8b38fd5aeed1a53c0745f16e25fad46be800e6d58d65ccd575a455320c3f8a"
+    },
+    {
+      "bytes": 8107,
+      "path": "runtime/pi0259_calibration_render.py",
+      "sha256": "ec62d5996dfa360571a69bffafe44040309ea434be497f075ba32bc9e2faa091"
+    },
+    {
+      "bytes": 4521,
+      "path": "runtime/pi0259_cpu_fixtures.py",
+      "sha256": "844d3aa4d399868f64805cba46ed2f62248501ea49996c8e567085a44abff2e7"
+    },
+    {
+      "bytes": 6477,
+      "path": "runtime/pi0259_h0_seal.py",
+      "sha256": "00692e7e14385e9396a284cc223b80beb988b75f1ddf00ac42b4a9f17e8e99e8"
+    },
+    {
+      "bytes": 15079,
+      "path": "runtime/pi0259_kinematic.py",
+      "sha256": "cc21dfec08fe809039b80484271dbeba706b56f0a80553c8d283a3ea4f5db14b"
+    },
+    {
+      "bytes": 1789,
+      "path": "runtime/pi0259_observation.py",
+      "sha256": "3a326e93c165a916f912dfb22774dc6547f4d10ef27a10bb7216f1ef56e92678"
+    },
+    {
+      "bytes": 3695,
+      "path": "runtime/pi0259_raster_replay.py",
+      "sha256": "40769b6b85b92114a303bf0f416cd2ac167d43cdd05002eab9e131cbd36deae7"
+    },
+    {
+      "bytes": 8994,
+      "path": "runtime/pi0259_renderer.py",
+      "sha256": "8ec0c86aba82e8b4987e6dbb8af02dad096e3fd3f2f5d1ed55bdc78995cd8fb2"
+    }
+  ],
+  "evidence_class": "KINEMATIC_RENDERED_REFERENCE",
+  "identities": {
+    "FK_source_binding.json": "78b24f4b678dd8aae5e023e8e8cad35204c2ea7c0c1c660f5b3aa8bda187f804",
+    "cue_geometry.json": "577ad1abe2115d506f3932ae60c7615668571ccaad11a6043dd2f118b05b04f5",
+    "registry.json": "d6fbdf786ada0e914f6b07f3e7e56ed9595ae2f11bbe4353247c115dfb484dae"
+  },
+  "missing_fields": [
+    "No TRAIN processor/codec/model or fresh development before H0 correctness closure.",
+    "Failed geometry suffixes have NaN joints/FK, never rendered as a valid continuation. Full desired references and every attempted solver step remain."
+  ],
+  "outcome_index": [
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "4493c2a6b6ec00dee4c34214a97cff80ba322e4c66d9ef47b133c908da59e02d",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-000",
+        "instruction": "Approach the red target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-000-M1-c0",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "112a391d6c8bb336dcdea9e3400833145dff4d05c1d7bf9390fa8e9ec5a972e3",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-000",
+        "instruction": "Bring the tool to the blue marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-000-M1-c1",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 153,
+      "internal_solves": 160,
+      "last_accepted_time": 7.640625,
+      "payload_sha256": "a3fe1b1b1d80e2ca78203d2a2c86d9421d39b8249db189010786e426e48913f2",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-000",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0259-cal-000-M2-c0",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.57
+    },
+    {
+      "completed_samples": 151,
+      "internal_solves": 158,
+      "last_accepted_time": 7.543750000000001,
+      "payload_sha256": "d5f906e8a88a54f4f1c40e765a8f33ad9a5e067b32421ca544cc9fb8f682728a",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-000",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0259-cal-000-M2-c1",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.56
+    },
+    {
+      "completed_samples": 13,
+      "internal_solves": 17,
+      "last_accepted_time": 0.6000000000000001,
+      "payload_sha256": "25963bf1b7777547be41ebc1f97e13b2728ccb762ccdeb859c7d83ce2c4f482f",
+      "physics_steps": 0,
+      "quartiles": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-000",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-000-M3-c0",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 361,
+      "window_fraction": 0.0
+    },
+    {
+      "completed_samples": 13,
+      "internal_solves": 17,
+      "last_accepted_time": 0.6000000000000001,
+      "payload_sha256": "a4d8a58895276c3e147c4ea8dc44b60d913b1d60822e544819aa68e490f74678",
+      "physics_steps": 0,
+      "quartiles": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-000",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-000-M3-c1",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 361,
+      "window_fraction": 0.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "6c8d7080484b4d6c592efb39634e1c58395f23e644ab8fa84c9853ce08d82abe",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-001",
+        "instruction": "Approach the blue target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-001-M1-c0",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "187eb916bbf135e34e44488868401adfdd0f3d49d95b0acde3c80a902cc8308c",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-001",
+        "instruction": "Bring the tool to the green marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-001-M1-c1",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 153,
+      "internal_solves": 160,
+      "last_accepted_time": 7.640625,
+      "payload_sha256": "18b0e22f78719af8f99f28b0a7d2755d4487ebad6d2d260530c3b245f57f5987",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-001",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0259-cal-001-M2-c0",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.57
+    },
+    {
+      "completed_samples": 151,
+      "internal_solves": 158,
+      "last_accepted_time": 7.543750000000001,
+      "payload_sha256": "822f9e9b3f5faf3ecf3f2ee0e298142d1e817824f016fdc8591f8661c35e8eff",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-001",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0259-cal-001-M2-c1",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.56
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "f8a1c79bdf0e7a302724d7d9385e2d14e8b41ef9fa032c3dd90443b2ba40a20f",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-001",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-001-M3-c0",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "aacfc625fb6eded5fece3bc6e2e645ef18c7eb99f48212201e6a9fafa3200b0d",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-001",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-001-M3-c1",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 18,
+      "internal_solves": 24,
+      "last_accepted_time": 0.88125,
+      "payload_sha256": "d5e6bd6a0cfeeb15ec5e5d97ad41b0202b553dfa64b433c36a2a070e6b890a36",
+      "physics_steps": 0,
+      "quartiles": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-002",
+        "instruction": "Bring the tool to the green marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-002-M1-c0",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 161,
+      "window_fraction": 0.0
+    },
+    {
+      "completed_samples": 18,
+      "internal_solves": 24,
+      "last_accepted_time": 0.88125,
+      "payload_sha256": "91e54c2f778199f04370f71ff0cca55630eb943a690610664b0731f0a27ba48f",
+      "physics_steps": 0,
+      "quartiles": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-002",
+        "instruction": "Approach the red target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-002-M1-c1",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 161,
+      "window_fraction": 0.0
+    },
+    {
+      "completed_samples": 153,
+      "internal_solves": 160,
+      "last_accepted_time": 7.640625,
+      "payload_sha256": "a915ba7249607bb0120db562ca7e7ec43ffb09424c1d6555457d6e2098be218d",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-002",
+        "instruction": "Reach the orange goal via the left side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0259-cal-002-M2-c0",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.57
+    },
+    {
+      "completed_samples": 151,
+      "internal_solves": 158,
+      "last_accepted_time": 7.543750000000001,
+      "payload_sha256": "2afe500ef06c7a32d8ae1a7f510b25e0e5fbbc6a7012c6e2701031d2e9c20f2f",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-002",
+        "instruction": "Face the orange goal and go around the grey block on the right.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0259-cal-002-M2-c1",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.56
+    },
+    {
+      "completed_samples": 12,
+      "internal_solves": 19,
+      "last_accepted_time": 0.5906250000000002,
+      "payload_sha256": "6b33675a1ed17c6453677f758d7588ffe320b408573bb38b106c1c180733c07b",
+      "physics_steps": 0,
+      "quartiles": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-002",
+        "instruction": "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-002-M3-c0",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 361,
+      "window_fraction": 0.0
+    },
+    {
+      "completed_samples": 12,
+      "internal_solves": 19,
+      "last_accepted_time": 0.5906250000000002,
+      "payload_sha256": "bda8f01d082d34672cd1cc69559548be1819753f0203528ce17bedadc4db7324",
+      "physics_steps": 0,
+      "quartiles": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-002",
+        "instruction": "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-002-M3-c1",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 361,
+      "window_fraction": 0.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "fb56b6756d37eef2567fec6b4fc9c97bfaeb7ea8dea01dced0f779670189236b",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-003",
+        "instruction": "Bring the tool to the blue marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-003-M1-c0",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "f46f0a1937690f87f6ac2925a1e7e6950e023f547246a6146b933b5bfa503d1d",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-003",
+        "instruction": "Approach the green target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-003-M1-c1",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 153,
+      "internal_solves": 160,
+      "last_accepted_time": 7.640625,
+      "payload_sha256": "bdd9016e6b781075debe0978f69b19b852e24411ea679f44057afe96efa06c47",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-003",
+        "instruction": "Reach the orange goal via the left side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0259-cal-003-M2-c0",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.57
+    },
+    {
+      "completed_samples": 151,
+      "internal_solves": 168,
+      "last_accepted_time": 7.543750000000001,
+      "payload_sha256": "227086bb5a109e0e464eda241a0e26160c307c7145daaa62e7a32e7fcbeb190b",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-003",
+        "instruction": "Face the orange goal and go around the grey block on the right.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0259-cal-003-M2-c1",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.56
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "589c45c48ba552c4224785ea1e77e59cffae964a4ea7784490cfa47003525adf",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-003",
+        "instruction": "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-003-M3-c0",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "587e6f6d96ff6c34131c89eee907df3197ede57cb7bfcdfc866cb8c269cd6213",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-003",
+        "instruction": "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-003-M3-c1",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "6c8d7080484b4d6c592efb39634e1c58395f23e644ab8fa84c9853ce08d82abe",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-004",
+        "instruction": "Approach the red target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-004-M1-c0",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "187eb916bbf135e34e44488868401adfdd0f3d49d95b0acde3c80a902cc8308c",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-004",
+        "instruction": "Bring the tool to the blue marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-004-M1-c1",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 153,
+      "internal_solves": 160,
+      "last_accepted_time": 7.640625,
+      "payload_sha256": "18b0e22f78719af8f99f28b0a7d2755d4487ebad6d2d260530c3b245f57f5987",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-004",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0259-cal-004-M2-c0",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.57
+    },
+    {
+      "completed_samples": 151,
+      "internal_solves": 158,
+      "last_accepted_time": 7.543750000000001,
+      "payload_sha256": "822f9e9b3f5faf3ecf3f2ee0e298142d1e817824f016fdc8591f8661c35e8eff",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-004",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0259-cal-004-M2-c1",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.56
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "f8a1c79bdf0e7a302724d7d9385e2d14e8b41ef9fa032c3dd90443b2ba40a20f",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-004",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-004-M3-c0",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "aacfc625fb6eded5fece3bc6e2e645ef18c7eb99f48212201e6a9fafa3200b0d",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-004",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-004-M3-c1",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "8a522a97c4b526314ebf24cd35c342daab8c0ce3ea5c9c674af487602a345b77",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-005",
+        "instruction": "Bring the tool to the green marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-005-M1-c0",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 161,
+      "internal_solves": 160,
+      "last_accepted_time": 8.0,
+      "payload_sha256": "13d696bcc84b26dfb895a5dc5e063f257918fe7bf214340ed263bcab043c299d",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-005",
+        "instruction": "Approach the red target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0259-cal-005-M1-c1",
+        "split": "CALIBRATION",
+        "task": "M1"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 161,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 153,
+      "internal_solves": 160,
+      "last_accepted_time": 7.640625,
+      "payload_sha256": "e5a87e6ba1a86a7a59528446a5eba289d9f323825d98069e14ce08484779bd0c",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-005",
+        "instruction": "Reach the orange goal via the left side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0259-cal-005-M2-c0",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.57
+    },
+    {
+      "completed_samples": 151,
+      "internal_solves": 166,
+      "last_accepted_time": 7.543750000000001,
+      "payload_sha256": "428bb367e3ef6353756434685f7e8cc7a563a4c4a61f866418ee658b6926be22",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-005",
+        "instruction": "Face the orange goal and go around the grey block on the right.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0259-cal-005-M2-c1",
+        "split": "CALIBRATION",
+        "task": "M2"
+      },
+      "status": "VALID_GEOMETRY_FAIL",
+      "total_samples": 241,
+      "window_fraction": 0.56
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "3162c7dad8a0ad8abce6f6f23e58bb9f5ce58227716b12c11e04017ddcc04ef5",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0259-cal-005",
+        "instruction": "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-005-M3-c0",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    },
+    {
+      "completed_samples": 361,
+      "internal_solves": 360,
+      "last_accepted_time": 18.0,
+      "payload_sha256": "beb8d4291845817ee68571e4e9cfc55073fe56d8533f2de8463b0982bf0565a1",
+      "physics_steps": 0,
+      "quartiles": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0259-cal-005",
+        "instruction": "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0259-cal-005-M3-c1",
+        "split": "CALIBRATION",
+        "task": "M3"
+      },
+      "status": "GEOMETRY_PASS",
+      "total_samples": 361,
+      "window_fraction": 1.0
+    }
+  ],
+  "producer_role": "M",
+  "protocol_id": "240dedfd3954dd4cbbb48645a2aad5b19738e2c4",
+  "review_state": "PENDING_AGENT_V",
+  "root": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0259",
+  "schema": "PI0259_H0_V1",
+  "selected_checkpoint": "NONE",
+  "stage": "H0",
+  "state_origin": "KINEMATIC_FK_NOT_DYNAMIC_MEASUREMENT"
+}
