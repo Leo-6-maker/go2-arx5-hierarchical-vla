@@ -133,6 +133,22 @@ def run(point,view):
     rows=[r for r in card['rows'] if r['point']==point];assert len(rows) in (64,256,384)
     old,old16,old_noise,old_packets,ctx,noise_by_id,conditions=context()
     view=Path(view or card['models'][point]);files=ctx['p1'].verify_model_files(view)
+    restore=inherited.read(view/'pi0245_inference_restore.json')
+    if point in ('G2000','FULL10000'):
+        assert files['revision']=={'G2000':'efecea485ae77000599d19171b02491f8d514f42','FULL10000':'7bafb99f58f3ed9dea66e85fff8c8b79a7c9785d'}[point]
+        expected=inherited.read(ROOT/f'bindings/{point}_FULL_STREAM_RECEIPT.json')
+        assert restore['checkpoint_tree_sha256']==expected['tree_sha256']
+        hashes={Path(r['path']).name:r['sha256'] for r in expected['files']}
+        assert all(hashes[r['path']]==r['sha256'] for r in restore['files'])
+    else:
+        arm,step=point.split('_');assert arm in ('U576','R576') and int(step) in (1152,4608)
+        binding=inherited.read(ROOT/f'models/{point}.binding.json')
+        receipt,readback=binding['durable_receipt'],binding['full_content_readback']
+        assert receipt['source_record']['family']==f'PI0254_{arm}_SUPPORT576_V1' and receipt['source_record']['checkpoint_step']==int(step)
+        assert readback['full_content_stream_readback'] and readback['revision']==files['revision']==receipt['hf_manifest_commit_id']
+        assert restore['checkpoint_tree_sha256']==readback['source_tree_sha256']==receipt['source_record']['inventory']['tree_sha256']
+        hashes={r['path']:r['sha256'] for r in receipt['source_record']['inventory']['entries']}
+        assert all(hashes[r['path']]==r['sha256'] for r in restore['files'])
     score={**card,'rows':rows,'point':point,'model_revision':files['revision'],'model_manifest_sha256':files['manifest_sha256']}
     directory=ROOT/'eval'/point;inherited.write(directory/'score_card.json',score);score_sha=inherited.sha(directory/'score_card.json')
     if (directory/'screen_report.json').exists():return
