@@ -11,10 +11,11 @@ from pi0260_design import ROOT
 from pi0255_motion3 import sha,write
 
 
-def run(stage='H0'):
-    assert stage in ('H0','DEV')
-    manifest_path=ROOT/('handoff/'+stage+'_v1/manifest.json');manifest=json.loads(manifest_path.read_text())
-    assert sha(manifest_path)=={'H0':'dd75ddfc38c480a200e3853cd991cdf451ea86d87295c8cd0c1d1ef556e4da6e','DEV':'65bca938ec673605392cd54cefbdf9ca0de7bd934ce914d986e16c1f0fd4f059'}[stage]
+def run(stage='H0',manifest_path=None,expected_digest=None):
+    assert stage in ('H0','DEV','R2')
+    manifest_path=manifest_path or ROOT/('handoff/'+stage+'_v1/manifest.json');manifest=json.loads(manifest_path.read_text())
+    expected=expected_digest or {'H0':'dd75ddfc38c480a200e3853cd991cdf451ea86d87295c8cd0c1d1ef556e4da6e','DEV':'65bca938ec673605392cd54cefbdf9ca0de7bd934ce914d986e16c1f0fd4f059'}.get(stage)
+    assert expected and sha(manifest_path)==expected
     out=ROOT/('archive/'+stage+'_v1_public');out.mkdir(parents=True,exist_ok=True)
     entries=[];excluded=[]
     for row in manifest['entries']:
@@ -24,6 +25,7 @@ def run(stage='H0'):
         entries.append(row)
     extra=[ROOT/'state/H0_ACCEPTED.json',ROOT/'state/design_freeze.json',ROOT/'evidence/R1_route_cpu.json',ROOT/'evidence/review_negative_tests.json'] if stage=='H0' else [ROOT/'state/DEV_READONLY_RECEIPT.json',ROOT/'state/STOP_SCIENCE.json',*sorted((ROOT/'delivery').glob('*'))]
     if stage=='DEV':extra += [ROOT/'runtime/pi0260_dev_replay.py',*sorted((ROOT/'review_DEV').glob('*.json'))]
+    if stage=='R2':extra=[]  # R2's sealed manifest already includes every result/evidence member.
     for p in [manifest_path,*extra]:
         entries.append(dict(path=str(p.relative_to(ROOT)),bytes=p.stat().st_size,sha256=sha(p)))
     entries.sort(key=lambda x:x['path'])
@@ -36,7 +38,7 @@ def run(stage='H0'):
         for row in entries:
             info=tarfile.TarInfo(row['path']);info.size=row['bytes'];info.mode=0o644;info.mtime=0
             with (ROOT/row['path']).open('rb') as data:tar.addfile(info,data)
-    repo='leoyuer/pi0246-gate-pass-campaign';prefix='evidence/PI0260/'+stage+'-motion2-r1-20260930'
+    repo='leoyuer/pi0246-gate-pass-campaign';prefix='evidence/PI0260/'+stage+'-motion2-'+('r2' if stage=='R2' else 'r1')+'-20260930'
     api=HfApi(token=Path('/home/liuyu-nfs/.config/huggingface/token').read_text().strip());assert api.model_info(repo).private is False
     record=ROOT/('archive/'+stage+'_upload_commit.json')
     if record.exists():
