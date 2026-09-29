@@ -133,7 +133,10 @@ def run(point, model_view, binding_path):
     assert model.action_head.num_inference_timesteps == 4
     motion = read(R3 / 'motion2_eval_cases.json')['cases']
     original = read(R3 / 'O64_eval_cases.json')['rows']
-    noises = {name: np.load(R3 / 'noise' / (name + '.npz'), allow_pickle=False)['float32'].copy() for name in ('B0', 'B1')}
+    noises = {}
+    for name in ('B0', 'B1'):
+        with np.load(R3 / 'noise' / (name + '.npz'), allow_pickle=False) as values:
+            noises[name] = values['float32'].copy()
     attempts = R3 / 'eval' / 'attempts.jsonl'
     head_log = R3 / 'eval' / 'head_forwards.jsonl'
     heads = sum(1 for _ in head_log.open()) if head_log.exists() else 0
@@ -147,38 +150,46 @@ def run(point, model_view, binding_path):
         condition_sha = identity(policy)
         noise = noises[row['noise']]
         cell.mkdir(parents=True, exist_ok=True)
-        with attempts.open('a') as stream:
-            count = sum(1 for _ in attempts.open()) + 1
-            assert count <= plan['query_attempt_cap']
-            stream.write(json.dumps(dict(ordinal=count, point=point, cell_id=cell_id, condition_sha256=condition_sha)) + '\n')
-            stream.flush(); os.fsync(stream.fileno())
-        def count_head(_module, _inputs):
-            nonlocal heads
-            heads += 1
-            assert heads <= plan['inference_head_cap']
-            with head_log.open('a') as stream:
-                stream.write(json.dumps(dict(ordinal=heads, point=point, cell_id=cell_id)) + '\n')
+        tensors = cell / 'tensors.npz'
+        if tensors.exists():
+            with np.load(tensors, allow_pickle=False) as values:
+                assert np.array_equal(values['expert'], expert) and np.array_equal(values['state'], packet['state_v1'])
+                assert np.array_equal(values['noise'], noise)
+                raw, decoded = values['raw'].copy(), values['decoded'].copy()
+            replay = bridge._decode_physical(processor, EmbodimentTag.NEW_EMBODIMENT, raw, packet['state_v1'])
+            assert np.max(np.abs(replay - decoded)) <= 1e-7
+        else:
+            with attempts.open('a') as stream:
+                count = sum(1 for _ in attempts.open()) + 1
+                assert count <= plan['query_attempt_cap']
+                stream.write(json.dumps(dict(ordinal=count, point=point, cell_id=cell_id, condition_sha256=condition_sha)) + '\n')
                 stream.flush(); os.fsync(stream.fileno())
-        handle = model.action_head.model.register_forward_pre_hook(count_head)
-        try:
-            stock = bridge._stock_query(model, policy, stage21, noise)
-        finally:
-            handle.remove()
-        assert len(stock['trace']) == 4 and np.array_equal(stock['noise'], noise)
-        raw = np.asarray(stock['raw'], dtype=np.float32)
-        decoded = bridge._decode_physical(processor, EmbodimentTag.NEW_EMBODIMENT, raw, packet['state_v1'])
+            def count_head(_module, _inputs):
+                nonlocal heads
+                heads += 1
+                assert heads <= plan['inference_head_cap']
+                with head_log.open('a') as stream:
+                    stream.write(json.dumps(dict(ordinal=heads, point=point, cell_id=cell_id)) + '\n')
+                    stream.flush(); os.fsync(stream.fileno())
+            handle = model.action_head.model.register_forward_pre_hook(count_head)
+            try:
+                stock = bridge._stock_query(model, policy, stage21, noise)
+            finally:
+                handle.remove()
+            assert len(stock['trace']) == 4 and np.array_equal(stock['noise'], noise)
+            raw = np.asarray(stock['raw'], dtype=np.float32)
+            decoded = bridge._decode_physical(processor, EmbodimentTag.NEW_EMBODIMENT, raw, packet['state_v1'])
+            temp = cell / 'tensors.partial.npz'
+            np.savez_compressed(temp, raw=raw, decoded=decoded, expert=expert, state=packet['state_v1'],
+                                noise=noise, trace_x=np.stack([x['x'] for x in stock['trace']]),
+                                trace_v=np.stack([x['v'] for x in stock['trace']]),
+                                trace_t=np.stack([x['t'] for x in stock['trace']]))
+            os.replace(temp, tensors)
         metrics = stage43._screen_metrics(decoded[0].astype(np.float64), expert.astype(np.float64), None)
         state = packet['state_v1']
         orientation = matrix_to_quat(rot6d_rows_to_matrix(state[None, 3:9]))[0]
         gate = TrajectorySafetyGateV1().evaluate(selector._build_chunk(decoded, chunk_id='pi0260-r3-' + cell_id),
                                                  now=0., achieved_position=state[:3], achieved_orientation=orientation)
-        tensors = cell / 'tensors.npz'
-        temp = cell / 'tensors.partial.npz'
-        np.savez_compressed(temp, raw=raw, decoded=decoded, expert=expert, state=state,
-                            noise=noise, trace_x=np.stack([x['x'] for x in stock['trace']]),
-                            trace_v=np.stack([x['v'] for x in stock['trace']]),
-                            trace_t=np.stack([x['t'] for x in stock['trace']]))
-        os.replace(temp, tensors)
         write(cell / 'record.json', dict(status='VALID', point=point, cell_id=cell_id, source=source_row,
                                         condition_sha256=condition_sha, noise_name=row['noise'],
                                         tensor_sha256=sha(tensors), metrics=metrics, gate=gate.as_dict(),
