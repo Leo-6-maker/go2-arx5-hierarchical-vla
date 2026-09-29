@@ -1,0 +1,52 @@
+{
+  "status": "PASS_SCOPED_VISUAL_REVIEW_WITH_DATA_BLOCK",
+  "manifest_sha256": "94954516f9b1e9159e7fe468c04d7155e6cc20eb4d21c601b8389e8ab2dcac62",
+  "machine_receipt_sha256": "1e16c79ad6d7c1f98318cf8d151378b27b050dcaeb2068c3874b815c8fabcde7",
+  "viewed_cards": [
+    {
+      "path": "frame-000.png",
+      "sha256": "d16fdd11b1089070d4bc474fb40486833bc5d02080d7362bfa0bbb5bf21bb1a2",
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0080.json"
+    },
+    {
+      "path": "frame-004.png",
+      "sha256": "5d1a803922d1de8c5335fe26987e9aa9881b0ce66e0413ef1f8d0f9799f00345",
+      "source": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M2-c1-t0150.json"
+    },
+    {
+      "path": "frame-114.png",
+      "sha256": "cbd5962a9edba146c857c7ce013a0648a3ffd682441d1e10643944a7a3c4d02d",
+      "source": "calibration_rigs/rig2/pi0259-cal-000/common_start.json"
+    },
+    {
+      "path": "frame-117.png",
+      "sha256": "d55ee4c89d430c639f721c9f55136f5a3f235342766d169538bb7e0c6cb4f37f",
+      "source": "calibration_rigs/rig1/pi0259-cal-000/common_start.json"
+    },
+    {
+      "path": "frame-119.png",
+      "sha256": "179aba1ebbedc953738c6c86ac8cee06112e37b237e5741b30caece6b94a4c22",
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start.json"
+    },
+    {
+      "path": "frame-001.png",
+      "sha256": "b4a0162017b1318ed55325ebf787811d84d62c6d4fc1e42f84d9293461ec92b3",
+      "source": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0160.json"
+    }
+  ],
+  "scope": "Six representative cards actually visually inspected; all 144 raw image pairs numerically checked. No claim of visual inspection of every frame.",
+  "observations": [
+    "Natural RGB shows small or robot-occluded cues; mask counts do not establish universal discernibility.",
+    "Rig1 M3 t4 family001 black endpoint is below four pixels; raw RGB and diagnostic masks kept separate.",
+    "Three common-start rigs show same wrist/source posture and changed body viewpoint; FK/current state matches numeric bindings.",
+    "The passing M3 t8 example remains a synthetic reference snapshot, not model output or physical success."
+  ],
+  "full_sequence_video": "NOT_AVAILABLE: fixed calibration snapshots only; no interpolation or invented footage",
+  "new_calls": {
+    "model_loads": 0,
+    "model_queries": 0,
+    "renderer_scenes": 0,
+    "physics": 0,
+    "WBC": 0
+  }
+}
