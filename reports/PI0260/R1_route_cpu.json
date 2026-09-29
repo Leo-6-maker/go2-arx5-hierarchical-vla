@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "workflow": "1f27d9c14ce0a91518930a8d8a2f6f0ffc2dd468",
+  "cases": [
+    {
+      "case": "no_helper",
+      "result": "ADMIT_NEXT_STAGE"
+    },
+    {
+      "case": "data_fail_helper_pass",
+      "result": "DENY_DATA"
+    },
+    {
+      "case": "generic_partial",
+      "result": "RUN_SOURCE_SPECIFIC_REPLAY"
+    },
+    {
+      "case": "matching_helper_once",
+      "result": "REUSE_MATCHING_REPLAY"
+    },
+    {
+      "case": "presentation_pending",
+      "result": "ADMIT_NEXT_STAGE"
+    },
+    {
+      "case": "changed_source_hash",
+      "result": "DENY_CHANGED_INPUT"
+    },
+    {
+      "case": "duplicate_owner",
+      "result": "DENY_DUPLICATE_OWNER"
+    },
+    {
+      "case": "canonical_reuse",
+      "result": "REUSE_CANONICAL_RESULT"
+    },
+    {
+      "case": "arm_quality_fail",
+      "result": "ADMIT_NEXT_STAGE"
+    },
+    {
+      "case": "all_complete_no_helper",
+      "result": "COMPLETE"
+    },
+    {
+      "case": "healthy_job",
+      "result": "ADOPT_EXISTING_JOB"
+    }
+  ],
+  "model_queries": 0,
+  "optimizer_updates": 0
+}
