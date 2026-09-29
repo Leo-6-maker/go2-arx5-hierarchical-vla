@@ -14,7 +14,9 @@ R3 = ROOT / 'R3'
 CODE = Path('/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a')
 COSMOS = Path('/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/cosmos_snapshot')
 GROOT = Path('/home/liuyu-nfs/Projects/isaac-gr00t')
-sys.path[:0] = [str(R3), str(CODE / 'scripts'), str(CODE / 'src'), str(GROOT)]
+os.environ.update(HF_HUB_OFFLINE='1', TRANSFORMERS_OFFLINE='1', HF_DATASETS_OFFLINE='1',
+                  HF_HOME=str(Path('/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/hf_home')))
+sys.path[:0] = [str(R3), str(ROOT / 'runtime'), str(ROOT / 'qa'), str(CODE / 'scripts'), str(CODE / 'src'), str(GROOT)]
 
 
 def sha(path):
