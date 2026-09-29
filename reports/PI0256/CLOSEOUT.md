@@ -65,3 +65,14 @@ No learned-policy WBC, TEST/DEV/F, hardware, broad cleanup, mail/monitor or PR m
 
 The NodeLocal IO move occurred only after a current attempt finished;1391 files were byte-verified and the original NFS copy remains.
 No healthy worker was edited/restarted and completed cells were reused; quota remains UNKNOWN.
+
+## Durable public evidence
+
+HF PUBLIC raw evidence: `leoyuer/pi0246-gate-pass-campaign@c580474a2d91c37807a0dc215b3658cb04f22488`, prefix `evidence/PI0256/preparation-A-B-source-correction-v1-20260929`.
+All14,364 members /331,355,667 source bytes passed anonymous complete-content readback.
+Source tree SHA256: `44168ddeecc328ae238ec316ec142ce6d89dc63260ee3db52a5105a84f2f3fd5`.
+The full readback receipt is independently anonymous-verified at revision `96e0a5b1c91f388186e48895c79ccf0573fa051d`, file `FULL_READBACK_RECEIPT.json` under that prefix.
+The118,289,205-byte tar archive SHA256 is `115c4cc0d378fd8377f783a663f885106be2f3b4cb38bfa74d93a9e495a0724a`.
+No model weight, private WBC source/asset or credential was uploaded. The receipt also has a verified retained NFS copy.
+Final actual source readback confirms all13 original helpers/components unchanged; no native experiment remains running.
+Native measured TCP versus independent FK max difference in corrected B is0.752 micrometers and2.2581e-6rad, much smaller than the failed tracking/stability criteria.
