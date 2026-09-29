@@ -142,18 +142,29 @@ def run(point, model_view, binding_path):
     attempts = R3 / 'eval' / 'attempts.jsonl'
     head_log = R3 / 'eval' / 'head_forwards.jsonl'
     heads = sum(1 for _ in head_log.open()) if head_log.exists() else 0
+    cache = {}
     for row in rows:
         cell_id = f"{row['cohort']}-{row['case_index']:03d}-{row['noise']}"
         cell = output / 'cells' / cell_id
         if (cell / 'record.json').exists():
+            previous = read(cell / 'record.json')
+            assert previous['status'] == 'VALID' and previous['point'] == point and previous['cell_id'] == cell_id
+            assert previous['noise_name'] == row['noise']
+            assert previous['model_binding_sha256'] == sha(binding_path)
+            assert previous['eval_card_sha256'] == sha(R3 / 'S4_FIXED_EVAL_CARD.json')
+            assert sha(cell / 'tensors.npz') == previous['tensor_sha256']
+            cache.setdefault((previous['condition_sha256'], row['noise']), (cell / 'tensors.npz', cell_id))
             continue
         packet, expert, source_row = source(row, motion, original)
         policy = batch(processor, packet)['inputs']
         condition_sha = identity(policy)
         noise = noises[row['noise']]
+        cache_key = (condition_sha, row['noise'])
+        reused = cache.get(cache_key)
         cell.mkdir(parents=True, exist_ok=True)
         tensors = cell / 'tensors.npz'
         if tensors.exists():
+            reused = None
             with np.load(tensors, allow_pickle=False) as values:
                 assert np.array_equal(values['expert'], expert) and np.array_equal(values['state'], packet['state_v1'])
                 assert np.array_equal(values['noise'], noise)
@@ -161,31 +172,38 @@ def run(point, model_view, binding_path):
             replay = bridge._decode_physical(processor, EmbodimentTag.NEW_EMBODIMENT, raw, packet['state_v1'])
             assert np.max(np.abs(replay - decoded)) <= 1e-7
         else:
-            with attempts.open('a') as stream:
-                count = sum(1 for _ in attempts.open()) + 1
-                assert count <= plan['query_attempt_cap']
-                stream.write(json.dumps(dict(ordinal=count, point=point, cell_id=cell_id, condition_sha256=condition_sha)) + '\n')
-                stream.flush(); os.fsync(stream.fileno())
-            def count_head(_module, _inputs):
-                nonlocal heads
-                heads += 1
-                assert heads <= plan['inference_head_cap']
-                with head_log.open('a') as stream:
-                    stream.write(json.dumps(dict(ordinal=heads, point=point, cell_id=cell_id)) + '\n')
+            if reused:
+                with np.load(reused[0], allow_pickle=False) as saved:
+                    assert np.array_equal(saved['noise'], noise)
+                    raw = saved['raw'].copy()
+                    trace_x, trace_v, trace_t = (saved[name].copy() for name in ('trace_x', 'trace_v', 'trace_t'))
+            else:
+                with attempts.open('a') as stream:
+                    count = sum(1 for _ in attempts.open()) + 1
+                    assert count <= plan['query_attempt_cap']
+                    stream.write(json.dumps(dict(ordinal=count, point=point, cell_id=cell_id, condition_sha256=condition_sha)) + '\n')
                     stream.flush(); os.fsync(stream.fileno())
-            handle = model.action_head.model.register_forward_pre_hook(count_head)
-            try:
-                stock = bridge._stock_query(model, policy, stage21, noise)
-            finally:
-                handle.remove()
-            assert len(stock['trace']) == 4 and np.array_equal(stock['noise'], noise)
-            raw = np.asarray(stock['raw'], dtype=np.float32)
+                def count_head(_module, _inputs):
+                    nonlocal heads
+                    heads += 1
+                    assert heads <= plan['inference_head_cap']
+                    with head_log.open('a') as stream:
+                        stream.write(json.dumps(dict(ordinal=heads, point=point, cell_id=cell_id)) + '\n')
+                        stream.flush(); os.fsync(stream.fileno())
+                handle = model.action_head.model.register_forward_pre_hook(count_head)
+                try:
+                    stock = bridge._stock_query(model, policy, stage21, noise)
+                finally:
+                    handle.remove()
+                assert len(stock['trace']) == 4 and np.array_equal(stock['noise'], noise)
+                raw = np.asarray(stock['raw'], dtype=np.float32)
+                trace_x = np.stack([x['x'] for x in stock['trace']])
+                trace_v = np.stack([x['v'] for x in stock['trace']])
+                trace_t = np.stack([x['t'] for x in stock['trace']])
             decoded = bridge._decode_physical(processor, EmbodimentTag.NEW_EMBODIMENT, raw, packet['state_v1'])
             temp = cell / 'tensors.partial.npz'
             np.savez_compressed(temp, raw=raw, decoded=decoded, expert=expert, state=packet['state_v1'],
-                                noise=noise, trace_x=np.stack([x['x'] for x in stock['trace']]),
-                                trace_v=np.stack([x['v'] for x in stock['trace']]),
-                                trace_t=np.stack([x['t'] for x in stock['trace']]))
+                                noise=noise, trace_x=trace_x, trace_v=trace_v, trace_t=trace_t)
             os.replace(temp, tensors)
         metrics = stage43._screen_metrics(decoded[0].astype(np.float64), expert.astype(np.float64), None)
         state = packet['state_v1']
@@ -194,8 +212,10 @@ def run(point, model_view, binding_path):
                                                  now=0., achieved_position=state[:3], achieved_orientation=orientation)
         write(cell / 'record.json', dict(status='VALID', point=point, cell_id=cell_id, source=source_row,
                                         condition_sha256=condition_sha, noise_name=row['noise'],
+                                        reused_from_cell_id=reused[1] if reused else None,
                                         tensor_sha256=sha(tensors), metrics=metrics, gate=gate.as_dict(),
                                         model_binding_sha256=sha(binding_path), eval_card_sha256=sha(R3 / 'S4_FIXED_EVAL_CARD.json')))
+        cache.setdefault(cache_key, (tensors, cell_id))
         print(json.dumps(dict(status='R3_EVAL_CELL', point=point, cell_id=cell_id, xyz_rmse_m=metrics['xyz_rmse_m'])), flush=True)
 
 
