@@ -1,0 +1,1166 @@
+{
+  "model_queries": 0,
+  "note": "Necessary observability condition only; a visible start is not complete sequence admission.",
+  "physics_steps": 0,
+  "sequences": [
+    {
+      "common_input_sha256": "2a2994b741a76841b587b12dd2caae7f41040a6d006722d89ae38af06fee7530",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-000-M1-c0-reference.npz",
+      "reference_sha256": "753deb04237be3a8a491e9e7d9c2a1336eceecae32decf8329b8638321f8eafa",
+      "required_cues": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-000",
+        "instruction": "Bring the tool to the red marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-000-M1-c0",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "2a2994b741a76841b587b12dd2caae7f41040a6d006722d89ae38af06fee7530",
+      "geometry_executed": false,
+      "missing_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-000-M1-c1-reference.npz",
+      "reference_sha256": "715cc35d1fb8d2cad1a4ac81de3e05ade1f2b0c6dbbf512ed1889cebd10a2201",
+      "required_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-000",
+        "instruction": "Approach the blue target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-000-M1-c1",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "2a2994b741a76841b587b12dd2caae7f41040a6d006722d89ae38af06fee7530",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-000-M2-c0-reference.npz",
+      "reference_sha256": "c3e6494f9dffae05d5d2285f6518762b172a4b795c9bdd1f811f83e6d5622378",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-000",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0258-family-000-M2-c0",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "2a2994b741a76841b587b12dd2caae7f41040a6d006722d89ae38af06fee7530",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-000-M2-c1-reference.npz",
+      "reference_sha256": "3fdc627beea332045f14660d4dae06729eeb4164cdf188b02e935777c8e0bfa9",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-000",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0258-family-000-M2-c1",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "2a2994b741a76841b587b12dd2caae7f41040a6d006722d89ae38af06fee7530",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-000-M3-c0-reference.npz",
+      "reference_sha256": "fff6a8e549f6ee3436e1700aa8f0bb395d53d9476b46e4272bc6e535790d6788",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-000",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-000-M3-c0",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "2a2994b741a76841b587b12dd2caae7f41040a6d006722d89ae38af06fee7530",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-000-M3-c1-reference.npz",
+      "reference_sha256": "63b6fb6a12c2dc726a8033af829196fa7dbe9c734f3195451d6518fcd8c8f667",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-000",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-000-M3-c1",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "96f3b4ea6039e4ed3dd0a5c77520e81a13f91e5c74c7ba61087484f973e39ac8",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-001-M1-c0-reference.npz",
+      "reference_sha256": "ebd0afe0ece547b16adea9f39b7604ae5cde6410d59163d95ea7ac1eba17e477",
+      "required_cues": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-001",
+        "instruction": "Bring the tool to the blue marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-001-M1-c0",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "96f3b4ea6039e4ed3dd0a5c77520e81a13f91e5c74c7ba61087484f973e39ac8",
+      "geometry_executed": false,
+      "missing_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-001-M1-c1-reference.npz",
+      "reference_sha256": "4cefee6732f29709a5f1ada4b6f348e07f043cdfe0bf3fb5f938272f21c4981e",
+      "required_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-001",
+        "instruction": "Bring the tool to the green marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-001-M1-c1",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "96f3b4ea6039e4ed3dd0a5c77520e81a13f91e5c74c7ba61087484f973e39ac8",
+      "geometry_executed": false,
+      "missing_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-001-M2-c0-reference.npz",
+      "reference_sha256": "52248ad816e6fefdb86df68d324bde8890145c784181c62bc84e869ffa0f5f4f",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-001",
+        "instruction": "Reach the orange goal via the left side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0258-family-001-M2-c0",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "96f3b4ea6039e4ed3dd0a5c77520e81a13f91e5c74c7ba61087484f973e39ac8",
+      "geometry_executed": false,
+      "missing_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-001-M2-c1-reference.npz",
+      "reference_sha256": "9a0680b5494b8581e4a0b7196d03fa80f543e5e9225e99ae757bf32848417b59",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-001",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0258-family-001-M2-c1",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "96f3b4ea6039e4ed3dd0a5c77520e81a13f91e5c74c7ba61087484f973e39ac8",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-001-M3-c0-reference.npz",
+      "reference_sha256": "b9a92b77b05e2a7edd041e7300a267fed37dc083c8a5b55a4159122dbfb07dfc",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-001",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-001-M3-c0",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "96f3b4ea6039e4ed3dd0a5c77520e81a13f91e5c74c7ba61087484f973e39ac8",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-001-M3-c1-reference.npz",
+      "reference_sha256": "6fb3fe74719613c369591918f8113c724a44c64339a5f29a4ac02e46359cd25c",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-001",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-001-M3-c1",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "d303d63df7445e7fad45f4049eac46dd799705b10c406c0c7029542d17e7340f",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-002-M1-c0-reference.npz",
+      "reference_sha256": "5c164027dd80fa9050fd38fb6cd4be9b557734d8801244e43cc6dfcd81009b06",
+      "required_cues": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-002",
+        "instruction": "Approach the green target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-002-M1-c0",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "d303d63df7445e7fad45f4049eac46dd799705b10c406c0c7029542d17e7340f",
+      "geometry_executed": false,
+      "missing_cues": [
+        "axis1_0",
+        "axis1_1"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-002-M1-c1-reference.npz",
+      "reference_sha256": "38afabce227455d6986520f9f44816d2c29fbd109d0600330498da4dc9323279",
+      "required_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-002",
+        "instruction": "Approach the red target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-002-M1-c1",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "d303d63df7445e7fad45f4049eac46dd799705b10c406c0c7029542d17e7340f",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-002-M2-c0-reference.npz",
+      "reference_sha256": "5b8660c0fcba742d61e6deac4f12ec59cbb7b02df897b6e559c231faa611c933",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-002",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0258-family-002-M2-c0",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "d303d63df7445e7fad45f4049eac46dd799705b10c406c0c7029542d17e7340f",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-002-M2-c1-reference.npz",
+      "reference_sha256": "2a12836a244dd2f029e7b78b7b116d84f2835cb19e8324f314e37aa61101e81a",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-002",
+        "instruction": "Face the orange goal and go around the grey block on the right.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0258-family-002-M2-c1",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "d303d63df7445e7fad45f4049eac46dd799705b10c406c0c7029542d17e7340f",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-002-M3-c0-reference.npz",
+      "reference_sha256": "e0b96116956b0daba1ca2c49f1dbdc4396dc237d33e845ef3a5919cef823e256",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-002",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-002-M3-c0",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "d303d63df7445e7fad45f4049eac46dd799705b10c406c0c7029542d17e7340f",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-002-M3-c1-reference.npz",
+      "reference_sha256": "58267a3e7923ae1d932cd31127443406c911625fae0be9f36c31398f552b32c9",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-002",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-002-M3-c1",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "b7b751e0b28b6ee1156f55d07b62fbbb0309ad2550a1618603570bf5373c6e1f",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-003-M1-c0-reference.npz",
+      "reference_sha256": "f0e47f877d1ac11314ccbf9a4754f6342c80351753e9e3720cbf407e10cd5b42",
+      "required_cues": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-003",
+        "instruction": "Approach the blue target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-003-M1-c0",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "b7b751e0b28b6ee1156f55d07b62fbbb0309ad2550a1618603570bf5373c6e1f",
+      "geometry_executed": false,
+      "missing_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-003-M1-c1-reference.npz",
+      "reference_sha256": "a2da05cc8583a2d671fb5d91d9ddfcf9db4083cfef1cd2a6672bd1815be396ad",
+      "required_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-003",
+        "instruction": "Bring the tool to the green marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-003-M1-c1",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "b7b751e0b28b6ee1156f55d07b62fbbb0309ad2550a1618603570bf5373c6e1f",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-003-M2-c0-reference.npz",
+      "reference_sha256": "7aaf2ba7f5c0421a27aeab1d53cf7f24e1fb39ee981e699d40a3ca0cac7eb180",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-003",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0258-family-003-M2-c0",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "b7b751e0b28b6ee1156f55d07b62fbbb0309ad2550a1618603570bf5373c6e1f",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-003-M2-c1-reference.npz",
+      "reference_sha256": "b4c321bc396527c58f1337f650aa1c461307b898698e6ecd3d97cb2bb767f30f",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-003",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0258-family-003-M2-c1",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "b7b751e0b28b6ee1156f55d07b62fbbb0309ad2550a1618603570bf5373c6e1f",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-003-M3-c0-reference.npz",
+      "reference_sha256": "c43898d5be8a818029f6e055d5d4923bc6eac8e01eb3224b51741ad8b62ce196",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-003",
+        "instruction": "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-003-M3-c0",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "b7b751e0b28b6ee1156f55d07b62fbbb0309ad2550a1618603570bf5373c6e1f",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-003-M3-c1-reference.npz",
+      "reference_sha256": "982e447f9b36ac030df1bef2e74bdc5a5b09853be3139ffc171d9c2a2e326d0c",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-003",
+        "instruction": "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-003-M3-c1",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "3f9bfc88fbe963fa734b8c1aee22aaa3a39702cf297981e6ec0a499f3b97e3bf",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-004-M1-c0-reference.npz",
+      "reference_sha256": "ebd0afe0ece547b16adea9f39b7604ae5cde6410d59163d95ea7ac1eba17e477",
+      "required_cues": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-004",
+        "instruction": "Bring the tool to the red marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-004-M1-c0",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "3f9bfc88fbe963fa734b8c1aee22aaa3a39702cf297981e6ec0a499f3b97e3bf",
+      "geometry_executed": false,
+      "missing_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-004-M1-c1-reference.npz",
+      "reference_sha256": "4cefee6732f29709a5f1ada4b6f348e07f043cdfe0bf3fb5f938272f21c4981e",
+      "required_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-004",
+        "instruction": "Approach the blue target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the blue target and align the tool with its axes.",
+          "Bring the tool to the blue marker with the pose shown by its axes.",
+          "Move to the blue target, matching its displayed orientation.",
+          "Reach the blue marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-004-M1-c1",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "3f9bfc88fbe963fa734b8c1aee22aaa3a39702cf297981e6ec0a499f3b97e3bf",
+      "geometry_executed": false,
+      "missing_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-004-M2-c0-reference.npz",
+      "reference_sha256": "52248ad816e6fefdb86df68d324bde8890145c784181c62bc84e869ffa0f5f4f",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-004",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0258-family-004-M2-c0",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "3f9bfc88fbe963fa734b8c1aee22aaa3a39702cf297981e6ec0a499f3b97e3bf",
+      "geometry_executed": false,
+      "missing_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-004-M2-c1-reference.npz",
+      "reference_sha256": "9a0680b5494b8581e4a0b7196d03fa80f543e5e9225e99ae757bf32848417b59",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-004",
+        "instruction": "Reach the orange goal via the right side of the grey obstacle.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0258-family-004-M2-c1",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "3f9bfc88fbe963fa734b8c1aee22aaa3a39702cf297981e6ec0a499f3b97e3bf",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-004-M3-c0-reference.npz",
+      "reference_sha256": "b9a92b77b05e2a7edd041e7300a267fed37dc083c8a5b55a4159122dbfb07dfc",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-004",
+        "instruction": "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-004-M3-c0",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "3f9bfc88fbe963fa734b8c1aee22aaa3a39702cf297981e6ec0a499f3b97e3bf",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-004-M3-c1-reference.npz",
+      "reference_sha256": "6fb3fe74719613c369591918f8113c724a44c64339a5f29a4ac02e46359cd25c",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-004",
+        "instruction": "Trace the open arc from white to black, moving clockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-004-M3-c1",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "82fae92921589b7dc00d07dd44d15ce961145c6d249331e3c8b029dec9372b2a",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-005-M1-c0-reference.npz",
+      "reference_sha256": "15407959a7659b17a7e415ef98ce3e30b8681e02c761dff6a58c8a7123b4355d",
+      "required_cues": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-005",
+        "instruction": "Approach the green target and align the tool with its axes.",
+        "paraphrases": [
+          "Approach the green target and align the tool with its axes.",
+          "Bring the tool to the green marker with the pose shown by its axes.",
+          "Move to the green target, matching its displayed orientation.",
+          "Reach the green marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-005-M1-c0",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "82fae92921589b7dc00d07dd44d15ce961145c6d249331e3c8b029dec9372b2a",
+      "geometry_executed": false,
+      "missing_cues": [
+        "axis1_0",
+        "axis1_1"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-005-M1-c1-reference.npz",
+      "reference_sha256": "3ed273903b97ab2a3c8c0ca50e94406655c5f586e6cb836b769f40713cff438d",
+      "required_cues": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-005",
+        "instruction": "Bring the tool to the red marker with the pose shown by its axes.",
+        "paraphrases": [
+          "Approach the red target and align the tool with its axes.",
+          "Bring the tool to the red marker with the pose shown by its axes.",
+          "Move to the red target, matching its displayed orientation.",
+          "Reach the red marker and match the marked tool frame."
+        ],
+        "sequence_id": "pi0258-family-005-M1-c1",
+        "split": "DEVELOPMENT",
+        "task": "M1"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "82fae92921589b7dc00d07dd44d15ce961145c6d249331e3c8b029dec9372b2a",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-005-M2-c0-reference.npz",
+      "reference_sha256": "80938e715896970e4fdeb05fbaedd686f0c5628c336627d79ef49e2f3fb9e685",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-005",
+        "instruction": "Face the orange goal and go around the grey block on the left.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the left.",
+          "Reach the orange goal via the left side of the grey obstacle.",
+          "Take the left route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the left."
+        ],
+        "sequence_id": "pi0258-family-005-M2-c0",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "82fae92921589b7dc00d07dd44d15ce961145c6d249331e3c8b029dec9372b2a",
+      "geometry_executed": false,
+      "missing_cues": [
+        "goal"
+      ],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-005-M2-c1-reference.npz",
+      "reference_sha256": "4537739dd6aed448740aef1a8655edf20355f7df0eead9b99c6c990c166345db",
+      "required_cues": [
+        "obstacle",
+        "goal"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-005",
+        "instruction": "Face the orange goal and go around the grey block on the right.",
+        "paraphrases": [
+          "Face the orange goal and go around the grey block on the right.",
+          "Reach the orange goal via the right side of the grey obstacle.",
+          "Take the right route around the grey block to the orange goal.",
+          "Go to the orange goal, passing the grey obstacle on the right."
+        ],
+        "sequence_id": "pi0258-family-005-M2-c1",
+        "split": "DEVELOPMENT",
+        "task": "M2"
+      },
+      "start_visible": false,
+      "status": "VALID_DATA_FAIL_COMMAND_CUE_INVISIBLE_AT_SHARED_START"
+    },
+    {
+      "common_input_sha256": "82fae92921589b7dc00d07dd44d15ce961145c6d249331e3c8b029dec9372b2a",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-005-M3-c0-reference.npz",
+      "reference_sha256": "0be0a2e5d04173146e3067c91740e44f3b460bb0579bd7001a53cdad99d842ec",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 0,
+        "execute": true,
+        "family_id": "pi0258-family-005",
+        "instruction": "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+        "paraphrases": [
+          "Approach the black endpoint, then follow the open contour counterclockwise to the white endpoint as seen from above.",
+          "Trace the open arc from black to white, moving counterclockwise when viewed from above.",
+          "Go to the black end of the open contour and trace it counterclockwise to white, viewed from above.",
+          "Follow the open contour counterclockwise from the black endpoint to the white endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-005-M3-c0",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    },
+    {
+      "common_input_sha256": "82fae92921589b7dc00d07dd44d15ce961145c6d249331e3c8b029dec9372b2a",
+      "geometry_executed": false,
+      "missing_cues": [],
+      "model_queries": 0,
+      "physics_steps": 0,
+      "reference_file": "pi0258-family-005-M3-c1-reference.npz",
+      "reference_sha256": "2d72d0d644f84e0cb8e1fcbac58ba7e01dd5928d84c2d5d9b221cb35568ac4f1",
+      "required_cues": [
+        "black_A",
+        "white_B"
+      ],
+      "sequence": {
+        "command": 1,
+        "execute": true,
+        "family_id": "pi0258-family-005",
+        "instruction": "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+        "paraphrases": [
+          "Approach the white endpoint, then follow the open contour clockwise to the black endpoint as seen from above.",
+          "Trace the open arc from white to black, moving clockwise when viewed from above.",
+          "Go to the white end of the open contour and trace it clockwise to black, viewed from above.",
+          "Follow the open contour clockwise from the white endpoint to the black endpoint as viewed from above."
+        ],
+        "sequence_id": "pi0258-family-005-M3-c1",
+        "split": "DEVELOPMENT",
+        "task": "M3"
+      },
+      "start_visible": true,
+      "status": "CONTINUE_GEOMETRY"
+    }
+  ],
+  "totals": {
+    "M1": {
+      "needed": 10,
+      "planned": 12,
+      "visible": 6
+    },
+    "M2": {
+      "needed": 10,
+      "planned": 12,
+      "visible": 0
+    },
+    "M3": {
+      "needed": 10,
+      "planned": 12,
+      "visible": 12
+    }
+  }
+}
