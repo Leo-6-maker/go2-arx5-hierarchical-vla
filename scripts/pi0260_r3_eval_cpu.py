@@ -94,10 +94,61 @@ def replay(point):
     print(json.dumps(dict(status=result['status'], point=point, rows=440, sha256=sha(output))))
 
 
+def semantic_replay(point):
+    """Score the frozen same-frame command pairs against their own and opposite H40 references."""
+    cases = read(R3 / 'motion2_eval_cases.json')
+    rows = []
+    for pair in cases['semantic_pairs']:
+        task, family = pair['task'], pair['family']
+        for kind in ('SEMANTIC', 'PARAPHRASE'):
+            indexed = {}
+            for command in (0, 1):
+                matches = [(i, c) for i, c in enumerate(cases['cases']) if c['task'] == task
+                           and c['kind'] == kind and c['sequence'] == f'{family}-{task}-c{command}']
+                assert len(matches) == 1, (task, family, kind, command)
+                indexed[command] = matches[0]
+            references = {command: source(dict(cohort='Motion2', case_index=index), cases['cases'], [])[1]
+                          for command, (index, _) in indexed.items()}
+            assert pair['common_frame_sha256'] == indexed[0][1]['frame_sha256'] == indexed[1][1]['frame_sha256']
+            for noise in ('B0', 'B1'):
+                for command, (index, _) in indexed.items():
+                    cell = R3 / 'eval' / point / 'cells' / f'Motion2-{index:03d}-{noise}'
+                    record = read(cell / 'record.json')
+                    tensor = cell / 'tensors.npz'
+                    assert sha(tensor) == record['tensor_sha256']
+                    with np.load(tensor, allow_pickle=False) as saved:
+                        predicted = saved['decoded'][0, :, :3].astype(np.float64)
+                    distances = {c: float(np.sqrt(np.mean(np.sum((predicted - ref[:, :3]) ** 2, axis=1))))
+                                 for c, ref in references.items()}
+                    margin = distances[1 - command] - distances[command]
+                    rows.append(dict(task=task, family=family, kind=kind, noise=noise, command=command,
+                                     case_index=index, own_xyz_rmse_m=distances[command],
+                                     opposite_xyz_rmse_m=distances[1 - command],
+                                     margin_m=margin, correct=margin > 0))
+    assert len(rows) == 96
+    groups = {}
+    for task in ('M1', 'M3'):
+        for kind in ('SEMANTIC', 'PARAPHRASE'):
+            for noise in ('B0', 'B1'):
+                sample = [r for r in rows if (r['task'], r['kind'], r['noise']) == (task, kind, noise)]
+                assert len(sample) == 12
+                correct = sum(r['correct'] for r in sample)
+                groups[f'{task}/{kind}/{noise}'] = dict(n=12, correct=correct, pass_10_of_12=correct >= 10)
+    output = R3 / 'eval' / point / 'semantic_replay.json'
+    assert not output.exists()
+    output.write_text(json.dumps(dict(status='PASS_SAVED_ARRAY_SEMANTIC_REFERENCE_MARGIN_REPLAY',
+                                      point=point, method='own versus opposite original H40 XYZ RMSE, strict positive margin',
+                                      scope='t0 H40 entry/target discrimination; not a full 270-degree contour rollout',
+                                      rows=rows, groups=groups, model_queries=0), indent=2, sort_keys=True) + '\n')
+    print(json.dumps(dict(status='PASS_SAVED_ARRAY_SEMANTIC_REFERENCE_MARGIN_REPLAY', point=point,
+                          rows=len(rows), sha256=sha(output))))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--point', choices=('Base_0', 'Base_6000', 'G_0', 'G_6000'))
     parser.add_argument('--demo', action='store_true')
+    parser.add_argument('--semantic', action='store_true')
     args = parser.parse_args()
     if args.demo:
         exact = np.zeros((40, 10), np.float32)
@@ -106,4 +157,4 @@ if __name__ == '__main__':
         print('PASS_R3_INDEPENDENT_CPU_METRIC_DEMO')
     else:
         assert args.point
-        replay(args.point)
+        semantic_replay(args.point) if args.semantic else replay(args.point)
