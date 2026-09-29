@@ -1,0 +1,64 @@
+{
+  "H1_admitted": false,
+  "TRAIN_families": 30,
+  "VAL_families": 10,
+  "authority": "c5070dc1b6eaff9d3070c92e3a0248ff4c0a83be",
+  "canary_updates": 0,
+  "cause": "Fixed residual-tolerant IK holds exactly the same joint state over multiple prescribed times; the clock-driven H40 desired reference continues to change.",
+  "code_commit": "dccac3d",
+  "counters": {
+    "IK_solver_calls": 92228,
+    "WBC_actor_calls": 0,
+    "active_raw_windows": 25520,
+    "calibration_image_pairs": 84,
+    "completed_geometry_results": 756,
+    "model_queries": 0,
+    "new_kinematic_sequence_attempts": 756,
+    "optimizer_updates": 0,
+    "physics_steps": 0,
+    "production_image_pairs": 15377
+  },
+  "dataset_quantity_geometry_visibility_codec": "COMPACT_30_10",
+  "deployment_selected_checkpoint": "NONE",
+  "experiment_complete": false,
+  "main_updates": 0,
+  "model_quality": "NOT_EVALUATED",
+  "natural_RGB_review": "No H1 visual signoff claimed; diagnostic source RGB cards retained",
+  "next": "STOP_BEFORE_MODEL_CANARY_FOR_DATA_OBSERVABILITY_REVIEW",
+  "no_remedy_applied": [
+    "no clock/phase/source ID conditioning",
+    "no reference smoothing or label replacement",
+    "no IK tolerance/time-law/camera change",
+    "no family replacement"
+  ],
+  "observation_conflict": {
+    "actual_processor_verified_pairs": 40,
+    "affected_families": 40,
+    "label_roundtrip_tolerance_is_not_model_quality_threshold": true,
+    "max_pointwise_xyz_m": 0.025909312069416046,
+    "max_xyz_rmse_m": 0.01576695777475834,
+    "nonidentical_future_pairs": 24543,
+    "same_input_pairs": 24623,
+    "type": "WITHIN_SAME_COMMAND_SYNTHETIC_TIME_ALIAS",
+    "unique_allowed_inputs": 10288,
+    "usable_windows": 17377
+  },
+  "old_DEV_FAIL_preserved": true,
+  "planned_quality_tuples": 1760,
+  "qualification_scope": "Quantity, geometry and codec PASS are retained. Exact current-input/future-label mapping is not well-defined; no claim that the 20mm model threshold is mathematically impossible.",
+  "quality_queries": 0,
+  "selected_checkpoint": "NONE",
+  "source_bindings": {
+    "actual_processor_aliases": "99beec28da33cd68f5916d4764088e6c11aeb25e3480765c255ccd35898e2f80",
+    "codec_receipt": "08c9d0435a59f0f0617d648301f85ea909c2ed66d345570848402e197d7ef713",
+    "collection_manifest": "0d5a340b969849ba76ab9b017578104cf0b16467f6a54fa5cd742dac56bf7daa",
+    "geometry_replay": "bdb61f65db685e1e6688073f82461ddbe4bcf1c36f4cc351cea3ac1d96d08391",
+    "raw_aliases": "76432865ca6ce60b3bdf413f06a14f96e019179e569d4680092acabb5002084e"
+  },
+  "status": "H1_OBSERVABILITY_BLOCKED_EXACT_INPUT_FUTURE_ALIAS",
+  "stop_basis": [
+    "PI0258 section B geometry/observability: same permitted observations must not require conflicting futures; structural non-observability blocks that family",
+    "PI0260 section4.2 item5; R2 preserves per-example observation/input integrity and forbids hidden phase inputs"
+  ],
+  "trained_models": 0
+}
