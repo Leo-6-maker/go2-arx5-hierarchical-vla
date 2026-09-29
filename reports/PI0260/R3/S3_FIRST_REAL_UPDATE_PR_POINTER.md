@@ -1,0 +1,3 @@
+PI0260-R3 first real update canonical: https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5897125022
+
+Base continuous-8 real Trainer canary completed with full checkpoint and S4 parity/gradient evidence. Base 4+restore+4, G canary and both main6000 runs remain in progress; no quality query or model selection yet. Execution amendments through `8b2be32`; fixed 1760 evaluation card at `c3d6e0d`.

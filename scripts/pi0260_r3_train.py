@@ -183,6 +183,7 @@ def run(args):
         checkpoint=output/f'checkpoint-{args.resume}'
         assert all((checkpoint/f).is_file() for f in ('trainer_state.json','optimizer.pt','scheduler.pt','rng_state.pth'))
         assert read(checkpoint/'trainer_state.json')['global_step']==args.resume
+        assert max(int(p.name.rsplit('-', 1)[1]) for p in output.glob('checkpoint-*') if p.is_dir()) == args.resume
     else:
         assert not (output/'S4_audit.jsonl').exists()
     sys.path[:0]=[str(Path(__file__).resolve().parent),
@@ -201,7 +202,7 @@ def run(args):
     config.training.max_steps=6000
     config.training.save_steps=6000
     config.training.save_total_limit=3
-    config.training.resume_from_checkpoint=str(output/f'checkpoint-{args.resume}') if args.resume else False
+    config.training.resume_from_checkpoint=bool(args.resume)
     config.data.seed=26003
     config.training.seed=26003
     config.training.remove_unused_columns=False
