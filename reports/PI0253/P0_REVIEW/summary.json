@@ -1,0 +1,74 @@
+{
+  "P1": "NOT_AUTHORIZED_NEW_QUERIES_REQUIRE_FROZEN_PROTOCOL",
+  "actual_clip_events": "UNOBSERVED; normalized boundaries descriptive only",
+  "expert_reject_count": 12,
+  "four_model_reject_intersection": [
+    "pi0227_persistent_train_a_j00_nominal_s02_xm050_r01_r01_227009:obs-0000",
+    "pi0227_persistent_train_b_j00_nominal_s04_ym050_r03_r03_227199:obs-0000",
+    "pi0227_persistent_train_b_j01_xp015_s02_xm050_r01_r01_227209:obs-0000",
+    "pi0227_persistent_train_b_j03_yp015_s00_c0_r02_r02_227242:obs-0000",
+    "pi0227_persistent_train_b_j05_zp015_s00_c0_r02_r02_227282:obs-0000",
+    "pi0227_persistent_train_d_j02_xm015_s02_xm050_r01_r01_227589:obs-0000",
+    "pi0227_persistent_train_d_j04_ym015_s00_c0_r02_r02_227622:obs-0000",
+    "pi0227_persistent_train_d_j04_ym015_s00_c0_r02_r02_227622:obs-0013",
+    "pi0227_persistent_train_d_j06_zm015_s03_yp050_r02_r02_227674:obs-0000"
+  ],
+  "full_window_exposure_histogram": {
+    "1": 9584,
+    "2": 208
+  },
+  "identity_checks": "Historical expert label/state/time/gate/selector match; actual 10000 sources match sealed schedule; saved tensors match original receipts",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physical_episodes": 0,
+  "old64_exposure_histogram": {
+    "1": 63,
+    "2": 1
+  },
+  "per_checkpoint": {
+    "10000": {
+      "expert_overlap": 10,
+      "expert_rescued": 2,
+      "model_new": 0,
+      "model_reject": 10
+    },
+    "2500": {
+      "expert_overlap": 10,
+      "expert_rescued": 2,
+      "model_new": 1,
+      "model_reject": 11
+    },
+    "5000": {
+      "expert_overlap": 9,
+      "expert_rescued": 3,
+      "model_new": 0,
+      "model_reject": 9
+    },
+    "7500": {
+      "expert_overlap": 11,
+      "expert_rescued": 1,
+      "model_new": 0,
+      "model_reject": 11
+    }
+  },
+  "reject_union_count": 13,
+  "retention_rows": 704,
+  "schema": "PI0253_P0_POSTMORTEM_V1",
+  "selected_checkpoint": "NONE",
+  "status": "COMPLETE_ZERO_MODEL_QUERY",
+  "union_sources": [
+    "pi0227_persistent_train_a_j00_nominal_s02_xm050_r01_r01_227009:obs-0000",
+    "pi0227_persistent_train_a_j04_ym015_s00_c0_r02_r02_227082:obs-0000",
+    "pi0227_persistent_train_b_j00_nominal_s04_ym050_r03_r03_227199:obs-0000",
+    "pi0227_persistent_train_b_j01_xp015_s02_xm050_r01_r01_227209:obs-0000",
+    "pi0227_persistent_train_b_j03_yp015_s00_c0_r02_r02_227242:obs-0000",
+    "pi0227_persistent_train_b_j05_zp015_s00_c0_r02_r02_227282:obs-0000",
+    "pi0227_persistent_train_b_j08_xm010_ym010_s04_ym050_r01_r01_227357:obs-0000",
+    "pi0227_persistent_train_d_j02_xm015_s02_xm050_r01_r01_227589:obs-0000",
+    "pi0227_persistent_train_d_j04_ym015_s00_c0_r02_r02_227622:obs-0000",
+    "pi0227_persistent_train_d_j04_ym015_s00_c0_r02_r02_227622:obs-0006",
+    "pi0227_persistent_train_d_j04_ym015_s00_c0_r02_r02_227622:obs-0013",
+    "pi0227_persistent_train_d_j05_zp015_s00_c0_r03_r03_227643:obs-0000",
+    "pi0227_persistent_train_d_j06_zm015_s03_yp050_r02_r02_227674:obs-0000"
+  ]
+}
