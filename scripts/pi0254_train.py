@@ -3,6 +3,7 @@ from pathlib import Path
 import argparse
 import copy
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -393,7 +394,8 @@ def cpu_check(path,arm):
     fixed.MAX_STEPS,fixed.CHECKPOINT_STEPS=STEPS,SAVES
     fixed.bind_runtime(life._card_with_p_runtime_paths(doc))
     core=life.load_module(Path(paths['training_runtime_root'])/'pi0246_gate_pass_train.py','pi0254_cpu_core')
-    qualified=life.load_module(Path(paths['repo_code_root'])/'scripts/pi0247_u_rollout_overlay.py','pi0254_cpu_counter_overlay')
+    spec=importlib.util.spec_from_file_location('pi0254_cpu_counter_overlay',Path(paths['repo_code_root'])/'scripts/pi0247_u_rollout_overlay.py')
+    qualified=importlib.util.module_from_spec(spec);spec.loader.exec_module(qualified)
     counter=counter_cpu_check(qualified)
     _,config,summary=core.build_runtime_config(paths,Path(paths['output_root'])/'training',fixed)
     assert summary==doc['resolved_config'],(summary,doc['resolved_config'])
