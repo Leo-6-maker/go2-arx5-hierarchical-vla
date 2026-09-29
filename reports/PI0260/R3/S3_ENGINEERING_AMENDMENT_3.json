@@ -1,0 +1,16 @@
+{
+  "schema": "PI0260_R3_S3_ENGINEERING_AMENDMENT_3",
+  "parent_amendment_sha256": "160c14a97281b08cdb05f20a9fa2ae8890115fdb4a65b0fdc1127ab69064d667",
+  "failed_attempt": "638822.hopper-m-02",
+  "raw_accounting": {
+    "complete_model_loads": 1,
+    "native_training_forwards": 1,
+    "backwards": 1,
+    "completed_optimizer_updates": 0
+  },
+  "failure": "an outer pre-Trainer mode snapshot was compared after Trainer.training_step called model.train(); the existing per-forward S4 mode-restoration check passed",
+  "repair": "remove only the redundant outer mode assertion; retain the original S4 native-to-rollout mode comparison",
+  "stage40_cosmos_binding_sha256": "640a527b0604dc082242de1aa860e0fc647b0270ec3a62ce4e99485d7520cdd9",
+  "trainer_sha256": "b1816f6470fddd93a307ee5c04b4a6e753c74e144fc31b62e8d388faa16f455d",
+  "science_contract_change": false
+}

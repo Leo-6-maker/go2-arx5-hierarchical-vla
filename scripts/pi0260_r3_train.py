@@ -161,12 +161,10 @@ def install(args, output):
             condition = {k:v for k,v in inputs['inputs'].items() if k not in ('action','action_mask')}
             key = identity(condition)
             assert LAST_SAMPLE == dict(update=step,condition_sha256=key), (LAST_SAMPLE,step,key)
-            modes = tuple(child.training for child in model.action_head.modules())
             devices = [torch.cuda.current_device()]
             with torch.random.fork_rng(devices=devices):
                 torch.manual_seed(seed_for(step))
                 result = super().training_step(model,inputs,*pos,**kw)
-            assert tuple(child.training for child in model.action_head.modules()) == modes
             with (output/'step_rng.jsonl').open('a') as stream:
                 stream.write(json.dumps(dict(step=step,seed=seed_for(step),condition_sha256=key,
                     mode_restored=True),sort_keys=True)+'\n')
