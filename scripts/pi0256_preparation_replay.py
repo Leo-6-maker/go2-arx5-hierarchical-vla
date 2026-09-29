@@ -2,6 +2,8 @@
 from pathlib import Path
 import json
 import sys
+if '--native-canonical-replay' in sys.argv:
+    import isaacgym
 import numpy as np
 import pi0256_preparation as prep
 from pi0255_motion3 import sha,write
@@ -52,6 +54,7 @@ def replay():
                 assert hashlib.sha256(np.ascontiguousarray(arrays['history']).tobytes()).hexdigest()==call['array_sha256']
         clean=[r for r in ticks if r['clean']]
         fk_errors=[float(np.linalg.norm(np.asarray(r['post_step']['TCP_world'])-r['post_step']['FK_TCP_world'])) for r in clean]
+        fk_rotations=[float(geodesic_angle(quat_to_matrix(r['post_step']['quaternion_xyzw']),quat_to_matrix(r['post_step']['FK_quaternion_xyzw']))) for r in clean]
         summaries.append(dict(case=case['case_id'],group=case['group'],validity='VALID',success=result['success'],failure=result['failure'],
             ticks=len(ticks),control_steps=len(steps),end_time_s=result['end_time_s'],qualified_ticks=qualified_ticks,stable_interval_max_s=best_interval,
             clean_XYZ_RMS_m=float(np.sqrt(np.mean([r['position_error_m']**2 for r in clean]))) if clean else None,
@@ -61,6 +64,7 @@ def replay():
             soft_joint_violation_ticks=sum(r['joint_limit_violation'] for r in clean),
             hard_joint_violation_ticks=sum(any(v<0 for v in r['post_step']['hard_URDF_joint_margins'].values()) for r in clean),
             FK_vs_native_TCP_max_m=max(fk_errors,default=None),
+            FK_vs_native_SO3_max_rad=max(fk_rotations,default=None),
             terminal_event=ticks[-1]['pre_autoreset_event'] if ticks else None,
             result_sha256=sha(file)))
     pairs=[]
@@ -124,6 +128,37 @@ def tcp_alias_probe():
     write(ROOT/'evidence/tcp_alias_cpu_proof.json',receipt);print(receipt['status'],flush=True)
 
 
+def canonical_replay():
+    import torch
+    torch.set_num_threads(1)
+    from modules.trajectory import to_canonical,quat_to_mat,TrajectoryBatch
+    rows=[]
+    for file in sorted((ROOT/'episodes').glob('*/result.json')):
+        result=json.loads(file.read_text())
+        if result['validity']!='VALID':continue
+        out=file.parent
+        for line in (out/'reference_loads.jsonl').read_text().splitlines():
+            item=json.loads(line);event=item['event']
+            with np.load(out/item['file'],allow_pickle=False) as data:
+                dt=float(np.diff(data['timestamps'])[0])
+                gamma,law=to_canonical(torch.as_tensor(data['raw_position'],dtype=torch.float32),
+                                       quat_to_mat(torch.as_tensor(data['raw_quaternion'],dtype=torch.float32)),dt)
+                batch=TrajectoryBatch(1,data['gamma_s'].shape[1],data['tl_t'].shape[1],device='cpu')
+                batch.load([0],[gamma],[law])
+                batch.gamma_p+=torch.as_tensor(event['anchor_world_m'],dtype=torch.float32).view(1,1,3)
+                errors={k:float(np.max(np.abs(getattr(batch,k).numpy()-data[k]))) for k in
+                    ('gamma_s','gamma_p','gamma_quat','gamma_tangent','L','tl_t','tl_s','tl_sdot','T')}
+                assert all(np.isfinite(v) for v in errors.values())
+                rows.append(dict(case=out.name,file=item['file'],native_reference_sha256=item['sha256'],cpu_max_abs_errors=errors,
+                    gamma_capacity=data['gamma_s'].shape[1],time_capacity=data['tl_t'].shape[1],raw_points=len(data['timestamps'])))
+    d=dict(status='ACTUAL_NATIVE_CANONICAL_CPU_RECOMPUTED',references=rows,
+        max_abs_by_array={k:max(x['cpu_max_abs_errors'][k] for x in rows) for k in rows[0]['cpu_max_abs_errors']},
+        physics=0,GR00T=0,numerical_errors_reported_without_posthoc_threshold_change=True)
+    write(ROOT/'evidence/native_canonical_cpu_replay.json',d)
+    print(json.dumps(dict(status=d['status'],references=len(rows),max_abs_by_array=d['max_abs_by_array'])),flush=True)
+
+
 if __name__=='__main__':
     if '--tcp-alias-probe' in sys.argv:tcp_alias_probe()
+    elif '--native-canonical-replay' in sys.argv:canonical_replay()
     else:replay()
