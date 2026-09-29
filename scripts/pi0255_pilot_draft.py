@@ -94,6 +94,55 @@ def cpu_check(output):
     write(output/'draft_cpu_receipt.json',dict(status='PASS_DRAFT_CARDS_SAMPLER_RNG_BOUNDARY_ONLY',synthetic_schedule_rows=6000,actual_training_schedule_rows=0,
         task_balanced=True,command_balanced=True,paired_draws_equal=True,outer_rng_restored=True,legacy2000_rejected=True,cursor3000_suffix=True,
         real_Trainer_resume='UNRESOLVED_NO_ADMITTED_DATA_OR_EXECUTION_BINDING',processor_randomness_pairing='REQUIRED_NOT_YET_PROVED',new_GR00T_loads=0,new_GR00T_queries=0,new_GR00T_backward=0,new_GR00T_optimizer=0))
+    # Reuse the actual qualified S4/mode implementation on a scalar CPU fixture.
+    import math
+    import tempfile
+    import numpy as np
+    from pi0247_u_rollout_overlay import _euler_rollout,_module_eval
+    lr=lambda k:k/10 if k<10 else .5*(1+math.cos(math.pi*min(1.,(k-10)/5990)))
+    assert lr(0)==lr(6000)==0. and lr(10)==1.
+    def make():
+        model=torch.nn.Linear(1,1).double().train()
+        with torch.no_grad():model.weight.fill_(.37);model.bias.fill_(.07)
+        opt=torch.optim.AdamW(model.parameters(),lr=1e-5,betas=(.9,.999),eps=1e-8,weight_decay=1e-5)
+        scheduler=torch.optim.lr_scheduler.LambdaLR(opt,lr);scheduler.last_epoch=2996
+        for group in opt.param_groups:group['lr']=1e-5*lr(2996)
+        return model,opt,scheduler
+    def advance(state,steps):
+        model,opt,scheduler=state;grads={};audit={}
+        for step in steps:
+            opt.zero_grad()
+            with rng.rng_context(step):
+                value=torch.randn(1,1,dtype=torch.float64,requires_grad=True)
+                contexts=lambda:(_module_eval(model,audit,'rollout_forward'),_module_eval(model,audit,'backward_recompute'))
+                def hook(index,value):value.register_hook(lambda gradient:grads.update({index:float(gradient.abs().sum())}))
+                result,_,_=_euler_rollout(value,lambda current,index:torch.tanh(model(current)),(),steps=4,checkpointed=True,context_fn=contexts,state_hook=hook)
+                result.square().sum().backward()
+            assert len(grads)==4 and all(x>0 for x in grads.values())
+            assert all(m.training for m in model.modules()) and audit.get('phase') is None
+            opt.step();scheduler.step()
+        return state
+    reference=advance(make(),range(2997,3001))
+    with tempfile.TemporaryDirectory(dir=output,prefix='CPU-fixture-state-') as folder:
+        path=Path(folder)/'full_fixture_state.pt'
+        torch.save(dict(model=reference[0].state_dict(),optimizer=reference[1].state_dict(),scheduler=reference[2].state_dict(),
+            torch_rng=torch.get_rng_state(),python_rng=random.getstate(),numpy_rng=np.random.get_state(),cursor=3000,steps=6000),path)
+        expected=advance(reference,range(3001,3005));restored=make();saved=torch.load(path,weights_only=False,map_location='cpu')
+        assert saved['cursor']==3000 and saved['steps']==6000
+        for object_,name in zip(restored,('model','optimizer','scheduler')):object_.load_state_dict(saved[name])
+        torch.set_rng_state(saved['torch_rng']);random.setstate(saved['python_rng']);np.random.set_state(saved['numpy_rng'])
+        _=torch.rand(11)  # unrelated restore/iterator consumer; keyed model draws remain unchanged
+        actual=advance(restored,range(saved['cursor']+1,3005))
+        def equal(a,b):
+            if isinstance(a,torch.Tensor):return torch.equal(a,b)
+            if isinstance(a,dict):return a.keys()==b.keys() and all(equal(a[k],b[k]) for k in a)
+            if isinstance(a,(list,tuple)):return len(a)==len(b) and all(equal(x,y) for x,y in zip(a,b))
+            return a==b
+        assert all(equal(a.state_dict(),b.state_dict()) for a,b in zip(expected,actual))
+    write(output/'resume_s4_cpu_fixture_receipt.json',dict(status='PASS_SCALAR_CPU_FULL_STATE_RESUME_6000_SCHEDULER_AND_QUALIFIED_S4',
+        real_GR00T_Trainer_resume=False,fixture_cursor=3000,fixture_last_cursor=3004,all_four_state_gradients=True,modes_restored=True,
+        model_optimizer_scheduler_exact=True,restore_interference_rng_draws=11,processor_augmentation_pairing=False,
+        actual_training_schedule_rows=0,new_GR00T_loads=0,new_GR00T_queries=0,new_GR00T_backward=0,new_GR00T_optimizer=0))
 
 
 if __name__=='__main__':
