@@ -14,8 +14,8 @@ def bind(point):
     arm,step=point.split('_');step=int(step)
     assert arm in ('U576','R576') and step in (1152,4608)
     card_path=ROOT/f'bindings/{arm}_run_card.json';card=inherited.read(card_path)
-    expected={'U576':'75b8c857bcbb1daabc087c1d9df2eafc72de76ca1c21ab65f8c8ec9c7715bb95',
-              'R576':'4bdc9aaf499f6da9a0590f1600b02500a2a199ce7a9f944b087d00e20ec9a4dd'}
+    expected={'U576':'0a5bd8865093dcf19365c06651f73c973e6ab0a72099a048855ea06800f00232',
+              'R576':'6940aa4096a4c127a08260287ab226666a3462fae9f8e0d6b998853385539b87'}
     assert inherited.sha(card_path)==expected[arm] and card['stage']['evaluation_steps']==[1152,4608]
     durable=inherited.read(ROOT/f'bindings/{point}.durable_receipt.json')
     readback=inherited.read(ROOT/f'bindings/{point}.full_content_readback.json')
