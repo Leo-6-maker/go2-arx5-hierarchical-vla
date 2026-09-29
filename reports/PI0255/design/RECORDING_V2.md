@@ -2,7 +2,7 @@
 
 The frozen registry and expert/scorer source remain byte-identical. No geometry, instruction, seed, settling, timing, gate, controller or metric changes are made.
 
-The original V1 dispatcher is paused between episodes; its already-running child completes unchanged. All 23 original first-valid results are retained and never repeated. The remaining registered pilot IDs use a separately sealed runtime_v2 directory. Original source and execution seal remain available.
+The original V1 dispatcher is paused between episodes; its already-running child completes unchanged. The live first-step ledger identifies PID502388 as family003/M3/c1 (ordinal24), correcting the earlier progress note that named c0. All 24 original first-valid results are retained and never repeated. The remaining 12 registered pilot IDs use a separately sealed runtime_v2 directory. Original source and execution seal remain available.
 
 Raw tick JSON bytes are unchanged. Each row is flushed; the completed raw ledger is synced before final result publication, replacing costly per-row NFS fsync. Exposure, handoff and final result ledgers remain durable. A CPU check verifies identical serialized bytes and selective sync.
 
