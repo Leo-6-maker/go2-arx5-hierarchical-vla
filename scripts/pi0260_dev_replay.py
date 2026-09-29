@@ -53,24 +53,39 @@ def reconstruct(reg,fam,task,command,times):
     return p,r
 
 
-def replay(digest):
-    manifest=ROOT/'handoff/DEV_v1/manifest.json';require(sha(manifest)==digest,'MANIFEST_CHANGED')
+def replay(digest,r2=False):
+    manifest=ROOT/('handoff/H1_geometry/manifest.json' if r2 else 'handoff/DEV_v1/manifest.json');require(sha(manifest)==digest,'MANIFEST_CHANGED')
     m=json.loads(manifest.read_text());files={r['path']:r for r in m['entries']}
     def file(name):
         require(name in files,'UNSEALED_INPUT '+name);p=ROOT/name;row=files[name]
         require(p.resolve().is_relative_to(ROOT) and p.stat().st_size==row['bytes'] and sha(p)==row['sha256'],'CHANGED_INPUT '+name)
         return p
     for name in files:file(name)
-    out=ROOT.parent/'PI0260_review/DEV_v1';require(not out.exists(),'replay output exists');out.mkdir(parents=True)
-    reg=json.loads(file('design/registry.json').read_text());selection=json.loads(file('state/selection_DEVELOPMENT.json').read_text())
+    out=ROOT/'review_geometry' if r2 else ROOT.parent/'PI0260_review/DEV_v1'
+    if not r2:require(not out.exists(),'replay output exists')
+    out.mkdir(parents=True,exist_ok=r2)
+    reg=json.loads(file('design/registry.json').read_text())
+    if r2:
+        from pi0260_r2 import allocation,admission
+        admission(ROOT)
+        parts=[json.loads(file('state/selection_'+s+'.json').read_text()) for s in ('TRAIN','KIN-VAL')]
+        selection=dict(selected=sum([s['selected'] for s in parts],[]),counters=parts[-1]['counters'])
+        executed={r['family'] for s in parts for r in s['outcomes'] if r['status'] in ('ELIGIBLE','VALID_GEOMETRY_FAIL','VALID_RAW_GATE_FAIL','VALID_OBSERVATION_FAIL')}
+    else:selection=json.loads(file('state/selection_DEVELOPMENT.json').read_text())
     frozen=json.loads(file('state/design_freeze.json').read_text());require(frozen['registry_sha256']==sha(file('design/registry.json')),'design changed')
-    families=reg['families'];require([f['split'] for f in families[:160]]==['DEVELOPMENT']*20+['TRAIN']*100+['KIN-VAL']*40,'STRATA_CHANGED')
+    families=reg['families'];require([f['split'] for f in families]==[allocation(i) for i in range(204)] if r2 else [f['split'] for f in families[:160]]==['DEVELOPMENT']*20+['TRAIN']*100+['KIN-VAL']*40,'STRATA_CHANGED')
     require([f['geometry_key'] for f in families]==sorted([f['geometry_key'] for f in families],key=lambda f:ordering(f,'PI0260_GEOMETRY_PROPOSALS:26001')),'ORDER_CHANGED')
-    exclusions=json.loads(file('design/exclusions.json').read_text());excluded={tuple(x['geometry_key']) for x in exclusions['sources']}
-    require(len({key(f,reg) for f in families})==len(families) and not {key(f,reg) for f in families}&excluded,'GEOMETRY_OVERLAP')
+    exclusions=json.loads(file('design/exclusions.json').read_text());excluded={tuple(x['numeric_key'] if r2 else x['geometry_key']) for x in exclusions['sources']}
+    admitted=[f for f in families if not f.get('exclusion')] if r2 else families
+    require(len({key(f,reg) for f in families})==len(families) and not {key(f,reg) for f in admitted}&excluded,'GEOMETRY_OVERLAP')
     kin,collision,defaults,root,velocity=source_geometry(reg);gate=TrajectorySafetyGateV1();anchor=np.array(reg['initial_TCP_world'])[:3,3]
     results=[];frame_cache={};collision_calls=0;raw_calls=0;max_fk_delta=0.;max_reference_delta=0.;max_state_delta=0.
-    for family in families[:20]:
+    for family in ([f for f in families if f['family_id'] in executed] if r2 else families[:20]):
+        previous=out/(family['family_id']+'.json')
+        if r2 and previous.exists():
+            saved=json.loads(previous.read_text());require(saved['manifest_sha256']==digest and saved['verifier_sha256']==sha(__file__),'REPLAY_RESUME_SOURCE_CHANGED')
+            results.append(saved);continue
+        collision_before=collision_calls;raw_before=raw_calls
         outcomes=[];d=scene(reg,family)
         for seq in [s for s in reg['sequences'] if s['family_id']==family['family_id']]:
             base='proposals/'+family['family_id']+'/'+seq['sequence_id']+'/'
@@ -164,10 +179,16 @@ def replay(digest):
         family_ok=all(r['complete_geometry'] and r['raw_gate']=='PASS' and r['observation']=='PASS' for r in outcomes)
         require(family_ok==(family['family_id'] in selection['selected']),'PRODUCER_FAMILY_FLAG_CONTRADICTED')
         starts={r['common_frame'] for r in outcomes if 'common_frame' in r};require(len(starts)<=1,'PAIRED_START_INPUT_MISMATCH')
-        result=dict(family=family['family_id'],eligible=family_ok,geometry_key=family['geometry_key'],sequences=outcomes)
+        result=dict(family=family['family_id'],eligible=family_ok,geometry_key=family['geometry_key'],sequences=outcomes,
+            manifest_sha256=digest,verifier_sha256=sha(__file__),frames_checked=len(frame_cache),
+            collision_calls=collision_calls-collision_before,raw_calls=raw_calls-raw_before,
+            maximum_fk_delta=max_fk_delta,maximum_reference_delta=max_reference_delta,maximum_state_delta=max_state_delta)
         results.append(result);write(out/(family['family_id']+'.json'),result)
+        if r2:frame_cache.clear()
         print(json.dumps(dict(family=family['family_id'],eligible=family_ok,collision_calls=collision_calls)),flush=True)
     selected=[r['family'] for r in results if r['eligible']]
+    if r2:
+        selected=sum([[r['family'] for r in results if r['eligible'] and next(f['split'] for f in families if f['family_id']==r['family'])==s] for s in ('TRAIN','KIN-VAL')],[])
     require(selected==selection['selected'],'FIRST_VALID_ORDER_CHANGED')
     tests=dict(producer_PASS_cannot_override_arrays=not eligible(True,.94,[True]*4,True),
         missing_first_quartile_rejected=not eligible(True,1,[False,True,True,True],True),
@@ -184,9 +205,20 @@ def replay(digest):
         negative_tests=tests,shared_primitives='Original full URDF FK/FCL, gate; reference algebra reconstructed; V raster rules; producer eligibility flags compared only after replay',
         cumulative_counters=selection['counters'],new_model_queries=0,new_optimizer_updates=0,new_IK_calls=0,physics_steps=0,
         next_stage='TRAIN_PROPOSALS' if len(selected)==6 else 'STOP_FIXED_DEV_STRATUM_EXHAUSTED',selected_checkpoint='NONE',deployment_selected_checkpoint='NONE')
+    if r2:
+        receipt.update(stage='R2_COLLECTION_GEOMETRY',science=reg['authority'],status='PASS_R2_COLLECTION_READONLY_REPLAY',
+            required_families='post-codec 16TRAIN/6VAL; not yet admitted',next_stage='ACTUAL_CODEC_H1',
+            selected_by_split={p['split']:p['selected'] for p in parts},
+            saved_frames_checked=sum(r['frames_checked'] for r in results),collision_replayed_states=sum(r['collision_calls'] for r in results),
+            raw_gate_recomputed_windows=sum(r['raw_calls'] for r in results),
+            maximum_fk_delta=max(r['maximum_fk_delta'] for r in results),maximum_reference_delta=max(r['maximum_reference_delta'] for r in results),
+            maximum_state_delta=max(r['maximum_state_delta'] for r in results))
     write(out/'receipt.json',receipt);print(json.dumps(receipt),flush=True)
 
 
 if __name__=='__main__':
-    if sys.argv[1]=='--seal':seal(sys.argv[2])
+    if sys.argv[1]=='--r2':
+        from pi0260_r2 import ROOT
+        replay(sys.argv[2],r2=True)
+    elif sys.argv[1]=='--seal':seal(sys.argv[2])
     else:replay(sys.argv[1])
