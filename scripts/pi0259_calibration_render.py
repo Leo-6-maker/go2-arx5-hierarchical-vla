@@ -9,30 +9,7 @@ from pi0255_motion3 import sha,write,scene
 from go2arx5_vla.trajectory.so3 import matrix_to_quat
 
 
-def visibility(frames,ids,task,command):
-    counts={n:{c:int(np.sum(frames[c+'_segmentation']==sid)) for c in ('body','wrist')} for n,sid in ids.items()}
-    def count(n):return max(counts[n].values())
-    if task=='M1':required={'target'+str(command):4,'axis%d_0'%command:2,'axis%d_1'%command:2}
-    elif task=='M2':required={'obstacle':16,'goal':4}
-    else:required={'black_A':4,'white_B':4}
-    failures=[n for n,threshold in required.items() if count(n)<threshold]
-    centers={};color_checks={}
-    if task=='M1':
-        for a in (0,1):
-            n='axis%d_%d'%(command,a);c=max(counts[n],key=counts[n].get);mask=frames[c+'_segmentation']==ids[n]
-            pixels=frames[c][mask];yx=np.argwhere(mask)
-            centers[n]=dict(camera=c,xy=np.mean(yx[:,::-1],axis=0).tolist() if len(yx) else None)
-            mean=np.mean(pixels,axis=0) if len(pixels) else np.zeros(3)
-            color_checks[n]=bool(len(pixels) and mean[a]>max(np.delete(mean,a)))
-            if not color_checks[n]:failures.append(n+'_COLOR')
-        first,second=[centers['axis%d_%d'%(command,a)] for a in (0,1)]
-        if first['camera']==second['camera'] and first['xy'] is not None and second['xy'] is not None and np.linalg.norm(np.array(first['xy'])-second['xy'])<=0:
-            failures.append('AXIS_CENTROIDS_IDENTICAL')
-    sectors=[any(count('contour'+str(i))>0 for i in (2*s,2*s+1)) for s in range(12)]
-    if task=='M3' and sum(sectors)<8:failures.append('CONTOUR_LT8_SECTORS')
-    return dict(pass_necessary=not failures,failures=failures,required=required,counts=counts,
-        axis_centroids=centers,axis_color_checks=color_checks,visible_contour_sectors=sectors)
-
+from pi0259_observation import visibility
 
 def save_packet(folder,name,renderer,q,reg,metadata):
     folder.mkdir(parents=True,exist_ok=True);assert not (folder/(name+'.json')).exists()
@@ -45,7 +22,7 @@ def save_packet(folder,name,renderer,q,reg,metadata):
     np.savez_compressed(folder/(name+'.npz'),**arrays)
     info.update(metadata);info.update(array_file=name+'.npz',array_sha256=sha(folder/(name+'.npz')),
         state_origin='KINEMATIC_FK_NOT_DYNAMIC_MEASUREMENT',evidence_class='KINEMATIC_RENDERED_REFERENCE')
-    info['visibility']={task:{str(c):visibility(frames,renderer.scene_ids,task,c) for c in (0,1)} for task in ('M1','M2','M3')}
+    info['visibility']={task:{str(c):visibility(frames,renderer.scene_ids,task,c,common_start=metadata['synthetic_reference_time']==0) for c in (0,1)} for task in ('M1','M2','M3')}
     write(folder/(name+'.json'),info)
     return info,frames
 
