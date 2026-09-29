@@ -97,3 +97,24 @@ Two6000 endpoints and full evaluation remain conditional and unachieved.
 Agent V correctness findings will determine any same-contract engineering
 repair. Current pixel/geometry outcomes cannot be retried for better scores.
 selected_checkpoint=NONE; deployment_selected_checkpoint=NONE.
+
+## Independent Agent V closure
+
+Agent V returned CORRECTNESS_BLOCKED / COMMON_RIG_OBSERVABILITY_NOT_ADMITTED
+for the exact H0 manifest. Unmodified companion AGENT_V_H0_RECEIPT.json has
+SHA2561e16c79ad6d7c1f98318cf8d151378b27b050dcaeb2068c3874b815c8fabcde7.
+It independently checked491 files,144 rasters and18 exact shared-start repeat
+pairs. FK discrepancy max2.22e-16, State comparison max2.11e-8 and camera
+rotation-matrix difference max2.88e-7.4466 cue/camera depth backprojections
+match saved world sphere surfaces within0.194mm (tessellation diagnostic,
+not a new scientific acceptance threshold). FCL contacts in V's receipt are
+explicitly AS_RECORDED; V did not independently rerun the collision library.
+
+The independent visibility counts agree with the producer's corrected report.
+No reported pose/camera implementation defect supplies an authorized repair
+that would change the observed admission failure. Agent M therefore stops at
+OBSERVATION_DESIGN_BLOCKED, with calibration geometry failures also preserved.
+H1/H2 and the two6000 endpoints were not released or completed. This is not
+KIN_MT2/3_PILOT_COMPLETE or STOP_FOR_PHYSICAL_TRANSFER_ADMISSION.
+Any additional camera/reference/geometry candidate requires a new scientific
+amendment; unused budgets do not authorize a fourth rig or valid-failure retry.

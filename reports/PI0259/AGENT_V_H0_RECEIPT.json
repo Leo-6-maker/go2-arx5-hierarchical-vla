@@ -1,0 +1,1052 @@
+{
+  "status": "CORRECTNESS_BLOCKED",
+  "reason": "COMMON_RIG_OBSERVABILITY_NOT_ADMITTED",
+  "producer_manifest_sha256": "94954516f9b1e9159e7fe468c04d7155e6cc20eb4d21c601b8389e8ab2dcac62",
+  "reviewer_code_sha256": "4a2282492c6b4493e4455b290bdc82ceee1484937095d330e35b3a07dde5c2af",
+  "entry_sha256": "eb52114f5618b2096955f12e1c2feb282451d1ab4fcae3f3f7e9af396964630f",
+  "files_checked": 491,
+  "image_pairs": 144,
+  "rigs": [
+    {
+      "rig": 0,
+      "start_supported": [
+        "M3"
+      ],
+      "full_supported": [],
+      "later_samples": 0,
+      "later_by_task": {
+        "M1": {
+          "saved": 0,
+          "registered_later": null,
+          "failed_visibility": 0,
+          "missing_registered": null
+        },
+        "M2": {
+          "saved": 0,
+          "registered_later": null,
+          "failed_visibility": 0,
+          "missing_registered": null
+        },
+        "M3": {
+          "saved": 0,
+          "registered_later": null,
+          "failed_visibility": 0,
+          "missing_registered": null
+        }
+      }
+    },
+    {
+      "rig": 1,
+      "start_supported": [
+        "M2",
+        "M3"
+      ],
+      "full_supported": [],
+      "later_samples": 108,
+      "later_by_task": {
+        "M1": {
+          "saved": 40,
+          "registered_later": 48,
+          "failed_visibility": 9,
+          "missing_registered": 8
+        },
+        "M2": {
+          "saved": 36,
+          "registered_later": 48,
+          "failed_visibility": 0,
+          "missing_registered": 12
+        },
+        "M3": {
+          "saved": 32,
+          "registered_later": 48,
+          "failed_visibility": 14,
+          "missing_registered": 16
+        }
+      }
+    },
+    {
+      "rig": 2,
+      "start_supported": [
+        "M3"
+      ],
+      "full_supported": [],
+      "later_samples": 0,
+      "later_by_task": {
+        "M1": {
+          "saved": 0,
+          "registered_later": null,
+          "failed_visibility": 0,
+          "missing_registered": null
+        },
+        "M2": {
+          "saved": 0,
+          "registered_later": null,
+          "failed_visibility": 0,
+          "missing_registered": null
+        },
+        "M3": {
+          "saved": 0,
+          "registered_later": null,
+          "failed_visibility": 0,
+          "missing_registered": null
+        }
+      }
+    }
+  ],
+  "findings": [
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0080.json",
+      "sha256": "4939065009a45e25eabcac2ed618e50f542bad6c990da51e9259a73c0a72e290",
+      "array_sha256": "8acb51fb66ccce081fd15bcf2488bbf0672aeefc3d598e771aec1047dfcf5005",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0320.json",
+      "sha256": "2fec2275987eb5a169ddb795cc9135f1bf3e667f4d5d22d7ab48488a01bcc12c",
+      "array_sha256": "e649e428685b85cbfcbfa93ae4474e75cb68ada49b01eedfa275ed71969dd408",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "395ff47a1b47623c2b0b526f82470bffb8bd294e01200116a67d6d071f70154e",
+      "array_sha256": "b6cad268e36a2006199ab194b1d5fb48b0b12d1bb6fe59dd509ed9395f6de942",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-005/common_start.json",
+      "sha256": "5463bfe59b0eebfd6784a1ac79dc25d7b996a142987d4667e64ea49974c1a1c3",
+      "array_sha256": "3b40d554817e032952262dcaff367424b333d0d810f645e2c51e25004981b7cc",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/common_start.json",
+      "sha256": "e311a8d2ff003614c0eb1dcc22495583a2b7eec43e374f2740576dfba0a150b6",
+      "array_sha256": "808f0255ae0fdcd913c9017b81918f37a4cf3f08fe8dad8d44fc30b08022f24e",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0080.json",
+      "sha256": "23f2260fb5ee87ac91701be97092e3a0ef76fd6f165ec1fd9d9d63d901459f2c",
+      "array_sha256": "bdc6197d0c4b53eb60eeb56606b6046487b535576e4a46e1bf959bb2550c10ed",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0320.json",
+      "sha256": "b10e6130e57483c3fb799e0d2068d2aa0ae54c2042463eb9768cc78130df3ce4",
+      "array_sha256": "64be9b0b30f4152d7426f61b807ad49129ddf11e13511a3734083050d19bea11",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0060.json",
+      "sha256": "c7dc9e341607cc93ee53cd9664350218318b5616efaf94e553ef42b2be2a2ebd",
+      "array_sha256": "8eca9546f4c7441ffaa04d1615fd08b84da6ec11880eff686353c4e048d48631",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M1-c1-t0030.json",
+      "sha256": "35a116fced38fb1e2263f9bf9f3a7d8b6f8a9fc14d92a149e279e315d275a393",
+      "array_sha256": "c2e2c763319ad166389888651b86cd3f0751315ed3f8790fc75df75883b27cca",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0030.json",
+      "sha256": "95220625e7227ba5aa5615260b8e4fdbbf70607b9958ade1abf64280f6b7c514",
+      "array_sha256": "4c1f3e195900976eb368131962cefd69e4b32bfb550a20597a94cdc9537f17e3",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-003/common_start_repeat.json",
+      "sha256": "5142576db17e06c011eebb67aaa04c9cd76e94cd3722fc704414fdf585370a53",
+      "array_sha256": "59a41eed7a01c168b685700827b92c4cdafe93951c675d882f9b8e5ea0acc455",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c1-t0240.json",
+      "sha256": "ce155a0ed8661da43cbaa76d9b4731b4e6c92952ea722b74f655d392d4325a6f",
+      "array_sha256": "b15a701df45ebb6ad9a360c85b763e54eabc31df16a4d679f85c7890a4cce5d0",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0030.json",
+      "sha256": "a4f2d6a81721486bb1729576c1117550df45f1c3fde2c1e72d1d1738cf7e0756",
+      "array_sha256": "11439cfb2aeb73d9bdeb642e68b4ff06e809db469c78aef93e88511e0f40733c",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0160.json",
+      "sha256": "a6504500bc8ebe28bf1d32a75f6366f2c1d55c67c7cd4b19787db5eded0dce92",
+      "array_sha256": "a2a7567873be385c4b2383c5b624e48b4149b65c6ebefccb5e051cd64cffd201",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-003/common_start.json",
+      "sha256": "efdacdecae6709b7eb8978f1176caa5c5c244613ade898664f8307251d217566",
+      "array_sha256": "19dad26a641123d62ea8ce6efb7aa651f33f530c49a0b28e99015455f9948fb0",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/common_start.json",
+      "sha256": "591cf783a76aefbc9fd5d765ad01cab7c776395638b86f5d72e5a157439de6c4",
+      "array_sha256": "2c40f21a3d7efad52d39de6988dd59f6c4e1e0001eccee8ea8d0e5804a4bfa14",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "c68e1bd1dbf46186d39049e148e209ad9df5a7d9302474236915e7169ceea70a",
+      "array_sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "c68e1bd1dbf46186d39049e148e209ad9df5a7d9302474236915e7169ceea70a",
+      "array_sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "c68e1bd1dbf46186d39049e148e209ad9df5a7d9302474236915e7169ceea70a",
+      "array_sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "233b72a8344da5e4105aedea65b906a17f566a1b32992edf445a964d21e040e8",
+      "array_sha256": "b5f4af1e876217af94cb7cee7972c04573f44f1deb72c132267e8c439a4fafdf",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-004/common_start.json",
+      "sha256": "2db010bc7e61b70b75cd95c448de1fbdc30865fbdd01d96b5cf357ec6d6c9d41",
+      "array_sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-004/common_start.json",
+      "sha256": "2db010bc7e61b70b75cd95c448de1fbdc30865fbdd01d96b5cf357ec6d6c9d41",
+      "array_sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-004/common_start.json",
+      "sha256": "2db010bc7e61b70b75cd95c448de1fbdc30865fbdd01d96b5cf357ec6d6c9d41",
+      "array_sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "4f98f228a856e3b0660b33c0d1ad46aed0bd74a8ae9b005ca60a90f6ccd1a250",
+      "array_sha256": "b820ef8a6d069e59b2891d111c72a25346f617434aef60c85952d5d7e6da1ae6",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0320.json",
+      "sha256": "f65af7fef5251ae38d6a354b4faa8abaa71f4b65ec93ff963a6151b4353c3866",
+      "array_sha256": "5de996ae749eed828f1cb1fa62a396b6648e4e8addb9b272c9c2b290ed35d753",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c1-t0240.json",
+      "sha256": "db9c88ff780aee7b21b0ef1a2b74a2ffd92317d1242d61090c12c203df7c3322",
+      "array_sha256": "c5c8ddfe6755b63f2489abc0aebf098c0f2c111deb56532a294aec43e68ec253",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "86b64f8ea9a812c7244649603618195ad0b4ccdf447689661bc22028428ef883",
+      "array_sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "86b64f8ea9a812c7244649603618195ad0b4ccdf447689661bc22028428ef883",
+      "array_sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "86b64f8ea9a812c7244649603618195ad0b4ccdf447689661bc22028428ef883",
+      "array_sha256": "8ef4d81ca0c85de1005ab354b7e45c241e8272d577733d70457358d2b5ab4af0",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "6f904494ee0a11ab0f5317c1bb0f5784a60d880167614e440dfd869396e78185",
+      "array_sha256": "808f0255ae0fdcd913c9017b81918f37a4cf3f08fe8dad8d44fc30b08022f24e",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M1-c1-t0060.json",
+      "sha256": "52cb48e58d459176efdbb3a3d48b34f850e27c28f87f16e6c631bf410e6b9ef0",
+      "array_sha256": "2c1c09fa43007842122b76ba546dfd841cbad075ed332a24ea61f30ce648a500",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/pi0259-cal-001-M3-c0-t0160.json",
+      "sha256": "764edfb02210fdf466cb5501c4d433505e5fbd9e7246b67a9bd435e561c94f6a",
+      "array_sha256": "076aaea4437d4545e6c354989e99ce7677398d38f7eb226523f4bf9cf1231c5a",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c0-t0160.json",
+      "sha256": "462589f066fa117c268b4374a93e1d4bc2eeaa6ba436188a535921249610c979",
+      "array_sha256": "b6e84deeea410d294a1e22fcfc57d0bf4c7988ab94fed4597fdeb6dddf2f34fb",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0060.json",
+      "sha256": "60b68ad7942030919d4ef6663e2542bf6f2f11233e372fa1b3554f21a32e4be2",
+      "array_sha256": "9ffffcbbff3fb451662d9f01d7dbdced51eff2586e33e861c8a95ab7cc1c2680",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-005/common_start.json",
+      "sha256": "d2b86c1cda4a2d171f8bfb7e2e014e58df90bfc7ff040e0dcf1247ed0f5015df",
+      "array_sha256": "03fe72d3d109b65f82469592d40db0621dd5be346fb832f1f47ab0ccfdb7b55c",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-003/pi0259-cal-003-M3-c1-t0240.json",
+      "sha256": "bde82086ed9f549f420862a7aabd1e92419a5c213db1416a95787f84d8843e8f",
+      "array_sha256": "5d53032d6463f4d80789b318703936e6a937e5cee51ff8854d1b2de438ab4496",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-001/common_start.json",
+      "sha256": "3abaf31d8f17d4994be1ab14cacfb6b5936379bee5f56e7eb187ef5357ddd231",
+      "array_sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-001/common_start.json",
+      "sha256": "3abaf31d8f17d4994be1ab14cacfb6b5936379bee5f56e7eb187ef5357ddd231",
+      "array_sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-001/common_start.json",
+      "sha256": "3abaf31d8f17d4994be1ab14cacfb6b5936379bee5f56e7eb187ef5357ddd231",
+      "array_sha256": "0193f216f3a9af9ee7ac2cead9d879d52fd3c0c8144ee01e56095cc38db5f498",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "028a17c715c011a241aa3f380b96a82e24cb07d164a90ac1c5e78cfadf8021f1",
+      "array_sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "028a17c715c011a241aa3f380b96a82e24cb07d164a90ac1c5e78cfadf8021f1",
+      "array_sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-002/common_start_repeat.json",
+      "sha256": "028a17c715c011a241aa3f380b96a82e24cb07d164a90ac1c5e78cfadf8021f1",
+      "array_sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-003/common_start.json",
+      "sha256": "ae8989f99aee8308db73fd3f7bd9599fde85d84e896e5f8f429f4b3cd24e40fe",
+      "array_sha256": "fcd5ecb7202c4ddd423354039c72423733c17dbe0c51ef80b1e73952299b8054",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c1-t0240.json",
+      "sha256": "b5240cb13330c43373c9b0c4b2ee68dca4f7277d180df84ee661547ec8ec558c",
+      "array_sha256": "c3edc0053a38a48d33ce1cb0730c1ac024b30892b9fe48f39847993ba0f8690e",
+      "task": "M3",
+      "command": 1,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-005/common_start_repeat.json",
+      "sha256": "ec15e4197e7373a9a0be29012ce4021efb927c95d7e6b19d7b99d06342c02be9",
+      "array_sha256": "3b40d554817e032952262dcaff367424b333d0d810f645e2c51e25004981b7cc",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-005/common_start_repeat.json",
+      "sha256": "4c9bd79bbf75ca743888524f315177a18d8d3455076d0bbb85c56c2808b83146",
+      "array_sha256": "03fe72d3d109b65f82469592d40db0621dd5be346fb832f1f47ab0ccfdb7b55c",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-002/common_start.json",
+      "sha256": "213df9de19dc8e66339d10e325933dbb0aa0f2e6be1d3b30a24e8d09d68751a3",
+      "array_sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-002/common_start.json",
+      "sha256": "213df9de19dc8e66339d10e325933dbb0aa0f2e6be1d3b30a24e8d09d68751a3",
+      "array_sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-002/common_start.json",
+      "sha256": "213df9de19dc8e66339d10e325933dbb0aa0f2e6be1d3b30a24e8d09d68751a3",
+      "array_sha256": "e6c0e8b60c98568847e5ae04cefa50a2c0ed7ff3fd76ca67bec9cd9878086938",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-002/common_start.json",
+      "sha256": "6f9bf30e9e81c24526dca226a4e2fd00a60c2bd648de34324c0a51fc82ac71cc",
+      "array_sha256": "b5f4af1e876217af94cb7cee7972c04573f44f1deb72c132267e8c439a4fafdf",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M3-c0-t0080.json",
+      "sha256": "568ef4ce7224254e53f823c11633a911bd311742d35f9c919463d5aec3671de0",
+      "array_sha256": "58f8c3fef1d8a4d425536941d945c7ac46322bd7fe2f1314ad4524a8484872a2",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M3-c0-t0160.json",
+      "sha256": "99c27943087f239fe744aea7e9be6655ee89cdaa382108f51828476af1468cdb",
+      "array_sha256": "9794f62f497775dd36e9b48ae67b00b0fd87841d1f0956b9f7470c1606fb5916",
+      "task": "M3",
+      "command": 0,
+      "failures": [
+        "black_A"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-000/common_start.json",
+      "sha256": "d378ab074e0d0000fa6740e94fc43d98b1fcba722e0ec146a96c8a3c0c0da734",
+      "array_sha256": "05a887930cd34e1e2425246c00d28e7e47bd24879ca26890327abf2d0dd0a996",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-000/common_start.json",
+      "sha256": "af114cee7a6b7eec0bb0b9673438e1e29ca69af78645d562adfa4c7899c79887",
+      "array_sha256": "40f6d9894e4d42823da782bac0add1f5c7906fb3f7e52d43f3f2a2ae2277aedb",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "04a2fb828bf2572ab201c5866bf9162d5690967b3629cc6414813d090047d937",
+      "array_sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "04a2fb828bf2572ab201c5866bf9162d5690967b3629cc6414813d090047d937",
+      "array_sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-004/common_start_repeat.json",
+      "sha256": "04a2fb828bf2572ab201c5866bf9162d5690967b3629cc6414813d090047d937",
+      "array_sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start.json",
+      "sha256": "a72ad114fe5074d1bd120a36ac241f3b2e9ab0c61ad440cca41da2019ef80949",
+      "array_sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start.json",
+      "sha256": "a72ad114fe5074d1bd120a36ac241f3b2e9ab0c61ad440cca41da2019ef80949",
+      "array_sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start.json",
+      "sha256": "a72ad114fe5074d1bd120a36ac241f3b2e9ab0c61ad440cca41da2019ef80949",
+      "array_sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-003/common_start_repeat.json",
+      "sha256": "45a1d1fbc60e5305ddd06ae68db1169a81f039072720b82cd53524cdf04387f5",
+      "array_sha256": "19dad26a641123d62ea8ce6efb7aa651f33f530c49a0b28e99015455f9948fb0",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "bb2c6150dd0312754da8cbdd87f2a13eda7242eae0d5a21386a7c722ed44be12",
+      "array_sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "bb2c6150dd0312754da8cbdd87f2a13eda7242eae0d5a21386a7c722ed44be12",
+      "array_sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-001/common_start_repeat.json",
+      "sha256": "bb2c6150dd0312754da8cbdd87f2a13eda7242eae0d5a21386a7c722ed44be12",
+      "array_sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "174d798207a7865ae18a0692416381c5fd9915968ebd1492c24d46a0355531d7",
+      "array_sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "174d798207a7865ae18a0692416381c5fd9915968ebd1492c24d46a0355531d7",
+      "array_sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "174d798207a7865ae18a0692416381c5fd9915968ebd1492c24d46a0355531d7",
+      "array_sha256": "02db94449ba89b54b2d0a68db87ae3dcbe99f09256c2bcf7a74a730f37241ce2",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "570f964f7c0001cd0815b63f9b7d929009eafe2aa4ff526b1675222ce994d815",
+      "array_sha256": "05a887930cd34e1e2425246c00d28e7e47bd24879ca26890327abf2d0dd0a996",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/pi0259-cal-005-M1-c1-t0030.json",
+      "sha256": "10d29364d317d4a36ae1e5526acb89b8dd3f7a39c4963f647c9a05aa4b495bea",
+      "array_sha256": "c19460e1431a74f663c126ae065f9c0b0cccd619d17d3b2b455e838853613cac",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-001/common_start.json",
+      "sha256": "2bb90ffe140d586565537363643e3d3944402f529a89bc819816dd26fcd3c532",
+      "array_sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-001/common_start.json",
+      "sha256": "2bb90ffe140d586565537363643e3d3944402f529a89bc819816dd26fcd3c532",
+      "array_sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-001/common_start.json",
+      "sha256": "2bb90ffe140d586565537363643e3d3944402f529a89bc819816dd26fcd3c532",
+      "array_sha256": "e84a0455b11655532c7bc00ead3ef5c8520b202d0632e4d3f9bb3ac500e4fdd0",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-000/common_start_repeat.json",
+      "sha256": "f54f01c6a682c2ba8ec539b47f922a4d474ba178fe3915c84a5b8da01ab6bc51",
+      "array_sha256": "40f6d9894e4d42823da782bac0add1f5c7906fb3f7e52d43f3f2a2ae2277aedb",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig0/pi0259-cal-003/common_start_repeat.json",
+      "sha256": "0a7d9937cd777ac097fbc1d8454575cad05195fee588ceed9e001396125a04ed",
+      "array_sha256": "fcd5ecb7202c4ddd423354039c72423733c17dbe0c51ef80b1e73952299b8054",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "target1",
+        "axis1_0",
+        "axis1_1",
+        "axis1_0_COLOR",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-000/pi0259-cal-000-M1-c1-t0030.json",
+      "sha256": "77616a8427b524f97c0a7e83e72a13bb6dbc30e7b60a512ad0650338c1b9ae1e",
+      "array_sha256": "32bc53b8e217db568b36e9bcc1e09ea5b266565f9a7183c8ae4da3da7c82d3cf",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-004/pi0259-cal-004-M1-c1-t0060.json",
+      "sha256": "e679837aa23cb478b39bd68bc56d7068dbef46250a15bac42e82c5b11d93c952",
+      "array_sha256": "27962b4f7bdcde2a3754d4ff36c2d02c8a01d10221fd938ea6923cb1e4e038d8",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-005/common_start_repeat.json",
+      "sha256": "f9ced3dd8cefe5640cbf981f40584a6c16a8fe5686f91608b6242d5e17ace719",
+      "array_sha256": "2c40f21a3d7efad52d39de6988dd59f6c4e1e0001eccee8ea8d0e5804a4bfa14",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-004/common_start.json",
+      "sha256": "6114bb391dbc185574ed08fb3c04e384ea209f9725a3564290a5ed2e26281ef9",
+      "array_sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-004/common_start.json",
+      "sha256": "6114bb391dbc185574ed08fb3c04e384ea209f9725a3564290a5ed2e26281ef9",
+      "array_sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4",
+      "task": "M2",
+      "command": 0,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-004/common_start.json",
+      "sha256": "6114bb391dbc185574ed08fb3c04e384ea209f9725a3564290a5ed2e26281ef9",
+      "array_sha256": "241098048cd2a9ccca716d4e169fb768293632d4ebacff925bf56acf8bb162e4",
+      "task": "M2",
+      "command": 1,
+      "failures": [
+        "obstacle"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-002/common_start.json",
+      "sha256": "bdeb6ad18f5e81ea0d91798212d3f037064df2ffeed915f434e0197f4fa71d7c",
+      "array_sha256": "b6cad268e36a2006199ab194b1d5fb48b0b12d1bb6fe59dd509ed9395f6de942",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig2/pi0259-cal-003/common_start.json",
+      "sha256": "f1d7541f6eaa0379a097bf900f41dfd95739918dee37c4dc1773f16fb540e1aa",
+      "array_sha256": "59a41eed7a01c168b685700827b92c4cdafe93951c675d882f9b8e5ea0acc455",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1",
+        "axis1_1_COLOR"
+      ]
+    },
+    {
+      "source": "calibration_rigs/rig1/pi0259-cal-001/common_start.json",
+      "sha256": "0cd06d6cf97fc17e7a48091d35aa20792e60e9d6eff92a6fba276000b586c030",
+      "array_sha256": "b820ef8a6d069e59b2891d111c72a25346f617434aef60c85952d5d7e6da1ae6",
+      "task": "M1",
+      "command": 1,
+      "failures": [
+        "axis1_0",
+        "axis1_1"
+      ]
+    }
+  ],
+  "maximum_saved_fk_delta": 2.220446049250313e-16,
+  "maximum_state_delta": 2.1073424255447017e-08,
+  "maximum_camera_rotation_matrix_delta": 2.878376349491063e-07,
+  "urdf_sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+  "new_calls": {
+    "model_loads": 0,
+    "model_queries": 0,
+    "training": 0,
+    "scene_construction": 0,
+    "physics": 0,
+    "wbc_calls": 0,
+    "hopper_jobs": 0
+  },
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "limitations": [
+    "No independent FCL collision replay; saved contacts reported as recorded.",
+    "No TRAIN/processor/model package exists; H1/H2 remain pending.",
+    "Partial calibration snapshots are not complete trajectory videos.",
+    "Natural RGB inspection and explicit visual receipt accompany machine counts."
+  ],
+  "geometry_pose_counts": {
+    "M1": 10,
+    "M2": 0,
+    "M3": 8
+  },
+  "exact_common_start_repeat_pairs": 18,
+  "depth_surface_reconstruction": {
+    "cue_camera_samples": 4466,
+    "maximum_surface_error_m": 0.0001936787510758084,
+    "median_of_medians_m": 2.6902924910216213e-05,
+    "interpretation": "Depth backprojected via actual view/projection to saved world sphere geometry; tessellation residual, not a new admission threshold."
+  }
+}
