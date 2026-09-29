@@ -1,0 +1,45 @@
+{
+  "Torch_outer_restored": true,
+  "actual_R_U_historical_leaf_reconstruction": false,
+  "augmented_image_equal": false,
+  "causal_claim": "Proves uncovered augmentation boundary on actual source/config. Does not identify the exact historical unequal leaf from two batch hashes.",
+  "config_sha256": "17411b25ceeba39c2727bf588dc742f565b28f0e523706a18261855e01d54b86",
+  "guard_bypassed": false,
+  "implementation_sha256": "3281353907fb2590e39cbb79f644797942c34262a9beb2ec1bb8b73a2e209b54",
+  "new_GPU_jobs": 0,
+  "new_GR00T_loads": 0,
+  "new_backward": 0,
+  "new_model_queries": 0,
+  "new_optimizer": 0,
+  "runtime_training_modified": false,
+  "same_Torch_key_seed": true,
+  "same_raw_image": true,
+  "source_episode_id": "pi0227_persistent_train_a_j00_nominal_s00_c0_r00_r00_227000:obs-0006",
+  "source_tensor_sha256": "ef9e92e0e78b56b25b11257f0c3d95ef5831d464595e88e7279e7b92056d3607",
+  "status": "PASS_ACTUAL_STOCHASTIC_PREPROCESSING_ESCAPES_TORCH_ONLY_RNG_CPU",
+  "transform_config": {
+    "color_jitter_params": {
+      "brightness": 0.3,
+      "contrast": 0.4,
+      "hue": 0.08,
+      "saturation": 0.5
+    },
+    "crop_fraction": 0.95,
+    "extra_augmentation_config": null,
+    "image_crop_size": [
+      230,
+      230
+    ],
+    "image_target_size": [
+      256,
+      256
+    ],
+    "letter_box_transform": false,
+    "random_rotation_angle": 0,
+    "shortest_image_edge": 256
+  },
+  "transformed_image_sha256": [
+    "f95e8172a974af8e9af00f77449f355827d6740b6efb3fa1f8e4e8f753cb304c",
+    "9cd9489a4decd69b22ae76a6e3e6c80916e09d6b2420ef79af6face237b1f7ec"
+  ]
+}

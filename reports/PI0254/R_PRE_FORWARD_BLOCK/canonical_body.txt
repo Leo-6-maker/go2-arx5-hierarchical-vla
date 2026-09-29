@@ -1,0 +1,9 @@
+PI0254 R576 pre-forward partial stop — original submission bound reached
+
+Live scheduler: 637808.hopper-m-02 finished Exit1. First R submission637807 was already retained as a metadata-ledger pretrain failure. The allowed one engineering resubmission was637808; no third submission is authorized under original section6.2.
+
+First source/visit is identical to U update149. Key and seed match. Actual processed input hashes differ: R f29e81173b2e0ea4bb5748113227b55b5dc8270cd01178ba4170963bdaa4ce11 versus U 58c02532e8195705f3ede4ff0ac2204f0550e5759b526253912a78603f533fc7. The online guard stopped before native sampling/forward/backward. R optimizer/head-forward/backward=0; total raw optimizer intents remain4608, all U. This is an invalid/incomplete paired-training result, not a quality FAIL or valid rehearsal contrast.
+
+Actual saved U/R processor configs agree, including stochastic Albumentations crop/color jitter. Source shows preprocessing occurs before the training_step RNG isolation. This is an identified uncovered input-randomness boundary; without historical processed leaf arrays, the specific unequal leaf cannot be reconstructed or asserted. No guard is bypassed, processor changed, healthy job modified, or budget reset.
+
+Immutable receipt: reports/PI0254/R_PRE_FORWARD_BLOCK/terminal_partial.json on pi0254/controlled-support-execution-20260929. Historical TRAINING_STARTED state/logs remain intact; append-only terminal_partial states BLOCKED_PARTIAL. U4608 full Trainer integrity/readback remains valid; its fixed Corelab model-only view is complete. Continue U's original final384 evaluation cells and independent CPU replay. No R milestone exists to evaluate, no paired equal-budget conclusion, selected_checkpoint=NONE. PI0255 expert/CPU preparation continues independently.
