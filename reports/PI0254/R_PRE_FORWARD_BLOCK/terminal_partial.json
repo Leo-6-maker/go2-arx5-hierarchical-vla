@@ -1,0 +1,113 @@
+{
+  "R_actual": {
+    "key": "PI0254|25402|stage=SUPPORT576|source=pi0227_persistent_train_a_j00_nominal_s00_c0_r00_r00_227000:obs-0006|visit=1",
+    "model_input_sha256": "f29e81173b2e0ea4bb5748113227b55b5dc8270cd01178ba4170963bdaa4ce11",
+    "seed": 7888995677184945688,
+    "source": {
+      "episode_index": 1,
+      "fixed_index": 0,
+      "observation_index": 0,
+      "optimizer_step": 1,
+      "source_episode_id": "pi0227_persistent_train_a_j00_nominal_s00_c0_r00_r00_227000:obs-0006"
+    }
+  },
+  "R_actual_optimizer_updates": 0,
+  "R_backward": 0,
+  "R_optimizer_step": 1,
+  "R_training_head_forwards": 0,
+  "U_peer": {
+    "before_backward": true,
+    "expected_identity": null,
+    "key": "PI0254|25402|stage=SUPPORT576|source=pi0227_persistent_train_a_j00_nominal_s00_c0_r00_r00_227000:obs-0006|visit=1",
+    "mismatch_fields": [],
+    "model_input_sha256": "58c02532e8195705f3ede4ff0ac2204f0550e5759b526253912a78603f533fc7",
+    "native_epsilon": {
+      "byte_count": 10560,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "89d6c7b43bddbf039308ea099b7fe38d7ea09904b1233e5e371382299c2f63d7",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "native_epsilon_sha256": "89d6c7b43bddbf039308ea099b7fe38d7ea09904b1233e5e371382299c2f63d7",
+    "native_tau": [
+      0.13671875
+    ],
+    "native_tau_identity": {
+      "byte_count": 2,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "b57a82c752565716b8d33bda6f53a990593a568fc6df23e0e99ce59beef7099f",
+      "shape": [
+        1
+      ]
+    },
+    "optimizer_step": 149,
+    "phase": "AFTER_NATIVE_SAMPLING_BEFORE_BACKWARD",
+    "seed": 7888995677184945688,
+    "source": {
+      "episode_index": 1,
+      "fixed_index": 0,
+      "observation_index": 0,
+      "optimizer_step": 149,
+      "source_episode_id": "pi0227_persistent_train_a_j00_nominal_s00_c0_r00_r00_227000:obs-0006"
+    },
+    "status": "REFERENCE_CAPTURED",
+    "stock_initial_noise": {
+      "byte_count": 21120,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "c326c7cc2d262f3455a25758f1d02f5d8fa8e92e3b1d3fca89be2ebc3772f61e",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    }
+  },
+  "U_peer_optimizer_step": 149,
+  "arm": "R576",
+  "cause": "Exact processed inputs differ. Stochastic train augmentation is outside training_step RNG; lost historical leaf arrays prevent attributing the two hash difference to a specific leaf.",
+  "evidence": {
+    "R576/training/pi0241_sample_consumption.jsonl": "b764fdf373de1999600ba5c2e8ef128900453c0687a07ddc28f3a5f6f8fd9475",
+    "R576/training/pi0254_pre_forward_guard.jsonl": "83e2b74a1a2f49797976c2c7885673e4202810f891d6e091583d20cc4f679494",
+    "U576/training/pi0254_pair_identity.jsonl": "f7cb42b9048ae113245ad277d2ab947fbfda7f229400ce339dc9f8219ac97a09",
+    "logs/637808.hopper-m-02.ER": "b9ab2487d8e2c83f40f333ce529377e40924b632e62cb3e9119101da13f90192",
+    "logs/637808.hopper-m-02.OU": "84436d992d34fc0ee0aef0df97356199b418121c07284cc20755e9b983c7db27",
+    "raw_optimizer_intents.jsonl": "ba7496030f72540c64fdf49af81ea41cc2ba80b024b1d2e83d23115950405650",
+    "submissions.jsonl": "2844ed3c553d82c09be77be1d2173fe9d45d7f45e99646524f02b124780dc63c"
+  },
+  "job_637808_exit": 1,
+  "jobs": [
+    "637807.hopper-m-02",
+    "637808.hopper-m-02"
+  ],
+  "new_parity_queries": 0,
+  "new_submission_authorized": false,
+  "observed_epoch_s": 1790668587.6881344,
+  "pairing_pass": false,
+  "processor_config_equal_U": true,
+  "processor_small": {
+    "crop_fraction": "0.95",
+    "eval_image_transform": "Compose([\n  SmallestMaxSize(p=1.0, max_size=[256], interpolation=3),\n  FractionalCenterCrop(p=1.0, crop_fraction=0.95),\n  SmallestMaxSize(p=1.0, max_size=[256], interpolation=3),\n], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={}, is_check_shapes=True)",
+    "state_dropout_prob": "0.0",
+    "train_image_transform": "ReplayCompose([\n  SmallestMaxSize(p=1.0, max_size=[256], interpolation=3),\n  FractionalRandomCrop(p=1.0, crop_fraction=0.95),\n  SmallestMaxSize(p=1.0, max_size=[256], interpolation=3),\n  ColorJitter(p=1.0, brightness=(0.7, 1.3), contrast=(0.6, 1.4), saturation=(0.5, 1.5), hue=(-0.08, 0.08)),\n], p=1.0, bbox_params=None, keypoint_params=None, additional_targets={}, is_check_shapes=True, save_key='replay')",
+    "training": "True",
+    "use_albumentations": "True"
+  },
+  "raw_total_optimizer_intents": 4608,
+  "reason": "SOURCE_VISIT_MODEL_INPUT_SHA256_MISMATCH_BEFORE_FORWARD",
+  "schema": "PI0254_R_PRE_FORWARD_BLOCKED_PARTIAL_V1",
+  "selected_checkpoint": "NONE",
+  "shared_eval_contract_invalid": false,
+  "shared_training_input_contract": "NOT_CLOSED",
+  "status": "INVALID_OR_BUDGET_BLOCKED_PARTIAL",
+  "submissions_cap": 2,
+  "submissions_consumed": 2,
+  "wrong_key": false,
+  "wrong_seed": false,
+  "wrong_source": false
+}
