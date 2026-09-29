@@ -23,9 +23,9 @@ REF=old.REF
 AUTH=prep.AUTH
 
 
-def run(case_id):
-    contract=json.loads((ROOT/'design/PREPARATION_V2_CONTRACT.json').read_text())
-    seal=json.loads((ROOT/'runtime/execution_seal.json').read_text())
+def run(case_id,correction=False):
+    contract=json.loads((ROOT/('design/PREPARATION_V2_TCP_SYNC_CONTRACT.json' if correction else 'design/PREPARATION_V2_CONTRACT.json')).read_text())
+    seal=json.loads((ROOT/('runtime/execution_seal_tcp_sync.json' if correction else 'runtime/execution_seal.json')).read_text())
     assert seal['authority']==AUTH and seal['canonical_comment'] and seal['commit']
     for name,digest in seal['files'].items():assert sha(ROOT/name)==digest,name
     for row in json.loads((ROOT/'evidence/runtime_readback.json').read_text())['files']:
@@ -91,6 +91,17 @@ def run(case_id):
         def factory(WBCEnv,initial,torch,gymapi,gymtorch):
             cls=old.scene_class(original(WBCEnv,initial,torch,gymapi,gymtorch),registry,case['family'],gymapi)
             class Instrumented(cls):
+                def __init__(self,*args,**kwargs):
+                    super().__init__(*args,**kwargs)
+                    if correction and case['group']!='A':
+                        before=immutable(self);raw_hash=api._tensor_hash(self.rigid_body_state)
+                        cached_hash=api._tensor_hash(self.end_effector_state)
+                        self.end_effector_state=self.end_effector_state.clone()
+                        prep.unchanged(before,immutable(self))
+                        assert raw_hash==api._tensor_hash(self.rigid_body_state) and cached_hash==api._tensor_hash(self.end_effector_state)
+                        assert self.end_effector_state.untyped_storage().data_ptr()!=self.rigid_body_state.untyped_storage().data_ptr()
+                        write(out/'derived_TCP_cache_constructor_sync.json',dict(raw_state_unchanged=True,derived_values_unchanged=True,
+                            detached_once_before_implicit_reset_step=True,history_clear=False,physics_step=False))
                 def _load_trajectory_for(self,ids):
                     if case['group']!='A' and not hasattr(self,'pi0256_reference'):
                         before=immutable(self);p,q=measured_fk(self)
@@ -244,14 +255,14 @@ def run(case_id):
     return 0 if result['validity']=='VALID' else 3
 
 
-def cohort():
+def cohort(correction=False):
     import resource
     resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     runner.ROOT=ROOT
     py,env=runner.environment()
     script=Path(__file__).resolve()
     subprocess.run([str(py),str(script)],env=env,check=True)
-    cases=json.loads((ROOT/'design/PREPARATION_V2_CONTRACT.json').read_text())['cases']
+    cases=json.loads((ROOT/('design/PREPARATION_V2_TCP_SYNC_CONTRACT.json' if correction else 'design/PREPARATION_V2_CONTRACT.json')).read_text())['cases']
     for case in cases:
         if case['group']=='C' and not all(json.loads((ROOT/'episodes'/c['case_id']/'result.json').read_text())['success'] for c in cases if c['group']=='B'):
             print('C_NOT_RELEASED_B_NOT_6_OF_6',flush=True);break
@@ -260,13 +271,15 @@ def cohort():
             assert json.loads(result_path.read_text())['validity']=='VALID','engineering attempt requires same-contract repair'
             continue
         with (ROOT/'logs'/(case['case_id']+'.log')).open('wb') as output:
-            status=subprocess.run([str(py),str(script),'--case',case['case_id'],'--authorization',AUTH],env=env,stdout=output,stderr=subprocess.STDOUT)
+            command=[str(py),str(script),'--case',case['case_id'],'--authorization',AUTH]
+            if correction:command.append('--tcp-sync-correction')
+            status=subprocess.run(command,env=env,stdout=output,stderr=subprocess.STDOUT)
         if status.returncode:raise SystemExit(status.returncode)
         d=json.loads(result_path.read_text());print(json.dumps(dict(case=case['case_id'],success=d['success'],failure=d.get('failure'))),flush=True)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--case');p.add_argument('--cohort',action='store_true');p.add_argument('--authorization');p.add_argument('--native-cpu-check',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--case');p.add_argument('--cohort',action='store_true');p.add_argument('--authorization');p.add_argument('--native-cpu-check',action='store_true');p.add_argument('--tcp-sync-correction',action='store_true');a=p.parse_args()
     if a.native_cpu_check:
         import torch
         from modules.trajectory import to_canonical,quat_to_mat
@@ -282,12 +295,12 @@ if __name__=='__main__':
         for obj in (gamma,law):
             for value in vars(obj).values():
                 if hasattr(value,'isfinite'):assert torch.isfinite(value).all()
-        write(ROOT/'design/native_reference_cpu_receipt.json',dict(status='PASS_ACTUAL_NATIVE_CANONICAL_FULL_PREPARATION',gate=verdict.as_dict(),
+        write(ROOT/('design/native_reference_cpu_receipt_tcp_sync.json' if a.tcp_sync_correction else 'design/native_reference_cpu_receipt.json'),dict(status='PASS_ACTUAL_NATIVE_CANONICAL_FULL_PREPARATION',gate=verdict.as_dict(),
             points=c.point_count,physics=0,GR00T=0,source_sha256=sha(__file__)))
         print('PASS_ACTUAL_NATIVE_CANONICAL_FULL_PREPARATION',flush=True)
         raise SystemExit(0)
     if a.case or a.cohort:
         assert a.authorization==AUTH
-        if a.case:raise SystemExit(run(a.case))
-        cohort()
+        if a.case:raise SystemExit(run(a.case,a.tcp_sync_correction))
+        cohort(a.tcp_sync_correction)
     else:p.print_help()

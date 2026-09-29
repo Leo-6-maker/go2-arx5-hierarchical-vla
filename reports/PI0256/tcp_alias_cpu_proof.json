@@ -1,0 +1,32 @@
+{
+  "A00_result_sha256": "97110a8165814f85345859f5480dc3661fcd7e0cf4751bbac6d0e8d9e511722b",
+  "GR00T": 0,
+  "actual_same_tick_delta_m": [
+    0.13147053122520447,
+    -0.031415751203894615,
+    -0.044791996479034424
+  ],
+  "correction": "detach derived EEF cache once in project-owned B/C constructor; native hook continues unchanged",
+  "physics": 0,
+  "predicted_rotated_TCP_offset_m": [
+    0.13147053663321823,
+    -0.03141574748049402,
+    -0.04479196334283034
+  ],
+  "schema": "PI0256_SOURCE_PROVEN_TCP_CACHE_ALIAS_CORRECTION_V1",
+  "source_sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+  "status": "PASS_TCP_ALIAS_CAUSAL_CPU_PROOF",
+  "tests": [
+    {
+      "detached": false,
+      "raw_physical_pose_unmodified_before_refresh": false,
+      "render_refresh_preserves_TCP": false
+    },
+    {
+      "detached": true,
+      "raw_physical_pose_unmodified_before_refresh": true,
+      "render_refresh_preserves_TCP": true
+    }
+  ],
+  "trajectory_pose_threshold_weight_gain_history_changes": false
+}
