@@ -1,0 +1,64 @@
+{
+  "schema": "PI0258_KIN_MT_GENERATION_CARD_V1",
+  "authority": "8944d569d9f83baa74f0cb28c1113ba9659e528a",
+  "registry_sha256": "54ef9f2e335ad79eecfb9f7a1632b47cf118e728a11916616c06c2da1dc39502",
+  "source_files": {
+    "pi0258_kinematic.py": "df46240dac88ce12dd7e8da55d9d6e7e7b91f214fb47104c510e065e488e8e78",
+    "pi0258_geometry.py": "e7d971984382d6f9d4b91cb85ae8656202f4e7a984f002f925c68bfe0eff822f",
+    "pi0258_renderer.py": "865c5bcde115744fd0315a56ea4417f9766f38887d73c1475f87ab222f17eccc",
+    "pi0258_control_audit.py": "fce5b429ed6220d7f22b57fd57fbf5f4f1e3682369ef76770c8e49407c6787b2"
+  },
+  "renderer": "original IsaacGym/native mesh assets as independent prescribed link actors, URDF FK transforms; no WBC factory; zero integration",
+  "fixture": "PASS_ZERO_STEP_PLACEMENT_FIXTURE; changed pose changes pixels and same restored pose gives exactly same RGB",
+  "geometry_fixture": "42 original URDF collision components,758 nonadjacent primitive/mesh pairs; nominal original pose has no collision",
+  "collision_versions": {
+    "python_fcl": "0.7.0.8",
+    "trimesh": "4.8.3"
+  },
+  "collision_penetration_tolerance_m": 1e-06,
+  "collision_exemptions_sha256": "e5451eb7a89aa800d30aea2a769e56c1b00c7f0b6af57ea282651be2ce1778dd",
+  "visibility_required": {
+    "M1": {
+      "0": [
+        "target0",
+        "axis0_0",
+        "axis0_1"
+      ],
+      "1": [
+        "target1",
+        "axis1_0",
+        "axis1_1"
+      ]
+    },
+    "M2": {
+      "0": [
+        "obstacle",
+        "goal"
+      ],
+      "1": [
+        "obstacle",
+        "goal"
+      ]
+    },
+    "M3": {
+      "0": [
+        "black_A",
+        "white_B"
+      ],
+      "1": [
+        "black_A",
+        "white_B"
+      ]
+    }
+  },
+  "visibility_rule": "Every command-relevant cue must occupy at least one actual segmentation pixel in body OR wrist at the common initial state; zero pixels fails necessary observability. Subsequent sequence coverage still required.",
+  "failure_policy": "Retain whole numerical reference, raw actual common-start RGB/FK and missing-cue identities. No scene/pose/camera replacement. Unobservable command inputs cannot become qualified labels.",
+  "fixture_exposure": "One nominal and one changed-joint non-trajectory fixture before card sealing; family000 cue visibility inspected, no model or task generation. No registry/geometry/camera values adjusted from its result.",
+  "family_duplicates": "Factor list unique; actual fixed nominal root/DOF differs from earlier stochastic physical preparation states; no old failed physical sample copied into KIN-VAL.",
+  "source_state_origin": "KINEMATIC_FK_NOT_DYNAMIC_MEASUREMENT",
+  "sample_clock": "synthetic_reference_time",
+  "physics_steps": 0,
+  "model_queries": 0,
+  "checkpoint_selection": "NONE",
+  "deployment_selection": "NONE"
+}
