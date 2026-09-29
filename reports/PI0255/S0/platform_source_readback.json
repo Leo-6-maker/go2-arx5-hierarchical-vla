@@ -1,0 +1,363 @@
+{
+  "action_sample_period_s": 0.05,
+  "admitted_control_dt_s": 0.02,
+  "components": {
+    "arm_checkpoint": {
+      "bytes": 52693641,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a"
+    },
+    "dog_checkpoint": {
+      "bytes": 12607221,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
+    },
+    "legged_robot": {
+      "bytes": 136506,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/legged_robot.py",
+      "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+    },
+    "native_config": {
+      "bytes": 28299,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+      "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+    },
+    "native_reach_table": {
+      "bytes": 32868,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/reach_tables/go2_x5_2d.pt",
+      "sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa"
+    },
+    "native_urdf": {
+      "bytes": 34918,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    },
+    "trajectory_module": {
+      "bytes": 24861,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+      "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+    },
+    "wbc_env": {
+      "bytes": 141128,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    "wbc_wrapper": {
+      "bytes": 36017,
+      "match": true,
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env_wrapper.py",
+      "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+    }
+  },
+  "counters": {
+    "expert_episodes_started": 0,
+    "new_GR00T_backward": 0,
+    "new_GR00T_loads": 0,
+    "new_GR00T_optimizer": 0,
+    "new_GR00T_queries": 0
+  },
+  "expected_camera_rgb_shape": [
+    96,
+    96,
+    3
+  ],
+  "frame": {
+    "native_to_world": "Translation by immutable episode anchor; orientation stays world-aligned",
+    "required_complete_transform": "4x4 stored per episode; measured before use"
+  },
+  "gripper": {
+    "geometry": "TWO_PRISMATIC_FINGERS_PRESENT",
+    "joint_range_m": [
+      0,
+      0.044
+    ],
+    "old_state_channel": 0.5,
+    "parallel_vla_execution": "UNVERIFIED",
+    "wbc_arm_actions": 6
+  },
+  "horizon": 40,
+  "native_helpers": {
+    "scripts/native_wbc_benchmark.py": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/native_wbc_benchmark.py",
+      "sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8"
+    },
+    "scripts/stage21_native_receding_horizon.py": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage21_native_receding_horizon.py",
+      "sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00"
+    },
+    "scripts/stage22_native_expert_dataset.py": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage22_native_expert_dataset.py",
+      "sha256": "0ab3f9546cf4a766010f2349d6851f17b3e66d110f8c4c2c3548f867664cad6e"
+    },
+    "src/go2arx5_vla/wbc/native/kinematics.py": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/wbc/native/kinematics.py",
+      "sha256": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315"
+    }
+  },
+  "publication": {
+    "native_controller_and_assets": "NOT_FOR_PUBLIC_PAYLOAD",
+    "owned_procedural_scene_data": "PI0255_NEW_NAMESPACE",
+    "source_license": "MIT, Guoping Pan 2024"
+  },
+  "schema": "PI0255_SOURCE_PLATFORM_READINESS_V1",
+  "status": "SOURCE_IDENTITIES_VERIFIED_NOT_PHYSICS_QUALIFIED",
+  "storage": {
+    "actual_filesystem": {
+      "free": 441618268160,
+      "total": 4000785104896,
+      "used": 3557343363072
+    },
+    "bounded_write_bytes": 1048576,
+    "quota_headroom": "UNKNOWN"
+  },
+  "tcp_offset_link6_m": [
+    0.1424,
+    0,
+    0.0001057
+  ],
+  "urdf_joints": [
+    {
+      "child": {
+        "link": "x5_base_link"
+      },
+      "name": "arm_mount_joint",
+      "origin": {
+        "rpy": "0 0 0",
+        "xyz": "0.05 0.0 0.1"
+      },
+      "parent": {
+        "link": "base"
+      },
+      "type": "fixed"
+    },
+    {
+      "axis": {
+        "xyz": "0 0 1"
+      },
+      "child": {
+        "link": "x5_link1"
+      },
+      "limit": {
+        "effort": "27",
+        "lower": "-2.094",
+        "upper": "3.141592653589793",
+        "velocity": "5.5"
+      },
+      "name": "x5_joint1",
+      "origin": {
+        "xyz": "0 0 0.0605"
+      },
+      "parent": {
+        "link": "x5_base_link"
+      },
+      "type": "revolute"
+    },
+    {
+      "axis": {
+        "xyz": "0 1 0"
+      },
+      "child": {
+        "link": "x5_link2"
+      },
+      "limit": {
+        "effort": "27",
+        "lower": "0",
+        "upper": "3.665",
+        "velocity": "5.5"
+      },
+      "name": "x5_joint2",
+      "origin": {
+        "xyz": "0.02 0 0.04"
+      },
+      "parent": {
+        "link": "x5_link1"
+      },
+      "type": "revolute"
+    },
+    {
+      "axis": {
+        "xyz": "0 -1 0"
+      },
+      "child": {
+        "link": "x5_link3"
+      },
+      "limit": {
+        "effort": "27",
+        "lower": "0",
+        "upper": "3.24",
+        "velocity": "5.5"
+      },
+      "name": "x5_joint3",
+      "origin": {
+        "rpy": "0 0 0",
+        "xyz": "-0.264 0 0"
+      },
+      "parent": {
+        "link": "x5_link2"
+      },
+      "type": "revolute"
+    },
+    {
+      "axis": {
+        "xyz": "0 -1 0"
+      },
+      "child": {
+        "link": "x5_link4"
+      },
+      "limit": {
+        "effort": "7",
+        "lower": "-1.671",
+        "upper": "1.671",
+        "velocity": "20"
+      },
+      "name": "x5_joint4",
+      "origin": {
+        "xyz": "0.245 0 0.056"
+      },
+      "parent": {
+        "link": "x5_link3"
+      },
+      "type": "revolute"
+    },
+    {
+      "axis": {
+        "xyz": "0 0 -1"
+      },
+      "child": {
+        "link": "x5_link5"
+      },
+      "limit": {
+        "effort": "7",
+        "lower": "-1.671",
+        "upper": "1.671",
+        "velocity": "20"
+      },
+      "name": "x5_joint5",
+      "origin": {
+        "xyz": "0.06775 0 0.0845"
+      },
+      "parent": {
+        "link": "x5_link4"
+      },
+      "type": "revolute"
+    },
+    {
+      "axis": {
+        "xyz": "1 0 0"
+      },
+      "child": {
+        "link": "x5_link6"
+      },
+      "limit": {
+        "effort": "7",
+        "lower": "-2.094",
+        "upper": "2.094",
+        "velocity": "20"
+      },
+      "name": "x5_joint6",
+      "origin": {
+        "xyz": "0.02895 0 -0.0845"
+      },
+      "parent": {
+        "link": "x5_link5"
+      },
+      "type": "revolute"
+    },
+    {
+      "axis": {
+        "xyz": "0 1 0"
+      },
+      "child": {
+        "link": "x5_link7"
+      },
+      "limit": {
+        "effort": "100",
+        "lower": "0",
+        "upper": "0.044",
+        "velocity": "5"
+      },
+      "name": "x5_gripper_joint",
+      "origin": {
+        "xyz": "0.08397 0.02721 -0.0062702"
+      },
+      "parent": {
+        "link": "x5_link6"
+      },
+      "type": "prismatic"
+    },
+    {
+      "axis": {
+        "xyz": "0 -1 0"
+      },
+      "child": {
+        "link": "x5_link8"
+      },
+      "limit": {
+        "effort": "100",
+        "lower": "0",
+        "upper": "0.044",
+        "velocity": "5"
+      },
+      "mimic": {
+        "joint": "x5_gripper_joint",
+        "multiplier": "1",
+        "offset": "0"
+      },
+      "name": "x5_joint8",
+      "origin": {
+        "xyz": "0.08397 -0.023638 -0.0062703"
+      },
+      "parent": {
+        "link": "x5_link6"
+      },
+      "type": "prismatic"
+    },
+    {
+      "child": {
+        "link": "gripper_center"
+      },
+      "name": "gripper_center_fixed",
+      "origin": {
+        "xyz": "0.1424 0 0.0001057"
+      },
+      "parent": {
+        "link": "x5_link6"
+      },
+      "type": "fixed"
+    },
+    {
+      "child": {
+        "link": "x5_left_pad"
+      },
+      "name": "x5_left_pad_joint",
+      "origin": {
+        "xyz": "0.05843 -0.0249 0.006376"
+      },
+      "parent": {
+        "link": "x5_link7"
+      },
+      "type": "fixed"
+    },
+    {
+      "child": {
+        "link": "x5_right_pad"
+      },
+      "name": "x5_right_pad_joint",
+      "origin": {
+        "xyz": "0.05843 0.0249 0.006376"
+      },
+      "parent": {
+        "link": "x5_link8"
+      },
+      "type": "fixed"
+    }
+  ]
+}
