@@ -69,7 +69,7 @@ def replay(point):
         groups[task, row['noise'], case.get('kind', 'O64')].append(dict(**observed, reject=gate.decision.value == 'REJECT'))
         repeated[row['noise'], record['condition_sha256']].append(raw)
         if case.get('kind') in ('SEMANTIC', 'PARAPHRASE'):
-            semantic[task, row['noise'], case['kind'], case['family'], case['command']] = predicted
+            semantic[task, row['noise'], case['kind'], case['sequence'], case['command']] = predicted
     assert sum(len(x) for x in groups.values()) == 440
     summary = {}
     for key, values in sorted(groups.items()):
