@@ -1,0 +1,14 @@
+{
+  "schema": "PI0260_R3_S3_ENGINEERING_AMENDMENT_2",
+  "original_run_card_sha256": "ba2e2c82f468d564cc74e364199a8161d10ad0d5454c08faf5b69db4a02b917b",
+  "original_schedule_sha256": "3cf0b85e2fc60bad6cb83c6ce633ab446163aad1757a465244751f457cd10bd4",
+  "original_H1_receipt_sha256": "93432e44326bbb7f05455f6ece257288bf65e35506dc8c0ca61eb06c7b25e7b3",
+  "failed_attempts": {
+    "638792.hopper-m-02": "module import failed; no model load or optimizer update",
+    "638807.hopper-m-02": "Cosmos processor Hub lookup failed in offline mode during model construction; no forward or optimizer update"
+  },
+  "repair": "reuse the existing Stage40 local Cosmos processor binding before official model construction",
+  "trainer_sha256": "1c8fbdc7d7b25e15ff2e766d4073cf61273e346d234afe6e54564d521966ddd6",
+  "offline_processor_preflight": "Qwen3VLProcessor constructed from pinned Cosmos snapshot with HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1 on Hopper login",
+  "science_contract_change": false
+}

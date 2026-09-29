@@ -191,6 +191,8 @@ def run(args):
                   '/scratch/e1192548/pi0244_fixed16_10k_v1/scripts',
                   '/scratch/e1192548/pi0244_fixed16_10k_v1/src',str(GROOT)]
     import pi0228_h200_large_adapt_v1 as old
+    from stage40_b0_model_control import _bind_local_cosmos_processor
+    assert _bind_local_cosmos_processor(STAGE, COSMOS)['resolved_snapshot'] == str(COSMOS.resolve())
     model = BASE_MODEL if args.arm=='Base' else G_MODEL
     config_args=argparse.Namespace(stage10_root=STAGE,base_model_path=model,
         dataset_dir=OLD/'experiments/PI0227/pi0227_large_adapt_v1_inputs/train_dataset',
