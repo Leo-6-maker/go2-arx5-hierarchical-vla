@@ -1,0 +1,30 @@
+{
+  "schema": "PI0254_ORIGINAL_R_SUBMISSION_INTENT_V1",
+  "epoch_s": 1790666867.884599,
+  "arm": "R576",
+  "card_sha256": "6940aa4096a4c127a08260287ab226666a3462fae9f8e0d6b998853385539b87",
+  "argv": [
+    "/cm/shared/apps/pbspro/current/bin/qsub",
+    "-N",
+    "pi0254_R576",
+    "-m",
+    "n",
+    "-l",
+    "select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200",
+    "-l",
+    "walltime=16:00:00",
+    "-v",
+    "PI0254_RUN_CARD=/scratch/e1192548/Projects/go2-arx5/experiments/PI0254/R576/run_card.json,PI0254_RUN_CARD_SHA256=6940aa4096a4c127a08260287ab226666a3462fae9f8e0d6b998853385539b87,PI0254_ARM=R576,PI0254_RESUME_AFTER_STEP=0",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0254/execution/pi0254_train_h200.pbs"
+  ],
+  "scientific_slot": 2,
+  "raw_updates_before": 4608,
+  "U_integrity_sha256": "f20e65d435ce880c96c728391f861a680a2ff7e78a5cd7da549fbae3c9657fec",
+  "engineering_only": true,
+  "replaces_pretrain_job": "637807.hopper-m-02",
+  "preserved_updates": 0,
+  "returncode": 0,
+  "job_id": "637808.hopper-m-02",
+  "stderr": "",
+  "completed_epoch_s": 1790666867.967351
+}
