@@ -1,0 +1,23 @@
+{
+  "schema": "PI0260_R3_BASE_CROSSHOST_CANARY_FAILURE_V1",
+  "status": "FAIL_PREDECLARED_REAL_FULL_TRAINER_CANARY",
+  "continuous_job": "638826.hopper-m-02",
+  "split_job": "638832.hopper-m-02",
+  "resume_job": "638840.hopper-m-02",
+  "comparison_job": "638845.hopper-m-02",
+  "continuous_host": "hopper-18",
+  "split_host": "hopper-24",
+  "resume_host": "hopper-22",
+  "completed_canary_updates": 16,
+  "input_noise_tau_and_scheduler_equal": true,
+  "first_gradient_norms_already_differ_at_step_1": true,
+  "native_loss_first_difference_step": 3,
+  "model_max_abs_difference_at_8": 0.0000366930034942925,
+  "optimizer_max_abs_difference_at_8": 0.00009892502566799521,
+  "scheduler_lr_abs_difference_at_8": 0.0,
+  "frozen_model_and_optimizer_tolerance": 0.000001,
+  "interpretation": "Cross-host numeric divergence appears before the checkpoint boundary; the exact cause is not yet proven. No tolerance or recipe change is authorized.",
+  "next_engineering_check": "three fresh Python processes within one legal H200 allocation, with original failed outputs retained",
+  "new_scientific_budget": 0,
+  "technical_recovery_updates_planned": 16
+}

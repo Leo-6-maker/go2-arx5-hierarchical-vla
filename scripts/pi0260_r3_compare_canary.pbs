@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#PBS -N pi0260_r3_compare
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ncpus=4:mem=80GB
+#PBS -l walltime=02:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/logs/
+set -euo pipefail
+root=/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3
+venv=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv
+"$venv/bin/python" -u "$root/execution/pi0260_r3_compare_canary.py" --arm "${PI0260_R3_ARM:?}"

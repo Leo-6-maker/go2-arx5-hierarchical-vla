@@ -48,9 +48,9 @@ def optimizer_delta(left,right):
     return maximum,tensors
 
 
-def compare(arm):
-    a=ROOT/arm/'canary-cont/training'
-    b=ROOT/arm/'canary-split/training'
+def compare(arm, continuous="canary-cont", split="canary-split"):
+    a=ROOT/arm/continuous/'training'
+    b=ROOT/arm/split/'training'
     x,y=a/'checkpoint-8',b/'checkpoint-8'
     for p in (x,y):
         state=json.loads((p/'trainer_state.json').read_text())
@@ -80,7 +80,7 @@ def compare(arm):
                 model_max_abs=model,model_tensors=tensors,optimizer_max_abs=optimizer,
                 optimizer_tensors=states,scheduler_lr_abs=lr_delta,
                 condition_epsilon_tau_equal=True,mode_restored_each_step=True)
-    out=ROOT/arm/'canary_compare.json';out.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+    out=ROOT/arm/('canary_compare.json' if continuous=='canary-cont' else 'canary_samegpu_compare.json');out.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
     print(json.dumps(result))
 
 
@@ -94,5 +94,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--arm',choices=('Base','G'))
     parser.add_argument('--demo',action='store_true')
+    parser.add_argument('--continuous',default='canary-cont')
+    parser.add_argument('--split',default='canary-split')
     args=parser.parse_args()
-    demo() if args.demo else compare(args.arm)
+    demo() if args.demo else compare(args.arm,args.continuous,args.split)
