@@ -66,6 +66,67 @@ def paired_records(doc):
     return rng.peer_for_visit(current,reference,records)
 
 
+def install_head_counter(head_cls,audit,step_rng,arm):
+    original_forward=head_cls.forward
+    def forward(self,*args,**kwargs):
+        active=step_rng.active_step_context()
+        assert active is not None
+        self._pi0254_count_step=active['optimizer_step']
+        if not getattr(self,'_pi0254_head_count_hook',False):
+            def count(module,inputs):
+                active=step_rng.active_step_context()
+                step=self._pi0254_count_step
+                phase=audit.get('phase') or 'native_training'
+                if active is None:assert phase=='backward_recompute'
+                else:assert active['optimizer_step']==step
+                ce._append(Path(ce.runtime_state['training_root'])/'pi0254_training_head_forwards.jsonl',
+                           dict(optimizer_step=step,phase=phase,arm=arm),sync=step==1)
+            self.model.register_forward_pre_hook(count);self._pi0254_head_count_hook=True
+        return original_forward(self,*args,**kwargs)
+    head_cls.forward=forward
+
+
+def counter_cpu_check(qualified):
+    import tempfile
+    import torch
+    from types import SimpleNamespace
+    active={'optimizer_step':1};audit={};gradients={}
+    class Head(torch.nn.Module):
+        def __init__(self):
+            super().__init__();self.model=torch.nn.Linear(1,1).double()
+            with torch.no_grad():self.model.weight.fill_(.37);self.model.bias.fill_(.07)
+        def forward(self,value):
+            native=self.model(value)
+            def contexts():
+                return qualified._module_eval(self,audit,'rollout_forward'),qualified._module_eval(self,audit,'backward_recompute')
+            def track(index,state):
+                state.register_hook(lambda gradient:gradients.update({index:float(gradient.abs().sum())}))
+            result,_,_=qualified._euler_rollout(value,lambda current,index:torch.tanh(self.model(current)),(),
+                         steps=4,checkpointed=True,context_fn=contexts,state_hook=track)
+            return native.square().sum()+result.square().sum()
+    install_head_counter(Head,audit,SimpleNamespace(active_step_context=lambda:active),'CPU_FIXTURE')
+    previous=ce.runtime_state.get('training_root')
+    try:
+        with tempfile.TemporaryDirectory(dir=ROOT,prefix='cpu-counter-') as temporary:
+            ce.runtime_state['training_root']=temporary;head=Head().train()
+            loss=head(torch.tensor([[.61]],dtype=torch.float64,requires_grad=True));active=None
+            loss.backward()
+            rows=ce._jsonl(Path(temporary)/'pi0254_training_head_forwards.jsonl')
+            assert [r['phase'] for r in rows]==['native_training']+['rollout_forward']*4+['backward_recompute']*4
+            assert all(r['optimizer_step']==1 for r in rows)
+            assert len(gradients)==4 and all(v>0 for v in gradients.values())
+            assert all(m.training for m in head.modules()) and audit.get('phase') is None
+            assert all(p.grad is not None and torch.isfinite(p.grad).all() for p in head.parameters())
+            try:head.model(torch.ones(1,1,dtype=torch.float64))
+            except AssertionError:pass
+            else:raise AssertionError('missing context outside recomputation accepted')
+    finally:
+        if previous is None:ce.runtime_state.pop('training_root',None)
+        else:ce.runtime_state['training_root']=previous
+    return dict(status='PASS_ACTUAL_COUNTER_QUALIFIED_EULER_CPU',native_forwards=1,rollout_forwards=4,
+                backward_recomputations=4,all_four_state_gradients=True,mode_restored=True,missing_context_rejected_outside_recompute=True)
+
+
 original_overlay=ce._install_overlay_runtime
 def overlay(module,doc,step_rng):
     original_overlay(module,doc,step_rng)
@@ -93,19 +154,7 @@ def overlay(module,doc,step_rng):
                        status='MATCHED_ACTUAL_DRAWS' if peers[count-1] is not None else 'REFERENCE_CAPTURED' if doc['arm']=='U576' else 'UNPAIRED_VISIT_CAPTURED',
                        before_backward=True,actual_identity=actual,peer_identity=peers[count-1]),sync=True)
         module._append_json=append
-        head_cls=args[0] if args else kwargs['head_cls'];original_forward=head_cls.forward
-        def forward(self,*args,**kwargs):
-            if not getattr(self,'_pi0254_head_count_hook',False):
-                def count(module,inputs):
-                    active=step_rng.active_step_context()
-                    assert active is not None
-                    step=active['optimizer_step']
-                    ce._append(Path(ce.runtime_state['training_root'])/'pi0254_training_head_forwards.jsonl',
-                               dict(optimizer_step=step,phase=audit.get('phase') or 'native_training',arm=doc['arm']),
-                               sync=step==1)
-                self.model.register_forward_pre_hook(count);self._pi0254_head_count_hook=True
-            return original_forward(self,*args,**kwargs)
-        head_cls.forward=forward
+        install_head_counter(args[0] if args else kwargs['head_cls'],audit,step_rng,doc['arm'])
         return audit
     module.install=install
 
@@ -344,6 +393,8 @@ def cpu_check(path,arm):
     fixed.MAX_STEPS,fixed.CHECKPOINT_STEPS=STEPS,SAVES
     fixed.bind_runtime(life._card_with_p_runtime_paths(doc))
     core=life.load_module(Path(paths['training_runtime_root'])/'pi0246_gate_pass_train.py','pi0254_cpu_core')
+    qualified=life.load_module(Path(paths['repo_code_root'])/'scripts/pi0247_u_rollout_overlay.py','pi0254_cpu_counter_overlay')
+    counter=counter_cpu_check(qualified)
     _,config,summary=core.build_runtime_config(paths,Path(paths['output_root'])/'training',fixed)
     assert summary==doc['resolved_config'],(summary,doc['resolved_config'])
     result=rng.cpu_check(ROOT/'design')
@@ -398,6 +449,7 @@ def cpu_check(path,arm):
                   run_card_sha256=ce._sha(path),resolved_config=summary,learning_rate_at_fixed_cursors=lr,
                   bounded_write_bytes=1<<20,quota_headroom='UNKNOWN',checkpoint_cpu_rng_recompute=inherited_rng,
                   lifecycle_fixture='ACTUAL_ADAPTER_RETENTION_AND_ROUTE_SYNTHETIC_PAYLOAD_NO_HF',exact_optimizer_scheduler_rng_restore=True,
+                  head_counter_cpu_recompute=counter,
                   new_model_queries=0,new_optimizer_updates=0)
     ce._write(output/'prequery_cpu_receipt.json',result);print(json.dumps(result),flush=True)
 
