@@ -24,6 +24,6 @@ PI0254 is independent: U4608 training integrity/full Trainer HF readback PASS; t
 
 New PI0255 GR00T loads/queries/backward/optimizer=0, learned-policy episodes=0; expert physics starts=36, invalid engineering starts=0. selected_checkpoint=NONE; deployment_selected_checkpoint=NONE. No new Hopper job, old DEV/F, contact trial, WBC/gate change, broad cleanup, merge, mail or monitor.
 
-Public raw archive/readback receipt is a separate immutable deliverable; publication remains pending until its PASS receipt is indexed. Private WBC code/weights/assets and credentials are excluded.
+PUBLIC raw archive PASS: leoyuer/pi0246-gate-pass-campaign@c6bc2a041323788a4b19b7b8ef11227f9950a0a6, evidence/PI0255/fixed-pilot-audit-v1-20260929. Anonymous full file/archive-member readback verified all789 members/21933826 logical bytes, tree8d7f94322144ba2b3620d9b45e913528c3d5a37e0b9297646093d857b9875190. Receipt: HF/pilot_HF_public_receipt.json. Original pending verdict is retained; READINESS_VERDICT_WITH_HF.json adds this durable binding without changing the scientific stop. Private WBC code/weights/assets and credentials are excluded.
 
 Observation caveat: M2 registered paths progress monotonically in world X; M3 completion returns to the visible start marker. A single measured pose/image may not reveal completed-lap count. The actual dataset audit must report that ambiguity; no phase/source ID enters the loader and no history contract is silently introduced.
