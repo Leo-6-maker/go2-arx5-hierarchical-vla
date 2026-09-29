@@ -24,6 +24,7 @@ P_REF_M = 0.05
 V_REF_MPS = 1.0
 LAMBDA_POS = 0.1
 LAMBDA_DELTA = 0.1
+CLAMP_NORMALIZED_STATE = True
 
 
 @contextmanager
@@ -519,7 +520,8 @@ def install(
         state_norm = state_raw[:, -1, :9]
         state_scale = (state_max.to(state_norm.device).float() - state_min.to(state_norm.device).float()) / 2
         state_offset = (state_max.to(state_norm.device).float() + state_min.to(state_norm.device).float()) / 2
-        state_eef = state_norm.float().clamp(-1, 1) * state_scale + state_offset
+        normalized_state = state_norm.float().clamp(-1, 1) if CLAMP_NORMALIZED_STATE else state_norm.float()
+        state_eef = normalized_state * state_scale + state_offset
         position, delta, details = _physical_losses(
             generated, expert, mask, state_eef, scale.to(expert.device), offset.to(expert.device)
         )
@@ -559,7 +561,8 @@ def _state_eef(state_raw: torch.Tensor, state_min: torch.Tensor, state_max: torc
     state_norm = state_raw[:, -1, :9]
     state_scale = (state_max.to(state_norm.device).float() - state_min.to(state_norm.device).float()) / 2
     state_offset = (state_max.to(state_norm.device).float() + state_min.to(state_norm.device).float()) / 2
-    return state_norm.float().clamp(-1, 1) * state_scale + state_offset
+    normalized_state = state_norm.float().clamp(-1, 1) if CLAMP_NORMALIZED_STATE else state_norm.float()
+    return normalized_state * state_scale + state_offset
 
 
 def self_check() -> dict[str, Any]:

@@ -39,4 +39,5 @@ def install():
     delta.decode_xyz=decode_xyz
     position.decode_xyz=decode_xyz
     rollout.decode_xyz=decode_xyz
+    rollout.CLAMP_NORMALIZED_STATE=False
     rotation.decode_relative_rotation=decode_relative_rotation
