@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/cm/shared/apps/pbspro/current/bin/qsub",
+    "-N",
+    "pi0254_U576",
+    "-m",
+    "n",
+    "-l",
+    "select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200",
+    "-l",
+    "walltime=16:00:00",
+    "-v",
+    "PI0254_RUN_CARD=/scratch/e1192548/Projects/go2-arx5/experiments/PI0254/U576/run_card.json,PI0254_RUN_CARD_SHA256=0a5bd8865093dcf19365c06651f73c973e6ab0a72099a048855ea06800f00232,PI0254_ARM=U576,PI0254_RESUME_AFTER_STEP=0",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0254/execution/pi0254_train_h200.pbs"
+  ],
+  "epoch_s": 1790654506.2579997,
+  "prior_job": "637485.hopper-m-02",
+  "ordinal": 2,
+  "run_card_sha256": "0a5bd8865093dcf19365c06651f73c973e6ab0a72099a048855ea06800f00232",
+  "canonical_comment": 5883384406,
+  "raw_updates": 0,
+  "publication_commit": "c30328f408f95c8aeb0e44cec65440266029ad93"
+}
