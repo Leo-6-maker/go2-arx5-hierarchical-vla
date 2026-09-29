@@ -12,9 +12,14 @@ from pi0255_motion3 import sha,write,scene
 from pi0259_kinematic import reference,source_geometry,full_fk,homogeneous,solve,continuation
 from go2arx5_vla.contracts import TrajectoryChunkV1
 from go2arx5_vla.safety import TrajectorySafetyGateV1
+ROOT=Path(os.environ.get('PI0260_ROOT',str(ROOT)))
+R2=ROOT.name=='R2'
 
 
 def admission():
+    if R2:
+        from pi0260_r2 import admission as r2_admission
+        return r2_admission(ROOT)
     frozen=json.loads((ROOT/'state/design_freeze.json').read_text())
     h0=json.loads((ROOT/'state/H0_ACCEPTED.json').read_text())
     assert route(frozen['registry_sha256'],sha(ROOT/'design/registry.json'),h0['status'],h0['status'])=='ADMIT_NEXT_STAGE'
@@ -27,7 +32,7 @@ def geometry(reg,seq):
     folder=ROOT/'proposals'/seq['family_id']/seq['sequence_id'];folder.mkdir(parents=True,exist_ok=True)
     if (folder/'geometry_result.json').exists():return json.loads((folder/'geometry_result.json').read_text())
     assert not (folder/'started.json').exists(),'unfinished geometry needs exact attempt reconciliation'
-    assert len(list((ROOT/'proposals').glob('*/*/started.json')))<664
+    assert len(list((ROOT/'proposals').glob('*/*/started.json')))<(760 if R2 else 664)
     write(folder/'started.json',dict(sequence=seq,source_sha256=sha(__file__),registry_sha256=sha(ROOT/'design/registry.json')))
     family=next(f for f in reg['families'] if f['family_id']==seq['family_id'])
     kin,collision,base,root,velocity=source_geometry(reg);q=np.array(reg['arm_default']);data=scene(reg,family)
@@ -96,10 +101,15 @@ def counters():
     results=[json.loads(p.read_text()) for p in (ROOT/'proposals').glob('*/*/geometry_result.json')]
     raw=[json.loads(p.read_text()) for p in (ROOT/'proposals').glob('*/*/raw_gate.json')]
     frames=list((ROOT/'proposals').glob('*/frames/*.npz'))
-    return dict(calibration_image_pairs=84,new_kinematic_sequence_attempts=len(list((ROOT/'proposals').glob('*/*/started.json'))),
+    result=dict(calibration_image_pairs=84,new_kinematic_sequence_attempts=len(list((ROOT/'proposals').glob('*/*/started.json'))),
         completed_geometry_results=len(results),IK_solver_calls=sum(r['internal_solves'] for r in results),
         active_raw_windows=sum(r['active_windows'] for r in raw),production_image_pairs=len(frames),
         model_queries=0,optimizer_updates=0,physics_steps=0,WBC_actor_calls=0)
+    if R2:
+        baseline=json.loads((ROOT/'design/overlay.json').read_text())['baseline_counters']
+        for k in result:
+            if k!='calibration_image_pairs':result[k]+=baseline[k]
+    return result
 
 
 def run(split):
@@ -107,9 +117,12 @@ def run(split):
     (ROOT/'state').mkdir(exist_ok=True);lock=(ROOT/'state/data_owner.lock').open('a')
     fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     reg=admission();quotas={'DEVELOPMENT':6,'TRAIN':40,'KIN-VAL':10};assert split in quotas
-    if split!='DEVELOPMENT':assert json.loads((ROOT/'state/DEV_ACCEPTED.json').read_text())['status']=='PASS'
+    if R2:assert split in ('TRAIN','KIN-VAL')
+    elif split!='DEVELOPMENT':assert json.loads((ROOT/'state/DEV_ACCEPTED.json').read_text())['status']=='PASS'
     families=[f for f in reg['families'] if f['split']==split];accepted=[];outcomes=[]
     for family in families:
+        if R2 and family.get('exclusion'):
+            outcomes.append(dict(family=family['family_id'],status='EXCLUDED_PROTECTED_GEOMETRY',reasons=family['exclusion']));continue
         folder=ROOT/'proposals'/family['family_id'];folder.mkdir(parents=True,exist_ok=True)
         if len(accepted)>=quotas[split]:
             outcomes.append(dict(family=family['family_id'],status='NOT_EVALUATED_AFTER_FIXED_QUOTA'));continue
@@ -138,11 +151,11 @@ def run(split):
             write(done,result)
         outcomes.append(result)
         if result['status']=='ELIGIBLE':accepted.append(family['family_id'])
-        count=counters();assert count['active_raw_windows']<=60000 and count['production_image_pairs']<=120000
+        count=counters();assert count['active_raw_windows']<=(90000 if R2 else 60000) and count['production_image_pairs']<=120000
         write(ROOT/'state/data_progress.json',dict(split=split,accepted=accepted,evaluated=len(outcomes),counters=count))
         print(json.dumps(dict(family=family['family_id'],status=result['status'],accepted=len(accepted),counters=count)),flush=True)
     write(ROOT/'state'/('selection_'+split+'.json'),dict(split=split,selected=accepted,outcomes=outcomes,
-        status='DATA_REPLAY_PENDING' if len(accepted)==quotas[split] else 'PI0260_ELIGIBLE_SCENE_SHORTFALL',counters=counters()))
+        status='DATA_REPLAY_PENDING' if R2 or len(accepted)==quotas[split] else 'PI0260_ELIGIBLE_SCENE_SHORTFALL',counters=counters()))
 
 
 if __name__=='__main__':run(sys.argv[1])

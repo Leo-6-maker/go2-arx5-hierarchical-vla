@@ -4,18 +4,20 @@ from pathlib import Path
 import json
 import hashlib
 import sys
+import os
 import numpy as np
 import pi0259_renderer as module
 from pi0259_calibration_render import save_packet
 from pi0255_motion3 import sha,write
 
-ROOT=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260');module.ROOT=ROOT
+ROOT=Path(os.environ.get('PI0260_ROOT','/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260'));module.ROOT=ROOT
 
 
 def run(family_id):
     reg=json.loads((ROOT/'design/registry.json').read_text());freeze=json.loads((ROOT/'state/design_freeze.json').read_text())
     assert sha(ROOT/'design/registry.json')==freeze['registry_sha256'];reg['renderer']['selected_rig']=freeze['selected_rig']
     family=next(f for f in reg['families'] if f['family_id']==family_id);assert family['split'] in ('DEVELOPMENT','TRAIN','KIN-VAL')
+    assert not family.get('exclusion'),'excluded geometry cannot be rendered'
     folder=ROOT/'proposals'/family_id;assert not (folder/'observation.json').exists()
     write(folder/'render_started.json',dict(source_sha256=sha(__file__),family=family_id,design_sha256=sha(ROOT/'state/design_freeze.json')))
     cache={};rows=[];renderer=module.Renderer(reg,family)
@@ -29,7 +31,7 @@ def run(family_id):
             for i in indices:
                 q=a['joints'][i];t=float(a['synthetic_reference_time'][i]);key=hashlib.sha256(q.tobytes()).hexdigest()
                 if key not in cache:
-                    assert len(list((ROOT/'proposals').glob('*/frames/*.npz')))<120000
+                    assert len(list((ROOT/'proposals').glob('*/frames/*.npz')))<(117866 if ROOT.name=='R2' else 120000)
                     info,_=save_packet(folder/'frames',key,renderer,q,reg,dict(family_id=family_id,rig_index=freeze['selected_rig'],
                         sequence=seq['sequence_id'],task=seq['task'],command=seq['command'],synthetic_reference_time=t,
                         geometry_index=i,geometry_sha256=sha(path),requested_position=a['desired_position'][i].tolist(),requested_rotation=a['desired_rotation'][i].tolist()))
