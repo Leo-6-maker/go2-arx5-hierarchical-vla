@@ -141,6 +141,12 @@ def run(point):
             assert sha(Path(binding['view'])/name)==value
     attempts,headsfile=ROOT/'attempts.jsonl',ROOT/'head_forwards.jsonl'
     heads=count(headsfile)
+    cache={}
+    valid_fresh=0
+    for path in (ROOT/'eval').glob('*/cells/*/record.json'):
+        saved=read(path)
+        if saved['point'] in ('F2000','X2000') and saved.get('forward_reused') is None:
+            valid_fresh+=1
     for row in card['rows']:
         cell=ROOT/'eval'/point/'cells'/row['uid'];recordpath=cell/'record.json'
         if recordpath.exists():
@@ -148,6 +154,7 @@ def run(point):
             assert prior['row']==row and prior['point']==point and prior['status']=='VALID'
             assert prior['eval_card_sha256']==sha(ROOT/'UNION_EVAL_CARD.json')
             assert prior['model_binding']==binding and sha(cell/'tensors.npz')==prior['tensor_sha256']
+            cache.setdefault((row['identities']['condition_sha256'],row['identities']['noise_sha256']),cell)
             continue
         packet,expert=source(row);policy=batch(proc,packet)['inputs']
         with np.load(r3.R3/'noise'/(row['noise']+'.npz'),allow_pickle=False) as z:
@@ -155,24 +162,43 @@ def run(point):
         assert tuple_identity(policy,packet,expert,noise)==row['identities']
         cell.mkdir(parents=True,exist_ok=True);tensor=cell/'tensors.npz'
         src=Path(row['donor_cell'])/'tensors.npz' if point=='P2000' else tensor
+        forward_reused=None
+        forward_key=(row['identities']['condition_sha256'],row['identities']['noise_sha256'])
+        if point!='P2000' and not src.exists() and forward_key in cache:
+            prior_cell=cache[forward_key];prior=read(prior_cell/'record.json')
+            assert prior['model_binding']==binding and prior['status']=='VALID'
+            assert sha(prior_cell/'tensors.npz')==prior['tensor_sha256']
+            with np.load(prior_cell/'tensors.npz',allow_pickle=False) as z:
+                assert np.array_equal(z['state'],packet['state_v1']) and np.array_equal(z['noise'],noise)
+                values={k:z[k].copy() for k in ('raw','trace_x','trace_v','trace_t','decoded')}
+            values.update(expert=expert,state=packet['state_v1'],noise=noise)
+            forward_reused=dict(uid=prior_cell.name,record_sha256=sha(prior_cell/'record.json'),tensor_sha256=prior['tensor_sha256'])
+        journal=cell/'FORWARD_RECEIPT.json'
         if point=='P2000':
             assert sha(src)==row['donor_tensor_sha256'] and sha(src.parent/'record.json')==row['donor_record_sha256']
-        if src.exists():
+        if forward_reused:
+            pass
+        elif src.exists():
             with np.load(src,allow_pickle=False) as z:
                 values={k:z[k].copy() for k in z.files}
             assert np.array_equal(values['expert'],expert) and np.array_equal(values['state'],packet['state_v1'])
             assert np.array_equal(values['noise'],noise)
+            if point!='P2000':
+                saved=read(journal)
+                assert saved['model_binding']==binding and saved['identities']==row['identities']
+                forward_reused=saved['forward_reused']
         else:
             if model is None:
                 model=AutoModel.from_pretrained(binding['view'],local_files_only=True,trust_remote_code=True).eval().to('cuda:0',dtype=torch.bfloat16)
                 assert model.action_head.num_inference_timesteps==4
             ordinal=count(attempts)+1
             assert ordinal<=card['new_attempt_cap']
+            assert count(attempts)-valid_fresh<=128, 'NO_VALID_RESULT_TECHNICAL_RESERVE'
             append(attempts,dict(ordinal=ordinal,point=point,uid=row['uid'],identities=row['identities']))
             def hook(_module,_inputs):
                 nonlocal heads
                 heads+=1;assert heads<=card['inference_head_cap']
-                append(headsfile,dict(ordinal=heads,point=point,uid=row['uid']))
+                append(headsfile,dict(ordinal=heads,attempt_ordinal=ordinal,point=point,uid=row['uid']))
             handle=model.action_head.model.register_forward_pre_hook(hook)
             try:
                 with torch.inference_mode():stock=bridge._stock_query(model,policy,stage21,noise)
@@ -184,6 +210,8 @@ def run(point):
             values['decoded']=bridge._decode_physical(proc,EmbodimentTag.NEW_EMBODIMENT,values['raw'],packet['state_v1'])
         decoded=bridge._decode_physical(proc,EmbodimentTag.NEW_EMBODIMENT,values['raw'],packet['state_v1'])
         assert np.max(np.abs(decoded-values['decoded']))<=1e-7
+        if point!='P2000' and not journal.exists():
+            write(journal,dict(model_binding=binding,identities=row['identities'],forward_reused=forward_reused))
         if not tensor.exists():
             tmp=cell/'tensors.partial.npz';np.savez_compressed(tmp,**values)
             with tmp.open('rb') as stream:os.fsync(stream.fileno())
@@ -193,7 +221,11 @@ def run(point):
         gate=TrajectorySafetyGateV1().evaluate(selector._build_chunk(decoded,chunk_id=f'pi0263-{point}-{row["uid"]}'),now=0.,
             achieved_position=state[:3],achieved_orientation=matrix_to_quat(rot6d_rows_to_matrix(state[None,3:9]))[0])
         write(recordpath,dict(status='VALID',point=point,row=row,metrics=metrics,gate=gate.as_dict(),
-            tensor_sha256=sha(tensor),eval_card_sha256=sha(ROOT/'UNION_EVAL_CARD.json'),model_binding=binding))
+            tensor_sha256=sha(tensor),eval_card_sha256=sha(ROOT/'UNION_EVAL_CARD.json'),model_binding=binding,
+            forward_reused=forward_reused))
+        if point!='P2000' and forward_reused is None:
+            valid_fresh+=1
+        cache.setdefault(forward_key,cell)
         print(json.dumps(dict(status='PI0263_VALID',point=point,uid=row['uid'])),flush=True)
     print(json.dumps(dict(status='PI0263_POINT_COMPLETE',point=point,attempts=count(attempts),heads=count(headsfile))),flush=True)
 

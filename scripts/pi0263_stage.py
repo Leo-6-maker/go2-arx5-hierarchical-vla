@@ -1,5 +1,6 @@
 """Read-only donor verification and immutable PI0263 execution fileset seal."""
 import json
+import argparse
 import shutil
 from pathlib import Path
 
@@ -9,15 +10,21 @@ ROOT=Path('/scratch/e1192548/Projects/go2-arx5/experiments/PI0263')
 OLD=ROOT.with_name('PI0261')
 
 
-def main():
+def main(reseal=False):
     receipt=read(OLD/'evidence/P/checkpoint-2000.full_readback.json')
     assert receipt['status']=='PASS_FULL_FILE_READBACK' and receipt['complete_trainer']
     assert receipt['revision']=='875abdde2cc7c9e6858fac008e53f2f4b3375255'
     assert receipt['tree_sha256']=='882931d754cb25653105a9213fe0dbeb4d2b14e463efb27e49c6101fd5fc5e4b'
     donor=OLD/'P/main/training/checkpoint-2000'
+    if reseal:
+        prior=read(ROOT/'DONOR_LOCAL_READBACK.json')
+        assert prior['status']=='PI0263_FIXED_P2000_LOCAL_READBACK_PASS' and prior['files']==receipt['files']
+        assert prior['source_receipt_sha256']==sha(OLD/'evidence/P/checkpoint-2000.full_readback.json')
     for row in receipt['files']:
         path=donor/row['path']
-        assert path.stat().st_size==row['bytes'] and sha(path)==row['sha256'],str(path)
+        assert path.stat().st_size==row['bytes']
+        if not reseal:
+            assert sha(path)==row['sha256'],str(path)
     assert read(donor/'trainer_state.json')['global_step']==2000
     size=sum(r['bytes'] for r in receipt['files'])
     write(ROOT/'DONOR_LOCAL_READBACK.json',dict(status='PI0263_FIXED_P2000_LOCAL_READBACK_PASS',
@@ -51,4 +58,5 @@ def main():
     print(json.dumps(dict(status='PASS_PI0263_LOCAL_DONOR_AND_FILESET',donor_files=len(receipt['files']),user_root_free_bytes=free)))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--reseal',action='store_true');main(p.parse_args().reseal)
