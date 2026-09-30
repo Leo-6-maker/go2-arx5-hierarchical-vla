@@ -1,0 +1,100 @@
+Job Id: 640396.hopper-m-02
+    Job_Name = pi0263_pair_main
+    Job_Owner = e1192548@hopper-l-01.cm.cluster
+    job_state = Q
+    queue = small
+    server = hopper-m-02.cm.cluster
+    Checkpoint = u
+    ctime = Wed Sep 30 23:49:30 2026
+    depend = beforeok:640412.hopper-m-02@hopper-m-02.cm.cluster
+    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp
+	eriments/PI0263/logs/
+    Hold_Types = n
+    Join_Path = n
+    Keep_Files = oed
+    Mail_Points = n
+    mtime = Thu Oct  1 01:25:06 2026
+    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex
+	periments/PI0263/logs/
+    Priority = 0
+    qtime = Wed Sep 30 23:49:30 2026
+    Rerunable = True
+    Resource_List.am_job_cache = {"job.ngpus": 1.0, "job.walltime": 21600,
+	 "job.ncpus": 12.0, "job.queue_charge_rate": 1.0}
+    Resource_List.mem = 225gb
+    Resource_List.ncpus = 12
+    Resource_List.ngpus = 1
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1
+    Resource_List.place = free
+    Resource_List.queue_charge_rate = 1
+    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+    Resource_List.walltime = 06:00:00
+    substate = 10
+    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,
+	PBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,
+	PBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,
+	PBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,PI0263_ARM=F,
+	PI0263_LIMIT=2000,PI0263_RESUME=0,
+	PI0263_CODE_SHA256=c7cf5ea5e8170a5db8adc321db79455a17dafbfc39a995d9c11
+	f53502b37b64d,PBS_O_QUEUE=auto
+    comment = Not Running: Insufficient amount of resource: ngpus 
+    etime = Wed Sep 30 23:49:30 2026
+    Submit_arguments = -v PI0263_ARM=F,PI0263_LIMIT=2000,PI0263_RESUME=0,
+	PI0263_CODE_SHA256=c7cf5ea5e8170a5db8adc321db79455a17dafbfc39a995d9c11
+	f53502b37b64d /scratch/e1192548/Projects/go2-arx5/experiments/PI0263/co
+	de/pi0263_main.pbs
+    project = CFP05-CF-052
+    Submit_Host = hopper-l-01.cm.cluster
+
+Job Id: 640412.hopper-m-02
+    Job_Name = pi0263_pair_canary
+    Job_Owner = e1192548@hopper-l-01.cm.cluster
+    job_state = H
+    queue = small
+    server = hopper-m-02.cm.cluster
+    Checkpoint = u
+    ctime = Wed Sep 30 23:55:44 2026
+    depend = afterok:640396.hopper-m-02@hopper-m-02.cm.cluster
+    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp
+	eriments/PI0263/logs/
+    Hold_Types = s
+    Join_Path = n
+    Keep_Files = oed
+    Mail_Points = n
+    mtime = Thu Oct  1 01:25:06 2026
+    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex
+	periments/PI0263/logs/
+    Priority = 0
+    qtime = Wed Sep 30 23:55:44 2026
+    Rerunable = True
+    Resource_List.am_job_cache = {"job.ngpus": 1.0, "job.walltime": 21600,
+	 "job.ncpus": 12.0, "job.queue_charge_rate": 1.0}
+    Resource_List.mem = 225gb
+    Resource_List.ncpus = 12
+    Resource_List.ngpus = 1
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1
+    Resource_List.place = free
+    Resource_List.queue_charge_rate = 1
+    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+    Resource_List.walltime = 06:00:00
+    substate = 22
+    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,
+	PBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,
+	PBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,
+	PBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,PI0263_ARM=X,
+	PI0263_CODE_SHA256=c7cf5ea5e8170a5db8adc321db79455a17dafbfc39a995d9c11
+	f53502b37b64d,
+	PI0263_COMPARE_SHA256=9478065cae65830c7380244bcf83d13a9ded9fd4936ad222
+	98eb297eb1c167ea,PBS_O_QUEUE=auto
+    etime = Wed Sep 30 23:55:44 2026
+    Submit_arguments = -W depend=afterok:640396.hopper-m-02 -v PI0263_ARM=X,
+	PI0263_CODE_SHA256=c7cf5ea5e8170a5db8adc321db79455a17dafbfc39a995d9c11
+	f53502b37b64d,
+	PI0263_COMPARE_SHA256=9478065cae65830c7380244bcf83d13a9ded9fd4936ad222
+	98eb297eb1c167ea /scratch/e1192548/Projects/go2-arx5/experiments/PI0263
+	/code/pi0263_canary.pbs
+    project = CFP05-CF-052
+    Submit_Host = hopper-l-01.cm.cluster
+
