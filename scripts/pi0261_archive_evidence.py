@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import shutil
 import tarfile
 from pathlib import Path
 
@@ -71,6 +72,15 @@ def main(token_file):
             info.size, info.mode, info.mtime = row['bytes'], 0o644, 0
             with path.open('rb') as source:
                 stream.addfile(info, source)
+    direct = [ROOT / 'eval/media/PI0261_fixed_semantic_Donor_C_P.mp4',
+              ROOT / 'MODEL_QUALITY_REPORT.md']
+    assert all(path.is_file() for path in direct)
+    for source in direct:
+        target = archive_root / source.name
+        if target.exists():
+            assert sha(target) == sha(source)
+        else:
+            shutil.copy2(source, target)
     api = HfApi(token=token_file.read_text().strip())
     assert api.model_info(REPO).private is False
     commit = ROOT / 'archive/PI0261_UPLOAD_COMMIT.json'
@@ -86,7 +96,7 @@ def main(token_file):
     session = requests.Session()
     session.trust_env = False
     checked = []
-    for source in (manifest, archive):
+    for source in (manifest, archive, *(archive_root / path.name for path in direct)):
         target = ROOT / 'archive' / ('anonymous-' + source.name)
         with session.get(hf_hub_url(REPO, filename=PREFIX + '/' + source.name,
                                     revision=revision), stream=True, timeout=(30, 180)) as response:
