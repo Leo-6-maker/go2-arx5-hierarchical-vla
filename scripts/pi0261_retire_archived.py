@@ -45,7 +45,7 @@ def main(arm, step):
                   local_path=str(checkpoint), repo_id=readback['repo_id'],
                   prefix=readback['prefix'], revision=readback['revision'],
                   tree_sha256=readback['tree_sha256'], files=len(entries),
-                  logical_bytes=sum(row['bytes'] for row in entries))
+                  logical_bytes=sum(row['bytes'] for row in entries.values()))
     temp = receipt.with_suffix('.json.partial')
     temp.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
     os.replace(temp, receipt)
