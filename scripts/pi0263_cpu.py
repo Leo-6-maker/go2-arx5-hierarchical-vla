@@ -7,7 +7,7 @@ from collections import defaultdict
 
 import numpy as np
 import pi0263_eval as evaluation
-from pi0263_plan import read,write,sha
+from pi0263_plan import read,write,sha,TEMPLATES
 from pi0260_r3_inputs import batch,identity
 from pi0260_r3_eval_cpu import metrics
 
@@ -108,11 +108,17 @@ def replay(donor_only=False, point=None):
             src=alias['source_row'];noise=src['noise']
             if alias['panel']=='crossed':
                 command=src['command'];family=src['family']
+                own_record,_,_=r3.sequence(src['sequence'])
+                bound=[t for t,text in evaluation.crossed.TEMPLATES.items() if text.format(color=src['color'])==own_record['sequence']['instruction']]
+                assert len(bound)==1 and bound[0]==src['original_template']
+                if src['split']=='TRAIN':assert bound[0] in TEMPLATES
+                relation=('original' if src['template']==bound[0] else 'other_T' if src['template'] in TEMPLATES else src['template']) if src['split']=='TRAIN' else 'DEVELOPMENT_'+src['template']
                 rec,_,labels=r3.sequence(f'{family}-M1-c{1-command}')
                 j=next(j for j,r in enumerate(rec['rows']) if r['index']==0)
                 own,opposite=rmse(out,expert),rmse(out,labels[j]);margin=opposite-own
                 cross_rows.append(dict(point=point,uid=alias['uid'],panel_index=alias['index'],split=src['split'],family=family,
-                    command=command,color=src['color'],template=src['template'],noise=noise,own_m=own,opposite_m=opposite,
+                    command=command,color=src['color'],template=src['template'],original_template=bound[0],binding_relation=relation,
+                    noise=noise,own_m=own,opposite_m=opposite,
                     margin_m=margin,correct=margin>0,accepted_correct=margin>0 and not observed['reject'],**observed))
                 predictions[point,family,src['template'],noise,command]=out
                 references[family,command]=expert
@@ -173,6 +179,12 @@ def replay(donor_only=False, point=None):
     for r in cross_rows:groups[r['point'],r['split'],r['template'],r['color'],r['command'],r['noise']].append(r)
     save_csv('COLOR_COMMAND_GROUPS.csv',[dict(point=p,split=s,template=t,color=c,command=k,noise=n,
         count=len(v),correct=sum(r['correct'] for r in v),reject=sum(r['reject'] for r in v)) for (p,s,t,c,k,n),v in sorted(groups.items())])
+    binding_groups=_group([r for r in cross_rows if r['split']=='TRAIN'],('point','split','binding_relation','noise'))
+    assert len(binding_groups)==8*len(points) and all(len(v)==60 for v in binding_groups.values())
+    save_csv('ORIGINAL_VS_OTHER_BINDINGS.csv',[dict(point=p,split=s,binding_relation=b,noise=n,n=len(v),
+        correct=sum(r['correct'] for r in v),c0=sum(r['correct'] for r in v if r['command']==0),
+        c1=sum(r['correct'] for r in v if r['command']==1),reject=sum(r['reject'] for r in v))
+        for (p,s,b,n),v in sorted(binding_groups.items())])
     save_csv('LEGACY_REGRESSION_GROUPS.csv',[dict(point=p,task=t,kind=k,noise=n,**numeric(v))
         for (p,t,k,n),v in sorted(_group(legacy_rows,('point','task','kind','noise')).items())])
     flips=[]
