@@ -26,15 +26,20 @@ def run(root, token_file):
     inputs = [root / name for name in (
         'H1_R3_ADMITTED.json', 'S4_FIXED_EVAL_CARD.json',
         'S4_FIXED_DISPLAY_SELECTION.json', 'motion2_eval_cases.json',
-        'O64_eval_cases.json', 'noise_manifest.json')]
-    allowed = ('.json', '.jsonl', '.npz', '.mp4')
-    for folder in ('eval', 'noise', 'model_bindings'):
+        'O64_eval_cases.json', 'noise_manifest.json',
+        'S4_IDENTICAL_FORWARD_REUSE_AMENDMENT.json', 'MODEL_QUALITY_REPORT.md')]
+    allowed = ('.json', '.jsonl', '.npz', '.mp4', '.md')
+    for folder in ('eval', 'noise', 'model_bindings', 'training_evidence'):
         inputs.extend(path for path in (root / folder).rglob('*')
                       if path.is_file() and path.suffix in allowed)
     inputs = sorted(set(inputs), key=lambda path: path.relative_to(root).as_posix())
     assert all(path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(root)
                for path in inputs)
     assert all(path.suffix in allowed for path in inputs)
+    for arm in ('Base', 'G'):
+        for name in ('full_loss', 'sample_audit', 'step_rng', 'S4_audit'):
+            assert (root / 'training_evidence' / arm / 'main' / 'training' / (name + '.jsonl')).exists()
+        assert (root / 'training_evidence' / 'evidence' / arm / 'final6000.training_audit.json').exists()
     for point in ('Base_0', 'Base_6000', 'G_0', 'G_6000'):
         assert (root / 'eval' / point / 'cpu_replay.json').exists()
         assert (root / 'eval' / point / 'semantic_replay.json').exists()

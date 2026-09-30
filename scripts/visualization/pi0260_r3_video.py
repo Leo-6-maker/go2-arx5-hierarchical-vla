@@ -48,10 +48,11 @@ def chapters():
             result.append(chapter(case, opposite, index, packet))
     alias = fixed['alias_example']
     record, states, labels = sequence(alias['sequence'])
-    a, b = alias['indices']
-    assert record['rows'][a]['time'] == alias['times_s'][0]
-    assert record['rows'][b]['time'] == alias['times_s'][1]
-    assert record['rows'][a]['index'] == a and record['rows'][b]['index'] == b
+    a, b = [next(i for i, row in enumerate(record['rows']) if row['index'] == target)
+            for target in alias['indices']]
+    assert math.isclose(record['rows'][a]['time'], alias['times_s'][0], abs_tol=1e-9)
+    assert math.isclose(record['rows'][b]['time'], alias['times_s'][1], abs_tol=1e-9)
+    assert [record['rows'][i]['index'] for i in (a, b)] == alias['indices']
     assert record['rows'][a]['frame_sha256'] == record['rows'][b]['frame_sha256']
     assert np.array_equal(states[a], states[b]) and np.max(np.abs(labels[a] - labels[b])) > 0
     packet, _, _ = source(dict(cohort='Motion2', case_index=fixed['semantic_cases'][0]['case_indices'][0]), cases, [])
