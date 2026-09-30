@@ -1,0 +1,166 @@
+{
+  "deployment_selected_checkpoint": "NONE",
+  "groups": [
+    {
+      "command_correct": {
+        "0": 6,
+        "1": 0
+      },
+      "correct": 6,
+      "fully_correct_pairs": 0,
+      "kind": "PARAPHRASE",
+      "median_margin_m": [
+        -0.0026916224723425915,
+        0.0020447904558473957
+      ],
+      "negative": 6,
+      "noise": "B0",
+      "task": "M1",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 5,
+        "1": 2
+      },
+      "correct": 7,
+      "fully_correct_pairs": 2,
+      "kind": "PARAPHRASE",
+      "median_margin_m": [
+        0.0006676635711685749,
+        0.0010025543253086178
+      ],
+      "negative": 5,
+      "noise": "B1",
+      "task": "M1",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 6,
+        "1": 1
+      },
+      "correct": 7,
+      "fully_correct_pairs": 1,
+      "kind": "SEMANTIC",
+      "median_margin_m": [
+        0.0014972898985873232,
+        0.004474094735523331
+      ],
+      "negative": 5,
+      "noise": "B0",
+      "task": "M1",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 6,
+        "1": 2
+      },
+      "correct": 8,
+      "fully_correct_pairs": 2,
+      "kind": "SEMANTIC",
+      "median_margin_m": [
+        0.0006918891562306788,
+        0.0011893370489291233
+      ],
+      "negative": 4,
+      "noise": "B1",
+      "task": "M1",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 6,
+        "1": 6
+      },
+      "correct": 12,
+      "fully_correct_pairs": 6,
+      "kind": "PARAPHRASE",
+      "median_margin_m": [
+        0.004885093576834547,
+        0.005152164740928491
+      ],
+      "negative": 0,
+      "noise": "B0",
+      "task": "M3",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 5,
+        "1": 6
+      },
+      "correct": 11,
+      "fully_correct_pairs": 5,
+      "kind": "PARAPHRASE",
+      "median_margin_m": [
+        0.003759787468079187,
+        0.003947883523565655
+      ],
+      "negative": 1,
+      "noise": "B1",
+      "task": "M3",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 6,
+        "1": 6
+      },
+      "correct": 12,
+      "fully_correct_pairs": 6,
+      "kind": "SEMANTIC",
+      "median_margin_m": [
+        0.004154205349887514,
+        0.004757976918715899
+      ],
+      "negative": 0,
+      "noise": "B0",
+      "task": "M3",
+      "ties": 0
+    },
+    {
+      "command_correct": {
+        "0": 5,
+        "1": 6
+      },
+      "correct": 11,
+      "fully_correct_pairs": 5,
+      "kind": "SEMANTIC",
+      "median_margin_m": [
+        0.004444497733481552,
+        0.004487076578261116
+      ],
+      "negative": 1,
+      "noise": "B1",
+      "task": "M3",
+      "ties": 0
+    }
+  ],
+  "model_queries": 0,
+  "old_exposure": {
+    "old_cross_command_repeated_nonlanguage_keys": 51,
+    "old_index0": 69,
+    "old_visit_counts_by_task_command": {
+      "M1/c0": 1500,
+      "M1/c1": 1500,
+      "M3/c0": 1500,
+      "M3/c1": 1500
+    },
+    "old_visit_max_family_quartile": 31,
+    "old_visit_min_family_quartile": 4,
+    "old_visits": 6000
+  },
+  "optimizer_updates": 0,
+  "original_condition_audit_sha256": "09aa5419f1aa4ddf64b902a5a034d42a30e307bef588422a36a19b08b409e144",
+  "original_mixed_semantics": [],
+  "original_pairs": 12,
+  "original_semantic_rows": 96,
+  "processed_bank_pairs": 60,
+  "schema": "PI0261_S0_SAVED_EVIDENCE_DIAGNOSIS_V1",
+  "scope": "KIN-VAL development validation t0 entry, not full contour or physics",
+  "selected_checkpoint": "NONE",
+  "semantic_rule": "original own/opposite H40 XYZ RMSE; strict margin > 0; tie wrong",
+  "status": "S0_FINITE_AUDIT_COMPLETE_NO_NEW_MODEL_QUERY"
+}

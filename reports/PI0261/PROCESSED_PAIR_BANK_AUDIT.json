@@ -1,0 +1,621 @@
+{
+  "conditioning_keys": [
+    "state",
+    "embodiment_id",
+    "pixel_values",
+    "image_grid_thw",
+    "input_ids",
+    "attention_mask"
+  ],
+  "excluded_keys": [
+    "action",
+    "action_mask"
+  ],
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "pairs": 60,
+  "rows": [
+    {
+      "condition_digest": [
+        "da073ff33e30d5e17575ec78cfde9c742c22508df2c49aa2f5bf2fa2649fc17c",
+        "0bec191b984124bc1977420d3720869c4319a4c1d283da5b92978305ede586d0"
+      ],
+      "family": "pi0260-family-020",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "b4534cf4135d836c8cecc818f6b3f167e89c05d76dc3ed75c78c183e94afc17e",
+        "566a70c21bdeff119cefac8b18726ef33f1c6021b4653a3dd15d0424cf28a3be"
+      ],
+      "family": "pi0260-family-021",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "7ef25c65b9073ffb01dffd1dd4338780dbc91f59212f362bc91ebb63b33f8b84",
+        "102f47498ffcc091a7cf4ed6c7ca499d0589864900d26f84557446481fa98df2"
+      ],
+      "family": "pi0260-family-023",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "32a238985bef010bc9e5e7c1e0ac5ca13640059318cf9bfa3381b8751fc5d19a",
+        "7acbd7202408b5ecfa62bd5561c1afdcbe7e03f6da56dec89e07b9eab6e44213"
+      ],
+      "family": "pi0260-family-024",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "cd4abce61f27bd98822e70d1db18eb7f489b81ef5a78de6d953ab001af5d89dc",
+        "174a3fd0a7efb81b38a2b14ab73c9e62f64bc5a6b7e95bdfdf4ba88f9e3a6fc9"
+      ],
+      "family": "pi0260-family-026",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "0ef6662bd4497976b4ea4d933fa6af2aad86d80d6d1f38103a70de884bcf2624",
+        "9bfc851f5166a70c4cf8bc442ec8dd08708a4f938ee569e511a1357fd275fc7c"
+      ],
+      "family": "pi0260-family-030",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "f67c7e27f2af790ffe7fb0fcd822727dd6a83bf0149104266f7024e96f25f143",
+        "5b4c41106dee228fba6dafbe30cdfffdd31d9fc6f67a793c3eec510e07399e00"
+      ],
+      "family": "pi0260-family-035",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "568af4a0b74163dd80247770655eb1cd42df7053d49e948e451116f67848b78c",
+        "c55332102f7bf4503336b6477ae54c820b84d4859e9cf8f3d43c458b75931b7f"
+      ],
+      "family": "pi0260-family-038",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "2dd3556f528592a527e36c6aeecb98002138e459fafe9f3d9c102fd36c2bce0d",
+        "d96d603aa568b4a597d1cadceab0167975351aaae954a1536fc8e0dfc0d1bc88"
+      ],
+      "family": "pi0260-family-042",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "ba198ce870f1c7a7522416c2c582b05f4a172e6e60ae24e41ac4e7d67890e068",
+        "c6f77bb11efb11a1da14ce037aed1336183e2c2fce4c9028338553e9fd422af0"
+      ],
+      "family": "pi0260-family-047",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "c4c47f4c4cbecd78930a10dd252ff26ae027eb35dc7a551314369290a8dc474f",
+        "40ffee24e327aabc103e17b3a7d49a440f339262791a6b1e5746dd6eb349a70f"
+      ],
+      "family": "pi0260-family-051",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "e60a853d1e302a89794f0d2ce327680de257f9839d51df4d6109a412fbb26e5b",
+        "7d01ebfe76a5e50fa26173e6a661fa6370bbb0b0135967fcabea8480a85d7738"
+      ],
+      "family": "pi0260-family-056",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "754fddc80dbefe3389afca743219de83ed86a2129b1b4bf3bf605bee6b85ce6e",
+        "feeea113f5e7b6c3762778f0d9d2fe9e711209fc783df16291e1854f066c8ea4"
+      ],
+      "family": "pi0260-family-061",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "0a980bac9a362ccde89148f5c3451a55d5e92980ec995109d7a8cc4e30d62ec2",
+        "949e40a9a6a9fb9fa7acaedfd0d763781d616380a5755f5bce7101f802895560"
+      ],
+      "family": "pi0260-family-064",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "9f8f5214d402342f109d82e9bf4e95789b95c6b4d1d9cf3b87d3c9c949ba5366",
+        "a7ff0020775b997a7aebfaed7ab517204e7ae3f3a5e84b273ac51a7848e0f9a8"
+      ],
+      "family": "pi0260-family-068",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "3699c6dc7d706054e29c11a23cf6cb6b8e385710c1f05e925d5f0c8e9d3e57d7",
+        "2df0d955381f905808d555967142e53d79af8b4f53977c05a03d749159675afb"
+      ],
+      "family": "pi0260-family-070",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "77e1d66df1e485efc1ab438e3557492574080fa294edb5ede11b94ea4ca8e251",
+        "3b1d3625844fb9b53ec3d59b099aefefea411baf2612b18440452f079bd46662"
+      ],
+      "family": "pi0260-family-072",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "14324efe9edd7b208c37b7b6c819914daad2cc42e0ac5f8222cc3174c8b82931",
+        "329524cd4dbb46894cb0ce8ea278f20477b64f44fe532afb2fea308d70b3cc1b"
+      ],
+      "family": "pi0260-family-074",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "b5a0303e2793dff5b4542a8d950f1d8c134437107dfc72d0f2b28d71d5976ce3",
+        "6372b49ef4c1c76ac5292cc190e2860fb01f0722aa9cb1692661fe11279589b8"
+      ],
+      "family": "pi0260-family-082",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "7edcb09a43501bd73f8cf631e226fb15fd227a77dceaef966cb902154336ceb7",
+        "d665f2851edd6c4e73f26dde1726863d77575e940349404c91e989b1b4468d11"
+      ],
+      "family": "pi0260-family-087",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "365ee82737bba0517666e8adc8c151ed90ef2106c76eb8114d4c30e635c2af0d",
+        "b6d4597b0634dbe4719264c582dd8109e4c098c0eebdb0f834fb1852088ef880"
+      ],
+      "family": "pi0260-family-092",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "06f7f1afc414857d993ba3c242579315eb8a785acf556e68173a73bb86374615",
+        "210facad590505a8d1e3343a6e46bde06ef7299346008dedfd3dc2b15d185eb0"
+      ],
+      "family": "pi0260-family-099",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "306d394a7d9c37ccea384a9f4488c387739db6bb15d3634808d26e279c6359f0",
+        "4cfef8d13509e9602bd4f46804b44213789858ef27b7a75c1ec43c48e758f282"
+      ],
+      "family": "pi0260-family-114",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "ae4231918336e333273ddcb68d978eb2a6de68d289bec027e5f4fb4068fc93ec",
+        "fcbc4d2a82e1c4475615362e8badbd6aa332e126862ca6c647792f8b6127dd75"
+      ],
+      "family": "pi0260-family-118",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "d89b3d4d7b5efb047d35b0cce3d6706fb60123f2e351129f5a0f3295a89d758d",
+        "b56427b0710877da00fd7cbaf4c50b77fd658da8174be45307e3aece6ae8757b"
+      ],
+      "family": "pi0260-family-119",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "91fcb247efb581632cf9eb59ca205e2f3128cac65c277c4d456c8e79a9aeb650",
+        "5e800fa48c8de6a9ede68ebaffa9b5092f8a8333b3576eb02ad30993c04927c4"
+      ],
+      "family": "pi0260-family-176",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "d67109ff5f0232bd9c33591716568bc94ea3d33861f11d35103df68109efafc2",
+        "0ccdd3851518afe9526d58f9f07e5891672df045a3d56a537eb562c93604528f"
+      ],
+      "family": "pi0260-family-183",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "2ec49b05a9136f05641f97f823df3e85cd85783f3515cd381542a2f3ed59dbf8",
+        "13cdb7c89014bd484a9f4ce4986c3d4860664017754a15a2c06b1635c6ec7d34"
+      ],
+      "family": "pi0260-family-186",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "d55c991651b2ddd20b02ea360663b2bc04dbe983055982f0521d0ed965c5e5a9",
+        "429383c151d8bf6d64de4d4a65e47ea371cb08591af6bc10f86874cb58631fbe"
+      ],
+      "family": "pi0260-family-188",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "04ad49fed2978c2762894716ff72b0c9492397e27e4ebbfe68f466a79f3d2dfd",
+        "d34baf61a55c68e621329a9cb32f7798da162e7f3d10ca9bfa4528a4cddbbd1e"
+      ],
+      "family": "pi0260-family-191",
+      "nonlanguage_equal": true,
+      "task": "M1",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "581e3cef816548a603e9c909775aab5bb2c2eba78e7d8b0923d5bfff3addf2a3",
+        "dd570f924997cc5e5b96ca5146fbfb82c3ac5e8b596785e313a117d3336a795f"
+      ],
+      "family": "pi0260-family-020",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "512ae7575752e6cb3d01207b423f7345892e0d92e8a1c7eeba8c7585200d6e01",
+        "dae4d3127a267f9904970670fcc0470638e6bdf06d502c48b7aa020faca8969f"
+      ],
+      "family": "pi0260-family-021",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "1025d511076122e97a6bce70a011c190ce83f891c6cc4b214ffbec97134d1299",
+        "29c60f667e7a6a6622a9d67b4949052a42d6608545fdfc7c36a435aebf004734"
+      ],
+      "family": "pi0260-family-023",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "c989ee0dba93defc3dda8fa4a6b4211027a988eacbde158965e3446216dc4ba5",
+        "4fe01623a1659d2cb552b8a635a63289fe8631b4c45f8c95b5a950ee3d0f9827"
+      ],
+      "family": "pi0260-family-024",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "f96f9b0f3a1013001466884db402430b33dd6d0769557a096b61d37c456d22b1",
+        "a52d4e54704472aa18d183de57479a17e86ff8947b0a0fe2f679b501bfce3914"
+      ],
+      "family": "pi0260-family-026",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "177d2b19e1da007f0c04d4e2e06d003947b15a65a94f02467735bb0cd9f2095a",
+        "f937f7792db5cbaa5be5ad82c6ea49191748d70b2d22385841551e36270a3cd1"
+      ],
+      "family": "pi0260-family-030",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "b770c39032dc13d9ba860f8c7996e052d634761c63a956d4843dba3ae8656ba7",
+        "ec122b1a5edc9c015eb0db6fd9421eebe73c050fc10b4000593cc504aaa0c0b6"
+      ],
+      "family": "pi0260-family-035",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "0a9d1fbfde5d7ad65b0603219215ddd1379140f111264cef5d8d94f0d33d890c",
+        "e8d9c6b4b8bbbdb3f633256fd076ca10e868059c39b0e3ae600707650c6523a4"
+      ],
+      "family": "pi0260-family-038",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "6d25c97dedd97bb6224bb9249a214bbb3fa41a3905b2e3f993c34e42bd151a11",
+        "5ae167908a66e103dc9422305db2f2361dcdb527065055a08c99f714a04a39a8"
+      ],
+      "family": "pi0260-family-042",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "52691b76797cb84343bd414b314aa092bfc40718db1659523dcff56b7f7a5fb8",
+        "8d632c61ccdc9d12fceef05a2f66538c3b0899cd1b89fbb354dd1af02e24dcc0"
+      ],
+      "family": "pi0260-family-047",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "f876c319cd905b7b37cfa177955d1ac32b41b073534ad0e9ea2a900005d0641b",
+        "861d902faa9ec9ab9675f87a7ae5f26d5914ca4ee3f0ad29efdbb4b9e8185664"
+      ],
+      "family": "pi0260-family-051",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "a3c79bbe59b9420454733fe146949f34cfce0c513260761329da62003aa5f760",
+        "fa6ade08df133f92c551f160acf2b21b7c0f6937ea172d90f5d93dfca5a2590e"
+      ],
+      "family": "pi0260-family-056",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "ef1b8254e0c9f78903228bb744f412fb549e4231cafaa2044b7f7293fc3d7300",
+        "1f26888449329126692bf42b865e8faf2007cb1abfc91723b7717a89793fb6bb"
+      ],
+      "family": "pi0260-family-061",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "9faac777d5dc57500ff04d18d7cc9d12d2148c3284fc65528e6ddff522630744",
+        "d1f01c5c0e480d2ed045e7a0b4e4ee0e989d3d3adb71919e12f618db0d2dcfd2"
+      ],
+      "family": "pi0260-family-064",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "5aa4a45039493d9a6bee7fb4f386210bb4758e11e45286ec328521d06e7b4c98",
+        "747f4e30ff6183c0bdf1290eded78a5743fbc29ffd04687b4f6913a0a882379b"
+      ],
+      "family": "pi0260-family-068",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "c92e867b7b9c63eba6af0b4bfa67557d955ceefe6a1fabf0ac835cd9f6aca34a",
+        "63ee16ee3bff05d2bd2024c7a60998dca1b4e4285633ee2741e0c99f657d4a22"
+      ],
+      "family": "pi0260-family-070",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "8ea1cd6edbc0e70eea2bd44f7c2d3c6ae8ea0e9517b9e47f3a1b511e123707a4",
+        "7bce2d97316537464ffb2750970b6c20d1f186a6c627ee9a87ea6039ef75caf2"
+      ],
+      "family": "pi0260-family-072",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "d4a0fc36b9fa4148ad5a62e5579f655065d74d84dfbc2c778a7ba989ba287fe3",
+        "b61be66bbc575ed585e4304ed2f1b71a094943e7044ea92d907fc43cb060320c"
+      ],
+      "family": "pi0260-family-074",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "77f466c21c89d0c910ac71a99bcab8a3c4e47f6411fb86066a02e436eb75aa0b",
+        "82f2806caa29aeaa945211ee76b4c7808394b37edc34064a8bdeaf39e99b3e3d"
+      ],
+      "family": "pi0260-family-082",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "eb77ff293409ce7cec7c15afdeabdca6b9b32d8d181a6d40673654b26e0b9508",
+        "2520ed07cefdc5ac4d4a22811106993ea307c35f0799672ac9d84524ddc648fb"
+      ],
+      "family": "pi0260-family-087",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "a748ae93432f75733005d79d1b444ed23d0c99e79e7e2297d750432249048d3a",
+        "790d615b688ddf062a430f70ecbe32b2597164bac760b6f7b3efe48056cd4368"
+      ],
+      "family": "pi0260-family-092",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "e7c521daa1fc430d1ad6f14c02ef95c45a68454ae883fd57ffdb7bdb82d80b17",
+        "f697da848df13ed8799edc26df32ba533703002b4f222b1c1fe6377dec6daef4"
+      ],
+      "family": "pi0260-family-099",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "eadccaf66f40982c89bae5ee7234b2b45fd53c5651d7076d7b19e043c552b465",
+        "a25b4a81e11ff07c062ed5d66779cd8f7d3faadc05026a06fd929a41722ac512"
+      ],
+      "family": "pi0260-family-114",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "bbf67911990bafd592b3cb15d2b912ad51d71aefbc23db1db99388a912dccd96",
+        "fbdd7b8d88a67e86fda9a4b280b7db4575af2cb9c13e0a9eb66a623f750033d2"
+      ],
+      "family": "pi0260-family-118",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "891c1ff1f69310824eaee5863b508623ffb1c8f4e8e217d84e9c2bbf9804a7db",
+        "3c08eb48c7d75a35446c69ffcd486318d87fcceb614b7efb36769ea17f75352b"
+      ],
+      "family": "pi0260-family-119",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "dc0ffb4443d65b28a6529b33ee2ad6893816056121b58cac5766ea0cbb7041ae",
+        "6bd29c947adeb78876a51fcae81d9c2a3e562145f31f97816d5c7de0fab25331"
+      ],
+      "family": "pi0260-family-176",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "d65e2b22c67e6701ca36d18b01cda6cbe7f9a4487f8dd22647d3185ac4fc7cc5",
+        "1dc8dbf42673fd64959d699fa13b74c3025d1c8fc2ea65dc72df7832f8c91f33"
+      ],
+      "family": "pi0260-family-183",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "fac651b967150c06e8aa0b177e76d76c68d34853bf6b440cf9b97fa758c92021",
+        "7b73e799c5e42b3622c768aebde0bec538dfaeb14d64942d74ed3a2b42485064"
+      ],
+      "family": "pi0260-family-186",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "145dc19271f6a5e2d371ec988cbb25a4330b895c17eb83e76b447af3b01cd845",
+        "199277aacfd7d6e2e5dcb0fddcae220b7dd15ca84789f1d5454daee033b38270"
+      ],
+      "family": "pi0260-family-188",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    },
+    {
+      "condition_digest": [
+        "d3ce2ab1963a2793799dd540cd214012e299889a7e3ec3480d3280c33cb1c386",
+        "f0f670ce8bfa4188b9842dc1da038935ab90ee59abf12adaa69d6e4e0f5e87b2"
+      ],
+      "family": "pi0260-family-191",
+      "nonlanguage_equal": true,
+      "task": "M3",
+      "token_distinct": true
+    }
+  ],
+  "schema": "PI0261_PROCESSED_PAIR_BANK_AUDIT_V1",
+  "status": "PASS_ALL_60_PROCESSED_PAIRS"
+}
