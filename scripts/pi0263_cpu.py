@@ -1,5 +1,6 @@
 """Independent computation-path CPU replay of all fixed PI0263 saved arrays."""
 import csv
+import argparse
 import itertools
 import json
 from collections import defaultdict
@@ -11,6 +12,7 @@ from pi0260_r3_inputs import batch,identity
 from pi0260_r3_eval_cpu import metrics
 
 ROOT=evaluation.ROOT
+OUT=ROOT
 r3=evaluation.r3
 
 
@@ -19,7 +21,7 @@ def rmse(a,b):
 
 
 def save_csv(name,rows):
-    path=ROOT/name
+    path=OUT/name
     assert rows and not path.exists()
     with path.open('w',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
@@ -33,17 +35,21 @@ def numeric(values):
     return out
 
 
-def replay():
+def replay(donor_only=False):
+    global OUT
     import pi0242_train_infer_bridge as bridge
     import pi0228_train_calib_checkpoint_selection as selector
     from gr00t.data.embodiment_tags import EmbodimentTag
     from go2arx5_vla.safety import TrajectorySafetyGateV1
     from go2arx5_vla.trajectory.so3 import matrix_to_quat,rot6d_rows_to_matrix
     card=read(ROOT/'UNION_EVAL_CARD.json');assert len(card['rows'])==1152 and len(card['aliases'])==1320
+    points=['P2000'] if donor_only else card['points']
+    OUT=ROOT/'donor_cpu' if donor_only else ROOT
+    OUT.mkdir(parents=True,exist_ok=True)
     proc=evaluation.crossed.processor()
     checked,conditions,source_cache={}, {}, {}
     provenance=[];fresh_queries=set();cached_rows=0
-    for point in card['points']:
+    for point in points:
         binding=card['donor_binding'] if point=='P2000' else read(ROOT/'model_bindings'/f'{point}.json')
         for row in card['rows']:
             uid=row['uid'];cell=ROOT/'eval'/point/'cells'/uid;rec=read(cell/'record.json')
@@ -91,11 +97,11 @@ def replay():
             assert [x.code for x in gate.issues]==[x['code'] for x in rec['gate']['issues']]
             checked[point,uid]=(out,expert,dict(**observed,reject=gate.decision.value=='REJECT',gate=gate.decision.value))
             provenance.append(dict(point=point,uid=uid,record_sha256=sha(cell/'record.json'),tensor_sha256=rec['tensor_sha256']))
-    assert len(checked)==3456
+    assert len(checked)==1152*len(points)
 
     legacy_rows,cross_rows,predictions,references=[],[],{},{}
     motion=read(r3.R3/'motion2_eval_cases.json')['cases']
-    for point in card['points']:
+    for point in points:
         for alias in card['aliases']:
             out,expert,observed=checked[point,alias['uid']]
             src=alias['source_row'];noise=src['noise']
@@ -112,7 +118,7 @@ def replay():
             else:
                 case=src if src['cohort']=='TRAIN_ENTRY' else motion[src['case_index']] if src['cohort']=='Motion2' else {}
                 task=case.get('task','O64');kind=case.get('kind','TRAIN_ENTRY' if src['cohort']=='TRAIN_ENTRY' else 'O64')
-                family=case.get('family','');command=case.get('command',-1)
+                family=case.get('family',case.get('sequence','').rsplit(f'-{task}-c',1)[0]);command=case.get('command',-1)
                 own,opposite,margin=None,None,None
                 if kind in ('SEMANTIC','PARAPHRASE','TRAIN_ENTRY'):
                     rec,_,labels=r3.sequence(f'{family}-{task}-c{1-command}')
@@ -121,10 +127,10 @@ def replay():
                 legacy_rows.append(dict(point=point,uid=alias['uid'],panel_index=alias['index'],task=task,kind=kind,
                     family=family,command=command,noise=noise,own_m=own,opposite_m=opposite,margin_m=margin,
                     correct=margin>0 if margin is not None else None,**observed))
-    assert len(legacy_rows)==2040 and len(cross_rows)==1920
+    assert len(legacy_rows)==680*len(points) and len(cross_rows)==640*len(points)
     save_csv('LEGACY_PANEL_ROWS.csv',legacy_rows);save_csv('CROSSED_PANEL_ROWS.csv',cross_rows)
     legacy_groups,cross_groups,qualification=[],[],[]
-    for point in card['points']:
+    for point in points:
         numerics=[];semantics=[]
         for task in ('M1','M3'):
             for noise in ('B0','B1'):
@@ -158,8 +164,8 @@ def replay():
                     cross_groups.append(group)
         qualification.append(dict(point=point,legacy_full_quality_pass=all(numerics) and all(semantics),
             crossed_M1_robustness_pass=all(passes),combined_pass=all(numerics) and all(semantics) and all(passes)))
-    write(ROOT/'QUALIFICATION.json',dict(points=qualification,legacy_groups=legacy_groups,crossed_groups=cross_groups,
-        synthetic_research_candidate=next((p for p in ('F2000','X2000') if next(q for q in qualification if q['point']==p)['combined_pass']),'NONE'),
+    write(OUT/'QUALIFICATION.json',dict(points=qualification,legacy_groups=legacy_groups,crossed_groups=cross_groups,
+        synthetic_research_candidate='NONE' if donor_only else next((p for p in ('F2000','X2000') if next(q for q in qualification if q['point']==p)['combined_pass']),'NONE'),
         historical_PI0261='FULL_QUALIFICATION_FAIL_UNCHANGED',historical_PI0262='COMPLETE_MIXED_UNCHANGED',
         selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
     groups=defaultdict(list)
@@ -193,21 +199,21 @@ def replay():
         noise_flips.append(dict(point=p,split=s,family=f,template=t,B0_category=a['category'],B1_category=b['category'],
             c0_boundary_crossing=(a['s0']<0)!=(b['s0']<0),c1_boundary_crossing=(a['s1']>0)!=(b['s1']>0)))
     save_csv('NOISE_BOUNDARY_CROSSINGS.csv',noise_flips)
-    attempts=[json.loads(r) for r in (ROOT/'attempts.jsonl').read_text().splitlines()]
-    heads=[json.loads(r) for r in (ROOT/'head_forwards.jsonl').read_text().splitlines()]
+    attempts=[] if donor_only else [json.loads(r) for r in (ROOT/'attempts.jsonl').read_text().splitlines()]
+    heads=[] if donor_only else [json.loads(r) for r in (ROOT/'head_forwards.jsonl').read_text().splitlines()]
     assert len(attempts)<=2432 and len(heads)<=9728
     assert [r['ordinal'] for r in attempts]==list(range(1,len(attempts)+1))
     assert [r['ordinal'] for r in heads]==list(range(1,len(heads)+1))
     assert all(r['point'] in ('F2000','X2000') for r in attempts+heads)
     assert {(r['point'],r['uid']) for r in attempts}==fresh_queries
     reserve=len(attempts)-len(fresh_queries);assert 0<=reserve<=128
-    write(ROOT/'CPU_REPLAY.json',dict(status='PASS_INDEPENDENT_COMPUTATION_PATH_CPU_3456_REPLAY',
-        reviewer='same sole producer; independent computational path, not external reviewer',rows=3456,
+    write(OUT/'CPU_REPLAY.json',dict(status='PASS_INDEPENDENT_COMPUTATION_PATH_CPU_DONOR_1152_REPLAY' if donor_only else 'PASS_INDEPENDENT_COMPUTATION_PATH_CPU_3456_REPLAY',
+        reviewer='same sole producer; independent computational path, not external reviewer',rows=len(checked),
         reused_donor_rows=1152,processed_conditions=len(conditions),new_attempts=len(attempts),heads=len(heads),
         invalid_only_reserve_used=reserve,new_endpoint_exact_forward_reuses=cached_rows,
         provenance=provenance,code_sha256=sha(__file__),
         eval_card_sha256=sha(ROOT/'UNION_EVAL_CARD.json'),selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
-    print(json.dumps(dict(status='PASS_PI0263_CPU_REPLAY',rows=3456,qualification=qualification)))
+    print(json.dumps(dict(status='PASS_PI0263_CPU_REPLAY',rows=len(checked),qualification=qualification)))
 
 
 def _group(rows,keys):
@@ -216,4 +222,5 @@ def _group(rows,keys):
     return result
 
 
-if __name__=='__main__':replay()
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--donor-only',action='store_true');replay(p.parse_args().donor_only)
