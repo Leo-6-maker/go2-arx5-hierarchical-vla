@@ -53,7 +53,7 @@ def main(token_file):
         inputs.update(path for path in (ROOT / folder).rglob('*')
                       if path.is_file() and path.suffix in ALLOWED and '.partial.' not in path.name)
     inputs = sorted(inputs, key=lambda path: path.relative_to(ROOT).as_posix())
-    assert all(not path.is_symlink() and path.resolve().is_relative_to(ROOT)
+    assert all(not path.is_symlink() and path.resolve().is_relative_to(ROOT.resolve())
                and path.suffix in ALLOWED for path in inputs)
     rows = [dict(path=path.relative_to(ROOT).as_posix(), bytes=path.stat().st_size,
                  sha256=sha(path)) for path in inputs]

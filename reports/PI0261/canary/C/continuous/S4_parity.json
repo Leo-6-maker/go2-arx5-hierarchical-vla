@@ -1,0 +1,342 @@
+{
+  "candidate_gate": {
+    "decision": "ACCEPT",
+    "issues": [],
+    "metrics": {
+      "angular_speed_radps": {
+        "max": 0.2251171954196598,
+        "mean": 0.06585274781372162,
+        "median": 0.0448604437940697,
+        "p95": 0.18975766794475696
+      },
+      "chunk_age_s": 0.0,
+      "chunk_id": "pi0247-u-stock-parity",
+      "initial_position_discontinuity_m": 0.0004264086554143274,
+      "initial_rotation_discontinuity_rad": 0.0010531698890583867,
+      "linear_speed_mps": {
+        "max": 0.15044385929720736,
+        "mean": 0.04181474638581376,
+        "median": 0.036769195286515885,
+        "p95": 0.08388378615683903
+      },
+      "se3_arc_length_m": 0.08601606550409313,
+      "translation_path_length_m": 0.08153875545233684
+    },
+    "provenance": {
+      "corrective_action": "NONE",
+      "gate": "TrajectorySafetyGateV1",
+      "threshold_provenance": {
+        "aging_age_s": "CONTROLLER_CONTRACT",
+        "angular_speed_reject_radps": "TEST_ONLY",
+        "angular_speed_warn_radps": "TEST_ONLY",
+        "initial_position_reject_m": "BENCHMARK_DERIVED",
+        "initial_position_warn_m": "BENCHMARK_DERIVED",
+        "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+        "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+        "linear_speed_reject_mps": "TEST_ONLY",
+        "linear_speed_warn_mps": "TEST_ONLY",
+        "max_path_length_m": "TEST_ONLY",
+        "min_arc_length_m": "CONTROLLER_CONTRACT",
+        "min_points": "CONTROLLER_CONTRACT",
+        "stale_age_s": "CONTROLLER_CONTRACT",
+        "workspace_reject_max_m": "TEST_ONLY",
+        "workspace_reject_min_m": "TEST_ONLY",
+        "workspace_warn_max_m": "GENERATOR_SUPPORT",
+        "workspace_warn_min_m": "GENERATOR_SUPPORT"
+      }
+    }
+  },
+  "decoded_action_max_abs": 0.0,
+  "decoded_xyz_max_abs_m": 0.0,
+  "expert_action_in_condition": false,
+  "gate_decision_equal": true,
+  "gate_issues_equal": true,
+  "global_rng_consumed": false,
+  "head_evaluations_candidate": 4,
+  "head_evaluations_reference": 4,
+  "native_epsilon": {
+    "byte_count": 10560,
+    "device": "cuda:0",
+    "dtype": "torch.bfloat16",
+    "sha256": "9c1fb2e64a815563161bda8a2390dbc9611e634bcc0b4c85289f3d0cc168c65b",
+    "shape": [
+      1,
+      40,
+      132
+    ]
+  },
+  "native_noise_substitutions": 1,
+  "nonselection_complete_rollouts": 2,
+  "raw_final_max_abs": 0.0,
+  "reference": "pinned Gr00tN1d7ActionHead.get_action; label-free condition; shared stock-dtype epsilon",
+  "reference_gate": {
+    "decision": "ACCEPT",
+    "issues": [],
+    "metrics": {
+      "angular_speed_radps": {
+        "max": 0.2251171954196598,
+        "mean": 0.06585274781372162,
+        "median": 0.0448604437940697,
+        "p95": 0.18975766794475696
+      },
+      "chunk_age_s": 0.0,
+      "chunk_id": "pi0247-u-stock-parity",
+      "initial_position_discontinuity_m": 0.0004264086554143274,
+      "initial_rotation_discontinuity_rad": 0.0010531698890583867,
+      "linear_speed_mps": {
+        "max": 0.15044385929720736,
+        "mean": 0.04181474638581376,
+        "median": 0.036769195286515885,
+        "p95": 0.08388378615683903
+      },
+      "se3_arc_length_m": 0.08601606550409313,
+      "translation_path_length_m": 0.08153875545233684
+    },
+    "provenance": {
+      "corrective_action": "NONE",
+      "gate": "TrajectorySafetyGateV1",
+      "threshold_provenance": {
+        "aging_age_s": "CONTROLLER_CONTRACT",
+        "angular_speed_reject_radps": "TEST_ONLY",
+        "angular_speed_warn_radps": "TEST_ONLY",
+        "initial_position_reject_m": "BENCHMARK_DERIVED",
+        "initial_position_warn_m": "BENCHMARK_DERIVED",
+        "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+        "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+        "linear_speed_reject_mps": "TEST_ONLY",
+        "linear_speed_warn_mps": "TEST_ONLY",
+        "max_path_length_m": "TEST_ONLY",
+        "min_arc_length_m": "CONTROLLER_CONTRACT",
+        "min_points": "CONTROLLER_CONTRACT",
+        "stale_age_s": "CONTROLLER_CONTRACT",
+        "workspace_reject_max_m": "TEST_ONLY",
+        "workspace_reject_min_m": "TEST_ONLY",
+        "workspace_warn_max_m": "GENERATOR_SUPPORT",
+        "workspace_warn_min_m": "GENERATOR_SUPPORT"
+      }
+    }
+  },
+  "rng_audit": {
+    "cpu_unchanged_candidate": true,
+    "cpu_unchanged_reference": true,
+    "cuda_unchanged_candidate": true,
+    "cuda_unchanged_reference": true
+  },
+  "rtc_options": null,
+  "runtime_id": "S4",
+  "status": "PASS_PI0247_U_S4_PARITY",
+  "step_input_max_abs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "step_tensor_identities": [
+    {
+      "candidate_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "dfc00a935c29a8a2c32c26b67dfbc8d14c2a7c99a0f523914d5b69b0d824a7ac",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "candidate_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "36f47239df4248bc95e0d0a5b75be173c38cbf5660cc108a6ac85d88b67146d9",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "dfc00a935c29a8a2c32c26b67dfbc8d14c2a7c99a0f523914d5b69b0d824a7ac",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "36f47239df4248bc95e0d0a5b75be173c38cbf5660cc108a6ac85d88b67146d9",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "step": 1
+    },
+    {
+      "candidate_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "c4c58ea6fa77610942db99311a45bf88482a8769fe0974f4db13a29ae48ef1b3",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "candidate_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "883069c03de39536f42aebb206d09025d6567685522b38c751e1365fe1a4c700",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "c4c58ea6fa77610942db99311a45bf88482a8769fe0974f4db13a29ae48ef1b3",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "883069c03de39536f42aebb206d09025d6567685522b38c751e1365fe1a4c700",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "step": 2
+    },
+    {
+      "candidate_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "28ba915062199a502926d67908b8080e61bb1a21a10df940e821dcb5629a239a",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "candidate_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "00d590e82bd58a229b5dba8540d30ed7d953b64651640b819306599ba7aae411",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "28ba915062199a502926d67908b8080e61bb1a21a10df940e821dcb5629a239a",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "00d590e82bd58a229b5dba8540d30ed7d953b64651640b819306599ba7aae411",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "step": 3
+    },
+    {
+      "candidate_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "a293ac616c415a4a44c3ddea7b6965af58f8b0ce37cf6cf61472d86ddb797b83",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "candidate_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "ab72cae63952ac3c6ca691e3634a1f0d0ed7c15f83370d0ceda3a0990003d234",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_input": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "a293ac616c415a4a44c3ddea7b6965af58f8b0ce37cf6cf61472d86ddb797b83",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "reference_velocity": {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "ab72cae63952ac3c6ca691e3634a1f0d0ed7c15f83370d0ceda3a0990003d234",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      "step": 4
+    }
+  ],
+  "step_velocity_max_abs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "steps": 4,
+  "stock_noise": {
+    "byte_count": 21120,
+    "device": "cuda:0",
+    "dtype": "torch.float32",
+    "sha256": "dfc00a935c29a8a2c32c26b67dfbc8d14c2a7c99a0f523914d5b69b0d824a7ac",
+    "shape": [
+      1,
+      40,
+      132
+    ]
+  }
+}
