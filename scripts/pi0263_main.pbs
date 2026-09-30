@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#PBS -N pi0263_pair_main
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+#PBS -l walltime=06:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0263/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0263/logs/
+set -euo pipefail
+root=/scratch/e1192548/Projects/go2-arx5/experiments/PI0263
+venv=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv
+ff=/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+test "$(sha256sum "$root/code/pi0263_train.py" | cut -d ' ' -f 1)" = "${PI0263_CODE_SHA256:?}"
+test "$(sha256sum "$root/PAIRING_PLAN.json" | cut -d ' ' -f 1)" = 602dc213ca91f2dcd5099bd97a45587fe5fe1e0d205243596d48e07c5f662617
+test "${PI0263_ARM:?}" = F -o "${PI0263_ARM}" = X
+test "${PI0263_LIMIT:?}" = 1000 -o "${PI0263_LIMIT}" = 2000
+test -f "$root/$PI0263_ARM/canary_compare.json"
+export HF_HOME=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home
+export HF_HUB_CACHE="$HF_HOME/hub" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+export HF_HUB_DISABLE_TELEMETRY=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1 PYTHONUNBUFFERED=1 CUBLAS_WORKSPACE_CONFIG=:4096:8
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$root/code:/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution:/scratch/e1192548/pi0244_fixed16_10k_v1/scripts:/scratch/e1192548/pi0244_fixed16_10k_v1/src:/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/scripts:/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/src:/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t:${PYTHONPATH:-}"
+"$venv/bin/python" - "$root/EXECUTION_FILESET.json" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+for row in json.loads(Path(sys.argv[1]).read_text())['files']:
+    path=Path(row['path'])
+    with path.open('rb') as stream:
+        digest=hashlib.file_digest(stream,'sha256').hexdigest()
+    assert path.stat().st_size==row['bytes'] and digest==row['sha256'],str(path)
+print('PASS_PI0263_STAGED_FILESET')
+PY
+"$venv/bin/python" -u "$root/code/pi0263_train.py" --arm "$PI0263_ARM" --phase main --limit "$PI0263_LIMIT" --resume "${PI0263_RESUME:-0}"

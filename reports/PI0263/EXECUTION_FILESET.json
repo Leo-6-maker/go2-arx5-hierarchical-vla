@@ -1,0 +1,108 @@
+{
+  "GPU_request": "legal auto queue H200 as existing qualified runtime",
+  "canary_updates": 32,
+  "compute_capacity_basis": "unchanged qualified PI0261 full-S4 FP32 action-head/AdamW runtime; no GR00T training on Corelab",
+  "donor_readback": "PASS_16_FILES",
+  "files": [
+    {
+      "bytes": 33936,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0247_u_rollout_overlay.py",
+      "sha256": "705b2fd29f29cc94e7d27163efac4055d73fc945955897f248b33eee2a4fcb70"
+    },
+    {
+      "bytes": 456,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r3_inputs.py",
+      "sha256": "88e83ca2f51deefd18b26949165bf8c5e800439750bd6d524cfde81ea7c4d5b5"
+    },
+    {
+      "bytes": 11187,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r3_train.py",
+      "sha256": "eafd1350f8b6553f5a83835ebde9ee7b8f03e1e8cbd56415cde2ce060323ac64"
+    },
+    {
+      "bytes": 13797,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0261/code/pi0261_train.py",
+      "sha256": "0f5f197ff325e5441298ddf60c040820a4f0734212b762405727ab9ee9bdb364"
+    },
+    {
+      "bytes": 3136,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/DONOR_LOCAL_READBACK.json",
+      "sha256": "86d0d07ba13ad3cdb44f028b3c12124913bff5e433465560e5636f92cb24bd35"
+    },
+    {
+      "bytes": 3663829,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/PAIRING_PLAN.json",
+      "sha256": "602dc213ca91f2dcd5099bd97a45587fe5fe1e0d205243596d48e07c5f662617"
+    },
+    {
+      "bytes": 22513,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/PI0263_PROTOCOL.md",
+      "sha256": "9d0a738799e3d7797120c02bbb87a7ca31512e1efde752b1847409e5b7583c2c"
+    },
+    {
+      "bytes": 5831813,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/PROCESSED_PLAN_AUDIT.json",
+      "sha256": "090e7ac05f1d2508369670f96e8e1ab11dc9d37fb4bd334f6e054499654e363a"
+    },
+    {
+      "bytes": 5024113,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/UNION_EVAL_CARD.json",
+      "sha256": "998741b897b600affaefbc75ab7f0657d628f2cd22b2a9b6869377bf14eabb04"
+    },
+    {
+      "bytes": 4720,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_archive_trainer.py",
+      "sha256": "9778169f68781828258dc4bc92b62cda06d43806339eb5fc8c8185d5c1a4b1bc"
+    },
+    {
+      "bytes": 2825,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_canary.pbs",
+      "sha256": "f7fd66fa05aa67c63505ad821e49815937a9bb2dac13ef559a80167f9844a278"
+    },
+    {
+      "bytes": 3342,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_compare_canary.py",
+      "sha256": "9478065cae65830c7380244bcf83d13a9ded9fd4936ad22298eb297eb1c167ea"
+    },
+    {
+      "bytes": 2500,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_main.pbs",
+      "sha256": "3ea8a0d1c99c6ce02dd77d6e10e7df76a89a92d0d60d7d545bfe48cf6353d686"
+    },
+    {
+      "bytes": 5763,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_plan.py",
+      "sha256": "c27a98334ebaedec72f88979e800b90e9679774ebb6476012d34e8a8f40d729f"
+    },
+    {
+      "bytes": 2101,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_retire_canary.py",
+      "sha256": "018bac99a898caffd5671287bf955cc70f8e336b2321897135a6742e75ffb049"
+    },
+    {
+      "bytes": 3450,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_stage.py",
+      "sha256": "193e8053f3408442c29f4a158c6b76417cf6d5d29b95a63d13fd08105c042498"
+    },
+    {
+      "bytes": 17174,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code/pi0263_train.py",
+      "sha256": "c7cf5ea5e8170a5db8adc321db79455a17dafbfc39a995d9c11f53502b37b64d"
+    },
+    {
+      "bytes": 1195399,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/registry.json",
+      "sha256": "3a52d5742bafe0cbbecacac53ad9447e7d53730c5b1a489dec4453b8ef8c00b5"
+    }
+  ],
+  "main_update_cap": 4000,
+  "minimum_next_write_free_bytes": 31620162799,
+  "observed_user_root_free_bytes": 166996213760,
+  "quota_headroom": "UNKNOWN",
+  "raw_completed_update_cap": 4288,
+  "raw_training_head_cap": 100000,
+  "recovery_completed_update_reserve": 256,
+  "status": "PI0263_EXECUTION_FILESET_FROZEN",
+  "storage_policy": "sequential arms; retire compared canary copies; full Trainer fixed HF readback before any retirement",
+  "storage_query_path": "/scratch/e1192548"
+}
