@@ -81,7 +81,7 @@ def render():
                 y=445+n*34;cv2.line(canvas,(600,y-5),(630,y-5),vis.COLORS[name],3)
                 metric=scores.get(name);text=name if metric is None else f'{name}: XYZ {metric[0]:.4f}m, SO3 {metric[1]:.3f}rad, gate {metric[2]}'
                 vis.line(canvas,text,640,y,size=.42)
-            vis.line(canvas,'Development validation. X T0/T1 crossings are TRAIN-exposed; V0/V1 unsupervised. selected=NONE.',18,690,size=.42)
+            vis.line(canvas,'Development validation. X T0/T1 templates supervised; V0/V1 absent from optimization. selected=NONE.',18,690,size=.42)
             writer.write(canvas)
     writer.release();capture=cv2.VideoCapture(str(video));frames=0
     while capture.read()[0]:frames+=1
