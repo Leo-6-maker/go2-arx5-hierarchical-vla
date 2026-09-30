@@ -20,12 +20,24 @@ def sha(path):
 
 def main(arm):
     point = arm + '2000'
-    source = json.loads((ROOT / 'evidence' / arm / 'checkpoint-2000.full_readback.json').read_text())
-    assert (source['status'], source['arm'], source['step'], source['complete_trainer']) == (
-        'PASS_FULL_FILE_READBACK', arm, 2000, True)
+    readback = ROOT / 'evidence' / arm / 'checkpoint-2000.full_readback.json'
+    source_path = readback if readback.exists() else ROOT / 'evidence' / arm / 'checkpoint-2000.archive_receipt.json'
+    source = json.loads(source_path.read_text())
+    assert (source['arm'],source['step'])==(arm,2000)
+    if readback.exists():
+        assert source['status']=='PASS_FULL_FILE_READBACK' and source['complete_trainer']
+        source_files=source['files']
+    else:
+        # A verified model-only download can overlap full optimizer readback; no Trainer retirement.
+        training=json.loads((ROOT/'MAIN_TRAINING_AUDIT.json').read_text())
+        assert training['status']=='PASS_BOTH_2000_MATCHED_TRAINING_INTEGRITY'
+        assert training['optimizer_updates'][arm]==2000 and source['status']=='UPLOADED'
+        source_files=source['entries']
+        assert len(source_files)>=16 and all(n in {r['path'] for r in source_files} for n in
+            ('optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json'))
     names = ('config.json', 'model-00001-of-00002.safetensors',
              'model-00002-of-00002.safetensors', 'model.safetensors.index.json')
-    entries = {row['path']: row for row in source['files']}
+    entries = {row['path']: row for row in source_files}
     assert all(name in entries for name in names)
     download_root = GPU / 'models' / point
     root = download_root / source['prefix']
