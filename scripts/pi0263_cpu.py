@@ -37,6 +37,7 @@ def numeric(values):
 
 def replay(donor_only=False, point=None):
     global OUT
+    requested_point=point  # Loop cursors below must not change the requested replay scope.
     import pi0242_train_infer_bridge as bridge
     import pi0228_train_calib_checkpoint_selection as selector
     from gr00t.data.embodiment_tags import EmbodimentTag
@@ -172,7 +173,7 @@ def replay(donor_only=False, point=None):
         qualification.append(dict(point=point,legacy_full_quality_pass=all(numerics) and all(semantics),
             crossed_M1_robustness_pass=all(passes),combined_pass=all(numerics) and all(semantics) and all(passes)))
     write(OUT/'QUALIFICATION.json',dict(points=qualification,legacy_groups=legacy_groups,crossed_groups=cross_groups,
-        synthetic_research_candidate='NONE' if donor_only or point else next((p for p in ('F2000','X2000') if next(q for q in qualification if q['point']==p)['combined_pass']),'NONE'),
+        synthetic_research_candidate='NONE' if donor_only or requested_point else next((p for p in ('F2000','X2000') if next(q for q in qualification if q['point']==p)['combined_pass']),'NONE'),
         historical_PI0261='FULL_QUALIFICATION_FAIL_UNCHANGED',historical_PI0262='COMPLETE_MIXED_UNCHANGED',
         selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
     groups=defaultdict(list)
@@ -221,9 +222,9 @@ def replay(donor_only=False, point=None):
     included_attempts=[r for r in attempts if r['point'] in points]
     assert {(r['point'],r['uid']) for r in included_attempts}==fresh_queries
     reserve=len(included_attempts)-len(fresh_queries);assert 0<=reserve<=128
-    write(OUT/'CPU_REPLAY.json',dict(status='PASS_INDEPENDENT_COMPUTATION_PATH_CPU_DONOR_1152_REPLAY' if donor_only else f'PASS_INDEPENDENT_COMPUTATION_PATH_CPU_{point}_1152_REPLAY' if point else 'PASS_INDEPENDENT_COMPUTATION_PATH_CPU_3456_REPLAY',
+    write(OUT/'CPU_REPLAY.json',dict(status='PASS_INDEPENDENT_COMPUTATION_PATH_CPU_DONOR_1152_REPLAY' if donor_only else f'PASS_INDEPENDENT_COMPUTATION_PATH_CPU_{requested_point}_1152_REPLAY' if requested_point else 'PASS_INDEPENDENT_COMPUTATION_PATH_CPU_3456_REPLAY',
         reviewer='same sole producer; independent computational path, not external reviewer',rows=len(checked),
-        reused_donor_rows=0 if point else 1152,processed_conditions=len(conditions),new_attempts=len(included_attempts),heads=sum(r['point'] in points for r in heads),
+        reused_donor_rows=1152 if 'P2000' in points else 0,processed_conditions=len(conditions),new_attempts=len(included_attempts),heads=sum(r['point'] in points for r in heads),
         global_attempts=len(attempts),global_heads=len(heads),
         invalid_only_reserve_used=reserve,new_endpoint_exact_forward_reuses=cached_rows,
         provenance=provenance,code_sha256=sha(__file__),
