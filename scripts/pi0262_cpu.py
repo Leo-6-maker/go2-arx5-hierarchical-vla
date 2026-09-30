@@ -40,6 +40,16 @@ def run():
     card = r3.read(card_path)
     assert len(card['rows']) == 1920 and len({r['row_id'] for r in card['rows']}) == 1920
     assert r3.sha(ROOT / 'SOURCE_TEMPLATE_SPLIT_MANIFEST.json') == card['source_manifest_sha256']
+    bindings = r3.read(ROOT / 'SOURCE_BINDING_AUDIT.json')
+    assert r3.sha(ROOT / 'SOURCE_BINDING_AUDIT.json') == card['source_binding_sha256']
+    expected = {'Donor': '52abc8d151b67bb667e43fcf874dfe2cfa253364',
+                'C2000': 'ce5122232b3577005ecabb4cdd95f252cde5b2a6',
+                'P2000': '875abdde2cc7c9e6858fac008e53f2f4b3375255'}
+    for point, revision in expected.items():
+        assert '@' + revision + '/' in bindings['models'][point]['binding']['source_revision']
+    for source in bindings['code'].values():
+        assert r3.sha(source['path']) == source['sha256']
+    assert r3.sha(r3.ROOT / 'dataset/statistics.json') == bindings['statistics_sha256']
     stage40._bind_local_cosmos_processor(r3.GROOT, r3.COSMOS)
     processor = build(r3.read(r3.ROOT / 'dataset/statistics.json'), r3.COSMOS)
     conditions, frames, predictions, references = {}, {}, {}, {}
@@ -188,8 +198,13 @@ def run():
     assert [r['ordinal'] for r in attempts] == list(range(1, len(attempts)+1))
     assert [r['ordinal'] for r in heads] == list(range(1, len(heads)+1))
     assert all(any(v['row_id'] == h['row_id'] for v in attempts) for h in heads)
+    new_ids = {r['row_id'] for r in card['rows'] if not r['reused_source']}
+    assert new_ids == {r['row_id'] for r in attempts}
+    invalid_only_reserve_used = len(attempts) - len(new_ids)
+    assert 0 <= invalid_only_reserve_used <= 96
     r3.write(ROOT / 'CPU_REPLAY.json', dict(status='PASS_INDEPENDENT_CPU_1920_REPLAY',
         rows=1920, reused_rows=504, new_attempts=len(attempts), action_head_forwards=len(heads),
+        invalid_only_reserve_used=invalid_only_reserve_used,
         processed_conditions=len(conditions), groups=groups, provenance=provenance,
         model_queries_by_cpu=0, optimizer_updates=0, backward_calls=0, physics_steps=0,
         cpu_code_sha256=r3.sha(__file__), eval_card_sha256=r3.sha(card_path),
