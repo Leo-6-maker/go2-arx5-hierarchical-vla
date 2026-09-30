@@ -1,0 +1,58 @@
+{
+  "actual_completed_by_arm_phase": [
+    {
+      "arm": "F",
+      "phase": "continuous",
+      "updates": 8
+    },
+    {
+      "arm": "F",
+      "phase": "main",
+      "updates": 2000
+    },
+    {
+      "arm": "F",
+      "phase": "split",
+      "updates": 8
+    },
+    {
+      "arm": "X",
+      "phase": "continuous",
+      "updates": 8
+    },
+    {
+      "arm": "X",
+      "phase": "main",
+      "updates": 2000
+    },
+    {
+      "arm": "X",
+      "phase": "split",
+      "updates": 8
+    }
+  ],
+  "actual_four_step_gradient_and_mode_checks": true,
+  "actual_random_packets_matched_within_unit_and_across_arms": true,
+  "code_sha256": "79219fe1606041958b4d26fab5600afe12e1755afbbe5cf6e4ecde32791ea04b",
+  "completed_updates_sha256": "b864285a7633dc0284f6ed158a30e1807db61881e68d8a467fbc7dd3d98b310a",
+  "deployment_selected_checkpoint": "NONE",
+  "discarded_canary_updates": 32,
+  "model_queries_by_audit": 0,
+  "optimizer_updates": {
+    "F": 2000,
+    "X": 2000
+  },
+  "optimizer_updates_by_audit": 0,
+  "plan_sha256": "602dc213ca91f2dcd5099bd97a45587fe5fe1e0d205243596d48e07c5f662617",
+  "raw_completed_updates": 4032,
+  "raw_training_heads": 72624,
+  "schema": "PI0263_MATCHED_MAIN_TRAINING_AUDIT_V1",
+  "selected_checkpoint": "NONE",
+  "status": "PASS_BOTH_2000_MATCHED_TRAINING_INTEGRITY",
+  "supervised_microbatches": {
+    "F": 4000,
+    "X": 4000
+  },
+  "technical_completed_update_reserve_used": 0,
+  "training_heads_sha256": "05e9d0818f32fe63d3fac5b67179d6f377c5baac924bb5e2cbf728cb6d6440a2"
+}
