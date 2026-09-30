@@ -109,6 +109,13 @@ def install(args, output):
     rollout._append_json = capture
 
     class PairTrainer(base_trainer):
+        def save_model(self, output_dir=None, *pos, **kw):
+            # The final bare save duplicates the complete checkpoint model on scratch.
+            if output_dir is None and self.state.global_step == args.limit:
+                assert (output / f'checkpoint-{args.limit}' / 'trainer_state.json').is_file()
+                return
+            return super().save_model(output_dir, *pos, **kw)
+
         def training_step(self, model, inputs, *pos, **kw):
             micro_global = getattr(self, '_pi_micro', 2 * args.resume) + 1
             unit = (micro_global + 1) // 2
