@@ -1,0 +1,23 @@
+{
+  "status": "CPU_COUNTEREXAMPLE_REPRODUCED_NOT_PI0266_EXECUTION",
+  "source_sha256": "8b12bb18e2336581b03be77f9b637b461e3ed4db5a455fbe4b6e1931b4a9ea27",
+  "source": "PI0265/scripts/pi0265_metrics.py",
+  "executed_on": "Corelab via corelab-amd-server -> corelab-4080s",
+  "parameters": {
+    "radius_m": 0.05,
+    "first_point_angle_offset_rad": -0.0001,
+    "samples": 1001,
+    "task_duration_s": 20,
+    "approach_duration_s": 4,
+    "arc_duration_s": 12
+  },
+  "results": [
+    {"case": "ideal", "displacement_m": 0.0, "ordered_bins": 12, "gap": false, "reverse": false, "success": true},
+    {"case": "first_point_negative_1e-4rad", "displacement_m": 0.000004999999997952435, "ordered_bins": 12, "gap": true, "reverse": true, "success": false}
+  ],
+  "claim_boundary": "Constructed boundary sensitivity only; no reclassification of historical episodes. Full PI0266 protocol/package unavailable in this session.",
+  "physics_starts": 0,
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "publication": "NOT_PERFORMED"
+}
