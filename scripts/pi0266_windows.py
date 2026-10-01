@@ -18,11 +18,17 @@ def round_robin(rows):
     return [item for group in itertools.zip_longest(*(groups[k] for k in sorted(groups))) for item in group if item is not None]
 
 
+def observable_command(task,command,colors):
+    # Numeric command IDs are audit metadata. The policy sees the target color or directed open-arc instruction.
+    return 'M1:TARGET_COLOR:'+colors[command] if task=='M1' else ('M3:BLACK_TO_WHITE_CCW' if command==0 else 'M3:WHITE_TO_BLACK_CW')
+
+
 def audit_parents(parents):
     source=read(ROOT/'evidence/SOURCE_IDENTITY.json');urdf_path=next(x['path'] for x in source['files'] if x['name']=='native_urdf')
     import xml.etree.ElementTree as ET
     urdf=ET.parse(urdf_path).getroot();kin=NativeArmKinematics.from_urdf(urdf_path)
-    anchor=np.asarray(read(ROOT/'design/SCENE_CARD.json')['policy_anchor_world_m']);records=[];input_groups=defaultdict(list)
+    card=read(ROOT/'design/SCENE_CARD.json');colors={f['family_id']:f['factors']['colors'] for f in card['families']}
+    anchor=np.asarray(card['policy_anchor_world_m']);records=[];input_groups=defaultdict(list)
     for parent in parents:
         out=__import__('pathlib').Path(parent['attempt']);result=parent['result'];windows=read(out/'windows.json') if (out/'windows.json').exists() else []
         native_rows=read(out/'rows.json');times=np.array([r['time'] for r in native_rows])
@@ -56,7 +62,8 @@ def audit_parents(parents):
                     bucket=4 if window['metadata']['terminal_hold'] else window['metadata']['quartile'])
                 digest=hashlib.sha256()
                 for key in ('body_rgb','wrist_rgb','state_v1'):digest.update(f[key].tobytes())
-                digest.update((window['task']+':'+str(window['command'])).encode())
+                meaning=observable_command(window['task'],window['command'],colors[window['family']])
+                digest.update(meaning.encode());record['observable_command_meaning']=meaning
                 key=digest.hexdigest();record['observable_content_sha256']=key;input_groups[key].append((record,p['raw_action']))
             records.append(record)
     # An exact visible/state/command alias with conflicting futures is excluded, never resolved by timestamp/family ID.
@@ -71,6 +78,7 @@ def audit_parents(parents):
 
 def main():
     collection=read(ROOT/'evidence/COLLECTION_VERDICT.json');assert len(collection['rows'])==96 and collection['all_registered_cases_valid']
+    assert read(ROOT/'design/WINDOW_ADMISSION_CARD_V2.json')['code_sha256']==sha(__file__)
     records=audit_parents(collection['rows'])
     accepted=[w for w in records if w['admitted']];counts=Counter((w['task'],w['command'],w['bucket']) for w in accepted)
     missing=[]
@@ -90,6 +98,7 @@ def main():
                 for i in range(n):transfer.append(dict(task=task,bucket=bucket,selected=[pools[c][i%len(pools[c])] for c in (0,1)],cycled=[i>=len(pools[c]) for c in (0,1)]))
         assert len(transfer)==256 and Counter(w['task'] for w in transfer)=={'M1':128,'M3':128}
     receipt=dict(schema='PI0266_ACTUAL_FEEDBACK_WINDOW_ADMISSION_V1',status='PASS_ACTUAL_WINDOW_ADMISSION_CONTINUE_MATCHED_TRAINING' if not missing else 'PI0266_FEEDBACK_WINDOW_SHORTFALL',
+        code_sha256=sha(__file__),admission_card_sha256=sha(ROOT/'design/WINDOW_ADMISSION_CARD_V2.json'),
         overall='IN_PROGRESS' if not missing else 'PARTIAL',parent_episodes=96,proposed=len(records),accepted=len(accepted),
         unique_accepted_source_windows=len({w['id'] for w in accepted}),unique_observable_contents=len({w['observable_content_sha256'] for w in accepted}),
         eligible_families=sorted({w['family'] for w in accepted}),shortages=missing,counts=[dict(task=t,command=c,bucket=k,n=n) for (t,c,k),n in sorted(counts.items())],
