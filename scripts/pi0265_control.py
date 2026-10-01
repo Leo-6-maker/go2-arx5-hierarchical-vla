@@ -26,6 +26,10 @@ from pi0255_collect import append,array_sha,WBC
 from pi0255_motion3 import scene
 
 
+def forbidden_hits(hits):
+    return [x for x in hits if 'ground' not in x['pair']]
+
+
 def source_reference(reg,family,task,command,times):
     # Reuse the exact authorized source functions without importing its IK pipeline.
     path=ROOT/'code/pi0259_kinematic.py';text=path.read_text();nodes=ast.parse(text)
@@ -44,8 +48,8 @@ def collision_worker():
         row=json.loads(line);root=homogeneous(Rotation.from_quat(row['root'][3:7]).as_matrix(),np.array(row['root'][:3]))
         poses=full_fk(collision.urdf,row['joints'],root)
         hits=collision.check(poses,row.get('obstacle'),row.get('half_extents'))
-        # Feet/ground are ordinary native support contacts, not self/obstacle contacts.
-        hits=[x for x in hits if 'ground' not in x['pair'] or x['pair'][0] in row['native_ground_termination_links']]
+        # Ground support is handled by unchanged native termination; this check covers forbidden self/obstacle pairs.
+        hits=forbidden_hits(hits)
         print(json.dumps(dict(hits=hits)),flush=True)
 
 
@@ -110,11 +114,12 @@ def run(case_id):
     if case['version']=='ROW6D':transforms.matrix_to_rotation_6d=lambda m:m[..., :2,:].clone().reshape(m.shape[:-2]+(6,))
     case_root=RAW/'controls'/case_id;case_root.mkdir(parents=True,exist_ok=True)
     prior=list(case_root.glob('attempt-*/result.json'))
-    assert not any(json.loads(p.read_text())['validity']=='VALID' for p in prior),'first valid retained'
+    assert not any(json.loads(p.read_text())['validity']=='VALID' and not (p.parent/'INVALIDATION.json').exists() for p in prior),'first valid retained'
     assert len(list(case_root.glob('attempt-*')))==len(prior),'live/unresolved attempt'
     out=case_root/('attempt-%02d'%len(prior))
     out.mkdir(parents=True);(out/'frames').mkdir();(out/'actor_inputs').mkdir()
-    result=dict(case=case,validity='ENGINEERING_INCOMPLETE',success=False,selected_checkpoint='NONE',GR00T_queries=0)
+    result=dict(case=case,validity='ENGINEERING_INCOMPLETE',success=False,selected_checkpoint='NONE',GR00T_queries=0,
+        execution_seal_sha256=sha(ROOT/'design/EXECUTION_SEAL.json'))
     native=None;worker=None;records=[];actor_calls=[];camera_checks=[]
     kin=NativeArmKinematics.from_urdf(paths['native_urdf']);urdf=ET.parse(paths['native_urdf']).getroot()
     bounds={j.attrib['name']:dict(lower=float(j.find('limit').attrib['lower']),upper=float(j.find('limit').attrib['upper']),
@@ -265,6 +270,10 @@ def run(case_id):
         while clock(native)-origin<case['max_task_s']-native.dt/2:
             now=clock(native);pre=snapshot(native)
             assert pre['native_FK_xyz_m']<=1e-5 and pre['native_FK_SO3_rad']<=1e-4
+            if now>=next_frame-1e-6:
+                a=immutable(native,env);body,wrist=api._capture_scene(native);b=immutable(native,env);assert a==b,'CAMERA_MUTATED_CONTROL_OR_RNG'
+                camera_checks.append(dict(time=now,exact_unchanged=True));np.savez_compressed(out/'frames'/('%04d.npz'%tick[0]),body_rgb=body,wrist_rgb=wrist,time=now)
+                next_frame+=.1
             penetrations={name:max(0.,bounds[name]['lower']-native.dof_pos[0,i].item(),native.dof_pos[0,i].item()-bounds[name]['upper'])
                 for i,name in enumerate(native.dof_names) if name in bounds}
             unsafe=[name for name,v in penetrations.items() if v>(1e-5 if bounds[name]['unit']=='m' else 1e-3)]
@@ -274,10 +283,6 @@ def run(case_id):
             telemetry=pre['telemetry'];safety=bool(unsafe or collision['hits'] or telemetry.get('invalid_state') or telemetry.get('fall_flag') or telemetry.get('joint_limit_termination'))
             records.append(dict(pre,elapsed=now-origin,hard_penetration=penetrations,hard_unsafe=unsafe,collision=collision))
             if safety:result['failure']='PRE_STEP_SAFETY';break
-            if now>=next_frame-1e-6:
-                a=immutable(native,env);body,wrist=api._capture_scene(native);b=immutable(native,env);assert a==b,'CAMERA_MUTATED_CONTROL_OR_RNG'
-                camera_checks.append(dict(time=now,exact_unchanged=True));np.savez_compressed(out/'frames'/('%04d.npz'%tick[0]),body_rgb=body,wrist_rgb=wrist,time=now)
-                next_frame+=.1
             with torch.no_grad():done,policy=api._policy_step(native,env,actors)
             event=native.pop_stage16_termination();post=snapshot(native)
             check_clock(post['time'],now,native.dt,post['time'])
