@@ -29,9 +29,13 @@ def main(arm):
         source_files=source['files']
     else:
         # A verified model-only download can overlap full optimizer readback; no Trainer retirement.
-        training=json.loads((ROOT/'MAIN_TRAINING_AUDIT.json').read_text())
-        assert training['status']=='PASS_BOTH_2048_MATCHED_TRAINING_INTEGRITY'
-        assert training['optimizer_updates'][arm]==2048 and source['status']=='UPLOADED'
+        evidence=ROOT/'training_evidence'/arm
+        inputs=json.loads((evidence/'main-2048.actual_input_audit.json').read_text())
+        graph=json.loads((evidence/'main-2048.graph_loss_gradient_audit.json').read_text())
+        assert inputs['status']=='PASS_PI0264_ACTUAL_SOURCE_TEMPLATE_LABEL_MASK_RNG_LOG_MATCH'
+        assert (inputs['arm'],inputs['phase'],inputs['units'],inputs['microbatches'])==(arm,'main',2048,4096)
+        assert graph['status']=='PASS_PI0264_SAVED_FULL_S4_LOSS_AND_GRADIENT_AUDIT'
+        assert (graph['arm'],graph['updates'],graph['microbatches'])==(arm,2048,4096) and source['status']=='UPLOADED'
         source_files=source['entries']
         assert len(source_files)>=16 and all(n in {r['path'] for r in source_files} for n in
             ('optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json'))
