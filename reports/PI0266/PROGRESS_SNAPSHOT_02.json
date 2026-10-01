@@ -1,0 +1,254 @@
+{
+  "GR00T_queries": 0,
+  "budget": {
+    "actor_calls": 180446,
+    "control_ticks": 90280,
+    "simulate_calls": 361120,
+    "simulated_seconds": 1805.599959641695,
+    "starts": 57
+  },
+  "complete_task_successes": 0,
+  "control_sha256": "8a288c48dcdea3236d27e0ef9cd396e5ff613b5e6b21d4fcb0d7f478a6ccc44b",
+  "deployment_selected_checkpoint": "NONE",
+  "episodes": 36,
+  "failures": {
+    "IK_RESIDUAL": 7,
+    "TASK_CRITERIA_FAIL": 29
+  },
+  "independent_final_window_admission_pending": true,
+  "input_replay_02_sha256": "fa662c1819e9407034943d53c4ee560375bae4b308efe4244787863d8cb92501",
+  "observed_at_UTC": "2026-10-01T13:40:27.685105+00:00",
+  "optimizer_updates": 0,
+  "planned_episodes": 96,
+  "process": "    PID     ELAPSED STAT COMMAND\n2509116    01:28:23 Ssl  /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0266/code/pi0266_run.py --collection\n",
+  "producer_admitted_windows": 2900,
+  "producer_counts": [
+    {
+      "bucket": 0,
+      "command": 0,
+      "n": 129,
+      "task": "M1"
+    },
+    {
+      "bucket": 1,
+      "command": 0,
+      "n": 27,
+      "task": "M1"
+    },
+    {
+      "bucket": 2,
+      "command": 0,
+      "n": 36,
+      "task": "M1"
+    },
+    {
+      "bucket": 3,
+      "command": 0,
+      "n": 659,
+      "task": "M1"
+    },
+    {
+      "bucket": 4,
+      "command": 0,
+      "n": 49,
+      "task": "M1"
+    },
+    {
+      "bucket": 0,
+      "command": 1,
+      "n": 857,
+      "task": "M1"
+    },
+    {
+      "bucket": 1,
+      "command": 1,
+      "n": 2,
+      "task": "M1"
+    },
+    {
+      "bucket": 2,
+      "command": 1,
+      "n": 6,
+      "task": "M1"
+    },
+    {
+      "bucket": 3,
+      "command": 1,
+      "n": 30,
+      "task": "M1"
+    },
+    {
+      "bucket": 4,
+      "command": 1,
+      "n": 5,
+      "task": "M1"
+    },
+    {
+      "bucket": 0,
+      "command": 0,
+      "n": 200,
+      "task": "M3"
+    },
+    {
+      "bucket": 0,
+      "command": 1,
+      "n": 510,
+      "task": "M3"
+    },
+    {
+      "bucket": 1,
+      "command": 1,
+      "n": 390,
+      "task": "M3"
+    }
+  ],
+  "selected_checkpoint": "NONE",
+  "status": "LIVE_FIXED_COLLECTION_IN_PROGRESS",
+  "training_admission": false,
+  "valid_first_results": [
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-004-M1-c0/attempt-00/result.json",
+      "sha256": "65b792d1ee83d48c1d2e223a5fb438f0937142603cad5b6a9d6ecc0be1e9cd65"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-004-M1-c1/attempt-00/result.json",
+      "sha256": "88c1a8d093813ab0b24fd2400e367cfde4943581068c577d81a1072d0d78e892"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-004-M3-c0/attempt-00/result.json",
+      "sha256": "594454c3ee936126a884c804548219a963e1fd5bf2efa08cf6e755ba2fc4ac3f"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-004-M3-c1/attempt-00/result.json",
+      "sha256": "f097aae55b8ce99a68a0589a0b3d07e31cf5203753447839e6f8505d904de86d"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-005-M1-c0/attempt-00/result.json",
+      "sha256": "432a3352a570bab6a1bf6dcd913c16d1bc94f60d0251c92cf5db8100a4a45a78"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-005-M1-c1/attempt-00/result.json",
+      "sha256": "bcaae54f2ff6284f329ec2fbf4100ab983beef4ca1f94c6977d2992e9b783c1f"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-005-M3-c0/attempt-00/result.json",
+      "sha256": "d7f97bf4ba332dcb22b0c44fc3c21620b98105b6ba8b1ecd293e724d2a5386ad"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-005-M3-c1/attempt-00/result.json",
+      "sha256": "52b24d55d73ece06b2037ede855e9ec1d2eb0f8590bb3e9b8179ebedd6365a0a"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-006-M1-c0/attempt-00/result.json",
+      "sha256": "06443e19113ff191550adca6a3af280b9ba8946f3c9e27da106919c7e255bc08"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-006-M1-c1/attempt-00/result.json",
+      "sha256": "58f31856ee6d277bd5523a3191344e8cce21918c0f79399c9542e96c598c0fa3"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-006-M3-c0/attempt-00/result.json",
+      "sha256": "f267ff1d5af435f08de8482c305d09fc2015035b8a7a0ecd9e91074a131fb04f"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-006-M3-c1/attempt-00/result.json",
+      "sha256": "4e245f9f9890542ffa1793142aa7d43b517fb47ef66e8e636f3af479fae1e713"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-007-M1-c0/attempt-00/result.json",
+      "sha256": "a77f138eda34eb261ce7d5b20fb5cd329e2a877d3b6b771f07b02c6f1558e208"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-007-M1-c1/attempt-00/result.json",
+      "sha256": "00160c2a289ef18c1364e8ef6e72a0d8b23243dc03a61ddc979bcb101c5b4b5d"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-007-M3-c0/attempt-00/result.json",
+      "sha256": "f90ce6c01447f048408755cf32c1fbfa84a19579826a07b2c0a43d6cf22fcdac"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-007-M3-c1/attempt-00/result.json",
+      "sha256": "23c6321c160f75762cc0f0a4e5845b0193ca0c6568e0252c4ebdd51e999e62cc"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-008-M1-c0/attempt-00/result.json",
+      "sha256": "ecb90c4eeef1faaf8e60525171f313785d401c0a50fd2c651446d396c2e84802"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-008-M1-c1/attempt-00/result.json",
+      "sha256": "01f6c4c168f666cb1f05a5fdd253d00f925bc92829faeddb6ff067926887514d"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-008-M3-c0/attempt-00/result.json",
+      "sha256": "083ef203d087cd3a16243d0e4d035cc1a4882fc136d775ef93c7ae3afd5ff607"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-008-M3-c1/attempt-00/result.json",
+      "sha256": "7a36d10d86848b1cd05eaf4be475aa199e1f5413f8c33baade150b3b09ca2658"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-009-M1-c0/attempt-00/result.json",
+      "sha256": "2852e25d15959b85c451c34215b125516e2a44be6606562611cc504c52d1ae9d"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-009-M1-c1/attempt-00/result.json",
+      "sha256": "d3954f8d98df2b84f7786323c29628365bb3d5ee02bc6d273f73c63ba69608aa"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-009-M3-c0/attempt-00/result.json",
+      "sha256": "32b737a1cd3b236594f882c5bac1e77fa9093a941c7cf0806453a9f5b98fc379"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-009-M3-c1/attempt-00/result.json",
+      "sha256": "ec175ef5fbd05b1fb6c10fa912aa5f18804952cd4621e439a3432424fa37f000"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-010-M1-c0/attempt-00/result.json",
+      "sha256": "77acbaaadabff3ef9b2f40480c838fc78e345a0ed2e58e1963712a6728e5fc5a"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-010-M1-c1/attempt-00/result.json",
+      "sha256": "020c7463bd827521184fcd56cca01c9ecf60fdc5ee9d71a516d4459182a309ed"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-010-M3-c0/attempt-00/result.json",
+      "sha256": "2e0b0050ce2ba6ff06e6b25de3ef2ab3557695df5fc4503a8ebded43d9e6a61b"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-010-M3-c1/attempt-00/result.json",
+      "sha256": "b6f697bedc42ebed9fc214ad4c3df0b28a5db8686cb16329e6fd5b90707c25e2"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-011-M1-c0/attempt-00/result.json",
+      "sha256": "6ef0b485ed406d707b9010f15d23a70ef55af4ca0fbc05cfc1542e65d02f8971"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-011-M1-c1/attempt-00/result.json",
+      "sha256": "012b37a4cf381f9a38d9ffd30a6c1fd9c694388aea9c384af51aaaea37bf1853"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-011-M3-c0/attempt-00/result.json",
+      "sha256": "dc7515521b6ac4364f3708f2a8439c58560ca4e9d39363a04bec830ccdd2220c"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-011-M3-c1/attempt-00/result.json",
+      "sha256": "f8791e2025bc06c67671120a567caed46cfb0eec28b86dcf51c17d95c8824c3f"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-012-M1-c0/attempt-00/result.json",
+      "sha256": "1bb1514d7de2d5e6f989dd10aded3f8bf7a6eb6e910b174eb29e5987ce7f6b54"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-012-M1-c1/attempt-00/result.json",
+      "sha256": "f5343f8f23a66ff860872175309e5285336dec82e1cab8c3ea55a61721cedd44"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-012-M3-c0/attempt-00/result.json",
+      "sha256": "2b4ab5808bd20b2290ee03153a90c89e72b87bf1d07a3a101d480fa839fc74f3"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/collection/T-pi0265-family-012-M3-c1/attempt-00/result.json",
+      "sha256": "42cbc4ecb42ba359c821398a0e4fa720082712dccb4acd73dca504a1a95cecd1"
+    }
+  ]
+}
