@@ -1,0 +1,44 @@
+name: repository-consolidation-20261001
+
+on:
+  push:
+    branches: [repo-maintenance/consolidation-20261001]
+    paths: [docs/maintenance/2026-10-01/REQUEST.json]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: repository-consolidation-20261001
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    if: github.repository == 'Leo-6-maker/go2-arx5-hierarchical-vla'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - name: Load only the administrative files from the triggering immutable commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,json,os,pathlib,urllib.request
+          repo=os.environ['GITHUB_REPOSITORY']; sha=os.environ['GITHUB_SHA']
+          assert repo=='Leo-6-maker/go2-arx5-hierarchical-vla'
+          assert os.environ['GITHUB_REF']=='refs/heads/repo-maintenance/consolidation-20261001'
+          paths={'scripts/maintenance/consolidate_repo.py':'consolidate_repo.py','scripts/maintenance/test_consolidate_repo.py':'test_consolidate_repo.py','docs/maintenance/2026-10-01/REQUEST.json':'request.json'}
+          for src,dst in paths.items():
+              req=urllib.request.Request('https://api.github.com/repos/'+repo+'/contents/'+src+'?ref='+sha,headers={'Authorization':'Bearer '+os.environ['GITHUB_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
+              with urllib.request.urlopen(req,timeout=60) as response: payload=json.load(response)
+              assert payload['encoding']=='base64'
+              pathlib.Path(dst).write_bytes(base64.b64decode(payload['content']))
+          PY
+      - name: Run isolated standard-library and atomic-Git safety tests
+        run: python3 test_consolidate_repo.py
+      - name: Execute the explicitly bound inventory or approved apply request
+        run: python3 consolidate_repo.py --request request.json
