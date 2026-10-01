@@ -75,3 +75,30 @@ by manifests and fixed archive revisions. Private WBC, simulator/vendor assets,
 credentials and machine-specific caches must not be published as public evidence.
 Existing remote training jobs, local worktrees and artifact stores are not changed
 by this repository cleanup.
+
+<details>
+<summary>Historical accepted architecture and Stage45 hold (not current execution status)</summary>
+
+The earlier accepted Stage44R source is
+`bd0f02934e680789cf38adacb838e1ea555c707d`. Its original architecture was documented as:
+
+```text
+Vision + Language + Proprioception
+    -> GR00T N1.7
+    -> StructuredActionV1
+    -> SafetyGate
+    -> reference-only receding-horizon handoff
+    -> general trajectory-tracking WBC
+```
+
+Here, "general trajectory-tracking WBC" is the historical component label,
+**not** a claim that PI0265 established arbitrary-trajectory control or universal
+physical success. StructuredActionV1 is that historical interface, not a license
+to replace the currently pinned dense-action mapping.
+
+The then-future Stage45 design-only hold and H200 admission requirements remain
+in their archived documents. They are historical scope decisions, not current
+PI0266 status. Current actions require the applicable scientific authorization;
+this navigation update grants no GPU or simulator work.
+
+</details>
