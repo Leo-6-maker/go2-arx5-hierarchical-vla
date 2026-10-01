@@ -151,6 +151,43 @@ def gate_replay(stage):
     write(receipt,report);print(json.dumps({k:v for k,v in report.items() if k!='checks'}),flush=True)
 
 
+def witness_replay(stage):
+    verdict=read(ROOT/'evidence'/('DIAGNOSTIC_VERDICT.json' if stage=='diagnostics' else 'COLLECTION_VERDICT.json'))
+    assert verdict['all_registered_cases_valid'] and len(verdict['rows'])==(16 if stage=='diagnostics' else 96)
+    source=read(ROOT/'evidence/SOURCE_IDENTITY.json');path=next(x['path'] for x in source['files'] if x['name']=='native_urdf')
+    urdf=ET.parse(path).getroot();kin=NativeArmKinematics.from_urdf(path)
+    velocity=np.asarray([float(next(j for j in urdf.findall('joint') if j.attrib['name']==name).find('limit').attrib['velocity']) for name in kin.joint_names])
+    checks=[]
+    for parent in verdict['rows']:
+        result=parent['result'];out=Path(parent['attempt'])
+        if result['case']['expert']!='OBSERVABLE_CORRECTION_V1':continue
+        states=read(out/'rows.json');times=np.asarray([r['time'] for r in states]);count=0;max_pe=0.;max_re=0.
+        for w in read(out/'windows.json'):
+            if not w['admitted']:continue
+            assert sha(w['proposal'])==w['proposal_sha256']
+            z=dict(np.load(w['proposal'],allow_pickle=False));row=states[int(np.argmin(abs(times-w['timestamp'])))];assert abs(row['time']-w['timestamp'])<=1e-6
+            root=np.asarray(row['root']);transform=homogeneous(Rotation.from_quat(root[3:7]).as_matrix(),root[:3])
+            joints=dict(zip(result['dof_names'],np.asarray(row['DOF']).reshape(-1,2)[:,0]));previous=np.asarray([joints[n] for n in kin.joint_names])
+            witness=w['checks']['rows'];assert len(witness)==40 and w['checks']['complete_H40']
+            for index,entry in enumerate(witness):
+                assert entry['index']==index and entry['accepted'] and entry['IK_ok'] and entry['hard_ok'] and entry['velocity_ok'] and not entry['hits']
+                q=np.asarray(entry['candidate']);assert np.array_equal(previous,np.asarray(entry['start']))
+                assert np.all(q>=kin.joint_limits[:,0]-1e-3) and np.all(q<=kin.joint_limits[:,1]+1e-3)
+                assert index==0 or np.all(abs(q-previous)/.05<=velocity+1e-8)
+                values=dict(joints);values.update(zip(kin.joint_names,q))
+                pose=full_fk(urdf,values,transform)['x5_link6']@homogeneous(np.eye(3),kin.tcp_offset_xyz)
+                pe=float(np.linalg.norm(pose[:3,3]-z['position_world'][index]));re=float(so3(pose[:3,:3],z['rotation_world'][index]))
+                assert pe<=.002 and re<=.01,(w['id'],index,pe,re)
+                max_pe=max(max_pe,pe);max_re=max(max_re,re);previous=q
+            count+=1
+        checks.append(dict(case=result['case']['case_id'],windows=count,points=count*40,maximum_xyz_m=max_pe,maximum_so3_rad=max_re,window_manifest_sha256=sha(out/'windows.json')))
+    destination=RAW/'delivery'/stage;destination.mkdir(parents=True,exist_ok=True);receipt=destination/'CPU_LOCAL_WITNESS_REPLAY.json';assert not receipt.exists()
+    report=dict(status='PASS_SAVED_LOCAL_H40_FULL_URDF_FK_WITNESS_REPLAY',stage=stage,checks=checks,windows=sum(x['windows'] for x in checks),points=sum(x['points'] for x in checks),
+        distinction='Separate full-tree FK of saved joint solutions; retained producer collision checks. No new IK, collision search or dynamics guarantee.',
+        actual_root_fixed_only_for_conservative_local_witness=True,failed_solution_propagation=False,URDF_sha256=sha(path),code_sha256=sha(__file__),new_physics=0,model_queries=0,optimizer_updates=0)
+    write(receipt,report);print(json.dumps({k:v for k,v in report.items() if k!='checks'}),flush=True)
+
+
 def archive_members(out,files):
     import hashlib
     manifest=out/'MEMBER_MANIFEST.json'
@@ -239,9 +276,9 @@ def archive():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--stage',choices=('diagnostics','collection'));parser.add_argument('--video',action='store_true');parser.add_argument('--gate',action='store_true');parser.add_argument('--archive',action='store_true')
+    parser=argparse.ArgumentParser();parser.add_argument('--stage',choices=('diagnostics','collection'));parser.add_argument('--video',action='store_true');parser.add_argument('--gate',action='store_true');parser.add_argument('--witness',action='store_true');parser.add_argument('--archive',action='store_true')
     args=parser.parse_args()
     if args.archive:archive()
     else:
         assert args.stage
-        gate_replay(args.stage) if args.gate else video(args.stage) if args.video else report(args.stage)
+        witness_replay(args.stage) if args.witness else gate_replay(args.stage) if args.gate else video(args.stage) if args.video else report(args.stage)
