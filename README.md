@@ -1,82 +1,77 @@
-# Go2 + ARX5 Hierarchical Whole-Body VLA
+# Go2 + ARX5 Hierarchical EEF / VLA Research
 
-This repository is the source of truth for the Go2 + ARX5 hierarchical VLA
-contracts, adapters, experiment runners, tests, and provenance documents.
-Large or private model, WBC, dataset, simulator, and hardware inputs remain
-outside Git and are referenced through manifests and reports.
+> **Start here.** Repository navigation was consolidated on 2026-10-01. Historical
+> experiments are retained, not reclassified as passing. `main` contains the
+> accepted baseline plus current navigation; the latest experimental runtime is
+> **not** silently merged into that baseline.
 
-## Accepted repository baseline
+## Current entry points
 
-The current accepted research tip is the normal-merge tip on `main`:
+| Need | Canonical location |
+|---|---|
+| Current scientific status and claim limits | [Project status](docs/PROJECT_STATUS.md) |
+| Scientific authorization and experiment returns | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
+| Current experimental implementation | [`pi0266/state-conditioned-feedback`](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/tree/pi0266/state-conditioned-feedback) |
+| Protocols and recent result pointers | [Research index](docs/RESEARCH_INDEX.md) |
+| Branches, PRs, archival and source recovery | [Repository workflow](docs/REPOSITORY_WORKFLOW.md) |
+| Actual consolidation inventory and receipt | [2026-10-01 consolidation](docs/maintenance/2026-10-01/RESULT.md) |
+| Tested reusable-code integration still to do | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
 
-```text
-branch: main
-commit: bfa14bf1b74eae908c0922575a4db671c903b9b8
-parents: 237be6fc37c20cf44ccccf5f0cfbd3cce629760f + 9852090f66759c8ddc7ce974b31e57350ab536c1
-accepted source: stage44r/corelab-attribution-repair @ bd0f02934e680789cf38adacb838e1ea555c707d
-diagnosis: STAGE44_TINY1_SINGLE_SAMPLE_COVERAGE_LIMITATION_SUPPORTED
-```
+**Do not use historical PR #77 as the current implementation or as a mandatory
+pointer destination.** It is an archived Stage45H provenance discussion; its
+original code and comments remain accessible.
 
-The normal consolidation merge preserves the forward-only Stage19--Stage44R
-history and adds navigation and audit material; it does not rewrite, squash,
-or delete scientific history. Stage45A now has a CPU/read-only design branch
-and protocol ([protocol](docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md),
-[manifest](manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json)); it does not
-authorize model construction, training, data generation, H200 fine-tuning,
-Vanda A40 execution, or new model/WBC runs.
-
-## Current architecture
+## Research objective and implementation boundary
 
 ```text
-Vision + Language + Proprioception
-        -> GR00T N1.7
-        -> StructuredActionV1 / EEF trajectory
-        -> SafetyGate
-        -> reference-only receding-horizon handoff
-        -> general trajectory-tracking WBC
-        -> Go2 + ARX5
+Visual observations + language + task-space feedback
+             -> GR00T / high-level EEF trajectory policy
+             -> explicit decode, frame/TCP conversion and SafetyGate
+             -> reference-only handoff
+             -> embodiment-specific execution / WBC
+             -> actual task feedback
 ```
 
-The external model/controller waist is EEF-only: XYZ + SO(3) trajectory with
-an independent parallel-gripper channel. The delivered WBC performs internal
-whole-body redundancy resolution; its structured body/gait signal is not a
-GR00T label. Stage40--Stage43 closed-loop records and Stage44R attribution are
-engineering and diagnostic evidence, not claims of task success, general
-robustness, real-time operation, or hardware readiness.
+The research objective is to make task data and high-level policy weights
+reusable across execution backends, rather than assume arbitrary EEF references
+are executable. Current work on Go2 + ARX5 does **not** yet establish general
+cross-embodiment transfer. Knowing actual TCP state is different from conditioning
+on a particular robot's joints or model ID.
 
-## Navigate the repository
+The established external interface is task-space XYZ + SO(3), with an independent
+gripper channel. Robot/body/gait realization belongs to the execution layer.
+A usable policy identity includes weights, processor, statistics, action/state
+mapping and decoder. Read the applicable immutable protocol: the historical
+StructuredAction and newer training lineages must not be mixed by name alone.
 
-- [Research timeline](docs/RESEARCH_TIMELINE.md) — Stage19 through Stage44R,
-  with canonical branches, narrow outcomes, and evidence pointers.
-- [Accepted baselines](docs/ACCEPTED_BASELINES.md) — what each accepted gate
-  establishes and what remains explicitly unproven.
-- [Repository guide](docs/REPOSITORY_GUIDE.md) — source, runner, test, report,
-  manifest, and HPC directory conventions.
-- [Consolidation audit](reports/REPOSITORY_CONSOLIDATION_AUDIT.md) — the
-  read-only RC0 inventory and provenance findings.
-- [Historical archival recommendation](docs/HISTORICAL_ARCHIVAL_RECOMMENDATION.md)
-  — RC8 PR-closure record and branch-preservation recommendation.
-- [Stage45A FULL24 adaptation protocol](docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md)
-  — design-only, pre-registered data-expansion gate; no training is authorized.
+Repository administration does not authorize a new experiment, change a gate,
+open protected data, or grant deployment qualification. Historical FAIL/PARTIAL
+and `selected_checkpoint=NONE` / `deployment_selected_checkpoint=NONE` remain.
 
-## CPU validation
+## Code baseline versus research evidence
 
-The maintained contract suite is CPU-only:
+Before this housekeeping merge, `main` was at
+`607c7b734ba88ee0215a432aa8d2f576da9e77b0`, following the accepted Stage44R
+consolidation. This update does not bulk-merge experimental implementations or
+rewrite their commit ancestry. Use a protocol's pinned execution SHA for a run,
+not the current `main` tip or an old PR number.
 
-```bash
-python -m pytest -q
-```
+The earlier documentation remains available as historical context:
+[research timeline](docs/RESEARCH_TIMELINE.md),
+[accepted baselines](docs/ACCEPTED_BASELINES.md),
+[repository guide](docs/REPOSITORY_GUIDE.md), and
+[original README at the pre-cleanup commit](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/607c7b734ba88ee0215a432aa8d2f576da9e77b0/README.md).
+They must not be read as the latest PI0266 status.
 
-When the optional test dependency is unavailable, the standard-library tests
-and the static checks described in [the repository guide](docs/REPOSITORY_GUIDE.md)
-remain the required fallback. No command in this consolidation performs a
-model forward, simulator/WBC rollout, training, data generation, or hardware
-action.
+## Tests and artifacts
 
-## Provenance and private inputs
+The accepted baseline's CPU contract suite is run with `python -m pytest -q`.
+Administrative safety tests are independent:
+`python scripts/maintenance/test_consolidate_repo.py`.
+A passing CPU test is not a model or controller quality PASS.
 
-Historical stage runners and reports stay at their original paths because
-Issue #11 evidence and sealed manifests refer to them. Node-local caches and
-evidence roots (for example `/var/cache/...` or `/scratch/...`) are references,
-not repository contents. Do not commit credentials, checkpoints, videos,
-datasets, USD assets, or private WBC sources.
+Large model checkpoints, raw datasets and videos stay outside Git and are bound
+by manifests and fixed archive revisions. Private WBC, simulator/vendor assets,
+credentials and machine-specific caches must not be published as public evidence.
+Existing remote training jobs, local worktrees and artifact stores are not changed
+by this repository cleanup.
