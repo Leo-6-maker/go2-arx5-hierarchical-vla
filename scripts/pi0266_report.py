@@ -188,6 +188,47 @@ def witness_replay(stage):
     write(receipt,report);print(json.dumps({k:v for k,v in report.items() if k!='checks'}),flush=True)
 
 
+def attempt_accounting(out,stage,caps):
+    result=read(out/'result.json');started=(out/'physics_started.json').exists()
+    if result['validity']!='VALID':
+        assert not started,'physical engineering-invalid attempt requires separate raw reconciliation'
+        return dict(attempt=str(out),validity=result['validity'],starts=0,control_ticks=0,actor_calls=0,result_sha256=sha(out/'result.json'))
+    assert started
+    implicit=round(result['initialization_sim_s']/caps['control_dt']);assert implicit>=1
+    ticks=result.get('task_ticks',0)+implicit;actors=result['WBC_actor_calls']
+    if stage!='resets':
+        with (out/'physics_steps.jsonl').open('rb') as stream:assert sum(1 for _ in stream)==ticks
+        assert len(read(out/'actor_calls.json'))==actors==2*result['task_ticks']
+        assert sum(1 for _ in (out/'actor_inputs').glob('*.npz'))==actors
+    else:assert actors==0 and ticks*caps['control_dt']<=1+1e-6
+    return dict(attempt=str(out),validity='VALID',ordinal=read(out/'physics_started.json')['ordinal'],starts=1,
+        implicit_ticks=implicit,control_ticks=ticks,actor_calls=actors,result_sha256=sha(out/'result.json'))
+
+
+def accounting():
+    import fcntl
+    assert read(ROOT/'evidence/COLLECTION_VERDICT.json')['all_registered_cases_valid']
+    assert len(read(ROOT/'evidence/COLLECTION_VERDICT.json')['rows'])==96
+    caps=read(ROOT/'design/BUDGET_CARD.json');rows=[];ordinals=[]
+    for stage in ('resets','diagnostics','collection'):
+        for out in sorted((RAW/stage).glob('*/attempt-*')):
+            row=attempt_accounting(out,stage,caps);rows.append(row)
+            if row['starts']:ordinals.append(row['ordinal'])
+    assert sorted(ordinals)==list(range(1,len(ordinals)+1)) and len(ordinals)==116
+    totals={key:sum(r[key] for r in rows) for key in ('starts','control_ticks','actor_calls')}
+    totals['simulate_calls']=totals['control_ticks']*caps['decimation']
+    with (ROOT/'physics.lock').open('r') as lock:
+        fcntl.flock(lock,fcntl.LOCK_SH);ledger=read(ROOT/'evidence/RAW_BUDGET.json')
+    for key,value in totals.items():assert ledger[key]==value,(key,ledger[key],value)
+    assert abs(ledger['simulated_seconds']-totals['control_ticks']*float(np.float32(caps['control_dt'])))<=1e-5
+    for key in ('starts','control_ticks','actor_calls','simulate_calls','simulated_seconds'):assert ledger[key]<=caps['hard_'+key]
+    destination=ROOT/'evidence/TEACHER_RAW_ACCOUNTING.json';assert not destination.exists()
+    receipt=dict(status='PASS_ALL_TEACHER_ATTEMPTS_RAW_COUNTER_RECONCILIATION',attempts=rows,ledger=ledger,
+        integration_substeps=totals['simulate_calls']*caps['sim_substeps'],caps_sha256=sha(ROOT/'design/BUDGET_CARD.json'),code_sha256=sha(__file__),
+        implicit_initialization_counted=True,engineering_invalid_retained=True,model_queries=0,optimizer_updates=0,new_physics=0)
+    write(destination,receipt);print(json.dumps({k:v for k,v in receipt.items() if k!='attempts'}),flush=True)
+
+
 def archive_members(out,files):
     import hashlib
     manifest=out/'MEMBER_MANIFEST.json'
@@ -276,9 +317,10 @@ def archive():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--stage',choices=('diagnostics','collection'));parser.add_argument('--video',action='store_true');parser.add_argument('--gate',action='store_true');parser.add_argument('--witness',action='store_true');parser.add_argument('--archive',action='store_true')
+    parser=argparse.ArgumentParser();parser.add_argument('--stage',choices=('diagnostics','collection'));parser.add_argument('--video',action='store_true');parser.add_argument('--gate',action='store_true');parser.add_argument('--witness',action='store_true');parser.add_argument('--accounting',action='store_true');parser.add_argument('--archive',action='store_true')
     args=parser.parse_args()
-    if args.archive:archive()
+    if args.accounting:accounting()
+    elif args.archive:archive()
     else:
         assert args.stage
         witness_replay(args.stage) if args.witness else gate_replay(args.stage) if args.gate else video(args.stage) if args.video else report(args.stage)
