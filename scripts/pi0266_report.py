@@ -111,6 +111,46 @@ def video(stage):
     print(json.dumps(dict(status='PASS_ACTUAL_TEACHER_VIDEO',stage=stage,frames=count,bytes=path.stat().st_size)),flush=True)
 
 
+def gate_replay(stage):
+    import ast
+    from go2arx5_vla.contracts import TrajectoryChunkV1
+    from go2arx5_vla.safety import TrajectorySafetyGateV1
+    api_path=REF/'scripts/stage21_native_receding_horizon.py'
+    constants={node.targets[0].id:ast.literal_eval(node.value) for node in ast.parse(api_path.read_text()).body
+        if isinstance(node,ast.Assign) and isinstance(node.targets[0],ast.Name) and node.targets[0].id in ('SOURCE_FRAME','TCP_SEMANTIC_ID')}
+    verdict=read(ROOT/'evidence'/('DIAGNOSTIC_VERDICT.json' if stage=='diagnostics' else 'COLLECTION_VERDICT.json'))
+    assert verdict['all_registered_cases_valid'] and len(verdict['rows'])==(16 if stage=='diagnostics' else 96)
+    gate=TrajectorySafetyGateV1();checked=[]
+    def difference(a,b):
+        if isinstance(a,dict):
+            assert set(a)==set(b)
+            return max((difference(a[k],b[k]) for k in a),default=0.)
+        if isinstance(a,(int,float)):
+            assert np.isfinite(a) and np.isfinite(b);return abs(a-b)
+        assert a==b;return 0.
+    for parent in verdict['rows']:
+        case=parent['result']['case'];out=Path(parent['attempt'])
+        if case['expert']!='OBSERVABLE_CORRECTION_V1':continue
+        binding=read(out/'task_binding.json');anchor=np.asarray(binding['native_anchor'])
+        states=read(out/'rows.json');times=np.asarray([r['time'] for r in states]);maximum=0.;windows=read(out/'windows.json')
+        for w in windows:
+            assert sha(w['proposal'])==w['proposal_sha256']
+            z=dict(np.load(w['proposal'],allow_pickle=False));now=float(z['time']);row=states[int(np.argmin(abs(times-now)))];assert abs(row['time']-now)<=1e-6
+            ts=now+np.arange(40)*.05
+            chunk=TrajectoryChunkV1(chunk_id=w['id'],source='PI0266_'+case['expert'],observation_timestamp=now,point_timestamps=ts,
+                eef_position=z['position_world']-anchor,eef_orientation=Rotation.from_matrix(z['rotation_world']).as_quat(),
+                source_frame=constants['SOURCE_FRAME'],tcp_semantic_id=constants['TCP_SEMANTIC_ID'],validity_start=now,validity_end=float(ts[-1]),gripper=np.full(40,.5))
+            actual=gate.evaluate(chunk,now=now,achieved_position=np.asarray(row['TCP'])-anchor,achieved_orientation=Rotation.from_matrix(row['rotation']).as_quat()).as_dict()
+            for key in ('decision','issues','provenance'):assert actual[key]==w['gate'][key],(w['id'],key)
+            error=difference(actual['metrics'],w['gate']['metrics']);assert error<=1e-6,(w['id'],error);maximum=max(maximum,error)
+            if not w['admitted']:assert not (Path(w['proposal']).parent/'reference_only_install.json').exists(),'rejected window installed'
+        checked.append(dict(case=case['case_id'],windows=len(windows),maximum_absolute_metric_difference=maximum,source_window_manifest_sha256=sha(out/'windows.json')))
+    destination=RAW/'delivery'/stage;destination.mkdir(parents=True,exist_ok=True);receipt=destination/'CPU_GATE_REPLAY.json';assert not receipt.exists()
+    report=dict(status='PASS_SAVED_ACTUAL_H40_ORIGINAL_GATE_CPU_REPLAY',stage=stage,checks=checked,windows=sum(r['windows'] for r in checked),
+        same_owner_shared_gate_implementation=True,gate_modified=False,source_api_sha256=sha(api_path),code_sha256=sha(__file__),new_physics=0,model_queries=0,optimizer_updates=0)
+    write(receipt,report);print(json.dumps({k:v for k,v in report.items() if k!='checks'}),flush=True)
+
+
 def archive_members(out,files):
     import hashlib
     manifest=out/'MEMBER_MANIFEST.json'
@@ -199,9 +239,9 @@ def archive():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--stage',choices=('diagnostics','collection'));parser.add_argument('--video',action='store_true');parser.add_argument('--archive',action='store_true')
+    parser=argparse.ArgumentParser();parser.add_argument('--stage',choices=('diagnostics','collection'));parser.add_argument('--video',action='store_true');parser.add_argument('--gate',action='store_true');parser.add_argument('--archive',action='store_true')
     args=parser.parse_args()
     if args.archive:archive()
     else:
         assert args.stage
-        video(args.stage) if args.video else report(args.stage)
+        gate_replay(args.stage) if args.gate else video(args.stage) if args.video else report(args.stage)
