@@ -77,9 +77,12 @@ def self_check():
 def render():
     evaluation.assert_release()
     import csv
+    from pi0264_cpu import rmse
     display=read(ROOT/'DISPLAY_CARD.json');card=read(ROOT/'UNION_EVAL_CARD.json')
     assert read(ROOT/'CPU_REPLAY.json')['status']=='PASS_INDEPENDENT_COMPUTATION_PATH_CPU_6336_REPLAY'
     with (ROOT/'M1_ALL_PANELS_ROWS.csv').open(newline='') as stream:scored=list(csv.DictReader(stream))
+    with (ROOT/'LEGACY_PANEL_ROWS.csv').open(newline='') as stream:legacy=list(csv.DictReader(stream))
+    margins={(r['point'],r['uid']):float(r['margin_m']) for r in legacy+scored if r['margin_m']}
     chapters=list(display['chapters']);existing={r['uid'] for r in chapters};failures=[]
     rows_by_uid={r['uid']:r for r in card['rows']}
     for point in display['points']:
@@ -106,7 +109,9 @@ def render():
             assert record['status']=='VALID' and sha(cell/'tensors.npz')==record['tensor_sha256']
             with np.load(cell/'tensors.npz',allow_pickle=False) as z:
                 assert np.array_equal(z['expert'],reference);paths[point]=z['decoded'][0].copy()
-            scores[point]=(record['metrics']['xyz_rmse_m'],record['metrics']['so3_rmse_rad'],record['gate']['decision'])
+            margin=rmse(paths[point],paths['opposite'])-rmse(paths[point],reference)
+            assert abs(margin-margins[point,chapter['uid']])<=1e-9
+            scores[point]=(record['metrics']['xyz_rmse_m'],record['metrics']['so3_rmse_rad'],record['gate']['decision'],margin)
         items.append((chapter,packet,paths,scores))
     extent=math.ceil(max(float(np.max(np.abs(p[:,:3]-packet['state_v1'][:3]))) for _,packet,paths,_ in items for p in paths.values())*100)/100+.01
     out=ROOT/'eval/media';out.mkdir(parents=True,exist_ok=True);video=out/'PI0264_X_B_L_fixed_arrays.mp4'
@@ -128,6 +133,8 @@ def render():
                 y=445+n*34;cv2.line(canvas,(600,y-5),(630,y-5),vis.COLORS[name],3)
                 metric=scores.get(name);text=name if metric is None else f'{name}: XYZ {metric[0]:.4f}m, SO3 {metric[1]:.3f}rad, gate {metric[2]}'
                 vis.line(canvas,text,640,y,size=.42)
+                if metric:
+                    vis.line(canvas,f"target {'CORRECT' if metric[3]>0 else 'WRONG'} | opposite - own = {metric[3]:+.5f}m",640,y+15,size=.35)
             vis.line(canvas,'Existing-scene research only. L T0-T7 supervised; Q/V excluded. No physical generalization. selected=NONE.',18,690,size=.42)
             writer.write(canvas)
     writer.release();capture=cv2.VideoCapture(str(video));frames=0
@@ -135,6 +142,7 @@ def render():
     capture.release();assert frames==40*len(chapters)
     write(out/'video_receipt.json',dict(status='PASS_FIXED_ARRAY_VIDEO_DECODE',video=video.name,
         sha256=sha(video),frames=frames,fps=20,chapters=len(chapters),failure_coverage_sha256=sha(ROOT/'DISPLAY_FAILURE_COVERAGE.json'),display_card_sha256=sha(ROOT/'DISPLAY_CARD.json'),
+        semantic_margins_checked_against_CPU=3*len(chapters),
         model_queries=0,physics_steps=0))
     print(json.dumps(dict(status='PASS_PI0264_VIDEO',frames=frames)))
 

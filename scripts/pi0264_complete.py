@@ -74,8 +74,28 @@ def main():
     assert all(r['combined_pass']==(r['legacy_full_quality_pass'] and r['crossed_M1_robustness_pass'] and r['prospective_text_noise_pass']) for r in q['points'])
     video=read(FINAL/'VIDEO_RECEIPT.json');visual=read(FINAL/'VISUAL_QA_RECEIPT.json');display=read(ROOT/'DISPLAY_CARD.json')
     assert video['status']=='PASS_FIXED_ARRAY_VIDEO_DECODE' and video['frames']==40*video['chapters']
+    assert video['semantic_margins_checked_against_CPU']==3*video['chapters']
     assert len(display['chapters'])==54 and video['chapters']>=54
     assert visual['status']=='PASS_REPRESENTATIVE_CHAPTER_VISUAL_QA' and visual['video_sha256']==video['sha256']
+    frames=read(FINAL/'QA_FRAME_INDEX.json')
+    assert frames['video_sha256']==video['sha256'] and frames['chapter_count']==video['chapters']
+    assert frames['reviewed_frame_indices']==[40*i+20 for i in range(video['chapters'])]
+    assert visual['reviewed_chapter_count']==video['chapters'] and len(frames['files'])==12
+    assert members['eval/media/QA_FRAME_INDEX.json']['sha256']==sha(FINAL/'QA_FRAME_INDEX.json')
+    for frame in frames['files']:
+        assert members['eval/media/qa/'+frame['path']]['sha256']==frame['sha256']
+    coverage=read(FINAL/'DISPLAY_FAILURE_COVERAGE.json')
+    assert coverage['chapters'][:54]==display['chapters']
+    chapter_uids={r['uid'] for r in coverage['chapters']}
+    with (FINAL/'M1_ALL_PANELS_ROWS.csv').open(newline='') as stream:scored=list(csv.DictReader(stream))
+    expected=[]
+    for point in ('X2000','B2048','L2048'):
+        for panel in ('A_CROSSED','B','C'):
+            failed=sorted((r for r in scored if r['point']==point and r['panel']==panel and (r['correct']=='False' or r['reject']=='True')),key=lambda r:r['uid'])
+            if failed:
+                expected.append(dict(point=point,panel=panel,uid=failed[0]['uid'],reason='incorrect target or REJECT'))
+                assert failed[0]['uid'] in chapter_uids
+    assert coverage['failures']==expected
     assert members['eval/media/PI0264_X_B_L_fixed_arrays.mp4']['sha256']==video['sha256']
     checks={
         'fixed256_source_units_eight_visits':'PAIRING_PLAN.json;8192 actual processed samples; unchanged COMPACT_30_10/processor',

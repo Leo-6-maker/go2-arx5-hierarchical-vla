@@ -1,0 +1,64 @@
+{
+  "all_required_deliverables_verified": true,
+  "deployment_selected_checkpoint": "NONE",
+  "final_audit_code_sha256": "8e33e0a689f2ddbce5fceb6f24835f92a97f353c3fb57d61b98099ce642c7cfe",
+  "model_queries_by_final_audit": 0,
+  "models": [
+    {
+      "arm": "B",
+      "revision": "e3ba080ac786bdc9f30f325107e12ff7e444ad90",
+      "step": 1024,
+      "tree_sha256": "c97b6dc153a7e046988ea4ef5d9620c94ce063551927bc91a6c7f88174464408"
+    },
+    {
+      "arm": "B",
+      "revision": "18aa7e584452d9ed173648a0739a94559aed9751",
+      "step": 2048,
+      "tree_sha256": "3f8478febc08f55df2745f69ed85ab8c1bd56be980d8978f86eb8bec76fd857b"
+    },
+    {
+      "arm": "L",
+      "revision": "fdbcd30fe0fc529db3e7f0f604e168ae4c50e08a",
+      "step": 1024,
+      "tree_sha256": "cec58225307d33b830b2d6193f81d801651cc243fd8d6bb20de6fdf54ab9ab79"
+    },
+    {
+      "arm": "L",
+      "revision": "e4290e6ca387abd2de4337b5f12b9c72a5f85c99",
+      "step": 2048,
+      "tree_sha256": "2f61d8ed8c8fe8444b7ef23164cb4df2bcacd8a73c93f19be77fcdf459ef6fae"
+    }
+  ],
+  "next_scientific_execution_authorized": false,
+  "physics_steps": 0,
+  "public_members": 18092,
+  "public_revision": "a663f33c66f884b3c93dfc26766319fd277b0e7f",
+  "public_tree_sha256": "9dd2857e766814624d80fd89a921a851240c8f4ccdb12cde4661799651f35f13",
+  "quality": {
+    "B2048": "VALID_FAIL",
+    "L2048": "VALID_FAIL",
+    "X2000": "VALID_FAIL"
+  },
+  "receipt_sha256": "5e22fd5c4209fa88f61e2209b790bef261a10296a50307a08f726b38dc8ea3e5",
+  "report_sha256": "6bc976f659166efd6cda38521abd612a1d91dbd20377bc9df9d8a15117ea20b5",
+  "requirements": {
+    "6336_union_and_all_panel_views": "Full raw6336 record/tensor pairs, legacy2040/crossed1920/newTRAIN2160/prospective720 memberships",
+    "both_complete2048_and_full_S4_scope": "MAIN_TRAINING_AUDIT.json; serialized frozen scope; actual gradient/mode/loss receipts",
+    "both_real_exact_restore_canaries": "B/L_CANARY_COMPARE.json and actual packet audits",
+    "closed_admission": "Historical PI0263 COMPLETE/FAIL; selected/deployment NONE; stop for new-scene or physical admission",
+    "fixed256_source_units_eight_visits": "PAIRING_PLAN.json;8192 actual processed samples; unchanged COMPACT_30_10/processor",
+    "fixed_array_video_and_failure_coverage": "54 fixed chapters plus frozen-rule first-failure additions,0 new queries/renders/physics",
+    "four_recoverable_full_trainers": "Four fixed HF revisions and complete16-file readbacks, Corelab model-only",
+    "independent_computation_path": "Same owner CPU replay, not external signoff",
+    "nine_negative_controls": "PROCESSED_PLAN_AUDIT.json",
+    "prospective_inputs_and20_actual_noise_packets_sealed_before_canary": "UNION_EVAL_CARD.json; FRESH_NOISE_MANIFEST.json; EVAL_TEXT_INPUT_CHECKS.json",
+    "public_anonymous_every_member_readback": "PUBLIC_RECEIPT.json and MEMBER_MANIFEST.json including all20 actual noise NPZs",
+    "template_color_command_family_noise_M3_O64_g_b": "Complete tables and source-bound model-quality report",
+    "three_separate_qualifications": "QUALIFICATION.json; each numeric/semantic gate independently preserved"
+  },
+  "schema": "PI0264_FINAL_COMPLETION_ADMISSION_AUDIT_V1",
+  "selected_checkpoint": "NONE",
+  "status": "PI0264_LANGUAGE_DIVERSITY_TRANSFER_PILOT_COMPLETE",
+  "stop": "STOP_FOR_NEW_SCENE_OR_PHYSICAL_TRANSFER_ADMISSION",
+  "synthetic_research_candidates": []
+}

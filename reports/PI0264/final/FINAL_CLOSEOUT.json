@@ -1,0 +1,82 @@
+{
+  "DEV_F": 0,
+  "TEST": 0,
+  "WBC_steps": 0,
+  "attempts": 5112,
+  "authority_commit": "8245e324b21b25f643eba26df6b2f189981bb40e",
+  "checkpoints": [
+    {
+      "arm": "B",
+      "files": 16,
+      "revision": "e3ba080ac786bdc9f30f325107e12ff7e444ad90",
+      "step": 1024,
+      "tree_sha256": "c97b6dc153a7e046988ea4ef5d9620c94ce063551927bc91a6c7f88174464408"
+    },
+    {
+      "arm": "B",
+      "files": 16,
+      "revision": "18aa7e584452d9ed173648a0739a94559aed9751",
+      "step": 2048,
+      "tree_sha256": "3f8478febc08f55df2745f69ed85ab8c1bd56be980d8978f86eb8bec76fd857b"
+    },
+    {
+      "arm": "L",
+      "files": 16,
+      "revision": "fdbcd30fe0fc529db3e7f0f604e168ae4c50e08a",
+      "step": 1024,
+      "tree_sha256": "cec58225307d33b830b2d6193f81d801651cc243fd8d6bb20de6fdf54ab9ab79"
+    },
+    {
+      "arm": "L",
+      "files": 16,
+      "revision": "e4290e6ca387abd2de4337b5f12b9c72a5f85c99",
+      "step": 2048,
+      "tree_sha256": "2f61d8ed8c8fe8444b7ef23164cb4df2bcacd8a73c93f19be77fcdf459ef6fae"
+    }
+  ],
+  "cpu_status": "PASS_INDEPENDENT_COMPUTATION_PATH_CPU_6336_REPLAY",
+  "deployment_selected_checkpoint": "NONE",
+  "external_signoff": false,
+  "inference_heads": 20448,
+  "model_queries_by_report": 0,
+  "new_scenes": 0,
+  "new_statistics_fits": 0,
+  "optimizer_updates": {
+    "B": 2048,
+    "L": 2048
+  },
+  "physics_steps": 0,
+  "qualification": [
+    {
+      "combined_pass": false,
+      "crossed_M1_robustness_pass": false,
+      "legacy_full_quality_pass": false,
+      "point": "X2000",
+      "prospective_text_noise_pass": false
+    },
+    {
+      "combined_pass": false,
+      "crossed_M1_robustness_pass": false,
+      "legacy_full_quality_pass": false,
+      "point": "B2048",
+      "prospective_text_noise_pass": false
+    },
+    {
+      "combined_pass": false,
+      "crossed_M1_robustness_pass": false,
+      "legacy_full_quality_pass": false,
+      "point": "L2048",
+      "prospective_text_noise_pass": false
+    }
+  ],
+  "raw_completed_updates": 4128,
+  "raw_training_heads": 74352,
+  "real_hardware": 0,
+  "rows": 6336,
+  "same_owner_independent_computation_path": true,
+  "schema": "PI0264_COMPUTE_AND_QUALITY_CLOSEOUT_V1",
+  "selected_checkpoint": "NONE",
+  "status": "PI0264_COMPUTE_AND_QUALITY_COMPLETE_AWAIT_PUBLIC_READBACK",
+  "stop": "STOP_FOR_NEW_SCENE_OR_PHYSICAL_TRANSFER_ADMISSION",
+  "synthetic_research_candidates": []
+}

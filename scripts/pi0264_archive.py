@@ -34,7 +34,7 @@ def run():
     for row in fresh['rows']:assert sha(ROOT/row['file'])==row['file_sha256']
     assert all((ROOT / name).is_file() for name in required)
     assert len(list((ROOT / 'eval').glob('*/cells/*/record.json'))) == 6336
-    allowed = {'.json', '.jsonl', '.npz', '.csv', '.md', '.py', '.log', '.mp4', '.pbs', '.OU', '.ER'}
+    allowed = {'.json', '.jsonl', '.npz', '.csv', '.md', '.py', '.log', '.mp4', '.png', '.pbs', '.OU', '.ER'}
     inputs={p for p in ROOT.iterdir() if p.is_file() and p.suffix in allowed}
     for folder in ('eval','evidence','model_bindings','training_evidence','code','logs','noise'):
         inputs.update(p for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in allowed and '.partial.' not in p.name)

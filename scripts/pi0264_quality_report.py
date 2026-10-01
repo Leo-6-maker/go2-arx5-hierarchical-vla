@@ -44,6 +44,26 @@ def main():
         '## Original geometry and language groups','',
         table(('Point','Task','Kind','Noise','N','Correct','Reject','Numeric pass','Semantic pass'),
             [(r['point'],r['task'],r['kind'],r['noise'],r['n'],r.get('correct','—'),r['reject'],r.get('numeric_pass','—'),r.get('semantic_pass','—')) for r in q['legacy_groups']]),'']
+    fit=rows('TRAIN_NEW_TEXT_ROWS');totals={}
+    for point in POINTS:
+        vals=[r for r in fit if r['point']==point];assert len(vals)==720
+        groups=[r for r in q['prospective_groups'] if r['point']==point];assert len(groups)==12
+        totals[point]=dict(fit=sum(r['correct']=='True' for r in vals),
+            Q=sum(r['correct'] for r in groups if r['template'].startswith('Q')),
+            anchors=sum(r['correct'] for r in groups if r['template'].startswith('T')),
+            groups_pass=sum(r['prospective_pass'] for r in groups))
+    lines += ['## Added text fit and prospective transfer','',
+        table(('Point','New TRAIN texts correct/720','Unsupervised Q correct/160','Anchors correct/80','Prospective groups passing/12'),
+            [(p,totals[p]['fit'],totals[p]['Q'],totals[p]['anchors'],totals[p]['groups_pass']) for p in POINTS]),'',
+        'These totals summarize the preserved groups; qualification still requires every individual numeric and semantic gate. '
+        'A higher count of passing groups cannot replace the mandatory AND across all12.','']
+    if not q['synthetic_research_candidates'] and totals['L2048']['fit']>totals['B2048']['fit'] and totals['L2048']['Q']<=totals['B2048']['Q']:
+        lines += [f"L improves newly supervised text fit by {totals['L2048']['fit']-totals['B2048']['fit']}/720 versus B, "
+            f"while its aggregate unseen-Q difference is {totals['L2048']['Q']-totals['B2048']['Q']}/160. "
+            'This single matched run supports learnability of the added training formulations. Prospective transfer remains insufficient '
+            'under the registered gates; the result does not establish a stronger aggregate Q advantage for language diversity. '
+            'Donor-to-endpoint improvements also include added optimization and the compact common schedule. '
+            'Stop at the authorized terminal with the negative results; no additional old-scene template schedule, quality retry or transfer execution follows.','']
     for title,groups,passkey in (('Old crossed M1',q['crossed_groups'],'robustness_pass'),('Prospective text/noise',q['prospective_groups'],'prospective_pass')):
         lines += ['## '+title,'',table(('Point','Split','Template','Noise','Correct/N','c0','c1','Both families','median XYZ mm','p95 XYZ mm','median SO3 rad','Reject','Group pass'),
             [(r['point'],r['split'],r['template'],r['noise'],str(r['correct'])+'/'+str(r['n']),r['c0'],r['c1'],r['both_commands_correct'],

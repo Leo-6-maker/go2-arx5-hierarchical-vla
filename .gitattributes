@@ -1,3 +1,10 @@
 hpc/pbs/pi0245_p1_stock_h200.pbs text eol=lf
 
 scripts/pi0263_*.pbs text eol=lf
+
+# Preserve published evidence bytes and hashes.
+scripts/pi0264_*.py text eol=lf
+reports/PI0264/*.json -text
+reports/PI0264/interim_B/*.json -text
+reports/PI0264/final/** -text
+reports/PI0264/** whitespace=cr-at-eol
