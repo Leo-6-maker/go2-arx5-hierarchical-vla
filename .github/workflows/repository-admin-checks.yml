@@ -1,0 +1,45 @@
+name: repository-admin-no-regression
+on:
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'docs/PROJECT_STATUS.md'
+      - 'docs/RESEARCH_INDEX.md'
+      - 'docs/REPOSITORY_WORKFLOW.md'
+      - 'docs/maintenance/**'
+      - 'scripts/maintenance/**'
+      - '.github/workflows/repository-admin-checks.yml'
+  push:
+    branches: [repo-maintenance/consolidation-20261001]
+    paths:
+      - 'README.md'
+      - 'docs/PROJECT_STATUS.md'
+      - 'docs/RESEARCH_INDEX.md'
+      - 'docs/REPOSITORY_WORKFLOW.md'
+      - 'docs/maintenance/**'
+      - 'scripts/maintenance/**'
+      - '.github/workflows/repository-admin-checks.yml'
+permissions:
+  contents: read
+jobs:
+  compare:
+    # One dated baseline comparison, not a new generic science CI gate.
+    if: github.repository == 'Leo-6-maker/go2-arx5-hierarchical-vla' && (github.ref == 'refs/heads/repo-maintenance/consolidation-20261001' || github.head_ref == 'repo-maintenance/consolidation-20261001')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -e '.[test]'
+      - run: python scripts/maintenance/check_admin_merge.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: repository-admin-validation-${{ github.run_id }}
+          path: repo-admin-validation/
+          retention-days: 30
