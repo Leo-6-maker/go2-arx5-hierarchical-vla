@@ -111,6 +111,24 @@ def video(stage):
     print(json.dumps(dict(status='PASS_ACTUAL_TEACHER_VIDEO',stage=stage,frames=count,bytes=path.stat().st_size)),flush=True)
 
 
+def archive_members(out,files):
+    import hashlib
+    manifest=out/'MEMBER_MANIFEST.json'
+    current={name:p for p,name in files}
+    if manifest.exists():
+        saved=read(manifest);members=saved['files']
+        assert len(members)==saved['members'] and len({r['path'] for r in members})==len(members)
+        files=[(current[r['path']],r['path']) for r in members]
+        for (p,_),row in zip(files,members):
+            assert p.stat().st_size==row['bytes'] and sha(p)==row['sha256'],row['path']
+    else:
+        members=[dict(path=name,bytes=p.stat().st_size,sha256=sha(p)) for p,name in files]
+    tree=hashlib.sha256(json.dumps(members,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    if manifest.exists():assert saved['tree_sha256']==tree
+    else:write(manifest,dict(files=members,tree_sha256=tree,members=len(members),private_WBC_assets_or_weights=False))
+    return files,members,tree
+
+
 def archive():
     import tarfile
     import hashlib
@@ -132,9 +150,7 @@ def archive():
                 if not path.is_file() or path.suffix not in ('.py','.json','.jsonl','.npz','.csv','.md','.log','.mp4'):continue
                 assert not path.is_symlink() and path.resolve().is_relative_to(base.resolve())
                 files.append((path,('small/' if base==ROOT else 'raw/')+path.relative_to(base).as_posix()))
-    members=[dict(path=name,bytes=p.stat().st_size,sha256=sha(p)) for p,name in files]
-    tree=hashlib.sha256(json.dumps(members,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    write(out/'MEMBER_MANIFEST.json',dict(files=members,tree_sha256=tree,members=len(members),private_WBC_assets_or_weights=False))
+    files,members,tree=archive_members(out,files)
     package=out/'PI0266_ACTUAL_TEACHER_AND_FEEDBACK_EVIDENCE.tar'
     if not package.exists():
         partial=package.with_suffix('.tar.partial')
