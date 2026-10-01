@@ -27,6 +27,14 @@ from go2arx5_vla.safety import TrajectorySafetyGateV1,GateDecision
 from go2arx5_vla.wbc.native.kinematics import NativeArmKinematics
 
 
+def check_cache(physics_time, xyz_error, so3_error):
+    # The frozen native TCP offset is first applied by post_physics_step, after its implicit reset step.
+    if physics_time>1e-8:
+        assert xyz_error<=1e-5 and so3_error<=1e-4
+        return 'POST_INITIALIZATION_OFFSET_VERIFIED'
+    return 'PRE_FIRST_POST_PHYSICS_OFFSET_UPDATE'
+
+
 def run(case_id):
     verify_sources();seal=read(ROOT/'design/TEACHER_EXECUTION_SEAL.json')
     for rel,digest in seal['files'].items():assert sha(ROOT/rel)==digest,rel
@@ -61,9 +69,11 @@ def run(case_id):
     def snapshot(n):
         p,r=fk(n);np_p,np_q=api._current_eef(n);s=n.traj_batch.s_ref(n.traj_sim_time)
         desired=n.traj_batch.p_at(s)[0].detach().cpu().numpy();dr=Rotation.from_quat(n.traj_batch.quat_at(s)[0].detach().cpu().numpy()).as_matrix()
-        assert np.linalg.norm(p-np_p)<=1e-5 and so3(r,Rotation.from_quat(np_q).as_matrix())<=1e-4
+        xyz_error=float(np.linalg.norm(p-np_p));rot_error=float(so3(r,Rotation.from_quat(np_q).as_matrix()))
+        cache_status=check_cache(clock(n),xyz_error,rot_error)
         return dict(time=clock(n),root=n.root_states[0].detach().cpu().tolist(),DOF=n.dof_state.detach().cpu().tolist(),TCP=p.tolist(),rotation=r.tolist(),
-            installed=desired.tolist(),installed_rotation=dr.tolist(),cursor=n.traj_sim_time.detach().cpu().tolist(),telemetry=api._native_runtime_telemetry(n))
+            installed=desired.tolist(),installed_rotation=dr.tolist(),cursor=n.traj_sim_time.detach().cpu().tolist(),telemetry=api._native_runtime_telemetry(n),
+            native_FK_xyz_m=xyz_error,native_FK_so3_rad=rot_error,native_TCP_cache_status=cache_status)
     import pytorch3d.transforms as transforms
     transforms.matrix_to_rotation_6d=lambda m:m[..., :2,:].clone().reshape(m.shape[:-2]+(6,))
     original=api._Stage21NativeEnvFactory.make

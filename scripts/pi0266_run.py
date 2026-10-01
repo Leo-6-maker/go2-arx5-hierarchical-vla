@@ -99,10 +99,41 @@ def teachers(stage):
         complete_task_quality_does_not_block_window_learning=True,GR00T_queries=0,optimizer_updates=0))
 
 
+def teacher_repair_seal():
+    import ast
+    path=ROOT/'design/TEACHER_EXECUTION_SEAL.json';old=read(path);script=ROOT/'code/pi0266_control.py'
+    node=next(n for n in ast.parse(script.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='check_cache')
+    scope={};exec(compile(ast.Module(body=[node],type_ignores=[]),'source_cache_guard','exec'),scope)
+    check=scope['check_cache'];assert check(0.,.1424,.3)=='PRE_FIRST_POST_PHYSICS_OFFSET_UPDATE'
+    assert check(.02,1e-7,1e-7)=='POST_INITIALIZATION_OFFSET_VERIFIED'
+    try:check(.02,.1424,.3)
+    except AssertionError:pass
+    else:raise AssertionError('bad post-initialization cache accepted')
+    changes=[]
+    for rel,digest in old['files'].items():
+        if sha(ROOT/rel)!=digest:
+            assert rel in ('code/pi0266_control.py','code/pi0266_run.py'),rel
+            changes.append(dict(path=rel,previous_sha256=digest,new_sha256=sha(ROOT/rel)))
+    assert changes
+    previous=ROOT/'evidence/TEACHER_EXECUTION_SEAL_V0.json';assert not previous.exists();write(previous,old)
+    attempts=[]
+    for folder in (RAW/'diagnostics').glob('*/attempt-*'):
+        result=read(folder/'result.json')
+        assert result['validity']=='ENGINEERING_INCOMPLETE' and not (folder/'physics_started.json').exists()
+        item=dict(attempt=str(folder),classification='ENGINEERING_INVALID_PRE_PHYSICS_CACHE_AUDIT_LIFECYCLE',physics_starts=0,actor_calls=0,raw_preserved=True)
+        write(folder/'INVALIDATION.json',item);attempts.append(item)
+    deviation=dict(status='SAME_SEMANTICS_CACHE_AUDIT_GUARD_REPAIR',reason='native post_physics_step applies TCP offset after first implicit step; mechanical FK was recorded before it',
+        changes=changes,attempts=attempts,native_source_or_control_changed=False,post_initialization_strict_checks_retained=True,narrow_negative_test=True)
+    write(ROOT/'evidence/TEACHER_CACHE_AUDIT_DEVIATION.json',deviation)
+    updated=dict(old,files={rel:sha(ROOT/rel) for rel in old['files']},previous_seal_sha256=sha(previous),deviation_sha256=sha(ROOT/'evidence/TEACHER_CACHE_AUDIT_DEVIATION.json'))
+    write(path,updated);print(json.dumps(deviation),flush=True)
+
+
 if __name__=='__main__':
     if '--seal' in sys.argv:seal()
     elif '--resets' in sys.argv:resets()
     elif '--teacher-seal' in sys.argv:teacher_seal()
+    elif '--teacher-repair-seal' in sys.argv:teacher_repair_seal()
     elif '--teachers' in sys.argv:
         teachers('diagnostics');teachers('collection')
     elif '--diagnostics' in sys.argv:teachers('diagnostics')
