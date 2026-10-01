@@ -55,6 +55,25 @@ def freeze():
     print(json.dumps(dict(status='PI0264_DISPLAY_FROZEN',chapters=54)))
 
 
+def failure_source(card,scored):
+    row=next(r for r in card['rows'] if r['uid']==scored['uid'])
+    if row['panel']=='A':
+        # Union rows can use a legacy primary record; retain their crossed membership.
+        return next(a['source_row'] for a in card['legacy_aliases'] if a['panel']=='crossed' and a['uid']==row['uid']
+            and all(str(a['source_row'][k])==str(scored[k]) for k in ('family','command','template','noise')))
+    return row['source_row']
+
+
+def self_check():
+    card=read(ROOT/'UNION_EVAL_CARD.json');checked=0
+    for alias in card['legacy_aliases']:
+        if alias['panel']!='crossed':continue
+        scored=dict(alias['source_row'],uid=alias['uid'])
+        assert failure_source(card,scored)==alias['source_row'];checked+=1
+    assert checked==640
+    print(json.dumps(dict(status='PASS_PI0264_DISPLAY_OVERLAP_BINDINGS',memberships=checked,model_queries=0)))
+
+
 def render():
     evaluation.assert_release()
     import csv
@@ -69,7 +88,7 @@ def render():
             if not vals:continue
             r=vals[0];failures.append(dict(point=point,panel=panel,uid=r['uid'],reason='incorrect target or REJECT'))
             if r['uid'] in existing:continue
-            row=rows_by_uid[r['uid']];src=row['source_row']
+            row=rows_by_uid[r['uid']];src=failure_source(card,r)
             chapters.append(dict(uid=row['uid'],task='M1',family=src['family'],command=src['command'],noise=row['noise'],
                 template=src['template'],language=src['text'] if row['panel']!='A' else src['language']))
             existing.add(r['uid'])
@@ -121,4 +140,5 @@ def render():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--freeze',action='store_true');freeze() if p.parse_args().freeze else render()
+    p=argparse.ArgumentParser();p.add_argument('--freeze',action='store_true');p.add_argument('--self-check',action='store_true')
+    args=p.parse_args();self_check() if args.self_check else freeze() if args.freeze else render()
