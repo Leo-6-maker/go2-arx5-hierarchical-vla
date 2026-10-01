@@ -31,6 +31,8 @@ def report():
             task=case['task'],command=case['command'],success=result['success'],failure=result.get('failure') or ('TASK_CRITERIA_FAIL' if not result['success'] else ''),
             safety_failure=result.get('safety_failure',False),validity=result['validity'],attempt=str(attempt),
             recorded_world_rows=len(data),WBC_actor_calls=result.get('WBC_actor_calls',0))
+        row['terminal_collision_pairs']=json.dumps([hit['pair'] for hit in data[-1].get('collision',{}).get('hits',[])]) if data else 'UNAVAILABLE'
+        row['terminal_hard_unsafe_joints']=json.dumps(data[-1].get('hard_unsafe',[])) if data else 'UNAVAILABLE'
         if data and (attempt/'task_spec.json').exists():
             position=[];rotation=[];max_xyz=max_rot=0.
             for state in data:
@@ -50,6 +52,9 @@ def report():
             row['ordered_bins']=len(independent['ordered_bins']);row['observed_task_s']=data[-1]['elapsed']
             row['requested_final_target_xyz_m']=float(np.linalg.norm(requested['position'][-1]-spec['goal']))
             row['installed_final_target_xyz_m']=float(np.linalg.norm(np.array(data[-1]['installed'])-spec['goal']))
+            table=dict(np.load(attempt/'installed_table.npz',allow_pickle=False))
+            row['canonical_terminal_to_requested_xyz_m']=float(np.linalg.norm(table['gamma_p'][0,-1]-requested['position'][-1]))
+            row['canonical_terminal_to_requested_so3_rad']=float(so3(Rotation.from_quat(table['gamma_quat'][0,-1]).as_matrix(),Rotation.from_quat(requested['quaternion'][-1]).as_matrix()))
             replay.append(dict(case=case['case_id'],rows=len(data),max_reconstructed_FK_xyz_m=max_xyz,max_reconstructed_FK_so3_rad=max_rot,
                 independent_world_FK_and_metric_match=True,raw_source_sha256=sha(attempt/'rows.json')))
         rows.append(row);chapters.append(dict(case=case,result=result,attempt=str(attempt),row=row))
@@ -80,6 +85,13 @@ def report():
         'Raw budget: '+json.dumps(json.loads((ROOT/'evidence/RAW_BUDGET.json').read_text()),sort_keys=True)+'.','',
         'Requested, installed and achieved are distinct world-coordinate columns. Tracking uses the same native tick, not differences of minimum distances. '
         'Native termination state comes from pre-autoreset receipts when available; unavailable terminal camera views are not reconstructed.','']
+    unsafe=[row for row in rows if row['stage']=='DEV' and row['safety_failure']]
+    lines+=['## Actual safety and task failures','',
+        '| Case | Stop reason | Actual forbidden collision pairs | Hard-bound joints |','|---|---|---|---|']
+    for row in unsafe:lines.append('| %s | %s | %s | %s |'%(row['case'],row['failure'],row['terminal_collision_pairs'],row['terminal_hard_unsafe_joints']))
+    lines+=['','Safety stops and complete but unsuccessful tracking episodes are separate outcomes. '
+        'A reset-dependent forbidden collision shared by commands/representations is not evidence that either6D packing caused it. '
+        'C0 or a single successful M1 case cannot replace7/8 complete successes,3/4 per behavior and every successful episode\'s tracking requirements.','']
     if verdict['status']=='PI0265_CONTROLLER_ENVELOPE_BLOCKED':
         lines += ['Neither version completed the registered dynamic qualification. G2 feedback collection, R/D training and learned-policy closed loop were not started. '
             'This is a controller-envelope stop and overall PARTIAL, not an executed feedback-training pilot or evidence of a unique controller root cause.']
