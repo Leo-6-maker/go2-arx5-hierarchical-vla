@@ -27,7 +27,27 @@ def video(mode):
         for y,text in zip((24,49,74,99),labels):cv2.putText(canvas,text,(18,y),cv2.FONT_HERSHEY_SIMPLEX,.46,(240,240,240),1)
         cv2.putText(canvas,'Recorded96x96 RGB / no outcome resampling / selected=NONE',(18,624),cv2.FONT_HERSHEY_SIMPLEX,.48,(230,230,230),1)
         writer.write(canvas);count+=1
-    if mode=='virtual':
+    if mode=='teacher-replay':
+        receipt=read(R1/'evidence/SAVED_ARRAY_READMISSION.json')
+        own=[r for r in receipt['rows'] if r['teacher']=='NEW' and r['family']=='pi0265-family-000'];assert len(own)==8
+        for row in sorted(own,key=lambda r:(r['task'],r['command'],r['backend'])):
+            assert sha(row['source'])==row['source_sha256'];z=np.load(row['source']);start=count
+            p,installed=z['actual_p'],z['installed_p'];both=np.r_[p,installed];lo=both[:,:2].min(0)-.02;span=max(np.ptp(both[:,0]),np.ptp(both[:,1]))+.04
+            def xy(q):return np.c_[100+q[:,0]*480,570-q[:,1]*480].astype(np.int32)
+            actual_xy=xy((p[:,:2]-lo)/span);desired_xy=xy((installed[:,:2]-lo)/span)
+            for i in range(0,len(p),20):
+                canvas=np.full((640,1024,3),18,np.uint8)
+                for y,text in zip((24,49,74,99),('SAVED CPU VIRTUAL TEACHER REPLAY / NOT_WBC / NOT CAMERA RGB',row['key'],
+                    f"original t={z['time'][i]:.2f}s / 2x playback / V2={row['v2_success']} V3={row['v3']['success']}",
+                    'Original saved actual TCP: green / installed TCP: orange / no new episode')):
+                    cv2.putText(canvas,text,(18,y),cv2.FONT_HERSHEY_SIMPLEX,.46,(240,240,240),1)
+                cv2.polylines(canvas,[desired_xy[:i+1]],False,(0,150,240),2);cv2.polylines(canvas,[actual_xy[:i+1]],False,(80,230,80),1)
+                cv2.circle(canvas,tuple(actual_xy[i]),5,(80,230,80),-1)
+                error=np.linalg.norm(p[i]-installed[i]);cv2.putText(canvas,f'same-tick tracking={error:.6f}m',(620,200),cv2.FONT_HERSHEY_SIMPLEX,.48,(230,230,230),1)
+                cv2.putText(canvas,'XY plot of original arrays / V3 rescore is not learning',(18,624),cv2.FONT_HERSHEY_SIMPLEX,.48,(230,230,230),1)
+                writer.write(canvas);count+=1
+            chapters.append(dict(case=row['key'],source=row['source'],source_sha256=row['source_sha256'],first_frame=start,last_frame=count-1))
+    elif mode=='virtual':
         verdict=read(out/'PRIMARY_VERDICT.json');assert verdict['virtual_episodes']==192
         family=read(ROOT/'design/SCENE_CARD.json')['families'][28]['family_id']
         for point in ('donor','N4096','R4096'):
@@ -70,10 +90,11 @@ def video(mode):
             if not okay:break
             assert frame.shape==(640,1024,3);decoded+=1
         cap.release();assert decoded==count
-    write(out/(mode+'-VIDEO_RECEIPT.json'),dict(status='PASS_RECORDED_RGB_VIDEO_FULL_DECODE' if count else 'NO_VALID_ACTUAL_CAMERA_FRAMES',
-        mode=mode,file=str(path),sha256=sha(path),frames=count,fps=5.,chapters=chapters,model_queries=0,new_renders=0,new_physics=0))
+    write(out/(mode+'-VIDEO_RECEIPT.json'),dict(status=('PASS_SAVED_ARRAY_PLOT_VIDEO_FULL_DECODE' if mode=='teacher-replay' else 'PASS_RECORDED_RGB_VIDEO_FULL_DECODE') if count else 'NO_VALID_ACTUAL_CAMERA_FRAMES',
+        mode=mode,file=str(path),sha256=sha(path),frames=count,fps=5.,chapters=chapters,model_queries=0,new_renders=0,new_physics=0,
+        camera_RGB=mode!='teacher-replay',new_teacher_episodes=0))
     print(json.dumps(dict(mode=mode,frames=count,bytes=path.stat().st_size)),flush=True)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=('teacher','virtual','wbc'));video(p.parse_args().mode)
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=('teacher','teacher-replay','virtual','wbc'));video(p.parse_args().mode)

@@ -32,7 +32,7 @@ def main():
     actual_WBC=secondary['actual_model_attempts_including_invalid'];assert actual_WBC<=2400
     camera_actual=sum(1 for _ in (RAW/'virtual').glob('*/*/queries/*/observation.npz'))+sum(1 for _ in (RAW/'diagnostics').glob('*/attempt-*/frames/*.npz'))
     actual_frames=10248+6+256+camera_actual;assert actual_frames<=40000
-    value=dict(status='PI0267_EXECUTOR_DECOUPLED_RECOVERY_STUDY_COMPLETE',stop='STOP_FOR_WIDER_SCENE_OR_SECOND_EMBODIMENT_ADMISSION',
+    value=dict(status='PI0267_R1_ENTRY_CONTRACT_RECOVERY_STUDY_COMPLETE',stop='STOP_FOR_WIDER_SCENE_OR_SECOND_EMBODIMENT_ADMISSION',
         release='a0f10306419d77242ba31c84d34ce7ce3c59f419',original_V2_PRIMARY_PARTIAL_preserved=True,
         V3_readmission_separate_from_model_learning=True,optimizer_updates={'N':4096,'R':4096},full_Trainer_checkpoints=checkpoints,
         training_raw_completed_updates=training['raw_completed_updates'],technical_recovery_updates=training['technical_recovery_completed_updates'],
