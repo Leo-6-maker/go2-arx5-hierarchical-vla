@@ -120,9 +120,16 @@ def run_episode(point,family,task,command,backend,worker):
     finally:renderer.close()
 
 
-def main(point):
+def selected_families(card,family_id=None):
+    families=[f for f in card['families'] if f['split']=='NEW_SIM_EVAL'];assert len(families)==8
+    if family_id is not None:
+        families=[f for f in families if f['family_id']==family_id];assert len(families)==1,'UNKNOWN_FIXED_EVAL_FAMILY'
+    return families
+
+
+def main(point,family_id=None):
     audit=read(R1/'evidence/MAIN_TRAINING_AUDIT.json');assert audit['status']=='PASS_BOTH_4096_MATCHED_TRAINING_INTEGRITY'
-    card=read(ROOT/'design/SCENE_CARD.json');families=[f for f in card['families'] if f['split']=='NEW_SIM_EVAL'];assert len(families)==8
+    card=read(ROOT/'design/SCENE_CARD.json');families=selected_families(card,family_id)
     env=dict(os.environ);env.pop('LD_PRELOAD',None)
     # Modern torch cannot inherit IsaacGym's Python3.8 native library search path.
     env.pop('LD_LIBRARY_PATH',None);env['PYTHONPATH']=str(ROOT/'code')
@@ -141,9 +148,14 @@ def main(point):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--point',choices=('donor','N4096','R4096'));p.add_argument('--self-check',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--point',choices=('donor','N4096','R4096'));p.add_argument('--family');p.add_argument('--self-check',action='store_true');a=p.parse_args()
     if a.self_check:
-        assert a.point is None
+        assert a.point is None and a.family is None
+        fixture=dict(families=[dict(split='NEW_SIM_EVAL',family_id=str(i)) for i in range(8)])
+        assert selected_families(fixture)==fixture['families'] and selected_families(fixture,'3')==[fixture['families'][3]]
+        try:selected_families(fixture,'outside')
+        except AssertionError:pass
+        else:raise AssertionError('UNDECLARED_FAMILY_ACCEPTED')
         p0=np.array([.3,0,.6]);r0=Rotation.from_euler('xyz',[.31,-.47,.83]).as_matrix()
         lp=p0+np.arange(40)[:,None]*.05*np.array([.02,0,0]);lr=np.repeat(r0[None],40,axis=0)
         ap,ar,dp,dr=advance(p0,r0,lp,lr,'E0');assert np.array_equal(ap,dp) and np.array_equal(ar,dr)
@@ -152,4 +164,4 @@ if __name__=='__main__':
             verdict=raw_gate(lp,lr,p0,r0,np.zeros(3),now=now,gripper=np.full(40,.5))
             assert verdict['decision']!='REJECT',verdict
         print('PASS_E0_E1_NONIDENTITY_PREFIX_AND_TIMESTAMPED_ORIGINAL_GATE_ZERO_QUERY_ZERO_PHYSICS',flush=True)
-    else:assert a.point;main(a.point)
+    else:assert a.point;main(a.point,a.family)

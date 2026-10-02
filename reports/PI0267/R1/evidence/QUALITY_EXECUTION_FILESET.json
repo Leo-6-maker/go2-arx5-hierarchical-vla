@@ -1,5 +1,5 @@
 {
-  "EVAL_payload_opened": false,
+  "EVAL_payload_opened": true,
   "files": [
     {
       "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_infer_worker.py",
@@ -24,6 +24,10 @@
     {
       "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_freeze_offline.py",
       "sha256": "69ab734e6bd1efa4a2363a16ed66235bc02b916a144cb6c56820949d4397b3a8"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/R1/runtime/virtual_family/pi0267_virtual_episode.py",
+      "sha256": "9902baf2df3fff4e5a1ff52383dd0d522282305cb68223ad6797baabdb2a63ca"
     }
   ],
   "local_processor_binding_repair": {
@@ -31,6 +35,20 @@
     "original_failed_start_retained": true,
     "policy_input_identity_unchanged": true,
     "receipt_sha256": "7520236cb03f71cc045dea638a8a2cc00baa3fd56a29382db36c1a1fd770edf2"
+  },
+  "native_lifecycle_recovery": {
+    "cumulative_model_attempts_before_recovery": 6348,
+    "cumulative_model_heads_before_recovery": 25392,
+    "entry": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/R1/runtime/virtual_family/pi0267_virtual_episode.py",
+    "failed_start": 48,
+    "fixed_family_process_boundary": true,
+    "launcher_seal_path_preflight_failures": 2,
+    "narrow_check_sha256": "06e1995723e2ddba46797695a2f73c1a112f69e10d637a0292524785664a2109",
+    "original_entry_retained": true,
+    "preflight_failure_model_queries": 0,
+    "receipt_sha256": "9999fa34bdc81f5fabcdd0ccb4e15e4c3f33660b242a33f16ec6fd83e5b98679",
+    "renderer_scorer_gate_worker_unchanged": true,
+    "timestamp_UTC": "2026-10-02T11:44:12.859000+00:00"
   },
   "new_model_queries": 0,
   "new_offline_noise": "already frozen E0 positions0..7",
@@ -45,7 +63,7 @@
     "worker_unchanged": true
   },
   "reporting_addendum": "Instrumented native S4 latency; fixed nominal/recovery, task/command/stage errors and complete gate details; no query or metric change.",
-  "status": "FROZEN_BEFORE_ANY_NEW_MODEL_QUALITY_QUERY",
+  "status": "FROZEN_EXECUTION_WITH_SOURCE_BOUND_NATIVE_LIFECYCLE_RECOVERY",
   "training_admission": "Both real4096 endpoints and four complete audited local Trainer inventories; full HF preservation proceeds independently; each model-only fixed revision/file still fully verified.",
   "virtual_tool_gripper": "fixed procedural tool; actual model output untouched for gate"
 }
