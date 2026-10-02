@@ -1,0 +1,60 @@
+{
+  "canaries": {
+    "OLD": {
+      "arm": "OLD",
+      "microbatches": 16,
+      "mode_restored": true,
+      "model_max_abs": 0.0,
+      "model_tensors": 1030,
+      "optimizer_max_abs": 0.0,
+      "optimizer_tensors": 1413,
+      "packet_equal": true,
+      "saved_RNG_states_equal": {
+        "cpu": true,
+        "cuda": true,
+        "numpy": true,
+        "python": true
+      },
+      "scheduler_lr_abs": 0.0,
+      "split_phase": "split",
+      "status": "PASS_PI0268_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+      "units": 8
+    },
+    "ROT": {
+      "arm": "ROT",
+      "microbatches": 16,
+      "mode_restored": true,
+      "model_max_abs": 0.0,
+      "model_tensors": 1030,
+      "optimizer_max_abs": 0.0,
+      "optimizer_tensors": 1413,
+      "packet_equal": true,
+      "saved_RNG_states_equal": {
+        "cpu": true,
+        "cuda": true,
+        "numpy": true,
+        "python": true
+      },
+      "scheduler_lr_abs": 0.0,
+      "split_phase": "split",
+      "status": "PASS_PI0268_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+      "units": 8
+    }
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "discarded_planned_canary_updates": 32,
+  "fileset_sha256": "7eb259ea284c80f6ee67085bee21b389605674e246624c5846f9aa6bb7af0be5",
+  "job": "643705.hopper-m-02",
+  "main_completed_updates": {
+    "OLD": 48,
+    "ROT": 0
+  },
+  "new_quality_queries": 0,
+  "observed_epoch": 1790967296.9624937,
+  "qstat": "Job Id: 643705.hopper-m-02\n    Job_Name = pi0268_old_rot\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 98\n    resources_used.cput = 00:09:50\n    resources_used.mem = 65413672kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 69875820kb\n    resources_used.walltime = 00:18:27\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Sat Oct  3 02:32:08 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0268/logs/\n    exec_host = hopper-15/0*12\n    exec_vnode = (hopper-15:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Sat Oct  3 02:54:45 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0268/logs/\n    Priority = 0\n    qtime = Sat Oct  3 02:32:16 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    stime = Sat Oct  3 02:36:16 2026\n    session_id = 2111645\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Sat Oct 03 at 02:36 on (hopper-15:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Sat Oct  3 02:32:16 2026\n    run_count = 1\n    Submit_arguments = -m n -m n /scratch/e1192548/Projects/go2-arx5/experiment\n\ts/PI0268/code/training.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "raw_completed_updates": 88,
+  "raw_training_heads": 1637,
+  "selected_checkpoint": "NONE",
+  "status": "BOTH_REAL_CANARIES_PASS_MAIN_TRAINING_RUNNING",
+  "technical_completed_updates": 8
+}
