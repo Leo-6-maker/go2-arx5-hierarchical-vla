@@ -90,3 +90,20 @@ Completed point partitions may now archive while the remaining model points run.
 After the prior local SSH transport reset, the remote coordinator continued several families and then disappeared after completing N family031. The coordinator, native renderer and model worker were all confirmed absent before continuation. No coordinator stderr was available for that exit, so its exact cause remains UNKNOWN. All96 completed valid results (donor64, N32) and their trajectory hashes were checked and preserved. Their actual9479 virtual queries plus1648 offline queries reconcile to11127 attempts and44508 heads;97 virtual starts include the earlier zero-query native failure. The first preflight incorrectly assumed100 queries for every completed case and stopped before launch; it was corrected to sum actual result records.
 
 The unchanged finite family sequence now runs with a detached coordinator and a durable remote log. It resumes at start98, `N4096/pi0265-family-032-M1-c0-E0`; the first61 new saved predictions and the live coordinator were verified at13:14 UTC. No completed condition, model query or training update was repeated. Episode/model/gate sources and all scientific budgets are unchanged. `evidence/VIRTUAL_COORDINATOR_TRANSPORT_RECOVERY_20261002.json` preserves the before-state hashes, actual accounting and continuation evidence; the exact coordinator source is retained in the remote audit-code bundle. N remains partial and R remains pending; this is execution recovery, not a final quality verdict.
+
+## Donor reference, tracking and terminal-pose decomposition
+
+`evidence/VIRTUAL_DECOMPOSITION_donor.json` uses the complete64 fixed donor arrays and their original targets. It changes no score and consumes zero model queries/renders/physics. All6400 donor gates were ACCEPT. The per-episode, full-task-window diagnostics are:
+
+| Task/backend | Original successes/16 | Median achieved final XYZ error mm | Median same-tick tracking RMS mm | Achieved/installed M3 entries | Original successes outside pose bounds at final time |
+|---|---:|---:|---:|---|---:|
+| M1/E0 |6|547.353|0.000|N/A|6/6|
+| M1/E1 |7|401.068|1.915|N/A|7/7|
+| M3/E0 |0|131.901|0.000|0/16; 0/16|N/A|
+| M3/E1 |0|110.103|0.882|0/16; 0/16|N/A|
+
+The original M1 rule records the first0.25s interval inside35mm/0.10rad; all13 successful donor episodes subsequently end outside those original pose bounds. Their original success labels remain intact, but they do not demonstrate stability through the full40s window. The receipt retains each first criterion time, subsequent pose-exit time and final errors. This is a diagnostic distinction, not a new qualification gate.
+
+All32 M3 episodes have zero completed bins and fail with MISSING_ENTRY. Only one E1 trajectory achieves broad readiness; none acquires V3 entry. The installed-position/orientation arrays likewise acquire no entry. E0 actual and installed positions are exactly equal throughout, with zero maximum same-tick position error. Thus these E0 failures are already present in the generated/installed motion; attributing them to physical WBC tracking or only to lag is unsupported. E1 maximum same-tick position errors are4.763mm for M1 and4.142mm for M3. Installed-reference entry replay is an array diagnostic, not an extra episode or a robot result.
+
+The small decomposition reader validates the exact64-case set, result/card/trajectory hashes, original final metrics and independent M3 entry before summarizing. Its incomplete-N guard was also exercised and rejected the partial point without writing a result. N/R comparisons will use the same reader only after each complete fixed point is available; no partial result is promoted to a final verdict.
