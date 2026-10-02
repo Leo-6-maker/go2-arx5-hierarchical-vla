@@ -44,9 +44,54 @@ def inputs():
         statistics_sha256=sha(R1/'design/statistics.json'),rows=expected,unique_inputs=len(cache),EVAL_payload_opened=False,model_queries=0))
 
 
-def complete():
+def runtime_labels(root,sha):
+    """Bind exact consumed labels to unchanged raw sources and both CPU encoders."""
+    hp=root/'evidence/R_RUNTIME_LABEL_REPLAY.json';cp=root/'evidence/R_CROSS_HOST_LABEL_RECONCILIATION.json'
+    h,c=read(hp),read(cp)
+    assert h['status']=='PASS_ACTUAL_R_LABEL_CPU_REPLAY_PENDING_CROSS_HOST_RECONCILIATION'
+    assert c['status']=='PASS_RAW_LABEL_IDENTITY_BOTH_ORIGINAL_RUNTIME_REPLAYS_AND_ORIGINAL_PHYSICAL_BOUNDS'
+    assert sha(hp)==c['hopper_replay_receipt_sha256'] and sha(hp.with_suffix('.npz'))==h['arrays_sha256']
+    assert h['actual_sample_audit_sha256']==c['actual_sample_audit_sha256']==sha(root/'R/main/training/sample_audit.jsonl')
+    assert h['frozen_corelab_plan_sha256']==c['frozen_corelab_plan_sha256']==sha(root/'FULL_TRAIN_INPUT_PLAN.json')
+    assert h['statistics_sha256']==c['statistics_sha256']==sha(root/'source/dataset/statistics.json')
+    assert h['source_proposal_hashes']==c['source_proposal_hashes']
+    for fid,digest in h['source_proposal_hashes'].items():assert sha(root/'source/S2'/fid/'proposals.npz')==digest
+    assert h['consumed_rows']==c['consumed_rows']==len(h['rows'])==8192
+    assert h['unique_source_labels']==c['unique_source_labels']==len(c['results'])==5632
+    assert h['cross_host_byte_mismatches']==c['cross_host_byte_mismatches']==1359
+    assert c['physical_XYZ_tolerance_m']==h['original_XYZ_tolerance_m']==1e-5
+    assert c['physical_SO3_tolerance_rad']==h['original_SO3_tolerance_rad']==1e-4
+    checked={r['key']:r for r in c['results']};assert len(checked)==5632
+    for r in checked.values():
+        assert r['raw_and_state_byte_identical']
+        for prefix in ('hopper_via_corelab','corelab','decoded_cross_host'):
+            assert 0<=r[prefix+'_XYZ_m']<=1e-5 and 0<=r[prefix+'_SO3_rad']<=1e-4
+    result={}
+    for r in h['rows']:
+        assert r['runtime_replay_exact']
+        assert checked[f"{r['family']}:{r['index']}"]['corelab_label_sha256']==r['corelab_plan_label_sha256']
+        result[r['unit'],r['micro']]=r
+    assert len(result)==8192
+    return result,dict(schema='PI0267_ORIGINAL_RUNTIME_LABEL_RECONCILIATION_V1',
+        hopper_replay_sha256=sha(hp),independent_cross_host_reconciliation_sha256=sha(cp),
+        cross_host_label_byte_identity=False,cross_host_byte_mismatches=1359,
+        actual_runtime_label_replay_exact=True,original_failed_audit_retained=True,
+        raw_labels_processor_and_training_unchanged=True)
+
+
+def check_input(actual,expected,labels):
+    bound=dict(expected)
+    if expected['arm']=='R' and labels:
+        r=labels[expected['unit'],expected['micro']]
+        assert (r['family'],r['index'],r['corelab_plan_label_sha256'])==(expected['family'],expected['index'],expected['labels_masks_sha256'])
+        bound['labels_masks_sha256']=r['actual_label_sha256']
+    assert actual==bound,(expected['arm'],expected['unit'],expected['micro'],'ACTUAL_INPUT_PLAN')
+
+
+def complete(reconcile_r_labels=False):
     import sys
-    sys.path[:0]=[str(Path(__file__).resolve().parent),'/scratch/e1192548/Projects/go2-arx5/experiments/PI0264/code',
+    sys.path[:0]=[str(Path(__file__).resolve().parent),'/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code',
+        '/scratch/e1192548/Projects/go2-arx5/experiments/PI0264/code',
         '/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code',
         '/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution',
         '/scratch/e1192548/pi0244_fixed16_10k_v1/scripts','/scratch/e1192548/pi0244_fixed16_10k_v1/src',
@@ -55,6 +100,7 @@ def complete():
     import pi0264_archive_trainer as archive
     from pi0267_train import seed_for
     root=Path('/scratch/e1192548/Projects/go2-arx5/experiments/PI0267');old.ROOT=root
+    labels,deviation=runtime_labels(root,archive.sha) if reconcile_r_labels else ({},None)
     expected={(r['arm'],r['unit'],r['micro']):r for r in read(root/'FULL_TRAIN_INPUT_PLAN.json')['rows']}
     paired={};checkpoints=[]
     for arm in ('N','R'):
@@ -63,7 +109,7 @@ def complete():
         assert len(samples)==len(rng)==len(s4)==8192
         for i,(a,b,c) in enumerate(zip(samples,rng,s4)):
             unit,micro=i//2+1,i%2;e=expected[arm,unit,micro]
-            assert a==e,(arm,unit,micro,'ACTUAL_INPUT_PLAN')
+            check_input(a,e,labels)
             assert all(b[k]==e[k] for k in ('unit','micro','command','condition_sha256'))
             assert b['seed']==seed_for(unit) and b['mode_restored'] and c['forward_index']==i+1
             packet=tuple(b[k] for k in ('native_epsilon','native_tau','stock_initial_noise'))
@@ -94,9 +140,12 @@ def complete():
         full_TRAIN_inputs_replayed=True,actual_random_packets_equal=True,actual_S4_gradient_loss_mode_checks=True,
         completed_updates_sha256=archive.sha(root/'raw_completed_updates.jsonl'),training_heads_sha256=archive.sha(root/'raw_training_heads.jsonl'),
         model_queries_by_audit=0,gradient_queries_by_audit=0,selected_checkpoint='NONE',deployment_selected_checkpoint='NONE')
+    result['label_identity_reconciliation']=deviation
+    result['audit_source_sha256']=archive.sha(Path(__file__))
     old.write(root/'MAIN_TRAINING_AUDIT.json',result);print(json.dumps({k:v for k,v in result.items() if k!='complete_checkpoints'}),flush=True)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=('inputs','complete'));a=p.parse_args()
-    inputs() if a.mode=='inputs' else complete()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=('inputs','complete'));p.add_argument('--reconcile-r-labels',action='store_true');a=p.parse_args()
+    assert a.mode=='complete' or not a.reconcile_r_labels
+    inputs() if a.mode=='inputs' else complete(a.reconcile_r_labels)

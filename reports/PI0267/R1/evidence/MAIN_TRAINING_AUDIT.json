@@ -1,0 +1,421 @@
+{
+  "actual_S4_gradient_loss_mode_checks": true,
+  "actual_completed_by_arm_phase": [
+    {
+      "arm": "N",
+      "phase": "continuous",
+      "updates": 8
+    },
+    {
+      "arm": "N",
+      "phase": "main",
+      "updates": 4096
+    },
+    {
+      "arm": "N",
+      "phase": "split",
+      "updates": 8
+    },
+    {
+      "arm": "N",
+      "phase": "split_recovery1",
+      "updates": 4
+    },
+    {
+      "arm": "R",
+      "phase": "continuous",
+      "updates": 8
+    },
+    {
+      "arm": "R",
+      "phase": "main",
+      "updates": 4096
+    },
+    {
+      "arm": "R",
+      "phase": "split",
+      "updates": 8
+    }
+  ],
+  "actual_random_packets_equal": true,
+  "audit_source_sha256": "07c249d9fd02e048cb58155556f481da7dfa902442b70b656c55aa2000a02bd2",
+  "complete_checkpoints": [
+    {
+      "arm": "N",
+      "complete_trainer": true,
+      "entries": [
+        {
+          "bytes": 2148,
+          "path": "config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 615,
+          "path": "embodiment_id.json",
+          "sha256": "243f6ead715333a27a4439c9327e51a07dfac80755f5021a0f16ff77783420c5"
+        },
+        {
+          "bytes": 5516,
+          "path": "experiment_cfg/conf.yaml",
+          "sha256": "23f41d9ce61c9ac409be3e7c92426dcb34179667ead87ab8fcf74c57468393fb"
+        },
+        {
+          "bytes": 5483,
+          "path": "experiment_cfg/config.yaml",
+          "sha256": "d249ff173f9ea6f0c38be561422792323082b3ee5a427d07c2022b883d183f88"
+        },
+        {
+          "bytes": 1513,
+          "path": "experiment_cfg/final_model_config.json",
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "a8474499476b71ed92a09741293e4a2b4c35d40dcc3b09d78dcd5b84e6d5f2b0"
+        },
+        {
+          "bytes": 4535492016,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "2bdd812148fdc561f24634d1dcb1f7e67f51b6ec2a4fea4ce8402c1e30b39de7"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "bytes": 11353039304,
+          "path": "optimizer.pt",
+          "sha256": "2cbd42675bcb555ef8255174c15bffb8e51ab9dbc2cd989f93ac7b73e7fd1e59"
+        },
+        {
+          "bytes": 3125,
+          "path": "processor_config.json",
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "d2e3457c6317a695c958e55aabbd8a3a74599d5db4637df1973808bb0647a380"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "9cf2a25efc58075c8656c120a3f250d75c347f8fb7063b0046eaeaa3e7c7fe4d"
+        },
+        {
+          "bytes": 82119,
+          "path": "statistics.json",
+          "sha256": "b45e6ac7bb7a81d4827e8b19aae88a9e15e2dc285f184c8207bd276f9ef452f7"
+        },
+        {
+          "bytes": 282867,
+          "path": "trainer_state.json",
+          "sha256": "2b7f5267015bc683207abc2936e6b88e858053465e75aee179d49481840036f4"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "8563c85c92ee6a9169c76f7731697f15005eddd3f13c82b2e66608464cd19bdc"
+        },
+        {
+          "bytes": 56,
+          "path": "wandb_config.json",
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/main/training/checkpoint-2048",
+      "step": 2048
+    },
+    {
+      "arm": "N",
+      "complete_trainer": true,
+      "entries": [
+        {
+          "bytes": 2148,
+          "path": "config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 615,
+          "path": "embodiment_id.json",
+          "sha256": "243f6ead715333a27a4439c9327e51a07dfac80755f5021a0f16ff77783420c5"
+        },
+        {
+          "bytes": 5516,
+          "path": "experiment_cfg/conf.yaml",
+          "sha256": "23f41d9ce61c9ac409be3e7c92426dcb34179667ead87ab8fcf74c57468393fb"
+        },
+        {
+          "bytes": 5483,
+          "path": "experiment_cfg/config.yaml",
+          "sha256": "d249ff173f9ea6f0c38be561422792323082b3ee5a427d07c2022b883d183f88"
+        },
+        {
+          "bytes": 1513,
+          "path": "experiment_cfg/final_model_config.json",
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "3730d5d98f9fcbe4148335e43e9ef5a1e596e0a60b62677aa7c01853895c982f"
+        },
+        {
+          "bytes": 4535492016,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "b03212e9b16fe531fedbf177e8e28eeef3d41aa1cc375fdc7843dd0874059ff0"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "bytes": 11353039304,
+          "path": "optimizer.pt",
+          "sha256": "41bc397ba45313ad5923887929c0fb664329190f1d8fd5a0a962bcf63e2cc8bc"
+        },
+        {
+          "bytes": 3125,
+          "path": "processor_config.json",
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "d2e3457c6317a695c958e55aabbd8a3a74599d5db4637df1973808bb0647a380"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "b3470015301770d76c16a20489f7ba3d0708eff382f309f468552b905c4c2769"
+        },
+        {
+          "bytes": 82119,
+          "path": "statistics.json",
+          "sha256": "b45e6ac7bb7a81d4827e8b19aae88a9e15e2dc285f184c8207bd276f9ef452f7"
+        },
+        {
+          "bytes": 567252,
+          "path": "trainer_state.json",
+          "sha256": "dddef4cdc23b5dbac099cdb6e5a9e6496fca7640ee2cafd5b7f945c90e5ad231"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "8563c85c92ee6a9169c76f7731697f15005eddd3f13c82b2e66608464cd19bdc"
+        },
+        {
+          "bytes": 56,
+          "path": "wandb_config.json",
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/main/training/checkpoint-4096",
+      "step": 4096
+    },
+    {
+      "arm": "R",
+      "complete_trainer": true,
+      "entries": [
+        {
+          "bytes": 2148,
+          "path": "config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 615,
+          "path": "embodiment_id.json",
+          "sha256": "e11b1127260879d595943351d508f287036c6bfcf66e629782f3d4419aacfe9f"
+        },
+        {
+          "bytes": 5516,
+          "path": "experiment_cfg/conf.yaml",
+          "sha256": "d37f498e8aeb83f9669d125c303079d6b1c2059594954208e22bcd8831f29f8b"
+        },
+        {
+          "bytes": 5483,
+          "path": "experiment_cfg/config.yaml",
+          "sha256": "dd742507ee12474e4625669aaf783f88a84f96c527f9c6664cb1f622c541fb10"
+        },
+        {
+          "bytes": 1513,
+          "path": "experiment_cfg/final_model_config.json",
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "8f536b62fdf56e1354f15e728023549dfe3ea8289f06c6ff39de03061f0e67d2"
+        },
+        {
+          "bytes": 4535492016,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "ef22954fa28e9e32194056f042e679e7541a9a162fa8f78add30779449b38e5f"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "bytes": 11353039304,
+          "path": "optimizer.pt",
+          "sha256": "c16c23002b3a7fbc9d292fce1258283ea7e278034c31b322dce541e0348e7304"
+        },
+        {
+          "bytes": 3125,
+          "path": "processor_config.json",
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "d2e3457c6317a695c958e55aabbd8a3a74599d5db4637df1973808bb0647a380"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "9cf2a25efc58075c8656c120a3f250d75c347f8fb7063b0046eaeaa3e7c7fe4d"
+        },
+        {
+          "bytes": 82119,
+          "path": "statistics.json",
+          "sha256": "b45e6ac7bb7a81d4827e8b19aae88a9e15e2dc285f184c8207bd276f9ef452f7"
+        },
+        {
+          "bytes": 280526,
+          "path": "trainer_state.json",
+          "sha256": "bb669d288ef41360278ebadce8bd627ac18f2836ce7a241dd322d2347ad924e7"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "20c5760f67452bd34a7dc0d14395203eb1d24f38f3372e6f042b09205913c472"
+        },
+        {
+          "bytes": 56,
+          "path": "wandb_config.json",
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/R/main/training/checkpoint-2048",
+      "step": 2048
+    },
+    {
+      "arm": "R",
+      "complete_trainer": true,
+      "entries": [
+        {
+          "bytes": 2148,
+          "path": "config.json",
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "bytes": 615,
+          "path": "embodiment_id.json",
+          "sha256": "e11b1127260879d595943351d508f287036c6bfcf66e629782f3d4419aacfe9f"
+        },
+        {
+          "bytes": 5516,
+          "path": "experiment_cfg/conf.yaml",
+          "sha256": "d37f498e8aeb83f9669d125c303079d6b1c2059594954208e22bcd8831f29f8b"
+        },
+        {
+          "bytes": 5483,
+          "path": "experiment_cfg/config.yaml",
+          "sha256": "dd742507ee12474e4625669aaf783f88a84f96c527f9c6664cb1f622c541fb10"
+        },
+        {
+          "bytes": 1513,
+          "path": "experiment_cfg/final_model_config.json",
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "0559064b941dfb29691a298fcc0baad5f561e050d269f073d216229e6f56ccf2"
+        },
+        {
+          "bytes": 4535492016,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "78024fb5d1e7667e7487eff4b6915f8cc09e86f6d057fd51e39a88a8ef6d735d"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "bytes": 11353039304,
+          "path": "optimizer.pt",
+          "sha256": "19dea1123f343aa0922dceeb0d3b308199cdce755e6cd73f1f7b698f063500bd"
+        },
+        {
+          "bytes": 3125,
+          "path": "processor_config.json",
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "d2e3457c6317a695c958e55aabbd8a3a74599d5db4637df1973808bb0647a380"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "b3470015301770d76c16a20489f7ba3d0708eff382f309f468552b905c4c2769"
+        },
+        {
+          "bytes": 82119,
+          "path": "statistics.json",
+          "sha256": "b45e6ac7bb7a81d4827e8b19aae88a9e15e2dc285f184c8207bd276f9ef452f7"
+        },
+        {
+          "bytes": 562732,
+          "path": "trainer_state.json",
+          "sha256": "162bb99eb41ea731a5f37a72c244fb3cd44e6cf5a08e93c35205fced697c0ea2"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "20c5760f67452bd34a7dc0d14395203eb1d24f38f3372e6f042b09205913c472"
+        },
+        {
+          "bytes": 56,
+          "path": "wandb_config.json",
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/R/main/training/checkpoint-4096",
+      "step": 4096
+    }
+  ],
+  "completed_updates_sha256": "126fcdec4f67408ffeb10ed52cccc02884be4592c14bb5b47e4ec95076208598",
+  "deployment_selected_checkpoint": "NONE",
+  "full_TRAIN_inputs_replayed": true,
+  "gradient_queries_by_audit": 0,
+  "label_identity_reconciliation": {
+    "actual_runtime_label_replay_exact": true,
+    "cross_host_byte_mismatches": 1359,
+    "cross_host_label_byte_identity": false,
+    "hopper_replay_sha256": "b3cd689bf3275db94843b68ad4cb606fa7cd66223aff4bd97683e2db4464db93",
+    "independent_cross_host_reconciliation_sha256": "d6bc903be849ff123ecff3d4eb6d23bcecb023292bba259945f7fed1e4839aff",
+    "original_failed_audit_retained": true,
+    "raw_labels_processor_and_training_unchanged": true,
+    "schema": "PI0267_ORIGINAL_RUNTIME_LABEL_RECONCILIATION_V1"
+  },
+  "model_queries_by_audit": 0,
+  "optimizer_updates": {
+    "N": 4096,
+    "R": 4096
+  },
+  "raw_completed_updates": 8228,
+  "raw_training_heads": 148152,
+  "selected_checkpoint": "NONE",
+  "status": "PASS_BOTH_4096_MATCHED_TRAINING_INTEGRITY",
+  "technical_recovery_completed_updates": 4,
+  "training_heads_sha256": "5b64d854285fb6907cf92ad5c35f7efa9e8c6064e43adc21ac42e537dcb13d13"
+}

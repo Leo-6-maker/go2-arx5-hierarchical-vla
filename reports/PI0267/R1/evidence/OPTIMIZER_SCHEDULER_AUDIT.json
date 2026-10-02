@@ -1,0 +1,63 @@
+{
+  "checkpoints": [
+    {
+      "arm": "N",
+      "expected_cosine_lr": 5.0192216404513295e-06,
+      "learning_rates": [
+        5.0192216404513295e-06,
+        5.0192216404513295e-06
+      ],
+      "optimizer_state_count": 471,
+      "optimizer_steps": [
+        2048.0
+      ],
+      "scheduler_last_epoch": 2048,
+      "step": 2048
+    },
+    {
+      "arm": "N",
+      "expected_cosine_lr": 0.0,
+      "learning_rates": [
+        0.0,
+        0.0
+      ],
+      "optimizer_state_count": 471,
+      "optimizer_steps": [
+        4096.0
+      ],
+      "scheduler_last_epoch": 4096,
+      "step": 4096
+    },
+    {
+      "arm": "R",
+      "expected_cosine_lr": 5.0192216404513295e-06,
+      "learning_rates": [
+        5.0192216404513295e-06,
+        5.0192216404513295e-06
+      ],
+      "optimizer_state_count": 471,
+      "optimizer_steps": [
+        2048.0
+      ],
+      "scheduler_last_epoch": 2048,
+      "step": 2048
+    },
+    {
+      "arm": "R",
+      "expected_cosine_lr": 0.0,
+      "learning_rates": [
+        0.0,
+        0.0
+      ],
+      "optimizer_state_count": 471,
+      "optimizer_steps": [
+        4096.0
+      ],
+      "scheduler_last_epoch": 4096,
+      "step": 4096
+    }
+  ],
+  "gradient_queries": 0,
+  "model_queries": 0,
+  "status": "PASS_FOUR_SAVED_OPTIMIZER_AND_COSINE_SCHEDULER_PROGRESSIONS"
+}
