@@ -1,4 +1,5 @@
 """Freeze exact secondary source/budget; no physical start or model query."""
+import ast
 import json
 import shutil
 import sys
@@ -10,6 +11,12 @@ from pi0266_common import read,write,sha,verify_sources
 
 def main():
     verify_sources();reset=read(OLD/'evidence/FIXED_RESET_VERDICT.json');assert reset['all_safe']
+    tree=ast.parse((R1/'code/pi0266_control.py').read_text())
+    run=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='run')
+    block=next(n for n in ast.walk(run) if isinstance(n,ast.If) and 'policy_query is not None and failure is not None' in ast.unparse(n.test))
+    code=compile(ast.Module(body=[block],type_ignores=[]),'actual-model-failure-branch','exec')
+    for callback,reason,expected in ((None,None,True),(None,'IK_RESIDUAL',True),(object(),'NONFINITE_POLICY_OUTPUT',False),(object(),'IK_RESIDUAL',False),(object(),None,True),(None,'ORIGINAL_RAW_GATE_REJECT',False)):
+        state=dict(policy_query=callback,failure=reason,metrics={'success':True});exec(code,state);assert state['metrics']['success']==expected
     card=read(ROOT/'design/SCENE_CARD.json');fixed=read(R1/'design/SECONDARY_CARD.json');cases=[]
     for point in ('expert','donor','N4096','R4096'):
         for r in fixed['cases']:

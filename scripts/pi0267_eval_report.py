@@ -160,7 +160,7 @@ def secondary():
                 pp.append(pose[:3,3]);rr.append(pose[:3,:3])
             pe=float(np.linalg.norm(np.array(pp)-z['position'],axis=1).max());re=float(so3(rr,z['rotation']).max());assert pe<=1e-5 and re<=1e-4
             spec=read(path.parent/'task_spec.json');computed=score(z['elapsed'],z['position'],z['rotation'],z['installed_position'],z['installed_rotation'],spec,result['safety_failure'])
-            if result.get('failure') in ('ORIGINAL_RAW_GATE_REJECT','CLOCK_GATED_REFERENCE_REJECT'):computed['success']=False
+            if result.get('failure') in ('ORIGINAL_RAW_GATE_REJECT','CLOCK_GATED_REFERENCE_REJECT') or (case['point']!='expert' and result.get('failure') is not None):computed['success']=False
             assert computed==result['metrics']
             if case['task']=='M3':
                 broad,entry,arc=independent_entry(z['elapsed'],z['position'],z['rotation'],spec);assert entry==computed['entry_index']

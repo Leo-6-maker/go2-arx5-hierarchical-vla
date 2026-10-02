@@ -214,7 +214,7 @@ def run(case_id, *, policy_query=None, geometry_worker_path=None):
             if not rows or final['time']>rows[-1]['time']+1e-9:rows.append(final)
         t=np.array([x['elapsed'] for x in rows]);p=np.array([x['TCP'] for x in rows]);r=np.array([x['rotation'] for x in rows]);ip=np.array([x['installed'] for x in rows]);ir=np.array([x['installed_rotation'] for x in rows])
         metrics=score(t,p,r,ip,ir,spec,safety)
-        if failure in ('ORIGINAL_RAW_GATE_REJECT','CLOCK_GATED_REFERENCE_REJECT'):metrics['success']=False
+        if failure in ('ORIGINAL_RAW_GATE_REJECT','CLOCK_GATED_REFERENCE_REJECT') or (policy_query is not None and failure is not None):metrics['success']=False
         result.update(validity='VALID',failure=failure or (None if metrics['success'] else 'TASK_CRITERIA_FAIL'),safety_failure=safety,metrics=metrics,success=metrics['success'],
             task_ticks=tick[0],WBC_actor_calls=len(actor_calls),proposed_windows=len(windows),valid_windows=sum(w['admitted'] for w in windows),
             camera_checks=camera_checks,dof_names=native.dof_names,actual_task_s=float(t[-1]),window_manifest='windows.json')
