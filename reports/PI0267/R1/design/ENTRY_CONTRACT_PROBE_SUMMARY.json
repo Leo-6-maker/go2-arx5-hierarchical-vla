@@ -1,0 +1,35 @@
+{
+  "status": "CONSTRUCTED_FIXTURES_PASS",
+  "source": "pi0266_metrics.py@99f9c1c8e37743e6d82fb80c50a253700373fa31",
+  "evidence_scope": "Constructed paths only. Not original 64-array replay, not teacher integration, not WBC or GR00T.",
+  "design": "V3 separates broad entry readiness from narrow physical acquisition; no direction threshold increase.",
+  "fixture_count": 28,
+  "expected_positive": 12,
+  "expected_negative": 16,
+  "approach_old_fails": 8,
+  "approach_new_passes": 8,
+  "independent_entry_selector_agrees": true,
+  "script_sha256": "23af8644b18ee80b9f517290c6e2338f241e018c10f66cb554255f76259d7d85",
+  "original_64_saved_array_replay": "NOT_PERFORMED_BY_PUBLICATION_REVIEWER",
+  "original_tar_retrieval": "UNAVAILABLE_IN_REVIEW_ENVIRONMENT",
+  "representative_cases": [
+    {
+      "case": "approach_c0_r0.04_side-1",
+      "expected_v3": true,
+      "v2": {"success": false, "bins": 0, "ready_s": 2.84, "entry_s": 2.84, "entry_arc_m": -0.0035569188082656923, "reverse": true, "gap": true, "max_drawdown_m": 0.0035569188082656923},
+      "v3": {"success": true, "bins": 12, "ready_s": 2.84, "entry_s": 3.34, "entry_arc_m": -0.0009768634526326637, "reverse": false, "gap": false, "max_drawdown_m": 0.0009768634526326637}
+    },
+    {
+      "case": "approach_c0_r0.04_side1",
+      "expected_v3": true,
+      "v2": {"success": false, "bins": 12, "ready_s": 2.84, "entry_s": 2.84, "entry_arc_m": 0.0035569188082656567, "reverse": true, "gap": false, "max_drawdown_m": 0.0035569188082656567},
+      "v3": {"success": true, "bins": 12, "ready_s": 2.84, "entry_s": 3.34, "entry_arc_m": 0.0009768634526326637, "reverse": false, "gap": false, "max_drawdown_m": 0.0009768634526326637}
+    },
+    {
+      "case": "missing_entry_c0",
+      "expected_v3": false,
+      "v2": {"success": false, "bins": 0, "ready_s": null, "entry_s": null, "entry_arc_m": null, "reverse": false, "gap": false, "max_drawdown_m": 0.0},
+      "v3": {"success": false, "bins": 0, "ready_s": null, "entry_s": null, "entry_arc_m": null, "reverse": false, "gap": false, "max_drawdown_m": 0.0}
+    }
+  ]
+}
