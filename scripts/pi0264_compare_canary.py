@@ -16,13 +16,13 @@ def rows(path):
     return [json.loads(line) for line in path.read_text().splitlines() if line]
 
 
-def compare(arm):
-    a = ROOT / arm / 'continuous/training'
-    b = ROOT / arm / 'split/training'
+def compare(arm, *, root=ROOT, max_steps=2048, status='PASS_PI0264_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY'):
+    a = root / arm / 'continuous/training'
+    b = root / arm / 'split/training'
     x, y = a / 'checkpoint-8', b / 'checkpoint-8'
     for path in (x, y):
         state = json.loads((path / 'trainer_state.json').read_text())
-        assert (state['global_step'], state['max_steps']) == (8, 2048)
+        assert (state['global_step'], state['max_steps']) == (8, max_steps)
         assert all((path / name).is_file() for name in ('optimizer.pt', 'scheduler.pt', 'rng_state.pth'))
     for name, fields in [('sample_audit.jsonl', ('unit', 'micro', 'task', 'family', 'slot', 'command', 'sequence', 'index', 'condition_sha256', 'original_unit', 'visit', 'color', 'template', 'language', 'nonlanguage_sha256', 'labels_masks_sha256')),
                          ('step_rng.jsonl', ('unit', 'micro', 'seed', 'condition_sha256', 'native_epsilon', 'native_tau', 'stock_initial_noise', 'mode_restored')),
@@ -43,11 +43,11 @@ def compare(arm):
     assert left['last_epoch'] == right['last_epoch'] == 8
     lr = max(abs(float(u) - float(v)) for u, v in zip(left['_last_lr'], right['_last_lr']))
     assert model <= 1e-6 and optimizer <= 1e-6 and lr <= 1e-12, (model, optimizer, lr)
-    result = dict(status='PASS_PI0264_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY', arm=arm,
+    result = dict(status=status, arm=arm,
                   units=8, microbatches=16, model_max_abs=model, model_tensors=model_tensors,
                   optimizer_max_abs=optimizer, optimizer_tensors=optimizer_tensors,
                   scheduler_lr_abs=lr, packet_equal=True, mode_restored=True)
-    target = ROOT / arm / 'canary_compare.json'
+    target = root / arm / 'canary_compare.json'
     target.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
     print(json.dumps(result))
 

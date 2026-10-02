@@ -91,7 +91,7 @@ class Pairs(IterableDataset):
                 yield value
 
 
-def install(args, output):
+def install(args, output, *, raw_head_cap=110000, raw_update_cap=4384):
     from gr00t.model.gr00t_n1d7 import setup
     from gr00t.experiment import experiment
     import pi0247_u_rollout_overlay as rollout
@@ -137,7 +137,7 @@ def install(args, output):
                 self._pi_heads = sum(1 for _ in heads_path.open()) if heads_path.exists() else 0
                 def record_head(_module, _inputs):
                     self._pi_heads += 1
-                    assert self._pi_heads <= 110000, 'RAW_TRAINING_HEAD_CAP'
+                    assert self._pi_heads <= raw_head_cap, 'RAW_TRAINING_HEAD_CAP'
                     rollout._append_json(heads_path, dict(ordinal=self._pi_heads, arm=args.arm,
                         phase=args.phase, job=os.environ['PBS_JOBID'],
                         unit=self.state.global_step+1, rollout_phase=audit.get('phase'),
@@ -156,7 +156,7 @@ def install(args, output):
                     def on_step_end(_self, _args, state, control, **_kw):
                         path = ROOT / 'raw_completed_updates.jsonl'
                         n = sum(1 for _ in path.open()) + 1 if path.exists() else 1
-                        assert n <= 4384, 'RAW_COMPLETED_UPDATE_CAP'
+                        assert n <= raw_update_cap, 'RAW_COMPLETED_UPDATE_CAP'
                         rollout._append_json(path, dict(ordinal=n, arm=args.arm, phase=args.phase,
                             job=os.environ['PBS_JOBID'], unit=state.global_step), n)
                 self.add_callback(Accounting())
