@@ -1,0 +1,1537 @@
+{
+  "fixture_cases": 51,
+  "model_queries": 0,
+  "new_teacher_episodes": 0,
+  "new_teacher_plans": 0,
+  "original_v2_fixtures": {
+    "checks": [
+      "noiseless_direction0",
+      "five_micrometre_entry0",
+      "half_mm_jitter0",
+      "five_mm_reverse0",
+      "missing_bin0",
+      "endpoint_shortcut0",
+      "unsafe_hit0",
+      "wrong_target0",
+      "noiseless_direction1",
+      "five_micrometre_entry1",
+      "half_mm_jitter1",
+      "five_mm_reverse1",
+      "missing_bin1",
+      "endpoint_shortcut1",
+      "unsafe_hit1",
+      "wrong_target1",
+      "false_post_reset_time"
+    ],
+    "status": "PASS_PROSPECTIVE_PATH_V2_POSITIVES_AND_NEGATIVES"
+  },
+  "production_scorer_sha256": "ffd9a0a5a9ed178438acf9858fc8e10f2e6fe13966299ba12113efcec1f5db4a",
+  "publication_constructed_probe": {
+    "approach_new_passes": 8,
+    "approach_old_fails": 8,
+    "design": "V3 separates broad entry readiness from narrow physical acquisition; no direction threshold increase.",
+    "evidence_scope": "Constructed paths only. Not original 64-array replay, not teacher integration, not WBC or GR00T.",
+    "expected_negative": 16,
+    "expected_positive": 12,
+    "fixture_count": 28,
+    "independent_entry_selector_agrees": true,
+    "rows": [
+      {
+        "case": "approach_c0_r0.04_side-1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 0,
+          "entry_arc_m": -0.00355691880826571,
+          "entry_s": 2.84,
+          "gap": true,
+          "max_drawdown_m": 0.00355691880826571,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": -0.0009768634526326637,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009768634526326637,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "approach_c0_r0.04_side1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0035569188082656567,
+          "entry_s": 2.84,
+          "gap": false,
+          "max_drawdown_m": 0.0035569188082656567,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0009768634526326637,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009768634526326637,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "approach_c0_r0.05_side-1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 0,
+          "entry_arc_m": -0.0037143025871789973,
+          "entry_s": 2.84,
+          "gap": true,
+          "max_drawdown_m": 0.0037143025871789973,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": -0.0009881949243279564,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009881949243279564,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "approach_c0_r0.05_side1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0037143025871789748,
+          "entry_s": 2.84,
+          "gap": false,
+          "max_drawdown_m": 0.0037143025871789748,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0009881949243279787,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009881949243279787,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "valid_c0",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "jitter_c0",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.00024999999999997247,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.00024999999999997247,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "reverse_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.004607300918301249,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.004607300918301249,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "wrong_direction_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.23561944901923454,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.23561944901923454,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "missing_bin_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 4,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0019634954084935875,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 4,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0019634954084935875,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "shortcut_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.07853981633974483,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.07853981633974483,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "missing_entry_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 0,
+          "entry_arc_m": null,
+          "entry_s": null,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": null,
+          "reverse": false,
+          "success": false
+        },
+        "v3": {
+          "bins": 0,
+          "entry_arc_m": null,
+          "entry_s": null,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": null,
+          "reverse": false,
+          "success": false
+        }
+      },
+      {
+        "case": "late_reverse_recover_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.0029999999999999805,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.0029999999999999805,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "unsafe_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        }
+      },
+      {
+        "case": "wrong_goal_c0",
+        "expected_v3": false,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        }
+      },
+      {
+        "case": "approach_c1_r0.04_side-1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 0,
+          "entry_arc_m": -0.00355691880826571,
+          "entry_s": 2.84,
+          "gap": true,
+          "max_drawdown_m": 0.00355691880826571,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": -0.0009768634526326637,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009768634526326637,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "approach_c1_r0.04_side1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0035569188082656567,
+          "entry_s": 2.84,
+          "gap": false,
+          "max_drawdown_m": 0.0035569188082656567,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0009768634526326637,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009768634526326637,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "approach_c1_r0.05_side-1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 0,
+          "entry_arc_m": -0.0037143025871789973,
+          "entry_s": 2.84,
+          "gap": true,
+          "max_drawdown_m": 0.0037143025871789973,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": -0.0009881949243279564,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009881949243279564,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "approach_c1_r0.05_side1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0037143025871789748,
+          "entry_s": 2.84,
+          "gap": false,
+          "max_drawdown_m": 0.0037143025871789748,
+          "ready_s": 2.84,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0009881949243279787,
+          "entry_s": 3.34,
+          "gap": false,
+          "max_drawdown_m": 0.0009881949243279787,
+          "ready_s": 2.84,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "valid_c1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "jitter_c1",
+        "expected_v3": true,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.00024999999999997247,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.00024999999999997247,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": true
+        }
+      },
+      {
+        "case": "reverse_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.004607300918301249,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.004607300918301249,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "wrong_direction_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.23561944901923454,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.23561944901923454,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "missing_bin_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 4,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0019634954084935875,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 4,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0019634954084935875,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "shortcut_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.07853981633974483,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.07853981633974483,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "missing_entry_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 0,
+          "entry_arc_m": null,
+          "entry_s": null,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": null,
+          "reverse": false,
+          "success": false
+        },
+        "v3": {
+          "bins": 0,
+          "entry_arc_m": null,
+          "entry_s": null,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": null,
+          "reverse": false,
+          "success": false
+        }
+      },
+      {
+        "case": "late_reverse_recover_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.0029999999999999805,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        },
+        "v3": {
+          "bins": 1,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": true,
+          "max_drawdown_m": 0.0029999999999999805,
+          "ready_s": 0.1,
+          "reverse": true,
+          "success": false
+        }
+      },
+      {
+        "case": "unsafe_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        }
+      },
+      {
+        "case": "wrong_goal_c1",
+        "expected_v3": false,
+        "v2": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        },
+        "v3": {
+          "bins": 12,
+          "entry_arc_m": 0.0,
+          "entry_s": 0.1,
+          "gap": false,
+          "max_drawdown_m": 0.0,
+          "ready_s": 0.1,
+          "reverse": false,
+          "success": false
+        }
+      }
+    ],
+    "source": "pi0266_metrics.py@99f9c1c8e37743e6d82fb80c50a253700373fa31",
+    "status": "CONSTRUCTED_FIXTURES_PASS"
+  },
+  "rows": [
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": -0.0009768634526326637
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c0-r0.04-side-1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": 0.0009768634526326637
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c0-r0.04-side1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": -0.0009881949243279564
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c0-r0.05-side-1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": 0.0009881949243279787
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c0-r0.05-side1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": true,
+      "gap": false,
+      "name": "valid-c0",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": true,
+      "gap": false,
+      "name": "jitter-c0",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "reverse-c0",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "wrong_direction-c0",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "missing_bin-c0",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "shortcut-c0",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [],
+      "entry": {
+        "acquired_index": null,
+        "broad_index": null,
+        "entry_arc_m": null
+      },
+      "expected": false,
+      "gap": false,
+      "name": "missing_entry-c0",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "late_reverse_recover-c0",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "unsafe-c0",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "wrong_goal-c0",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [],
+      "entry": {
+        "acquired_index": null,
+        "broad_index": null,
+        "entry_arc_m": null
+      },
+      "expected": false,
+      "gap": false,
+      "name": "wrong-orientation-c0",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": 0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "reacquire-after-failure-c0",
+      "reverse": true
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": -0.0009768634526326637
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c1-r0.04-side-1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": 0.0009768634526326637
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c1-r0.04-side1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": -0.0009881949243279564
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c1-r0.05-side-1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 142,
+        "entry_arc_m": 0.0009881949243279787
+      },
+      "expected": true,
+      "gap": false,
+      "name": "approach-c1-r0.05-side1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": true,
+      "gap": false,
+      "name": "valid-c1",
+      "reverse": false
+    },
+    {
+      "actual": true,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": true,
+      "gap": false,
+      "name": "jitter-c1",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "reverse-c1",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "wrong_direction-c1",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "missing_bin-c1",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "shortcut-c1",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [],
+      "entry": {
+        "acquired_index": null,
+        "broad_index": null,
+        "entry_arc_m": null
+      },
+      "expected": false,
+      "gap": false,
+      "name": "missing_entry-c1",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "late_reverse_recover-c1",
+      "reverse": true
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "unsafe-c1",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": false,
+      "name": "wrong_goal-c1",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [],
+      "entry": {
+        "acquired_index": null,
+        "broad_index": null,
+        "entry_arc_m": null
+      },
+      "expected": false,
+      "gap": false,
+      "name": "wrong-orientation-c1",
+      "reverse": false
+    },
+    {
+      "actual": false,
+      "bins": [
+        0
+      ],
+      "entry": {
+        "acquired_index": 5,
+        "broad_index": 5,
+        "entry_arc_m": -0.0
+      },
+      "expected": false,
+      "gap": true,
+      "name": "reacquire-after-failure-c1",
+      "reverse": true
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-000-M1-c0"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-000-M1-c1"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 126,
+        "broad_index": 126,
+        "entry_arc_m": -1.7763568394002505e-17
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-000-M3-c0"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 172,
+        "broad_index": 155,
+        "entry_arc_m": -0.0009542092634507781
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-000-M3-c1"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-001-M1-c0"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-001-M1-c1"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 146,
+        "entry_arc_m": 0.0009989546144587359
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-001-M3-c0"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 159,
+        "broad_index": 141,
+        "entry_arc_m": -0.000977435205205417
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-001-M3-c1"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-002-M1-c0"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-002-M1-c1"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 159,
+        "broad_index": 146,
+        "entry_arc_m": -0.000968043757850734
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-002-M3-c0"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 168,
+        "broad_index": 146,
+        "entry_arc_m": 0.0009191053548430306
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-002-M3-c1"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-003-M1-c0"
+    },
+    {
+      "actual": true,
+      "entry": null,
+      "expected": true,
+      "name": "nominal-pi0265-family-003-M1-c1"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 158,
+        "broad_index": 128,
+        "entry_arc_m": -0.0009499587667398757
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-003-M3-c0"
+    },
+    {
+      "actual": true,
+      "entry": {
+        "acquired_index": 167,
+        "broad_index": 146,
+        "entry_arc_m": -0.0009989546144587359
+      },
+      "expected": true,
+      "name": "nominal-pi0265-family-003-M3-c1"
+    },
+    {
+      "actual": "INPUT_INTEGRITY_REJECT",
+      "expected": "INPUT_INTEGRITY_REJECT",
+      "name": "integrity-gap"
+    },
+    {
+      "actual": "INPUT_INTEGRITY_REJECT",
+      "expected": "INPUT_INTEGRITY_REJECT",
+      "name": "integrity-duplicate"
+    },
+    {
+      "actual": "INPUT_INTEGRITY_REJECT",
+      "expected": "INPUT_INTEGRITY_REJECT",
+      "name": "integrity-nonfinite"
+    }
+  ],
+  "status": "PASS_PRODUCTION_V3_AND_INDEPENDENT_ENTRY_FIXTURES"
+}
