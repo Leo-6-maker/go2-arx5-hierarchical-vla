@@ -57,6 +57,58 @@ def replay(path,processor,torch,codec):
     return dict(file=str(path),sha256=sha(path),native_four_step_Euler_exact=True,codec_max_abs=difference)
 
 
+def paired_tables(out,offline,virtual):
+    index={(r['point'],r['domain'],r['uid']):r for r in offline};pairs=[]
+    for before,after,meaning in [('OLD0','OLD2048','OLD_WITHIN_CONTRACT_LEARNING'),('ROT0','ROT2048','ROT_WITHIN_CONTRACT_LEARNING'),
+                                  ('OLD0','ROT0','SAME_WEIGHTS_CONTRACT_CHANGE'),('OLD2048','ROT2048','MATCHED_FINAL_COMBINED_TREATMENT')]:
+        keys={(r['domain'],r['uid']) for r in offline if r['point']==before};assert len(keys)==968
+        for domain,uid in sorted(keys):
+            a,b=index[before,domain,uid],index[after,domain,uid]
+            assert a['source_row']==b['source_row']
+            row=dict(contrast=meaning,before=before,after=after,domain=domain,uid=uid,task=a['task'],command=a['command'],
+                family=a['family'],variant=a['variant'],factor_kind=a['factor_kind'],factor_axis=a['factor_axis'],noise=a['noise'],
+                before_gate=a['gate'],after_gate=b['gate'],before_numerical_failure=a['numerical_failure'],after_numerical_failure=b['numerical_failure'])
+            for metric in ('xyz_rmse_m','so3_rmse_rad','first_xyz_error_m','endpoint_xyz_error_m'):
+                row['delta_'+metric]=b[metric]-a[metric] if metric in a and metric in b else None
+            pairs.append(row)
+    csv_write(out/'PAIRED_OFFLINE_CHANGES.csv',pairs)
+    subgroups=[]
+    for point in POINTS:
+        for domain,axes in [('fit',('task','command','variant','noise')),('factor',('task','command','factor_kind','factor_axis','factor_sign')),('legacy',('noise',))]:
+            own=[r for r in offline if r['point']==point and r['domain']==domain]
+            for key in sorted({tuple(r[k] for k in axes) for r in own},key=str):
+                group=[r for r in own if tuple(r[k] for k in axes)==key]
+                subgroups.append(dict(point=point,domain=domain,**dict(zip(axes,key)),**summary(group)))
+    csv_write(out/'OFFLINE_SUBGROUPS.csv',subgroups)
+    lines=['# PI0268-R1 fixed normalization study','',
+        'All four points and all fixed conditions are retained. Formal selected/deployment: NONE.',
+        'OLD0 and ROT0 use identical weights with different processors. Their difference is not fine-tuning gain.',
+        'Native losses use different numerical scales; physical errors and gate outcomes are compared below.','',
+        '## Original task and independent final-five-second retention','',
+        '| Point | Task/backend | Original /16 | Reliable /16 | Reliable command0/1 /8 | Collisions | Gate refusals |',
+        '|---|---|---:|---:|---|---:|---:|']
+    for point in POINTS:
+        for task in ('M1','M3'):
+            for backend in ('E0','E1'):
+                g=[r for r in virtual if (r['point'],r['task'],r['backend'])==(point,task,backend)]
+                commands=[sum(r['reliable'] for r in g if r['command']==c) for c in (0,1)]
+                lines.append(f"| {point} | {task}/{backend} | {sum(r['success'] for r in g)} | {sum(r['reliable'] for r in g)} | {commands[0]}, {commands[1]} | {sum(r['dangerous_collision'] for r in g)} | {sum(r['gate_refusals'] for r in g)} |")
+    lines+=['','## Physical fitting and original retention panel','',
+        '| Point | Panel | Rows | REJECT | Nonfinite | Median XYZ RMSE (m) | Median SO3 RMSE (rad) |',
+        '|---|---|---:|---:|---:|---:|---:|']
+    for point in POINTS:
+        for domain in ('fit','factor','legacy'):
+            s=summary([r for r in offline if r['point']==point and r['domain']==domain])
+            lines.append(f"| {point} | {domain} | {s['total']} | {s['REJECT']} | {s['nonfinite']} | {s['median_xyz_rmse_m']} | {s['median_so3_rmse_rad']} |")
+    lines+=['','These aggregates do not replace subgroup qualification. OFFLINE_SUBGROUPS.csv retains each fixed task/command/variant/noise or factor condition. OFFLINE3872.csv keeps family, source identity, all metrics and all failures.',
+        'PAIRED_OFFLINE_CHANGES.csv separately reports each contract\'s own-step0 learning, same-weight contract change and final treatment comparison. Negative error deltas are improvements; undefined changes remain blank rather than converting failures into numerical scores.',
+        'VIRTUAL256.csv separates installed-reference endpoint, achieved endpoint, same-tick tracking, original V2/V3, gate/collision, first-success exit and every-tick final-five-second retention. The policy did not use those scores to stop or correct its output.',
+        'A nonfinite physical metric is ranked as positive infinity in fixed-denominator median summaries; an infinite median is reported null. Finite-only averages do not silently remove those rows.',
+        'CPU replay recomputes saved native BF16 Euler arithmetic and decoding, independent physical error metrics and independent entry geometry. Original task scoring shares the frozen V3 code; that limitation remains explicit.',
+        'These are related development conditions from eight existing scene families and fixed noise streams. E0/E1 are mathematical executors, not robots. No blind TEST, physical transfer, real-time or population reliability claim is made.','']
+    (out/'PRIMARY_REPORT.md').write_text('\n'.join(lines))
+
+
 def main():
     admitted()
     import torch
@@ -134,6 +186,7 @@ def main():
     candidates=[p for p in ('OLD2048','ROT2048') if original[p]['PASS'] and reliable_verdict[p]['PASS']]
     out=RAW/'delivery';out.mkdir(exist_ok=True)
     csv_write(out/'VIRTUAL256.csv',virtual);csv_write(out/'OFFLINE3872.csv',offline)
+    paired_tables(out,offline,virtual)
     write(out/'CPU_REPLAY.json',dict(status='PASS_SAVED_ARRAY_REPLAY',episodes=entry_checks,predictions=predictions,metrics=metric_checks,
         old_cached_CPU_replay_sha256=sha(OLD_RAW/'delivery/CPU_REPLAY.json'),model_queries=0,gradient_queries=0,physics_steps=0,scorer_shared=True,entry_and_metric_paths_independent=True))
     write(out/'PRIMARY_VERDICT.json',dict(status='PRIMARY_COMPLETE',NUMERICAL_TREATMENT_EFFECT=dict(PASS=numerical,XY_coupled_by_task=contrast,legacy=legacy,no_legacy_regression=no_regression,rejection_reduction_met=rejection_reduction_met),
@@ -152,6 +205,22 @@ def self_check():
     for i in range(3):rows[i]['reliable']=False
     assert not qualify(rows,'reliable')['PASS'] and qualify(rows,'success')['PASS']
     rows[2]['reliable']=True;assert qualify(rows,'reliable')['PASS']
+    import tempfile
+    offline=[]
+    for point in POINTS:
+        for domain,n in [('fit',224),('factor',304),('legacy',440)]:
+            for i in range(n):
+                offline.append(dict(point=point,domain=domain,uid=str(i),task='M1',command=0,family='fixture',variant=0,
+                    factor_kind='nominal',factor_axis=None,factor_sign=0,noise='B0',source_row=str(i),
+                    gate='REJECT' if i==0 else 'PASS',numerical_failure=i==0,
+                    **({} if i==0 else dict(xyz_rmse_m=.02,so3_rmse_rad=.03,first_xyz_error_m=.02,endpoint_xyz_error_m=.02))))
+    virtual=[dict(r,point=point) for point in POINTS for r in rows]
+    with tempfile.TemporaryDirectory(dir=ROOT/'runtime',prefix='cpu-report-fixture-') as folder:
+        out=Path(folder);paired_tables(out,offline,virtual)
+        import csv
+        with (out/'PAIRED_OFFLINE_CHANGES.csv').open() as stream:paired=list(csv.DictReader(stream))
+        assert len(paired)==3872 and paired[0]['delta_xyz_rmse_m']==''
+        assert all(r['delta_xyz_rmse_m'] in ('','0.0') for r in paired)
     print('PASS_PROSPECTIVE_GROUP_AND_FULL_EPISODE_SAFETY_BOUNDARIES',flush=True)
 
 
