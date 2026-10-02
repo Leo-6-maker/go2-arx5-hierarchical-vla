@@ -102,7 +102,7 @@ def run(args):
     config_args=argparse.Namespace(stage10_root=STAGE,base_model_path=Path(donor['path']),
         dataset_dir=ROOT.with_name('PI0227')/'pi0227_large_adapt_v1_inputs/train_dataset',
         modality_config=Path('/scratch/e1192548/pi0227_h200_prep_20260919/inputs/go2_arx5_modality.py'),groot_source=GROOT)
-    save_steps=2048 if args.phase=='main' else (4 if args.phase=='split' else 8)
+    save_steps=2048 if args.phase=='main' else (4 if args.phase.startswith('split') else 8)
     config=old.build_config(config_args,output,steps=4096,save_steps=save_steps,save_limit=2)
     config.training.learning_rate=1e-5;config.training.lr_scheduler_type='cosine';config.training.gradient_accumulation_steps=2
     config.training.max_steps=4096;config.training.save_steps=save_steps;config.training.save_total_limit=2
@@ -112,6 +112,19 @@ def run(args):
     from gr00t.experiment import experiment
     base_trainer=experiment.Gr00tTrainer
     class SpaceCheckedTrainer(base_trainer):
+        def training_step(self,model,inputs,*pos,**kw):
+            if args.resume and not getattr(self,'_pi0267_resume_rng_synced',False):
+                # HF restores before iter(DataLoader), which consumes one extra CPU base-seed draw.
+                # This corpus uses zero workers and deterministic encoding; restore after iterator creation.
+                assert self.args.dataloader_num_workers==0 and self.state.global_step==args.resume
+                checkpoint=output/f'checkpoint-{args.resume}'
+                self._load_rng_state(str(checkpoint))
+                self._pi0267_resume_rng_synced=True
+                (output/'RESUME_RNG_LIFECYCLE.json').write_text(json.dumps(dict(status='RESTORED_AFTER_DATALOADER_ITERATOR_BEFORE_FIRST_MICRO',
+                    checkpoint=str(checkpoint),rng_sha256=sha(checkpoint/'rng_state.pth'),unit=args.resume+1,
+                    inputs_unmodified=True,worker_count=0),sort_keys=True)+'\n')
+            return super().training_step(model,inputs,*pos,**kw)
+
         def _save_checkpoint(self,*pos,**kw):
             snapshot=read(ROOT/'STORAGE_ADMISSION.json');unique={}
             for p in ROOT.rglob('*'):
@@ -137,23 +150,25 @@ def run(args):
 
 def compare(arm):
     import pi0264_compare_canary as mature
-    mature.compare(arm,root=ROOT,max_steps=4096,status='PASS_PI0267_NUMERICAL_CANARY_PENDING_RNG_LIFECYCLE')
+    routes=read(ROOT/'CANARY_ROUTES.json') if (ROOT/'CANARY_ROUTES.json').exists() else {}
+    split_phase=routes.get(arm,{}).get('split','split')
+    mature.compare(arm,root=ROOT,max_steps=4096,split_phase=split_phase,status='PASS_PI0267_NUMERICAL_CANARY_PENDING_RNG_LIFECYCLE')
     def identical(a,b):
         if isinstance(a,torch.Tensor):return isinstance(b,torch.Tensor) and a.dtype==b.dtype and torch.equal(a,b)
         if isinstance(a,np.ndarray):return isinstance(b,np.ndarray) and a.dtype==b.dtype and np.array_equal(a,b)
         if isinstance(a,dict):return isinstance(b,dict) and a.keys()==b.keys() and all(identical(a[k],b[k]) for k in a)
         if isinstance(a,(list,tuple)):return type(a)==type(b) and len(a)==len(b) and all(identical(x,y) for x,y in zip(a,b))
         return type(a)==type(b) and a==b
-    paths=[ROOT/arm/phase/'training/checkpoint-8/rng_state.pth' for phase in ('continuous','split')]
+    paths=[ROOT/arm/phase/'training/checkpoint-8/rng_state.pth' for phase in ('continuous',split_phase)]
     rng=[torch.load(p,map_location='cpu',weights_only=False) for p in paths]
     equal={k:identical(rng[0][k],rng[1][k]) for k in rng[0]};assert all(equal.values()),('RESTORED_RNG_STATE_MISMATCH',equal)
     target=ROOT/arm/'canary_compare.json';result=read(target)
-    result.update(status='PASS_PI0267_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY',saved_RNG_states_equal=equal)
+    result.update(status='PASS_PI0267_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY',saved_RNG_states_equal=equal,split_phase=split_phase)
     target.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n');print(json.dumps(result),flush=True)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--arm',choices=('N','R'),required=True);p.add_argument('--phase',choices=('continuous','split','main'))
+    p=argparse.ArgumentParser();p.add_argument('--arm',choices=('N','R'),required=True);p.add_argument('--phase',choices=('continuous','split','split_recovery1','main'))
     p.add_argument('--limit',type=int);p.add_argument('--resume',type=int,default=0);p.add_argument('--compare',action='store_true');args=p.parse_args()
     if args.compare:compare(args.arm)
     else:

@@ -16,9 +16,9 @@ def rows(path):
     return [json.loads(line) for line in path.read_text().splitlines() if line]
 
 
-def compare(arm, *, root=ROOT, max_steps=2048, status='PASS_PI0264_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY'):
+def compare(arm, *, root=ROOT, max_steps=2048, split_phase='split', status='PASS_PI0264_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY'):
     a = root / arm / 'continuous/training'
-    b = root / arm / 'split/training'
+    b = root / arm / split_phase / 'training'
     x, y = a / 'checkpoint-8', b / 'checkpoint-8'
     for path in (x, y):
         state = json.loads((path / 'trainer_state.json').read_text())

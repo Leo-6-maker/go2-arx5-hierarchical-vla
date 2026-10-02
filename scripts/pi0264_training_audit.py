@@ -67,10 +67,10 @@ def paired(phase,limit):
         units=limit,microbatches=2*limit,phase=phase))
 
 
-def graph(arm):
+def graph(arm, *, max_steps=2048, campaign='PI0264'):
     path=ROOT/arm/'main/training'
     s4_rows,loss_rows=rows(path/'S4_audit.jsonl'),rows(path/'full_loss.jsonl')
-    assert len(s4_rows)==len(loss_rows)==4096
+    assert len(s4_rows)==len(loss_rows)==2*max_steps
     for index,(s4,loss) in enumerate(zip(s4_rows,loss_rows),1):
         assert s4['forward_index']==loss['step']==index
         assert (s4['runtime_id'],s4['rollout_steps'],s4['rollout_head_evaluations'])==('S4',4,4)
@@ -86,16 +86,16 @@ def graph(arm):
         extra=f32(f32(f32(.1)*loss['rotation'])+f32(f32(.1)*loss['speed_margin']))
         assert base==s4['total_loss'] and f32(base+extra)==loss['total']
     norms=rows(path/'update_gradient_norms.jsonl')
-    assert len(norms)==2048 and [r['unit'] for r in norms]==list(range(1,2049))
+    assert len(norms)==max_steps and [r['unit'] for r in norms]==list(range(1,max_steps+1))
     assert all(math.isfinite(r['accumulated_norm']) and r['microbatches']==2 and r['clip_max_norm']==1. for r in norms)
     gradients=read(path/'S4_first_update_gradients.json')
     assert set(gradients)=={'1','2','3','4'} and all(math.isfinite(float(v)) and float(v)>0 for v in gradients.values())
-    result=dict(status='PASS_PI0264_SAVED_FULL_S4_LOSS_AND_GRADIENT_AUDIT',arm=arm,microbatches=4096,updates=2048,
+    result=dict(status=f'PASS_{campaign}_SAVED_FULL_S4_LOSS_AND_GRADIENT_AUDIT',arm=arm,microbatches=2*max_steps,updates=max_steps,
         loss_coefficients=dict(position=.4,increment=.1,rotation=.1,peak_speed_margin=.1),
         first_update_euler_gradient_norms=gradients,code_sha256=sha(__file__),
         logs={name:sha(path/name) for name in ('S4_audit.jsonl','full_loss.jsonl','update_gradient_norms.jsonl','S4_first_update_gradients.json')},
         model_queries_by_audit=0,gradient_queries_by_audit=0)
-    write(ROOT/arm/'main-2048.graph_loss_gradient_audit.json',result);print(json.dumps(result))
+    write(ROOT/arm/f'main-{max_steps}.graph_loss_gradient_audit.json',result);print(json.dumps(result))
 
 
 def complete():

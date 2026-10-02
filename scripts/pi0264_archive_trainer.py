@@ -30,11 +30,11 @@ def save(path, result):
         os.replace(temp, path)
 
 
-def main(arm, step):
+def main(arm, step, *, max_steps=2048, campaign='PI0264'):
     checkpoint = ROOT / arm / 'main/training' / f'checkpoint-{step}'
     assert checkpoint.resolve().is_relative_to(ROOT.resolve())
     state = json.loads((checkpoint / 'trainer_state.json').read_text())
-    assert (state['global_step'], state['max_steps']) == (step, 2048)
+    assert (state['global_step'], state['max_steps']) == (step, max_steps)
     required = ('optimizer.pt', 'scheduler.pt', 'rng_state.pth', 'trainer_state.json',
                 'model.safetensors.index.json')
     assert all((checkpoint / name).is_file() for name in required)
@@ -47,8 +47,8 @@ def main(arm, step):
     assert len(entries) >= 16
     tree = hashlib.sha256()
     for row in entries:
-        tree.update(f"PI0264/{arm}/checkpoint-{step}/{row['path']}\0{row['bytes']}\0{row['sha256']}\n".encode())
-    prefix = f'arms/PI0264/{arm}/checkpoint-{step}'
+        tree.update(f"{campaign}/{arm}/checkpoint-{step}/{row['path']}\0{row['bytes']}\0{row['sha256']}\n".encode())
+    prefix = f'arms/{campaign}/{arm}/checkpoint-{step}'
     evidence = ROOT / 'evidence' / arm
     evidence.mkdir(parents=True, exist_ok=True)
     receipt = evidence / f'checkpoint-{step}.archive_receipt.json'
@@ -60,8 +60,8 @@ def main(arm, step):
         revision = previous['revision']
     else:
         revision = api.upload_folder(repo_id=REPO, folder_path=str(checkpoint),
-                                     path_in_repo=prefix, commit_message=f'PI0264 {arm}{step} full Trainer').oid
-        save(receipt, dict(schema='PI0264_FULL_TRAINER_ARCHIVE_V1', status='UPLOADED',
+                                     path_in_repo=prefix, commit_message=f'{campaign} {arm}{step} full Trainer').oid
+        save(receipt, dict(schema=f'{campaign}_FULL_TRAINER_ARCHIVE_V1', status='UPLOADED',
                            arm=arm, step=step, repo_id=REPO, prefix=prefix, revision=revision,
                            tree_sha256=tree.hexdigest(), entries=entries,
                            total_bytes=sum(row['bytes'] for row in entries)))
@@ -82,9 +82,9 @@ def main(arm, step):
                 size += len(block)
         assert size == row['bytes'] and digest.hexdigest() == row['sha256'], row['path']
         checked.append(row)
-        print(json.dumps(dict(status='PI0264_HF_MEMBER_READBACK', arm=arm, step=step,
+        print(json.dumps(dict(status=f'{campaign}_HF_MEMBER_READBACK', arm=arm, step=step,
                               path=row['path'], bytes=size)), flush=True)
-    result = dict(schema='PI0264_FULL_TRAINER_HF_READBACK_V1', status='PASS_FULL_FILE_READBACK',
+    result = dict(schema=f'{campaign}_FULL_TRAINER_HF_READBACK_V1', status='PASS_FULL_FILE_READBACK',
                   arm=arm, step=step, repo_id=REPO, prefix=prefix, revision=revision,
                   tree_sha256=tree.hexdigest(), files=checked, complete_trainer=True)
     save(readback, result)
