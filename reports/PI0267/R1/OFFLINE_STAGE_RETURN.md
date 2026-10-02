@@ -63,3 +63,18 @@ The new entry is isolated at `R1/runtime/virtual_family/pi0267_virtual_episode.p
 The restored first required query is actual attempt6349 with original key `M3_E1_000`. Its RGB/state/TCP/time arrays and processed-condition identity exactly match the corresponding saved E0 initial observation from the same family and command; its distinct E1 noise matches the frozen registry. Model binding is unchanged. Hashes of all47 completed results/trajectories remain exact. These checks add no model query or render. The interrupted start remains counted and only missing conditions continue.
 
 Evidence: `VIRTUAL_NATIVE_EXIT_20261002.json`, `VIRTUAL_FAMILY_LIFECYCLE_CHECK.json`, `VIRTUAL_RECOVERY_INPUT_IDENTITY.json` and the amended `QUALITY_EXECUTION_FILESET.json`. This is verified execution recovery, not completion of192 virtual cases or a quality PASS.
+
+## Completed donor virtual baseline — 2026-10-02 12:18 UTC
+
+All64 donor virtual conditions are VALID and complete, consuming6400 actual queries. The original V3 groups are:
+
+| Task/backend | Success/16 | Command0/8 | Command1/8 | Qualification |
+|---|---:|---:|---:|---|
+| M1/E0 |6|2|4|FAIL|
+| M1/E1 |7|3|4|FAIL|
+| M3/E0 |0|0|0|FAIL|
+| M3/E1 |0|0|0|FAIL|
+
+The baseline has13/64 recorded task successes and zero recorded dangerous collisions. All four groups fail the original13/16 and6/8-per-command conditions. V2 side scores have the same group totals. This baseline result does not cancel or reconfigure N/R; N4096 has started automatically under the same fixed card.
+
+`evidence/DONOR64_VIRTUAL_CPU_REPLAY.json` verifies all64 trajectory/result hashes and shared-scorer replays, plus independent entry geometry for all32 M3 trajectories. This check made zero queries/renders/physics steps. Full saved prediction noise/Euler/codec replay remains part of the final192-case report; this receipt does not claim that larger scope is already complete. Virtual motion remains `NOT_WBC / NON_REALTIME_LOCKSTEP`, and no candidate is selected from this partial comparison.
