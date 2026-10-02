@@ -1,0 +1,62 @@
+{
+  "active_processes": [
+    "2969140 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_offline.py --point N4096",
+    "2969163 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python /home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_infer_worker.py --point N4096",
+    "2974087 /var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13c/runtime_env/native_py38_4080/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_secondary.py --point expert --case WBC-expert-pi0265-family-004-M1-c1",
+    "2974408 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python /home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_geometry_worker.py"
+  ],
+  "deployment_selected_checkpoint": "NONE",
+  "four_full_HF_readbacks": "PASS",
+  "main_training_audit_sha256": "80475f933e4c64bb421bda7f496e428aa39d12ee1e4c9a7e9f8abbca37c41d05",
+  "model_attempts_live": 732,
+  "model_heads_live": 2928,
+  "new_scientific_quality_verdict": null,
+  "offline": {
+    "N4096": {
+      "donor_cache_reused": 0,
+      "legacy": 219,
+      "logical_rows": 475,
+      "new_domain": 256
+    },
+    "R4096": {
+      "donor_cache_reused": 0,
+      "legacy": 0,
+      "logical_rows": 0,
+      "new_domain": 0
+    },
+    "donor": {
+      "donor_cache_reused": 440,
+      "legacy": 440,
+      "logical_rows": 696,
+      "new_domain": 256
+    }
+  },
+  "secondary": [
+    {
+      "GR00T_queries": 0,
+      "actual_task_s": 39.99999910593033,
+      "case": "WBC-expert-pi0265-family-004-M1-c0",
+      "failure": null,
+      "independent_CPU_replay_pending": true,
+      "record_sha256": "8f031468757344262a6ee5985655726bc2f501ee3de7a7d5c44f7a6ed35ff434",
+      "recorded_success": true,
+      "safety_failure": false,
+      "validity": "VALID"
+    }
+  ],
+  "secondary_budget_live": {
+    "actor_calls": 4956,
+    "control_ticks": 2480,
+    "simulate_calls": 9920,
+    "simulated_seconds": 49.59999889135361,
+    "starts": 2
+  },
+  "selected_checkpoint": "NONE",
+  "status": "ACTUAL_FIXED_EVALUATION_IN_PROGRESS_NOT_COMPLETE",
+  "timestamp_UTC": "2026-10-02T09:32:45.442881+00:00",
+  "training_updates": {
+    "N": 4096,
+    "R": 4096
+  },
+  "virtual_starts": 0
+}
