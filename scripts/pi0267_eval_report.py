@@ -13,6 +13,7 @@ sys.path[:0]=[str(ROOT/'code'),str(BASE/'PI0266/code'),str(BASE/'PI0250/runtime/
 from pi0255_motion3 import write,sha
 from pi0267_metrics_v3 import score
 from pi0267_r1_cpu import independent_entry
+from pi0265_metrics import so3
 
 
 def read(p):return json.loads(Path(p).read_text())
@@ -67,6 +68,10 @@ def primary():
                 success=record['success'],reason=record['stop_reason'] or result.get('reason'),queries=len(record['queries']),elapsed_s=record['actual_elapsed_s'],
                 bins=len(result['ordered_bins']),reverse=result['reverse'],shortcut=result['gap_shortcut'],V2_success=result['legacy_v2']['success'],
                 entry_time_s=result.get('entry_time_s'),final_xyz_m=result['final_xyz_m'],final_so3_rad=result['final_so3_rad'],
+                installed_final_xyz_m=float(np.linalg.norm(z['installed_p'][-1]-spec['goal'])),
+                installed_final_so3_rad=float(so3(z['installed_r'][-1],np.asarray(spec['goal_rotation']))),
+                movement_tracking=json.dumps(result['movement_tracking'],sort_keys=True),terminal_hold_tracking=json.dumps(result['terminal_hold_tracking'],sort_keys=True),
+                gate_details=json.dumps(record['gates'],sort_keys=True),
                 same_tick_tracking_xyz_rms_m=float(np.sqrt(np.mean(error**2))),dangerous_collision=bool(record['collision_events'])))
             checks.append(dict(point=point,case=path.parent.name,shared_scorer_replay=True,independent_entry_replay=True,arrays_sha256=record['arrays_sha256']))
     prediction_checks=[]
@@ -155,6 +160,7 @@ def primary():
     latency_report()
     lines+=['','Model latency is recorded separately in MODEL_LATENCY.csv: instrumented native get_action wall time including trace/CPU snapshots, excluding input preprocessing, later evidence serialization and physical execution. Simulation pauses for inference; this is not real-time throughput.',
         'OFFLINE2088.csv retains complete gate details, numerical failures and fixed task/command/stage/window identifiers.',
+        'VIRTUAL192.csv separately retains installed-reference endpoint error, achieved endpoint error, same-tick tracking, and the existing scorer movement/terminal-hold partitions. Those partitions end at the first criterion hit when one exists; later refusal still fails the episode. Requested raw/decoded H40, gate and installed/achieved arrays remain in each query-to-execution chain.',
         '','New-domain arclength-teacher RMSE and OLD time-paced-reference RMSE answer different questions. Donor legacy440 is exact-cache reuse.',
         'VIRTUAL192.csv preserves the full fixed denominator and failures; OFFLINE2088.csv preserves all rows. Candidate qualification uses each task/backend and command subgroup, without replacing them by averages.',
         'Independent CPU path replays saved BF16 Euler operations and decoder outputs, separately computes row-6D/geodesic metrics and entry geometry; the task scorer remains shared and is disclosed.',
@@ -198,6 +204,7 @@ def secondary():
         table.append(dict(case=case['case_id'],point=case['point'],family=case['family']['family_id'],task=case['task'],command=case['command'],validity='VALID',
             success=result['success'],reason=result.get('failure'),safety=result.get('safety_failure'),new_model_queries=result['GR00T_queries'],
             elapsed_s=result.get('actual_task_s'),final_xyz_m=metrics.get('final_xyz_m'),final_so3_rad=metrics.get('final_so3_rad'),
+            movement_tracking=json.dumps(metrics.get('movement_tracking'),sort_keys=True),terminal_hold_tracking=json.dumps(metrics.get('terminal_hold_tracking'),sort_keys=True),
             bins=len(metrics.get('ordered_bins',[])),V2_success=metrics.get('legacy_v2',{}).get('success')))
     out=RAW/'delivery';out.mkdir(exist_ok=True);csv_write(out/'SECONDARY32.csv',table)
     budget=read(R1/'evidence/RAW_BUDGET.json');caps=read(R1/'design/BUDGET_CARD.json')
