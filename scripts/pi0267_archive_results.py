@@ -19,9 +19,30 @@ from pi0255_motion3 import write,sha
 def read(p):return json.loads(Path(p).read_text())
 
 
+def admitted(part):
+    if part not in ('donor','N4096','R4096'):
+        assert read(RAW/'delivery/PRIMARY_VERDICT.json')['status']=='PRIMARY_COMPLETE'
+        if part=='secondary':assert read(RAW/'delivery/SECONDARY_VERDICT.json')['status'] in ('SECONDARY_COMPLETE','SECONDARY_PARTIAL')
+        return
+    assert read(R1/'evidence/MAIN_TRAINING_AUDIT.json')['status']=='PASS_BOTH_4096_MATCHED_TRAINING_INTEGRITY'
+    families=[f['family_id'] for f in read(ROOT/'design/SCENE_CARD.json')['families'] if f['split']=='NEW_SIM_EVAL'];assert len(families)==8
+    expected={f'{f}-{t}-c{c}-{b}' for f in families for t in ('M1','M3') for c in (0,1) for b in ('E0','E1')}
+    paths=list((RAW/'virtual'/part).glob('*/result.json'));assert {p.parent.name for p in paths}==expected,'INCOMPLETE_FIXED_VIRTUAL_PART'
+    for p in paths:
+        r=read(p);assert r['validity']=='VALID' and r['point']==part
+        assert r['evaluation_card_sha256']==sha(R1/'design/EVALUATION_CARD.json') and r['arrays_sha256']==sha(p.parent/'trajectory.npz')
+    card=R1/'design/FIXED_OFFLINE_CARD.json'
+    for domain,key,n in (('new','new_rows',256),('legacy','legacy_rows',440)):
+        rows=read(card)[key];assert len(rows)==n
+        folder=RAW/'offline'/part/domain
+        assert {p.parent.name for p in folder.glob('*/record.json')}=={r['uid'] for r in rows},'INCOMPLETE_FIXED_OFFLINE_PART'
+        for row in rows:
+            r=read(folder/row['uid']/'record.json');assert r['status']=='VALID' and r['point']==part and r['row']==row and r['card_sha256']==sha(card)
+            assert r['tensor_sha256']==sha(Path(r['tensor']))
+
+
 def main(part):
-    assert read(RAW/'delivery/PRIMARY_VERDICT.json')['status']=='PRIMARY_COMPLETE'
-    if part=='secondary':assert read(RAW/'delivery/SECONDARY_VERDICT.json')['status'] in ('SECONDARY_COMPLETE','SECONDARY_PARTIAL')
+    admitted(part)
     out=RAW/'archive'/('results-'+part);out.mkdir(parents=True,exist_ok=True);files=[]
     roots=[(RAW/'virtual'/part,'virtual/'+part),(RAW/'offline'/part,'offline/'+part)] if part in ('donor','N4096','R4096') else [(RAW/'diagnostics','secondary')]
     if part=='summary':roots=[(RAW/'delivery','delivery'),(RAW/'offline/source','offline-source'),(R1/'design','design'),(R1/'evidence','evidence'),(R1/'model_bindings','model-bindings'),(ROOT/'code','code'),(R1/'code','secondary-code')]
@@ -75,4 +96,6 @@ def main(part):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('part',choices=('donor','N4096','R4096','secondary','summary'));main(p.parse_args().part)
+    p=argparse.ArgumentParser();p.add_argument('part',choices=('donor','N4096','R4096','secondary','summary'));p.add_argument('--check-only',action='store_true');a=p.parse_args()
+    if a.check_only:admitted(a.part);print('PASS_COMPLETE_FROZEN_ARCHIVE_PART_NO_UPLOAD',a.part,flush=True)
+    else:main(a.part)
