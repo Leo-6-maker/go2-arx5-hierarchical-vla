@@ -30,7 +30,7 @@ def save(path, result):
         os.replace(temp, path)
 
 
-def main(arm, step, *, max_steps=2048, campaign='PI0264'):
+def main(arm, step, *, max_steps=2048, campaign='PI0264', token=None):
     checkpoint = ROOT / arm / 'main/training' / f'checkpoint-{step}'
     assert checkpoint.resolve().is_relative_to(ROOT.resolve())
     state = json.loads((checkpoint / 'trainer_state.json').read_text())
@@ -52,7 +52,7 @@ def main(arm, step, *, max_steps=2048, campaign='PI0264'):
     evidence = ROOT / 'evidence' / arm
     evidence.mkdir(parents=True, exist_ok=True)
     receipt = evidence / f'checkpoint-{step}.archive_receipt.json'
-    api = HfApi()
+    api = HfApi(token=token)
     assert api.model_info(REPO).private is False
     if receipt.exists():
         previous = json.loads(receipt.read_text())

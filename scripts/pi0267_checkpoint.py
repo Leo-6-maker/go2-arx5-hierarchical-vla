@@ -1,16 +1,21 @@
 """Reuse full-Trainer archiving and serialized scope checks; never load optimizer on Corelab."""
 import argparse
 import json
+import os
 from pathlib import Path
 
 
 def archive(arm,step):
+    online=Path('/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/runtime/hf_online')
+    os.environ.update(HF_HOME=str(online),HF_XET_CACHE=str(online/'xet'),HF_HUB_OFFLINE='0',TRANSFORMERS_OFFLINE='0')
     import pi0264_archive_trainer as old
     old.ROOT=old.ROOT.with_name('PI0267')
-    old.main(arm,step,max_steps=4096,campaign='PI0267')
+    old.main(arm,step,max_steps=4096,campaign='PI0267',token=(Path.home()/'.config/huggingface/token').read_text().strip())
 
 
 def materialize(arm):
+    online=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0267/runtime/hf_online')
+    os.environ.update(HF_HOME=str(online),HF_XET_CACHE=str(online/'xet'),HF_HUB_OFFLINE='0',TRANSFORMERS_OFFLINE='0')
     from huggingface_hub import hf_hub_download
     import pi0264_checkpoint_scope as scope
     from pi0264_plan import read,sha,write
