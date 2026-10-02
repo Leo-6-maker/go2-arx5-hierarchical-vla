@@ -126,3 +126,39 @@ All6210 gate decisions are ACCEPT, but four M1 episodes encounter actual virtual
 The N point is unqualified under the unchanged criteria. R is not cancelled or modified. The full192-case prediction/scorer CPU replay and paired study verdict remain pending; this point-specific array decomposition does not claim that larger scope. PUBLIC raw-result archival runs independently while local originals remain retained. At launch, actual filesystem free space was844999172096bytes; quota headroom remains UNKNOWN.
 
 N raw archive subsequently completed at fixed PUBLIC revision `57890d1dcfba2e9663db2ee7dc6141296b9bd282`, repo `leoyuer/pi0246-gate-pass-campaign`, prefix `evidence/PI0267/R1/final-results-20261002/N4096`. Anonymous full-file and all33706-member readback passed; source bytes1138673166, tree SHA256 `9f293ca5e2984448a9a42bedfe7c9be144b3196a36879f8553436acad708f5ff`. Receipt: `evidence/RESULT_ARCHIVE_N4096.json`. Local originals remain protected. At14:11 UTC, R has2/64 completed conditions and its next original condition is actively producing predictions.
+
+
+## Closed-result paired analysis — 2026-10-02 14:50 UTC
+
+This analysis uses only the complete2088 offline rows and the complete donor/N64 virtual points. `evidence/CLOSED_RESULTS_PAIRED_ANALYSIS.json` binds all three input SHA256s, checks exact paired identities and preserves task/command/backend/family breakdowns. It adds zero model queries, renders or physics steps. R virtual is excluded from this comparison until its complete64 fixed conditions are available; at14:50 UTC it has25 completed conditions and a healthy current worker.
+
+### Learning gain is concentrated in early M1 attainment
+
+Across the same32 M1 conditions, donor has13 original successes and N has26: nine conditions succeed at both points,17 change FAIL to success, four change success to FAIL, and two fail at both points. The four regressions are family028/c0/E1 and family030/c0/E0 (actual virtual-tool collision), plus family030/c1/E0 and E1 (original hold criterion not met). N has four collisions in total; two arise in conditions where donor also failed. Family030 falls from4/8 to1/8 across its complete task/backend/command set, despite the overall improvement. All32 M3 conditions fail at both points.
+
+For M1/E0 the paired transitions are4 both-success,9 gains,2 regressions and1 both-failure; E1 has5,8,2,1 respectively. These fixed conditions share families and related backends; the counts are descriptive and must not be treated as independent random trials.
+
+The original M1 success rule remains the first qualifying0.25s hold. All13 donor and26 N successes subsequently end outside the original35mm/0.10rad pose bounds. Thus N improves early attainment while neither completed point establishes sustained40s retention. No new retention gate is introduced. Original safety and M3 failures still disqualify N.
+
+### Paired offline changes differ from differences between marginal medians
+
+Negative paired delta means lower XYZ RMSE than donor on the identical row. Every fixed row, including REJECT, remains in its denominator.
+
+| Point/domain | Rows improved/total | Median paired XYZ change, mm | ACCEPT to REJECT |
+|---|---:|---:|---:|
+| N/new nominal |65/128|-0.539|0|
+| N/new recovery |60/128|+0.404|0|
+| N/legacy |156/440|+5.556|0|
+| R/new nominal |56/128|+3.981|0|
+| R/new recovery |19/128|+512.545|86|
+| R/legacy |25/440|+14.785|128|
+
+N's recovery marginal median improves from14.820 to12.650mm, but only60/128 matched rows improve and the median within-row change is+0.404mm. These are different summaries, not an arithmetic inconsistency. For N, M1 nominal command0/1 improves on21/32 and23/32 rows; M3 nominal improves on only11/32 and10/32. M3 recovery command0/1 improves on only10/32 and9/32. The aggregate new-domain number therefore conceals a task trade-off. The full receipt retains all24 offline subgroup summaries.
+
+R's fixed offline recovery and legacy regression is already a complete observed result, even while its virtual evaluation is still running. Training-integrity PASS does not imply quality PASS. These held-out panels do not establish training-set fit or identify the cause of the regression; no extra TRAIN queries or altered R run are introduced.
+
+### Reference generation, execution and safety remain distinct
+
+Both completed points have exact E0 position following of installed references, yet all M3 E0 tasks fail to acquire entry. Their installed-reference arrays also contain no qualifying M3 entry. Therefore physical WBC tracking error is not necessary for these primary failures. This does not establish a unique model-side cause. All donor/N gates ACCEPT, but N still incurs four actual virtual-tool collisions: trajectory acceptance, collision freedom and task success are separate recorded outcomes.
+
+The eight completed expert WBC conditions remain a separate3/8-success physical control lane, with24 fixed model WBC conditions still pending. Virtual E0/E1 are mathematical executors, not WBC or a second robot embodiment. R's final virtual point, the full prediction/scorer CPU replay and all remaining required deliveries continue unchanged. `selected_checkpoint=NONE`; `deployment_selected_checkpoint=NONE`.
