@@ -78,3 +78,9 @@ All64 donor virtual conditions are VALID and complete, consuming6400 actual quer
 The baseline has13/64 recorded task successes and zero recorded dangerous collisions. All four groups fail the original13/16 and6/8-per-command conditions. V2 side scores have the same group totals. This baseline result does not cancel or reconfigure N/R; N4096 has started automatically under the same fixed card.
 
 `evidence/DONOR64_VIRTUAL_CPU_REPLAY.json` verifies all64 trajectory/result hashes and shared-scorer replays, plus independent entry geometry for all32 M3 trajectories. This check made zero queries/renders/physics steps. Full saved prediction noise/Euler/codec replay remains part of the final192-case report; this receipt does not claim that larger scope is already complete. Virtual motion remains `NOT_WBC / NON_REALTIME_LOCKSTEP`, and no candidate is selected from this partial comparison.
+
+### Donor raw result archive
+
+PUBLIC fixed revision `fe7f45d3faeeec0e25a8f7df909ac0bcc966e58c`, repo `leoyuer/pi0246-gate-pass-campaign`, prefix `evidence/PI0267/R1/final-results-20261002/donor`, has passed anonymous whole-file and all33776 internal-member readback. Source bytes:1116150256; tree SHA256 `afbcb47d1999a615269128f0b6d821ba99c8b406220065c87023983013edef29`. Receipt: `evidence/RESULT_ARCHIVE_donor.json`. Local originals remain retained.
+
+Completed point partitions may now archive while the remaining model points run. `PARTITION_ARCHIVE_ADMISSION_CHECK.json` verifies the exact64 virtual conditions and696 offline rows, rejects incomplete N and global-summary partitions, and confirms unchanged packaging/upload/full-readback code. This archival boundary change makes no quality query and does not change whole-study completion or qualification.
