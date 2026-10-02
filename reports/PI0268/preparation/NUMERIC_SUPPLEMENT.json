@@ -1,0 +1,36 @@
+{
+  "PBS_submissions": 0,
+  "WBC_calls": 0,
+  "gradient_queries": 0,
+  "model_queries": 0,
+  "native_loss_source_sha256": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c",
+  "native_target": "normalized_actions minus same-dtype Gaussian epsilon; actual epsilon values UNOBSERVED (hashes only)",
+  "optimizer_updates": 0,
+  "physics_steps": 0,
+  "renderer_calls": 0,
+  "rotation6D_orthonormal_checks": {
+    "absolute": {
+      "component_max_abs": 1.0,
+      "first_row_norm_max_error": 5.960464477539063e-08,
+      "row_dot_max_abs": 3.315506091894349e-08,
+      "second_row_norm_max_error": 5.960464477539063e-08
+    },
+    "relative": {
+      "component_max_abs": 1.0000000000000002,
+      "first_row_norm_max_error": 3.3306690738754696e-16,
+      "row_dot_max_abs": 5.284871491980075e-17,
+      "second_row_norm_max_error": 3.3306690738754696e-16
+    },
+    "state": {
+      "component_max_abs": 1.0,
+      "first_row_norm_max_error": 5.960464477539063e-08,
+      "row_dot_max_abs": 1.4901161193847656e-08,
+      "second_row_norm_max_error": 5.960464477539063e-08
+    }
+  },
+  "sensitivity_rows": 336,
+  "state_BF16_cast_inverse": {
+    "max_so3_rad": 0.0006990605710952471,
+    "max_xyz_m": 0.00038809504644289676
+  }
+}
