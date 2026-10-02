@@ -1,0 +1,57 @@
+{
+  "arms": [
+    "OLD",
+    "ROT"
+  ],
+  "authority": "PI0268_R1_NORMALIZATION_AND_RELIABLE_CLOSED_LOOP_GO_V1",
+  "canonical": 5957403226,
+  "completed_update_cap": 4384,
+  "contracts": {
+    "OLD": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73",
+    "ROT": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9"
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "donor": {
+    "prefix": "arms/PI0264/L/checkpoint-2048",
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "e4290e6ca387abd2de4337b5f12b9c72a5f85c99",
+    "tree_sha256": "2f61d8ed8c8fe8444b7ef23164cb4df2bcacd8a73c93f19be77fcdf459ef6fae"
+  },
+  "inference_attempt_cap": 24576,
+  "inference_head_cap": 98304,
+  "launch_allowed": true,
+  "launch_preconditions": [
+    "HOPPER_CPU_ADMISSION",
+    "both real canaries PASS"
+  ],
+  "loss": "native + .4 position + .1 increment + .1 rotation + .1 speed-margin",
+  "microbatches_per_unit": 2,
+  "new_frame_pairs_cap": 20000,
+  "new_virtual_queries_cap": 19200,
+  "new_virtual_starts_cap": 208,
+  "optimizer": {
+    "cosine": 2048,
+    "fresh": true,
+    "gradclip": 1.0,
+    "lr": 1e-05,
+    "name": "AdamW",
+    "warmup": 10,
+    "weight_decay": 1e-05
+  },
+  "quality": [
+    0,
+    2048
+  ],
+  "release": "e5ec6d52100f6bb2e32be5b9661c756b0adb61f4",
+  "save": [
+    1024,
+    2048
+  ],
+  "seed": 26741,
+  "selected_checkpoint": "NONE",
+  "source_indices": "R_indices",
+  "source_plan_sha256": "fca9a29e69e4b63ec35ab995bacc60a4867e4b86a11e2d7a3c6397d4d316f5ef",
+  "training_head_cap": 90000,
+  "unit_seed": "sha256(PI0267:TRAIN:26741:{unit}) first8 big endian mod 2**31",
+  "units_per_arm": 2048
+}
