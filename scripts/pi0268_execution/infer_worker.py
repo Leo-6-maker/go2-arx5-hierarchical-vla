@@ -23,6 +23,11 @@ def count(p):return sum(1 for _ in p.open()) if p.exists() else 0
 
 
 def admitted():
+    check=read(R1/'evidence/EVALUATION_CPU_CHECK.json')
+    assert check['status']=='PASS_ACTUAL_TRAIN_EVAL_CONDITIONS_FACTOR_INPUTS_AND_RELIABILITY_BOUNDARIES'
+    assert len(check['checks'])==832 and check['model_queries']==0
+    for row in read(R1/'design/QUALITY_EXECUTION_FILESET.json')['files']:
+        assert sha(Path(row['path']))==row['sha256'],row['path']
     audit=read(R1/'evidence/MAIN_TRAINING_AUDIT.json')
     assert audit['status']=='PASS_BOTH_2048_MATCHED_TRAINING_INTEGRITY' and audit['optimizer_updates']=={'OLD':2048,'ROT':2048}
     assert len(audit['complete_checkpoints'])==4
@@ -71,6 +76,8 @@ def main(point):
         with np.load(noise_path) as z:noise=z[noise_name].copy()
         assert hashlib.sha256(noise.tobytes()).hexdigest()==row['noise_sha256']
         input_identity=identity(policy);journal=output.with_suffix('.receipt.json')
+        if 'expected_condition_sha256' in request:
+            assert input_identity==request['expected_condition_sha256'],'FROZEN_CONDITION_IDENTITY'
         if request.get('processor_contract')=='OLD':
             old_card=read(R1/'design/FIXED_OFFLINE_CARD.json')
             assert arm=='OLD' and old_card['old_statistics_sha256']==card['contracts'][arm]
@@ -84,6 +91,10 @@ def main(point):
             assert prior['noise_sha256']==row['noise_sha256'] and prior['output_sha256']==sha(output)
             print(json.dumps(dict(status='VALID_REUSED',output=str(output))),flush=True);continue
         ordinal=count(attempts)+1;assert ordinal<=24576
+        if output.resolve().is_relative_to(raw_root/'virtual'):
+            virtual_attempts=R1/'evidence/virtual_model_attempts.jsonl'
+            virtual_ordinal=count(virtual_attempts)+1;assert virtual_ordinal<=19200
+            append(virtual_attempts,dict(ordinal=virtual_ordinal,global_attempt=ordinal,point=point,request=request))
         append(attempts,dict(ordinal=ordinal,point=point,request=request,input_sha256=input_identity,noise_sha256=row['noise_sha256']))
         def hook(module,inputs):
             nonlocal heads

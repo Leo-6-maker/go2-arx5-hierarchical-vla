@@ -16,9 +16,10 @@ ROOT=Path('/scratch/e1192548/Projects/go2-arx5/experiments/PI0268')
 R3=ROOT.with_name('PI0260')/'R3';OLD=ROOT.with_name('PI0264')
 STAGE=Path('/scratch/e1192548/stage22_h200_runtime_deb920_20260902')
 GROOT=STAGE/'src/isaac-gr00t'
-sys.path[:0]=[str(Path(__file__).resolve().parent),str(OLD/'code'),str(R3/'execution'),
+sys.path[:0]=[str(Path(__file__).resolve().parent),str(ROOT.with_name('PI0267')/'code'),str(OLD/'code'),str(R3/'execution'),
               '/scratch/e1192548/pi0244_fixed16_10k_v1/scripts','/scratch/e1192548/pi0244_fixed16_10k_v1/src',str(GROOT)]
 import pi0264_train as paired
+assert Path(paired.__file__).resolve()==ROOT.with_name('PI0267')/'code/pi0264_train.py'
 from pi0260_r3_inputs import batch,identity
 from pi0264_plan import NONLANGUAGE
 
@@ -26,6 +27,27 @@ from pi0264_plan import NONLANGUAGE
 def read(p):return json.loads(Path(p).read_text())
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def seed_for(unit):return int.from_bytes(hashlib.sha256(f'PI0267:TRAIN:26741:{unit}'.encode()).digest()[:8],'big')%2**31
+
+
+def bind_checkpoint_metadata(output,checkpoint,stats,contract):
+    # Native Trainer saves processor beside checkpoints; reuse its actual bytes.
+    assert read(output/'processor/statistics.json')==read(stats),'SAVED_PROCESSOR_CONTRACT_MISMATCH'
+    sources={name:output/'processor'/name for name in ('statistics.json','processor_config.json','embodiment_id.json')}
+    sources.update({f'experiment_cfg/{name}':output/'experiment_cfg'/name for name in ('conf.yaml','config.yaml','final_model_config.json')})
+    sources['wandb_config.json']=output/'wandb_config.json'
+    sources['effective_statistics.json']=stats
+    for name,source in sources.items():
+        assert source.is_file() and not source.is_symlink()
+        target=checkpoint/name;target.parent.mkdir(parents=True,exist_ok=True);content=source.read_bytes()
+        if target.exists():assert target.read_bytes()==content
+        else:
+            temp=target.with_suffix(target.suffix+'.partial')
+            with temp.open('wb') as stream:stream.write(content);stream.flush();os.fsync(stream.fileno())
+            os.replace(temp,target)
+    target=checkpoint/'PI0268_POLICY_CONTRACT.json'
+    content=json.dumps(contract,sort_keys=True)+'\n'
+    if target.exists():assert target.read_text()==content
+    else:target.write_text(content)
 
 
 def language(plan,u,c):
@@ -81,6 +103,8 @@ def run(args):
     for r in seal['files']:assert Path(r['path']).stat().st_size==r['bytes'] and sha(r['path'])==r['sha256']
     assert read(ROOT/'evidence/HOPPER_CPU_ADMISSION.json')['status']=='PASS_PI0268_HOPPER_ACTUAL_PROCESSOR_BOUNDARY'
     assert read(ROOT/'evidence/HOPPER_PHYSICAL_FIXTURES.json')['status']=='PASS_BOTH_CONTRACT_PHYSICAL_ROUNDTRIPS'
+    for arm in ('OLD','ROT'):
+        assert read(ROOT/'evidence'/('RUNTIME_BINDING_'+arm+'.json'))['status']=='PASS_EXACT_FROZEN_HELPER_IMPORTS_AND_CPU_HOOK_INSTALL'
     card=read(ROOT/'design/APPROVED_RUN_CARD.json')
     assert card['launch_allowed'] and card['release']=='e5ec6d52100f6bb2e32be5b9661c756b0adb61f4'
     stats=ROOT/'contracts'/args.arm/'source/dataset/statistics.json'
@@ -126,7 +150,14 @@ def run(args):
                 (output/'RESUME_RNG_LIFECYCLE.json').write_text(json.dumps(dict(status='RESTORED_AFTER_DATALOADER_ITERATOR_BEFORE_FIRST_MICRO',
                     checkpoint=str(checkpoint),rng_sha256=sha(checkpoint/'rng_state.pth'),unit=args.resume+1,
                     inputs_unmodified=True,worker_count=0),sort_keys=True)+'\n')
-            return super().training_step(model,inputs,*pos,**kw)
+            result=super().training_step(model,inputs,*pos,**kw)
+            gradients=audit['first_update_euler_gradient_norms']
+            target=output/'S4_first_update_gradients.json'
+            if not args.resume and gradients and not target.exists():
+                assert set(gradients)=={'1','2','3','4'} and all(float(v)>0 for v in gradients.values())
+                with target.open('w') as stream:
+                    stream.write(json.dumps(gradients,sort_keys=True)+'\n');stream.flush();os.fsync(stream.fileno())
+            return result
 
         def _save_checkpoint(self,*pos,**kw):
             snapshot=read(ROOT/'STORAGE_ADMISSION.json');unique={}
@@ -143,10 +174,7 @@ def run(args):
             assert min(live,conservative)>=required,'CHECKPOINT_QUOTA_HEADROOM'
             result=super()._save_checkpoint(*pos,**kw)
             checkpoint=output/f'checkpoint-{self.state.global_step}'
-            assert read(checkpoint/'statistics.json')==read(stats),'SAVED_PROCESSOR_CONTRACT_MISMATCH'
-            target=checkpoint/'effective_statistics.json'
-            target.write_bytes(stats.read_bytes())
-            (checkpoint/'PI0268_POLICY_CONTRACT.json').write_text(json.dumps(dict(arm=args.arm,statistics_sha256=sha(stats),release=card['release'],donor_revision=donor['revision'],plan_sha256=sha(ROOT/'PAIRING_PLAN.json')),sort_keys=True)+'\n')
+            bind_checkpoint_metadata(output,checkpoint,stats,dict(arm=args.arm,statistics_sha256=sha(stats),release=card['release'],donor_revision=donor['revision'],plan_sha256=sha(ROOT/'PAIRING_PLAN.json')))
             return result
     experiment.Gr00tTrainer=SpaceCheckedTrainer
     old.run_official(config,GROOT)
