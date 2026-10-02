@@ -24,7 +24,7 @@ def main(part):
     if part=='secondary':assert read(RAW/'delivery/SECONDARY_VERDICT.json')['status'] in ('SECONDARY_COMPLETE','SECONDARY_PARTIAL')
     out=RAW/'archive'/('results-'+part);out.mkdir(parents=True,exist_ok=True);files=[]
     roots=[(RAW/'virtual'/part,'virtual/'+part),(RAW/'offline'/part,'offline/'+part)] if part in ('donor','N4096','R4096') else [(RAW/'diagnostics','secondary')]
-    if part=='summary':roots=[(RAW/'delivery','delivery'),(RAW/'offline/source','offline-source'),(R1/'design','design'),(R1/'evidence','evidence'),(R1/'model_bindings','model-bindings'),(ROOT/'code','code')]
+    if part=='summary':roots=[(RAW/'delivery','delivery'),(RAW/'offline/source','offline-source'),(R1/'design','design'),(R1/'evidence','evidence'),(R1/'model_bindings','model-bindings'),(ROOT/'code','code'),(R1/'code','secondary-code')]
     for folder,prefix in roots:
         for p in sorted(folder.rglob('*')):
             if p.is_file():
