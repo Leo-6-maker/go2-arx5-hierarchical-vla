@@ -1,0 +1,47 @@
+{
+  "actual_epsilon_tau_stock_noise_equal_between_arms": true,
+  "actual_inputs_match_each_contract_CPU_plan": true,
+  "actual_mode_restored": true,
+  "completed_ROT_units_checked": 555,
+  "gradient_queries": 0,
+  "microbatches_per_arm_checked": 1110,
+  "model_queries": 0,
+  "not_final_training_audit": true,
+  "observed_at": "2026-10-02T20:47:31.196671+00:00",
+  "prefix_sources": {
+    "OLD/main/training/S4_audit.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "0d4b157ca0b9b2b7faa52e8ab326936901584e84c3903071f1864c90d9271892"
+    },
+    "OLD/main/training/sample_audit.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "6e5ba5c012ade8a4dcd792e656ce229a817a005d1f59e0f59954e277ca2dc57e"
+    },
+    "OLD/main/training/step_rng.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "66f1dff1cb6dbbc61ed20f3b061f444cfa6507728465a07e45ccea9565b4ea54"
+    },
+    "ROT/main/training/S4_audit.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "da58285133f5558f207c2914eb39155c77d90a0445d5d8f11dcd8b40c5d225e6"
+    },
+    "ROT/main/training/sample_audit.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "d32c1f3d4d4a04cf92df8702a741faaac4ec178d15d34a0a2c5fade613c80a33"
+    },
+    "ROT/main/training/step_rng.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "d81850428badadcafdbc03c8a3fcc38fb689b933e36cac42328759dc50324ac2"
+    },
+    "evidence/input-audit/OLD/sample_audit.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "6e5ba5c012ade8a4dcd792e656ce229a817a005d1f59e0f59954e277ca2dc57e"
+    },
+    "evidence/input-audit/ROT/sample_audit.jsonl": {
+      "prefix_lines": 1110,
+      "sha256": "d32c1f3d4d4a04cf92df8702a741faaac4ec178d15d34a0a2c5fade613c80a33"
+    }
+  },
+  "selected_checkpoint": "NONE",
+  "status": "PASS_ACTUAL_COMPLETED_ROT_PREFIX_INPUT_AND_RANDOM_PACKET_PAIRING"
+}
