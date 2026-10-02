@@ -1,0 +1,141 @@
+{
+  "actual_physics_accounting": [
+    {
+      "actor_calls": 4000,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-004-M1-c0/attempt-00",
+      "ordinal": 1,
+      "simulated_seconds": 40.02,
+      "ticks": 2001
+    },
+    {
+      "actor_calls": 4000,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-004-M1-c1/attempt-00",
+      "ordinal": 2,
+      "simulated_seconds": 40.02,
+      "ticks": 2001
+    },
+    {
+      "actor_calls": 4000,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-004-M3-c0/attempt-00",
+      "ordinal": 3,
+      "simulated_seconds": 40.02,
+      "ticks": 2001
+    },
+    {
+      "actor_calls": 4000,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-004-M3-c1/attempt-00",
+      "ordinal": 4,
+      "simulated_seconds": 40.02,
+      "ticks": 2001
+    },
+    {
+      "actor_calls": 4000,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-005-M1-c0/attempt-00",
+      "ordinal": 5,
+      "simulated_seconds": 40.02,
+      "ticks": 2001
+    },
+    {
+      "actor_calls": 1480,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-005-M1-c1/attempt-00",
+      "ordinal": 6,
+      "simulated_seconds": 14.82,
+      "ticks": 741
+    },
+    {
+      "actor_calls": 4000,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-005-M3-c0/attempt-00",
+      "ordinal": 7,
+      "simulated_seconds": 40.02,
+      "ticks": 2001
+    },
+    {
+      "actor_calls": 920,
+      "attempt": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/diagnostics/WBC-expert-pi0265-family-005-M3-c1/attempt-00",
+      "ordinal": 8,
+      "simulated_seconds": 9.22,
+      "ticks": 461
+    }
+  ],
+  "checks": [
+    {
+      "case": "WBC-expert-pi0265-family-004-M1-c0",
+      "entry": null,
+      "independent_full_URDF_FK_SO3_rad": 2.550692473306637e-16,
+      "independent_full_URDF_FK_xyz_m": 3.495026562456435e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-004-M1-c1",
+      "entry": null,
+      "independent_full_URDF_FK_SO3_rad": 3.7987770654603355e-16,
+      "independent_full_URDF_FK_xyz_m": 3.554447978966673e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-004-M3-c0",
+      "entry": {
+        "acquired": null,
+        "broad": 280
+      },
+      "independent_full_URDF_FK_SO3_rad": 2.8143181938601934e-16,
+      "independent_full_URDF_FK_xyz_m": 3.6880726988814704e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-004-M3-c1",
+      "entry": {
+        "acquired": null,
+        "broad": null
+      },
+      "independent_full_URDF_FK_SO3_rad": 3.0539017265942256e-16,
+      "independent_full_URDF_FK_xyz_m": 3.8956806801599406e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-005-M1-c0",
+      "entry": null,
+      "independent_full_URDF_FK_SO3_rad": 2.7928509224031823e-16,
+      "independent_full_URDF_FK_xyz_m": 4.3523240583926777e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-005-M1-c1",
+      "entry": null,
+      "independent_full_URDF_FK_SO3_rad": 2.326341149472308e-16,
+      "independent_full_URDF_FK_xyz_m": 3.632164660233972e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-005-M3-c0",
+      "entry": {
+        "acquired": null,
+        "broad": null
+      },
+      "independent_full_URDF_FK_SO3_rad": 2.8474839886942766e-16,
+      "independent_full_URDF_FK_xyz_m": 3.447170978769293e-16,
+      "scorer_shared": true
+    },
+    {
+      "case": "WBC-expert-pi0265-family-005-M3-c1",
+      "entry": {
+        "acquired": null,
+        "broad": null
+      },
+      "independent_full_URDF_FK_SO3_rad": 2.779024842816777e-16,
+      "independent_full_URDF_FK_xyz_m": 3.381999021848396e-16,
+      "scorer_shared": true
+    }
+  ],
+  "local_witness_not_global_reachability_proof": true,
+  "model_queries": 0,
+  "new_physics": 0,
+  "original_budget": {
+    "actor_calls": 26400,
+    "control_ticks": 13208,
+    "simulate_calls": 52832,
+    "simulated_seconds": 264.1599940955639,
+    "starts": 8
+  },
+  "status": "PASS_INDEPENDENT_FULL_TREE_FK_AND_SHARED_SCORER"
+}

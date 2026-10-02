@@ -41,3 +41,13 @@ The first two fixed TRAIN expert M1 controls completed40s with recorded success.
 Primary virtual episodes are `VIRTUAL_EEF_KINEMATIC / NOT_WBC / NON_REALTIME_LOCKSTEP`. Expert controls are not learned-policy successes. This return closes only the offline lane, not the whole goal or a candidate qualification.
 
 `selected_checkpoint=NONE`; `deployment_selected_checkpoint=NONE`.
+
+## Expert-only secondary update — 2026-10-02 10:18 UTC
+
+All eight fixed expert WBC conditions are now VALID and independently replayed. Three M1 conditions meet the existing scorer; three M3 conditions fail the task criterion with no acquired observable entry; family005 M1 command1 and M3 command1 stop on the conservative local H40 `IK_RESIDUAL` witness. The latter does not prove global unreachability. No tolerance, teacher or WBC setting was changed.
+
+Full-tree FK replay across all eight actual root/DOF histories gives maximum XYZ difference 4.353e-16 m and SO3 difference 3.799e-16 rad. Shared-scorer replay and independent M3 entry reconstruction agree with the saved results. Eight actual physics starts consumed 13208 control ticks, 52832 simulate calls and 26400 actor calls; the recorded simulated duration is 264.159994 s. CPU replay added no model query or physical step.
+
+The three recorded successes use the original criterion-hit rule. Their final XYZ errors are 30.903, 30.957 and 23.977 mm; they must not be described as accurate terminal tracking for the whole 40 seconds. Existing movement/hold partitions and final errors are retained without changing the scoring rule.
+
+`evidence/EXPERT_ONLY_SECONDARY_CPU_REPLAY.json`, `EXPERT_ONLY_SECONDARY_VERDICT.json` and `EXPERT_ONLY_SECONDARY32.csv` preserve this intermediate snapshot: eight completed expert conditions and 24 explicitly NOT_RUN model conditions. `SECONDARY_PARTIAL` at this snapshot means the model conditions are still pending, not a completed secondary verdict. Primary virtual execution continues; the original 24 model WBC conditions remain required.
