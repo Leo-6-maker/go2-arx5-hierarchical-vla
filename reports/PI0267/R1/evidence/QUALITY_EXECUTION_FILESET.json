@@ -15,7 +15,7 @@
     },
     {
       "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_eval_report.py",
-      "sha256": "637c9c3a8c70e16f3252041a42577eac7e7d3a00f8c316d207f5bb55420e5d89"
+      "sha256": "f34a9eeed7cf03d51d01f66e7103905be14ddf71d2dad43e60bcd72598707b78"
     },
     {
       "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_video.py",
@@ -36,6 +36,14 @@
   "new_offline_noise": "already frozen E0 positions0..7",
   "offline_T0_shared_across_commands": true,
   "pre_query_reconciliation": "All actual model execution refusals remain failures even if an earlier pose satisfied task hold; original no-policy callback path unchanged. Numerical scorer/gate/physics untouched.",
+  "report_only_FP32_replay_fix": {
+    "complete_offline_replay_sha256": "5484a4b8797f8a6cae7f506048e6afd9bfd28fcbef486b7795434f125cd23aad",
+    "metric_and_gate_tolerances_unchanged": true,
+    "original_decoder_unchanged": true,
+    "reason": "Match original bridge final astype(float32) in CPU decoded-array comparison; all1648 original outputs replayed",
+    "timestamp_UTC": "2026-10-02T10:02:18.528015+00:00",
+    "worker_unchanged": true
+  },
   "reporting_addendum": "Instrumented native S4 latency; fixed nominal/recovery, task/command/stage errors and complete gate details; no query or metric change.",
   "status": "FROZEN_BEFORE_ANY_NEW_MODEL_QUALITY_QUERY",
   "training_admission": "Both real4096 endpoints and four complete audited local Trainer inventories; full HF preservation proceeds independently; each model-only fixed revision/file still fully verified.",

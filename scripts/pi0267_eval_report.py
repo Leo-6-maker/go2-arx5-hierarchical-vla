@@ -86,7 +86,7 @@ def primary():
             actual=tx[i+1] if i<3 else raw
             assert np.array_equal(expected,actual,equal_nan=True),('ACTUAL_NATIVE_BF16_EULER_REPLAY',path,i)
         if finite:
-            decoded=codec.decode(processor,raw[0],z['state']);difference=float(np.max(abs(decoded-z['decoded'][0])))
+            decoded=codec.decode(processor,raw[0],z['state']).astype(np.float32);difference=float(np.max(abs(decoded-z['decoded'][0])))
             assert difference<=1e-7,('ACTUAL_CODEC_CPU_REPLAY',path,difference)
         else:difference=None
         prediction_checks.append(dict(file=str(path),sha256=sha(path),native_Euler_four_steps_exact=True,codec_max_abs=difference))
