@@ -1,6 +1,6 @@
 {
   "schema": "PI0267_CONDITIONAL_STOP_COMPLETION_AUDIT_V1",
-  "status": "SCIENTIFIC_STOP_PROVEN_DELIVERY_PENDING_CANONICAL",
+  "status": "PASS_ALL_AUTHORIZED_EARLY_STOP_AND_DELIVERY_REQUIREMENTS",
   "scientific_overall": "PRIMARY_PARTIAL",
   "scientific_stop": "PRIMARY_BLOCKED_TEACHER_LIVENESS",
   "complete_learning_study": false,
@@ -95,9 +95,11 @@
       ]
     },
     {
-      "requirement": "Issue11 canonical return and exact readback",
-      "status": "PENDING_PUBLICATION",
-      "evidence": []
+      "requirement": "Issue11 canonical return and full-body readback",
+      "status": "PROVEN",
+      "evidence": [
+        "reports/PI0267/CANONICAL_READBACK.json"
+      ]
     }
   ],
   "counters": {
@@ -124,5 +126,7 @@
     "reports/PI0267/PUBLIC_RECEIPT.json": "da5586669a2c1f46b993350658558061eb41c2af353b89acdac1ebaaf077364e",
     "reports/PI0267/evidence/CPU_REPLAY.json": "2473856707c4422f2b83f16aabaaff18f84e4c92e34c3eb6dfc81220c13789f3",
     "reports/PI0267/evidence/S1_TEACHER_LIVENESS.json": "735baec252d79fe30d7e4b1c6b0fc937299382a36df5e735b291f4beac879827"
-  }
+  },
+  "canonical": 5943808755,
+  "canonical_body_sha256": "7dc306f95b28bbaf13464020f7e4ce020d8d4b25d13b17ea7823b5a6fea4c29f"
 }
