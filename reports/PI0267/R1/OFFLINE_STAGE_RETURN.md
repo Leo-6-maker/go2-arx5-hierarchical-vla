@@ -107,3 +107,22 @@ The original M1 rule records the first0.25s interval inside35mm/0.10rad; all13 s
 All32 M3 episodes have zero completed bins and fail with MISSING_ENTRY. Only one E1 trajectory achieves broad readiness; none acquires V3 entry. The installed-position/orientation arrays likewise acquire no entry. E0 actual and installed positions are exactly equal throughout, with zero maximum same-tick position error. Thus these E0 failures are already present in the generated/installed motion; attributing them to physical WBC tracking or only to lag is unsupported. E1 maximum same-tick position errors are4.763mm for M1 and4.142mm for M3. Installed-reference entry replay is an array diagnostic, not an extra episode or a robot result.
 
 The small decomposition reader validates the exact64-case set, result/card/trajectory hashes, original final metrics and independent M3 entry before summarizing. Its incomplete-N guard was also exercised and rejected the partial point without writing a result. N/R comparisons will use the same reader only after each complete fixed point is available; no partial result is promoted to a final verdict.
+
+## Completed N4096 virtual point — 2026-10-02 14:07 UTC
+
+All64 fixed N conditions are VALID and complete; R has started automatically with its original frozen model/card. N consumes6210 queries. Its original recorded groups are:
+
+| Task/backend | Success/16 | Command0/8 | Command1/8 | Actual collision episodes | Original qualification |
+|---|---:|---:|---:|---:|---|
+| M1/E0 |13|6|7|2|FAIL: safety|
+| M1/E1 |13|6|7|2|FAIL: safety|
+| M3/E0 |0|0|0|0|FAIL: task|
+| M3/E1 |0|0|0|0|FAIL: task|
+
+All6210 gate decisions are ACCEPT, but four M1 episodes encounter actual virtual-tool collision: family030/c0/E0 at12.62s, family033/c0/E0 at17.78s, family028/c0/E1 at18.42s and family034/c0/E1 at34.06s. The original collision termination and failed outcomes remain intact. Increased M1 first-hold success relative to donor does not satisfy the original safety requirements.
+
+`evidence/VIRTUAL_DECOMPOSITION_N4096.json` applies the same complete-point fixed-array reader used for donor. All32 M3 conditions lack both installed and achieved V3 entry, with no broad readiness and zero bins. E0 follows its installed positions exactly. All26 originally successful M1 conditions end outside the original pose bounds; full-window median achieved final XYZ errors are602.887mm (E0) and375.065mm (E1). Median per-episode same-tick E1 tracking RMS is1.902mm for M1 and0.862mm for M3. N's stronger early M1 reach/hold count does not establish persistent terminal stability or complete-task qualification.
+
+The N point is unqualified under the unchanged criteria. R is not cancelled or modified. The full192-case prediction/scorer CPU replay and paired study verdict remain pending; this point-specific array decomposition does not claim that larger scope. PUBLIC raw-result archival runs independently while local originals remain retained. At launch, actual filesystem free space was844999172096bytes; quota headroom remains UNKNOWN.
+
+N raw archive subsequently completed at fixed PUBLIC revision `57890d1dcfba2e9663db2ee7dc6141296b9bd282`, repo `leoyuer/pi0246-gate-pass-campaign`, prefix `evidence/PI0267/R1/final-results-20261002/N4096`. Anonymous full-file and all33706-member readback passed; source bytes1138673166, tree SHA256 `9f293ca5e2984448a9a42bedfe7c9be144b3196a36879f8553436acad708f5ff`. Receipt: `evidence/RESULT_ARCHIVE_N4096.json`. Local originals remain protected. At14:11 UTC, R has2/64 completed conditions and its next original condition is actively producing predictions.
