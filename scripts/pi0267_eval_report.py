@@ -24,6 +24,15 @@ def csv_write(path,rows):
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
 
 
+def latency_report():
+    rows=[]
+    for path in sorted(RAW.rglob('*prediction.receipt.json')):
+        rec=read(path)
+        if 'model_latency_s' in rec:
+            rows.append(dict(point=rec['point'],lane=path.relative_to(RAW).parts[0],attempt=rec['attempt'],model_latency_s=rec['model_latency_s'],receipt=str(path)))
+    csv_write(RAW/'delivery/MODEL_LATENCY.csv',rows)
+
+
 def independent_metrics(decoded,expert):
     from scipy.spatial.transform import Rotation
     def matrices(x):
@@ -143,12 +152,7 @@ def primary():
                 finite=[r for r in group if not r['valid_numerical_failure']]
                 values=[np.percentile([r[k] for r in finite],[50,95]).tolist() if finite else None for k in ('xyz_rmse_m','so3_rmse_rad')]
                 lines.append(f"| {point} | {window} | {task} | {command} | {stage} | {len(group)} | {len(finite)} | {values[0]} | {values[1]} | {sum(r['gate']=='REJECT' for r in group)} |")
-    latency=[]
-    for path in sorted(RAW.rglob('prediction.receipt.json')):
-        rec=read(path)
-        if 'model_latency_s' in rec:
-            latency.append(dict(point=rec['point'],lane=path.relative_to(RAW).parts[0],attempt=rec['attempt'],model_latency_s=rec['model_latency_s'],receipt=str(path)))
-    csv_write(out/'MODEL_LATENCY.csv',latency)
+    latency_report()
     lines+=['','Model latency is recorded separately in MODEL_LATENCY.csv: instrumented native get_action wall time including trace/CPU snapshots, excluding input preprocessing, later evidence serialization and physical execution. Simulation pauses for inference; this is not real-time throughput.',
         'OFFLINE2088.csv retains complete gate details, numerical failures and fixed task/command/stage/window identifiers.',
         '','New-domain arclength-teacher RMSE and OLD time-paced-reference RMSE answer different questions. Donor legacy440 is exact-cache reuse.',
@@ -212,6 +216,7 @@ def secondary():
     write(out/'SECONDARY_VERDICT.json',dict(status='SECONDARY_COMPLETE' if all(r['validity']=='VALID' for r in table) else 'SECONDARY_PARTIAL',
         outcomes=table,actual_model_attempts_including_invalid=actual_queries,scope='First-two-TRAIN WBC executor-transfer diagnostic / domain shift and following separate',
         does_not_change_primary_learning=True,selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
+    latency_report()
     print(json.dumps(dict(rows=len(table),valid=sum(r['validity']=='VALID' for r in table),successes=sum(r['success'] for r in table),physics=budget)),flush=True)
 
 
