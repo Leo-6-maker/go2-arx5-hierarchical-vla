@@ -167,3 +167,21 @@ The eight completed expert WBC conditions remain a separate3/8-success physical 
 ### Actual query-to-execution chain replay
 
 `QUERY_CHAIN_REPLAY_donor.json` and `QUERY_CHAIN_REPLAY_N4096.json` close all6400 donor and6210 N queries. Every saved query uses its actual preceding trajectory state and timestamp; its StateV1 and saved model input state agree exactly. Source observation/prediction hashes, model point, frozen family/noise key and actual noise bytes are checked. Replaying the original shared E0/E1 prefix function reproduces installed/achieved positions and rotations within the1e-12 replay bound, including collision-truncated prefixes. Maximum coordinate/matrix-element differences are5.5511151231257827e-16 (donor) and4.4408920985006262e-16 (N). This is saved-input/chain validation and shared executor replay, not an independent renderer, model prediction or physical simulation. It adds zero model queries/renders/physics steps. R is checked only after its full point closes. An initial local report-copy assertion incorrectly required exact zero and stopped before copying/publishing; the original CPU receipts correctly retain their actual floating-point differences.
+
+
+### Frozen recovery-variant breakdown
+
+The complete existing offline records localize R's86 new-domain rejections to variants1–4. Original variants pair a10mm world-axis position displacement with a same-sign0.060rad world-axis rotation; they are not isolated position-only or orientation-only interventions. Original source/card hashes and all2088 row hashes/gate codes are retained in `OFFLINE_VARIANT_GATE_BREAKDOWN.json`.
+
+| Recovery variant | Joint perturbation | Rows | R REJECT | R median XYZ RMSE mm |
+|---|---|---:|---:|---:|
+|1|+X / +rotation-X|22|22|390.455|
+|2|-X / -rotation-X|22|22|717.908|
+|3|+Y / +rotation-Y|21|21|1136.967|
+|4|-Y / -rotation-Y|21|21|2847.566|
+|5|+Z / +rotation-Z|21|0|19.278|
+|6|-Z / -rotation-Z|21|0|13.484|
+
+Donor and N have zero REJECT in every variant. R's X/Y combined variants fail86/86 while its Z combined variants pass the gate42/42. Across R recovery,73 rows carry LINEAR_SPEED_REJECT,40 ANGULAR_SPEED_REJECT and31 PATH_LENGTH_SANITY; these overlapping issue counts are not separate failed rows. R's128 legacy rejections all include LINEAR_SPEED_REJECT, with86 path-length and63 angular-speed co-occurrences. Original threshold provenance is retained; TEST_ONLY in the gate's existing provenance describes threshold origin, not access to protected TEST data. No threshold or gate is changed.
+
+This is a descriptive localization on the frozen evaluation panel, not proof of a rotation-only, normalizer or training-fit cause. Position, orientation and rendered input change together, and variant assignment is fixed across different windows. No additional model query, intervention, TRAIN probe or recipe change follows from this breakdown.
