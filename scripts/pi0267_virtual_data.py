@@ -16,12 +16,12 @@ from go2arx5_vla.safety import TrajectorySafetyGateV1,GateDecision
 RAW=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1/S2')
 
 
-def raw_gate(p,r,current_p,current_r,anchor):
-    t=np.arange(40)*.05
-    chunk=TrajectoryChunkV1(chunk_id='PI0267-virtual-label',source='ARCLENGTH_EXP_CORRECTION_V1',observation_timestamp=0.,
+def raw_gate(p,r,current_p,current_r,anchor,now=0.,source='ARCLENGTH_EXP_CORRECTION_V1',gripper=None):
+    t=now+np.arange(40)*.05
+    chunk=TrajectoryChunkV1(chunk_id='PI0267-virtual-label',source=source,observation_timestamp=now,
         point_timestamps=t,eef_position=p-anchor,eef_orientation=Rotation.from_matrix(r).as_quat(),source_frame='PI0267_STATIC_POLICY_ANCHOR_WORLD_AXES',
-        tcp_semantic_id='PI0267_VIRTUAL_TOOL_TCP_V1',validity_start=0.,validity_end=float(t[-1]),gripper=np.full(40,.5))
-    return TrajectorySafetyGateV1().evaluate(chunk,now=0.,achieved_position=current_p-anchor,
+        tcp_semantic_id='PI0267_VIRTUAL_TOOL_TCP_V1',validity_start=now,validity_end=float(t[-1]),gripper=np.full(40,.5) if gripper is None else gripper)
+    return TrajectorySafetyGateV1().evaluate(chunk,now=now,achieved_position=current_p-anchor,
         achieved_orientation=Rotation.from_matrix(current_r).as_quat()).as_dict()
 
 

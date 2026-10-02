@@ -35,7 +35,7 @@ def check_cache(physics_time, xyz_error, so3_error):
     return 'PRE_FIRST_POST_PHYSICS_OFFSET_UPDATE'
 
 
-def run(case_id):
+def run(case_id, *, policy_query=None, geometry_worker_path=None):
     verify_sources();seal=read(ROOT/'design/TEACHER_EXECUTION_SEAL.json')
     for rel,digest in seal['files'].items():assert sha(ROOT/rel)==digest,rel
     card=read(ROOT/'design/SCENE_CARD.json');cases=read(ROOT/'design/TEACHER_CARD.json')['diagnostics']+read(ROOT/'design/TEACHER_CARD.json')['collection']
@@ -55,11 +55,11 @@ def run(case_id):
     def fk(n):
         root=n.root_states[0].detach().cpu().numpy();q=np.array([n.dof_pos[0,n.dof_names.index(j)].item() for j in kin.joint_names]);pose=kin.tcp_pose(q)
         r=Rotation.from_quat(root[3:7]).as_matrix();return r@pose[:3,3]+root[:3],r@pose[:3,:3]
-    def chunk(p,r,anchor,now):
+    def chunk(p,r,anchor,now,gripper=None):
         t=now+np.arange(len(p))*.05
         return TrajectoryChunkV1(chunk_id=case_id+'-%04d'%tick[0],source='PI0266_'+case['expert'],observation_timestamp=now,
             point_timestamps=t,eef_position=p-anchor,eef_orientation=Rotation.from_matrix(r).as_quat(),source_frame=api.SOURCE_FRAME,
-            tcp_semantic_id=api.TCP_SEMANTIC_ID,validity_start=now,validity_end=float(t[-1]),gripper=np.full(len(t),.5))
+            tcp_semantic_id=api.TCP_SEMANTIC_ID,validity_start=now,validity_end=float(t[-1]),gripper=np.full(len(t),.5) if gripper is None else gripper)
     def immutable(n,env):
         values={k:api._tensor_hash(getattr(n,k)) for k in ('root_states','dof_state','rigid_body_state','end_effector_state','episode_length_buf','reset_buf','traj_sim_time','traj_s') if hasattr(n,k)}
         state=np.random.get_state();values.update(time=clock(n),python_rng=repr(random.getstate()),numpy_rng=[state[0],array_sha(state[1]),*state[2:]],
@@ -103,6 +103,7 @@ def run(case_id):
                         write(out/'physics_started.json',dict(case=case_id,pid=os.getpid(),epoch=time.time(),ordinal=budget['starts'],state=before))
                         np.savez_compressed(out/'pre_first_step.npz',root=self.root_states.detach().cpu().numpy(),dof=self.dof_state.detach().cpu().numpy(),
                             torch_rng=torch.get_rng_state().numpy(),cuda_rng=torch.cuda.get_rng_state().cpu().numpy())
+                    assert abs(self.dt-caps['control_dt'])<=1e-9 and int(self.cfg.control.decimation)==caps['decimation'] and int(self.cfg.sim.substeps)==caps['sim_substeps']
                     assert budget['control_ticks']<caps['hard_control_ticks'] and budget['simulated_seconds']+self.dt<=caps['hard_simulated_seconds']+1e-6
                     forwards=2 if self.stage21_wbc_forward_count else 0;assert budget['actor_calls']+forwards<=caps['hard_actor_calls']
                     budget['control_ticks']+=1;budget['simulate_calls']+=int(self.cfg.control.decimation);budget['simulated_seconds']+=float(self.dt);budget['actor_calls']+=forwards
@@ -136,7 +137,7 @@ def run(case_id):
         write(out/'task_spec.json',spec);write(out/'task_binding.json',dict(post_initialization_pose=pose.tolist(),normal_seed=case['reset_seed'],native_anchor=anchor.tolist(),policy_anchor=policy_anchor.tolist(),robot_state_unchanged=True))
         worker_env=dict(os.environ,PYTHONPATH=':'.join(map(str,[ROOT/'code',REF/'src',BASE/'PI0256/runtime'])))
         for name in ('LD_LIBRARY_PATH','LD_PRELOAD'):worker_env.pop(name,None)
-        worker=subprocess.Popen([str(BASE/'PI0250/runtime/venv/bin/python'),str(ROOT/'code/pi0266_geometry_worker.py')],env=worker_env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
+        worker=subprocess.Popen([str(BASE/'PI0250/runtime/venv/bin/python'),str(geometry_worker_path or ROOT/'code/pi0266_geometry_worker.py')],env=worker_env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
         ready=json.loads(worker.stdout.readline());assert ready['ready'];write(out/'collision_exclusions.json',ready)
         def query(kind,extra=None):
             row=dict(kind=kind,root=native.root_states[0].detach().cpu().tolist(),joints={name:native.dof_pos[0,i].item() for i,name in enumerate(native.dof_names)},
@@ -175,9 +176,15 @@ def run(case_id):
                         current=snapshot(native)
                         pre.update(installed_before_handoff=pre['installed'],installed=current['installed'],installed_rotation=current['installed_rotation'],cursor=current['cursor'])
                 else:
-                    lp,lr,metadata=expert.label(p,r);label=np.c_[lp-policy_anchor,lr[:,:2,:].reshape(40,6),np.full(40,.5)].astype(np.float32)
+                    if policy_query is None:
+                        lp,lr,metadata=expert.label(p,r);label=np.c_[lp-policy_anchor,lr[:,:2,:].reshape(40,6),np.full(40,.5)].astype(np.float32)
+                    else:
+                        lp,lr,label,metadata=policy_query(state,body,wrist,p,r,now,out,tick[0])
+                        result['GR00T_queries']+=1
+                        if not metadata['valid_label']:
+                            failure=metadata['reason'];break
                     folder=out/'windows'/('%04d'%tick[0]);folder.mkdir();proposal=folder/'proposal.npz';np.savez_compressed(proposal,state_v1=state,raw_action=label,position_world=lp,rotation_world=lr,time=now)
-                    c=chunk(lp,lr,anchor,now);verdict=gate.evaluate(c,now=now,achieved_position=p-anchor,achieved_orientation=Rotation.from_matrix(r).as_quat())
+                    c=chunk(lp,lr,anchor,now,gripper=label[:,9]);verdict=gate.evaluate(c,now=now,achieved_position=p-anchor,achieved_orientation=Rotation.from_matrix(r).as_quat())
                     checks=None;reason=None
                     if not metadata['valid_label']:reason='NO_LABEL_PHASE_ALIAS'
                     elif verdict.decision is GateDecision.REJECT:reason='ORIGINAL_RAW_GATE_REJECT'

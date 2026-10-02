@@ -45,6 +45,12 @@ def inputs():
 
 
 def complete():
+    import sys
+    sys.path[:0]=[str(Path(__file__).resolve().parent),'/scratch/e1192548/Projects/go2-arx5/experiments/PI0264/code',
+        '/scratch/e1192548/Projects/go2-arx5/experiments/PI0263/code',
+        '/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution',
+        '/scratch/e1192548/pi0244_fixed16_10k_v1/scripts','/scratch/e1192548/pi0244_fixed16_10k_v1/src',
+        '/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t']
     import pi0264_training_audit as old
     import pi0264_archive_trainer as archive
     from pi0267_train import seed_for
