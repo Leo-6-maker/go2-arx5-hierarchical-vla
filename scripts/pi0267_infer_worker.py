@@ -39,9 +39,12 @@ def main(point):
     from gr00t.data.embodiment_tags import EmbodimentTag
     import pi0242_train_infer_bridge as bridge
     import stage21_same_scene_groot_inference as stage21
+    from stage40_b0_model_control import _bind_local_cosmos_processor
     card=read(R1/'design/EVALUATION_CARD.json');binding=read(R1/'model_bindings'/(point+'.json'))
     assert binding['view_type']=='model-only' and binding['point']==point
     for name,digest in binding['model_files_sha256'].items():assert sha(Path(binding['view'])/name)==digest
+    cosmos=BASE/'PI0250/inputs/frozen_v1/cosmos_snapshot'
+    assert _bind_local_cosmos_processor(Path('/home/liuyu-nfs/Projects/isaac-gr00t'),cosmos)['resolved_snapshot']==str(cosmos.resolve())
     proc=build(read(R1/'design/statistics.json'),BASE/'PI0250/inputs/frozen_v1/cosmos_snapshot')
     assert sha(R1/'design/statistics.json')==card['statistics_sha256']
     model=AutoModel.from_pretrained(binding['view'],local_files_only=True,trust_remote_code=True).eval().to('cuda:0',dtype=torch.bfloat16)
