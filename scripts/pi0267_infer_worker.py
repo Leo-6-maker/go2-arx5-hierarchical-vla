@@ -104,7 +104,7 @@ def main(point):
         assert decoded.shape==(1,40,10)
         finite=bool(np.isfinite(raw).all() and np.isfinite(decoded).all())
         receipt=dict(status='VALID',point=point,binding=binding,input_sha256=input_identity,noise_sha256=row['noise_sha256'],
-            attempt=ordinal,heads=4,native_S4=True,initial_noise_dtype='torch.bfloat16',
+            attempt=ordinal,heads=4,native_S4=True,model_latency_s=float(stock['elapsed_s']),initial_noise_dtype='torch.bfloat16',
             source_noise_dtype='numpy.float32',finite_output=finite,decode_failure=decode_failure,no_teacher_or_privileged_condition=True)
         output.parent.mkdir(parents=True,exist_ok=True);temp=output.with_suffix('.partial.npz')
         np.savez_compressed(temp,raw=raw,decoded=decoded,state=packet['state_v1'],noise=noise,actual_initial_noise=actual_noise,

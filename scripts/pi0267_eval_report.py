@@ -93,7 +93,11 @@ def primary():
                     worst=max(abs(computed[k]-metrics[k]) for k in computed);assert worst<=1e-6,(point,domain,rec['row']['uid'],worst)
                 else:worst=None
                 metric_checks.append(dict(point=point,domain=domain,uid=rec['row']['uid'],independent_metrics_max_abs=worst))
-                offline.append(dict(point=point,domain=domain,uid=rec['row']['uid'],gate=rec['gate']['decision'],**(metrics or {})))
+                row=rec['row']
+                offline.append(dict(point=point,domain=domain,uid=row['uid'],gate=rec['gate']['decision'],
+                    gate_details=json.dumps(rec['gate'],sort_keys=True),valid_numerical_failure=metrics is None,
+                    family=row.get('family'),task=row.get('task'),command=row.get('command'),ell_fraction=row.get('ell_fraction'),
+                    variant=row.get('variant'),window=('recovery' if row['variant'] else 'nominal') if domain=='new' else 'OLD_TIME_PACED',**(metrics or {})))
     groups=[]
     for point in points:
         own=[r for r in rows if r['point']==point]
@@ -127,7 +131,27 @@ def primary():
             own=[r for r in offline if (r['point'],r['domain'])==(point,domain)];finite=[r for r in own if 'xyz_rmse_m' in r]
             xyz=float(np.median([r['xyz_rmse_m'] for r in finite])) if finite else None;angle=float(np.median([r['so3_rmse_rad'] for r in finite])) if finite else None
             lines.append(f"| {point} | {domain} | {xyz} | {angle} | {sum(r['gate']=='REJECT' for r in own)}/{len(own)} |")
-    lines+=['','New-domain arclength-teacher RMSE and OLD time-paced-reference RMSE answer different questions. Donor legacy440 is exact-cache reuse.',
+    lines+=['','## Fixed new-domain window and subgroup errors','',
+        '| Point | Window | Task | Command | Arc fraction | Rows | Finite | Median/p95 XYZ RMSE m | Median/p95 SO3 RMSE rad | REJECT |',
+        '|---|---|---|---|---|---|---|---|---|---|']
+    for point in points:
+        for window in ('nominal','recovery'):
+            own=[r for r in offline if r['point']==point and r['domain']=='new' and r['window']==window]
+            keys=[(None,None,None)]+sorted({(r['task'],r['command'],r['ell_fraction']) for r in own})
+            for task,command,stage in keys:
+                group=own if task is None else [r for r in own if (r['task'],r['command'],r['ell_fraction'])==(task,command,stage)]
+                finite=[r for r in group if not r['valid_numerical_failure']]
+                values=[np.percentile([r[k] for r in finite],[50,95]).tolist() if finite else None for k in ('xyz_rmse_m','so3_rmse_rad')]
+                lines.append(f"| {point} | {window} | {task} | {command} | {stage} | {len(group)} | {len(finite)} | {values[0]} | {values[1]} | {sum(r['gate']=='REJECT' for r in group)} |")
+    latency=[]
+    for path in sorted(RAW.rglob('prediction.receipt.json')):
+        rec=read(path)
+        if 'model_latency_s' in rec:
+            latency.append(dict(point=rec['point'],lane=path.relative_to(RAW).parts[0],attempt=rec['attempt'],model_latency_s=rec['model_latency_s'],receipt=str(path)))
+    csv_write(out/'MODEL_LATENCY.csv',latency)
+    lines+=['','Model latency is recorded separately in MODEL_LATENCY.csv: instrumented native get_action wall time including trace/CPU snapshots, excluding input preprocessing, later evidence serialization and physical execution. Simulation pauses for inference; this is not real-time throughput.',
+        'OFFLINE2088.csv retains complete gate details, numerical failures and fixed task/command/stage/window identifiers.',
+        '','New-domain arclength-teacher RMSE and OLD time-paced-reference RMSE answer different questions. Donor legacy440 is exact-cache reuse.',
         'VIRTUAL192.csv preserves the full fixed denominator and failures; OFFLINE2088.csv preserves all rows. Candidate qualification uses each task/backend and command subgroup, without replacing them by averages.',
         'Independent CPU path replays saved BF16 Euler operations and decoder outputs, separately computes row-6D/geodesic metrics and entry geometry; the task scorer remains shared and is disclosed.',
         'This is procedural virtual-tool/new-geometry transfer with one fixed sampler stream. It does not establish physical, hardware or cross-embodiment generalization. Bounded WBC results are reported separately.','']

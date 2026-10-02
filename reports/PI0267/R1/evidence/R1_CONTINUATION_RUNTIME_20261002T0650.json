@@ -1,0 +1,61 @@
+{
+  "canonical": 5946697772,
+  "checkpoints": [
+    {
+      "arm": "N",
+      "bytes": 20882751041,
+      "files": 16,
+      "step": 2048,
+      "trainer_step": 2048
+    },
+    {
+      "arm": "N",
+      "bytes": 20883035426,
+      "files": 16,
+      "step": 4096,
+      "trainer_step": 4096
+    },
+    {
+      "arm": "R",
+      "bytes": 0,
+      "files": 0,
+      "step": 2048,
+      "trainer_step": null
+    },
+    {
+      "arm": "R",
+      "bytes": 0,
+      "files": 0,
+      "step": 4096,
+      "trainer_step": null
+    }
+  ],
+  "compute_pid_direct_readback": "UNAVAILABLE: SSH command returned1; PBS session_id is scheduler evidence only",
+  "deployment_selected_checkpoint": "NONE",
+  "full_readbacks": [
+    {
+      "arm": "N",
+      "revision": "3de45ea32dc4bd326426385a574285fbad30bbd3",
+      "status": "PASS_FULL_FILE_READBACK",
+      "step": 2048,
+      "tree_sha256": "17c19f64b163baa797d47df6740d74909e0a7bcee7c326ffd5de9fec486b1759"
+    },
+    {
+      "arm": "N",
+      "revision": "af14a83857df699d449df9ce002a0005cf3cb871",
+      "status": "PASS_FULL_FILE_READBACK",
+      "step": 4096,
+      "tree_sha256": "d6e0009dbec0c5909eaca142737b2a7fb27bc6e7a80ae33f3e63bfbfa030c51c"
+    }
+  ],
+  "job": "642638.hopper-m-02",
+  "qstat": "Job Id: 642638.hopper-m-02\n    Job_Name = pi0267_nr_4096\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 123\n    resources_used.cput = 03:15:13\n    resources_used.mem = 18166624kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 69896848kb\n    resources_used.walltime = 02:51:35\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  2 11:44:58 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0267/logs/\n    exec_host = hopper-25/5*12\n    exec_vnode = (hopper-25:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  2 14:50:06 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0267/logs/\n    Priority = 0\n    qtime = Fri Oct  2 11:44:58 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    stime = Fri Oct  2 11:58:28 2026\n    session_id = 1333452\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 02 at 11:58 on (hopper-25:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Fri Oct  2 11:44:58 2026\n    run_count = 1\n    Submit_arguments = -m n /scratch/e1192548/Projects/go2-arx5/experiments/PI0\n\t267/code/pi0267_main.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "raw_updates": 5369,
+  "release": "9e55c962b1208c0e0f0d887cf57af616c61497ff",
+  "selected_checkpoint": "NONE",
+  "updates": {
+    "N": 4096,
+    "R": 1237
+  },
+  "utc": "2026-10-02T06:50:47.410567+00:00"
+}
