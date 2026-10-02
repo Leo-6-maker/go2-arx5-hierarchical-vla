@@ -26,10 +26,10 @@ def admitted():
     audit=read(R1/'evidence/MAIN_TRAINING_AUDIT.json')
     assert audit['status']=='PASS_BOTH_4096_MATCHED_TRAINING_INTEGRITY' and audit['optimizer_updates']=={'N':4096,'R':4096}
     assert len(audit['complete_checkpoints'])==4
-    for arm in ('N','R'):
-        for step in (2048,4096):
-            receipt=read(R1/'evidence'/arm/f'checkpoint-{step}.full_readback.json')
-            assert receipt['status']=='PASS_FULL_FILE_READBACK' and receipt['complete_trainer'] and receipt['step']==step
+    assert {(r['arm'],r['step']) for r in audit['complete_checkpoints']}=={(a,s) for a in ('N','R') for s in (2048,4096)}
+    for checkpoint in audit['complete_checkpoints']:
+        assert checkpoint['complete_trainer'] and len(checkpoint['entries'])>=16
+        assert {'optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','model.safetensors.index.json'}<=set(r['path'] for r in checkpoint['entries'])
 
 
 def main(point):

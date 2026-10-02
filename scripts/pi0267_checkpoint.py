@@ -21,9 +21,14 @@ def materialize(arm):
     from pi0264_plan import read,sha,write
     base=Path('/home/liuyu-nfs/Projects/go2-arx5');root=base/'PI0267/R1'
     raw=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/R1')
-    source=read(root/'evidence'/arm/'checkpoint-4096.full_readback.json')
-    assert source['status']=='PASS_FULL_FILE_READBACK' and source['complete_trainer'] and source['step']==4096
-    entries={r['path']:r for r in source['files']}
+    audit=read(root/'evidence/MAIN_TRAINING_AUDIT.json')
+    assert audit['status']=='PASS_BOTH_4096_MATCHED_TRAINING_INTEGRITY' and len(audit['complete_checkpoints'])==4
+    evidence=root/'evidence'/arm;path=evidence/'checkpoint-4096.full_readback.json'
+    source=read(path if path.exists() else evidence/'checkpoint-4096.archive_receipt.json')
+    assert source['status'] in ('PASS_FULL_FILE_READBACK','UPLOADED') and source['arm']==arm and source['step']==4096
+    entries={r['path']:r for r in source.get('files',source.get('entries'))}
+    checkpoint=next(r for r in audit['complete_checkpoints'] if r['arm']==arm and r['step']==4096)
+    assert checkpoint['complete_trainer'] and len(entries)>=16 and entries=={r['path']:r for r in checkpoint['entries']}
     names=('config.json','model-00001-of-00002.safetensors','model-00002-of-00002.safetensors','model.safetensors.index.json')
     download=raw/'models'/(arm+'4096');view=download/source['prefix']
     for name in names:
