@@ -7,7 +7,7 @@ from pathlib import Path
 
 def archive(arm,step):
     online=Path('/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/runtime/hf_online')
-    os.environ.update(HF_HOME=str(online),HF_XET_CACHE=str(online/'xet'),HF_HUB_OFFLINE='0',TRANSFORMERS_OFFLINE='0')
+    os.environ.update(HF_HOME=str(online),HF_XET_CACHE=str(online/'xet'),HF_HUB_OFFLINE='0',TRANSFORMERS_OFFLINE='0',HF_HUB_DISABLE_PROGRESS_BARS='1')
     import pi0264_archive_trainer as old
     old.ROOT=old.ROOT.with_name('PI0267')
     old.main(arm,step,max_steps=4096,campaign='PI0267',token=(Path.home()/'.config/huggingface/token').read_text().strip())

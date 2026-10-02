@@ -63,7 +63,7 @@ def primary():
     prediction_checks=[]
     for path in sorted(RAW.rglob('prediction.npz')):
         if '/offline/' not in str(path) and '/virtual/' not in str(path):continue
-        z=np.load(path);raw=z['raw'];finite=bool(np.isfinite(raw).all())
+        z=np.load(path);raw=z['raw'];finite=bool(np.isfinite(raw).all() and np.isfinite(z['decoded']).all())
         assert np.array_equal(z['actual_initial_noise'],torch.from_numpy(z['noise']).to(torch.bfloat16).float().numpy())
         tx,tv=z['trace_x'],z['trace_v'];assert tx.shape==tv.shape==(4,1,40,132)
         worst=0.
@@ -111,6 +111,27 @@ def primary():
         groups=groups,virtual_research_candidates=candidates,virtual_episodes=192,offline_rows=2088,legacy_donor_cache=440,
         old_V2_FAIL_preserved=True,V3_contract_change_not_learning_gain=True,scope='New geometries / procedural virtual tool / one fixed noise stream / not cross-robot',
         selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
+    lines=['# PI0267-R1 fixed primary quality','','Actual N4096/R4096; common pinned donor; selected/deployment NONE.','',
+        'Original PRIMARY_PARTIAL/V2/64 remain unchanged. V3 readmission is an entry-contract change; it is not a learned gain.','',
+        '| Point | Task/backend | Success | Command0/1 | Dangerous collision | Original qualification |','|---|---|---|---|---|---|']
+    for g in groups:lines.append(f"| {g['point']} | {g['task']}/{g['backend']} | {g['success']}/16 | {g['command_success'][0]}/8, {g['command_success'][1]}/8 | {g['dangerous_collisions']} | {'PASS' if g['PASS'] else 'FAIL'} |")
+    lines+=['','Qualified virtual research candidates: '+(', '.join(candidates) or 'NONE')+'. No formal selection or deployment.',
+        '','## Fixed paired scene outcomes','','| Family/task/command/backend | Donor | N | R |','|---|---|---|---|']
+    for key in sorted({(r['family'],r['task'],r['command'],r['backend']) for r in rows}):
+        own={r['point']:r for r in rows if (r['family'],r['task'],r['command'],r['backend'])==key}
+        lines.append('| '+ '/'.join(map(str,key))+' | '+' | '.join(('PASS' if own[p]['success'] else 'FAIL: '+str(own[p]['reason'])) for p in points)+' |')
+    lines+=['','## Offline diagnostics under separate reference contracts','',
+        '| Point | Domain | Median XYZ RMSE m | Median SO3 RMSE rad | REJECT/rows |','|---|---|---|---|---|']
+    for point in points:
+        for domain in ('new','legacy'):
+            own=[r for r in offline if (r['point'],r['domain'])==(point,domain)];finite=[r for r in own if 'xyz_rmse_m' in r]
+            xyz=float(np.median([r['xyz_rmse_m'] for r in finite])) if finite else None;angle=float(np.median([r['so3_rmse_rad'] for r in finite])) if finite else None
+            lines.append(f"| {point} | {domain} | {xyz} | {angle} | {sum(r['gate']=='REJECT' for r in own)}/{len(own)} |")
+    lines+=['','New-domain arclength-teacher RMSE and OLD time-paced-reference RMSE answer different questions. Donor legacy440 is exact-cache reuse.',
+        'VIRTUAL192.csv preserves the full fixed denominator and failures; OFFLINE2088.csv preserves all rows. Candidate qualification uses each task/backend and command subgroup, without replacing them by averages.',
+        'Independent CPU path replays saved BF16 Euler operations and decoder outputs, separately computes row-6D/geodesic metrics and entry geometry; the task scorer remains shared and is disclosed.',
+        'This is procedural virtual-tool/new-geometry transfer with one fixed sampler stream. It does not establish physical, hardware or cross-embodiment generalization. Bounded WBC results are reported separately.','']
+    (out/'PRIMARY_REPORT.md').write_text('\n'.join(lines))
     print(json.dumps(dict(status='PRIMARY_COMPLETE',groups=groups,candidates=candidates)),flush=True)
 
 
@@ -127,8 +148,9 @@ def secondary():
         paths=sorted((RAW/'diagnostics'/case['case_id']).glob('attempt-*/result.json'));valid=[p for p in paths if read(p)['validity']=='VALID']
         assert len(valid)<=1
         if not valid:
+            attempted=sum(1 for p in (RAW/'diagnostics'/case['case_id']).glob('attempt-*/model/*prediction.receipt.json'))
             table.append(dict(case=case['case_id'],point=case['point'],family=case['family']['family_id'],task=case['task'],command=case['command'],
-                validity='NOT_RUN_OR_ENGINEERING_INCOMPLETE',success=False,reason='SECONDARY_SYSTEM_DEFECT' if paths else 'NOT_RUN',new_model_queries=0));continue
+                validity='NOT_RUN_OR_ENGINEERING_INCOMPLETE',success=False,reason='SECONDARY_SYSTEM_DEFECT' if paths else 'NOT_RUN',new_model_queries=attempted));continue
         path=valid[0];result=read(path);states=read(path.parent/'rows.json');entrycheck=None
         if (path.parent/'world_tcp.npz').exists():
             z=np.load(path.parent/'world_tcp.npz');pp=[];rr=[]
@@ -138,6 +160,7 @@ def secondary():
                 pp.append(pose[:3,3]);rr.append(pose[:3,:3])
             pe=float(np.linalg.norm(np.array(pp)-z['position'],axis=1).max());re=float(so3(rr,z['rotation']).max());assert pe<=1e-5 and re<=1e-4
             spec=read(path.parent/'task_spec.json');computed=score(z['elapsed'],z['position'],z['rotation'],z['installed_position'],z['installed_rotation'],spec,result['safety_failure'])
+            if result.get('failure') in ('ORIGINAL_RAW_GATE_REJECT','CLOCK_GATED_REFERENCE_REJECT'):computed['success']=False
             assert computed==result['metrics']
             if case['task']=='M3':
                 broad,entry,arc=independent_entry(z['elapsed'],z['position'],z['rotation'],spec);assert entry==computed['entry_index']
@@ -150,7 +173,9 @@ def secondary():
             bins=len(metrics.get('ordered_bins',[])),V2_success=metrics.get('legacy_v2',{}).get('success')))
     out=RAW/'delivery';out.mkdir(exist_ok=True);csv_write(out/'SECONDARY32.csv',table)
     budget=read(R1/'evidence/RAW_BUDGET.json');caps=read(R1/'design/BUDGET_CARD.json')
-    assert budget['starts']<=36 and budget['simulated_seconds']<=1476+1e-6 and sum(r['new_model_queries'] for r in table)<=2400
+    query_ledger=R1/'evidence/model_attempts.jsonl'
+    actual_queries=sum(json.loads(s)['request'].get('noise_registry')=='SECONDARY_CARD.json' for s in query_ledger.read_text().splitlines()) if query_ledger.exists() else 0
+    assert budget['starts']<=36 and budget['simulated_seconds']<=1476+1e-6 and actual_queries<=2400
     accounting=[]
     for path in sorted((RAW/'diagnostics').glob('*/attempt-*/physics_started.json')):
         folder=path.parent;result=read(folder/'result.json');n=sum(1 for _ in (folder/'physics_steps.jsonl').open())
@@ -161,7 +186,7 @@ def secondary():
     write(out/'SECONDARY_CPU_REPLAY.json',dict(status='PASS_INDEPENDENT_FULL_TREE_FK_AND_SHARED_SCORER',checks=checks,actual_physics_accounting=accounting,
         original_budget=budget,model_queries=0,new_physics=0,local_witness_not_global_reachability_proof=True))
     write(out/'SECONDARY_VERDICT.json',dict(status='SECONDARY_COMPLETE' if all(r['validity']=='VALID' for r in table) else 'SECONDARY_PARTIAL',
-        outcomes=table,scope='First-two-TRAIN WBC executor-transfer diagnostic / domain shift and following separate',
+        outcomes=table,actual_model_attempts_including_invalid=actual_queries,scope='First-two-TRAIN WBC executor-transfer diagnostic / domain shift and following separate',
         does_not_change_primary_learning=True,selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
     print(json.dumps(dict(rows=len(table),valid=sum(r['validity']=='VALID' for r in table),successes=sum(r['success'] for r in table),physics=budget)),flush=True)
 
