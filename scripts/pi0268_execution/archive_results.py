@@ -4,6 +4,7 @@ import ast
 import hashlib
 import json
 import os
+import shutil
 import sys
 import tarfile
 from pathlib import Path
@@ -66,6 +67,11 @@ def main(part):
                 info=tarfile.TarInfo(name);info.size=row['bytes'];info.mode=0o644;info.mtime=0
                 with path.open('rb') as stream:tar.addfile(info,stream)
         temp.replace(package)
+    if part=='summary':
+        # Existing report archive pattern: publish small reports/videos directly as well as in the tar.
+        for path in sorted((RAW/'delivery').iterdir()):
+            if path.is_file() and path.suffix in ('.json','.csv','.md','.mp4','.png'):
+                shutil.copy2(path,out/path.name)
     api=HfApi(token=Path('/home/liuyu-nfs/.config/huggingface/token').read_text().strip());repo='leoyuer/pi0246-gate-pass-campaign'
     prefix='evidence/PI0268/R1/normalization-results-20261003/'+part;assert api.model_info(repo).private is False
     commit=RAW/'archive'/('RESULT_UPLOAD_'+part+'.json')
