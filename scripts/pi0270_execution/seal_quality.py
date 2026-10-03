@@ -20,7 +20,8 @@ def main():
     source_check = check(ROOT/'code', OLD/'code')
     assert source_check['status'] == 'PASS_PREPARED_QUALITY_SOURCE_NO_QUERY'
     paths = [ROOT/'code'/name for name in ('quality_gate.py','quality_worker.py','quality_virtual.py','quality_components.py',
-             'quality_offline.py','newfit.py','quality_evaluate.py','quality_cpu_check.py','quality_source_check.py','seal_quality.py')]
+             'quality_offline.py','newfit.py','quality_evaluate.py','quality_cpu_check.py','quality_source_check.py','seal_quality.py',
+             'quality_report.py','trajectory_replay.py','video.py')]
     paths.extend(ROOT/'design'/name for name in ('EVALUATION_CARD.json','FIXED_OFFLINE_CARD.json','COMPONENT_CARD.json',
                  'PAIRING_PLAN.json','RECOVERY_MAPPING.json','NEW_FIT192.json','NEWFIT_QUERY_CARD.json'))
     paths.extend(ROOT/'evidence'/name for name in ('EVALUATION_EXACT_REUSE.json','EVALUATION_CPU_CHECK.json','MAIN_TRAINING_AUDIT.json',

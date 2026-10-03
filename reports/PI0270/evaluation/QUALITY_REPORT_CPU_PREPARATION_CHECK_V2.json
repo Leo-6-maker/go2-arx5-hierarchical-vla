@@ -1,0 +1,35 @@
+{
+  "actual_AGG_model_training_and_quality_not_run": true,
+  "actual_new_quality_metrics_not_computed": true,
+  "deployment_selected_checkpoint": "NONE",
+  "gradient_queries": 0,
+  "missing_actual_final_guard_stdout": "PASS_MISSING_ACTUAL_FINAL_SEAL_DENIED_BEFORE_TORCH_OR_QUERY\n",
+  "model_queries": 0,
+  "observed_at_utc": "2026-10-03T19:35:21.540111+00:00",
+  "optimizer_updates": 0,
+  "physics_calls": 0,
+  "renderer_calls": 0,
+  "selected_checkpoint": "NONE",
+  "self_check_stdout": "PASS_CPU_TYPED_REUSE_ORIGINAL_AND_GATE_DENOMINATOR_PAIRED_DELTA_NO_QUERY\n",
+  "sources": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_report.py",
+      "sha256": "f42a86070a362478b6f839381ce196304b8c334dc763255c0269c503f817cada"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/trajectory_replay.py",
+      "sha256": "c3f89163a033ba64f0e5ed93d514a04bc7ac3e80c033c853600402930434ef05"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/seal_quality.py",
+      "sha256": "89261c2ac78e6a254a8a9f55e0e491c85410ddc897dfc8f10699962a3429befa"
+    }
+  ],
+  "status": "PASS_PREPARED_FINAL_REPORT_CPU_CHECKS_NO_QUALITY_QUERY",
+  "teacher_calls": 0,
+  "validated_old_logical_table_reuse": {
+    "component": 64,
+    "offline": 1936,
+    "virtual": 128
+  }
+}
