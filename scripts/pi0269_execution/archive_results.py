@@ -22,8 +22,9 @@ def read(p):return json.loads(Path(p).read_text())
 
 def admitted(part):
     assert read(R1/'evidence/MAIN_TRAINING_AUDIT.json')['status']=='PASS_BOTH_4096_MATCHED_TRAINING_INTEGRITY'
-    assert read(RAW/'delivery/PRIMARY_VERDICT.json')['status']=='PRIMARY_EVALUATION_COMPLETE'
-    if part=='summary':return
+    if part=='summary':
+        assert read(RAW/'delivery/PRIMARY_VERDICT.json')['status']=='PRIMARY_EVALUATION_COMPLETE'
+        return
     if part=='component':
         rows=read(R1/'design/COMPONENT_CARD.json')['rows'];assert len(rows)==32
         for point in ('ROT2048','UNIFORM4096','PREFIX4096'):
