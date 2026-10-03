@@ -30,12 +30,30 @@ The subgroup CSV retains task/command/nominal-recovery/noise and factor axes wit
 
 At 2026-10-03T11:57:51Z, the actual finite driver PID3611282 was live. UNIFORM main64/64 and both offline968/968 were complete; PREFIX main1/64 was complete and its next episode was active. Component diagnostics had not started. Journals showed8479 actual attempts,33916 recorded heads,66 starts and6544 observation pairs; this is a mid-flight snapshot, not final budget accounting. Driver/source/cards were preserved.
 
+## Completed UNIFORM main64: initial achievement does not imply retention
+
+CPU recomputation on the complete donor/UNIFORM saved arrays reproduced every original score; independent M3 entry checks also matched. No new neural query was needed. Both points are full64 safe with zero gate refusals, dangerous collisions or execution failures. Original success and reliable retention remain different endpoints:
+
+| Point | Task/backend | Original success /16 | Original command0/1 /8 | Reliable /16 |
+|---|---|---:|---|---:|
+| ROT2048 | M1/E0 |11|7,4|0|
+| ROT2048 | M1/E1 |11|7,4|0|
+| ROT2048 | M3/E0 |0|0,0|0|
+| ROT2048 | M3/E1 |0|0,0|0|
+| UNIFORM4096 | M1/E0 |15|7,8|0|
+| UNIFORM4096 | M1/E1 |16|8,8|0|
+| UNIFORM4096 | M3/E0 |0|0,0|0|
+| UNIFORM4096 | M3/E1 |0|0,0|0|
+
+UNIFORM improves M1 original success22/32 to31/32, but reliable task success remains0/64 and M3 remains0/32. This is a valid partial quality result, not a reason to cancel PREFIX or the fixed96 diagnostics. PREFIX main results, component starts, complete native Euler/codec replay and the final combined verdict are pending. Exact per-case scores, source hashes and tick-level retention records are preserved in `DONOR_UNIFORM_MAIN_CPU_PRELIMINARY.json`.
+
 ## Sources and limits
 
 - `OFFLINE_ONLY_PRELIMINARY.json`: all per-row numeric/hash checks, exact panels and paired contrast.
 - `OFFLINE_SUBGROUPS_PRELIMINARY.csv`: all fixed subgroup results.
 - Corelab `/home/liuyu-nfs/Projects/go2-arx5/PI0269/evidence/offline-only/OFFLINE2904_PRELIMINARY.csv`: full2904-row saved-array comparison; its identity is in `ARTIFACT_IDENTITIES.json`.
 - `LIVE_EVALUATION_PROGRESS.json`: actual counts at the stated timestamp.
+- `DONOR_UNIFORM_MAIN_CPU_PRELIMINARY.json`: all128 completed donor/UNIFORM main scores and independently checked entry/retention outcomes; PREFIX pending.
 - `scripts/pi0269_execution/offline_saved_summary.py`: CPU-only analysis, reusing frozen metric/prefix helpers and forbidding neural/optimizer calls.
 
 The donor keeps its original PI0268 card hash; its source rows are identical to the PI0269 card. An initial CPU helper incorrectly expected the newer card hash for donor records, stopped before producing a result, and was corrected to verify the original hash plus sealed reuse members. This incurred zero model queries/updates and did not change a card or stored result.
