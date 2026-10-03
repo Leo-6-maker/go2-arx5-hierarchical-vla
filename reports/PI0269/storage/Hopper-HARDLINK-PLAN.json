@@ -1,0 +1,29 @@
+{
+  "schema": "PI0269_STORAGE_ONLY_EXPLICIT_RETIREMENT_V1",
+  "host": "Hopper",
+  "root": "/scratch/e1192548/Projects/go2-arx5/experiments",
+  "free_scope": "/scratch/e1192548",
+  "paths": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split/training/checkpoint-4",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split_recovery1/training/checkpoint-4",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    }
+  ],
+  "authority": "User 2026-10-03: scientifically retired checkpoint direct deletion",
+  "preserve": [
+    "PI0269 all active runtime/recoveries/2048+4096 candidates",
+    "PI0268 ROT2048 donor full Trainer/model view",
+    "PI0267 N/R finals pending old secondary lane dependency resolution",
+    "PI0264 L2048 donor",
+    "all data/statistics/logs/manifests/results/HF/Git/other projects"
+  ],
+  "scope": "All links must be inside these two explicitly retired N canary checkpoint-4 trees; no external shared blobs",
+  "quota_headroom": "UNKNOWN",
+  "selected_checkpoint": "NONE"
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "PI0269_STORAGE_ONLY_EXPLICIT_RETIREMENT_V1",
+  "host": "Hopper",
+  "root": "/scratch/e1192548/Projects/go2-arx5/experiments",
+  "free_scope": "/scratch/e1192548",
+  "paths": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/OLD/main/training/checkpoint-1024",
+      "classification": "RETIRED_SCIENTIFIC_FAIL_OR_INTERMEDIATE",
+      "evidence": "PI0268 FINAL_RESEARCH_RETURN + four full readbacks; active donor only ROT2048"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/OLD/main/training/checkpoint-2048",
+      "classification": "RETIRED_SCIENTIFIC_FAIL_OR_INTERMEDIATE",
+      "evidence": "PI0268 FINAL_RESEARCH_RETURN + four full readbacks; active donor only ROT2048"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/ROT/main/training/checkpoint-1024",
+      "classification": "RETIRED_SCIENTIFIC_FAIL_OR_INTERMEDIATE",
+      "evidence": "PI0268 FINAL_RESEARCH_RETURN + four full readbacks; active donor only ROT2048"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/OLD/failed-643670-continuous/training/checkpoint-8",
+      "classification": "SUPERSEDED_ENGINEERING_CANARY",
+      "evidence": "PI0268 actual final training/canary closeout"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/continuous/training/checkpoint-8",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split/training/checkpoint-4",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split/training/checkpoint-8",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split_recovery1/training/checkpoint-4",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split_recovery1/training/checkpoint-8",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/R/continuous/training/checkpoint-8",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 R actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/R/split/training/checkpoint-4",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 R actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/R/split/training/checkpoint-8",
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "evidence": "PI0267 R actual canary_compare PASS and full main complete"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0264/B/main/training/checkpoint-2048",
+      "classification": "RETIRED_SCIENTIFIC_FAIL",
+      "evidence": "PI0264 final combined_pass=false B2048; active old donor L2048"
+    }
+  ],
+  "authority": "User 2026-10-03: scientifically retired checkpoint direct deletion",
+  "preserve": [
+    "PI0269 all active runtime/recoveries/2048+4096 candidates",
+    "PI0268 ROT2048 donor full Trainer/model view",
+    "PI0267 N/R finals pending old secondary lane dependency resolution",
+    "PI0264 L2048 donor",
+    "all data/statistics/logs/manifests/results/HF/Git/other projects"
+  ],
+  "scope": "Only index-listed large model shards and optimizer.pt; keep small checkpoint evidence",
+  "quota_headroom": "UNKNOWN",
+  "selected_checkpoint": "NONE"
+}

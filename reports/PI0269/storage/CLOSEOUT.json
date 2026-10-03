@@ -1,0 +1,47 @@
+{
+  "Corelab": {
+    "after_free_bytes": 829820030976,
+    "before_free_bytes": 810761728000,
+    "deleted_file_paths": 4,
+    "logical_deleted_bytes": 19058402608,
+    "quota_headroom": "UNKNOWN",
+    "retired_model_views": 2,
+    "unique_unlinked_allocated_bytes": 19058425856,
+    "whole_window_free_delta_bytes": 19058302976
+  },
+  "Hopper": {
+    "after_free_bytes": 361833168896,
+    "before_free_bytes": 132130013184,
+    "deleted_file_paths": 39,
+    "hardlinks_closed": true,
+    "logical_deleted_bytes": 271469127904,
+    "quota_headroom": "UNKNOWN",
+    "retired_checkpoint_trees": 13,
+    "simultaneous_new_UNIFORM2048_complete_save_bytes": 20882805232,
+    "unique_unlinked_allocated_bytes": 250586972160,
+    "whole_window_free_delta_bytes": 229703155712
+  },
+  "authority": "User 2026-10-03 explicit cleanup/deletion request",
+  "current_Trainer_archiving": "UNIFORM2048 foreground CPU process3857716/session44815; readback PENDING",
+  "deployment_selected_checkpoint": "NONE",
+  "new_HF_uploads_for_retired_models": 0,
+  "new_training_updates_by_cleanup": 0,
+  "not_retired": "Other older payloads retain status until exact scientific verdict and actual dependency established; no name/age-only deletion",
+  "post_checks": {
+    "Corelab_deleted_absent_4": true,
+    "Hopper_deleted_absent_39": true,
+    "current_donor_and_UNIFORM2048_full": true,
+    "metadata_markers": true,
+    "quality_fileset_hashes": 35,
+    "quality_queries": 0
+  },
+  "preserved": [
+    "PI0269 healthy644116 runtime and all4 official checkpoint candidates",
+    "PI0268 ROT2048 full donor and Corelab model view",
+    "PI0267 N/R finals: secondary WBC dependency unresolved; intentionally protected",
+    "PI0264 L2048 donor",
+    "All datasets/processors/statistics/evidence/logs/results/receipts/HF/Git/other projects"
+  ],
+  "selected_checkpoint": "NONE",
+  "status": "STORAGE_ONLY_RETIREMENT_COMPLETE_ACTIVE_PI0269_CONTINUES"
+}

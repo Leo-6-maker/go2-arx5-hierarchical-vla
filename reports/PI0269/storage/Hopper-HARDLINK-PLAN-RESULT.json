@@ -1,0 +1,98 @@
+{
+  "HF_history_deleted": false,
+  "after_free_bytes": 361833168896,
+  "before_free_bytes": 340950777856,
+  "concurrent_training_can_change_free_delta": true,
+  "free_delta_bytes": 20882391040,
+  "host": "Hopper",
+  "local_status": "METADATA_ONLY_RETIRED_WEIGHTS_NOT_LOCALLY_LOADABLE",
+  "logical_deleted_bytes": 41764481216,
+  "plan_sha256": "5480bb05ad0f881e22fce017899c2db0f14f19e313d888e7dd500073ce3a6552",
+  "planned_bytes": 41764481216,
+  "preserved": [
+    "PI0269 all active runtime/recoveries/2048+4096 candidates",
+    "PI0268 ROT2048 donor full Trainer/model view",
+    "PI0267 N/R finals pending old secondary lane dependency resolution",
+    "PI0264 L2048 donor",
+    "all data/statistics/logs/manifests/results/HF/Git/other projects"
+  ],
+  "quota_headroom": "UNKNOWN",
+  "rows": [
+    {
+      "allocated_bytes": 4993712128,
+      "bytes": 4993709288,
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "deleted": true,
+      "device": 49,
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete",
+      "inode": 1922834223,
+      "links": 2,
+      "mtime_ns": 1790911359514807000,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split/training/checkpoint-4/model-00001-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 4535492608,
+      "bytes": 4535492016,
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "deleted": true,
+      "device": 49,
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete",
+      "inode": 1922837453,
+      "links": 2,
+      "mtime_ns": 1790911362530241000,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split/training/checkpoint-4/model-00002-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 11353042944,
+      "bytes": 11353039304,
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "deleted": true,
+      "device": 49,
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete",
+      "inode": 1922834251,
+      "links": 2,
+      "mtime_ns": 1790911368968197000,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split/training/checkpoint-4/optimizer.pt"
+    },
+    {
+      "allocated_bytes": 4993712128,
+      "bytes": 4993709288,
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "deleted": true,
+      "device": 49,
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete",
+      "inode": 1922834223,
+      "links": 2,
+      "mtime_ns": 1790911359514807000,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split_recovery1/training/checkpoint-4/model-00001-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 4535492608,
+      "bytes": 4535492016,
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "deleted": true,
+      "device": 49,
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete",
+      "inode": 1922837453,
+      "links": 2,
+      "mtime_ns": 1790911362530241000,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split_recovery1/training/checkpoint-4/model-00002-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 11353042944,
+      "bytes": 11353039304,
+      "classification": "DISCARDED_COMPLETED_CANARY",
+      "deleted": true,
+      "device": 49,
+      "evidence": "PI0267 N actual canary_compare PASS and full main complete",
+      "inode": 1922834251,
+      "links": 2,
+      "mtime_ns": 1790911368968197000,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/N/split_recovery1/training/checkpoint-4/optimizer.pt"
+    }
+  ],
+  "scope": "All links must be inside these two explicitly retired N canary checkpoint-4 trees; no external shared blobs",
+  "skipped": [],
+  "status": "EXPLICIT_RETIRED_PAYLOADS_DELETED",
+  "unlinked_allocated_bytes": 20882247680
+}
