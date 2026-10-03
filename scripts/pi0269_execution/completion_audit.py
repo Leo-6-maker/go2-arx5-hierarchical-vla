@@ -34,7 +34,7 @@ def main():
         if status is not None:assert value['status']==status,path
         evidence.append(dict(path=str(path),sha256=sha(path),status=value.get('status')))
         return value
-    card=record(ROOT/'design/APPROVED_RUN_CARD.json')
+    card=record(ROOT/'evidence/training_hopper/design/APPROVED_RUN_CARD.json')
     assert card['release']=='e77ad092406555645fb8c68ba34cc8594ef18ee6' and card['updates_per_arm']==4096
     assert card['optimizer']['accumulation']==2
     diagnosis=record(ROOT/'evidence/SAVED_STATE_PREFIX_AUDIT.json','PASS_BOUNDED_SAME_STATE_LABEL_DIAGNOSIS_NO_NEW_CORRECTNESS_DEFECT')

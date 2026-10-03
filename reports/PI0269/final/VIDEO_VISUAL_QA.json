@@ -1,0 +1,48 @@
+{
+  "checks": [
+    "Body and wrist actual96 RGB visible",
+    "Task command backend and actual timestamp legible",
+    "VIRTUAL NOT_WBC NON_REALTIME watermark present",
+    "Original V3 and reliable40s separately labelled",
+    "Late failures retained; no score-based chapter selection"
+  ],
+  "entire_video_visually_watched": false,
+  "full_decode_verified": true,
+  "independent_reviewer_claimed": false,
+  "new_model_queries": 0,
+  "new_renders": 0,
+  "physics_steps": 0,
+  "reviewed_utc": "2026-10-03T14:42:26.185138+00:00",
+  "sheets": [
+    {
+      "path": "PREFIX4096-early.png",
+      "sha256": "344498a05b7249adc31245e664a19d3a96d8d981d1c1463fb396840310eee856"
+    },
+    {
+      "path": "PREFIX4096-late.png",
+      "sha256": "ff9b8b6be10d58b75409dfdb9939205ee56d8f2678af6029ec38b4262e1ed383"
+    },
+    {
+      "path": "UNIFORM4096-early.png",
+      "sha256": "c9d3a3266c19173cfdd16d5df9754ed8d5a22f576fc1b07e3432957b62ab4252"
+    },
+    {
+      "path": "UNIFORM4096-late.png",
+      "sha256": "93275c4204ebd2b425a6050f2b3696260345112b0a62f64ff62c09ed9ab1d56a"
+    }
+  ],
+  "status": "PASS_MAIN_OWNER_VIDEO_DECODE_AND_BOUNDARY_CONTACT_SHEET_VISUAL_REVIEW",
+  "videos": [
+    {
+      "point": "UNIFORM4096",
+      "receipt_sha256": "21e8695cff02eb8b95f6adbb990260b270293fae9cc78c4acff0b0b800a35ad3",
+      "video_sha256": "9b3940189888daf6b592088aa2a3f92c0406563e2d1059618d3c914d52a500a4"
+    },
+    {
+      "point": "PREFIX4096",
+      "receipt_sha256": "8974c690c4dfb00a67e9062be5dafa3d3e7f08f7da3900a3e1ae28ddd2e83386",
+      "video_sha256": "679e172962c74666a3f1b348fd8bd9970b2f8ffebdaf59520a5429cfa73b36f4"
+    }
+  ],
+  "visual_sample": "All eight fixed chapters per model at first and last observation; UNIFORM frame199 also inspected at original1024x640"
+}
