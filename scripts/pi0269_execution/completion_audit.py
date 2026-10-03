@@ -71,6 +71,10 @@ def main():
     assert {(r['arm'],r['step']) for r in checkpoints}==set(itertools.product(('UNIFORM','PREFIX'),(2048,4096)))
     verdict=record(RAW/'delivery/PRIMARY_VERDICT.json','PRIMARY_EVALUATION_COMPLETE')
     cpu=record(RAW/'delivery/CPU_REPLAY.json','PASS_SAVED_ARRAY_REPLAY')
+    tracking=record(RAW/'delivery/SAME_TICK_ANALYSIS_RECEIPT.json','PASS_FULL_SAVED_TICK_REFERENCE_ACHIEVED_TERMINAL_TARGET_ANALYSIS')
+    assert tracking['episodes']==len(tracking['sources'])==192 and tracking['rows']==sum(r['ticks'] for r in tracking['sources'])
+    assert tracking['model_queries']==tracking['teacher_calls']==tracking['physics_steps']==0
+    assert sha(RAW/'delivery/SAME_TICK_REFERENCE_ACHIEVED_TARGET.csv')==tracking['csv_sha256']
     assert verdict['offline_rows']==len(cpu['metrics'])==2904 and verdict['virtual_episodes']==len(cpu['episodes'])==192
     assert cpu['model_queries']==cpu['gradient_queries']==cpu['physics_steps']==0
     attempts=lines(ROOT/'evidence/model_attempts.jsonl',18432)
