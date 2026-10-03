@@ -77,6 +77,13 @@ def main():
     assert tracking['rows']==sum(r['ticks'] for r in tracking['sources'])
     assert tracking['model_queries']==tracking['teacher_calls']==tracking['physics_steps']==0
     assert sha(RAW/'delivery/SAME_TICK_REFERENCE_ACHIEVED_TARGET.csv')==tracking['csv_sha256']
+    descriptive=record(RAW/'delivery/FINAL_DESCRIPTIVE_ANALYSIS.json','PASS_COMPLETE_FIXED_SCOPE_DESCRIPTIVE_ANALYSIS')
+    assert len(descriptive['main_groups'])==len(descriptive['component_groups'])==12
+    assert sum(r['episodes'] for r in descriptive['main_groups'])==192
+    assert sum(r['proposals'] for r in descriptive['component_groups'])==96
+    assert len(descriptive['family_paired_changes'])==24
+    for name,digest in descriptive['source_sha256'].items():assert sha(RAW/'delivery'/name)==digest
+    assert descriptive['model_queries']==descriptive['teacher_calls']==descriptive['render_calls']==descriptive['physics_steps']==0
     assert verdict['offline_rows']==len(cpu['metrics'])==2904 and verdict['virtual_episodes']==len(cpu['episodes'])==192
     assert cpu['model_queries']==cpu['gradient_queries']==cpu['physics_steps']==0
     attempts=lines(ROOT/'evidence/model_attempts.jsonl',18432)
