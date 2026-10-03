@@ -1,0 +1,71 @@
+{
+  "actual_final_xyz_m": 0.46096874664174664,
+  "case": "pi0265-family-017-M1-c1-E1",
+  "frozen_executor_arithmetic_shared_not_an_independent_physics_backend": true,
+  "independent_M3_entry_checked": false,
+  "lane": "collection",
+  "model_queries": 0,
+  "physics_calls": 0,
+  "point": "PREFIX4096",
+  "qualification_authority": false,
+  "reconstruction_max_abs": {
+    "actual_p": 0.0,
+    "actual_r": 4.440892098500626e-16,
+    "installed_p": 0.0,
+    "installed_r": 2.220446049250313e-16
+  },
+  "reference_final_xyz_m": 0.4638729183112272,
+  "reliability": {
+    "dangerous_collisions": 0,
+    "execution_failure": false,
+    "final5s_complete_sampling": true,
+    "final5s_every_tick_in_pose": false,
+    "final5s_max_so3_rad": 0.4453049519849856,
+    "final5s_max_xyz_m": 0.46096874664174664,
+    "final5s_outside_ticks": 251,
+    "final5s_ticks": 251,
+    "first_pose_exit_after_success_s": 8.040000000000001,
+    "full40s": true,
+    "full_episode_safe": true,
+    "gate_refusals": 0,
+    "original_V3_unchanged": true,
+    "original_completed_by35": true,
+    "original_completion_s": 3.0,
+    "original_success": true,
+    "reliable": false,
+    "schema": "PI0268_R1_FINAL5S_RELIABILITY_V1"
+  },
+  "renderer_calls": 0,
+  "same_tick_tracking_so3_rms_rad": 0.004262033034996111,
+  "same_tick_tracking_xyz_rms_m": 0.002044854577378433,
+  "scoring_sources": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_metrics_v3.py",
+      "sha256": "ffd9a0a5a9ed178438acf9858fc8e10f2e6fe13966299ba12113efcec1f5db4a"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_r1_cpu.py",
+      "sha256": "041671f413b6cb37d1714e7b1bcd2e6701ce9b0d7fc1253735b3422670606bea"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0268/R1/code/reliability.py",
+      "sha256": "cdbe67ab2a0f159c286fe1be835aba1e537e258e1ee0fde2a344877364aa6c28"
+    }
+  ],
+  "shared_original_V3_and_V2_exact": true,
+  "source_arrays_sha256": "b19238b78b7d7fc3d2ee2f146b2cc9d72c7b009a67c8d2c7591a3a2c61975425",
+  "source_functions": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_cpu.py",
+      "sha256": "474868a33dd92cf8b4a5a62fc5b375b4b40f486a7e3480f8748263479287f0aa"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0269/code/virtual_episode.py",
+      "sha256": "639e9ebadc9b92c52fc1581ab38098e8d61cf1495aed4e4df9093fddba15bd34"
+    }
+  ],
+  "source_result_sha256": "1e45f9f744f38ce60bd7b50224bc6724c2dd01c894d85955b0a58470ce67edff",
+  "source_sha256": "c3f89163a033ba64f0e5ed93d514a04bc7ac3e80c033c853600402930434ef05",
+  "status": "PASS_SAVED_EXECUTOR_SAME_TICK_V3_RELIABILITY",
+  "teacher_calls": 0
+}
