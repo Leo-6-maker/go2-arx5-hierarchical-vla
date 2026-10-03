@@ -40,3 +40,15 @@ Fixed readback revisions for newly completed old archives:
 - Summary/media: `c7cfa81c6ede174748adce28fb4613b71a194f1e`
 
 The separate closeout receipt retains the exact old four Trainer revisions, five result archive receipts and secondary continuation details. Old V2/V3 scores are unchanged. Formal selected/deployment remain NONE.
+
+## Later snapshot: 2026-10-03 08:38 SGT connectivity interruption
+
+The earlier queued/preparation snapshot above is historical. Both OLD2048 and ROT2048 training, both exact recovery canaries and all four full Trainer fixed-revision readbacks are now complete; see `MAIN_TRAINING_AUDIT.json` and the four `*_FULL_READBACK.json` receipts. Raw completed training remains 4136 updates / 74504 heads. All four offline panels are complete at 968 rows each, with full offline CPU replay recorded separately.
+
+OLD0 cached virtual64, ROT0 virtual64 and OLD2048 virtual64 are complete. OLD2048 result preservation is also complete at fixed revision `341f994c1a9cb4d65775153290e3863624566cc2`. Last received ROT2048 batch completion was `pi0265-family-032 / EIGHT_VALID_COMPLETE`, establishing at least 40/64 completed virtual conditions. It is a last-observed lower bound, not a current remote inventory.
+
+The local SSH evaluation session then returned `client_loop: send disconnect: Connection reset`. Two independent subsequent connections to Corelab timed out. Cisco Secure Client 5.1.8.105 explicitly reported disconnected despite its virtual adapter still showing Up. Remote process state is UNKNOWN until VPN connectivity is restored. The last observed coordinator PID was 3412775; the last observed family-032 native/inference PIDs were 3452533/3452542. A dead local SSH session is not evidence that those remote processes stopped.
+
+The finite local continuation did not launch `report.py` or the ROT2048 result archive because the SSH exit was nonzero. On reconnect, first inspect live PIDs, the evaluator lock holder, completed result identities and raw journals. Preserve a live coordinator or worker; do not submit a duplicate. Only if authoritative process evidence proves execution stopped, resume the existing finite evaluator under its unchanged frozen contract, retaining all valid results and cumulative counters. Do not retrain or repeat closed scientific conditions.
+
+Remaining obligations are the rest of ROT2048's fixed64, full four-point CPU replay, fixed saved-RGB videos, ROT2048 and summary archive readbacks, final budget/requirement reconciliation and the final Issue #11 return. No terminal quality claim is made here. Selected/deployment remain NONE.
