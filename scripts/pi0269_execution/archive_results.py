@@ -60,7 +60,7 @@ def main(part):
             if p.is_file():
                 assert not p.is_symlink()
                 # Never package credentials, cache, private URDF/controller payloads or Python binaries.
-                if p.suffix not in ('.json','.jsonl','.npz','.csv','.md','.py','.pbs','.log','.mp4','.OU','.ER') or p.name=='RESULT_ARCHIVE_'+part+'.json':continue
+                if p.suffix not in ('.json','.jsonl','.npz','.csv','.md','.py','.pbs','.log','.mp4','.png','.OU','.ER') or p.name=='RESULT_ARCHIVE_'+part+'.json':continue
                 assert p.name not in ('token','stored_tokens') and 'private_source' not in p.parts
                 files.append((p,prefix+'/'+p.relative_to(folder).as_posix()))
     assert files

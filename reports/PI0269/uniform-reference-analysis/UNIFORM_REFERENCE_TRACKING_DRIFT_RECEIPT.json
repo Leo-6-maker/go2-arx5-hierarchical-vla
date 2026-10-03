@@ -1,0 +1,63 @@
+{
+  "status": "PASS_COMPLETE_UNIFORM64_SAVED_REFERENCE_TRACKING_DRIFT_ANALYSIS_PREFIX_PENDING",
+  "rows": 64,
+  "summary": {
+    "M1": {
+      "total": 32,
+      "original_success": 31,
+      "successful_then_exited": 31,
+      "median_first_exit_delay_s": 4.9,
+      "median_final_xyz_m": 0.22040015256814932,
+      "broad_ready": 0,
+      "entered": 0,
+      "reversed": 0,
+      "shortcut": 0,
+      "max_ordered_bins": 0
+    },
+    "M3": {
+      "total": 32,
+      "original_success": 0,
+      "successful_then_exited": 0,
+      "median_first_exit_delay_s": null,
+      "median_final_xyz_m": 0.05757951094503905,
+      "broad_ready": 0,
+      "entered": 0,
+      "reversed": 0,
+      "shortcut": 0,
+      "max_ordered_bins": 0
+    }
+  },
+  "max_same_tick_tracking_xyz_m": 0.003948227715626302,
+  "max_same_tick_tracking_so3_rad": 0.02929903788095939,
+  "csv_sha256": "5d08eed3ffe1f53099b143513b40a3d8cf363fce1263e2f0e7d070bfa768b8e0",
+  "figure_sha256": "188219544737c53aace180a554b496320420e1046949ae64949ace636def789f",
+  "figure_selection": "First frozen EVAL family, all four M1 commands/backends; not selected by result",
+  "figure_sources": [
+    {
+      "case": "pi0265-family-028-M1-c0-E0",
+      "arrays_sha256": "6dd7ed692d3bad0dadbe32112052d578bd40f8fab10dbd707c14878a532d0862"
+    },
+    {
+      "case": "pi0265-family-028-M1-c0-E1",
+      "arrays_sha256": "aa20b19ea014e1bda1015c0185be336956e321390fa95ca7ae6d7e367113368f"
+    },
+    {
+      "case": "pi0265-family-028-M1-c1-E0",
+      "arrays_sha256": "1f2d020d1a970bffa8e75f80c8d9b625b6185d929e2c5505155f3892d4cb54a6"
+    },
+    {
+      "case": "pi0265-family-028-M1-c1-E1",
+      "arrays_sha256": "3ec1b8eee34b3ff568f0cb3f31f70c412b455acbac4e7d79bbbb03d21a7d0cf4"
+    }
+  ],
+  "source_sha256": "7de39d4ede2c64b83da137d9240ce8b4c000f9c02b1e2e28840ec9e99c360669",
+  "same_tick_helper_sha256": "55fe374e7f8a987f78e550976e57c23cd5b19bd076a21ac3938140e2ae59242d",
+  "target_semantics": "Original static final task pose, not a teacher time trajectory",
+  "model_queries": 0,
+  "teacher_calls": 0,
+  "render_calls": 0,
+  "physics_steps": 0,
+  "not_WBC": true,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}
