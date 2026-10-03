@@ -72,7 +72,9 @@ def main():
     verdict=record(RAW/'delivery/PRIMARY_VERDICT.json','PRIMARY_EVALUATION_COMPLETE')
     cpu=record(RAW/'delivery/CPU_REPLAY.json','PASS_SAVED_ARRAY_REPLAY')
     tracking=record(RAW/'delivery/SAME_TICK_ANALYSIS_RECEIPT.json','PASS_FULL_SAVED_TICK_REFERENCE_ACHIEVED_TERMINAL_TARGET_ANALYSIS')
-    assert tracking['episodes']==len(tracking['sources'])==192 and tracking['rows']==sum(r['ticks'] for r in tracking['sources'])
+    assert tracking['main_episodes']==192 and tracking['episodes']==len(tracking['sources'])==192+tracking['component_valid']
+    assert tracking['component_proposals']==tracking['component_valid']+tracking['component_excluded']==96
+    assert tracking['rows']==sum(r['ticks'] for r in tracking['sources'])
     assert tracking['model_queries']==tracking['teacher_calls']==tracking['physics_steps']==0
     assert sha(RAW/'delivery/SAME_TICK_REFERENCE_ACHIEVED_TARGET.csv')==tracking['csv_sha256']
     assert verdict['offline_rows']==len(cpu['metrics'])==2904 and verdict['virtual_episodes']==len(cpu['episodes'])==192
@@ -117,6 +119,7 @@ def main():
                 assert sha(path.parent/'trajectory.npz')==r['arrays_sha256'];valid+=1
                 query_count+=len(r['queries'])
     assert valid+excluded==96 and query_count==len(virtual)
+    assert tracking['component_valid']==valid and tracking['component_excluded']==excluded
     assert main_queries<=12800 and query_count-main_queries<=1920
     videos=[]
     for point in POINTS[1:]:

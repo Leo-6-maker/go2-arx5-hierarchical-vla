@@ -30,31 +30,46 @@ def errors(t,p,r,reference_p,reference_r,goal,goal_r):
         achieved_terminal_target_so3_rad=angle(r,goal_r))
 
 
+def prequery_excluded(record,point,lane):
+    assert record['point']==point
+    if record['validity']=='PREQUERY_EXCLUDED':
+        assert lane=='component' and not record['queries'];return True
+    assert record['validity']=='VALID';return False
+
+
 def main():
     verdict=json.loads((RAW/'delivery/PRIMARY_VERDICT.json').read_text())
     assert verdict['status']=='PRIMARY_EVALUATION_COMPLETE'
-    output=RAW/'delivery/SAME_TICK_REFERENCE_ACHIEVED_TARGET.csv'; receipts=[];count=0
+    output=RAW/'delivery/SAME_TICK_REFERENCE_ACHIEVED_TARGET.csv'; receipts=[];excluded=[];count=0
+    work=[]
+    for point in ('ROT2048','UNIFORM4096','PREFIX4096'):
+        source=RAW.parent/'PI0268/R1' if point=='ROT2048' else RAW
+        work.extend([(point,'virtual',source/'virtual'/point,64),(point,'component',RAW/'component'/point,32)])
     with output.open('w',newline='') as stream:
         writer=None
-        for point in ('ROT2048','UNIFORM4096','PREFIX4096'):
-            source=RAW.parent/'PI0268/R1' if point=='ROT2048' else RAW
-            cases=sorted((source/'virtual'/point).glob('*/result.json'));assert len(cases)==64
+        for point,lane,folder,expected in work:
+            cases=sorted(folder.glob('*/result.json'));assert len(cases)==expected
             for path in cases:
                 record=json.loads(path.read_text());arrays=path.parent/'trajectory.npz'
-                assert record['validity']=='VALID' and record['point']==point and sha(arrays)==record['arrays_sha256']
+                if prequery_excluded(record,point,lane):
+                    excluded.append(dict(point=point,case=path.parent.name,source_result_sha256=sha(path),reasons=record['reasons'],ticks=0));continue
+                assert sha(arrays)==record['arrays_sha256']
                 with np.load(arrays,allow_pickle=False) as z:
                     t,p,r,ip,ir=(z[k] for k in ('time','actual_p','actual_r','installed_p','installed_r'))
                     spec=json.loads(str(z['spec_json']));values=errors(t,p,r,ip,ir,np.asarray(spec['goal']),np.asarray(spec['goal_rotation']))
                     for i,time in enumerate(t):
-                        row=dict(point=point,case=path.parent.name,task=record['task'],backend=record['backend'],tick=i,time_s=float(time),
+                        row=dict(point=point,lane=lane,case=path.parent.name,task=record['task'],backend=record['backend'],tick=i,time_s=float(time),
                             **{f'{kind}_{axis}_m':float(v[j]) for kind,v in [('reference',ip[i]),('achieved',p[i]),('terminal_target',spec['goal'])] for j,axis in enumerate('xyz')},
                             **{k:float(v[i]) for k,v in values.items()})
                         if writer is None:writer=csv.DictWriter(stream,fieldnames=list(row));writer.writeheader()
                         writer.writerow(row);count+=1
-                    receipts.append(dict(point=point,case=path.parent.name,source_arrays_sha256=record['arrays_sha256'],ticks=len(t),
+                    receipts.append(dict(point=point,lane=lane,case=path.parent.name,source_arrays_sha256=record['arrays_sha256'],ticks=len(t),
                         elapsed_s=float(t[-1]),tracking_xyz_rms_m=float(np.sqrt(np.mean(values['tracking_xyz_m']**2))),
                         tracking_so3_rms_rad=float(np.sqrt(np.mean(values['tracking_so3_rad']**2))),stop_reason=record['stop_reason']))
-    result=dict(status='PASS_FULL_SAVED_TICK_REFERENCE_ACHIEVED_TERMINAL_TARGET_ANALYSIS',episodes=len(receipts),rows=count,csv_sha256=sha(output),sources=receipts,
+    main_episodes=sum(r['lane']=='virtual' for r in receipts);component_valid=len(receipts)-main_episodes
+    assert main_episodes==192 and component_valid+len(excluded)==96
+    result=dict(status='PASS_FULL_SAVED_TICK_REFERENCE_ACHIEVED_TERMINAL_TARGET_ANALYSIS',episodes=len(receipts),main_episodes=main_episodes,
+        component_proposals=96,component_valid=component_valid,component_excluded=len(excluded),excluded=excluded,rows=count,csv_sha256=sha(output),sources=receipts,
         target_semantics='Static final task pose from original saved spec; not an expert time trajectory. Tracking compares installed reference and achieved pose at the same saved tick.',
         execution_domain='VIRTUAL_EEF_KINEMATIC_NOT_WBC',early_failures_retained=True,model_queries=0,teacher_calls=0,physics_steps=0,selected_checkpoint='NONE',deployment_selected_checkpoint='NONE')
     (RAW/'delivery/SAME_TICK_ANALYSIS_RECEIPT.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
@@ -74,5 +89,12 @@ if __name__=='__main__':
         try:errors(t,p[:2],r,ip,ir,p[0],r[0])
         except AssertionError:pass
         else:raise AssertionError('MISMATCHED_TICK_ARRAY_ACCEPTED')
-        print('PASS_SAME_TICK_TRANSLATION_ROTATION_AND_SHAPE_CPU_ZERO_QUERY')
+        excluded=dict(point='fixture',validity='PREQUERY_EXCLUDED',queries=[])
+        assert prequery_excluded(excluded,'fixture','component')
+        assert not prequery_excluded(dict(point='fixture',validity='VALID'),'fixture','virtual')
+        for record,lane in [(excluded,'virtual'),(dict(excluded,queries=[{}]),'component')]:
+            try:prequery_excluded(record,'fixture',lane)
+            except AssertionError:pass
+            else:raise AssertionError('INVALID_PREQUERY_EXCLUSION_ACCEPTED')
+        print('PASS_SAME_TICK_ARITHMETIC_SHAPE_COMPONENT_EXCLUSION_CPU_ZERO_QUERY')
     else:main()
