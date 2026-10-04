@@ -13,6 +13,9 @@ def main():
     arm='AGG';output=ROOT/arm/'main/training';mature.ROOT=ROOT
     assert read(ROOT/arm/'canary_compare.json')['status']=='PASS_PI0270_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY'
     assert read(ROOT/'evidence/HOPPER_CPU_ADMISSION.json')['status']=='PASS_PI0270_ACTUAL_FROZEN_MAPPING_AND_CONTROL_INPUTS'
+    encoder=read(output/'CPU_ENCODER_KERNEL.json');assert encoder['core']=='Prescott' and encoder['scientific_dtypes_unchanged']
+    for phase in ('continuous','split'):
+        assert read(ROOT/arm/phase/'training/CPU_ENCODER_KERNEL.json')==encoder
     samples=read_lines(output/'sample_audit.jsonl');rng=read_lines(output/'step_rng.jsonl');s4=read_lines(output/'S4_audit.jsonl')
     expected=read_lines(ROOT/'evidence/input-audit/AGG/sample_audit.jsonl')
     assert samples==expected and len(samples)==len(rng)==len(s4)==8192
@@ -55,6 +58,7 @@ def main():
         contract=read(cp/'PI0270_POLICY_CONTRACT.json')
         assert contract['recovery_mapping_sha256']==archive.sha(ROOT/'RECOVERY_MAPPING.json')
         assert contract['control_sample_sha256']==CONTROL_SAMPLE_SHA and contract['control_rng_sha256']==CONTROL_RNG_SHA
+        assert contract['cpu_encoder_kernel']==encoder
         entries=[]
         for p in sorted(cp.rglob('*')):
             assert not p.is_symlink()
@@ -70,6 +74,7 @@ def main():
         actual_S4_loss_gradient_mode_checks=True,NEW_FIT192_actual_consumption=consumed,
         raw_completed_updates=len(updates),technical_recovery_completed_updates=reserve,raw_training_heads=len(heads),
         sample_audit_sha256=archive.sha(output/'sample_audit.jsonl'),step_rng_sha256=archive.sha(output/'step_rng.jsonl'),
+        actual_CPU_encoder_kernel=encoder,CPU_encoder_receipt_sha256=archive.sha(output/'CPU_ENCODER_KERNEL.json'),
         no_model_or_gradient_queries_by_audit=True,selected_checkpoint='NONE',deployment_selected_checkpoint='NONE')
     archive.save(ROOT/'evidence/MAIN_TRAINING_AUDIT.json',value)
     print(value['status'],len(checkpoints),len(updates),len(heads),flush=True)

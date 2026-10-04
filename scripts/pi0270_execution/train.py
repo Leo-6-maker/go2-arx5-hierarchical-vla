@@ -1,5 +1,6 @@
 """PI0270 AGG: qualified PREFIX recipe, sole learner-state data intervention."""
 import argparse
+import ctypes
 import hashlib
 import json
 import os
@@ -139,6 +140,11 @@ class Pairs(IterableDataset):
 
 def run(args):
     assert os.environ.get('PBS_JOBID') and os.environ.get('CUBLAS_WORKSPACE_CONFIG')==':4096:8'
+    # Match the frozen Corelab codec's CPU kernel; scientific dtypes stay unchanged.
+    assert os.environ.get('OPENBLAS_CORETYPE')=='Prescott'
+    library=next((Path(np.__file__).parent.parent/'numpy.libs').glob('*openblas*'))
+    core=ctypes.CDLL(str(library)).openblas_get_corename64_;core.restype=ctypes.c_char_p
+    assert core().decode()=='Prescott'
     torch.use_deterministic_algorithms(True);torch.backends.cudnn.benchmark=False
     assert torch.cuda.device_count()==1 and torch.cuda.get_device_properties(0).total_memory>=100*(1<<30)
     seal=read(ROOT/'EXECUTION_FILESET.json')
@@ -156,6 +162,11 @@ def run(args):
     donor=read(ROOT/'DONOR_LOCAL_READBACK.json');assert donor['status']=='PASS_PI0269_FIXED_ROT2048_COMPLETE_TRAINER_BINDING'
     assert donor['revision']=='97d8bf027f07241e2206b05e07597e4719c891e4' and donor['tree_sha256']=='3db80d35d5e476fe5a90d540ff8959fb5edf3da43a988fde7f88ce9f54b9b147'
     output=ROOT/args.arm/args.phase/'training';output.mkdir(parents=True,exist_ok=True)
+    encoder_receipt=dict(core=core().decode(),library=str(library),library_sha256=sha(library),
+        numpy_version=np.__version__,scientific_dtypes_unchanged=True)
+    encoder_path=output/'CPU_ENCODER_KERNEL.json';encoder_text=json.dumps(encoder_receipt,sort_keys=True)+'\n'
+    if encoder_path.exists():assert encoder_path.read_text()==encoder_text
+    else:encoder_path.write_text(encoder_text)
     if args.phase=='main':assert read(ROOT/args.arm/'canary_compare.json')['status']=='PASS_PI0270_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY'
     if args.resume:
         cp=output/f'checkpoint-{args.resume}';assert read(cp/'trainer_state.json')['global_step']==args.resume
@@ -229,7 +240,7 @@ def run(args):
             assert min(live,conservative)>=required,'CHECKPOINT_QUOTA_HEADROOM'
             result=super()._save_checkpoint(*pos,**kw)
             checkpoint=output/f'checkpoint-{self.state.global_step}'
-            bind_checkpoint_metadata(output,checkpoint,stats,dict(arm=args.arm,statistics_sha256=sha(stats),release=card['release'],donor_revision=donor['revision'],plan_sha256=sha(ROOT/'PAIRING_PLAN.json'),recovery_mapping_sha256=sha(ROOT/'RECOVERY_MAPPING.json'),control_sample_sha256=CONTROL_SAMPLE_SHA,control_rng_sha256=CONTROL_RNG_SHA))
+            bind_checkpoint_metadata(output,checkpoint,stats,dict(arm=args.arm,statistics_sha256=sha(stats),release=card['release'],donor_revision=donor['revision'],plan_sha256=sha(ROOT/'PAIRING_PLAN.json'),recovery_mapping_sha256=sha(ROOT/'RECOVERY_MAPPING.json'),control_sample_sha256=CONTROL_SAMPLE_SHA,control_rng_sha256=CONTROL_RNG_SHA,cpu_encoder_kernel=encoder_receipt))
             return result
     experiment.Gr00tTrainer=SpaceCheckedTrainer
     old.run_official(config,GROOT)

@@ -37,6 +37,9 @@ def check(new_path, control_path):
         compile(ast.parse(path.read_bytes()), str(path), 'exec')
     pbs = (new_path.parent/'training.pbs').read_text()
     assert '#PBS -m n' in pbs and '#PBS -q auto' in pbs and 'export CUDA_VISIBLE_DEVICES=' not in pbs
+    assert 'export OPENBLAS_CORETYPE=Prescott' in pbs
+    assert "os.environ.get('OPENBLAS_CORETYPE')=='Prescott'" in new_path.read_text()
+    assert "core().decode()=='Prescott'" in new_path.read_text()
     return dict(status='PASS_SOURCE_ONLY_NO_RUNTIME_ADMISSION', inherited_source_sha256=hashlib.sha256(source).hexdigest(),
                 prepared_source_sha256=hashlib.sha256(new_path.read_bytes()).hexdigest(),
                 unchanged_language_unit_seed_and_optimization_config=True, inherited_temporal_recipe='PREFIX',

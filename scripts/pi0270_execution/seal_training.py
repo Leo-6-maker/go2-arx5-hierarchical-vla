@@ -13,11 +13,12 @@ def main():
         paths.append(p)
     for module in read(ROOT/'evidence/RUNTIME_BINDING_AGG.json')['modules']:paths.append(Path(module['path']))
     paths.extend(ROOT/'code'/name for name in ('train.py','cpu_admission.py','stage_data.py','provision.py',
-        'runtime_binding_check.py','seal_training.py','checkpoint.py','training_audit.py','retire_discarded_canary.py'))
+        'runtime_binding_check.py','seal_training.py','checkpoint.py','training_audit.py','retire_discarded_canary.py','training.pbs'))
     paths.extend(ROOT/name for name in ('PAIRING_PLAN.json','RECOVERY_MAPPING.json','DONOR_LOCAL_READBACK.json','STORAGE_ADMISSION.json',
         'design/APPROVED_RUN_CARD.json','design/NEW_FIT192.json','contracts/ROT/source/dataset/statistics.json',
         'evidence/DATA_COVERAGE_ADMISSION.json','evidence/NEWFIT_ADMISSION.json','evidence/TRAINING_DATA_ARCHIVE.json',
-        'evidence/TRAINING_DATA_LOCAL_READBACK.json','evidence/HOPPER_CPU_ADMISSION.json','evidence/RUNTIME_BINDING_AGG.json','evidence/DONOR_REUSE_BINDING.json'))
+        'evidence/TRAINING_DATA_LOCAL_READBACK.json','evidence/HOPPER_CPU_ADMISSION.json','evidence/RUNTIME_BINDING_AGG.json','evidence/DONOR_REUSE_BINDING.json',
+        'evidence/ENCODING_PLATFORM_RECONCILIATION.json','evidence/HOPPER_CPU_ENCODING_PROCESS.json'))
     manifest=ROOT/'archive/training-data/MEMBER_MANIFEST.json';paths.append(manifest)
     for row in read(manifest)['files']:
         p=ROOT/row['path'];assert p.is_file() and not p.is_symlink() and p.stat().st_size==row['bytes'] and sha(p)==row['sha256']
