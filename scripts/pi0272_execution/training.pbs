@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#PBS -N pi0272_matched
+#PBS -P CFP05-CF-052
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+#PBS -l walltime=12:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0272/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0272/logs/
+set -euo pipefail
+source /scratch/e1192548/Projects/go2-arx5/experiments/PI0272/code/environment.sh
+exec 9>"$root/runtime/training.lock"
+flock -n 9
+for arm in S4FIT DIRECT; do
+    "$venv/bin/python" -u "$root/code/train.py" --arm "$arm" --phase continuous --limit 8
+    "$venv/bin/python" -u "$root/code/train.py" --arm "$arm" --phase split --limit 4
+    "$venv/bin/python" -u "$root/code/train.py" --arm "$arm" --phase split --limit 8 --resume 4
+    "$venv/bin/python" -u "$root/code/train.py" --arm "$arm" --compare
+done
+for arm in S4FIT DIRECT; do
+    "$venv/bin/python" -u "$root/code/retire_discarded_canary.py" "$arm"
+done
+for arm in S4FIT DIRECT; do
+    "$venv/bin/python" -u "$root/code/train.py" --arm "$arm" --phase main --limit 1024
+done

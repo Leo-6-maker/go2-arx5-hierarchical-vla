@@ -7,11 +7,13 @@ from torch.utils.checkpoint import checkpoint
 import pi0247_u_rollout_overlay as inherited
 
 
-def generate(head, backbone, state, embodiment, *, checkpointed=False, audit=None):
+def generate(head, backbone, state, embodiment, *, execution_phase, checkpointed=False, audit=None):
     # No action/label argument: only the processed condition enters this readout.
     assert head.num_inference_timesteps == 4 and head.action_horizon == 40 and head.action_dim == 132
     vl = backbone.backbone_features
-    assert vl.dtype == torch.bfloat16
+    assert execution_phase in ('training','quality')
+    expected=torch.float32 if execution_phase=='training' else torch.bfloat16
+    assert vl.dtype==expected,('PHASE_FEATURE_DTYPE',execution_phase,vl.dtype)
     query = torch.zeros((vl.shape[0],40,132),device=vl.device,dtype=vl.dtype)
     with inherited._module_eval(head):
         features = head.state_encoder(state.view(state.shape[0],1,-1),embodiment)
@@ -35,13 +37,13 @@ def generate(head, backbone, state, embodiment, *, checkpointed=False, audit=Non
     return result,query
 
 
-def infer(head,raw_backbone,condition):
+def infer(head,raw_backbone,condition,*,execution_phase):
     """Condition-only inference entry, including native backbone preprocessing."""
     from transformers.feature_extraction_utils import BatchFeature
     assert set(condition)=={'state','embodiment_id'} and 'action' not in raw_backbone
     with inherited._module_eval(head):
         processed=head.process_backbone_output(BatchFeature(data=dict(raw_backbone)))
-        return generate(head,processed,condition['state'],condition['embodiment_id'])[0]
+        return generate(head,processed,condition['state'],condition['embodiment_id'],execution_phase=execution_phase)[0]
 
 
 def decode_gate(raw,state,processor,tag_name):
@@ -104,11 +106,11 @@ def install(head_cls,*,scale,offset,state_min,state_max,audit_path,parity_path,p
         if audit['native_mode_snapshot'] is None:audit['native_mode_snapshot']=modes
         assert audit['native_mode_snapshot']==modes
         cpu=torch.random.get_rng_state();cuda=torch.cuda.get_rng_state_all()
-        generated,query=generate(self,processed,action_input.state,action_input.embodiment_id,checkpointed=True,audit=audit)
+        generated,query=generate(self,processed,action_input.state,action_input.embodiment_id,execution_phase='training',checkpointed=True,audit=audit)
         assert torch.equal(cpu,torch.random.get_rng_state()) and all(torch.equal(x,y) for x,y in zip(cuda,torch.cuda.get_rng_state_all()))
         if audit['parity'] is None:
             # A separately executed non-checkpointed path, within the parity-head budget.
-            with torch.no_grad():reference=infer(self,raw_backbone,dict(state=action_input.state,embodiment_id=action_input.embodiment_id))
+            with torch.no_grad():reference=infer(self,raw_backbone,dict(state=action_input.state,embodiment_id=action_input.embodiment_id),execution_phase='training')
             a,ga=decode_gate(reference,action_input.state,processor_getter(),embodiment_tag)
             b,gb=decode_gate(generated,action_input.state,processor_getter(),embodiment_tag)
             raw=float((reference.float()-generated.detach().float()).abs().max())
@@ -119,7 +121,8 @@ def install(head_cls,*,scale,offset,state_min,state_max,audit_path,parity_path,p
             assert torch.equal(cpu,torch.random.get_rng_state()) and all(torch.equal(x,y) for x,y in zip(cuda,torch.cuda.get_rng_state_all()))
             audit['parity']=dict(status='PASS_PI0272_DIRECT_READOUT_PARITY',raw_max_abs=raw,xyz_max_abs_m=xyz,
                 decoded_max_abs=decoded,reference_gate=ga,candidate_gate=gb,query=inherited._tensor_identity(query),
-                generated_nodes=1,Euler_steps=0,RNG_consumed=False,label_free=True,extra_parity_heads=1)
+                generated_nodes=1,Euler_steps=0,RNG_consumed=False,label_free=True,extra_parity_heads=1,
+                execution_phase='training',feature_dtype=str(processed.backbone_features.dtype),query_dtype=str(query.dtype),output_dtype=str(generated.dtype))
             arrays=parity_path.with_suffix('.npz')
             with arrays.open('xb') as f:
                 np.savez(f,reference=reference.detach().float().cpu().numpy(),candidate=generated.detach().float().cpu().numpy(),
@@ -143,7 +146,8 @@ def install(head_cls,*,scale,offset,state_min,state_max,audit_path,parity_path,p
             native_epsilon=inherited._tensor_identity(epsilon),native_epsilon_sha256=inherited._tensor_sha256(epsilon),
             native_tau=times[0].detach().float().cpu().reshape(-1).tolist(),stock_initial_noise=inherited._tensor_identity(stock),
             stock_initial_noise_used_for_generation=False,direct_query=inherited._tensor_identity(query),
-            generated_output=inherited._tensor_identity(generated),runtime_id='PI0272_DIRECT_V1',
+            generated_output=inherited._tensor_identity(generated),runtime_id='PI0272_DIRECT_R1',execution_phase='training',
+            feature_dtype=str(processed.backbone_features.dtype),query_dtype=str(query.dtype),output_dtype=str(generated.dtype),
             generated_nodes=1,rollout_steps=0,rollout_head_evaluations=1,checkpointed_generated_nodes=1,
             physical_position_loss=float(position.detach()),physical_delta_loss=float(delta.detach()),
             total_loss=float(total.detach()),expert_action_in_condition=False,active_action_modified=False,**details)

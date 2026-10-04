@@ -155,11 +155,11 @@ def run(args):
             conservative=snapshot['available_bytes_at_freeze']-max(0,sum(unique.values())-snapshot['owned_bytes_at_freeze'])
             assert min(conservative,shutil.disk_usage(ROOT).free)>=donor['complete_trainer_bytes']+10*2**30
             result=super()._save_checkpoint(*pos,**kw);cp=output/f'checkpoint-{self.state.global_step}'
-            contract=read(ROOT/'design'/f'{args.arm}_READOUT.json')
+            contract=read(ROOT/'design'/f'{args.arm}_READOUT_R1.json')
             old.bind_checkpoint_metadata(output,cp,stats,dict(release=RELEASE,mode=args.arm,donor_revision=donor['revision'],
                 fitting_card_sha256=sha(ROOT/'design/FITTING_CARD.json'),legacy_metadata_filename_only=True))
             (cp/'PI0272_READOUT_CONTRACT.json').write_text(json.dumps(contract,sort_keys=True)+'\n')
-            for name in ('EXECUTION_FILESET.json','PARAMETER_SCOPE.json','DONOR_PARAMETER_SCOPE.json','design/FITTING_CARD.json','STORAGE_ADMISSION.json'):
+            for name in ('EXECUTION_FILESET.json','PARAMETER_SCOPE.json','DONOR_PARAMETER_SCOPE.json','design/FITTING_CARD.json','STORAGE_ADMISSION.json','evidence/PRECISION_CONTRACT_RESOLUTION.json'):
                 target=cp/'pi0272_provenance'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes())
             return result
     experiment.Gr00tTrainer=Trainer
