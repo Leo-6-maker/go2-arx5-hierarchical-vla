@@ -1,5 +1,6 @@
 """Saved-only PI0270 transition/subgroup analysis, after its fixed CPU replay."""
 import ast
+import argparse
 import csv
 import json
 import math
@@ -9,6 +10,11 @@ from pathlib import Path
 from support import BASE, OLD, ROOT, read, sha, write
 
 RAW=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270')
+
+
+def angle(a,b):
+    from scipy.spatial.transform import Rotation
+    return float(Rotation.from_matrix(a@b.T).magnitude())
 
 
 def table(path):
@@ -76,22 +82,26 @@ def main():
                 gap_shortcut=s['gap_shortcut'],original_V3_and_V2_shared=True))
         with np.load(path.parent/'trajectory.npz',allow_pickle=False) as z:
             times=z['time'].copy();actual=z['actual_p'].copy();installed=z['installed_p'].copy();spec=json.loads(str(z['spec_json']))
-        goal=np.asarray(spec['goal']);gates={g['replan']:g['result'] for g in rec['gates']}
+            actual_r=z['actual_r'].copy();installed_r=z['installed_r'].copy()
+        goal=np.asarray(spec['goal']);goal_r=np.asarray(spec['goal_rotation']);gates={g['replan']:g['result'] for g in rec['gates']}
         for q in rec['queries']:
             request=q['query'];prediction=Path(request['output']);assert sha(prediction)==q['prediction_sha256']
-            with np.load(request['input'],allow_pickle=False) as z:current=z['position_world'].copy();now=float(z['timestamp'])
+            with np.load(request['input'],allow_pickle=False) as z:current=z['position_world'].copy();current_r=z['rotation_world'].copy();now=float(z['timestamp'])
             with np.load(prediction,allow_pickle=False) as z:decoded=z['decoded'][0].copy()
             row=dict(case=path.parent.name,family=rec['family'],task=rec['task'],command=rec['command'],backend=rec['backend'],
                      query_index=q['replan'],timestamp_s=now,prediction_sha256=sha(prediction),current_target_xyz_m=float(np.linalg.norm(current-goal)),
+                     current_target_so3_rad=angle(current_r,goal_r),
                      gate_decision=gates.get(q['replan'],{}).get('decision','NOT_INSTALLED'),
                      actual_prefix_executed=False,predicted_reference_is_not_achieved=True)
             if np.isfinite(decoded).all():
-                try:rot6d_rows_to_matrix(decoded[:,3:9].astype(float))
+                try:reference_r=rot6d_rows_to_matrix(decoded[:,3:9].astype(float))
                 except ValueError:row['prediction_status']='INVALID_ROTATION'
                 else:
                     endpoint=decoded[8,:3].astype(float)+anchor
                     row.update(prediction_status='FINITE_VALID_ROTATION',original_model_reference_0p4_target_xyz_m=float(np.linalg.norm(endpoint-goal)),
-                               original_model_reference_first_point_bias_m=float(np.linalg.norm(decoded[0,:3]+anchor-current)))
+                               original_model_reference_first_point_bias_m=float(np.linalg.norm(decoded[0,:3]+anchor-current)),
+                               original_model_reference_0p4_target_so3_rad=angle(reference_r[8],goal_r),
+                               original_model_reference_first_point_bias_rad=angle(reference_r[0],current_r))
             else:row['prediction_status']='NONFINITE'
             endpoint_tick=np.flatnonzero(np.abs(times-(now+.4))<=1e-9)
             if row['gate_decision'] in ('ACCEPT','WARN') and len(endpoint_tick)==1:
@@ -99,7 +109,11 @@ def main():
                     installed_reference_same_tick_target_xyz_m=float(np.linalg.norm(installed[k]-goal)),
                     achieved_same_tick_target_xyz_m=float(np.linalg.norm(actual[k]-goal)),
                     same_tick_tracking_xyz_m=float(np.linalg.norm(actual[k]-installed[k])),
-                    achieved_target_error_change_m=float(np.linalg.norm(actual[k]-goal)-np.linalg.norm(current-goal)))
+                    achieved_target_error_change_m=float(np.linalg.norm(actual[k]-goal)-np.linalg.norm(current-goal)),
+                    installed_reference_same_tick_target_so3_rad=angle(installed_r[k],goal_r),
+                    achieved_same_tick_target_so3_rad=angle(actual_r[k],goal_r),
+                    same_tick_tracking_so3_rad=angle(actual_r[k],installed_r[k]),
+                    achieved_target_error_change_rad=angle(actual_r[k],goal_r)-angle(current_r,goal_r))
             else:row['execution_missingness']='GATE_NOT_INSTALLED' if row['gate_decision']=='REJECT' else 'NO_COMPLETE_0P4_INTERVAL'
             transitions.append(row)
     out=ROOT/'evidence/predecessor-analysis';out.mkdir(parents=True,exist_ok=True)
@@ -116,4 +130,13 @@ def main():
     print('PASS_COMPLETE_SAVED_PI0270_SUBGROUP_TRANSITION_ANALYSIS',len(transitions),flush=True)
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--self-check',action='store_true')
+    if parser.parse_args().self_check:
+        import numpy as np
+        from scipy.spatial.transform import Rotation
+        rx=Rotation.from_euler('x',90,degrees=True).as_matrix();rz=Rotation.from_euler('z',90,degrees=True).as_matrix()
+        assert abs(angle(rx,np.eye(3))-np.pi/2)<1e-12 and abs(angle(rx,rz)-2*np.pi/3)<1e-12
+        assert angle(rx,rx)<1e-12
+        print('PASS_SAME_TICK_SO3_NONCOMMUTING_FIXTURE_NO_QUERY')
+    else:main()
