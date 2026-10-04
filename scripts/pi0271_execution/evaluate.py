@@ -37,11 +37,16 @@ def main():
                 finally:
                     if worker.poll() is None: worker.terminate(); worker.wait()
         bindings = {p:read(ROOT/'model_bindings'/(p+'.json')) for p in ('PREFIX4096','AGG4096')}
+        registries = {name:read(ROOT/'design'/name) for name in ('LATE_SUPPORT_CARD.json','VISITED_QUERY_CARD.json')}
         outputs = []
         for row in plan['rows']:
             path = Path(row['request']['output']); receipt = read(path.with_suffix('.receipt.json'))
-            assert receipt['status'] == 'VALID' and receipt['binding'] == bindings[row['point']]
+            assert receipt['status'] == 'VALID' and receipt['point'] == row['point'] and receipt['binding'] == bindings[row['point']]
             assert receipt['input_sha256'] == row['request']['expected_condition_sha256'] and receipt['output_sha256'] == sha(path)
+            request=row['request'];entry=next(r for r in registries[request['noise_registry']]['noise'] if r['file']==request['noise_file'])
+            key=next(r for r in entry['keys'] if r['name']==request['noise_name'])
+            assert receipt['noise_sha256']==key['noise_sha256'] and sha(request['noise_file'])==entry['sha256']
+            assert sha(request['input'])==row['input_file_sha256'] and receipt['native_S4'] and receipt['heads']==4
             outputs.append(dict(point=row['point'], panel=row['panel'], input_id=row['input_id'], j=row['j'],
                 path=str(path), sha256=sha(path), receipt_sha256=sha(path.with_suffix('.receipt.json'))))
         write(ROOT/'evidence/QUERY_OUTPUTS_COMPLETE.json', dict(status='ALL_FIXED_PI0271_OUTPUTS_COMPLETE',
