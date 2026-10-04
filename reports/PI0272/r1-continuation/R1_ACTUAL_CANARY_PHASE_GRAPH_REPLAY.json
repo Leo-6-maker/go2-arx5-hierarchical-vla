@@ -1,0 +1,491 @@
+{
+  "status": "PASS_BOTH_ACTUAL_CANARY_PHASE_GRAPH_AND_SAVED_LOSS_REPLAY",
+  "arms": [
+    {
+      "arm": "S4FIT",
+      "actual_canary_microbatches": 16,
+      "actual_gradient_norms": {
+        "1": 0.0012989479582756758,
+        "2": 0.0017593131633475423,
+        "3": 0.003465533023700118,
+        "4": 0.010669655166566372
+      },
+      "parity": {
+        "candidate_gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "angular_speed_radps": {
+              "max": 0.31891090908037995,
+              "mean": 0.13104266086763441,
+              "median": 0.11639721727271785,
+              "p95": 0.2593549560385708
+            },
+            "chunk_age_s": 0.0,
+            "chunk_id": "pi0247-u-stock-parity",
+            "initial_position_discontinuity_m": 0.001596433483854849,
+            "initial_rotation_discontinuity_rad": 0.007192304352537561,
+            "linear_speed_mps": {
+              "max": 0.18194950407784763,
+              "mean": 0.06294814798365893,
+              "median": 0.049522028221837454,
+              "p95": 0.1644411360158315
+            },
+            "se3_arc_length_m": 0.13115567396791886,
+            "translation_path_length_m": 0.12274888856813491
+          },
+          "provenance": {
+            "corrective_action": "NONE",
+            "gate": "TrajectorySafetyGateV1",
+            "threshold_provenance": {
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT"
+            }
+          }
+        },
+        "decoded_action_max_abs": 0.0,
+        "decoded_xyz_max_abs_m": 0.0,
+        "expert_action_in_condition": false,
+        "gate_decision_equal": true,
+        "gate_issues_equal": true,
+        "global_rng_consumed": false,
+        "head_evaluations_candidate": 4,
+        "head_evaluations_reference": 4,
+        "native_epsilon": {
+          "byte_count": 10560,
+          "device": "cuda:0",
+          "dtype": "torch.bfloat16",
+          "sha256": "f06254d7211a784aa1c104ccba16f60e1451a12dd211d071bec54c1cae5e279a",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        "native_noise_substitutions": 1,
+        "nonselection_complete_rollouts": 2,
+        "raw_final_max_abs": 0.0,
+        "reference": "pinned Gr00tN1d7ActionHead.get_action; label-free condition; shared stock-dtype epsilon",
+        "reference_gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "angular_speed_radps": {
+              "max": 0.31891090908037995,
+              "mean": 0.13104266086763441,
+              "median": 0.11639721727271785,
+              "p95": 0.2593549560385708
+            },
+            "chunk_age_s": 0.0,
+            "chunk_id": "pi0247-u-stock-parity",
+            "initial_position_discontinuity_m": 0.001596433483854849,
+            "initial_rotation_discontinuity_rad": 0.007192304352537561,
+            "linear_speed_mps": {
+              "max": 0.18194950407784763,
+              "mean": 0.06294814798365893,
+              "median": 0.049522028221837454,
+              "p95": 0.1644411360158315
+            },
+            "se3_arc_length_m": 0.13115567396791886,
+            "translation_path_length_m": 0.12274888856813491
+          },
+          "provenance": {
+            "corrective_action": "NONE",
+            "gate": "TrajectorySafetyGateV1",
+            "threshold_provenance": {
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT"
+            }
+          }
+        },
+        "rng_audit": {
+          "cpu_unchanged_candidate": true,
+          "cpu_unchanged_reference": true,
+          "cuda_unchanged_candidate": true,
+          "cuda_unchanged_reference": true
+        },
+        "rtc_options": null,
+        "runtime_id": "S4",
+        "status": "PASS_PI0247_U_S4_PARITY",
+        "step_input_max_abs": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "step_tensor_identities": [
+          {
+            "candidate_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "8c923c809e1193e2677233c2c28a860b0022df522f912be4be66db7abc6422e3",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "candidate_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "0d94a3063f2648eb9c2e6fd777f503ed8c318daba7aded4d04ea671abf2bf27e",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "8c923c809e1193e2677233c2c28a860b0022df522f912be4be66db7abc6422e3",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "0d94a3063f2648eb9c2e6fd777f503ed8c318daba7aded4d04ea671abf2bf27e",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "step": 1
+          },
+          {
+            "candidate_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "a2b813d202d6d7133b69265489326bdd513600543f64961562d775d09be72946",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "candidate_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "47d0bc62a3fb4074b8e57f28df91a4e7d26962ef57d59e30f97b189f37d48c76",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "a2b813d202d6d7133b69265489326bdd513600543f64961562d775d09be72946",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "47d0bc62a3fb4074b8e57f28df91a4e7d26962ef57d59e30f97b189f37d48c76",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "step": 2
+          },
+          {
+            "candidate_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "6ffdeea2ff28ef3e3b61f3ed8e9a8ef0e6bc67a7df7b2d15c9debed4a19bb4cd",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "candidate_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "6c6c8ec92167e6de7ef2d6310a5370c5a30df4042a6cb87eb1a6d45b1fd9383d",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "6ffdeea2ff28ef3e3b61f3ed8e9a8ef0e6bc67a7df7b2d15c9debed4a19bb4cd",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "6c6c8ec92167e6de7ef2d6310a5370c5a30df4042a6cb87eb1a6d45b1fd9383d",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "step": 3
+          },
+          {
+            "candidate_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "06f5d78366e90a4dc2e6b83abc08c4102a73d40e27867e7def49873a2bb239fb",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "candidate_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "f1dcaf7b91a9ed8f805d412b6e97bcd475b81d4006a7de15387b7d033dcd183d",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_input": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "06f5d78366e90a4dc2e6b83abc08c4102a73d40e27867e7def49873a2bb239fb",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "reference_velocity": {
+              "byte_count": 21120,
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "sha256": "f1dcaf7b91a9ed8f805d412b6e97bcd475b81d4006a7de15387b7d033dcd183d",
+              "shape": [
+                1,
+                40,
+                132
+              ]
+            },
+            "step": 4
+          }
+        ],
+        "step_velocity_max_abs": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "steps": 4,
+        "stock_noise": {
+          "byte_count": 21120,
+          "device": "cuda:0",
+          "dtype": "torch.float32",
+          "sha256": "8c923c809e1193e2677233c2c28a860b0022df522f912be4be66db7abc6422e3",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        }
+      },
+      "phase_precision_checked": true,
+      "FP32_loss_operation_replay_exact": true
+    },
+    {
+      "arm": "DIRECT",
+      "actual_canary_microbatches": 16,
+      "actual_gradient_norms": {
+        "1": 0.08057615160942078
+      },
+      "parity": {
+        "Euler_steps": 0,
+        "RNG_consumed": false,
+        "candidate_gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "angular_speed_radps": {
+              "max": 1.3491802966461504,
+              "mean": 0.290363023695609,
+              "median": 0.25192590610018717,
+              "p95": 0.49976440373885644
+            },
+            "chunk_age_s": 0.0,
+            "chunk_id": "pi0272-direct-parity",
+            "initial_position_discontinuity_m": 0.0007556496457540529,
+            "initial_rotation_discontinuity_rad": 0.057359784234370936,
+            "linear_speed_mps": {
+              "max": 0.20427471973608663,
+              "mean": 0.08027571165569697,
+              "median": 0.06484476787342328,
+              "p95": 0.1940952590991281
+            },
+            "se3_arc_length_m": 0.18466420011751614,
+            "translation_path_length_m": 0.15653763772860912
+          },
+          "provenance": {
+            "corrective_action": "NONE",
+            "gate": "TrajectorySafetyGateV1",
+            "threshold_provenance": {
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT"
+            }
+          }
+        },
+        "decoded_max_abs": 0.0,
+        "execution_phase": "training",
+        "extra_parity_heads": 1,
+        "feature_dtype": "torch.float32",
+        "first_pass_arrays_sha256": "a5fad4ed802a8580018945141fc5549a88211e675a31acd255a067b73b8c2c4c",
+        "generated_nodes": 1,
+        "label_free": true,
+        "output_dtype": "torch.float32",
+        "query": {
+          "byte_count": 21120,
+          "device": "cuda:0",
+          "dtype": "torch.float32",
+          "sha256": "2c17ba5436510894e76c4b1a796afc4d906508d2dc12fc741bb0393ba2554187",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        "query_dtype": "torch.float32",
+        "raw_max_abs": 0.0,
+        "reference_gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "angular_speed_radps": {
+              "max": 1.3491802966461504,
+              "mean": 0.290363023695609,
+              "median": 0.25192590610018717,
+              "p95": 0.49976440373885644
+            },
+            "chunk_age_s": 0.0,
+            "chunk_id": "pi0272-direct-parity",
+            "initial_position_discontinuity_m": 0.0007556496457540529,
+            "initial_rotation_discontinuity_rad": 0.057359784234370936,
+            "linear_speed_mps": {
+              "max": 0.20427471973608663,
+              "mean": 0.08027571165569697,
+              "median": 0.06484476787342328,
+              "p95": 0.1940952590991281
+            },
+            "se3_arc_length_m": 0.18466420011751614,
+            "translation_path_length_m": 0.15653763772860912
+          },
+          "provenance": {
+            "corrective_action": "NONE",
+            "gate": "TrajectorySafetyGateV1",
+            "threshold_provenance": {
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT"
+            }
+          }
+        },
+        "status": "PASS_PI0272_DIRECT_READOUT_PARITY",
+        "xyz_max_abs_m": 0.0
+      },
+      "phase_precision_checked": true,
+      "FP32_loss_operation_replay_exact": true
+    }
+  ],
+  "new_neural_queries": 0,
+  "main_training_complete_claimed": false
+}
