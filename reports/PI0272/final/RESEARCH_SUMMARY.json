@@ -1,0 +1,159 @@
+{
+  "deployment_selected_checkpoint": "NONE",
+  "execution_complete_subject_to_terminal_publication": true,
+  "guard_paired": [
+    {
+      "after": "S4FIT1024",
+      "before": "AGG4096",
+      "conditions": 96,
+      "median_paired_delta": {
+        "prefix_so3_rmse_rad": 0.004397264297894117,
+        "prefix_xyz_rmse_m": 0.001815666168502178,
+        "so3_rmse_rad": 0.007345443829289575,
+        "xyz_rmse_m": 0.004886081207085693
+      },
+      "task": "M1",
+      "worse_conditions": {
+        "prefix_so3_rmse_rad": 63,
+        "prefix_xyz_rmse_m": 76,
+        "so3_rmse_rad": 60,
+        "xyz_rmse_m": 80
+      }
+    },
+    {
+      "after": "DIRECT1024",
+      "before": "AGG4096",
+      "conditions": 96,
+      "median_paired_delta": {
+        "prefix_so3_rmse_rad": 0.0032546929644380936,
+        "prefix_xyz_rmse_m": 0.0023688980430821077,
+        "so3_rmse_rad": 0.005195543772927481,
+        "xyz_rmse_m": 0.006199272522736155
+      },
+      "task": "M1",
+      "worse_conditions": {
+        "prefix_so3_rmse_rad": 67,
+        "prefix_xyz_rmse_m": 84,
+        "so3_rmse_rad": 69,
+        "xyz_rmse_m": 80
+      }
+    },
+    {
+      "after": "DIRECT1024",
+      "before": "S4FIT1024",
+      "conditions": 96,
+      "median_paired_delta": {
+        "prefix_so3_rmse_rad": 0.00037766414612168354,
+        "prefix_xyz_rmse_m": 0.0004084409297649468,
+        "so3_rmse_rad": 0.0013544933844546747,
+        "xyz_rmse_m": 0.0012907023530137045
+      },
+      "task": "M1",
+      "worse_conditions": {
+        "prefix_so3_rmse_rad": 53,
+        "prefix_xyz_rmse_m": 62,
+        "so3_rmse_rad": 57,
+        "xyz_rmse_m": 65
+      }
+    },
+    {
+      "after": "S4FIT1024",
+      "before": "AGG4096",
+      "conditions": 96,
+      "median_paired_delta": {
+        "prefix_so3_rmse_rad": -0.000561434300710355,
+        "prefix_xyz_rmse_m": 0.000953003774105881,
+        "so3_rmse_rad": -0.004861485550053641,
+        "xyz_rmse_m": 0.001333687153883894
+      },
+      "task": "M3",
+      "worse_conditions": {
+        "prefix_so3_rmse_rad": 40,
+        "prefix_xyz_rmse_m": 70,
+        "so3_rmse_rad": 38,
+        "xyz_rmse_m": 64
+      }
+    },
+    {
+      "after": "DIRECT1024",
+      "before": "AGG4096",
+      "conditions": 96,
+      "median_paired_delta": {
+        "prefix_so3_rmse_rad": -0.0018623443939747594,
+        "prefix_xyz_rmse_m": 0.0007608139153660061,
+        "so3_rmse_rad": -0.006386778548978443,
+        "xyz_rmse_m": 0.0016265701417977519
+      },
+      "task": "M3",
+      "worse_conditions": {
+        "prefix_so3_rmse_rad": 30,
+        "prefix_xyz_rmse_m": 72,
+        "so3_rmse_rad": 31,
+        "xyz_rmse_m": 65
+      }
+    },
+    {
+      "after": "DIRECT1024",
+      "before": "S4FIT1024",
+      "conditions": 96,
+      "median_paired_delta": {
+        "prefix_so3_rmse_rad": -0.00042300264425276313,
+        "prefix_xyz_rmse_m": -3.662516228686871e-05,
+        "so3_rmse_rad": 7.901102725835652e-05,
+        "xyz_rmse_m": 0.0001506583088668658
+      },
+      "task": "M3",
+      "worse_conditions": {
+        "prefix_so3_rmse_rad": 35,
+        "prefix_xyz_rmse_m": 48,
+        "so3_rmse_rad": 50,
+        "xyz_rmse_m": 53
+      }
+    }
+  ],
+  "new_model_queries_by_report": 0,
+  "new_task_qualification": false,
+  "primary": [
+    {
+      "after": "DIRECT1024",
+      "before": "AGG4096",
+      "conditions": 24,
+      "defined_MSE_conditions": 24,
+      "direct_REJECT_conditions": 0,
+      "direct_defined_direction_conditions": 24,
+      "direct_wrong_direction_conditions": 0,
+      "median_per_condition_delta_prefix_MSE_m2": -6.671339454001406e-05,
+      "stochastic_REJECT_outputs": 0,
+      "stochastic_defined_direction_outputs": 48,
+      "stochastic_total_outputs": 48,
+      "stochastic_wrong_direction_outputs": 35,
+      "undefined_MSE_conditions": 0
+    },
+    {
+      "after": "DIRECT1024",
+      "before": "S4FIT1024",
+      "conditions": 24,
+      "defined_MSE_conditions": 24,
+      "direct_REJECT_conditions": 0,
+      "direct_defined_direction_conditions": 24,
+      "direct_wrong_direction_conditions": 0,
+      "median_per_condition_delta_prefix_MSE_m2": 4.5927252855733923e-07,
+      "stochastic_REJECT_outputs": 0,
+      "stochastic_defined_direction_outputs": 48,
+      "stochastic_total_outputs": 48,
+      "stochastic_wrong_direction_outputs": 0,
+      "undefined_MSE_conditions": 0
+    }
+  ],
+  "renderer_sha256": "01dc46d77a4fbbed035b7d0bae9983cd4ca4d408de4370af992d2c4c782718a1",
+  "selected_checkpoint": "NONE",
+  "source_tables": {
+    "ALL_POINTS3504.csv": "8af93526b15eecd516a64e091954cba3164cc23c475a05eb8416d6820a618fe5",
+    "DIRECT_VS_STOCHASTIC_PER_CONDITION.csv": "ad328605c5fcb68b07a3f61f63900a0c98cb8b5e076690973f1f16df0c61af26",
+    "MATCHED_WITHIN_READOUT_LEARNING.csv": "a7099b504d882f57c9f6a0c9f67bbcfb18e4e8fb7722e2a9af95560903fafbe2",
+    "PER_CONDITION_STRATA.csv": "aa0e5721fe3e24e579d58bff99cb56c2b12fb2abe377b7e8e35eda8e1cb22b93",
+    "QUALITY_FAMILIES.csv": "9db82bb0bf1c4ba8a2732f8729d9b61b5e7ebb40d50ade87d3f85c6812fa5ef2",
+    "QUALITY_STRATA.csv": "454d54246886d0d1ec59e9c1548f98081c5230754d04a92fc4abd5d86929fbd7"
+  },
+  "status": "MATCHED_FITTING_COMPLETE_LOCAL_DIRECT_ADVANTAGE_NOT_ESTABLISHED"
+}

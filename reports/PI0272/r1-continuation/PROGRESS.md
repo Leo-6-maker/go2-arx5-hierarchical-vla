@@ -21,3 +21,11 @@ The goal remains active. Next: continue the existing healthy allocation through 
 - Both new final model views passed exact pinned model-file hashes and559 frozen/471 trainable tensor-scope checks. DIRECT0 reuses the original AGG model view with the explicit DIRECT contract. No optimizer was copied to Corelab.
 - Quality fileset75 was sealed and fixed serialized evaluation started on CorelabGPU0. At this timestamp590 S4FIT attempts were registered and589 outputs had durable receipts (one in flight). This is a running progress snapshot, not a final quality verdict.
 - Next: finish all2148 fixed queries, CPU saved-array replay and3504-row analysis, complete full Trainer/result readbacks and publish the one terminal canonical. No new science branch, selected or deployment candidate is authorized.
+
+## Fixed result and preservation complete (2026-10-05 SGT)
+
+Both1024 endpoints, all four full HF Trainer readbacks, exactly2148 quality queries/6228 heads, four exact DIRECT repeats, CPU replay and3504-row analysis are complete. There were no technical neural retries. Prediction archive e7cf79062be247d298ea50b9a96999c27e335927 preserves4296 members; summary archive4ae9b50af558fb438b1794e58e8bab592a11cf18 preserves229 members. Both have full anonymous file/member readback.
+
+The primary DIRECT advantage is not established: M3 terminal wrong direction improves AGG35/48 to S4FIT0/48 and DIRECT0/24, but DIRECT-minus-S4FIT median paired prefix MSE is +4.59272529e-7m2. Both fits lose early-support XYZ accuracy relative to AGG; all command/family tradeoffs remain in the full research return. Formal selected/deployment remain NONE.
+
+The prepublication audit passed. Only the single terminal Issue11 canonical and exact-readback/closeout receipt remain before goal closure.
