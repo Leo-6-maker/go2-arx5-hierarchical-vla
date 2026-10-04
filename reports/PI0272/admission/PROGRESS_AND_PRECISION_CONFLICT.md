@@ -34,10 +34,18 @@ The complete source-bound conflict receipt is [A2_PRECISION_CONTRACT_CONFLICT.js
 
 ## Proposed resolution — not executed
 
-Explicitly correct the shared generated-query binding to **the actual FP32 feature dtype**, retaining native BF16 epsilon/autocast, FP32 physical losses, the original mixed parameter precision and the qualified S4 path. DIRECT would then use an all-zero FP32 latent in that same feature dtype, with the registered one-pass interpretation. No other scientific setting changes.
+**Phase-specific clarification:** preserve **FP32 generated query during training and BF16 query during the existing Corelab quality evaluation**. DIRECT's zero query follows the actual feature dtype in each phase. Native BF16 epsilon/autocast, FP32 physical losses and the original mixed parameter precision remain unchanged. Do not interpret the earlier FP32 proposal as permission to convert evaluation to FP32.
+
+Fresh inspection of all **1168/1168** closed AGG A1/A2 quality receipts finds BF16 query, native S4 and four heads; every receipt matches the closed output index hash. The actual qualified quality worker (`7e70551b613b218986efae1dfe6f2fa9be2d347779352166274e8d31686ceeb4`) explicitly loads the evaluation model with `.eval().to('cuda:0', dtype=torch.bfloat16)`. This contrasts with the training model's mixed parameter precision. See [A2_PHASE_PRECISION_EVIDENCE.json](A2_PHASE_PRECISION_EVIDENCE.json), SHA256 `e7484efc9aec9a300166dfb3ba6d57eab9e6fddc3b9b8e72332e39874886aaa3`. No old prediction was regenerated.
 
 This is not permission to cast the S4 path to BF16, refit statistics, change losses, reset budgets or collect new conditions. Section 2 requires reporting a concrete semantic contradiction; section 8 does not classify scientific precision changes as ordinary engineering repair. Explicit clarification was requested from the user before proceeding.
 
 The frozen requested-mode cards remain preserved. The new training entry requires an explicit resolution receipt; it is not launch-admitted. No real canary has run. The isolated source is a prepared implementation, not a claim of model correctness or training completion.
 
 After clarification: bind corrected versioned mode evidence, finish actual runtime admission/seal, run both real 8-versus-4+4 canaries, then S4FIT1024 and DIRECT1024 serially, followed by the fixed endpoint panel, CPU replay and complete new Trainer HF readbacks. No routine GO is needed after the precise contract is resolved.
+
+## Independent preparation completed while clarification is pending
+
+The per-condition comparison helper has a passing constructed CPU self-check. It computes each DIRECT-minus-mean-S4 MSE difference before the group median, distinguishes /condition and /noise-output direction denominators, retains finite REJECT results, leaves undefined directions undefined, and marks an incomplete numerical bank unavailable without reducing its noise count. The check explicitly distinguishes a median of paired differences (-1 in its fixture) from a difference of marginal medians (-78). These are synthetic arithmetic values, not PI0272 model results.
+
+The new formal-checkpoint archive entry reuses the qualified fixed-revision whole-file HF upload/readback helper and requires the new mode sidecar. It has not uploaded any checkpoint because no PI0272 Trainer exists. The original canonical was re-read and still refers to the same unrevised BF16 wording; no explicit precision resolution has been received.
