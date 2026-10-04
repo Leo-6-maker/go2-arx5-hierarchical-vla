@@ -11,6 +11,9 @@ def main():
     for r in check['source_files']:assert sha(r['path'])==r['sha256']
     native=read(ROOT/'evidence/NATIVE_CPU_FIXTURES.json');assert native['status']=='PASS_CONSTRUCTED_NATIVE_E0_E1_AND_GATE'
     for r in native['source_files']:assert sha(r['path'])==r['sha256']
+    reporting=read(ROOT/'evidence/REPORT_CPU_FIXTURES.json')
+    assert reporting['status']=='PASS_REPORT_AND_ARCHIVE_CPU_FIXTURES_WITH_NO_LEARNED_CALLS'
+    for r in reporting['source_files']:assert sha(r['path'])==r['sha256']
     assert read(ROOT/'evidence/HISTORICAL_TABLE_REUSE.json')['status']=='PASS_CLOSED_AGG_PANELS_AND_S4FIT_LOCAL_CONTEXT_ONLY'
     paths=list((ROOT/'code').glob('*.py'))+list((ROOT/'design').glob('*.json'))
     for arm in ('BROAD','TARGET'):
@@ -29,7 +32,8 @@ def main():
             if p.suffix=='.py':assert sha(p)==r['sha256'];paths.append(p)
     paths.extend(ROOT/p for p in ('contracts/ROT/source/dataset/statistics.json','evidence/MAIN_TRAINING_AUDIT.json',
         'evidence/PRECISION_CONTRACT_RESOLUTION.json','evidence/QUALITY_CPU_FIXTURES.json','evidence/NATIVE_CPU_FIXTURES.json',
-        'evidence/QUALITY_MEMBERSHIP_READBACK.json','evidence/A0_SOURCE_AND_PLAN.json','evidence/HISTORICAL_TABLE_REUSE.json'))
+        'evidence/QUALITY_MEMBERSHIP_READBACK.json','evidence/A0_SOURCE_AND_PLAN.json','evidence/HISTORICAL_TABLE_REUSE.json',
+        'evidence/REPORT_CPU_FIXTURES.json','evidence/EVALUATION_CONTRACT_COPY.json'))
     paths=sorted(set(p for p in paths if p.name!='QUALITY_EXECUTION_FILESET.json'))
     write(ROOT/'design/QUALITY_EXECUTION_FILESET.json',dict(status='FROZEN_PI0273_BEFORE_NEW_QUALITY',
         files=[dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)) for p in paths],
