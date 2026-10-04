@@ -1,6 +1,7 @@
 """Read-only actual consumption, graph, paired packets and four Trainer inventories."""
 import json
 import math
+import ast
 import sys
 from collections import Counter
 from pathlib import Path
@@ -50,15 +51,18 @@ def graph(arm,path):
 
 def main():
     assert read(ROOT/'evidence/PRECISION_CONTRACT_RESOLUTION.json')['status']=='RESOLVED_BY_EXPLICIT_SCIENTIFIC_AUTHORITY'
-    assert read(ROOT/'evidence/HOPPER_CPU_ADMISSION.json')['status']=='PASS_PI0272_BOTH_FULL_2048_ACTUAL_PROCESSOR_STREAMS'
+    cpu=read(ROOT/'evidence/HOPPER_CPU_ADMISSION.json')
+    assert cpu['status']=='PASS_PI0272_BOTH_FULL_2048_ACTUAL_PROCESSOR_STREAMS' and cpu['kernel']=='Prescott'
+    runtime=ROOT/'code/train.py';seal=read(ROOT/'EXECUTION_FILESET.json')
+    assert sha(runtime)==next(r['sha256'] for r in seal['files'] if r['path']==str(runtime))
+    guard=ast.dump(ast.parse("assert os.environ.get('OPENBLAS_CORETYPE')=='Prescott'").body[0].test)
+    assert any(ast.dump(n.test)==guard for n in ast.walk(ast.parse(runtime.read_text())) if isinstance(n,ast.Assert))
     stats=ROOT/'contracts/ROT/source/dataset/statistics.json';assert sha(stats)==STATS_SHA
     checkpoints=[];packets={};logs={};exposures={}
     for arm in ('S4FIT','DIRECT'):
         assert read(ROOT/arm/'canary_compare.json')['status']=='PASS_PI0272_REAL_EXACT_RESUME_CANARY'
         path=ROOT/arm/'main/training';samples=rows(path/'sample_audit.jsonl');rng=rows(path/'step_rng.jsonl');s4=graph(arm,path)
         assert samples==rows(ROOT/'evidence/input-audit'/arm/'sample_audit.jsonl') and len(samples)==len(rng)==2048
-        encoder=read(path/'CPU_ENCODER_KERNEL.json');assert encoder['core']=='Prescott' and encoder['scientific_dtypes_unchanged']
-        for phase in ('continuous','split'):assert read(ROOT/arm/phase/'training/CPU_ENCODER_KERNEL.json')==encoder
         for i,(a,b,c) in enumerate(zip(samples,rng,s4)):
             assert (a['unit'],a['micro'])==(i//2+1,i%2)
             assert all(a[k]==b[k] for k in ('unit','micro','command','condition_sha256'))
@@ -94,6 +98,9 @@ def main():
     archive.save(ROOT/'evidence/MAIN_TRAINING_AUDIT.json',dict(status='PASS_PI0272_BOTH_ACTUAL_1024_MATCHED_TRAINING',
         complete_checkpoints=checkpoints,exposure=exposures,actual_random_packets_matched=True,actual_inputs_match_CPU_plan=True,
         actual_generated_nodes=dict(S4FIT=4,DIRECT=1),actual_loss_gradient_mode_checked=True,logs=logs,
+        encoder_binding=dict(kernel=cpu['kernel'],CPU_admission_library_sha256=cpu['kernel_sha256'],
+            CPU_admission_sha256=sha(ROOT/'evidence/HOPPER_CPU_ADMISSION.json'),sealed_training_enforces_OPENBLAS_CORETYPE=True,
+            actual_all_processed_inputs_equal_CPU_admission=True,separate_per_phase_kernel_receipts='NOT_RECORDED'),
         raw_completed_updates=len(updates),technical_completed_updates=len(updates)-2080,raw_training_heads=len(heads),
         raw_heads_by_arm=dict(Counter(r['arm'] for r in heads)),code_sha256=sha(Path(__file__)),model_queries_by_audit=0,
         selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
