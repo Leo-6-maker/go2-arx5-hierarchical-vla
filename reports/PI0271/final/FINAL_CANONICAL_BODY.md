@@ -1,0 +1,40 @@
+## PI0271 terminal canonical — fixed diagnosis COMPLETE, feedback limitations retained
+
+**PI0271_LATE_SUPPORT_FEEDBACK_DIAGNOSIS_COMPLETE — STOP_FOR_SINGLE_TARGETED_REPAIR_OR_TRANSFER_DECISION**
+
+Authority: `PI0271_FROZEN_POLICY_LATE_SUPPORT_AND_FEEDBACK_DIAGNOSIS_GO_V1`, release `cbdcaf85ab6c25999fe054bf5da5285fadc394a3`, canonical5977478618. Source evidence commit: **`91330241c13b083b4077a012e00394f9d1df624d`**, same `pi0267/executor-decoupled-recovery` branch.
+
+### Actual completion
+
+- PI0270 finished first, including CPU replay, video, complete preservation and terminal canonical [5978357203](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5978357203). Its original/reliable qualification remains **VALID_QUALITY_FAIL**, reliable6/64, full-point safety64/64, original ROT-relative LEGACY PASS. Actual A0 correctly entered the fixed diagnostic branch.
+- All **2400** new registered predictions completed: A1 **1184**, A2 additional **1152**, A3 PREFIX **64**; AGG A3's64 old predictions were reused. **9600 S4 heads, zero technical retries**. Fixed policies, actual processed inputs/noise bytes, processor, S4/decode and original gate are unchanged.
+- All **64** same-state teacher proposals completed once:63 usable,1 label-gate rejection. All64 remain in the denominator and permanently DIAGNOSIS_ONLY. No new rendering or episode.
+- Independent CPU replay passed all2400 new S4/decode arrays and fixed metrics. All192 eight-noise banks are available; no favorable resampling, reduced K or action averaging.
+- Actual new training/canary/backward/episodes/renders/WBC/physics/hardware: **0**. Predecessor budgets remain separate.
+
+### Scientific results
+
+1. **Late support was learned.** A1 Q3 prefix XYZ medians improve M1 **62.112→7.401mm**, M3 **7.291→1.680mm**. Q3 prefix MSE and empirical mean error² improve in all24 family summaries for each task. M3 terminal remains incomplete: **35/48** AGG directions are opposite to the teacher, versus46/48 PREFIX; both commands are affected. This component panel has only two TRAIN families.
+2. **Residual error is not explained solely by random draws.** The finite K8 empirical mean-error term accounts for median **90.5% M1 /92.0% M3** of AGG prefix MSE. Dispersion increases in all24 family summaries, but total MSE decreases. These are finite-bank descriptive quantities, not unbiased population bias or a closed-loop stability result. K8 was not run on A3 states.
+3. **M1 visited-state behavior remains a separate gap.** On the two fixed AGG-visited development families, AGG prefix XYZ is worse than PREFIX on **all31 usable M1 observations** (15/15 and16/16). M3 visited-state XYZ usually improves, while later SO3/progress remain mixed. Same-input/same-noise comparison is local; it is not a new PREFIX rollout, blind TEST or proof of a unique representation cause.
+4. **Failures remain visible.** One AGG Q3 j6 output is a finite original-gate REJECT (angular speed4.427936rad/s >4.0); it remains in all tables and its K8 bank. One M1 q99 teacher label is unusable (linear speed2.782519m/s >2.0); its teacher-relative metrics are unavailable, but both policy predictions and the original trajectory are preserved. No result was retried for quality.
+
+One recommendation, **NOT_AUTHORIZED / launch_allowed=false**: a bounded TRAIN-only same-input direct trajectory-head feasibility comparison against the current S4 formulation, to test residual corrective-reference fitting on already-consumed terminal/late support. Do not combine it with new data, history, loss, camera or WBC changes. This is not a claim that the comparison would solve the distinct M1 visited-state gap; a new scientific release must define and authorize it. No EVAL diagnostic label enters training.
+
+### Complete public evidence
+
+Repository: `leoyuer/pi0246-gate-pass-campaign`. Each part has full anonymous fixed-revision file and all-member readback:
+
+| Part | Fixed revision | Members | Tree SHA256 |
+|---|---|---:|---|
+| Support + noise |5b5dc9bc65dec326c9f4d758a8920a4268d00a29|5840|e40157c532d2fe880f14c8ffa8b1a518571f4c2ef0524dd93827a31353a6a1f8|
+| Visited + labels |5fa779e7b8dcbe2ec5949baf9c169a377b15a921|256|fb4fd3ab7871cbaeb83b6cb3134caa8bb7e5649a6dd70abfcc5ddb9df5634c30|
+| Summary, full tables, cards, code and proofs |6004b2bce43961db8e0ca56ca4b9001b9ec44d8e|82|54eb2784a4232ed9dfcfab508d8f29c2e4c7447691687706a7f31c5bb7a0ee70|
+
+Prefix: `evidence/PI0271/frozen-policy-diagnosis-20261004/{part}`.
+
+- [Full research report](https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/6004b2bce43961db8e0ca56ca4b9001b9ec44d8e/evidence/PI0271/frozen-policy-diagnosis-20261004/summary/FINAL_RESEARCH_RETURN.md), SHA256 `90bb1c7734cd4da22fcce6a3f00490eae53f4297325009e5bc2d20808a855d21`.
+- [Full CPU replay receipt](https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/6004b2bce43961db8e0ca56ca4b9001b9ec44d8e/evidence/PI0271/frozen-policy-diagnosis-20261004/summary/CPU_REPLAY.json), SHA256 `e384c4613df573d12d332d8b6ac9a558c0734586888022f340a905485eff6d31`.
+- [Source-bound requirement and archive audit](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/91330241c13b083b4077a012e00394f9d1df624d/reports/PI0271/final/PREPUBLICATION_REQUIREMENTS_AUDIT.json). All82 archived summary members match actual required sources; this canonical and its exact readback close the remaining publication item.
+
+No new video is needed: PI0270's existing VIRTUAL/NOT_WBC/NON_REALTIME video is reused. No cleanup, monitor, mail, PR77 pointer or merge occurred. Old PI0269/PI0268 FAIL and PI0267 secondary WBC PARTIAL remain unchanged. **Execution completion does not establish reliable feedback or physical transfer.** `selected_checkpoint=NONE`; `deployment_selected_checkpoint=NONE`.
