@@ -1,0 +1,126 @@
+{
+  "status": "CLOSED_ACTUAL_TRAINING_RESOURCE_ACCOUNTING",
+  "job": "646325.hopper-m-02",
+  "job_exit": 0,
+  "segments": [
+    {
+      "arm": "S4FIT",
+      "phase": "continuous",
+      "endpoint": 8,
+      "training_loop_runtime_seconds": 26.1824
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "split",
+      "endpoint": 4,
+      "training_loop_runtime_seconds": 16.6306
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "split",
+      "endpoint": 8,
+      "training_loop_runtime_seconds": 16.0949
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "continuous",
+      "endpoint": 8,
+      "training_loop_runtime_seconds": 15.8316
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "split",
+      "endpoint": 4,
+      "training_loop_runtime_seconds": 13.2412
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "split",
+      "endpoint": 8,
+      "training_loop_runtime_seconds": 12.8169
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "main",
+      "endpoint": 1024,
+      "training_loop_runtime_seconds": 1890.6555
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "main",
+      "endpoint": 1024,
+      "training_loop_runtime_seconds": 937.9158
+    }
+  ],
+  "actual_updates_by_arm_phase": [
+    {
+      "arm": "DIRECT",
+      "phase": "continuous",
+      "count": 8
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "main",
+      "count": 1024
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "split",
+      "count": 8
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "continuous",
+      "count": 8
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "main",
+      "count": 1024
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "split",
+      "count": 8
+    }
+  ],
+  "actual_heads_by_arm_phase": [
+    {
+      "arm": "DIRECT",
+      "phase": "continuous",
+      "count": 49
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "main",
+      "count": 6145
+    },
+    {
+      "arm": "DIRECT",
+      "phase": "split",
+      "count": 49
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "continuous",
+      "count": 152
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "main",
+      "count": 18440
+    },
+    {
+      "arm": "S4FIT",
+      "phase": "split",
+      "count": 152
+    }
+  ],
+  "total_updates": 2080,
+  "total_heads": 24987,
+  "PBS_query": "Job Id: 646325.hopper-m-02\n    Job_Name = pi0272_matched\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 148\n    resources_used.cput = 01:05:22\n    resources_used.mem = 115722352kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 70595216kb\n    resources_used.walltime = 00:55:59\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Sun Oct  4 22:21:49 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0272/logs/\n    exec_host = hopper-20/5*12\n    exec_vnode = (hopper-20:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Sun Oct  4 23:31:21 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0272/logs/\n    Priority = 0\n    qtime = Sun Oct  4 22:21:49 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    stime = Sun Oct  4 22:35:05 2026\n    obittime = Sun Oct  4 23:31:21 2026\n    session_id = 1884546\n    jobdir = /home/svu/e1192548\n    substate = 92\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Sun Oct 04 at 22:35 on (hopper-20:ngpus=1:ncpus=12:mem\n\t=235929600kb) and finished\n    etime = Sun Oct  4 22:21:49 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 0\n    Submit_arguments = /scratch/e1192548/Projects/go2-arx5/experiments/PI0272/c\n\tode/training.pbs\n    history_timestamp = 1791127881\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "source_stdout_sha256": "9fd80d506cb77afa4c28ba633c5a50c0659ed5d4a6b7f03d6b0259f038c40088",
+  "loop_runtime_excludes_model_load_and_archive": true,
+  "equal_updates_are_not_equal_FLOPs": true,
+  "quality_queries_by_this_audit": 0
+}
