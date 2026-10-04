@@ -18,7 +18,15 @@ def angle(a,b):
 
 
 def table(path):
-    with path.open() as f:return list(csv.DictReader(f))
+    with path.open() as f:rows=list(csv.DictReader(f))
+    for row in rows:
+        if 'retention' in row:
+            # Reused CSV rows contain Python dict literals after typed reuse; new rows contain JSON.
+            try:retention=json.loads(row['retention'])
+            except json.JSONDecodeError:retention=ast.literal_eval(row['retention'])
+            assert isinstance(retention,dict)
+            row['retention']=json.dumps(retention,sort_keys=True)
+    return rows
 
 
 def summary(rows):
