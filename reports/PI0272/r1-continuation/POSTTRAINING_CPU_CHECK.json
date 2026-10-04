@@ -1,0 +1,45 @@
+{
+  "actual_DIRECT_model_result": false,
+  "constructed_DIRECT_decode_only": {
+    "Euler_steps": 0,
+    "codec_max_abs": 0.0,
+    "file": "/home/liuyu-nfs/Projects/go2-arx5/PI0272/runtime/posttraining-fixtures/constructed_decode_only.npz",
+    "learned_network_recomputed": false,
+    "readout": "DIRECT",
+    "saved_zero_latent": true,
+    "sha256": "5cc61b6cc25ebb8585467a9ce324ca62be45a789901d49f67cf90a9108a1acf4"
+  },
+  "gradient_queries": 0,
+  "invalid_predictions_retained": true,
+  "missing_actual_training_blocks_model_loading": true,
+  "model_queries": 0,
+  "reused_S4_fixture": {
+    "codec_max_abs": 0.0,
+    "file": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0271/support/AGG4096/u0195-m0/j0/prediction.npz",
+    "native_four_step_Euler_exact": true,
+    "sha256": "90f2a7844045685826fddb07ac42f62e0872ca3fda083382b3405a325939023e"
+  },
+  "source_files": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0272/code/quality_worker.py",
+      "sha256": "d42025429930da8c7618164a56b1d1baeb10c3d3c5bc25a2221b47df5fd492a6"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0272/code/evaluate.py",
+      "sha256": "f4d0aaa50b4af5daa073426a8c7e546f7612b7627c6300339812c7f4fba577fc"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0272/code/materialize.py",
+      "sha256": "64c8b6019641efada6b7073c1edc1734af177d3ef5a713e106eaba1a34adec61"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0272/code/report.py",
+      "sha256": "3d5290776b9158ea281c2cbcd3d7754e474d2ffb8e002c3eb787b73ff93105ec"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0272/code/check_posttraining.py",
+      "sha256": "0b54049c51d8b0b5d31b31170444ae47bf03d55239a8b933c41095c5f1a5a366"
+    }
+  ],
+  "status": "PASS_CPU_ADMISSION_BLOCK_REPLAY_INVALID_RETENTION_AND_ARITHMETIC"
+}

@@ -4,6 +4,8 @@ import copy
 import hashlib
 import json
 import os
+import pickle
+import random
 import sys
 import time
 from pathlib import Path
@@ -90,7 +92,7 @@ def main(point):
             heads+=1;assert heads<=7168
             append(headsfile,dict(ordinal=heads,attempt=ordinal,point=point))
         query_dtypes=[];output_dtypes=[]
-        handle=model.action_head.model.register_forward_pre_hook(hook);arrays={}
+        handle=model.action_head.model.register_forward_pre_hook(hook);arrays={};rng_identity=None
         query_hook=model.action_head.action_encoder.register_forward_pre_hook(lambda _m,args:query_dtypes.append(str(args[0].dtype)))
         output_hook=model.action_head.action_decoder.register_forward_hook(lambda _m,_args,value:output_dtypes.append(str(value.dtype)))
         try:
@@ -106,13 +108,19 @@ def main(point):
                 actual_dtype=output_dtypes[-1];rng_unchanged=None
             else:
                 cpu=torch.random.get_rng_state();cuda=torch.cuda.get_rng_state_all()
+                host_rng=pickle.dumps((random.getstate(),np.random.get_state()),protocol=4)
                 with torch.inference_mode():
                     prepared=stage21._rec_to_dtype(copy.deepcopy(policy),torch.bfloat16)
                     bb,action=model.prepare_input(prepared);features=model.backbone(bb)
                     generated=infer(model.action_head,features,dict(state=action.state,embodiment_id=action.embodiment_id),execution_phase='quality')
                     actual_dtype=str(generated.dtype);raw=generated.detach().float().cpu().numpy()
-                rng_unchanged=torch.equal(cpu,torch.random.get_rng_state()) and all(torch.equal(x,y) for x,y in zip(cuda,torch.cuda.get_rng_state_all()))
+                rng_unchanged=(torch.equal(cpu,torch.random.get_rng_state()) and
+                    all(torch.equal(x,y) for x,y in zip(cuda,torch.cuda.get_rng_state_all())) and
+                    host_rng==pickle.dumps((random.getstate(),np.random.get_state()),protocol=4))
                 assert rng_unchanged
+                rng_identity=dict(python_numpy_sha256=hashlib.sha256(host_rng).hexdigest(),
+                    torch_cpu_sha256=hashlib.sha256(cpu.numpy().tobytes()).hexdigest(),
+                    torch_cuda_sha256=[hashlib.sha256(x.cpu().numpy().tobytes()).hexdigest() for x in cuda])
                 arrays.update(zero_query=np.zeros((1,40,132),np.float32))
             elapsed=time.perf_counter()-start
         finally:handle.remove();query_hook.remove();output_hook.remove()
@@ -129,6 +137,7 @@ def main(point):
             heads=heads-before,execution_phase='quality',query_dtype='torch.bfloat16',readout_output_dtype=actual_dtype,
             observed_query_dtypes=query_dtypes,observed_readout_dtypes=output_dtypes,
             native_S4=q['readout']=='S4FIT',direct_generation_RNG_unchanged=rng_unchanged,model_latency_s=elapsed,
+            direct_generation_RNG_identity=rng_identity,
             readout_contract_sha256=binding['readout_contract_sha256'],finite_output=bool(np.isfinite(raw).all() and np.isfinite(decoded).all()),
             decode_failure=decode_failure,no_teacher_or_privileged_condition=True)
         output.parent.mkdir(parents=True,exist_ok=True);temp=output.with_suffix('.partial.npz')
