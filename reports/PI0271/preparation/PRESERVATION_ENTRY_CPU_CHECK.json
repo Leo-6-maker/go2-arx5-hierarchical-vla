@@ -1,0 +1,22 @@
+{
+  "actual_final_audit": "NOT_EXECUTED_WAITING_FOR_REGISTERED_RESULTS",
+  "checks": [
+    "archive.py support --self-check: exit 0; qualified existing pack and full readback source",
+    "final_audit.py --self-check: exit 0; partial heads retained, orphan heads rejected"
+  ],
+  "model_queries": 0,
+  "observed_utc": "2026-10-04T08:31:28.699188+00:00",
+  "source_files": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/archive.py",
+      "sha256": "0599733b50ef6e6e0cdd83425d21b861834a72576bab17bfad9900dc4a2200d4"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/final_audit.py",
+      "sha256": "4aa6c32f95cd4839ef49cb07b5b2e214ebe31cb2d4ddf8d8e00f56ca662d7511"
+    }
+  ],
+  "status": "PASS_QUALIFIED_ARCHIVE_SOURCE_AND_LITERAL_PARTIAL_HEAD_ACCOUNTING",
+  "teacher_calls": 0,
+  "uploads": 0
+}
