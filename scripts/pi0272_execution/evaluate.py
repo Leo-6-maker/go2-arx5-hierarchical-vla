@@ -44,7 +44,8 @@ def main():
                 original=next(r for r in card['rows'] if r['point']==q['point'] and r['input_id']==q['input_id'] and r['panel']=='support')
                 old=read(Path(original['output']).with_suffix('.receipt.json'))
                 assert old['direct_generation_RNG_unchanged']
-                assert old['direct_generation_RNG_identity']==receipt['direct_generation_RNG_identity']
+                # Each call preserves RNG. Its initial process-local state may differ after exact journal resume.
+                assert old['direct_native_output_identity']==receipt['direct_native_output_identity']
                 with np.load(p,allow_pickle=False) as a,np.load(original['output'],allow_pickle=False) as b:
                     for name in ('raw','decoded','zero_query','state'):
                         assert a[name].dtype==b[name].dtype and a[name].shape==b[name].shape and a[name].tobytes()==b[name].tobytes(),(q['input_id'],name)

@@ -92,7 +92,7 @@ def main(point):
             heads+=1;assert heads<=7168
             append(headsfile,dict(ordinal=heads,attempt=ordinal,point=point))
         query_dtypes=[];output_dtypes=[]
-        handle=model.action_head.model.register_forward_pre_hook(hook);arrays={};rng_identity=None
+        handle=model.action_head.model.register_forward_pre_hook(hook);arrays={};rng_identity=None;native_output_identity=None
         query_hook=model.action_head.action_encoder.register_forward_pre_hook(lambda _m,args:query_dtypes.append(str(args[0].dtype)))
         output_hook=model.action_head.action_decoder.register_forward_hook(lambda _m,_args,value:output_dtypes.append(str(value.dtype)))
         try:
@@ -114,6 +114,8 @@ def main(point):
                     bb,action=model.prepare_input(prepared);features=model.backbone(bb)
                     generated=infer(model.action_head,features,dict(state=action.state,embodiment_id=action.embodiment_id),execution_phase='quality')
                     actual_dtype=str(generated.dtype);raw=generated.detach().float().cpu().numpy()
+                    native_output_identity=dict(dtype=actual_dtype,shape=list(generated.shape),
+                        sha256=hashlib.sha256(generated.detach().contiguous().view(torch.uint8).cpu().numpy().tobytes()).hexdigest())
                 rng_unchanged=(torch.equal(cpu,torch.random.get_rng_state()) and
                     all(torch.equal(x,y) for x,y in zip(cuda,torch.cuda.get_rng_state_all())) and
                     host_rng==pickle.dumps((random.getstate(),np.random.get_state()),protocol=4))
@@ -138,6 +140,7 @@ def main(point):
             observed_query_dtypes=query_dtypes,observed_readout_dtypes=output_dtypes,
             native_S4=q['readout']=='S4FIT',direct_generation_RNG_unchanged=rng_unchanged,model_latency_s=elapsed,
             direct_generation_RNG_identity=rng_identity,
+            direct_native_output_identity=native_output_identity,
             readout_contract_sha256=binding['readout_contract_sha256'],finite_output=bool(np.isfinite(raw).all() and np.isfinite(decoded).all()),
             decode_failure=decode_failure,no_teacher_or_privileged_condition=True)
         output.parent.mkdir(parents=True,exist_ok=True);temp=output.with_suffix('.partial.npz')
