@@ -1,0 +1,198 @@
+{
+  "authority": "PI0271_FROZEN_POLICY_LATE_SUPPORT_AND_FEEDBACK_DIAGNOSIS_GO_V1",
+  "canonical": 5977478618,
+  "decision": "Complete valid original/reliable failure; execute only fixed A1/A2/A3 diagnosis with existing weights. No training or new episode.",
+  "deployment_selected_checkpoint": "NONE",
+  "execution_authorization_overrides_CPU_plan_preparation_launch_allowed_false_only": true,
+  "full40s_reversal_and_original_first_completion_separate": true,
+  "full_H40_prefix_suffix_and_paired_changes_preserved": true,
+  "legacy_retention_pass": true,
+  "observed_utc": "2026-10-04T09:08:27.792510+00:00",
+  "old_FIT_actual_consumption_and_NEWFIT_Q0_Q1_separate": true,
+  "original_qualification": {
+    "PASS": false,
+    "full64_safe": true,
+    "groups": [
+      {
+        "PASS": true,
+        "backend": "E0",
+        "command_success": [
+          8,
+          8
+        ],
+        "success": 16,
+        "task": "M1",
+        "total": 16
+      },
+      {
+        "PASS": true,
+        "backend": "E1",
+        "command_success": [
+          8,
+          8
+        ],
+        "success": 16,
+        "task": "M1",
+        "total": 16
+      },
+      {
+        "PASS": false,
+        "backend": "E0",
+        "command_success": [
+          1,
+          0
+        ],
+        "success": 1,
+        "task": "M3",
+        "total": 16
+      },
+      {
+        "PASS": false,
+        "backend": "E1",
+        "command_success": [
+          1,
+          0
+        ],
+        "success": 1,
+        "task": "M3",
+        "total": 16
+      }
+    ]
+  },
+  "predecessor_terminal": "PI0270_LEARNER_STATE_RECOVERY_STUDY_COMPLETE",
+  "predecessor_terminal_comment": 5978357203,
+  "query_plan_sha256": "e0af41a3710280b7a870816bb43fae228b4597ce167265a6e5d18ca384e466ac",
+  "release": "cbdcaf85ab6c25999fe054bf5da5285fadc394a3",
+  "reliable_qualification": {
+    "PASS": false,
+    "full64_safe": true,
+    "groups": [
+      {
+        "PASS": false,
+        "backend": "E0",
+        "command_success": [
+          1,
+          0
+        ],
+        "success": 1,
+        "task": "M1",
+        "total": 16
+      },
+      {
+        "PASS": false,
+        "backend": "E1",
+        "command_success": [
+          1,
+          2
+        ],
+        "success": 3,
+        "task": "M1",
+        "total": 16
+      },
+      {
+        "PASS": false,
+        "backend": "E0",
+        "command_success": [
+          1,
+          0
+        ],
+        "success": 1,
+        "task": "M3",
+        "total": 16
+      },
+      {
+        "PASS": false,
+        "backend": "E1",
+        "command_success": [
+          1,
+          0
+        ],
+        "success": 1,
+        "task": "M3",
+        "total": 16
+      }
+    ]
+  },
+  "same_tick_analysis_complete": true,
+  "selected_checkpoint": "NONE",
+  "shared_original_V3_scoring_disclosed": true,
+  "source_files": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/evidence/final-publication/FINAL_CLOSEOUT_RECEIPT.json",
+      "sha256": "34ba101a3586353ce3256db04461f31b6415e06baa073c972c347ce532b3a379"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/evidence/final-publication/FINAL_CANONICAL_RECEIPT.json",
+      "sha256": "15dc729f5dcb06fb0493e8cffdf70c69200537bed5ffb4bb5f9a2baa531a4932"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/evidence/MAIN_TRAINING_AUDIT.json",
+      "sha256": "a86f780adde27f4dfb273e9cec2c5b4e1dbde81cc0e47d3aec402009fefe0102"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/evidence/RESULT_ARCHIVE_summary.json",
+      "sha256": "fce04652ddb622735323efd817019e4c44f359256b9d57df71f93ab402db1642"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/evidence/PRIMARY_COMPLETION_AUDIT.json",
+      "sha256": "e738e6e747c6c51797ac4ebf858ad551f29344b3a7ad4f40cbbfce9e4f10f187"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/PRIMARY_VERDICT.json",
+      "sha256": "e05b056434fc57f4604209d60bc18f25da427a1682ff1b45f5df38a701ab32a1"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/CPU_REPLAY.json",
+      "sha256": "9789ec9604c1973823b8abde2335df07fb3ee4d4f12026eda6e928eaa8ed3a79"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/FINAL_RESEARCH_RETURN.md",
+      "sha256": "14d7da869d3301a139b62dfb0b2d1ee4a7513845f1e2f36b0fad6f4fcf931842"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/OFFLINE2904.csv",
+      "sha256": "85830d60d4bb369454acb500b1553be56e5db41c83f786a94b982bdfb5782faa"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/NEW_FIT384.csv",
+      "sha256": "604b1dff08b42a6d1c1352a4dc87ca6be02c5b66009b5c374f88509d6494c924"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/VIRTUAL192.csv",
+      "sha256": "a6b6e80c89fb9e7906e9de276b15b31af90e6c01d0ca44d39f18639803822363"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/COMPONENT96.csv",
+      "sha256": "a7aa066b99fc224efc182ca17806f11142624d67003126a254f53f663e0e16cd"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/PAIRED_OFFLINE_CHANGES.csv",
+      "sha256": "e344af899913fa61cd6c80627c8e85d7ff191e017a1bd68c39ee8777593ec5f0"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/PAIRED_NEW_FIT_CHANGES.csv",
+      "sha256": "7c01de21b2b9abf19685b40e378dd65476bfff7da0b7bf167c6dc7444f75c0cb"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0270/delivery/M3_TIMING_INTERPRETATION.json",
+      "sha256": "970546cb72e53af0c7b20bdc3eeb9b2c9ad74b3c944f0131bd060f74c6c2ce12"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/predecessor-analysis/PREDECESSOR_SUBGROUP_AND_TRANSITION_ANALYSIS.json",
+      "sha256": "b204bebb97f2c717dfe31f3b4c93b4aa4d5685671d1855efecd44644c19392a1"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/predecessor-analysis/SAME_TICK_REFERENCE_INSTALLED_ACHIEVED.csv",
+      "sha256": "ee5d2a25a273fe0dd9611c144e520043612e6bf220c1d5a8eb16a8e6570f01eb"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/PREDECESSOR_FINAL_PUBLICATION_HF_READBACK.json",
+      "sha256": "82c2635f5c5df9f4f011eace7e24f8e8b851d76f1193d6d77fb6f392ca4e7e2f"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/PREDECESSOR_FINAL_ARTIFACT_CHECK.json",
+      "sha256": "ee1d0b3cb5be153267e5666c98d4cc7d123cafb3df4ed6a23ed824aa9c15e364"
+    }
+  ],
+  "status": "PROCEED_REGISTERED_DIAGNOSIS"
+}
