@@ -29,3 +29,7 @@ Both1024 endpoints, all four full HF Trainer readbacks, exactly2148 quality quer
 The primary DIRECT advantage is not established: M3 terminal wrong direction improves AGG35/48 to S4FIT0/48 and DIRECT0/24, but DIRECT-minus-S4FIT median paired prefix MSE is +4.59272529e-7m2. Both fits lose early-support XYZ accuracy relative to AGG; all command/family tradeoffs remain in the full research return. Formal selected/deployment remain NONE.
 
 The prepublication audit passed. Only the single terminal Issue11 canonical and exact-readback/closeout receipt remain before goal closure.
+
+## Terminal closeout (2026-10-05 00:14 SGT)
+
+Single terminal Issue11 canonical5981967270 was published and exactly read back. Final publication and closeout files have anonymous exact-byte HF readback at revision e2a9589382eca22c28299c00aa7b041792584f0c. The final closeout reports no missing scientific requirements. Execution COMPLETE; primary DIRECT advantage NOT ESTABLISHED. Stop at STOP_FOR_FULL_SUPPORT_FEEDBACK_OR_FITTING_DECISION; selected/deployment NONE. No successor run is authorized or started.
