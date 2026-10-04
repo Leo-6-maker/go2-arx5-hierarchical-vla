@@ -12,3 +12,12 @@ Authority: release `8a2ffbefe0c57536c0a7e340da0616c7987c74f1`, Issue #11 canonic
 - Read-only training audit, model-only materialization, serialized fixed evaluation, CPU report and qualified result archive wrappers are prepared separately from the sealed training runtime. Full actual training audits and final-quality execution remain pending.
 
 The goal remains active. Next: continue the existing healthy allocation through both 1024 endpoints, then fixed quality/CPU replay and full new Trainer archive/readbacks. Scientific conditions and cumulative budgets are unchanged. No quality result, selected checkpoint or deployment candidate is claimed.
+
+## Closed training and active quality (2026-10-04 23:52 SGT)
+
+- PBS job646325 finished at23:31:21 SGT with Exit_status=0. Both arms completed1024 official updates. The actual paired audit passed all4096 main microbatches, native random packets, input/label identities, generated gradients/mode lifecycle and four full Trainer inventories.
+- Total including canaries:2080 completed updates,24987 actual training heads; no technical recovery updates. Main-loop runtimes were1890.6555s for S4FIT and937.9158s for DIRECT (model load/archive excluded).
+- Four new Trainers have fixed HF uploads. S4FIT512, S4FIT1024 and DIRECT512 have complete25-file readback PASS; DIRECT1024 readback remains active. Local full Trainers remain protected.
+- Both new final model views passed exact pinned model-file hashes and559 frozen/471 trainable tensor-scope checks. DIRECT0 reuses the original AGG model view with the explicit DIRECT contract. No optimizer was copied to Corelab.
+- Quality fileset75 was sealed and fixed serialized evaluation started on CorelabGPU0. At this timestamp590 S4FIT attempts were registered and589 outputs had durable receipts (one in flight). This is a running progress snapshot, not a final quality verdict.
+- Next: finish all2148 fixed queries, CPU saved-array replay and3504-row analysis, complete full Trainer/result readbacks and publish the one terminal canonical. No new science branch, selected or deployment candidate is authorized.
