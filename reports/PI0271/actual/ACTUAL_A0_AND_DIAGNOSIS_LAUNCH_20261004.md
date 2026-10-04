@@ -16,3 +16,13 @@ GPU0 had24995MiB free with another user's7059MiB process coexisting; no unrelate
 The finite evaluator PID461855 and PREFIX worker461878 launched after admission. At17:10:46 SGT they were both confirmed live, and97 first-valid registered PREFIX support outputs existed. Live journals showed98 attempts/392 heads (not an atomic idle snapshot), teacher calls0. One actual saved output/receipt pair was hash-verified and records native S4/four heads. This is actual inference, not only staged code, but not a complete diagnostic result or full numerical replay.
 
 The fixed plan remains1184 A1 +1152 additional A2 +64 A3 PREFIX queries, with existing AGG A3 outputs reused. Same-state teacher labelling, completed full tables/replay, all new-result archives/readbacks, final research return and PI0271 terminal publication remain required. No new training/canary/backward, episode/render, WBC/physics/hardware, monitor/mail or merge is authorized. Formal selected/deployment remain NONE.
+
+## Actual same-state teacher completion, 17:20 SGT
+
+The original native teacher completed all64 fixed saved-state proposals once (64 calls, no technical repeats), under hidden CUDA and four CPU threads. All64 record hashes and saved label payload hashes were checked, and every record remains DIAGNOSIS_ONLY / never_train_or_blind_TEST. No neural call, renderer or episode was used for labelling.
+
+63 labels are eligible. The original label gate rejects `pi0265-family-028-M1-c0-E0-q099`: maximum linear speed2.782518894354688m/s exceeds the unchanged2.0m/s rejection threshold. This is an unusable teacher label, not a reason to exclude or retry either policy's prediction. Keep the proposal in the64 denominator and mark teacher-relative metrics unavailable; the saved policy/gate/actual trajectory outcomes remain reportable.
+
+The completion receipt SHA256 is `d27ac5495594e9d982325e050e123822293f9cf03d8e422c211f4734c568c53e`; the64-call journal SHA256 is `340bd9d5a32d7c63a4dd5ce1386c6328a59bbb19826290acc8b5e8b344e9498d`. `ACTUAL_TEACHER_COMPLETION.json` records the independent payload/hash inventory and unchanged original gate evidence.
+
+At17:20:18 SGT the same evaluator461855 and PREFIX worker461878 remained live, with734 saved support predictions. This dated count supersedes the earlier launch observation without changing it. No completed prediction was repeated. The full2400-query evaluation, saved-array replay, new archive readbacks, interpretation and terminal PI0271 canonical are still pending; this milestone is not the final diagnosis.

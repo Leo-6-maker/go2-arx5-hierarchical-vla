@@ -1,0 +1,82 @@
+{
+  "code_sha256": "15a96aa180b8977b2e8a3f86222cfc62a7e8765bc99fb115d51f865e47218003",
+  "completion_receipt": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/VISITED_LABELS_COMPLETE.json",
+    "sha256": "d27ac5495594e9d982325e050e123822293f9cf03d8e422c211f4734c568c53e"
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "eligible": 63,
+  "episodes": 0,
+  "invalid": [
+    {
+      "input_id": "pi0265-family-028-M1-c0-E0-q099",
+      "label_gate": {
+        "decision": "REJECT",
+        "issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "observed": 2.782518894354688,
+            "provenance": "TEST_ONLY",
+            "severity": "REJECT",
+            "threshold": 2.0
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 1.5079040246991327,
+            "mean": 0.376133884697496,
+            "median": 0.18832401229771253,
+            "p95": 1.2390628677125584
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "PI0267-virtual-label",
+          "initial_position_discontinuity_m": 0.0,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "linear_speed_mps": {
+            "max": 2.782518894354688,
+            "mean": 0.7415927503985037,
+            "median": 0.4239733457221072,
+            "p95": 2.3036243529151714
+          },
+          "se3_arc_length_m": 1.4503194345550303,
+          "translation_path_length_m": 1.4461058632770816
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      },
+      "reasons": [
+        "LABEL_GATE_REJECT"
+      ]
+    }
+  ],
+  "journal_sha256": "340bd9d5a32d7c63a4dd5ce1386c6328a59bbb19826290acc8b5e8b344e9498d",
+  "model_queries": 0,
+  "renders": 0,
+  "selected_checkpoint": "NONE",
+  "status": "PASS_64_SAVED_STATE_TEACHER_RECORDS_AND_PAYLOAD_HASHES",
+  "teacher_calls": 64,
+  "unusable": 1,
+  "utc": "2026-10-04T09:20:18.318438+00:00"
+}
