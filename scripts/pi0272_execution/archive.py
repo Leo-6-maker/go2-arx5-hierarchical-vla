@@ -41,6 +41,9 @@ def prepared():
     mature.ROOT=mature.R1=ROOT;mature.RAW=RAW
     os.environ.update(HF_HOME=str(ROOT/'runtime/hf_online'),HF_XET_CACHE=str(ROOT/'runtime/hf_online/xet'),HF_HUB_OFFLINE='0')
     node=next(n for n in ast.parse(path.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='main')
+    allowed=next(n for n in ast.walk(node) if isinstance(n,ast.Tuple) and
+        {'.json','.jsonl','.npz','.pbs'}<={e.value for e in n.elts if isinstance(e,ast.Constant)})
+    allowed.elts.extend(ast.Constant(value=v) for v in ('.sh','.yaml','.yml'))
     assignment=next(n for n in node.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='roots' for t in n.targets))
     node.body[node.body.index(assignment)]=ast.parse('roots=registered_roots(part)').body[0]
     changed=[]
