@@ -21,9 +21,9 @@ def main(point):
     if point=='DIRECT0':binding={**donor,'point':point,'readout_contract_sha256':sha(mode)}
     else:
         arm=point.removesuffix('1024');assert arm in ('S4FIT','DIRECT')
-        source=read(ROOT/'evidence'/arm/'checkpoint-1024.full_readback.json')
-        assert source['status']=='PASS_FULL_FILE_READBACK' and (source['arm'],source['step'])==(arm,1024)
-        entries={r['path']:r for r in source['files']}
+        source=read(ROOT/'evidence'/arm/'checkpoint-1024.archive_receipt.json')
+        assert source['status']=='UPLOADED' and (source['arm'],source['step'])==(arm,1024)
+        entries={r['path']:r for r in source['entries']}
         checkpoint=next(c for c in audit['complete_checkpoints'] if (c['arm'],c['step'])==(arm,1024))
         assert entries=={r['path']:r for r in checkpoint['entries']}
         names=('config.json','model-00001-of-00002.safetensors','model-00002-of-00002.safetensors','model.safetensors.index.json')

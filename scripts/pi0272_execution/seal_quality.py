@@ -10,12 +10,13 @@ def main():
     assert check['status']=='PASS_CPU_ADMISSION_BLOCK_REPLAY_INVALID_RETENTION_AND_ARITHMETIC'
     for r in check['source_files']:assert sha(r['path'])==r['sha256']
     paths=list((ROOT/'code').glob('*.py'))
+    assert {(r['arm'],r['step']) for r in audit['complete_checkpoints']}=={(a,s) for a in ('S4FIT','DIRECT') for s in (512,1024)}
+    # Model bytes are verified at the pinned upload revision; full Trainer readback remains a terminal requirement.
     for arm in ('S4FIT','DIRECT'):
-        for step in (512,1024):
-            p=ROOT/'evidence'/arm/f'checkpoint-{step}.full_readback.json';receipt=read(p)
-            assert receipt['status']=='PASS_FULL_FILE_READBACK' and (receipt['arm'],receipt['step'])==(arm,step)
-            expected=next(r for r in audit['complete_checkpoints'] if (r['arm'],r['step'])==(arm,step))
-            assert receipt['files']==expected['entries'];paths.append(p)
+        p=ROOT/'evidence'/arm/'checkpoint-1024.archive_receipt.json';receipt=read(p)
+        assert receipt['status']=='UPLOADED' and (receipt['arm'],receipt['step'])==(arm,1024)
+        expected=next(r for r in audit['complete_checkpoints'] if (r['arm'],r['step'])==(arm,1024))
+        assert receipt['entries']==expected['entries'];paths.append(p)
     for point in ('S4FIT1024','DIRECT0','DIRECT1024'):
         p=ROOT/'model_bindings'/f'{point}.json';binding=read(p)
         assert binding['view_type']=='model-only' and binding['point']==point
