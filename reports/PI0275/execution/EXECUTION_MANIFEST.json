@@ -1,0 +1,3182 @@
+{
+  "CPU_contract": {
+    "learned_calls": 0,
+    "native_checks": "NOT_RUN",
+    "physical_starts": 0,
+    "physics_ticks": 0,
+    "renders": 0,
+    "source_sha256": "c17fc83b4bb6f4820241990bc198fff6190063755eb58ce954ffa85340d42b91",
+    "status": "PASS_PI0275_CPU_CONTRACT_ONLY"
+  },
+  "actual_native_engine_inventory": "REQUIRED_AT_FIRST_DECLARED_NATIVE_START",
+  "authority": "PI0275_OBJECT_TRANSFER_PHYSICS_AND_DATA_PILOT_GO_V1",
+  "budget": {
+    "RGB_pairs": 48000,
+    "WBC_runs": 0,
+    "controls": 4,
+    "hardware_runs": 0,
+    "learned_calls": 0,
+    "native_conditions": 2,
+    "physics_ticks": 278880,
+    "primary_starts": 68,
+    "teacher_updates": 261120,
+    "total_starts": 74
+  },
+  "controller": {
+    "angular_Kd": 0.3,
+    "angular_Kp": 4.0,
+    "command_angular_rad_s": 0.5,
+    "command_opening_m_s": 0.04,
+    "command_translation_m_s": 0.1,
+    "finger_Kd": 5.0,
+    "finger_Kp": 2000.0,
+    "finger_force_N": 10.0,
+    "max_force_norm_N": 20.0,
+    "max_torque_norm_Nm": 2.0,
+    "translation_Kd": 40.0,
+    "translation_Kp": 600.0
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "files": [
+    {
+      "path": "assets\\object_transfer\\draft_tool.urdf",
+      "sha256": "44e62ac4fe50e54529fbfc0a59a9fcddb589adec4a872d67d736e7c5364669ca"
+    },
+    {
+      "path": "reports\\object_transfer\\preparation\\SCENE_AND_SPLIT_PROPOSAL_DRAFT.json",
+      "sha256": "9a3816c30446f76dc6a38bd296812148cf80ee718e60e90cc2a03bd803a3663b"
+    },
+    {
+      "path": "scripts\\object_transfer_proposals.py",
+      "sha256": "dd9ea7746b374d47dc81228e1d8b09eb37edc09b49f4414fdc032fa5903d8b34"
+    },
+    {
+      "path": "scripts\\object_transfer_task_score.py",
+      "sha256": "b682429848f119ff722dec7e86060f36e96a4eafe7fa6ca8f3a17e2c2de5cd49"
+    },
+    {
+      "path": "scripts\\object_transfer_teacher.py",
+      "sha256": "05935f80750aef853e6c7a6f26d9c449c25bf37918d7588f6f4133d1ea175c66"
+    },
+    {
+      "path": "scripts\\pi0275_execution\\contract.py",
+      "sha256": "c17fc83b4bb6f4820241990bc198fff6190063755eb58ce954ffa85340d42b91"
+    },
+    {
+      "path": "scripts\\pi0275_execution\\environment.py",
+      "sha256": "925fd28f13039f6581260771d04d8499f57623d8eaac39774cb58ce55c5abd18"
+    },
+    {
+      "path": "scripts\\pi0275_execution\\freeze.py",
+      "sha256": "bf96e64840ab042aa4bbc7ee56645b4fc07d68cbb0917ebcd0487a9be6b9a64d"
+    },
+    {
+      "path": "scripts\\pi0275_execution\\native_checks.py",
+      "sha256": "66738cbfcb4771510f6b8ad89d5d76d300fbb25779c9a7f33ff8869e90611cde"
+    },
+    {
+      "path": "scripts\\pi0275_execution\\score.py",
+      "sha256": "453132610e2a1bd39fc55a44f08fd4707e6931d066ca4810edba2574e5f2712b"
+    },
+    {
+      "path": "scripts\\pi0275_execution\\teacher.py",
+      "sha256": "6b0ca9e6155f812163bad0a226de9584215840ad925cfa3a63674ec5178ed4cb"
+    },
+    {
+      "path": "src\\go2arx5_vla\\__init__.py",
+      "sha256": "98cc069aafa58175c33de48ae30f333cf4cee9db88642ccede67147096fa2de3"
+    },
+    {
+      "path": "src\\go2arx5_vla\\adapters\\__init__.py",
+      "sha256": "5b0e97c3ee9c278daa1531e7c3704cb9f62696351e9f861122450f02d9d4fa4d"
+    },
+    {
+      "path": "src\\go2arx5_vla\\adapters\\groot_to_wbc.py",
+      "sha256": "c0e2544da86c11add186a2027c7166b9d6aa5b541e05d8aa5855ca20986dbcdb"
+    },
+    {
+      "path": "src\\go2arx5_vla\\artifacts\\__init__.py",
+      "sha256": "ee79d3a61283b9cd4e8ce9085dc81aa0cd104a0b55f0f7904956d574ddb2728d"
+    },
+    {
+      "path": "src\\go2arx5_vla\\artifacts\\manifest.py",
+      "sha256": "22dc85256bb02e58556814b76c13aba31aff87a6a8895858c5614123ccedd34f"
+    },
+    {
+      "path": "src\\go2arx5_vla\\benchmark\\__init__.py",
+      "sha256": "aca4ce649aece16c555822ce9f0e05e8e3fafa71a5cd3f1489ae15d2e898d6ea"
+    },
+    {
+      "path": "src\\go2arx5_vla\\benchmark\\lifecycle.py",
+      "sha256": "2f3310779e9e2d7114be75e50cbb047ebe4a4f69fbb5ef44d9f27188f84afe4a"
+    },
+    {
+      "path": "src\\go2arx5_vla\\benchmark\\native_suite.py",
+      "sha256": "55d9ff31ee1695b7cb972b0903afca836ff0dcce4def4faab5935fcda35c0633"
+    },
+    {
+      "path": "src\\go2arx5_vla\\benchmark\\progressive_relocation.py",
+      "sha256": "65b5263a0fe405997d5752322ebf3d1f538dd09853e72e6dd787df139f24e54d"
+    },
+    {
+      "path": "src\\go2arx5_vla\\contracts\\__init__.py",
+      "sha256": "de5c9337b6bca5d684ba98745826c603106aa355d24f55cfda8de3804d0e3f13"
+    },
+    {
+      "path": "src\\go2arx5_vla\\contracts\\motion_intent.py",
+      "sha256": "7fa0196076608be0096d694125b3e1d7b43a5bc97645234bb38c0013a1e3d5c1"
+    },
+    {
+      "path": "src\\go2arx5_vla\\contracts\\placement.py",
+      "sha256": "606a8f491c9cae02cc571df6604123248e79721997f9a4ae2934673c4e79e755"
+    },
+    {
+      "path": "src\\go2arx5_vla\\contracts\\reference_binding.py",
+      "sha256": "086c53cf819b14356e5b967801c959b4f329227618c9f5044933b0c335698701"
+    },
+    {
+      "path": "src\\go2arx5_vla\\contracts\\trajectory.py",
+      "sha256": "1d8c18f4f1d1dd344114b4c296f1b4b44750c3d67b843ad5546165dc04006fbd"
+    },
+    {
+      "path": "src\\go2arx5_vla\\contracts\\trajectory_shape.py",
+      "sha256": "f292d5b30de1ee022bc52d241e162ae9cd8b28b5ba0d6db3cf979e531b442eb0"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\__init__.py",
+      "sha256": "de33abe279e0e80d1d3952a1ace28dad68bf8e0a5b99ec4e466a0d8c9163555b"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\materialization.py",
+      "sha256": "80e6d6e2a353cdf3eabfdf8dd04e2b14edf8211a9477ea6d65eca8cda7424f40"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\processor.py",
+      "sha256": "f2fc38417fc49cc9d9a0241b2eba39b68796b58ab781c17db821264662394be9"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\quality.py",
+      "sha256": "db5618377318776787507483482d20712299d400d294248712b3251f1cd0dcf6"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\readiness.py",
+      "sha256": "ee0c0e5804f3d5faaeebfddb6f0a181f1610aef316a2e42ba733022b1a0d0f26"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\recorder.py",
+      "sha256": "b53b174e2ff635bea1d7dd79a8bbdbf46a62a71dd52530165aa323d9f18bb3dc"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\stage22_expert.py",
+      "sha256": "49c4027c06e5ed4680a47fd28e6fefe19bdb4f18a18defcdb61c9660efc5ebf0"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\stage22_snapshot_lock.py",
+      "sha256": "67dc35c988938b1acd840d084ef03cee71416bf390c124b66b4a2051e13b28ed"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\stage22_split.py",
+      "sha256": "ef8183c005ab3f480c3eeb52c8141a5ca6b7e1c7f5e31413fe6af7ce1879f591"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\stress.py",
+      "sha256": "cdb671ba90030d2e017b0a30a3504499dfbf8b414f57a66ece08d13b8e3dc5d2"
+    },
+    {
+      "path": "src\\go2arx5_vla\\data\\teleop.py",
+      "sha256": "91d295913e3709479eb7958c0326290ac6d09715f93a2581051dc8b7e0ea8c57"
+    },
+    {
+      "path": "src\\go2arx5_vla\\diagnostics\\__init__.py",
+      "sha256": "ab57736d09fde1652010b9c6e1667d9e82123e04af14671914beaf610dfdc0a2"
+    },
+    {
+      "path": "src\\go2arx5_vla\\diagnostics\\stage23_action_pipeline.py",
+      "sha256": "9217fca7d3ee0a0f42bab1b612340b80b96e764e3106c780212927a90e9f2eaa"
+    },
+    {
+      "path": "src\\go2arx5_vla\\evaluation\\__init__.py",
+      "sha256": "c035d746a63336fe190703a1bd6496f554b89246b6ccbc2dcec52239c2d39d76"
+    },
+    {
+      "path": "src\\go2arx5_vla\\evaluation\\checkpoint_eval.py",
+      "sha256": "356272fa27de868264acfe9318ca1d35d719f1cc4e81e7a8295cbf02cc86491a"
+    },
+    {
+      "path": "src\\go2arx5_vla\\evaluation\\structured_action_eval.py",
+      "sha256": "abd8b2a7c8c930b241c217b919b878bf13b5fe11e52b7d5b63f9d42ce7823220"
+    },
+    {
+      "path": "src\\go2arx5_vla\\evaluation\\trajectory_metrics.py",
+      "sha256": "b1dd8635849faac4e7e2e0ce2b29e706a457c24f0d0c5a414c5c16074a9678f3"
+    },
+    {
+      "path": "src\\go2arx5_vla\\experiments\\__init__.py",
+      "sha256": "a5167410e2fda305e201cbff0abc65d10a424ab5fd50f0a1862ac1668b78759e"
+    },
+    {
+      "path": "src\\go2arx5_vla\\experiments\\native_wbc.py",
+      "sha256": "02e0c394fef7652325d6a8124104557634f5f5b5e9350a329ac83c9a8534a766"
+    },
+    {
+      "path": "src\\go2arx5_vla\\metrics\\__init__.py",
+      "sha256": "5715bec4ad4fe42bcec0f6c33c7ef9dbc150bd4070f81e7ee1275dc930dad695"
+    },
+    {
+      "path": "src\\go2arx5_vla\\metrics\\action_profile.py",
+      "sha256": "d282c77d8880b808064f33203481699940ab2f85b8dfc625627eee5f0623f6ec"
+    },
+    {
+      "path": "src\\go2arx5_vla\\metrics\\h2_paired.py",
+      "sha256": "7c88fadb9e77b5b889a769388308a82e1c8572a5181a2ab3deb59c2b852e2a11"
+    },
+    {
+      "path": "src\\go2arx5_vla\\metrics\\internal_plan.py",
+      "sha256": "dd9c4756a13527346b44a593b69d6e73436a87d32f6783b902a469a07a6da354"
+    },
+    {
+      "path": "src\\go2arx5_vla\\metrics\\task_space.py",
+      "sha256": "04bc575fc8744c752413f705500b96880a34876ef77febdee8629751893b91ef"
+    },
+    {
+      "path": "src\\go2arx5_vla\\metrics\\whole_body.py",
+      "sha256": "ef753c5ca3059b8a1112adf66b559eda94323f88709563a3fa31e2d24417fdf5"
+    },
+    {
+      "path": "src\\go2arx5_vla\\motion_api\\__init__.py",
+      "sha256": "06fe180399e40ac96b661ea5f723940de21d93f3f2ab51a4927eb65518b62777"
+    },
+    {
+      "path": "src\\go2arx5_vla\\motion_api\\qualification.py",
+      "sha256": "8cd3407a723ecbe32396b6699f01cc11ea5328e13ef10c0b10405b5318802eca"
+    },
+    {
+      "path": "src\\go2arx5_vla\\oracle\\__init__.py",
+      "sha256": "6765194e75cd78ca96bda80967e2d7665abaab71163fa7e33d64eab50e3cb463"
+    },
+    {
+      "path": "src\\go2arx5_vla\\oracle\\stage35_corpus.py",
+      "sha256": "9a8ca1ed4aa68da240b252747291d69cadaf87ed0429e6ee6980da895a399ea0"
+    },
+    {
+      "path": "src\\go2arx5_vla\\providers\\__init__.py",
+      "sha256": "6e65151158890d217fa5cea2cf6edd1fb178d27c155cdee2175b3a46b88055d3"
+    },
+    {
+      "path": "src\\go2arx5_vla\\providers\\base.py",
+      "sha256": "3a5a09dac3ae5d5d99406fc87b1b842656274becec6d8817f2b84a0dbc342fdb"
+    },
+    {
+      "path": "src\\go2arx5_vla\\providers\\benchmark.py",
+      "sha256": "19be1133fe68b83f455a89359cb915aec6e26860d66a6dcd35a3fdc30b1d86dc"
+    },
+    {
+      "path": "src\\go2arx5_vla\\providers\\groot.py",
+      "sha256": "fb074900bdbefe6dd9e25854e44c28f7af6c66576a26d43e1fbc1f7141de9e65"
+    },
+    {
+      "path": "src\\go2arx5_vla\\providers\\replay.py",
+      "sha256": "50d6df4ffa9e938b9c6eb97ce227cb13ed787731abbc21956963e97c7edde0b6"
+    },
+    {
+      "path": "src\\go2arx5_vla\\runtime\\__init__.py",
+      "sha256": "acad1b5b0a2b69f6a10f5b1ce16f8812b6c71435a11ae02649e8372a98ea1a6a"
+    },
+    {
+      "path": "src\\go2arx5_vla\\runtime\\chunk_lifecycle.py",
+      "sha256": "64f9a287b1901c77dc5c302ea21ced5552f1c943f6caefc4906c6fa07335aafd"
+    },
+    {
+      "path": "src\\go2arx5_vla\\runtime\\receding_horizon.py",
+      "sha256": "9c39ce23168889d71c09d5ac853204beae5edd3f03634edf82004087b8f8a035"
+    },
+    {
+      "path": "src\\go2arx5_vla\\safety\\__init__.py",
+      "sha256": "0abbe3e44e0dac023eafd3edefed3237d98111facb350ebd778df8ea5e6fa587"
+    },
+    {
+      "path": "src\\go2arx5_vla\\safety\\trajectory_gate.py",
+      "sha256": "95301b470bb349877f7e57d784fd7f7b7b5de6fc087aebe3938353258b7f56a6"
+    },
+    {
+      "path": "src\\go2arx5_vla\\simulation\\__init__.py",
+      "sha256": "aaa5a855b04e1cbf8c409abe33dd34c6a2b4f55e3a14c5dcb51894a2efd903c5"
+    },
+    {
+      "path": "src\\go2arx5_vla\\simulation\\expert.py",
+      "sha256": "3486788fbaaffcd100946c455b3ed5bd043acc4aaa99ed23f6b32e9d9a05ef78"
+    },
+    {
+      "path": "src\\go2arx5_vla\\simulation\\same_scene.py",
+      "sha256": "b167d66a27289e1f538f996c61f4cf5712e14cc9f063f6a2e7595828e86d7703"
+    },
+    {
+      "path": "src\\go2arx5_vla\\simulation\\visual_reach.py",
+      "sha256": "8116c29028ac1c615fd700bfbac1d2687b5981c8bc4f06df0c9f022b5e74471a"
+    },
+    {
+      "path": "src\\go2arx5_vla\\stage38_structured_training.py",
+      "sha256": "2baa9aa2043e2c93dad7ce95b822053e0ad71397ed5187b3a858461c4629ca25"
+    },
+    {
+      "path": "src\\go2arx5_vla\\stage40_structured_decode.py",
+      "sha256": "f8e84324092f34c0551bffd728b47dfd99de41807b312d8c1592b656c79b2462"
+    },
+    {
+      "path": "src\\go2arx5_vla\\stage45e_l1_loss.py",
+      "sha256": "f4a3bb1073c3de39713d480e5e3e290bff159a5e88e62f4b37bd7a5ea063c19e"
+    },
+    {
+      "path": "src\\go2arx5_vla\\stage45e_l1_runtime_weight_evidence.py",
+      "sha256": "5e04cd741dced9b4bd486ad65ca9de28b64fa4fdd35dc12f90e4e744b8261740"
+    },
+    {
+      "path": "src\\go2arx5_vla\\structured_action.py",
+      "sha256": "e8d2f482158f8e1350a5bab3e672e4927d9c6c1fa6ae847b9b15955f6a20ecdc"
+    },
+    {
+      "path": "src\\go2arx5_vla\\trajectory\\__init__.py",
+      "sha256": "957aeb485251f8dffbcf992915f65561240c442f32f9e2c6571bb56404efd358"
+    },
+    {
+      "path": "src\\go2arx5_vla\\trajectory\\native_transport.py",
+      "sha256": "3a4a869c9aa0b335f7a9d323600c6563b53c2328aad6b4066f06d202bd5adf05"
+    },
+    {
+      "path": "src\\go2arx5_vla\\trajectory\\preview.py",
+      "sha256": "60b0b96bfd3b0433c0630a38abaed90226c6ace1c749e4efb8ceee39b44c696d"
+    },
+    {
+      "path": "src\\go2arx5_vla\\trajectory\\relative_se3.py",
+      "sha256": "28a984af606345c6e7983179880d61da89ec6b9e3b5e437a77d74b7fc6381c5e"
+    },
+    {
+      "path": "src\\go2arx5_vla\\trajectory\\so3.py",
+      "sha256": "117a9d55e975ce326af71673f669dee344931dcf73afd24acdafd504849c77ef"
+    },
+    {
+      "path": "src\\go2arx5_vla\\wbc\\__init__.py",
+      "sha256": "d6f7f4bd2dd898464fc6402291cb30b43a12e71e4a87c8294c2ed7ad58d0706e"
+    },
+    {
+      "path": "src\\go2arx5_vla\\wbc\\native\\__init__.py",
+      "sha256": "fac5d00149ac9e0d020b44262067d466fc74f48b35144af5fd15a073edc306f3"
+    },
+    {
+      "path": "src\\go2arx5_vla\\wbc\\native\\kinematics.py",
+      "sha256": "d18402fb98c023d9c0c1a3f564c7ede2cf37435833db585fc874ac50792704c9"
+    },
+    {
+      "path": "src\\go2arx5_vla\\wbc\\native\\reference_binding.py",
+      "sha256": "34c22cd82a92f6d580f0efac4b9befccd4491d10b943f06cc26a56ca809c3b00"
+    },
+    {
+      "path": "src\\go2arx5_vla\\wbc\\reference_modes.py",
+      "sha256": "b6e1ce462b89ab7b9d88042b93622eb4ce2f0c23d353f1245c081b8ddaf6c7da"
+    },
+    {
+      "path": "src\\go2arx5_vla\\wbc\\reference_source.py",
+      "sha256": "118b32908dba91b4927630ef8c9cfb385df8d52f479cd09a7fe5e7c7a309cef3"
+    }
+  ],
+  "frames": {
+    "position_anchor_m": [
+      0,
+      0,
+      0
+    ],
+    "source": "PI0275_OBJECT_TASK_WORLD",
+    "tcp": "PI0275_TOOL_PALM_FACE"
+  },
+  "issue11": 5999317212,
+  "native_or_task_PASS": false,
+  "physics": {
+    "contact_collection": "CC_LAST_SUBSTEP",
+    "contact_lambda": "installed SDK contact force magnitude; N, no impulse/dt conversion",
+    "contact_offset_m": 0.001,
+    "dt": 0.008333333333333333,
+    "friction": 0.8,
+    "gravity": [
+      0,
+      0,
+      -9.81
+    ],
+    "physx_use_gpu": false,
+    "position_iterations": 8,
+    "rest_offset_m": 0.0,
+    "restitution": 0.0,
+    "solver_type": 1,
+    "substeps": 2,
+    "use_gpu_pipeline": false,
+    "velocity_iterations": 2
+  },
+  "release": "b900283549a984197b68e857ef05b801a2f6fd15",
+  "scene_card": {
+    "actor_inputs": [
+      "body_rgb",
+      "wrist_rgb",
+      "state_v1",
+      "language"
+    ],
+    "actual_runs": {
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "physics_steps": 0,
+      "renders": 0,
+      "teacher_episodes": 0
+    },
+    "charter_issue11": 5994405991,
+    "charter_release": "ed398fee17151cfec47864fed9d48ce149b28d61",
+    "commands_per_family": 4,
+    "deployment_selected_checkpoint": "NONE",
+    "grasp_tcp_offset_m": 0.027,
+    "launch_allowed": false,
+    "left_right_semantics": "fixed proposed body camera image order; mobile/WBC task-frame binding remains separate",
+    "proposal_static_bounds": "NECESSARY_ONLY_NOT_COLLISION_OR_OBSERVATION_QUALIFICATION",
+    "proposed_budget": {
+      "WBC_episodes": 0,
+      "hardware_runs": 0,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "physics_dt_s": 0.008333333333333333,
+      "physics_ticks": 245760,
+      "rgb_pairs": 40960,
+      "task_limit_s": 30,
+      "teacher_episodes": 64,
+      "terminal_record_s": 2
+    },
+    "proposed_camera": {
+      "actual_visibility": "NOT_RUN",
+      "body_eye_world_m": [
+        0,
+        -0.5,
+        1.0
+      ],
+      "body_fov_deg": 55,
+      "body_look_at_world_m": [
+        0,
+        0,
+        0.7
+      ],
+      "design_frozen_for_execution": false,
+      "resolution": [
+        96,
+        96
+      ],
+      "wrist_eye_from_tcp_m": [
+        0.06,
+        0,
+        -0.03
+      ],
+      "wrist_fov_deg": 65,
+      "wrist_look_at_from_tcp_m": [
+        0,
+        0,
+        0.027
+      ]
+    },
+    "red_blue_are_not_distinct_behavior_families": true,
+    "scene_families": [
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-001",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-001-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.09000000000000001,
+              -0.16,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-001-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.11,
+              -0.18,
+              0.665
+            ]
+          }
+        },
+        "split": "DEV",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22000000000000003,
+                0.09999999999999999,
+                0.65
+              ],
+              [
+                -0.06000000000000001,
+                0.26,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.14,
+              0.18
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06000000000000001,
+                0.11,
+                0.65
+              ],
+              [
+                0.22000000000000003,
+                0.27,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.14,
+              0.19
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-002",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-002-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.09000000000000001,
+              -0.17,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-002-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.11,
+              -0.15000000000000002,
+              0.665
+            ]
+          }
+        },
+        "split": "DEV",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22999999999999998,
+                0.11,
+                0.65
+              ],
+              [
+                -0.06999999999999999,
+                0.27,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.15,
+              0.19
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06999999999999999,
+                0.12000000000000001,
+                0.65
+              ],
+              [
+                0.22999999999999998,
+                0.28,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.15,
+              0.2
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-003",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-003-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.095,
+              -0.14,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-003-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.10500000000000001,
+              -0.16,
+              0.665
+            ]
+          }
+        },
+        "split": "DEV",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22499999999999998,
+                0.12000000000000001,
+                0.65
+              ],
+              [
+                -0.06499999999999999,
+                0.28,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.145,
+              0.2
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06499999999999999,
+                0.13,
+                0.65
+              ],
+              [
+                0.22499999999999998,
+                0.29000000000000004,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.145,
+              0.21000000000000002
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-004",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-004-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.095,
+              -0.15,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-004-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.10500000000000001,
+              -0.13,
+              0.665
+            ]
+          }
+        },
+        "split": "DEV",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.235,
+                0.13,
+                0.65
+              ],
+              [
+                -0.075,
+                0.29,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.155,
+              0.21
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.075,
+                0.14,
+                0.65
+              ],
+              [
+                0.235,
+                0.3,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.155,
+              0.22
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-005",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-005-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.08800000000000001,
+              -0.155,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-005-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.112,
+              -0.175,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22799999999999998,
+                0.105,
+                0.65
+              ],
+              [
+                -0.06799999999999999,
+                0.265,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.148,
+              0.185
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06799999999999999,
+                0.115,
+                0.65
+              ],
+              [
+                0.22799999999999998,
+                0.275,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.148,
+              0.195
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-006",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-006-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.08800000000000001,
+              -0.165,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-006-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.112,
+              -0.14500000000000002,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.23199999999999998,
+                0.115,
+                0.65
+              ],
+              [
+                -0.072,
+                0.275,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.152,
+              0.195
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.072,
+                0.125,
+                0.65
+              ],
+              [
+                0.23199999999999998,
+                0.28500000000000003,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.152,
+              0.20500000000000002
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-007",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-007-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.092,
+              -0.135,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-007-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.10800000000000001,
+              -0.155,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22199999999999998,
+                0.12499999999999999,
+                0.65
+              ],
+              [
+                -0.061999999999999986,
+                0.285,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.142,
+              0.205
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.061999999999999986,
+                0.135,
+                0.65
+              ],
+              [
+                0.22199999999999998,
+                0.295,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.142,
+              0.215
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-008",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-008-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.092,
+              -0.145,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-008-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.10800000000000001,
+              -0.12499999999999999,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.238,
+                0.135,
+                0.65
+              ],
+              [
+                -0.078,
+                0.295,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.158,
+              0.215
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.078,
+                0.14500000000000002,
+                0.65
+              ],
+              [
+                0.238,
+                0.305,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.158,
+              0.225
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-009",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-009-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.094,
+              -0.165,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-009-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.10600000000000001,
+              -0.185,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22599999999999998,
+                0.09499999999999999,
+                0.65
+              ],
+              [
+                -0.06599999999999999,
+                0.255,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.146,
+              0.175
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06599999999999999,
+                0.105,
+                0.65
+              ],
+              [
+                0.22599999999999998,
+                0.265,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.146,
+              0.185
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-010",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-010-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.094,
+              -0.175,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-010-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.10600000000000001,
+              -0.155,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.23399999999999999,
+                0.105,
+                0.65
+              ],
+              [
+                -0.074,
+                0.265,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.154,
+              0.185
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.074,
+                0.115,
+                0.65
+              ],
+              [
+                0.23399999999999999,
+                0.275,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.154,
+              0.195
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-011",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-011-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.08600000000000001,
+              -0.14500000000000002,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-011-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.114,
+              -0.165,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22399999999999998,
+                0.115,
+                0.65
+              ],
+              [
+                -0.06399999999999999,
+                0.275,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.144,
+              0.195
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06399999999999999,
+                0.125,
+                0.65
+              ],
+              [
+                0.22399999999999998,
+                0.28500000000000003,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.144,
+              0.20500000000000002
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-012",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-012-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.08600000000000001,
+              -0.155,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-012-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.114,
+              -0.135,
+              0.665
+            ]
+          }
+        },
+        "split": "TRAIN",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.236,
+                0.12499999999999999,
+                0.65
+              ],
+              [
+                -0.076,
+                0.285,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.156,
+              0.205
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.076,
+                0.135,
+                0.65
+              ],
+              [
+                0.236,
+                0.295,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.156,
+              0.215
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-013",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-013-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.08900000000000001,
+              -0.152,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-013-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.111,
+              -0.172,
+              0.665
+            ]
+          }
+        },
+        "split": "TASK_VAL",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22899999999999998,
+                0.108,
+                0.65
+              ],
+              [
+                -0.06899999999999999,
+                0.268,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.149,
+              0.188
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06899999999999999,
+                0.11800000000000001,
+                0.65
+              ],
+              [
+                0.22899999999999998,
+                0.278,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.149,
+              0.198
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-014",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-014-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.08900000000000001,
+              -0.162,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-014-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.111,
+              -0.14200000000000002,
+              0.665
+            ]
+          }
+        },
+        "split": "TASK_VAL",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.23099999999999998,
+                0.11800000000000001,
+                0.65
+              ],
+              [
+                -0.071,
+                0.278,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.151,
+              0.198
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.071,
+                0.128,
+                0.65
+              ],
+              [
+                0.23099999999999998,
+                0.28800000000000003,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.151,
+              0.20800000000000002
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-015",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-015-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.093,
+              -0.132,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-015-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.10700000000000001,
+              -0.152,
+              0.665
+            ]
+          }
+        },
+        "split": "TASK_VAL",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.22299999999999998,
+                0.128,
+                0.65
+              ],
+              [
+                -0.06299999999999999,
+                0.288,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.143,
+              0.208
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.06299999999999999,
+                0.138,
+                0.65
+              ],
+              [
+                0.22299999999999998,
+                0.298,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.143,
+              0.218
+            ]
+          }
+        }
+      },
+      {
+        "family": "OBJECT-TRANSFER-FAMILY-016",
+        "initial_gripper_width_m": 0.08,
+        "initial_tcp_position_m": [
+          0,
+          -0.38,
+          0.85
+        ],
+        "initial_tcp_rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "objects": {
+          "blue": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-016-object-blue",
+            "mass_kg": 0.05,
+            "position_m": [
+              -0.093,
+              -0.142,
+              0.665
+            ]
+          },
+          "red": {
+            "dimensions_m": [
+              0.04,
+              0.03,
+              0.03
+            ],
+            "instance_id": "OBJECT-TRANSFER-FAMILY-016-object-red",
+            "mass_kg": 0.05,
+            "position_m": [
+              0.10700000000000001,
+              -0.12199999999999998,
+              0.665
+            ]
+          }
+        },
+        "split": "TASK_VAL",
+        "table_bounds_m": [
+          [
+            -0.6,
+            -0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6,
+            0.65
+          ]
+        ],
+        "tray_interior_xy_m": [
+          0.16,
+          0.16
+        ],
+        "tray_wall_height_m": 0.04,
+        "tray_wall_thickness_m": 0.008,
+        "trays": {
+          "left": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                -0.237,
+                0.138,
+                0.65
+              ],
+              [
+                -0.077,
+                0.298,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              -0.157,
+              0.218
+            ]
+          },
+          "right": {
+            "floor_z_m": 0.65,
+            "interior_bounds_m": [
+              [
+                0.077,
+                0.14800000000000002,
+                0.65
+              ],
+              [
+                0.237,
+                0.308,
+                0.6900000000000001
+              ]
+            ],
+            "interior_center_xy_m": [
+              0.157,
+              0.228
+            ]
+          }
+        }
+      }
+    ],
+    "schema": "OBJECT_TRANSFER_UNEXECUTED_PROPOSAL_DRAFT_V1",
+    "selected_checkpoint": "NONE",
+    "split_before_episodes_and_windows": true,
+    "status": "REVIEWABLE_PRE_PHYSICS_NOT_AUTHORIZED",
+    "task_val_claim": "new nearby layouts of the same cube shapes/colors; not blind TEST or unseen object classes",
+    "teacher_data_filters_by_target_wbc_success": false,
+    "teacher_slots": [
+      {
+        "attempts": 1,
+        "engine_seed": 443657407,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-001-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-001",
+        "ideal_transfer_min_s": 3.6124783736376886,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 0,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 443297927,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-001-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-001",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 1,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1647179298,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-001-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-001",
+        "ideal_transfer_min_s": 4.104875150354758,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 2,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 845218688,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-001-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-001",
+        "ideal_transfer_min_s": 3.5355339059327373,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 3,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 748863275,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-002-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-002",
+        "ideal_transfer_min_s": 4.280186911806539,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 4,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1251435060,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-002-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-002",
+        "ideal_transfer_min_s": 3.522782990761707,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 5,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1881974776,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-002-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-002",
+        "ideal_transfer_min_s": 3.6496575181789312,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 6,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 817367499,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-002-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-002",
+        "ideal_transfer_min_s": 4.410215414239989,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 7,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1023569690,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-003-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-003",
+        "ideal_transfer_min_s": 3.622154055254966,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 8,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 2041170030,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-003-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-003",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 9,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 868416407,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-003-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-003",
+        "ideal_transfer_min_s": 4.161730409336963,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 10,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 242745940,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-003-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-003",
+        "ideal_transfer_min_s": 3.5355339059327378,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 11,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 26657782,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-004-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-004",
+        "ideal_transfer_min_s": 4.280186911806538,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 12,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 396975890,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-004-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-004",
+        "ideal_transfer_min_s": 3.5355339059327373,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 13,
+        "split": "DEV",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 990342854,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-004-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-004",
+        "ideal_transfer_min_s": 3.6496575181789312,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 14,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 554738912,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-004-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-004",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 15,
+        "split": "DEV",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1359647604,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-005-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-005",
+        "ideal_transfer_min_s": 3.61795522360352,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 16,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 784800318,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-005-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-005",
+        "ideal_transfer_min_s": 4.522167621838005,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 17,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1050932337,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-005-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-005",
+        "ideal_transfer_min_s": 4.1387920943193075,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 18,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1511043500,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-005-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-005",
+        "ideal_transfer_min_s": 3.55105618091294,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 19,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1910819659,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-006-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-006",
+        "ideal_transfer_min_s": 4.304602188356085,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 20,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1457872551,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-006-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-006",
+        "ideal_transfer_min_s": 3.522782990761707,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 21,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1445186847,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-006-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-006",
+        "ideal_transfer_min_s": 3.65644636224846,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 22,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1252718815,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-006-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-006",
+        "ideal_transfer_min_s": 4.410215414239989,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 23,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1729798621,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-007-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-007",
+        "ideal_transfer_min_s": 3.616019911449603,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 24,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 464367840,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-007-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-007",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 25,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 78184901,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-007-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-007",
+        "ideal_transfer_min_s": 4.127420501960031,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 26,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 2075829492,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-007-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-007",
+        "ideal_transfer_min_s": 3.5355339059327373,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 27,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 300443111,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-008-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-008",
+        "ideal_transfer_min_s": 4.316897033750052,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 28,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 52125479,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-008-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-008",
+        "ideal_transfer_min_s": 3.5355339059327373,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 29,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1267998331,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-008-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-008",
+        "ideal_transfer_min_s": 3.6599999999999997,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 30,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 407862551,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-008-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-008",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 31,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1662883590,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-009-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-009",
+        "ideal_transfer_min_s": 3.622154055254966,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 32,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1115583257,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-009-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-009",
+        "ideal_transfer_min_s": 4.476650533602104,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 33,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 769361516,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-009-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-009",
+        "ideal_transfer_min_s": 4.161730409336961,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 34,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 722536879,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-009-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-009",
+        "ideal_transfer_min_s": 3.5384177254812634,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 35,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1137864936,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-010-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-010",
+        "ideal_transfer_min_s": 4.280186911806538,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 36,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 291481154,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-010-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-010",
+        "ideal_transfer_min_s": 3.5327609599292162,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 37,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1561888740,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-010-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-010",
+        "ideal_transfer_min_s": 3.6496575181789312,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 38,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 712332314,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-010-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-010",
+        "ideal_transfer_min_s": 4.454256391363209,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 39,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1642127159,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-011-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-011",
+        "ideal_transfer_min_s": 3.6124783736376878,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 40,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1320257409,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-011-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-011",
+        "ideal_transfer_min_s": 4.510698393818855,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 41,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 682100539,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-011-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-011",
+        "ideal_transfer_min_s": 4.104875150354759,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 42,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1519464984,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-011-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-011",
+        "ideal_transfer_min_s": 3.5477316696728916,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 43,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 265863178,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-012-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-012",
+        "ideal_transfer_min_s": 4.341658669218481,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 44,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1314770864,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-012-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-012",
+        "ideal_transfer_min_s": 3.525109927363968,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 45,
+        "split": "TRAIN",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1076313726,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-012-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-012",
+        "ideal_transfer_min_s": 3.667424164178449,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 46,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 54365280,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-012-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-012",
+        "ideal_transfer_min_s": 4.421131076998283,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 47,
+        "split": "TRAIN",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 469948870,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-013-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-013",
+        "ideal_transfer_min_s": 3.6199999999999997,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 48,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 368455679,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-013-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-013",
+        "ideal_transfer_min_s": 4.522167621838005,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 49,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1427006256,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-013-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-013",
+        "ideal_transfer_min_s": 4.150228909349458,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 50,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1233385557,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-013-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-013",
+        "ideal_transfer_min_s": 3.55105618091294,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 51,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 2135924144,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-014-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-014",
+        "ideal_transfer_min_s": 4.29236531530111,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 52,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1577263398,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-014-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-014",
+        "ideal_transfer_min_s": 3.522782990761707,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 53,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1109976060,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-014-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-014",
+        "ideal_transfer_min_s": 3.6529987681355705,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 54,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1882819347,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-014-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-014",
+        "ideal_transfer_min_s": 4.410215414239989,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 55,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 285317031,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-015-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-015",
+        "ideal_transfer_min_s": 3.61795522360352,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 56,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 961864544,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-015-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-015",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 57,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1103442660,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-015-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-015",
+        "ideal_transfer_min_s": 4.1387920943193075,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 58,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1035142136,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-015-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-015",
+        "ideal_transfer_min_s": 3.5355339059327373,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 59,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1962804719,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-016-red-left",
+        "family": "OBJECT-TRANSFER-FAMILY-016",
+        "ideal_transfer_min_s": 4.304602188356085,
+        "language": "Move the red object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 60,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 384711720,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-016-red-right",
+        "family": "OBJECT-TRANSFER-FAMILY-016",
+        "ideal_transfer_min_s": 3.5355339059327373,
+        "language": "Move the red object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 61,
+        "split": "TASK_VAL",
+        "target_color": "red",
+        "target_tray": "right"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 1311054720,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-016-blue-left",
+        "family": "OBJECT-TRANSFER-FAMILY-016",
+        "ideal_transfer_min_s": 3.65644636224846,
+        "language": "Move the blue object into the left bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 62,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "left"
+      },
+      {
+        "attempts": 1,
+        "engine_seed": 931087076,
+        "episode_id": "OBJECT-TRANSFER-FAMILY-016-blue-right",
+        "family": "OBJECT-TRANSFER-FAMILY-016",
+        "ideal_transfer_min_s": 4.465422712353221,
+        "language": "Move the blue object into the right bin, release it, and withdraw.",
+        "replacement_allowed": false,
+        "slot": 63,
+        "split": "TASK_VAL",
+        "target_color": "blue",
+        "target_tray": "right"
+      }
+    ],
+    "training_launch_allowed": false,
+    "tray_score_geometry": {
+      "bounds_explicit_per_tray": true,
+      "full_object_height_m": 0.03,
+      "physics_or_contact_qualified": false,
+      "previous_full_3D_containment_impossible": true,
+      "previous_wall_height_m": 0.02,
+      "wall_height_m": 0.04
+    }
+  },
+  "schema": "PI0275_FROZEN_EXECUTION_MANIFEST_V1",
+  "selected_checkpoint": "NONE",
+  "teacher_adaptation": {
+    "base_sha256": "05935f80750aef853e6c7a6f26d9c449c25bf37918d7588f6f4133d1ea175c66",
+    "changes": [
+      "native measured width numerical tolerance 1e-5m; preserve raw value",
+      "private source root parents[2]"
+    ],
+    "private_sha256": "6b0ca9e6155f812163bad0a226de9584215840ad925cfa3a63674ec5178ed4cb",
+    "semantic_stages_unchanged": true
+  }
+}
