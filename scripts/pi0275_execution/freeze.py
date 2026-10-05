@@ -54,7 +54,7 @@ def main():
                        + [teacher, proposal, REPO / 'scripts/object_transfer_task_score.py', asset,
                           REPO / 'reports/object_transfer/preparation/SCENE_AND_SPLIT_PROPOSAL_DRAFT.json']))
     card = dict(schema='PI0275_FROZEN_EXECUTION_MANIFEST_V1', authority=AUTH, release=RELEASE, issue11=5999317212,
-                scene_card=scene, files=[dict(path=str(p.relative_to(REPO)), sha256=sha(p)) for p in files],
+                scene_card=scene, files=[dict(path=p.relative_to(REPO).as_posix(), sha256=sha(p)) for p in files],
                 teacher_adaptation=dict(base_sha256=sha(teacher), private_sha256=sha(target),
                     changes=['native measured width numerical tolerance 1e-5m; preserve raw value', 'private source root parents[2]'], semantic_stages_unchanged=True),
                 strict_scorer_native_parser=dict(base_sha256=sha(legacy_path), private_sha256=sha(legacy_native),
