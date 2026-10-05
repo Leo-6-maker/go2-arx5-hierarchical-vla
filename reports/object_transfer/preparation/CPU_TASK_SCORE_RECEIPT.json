@@ -1,0 +1,68 @@
+{
+  "actual_physical_episodes": 0,
+  "corrupt_trace_rejected": true,
+  "deployment_selected_checkpoint": "NONE",
+  "launch_allowed": false,
+  "model_queries": 0,
+  "negative_cases": {
+    "DANGEROUS_CONTACT": [
+      "DANGEROUS_CONTACT_OR_PENETRATION"
+    ],
+    "EARLY_STOP": [
+      "EARLY_STOP_KEEP_AS_TASK_FAIL",
+      "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN",
+      "NOT_RELEASED",
+      "NOT_WITHDRAWN",
+      "FINAL_OBJECT_NOT_STABLE"
+    ],
+    "FINGERS_NOT_OPEN": [
+      "NOT_RELEASED"
+    ],
+    "GATE_REJECT": [
+      "GATE_REJECT"
+    ],
+    "LATE_DROP": [
+      "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN"
+    ],
+    "MOVING_OBJECT": [
+      "FINAL_OBJECT_NOT_STABLE"
+    ],
+    "NEVER_LIFTED": [
+      "TARGET_NOT_LIFTED_80MM",
+      "NO_SUSTAINED_PHYSICAL_GRASP_DURING_LIFT"
+    ],
+    "NO_GRASP": [
+      "NO_SUSTAINED_PHYSICAL_GRASP_DURING_LIFT"
+    ],
+    "NO_RETREAT": [
+      "NOT_WITHDRAWN"
+    ],
+    "PARTIAL_OBJECT_OUTSIDE": [
+      "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN"
+    ],
+    "PENETRATION": [
+      "DANGEROUS_CONTACT_OR_PENETRATION"
+    ],
+    "STILL_GRASPING": [
+      "NOT_RELEASED"
+    ],
+    "WRONG_BIN": [
+      "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN"
+    ],
+    "WRONG_OBJECT": [
+      "TARGET_NOT_LIFTED_80MM",
+      "NO_SUSTAINED_PHYSICAL_GRASP_DURING_LIFT",
+      "NON_TARGET_MOVED_OR_LIFTED",
+      "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN"
+    ]
+  },
+  "optimizer_updates": 0,
+  "physics_steps": 0,
+  "renders": 0,
+  "selected_checkpoint": "NONE",
+  "source_sha256": "58da91654da4efeefdffbc1fb24eba81ceaf850ab74075a250991ff66f2787b0",
+  "status": "PASS_CPU_DRAFT_OBJECT_RESULT_AND14_NEGATIVE_TRACES",
+  "synthetic_fixture_only": true,
+  "teacher_calls": 0,
+  "valid_failure_count": 14
+}

@@ -30,7 +30,7 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 
 允许：手指与目标接触、目标与桌/目标容器接触。失败分别记错物体抓取/搬运、目标掉落、危险非目标碰撞、超界、穿透>2mm、未抓起、未释放、未撤离、超时、技术错误。允许接触类别与原SafetyGate分开；任何原gate REJECT不安装，不能绕gate取得任务PASS。涉及新接触的准入规则须在未来pilot中单独冻结。
 
-完整成功：选中物体曾离开源支撑面至少80mm；搬运到指令容器；完整物体OBB在容器内；手指张开且无工具-物体接触；TCP离物体至少100mm；最终连续2s物体留在容器、速度<.02m/s；非目标物体位移<10mm且未被抓起；无危险接触/穿透。上述评分只在评价端读真值，不作为policy阶段推进或隐藏控制输入。
+完整成功草案：选中物体曾离开源支撑面至少80mm，且该抬起过程中两指目标接触连续至少.3s；搬运到指令容器；完整物体OBB在容器内；实际手指开度至少70mm且无工具-物体接触；TCP离物体至少100mm；固定任务终末28—30s全部tick物体留在容器、速度<.02m/s；非目标物体位移<10mm且未被抓起；无危险接触/穿透。末尾额外2s用于完整H40标签记录，不挑最好的2s成功窗口；全部保存段的安全事件保留。上述评分只在评价端读真值，不作为policy阶段推进或隐藏控制输入。这些尚未运行的任务规则须随未来pilot冻结，不改变旧几何判据。
 
 ## 3. 算法教师草案：状态触发，不按帧强推
 
@@ -84,5 +84,6 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 
 scripts/object_transfer_preparation.py复用现有StateV1、canonical chunk、SO3与adapter，提供CPU格式/row旋转/时钟/夹爪调度/泄漏负例。它不导入Torch/IsaacGym、不调用教师、不连接控制器；合成fixture明确SYNTHETIC_CPU_FIXTURE，不是RGB渲染或抓取证据。
 scripts/object_transfer_gripper_codec_audit.py在独立进程中复用真实StateActionProcessor/原codec，CPU隐藏CUDA、4线程/16GiB且拒绝神经Module及Optimizer调用。收据reports/object_transfer/preparation/GRIPPER_CODEC_AUDIT.json保留源hash、前10有效mask、结构padding和0..1五点实际编码/解码。没有新任务statistics拟合或live normalizer改动。
+scripts/object_transfer_task_score.py实现独立物体结果评分草案，使用120Hz实际状态、完整OBB、真实接触/夹爪状态及原gate结果。CPU合成轨迹覆盖14种有效失败及非有限证据，保留错误物体/未抓起/未松手/未撤离/掉出/危险接触等原因。它不执行教师或physics，逻辑PASS不证明真实抓取可行；还须由未来环境完整性证明对象没有被手工搬动/吸附。
 剩余未知：新WBC固定版本、真实夹爪极性/宽度/消费周期、实际TCP、相机标定、接触/负载能力。按旧manifest查实际已有材料，仅向师兄索取差异，不要求真机示范才能准备。新环境、教师和完整VL/真实物体episode processor准入尚未运行。
 selected/deployment=NONE；PI0274继续原预算，不新monitor/mail/merge。
