@@ -1,0 +1,50 @@
+{
+  "schema": "OBJECT_TRANSFER_PREPARATION_V1",
+  "status": "PREPARED_NOT_EXECUTED",
+  "authority": "COORDINATION_PREPARATION_ONLY",
+  "roadmap_release": "bc7e59a5716152c6500724e92b45dd1d7b83ad82",
+  "roadmap_issue11": 5994002129,
+  "user_attachment_sha256": "b538ea1b7c5e58c9ccee34513ee1ca39eaf4ce445fa5ec01d98cf780fec732d7",
+  "launch_allowed": false,
+  "training_launch_allowed": false,
+  "task": "language-selected object grasp, transfer, release and retreat",
+  "physics_backend_draft": "existing IsaacGym PhysX; isolated actuated tool environment",
+  "task_inputs": ["body_rgb", "wrist_rgb", "state_v1", "language"],
+  "action": {"horizon": 40, "dt_s": 0.05, "dimensions": 10, "pose_rot6d": "FIRST_TWO_ROWS", "gripper": "separate measured/commanded full opening; new tool draft 0 closed 1 open"},
+  "proposed_only_budget": {
+    "scene_families": {"DEV": 4, "TRAIN": 8, "VAL": 4},
+    "commands_per_family": 4,
+    "teacher_episodes": 64,
+    "episode_task_limit_s": 30,
+    "terminal_record_allowance_s": 2,
+    "physics_dt_s": 0.008333333333333333,
+    "physics_ticks_including_terminal_record": 245760,
+    "rgb_state_pair_records": 40960,
+    "model_queries": 0,
+    "training_updates": 0,
+    "WBC_episodes": 0,
+    "hardware_runs": 0
+  },
+  "actual_new_runs": {"teacher_calls": 0, "physics_steps": 0, "renders": 0, "model_queries": 0, "optimizer_updates": 0, "WBC_episodes": 0, "hardware_runs": 0},
+  "current_PI0274_unchanged": true,
+  "future_engineering_acceleration": {
+    "permission": "DIRECT_USER_ALLOWED_FOR_FUTURE_SUBMISSIONS",
+    "preferred_order": ["immutable audit-log cache and complete-line incremental reads", "fixed CPU processed-input cache", "ordered two workers then four only if measured useful"],
+    "worker_audit": "main-process consumed samples only; independent loader generator; exact optimizer-boundary resume cursor",
+    "scientific_conditions_and_budgets_unchanged": true,
+    "current_job_modified": false,
+    "accelerated_runtime_qualified": false,
+    "throughput_gain": "UNOBSERVED"
+  },
+  "old_gripper_statistics": {
+    "source": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/contracts/ROT/source/dataset/statistics.json",
+    "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9",
+    "state_and_action": {"min": 0.5, "max": 0.5, "q01": 0.5, "q99": 0.5, "std": 0.0},
+    "official_normalizer_new_range_behavior": "NOT_YET_TESTED",
+    "historical_statistics_modified": false
+  },
+  "next_required": ["freeze actual dynamic tool, cameras, scene proposal list and independent pilot authority", "complete real teacher physics and retain every failure", "full episode schema and actual processor roundtrip", "separately preregister learned-task training and evaluation"],
+  "unresolved_native_handoff": ["new WBC release identity", "actual gripper polarity width timing and drive ownership", "actual TCP transform", "camera calibration", "contact load and motion limits"],
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}
