@@ -29,6 +29,9 @@
     "hardware_runs": 0
   },
   "actual_new_runs": {"teacher_calls": 0, "physics_steps": 0, "renders": 0, "model_queries": 0, "optimizer_updates": 0, "WBC_episodes": 0, "hardware_runs": 0},
+  "teacher_preparation": {"source": "scripts/object_transfer_teacher.py", "receipt": "reports/object_transfer/preparation/CPU_TEACHER_RECEIPT.json", "status": "CPU_LOGIC_FIXTURE_PASS_NOT_PHYSICS", "actual_state_triggered": true, "teacher_finished_is_not_task_success": true, "simulator_environment_implemented": false, "physics_qualification": "NOT_RUN"},
+  "tool_asset_preparation": {"source": "scripts/object_transfer_tool_asset.py", "asset": "assets/object_transfer/draft_tool.urdf", "receipt": "reports/object_transfer/preparation/CPU_TOOL_ASSET_RECEIPT.json", "status": "CPU_XML_AND_STATIC_FK_ONLY", "native_asset_load": "NOT_RUN", "environment_physics": "NOT_RUN"},
+  "episode_window_preparation": {"source": "scripts/object_transfer_preparation.py", "recorded_future_only": true, "pad_missing_future": false, "filter_by_target_wbc_success": false, "actual_object_episodes": 0},
   "current_PI0274_unchanged": true,
   "future_engineering_acceleration": {
     "permission": "DIRECT_USER_ALLOWED_FOR_FUTURE_SUBMISSIONS",

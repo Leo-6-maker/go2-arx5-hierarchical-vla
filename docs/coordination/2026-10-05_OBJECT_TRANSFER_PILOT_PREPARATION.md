@@ -28,6 +28,8 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 
 物理实现复用Corelab现有IsaacGym/PhysX栈，但新建隔离动态工具环境：6个受控根关节+2个手指关节、重力与真实接触对象；不得调用旧place()设置物体或工具的运行位姿。仅初始化可设初值，tick阶段用关节target/受限驱动推进simulate/fetch_results。禁止焊接、parent、吸附、根据成功真值写物体pose。原零物理renderer不改、不作为动态成功证据。
 
+当前已生成assets/object_transfer/draft_tool.urdf及可复现生成器scripts/object_transfer_tool_asset.py：固定anchor、XYZ与yaw/pitch/roll六自由度、两独立棱柱手指；TCP位于掌面+z面中心，手指内宽为q_left+q_right，张开时各.04m。质量、惯量、collision和每DOF effort/velocity limit显式给出；根部是隔离工具驱动，不是目标机器人的joint监督。CPU只核对XML拓扑、TCP、0/30/80mm开度及静态FK，没有native asset load、renderer或simulate。URDF每轴限幅不能冒充20N/2Nm总向量限幅，后续控制器须另显式实现；Gym加载、接触及完整环境仍未准入。
+
 允许：手指与目标接触、目标与桌/目标容器接触。失败分别记错物体抓取/搬运、目标掉落、危险非目标碰撞、超界、穿透>2mm、未抓起、未释放、未撤离、超时、技术错误。允许接触类别与原SafetyGate分开；任何原gate REJECT不安装，不能绕gate取得任务PASS。涉及新接触的准入规则须在未来pilot中单独冻结。
 
 完整成功草案：选中物体曾离开源支撑面至少80mm，且该抬起过程中两指目标接触连续至少.3s；搬运到指令容器；完整物体OBB在容器内；实际手指开度至少70mm且无工具-物体接触；TCP离物体至少100mm；固定任务终末28—30s全部tick物体留在容器、速度<.02m/s；非目标物体位移<10mm且未被抓起；无危险接触/穿透。末尾额外2s用于完整H40标签记录，不挑最好的2s成功窗口；全部保存段的安全事件保留。上述评分只在评价端读真值，不作为policy阶段推进或隐藏控制输入。这些尚未运行的任务规则须随未来pilot冻结，不改变旧几何判据。
@@ -47,9 +49,13 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 
 教师可以离线读取真实目标/接触，只产生标签及诊断；学习策略运行不调用教师或phase。阶段超时固定为4/4/2/4/6/4/2/4s，整体30s优先；首pilot不重抓或重复reset追成功。无效proposal/episode保留分母，技术恢复沿原状态记账，不能伪装新样本。
 
+scripts/object_transfer_teacher.py已把本表实现为可调用的独立草案：只输出当前commanded XYZ/row6d/夹爪，阶段和失败另放evidence。采用掌面TCP、工具+z向手指及固定向下抓取姿态的待冻结设计，启动需匹配实际测量初值；120Hz连续实际输入、位置/角速度/开度变化限幅，按实际对齐、双指接触、抬起、支撑、松开和撤离转移。抓空、失去接触、滑移、超时或原gate拒绝后不重新入场。DONE只表示教师阶段结束，物体成功仍由独立scorer计算。它不预测尚未发生的教师阶段来填H40；实际未来命令必须由完整episode记录切窗。当前仅合成CPU状态通过完整阶段及七种失败检查，不是教师物理episode或物理可行性证明；实际场景、驱动和相机仍待独立pilot授权冻结。
+
 ## 4. Episode / H40 / processor 契约
 
 先按scene family+对象实例+布局分DEV/TRAIN/VAL，再采集episode，再切H40；同族全部command在同split。完整未来40条command不足的窗口标无效，不能拼其他episode或补零hold。
+
+scripts/object_transfer_preparation.py的episode_window现已从单episode保存的20Hz命令、实际观测及有效标记提取H40，复用同tick/坐标/夹爪检查。缺少40条未来或任一command无效时返回无效窗；不补齐，不依赖WBC成功，不把evidence中的教师phase送入actor。CPU合成记录验证原始命令不变、短后缀/无效未来不填充、因果时间错位拒绝；这不是实际物体episode或完整VL准入。
 
 | 数据域 | 内容 | actor可读 |
 |---|---|---|

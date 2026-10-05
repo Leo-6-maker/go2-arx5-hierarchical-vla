@@ -67,6 +67,40 @@ def check_window(packet):
     return chunk
 
 
+def episode_window(episode, index):
+    """Cut recorded future commands within one episode, never forecast or pad them."""
+    times = np.asarray(episode['command_timestamps'], float)
+    n = len(times)
+    if times.ndim != 1 or not np.isfinite(times).all() or np.any(np.abs(np.diff(times)-.05) > 1e-9):
+        raise ValueError('complete recorded 20Hz command timeline required')
+    if not isinstance(index, int) or not 0 <= index < n:
+        raise ValueError('invalid episode window index')
+    valid = np.asarray(episode['command_valid'])
+    if valid.shape != (n,) or valid.dtype != np.bool_:
+        raise ValueError('actual command validity required')
+    shapes = dict(commanded_labels=(n, 10), observation_timestamps=(n,), sensor_timestamps=(n, 3),
+                  actual_tcp_world=(n, 9), measured_gripper_width_m=(n,))
+    for key, shape in shapes.items():
+        if np.asarray(episode[key]).shape != shape:
+            raise ValueError(f'episode {key}: expected {shape}')
+    if index+40 > n or not valid[index:index+40].all():
+        return None  # ponytail: retain invalid-window count; never fill missing future.
+    if set(episode['inputs']) != {'body_rgb', 'wrist_rgb', 'state_v1', 'language'}:
+        raise ValueError('episode policy input allowlist violated')
+    for key, shape in (('body_rgb', (n, 96, 96, 3)), ('wrist_rgb', (n, 96, 96, 3)), ('state_v1', (n, 10))):
+        if np.asarray(episode['inputs'][key]).shape != shape:
+            raise ValueError(f'episode {key}: expected {shape}')
+    inputs = {k: episode['inputs'][k][index] for k in ('body_rgb', 'wrist_rgb', 'state_v1')}
+    inputs['language'] = episode['inputs']['language']
+    packet = {k: episode[k] for k in ('episode_id', 'anchor_world_m', 'clock_id', 'source_frame', 'tcp_semantic_id')}
+    packet.update(inputs=inputs, commanded_labels=np.asarray(episode['commanded_labels'])[index:index+40],
+                  command_timestamps=times[index:index+40], observation_timestamp=float(np.asarray(episode['observation_timestamps'])[index]),
+                  actual_tcp_world=np.asarray(episode['actual_tcp_world'])[index], sensor_timestamps=np.asarray(episode['sensor_timestamps'])[index],
+                  measured_gripper_width_m=np.asarray(episode['measured_gripper_width_m'])[index])
+    check_window(packet)
+    return packet
+
+
 def demo():
     angle = .37
     rotation = np.array([[np.cos(angle), -np.sin(angle), 0], [np.sin(angle), np.cos(angle), 0], [0, 0, 1]])
@@ -82,6 +116,21 @@ def demo():
         sensor_timestamps=[2., 2., 2.], measured_gripper_width_m=.06,
         clock_id='fixture_only', source_frame='OBJECT_TASK_WORLD', tcp_semantic_id='draft_tool_palm_face', episode_id='fixture_only')
     chunk = check_window(packet)
+    episode = {k: packet[k] for k in ('episode_id', 'anchor_world_m', 'clock_id', 'source_frame', 'tcp_semantic_id')}
+    episode.update(inputs={k: np.stack([v]*40) if k != 'language' else v for k, v in packet['inputs'].items()},
+                   command_timestamps=packet['command_timestamps'], observation_timestamps=packet['command_timestamps'],
+                   commanded_labels=labels, command_valid=np.ones(40, bool), sensor_timestamps=np.repeat(packet['command_timestamps'][:, None], 3, axis=1),
+                   actual_tcp_world=np.repeat(packet['actual_tcp_world'][None], 40, axis=0), measured_gripper_width_m=np.full(40, .06),
+                   evidence=dict(teacher_phase='PRIVILEGED_NOT_POLICY', wbc_success=False))
+    recorded = episode_window(episode, 0)
+    assert np.array_equal(recorded['commanded_labels'], labels) and set(recorded['inputs']) == set(packet['inputs'])
+    assert episode_window(episode, 1) is None
+    invalid = dict(episode, command_valid=np.r_[np.ones(39, bool), False])
+    assert episode_window(invalid, 0) is None
+    mismatch = dict(episode, observation_timestamps=episode['observation_timestamps']+.01)
+    try: episode_window(mismatch, 0)
+    except ValueError: pass
+    else: raise AssertionError('command/observation causal offset ignored')
     adapter = GR00TToWBCAdapter(ReferenceAdapterConfig(chunk.source_frame, chunk.source_frame, chunk.tcp_semantic_id, stale_timeout_s=.5))
     for offset, expected in ((0., 1.), (.4, .2), (1.2, 1.)):
         preview, grip = adapter.adapt(chunk, controller_timestamp=2 + offset)
@@ -112,6 +161,7 @@ def demo():
     else:
         raise AssertionError('width silently clipped')
     return dict(status='PASS_CPU_DRAFT_FORMAT_ROTATION_CLOCK_GRIPPER_LEAKAGE', negative_cases=failures,
+                recorded_episode_H40_fixture='PASS_EXACT_COMMANDS_NO_PADDING_NO_WBC_FILTER_NO_PHASE_INPUT',
                 evidence_domain='SYNTHETIC_CPU_FIXTURE_NOT_PHYSICS', launch_allowed=False,
                 official_processor_roundtrip='NOT_RUN', teacher_physics_success='NOT_RUN',
                 model_queries=0, optimizer_updates=0, physics_steps=0, renders=0, teacher_calls=0,

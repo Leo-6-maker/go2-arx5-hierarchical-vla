@@ -1,0 +1,27 @@
+{
+  "actuated_tool_dofs": 8,
+  "asset_sha256": "44e62ac4fe50e54529fbfc0a59a9fcddb589adec4a872d67d736e7c5364669ca",
+  "base_load_requires": "fix_base_link=True",
+  "deployment_selected_checkpoint": "NONE",
+  "dynamics_contact_grasp": "NOT_RUN",
+  "finger_joint_opening_rule": "q_left=q_right=full_width_m/2",
+  "force_limits": "URDF per DOF; future controller must also enforce vector force/torque limits",
+  "launch_allowed": false,
+  "links": 9,
+  "model_queries": 0,
+  "native_asset_load": "NOT_RUN",
+  "opening_m": [
+    0,
+    0.03,
+    0.08
+  ],
+  "palm_tcp_semantic": "palm +z face center; fingers extend local +z",
+  "physics_steps": 0,
+  "renders": 0,
+  "robot_joint_supervision": false,
+  "rotational_chain": "Rz(yaw) Ry(pitch) Rx(roll)",
+  "selected_checkpoint": "NONE",
+  "source_sha256": "3a93acf28d66087bf888be4c168f32f7266a78122aca0932501ae7fa116da032",
+  "status": "PASS_CPU_DRAFT_TOOL_URDF_TOPOLOGY_TCP_OPENING_AND_FK",
+  "teacher_calls": 0
+}
