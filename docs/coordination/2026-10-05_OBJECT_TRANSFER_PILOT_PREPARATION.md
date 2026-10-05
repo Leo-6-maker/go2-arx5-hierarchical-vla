@@ -16,7 +16,7 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 
 1. StateV1与当前物理标签使用两行row-rot6d；TrajectoryChunkV1.from_rot6d及adapter.adapt_xyz_rot6d使用canonical列约定。新入口必须先用原rot6d_rows_to_matrix转SO3/quaternion，再构造canonical chunk，不直接把row值传给该便利入口。非单位旋转CPU检查覆盖此边界，不改旧adapter。
 2. adapter.adapt在当前controller_timestamp选择一个夹爪值；一次安装返回值不足以执行整个开合序列。新runner须保留当前已接受chunk的并行夹爪序列，在每个控制tick用同一时钟消费；夹爪绝不追加到WBC18D或9点preview。原生空间进度、chunk替换、history和夹爪消费时钟必须用实际sink收据绑定，不能用时间推进冒充空间推进。
-3. Corelab真实ROT统计文件SHA256 0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9：state/action.gripper_position均min=max=q01=q99=0.5，std=0。只证明旧数据无开合范围；尚未证明实际normalizer如何处理新开合值。新TRAIN-only夹爪尺度须经真实processor roundtrip后冻结，不能静默沿用或裁剪。旧统计不修改。
+3. Corelab真实ROT统计文件SHA256 0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9：state/action.gripper_position均min=max=q01=q99=0.5，std=0。随后用原合格codec和实际StateActionProcessor做独立CPU探针：0/.25/.5/.75/1分别编码为-1000001/-500001/-1/499999/999999；解码误差均0、有效gripper mask为1。旧无clamp仿射在1e-6分母下可逆，但幅度极大。新TRAIN-only夹爪尺度须经真实数据processor roundtrip后冻结，不能静默沿用或裁剪。旧统计不修改；该探针不是完整VL/实际物体数据准入、梯度或训练结果。
 
 ## 2. 首任务规格草案
 
@@ -83,5 +83,6 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 ## 7. 准备交付与未完成项
 
 scripts/object_transfer_preparation.py复用现有StateV1、canonical chunk、SO3与adapter，提供CPU格式/row旋转/时钟/夹爪调度/泄漏负例。它不导入Torch/IsaacGym、不调用教师、不连接控制器；合成fixture明确SYNTHETIC_CPU_FIXTURE，不是RGB渲染或抓取证据。
-剩余未知：新WBC固定版本、真实夹爪极性/宽度/消费周期、实际TCP、相机标定、接触/负载能力。按旧manifest查实际已有材料，仅向师兄索取差异，不要求真机示范才能准备。新环境、教师和真实processor测试尚未运行。
+scripts/object_transfer_gripper_codec_audit.py在独立进程中复用真实StateActionProcessor/原codec，CPU隐藏CUDA、4线程/16GiB且拒绝神经Module及Optimizer调用。收据reports/object_transfer/preparation/GRIPPER_CODEC_AUDIT.json保留源hash、前10有效mask、结构padding和0..1五点实际编码/解码。没有新任务statistics拟合或live normalizer改动。
+剩余未知：新WBC固定版本、真实夹爪极性/宽度/消费周期、实际TCP、相机标定、接触/负载能力。按旧manifest查实际已有材料，仅向师兄索取差异，不要求真机示范才能准备。新环境、教师和完整VL/真实物体episode processor准入尚未运行。
 selected/deployment=NONE；PI0274继续原预算，不新monitor/mail/merge。
