@@ -16,6 +16,7 @@ LAYOUTS = [(-.010, -.180, .180, .140), (.010, -.170, .190, .150),
            (-.014, -.165, .195, .144), (.014, -.155, .205, .156),
            (-.011, -.172, .188, .149), (.011, -.162, .198, .151),
            (-.007, -.152, .208, .143), (.007, -.142, .218, .157)]
+TRAY_WALL_HEIGHT_M = .04
 
 
 def build():
@@ -29,14 +30,20 @@ def build():
         objects = {c: dict(instance_id=f'{fid}-object-{c}', position_m=p, dimensions_m=[.04, .03, .03], mass_kg=.05) for c, p in zip(colors, positions)}
         trays = dict(left=dict(interior_center_xy_m=[-sep, tray_y], floor_z_m=.65),
                      right=dict(interior_center_xy_m=[sep, tray_y+.01], floor_z_m=.65))
+        for tray in trays.values():
+            xy = np.asarray(tray['interior_center_xy_m'])
+            tray['interior_bounds_m'] = [np.r_[xy-.08, .65].tolist(), np.r_[xy+.08, .65+TRAY_WALL_HEIGHT_M].tolist()]
         families.append(dict(family=fid, split=split, objects=objects, trays=trays,
                              table_bounds_m=[[-.6, -.6, .60], [.6, .6, .65]],
-                             tray_interior_xy_m=[.16, .16], tray_wall_height_m=.02, tray_wall_thickness_m=.008,
+                             tray_interior_xy_m=[.16, .16], tray_wall_height_m=TRAY_WALL_HEIGHT_M, tray_wall_thickness_m=.008,
                              initial_tcp_position_m=[0, -.38, .85], initial_tcp_rotation=rotation, initial_gripper_width_m=.08))
         for c in ('red', 'blue'):
             for side in ('left', 'right'):
                 source = np.array(objects[c]['position_m'])
                 target = np.r_[trays[side]['interior_center_xy_m'], .665]
+                bounds = np.asarray(trays[side]['interior_bounds_m'])
+                half = np.asarray(objects[c]['dimensions_m'])/2
+                assert np.all(target-half >= bounds[0]-1e-12) and np.all(target+half <= bounds[1]+1e-12)
                 # Necessary lower bounds only: they omit contact dynamics and tracking lag.
                 travel = float(np.linalg.norm(target-source))
                 assert travel/.10+.2 < TIMEOUTS[4]
@@ -63,6 +70,9 @@ def build():
                 left_right_semantics='fixed proposed body camera image order; mobile/WBC task-frame binding remains separate',
                 proposal_static_bounds='NECESSARY_ONLY_NOT_COLLISION_OR_OBSERVATION_QUALIFICATION',
                 grasp_tcp_offset_m=GRASP_TCP_OFFSET_M,
+                tray_score_geometry=dict(wall_height_m=TRAY_WALL_HEIGHT_M, full_object_height_m=.03,
+                                         previous_wall_height_m=.02, previous_full_3D_containment_impossible=True,
+                                         bounds_explicit_per_tray=True, physics_or_contact_qualified=False),
                 proposed_camera=dict(body_eye_world_m=[0,-.50,1.0], body_look_at_world_m=[0,0,.70], body_fov_deg=55,
                                      wrist_eye_from_tcp_m=[.06,0,-.03], wrist_look_at_from_tcp_m=[0,0,GRASP_TCP_OFFSET_M], wrist_fov_deg=65,
                                      resolution=[96,96], actual_visibility='NOT_RUN', design_frozen_for_execution=False),

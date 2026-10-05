@@ -2,6 +2,18 @@
   "actual_physical_episodes": 0,
   "corrupt_trace_rejected": true,
   "deployment_selected_checkpoint": "NONE",
+  "full_3D_container_bounds_m": [
+    [
+      0.32,
+      0.12,
+      0.65
+    ],
+    [
+      0.48,
+      0.28,
+      0.69
+    ]
+  ],
   "launch_allowed": false,
   "model_queries": 0,
   "negative_cases": {
@@ -37,6 +49,9 @@
     "NO_RETREAT": [
       "NOT_WITHDRAWN"
     ],
+    "OBJECT_ABOVE_CONTAINER_VOLUME": [
+      "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN"
+    ],
     "PARTIAL_OBJECT_OUTSIDE": [
       "FINAL_FULL_OBJECT_NOT_IN_COMMAND_BIN"
     ],
@@ -60,9 +75,9 @@
   "physics_steps": 0,
   "renders": 0,
   "selected_checkpoint": "NONE",
-  "source_sha256": "58da91654da4efeefdffbc1fb24eba81ceaf850ab74075a250991ff66f2787b0",
-  "status": "PASS_CPU_DRAFT_OBJECT_RESULT_AND14_NEGATIVE_TRACES",
+  "source_sha256": "b682429848f119ff722dec7e86060f36e96a4eafe7fa6ca8f3a17e2c2de5cd49",
+  "status": "PASS_CPU_DRAFT_OBJECT_RESULT_AND15_NEGATIVE_TRACES",
   "synthetic_fixture_only": true,
   "teacher_calls": 0,
-  "valid_failure_count": 14
+  "valid_failure_count": 15
 }

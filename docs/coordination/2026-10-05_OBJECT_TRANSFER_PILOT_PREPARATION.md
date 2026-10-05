@@ -74,7 +74,7 @@ scripts/object_transfer_preparation.py的episode_window现已从单episode保存
 
 建议16预列scene families：4DEV/8TRAIN/4VAL，各四command，64教师episode计划；DEV先16、TRAIN32/VAL16。不同分区无对象实例/布局共享，冻结列表后不补容易样本。最多30s/episode=230400 physics ticks、38400双RGB记录；包括额外终末1.95s的总保存预算按32s/episode=245760 ticks/40960记录。先不训练、不推理、不WBC。所有新预算需独立pilot授权；本准备包实际新增这些调用均0。
 
-scripts/object_transfer_proposals.py现已输出SCENE_AND_SPLIT_PROPOSAL_DRAFT.json：16项具体布局先按4DEV/8TRAIN/4TASK_VAL分区，64个唯一教师slot、四种指令、红蓝位置交替、统一中性起点与2cm浅托盘。红蓝不是两类行为；TASK_VAL只覆盖同立方体/颜色条件下的新布局，不是新物体类别或盲TEST。源列表、camera提案和理想运动时间下界在任何physics/render/model分数前形成；没有通过实际成绩选择family。场景、相机和驱动仍是待新GO审核冻结的提案，camera实际可见性NOT_RUN；时间下界不含跟踪滞后/接触动力学，不能代替完整数据准入。
+scripts/object_transfer_proposals.py现已输出SCENE_AND_SPLIT_PROPOSAL_DRAFT.json：16项具体布局先按4DEV/8TRAIN/4TASK_VAL分区，64个唯一教师slot、四种指令、红蓝位置交替、统一中性起点与4cm托盘。此前未执行的2cm托盘草案无法容纳3cm高物体的完整OBB；现以4cm壁高明确每个tray的三维interior_bounds_m，并检查目标完整物体可置于该体积。此前草案留在Git历史；实际physics/render/teacher仍为0，不是事后按成绩改变容器或放宽评分。红蓝不是两类行为；TASK_VAL只覆盖同立方体/颜色条件下的新布局，不是新物体类别或盲TEST。源列表、camera提案和理想运动时间下界在任何physics/render/model分数前形成；没有通过实际成绩选择family。场景、相机和驱动仍是待新GO审核冻结的提案，camera实际可见性NOT_RUN；时间下界不含跟踪滞后/接触动力学，不能代替完整数据准入。
 
 教师和数据合格后，后续学习协议再冻结唯一初始化、新夹爪processor、更新数、精度/loss和评价预算；不根据PI0274质量自动选最好的模型。一个有界任务拟合检查应同时报告pose与gripper，不隐去抓空/错目标。再做教师vs学习策略同工具评价，之后正确参考vs学习参考同冻结WBC评价。各层不互相冒充，不按WBC成功筛上层数据。
 
@@ -98,6 +98,6 @@ Hopper实际完整日志CPU访问观察见SAVED_LOG_IO_OBSERVATION.json：10240�
 
 scripts/object_transfer_preparation.py复用现有StateV1、canonical chunk、SO3与adapter，提供CPU格式/row旋转/时钟/夹爪调度/泄漏负例。它不导入Torch/IsaacGym、不调用教师、不连接控制器；合成fixture明确SYNTHETIC_CPU_FIXTURE，不是RGB渲染或抓取证据。
 scripts/object_transfer_gripper_codec_audit.py在独立进程中复用真实StateActionProcessor/原codec，CPU隐藏CUDA、4线程/16GiB且拒绝神经Module及Optimizer调用。收据reports/object_transfer/preparation/GRIPPER_CODEC_AUDIT.json保留源hash、前10有效mask、结构padding和0..1五点实际编码/解码。没有新任务statistics拟合或live normalizer改动。
-scripts/object_transfer_task_score.py实现独立物体结果评分草案，使用120Hz实际状态、完整OBB、真实接触/夹爪状态及原gate结果。CPU合成轨迹覆盖14种有效失败及非有限证据，保留错误物体/未抓起/未松手/未撤离/掉出/危险接触等原因。它不执行教师或physics，逻辑PASS不证明真实抓取可行；还须由未来环境完整性证明对象没有被手工搬动/吸附。
+scripts/object_transfer_task_score.py实现独立物体结果评分草案，使用120Hz实际状态、完整OBB、真实接触/夹爪状态及原gate结果。CPU合成轨迹覆盖15种有效失败及非有限证据，包括物体高于实际容器体积，保留错误物体/未抓起/未松手/未撤离/掉出/危险接触等原因。它不执行教师或physics，逻辑PASS不证明真实抓取可行；还须由未来环境完整性证明对象没有被手工搬动/吸附。
 剩余未知：新WBC固定版本、真实夹爪极性/宽度/消费周期、实际TCP、相机标定、接触/负载能力。按旧manifest查实际已有材料，仅向师兄索取差异，不要求真机示范才能准备。新环境、教师和完整VL/真实物体episode processor准入尚未运行。
 selected/deployment=NONE；PI0274继续原预算，不新monitor/mail/merge。

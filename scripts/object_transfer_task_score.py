@@ -98,10 +98,10 @@ def demo():
                  dangerous_contact=np.zeros(n, bool), penetration_m=np.zeros(n), gate_reject=np.zeros(n, bool))
     trace['target_tool_contact'][(t >= 5) & (t < 15)] = True
     trace['measured_gripper_width_m'][(t >= 5) & (t < 15)] = .03
-    bounds = np.array([[.32, .12, .65], [.48, .28, .85]])
+    bounds = np.array([[.32, .12, .65], [.48, .28, .69]])
     assert score(trace, 0, bounds)['success']
     cases = {}
-    for name in ('NEVER_LIFTED', 'NO_GRASP', 'WRONG_OBJECT', 'WRONG_BIN', 'STILL_GRASPING', 'FINGERS_NOT_OPEN', 'NO_RETREAT', 'LATE_DROP', 'MOVING_OBJECT', 'DANGEROUS_CONTACT', 'PENETRATION', 'GATE_REJECT', 'EARLY_STOP', 'PARTIAL_OBJECT_OUTSIDE'):
+    for name in ('NEVER_LIFTED', 'NO_GRASP', 'WRONG_OBJECT', 'WRONG_BIN', 'STILL_GRASPING', 'FINGERS_NOT_OPEN', 'NO_RETREAT', 'LATE_DROP', 'MOVING_OBJECT', 'DANGEROUS_CONTACT', 'PENETRATION', 'GATE_REJECT', 'EARLY_STOP', 'PARTIAL_OBJECT_OUTSIDE', 'OBJECT_ABOVE_CONTAINER_VOLUME'):
         x = {key: value.copy() for key, value in trace.items()}
         target = 0
         if name == 'NEVER_LIFTED': x['object_position'][:, 0, 2] = .665
@@ -117,6 +117,7 @@ def demo():
         elif name == 'PENETRATION': x['penetration_m'][100] = .003
         elif name == 'GATE_REJECT': x['gate_reject'][100] = True
         elif name == 'PARTIAL_OBJECT_OUTSIDE': x['object_position'][t >= 28, 0, 0] = .475
+        elif name == 'OBJECT_ABOVE_CONTAINER_VOLUME': x['object_position'][t >= 28, 0, 2] = .686
         elif name == 'EARLY_STOP':
             x = {key: value[:3000].copy() if key not in ('half_extents', 'support_z') else value for key, value in x.items()}
         result = score(x, target, bounds)
@@ -127,8 +128,9 @@ def demo():
     try: score(broken, 0, bounds)
     except ValueError: pass
     else: raise AssertionError('nonfinite achieved state accepted')
-    return dict(status='PASS_CPU_DRAFT_OBJECT_RESULT_AND14_NEGATIVE_TRACES',
-                negative_cases=cases, valid_failure_count=14, corrupt_trace_rejected=True,
+    return dict(status='PASS_CPU_DRAFT_OBJECT_RESULT_AND15_NEGATIVE_TRACES',
+                negative_cases=cases, valid_failure_count=15, corrupt_trace_rejected=True,
+                full_3D_container_bounds_m=bounds.tolist(),
                 synthetic_fixture_only=True, actual_physical_episodes=0, teacher_calls=0,
                 renders=0, physics_steps=0, model_queries=0, optimizer_updates=0,
                 source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
