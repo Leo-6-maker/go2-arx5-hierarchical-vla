@@ -94,6 +94,10 @@ scripts/object_transfer_proposals.py现已输出SCENE_AND_SPLIT_PROPOSAL_DRAFT.j
 
 Hopper实际完整日志CPU访问观察见SAVED_LOG_IO_OBSERVATION.json：10240微批对应现源码累计重新解析95,878,064,839 bytes与157,291,520行；草案读取范围降至20,480行。仅三个暖缓存末步JSON/文件访问对照，原路径.202—.224s，游标＋缓存路径.00035—.00057s，读取值完全相同；并非整体训练吞吐、GPU等待或worker收益测量。CPU_LOG_IO_DRAFT_RECEIPT.json记录草案语法/版本化other绑定和新增行边界的2正例、3负例。它不证明真实Trainer/canary或多worker已合格；launch_allowed=false。
 
+第二项有实际依据的草案是FUTURE_RAW_ARRAY_CACHE.patch，仍由同一生成/check脚本产出。当前PI0270→PI0273/4的family缓存保留NpzFile句柄，每次按索引取图像/状态/标签仍重新解压整项数组；复用PI0264已有的解压后缓存模式，只预载state_v1/raw_action/body_rgb/wrist_rgb，关闭ZIP句柄，并在两个继承消费者处复制所选切片，保留原新数组隔离与全部源hash/资格检查。CPU源匹配、压缩数组字节/dtype、切片修改不污染缓存及源hash负例通过，真实processor/canary尚未运行。
+
+SAVED_NPZ_IO_OBSERVATION.json保存Hopper NumPy1.26.4旧TRAIN家族原件的有限CPU检查：一个家族四数组24,346,112 bytes，三次旧访问约.069—.073s、预载后的相同切片复制约.000014—.000017s；初次预载.075s。24旧TRAIN家族四类NPY成员合计584,318,976 bytes（含文件头，约.54GiB），不是新物体数据或完整进程内存。四项独立数组访问不冒充匹配的RGB/state/label输入或完整VL准入，整体训练收益UNOBSERVED。两个补丁均仅用于后续入口的私有版本化源副本，不就地修改已封存PI0270/3/4 helper。缓存后仍需按实际新数据/RSS/耗时决定是否采用有序2/4worker，并在原获准canary里检验随机流/恢复；此准备新增模型/梯度/训练/physics均0。
+
 ## 7. 准备交付与未完成项
 
 scripts/object_transfer_preparation.py复用现有StateV1、canonical chunk、SO3与adapter，提供CPU格式/row旋转/时钟/夹爪调度/泄漏负例。它不导入Torch/IsaacGym、不调用教师、不连接控制器；合成fixture明确SYNTHETIC_CPU_FIXTURE，不是RGB渲染或抓取证据。

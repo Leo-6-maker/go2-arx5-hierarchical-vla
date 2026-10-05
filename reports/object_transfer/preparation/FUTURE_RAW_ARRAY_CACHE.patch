@@ -1,0 +1,38 @@
+--- a/scripts/pi0270_execution/train.py
++++ b/scripts/pi0270_execution/train.py
+@@ -89,7 +89,10 @@
+         folder=ROOT.with_name('PI0267')/'source/S2'/fid
+         complete=read(folder/'COMPLETE.json');checks=read(folder/'codec_admission.json');assert checks['pass_admission']
+         for name in ('proposals.npz','policy_frames.npz','rows.json'):assert sha(folder/name)==complete['hashes'][name]
+-        return np.load(folder/'proposals.npz'),np.load(folder/'policy_frames.npz'),read(folder/'rows.json')
++        with np.load(folder/'proposals.npz',allow_pickle=False) as z, np.load(folder/'policy_frames.npz',allow_pickle=False) as fr:
++            states={k:z[k] for k in ('state_v1','raw_action')}
++            frames={k:fr[k] for k in ('body_rgb','wrist_rgb')}
++        return states,frames,read(folder/'rows.json')
+ 
+     @lru_cache(maxsize=256)
+     def recovery(self,uid,digest):
+@@ -106,8 +109,8 @@
+                     z,fr,rows=self.family(u['family']);row=rows[i]
+                     assert row['task']==u['task'] and row['command']==c and row['anchor_index']==u['anchor'] and row['precodec_valid']
+                     assert row['nominal'] and i==u['N_indices'][c]
+-                    j=row['frame_index'];packet=dict(body_rgb=fr['body_rgb'][j],wrist_rgb=fr['wrist_rgb'][j],state_v1=z['state_v1'][i],language=text)
+-                    action=z['raw_action'][i];frame_key=row['frame_key']
++                    j=row['frame_index'];packet=dict(body_rgb=fr['body_rgb'][j].copy(),wrist_rgb=fr['wrist_rgb'][j].copy(),state_v1=z['state_v1'][i].copy(),language=text)
++                    action=z['raw_action'][i].copy();frame_key=row['frame_key']
+                 else:
+                     assert u['slot']=='RECOVERY_INTERVENTION'
+                     replacement=self.mapping[u['unit'],micro]
+--- a/scripts/pi0273_execution/train.py
++++ b/scripts/pi0273_execution/train.py
+@@ -31,8 +31,8 @@
+             z,fr,rows=self.family(u['family']);row=rows[i]
+             assert row['task']==u['task'] and row['command']==c and row['anchor_index']==u['anchor'] and row['precodec_valid']
+             assert row['nominal'] and i==u['N_indices'][c]
+-            j=row['frame_index'];packet=dict(body_rgb=fr['body_rgb'][j],wrist_rgb=fr['wrist_rgb'][j],state_v1=z['state_v1'][i],language=text)
+-            action=z['raw_action'][i]
++            j=row['frame_index'];packet=dict(body_rgb=fr['body_rgb'][j].copy(),wrist_rgb=fr['wrist_rgb'][j].copy(),state_v1=z['state_v1'][i].copy(),language=text)
++            action=z['raw_action'][i].copy()
+         else:
+             assert u['slot']=='RECOVERY_INTERVENTION';r=self.mapping[source['unit'],micro]
+             sample=self.recovery(r['source_uid'],r['sample_sha256'])

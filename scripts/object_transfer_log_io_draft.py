@@ -10,6 +10,75 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'reports/object_transfer/preparation'
 
 
+def raw_cache_draft():
+    import numpy as np
+    sources = [ROOT / 'scripts/pi0270_execution/train.py', ROOT / 'scripts/pi0273_execution/train.py']
+    originals = [p.read_text(encoding='utf-8') for p in sources]
+    candidates = originals.copy()
+    before = "        return np.load(folder/'proposals.npz'),np.load(folder/'policy_frames.npz'),read(folder/'rows.json')"
+    after = """        with np.load(folder/'proposals.npz',allow_pickle=False) as z, np.load(folder/'policy_frames.npz',allow_pickle=False) as fr:
+            states={k:z[k] for k in ('state_v1','raw_action')}
+            frames={k:fr[k] for k in ('body_rgb','wrist_rgb')}
+        return states,frames,read(folder/'rows.json')"""
+    assert candidates[0].count(before) == 1
+    candidates[0] = candidates[0].replace(before, after)
+    # Preserve the old fresh-array isolation at every inherited family consumer.
+    for i in (0, 1):
+        for expression in ("fr['body_rgb'][j]", "fr['wrist_rgb'][j]", "z['state_v1'][i]", "z['raw_action'][i]"):
+            assert candidates[i].count(expression) == 1, 'FAMILY_CONSUMER_SOURCE_DRIFT'
+            candidates[i] = candidates[i].replace(expression, expression + '.copy()')
+        compile(ast.parse(candidates[i]), str(sources[i]), 'exec')
+    family = next(n for n in ast.walk(ast.parse(candidates[0])) if isinstance(n, ast.FunctionDef) and n.name == 'family')
+    family.decorator_list = []
+    encode = next(n for n in ast.walk(ast.parse(candidates[1])) if isinstance(n, ast.FunctionDef) and n.name == 'encode')
+    branch = next(n for n in encode.body if isinstance(n, ast.If))
+    selected = [n for n in branch.body if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id in ('packet', 'action') for t in n.targets)]
+    assert len(selected) == 2
+    select = compile(ast.Module(body=selected, type_ignores=[]), 'future-isolated-slices', 'exec')
+    with tempfile.TemporaryDirectory(dir=OUT) as folder:
+        root = Path(folder)
+        data = root / 'PI0267/source/S2/fixture'
+        data.mkdir(parents=True)
+        values = dict(state_v1=np.zeros((2,10),np.float32), raw_action=np.zeros((2,40,10),np.float32),
+                      body_rgb=np.zeros((2,96,96,3),np.uint8), wrist_rgb=np.zeros((2,96,96,3),np.uint8))
+        np.savez_compressed(data/'proposals.npz', **{k:values[k] for k in ('state_v1','raw_action')})
+        np.savez_compressed(data/'policy_frames.npz', **{k:values[k] for k in ('body_rgb','wrist_rgb')})
+        (data/'rows.json').write_text('[]')
+        (data/'codec_admission.json').write_text('{"pass_admission":true}')
+        read = lambda p:json.loads(p.read_text())
+        sha = lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+        complete = dict(hashes={n:sha(data/n) for n in ('proposals.npz','policy_frames.npz','rows.json')})
+        (data/'COMPLETE.json').write_text(json.dumps(complete))
+        scope = dict(ROOT=root/'PI0270', np=np, read=read, sha=sha)
+        exec(compile(ast.Module(body=[family],type_ignores=[]),'future-materialized-family','exec'),scope)
+        z,fr,rows = scope['family'](None,'fixture')
+        assert isinstance(z,dict) and isinstance(fr,dict) and rows == []
+        assert all(x.dtype==values[k].dtype and np.array_equal(x,values[k]) for group in (z,fr) for k,x in group.items())
+        selection = dict(z=z,fr=fr,i=0,j=0,text='SYNTHETIC_CPU_ARRAY_FIXTURE')
+        exec(select,selection)
+        for key in ('body_rgb','wrist_rgb','state_v1'):selection['packet'][key][...]=1
+        selection['action'][...]=1
+        assert all(not x.any() for group in (z,fr) for x in group.values()), 'CACHED_SOURCE_MUTATED'
+        complete['hashes']['policy_frames.npz'] = 'wrong'
+        (data/'COMPLETE.json').write_text(json.dumps(complete))
+        try:scope['family'](None,'fixture')
+        except AssertionError:pass
+        else:raise AssertionError('SOURCE_HASH_DRIFT_ACCEPTED')
+    patch = ''.join(''.join(difflib.unified_diff(a.splitlines(True),b.splitlines(True),
+             fromfile='a/'+p.relative_to(ROOT).as_posix(),tofile='b/'+p.relative_to(ROOT).as_posix()))
+             for p,a,b in zip(sources,originals,candidates))
+    path = OUT/'FUTURE_RAW_ARRAY_CACHE.patch'
+    path.write_text(patch,encoding='utf-8',newline='\n')
+    receipt = dict(status='FUTURE_RAW_CACHE_CPU_SOURCE_BYTE_ISOLATION_AND_HASH_BOUNDARY_PASS',
+        patch_sha256=hashlib.sha256(path.read_bytes()).hexdigest(), synthetic_fixture_only=True,
+        sources=[dict(path=p.relative_to(ROOT).as_posix(),normalized_source_sha256=hashlib.sha256(s.encode()).hexdigest()) for p,s in zip(sources,originals)],
+        qualified_processor_and_real_canary='NOT_RUN', existing_sealed_helpers_must_remain_unchanged=True,
+        future_private_versioned_source_copy_required=True, current_runtime_changed=False, launch_allowed=False,
+        new_model_queries=0,new_teacher_calls=0,new_renders=0,new_physics=0,optimizer_updates=0)
+    (OUT/'CPU_RAW_ARRAY_CACHE_DRAFT_RECEIPT.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(receipt))
+
+
 def main():
     path = ROOT / 'scripts/pi0273_execution/train.py'
     source = path.read_text(encoding='utf-8')
@@ -90,6 +159,7 @@ def main():
                    read_scope='Only the one appended actual micro packet; immutable closed packets once; all comparison fields unchanged')
     (OUT / 'CPU_LOG_IO_DRAFT_RECEIPT.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(receipt))
+    raw_cache_draft()
 
 
 if __name__ == '__main__':
