@@ -90,6 +90,10 @@ scripts/object_transfer_proposals.py现已输出SCENE_AND_SPLIT_PROPOSAL_DRAFT.j
 
 加速是否生效以相同有效更新的walltime和CPU/GPU等待数据报告；目前未实施多worker，未宣称吞吐增益。
 
+首项窄补丁已具体准备：reports/object_transfer/preparation/FUTURE_LOG_IO.patch，由scripts/object_transfer_log_io_draft.py生成。复用PI0270已有的training_step前记录字节游标、之后仅读取该微批新增日志的方法；封存对照只解析一次，同时每步校验其inode/大小/mtime/ctime未变。原unit/micro/command/seed/epsilon/tau/initial_noise/mode全部比较字段保留。草案没有应用到任何现役训练器；新版本须绑定源并在原获准canary中证明精确恢复。
+
+Hopper实际完整日志CPU访问观察见SAVED_LOG_IO_OBSERVATION.json：10240微批对应现源码累计重新解析95,878,064,839 bytes与157,291,520行；草案读取范围降至20,480行。仅三个暖缓存末步JSON/文件访问对照，原路径.202—.224s，游标＋缓存路径.00035—.00057s，读取值完全相同；并非整体训练吞吐、GPU等待或worker收益测量。CPU_LOG_IO_DRAFT_RECEIPT.json记录草案语法/版本化other绑定和新增行边界的2正例、3负例。它不证明真实Trainer/canary或多worker已合格；launch_allowed=false。
+
 ## 7. 准备交付与未完成项
 
 scripts/object_transfer_preparation.py复用现有StateV1、canonical chunk、SO3与adapter，提供CPU格式/row旋转/时钟/夹爪调度/泄漏负例。它不导入Torch/IsaacGym、不调用教师、不连接控制器；合成fixture明确SYNTHETIC_CPU_FIXTURE，不是RGB渲染或抓取证据。
