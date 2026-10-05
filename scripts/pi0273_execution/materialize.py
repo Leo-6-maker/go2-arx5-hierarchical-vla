@@ -16,7 +16,13 @@ def main(point):
     donor=read(BASE/'PI0270/model_bindings/AGG4096.json')
     assert donor['source_revision']=='leoyuer/pi0246-gate-pass-campaign@f862abb26041c8e7d355470d6e9d48899f78b9ce/arms/PI0270/AGG/checkpoint-4096'
     assert donor['checkpoint_tree_sha256']=='0427b2be852f572ab4f3c4fa343cc56104acbbf0cca9db2e61d60abad3b15f66'
-    for name,digest in donor['model_files_sha256'].items():assert sha(Path(donor['view'])/name)==digest
+    from huggingface_hub import hf_hub_download
+    repo,revision_prefix=donor['source_revision'].split('@',1);revision,prefix=revision_prefix.split('/',1)
+    donor_root=Path(donor['view']).parents[3]
+    for name,digest in donor['model_files_sha256'].items():
+        path=Path(donor['view'])/name
+        if not path.exists():assert Path(hf_hub_download(repo,filename=prefix+'/'+name,revision=revision,local_dir=donor_root))==path
+        assert sha(path)==digest
     arm=point.removesuffix('5120');assert arm in ('BROAD','TARGET')
     mode=ROOT/'design'/f'{arm}_READOUT_R1.json'
     source=read(ROOT/'evidence'/arm/'checkpoint-5120.archive_receipt.json')
@@ -26,7 +32,6 @@ def main(point):
     assert entries=={r['path']:r for r in checkpoint['entries']}
     names=('config.json','model-00001-of-00002.safetensors','model-00002-of-00002.safetensors','model.safetensors.index.json')
     download=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0273/models')/point;view=download/source['prefix']
-    from huggingface_hub import hf_hub_download
     for name in names:
         p=view/name
         if not p.exists():assert Path(hf_hub_download(source['repo_id'],filename=source['prefix']+'/'+name,revision=source['revision'],local_dir=download))==p
