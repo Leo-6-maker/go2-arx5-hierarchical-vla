@@ -22,6 +22,16 @@ def main():
     scene = scene_source.build()
     saved = json.loads((REPO / 'reports/object_transfer/preparation/SCENE_AND_SPLIT_PROPOSAL_DRAFT.json').read_text())
     expected = dict(saved); expected.pop('source_sha256')
+    roundoff = []
+    # Only this derived explanatory norm differs by 1-2 ULP across Windows/Linux BLAS.
+    # Scene geometry, instructions, memberships and all physical thresholds remain exact.
+    for actual, stored in zip(scene['teacher_slots'], expected['teacher_slots']):
+        x, y = actual['ideal_transfer_min_s'], stored['ideal_transfer_min_s']
+        if x != y:
+            if abs(x - y) > 2 * abs(scene_source.np.spacing(y)):
+                raise ValueError('derived proposal travel-time mismatch')
+            roundoff.append(dict(episode_id=stored['episode_id'], generated=x, saved=y))
+            actual['ideal_transfer_min_s'] = y
     if scene != expected or saved['source_sha256'] != sha(proposal):
         raise ValueError('frozen proposal does not match reviewed generator and saved card')
     teacher = REPO / 'scripts/object_transfer_teacher.py'
@@ -55,6 +65,7 @@ def main():
                           REPO / 'reports/object_transfer/preparation/SCENE_AND_SPLIT_PROPOSAL_DRAFT.json']))
     card = dict(schema='PI0275_FROZEN_EXECUTION_MANIFEST_V1', authority=AUTH, release=RELEASE, issue11=5999317212,
                 scene_card=scene, files=[dict(path=p.relative_to(REPO).as_posix(), sha256=sha(p)) for p in files],
+                proposal_generator_platform_roundoff=roundoff, authoritative_scene_values='exact saved reviewed proposal',
                 teacher_adaptation=dict(base_sha256=sha(teacher), private_sha256=sha(target),
                     changes=['native measured width numerical tolerance 1e-5m; preserve raw value', 'private source root parents[2]'], semantic_stages_unchanged=True),
                 strict_scorer_native_parser=dict(base_sha256=sha(legacy_path), private_sha256=sha(legacy_native),
