@@ -1,0 +1,16 @@
+{
+  "schema": "PI0274_ACTUAL_CONTINUATION_PROGRESS_V1",
+  "observed_at_utc": "2026-10-05T10:34:43Z",
+  "authority_release": "495b17078cb57fdbd47d8257d33202c57beb058e",
+  "canonical": 5990552027,
+  "first_job": {"id": "648278.hopper-m-02", "state": "F", "exit_status": 1, "completed_updates": 8, "failure": "metadata-only obsolete provenance filename after complete native checkpoint save"},
+  "engineering_closure": {"read_only_finalization": "PASS_COMPLETED_CONTINUOUS8_READONLY_METADATA_FINALIZATION", "repeated_continuous_updates": 0, "source_and_failure_evidence_preserved": true, "versioned_fileset": "EXECUTION_FILESET_R1.json"},
+  "canary": {"status": "PASS_PI0274_REAL_EXACT_RESUME_CANARY", "model_tensors": 1030, "optimizer_tensors": 1413, "model_max_abs": 0.0, "optimizer_max_abs": 0.0, "saved_rng_scheduler_exact": true, "completed_updates": 16},
+  "continuation_job": {"id": "648367.hopper-m-02", "state": "R", "host": "hopper-17", "formal_updates_observed": 67, "formal_budget": 5120, "raw_completed_updates": 83, "mail": "n"},
+  "BROAD_field": {"worker_pid": 1967411, "driver_pid": 1967318, "registered_queries": 2496, "last_logged_complete_outputs": 832, "attempt_journal_rows": 836, "last_attempt_may_be_in_flight": true, "new_renders": 0, "new_teacher_calls": 0},
+  "EQUIL_quality": "NOT_YET_STARTED",
+  "quality_verdict": "NOT_YET_OBSERVED",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "goal_complete": false
+}

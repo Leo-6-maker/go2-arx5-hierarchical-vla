@@ -1,0 +1,36 @@
+{
+  "schema": "PI0274_ACTUAL_PRETRAIN_PROGRESS_V1",
+  "observed_at_utc": "2026-10-05T10:05:54Z",
+  "authority": "PI0274_POSE_EQUILIBRIUM_AND_ROTATIONAL_RECOVERY_GO_V1",
+  "release": "495b17078cb57fdbd47d8257d33202c57beb058e",
+  "canonical": 5990552027,
+  "A0": {"saved_episodes": 128, "saved_query_joins": 12368, "new_model_queries": 0, "new_renders": 0},
+  "data": {"registered_proposals": 1248, "valid_precodec": 1248, "training_physical_poses": 672, "training_invalid": 0, "actual_processed_conditions": 1598, "supplemental_occurrences": 2048, "supplemental_unique_processed_pairs": 728},
+  "dataset_archive": {
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "a786d91e501d241eb8af29d9666f6b8fd3c7a6be",
+    "prefix": "evidence/PI0274/pose-equilibrium-20261005/data",
+    "tree_sha256": "427e854ff3cd4e284fe20809738c790add6da8b8ac0e050aeea604c41b321520",
+    "members": 8946,
+    "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS"
+  },
+  "hopper": {
+    "new_inputs": "PASS_PI0274_NEW_INPUTS_AND_REUSED8192_BASE",
+    "runtime_binding": "PASS_PI0274_ACTUAL_FROZEN_HELPERS_AND_HOOKS",
+    "execution_fileset_members": 1317,
+    "job": "648278.hopper-m-02",
+    "requested_queue": "auto",
+    "assigned_queue": "small",
+    "actual_state": "Q",
+    "scheduler_reason": "Insufficient amount of resource: ngpus",
+    "mail_points": "n",
+    "canary_complete": false,
+    "formal_updates_complete": 0,
+    "continuation": "continuous8 -> split4 -> fresh resume4 -> exact comparison -> retire passed canary payloads -> EQUIL5120"
+  },
+  "BROAD_retraining": false,
+  "model_quality_verdict": "NOT_YET_OBSERVED",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "goal_complete": false
+}
