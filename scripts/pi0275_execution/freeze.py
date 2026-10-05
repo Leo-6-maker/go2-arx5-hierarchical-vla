@@ -34,7 +34,7 @@ def main():
     target = REPO / 'scripts/pi0275_execution/teacher.py'
     # The reviewed teacher inserts parents[1]/src; this private location needs the real root.
     adapted = adapted.replace("Path(__file__).resolve().parents[1] / 'src'", "Path(__file__).resolve().parents[2] / 'src'")
-    target.write_text(adapted)
+    target.write_bytes(adapted.encode('utf-8'))
     legacy_path = REPO / 'scripts/object_transfer_task_score.py'
     if sha(legacy_path) != 'b682429848f119ff722dec7e86060f36e96a4eafe7fa6ca8f3a17e2c2de5cd49':
         raise ValueError('reviewed strict scorer changed')
@@ -43,7 +43,7 @@ def main():
     if legacy_source.count(width_check) != 1:
         raise ValueError('native strict scorer measurement adapter source mismatch')
     legacy_native = REPO / 'scripts/pi0275_execution/score_legacy_native.py'
-    legacy_native.write_text(legacy_source.replace(width_check, "np.any(values['measured_gripper_width_m'] < -1e-5)"))
+    legacy_native.write_bytes(legacy_source.replace(width_check, "np.any(values['measured_gripper_width_m'] < -1e-5)").encode('utf-8'))
     asset = REPO / 'assets/object_transfer/draft_tool.urdf'
     if sha(asset) != '44e62ac4fe50e54529fbfc0a59a9fcddb589adec4a872d67d736e7c5364669ca':
         raise ValueError('reviewed tool asset changed')
@@ -75,7 +75,7 @@ def main():
     out = a.root / 'EXECUTION_MANIFEST.json'
     if out.exists() and json.loads(out.read_text()) != card:
         raise ValueError('existing execution manifest differs; preserve it and explicitly version repair')
-    out.write_text(json.dumps(card, sort_keys=True, indent=2) + '\n')
+    out.write_bytes((json.dumps(card, sort_keys=True, indent=2) + '\n').encode('utf-8'))
     print(json.dumps(dict(status='FROZEN_PRE_NATIVE_NOT_PASS', manifest_sha256=sha(out), files=len(files), physics_calls=0)))
 
 
