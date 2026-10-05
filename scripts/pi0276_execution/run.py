@@ -61,6 +61,18 @@ def source():
     from source_worker import collect
     collect()
 
+def replay():
+    from replay import main as cpu_replay
+    cpu_replay()
+
+def bridge():
+    assert json.loads((ROOT/'evidence/SOURCE.json').read_text())['status']=='PASS_FIXED_SOURCE_AND_EEF_TASK_GATES'
+    replay()
+
+def dataset():
+    from dataset import main as make_dataset
+    make_dataset()
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stage', choices=['all','audit','setup','native','source','bridge','dataset','admit','canary','train','evaluate','replay','archive','closeout'])

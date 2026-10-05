@@ -88,11 +88,13 @@ class Episode:
         existing=sorted(parent.glob('attempt-*/RESULT.json'))
         assert not any(json.loads(p.read_text())['status'].startswith('VALID') for p in existing), 'Reuse the first valid result'
         assert all((p/'RESULT.json').exists() for p in parent.glob('attempt-*')), 'Actual incomplete handle must be audited before another start'
+        if existing:
+            starts=list((RAW/'episodes').glob('*/attempt-*/START.json'))
+            replacements=len(starts)-len({p.parent.parent.name for p in starts})
+            assert replacements<16, 'Same-condition technical replacement allowance exhausted'
         self.folder=parent/f'attempt-{len(existing):03d}'
         self.folder.mkdir(parents=True)
         self.ledger=Ledger();self.ledger.reserve('starts',slot);self.ledger.sync()
-        if existing:
-            assert sum(json.loads(p.read_text())['status']=='ENGINEERING_INCOMPLETE' for p in (RAW/'episodes').glob('*/attempt-*/RESULT.json'))<=16
         write(self.folder/'START.json',dict(slot=slot,seed=seed,mode=mode,pid=os.getpid(),status='STARTED_BEFORE_NATIVE_CONSTRUCTION'))
         self.states=[];self.contacts=self.folder.joinpath('contacts.jsonl').open('a',buffering=1)
         self.inputs=[];self.commands=[];self.phase=[];self.installed=[];self.ik_holds=[];self.control=0
@@ -199,6 +201,8 @@ class Episode:
         self.commands.append(np.asarray(command));self.phase.append(phase)
         output=self.env.step(action);self.control+=1
         installed=dict(action=action.copy(),arm_target=array(self.arm._target_qpos)[0])
+        q=array(self.env.agent.robot.get_qpos())[0];q[:7]=installed['arm_target']
+        installed['installed_target_fk']=self.command_fk(q)
         if self.mode=='pd_ee_pose':installed['base_target']=matrix(self.arm._target_pose)
         self.installed.append(installed)
         return output
