@@ -5,7 +5,7 @@ from quality_worker import write
 
 def main():
     admitted();assert read(ROOT/'evidence/QUALITY_QUERY_LANES_COMPLETE.json')['status']=='ALL_FIXED_NEW_QUALITY_QUERY_LANES_COMPLETE'
-    seal=read(ROOT/'design/QUALITY_FINAL_EXECUTION_FILESET.json')
+    seal=read(ROOT/'design/POSTPROCESS_EXECUTION_FILESET_R1.json')
     for r in seal['files']:assert sha(r['path'])==r['sha256']
     env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott',PYTHONPATH=str(ROOT/'code'))
     env.pop('LD_PRELOAD',None);env.pop('LD_LIBRARY_PATH',None)

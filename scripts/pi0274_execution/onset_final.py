@@ -16,7 +16,7 @@ class Registered(ast.NodeTransformer):
     def visit_Constant(self,n):
         mapping={128:64,'PASS_PI0273_ALL_NEW_S4_DECODE_AND_TRAJECTORIES':'PASS_PI0274_ALL_NEW_S4_DECODE_AND_TRAJECTORIES',
             'A0_ONSET128.csv':'EQUIL_ONSET64.csv','A0_REFERENCE_AND_VISIBILITY12368.csv':'EQUIL_REFERENCE_AND_VISIBILITY.csv',
-            'A0_ONSET_ANALYSIS.json':'EQUIL_ONSET_ANALYSIS.json','PASS_ALL128_SAVED_ONSETS_AND_OBSERVED_VISIBILITY':'PASS_ALL64_EQUIL_SAVED_ONSETS_AND_OBSERVED_VISIBILITY'}
+            'evidence/A0_ONSET_ANALYSIS.json':'evidence/EQUIL_ONSET_ANALYSIS.json','PASS_ALL128_SAVED_ONSETS_AND_OBSERVED_VISIBILITY':'PASS_ALL64_EQUIL_SAVED_ONSETS_AND_OBSERVED_VISIBILITY'}
         return ast.copy_location(ast.Constant(mapping[n.value]),n) if n.value in mapping else n
     def visit_keyword(self,n):
         if n.arg=='shared_visibility_source':n.value=ast.parse("str(ROOT.parent/'PI0267/code/pi0259_observation.py')",mode='eval').body

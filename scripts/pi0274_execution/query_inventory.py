@@ -35,11 +35,11 @@ def prepared():
             if len(n.targets)==1 and isinstance(n.targets[0],ast.Name) and n.targets[0].id=='actual':
                 edits.append('field_outputs');self.generic_visit(n)
                 lanes=[e for e in ast.walk(n) if isinstance(e,ast.Tuple) and all(isinstance(x,ast.Constant) for x in e.elts) and ast.literal_eval(e)==('offline','newfit','late','virtual','component')]
-                assert len(lanes)==1;lanes[0].elts.append(ast.Constant('field'));return [field_loop,n]
+                assert len(lanes)==1;lanes[0].elts.append(ast.Constant('field'));return n
             return self.generic_visit(n)
         def visit_Assert(self,n):
             if any(isinstance(x,ast.Name) and x.id=='records' for x in ast.walk(n)):
-                edits.append('record_denominator');return ast.copy_location(ast.parse('assert len(records)==968+192+592+64+32+4992').body[0],n)
+                edits.append('record_denominator');return [field_loop,ast.copy_location(ast.parse('assert len(records)==968+192+592+64+32+4992').body[0],n)]
             return self.generic_visit(n)
         def visit_Constant(self,n):
             mapping={18432:14336,73728:57344,208:104,15360:9216,192:96,17584:13784}
