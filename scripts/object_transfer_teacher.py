@@ -11,6 +11,7 @@ from go2arx5_vla.trajectory.so3 import geodesic_angle, matrix_to_quat, quat_sler
 
 STAGES = ('PREGRASP', 'APPROACH', 'CLOSE', 'LIFT', 'TRANSFER', 'LOWER', 'RELEASE', 'RETREAT')
 TIMEOUTS = (4., 4., 2., 4., 6., 4., 2., 4.)
+GRASP_TCP_OFFSET_M = .027  # 40mm fingers, 30mm object: preserve 2mm table clearance.
 
 
 def finite(value, shape):
@@ -30,8 +31,8 @@ class Teacher:
             raise ValueError('invalid draft tool or object dimensions')
         # Draft tool fingers extend +z from the palm TCP; grasp uses fixed downward R.
         self.rotation = np.diag([1., -1., -1.])
-        grasp = source + [0, 0, .02]
-        lower = np.r_[center, scalar[0] + scalar[1] + .02]
+        grasp = source + [0, 0, GRASP_TCP_OFFSET_M]
+        lower = np.r_[center, scalar[0] + scalar[1] + GRASP_TCP_OFFSET_M]
         self.goals = (grasp + [0, 0, .08], grasp, grasp,
                       grasp + [0, 0, .10], lower + [0, 0, .10], lower, lower, lower + [0, 0, .12])
         self.support = source[2] - object_half_z
@@ -81,7 +82,7 @@ class Teacher:
             pose_ready = np.linalg.norm(p-self.goals[self.stage]) <= .005 and geodesic_angle(r, self.rotation) <= .05
             ready = pose_ready
             if self.stage == 1:
-                ready = pose_ready and np.linalg.norm(r.T @ (obj-p) - [0, 0, .02]) <= .005
+                ready = pose_ready and np.linalg.norm(r.T @ (obj-p) - [0, 0, GRASP_TCP_OFFSET_M]) <= .005
             elif self.stage == 2: ready = pose_ready and both and 0 < width < .070
             elif self.stage == 3: ready = pose_ready and bottom-self.support >= .08 - 1e-9
             elif self.stage == 4: ready = pose_ready and both
@@ -113,7 +114,7 @@ def fixture(teacher, time):
     s = min(teacher.stage, 7)
     p = teacher.goals[s].copy()
     source = np.array([-.2, 0, .665])
-    obj = source if s < 3 else (p if s < 6 else teacher.goals[5]) + [0, 0, -.02]
+    obj = source if s < 3 else (p if s < 6 else teacher.goals[5]) + [0, 0, -GRASP_TCP_OFFSET_M]
     return dict(time=time, tcp_position=p, tcp_rotation=teacher.rotation.copy(), target_position=obj,
                 target_bottom_z=obj[2]-.015, measured_width_m=.03 if s in (2, 3, 4, 5) else .08,
                 target_speed_m_s=0., penetration_m=0., bilateral_contact=s in (2, 3, 4, 5),
@@ -121,7 +122,7 @@ def fixture(teacher, time):
 
 
 def demo():
-    def new(): return Teacher([-.2, 0, .665], [.2, .2], .65, .015, [-.2, 0, .765], np.diag([1., -1., -1.]), .08)
+    def new(): return Teacher([-.2, 0, .665], [.2, .2], .65, .015, [-.2, 0, .665+GRASP_TCP_OFFSET_M+.08], np.diag([1., -1., -1.]), .08)
     a = new()
     stages = []
     previous = None
@@ -177,6 +178,7 @@ def demo():
     return dict(status='PASS_CPU_DRAFT_TEACHER_TRANSITIONS_BOUNDS_AND_FAILURES', stage_sequence=stages,
                 negative_cases=negatives, corrupt_state_rejected=True, synthetic_logic_fixture_only=True,
                 teacher_finished_is_not_task_success=True, actual_teacher_episodes=0, teacher_calls=0,
+                grasp_tcp_offset_m=GRASP_TCP_OFFSET_M,
                 physics_steps=0, renders=0, model_queries=0, optimizer_updates=0,
                 source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), launch_allowed=False,
                 selected_checkpoint='NONE', deployment_selected_checkpoint='NONE')

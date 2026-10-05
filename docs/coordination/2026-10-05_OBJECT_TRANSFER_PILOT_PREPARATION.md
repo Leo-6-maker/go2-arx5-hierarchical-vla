@@ -30,6 +30,8 @@ GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作
 
 当前已生成assets/object_transfer/draft_tool.urdf及可复现生成器scripts/object_transfer_tool_asset.py：固定anchor、XYZ与yaw/pitch/roll六自由度、两独立棱柱手指；TCP位于掌面+z面中心，手指内宽为q_left+q_right，张开时各.04m。质量、惯量、collision和每DOF effort/velocity limit显式给出；根部是隔离工具驱动，不是目标机器人的joint监督。CPU只核对XML拓扑、TCP、0/30/80mm开度及静态FK，没有native asset load、renderer或simulate。URDF每轴限幅不能冒充20N/2Nm总向量限幅，后续控制器须另显式实现；Gym加载、接触及完整环境仍未准入。
 
+静态一致性检查已发现并修正一项草案问题：原20mm物体中心→TCP偏移配40mm手指，最低点会低于0.65m桌面5mm。尚未执行的教师偏移现为27mm，按同一URDF计算留2mm桌面间隙，手指与30mm物体竖直重叠28mm；抓取、放置及APPROACH检查共同引用GRASP_TCP_OFFSET_M，资产本身未变。这是明确物体抓放阻断的必要几何修正，不是PhysX抓取/碰撞PASS，也不改PI0274或旧科学教师。旧草案及CPU逻辑收据保留在Git历史。
+
 允许：手指与目标接触、目标与桌/目标容器接触。失败分别记错物体抓取/搬运、目标掉落、危险非目标碰撞、超界、穿透>2mm、未抓起、未释放、未撤离、超时、技术错误。允许接触类别与原SafetyGate分开；任何原gate REJECT不安装，不能绕gate取得任务PASS。涉及新接触的准入规则须在未来pilot中单独冻结。
 
 完整成功草案：选中物体曾离开源支撑面至少80mm，且该抬起过程中两指目标接触连续至少.3s；搬运到指令容器；完整物体OBB在容器内；实际手指开度至少70mm且无工具-物体接触；TCP离物体至少100mm；固定任务终末28—30s全部tick物体留在容器、速度<.02m/s；非目标物体位移<10mm且未被抓起；无危险接触/穿透。末尾额外2s用于完整H40标签记录，不挑最好的2s成功窗口；全部保存段的安全事件保留。上述评分只在评价端读真值，不作为policy阶段推进或隐藏控制输入。这些尚未运行的任务规则须随未来pilot冻结，不改变旧几何判据。
@@ -71,6 +73,8 @@ scripts/object_transfer_preparation.py的episode_window现已从单episode保存
 ## 5. 独立预算草案：先验证任务物理，不启动大训练
 
 建议16预列scene families：4DEV/8TRAIN/4VAL，各四command，64教师episode计划；DEV先16、TRAIN32/VAL16。不同分区无对象实例/布局共享，冻结列表后不补容易样本。最多30s/episode=230400 physics ticks、38400双RGB记录；包括额外终末1.95s的总保存预算按32s/episode=245760 ticks/40960记录。先不训练、不推理、不WBC。所有新预算需独立pilot授权；本准备包实际新增这些调用均0。
+
+scripts/object_transfer_proposals.py现已输出SCENE_AND_SPLIT_PROPOSAL_DRAFT.json：16项具体布局先按4DEV/8TRAIN/4TASK_VAL分区，64个唯一教师slot、四种指令、红蓝位置交替、统一中性起点与2cm浅托盘。红蓝不是两类行为；TASK_VAL只覆盖同立方体/颜色条件下的新布局，不是新物体类别或盲TEST。源列表、camera提案和理想运动时间下界在任何physics/render/model分数前形成；没有通过实际成绩选择family。场景、相机和驱动仍是待新GO审核冻结的提案，camera实际可见性NOT_RUN；时间下界不含跟踪滞后/接触动力学，不能代替完整数据准入。
 
 教师和数据合格后，后续学习协议再冻结唯一初始化、新夹爪processor、更新数、精度/loss和评价预算；不根据PI0274质量自动选最好的模型。一个有界任务拟合检查应同时报告pose与gripper，不隐去抓空/错目标。再做教师vs学习策略同工具评价，之后正确参考vs学习参考同冻结WBC评价。各层不互相冒充，不按WBC成功筛上层数据。
 

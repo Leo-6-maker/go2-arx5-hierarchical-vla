@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import numpy as np
+from object_transfer_teacher import GRASP_TCP_OFFSET_M
 
 
 def number(values):
@@ -92,6 +93,17 @@ def check(payload):
         skew = np.array([[0, -a[2], a[1]], [a[2], 0, -a[0]], [-a[1], a[0], 0]])
         r = r @ (np.eye(3)+np.sin(q)*skew+(1-np.cos(q))*(skew@skew))
     assert np.allclose(r @ r.T, np.eye(3)) and abs(np.linalg.det(r)-1) < 1e-12
+    # Necessary geometry for this unexecuted draft: pads overlap the object, not the table.
+    finger_size = np.fromstring(links['finger_left'].find('collision/geometry/box').attrib['size'], sep=' ')
+    finger_center = np.fromstring(finger['finger_left'].find('origin').attrib['xyz'], sep=' ')
+    table_z, object_half_z = .65, .015
+    object_z = table_z+object_half_z
+    def lowest_finger(offset): return object_z+offset-finger_center[2]-finger_size[2]/2
+    old_clearance = lowest_finger(.02)-table_z
+    clearance = lowest_finger(GRASP_TCP_OFFSET_M)-table_z
+    top = object_z+GRASP_TCP_OFFSET_M-finger_center[2]+finger_size[2]/2
+    overlap = min(top, object_z+object_half_z)-max(lowest_finger(GRASP_TCP_OFFSET_M), object_z-object_half_z)
+    assert old_clearance < -.002 and clearance >= .002-1e-12 and overlap > 0
     return dict(status='PASS_CPU_DRAFT_TOOL_URDF_TOPOLOGY_TCP_OPENING_AND_FK',
                 links=9, actuated_tool_dofs=8, robot_joint_supervision=False,
                 opening_m=[0, .03, .08], finger_joint_opening_rule='q_left=q_right=full_width_m/2',
@@ -99,6 +111,8 @@ def check(payload):
                 rotational_chain='Rz(yaw) Ry(pitch) Rx(roll)', base_load_requires='fix_base_link=True',
                 force_limits='URDF per DOF; future controller must also enforce vector force/torque limits',
                 native_asset_load='NOT_RUN', dynamics_contact_grasp='NOT_RUN', physics_steps=0, renders=0,
+                draft_tcp_geometry=dict(previous_offset_m=.02, previous_table_clearance_m=float(old_clearance), corrected_offset_m=GRASP_TCP_OFFSET_M,
+                                        corrected_table_clearance_m=float(clearance), vertical_pad_object_overlap_m=float(overlap), physics_proven=False),
                 teacher_calls=0, model_queries=0, launch_allowed=False, selected_checkpoint='NONE', deployment_selected_checkpoint='NONE')
 
 
