@@ -1,5 +1,5 @@
 """Counted source physics and command bridge; no learned model or target WBC."""
-import json, os, time
+import json, os, time, itertools, xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 import numpy as np
@@ -14,6 +14,11 @@ from mani_skill.utils.geometry.rotation_conversions import euler_angles_to_matri
 from run import ROOT, sha, write
 
 LIMITS = dict(starts=406, control=260000, physics=1300000, rgb=270000, teacher=110000)
+RAW=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276')
+
+def opening(q):
+    # Native rubber-pad inner faces are 7.58mm +/- half of 15.2mm.
+    return (np.asarray(q)[-2:].sum()-.00004)/.08
 
 def array(x):
     return x.detach().cpu().numpy().copy() if isinstance(x,torch.Tensor) else np.asarray(x).copy()
@@ -47,7 +52,7 @@ def self_check():
 class Ledger:
     def __init__(self):
         global BUDGET_COUNTS
-        self.path=ROOT/'evidence/budget.jsonl'; self.path.parent.mkdir(exist_ok=True)
+        self.path=RAW/'evidence/budget.jsonl'; self.path.parent.mkdir(parents=True,exist_ok=True)
         self.counts=Counter() if BUDGET_COUNTS is None else BUDGET_COUNTS
         if BUDGET_COUNTS is None and self.path.exists():
             for line in self.path.read_text().splitlines():
@@ -79,13 +84,15 @@ class Episode:
         global ACTIVE
         assert ACTIVE is None
         self.slot=slot;self.seed=seed;self.mode=mode;self.env=None;self.physics_completed=0
-        parent=ROOT/'episodes'/slot
+        parent=RAW/'episodes'/slot
         existing=sorted(parent.glob('attempt-*/RESULT.json'))
         assert not any(json.loads(p.read_text())['status'].startswith('VALID') for p in existing), 'Reuse the first valid result'
         assert all((p/'RESULT.json').exists() for p in parent.glob('attempt-*')), 'Actual incomplete handle must be audited before another start'
         self.folder=parent/f'attempt-{len(existing):03d}'
         self.folder.mkdir(parents=True)
         self.ledger=Ledger();self.ledger.reserve('starts',slot);self.ledger.sync()
+        if existing:
+            assert sum(json.loads(p.read_text())['status']=='ENGINEERING_INCOMPLETE' for p in (RAW/'episodes').glob('*/attempt-*/RESULT.json'))<=16
         write(self.folder/'START.json',dict(slot=slot,seed=seed,mode=mode,pid=os.getpid(),status='STARTED_BEFORE_NATIVE_CONSTRUCTION'))
         self.states=[];self.contacts=self.folder.joinpath('contacts.jsonl').open('a',buffering=1)
         self.inputs=[];self.commands=[];self.phase=[];self.installed=[];self.ik_holds=[];self.control=0
@@ -109,9 +116,18 @@ class Episode:
                 self.arm.kinematics.compute_ik=observed_ik
             else:
                 # Native FK instance is separate from the live articulation; no pose setter.
-                self.fk=self.env.agent.robot._objs[0].create_pinocchio_model()
-                self.fk_link=next(i for i,l in enumerate(self.env.agent.robot._objs[0].get_links()) if l.name=='panda_hand_tcp')
+                from mani_skill.agents.controllers.utils.kinematics import Kinematics
+                kin=Kinematics(self.env.agent.urdf_path,'panda_hand_tcp',self.env.agent.robot,self.arm.active_joint_indices)
+                self.fk=kin.pmodel;self.fk_link=kin.end_link_idx
             self.root=matrix(self.env.agent.robot.pose)
+            urdf=ET.parse(self.env.agent.urdf_path).getroot()
+            offsets=[]
+            for name,sign in [('panda_leftfinger',1),('panda_rightfinger',-1)]:
+                tip=urdf.find(f"link[@name='{name}']").findall('collision')[-1]
+                y=float(tip.find('origin').get('xyz').split()[1])
+                half=float(tip.find('geometry/box').get('size').split()[1])/2
+                offsets.append(y-sign*half)
+            assert abs(offsets[0]-offsets[1]+.00004)<1e-10
             self.initial=tree_array(self.env.get_state_dict())
             np.savez(self.folder/'initial.npz',**flatten(self.initial))
             self.sample()
@@ -122,6 +138,8 @@ class Episode:
                 backend=str(self.env.backend),source_fileset_sha256=sha(ROOT/'design/SOURCE_FILESET.json'),
                 arm_config=repr(self.arm.config),gripper_config=repr(self.env.agent.controller.controllers['gripper'].config),
                 camera_config={k:repr(s.config) for k,s in self.env._sensors.items()},
+                opening_calibration=dict(urdf_sha256=sha(self.env.agent.urdf_path),pad_inner_face_offsets=offsets,
+                    width_formula='q_left+q_right-0.00004 m',nominal_width_m=.08),
                 FK_current_max_abs=float(np.max(np.abs(fk-matrix(self.env.agent.tcp.pose)))))
             write(self.folder/'NATIVE_INVENTORY.json',inventory)
         except BaseException:
@@ -155,16 +173,18 @@ class Episode:
         for name,sensor in e._sensors.items():
             # GPU Vulkan rendering, CPU readback; no CUDA neural environment required.
             cam=sensor.camera._render_cameras[0]
-            color=np.asarray(cam.get_picture('Color')).copy()
-            rgb=(np.clip(color[...,:3],0,1)*255).astype(np.uint8)
+            textures={n:torch.as_tensor(np.asarray(cam.get_picture(n)).copy()) for n in sensor._shader_config.texture_names}
+            images={}
+            for n,t in textures.items():images.update(sensor._shader_config.texture_transforms[n](t))
+            rgb=array(images['rgb'])
+            assert rgb.dtype==np.uint8
             assert rgb.shape==(128,128,3) and rgb.max()>0
             result[name+'_raw']=rgb
             result[name+'_96']=np.asarray(Image.fromarray(rgb).resize((96,96),Image.Resampling.BILINEAR)).copy()
-            result[name+'_Position']=np.asarray(cam.get_picture('Position')).copy()
-            result[name+'_Segmentation']=np.asarray(cam.get_picture('Segmentation')).copy()
+            for key in ('position','depth','segmentation'):result[name+'_'+key]=array(images[key])
             for key,val in sensor.get_params().items():result[name+'_'+key]=array(val)[0]
         tcp=matrix(e.agent.tcp.pose);q=array(e.agent.robot.get_qpos())[0]
-        result['state_v1']=np.r_[tcp[:3,3],tcp[:2,:3].reshape(6),(q[-2]+q[-1])/.08].astype(np.float32)
+        result['state_v1']=np.r_[tcp[:3,3],tcp[:2,:3].reshape(6),opening(q)].astype(np.float32)
         result['time_s']=np.asarray(self.control*.05)
         self.inputs.append(result)
     def step(self,action,phase=3,command=None,teacher=False):
@@ -193,10 +213,12 @@ class Episode:
         persistent=False;first=None
         if self.states:
             success=np.asarray([r['success'] for r in self.states])[::5]
-            at=np.flatnonzero(success);first=float(at[0]*.05) if len(at) else None
+            at=np.flatnonzero(success[:601]);first=float(at[0]*.05) if len(at) else None
             persistent=bool(len(success)>=601 and success[560:601].all())
+        max_grasp=max((sum(1 for _ in group) for flag,group in itertools.groupby(r['is_cubeA_grasped'] for r in self.states) if flag),default=0)
         result=dict(status=status,error=error,control_calls=self.control,physics_completed=self.physics_completed,
             physics_samples=len(self.states),RGB_pairs=len(self.inputs),first_success_s=first,persistent_success=persistent,
+            sustained_grasp_0p3=max_grasp>=30,
             ik_holds=sum(self.ik_holds),files={p.name:sha(p) for p in self.folder.glob('*') if p.is_file() and p.name!='RESULT.json'})
         write(self.folder/'RESULT.json',result);self.ledger.close()
         if self.env is not None:self.env.close()
@@ -247,7 +269,7 @@ def native_fixtures():
 
 def retained(slot):
     rows=[]
-    for p in sorted((ROOT/'episodes'/slot).glob('attempt-*/RESULT.json')):
+    for p in sorted((RAW/'episodes'/slot).glob('attempt-*/RESULT.json')):
         rec=json.loads(p.read_text())
         if rec['status'].startswith('VALID'):rows.append((p.parent,rec))
     assert len(rows)<=1
@@ -333,7 +355,7 @@ def replay_episode(seed,split,negative=False):
         gate_log=[];rejected=False
         for k,label in enumerate(commands):
             current=matrix(ep.env.agent.tcp.pose);q=array(ep.env.agent.robot.get_qpos())[0]
-            state=np.r_[current[:3,3],current[:2,:3].reshape(6),q[-2:].sum()/.08]
+            state=np.r_[current[:3,3],current[:2,:3].reshape(6),opening(q)]
             if k<=600:
                 gate=pose_gate(commands[k:k+40],state,k*.05,slot)
                 gate_log.append(dict(anchor=k,result=gate))
@@ -371,5 +393,5 @@ def collect():
             raise RuntimeError('VALID_SOURCE_OR_BRIDGE_FAIL: '+split)
         if split=='DEV':
             controls=[replay_episode(seed,'DEV',negative=True) for seed in (0,1,2,3)]
-            assert all(not rec['persistent_success'] for _,rec in controls), 'VALID_OPEN_GRIPPER_CONTROL_FAIL'
+            assert all(not rec['persistent_success'] and not rec['sustained_grasp_0p3'] for _,rec in controls), 'VALID_OPEN_GRIPPER_CONTROL_FAIL'
     write(ROOT/'evidence/SOURCE.json',dict(status='PASS_FIXED_SOURCE_AND_EEF_TASK_GATES',rows=results))

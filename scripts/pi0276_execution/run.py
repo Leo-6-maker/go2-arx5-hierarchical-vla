@@ -42,12 +42,16 @@ def setup():
     versions = {n: md.version(n) for n in names}
     assert versions['sapien'] == '3.0.3'
     files = list((src/'mani_skill').rglob('*.py')) + list((src/'mani_skill/assets/robots/panda').rglob('*'))
+    files += list((src/'mani_skill/utils/scene_builder/table/assets').rglob('*'))
+    files += list((ROOT/'project-src').rglob('*.py'))
     files = [p for p in files if p.is_file()] + list(CODE.glob('*.py'))
     inventory = [dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(files)]
     assert any(x['path'].endswith('panda_v3.urdf') for x in inventory)
     write(ROOT/'design/SOURCE_FILESET.json', dict(upstream=UPSTREAM, files=inventory))
     write(ROOT/'evidence/SETUP.json', dict(status='PASS_ISOLATED_PINNED_SOURCE_AND_PACKAGES',
-        python=sys.executable, versions=versions, source_fileset_sha256=sha(ROOT/'design/SOURCE_FILESET.json'), physics_starts=0, model_queries=0))
+        python=sys.executable, versions=versions, dependency_lock_sha256=sha(ROOT/'evidence/DEPENDENCIES.lock.txt'),
+        resize='Pillow.Image.Resampling.BILINEAR: native128x128RGB->96x96',
+        source_fileset_sha256=sha(ROOT/'design/SOURCE_FILESET.json'), physics_starts=0, model_queries=0))
 
 def native():
     from source_worker import native_fixtures
