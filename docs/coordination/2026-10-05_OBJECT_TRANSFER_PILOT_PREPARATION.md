@@ -3,6 +3,8 @@
 状态：PREPARATION_ONLY；物理/教师/渲染/模型/训练 launch_allowed=false。源路线 bc7e59a5716152c6500724e92b45dd1d7b83ad82，Issue11协调5994002129；本文件不是新科学GO，不修改PI0274。
 用户另已直接允许后续提交采用多worker或其他训练加速。该许可适用于保持所批准科学条件的工程优化；不改变现役PI0274的封存入口，也不自动授权新的物体任务训练。
 
+本准备稿已对齐随后发布的GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1（章程固定提交14ca272185df8973a5c314f44f08f4a738cc43c7；README入口ed398fe）。object_task为真实物体搬运；high_level_contract为RGB/实际EEF夹爪/语言→EEF与夹爪；frozen_wbc_identity为NO_WBC_RUN、新版本待绑定；task_data_provenance为独立物理工具教师；single_intervention为首次引入物体交互任务、不同时搜索学习配方；task_evidence_and_controls为教师/模型工具域、正确/模型参考WBC域分别对照；budget_and_stop为第5节的待授权pilot、失败不补样；claim_boundary为准备已完成、物理学习和迁移尚未证明。章程不增加本稿执行预算。
+
 ## 1. 职责和已发现的接口细节
 
 GR00T选择语言指定的物体与容器，持续产生EEF参考和夹爪动作；WBC跟踪任务空间参考并协调身体；独立夹爪控制器执行开合。轨迹是接口，成功须以实际物体完成抓取、搬运、释放和撤离判定。
