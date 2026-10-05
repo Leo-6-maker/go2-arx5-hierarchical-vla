@@ -1,0 +1,20 @@
+{
+  "schema": "PI0274_READONLY_AUDIT_DEPENDENCY_RESTORATION_V1",
+  "failure": "Existing PI0273 audit helper absent from Hopper staging; import failed before audit computation",
+  "source_release": "1a0bbf952c96bcff4f686dc39603bc3545ef5397",
+  "source_path": "scripts/pi0273_execution/training_audit.py",
+  "restored_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0273/code/training_audit.py",
+  "source_blob_and_restored_file_sha256": "2fbf5178127e260e8552db52bb3141ccc687c2d75fb2c616070654ca9b734fc4",
+  "repair": "Restore byte-identical existing helper; no change to audit arithmetic or training runtime",
+  "actual_training_audit_status": "PASS_PI0274_ACTUAL5120_MATCHED_BROAD_TRAINING",
+  "actual_microbatches": 10240,
+  "formal_completed_updates": 5120,
+  "raw_completed_updates": 5136,
+  "raw_training_heads": 92472,
+  "raw_training_head_cap": 98304,
+  "new_model_queries_by_repair_and_audit": 0,
+  "new_gradient_queries_by_repair_and_audit": 0,
+  "new_optimizer_updates_by_repair_and_audit": 0,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}
