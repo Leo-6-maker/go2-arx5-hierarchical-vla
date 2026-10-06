@@ -1,5 +1,6 @@
 """Actual task input and frozen helper admission, without neural queries."""
 import os
+assert os.environ.get('PBS_JOBID'),'CPU qualification runs first inside the single PBS allocation; login is transfer/config only'
 os.environ.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott')
 import argparse,ast,ctypes,inspect,json,resource
 from pathlib import Path

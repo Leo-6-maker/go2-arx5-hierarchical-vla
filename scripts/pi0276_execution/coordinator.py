@@ -154,7 +154,7 @@ def training():
     job=read('hop',HOP+'/evidence/TRAINING_JOB.json')
     if not job:
         stage_hopper();call('hop','provision.py')
-        for step in ('cpu','binding','seal'):call('hop','admit_hopper.py',step)
+        # Input/binding/seal checks run first inside the same PBS allocation, not on the login node.
         job=json.loads(remote('hop',f"""import json,subprocess,fcntl
 from pathlib import Path
 r=Path({HOP!r})

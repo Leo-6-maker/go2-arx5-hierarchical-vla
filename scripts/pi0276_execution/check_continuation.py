@@ -73,4 +73,9 @@ coordinator.read=lambda *args:None
 coordinator.stage_hopper=lambda:None
 coordinator.call=lambda *args,**kwargs:None
 coordinator.training()  # Only compile the actual submission/copy RPCs; never contact a host.
+pbs=(Path(__file__).parent/'training.pbs').read_text()
+assert pbs.index('for stage in cpu binding seal')<pbs.index('--phase continuous')<pbs.index('--phase main')
+assert '#PBS -q auto' in pbs and '#PBS -m n' in pbs and 'ngpus=1' in pbs
+admission=(Path(__file__).parent/'admit_hopper.py').read_text()
+assert admission.index("os.environ.get('PBS_JOBID')")<admission.index('from train import')
 print('PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY')
