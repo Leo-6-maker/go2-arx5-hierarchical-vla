@@ -3,6 +3,8 @@ import ast,contextlib,io,json,tempfile
 from pathlib import Path
 import coordinator
 from coordinator import phase_status
+from types import SimpleNamespace
+from unittest.mock import patch
 
 with tempfile.TemporaryDirectory() as folder:
     root=Path(folder);proc=root/'proc';proc.mkdir();start=root/'start.json';done=root/'done.json';marker=root/'receipt.json'
@@ -35,7 +37,16 @@ def dry_remote(host,program):
     assert len(workers)==1
     worker=ast.parse(workers[0])
     compile(tree,'remote_phase','exec');compile(worker,'detached_worker','exec')
-    assert any(isinstance(n,ast.keyword) and n.arg=='start_new_session' and n.value.value is True for n in ast.walk(tree))
+    detached=any(isinstance(n,ast.keyword) and n.arg=='start_new_session' and n.value.value is True for n in ast.walk(tree))
+    assert detached==(host=='core')
+    with tempfile.TemporaryDirectory() as folder:
+        (Path(folder)/'runtime').mkdir()
+        local_worker=workers[0].replace(coordinator.CORE,Path(folder).as_posix()).replace(coordinator.HOP,Path(folder).as_posix())
+        with patch('subprocess.run',return_value=SimpleNamespace(returncode=0)) as child:
+            exec(compile(local_worker,'CPU_fake_child_worker','exec'),{})
+            child.assert_called_once()
+        receipt=next((Path(folder)/'runtime').glob('*.done.json'))
+        assert json.loads(receipt.read_text())['returncode']==0
     return '{"status":"COMPLETE"}'
 attempts=[]
 def reconnect_read(host,program):

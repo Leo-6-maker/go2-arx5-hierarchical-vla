@@ -1,0 +1,41 @@
+{
+  "status": "PASS_NARROW_FOREGROUND_TRANSPORT_REPAIR_READY_FOR_SAME_STATE_RESUME",
+  "verified_at": "2026-10-06T10:01:04.033527+08:00",
+  "release": "57fd8a9c53ce241c05a8d5b351034bed7ba56b14",
+  "actual_deviation": {
+    "status": "ENGINEERING_DETACH_FAILURE_PRESERVED_BEFORE_SAME_STATE_FOREGROUND_RESUME",
+    "actual_old_pid": 1879946,
+    "exact_provision_processes_now": [],
+    "done_receipt_existed": false,
+    "formal_training_job_existed": false,
+    "new_model_queries": 0,
+    "new_optimizer_updates": 0,
+    "detachment_check": {
+      "plain": {
+        "started": true,
+        "complete": false
+      },
+      "nohup": {
+        "started": true,
+        "complete": false
+      }
+    },
+    "source_archive_revision": "0f64f053ad69b6b4803e712000a0b136cc4623d3"
+  },
+  "failed_pc_session": 48813,
+  "failed_pc_exit_code": 1,
+  "failed_pc_reason": "Actual remote phase failed: Recorded process ended without completion receipt",
+  "change": "Corelab keeps detached/adoptable worker; Hopper data/CPU phases keep foreground SSH with keepalive. Formal model computation remains PBS only.",
+  "coordinator_sha256": "3b472c7db009e2276fa4e6454f7202908a0def72d572af830d8c8e551a52976c",
+  "cpu_check_sha256": "2e78220c7c9362d690b56c6fcea833cc84c39629b4a87bf0b2558b41d8733b99",
+  "cpu_check_stdout": "PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY",
+  "cpu_check_scope": "Exact proc adoption, reconnect read RPC, generated RPC AST, actual wrapper execution with fake subprocess only; zero neural calls.",
+  "archive_status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+  "archive_revision": "0f64f053ad69b6b4803e712000a0b136cc4623d3",
+  "archive_receipt_sha256": "e62c10260000c313fbadfc5a12c1e571a6f6361ea4f4cdbf69ec419900ea7f62",
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "goal_terminal": false,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

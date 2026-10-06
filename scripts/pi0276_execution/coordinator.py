@@ -74,7 +74,22 @@ with (root/'runtime'/('continuation-'+{script!r}+'.log')).open('ab') as f:
  result=subprocess.run({command!r},env=env,stdout=f,stderr=subprocess.STDOUT)
 tmp=done.with_suffix('.tmp');tmp.write_text(json.dumps({{'returncode':result.returncode,'target':{target!r},'arguments':{list(args)!r}}})+'\\n');tmp.replace(done)
 """
-    program=f"""import fcntl,json,subprocess,sys
+    if host=='core':
+        launch=f"""  with (runtime/{(phase+'.worker.log')!r}).open('ab') as log:
+   wrapper_argv=[sys.executable,'-u','-c',{worker!r}]
+   child=subprocess.Popen(wrapper_argv,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+  tmp=start.with_suffix('.tmp');tmp.write_text(json.dumps({{'pid':child.pid,'target':{target!r},'arguments':{list(args)!r},'wrapper_argv':wrapper_argv}})+'\\n');tmp.replace(start)
+  value={{'status':'RUNNING','pids':[child.pid],'adopted':False}}
+"""
+    else:
+        # Hopper login-session descendants disappear on disconnect, including nohup.
+        launch=f"""  wrapper_argv=[v.decode() for v in Path('/proc/self/cmdline').read_bytes().split(b'\\0') if v]
+  tmp=start.with_suffix('.tmp');tmp.write_text(json.dumps({{'pid':os.getpid(),'target':{target!r},'arguments':{list(args)!r},'wrapper_argv':wrapper_argv,'execution':'FOREGROUND_SSH_KEEPALIVE'}})+'\\n');tmp.replace(start)
+  with (runtime/{(phase+'.worker.log')!r}).open('ab') as log:
+   subprocess.run([sys.executable,'-u','-c',{worker!r}],stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,check=True)
+  value=phase_status(start,done,{target!r},{list(args)!r},{marker!r})
+"""
+    program=f"""import fcntl,json,os,subprocess,sys
 from pathlib import Path
 {inspect.getsource(phase_status)}
 root=Path({root!r});runtime=root/'runtime';runtime.mkdir(parents=True,exist_ok=True)
@@ -83,11 +98,7 @@ with (runtime/{(phase+'.lock')!r}).open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX)
  value=phase_status(start,done,{target!r},{list(args)!r},{marker!r})
  if value['status']=='NEW':
-  with (runtime/{(phase+'.worker.log')!r}).open('ab') as log:
-   wrapper_argv=[sys.executable,'-u','-c',{worker!r}]
-   child=subprocess.Popen(wrapper_argv,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
-  tmp=start.with_suffix('.tmp');tmp.write_text(json.dumps({{'pid':child.pid,'target':{target!r},'arguments':{list(args)!r},'wrapper_argv':wrapper_argv}})+'\\n');tmp.replace(start)
-  value={{'status':'RUNNING','pids':[child.pid],'adopted':False}}
+{launch.rstrip()}
  elif value['status']=='RUNNING' and value.get('adopted'):
   tmp=start.with_suffix('.tmp');tmp.write_text(json.dumps({{'pid':value['pids'][0],'target':{target!r},'arguments':{list(args)!r},'adopted':True}})+'\\n');tmp.replace(start)
 print(json.dumps(value))
