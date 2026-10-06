@@ -1,0 +1,110 @@
+{
+  "status": "ARCHIVE_DEFERRED_USER_PRIORITY",
+  "release": "1a20200ff066ef5a003650110cd20106f9a4bf64",
+  "utc": "2026-10-06T11:53:05.400021+00:00",
+  "paused": [
+    {
+      "pid": 3455362,
+      "argv": [
+        "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+        "-u",
+        "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py",
+        "predictions"
+      ],
+      "before": [
+        "Name:\tpython",
+        "Umask:\t0002",
+        "State:\tS (sleeping)",
+        "Tgid:\t3455362",
+        "Ngid:\t0",
+        "Pid:\t3455362"
+      ],
+      "io": "rchar: 533141173829\nwchar: 122070478124\nsyscr: 27899006\nsyscw: 7402277\nread_bytes: 478870167552\nwrite_bytes: 120132739072\ncancelled_write_bytes: 13557760\n",
+      "after": [
+        "Name:\tpython",
+        "Umask:\t0002",
+        "State:\tT (stopped)",
+        "Tgid:\t3455362",
+        "Ngid:\t0",
+        "Pid:\t3455362"
+      ]
+    },
+    {
+      "pid": 3455361,
+      "argv": [
+        "/usr/bin/python3",
+        "-u",
+        "-c",
+        "import json,os,subprocess\nfrom pathlib import Path\nroot=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0276');done=root/'runtime'/'archive-caf60a7bb012.done.json'\nenv=dict(os.environ,OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott')\nif 'archive.py' not in ('evaluate.py',):env['CUDA_VISIBLE_DEVICES']=''\nwith (root/'runtime'/('continuation-'+'archive.py'+'.log')).open('ab') as f:\n result=subprocess.run(['/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python', '-u', '/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py', 'predictions'],env=env,stdout=f,stderr=subprocess.STDOUT)\ntmp=done.with_suffix('.tmp');tmp.write_text(json.dumps({'returncode':result.returncode,'target':'/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py','arguments':['predictions']})+'\\n');tmp.replace(done)\n"
+      ],
+      "before": [
+        "Name:\tpython3",
+        "Umask:\t0002",
+        "State:\tS (sleeping)",
+        "Tgid:\t3455361",
+        "Ngid:\t0",
+        "Pid:\t3455361"
+      ],
+      "io": "rchar: 950274\nwchar: 0\nsyscr: 99\nsyscw: 0\nread_bytes: 0\nwrite_bytes: 0\ncancelled_write_bytes: 0\n",
+      "after": [
+        "Name:\tpython3",
+        "Umask:\t0002",
+        "State:\tT (stopped)",
+        "Tgid:\t3455361",
+        "Ngid:\t0",
+        "Pid:\t3455361"
+      ]
+    }
+  ],
+  "source_child_3348169": "NO_LONGER_PRESENT_PRIOR_LOG_REPORTS_MEMORYERROR_IN_FULL_LOCAL_SHA_READ",
+  "completed_receipts_preserved": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/RESULT_ARCHIVE_training_data.json",
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "revision": "0f64f053ad69b6b4803e712000a0b136cc4623d3",
+      "returncode": null
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/RESULT_ARCHIVE_summary.json",
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "revision": "5feb031c0b9b789725f1d6098744a8c7ab5f2522",
+      "returncode": null
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/runtime/archive-83ccea5787cd.start.json",
+      "status": null,
+      "revision": null,
+      "returncode": null
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/runtime/archive-ce7d0582c6ed.start.json",
+      "status": null,
+      "revision": null,
+      "returncode": null
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/runtime/archive-ce7d0582c6ed.done.json",
+      "status": null,
+      "revision": null,
+      "returncode": 0
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/runtime/archive-caf60a7bb012.start.json",
+      "status": null,
+      "revision": null,
+      "returncode": null
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/runtime/archive-83ccea5787cd.done.json",
+      "status": null,
+      "revision": null,
+      "returncode": 1
+    }
+  ],
+  "local_sources_deleted": false,
+  "remote_assets_deleted": false,
+  "ongoing_stream_bytes_verified": "UNKNOWN_NOT_CLAIMED",
+  "incomplete_readbacks": "NOT_PASS",
+  "resume_action": "SIGCONT only these verified prediction archive processes after a new explicit priority decision",
+  "new_monitor": false
+}

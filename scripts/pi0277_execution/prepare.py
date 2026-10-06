@@ -19,6 +19,20 @@ def freeze(p,value):
     if p.exists():assert read(p)==value,p;return
     temp=p.with_suffix('.partial');temp.write_text(json.dumps(value,sort_keys=True)+'\n');temp.replace(p)
 
+def storage():
+    """The site's hpc quota utility exists on the login node, not compute nodes."""
+    proof=read(OLD/'evidence/TASK/checkpoint-8192.full_readback.json')
+    query=subprocess.run(['hpc','quota'],capture_output=True,text=True);quota=query.stdout
+    match=re.search(r'e1192548\s*\|\|\s*([\d.]+)([GT])B\s*\|\s*([\d.]+)([GT])B',quota)
+    assert match,'Actual user quota unavailable; shared df is insufficient'
+    used=float(match[1])*2**(30 if match[2]=='G' else 40);limit=float(match[3])*2**(30 if match[4]=='G' else 40)
+    available=min(limit-used,shutil.disk_usage(ROOT).free);required=4*sum(x['bytes'] for x in proof['files'])+48*2**30+10*2**30
+    assert available>=required,('QUOTA_HEADROOM',available,required)
+    owned=sum(p.stat().st_size for p in ROOT.rglob('*') if p.is_file() and not p.is_symlink())
+    freeze(ROOT/'STORAGE_ADMISSION.json',dict(available_bytes_at_freeze=int(available),owned_bytes_at_freeze=owned,required_bytes=required,
+        quota_report=quota,quota_returncode=query.returncode,quota_stderr=query.stderr,df_available_bytes=shutil.disk_usage(ROOT).free,qualification_payloads_retired_after_comparison=True,formal_checkpoints=4,
+        observation_host=__import__('socket').gethostname(),observed_utc=__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat()))
+
 def main():
     assert os.environ.get('PBS_JOBID'),'Preparation hashes run within the legal allocation'
     root=ROOT;old=OLD
@@ -66,16 +80,9 @@ def main():
         freeze(root/'design'/f'{arm}_READOUT.json',contract)
     freeze(root/'design/NOISE_CARD.json',dict(namespace='PI0277:TRAIN:27703',construction='sha256(namespace+":"+str(unit))[:8] big-endian mod 2**31',
         seed=27703,updates=4096,microbatches=8192,actual_epsilon_tau_S4_byte_pairing_required=True,loader_rng_seed=27703001))
-    if not (root/'STORAGE_ADMISSION.json').exists():
-        quota=subprocess.run(['hpc','quota'],capture_output=True,text=True,check=True).stdout
-        match=re.search(r'e1192548\s*\|\|\s*([\d.]+)([GT])B\s*\|\s*([\d.]+)([GT])B',quota)
-        assert match,'Actual user quota unavailable; shared df is insufficient'
-        used=float(match[1])*2**(30 if match[2]=='G' else 40);limit=float(match[3])*2**(30 if match[4]=='G' else 40)
-        available=min(limit-used,shutil.disk_usage(root).free);required=4*sum(x['bytes'] for x in proof['files'])+48*2**30+10*2**30
-        assert available>=required,('QUOTA_HEADROOM',available,required)
-        owned=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
-        freeze(root/'STORAGE_ADMISSION.json',dict(available_bytes_at_freeze=int(available),owned_bytes_at_freeze=owned,required_bytes=required,
-            quota_report=quota,df_available_bytes=shutil.disk_usage(root).free,qualification_payloads_retired_after_comparison=True,formal_checkpoints=4))
+    snapshot=read(root/'STORAGE_ADMISSION.json')
+    owned=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+    assert snapshot['available_bytes_at_freeze']-max(0,owned-snapshot['owned_bytes_at_freeze'])>=snapshot['required_bytes']
     extra=list((root/'code').glob('*.py'))+list((root/'code').glob('*.pbs'))+list((root/'design').glob('*.json'))
     extra += [groot/'gr00t/model/gr00t_n1d7/gr00t_n1d7.py',root.with_name('PI0269')/'code/temporal.py']
     extra += [overlay/'scripts'/n for n in ('pi0247_u_rollout_overlay.py','pi0245_physical_delta.py','pi0246_physical_position.py','pi0248_rotation_cpu.py','pi0252_speed_margin.py') if (overlay/'scripts'/n).exists()]
@@ -86,4 +93,6 @@ def main():
         fileset_sha256=sha(root/'EXECUTION_FILESET.json'),optimizer_updates=0,model_queries=0,canary='NOT_YET_EXECUTED'))
     print('LOCAL_BINDING_COMPLETE',flush=True)
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import sys
+    storage() if sys.argv[1:]==['storage'] else main()
