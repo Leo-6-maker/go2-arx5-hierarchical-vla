@@ -12,11 +12,13 @@ def main():
     node=next(n for n in ast.parse(source.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='main')
     mapping={'PASS_PI0273_BOTH_ACTUAL_5120_MATCHED_TRAINING':'PASS_PI0276_ACTUAL8192_TASK_TRAINING',
         5120:8192,'5120':'8192','checkpoint-5120.archive_receipt.json':'checkpoint-8192.archive_receipt.json',
-        'BROAD':'TASK','TARGET':'TASK','ROT':'TASK','PI0273_FIXED_MODEL_ONLY_R1':'PI0276_FIXED_MODEL_ONLY_V1',
+        'BROAD':'TASK','TARGET':'TASK','ROT':'TASK','contracts/ROT/source/dataset/statistics.json':'contracts/TASK/source/dataset/statistics.json',
+        'PI0273_FIXED_MODEL_ONLY_R1':'PI0276_FIXED_MODEL_ONLY_V1',
         'PASS_PI0273_FIXED_MODE_LABELLED_MODEL_ONLY_VIEW':'PASS_PI0276_FIXED_FINAL_TASK_VIEW',
         '/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0273/models':'/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/models'}
     for n in ast.walk(node):
         if isinstance(n,ast.Constant) and n.value in mapping:n.value=mapping[n.value]
+    assert not any(isinstance(n,ast.Constant) and isinstance(n.value,str) and 'contracts/ROT' in n.value for n in ast.walk(node))
     scope=vars(helper).copy();scope['ROOT']=ROOT
     exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),str(source),'exec'),scope)
     scope['main']('TASK8192')

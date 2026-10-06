@@ -89,4 +89,11 @@ with tempfile.TemporaryDirectory() as folder:
 assert edits.count('contracts/ROT')==1 and edits.count('contracts/ROT/source/dataset/statistics.json')==1
 assert 'contracts/TASK' in runtime['hooks'].__code__.co_consts
 assert 'contracts/TASK/source/dataset/statistics.json' in runtime['run'].__code__.co_consts
+body=next(n for n in ast.parse((code/'materialize.py').read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='main').body
+start=next(i for i,n in enumerate(body) if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='node' for t in n.targets))
+end=next(i for i,n in enumerate(body) if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and isinstance(n.value.func,ast.Name) and n.value.func.id=='exec')
+scope=dict(ast=ast,source=code.parent/'pi0273_execution/materialize.py',helper=SimpleNamespace(),ROOT=Path('/fixed/PI0276'))
+exec(compile(ast.fix_missing_locations(ast.Module(body=body[start:end+1],type_ignores=[])),'CPU_actual_task_materializer_adapter','exec'),scope)
+assert 'contracts/TASK/source/dataset/statistics.json' in scope['scope']['main'].__code__.co_consts
+assert not any(isinstance(n,ast.Constant) and isinstance(n.value,str) and 'contracts/ROT' in n.value for n in ast.walk(scope['node']))
 print('PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY')
