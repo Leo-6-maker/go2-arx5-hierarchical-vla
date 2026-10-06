@@ -1,0 +1,413 @@
+{
+  "receipts": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/AUDIT.json",
+      "bytes": 191,
+      "sha256": "563fb15c45816e3e0fa57cd524eedee50b73e117a1b1a6760bc9e639684852e9",
+      "status": "PASS_CURRENT_HANDOFF_AND_FROZEN_CONDITIONS",
+      "keys": [
+        "card_sha256",
+        "model_queries",
+        "physics_starts",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/CLOSEOUT_CRASH_INVENTORY_REPAIR.json",
+      "bytes": 8097,
+      "sha256": "8f28f92fcf52cfcc2486c65fd8673478c1d29c19beced8acd0063333299fc58a",
+      "status": "READ_ONLY_CRASH_INVENTORY_SCHEMA_REPAIR",
+      "keys": [
+        "status",
+        "original_sha256",
+        "repair_sha256",
+        "repair_source",
+        "original_ENGINEERING_INCOMPLETE_retained",
+        "valid_inventories_remain_mandatory",
+        "new_model_calls",
+        "new_physics",
+        "CPU_check"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/DATA_ADMISSION.json",
+      "bytes": 1071,
+      "sha256": "ef6c56f76d6d034e1f7a1774a23fb48ab52d0a186746920bbfa4bdd713b23baa",
+      "status": "PASS_PI0276_ACTUAL_REPLAY_INPUTS_CODEC_AND_TASK_STATISTICS",
+      "keys": [
+        "conditions",
+        "dataset_card_sha256",
+        "launch_allowed",
+        "model_queries",
+        "modules",
+        "new_physics_steps",
+        "optimizer_updates",
+        "statistics_sha256",
+        "status",
+        "train_plan_sha256"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/DATA_PRECODEC.json",
+      "bytes": 34240,
+      "sha256": "7eb859ee34ae0a7586aa6c2008c4737f1ce1f1467ef955a03657835052edc828",
+      "status": "PASS_FROZEN_ACTUAL_REPLAY_WINDOWS_AND_SCHEDULE",
+      "keys": [
+        "bank_windows",
+        "codec_admission",
+        "coverage_failures",
+        "dataset_card_sha256",
+        "episodes",
+        "launch_allowed",
+        "new_model_queries",
+        "new_physics_steps",
+        "status",
+        "train_plan_sha256"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/EVALUATION_NOISE_IMPORT_REPAIR.json",
+      "bytes": 1223,
+      "sha256": "d68c67585f81c120a91e8f9ac553e064192f1cb5dc371ce5d192ff92b496e1ac",
+      "status": "UNLAUNCHED_EVALUATION_NOISE_IMPORT_BOUNDARY_REPAIR",
+      "keys": [
+        "status",
+        "cause",
+        "changes",
+        "CPU_check",
+        "noise_function_AST_identical",
+        "sealed_training_unchanged",
+        "evaluation_seal_preexisting",
+        "model_queries",
+        "new_physics_starts",
+        "utc"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/FINAL_POLICY_ADMISSION.json",
+      "bytes": 825,
+      "sha256": "7ffdb17c050cf5d35a41b3152676ca4d148b80a990bcf263c1116a0872450eba",
+      "status": "PASS_PI0276_FINAL_TASK_AND_BASE_POLICY_IDENTITIES",
+      "keys": [
+        "bindings",
+        "complete_trainer_readbacks",
+        "deployment_selected_checkpoint",
+        "helper_source_sha256",
+        "model_queries",
+        "scope_sha256",
+        "selected_checkpoint",
+        "status",
+        "training_audit_sha256"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/HANDOFF.json",
+      "bytes": 634,
+      "sha256": "e63df123c8737bb4dc426feccbd03847b24ef472d48097d942face50e9b2e9ee",
+      "status": "SUPERSEDED_BEFORE_NATIVE_RUN_BY_PI0276",
+      "keys": [
+        "status",
+        "PI0275_preserved",
+        "physics_starts",
+        "physics_calls",
+        "model_calls",
+        "release",
+        "quality_completed"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/INSTALL_STORAGE_REPAIR.json",
+      "bytes": 384,
+      "sha256": "cef2177e833210b82ebc5466099d298bcfa0b8c5763bd79f9ee8dfd6ecf98e2f",
+      "status": null,
+      "keys": [
+        "time_utc",
+        "pid",
+        "command",
+        "reason",
+        "physics_starts",
+        "model_calls"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/MAIN_TRAINING_AUDIT.json",
+      "bytes": 13020,
+      "sha256": "74a9e5bd8423d2e325dbc889f73f92f4a4f91dc5be7e4ccdf7c0e1a050de3284",
+      "status": "PASS_PI0276_ACTUAL8192_TASK_TRAINING",
+      "keys": [
+        "complete_checkpoints",
+        "deployment_selected_checkpoint",
+        "episode_consumption",
+        "logs",
+        "model_queries_by_audit",
+        "native_gripper_supervision",
+        "phase_group_consumption",
+        "raw_completed_updates",
+        "raw_training_heads",
+        "selected_checkpoint",
+        "status",
+        "technical_completed_updates"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/MODEL_CPU_IMPORT_REPAIR.json",
+      "bytes": 6766,
+      "sha256": "53c73c7cbb47ff449a0b885de0a1e35e562d33d50615d7a855cbe7141546a770",
+      "status": "READ_ONLY_REPLAY_IMPORT_REPAIR",
+      "keys": [
+        "status",
+        "original_sha256",
+        "repair_path",
+        "repair_sha256",
+        "sealed_runtime_unchanged",
+        "new_model_queries",
+        "new_physics",
+        "CPU_check",
+        "repair_source"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/MODEL_CPU_REPLAY.json",
+      "bytes": 1252356,
+      "sha256": "4ea15071fc9f71118a825bdd2647d33e106301983c79377f14fc962f5a5cf2fa",
+      "status": "PASS_PI0276_ALL_SAVED_S4_DECODE_AND_OFFLINE_OUTPUTS",
+      "keys": [
+        "attempts",
+        "heads",
+        "new_model_queries",
+        "offline_rows",
+        "physics_steps",
+        "predictions",
+        "replay_helper_path",
+        "replay_helper_sha256",
+        "shared_native_BF16_Euler_and_qualified_codec",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/NATIVE.json",
+      "bytes": 279,
+      "sha256": "939e4161dc95f88fb86a9416c0d5084438aff63edbaaa5282d309f856ced5cef",
+      "status": "PASS_TWO_COUNTED_NATIVE_INTERFACES",
+      "keys": [
+        "fixtures",
+        "model_queries",
+        "records",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/NATIVE_DEPENDENCY_FILESET.json",
+      "bytes": 2653,
+      "sha256": "84c05d2ca152ba71d4dd7106a293b08f9d8dd1702da586734ea2a2b2dba900ff",
+      "status": "ACTUAL_ISOLATED_NATIVE_MODULE_FILE_IDENTITIES",
+      "keys": [
+        "files",
+        "model_queries",
+        "new_physics_steps",
+        "recorded_after_native_and_during_source",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/PHYSICAL_EVALUATION_COMPLETE.json",
+      "bytes": 8808,
+      "sha256": "3ea92b60fe6e47c90edfd212d79a540824e871ff1c44f860c2d6824d33931e1b",
+      "status": "ALL_FIXED_PHYSICAL_LANES_EXECUTED",
+      "keys": [
+        "deployment_selected_checkpoint",
+        "expert_rows",
+        "maximum_quality_queries",
+        "offline_conditions_per_policy",
+        "scoring_and_archival",
+        "selected_checkpoint",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/PHYSICS_CPU_REPLAY.json",
+      "bytes": 180489,
+      "sha256": "91515b62f3ca6645f304b41bdedd2a3ecec3367a8f9db2c132e32ca88c2787e4",
+      "status": "PASS_SAVED_PHYSICAL_PREDICATES",
+      "keys": [
+        "fresh_physics_steps",
+        "mismatches",
+        "model_queries",
+        "rows",
+        "shared_math",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/POSTTRAINING_AUDIT_REPAIR.json",
+      "bytes": 931,
+      "sha256": "6c00cdb2ac35980860e908420bb5346b183d852e4fb981c3f1f6abfdbafaf559",
+      "status": "READ_ONLY_POSTTRAINING_AUDIT_BOUNDARY_REPAIR",
+      "keys": [
+        "status",
+        "cause",
+        "original_path",
+        "original_sha256",
+        "repaired_path",
+        "repaired_sha256",
+        "sealed_runtime_unchanged",
+        "formal_updates",
+        "new_model_queries",
+        "new_training_updates",
+        "audit_status",
+        "CPU_check",
+        "old_job",
+        "old_job_exit",
+        "failed_stage"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/POST_SOURCE_FILESET.json",
+      "bytes": 1045,
+      "sha256": "7e5be45d5e9bb6033f842f0019bb4856ba9435a8b3eeb1c46d81803de655ed8a",
+      "status": null,
+      "keys": [
+        "files"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/RESEARCH_CONTINUATION_FILESET.json",
+      "bytes": 4130,
+      "sha256": "36559159e1a1708306ff5c9b54e825f299aed187a7b86763e3161da2ff25d323",
+      "status": null,
+      "keys": [
+        "files",
+        "source_collection_sha256",
+        "source_execution_fileset_preserved",
+        "data_admission_sha256",
+        "new_model_queries",
+        "new_physics_steps"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/RESULT_ARCHIVE_training_data.json",
+      "bytes": 966,
+      "sha256": "bc2ce44a717d5c84132a1021ea82deab3d4f978b77d240d1f4641e436ed7c350",
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "keys": [
+        "deployment_selected_checkpoint",
+        "files",
+        "members",
+        "not_target_robot_transfer",
+        "part",
+        "prefix",
+        "preserves_all_original_source_and_model_failures",
+        "repo_id",
+        "revision",
+        "selected_checkpoint",
+        "source_bytes",
+        "status",
+        "tree_sha256"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/SETUP.json",
+      "bytes": 640,
+      "sha256": "5ea304ba404480cc2038deb14cdf89b44cf900c718f5fe1cbef8307d85aba08e",
+      "status": "PASS_ISOLATED_PINNED_SOURCE_AND_PACKAGES",
+      "keys": [
+        "dependency_lock_sha256",
+        "model_queries",
+        "physics_starts",
+        "python",
+        "resize",
+        "source_fileset_sha256",
+        "status",
+        "versions"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/SOURCE.json",
+      "bytes": 40279,
+      "sha256": "5b3c5946c7e034fda2ac6cb50ab198b0085d1a0f2560ddb48aaf38318fbc0d63",
+      "status": "PASS_FIXED_SOURCE_AND_EEF_TASK_GATES",
+      "keys": [
+        "rows",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/SOURCE_PROGRESS.json",
+      "bytes": 40227,
+      "sha256": "2f424ce043eef1e80bfdf382ba72f9b35be9e25e0aa53d97407ed708cbc91b51",
+      "status": null,
+      "keys": [
+        "rows"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/SOURCE_TO_DATA_COMPLETE.json",
+      "bytes": 232,
+      "sha256": "d8259f4ade30b797390297e9902f685a7ffd123d57b2e6aabab77e2b751c8ee6",
+      "status": "PASS_ACTUAL_SOURCE_TO_DATA_ADMISSION",
+      "keys": [
+        "canary",
+        "data_admission_sha256",
+        "goal_terminal",
+        "status",
+        "training"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/SOURCE_TO_DATA_FAILURE.json",
+      "bytes": 135,
+      "sha256": "425e73ee30b8f5c45b5776bf694e4f501e11ac077f6e9bdc3ade621b8e8f4000",
+      "status": "SOURCE_TO_DATA_INCOMPLETE",
+      "keys": [
+        "error",
+        "launch_allowed",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/TRAINING_LOG_SUMMARY.json",
+      "bytes": 3901,
+      "sha256": "6803a0a27820bdd27c8ae4bfabe61dd787f4453bca03d43d61133544c4979aa5",
+      "status": "SAVED_TRAINING_LOG_DESCRIPTIVE_SUMMARY",
+      "keys": [
+        "status",
+        "formal_updates",
+        "microbatches",
+        "metrics",
+        "interpretation",
+        "new_model_queries",
+        "new_gradient_queries",
+        "selected_checkpoint",
+        "deployment_selected_checkpoint"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/VIDEOS.json",
+      "bytes": 5877,
+      "sha256": "1b1b1940bcc863a3002ae8cc7683ad0a4ef4c87a339faac3ea52a7180116cdd5",
+      "status": "PASS_ALL12_REGISTERED_SAVED_RGB_VIDEOS",
+      "keys": [
+        "rows",
+        "status"
+      ]
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/TASK/canary_compare.json",
+      "bytes": 251,
+      "sha256": "0de3b974d57ebd18aa807db1b7c7f394351e4084d41b020406d59dc4288b865a",
+      "status": "PASS_PI0276_REAL_EXACT_RESUME_CANARY",
+      "keys": [
+        "arm",
+        "microbatches",
+        "model_max_abs",
+        "model_tensors",
+        "optimizer_max_abs",
+        "optimizer_tensors",
+        "saved_rng_scheduler_exact",
+        "status",
+        "units"
+      ]
+    }
+  ],
+  "source_index_bytes": 1096002
+}
