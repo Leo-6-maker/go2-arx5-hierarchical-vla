@@ -8,6 +8,14 @@ RAW=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276')
 
 def read(p):return json.loads(Path(p).read_text())
 
+def evidence_files(folder,record):
+    if 'files' in record:
+        for name,digest in record['files'].items():assert sha(folder/name)==digest
+        return dict(kind='ORIGINAL_RESULT_INVENTORY_VERIFIED',files=record['files'])
+    assert record['status']=='ENGINEERING_INCOMPLETE' and record.get('source_physics_arrays')=='NOT_SAVED_BEFORE_NATIVE_PROCESS_CRASH'
+    return dict(kind='CLOSEOUT_AVAILABLE_FILES_ONLY_CRASH_RECEIPT_HAS_NO_ORIGINAL_INVENTORY',
+        files={p.name:sha(p) for p in folder.iterdir() if p.is_file() and p.name!='RESULT.json'})
+
 
 def main(verify=False):
     dst=RAW/'delivery';verdict=read(dst/'PHYSICAL_VERDICT.json')
@@ -33,8 +41,8 @@ def main(verify=False):
     source=read(ROOT/'evidence/SOURCE.json');data=read(ROOT/'design/DATASET_CARD.json');index=[];completed=Counter()
     for p in sorted((RAW/'episodes').glob('*/attempt-*/RESULT.json')):
         r=read(p)
-        for name,digest in r['files'].items():assert sha(p.parent/name)==digest
-        index.append(dict(slot=p.parent.parent.name,attempt=p.parent.name,path=str(p.parent),result_sha256=sha(p),**r))
+        inventory=evidence_files(p.parent,r)
+        index.append(dict(slot=p.parent.parent.name,attempt=p.parent.name,path=str(p.parent),result_sha256=sha(p),closeout_file_inventory=inventory,**r))
         completed.update(dict(control=r['control_calls'],physics=r['physics_completed'],rgb=r['RGB_pairs']))
     reserved=Counter(json.loads(l)['kind'] for l in (RAW/'evidence/budget.jsonl').open())
     limits=dict(starts=406,control=260000,physics=1300000,rgb=270000,teacher=110000)

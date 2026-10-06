@@ -7,7 +7,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 from run import ROOT,sha,write
 RAW=Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276');BASE=ROOT.parent;OLD=RAW.parent/'PI0260/R2'
-sys.path[:0]=[str(OLD/'R3'),str(OLD/'runtime'),str(OLD/'qa'),str(BASE/'PI0250/runtime/reference-317a/src'),str(ROOT/'project-src')]
+sys.path[:0]=[str(OLD/'R3'),str(OLD/'runtime'),str(OLD/'qa'),str(BASE/'PI0250/runtime/reference-317a/src'),'/home/liuyu-nfs/Projects/isaac-gr00t',str(ROOT/'project-src')]
 
 def metrics(pred,target):
     from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix

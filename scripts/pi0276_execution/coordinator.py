@@ -23,10 +23,10 @@ def remote(host,script):
     return result.stdout
 
 
-def read(host,path):
+def read(host,path,keys=None):
     while True:
         try:
-            out=remote(host,f"import json\nfrom pathlib import Path\np=Path({path!r})\nprint(p.read_text() if p.exists() else 'null')\n")
+            out=remote(host,f"import json\nfrom pathlib import Path\np=Path({path!r})\nv=json.loads(p.read_text()) if p.exists() else None\nkeys={keys!r}\nprint(json.dumps({{k:v[k] for k in keys}} if v is not None and keys else v))\n")
             return json.loads(out)
         except ConnectionError as error:
             print('SSH unavailable; read-only wait '+host+': '+str(error)[-500:],flush=True);time.sleep(30)
@@ -205,7 +205,16 @@ def main():
             if not read('core',CORE+'/evidence/FINAL_POLICY_ADMISSION.json') or not read('core',CORE+'/design/EVALUATION_FILESET.json'):call('core','materialize.py')
             if not read('core',CORE+'/evidence/PHYSICAL_EVALUATION_COMPLETE.json'):call('core','evaluate.py',native=True)
         if args.stage in ('all','replay','archive','closeout'):
-            for script in ('model_replay.py','report.py','video.py','closeout.py'):call('core',script)
+            model_replay=read('core',CORE+'/evidence/MODEL_CPU_REPLAY.json',keys=('status',))
+            if model_replay:assert model_replay['status']=='PASS_PI0276_ALL_SAVED_S4_DECODE_AND_OFFLINE_OUTPUTS'
+            else:call('core','model_replay.py')
+            for script in ('report.py','video.py','closeout.py'):
+                if script=='closeout.py':
+                    closed=read('core','/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/delivery/CLOSEOUT.json',keys=('status',))
+                    if closed:
+                        assert closed['status']=='PI0276_PHYSICS_TASK_FINETUNING_COMPLETE'
+                        continue
+                call('core',script)
             for part in ('source','predictions','summary'):
                 if not read('core',CORE+'/evidence/RESULT_ARCHIVE_'+part+'.json'):call('core','archive.py',part)
             call('core','closeout.py','--verify')

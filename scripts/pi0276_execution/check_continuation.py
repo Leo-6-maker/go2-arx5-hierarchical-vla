@@ -81,6 +81,20 @@ assert '#PBS -q auto' in pbs and '#PBS -m n' in pbs and 'ngpus=1' in pbs
 admission=(Path(__file__).parent/'admit_hopper.py').read_text()
 assert admission.index("os.environ.get('PBS_JOBID')")<admission.index('from train import')
 code=Path(__file__).parent
+node=next(n for n in ast.parse((code/'closeout.py').read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='evidence_files')
+with tempfile.TemporaryDirectory() as folder:
+    root=Path(folder);(root/'saved.json').write_text('original')
+    scope=dict(sha=lambda p:p.read_text());exec(compile(ast.Module(body=[node],type_ignores=[]),'CPU_crash_inventory','exec'),scope)
+    crash=dict(status='ENGINEERING_INCOMPLETE',source_physics_arrays='NOT_SAVED_BEFORE_NATIVE_PROCESS_CRASH')
+    assert scope['evidence_files'](root,crash)['files']=={'saved.json':'original'}
+    assert scope['evidence_files'](root,dict(files={'saved.json':'original'}))['kind']=='ORIGINAL_RESULT_INVENTORY_VERIFIED'
+    try:scope['evidence_files'](root,dict(status='VALID_SOURCE_COMPLETE'))
+    except AssertionError:pass
+    else:raise AssertionError('Missing VALID inventory silently accepted')
+replay_source=ast.parse((code/'model_replay.py').read_text())
+assert any(isinstance(n,ast.Constant) and n.value=='/home/liuyu-nfs/Projects/isaac-gr00t' for n in ast.walk(replay_source))
+assert 'torch.nn.Module.__call__=forbidden' in (code/'model_replay.py').read_text()
+assert 'torch.optim.Optimizer.__init__=forbidden' in (code/'model_replay.py').read_text()
 adapted=next(n for n in ast.parse((code/'train.py').read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='adapted')
 with tempfile.TemporaryDirectory() as folder:
     control=Path(folder);(control/'code').mkdir();(control/'code/train.py').write_text((code.parent/'pi0273_execution/train.py').read_text())
