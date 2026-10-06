@@ -1,0 +1,37 @@
+{
+  "cpu_loader_benchmark": [
+    {
+      "items_per_second": 8.858872919966121,
+      "loader_parent_rng_unchanged": true,
+      "measured_calls": 256,
+      "peak_process_tree_RSS_bytes": 3122966528,
+      "route": "FAST_CACHE0",
+      "seconds": 28.897581251338124,
+      "source_sha256": "dd3b7d689c9349d9b0e0ce93672391f279ccf44e8647d5bd10c0ff9a8a30f0dc",
+      "status": "PASS_ACTUAL256_CPU_INPUT_ORDER_AND_PARITY"
+    },
+    {
+      "items_per_second": 139.66651610635725,
+      "loader_parent_rng_unchanged": true,
+      "measured_calls": 256,
+      "peak_process_tree_RSS_bytes": 1831665664,
+      "route": "FAST_CACHE2",
+      "seconds": 1.8329375367611647,
+      "source_sha256": "d925013c305e649c9e57b10f933def54429deb0db41b214e9f00ae68217227e8",
+      "status": "PASS_ACTUAL256_CPU_INPUT_ORDER_AND_PARITY"
+    }
+  ],
+  "deployment": "NONE",
+  "interpretation": "Production input waiting is small relative to update duration; no additional worker speedup claimed. Peak allocation is memory, not GPU utilization.",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "production": {
+    "median_loader_wait_s": 0.00022426445502787828,
+    "median_update_s": 1.7329168564174324,
+    "peak_allocated_bytes": 34384967680,
+    "peak_process_tree_RSS_bytes": 7073185792
+  },
+  "production_source_sha256": "3ee62adda01916a38a732ff25990d40962dda405db4c48228e186cb521dadc02",
+  "selected_checkpoint": "NONE",
+  "status": "ACTUAL_FAST_CACHE2_PRODUCTION_TIMING"
+}
