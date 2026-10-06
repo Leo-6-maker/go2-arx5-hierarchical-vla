@@ -96,4 +96,12 @@ scope=dict(ast=ast,source=code.parent/'pi0273_execution/materialize.py',helper=S
 exec(compile(ast.fix_missing_locations(ast.Module(body=body[start:end+1],type_ignores=[])),'CPU_actual_task_materializer_adapter','exec'),scope)
 assert 'contracts/TASK/source/dataset/statistics.json' in scope['scope']['main'].__code__.co_consts
 assert not any(isinstance(n,ast.Constant) and isinstance(n.value,str) and 'contracts/ROT' in n.value for n in ast.walk(scope['node']))
+graph=next(n for n in ast.parse((code/'training_audit.py').read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='graph')
+with tempfile.TemporaryDirectory() as folder:
+    control=Path(folder);(control/'code').mkdir()
+    (control/'code/training_audit.py').write_text('def graph(arm,path):\n assert len(path)==5120 and path==list(range(1,5121))\n return path\n')
+    loader=SimpleNamespace(spec_from_file_location=lambda *args:SimpleNamespace(loader=SimpleNamespace(exec_module=lambda module:None)),module_from_spec=lambda spec:SimpleNamespace())
+    scope=dict(ast=ast,CONTROL=control,ROOT=Path('/fixed/PI0276'),importlib=SimpleNamespace(util=loader))
+    exec(compile(ast.fix_missing_locations(ast.Module(body=[graph],type_ignores=[])),'CPU_actual_task_graph_adapter','exec'),scope)
+    assert scope['graph'](list(range(1,8193)))==list(range(1,8193))
 print('PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY')

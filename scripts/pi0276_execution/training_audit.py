@@ -10,8 +10,8 @@ def graph(path):
     spec=importlib.util.spec_from_file_location('pi0276_qualified_graph',source);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
     node=next(n for n in ast.parse(source.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='graph')
     for n in ast.walk(node):
-        if isinstance(n,ast.Constant) and n.value in (10240,5120,'PI0273'):
-            n.value={10240:16384,5120:8192,'PI0273':'PI0276'}[n.value]
+        if isinstance(n,ast.Constant) and n.value in (10240,5120,5121,'PI0273'):
+            n.value={10240:16384,5120:8192,5121:8193,'PI0273':'PI0276'}[n.value]
     scope=vars(m).copy();scope['ROOT']=ROOT
     exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),str(source),'exec'),scope)
     return scope['graph']('TASK',path)
