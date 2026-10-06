@@ -32,6 +32,9 @@ def handoff(point):
     videos=read(ROOT/'evidence'/f'VIDEOS_{point}_TRAIN_PHYSICS.json')
     package=dict(status=status,handoff_model=point,view=str(view),view_type='MODEL_ONLY_NOT_RESUME',model_ready=ready,binding=binding,
         policy_admission=dict(path=str(admission),sha256=sha(admission)),runtime_fileset=read(ROOT/'design/EVALUATION_FILESET.json'),
+        native_source_fileset=dict(path=str(ROOT.parent/'design/SOURCE_FILESET.json'),sha256=sha(ROOT.parent/'design/SOURCE_FILESET.json'),inventory=read(ROOT.parent/'design/SOURCE_FILESET.json')),
+        readout_contract=read(view/'PI0277_READOUT_CONTRACT.json'),processor_contract=read(view/'processor_config.json'),
+        cosmos_processor_snapshot=str(ROOT.parent.parent/'PI0250/inputs/frozen_v1/cosmos_snapshot'),
         inference_command=command,input_example=request,example_behavior='Reload policy and reuse one existing first-valid FIT output; zero new queries',
         input_schema=dict(body_rgb='uint8[96,96,3]',wrist_rgb='uint8[96,96,3]',state_v1='float32[10], measured world TCP/row6D/opening',language='Stack the red cube on the green cube and release it.'),
         output_schema='Original FP32 physical H40x10 EEF/gripper decode; install only through unchanged native gate/controller',

@@ -17,6 +17,7 @@
     "view": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/models/GRIP2048",
     "view_type": "model-only"
   },
+  "cosmos_processor_snapshot": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs/frozen_v1/cosmos_snapshot",
   "deployment": "NONE",
   "example_behavior": "Reload policy and reuse one existing first-valid FIT output; zero new queries",
   "handoff_model": "GRIP2048",
@@ -92,12 +93,2583 @@
     "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
     "step": 2048
   },
+  "native_source_fileset": {
+    "inventory": {
+      "files": [
+        {
+          "bytes": 2098,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/__init__.py",
+          "sha256": "35eafdb4f989800edac4909ba8ea5313c917bf9520ddf082db5bc177cf346e74"
+        },
+        {
+          "bytes": 166,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/__init__.py",
+          "sha256": "6121324642265c4978c2a0e96835e036eecc5c629ad66a075b205a47d99b406d"
+        },
+        {
+          "bytes": 18858,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/base_agent.py",
+          "sha256": "1f5696f20a6bf4a10f4309315794b4a70bd418c9cc339e9aad118104d0f662ec"
+        },
+        {
+          "bytes": 8464,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/base_real_agent.py",
+          "sha256": "efafc33a6d30152c1d1e96925fac7bf8d0d23ba82c45964a28cd096999d83209"
+        },
+        {
+          "bytes": 1139,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/__init__.py",
+          "sha256": "3b886d638844c41a4f8af26e94f268fbb7ba1376b119a08a37d9eeec1fe22503"
+        },
+        {
+          "bytes": 13706,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/base_controller.py",
+          "sha256": "e87b7ce8ec71cada14047db760cb44555e4792e5c7b8b20ec10a3b23739de9d0"
+        },
+        {
+          "bytes": 1322,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/passive_controller.py",
+          "sha256": "d5c669ef9f0056e001be058ecc27a0b816db07cc09ea117f72a37e93fbf1e4ac"
+        },
+        {
+          "bytes": 2832,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/pd_base_vel.py",
+          "sha256": "6f0fc5582ef234792f1f4a48b5b5daaf6ad436c60fdffc223b1dcba9508d9758"
+        },
+        {
+          "bytes": 13732,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/pd_ee_pose.py",
+          "sha256": "96ce3b4ea7a1504563c394f6a5f0cb2f2b33fc991858c3b502d8d81bca29c2d1"
+        },
+        {
+          "bytes": 11705,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/pd_joint_pos.py",
+          "sha256": "2e5b65586b98b6ce128d91fca9ceff7154f7e912287cb0e101332e3bbd772e02"
+        },
+        {
+          "bytes": 2491,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/pd_joint_pos_vel.py",
+          "sha256": "b714f2576922084775a009567bb1e6d32496d0b8dd37d755e9a255957d4e532d"
+        },
+        {
+          "bytes": 1972,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/pd_joint_vel.py",
+          "sha256": "6ccebd807b5c8ecaf12b2ae9be5b09e3e7ed3252896e0ade5a158568ebee773a"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/utils/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 12707,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/controllers/utils/kinematics.py",
+          "sha256": "4953773c05a41f9ac43f6f12a43267e0caf8dc047190aea6bb08bf9f1cfdc839"
+        },
+        {
+          "bytes": 3969,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/multi_agent.py",
+          "sha256": "69874ba0bf3ccbf02e540651bb0104d7ffb2871154a0d6b24f41bb483ea2aa39"
+        },
+        {
+          "bytes": 1372,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/registration.py",
+          "sha256": "853a54bc0b8e38c510c09cc390124835f05c2ea95c8a11c60711469bf0dfdc92"
+        },
+        {
+          "bytes": 830,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/__init__.py",
+          "sha256": "30402ce61d983347bd1ce6e028b607a52ca27251d822a09879a96e7ddc8b0b45"
+        },
+        {
+          "bytes": 1857,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/_template/template_robot.py",
+          "sha256": "427d3be0e3360d6ea686351bc3827bfe64b4f8ed9d9925772918d95aa0f40b9d"
+        },
+        {
+          "bytes": 140,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/allegro_hand/__init__.py",
+          "sha256": "7000110b7598b6c8421d0749e1fdd240fcce7706e4c36aa500ff320d5d11d82a"
+        },
+        {
+          "bytes": 4963,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/allegro_hand/allegro.py",
+          "sha256": "9799cf1616d25837d144a361937bd60b5ec74d714a7598df5dc7ad052c87065b"
+        },
+        {
+          "bytes": 6127,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/allegro_hand/allegro_touch.py",
+          "sha256": "b684e1398bde6d854cf98b4f284c40584e9deafa5b697c6bf741e417f686b83c"
+        },
+        {
+          "bytes": 66,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/anymal/__init__.py",
+          "sha256": "d1aec6961c41a7772091fc4d62f13c6c84f843c6f4a7abc73768a45f8f3b1e63"
+        },
+        {
+          "bytes": 4014,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/anymal/anymal_c.py",
+          "sha256": "3fd070f630c822a1464b211f511087d99769ebe2e4fafc0fddc411b3da2f01ce"
+        },
+        {
+          "bytes": 61,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/dclaw/__init__.py",
+          "sha256": "bf0643462479f6785c0f48758de21c52b01262d2c74cd175e61a3ec6941fe4f3"
+        },
+        {
+          "bytes": 4058,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/dclaw/dclaw.py",
+          "sha256": "6bbc2fb22302c8b5fe2078db9672936343125dec1466c004968b90f5ae8c2622"
+        },
+        {
+          "bytes": 115,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/fetch/__init__.py",
+          "sha256": "6620f48fb444e7649be2e87ed7f5af9d92b50fffbeb5d6f530b643e643c1f022"
+        },
+        {
+          "bytes": 14478,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/fetch/fetch.py",
+          "sha256": "f07c4703466851deaae7bacf29ab58e3e6d2b554c7835b06d56d7b0c9148887f"
+        },
+        {
+          "bytes": 96,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/floating_ability_hand/__init__.py",
+          "sha256": "24446d7063936286ba9cbc297bfbac08748e6e8436a668fffcd369984f9aeda0"
+        },
+        {
+          "bytes": 6606,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/floating_ability_hand/floating_ability_hand.py",
+          "sha256": "9586807099361c5b16022ce00a5147ba54f73b0fd3eed623efbc20163d3b04e1"
+        },
+        {
+          "bytes": 93,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/floating_panda_gripper/__init__.py",
+          "sha256": "1b044b3c086720274cf95b29e4e91f50b9e96205fa1afa14e2e38d538145c44e"
+        },
+        {
+          "bytes": 4889,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/floating_panda_gripper/floating_panda_gripper.py",
+          "sha256": "97eb384ea90f8ed9d43c05f496964c11aa865f3cddacbc5ca20d4c41b2ea2a37"
+        },
+        {
+          "bytes": 107,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/floating_robotiq_2f_85_gripper/__init__.py",
+          "sha256": "69a205952dbcda7d4b91e9d09e3d1dc8191cda80a1306eb57f1922973a808d2d"
+        },
+        {
+          "bytes": 6086,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/floating_robotiq_2f_85_gripper/floating_robotiq_2f_85_gripper.py",
+          "sha256": "3223f3525da5955e1435b9cf6eac1d3b5fb0c62ad1588c3971bc06e9f78c3ad1"
+        },
+        {
+          "bytes": 73,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/googlerobot/__init__.py",
+          "sha256": "deda69ccef724d221cee5218fb311d5d8c4a884bbef94ccfb9fb388839bcd7fc"
+        },
+        {
+          "bytes": 993,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/googlerobot/googlerobot.py",
+          "sha256": "cb812f1f03e17e3d3017a812ed456fd87a582a8b3a3e96d263f66056716f0d9d"
+        },
+        {
+          "bytes": 67,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/humanoid/__init__.py",
+          "sha256": "59c4c27f857a3aa36f6d9e5f897d56a9c66c956a2da5fb2ebd6bf666a642b5d5"
+        },
+        {
+          "bytes": 3740,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/humanoid/humanoid.py",
+          "sha256": "31effa04c521321698798d04f5276a6703666d86590e45819b14626f7cc197ff"
+        },
+        {
+          "bytes": 197,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/inspire_hand/__init__.py",
+          "sha256": "b6ff09877efa276a1f7e73ffa95e1be9d76b8ee8a512216c47e9d44c654d2752"
+        },
+        {
+          "bytes": 7891,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/inspire_hand/fixed_inspire_hand.py",
+          "sha256": "74fbb90934a718486ab43cce725625963d8f1e7bc0c31a40296b9893ad164cdb"
+        },
+        {
+          "bytes": 14278,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/inspire_hand/floating_inspire_hand.py",
+          "sha256": "ff38415a4895bae5af83ee0c4b54f71f1f500f60cd35e6d11de32ad8db4f24cd"
+        },
+        {
+          "bytes": 59,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/koch/__init__.py",
+          "sha256": "3d3a53ec1ac71872dd4cd83a922fe9be5884ed6a5711822b6f1d303f8eebd39a"
+        },
+        {
+          "bytes": 6777,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/koch/koch.py",
+          "sha256": "6795500265ed9a965fac6545c2886cec0bfc3d15f74889d1c17c6800d71b3cdf"
+        },
+        {
+          "bytes": 124,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/koch/koch_real.py",
+          "sha256": "c3c948cd1b00644bcb1976c2e7df24b691a21cab8fa775c3b29994d716172aa7"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/lerobot/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 5636,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/lerobot/manipulator.py",
+          "sha256": "a4695e419da9ae2db1d31790985707009978bd82367403c4fc57e8760bce375f"
+        },
+        {
+          "bytes": 139,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/panda/__init__.py",
+          "sha256": "5bde08b86fc3389ddf1114f072195ce1d0e50748032cce77df42a980e00266b3"
+        },
+        {
+          "bytes": 9985,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/panda/panda.py",
+          "sha256": "bf85577be75b7513802e676decb5543e3e65f2a3dfbc26175dd8b77ae57691f3"
+        },
+        {
+          "bytes": 5847,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/panda/panda_stick.py",
+          "sha256": "8f95bcbd346724710c561ae9768189b0b3b66bbd5d019b92b01b7d48f8ddbff8"
+        },
+        {
+          "bytes": 833,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/panda/panda_wristcam.py",
+          "sha256": "41cf8ea1e6adc37c69bff14dafc683963b7e1a5c1abcbdeed235d0967b87c627"
+        },
+        {
+          "bytes": 62,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/so100/__init__.py",
+          "sha256": "592e3d47d4124e8467733e912ffac3de6a56edbf555ed7c5e77c9bbbc8ebd8fe"
+        },
+        {
+          "bytes": 5529,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/so100/so_100.py",
+          "sha256": "a4c5f570d289b3e050c5a31220f1707b08d947e3b4ba7d00bbde2888e30a798f"
+        },
+        {
+          "bytes": 125,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/so100/so_100_real.py",
+          "sha256": "f8cd624407bcd404209ccf17137d90da3b0506613cecc197810c00d77f01562b"
+        },
+        {
+          "bytes": 75,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/trifingerpro/__init__.py",
+          "sha256": "0e5b872f3d81151e515ddf8a397a4a8e74b4f4b93b83e8faacf706368ce2729a"
+        },
+        {
+          "bytes": 6192,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/trifingerpro/trifingerpro.py",
+          "sha256": "2aaa760839edfa80b513dd39f90781c0475124b9f114e45a650a0b1cdf0204e4"
+        },
+        {
+          "bytes": 129,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_g1/__init__.py",
+          "sha256": "11df3a7129eda45623c97070ef45212e98cd68e9624b8265721f636ff5a6f23d"
+        },
+        {
+          "bytes": 5948,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_g1/g1.py",
+          "sha256": "d10dbcb0d24782af7672c374628f06256ecb26736b330b447ac9a6dc80a41472"
+        },
+        {
+          "bytes": 14330,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_g1/g1_upper_body.py",
+          "sha256": "ee9c77e9f27415daf9ed392d3edecc610cfc37e5eea9a75d7dccedc6dc7be121"
+        },
+        {
+          "bytes": 72,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_go/__init__.py",
+          "sha256": "d9e148271c73f22a2a7f14f28dfabdc4bb0bb8df9f9f84e84988cfeb08b68678"
+        },
+        {
+          "bytes": 2737,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_go/unitree_go2.py",
+          "sha256": "bdf06ec65fc164e02aaf6d03756a6f6d825a26a00e95f94b6bceb7f1582ec1a1"
+        },
+        {
+          "bytes": 83,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_h1/__init__.py",
+          "sha256": "f97a48025f04d73940b3830746e2244801e8319de4525ad92c522bdb2ab43347"
+        },
+        {
+          "bytes": 3761,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/unitree_h1/h1.py",
+          "sha256": "5405d20184137d7816cd2835b3d1c42807c97f469ba3a5fd4047c744558c36ca"
+        },
+        {
+          "bytes": 62,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/ur_e/__init__.py",
+          "sha256": "8b4ce52af0698fe128796e659383c9cd84f100b1bb4ffc4c5c1262ad4b360a3c"
+        },
+        {
+          "bytes": 1282,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/ur_e/ur_10e.py",
+          "sha256": "ed58996b48e78a4d06890c8677b32ca28cfc9c87493eb629a4a6edbef780049c"
+        },
+        {
+          "bytes": 67,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/widowx/__init__.py",
+          "sha256": "571ea94b93d537d8d7b7d03324518d81b08166d65c005fdbc9a2c3a6f3383525"
+        },
+        {
+          "bytes": 2382,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/widowx/widowx.py",
+          "sha256": "5a415d491f4b026d65c672f4e87b71dbe38ee2a6026370515b12dc02ae7e3f04"
+        },
+        {
+          "bytes": 115,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/widowxai/__init__.py",
+          "sha256": "480a8483c92d640032f2ecbbe9822af483d2e33a0b8713ff556adcf0ae828bc1"
+        },
+        {
+          "bytes": 5369,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/widowxai/widowxai.py",
+          "sha256": "25f4baeb47cba7cd7ced607b1b46dd94871ca0a96bbaf71c1cc925834a78c482"
+        },
+        {
+          "bytes": 876,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/widowxai/widowxai_wristcam.py",
+          "sha256": "f1bc5fbb542f3bdfdaa385dbfe3e60881559f58386bbc7b91bdc59f6486aeff2"
+        },
+        {
+          "bytes": 76,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xarm/__init__.py",
+          "sha256": "47da9d2cf0e1fea7a442683dce6fc3fae1b3dccede8577d767b64785a856f0ee"
+        },
+        {
+          "bytes": 6146,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xarm/xarm7_ability.py",
+          "sha256": "4f26eb0969c4aca0681b2a9cbc126b78ee202bcc9259540b84f28e5437019a26"
+        },
+        {
+          "bytes": 145,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xarm6/__init__.py",
+          "sha256": "a8a47419453f99da8b1310322e6e4fefbf3b7e1f9bd50bd003f7c1f0c347efcb"
+        },
+        {
+          "bytes": 7363,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xarm6/xarm6_nogripper.py",
+          "sha256": "fd4d63d83b599c2f28bcfb27cc06b62d8ddcad6a1eab2edf8d20d4d3636e62e8"
+        },
+        {
+          "bytes": 16420,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xarm6/xarm6_robotiq.py",
+          "sha256": "8ad94bfe6767fd76bc92a67a0ffee657d1e03f6c3935c57955657332c9896318"
+        },
+        {
+          "bytes": 31,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xlerobot/__init__.py",
+          "sha256": "cd4b9ac4f47788dc4178ba89e4969fd96f1a84828c5b25f43baa11fcd4a7e65f"
+        },
+        {
+          "bytes": 27913,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/xlerobot/xlerobot.py",
+          "sha256": "662f99897b0ffe292ac6dd6a040d1fab84c9bcc946569f80843e8acc3c457afb"
+        },
+        {
+          "bytes": 1863,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/utils.py",
+          "sha256": "1a76e75a5eb1473eaa28fe7cbed852a36114627a56a05f3bf34fb168fc45bcf4"
+        },
+        {
+          "bytes": 1684,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/finger.stl",
+          "sha256": "2d07a740392f3b9b0816f65d64fff9927d3d57c897870fc4b6ff9c56fff3a0c8"
+        },
+        {
+          "bytes": 10084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/hand.stl",
+          "sha256": "94493e94f30fe940f2c8ca2f155c3bbe67bbff406d3edf5e261670d2f0f6e2ed"
+        },
+        {
+          "bytes": 37040,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/hand.stl.convex.stl",
+          "sha256": "5897611d07ec5bd71b712d5dfb4f15e44e717da01697c5cd7ce9c12b5da6aca0"
+        },
+        {
+          "bytes": 10084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link0.stl",
+          "sha256": "dfc6d94330de8ddb005b311bfdba9f3b8e1aa7c256b71592ee7ff32cb9a9a5aa"
+        },
+        {
+          "bytes": 33143,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link0.stl.convex.stl",
+          "sha256": "00e668cdb1695e762fd5fcdc9aa72892153ce2cd281dd8e39fb4ba7c75a217c8"
+        },
+        {
+          "bytes": 15084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link1.stl",
+          "sha256": "e41a39a94108fcf56aacff603fc91ec80541f4c1af17b51a0de5617f5566e6d2"
+        },
+        {
+          "bytes": 52992,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link1.stl.convex.stl",
+          "sha256": "89ce9a7f7148c7382be642b7de6f33c6c6aad5cf6604702e5c75397da8495802"
+        },
+        {
+          "bytes": 15084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link2.stl",
+          "sha256": "370f7605a0fae3529db169ded50f52f171024aa792d4d773bc84197301f6a039"
+        },
+        {
+          "bytes": 51630,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link2.stl.convex.stl",
+          "sha256": "898af76442455ecb5fcd844ae25ee8cd73a826f6a48419c35b0f05606e5aa288"
+        },
+        {
+          "bytes": 15084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link3.stl",
+          "sha256": "0a8d638b9349c6c0eefc4e888636ac4838c4b27170f18a51699321118af709c1"
+        },
+        {
+          "bytes": 51861,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link3.stl.convex.stl",
+          "sha256": "6dd3a40e8f4e3b90c472aa86ae6e6c760bcce41887f5eac880d0ee0c8f820f01"
+        },
+        {
+          "bytes": 15084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link4.stl",
+          "sha256": "0180ebb5772ec9840cb049750cffb29a9ddc90311752a16ea34757782ef9e48d"
+        },
+        {
+          "bytes": 52577,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link4.stl.convex.stl",
+          "sha256": "74d94c2df67514e0cb4abbe488f3c86d92957756743a0e643922e4fda778e4a1"
+        },
+        {
+          "bytes": 15084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link5.stl",
+          "sha256": "dd17e688c7870e722283525879643d53a74c0024d328b0e14b034b54c8b6c31a"
+        },
+        {
+          "bytes": 45922,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link5.stl.convex.stl",
+          "sha256": "221f69a742f380e11510e830bbd17bd737520e3384783f73da57589edf1a9553"
+        },
+        {
+          "bytes": 10084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link6.stl",
+          "sha256": "20b768e99a0e0440b5754dcca108016434e57937cc356acd9c352ccd3cb27f77"
+        },
+        {
+          "bytes": 39936,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link6.stl.convex.stl",
+          "sha256": "eca417cea6309a63934243101eb09baa43f0a1614f304dd7ea62b35d4122d4b1"
+        },
+        {
+          "bytes": 10084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link7.stl",
+          "sha256": "92ac6afcf7574c034d3170d8a68e95ac9048ab9d0dd5bbd8311b86e551b9ab1c"
+        },
+        {
+          "bytes": 30861,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/collision/link7.stl.convex.stl",
+          "sha256": "3e424f960d2350103193333d993a56c126dfdf94520874a586ed79eba089b827"
+        },
+        {
+          "bytes": 50032,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/finger.glb",
+          "sha256": "0a71d057c0afb3e8587129539ec4161b726cf55dcb8935c4e6094f2b13558ed3"
+        },
+        {
+          "bytes": 590608,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/hand.glb",
+          "sha256": "3c2de5514714f7f8232a51b008eadb2eb421d290bfdc7341e5a12887cb70b661"
+        },
+        {
+          "bytes": 1519800,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link0.glb",
+          "sha256": "672626c2bbf38cd2ea28837e5dafdc2f264959761200177e9e256d532b9be4f9"
+        },
+        {
+          "bytes": 970348,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link1.glb",
+          "sha256": "8376fac9a80cd04767a3749a723a68809c5b85fe34110f056e83b9c984c1f052"
+        },
+        {
+          "bytes": 983620,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link2.glb",
+          "sha256": "bbab9909c2b0572d256cd60e6a9c1b63ca9b55047ac3da7124a99b8b1fe6b8fc"
+        },
+        {
+          "bytes": 1105564,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link3.glb",
+          "sha256": "f904d2d91255086a5706ca9c039cac62de4b7877b4a91b8ef387f461b9fa915b"
+        },
+        {
+          "bytes": 1131436,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link4.glb",
+          "sha256": "3e301a20f05f81d007741c2f8e199452a705ec4a489b729ff389ef14769c2283"
+        },
+        {
+          "bytes": 1423144,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link5.glb",
+          "sha256": "80d620e7d92b38a90a9ff2536e2d278cf2d0fa665f6bf4982e7069589b5cbb02"
+        },
+        {
+          "bytes": 1666640,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link6.glb",
+          "sha256": "20f04024218fdafdf41926143e9038b970e27f0c84f574d34c2dd05df6a7a74f"
+        },
+        {
+          "bytes": 930244,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/franka_description/meshes/visual/link7.glb",
+          "sha256": "a207703b9d6d28c186949619e5c424072ee8331b8d51d6256ace975816a94a15"
+        },
+        {
+          "bytes": 28443,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/mobile_panda_dual_arm.urdf",
+          "sha256": "2c8073bc17ce0bb71a9a021b3405973755aa00dfa6b55f5e5e8c1e372e54bfae"
+        },
+        {
+          "bytes": 16761,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/mobile_panda_single_arm.urdf",
+          "sha256": "2d79ac57ce7e0af3b6947acdeda97233f785168578c78708a428e2c1bc8554e1"
+        },
+        {
+          "bytes": 52,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_bucket.srdf",
+          "sha256": "a79c5c555d9d24d3445c8fd6297617e7870e161e389787d5fa19ffbdd7389114"
+        },
+        {
+          "bytes": 8885,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_bucket.urdf",
+          "sha256": "358d5fce6109b120a133ea64763d73d4d6c48e74c99ede04016cf1fc673447c5"
+        },
+        {
+          "bytes": 5549,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_pinch.srdf",
+          "sha256": "e1ab0d4f59819dc47b5de702080867cb4b99c5076449abd049d417649334733c"
+        },
+        {
+          "bytes": 11065,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_pinch.urdf",
+          "sha256": "4dc8a11b2c01ec69a4f4819ba77ceadaa1c7dd824aac9b9504e90a2e2e19b162"
+        },
+        {
+          "bytes": 4857,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_stick.srdf",
+          "sha256": "107a7cde963030a1d7b04162504d4a3dd45742f8e70e65e720fa4ffa82d2c986"
+        },
+        {
+          "bytes": 9386,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_stick.urdf",
+          "sha256": "b29dc3ced2df06792af4cce993ae6656512415c1264a6613c0ee6f56cee32e17"
+        },
+        {
+          "bytes": 5727,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v2.srdf",
+          "sha256": "00d8beb0b638928ab5ce272aa5daf7e80d56b556555c2aa18d9c677ef826e6e4"
+        },
+        {
+          "bytes": 12821,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v2.urdf",
+          "sha256": "524c6986dbbabe244e05801f262862205e880834d01459b06ee273016d0579ba"
+        },
+        {
+          "bytes": 6918,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v2_gripper.urdf",
+          "sha256": "1bf0e8446c4c18b40bc159328cd723e23df9abb3c1b97752c9f6f0dfb37c59fa"
+        },
+        {
+          "bytes": 6151,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v3.srdf",
+          "sha256": "914d50f60103ca85d90c940b0006f42e993b537b0cc90d04f2bcae93d988c308"
+        },
+        {
+          "bytes": 13483,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v3.urdf",
+          "sha256": "d040277352476639950e2ddce1dff8a1c0e95df470e5e9ed186cd01c468fa412"
+        },
+        {
+          "bytes": 1277,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/CHANGELOG.rst",
+          "sha256": "27bc072137e1df02a4d0ef706018e3197b23a05587e931440646e3cf9706769f"
+        },
+        {
+          "bytes": 347,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/CMakeLists.txt",
+          "sha256": "3e8a7a7e2cf59d848c91e2e4c6adcfc9996901850fe19169dc75c301b7dc32df"
+        },
+        {
+          "bytes": 8619426,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/d415-pattern-sq.png",
+          "sha256": "7a1327efee82b5c66dcfa79b790e62094a9a42e151aec7158be83b9cdd84eb6d"
+        },
+        {
+          "bytes": 21258084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/meshes/d415.stl",
+          "sha256": "5ffbe0d4b4ffee3133b4b55b1fa68c053e46d186f4a4d2b4c0174a89f423481c"
+        },
+        {
+          "bytes": 15781708,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/meshes/d435.dae",
+          "sha256": "db6a3e27fd4dfe35d10f528c081d6202817c2b70e21bcfab8bac64f576c859f7"
+        },
+        {
+          "bytes": 292334,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/meshes/plug.stl",
+          "sha256": "91a0bc6ec83fa24b5dcd4de0d1c0ed78032af2e7ed233b4b232bdbf906fea744"
+        },
+        {
+          "bytes": 11284,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/meshes/plug_collision.stl",
+          "sha256": "fc210c929bba2c9cf3f4ec074d4e6a38549904e9a1eddee9661f34ef7c610f5f"
+        },
+        {
+          "bytes": 803,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/realsense2_description/package.xml",
+          "sha256": "a85a198dba9be51b236fca33c091ded088272d1f752c170e267c57478762d46b"
+        },
+        {
+          "bytes": 250284,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/sciurus17_description/meshes/collision/Base.stl",
+          "sha256": "f8366b071116102ef4521db7f41e34701cc1b414367a68324c4943a683d8f88b"
+        },
+        {
+          "bytes": 227484,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/sciurus17_description/meshes/collision/Body.stl",
+          "sha256": "06b65c6ba3d06a6788253837268f33c10a83c0f48179a6a10b20b383983aac7e"
+        },
+        {
+          "bytes": 1609684,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/sciurus17_description/meshes/visual/Base.stl",
+          "sha256": "07694f55aa5a106e6047639abef4b0308d23bb4a0c6a8c2fc10f42c50275a0da"
+        },
+        {
+          "bytes": 6158284,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/sciurus17_description/meshes/visual/Body.stl",
+          "sha256": "bb369863d728bd654a4c769f95ab401c75a086cfb345ee760e71a1c9951efbd2"
+        },
+        {
+          "bytes": 43,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/__init__.py",
+          "sha256": "60f96db4112b4dc7fdbd29e4679e0443cbd300149f145ac1754634024178be68"
+        },
+        {
+          "bytes": 2245,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/minimal_template.py",
+          "sha256": "60df8e3effba84a4955e263a87f3567ed6a255b5110cdea986fa005f20d23c42"
+        },
+        {
+          "bytes": 77679,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/sapien_env.py",
+          "sha256": "bb9ab4983182a1c6d96c6bfe8bd7af5a2c5abe5b4fd4a8457c41cbb7e55b0017"
+        },
+        {
+          "bytes": 51412,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/scene.py",
+          "sha256": "6a20cc673c023abdd0c3f1bffd1bd5071d93bb5d6e3f69b1bf27c4223d9e2dbf"
+        },
+        {
+          "bytes": 868,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/scenes/__init__.py",
+          "sha256": "b8bd93dc0ba8524a9ed855e6163a3839000c403b1e3daeaa5630a313324baad1"
+        },
+        {
+          "bytes": 7122,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/scenes/base_env.py",
+          "sha256": "d27a06af25e5e45361eea333ec35318c41fe858bc95005085280721bd3522eba"
+        },
+        {
+          "bytes": 19884,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/sim2real_env.py",
+          "sha256": "893ef4ff5b150313970759c37acfeac439d9aff526d068fa4bd85ccd1821d597"
+        },
+        {
+          "bytes": 298,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/__init__.py",
+          "sha256": "7875c45eadbc63f408002b008993070ca602b8d1e9033d4c9983df3dadb8ecdb"
+        },
+        {
+          "bytes": 206,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/control/__init__.py",
+          "sha256": "c05dd60a408fb5ca1c5181272ce46a19e84389486aba188b4b716cc68170c7f0"
+        },
+        {
+          "bytes": 10835,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/control/ant.py",
+          "sha256": "5e9e8c60d52018c63d253ddc15612bc3bd56365bfe71b1953ae78e872b512643"
+        },
+        {
+          "bytes": 8380,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/control/cartpole.py",
+          "sha256": "85222f48f2c2f985950864e43265f5655c7a001b676a1e17f9208b8bd16d9995"
+        },
+        {
+          "bytes": 9791,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/control/hopper.py",
+          "sha256": "23019a6b58a30f8b1cac7ceca2a9730d8b9059e1102925751363c9a68b86cc34"
+        },
+        {
+          "bytes": 19064,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/control/humanoid.py",
+          "sha256": "b5cc792eb9af8254743bffc7f55239842d7ba741e7f13b8d5c0116c8190370d1"
+        },
+        {
+          "bytes": 163,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/dexterity/__init__.py",
+          "sha256": "0543384a4435cd75b33f4757413b0fe6f2284df2c4373874a087ef94842b85fe"
+        },
+        {
+          "bytes": 7431,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/dexterity/insert_flower.py",
+          "sha256": "3d50994864b3b5d71b1649d21d745c9ffcf7cc8e1f235168543c4ef29a009499"
+        },
+        {
+          "bytes": 14723,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/dexterity/rotate_single_object_in_hand.py",
+          "sha256": "5873d5285d97b9cdc99f88333e8cc00419fac5e9eef9c5c4732cae33aee8cc44"
+        },
+        {
+          "bytes": 11647,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/dexterity/rotate_valve.py",
+          "sha256": "eb66bab2a36d2bd8778f5507008f11c9ccba4fc5d9c6a5aa38ce615690510ab5"
+        },
+        {
+          "bytes": 60,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/__init__.py",
+          "sha256": "ff25960451fe3faf544cfbe8f4645af14c7f1573a32d676488adebb36a235f7a"
+        },
+        {
+          "bytes": 8265,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/base_env.py",
+          "sha256": "56c91de038a84ef73c5cc9d97454dc39ee166083a7ce73039ed65c5bb5c50de4"
+        },
+        {
+          "bytes": 172,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/bridge_dataset_eval/__init__.py",
+          "sha256": "da8931c9ed1383f92698a3573fb878325031c464b970913738a028e0b21501cb"
+        },
+        {
+          "bytes": 22627,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/bridge_dataset_eval/base_env.py",
+          "sha256": "00e8395e1e171f8032ae25021d561f59c79aa013620fc72a74cfe1814ea784ed"
+        },
+        {
+          "bytes": 9419,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/bridge_dataset_eval/put_on_in_scene.py",
+          "sha256": "9032845fe7b51eae6466206cf717c4cd4da38f1df97875ab8800181497016e01"
+        },
+        {
+          "bytes": 42,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/so100_arm/__init__.py",
+          "sha256": "b9e847482687a190c1f5ac0cb45f35af803e5f87cce8d16612bcceb20ce04ace"
+        },
+        {
+          "bytes": 22382,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/digital_twins/so100_arm/grasp_cube.py",
+          "sha256": "092c0464f1a17a1f7e3e0bd2a7fb833c9d9b37800a5a41e833e27cbc6e07b5cd"
+        },
+        {
+          "bytes": 114,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/drawing/__init__.py",
+          "sha256": "6f61da52ee54c1c5877ad8dc9fa84a94a16891431dd591889633a0fa43dea39e"
+        },
+        {
+          "bytes": 8123,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/drawing/draw.py",
+          "sha256": "ed5496918f01712e4f5f8681c98966e3936ca53b5f0e2f339dae474cf73c9b5f"
+        },
+        {
+          "bytes": 16176,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/drawing/draw_svg.py",
+          "sha256": "7de3caf14f548890c0dae24a3586ff5e69fa24a587f8859fd2ea7c44c78c3858"
+        },
+        {
+          "bytes": 15507,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/drawing/draw_triangle.py",
+          "sha256": "eb3db50c45068b165a554cad559289ec6297c715dddba4c7a0137f1e78ada9a7"
+        },
+        {
+          "bytes": 1695,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/empty_env.py",
+          "sha256": "5c61ca24c58be0192415bcbae90cc161872b6140659c47592f82aad2ba0cf58c"
+        },
+        {
+          "bytes": 33,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/fmb/__init__.py",
+          "sha256": "6d3231c01203710706caefca476ed0c116c6f6e77f9b21014065e22b816ed424"
+        },
+        {
+          "bytes": 7400,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/fmb/fmb.py",
+          "sha256": "e6fc6eceb1b5f08446180ba2640ae9549d39832b7c7636ef0fb0eb1061ff52e0"
+        },
+        {
+          "bytes": 146,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/humanoid/__init__.py",
+          "sha256": "d7ca67572fdcb198d8995d886ef3131a0dd48e24f123d6a79b56c3027336866a"
+        },
+        {
+          "bytes": 10688,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/humanoid/humanoid_pick_place.py",
+          "sha256": "eff4a0d672452f474b521c1dc1927064e52865c98b14651e925dd00aeae819c0"
+        },
+        {
+          "bytes": 4802,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/humanoid/humanoid_stand.py",
+          "sha256": "909ac6521cbe966fc27c65b741d1ded6d38c4fa61f5495b6739cf545366ddb34"
+        },
+        {
+          "bytes": 12256,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/humanoid/transport_box.py",
+          "sha256": "2844f68446536113e90e6afb37cd462edc7c994337e86e61c99d32f9955baa84"
+        },
+        {
+          "bytes": 98,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/mobile_manipulation/__init__.py",
+          "sha256": "1906a3200fadfe9ffd1eb8648f9f8c10499b19f6889026206837a95547612764"
+        },
+        {
+          "bytes": 15928,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/mobile_manipulation/open_cabinet_drawer.py",
+          "sha256": "e10d4e24979859ddaf7b6d172507f7031580e3e0a2109397abfd70b92431ee0f"
+        },
+        {
+          "bytes": 40,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/mobile_manipulation/robocasa/__init__.py",
+          "sha256": "9a3a4adc534ce469d1e026967c3d62da0564e6d53837ab539039b6a42aac7e8a"
+        },
+        {
+          "bytes": 25601,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/mobile_manipulation/robocasa/kitchen.py",
+          "sha256": "d2fdc1efe63474e6a83b612ad818f8ccbaa9f4e1f280925e56c12f047675cfbc"
+        },
+        {
+          "bytes": 92,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/quadruped/__init__.py",
+          "sha256": "fc01d2dc7f428f65d3efefb98f05b534c99559b6714697460cd5ee753e8ead93"
+        },
+        {
+          "bytes": 7347,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/quadruped/quadruped_reach.py",
+          "sha256": "b797576bb5fa530adc88386335aedd40f113c362ed6f3d8406a3b1b7bf0ef0bf"
+        },
+        {
+          "bytes": 5195,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/quadruped/quadruped_spin.py",
+          "sha256": "ee95cac1eb362f1bc5872454ae3c3247caa4868323de2ebb8d6772ba9a3d4260"
+        },
+        {
+          "bytes": 14817,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/rotate_cube.py",
+          "sha256": "6546f3ac9feb061ae4753791f0bc6e325bf95c26f4c83c5f949648e069dafdcd"
+        },
+        {
+          "bytes": 791,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/__init__.py",
+          "sha256": "0c99a81ba675f725cfb8b52fda667c52a82c3157ad858fe9cd8b29738bde44cc"
+        },
+        {
+          "bytes": 11931,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/assembling_kits.py",
+          "sha256": "d3483aa08c952ad91f07d81391a72ef7d6fe800ed214dd02af8691aa97975458"
+        },
+        {
+          "bytes": 5856,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/lift_peg_upright.py",
+          "sha256": "99b85c87e04acac1f1cc57d4438486588229e09ef50606ec30fc7feb443a7b0d"
+        },
+        {
+          "bytes": 14031,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/peg_insertion_side.py",
+          "sha256": "39320ca02f6373da02a15c2160644cf198bfbc6dcc524373819a1109a75e502d"
+        },
+        {
+          "bytes": 7335,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/pick_clutter_ycb.py",
+          "sha256": "93bf7a6dd751b812eecdd4c818e99bd3343b88a49cc01296a7ebb12ecb5b61ea"
+        },
+        {
+          "bytes": 8691,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/pick_cube.py",
+          "sha256": "53bfed0229cd4de2c7e363e7f3c531d5c5c84803c28e1345a2aea1a4972f3168"
+        },
+        {
+          "bytes": 2564,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/pick_cube_cfgs.py",
+          "sha256": "9ecd1b870ea7ac9125491f671abb866040b2cde00982ae277761eb6841c8e40d"
+        },
+        {
+          "bytes": 10399,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/pick_single_ycb.py",
+          "sha256": "21a7955c3cd8a64caeef11334a1b858cf4ef069e84e0949295f86cee74872d33"
+        },
+        {
+          "bytes": 10097,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/place_sphere.py",
+          "sha256": "220885e6e5c4aa50b488bae8cae0cecf5373a83ae50d44d9150b7465928d79b2"
+        },
+        {
+          "bytes": 10459,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/plug_charger.py",
+          "sha256": "6a68400b90f04c22fe8bde510a7082fc239b6f2f54552e2f3ab4bb123ed556ff"
+        },
+        {
+          "bytes": 9340,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/poke_cube.py",
+          "sha256": "5ac4fb68e2bf75020687343b8abfcc3c172e21e41585300ee935b4ad10e538a8"
+        },
+        {
+          "bytes": 5548,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/pull_cube.py",
+          "sha256": "3f7fc88b8beb4e1213d60c7bba5ae44f485d664141789e10ec47c479f775d0d2"
+        },
+        {
+          "bytes": 9947,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/pull_cube_tool.py",
+          "sha256": "87e0963be3541f830d4e88308595a52ee29748b73c13552027c9e6c1ea9377b4"
+        },
+        {
+          "bytes": 12862,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/push_cube.py",
+          "sha256": "9af1d9fd3f84544ce2f38a49d944e30a96a9a12f82befbe478daab9c3c019f66"
+        },
+        {
+          "bytes": 23518,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/push_t.py",
+          "sha256": "da3aa9dfd69802f17cfad244250da0ead7ff8df4c008c97c5f3f27c5be4fc040"
+        },
+        {
+          "bytes": 6756,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/roll_ball.py",
+          "sha256": "19ed6241bf3e4799d2ee306302e0ba5f13fea31e293982b2896fcdf1fc718d23"
+        },
+        {
+          "bytes": 7455,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/stack_cube.py",
+          "sha256": "3aaf7ad185e689c82a78a593cf46ec37e873733080a92ef62158fc7a72236052"
+        },
+        {
+          "bytes": 7392,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/stack_pyramid.py",
+          "sha256": "186605bb746ca19c4a717516b2530bbf70e9a2f897c7e3a2df89ce3b9ec4457e"
+        },
+        {
+          "bytes": 9263,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/turn_faucet.py",
+          "sha256": "0ae70d3d4cad6a764bb7152b8800baa2eb0e953ed5e51b5b1374bf98a88eeb4d"
+        },
+        {
+          "bytes": 10097,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/two_robot_pick_cube.py",
+          "sha256": "2ba4682398e4ecf2ec97e44fb226e17e5a319c25b8730745c1d0cd766c82b5ba"
+        },
+        {
+          "bytes": 11969,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/two_robot_stack_cube.py",
+          "sha256": "0ba2c0a445cd418e10d720443d51002c4d5fe95a71e80d48d894e0c5e41c0627"
+        },
+        {
+          "bytes": 12026,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/template.py",
+          "sha256": "4a96f90ede9febdc7c86cf8d576bfcf992a37fa5aade2b30f199f92df1d19426"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 3606,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/observations/__init__.py",
+          "sha256": "73c1960022b3dd433c8dbb269969f6ad3b5c5c331a62ae696681835b1b9aaab1"
+        },
+        {
+          "bytes": 2602,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/observations/observations.py",
+          "sha256": "d88a7f15262e0284f3c26cf20f6f994e755ee476160286a857a3f95536a6ac49"
+        },
+        {
+          "bytes": 87,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/randomization/__init__.py",
+          "sha256": "ea9f5747dc0d7dde790a7ee5170f38ae78ec2e9dde24969afbddcc617e65fc89"
+        },
+        {
+          "bytes": 2192,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/randomization/batched_rng.py",
+          "sha256": "c9c75b468546807ee8e7d96742baf4505068653b98d72aa46f1a14039374e139"
+        },
+        {
+          "bytes": 2341,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/randomization/camera.py",
+          "sha256": "61474b8a71db2e78700a20f6a2ec1efe7798cd86e0378f305d208f518a4ce6c8"
+        },
+        {
+          "bytes": 534,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/randomization/common.py",
+          "sha256": "05ee2540bbf93514c7106256849d1f0930c779545f7e07cef3f4c437b73afe7c"
+        },
+        {
+          "bytes": 1039,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/randomization/pose.py",
+          "sha256": "f4f3e0f90328ac755eddf5787b74fe05162ed04ffc22d718f6b1d657f8e8ea2d"
+        },
+        {
+          "bytes": 3659,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/randomization/samplers.py",
+          "sha256": "ef75d0bd35420f34caa493125c90d93002a94471d21b746538be9504c4a1f504"
+        },
+        {
+          "bytes": 22,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/rewards/__init__.py",
+          "sha256": "eba315e5809b9e917869cfd2bd3549d34d11c4cd4022c7255fb39ab6203e59a9"
+        },
+        {
+          "bytes": 3647,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/rewards/common.py",
+          "sha256": "d657c93561b7c7b5236ab1cbb5e2d76bc0c2cdb7bf2fb9d804c381a390fd0914"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/system/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 4044,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/utils/system/backend.py",
+          "sha256": "ee5910ed020dc4f7883c9f259735e1dd621de068ccc0a723be765e0cbe4980ef"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 101,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/__init__.py",
+          "sha256": "956fd78cfa8d0062d16856ecb0788e9d205ba134c93bffbed0655db8e875f10f"
+        },
+        {
+          "bytes": 867,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/isaaclab/__init__.py",
+          "sha256": "9dc530edb053284d738ba738947a2bfd2ed7f04e226b13088e523760fa4681cc"
+        },
+        {
+          "bytes": 5292,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/isaaclab/cartpole_state.py",
+          "sha256": "d11ef61e73552b8e508bac10a3f06d1df308aa4a128e8d3c8c47642ccc8ed39b"
+        },
+        {
+          "bytes": 9740,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/isaaclab/cartpole_visual.py",
+          "sha256": "d0345d28923ecc145cff2b4fe389ed652a7dd082b4535f362440cd3042da0ea0"
+        },
+        {
+          "bytes": 11841,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/isaaclab/franka.py",
+          "sha256": "92295f4736cc59ff78b16f5d80334d2361b83ac5a07ac01b5c4eca3f0850913a"
+        },
+        {
+          "bytes": 155,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/maniskill/__init__.py",
+          "sha256": "98e8cf0c7e76ed55336f42199c4c13d4b6dc8aceaa035e7614a9bf90139547e7"
+        },
+        {
+          "bytes": 5131,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/maniskill/cartpole.py",
+          "sha256": "9d5622e0da4a200e97e21fdb1c26d48a001a10c2190ea3e3e62b29345e67c52f"
+        },
+        {
+          "bytes": 3333,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/maniskill/franka_move.py",
+          "sha256": "174dae0f4a4841b17739312a411762a9ca5ce4aa1a411ef9a8a588dc9512c261"
+        },
+        {
+          "bytes": 4138,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/envs/maniskill/franka_pick_cube.py",
+          "sha256": "417b66e5d310f6a5070c7ea02ac83d0706aa560e5ea3406449961247818d4500"
+        },
+        {
+          "bytes": 9935,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/gpu_sim.py",
+          "sha256": "fc39bb21b8d0816b6fabe4f75f1274f9a785303001f105a072a4c0db83ac7484"
+        },
+        {
+          "bytes": 5581,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/isaac_lab_gpu_sim.py",
+          "sha256": "b404ee472262dfbc47cc2cdbb3e0777b43d2fa5f68623f4570b242f45f43b5e7"
+        },
+        {
+          "bytes": 12452,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/plot_results.py",
+          "sha256": "a2eda51378cd00b696332d66b8f6d9d09795eaba669b85410cf1697037b26922"
+        },
+        {
+          "bytes": 8648,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/benchmarking/profiling.py",
+          "sha256": "e17f238dbf6e4b8af43086122545f24a41653e1cf26a5ed93b093f5aaa0d0e60"
+        },
+        {
+          "bytes": 8275,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_manual_control.py",
+          "sha256": "675ec4477ee87a14bc560b433bfe1dc22cb98c380bf779d3f48742b0d0dfd04b"
+        },
+        {
+          "bytes": 9679,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_manual_control_continuous.py",
+          "sha256": "b670a7297dafd62221b57c2f591d8dcd78297f77b4cb6faa00ef758c904b20ed"
+        },
+        {
+          "bytes": 5478,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_random_action.py",
+          "sha256": "4fd8d9116d9324e489d3e931c1614ef92c0df838d5096ff053d4eefe4f2e4e92"
+        },
+        {
+          "bytes": 2988,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_reset_distribution.py",
+          "sha256": "9b5239590a6d049ad7bc53dd522ed323347f43efbfc0600591b70a34a5a5ab65"
+        },
+        {
+          "bytes": 3335,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_robot.py",
+          "sha256": "6ed5d4c2e734455776cdb029e21b76c20543c6565e7e94b174f091be9fe2b4a0"
+        },
+        {
+          "bytes": 2139,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_vis_pcd.py",
+          "sha256": "e74613f9855e5f8b04b17c478744bd26efe4adaf19714ccf7c5a46dc480ada8e"
+        },
+        {
+          "bytes": 4281,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_vis_segmentation.py",
+          "sha256": "1c4498fbf5e341ba1f05941b525fdfb80ba9429af71f865eacfcf0181051d762"
+        },
+        {
+          "bytes": 3437,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/demo_vis_textures.py",
+          "sha256": "9b585c385432317bbf0bc9dc9d51dd84492c281b3ed1ee876f7509be43c71bee"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/base_motionplanner/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 7218,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/base_motionplanner/motionplanner.py",
+          "sha256": "e0ca3ebdde9901e9a7699873941f4c72e9293fcb54f106fdde147201a6d03bfb"
+        },
+        {
+          "bytes": 3058,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/base_motionplanner/utils.py",
+          "sha256": "b9e4b46f8fa05fd967b2fa9eb77eb5b448bc4b972fe0b8aaef505637e7de1195"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 848,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/motionplanner.py",
+          "sha256": "9e9fa6b968e3cf555a9c87c4b6d518a000ff3bd8f2203ccae2d86a0d1873d531"
+        },
+        {
+          "bytes": 797,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/motionplanner_stick.py",
+          "sha256": "8b1f974ba6807304e60611a79c0237c09f86d829a9e41bfb4ec8756a63c62017"
+        },
+        {
+          "bytes": 7438,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/run.py",
+          "sha256": "3ccd29e36e0c7c0fb055cbd72562a59c84ca198348fc50b7081663222097dfb5"
+        },
+        {
+          "bytes": 618,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/__init__.py",
+          "sha256": "6b73e096ff7dc1e980f938ea1c6315d85044267849304b7c3939e2c337803b97"
+        },
+        {
+          "bytes": 1049,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/draw_svg.py",
+          "sha256": "305f931e3f5a01779f73ac29449e389e4e58fec1763f43dd59729086547fa4e1"
+        },
+        {
+          "bytes": 1937,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/draw_triangle.py",
+          "sha256": "09e4614dd3dea7abe0562c7a49f384071f034434bd2a6a68df300b120eec2bb4"
+        },
+        {
+          "bytes": 3629,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/lift_peg_upright.py",
+          "sha256": "8ea38cff5399ce5d660a7fda424cebc8666f3c2dc774dc10051faac7fd42d125"
+        },
+        {
+          "bytes": 3588,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/peg_insertion_side.py",
+          "sha256": "930eca2ec45364bb01f6ef8c53f0c03bea6c9a40c96e51b80f2f473509168f56"
+        },
+        {
+          "bytes": 2256,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/pick_cube.py",
+          "sha256": "75f6e26118a66b055927e368a7cd73b28d9974c6cf0181069ca55f8fcb1505ed"
+        },
+        {
+          "bytes": 3295,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/place_sphere.py",
+          "sha256": "a73248cf0a5843767acf71e9c6ccc8553ee608594aca8b79f451c8329d6ec49b"
+        },
+        {
+          "bytes": 3546,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/plug_charger.py",
+          "sha256": "ad827458539821e2674cde1a2570101bcd6afc1608f1ac66a7c4ec6cdc77eeca"
+        },
+        {
+          "bytes": 1111,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/pull_cube.py",
+          "sha256": "ad092f09162355e8c4582dbc9a8ea56c646a8e9f4c7191a3404bf85a9d5f3161"
+        },
+        {
+          "bytes": 3622,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/pull_cube_tool.py",
+          "sha256": "b69af5c4e03c77c1daed7b07843f3bd0f15f7a8884bd9f001d9cbc9f2646664d"
+        },
+        {
+          "bytes": 1113,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/push_cube.py",
+          "sha256": "1329f2b1e049fe78cc3fbe28f60571a9638eaa80b98f5ac17385d0cc5ba0f444"
+        },
+        {
+          "bytes": 3293,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/stack_cube.py",
+          "sha256": "07a818658955f0bf30efc5754ed6cf90eda059ebe7b15ef514717941d0323643"
+        },
+        {
+          "bytes": 5203,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/panda/solutions/stack_pyramid.py",
+          "sha256": "25c1bc1f2f8c3dd037ea297ad1e6b007bd7ef98c383e6a4f70c0530f625f8cbc"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/so100/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 1610,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/so100/motionplanner.py",
+          "sha256": "d10fbb7e0382fb2880c19d16c16d493fc9faa13d8524a17ab30ee2de875b9166"
+        },
+        {
+          "bytes": 6813,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/so100/run.py",
+          "sha256": "a15ae56d76a0f228914037cd0b8b6b5833d4b7f85b654dbfe51753932900487b"
+        },
+        {
+          "bytes": 45,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/so100/solutions/__init__.py",
+          "sha256": "99a782fc2e179390a4d122c48f0424b40e52ac5b13156f92481aa608ab332a4b"
+        },
+        {
+          "bytes": 2865,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/so100/solutions/pick_cube.py",
+          "sha256": "1f31c047b126e3b8de800ccdb160efb81c7e5893106b40e16382f757e4e207e6"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/two_finger_gripper/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 6174,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/two_finger_gripper/motionplanner.py",
+          "sha256": "a4797dfe3f52103c5700b3a006672aa789cb96dfb6f414fd8b7b799c84f47667"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 756,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/motionplanner.py",
+          "sha256": "70fbc97abe6240f66a8570aba11ca7bfcfd829872ac75145f27ac0752d5a19cb"
+        },
+        {
+          "bytes": 7053,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/run.py",
+          "sha256": "c9e8e75146acca59576585a9583f64b2f76380cf28f53c0655f636e245d0c522"
+        },
+        {
+          "bytes": 191,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/solutions/__init__.py",
+          "sha256": "72c260f364e3a30e4cb18110118f3a11374fa11e7db39e4ac12838c5a115cb2d"
+        },
+        {
+          "bytes": 2421,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/solutions/pick_cube.py",
+          "sha256": "57bd09a6a5f58667317a249c3ea5951daa88f55d6a88a1cb0c7607862112b184"
+        },
+        {
+          "bytes": 3750,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/solutions/plug_charger.py",
+          "sha256": "584eb48c6a4ff1547278f45c1f15afab16e2dd75f1003b3da5e617857c71758e"
+        },
+        {
+          "bytes": 1261,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/solutions/push_cube.py",
+          "sha256": "cbdcc56dccd05559b5babe288664f19b07d75c835526e796400c751581a8944e"
+        },
+        {
+          "bytes": 3450,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/motionplanning/xarm6/solutions/stack_cube.py",
+          "sha256": "f906854ee65043cf4b2463fe9a3bb3d692d02ebe2ba51e829aab84d0a77c2f66"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/teleoperation/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 10497,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/teleoperation/interactive_panda.py",
+          "sha256": "c3660d00189ca8dd74994ede12199ee8f8bd82ebfd4256cc8642efe20af74637"
+        },
+        {
+          "bytes": 8714,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/teleoperation/interactive_so100.py",
+          "sha256": "136c63fbd096d231bb2bdf6297631e46dc045f249d36e80218ca1a29602e16ff"
+        },
+        {
+          "bytes": 8700,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/examples/teleoperation/interactive_xarm6.py",
+          "sha256": "876ecb9661ad127012f322118e044b46b718636b38ad4be7971096bc9c16c41c"
+        },
+        {
+          "bytes": 118,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/render/__init__.py",
+          "sha256": "532ea1d5bcda9a650ef1054f5420dcb82ba19ee3777b9be8b5a868e3976b006c"
+        },
+        {
+          "bytes": 7091,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/render/shaders.py",
+          "sha256": "c3d6237b8fb6c83ed9dc2be5b81a98921bb56786107ce9acdf3fd3035b3e79b7"
+        },
+        {
+          "bytes": 638,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/render/utils.py",
+          "sha256": "97e2addcb4c00b0e90fc0ee386cb34128739b762df1da1660e21f9e4384b32e5"
+        },
+        {
+          "bytes": 254,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/render/version.py",
+          "sha256": "130d934c2ac8eb4b0bfdc8c4a6bea2b8f1ca28c81332d1685915bf31ebc127fe"
+        },
+        {
+          "bytes": 95,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/sensors/__init__.py",
+          "sha256": "4d6db09211cddbc747397ba3c620ced88965fc4849744d1ed8c11b819c3b258d"
+        },
+        {
+          "bytes": 1674,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/sensors/base_sensor.py",
+          "sha256": "ba6ab824f68deae00ae4688e99d086e5a708b95a95329ad9ce0572e6da57800f"
+        },
+        {
+          "bytes": 11934,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/sensors/camera.py",
+          "sha256": "efd8bcd461513f19686e4086d46d32dee7fe65e0d93b7a8160eb323dd55b6550"
+        },
+        {
+          "bytes": 5068,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/sensors/depth_camera.py",
+          "sha256": "2824fb0cca9069c55a83fdb832390a02697ced3e85b43a8d4b44c915f31ce530"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 23188,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/convert_to_lerobot.py",
+          "sha256": "f26f5e9cac38a1de4a9e5429ae38ba450ed361c28754254ac0e635747366a71d"
+        },
+        {
+          "bytes": 6351,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/dataset.py",
+          "sha256": "9eb1b78e485dcd1a80763c42fdcf19e05c6992f5b703d5cfbd4a7df94c7fbb7f"
+        },
+        {
+          "bytes": 3685,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/merge_trajectory.py",
+          "sha256": "cec8d1313b22222ad91885782abb5838cdbece8380cddece6d911d58627365b1"
+        },
+        {
+          "bytes": 27691,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/replay_trajectory.py",
+          "sha256": "ef98ccc7c7f16161a978534be6c159bd25c9f89f12182a97aed2452ddcd34d1e"
+        },
+        {
+          "bytes": 1465,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/utils/__init__.py",
+          "sha256": "f847efd861334e71477774b1a90b5a64b68c446ac273e3f50a59a02e1a15e20b"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/utils/actions/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 13032,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/trajectory/utils/actions/conversion.py",
+          "sha256": "44bc29e0a90ae633142ad2ab031bf24b4976dfed2fa3ee838870db948adaba5f"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 159,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/assets/__init__.py",
+          "sha256": "81054ac007337089935c0ad296d0562a549452e82e3b5dac6583b7261e4a2eca"
+        },
+        {
+          "bytes": 9027,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/assets/data.py",
+          "sha256": "216ea888cc01f6515d07ebe0c8e6285db6d55e8d072dff82f383c8daf23737e9"
+        },
+        {
+          "bytes": 218,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/__init__.py",
+          "sha256": "aae088e5660687318b31583f343c98bf61bf33145304bf11e970f86ba898f2a7"
+        },
+        {
+          "bytes": 37039,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/_mjcf_loader.py",
+          "sha256": "6903879fab4d87584cdc73c25ca641a06019e7028bbc3f3270662485e833889b"
+        },
+        {
+          "bytes": 15098,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/actor_builder.py",
+          "sha256": "3da878c7c8e28bd42bd99430b99af7a38819dd1a2068d1d9e333da44e88ad4ab"
+        },
+        {
+          "bytes": 218,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/actors/__init__.py",
+          "sha256": "da33a059057fb298087d920a1cf11fe0514ebc121261551a76e9aa5870990cff"
+        },
+        {
+          "bytes": 10586,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/actors/common.py",
+          "sha256": "3314dbf270ea34555c009427dd2a0b7fca6296d13972e6af02b186e55971c4d0"
+        },
+        {
+          "bytes": 1347,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/actors/ycb.py",
+          "sha256": "ea21d2a4789c75f5e593b466544b61504cc64ad7e3e9c486387a0749cdfb3e37"
+        },
+        {
+          "bytes": 8582,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/articulation_builder.py",
+          "sha256": "9d7817a567a416e4d763cdea082a6ff972a6b1ae51d33b575daee41255037241"
+        },
+        {
+          "bytes": 1147,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/articulations/__init__.py",
+          "sha256": "8c2f2b6ce1732e73240b43be25ed910cc4250ddbb732ec3c3fd81b9d380b1d4e"
+        },
+        {
+          "bytes": 2455,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/articulations/partnet_mobility.py",
+          "sha256": "8159405453a96aa1371ca50d2760d84136324a574adfdcac3c27f13ca217c9bd"
+        },
+        {
+          "bytes": 3436,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/articulations/robel.py",
+          "sha256": "f64ad9f92436c192a28ef1439a048e75eed930ad840b1f33c50f5582d519b3cd"
+        },
+        {
+          "bytes": 4365,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/ground.py",
+          "sha256": "61a56df7141fb2a1b41918ca59ed28d5eee974fce637e3cdf0540e77375aae05"
+        },
+        {
+          "bytes": 4446,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/mjcf_loader.py",
+          "sha256": "372240a6191111de95bb52c90890a62ad0d43b4c141e58297612904eb5f642fe"
+        },
+        {
+          "bytes": 4899,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/building/urdf_loader.py",
+          "sha256": "4ffd74f5e1d3e955bb562f54968a6177e7f18008fd34dbbfb8dd991c04184552"
+        },
+        {
+          "bytes": 13677,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/common.py",
+          "sha256": "214672cc1ae2a9bb5302bde21b212450539d8cb3a9ec64f34e8f1e3f78256387"
+        },
+        {
+          "bytes": 8060,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/download_asset.py",
+          "sha256": "bcfeddb21a3815cf9bf98766f6f8faa291663916bed92bddebdc358b3ba4e60a"
+        },
+        {
+          "bytes": 4454,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/download_demo.py",
+          "sha256": "1eef894a4c50a6ca0b87165e33e9b6348783881500d9832803a7091f41eb55a1"
+        },
+        {
+          "bytes": 24,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/geometry/__init__.py",
+          "sha256": "d31731f80a9a464b3f6b60fe92544f7ef57d0a34ab8bfb88d59aaf6d37372a0a"
+        },
+        {
+          "bytes": 4687,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/geometry/bounding_cylinder.py",
+          "sha256": "c32cf81f8716862f5b1a9374b025dc3e15c8b13d025c6e2decd0cc3c2c8c72d4"
+        },
+        {
+          "bytes": 6394,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/geometry/geometry.py",
+          "sha256": "24572ead77a47e74a36ab78e6217c4620cc45cca86d235787d54cc4ed4b09e77"
+        },
+        {
+          "bytes": 20673,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/geometry/rotation_conversions.py",
+          "sha256": "1a68afa09de99970954433ef651c5e97e44fd46febb0b2d16c561ad954c77eef"
+        },
+        {
+          "bytes": 4533,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/geometry/trimesh_utils.py",
+          "sha256": "a61299f80972cb190698f6a6e0369c68ea9b896933ff7cebc5762d1714992a7d"
+        },
+        {
+          "bytes": 6019,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/gym_utils.py",
+          "sha256": "374be7ed3bec9cbce8b4ba17b66a9702bd87afebf294714a726a64ac325eb8d5"
+        },
+        {
+          "bytes": 1615,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/io_utils.py",
+          "sha256": "549f77aa81f1cc5588963029f74e37a49a844e61069b1cedfc3a18b44e4777f2"
+        },
+        {
+          "bytes": 1765,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/logging_utils.py",
+          "sha256": "2289a7c3656b279e80ea4bf2226f59860a7de107fe58e7fd5ae30018d07ed9f7"
+        },
+        {
+          "bytes": 9842,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/registration.py",
+          "sha256": "5e553c27ed82de4f8807f42819ac4c4cacc4a4a4ffbee23c3d6b91282d146060"
+        },
+        {
+          "bytes": 18050,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/sapien_utils.py",
+          "sha256": "d487106e25bf371ca87ce1368f708d7fd2689b6ad07e1470ea18459d8e757803"
+        },
+        {
+          "bytes": 40,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/__init__.py",
+          "sha256": "f632575d0601b983da6d9fc64c8b240f8d7f257df7479653f2389a40e1047f47"
+        },
+        {
+          "bytes": 131,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/ai2thor/__init__.py",
+          "sha256": "9321e5e909540cabc5247cee3e36159c03152ad32ad1f20258bb0b7011f2fafd"
+        },
+        {
+          "bytes": 4003,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/ai2thor/constants.py",
+          "sha256": "c24e95423fd4bf63e0f6c6085b8ce458c3fbe2d42a5f15140e8f4b57fd4e30e3"
+        },
+        {
+          "bytes": 11381,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/ai2thor/scene_builder.py",
+          "sha256": "736269e2e2e63e13b078e79d2326870fb584853cb82b05d9c5423f4100a4c9d9"
+        },
+        {
+          "bytes": 517,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/ai2thor/variants.py",
+          "sha256": "f3a0ce26ff386d3c4b481a4cd1dcea9f8f4cb9ca77530a0d6787030ec3a5236e"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/control/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/control/planar/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 1050,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/control/planar/scene_builder.py",
+          "sha256": "0c4a154756bcae29166c85986ad3144f489c46831ef4806d19bb655345268e33"
+        },
+        {
+          "bytes": 54,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/kitchen_counter/__init__.py",
+          "sha256": "4c530a694c8fa9194827259fbecfcf3901dd8aa5b074cf8efacb198e4c611c10"
+        },
+        {
+          "bytes": 1440,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/kitchen_counter/scene_builder.py",
+          "sha256": "0c20c9a673343c3321822ed1a9a0e15d6d9d909c7fa16ea7d17be9ce1f7baeb3"
+        },
+        {
+          "bytes": 1488,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/registration.py",
+          "sha256": "b271a3e6754cb42b312b6d6286decf122615a70c07596fc4ad92589804122f1a"
+        },
+        {
+          "bytes": 50,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/replicacad/__init__.py",
+          "sha256": "b07f734dd71271d79f8f48a9d4f45243ce27836c77e6a650439f2aceaf80a04c"
+        },
+        {
+          "bytes": 284,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/replicacad/rearrange/__init__.py",
+          "sha256": "eb0ac0bcd867a645ce4980027734dee05bde1837f270220d1076d351b1d1b331"
+        },
+        {
+          "bytes": 17457,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/replicacad/rearrange/scene_builder.py",
+          "sha256": "9ab56666a2acda33dfb450736ff13f7d87348afeac1c03789073c43b9fecebac"
+        },
+        {
+          "bytes": 1170,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/replicacad/rearrange/variants.py",
+          "sha256": "c796e7fda13eb91788fd94475334013250f384a5924b5c36b52887a2c17c040c"
+        },
+        {
+          "bytes": 16759,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/replicacad/scene_builder.py",
+          "sha256": "d144dae6932ad005a076bdfaa16ee47d5441ca2cdea1f302cc0b3f6094db83c1"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 7857,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/accessories.py",
+          "sha256": "4a31bfafb72800a449ed6b6d50ff9b7d2c2ecf8b19517fb8cfc0f6f3185d6101"
+        },
+        {
+          "bytes": 46314,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/cabinet.py",
+          "sha256": "4f01badb94634da33f0ea4f1c63caf6313e73e7a09b14713a55f3312d26fc3c0"
+        },
+        {
+          "bytes": 20933,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/cabinet_panels.py",
+          "sha256": "13d47f02b67770e3701295a785a0e30d90f0a26b33dc532e5df39ac7948d2acf"
+        },
+        {
+          "bytes": 27689,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/counter.py",
+          "sha256": "a02b00e980dff7225f67d359981aca992290419a97b0a1a67a0c4cfc2575c0a2"
+        },
+        {
+          "bytes": 520,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/dishwasher.py",
+          "sha256": "d15427e27d52f80138880e067ebd14004b98ba2da1658034fc0be2900d326d94"
+        },
+        {
+          "bytes": 11334,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/fixture.py",
+          "sha256": "6e39c41515ebbe913c0b32821356b9fd5f2320581d1322d53fb56afd74dc5149"
+        },
+        {
+          "bytes": 8523,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/fixture_stack.py",
+          "sha256": "910d9c79247f34ed5fb318417d9274b0e0c35ba68d0ecc841c6df025e5c91225"
+        },
+        {
+          "bytes": 4760,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/fixture_utils.py",
+          "sha256": "e9c3c35e76c318884e5b05f1be5568885625882746adbd18aadd8162f472ce34"
+        },
+        {
+          "bytes": 478,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/fridge.py",
+          "sha256": "ead254c344d0fac82359a58431e535aeffe4b4ef2d20a75cb825df2e804eb43f"
+        },
+        {
+          "bytes": 12411,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/handles.py",
+          "sha256": "b4036bd7858025bb90a8581f4cbb260267095de97d1a56734efc183979a006ec"
+        },
+        {
+          "bytes": 431,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/hood.py",
+          "sha256": "660e9d5a4e81aea27d1cd5e3fa3a97a09f8bd11e16169bfb4daa91a756b76c18"
+        },
+        {
+          "bytes": 4497,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/microwave.py",
+          "sha256": "27072d0da48e194778e03765d850d29f0e332450b2683f99ce5d54eb6085d9a6"
+        },
+        {
+          "bytes": 9844,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/mujoco_object.py",
+          "sha256": "a31277cab302701e878c9bfb7ff657bd19e6e9a017b2ad9662cdfebeb2e83a55"
+        },
+        {
+          "bytes": 9382,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/others.py",
+          "sha256": "3cfd7fafaeae72464ad6fa2af7226054d83267d67cef819e5915cf5de7572ba4"
+        },
+        {
+          "bytes": 4274,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/sink.py",
+          "sha256": "f9c8b45d369d9b26768885aae1c924ec9fff6317ab49c4afbd1abe6e9498e6d3"
+        },
+        {
+          "bytes": 6871,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/stove.py",
+          "sha256": "690ecfa59dd15584e98f43b1780ea14c5126f2e63e569f403d01c71316664b87"
+        },
+        {
+          "bytes": 12928,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/fixtures/windows.py",
+          "sha256": "44cca84024235c43724926f970fd309859bdcfc32fc143ff043f125eb32042a7"
+        },
+        {
+          "bytes": 14459,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/objects/kitchen_object_utils.py",
+          "sha256": "63ef528e8a027ebefa46dfd3e94d7ee7ba420d083e69a3c8d23349e6b2c7228f"
+        },
+        {
+          "bytes": 48332,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/objects/kitchen_objects.py",
+          "sha256": "aa388e3791845cddd20ad80ddaf64a98e7b96efdc7f8232722b3c3f76e918780"
+        },
+        {
+          "bytes": 3581,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/objects/objects.py",
+          "sha256": "cd585cbee3929a6edb60c3b15203dd084af05c56918d71c9082d68840d8be2d7"
+        },
+        {
+          "bytes": 40737,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/scene_builder.py",
+          "sha256": "87578066f75bd16d623532b4a2ad591d2f2b4da3d5fe12d9a7f5697488b4cf4a"
+        },
+        {
+          "bytes": 2808,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/utils/mjcf_utils.py",
+          "sha256": "8bd81835070571038937ded32e7973bd40954b72747f9ebf72d35325948c6262"
+        },
+        {
+          "bytes": 5513,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/utils/object_utils.py",
+          "sha256": "1ddb6dedca705b5741eaa68a5bf805de2f4ba78d290a27e75415579b47010aef"
+        },
+        {
+          "bytes": 24741,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/utils/placement_samplers.py",
+          "sha256": "6546ee79b05e64f0431edfd9b56db96cf9b6c6a73e9b601108ef9d4f712852b1"
+        },
+        {
+          "bytes": 3770,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/utils/scene_registry.py",
+          "sha256": "d7a647848d668031b2df7ef768c55196237ca5cbeb56280d248304c724f11357"
+        },
+        {
+          "bytes": 6293,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/robocasa/utils/scene_utils.py",
+          "sha256": "6bc1e7a11b5bc26a90caf2d00875172a3f79d46dbfc25ce8756fde0ff081bec7"
+        },
+        {
+          "bytes": 4283,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/scene_builder.py",
+          "sha256": "1b32e435552634c87e719da7e4ac408377db5837b4ba2e26af6a05f10a26fca4"
+        },
+        {
+          "bytes": 45,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/table/__init__.py",
+          "sha256": "839aa6ae1e3067b57f3ee2aff9953d455c0d4146d0842b2100522703244bb997"
+        },
+        {
+          "bytes": 150524,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/table/assets/Dining_Table_204_1.glb",
+          "sha256": "2257878b7e717d1f0ef5ab4a7a1aa35a2b82f4c72310544204a1d117ce70fd38"
+        },
+        {
+          "bytes": 3891588,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/table/assets/table.glb",
+          "sha256": "cb0ebd8ad6438c1160f095d902bf55415f9d643f8c6990a186a052251fe7951a"
+        },
+        {
+          "bytes": 10321,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/scene_builder/table/scene_builder.py",
+          "sha256": "251d40544a4cc3cbcdd7a8fb81835a898d165330ce819fcf2a9a7fab6c309d3a"
+        },
+        {
+          "bytes": 524,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/__init__.py",
+          "sha256": "048b51dd77b4cfac42acc1c011a1f4000015c9ea27b10deaf83254c915226c00"
+        },
+        {
+          "bytes": 17458,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/actor.py",
+          "sha256": "b353b6417a1958f49b4b5e39f31ea573d69633de5441b24d888c459488250032"
+        },
+        {
+          "bytes": 38529,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/articulation.py",
+          "sha256": "7132453b2ce80ffe90d3a63b38abb9caf2712edbbd7702db6cffb0ff20b8b6b9"
+        },
+        {
+          "bytes": 12966,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/articulation_joint.py",
+          "sha256": "260d6899bfc35b24ce7b9eceb9dee4790593cdff9c918a7ea263551ab6217ebb"
+        },
+        {
+          "bytes": 18686,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/base.py",
+          "sha256": "a10eea2dcc544631dacd8add6b4ce241b5210a24227d15b90fc757ef25261593"
+        },
+        {
+          "bytes": 535,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/decorators.py",
+          "sha256": "2efeb043df3d74e9eb7a8dad07eaa8a439e4781a7f8ec9f5a667d447e398f154"
+        },
+        {
+          "bytes": 7499,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/drive.py",
+          "sha256": "5d2f98e222aabf32950cb4dcd71cfaf6f237f4e9f0268dd5ffd11bdc8b471698"
+        },
+        {
+          "bytes": 13830,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/link.py",
+          "sha256": "1a98bbeb8f6b06d0e8a4e7b08f13a0235e975cd28f08493950f4d32c6c532bcc"
+        },
+        {
+          "bytes": 12084,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/pose.py",
+          "sha256": "5ca9814c800850a2c59095fe55390de6a3829e91917bdd22892eca3c48c4f9cd"
+        },
+        {
+          "bytes": 12606,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/render_camera.py",
+          "sha256": "9eb503f0071658813a416292971fe7448dedf21d9aacb19b18c939fbc6b46312"
+        },
+        {
+          "bytes": 4014,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/structs/types.py",
+          "sha256": "07be463f828fe4cfec31332bb29c11a3d9eaec3fc4c252a455d1e9ecda2d7ef3"
+        },
+        {
+          "bytes": 877,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/tree.py",
+          "sha256": "fa75dd8706bdcc8d1d9da3a82a6b2170f5ee33f4bef59861a14d4659bd61fe9f"
+        },
+        {
+          "bytes": 163,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/visualization/__init__.py",
+          "sha256": "d1017ded447c77ba68307a3a9b9d83b0051702651bdd20ebd41db56f1df71045"
+        },
+        {
+          "bytes": 1297,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/visualization/jupyter_utils.py",
+          "sha256": "b562a10a0529e2bad4800f1e71773713ee6f5414bec331803f0638ef10e49e2a"
+        },
+        {
+          "bytes": 5029,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/visualization/misc.py",
+          "sha256": "224a466e0a0f63ff6d48e5775fb1ea932ede8ffa96d7e0c3936228381b9bf31e"
+        },
+        {
+          "bytes": 1646,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/visualization/renderer.py",
+          "sha256": "69f156c1240478bfbd7390ac053d6eba0fb3ba01a33abd450f39af778e7ef5d9"
+        },
+        {
+          "bytes": 321,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/__init__.py",
+          "sha256": "41f493c3d44db5012d100cc3d512f1d165e3363212ef054cd882244a42d3e97c"
+        },
+        {
+          "bytes": 3542,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/action_repeat.py",
+          "sha256": "4610adcedddf602b43f820a520e840cddc9c1b05535cffc51bad7211ff902ea6"
+        },
+        {
+          "bytes": 6379,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/cached_reset.py",
+          "sha256": "0dbd90da48c768bb831d7464a0ce58a8e24ebf431b6b0de48638c46d41fde151"
+        },
+        {
+          "bytes": 4889,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/flatten.py",
+          "sha256": "a85c59d8e3aa59d5de29f73ae82f6ddff2611e8bdf955e3799b11c76783c8cae"
+        },
+        {
+          "bytes": 4213,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/frame_stack.py",
+          "sha256": "a42a7cdc7a979c5c5bb0a4588305eb78d0479e10fec85d11dbfee376d18e4d64"
+        },
+        {
+          "bytes": 4174,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/gymnasium.py",
+          "sha256": "a74925dbd92479d0f66ab22f1ac90294a8580c1007f7b9993b8ad37a9cfada34"
+        },
+        {
+          "bytes": 37452,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/record.py",
+          "sha256": "014c549f972ac0ff38942883e055abaab8ca468e88beff2f5cd6740947d80d9a"
+        },
+        {
+          "bytes": 2199,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/utils/wrappers/visual_encoders.py",
+          "sha256": "41c7eee2a7dc7508883c6eed1f6d4107f84bb4ce3507274a2200da7fdba7f4a4"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/vector/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 0,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/vector/wrappers/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 8463,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/vector/wrappers/gymnasium.py",
+          "sha256": "66784e43ea5def67c265a5b716716f3e19d723c05c39640046bce7ec073decca"
+        },
+        {
+          "bytes": 4743,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/vector/wrappers/sb3.py",
+          "sha256": "8b1cad3ee751b1e36735097dc26c9f1e7a083f6bba00d74f729eaaf873f04fd8"
+        },
+        {
+          "bytes": 4788,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/run.py",
+          "sha256": "5032516eb3a8a1793101ef28848aa9374d7c5f93e065db7e3a304aeba70617ef"
+        },
+        {
+          "bytes": 23633,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/source_worker.py",
+          "sha256": "0a8c4e83cecec0c3820a72c426d7c785da28d40540fa2561c260117930d6f6bc"
+        },
+        {
+          "bytes": 426,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/__init__.py",
+          "sha256": "98cc069aafa58175c33de48ae30f333cf4cee9db88642ccede67147096fa2de3"
+        },
+        {
+          "bytes": 130,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/adapters/__init__.py",
+          "sha256": "5b0e97c3ee9c278daa1531e7c3704cb9f62696351e9f861122450f02d9d4fa4d"
+        },
+        {
+          "bytes": 5815,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/adapters/groot_to_wbc.py",
+          "sha256": "c0e2544da86c11add186a2027c7166b9d6aa5b541e05d8aa5855ca20986dbcdb"
+        },
+        {
+          "bytes": 34,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/artifacts/__init__.py",
+          "sha256": "ee79d3a61283b9cd4e8ce9085dc81aa0cd104a0b55f0f7904956d574ddb2728d"
+        },
+        {
+          "bytes": 657,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/artifacts/manifest.py",
+          "sha256": "22dc85256bb02e58556814b76c13aba31aff87a6a8895858c5614123ccedd34f"
+        },
+        {
+          "bytes": 555,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/benchmark/__init__.py",
+          "sha256": "aca4ce649aece16c555822ce9f0e05e8e3fafa71a5cd3f1489ae15d2e898d6ea"
+        },
+        {
+          "bytes": 4112,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/benchmark/lifecycle.py",
+          "sha256": "2f3310779e9e2d7114be75e50cbb047ebe4a4f69fbb5ef44d9f27188f84afe4a"
+        },
+        {
+          "bytes": 7417,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/benchmark/native_suite.py",
+          "sha256": "55d9ff31ee1695b7cb972b0903afca836ff0dcce4def4faab5935fcda35c0633"
+        },
+        {
+          "bytes": 16066,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/benchmark/progressive_relocation.py",
+          "sha256": "65b5263a0fe405997d5752322ebf3d1f538dd09853e72e6dd787df139f24e54d"
+        },
+        {
+          "bytes": 513,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/contracts/__init__.py",
+          "sha256": "de5c9337b6bca5d684ba98745826c603106aa355d24f55cfda8de3804d0e3f13"
+        },
+        {
+          "bytes": 20017,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/contracts/motion_intent.py",
+          "sha256": "7fa0196076608be0096d694125b3e1d7b43a5bc97645234bb38c0013a1e3d5c1"
+        },
+        {
+          "bytes": 2078,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/contracts/placement.py",
+          "sha256": "606a8f491c9cae02cc571df6604123248e79721997f9a4ae2934673c4e79e755"
+        },
+        {
+          "bytes": 9707,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/contracts/reference_binding.py",
+          "sha256": "086c53cf819b14356e5b967801c959b4f329227618c9f5044933b0c335698701"
+        },
+        {
+          "bytes": 9311,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/contracts/trajectory.py",
+          "sha256": "1d8c18f4f1d1dd344114b4c296f1b4b44750c3d67b843ad5546165dc04006fbd"
+        },
+        {
+          "bytes": 6511,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/contracts/trajectory_shape.py",
+          "sha256": "f292d5b30de1ee022bc52d241e162ae9cd8b28b5ba0d6db3cf979e531b442eb0"
+        },
+        {
+          "bytes": 3157,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/__init__.py",
+          "sha256": "de33abe279e0e80d1d3952a1ace28dad68bf8e0a5b99ec4e466a0d8c9163555b"
+        },
+        {
+          "bytes": 25690,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/materialization.py",
+          "sha256": "80e6d6e2a353cdf3eabfdf8dd04e2b14edf8211a9477ea6d65eca8cda7424f40"
+        },
+        {
+          "bytes": 4723,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/processor.py",
+          "sha256": "f2fc38417fc49cc9d9a0241b2eba39b68796b58ab781c17db821264662394be9"
+        },
+        {
+          "bytes": 17145,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/quality.py",
+          "sha256": "db5618377318776787507483482d20712299d400d294248712b3251f1cd0dcf6"
+        },
+        {
+          "bytes": 48256,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/readiness.py",
+          "sha256": "ee0c0e5804f3d5faaeebfddb6f0a181f1610aef316a2e42ba733022b1a0d0f26"
+        },
+        {
+          "bytes": 9091,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/recorder.py",
+          "sha256": "b53b174e2ff635bea1d7dd79a8bbdbf46a62a71dd52530165aa323d9f18bb3dc"
+        },
+        {
+          "bytes": 11981,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/stage22_expert.py",
+          "sha256": "49c4027c06e5ed4680a47fd28e6fefe19bdb4f18a18defcdb61c9660efc5ebf0"
+        },
+        {
+          "bytes": 2862,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/stage22_snapshot_lock.py",
+          "sha256": "67dc35c988938b1acd840d084ef03cee71416bf390c124b66b4a2051e13b28ed"
+        },
+        {
+          "bytes": 2250,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/stage22_split.py",
+          "sha256": "ef8183c005ab3f480c3eeb52c8141a5ca6b7e1c7f5e31413fe6af7ce1879f591"
+        },
+        {
+          "bytes": 9187,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/stress.py",
+          "sha256": "cdb671ba90030d2e017b0a30a3504499dfbf8b414f57a66ece08d13b8e3dc5d2"
+        },
+        {
+          "bytes": 1981,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/data/teleop.py",
+          "sha256": "91d295913e3709479eb7958c0326290ac6d09715f93a2581051dc8b7e0ea8c57"
+        },
+        {
+          "bytes": 781,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/diagnostics/__init__.py",
+          "sha256": "ab57736d09fde1652010b9c6e1667d9e82123e04af14671914beaf610dfdc0a2"
+        },
+        {
+          "bytes": 15335,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/diagnostics/stage23_action_pipeline.py",
+          "sha256": "9217fca7d3ee0a0f42bab1b612340b80b96e764e3106c780212927a90e9f2eaa"
+        },
+        {
+          "bytes": 1368,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/evaluation/__init__.py",
+          "sha256": "c035d746a63336fe190703a1bd6496f554b89246b6ccbc2dcec52239c2d39d76"
+        },
+        {
+          "bytes": 17456,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/evaluation/checkpoint_eval.py",
+          "sha256": "356272fa27de868264acfe9318ca1d35d719f1cc4e81e7a8295cbf02cc86491a"
+        },
+        {
+          "bytes": 5298,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/evaluation/structured_action_eval.py",
+          "sha256": "abd8b2a7c8c930b241c217b919b878bf13b5fe11e52b7d5b63f9d42ce7823220"
+        },
+        {
+          "bytes": 10122,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/evaluation/trajectory_metrics.py",
+          "sha256": "b1dd8635849faac4e7e2e0ce2b29e706a457c24f0d0c5a414c5c16074a9678f3"
+        },
+        {
+          "bytes": 56,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/experiments/__init__.py",
+          "sha256": "a5167410e2fda305e201cbff0abc65d10a424ab5fd50f0a1862ac1668b78759e"
+        },
+        {
+          "bytes": 5206,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/experiments/native_wbc.py",
+          "sha256": "02e0c394fef7652325d6a8124104557634f5f5b5e9350a329ac83c9a8534a766"
+        },
+        {
+          "bytes": 1249,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/metrics/__init__.py",
+          "sha256": "5715bec4ad4fe42bcec0f6c33c7ef9dbc150bd4070f81e7ee1275dc930dad695"
+        },
+        {
+          "bytes": 9606,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/metrics/action_profile.py",
+          "sha256": "d282c77d8880b808064f33203481699940ab2f85b8dfc625627eee5f0623f6ec"
+        },
+        {
+          "bytes": 18565,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/metrics/h2_paired.py",
+          "sha256": "7c88fadb9e77b5b889a769388308a82e1c8572a5181a2ab3deb59c2b852e2a11"
+        },
+        {
+          "bytes": 3530,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/metrics/internal_plan.py",
+          "sha256": "dd9c4756a13527346b44a593b69d6e73436a87d32f6783b902a469a07a6da354"
+        },
+        {
+          "bytes": 5068,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/metrics/task_space.py",
+          "sha256": "04bc575fc8744c752413f705500b96880a34876ef77febdee8629751893b91ef"
+        },
+        {
+          "bytes": 8400,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/metrics/whole_body.py",
+          "sha256": "ef753c5ca3059b8a1112adf66b559eda94323f88709563a3fa31e2d24417fdf5"
+        },
+        {
+          "bytes": 1213,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/motion_api/__init__.py",
+          "sha256": "06fe180399e40ac96b661ea5f723940de21d93f3f2ab51a4927eb65518b62777"
+        },
+        {
+          "bytes": 28722,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/motion_api/qualification.py",
+          "sha256": "8cd3407a723ecbe32396b6699f01cc11ea5328e13ef10c0b10405b5318802eca"
+        },
+        {
+          "bytes": 502,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/oracle/__init__.py",
+          "sha256": "6765194e75cd78ca96bda80967e2d7665abaab71163fa7e33d64eab50e3cb463"
+        },
+        {
+          "bytes": 10689,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/oracle/stage35_corpus.py",
+          "sha256": "9a8ca1ed4aa68da240b252747291d69cadaf87ed0429e6ee6980da895a399ea0"
+        },
+        {
+          "bytes": 375,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/providers/__init__.py",
+          "sha256": "6e65151158890d217fa5cea2cf6edd1fb178d27c155cdee2175b3a46b88055d3"
+        },
+        {
+          "bytes": 416,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/providers/base.py",
+          "sha256": "3a5a09dac3ae5d5d99406fc87b1b842656274becec6d8817f2b84a0dbc342fdb"
+        },
+        {
+          "bytes": 701,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/providers/benchmark.py",
+          "sha256": "19be1133fe68b83f455a89359cb915aec6e26860d66a6dcd35a3fdc30b1d86dc"
+        },
+        {
+          "bytes": 9625,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/providers/groot.py",
+          "sha256": "fb074900bdbefe6dd9e25854e44c28f7af6c66576a26d43e1fbc1f7141de9e65"
+        },
+        {
+          "bytes": 562,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/providers/replay.py",
+          "sha256": "50d6df4ffa9e938b9c6eb97ce227cb13ed787731abbc21956963e97c7edde0b6"
+        },
+        {
+          "bytes": 592,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/runtime/__init__.py",
+          "sha256": "acad1b5b0a2b69f6a10f5b1ce16f8812b6c71435a11ae02649e8372a98ea1a6a"
+        },
+        {
+          "bytes": 7049,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/runtime/chunk_lifecycle.py",
+          "sha256": "64f9a287b1901c77dc5c302ea21ced5552f1c943f6caefc4906c6fa07335aafd"
+        },
+        {
+          "bytes": 17553,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/runtime/receding_horizon.py",
+          "sha256": "9c39ce23168889d71c09d5ac853204beae5edd3f03634edf82004087b8f8a035"
+        },
+        {
+          "bytes": 477,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/safety/__init__.py",
+          "sha256": "0abbe3e44e0dac023eafd3edefed3237d98111facb350ebd778df8ea5e6fa587"
+        },
+        {
+          "bytes": 23046,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/safety/trajectory_gate.py",
+          "sha256": "95301b470bb349877f7e57d784fd7f7b7b5de6fc087aebe3938353258b7f56a6"
+        },
+        {
+          "bytes": 1141,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/simulation/__init__.py",
+          "sha256": "aaa5a855b04e1cbf8c409abe33dd34c6a2b4f55e3a14c5dcb51894a2efd903c5"
+        },
+        {
+          "bytes": 5390,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/simulation/expert.py",
+          "sha256": "3486788fbaaffcd100946c455b3ed5bd043acc4aaa99ed23f6b32e9d9a05ef78"
+        },
+        {
+          "bytes": 8984,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/simulation/same_scene.py",
+          "sha256": "b167d66a27289e1f538f996c61f4cf5712e14cc9f063f6a2e7595828e86d7703"
+        },
+        {
+          "bytes": 17854,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/simulation/visual_reach.py",
+          "sha256": "8116c29028ac1c615fd700bfbac1d2687b5981c8bc4f06df0c9f022b5e74471a"
+        },
+        {
+          "bytes": 22952,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/stage38_structured_training.py",
+          "sha256": "2baa9aa2043e2c93dad7ce95b822053e0ad71397ed5187b3a858461c4629ca25"
+        },
+        {
+          "bytes": 8478,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/stage40_structured_decode.py",
+          "sha256": "f8e84324092f34c0551bffd728b47dfd99de41807b312d8c1592b656c79b2462"
+        },
+        {
+          "bytes": 10978,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/stage45e_l1_loss.py",
+          "sha256": "f4a3bb1073c3de39713d480e5e3e290bff159a5e88e62f4b37bd7a5ea063c19e"
+        },
+        {
+          "bytes": 4903,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/stage45e_l1_runtime_weight_evidence.py",
+          "sha256": "5e04cd741dced9b4bd486ad65ca9de28b64fa4fdd35dc12f90e4e744b8261740"
+        },
+        {
+          "bytes": 39473,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/structured_action.py",
+          "sha256": "e8d2f482158f8e1350a5bab3e672e4927d9c6c1fa6ae847b9b15955f6a20ecdc"
+        },
+        {
+          "bytes": 621,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/trajectory/__init__.py",
+          "sha256": "957aeb485251f8dffbcf992915f65561240c442f32f9e2c6571bb56404efd358"
+        },
+        {
+          "bytes": 6671,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/trajectory/native_transport.py",
+          "sha256": "3a4a869c9aa0b335f7a9d323600c6563b53c2328aad6b4066f06d202bd5adf05"
+        },
+        {
+          "bytes": 9172,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/trajectory/preview.py",
+          "sha256": "60b0b96bfd3b0433c0630a38abaed90226c6ace1c749e4efb8ceee39b44c696d"
+        },
+        {
+          "bytes": 3157,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/trajectory/relative_se3.py",
+          "sha256": "28a984af606345c6e7983179880d61da89ec6b9e3b5e437a77d74b7fc6381c5e"
+        },
+        {
+          "bytes": 6136,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/trajectory/so3.py",
+          "sha256": "117a9d55e975ce326af71673f669dee344931dcf73afd24acdafd504849c77ef"
+        },
+        {
+          "bytes": 75,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/wbc/__init__.py",
+          "sha256": "d6f7f4bd2dd898464fc6402291cb30b43a12e71e4a87c8294c2ed7ad58d0706e"
+        },
+        {
+          "bytes": 200,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/wbc/native/__init__.py",
+          "sha256": "fac5d00149ac9e0d020b44262067d466fc74f48b35144af5fd15a073edc306f3"
+        },
+        {
+          "bytes": 8036,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/wbc/native/kinematics.py",
+          "sha256": "d18402fb98c023d9c0c1a3f564c7ede2cf37435833db585fc874ac50792704c9"
+        },
+        {
+          "bytes": 2599,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/wbc/native/reference_binding.py",
+          "sha256": "34c22cd82a92f6d580f0efac4b9befccd4491d10b943f06cc26a56ca809c3b00"
+        },
+        {
+          "bytes": 227,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/wbc/reference_modes.py",
+          "sha256": "b6e1ce462b89ab7b9d88042b93622eb4ce2f0c23d353f1245c081b8ddaf6c7da"
+        },
+        {
+          "bytes": 1067,
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/go2arx5_vla/wbc/reference_source.py",
+          "sha256": "118b32908dba91b4927630ef8c9cfb385df8d52f479cd09a7fe5e7c7a309cef3"
+        }
+      ],
+      "upstream": "62ff3a5896b4d5b4cf0ac4c8d79afe600c9404a3"
+    },
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/design/SOURCE_FILESET.json",
+    "sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190"
+  },
   "new_model_queries": 0,
   "new_physics_steps": 0,
   "output_schema": "Original FP32 physical H40x10 EEF/gripper decode; install only through unchanged native gate/controller",
   "policy_admission": {
     "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/evidence/POLICY_ADMISSION_GRIP2048.json",
     "sha256": "2b034c7cb8eae7bf1301dfa53ff54ae886545b67d210b255a47beb7185da87b0"
+  },
+  "processor_contract": {
+    "processor_class": "Gr00tN1d7Processor",
+    "processor_kwargs": {
+      "apply_sincos_state_encoding": false,
+      "clip_outliers": false,
+      "color_jitter_params": null,
+      "crop_fraction": 1.0,
+      "exclude_state": false,
+      "formalize_language": true,
+      "image_crop_size": [
+        256,
+        256
+      ],
+      "image_target_size": [
+        256,
+        256
+      ],
+      "letter_box_transform": false,
+      "max_action_dim": 132,
+      "max_action_horizon": 40,
+      "max_state_dim": 132,
+      "modality_configs": {
+        "new_embodiment": {
+          "action": {
+            "action_configs": [
+              {
+                "format": "XYZ_ROT6D",
+                "rep": "RELATIVE",
+                "state_key": "eef_9d",
+                "type": "EEF"
+              },
+              {
+                "format": "DEFAULT",
+                "rep": "ABSOLUTE",
+                "state_key": "gripper_position",
+                "type": "NON_EEF"
+              }
+            ],
+            "delta_indices": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ],
+            "mean_std_embedding_keys": null,
+            "modality_keys": [
+              "eef_9d",
+              "gripper_position"
+            ],
+            "sin_cos_embedding_keys": null
+          },
+          "language": {
+            "action_configs": null,
+            "delta_indices": [
+              0
+            ],
+            "mean_std_embedding_keys": null,
+            "modality_keys": [
+              "annotation.language.task_description"
+            ],
+            "sin_cos_embedding_keys": null
+          },
+          "state": {
+            "action_configs": null,
+            "delta_indices": [
+              0
+            ],
+            "mean_std_embedding_keys": null,
+            "modality_keys": [
+              "eef_9d",
+              "gripper_position"
+            ],
+            "sin_cos_embedding_keys": null
+          },
+          "video": {
+            "action_configs": null,
+            "delta_indices": [
+              0
+            ],
+            "mean_std_embedding_keys": null,
+            "modality_keys": [
+              "external_rgb",
+              "wrist_rgb"
+            ],
+            "sin_cos_embedding_keys": null
+          }
+        }
+      },
+      "model_name": "/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+      "model_type": "qwen",
+      "random_rotation_angle": 0,
+      "shortest_image_edge": 256,
+      "state_dropout_prob": 0.0,
+      "use_albumentations": false,
+      "use_mean_std": false,
+      "use_percentiles": true,
+      "use_relative_action": true
+    }
+  },
+  "readout_contract": {
+    "amendment_canonical": 5980876835,
+    "amendment_release": "8a2ffbefe0c57536c0a7e340da0616c7987c74f1",
+    "arm": "GRIP",
+    "cross_phase_output_equality_required": false,
+    "decoder": "UNCHANGED_ROT_UNCLAMPED_RELATIVE_SE3_ROW_ROT6D_FP32",
+    "deployment_selected_checkpoint": "NONE",
+    "expected_frozen_tensors": 559,
+    "expected_trainable_tensors": 471,
+    "feature_dtype_by_phase": {
+      "quality": "torch.bfloat16",
+      "training": "torch.float32"
+    },
+    "generated_gripper": {
+      "coefficient": 0.1,
+      "prefix_mass": 0.8,
+      "prefix_points": 8,
+      "reference_fraction": 0.1,
+      "suffix_mass": 0.2,
+      "suffix_points": 32
+    },
+    "generated_nodes": 4,
+    "generated_output_dtype": "ACTUAL_NATIVE_READOUT_RECORDED_NOT_FORCED",
+    "generated_path_dropout": false,
+    "generation_consumes_RNG": false,
+    "inherited_readout_sha256": "2f1ece62ece87d6ffe8ecc49dc3d9040f7fcd2976c1d356c8103427c32b6cae2",
+    "initial_weights_prefix": "arms/PI0276/TASK/checkpoint-8192",
+    "initial_weights_revision": "7687ad4c04341b30c6a2a0959aeadf299fa3ba0e",
+    "interpretation": "EULER_DT_ONE_QUARTER",
+    "loss_coefficients": {
+      "increment": 0.1,
+      "native": 1.0,
+      "peak_speed": 0.1,
+      "position": 0.4,
+      "rotation": 0.1
+    },
+    "mode": "S4",
+    "native_loss_retained": true,
+    "native_num_inference_timesteps": 4,
+    "native_training_epsilon_dtype": "torch.bfloat16",
+    "new_parameters": 0,
+    "normalized_query_shape": [
+      "B",
+      40,
+      132
+    ],
+    "original_requested_mode_sha256": "8bc6b12c9b00e79830e4d3f46e818d387044210f12c3c3cb5759075b16050632",
+    "parameter_name_shape_identity_check_required": true,
+    "phase_from_module_training_flag": false,
+    "policy_frame": "PI0276_MANISKILL_WORLD",
+    "policy_inputs": [
+      "body_rgb",
+      "wrist_rgb",
+      "state_v1",
+      "language"
+    ],
+    "quality_parameter_precision": "EXISTING_MODEL_ONLY_BFLOAT16_LOADING",
+    "query": "ACTUAL_NATIVE_EPSILON",
+    "query_dtype": "EXPLICIT_PHASE_BOUND",
+    "query_dtype_by_phase": {
+      "quality": "torch.bfloat16",
+      "training": "torch.float32"
+    },
+    "release": "63151a4548243ab0fb4ba172eea6f7d92e02c576",
+    "resolution_sha256": "666f7f41731be65cbc9820afb719f2fbcfd2be7c44a1846906a43ca026642228",
+    "schema": "PI0277_NATIVE_S4_GENERATED_GRIPPER_V1",
+    "selected_checkpoint": "NONE",
+    "state_is_actual": true,
+    "statistics_sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572",
+    "tcp": "PI0276_PANDA_HAND_TCP",
+    "teacher_conditioning": false,
+    "temporal_increment": {
+      "prefix_mass": 0.8,
+      "prefix_transitions": 8,
+      "suffix_mass": 0.2,
+      "suffix_transitions": 31
+    },
+    "temporal_pose": {
+      "prefix_mass": 0.8,
+      "prefix_points": 9,
+      "suffix_mass": 0.2,
+      "suffix_points": 31
+    },
+    "timestep_buckets": "NATIVE_0_0.25_0.5_0.75",
+    "training_parameter_precision": "EXACT_DONOR_MIXED_NAME_SHAPE_DTYPE_MAP",
+    "unchanged_predecessor_readout_sha256": "8a3dd8e31e1845ac7337221e34ca53ea51192e8d7ca1520fceff55c596cf8483"
   },
   "runtime": "S4 BF16 quality query; FP32 physical decode; 100Hz physics,20Hz controls,0.4s replan,full32s native episodes",
   "runtime_fileset": {
@@ -299,6 +2871,103 @@
             "seed": 10003,
             "status": "VALID_MODEL_PHYSICS_COMPLETE",
             "sustained_lift_2cm": true
+          }
+        ],
+        "score_definition": "Original native predicate; all41control samples28..30s; full32s interface-valid execution",
+        "selected_checkpoint": "NONE",
+        "sustained_lifts": 2
+      }
+    },
+    {
+      "lane": "TRAIN_PHYSICS",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/evidence/CPU_REPLAY_GRIP4096_TRAIN_PHYSICS.json",
+      "point": "GRIP4096",
+      "sha256": "ae842a1f77f3ae46d3992dce7226db1eddf812102e176b7a27824cb376450245",
+      "task": {
+        "denominator": 4,
+        "deployment_selected_checkpoint": "NONE",
+        "lane": "TRAIN_PHYSICS",
+        "new_model_queries": 0,
+        "new_physics_steps": 0,
+        "on_top_cases": 0,
+        "persistent_stacks": 0,
+        "point": "GRIP4096",
+        "rows": [
+          {
+            "IK_holds": 0,
+            "control_calls": 32,
+            "first_grasp_s": null,
+            "first_lift_2cm_s": null,
+            "first_success_s": null,
+            "interface_valid": false,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 0.0,
+            "on_top": false,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/episodes/TRAIN_PHYSICS-10000-GRIP4096/attempt-000",
+            "persistent_success": false,
+            "point": "GRIP4096",
+            "release_after_grasp": false,
+            "result_sha256": "e1ca0716b70a050e43896728e92c1b86ff39742af3cc978d1ba573d892c38862",
+            "seed": 10000,
+            "status": "VALID_MODEL_GRIPPER_ENVELOPE_FAIL",
+            "sustained_lift_2cm": false
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 336,
+            "first_grasp_s": 1.9100000000000001,
+            "first_lift_2cm_s": 9.21,
+            "first_success_s": null,
+            "interface_valid": false,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 14.9,
+            "on_top": false,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/episodes/TRAIN_PHYSICS-10001-GRIP4096/attempt-000",
+            "persistent_success": false,
+            "point": "GRIP4096",
+            "release_after_grasp": false,
+            "result_sha256": "4769ae98305578713890459d0f274dbc710778bf40659e9993a6a438be76cb3b",
+            "seed": 10001,
+            "status": "VALID_MODEL_GRIPPER_ENVELOPE_FAIL",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 1.6400000000000001,
+            "first_lift_2cm_s": 22.28,
+            "first_success_s": null,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 30.37,
+            "on_top": false,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/episodes/TRAIN_PHYSICS-10002-GRIP4096/attempt-000",
+            "persistent_success": false,
+            "point": "GRIP4096",
+            "release_after_grasp": false,
+            "result_sha256": "b004d4c4932da0d7f9a45f977547a3b551cd9f62f1124702411be7897d38abf4",
+            "seed": 10002,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 0,
+            "first_grasp_s": null,
+            "first_lift_2cm_s": null,
+            "first_success_s": null,
+            "interface_valid": false,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 0.0,
+            "on_top": false,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/episodes/TRAIN_PHYSICS-10003-GRIP4096/attempt-000",
+            "persistent_success": false,
+            "point": "GRIP4096",
+            "release_after_grasp": false,
+            "result_sha256": "09750a9dfc7364a2292a22c6e5c3bf2d91172b1a37c9096cdc346b64cf2e242c",
+            "seed": 10003,
+            "status": "VALID_MODEL_GRIPPER_ENVELOPE_FAIL",
+            "sustained_lift_2cm": false
           }
         ],
         "score_definition": "Original native predicate; all41control samples28..30s; full32s interface-valid execution",
