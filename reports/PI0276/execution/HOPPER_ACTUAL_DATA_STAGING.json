@@ -1,0 +1,33 @@
+{
+  "DATA_LOCAL_STAGE": {
+    "all_members_sha256": true,
+    "members": 249,
+    "model_queries": 0,
+    "revision": "0f64f053ad69b6b4803e712000a0b136cc4623d3",
+    "status": "PASS_PI0276_FIXED_DATA_ALL_MEMBERS_LOCAL",
+    "tree_sha256": "d30e98ac1979e1f6a8ad98c3131d50f98eb97492fb087a89895921a2f25c9fd1"
+  },
+  "STORAGE_ADMISSION": {
+    "available_bytes_at_freeze": 283897338265,
+    "canary_payloads_retired_before_main": true,
+    "df_available_bytes": 3527327941132288,
+    "formal_checkpoints": 2,
+    "owned_bytes_at_freeze": 57473079749,
+    "parsed_quota_headroom_bytes": 283897338265,
+    "peak_checkpoint_slots": 4,
+    "quota_report": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-06 09:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     20.53G     40.00G      51.3%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-06 10:03]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    759.5GB |    1.0TB   ||   534236  | unlimited \n=========================================================================\n\n",
+    "required_bytes": 94269775804,
+    "reserve_bytes": 10737418240,
+    "retained_canary_checkpoints": 3
+  },
+  "status": "PASS_ACTUAL_HOPPER_FIXED_DATA_AND_REPORTED_QUOTA_ADMISSION",
+  "verified_at": "2026-10-06T10:11:37.298755+08:00",
+  "exec_session94491_terminal": true,
+  "exec_session94491_exit_code": 1,
+  "exit_reason": "Old coordinator reached legacy login CPU call; new explicit PBS-only entry rejected before importing train. Source/data materialization completed and is reused.",
+  "quota_scope": "Headroom is parsed from the HPC quota report with report timestamp preserved; df is shared capacity, not user quota.",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "actual_canary_pass": false,
+  "goal_terminal": false
+}

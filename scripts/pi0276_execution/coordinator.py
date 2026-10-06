@@ -160,8 +160,9 @@ from pathlib import Path
 r=Path({HOP!r})
 with (r/'runtime/submit.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);p=r/'evidence/TRAINING_JOB.json';assert not p.exists()
- result=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qsub',str(r/'code/training.pbs')],capture_output=True,text=True,check=True)
- value={{'job_id':result.stdout.strip(),'release':{RELEASE!r}}};p.write_text(json.dumps(value)+'\\n');print(json.dumps(value))
+ result=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qsub',str(r/'code/training.pbs')],capture_output=True,text=True)
+ if result.returncode:raise RuntimeError('Actual qsub failed: '+result.stdout+result.stderr)
+ value={{'job_id':result.stdout.strip(),'release':{RELEASE!r}}};tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(value)+'\\n');tmp.replace(p);print(json.dumps(value))
 """))
     assert job['release']==RELEASE
     while True:
