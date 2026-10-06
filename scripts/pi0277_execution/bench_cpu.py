@@ -24,13 +24,16 @@ def run(root,route,trial):
     library=next((Path(np.__file__).parent.parent/'numpy.libs').glob('*openblas*'))
     fn=ctypes.CDLL(str(library)).openblas_get_corename64_;fn.restype=ctypes.c_char_p;assert fn().decode()=='Prescott'
     dst=root/'evidence/cpu_bench'/f'{route}-{trial}.json';assert not dst.exists(),'Reuse finished pass, never rebenchmark scores'
+    attempt=root/'runtime'/f'CPU_PASS_{route}_{trial}.json'
+    assert not attempt.exists(),'An interrupted pass is counted; inspect its exact boundary before continuing'
+    inputs.write(attempt,dict(route=route,trial=trial,pid=os.getpid(),status='STARTED_COUNTED_FRESH_PROCESS'))
     ctx=torch.multiprocessing.get_context('spawn');ledger=inputs.ItemLedger(root/'runtime/cpu_items.jsonl',ctx)
     ds=inputs.Inputs(root,route,ledger,f'cpu_bench_{trial}')
     ds.initialize();before_items=ledger.counter.value
-    warm=iter(inputs.loader(ds,stop=64,pin_memory=False))
+    warm_loader=inputs.loader(ds,stop=64,pin_memory=False);warm=iter(warm_loader)
     for i,v in enumerate(warm):assert v['_pi0276_visit']['micro_index']==i
     # Explicitly close the finite warmup loader before constructing measured worker queues.
-    del warm
+    del warm,warm_loader
     before=torch.get_rng_state().clone();rng=np.random.get_state();import random;py_rng=random.getstate()
     loader=inputs.loader(ds,stop=1024,pin_memory=False);iterator=iter(loader);records=[];durations=[];peak=tree_rss()
     start=time.perf_counter()
