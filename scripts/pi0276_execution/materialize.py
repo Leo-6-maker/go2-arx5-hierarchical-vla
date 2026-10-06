@@ -37,7 +37,7 @@ def main():
         complete_trainer_readbacks={str(step):sha(ROOT/f'evidence/TASK/checkpoint-{step}.full_readback.json') for step in (4096,8192)},
         bindings={point:sha(ROOT/f'model_bindings/{point}.json') for point in ('BASE0','TASK8192')},
         helper_source_sha256=sha(source),model_queries=0,selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
-    from evaluate import freeze_noise
+    from evaluation_noise import freeze_noise
     freeze_noise()
     paths=list((ROOT/'code').glob('*.py'))+list((ROOT/'authority').glob('*'))
     paths+=[p for p in (ROOT/'design').glob('*.json') if p.name!='EVALUATION_FILESET.json']+list((ROOT/'model_bindings').glob('*.json'))

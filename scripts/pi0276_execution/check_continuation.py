@@ -2,6 +2,8 @@
 import ast,contextlib,io,json,tempfile
 from pathlib import Path
 import coordinator
+import importlib.util,sys
+import numpy.random
 from coordinator import phase_status
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -104,4 +106,14 @@ with tempfile.TemporaryDirectory() as folder:
     scope=dict(ast=ast,CONTROL=control,ROOT=Path('/fixed/PI0276'),importlib=SimpleNamespace(util=loader))
     exec(compile(ast.fix_missing_locations(ast.Module(body=[graph],type_ignores=[])),'CPU_actual_task_graph_adapter','exec'),scope)
     assert scope['graph'](list(range(1,8193)))==list(range(1,8193))
+with tempfile.TemporaryDirectory() as folder:
+    root=Path(folder);(root/'design').mkdir()
+    for name,value in [('CONDITIONS',dict(conditions=dict(TEST=[300000]))),('DATASET_CARD',dict(episodes=[dict(seed=i,split='TRAIN',admitted=True) for i in range(16)])),('OFFLINE_CARD',dict(rows=[dict(uid='CPU_FIXTURE')]))]:
+        (root/'design'/f'{name}.json').write_text(json.dumps(value))
+    fake_run=SimpleNamespace(ROOT=root,write=lambda p,v:p.write_text(json.dumps(v)))
+    spec=importlib.util.spec_from_file_location('CPU_pure_noise',code/'evaluation_noise.py');noise=importlib.util.module_from_spec(spec)
+    with patch.dict(sys.modules,run=fake_run):spec.loader.exec_module(noise)
+    assert 'source_worker' not in sys.modules and 'sapien' not in sys.modules
+    noise.RAW=root/'raw';a=noise.freeze_noise();b=noise.freeze_noise();assert a==b and len(a['rows'])==1361
+    assert all(row['sha256'] for row in a['rows']) and a['TRAIN_diagnostic_seeds']==list(range(16))
 print('PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY')

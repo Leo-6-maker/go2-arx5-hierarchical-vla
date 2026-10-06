@@ -202,7 +202,7 @@ def main():
         if args.stage in ('all','source','admit'):source_data()
         if args.stage in ('all','canary','train'):training()
         if args.stage in ('all','evaluate'):
-            if not read('core',CORE+'/evidence/FINAL_POLICY_ADMISSION.json'):call('core','materialize.py')
+            if not read('core',CORE+'/evidence/FINAL_POLICY_ADMISSION.json') or not read('core',CORE+'/design/EVALUATION_FILESET.json'):call('core','materialize.py')
             if not read('core',CORE+'/evidence/PHYSICAL_EVALUATION_COMPLETE.json'):call('core','evaluate.py',native=True)
         if args.stage in ('all','replay','archive','closeout'):
             for script in ('model_replay.py','report.py','video.py','closeout.py'):call('core',script)

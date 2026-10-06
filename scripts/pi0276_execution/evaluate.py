@@ -4,26 +4,7 @@ from pathlib import Path
 import numpy as np
 from run import ROOT,write,sha
 from source_worker import Episode,RAW,retained,native_action,pose_gate,matrix,source_episode,replay_episode,flatten
-
-def freeze_noise():
-    card=json.loads((ROOT/'design/CONDITIONS.json').read_text());data=json.loads((ROOT/'design/DATASET_CARD.json').read_text())
-    train=sorted(e['seed'] for e in data['episodes'] if e['split']=='TRAIN' and e['admitted'])[:16];assert len(train)==16
-    panel=json.loads((ROOT/'design/OFFLINE_CARD.json').read_text())['rows'];generator=np.random.Generator(np.random.PCG64(27611));rows=[]
-    for lane,conditions,queries in [('TEST',card['conditions']['TEST'],80),('TRAIN_PHYSICS',train,80),('OFFLINE',[r['uid'] for r in panel],1)]:
-        for condition in conditions:
-            values={f'q{q:03d}':generator.standard_normal((1,40,132),dtype=np.float32) for q in range(queries)}
-            path=RAW/'noise'/f'{lane}-{condition}.npz';path.parent.mkdir(parents=True,exist_ok=True)
-            if path.exists():
-                with np.load(path) as z:
-                    assert set(z.files)==set(values)
-                    for n,v in values.items():assert np.array_equal(z[n],v)
-            else:np.savez(path,**values)
-            rows.extend(dict(lane=lane,condition=condition,index=q,file=str(path),name=n,sha256=hashlib.sha256(v.tobytes()).hexdigest()) for q,(n,v) in enumerate(values.items()))
-    value=dict(seed=27611,rows=rows,TRAIN_diagnostic_seeds=train,independent_of_outcomes=True)
-    path=ROOT/'design/EVALUATION_NOISE.json'
-    if path.exists():assert json.loads(path.read_text())==value
-    else:write(path,value)
-    return value
+from evaluation_noise import freeze_noise
 
 class Server:
     def __init__(self,point):
@@ -99,6 +80,8 @@ def policy_episode(seed,lane,server,noises):
 
 def main():
     admission=json.loads((ROOT/'evidence/FINAL_POLICY_ADMISSION.json').read_text());assert admission['status']=='PASS_PI0276_FINAL_TASK_AND_BASE_POLICY_IDENTITIES'
+    for entry in json.loads((ROOT/'design/EVALUATION_FILESET.json').read_text())['files']:
+        assert sha(entry['path'])==entry['sha256']
     noise=freeze_noise();noises={(r['lane'],r['condition'],r['index']):r for r in noise['rows']}
     card=json.loads((ROOT/'design/CONDITIONS.json').read_text());rows=[]
     panel=json.loads((ROOT/'design/OFFLINE_CARD.json').read_text())['rows']
