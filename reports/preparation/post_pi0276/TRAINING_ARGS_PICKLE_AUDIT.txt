@@ -1,0 +1,575 @@
+    0: \x80 PROTO      2
+    2: c    GLOBAL     'transformers.training_args TrainingArguments'
+   48: q    BINPUT     0
+   50: )    EMPTY_TUPLE
+   51: \x81 NEWOBJ
+   52: q    BINPUT     1
+   54: }    EMPTY_DICT
+   55: q    BINPUT     2
+   57: (    MARK
+   58: X        BINUNICODE 'output_dir'
+   73: q        BINPUT     3
+   75: X        BINUNICODE '/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/TASK/main/training'
+  153: q        BINPUT     4
+  155: X        BINUNICODE 'overwrite_output_dir'
+  180: q        BINPUT     5
+  182: \x89     NEWFALSE
+  183: X        BINUNICODE 'do_train'
+  196: q        BINPUT     6
+  198: \x89     NEWFALSE
+  199: X        BINUNICODE 'do_eval'
+  211: q        BINPUT     7
+  213: \x89     NEWFALSE
+  214: X        BINUNICODE 'do_predict'
+  229: q        BINPUT     8
+  231: \x89     NEWFALSE
+  232: X        BINUNICODE 'eval_strategy'
+  250: q        BINPUT     9
+  252: c        GLOBAL     'transformers.trainer_utils IntervalStrategy'
+  297: q        BINPUT     10
+  299: X        BINUNICODE 'no'
+  306: q        BINPUT     11
+  308: \x85     TUPLE1
+  309: q        BINPUT     12
+  311: R        REDUCE
+  312: q        BINPUT     13
+  314: X        BINUNICODE 'prediction_loss_only'
+  339: q        BINPUT     14
+  341: \x89     NEWFALSE
+  342: X        BINUNICODE 'per_device_train_batch_size'
+  374: q        BINPUT     15
+  376: K        BININT1    1
+  378: X        BINUNICODE 'per_device_eval_batch_size'
+  409: q        BINPUT     16
+  411: K        BININT1    2
+  413: X        BINUNICODE 'per_gpu_train_batch_size'
+  442: q        BINPUT     17
+  444: N        NONE
+  445: X        BINUNICODE 'per_gpu_eval_batch_size'
+  473: q        BINPUT     18
+  475: N        NONE
+  476: X        BINUNICODE 'gradient_accumulation_steps'
+  508: q        BINPUT     19
+  510: K        BININT1    2
+  512: X        BINUNICODE 'eval_accumulation_steps'
+  540: q        BINPUT     20
+  542: N        NONE
+  543: X        BINUNICODE 'eval_delay'
+  558: q        BINPUT     21
+  560: K        BININT1    0
+  562: X        BINUNICODE 'torch_empty_cache_steps'
+  590: q        BINPUT     22
+  592: N        NONE
+  593: X        BINUNICODE 'learning_rate'
+  611: q        BINPUT     23
+  613: G        BINFLOAT   1e-05
+  622: X        BINUNICODE 'weight_decay'
+  639: q        BINPUT     24
+  641: G        BINFLOAT   1e-05
+  650: X        BINUNICODE 'adam_beta1'
+  665: q        BINPUT     25
+  667: G        BINFLOAT   0.9
+  676: X        BINUNICODE 'adam_beta2'
+  691: q        BINPUT     26
+  693: G        BINFLOAT   0.999
+  702: X        BINUNICODE 'adam_epsilon'
+  719: q        BINPUT     27
+  721: G        BINFLOAT   1e-08
+  730: X        BINUNICODE 'max_grad_norm'
+  748: q        BINPUT     28
+  750: G        BINFLOAT   1.0
+  759: X        BINUNICODE 'num_train_epochs'
+  780: q        BINPUT     29
+  782: G        BINFLOAT   3.0
+  791: X        BINUNICODE 'max_steps'
+  805: q        BINPUT     30
+  807: M        BININT2    8192
+  810: X        BINUNICODE 'lr_scheduler_type'
+  832: q        BINPUT     31
+  834: c        GLOBAL     'transformers.trainer_utils SchedulerType'
+  876: q        BINPUT     32
+  878: X        BINUNICODE 'cosine'
+  889: q        BINPUT     33
+  891: \x85     TUPLE1
+  892: q        BINPUT     34
+  894: R        REDUCE
+  895: q        BINPUT     35
+  897: X        BINUNICODE 'lr_scheduler_kwargs'
+  921: q        BINPUT     36
+  923: }        EMPTY_DICT
+  924: q        BINPUT     37
+  926: X        BINUNICODE 'warmup_ratio'
+  943: q        BINPUT     38
+  945: G        BINFLOAT   0.0
+  954: X        BINUNICODE 'warmup_steps'
+  971: q        BINPUT     39
+  973: K        BININT1    10
+  975: X        BINUNICODE 'log_level'
+  989: q        BINPUT     40
+  991: X        BINUNICODE 'passive'
+ 1003: q        BINPUT     41
+ 1005: X        BINUNICODE 'log_level_replica'
+ 1027: q        BINPUT     42
+ 1029: X        BINUNICODE 'warning'
+ 1041: q        BINPUT     43
+ 1043: X        BINUNICODE 'log_on_each_node'
+ 1064: q        BINPUT     44
+ 1066: \x88     NEWTRUE
+ 1067: X        BINUNICODE 'logging_dir'
+ 1083: q        BINPUT     45
+ 1085: X        BINUNICODE '/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/TASK/main/training/runs/Oct06_10-43-20_hopper-26'
+ 1193: q        BINPUT     46
+ 1195: X        BINUNICODE 'logging_strategy'
+ 1216: q        BINPUT     47
+ 1218: h        BINGET     10
+ 1220: X        BINUNICODE 'steps'
+ 1230: q        BINPUT     48
+ 1232: \x85     TUPLE1
+ 1233: q        BINPUT     49
+ 1235: R        REDUCE
+ 1236: q        BINPUT     50
+ 1238: X        BINUNICODE 'logging_first_step'
+ 1261: q        BINPUT     51
+ 1263: \x89     NEWFALSE
+ 1264: X        BINUNICODE 'logging_steps'
+ 1282: q        BINPUT     52
+ 1284: K        BININT1    1
+ 1286: X        BINUNICODE 'logging_nan_inf_filter'
+ 1313: q        BINPUT     53
+ 1315: \x88     NEWTRUE
+ 1316: X        BINUNICODE 'save_strategy'
+ 1334: q        BINPUT     54
+ 1336: c        GLOBAL     'transformers.trainer_utils SaveStrategy'
+ 1377: q        BINPUT     55
+ 1379: h        BINGET     48
+ 1381: \x85     TUPLE1
+ 1382: q        BINPUT     56
+ 1384: R        REDUCE
+ 1385: q        BINPUT     57
+ 1387: X        BINUNICODE 'save_steps'
+ 1402: q        BINPUT     58
+ 1404: M        BININT2    4096
+ 1407: X        BINUNICODE 'save_total_limit'
+ 1428: q        BINPUT     59
+ 1430: K        BININT1    2
+ 1432: X        BINUNICODE 'save_safetensors'
+ 1453: q        BINPUT     60
+ 1455: \x88     NEWTRUE
+ 1456: X        BINUNICODE 'save_on_each_node'
+ 1478: q        BINPUT     61
+ 1480: \x89     NEWFALSE
+ 1481: X        BINUNICODE 'save_only_model'
+ 1501: q        BINPUT     62
+ 1503: \x89     NEWFALSE
+ 1504: X        BINUNICODE 'restore_callback_states_from_checkpoint'
+ 1548: q        BINPUT     63
+ 1550: \x89     NEWFALSE
+ 1551: X        BINUNICODE 'no_cuda'
+ 1563: q        BINPUT     64
+ 1565: \x89     NEWFALSE
+ 1566: X        BINUNICODE 'use_cpu'
+ 1578: q        BINPUT     65
+ 1580: \x89     NEWFALSE
+ 1581: X        BINUNICODE 'use_mps_device'
+ 1600: q        BINPUT     66
+ 1602: \x89     NEWFALSE
+ 1603: X        BINUNICODE 'seed'
+ 1612: q        BINPUT     67
+ 1614: M        BININT2    27603
+ 1617: X        BINUNICODE 'data_seed'
+ 1631: q        BINPUT     68
+ 1633: N        NONE
+ 1634: X        BINUNICODE 'jit_mode_eval'
+ 1652: q        BINPUT     69
+ 1654: \x89     NEWFALSE
+ 1655: X        BINUNICODE 'bf16'
+ 1664: q        BINPUT     70
+ 1666: \x88     NEWTRUE
+ 1667: X        BINUNICODE 'fp16'
+ 1676: q        BINPUT     71
+ 1678: \x89     NEWFALSE
+ 1679: X        BINUNICODE 'fp16_opt_level'
+ 1698: q        BINPUT     72
+ 1700: X        BINUNICODE 'O1'
+ 1707: q        BINPUT     73
+ 1709: X        BINUNICODE 'half_precision_backend'
+ 1736: q        BINPUT     74
+ 1738: X        BINUNICODE 'auto'
+ 1747: q        BINPUT     75
+ 1749: X        BINUNICODE 'bf16_full_eval'
+ 1768: q        BINPUT     76
+ 1770: \x89     NEWFALSE
+ 1771: X        BINUNICODE 'fp16_full_eval'
+ 1790: q        BINPUT     77
+ 1792: \x89     NEWFALSE
+ 1793: X        BINUNICODE 'tf32'
+ 1802: q        BINPUT     78
+ 1804: \x88     NEWTRUE
+ 1805: X        BINUNICODE 'local_rank'
+ 1820: q        BINPUT     79
+ 1822: K        BININT1    0
+ 1824: X        BINUNICODE 'ddp_backend'
+ 1840: q        BINPUT     80
+ 1842: N        NONE
+ 1843: X        BINUNICODE 'tpu_num_cores'
+ 1861: q        BINPUT     81
+ 1863: N        NONE
+ 1864: X        BINUNICODE 'tpu_metrics_debug'
+ 1886: q        BINPUT     82
+ 1888: \x89     NEWFALSE
+ 1889: X        BINUNICODE 'debug'
+ 1899: q        BINPUT     83
+ 1901: ]        EMPTY_LIST
+ 1902: q        BINPUT     84
+ 1904: X        BINUNICODE 'dataloader_drop_last'
+ 1929: q        BINPUT     85
+ 1931: \x89     NEWFALSE
+ 1932: X        BINUNICODE 'eval_steps'
+ 1947: q        BINPUT     86
+ 1949: M        BININT2    500
+ 1952: X        BINUNICODE 'dataloader_num_workers'
+ 1979: q        BINPUT     87
+ 1981: K        BININT1    0
+ 1983: X        BINUNICODE 'dataloader_prefetch_factor'
+ 2014: q        BINPUT     88
+ 2016: N        NONE
+ 2017: X        BINUNICODE 'past_index'
+ 2032: q        BINPUT     89
+ 2034: J        BININT     -1
+ 2039: X        BINUNICODE 'run_name'
+ 2052: q        BINPUT     90
+ 2054: N        NONE
+ 2055: X        BINUNICODE 'disable_tqdm'
+ 2072: q        BINPUT     91
+ 2074: \x89     NEWFALSE
+ 2075: X        BINUNICODE 'remove_unused_columns'
+ 2101: q        BINPUT     92
+ 2103: \x89     NEWFALSE
+ 2104: X        BINUNICODE 'label_names'
+ 2120: q        BINPUT     93
+ 2122: N        NONE
+ 2123: X        BINUNICODE 'load_best_model_at_end'
+ 2150: q        BINPUT     94
+ 2152: \x89     NEWFALSE
+ 2153: X        BINUNICODE 'metric_for_best_model'
+ 2179: q        BINPUT     95
+ 2181: N        NONE
+ 2182: X        BINUNICODE 'greater_is_better'
+ 2204: q        BINPUT     96
+ 2206: N        NONE
+ 2207: X        BINUNICODE 'ignore_data_skip'
+ 2228: q        BINPUT     97
+ 2230: \x88     NEWTRUE
+ 2231: X        BINUNICODE 'fsdp'
+ 2240: q        BINPUT     98
+ 2242: ]        EMPTY_LIST
+ 2243: q        BINPUT     99
+ 2245: X        BINUNICODE 'fsdp_min_num_params'
+ 2269: q        BINPUT     100
+ 2271: K        BININT1    0
+ 2273: X        BINUNICODE 'fsdp_config'
+ 2289: q        BINPUT     101
+ 2291: }        EMPTY_DICT
+ 2292: q        BINPUT     102
+ 2294: (        MARK
+ 2295: X            BINUNICODE 'min_num_params'
+ 2314: q            BINPUT     103
+ 2316: K            BININT1    0
+ 2318: X            BINUNICODE 'xla'
+ 2326: q            BINPUT     104
+ 2328: \x89         NEWFALSE
+ 2329: X            BINUNICODE 'xla_fsdp_v2'
+ 2345: q            BINPUT     105
+ 2347: \x89         NEWFALSE
+ 2348: X            BINUNICODE 'xla_fsdp_grad_ckpt'
+ 2371: q            BINPUT     106
+ 2373: \x89         NEWFALSE
+ 2374: u            SETITEMS   (MARK at 2294)
+ 2375: X        BINUNICODE 'fsdp_transformer_layer_cls_to_wrap'
+ 2414: q        BINPUT     107
+ 2416: N        NONE
+ 2417: X        BINUNICODE 'accelerator_config'
+ 2440: q        BINPUT     108
+ 2442: c        GLOBAL     'transformers.trainer_pt_utils AcceleratorConfig'
+ 2491: q        BINPUT     109
+ 2493: )        EMPTY_TUPLE
+ 2494: \x81     NEWOBJ
+ 2495: q        BINPUT     110
+ 2497: }        EMPTY_DICT
+ 2498: q        BINPUT     111
+ 2500: (        MARK
+ 2501: X            BINUNICODE 'split_batches'
+ 2519: q            BINPUT     112
+ 2521: \x89         NEWFALSE
+ 2522: X            BINUNICODE 'dispatch_batches'
+ 2543: q            BINPUT     113
+ 2545: N            NONE
+ 2546: X            BINUNICODE 'even_batches'
+ 2563: q            BINPUT     114
+ 2565: \x88         NEWTRUE
+ 2566: X            BINUNICODE 'use_seedable_sampler'
+ 2591: q            BINPUT     115
+ 2593: \x88         NEWTRUE
+ 2594: X            BINUNICODE 'non_blocking'
+ 2611: q            BINPUT     116
+ 2613: \x89         NEWFALSE
+ 2614: X            BINUNICODE 'gradient_accumulation_kwargs'
+ 2647: q            BINPUT     117
+ 2649: N            NONE
+ 2650: u            SETITEMS   (MARK at 2500)
+ 2651: b        BUILD
+ 2652: X        BINUNICODE 'parallelism_config'
+ 2675: q        BINPUT     118
+ 2677: N        NONE
+ 2678: X        BINUNICODE 'deepspeed'
+ 2692: q        BINPUT     119
+ 2694: N        NONE
+ 2695: X        BINUNICODE 'label_smoothing_factor'
+ 2722: q        BINPUT     120
+ 2724: G        BINFLOAT   0.0
+ 2733: X        BINUNICODE 'optim'
+ 2743: q        BINPUT     121
+ 2745: c        GLOBAL     'transformers.training_args OptimizerNames'
+ 2788: q        BINPUT     122
+ 2790: X        BINUNICODE 'adamw_torch'
+ 2806: q        BINPUT     123
+ 2808: \x85     TUPLE1
+ 2809: q        BINPUT     124
+ 2811: R        REDUCE
+ 2812: q        BINPUT     125
+ 2814: X        BINUNICODE 'optim_args'
+ 2829: q        BINPUT     126
+ 2831: N        NONE
+ 2832: X        BINUNICODE 'adafactor'
+ 2846: q        BINPUT     127
+ 2848: \x89     NEWFALSE
+ 2849: X        BINUNICODE 'group_by_length'
+ 2869: q        BINPUT     128
+ 2871: \x89     NEWFALSE
+ 2872: X        BINUNICODE 'length_column_name'
+ 2895: q        BINPUT     129
+ 2897: X        BINUNICODE 'length'
+ 2908: q        BINPUT     130
+ 2910: X        BINUNICODE 'report_to'
+ 2924: q        BINPUT     131
+ 2926: ]        EMPTY_LIST
+ 2927: q        BINPUT     132
+ 2929: X        BINUNICODE 'project'
+ 2941: q        BINPUT     133
+ 2943: X        BINUNICODE 'huggingface'
+ 2959: q        BINPUT     134
+ 2961: X        BINUNICODE 'trackio_space_id'
+ 2982: q        BINPUT     135
+ 2984: X        BINUNICODE 'trackio'
+ 2996: q        BINPUT     136
+ 2998: X        BINUNICODE 'ddp_find_unused_parameters'
+ 3029: q        BINPUT     137
+ 3031: \x89     NEWFALSE
+ 3032: X        BINUNICODE 'ddp_bucket_cap_mb'
+ 3054: q        BINPUT     138
+ 3056: K        BININT1    100
+ 3058: X        BINUNICODE 'ddp_broadcast_buffers'
+ 3084: q        BINPUT     139
+ 3086: N        NONE
+ 3087: X        BINUNICODE 'dataloader_pin_memory'
+ 3113: q        BINPUT     140
+ 3115: \x88     NEWTRUE
+ 3116: X        BINUNICODE 'dataloader_persistent_workers'
+ 3150: q        BINPUT     141
+ 3152: \x89     NEWFALSE
+ 3153: X        BINUNICODE 'skip_memory_metrics'
+ 3177: q        BINPUT     142
+ 3179: \x88     NEWTRUE
+ 3180: X        BINUNICODE 'use_legacy_prediction_loop'
+ 3211: q        BINPUT     143
+ 3213: \x89     NEWFALSE
+ 3214: X        BINUNICODE 'push_to_hub'
+ 3230: q        BINPUT     144
+ 3232: \x89     NEWFALSE
+ 3233: X        BINUNICODE 'resume_from_checkpoint'
+ 3260: q        BINPUT     145
+ 3262: N        NONE
+ 3263: X        BINUNICODE 'hub_model_id'
+ 3280: q        BINPUT     146
+ 3282: N        NONE
+ 3283: X        BINUNICODE 'hub_strategy'
+ 3300: q        BINPUT     147
+ 3302: c        GLOBAL     'transformers.trainer_utils HubStrategy'
+ 3342: q        BINPUT     148
+ 3344: X        BINUNICODE 'every_save'
+ 3359: q        BINPUT     149
+ 3361: \x85     TUPLE1
+ 3362: q        BINPUT     150
+ 3364: R        REDUCE
+ 3365: q        BINPUT     151
+ 3367: X        BINUNICODE 'hub_token'
+ 3381: q        BINPUT     152
+ 3383: N        NONE
+ 3384: X        BINUNICODE 'hub_private_repo'
+ 3405: q        BINPUT     153
+ 3407: N        NONE
+ 3408: X        BINUNICODE 'hub_always_push'
+ 3428: q        BINPUT     154
+ 3430: \x89     NEWFALSE
+ 3431: X        BINUNICODE 'hub_revision'
+ 3448: q        BINPUT     155
+ 3450: N        NONE
+ 3451: X        BINUNICODE 'gradient_checkpointing'
+ 3478: q        BINPUT     156
+ 3480: \x89     NEWFALSE
+ 3481: X        BINUNICODE 'gradient_checkpointing_kwargs'
+ 3515: q        BINPUT     157
+ 3517: N        NONE
+ 3518: X        BINUNICODE 'include_inputs_for_metrics'
+ 3549: q        BINPUT     158
+ 3551: \x89     NEWFALSE
+ 3552: X        BINUNICODE 'include_for_metrics'
+ 3576: q        BINPUT     159
+ 3578: ]        EMPTY_LIST
+ 3579: q        BINPUT     160
+ 3581: X        BINUNICODE 'eval_do_concat_batches'
+ 3608: q        BINPUT     161
+ 3610: \x88     NEWTRUE
+ 3611: X        BINUNICODE 'fp16_backend'
+ 3628: q        BINPUT     162
+ 3630: h        BINGET     75
+ 3632: X        BINUNICODE 'push_to_hub_model_id'
+ 3657: q        BINPUT     163
+ 3659: N        NONE
+ 3660: X        BINUNICODE 'push_to_hub_organization'
+ 3689: q        BINPUT     164
+ 3691: N        NONE
+ 3692: X        BINUNICODE 'push_to_hub_token'
+ 3714: q        BINPUT     165
+ 3716: N        NONE
+ 3717: X        BINUNICODE 'mp_parameters'
+ 3735: q        BINPUT     166
+ 3737: X        BINUNICODE ''
+ 3742: q        BINPUT     167
+ 3744: X        BINUNICODE 'auto_find_batch_size'
+ 3769: q        BINPUT     168
+ 3771: \x89     NEWFALSE
+ 3772: X        BINUNICODE 'full_determinism'
+ 3793: q        BINPUT     169
+ 3795: \x89     NEWFALSE
+ 3796: X        BINUNICODE 'torchdynamo'
+ 3812: q        BINPUT     170
+ 3814: N        NONE
+ 3815: X        BINUNICODE 'ray_scope'
+ 3829: q        BINPUT     171
+ 3831: X        BINUNICODE 'last'
+ 3840: q        BINPUT     172
+ 3842: X        BINUNICODE 'ddp_timeout'
+ 3858: q        BINPUT     173
+ 3860: M        BININT2    1800
+ 3863: X        BINUNICODE 'torch_compile'
+ 3881: q        BINPUT     174
+ 3883: \x89     NEWFALSE
+ 3884: X        BINUNICODE 'torch_compile_backend'
+ 3910: q        BINPUT     175
+ 3912: N        NONE
+ 3913: X        BINUNICODE 'torch_compile_mode'
+ 3936: q        BINPUT     176
+ 3938: N        NONE
+ 3939: X        BINUNICODE 'include_tokens_per_second'
+ 3969: q        BINPUT     177
+ 3971: \x89     NEWFALSE
+ 3972: X        BINUNICODE 'include_num_input_tokens_seen'
+ 4006: q        BINPUT     178
+ 4008: h        BINGET     11
+ 4010: X        BINUNICODE 'neftune_noise_alpha'
+ 4034: q        BINPUT     179
+ 4036: N        NONE
+ 4037: X        BINUNICODE 'optim_target_modules'
+ 4062: q        BINPUT     180
+ 4064: N        NONE
+ 4065: X        BINUNICODE 'batch_eval_metrics'
+ 4088: q        BINPUT     181
+ 4090: \x88     NEWTRUE
+ 4091: X        BINUNICODE 'eval_on_start'
+ 4109: q        BINPUT     182
+ 4111: \x89     NEWFALSE
+ 4112: X        BINUNICODE 'use_liger_kernel'
+ 4133: q        BINPUT     183
+ 4135: \x89     NEWFALSE
+ 4136: X        BINUNICODE 'liger_kernel_config'
+ 4160: q        BINPUT     184
+ 4162: N        NONE
+ 4163: X        BINUNICODE 'eval_use_gather_object'
+ 4190: q        BINPUT     185
+ 4192: \x89     NEWFALSE
+ 4193: X        BINUNICODE 'average_tokens_across_devices'
+ 4227: q        BINPUT     186
+ 4229: \x88     NEWTRUE
+ 4230: X        BINUNICODE 'distributed_state'
+ 4252: q        BINPUT     187
+ 4254: c        GLOBAL     'accelerate.state PartialState'
+ 4285: q        BINPUT     188
+ 4287: )        EMPTY_TUPLE
+ 4288: \x81     NEWOBJ
+ 4289: q        BINPUT     189
+ 4291: }        EMPTY_DICT
+ 4292: q        BINPUT     190
+ 4294: (        MARK
+ 4295: X            BINUNICODE '_cpu'
+ 4304: q            BINPUT     191
+ 4306: \x89         NEWFALSE
+ 4307: X            BINUNICODE 'backend'
+ 4319: q            BINPUT     192
+ 4321: N            NONE
+ 4322: X            BINUNICODE 'device'
+ 4333: q            BINPUT     193
+ 4335: c            GLOBAL     'torch device'
+ 4349: q            BINPUT     194
+ 4351: X            BINUNICODE 'cuda'
+ 4360: q            BINPUT     195
+ 4362: \x85         TUPLE1
+ 4363: q            BINPUT     196
+ 4365: R            REDUCE
+ 4366: q            BINPUT     197
+ 4368: h            BINGET     83
+ 4370: \x89         NEWFALSE
+ 4371: X            BINUNICODE 'distributed_type'
+ 4392: q            BINPUT     198
+ 4394: c            GLOBAL     'accelerate.utils.dataclasses DistributedType'
+ 4440: q            BINPUT     199
+ 4442: X            BINUNICODE 'NO'
+ 4449: q            BINPUT     200
+ 4451: \x85         TUPLE1
+ 4452: q            BINPUT     201
+ 4454: R            REDUCE
+ 4455: q            BINPUT     202
+ 4457: X            BINUNICODE 'num_processes'
+ 4475: q            BINPUT     203
+ 4477: K            BININT1    1
+ 4479: X            BINUNICODE 'process_index'
+ 4497: q            BINPUT     204
+ 4499: K            BININT1    0
+ 4501: X            BINUNICODE 'local_process_index'
+ 4525: q            BINPUT     205
+ 4527: K            BININT1    0
+ 4529: X            BINUNICODE 'fork_launched'
+ 4547: q            BINPUT     206
+ 4549: \x89         NEWFALSE
+ 4550: u            SETITEMS   (MARK at 4294)
+ 4551: b        BUILD
+ 4552: X        BINUNICODE '_n_gpu'
+ 4563: q        BINPUT     207
+ 4565: K        BININT1    1
+ 4567: X        BINUNICODE '_setup_devices'
+ 4586: q        BINPUT     208
+ 4588: h        BINGET     194
+ 4590: X        BINUNICODE 'cuda'
+ 4599: q        BINPUT     209
+ 4601: K        BININT1    0
+ 4603: \x86     TUPLE2
+ 4604: q        BINPUT     210
+ 4606: R        REDUCE
+ 4607: q        BINPUT     211
+ 4609: X        BINUNICODE 'deepspeed_plugin'
+ 4630: q        BINPUT     212
+ 4632: N        NONE
+ 4633: u        SETITEMS   (MARK at 57)
+ 4634: b    BUILD
+ 4635: .    STOP
+highest protocol among opcodes = 2

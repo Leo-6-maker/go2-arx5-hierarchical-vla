@@ -1,0 +1,37 @@
+[
+  {
+    "task": "StackCube-v1",
+    "source_commit": "62ff3a5896b4d5b4cf0ac4c8d79afe600c9404a3",
+    "source_path": "reports\\preparation\\post_pi0276\\source\\mani_skill\\envs\\tasks\\tabletop\\stack_cube.py",
+    "source_sha256": "3aaf7ad185e689c82a78a593cf46ec37e873733080a92ef62158fc7a72236052",
+    "SUPPORTED_ROBOTS": [
+      "panda_wristcam",
+      "panda",
+      "fetch"
+    ],
+    "success_source": "def evaluate(self):\n        pos_A = self.cubeA.pose.p\n        pos_B = self.cubeB.pose.p\n        offset = pos_A - pos_B\n        xy_flag = (\n            torch.linalg.norm(offset[..., :2], axis=1)\n            <= torch.linalg.norm(self.cube_half_size[:2]) + 0.005\n        )\n        z_flag = torch.abs(offset[..., 2] - self.cube_half_size[..., 2] * 2) <= 0.005\n        is_cubeA_on_cubeB = torch.logical_and(xy_flag, z_flag)\n        # NOTE (stao): GPU sim can be fast but unstable. Angular velocity is rather high despite it not really rotating\n        is_cubeA_static = self.cubeA.is_static(lin_thresh=1e-2, ang_thresh=0.5)\n        is_cubeA_grasped = self.agent.is_grasping(self.cubeA)\n        success = is_cubeA_on_cubeB * is_cubeA_static * (~is_cubeA_grasped)\n        return {\n            \"is_cubeA_grasped\": is_cubeA_grasped,\n            \"is_cubeA_on_cubeB\": is_cubeA_on_cubeB,\n            \"is_cubeA_static\": is_cubeA_static,\n            \"success\": success.bool(),\n        }",
+    "privileged_observation_source": "def _get_obs_extra(self, info: dict):\n        obs = dict(tcp_pose=self.agent.tcp.pose.raw_pose)\n        if \"state\" in self.obs_mode:\n            obs.update(\n                cubeA_pose=self.cubeA.pose.raw_pose,\n                cubeB_pose=self.cubeB.pose.raw_pose,\n                tcp_to_cubeA_pos=self.cubeA.pose.p - self.agent.tcp.pose.p,\n                tcp_to_cubeB_pos=self.cubeB.pose.p - self.agent.tcp.pose.p,\n                cubeA_to_cubeB_pos=self.cubeB.pose.p - self.cubeA.pose.p,\n            )\n        return obs",
+    "native_executed": false,
+    "teacher_executed": false,
+    "wristcam_adapter": "ALREADY_SOURCE_QUALIFIED_PI0276",
+    "teacher_source": "mani_skill/examples/motionplanning/panda/solutions/stack_cube.py",
+    "target_WBC_filter": false
+  },
+  {
+    "task": "PlaceSphere-v1",
+    "source_commit": "62ff3a5896b4d5b4cf0ac4c8d79afe600c9404a3",
+    "source_path": "reports\\preparation\\post_pi0276\\source\\mani_skill\\envs\\tasks\\tabletop\\place_sphere.py",
+    "source_sha256": "220885e6e5c4aa50b488bae8cae0cecf5373a83ae50d44d9150b7465928d79b2",
+    "SUPPORTED_ROBOTS": [
+      "panda",
+      "fetch"
+    ],
+    "success_source": "def evaluate(self):\n        pos_obj = self.obj.pose.p\n        pos_bin = self.bin.pose.p\n        offset = pos_obj - pos_bin\n        xy_flag = torch.linalg.norm(offset[..., :2], axis=1) <= 0.005\n        z_flag = (\n            torch.abs(offset[..., 2] - self.radius - self.block_half_size[0]) <= 0.005\n        )\n        is_obj_on_bin = torch.logical_and(xy_flag, z_flag)\n        is_obj_static = self.obj.is_static(lin_thresh=1e-2, ang_thresh=0.5)\n        is_obj_grasped = self.agent.is_grasping(self.obj)\n        success = is_obj_on_bin & is_obj_static & (~is_obj_grasped)\n        return {\n            \"is_obj_grasped\": is_obj_grasped,\n            \"is_obj_on_bin\": is_obj_on_bin,\n            \"is_obj_static\": is_obj_static,\n            \"success\": success,\n        }",
+    "privileged_observation_source": "def _get_obs_extra(self, info: dict):\n        obs = dict(\n            is_grasped=info[\"is_obj_grasped\"],\n            tcp_pose=self.agent.tcp.pose.raw_pose,\n            bin_pos=self.bin.pose.p,\n        )\n        if \"state\" in self.obs_mode:\n            obs.update(\n                obj_pose=self.obj.pose.raw_pose,\n                tcp_to_obj_pos=self.obj.pose.p - self.agent.tcp.pose.p,\n            )\n        return obs",
+    "native_executed": false,
+    "teacher_executed": false,
+    "wristcam_adapter": "NOT_SUPPORTED_REQUIRES_SEPARATE_ADMISSION",
+    "teacher_source": "mani_skill/examples/motionplanning/panda/solutions/place_sphere.py",
+    "target_WBC_filter": false
+  }
+]

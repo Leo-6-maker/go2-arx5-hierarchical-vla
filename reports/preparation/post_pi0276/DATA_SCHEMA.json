@@ -1,0 +1,53 @@
+{
+  "schema": "POST_PI0276_COMMAND_OBSERVATION_EVIDENCE_V1",
+  "policy_allowlist": [
+    "body_rgb",
+    "language",
+    "state_v1",
+    "wrist_rgb"
+  ],
+  "state_fields": [
+    "world_TCP_XYZ",
+    "world_TCP_row6d",
+    "measured_pad_opening_fraction"
+  ],
+  "action_fields": [
+    "future_commanded_world_EEF_XYZ",
+    "future_commanded_world_EEF_row6d",
+    "gripper_command_fraction"
+  ],
+  "action_shape": [
+    40,
+    10
+  ],
+  "dt_s": 0.05,
+  "required_evidence": [
+    "parent_group",
+    "initial_state_sha256",
+    "fresh_RGB_actual_state_source",
+    "raw_reference",
+    "installed_TCP",
+    "achieved_TCP",
+    "contacts",
+    "native_predicates",
+    "analysis_phase",
+    "failures",
+    "full_H40_gate_before_and_after_codec"
+  ],
+  "privileged_fields_never_policy": [
+    "object_goal",
+    "teacher_phase",
+    "source_time",
+    "reward",
+    "success",
+    "contact_derived_grasp",
+    "scene_id"
+  ],
+  "split_before_windows": true,
+  "TRAIN_only_statistics": true,
+  "no_fabricated_future": true,
+  "statistics_strategy": "Matched visual-only future comparison shares fixed statistics; new geometry/tasks require prospective TRAIN-only identity",
+  "target_WBC_filter": false,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}
