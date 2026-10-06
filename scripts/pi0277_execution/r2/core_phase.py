@@ -9,7 +9,7 @@ def call(point,stage):
     assert point in [f'{a}{n}' for a in ('GRIP','FOCUS') for n in (512,1024,2048,4096)]
     replay=stage.startswith(('replay-','delivery-'));lane=stage.removeprefix('replay-').removeprefix('delivery-')
     assert lane in ('admit','TRAIN_PHYSICS','TEST','CONFIRM') and not (replay and lane=='admit')
-    target=ROOT+'/code/'+('deliver_panel.py' if stage.startswith('delivery-') else 'replay_panel.py' if replay else 'panel.py')
+    target=ROOT+'/delivery_code/deliver_panel.py' if stage.startswith('delivery-') else ROOT+'/code/'+('replay_panel.py' if replay else 'panel.py')
     args=[point,lane] if replay else [lane,'--point',point]
     python='/home/liuyu-nfs/Projects/go2-arx5/'+('PI0250/runtime/venv/bin/python' if replay or lane=='admit' else 'PI0276/venv/bin/python')
     name=point+'-'+stage

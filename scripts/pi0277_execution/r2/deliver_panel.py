@@ -1,6 +1,8 @@
 """Reuse the source task report and saved-RGB video path; no new queries."""
 import argparse,ast,csv,json,os,xml.etree.ElementTree as ET
 from pathlib import Path
+import sys
+sys.path.insert(0,'/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/code')
 os.environ.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4')
 import cv2,numpy as np
 from scipy.spatial.transform import Rotation
@@ -28,14 +30,21 @@ def main(point,lane):
         def visit_Constant(self,n):
             if n.value=='PI0276_':n.value='PI0277_R2_'
             if n.value=='PASS_ALL12_REGISTERED_SAVED_RGB_VIDEOS':n.value='PASS_REGISTERED_SAVED_RGB_PANEL_VIDEOS'
-            if n.value=='VIDEOS.json':n.value=f'VIDEOS_{point}_{lane}.json'
+            if n.value=='evidence/VIDEOS.json':n.value=f'evidence/VIDEOS_{point}_{lane}.json'
             return n
     node=Labels().visit(node)
     scope=dict(ROOT=ROOT,RAW=RAW,write=write,sha=sha,json=json,cv2=cv2,np=np,valid=valid,registered_slots=slots)
     exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),str(OLD/'code/video.py'),'exec'),scope)
-    scope['main']()
+    video_receipt=ROOT/'evidence'/f'VIDEOS_{point}_{lane}.json'
+    legacy=ROOT/'evidence/VIDEOS.json'
+    if not video_receipt.exists() and legacy.exists() and [r['slot'] for r in read(legacy)['rows']]==slots:
+        value=read(legacy)
+        for r in value['rows']:assert sha(r['path'])==r['sha256']
+        value.update(status='PASS_REGISTERED_SAVED_RGB_PANEL_VIDEOS',legacy_label_corrected_from=str(legacy))
+        write(video_receipt,value)
+    elif not video_receipt.exists():scope['main']()
     write(ROOT/'evidence'/f'DELIVERY_{point}_{lane}.json',dict(point=point,lane=lane,table=str(table),table_sha256=sha(table),cases=rows,
-        video_receipt_sha256=sha(ROOT/'evidence'/f'VIDEOS_{point}_{lane}.json'),new_model_queries=0,new_physics_steps=0,selected_checkpoint='NONE',deployment='NONE'))
+        video_receipt_sha256=sha(video_receipt),new_model_queries=0,new_physics_steps=0,selected_checkpoint='NONE',deployment='NONE'))
     print(json.dumps(dict(point=point,lane=lane,table=str(table),cases=len(rows),status='ACTUAL_SAVED_ARRAY_TABLE_AND_RGB_VIDEOS')),flush=True)
 
 if __name__=='__main__':
