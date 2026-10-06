@@ -1,0 +1,40 @@
+{
+  "observed_utc": "2026-10-06T17:57:26.112158+00:00",
+  "job": "651332.hopper-m-02",
+  "cursor": {
+    "completed_update": 816,
+    "next_unconsumed_micro": 1632,
+    "queues_are_discardable": true
+  },
+  "all_completed": 4952,
+  "formal_by_arm": {
+    "GRIP": 4096,
+    "FOCUS": 816
+  },
+  "qualification": 40,
+  "recent100_median_update_s": 3.8814293724717572,
+  "recent100_median_loader_wait_s": 2.092884786427021,
+  "training_heads": 89230,
+  "snapshots": [
+    "GRIP512",
+    "GRIP2048",
+    "GRIP4096",
+    "FOCUS512"
+  ],
+  "phase": "ORIGINAL_FOCUS_OBJECTIVE",
+  "box": "NOT_TRIGGERED_NOT_APPLIED",
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE",
+  "loader_observation": {
+    "recent300_CPU_reservations": {
+      "FAST_CACHE2": 120,
+      "REF_W0": 90,
+      "CACHE_READBACK": 90
+    },
+    "scope": "attempted/prefetched CPU input work; not training consumption",
+    "finding": "The cache fallback path is active for90/120 recently requested items. This explains additional CPU input preparation work; disk-transfer contention is not established.",
+    "original_worker_count": 2,
+    "worker_sweep": "NOT_EXECUTED_R3_FIXED_CONFIGURATION",
+    "first_update_benchmark_s": 1.75054
+  }
+}
