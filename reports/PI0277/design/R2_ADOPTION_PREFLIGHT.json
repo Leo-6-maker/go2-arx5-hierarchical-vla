@@ -1,0 +1,42 @@
+{
+  "schema": "PI0277_R2_ADOPTION_PREFLIGHT_V1",
+  "authority": "PI0277_R2_OVERNIGHT_LOCAL_FIRST_POLICY_SPRINT_GO",
+  "R2_protocol_and_limits_commit": "4409ab6ddbe28668e74c0bad0fdcc48f1865c07f",
+  "new_evidence_read_at": "4409ab6ddbe28668e74c0bad0fdcc48f1865c07f",
+  "queue_receipt_path": "reports/PI0277/execution/H200_QUEUE_RECEIPT.json",
+  "queue_receipt_blob": "31ea79519ccb7e53fb3b52bf008598456d129171",
+  "observed_utc": "2026-10-06T11:38:22.191599+00:00",
+  "observed_sgt": "2026-10-06T19:38:22.191599+08:00",
+  "actual_job_id": "650646.hopper-m-02",
+  "actual_job_state_at_receipt": "Q",
+  "queue_reason": "Insufficient amount of resource: ngpus (R:1 A:0 T:208)",
+  "actual_completed_updates_at_receipt": 0,
+  "actual_training_heads_at_receipt": 0,
+  "actual_CPU_items_at_receipt": 0,
+  "GPU_already_allocated_not_established": true,
+  "actual_launcher": "scripts/pi0277_execution/train.pbs invokes code/run.py hopper --release 63151a4548243ab0fb4ba172eea6f7d92e02c576 --resume",
+  "adoption_instructions": [
+    "Refresh actual project jobs; do not assume the queued receipt is still current or imply reviewer SSH access.",
+    "Keep one training owner. Prefer adopting job650646 or another verified available authorized H200 allocation over duplicate submissions.",
+    "If job is still queued, the owner may briefly user-hold it if necessary to safely stage an explicit R2 dispatcher/adoption shim; preserve all original V1 files and queued-launch evidence.",
+    "A V1 literal in the already-submitted PBS command is not authority to run the old long benchmark/CONTROL-first/HF-blocking route. An explicit R2 adoption manifest must name this new canonical release, original invocation and effective R2 source hashes before useful work. This is an authorized launch-compatibility shim, not silent release mislabelling.",
+    "Release any temporary user hold immediately after validated staging; do not leave a needless hold overnight.",
+    "If in-place adoption is unsafe or unsupported, a single serialized replacement job is permitted only after actual confirmation that the superseded queued job cannot also execute. Preserve cancelled queue evidence and cumulative counters. No repeated qsub or concurrent duplicate learner.",
+    "If useful GRIP training has already begun, follow the R2 safe-boundary adoption rule and retain current optimizer/scheduler/RNG. Do not discard healthy training to restage.",
+    "If another existing project H200 allocation is available and authorized, it can be used under the same single-owner/counter policy after disarming the duplicate queued path. No work on login nodes or unallocated GPUs.",
+    "Queue waiting is a real constraint on the morning goal. Continue permitted CPU/local preparation while queued but do not announce training or a guaranteed policy by morning. Record actual queue/adoption/start times."
+  ],
+  "concurrent_branch_changes": {
+    "compare_base": "710927f3aa3b60512ec076e8e280eedfdc092f70",
+    "compare_head": "4409ab6ddbe28668e74c0bad0fdcc48f1865c07f",
+    "total_intervening_commits": 4,
+    "reviewer_writes_in_that_diff": ["R2 protocol document", "R2 limits JSON"],
+    "other_changes": "Concurrent owner added queued-job/staging receipts and runtime implementation; preserved, not overwritten or claimed reviewer-authored.",
+    "reviewer_new_runtime_source_read": "train.pbs only; not a fresh full review of every concurrently added training/qualification file"
+  },
+  "priority_unchanged": "Local recoverability + useful GRIP training + early physical evaluation; bulk HF and matched CONTROL deferred",
+  "budgets": "No increment/reset; all shared PI0277 R2 limits remain",
+  "reviewer_remote_process_actions": 0,
+  "reviewer_model_physics_calls": 0,
+  "publication_not_execution": true
+}
