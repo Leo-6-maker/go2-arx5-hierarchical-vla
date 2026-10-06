@@ -1,0 +1,15 @@
+{
+  "pid": 3706282,
+  "target": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/code/panel.py",
+  "arguments": [
+    "TRAIN_PHYSICS",
+    "--point",
+    "GRIP512"
+  ],
+  "wrapper_argv": [
+    "/usr/bin/python3",
+    "-u",
+    "-c",
+    "import json,os,subprocess\nfrom pathlib import Path\nr=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2')/'runtime'\nenv=dict(os.environ,CUDA_VISIBLE_DEVICES='0',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott')\nwith (r/'GRIP512-TRAIN_PHYSICS.log').open('ab') as log:\n result=subprocess.run(['/home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python', '-u', '/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/code/panel.py', 'TRAIN_PHYSICS', '--point', 'GRIP512'],env=env,stdout=log,stderr=subprocess.STDOUT)\np=r/'GRIP512-TRAIN_PHYSICS.done.json';tmp=p.with_suffix('.partial');tmp.write_text(json.dumps(dict(returncode=result.returncode,target='/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/code/panel.py',arguments=['TRAIN_PHYSICS', '--point', 'GRIP512']))+chr(10));tmp.replace(p)\n"
+  ]
+}
