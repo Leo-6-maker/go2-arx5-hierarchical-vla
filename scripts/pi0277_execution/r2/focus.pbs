@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N pi0277_r2_focus
+#PBS -P CFP05-CF-052
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+#PBS -l walltime=04:00:00
+#PBS -m n
+set -euo pipefail
+source /scratch/e1192548/Projects/go2-arx5/experiments/PI0273/code/environment.sh
+export PYTHONPATH=/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/code:"$PYTHONPATH"
+export OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_CORETYPE=Prescott
+export CUBLAS_WORKSPACE_CONFIG=:4096:8
+cd /scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS
+exec "$venv/bin/python" -u /scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/code/focus_run.py --root /scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS
