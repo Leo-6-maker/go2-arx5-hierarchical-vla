@@ -169,6 +169,9 @@ class Episode:
             contacts.append(dict(bodies=[getattr(b,'name',repr(b)) for b in c.bodies],points=points))
         self.contacts.write(json.dumps(dict(physics_sample=len(self.states)-1,contacts=contacts))+'\n')
     def observe(self):
+        if len(self.inputs)>self.control:
+            assert len(self.inputs)==self.control+1
+            return self.inputs[-1]
         self.ledger.reserve('rgb',self.slot);self.ledger.sync()
         e=self.env;e.scene.update_render(update_sensors=True,update_human_render_cameras=False);e.capture_sensor_data()
         result={}
@@ -189,6 +192,7 @@ class Episode:
         result['state_v1']=np.r_[tcp[:3,3],tcp[:2,:3].reshape(6),opening(q)].astype(np.float32)
         result['time_s']=np.asarray(self.control*.05)
         self.inputs.append(result)
+        return result
     def step(self,action,phase=3,command=None,teacher=False):
         assert self.control<640
         self.ledger.reserve('control',self.slot)
@@ -279,6 +283,10 @@ def retained(slot):
     assert len(rows)<=1
     return rows[0] if rows else None
 
+class SourceHorizon(Exception):
+    """The registered 32-second source run is complete, even if its solver is not."""
+
+
 def source_episode(seed,split):
     slot=f'{split}-{seed}-joint';old=retained(slot)
     if old:return old
@@ -310,6 +318,7 @@ def source_episode(seed,split):
             write(ep.folder/'INITIAL_SOURCE_RESET_MATCH.json',errors)
             return result
         def step(self,action):
+            if ep.control==640:raise SourceHorizon('Official solver requested a control beyond the fixed 640-step horizon')
             result=ep.step(action,ep.current_phase,teacher=True)
             assert np.max(np.abs(ep.installed[-1]['arm_target']-np.asarray(action)[:7]))<=1e-6
             return result
@@ -325,6 +334,11 @@ def source_episode(seed,split):
         status='VALID_SOURCE_FAIL' if ep.planner_failed else 'VALID_SOURCE_COMPLETE'
         result=ep.finish(status)
         return ep.folder,result
+    except SourceHorizon as err:
+        assert ep.control==640 and ep.physics_completed==3200 and len(ep.inputs)==640
+        write(ep.folder/'SOURCE_PLAN_CALLS.json',dict(calls=ep.planning,source_normal_return=False,labels_valid=False,
+            horizon_exhausted=True,unfinished_call='UNOBSERVED_RETURN',extra_controls=0))
+        return ep.folder,ep.finish('VALID_SOURCE_HORIZON_FAIL',str(err))
     except BaseException as err:
         ep.finish('ENGINEERING_INCOMPLETE',repr(err));raise
     finally:stack_cube.PandaArmMotionPlanningSolver=original

@@ -40,6 +40,11 @@ def main():
     torch.nn.Module.__call__=no_model
     card=json.loads((ROOT/'design/DATASET_CARD.json').read_text());allowed={(e['split'],e['seed']) for e in card['episodes'] if e['admitted']}
     bank=[r for r in card['rows'] if r['eligible'] and (r['split'],r['seed']) in allowed]
+    for e in card['episodes']:
+        if not e['admitted']:continue
+        own=[r for r in bank if (r['split'],r['seed'])==(e['split'],e['seed'])]
+        for name,key in [('commands.npz','command_sha256'),('observations.npz','observation_sha256')]:
+            assert sha(Path(e['path'])/name)==own[0][key]
     states=[];actions=[];relatives=[]
     for e in card['episodes']:
         if not e['admitted'] or e['split']!='TRAIN':continue
@@ -95,7 +100,10 @@ def main():
             assert identity(condition)==identity(batch(proc,packet)['inputs'])
             assert value['state'].dtype==value['action'].dtype==torch.float32
             before=pose_gate(action,state,j*.05,r['uid']);after=pose_gate(decoded,state,j*.05,r['uid'])
-            assert before['decision']==after['decision'], ('CODEC_GATE_DISCREPANCY',r['uid'])
+            if before['decision']!=after['decision']:
+                write(ROOT/'evidence/CODEC_GATE_DISCREPANCY.json',dict(uid=r['uid'],before=before,after=after,
+                    statistics_sha256=sha(statfile),launch_allowed=False))
+                raise AssertionError(('CODEC_GATE_DISCREPANCY',r['uid']))
             proof.append(dict(uid=r['uid'],condition_sha256=identity(condition),labels_masks_sha256=identity({k:value[k] for k in ('action','action_mask')}),
                 XYZ_m=xyz,SO3_rad=angle,gripper=grip,normalized_state_abs_max=float(np.abs(s).max()),normalized_action_abs_max=float(np.abs(a).max()),gate=before['decision']))
         print('ACTUAL_TASK_CODEC',e['split'],e['seed'],len(proof),flush=True)
@@ -105,4 +113,8 @@ def main():
         modules=[dict(path=str(Path(m.__file__).resolve()),sha256=sha(m.__file__)) for m in (codec,sys.modules['pi0260_r3_inputs'],sys.modules['pi0260_r2_inputs'])],
         model_queries=0,optimizer_updates=0,new_physics_steps=0))
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    try:main()
+    except BaseException as err:
+        write(ROOT/'evidence/DATA_ADMISSION_FAILURE.json',dict(status='ACTUAL_TASK_DATA_ADMISSION_INCOMPLETE',error=repr(err),launch_allowed=False))
+        raise

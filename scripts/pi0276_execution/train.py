@@ -6,10 +6,22 @@ ROOT=Path('/scratch/e1192548/Projects/go2-arx5/experiments/PI0276');CONTROL=ROOT
 spec=importlib.util.spec_from_file_location('pi0276_qualified_train',CONTROL/'code/train.py')
 previous=importlib.util.module_from_spec(spec);spec.loader.exec_module(previous)
 old,paired,np,torch,read,read_lines=previous.old,previous.paired,previous.np,previous.torch,previous.read,previous.read_lines
-from torch.utils.data import Dataset,SequentialSampler
+from torch.utils.data import Dataset,DataLoader
 from run import sha
 RELEASE='57fd8a9c53ce241c05a8d5b351034bed7ba56b14'
 STATS_SHA=sha(ROOT/'contracts/TASK/source/dataset/statistics.json')
+LOG_CURSORS={}
+
+def read_lines(path):
+    path=Path(path);stat=path.stat()
+    identity=(stat.st_dev,stat.st_ino)
+    offset,rows,previous_id=LOG_CURSORS.get(path,(0,[],identity))
+    assert identity==previous_id and stat.st_size>=offset,'APPEND_ONLY_LOG_REPLACED_OR_TRUNCATED'
+    with path.open('rb') as f:
+        f.seek(offset);addition=f.read();assert not addition or addition.endswith(b'\n'),'PARTIAL_LOG_LINE'
+        rows.extend(json.loads(line) for line in addition.splitlines() if line)
+        LOG_CURSORS[path]=(f.tell(),rows,identity)
+    return rows
 
 def seed_for(unit):return int.from_bytes(hashlib.sha256(f'PI0276:TRAIN:27603:{unit}'.encode()).digest()[:8],'big')%2**31
 
@@ -23,7 +35,8 @@ class Pairs(Dataset):
         self.proof={r['uid']:r for r in read(ROOT/'design/PROCESSED_INPUTS.json')['rows']}
     def __len__(self):return len(self.plan)
     def get_dataset_statistics(self):return read(ROOT/'contracts/TASK/source/dataset/statistics.json')
-    @lru_cache(maxsize=8)
+    # ponytail: the fixed 96-episode TRAIN bank fits in the admitted CPU memory budget.
+    @lru_cache(maxsize=96)
     def episode(self,seed,command_hash,observation_hash):
         folder=ROOT/'source/data'/f'TRAIN-{seed}'
         assert sha(folder/'commands.npz')==command_hash and sha(folder/'observations.npz')==observation_hash
@@ -62,18 +75,36 @@ def adapted():
                 n.iter=ast.Tuple(elts=[ast.Constant('TASK')],ctx=ast.Load());edits.append('single_task_canary')
             return self.generic_visit(n)
     nodes=[Binding().visit(n) for n in nodes];assert len(nodes)==4 and edits.count('single_task_canary')==1
-    scope=vars(previous).copy();scope.update(ROOT=ROOT,CONTROL=CONTROL,RELEASE=RELEASE,STATS_SHA=STATS_SHA,Pairs=Pairs,seed_for=seed_for,sha=sha)
+    scope=vars(previous).copy();scope.update(ROOT=ROOT,CONTROL=CONTROL,RELEASE=RELEASE,STATS_SHA=STATS_SHA,Pairs=Pairs,seed_for=seed_for,sha=sha,read_lines=read_lines)
     exec(compile(ast.fix_missing_locations(ast.Module(body=nodes,type_ignores=[])),str(CONTROL/'code/train.py'),'exec'),scope)
     return scope,edits
 
-runtime,ADAPTATIONS=adapted();base_hooks=runtime['hooks'];compare=runtime['compare']
+runtime,ADAPTATIONS=adapted();base_hooks=runtime['hooks'];base_compare=runtime['compare']
+
+def compare(arm):
+    for name in ('gripper_generated_error.jsonl','gripper_native_loss.jsonl','gripper_output_gradients.jsonl'):
+        assert read_lines(ROOT/arm/'continuous/training'/name)==read_lines(ROOT/arm/'split/training'/name),name
+    base_compare(arm)
 
 def hooks(args,output):
     audit=base_hooks(args,output)
+    import pi0247_u_rollout_overlay as overlay
+    physical=overlay._physical_losses
+    def gripper_error(g,e,*a,**kw):
+        value=float((g[...,9].detach().float()-e[...,9].detach().float()).abs().mean())/2
+        with (output/'gripper_generated_error.jsonl').open('a') as f:f.write(json.dumps(dict(forward=audit['forwards']+1,command_fraction_MAE=value))+'\n')
+        return physical(g,e,*a,**kw)
+    overlay._physical_losses=gripper_error
     from gr00t.experiment import experiment
     base=experiment.Gr00tTrainer
     class ConsumedTrainer(base):
-        def _get_train_sampler(self,*unused):return SequentialSampler(self.train_dataset)
+        def get_train_dataloader(self):
+            # HF constructs this loader before restoring TrainerState; the sealed resume index binds its start.
+            assert self.args.dataloader_num_workers==0 and self.state.global_step in (0,args.resume)
+            self.args.ignore_data_skip=True
+            return DataLoader(self.train_dataset,batch_size=self._train_batch_size,collate_fn=self.data_collator,
+                sampler=range(2*args.resume,len(self.train_dataset)),num_workers=0,pin_memory=self.args.dataloader_pin_memory,
+                generator=torch.Generator().manual_seed(27603))
         def training_step(self,model,inputs,*a,**kw):
             visit=inputs.pop('_pi0276_visit');assert visit['micro_index']==2*self.state.global_step+visit['micro']
             with (output/'sample_audit.jsonl').open('a') as f:f.write(json.dumps(visit,sort_keys=True)+'\n')
@@ -85,8 +116,14 @@ def hooks(args,output):
                             assert np.isfinite(value)
                             with (output/'gripper_output_gradients.jsonl').open('a') as f:f.write(json.dumps(dict(unit=self.state.global_step+1,norm=value))+'\n')
                         result.register_hook(record)
-                model.action_head.model.register_forward_hook(observe_gradient);self.gripper_hook_installed=True
-                name,param=next((n,p) for n,p in model.named_parameters() if p.requires_grad)
+                model.action_head.action_decoder.register_forward_hook(observe_gradient);self.gripper_hook_installed=True
+                def native_gripper_loss(module,unused,result):
+                    mask=result['action_mask'][...,9];loss=result['action_loss'][...,9]
+                    value=float(loss.detach().float().sum()/mask.sum().clamp_min(1))
+                    assert np.isfinite(value)
+                    with (output/'gripper_native_loss.jsonl').open('a') as f:f.write(json.dumps(dict(unit=self.state.global_step+1,native_velocity_MSE=value))+'\n')
+                model.action_head.register_forward_hook(native_gripper_loss)
+                name,param=min(((n,p) for n,p in model.named_parameters() if p.requires_grad and n.startswith('action_head.action_decoder.')),key=lambda row:row[1].numel())
                 self.changed_weight_name=name;self.start_weight=param.detach().clone()
             loss=super().training_step(model,inputs,*a,**kw)
             if args.phase=='main' and self.state.global_step==127 and visit['micro']==1:

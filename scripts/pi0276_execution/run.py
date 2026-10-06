@@ -1,6 +1,11 @@
 """One finite owner; receipts describe executed work, never merely available code."""
-import argparse, fcntl, hashlib, json, os, subprocess, sys
+import argparse, hashlib, json, os, subprocess, sys
 from pathlib import Path
+
+if os.name=='nt':
+    from coordinator import main
+    main();raise SystemExit(0)
+import fcntl
 
 RELEASE = '57fd8a9c53ce241c05a8d5b351034bed7ba56b14'
 UPSTREAM = '62ff3a5896b4d5b4cf0ac4c8d79afe600c9404a3'
@@ -72,6 +77,42 @@ def bridge():
 def dataset():
     from dataset import main as make_dataset
     make_dataset()
+
+
+def admit():
+    env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott')
+    subprocess.run([str(ROOT.parent/'PI0250/runtime/venv/bin/python'),'-u',str(CODE/'admit.py')],env=env,check=True)
+
+
+def canary():
+    from coordinator import hopper_required
+    hopper_required()
+    from train import ROOT as training_root,run,compare
+    for phase,limit,resume in [('continuous',8,0),('split',4,0),('split',8,4)]:
+        run(argparse.Namespace(arm='TASK',phase=phase,limit=limit,resume=resume))
+    compare('TASK')
+
+
+def train():
+    from coordinator import hopper_required
+    hopper_required()
+    from train import run
+    run(argparse.Namespace(arm='TASK',phase='main',limit=8192,resume=0))
+
+
+def evaluate():
+    from evaluate import main as evaluate
+    evaluate()
+
+
+def archive():
+    from archive import prepared
+    for part in ('source','predictions','summary'):prepared()(part)
+
+
+def closeout():
+    from closeout import main as closeout
+    closeout()
 
 def main():
     parser = argparse.ArgumentParser()
