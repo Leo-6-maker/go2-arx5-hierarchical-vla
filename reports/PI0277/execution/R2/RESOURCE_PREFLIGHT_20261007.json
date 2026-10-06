@@ -1,0 +1,34 @@
+{
+  "observed_utc": "2026-10-06T16:13:43.252781+00:00",
+  "cursor": {
+    "completed_update": 3897,
+    "next_unconsumed_micro": 7794,
+    "queues_are_discardable": true
+  },
+  "quota": {
+    "observed_utc": "2026-10-06T16:11:45.600959+00:00",
+    "project": {
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "\n To check the authorized PBS Project, credits and members, please run this command\n   on terminal first to login:\n\n   #  amgr login \n\n  Enter your NUS account password to login.\n\n  Please note to wait for 5~10 seconds to try again, if login fails with error.\n  Contact HPC administrators for help via ASK if problem persists.\n\n\n"
+    },
+    "quota": {
+      "returncode": 1,
+      "stderr": "",
+      "stdout": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-06 23:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     20.53G     40.00G      51.3%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-07 00:03]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    917.2GB |    1.0TB   ||   552453  | unlimited \n=========================================================================\n\n"
+    }
+  },
+  "original_storage": {
+    "available_bytes_at_freeze": 184576219545,
+    "df_available_bytes": 3525755811135488,
+    "formal_checkpoints": 4,
+    "observation_host": "hopper-l-01",
+    "observed_utc": "2026-10-06T11:49:39.162383+00:00",
+    "owned_bytes_at_freeze": 1417846,
+    "qualification_payloads_retired_after_comparison": true,
+    "quota_report": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-06 19:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     20.53G     40.00G      51.3%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-06 19:43]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    852.1GB |    1.0TB   ||   534778  | unlimited \n=========================================================================\n\n",
+    "quota_returncode": 1,
+    "quota_stderr": "",
+    "required_bytes": 145813142524
+  }
+}

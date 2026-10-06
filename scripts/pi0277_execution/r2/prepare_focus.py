@@ -63,7 +63,7 @@ def prepare(primary,train_receipt,dev_receipt,available_bytes):
         files=files,complete_trainer_bytes=sum(p.stat().st_size for p in checkpoint.rglob('*') if p.is_file()),optimizer_inherited=False,primary_complete_receipt_sha256=sha(primary/'GRIP/main/training/SEGMENT_COMPLETE.json')))
     readout=read(primary/'design/GRIP_READOUT.json');readout.update(arm='FOCUS',initial_weights_prefix=str(checkpoint),initial_weights_revision=identity)
     freeze(root/'design/FOCUS_READOUT.json',readout)
-    noise=read(primary/'design/NOISE_CARD.json');noise.update(noise_namespace=read(root/'design/TRAIN_PLAN.json')['noise_namespace'],shared_with='FOCUS continuous/split/main')
+    noise=read(primary/'design/NOISE_CARD.json');noise.update(namespace='PI0277:FOCUS:R2:27703',noise_namespace=read(root/'design/TRAIN_PLAN.json')['noise_namespace'],shared_with='FOCUS continuous/split/main')
     freeze(root/'design/NOISE_CARD.json',noise)
     freeze(root/'evidence/LOADER_SELECTION.json',dict(read(primary/'evidence/LOADER_SELECTION.json'),reused_from=str(primary/'evidence/LOADER_SELECTION.json')))
     for name in ('cache','snapshots'):
