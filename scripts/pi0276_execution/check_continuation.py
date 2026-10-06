@@ -74,8 +74,19 @@ coordinator.stage_hopper=lambda:None
 coordinator.call=lambda *args,**kwargs:None
 coordinator.training()  # Only compile the actual submission/copy RPCs; never contact a host.
 pbs=(Path(__file__).parent/'training.pbs').read_text()
-assert pbs.index('for stage in cpu binding seal')<pbs.index('--phase continuous')<pbs.index('--phase main')
+assert pbs.index('HOPPER_CPU_ADMISSION.json')<pbs.index('admit_hopper.py" binding')<pbs.index('admit_hopper.py" seal')<pbs.index('--phase continuous')<pbs.index('--phase main')
 assert '#PBS -q auto' in pbs and '#PBS -m n' in pbs and 'ngpus=1' in pbs
 admission=(Path(__file__).parent/'admit_hopper.py').read_text()
 assert admission.index("os.environ.get('PBS_JOBID')")<admission.index('from train import')
+code=Path(__file__).parent
+adapted=next(n for n in ast.parse((code/'train.py').read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='adapted')
+with tempfile.TemporaryDirectory() as folder:
+    control=Path(folder);(control/'code').mkdir();(control/'code/train.py').write_text((code.parent/'pi0273_execution/train.py').read_text())
+    scope=dict(ast=ast,CONTROL=control,previous=SimpleNamespace(),ROOT=Path('/fixed/PI0276'),
+               RELEASE=coordinator.RELEASE,STATS_SHA='CPU_DRY_RUN',Pairs=object,seed_for=lambda n:n,sha=lambda p:'CPU_DRY_RUN',read_lines=lambda p:[])
+    exec(compile(ast.fix_missing_locations(ast.Module(body=[adapted],type_ignores=[])),'CPU_actual_task_adapter','exec'),scope)
+    runtime,edits=scope['adapted']()
+assert edits.count('contracts/ROT')==1 and edits.count('contracts/ROT/source/dataset/statistics.json')==1
+assert 'contracts/TASK' in runtime['hooks'].__code__.co_consts
+assert 'contracts/TASK/source/dataset/statistics.json' in runtime['run'].__code__.co_consts
 print('PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY')

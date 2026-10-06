@@ -13,9 +13,15 @@ root=/scratch/e1192548/Projects/go2-arx5/experiments/PI0276
 export PYTHONPATH="$root/code:$PYTHONPATH"
 exec 9>"$root/runtime/training.lock"
 flock -n 9
-for stage in cpu binding seal; do
-    "$venv/bin/python" -u "$root/code/admit_hopper.py" "$stage"
-done
+if [ ! -f "$root/evidence/HOPPER_CPU_ADMISSION.json" ]; then
+    "$venv/bin/python" -u "$root/code/admit_hopper.py" cpu
+fi
+if [ ! -f "$root/evidence/RUNTIME_BINDING_TASK.json" ]; then
+    "$venv/bin/python" -u "$root/code/admit_hopper.py" binding
+fi
+if [ ! -f "$root/EXECUTION_FILESET.json" ]; then
+    "$venv/bin/python" -u "$root/code/admit_hopper.py" seal
+fi
 "$venv/bin/python" -u "$root/code/train.py" --arm TASK --phase continuous --limit 8
 "$venv/bin/python" -u "$root/code/train.py" --arm TASK --phase split --limit 4
 "$venv/bin/python" -u "$root/code/train.py" --arm TASK --phase split --limit 8 --resume 4

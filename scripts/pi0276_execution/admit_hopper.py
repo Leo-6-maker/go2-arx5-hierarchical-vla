@@ -1,6 +1,6 @@
 """Actual task input and frozen helper admission, without neural queries."""
-import os
-assert os.environ.get('PBS_JOBID'),'CPU qualification runs first inside the single PBS allocation; login is transfer/config only'
+import os,sys
+assert os.environ.get('PBS_JOBID') or (len(sys.argv)==2 and sys.argv[1] in ('binding','seal')),'Dataset CPU qualification requires PBS; login permits zero-query configuration binding/seal only'
 os.environ.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott')
 import argparse,ast,ctypes,inspect,json,resource
 from pathlib import Path
@@ -59,7 +59,11 @@ def cpu():
         kernel=core().decode(),kernel_sha256=sha(library),sequential_map_style=True,loader_global_rng_unchanged=True,model_queries=0,optimizer_updates=0))
 
 def binding():
-    guard();assert read(ROOT/'evidence/HOPPER_CPU_ADMISSION.json')['status']=='PASS_PI0276_ACTUAL_TASK_INPUTS_AND16384_SCHEDULE'
+    guard();admission=read(ROOT/'evidence/HOPPER_CPU_ADMISSION.json')
+    assert admission['status']=='PASS_PI0276_ACTUAL_TASK_INPUTS_AND16384_SCHEDULE'
+    assert admission['statistics_sha256']==sha(ROOT/'contracts/TASK/source/dataset/statistics.json')
+    assert admission['corelab_admission_sha256']==sha(ROOT/'evidence/DATA_ADMISSION.json')
+    assert admission['input_audit_sha256']==sha(ROOT/'evidence/INPUT_AUDIT16384.json')
     import pi0264_compare_canary,pi0264_training_audit,pi0264_archive_trainer,pi0260_r3_inputs,pi0260_r2_codec,pi0260_r3_physical,temporal
     prior={r['module']:r for r in read(CONTROL/'evidence/RUNTIME_BINDING_BROAD.json')['modules']};modules=[]
     for m in (paired,paired.r3,pi0264_compare_canary,pi0264_training_audit,pi0264_archive_trainer,pi0260_r3_inputs,pi0260_r2_codec,pi0260_r3_physical,temporal):

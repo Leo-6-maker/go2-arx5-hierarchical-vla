@@ -62,6 +62,7 @@ def adapted():
     class Binding(ast.NodeTransformer):
         def visit_Constant(self,n):
             mapping={196608:155648,10528:8464,5120:8192,2560:4096,27303:27603,'ROT':'TASK',
+                'contracts/ROT':'contracts/TASK','contracts/ROT/source/dataset/statistics.json':'contracts/TASK/source/dataset/statistics.json',
                 'PASS_PI0273_FULL_BASE_ENCODING_AND_BOTH_10240_SCHEDULES':'PASS_PI0276_ACTUAL_TASK_INPUTS_AND16384_SCHEDULE',
                 'PASS_PI0273_ACTUAL_FROZEN_HELPERS_AND_HOOKS':'PASS_PI0276_ACTUAL_FROZEN_HELPERS_AND_HOOKS',
                 'PASS_PI0273_REAL_EXACT_RESUME_CANARY':'PASS_PI0276_REAL_EXACT_RESUME_CANARY',
@@ -75,6 +76,7 @@ def adapted():
                 n.iter=ast.Tuple(elts=[ast.Constant('TASK')],ctx=ast.Load());edits.append('single_task_canary')
             return self.generic_visit(n)
     nodes=[Binding().visit(n) for n in nodes];assert len(nodes)==4 and edits.count('single_task_canary')==1
+    assert not any(isinstance(n,ast.Constant) and isinstance(n.value,str) and 'contracts/ROT' in n.value for node in nodes for n in ast.walk(node))
     scope=vars(previous).copy();scope.update(ROOT=ROOT,CONTROL=CONTROL,RELEASE=RELEASE,STATS_SHA=STATS_SHA,Pairs=Pairs,seed_for=seed_for,sha=sha,read_lines=read_lines)
     exec(compile(ast.fix_missing_locations(ast.Module(body=nodes,type_ignores=[])),str(CONTROL/'code/train.py'),'exec'),scope)
     return scope,edits
