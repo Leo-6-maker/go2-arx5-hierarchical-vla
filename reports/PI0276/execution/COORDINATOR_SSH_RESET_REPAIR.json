@@ -23,10 +23,10 @@
     "corelab": "CONNECT_TIMEOUT",
     "user_reconnect_requested": true
   },
-  "repair": "Shared detached finite command with exact argv and original receipt adoption, durable exit status, per-command lock, both SSH hops keepalive; no restart of healthy archive",
+  "repair": "Shared detached finite command with exact argv and original receipt adoption, durable exit status, per-command lock, both SSH hops keepalive, and read-only reconnect wait; no restart of healthy archive",
   "before_sha256": "9afe32230581ce37c4cbe3864fb70e0a00bde3c2b10643fdc7978c05f58d462c",
-  "after_sha256": "6e08a5470ebdcbeb9538f0d667098d7eaf505a245faa8ed1bc56199f443ccb48",
-  "cpu_check_sha256": "de6608a05413a86c6e8aef1b1d2c992980e79a349bda32f1dbaab3bbfbc99f66",
+  "after_sha256": "cde44d24be194eff0fa70e32c992949983451a710407747c873bd278c634ca38",
+  "cpu_check_sha256": "fa01ffb57e80cd89a9b7503eaefbd8e598ec9ee7a457e24726e50f1f1e2ed36f",
   "cpu_check_stdout": "PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY",
   "cpu_check_scope": "Fake proc and generated remote program AST, including native/modern/Hopper worker and submission/copy RPCs; no actual remote launch",
   "new_model_queries": 0,
@@ -36,5 +36,7 @@
   "goal_terminal": false,
   "selected_checkpoint": "NONE",
   "deployment_selected_checkpoint": "NONE",
-  "additional_prelaunch_defect": "Generated qsub RPC embedded an unescaped newline; actual RPC AST dry run reproduced SyntaxError, then narrow escaping fix passed. No qsub attempted."
+  "additional_prelaunch_defect": "Generated qsub RPC embedded an unescaped newline; actual RPC AST dry run reproduced SyntaxError, then narrow escaping fix passed. No qsub attempted.",
+  "read_only_reconnect_check": "PASS simulated disconnect then exact same read RPC; mutations are not blindly retried",
+  "vpn_cli_state": "Cisco Secure Client 5.1.8.105: disconnected; verified 2026-10-06 09:23 SGT"
 }

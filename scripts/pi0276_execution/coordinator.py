@@ -24,8 +24,12 @@ def remote(host,script):
 
 
 def read(host,path):
-    out=remote(host,f"import json\nfrom pathlib import Path\np=Path({path!r})\nprint(p.read_text() if p.exists() else 'null')\n")
-    return json.loads(out)
+    while True:
+        try:
+            out=remote(host,f"import json\nfrom pathlib import Path\np=Path({path!r})\nprint(p.read_text() if p.exists() else 'null')\n")
+            return json.loads(out)
+        except ConnectionError as error:
+            print('SSH unavailable; read-only wait '+host+': '+str(error)[-500:],flush=True);time.sleep(30)
 
 
 def phase_status(start,done,target,arguments,marker,proc=Path('/proc')):

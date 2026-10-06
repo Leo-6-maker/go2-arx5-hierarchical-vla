@@ -37,6 +37,16 @@ def dry_remote(host,program):
     compile(tree,'remote_phase','exec');compile(worker,'detached_worker','exec')
     assert any(isinstance(n,ast.keyword) and n.arg=='start_new_session' and n.value.value is True for n in ast.walk(tree))
     return '{"status":"COMPLETE"}'
+attempts=[]
+def reconnect_read(host,program):
+    ast.parse(program);attempts.append(program)
+    if len(attempts)==1:raise ConnectionError('CPU simulated disconnect')
+    return '{"resumed":true}'
+coordinator.remote=reconnect_read
+original_sleep=coordinator.time.sleep;coordinator.time.sleep=lambda seconds:None
+with contextlib.redirect_stdout(io.StringIO()):assert coordinator.read('core','/receipt.json')=={'resumed':True}
+assert len(attempts)==2 and attempts[0]==attempts[1]
+coordinator.time.sleep=original_sleep
 coordinator.remote=dry_remote
 with contextlib.redirect_stdout(io.StringIO()):
     coordinator.call('core','archive.py','training_data')
