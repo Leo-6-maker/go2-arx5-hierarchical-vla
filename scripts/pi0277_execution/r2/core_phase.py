@@ -5,14 +5,20 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'pi0276_execution'))
 from coordinator import remote,phase_status
 ROOT='/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2'
 
-def call(point,stage):
+def call(point,stage,r3=False):
     assert point in [f'{a}{n}' for a in ('GRIP','FOCUS') for n in (512,1024,2048,4096)]
-    replay=stage.startswith(('replay-','delivery-'));lane=stage.removeprefix('replay-').removeprefix('delivery-')
+    replay=stage.startswith(('replay-','delivery-','fast-'));lane=stage.removeprefix('replay-').removeprefix('delivery-').removeprefix('fast-')
     assert lane in ('admit','TRAIN_PHYSICS','TEST','CONFIRM') and not (replay and lane=='admit')
     target=ROOT+'/delivery_code/deliver_panel.py' if stage.startswith('delivery-') else ROOT+'/code/'+('replay_panel.py' if replay else 'panel.py')
+    if stage.startswith('fast-'):target=ROOT.rsplit('/',1)[0]+'/R3/code/fast_decision.py'
+    if r3:
+        assert stage in ('TEST','CONFIRM')
+        prior=remote('core',f'from pathlib import Path\nr=Path({(ROOT+"/runtime")!r});print(int((r/{(point+"-"+stage+".start.json")!r}).exists() or (r/{(point+"-"+stage+".done.json")!r}).exists()))').strip()
+        if prior=='1':r3=False  # Adopt any already-started original physical lane.
+        else:target=ROOT.rsplit('/',1)[0]+'/R3/code/panel_entry.py'
     args=[point,lane] if replay else [lane,'--point',point]
     python='/home/liuyu-nfs/Projects/go2-arx5/'+('PI0250/runtime/venv/bin/python' if replay or lane=='admit' else 'PI0276/venv/bin/python')
-    name=point+'-'+stage
+    name=('R3-' if r3 else '')+point+'-'+stage
     worker=f'''import json,os,subprocess
 from pathlib import Path
 r=Path({ROOT!r})/'runtime'
@@ -39,4 +45,4 @@ with (r/{(name+'.lock')!r}).open('a') as lock:
     print(remote('core',program),flush=True)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('point');p.add_argument('stage');a=p.parse_args();call(a.point,a.stage)
+    p=argparse.ArgumentParser();p.add_argument('point');p.add_argument('stage');p.add_argument('--r3',action='store_true');a=p.parse_args();call(a.point,a.stage,a.r3)
