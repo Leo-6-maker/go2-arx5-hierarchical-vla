@@ -1,0 +1,160 @@
+{
+  "observed_utc": "2026-10-06T16:41:56.845397+00:00",
+  "job": "650860",
+  "qstat": "Job Id: 650860.hopper-m-02\n    Job_Name = pi0277_r2_grip\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 116\n    resources_used.cput = 02:15:35\n    resources_used.mem = 65450756kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 94497748kb\n    resources_used.walltime = 02:23:10\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Tue Oct  6 21:57:49 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0277/R2/runtime/pbs-04.err\n    exec_host = hopper-15/2*12\n    exec_vnode = (hopper-15:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Wed Oct  7 00:21:12 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/R2/runtime/pbs-04.out\n    Priority = 0\n    qtime = Tue Oct  6 21:57:49 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 32400,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 09:00:00\n    stime = Tue Oct  6 21:57:59 2026\n    obittime = Wed Oct  7 00:21:12 2026\n    session_id = 2903421\n    jobdir = /home/svu/e1192548\n    substate = 92\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Tue Oct 06 at 21:57 on (hopper-15:ngpus=1:ncpus=12:mem\n\t=235929600kb) and finished\n    etime = Tue Oct  6 21:57:49 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 0\n    Submit_arguments = -o /scratch/e1192548/Projects/go2-arx5/experiments/PI027\n\t7/R2/runtime/pbs-04.out -e /scratch/e1192548/Projects/go2-arx5/experime\n\tnts/PI0277/R2/runtime/pbs-04.err /scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/R2/code/train_repair.pbs\n    history_timestamp = 1791303672\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "cursor": {
+    "completed_update": 4096,
+    "next_unconsumed_micro": 8192,
+    "queues_are_discardable": true
+  },
+  "complete": {
+    "actual_microbatches": 8192,
+    "actual_update": 4096,
+    "arm": "GRIP",
+    "limit": 4096,
+    "phase": "main",
+    "release": "1a20200ff066ef5a003650110cd20106f9a4bf64",
+    "resume": 0,
+    "root": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2",
+    "route": "FAST_CACHE2",
+    "status": "PASS_EXECUTED_SEGMENT"
+  },
+  "full_trainers": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/checkpoint-3072",
+      "step": 3072,
+      "members": [
+        {
+          "path": "trainer_state.json",
+          "exists": true,
+          "bytes": 424291
+        },
+        {
+          "path": "optimizer.pt",
+          "exists": true,
+          "bytes": 11353039304
+        },
+        {
+          "path": "scheduler.pt",
+          "exists": true,
+          "bytes": 1465
+        },
+        {
+          "path": "rng_state.pth",
+          "exists": true,
+          "bytes": 14709
+        },
+        {
+          "path": "PI0277_RUN.json",
+          "exists": true,
+          "bytes": 154
+        },
+        {
+          "path": "pi0277_provenance/CURSOR.json",
+          "exists": true,
+          "bytes": 90
+        }
+      ],
+      "logical_bytes": 20884327812
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/checkpoint-4096",
+      "step": 4096,
+      "members": [
+        {
+          "path": "trainer_state.json",
+          "exists": true,
+          "bytes": 565927
+        },
+        {
+          "path": "optimizer.pt",
+          "exists": true,
+          "bytes": 11353039304
+        },
+        {
+          "path": "scheduler.pt",
+          "exists": true,
+          "bytes": 1465
+        },
+        {
+          "path": "rng_state.pth",
+          "exists": true,
+          "bytes": 14709
+        },
+        {
+          "path": "PI0277_RUN.json",
+          "exists": true,
+          "bytes": 154
+        },
+        {
+          "path": "pi0277_provenance/CURSOR.json",
+          "exists": true,
+          "bytes": 90
+        }
+      ],
+      "logical_bytes": 20884469448
+    }
+  ],
+  "snapshot": {
+    "arm": "GRIP",
+    "deployment_selected_checkpoint": "NONE",
+    "files": [
+      {
+        "bytes": 2148,
+        "path": "config.json",
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      },
+      {
+        "bytes": 104912,
+        "path": "model.safetensors.index.json",
+        "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+      },
+      {
+        "bytes": 74811,
+        "path": "effective_statistics.json",
+        "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572"
+      },
+      {
+        "bytes": 74810,
+        "path": "statistics.json",
+        "sha256": "840491276e6f78abf77484a7f0f201c0850399a3afead27d644e6fcfefb2d54f"
+      },
+      {
+        "bytes": 3125,
+        "path": "processor_config.json",
+        "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+      },
+      {
+        "bytes": 615,
+        "path": "embodiment_id.json",
+        "sha256": "aa93ed57322436929f1cf99f5ed1b6c0b7cebc206b0ac3d6a6d631c7ec1ba07c"
+      },
+      {
+        "bytes": 2693,
+        "path": "PI0277_READOUT_CONTRACT.json",
+        "sha256": "14204adc821d4c3a3dce7a07e4a0222557285450e4822c0f0b396ad870f0b922"
+      },
+      {
+        "bytes": 4993709288,
+        "path": "model-00001-of-00002.safetensors",
+        "sha256": "42e6b4178c7b533c3c600d19a1329b8fafed0845d739734c2d2ad6f6baa88b75"
+      },
+      {
+        "bytes": 4535492016,
+        "path": "model-00002-of-00002.safetensors",
+        "sha256": "0adee1353185f41189482d90b26216dbca8798f9f26243696b2fe0b849238819"
+      }
+    ],
+    "point": "GRIP4096",
+    "release": "1a20200ff066ef5a003650110cd20106f9a4bf64",
+    "resumable": false,
+    "selected_checkpoint": "NONE",
+    "source_full_trainer": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/checkpoint-4096",
+    "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+    "step": 4096
+  },
+  "archive": "DEFERRED_USER_PRIORITY",
+  "quality": "PENDING_ACTUAL_FINAL_SCREEN",
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE"
+}
