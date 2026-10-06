@@ -1,0 +1,40 @@
+{
+  "status": "PASS_CPU_COORDINATOR_REPAIR_REMOTE_ADOPTION_PENDING_VPN",
+  "authority_release": "57fd8a9c53ce241c05a8d5b351034bed7ba56b14",
+  "actual_failure": {
+    "pc_exec_session": 96795,
+    "exit_code": 1,
+    "phase": "archive.py training_data",
+    "error": "RuntimeError: client_loop: send disconnect: Connection reset"
+  },
+  "last_verified_remote_process": {
+    "host": "corelab-4080s",
+    "pid": 2919314,
+    "elapsed": "25:30",
+    "status": "Sl",
+    "command": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py training_data",
+    "current_state": "UNOBSERVED_AFTER_VPN_DISCONNECT"
+  },
+  "uploaded_revision": "0f64f053ad69b6b4803e712000a0b136cc4623d3",
+  "archive_full_readback": "NOT_YET_OBSERVED_COMPLETE",
+  "vpn": {
+    "cisco_adapter_status": "Disabled",
+    "hopper": "DNS_FAILURE",
+    "corelab": "CONNECT_TIMEOUT",
+    "user_reconnect_requested": true
+  },
+  "repair": "Shared detached finite command with exact argv and original receipt adoption, durable exit status, per-command lock, both SSH hops keepalive; no restart of healthy archive",
+  "before_sha256": "9afe32230581ce37c4cbe3864fb70e0a00bde3c2b10643fdc7978c05f58d462c",
+  "after_sha256": "6e08a5470ebdcbeb9538f0d667098d7eaf505a245faa8ed1bc56199f443ccb48",
+  "cpu_check_sha256": "de6608a05413a86c6e8aef1b1d2c992980e79a349bda32f1dbaab3bbfbc99f66",
+  "cpu_check_stdout": "PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY",
+  "cpu_check_scope": "Fake proc and generated remote program AST, including native/modern/Hopper worker and submission/copy RPCs; no actual remote launch",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics_steps": 0,
+  "healthy_remote_code_changed": false,
+  "goal_terminal": false,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "additional_prelaunch_defect": "Generated qsub RPC embedded an unescaped newline; actual RPC AST dry run reproduced SyntaxError, then narrow escaping fix passed. No qsub attempted."
+}

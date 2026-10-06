@@ -1,5 +1,5 @@
 """Finite two-host continuation through the PC's existing SSH identities; no monitor."""
-import argparse,base64,json,os,shlex,subprocess,sys,time
+import argparse,base64,hashlib,inspect,json,os,shlex,subprocess,sys,time
 from pathlib import Path
 
 RELEASE='57fd8a9c53ce241c05a8d5b351034bed7ba56b14'
@@ -13,16 +13,41 @@ def hopper_required():
 
 
 def remote(host,script):
-    args=['ssh','-o','BatchMode=yes','-o','ConnectTimeout=15']
-    args+=['corelab-amd-server','ssh','corelab-4080s','python3'] if host=='core' else ['nus-hopper','python3']
+    options=['-o','BatchMode=yes','-o','ConnectTimeout=15','-o','ServerAliveInterval=30','-o','ServerAliveCountMax=6']
+    args=['ssh',*options]
+    args+=['corelab-amd-server','ssh',*options,'corelab-4080s','python3'] if host=='core' else ['nus-hopper','python3']
     result=subprocess.run(args,input=script,text=True,capture_output=True)
-    if result.returncode:raise RuntimeError(result.stderr[-6000:]+result.stdout[-6000:])
+    if result.returncode:
+        error=ConnectionError if result.returncode==255 else RuntimeError
+        raise error(result.stderr[-6000:]+result.stdout[-6000:])
     return result.stdout
 
 
 def read(host,path):
     out=remote(host,f"import json\nfrom pathlib import Path\np=Path({path!r})\nprint(p.read_text() if p.exists() else 'null')\n")
     return json.loads(out)
+
+
+def phase_status(start,done,target,arguments,marker,proc=Path('/proc')):
+    if marker and Path(marker).is_file():
+        assert json.loads(Path(marker).read_text())['status']=='PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS'
+        return {'status':'COMPLETE','receipt':marker}
+    if done.exists():
+        value=json.loads(done.read_text());assert value['target']==target and value['arguments']==list(arguments)
+        return dict(value,status='COMPLETE' if value['returncode']==0 else 'FAILED')
+    value=json.loads(start.read_text()) if start.exists() else {}
+    if value:assert value['target']==target and value['arguments']==list(arguments)
+    pids=[]
+    for p in proc.iterdir():
+        if not p.name.isdigit():continue
+        try:
+            if (p/'stat').read_text().rsplit(')',1)[1].split()[0]=='Z':continue
+            tokens=[v.decode() for v in (p/'cmdline').read_bytes().split(b'\0') if v]
+            if target in tokens and tokens[tokens.index(target)+1:]==list(arguments):pids.append(int(p.name))
+            elif int(p.name)==value.get('pid') and tokens==value.get('wrapper_argv'):pids.append(int(p.name))
+        except (OSError,UnicodeError):continue
+    if pids:return {'status':'RUNNING','pids':pids,'adopted':not bool(value)}
+    return {'status':'FAILED' if value else 'NEW','reason':'Recorded process ended without completion receipt' if value else None}
 
 
 def call(host,script,*args,native=False):
@@ -33,16 +58,46 @@ def call(host,script,*args,native=False):
     else:
         shell='source '+shlex.quote(HOP.rsplit('/',1)[0]+'/PI0273/code/environment.sh')+'; export PYTHONPATH='+shlex.quote(HOP+'/code')+':"$PYTHONPATH"; "$venv/bin/python" -u '+shlex.quote(root+'/code/'+script)+' '+shlex.join(args)
         command=['/bin/bash','-lc',shell]
-    program=f"""import os,subprocess
+    target=root+'/code/'+script
+    phase=script.replace('.py','')+'-'+hashlib.sha256(json.dumps(args).encode()).hexdigest()[:12]
+    marker=root+'/evidence/RESULT_ARCHIVE_'+args[0]+'.json' if script=='archive.py' else None
+    worker=f"""import json,os,subprocess
 from pathlib import Path
-root=Path({root!r});(root/'runtime').mkdir(parents=True,exist_ok=True)
+root=Path({root!r});done=root/'runtime'/{(phase+'.done.json')!r}
 env=dict(os.environ,OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott')
 if {script!r} not in ('evaluate.py',):env['CUDA_VISIBLE_DEVICES']=''
 with (root/'runtime'/('continuation-'+{script!r}+'.log')).open('ab') as f:
- subprocess.run({command!r},env=env,stdout=f,stderr=subprocess.STDOUT,check=True)
-print({('COMPLETE '+script)!r})
+ result=subprocess.run({command!r},env=env,stdout=f,stderr=subprocess.STDOUT)
+tmp=done.with_suffix('.tmp');tmp.write_text(json.dumps({{'returncode':result.returncode,'target':{target!r},'arguments':{list(args)!r}}})+'\\n');tmp.replace(done)
 """
-    print(remote(host,program).strip(),flush=True)
+    program=f"""import fcntl,json,subprocess,sys
+from pathlib import Path
+{inspect.getsource(phase_status)}
+root=Path({root!r});runtime=root/'runtime';runtime.mkdir(parents=True,exist_ok=True)
+start=runtime/{(phase+'.start.json')!r};done=runtime/{(phase+'.done.json')!r}
+with (runtime/{(phase+'.lock')!r}).open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX)
+ value=phase_status(start,done,{target!r},{list(args)!r},{marker!r})
+ if value['status']=='NEW':
+  with (runtime/{(phase+'.worker.log')!r}).open('ab') as log:
+   wrapper_argv=[sys.executable,'-u','-c',{worker!r}]
+   child=subprocess.Popen(wrapper_argv,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+  tmp=start.with_suffix('.tmp');tmp.write_text(json.dumps({{'pid':child.pid,'target':{target!r},'arguments':{list(args)!r},'wrapper_argv':wrapper_argv}})+'\\n');tmp.replace(start)
+  value={{'status':'RUNNING','pids':[child.pid],'adopted':False}}
+ elif value['status']=='RUNNING' and value.get('adopted'):
+  tmp=start.with_suffix('.tmp');tmp.write_text(json.dumps({{'pid':value['pids'][0],'target':{target!r},'arguments':{list(args)!r},'adopted':True}})+'\\n');tmp.replace(start)
+print(json.dumps(value))
+"""
+    # ponytail: one finite phase per existing command; no service or background monitor.
+    announced=False
+    while True:
+        try:value=json.loads(remote(host,program))
+        except ConnectionError as error:
+            print('SSH unavailable; retaining exact phase '+phase+': '+str(error)[-500:],flush=True);time.sleep(30);continue
+        if value['status']=='COMPLETE':print('COMPLETE '+script+' '+shlex.join(args),flush=True);return
+        if value['status']=='FAILED':raise RuntimeError('Actual remote phase failed: '+json.dumps(value))
+        if not announced:print('ADOPTED/RUNNING '+script+' '+shlex.join(args)+' '+json.dumps(value),flush=True);announced=True
+        time.sleep(30)
 
 
 def stage_hopper():
@@ -91,7 +146,7 @@ r=Path({HOP!r})
 with (r/'runtime/submit.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);p=r/'evidence/TRAINING_JOB.json';assert not p.exists()
  result=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qsub',str(r/'code/training.pbs')],capture_output=True,text=True,check=True)
- value={{'job_id':result.stdout.strip(),'release':{RELEASE!r}}};p.write_text(json.dumps(value)+'\n');print(json.dumps(value))
+ value={{'job_id':result.stdout.strip(),'release':{RELEASE!r}}};p.write_text(json.dumps(value)+'\\n');print(json.dumps(value))
 """))
     assert job['release']==RELEASE
     while True:
