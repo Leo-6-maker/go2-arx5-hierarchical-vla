@@ -33,7 +33,8 @@ def add_box(result,g,mask,states,output,forward,resume):
             append(output/'BOX_FIRST_UPDATE_GRADIENT.jsonl',dict(**row,kind=kind,state_index=index,norm=float(gradient.float().norm()),finite=True,
                 gradient_scope='isolated_box_branch' if kind=='fraction' else 'total_objective',zero_box_gradient_is_valid=True))
         fraction.register_hook(lambda gradient:observe(gradient,'fraction'))
-        assert len(states)==4 and all(s.requires_grad for s in states)
+        states=[state for state in states if state.requires_grad]
+        assert len(states)==4 and states[-1] is g
         for index,state in enumerate(states,1):
             state.register_hook(lambda gradient,index=index:observe(gradient,'Euler',index))
 
@@ -67,9 +68,36 @@ def check(source):
     assert 'config.training.max_steps=4096' in source
     return dict(status='PASS_SINGLE_BOX_INSERTION_AND_UNCHANGED_RESUME_SCHEDULE',launch_allowed=False,objective_applied=False)
 
+def check_graph(root):
+    import hashlib,tempfile,types,torch
+    torch.set_num_threads(4)
+    assert not torch.cuda.is_available()
+    # CPU-only logger stub; production imports the unchanged Hopper append helper.
+    logger=types.ModuleType('train')
+    def append(path,row):
+        with Path(path).open('a') as f:f.write(json.dumps(row)+'\n')
+    logger.append=append;previous=sys.modules.get('train');sys.modules['train']=logger
+    try:
+        a=torch.zeros(1,40,132,requires_grad=True);b=a+0.;c=b+0.;g=(c+0.).clone();g[0,0,9]=g[0,0,9]+1.4
+        mask=torch.zeros_like(g);mask[...,:10]=1
+        with tempfile.TemporaryDirectory(dir=root/'evidence') as tmp:
+            result={'loss':g.sum()*0+9}
+            add_box(result,g,mask,[torch.zeros_like(a),a,b,c,g],Path(tmp),1,0)
+            assert abs(result['loss'].item()-9.04)<1e-5
+            result['loss'].backward()
+            rows=[json.loads(s) for s in (Path(tmp)/'BOX_FIRST_UPDATE_GRADIENT.jsonl').read_text().splitlines()]
+            assert len(rows)==5 and all(x['finite'] for x in rows)
+            assert [x['state_index'] for x in rows if x['kind']=='Euler']==[4,3,2,1]
+            assert abs(a.grad[0,0,9].item()-.2)<1e-5
+    finally:
+        if previous is None:del sys.modules['train']
+        else:sys.modules['train']=previous
+    return dict(status='PASS_CPU_SINGLE_ADDITION_AND_FOUR_GRAD_STATES_WITH_NONGRAD_INITIAL_NOISE',source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),logger='CPU_STUB_ONLY',formal_updates=0,new_model_queries=0,launch_allowed=False,objective_applied=False)
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',type=Path);p.add_argument('--resume',type=int);p.add_argument('--seal',type=Path);p.add_argument('--check-source',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',type=Path);p.add_argument('--resume',type=int);p.add_argument('--seal',type=Path);p.add_argument('--check-source',type=Path);p.add_argument('--check-graph',action='store_true');a=p.parse_args()
     if a.check_source:print(json.dumps(check(a.check_source.read_text())))
+    elif a.check_graph:print(json.dumps(check_graph(a.root)))
     else:
         assert a.root and a.resume and a.seal
         with (a.root.parent/'runtime/owner.lock').open('a') as lock:

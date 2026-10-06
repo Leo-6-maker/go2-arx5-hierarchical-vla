@@ -1,0 +1,51 @@
+{
+  "observed_utc": "2026-10-06T18:36:43.593746+00:00",
+  "host": "Hopper",
+  "job": "651332.hopper-m-02",
+  "cursor": {
+    "completed_update": 1565,
+    "next_unconsumed_micro": 3130,
+    "queues_are_discardable": true
+  },
+  "checkpoints": [
+    {
+      "arm": "GRIP",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/checkpoint-3072",
+      "global_step": 3072,
+      "type": "COMPLETE_TRAINER",
+      "logical_bytes": 20884327812,
+      "protected": true,
+      "reason": "Current/previous recovery or GRIP parent; no deletion"
+    },
+    {
+      "arm": "GRIP",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/checkpoint-4096",
+      "global_step": 4096,
+      "type": "COMPLETE_TRAINER",
+      "logical_bytes": 20884469448,
+      "protected": true,
+      "reason": "Current/previous recovery or GRIP parent; no deletion"
+    },
+    {
+      "arm": "FOCUS",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/FOCUS/main/training/checkpoint-1024",
+      "global_step": 1024,
+      "type": "COMPLETE_TRAINER",
+      "logical_bytes": 20883671851,
+      "protected": true,
+      "reason": "Current/previous recovery or GRIP parent; no deletion"
+    },
+    {
+      "arm": "FOCUS",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/FOCUS/main/training/checkpoint-512",
+      "global_step": 512,
+      "type": "COMPLETE_TRAINER",
+      "logical_bytes": 20883601620,
+      "protected": true,
+      "reason": "Current/previous recovery or GRIP parent; no deletion"
+    }
+  ],
+  "HF_archive": "DEFERRED_LOCAL_RECOVERY_PRESERVED",
+  "new_deletions": 0,
+  "quota_report": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-07 01:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     20.53G     40.00G      51.3%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-07 02:33]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    970.8GB |    1.0TB   ||   558441  | unlimited \n=========================================================================\n\n"
+}
