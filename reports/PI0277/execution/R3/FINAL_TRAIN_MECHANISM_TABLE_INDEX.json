@@ -1,0 +1,99 @@
+{
+  "FIT_table": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/handoff/FOCUS4096/FIT16_ALL_EVALUATED_POINTS.json",
+    "rows": 112,
+    "sha256": "87ddb1573a53831799ddc227ff1047bb07279085a64fd44043ca5f2cc2dc73c7"
+  },
+  "deployment": "NONE",
+  "interpretation": "Actual sequences retained in the table; descriptive counts are not causal mechanism labels. No teacher phase used.",
+  "new_model_queries": 0,
+  "new_physics_steps": 0,
+  "new_teacher_calls": 0,
+  "prefix_sequence_counts": [
+    {
+      "executed_queries": 320,
+      "horizon39_request_up_gt1cm": 115,
+      "point": "GRIP512",
+      "prefix7_request_up_gt1cm": 29,
+      "queries": 320,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    },
+    {
+      "executed_queries": 320,
+      "horizon39_request_up_gt1cm": 115,
+      "point": "GRIP2048",
+      "prefix7_request_up_gt1cm": 156,
+      "queries": 320,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    },
+    {
+      "executed_queries": 126,
+      "horizon39_request_up_gt1cm": 80,
+      "point": "GRIP4096",
+      "prefix7_request_up_gt1cm": 5,
+      "queries": 129,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    },
+    {
+      "executed_queries": 250,
+      "horizon39_request_up_gt1cm": 35,
+      "point": "FOCUS512",
+      "prefix7_request_up_gt1cm": 35,
+      "queries": 251,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    },
+    {
+      "executed_queries": 137,
+      "horizon39_request_up_gt1cm": 65,
+      "point": "FOCUS1024",
+      "prefix7_request_up_gt1cm": 5,
+      "queries": 140,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    },
+    {
+      "executed_queries": 320,
+      "horizon39_request_up_gt1cm": 146,
+      "point": "FOCUS2048",
+      "prefix7_request_up_gt1cm": 33,
+      "queries": 320,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    },
+    {
+      "executed_queries": 320,
+      "horizon39_request_up_gt1cm": 65,
+      "point": "FOCUS4096",
+      "prefix7_request_up_gt1cm": 14,
+      "queries": 320,
+      "same_tick_object_truth": "OFFLINE_ONLY"
+    }
+  ],
+  "query_table": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/handoff/FOCUS4096/TRAIN_QUERY_INSTALLATION_TABLE.csv",
+    "rows": 1800,
+    "sha256": "0fad4d0e53253a1219d6a9ef278c39b3f2ad5bad6f7b4eb578b614ba12f55633"
+  },
+  "selected_checkpoint": "NONE",
+  "sources": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/evidence/PREFIX_V2_GRIP512-GRIP2048-GRIP4096.json",
+      "sha256": "0f4d45fcfe14f617578e4603ddabdb75c7d253150741a33d3c845fac7b92eee8"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/evidence/PREFIX_V2_FOCUS512.json",
+      "sha256": "954da35bb9e8eb2a0fee0ccf91436242caea009e6fbc84a1c68fe833645637db"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/evidence/PREFIX_V2_FOCUS1024.json",
+      "sha256": "2d34014452f335adac74898221d43ccbbd0ea1518694185f246662130df54dc4"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/evidence/PREFIX_V2_FOCUS2048.json",
+      "sha256": "c545005205652cba5c205d396ddf98dd24833b5c86c9215b99b7d1fb3a897dde"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/evidence/PREFIX_V2_FOCUS4096.json",
+      "sha256": "826544c68b32230d1a53f0c7400db08d57ffd80dcb14b0fc86e90ac891151286"
+    }
+  ],
+  "status": "PASS_ALL_SAVED_TRAIN_QUERY_TABLE_AND_ACTUAL_FIT_NOISE_JOIN"
+}

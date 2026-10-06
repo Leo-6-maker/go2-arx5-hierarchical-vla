@@ -1,0 +1,64 @@
+{
+  "DEV_admissions": [
+    {
+      "TRAIN_decision_receipt_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R2/evidence/CPU_REPLAY_FOCUS4096_TRAIN_PHYSICS.json",
+      "TRAIN_decision_receipt_schema": "PASS_SAVED_S4_DECODE_FRESH_INPUT_NATIVE_PREDICATES",
+      "TRAIN_decision_receipt_sha256": "fc07b94e6b47d1c34ac7f9e30b230dc4fdf2a85012c0dbb195fc78e5956410a4",
+      "lineage": "FOCUS",
+      "point": "FOCUS4096"
+    }
+  ],
+  "WBC_queries": 0,
+  "caps": {
+    "control": 150000,
+    "physics": 750000,
+    "quality_heads": 57344,
+    "quality_requests": 14336,
+    "rgb": 155000,
+    "starts": 234,
+    "teacher": 48000
+  },
+  "confirmation_opened": false,
+  "deployment": "NONE",
+  "frozen_candidate_exists": false,
+  "hardware_queries": 0,
+  "inherited_TASK8192_FIT_requests": 128,
+  "new_budget_reset": false,
+  "new_teacher_controls": 0,
+  "observed_utc": "2026-10-06T20:43:50.628109+00:00",
+  "physical_counts": {
+    "control": 19464,
+    "physics": 97320,
+    "rgb": 19471,
+    "starts": 36
+  },
+  "physical_ledger_scope": "PI0277 shared root, including all R2/R3 physical attempts; PI0276 source experts/donor historical results reused externally, not newly executed",
+  "quality_by_point": {
+    "FOCUS1024": 156,
+    "FOCUS2048": 336,
+    "FOCUS4096": 976,
+    "FOCUS512": 267,
+    "GRIP2048": 336,
+    "GRIP4096": 145,
+    "GRIP512": 336,
+    "TASK8192": 128
+  },
+  "quality_heads": 10720,
+  "quality_requests": 2680,
+  "selected_checkpoint": "NONE",
+  "sources": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/evidence/model_attempts.jsonl",
+      "sha256": "38fc6713fe207183a50a67efc7650aed70ec8ad0f3d18149e42b02905d2a99ac"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/evidence/model_heads.jsonl",
+      "sha256": "554affd490632f44a39ab7aa8104d7f23b950527b8dcb1fb5a0348e44dee6658"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/evidence/budget.jsonl",
+      "sha256": "d76cd54aca0b27350aec5aa22fc5217a25a37b4b8c707177549c45c52da56d4d"
+    }
+  ],
+  "status": "PASS_CURRENT_PI0277_SHARED_QUALITY_AND_PHYSICAL_LEDGER_CAPS"
+}

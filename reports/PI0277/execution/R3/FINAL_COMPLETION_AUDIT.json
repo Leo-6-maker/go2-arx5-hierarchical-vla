@@ -1,0 +1,303 @@
+{
+  "canonical": 6021627390,
+  "confirmation": "NOT_ADMITTED_BY_VALID_DEV_FAIL",
+  "deployment": "NONE",
+  "evidence_hash_scopes": {
+    "git_blob_sha256": "Repository blob bytes after Git text newline normalization; verifies published file content without changing original receipts",
+    "sha256": "Exact local Windows working-copy bytes used in this audit; Core handoff preserves these bytes"
+  },
+  "governing_release": "a5a7e569684d52170f02b0819ae006a7587800dd",
+  "observed_utc": "2026-10-06T21:13:01.577163+00:00",
+  "remaining_required_scientific_work": 0,
+  "requirements": [
+    {
+      "details": "Actual journal rows and terminal F/exit0, not a launch manifest",
+      "evidence": [
+        {
+          "git_blob_sha256": "6a7d1e915967d16bef0ffc0444b4136ca25624e6bc1625c71184d30b9b94d9b5",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS_ACTUAL_TRAINING_AUDIT.json",
+          "sha256": "3ee62adda01916a38a732ff25990d40962dda405db4c48228e186cb521dadc02"
+        },
+        {
+          "git_blob_sha256": "f8f2da91a0bb6c3ae468f45b4334926ba3c0f5719b46a80fec6bfb3758249833",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_TRAINING_JOB_TIMES.json",
+          "sha256": "6b99b0c09afee627df9f867aa67fa4c8ec2d67e27090b7032538ac4ba0a96ce6"
+        }
+      ],
+      "requirement": "Finish sole original FOCUS4096 without reset",
+      "status": "PROVEN"
+    },
+    {
+      "details": "1803\u20134096 only; 2294 updates; retained optimizer/scheduler/RNG/visit order",
+      "evidence": [
+        {
+          "git_blob_sha256": "ce310369a7e53ba6e5d4111079c7f366a7f2a5b4fdba8386ec9301adc2e748b8",
+          "path": "reports\\PI0277\\execution\\R3\\FAST_FOCUS512_TRAIN_PHYSICS.json",
+          "sha256": "2ab5bd83903c5906d510611ba048651460ada8ffb45a48a0a01bf3c341e969bd"
+        },
+        {
+          "git_blob_sha256": "93c2ef7ef72b63027f9bf1bc199261809edab5f07b97c9d3b9e16ff17d931cae",
+          "path": "reports\\PI0277\\execution\\R3\\FAST_FOCUS1024_TRAIN_PHYSICS.json",
+          "sha256": "1c14691d95d407690b7d0621a90f11bf5cd2db007529e613916fa62ed295e646"
+        },
+        {
+          "git_blob_sha256": "fd7979d8ea0778ecd60baebe3e38e6901126f2e3a884fe792c164c30c836977e",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS_GRIP_BOUND_R3_OBJECTIVE_SEAL.json",
+          "sha256": "fd7979d8ea0778ecd60baebe3e38e6901126f2e3a884fe792c164c30c836977e"
+        },
+        {
+          "git_blob_sha256": "6a7d1e915967d16bef0ffc0444b4136ca25624e6bc1625c71184d30b9b94d9b5",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS_ACTUAL_TRAINING_AUDIT.json",
+          "sha256": "3ee62adda01916a38a732ff25990d40962dda405db4c48228e186cb521dadc02"
+        }
+      ],
+      "requirement": "Earliest fixed suffix-only trigger and once-only same-lineage box phase",
+      "status": "PROVEN"
+    },
+    {
+      "details": "No extra generation; fraction branch gradient and total-objective four-state gradients distinguished",
+      "evidence": [
+        {
+          "git_blob_sha256": "051e06d1906924f658607a23d5c737f2b2f7620c765a814e956486bd503e2f6d",
+          "path": "reports\\PI0277\\execution\\R3\\BOX_CPU_CHECK.json",
+          "sha256": "7cc03c0e98c7e9475e12536501a6ad122117ac9084cc791166708229c358cc90"
+        },
+        {
+          "git_blob_sha256": "6718a767e5537fde52f53efbc7f7efb039c822d5947daa66898a4eacd62c9bfe",
+          "path": "reports\\PI0277\\execution\\R3\\BOX_INSERTION_CPU_CHECK_V2.json",
+          "sha256": "82152391c37737ce95705005e12a3ba18f9ba1375996433a7116579bc643c44d"
+        },
+        {
+          "git_blob_sha256": "d1320cdddf3b08bafab46fb05f437e281615dd6f6a24ca620cd217e76b8caf5e",
+          "path": "reports\\PI0277\\execution\\R3\\FIRST_CONTINUING_UPDATE_HEALTH.json",
+          "sha256": "d1320cdddf3b08bafab46fb05f437e281615dd6f6a24ca620cd217e76b8caf5e"
+        }
+      ],
+      "requirement": "CPU box contract and actual first continuing-update health",
+      "status": "PROVEN"
+    },
+    {
+      "details": "Current R2/R3 seals match; two historical helper hash differences separately reconciled, old manifest not rewritten",
+      "evidence": [
+        {
+          "git_blob_sha256": "85ca1e3484ae904a222f5e612b558b56e7cf179b8d38ab5473595ce676aa7c01",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_CURRENT_STATE_CODE_AND_PANEL_AUDIT.json",
+          "sha256": "b8146426306fe3dddbd61285933f06fb786ec7424ba8aa00608c56586bc28258"
+        },
+        {
+          "git_blob_sha256": "dc2e17720a462545061870bf21f954b1b0df0e67f79af381b58c01be0b87bb5c",
+          "path": "reports\\PI0277\\execution\\R3\\PREDECESSOR_SOURCE_MANIFEST_RECONCILIATION.json",
+          "sha256": "a38fbb72be1d09bf31666cd5eb6c1484e4a90d5d2fb83c16e819c8cacf98d897"
+        }
+      ],
+      "requirement": "Original gate/controller and scientific query contract protected",
+      "status": "PROVEN"
+    },
+    {
+      "details": "All final FIT/TRAIN/DEV saved outputs independently replayed, no neural/physics calls",
+      "evidence": [
+        {
+          "git_blob_sha256": "cabc6388f4581b0edd214319cdf7b84492bcddc69a1edb24a0b90c7ccd8226b4",
+          "path": "reports\\PI0277\\execution\\R3\\CPU_FOCUS4096_TRAIN_RECEIPT_INDEX.json",
+          "sha256": "1014625b8820daf0480e133d47ef8aabd74e160a59f593d00a79fefa1cdddabb"
+        },
+        {
+          "git_blob_sha256": "850c42901ad07601f97b0e94a9cf6a1618fc1bdb4b41c2edb096c94fe3dce7f8",
+          "path": "reports\\PI0277\\execution\\R3\\CPU_FOCUS4096_DEV_RECEIPT_INDEX.json",
+          "sha256": "c9f10d4981108f16af687f4b18864f4e9766a1703f99ceecef6b4aa677b8c7c4"
+        }
+      ],
+      "requirement": "Same-stage native/input/noise/full S4 proof for actual final results",
+      "status": "PROVEN"
+    },
+    {
+      "details": "3/4 admitted; 3/8 valid qualification FAIL; all41 controls28..30s and32s completion",
+      "evidence": [
+        {
+          "git_blob_sha256": "692b4f6b183abc4f947d196d2e588363e435ecefa02c45353d0fb5e977082573",
+          "path": "reports\\PI0277\\execution\\R3\\PANEL_FOCUS4096_TRAIN_PHYSICS.json",
+          "sha256": "795094f00a8510bd9eaf2b4b7e0a944678063197af97bdeabaa243b04badd904"
+        },
+        {
+          "git_blob_sha256": "1bbc5c57110e77257087406cae16a595901dce7c66acb3ae3974b37621f72f2c",
+          "path": "reports\\PI0277\\execution\\R3\\PANEL_FOCUS4096_TEST.json",
+          "sha256": "60c669ca991f4616eafd40bae6d330fc57eaaa03a0a935cae8213670b9abb41b"
+        },
+        {
+          "git_blob_sha256": "30a7bdbc6a451f7b2f402f8229485c25984ecf915cde120df62e91942032008e",
+          "path": "reports\\PI0277\\execution\\R3\\DEV_ADMISSION_FOCUS4096.json",
+          "sha256": "859ee7338ce7849acd8b6f58c1aee8ba122f5cfbca1bd34653216d431b7c2737"
+        }
+      ],
+      "requirement": "Fixed TRAIN4 then first FOCUS DEV8 and full native persistence rule",
+      "status": "PROVEN"
+    },
+    {
+      "details": "DEV <6/8 closes the dependent confirmation lane; no frozen candidate or confirmation noise",
+      "evidence": [
+        {
+          "git_blob_sha256": "ee3eb6e129bf68b79fadc6c68a7d1432b8470045debd97fc4c7dc10f74b299f2",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_CORE_RAW_BUDGET.json",
+          "sha256": "5aae087e6c34c8daed8cb6e327c9f4dc4c8679616c98b2a7f848d9ad1f34a4fa"
+        },
+        {
+          "git_blob_sha256": "85ca1e3484ae904a222f5e612b558b56e7cf179b8d38ab5473595ce676aa7c01",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_CURRENT_STATE_CODE_AND_PANEL_AUDIT.json",
+          "sha256": "b8146426306fe3dddbd61285933f06fb786ec7424ba8aa00608c56586bc28258"
+        },
+        {
+          "git_blob_sha256": "d8e5437ba50b8e79380257ca7f3aa6c2dc144ade1b4d8cb8aa6bb11b1600fe5e",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_HANDOFF_INDEX.json",
+          "sha256": "fb03ff521b45523d0e43b1b680c21aa7a7b3429dbb5e180b039ced4b042c3af9"
+        }
+      ],
+      "requirement": "Conditional confirmation correctly not admitted; no alternative pursuit",
+      "status": "PROVEN"
+    },
+    {
+      "details": "Seven measured TRAIN snapshots plus one DEV panel, no quality reruns; GRIP1024 remains unmeasured",
+      "evidence": [
+        {
+          "git_blob_sha256": "d8e5437ba50b8e79380257ca7f3aa6c2dc144ade1b4d8cb8aa6bb11b1600fe5e",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_HANDOFF_INDEX.json",
+          "sha256": "fb03ff521b45523d0e43b1b680c21aa7a7b3429dbb5e180b039ced4b042c3af9"
+        },
+        {
+          "git_blob_sha256": "85ca1e3484ae904a222f5e612b558b56e7cf179b8d38ab5473595ce676aa7c01",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_CURRENT_STATE_CODE_AND_PANEL_AUDIT.json",
+          "sha256": "b8146426306fe3dddbd61285933f06fb786ec7424ba8aa00608c56586bc28258"
+        }
+      ],
+      "requirement": "All prior valid failures and unique first-valid attempts preserved",
+      "status": "PROVEN"
+    },
+    {
+      "details": "Saved TRAIN sequences only; reference/installation/actual motion separated; no causal or teacher-phase claim",
+      "evidence": [
+        {
+          "git_blob_sha256": "d56955a4c087c827b057dfbc122df107106056a63b899a6c2e938b18d1ec5c60",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_TRAIN_MECHANISM_TABLE_INDEX.json",
+          "sha256": "18688c8cdb32d82232a5344a4d52a101722487837c2f63585f4380fbac09862e"
+        },
+        {
+          "git_blob_sha256": "c491f30d1f58862e729b5dc9a4fa29b6ffc7aead24af80782fc23e20951e4d0a",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS4096_NATIVE_CHRONOLOGY.json",
+          "sha256": "647cc1f1845b1d50a092a4a90d252b280cd05b1af3b852e99a9410dde2b0a654"
+        },
+        {
+          "git_blob_sha256": "a5666792c19fbfece868663af4616ccd7b6796e9f4cbdcd239831a3d9074515a",
+          "path": "reports\\PI0277\\execution\\R3\\PREFIX_FOCUS4096_SUMMARY.json",
+          "sha256": "7dac218c1f93e358d63d3606d4050f5582d7d5e2633660da9a63ed15cfa79018"
+        }
+      ],
+      "requirement": "Per-query/per-stage physical installation and matched actual FIT diagnostics delivered",
+      "status": "PROVEN"
+    },
+    {
+      "details": "Latest3072/4096 full Trainers readback; Core model-only distinct; shared free not personal quota",
+      "evidence": [
+        {
+          "git_blob_sha256": "50cbec02b0d567d43884636e5b3295409ea7282f1d44e7aff9d76f5b9caf99f0",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS_FINAL_LOCAL_RECOVERY.json",
+          "sha256": "9bb0a91a59b1396e825d54a509785c8fcf9032e461171ab59f51e5d08ab0b3fa"
+        },
+        {
+          "git_blob_sha256": "7b0096e84c705ebb0e0cc0cfa62905d03b66f852efef98e0fb84c074320d6ab4",
+          "path": "reports\\PI0277\\execution\\R3\\FROZEN_BYTES_FOCUS4096.json",
+          "sha256": "a61a55a191a4069b33f6711a55b3218686c516654817feb8cb7aeebea5b68c0e"
+        },
+        {
+          "git_blob_sha256": "1db021186072a06fdc36b78aa7e8b011099f115616625e24be7ea0b5b6564dda",
+          "path": "reports\\PI0277\\execution\\R3\\POST_TRAINING_STORAGE_INVENTORY_HOPPER.json",
+          "sha256": "ae208cd2fc07432fa7e800665c98110221e3a1863429ee874d69a99f7be9eb76"
+        },
+        {
+          "git_blob_sha256": "aaa44f70443a1b73870b0fbfdf91cf47c8d6ef8e2c3c75b427e497d20c171846",
+          "path": "reports\\PI0277\\execution\\R3\\POST_TRAINING_STORAGE_INVENTORY_CORELAB.json",
+          "sha256": "fbb6f5ad20d55a55bb1e1fbc86e8f321c0f011a5533b0a1497aeda0545585879"
+        }
+      ],
+      "requirement": "Complete current local recovery and frozen scope preserved",
+      "status": "PROVEN"
+    },
+    {
+      "details": "All12 video payload SHA readbacks; first success/failure indexed; cached command exercised without new neural forwards",
+      "evidence": [
+        {
+          "git_blob_sha256": "d8e5437ba50b8e79380257ca7f3aa6c2dc144ade1b4d8cb8aa6bb11b1600fe5e",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_HANDOFF_INDEX.json",
+          "sha256": "fb03ff521b45523d0e43b1b680c21aa7a7b3429dbb5e180b039ced4b042c3af9"
+        },
+        {
+          "git_blob_sha256": "4be7e350ad98c6a31c8e3af31b9f73c89cbdf9977ec708d3924150d1ed43e39b",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS4096_POLICY_HANDOFF.json",
+          "sha256": "fecbc5850c9a09ad3aeba039853db225b5678a8e9adb531462bc12902cd61d5f"
+        },
+        {
+          "git_blob_sha256": "1da4578b90503470b2f1b7fa19f066c267a662e64b68d460768bd455005777b3",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS4096_INPUT_REQUEST.json",
+          "sha256": "f93b7123903be7fe0688ffc30db1380e06ae933ac765d273f5dbb2873a04ecdf"
+        },
+        {
+          "git_blob_sha256": "31299f6f6b82ddbdce1efcffb2be57c59420f115a13b343d3f8070812c515552",
+          "path": "reports\\PI0277\\execution\\R3\\HANDOFF_CACHED_RELOAD_FOCUS4096.json",
+          "sha256": "2a98acd8f2696c37f1777e01a698ae6a5b83e1442bdb4152eb510eb7b5785f9b"
+        },
+        {
+          "git_blob_sha256": "bdc82e55bbed9f13c6b69517b31f3650d8e26dd15dbc11394e0f1a311d17019a",
+          "path": "reports\\PI0277\\execution\\R3\\HANDOFF_CACHED_RELOAD_ENGINEERING_ATTEMPT_01.json",
+          "sha256": "0a5f065b9091ceacbcd89c7848da79c9d33d4e271c08001d251bb455eb7fce59"
+        }
+      ],
+      "requirement": "Actual local input/inference example, measured readonly load and all real videos",
+      "status": "PROVEN"
+    },
+    {
+      "details": "All caps checked; training ended before07:00; current handoff completed before08:00; load time current measured, historical unobserved",
+      "evidence": [
+        {
+          "git_blob_sha256": "173b7362fc9c6a3176eb575dc4fb7f62cb396abc0e81449f1c9057d7218adaff",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_CUMULATIVE_BUDGET.json",
+          "sha256": "f4bc36b0def4b539b84970f0d48f25a50c2db261998a645207c3aaaec00aabf2"
+        },
+        {
+          "git_blob_sha256": "f8f2da91a0bb6c3ae468f45b4334926ba3c0f5719b46a80fec6bfb3758249833",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_TRAINING_JOB_TIMES.json",
+          "sha256": "6b99b0c09afee627df9f867aa67fa4c8ec2d67e27090b7032538ac4ba0a96ce6"
+        },
+        {
+          "git_blob_sha256": "2b69db748983444aad27047ca1496af3ea1679b4d8d08b74cf024ef98b92a057",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_FOCUS_STAGE_TIMING.json",
+          "sha256": "0930a3d41e93547e59076c1bb2fe9a8b6be050862230c12d0a9bace967196827"
+        },
+        {
+          "git_blob_sha256": "f9ce53ac8e9d939a8e58e30b813f738274e452f6a3608b955d3088e8ad699ef0",
+          "path": "reports\\PI0277\\execution\\R3\\ACTUAL_ACCELERATION_TIMING.json",
+          "sha256": "7827a3fd50f90fad8617a370ec6e5180fca84c772370a59eeafa143c5da0a5da"
+        }
+      ],
+      "requirement": "Cumulative budgets, actual engineering accounting and deadline maintained",
+      "status": "PROVEN"
+    },
+    {
+      "details": "No HF/CONTROL/large-panel restart; source-Panda nonreal-time partial learning, not deployment/WBC/hardware or generalization success",
+      "evidence": [
+        {
+          "git_blob_sha256": "d8e5437ba50b8e79380257ca7f3aa6c2dc144ade1b4d8cb8aa6bb11b1600fe5e",
+          "path": "reports\\PI0277\\execution\\R3\\FINAL_HANDOFF_INDEX.json",
+          "sha256": "fb03ff521b45523d0e43b1b680c21aa7a7b3429dbb5e180b039ced4b042c3af9"
+        },
+        {
+          "git_blob_sha256": "4be7e350ad98c6a31c8e3af31b9f73c89cbdf9977ec708d3924150d1ed43e39b",
+          "path": "reports\\PI0277\\execution\\R3\\FOCUS4096_POLICY_HANDOFF.json",
+          "sha256": "fecbc5850c9a09ad3aeba039853db225b5678a8e9adb531462bc12902cd61d5f"
+        }
+      ],
+      "requirement": "Truthful terminal scope, explicit deferrals and scientific stop",
+      "status": "PROVEN"
+    }
+  ],
+  "scope": "Execution and truthful terminal negative handoff completed; scientific quality FAIL",
+  "selected_checkpoint": "NONE",
+  "status": "PASS_REQUIREMENT_BY_REQUIREMENT_TERMINAL_NEGATIVE_HANDOFF_AUDIT"
+}
