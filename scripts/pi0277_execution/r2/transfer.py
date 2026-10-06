@@ -47,7 +47,7 @@ for r in ready['files']:
  with p.open('rb') as f:
   for b in iter(lambda:f.read(8<<20),b''):h.update(b)
  assert p.stat().st_size==r['bytes'] and h.hexdigest()==r['sha256'],p
-p=root/'READY.json';tmp=p.with_suffix('.partial');tmp.write_text(json.dumps(ready,sort_keys=True)+'\\n');tmp.replace(p)
+p=root/'READY.json';tmp=p.with_suffix('.partial');tmp.write_text(json.dumps(ready,sort_keys=True)+chr(10));tmp.replace(p)
 print(json.dumps(dict(status='PASS_DIRECT_LOCAL_SNAPSHOT_READBACK',point={point!r},model_only=True,archive='DEFERRED_USER_PRIORITY')))
 '''
     print(remote('core',script),flush=True)
