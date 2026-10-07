@@ -3,7 +3,7 @@ import importlib.util,json,sys
 from pathlib import Path
 sys.path.insert(0,'/home/liuyu-nfs/Projects/go2-arx5/PI0278/R2/code')
 from evaluation_card import COMMON,ROOT,RAW,read,sha,freeze
-source=COMMON.with_name('PI0277')/'R3/code/frozen_bytes.py'
+source=Path(__file__).with_name('qualified_frozen_bytes.py')
 spec=importlib.util.spec_from_file_location('qualified_frozen',source);old=importlib.util.module_from_spec(spec);spec.loader.exec_module(old)
 if __name__=='__main__':
     point=sys.argv[1];scope=COMMON/'evidence/COVER93_PARAMETER_SCOPE.json'
