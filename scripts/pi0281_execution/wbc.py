@@ -26,10 +26,30 @@ def write(p,value):
     p=Path(p);p.parent.mkdir(parents=True,exist_ok=True)
     tmp=p.with_suffix(p.suffix+'.tmp');tmp.write_text(json.dumps(value,indent=2)+'\n');tmp.replace(p)
 
+_journals={}
+_journal_lines={}
+
 def append(p,value,sync=True):
-    with Path(p).open('a') as f:
-        f.write(json.dumps(value)+'\n');f.flush()
-        if sync:os.fsync(f.fileno())
+    # IO-only revision: payload/ordering unchanged; finalization fsyncs once.
+    p=Path(p)
+    if p not in _journals:
+        _journals[p]=p.open('a',buffering=8<<20)
+        _journal_lines[p]=0
+    _journals[p].write(json.dumps(value)+'\n')
+    _journal_lines[p]+=1
+
+def flush_journals():
+    receipt={}
+    for p,f in _journals.items():
+        try:f.flush();os.fsync(f.fileno())
+        finally:f.close()
+        h=hashlib.sha256();lines=0;size=0
+        with p.open('rb') as source:
+            for b in iter(lambda:source.read(8<<20),b''):
+                h.update(b);lines+=b.count(b'\n');size+=len(b)
+        assert lines==_journal_lines[p],('JOURNAL_INCOMPLETE',str(p),lines,_journal_lines[p])
+        receipt[p.name]=dict(lines=lines,expected_lines=_journal_lines[p],bytes=size,sha256=h.hexdigest())
+    return dict(status='PASS_BUFFERED_JOURNALS_LINES_SHA256',files=receipt)
 
 def configure(cfg):
     # The old evaluation helper disables body hard stops. Preserve delivered values.
@@ -178,8 +198,7 @@ def fixture(version,name):
         if str(exc)=='GATE_REJECT_NO_INSTALL':result['status']='VALID_GATE_REJECT'
         else:raise
     finally:
-        if ledger.exists():
-            with ledger.open('a') as f:f.flush();os.fsync(f.fileno())
+        write(out/'IO_COMPLETENESS.json',flush_journals())
         result.update(version=version,counts=counts,allocation=caps)
         write(out/'rows.json',records);write(out/'RESULT.json',result)
         actual('WBC',uid,counts,result['status'])

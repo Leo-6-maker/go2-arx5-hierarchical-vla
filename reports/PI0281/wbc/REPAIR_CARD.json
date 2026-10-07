@@ -2,7 +2,7 @@
   "schema": "PI0281_WBC_SINGLE_REPAIR_CARD_V1",
   "release_commit": "360b412f55be8aec1568054d7d039ce7de2bc597",
   "canonical_comment": "6040516315",
-  "status": "CPU_PREPARED_PENDING_OWNER_PUBLICATION",
+  "status": "CPU_IO_REVISION_PREPARED_PENDING_PUBLICATION",
   "launch_allowed": false,
   "repair_id": "FIRST_ORDERED_LOCAL_MINIMUM",
   "selection_scope": "one engineering reference-projection repair; no learned parameter changes",
@@ -129,7 +129,7 @@
     "method": "nvidia-smi live free memory; otherwise resource blocker before reservation/start"
   },
   "files": {
-    "wbc.py": "85dc2e7252e57b9e1a6698b5ebeba8a3b79516e9503e70e726ae52b9ed5503c0",
+    "wbc.py": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278",
     "wbc_cpu.py": "04c68779857d78920b0d1c4a4066b6d7ffd56c9583de9d42af65a4514b7ddaa8",
     "wbc_launch.py": "f073df8446a65d3b33932e3f07211069c35d25466b7a9b91edd28a058af4b278",
     "wbc_readout.py": "305ff392f94c96c6480c7c1d6828a7b5eaf25b8d2889c99d1303a91ef4f24b49",
@@ -144,5 +144,28 @@
     "torch": "2.3.1",
     "cuda": "12.1",
     "device": "cpu"
+  },
+  "IO_revision": {
+    "id": "BUFFERED_APPEND_FINAL_FSYNC",
+    "prior_wbc_sha256": "85dc2e7252e57b9e1a6698b5ebeba8a3b79516e9503e70e726ae52b9ed5503c0",
+    "new_wbc_sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278",
+    "old_effective_fixture": "native_hold",
+    "remaining_fixtures": [
+      "native_monotonic",
+      "native_return",
+      "repair_hold",
+      "repair_monotonic",
+      "repair_return"
+    ],
+    "algorithm_change": false,
+    "payload_change": false,
+    "budget_change": false,
+    "buffer_bytes_per_journal": 8388608,
+    "finalization": "flush, fsync, close, streaming linecount and SHA256 readback",
+    "evidence": [
+      "IO_EVENT_TIMING.json",
+      "IO_KERNEL_WAIT_SAMPLING.json",
+      "IO_TRACE_RECEIPT.txt"
+    ]
   }
 }
