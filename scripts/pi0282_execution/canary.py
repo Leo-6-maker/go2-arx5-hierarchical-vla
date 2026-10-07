@@ -88,7 +88,9 @@ def compare(root,arm):
     receipt=dict(status='PASS_FULL_RESUME_CANARY',arm=arm,model_bitwise_equal=exact,updated_FP32_allclose_atol=1e-6,
       updated_FP32_allclose_rtol=1e-5,model_tensors=manifest,states=states,consumed_chunks=64,completed_discarded_updates=16,
       inputs_native_noise_time_exact=True,fresh_process_restore=processes,predictions_gates_exact=True)
-    (base/'CANARY_COMPARISON.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    temporary=base/'CANARY_COMPARISON.tmp'
+    temporary.write_text(json.dumps(receipt,indent=2)+'\n')
+    temporary.replace(base/'CANARY_COMPARISON.json')
     print(json.dumps({k:v for k,v in receipt.items() if k not in ('model_tensors','states')}))
 
 

@@ -2,6 +2,7 @@
 import contextlib,hashlib,json,os,sys,time
 from pathlib import Path
 import torch
+import numpy as np
 from torch.utils._python_dispatch import TorchDispatchMode
 from scope import digest
 
@@ -54,6 +55,8 @@ class Journal:
 
 def tensor_tree(value):
     if torch.is_tensor(value):return dict(dtype=str(value.dtype),shape=list(value.shape),sha256=digest(value))
+    if isinstance(value,np.ndarray):return dict(dtype=str(value.dtype),shape=list(value.shape),sha256=hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest())
+    if isinstance(value,np.generic):return value.item()
     if isinstance(value,dict):return {str(k):tensor_tree(v) for k,v in value.items()}
     if isinstance(value,(list,tuple)):return [tensor_tree(v) for v in value]
     return value
