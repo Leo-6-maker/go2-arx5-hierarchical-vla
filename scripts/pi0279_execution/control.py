@@ -66,6 +66,7 @@ p=root/'runtime'/{(phase+'.done.json')!r};tmp=p.with_suffix('.partial');tmp.writ
 from pathlib import Path
 {inspect.getsource(phase_status)}
 root=Path({ROOT!r});runtime=root/'runtime';start=runtime/{(phase+'.start.json')!r};done=runtime/{(phase+'.done.json')!r}
+assert not (runtime/'SCIENTIFIC_PAUSE.json').exists(),'PAUSED_BY_USER_PRETRAINED_BASELINE_PRIORITY'
 with (runtime/{(phase+'.lock')!r}).open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX)
  value=phase_status(start,done,{target!r},{args!r},None)
