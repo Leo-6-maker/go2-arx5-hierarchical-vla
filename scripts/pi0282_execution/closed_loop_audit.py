@@ -46,6 +46,24 @@ def audit(point,panel='TRAIN'):
         first=float(np.flatnonzero(control)[0]*.05) if control.any() else None
         assert persistent==r['persistent_success'] and first==r['first_success_s']
         grasp=longest(computed['is_cubeA_grasped'])>=30;assert grasp==r['sustained_grasp_0p3']
+        with np.load(folder/'observations.npz',allow_pickle=False) as f:
+            observation={n:f[n] for n in ('base_camera_raw','hand_camera_raw','state_v1')}
+        input_count=0
+        if point!='EXPERT':
+            queries=json.loads((folder/'QUERIES.json').read_text())
+            for query in queries:
+                q=folder/f"q{query['index']:03d}";tick=20+8*query['index']
+                assert sha(q/'input.npz')==query['input_sha256'] and sha(q/'output.npz')==query['output_sha256']
+                with np.load(q/'input.npz',allow_pickle=False) as f:
+                    assert set(f.files)=={'actual_state','base_raw','wrist_raw'}
+                    for name,key in [('actual_state','state_v1'),('base_raw','base_camera_raw'),('wrist_raw','hand_camera_raw')]:
+                        assert np.array_equal(f[name],observation[key][tick]),('STALE_OR_UNBOUND_INPUT',r['condition'],tick,name)
+                key=json.dumps(dict(condition=r['condition'],query_index=query['index']),sort_keys=True)
+                noise=ROOT/'source/noise'/(hashlib.sha256(key.encode()).hexdigest()+'.npy')
+                with np.load(q/'output.npz',allow_pickle=False) as f:
+                    bits=f['noise_uint16'];assert bits.shape==(1,40,132) and bits.dtype==np.uint16
+                    assert np.array_equal(bits,np.load(noise)),('NOISE_BYTE_IDENTITY',r['condition'],tick)
+                input_count+=1
         gates=[json.loads((q/'GATE.json').read_text()) for q in sorted(folder.glob('q*')) if (q/'GATE.json').exists()]
         with np.load(folder/'commands.npz',allow_pickle=False) as f:cmd=f['action']
         with np.load(folder/'installed.npz',allow_pickle=False) as f:installed=f['installed_target_fk']
@@ -53,6 +71,7 @@ def audit(point,panel='TRAIN'):
         start=20
         def rms(a,b):return float(np.sqrt(np.mean(np.sum((a-b)**2,axis=1)))) if len(a) else None
         rows.append(dict(condition=r['condition'],status=r['status'],persistent=persistent,first_success_s=first,sustained_grasp_0p3=grasp,
+            actual_current_observation_and_full_noise_verified_queries=input_count,
             task_controls=r['task_control_calls'],observed_hold_samples=len(control[560:601]),hold_pass_samples=int(control[560:601].sum()),
             max_cube_lift_above_initial_m=float((p['cubeA_pose'][:,2]-p['cubeA_pose'][0,2]).max()),
             reference_to_installed_XYZ_RMS_m=rms(cmd[start:,:3],installed[start:,:3,3]),

@@ -1,0 +1,225 @@
+{
+  "status": "PASS_ACTUAL_NATIVE2048_FULL_TRAINERS_ORDER_SCOPE_AND_MOMENTS_CPU",
+  "checkpoints": [
+    {
+      "step": 1024,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/main/checkpoint-1024",
+      "complete_Trainer": true,
+      "entries": [
+        {
+          "path": "PI0282_RECOVERY.json",
+          "bytes": 66963,
+          "sha256": "16fb1704e511e4f19ae0b2e32ee6f31fd1b84a85aa570ba52b6ec679902a1fc9"
+        },
+        {
+          "path": "PI0282_SCOPE_PROOF.json",
+          "bytes": 1610,
+          "sha256": "1f1fb71c6c009c46b61d021018f3ac201e2a9793f5be6c95ec35077ed6118500"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2105,
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 2146,
+          "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+        },
+        {
+          "path": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "sha256": "c757c953da260d09f96f03fcf399eadf4054f52742b53df91fe30181f5b1eca9"
+        },
+        {
+          "path": "model-00002-of-00002.safetensors",
+          "bytes": 4129471992,
+          "sha256": "46358f3e0eb7bc7f62cf0de72b95ef01028e917ea7c505a80bdf2a62b47d251e"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 104912,
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 11340455909,
+          "sha256": "5c3b25cf8541745407e601baae7af2e89e50cb5a011b0c11c7a27f1782056557"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 23145,
+          "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14709,
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1465,
+          "sha256": "1348282322ff36524af93722059af29d84fdb1f8f7188c1d3048f90aa4864444"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 4299507,
+          "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 9571,
+          "sha256": "0387f0a79add06ac000d15d4880919cae0fedadc01f9097378c7a09a88aa287f"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5905,
+          "sha256": "4ceda0b5ac9f11b32ae7c24015eed74f7e6fa5b54c3234cdeceef0429ef3dbfb"
+        }
+      ],
+      "frozen_parameter_tensors": 560,
+      "row10_changed_tensors": [
+        "action_head.action_decoder.layer1.W",
+        "action_head.action_decoder.layer1.b",
+        "action_head.action_decoder.layer2.W",
+        "action_head.action_decoder.layer2.b",
+        "action_head.action_encoder.W1.W",
+        "action_head.action_encoder.W1.b",
+        "action_head.action_encoder.W2.W",
+        "action_head.action_encoder.W2.b",
+        "action_head.action_encoder.W3.W",
+        "action_head.action_encoder.W3.b",
+        "action_head.state_encoder.layer1.W",
+        "action_head.state_encoder.layer1.b",
+        "action_head.state_encoder.layer2.W",
+        "action_head.state_encoder.layer2.b"
+      ],
+      "DiT_changed_tensors": 456,
+      "optimizer_parameters": 470,
+      "other31_rows_exact_original": true,
+      "other31_Adam_moments_zero": true,
+      "full_master_state_sha256": "fd2b7032e10b88c8a03fe161a1b5fcb28d7268ca2bf1e5badbca871f6f6b1146"
+    },
+    {
+      "step": 2048,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/main/checkpoint-2048",
+      "complete_Trainer": true,
+      "entries": [
+        {
+          "path": "PI0282_RECOVERY.json",
+          "bytes": 66964,
+          "sha256": "b3998a8d212c3d6d634accd7d75866e669f327d0c323a8572173cb0105285772"
+        },
+        {
+          "path": "PI0282_SCOPE_PROOF.json",
+          "bytes": 1610,
+          "sha256": "07d5cb45e00ddbf94d5b1b4572340c97587920e6d99f5106f2e61bd87d54f523"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2105,
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 2146,
+          "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+        },
+        {
+          "path": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "sha256": "d3f355f8a87a75da99453ae1d7d3bbda9513f89c02c5a53b20439335b22bafd4"
+        },
+        {
+          "path": "model-00002-of-00002.safetensors",
+          "bytes": 4129471992,
+          "sha256": "bc4861654c2b372a3faf6b593896b9987a7daf6079f4a6056aae37f2b09531b3"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 104912,
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 11340455909,
+          "sha256": "c5bf6012f7e5850125d6debd27559a85e230952d21aa52658b888512c9e2ce23"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 23145,
+          "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14709,
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1465,
+          "sha256": "eddad147ac624dc8f58b93a10e3580cfdd0f45a8abf43dfd4511104e04059dbd"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 4299507,
+          "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 18486,
+          "sha256": "c8a871187aac3c323468db80d4ecb805b4f86959bea3f8fb71108694c976ff70"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5905,
+          "sha256": "4ceda0b5ac9f11b32ae7c24015eed74f7e6fa5b54c3234cdeceef0429ef3dbfb"
+        }
+      ],
+      "frozen_parameter_tensors": 560,
+      "row10_changed_tensors": [
+        "action_head.action_decoder.layer1.W",
+        "action_head.action_decoder.layer1.b",
+        "action_head.action_decoder.layer2.W",
+        "action_head.action_decoder.layer2.b",
+        "action_head.action_encoder.W1.W",
+        "action_head.action_encoder.W1.b",
+        "action_head.action_encoder.W2.W",
+        "action_head.action_encoder.W2.b",
+        "action_head.action_encoder.W3.W",
+        "action_head.action_encoder.W3.b",
+        "action_head.state_encoder.layer1.W",
+        "action_head.state_encoder.layer1.b",
+        "action_head.state_encoder.layer2.W",
+        "action_head.state_encoder.layer2.b"
+      ],
+      "DiT_changed_tensors": 456,
+      "optimizer_parameters": 470,
+      "other31_rows_exact_original": true,
+      "other31_Adam_moments_zero": true,
+      "full_master_state_sha256": "cd845d21b9a953a02d74dc49c1f15b5d5136cfce2e915c5f8539ae7eb6b8dc77"
+    }
+  ],
+  "completed_updates": 2080,
+  "kind_counts": {
+    "canary": 16,
+    "technical": 16,
+    "formal": 2048
+  },
+  "formal_microbatches": 4096,
+  "formal_chunks": 16384,
+  "phase_counts": {
+    "0": 4096,
+    "1": 4096,
+    "2": 4096,
+    "3": 4096
+  },
+  "detailed_gradient_microbatches": 272,
+  "actual_per_step_mode": "UNOBSERVED_NOT_RECONSTRUCTED",
+  "native_input_noise_time_hashes_present": true,
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics_steps": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
