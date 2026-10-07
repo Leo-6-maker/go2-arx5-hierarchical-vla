@@ -16,7 +16,8 @@ def freeze(p,v):
     else:write(p,v)
 
 def prepare():
-    import cv2,numpy as np,pandas as pd
+    import numpy as np,pandas as pd
+    from gr00t.utils.video_utils import get_all_frames
     assert json.loads((ROOT/'evidence/PRISTINE_FILES.json').read_text())['status']=='PRISTINE_LOCAL_FILES_VERIFIED'
     OUT.mkdir(parents=True,exist_ok=True)
     materialized=[]
@@ -57,12 +58,9 @@ def prepare():
         frames={}
         for key,name in video_map.items():
             p=DATA/f'videos/chunk-000/{name}/episode_{episode:06d}.mp4';files.append(dict(path=str(p),sha256=digest(p)))
-            cap=cv2.VideoCapture(str(p));values=[]
-            while True:
-                ok,frame=cap.read()
-                if not ok:break
-                values.append(cv2.cvtColor(frame,cv2.COLOR_BGR2RGB))
-            cap.release();assert len(values)==len(df),(name,len(values),len(df));frames[key]=values
+            values,timestamps=get_all_frames(str(p),decoder_kwargs={'num_ffmpeg_threads':4})
+            assert len(values)==len(df) and np.allclose(timestamps,np.arange(len(df))/15,atol=1e-5),(name,len(values),len(df))
+            frames[key]=values
         states=np.stack(df['observation.state']).astype(np.float32);actions=np.stack(df['action']).astype(np.float32)
         assert states.shape==(len(df),17) and actions.shape==(len(df),17)
         for anchor in anchors:
