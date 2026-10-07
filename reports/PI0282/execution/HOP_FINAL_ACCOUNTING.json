@@ -1,0 +1,124 @@
+{
+  "observed_epoch": 1791411341.4246953,
+  "host": "Hopper",
+  "model_budget": {
+    "policy_attempt": 4,
+    "action_head": 16
+  },
+  "model_ledger": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/source/evidence/model_budget.jsonl",
+  "model_ledger_rows": 20,
+  "live_goal_science": [],
+  "completed_updates": {
+    "canary": 16,
+    "technical": 16,
+    "formal": 2048
+  },
+  "completed_total": 2080,
+  "completed_by_phase": {
+    "continuous": 16,
+    "split": 16,
+    "main": 2048
+  },
+  "native_forwards": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/continuous/native_training_forwards.jsonl",
+      "count": 16,
+      "chunks": 64,
+      "first_wall": 1791403604.376038,
+      "last_wall": 1791403616.9155643
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/continuous/native_training_forwards.jsonl",
+      "count": 16,
+      "chunks": 64,
+      "first_wall": 1791402101.6639411,
+      "last_wall": 1791402114.0144794
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/native_training_forwards.jsonl",
+      "count": 16,
+      "chunks": 64,
+      "first_wall": 1791402230.163375,
+      "last_wall": 1791402362.3921988
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/main/native_training_forwards.jsonl",
+      "count": 4096,
+      "chunks": 16384,
+      "first_wall": 1791404993.258413,
+      "last_wall": 1791406803.8904202
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/split/native_training_forwards.jsonl",
+      "count": 16,
+      "chunks": 64,
+      "first_wall": 1791403732.747009,
+      "last_wall": 1791403864.5421598
+    }
+  ],
+  "retained_outputs_allocated": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282",
+      "allocated_bytes": 53540306944
+    }
+  ],
+  "pbs_raw": "Job Id: 653553.hopper-m-02\n    Job_Name = pi0282_native_eef\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 20\n    resources_used.cput = 00:00:17\n    resources_used.mem = 6379348kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 8551944kb\n    resources_used.walltime = 00:01:25\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Thu Oct  8 03:03:24 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0282/pi0282_native_eef.e653553\n    exec_host = hopper-30/4*12\n    exec_vnode = (hopper-30:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Thu Oct  8 03:06:23 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0282/pi0282_native_eef.o653553\n    Priority = 0\n    qtime = Thu Oct  8 03:03:24 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Thu Oct  8 03:04:53 2026\n    obittime = Thu Oct  8 03:06:23 2026\n    session_id = 3911602\n    jobdir = /home/svu/e1192548\n    substate = 93\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/scratch/e1192548/Projects/go2-arx5/experiments/PI0282,\n\tPBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto\n    comment = Job run at Thu Oct 08 at 03:04 on (hopper-30:ngpus=1:ncpus=12:mem\n\t=235929600kb) and failed\n    etime = Thu Oct  8 03:03:24 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 1\n    Submit_arguments = -m n -P CFP05-CF-052 code/train.pbs\n    history_timestamp = 1791399983\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\nJob Id: 653555.hopper-m-02\n    Job_Name = pi0282_native_eef\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 35\n    resources_used.cput = 00:00:20\n    resources_used.mem = 18157204kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 6114236kb\n    resources_used.walltime = 00:00:59\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Thu Oct  8 03:18:11 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0282/pi0282_native_eef.e653555\n    exec_host = hopper-29/0*12\n    exec_vnode = (hopper-29:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Thu Oct  8 03:19:18 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0282/pi0282_native_eef.o653555\n    Priority = 0\n    qtime = Thu Oct  8 03:18:11 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Thu Oct  8 03:18:16 2026\n    obittime = Thu Oct  8 03:19:18 2026\n    session_id = 332598\n    jobdir = /home/svu/e1192548\n    substate = 93\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/scratch/e1192548/Projects/go2-arx5/experiments/PI0282,\n\tPBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto\n    comment = Job run at Thu Oct 08 at 03:18 on (hopper-29:ngpus=1:ncpus=12:mem\n\t=235929600kb) and failed\n    etime = Thu Oct  8 03:18:11 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 1\n    Submit_arguments = -m n -P CFP05-CF-052 code/train.pbs\n    history_timestamp = 1791400758\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\nJob Id: 653573.hopper-m-02\n    Job_Name = pi0282_native_eef\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 84\n    resources_used.cput = 00:05:45\n    resources_used.mem = 43858696kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 78656004kb\n    resources_used.walltime = 00:09:11\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Thu Oct  8 03:35:40 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0282/pi0282_native_eef.e653573\n    exec_host = hopper-20/3*12\n    exec_vnode = (hopper-20:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Thu Oct  8 03:48:58 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0282/pi0282_native_eef.o653573\n    Priority = 0\n    qtime = Thu Oct  8 03:35:40 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Thu Oct  8 03:39:30 2026\n    obittime = Thu Oct  8 03:48:58 2026\n    session_id = 2319852\n    jobdir = /home/svu/e1192548\n    substate = 93\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/scratch/e1192548/Projects/go2-arx5/experiments/PI0282,\n\tPBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto\n    comment = Job run at Thu Oct 08 at 03:39 on (hopper-20:ngpus=1:ncpus=12:mem\n\t=235929600kb) and failed\n    etime = Thu Oct  8 03:35:40 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 1\n    Submit_arguments = -m n -P CFP05-CF-052 code/train.pbs\n    history_timestamp = 1791402538\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\nJob Id: 653582.hopper-m-02\n    Job_Name = pi0282_native_eef\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 180\n    resources_used.cput = 00:08:41\n    resources_used.mem = 62748276kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 77177956kb\n    resources_used.walltime = 00:09:55\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Thu Oct  8 04:04:54 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0282/pi0282_native_eef.e653582\n    exec_host = hopper-19/5*12\n    exec_vnode = (hopper-19:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Thu Oct  8 04:14:54 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0282/pi0282_native_eef.o653582\n    Priority = 0\n    qtime = Thu Oct  8 04:04:54 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Thu Oct  8 04:04:56 2026\n    obittime = Thu Oct  8 04:14:54 2026\n    session_id = 1388205\n    jobdir = /home/svu/e1192548\n    substate = 93\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/scratch/e1192548/Projects/go2-arx5/experiments/PI0282,\n\tPBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto\n    comment = Job run at Thu Oct 08 at 04:04 on (hopper-19:ngpus=1:ncpus=12:mem\n\t=235929600kb) and failed\n    etime = Thu Oct  8 04:04:54 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 1\n    Submit_arguments = -m n -m n -P CFP05-CF-052 code/train.pbs\n    history_timestamp = 1791404094\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\nJob Id: 653586.hopper-m-02\n    Job_Name = pi0282_native_eef\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 123\n    resources_used.cput = 00:39:39\n    resources_used.mem = 54765604kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 119215348kb\n    resources_used.walltime = 00:35:39\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Thu Oct  8 04:26:04 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0282/pi0282_native_eef.e653586\n    exec_host = hopper-28/4*12\n    exec_vnode = (hopper-28:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Thu Oct  8 05:01:48 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0282/pi0282_native_eef.o653586\n    Priority = 0\n    qtime = Thu Oct  8 04:26:04 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Thu Oct  8 04:26:06 2026\n    obittime = Thu Oct  8 05:01:48 2026\n    session_id = 2248270\n    jobdir = /home/svu/e1192548\n    substate = 92\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LANG=C.UTF-8,\n\tPBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/cm/shared/apps/pbspro/current/unsupported/fw/bin:/cm/share\n\td/apps/pbspro/current/unsupported:/cm/shared/apps/pbspro/current/sbin:/\n\tcm/shared/apps/pbspro/current/bin:/cm/local/apps/environment-modules/4.\n\t5.3//bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/pyth\n\ton/bin:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin,\n\tPBS_O_MAIL=/var/spool/mail/e1192548,PBS_O_SHELL=/bin/bash,\n\tPBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/scratch/e1192548/Projects/go2-arx5/experiments/PI0282,\n\tPBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto\n    comment = Job run at Thu Oct 08 at 04:26 on (hopper-28:ngpus=1:ncpus=12:mem\n\t=235929600kb) and finished\n    etime = Thu Oct  8 04:26:04 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 0\n    Submit_arguments = -m n -m n -P CFP05-CF-052 code/train.pbs\n    history_timestamp = 1791406908\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "jobs": [
+    {
+      "id": "653553.hopper-m-02",
+      "state": "F",
+      "exit_status": "1",
+      "cput": "00:00:17",
+      "walltime": "00:01:25",
+      "start": "Thu Oct  8 03:04:53 2026",
+      "end": "Thu Oct  8 03:06:23 2026",
+      "gpu": "1",
+      "mail": "n"
+    },
+    {
+      "id": "653555.hopper-m-02",
+      "state": "F",
+      "exit_status": "1",
+      "cput": "00:00:20",
+      "walltime": "00:00:59",
+      "start": "Thu Oct  8 03:18:16 2026",
+      "end": "Thu Oct  8 03:19:18 2026",
+      "gpu": "1",
+      "mail": "n"
+    },
+    {
+      "id": "653573.hopper-m-02",
+      "state": "F",
+      "exit_status": "1",
+      "cput": "00:05:45",
+      "walltime": "00:09:11",
+      "start": "Thu Oct  8 03:39:30 2026",
+      "end": "Thu Oct  8 03:48:58 2026",
+      "gpu": "1",
+      "mail": "n"
+    },
+    {
+      "id": "653582.hopper-m-02",
+      "state": "F",
+      "exit_status": "1",
+      "cput": "00:08:41",
+      "walltime": "00:09:55",
+      "start": "Thu Oct  8 04:04:56 2026",
+      "end": "Thu Oct  8 04:14:54 2026",
+      "gpu": "1",
+      "mail": "n"
+    },
+    {
+      "id": "653586.hopper-m-02",
+      "state": "F",
+      "exit_status": "0",
+      "cput": "00:39:39",
+      "walltime": "00:35:39",
+      "start": "Thu Oct  8 04:26:06 2026",
+      "end": "Thu Oct  8 05:01:48 2026",
+      "gpu": "1",
+      "mail": "n"
+    }
+  ],
+  "quota_headroom": "UNKNOWN"
+}

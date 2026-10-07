@@ -1,0 +1,129 @@
+{
+  "observed_epoch": 1791411341.927417,
+  "host": "Corelab",
+  "model_budget": {
+    "policy_attempt": 870,
+    "action_head": 3476
+  },
+  "model_ledger": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/source/evidence/model_budget.jsonl",
+  "model_ledger_rows": 4346,
+  "live_goal_science": [],
+  "physical_budget": {
+    "starts": 16,
+    "rgb": 8652,
+    "control": 8648,
+    "physics": 43240
+  },
+  "first_physical_epoch": 1791397691.030537,
+  "last_physical_epoch": 1791410944.4039242,
+  "source_panels": {
+    "ACTION1024-TRAIN.done": {
+      "returncode": 0,
+      "pid": 1103064,
+      "wrapper_pid": 1103060,
+      "elapsed_s": 1293.168460096931,
+      "utc_start_ns": 1791408439374207115,
+      "utc_end_ns": 1791409732542669887,
+      "user_CPU_s": 310.668584,
+      "system_CPU_s": 498.850509,
+      "waited_driver_and_resident_worker": true,
+      "GPU_allocation_time_conservative": true,
+      "new_WBC_calls": 0
+    },
+    "ACTION2048-TRAIN.done": {
+      "returncode": 0,
+      "pid": 1123215,
+      "wrapper_pid": 1123211,
+      "elapsed_s": 1123.378547625849,
+      "utc_start_ns": 1791409834017685793,
+      "utc_end_ns": 1791410957396234708,
+      "user_CPU_s": 312.578678,
+      "system_CPU_s": 498.704589,
+      "waited_driver_and_resident_worker": true,
+      "GPU_allocation_time_conservative": true,
+      "new_WBC_calls": 0
+    },
+    "ACTION512-TRAIN.done": {
+      "returncode": 0,
+      "pid": 1092465,
+      "wrapper_pid": 1092455,
+      "elapsed_s": 424.05734871397726,
+      "utc_start_ns": 1791407731850782038,
+      "utc_end_ns": 1791408155908131599,
+      "user_CPU_s": 105.121756,
+      "system_CPU_s": 142.949159,
+      "waited_driver_and_resident_worker": true,
+      "GPU_allocation_time_conservative": true,
+      "new_WBC_calls": 0
+    },
+    "EXPERT-TRAIN.done": {
+      "returncode": 0,
+      "pid": 950777,
+      "wrapper_pid": 950727,
+      "elapsed_s": 803.8259005399887,
+      "utc_start_ns": 1791397652432700513,
+      "utc_end_ns": 1791398456258601930,
+      "user_CPU_s": 240.853466,
+      "system_CPU_s": 508.768366,
+      "waited_driver_and_resident_worker": true,
+      "GPU_allocation_time_conservative": true,
+      "new_WBC_calls": 0
+    }
+  },
+  "finite_wrapper": {
+    "returncode": 0,
+    "elapsed_s": 2698.4163709520362,
+    "steps": [
+      {
+        "point": "ACTION1024",
+        "stage": "diag",
+        "returncode": 0,
+        "elapsed_s": 178.5467378348112
+      },
+      {
+        "point": "ACTION1024",
+        "stage": "cpu",
+        "returncode": 0,
+        "elapsed_s": 1.1201217940542847
+      },
+      {
+        "point": "ACTION1024",
+        "stage": "TRAIN",
+        "returncode": 0,
+        "elapsed_s": 1293.5295181230176
+      },
+      {
+        "point": "ACTION2048",
+        "stage": "diag",
+        "returncode": 0,
+        "elapsed_s": 99.77433998510242
+      },
+      {
+        "point": "ACTION2048",
+        "stage": "cpu",
+        "returncode": 0,
+        "elapsed_s": 1.120697787962854
+      },
+      {
+        "point": "ACTION2048",
+        "stage": "TRAIN",
+        "returncode": 0,
+        "elapsed_s": 1123.710552888224
+      }
+    ]
+  },
+  "finite_wrapper_pid_exists": false,
+  "retained_outputs_allocated": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282",
+      "allocated_bytes": 13132337152
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0282",
+      "allocated_bytes": 12618309632
+    }
+  ],
+  "df": "Filesystem                                                  1B-blocks          Used     Available Use% Mounted on\ncorelab-amd-server-eth:/mnt/LocalHDD1/HomeNFS/liuyu-nfs 4000785104896 2180188733440 1817714884608  55% /home/liuyu-nfs\n/dev/nvme0n1p6                                          1905283825664 1649071058944  159382228992  92% /\n",
+  "quota_headroom": "UNKNOWN",
+  "gpu_now": "0, NVIDIA GeForce RTX 4080 SUPER, 7600 MiB\n1, NVIDIA GeForce RTX 4080 SUPER, 7469 MiB\n"
+}
