@@ -41,7 +41,17 @@ def stage():
     print(remote('core',f'''import base64,hashlib,json
 from pathlib import Path
 r=Path({ROOT!r});(r/'code').mkdir(exist_ok=True);(r/'design').mkdir(exist_ok=True)
-assert not list((r/'runtime').glob('native-*.start.json')),'Adopt or close actual phase before restaging'
+for start in (r/'runtime').glob('native-*.start.json'):
+ assert start.with_name(start.name.replace('.start.','.done.')).exists(),'Adopt actual phase before restaging'
+for p in Path('/proc').iterdir():
+ if not p.name.isdigit():continue
+ try:
+  assert str(r/'code/native.py').encode() not in (p/'cmdline').read_bytes().split(bytes([0])),'Native worker still active'
+ except OSError:pass
+old=r/'design/IMPLEMENTATION.json'
+if old.exists():
+ history=r/'design/implementation-history';history.mkdir(exist_ok=True)
+ (history/(hashlib.sha256(old.read_bytes()).hexdigest()+'.json')).write_bytes(old.read_bytes())
 hashes={{}}
 for name,data in {files!r}.items():
  b=base64.b64decode(data);(r/'code'/name).write_bytes(b);hashes[name]=hashlib.sha256(b).hexdigest()
