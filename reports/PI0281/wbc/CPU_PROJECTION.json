@@ -1,0 +1,5756 @@
+{
+  "status": "CPU_COMPLETE_NO_PHYSICS",
+  "runtime": {
+    "python": "3.8.20 (default, Oct  3 2024, 15:24:27) \n[GCC 11.2.0]",
+    "torch": "2.3.1",
+    "cuda": "12.1",
+    "device": "cpu"
+  },
+  "original_module": {
+    "file": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+    "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+  },
+  "orientation": {
+    "status": "PASS_CPU_ALGEBRA_SOURCE_CHAIN_ONLY",
+    "packing": "interleaved first two matrix columns; delivered shim unchanged",
+    "math_file": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+    "math_sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee",
+    "nonidentity_max_errors": {
+      "raw_to_anchored_canonical_matrix": 1.428169105199828e-07,
+      "canonical_to_preview_quaternion": 1.0287945417797317e-07,
+      "world": 5.762325105962418e-08,
+      "heading": 2.2503961916164883e-08,
+      "body": 4.142098963821894e-08
+    },
+    "anchoring": "Exact native external anchor translates gamma_p only; gamma_quat remains world xyzw.",
+    "same_TCP": "Native link6 quaternion; TCP is link6 plus fixed xyz offset [0.1424,0,0.0001057], identity rotation. URDF FK applies same offset.",
+    "actor_error": "Native sign-corrected quaternion vector part = sin(theta/2) proxy, preserved.",
+    "limitation": "Native actor observation and actual rigid-body orientation equality require the new instrumented physics fixture; no CPU claim of closed-loop orientation accuracy."
+  },
+  "saved_return": {
+    "L": 0.09999999403953552,
+    "rows": [
+      {
+        "time": 0.019999999552965164,
+        "native_previous": 0.0,
+        "native": 0.0,
+        "repair_previous": 0.0,
+        "repair": 0.0,
+        "native_dlat": 0.0023127272725105286,
+        "repair_dlat": 0.0023127272725105286
+      },
+      {
+        "time": 0.03999999910593033,
+        "native_previous": 0.0,
+        "native": 0.0,
+        "repair_previous": 0.0,
+        "repair": 0.0,
+        "native_dlat": 0.01043926365673542,
+        "repair_dlat": 0.01043926365673542
+      },
+      {
+        "time": 0.05999999865889549,
+        "native_previous": 0.0,
+        "native": 0.013333333656191826,
+        "repair_previous": 0.0,
+        "repair": 0.013333333656191826,
+        "native_dlat": 0.013195793144404888,
+        "repair_dlat": 0.013195793144404888
+      },
+      {
+        "time": 0.07999999821186066,
+        "native_previous": 0.013333333656191826,
+        "native": 0.024888888001441956,
+        "repair_previous": 0.013333333656191826,
+        "repair": 0.024888888001441956,
+        "native_dlat": 0.013876200653612614,
+        "repair_dlat": 0.013876200653612614
+      },
+      {
+        "time": 0.09999999776482582,
+        "native_previous": 0.024888888001441956,
+        "native": 0.03490370139479637,
+        "repair_previous": 0.024888888001441956,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.012445805594325066,
+        "repair_dlat": 0.012445805594325066
+      },
+      {
+        "time": 0.11999999731779099,
+        "native_previous": 0.03490370139479637,
+        "native": 0.03490370139479637,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.009182345122098923,
+        "repair_dlat": 0.009182345122098923
+      },
+      {
+        "time": 0.13999999687075615,
+        "native_previous": 0.03490370139479637,
+        "native": 0.03490370139479637,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.006959204562008381,
+        "repair_dlat": 0.006959204562008381
+      },
+      {
+        "time": 0.1599999964237213,
+        "native_previous": 0.03490370139479637,
+        "native": 0.06528197228908539,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.008143382146954536,
+        "repair_dlat": 0.008148063905537128
+      },
+      {
+        "time": 0.17999999597668648,
+        "native_previous": 0.06528197228908539,
+        "native": 0.06991104036569595,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.007648271042853594,
+        "repair_dlat": 0.009470718912780285
+      },
+      {
+        "time": 0.19999999552965164,
+        "native_previous": 0.06991104036569595,
+        "native": 0.07793476432561874,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.0054185157641768456,
+        "repair_dlat": 0.013642750680446625
+      },
+      {
+        "time": 0.2199999950826168,
+        "native_previous": 0.07793476432561874,
+        "native": 0.08381882309913635,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.003533514216542244,
+        "repair_dlat": 0.01894056424498558
+      },
+      {
+        "time": 0.23999999463558197,
+        "native_previous": 0.08381882309913635,
+        "native": 0.08921254426240921,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.002029956551268697,
+        "repair_dlat": 0.023990865796804428
+      },
+      {
+        "time": 0.25999999418854713,
+        "native_previous": 0.08921254426240921,
+        "native": 0.09280835837125778,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.00038810959085822105,
+        "repair_dlat": 0.02754036709666252
+      },
+      {
+        "time": 0.2799999937415123,
+        "native_previous": 0.09280835837125778,
+        "native": 0.09472613036632538,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.001776325050741434,
+        "repair_dlat": 0.029918119311332703
+      },
+      {
+        "time": 0.29999999329447746,
+        "native_previous": 0.09472613036632538,
+        "native": 0.09648408740758896,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.003100217320024967,
+        "repair_dlat": 0.03158446401357651
+      },
+      {
+        "time": 0.3199999928474426,
+        "native_previous": 0.09648408740758896,
+        "native": 0.09765605628490448,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.004052447620779276,
+        "repair_dlat": 0.0326993465423584
+      },
+      {
+        "time": 0.3399999924004078,
+        "native_previous": 0.09765605628490448,
+        "native": 0.09859362989664078,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.004635052755475044,
+        "repair_dlat": 0.03377543389797211
+      },
+      {
+        "time": 0.35999999195337296,
+        "native_previous": 0.09859362989664078,
+        "native": 0.09906242042779922,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.004943530540913343,
+        "repair_dlat": 0.03435588255524635
+      },
+      {
+        "time": 0.3799999915063381,
+        "native_previous": 0.09906242042779922,
+        "native": 0.09949995577335358,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.004812122322618961,
+        "repair_dlat": 0.03478478267788887
+      },
+      {
+        "time": 0.3999999910593033,
+        "native_previous": 0.09949995577335358,
+        "native": 0.09949995577335358,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.004312684293836355,
+        "repair_dlat": 0.03457515686750412
+      },
+      {
+        "time": 0.41999999061226845,
+        "native_previous": 0.09949995577335358,
+        "native": 0.09949995577335358,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.003676040330901742,
+        "repair_dlat": 0.03402405232191086
+      },
+      {
+        "time": 0.4399999901652336,
+        "native_previous": 0.09949995577335358,
+        "native": 0.09949995577335358,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.0031684243585914373,
+        "repair_dlat": 0.03400987759232521
+      },
+      {
+        "time": 0.4599999897181988,
+        "native_previous": 0.09949995577335358,
+        "native": 0.09963329881429672,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.0027991549577564,
+        "repair_dlat": 0.03466944769024849
+      },
+      {
+        "time": 0.47999998927116394,
+        "native_previous": 0.09963329881429672,
+        "native": 0.09999999403953552,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.002770360792055726,
+        "repair_dlat": 0.035502102226018906
+      },
+      {
+        "time": 0.4999999888241291,
+        "native_previous": 0.09999999403953552,
+        "native": 0.09999999403953552,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.0029371026903390884,
+        "repair_dlat": 0.03624835982918739
+      },
+      {
+        "time": 0.5199999883770943,
+        "native_previous": 0.09999999403953552,
+        "native": 0.09999999403953552,
+        "repair_previous": 0.03490370139479637,
+        "repair": 0.03490370139479637,
+        "native_dlat": 0.003157773520797491,
+        "repair_dlat": 0.0368788056075573
+      }
+    ],
+    "position_max_FK_cache_error": 5.271750991726416e-07,
+    "limitation": "Saved rotation is URDF FK; old native rigid-body quaternion and actor observations were not saved. This is a positional replay with an FK orientation proxy, not exact old observation replay."
+  },
+  "ideal_cases": {
+    "hold": {
+      "L": 0.0,
+      "rows": [
+        {
+          "time": 0.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.05,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.15000000000000002,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.30000000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.35000000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.55,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.6000000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.7000000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.8,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.8500000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.9500000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.05,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.1500000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.2000000000000002,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.3,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.35,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.4000000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.4500000000000002,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.55,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.6,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.6500000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.7000000000000002,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.8,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.85,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.9000000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 1.9500000000000002,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.0500000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.3000000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.35,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.4000000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.5500000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.6,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.6500000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.7,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.8000000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.85,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.9000000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 2.95,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.0500000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.1500000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.3000000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.35,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.4000000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.5500000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.6,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.6500000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.7,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.8000000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.85,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.9000000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 3.95,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.05,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.1000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.3,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.3500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.55,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.6000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.7,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.800000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.8500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 4.95,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.050000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.1000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.300000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.3500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.550000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.6000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.7,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.800000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.8500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.95,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.050000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.1000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.300000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.3500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.550000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.6000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.7,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.800000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.8500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.95,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.050000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.1000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.300000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.3500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.550000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.6000000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.7,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.800000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.8500000000000005,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.95,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.05,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.200000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.3,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.35,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.450000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.55,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.6,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.700000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.8,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.85,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.950000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.05,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.15,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.200000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.3,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.35,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.450000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.55,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.600000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.65,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.700000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.75,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.8,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.850000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.9,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.950000000000001,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 10.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        }
+      ]
+    },
+    "monotonic": {
+      "L": 0.05000000074505806,
+      "rows": [
+        {
+          "time": 0.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.05,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 1.2335990504652727e-05,
+          "repair_dlat": 1.2335990504652727e-05
+        },
+        {
+          "time": 0.1,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 4.933178934152238e-05,
+          "repair_dlat": 4.933178934152238e-05
+        },
+        {
+          "time": 0.15000000000000002,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.00011095088848378509,
+          "repair_dlat": 0.00011095088848378509
+        },
+        {
+          "time": 0.2,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0001971324672922492,
+          "repair_dlat": 0.0001971324672922492
+        },
+        {
+          "time": 0.25,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.00030779148801229894,
+          "repair_dlat": 0.00030779148801229894
+        },
+        {
+          "time": 0.30000000000000004,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0004428187385201454,
+          "repair_dlat": 0.0004428187385201454
+        },
+        {
+          "time": 0.35000000000000003,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0006020809523761272,
+          "repair_dlat": 0.0006020809523761272
+        },
+        {
+          "time": 0.4,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0007854209979996085,
+          "repair_dlat": 0.0007854209979996085
+        },
+        {
+          "time": 0.45,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0009926578495651484,
+          "repair_dlat": 0.0009926578495651484
+        },
+        {
+          "time": 0.5,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0012235870817676187,
+          "repair_dlat": 0.0012235870817676187
+        },
+        {
+          "time": 0.55,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0014779807534068823,
+          "repair_dlat": 0.0014779807534068823
+        },
+        {
+          "time": 0.6000000000000001,
+          "native_previous": 0.0,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0015777320368215442,
+          "repair_dlat": 0.0015777320368215442
+        },
+        {
+          "time": 0.65,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0012771855108439922,
+          "repair_dlat": 0.0012771855108439922
+        },
+        {
+          "time": 0.7000000000000001,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0009539963211864233,
+          "repair_dlat": 0.0009539963211864233
+        },
+        {
+          "time": 0.75,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0006084830965846777,
+          "repair_dlat": 0.0006084830965846777
+        },
+        {
+          "time": 0.8,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.00024098693393170834,
+          "repair_dlat": 0.00024098693393170834
+        },
+        {
+          "time": 0.8500000000000001,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.00014812941662967205,
+          "repair_dlat": 0.00014812941662967205
+        },
+        {
+          "time": 0.9,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0005584820173680782,
+          "repair_dlat": 0.0005584820173680782
+        },
+        {
+          "time": 0.9500000000000001,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0009896657429635525,
+          "repair_dlat": 0.0009896657429635525
+        },
+        {
+          "time": 1.0,
+          "native_previous": 0.0033333336468786,
+          "native": 0.0033333336468786,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.0033333336468786,
+          "native_dlat": 0.0014412552118301392,
+          "repair_dlat": 0.0014412552118301392
+        },
+        {
+          "time": 1.05,
+          "native_previous": 0.0033333336468786,
+          "native": 0.006444444879889488,
+          "repair_previous": 0.0033333336468786,
+          "repair": 0.006444444879889488,
+          "native_dlat": 0.0011982969008386135,
+          "repair_dlat": 0.0011982969008386135
+        },
+        {
+          "time": 1.1,
+          "native_previous": 0.006444444879889488,
+          "native": 0.006444444879889488,
+          "repair_previous": 0.006444444879889488,
+          "repair": 0.006444444879889488,
+          "native_dlat": 0.0007072528824210167,
+          "repair_dlat": 0.0007072528824210167
+        },
+        {
+          "time": 1.1500000000000001,
+          "native_previous": 0.006444444879889488,
+          "native": 0.006444444879889488,
+          "repair_previous": 0.006444444879889488,
+          "repair": 0.006444444879889488,
+          "native_dlat": 0.00019719824194908142,
+          "repair_dlat": 0.00019719824194908142
+        },
+        {
+          "time": 1.2000000000000002,
+          "native_previous": 0.006444444879889488,
+          "native": 0.006444444879889488,
+          "repair_previous": 0.006444444879889488,
+          "repair": 0.006444444879889488,
+          "native_dlat": 0.000331362709403038,
+          "repair_dlat": 0.000331362709403038
+        },
+        {
+          "time": 1.25,
+          "native_previous": 0.006444444879889488,
+          "native": 0.006444444879889488,
+          "repair_previous": 0.006444444879889488,
+          "repair": 0.006444444879889488,
+          "native_dlat": 0.0008779088966548443,
+          "repair_dlat": 0.0008779088966548443
+        },
+        {
+          "time": 1.3,
+          "native_previous": 0.006444444879889488,
+          "native": 0.006444444879889488,
+          "repair_previous": 0.006444444879889488,
+          "repair": 0.006444444879889488,
+          "native_dlat": 0.0014419006183743477,
+          "repair_dlat": 0.0014419006183743477
+        },
+        {
+          "time": 1.35,
+          "native_previous": 0.006444444879889488,
+          "native": 0.009348148480057716,
+          "repair_previous": 0.006444444879889488,
+          "repair": 0.009348148480057716,
+          "native_dlat": 0.0008809175342321396,
+          "repair_dlat": 0.0008809175342321396
+        },
+        {
+          "time": 1.4000000000000001,
+          "native_previous": 0.009348148480057716,
+          "native": 0.009348148480057716,
+          "repair_previous": 0.009348148480057716,
+          "repair": 0.009348148480057716,
+          "native_dlat": 0.0002837199717760086,
+          "repair_dlat": 0.0002837199717760086
+        },
+        {
+          "time": 1.4500000000000002,
+          "native_previous": 0.009348148480057716,
+          "native": 0.009348148480057716,
+          "repair_previous": 0.009348148480057716,
+          "repair": 0.009348148480057716,
+          "native_dlat": 0.00032920297235250473,
+          "repair_dlat": 0.00032920297235250473
+        },
+        {
+          "time": 1.5,
+          "native_previous": 0.009348148480057716,
+          "native": 0.009348148480057716,
+          "repair_previous": 0.009348148480057716,
+          "repair": 0.009348148480057716,
+          "native_dlat": 0.0009572478011250496,
+          "repair_dlat": 0.0009572478011250496
+        },
+        {
+          "time": 1.55,
+          "native_previous": 0.009348148480057716,
+          "native": 0.012058272026479244,
+          "repair_previous": 0.009348148480057716,
+          "repair": 0.012058272026479244,
+          "native_dlat": 0.001110323704779148,
+          "repair_dlat": 0.001110323704779148
+        },
+        {
+          "time": 1.6,
+          "native_previous": 0.012058272026479244,
+          "native": 0.012058272026479244,
+          "repair_previous": 0.012058272026479244,
+          "repair": 0.012058272026479244,
+          "native_dlat": 0.00045390892773866653,
+          "repair_dlat": 0.00045390892773866653
+        },
+        {
+          "time": 1.6500000000000001,
+          "native_previous": 0.012058272026479244,
+          "native": 0.012058272026479244,
+          "repair_previous": 0.012058272026479244,
+          "repair": 0.012058272026479244,
+          "native_dlat": 0.00021572504192590714,
+          "repair_dlat": 0.00021572504192590714
+        },
+        {
+          "time": 1.7000000000000002,
+          "native_previous": 0.012058272026479244,
+          "native": 0.012058272026479244,
+          "repair_previous": 0.012058272026479244,
+          "repair": 0.012058272026479244,
+          "native_dlat": 0.0008979188278317451,
+          "repair_dlat": 0.0008979188278317451
+        },
+        {
+          "time": 1.75,
+          "native_previous": 0.012058272026479244,
+          "native": 0.014587720856070518,
+          "repair_previous": 0.012058272026479244,
+          "repair": 0.014587720856070518,
+          "native_dlat": 0.0009374460205435753,
+          "repair_dlat": 0.0009374460205435753
+        },
+        {
+          "time": 1.8,
+          "native_previous": 0.014587720856070518,
+          "native": 0.014587720856070518,
+          "repair_previous": 0.014587720856070518,
+          "repair": 0.014587720856070518,
+          "native_dlat": 0.00023216567933559418,
+          "repair_dlat": 0.00023216567933559418
+        },
+        {
+          "time": 1.85,
+          "native_previous": 0.014587720856070518,
+          "native": 0.014587720856070518,
+          "repair_previous": 0.014587720856070518,
+          "repair": 0.014587720856070518,
+          "native_dlat": 0.0004836190491914749,
+          "repair_dlat": 0.0004836190491914749
+        },
+        {
+          "time": 1.9000000000000001,
+          "native_previous": 0.014587720856070518,
+          "native": 0.01694853976368904,
+          "repair_previous": 0.014587720856070518,
+          "repair": 0.01694853976368904,
+          "native_dlat": 0.0011516138911247253,
+          "repair_dlat": 0.0011516138911247253
+        },
+        {
+          "time": 1.9500000000000002,
+          "native_previous": 0.01694853976368904,
+          "native": 0.01694853976368904,
+          "repair_previous": 0.01694853976368904,
+          "repair": 0.01694853976368904,
+          "native_dlat": 0.00041694939136505127,
+          "repair_dlat": 0.00041694939136505127
+        },
+        {
+          "time": 2.0,
+          "native_previous": 0.01694853976368904,
+          "native": 0.01694853976368904,
+          "repair_previous": 0.01694853976368904,
+          "repair": 0.01694853976368904,
+          "native_dlat": 0.00032607465982437134,
+          "repair_dlat": 0.00032607465982437134
+        },
+        {
+          "time": 2.0500000000000003,
+          "native_previous": 0.01694853976368904,
+          "native": 0.01694853976368904,
+          "repair_previous": 0.01694853976368904,
+          "repair": 0.01694853976368904,
+          "native_dlat": 0.0010767225176095963,
+          "repair_dlat": 0.0010767225176095963
+        },
+        {
+          "time": 2.1,
+          "native_previous": 0.01694853976368904,
+          "native": 0.019151970744132996,
+          "repair_previous": 0.01694853976368904,
+          "repair": 0.019151970744132996,
+          "native_dlat": 0.0003691762685775757,
+          "repair_dlat": 0.0003691762685775757
+        },
+        {
+          "time": 2.15,
+          "native_previous": 0.019151970744132996,
+          "native": 0.019151970744132996,
+          "repair_previous": 0.019151970744132996,
+          "repair": 0.019151970744132996,
+          "native_dlat": 0.0003944896161556244,
+          "repair_dlat": 0.0003944896161556244
+        },
+        {
+          "time": 2.2,
+          "native_previous": 0.019151970744132996,
+          "native": 0.021208506077528,
+          "repair_previous": 0.019151970744132996,
+          "repair": 0.021208506077528,
+          "native_dlat": 0.0008929949253797531,
+          "repair_dlat": 0.0008929949253797531
+        },
+        {
+          "time": 2.25,
+          "native_previous": 0.021208506077528,
+          "native": 0.021208506077528,
+          "repair_previous": 0.021208506077528,
+          "repair": 0.021208506077528,
+          "native_dlat": 0.00011932291090488434,
+          "repair_dlat": 0.00011932291090488434
+        },
+        {
+          "time": 2.3000000000000003,
+          "native_previous": 0.021208506077528,
+          "native": 0.021208506077528,
+          "repair_previous": 0.021208506077528,
+          "repair": 0.021208506077528,
+          "native_dlat": 0.000658208504319191,
+          "repair_dlat": 0.000658208504319191
+        },
+        {
+          "time": 2.35,
+          "native_previous": 0.021208506077528,
+          "native": 0.02312793955206871,
+          "repair_previous": 0.021208506077528,
+          "repair": 0.02312793955206871,
+          "native_dlat": 0.00048059970140457153,
+          "repair_dlat": 0.00048059970140457153
+        },
+        {
+          "time": 2.4000000000000004,
+          "native_previous": 0.02312793955206871,
+          "native": 0.02312793955206871,
+          "repair_previous": 0.02312793955206871,
+          "repair": 0.02312793955206871,
+          "native_dlat": 0.0003023464232683182,
+          "repair_dlat": 0.0003023464232683182
+        },
+        {
+          "time": 2.45,
+          "native_previous": 0.02312793955206871,
+          "native": 0.024919411167502403,
+          "repair_previous": 0.02312793955206871,
+          "repair": 0.024919411167502403,
+          "native_dlat": 0.0007046293467283249,
+          "repair_dlat": 0.0007046293467283249
+        },
+        {
+          "time": 2.5,
+          "native_previous": 0.024919411167502403,
+          "native": 0.024919411167502403,
+          "repair_previous": 0.024919411167502403,
+          "repair": 0.024919411167502403,
+          "native_dlat": 8.063949644565582e-05,
+          "repair_dlat": 8.063949644565582e-05
+        },
+        {
+          "time": 2.5500000000000003,
+          "native_previous": 0.024919411167502403,
+          "native": 0.026591449975967407,
+          "repair_previous": 0.024919411167502403,
+          "repair": 0.026591449975967407,
+          "native_dlat": 0.0008061286062002182,
+          "repair_dlat": 0.0008061286062002182
+        },
+        {
+          "time": 2.6,
+          "native_previous": 0.026591449975967407,
+          "native": 0.026591449975967407,
+          "repair_previous": 0.026591449975967407,
+          "repair": 0.026591449975967407,
+          "native_dlat": 2.1634623408317566e-05,
+          "repair_dlat": 2.1634623408317566e-05
+        },
+        {
+          "time": 2.6500000000000004,
+          "native_previous": 0.026591449975967407,
+          "native": 0.026591449975967407,
+          "repair_previous": 0.026591449975967407,
+          "repair": 0.026591449975967407,
+          "native_dlat": 0.0007613096386194229,
+          "repair_dlat": 0.0007613096386194229
+        },
+        {
+          "time": 2.7,
+          "native_previous": 0.026591449975967407,
+          "native": 0.028152020648121834,
+          "repair_previous": 0.026591449975967407,
+          "repair": 0.028152020648121834,
+          "native_dlat": 1.8635764718055725e-05,
+          "repair_dlat": 1.8635764718055725e-05
+        },
+        {
+          "time": 2.75,
+          "native_previous": 0.028152020648121834,
+          "native": 0.029608553275465965,
+          "repair_previous": 0.028152020648121834,
+          "repair": 0.029608553275465965,
+          "native_dlat": 0.0006976351141929626,
+          "repair_dlat": 0.0006976351141929626
+        },
+        {
+          "time": 2.8000000000000003,
+          "native_previous": 0.029608553275465965,
+          "native": 0.029608553275465965,
+          "repair_previous": 0.029608553275465965,
+          "repair": 0.029608553275465965,
+          "native_dlat": 7.60350376367569e-05,
+          "repair_dlat": 7.60350376367569e-05
+        },
+        {
+          "time": 2.85,
+          "native_previous": 0.029608553275465965,
+          "native": 0.03096798248589039,
+          "repair_previous": 0.029608553275465965,
+          "repair": 0.03096798248589039,
+          "native_dlat": 0.0005143433809280396,
+          "repair_dlat": 0.0005143433809280396
+        },
+        {
+          "time": 2.9000000000000004,
+          "native_previous": 0.03096798248589039,
+          "native": 0.03096798248589039,
+          "repair_previous": 0.03096798248589039,
+          "repair": 0.03096798248589039,
+          "native_dlat": 0.0002493225038051605,
+          "repair_dlat": 0.0002493225038051605
+        },
+        {
+          "time": 2.95,
+          "native_previous": 0.03096798248589039,
+          "native": 0.03223678469657898,
+          "repair_previous": 0.03096798248589039,
+          "repair": 0.03223678469657898,
+          "native_dlat": 0.00026194751262664795,
+          "repair_dlat": 0.00026194751262664795
+        },
+        {
+          "time": 3.0,
+          "native_previous": 0.03223678469657898,
+          "native": 0.03223678469657898,
+          "repair_previous": 0.03223678469657898,
+          "repair": 0.03223678469657898,
+          "native_dlat": 0.0004886984825134277,
+          "repair_dlat": 0.0004886984825134277
+        },
+        {
+          "time": 3.0500000000000003,
+          "native_previous": 0.03223678469657898,
+          "native": 0.033420998603105545,
+          "repair_previous": 0.03223678469657898,
+          "repair": 0.033420998603105545,
+          "native_dlat": 4.750862717628479e-05,
+          "repair_dlat": 4.750862717628479e-05
+        },
+        {
+          "time": 3.1,
+          "native_previous": 0.033420998603105545,
+          "native": 0.034526266157627106,
+          "repair_previous": 0.033420998603105545,
+          "repair": 0.034526266157627106,
+          "native_dlat": 0.00032309070229530334,
+          "repair_dlat": 0.00032309070229530334
+        },
+        {
+          "time": 3.1500000000000004,
+          "native_previous": 0.034526266157627106,
+          "native": 0.034526266157627106,
+          "repair_previous": 0.034526266157627106,
+          "repair": 0.034526266157627106,
+          "native_dlat": 0.00040249526500701904,
+          "repair_dlat": 0.00040249526500701904
+        },
+        {
+          "time": 3.2,
+          "native_previous": 0.034526266157627106,
+          "native": 0.03555784747004509,
+          "repair_previous": 0.034526266157627106,
+          "repair": 0.03555784747004509,
+          "native_dlat": 8.669868111610413e-05,
+          "repair_dlat": 8.669868111610413e-05
+        },
+        {
+          "time": 3.25,
+          "native_previous": 0.03555784747004509,
+          "native": 0.03652065619826317,
+          "repair_previous": 0.03555784747004509,
+          "repair": 0.03652065619826317,
+          "native_dlat": 0.00017082691192626953,
+          "repair_dlat": 0.00017082691192626953
+        },
+        {
+          "time": 3.3000000000000003,
+          "native_previous": 0.03652065619826317,
+          "native": 0.03741927817463875,
+          "repair_previous": 0.03652065619826317,
+          "repair": 0.03741927817463875,
+          "native_dlat": 0.0003753677010536194,
+          "repair_dlat": 0.0003753677010536194
+        },
+        {
+          "time": 3.35,
+          "native_previous": 0.03741927817463875,
+          "native": 0.03741927817463875,
+          "repair_previous": 0.03741927817463875,
+          "repair": 0.03741927817463875,
+          "native_dlat": 0.00030682608485221863,
+          "repair_dlat": 0.00030682608485221863
+        },
+        {
+          "time": 3.4000000000000004,
+          "native_previous": 0.03741927817463875,
+          "native": 0.03825799375772476,
+          "repair_previous": 0.03741927817463875,
+          "repair": 0.03825799375772476,
+          "native_dlat": 0.00013774260878562927,
+          "repair_dlat": 0.00013774260878562927
+        },
+        {
+          "time": 3.45,
+          "native_previous": 0.03825799375772476,
+          "native": 0.03904079273343086,
+          "repair_previous": 0.03825799375772476,
+          "repair": 0.03904079273343086,
+          "native_dlat": 1.1362135410308838e-05,
+          "repair_dlat": 1.1362135410308838e-05
+        },
+        {
+          "time": 3.5,
+          "native_previous": 0.03904079273343086,
+          "native": 0.03977140784263611,
+          "repair_previous": 0.03904079273343086,
+          "repair": 0.03977140784263611,
+          "native_dlat": 7.670745253562927e-05,
+          "repair_dlat": 7.670745253562927e-05
+        },
+        {
+          "time": 3.5500000000000003,
+          "native_previous": 0.03977140784263611,
+          "native": 0.040453314781188965,
+          "repair_previous": 0.03977140784263611,
+          "repair": 0.040453314781188965,
+          "native_dlat": 0.00013056769967079163,
+          "repair_dlat": 0.00013056769967079163
+        },
+        {
+          "time": 3.6,
+          "native_previous": 0.040453314781188965,
+          "native": 0.04108976200222969,
+          "repair_previous": 0.040453314781188965,
+          "repair": 0.04108976200222969,
+          "native_dlat": 0.0001540929079055786,
+          "repair_dlat": 0.0001540929079055786
+        },
+        {
+          "time": 3.6500000000000004,
+          "native_previous": 0.04108976200222969,
+          "native": 0.041683778166770935,
+          "repair_previous": 0.04108976200222969,
+          "repair": 0.041683778166770935,
+          "native_dlat": 0.00015090778470039368,
+          "repair_dlat": 0.00015090778470039368
+        },
+        {
+          "time": 3.7,
+          "native_previous": 0.041683778166770935,
+          "native": 0.04223819449543953,
+          "repair_previous": 0.041683778166770935,
+          "repair": 0.04223819449543953,
+          "native_dlat": 0.00012444332242012024,
+          "repair_dlat": 0.00012444332242012024
+        },
+        {
+          "time": 3.75,
+          "native_previous": 0.04223819449543953,
+          "native": 0.042755648493766785,
+          "repair_previous": 0.04223819449543953,
+          "repair": 0.042755648493766785,
+          "native_dlat": 7.790327072143555e-05,
+          "repair_dlat": 7.790327072143555e-05
+        },
+        {
+          "time": 3.8000000000000003,
+          "native_previous": 0.042755648493766785,
+          "native": 0.04323860630393028,
+          "repair_previous": 0.042755648493766785,
+          "repair": 0.04323860630393028,
+          "native_dlat": 1.4316290616989136e-05,
+          "repair_dlat": 1.4316290616989136e-05
+        },
+        {
+          "time": 3.85,
+          "native_previous": 0.04323860630393028,
+          "native": 0.043689366430044174,
+          "repair_previous": 0.04323860630393028,
+          "repair": 0.043689366430044174,
+          "native_dlat": 6.348639726638794e-05,
+          "repair_dlat": 6.348639726638794e-05
+        },
+        {
+          "time": 3.9000000000000004,
+          "native_previous": 0.043689366430044174,
+          "native": 0.044110074639320374,
+          "repair_previous": 0.043689366430044174,
+          "repair": 0.044110074639320374,
+          "native_dlat": 0.00015283375978469849,
+          "repair_dlat": 0.00015283375978469849
+        },
+        {
+          "time": 3.95,
+          "native_previous": 0.044110074639320374,
+          "native": 0.04489539936184883,
+          "repair_previous": 0.044110074639320374,
+          "repair": 0.04489539936184883,
+          "native_dlat": 0.00014144554734230042,
+          "repair_dlat": 0.00014144554734230042
+        },
+        {
+          "time": 4.0,
+          "native_previous": 0.04489539936184883,
+          "native": 0.04523570463061333,
+          "repair_previous": 0.04489539936184883,
+          "repair": 0.04523570463061333,
+          "native_dlat": 1.0203570127487183e-05,
+          "repair_dlat": 1.0203570127487183e-05
+        },
+        {
+          "time": 4.05,
+          "native_previous": 0.04523570463061333,
+          "native": 0.04555332288146019,
+          "repair_previous": 0.04523570463061333,
+          "repair": 0.04555332288146019,
+          "native_dlat": 0.0001237615942955017,
+          "repair_dlat": 0.0001237615942955017
+        },
+        {
+          "time": 4.1000000000000005,
+          "native_previous": 0.04555332288146019,
+          "native": 0.0461462140083313,
+          "repair_previous": 0.04555332288146019,
+          "repair": 0.0461462140083313,
+          "native_dlat": 3.795698285102844e-05,
+          "repair_dlat": 3.795698285102844e-05
+        },
+        {
+          "time": 4.15,
+          "native_previous": 0.0461462140083313,
+          "native": 0.04640313237905502,
+          "repair_previous": 0.0461462140083313,
+          "repair": 0.04640313237905502,
+          "native_dlat": 0.00011547282338142395,
+          "repair_dlat": 0.00011547282338142395
+        },
+        {
+          "time": 4.2,
+          "native_previous": 0.04640313237905502,
+          "native": 0.046882715076208115,
+          "repair_previous": 0.04640313237905502,
+          "repair": 0.046882715076208115,
+          "native_dlat": 2.5000423192977905e-05,
+          "repair_dlat": 2.5000423192977905e-05
+        },
+        {
+          "time": 4.25,
+          "native_previous": 0.046882715076208115,
+          "native": 0.04729835316538811,
+          "repair_previous": 0.046882715076208115,
+          "repair": 0.04729835316538811,
+          "native_dlat": 2.3148953914642334e-05,
+          "repair_dlat": 2.3148953914642334e-05
+        },
+        {
+          "time": 4.3,
+          "native_previous": 0.04729835316538811,
+          "native": 0.04765857383608818,
+          "repair_previous": 0.04729835316538811,
+          "repair": 0.04765857383608818,
+          "native_dlat": 3.786012530326843e-05,
+          "repair_dlat": 3.786012530326843e-05
+        },
+        {
+          "time": 4.3500000000000005,
+          "native_previous": 0.04765857383608818,
+          "native": 0.047970764338970184,
+          "repair_previous": 0.04765857383608818,
+          "repair": 0.047970764338970184,
+          "native_dlat": 2.6870518922805786e-05,
+          "repair_dlat": 2.6870518922805786e-05
+        },
+        {
+          "time": 4.4,
+          "native_previous": 0.047970764338970184,
+          "native": 0.048241328448057175,
+          "repair_previous": 0.047970764338970184,
+          "repair": 0.048241328448057175,
+          "native_dlat": 3.1106173992156982e-06,
+          "repair_dlat": 3.1106173992156982e-06
+        },
+        {
+          "time": 4.45,
+          "native_previous": 0.048241328448057175,
+          "native": 0.04847581684589386,
+          "repair_previous": 0.048241328448057175,
+          "repair": 0.04847581684589386,
+          "native_dlat": 4.622340202331543e-05,
+          "repair_dlat": 4.622340202331543e-05
+        },
+        {
+          "time": 4.5,
+          "native_previous": 0.04847581684589386,
+          "native": 0.0487806536257267,
+          "repair_previous": 0.04847581684589386,
+          "repair": 0.0487806536257267,
+          "native_dlat": 4.220753908157349e-06,
+          "repair_dlat": 4.220753908157349e-06
+        },
+        {
+          "time": 4.55,
+          "native_previous": 0.0487806536257267,
+          "native": 0.04902452230453491,
+          "repair_previous": 0.0487806536257267,
+          "repair": 0.04902452230453491,
+          "native_dlat": 1.71661376953125e-05,
+          "repair_dlat": 1.71661376953125e-05
+        },
+        {
+          "time": 4.6000000000000005,
+          "native_previous": 0.04902452230453491,
+          "native": 0.04921961948275566,
+          "repair_previous": 0.04902452230453491,
+          "repair": 0.04921961948275566,
+          "native_dlat": 5.029141902923584e-06,
+          "repair_dlat": 5.029141902923584e-06
+        },
+        {
+          "time": 4.65,
+          "native_previous": 0.04921961948275566,
+          "native": 0.04937569424510002,
+          "repair_previous": 0.04921961948275566,
+          "repair": 0.04937569424510002,
+          "native_dlat": 2.2236257791519165e-05,
+          "repair_dlat": 2.2236257791519165e-05
+        },
+        {
+          "time": 4.7,
+          "native_previous": 0.04937569424510002,
+          "native": 0.049542177468538284,
+          "repair_previous": 0.04937569424510002,
+          "repair": 0.049542177468538284,
+          "native_dlat": 1.5012919902801514e-05,
+          "repair_dlat": 1.5012919902801514e-05
+        },
+        {
+          "time": 4.75,
+          "native_previous": 0.049542177468538284,
+          "native": 0.04969478398561478,
+          "repair_previous": 0.049542177468538284,
+          "repair": 0.04969478398561478,
+          "native_dlat": 2.5704503059387207e-06,
+          "repair_dlat": 2.5704503059387207e-06
+        },
+        {
+          "time": 4.800000000000001,
+          "native_previous": 0.04969478398561478,
+          "native": 0.04979652166366577,
+          "repair_previous": 0.04969478398561478,
+          "repair": 0.04979652166366577,
+          "native_dlat": 6.3478946685791016e-06,
+          "repair_dlat": 6.3478946685791016e-06
+        },
+        {
+          "time": 4.8500000000000005,
+          "native_previous": 0.04979652166366577,
+          "native": 0.049891479313373566,
+          "repair_previous": 0.04979652166366577,
+          "repair": 0.049891479313373566,
+          "native_dlat": 2.428889274597168e-06,
+          "repair_dlat": 2.428889274597168e-06
+        },
+        {
+          "time": 4.9,
+          "native_previous": 0.049891479313373566,
+          "native": 0.04994935914874077,
+          "repair_previous": 0.049891479313373566,
+          "repair": 0.04994935914874077,
+          "native_dlat": 1.3075768947601318e-06,
+          "repair_dlat": 1.3075768947601318e-06
+        },
+        {
+          "time": 4.95,
+          "native_previous": 0.04994935914874077,
+          "native": 0.049986496567726135,
+          "repair_previous": 0.04994935914874077,
+          "repair": 0.049986496567726135,
+          "native_dlat": 1.166015863418579e-06,
+          "repair_dlat": 1.166015863418579e-06
+        },
+        {
+          "time": 5.0,
+          "native_previous": 0.049986496567726135,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.049986496567726135,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.050000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.1000000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.15,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.2,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.25,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.300000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.3500000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.4,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.45,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.5,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.550000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.6000000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.65,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.7,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.75,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.800000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.8500000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.9,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 5.95,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.0,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.050000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.1000000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.15,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.2,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.25,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.300000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.3500000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.4,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.45,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.5,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.550000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.6000000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.65,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.7,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.75,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.800000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.8500000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.9,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 6.95,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.0,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.050000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.1000000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.15,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.2,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.25,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.300000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.3500000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.4,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.45,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.5,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.550000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.6000000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.65,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.7,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.75,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.800000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.8500000000000005,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.9,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 7.95,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.0,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.05,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.1,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.15,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.200000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.25,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.3,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.35,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.4,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.450000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.5,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.55,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.6,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.65,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.700000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.75,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.8,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.85,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.9,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 8.950000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.0,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.05,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.1,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.15,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.200000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.25,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.3,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.35,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.4,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.450000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.5,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.55,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.600000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.65,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.700000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.75,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.8,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.850000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.9,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 9.950000000000001,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 10.0,
+          "native_previous": 0.05000000074505806,
+          "native": 0.05000000074505806,
+          "repair_previous": 0.05000000074505806,
+          "repair": 0.05000000074505806,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        }
+      ]
+    },
+    "return": {
+      "L": 0.10000000149011612,
+      "rows": [
+        {
+          "time": 0.0,
+          "native_previous": 0.0,
+          "native": 0.0,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0,
+          "repair_dlat": 0.0
+        },
+        {
+          "time": 0.05,
+          "native_previous": 0.0,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 1.2136058103351388e-05,
+          "repair_dlat": 1.2335990504652727e-05
+        },
+        {
+          "time": 0.1,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 4.913185694022104e-05,
+          "repair_dlat": 4.933178934152238e-05
+        },
+        {
+          "time": 0.15000000000000002,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.00011075095972046256,
+          "repair_dlat": 0.00011095088848378509
+        },
+        {
+          "time": 0.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.00019693253852892667,
+          "repair_dlat": 0.0001971324672922492
+        },
+        {
+          "time": 0.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0003075915446970612,
+          "repair_dlat": 0.00030779148801229894
+        },
+        {
+          "time": 0.30000000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.00044261879520490766,
+          "repair_dlat": 0.0004428187385201454
+        },
+        {
+          "time": 0.35000000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0006018810090608895,
+          "repair_dlat": 0.0006020809523761272
+        },
+        {
+          "time": 0.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0007852210546843708,
+          "repair_dlat": 0.0007854209979996085
+        },
+        {
+          "time": 0.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0009924579644575715,
+          "repair_dlat": 0.0009926578495651484
+        },
+        {
+          "time": 0.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0012233871966600418,
+          "repair_dlat": 0.0012235870817676187
+        },
+        {
+          "time": 0.55,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0014777808682993054,
+          "repair_dlat": 0.0014779807534068823
+        },
+        {
+          "time": 0.6000000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0017553879879415035,
+          "repair_dlat": 0.0017555878730490804
+        },
+        {
+          "time": 0.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0020559343975037336,
+          "repair_dlat": 0.0020561343990266323
+        },
+        {
+          "time": 0.7000000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0023791235871613026,
+          "repair_dlat": 0.0023793235886842012
+        },
+        {
+          "time": 0.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.002724636811763048,
+          "repair_dlat": 0.002724836813285947
+        },
+        {
+          "time": 0.8,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0,
+          "native_dlat": 0.0030921329744160175,
+          "repair_dlat": 0.003092332975938916
+        },
+        {
+          "time": 0.8500000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.003481249324977398,
+          "repair_dlat": 0.003185194218531251
+        },
+        {
+          "time": 0.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.003891601925715804,
+          "repair_dlat": 0.0027748416177928448
+        },
+        {
+          "time": 0.9500000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.004322785884141922,
+          "repair_dlat": 0.0023436578921973705
+        },
+        {
+          "time": 1.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.004774375353008509,
+          "repair_dlat": 0.0018920684233307838
+        },
+        {
+          "time": 1.05,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.005245924927294254,
+          "repair_dlat": 0.0014205188490450382
+        },
+        {
+          "time": 1.1,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.005736968945711851,
+          "repair_dlat": 0.0009294748306274414
+        },
+        {
+          "time": 1.1500000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.006247023586183786,
+          "repair_dlat": 0.00041942019015550613
+        },
+        {
+          "time": 1.2000000000000002,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.006775584537535906,
+          "repair_dlat": 0.00010914076119661331
+        },
+        {
+          "time": 1.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.007322130724787712,
+          "repair_dlat": 0.0006556869484484196
+        },
+        {
+          "time": 1.3,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.007886121980845928,
+          "repair_dlat": 0.001219678670167923
+        },
+        {
+          "time": 1.35,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.008467002771794796,
+          "repair_dlat": 0.0018005594611167908
+        },
+        {
+          "time": 1.4000000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.009064200334250927,
+          "repair_dlat": 0.0023977570235729218
+        },
+        {
+          "time": 1.4500000000000002,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.0066666672937572,
+          "native_dlat": 0.00967712327837944,
+          "repair_dlat": 0.003010679967701435
+        },
+        {
+          "time": 1.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0066666672937572,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.010305168107151985,
+          "repair_dlat": 0.002583486959338188
+        },
+        {
+          "time": 1.55,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.010947715491056442,
+          "repair_dlat": 0.001940939575433731
+        },
+        {
+          "time": 1.6,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.011604130268096924,
+          "repair_dlat": 0.0012845247983932495
+        },
+        {
+          "time": 1.6500000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.012273764237761497,
+          "repair_dlat": 0.0006148908287286758
+        },
+        {
+          "time": 1.7000000000000002,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.012955958023667336,
+          "repair_dlat": 6.730295717716217e-05
+        },
+        {
+          "time": 1.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.013650037348270416,
+          "repair_dlat": 0.0007613822817802429
+        },
+        {
+          "time": 1.8,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.014355317689478397,
+          "repair_dlat": 0.001466662622988224
+        },
+        {
+          "time": 1.85,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.012888889759778976,
+          "native_dlat": 0.015071102418005466,
+          "repair_dlat": 0.002182447351515293
+        },
+        {
+          "time": 1.9000000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.012888889759778976,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.015796687453985214,
+          "repair_dlat": 0.0028993692249059677
+        },
+        {
+          "time": 1.9500000000000002,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.01653135195374489,
+          "repair_dlat": 0.0021647047251462936
+        },
+        {
+          "time": 2.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.01727437600493431,
+          "repair_dlat": 0.001421680673956871
+        },
+        {
+          "time": 2.0500000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.018025023862719536,
+          "repair_dlat": 0.0006710328161716461
+        },
+        {
+          "time": 2.1,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.01878255419433117,
+          "repair_dlat": 8.649751543998718e-05
+        },
+        {
+          "time": 2.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.01954622007906437,
+          "repair_dlat": 0.0008501634001731873
+        },
+        {
+          "time": 2.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.020315267145633698,
+          "repair_dlat": 0.0016192104667425156
+        },
+        {
+          "time": 2.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.018696296960115433,
+          "native_dlat": 0.021088939160108566,
+          "repair_dlat": 0.0023928824812173843
+        },
+        {
+          "time": 2.3000000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.018696296960115433,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.02186647057533264,
+          "repair_dlat": 0.002249825745820999
+        },
+        {
+          "time": 2.35,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.02264709211885929,
+          "repair_dlat": 0.0014692042022943497
+        },
+        {
+          "time": 2.4000000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.02343003824353218,
+          "repair_dlat": 0.00068625807762146
+        },
+        {
+          "time": 2.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.02421453222632408,
+          "repair_dlat": 9.823590517044067e-05
+        },
+        {
+          "time": 2.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.024999801069498062,
+          "repair_dlat": 0.0008835047483444214
+        },
+        {
+          "time": 2.5500000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.025785069912672043,
+          "repair_dlat": 0.001668773591518402
+        },
+        {
+          "time": 2.6,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.02411654405295849,
+          "native_dlat": 0.026569563895463943,
+          "repair_dlat": 0.0024532675743103027
+        },
+        {
+          "time": 2.6500000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.02411654405295849,
+          "repair": 0.029175441712141037,
+          "native_dlat": 0.027352508157491684,
+          "repair_dlat": 0.0018226783722639084
+        },
+        {
+          "time": 2.7,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.029175441712141037,
+          "repair": 0.029175441712141037,
+          "native_dlat": 0.028133131563663483,
+          "repair_dlat": 0.0010420549660921097
+        },
+        {
+          "time": 2.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.029175441712141037,
+          "repair": 0.029175441712141037,
+          "native_dlat": 0.028910662978887558,
+          "repair_dlat": 0.00026452355086803436
+        },
+        {
+          "time": 2.8000000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.029175441712141037,
+          "repair": 0.029175441712141037,
+          "native_dlat": 0.029684333130717278,
+          "repair_dlat": 0.0005091466009616852
+        },
+        {
+          "time": 2.85,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.029175441712141037,
+          "repair": 0.029175441712141037,
+          "native_dlat": 0.030453382059931755,
+          "repair_dlat": 0.0012781955301761627
+        },
+        {
+          "time": 2.9000000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.029175441712141037,
+          "repair": 0.029175441712141037,
+          "native_dlat": 0.031217047944664955,
+          "repair_dlat": 0.002041861414909363
+        },
+        {
+          "time": 2.95,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.029175441712141037,
+          "repair": 0.03389707952737808,
+          "native_dlat": 0.03197457641363144,
+          "repair_dlat": 0.0019222386181354523
+        },
+        {
+          "time": 3.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03389707952737808,
+          "repair": 0.03389707952737808,
+          "native_dlat": 0.032725222408771515,
+          "repair_dlat": 0.0011715926229953766
+        },
+        {
+          "time": 3.0500000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03389707952737808,
+          "repair": 0.03389707952737808,
+          "native_dlat": 0.03346824645996094,
+          "repair_dlat": 0.000428568571805954
+        },
+        {
+          "time": 3.1,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03389707952737808,
+          "repair": 0.03389707952737808,
+          "native_dlat": 0.03420291095972061,
+          "repair_dlat": 0.0003060959279537201
+        },
+        {
+          "time": 3.1500000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03389707952737808,
+          "repair": 0.03389707952737808,
+          "native_dlat": 0.034928496927022934,
+          "repair_dlat": 0.0010316818952560425
+        },
+        {
+          "time": 3.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03389707952737808,
+          "repair": 0.03389707952737808,
+          "native_dlat": 0.03564428165555,
+          "repair_dlat": 0.0017474666237831116
+        },
+        {
+          "time": 3.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03389707952737808,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.03634956106543541,
+          "repair_dlat": 0.0019541122019290924
+        },
+        {
+          "time": 3.3000000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.03704364225268364,
+          "repair_dlat": 0.0012600310146808624
+        },
+        {
+          "time": 3.35,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.03772583603858948,
+          "repair_dlat": 0.0005778372287750244
+        },
+        {
+          "time": 3.4000000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.0383954681456089,
+          "repair_dlat": 9.179487824440002e-05
+        },
+        {
+          "time": 3.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.039051882922649384,
+          "repair_dlat": 0.0007482096552848816
+        },
+        {
+          "time": 3.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.03969442844390869,
+          "repair_dlat": 0.0013907551765441895
+        },
+        {
+          "time": 3.5500000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.03830394148826599,
+          "native_dlat": 0.040322475135326385,
+          "repair_dlat": 0.0020188018679618835
+        },
+        {
+          "time": 3.6,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.03830394148826599,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.040935397148132324,
+          "repair_dlat": 0.0014813393354415894
+        },
+        {
+          "time": 3.6500000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.041532594710588455,
+          "repair_dlat": 0.0008841417729854584
+        },
+        {
+          "time": 3.7,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.04211347550153732,
+          "repair_dlat": 0.0003032609820365906
+        },
+        {
+          "time": 3.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.04267746955156326,
+          "repair_dlat": 0.00026073306798934937
+        },
+        {
+          "time": 3.8000000000000003,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.04322401434183121,
+          "repair_dlat": 0.0008072778582572937
+        },
+        {
+          "time": 3.85,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.043752577155828476,
+          "repair_dlat": 0.0013358406722545624
+        },
+        {
+          "time": 3.9000000000000004,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.042417012155056,
+          "native_dlat": 0.04426262900233269,
+          "repair_dlat": 0.0018458925187587738
+        },
+        {
+          "time": 3.95,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.042417012155056,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.044753674417734146,
+          "repair_dlat": 0.0015019439160823822
+        },
+        {
+          "time": 4.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.045225225389003754,
+          "repair_dlat": 0.0010303929448127747
+        },
+        {
+          "time": 4.05,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.045676812529563904,
+          "repair_dlat": 0.0005788058042526245
+        },
+        {
+          "time": 4.1000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.04610799625515938,
+          "repair_dlat": 0.00014762207865715027
+        },
+        {
+          "time": 4.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.04651834815740585,
+          "repair_dlat": 0.00026272982358932495
+        },
+        {
+          "time": 4.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.046907465904951096,
+          "repair_dlat": 0.0006518475711345673
+        },
+        {
+          "time": 4.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.047274962067604065,
+          "repair_dlat": 0.0010193437337875366
+        },
+        {
+          "time": 4.3,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.04762047529220581,
+          "repair_dlat": 0.0013648569583892822
+        },
+        {
+          "time": 4.3500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.04625587910413742,
+          "native_dlat": 0.047943662852048874,
+          "repair_dlat": 0.0016880445182323456
+        },
+        {
+          "time": 4.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.04625587910413742,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.048244211822748184,
+          "repair_dlat": 0.0015944018959999084
+        },
+        {
+          "time": 4.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04852181673049927,
+          "repair_dlat": 0.001316796988248825
+        },
+        {
+          "time": 4.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04877621307969093,
+          "repair_dlat": 0.0010624006390571594
+        },
+        {
+          "time": 4.55,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04900714010000229,
+          "repair_dlat": 0.0008314736187458038
+        },
+        {
+          "time": 4.6000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.049214377999305725,
+          "repair_dlat": 0.0006242357194423676
+        },
+        {
+          "time": 4.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04939771816134453,
+          "repair_dlat": 0.00044089555740356445
+        },
+        {
+          "time": 4.7,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04955698177218437,
+          "repair_dlat": 0.0002816319465637207
+        },
+        {
+          "time": 4.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04969200864434242,
+          "repair_dlat": 0.00014660507440567017
+        },
+        {
+          "time": 4.800000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.049802664667367935,
+          "repair_dlat": 3.594905138015747e-05
+        },
+        {
+          "time": 4.8500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04988884925842285,
+          "repair_dlat": 5.023553967475891e-05
+        },
+        {
+          "time": 4.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04995046555995941,
+          "repair_dlat": 0.00011185184121131897
+        },
+        {
+          "time": 4.95,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04998746141791344,
+          "repair_dlat": 0.00014884769916534424
+        },
+        {
+          "time": 5.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04999979957938194,
+          "repair_dlat": 0.0001611858606338501
+        },
+        {
+          "time": 5.050000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04998746141791344,
+          "repair_dlat": 0.00014884769916534424
+        },
+        {
+          "time": 5.1000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04995046555995941,
+          "repair_dlat": 0.00011185184121131897
+        },
+        {
+          "time": 5.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04988884925842285,
+          "repair_dlat": 5.023553967475891e-05
+        },
+        {
+          "time": 5.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.049802664667367935,
+          "repair_dlat": 3.594905138015747e-05
+        },
+        {
+          "time": 5.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04969200864434242,
+          "repair_dlat": 0.00014660507440567017
+        },
+        {
+          "time": 5.300000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04955698177218437,
+          "repair_dlat": 0.0002816319465637207
+        },
+        {
+          "time": 5.3500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04939771816134453,
+          "repair_dlat": 0.00044089555740356445
+        },
+        {
+          "time": 5.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.049214377999305725,
+          "repair_dlat": 0.0006242357194423676
+        },
+        {
+          "time": 5.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04900714010000229,
+          "repair_dlat": 0.0008314736187458038
+        },
+        {
+          "time": 5.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04877621307969093,
+          "repair_dlat": 0.0010624006390571594
+        },
+        {
+          "time": 5.550000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.049838822335004807,
+          "native_dlat": 0.04852181673049927,
+          "repair_dlat": 0.001316796988248825
+        },
+        {
+          "time": 5.6000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.049838822335004807,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.048244211822748184,
+          "repair_dlat": 0.0014272332191467285
+        },
+        {
+          "time": 5.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.047943662852048874,
+          "repair_dlat": 0.0011266842484474182
+        },
+        {
+          "time": 5.7,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.04762047529220581,
+          "repair_dlat": 0.0008034966886043549
+        },
+        {
+          "time": 5.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.047274962067604065,
+          "repair_dlat": 0.00045798346400260925
+        },
+        {
+          "time": 5.800000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.046907465904951096,
+          "repair_dlat": 9.048730134963989e-05
+        },
+        {
+          "time": 5.8500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.04651834815740585,
+          "repair_dlat": 0.0002986304461956024
+        },
+        {
+          "time": 5.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.04610799625515938,
+          "repair_dlat": 0.0007089823484420776
+        },
+        {
+          "time": 5.95,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.053182899951934814,
+          "native_dlat": 0.045676812529563904,
+          "repair_dlat": 0.0011401660740375519
+        },
+        {
+          "time": 6.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.053182899951934814,
+          "repair": 0.05630404129624367,
+          "native_dlat": 0.045225225389003754,
+          "repair_dlat": 0.0015293434262275696
+        },
+        {
+          "time": 6.050000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05630404129624367,
+          "repair": 0.05630404129624367,
+          "native_dlat": 0.044753674417734146,
+          "repair_dlat": 0.001057792454957962
+        },
+        {
+          "time": 6.1000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05630404129624367,
+          "repair": 0.05630404129624367,
+          "native_dlat": 0.04426262900233269,
+          "repair_dlat": 0.0005667470395565033
+        },
+        {
+          "time": 6.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05630404129624367,
+          "repair": 0.05630404129624367,
+          "native_dlat": 0.043752577155828476,
+          "repair_dlat": 5.669519305229187e-05
+        },
+        {
+          "time": 6.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05630404129624367,
+          "repair": 0.05630404129624367,
+          "native_dlat": 0.04322401434183121,
+          "repair_dlat": 0.0004718676209449768
+        },
+        {
+          "time": 6.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05630404129624367,
+          "repair": 0.05630404129624367,
+          "native_dlat": 0.04267746955156326,
+          "repair_dlat": 0.0010184124112129211
+        },
+        {
+          "time": 6.300000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05630404129624367,
+          "repair": 0.05921710655093193,
+          "native_dlat": 0.04211347550153732,
+          "repair_dlat": 0.001330651342868805
+        },
+        {
+          "time": 6.3500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05921710655093193,
+          "repair": 0.05921710655093193,
+          "native_dlat": 0.041532594710588455,
+          "repair_dlat": 0.0007497705519199371
+        },
+        {
+          "time": 6.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05921710655093193,
+          "repair": 0.05921710655093193,
+          "native_dlat": 0.040935397148132324,
+          "repair_dlat": 0.00015257298946380615
+        },
+        {
+          "time": 6.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05921710655093193,
+          "repair": 0.05921710655093193,
+          "native_dlat": 0.040322475135326385,
+          "repair_dlat": 0.00046034902334213257
+        },
+        {
+          "time": 6.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05921710655093193,
+          "repair": 0.05921710655093193,
+          "native_dlat": 0.03969442844390869,
+          "repair_dlat": 0.0010883957147598267
+        },
+        {
+          "time": 6.550000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.05921710655093193,
+          "repair": 0.06193596497178078,
+          "native_dlat": 0.039051882922649384,
+          "repair_dlat": 0.000987917184829712
+        },
+        {
+          "time": 6.6000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06193596497178078,
+          "repair": 0.06193596497178078,
+          "native_dlat": 0.0383954681456089,
+          "repair_dlat": 0.00033150240778923035
+        },
+        {
+          "time": 6.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06193596497178078,
+          "repair": 0.06193596497178078,
+          "native_dlat": 0.03772583603858948,
+          "repair_dlat": 0.0003381296992301941
+        },
+        {
+          "time": 6.7,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06193596497178078,
+          "repair": 0.06193596497178078,
+          "native_dlat": 0.03704364225268364,
+          "repair_dlat": 0.001020323485136032
+        },
+        {
+          "time": 6.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06193596497178078,
+          "repair": 0.06447356939315796,
+          "native_dlat": 0.03634956106543541,
+          "repair_dlat": 0.0008231960237026215
+        },
+        {
+          "time": 6.800000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06447356939315796,
+          "repair": 0.06447356939315796,
+          "native_dlat": 0.03564428165555,
+          "repair_dlat": 0.00011791661381721497
+        },
+        {
+          "time": 6.8500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06447356939315796,
+          "repair": 0.06447356939315796,
+          "native_dlat": 0.034928496927022934,
+          "repair_dlat": 0.0005978681147098541
+        },
+        {
+          "time": 6.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06447356939315796,
+          "repair": 0.06684199720621109,
+          "native_dlat": 0.03420291095972061,
+          "repair_dlat": 0.0010449700057506561
+        },
+        {
+          "time": 6.95,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06684199720621109,
+          "repair": 0.06684199720621109,
+          "native_dlat": 0.03346824645996094,
+          "repair_dlat": 0.00031030550599098206
+        },
+        {
+          "time": 7.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06684199720621109,
+          "repair": 0.06684199720621109,
+          "native_dlat": 0.032725222408771515,
+          "repair_dlat": 0.00043271854519844055
+        },
+        {
+          "time": 7.050000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06684199720621109,
+          "repair": 0.06905253231525421,
+          "native_dlat": 0.03197457641363144,
+          "repair_dlat": 0.001027170568704605
+        },
+        {
+          "time": 7.1000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06905253231525421,
+          "repair": 0.06905253231525421,
+          "native_dlat": 0.031217047944664955,
+          "repair_dlat": 0.0002696402370929718
+        },
+        {
+          "time": 7.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06905253231525421,
+          "repair": 0.06905253231525421,
+          "native_dlat": 0.030453382059931755,
+          "repair_dlat": 0.0004940256476402283
+        },
+        {
+          "time": 7.2,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.06905253231525421,
+          "repair": 0.07111569494009018,
+          "native_dlat": 0.029684333130717278,
+          "repair_dlat": 0.0008000824600458145
+        },
+        {
+          "time": 7.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07111569494009018,
+          "repair": 0.07111569494009018,
+          "native_dlat": 0.028910662978887558,
+          "repair_dlat": 2.641230821609497e-05
+        },
+        {
+          "time": 7.300000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07111569494009018,
+          "repair": 0.07111569494009018,
+          "native_dlat": 0.028133131563663483,
+          "repair_dlat": 0.0007511191070079803
+        },
+        {
+          "time": 7.3500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07111569494009018,
+          "repair": 0.07304131239652634,
+          "native_dlat": 0.027352508157491684,
+          "repair_dlat": 0.0003938712179660797
+        },
+        {
+          "time": 7.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07304131239652634,
+          "repair": 0.07304131239652634,
+          "native_dlat": 0.026569563895463943,
+          "repair_dlat": 0.00038907304406166077
+        },
+        {
+          "time": 7.45,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07304131239652634,
+          "repair": 0.0748385563492775,
+          "native_dlat": 0.025785069912672043,
+          "repair_dlat": 0.0006236713379621506
+        },
+        {
+          "time": 7.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0748385563492775,
+          "repair": 0.0748385563492775,
+          "native_dlat": 0.024999801069498062,
+          "repair_dlat": 0.00016159750521183014
+        },
+        {
+          "time": 7.550000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0748385563492775,
+          "repair": 0.07651598751544952,
+          "native_dlat": 0.02421453222632408,
+          "repair_dlat": 0.0007305648177862167
+        },
+        {
+          "time": 7.6000000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07651598751544952,
+          "repair": 0.07651598751544952,
+          "native_dlat": 0.02343003824353218,
+          "repair_dlat": 5.39291650056839e-05
+        },
+        {
+          "time": 7.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07651598751544952,
+          "repair": 0.07808158546686172,
+          "native_dlat": 0.02264709211885929,
+          "repair_dlat": 0.0007287207990884781
+        },
+        {
+          "time": 7.7,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07808158546686172,
+          "repair": 0.07808158546686172,
+          "native_dlat": 0.02186647057533264,
+          "repair_dlat": 5.190074443817139e-05
+        },
+        {
+          "time": 7.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07808158546686172,
+          "repair": 0.07954281568527222,
+          "native_dlat": 0.021088939160108566,
+          "repair_dlat": 0.0006317980587482452
+        },
+        {
+          "time": 7.800000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07954281568527222,
+          "repair": 0.07954281568527222,
+          "native_dlat": 0.020315267145633698,
+          "repair_dlat": 0.00014187395572662354
+        },
+        {
+          "time": 7.8500000000000005,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.07954281568527222,
+          "repair": 0.08090662956237793,
+          "native_dlat": 0.01954622007906437,
+          "repair_dlat": 0.0004528909921646118
+        },
+        {
+          "time": 7.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08090662956237793,
+          "repair": 0.08090662956237793,
+          "native_dlat": 0.01878255419433117,
+          "repair_dlat": 0.00031077489256858826
+        },
+        {
+          "time": 7.95,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08090662956237793,
+          "repair": 0.08217952400445938,
+          "native_dlat": 0.018025023862719536,
+          "repair_dlat": 0.00020458735525608063
+        },
+        {
+          "time": 8.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08217952400445938,
+          "repair": 0.08217952400445938,
+          "native_dlat": 0.01727437600493431,
+          "repair_dlat": 0.0005460605025291443
+        },
+        {
+          "time": 8.05,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08217952400445938,
+          "repair": 0.08336755633354187,
+          "native_dlat": 0.01653135195374489,
+          "repair_dlat": 0.00010105408728122711
+        },
+        {
+          "time": 8.1,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08336755633354187,
+          "repair": 0.08447638899087906,
+          "native_dlat": 0.015796687453985214,
+          "repair_dlat": 0.0002731122076511383
+        },
+        {
+          "time": 8.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08447638899087906,
+          "repair": 0.08447638899087906,
+          "native_dlat": 0.015071102418005466,
+          "repair_dlat": 0.00045247189700603485
+        },
+        {
+          "time": 8.200000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08447638899087906,
+          "repair": 0.08551129698753357,
+          "native_dlat": 0.014355317689478397,
+          "repair_dlat": 0.00013335049152374268
+        },
+        {
+          "time": 8.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08551129698753357,
+          "repair": 0.08647721260786057,
+          "native_dlat": 0.013650037348270416,
+          "repair_dlat": 0.00012728292495012283
+        },
+        {
+          "time": 8.3,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08647721260786057,
+          "repair": 0.08737873286008835,
+          "native_dlat": 0.012955958023667336,
+          "repair_dlat": 0.00033472198992967606
+        },
+        {
+          "time": 8.35,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08737873286008835,
+          "repair": 0.08737873286008835,
+          "native_dlat": 0.012273764237761497,
+          "repair_dlat": 0.00034747179597616196
+        },
+        {
+          "time": 8.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08737873286008835,
+          "repair": 0.08822014927864075,
+          "native_dlat": 0.011604130268096924,
+          "repair_dlat": 0.00017569120973348618
+        },
+        {
+          "time": 8.450000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08822014927864075,
+          "repair": 0.0890054702758789,
+          "native_dlat": 0.010947715491056442,
+          "repair_dlat": 4.678592085838318e-05
+        },
+        {
+          "time": 8.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0890054702758789,
+          "repair": 0.08973843604326248,
+          "native_dlat": 0.010305168107151985,
+          "repair_dlat": 4.363153129816055e-05
+        },
+        {
+          "time": 8.55,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.08973843604326248,
+          "repair": 0.09042254090309143,
+          "native_dlat": 0.00967712327837944,
+          "repair_dlat": 9.969063103199005e-05
+        },
+        {
+          "time": 8.6,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09042254090309143,
+          "repair": 0.09106104075908661,
+          "native_dlat": 0.009064200334250927,
+          "repair_dlat": 0.00012526661157608032
+        },
+        {
+          "time": 8.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09106104075908661,
+          "repair": 0.09165696799755096,
+          "native_dlat": 0.008467002771794796,
+          "repair_dlat": 0.0001239953562617302
+        },
+        {
+          "time": 8.700000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09165696799755096,
+          "repair": 0.09221316874027252,
+          "native_dlat": 0.007886121980845928,
+          "repair_dlat": 9.93148423731327e-05
+        },
+        {
+          "time": 8.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09221316874027252,
+          "repair": 0.09273228794336319,
+          "native_dlat": 0.007322130724787712,
+          "repair_dlat": 5.444185808300972e-05
+        },
+        {
+          "time": 8.8,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09273228794336319,
+          "repair": 0.09321679919958115,
+          "native_dlat": 0.006775584537535906,
+          "repair_dlat": 7.594004273414612e-06
+        },
+        {
+          "time": 8.85,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09321679919958115,
+          "repair": 0.09366901218891144,
+          "native_dlat": 0.006247023586183786,
+          "repair_dlat": 8.394196629524231e-05
+        },
+        {
+          "time": 8.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09366901218891144,
+          "repair": 0.09409108012914658,
+          "native_dlat": 0.005736968945711851,
+          "repair_dlat": 0.00017192913219332695
+        },
+        {
+          "time": 8.950000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09409108012914658,
+          "repair": 0.09487893432378769,
+          "native_dlat": 0.005245924927294254,
+          "repair_dlat": 0.0001248805783689022
+        },
+        {
+          "time": 9.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09487893432378769,
+          "repair": 0.09522034227848053,
+          "native_dlat": 0.004774375353008509,
+          "repair_dlat": 5.262438207864761e-06
+        },
+        {
+          "time": 9.05,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09522034227848053,
+          "repair": 0.09553898870944977,
+          "native_dlat": 0.004322785884141922,
+          "repair_dlat": 0.0001382068730890751
+        },
+        {
+          "time": 9.1,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09553898870944977,
+          "repair": 0.09613379091024399,
+          "native_dlat": 0.003891601925715804,
+          "repair_dlat": 2.5408808141946793e-05
+        },
+        {
+          "time": 9.15,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09613379091024399,
+          "repair": 0.09639153629541397,
+          "native_dlat": 0.003481249324977398,
+          "repair_dlat": 0.0001271993387490511
+        },
+        {
+          "time": 9.200000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09639153629541397,
+          "repair": 0.09687266498804092,
+          "native_dlat": 0.0030921329744160175,
+          "repair_dlat": 3.5189324989914894e-05
+        },
+        {
+          "time": 9.25,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09687266498804092,
+          "repair": 0.09728964418172836,
+          "native_dlat": 0.002724636811763048,
+          "repair_dlat": 1.429184339940548e-05
+        },
+        {
+          "time": 9.3,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09728964418172836,
+          "repair": 0.09765102714300156,
+          "native_dlat": 0.0023791235871613026,
+          "repair_dlat": 3.0159950256347656e-05
+        },
+        {
+          "time": 9.35,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09765102714300156,
+          "repair": 0.09796422719955444,
+          "native_dlat": 0.0020559343975037336,
+          "repair_dlat": 2.0169652998447418e-05
+        },
+        {
+          "time": 9.4,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09796422719955444,
+          "repair": 0.09823566675186157,
+          "native_dlat": 0.0017553879879415035,
+          "repair_dlat": 8.938717655837536e-06
+        },
+        {
+          "time": 9.450000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09823566675186157,
+          "repair": 0.09847091138362885,
+          "native_dlat": 0.0014777808682993054,
+          "repair_dlat": 5.130213685333729e-05
+        },
+        {
+          "time": 9.5,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09847091138362885,
+          "repair": 0.09877672791481018,
+          "native_dlat": 0.0012233871966600418,
+          "repair_dlat": 1.1909287422895432e-07
+        },
+        {
+          "time": 9.55,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09877672791481018,
+          "repair": 0.09902138262987137,
+          "native_dlat": 0.0009924579644575715,
+          "repair_dlat": 1.3843877241015434e-05
+        },
+        {
+          "time": 9.600000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09902138262987137,
+          "repair": 0.09921710938215256,
+          "native_dlat": 0.0007852210546843708,
+          "repair_dlat": 2.332380972802639e-06
+        },
+        {
+          "time": 9.65,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09921710938215256,
+          "repair": 0.09937369078397751,
+          "native_dlat": 0.0006018810090608895,
+          "repair_dlat": 2.442672848701477e-05
+        },
+        {
+          "time": 9.700000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09937369078397751,
+          "repair": 0.09954071044921875,
+          "native_dlat": 0.00044261879520490766,
+          "repair_dlat": 1.666974276304245e-05
+        },
+        {
+          "time": 9.75,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09954071044921875,
+          "repair": 0.09969380497932434,
+          "native_dlat": 0.0003075915446970612,
+          "repair_dlat": 1.3966055121272802e-06
+        },
+        {
+          "time": 9.8,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09969380497932434,
+          "repair": 0.0997958704829216,
+          "native_dlat": 0.00019693253852892667,
+          "repair_dlat": 7.197377271950245e-06
+        },
+        {
+          "time": 9.850000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0997958704829216,
+          "repair": 0.09989113360643387,
+          "native_dlat": 0.00011075095972046256,
+          "repair_dlat": 1.8837017705664039e-06
+        },
+        {
+          "time": 9.9,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09989113360643387,
+          "repair": 0.0999491959810257,
+          "native_dlat": 4.913185694022104e-05,
+          "repair_dlat": 1.6734884411562234e-06
+        },
+        {
+          "time": 9.950000000000001,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.0999491959810257,
+          "repair": 0.09998645633459091,
+          "native_dlat": 1.2136058103351388e-05,
+          "repair_dlat": 1.4089337128098123e-06
+        },
+        {
+          "time": 10.0,
+          "native_previous": 0.10000000149011612,
+          "native": 0.10000000149011612,
+          "repair_previous": 0.09998645633459091,
+          "repair": 0.10000000149011612,
+          "native_dlat": 1.9993223077108269e-07,
+          "repair_dlat": 1.9993223077108269e-07
+        }
+      ]
+    }
+  },
+  "boundary_cases": [
+    {
+      "case": "single_segment_existing_progress",
+      "previous": 0.019999999552965164,
+      "new": 0.026000000536441803,
+      "dlat": 0.0009999480098485947
+    },
+    {
+      "case": "same_pose_dwell",
+      "previous": 0.026000000536441803,
+      "new": 0.026000000536441803,
+      "dlat": 0.0009999480098485947
+    },
+    {
+      "case": "backward_pose_no_regression",
+      "previous": 0.026000000536441803,
+      "new": 0.026000000536441803,
+      "dlat": 0.020999949425458908
+    }
+  ],
+  "reference_replacement_reset": {
+    "old_progress": 0.09999999403953552,
+    "native_lifecycle_new_progress": 0.0,
+    "rows": [
+      {
+        "time": 0.0,
+        "native_previous": 0.0,
+        "native": 0.0,
+        "repair_previous": 0.0,
+        "repair": 0.0,
+        "native_dlat": 7.450580596923828e-09,
+        "repair_dlat": 7.450580596923828e-09
+      }
+    ],
+    "limitation": "CPU reproduces canonical replacement at native zero progress; actual environment lifecycle reset is verified by source, not physics."
+  },
+  "new_model_queries": 0,
+  "actor_forwards": 0,
+  "physics_steps": 0,
+  "training_updates": 0
+}
+
