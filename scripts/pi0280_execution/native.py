@@ -84,8 +84,15 @@ def reproduce():
     from safetensors import safe_open
     from transformers import AutoModel
     import gr00t.policy.gr00t_policy as official
+    from gr00t.model.gr00t_n1d7 import processing_gr00t_n1d7 as processing
     card=json.loads((ROOT/'design/NATIVE_CARD.json').read_text())
-    assert json.loads((ROOT/'evidence/COSMOS_FILES.json').read_text())['status']=='OFFICIAL_COSMOS_DEPENDENCY_VERIFIED'
+    cosmos=json.loads((ROOT/'evidence/COSMOS_FILES.json').read_text());assert cosmos['status']=='OFFICIAL_COSMOS_DEPENDENCY_VERIFIED'
+    cosmos_snapshot=str(Path(cosmos['files'][0]['path']).parent)
+    original_build=processing.build_processor
+    def local_processor(model_name,loading_kwargs):
+        assert model_name=='nvidia/Cosmos-Reason2-2B'
+        return original_build(cosmos_snapshot,loading_kwargs)
+    processing.build_processor=local_processor
     assert card['release']==RELEASE and not (OUT/'RESULT.json').exists(),'Do not repeat completed source panel'
     assert str(Path(official.__file__).resolve()).startswith(str(ROOT/'official')+'/')
     torch.set_num_threads(4);torch.set_grad_enabled(False)
@@ -113,6 +120,7 @@ def reproduce():
     binding=dict(release=RELEASE,official_source=CODE_SHA,model_revision=REVISION,model_root=str(BASE),policy_file=official.__file__,policy_sha256=digest(Path(official.__file__)),native_card_sha256=digest(ROOT/'design/NATIVE_CARD.json'),wrapper_sha256=digest(Path(__file__)),precision='stock Gr00tPolicy BF16 model and floating inputs; stock FP32 decode',native_steps=policy.model.action_head.num_inference_timesteps,action_horizon=policy.model.action_head.action_horizon,device=torch.cuda.get_device_name(),dependencies={n:importlib.metadata.version(n) for n in ['torch','transformers','numpy','huggingface-hub','safetensors']},new_training_updates=0,selected_checkpoint='NONE',deployment='NONE')
     assert binding['native_steps']==4 and binding['action_horizon']==40
     binding['cosmos_files_sha256']=digest(ROOT/'evidence/COSMOS_FILES.json')
+    binding['processor_dependency_resolution']=dict(repo=cosmos['repo'],revision=cosmos['revision'],local_snapshot=cosmos_snapshot,reason='avoid tokenizer metadata network call for a fully verified local dependency',original_processor_math=True)
     binding['pristine_files_sha256']=digest(ROOT/'evidence/PRISTINE_FILES.json')
     binding['weight_loading_sha256']=digest(ROOT/'evidence/WEIGHT_LOADING.json')
     freeze(ROOT/'design/BASELINE_BINDING.json',binding)
