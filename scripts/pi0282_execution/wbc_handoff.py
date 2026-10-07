@@ -1,5 +1,5 @@
 """Read-only PI0281 WBC evidence handoff. No simulator/actor/model imports."""
-import json,os,shutil,time
+import json,os,shutil,time,zipfile
 from pathlib import Path
 import numpy as np
 from scipy.spatial.transform import Rotation
@@ -30,6 +30,10 @@ def main():
     for p in small:
         if not p.exists():continue
         dest=out/'metadata'/(sha(p)[:12]+'-'+p.name);dest.parent.mkdir(exist_ok=True);shutil.copyfile(p,dest);copied.append(dict(original=identity(p),copy=identity(dest)))
+    exact_archive=out/'metadata-original-bytes.zip'
+    with zipfile.ZipFile(exact_archive,'w',compression=zipfile.ZIP_DEFLATED) as z:
+        for p in sorted((out/'metadata').iterdir()):
+            info=zipfile.ZipInfo(p.name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,p.read_bytes())
     videos=json.loads((OLD/'wbc/WBC_VIDEOS.json').read_text())['videos']
     for d in sorted((OLD/'wbc').iterdir()):
         if not d.is_dir() or not (d/'RESULT.json').exists() or not (d/'rows.json').exists():continue
@@ -85,7 +89,7 @@ def main():
     intake=Path('/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13')
     intakeinventory={sub:[dict(name=p.name,bytes=p.stat().st_size,is_dir=p.is_dir()) for p in (intake/sub).iterdir()] for sub in ('intake','manifests','extracted') if (intake/sub).exists()}
     v=dict(schema='PI0282_SENIOR_WBC_HANDOFF_V1',status='SEALED_EXISTING_EVIDENCE_HANDOFF_TARGET_BLOCKED',authority_release='8fdaab73b8b6686409317d9562833235c2839acc',canonical=6043060523,
-        source=identity(bindingpath),frozen_original_index=original_index,core_metadata_copies=copied,fixtures=snapshots,
+        source=identity(bindingpath),frozen_original_index=original_index,core_metadata_copies=copied,exact_metadata_archive=identity(exact_archive),fixtures=snapshots,
         upgraded_WBC=dict(status='UNRECEIVED',inventory_scope=str(intake),observed_entries=intakeinventory,owner_delivery_path=None,ABI_comparison='UNOBSERVED_NO_DELIVERED_UPGRADE',new_execution=0),
         normalizer=dict(identity='Original loader/config/shim/HistoryWrapper are indexed and copied; actor receives saved full obs_history. No substitute normalizer or fitted stats introduced.',
             normalization_trace='Resolved native WBC_CONFIG plus wrapper get_arm_observations and native actor loader source; no new normalizer evaluation or checkpoint tensor loading',

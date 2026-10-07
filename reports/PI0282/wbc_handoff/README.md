@@ -19,3 +19,5 @@ HANDOFF.json 给出每个原件及真实视频路径/SHA、actor/资产/软件�
 原代理范数为无量纲 sin(theta/2)，不等于弧度角误差。full10s不是资格PASS。真正return修复完成10s仍有progress残差及姿态FAIL；源任务学习成功不能解除这个目标执行器阻断。
 
 重现算术：打开poses.npz，SO3=Rotation.from_quat(installed)*Rotation.from_quat(actual).inv()的magnitude；final2s用actual_task_time_s∈[8,10]；原actor pack/history/FK验算脚本及既有审计SHA见索引。不得用此包启动WBC或新版本。
+
+metadata-original-bytes.zip 保留所有小metadata原始字节（包括CRLF），跨Git文本换行处理后需从此包核对原SHA；普通metadata文本是方便阅读的副本。
