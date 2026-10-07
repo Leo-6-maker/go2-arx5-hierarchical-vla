@@ -25,8 +25,9 @@ from pathlib import Path
 r=Path({ROOT!r});begin=time.time()
 env=dict(os.environ,CUDA_VISIBLE_DEVICES={'0' if phase=='reproduce' else ''!r},PYTHONPATH=str(r/'official'),PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',HF_HOME='/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/hf_home',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
 with (r/'runtime'/{(name+'.log')!r}).open('ab') as log:result=subprocess.run([{PYTHON!r},'-u',{target!r},*{args!r}],env=env,stdout=log,stderr=subprocess.STDOUT,timeout=12*3600)
-p=r/'runtime'/{(name+'.done.json')!r};p.write_text(json.dumps(dict(target={target!r},arguments={args!r},returncode=result.returncode,wall_s=time.time()-begin))+'\\n')
+p=r/'runtime'/{(name+'.done.json')!r};p.write_text(json.dumps(dict(target={target!r},arguments={args!r},returncode=result.returncode,wall_s=time.time()-begin))+chr(10))
 """
+  compile(worker,'pi0280-finite-worker','exec')
   argv=[sys.executable,'-u','-c',worker]
   with (runtime/{(name+'.worker.log')!r}).open('ab') as log:child=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
   start.write_text(json.dumps(dict(pid=child.pid,target={target!r},arguments={args!r},wrapper_argv=argv))+'\\n');value=dict(status='RUNNING',pid=child.pid)
