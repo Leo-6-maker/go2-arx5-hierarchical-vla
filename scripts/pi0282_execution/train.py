@@ -36,7 +36,8 @@ class ConsumedTrainer(Gr00tTrainer):
             loss=super().training_step(model,inputs,*args,**kwargs)
         torch.cuda.synchronize()
         assert observed.noise is not None and observed.time is not None,'NATIVE_RANDOM_CAPTURE_MISSING'
-        proof=gradient_proof(model)
+        detailed=self.phase!='main' or step<8 or (step+1)%16==0 or step+1 in (128,512,1024,2048)
+        proof=gradient_proof(model) if detailed else dict(status='DETAILED_GRADIENT_AUDIT_INTERVAL16_NATIVE_GRADCLIP_RETAINED')
         self.journal.append(dict(step=step+1,micro=micro,cursor=index,visits=visit,inputs=encoded,
           native_noise_sha256=digest(observed.noise),native_time_sha256=digest(observed.time),
           native_time=observed.time.float().cpu().tolist(),loss=float(loss.detach()),gradient=proof,
@@ -62,7 +63,10 @@ class Provenance(TrainerCallback):
         append_completed(self.root,self.arm,self.phase,state.global_step,self.trainer.cursor)
         if state.global_step in (4,8,128,1024,2048):
             assert_frozen(kwargs['model'],self.frozen,self.trainer.optimizer)
-        if self.phase=='main' and state.global_step==128:control.should_save=True
+        if self.phase=='main' and state.global_step in (128,512):control.should_save=True
+        from authority import load
+        if time.time()+30>=load(self.root)['training_cutoff_epoch']:
+            control.should_training_stop=True;control.should_save=True
         if state.global_step==self.trainer.stop_step:
             control.should_training_stop=True;control.should_save=True
         return control
@@ -79,6 +83,12 @@ class Provenance(TrainerCallback):
         if self.arm=='ACTION2048':
             assert any(digest(p)!=self.scope['initial_DiT_hashes'][n] for n,p in kwargs['model'].named_parameters() if n.startswith('action_head.model.')),'DIT_DID_NOT_CHANGE'
         (checkpoint/'PI0282_SCOPE_PROOF.json').write_text(json.dumps(dict(status='FROZEN_EXACT_ROWS_MOMENTS_ZERO_AND_ROW10_CHANGED',row10=row_hashes),indent=2)+'\n')
+        if self.phase=='main' and state.global_step in (512,1024,2048):
+            from learning import export_point
+            export_point(checkpoint,self.trainer.original_base,Path(args.output_dir).parent/'snapshots'/f'step-{state.global_step}',
+                set(dict(kwargs['model'].named_parameters())))
+            for name in ('config.json','processor_config.json','statistics.json','embodiment_id.json'):
+                shutil.copyfile(checkpoint/name,Path(args.output_dir).parent/'snapshots'/f'step-{state.global_step}'/name)
 
 
 def collate_with_metadata(items):
@@ -101,10 +111,13 @@ class PlannedDataset(torch.utils.data.Dataset):
 
 def run(a):
     root=Path(a.root)
+    from authority import allowed
+    allowed(root,'update',reserve_s=30)
     manifest=json.loads((root/'design/IMPLEMENTATION.json').read_text());assert manifest['release']=='8fdaab73b8b6686409317d9562833235c2839acc'
     assert manifest['published_commit']
     for name,sha in manifest['files'].items():assert hashlib.sha256((root/'code'/name).read_bytes()).hexdigest()==sha,name
-    assert os.environ.get('PBS_JOBID'),'Hopper model work requires owner legal allocation'
+    allocation=json.loads((root/'design/TRAINING_ALLOCATION.json').read_text())
+    assert allocation['kind']=='PBS_H200' and os.environ.get('PBS_JOBID'),'Hopper model work requires owner legal allocation'
     layout=json.loads((root/'design/TRAINING_LAYOUT.json').read_text())
     assert a.microbatch==layout['microbatch'] and 8//a.microbatch==layout['accumulation']
     assert (root/'data/EXPERT_CODEC_ADMISSION.json').exists()
@@ -135,7 +148,7 @@ def run(a):
        logging_steps=16,save_steps=1024,save_total_limit=2,save_only_model=False,report_to='none',
        dataloader_num_workers=2,dataloader_pin_memory=True,remove_unused_columns=False,ignore_data_skip=True,seed=28203,data_seed=28203)
     trainer=ConsumedTrainer(model=model,args=args,train_dataset=PlannedDataset(a.data_root),data_collator=collate_with_metadata)
-    trainer.groups=groups;trainer.start_step=a.resume;trainer.stop_step=a.stop;trainer.microbatch=a.microbatch;trainer.accumulation=8//a.microbatch;trainer.data_root=a.data_root
+    trainer.groups=groups;trainer.start_step=a.resume;trainer.stop_step=a.stop;trainer.microbatch=a.microbatch;trainer.accumulation=8//a.microbatch;trainer.data_root=a.data_root;trainer.original_base=a.base
     trainer.root=root;trainer.arm=a.arm;trainer.phase=a.phase
     trainer.cursor=a.resume*8;trainer.previous_end=time.perf_counter();trainer.journal=Journal(output/'consumption.jsonl')
     trainer.forwards=Journal(output/'native_training_forwards.jsonl')

@@ -9,11 +9,14 @@ def array_hash(array):return hashlib.sha256(np.ascontiguousarray(array).tobytes(
 
 def charge(root,kind,identity):
     import fcntl
+    limits=json.loads((root/'design/IMPLEMENTATION.json').read_text())['quality_budget_limits']
+    # Disjoint host reservations keep the global cap intact without a service.
+    cap=limits['policy_requests'] if kind=='policy_attempt' else limits['S4_heads']
     path=root/'source/evidence/model_budget.jsonl';path.parent.mkdir(parents=True,exist_ok=True)
     with path.open('a+') as f:
         fcntl.flock(f,fcntl.LOCK_EX);f.seek(0)
         count=sum(json.loads(line)['kind']==kind for line in f if line.strip())
-        assert count<(5120 if kind=='policy_attempt' else 20480)
+        assert count<cap,('HOST_QUALITY_RESERVATION_EXHAUSTED',kind,count,cap)
         f.seek(0,2);f.write(json.dumps(dict(kind=kind,id=identity,utc_ns=time.time_ns()))+'\n');f.flush();os.fsync(f.fileno())
 
 def load(root,point):
@@ -36,6 +39,8 @@ def load(root,point):
     return model,codec,binding
 
 def query(root,model,codec,request):
+    from authority import allowed
+    allowed(root,'query',reserve_s=2)
     from gr00t.policy.gr00t_policy import _rec_to_dtype
     source,target=Path(request['input']),Path(request['output'])
     assert source.resolve().is_relative_to(root.resolve()) and target.resolve().is_relative_to(root.resolve())

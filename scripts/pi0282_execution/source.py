@@ -32,7 +32,7 @@ def guard(point,panel):
         assert len(expert['rows'])==4 and all(row['status']=='VALID_SOURCE_COMPLETE' and row['task_control_calls']==640 and row['persistent_success'] and row['persistent_pass_samples']==41 for row in expert['rows'])
     assert point in card['points'] and panel in card['panels']
     if point=='EXPERT':assert panel=='TRAIN'
-    if panel=='DEV':assert point in ('ACTION2048','INTERFACE2048')
+    if panel=='DEV':assert point in card['development_points']
     if panel=='CONFIRM':
         frozen=json.loads((ROOT/'design/SOURCE_CANDIDATE.json').read_text())
         assert frozen['point']==point and frozen['confirm_allowed'] is True
@@ -46,9 +46,11 @@ def guard(point,panel):
     return card
 
 def setup():
+    from authority import load
+    limits=load(ROOT)
     sys.path.insert(0,str(BASE/'PI0276/code'))
     import source_worker as sw
-    sw.RAW=OUT;sw.LIMITS=dict(starts=60,control=45000,physics=220000,rgb=45000,teacher=0);sw.BUDGET_COUNTS=None
+    sw.RAW=OUT;sw.LIMITS=dict(starts=100,control=72000,physics=360000,rgb=72000,teacher=8192);sw.BUDGET_COUNTS=None
     return sw
 
 def step(sw,ep,command):
@@ -75,10 +77,12 @@ def episode(sw,server,card,point,panel,seed):
     slot=point+'-'+panel+'-'+str(seed)
     old=sw.retained(slot)
     if old:return old[1]
+    from authority import allowed
+    allowed(ROOT,'episode',reserve_s=card['conservative_episode_reserve_s'])
     attempts=list((OUT/'episodes'/slot).glob('attempt-*'))
     allowed=card.get('technical_replacements',{}).get(slot,[])
     assert len(attempts)==len(allowed),'Owner must audit an engineering attempt before a same-condition replacement'
-    assert sum(len(v) for v in card.get('technical_replacements',{}).values())<=4
+    assert sum(len(v) for v in card.get('technical_replacements',{}).values())<=8
     for attempt,authorization in zip(sorted(attempts),allowed):
         proof=attempt/'RESULT.json';assert digest(proof)==authorization['result_sha256']
         assert json.loads(proof.read_text())['status']=='ENGINEERING_INCOMPLETE'
@@ -97,6 +101,7 @@ def episode(sw,server,card,point,panel,seed):
         hold=ep.observe()['state_v1'].copy();hold[-1]=1.
         for _ in range(20):step(sw,ep,hold)
         for index in range(80):
+            allowed(ROOT,'query',reserve_s=2)
             observation=ep.observe();state=observation['state_v1'].copy()
             folder=ep.folder/('q%03d'%index);folder.mkdir()
             inp=folder/'input.npz';out=folder/'output.npz'

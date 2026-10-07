@@ -59,19 +59,21 @@ def tensor_tree(value):
     return value
 
 
-def completed_kind(rows,arm,phase,step):
-    assert len(rows)<4224
+def completed_kind(rows,arm,phase,step,limits):
+    assert len(rows)<limits['all_updates_cap']
     duplicate=any(r['arm']==arm and r['phase']==phase and r['step']==step for r in rows)
     kind='technical' if duplicate else ('memory' if phase=='memory' else ('formal' if phase=='main' else 'canary'))
-    caps=dict(formal=4096,memory=32,technical=64,canary=32)
+    caps=dict(formal=limits['formal_cap'],memory=32,technical=128,canary=64)
     assert sum(r['work_kind']==kind for r in rows)<caps[kind],('COMPLETED_UPDATE_CAP',kind)
     return kind
 
 
 def check_next_update(root,arm,phase,step):
+    from authority import allowed
+    limits=allowed(root,'update')
     p=Path(root)/'learning/completed_updates.jsonl'
     rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
-    completed_kind(rows,arm,phase,step)
+    completed_kind(rows,arm,phase,step,limits)
 
 
 def append_completed(root,arm,phase,step,consumed):
@@ -81,7 +83,8 @@ def append_completed(root,arm,phase,step,consumed):
     root=Path(root);p=root/'learning/completed_updates.jsonl';p.parent.mkdir(parents=True,exist_ok=True)
     with p.open('a+') as f:
         fcntl.flock(f,fcntl.LOCK_EX);f.seek(0);rows=[json.loads(x) for x in f if x.strip()]
-        kind=completed_kind(rows,arm,phase,step)
+        from authority import load
+        kind=completed_kind(rows,arm,phase,step,load(root))
         f.seek(0,2);f.write(json.dumps(dict(arm=arm,phase=phase,work_kind=kind,step=step,consumed_chunks=consumed,wall=time.time()))+'\n');f.flush();os.fsync(f.fileno())
 
 

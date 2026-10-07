@@ -1,0 +1,3392 @@
+{
+  "status": "PASS_FIXED_PLAN_MEMBERSHIP_ORDER_AND_TIME_STRATA_CPU",
+  "inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/design/DATASET_CARD.json",
+      "bytes": 34022416,
+      "sha256": "4ac409b6742401266862707421c7c132ecd05f54d2cab54d08f098c672c28e6b"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/data/PLAN16384.jsonl",
+      "bytes": 7217617,
+      "sha256": "cee5669eba54c6e3a4b6475d52bb5b46f83e04a8562f6bc47727ba6e722cf5f6"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/data/DIAG48.jsonl",
+      "bytes": 20729,
+      "sha256": "2406a0c853e409435de5cfdce5b4c54a40086c6674fa0209907e4bf8323273ba"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/data/PLAN_AUDIT.json",
+      "bytes": 102030,
+      "sha256": "6fe111643656a54e59898a84fc77894c4f2cea4971b7f9494038df3f7de91517"
+    }
+  ],
+  "rows": 16384,
+  "phase_counts": {
+    "0": 4096,
+    "1": 4096,
+    "2": 4096,
+    "3": 4096
+  },
+  "groups": [
+    {
+      "seed": 10000,
+      "phase": 0,
+      "visits": 45,
+      "eligible": 62,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10000,
+      "phase": 1,
+      "visits": 45,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10000,
+      "phase": 2,
+      "visits": 45,
+      "eligible": 63,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10000,
+      "phase": 3,
+      "visits": 45,
+      "eligible": 470,
+      "strata": 8,
+      "unique_visited": 45,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10001,
+      "phase": 0,
+      "visits": 45,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10001,
+      "phase": 1,
+      "visits": 45,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10001,
+      "phase": 2,
+      "visits": 45,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10001,
+      "phase": 3,
+      "visits": 45,
+      "eligible": 496,
+      "strata": 8,
+      "unique_visited": 45,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10002,
+      "phase": 0,
+      "visits": 45,
+      "eligible": 36,
+      "strata": 8,
+      "unique_visited": 36,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10002,
+      "phase": 1,
+      "visits": 45,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10002,
+      "phase": 2,
+      "visits": 45,
+      "eligible": 55,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10002,
+      "phase": 3,
+      "visits": 45,
+      "eligible": 504,
+      "strata": 8,
+      "unique_visited": 45,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10003,
+      "phase": 0,
+      "visits": 45,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10003,
+      "phase": 1,
+      "visits": 45,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10003,
+      "phase": 2,
+      "visits": 45,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10003,
+      "phase": 3,
+      "visits": 45,
+      "eligible": 513,
+      "strata": 8,
+      "unique_visited": 45,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10004,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10004,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10004,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 55,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10004,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 501,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10005,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 48,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10005,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10005,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10005,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 495,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10006,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 35,
+      "strata": 8,
+      "unique_visited": 35,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10006,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10006,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10006,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 513,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10007,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10007,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10007,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10007,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 502,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10008,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 35,
+      "strata": 8,
+      "unique_visited": 35,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10008,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10008,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 37,
+      "strata": 8,
+      "unique_visited": 37,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10008,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 523,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10009,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 35,
+      "strata": 8,
+      "unique_visited": 35,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10009,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10009,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10009,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 516,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10010,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 57,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10010,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10010,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 62,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10010,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 476,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10011,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10011,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10011,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10011,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 503,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10012,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 48,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10012,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10012,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10012,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 498,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10013,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10013,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10013,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 57,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10013,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 494,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10014,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 35,
+      "strata": 8,
+      "unique_visited": 35,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10014,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10014,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10014,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 520,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10015,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10015,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10015,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10015,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 492,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10016,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10016,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10016,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 56,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10016,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 488,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10017,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 62,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10017,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10017,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10017,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 494,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10018,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 34,
+      "strata": 8,
+      "unique_visited": 34,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10018,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10018,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10018,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 519,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10019,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10019,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10019,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10019,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 493,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10020,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 57,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10020,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10020,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 54,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10020,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 484,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10021,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10021,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10021,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10021,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 505,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10022,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10022,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10022,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 61,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10022,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 491,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10023,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10023,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10023,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10023,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 493,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10024,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10024,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10024,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 35,
+      "strata": 8,
+      "unique_visited": 35,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10024,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 520,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10025,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 66,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10025,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10025,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 57,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10025,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 472,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10026,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 58,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10026,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10026,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10026,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 486,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10027,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10027,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10027,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10027,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 516,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10028,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 38,
+      "strata": 8,
+      "unique_visited": 38,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10028,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10028,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 57,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10028,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 500,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10029,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 56,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10029,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10029,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10029,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 486,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10030,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10030,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10030,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10030,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 506,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10031,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10031,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10031,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10031,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 506,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10032,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10032,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10032,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 36,
+      "strata": 8,
+      "unique_visited": 36,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10032,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 519,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10033,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10033,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10033,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 64,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10033,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 491,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10034,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10034,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10034,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10034,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 494,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10035,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 54,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10035,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10035,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 54,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10035,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 487,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10036,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10036,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10036,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 55,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10036,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 496,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10037,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10037,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10037,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10037,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 508,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10038,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 34,
+      "strata": 8,
+      "unique_visited": 34,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10038,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10038,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 60,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10038,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 501,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10039,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10039,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10039,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10039,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 511,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10040,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 38,
+      "strata": 8,
+      "unique_visited": 38,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10040,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10040,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10040,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 510,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10041,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10041,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10041,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10041,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 496,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10042,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 66,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10042,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10042,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 64,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10042,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 465,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10043,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10043,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10043,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10043,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 509,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10044,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10044,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10044,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10044,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 497,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10045,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 48,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10045,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10045,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10045,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 498,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10046,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10046,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10046,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10046,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 503,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10047,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10047,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10047,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10047,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 500,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10048,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10048,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10048,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10048,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 506,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10050,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10050,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10050,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10050,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 502,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10051,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10051,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10051,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10051,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 507,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10052,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 60,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10052,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10052,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10052,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 483,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10053,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10053,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10053,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10053,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 507,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10054,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10054,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10054,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10054,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 513,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10055,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10055,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10055,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10055,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 501,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10056,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10056,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10056,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10056,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 510,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10057,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10057,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10057,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10057,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 502,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10058,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 62,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10058,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10058,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 56,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10058,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 477,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10059,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10059,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10059,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 58,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10059,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 486,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10060,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10060,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10060,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10060,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 494,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10061,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 38,
+      "strata": 8,
+      "unique_visited": 38,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10061,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10061,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10061,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 506,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10062,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10062,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10062,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10062,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 498,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10063,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10063,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10063,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 55,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10063,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 495,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10065,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10065,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10065,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10065,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 501,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10066,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10066,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10066,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10066,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 503,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10067,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10067,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10067,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10067,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 502,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10068,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 34,
+      "strata": 8,
+      "unique_visited": 34,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10068,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10068,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 38,
+      "strata": 8,
+      "unique_visited": 38,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10068,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 523,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10069,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10069,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10069,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10069,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 504,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10070,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10070,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10070,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10070,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 501,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10071,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 34,
+      "strata": 8,
+      "unique_visited": 34,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10071,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10071,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10071,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 510,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10072,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10072,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10072,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 54,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10072,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 500,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10073,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10073,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10073,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10073,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 505,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10074,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10074,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10074,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10074,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 495,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10075,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 33,
+      "strata": 8,
+      "unique_visited": 33,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10075,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10075,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 55,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10075,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 507,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10077,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 33,
+      "strata": 8,
+      "unique_visited": 33,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10077,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10077,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10077,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 519,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10078,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10078,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10078,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10078,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 492,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10079,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10079,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10079,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10079,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 497,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10080,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 37,
+      "strata": 8,
+      "unique_visited": 37,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10080,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10080,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 32,
+      "strata": 8,
+      "unique_visited": 32,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10080,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 526,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10081,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10081,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10081,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 56,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10081,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 496,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10082,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10082,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10082,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10082,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 514,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10083,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 54,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10083,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10083,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 40,
+      "strata": 8,
+      "unique_visited": 40,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10083,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 501,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10084,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10084,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10084,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 51,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10084,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 494,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10085,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10085,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10085,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 43,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10085,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 513,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10086,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 42,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10086,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10086,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 55,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10086,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 498,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10087,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 48,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10087,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10087,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 36,
+      "strata": 8,
+      "unique_visited": 36,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10087,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 511,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10088,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10088,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10088,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 45,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10088,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 503,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10089,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 39,
+      "strata": 8,
+      "unique_visited": 39,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10089,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10089,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 44,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10089,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 512,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10090,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 43,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10090,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10090,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 49,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10090,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 497,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10091,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10091,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10091,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 54,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10091,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 500,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10092,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 46,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10092,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10092,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 38,
+      "strata": 8,
+      "unique_visited": 38,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10092,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 511,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10093,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 50,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10093,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10093,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 65,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10093,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 480,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10094,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 47,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10094,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10094,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 41,
+      "strata": 8,
+      "unique_visited": 41,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10094,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 507,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10095,
+      "phase": 0,
+      "visits": 44,
+      "eligible": 52,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10095,
+      "phase": 1,
+      "visits": 44,
+      "eligible": 6,
+      "strata": 6,
+      "unique_visited": 6,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10095,
+      "phase": 2,
+      "visits": 44,
+      "eligible": 53,
+      "strata": 8,
+      "unique_visited": 42,
+      "first_last_exposed": true
+    },
+    {
+      "seed": 10095,
+      "phase": 3,
+      "visits": 44,
+      "eligible": 490,
+      "strata": 8,
+      "unique_visited": 44,
+      "first_last_exposed": true
+    }
+  ],
+  "min_visits": 44,
+  "max_visits": 45,
+  "unique_windows": 12294,
+  "DIAG48": {
+    "TRAIN": 24,
+    "VAL": 24
+  },
+  "semantic_limit": "Metadata plan covers time strata, not all windows or independent demonstrations; no learned scores used.",
+  "new_model_calls": 0,
+  "new_physics_steps": 0
+}

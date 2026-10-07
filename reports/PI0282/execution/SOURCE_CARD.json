@@ -1,13 +1,14 @@
 {
   "release": "8fdaab73b8b6686409317d9562833235c2839acc",
-  "canonical": 6043060523,
+  "canonical": 6044490956,
   "points": [
     "EXPERT",
     "UNADAPTED_INTERFACE0",
     "ACTION1024",
     "ACTION2048",
     "INTERFACE1024",
-    "INTERFACE2048"
+    "INTERFACE2048",
+    "ACTION512"
   ],
   "panels": {
     "TRAIN": [
@@ -107,9 +108,9 @@
     }
   },
   "code_sha256": {
-    "source.py": "0b6c9d5e7a67c620ebe81d30268610e018ee88bf960822b59e54878a886d80ec",
+    "source.py": "b1cc41385172af1982940565f49c638457736905409b64f5f5c453399db92c71",
     "source_launch.py": "482538bec044e4f4166f46c3ca33042a9578ad1b894ed9c3ac778305c34abb40",
-    "inference.py": "324b310813a448c90609e23f11c3aa6736f09cb611b62b91fcdd3f9b8fc2bdb3",
+    "inference.py": "11c68264e9e0b06ec0e3d6c18114d5416df8fea2a777b4caa44968a808c4bcac",
     "codec.py": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
     "cpu_inputs.py": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6"
   },
@@ -139,5 +140,12 @@
   "technical_replacements": {},
   "point_bindings": {},
   "selected": "NONE",
-  "deployment": "NONE"
+  "deployment": "NONE",
+  "authority_release": "fdcde0e29f7eb689d0eea0f4dd20586309e77326",
+  "development_points": [
+    "ACTION512",
+    "ACTION1024",
+    "ACTION2048"
+  ],
+  "conservative_episode_reserve_s": 360
 }
