@@ -81,6 +81,7 @@ def package(path,inp,fk,control,tool,chunk_type,posegate,id,lane,state_pose=None
     for label,poses in [('DIRECT_EEF',direct),('FK_DECODED_ABSOLUTE_Q',joint)]:
         world=base@poses@np.linalg.inv(tool)
         gates[label]=gate(chunk_type,posegate,world,closure,now+np.arange(40)/15,state_pose,id+'-'+label)
+        gates[label+'_FIRST8']=gate(chunk_type,posegate,world[:8],closure[:8],now+np.arange(8)/15,state_pose,id+'-'+label+'-FIRST8')
     return dict(id=id,lane=lane,input=identity(inp),output=identity(path),actual_noise_array_sha256=hashlib.sha256(noise.tobytes()).hexdigest(),
         noise_dtype=str(noise.dtype),noise_shape=list(noise.shape),history=history,
         first8=dict(position_m=stats(xyz[:8]),rotation_rad=stats(rot[:8])),full40=dict(position_m=stats(xyz),rotation_rad=stats(rot)),
@@ -91,6 +92,7 @@ def package(path,inp,fk,control,tool,chunk_type,posegate,id,lane,state_pose=None
 def audit_old():
     fk,control,tool,chunk_type,posegate,deps=load_cpu();rows=[];funnel=[];input_errors=[];native=json.loads((OLD/'design/NATIVE_CARD.json').read_text())
     for row in native['rows']:
+        assert sha(Path(row['input_path']))==row['input_sha256']
         v=package(OLD/'native/outputs'/row['id']/'stock.npz',Path(row['input_path']),fk,control,tool,chunk_type,posegate,row['id'],'A2_OFFICIAL_DROID',now=row['frame']/15)
         assert v['history']['actual_history_frame_indices']==[row['frame']-15,row['frame']]
         assert np.allclose(v['history']['actual_history_timestamps_s'],[(row['frame']-15)/15,row['frame']/15]);rows.append(v)
@@ -140,19 +142,169 @@ def audit_old():
         groups.append(dict(group=name,packages=len(group),first8_position_m=stats([x for r in group for x in r['horizon_position_m'][:8]]),full40_position_m=stats([x for r in group for x in r['horizon_position_m']]),
             first8_rotation_rad=stats([x for r in group for x in r['horizon_rotation_rad'][:8]]),full40_rotation_rad=stats([x for r in group for x in r['horizon_rotation_rad']]),
             full40_by_horizon_position_mean_m=np.mean([r['horizon_position_m'] for r in group],axis=0).tolist(),
-            gate_distribution={route:dict(collections.Counter(r['unchanged_gates'][route]['decision'] for r in group)) for route in ('DIRECT_EEF','FK_DECODED_ABSOLUTE_Q')}))
+            gate_distribution={route:dict(collections.Counter(r['unchanged_gates'][route]['decision'] for r in group)) for route in ('DIRECT_EEF','FK_DECODED_ABSOLUTE_Q','DIRECT_EEF_FIRST8','FK_DECODED_ABSOLUTE_Q_FIRST8')},
+            time_phase_bins=[dict(task_window_s=[lo,hi],packages=len(part),first8_position_m=stats([x for r in part for x in r['horizon_position_m'][:8]]),first8_rotation_rad=stats([x for r in part for x in r['horizon_rotation_rad'][:8]]))
+                for lo,hi in ((0,8),(8,16),(16,24),(24,32)) for part in [[r for r in group if lo<=r.get('task_time_s',-1)<hi]] if part]))
     report=dict(schema='PI0281_INDEPENDENT_SAVED_DUAL_READOUT_V1',release=RELEASE,observed_unix_s=time.time(),status='PASS_CPU_SAVED_ABI_AND_COMMAND_AUDIT',
         package_count=272,A2_unique=32,A3_unique=240,groups=groups,rows=rows,old_object_funnel=funnel,input_max_abs_error=max(input_errors),
         definitions=dict(position='Euclidean meters same Panda/DROID frame',rotation='SO3 geodesic radians same TCP',joint='Stock decoded absolute seven Panda angles radians, never achieved/postIK targets',
             gripper='Stock DROID closure0open1closed; shared across both readouts',history='A2 indices[-15,0] at15Hz; A3 physicalcontrol[-20,0] at20Hz =1s truehistory',
             execution='8 native15Hz timestamps,20Hz interpolation through7/15 then hold until integerceil next replan; no speed scaling'),
-        dependencies=deps,implementation=identity(Path(__file__)),new_model_calls=0,new_actor_calls=0,new_physics_steps=0,new_training_updates=0,selected='NONE',deployment='NONE')
+        state_geometry_max_m=max(r['state_geometry']['position_m'] for r in rows),state_geometry_max_rad=max(r['state_geometry']['rotation_rad'] for r in rows),
+        dependencies=deps+[identity(OLD/'design/BASELINE_BINDING.json'),identity(OLD/'design/NATIVE_CARD.json')],implementation=identity(Path(__file__)),new_model_calls=0,new_actor_calls=0,new_physics_steps=0,new_training_updates=0,selected='NONE',deployment='NONE')
     save('SAVED_DUAL_READOUT.json',report);save('OLD_OBJECT_FUNNEL.json',dict(rows=funnel,original_lift='UNOBSERVED',new_physics_steps=0))
     lines=['| Package group | N | XYZ mean/p95 full40 (m) | SO3 mean/p95 full40 (rad) |','|---|---:|---:|---:|']
     for g in groups:lines.append('| %s | %d | %.6f / %.6f | %.6f / %.6f |'%(g['group'],g['packages'],g['full40_position_m']['mean'],g['full40_position_m']['p95'],g['full40_rotation_rad']['mean'],g['full40_rotation_rad']['p95']))
     (ROOT/'audit/SAVED_DUAL_READOUT.md').write_text('\n'.join(lines)+'\n\nReadout mismatch is descriptive, not automatically a decode defect. Both joint and EEF are independently predicted. Original lift predicate is UNOBSERVED; measured height is retained. All272 existing output packages, no new neural or physics calls.\n')
     print(json.dumps(dict(groups=groups,input_max_abs_error=max(input_errors),funnel=funnel)))
 
+
+def audit_new():
+    """Finite closed-result snapshot. Unexecuted fixed slots stay null; existing receipts are versioned."""
+    fk,control,tool,chunk_type,posegate,deps=load_cpu();source=[];wbc=[]
+    from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix,matrix_to_quat
+    lanes=('ORIGINAL_BASE_JOINT','FK_OF_JOINT_COMMAND_REPLAY','EXPERT_DROID_BRIDGE_ROUNDTRIP')
+    for lane in lanes:
+        for condition in (10000,10001,10002,10003):
+            candidates=list((ROOT/'source/episodes'/(lane+'-'+str(condition))).glob('attempt-*/RESULT.json'))
+            if not candidates:
+                source.append(dict(lane=lane,condition=condition,status='NOT_YET_CLOSED',quality=None));continue
+            assert len(candidates)==1,'Do not choose among valid attempts'
+            d=candidates[0].parent;result=json.loads(candidates[0].read_text());report=dict(lane=lane,condition=condition,status=result['status'],result=identity(candidates[0]),quality=None)
+            if (d/'physics.npz').exists():
+                with np.load(d/'physics.npz',allow_pickle=False) as data:physics={k:data[k] for k in data.files}
+                predicate=physics['is_cubeA_on_cubeB']&physics['is_cubeA_static']&~physics['is_cubeA_grasped'];assert np.array_equal(predicate,physics['success'])
+                window=np.arange(2900,3101,5);window=window[window<len(predicate)]
+                full=len(predicate)==3301 and result['control_calls']==660 and result['status']=='VALID_SOURCE_COMPLETE'
+                persistent=bool(full and len(window)==41 and predicate[window].all())
+                task_samples=np.arange(100,len(predicate),5);first=np.flatnonzero(predicate[task_samples]);first_s=float((task_samples[first[0]]-100)*.01) if len(first) else None
+                assert persistent==result['persistent_success'] and first_s==result['first_success_s']
+                report.update(full32s=full,physics_samples=len(predicate),success41=int(predicate[window].sum()),window_samples=len(window),persistent=persistent,quality=persistent,
+                    persistent41_observed=bool(predicate[window].all()) if len(window)==41 else None,
+                    persistent41_status='OBSERVED_ALL41' if len(window)==41 else 'UNOBSERVED_EARLY_TERMINATION',
+                    task_elapsed_s=max(0,(len(predicate)-1)*.01-1),first_success_s=first_s,
+                    original_lift='UNOBSERVED_NOT_RECORDED',grasp_physics_samples=int(physics['is_cubeA_grasped'][100:].sum()),max_cubeA_height_m=float(physics['cubeA_pose'][100:,2].max()) if len(predicate)>100 else None)
+                if len(predicate)>100:
+                    t=physics['time_s'][100:]-1;grasp=physics['is_cubeA_grasped'][100:];z=physics['cubeA_pose'][100:,2];top=physics['is_cubeA_on_cubeB'][100:]
+                    def first_event(values):return float(t[np.flatnonzero(values)[0]]) if values.any() else None
+                    report['object_funnel']=dict(first_grasp_s=first_event(grasp),grasp_samples=int(grasp.sum()),
+                        longest_grasp_s=max((sum(1 for _ in g) for flag,g in __import__('itertools').groupby(grasp) if flag),default=0)*.01,
+                        task_initial_height_m=float(z[0]),max_height_increase_m=float(z.max()-z[0]),
+                        original_lift='UNOBSERVED_NOT_RECORDED',descriptive_lift_2cm_s=first_event(z>z[0]+.02),
+                        descriptive_lift_rule='Measured height increase >2cm; diagnostic only',first_on_top_s=first_event(top),
+                        on_top_samples=int(top.sum()),first_success_physics_s=first_event(predicate[100:]),
+                        released_41=int((~physics['is_cubeA_grasped'][window]).sum()) if len(window)==41 else None,
+                        static_41=int(physics['is_cubeA_static'][window].sum()) if len(window)==41 else None,
+                        on_top_41=int(physics['is_cubeA_on_cubeB'][window].sum()) if len(window)==41 else None,
+                        release_after_first_grasp_s=first_event((~grasp)&(np.arange(len(grasp))>np.flatnonzero(grasp)[0])) if grasp.any() else None)
+                with np.load(d/'commands.npz',allow_pickle=False) as data:command=data['action']
+                with np.load(d/'installed.npz',allow_pickle=False) as data:installed={k:data[k] for k in data.files}
+                n=min(len(command),len(installed['action']));end=physics['tcp'][np.arange(1,n+1)*5]
+                report['command_to_actual_xyz_m']=stats(np.linalg.norm(command[:n,:3]-end[:,:3,3],axis=1))
+                report['installedFK_to_actual_xyz_m']=stats(np.linalg.norm(installed['installed_target_fk'][:n,:3,3]-end[:,:3,3],axis=1))
+                if lane=='ORIGINAL_BASE_JOINT':
+                    with np.load(d/'initial.npz',allow_pickle=False) as data:base_pose=data['articulations/panda_wristcam'][0,:7]
+                    base=np.eye(4);base[:3,:3]=Rotation.from_quat(base_pose[[4,5,6,3]]).as_matrix();base[:3,3]=base_pose[:3]
+                    commanded_fk=base@fk(installed['action'][:n,:7])
+                    report['recorded_command_to_exactFK_m']=stats(np.linalg.norm(command[:n,:3]-commanded_fk[:,:3,3],axis=1))
+                    assert report['recorded_command_to_exactFK_m']['max']<1e-5
+                    urdf=ET.parse(ROOT.parent/'PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v3.urdf').getroot()
+                    jointnames=[f'panda_joint{i+1}' for i in range(7)];limits=np.array([[float(urdf.find("joint[@name='%s']/limit"%j).attrib[k]) for k in ('lower','upper')] for j in jointnames])
+                    actual_margin=np.minimum(physics['qpos'][:,:7]-limits[:,0],limits[:,1]-physics['qpos'][:,:7])
+                    assert np.allclose(actual_margin.min(axis=0),result['minimum_actual_joint_hard_margin_rad'],atol=1e-6)
+                    report['actual_joint_hard_margin_min_rad']=actual_margin.min(axis=0).tolist();report['actual_hard_penetration_rad']=max(0.,float(-actual_margin.min()))
+                    queries=json.loads((d/'QUERIES.json').read_text());noise_equal=[];route_errors=[];new_packages=[];closure_errors=[];rejected=[]
+                    with np.load(d/'observations.npz',allow_pickle=False) as observations:
+                        cameras={k:observations[k+'_raw'] for k in ('base_camera','hand_camera')}
+                        for query in queries:
+                            qfolder=d/('q%03d'%query['index']);parent=OLD/'source/episodes'/('PI0280-'+str(condition))/'attempt-000'/('q%03d'%query['index'])/'output.npz'
+                            assert sha(qfolder/'input.npz')==query['input_sha256'] and sha(qfolder/'output.npz')==query['output_sha256'] and sha(parent)==query['noise_parent_sha256']
+                            with np.load(qfolder/'input.npz',allow_pickle=False) as v:
+                                controltick=query['control'];assert np.allclose(v['history_times_s'],[(controltick-20)*.05,controltick*.05])
+                                assert np.array_equal(v['exterior_image_1_left'],cameras['base_camera'][[controltick-20,controltick]])
+                                assert np.array_equal(v['wrist_image_left'],cameras['hand_camera'][[controltick-20,controltick]])
+                            with np.load(qfolder/'output.npz',allow_pickle=False) as a,np.load(parent,allow_pickle=False) as b:
+                                noise_equal.append(np.array_equal(a['noise_uint16'],b['noise_uint16']));q=a['decoded_joint_position'][0];closure=a['decoded_gripper_position'][0,:,0]
+                            new_packages.append(package(qfolder/'output.npz',qfolder/'input.npz',fk,control,tool,chunk_type,posegate,lane+'-'+str(condition)+'-q%03d'%query['index'],'PI0281_NATIVE_JOINT_AUDIT',physics['tcp'][controltick*5],base,controltick*.05))
+                            ticks=np.arange(controltick,min(n,control.next_tick(query['index'])));j=np.clip(np.searchsorted(controltick*.05+np.arange(8)/15,ticks*.05,side='right')-1,0,7)
+                            if len(ticks):
+                                assert np.array_equal(installed['action'][ticks,:7],q[j])
+                                route_errors.extend(np.max(abs(installed['arm_target'][ticks]-q[j]),axis=1).tolist())
+                                closure_errors.extend(np.abs(installed['action'][ticks,-1]-(2*np.clip(1-closure[j],0,1)-1)).tolist())
+                            if result['status']=='VALID_JOINT_HARD_LIMIT_REJECT' and query==queries[-1]:
+                                tick=n;j=min(7,max(0,int(np.searchsorted(controltick*.05+np.arange(8)/15,tick*.05,side='right')-1)))
+                                margins=np.minimum(q[j]-limits[:,0],limits[:,1]-q[j]);assert margins.min()<0
+                                rejected=[dict(joint=jointnames[k],command_rad=float(q[j,k]),limits_rad=limits[k].tolist(),margin_rad=float(margins[k])) for k in np.flatnonzero(margins<0)]
+                                report['rejected_before_dispatch']=dict(control_tick=tick,task_time_s=tick*.05-1,query_index=query['index'],native_sample=j,violations=rejected)
+                    assert all(noise_equal);report.update(noise_identical_to_PI0280=True,queries=len(queries))
+                    report['rawQ_to_installed_joint_max_abs_rad']=max(route_errors,default=0);report['decoded_gripper_to_actuator_max_abs']=max(closure_errors,default=0)
+                    assert report['rawQ_to_installed_joint_max_abs_rad']<1e-6 and report['decoded_gripper_to_actuator_max_abs']<1e-6
+                    save('NEW_JOINT_READOUT-'+str(condition)+'.json',dict(rows=new_packages,new_model_calls=0,new_physics_steps=0))
+                if (d/'canonical_replay.npz').exists():
+                    with np.load(d/'canonical_replay.npz',allow_pickle=False) as data:replay=data['poses'];g=data['gripper']
+                    offset=20 if lane=='EXPERT_DROID_BRIDGE_ROUNDTRIP' else 0
+                    prefix=min(len(replay),n-offset);report['canonical_replay_to_command_m']=stats(np.linalg.norm(replay[:prefix,:3,3]-command[offset:offset+prefix,:3],axis=1))
+                    assert report['canonical_replay_to_command_m']['max']<1e-6
+                    gates=json.loads((d/'GATES.json').read_text());checked=[]
+                    for entry in gates:
+                        start=entry['control']-offset;poses=replay[start:start+40];assert len(poses)==40
+                        now=entry['control']*.05;state=physics['tcp'][entry['control']*5]
+                        gate_rotations=rot6d_rows_to_matrix(poses[:,:2,:3].reshape(-1,6))
+                        state_rotation=rot6d_rows_to_matrix(state[None,:2,:3].reshape(1,6))
+                        chunk=chunk_type(chunk_id=lane+'-'+str(condition),source='PI0276',observation_timestamp=now,point_timestamps=now+np.arange(40)*.05,
+                            eef_position=poses[:,:3,3],eef_orientation=matrix_to_quat(gate_rotations),source_frame='PI0276_MANISKILL_WORLD',tcp_semantic_id='PI0276_PANDA_HAND_TCP',validity_start=now,validity_end=now+1.95,gripper=g[start:start+40])
+                        verdict=posegate.evaluate(chunk,now=now,achieved_position=state[:3,3],achieved_orientation=matrix_to_quat(state_rotation)[0]).as_dict()
+                        assert verdict['decision']==entry['result']['decision']
+                        for speed in ('linear_speed_mps','angular_speed_radps'):
+                            assert abs(verdict['metrics'][speed]['max']-entry['result']['metrics'][speed]['max'])<1e-6
+                        if verdict['decision']=='REJECT':
+                            angular=angle(poses[:-1,:3,:3],poses[1:,:3,:3])/.05;j=int(np.argmax(angular));linear=np.linalg.norm(np.diff(poses[:,:3,3],axis=0),axis=1)/.05
+                            detail=dict(control_tick=entry['control'],task_time_s=now-1,unchanged_issues=entry['result']['issues'],
+                                preview_max_angular_radps=float(angular[j]),preview_max_linear_mps=float(linear.max()),angular_peak_pair_replay_ticks=[start+j,start+j+1],
+                                pair_poses=poses[j:j+2].tolist(),meaning='Original gate looks ahead over40 stored20Hz commands; rejected preview suffix was not dispatched by this replay')
+                            if lane=='FK_OF_JOINT_COMMAND_REPLAY':
+                                parent=json.loads((d/'PARENT.json').read_text());pd=Path(parent['folder']);assert sha(pd/'RESULT.json')==parent['result_sha256']
+                                with np.load(pd/'installed.npz',allow_pickle=False) as data:literal=data['action'][start+j:start+j+2,:7]
+                                detail['literal_parent_commanded_q_pair_rad']=literal.tolist();detail['parent_installed_identity']=identity(pd/'installed.npz')
+                            checked.append(detail)
+                    report['replay_gate_readback']=dict(status='PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION',gate_calls=len(gates),decisions=dict(collections.Counter(v['result']['decision'] for v in gates)),rejects=checked,gate_identity=identity(d/'GATES.json'))
+                report['raw_inputs']=[identity(d/name) for name in ('physics.npz','commands.npz','installed.npz')]
+            save('SOURCE-'+lane+'-'+str(condition)+'.json',report);source.append(report)
+    for p in (ROOT/'wbc').rglob('RESULT.json'):
+        # Native lane schemas may evolve during instrumentation; only recorded same-TCP fields are computed.
+        result=json.loads(p.read_text());d=p.parent;r=dict(path=str(d),status=result.get('status'),result=identity(p),quality=None)
+        rowfile=d/'rows.json'
+        if rowfile.exists():
+            rows=json.loads(rowfile.read_text());r['saved_rows']=len(rows);r['rows_identity']=identity(rowfile)
+            valid=[x for x in rows if 'TCP' in x and 'installed' in x]
+            if valid:r['position_all_saved_m']=stats([np.linalg.norm(np.array(x['TCP'])-np.array(x['installed'])) for x in valid])
+            last2=[x for x in valid if 8<=x.get('time',-1)-result.get('initialization_s',0)<=10+1e-6]
+            if last2:r['position_final2s_m']=stats([np.linalg.norm(np.array(x['TCP'])-np.array(x['installed'])) for x in last2])
+            rotations=[x for x in last2 if 'rotation' in x and 'installed_quaternion' in x]
+            r['rotation_final2s_rad']=stats([float(angle(np.array(x['rotation']),Rotation.from_quat(x['installed_quaternion']).as_matrix())) for x in rotations]) if rotations else 'UNOBSERVED_SAME_TCP_ROTATION_NOT_RECORDED'
+            r['full10s']=result.get('status')=='WBC_FIXTURE_EXECUTED' and abs(result.get('actual_elapsed_s',0)-10)<1e-5
+            hard=[v for x in rows for v in x.get('hard_penetration',{}).values()]
+            r['hard_penetration_max_SI']=max(hard) if hard else None
+            margins=[v for x in rows for v in x.get('telemetry',{}).get('joint_limit_margin',[])]
+            r['soft_margin_min_mixed_SI']=min(margins) if margins else None
+            position=r.get('position_final2s_m');rotation=r['rotation_final2s_rad']
+            r['prospective_fixture_gate']=bool(r['full10s'] and len(last2)>=99 and isinstance(rotation,dict) and position['rms']<=.020 and position['max']<=.040 and rotation['rms']<=.15 and rotation['max']<=.30 and hard and max(hard)<=1e-6)
+            r['prospective_fixture_gate_semantics']='All10s plus final2s sameTCP position/SO3 and hardpenetration<=1e-6; soft negatives retained; original native stop wins'
+            if result.get('event'):r['original_native_stop']=result['event']
+            proxyrows=[x for x in valid if 'rotation' in x and 'installed_quaternion' in x and 'orientation_error_proxy' in x]
+            if proxyrows:
+                r['sameTCP_geodesic_vs_proxy_norm_abs_rad']=stats([abs(float(angle(np.array(x['rotation']),Rotation.from_quat(x['installed_quaternion']).as_matrix()))-np.linalg.norm(x['orientation_error_proxy'])) for x in proxyrows])
+            r['quality']=r['prospective_fixture_gate']
+        save('WBC-'+hashlib.sha256(str(d).encode()).hexdigest()[:12]+'.json',r);wbc.append(r)
+    save('NEW_RESULTS_SNAPSHOT.json',dict(status='FINITE_PROVISIONAL_SNAPSHOT_NOT_TERMINAL',observed_unix_s=time.time(),source=source,wbc=wbc,new_model_calls=0,new_physics_steps=0,new_training_updates=0,selected='NONE',deployment='NONE'))
+    save('GAP_MATRIX.json',dict(status='PROVISIONAL_AS_FIXED_RESULTS_CLOSE',rows=[
+        dict(gap='target_input_contract',evidence='PI0280 0/8 honest supported routes',decision='Declared EEF/gripper interface adaptation required; no fake source joints',authorization='NOT_AUTHORIZED'),
+        dict(gap='directEEF_vs_FKq',evidence='SAVED_DUAL_READOUT.json all272 packages; mismatch grows with horizon',decision='Compare actual JOINT outcomes and commandedFK replay before attributing task failure to representation',authorization='DIAGNOSTIC_AUTHORIZED_ONLY'),
+        dict(gap='source_bridge',evidence='expert roundtrip fixed4 slots independently audited as they close',decision='Any positive-control failure requires bridge/timing/controller review before neural tuning',authorization='NO_NEW_TRAINING'),
+        dict(gap='WBC_executor',evidence='native and one proven repair fixture arrays; original stops remain',decision='Capability/semantic qualification separate from VLA task quality',authorization='EXISTING_PROTOCOL_ONLY'),
+        dict(gap='next_adaptation',evidence='Pending final joint/expert/WBC outcomes; capacity and data requirement unknown',decision='Pristine initialization, native flowmatching first, preserve VLM initially; limited interface tuning versus projector+DiT only if needed',authorization='NOT_AUTHORIZED')],new_training_updates=0))
+    print(json.dumps(dict(source=[{k:v[k] for k in ('lane','condition','status','quality')} for v in source],wbc=wbc)))
+
 if __name__=='__main__':
     assert os.environ.get('CUDA_VISIBLE_DEVICES')=='','CPU audit requires hidden CUDA'
-    p=argparse.ArgumentParser();p.add_argument('phase',choices=['old']);args=p.parse_args();audit_old()
+    p=argparse.ArgumentParser();p.add_argument('phase',choices=['old','new']);args=p.parse_args();audit_old() if args.phase=='old' else audit_new()
