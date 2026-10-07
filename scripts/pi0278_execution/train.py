@@ -131,7 +131,7 @@ def run(b):
         penalty=generated_gripper_loss(g,e,m)
         # Keep the original pose scalar and add the authorized gripper term once.
         result['loss']=result['loss']+.1*penalty
-        add_box(result,g,m,captured['states'],output,audit['forwards'],b.resume)
+        add_box(result,g,m,captured['states'],output,audit['forwards'],b.resume if b.phase=='main' else -2)
         error=(g[...,9].detach().float()-e[...,9].detach().float()).abs()/2
         append(output/'gripper_objective.jsonl',dict(forward=audit['forwards'],unweighted=float(penalty.detach()),
             weighted=float((.1*penalty).detach()) if b.arm=='COVER93' else 0.,prefix_MAE=float(error[:,:8].mean()),full_MAE=float(error.mean()),total=float(result['loss'].detach())))
