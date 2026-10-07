@@ -5,6 +5,14 @@ contracts, adapters, experiment runners, tests, and provenance documents.
 Large or private model, WBC, dataset, simulator, and hardware inputs remain
 outside Git and are referenced through manifests and reports.
 
+## Current execution priority — PI0280, pretrained first (2026-10-07)
+
+**User-directed change:** [PI0280 original pretrained GR00T + frozen WBC baseline](docs/protocols/PI0280_GENUINE_PRETRAINED_GROOT_FROZEN_WBC_BASELINE_NO_TRAIN_V1.md), with [authority and finite budgets](reports/PI0280/design/AUTHORITY_AND_LIMITS.json).
+
+**New training/backward/optimizer updates = 0.** PI0279 CLEAR4096 and predecessor automatic fine-tuning/recovery-data continuations are `PAUSED_BY_USER_PRETRAINED_BASELINE_PRIORITY`; see [immediate pause decision #6037170888](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-6037170888). The main owner must safe-stop actual work and return `PAUSE_ACK`; this repository instruction alone is not proof that a remote job stopped. Preserve all previous results, data, complete recoveries and ledgers.
+
+First verify genuine `nvidia/GR00T-N1.7-3B` weights and original processor/statistics/embodiment contract, then perform official source reproduction and the actual frozen Go2+ARX5 WBC simulation baseline. No project-adapted or task-finetuned checkpoint may masquerade as the original base. Official source inference, source-Panda physics, recorded-reference WBC replay, fresh-feedback WBC closed loop and object-task success are different milestones. An unsupported target input contract must be reported explicitly, never hidden with fabricated joints or automatic SFT. Multi-task generalization and the need for fine-tuning are evaluated only after this baseline decision. Hardware remains unauthorized; selected/deployment=NONE. Use the latest PI0280 canonical in Issue #11 for its immutable release.
+
 ## Current research direction — read first (2026-10-05)
 
 **后续GR00T方案的统一前提：** [任务空间物体操作研究章程 V1](docs/RESEARCH_CHARTER_TASK_SPACE_MANIPULATION_V1.md)
