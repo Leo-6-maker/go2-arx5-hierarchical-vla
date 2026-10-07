@@ -24,8 +24,10 @@ def write(p,value):
     p=Path(p);p.parent.mkdir(parents=True,exist_ok=True)
     tmp=p.with_suffix(p.suffix+'.tmp');tmp.write_text(json.dumps(value,indent=2)+'\n');tmp.replace(p)
 
-def append(p,value):
-    with Path(p).open('a') as f:f.write(json.dumps(value)+'\n');f.flush();os.fsync(f.fileno())
+def append(p,value,sync=True):
+    with Path(p).open('a') as f:
+        f.write(json.dumps(value)+'\n');f.flush()
+        if sync:os.fsync(f.fileno())
 
 def configure(cfg):
     # The old evaluation helper disables body hard stops. Preserve delivered values.
@@ -111,7 +113,7 @@ def fixture(name):
         cap={'physical_start':22,'control_tick':30000,'actor_forward':120000,'integration':250000,'gripper_dispatch':60000,'RGB_pair':30000}[kind]
         assert counts.get(kind,0)<cap,(kind,counts)
         counts[kind]=counts.get(kind,0)+1
-        append(ledger,dict(kind=kind,fixture=name,wall=time.time()))
+        append(ledger,dict(kind=kind,fixture=name,wall=time.time()),sync=kind in ('physical_start','control_tick'))
     def fk(n):
         root=n.root_states[0].detach().cpu().numpy();q=[n.dof_pos[0,n.dof_names.index(j)].item() for j in kin.joint_names]
         pose=kin.tcp_pose(q);rotation=Rotation.from_quat(root[3:7]).as_matrix()
@@ -186,6 +188,8 @@ def fixture(name):
         if str(exc)=='GATE_REJECT_NO_INSTALL':result['status']='VALID_GATE_REJECT'
         else:raise
     finally:
+        if ledger.exists():
+            with ledger.open('a') as f:f.flush();os.fsync(f.fileno())
         write(out/'rows.json',records);write(out/'RESULT.json',result)
         if frames:np.savez_compressed(out/'frames.npz',body=np.array([f[0] for f in frames]),wrist=np.array([f[1] for f in frames]),time=np.array([f[2] for f in frames]))
         if native is not None:native.gym.destroy_sim(native.sim)
