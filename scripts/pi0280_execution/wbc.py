@@ -122,7 +122,7 @@ def fixture(name):
         p,r=fk(n);s=n.traj_batch.s_ref(n.traj_sim_time)
         q=n.dof_pos[0].detach().cpu().numpy();native_p,native_q=api._current_eef(n)
         return dict(time=float(n.gym.get_sim_time(n.sim)),TCP=p.tolist(),rotation=r.tolist(),native_TCP=native_p.tolist(),
-            installed=n.traj_batch.p_at(s)[0].detach().cpu().tolist(),root=n.root_states[0].detach().cpu().tolist(),q=q.tolist(),
+            installed=n.traj_batch.p_at(s)[0].detach().cpu().tolist(),installed_quaternion=n.traj_batch.quat_at(s)[0].detach().cpu().tolist(),root=n.root_states[0].detach().cpu().tolist(),q=q.tolist(),
             hard_penetration={joint:max(0.,lo-q[i],q[i]-hi) for i,joint in enumerate(n.dof_names) if joint in bounds for lo,hi in [bounds[joint]]},
             FK_cache_error_m=float(np.linalg.norm(p-native_p)),telemetry=api._native_runtime_telemetry(n))
     old=api._Stage21NativeEnvFactory.make
@@ -155,6 +155,13 @@ def fixture(name):
                 for k in self.pi0280_fingers:command[:,k]=opening
                 budget('gripper_dispatch');budget('integration')
                 return command
+            def reset_idx(self,ids):
+                if getattr(self,'pi0280_initialized',False) and len(ids):
+                    # Keep the native stop and achieved state; never auto-reset a scientific trial.
+                    event=getattr(self,'_stage16_pending_termination',None)
+                    write(out/'NATIVE_STOP_BEFORE_AUTORESET.json',dict(event=event,state=snapshot(self),reset_ids=ids.detach().cpu().tolist()))
+                    return
+                return super().reset_idx(ids)
             def step(self,*a,**kw):
                 budget('control_tick');answer=super().step(*a,**kw);records.append(snapshot(self));return answer
         return Fixture
@@ -163,6 +170,7 @@ def fixture(name):
         trajectory=dict(timestamp=np.arange(40)*.05,position=np.zeros((40,3)),quaternion=np.tile([0.,0.,0.,1.],(40,1)))
         args=SimpleNamespace(source_root=WBC,sim_device='cuda:0',seed=4242,mode='gt_receding',arm=Path(paths['arm_checkpoint']),dog=Path(paths['dog_checkpoint']))
         budget('physical_start');native,env,actors,loads,cfg=api._build_native(args,trajectory)
+        native.pi0280_initialized=True
         origin=float(native.gym.get_sim_time(native.sim));result['loads']=loads;result['initialization_s']=origin
         event=native.pop_stage16_termination()
         if event or bool(native.reset_buf[0]):result.update(status='BLOCKED_EXECUTOR_NATIVE_INITIALIZATION_TERMINATION',event=event);return
