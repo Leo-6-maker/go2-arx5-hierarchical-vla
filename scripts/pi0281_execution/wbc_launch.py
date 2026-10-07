@@ -6,13 +6,14 @@ from budget import guard
 ROOT = Path('/home/liuyu-nfs/Projects/go2-arx5/PI0281')
 
 
-def main(version, fixture):
+def main(version, fixture, technical=False):
     guard()
     seal=json.loads((ROOT/'design/IMPLEMENTATION.json').read_text())
     for name in ('wbc.py','wbc_repair.py','wbc_cpu.py','wbc_readout.py','wbc_launch.py'):
         assert seal['files'].get(name)==hashlib.sha256((ROOT/'code'/name).read_bytes()).hexdigest(),('WBC_NOT_IN_FROZEN_PUBLICATION',name)
     assert version in ('native','repair') and fixture in ('hold','monotonic','return')
-    out = ROOT/'wbc'/(version+'_'+fixture);out.mkdir(parents=True,exist_ok=True)
+    if technical:assert version=='repair' and (ROOT/'wbc/REPAIR_INSTALLATION_DEFECT.json').exists()
+    out = ROOT/'wbc'/(version+'_'+fixture+('-engineering-001' if technical else ''));out.mkdir(parents=True,exist_ok=True)
     done=out/'DONE.json';start=out/'LAUNCH.json'
     assert not start.exists(), 'Adopt recorded attempt; no quality retry'
     runtime=Path('/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13c/runtime_env')
@@ -26,6 +27,7 @@ def main(version, fixture):
     for key in ('TMPDIR','XDG_CACHE_HOME','MPLCONFIGDIR','TORCH_EXTENSIONS_DIR'):
         p=ROOT/'wbc'/'runtime'/key.lower();p.mkdir(parents=True,exist_ok=True);env[key]=str(p)
     argv=[str(runtime/'native_py38_4080/bin/python'),'-u',str(ROOT/'code/wbc.py'),version,fixture]
+    if technical:argv.append('--technical-replacement')
     begin=time.time();monotonic=time.monotonic();status='UNKNOWN';returncode=None
     start.write_text(json.dumps(dict(pid=os.getpid(),argv=argv,begin=begin))+'\n')
     try:
@@ -49,5 +51,7 @@ def main(version, fixture):
 
 
 if __name__=='__main__':
-    assert len(sys.argv)==3
-    main(sys.argv[1],sys.argv[2])
+    assert len(sys.argv) in (3,4)
+    technical=len(sys.argv)==4
+    if technical:assert sys.argv[3]=='--technical-replacement'
+    main(sys.argv[1],sys.argv[2],technical)

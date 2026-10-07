@@ -67,7 +67,7 @@ def chunk(name,p,q,t):
         validity_start=float(t[0]),validity_end=float(t[-1]),gripper=np.full(len(t),.044),
         provenance={'gripper_unit':'m_per_prismatic_joint','positive':'open','both_fingers_commanded':True})
 
-def fixture(version,name):
+def fixture(version,name,technical=False):
     guard()
     seal=json.loads((ROOT/'design/IMPLEMENTATION.json').read_text())
     assert seal['files'].get('wbc.py')==sha(__file__),'WBC_NOT_IN_FROZEN_PUBLICATION'
@@ -83,7 +83,9 @@ def fixture(version,name):
     binding=json.loads((OLD/'evidence/WBC_BINDING.json').read_text())
     for row in binding['files']:assert sha(row['path'])==row['sha256'],row['name']
     paths={x['name']:x['path'] for x in binding['files']};kin=NativeArmKinematics.from_urdf(paths['native_urdf'])
-    uid=version+'_'+name
+    if technical:
+        assert version=='repair' and (ROOT/'wbc/REPAIR_INSTALLATION_DEFECT.json').exists()
+    uid=version+'_'+name+('-engineering-001' if technical else '')
     out=ROOT/'wbc'/uid;out.mkdir(parents=True,exist_ok=True)
     assert not (out/'START.json').exists(),'Adopt existing attempt; never repeat a valid fixture'
     write(out/'START.json',dict(pid=os.getpid(),time=time.time(),implementation=sha(__file__)))
@@ -93,6 +95,7 @@ def fixture(version,name):
         limit=j.find('limit')
         if limit is not None and 'lower' in limit.attrib:bounds[j.attrib['name']]=[float(limit.attrib['lower']),float(limit.attrib['upper'])]
     caps=dict(physical_starts=1,wbc_controls=501,wbc_actor_forwards=1000,integrations=2004,dispatches=2004,RGB_pairs=100)
+    if technical:caps['technical_replacements']=1
     counts={k:0 for k in caps}
     reserve('WBC',uid,caps)
     def budget(kind):
@@ -199,6 +202,9 @@ def fixture(version,name):
         else:raise
     finally:
         write(out/'IO_COMPLETENESS.json',flush_journals())
+        if version=='repair':
+            from wbc_repair import runtime_receipt
+            write(out/'REPAIR_RUNTIME_BINDING.json',runtime_receipt())
         result.update(version=version,counts=counts,allocation=caps)
         write(out/'rows.json',records);write(out/'RESULT.json',result)
         actual('WBC',uid,counts,result['status'])
@@ -207,5 +213,7 @@ def fixture(version,name):
         print(json.dumps(result),flush=True)
 
 if __name__=='__main__':
-    assert len(sys.argv)==3
-    fixture(sys.argv[1],sys.argv[2])
+    assert len(sys.argv) in (3,4)
+    technical=len(sys.argv)==4
+    if technical:assert sys.argv[3]=='--technical-replacement'
+    fixture(sys.argv[1],sys.argv[2],technical)

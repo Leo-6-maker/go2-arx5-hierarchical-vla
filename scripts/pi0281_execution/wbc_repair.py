@@ -1,8 +1,11 @@
 """PI0281 single reference-progress repair; no controller or actor changes."""
 import torch
+CALLS = 0
 
 
 def update_s_batch(s_prev, ee_p, ee_R, traj_batch, window=0.15, M=16, lam=0.15):
+    global CALLS
+    CALLS += 1
     # The delivered candidates, window and metric are unchanged. Ordered local
     # projection preserves the first reachable basin of a self-overlapping path.
     from modules.trajectory import so3_log
@@ -28,7 +31,13 @@ def update_s_batch(s_prev, ee_p, ee_R, traj_batch, window=0.15, M=16, lam=0.15):
 
 
 def install():
-    # wbc_env imported the function by name; patch only this private runtime
-    # consumer in this process. No delivered source file is changed.
-    import go1_gym.envs.roboduet.wbc_env as consumer
+    # The actual consumer imports inside _update_trajectory_progress on each
+    # call. Bind the originating module in this process, not an unused alias.
+    import modules.trajectory as consumer
     consumer.update_s_batch = update_s_batch
+    assert consumer.update_s_batch is update_s_batch
+
+def runtime_receipt():
+    import modules.trajectory as consumer
+    return dict(bound=consumer.update_s_batch is update_s_batch,calls=CALLS,
+        consumer='modules.trajectory.update_s_batch',rule='FIRST_ORDERED_LOCAL_MINIMUM')

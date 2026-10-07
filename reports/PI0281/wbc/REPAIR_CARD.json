@@ -129,11 +129,11 @@
     "method": "nvidia-smi live free memory; otherwise resource blocker before reservation/start"
   },
   "files": {
-    "wbc.py": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278",
+    "wbc.py": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4",
     "wbc_cpu.py": "04c68779857d78920b0d1c4a4066b6d7ffd56c9583de9d42af65a4514b7ddaa8",
-    "wbc_launch.py": "f073df8446a65d3b33932e3f07211069c35d25466b7a9b91edd28a058af4b278",
+    "wbc_launch.py": "763c514841606c6bf8b0d18a9a4844951e0dced93bb1c4e503b97822cd93b2d1",
     "wbc_readout.py": "305ff392f94c96c6480c7c1d6828a7b5eaf25b8d2889c99d1303a91ef4f24b49",
-    "wbc_repair.py": "5e866053f3ddf4fa3a6ba9a32d72a67297e97a5f018739dda9e34628adb7b1a5"
+    "wbc_repair.py": "32d898f456f4204b2f30435963a02b85fe388d16f30105dd25605cf92c776f73"
   },
   "new_physical_starts": 0,
   "new_actor_forwards": 0,
@@ -167,5 +167,12 @@
       "IO_KERNEL_WAIT_SAMPLING.json",
       "IO_TRACE_RECEIPT.txt"
     ]
+  },
+  "technical_installation_correction": {
+    "id": "ACTUAL_FUNCTION_LOCAL_IMPORT_MODULE",
+    "old_defect": "Unused module alias",
+    "rule_unchanged": true,
+    "technical_replacements": 3,
+    "quality_retries": 0
   }
 }
