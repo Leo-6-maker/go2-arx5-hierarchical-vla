@@ -21,6 +21,7 @@ def guard(point,panel):
     assert card['release']==RELEASE and receipt['release']==RELEASE
     assert receipt['source_card_sha256']==digest(ROOT/'design/SOURCE_CARD.json')
     for name,sha in card['code_sha256'].items():assert digest(ROOT/'code'/name)==sha,name
+    for binding in card['predecessors'].values():assert digest(binding['path'])==binding['sha256']
     assert receipt['expert_codec_replay_allowed'] is True
     if point!='EXPERT':
         assert receipt['model_evaluation_allowed'] is True

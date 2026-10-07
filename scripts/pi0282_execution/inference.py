@@ -31,7 +31,9 @@ def load(root,point):
     expected=binding['effective_bf16_tensor_sha256'];parameters=dict(model.named_parameters())
     assert set(parameters)==set(expected)
     for name,p in parameters.items():assert array_hash(p.detach().cpu().contiguous().view(torch.uint8).numpy())==expected[name],name
-    return model,load_codec(root/'data'),binding
+    codec=load_codec(root/'data')
+    assert codec.identity==manifest['codec_identity'],'PROCESSOR_STATISTICS_MAPPING_CHANGED'
+    return model,codec,binding
 
 def query(root,model,codec,request):
     from gr00t.policy.gr00t_policy import _rec_to_dtype

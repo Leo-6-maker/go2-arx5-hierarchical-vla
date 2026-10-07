@@ -1,0 +1,1017 @@
+{
+  "action_mask_shape": [
+    40,
+    132
+  ],
+  "active_dimensions": 10,
+  "allowlist": [
+    "actual_external_RGB",
+    "actual_wrist_RGB",
+    "actual_TCP_XYZ_ROT6D",
+    "measured_gripper_open_fraction",
+    "fixed_language"
+  ],
+  "cache_binding": {
+    "codec": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
+    "contract": "e96914e8f708d21ce93f6d32a5d0a61a4ecefe7385e7206d17c21d32bfcff196",
+    "cpu_inputs": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6",
+    "official": {
+      "gr00t/data/state_action/pose.py": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+      "gr00t/data/state_action/state_action_processor.py": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145",
+      "gr00t/data/utils.py": "fa765b240295d9884ab62326c8a21465ae21e6f10133a4b68ac321e8101e4ab7",
+      "gr00t/model/gr00t_n1d7/image_augmentations.py": "3281353907fb2590e39cbb79f644797942c34262a9beb2ec1bb8b73a2e209b54",
+      "gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f"
+    }
+  },
+  "cache_namespace": "318f1f013bbfe42c24bb4546688db1ef872272c810c4738ff3d526fcf2a81e58",
+  "diagnostic_rows": [
+    {
+      "SO3_max_rad": 4.391484412136306e-08,
+      "XYZ_max_m": 1.825012141409843e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "a184ca20f0bef5294aef253de2905276f07e8c77cdb688d70f7386deb4553d44",
+      "uid": "TRAIN-10000-a000"
+    },
+    {
+      "SO3_max_rad": 5.75317280969908e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.9994980096817017,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "8480e4f6f98814bf884d52e2543ed6a54cfb75a4932694edfe57872bbba37cd4",
+      "uid": "TRAIN-10000-a062"
+    },
+    {
+      "SO3_max_rad": 5.780633428636198e-08,
+      "XYZ_max_m": 2.9802322387695312e-08,
+      "command_achieved_max_abs_difference": 0.45688775181770325,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "4fc6c35208b17b33adac6bceb24c033fd22eb202557c8f1eec4c7f1ef685f641",
+      "uid": "TRAIN-10000-a068"
+    },
+    {
+      "SO3_max_rad": 3.124501667471226e-08,
+      "XYZ_max_m": 5.26835597369768e-09,
+      "command_achieved_max_abs_difference": 0.5431393980979919,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0000003576278687,
+        "minimum_first_row_norm": 1.0000001192092896
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "89bd106de4aa3b78bc588757f22ba6ac040f9b2c6063dafa4164be4d777069b1",
+      "uid": "TRAIN-10000-a131"
+    },
+    {
+      "SO3_max_rad": 5.126043530627163e-09,
+      "XYZ_max_m": 2.3283064365386963e-09,
+      "command_achieved_max_abs_difference": 0.0005069375038146973,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0000003576278687,
+        "minimum_first_row_norm": 1.0000001192092896
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "8bd7233ef6b55e466b2325f5ef3c9b7d841d1eb7473beb30bedc77678ffa3ea8",
+      "uid": "TRAIN-10000-a366"
+    },
+    {
+      "SO3_max_rad": 5.126043530627163e-09,
+      "XYZ_max_m": 2.3283064365386963e-09,
+      "command_achieved_max_abs_difference": 0.0005069375038146973,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0000003576278687,
+        "minimum_first_row_norm": 1.0000001192092896
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "8bd7233ef6b55e466b2325f5ef3c9b7d841d1eb7473beb30bedc77678ffa3ea8",
+      "uid": "TRAIN-10000-a600"
+    },
+    {
+      "SO3_max_rad": 9.6388149903641e-08,
+      "XYZ_max_m": 1.9086433766801747e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "a71b25c1ea1391d1370acd49e71ec8f99d061b3a5fc3c7f895611c98c6e92bff",
+      "uid": "TRAIN-10001-a000"
+    },
+    {
+      "SO3_max_rad": 8.62598898079747e-08,
+      "XYZ_max_m": 1.1926748477719684e-08,
+      "command_achieved_max_abs_difference": 0.9994988441467285,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "c369333f0e112712258592ca8527241f9147426cc95c61aad0c6a3fe6b1b2cb3",
+      "uid": "TRAIN-10001-a049"
+    },
+    {
+      "SO3_max_rad": 8.250429729680974e-08,
+      "XYZ_max_m": 1.0577791087484911e-08,
+      "command_achieved_max_abs_difference": 0.4570615887641907,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "8c182a69398d48815cf209babefd4efeb42bb3a6e1a71568e48abe11aa319bf0",
+      "uid": "TRAIN-10001-a055"
+    },
+    {
+      "SO3_max_rad": 3.840970511110269e-09,
+      "XYZ_max_m": 3.8399412538581146e-09,
+      "command_achieved_max_abs_difference": 0.5430094003677368,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "a3ea53bfd1e0b5ba552528e1c52d2c5e29dc0cf4090d9b2f059223df68ac1d10",
+      "uid": "TRAIN-10001-a105"
+    },
+    {
+      "SO3_max_rad": 4.334159704935108e-08,
+      "XYZ_max_m": 0.0,
+      "command_achieved_max_abs_difference": 0.0005068182945251465,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "81a0f30e0ab29b1ba31c2c8405879b76bccacf44d8bfe3364e63d454bcbe0290",
+      "uid": "TRAIN-10001-a353"
+    },
+    {
+      "SO3_max_rad": 4.334159704935108e-08,
+      "XYZ_max_m": 0.0,
+      "command_achieved_max_abs_difference": 0.0005068182945251465,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "81a0f30e0ab29b1ba31c2c8405879b76bccacf44d8bfe3364e63d454bcbe0290",
+      "uid": "TRAIN-10001-a600"
+    },
+    {
+      "SO3_max_rad": 3.401822678178304e-08,
+      "XYZ_max_m": 2.1801701777235394e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "310f4c627c5f19b7ebfdbcf313de8a7ae259b4cb913f16b50426f6033aa637f2",
+      "uid": "TRAIN-10002-a000"
+    },
+    {
+      "SO3_max_rad": 4.012355380723281e-08,
+      "XYZ_max_m": 1.6476779052254642e-08,
+      "command_achieved_max_abs_difference": 0.9994968771934509,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "d041623ccdaba9de742fdb417d162dc11a893c38ab3617f3d82a08b29d5b01e5",
+      "uid": "TRAIN-10002-a036"
+    },
+    {
+      "SO3_max_rad": 3.9962241329478484e-08,
+      "XYZ_max_m": 2.0061301952978283e-08,
+      "command_achieved_max_abs_difference": 0.45684880018234253,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "131a80cd032537b2eb331757b3801b212799fcee176136e32528f7f7d1596695",
+      "uid": "TRAIN-10002-a042"
+    },
+    {
+      "SO3_max_rad": 2.511480683046536e-08,
+      "XYZ_max_m": 1.7071425162384912e-08,
+      "command_achieved_max_abs_difference": 0.5431369543075562,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "bbb08d5599c82f2bc03e9a42c31799c3f692bdabd5cb02b6b426cf4f372f07f8",
+      "uid": "TRAIN-10002-a097"
+    },
+    {
+      "SO3_max_rad": 3.27280366714542e-08,
+      "XYZ_max_m": 7.450580596923828e-09,
+      "command_achieved_max_abs_difference": 0.0005069971084594727,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "aa621cec56bc8994d5391a63bded6c7d2cc4b679a6ae8e31c9427334eda1599b",
+      "uid": "TRAIN-10002-a349"
+    },
+    {
+      "SO3_max_rad": 3.27280366714542e-08,
+      "XYZ_max_m": 7.450580596923828e-09,
+      "command_achieved_max_abs_difference": 0.0005069971084594727,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "aa621cec56bc8994d5391a63bded6c7d2cc4b679a6ae8e31c9427334eda1599b",
+      "uid": "TRAIN-10002-a600"
+    },
+    {
+      "SO3_max_rad": 8.39686885228987e-08,
+      "XYZ_max_m": 1.6344644748755854e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "7d289abd7a7aa8432a7a2af8e2010195cd390fb6d5389961f29417bfc2e0e7e0",
+      "uid": "TRAIN-10003-a000"
+    },
+    {
+      "SO3_max_rad": 4.8498234941082487e-08,
+      "XYZ_max_m": 1.3840332435677283e-08,
+      "command_achieved_max_abs_difference": 0.9994973540306091,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "6f294310b0a31a42b8dd5923082a70a08e8baeef945bab7cd3e6bfc24efd5b82",
+      "uid": "TRAIN-10003-a040"
+    },
+    {
+      "SO3_max_rad": 6.904865311035529e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.45695847272872925,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "76bc5a403f3a00d8036ea165aacff477d5a5e539eff80f4b21be57f85b9c1d93",
+      "uid": "TRAIN-10003-a046"
+    },
+    {
+      "SO3_max_rad": 1.8946643975954206e-09,
+      "XYZ_max_m": 7.450580596923828e-09,
+      "command_achieved_max_abs_difference": 0.5430253148078918,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "c8f28a838f48e3a7a3f09e6252138357a57c204a301b82a7b9b9a9d22f758d09",
+      "uid": "TRAIN-10003-a088"
+    },
+    {
+      "SO3_max_rad": 2.8044894840792717e-08,
+      "XYZ_max_m": 0.0,
+      "command_achieved_max_abs_difference": 0.0005069971084594727,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "8eb9953c1f1b2d73d1ac28f42456af60026cd2cdc749fdf9f3005267d1c5ae7c",
+      "uid": "TRAIN-10003-a344"
+    },
+    {
+      "SO3_max_rad": 2.8044894840792717e-08,
+      "XYZ_max_m": 0.0,
+      "command_achieved_max_abs_difference": 0.0005069971084594727,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "TRAIN",
+      "tensor_sha256": "8eb9953c1f1b2d73d1ac28f42456af60026cd2cdc749fdf9f3005267d1c5ae7c",
+      "uid": "TRAIN-10003-a600"
+    },
+    {
+      "SO3_max_rad": 7.306869980902966e-08,
+      "XYZ_max_m": 2.296423140535353e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "6de3256336f0d575fce7ecf522fe34db9f0e97a329dacb5c94d119405165ccbf",
+      "uid": "VAL-20000-a000"
+    },
+    {
+      "SO3_max_rad": 6.34699749859456e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.9994969964027405,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "0e7229fa6cd96a5db19eccc0207cc05a2d83601db5b8ceed78a678b6c95f4431",
+      "uid": "VAL-20000-a036"
+    },
+    {
+      "SO3_max_rad": 6.360096578346835e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.4569619297981262,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "5118a19c1672717eb2cad1792aae89954648954cda1d900d0459f494517c0547",
+      "uid": "VAL-20000-a042"
+    },
+    {
+      "SO3_max_rad": 2.095967819507444e-08,
+      "XYZ_max_m": 7.450580596923828e-09,
+      "command_achieved_max_abs_difference": 0.5430395603179932,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "e9cfbd46a5f85501cb0d370f41a77d6c74ec0dca9dc07fa13fa55408f664d4f1",
+      "uid": "VAL-20000-a080"
+    },
+    {
+      "SO3_max_rad": 8.232583564647749e-08,
+      "XYZ_max_m": 3.094458378427589e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "1752def32e3c3d3e28e6a9c92296e889ea8154b7c2033f433ef27fd45d1b081d",
+      "uid": "VAL-20001-a000"
+    },
+    {
+      "SO3_max_rad": 7.479835834200322e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.9994971752166748,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "9cc1a805478ea2d761e953c2765c371c8c280c7c99b2fd95a2af4b7c39baef73",
+      "uid": "VAL-20001-a041"
+    },
+    {
+      "SO3_max_rad": 8.380458140515861e-08,
+      "XYZ_max_m": 1.5359765015432458e-08,
+      "command_achieved_max_abs_difference": 0.4573683440685272,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "8a126f2c9757fde29b5edddb333371163d99ba50fd312835bc2d96b8ba3c0a2c",
+      "uid": "VAL-20001-a047"
+    },
+    {
+      "SO3_max_rad": 4.074519980852391e-10,
+      "XYZ_max_m": 0.0,
+      "command_achieved_max_abs_difference": 0.5427320003509521,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "43d45538b1dd9dd9fca11af69cc954cc8942c662447a7ee7d0e134593dcf6fb2",
+      "uid": "VAL-20001-a100"
+    },
+    {
+      "SO3_max_rad": 4.0226647334745465e-08,
+      "XYZ_max_m": 2.3853496955439368e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "9964859d5a7201227ddeefc0c3ac4f48c35e70236a5bdbc14fbc03ca65947874",
+      "uid": "VAL-20002-a000"
+    },
+    {
+      "SO3_max_rad": 4.6635244417200856e-08,
+      "XYZ_max_m": 1.1892690388037863e-08,
+      "command_achieved_max_abs_difference": 0.9994971752166748,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "38c6b65a51acefa32db94a65ca0090a8aff9431fe5f8f397c091c62ef71620b7",
+      "uid": "VAL-20002-a041"
+    },
+    {
+      "SO3_max_rad": 4.106749744589204e-08,
+      "XYZ_max_m": 1.5017125321037383e-08,
+      "command_achieved_max_abs_difference": 0.45694395899772644,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "88017d208e2d04295c92846299ef9dcbd96c9fea98cc3cc7857908925a57dfcb",
+      "uid": "VAL-20002-a047"
+    },
+    {
+      "SO3_max_rad": 1.4874872437981968e-08,
+      "XYZ_max_m": 8.33000246558413e-09,
+      "command_achieved_max_abs_difference": 0.5433797836303711,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "1a8edb951bcc811da7770bded00887e6712bd6d3dc668595fe846517ce5da594",
+      "uid": "VAL-20002-a093"
+    },
+    {
+      "SO3_max_rad": 4.890494236563182e-08,
+      "XYZ_max_m": 3.4142850324769825e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "3dfd8f09b338509589d324dcd8cac8e9bd17ed407f5a0519e99b03b6c59fbbfe",
+      "uid": "VAL-20003-a000"
+    },
+    {
+      "SO3_max_rad": 4.373490406384234e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.9994984865188599,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "5833e5c70cd9b79a232c03a77ebbe47c4bd708fc1307e3a19a2380c68bc8dd6c",
+      "uid": "VAL-20003-a054"
+    },
+    {
+      "SO3_max_rad": 4.362975692040917e-08,
+      "XYZ_max_m": 1.770594337813236e-08,
+      "command_achieved_max_abs_difference": 0.457157701253891,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "e914b56937204126429c1caa24d037a0e4094351032137468c22811368967b54",
+      "uid": "VAL-20003-a060"
+    },
+    {
+      "SO3_max_rad": 4.524279488591969e-09,
+      "XYZ_max_m": 3.725290298461914e-09,
+      "command_achieved_max_abs_difference": 0.5427815914154053,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "6dfe75069df3a4261a58e31f26152c9ec86d1b08c881b5933b1b101ac8bec83a",
+      "uid": "VAL-20003-a121"
+    },
+    {
+      "SO3_max_rad": 5.05866204954736e-08,
+      "XYZ_max_m": 2.2351741790771484e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "b5873cd099138a55e0bab3d29b2d29345aba6b38728d30528c9bd7fd5527383a",
+      "uid": "VAL-20004-a000"
+    },
+    {
+      "SO3_max_rad": 5.080636841288276e-08,
+      "XYZ_max_m": 1.7071425162384912e-08,
+      "command_achieved_max_abs_difference": 0.999497652053833,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "bac1c1294ff6602da4bfbd95f7f8552447be2e7ec7493a6a81237ca019d1c262",
+      "uid": "VAL-20004-a042"
+    },
+    {
+      "SO3_max_rad": 5.0835623112662133e-08,
+      "XYZ_max_m": 1.666000493116826e-08,
+      "command_achieved_max_abs_difference": 0.4570068120956421,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998211860657,
+        "minimum_first_row_norm": 0.9999998807907104
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "05c56f64e4a1afaa0b6b9cdd4d2fcd92d1dc0be26d1b0ebbd63f38205778802c",
+      "uid": "VAL-20004-a048"
+    },
+    {
+      "SO3_max_rad": 1.4865766865404273e-08,
+      "XYZ_max_m": 6.2475016271434924e-09,
+      "command_achieved_max_abs_difference": 0.5429600477218628,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "6d2ce9e844fb97d46555f257ab8520ef9aca49bfad1dcb225ec5ac6220cede2a",
+      "uid": "VAL-20004-a096"
+    },
+    {
+      "SO3_max_rad": 4.355073060416762e-08,
+      "XYZ_max_m": 2.107342389479072e-08,
+      "command_achieved_max_abs_difference": 0.000500023365020752,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "84ed8a5f0b47b5e27a10095dbec93b56afed960c2472c99f7034ec938a318f1b",
+      "uid": "VAL-20005-a000"
+    },
+    {
+      "SO3_max_rad": 4.4310030077603075e-08,
+      "XYZ_max_m": 1.862645149230957e-08,
+      "command_achieved_max_abs_difference": 0.9994975328445435,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "1e4f9a0c1e7dac6b53f87d45c85d896695b86420b6184cfadcf9b1772b9c0e24",
+      "uid": "VAL-20005-a052"
+    },
+    {
+      "SO3_max_rad": 4.409046843075056e-08,
+      "XYZ_max_m": 2.686345013103164e-08,
+      "command_achieved_max_abs_difference": 0.456666499376297,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999998807907104,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 0.9999999403953552,
+        "minimum_first_row_norm": 0.9999999403953552
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "36a795b9939e7f8877b45e6a86f77dc766efef4db753a62faf79fb5507f06ad0",
+      "uid": "VAL-20005-a058"
+    },
+    {
+      "SO3_max_rad": 4.133276270574387e-09,
+      "XYZ_max_m": 7.450580596923828e-09,
+      "command_achieved_max_abs_difference": 0.5433407425880432,
+      "command_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0000001192092896,
+        "minimum_first_row_norm": 1.0
+      },
+      "decoded_rot6d_validity": {
+        "degenerate_count": 0,
+        "minimum_cross_norm": 1.0,
+        "minimum_first_row_norm": 1.0
+      },
+      "gripper_max_fraction": 0.0,
+      "nonfinite": false,
+      "split": "VAL",
+      "tensor_sha256": "3f45d74c294dbf77ca542ffe6f4a078da1e0d39660cdc1ef83ee5dd6dce6bfbe",
+      "uid": "VAL-20005-a102"
+    }
+  ],
+  "inference_input_labels_removed_parity": true,
+  "model_forward": 0,
+  "moving_anchor_nonidentity_native_conversion": true,
+  "native_collator_vs_cached_batch_sha256": "e303771214da52a89a9c0d854b8c61b3031addbc37fbac3638aaf31ac11459a3",
+  "ordered_workers": 2,
+  "physics": 0,
+  "pin_memory_effective_cpu_only": false,
+  "pin_memory_requested": true,
+  "state_shape": [
+    1,
+    132
+  ],
+  "status": "PASS_NATIVE_INPUT_MASK_LEAK_AND_TWO_WORKER_BYTE_PARITY",
+  "training": 0,
+  "worker_batch_sha256": [
+    "e303771214da52a89a9c0d854b8c61b3031addbc37fbac3638aaf31ac11459a3",
+    "2b9d1f0541727d898a811f6129f6ecc4c786522292251794d7dbf79769e1b2f6",
+    "970b36ed7f69a332fda07520eb46987ecc55c798b5c08dea9f53fce864339c8c",
+    "37c556c50a74425a6e8b2ec9a889e79e1271e280ff4bfa15829768cbca3c1e28",
+    "43020fa93c8abc734909e14213709e781e090234bfa025d1f8b5a61db8e9fed2",
+    "08d2e3217db5a1ae795d595ddc115cdc2196ecc70cb37e6c8a43037f7b690800",
+    "14636eee5a78eff53f6c30a37b6fce6b19ae9cfda134073abd5ae1334c152402",
+    "c497fcde2ead4896e1c249e6fced2628a86f4db5bffcf3aae37d3ae3a3d064d3",
+    "17be4b36397b3d2edfb6e9fe833f88acacfb86218ca67712b6003b1f45bb8beb",
+    "65749f3e0f161a37372239d7c515c45fe477624ef2fbece475cd989a4cc4519b",
+    "f815f64d94f1563a18cde5e5e3050690d30f35c6ba4558cb741b748ae153cca7",
+    "4d0dd591528ff708028f33e982e48b8abc38b4f3a2990841123c7efa77b076b0"
+  ]
+}

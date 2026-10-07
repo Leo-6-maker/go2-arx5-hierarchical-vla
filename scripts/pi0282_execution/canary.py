@@ -2,11 +2,16 @@
 import argparse,json,hashlib
 from pathlib import Path
 import torch
+import numpy as np
 from safetensors import safe_open
 from learning import tensor_tree
 
 
 def equal(a,b,tolerance=False):
+    if isinstance(a,np.ndarray):
+        assert isinstance(b,np.ndarray) and a.shape==b.shape and a.dtype==b.dtype
+        assert np.array_equal(a,b),'CANARY_NUMPY_RNG_MISMATCH'
+        return True
     if torch.is_tensor(a):
         assert torch.is_tensor(b) and a.shape==b.shape and a.dtype==b.dtype
         assert torch.isfinite(a).all() and torch.isfinite(b).all()

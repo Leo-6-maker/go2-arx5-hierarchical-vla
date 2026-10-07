@@ -1,0 +1,66 @@
+{
+  "status": "PASS_ALL_STATIC_CPU_STAGES",
+  "stages": [
+    {
+      "operation": "statistics",
+      "exitcode": 0,
+      "elapsed_seconds": 215.45861069997773
+    },
+    {
+      "operation": "materialize",
+      "exitcode": 0,
+      "elapsed_seconds": 240.56516073504463
+    },
+    {
+      "operation": "roundtrip",
+      "exitcode": 0,
+      "elapsed_seconds": 598.3486731529702
+    },
+    {
+      "operation": "check",
+      "exitcode": 0,
+      "elapsed_seconds": 51.14092080411501
+    }
+  ],
+  "elapsed_seconds": 1105.5240202909335,
+  "rusage_children": [
+    762.858934,
+    13.027803,
+    1341624,
+    0,
+    0,
+    0,
+    1285931,
+    381,
+    0,
+    68174016,
+    13615184,
+    0,
+    0,
+    0,
+    330510,
+    11237
+  ],
+  "rusage_self": [
+    0.017723,
+    0.0010249999999999999,
+    16676,
+    0,
+    0,
+    0,
+    1607,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    27,
+    0
+  ],
+  "training": 0,
+  "model_forward": 0,
+  "physics": 0,
+  "CUDA_VISIBLE_DEVICES": ""
+}
