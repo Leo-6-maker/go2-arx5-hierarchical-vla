@@ -16,7 +16,7 @@ env=dict(os.environ,OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS
 started=time.time()
 with (root/'runtime'/{(phase+'.log')!r}).open('ab') as log:r=subprocess.run([{python!r},'-u',target,*args],env=env,stdout=log,stderr=subprocess.STDOUT)
 value=dict(returncode=r.returncode,target=target,arguments=args,wall_s=time.time()-started)
-p=root/'runtime'/{(phase+'.done.json')!r};tmp=p.with_suffix('.partial');tmp.write_text(json.dumps(value)+'\n');tmp.replace(p)
+p=root/'runtime'/{(phase+'.done.json')!r};tmp=p.with_suffix('.partial');tmp.write_text(json.dumps(value)+'\\n');tmp.replace(p)
 '''
     program=f'''import fcntl,json,subprocess,sys
 from pathlib import Path
@@ -29,10 +29,11 @@ with (runtime/{(phase+'.lock')!r}).open('a') as lock:
  if value['status']=='NEW':
   argv=[sys.executable,'-u','-c',{worker!r}]
   with (runtime/{(phase+'.worker.log')!r}).open('ab') as log:p=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
-  start.write_text(json.dumps(dict(pid=p.pid,target={target!r},arguments={args!r},wrapper_argv=argv))+'\n')
+  start.write_text(json.dumps(dict(pid=p.pid,target={target!r},arguments={args!r},wrapper_argv=argv))+'\\n')
   value=dict(status='RUNNING',pid=p.pid,phase={phase!r})
 print(json.dumps(value))
 '''
+    compile(worker,'finite-worker','exec');compile(program,'finite-launch','exec')
     value=json.loads(remote('core',program));print(json.dumps(value),flush=True);assert value['status']!='FAILED',value
     return value
 
