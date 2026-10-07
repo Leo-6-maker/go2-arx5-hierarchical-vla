@@ -1,0 +1,4144 @@
+{
+  "schema": "PI0282_SENIOR_WBC_HANDOFF_V1",
+  "status": "SEALED_EXISTING_EVIDENCE_HANDOFF_TARGET_BLOCKED",
+  "authority_release": "8fdaab73b8b6686409317d9562833235c2839acc",
+  "canonical": 6043060523,
+  "source": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/evidence/WBC_BINDING.json",
+    "bytes": 27071,
+    "sha256": "4c6b3e09ff563fd4edeb50263d0f9abfdaf12d28c65078bbc136e745fd05d8ee"
+  },
+  "frozen_original_index": [
+    {
+      "name": "scripts/native_wbc_benchmark.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/native_wbc_benchmark.py",
+      "sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8",
+      "bytes": 40578,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 40578,
+      "current_mtime_ns": 1790513627541246435,
+      "current_sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8"
+    },
+    {
+      "name": "scripts/stage21_native_receding_horizon.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage21_native_receding_horizon.py",
+      "sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00",
+      "bytes": 55403,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 55403,
+      "current_mtime_ns": 1790513628636251403,
+      "current_sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00"
+    },
+    {
+      "name": "scripts/stage22_native_expert_dataset.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage22_native_expert_dataset.py",
+      "sha256": "0ab3f9546cf4a766010f2349d6851f17b3e66d110f8c4c2c3548f867664cad6e",
+      "bytes": 27699,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 27699,
+      "current_mtime_ns": 1790513629165253804,
+      "current_sha256": "0ab3f9546cf4a766010f2349d6851f17b3e66d110f8c4c2c3548f867664cad6e"
+    },
+    {
+      "name": "src/go2arx5_vla/wbc/native/kinematics.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/wbc/native/kinematics.py",
+      "sha256": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315",
+      "bytes": 7834,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 7834,
+      "current_mtime_ns": 1790513634558278328,
+      "current_sha256": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315"
+    },
+    {
+      "name": "arm_checkpoint",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+      "bytes": 52693641,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 52693641,
+      "current_mtime_ns": 1786046292000000000
+    },
+    {
+      "name": "dog_checkpoint",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+      "bytes": 12607221,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 12607221,
+      "current_mtime_ns": 1786046294000000000
+    },
+    {
+      "name": "legged_robot",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/legged_robot.py",
+      "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60",
+      "bytes": 136506,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 136506,
+      "current_mtime_ns": 1785121521000000000,
+      "current_sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+    },
+    {
+      "name": "native_config",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+      "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb",
+      "bytes": 28299,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 28299,
+      "current_mtime_ns": 1785928764000000000,
+      "current_sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+    },
+    {
+      "name": "native_reach_table",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/reach_tables/go2_x5_2d.pt",
+      "sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa",
+      "bytes": 32868,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 32868,
+      "current_mtime_ns": 1785641946000000000,
+      "current_sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa"
+    },
+    {
+      "name": "native_urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+      "bytes": 34918,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34918,
+      "current_mtime_ns": 1784789040000000000,
+      "current_sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    },
+    {
+      "name": "trajectory_module",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+      "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a",
+      "bytes": 24861,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 24861,
+      "current_mtime_ns": 1785642562000000000,
+      "current_sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+    },
+    {
+      "name": "wbc_env",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+      "bytes": 141128,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 141128,
+      "current_mtime_ns": 1788153413000000000,
+      "current_sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    {
+      "name": "wbc_wrapper",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env_wrapper.py",
+      "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7",
+      "bytes": 36017,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 36017,
+      "current_mtime_ns": 1788153413000000000,
+      "current_sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+    },
+    {
+      "name": "compatibility_shim",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/PI0226_pytorch3d_shim/pytorch3d/transforms.py",
+      "sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282",
+      "bytes": 1041,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 1041,
+      "current_mtime_ns": 1790596559007392735,
+      "current_sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/__init__.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/__init__.py",
+      "sha256": "2afb6fdc2089e02035c02320b94115e7be9938a4840f8c9210f87daf90c62fcf",
+      "bytes": 497,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 497,
+      "current_mtime_ns": 1790513632223267702,
+      "current_sha256": "2afb6fdc2089e02035c02320b94115e7be9938a4840f8c9210f87daf90c62fcf"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/motion_intent.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/motion_intent.py",
+      "sha256": "f4bb1c763d975941c1db5b44181432236281f3a8d7fc8c3352f899ef1ec78746",
+      "bytes": 19595,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 19595,
+      "current_mtime_ns": 1790513632223267702,
+      "current_sha256": "f4bb1c763d975941c1db5b44181432236281f3a8d7fc8c3352f899ef1ec78746"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/placement.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/placement.py",
+      "sha256": "f80630b2f8750cd52380005027ab6a36185024b0d422b912967ddcfda4fb43c4",
+      "bytes": 2018,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 2018,
+      "current_mtime_ns": 1790513632223267702,
+      "current_sha256": "f80630b2f8750cd52380005027ab6a36185024b0d422b912967ddcfda4fb43c4"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/reference_binding.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/reference_binding.py",
+      "sha256": "df5832b462a455981faa530356d2885994ba6f2cec6e120c4b062a9fdc6de524",
+      "bytes": 9478,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 9478,
+      "current_mtime_ns": 1790513632275267938,
+      "current_sha256": "df5832b462a455981faa530356d2885994ba6f2cec6e120c4b062a9fdc6de524"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory.py",
+      "sha256": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5",
+      "bytes": 9078,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 9078,
+      "current_mtime_ns": 1790513632283267974,
+      "current_sha256": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory_shape.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory_shape.py",
+      "sha256": "68d20f3ba8b007a2fe5f22c827c5578d8be578f207233d4e5ed6c4356f4e529d",
+      "bytes": 6354,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 6354,
+      "current_mtime_ns": 1790513632310268097,
+      "current_sha256": "68d20f3ba8b007a2fe5f22c827c5578d8be578f207233d4e5ed6c4356f4e529d"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/__init__.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/__init__.py",
+      "sha256": "89b0d30a3cf894c056bb2ef9ac77f6259ccfd3fbd6db618ee824d949ad56243d",
+      "bytes": 456,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 456,
+      "current_mtime_ns": 1790513634226276815,
+      "current_sha256": "89b0d30a3cf894c056bb2ef9ac77f6259ccfd3fbd6db618ee824d949ad56243d"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/trajectory_gate.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/trajectory_gate.py",
+      "sha256": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4",
+      "bytes": 22574,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 22574,
+      "current_mtime_ns": 1790513634286277089,
+      "current_sha256": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4"
+    },
+    {
+      "name": "go1_gym/envs/config/__init__.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/__init__.py",
+      "sha256": "7297b5b522b4aa8f0627a68ed5b42e1dbc458471cb8d08ae7179a5c8fbc88b6a",
+      "bytes": 1144,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 1144,
+      "current_mtime_ns": 1785741695000000000,
+      "current_sha256": "7297b5b522b4aa8f0627a68ed5b42e1dbc458471cb8d08ae7179a5c8fbc88b6a"
+    },
+    {
+      "name": "go1_gym/envs/config/core.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/core.py",
+      "sha256": "fae8db47633677e16e9b894d9881e0ae6e89a2e8ff2b966038ab1d64b5cde1a8",
+      "bytes": 28283,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 28283,
+      "current_mtime_ns": 1788153413000000000,
+      "current_sha256": "fae8db47633677e16e9b894d9881e0ae6e89a2e8ff2b966038ab1d64b5cde1a8"
+    },
+    {
+      "name": "go1_gym/envs/config/go1.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/go1.py",
+      "sha256": "5399dec8fd677aa6f0a264704286a2fd7cf46321e6a2b349c0d2a02d0c031cf8",
+      "bytes": 3179,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 3179,
+      "current_mtime_ns": 1784805843000000000,
+      "current_sha256": "5399dec8fd677aa6f0a264704286a2fd7cf46321e6a2b349c0d2a02d0c031cf8"
+    },
+    {
+      "name": "go1_gym/envs/config/legged_robot.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/legged_robot.py",
+      "sha256": "3cfc9ad36c63b67199d983655c87d280352e2ccfb1f336fd0f652b4ca306cf9a",
+      "bytes": 16241,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 16241,
+      "current_mtime_ns": 1784805904000000000,
+      "current_sha256": "3cfc9ad36c63b67199d983655c87d280352e2ccfb1f336fd0f652b4ca306cf9a"
+    },
+    {
+      "name": "go1_gym/envs/config/wbc.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/wbc.py",
+      "sha256": "a4f6764eb2a34a74efc88025669c2cb6338090f00470bf1e4192cfc389ce277d",
+      "bytes": 28302,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 28302,
+      "current_mtime_ns": 1788153413000000000,
+      "current_sha256": "a4f6764eb2a34a74efc88025669c2cb6338090f00470bf1e4192cfc389ce277d"
+    },
+    {
+      "name": "go1_gym/envs/config/wtw.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/wtw.py",
+      "sha256": "c7e6cddc8acfcf386a9b739a38d01f9d4800a4e826fe5e15c4b805b53f8840b2",
+      "bytes": 8349,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 8349,
+      "current_mtime_ns": 1784890131000000000,
+      "current_sha256": "c7e6cddc8acfcf386a9b739a38d01f9d4800a4e826fe5e15c4b805b53f8840b2"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/config/ocs2/task.info",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/config/ocs2/task.info",
+      "sha256": "67080b4ca33e94798fd6bb0608f5ae7dd4de3a48759423e95cf1f7699d5a64f9",
+      "bytes": 6922,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 6922,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "67080b4ca33e94798fd6bb0608f5ae7dd4de3a48759423e95cf1f7699d5a64f9"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/config/ros2_control/arx_r5.yaml",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/config/ros2_control/arx_r5.yaml",
+      "sha256": "f49489a8a7f00eaa55f3c5573edef31cfb4e26e68e59568168c84daabae915b6",
+      "bytes": 1184,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 1184,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "f49489a8a7f00eaa55f3c5573edef31cfb4e26e68e59568168c84daabae915b6"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/config/ros2_control/ros2_controllers.yaml",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/config/ros2_control/ros2_controllers.yaml",
+      "sha256": "c48edef07498525d35737b94e30bb5ce76ff27d9c8e2dee33a54d224c302ad3f",
+      "bytes": 1220,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 1220,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "c48edef07498525d35737b94e30bb5ce76ff27d9c8e2dee33a54d224c302ad3f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link5.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link5.glb",
+      "sha256": "d16c987533394d26597b44e06ac5931a1fb0a0cfb5a4890171bfcd0508cdbe5e",
+      "bytes": 781068,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 781068,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "d16c987533394d26597b44e06ac5931a1fb0a0cfb5a4890171bfcd0508cdbe5e"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link6.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link6.glb",
+      "sha256": "778f3444b3537a038f56674f1fec77a0a08ddef07e56d9e35fcbe70ff1b2a2e4",
+      "bytes": 875960,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 875960,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "778f3444b3537a038f56674f1fec77a0a08ddef07e56d9e35fcbe70ff1b2a2e4"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link7.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link7.glb",
+      "sha256": "c3ba62861fb7dbcc7e3b66d0138cc659d4e6c375429591ec9155f40f3a507ca8",
+      "bytes": 232216,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 232216,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "c3ba62861fb7dbcc7e3b66d0138cc659d4e6c375429591ec9155f40f3a507ca8"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link8.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link8.glb",
+      "sha256": "f90810e84c00d69593eae9ab367de77c68bcd69182e328fbde9a908b49fb415c",
+      "bytes": 232496,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 232496,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "f90810e84c00d69593eae9ab367de77c68bcd69182e328fbde9a908b49fb415c"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.glb",
+      "sha256": "63f3c30cf5c9deb11d99b7284af672ef3148371a8e315ece5d253907fdce1bc4",
+      "bytes": 34012,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34012,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "63f3c30cf5c9deb11d99b7284af672ef3148371a8e315ece5d253907fdce1bc4"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.mtl",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.mtl",
+      "sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea",
+      "bytes": 240,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 240,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.obj",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.obj",
+      "sha256": "28ac8639c03eec898e63a30ab63636de98ba96c77df8958f6d4c43d3ecae07b0",
+      "bytes": 37172,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 37172,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "28ac8639c03eec898e63a30ab63636de98ba96c77df8958f6d4c43d3ecae07b0"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.glb",
+      "sha256": "876cf1fa42e94f041bce09460f58d7ab6bfc89d070f745f6bb016c827d346732",
+      "bytes": 42632,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 42632,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "876cf1fa42e94f041bce09460f58d7ab6bfc89d070f745f6bb016c827d346732"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.mtl",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.mtl",
+      "sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea",
+      "bytes": 240,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 240,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.obj",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.obj",
+      "sha256": "67ab5f96c83d7ecb89492dba6b0934b7b194d647581aafba3456aa84cff1d072",
+      "bytes": 42908,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 42908,
+      "current_mtime_ns": 1784560967000000000,
+      "current_sha256": "67ab5f96c83d7ecb89492dba6b0934b7b194d647581aafba3456aa84cff1d072"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/base.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/base.dae",
+      "sha256": "ac4d5de5870c3dca89c7bfa5f7670d9aeb336cabd5e862d4a0dfe8a1a17c5be4",
+      "bytes": 10727399,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 10727399,
+      "current_mtime_ns": 1784745549000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/calf.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/calf.dae",
+      "sha256": "0e15d069faa4984ec85890e2cb6119b757d75ff44480018ada3e13c3ebb8e537",
+      "bytes": 1125517,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 1125517,
+      "current_mtime_ns": 1784745550000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/calf_mirror.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/calf_mirror.dae",
+      "sha256": "69305f09d67ab5d27cf07ecdf91b7d17aa8faba6556b16757f31d9f57ea7beec",
+      "bytes": 1125457,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 1125457,
+      "current_mtime_ns": 1784745550000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/foot.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/foot.dae",
+      "sha256": "1e621a5c8571eb486802a862f4f9fdd2f4feaecff0cb2ead85b5208cf41345a7",
+      "bytes": 506988,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 506988,
+      "current_mtime_ns": 1784745550000000000,
+      "current_sha256": "1e621a5c8571eb486802a862f4f9fdd2f4feaecff0cb2ead85b5208cf41345a7"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/hip.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/hip.dae",
+      "sha256": "3e8c23a440cea642c4b276d42c0ed02968bc2718a86306e66c6a213fd2b235eb",
+      "bytes": 4666421,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 4666421,
+      "current_mtime_ns": 1784745550000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/thigh.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/thigh.dae",
+      "sha256": "276a3b48122946f7c00cd20b186f96bad11fc027dc51c43a9ae7998b85840d69",
+      "bytes": 3884136,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 3884136,
+      "current_mtime_ns": 1784745550000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/thigh_mirror.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/thigh_mirror.dae",
+      "sha256": "6b8bd43781322953a90c7f5258914a22b224dc95a33bb41b0431f83f4f3affaa",
+      "bytes": 3896575,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 3896575,
+      "current_mtime_ns": 1784745550000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/base_link.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/base_link.glb",
+      "sha256": "75543bbce045a98ad1c16ebfe94b11104cb7ec7d8286c26cae68e28fc5154b2b",
+      "bytes": 1702556,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 1702556,
+      "current_mtime_ns": 1784560968000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link1.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link1.glb",
+      "sha256": "1f56f8a2de8c461e8b606e17c94062ad11663e7aadd7a34cfcd67e61734b318e",
+      "bytes": 134056,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 134056,
+      "current_mtime_ns": 1784560968000000000,
+      "current_sha256": "1f56f8a2de8c461e8b606e17c94062ad11663e7aadd7a34cfcd67e61734b318e"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link2.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link2.glb",
+      "sha256": "2ccb31ed002ce950d38339429eb5380fd9d5685ae0d9a3856a5260b035343301",
+      "bytes": 5195976,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 5195976,
+      "current_mtime_ns": 1784560968000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link3.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link3.glb",
+      "sha256": "39fd0f700c60c8291e1049f652897df201f4f4e68286f3918a4da958f6d3608f",
+      "bytes": 1270216,
+      "exists": true,
+      "readback": "SEALED_PRIOR_HASH_INDEX_NOT_REHASHED",
+      "current_bytes": 1270216,
+      "current_mtime_ns": 1784560968000000000
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link4.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link4.glb",
+      "sha256": "f9152343a93ed7697a5d8020ae4f53250229bbc56d9fc8cea7c2dc17273f18eb",
+      "bytes": 138052,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 138052,
+      "current_mtime_ns": 1784560968000000000,
+      "current_sha256": "f9152343a93ed7697a5d8020ae4f53250229bbc56d9fc8cea7c2dc17273f18eb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link5.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link5.glb",
+      "sha256": "74e4f5799971d6ead6845710f4b73374c84b0d9a7b08236e2abea429956ce33f",
+      "bytes": 656324,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 656324,
+      "current_mtime_ns": 1784560968000000000,
+      "current_sha256": "74e4f5799971d6ead6845710f4b73374c84b0d9a7b08236e2abea429956ce33f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/arx5.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/arx5.urdf",
+      "sha256": "1c53d97394e7407ec90630e84c534ac8df7ff9bd4210e4bceb584a80d2200040",
+      "bytes": 10105,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 10105,
+      "current_mtime_ns": 1784560968000000000,
+      "current_sha256": "1c53d97394e7407ec90630e84c534ac8df7ff9bd4210e4bceb584a80d2200040"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/arx5_ac1.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/arx5_ac1.urdf",
+      "sha256": "d48ac9c9ff66c48da55a9a4a5c8aedbca2ec773d701293bbbe8664678a0c8e3f",
+      "bytes": 10250,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 10250,
+      "current_mtime_ns": 1784560968000000000,
+      "current_sha256": "d48ac9c9ff66c48da55a9a4a5c8aedbca2ec773d701293bbbe8664678a0c8e3f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_description.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_description.urdf",
+      "sha256": "6a39d3ef547d3165d957e42b6c11d59279814dbb28e7449486213818b6aee7b3",
+      "bytes": 27492,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 27492,
+      "current_mtime_ns": 1784560968000000000,
+      "current_sha256": "6a39d3ef547d3165d957e42b6c11d59279814dbb28e7449486213818b6aee7b3"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+      "bytes": 34918,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34918,
+      "current_mtime_ns": 1784789040000000000,
+      "current_sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_00.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_00.urdf",
+      "sha256": "a15d12e9f72fe4b4a5bbe8e746675aecd8fd09bd82945428904d51fbbb635a79",
+      "bytes": 34174,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34174,
+      "current_mtime_ns": 1784789981000000000,
+      "current_sha256": "a15d12e9f72fe4b4a5bbe8e746675aecd8fd09bd82945428904d51fbbb635a79"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_01.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_01.urdf",
+      "sha256": "1522b71c4d742d570a8e71ed9c4b50adb41ac840556930a2a03097f24f0435eb",
+      "bytes": 34227,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34227,
+      "current_mtime_ns": 1784789981000000000,
+      "current_sha256": "1522b71c4d742d570a8e71ed9c4b50adb41ac840556930a2a03097f24f0435eb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_02.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_02.urdf",
+      "sha256": "348ce12a05bc78947e55e1671dcebf9f9185fa27c981ebbd3af40eb1c4be8ef9",
+      "bytes": 34225,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34225,
+      "current_mtime_ns": 1784789981000000000,
+      "current_sha256": "348ce12a05bc78947e55e1671dcebf9f9185fa27c981ebbd3af40eb1c4be8ef9"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_03.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_03.urdf",
+      "sha256": "7ffb1cd9aede3514761ac3750aa0d50883b6244d750685658edb0f39480771ac",
+      "bytes": 34224,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34224,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "7ffb1cd9aede3514761ac3750aa0d50883b6244d750685658edb0f39480771ac"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_04.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_04.urdf",
+      "sha256": "a83e8d3d69cb5bdaeb71070078f61587c1b3a5a52183466c18e6a80c679ca9ff",
+      "bytes": 34222,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34222,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "a83e8d3d69cb5bdaeb71070078f61587c1b3a5a52183466c18e6a80c679ca9ff"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_05.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_05.urdf",
+      "sha256": "ecb7095741debe16f07d72a193b4d25cb245ef14d060e47b7a2872c7aade9b3e",
+      "bytes": 34224,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34224,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "ecb7095741debe16f07d72a193b4d25cb245ef14d060e47b7a2872c7aade9b3e"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_06.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_06.urdf",
+      "sha256": "b9035307eb21156f7cc5425845dca66ec9d29bb8f071e78591fcd895c0219ec2",
+      "bytes": 34224,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34224,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "b9035307eb21156f7cc5425845dca66ec9d29bb8f071e78591fcd895c0219ec2"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_07.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_07.urdf",
+      "sha256": "2b21841f53a91341b3275adab71174c9ca607d654a7a81cda920c0e842e889b5",
+      "bytes": 34223,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34223,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "2b21841f53a91341b3275adab71174c9ca607d654a7a81cda920c0e842e889b5"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_08.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_08.urdf",
+      "sha256": "09c19480ed3fff8aa8bd1689431272443a6c926efe6301514d7aecb8264364f7",
+      "bytes": 34226,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34226,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "09c19480ed3fff8aa8bd1689431272443a6c926efe6301514d7aecb8264364f7"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_09.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_09.urdf",
+      "sha256": "ab80dca1fa9f639f797c82dc2a1099d4976dd67b2ac1908d5559edc8afbda039",
+      "bytes": 34226,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34226,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "ab80dca1fa9f639f797c82dc2a1099d4976dd67b2ac1908d5559edc8afbda039"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_10.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_10.urdf",
+      "sha256": "c57ff516f102a0363e33cc74cccdf4982b76e2cca2416baafe091e09dad2f52f",
+      "bytes": 34222,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34222,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "c57ff516f102a0363e33cc74cccdf4982b76e2cca2416baafe091e09dad2f52f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_11.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_11.urdf",
+      "sha256": "13a00f591d624ff7bc6c6fc2b9a63914a10cdc58469b8762ea10a464a7e7fafb",
+      "bytes": 34224,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34224,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "13a00f591d624ff7bc6c6fc2b9a63914a10cdc58469b8762ea10a464a7e7fafb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_12.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_12.urdf",
+      "sha256": "5560b419b9cd0bac9f748eb63e785a3cf96652d8b95e404e6142e4b07b54f1bb",
+      "bytes": 34219,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34219,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "5560b419b9cd0bac9f748eb63e785a3cf96652d8b95e404e6142e4b07b54f1bb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_13.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_13.urdf",
+      "sha256": "278a60c441bbfe9a9d6ce8b4b7c6acbbad8b6d9c63feab100e5f986c90287522",
+      "bytes": 34227,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34227,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "278a60c441bbfe9a9d6ce8b4b7c6acbbad8b6d9c63feab100e5f986c90287522"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_14.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_14.urdf",
+      "sha256": "129f3df6a652dec7c1d0b3c09722218cef94d6e44b5b4b4918702947e910a500",
+      "bytes": 34223,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34223,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "129f3df6a652dec7c1d0b3c09722218cef94d6e44b5b4b4918702947e910a500"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_15.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_15.urdf",
+      "sha256": "836ddb9926e4274b984f60fb549c55033074ce5aea91b15b1af15c848b9a82b7",
+      "bytes": 34225,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 34225,
+      "current_mtime_ns": 1784789982000000000,
+      "current_sha256": "836ddb9926e4274b984f60fb549c55033074ce5aea91b15b1af15c848b9a82b7"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/unitree_go2.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/unitree_go2.urdf",
+      "sha256": "76b4452afd3daf56be193cf3c3d01fc75126d338a704d7cd03a95bf24b39b89d",
+      "bytes": 17381,
+      "exists": true,
+      "readback": "CURRENT_SMALL_FILE_HASH_MATCH",
+      "current_bytes": 17381,
+      "current_mtime_ns": 1784811641000000000,
+      "current_sha256": "76b4452afd3daf56be193cf3c3d01fc75126d338a704d7cd03a95bf24b39b89d"
+    }
+  ],
+  "core_metadata_copies": [
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/evidence/WBC_BINDING.json",
+        "bytes": 27071,
+        "sha256": "4c6b3e09ff563fd4edeb50263d0f9abfdaf12d28c65078bbc136e745fd05d8ee"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/4c6b3e09ff56-WBC_BINDING.json",
+        "bytes": 27071,
+        "sha256": "4c6b3e09ff563fd4edeb50263d0f9abfdaf12d28c65078bbc136e745fd05d8ee"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/design/WBC_CONFIG.json",
+        "bytes": 56361,
+        "sha256": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/4d056215bec5-WBC_CONFIG.json",
+        "bytes": 56361,
+        "sha256": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/CPU_PROJECTION.json",
+        "bytes": 183006,
+        "sha256": "5e6d7fd6c22b0e7553f7124cde066d3fb73c47c0266fffe885d0940de42f7a93"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/5e6d7fd6c22b-CPU_PROJECTION.json",
+        "bytes": 183006,
+        "sha256": "5e6d7fd6c22b0e7553f7124cde066d3fb73c47c0266fffe885d0940de42f7a93"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/REPAIR_CARD.json",
+        "bytes": 7820,
+        "sha256": "63b5846115899624892e0bf39fae4370db4ffa2353145a8c78a416edd2e06515"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/63b584611589-REPAIR_CARD.json",
+        "bytes": 7820,
+        "sha256": "63b5846115899624892e0bf39fae4370db4ffa2353145a8c78a416edd2e06515"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/REPAIR_INSTALLATION_DEFECT.json",
+        "bytes": 1666,
+        "sha256": "e8a32535bc0e8b5429e4637691f8289266cd67be380f07148b46ba6a0c8ff867"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/e8a32535bc0e-REPAIR_INSTALLATION_DEFECT.json",
+        "bytes": 1666,
+        "sha256": "e8a32535bc0e8b5429e4637691f8289266cd67be380f07148b46ba6a0c8ff867"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/REPAIR_INSTALLATION_CPU_CHECK.json",
+        "bytes": 412,
+        "sha256": "801257fc806930f1375315b2c140e6509da61531d0c2fd937d6b93d7266d84cc"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/801257fc8069-REPAIR_INSTALLATION_CPU_CHECK.json",
+        "bytes": 412,
+        "sha256": "801257fc806930f1375315b2c140e6509da61531d0c2fd937d6b93d7266d84cc"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/WBC_VIDEOS.json",
+        "bytes": 5860,
+        "sha256": "463c4203cd7ff7f7c1a88519c7990489e58b88cf493248612d862ba19aa054fa"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/463c4203cd7f-WBC_VIDEOS.json",
+        "bytes": 5860,
+        "sha256": "463c4203cd7ff7f7c1a88519c7990489e58b88cf493248612d862ba19aa054fa"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/FIXTURE_READOUT.json",
+        "bytes": 784279,
+        "sha256": "bbd79b149de19ada1cca7ed625d41d13ff4c02019447e55b486733590ef9f505"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/bbd79b149de1-FIXTURE_READOUT.json",
+        "bytes": 784279,
+        "sha256": "bbd79b149de19ada1cca7ed625d41d13ff4c02019447e55b486733590ef9f505"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+        "bytes": 34918,
+        "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/96c1a81e3dd4-go2_x5.urdf",
+        "bytes": 34918,
+        "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+        "bytes": 28299,
+        "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/56132d4ff9b8-wbc.py",
+        "bytes": 28299,
+        "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/PI0226_pytorch3d_shim/pytorch3d/transforms.py",
+        "bytes": 1041,
+        "sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/c7bbd05bfffe-transforms.py",
+        "bytes": 1041,
+        "sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/native_wbc_benchmark.py",
+        "bytes": 40578,
+        "sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/41059b8a24de-native_wbc_benchmark.py",
+        "bytes": 40578,
+        "sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage21_native_receding_horizon.py",
+        "bytes": 55403,
+        "sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/753244da3f4c-stage21_native_receding_horizon.py",
+        "bytes": 55403,
+        "sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env_wrapper.py",
+        "bytes": 36017,
+        "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/9fa688ce7c3f-wbc_env_wrapper.py",
+        "bytes": 36017,
+        "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+        "bytes": 141128,
+        "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/e39e1bb1dfe4-wbc_env.py",
+        "bytes": 141128,
+        "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/legged_robot.py",
+        "bytes": 136506,
+        "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/4dc9107af7c1-legged_robot.py",
+        "bytes": 136506,
+        "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+        "bytes": 24861,
+        "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/8386841b29b5-trajectory.py",
+        "bytes": 24861,
+        "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+      }
+    },
+    {
+      "original": {
+        "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+        "bytes": 4495,
+        "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/67930f74384f-math_utils.py",
+        "bytes": 4495,
+        "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/code/audit_wbc.py",
+        "bytes": 9442,
+        "sha256": "e306876b4f1d02ec7160198e4dbe39a8a98edebfdb1778d7c2348a02ac4df3f7"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/e306876b4f1d-audit_wbc.py",
+        "bytes": 9442,
+        "sha256": "e306876b4f1d02ec7160198e4dbe39a8a98edebfdb1778d7c2348a02ac4df3f7"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/code/audit_saved.py",
+        "bytes": 36980,
+        "sha256": "7d37ed314dae1e2b0accfbf94ad49f6797ff7a6991305bd93f0aa3b35dc07ecd"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/7d37ed314dae-audit_saved.py",
+        "bytes": 36980,
+        "sha256": "7d37ed314dae1e2b0accfbf94ad49f6797ff7a6991305bd93f0aa3b35dc07ecd"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-native_hold.json",
+        "bytes": 7891,
+        "sha256": "fe191cbbd4bce04a66cc499cdd49b39372cc36ffb3ae2dde6dfbc306a9c1115f"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/fe191cbbd4bc-WBC-native_hold.json",
+        "bytes": 7891,
+        "sha256": "fe191cbbd4bce04a66cc499cdd49b39372cc36ffb3ae2dde6dfbc306a9c1115f"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-native_monotonic.json",
+        "bytes": 8077,
+        "sha256": "a257c95814a90cee945ab589838238f9bf7feb1eec82892a42db854c2189d8a4"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/a257c95814a9-WBC-native_monotonic.json",
+        "bytes": 8077,
+        "sha256": "a257c95814a90cee945ab589838238f9bf7feb1eec82892a42db854c2189d8a4"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-native_return.json",
+        "bytes": 15279,
+        "sha256": "c35d47ab239f51f09b782263f6ac122576532d45654b61cf9f159f712e09d961"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/c35d47ab239f-WBC-native_return.json",
+        "bytes": 15279,
+        "sha256": "c35d47ab239f51f09b782263f6ac122576532d45654b61cf9f159f712e09d961"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_hold-engineering-001.json",
+        "bytes": 8019,
+        "sha256": "8a4c1ef5a166fe9b58ad4826e678271ee79ef65f45f7dcc990982720f0214e19"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/8a4c1ef5a166-WBC-repair_hold-engineering-001.json",
+        "bytes": 8019,
+        "sha256": "8a4c1ef5a166fe9b58ad4826e678271ee79ef65f45f7dcc990982720f0214e19"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_monotonic-engineering-001.json",
+        "bytes": 8205,
+        "sha256": "1398e3089065ca4bd52b879da2f4d5cc1064318389645a82fb46ecf3f69d0d25"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/1398e3089065-WBC-repair_monotonic-engineering-001.json",
+        "bytes": 8205,
+        "sha256": "1398e3089065ca4bd52b879da2f4d5cc1064318389645a82fb46ecf3f69d0d25"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_return-engineering-001.json",
+        "bytes": 8204,
+        "sha256": "fb907df03f5b178178c7643ca3423ef3718938437863e3ae0782ed209e8bbf1e"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/fb907df03f5b-WBC-repair_return-engineering-001.json",
+        "bytes": 8204,
+        "sha256": "fb907df03f5b178178c7643ca3423ef3718938437863e3ae0782ed209e8bbf1e"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_cpu.py",
+        "bytes": 7449,
+        "sha256": "04c68779857d78920b0d1c4a4066b6d7ffd56c9583de9d42af65a4514b7ddaa8"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/04c68779857d-wbc_cpu.py",
+        "bytes": 7449,
+        "sha256": "04c68779857d78920b0d1c4a4066b6d7ffd56c9583de9d42af65a4514b7ddaa8"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_repair.py",
+        "bytes": 2006,
+        "sha256": "32d898f456f4204b2f30435963a02b85fe388d16f30105dd25605cf92c776f73"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/32d898f456f4-wbc_repair.py",
+        "bytes": 2006,
+        "sha256": "32d898f456f4204b2f30435963a02b85fe388d16f30105dd25605cf92c776f73"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+        "bytes": 14912,
+        "sha256": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/fcbc0d242103-wbc.py",
+        "bytes": 14912,
+        "sha256": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_launch.py",
+        "bytes": 3926,
+        "sha256": "763c514841606c6bf8b0d18a9a4844951e0dced93bb1c4e503b97822cd93b2d1"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/763c51484160-wbc_launch.py",
+        "bytes": 3926,
+        "sha256": "763c514841606c6bf8b0d18a9a4844951e0dced93bb1c4e503b97822cd93b2d1"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_readout.py",
+        "bytes": 4809,
+        "sha256": "e64b68475e83df0b6405d5b2970829e931c7d46d63634af268348da25617920e"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/e64b68475e83-wbc_readout.py",
+        "bytes": 4809,
+        "sha256": "e64b68475e83df0b6405d5b2970829e931c7d46d63634af268348da25617920e"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_batch.py",
+        "bytes": 1653,
+        "sha256": "3a310ef46c273cc8e086f6ae9797497d64262229e2f26f9631b29f8f12830925"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/3a310ef46c27-wbc_batch.py",
+        "bytes": 1653,
+        "sha256": "3a310ef46c273cc8e086f6ae9797497d64262229e2f26f9631b29f8f12830925"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_recovery.py",
+        "bytes": 1495,
+        "sha256": "fe65a3a5d7504136c12c205b43748c8f14bf7d684b63c8e5b83335090196d1d5"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/fe65a3a5d750-wbc_recovery.py",
+        "bytes": 1495,
+        "sha256": "fe65a3a5d7504136c12c205b43748c8f14bf7d684b63c8e5b83335090196d1d5"
+      }
+    },
+    {
+      "original": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc_media.py",
+        "bytes": 3010,
+        "sha256": "ec3a02e9ed68b5c7df36671ac0d36c78c59347a50c4bb5259b674b18051fac99"
+      },
+      "copy": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/metadata/ec3a02e9ed68-wbc_media.py",
+        "bytes": 3010,
+        "sha256": "ec3a02e9ed68b5c7df36671ac0d36c78c59347a50c4bb5259b674b18051fac99"
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "condition": "native_hold",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "hold",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04399999976158142,
+          0.043965402990579605
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "native",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        }
+      },
+      "repair_consumption": "NO_REPAIR_RUNTIME_BINDING_SAVED",
+      "repair_annotation": "NATIVE",
+      "final2s": {
+        "position_RMS_m": 0.0090632928278682,
+        "position_max_m": 0.0118382904156581,
+        "SO3_RMS_rad": 1.1052177622640948,
+        "SO3_max_rad": 1.1392023503683124,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-native_hold.json",
+        "bytes": 7891,
+        "sha256": "fe191cbbd4bce04a66cc499cdd49b39372cc36ffb3ae2dde6dfbc306a9c1115f"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/native_hold-poses.npz",
+        "bytes": 190008,
+        "sha256": "110cd154996da5a33537b0b0c70f06441e7650dfb3660b8730c2cd6aff400738"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/native_hold-representative-actor.npz",
+        "bytes": 42880,
+        "sha256": "0603af96fc4f6beab17d982e4591b9e42e6324a00d9125b895fcc13545e55897"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/START.json",
+          "bytes": 137,
+          "sha256": "7d94e31ab5cb76987c2b24235abc3f501c8a54695aef7f8570b58c6b171a412f"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/reference.npz",
+          "bytes": 1412,
+          "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/installation.json",
+          "bytes": 599,
+          "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/actor_inputs.jsonl",
+          "bytes": 100724682,
+          "sha256": "565f586ac963c41c2a9a26c5f169998c73839446be12204aaf74bcda691909ae"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/actor_outputs.jsonl",
+          "bytes": 510768,
+          "sha256": "edeeb32af38ef17bbcd5d287b65a0038982682cca59d3df7359b9b5bd7528cdd"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/rows.json",
+          "bytes": 3520819,
+          "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/RESULT.json",
+          "bytes": 1318,
+          "sha256": "ba7b0f0ddda571e19a23b227f18c6202fa7dcd38666b9e7f15e6a91170d054b8"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/frames.npz",
+          "bytes": 1155136,
+          "sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/DONE.json",
+          "bytes": 366,
+          "sha256": "79e50c19e6d58ee4c07d9bbaffd33657976ac1d18f0bf9e5ee36a3c0f170da2c"
+        }
+      ],
+      "video": {
+        "condition": "native_hold",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "WBC_FIXTURE_EXECUTED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/native_hold.mp4",
+        "sha256": "b1b0c9cb146cc93580752e5019228cfa5478ab2b772b9bc8f6b69550c5448c2c",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/native_hold.mp4",
+          "bytes": 245990,
+          "sha256": "b1b0c9cb146cc93580752e5019228cfa5478ab2b772b9bc8f6b69550c5448c2c"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/START.json",
+            "bytes": 137,
+            "sha256": "7d94e31ab5cb76987c2b24235abc3f501c8a54695aef7f8570b58c6b171a412f"
+          },
+          "value": {
+            "pid": 797069,
+            "time": 1791386698.356857,
+            "implementation": "85dc2e7252e57b9e1a6698b5ebeba8a3b79516e9503e70e726ae52b9ed5503c0"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/installation.json",
+            "bytes": 599,
+            "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+          },
+          "value": {
+            "chunk_id": "hold",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "702d795b8cde8c2bc2e26e1cda49e5b303111aea0442ff72f50bd2cd3cf45504",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.0,
+      "final_time_reference_m": 0.0,
+      "final_timing_error_m": 0.0,
+      "proxy_sin_half_angle_abs_max": 1.2206996291563854e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666
+    },
+    {
+      "condition": "native_monotonic",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "monotonic",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04395696520805359,
+          0.043998971581459045
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "native",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        }
+      },
+      "repair_consumption": "NO_REPAIR_RUNTIME_BINDING_SAVED",
+      "repair_annotation": "NATIVE",
+      "final2s": {
+        "position_RMS_m": 0.012038487294185959,
+        "position_max_m": 0.016076506797523545,
+        "SO3_RMS_rad": 0.6293254413632702,
+        "SO3_max_rad": 0.663840602724407,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-native_monotonic.json",
+        "bytes": 8077,
+        "sha256": "a257c95814a90cee945ab589838238f9bf7feb1eec82892a42db854c2189d8a4"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/native_monotonic-poses.npz",
+        "bytes": 197142,
+        "sha256": "7d53e66c0356f2cbf1162a9fcb426aa4f1f6dfcefddc739ced040c1bb1c66aee"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/native_monotonic-representative-actor.npz",
+        "bytes": 44244,
+        "sha256": "845f6d2c5a1497efd0c2b297200cbe530070f566dd70005429dea664b71ed858"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/START.json",
+          "bytes": 137,
+          "sha256": "155065cb295272ad17c17a4bee964f640a3dc85a20a5e0246cd01bf32d01d520"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/reference.npz",
+          "bytes": 2185,
+          "sha256": "fb8d59949287e16f1c883b96a8cd4543279cb669f3e2419077b27087d28e5871"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/installation.json",
+          "bytes": 604,
+          "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/actor_inputs.jsonl",
+          "bytes": 103400996,
+          "sha256": "797dcb6148c37d66c31d76cd6cd92a4c26cce8297e09360943f94daef02e7670"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/actor_outputs.jsonl",
+          "bytes": 508900,
+          "sha256": "02998c688c85ebc5f00ecc5ac57e3519c89d3a2d0d2dd3511eb76aa4e302ebd1"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/IO_COMPLETENESS.json",
+          "bytes": 641,
+          "sha256": "808012b52a30c246264a340f826ed0efc087d1897a14134e853925697814ae6e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/rows.json",
+          "bytes": 3543837,
+          "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/RESULT.json",
+          "bytes": 1323,
+          "sha256": "d9695842829e970f6dfc7d52bad07cd965cd16786125e91f2753b433c0d0df52"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/frames.npz",
+          "bytes": 1173533,
+          "sha256": "86f111a5a311e3ff29686b953d5f401b4193f73b62487f1398e672bc74634c02"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/DONE.json",
+          "bytes": 366,
+          "sha256": "f54f01f1522386e58d819e5d9f271cb64dafc6413552d88fbbc4e1fc6cbccdd6"
+        }
+      ],
+      "video": {
+        "condition": "native_monotonic",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "WBC_FIXTURE_EXECUTED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/native_monotonic.mp4",
+        "sha256": "f486549415ebc7f2e59ae44192f18114047cccb7a8c473a9e27cad3b11c85736",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "86f111a5a311e3ff29686b953d5f401b4193f73b62487f1398e672bc74634c02",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/native_monotonic.mp4",
+          "bytes": 305860,
+          "sha256": "f486549415ebc7f2e59ae44192f18114047cccb7a8c473a9e27cad3b11c85736"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/START.json",
+            "bytes": 137,
+            "sha256": "155065cb295272ad17c17a4bee964f640a3dc85a20a5e0246cd01bf32d01d520"
+          },
+          "value": {
+            "pid": 846453,
+            "time": 1791389985.527119,
+            "implementation": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/installation.json",
+            "bytes": 604,
+            "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+          },
+          "value": {
+            "chunk_id": "monotonic",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "2cd4190421de860ada91e8fc4f919789c0cd6bd170793e553c1a3f1ab6d5a920",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.04290817677974701,
+      "final_time_reference_m": 0.04999999701976776,
+      "final_timing_error_m": -0.007091820240020752,
+      "proxy_sin_half_angle_abs_max": 1.375184048857392e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318
+    },
+    {
+      "condition": "native_return",
+      "result_status": "VALID_NATIVE_TERMINATION",
+      "result": {
+        "status": "VALID_NATIVE_TERMINATION",
+        "fixture": "return",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "event": {
+          "reset_buf": true,
+          "time_out_buf": false,
+          "body_height_buf": false,
+          "fall_flag": false,
+          "traj_early_term": true,
+          "termination_cause": [
+            false,
+            true
+          ],
+          "invalid_state": false,
+          "joint_limit_violation": true,
+          "joint_limit_termination": false,
+          "sim_time": 0.5000000596046448,
+          "traj_s": 0.09999999403953552,
+          "traj_s_ref": 0.001223579398356378,
+          "traj_d_lat": 0.003157773520797491,
+          "traj_timing_err": 0.09877641499042511,
+          "traj_L": 0.09999999403953552,
+          "reference_duration": 10.0,
+          "desired_pos": [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.6591067314147949
+          ],
+          "desired_quat": [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          "preview_pos": [
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ]
+          ],
+          "preview_quat": [
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ]
+          ],
+          "achieved_pos": [
+            0.3355845510959625,
+            -0.11131516844034195,
+            0.6559948921203613
+          ],
+          "achieved_quat": [
+            -0.11289116740226746,
+            -0.21534056961536407,
+            0.2293216586112976,
+            0.9424943327903748
+          ],
+          "eef_linear_velocity": [
+            0.004350240807980299,
+            0.018881261348724365,
+            -0.04282743111252785
+          ],
+          "eef_angular_velocity": [
+            0.6170994639396667,
+            0.32198187708854675,
+            -0.18204471468925476
+          ],
+          "base_pos": [
+            -0.036864571273326874,
+            -0.06974122673273087,
+            0.25787004828453064
+          ],
+          "base_quat": [
+            0.07518234103918076,
+            -0.0960962250828743,
+            0.030682319775223732,
+            0.992054283618927
+          ],
+          "base_lin_vel": [
+            0.029835475608706474,
+            0.10800821334123611,
+            0.061650823801755905
+          ],
+          "base_feedforward": [
+            -0.036142218858003616,
+            0.005686762277036905,
+            -0.05275515094399452
+          ],
+          "delta_velocity": [
+            0.1453196257352829,
+            0.16834580898284912,
+            -0.05391467735171318
+          ],
+          "commands_dog": [
+            0.10917741060256958,
+            0.1740325689315796,
+            -0.1066698282957077,
+            0.344949871301651,
+            -0.151550754904747,
+            0.12452434003353119,
+            4.0,
+            0.05999999865889549,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.49000000953674316
+          ],
+          "dof_pos": [
+            -0.1594255268573761,
+            1.177123785018921,
+            -1.7360539436340332,
+            -0.24739249050617218,
+            1.194207787513733,
+            -1.7128568887710571,
+            -0.05993133783340454,
+            1.204541563987732,
+            -2.0996201038360596,
+            -0.2877754271030426,
+            1.3377164602279663,
+            -2.1948752403259277,
+            -0.3645024001598358,
+            1.529172658920288,
+            0.5414764285087585,
+            1.1688923835754395,
+            -0.8436108827590942,
+            -0.2412327378988266,
+            0.04399999976158142,
+            0.04380180686712265
+          ],
+          "dof_vel": [
+            1.1933870315551758,
+            -1.1357477903366089,
+            -0.43290257453918457,
+            -0.43496453762054443,
+            -0.28933438658714294,
+            0.670628547668457,
+            -0.6521046757698059,
+            0.34991735219955444,
+            -0.05013725161552429,
+            -0.5922063589096069,
+            0.5732539296150208,
+            -1.7358424663543701,
+            -0.05488274618983269,
+            0.47030678391456604,
+            -0.21207347512245178,
+            0.44582638144493103,
+            0.2685808539390564,
+            0.3699296712875366,
+            0.0031134560704231262,
+            0.00016579485964030027
+          ],
+          "joint_pos_target": [
+            -0.09140049666166306,
+            1.1656490564346313,
+            -1.7539218664169312,
+            0.010027274489402771,
+            0.9965984225273132,
+            -1.033083438873291,
+            -0.3336334824562073,
+            1.27892005443573,
+            -1.532544732093811,
+            -0.33310243487358093,
+            1.3729063272476196,
+            -2.2467522621154785,
+            -0.3651675879955292,
+            1.552078127861023,
+            0.5701524019241333,
+            1.2158937454223633,
+            -0.7919890284538269,
+            -0.21705296635627747,
+            0.0,
+            0.0
+          ],
+          "arm_q": [
+            -0.3645024001598358,
+            1.529172658920288,
+            0.5414764285087585,
+            1.1688923835754395,
+            -0.8436108827590942,
+            -0.2412327378988266
+          ],
+          "arm_dq": [
+            -0.05488274618983269,
+            0.47030678391456604,
+            -0.21207347512245178,
+            0.44582638144493103,
+            0.2685808539390564,
+            0.3699296712875366
+          ],
+          "dog_q": [
+            -0.1594255268573761,
+            1.177123785018921,
+            -1.7360539436340332,
+            -0.24739249050617218,
+            1.194207787513733,
+            -1.7128568887710571,
+            -0.05993133783340454,
+            1.204541563987732,
+            -2.0996201038360596,
+            -0.2877754271030426,
+            1.3377164602279663,
+            -2.1948752403259277
+          ],
+          "dog_dq": [
+            1.1933870315551758,
+            -1.1357477903366089,
+            -0.43290257453918457,
+            -0.43496453762054443,
+            -0.28933438658714294,
+            0.670628547668457,
+            -0.6521046757698059,
+            0.34991735219955444,
+            -0.05013725161552429,
+            -0.5922063589096069,
+            0.5732539296150208,
+            -1.7358424663543701
+          ],
+          "joint_limit_margin": [
+            0.7830544710159302,
+            2.0605010986328125,
+            0.8040469288825989,
+            0.6950874924659729,
+            2.043416976928711,
+            0.7808498740196228,
+            0.8825486302375793,
+            1.4750665426254272,
+            0.5288329124450684,
+            0.6547045707702637,
+            1.6082414388656616,
+            0.4335777759552002,
+            1.4677178859710693,
+            1.345922589302063,
+            0.3794763684272766,
+            0.33500754833221436,
+            0.6602890491485596,
+            1.6433672904968262,
+            -0.002199999988079071,
+            -0.0020018070936203003
+          ],
+          "termination_code": "TRACKING_ABORT"
+        },
+        "controlled_ticks": 25,
+        "actual_elapsed_s": 0.4999999888241291,
+        "gripper_actual_q": [
+          0.04399999976158142,
+          0.04380180686712265
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "native",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 26,
+          "wbc_actor_forwards": 50,
+          "integrations": 104,
+          "dispatches": 104,
+          "RGB_pairs": 5
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        }
+      },
+      "repair_consumption": "NO_REPAIR_RUNTIME_BINDING_SAVED",
+      "repair_annotation": "NATIVE",
+      "final2s": null,
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-native_return.json",
+        "bytes": 15279,
+        "sha256": "c35d47ab239f51f09b782263f6ac122576532d45654b61cf9f159f712e09d961"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/native_return-poses.npz",
+        "bytes": 19175,
+        "sha256": "57e04bf0ff10d790284592f8a454dd8bd454ef6137916e5d2b2f5caee99a3d98"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/native_return-representative-actor.npz",
+        "bytes": 17308,
+        "sha256": "6e936be97e686f704c76ee551e2826c6893a4e8767556cc395fd0664513853a7"
+      },
+      "representative_actor_ticks": [
+        0,
+        12,
+        24
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/START.json",
+          "bytes": 138,
+          "sha256": "5d08a06e60a93c9ac2b8a401bd5b7365487aa9de33180eef287848f83476057d"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/reference.npz",
+          "bytes": 2435,
+          "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/installation.json",
+          "bytes": 601,
+          "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/actor_inputs.jsonl",
+          "bytes": 2521991,
+          "sha256": "c8838b8fb7d72d0a1492ff64f7719c2ccb1344c8b029cee7b35ba9ee70f8e75a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/actor_outputs.jsonl",
+          "bytes": 25425,
+          "sha256": "b1fa66bed35ef032f65d04a6e79b5f5170f9d161cc3a527b9499fea83596fb1d"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/IO_COMPLETENESS.json",
+          "bytes": 631,
+          "sha256": "8fc1c01bd996e37d41f730d52e2765d57d19165e5b38765ede14e013184a1cb8"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/rows.json",
+          "bytes": 183289,
+          "sha256": "099bf3d62866ab63fe55a0cc981998e3d73c146c65463a7d0778fbc9c536374c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/RESULT.json",
+          "bytes": 8941,
+          "sha256": "805350ab246ddb498032bde4a4a0f2a130684e7842f97282006fee9ff2ad1791"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/frames.npz",
+          "bytes": 57867,
+          "sha256": "bb9d340076f72df6fd536e826f0ad8cdeb5907fd7e12fed6c348f9f55940f3da"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/DONE.json",
+          "bytes": 361,
+          "sha256": "09343e9fe61066ee6fd9ab23c20d01b2b5d02384b6b1aa3be0d09e40202e91a1"
+        }
+      ],
+      "video": {
+        "condition": "native_return",
+        "status": "VALID_NATIVE_TERMINATION",
+        "annotation": "VALID_NATIVE_TERMINATION",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/native_return.mp4",
+        "sha256": "4f65946f68ed4da13762daef938776f613aabe1a1000530217ef43628d03aa75",
+        "frames": 5,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          0.41999999061226845
+        ],
+        "source_frames_sha256": "bb9d340076f72df6fd536e826f0ad8cdeb5907fd7e12fed6c348f9f55940f3da",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/native_return.mp4",
+          "bytes": 24038,
+          "sha256": "4f65946f68ed4da13762daef938776f613aabe1a1000530217ef43628d03aa75"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/START.json",
+            "bytes": 138,
+            "sha256": "5d08a06e60a93c9ac2b8a401bd5b7365487aa9de33180eef287848f83476057d"
+          },
+          "value": {
+            "pid": 847031,
+            "time": 1791390021.1456552,
+            "implementation": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/installation.json",
+            "bytes": 601,
+            "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+          },
+          "value": {
+            "chunk_id": "return",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "a8fb83811052a8a836a1d1ec82d84f8c38999cb941f177a74f0ad83e6a2a3e63",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.09999999403953552,
+      "final_time_reference_m": 0.001223579398356378,
+      "final_timing_error_m": 0.09877641499042511,
+      "proxy_sin_half_angle_abs_max": 8.578234211853442e-08,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.019805818796157837
+    },
+    {
+      "condition": "repair_hold",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "hold",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04399999976158142,
+          0.043965402990579605
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "repair",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        }
+      },
+      "repair_consumption": "NO_REPAIR_RUNTIME_BINDING_SAVED",
+      "repair_annotation": "ENGINEERING_REPAIR_NOT_INSTALLED",
+      "final2s": {
+        "position_RMS_m": 0.0090632928278682,
+        "position_max_m": 0.0118382904156581,
+        "SO3_RMS_rad": 1.1052177622640948,
+        "SO3_max_rad": 1.1392023503683124,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_hold.json",
+        "bytes": 7891,
+        "sha256": "0a2f66c79285cd4a28f073d60aa38df1004bbc6a8669db9b7abb009b0258dc06"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_hold-poses.npz",
+        "bytes": 190008,
+        "sha256": "110cd154996da5a33537b0b0c70f06441e7650dfb3660b8730c2cd6aff400738"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_hold-representative-actor.npz",
+        "bytes": 42880,
+        "sha256": "0603af96fc4f6beab17d982e4591b9e42e6324a00d9125b895fcc13545e55897"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/START.json",
+          "bytes": 138,
+          "sha256": "437256fc03ed313373d7d73854958e141cc28a25d006e12b81b99000727db2fd"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/reference.npz",
+          "bytes": 1412,
+          "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/installation.json",
+          "bytes": 599,
+          "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/actor_inputs.jsonl",
+          "bytes": 100724682,
+          "sha256": "565f586ac963c41c2a9a26c5f169998c73839446be12204aaf74bcda691909ae"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/actor_outputs.jsonl",
+          "bytes": 510768,
+          "sha256": "edeeb32af38ef17bbcd5d287b65a0038982682cca59d3df7359b9b5bd7528cdd"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/IO_COMPLETENESS.json",
+          "bytes": 641,
+          "sha256": "012b921b98ecdfbad185cfc4c2d9e8ba98046a6ccadc572e80b990319a134bf6"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/rows.json",
+          "bytes": 3520819,
+          "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/RESULT.json",
+          "bytes": 1318,
+          "sha256": "9aeb6be92c66ef55161222875bec0232daf0f0b38755ebd1a253cf785292ff8b"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/frames.npz",
+          "bytes": 1155136,
+          "sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/DONE.json",
+          "bytes": 363,
+          "sha256": "5f084a809d47c04d16ab1f0bb3a83a88649ef67aa1d0e9968edf79745b6f8a70"
+        }
+      ],
+      "video": {
+        "condition": "repair_hold",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "REPAIR_NOT_INSTALLED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_hold.mp4",
+        "sha256": "d219fed0416bbcdaae826b84e7dc1fb3cb887a4af6eb67bb0a4cdba969ef6ae5",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_hold.mp4",
+          "bytes": 245679,
+          "sha256": "d219fed0416bbcdaae826b84e7dc1fb3cb887a4af6eb67bb0a4cdba969ef6ae5"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/START.json",
+            "bytes": 138,
+            "sha256": "437256fc03ed313373d7d73854958e141cc28a25d006e12b81b99000727db2fd"
+          },
+          "value": {
+            "pid": 847492,
+            "time": 1791390041.5559375,
+            "implementation": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/installation.json",
+            "bytes": 599,
+            "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+          },
+          "value": {
+            "chunk_id": "hold",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "702d795b8cde8c2bc2e26e1cda49e5b303111aea0442ff72f50bd2cd3cf45504",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.0,
+      "final_time_reference_m": 0.0,
+      "final_timing_error_m": 0.0,
+      "proxy_sin_half_angle_abs_max": 1.2206996291563854e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666
+    },
+    {
+      "condition": "repair_hold-engineering-001",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "hold",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04399999976158142,
+          0.043965402990579605
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "repair",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100,
+          "technical_replacements": 0
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100,
+          "technical_replacements": 1
+        }
+      },
+      "repair_consumption": {
+        "bound": true,
+        "calls": 501,
+        "consumer": "modules.trajectory.update_s_batch",
+        "rule": "FIRST_ORDERED_LOCAL_MINIMUM"
+      },
+      "repair_annotation": "TRUE_REPAIR_CONSUMED",
+      "final2s": {
+        "position_RMS_m": 0.0090632928278682,
+        "position_max_m": 0.0118382904156581,
+        "SO3_RMS_rad": 1.1052177622640948,
+        "SO3_max_rad": 1.1392023503683124,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_hold-engineering-001.json",
+        "bytes": 8019,
+        "sha256": "8a4c1ef5a166fe9b58ad4826e678271ee79ef65f45f7dcc990982720f0214e19"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_hold-engineering-001-poses.npz",
+        "bytes": 190008,
+        "sha256": "110cd154996da5a33537b0b0c70f06441e7650dfb3660b8730c2cd6aff400738"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_hold-engineering-001-representative-actor.npz",
+        "bytes": 42880,
+        "sha256": "0603af96fc4f6beab17d982e4591b9e42e6324a00d9125b895fcc13545e55897"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/START.json",
+          "bytes": 138,
+          "sha256": "910d3d90118860301d3cb882cb5beb631e376c6d4ee34410ca86e859852df287"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/reference.npz",
+          "bytes": 1412,
+          "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/installation.json",
+          "bytes": 599,
+          "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/actor_inputs.jsonl",
+          "bytes": 100724682,
+          "sha256": "565f586ac963c41c2a9a26c5f169998c73839446be12204aaf74bcda691909ae"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/actor_outputs.jsonl",
+          "bytes": 510768,
+          "sha256": "edeeb32af38ef17bbcd5d287b65a0038982682cca59d3df7359b9b5bd7528cdd"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/IO_COMPLETENESS.json",
+          "bytes": 641,
+          "sha256": "b2d96cd0d5d371f5d5367e310c456cd056bf5bb175486b347f4517fdd3ea0bf9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/REPAIR_RUNTIME_BINDING.json",
+          "bytes": 128,
+          "sha256": "65ec95d8f49bf5ef8d25ba66bdb57600bd3e6680066ceaa3f25a773055c20513"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/rows.json",
+          "bytes": 3520819,
+          "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/RESULT.json",
+          "bytes": 1384,
+          "sha256": "254c0ef50ce81a5740ec6198d9a00c668805e6f19d41460b665a3d44d3297c6e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/frames.npz",
+          "bytes": 1155136,
+          "sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/DONE.json",
+          "bytes": 362,
+          "sha256": "1098c0bdbaf9203479f9dab86ab85ad3f4bfab33e0e1207b954289e2195e3f0e"
+        }
+      ],
+      "video": {
+        "condition": "repair_hold-engineering-001",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "WBC_FIXTURE_EXECUTED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_hold-engineering-001.mp4",
+        "sha256": "a3aea69dc65dfb90f82e11311c1884866d59d823b114d67186850debd385b93e",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_hold-engineering-001.mp4",
+          "bytes": 253375,
+          "sha256": "a3aea69dc65dfb90f82e11311c1884866d59d823b114d67186850debd385b93e"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/REPAIR_RUNTIME_BINDING.json",
+            "bytes": 128,
+            "sha256": "65ec95d8f49bf5ef8d25ba66bdb57600bd3e6680066ceaa3f25a773055c20513"
+          },
+          "value": {
+            "bound": true,
+            "calls": 501,
+            "consumer": "modules.trajectory.update_s_batch",
+            "rule": "FIRST_ORDERED_LOCAL_MINIMUM"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/START.json",
+            "bytes": 138,
+            "sha256": "910d3d90118860301d3cb882cb5beb631e376c6d4ee34410ca86e859852df287"
+          },
+          "value": {
+            "pid": 852909,
+            "time": 1791390326.4572473,
+            "implementation": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/installation.json",
+            "bytes": 599,
+            "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+          },
+          "value": {
+            "chunk_id": "hold",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "702d795b8cde8c2bc2e26e1cda49e5b303111aea0442ff72f50bd2cd3cf45504",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.0,
+      "final_time_reference_m": 0.0,
+      "final_timing_error_m": 0.0,
+      "proxy_sin_half_angle_abs_max": 1.2206996291563854e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666
+    },
+    {
+      "condition": "repair_monotonic",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "monotonic",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04395696520805359,
+          0.043998971581459045
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "repair",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        }
+      },
+      "repair_consumption": "NO_REPAIR_RUNTIME_BINDING_SAVED",
+      "repair_annotation": "ENGINEERING_REPAIR_NOT_INSTALLED",
+      "final2s": {
+        "position_RMS_m": 0.012038487294185959,
+        "position_max_m": 0.016076506797523545,
+        "SO3_RMS_rad": 0.6293254413632702,
+        "SO3_max_rad": 0.663840602724407,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_monotonic.json",
+        "bytes": 8077,
+        "sha256": "28d424a553349abb1a22df5e69e406a8b6339b97adfcda8da6a173aeda16064a"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_monotonic-poses.npz",
+        "bytes": 197142,
+        "sha256": "7d53e66c0356f2cbf1162a9fcb426aa4f1f6dfcefddc739ced040c1bb1c66aee"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_monotonic-representative-actor.npz",
+        "bytes": 44244,
+        "sha256": "845f6d2c5a1497efd0c2b297200cbe530070f566dd70005429dea664b71ed858"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/START.json",
+          "bytes": 138,
+          "sha256": "1a89d254e3ee3e6b67a000a6f464c69fede727a32b4f3bce17a121293296f4b0"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/reference.npz",
+          "bytes": 2185,
+          "sha256": "fb8d59949287e16f1c883b96a8cd4543279cb669f3e2419077b27087d28e5871"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/installation.json",
+          "bytes": 604,
+          "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/actor_inputs.jsonl",
+          "bytes": 103400996,
+          "sha256": "797dcb6148c37d66c31d76cd6cd92a4c26cce8297e09360943f94daef02e7670"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/actor_outputs.jsonl",
+          "bytes": 508900,
+          "sha256": "02998c688c85ebc5f00ecc5ac57e3519c89d3a2d0d2dd3511eb76aa4e302ebd1"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/IO_COMPLETENESS.json",
+          "bytes": 641,
+          "sha256": "f6d59817cc4ba5fdb73278da6ccd45b5afff84c21248d6a744def78ca69595fc"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/rows.json",
+          "bytes": 3543837,
+          "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/RESULT.json",
+          "bytes": 1323,
+          "sha256": "5d68a72658a9a23447e896e69c05326cb24e9810f72bb51f7ba95ba55e5abe7d"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/frames.npz",
+          "bytes": 1173533,
+          "sha256": "86f111a5a311e3ff29686b953d5f401b4193f73b62487f1398e672bc74634c02"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/DONE.json",
+          "bytes": 361,
+          "sha256": "677f180eefe1e3dc4e8d973bcb8417cd187096bfa23720a7e2247fe477ed6bbc"
+        }
+      ],
+      "video": {
+        "condition": "repair_monotonic",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "REPAIR_NOT_INSTALLED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_monotonic.mp4",
+        "sha256": "7fda2959e68a022a38e8aec36bb49f0076375e9e887376dff740973a53364176",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "86f111a5a311e3ff29686b953d5f401b4193f73b62487f1398e672bc74634c02",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_monotonic.mp4",
+          "bytes": 305889,
+          "sha256": "7fda2959e68a022a38e8aec36bb49f0076375e9e887376dff740973a53364176"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/START.json",
+            "bytes": 138,
+            "sha256": "1a89d254e3ee3e6b67a000a6f464c69fede727a32b4f3bce17a121293296f4b0"
+          },
+          "value": {
+            "pid": 847994,
+            "time": 1791390073.8960855,
+            "implementation": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/installation.json",
+            "bytes": 604,
+            "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+          },
+          "value": {
+            "chunk_id": "monotonic",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "2cd4190421de860ada91e8fc4f919789c0cd6bd170793e553c1a3f1ab6d5a920",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.04290817677974701,
+      "final_time_reference_m": 0.04999999701976776,
+      "final_timing_error_m": -0.007091820240020752,
+      "proxy_sin_half_angle_abs_max": 1.375184048857392e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318
+    },
+    {
+      "condition": "repair_monotonic-engineering-001",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "monotonic",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04395696520805359,
+          0.043998971581459045
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "repair",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100,
+          "technical_replacements": 0
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100,
+          "technical_replacements": 1
+        }
+      },
+      "repair_consumption": {
+        "bound": true,
+        "calls": 501,
+        "consumer": "modules.trajectory.update_s_batch",
+        "rule": "FIRST_ORDERED_LOCAL_MINIMUM"
+      },
+      "repair_annotation": "TRUE_REPAIR_CONSUMED",
+      "final2s": {
+        "position_RMS_m": 0.012038487294185959,
+        "position_max_m": 0.016076506797523545,
+        "SO3_RMS_rad": 0.6293254413632702,
+        "SO3_max_rad": 0.663840602724407,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_monotonic-engineering-001.json",
+        "bytes": 8205,
+        "sha256": "1398e3089065ca4bd52b879da2f4d5cc1064318389645a82fb46ecf3f69d0d25"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_monotonic-engineering-001-poses.npz",
+        "bytes": 197142,
+        "sha256": "7d53e66c0356f2cbf1162a9fcb426aa4f1f6dfcefddc739ced040c1bb1c66aee"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_monotonic-engineering-001-representative-actor.npz",
+        "bytes": 44244,
+        "sha256": "845f6d2c5a1497efd0c2b297200cbe530070f566dd70005429dea664b71ed858"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/START.json",
+          "bytes": 138,
+          "sha256": "6568917e4ac65404aaf763ab11057873bc0806654cb643bde3443b37a215f314"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/reference.npz",
+          "bytes": 2185,
+          "sha256": "fb8d59949287e16f1c883b96a8cd4543279cb669f3e2419077b27087d28e5871"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/installation.json",
+          "bytes": 604,
+          "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/actor_inputs.jsonl",
+          "bytes": 103400996,
+          "sha256": "797dcb6148c37d66c31d76cd6cd92a4c26cce8297e09360943f94daef02e7670"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/actor_outputs.jsonl",
+          "bytes": 508900,
+          "sha256": "02998c688c85ebc5f00ecc5ac57e3519c89d3a2d0d2dd3511eb76aa4e302ebd1"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/IO_COMPLETENESS.json",
+          "bytes": 641,
+          "sha256": "fa3791646d89f3286dfb19d6ed12f82b0f27081e107a99c6e84f189985241ba0"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/REPAIR_RUNTIME_BINDING.json",
+          "bytes": 128,
+          "sha256": "65ec95d8f49bf5ef8d25ba66bdb57600bd3e6680066ceaa3f25a773055c20513"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/rows.json",
+          "bytes": 3543837,
+          "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/RESULT.json",
+          "bytes": 1389,
+          "sha256": "8aa7da3b7b7682c394bf12914e1326643ee300b0ec8c66cc5548d382e6670dad"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/frames.npz",
+          "bytes": 1173533,
+          "sha256": "86f111a5a311e3ff29686b953d5f401b4193f73b62487f1398e672bc74634c02"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/DONE.json",
+          "bytes": 363,
+          "sha256": "0b69d98788684e057491af9ded390edbb149b0921a4443cc6974a39d077c7d5a"
+        }
+      ],
+      "video": {
+        "condition": "repair_monotonic-engineering-001",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "WBC_FIXTURE_EXECUTED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_monotonic-engineering-001.mp4",
+        "sha256": "f50ef810de18c63695464c3df9fc154cd58ec693c63a6adfbd38a4af90e548aa",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "86f111a5a311e3ff29686b953d5f401b4193f73b62487f1398e672bc74634c02",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_monotonic-engineering-001.mp4",
+          "bytes": 313739,
+          "sha256": "f50ef810de18c63695464c3df9fc154cd58ec693c63a6adfbd38a4af90e548aa"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/REPAIR_RUNTIME_BINDING.json",
+            "bytes": 128,
+            "sha256": "65ec95d8f49bf5ef8d25ba66bdb57600bd3e6680066ceaa3f25a773055c20513"
+          },
+          "value": {
+            "bound": true,
+            "calls": 501,
+            "consumer": "modules.trajectory.update_s_batch",
+            "rule": "FIRST_ORDERED_LOCAL_MINIMUM"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/START.json",
+            "bytes": 138,
+            "sha256": "6568917e4ac65404aaf763ab11057873bc0806654cb643bde3443b37a215f314"
+          },
+          "value": {
+            "pid": 853339,
+            "time": 1791390359.2508059,
+            "implementation": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/installation.json",
+            "bytes": 604,
+            "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+          },
+          "value": {
+            "chunk_id": "monotonic",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "2cd4190421de860ada91e8fc4f919789c0cd6bd170793e553c1a3f1ab6d5a920",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.04290817677974701,
+      "final_time_reference_m": 0.04999999701976776,
+      "final_timing_error_m": -0.007091820240020752,
+      "proxy_sin_half_angle_abs_max": 1.375184048857392e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318
+    },
+    {
+      "condition": "repair_return",
+      "result_status": "VALID_NATIVE_TERMINATION",
+      "result": {
+        "status": "VALID_NATIVE_TERMINATION",
+        "fixture": "return",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "event": {
+          "reset_buf": true,
+          "time_out_buf": false,
+          "body_height_buf": false,
+          "fall_flag": false,
+          "traj_early_term": true,
+          "termination_cause": [
+            false,
+            true
+          ],
+          "invalid_state": false,
+          "joint_limit_violation": true,
+          "joint_limit_termination": false,
+          "sim_time": 0.5000000596046448,
+          "traj_s": 0.09999999403953552,
+          "traj_s_ref": 0.001223579398356378,
+          "traj_d_lat": 0.003157773520797491,
+          "traj_timing_err": 0.09877641499042511,
+          "traj_L": 0.09999999403953552,
+          "reference_duration": 10.0,
+          "desired_pos": [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.6591067314147949
+          ],
+          "desired_quat": [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          "preview_pos": [
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ],
+            [
+              0.33305609226226807,
+              -0.1112048476934433,
+              0.65788334608078
+            ]
+          ],
+          "preview_quat": [
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ],
+            [
+              -0.2654011845588684,
+              0.019654691219329834,
+              -0.1717747151851654,
+              0.9485090374946594
+            ]
+          ],
+          "achieved_pos": [
+            0.3355845510959625,
+            -0.11131516844034195,
+            0.6559948921203613
+          ],
+          "achieved_quat": [
+            -0.11289116740226746,
+            -0.21534056961536407,
+            0.2293216586112976,
+            0.9424943327903748
+          ],
+          "eef_linear_velocity": [
+            0.004350240807980299,
+            0.018881261348724365,
+            -0.04282743111252785
+          ],
+          "eef_angular_velocity": [
+            0.6170994639396667,
+            0.32198187708854675,
+            -0.18204471468925476
+          ],
+          "base_pos": [
+            -0.036864571273326874,
+            -0.06974122673273087,
+            0.25787004828453064
+          ],
+          "base_quat": [
+            0.07518234103918076,
+            -0.0960962250828743,
+            0.030682319775223732,
+            0.992054283618927
+          ],
+          "base_lin_vel": [
+            0.029835475608706474,
+            0.10800821334123611,
+            0.061650823801755905
+          ],
+          "base_feedforward": [
+            -0.036142218858003616,
+            0.005686762277036905,
+            -0.05275515094399452
+          ],
+          "delta_velocity": [
+            0.1453196257352829,
+            0.16834580898284912,
+            -0.05391467735171318
+          ],
+          "commands_dog": [
+            0.10917741060256958,
+            0.1740325689315796,
+            -0.1066698282957077,
+            0.344949871301651,
+            -0.151550754904747,
+            0.12452434003353119,
+            4.0,
+            0.05999999865889549,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.49000000953674316
+          ],
+          "dof_pos": [
+            -0.1594255268573761,
+            1.177123785018921,
+            -1.7360539436340332,
+            -0.24739249050617218,
+            1.194207787513733,
+            -1.7128568887710571,
+            -0.05993133783340454,
+            1.204541563987732,
+            -2.0996201038360596,
+            -0.2877754271030426,
+            1.3377164602279663,
+            -2.1948752403259277,
+            -0.3645024001598358,
+            1.529172658920288,
+            0.5414764285087585,
+            1.1688923835754395,
+            -0.8436108827590942,
+            -0.2412327378988266,
+            0.04399999976158142,
+            0.04380180686712265
+          ],
+          "dof_vel": [
+            1.1933870315551758,
+            -1.1357477903366089,
+            -0.43290257453918457,
+            -0.43496453762054443,
+            -0.28933438658714294,
+            0.670628547668457,
+            -0.6521046757698059,
+            0.34991735219955444,
+            -0.05013725161552429,
+            -0.5922063589096069,
+            0.5732539296150208,
+            -1.7358424663543701,
+            -0.05488274618983269,
+            0.47030678391456604,
+            -0.21207347512245178,
+            0.44582638144493103,
+            0.2685808539390564,
+            0.3699296712875366,
+            0.0031134560704231262,
+            0.00016579485964030027
+          ],
+          "joint_pos_target": [
+            -0.09140049666166306,
+            1.1656490564346313,
+            -1.7539218664169312,
+            0.010027274489402771,
+            0.9965984225273132,
+            -1.033083438873291,
+            -0.3336334824562073,
+            1.27892005443573,
+            -1.532544732093811,
+            -0.33310243487358093,
+            1.3729063272476196,
+            -2.2467522621154785,
+            -0.3651675879955292,
+            1.552078127861023,
+            0.5701524019241333,
+            1.2158937454223633,
+            -0.7919890284538269,
+            -0.21705296635627747,
+            0.0,
+            0.0
+          ],
+          "arm_q": [
+            -0.3645024001598358,
+            1.529172658920288,
+            0.5414764285087585,
+            1.1688923835754395,
+            -0.8436108827590942,
+            -0.2412327378988266
+          ],
+          "arm_dq": [
+            -0.05488274618983269,
+            0.47030678391456604,
+            -0.21207347512245178,
+            0.44582638144493103,
+            0.2685808539390564,
+            0.3699296712875366
+          ],
+          "dog_q": [
+            -0.1594255268573761,
+            1.177123785018921,
+            -1.7360539436340332,
+            -0.24739249050617218,
+            1.194207787513733,
+            -1.7128568887710571,
+            -0.05993133783340454,
+            1.204541563987732,
+            -2.0996201038360596,
+            -0.2877754271030426,
+            1.3377164602279663,
+            -2.1948752403259277
+          ],
+          "dog_dq": [
+            1.1933870315551758,
+            -1.1357477903366089,
+            -0.43290257453918457,
+            -0.43496453762054443,
+            -0.28933438658714294,
+            0.670628547668457,
+            -0.6521046757698059,
+            0.34991735219955444,
+            -0.05013725161552429,
+            -0.5922063589096069,
+            0.5732539296150208,
+            -1.7358424663543701
+          ],
+          "joint_limit_margin": [
+            0.7830544710159302,
+            2.0605010986328125,
+            0.8040469288825989,
+            0.6950874924659729,
+            2.043416976928711,
+            0.7808498740196228,
+            0.8825486302375793,
+            1.4750665426254272,
+            0.5288329124450684,
+            0.6547045707702637,
+            1.6082414388656616,
+            0.4335777759552002,
+            1.4677178859710693,
+            1.345922589302063,
+            0.3794763684272766,
+            0.33500754833221436,
+            0.6602890491485596,
+            1.6433672904968262,
+            -0.002199999988079071,
+            -0.0020018070936203003
+          ],
+          "termination_code": "TRACKING_ABORT"
+        },
+        "controlled_ticks": 25,
+        "actual_elapsed_s": 0.4999999888241291,
+        "gripper_actual_q": [
+          0.04399999976158142,
+          0.04380180686712265
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "repair",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 26,
+          "wbc_actor_forwards": 50,
+          "integrations": 104,
+          "dispatches": 104,
+          "RGB_pairs": 5
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100
+        }
+      },
+      "repair_consumption": "NO_REPAIR_RUNTIME_BINDING_SAVED",
+      "repair_annotation": "ENGINEERING_REPAIR_NOT_INSTALLED",
+      "final2s": null,
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_return.json",
+        "bytes": 15279,
+        "sha256": "3f01ff55d0d5c7da5011744dfcc30bf1e8cf60e75ae5e971ee5d406422f307e7"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_return-poses.npz",
+        "bytes": 19175,
+        "sha256": "57e04bf0ff10d790284592f8a454dd8bd454ef6137916e5d2b2f5caee99a3d98"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_return-representative-actor.npz",
+        "bytes": 17308,
+        "sha256": "6e936be97e686f704c76ee551e2826c6893a4e8767556cc395fd0664513853a7"
+      },
+      "representative_actor_ticks": [
+        0,
+        12,
+        24
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/START.json",
+          "bytes": 138,
+          "sha256": "ec25dfa0839e32c3e7b5e684bba1397948f8810c720ea91d93202188c2c04746"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/reference.npz",
+          "bytes": 2435,
+          "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/installation.json",
+          "bytes": 601,
+          "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/actor_inputs.jsonl",
+          "bytes": 2521991,
+          "sha256": "c8838b8fb7d72d0a1492ff64f7719c2ccb1344c8b029cee7b35ba9ee70f8e75a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/actor_outputs.jsonl",
+          "bytes": 25425,
+          "sha256": "b1fa66bed35ef032f65d04a6e79b5f5170f9d161cc3a527b9499fea83596fb1d"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/IO_COMPLETENESS.json",
+          "bytes": 631,
+          "sha256": "9bd0b05374ac11f10b966cf09408619a8248d843da4c0c3cec1ef5f514272fc9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/rows.json",
+          "bytes": 183289,
+          "sha256": "099bf3d62866ab63fe55a0cc981998e3d73c146c65463a7d0778fbc9c536374c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/RESULT.json",
+          "bytes": 8941,
+          "sha256": "5daa792ef008e87d017884076a591931f17217c1e97031fe8710f516d2eb9772"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/frames.npz",
+          "bytes": 57867,
+          "sha256": "bb9d340076f72df6fd536e826f0ad8cdeb5907fd7e12fed6c348f9f55940f3da"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/DONE.json",
+          "bytes": 360,
+          "sha256": "b8c480e69bf2e35a58255009430c5ad2a164db5d8fdd510c0e8d8d96c44061b6"
+        }
+      ],
+      "video": {
+        "condition": "repair_return",
+        "status": "VALID_NATIVE_TERMINATION",
+        "annotation": "REPAIR_NOT_INSTALLED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_return.mp4",
+        "sha256": "0133b3aad6af73d73f6e92749e7f91b97b35837964703d7a340f4acd6eea2d54",
+        "frames": 5,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          0.41999999061226845
+        ],
+        "source_frames_sha256": "bb9d340076f72df6fd536e826f0ad8cdeb5907fd7e12fed6c348f9f55940f3da",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_return.mp4",
+          "bytes": 24012,
+          "sha256": "0133b3aad6af73d73f6e92749e7f91b97b35837964703d7a340f4acd6eea2d54"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/START.json",
+            "bytes": 138,
+            "sha256": "ec25dfa0839e32c3e7b5e684bba1397948f8810c720ea91d93202188c2c04746"
+          },
+          "value": {
+            "pid": 848665,
+            "time": 1791390106.5453374,
+            "implementation": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/installation.json",
+            "bytes": 601,
+            "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+          },
+          "value": {
+            "chunk_id": "return",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "a8fb83811052a8a836a1d1ec82d84f8c38999cb941f177a74f0ad83e6a2a3e63",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.09999999403953552,
+      "final_time_reference_m": 0.001223579398356378,
+      "final_timing_error_m": 0.09877641499042511,
+      "proxy_sin_half_angle_abs_max": 8.578234211853442e-08,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.019805818796157837
+    },
+    {
+      "condition": "repair_return-engineering-001",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "status": "WBC_FIXTURE_EXECUTED",
+        "fixture": "return",
+        "loads": [
+          {
+            "role": "arm",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+            "payload_keys": 29,
+            "inference_keys": 14
+          },
+          {
+            "role": "dog",
+            "safe_load": "PASS",
+            "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+            "payload_keys": 17,
+            "inference_keys": 8
+          }
+        ],
+        "initialization_s": 0.019999999552965164,
+        "controlled_ticks": 500,
+        "actual_elapsed_s": 9.999999776482582,
+        "gripper_actual_q": [
+          0.04399999976158142,
+          0.04399999976158142
+        ],
+        "task_success": "NOT_AN_OBJECT_TASK",
+        "version": "repair",
+        "counts": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100,
+          "technical_replacements": 0
+        },
+        "allocation": {
+          "physical_starts": 1,
+          "wbc_controls": 501,
+          "wbc_actor_forwards": 1000,
+          "integrations": 2004,
+          "dispatches": 2004,
+          "RGB_pairs": 100,
+          "technical_replacements": 1
+        }
+      },
+      "repair_consumption": {
+        "bound": true,
+        "calls": 501,
+        "consumer": "modules.trajectory.update_s_batch",
+        "rule": "FIRST_ORDERED_LOCAL_MINIMUM"
+      },
+      "repair_annotation": "TRUE_REPAIR_CONSUMED",
+      "final2s": {
+        "position_RMS_m": 0.009007799408190404,
+        "position_max_m": 0.01220634623073856,
+        "SO3_RMS_rad": 0.543152610788581,
+        "SO3_max_rad": 0.5754222157117594,
+        "samples": 100
+      },
+      "quality": false,
+      "prior_independent_readback": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/audit/WBC-repair_return-engineering-001.json",
+        "bytes": 8204,
+        "sha256": "fb907df03f5b178178c7643ca3423ef3718938437863e3ae0782ed209e8bbf1e"
+      },
+      "pose_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_return-engineering-001-poses.npz",
+        "bytes": 199031,
+        "sha256": "593819831fd98ee37b2d566b79de580eabb28982e680368309e794ab9f21b34d"
+      },
+      "representative_actor_bundle": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/wbc_handoff/repair_return-engineering-001-representative-actor.npz",
+        "bytes": 48601,
+        "sha256": "550af0c2dc666603d6a5bd5ffdf00ef462ae1b30222e31e9bc53587fb4b9be13"
+      },
+      "representative_actor_ticks": [
+        0,
+        250,
+        499
+      ],
+      "originals": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/START.json",
+          "bytes": 138,
+          "sha256": "e5117cd5593d0532b4541bc5ecf7ccab130bbad1a0801a032c3fcad3a85ffed0"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/reference.npz",
+          "bytes": 2435,
+          "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/installation.json",
+          "bytes": 601,
+          "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/actor_inputs.jsonl",
+          "bytes": 107935361,
+          "sha256": "2b186303bd57c8804b7226506a0cdbe8d20658f174daa6f5c926db6395caea50"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/actor_outputs.jsonl",
+          "bytes": 508906,
+          "sha256": "d7471f37d0c0d43d3254166b2c5b6d6cbc3c49bb92d220199974fc10a0f24f57"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/IO_COMPLETENESS.json",
+          "bytes": 641,
+          "sha256": "b1de25e5c36d81b7994b25061fb18fd0db10db4da5b484d5b498af5355f558bd"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/REPAIR_RUNTIME_BINDING.json",
+          "bytes": 128,
+          "sha256": "65ec95d8f49bf5ef8d25ba66bdb57600bd3e6680066ceaa3f25a773055c20513"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/rows.json",
+          "bytes": 3545020,
+          "sha256": "b0579c6c1075ae909821e51f1016cfb3e160e495d6530dbe04b2e8e1e0aba888"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/RESULT.json",
+          "bytes": 1385,
+          "sha256": "5b4a892dd639d9ddfded0a8163b9352e0855a8af72c7a4a845298cd3e75fb1ca"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/frames.npz",
+          "bytes": 1174064,
+          "sha256": "cc2c659d74d1fb180867aebae068903dbba62965f005dd6163dbcacc330c50b9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/DONE.json",
+          "bytes": 362,
+          "sha256": "4ecb1f3cc0362cae2534fb52ed35a6fce8fbd52e65e97598554c1005c28931bc"
+        }
+      ],
+      "video": {
+        "condition": "repair_return-engineering-001",
+        "status": "WBC_FIXTURE_EXECUTED",
+        "annotation": "WBC_FIXTURE_EXECUTED",
+        "video": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_return-engineering-001.mp4",
+        "sha256": "1b38ee105811ab64e4032d53133c95a34691eb7ab2d9a1d1646f23f50bcbb777",
+        "frames": 100,
+        "fps": 10,
+        "actual_t_s": [
+          0.019999999552965164,
+          9.919999778270721
+        ],
+        "source_frames_sha256": "cc2c659d74d1fb180867aebae068903dbba62965f005dd6163dbcacc330c50b9",
+        "new_render_calls": 0,
+        "new_physics": 0,
+        "new_actor_calls": 0,
+        "current_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/videos/repair_return-engineering-001.mp4",
+          "bytes": 314524,
+          "sha256": "1b38ee105811ab64e4032d53133c95a34691eb7ab2d9a1d1646f23f50bcbb777"
+        },
+        "delivery": "REFERENCE_ONLY_EXISTING_REAL_VIDEO_NO_NEW_RENDER"
+      },
+      "receipts": [
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/REPAIR_RUNTIME_BINDING.json",
+            "bytes": 128,
+            "sha256": "65ec95d8f49bf5ef8d25ba66bdb57600bd3e6680066ceaa3f25a773055c20513"
+          },
+          "value": {
+            "bound": true,
+            "calls": 501,
+            "consumer": "modules.trajectory.update_s_batch",
+            "rule": "FIRST_ORDERED_LOCAL_MINIMUM"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/START.json",
+            "bytes": 138,
+            "sha256": "e5117cd5593d0532b4541bc5ecf7ccab130bbad1a0801a032c3fcad3a85ffed0"
+          },
+          "value": {
+            "pid": 853901,
+            "time": 1791390392.2472286,
+            "implementation": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/installation.json",
+            "bytes": 601,
+            "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+          },
+          "value": {
+            "chunk_id": "return",
+            "initial": false,
+            "point_count": 201,
+            "dt_s": 0.05,
+            "anchor_world_m": [
+              0.5233854651451111,
+              0.0035315528512001038,
+              0.5020163059234619
+            ],
+            "trajectory_hash": "a8fb83811052a8a836a1d1ec82d84f8c38999cb941f177a74f0ad83e6a2a3e63",
+            "episode_length_after": 1,
+            "lifecycle_phase": "INITIAL_BIND",
+            "reset_buf_before": false,
+            "reset_buf_after": false,
+            "physics_root_state_unchanged": true,
+            "physics_dof_state_unchanged": true,
+            "episode_length_unchanged": true,
+            "physics_reset": false,
+            "physics_teleport": false,
+            "policy_history_reset": false
+          }
+        },
+        {
+          "identity": {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/observation_layout.json",
+            "bytes": 570,
+            "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+          },
+          "value": {
+            "parts": {
+              "ee_pos_err_body": 3,
+              "ee_rot_err_body": 3,
+              "ee_twist_body": 6,
+              "ee_target_pos_body": 3,
+              "ee_target_rot6d_body": 6,
+              "arm_dof_pos": 6,
+              "arm_dof_vel": 6,
+              "base_roll_pitch_height": 3,
+              "base_twist": 6,
+              "dog_vel_residual": 3,
+              "dog_contact_states": 4,
+              "base_feedforward": 3,
+              "arm_actions": 15,
+              "traj_progress_scalars": 4,
+              "traj_tau_enc": 2,
+              "traj_urgency": 2,
+              "traj_preview": 126
+            },
+            "history": 12060,
+            "configuration": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+          }
+        }
+      ],
+      "final_progress_m": 0.04329388961195946,
+      "final_time_reference_m": 0.09999999403953552,
+      "final_timing_error_m": -0.056706104427576065,
+      "proxy_sin_half_angle_abs_max": 1.465343911766226e-07,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.019805818796157837
+    }
+  ],
+  "upgraded_WBC": {
+    "status": "UNRECEIVED",
+    "inventory_scope": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13",
+    "observed_entries": {
+      "intake": [
+        {
+          "name": "WBCTrackingShare_20260831.zip",
+          "bytes": 963451251,
+          "is_dir": false
+        }
+      ],
+      "manifests": [
+        {
+          "name": "LAB_DELIVERED_WBC_ARTIFACT_V0.yaml",
+          "bytes": 1741,
+          "is_dir": false
+        }
+      ],
+      "extracted": [
+        {
+          "name": "WBCTrackingShare",
+          "bytes": 4096,
+          "is_dir": true
+        }
+      ]
+    },
+    "owner_delivery_path": null,
+    "ABI_comparison": "UNOBSERVED_NO_DELIVERED_UPGRADE",
+    "new_execution": 0
+  },
+  "normalizer": {
+    "identity": "Original loader/config/shim/HistoryWrapper are indexed and copied; actor receives saved full obs_history. No substitute normalizer or fitted stats introduced.",
+    "normalization_trace": "Resolved native WBC_CONFIG plus wrapper get_arm_observations and native actor loader source; no new normalizer evaluation or checkpoint tensor loading",
+    "learned_normalizer_load": "Original safe_load_actor loads only actor_body and actor_history_encoder prefixes. Observation scales/clipping come from native config/source; checkpoint non-inference keys are not silently treated as an executed normalizer."
+  },
+  "sameTCP": "URDF root\u2192x5_link6 plus identity-rotation offset [.1424,0,.0001057]m; native quaternion is link6 quaternion; all prior independent readbacks indexed.",
+  "orientation_proxy": "Native sign-corrected quaternion vector part, dimensionless norm sin(theta/2). Report true SO3 angle in radians; proxy is unchanged actor input.",
+  "requested_semantics": "Requested chunk XYZ is raw world reference minus fixed anchor; installed rows are evaluated at native time-law progress. Actual TCP/URDF FK remain distinct; preview uses spatial native progress.",
+  "frozen_weights_software": "Frozen delivered arm/dog checkpoint hashes kept separate from wrapper/one progress repair implementation and actual per-attempt runtime consumption receipts.",
+  "target_block": "All actually consumed repair fixtures fail SO3 RMS<=.15/max<=.30; no target composition or high-level compensating training qualification.",
+  "original_files_unchanged": true,
+  "new_model_calls": 0,
+  "new_actor_calls": 0,
+  "new_physics_steps": 0,
+  "new_render_calls": 0,
+  "new_teacher_calls": 0,
+  "new_training_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

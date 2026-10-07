@@ -1,0 +1,178 @@
+{
+  "schema": "PI0281_WBC_SINGLE_REPAIR_CARD_V1",
+  "release_commit": "360b412f55be8aec1568054d7d039ce7de2bc597",
+  "canonical_comment": "6040516315",
+  "status": "CPU_IO_REVISION_PREPARED_PENDING_PUBLICATION",
+  "launch_allowed": false,
+  "repair_id": "FIRST_ORDERED_LOCAL_MINIMUM",
+  "selection_scope": "one engineering reference-projection repair; no learned parameter changes",
+  "original_source": {
+    "scripts/stage21_native_receding_horizon.py": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage21_native_receding_horizon.py",
+      "sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00"
+    },
+    "src/go2arx5_vla/wbc/native/kinematics.py": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/wbc/native/kinematics.py",
+      "sha256": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315"
+    },
+    "legged_robot": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/legged_robot.py",
+      "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+    },
+    "native_config": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+      "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+    },
+    "trajectory_module": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+      "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+    },
+    "wbc_env": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    "wbc_wrapper": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env_wrapper.py",
+      "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+    },
+    "compatibility_shim": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/PI0226_pytorch3d_shim/pytorch3d/transforms.py",
+      "sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282"
+    },
+    "go1_gym/utils/math_utils.py": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+      "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+    },
+    "go1_gym/envs/roboduet/utils.py": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/utils.py",
+      "sha256": "4c2166bb97650fce4744766d45e6a123dba3d95c2ca1451b1d09c6aaa054a072"
+    },
+    "go1_gym/envs/config/core.py": {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/core.py",
+      "sha256": "fae8db47633677e16e9b894d9881e0ae6e89a2e8ff2b966038ab1d64b5cde1a8"
+    }
+  },
+  "rule": {
+    "candidates": "unchanged native linspace M=16 from previous valid progress through min(previous+0.15m,L)",
+    "score": "unchanged sqrt(position_distance_squared + (0.15*SO3_angle)^2)",
+    "selection": "first index i whose score <= both adjacent scores; missing endpoint neighbor is +infinity",
+    "ties": "smallest index, including plateaus; exact float32 comparisons, no tolerance or tuning term",
+    "state": "existing reference-local monotonic progress; same installed reference lifecycle reset to zero on replacement",
+    "bounds": "native physical search window 0.15m unchanged; clamp to native L; no new displacement/velocity bound",
+    "unchanged": [
+      "time law",
+      "s_ref",
+      "timing_err = s - s_ref",
+      "sdot measurement",
+      "TRACKING_ABORT grace and thresholds",
+      "actor weights and normalization",
+      "pose sin(theta/2) error proxy",
+      "gains",
+      "scene",
+      "URDF",
+      "joint limits",
+      "physics timestep",
+      "stop codes",
+      "TCP geometry"
+    ]
+  },
+  "evidence": "CPU_PROJECTION.json",
+  "limitation": "Saved historical poses do not contain native link quaternion or actor inputs. Source chain and CPU nonidentity algebra are available; new actual observation equality awaits fixtures.",
+  "versions": [
+    "native",
+    "repair"
+  ],
+  "fixtures": [
+    "hold",
+    "monotonic",
+    "return"
+  ],
+  "seed": 4242,
+  "duration_s": 10,
+  "allocation_per_fixture": {
+    "physical_starts": 1,
+    "wbc_controls": 501,
+    "wbc_actor_forwards": 1000,
+    "integrations": 2004,
+    "dispatches": 2004,
+    "RGB_pairs": 100
+  },
+  "allocation_total": {
+    "physical_starts": 6,
+    "wbc_controls": 3006,
+    "wbc_actor_forwards": 6000,
+    "integrations": 12024,
+    "dispatches": 12024,
+    "RGB_pairs": 600
+  },
+  "quality_retries": 0,
+  "technical_replacements": "Only same-state technical replacement, notify owner; no automatic retry",
+  "gate": {
+    "full_10s": true,
+    "native_hard_stops_preserved": true,
+    "final_2s_position_rms_m": 0.02,
+    "final_2s_position_max_m": 0.04,
+    "final_2s_SO3_rms_rad": 0.15,
+    "final_2s_SO3_max_rad": 0.3,
+    "hard_joint_limit_tol": 1e-06,
+    "soft_negatives": "preserved separately"
+  },
+  "downstream": {
+    "expert": "Only if all three final fixtures pass; owner executes exactly four frozen target expert attempts",
+    "recorded_model": "Only if expert persistent success >=3/4; exactly four recorded original EEF attempts",
+    "failure": "No target expert or model replay; dependent metrics null",
+    "training_allowed": false
+  },
+  "headroom": {
+    "gpu": 0,
+    "min_free_MiB_before_each_fixture": 12288,
+    "method": "nvidia-smi live free memory; otherwise resource blocker before reservation/start"
+  },
+  "files": {
+    "wbc.py": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4",
+    "wbc_cpu.py": "04c68779857d78920b0d1c4a4066b6d7ffd56c9583de9d42af65a4514b7ddaa8",
+    "wbc_launch.py": "763c514841606c6bf8b0d18a9a4844951e0dced93bb1c4e503b97822cd93b2d1",
+    "wbc_readout.py": "305ff392f94c96c6480c7c1d6828a7b5eaf25b8d2889c99d1303a91ef4f24b49",
+    "wbc_repair.py": "32d898f456f4204b2f30435963a02b85fe388d16f30105dd25605cf92c776f73"
+  },
+  "new_physical_starts": 0,
+  "new_actor_forwards": 0,
+  "new_model_queries": 0,
+  "new_training_updates": 0,
+  "CPU_runtime": {
+    "python": "3.8.20 (default, Oct  3 2024, 15:24:27) \n[GCC 11.2.0]",
+    "torch": "2.3.1",
+    "cuda": "12.1",
+    "device": "cpu"
+  },
+  "IO_revision": {
+    "id": "BUFFERED_APPEND_FINAL_FSYNC",
+    "prior_wbc_sha256": "85dc2e7252e57b9e1a6698b5ebeba8a3b79516e9503e70e726ae52b9ed5503c0",
+    "new_wbc_sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278",
+    "old_effective_fixture": "native_hold",
+    "remaining_fixtures": [
+      "native_monotonic",
+      "native_return",
+      "repair_hold",
+      "repair_monotonic",
+      "repair_return"
+    ],
+    "algorithm_change": false,
+    "payload_change": false,
+    "budget_change": false,
+    "buffer_bytes_per_journal": 8388608,
+    "finalization": "flush, fsync, close, streaming linecount and SHA256 readback",
+    "evidence": [
+      "IO_EVENT_TIMING.json",
+      "IO_KERNEL_WAIT_SAMPLING.json",
+      "IO_TRACE_RECEIPT.txt"
+    ]
+  },
+  "technical_installation_correction": {
+    "id": "ACTUAL_FUNCTION_LOCAL_IMPORT_MODULE",
+    "old_defect": "Unused module alias",
+    "rule_unchanged": true,
+    "technical_replacements": 3,
+    "quality_retries": 0
+  }
+}

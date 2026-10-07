@@ -1,0 +1,87 @@
+{
+  "schema": "PI0282_FIXED_AUDIT_AND_SELECTION_V1",
+  "development": {
+    "eligible_endpoints": [
+      "INTERFACE2048",
+      "ACTION2048"
+    ],
+    "TRAIN_denominator": 4,
+    "TRAIN_min": 3,
+    "DEV_denominator": 8,
+    "DEV_min": 6
+  },
+  "ordering": [
+    "DEV persistent count descending",
+    "TRAIN persistent count descending",
+    "INTERFACE2048 preferred"
+  ],
+  "confirmation": {
+    "seeds": [
+      30032,
+      30033,
+      30034,
+      30035,
+      30036,
+      30037,
+      30038,
+      30039,
+      30040,
+      30041,
+      30042,
+      30043,
+      30044,
+      30045,
+      30046,
+      30047
+    ],
+    "denominator": 16,
+    "min_persistent": 12,
+    "one_frozen_candidate_only": true,
+    "previously_unqueried_required": true,
+    "failed_confirm_no_second_candidate": true
+  },
+  "metric": "Full valid32s and unchanged on_top & static & not_grasped at every41 control samples28..30s; early valid failures retained in denominator, missing suffix never fabricated",
+  "identity_freeze": [
+    "model",
+    "processor",
+    "statistics",
+    "mapping",
+    "decode"
+  ],
+  "TRAIN_statistics_only": true,
+  "retention_not_selection": true,
+  "expected_rows": {
+    "index": 10,
+    "scalars": 10180740,
+    "slices": 14,
+    "packed_scalars": 325783680
+  },
+  "training": {
+    "updates_each": 2048,
+    "chunks_each": 16384,
+    "phase_chunks_each": 4096,
+    "effective_batch": 8,
+    "visits_per_episode_phase": [
+      44,
+      45
+    ],
+    "episodes": 93
+  },
+  "required_actual_receipts": [
+    "original row10 slice hashes",
+    "frozen-row byte hashes",
+    "optimizer moments/grad masks/zero projector decay",
+    "actual sample cursor/order",
+    "actual full132 noise/time hash per forward",
+    "same initial/model snapshot both arms",
+    "canary fresh-process resume parity",
+    "TRAIN codec physical errors",
+    "cache actual parity"
+  ],
+  "completed_receipt_audits": [],
+  "source_candidate": "NONE_UNTIL_FIXED_GATES",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "new_model_calls": 0,
+  "new_physics_steps": 0
+}

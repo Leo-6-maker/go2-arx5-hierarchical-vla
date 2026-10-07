@@ -1,0 +1,37 @@
+{
+  "status": "ENGINEERING_REPAIR_NOT_INSTALLED",
+  "actual_consumer": "WBCEnv._update_trajectory_progress imports modules.trajectory.update_s_batch inside method",
+  "old_install": "Assigned unused go1_gym.envs.roboduet.wbc_env.update_s_batch",
+  "same_rule": true,
+  "quality_retries": 0,
+  "technical_replacement_conditions": [
+    "repair_hold",
+    "repair_monotonic",
+    "repair_return"
+  ],
+  "technical_replacements_authorized_by_original_cap": 3,
+  "original_results_retained_unchanged": true,
+  "pairs": [
+    {
+      "condition": "hold",
+      "original_repair_result_sha256": "9aeb6be92c66ef55161222875bec0232daf0f0b38755ebd1a253cf785292ff8b",
+      "native_rows_sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e",
+      "unapplied_repair_rows_sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e",
+      "rows_byte_equal": true
+    },
+    {
+      "condition": "monotonic",
+      "original_repair_result_sha256": "5d68a72658a9a23447e896e69c05326cb24e9810f72bb51f7ba95ba55e5abe7d",
+      "native_rows_sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c",
+      "unapplied_repair_rows_sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c",
+      "rows_byte_equal": true
+    },
+    {
+      "condition": "return",
+      "original_repair_result_sha256": "5daa792ef008e87d017884076a591931f17217c1e97031fe8710f516d2eb9772",
+      "native_rows_sha256": "099bf3d62866ab63fe55a0cc981998e3d73c146c65463a7d0778fbc9c536374c",
+      "unapplied_repair_rows_sha256": "099bf3d62866ab63fe55a0cc981998e3d73c146c65463a7d0778fbc9c536374c",
+      "rows_byte_equal": true
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "status": "CPU_READBACK_COMPLETE",
+  "fixture": "repair_return-engineering-001",
+  "result_status": "WBC_FIXTURE_EXECUTED",
+  "quality": false,
+  "full10s": true,
+  "final2s_samples": 100,
+  "position_final2s_m": {
+    "n": 100,
+    "mean": 0.008937790826344038,
+    "rms": 0.009007799408190404,
+    "p50": 0.00882252392407456,
+    "p95": 0.010879643141043801,
+    "max": 0.01220634623073856
+  },
+  "rotation_final2s_rad": {
+    "n": 100,
+    "mean": 0.5426956036247804,
+    "rms": 0.543152610788581,
+    "p50": 0.5485530213203191,
+    "p95": 0.5710903933288991,
+    "max": 0.5754222157117594
+  },
+  "hard_penetration_max_SI": 0.0,
+  "hard_penetration_raw_recomputation_max_abs": 0.0,
+  "soft_margin_min_mixed_SI": -0.019805818796157837,
+  "FK_saved_position_max_abs_m": 3.3306690738754696e-16,
+  "FK_native_position_m": {
+    "n": 501,
+    "mean": 4.328569801384658e-07,
+    "rms": 4.402759843372958e-07,
+    "p50": 4.3627011479122413e-07,
+    "p95": 5.655500367585823e-07,
+    "max": 6.498285303675957e-07
+  },
+  "FK_native_rotation_rad": {
+    "n": 501,
+    "mean": 1.1310532477903444e-06,
+    "rms": 1.1680554480994944e-06,
+    "p50": 1.1342369627169258e-06,
+    "p95": 1.6010665212554253e-06,
+    "max": 1.970342418813326e-06
+  },
+  "raw_to_installed_position_m": {
+    "n": 501,
+    "mean": 5.5083733594822074e-08,
+    "rms": 2.3136941783112767e-07,
+    "p50": 5.960464477539063e-08,
+    "p95": 1.7881393432617188e-07,
+    "max": 4.947185516357422e-06
+  },
+  "raw_to_installed_orientation_rad": {
+    "n": 501,
+    "mean": 0.0,
+    "rms": 0.0,
+    "p50": 0.0,
+    "p95": 0.0,
+    "max": 0.0
+  },
+  "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+  "progress": {
+    "max_step_m": 0.013333333656191826,
+    "last_m": 0.04329388961195946,
+    "last_s_ref_m": 0.09999999403953552,
+    "last_timing_error_m": -0.056706104427576065
+  },
+  "native_termination": null,
+  "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+  "proxy_norm_all": {
+    "n": 501,
+    "mean": 0.3493297223206203,
+    "rms": 0.3654496935991599,
+    "p50": 0.3315862288181469,
+    "p95": 0.49750019093949066,
+    "max": 0.5363209917858476
+  },
+  "proxy_recovered_theta_all_rad": {
+    "n": 501,
+    "mean": 0.7187711136401257,
+    "rms": 0.754895047648349,
+    "p50": 0.6759688617194899,
+    "p95": 1.0414292839906718,
+    "max": 1.132144200503842
+  },
+  "actor_readback": {
+    "preview_rot6d": {
+      "n": 500,
+      "mean": 1.028715349177603e-07,
+      "rms": 1.088447555813733e-07,
+      "p50": 9.556406985189447e-08,
+      "p95": 1.6111073357083501e-07,
+      "max": 2.45990411776309e-07
+    },
+    "preview_position": {
+      "n": 500,
+      "mean": 2.0474784474214248e-08,
+      "rms": 2.4996681999869987e-08,
+      "p50": 1.6766151939018314e-08,
+      "p95": 4.8715969043489045e-08,
+      "max": 8.340664175987555e-08
+    },
+    "body_target_rot6d": {
+      "n": 500,
+      "mean": 4.4397576499044524e-08,
+      "rms": 4.9745305396967306e-08,
+      "p50": 3.888545191399473e-08,
+      "p95": 9.002566668248057e-08,
+      "max": 1.5105797535053256e-07
+    },
+    "body_target_quaternion": {
+      "n": 500,
+      "mean": 1.259440591884903e-07,
+      "rms": 1.353722210010216e-07,
+      "p50": 1.2366540724738546e-07,
+      "p95": 2.0960065728116205e-07,
+      "max": 2.6705461187171575e-07
+    },
+    "body_target_position": {
+      "n": 500,
+      "mean": 4.2844254250842816e-08,
+      "rms": 5.292785183802137e-08,
+      "p50": 3.266963197190442e-08,
+      "p95": 1.0890799697418903e-07,
+      "max": 1.4896972433398048e-07
+    },
+    "body_position_error": {
+      "n": 500,
+      "mean": 9.226277607048307e-10,
+      "rms": 1.091508079158904e-09,
+      "p50": 8.212313667640969e-10,
+      "p95": 2.1226738029615767e-09,
+      "max": 3.5347394343118732e-09
+    },
+    "body_rotation_proxy": {
+      "n": 500,
+      "mean": 2.4146048561282662e-08,
+      "rms": 2.989308065000834e-08,
+      "p50": 1.863577622773782e-08,
+      "p95": 6.358643806492202e-08,
+      "max": 9.436322945255426e-08
+    },
+    "proxy_sin_halfangle": {
+      "n": 500,
+      "mean": 3.252630454783634e-08,
+      "rms": 3.998542921047919e-08,
+      "p50": 2.9432859843803172e-08,
+      "p95": 7.686567365799974e-08,
+      "max": 1.465343911766226e-07
+    },
+    "native_link6_orientation": {
+      "n": 500,
+      "mean": 0.0,
+      "rms": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "actor_FK_orientation": {
+      "n": 500,
+      "mean": 1.1312297534780939e-06,
+      "rms": 1.1682925025565161e-06,
+      "p50": 1.1356459946608563e-06,
+      "p95": 1.6012072922816628e-06,
+      "max": 1.970342418813326e-06
+    },
+    "history_shift": {
+      "n": 499,
+      "mean": 0.0,
+      "rms": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    }
+  },
+  "actor_records": 500,
+  "history_frame_width": 201,
+  "history_frames": 60,
+  "initial_history_distinct_frames": 2,
+  "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+  "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+  "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+  "inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/RESULT.json",
+      "bytes": 1385,
+      "sha256": "5b4a892dd639d9ddfded0a8163b9352e0855a8af72c7a4a845298cd3e75fb1ca"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/DONE.json",
+      "bytes": 362,
+      "sha256": "4ecb1f3cc0362cae2534fb52ed35a6fce8fbd52e65e97598554c1005c28931bc"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/rows.json",
+      "bytes": 3545020,
+      "sha256": "b0579c6c1075ae909821e51f1016cfb3e160e495d6530dbe04b2e8e1e0aba888"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/reference.npz",
+      "bytes": 2435,
+      "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/actor_inputs.jsonl",
+      "bytes": 107935361,
+      "sha256": "2b186303bd57c8804b7226506a0cdbe8d20658f174daa6f5c926db6395caea50"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/observation_layout.json",
+      "bytes": 570,
+      "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/installation.json",
+      "bytes": 601,
+      "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "bytes": 34918,
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    }
+  ],
+  "new_model_queries": 0,
+  "new_actor_forwards": 0,
+  "new_physics_steps": 0,
+  "new_training_updates": 0,
+  "source_files": [
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+      "bytes": 4495,
+      "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+      "bytes": 141128,
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+      "bytes": 14912,
+      "sha256": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+    }
+  ]
+}
