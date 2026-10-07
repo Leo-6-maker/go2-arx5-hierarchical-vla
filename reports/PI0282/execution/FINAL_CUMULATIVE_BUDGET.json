@@ -1,0 +1,60 @@
+{
+  "schema": "PI0282_CUMULATIVE_ACTUAL_CLOSEOUT_V1",
+  "observed_epoch": 1791411341.927417,
+  "completed_updates": {
+    "canary": 16,
+    "technical": 16,
+    "formal": 2048
+  },
+  "completed_total": 2080,
+  "formal_chunks": 16384,
+  "native_forward_attempts": 4160,
+  "native_sampled_chunks": 16640,
+  "loss_failed_updates": 0,
+  "technical_training_recoveries": 4,
+  "quality_requests": 874,
+  "S4_heads": 3492,
+  "physical_starts": 16,
+  "controls": 8648,
+  "physics_integrations": 43240,
+  "RGB_pairs": 8652,
+  "control_gripper_dispatches_derived": 17296,
+  "dispatch_basis": "One native arm and one gripper dispatch per recorded combined-control call; not a separately captured subcontroller ledger",
+  "new_teacher_invocations": 0,
+  "DEV_queries": 0,
+  "CONFIRM_queries": 0,
+  "retention_queries": 0,
+  "WBC_target_hardware_TEST_DEV_F_calls": 0,
+  "GPU_hours": {
+    "Hopper_start_to_obit_bound": 0.9611111111111111,
+    "Core_first_expert_wrapper_start_to_last_model_wrapper_end_bound": 3.6958232039875454,
+    "total_conservative_bound": 4.656934315098656,
+    "cap": 12,
+    "actual_utilization": "UNOBSERVED"
+  },
+  "CPU_core_hours": {
+    "conservative_reservation_bound": 104.39959676133262,
+    "cap": 128,
+    "basis": "Goal creation through accounting readback: Core12 + Hopper CPU-only4 + PC4 reserved continuously, plus all12 Hopper PBS CPUs for start-to-obit intervals. Intentionally double-counts Hopper audit overlap; upper scheduling bound, not measured CPU time.",
+    "retained_PBS_actual_cput_seconds": 3282,
+    "retained_source_child_actual_CPU_seconds": 2618.495107,
+    "coverage_limit": "Individual CPU time for every short shell, data-worker and reporting process was not captured; do not label this bound an actual utilization measurement."
+  },
+  "retained_output_allocated_bytes": 79290953728,
+  "retained_cap_bytes": 128849018880,
+  "quota_headroom": "UNKNOWN",
+  "complete_Trainers": [
+    1024,
+    2048
+  ],
+  "scientific_processes_terminal": true,
+  "accounting_sources": [
+    "HOP_FINAL_ACCOUNTING.json",
+    "CORE_FINAL_ACCOUNTING.json",
+    "TECHNICAL_ATTEMPT_000.json",
+    "TECHNICAL_ATTEMPT_001.json",
+    "HOP_TRAINING_FINAL_CPU_AUDIT.json"
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}
