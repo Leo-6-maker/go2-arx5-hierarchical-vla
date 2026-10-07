@@ -1,10 +1,10 @@
 """Official frozen DROID source reproduction with actual paired noise and no learning."""
-import argparse,copy,hashlib,importlib.metadata,json,os,sys,time
+import argparse,copy,hashlib,importlib.metadata,json,os,shutil,sys,time,urllib.request
 from pathlib import Path
 from bind_pristine import ROOT,BASE,SOURCE,CODE_SHA,REVISION,RELEASE,digest
 
 TAG='oxe_droid_relative_eef_relative_joint'
-DATA=SOURCE/'demo_data/droid_sample'
+DATA=ROOT/'assets/droid_sample'
 OUT=ROOT/'native'
 
 def write(p,v):
@@ -19,6 +19,29 @@ def prepare():
     import cv2,numpy as np,pandas as pd
     assert json.loads((ROOT/'evidence/PRISTINE_FILES.json').read_text())['status']=='PRISTINE_LOCAL_FILES_VERIFIED'
     OUT.mkdir(parents=True,exist_ok=True)
+    materialized=[]
+    names=['meta/'+n for n in ['info.json','modality.json','episodes.jsonl','tasks.jsonl']]
+    for episode in (1,2):
+        names.append(f'data/chunk-000/episode_{episode:06d}.parquet')
+        names.extend(f'videos/chunk-000/{view}/episode_{episode:06d}.mp4' for view in ['observation.images.exterior_1_left','observation.images.wrist_left'])
+    for name in names:
+        source=ROOT/'official/demo_data/droid_sample'/name;target=DATA/name;target.parent.mkdir(parents=True,exist_ok=True)
+        content=source.read_bytes()
+        if content.startswith(b'version https://git-lfs.github.com/spec/v1'):
+            pointer=dict(line.split(' ',1) for line in content.decode().splitlines());expected=pointer['oid'].split(':')[1];size=int(pointer['size']);assert size<1<<30
+            if not target.exists():
+                url=f'https://media.githubusercontent.com/media/NVIDIA/Isaac-GR00T/{CODE_SHA}/demo_data/droid_sample/{name}'
+                temporary=target.with_suffix(target.suffix+'.partial')
+                with urllib.request.urlopen(url,timeout=60) as response,temporary.open('wb') as stream:shutil.copyfileobj(response,stream)
+                assert temporary.stat().st_size==size and digest(temporary)==expected,name
+                temporary.replace(target)
+            assert target.stat().st_size==size and digest(target)==expected,name
+        else:
+            expected=hashlib.sha256(content).hexdigest()
+            if not target.exists():target.write_bytes(content)
+            assert digest(target)==expected,name
+        materialized.append(dict(path=name,bytes=target.stat().st_size,sha256=expected,pinned_git_source=CODE_SHA))
+    freeze(ROOT/'evidence/DROID_MATERIALIZATION.json',dict(files=materialized,total_bytes=sum(r['bytes'] for r in materialized),training_data_production=0,purpose='existing official source evaluation only'))
     info=json.loads((DATA/'meta/info.json').read_text());assert info['fps']==15
     episodes={r['episode_index']:r for r in map(json.loads,(DATA/'meta/episodes.jsonl').read_text().splitlines())}
     tasks={r['task_index']:r['task'] for r in map(json.loads,(DATA/'meta/tasks.jsonl').read_text().splitlines())}
