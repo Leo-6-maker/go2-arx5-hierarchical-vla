@@ -28,7 +28,7 @@ def report(point,lane):
         metrics={
             'command_to_installed_FK_XYZ_m':np.linalg.norm(command[:,:3]-installed[:,:3,3],axis=1),
             'installed_FK_to_achieved_at_control_end_XYZ_m':np.linalg.norm(installed[:,:3,3]-tcp[endpoints,:3,3],axis=1),
-            'command_to_achieved_at_control_end_XYZ_m':np.linalg.norm(command[:,:3]-tcp[endpoints,:3,3],axis=1)}
+            'command_to_achieved_at_control_end_XYZ_m':np.linalg.norm(command[:,:3]-tcp[endpoints,:3,3],axis=1)} if len(command) else {k:np.empty(0) for k in ('command_to_installed_FK_XYZ_m','installed_FK_to_achieved_at_control_end_XYZ_m','command_to_achieved_at_control_end_XYZ_m')}
         rows.append(dict(episode=folder.parent.name,status=v['status'],persistent_success=v['persistent_success'],first_success_s=v['first_success_s'],events_at_native_100Hz=events,IK_hold_control_times_s=(np.flatnonzero(hold)*.05).tolist(),
             errors={k:dict(median=float(np.median(a)),p95=float(np.percentile(a,95)),max=float(a.max())) if len(a) else None for k,a in metrics.items()},result_sha256=sha(result)))
     assert rows
