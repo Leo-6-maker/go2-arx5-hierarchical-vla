@@ -86,6 +86,7 @@ def episode(sw,server,card,point,panel,seed):
     for attempt,authorization in zip(sorted(attempts),replacements):
         proof=attempt/'RESULT.json';assert digest(proof)==authorization['result_sha256']
         assert json.loads(proof.read_text())['status']=='ENGINEERING_INCOMPLETE'
+    began=time.monotonic()
     ep=sw.Episode(slot,seed,'pd_ee_pose');queries=[];status='VALID_SOURCE_COMPLETE'
     try:
         reference=None
@@ -127,6 +128,7 @@ def episode(sw,server,card,point,panel,seed):
         persistent=bool(status=='VALID_SOURCE_COMPLETE' and ep.control==660 and len(success)==641 and success[560:601].all())
         write(ep.folder/'QUERIES.json',queries);result=ep.finish(status)
         result.update(point=point,panel=panel,condition=seed,folder=str(ep.folder),queries=len(queries),persistent_success=persistent,
+            elapsed_wall_monotonic_s=time.monotonic()-began,
             task_control_calls=max(0,ep.control-20),persistent_observed_samples=int(max(0,min(len(success),601)-560)),
             persistent_pass_samples=int(success[560:601].sum()),first_success_s=float(np.flatnonzero(success)[0]*.05) if success.any() else None,
             NON_REALTIME=True,domain='SOURCE_PANDA_EEF10_NOT_TARGET_WBC',selected='NONE',deployment='NONE')
