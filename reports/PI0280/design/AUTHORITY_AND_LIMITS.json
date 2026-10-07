@@ -1,0 +1,135 @@
+{
+  "schema": "PI0280_PRETRAINED_FIRST_AUTHORITY_AND_LIMITS_V1",
+  "authority": "PI0280_PRETRAINED_FIRST_FROZEN_WBC_BASELINE_NO_TRAIN_GO_V1",
+  "protocol": "docs/protocols/PI0280_GENUINE_PRETRAINED_GROOT_FROZEN_WBC_BASELINE_NO_TRAIN_V1.md",
+  "protocol_commit": "71d9377b0b09304b3105da3ac6e27226b0eb6fa0",
+  "reviewed_project_sha": "86a0d44f752b7d42546db1898e50d4bd14b50972",
+  "official_code_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "pause": {
+    "comment": 6037170888,
+    "published_sgt": "2026-10-07T19:42:26+08:00",
+    "supersedes_canonical": 6036062568,
+    "supersedes_release": "4afdb1401650353092428dcb69d0cb353ee74164",
+    "authority_status": "PAUSED_BY_USER_PRETRAINED_BASELINE_PRIORITY",
+    "remote_pause_status": "PENDING_OWNER_ACK",
+    "new_old_goal_scientific_units": 0,
+    "in_flight_atomic_safe_stop": "PREDECESSOR_LEDGER_ONLY",
+    "automatic_resume_after_baseline": false
+  },
+  "model": {
+    "repo": "nvidia/GR00T-N1.7-3B",
+    "snapshot_revision": "RESOLVE_FROM_VERIFIED_PRISTINE_LOCAL_SOURCE_BEFORE_INFERENCE",
+    "raw_serialized_processor_reviewed_remotely": false,
+    "original_weights_processor_statistics_decoder": true,
+    "all_parameters_frozen": true,
+    "source_native_tag": "oxe_droid_relative_eef_relative_joint",
+    "source_joints_allowed": "ONLY_ACTUAL_SOURCE_NATIVE_DIAGNOSTICS",
+    "target_joints_or_fictitious_source_joints": false,
+    "target_pretrain_route": "ELIGIBILITY_FROM_SERIALIZED_CONFIG_NOT_QUALITY_SEARCH",
+    "no_compatible_target_route": "BLOCKED_TARGET_PRETRAINED_INPUT_CONTRACT",
+    "new_embodiment_placeholder": false,
+    "posttrained_official_checkpoints": false,
+    "project_lineage_weights": false,
+    "native_history_frequency_dtype_must_be_verified": true
+  },
+  "lanes": {
+    "native_source": {
+      "dataset": "demo_data/droid_sample",
+      "episode_ids": [1, 2],
+      "anchors_per_episode": 16,
+      "implementations": 2,
+      "requests": 64,
+      "physics": false
+    },
+    "source_physics": {
+      "task": "Existing ManiSkill StackCube",
+      "initial_states": [10000, 10001, 10002, 10003],
+      "seconds": 32,
+      "requests_per_episode_cap": 80,
+      "requests": 320,
+      "starts": 4,
+      "type": "ZERO_UPDATE_SOURCE_TRANSFER_NOT_WBC"
+    },
+    "wbc_fixtures": {"starts": 2, "seconds_each": 10, "type": "HOLD_AND_5CM_Z_TRANSLATE_RETURN"},
+    "wbc_expert_references": {"starts": 4, "seconds_each": 32, "new_teacher_collection": false},
+    "wbc_recorded_pretrained": {
+      "starts": 4,
+      "seconds_each": 32,
+      "high_level_feedback": false,
+      "missing_or_rejected_source": "RETAIN_NOT_SUBSTITUTE"
+    },
+    "target_shadow": {"requests": 16, "actuation": false, "requires_honest_supported_target_inputs": true},
+    "wbc_fresh_closed_loop": {
+      "starts": 4,
+      "seconds_each": 32,
+      "requests_per_episode_cap": 80,
+      "requests": 320,
+      "requires_honest_supported_target_inputs": true,
+      "feedback": "FRESH_TARGET_RGB_HISTORY_ACTUAL_TCP_GRIPPER"
+    }
+  },
+  "wbc": {
+    "backend": "ACTUAL_SENIOR_GO2_ARX5_WBC_SIMULATION",
+    "version": "VERIFIED_DELIVERED_UPGRADE_IF_AVAILABLE_BEFORE_OUTCOMES_ELSE_LABEL_OLD_DELIVERED",
+    "weights_and_gains_frozen": true,
+    "actor_normalizer_asset_dt_gripper_identity_required": true,
+    "native_progress_and_preview_retained": true,
+    "hardware_calls": 0,
+    "standin_not_accepted": ["E0", "E1", "Panda_OSC", "KINEMATIC_TOOL"]
+  },
+  "nominal_counts": {
+    "neural_requests": 720,
+    "neural_heads_if_native4": 2880,
+    "physical_starts": 18,
+    "source_physics_steps": 12800,
+    "wbc_control_ticks_if50Hz": 20200,
+    "source_seconds": 128,
+    "wbc_seconds": 404
+  },
+  "hard_caps": {
+    "training_updates": 0,
+    "training_backward": 0,
+    "optimizers": 0,
+    "statistics_refits": 0,
+    "new_training_data_production": 0,
+    "quality_requests_attempted": 1024,
+    "action_head_evaluations": 4096,
+    "physical_starts": 22,
+    "technical_replacements": 4,
+    "valid_quality_retries": 0,
+    "wbc_control_ticks": 30000,
+    "wbc_actor_forwards": 120000,
+    "all_simulator_integration_steps_per_environment": 250000,
+    "control_gripper_dispatches": 60000,
+    "RGB_pairs": 30000,
+    "new_GPU_hours": 12,
+    "new_CPU_core_hours": 48,
+    "missing_official_download_GiB": 30,
+    "new_outputs_cache_GiB": 60,
+    "hardware_motor_commands": 0
+  },
+  "qualification": {
+    "pristine_load": "IDENTITY_NOT_TASK_SUCCESS",
+    "native_inference": "SOURCE_EXECUTION_PARITY_NOT_TASK_SUCCESS",
+    "recorded_WBC": "NOT_HIGH_LEVEL_CLOSED_LOOP",
+    "target_feedback_min_queries": 3,
+    "target_feedback_min_installed_replacements": 2,
+    "task_metric": "Original on_top AND static AND not_grasped all41 samples28..30s; full32s valid execution",
+    "desired_narrow_task_fraction": [3, 4],
+    "target_score_not_guaranteed": true,
+    "zero_success_can_be_valid_baseline_failure": true,
+    "unsupported_input_not_policy_quality_failure": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "old_confirmation_30032_30063": "LOCKED"
+  },
+  "deferred": [
+    "PI0279_CLEAR4096",
+    "old_microtuning_and_recovery_data",
+    "multi_task_scene_campaign",
+    "HF_bulk_archive",
+    "new_precision_or_compile_or_TensorRT_sweeps"
+  ],
+  "owner_runtime_status_not_inferred": true,
+  "reviewer_remote_SSH_or_jobs": false
+}
