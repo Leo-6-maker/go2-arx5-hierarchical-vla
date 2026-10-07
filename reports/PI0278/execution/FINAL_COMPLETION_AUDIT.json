@@ -1,0 +1,362 @@
+{
+  "CONFIRM": "NOT_OPENED",
+  "DEV": "NOT_ADMITTED_BY_VALID_TRAIN_FAIL",
+  "HF_bulk": "DEFERRED_USER_PRIORITY_BY_SECTION7",
+  "canonical": 6027913340,
+  "checks": {
+    "actual372_coverage_rows": true,
+    "actual4096_training": true,
+    "actual_CANARY": true,
+    "actual_final_full_source_restore_readback": true,
+    "all1152_saved_outputs_CPU_closed": true,
+    "all12_actual_RGB_clips": true,
+    "all3_screens_and12_conditions": true,
+    "all8192_inputs_losses_modes_S4": true,
+    "exact_caps_with_raw_old_budget_preserved": true,
+    "final559_frozen_payloads": true,
+    "local_actual_inference_and_cached_example_separated": true,
+    "three_contact_sheets_visual_QA": true,
+    "valid_TRAIN_failure_prevents_DEV_and_CONFIRM": true
+  },
+  "deployment": "NONE",
+  "governing_release": "83af9099f3bab9a4ac08eaa85380c2cfd6351f34",
+  "hash_scope": "Exact original bytes in this Windows working copy; Git text normalization can differ, original host hashes retained in receipts",
+  "limits": {
+    "HOP_CPU_items": [
+      13144,
+      65536
+    ],
+    "RGB_pairs": [
+      7680,
+      34500
+    ],
+    "all_completed_updates": [
+      4112,
+      4176
+    ],
+    "controls": [
+      7680,
+      34000
+    ],
+    "formal_updates": [
+      4096,
+      4096
+    ],
+    "physics": [
+      38400,
+      170000
+    ],
+    "quality_heads": [
+      4544,
+      18432
+    ],
+    "quality_requests": [
+      1136,
+      4608
+    ],
+    "starts": [
+      12,
+      52
+    ],
+    "training_heads": [
+      74046,
+      76032
+    ]
+  },
+  "observed_utc": "2026-10-07T10:11:21.387382+00:00",
+  "old_CONTROL": "DEFERRED_USER_PRIORITY",
+  "quality": "NOT_USABLE",
+  "raw_noise_regeneration": "NOT_PERFORMED",
+  "remaining_required_scientific_work": 0,
+  "results": [
+    {
+      "full_CPU_replayed_outputs": 368,
+      "point": "COVER93512",
+      "task": {
+        "denominator": 4,
+        "deployment_selected_checkpoint": "NONE",
+        "lane": "TRAIN_PHYSICS",
+        "new_model_queries": 0,
+        "new_physics_steps": 0,
+        "on_top_cases": 4,
+        "persistent_stacks": 2,
+        "point": "COVER93512",
+        "rows": [
+          {
+            "IK_holds": 1,
+            "control_calls": 640,
+            "first_grasp_s": 4.71,
+            "first_lift_2cm_s": 5.24,
+            "first_success_s": 15.350000000000001,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 10.56,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10000-COVER93512/attempt-000",
+            "persistent_success": false,
+            "point": "COVER93512",
+            "release_after_grasp": true,
+            "result_sha256": "a93d7fe91a40dcdeb04a07279e370ad1058e96b877c7d9bec530342380c9e03a",
+            "seed": 10000,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.91,
+            "first_lift_2cm_s": 3.63,
+            "first_success_s": 6.15,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 3.16,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10001-COVER93512/attempt-000",
+            "persistent_success": true,
+            "point": "COVER93512",
+            "release_after_grasp": true,
+            "result_sha256": "d65860e08b7e00d272ba0d69416530c3aa4b022d78406fe0455bf20830b28d5a",
+            "seed": 10001,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.22,
+            "first_lift_2cm_s": 3.04,
+            "first_success_s": 5.2,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 2.79,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10002-COVER93512/attempt-000",
+            "persistent_success": true,
+            "point": "COVER93512",
+            "release_after_grasp": true,
+            "result_sha256": "c5142f244684034b4e10439f157eb00443af0d165a0a84f9f7141284460fe9ef",
+            "seed": 10002,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.7,
+            "first_lift_2cm_s": 3.23,
+            "first_success_s": 6.25,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 3.37,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10003-COVER93512/attempt-000",
+            "persistent_success": false,
+            "point": "COVER93512",
+            "release_after_grasp": true,
+            "result_sha256": "39c1a9c80b9e013bf3cd4e81c7e1b3293ee808d512d21d48f9df15cd25d30d22",
+            "seed": 10003,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          }
+        ],
+        "score_definition": "Original native predicate; all41control samples28..30s; full32s interface-valid execution",
+        "selected_checkpoint": "NONE",
+        "sustained_lifts": 4
+      }
+    },
+    {
+      "full_CPU_replayed_outputs": 368,
+      "point": "COVER932048",
+      "task": {
+        "denominator": 4,
+        "deployment_selected_checkpoint": "NONE",
+        "lane": "TRAIN_PHYSICS",
+        "new_model_queries": 0,
+        "new_physics_steps": 0,
+        "on_top_cases": 3,
+        "persistent_stacks": 0,
+        "point": "COVER932048",
+        "rows": [
+          {
+            "IK_holds": 70,
+            "control_calls": 640,
+            "first_grasp_s": 2.35,
+            "first_lift_2cm_s": 7.17,
+            "first_success_s": 15.15,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 12.44,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10000-COVER932048/attempt-000",
+            "persistent_success": false,
+            "point": "COVER932048",
+            "release_after_grasp": true,
+            "result_sha256": "9e6a4375e379b52e7d3692ec94d54b8889632ffbc0d84602b9c068ddf6a36585",
+            "seed": 10000,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.06,
+            "first_lift_2cm_s": 3.58,
+            "first_success_s": 8.85,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 6.32,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10001-COVER932048/attempt-000",
+            "persistent_success": false,
+            "point": "COVER932048",
+            "release_after_grasp": true,
+            "result_sha256": "1700c424843b86bbddffba2a8fcbd44df85ef2afe62e29838ae9c85b16080c78",
+            "seed": 10001,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.07,
+            "first_lift_2cm_s": 4.8,
+            "first_success_s": 8.0,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 20.740000000000002,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10002-COVER932048/attempt-000",
+            "persistent_success": false,
+            "point": "COVER932048",
+            "release_after_grasp": true,
+            "result_sha256": "44eb2585220e2144cefd23637a8a9bcbd1027a0016c2d7d692ea9c8009cc730d",
+            "seed": 10002,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 422,
+            "control_calls": 640,
+            "first_grasp_s": 1.95,
+            "first_lift_2cm_s": null,
+            "first_success_s": null,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 30.060000000000002,
+            "on_top": false,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10003-COVER932048/attempt-000",
+            "persistent_success": false,
+            "point": "COVER932048",
+            "release_after_grasp": false,
+            "result_sha256": "740594fa5381927762c2cb936b880d0a5ae15a35d24797ae997ce9e2f0aeaae1",
+            "seed": 10003,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": false
+          }
+        ],
+        "score_definition": "Original native predicate; all41control samples28..30s; full32s interface-valid execution",
+        "selected_checkpoint": "NONE",
+        "sustained_lifts": 3
+      }
+    },
+    {
+      "full_CPU_replayed_outputs": 368,
+      "point": "COVER934096",
+      "task": {
+        "denominator": 4,
+        "deployment_selected_checkpoint": "NONE",
+        "lane": "TRAIN_PHYSICS",
+        "new_model_queries": 0,
+        "new_physics_steps": 0,
+        "on_top_cases": 4,
+        "persistent_stacks": 2,
+        "point": "COVER934096",
+        "rows": [
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.82,
+            "first_lift_2cm_s": 3.7600000000000002,
+            "first_success_s": 7.3500000000000005,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 4.34,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10000-COVER934096/attempt-000",
+            "persistent_success": false,
+            "point": "COVER934096",
+            "release_after_grasp": true,
+            "result_sha256": "49ad9a3de01f4ee7c2d51dd47ac64c0635d01e172358780ece010ee6f17e02ac",
+            "seed": 10000,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 2.29,
+            "first_lift_2cm_s": 3.24,
+            "first_success_s": 5.800000000000001,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 3.44,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10001-COVER934096/attempt-000",
+            "persistent_success": false,
+            "point": "COVER934096",
+            "release_after_grasp": true,
+            "result_sha256": "4cece0c5eaffead6a5df0186b7cd85890e5c72e219c2381c8f0087c9a5d835b4",
+            "seed": 10001,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 1.84,
+            "first_lift_2cm_s": 2.88,
+            "first_success_s": 5.9,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 3.98,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10002-COVER934096/attempt-000",
+            "persistent_success": true,
+            "point": "COVER934096",
+            "release_after_grasp": true,
+            "result_sha256": "4b4f819c67a790b9f3dbfceea7e74c21980eb4584af816b9895ff80c57183575",
+            "seed": 10002,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          },
+          {
+            "IK_holds": 0,
+            "control_calls": 640,
+            "first_grasp_s": 1.92,
+            "first_lift_2cm_s": 2.82,
+            "first_success_s": 4.65,
+            "interface_valid": true,
+            "lane": "TRAIN_PHYSICS",
+            "longest_grasp_s": 2.64,
+            "on_top": true,
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0278/R2/episodes/TRAIN_PHYSICS-10003-COVER934096/attempt-000",
+            "persistent_success": true,
+            "point": "COVER934096",
+            "release_after_grasp": true,
+            "result_sha256": "96827c0ce79eed447817a48ffe4348362b01a0b31a10cf3a3e6a44ead0f12a1e",
+            "seed": 10003,
+            "status": "VALID_MODEL_PHYSICS_COMPLETE",
+            "sustained_lift_2cm": true
+          }
+        ],
+        "score_definition": "Original native predicate; all41control samples28..30s; full32s interface-valid execution",
+        "selected_checkpoint": "NONE",
+        "sustained_lifts": 4
+      }
+    }
+  ],
+  "selected_checkpoint": "NONE",
+  "sprint_candidate": "NONE",
+  "status": "PASS_EXECUTION_COMPLETE_QUALITY_VALID_FAIL",
+  "terminal_resume_beyond_budget": "NOT_PERFORMED"
+}
