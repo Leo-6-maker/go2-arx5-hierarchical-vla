@@ -6,7 +6,8 @@ from coordinator import remote,phase_status
 ROOT='/home/liuyu-nfs/Projects/go2-arx5/PI0278/R2'
 
 def call(script,args,native=False,common=False):
-    target=(str(Path(ROOT).parent) if common else ROOT)+'/code/'+script
+    target=(ROOT.rsplit('/',1)[0] if common else ROOT)+'/code/'+script
+    assert target.startswith('/home/liuyu-nfs/Projects/go2-arx5/PI0278/') and '\\' not in target
     phase=(args[-1]+'-'+args[0]) if script=='panel.py' else script.removesuffix('.py')+'-'+'-'.join(args)
     python='/home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python' if native else '/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python'
     worker=f'''import json,os,subprocess,time
