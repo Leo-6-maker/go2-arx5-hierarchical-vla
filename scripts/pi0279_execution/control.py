@@ -8,7 +8,7 @@ RELEASE='4afdb1401650353092428dcb69d0cb353ee74164'
 
 
 def stage():
-    files={str(p.relative_to(Path.cwd())):base64.b64encode(p.read_bytes()).decode() for p in [*Path(__file__).parent.glob('*.py'),Path('docs/protocols/PI0279_SINGLE_TASK_RELEASE_CLEAR_FEEDBACK_FINETUNING_V1.md'),Path('reports/PI0279/design/REVIEW_AND_EXECUTION_LIMITS.json')]}
+    files={p.resolve().relative_to(Path.cwd()).as_posix():base64.b64encode(p.read_bytes()).decode() for p in [*Path(__file__).parent.glob('*.py'),Path('docs/protocols/PI0279_SINGLE_TASK_RELEASE_CLEAR_FEEDBACK_FINETUNING_V1.md'),Path('reports/PI0279/design/REVIEW_AND_EXECUTION_LIMITS.json')]}
     commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
     script='''import base64,hashlib,json,os
 from pathlib import Path
