@@ -21,6 +21,11 @@ def local_processor():
 
 def load_model(path):
     import torch
+    # Native repeated-category gradients and attention must reproduce across
+    # fresh processes; unsupported nondeterministic kernels fail explicitly.
+    torch.use_deterministic_algorithms(True)
+    torch.backends.cudnn.benchmark=False
+    torch.backends.cudnn.deterministic=True
     from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7
     with local_processor():
         model,info=Gr00tN1d7.from_pretrained(path,torch_dtype=torch.bfloat16,local_files_only=True,

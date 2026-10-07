@@ -44,7 +44,9 @@ def model_compare(a,b):
             # Only authorized changed FP32 values may use published tolerance;
             # all other scalars, including packed non10 rows, stay exact.
             allowed=key.startswith(('action_head.model.','action_head.state_encoder.','action_head.action_encoder.','action_head.action_decoder.'))
-            same=equal(ta,tb,allowed)
+            try:same=equal(ta,tb,allowed)
+            except AssertionError as error:
+                raise AssertionError((key,str(error),'Published tolerances unchanged')) from error
             if key.startswith(('action_head.state_encoder.','action_head.action_encoder.','action_head.action_decoder.')):
                 equal(ta[:10],tb[:10]);equal(ta[11:],tb[11:])
             exact=exact and same;manifest[key]=dict(a=tensor_tree(ta),b=tensor_tree(tb),bitwise_equal=same)

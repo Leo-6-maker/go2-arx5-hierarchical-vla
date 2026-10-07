@@ -146,6 +146,8 @@ def run(a):
     process_receipt=output/f'PROCESS_resume{a.resume}_stop{a.stop}.json'
     assert not process_receipt.exists(),'Adopt existing process; do not repeat completed work'
     process_receipt.write_text(json.dumps(dict(pid=os.getpid(),PBS_JOBID=os.environ['PBS_JOBID'],argv=sys.argv,
+       deterministic_algorithms=torch.are_deterministic_algorithms_enabled(),cudnn_deterministic=torch.backends.cudnn.deterministic,
+       cudnn_benchmark=torch.backends.cudnn.benchmark,cublas_workspace=os.environ.get('CUBLAS_WORKSPACE_CONFIG'),
        restore_global_step=a.resume,stop_global_step=a.stop,started=time.time(),resume_requires_fresh_process=a.resume>0),indent=2)+'\n')
     (output/'SCOPE.json').write_text(json.dumps(scope,indent=2)+'\n')
     args=TrainingArguments(output_dir=str(output),max_steps=2048,per_device_train_batch_size=a.microbatch,
