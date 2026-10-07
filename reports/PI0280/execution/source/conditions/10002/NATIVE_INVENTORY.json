@@ -1,0 +1,23 @@
+{
+  "FK_current_max_abs": 2.9103830456733704e-07,
+  "arm_config": "PDEEPoseControllerConfig(joint_names=['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7'], pos_lower=-2.0, pos_upper=2.0, stiffness=1000.0, damping=100.0, ee_link='panda_hand_tcp', urdf_path='/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v3.urdf', force_limit=100, friction=0.0, frame='root_translation:root_aligned_body_rotation', root_link_name=None, use_delta=False, use_target=False, interpolate=False, normalize_action=False, delta_solver_config={'type': 'levenberg_marquardt', 'alpha': 1.0}, drive_mode='force', rot_lower=-6.283185307179586, rot_upper=6.283185307179586)",
+  "backend": "BackendInfo(device=device(type='cpu'), sim_device=Device(\"cpu\"), sim_backend='physx_cpu', render_device=Device(\"cuda:0\"), render_backend='sapien_cuda')",
+  "camera_config": {
+    "base_camera": "CameraConfig({'uid': 'base_camera', 'pose': Pose(raw_pose=tensor([[ 0.3000,  0.0000,  0.6000,  0.0000, -0.4332,  0.0000,  0.9013]])), 'width': 128, 'height': 128, 'fov': 1.5707963267948966, 'near': 0.01, 'far': 100, 'intrinsic': None, 'entity_uid': None, 'mount': None, 'shader_pack': 'minimal', 'shader_config': ShaderConfig(shader_pack='minimal', texture_names={'Color': ['rgb'], 'PositionSegmentation': ['position', 'depth', 'segmentation']}, shader_pack_config={}, texture_transforms={'Color': <function <lambda> at 0x74f4ad4fcb80>, 'PositionSegmentation': <function <lambda> at 0x74f4ad4fcc20>})})",
+    "hand_camera": "CameraConfig({'uid': 'hand_camera', 'pose': Pose(raw_pose=tensor([[0., 0., 0., 1., 0., 0., 0.]])), 'width': 128, 'height': 128, 'fov': 1.5707963267948966, 'near': 0.01, 'far': 100, 'intrinsic': None, 'entity_uid': None, 'mount': <camera_link: struct of type <class 'mani_skill.utils.structs.link.Link'>; managing 1 <class 'sapien.pysapien.physx.PhysxArticulationLinkComponent'> objects>, 'shader_pack': 'minimal', 'shader_config': ShaderConfig(shader_pack='minimal', texture_names={'Color': ['rgb'], 'PositionSegmentation': ['position', 'depth', 'segmentation']}, shader_pack_config={}, texture_transforms={'Color': <function <lambda> at 0x74f4ad4fcb80>, 'PositionSegmentation': <function <lambda> at 0x74f4ad4fcc20>})})"
+  },
+  "control_freq": 20,
+  "gripper_config": "PDJointPosMimicControllerConfig(joint_names=['panda_finger_joint1', 'panda_finger_joint2'], lower=-0.01, upper=0.04, stiffness=1000.0, damping=100.0, force_limit=100, friction=0.0, use_delta=False, use_target=False, interpolate=False, normalize_action=True, drive_mode='force', mimic={'panda_finger_joint2': {'joint': 'panda_finger_joint1'}})",
+  "mode": "pd_ee_pose",
+  "opening_calibration": {
+    "nominal_width_m": 0.08,
+    "pad_inner_face_offsets": [
+      -2.0000000000000052e-05,
+      2.0000000000000052e-05
+    ],
+    "urdf_sha256": "d040277352476639950e2ddce1dff8a1c0e95df470e5e9ed186cd01c468fa412",
+    "width_formula": "q_left+q_right-0.00004 m"
+  },
+  "sim_freq": 100,
+  "source_fileset_sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190"
+}

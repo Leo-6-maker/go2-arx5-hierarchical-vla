@@ -1,0 +1,4091 @@
+[
+  {
+    "index": 0,
+    "control": 20,
+    "time_s": 0.0,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q000/input.npz",
+    "input_sha256": "60af074d5fafb3a3678c7080d14ee30e36a1aabc29500efe81398311d14a92de",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q000/output.npz",
+    "output_sha256": "20fede6295e9d151da8308bade6b7a52e9cf869e4d63df3ef8c591f34242eb0f",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100010",
+        "linear_speed_mps": {
+          "mean": 0.08200576064824898,
+          "median": 0.07863006785242985,
+          "p95": 0.15525649761406202,
+          "max": 0.16790180713998304
+        },
+        "angular_speed_radps": {
+          "mean": 0.11951943203007065,
+          "median": 0.11059386556995002,
+          "p95": 0.19616078925663424,
+          "max": 0.2880716311136516
+        },
+        "translation_path_length_m": 0.21321497768544742,
+        "se3_arc_length_m": 0.2204481141487582,
+        "initial_position_discontinuity_m": 0.01003713497618463,
+        "initial_rotation_discontinuity_rad": 0.01002107670821327,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      1.0,
+      1.0666666666666667,
+      1.1333333333333333,
+      1.2,
+      1.2666666666666666,
+      1.3333333333333333,
+      1.4,
+      1.4666666666666668
+    ],
+    "replan_tick": 31,
+    "quantization_s": 0.01666666666666672
+  },
+  {
+    "index": 1,
+    "control": 31,
+    "time_s": 0.55,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q001/input.npz",
+    "input_sha256": "8bf5ff486954c07e4a8b6af2b4fba51783a512f672ce74adf5100f05d072d593",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q001/output.npz",
+    "output_sha256": "8427a35a8f667fdbab58cd62a5a30f8891d767fc9cb62813e9e36d701179b2c0",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100011",
+        "linear_speed_mps": {
+          "mean": 0.08528540010266439,
+          "median": 0.07598858649980231,
+          "p95": 0.16404362031819986,
+          "max": 0.21955212946924893
+        },
+        "angular_speed_radps": {
+          "mean": 0.17099582920770504,
+          "median": 0.1509502122960503,
+          "p95": 0.3414768019473729,
+          "max": 0.3644886730201304
+        },
+        "translation_path_length_m": 0.22174204026692748,
+        "se3_arc_length_m": 0.23621907064208483,
+        "initial_position_discontinuity_m": 0.0189217443034238,
+        "initial_rotation_discontinuity_rad": 0.029760360510165472,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      1.55,
+      1.6166666666666667,
+      1.6833333333333333,
+      1.75,
+      1.8166666666666667,
+      1.8833333333333333,
+      1.9500000000000002,
+      2.0166666666666666
+    ],
+    "replan_tick": 42,
+    "quantization_s": 0.03333333333333344
+  },
+  {
+    "index": 2,
+    "control": 42,
+    "time_s": 1.1,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q002/input.npz",
+    "input_sha256": "f90dfcfb30d0805dddb7b2b3e635fe3bbc51ed9aae23885e22f1d2c3731a8a46",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q002/output.npz",
+    "output_sha256": "a15833d1e58ff1a7f09ed96fe1838bee7897ba9a2739fd3be29d683aa55ac515",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100012",
+        "linear_speed_mps": {
+          "mean": 0.09394940429594549,
+          "median": 0.08282617649740402,
+          "p95": 0.17762191569710187,
+          "max": 0.2714671741818218
+        },
+        "angular_speed_radps": {
+          "mean": 0.1738393774342694,
+          "median": 0.17396280749339849,
+          "p95": 0.3090829603298568,
+          "max": 0.3939176695732308
+        },
+        "translation_path_length_m": 0.24426845116945822,
+        "se3_arc_length_m": 0.25861055789522475,
+        "initial_position_discontinuity_m": 0.025108039064529682,
+        "initial_rotation_discontinuity_rad": 0.05712761434206816,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      2.1,
+      2.166666666666667,
+      2.2333333333333334,
+      2.3000000000000003,
+      2.3666666666666667,
+      2.4333333333333336,
+      2.5,
+      2.566666666666667
+    ],
+    "replan_tick": 52,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 3,
+    "control": 52,
+    "time_s": 1.6,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q003/input.npz",
+    "input_sha256": "cfa4ff7fc13ee00f1218ddaf4de46f5d8b129411d90afba5042411959039a9cf",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q003/output.npz",
+    "output_sha256": "f3246812adbcdeb59b4585cc3ad7c0a964fba248a79b244cdb58b869709ecf7d",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100013",
+        "linear_speed_mps": {
+          "mean": 0.09333168039224844,
+          "median": 0.08653798231326229,
+          "p95": 0.1633298510782489,
+          "max": 0.2010491569740144
+        },
+        "angular_speed_radps": {
+          "mean": 0.17020847714299142,
+          "median": 0.15179012568614147,
+          "p95": 0.30803194200932066,
+          "max": 0.33718530955589693
+        },
+        "translation_path_length_m": 0.24266236901984609,
+        "se3_arc_length_m": 0.25378653443426225,
+        "initial_position_discontinuity_m": 0.012542712944023076,
+        "initial_rotation_discontinuity_rad": 0.015799164568513258,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      2.6,
+      2.666666666666667,
+      2.7333333333333334,
+      2.8000000000000003,
+      2.8666666666666667,
+      2.9333333333333336,
+      3.0,
+      3.066666666666667
+    ],
+    "replan_tick": 63,
+    "quantization_s": 0.016666666666666607
+  },
+  {
+    "index": 4,
+    "control": 63,
+    "time_s": 2.1500000000000004,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q004/input.npz",
+    "input_sha256": "f75b9a4b1d3aae915eeea34b4bbbc390bd297a888749dd1b3dddd1272f72bc80",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q004/output.npz",
+    "output_sha256": "b81a69af9ba4f5c933d40f9a1c43fa36020c9c99084a000e2dd1ea980ee4f5a7",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100014",
+        "linear_speed_mps": {
+          "mean": 0.07837428783486985,
+          "median": 0.07644008368484159,
+          "p95": 0.14969727839934238,
+          "max": 0.26534186594845194
+        },
+        "angular_speed_radps": {
+          "mean": 0.13428850002930698,
+          "median": 0.11283997809698491,
+          "p95": 0.26685247281153873,
+          "max": 0.29549341841907045
+        },
+        "translation_path_length_m": 0.20377314837066168,
+        "se3_arc_length_m": 0.2133714114117339,
+        "initial_position_discontinuity_m": 0.013087927951988371,
+        "initial_rotation_discontinuity_rad": 0.028964405359124444,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      3.1500000000000004,
+      3.2166666666666672,
+      3.2833333333333337,
+      3.3500000000000005,
+      3.416666666666667,
+      3.483333333333334,
+      3.5500000000000003,
+      3.616666666666667
+    ],
+    "replan_tick": 74,
+    "quantization_s": 0.03333333333333366
+  },
+  {
+    "index": 5,
+    "control": 74,
+    "time_s": 2.7,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q005/input.npz",
+    "input_sha256": "3621b6bc4a49abbc56059b1b9d2463858fe22cc8c29008d27c6befe8d0c90ab7",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q005/output.npz",
+    "output_sha256": "71677f88955c0f5c2d89bbdd38235584b9cc3a006200c54588965e5ea1f3829b",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100015",
+        "linear_speed_mps": {
+          "mean": 0.08231061949297042,
+          "median": 0.07898451018881834,
+          "p95": 0.13704634078193906,
+          "max": 0.18447849096998012
+        },
+        "angular_speed_radps": {
+          "mean": 0.14551138695070925,
+          "median": 0.14495790688199645,
+          "p95": 0.22899811766121453,
+          "max": 0.3241081423761592
+        },
+        "translation_path_length_m": 0.21400761068172316,
+        "se3_arc_length_m": 0.22453884978166322,
+        "initial_position_discontinuity_m": 0.03800957740401025,
+        "initial_rotation_discontinuity_rad": 0.03659928333489301,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      3.7,
+      3.766666666666667,
+      3.8333333333333335,
+      3.9000000000000004,
+      3.966666666666667,
+      4.033333333333333,
+      4.1000000000000005,
+      4.166666666666667
+    ],
+    "replan_tick": 84,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 6,
+    "control": 84,
+    "time_s": 3.2,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q006/input.npz",
+    "input_sha256": "7dcb7165d20bc8772baa431cf81dc2281f1c753dc77a98b3ec79801c18643020",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q006/output.npz",
+    "output_sha256": "66df48f96fadea6b3fdbd5cc6f64b2db0c8e3fd114877bfca2ceca4185324a9b",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100016",
+        "linear_speed_mps": {
+          "mean": 0.07239786342789192,
+          "median": 0.07385370376839642,
+          "p95": 0.114825856575309,
+          "max": 0.1570899858039862
+        },
+        "angular_speed_radps": {
+          "mean": 0.3121792058683406,
+          "median": 0.3093493081269367,
+          "p95": 0.4726711061309664,
+          "max": 0.5872825308063416
+        },
+        "translation_path_length_m": 0.188234444912519,
+        "se3_arc_length_m": 0.23076553438429395,
+        "initial_position_discontinuity_m": 0.011772539303971057,
+        "initial_rotation_discontinuity_rad": 0.1200213130352355,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      4.2,
+      4.266666666666667,
+      4.333333333333334,
+      4.4,
+      4.466666666666667,
+      4.533333333333333,
+      4.6000000000000005,
+      4.666666666666667
+    ],
+    "replan_tick": 95,
+    "quantization_s": 0.016666666666666607
+  },
+  {
+    "index": 7,
+    "control": 95,
+    "time_s": 3.75,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q007/input.npz",
+    "input_sha256": "e79ab8972b0650bb960a48e80aaca895653178c96334f8d8aa6c8e22f032df8e",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q007/output.npz",
+    "output_sha256": "bd87a3fa9673f6228f8f08595ae39be102254b2be5f640d3e43c162e2c70ada1",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100017",
+        "linear_speed_mps": {
+          "mean": 0.07185455148260382,
+          "median": 0.06502429988414818,
+          "p95": 0.15702926707590245,
+          "max": 0.170278532059926
+        },
+        "angular_speed_radps": {
+          "mean": 0.1548413053279812,
+          "median": 0.1533635531797333,
+          "p95": 0.27439872082673267,
+          "max": 0.337811456913081
+        },
+        "translation_path_length_m": 0.18682183385476978,
+        "se3_arc_length_m": 0.2000705765332515,
+        "initial_position_discontinuity_m": 0.017644208524478944,
+        "initial_rotation_discontinuity_rad": 0.024866217726246403,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      4.75,
+      4.816666666666666,
+      4.883333333333334,
+      4.95,
+      5.016666666666667,
+      5.083333333333333,
+      5.15,
+      5.216666666666667
+    ],
+    "replan_tick": 106,
+    "quantization_s": 0.033333333333333215
+  },
+  {
+    "index": 8,
+    "control": 106,
+    "time_s": 4.300000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q008/input.npz",
+    "input_sha256": "aff490df49a097671dd79cca6d12e294b290809a4f5a69b419baf5e91f0cff7b",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q008/output.npz",
+    "output_sha256": "e91581a4f16ea3def21548a9eabb43fa947249564f3679a9b870707656adb501",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100018",
+        "linear_speed_mps": {
+          "mean": 0.0785991832070513,
+          "median": 0.07656960802368928,
+          "p95": 0.14289650376271332,
+          "max": 0.17838431574572752
+        },
+        "angular_speed_radps": {
+          "mean": 0.1641620179232128,
+          "median": 0.1577237027872641,
+          "p95": 0.294116234816367,
+          "max": 0.33565633830072944
+        },
+        "translation_path_length_m": 0.2043578763383332,
+        "se3_arc_length_m": 0.2170445936262913,
+        "initial_position_discontinuity_m": 0.01855455307038849,
+        "initial_rotation_discontinuity_rad": 0.03360385076547677,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      5.300000000000001,
+      5.366666666666667,
+      5.4333333333333345,
+      5.500000000000001,
+      5.566666666666667,
+      5.633333333333334,
+      5.700000000000001,
+      5.7666666666666675
+    ],
+    "replan_tick": 116,
+    "quantization_s": 8.881784197001252e-16
+  },
+  {
+    "index": 9,
+    "control": 116,
+    "time_s": 4.800000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q009/input.npz",
+    "input_sha256": "7ac2ed31d667c4ea5ef52548f2d44e1373b89139b5052f2a5dbe95cf111145b0",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q009/output.npz",
+    "output_sha256": "38529065cbb73a9ceeb1cace7380ff085bd6acc3c71b8057126ec2706d7d9d92",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-100019",
+        "linear_speed_mps": {
+          "mean": 0.07338010729948105,
+          "median": 0.06255869605849439,
+          "p95": 0.15138828502719723,
+          "max": 0.20638848202531845
+        },
+        "angular_speed_radps": {
+          "mean": 0.142824523531504,
+          "median": 0.13316634373379022,
+          "p95": 0.23690624414131511,
+          "max": 0.27614573807686177
+        },
+        "translation_path_length_m": 0.19078827897865083,
+        "se3_arc_length_m": 0.20061847948720227,
+        "initial_position_discontinuity_m": 0.009135744308167137,
+        "initial_rotation_discontinuity_rad": 0.030051015066921493,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      5.800000000000001,
+      5.866666666666667,
+      5.9333333333333345,
+      6.000000000000001,
+      6.066666666666667,
+      6.133333333333334,
+      6.200000000000001,
+      6.2666666666666675
+    ],
+    "replan_tick": 127,
+    "quantization_s": 0.016666666666667496
+  },
+  {
+    "index": 10,
+    "control": 127,
+    "time_s": 5.3500000000000005,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q010/input.npz",
+    "input_sha256": "57825acaec56b66d1e57d76633be75f0e743a0851cddeff8fea3348944d7ab28",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q010/output.npz",
+    "output_sha256": "2cd1f31c298ad3929e2c3cf4f745f50e33cc8fb92499ca2a1fcfbb573733288a",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000110",
+        "linear_speed_mps": {
+          "mean": 0.0717645497050016,
+          "median": 0.059132089212666945,
+          "p95": 0.15635591716771735,
+          "max": 0.20299951809738065
+        },
+        "angular_speed_radps": {
+          "mean": 0.16087131043901287,
+          "median": 0.15719862291105402,
+          "p95": 0.2606798060300923,
+          "max": 0.333876034114951
+        },
+        "translation_path_length_m": 0.18658782923300415,
+        "se3_arc_length_m": 0.20109848991175006,
+        "initial_position_discontinuity_m": 0.0173883378052313,
+        "initial_rotation_discontinuity_rad": 0.04989554454232173,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      6.3500000000000005,
+      6.416666666666667,
+      6.483333333333334,
+      6.550000000000001,
+      6.616666666666667,
+      6.683333333333334,
+      6.750000000000001,
+      6.816666666666667
+    ],
+    "replan_tick": 138,
+    "quantization_s": 0.0333333333333341
+  },
+  {
+    "index": 11,
+    "control": 138,
+    "time_s": 5.9,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q011/input.npz",
+    "input_sha256": "eea8fecd3687694a95df223b138bab41ef93610825569ebd2a49c12e1c32d032",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q011/output.npz",
+    "output_sha256": "f979c25338976ffc56650c32ccf44e1602edd713cb17cafd7b540d5e846806ff",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000111",
+        "linear_speed_mps": {
+          "mean": 0.07770613527234556,
+          "median": 0.0680201787367353,
+          "p95": 0.15922526882570326,
+          "max": 0.20917524895093234
+        },
+        "angular_speed_radps": {
+          "mean": 0.13802691873450726,
+          "median": 0.1261586969582179,
+          "p95": 0.24410704683515866,
+          "max": 0.27386775279793163
+        },
+        "translation_path_length_m": 0.2020359517080986,
+        "se3_arc_length_m": 0.21136153938508165,
+        "initial_position_discontinuity_m": 0.021821034927138036,
+        "initial_rotation_discontinuity_rad": 0.04903178376060798,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      6.9,
+      6.966666666666667,
+      7.033333333333334,
+      7.1000000000000005,
+      7.166666666666667,
+      7.233333333333333,
+      7.300000000000001,
+      7.366666666666667
+    ],
+    "replan_tick": 148,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 12,
+    "control": 148,
+    "time_s": 6.4,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q012/input.npz",
+    "input_sha256": "d3057826dc34ec76387ecb0ae9045a99e259ef8fe546634b3798e57224c34a2f",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q012/output.npz",
+    "output_sha256": "9940616abc83faab7e597068385f84be573e59617100a49906be843904a11360",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000112",
+        "linear_speed_mps": {
+          "mean": 0.09341193106113667,
+          "median": 0.09580923744814236,
+          "p95": 0.14622112797324763,
+          "max": 0.16841228151833446
+        },
+        "angular_speed_radps": {
+          "mean": 0.15854411422894132,
+          "median": 0.14258875264773185,
+          "p95": 0.2948078210623945,
+          "max": 0.37669264916076717
+        },
+        "translation_path_length_m": 0.24287102075895523,
+        "se3_arc_length_m": 0.25292715635881785,
+        "initial_position_discontinuity_m": 0.02210148787229724,
+        "initial_rotation_discontinuity_rad": 0.02377619744801286,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      7.4,
+      7.466666666666667,
+      7.533333333333334,
+      7.6000000000000005,
+      7.666666666666667,
+      7.733333333333333,
+      7.800000000000001,
+      7.866666666666667
+    ],
+    "replan_tick": 159,
+    "quantization_s": 0.016666666666666607
+  },
+  {
+    "index": 13,
+    "control": 159,
+    "time_s": 6.95,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q013/input.npz",
+    "input_sha256": "319b646e8e2ebcda1e66520c5defdd94820f6979d1c46bd1fb175623a4a4bd36",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q013/output.npz",
+    "output_sha256": "72f90507b5dc55ae181e110007c85deda01b8c86a77bb24a88e3b28bb7183a6d",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000113",
+        "linear_speed_mps": {
+          "mean": 0.06554129678494673,
+          "median": 0.05721957435539167,
+          "p95": 0.1413508235728829,
+          "max": 0.16428666385568716
+        },
+        "angular_speed_radps": {
+          "mean": 0.13266797159304014,
+          "median": 0.11868402899324801,
+          "p95": 0.26005613825262586,
+          "max": 0.3564107024066481
+        },
+        "translation_path_length_m": 0.17040737164086142,
+        "se3_arc_length_m": 0.18264672626832043,
+        "initial_position_discontinuity_m": 0.008034616826290428,
+        "initial_rotation_discontinuity_rad": 0.033163964062791866,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      7.95,
+      8.016666666666667,
+      8.083333333333334,
+      8.15,
+      8.216666666666667,
+      8.283333333333333,
+      8.35,
+      8.416666666666666
+    ],
+    "replan_tick": 170,
+    "quantization_s": 0.033333333333333215
+  },
+  {
+    "index": 14,
+    "control": 170,
+    "time_s": 7.5,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q014/input.npz",
+    "input_sha256": "7c8e60498d74b8aa8967bf8a740adc5770f6b883b2879c0457cac5083465c6ff",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q014/output.npz",
+    "output_sha256": "baa4cbf63dd784908055ee3b7fe5109b97f056c9e56aa38e29a883bce62695f1",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000114",
+        "linear_speed_mps": {
+          "mean": 0.07727457895608017,
+          "median": 0.0641067782896436,
+          "p95": 0.1539210618713795,
+          "max": 0.16295953263390428
+        },
+        "angular_speed_radps": {
+          "mean": 0.14682096935090624,
+          "median": 0.126924260236227,
+          "p95": 0.25842130003031505,
+          "max": 0.4392995085611952
+        },
+        "translation_path_length_m": 0.20091390528580827,
+        "se3_arc_length_m": 0.21172320485573604,
+        "initial_position_discontinuity_m": 0.0242749418110794,
+        "initial_rotation_discontinuity_rad": 0.03005733550516172,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      8.5,
+      8.566666666666666,
+      8.633333333333333,
+      8.7,
+      8.766666666666667,
+      8.833333333333334,
+      8.9,
+      8.966666666666667
+    ],
+    "replan_tick": 180,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 15,
+    "control": 180,
+    "time_s": 8.0,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q015/input.npz",
+    "input_sha256": "9e4f2d47a7f0edb90c86539d100f672de3f3c911a7064ada561e0c23f0b2c3a7",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q015/output.npz",
+    "output_sha256": "a19e9bb64ce8edeba45eb49ac6ae00f6d880361c975729e600d0b2dc509c9bc4",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000115",
+        "linear_speed_mps": {
+          "mean": 0.09754896625682499,
+          "median": 0.09450106871928265,
+          "p95": 0.17832085420285512,
+          "max": 0.21503208542395058
+        },
+        "angular_speed_radps": {
+          "mean": 0.16918188933713146,
+          "median": 0.13700160305344233,
+          "p95": 0.329226393305926,
+          "max": 0.5106564660694426
+        },
+        "translation_path_length_m": 0.25362731226774504,
+        "se3_arc_length_m": 0.26585661554430995,
+        "initial_position_discontinuity_m": 0.02047879221360737,
+        "initial_rotation_discontinuity_rad": 0.07225731173772572,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      9.0,
+      9.066666666666666,
+      9.133333333333333,
+      9.2,
+      9.266666666666667,
+      9.333333333333334,
+      9.4,
+      9.466666666666667
+    ],
+    "replan_tick": 191,
+    "quantization_s": 0.016666666666667496
+  },
+  {
+    "index": 16,
+    "control": 191,
+    "time_s": 8.55,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q016/input.npz",
+    "input_sha256": "938f1a5e95d1d64f6ab46cfb562d8cfa59bbfac6546125ca62c538dcc8a11e46",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q016/output.npz",
+    "output_sha256": "6564aa20576e7df353aff599b7f1d74c09bb6dda5a37f23e516686f2c259530b",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000116",
+        "linear_speed_mps": {
+          "mean": 0.08940145693473946,
+          "median": 0.07769862365984039,
+          "p95": 0.20860968741090083,
+          "max": 0.24021669790467046
+        },
+        "angular_speed_radps": {
+          "mean": 0.17724018007632808,
+          "median": 0.164969361014521,
+          "p95": 0.3293191330319585,
+          "max": 0.5208371737180726
+        },
+        "translation_path_length_m": 0.23244378803032248,
+        "se3_arc_length_m": 0.2486802563043335,
+        "initial_position_discontinuity_m": 0.014044707670885236,
+        "initial_rotation_discontinuity_rad": 0.01372041248874645,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      9.55,
+      9.616666666666667,
+      9.683333333333334,
+      9.75,
+      9.816666666666668,
+      9.883333333333335,
+      9.950000000000001,
+      10.016666666666667
+    ],
+    "replan_tick": 202,
+    "quantization_s": 0.033333333333333215
+  },
+  {
+    "index": 17,
+    "control": 202,
+    "time_s": 9.100000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q017/input.npz",
+    "input_sha256": "5d640751c9154a47cc23510e3706ad27de1941bbf429f4e15d43b07bb9122f8b",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q017/output.npz",
+    "output_sha256": "004fac7f64509a428f11a563a78370d4dc304b687dd6f9491e3e8df20bff7698",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000117",
+        "linear_speed_mps": {
+          "mean": 0.0885377310258172,
+          "median": 0.0859169111333461,
+          "p95": 0.15482698080953405,
+          "max": 0.18690038831198325
+        },
+        "angular_speed_radps": {
+          "mean": 0.20919606247744688,
+          "median": 0.18936644617423395,
+          "p95": 0.39666081863777086,
+          "max": 0.438135608680804
+        },
+        "translation_path_length_m": 0.23019810066712454,
+        "se3_arc_length_m": 0.2496666021247891,
+        "initial_position_discontinuity_m": 0.007126637048908473,
+        "initial_rotation_discontinuity_rad": 0.08836392315241201,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      10.100000000000001,
+      10.166666666666668,
+      10.233333333333334,
+      10.3,
+      10.366666666666669,
+      10.433333333333335,
+      10.500000000000002,
+      10.566666666666668
+    ],
+    "replan_tick": 212,
+    "quantization_s": 1.7763568394002505e-15
+  },
+  {
+    "index": 18,
+    "control": 212,
+    "time_s": 9.600000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q018/input.npz",
+    "input_sha256": "2ce02c3259007df4481451f104dcb8fa56a598dbcd03ab30b0ca829f3bc0af20",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q018/output.npz",
+    "output_sha256": "e0a934a8a5b931411d2f930034d8bd9d1cd8a052709923df8e35c58f652d4305",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000118",
+        "linear_speed_mps": {
+          "mean": 0.0770986150245192,
+          "median": 0.07127405599058995,
+          "p95": 0.13516580317643223,
+          "max": 0.19462226759923443
+        },
+        "angular_speed_radps": {
+          "mean": 0.16151148024774772,
+          "median": 0.1487102626965199,
+          "p95": 0.30512867777071184,
+          "max": 0.3721915239571932
+        },
+        "translation_path_length_m": 0.2004563990637498,
+        "se3_arc_length_m": 0.2161141479874702,
+        "initial_position_discontinuity_m": 0.0052484903962238295,
+        "initial_rotation_discontinuity_rad": 0.029383343355097645,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      10.600000000000001,
+      10.666666666666668,
+      10.733333333333334,
+      10.8,
+      10.866666666666669,
+      10.933333333333335,
+      11.000000000000002,
+      11.066666666666668
+    ],
+    "replan_tick": 223,
+    "quantization_s": 0.016666666666667496
+  },
+  {
+    "index": 19,
+    "control": 223,
+    "time_s": 10.15,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q019/input.npz",
+    "input_sha256": "912a8ba0d13c3a3687ed49eaafa615a94fe640a1603c6bad954e2e8f051c3852",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q019/output.npz",
+    "output_sha256": "98f925a3986a4aed6712a43adb229ef6eb629f3961e3360ca577b79e75e048ea",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000119",
+        "linear_speed_mps": {
+          "mean": 0.08223971744151397,
+          "median": 0.07973975918717671,
+          "p95": 0.14453263589115134,
+          "max": 0.21690629440259993
+        },
+        "angular_speed_radps": {
+          "mean": 0.16480871439159853,
+          "median": 0.1366749741068673,
+          "p95": 0.3586428752278985,
+          "max": 0.3936147213487468
+        },
+        "translation_path_length_m": 0.2138232653479362,
+        "se3_arc_length_m": 0.22713808697547214,
+        "initial_position_discontinuity_m": 0.01431376566423856,
+        "initial_rotation_discontinuity_rad": 0.05413962443427254,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      11.15,
+      11.216666666666667,
+      11.283333333333333,
+      11.35,
+      11.416666666666668,
+      11.483333333333334,
+      11.55,
+      11.616666666666667
+    ],
+    "replan_tick": 234,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 20,
+    "control": 234,
+    "time_s": 10.700000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q020/input.npz",
+    "input_sha256": "2c18f083fd95901501654bd5677d02cc1cdc6a20c5749e5a2b9569ae5efc998f",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q020/output.npz",
+    "output_sha256": "a9542cad26ace2955ffbcc99b91e980f38ae0874e6a5f2c37ed8853bd49c24a6",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000120",
+        "linear_speed_mps": {
+          "mean": 0.07787881437454565,
+          "median": 0.0648557215682824,
+          "p95": 0.18202605146801754,
+          "max": 0.20482638085732952
+        },
+        "angular_speed_radps": {
+          "mean": 0.1542127523507476,
+          "median": 0.1401331079814032,
+          "p95": 0.3239821270204752,
+          "max": 0.34807413539272253
+        },
+        "translation_path_length_m": 0.20248491737381877,
+        "se3_arc_length_m": 0.2142676794718941,
+        "initial_position_discontinuity_m": 0.016725009558038968,
+        "initial_rotation_discontinuity_rad": 0.04469555293730674,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      11.700000000000001,
+      11.766666666666667,
+      11.833333333333334,
+      11.9,
+      11.966666666666669,
+      12.033333333333335,
+      12.100000000000001,
+      12.166666666666668
+    ],
+    "replan_tick": 244,
+    "quantization_s": 1.7763568394002505e-15
+  },
+  {
+    "index": 21,
+    "control": 244,
+    "time_s": 11.200000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q021/input.npz",
+    "input_sha256": "11971500acc4e7a19be75e48222b24ee0bc6ce28622df15b26328a09d7bc0c5b",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q021/output.npz",
+    "output_sha256": "0b287d78d12b01aef3eeefa215d53fa68d55ce142129205b6dfe4a6165021c16",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000121",
+        "linear_speed_mps": {
+          "mean": 0.0986304122894302,
+          "median": 0.0868775416798988,
+          "p95": 0.258260460667871,
+          "max": 0.28579154131553625
+        },
+        "angular_speed_radps": {
+          "mean": 0.17636346354998386,
+          "median": 0.17389541035717052,
+          "p95": 0.3080553920965295,
+          "max": 0.3677796625112343
+        },
+        "translation_path_length_m": 0.2564390719525185,
+        "se3_arc_length_m": 0.2687870965672018,
+        "initial_position_discontinuity_m": 0.027696744688869214,
+        "initial_rotation_discontinuity_rad": 0.023896542624088784,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      12.200000000000001,
+      12.266666666666667,
+      12.333333333333334,
+      12.4,
+      12.466666666666669,
+      12.533333333333335,
+      12.600000000000001,
+      12.666666666666668
+    ],
+    "replan_tick": 255,
+    "quantization_s": 0.016666666666667496
+  },
+  {
+    "index": 22,
+    "control": 255,
+    "time_s": 11.75,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q022/input.npz",
+    "input_sha256": "581fe43e75683eed7933baf7d66975cd310d840dccf991bc2857557d4b111091",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q022/output.npz",
+    "output_sha256": "787141344598f5eb65e5c4b13815ac3c23cf6643c1214bef8746eec8fdf647bb",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000122",
+        "linear_speed_mps": {
+          "mean": 0.058338404333752876,
+          "median": 0.05013902762293053,
+          "p95": 0.10839872136474614,
+          "max": 0.17216189398533943
+        },
+        "angular_speed_radps": {
+          "mean": 0.16686639237027082,
+          "median": 0.1514570830038007,
+          "p95": 0.28348394182497455,
+          "max": 0.580030924174894
+        },
+        "translation_path_length_m": 0.15167985126775746,
+        "se3_arc_length_m": 0.1709330476663645,
+        "initial_position_discontinuity_m": 0.014869843446695974,
+        "initial_rotation_discontinuity_rad": 0.03209573657829066,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      12.75,
+      12.816666666666666,
+      12.883333333333333,
+      12.95,
+      13.016666666666667,
+      13.083333333333334,
+      13.15,
+      13.216666666666667
+    ],
+    "replan_tick": 266,
+    "quantization_s": 0.033333333333333215
+  },
+  {
+    "index": 23,
+    "control": 266,
+    "time_s": 12.3,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q023/input.npz",
+    "input_sha256": "786cf975ad988eee19aad8a4c637e7b6e47c1cbac6a1419ba02e839086c117ff",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q023/output.npz",
+    "output_sha256": "d0d5cfa10eecf3fea4d9a3606466166d0f53958fed2208ba3864fb9af790afaa",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000123",
+        "linear_speed_mps": {
+          "mean": 0.08307305987505431,
+          "median": 0.08056858999306013,
+          "p95": 0.14463770082956218,
+          "max": 0.16867576497600592
+        },
+        "angular_speed_radps": {
+          "mean": 0.17153475655424064,
+          "median": 0.14526980292244096,
+          "p95": 0.3430425357448113,
+          "max": 0.4514814464992945
+        },
+        "translation_path_length_m": 0.21598995567514095,
+        "se3_arc_length_m": 0.22907823048794593,
+        "initial_position_discontinuity_m": 0.023793750448750612,
+        "initial_rotation_discontinuity_rad": 0.04004728387977006,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      13.3,
+      13.366666666666667,
+      13.433333333333334,
+      13.5,
+      13.566666666666668,
+      13.633333333333335,
+      13.700000000000001,
+      13.766666666666667
+    ],
+    "replan_tick": 276,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 24,
+    "control": 276,
+    "time_s": 12.8,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q024/input.npz",
+    "input_sha256": "176d5769e7e2cabc9b3d28a4a262835d4d5e912732b2534e5fb0eb771dceeb43",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q024/output.npz",
+    "output_sha256": "e5b945639d6c87aeaa14587d223fb935576f2729c80bc6a7b36367b0d9335c89",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000124",
+        "linear_speed_mps": {
+          "mean": 0.10520187405497933,
+          "median": 0.08479637083883566,
+          "p95": 0.21208926431187577,
+          "max": 0.29295618328914486
+        },
+        "angular_speed_radps": {
+          "mean": 0.1875317822698434,
+          "median": 0.18593030386099366,
+          "p95": 0.321031884701232,
+          "max": 0.3274737214252945
+        },
+        "translation_path_length_m": 0.2735248725429466,
+        "se3_arc_length_m": 0.28620275962887054,
+        "initial_position_discontinuity_m": 0.021365276194238,
+        "initial_rotation_discontinuity_rad": 0.05133811924166733,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      13.8,
+      13.866666666666667,
+      13.933333333333334,
+      14.0,
+      14.066666666666668,
+      14.133333333333335,
+      14.200000000000001,
+      14.266666666666667
+    ],
+    "replan_tick": 287,
+    "quantization_s": 0.016666666666667496
+  },
+  {
+    "index": 25,
+    "control": 287,
+    "time_s": 13.350000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q025/input.npz",
+    "input_sha256": "07b6caf691f8434486823acca7f02f1bde411284fac60d8b5c0cda9ff832d542",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q025/output.npz",
+    "output_sha256": "1339dcd549865d34aa2a7f187e357a8fedafae7367e0415796d08a8c6de970bc",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000125",
+        "linear_speed_mps": {
+          "mean": 0.09956412896655255,
+          "median": 0.09420211170071335,
+          "p95": 0.18923037843316987,
+          "max": 0.22379380722646763
+        },
+        "angular_speed_radps": {
+          "mean": 0.338770574968217,
+          "median": 0.2906747340035381,
+          "p95": 0.808780564333483,
+          "max": 0.981166386890779
+        },
+        "translation_path_length_m": 0.2588667353130372,
+        "se3_arc_length_m": 0.2986002518360616,
+        "initial_position_discontinuity_m": 0.011119550200306671,
+        "initial_rotation_discontinuity_rad": 0.038622670860014044,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      14.350000000000001,
+      14.416666666666668,
+      14.483333333333334,
+      14.55,
+      14.616666666666669,
+      14.683333333333335,
+      14.750000000000002,
+      14.816666666666668
+    ],
+    "replan_tick": 298,
+    "quantization_s": 0.033333333333333215
+  },
+  {
+    "index": 26,
+    "control": 298,
+    "time_s": 13.9,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q026/input.npz",
+    "input_sha256": "c671a6670aa68779ca983d7bf8138ca4f539f1698f56be31df7712556b3ca288",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q026/output.npz",
+    "output_sha256": "c87b887da0d2465bbf23d2fe976b3e70b61bb3c148b561c7a0c9ae4869f705e2",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000126",
+        "linear_speed_mps": {
+          "mean": 0.08157871447779226,
+          "median": 0.0784814140031607,
+          "p95": 0.14286938249793185,
+          "max": 0.18217834250604142
+        },
+        "angular_speed_radps": {
+          "mean": 0.19694114598710916,
+          "median": 0.15907619038706713,
+          "p95": 0.40209017592845747,
+          "max": 0.4457371512983686
+        },
+        "translation_path_length_m": 0.21210465764225986,
+        "se3_arc_length_m": 0.2320241474748762,
+        "initial_position_discontinuity_m": 0.034091411707884274,
+        "initial_rotation_discontinuity_rad": 0.014011771439396163,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      14.9,
+      14.966666666666667,
+      15.033333333333333,
+      15.1,
+      15.166666666666668,
+      15.233333333333334,
+      15.3,
+      15.366666666666667
+    ],
+    "replan_tick": 308,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 27,
+    "control": 308,
+    "time_s": 14.4,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q027/input.npz",
+    "input_sha256": "6196ca9e56102656d49dced05ea11d7d5e4a86afbf829af9855834f3e0063987",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q027/output.npz",
+    "output_sha256": "26f43473c3ec74b51d2dccd0ce8ea6b8cdf50988ccfb3a3383f5a15cc69cc26c",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000127",
+        "linear_speed_mps": {
+          "mean": 0.0763214857562414,
+          "median": 0.07305607268630462,
+          "p95": 0.15999753272174533,
+          "max": 0.1722876326535743
+        },
+        "angular_speed_radps": {
+          "mean": 0.19698355081136212,
+          "median": 0.17019249426391578,
+          "p95": 0.4080979744432726,
+          "max": 0.4790397896136046
+        },
+        "translation_path_length_m": 0.19843586296622767,
+        "se3_arc_length_m": 0.21688014687196575,
+        "initial_position_discontinuity_m": 0.007893334640390711,
+        "initial_rotation_discontinuity_rad": 0.02444879231875045,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      15.4,
+      15.466666666666667,
+      15.533333333333333,
+      15.6,
+      15.666666666666668,
+      15.733333333333334,
+      15.8,
+      15.866666666666667
+    ],
+    "replan_tick": 319,
+    "quantization_s": 0.016666666666667496
+  },
+  {
+    "index": 28,
+    "control": 319,
+    "time_s": 14.950000000000001,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q028/input.npz",
+    "input_sha256": "870b9bf8352c3ade02d0aa564ca982b359c6a3c89dbc10c8b676f2d7397bf949",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q028/output.npz",
+    "output_sha256": "2cf3e732832f980847df3101b974eb45933d32d150c3fe213ced5ad7581d7182",
+    "gate": {
+      "decision": "WARN",
+      "issues": [
+        {
+          "code": "ANGULAR_SPEED_WARN",
+          "severity": "WARNING",
+          "message": "angular_speed exceeds warning threshold (rad/s)",
+          "provenance": "TEST_ONLY",
+          "observed": 2.033088103151282,
+          "threshold": 2.0
+        }
+      ],
+      "metrics": {
+        "chunk_id": "PI0280-1000128",
+        "linear_speed_mps": {
+          "mean": 0.0922357089334129,
+          "median": 0.07847259953257149,
+          "p95": 0.1861732098573381,
+          "max": 0.3023868997644294
+        },
+        "angular_speed_radps": {
+          "mean": 0.5445573033804556,
+          "median": 0.3247788111492345,
+          "p95": 1.8342462381898732,
+          "max": 2.033088103151282
+        },
+        "translation_path_length_m": 0.23981284322687363,
+        "se3_arc_length_m": 0.3310857339987257,
+        "initial_position_discontinuity_m": 0.027748557123752585,
+        "initial_rotation_discontinuity_rad": 0.012772494981902005,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      15.950000000000001,
+      16.01666666666667,
+      16.083333333333336,
+      16.150000000000002,
+      16.21666666666667,
+      16.283333333333335,
+      16.35,
+      16.416666666666668
+    ],
+    "replan_tick": 330,
+    "quantization_s": 0.033333333333333215
+  },
+  {
+    "index": 29,
+    "control": 330,
+    "time_s": 15.5,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q029/input.npz",
+    "input_sha256": "a07ed016123fba9746733c45825c7fb1db3d383ad914112357bb5a889023f040",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q029/output.npz",
+    "output_sha256": "2914202c7d0a7698aea12cbfda59982a04637ec66f07a3e5fd7c5233f32f866c",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000129",
+        "linear_speed_mps": {
+          "mean": 0.10873550183831679,
+          "median": 0.09990867736366921,
+          "p95": 0.18725628424992516,
+          "max": 0.21633270212497566
+        },
+        "angular_speed_radps": {
+          "mean": 0.35413728459930943,
+          "median": 0.3592411474340351,
+          "p95": 0.814233769586002,
+          "max": 0.856488484850146
+        },
+        "translation_path_length_m": 0.2827123047796239,
+        "se3_arc_length_m": 0.32405770532124595,
+        "initial_position_discontinuity_m": 0.03473033826731348,
+        "initial_rotation_discontinuity_rad": 0.0780692957730314,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      16.5,
+      16.566666666666666,
+      16.633333333333333,
+      16.7,
+      16.766666666666666,
+      16.833333333333332,
+      16.9,
+      16.966666666666665
+    ],
+    "replan_tick": 340,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 30,
+    "control": 340,
+    "time_s": 16.0,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q030/input.npz",
+    "input_sha256": "972ee9f15524704d5038295939ed5a6121c2d741db5612b5774b2a0c63492a80",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q030/output.npz",
+    "output_sha256": "90fd9b9f7f5f5a946b0646d8ac4e558e4bcf5403ff4600ee0be938e68ac861aa",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000130",
+        "linear_speed_mps": {
+          "mean": 0.08670128397623152,
+          "median": 0.08389662658002864,
+          "p95": 0.16837356478739235,
+          "max": 0.18294199764791724
+        },
+        "angular_speed_radps": {
+          "mean": 0.1857348165033514,
+          "median": 0.17968690612183888,
+          "p95": 0.31608821556310307,
+          "max": 0.503786676618861
+        },
+        "translation_path_length_m": 0.22542333833820213,
+        "se3_arc_length_m": 0.24260341241036174,
+        "initial_position_discontinuity_m": 0.027624832837244265,
+        "initial_rotation_discontinuity_rad": 0.058928862826024955,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      17.0,
+      17.066666666666666,
+      17.133333333333333,
+      17.2,
+      17.266666666666666,
+      17.333333333333332,
+      17.4,
+      17.466666666666665
+    ],
+    "replan_tick": 351,
+    "quantization_s": 0.01666666666666572
+  },
+  {
+    "index": 31,
+    "control": 351,
+    "time_s": 16.55,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q031/input.npz",
+    "input_sha256": "50fa11e54cf4c4559e32b4299ab8fa8f5028145d1b14ec648ede2f2f3b7306ca",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q031/output.npz",
+    "output_sha256": "6bc4756995fcc0060c0b24ed2a2c73310c2bc69657b7cecc641afe9cc578a580",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000131",
+        "linear_speed_mps": {
+          "mean": 0.11095985299455705,
+          "median": 0.10641548104126676,
+          "p95": 0.1949001200593382,
+          "max": 0.24495666414730405
+        },
+        "angular_speed_radps": {
+          "mean": 0.24120678512812674,
+          "median": 0.24998151977682218,
+          "p95": 0.42242522418940504,
+          "max": 0.4551010257585624
+        },
+        "translation_path_length_m": 0.2884956177858485,
+        "se3_arc_length_m": 0.307954659041081,
+        "initial_position_discontinuity_m": 0.052988568064504665,
+        "initial_rotation_discontinuity_rad": 0.08792406420235661,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      17.55,
+      17.616666666666667,
+      17.683333333333334,
+      17.75,
+      17.816666666666666,
+      17.883333333333333,
+      17.95,
+      18.016666666666666
+    ],
+    "replan_tick": 362,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 32,
+    "control": 362,
+    "time_s": 17.1,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q032/input.npz",
+    "input_sha256": "7ad6a62da4550ec5b7fb5b54ff1e5fc2d2192f84ad9aa19aa7b2236b4a49e4b1",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q032/output.npz",
+    "output_sha256": "0aed023d5e373364e84b71f1f742d62a4102eac39a682d94b0d0b611f0f43cf3",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000132",
+        "linear_speed_mps": {
+          "mean": 0.1098422019892574,
+          "median": 0.10442929549509555,
+          "p95": 0.22086762865775136,
+          "max": 0.2767259146721322
+        },
+        "angular_speed_radps": {
+          "mean": 0.27656432301971234,
+          "median": 0.2540593489209851,
+          "p95": 0.546537980494375,
+          "max": 0.6387729742562103
+        },
+        "translation_path_length_m": 0.2855897251720699,
+        "se3_arc_length_m": 0.31362404549456807,
+        "initial_position_discontinuity_m": 0.016566605680652668,
+        "initial_rotation_discontinuity_rad": 0.008915642642488628,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      18.1,
+      18.166666666666668,
+      18.233333333333334,
+      18.3,
+      18.366666666666667,
+      18.433333333333334,
+      18.5,
+      18.566666666666666
+    ],
+    "replan_tick": 372,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 33,
+    "control": 372,
+    "time_s": 17.6,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q033/input.npz",
+    "input_sha256": "4b3d290f8d6923c7b71ba838f2d321396033bd791802db26bc968438c162daab",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q033/output.npz",
+    "output_sha256": "834aafa6ca392baa32508ddb69dd61b0a836ad6fbda33fb97487a63b6f89fdc9",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000133",
+        "linear_speed_mps": {
+          "mean": 0.0824737865170706,
+          "median": 0.07822325648516411,
+          "p95": 0.13844828144962057,
+          "max": 0.17573200519023546
+        },
+        "angular_speed_radps": {
+          "mean": 0.3240932578317702,
+          "median": 0.2856980039528261,
+          "p95": 0.6108840577790505,
+          "max": 0.8584352091861124
+        },
+        "translation_path_length_m": 0.2144318449443835,
+        "se3_arc_length_m": 0.25715730874267434,
+        "initial_position_discontinuity_m": 0.015019953779985615,
+        "initial_rotation_discontinuity_rad": 0.009850607076093405,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      18.6,
+      18.666666666666668,
+      18.733333333333334,
+      18.8,
+      18.866666666666667,
+      18.933333333333334,
+      19.0,
+      19.066666666666666
+    ],
+    "replan_tick": 383,
+    "quantization_s": 0.016666666666669272
+  },
+  {
+    "index": 34,
+    "control": 383,
+    "time_s": 18.150000000000002,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q034/input.npz",
+    "input_sha256": "a1672b59433342bfe71c889623421cbc34c189408d30cfd4b901ce53f1b2b9a9",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q034/output.npz",
+    "output_sha256": "b4c07a8c5f575453bf781811b5b418161f13c4f343485e9f7836ae309a7f0a2f",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000134",
+        "linear_speed_mps": {
+          "mean": 0.10113225668889124,
+          "median": 0.08472768810619247,
+          "p95": 0.19751523844103758,
+          "max": 0.24908561403238647
+        },
+        "angular_speed_radps": {
+          "mean": 0.2701168294683386,
+          "median": 0.25961248963151307,
+          "p95": 0.5203239939913417,
+          "max": 0.5829393563769479
+        },
+        "translation_path_length_m": 0.26294386739111747,
+        "se3_arc_length_m": 0.28955195167470643,
+        "initial_position_discontinuity_m": 0.028067650328299533,
+        "initial_rotation_discontinuity_rad": 0.0436355754779109,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      19.150000000000002,
+      19.21666666666667,
+      19.283333333333335,
+      19.35,
+      19.416666666666668,
+      19.483333333333334,
+      19.55,
+      19.616666666666667
+    ],
+    "replan_tick": 394,
+    "quantization_s": 0.03333333333333144
+  },
+  {
+    "index": 35,
+    "control": 394,
+    "time_s": 18.700000000000003,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q035/input.npz",
+    "input_sha256": "48e04248a637f400a153748632ccc6eb1435296a9a61ce0292fe9432f1a66e03",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q035/output.npz",
+    "output_sha256": "dcf4e18e84d793f9b0b555c56cdf7ea996275728ac123a11fc56dda628e3ae4d",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000135",
+        "linear_speed_mps": {
+          "mean": 0.08264058304126769,
+          "median": 0.07858956197670562,
+          "p95": 0.16421771574410005,
+          "max": 0.18704556400283995
+        },
+        "angular_speed_radps": {
+          "mean": 0.2358974153530373,
+          "median": 0.19922333429611544,
+          "p95": 0.4483391142123512,
+          "max": 0.5003375615053085
+        },
+        "translation_path_length_m": 0.21486551590729605,
+        "se3_arc_length_m": 0.2408762047707818,
+        "initial_position_discontinuity_m": 0.056829216054531916,
+        "initial_rotation_discontinuity_rad": 0.08452736948263886,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      19.700000000000003,
+      19.76666666666667,
+      19.833333333333336,
+      19.900000000000002,
+      19.96666666666667,
+      20.033333333333335,
+      20.1,
+      20.166666666666668
+    ],
+    "replan_tick": 404,
+    "quantization_s": 3.552713678800501e-15
+  },
+  {
+    "index": 36,
+    "control": 404,
+    "time_s": 19.200000000000003,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q036/input.npz",
+    "input_sha256": "52be5afce23852b6be705df1ca9a99f2739266a6eac5a786f76f7d69be3d6080",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q036/output.npz",
+    "output_sha256": "8f72109712140d85ccf6c06adf7127a7264e8eac37b8ffadd226d1ebfe85392a",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000136",
+        "linear_speed_mps": {
+          "mean": 0.07907883110961014,
+          "median": 0.07704596661842755,
+          "p95": 0.14184062656381752,
+          "max": 0.1529919075745138
+        },
+        "angular_speed_radps": {
+          "mean": 0.25601281717132435,
+          "median": 0.25922215020323003,
+          "p95": 0.4212581245335927,
+          "max": 0.7085037517616005
+        },
+        "translation_path_length_m": 0.2056049608849863,
+        "se3_arc_length_m": 0.23772538029509266,
+        "initial_position_discontinuity_m": 0.032184739217091266,
+        "initial_rotation_discontinuity_rad": 0.041067331092267186,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      20.200000000000003,
+      20.26666666666667,
+      20.333333333333336,
+      20.400000000000002,
+      20.46666666666667,
+      20.533333333333335,
+      20.6,
+      20.666666666666668
+    ],
+    "replan_tick": 415,
+    "quantization_s": 0.01666666666666572
+  },
+  {
+    "index": 37,
+    "control": 415,
+    "time_s": 19.75,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q037/input.npz",
+    "input_sha256": "32ca5362abece0da5936a34489e86a6c003d1cbe36b0980dab2f887980d5439f",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q037/output.npz",
+    "output_sha256": "f4186fdbb360a8fe1ce107121f0c950190b366bd7e741e9c652e0792ffb04556",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000137",
+        "linear_speed_mps": {
+          "mean": 0.08761078299129355,
+          "median": 0.07103985319694574,
+          "p95": 0.19836242447324393,
+          "max": 0.280157299943266
+        },
+        "angular_speed_radps": {
+          "mean": 0.35820079872136734,
+          "median": 0.30917536216129404,
+          "p95": 0.8549374694266543,
+          "max": 1.2112161269953272
+        },
+        "translation_path_length_m": 0.2277880357773632,
+        "se3_arc_length_m": 0.2724146546711779,
+        "initial_position_discontinuity_m": 0.042090016083208594,
+        "initial_rotation_discontinuity_rad": 0.05388793033702567,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      20.75,
+      20.816666666666666,
+      20.883333333333333,
+      20.95,
+      21.016666666666666,
+      21.083333333333332,
+      21.15,
+      21.216666666666665
+    ],
+    "replan_tick": 426,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 38,
+    "control": 426,
+    "time_s": 20.3,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q038/input.npz",
+    "input_sha256": "1b7109a15242ba9e98ae687a385750ccd7f7f6caf5f7b0ecee1cd4debe72b906",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q038/output.npz",
+    "output_sha256": "dcca37c2c2bc1b0779947e88df39c3832e2a21d316e8ba847c97bbf4342852c1",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000138",
+        "linear_speed_mps": {
+          "mean": 0.10556290926207587,
+          "median": 0.10075103018252428,
+          "p95": 0.1681367663373597,
+          "max": 0.25848617560352266
+        },
+        "angular_speed_radps": {
+          "mean": 0.2758047648824295,
+          "median": 0.23486686672263934,
+          "p95": 0.5313604313098177,
+          "max": 0.6304163396311594
+        },
+        "translation_path_length_m": 0.2744635640813974,
+        "se3_arc_length_m": 0.3006735180819336,
+        "initial_position_discontinuity_m": 0.00624296886519833,
+        "initial_rotation_discontinuity_rad": 0.0197350441944465,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      21.3,
+      21.366666666666667,
+      21.433333333333334,
+      21.5,
+      21.566666666666666,
+      21.633333333333333,
+      21.7,
+      21.766666666666666
+    ],
+    "replan_tick": 436,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 39,
+    "control": 436,
+    "time_s": 20.8,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q039/input.npz",
+    "input_sha256": "36a3231f4c856ae66de465bceb75cb828ae48ceaaa0c13afc6c69f5971325dda",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q039/output.npz",
+    "output_sha256": "e33db826061d9c134b79f246999bf98521c26e7da5579dee3ca7b5de5655a82c",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000139",
+        "linear_speed_mps": {
+          "mean": 0.10577554586725037,
+          "median": 0.10191449537224435,
+          "p95": 0.17638005686953626,
+          "max": 0.18735013856289662
+        },
+        "angular_speed_radps": {
+          "mean": 0.28474135353677055,
+          "median": 0.2376343096046744,
+          "p95": 0.5909746030047168,
+          "max": 0.7623399509667431
+        },
+        "translation_path_length_m": 0.2750164192548512,
+        "se3_arc_length_m": 0.3036276849056796,
+        "initial_position_discontinuity_m": 0.01614304037501838,
+        "initial_rotation_discontinuity_rad": 0.01041240655634133,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      21.8,
+      21.866666666666667,
+      21.933333333333334,
+      22.0,
+      22.066666666666666,
+      22.133333333333333,
+      22.2,
+      22.266666666666666
+    ],
+    "replan_tick": 447,
+    "quantization_s": 0.016666666666669272
+  },
+  {
+    "index": 40,
+    "control": 447,
+    "time_s": 21.35,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q040/input.npz",
+    "input_sha256": "443945e938ed84af0148c988e418638f45df78c7c506ed259ae084a847260a5e",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q040/output.npz",
+    "output_sha256": "457a8e66ae0a6fd0bf55b2011b5e727c2e8df0a91dbce1edfd909666df9d8595",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000140",
+        "linear_speed_mps": {
+          "mean": 0.09771221502398544,
+          "median": 0.10096182752709218,
+          "p95": 0.14217171791924646,
+          "max": 0.1549534367429664
+        },
+        "angular_speed_radps": {
+          "mean": 0.2531750082040544,
+          "median": 0.19547705164470613,
+          "p95": 0.5034377258372944,
+          "max": 0.6922499620167762
+        },
+        "translation_path_length_m": 0.254051759062362,
+        "se3_arc_length_m": 0.2788058047304622,
+        "initial_position_discontinuity_m": 0.0127068530103654,
+        "initial_rotation_discontinuity_rad": 0.05904527479562477,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      22.35,
+      22.416666666666668,
+      22.483333333333334,
+      22.55,
+      22.616666666666667,
+      22.683333333333334,
+      22.75,
+      22.816666666666666
+    ],
+    "replan_tick": 458,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 41,
+    "control": 458,
+    "time_s": 21.900000000000002,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q041/input.npz",
+    "input_sha256": "bae0bd0b01eba723f1aa0182e9e21dc3dfb064ebb7eb78c81c39d6d2dee4bb87",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q041/output.npz",
+    "output_sha256": "5b4ffcfc4e7cebba4efab15fc0c6a491bf4e8bfc5663cc546da613d644b90c14",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000141",
+        "linear_speed_mps": {
+          "mean": 0.08184758666388114,
+          "median": 0.07628696018441958,
+          "p95": 0.15168329456401056,
+          "max": 0.18052705581454712
+        },
+        "angular_speed_radps": {
+          "mean": 0.19595799747865014,
+          "median": 0.16198129546914686,
+          "p95": 0.41402815488051714,
+          "max": 0.4364842057255127
+        },
+        "translation_path_length_m": 0.2128037253260912,
+        "se3_arc_length_m": 0.23092892415692326,
+        "initial_position_discontinuity_m": 0.014410612664872115,
+        "initial_rotation_discontinuity_rad": 0.04072162349054164,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      22.900000000000002,
+      22.96666666666667,
+      23.033333333333335,
+      23.1,
+      23.166666666666668,
+      23.233333333333334,
+      23.3,
+      23.366666666666667
+    ],
+    "replan_tick": 468,
+    "quantization_s": 3.552713678800501e-15
+  },
+  {
+    "index": 42,
+    "control": 468,
+    "time_s": 22.400000000000002,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q042/input.npz",
+    "input_sha256": "b08b96832afddf3b6e7ac0b4be2605e0b984976b0217f65c8ce95b47ae42eb24",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q042/output.npz",
+    "output_sha256": "12bfd2b851431b61fd6b59fd27abb2eee94806ad50e962571badf07b981be782",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000142",
+        "linear_speed_mps": {
+          "mean": 0.11422478692296331,
+          "median": 0.10628920526511512,
+          "p95": 0.21196574248506733,
+          "max": 0.27022041299460725
+        },
+        "angular_speed_radps": {
+          "mean": 0.16936192909858824,
+          "median": 0.14494190251059572,
+          "p95": 0.3179657675036837,
+          "max": 0.38798054011547345
+        },
+        "translation_path_length_m": 0.29698444599970486,
+        "se3_arc_length_m": 0.3092319693531115,
+        "initial_position_discontinuity_m": 0.036206529265131654,
+        "initial_rotation_discontinuity_rad": 0.06086448069845447,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      23.400000000000002,
+      23.46666666666667,
+      23.533333333333335,
+      23.6,
+      23.666666666666668,
+      23.733333333333334,
+      23.8,
+      23.866666666666667
+    ],
+    "replan_tick": 479,
+    "quantization_s": 0.016666666666669272
+  },
+  {
+    "index": 43,
+    "control": 479,
+    "time_s": 22.950000000000003,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q043/input.npz",
+    "input_sha256": "8648d2144c859533feeddd2d795aa6b92806c390b48387060ae1e9932087d3dc",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q043/output.npz",
+    "output_sha256": "105af12960ddec374d64f20c04ed42c361f242e51a400241a6bbf262dc5efd45",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000143",
+        "linear_speed_mps": {
+          "mean": 0.08942419927052504,
+          "median": 0.08658737051326748,
+          "p95": 0.14206887093860193,
+          "max": 0.30403982318242445
+        },
+        "angular_speed_radps": {
+          "mean": 0.2176192775417423,
+          "median": 0.21130137543943434,
+          "p95": 0.4012718791040915,
+          "max": 0.5850003644162447
+        },
+        "translation_path_length_m": 0.2325029181033655,
+        "se3_arc_length_m": 0.25303768846384855,
+        "initial_position_discontinuity_m": 0.03180263543969944,
+        "initial_rotation_discontinuity_rad": 0.02869568304081599,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      23.950000000000003,
+      24.01666666666667,
+      24.083333333333336,
+      24.150000000000002,
+      24.21666666666667,
+      24.283333333333335,
+      24.35,
+      24.416666666666668
+    ],
+    "replan_tick": 490,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 44,
+    "control": 490,
+    "time_s": 23.5,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q044/input.npz",
+    "input_sha256": "7a92bff1b6cf2ff3ac2fa44c2652230b3ea9b4793f11316defa25dadf9030fb2",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q044/output.npz",
+    "output_sha256": "c5866390d7927b3207862d40d8bf97ad770358cb281f90558ebd0336ce1bdd3c",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000144",
+        "linear_speed_mps": {
+          "mean": 0.09062846970010832,
+          "median": 0.08614454587602645,
+          "p95": 0.15866734630312784,
+          "max": 0.19752286401866118
+        },
+        "angular_speed_radps": {
+          "mean": 0.1571567562583957,
+          "median": 0.1435806762630589,
+          "p95": 0.33723413173366684,
+          "max": 0.39123729586859446
+        },
+        "translation_path_length_m": 0.23563402122028165,
+        "se3_arc_length_m": 0.24832137827458092,
+        "initial_position_discontinuity_m": 0.010289965022787645,
+        "initial_rotation_discontinuity_rad": 0.043307783925720315,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      24.5,
+      24.566666666666666,
+      24.633333333333333,
+      24.7,
+      24.766666666666666,
+      24.833333333333332,
+      24.9,
+      24.966666666666665
+    ],
+    "replan_tick": 500,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 45,
+    "control": 500,
+    "time_s": 24.0,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q045/input.npz",
+    "input_sha256": "143743c1a680d0f104a8724d09b97cdeba5e09a6a9eed8e83a478b1854f1caa8",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q045/output.npz",
+    "output_sha256": "443214f1325286cc6cab7ac893dda1d33374a16d671118a7d10a5590ae3ef270",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000145",
+        "linear_speed_mps": {
+          "mean": 0.10080921477930385,
+          "median": 0.08798045345077829,
+          "p95": 0.17463506870563367,
+          "max": 0.18954796149170572
+        },
+        "angular_speed_radps": {
+          "mean": 0.24594116231495883,
+          "median": 0.2231567809477571,
+          "p95": 0.5363523634403464,
+          "max": 0.583626147623968
+        },
+        "translation_path_length_m": 0.2621039584261909,
+        "se3_arc_length_m": 0.2854285359478132,
+        "initial_position_discontinuity_m": 0.017145972358177736,
+        "initial_rotation_discontinuity_rad": 0.036689357491187374,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      25.0,
+      25.066666666666666,
+      25.133333333333333,
+      25.2,
+      25.266666666666666,
+      25.333333333333332,
+      25.4,
+      25.466666666666665
+    ],
+    "replan_tick": 511,
+    "quantization_s": 0.01666666666666572
+  },
+  {
+    "index": 46,
+    "control": 511,
+    "time_s": 24.55,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q046/input.npz",
+    "input_sha256": "1610d81fe6463943f04763fd1d41ccf86f5f8cc40eff2016e25cff93d116b290",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q046/output.npz",
+    "output_sha256": "9cfb58738970eb015823017418303d3b76a73f1571ab2910c7465d598946246d",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000146",
+        "linear_speed_mps": {
+          "mean": 0.09281682052290413,
+          "median": 0.08454744030246122,
+          "p95": 0.1664949384245152,
+          "max": 0.17881482877868085
+        },
+        "angular_speed_radps": {
+          "mean": 0.23821062066683707,
+          "median": 0.2119558322232568,
+          "p95": 0.5384907863116483,
+          "max": 0.6402253563007638
+        },
+        "translation_path_length_m": 0.24132373335955118,
+        "se3_arc_length_m": 0.2679408260731364,
+        "initial_position_discontinuity_m": 0.024108940755859374,
+        "initial_rotation_discontinuity_rad": 0.006219047463835763,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      25.55,
+      25.616666666666667,
+      25.683333333333334,
+      25.75,
+      25.816666666666666,
+      25.883333333333333,
+      25.95,
+      26.016666666666666
+    ],
+    "replan_tick": 522,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 47,
+    "control": 522,
+    "time_s": 25.1,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q047/input.npz",
+    "input_sha256": "dfac13b0eeb70d3e05c43dd92f3880792f2b41bf2944b967724e2a11ec682b96",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q047/output.npz",
+    "output_sha256": "f03792f284064c490bf8b5ea290468c0632b599a8c7316543ada7db7935ab8fa",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000147",
+        "linear_speed_mps": {
+          "mean": 0.11519019173709556,
+          "median": 0.10417701150826858,
+          "p95": 0.21789695896824254,
+          "max": 0.28230143695408894
+        },
+        "angular_speed_radps": {
+          "mean": 0.18884455572822537,
+          "median": 0.17579974069612608,
+          "p95": 0.40214241979708787,
+          "max": 0.5083310713772718
+        },
+        "translation_path_length_m": 0.299494498516449,
+        "se3_arc_length_m": 0.31492053349563626,
+        "initial_position_discontinuity_m": 0.019043057500589346,
+        "initial_rotation_discontinuity_rad": 0.06460152899815959,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      26.1,
+      26.166666666666668,
+      26.233333333333334,
+      26.3,
+      26.366666666666667,
+      26.433333333333334,
+      26.5,
+      26.566666666666666
+    ],
+    "replan_tick": 532,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 48,
+    "control": 532,
+    "time_s": 25.6,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q048/input.npz",
+    "input_sha256": "75f5b2374614552521cd51d1c1a600382e155e96d47483a6742114ca7674c7d3",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q048/output.npz",
+    "output_sha256": "28e8c68c2367408dca4c1860f84de803006b0723517f2f6b53d82fad47722729",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000148",
+        "linear_speed_mps": {
+          "mean": 0.09065607511725374,
+          "median": 0.09103600124359207,
+          "p95": 0.15084726324424505,
+          "max": 0.24634908944974815
+        },
+        "angular_speed_radps": {
+          "mean": 0.27750353015721124,
+          "median": 0.22874430843228008,
+          "p95": 0.6545945318964516,
+          "max": 0.7213673022708857
+        },
+        "translation_path_length_m": 0.23570579530485994,
+        "se3_arc_length_m": 0.2701269323083785,
+        "initial_position_discontinuity_m": 0.05751488161347219,
+        "initial_rotation_discontinuity_rad": 0.02171484870666406,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      26.6,
+      26.666666666666668,
+      26.733333333333334,
+      26.8,
+      26.866666666666667,
+      26.933333333333334,
+      27.0,
+      27.066666666666666
+    ],
+    "replan_tick": 543,
+    "quantization_s": 0.016666666666669272
+  },
+  {
+    "index": 49,
+    "control": 543,
+    "time_s": 26.150000000000002,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q049/input.npz",
+    "input_sha256": "c759192267730cc50b946f6ad794b93c8ac00da22862c5cdd4df262aff6538fd",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q049/output.npz",
+    "output_sha256": "b5b6d7a14219f6c7d59f972b173c7463da93c6fcaca623cab5e4bc6412e3bc7b",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000149",
+        "linear_speed_mps": {
+          "mean": 0.0743393632339885,
+          "median": 0.06844968808016519,
+          "p95": 0.13925770856598096,
+          "max": 0.1627417721567275
+        },
+        "angular_speed_radps": {
+          "mean": 0.27460945742149906,
+          "median": 0.23796968890690678,
+          "p95": 0.528756674835327,
+          "max": 0.6708920293634665
+        },
+        "translation_path_length_m": 0.19328234440837022,
+        "se3_arc_length_m": 0.23278831885506093,
+        "initial_position_discontinuity_m": 0.02122998849642169,
+        "initial_rotation_discontinuity_rad": 0.038405550148129186,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      27.150000000000002,
+      27.21666666666667,
+      27.283333333333335,
+      27.35,
+      27.416666666666668,
+      27.483333333333334,
+      27.55,
+      27.616666666666667
+    ],
+    "replan_tick": 554,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 50,
+    "control": 554,
+    "time_s": 26.700000000000003,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q050/input.npz",
+    "input_sha256": "83a565fb05aec001af7f895cec9cdd67dd3c493df8a551a8af92162058e4eed0",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q050/output.npz",
+    "output_sha256": "d2a2669b66d4063a75373d9cf25a7514a3715f3dbba13fbf46cf528786614893",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000150",
+        "linear_speed_mps": {
+          "mean": 0.10351690010770377,
+          "median": 0.09844727916997091,
+          "p95": 0.1745095717505347,
+          "max": 0.19930107064210434
+        },
+        "angular_speed_radps": {
+          "mean": 0.5006087930173372,
+          "median": 0.45982589154321984,
+          "p95": 1.153673597581747,
+          "max": 1.3564179310486741
+        },
+        "translation_path_length_m": 0.2691439402800302,
+        "se3_arc_length_m": 0.3463466429894393,
+        "initial_position_discontinuity_m": 0.02114857674931351,
+        "initial_rotation_discontinuity_rad": 0.03722663456732688,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      27.700000000000003,
+      27.76666666666667,
+      27.833333333333336,
+      27.900000000000002,
+      27.96666666666667,
+      28.033333333333335,
+      28.1,
+      28.166666666666668
+    ],
+    "replan_tick": 564,
+    "quantization_s": 3.552713678800501e-15
+  },
+  {
+    "index": 51,
+    "control": 564,
+    "time_s": 27.200000000000003,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q051/input.npz",
+    "input_sha256": "17067d509b852dd75894d8a48307c26af12e7a67256c625b69e4bca6ac3df956",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q051/output.npz",
+    "output_sha256": "876981d46b96f5f43777f10ba2a0325a905ad60a6fed2626e153b8e375d75137",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000151",
+        "linear_speed_mps": {
+          "mean": 0.10497372743923944,
+          "median": 0.10767588275496097,
+          "p95": 0.18025790481080656,
+          "max": 0.2003166068925784
+        },
+        "angular_speed_radps": {
+          "mean": 0.41766493687363326,
+          "median": 0.28864014168058555,
+          "p95": 0.8756674425411171,
+          "max": 0.9424525935840904
+        },
+        "translation_path_length_m": 0.2729316913420224,
+        "se3_arc_length_m": 0.3238881390466711,
+        "initial_position_discontinuity_m": 0.029972434175082642,
+        "initial_rotation_discontinuity_rad": 0.1544071009737304,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      28.200000000000003,
+      28.26666666666667,
+      28.333333333333336,
+      28.400000000000002,
+      28.46666666666667,
+      28.533333333333335,
+      28.6,
+      28.666666666666668
+    ],
+    "replan_tick": 575,
+    "quantization_s": 0.01666666666666572
+  },
+  {
+    "index": 52,
+    "control": 575,
+    "time_s": 27.75,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q052/input.npz",
+    "input_sha256": "7b40c6f09ae923f34af63b021549fc7f5fd314231263fb8b0fc7ccd9577d8db4",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q052/output.npz",
+    "output_sha256": "57d25b080009ea4ca72e3123cf32ee79ed58905d3f891fdebc0b074c15f43898",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000152",
+        "linear_speed_mps": {
+          "mean": 0.07914892544027541,
+          "median": 0.08269213903756643,
+          "p95": 0.12915844884646316,
+          "max": 0.16277442348933813
+        },
+        "angular_speed_radps": {
+          "mean": 0.27566264288958375,
+          "median": 0.19625294564389245,
+          "p95": 0.5791952440337803,
+          "max": 0.921822918759405
+        },
+        "translation_path_length_m": 0.20578720614471582,
+        "se3_arc_length_m": 0.2418978248795742,
+        "initial_position_discontinuity_m": 0.02286390660073499,
+        "initial_rotation_discontinuity_rad": 0.027026183121349558,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      28.75,
+      28.816666666666666,
+      28.883333333333333,
+      28.95,
+      29.016666666666666,
+      29.083333333333332,
+      29.15,
+      29.216666666666665
+    ],
+    "replan_tick": 586,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 53,
+    "control": 586,
+    "time_s": 28.3,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q053/input.npz",
+    "input_sha256": "4cd32224ea972713015f8dfa7a45191662770f339d32523f657f2e05eab621fc",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q053/output.npz",
+    "output_sha256": "fadeb2d9254f926a6542246bc7d9ae9810ba127e32db9fb8f676f441df38e4f3",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000153",
+        "linear_speed_mps": {
+          "mean": 0.07054819410848658,
+          "median": 0.06439924190956442,
+          "p95": 0.1155228022045511,
+          "max": 0.15185912286566008
+        },
+        "angular_speed_radps": {
+          "mean": 0.19807114989325184,
+          "median": 0.1772223137128925,
+          "p95": 0.4332717484699092,
+          "max": 0.5938359287348969
+        },
+        "translation_path_length_m": 0.18342530468206494,
+        "se3_arc_length_m": 0.20478263827513293,
+        "initial_position_discontinuity_m": 0.04213683596364989,
+        "initial_rotation_discontinuity_rad": 0.04371380460707957,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      29.3,
+      29.366666666666667,
+      29.433333333333334,
+      29.5,
+      29.566666666666666,
+      29.633333333333333,
+      29.7,
+      29.766666666666666
+    ],
+    "replan_tick": 596,
+    "quantization_s": 0.0
+  },
+  {
+    "index": 54,
+    "control": 596,
+    "time_s": 28.8,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q054/input.npz",
+    "input_sha256": "5b3e85122d5be5f9b1e336872984b0b03ca56d67f2144f462029149ba63e0a02",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q054/output.npz",
+    "output_sha256": "732ec18f88c1fef24ddeecfcfc39c238e34b1a5c82d1b86e3a4999b1aafe754d",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000154",
+        "linear_speed_mps": {
+          "mean": 0.08820424628198047,
+          "median": 0.08008519094765622,
+          "p95": 0.15992779236307442,
+          "max": 0.17503410225066973
+        },
+        "angular_speed_radps": {
+          "mean": 0.22760788896641612,
+          "median": 0.15531837730306838,
+          "p95": 0.5676722269312036,
+          "max": 0.7400664558233317
+        },
+        "translation_path_length_m": 0.22933104033314905,
+        "se3_arc_length_m": 0.2527181322623097,
+        "initial_position_discontinuity_m": 0.026804313475050738,
+        "initial_rotation_discontinuity_rad": 0.009251221962324124,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      29.8,
+      29.866666666666667,
+      29.933333333333334,
+      30.0,
+      30.066666666666666,
+      30.133333333333333,
+      30.2,
+      30.266666666666666
+    ],
+    "replan_tick": 607,
+    "quantization_s": 0.016666666666669272
+  },
+  {
+    "index": 55,
+    "control": 607,
+    "time_s": 29.35,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q055/input.npz",
+    "input_sha256": "cde8f7e5c8d39b32e98e6ebadb98bdaecdb88d5d16a9e7889797511f2deeb7bd",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q055/output.npz",
+    "output_sha256": "3abdd10aaa24fde0121e169e671e0b4e1372f283b08d207a00404c0b80e427dc",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000155",
+        "linear_speed_mps": {
+          "mean": 0.08476441899977233,
+          "median": 0.08816569322585728,
+          "p95": 0.14177297601540095,
+          "max": 0.15748634831300146
+        },
+        "angular_speed_radps": {
+          "mean": 0.26112085573676436,
+          "median": 0.26457194231855335,
+          "p95": 0.46421319167026215,
+          "max": 0.6187160348275519
+        },
+        "translation_path_length_m": 0.220387489399409,
+        "se3_arc_length_m": 0.24871848209418884,
+        "initial_position_discontinuity_m": 0.024531407940703458,
+        "initial_rotation_discontinuity_rad": 0.010203573209854882,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      30.35,
+      30.416666666666668,
+      30.483333333333334,
+      30.55,
+      30.616666666666667,
+      30.683333333333334,
+      30.75,
+      30.816666666666666
+    ],
+    "replan_tick": 618,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 56,
+    "control": 618,
+    "time_s": 29.900000000000002,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q056/input.npz",
+    "input_sha256": "f8565c8f59f5fc162c48196111498af50026ff7cda732d4813b3f7e1264e8350",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q056/output.npz",
+    "output_sha256": "d1dee6b9d459bcc822d40a1372d3c982b45aac015baf87580e7c2c32c6817e22",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000156",
+        "linear_speed_mps": {
+          "mean": 0.08382619446554497,
+          "median": 0.07599191159983142,
+          "p95": 0.1564687583937745,
+          "max": 0.18005648910087726
+        },
+        "angular_speed_radps": {
+          "mean": 0.2639925620613962,
+          "median": 0.2583273914522951,
+          "p95": 0.4478334374891379,
+          "max": 0.7212584730965446
+        },
+        "translation_path_length_m": 0.21794810561041777,
+        "se3_arc_length_m": 0.2461307128793032,
+        "initial_position_discontinuity_m": 0.046692102548521144,
+        "initial_rotation_discontinuity_rad": 0.08851219855795006,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      30.900000000000002,
+      30.96666666666667,
+      31.033333333333335,
+      31.1,
+      31.166666666666668,
+      31.233333333333334,
+      31.3,
+      31.366666666666667
+    ],
+    "replan_tick": 628,
+    "quantization_s": 3.552713678800501e-15
+  },
+  {
+    "index": 57,
+    "control": 628,
+    "time_s": 30.400000000000002,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q057/input.npz",
+    "input_sha256": "2195659c00709169bac2d64e430c285410d6d9e48668d32bfa60ffa5559e7578",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q057/output.npz",
+    "output_sha256": "d534076c32daad9c2b87ac1c9570edb6f42f00e7858ace2ada1df25c4784e5ad",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000157",
+        "linear_speed_mps": {
+          "mean": 0.08885560896708906,
+          "median": 0.07169703947595696,
+          "p95": 0.18592862008382366,
+          "max": 0.2094525356728938
+        },
+        "angular_speed_radps": {
+          "mean": 0.23614682815559015,
+          "median": 0.22572007779074083,
+          "p95": 0.47004629922015023,
+          "max": 0.6738415628947623
+        },
+        "translation_path_length_m": 0.2310245833144316,
+        "se3_arc_length_m": 0.25718114608551873,
+        "initial_position_discontinuity_m": 0.03886245255856485,
+        "initial_rotation_discontinuity_rad": 0.01801683004282391,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      31.400000000000002,
+      31.46666666666667,
+      31.533333333333335,
+      31.6,
+      31.666666666666668,
+      31.733333333333334,
+      31.8,
+      31.866666666666667
+    ],
+    "replan_tick": 639,
+    "quantization_s": 0.016666666666669272
+  },
+  {
+    "index": 58,
+    "control": 639,
+    "time_s": 30.950000000000003,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q058/input.npz",
+    "input_sha256": "7919899aec90dcb73a9a00fe8540b7c199f04adb9152b04c77c6c3b251e85979",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q058/output.npz",
+    "output_sha256": "246ee453f3a8c13baca141efdd60ff4c95f6b2a9e61bd83874e6b6d434d5c27a",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000158",
+        "linear_speed_mps": {
+          "mean": 0.07929450440251143,
+          "median": 0.07479377983595185,
+          "p95": 0.15737250609970801,
+          "max": 0.2082522412020967
+        },
+        "angular_speed_radps": {
+          "mean": 0.17058498291409704,
+          "median": 0.1595445288580435,
+          "p95": 0.36818712378565405,
+          "max": 0.5480684509492041
+        },
+        "translation_path_length_m": 0.20616571144653095,
+        "se3_arc_length_m": 0.22457566254023834,
+        "initial_position_discontinuity_m": 0.028756729749012104,
+        "initial_rotation_discontinuity_rad": 0.016704810575109936,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      31.950000000000003,
+      32.01666666666667,
+      32.083333333333336,
+      32.150000000000006,
+      32.21666666666667,
+      32.28333333333334,
+      32.35,
+      32.41666666666667
+    ],
+    "replan_tick": 650,
+    "quantization_s": 0.03333333333333499
+  },
+  {
+    "index": 59,
+    "control": 650,
+    "time_s": 31.5,
+    "input": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q059/input.npz",
+    "input_sha256": "4aeeb31dc1456adf6eff0242f6ea2510e3dedc939955a69808d2b7e4b10aac8d",
+    "output": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/source/episodes/PI0280-10001/attempt-000/q059/output.npz",
+    "output_sha256": "3d41d86cad29891f50fb48a35d33b6c0e547e9c31191e0d1895a645d27b5dda0",
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "chunk_id": "PI0280-1000159",
+        "linear_speed_mps": {
+          "mean": 0.07431178317921713,
+          "median": 0.054618058545179794,
+          "p95": 0.15463716219058238,
+          "max": 0.17976223941381894
+        },
+        "angular_speed_radps": {
+          "mean": 0.22939343969934897,
+          "median": 0.1842634790878212,
+          "p95": 0.4576185701034672,
+          "max": 0.7529727447371442
+        },
+        "translation_path_length_m": 0.19321063626596374,
+        "se3_arc_length_m": 0.21973824863426644,
+        "initial_position_discontinuity_m": 0.020719828164516195,
+        "initial_rotation_discontinuity_rad": 0.10109859703712025,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "executed_first8_native_timestamps_s": [
+      32.5,
+      32.56666666666667,
+      32.63333333333333,
+      32.7,
+      32.766666666666666,
+      32.833333333333336,
+      32.9,
+      32.96666666666667
+    ],
+    "replan_tick": 660,
+    "quantization_s": 0.0
+  }
+]

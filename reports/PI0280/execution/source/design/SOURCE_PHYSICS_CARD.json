@@ -1,0 +1,52 @@
+{
+  "conditions": [
+    10000,
+    10001,
+    10002,
+    10003
+  ],
+  "instruction": "Stack the red cube on the green cube and release it.",
+  "official_fps": 15,
+  "H": 40,
+  "prefix": 8,
+  "source_control_Hz": 20,
+  "pre_roll_s": 1.0,
+  "task_s": 32.0,
+  "queries_per_condition_cap": 80,
+  "policy_rng_seed": 0,
+  "input": "actual Panda link8 base pose; true seven joints; real RGB now and one second ago",
+  "TCP_link8_from_hand": {
+    "rotation_z_rad": 0.7853981633974483,
+    "translation_z_m": -0.1034
+  },
+  "gripper": "native physical gap/max gap, 0 open 1 closed; output closure converted to original Panda actuator fraction",
+  "camera_binding": {
+    "base_camera_raw": "exterior_image_1_left",
+    "hand_camera_raw": "wrist_image_left"
+  },
+  "domain": "OOD_PANDA_SIM_NOT_OFFICIAL_DROID_BENCHMARK",
+  "time_grid": "15Hz first8 samples -> 20Hz interpolation only through7/15; holdlast until ceil(n*8/15*20) controller ticks",
+  "time_grid_quantization_s": [
+    0,
+    0.05
+  ],
+  "source_caps": {
+    "starts": 6,
+    "control": 6000,
+    "physics": 30000,
+    "rgb": 6000,
+    "teacher": 0
+  },
+  "input_gripper_formula": "1-(q_left+q_right-0.00004)/0.07996",
+  "output_gripper_formula": "Panda fraction=1-stock decoded DROID closure",
+  "source_code_sha256": {
+    "source.py": "d44084158a663f248509e32cb635b651a627db6405e16c20c6dff462a6e3e397",
+    "source_control.py": "28541484f30c4a8190b6de1d62bb726bd8eab07427c922bed2e7d1d7877a07a0",
+    "source_contract.py": "2930136eacbae5ae0e851b70275a539a0ded3cc768dc397cc1f694d05861d3ac"
+  },
+  "original_source_worker_sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3",
+  "baseline_binding_sha256": "0efacdd006b9aaa69a63eece41a405348998f9bebd272025d5f19804c15c7660",
+  "tcp_contract_sha256": "dd096d2310c4f5f11da5b1cc73811a88500b24b95a0169d8d9926d6e870eef76",
+  "NON_REALTIME": true,
+  "training_updates": 0
+}

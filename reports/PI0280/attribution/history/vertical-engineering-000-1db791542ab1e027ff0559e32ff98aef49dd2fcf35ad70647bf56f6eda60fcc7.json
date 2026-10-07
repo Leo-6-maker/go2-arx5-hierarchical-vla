@@ -1,0 +1,236 @@
+{
+  "fixture": "vertical",
+  "attempt": "vertical-engineering-000",
+  "execution_status": "ENGINEERING_INCOMPLETE",
+  "execution_error": "RuntimeError('CUDA error: device-side assert triggered\\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1.\\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\\n')",
+  "controller": "DELIVERED_OLD_WBC",
+  "lane": "WBC_NATIVE_FIXTURE",
+  "task_success": "NOT_AN_OBJECT_TASK",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "raw_result": {
+    "status": "ENGINEERING_INCOMPLETE",
+    "fixture": "vertical",
+    "loads": [
+      {
+        "role": "arm",
+        "safe_load": "PASS",
+        "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+        "payload_keys": 29,
+        "inference_keys": 14
+      },
+      {
+        "role": "dog",
+        "safe_load": "PASS",
+        "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+        "payload_keys": 17,
+        "inference_keys": 8
+      }
+    ],
+    "initialization_s": 0.019999999552965164,
+    "error": "RuntimeError('CUDA error: device-side assert triggered\\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1.\\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\\n')"
+  },
+  "initialization_sim_time_s": 0.019999999552965164,
+  "saved_rows": 25,
+  "saved_controlled_rows": 24,
+  "saved_actor_output_rows": 24,
+  "ledger_counts": {
+    "physical_start": 1,
+    "control_tick": 26,
+    "gripper_dispatch": 104,
+    "integration": 104,
+    "RGB_pair": 5,
+    "actor_forward": 50
+  },
+  "ledger_attempt_window": {
+    "start_unix_s": 1791380959.815873,
+    "end_RESULT_mtime_unix_s": 1791381008.221753
+  },
+  "installed_orientation_tracking": "UNOBSERVED_NATIVE_INSTALLED_ROTATION_NOT_RECORDED",
+  "object_contacts": "UNOBSERVED_NOT_AN_OBJECT_TASK",
+  "object_completion": "NOT_AN_OBJECT_TASK",
+  "metric_semantics": "Saved installed=p_at(s_ref(traj_sim_time)) after step; pre-step dispatched nine-point preview is not saved. Timestamped raw reference is a distinct clock from spatial progress.",
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/START.json",
+      "bytes": 137,
+      "sha256": "fd2d4e5225299b38298a378cb69b84e9ac7b30a10393b85c051115580b1d79a6"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/construction_gate.json",
+      "bytes": 1542,
+      "sha256": "c1fbc58624dfd1d1243b102daed03836adc658eea24e46374ed6eeb596e4be42"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/reference.npz",
+      "bytes": 2435,
+      "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/install_gate.json",
+      "bytes": 1574,
+      "sha256": "36807861c2ed8b63ce32ad304e1618201be40f44443e472819620d314bea9ccb"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/installation.json",
+      "bytes": 603,
+      "sha256": "e7322a7f7d2da32aa27e9e3f5da4e0384406fc04d0fe67948b84528aabc0be98"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/actor_outputs.jsonl",
+      "bytes": 24410,
+      "sha256": "e41cf3d7b5071d994b288e2ea7f759a4a9b8b1ea3c1a44e24af1eec92084c12c"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/rows.json",
+      "bytes": 149714,
+      "sha256": "590ceabf5cdeb4ee28ab175ac97a7bfe0ff23bb07041920f10bd8b394cadc26f"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/RESULT.json",
+      "bytes": 1087,
+      "sha256": "259d6234b3f9c792c67a14f475732b10be5ea71dfb37cd24a5aa59b5f7c8b122"
+    }
+  ],
+  "initialization_row": {
+    "sim_time_s": 0.019999999552965164,
+    "FK_cache_error_m": 3.884375082218632e-07,
+    "hard_max_penetration": 0.0,
+    "soft_margin_min": -0.019805818796157837
+  },
+  "last_saved_sim_time_s": 0.4999999888241291,
+  "saved_controlled_elapsed_s": 0.47999998927116394,
+  "actual_to_same_tick_installed_position_m": {
+    "mean": 0.014053553823375664,
+    "rms": 0.018823879344181615,
+    "p95": 0.036363016945802525,
+    "max": 0.036675610756853286,
+    "final": 0.0035673031436089407
+  },
+  "actual_to_timestamped_raw_position_m": {
+    "mean": 0.014053554533844206,
+    "rms": 0.01882388529042526,
+    "p95": 0.036363030516392475,
+    "max": 0.03667559013645519,
+    "final": 0.0035673055069317537
+  },
+  "same_tick_installed_to_timestamped_raw_position_m": {
+    "mean": 2.5723038234844468e-08,
+    "rms": 2.7208953754105777e-08,
+    "p95": 4.330286209348725e-08,
+    "max": 4.683975706114033e-08,
+    "final": 2.4532770087703523e-08
+  },
+  "actual_to_raw_fixed_orientation_rad": {
+    "mean": 0.9580458644306956,
+    "rms": 0.9725171195320488,
+    "p95": 1.0975499918257128,
+    "max": 1.0984556500547882,
+    "final": 0.9888893877639798
+  },
+  "FK_cache_error_m": {
+    "mean": 3.3563901550747547e-07,
+    "rms": 3.419818007848759e-07,
+    "p95": 4.2770044601517626e-07,
+    "max": 5.271750991726416e-07,
+    "final": 3.712663581368451e-07
+  },
+  "hard_penetration": {
+    "unit": "rad_for_revolute_m_for_prismatic",
+    "rows_with_any": 0,
+    "per_joint_max": {
+      "FL_hip_joint": 0.0,
+      "FL_thigh_joint": 0.0,
+      "FL_calf_joint": 0.0,
+      "FR_hip_joint": 0.0,
+      "FR_thigh_joint": 0.0,
+      "FR_calf_joint": 0.0,
+      "RL_hip_joint": 0.0,
+      "RL_thigh_joint": 0.0,
+      "RL_calf_joint": 0.0,
+      "RR_hip_joint": 0.0,
+      "RR_thigh_joint": 0.0,
+      "RR_calf_joint": 0.0,
+      "x5_joint1": 0.0,
+      "x5_joint2": 0.0,
+      "x5_joint3": 0.0,
+      "x5_joint4": 0.0,
+      "x5_joint5": 0.0,
+      "x5_joint6": 0.0,
+      "x5_gripper_joint": 0.0,
+      "x5_joint8": 0.0
+    }
+  },
+  "inherited_soft_margins": {
+    "rows_with_any_negative": 11,
+    "per_joint_min": {
+      "FL_hip_joint": 0.7306236773729324,
+      "FL_thigh_joint": 1.9178074598312378,
+      "FL_calf_joint": 0.38351917266845703,
+      "FR_hip_joint": 0.691969633102417,
+      "FR_thigh_joint": 1.9618463516235352,
+      "FR_calf_joint": 0.6348990201950073,
+      "RL_hip_joint": 0.7870181798934937,
+      "RL_thigh_joint": 0.9977138042449951,
+      "RL_calf_joint": 0.3653104305267334,
+      "RR_hip_joint": 0.4758003056049347,
+      "RR_thigh_joint": 1.1608701348304749,
+      "RR_calf_joint": 0.30634021759033203,
+      "x5_joint1": 1.4079118371009827,
+      "x5_joint2": 0.047010645270347595,
+      "x5_joint3": 0.03541424870491028,
+      "x5_joint4": 0.352541446685791,
+      "x5_joint5": 0.5950455069541931,
+      "x5_joint6": 1.5427158176898956,
+      "x5_gripper_joint": -0.002193193882703781,
+      "x5_joint8": -0.0019623562693595886
+    },
+    "per_joint_negative_rows": {
+      "FL_hip_joint": 0,
+      "FL_thigh_joint": 0,
+      "FL_calf_joint": 0,
+      "FR_hip_joint": 0,
+      "FR_thigh_joint": 0,
+      "FR_calf_joint": 0,
+      "RL_hip_joint": 0,
+      "RL_thigh_joint": 0,
+      "RL_calf_joint": 0,
+      "RR_hip_joint": 0,
+      "RR_thigh_joint": 0,
+      "RR_calf_joint": 0,
+      "x5_joint1": 0,
+      "x5_joint2": 0,
+      "x5_joint3": 0,
+      "x5_joint4": 0,
+      "x5_joint5": 0,
+      "x5_joint6": 0,
+      "x5_gripper_joint": 11,
+      "x5_joint8": 11
+    },
+    "meaning": "Inherited 0.9 range soft margins; negative does not imply URDF hard penetration"
+  },
+  "gripper_actual_final_m": {
+    "x5_gripper_joint": 0.04399319365620613,
+    "x5_joint8": 0.04376235604286194
+  },
+  "telemetry_flags": {
+    "invalid_state": 0,
+    "fall_flag": 0,
+    "joint_limit_violation": 11
+  },
+  "video": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/attribution/vertical-engineering-000.mp4",
+    "bytes": 29907,
+    "sha256": "4e636fafbc1b671916b8f3f1ecace8fcca481eccedc0de38ab4aef1900eba229",
+    "source": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/vertical-engineering-000/frames.npz",
+      "bytes": 57867,
+      "sha256": "bb9d340076f72df6fd536e826f0ad8cdeb5907fd7e12fed6c348f9f55940f3da"
+    },
+    "saved_frames": 5,
+    "first_sim_time_s": 0.019999999552965164,
+    "last_sim_time_s": 0.41999999061226845,
+    "fps": 10.000000223517423,
+    "rendering": "Only actual saved body/wrist RGB; nearest pixel enlargement; timestamps preserved"
+  }
+}
