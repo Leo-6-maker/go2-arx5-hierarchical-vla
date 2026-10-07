@@ -137,5 +137,22 @@ def check():
     print('PASS_FIXED_BALANCED_ALL_FORK_CATEGORY_PAIRS_AND_ORDER')
 
 
+def views():
+    assert read(ROOT/'evidence/DATA_ADMISSION.json')['launch_allowed']
+    rows=[]
+    for e in read(ROOT/'design/DATASET_CARD.json')['episodes']:
+        if e['pool']!='RECOVERY':continue
+        folder=Path(e['path']);dest=RAW.parent/'packet-views'/f"TRAIN-{e['seed']}-f{e['fork']}";dest.mkdir(parents=True,exist_ok=True)
+        for name,keys in [('commands.npz',['action','phase']),('observations.npz',['state_v1','base_camera_96','hand_camera_96'])]:
+            with np.load(folder/name) as z:value={k:z[k].copy() for k in keys}
+            p=dest/name
+            if not p.exists():np.savez_compressed(p,**value)
+            with np.load(p) as z:assert set(z.files)==set(value) and all(np.array_equal(z[k],v) for k,v in value.items())
+        rows.append(dict(seed=e['seed'],fork=e['fork'],original_episode=str(folder),view=str(dest),source_result_sha256=sha(folder/'RESULT.json'),array_values_dtype_shape_exact=True,
+            files=[dict(path=n,bytes=(dest/n).stat().st_size,sha256=sha(dest/n),source_file=str(folder/n),source_file_sha256=sha(folder/n)) for n in ('commands.npz','observations.npz')]))
+    freeze(ROOT/'evidence/HOP_PACKET_VIEWS.json',dict(rows=rows,transformation='Lossless NPZ compression and field subset; actual96RGB/StateV1/commands unchanged',privileged_fields_to_model=False,new_model_queries=0,new_physics=0))
+    print('PASS_SOURCE_BOUND_LOSSLESS_PACKET_VIEWS',len(rows),sum(r['bytes'] for row in rows for r in row['files']),flush=True)
+
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('stage',choices=['build','codec','check']);a=p.parse_args();globals()[a.stage]()
+    p=argparse.ArgumentParser();p.add_argument('stage',choices=['build','codec','check','views']);a=p.parse_args();globals()[a.stage]()

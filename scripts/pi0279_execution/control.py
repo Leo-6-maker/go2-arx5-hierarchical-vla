@@ -80,8 +80,8 @@ print(json.dumps(value))
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('stage',choices=['stage','check','run','audit','verdict','build','codec','replay']);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('stage',choices=['stage','check','run','audit','verdict','build','codec','replay','views']);a=p.parse_args()
     if a.stage=='stage':stage()
-    elif a.stage in ('build','codec'):call([a.stage],script='data.py')
+    elif a.stage in ('build','codec','views'):call([a.stage],script='data.py')
     elif a.stage=='replay':call([],script='source_replay.py')
     else:call([a.stage],a.stage=='run')
