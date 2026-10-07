@@ -27,7 +27,8 @@ def load(root,point):
     for name,digest in manifest['files'].items():assert sha(root/'code'/name)==digest,name
     binding=json.loads((root/'design/MODEL_POINTS.json').read_text())[point]
     for name,digest in binding['files'].items():assert sha(Path(binding['model_root'])/name)==digest,name
-    model,info=Gr00tN1d7.from_pretrained(binding['model_root'],torch_dtype=torch.bfloat16,local_files_only=True,output_loading_info=True)
+    from native_model import load_model
+    model,info=load_model(binding['model_root'])
     assert all(not info.get(k) for k in ('missing_keys','unexpected_keys','mismatched_keys','error_msgs')),info
     model.eval();model.requires_grad_(False);model.to('cuda:0')
     assert model.action_head.num_inference_timesteps==4 and model.action_head.action_horizon==40
@@ -83,9 +84,14 @@ def query(root,model,codec,request):
             torch.cuda.synchronize()
         finally:torch.randn=original;hook.remove()
     assert len(draws)==1 and len(heads)==4 and raw.shape==(1,40,132)
-    decoded=codec.decode_actions(raw[0],state)
+    decode_error=''
+    try:decoded=codec.decode_actions(raw[0],state)
+    except ValueError as error:
+        # Preserve an invalid native prediction as a quality failure, never retry it.
+        decode_error=str(error);decoded=np.full((40,10),np.nan,dtype=np.float32)
     noise=expected.detach().cpu().view(torch.uint16).numpy()
     np.savez_compressed(target,raw=raw,decoded=decoded,noise_uint16=noise,actual_state=state,
+        decode_error=np.asarray(decode_error),
         source_sha256=np.asarray(sha(source)),identity_json=np.asarray(json.dumps(codec.identity,sort_keys=True)),
         normalized_OOB_fraction=np.mean((raw[0,:,:10]<-1)|(raw[0,:,:10]>1)),latency_s=time.perf_counter()-started)
     return dict(output=str(target),raw_sha256=array_hash(raw),noise_sha256=array_hash(noise),decoded_sha256=array_hash(decoded))

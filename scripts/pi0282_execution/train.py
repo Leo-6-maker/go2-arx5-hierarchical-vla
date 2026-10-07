@@ -84,11 +84,16 @@ class Provenance(TrainerCallback):
             assert any(digest(p)!=self.scope['initial_DiT_hashes'][n] for n,p in kwargs['model'].named_parameters() if n.startswith('action_head.model.')),'DIT_DID_NOT_CHANGE'
         (checkpoint/'PI0282_SCOPE_PROOF.json').write_text(json.dumps(dict(status='FROZEN_EXACT_ROWS_MOMENTS_ZERO_AND_ROW10_CHANGED',row10=row_hashes),indent=2)+'\n')
         if self.phase=='main' and state.global_step in (512,1024,2048):
-            from learning import export_point
-            export_point(checkpoint,self.trainer.original_base,Path(args.output_dir).parent/'snapshots'/f'step-{state.global_step}',
+            from learning import export_point,file_digest
+            snapshot=Path(args.output_dir).parent/'snapshots'/f'step-{state.global_step}'
+            export_point(checkpoint,self.trainer.original_base,snapshot,
                 set(dict(kwargs['model'].named_parameters())))
             for name in ('config.json','processor_config.json','statistics.json','embodiment_id.json'):
-                shutil.copyfile(checkpoint/name,Path(args.output_dir).parent/'snapshots'/f'step-{state.global_step}'/name)
+                shutil.copyfile(checkpoint/name,snapshot/name)
+            files=[dict(path=p.name,bytes=p.stat().st_size,sha256=file_digest(p)) for p in snapshot.iterdir() if p.is_file()]
+            from training_launch import write
+            write(snapshot/'READY.json',dict(status='LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT',point=self.arm.replace('2048','')+str(state.global_step),files=files,
+                freeze_boundary=state.global_step,full_recovery=str(checkpoint),optimizer_transfer=False))
 
 
 def collate_with_metadata(items):
@@ -126,7 +131,8 @@ def run(a):
     torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     torch.manual_seed(28203);torch.cuda.manual_seed_all(28203)
     # Stock model and stock forward/loss. All dependencies remain offline.
-    model,loading=Gr00tN1d7.from_pretrained(a.base,torch_dtype=torch.bfloat16,local_files_only=True,output_loading_info=True)
+    from native_model import load_model
+    model,loading=load_model(a.base)
     reference=json.loads((root/'learning/WEIGHT_LOADING_REFERENCE.json').read_text())
     for key in ('missing_keys','unexpected_keys','mismatched_keys','error_msgs'):
         assert loading.get(key,[])==reference.get(key,[])==[],(key,loading.get(key))

@@ -111,8 +111,10 @@ def episode(sw,server,card,point,panel,seed):
             request=dict(input=str(inp),output=str(out),point=point,panel=panel,condition=seed,query_index=index)
             server.stdin.write(json.dumps(request)+'\n');server.stdin.flush();assert reply(server,'output')['output']==str(out)
             query=dict(index=index,time_s=index*.4,input_sha256=digest(inp),output_sha256=digest(out));queries.append(query)
-            with np.load(out) as data:commands=data['decoded'].copy()
+            with np.load(out) as data:
+                commands=data['decoded'].copy();decode_error=str(data['decode_error']) if 'decode_error' in data else ''
             assert commands.shape==(40,10)
+            if decode_error:status='VALID_NATIVE_DECODE_REJECT';query['decode_error']=decode_error;break
             if not np.isfinite(commands).all():status='VALID_NONFINITE_REJECT';break
             try:gate=sw.pose_gate(commands,state,ep.control*.05,slot+'-'+str(index))
             except ValueError as exc:
