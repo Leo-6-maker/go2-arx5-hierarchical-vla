@@ -1,0 +1,22 @@
+{
+  "status": "ENGINEERING_INCOMPLETE",
+  "fixture": "vertical",
+  "loads": [
+    {
+      "role": "arm",
+      "safe_load": "PASS",
+      "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "payload_keys": 29,
+      "inference_keys": 14
+    },
+    {
+      "role": "dog",
+      "safe_load": "PASS",
+      "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "payload_keys": 17,
+      "inference_keys": 8
+    }
+  ],
+  "initialization_s": 0.019999999552965164,
+  "error": "RuntimeError('CUDA error: device-side assert triggered\\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1.\\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\\n')"
+}
