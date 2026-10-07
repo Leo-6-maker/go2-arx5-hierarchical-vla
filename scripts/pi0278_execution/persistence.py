@@ -15,7 +15,7 @@ def snapshot(root,arm,step,checkpoint):
         source=checkpoint/name;assert source.is_file();os.link(source,temp/name)
         files.append(dict(path=name,bytes=source.stat().st_size,sha256=sha(source)))
     write(temp/'READY.json',dict(status='LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT',arm=arm,step=step,point=f'{arm}{step}',files=files,
-        resumable=False,source_full_trainer=str(checkpoint),release='83af9099f3bab9a4ac08eaa85380c2cfd6351f34',selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
+        resumable=False,source_full_trainer=str(checkpoint),release=read(root/'RUN_CONFIG.json')['release'],selected_checkpoint='NONE',deployment_selected_checkpoint='NONE'))
     temp.replace(dest)
 
 def retain_two(root,arm,output):

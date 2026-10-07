@@ -17,7 +17,7 @@ class Binding:
     limit: int
     resume: int=0
     def __post_init__(self):
-        assert self.arm=='COVER93' and self.route in ('REF_W0','FAST_CACHE0','FAST_CACHE2')
+        assert self.arm in ('COVER93','CLEAR') and self.route in ('REF_W0','FAST_CACHE0','FAST_CACHE2')
         assert self.phase in ('reference','continuous','split','main')
         assert 0<=self.resume<self.limit<=4096
         if self.phase in ('reference','continuous','split'):assert self.limit in (4,8)
@@ -82,7 +82,7 @@ def run(b):
     data.write(output/'CPU_ENCODER_KERNEL.json',dict(core='Prescott',library=str(library),library_sha256=data.sha(library),numpy_version=np.__version__))
     if b.phase=='main':
         assert data.read(root/'evidence/LOADER_SELECTION.json')['route']==b.route
-        assert data.read(root/b.arm/'canary_compare.json')['status']=='PASS_PI0278_REAL_EXACT_RESUME'
+        assert data.read(root/b.arm/'canary_compare.json')['status'] in ('PASS_PI0278_REAL_EXACT_RESUME','PASS_PI0279_REAL_EXACT_RESUME')
     if b.resume:
         cp=output/f'checkpoint-{b.resume}';assert data.read(cp/'trainer_state.json')['global_step']==b.resume
         assert data.read(cp/'PI0277_RUN.json')['route']==b.route
@@ -134,8 +134,8 @@ def run(b):
         add_box(result,g,m,captured['states'],output,audit['forwards'],b.resume if b.phase=='main' else -2)
         error=(g[...,9].detach().float()-e[...,9].detach().float()).abs()/2
         append(output/'gripper_objective.jsonl',dict(forward=audit['forwards'],unweighted=float(penalty.detach()),
-            weighted=float((.1*penalty).detach()) if b.arm=='COVER93' else 0.,prefix_MAE=float(error[:,:8].mean()),full_MAE=float(error.mean()),total=float(result['loss'].detach())))
-        if b.arm=='COVER93' and b.phase in ('reference','continuous','split') and not b.resume and audit['forwards']==1:
+            weighted=float((.1*penalty).detach()),prefix_MAE=float(error[:,:8].mean()),full_MAE=float(error.mean()),total=float(result['loss'].detach())))
+        if b.phase in ('reference','continuous','split') and not b.resume and audit['forwards']==1:
             states=[s for s in captured['states'] if s.requires_grad]
             assert len(states)==4 and states[-1] is g
             isolated=torch.autograd.grad(.1*penalty,states,retain_graph=True)
@@ -158,7 +158,7 @@ def run(b):
     config=native.build_config(config_args,output,steps=4096,save_steps=save,save_limit=2)
     config.training.learning_rate=1e-5;config.training.lr_scheduler_type='cosine';config.training.gradient_accumulation_steps=2
     config.training.max_steps=4096;config.training.save_steps=save;config.training.save_total_limit=2
-    config.training.resume_from_checkpoint=bool(b.resume);config.data.seed=config.training.seed=27803
+    config.training.resume_from_checkpoint=bool(b.resume);config.data.seed=config.training.seed=data.read(root/'design/TRAIN_PLAN.json')['seed']
     config.training.remove_unused_columns=False;config.training.dataloader_num_workers=2 if b.route=='FAST_CACHE2' else 0
     config.training.dataloader_pin_memory=True
     assert config.training.warmup_steps==10 and config.training.max_grad_norm==1. and config.training.weight_decay==1e-5

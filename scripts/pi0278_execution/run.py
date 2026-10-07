@@ -4,8 +4,8 @@ from pathlib import Path
 import cpu_inputs as data
 import train
 
-def segment(root,phase,limit,resume=0):
-    output=root/'COVER93'/phase/'training';done=output/'SEGMENT_COMPLETE.json'
+def segment(root,phase,limit,resume=0,arm='COVER93'):
+    output=root/arm/phase/'training';done=output/'SEGMENT_COMPLETE.json'
     if done.exists() and data.read(done)['actual_update']==limit:return output
     subprocess.run([sys.executable,'-u',str(root/'code/entry.py'),'--root',str(root),'--phase',phase,'--limit',str(limit),'--resume',str(resume)],check=True)
     assert data.read(done)['actual_update']==limit or (root/'runtime/STOP_TRAINING.json').exists()
@@ -23,8 +23,8 @@ def compare(root,a,b):
     for name in ('scheduler.pt','rng_state.pth'):assert train.fingerprint(torch.load(x/name,map_location='cpu',weights_only=False))==train.fingerprint(torch.load(y/name,map_location='cpu',weights_only=False)),name
     return dict(status='PASS_PI0278_REAL_EXACT_RESUME',continuous8_vs4_restore4=True,model_max_abs=md,optimizer_max_abs=od,outputs_gradients_rng_scheduler_inputs_losses='EXACT',completed_updates=16)
 
-def retire_canary(root,phase):
-    output=root/'COVER93'/phase/'training'
+def retire_canary(root,phase,arm='COVER93'):
+    output=root/arm/phase/'training'
     for cp in output.glob('checkpoint-*'):
         assert cp.resolve().is_relative_to(root.resolve()) and not cp.is_symlink()
         files=[p for p in cp.rglob('*') if p.is_file()];assert not any(p.is_symlink() for p in cp.rglob('*'))

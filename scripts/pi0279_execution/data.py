@@ -38,6 +38,7 @@ def schedule(rows):
 
 def build():
     assert read(ROOT/'evidence/PILOT_VERDICT.json')['launch_allowed']
+    assert read(ROOT/'evidence/PILOT_CPU_REPLAY.json')['status']=='PASS_SAVED_NATIVE_PAIRED_STATES_ACTUAL_INPUTS_AND_FIXED_TEACHER'
     prior=read(OLD/'design/DATASET_CARD.json');proof=read(OLD/'design/PROCESSED_INPUTS.json')
     processor_identity=sha(OLD/'evidence/DATA_ADMISSION.json')
     for r in read(OLD/'evidence/DATA_ADMISSION.json')['modules']:assert sha(r['path'])==r['sha256']

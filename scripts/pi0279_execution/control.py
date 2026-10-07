@@ -50,8 +50,9 @@ print(json.dumps(dict(status='STAGED_ACTUAL_CURRENT_SEAL',implementation_commit=
     print(remote('core',prefix+'\n'+script))
 
 
-def call(args,native=False):
-    target=ROOT+'/code/pilot.py';phase='pilot-'+'-'.join(args)
+def call(args,native=False,script='pilot.py'):
+    assert script in ('pilot.py','data.py','source_replay.py')
+    target=ROOT+'/code/'+script;phase=script.removesuffix('.py')+'-'+'-'.join(args)
     python='/home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python' if native else '/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python'
     worker=f'''import json,os,subprocess,time
 from pathlib import Path
@@ -79,6 +80,8 @@ print(json.dumps(value))
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('stage',choices=['stage','check','run','audit','verdict']);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('stage',choices=['stage','check','run','audit','verdict','build','codec','replay']);a=p.parse_args()
     if a.stage=='stage':stage()
+    elif a.stage in ('build','codec'):call([a.stage],script='data.py')
+    elif a.stage=='replay':call([],script='source_replay.py')
     else:call([a.stage],a.stage=='run')
