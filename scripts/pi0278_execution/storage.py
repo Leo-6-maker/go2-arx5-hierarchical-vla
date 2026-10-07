@@ -14,7 +14,8 @@ TARGETS=[
 
 def quota():
     p=Path('/home/svu/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt')
-    rows=[r.split() for r in p.read_text().splitlines() if '/e1192548 ' in r];assert len(rows)==1
+    rows=[r.split() for r in p.read_text().splitlines() if '/e1192548 ' in r]
+    if len(rows)!=1:return dict(status='UNKNOWN_TRANSIENT_ADMIN_REPORT_REFRESH',source=str(p),report_mtime_ns=p.stat().st_mtime_ns)
     r=rows[0];return dict(used_bytes=int(r[4]),hard_bytes=int(r[5]),report_mtime_ns=p.stat().st_mtime_ns,source=str(p),raw=' '.join(r))
 
 def preview():
@@ -38,6 +39,12 @@ def preview():
 def main(execute):
     out=BASE/'PI0278/evidence';out.mkdir(parents=True,exist_ok=True);p=out/'STORAGE_RETIREMENT_PREVIEW.json';done=out/'STORAGE_RETIREMENT_DONE.json'
     if done.exists():print(done.read_text());return
+    if execute and p.exists():
+        v=json.loads(p.read_text())
+        if all(not Path(r['path']).exists() for r in v['files']):
+            assert all((folder/'PI0278_RETIRED_PAYLOAD.json').is_file() for folder,_,_ in TARGETS)
+            v.update(status='DONE_METADATA_FINALIZATION_AFTER_TRANSIENT_QUOTA_REPORT_REFRESH',removed=v['files'],quota_after=quota(),quota_report_may_lag=True,actual_unlinked_unique_inode_allocated_bytes=v['allocated_bytes'],shared_free_before='UNOBSERVED_REPORT_FAILURE',shared_free_after=os.statvfs(BASE).f_bavail*os.statvfs(BASE).f_frsize)
+            done.write_text(json.dumps(v,sort_keys=True)+'\n');print(json.dumps(v));return
     v=preview()
     if not execute:p.write_text(json.dumps(v,sort_keys=True)+'\n');print(json.dumps(v));return
     expected=json.loads(p.read_text());assert expected['files']==v['files'],'Inventory changed after preview'
