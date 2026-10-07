@@ -104,11 +104,15 @@ def run(root, base):
             call(root,arm+'-canary-compare','canary.py',['--root',str(root),'--arm',arm])
             retire_consumed_canary(root,arm)
             call(root,arm+'-formal-2048','train.py',common+['--arm',arm,'--phase','main','--stop','2048'])
+            checkpoints=sorted((root/'learning'/arm/'main').glob('checkpoint-*'),key=lambda p:int(p.name.split('-')[-1]))
+            assert checkpoints and (checkpoints[-1]/'PI0282_RECOVERY.json').exists()
+            last=int(checkpoints[-1].name.split('-')[-1])
             for step in (1024,2048):
                 checkpoint=root/'learning'/arm/'main'/f'checkpoint-{step}'
+                if not checkpoint.exists():continue
                 assert json.loads((checkpoint/'PI0282_RECOVERY.json').read_text())['cursor']==step*8
                 bind(root,arm.replace('2048','')+str(step),checkpoint)
-        write(runtime/'TRAINING_COMPLETE.json',dict(status='ACTION_BASE_PHASE_COMPLETE_INTERFACE_DEFERRED_R2',PBS_JOBID=os.environ['PBS_JOBID'],utc_ns=time.time_ns(),selected='NONE',deployment='NONE'))
+        write(runtime/'TRAINING_COMPLETE.json',dict(status='ACTION_BASE_PHASE_COMPLETE_INTERFACE_DEFERRED_R2' if last==2048 else 'R2_SAFE_STOP_FULL_LOCAL_RECOVERY',last_completed_step=last,PBS_JOBID=os.environ['PBS_JOBID'],utc_ns=time.time_ns(),selected='NONE',deployment='NONE'))
 
 
 def self_check(root):

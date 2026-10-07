@@ -23,8 +23,11 @@ def load_model(path):
     import torch
     from gr00t.model.gr00t_n1d7.gr00t_n1d7 import Gr00tN1d7
     with local_processor():
-        return Gr00tN1d7.from_pretrained(path,torch_dtype=torch.bfloat16,local_files_only=True,
+        model,info=Gr00tN1d7.from_pretrained(path,torch_dtype=torch.bfloat16,local_files_only=True,
             output_loading_info=True,transformers_loading_kwargs={'local_files_only':True,'trust_remote_code':True})
+    # Stock Gr00tPolicy also casts the complete loaded model explicitly.
+    model.to(dtype=torch.bfloat16)
+    return model,info
 
 
 if __name__=='__main__':
