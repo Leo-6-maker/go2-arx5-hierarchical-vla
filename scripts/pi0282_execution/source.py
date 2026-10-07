@@ -80,10 +80,10 @@ def episode(sw,server,card,point,panel,seed):
     from authority import allowed
     allowed(ROOT,'episode',reserve_s=card['conservative_episode_reserve_s'])
     attempts=list((OUT/'episodes'/slot).glob('attempt-*'))
-    allowed=card.get('technical_replacements',{}).get(slot,[])
-    assert len(attempts)==len(allowed),'Owner must audit an engineering attempt before a same-condition replacement'
+    replacements=card.get('technical_replacements',{}).get(slot,[])
+    assert len(attempts)==len(replacements),'Owner must audit an engineering attempt before a same-condition replacement'
     assert sum(len(v) for v in card.get('technical_replacements',{}).values())<=8
-    for attempt,authorization in zip(sorted(attempts),allowed):
+    for attempt,authorization in zip(sorted(attempts),replacements):
         proof=attempt/'RESULT.json';assert digest(proof)==authorization['result_sha256']
         assert json.loads(proof.read_text())['status']=='ENGINEERING_INCOMPLETE'
     ep=sw.Episode(slot,seed,'pd_ee_pose');queries=[];status='VALID_SOURCE_COMPLETE'
