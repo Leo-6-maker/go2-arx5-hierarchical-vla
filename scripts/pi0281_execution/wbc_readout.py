@@ -8,8 +8,13 @@ ROOT=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0281')
 
 def read(version,name):
     out=ROOT/'wbc'/(version+'_'+name)
+    if version=='repair' and (ROOT/'wbc/REPAIR_INSTALLATION_DEFECT.json').exists():
+        out=ROOT/'wbc'/(version+'_'+name+'-engineering-001')
     if not (out/'RESULT.json').exists():return dict(status='DEPENDENCY_BLOCKER',gate=None)
     result=json.loads((out/'RESULT.json').read_text());rows=json.loads((out/'rows.json').read_text())
+    if version=='repair':
+        binding=json.loads((out/'REPAIR_RUNTIME_BINDING.json').read_text())
+        assert binding['bound'] and binding['calls']>0,'Repair not consumed by actual runtime'
     if result['status'] not in ('WBC_FIXTURE_EXECUTED','VALID_NATIVE_TERMINATION','VALID_GATE_REJECT'):
         return dict(status='EXECUTOR_BLOCKER',gate=None,result=result)
     origin=result.get('initialization_s',0.);tail=[r for r in rows if r['time']>=origin+8-1e-7]

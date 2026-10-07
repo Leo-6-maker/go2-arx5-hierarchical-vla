@@ -159,13 +159,18 @@ def audit_old():
     print(json.dumps(dict(groups=groups,input_max_abs_error=max(input_errors),funnel=funnel)))
 
 
-def audit_new():
+def audit_new(only=None):
     """Finite closed-result snapshot. Unexecuted fixed slots stay null; existing receipts are versioned."""
     fk,control,tool,chunk_type,posegate,deps=load_cpu();source=[];wbc=[]
     from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix,matrix_to_quat
     lanes=('ORIGINAL_BASE_JOINT','FK_OF_JOINT_COMMAND_REPLAY','EXPERT_DROID_BRIDGE_ROUNDTRIP')
+    prior_file=ROOT/'audit/NEW_RESULTS_SNAPSHOT.json'
+    prior=json.loads(prior_file.read_text()) if prior_file.exists() else {}
+    prior_source={(r['lane'],r['condition']):r for r in prior.get('source',[])}
     for lane in lanes:
         for condition in (10000,10001,10002,10003):
+            if only and (lane,condition) not in only:
+                source.append(prior_source.get((lane,condition),dict(lane=lane,condition=condition,status='NOT_YET_AUDITED',quality=None)));continue
             candidates=list((ROOT/'source/episodes'/(lane+'-'+str(condition))).glob('attempt-*/RESULT.json'))
             if not candidates:
                 source.append(dict(lane=lane,condition=condition,status='NOT_YET_CLOSED',quality=None));continue
@@ -202,17 +207,38 @@ def audit_new():
                 n=min(len(command),len(installed['action']));end=physics['tcp'][np.arange(1,n+1)*5]
                 report['command_to_actual_xyz_m']=stats(np.linalg.norm(command[:n,:3]-end[:,:3,3],axis=1))
                 report['installedFK_to_actual_xyz_m']=stats(np.linalg.norm(installed['installed_target_fk'][:n,:3,3]-end[:,:3,3],axis=1))
+                urdf=ET.parse(ROOT.parent/'PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v3.urdf').getroot()
+                jointnames=[f'panda_joint{i+1}' for i in range(7)];limits=np.array([[float(urdf.find("joint[@name='%s']/limit"%j).attrib[k]) for k in ('lower','upper')] for j in jointnames])
+                actual_margin=np.minimum(physics['qpos'][:,:7]-limits[:,0],limits[:,1]-physics['qpos'][:,:7])
+                penetration=max(0.,float(-actual_margin.min()))
+                assert np.allclose(actual_margin.min(axis=0),result['minimum_actual_joint_hard_margin_rad'],atol=1e-7)
+                assert abs(penetration-result['maximum_actual_joint_penetration_rad'])<1e-7
+                report.update(actual_joint_hard_margin_min_rad=actual_margin.min(axis=0).tolist(),actual_hard_penetration_rad=penetration,
+                    source_recorded_actual_hard_penetration_rad=result['maximum_actual_joint_penetration_rad'],
+                    source_recorded_joint_hard_margin_min_rad=result['minimum_actual_joint_hard_margin_rad'],
+                    urdf_vs_native_limit_rounding_penetration_difference_rad=penetration-result['maximum_actual_joint_penetration_rad'],
+                    actual_hard_penetration_samples=int((actual_margin.min(axis=1)<0).sum()),
+                    actual_hard_penetration_definition='Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians',
+                    source_safety_semantics='Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.',
+                    source_executor_identity=identity(ROOT/'code/source.py'))
+                install_margin=np.minimum(installed['arm_target'][:,:7]-limits[:,0],limits[:,1]-installed['arm_target'][:,:7])
+                report['installed_arm_target_hard_penetration_rad']=max(0.,float(-install_margin.min()))
+                if install_margin.min()<0:
+                    i,k=np.unravel_index(np.argmin(install_margin),install_margin.shape)
+                    report['installed_arm_target_hard_penetration_peak']=dict(control_tick=int(i),task_time_s=float(i*.05-1),joint=jointnames[k],installed_q_rad=float(installed['arm_target'][i,k]),limits_rad=limits[k].tolist(),margin_rad=float(install_margin[i,k]))
+                report['safety_classification']=dict(RAW='Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states',
+                    INSTALL='Recorded actuator/controller arm_target limits audited separately from raw reference',
+                    ACTUAL='Physical qpos penetration is retained even when native simulation completes',
+                    TASK='Original object persistent predicate only; no retrospective substitution of WBC integration gate')
+                if penetration:
+                    i,k=np.unravel_index(np.argmin(actual_margin),actual_margin.shape)
+                    report['actual_hard_penetration_peak']=dict(physics_index=int(i),task_time_s=float(physics['time_s'][i]-1),joint=jointnames[k],actual_q_rad=float(physics['qpos'][i,k]),limits_rad=limits[k].tolist(),margin_rad=float(actual_margin[i,k]))
                 if lane=='ORIGINAL_BASE_JOINT':
                     with np.load(d/'initial.npz',allow_pickle=False) as data:base_pose=data['articulations/panda_wristcam'][0,:7]
                     base=np.eye(4);base[:3,:3]=Rotation.from_quat(base_pose[[4,5,6,3]]).as_matrix();base[:3,3]=base_pose[:3]
                     commanded_fk=base@fk(installed['action'][:n,:7])
                     report['recorded_command_to_exactFK_m']=stats(np.linalg.norm(command[:n,:3]-commanded_fk[:,:3,3],axis=1))
                     assert report['recorded_command_to_exactFK_m']['max']<1e-5
-                    urdf=ET.parse(ROOT.parent/'PI0276/ManiSkill/mani_skill/assets/robots/panda/panda_v3.urdf').getroot()
-                    jointnames=[f'panda_joint{i+1}' for i in range(7)];limits=np.array([[float(urdf.find("joint[@name='%s']/limit"%j).attrib[k]) for k in ('lower','upper')] for j in jointnames])
-                    actual_margin=np.minimum(physics['qpos'][:,:7]-limits[:,0],limits[:,1]-physics['qpos'][:,:7])
-                    assert np.allclose(actual_margin.min(axis=0),result['minimum_actual_joint_hard_margin_rad'],atol=1e-6)
-                    report['actual_joint_hard_margin_min_rad']=actual_margin.min(axis=0).tolist();report['actual_hard_penetration_rad']=max(0.,float(-actual_margin.min()))
                     queries=json.loads((d/'QUERIES.json').read_text());noise_equal=[];route_errors=[];new_packages=[];closure_errors=[];rejected=[]
                     with np.load(d/'observations.npz',allow_pickle=False) as observations:
                         cameras={k:observations[k+'_raw'] for k in ('base_camera','hand_camera')}
@@ -270,7 +296,8 @@ def audit_new():
                     report['replay_gate_readback']=dict(status='PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION',gate_calls=len(gates),decisions=dict(collections.Counter(v['result']['decision'] for v in gates)),rejects=checked,gate_identity=identity(d/'GATES.json'))
                 report['raw_inputs']=[identity(d/name) for name in ('physics.npz','commands.npz','installed.npz')]
             save('SOURCE-'+lane+'-'+str(condition)+'.json',report);source.append(report)
-    for p in (ROOT/'wbc').rglob('RESULT.json'):
+    if only:wbc=prior.get('wbc',[])
+    for p in ([] if only else (ROOT/'wbc').rglob('RESULT.json')):
         # Native lane schemas may evolve during instrumentation; only recorded same-TCP fields are computed.
         result=json.loads(p.read_text());d=p.parent;r=dict(path=str(d),status=result.get('status'),result=identity(p),quality=None)
         rowfile=d/'rows.json'
@@ -307,4 +334,6 @@ def audit_new():
 
 if __name__=='__main__':
     assert os.environ.get('CUDA_VISIBLE_DEVICES')=='','CPU audit requires hidden CUDA'
-    p=argparse.ArgumentParser();p.add_argument('phase',choices=['old','new']);args=p.parse_args();audit_old() if args.phase=='old' else audit_new()
+    p=argparse.ArgumentParser();p.add_argument('phase',choices=['old','new']);p.add_argument('--only',action='append',help='Finite new-phase lane:condition subset, retaining prior unaudited snapshot rows');args=p.parse_args()
+    only={(x.rsplit(':',1)[0],int(x.rsplit(':',1)[1])) for x in args.only} if args.only else None
+    audit_old() if args.phase=='old' else audit_new(only)

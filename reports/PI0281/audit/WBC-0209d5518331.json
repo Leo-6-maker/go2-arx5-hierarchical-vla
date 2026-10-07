@@ -1,0 +1,53 @@
+{
+  "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic",
+  "status": "WBC_FIXTURE_EXECUTED",
+  "result": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/RESULT.json",
+    "bytes": 1323,
+    "sha256": "d9695842829e970f6dfc7d52bad07cd965cd16786125e91f2753b433c0d0df52"
+  },
+  "quality": false,
+  "saved_rows": 501,
+  "rows_identity": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/rows.json",
+    "bytes": 3543837,
+    "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+  },
+  "position_all_saved_m": {
+    "n": 501,
+    "mean": 0.01104082984090331,
+    "rms": 0.01143722574952031,
+    "p50": 0.011890521343477298,
+    "p95": 0.014360085672257727,
+    "max": 0.021984443631509958
+  },
+  "position_final2s_m": {
+    "n": 100,
+    "mean": 0.011925028044159722,
+    "rms": 0.012038521263462831,
+    "p50": 0.011933746431077256,
+    "p95": 0.01461720603241722,
+    "max": 0.016076651767377593
+  },
+  "rotation_final2s_rad": {
+    "n": 100,
+    "mean": 0.6290579956223352,
+    "rms": 0.6293256530333395,
+    "p50": 0.6296516853104941,
+    "p95": 0.6584418153083424,
+    "max": 0.6638407285090934
+  },
+  "full10s": true,
+  "hard_penetration_max_SI": 0.0,
+  "soft_margin_min_mixed_SI": -0.13423669338226318,
+  "prospective_fixture_gate": false,
+  "prospective_fixture_gate_semantics": "All10s plus final2s sameTCP position/SO3 and hardpenetration<=1e-6; soft negatives retained; original native stop wins",
+  "sameTCP_geodesic_vs_proxy_norm_abs_rad": {
+    "n": 501,
+    "mean": 0.4290503525760166,
+    "rms": 0.44958177651473047,
+    "p50": 0.39318203749959263,
+    "p95": 0.6175938126204656,
+    "max": 0.6419370710481445
+  }
+}

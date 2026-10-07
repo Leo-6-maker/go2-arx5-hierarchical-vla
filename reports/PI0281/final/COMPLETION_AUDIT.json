@@ -1,0 +1,73 @@
+{
+  "scope": "Explicit PI0281 stages; conditional scientifically stopped stages remain null",
+  "requirements": [
+    {
+      "requirement": "A0 authority/resources/pause",
+      "evidence": "execution/ADOPTION.json; design/IMPLEMENTATION.json; evidence/CLOSING_RUNTIME.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "A1 all240+32 saved outputs, ABI/no new inference",
+      "evidence": "audit/SAVED_DUAL_READOUT.json; audit/OLD_OBJECT_FUNNEL.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "A2a two actual fixtures",
+      "evidence": "source/evidence/SOURCE_RESULT.json first2 rows",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "A2b four fresh-feedback joint episodes; unchanged model/noise",
+      "evidence": "source/evidence/POLICY_IMMUTABLE.json; audit/NEW_JOINT_READOUT-*.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "A2c four commanded-q FK physical replays",
+      "evidence": "audit/SOURCE-FK_OF_JOINT_COMMAND_REPLAY-*.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "A2d four existing-expert bridge controls",
+      "evidence": "audit/SOURCE-EXPERT_DROID_BRIDGE_ROUNDTRIP-*.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "A2e conditional EEF rerun omitted, no semantic defect proven",
+      "evidence": "audit/SAVED_DUAL_READOUT.json; original PI0280 DIRECT_EEF preserved0/4",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "B1 actual private progress/actor/TCP chain",
+      "evidence": "wbc/CPU_PROJECTION.json; wbc/PRIVATE_SOURCE_REVIEW.json; audit/WBC-*.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "B2 one rule, actual consumption and six valid fixed fixtures",
+      "evidence": "wbc/REPAIR_INSTALLATION_DEFECT.json; wbc/*engineering*/REPAIR_RUNTIME_BINDING.json; final/WBC_FIXTURES.csv",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "B3 conditional target slots blocked; fresh targetVLA0",
+      "evidence": "final/FINAL_RESULT.json target slots null; original input route audit",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "Raw failed technical attempts, budgets and immutable predecessor",
+      "evidence": "evidence/ACCOUNTING_CORRECTION.json; evidence/ACTUAL.jsonl; evidence/RESERVATIONS.jsonl",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "Actual recordings/local integrity, no new render",
+      "evidence": "source/evidence/SOURCE_VIDEOS.json12; wbc/WBC_VIDEOS.json9; final/LOCAL_EVIDENCE_INVENTORY.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    },
+    {
+      "requirement": "Separate baseline/repair/gap/next proposal without training",
+      "evidence": "final/REPORT.md; final/GAP_MATRIX.json",
+      "status": "VERIFIED_OR_PROTOCOL_CONDITIONAL_STOP"
+    }
+  ],
+  "publication": "PENDING_OWNER_CANONICAL_READBACK",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

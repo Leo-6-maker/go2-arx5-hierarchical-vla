@@ -1,0 +1,64 @@
+{
+  "status": "PRESERVE_RAW_WITH_OWNER_COUNTER_ERRATUM",
+  "cause": "Replacement reservation counted1; per-attempt actual counter initialized0 and not incremented at physical start. Corrected externally, no rerun or changed raw ledger.",
+  "raw_actual_sha256": "83625a8b8192984e1f5ff101607bb5ea7da69e124e73a5c01a469f7590477aaa",
+  "changes": [
+    {
+      "lane": "WBC",
+      "uid": "repair_hold-engineering-001",
+      "raw_technical_replacements": 0,
+      "corrected_technical_replacements": 1,
+      "physical_starts": 1
+    },
+    {
+      "lane": "WBC",
+      "uid": "repair_monotonic-engineering-001",
+      "raw_technical_replacements": 0,
+      "corrected_technical_replacements": 1,
+      "physical_starts": 1
+    },
+    {
+      "lane": "WBC",
+      "uid": "repair_return-engineering-001",
+      "raw_technical_replacements": 0,
+      "corrected_technical_replacements": 1,
+      "physical_starts": 1
+    }
+  ],
+  "raw_totals": {
+    "physical_starts": 23,
+    "policy_requests": 215,
+    "policy_heads": 860,
+    "integrations": 50301,
+    "technical_replacements": 0,
+    "RGB_pairs": 7923,
+    "dispatches": 21449,
+    "wbc_actor_forwards": 7100,
+    "wbc_controls": 3559
+  },
+  "effective_totals": {
+    "physical_starts": 23,
+    "policy_requests": 215,
+    "policy_heads": 860,
+    "integrations": 50301,
+    "technical_replacements": 3,
+    "RGB_pairs": 7923,
+    "dispatches": 21449,
+    "wbc_actor_forwards": 7100,
+    "wbc_controls": 3559
+  },
+  "reservations": {
+    "physical_starts": 23,
+    "policy_requests": 240,
+    "policy_heads": 960,
+    "integrations": 59036,
+    "technical_replacements": 3,
+    "RGB_pairs": 8912,
+    "dispatches": 26036,
+    "wbc_actor_forwards": 9000,
+    "wbc_controls": 4509
+  },
+  "closed_attempts": 23,
+  "reserved_attempts": 23,
+  "quality_retries": 0
+}

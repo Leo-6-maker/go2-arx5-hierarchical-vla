@@ -53,14 +53,6 @@
     "p95": 0.02342004030942917,
     "max": 0.042270611971616745
   },
-  "recorded_command_to_exactFK_m": {
-    "n": 393,
-    "mean": 1.975209374966774e-08,
-    "rms": 2.17743066538983e-08,
-    "p50": 1.9016956012393148e-08,
-    "p95": 3.5546077787365816e-08,
-    "max": 4.940095410905162e-08
-  },
   "actual_joint_hard_margin_min_rad": [
     2.2443857739448547,
     1.1527544477462768,
@@ -71,6 +63,40 @@
     1.0099534938812256
   ],
   "actual_hard_penetration_rad": 0.0,
+  "source_recorded_actual_hard_penetration_rad": 0.0,
+  "source_recorded_joint_hard_margin_min_rad": [
+    2.2443857192993164,
+    1.1527544260025024,
+    1.0996381044387817,
+    0.3604273796081543,
+    2.0378384590148926,
+    0.017930030822753906,
+    1.009953498840332
+  ],
+  "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+  "actual_hard_penetration_samples": 0,
+  "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+  "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+  "source_executor_identity": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+    "bytes": 27349,
+    "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+  },
+  "installed_arm_target_hard_penetration_rad": 0.0,
+  "safety_classification": {
+    "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+    "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+    "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+    "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+  },
+  "recorded_command_to_exactFK_m": {
+    "n": 393,
+    "mean": 1.975209374966774e-08,
+    "rms": 2.17743066538983e-08,
+    "p50": 1.9016956012393148e-08,
+    "p95": 3.5546077787365816e-08,
+    "max": 4.940095410905162e-08
+  },
   "rejected_before_dispatch": {
     "control_tick": 393,
     "task_time_s": 18.650000000000002,

@@ -103,6 +103,7 @@ def fixture(version,name,technical=False):
              'integration':'integrations','gripper_dispatch':'dispatches','RGB_pair':'RGB_pairs'}[kind]
         assert counts[key]<caps[key],(key,counts)
         counts[key]+=1
+        if technical and kind=='physical_start':counts['technical_replacements']=1
         append(ledger,dict(kind=kind,attempt=uid,wall=time.time()),sync=False)
     def fk(n):
         root=n.root_states[0].detach().cpu().numpy();q=[n.dof_pos[0,n.dof_names.index(j)].item() for j in kin.joint_names]
