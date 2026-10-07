@@ -51,7 +51,7 @@ class ConsumedTrainer(Gr00tTrainer):
         return self.optimizer
 
     def create_scheduler(self,num_training_steps,optimizer=None):
-        if self.lr_scheduler is None:self.lr_scheduler=get_cosine_schedule_with_warmup(optimizer or self.optimizer,103,2048)
+        if self.lr_scheduler is None:self.lr_scheduler=get_cosine_schedule_with_warmup(optimizer or self.optimizer,self.warmup,2048)
         return self.lr_scheduler
 
 
@@ -80,7 +80,7 @@ class Provenance(TrainerCallback):
         assert_frozen(kwargs['model'],self.frozen,self.trainer.optimizer)
         row_hashes={n:digest(p[10]) for n,p in kwargs['model'].named_parameters() if is_projector(n)}
         assert any(row_hashes[n]!=self.scope['FP32_initial_row10_hashes'][n] for n in row_hashes),'ROW10_DID_NOT_CHANGE'
-        if self.arm=='ACTION2048':
+        if self.arm.startswith('ACTION'):
             assert any(digest(p)!=self.scope['initial_DiT_hashes'][n] for n,p in kwargs['model'].named_parameters() if n.startswith('action_head.model.')),'DIT_DID_NOT_CHANGE'
         (checkpoint/'PI0282_SCOPE_PROOF.json').write_text(json.dumps(dict(status='FROZEN_EXACT_ROWS_MOMENTS_ZERO_AND_ROW10_CHANGED',row10=row_hashes),indent=2)+'\n')
         if self.phase=='main' and state.global_step in (512,1024,2048):
@@ -104,9 +104,9 @@ def collate_with_metadata(items):
 
 
 class PlannedDataset(torch.utils.data.Dataset):
-    def __init__(self,data_root):
+    def __init__(self,data_root,plan_path=None):
         from cpu_inputs import FrozenDataset
-        self.base=FrozenDataset(data_root)
+        self.base=FrozenDataset(data_root,plan_path)
         self.plan=self.base.rows
         assert len(self.base)==len(self.plan)==16384
     def __len__(self):return len(self.plan)
@@ -127,7 +127,12 @@ def run(a):
     assert a.microbatch==layout['microbatch'] and 8//a.microbatch==layout['accumulation']
     assert (root/'data/EXPERT_CODEC_ADMISSION.json').exists()
     admission=json.loads((root/'data/EXPERT_CODEC_ADMISSION.json').read_text());assert admission['status']=='PASS_FOUR_ORIGINAL_EXPERT_CODEC_REPLAYS'
-    if a.phase=='main':assert json.loads((root/'learning'/a.arm/'CANARY_COMPARISON.json').read_text())['status']=='PASS_FULL_RESUME_CANARY'
+    continuation=None
+    if a.continuation_card:
+        from continuation import validate
+        continuation=validate(root,Path(a.continuation_card))
+        assert a.arm=='ACTION_F2048' and a.phase=='main' and a.resume==0
+    if a.phase=='main':assert json.loads((root/'learning'/('ACTION2048' if continuation else a.arm)/'CANARY_COMPARISON.json').read_text())['status']=='PASS_FULL_RESUME_CANARY'
     torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     torch.manual_seed(28203);torch.cuda.manual_seed_all(28203)
     # Stock model and stock forward/loss. All dependencies remain offline.
@@ -138,7 +143,14 @@ def run(a):
         assert loading.get(key,[])==reference.get(key,[])==[],(key,loading.get(key))
     parameters=dict(model.named_parameters());assert set(parameters)==set(reference['parameter_hashes'])
     for name,p in parameters.items():assert digest(p)==reference['parameter_hashes'][name],name
-    groups,scope=configure(model,a.arm)
+    groups,scope=configure(model,'ACTION2048' if continuation else a.arm)
+    frozen=frozen_hashes(model)
+    if continuation:
+        from continuation import restore_model
+        restore_model(model,continuation)
+        assert frozen_hashes(model)==frozen,'PARENT_FROZEN_IDENTITY_CHANGED'
+        for group in groups:group['lr']*=.5
+        scope.update(arm=a.arm,parent=continuation['parent'],phase_scheduler_warmup=32)
     scope['FP32_initial_row10_hashes']={n:digest(p[10]) for n,p in model.named_parameters() if is_projector(n)}
     scope['initial_DiT_hashes']={n:digest(p) for n,p in model.named_parameters() if n.startswith('action_head.model.')}
     frozen=frozen_hashes(model)
@@ -151,15 +163,23 @@ def run(a):
        restore_global_step=a.resume,stop_global_step=a.stop,started=time.time(),resume_requires_fresh_process=a.resume>0),indent=2)+'\n')
     (output/'SCOPE.json').write_text(json.dumps(scope,indent=2)+'\n')
     args=TrainingArguments(output_dir=str(output),max_steps=2048,per_device_train_batch_size=a.microbatch,
-       gradient_accumulation_steps=8//a.microbatch,learning_rate=1e-4,weight_decay=0.,warmup_steps=103,
+       gradient_accumulation_steps=8//a.microbatch,learning_rate=5e-5 if continuation else 1e-4,weight_decay=0.,warmup_steps=32 if continuation else 103,
        max_grad_norm=1.,bf16=True,fp16=False,tf32=False,optim='adamw_torch',lr_scheduler_type='cosine',
        logging_steps=16,save_steps=1024,save_total_limit=2,save_only_model=False,report_to='none',
        dataloader_num_workers=2,dataloader_pin_memory=True,remove_unused_columns=False,ignore_data_skip=True,seed=28203,data_seed=28203)
-    trainer=ConsumedTrainer(model=model,args=args,train_dataset=PlannedDataset(a.data_root),data_collator=collate_with_metadata)
+    trainer=ConsumedTrainer(model=model,args=args,train_dataset=PlannedDataset(a.data_root,continuation['plan_path'] if continuation else None),data_collator=collate_with_metadata)
+    trainer.warmup=32 if continuation else 103
     trainer.groups=groups;trainer.start_step=a.resume;trainer.stop_step=a.stop;trainer.microbatch=a.microbatch;trainer.accumulation=8//a.microbatch;trainer.data_root=a.data_root;trainer.original_base=a.base
     trainer.root=root;trainer.arm=a.arm;trainer.phase=a.phase
     trainer.cursor=a.resume*8;trainer.previous_end=time.perf_counter();trainer.journal=Journal(output/'consumption.jsonl')
     trainer.forwards=Journal(output/'native_training_forwards.jsonl')
+    if continuation:
+        from continuation import restore_optimizer
+        trainer.create_optimizer()
+        restore_optimizer(trainer.optimizer,continuation,output/'PARENT_RESTORE.json')
+        trainer._load_rng_state(continuation['parent'])
+        import random
+        (output/'PARENT_RNG_RESTORE.json').write_text(json.dumps(tensor_tree(dict(python=random.getstate(),numpy=np.random.get_state(),cpu=torch.get_rng_state(),cuda=torch.cuda.get_rng_state_all())),indent=2))
     trainer.add_callback(Provenance(trainer,root,a.arm,a.phase,frozen,scope))
     resume=output/f'checkpoint-{a.resume}' if a.resume else None
     if resume:
@@ -172,6 +192,7 @@ def run(a):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--base',required=True);p.add_argument('--data-root',required=True)
-    p.add_argument('--arm',choices=('ACTION2048','INTERFACE2048'),required=True);p.add_argument('--phase',choices=('continuous','split','main','memory'),required=True)
+    p.add_argument('--arm',choices=('ACTION2048','INTERFACE2048','ACTION_F2048'),required=True);p.add_argument('--phase',choices=('continuous','split','main','memory'),required=True)
+    p.add_argument('--continuation-card')
     p.add_argument('--microbatch',type=int,choices=(4,2,1),default=4);p.add_argument('--resume',type=int,default=0);p.add_argument('--stop',type=int,required=True)
     a=p.parse_args();assert 0<=a.resume<a.stop<=2048;run(a)

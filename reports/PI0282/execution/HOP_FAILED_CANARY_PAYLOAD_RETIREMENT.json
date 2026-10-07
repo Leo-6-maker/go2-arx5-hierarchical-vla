@@ -1,0 +1,151 @@
+{
+  "status": "DELETED_SUPERSEDED_ENGINEERING_PAYLOAD_RAW_DRIFT_EVIDENCE_RETAINED",
+  "entries": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/continuous/checkpoint-8/model-00001-of-00002.safetensors",
+      "bytes": 4993709288,
+      "sha256": "1af07a4a3f6a2022bc72af32f303763efa5cd5b480bce560ba5cc8436b05272f",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/continuous/checkpoint-8/model-00002-of-00002.safetensors",
+      "bytes": 4129471992,
+      "sha256": "0487625d9c7afe0b355c69564d57effa15e43236d5aefc924f05b216b9b2c1a8",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/continuous/checkpoint-8/optimizer.pt.gz",
+      "bytes": 8227408635,
+      "sha256": "3867956628072e4e3319b9099d16ea9cc184330a5f102c6388961fc49ca77f16",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/checkpoint-4/model-00001-of-00002.safetensors",
+      "bytes": 4993709288,
+      "sha256": "688333a03332872a69a53f2cf62f0f2c256125efca488b9f59594ae79dae85dd",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/checkpoint-4/model-00002-of-00002.safetensors",
+      "bytes": 4129471992,
+      "sha256": "e3ce115f9f873e335dcb53ed89e363cfa26f0317c70726202a139e47d8700062",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/checkpoint-4/optimizer.pt.gz",
+      "bytes": 8235987635,
+      "sha256": "700f1dd5dc834144932daa504c68a1b986d29a1a8dc68ab006ff433632224f7d",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/checkpoint-8/model-00001-of-00002.safetensors",
+      "bytes": 4993709288,
+      "sha256": "07ac71fd8e2a3fa1e035613347b39a021e8533ed0a0a213915d47d0357abbbda",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/checkpoint-8/model-00002-of-00002.safetensors",
+      "bytes": 4129471992,
+      "sha256": "37eeb14616c24da09570e6ee1c82ffcb6642655b21a5308d6de1ed8b0f244076",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/ACTION2048/failed_canary_002/split/checkpoint-8/optimizer.pt.gz",
+      "bytes": 8227343548,
+      "sha256": "b56118a5258f90e54697a3659f211d988db29a65b4612366325d70b0034d2a13",
+      "class_": "SUPERSEDED_DISPOSABLE_FAILED_CANARY_NOT_SCIENTIFIC_POLICY"
+    }
+  ],
+  "raw_out_of_tolerance_tensor_evidence": {
+    "continuous8": {
+      "file": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/failed_canary_002_forensics/continuous8.safetensors",
+      "sha256": "eeac1a680803828187fd9b09658019ff788b2dd67e72fb4e07f4ee89c4680473",
+      "source_model_files": {
+        "model-00001-of-00002.safetensors": "1af07a4a3f6a2022bc72af32f303763efa5cd5b480bce560ba5cc8436b05272f",
+        "model-00002-of-00002.safetensors": "0487625d9c7afe0b355c69564d57effa15e43236d5aefc924f05b216b9b2c1a8"
+      },
+      "projector_storage": "EXACT_ROW10_OTHERS_FROZEN",
+      "keys": [
+        "action_head.action_decoder.layer1.W",
+        "action_head.action_decoder.layer1.b",
+        "action_head.action_decoder.layer2.W",
+        "action_head.action_encoder.W1.W",
+        "action_head.action_encoder.W1.b",
+        "action_head.action_encoder.W2.W",
+        "action_head.action_encoder.W2.b",
+        "action_head.action_encoder.W3.W",
+        "action_head.action_encoder.W3.b",
+        "action_head.model.transformer_blocks.0.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.1.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.1.attn1.to_k.weight",
+        "action_head.model.transformer_blocks.11.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.12.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.13.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.16.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.19.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.2.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.20.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.21.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.23.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.25.attn1.to_q.weight",
+        "action_head.model.transformer_blocks.28.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.3.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.4.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.7.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.8.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.9.attn1.to_k.bias",
+        "action_head.state_encoder.layer1.W",
+        "action_head.state_encoder.layer1.b",
+        "action_head.state_encoder.layer2.W",
+        "action_head.state_encoder.layer2.b"
+      ]
+    },
+    "split8": {
+      "file": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282/learning/failed_canary_002_forensics/split8.safetensors",
+      "sha256": "c59bbddab3ece73f24548d8dcf94d85eb17ae4f0969569811b8cf3d854b32651",
+      "source_model_files": {
+        "model-00001-of-00002.safetensors": "07ac71fd8e2a3fa1e035613347b39a021e8533ed0a0a213915d47d0357abbbda",
+        "model-00002-of-00002.safetensors": "37eeb14616c24da09570e6ee1c82ffcb6642655b21a5308d6de1ed8b0f244076"
+      },
+      "projector_storage": "EXACT_ROW10_OTHERS_FROZEN",
+      "keys": [
+        "action_head.action_decoder.layer1.W",
+        "action_head.action_decoder.layer1.b",
+        "action_head.action_decoder.layer2.W",
+        "action_head.action_encoder.W1.W",
+        "action_head.action_encoder.W1.b",
+        "action_head.action_encoder.W2.W",
+        "action_head.action_encoder.W2.b",
+        "action_head.action_encoder.W3.W",
+        "action_head.action_encoder.W3.b",
+        "action_head.model.transformer_blocks.0.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.1.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.1.attn1.to_k.weight",
+        "action_head.model.transformer_blocks.11.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.12.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.13.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.16.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.19.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.2.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.20.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.21.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.23.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.25.attn1.to_q.weight",
+        "action_head.model.transformer_blocks.28.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.3.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.4.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.7.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.8.attn1.to_k.bias",
+        "action_head.model.transformer_blocks.9.attn1.to_k.bias",
+        "action_head.state_encoder.layer1.W",
+        "action_head.state_encoder.layer1.b",
+        "action_head.state_encoder.layer2.W",
+        "action_head.state_encoder.layer2.b"
+      ]
+    }
+  },
+  "passing_successor_proof_sha256": "48a538e3f70d405f9a82332fecd193e3872049a7043805b769f653411727b6db",
+  "logical_bytes": 52060283658,
+  "scientific_failures_preserved": true,
+  "resumable_failed_attempt": false
+}
