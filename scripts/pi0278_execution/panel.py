@@ -7,12 +7,30 @@ spec=importlib.util.spec_from_file_location('qualified_panel','/home/liuyu-nfs/P
 old=importlib.util.module_from_spec(spec);spec.loader.exec_module(old)
 read,sha,write,freeze,packet=c.read,c.sha,c.write,c.freeze,c.packet
 
+def snapshot_identity(point,ready,receipt,run,contract,ready_sha,contract_sha,run_sha):
+    assert ready['point']==point and not ready['resumable']
+    if ready['release']==RELEASE:return
+    assert ready['release']=='1a20200ff066ef5a003650110cd20106f9a4bf64'
+    assert receipt['status']=='PASS_LEGACY_CREATOR_METADATA_RECONCILIATION'
+    assert receipt['governing_release']==RELEASE and receipt['point']==point
+    assert receipt['original_ready_sha256']==ready_sha and receipt['readout_sha256']==contract_sha and receipt['training_run_sha256']==run_sha
+    assert receipt['creator_sha256']=='eb790dbea1e8fc69bb328369aeadc32917e41bae5500d1e4f44f27aab93c55cf'
+    assert run['release']==RELEASE and run['arm']=='COVER93' and run['phase']=='main' and run['limit']==4096 and run['route']=='FAST_CACHE2'
+    assert ready['arm']=='COVER93' and ready['step']==int(point.removeprefix('COVER93'))
+    assert ready['source_full_trainer']==run['root']+'/COVER93/main/training/checkpoint-'+str(ready['step'])
+    assert contract['governing_release']==RELEASE and contract['arm']=='COVER93'
+    assert contract['initial_weights_revision']=='LOCAL_FOCUS4096@93e500e8ecb6a719d4a53be09d23b35bdeeb83fcc61e75416247a2c0380f4604'
+
 def admit(point):
     assert point in read(ROOT/'design/EVALUATION_CARD.json')['points']
     if point=='FOCUS4096':
         binding=read(COMMON.with_name('PI0277')/'R2/model_bindings/FOCUS4096.json');view=Path(binding['view'])
     else:
-        view=RAW/'models'/point;ready=read(view/'READY.json');assert ready['point']==point and ready['release']==RELEASE and not ready['resumable']
+        view=RAW/'models'/point;ready=read(view/'READY.json')
+        if ready['release']==RELEASE:snapshot_identity(point,ready,None,None,None,None,None,None)
+        else:
+            source=view/'TRAINING_RUN_SOURCE.json'
+            snapshot_identity(point,ready,read(view/'READY_AUTHORITY_RECONCILIATION.json'),read(source),read(view/'PI0277_READOUT_CONTRACT.json'),sha(view/'READY.json'),sha(view/'PI0277_READOUT_CONTRACT.json'),sha(source))
         for r in ready['files']:assert (view/r['path']).stat().st_size==r['bytes'] and sha(view/r['path'])==r['sha256']
         binding=dict(schema='PI0278_LOCAL_MODEL_ONLY',point=point,view=str(view),view_type='model-only',source_revision='LOCAL@'+sha(view/'READY.json'),effective_contract='GRIP',
             readout_contract_sha256=sha(view/'PI0277_READOUT_CONTRACT.json'),statistics_sha256=sha(ROOT/'contracts/TASK/source/dataset/statistics.json'),

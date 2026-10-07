@@ -33,21 +33,21 @@ def confirmation(point):
         base=RAW.parent.with_name(name)
         for sub in ('episodes','R2/episodes'):
             for p in (base/sub).glob('*'):
-                if any(re.search(rf'(?<!\d){seed}(?!\d)',p.name) for seed in seeds):collisions.append(str(p))
+                if any(re.search(rf'(?<![A-Za-z0-9]){seed}(?![A-Za-z0-9])',p.name) for seed in seeds):collisions.append(str(p))
         for p in (base/'noise').glob('*.npz'):
-            if any(re.search(rf'(?<!\d){seed}(?!\d)',p.name) for seed in seeds):
+            if any(re.search(rf'(?<![A-Za-z0-9]){seed}(?![A-Za-z0-9])',p.name) for seed in seeds):
                 if not (name=='PI0278' and preparation.exists() and p.name in [f'CONFIRM-{seed}.npz' for seed in seeds]):collisions.append(str(p))
         for p in (COMMON.with_name(name)/'evidence').glob('model_attempts.jsonl'):
             sources.append(dict(path=str(p),sha256=sha(p)))
             for line in p.read_text().splitlines():
-                v=json.loads(line);request=json.dumps(v.get('request',{}),sort_keys=True)
-                if any(re.search(rf'(?<!\d){seed}(?!\d)',request) for seed in seeds):collisions.append(f'{p}:attempt{v.get("ordinal")}')
+                v=json.loads(line);request=v.get('request',{})
+                if any(re.search(rf'(?<![A-Za-z0-9]){seed}(?![A-Za-z0-9])',request.get(k,'')) for seed in seeds for k in ('input','output','noise_file')):collisions.append(f'{p}:attempt{v.get("ordinal")}')
         for p in [base/'evidence/budget.jsonl']:
             if not p.exists():continue
             sources.append(dict(path=str(p),sha256=sha(p)))
             for line in p.read_text().splitlines():
                 v=json.loads(line)
-                if v.get('kind')=='starts' and any(re.search(rf'(?<!\d){seed}(?!\d)',v.get('slot','')) for seed in seeds):collisions.append(f'{p}:{v["slot"]}')
+                if v.get('kind')=='starts' and any(re.search(rf'(?<![A-Za-z0-9]){seed}(?![A-Za-z0-9])',v.get('slot','')) for seed in seeds):collisions.append(f'{p}:{v["slot"]}')
     if not preparation.exists():freeze(ROOT/'evidence/CONFIRMATION_UNTOUCHED.json',dict(seeds=seeds,collisions=collisions,actual_journal_sources=sources,packets_not_created_at_check=True))
     assert not collisions,'Original confirmation namespace already accessed; no seed substitution'
     before=ROOT/'evidence/EVALUATION_NOISE_BEFORE_CONFIRM.json'
@@ -69,8 +69,8 @@ def confirmation(point):
     print('PASS_ONE_UNTOUCHED_CONFIRMATION16_ADMISSION',point)
 
 def check():
-    seed=30032;pattern=rf'(?<!\d){seed}(?!\d)'
-    assert re.search(pattern,'CONFIRM-30032-COVER934096') and not re.search(pattern,'TRAIN-130032-COVER934096')
+    seed=30032;pattern=rf'(?<![A-Za-z0-9]){seed}(?![A-Za-z0-9])'
+    assert re.search(pattern,'CONFIRM-30032-COVER934096') and not re.search(pattern,'TRAIN-130032-COVER934096') and not re.search(pattern,'ab30032cd')
     a=np.random.Generator(np.random.PCG64(27803)).standard_normal((1,40,132),dtype=np.float32)
     b=np.random.Generator(np.random.PCG64(27803)).standard_normal((1,40,132),dtype=np.float32)
     assert a.dtype==np.float32 and np.array_equal(a,b) and np.isfinite(a).all()

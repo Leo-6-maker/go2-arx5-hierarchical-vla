@@ -4,6 +4,7 @@ from pathlib import Path
 from plan import read,sha,write,exposure
 
 def main(root,journal,step):
+    assert 1<=step<=4096
     membership=read(root/'design/ELIGIBLE_MEMBERSHIP.json');rows=membership['rows'];proof={r['uid']:r for r in rows}
     groups=collections.defaultdict(list)
     for row in rows:groups[row['seed'],row['group']].append(row)
@@ -20,4 +21,4 @@ def main(root,journal,step):
     print('PASS_ACTUAL_COMPLETED_PREFIX',step,len(actual))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('journal',type=Path);p.add_argument('step',type=int,choices=(512,1024,2048,4096));a=p.parse_args();main(a.root,a.journal,a.step)
+    p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('journal',type=Path);p.add_argument('step',type=int);a=p.parse_args();main(a.root,a.journal,a.step)
