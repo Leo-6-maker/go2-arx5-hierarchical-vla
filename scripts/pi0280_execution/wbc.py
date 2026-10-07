@@ -103,13 +103,14 @@ def fixture(name):
     for j in ET.parse(paths['native_urdf']).getroot().findall('joint'):
         limit=j.find('limit')
         if limit is not None and 'lower' in limit.attrib:bounds[j.attrib['name']]=[float(limit.attrib['lower']),float(limit.attrib['upper'])]
+    counts={}
+    if ledger.exists():
+        for line in ledger.read_text().splitlines():
+            k=json.loads(line)['kind'];counts[k]=counts.get(k,0)+1
     def budget(kind):
-        counts={}
-        if ledger.exists():
-            for line in ledger.read_text().splitlines():
-                k=json.loads(line)['kind'];counts[k]=counts.get(k,0)+1
         cap={'physical_start':22,'control_tick':30000,'actor_forward':120000,'integration':250000,'gripper_dispatch':60000,'RGB_pair':30000}[kind]
         assert counts.get(kind,0)<cap,(kind,counts)
+        counts[kind]=counts.get(kind,0)+1
         append(ledger,dict(kind=kind,fixture=name,wall=time.time()))
     def fk(n):
         root=n.root_states[0].detach().cpu().numpy();q=[n.dof_pos[0,n.dof_names.index(j)].item() for j in kin.joint_names]
