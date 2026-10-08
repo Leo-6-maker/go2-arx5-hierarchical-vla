@@ -6,7 +6,7 @@ def build():
     here=Path(__file__).resolve().parent;old=here.parent/'pi0282_execution';out=here/'runtime';out.mkdir(exist_ok=True)
     names=('codec','cpu_inputs','data','scope','native_model','learning','continuation','train','training_launch','canary','model_view','source','source_launch','inference','evaluate')
     for name in names:(out/(name+'.py')).write_bytes((old/(name+'.py')).read_bytes())
-    for name in ('authority','phase','plan','audit','transport','launch'):
+    for name in ('authority','phase','plan','audit','transport','launch','cpu_repair_check'):
         source=here/(name+'.py')
         if source.exists():(out/source.name).write_bytes(source.read_bytes())
     def replace(name,pairs):
@@ -31,27 +31,27 @@ def build():
         ("self.arm.replace('2048','')+str(state.global_step)","self.arm+str(state.global_step)"),
         ("assert len(self.base)==len(self.plan)==16384", "assert len(self.base)==len(self.plan) and len(self.plan) in (8192,16384)"),
         ("result=dict(self.base[i]);result['_pi0282_visit']=self.plan[i];return result", "result=dict(self.cached_item(i));result['_pi0282_visit']=self.plan[i];return result"),
-        ("def run(a):",'''def cached_item(self,i):
-        from cpu_inputs import tensor_hash
-        row=self.plan[i]
-        key=hashlib.sha256(json.dumps({'namespace':self.base.namespace,'uid':row['uid'],'command_sha256':row['command_sha256'],'observation_sha256':row['observation_sha256']},sort_keys=True).encode()).hexdigest()
-        old=Path(self.base.root).parent.parent/'PI0282/data/cache'/self.base.namespace/(key+'.pt')
-        if old.exists():
-            saved=torch.load(old,map_location='cpu',weights_only=True)
-            assert saved['key']==key and saved['uid']==row['uid'] and tensor_hash(saved['inputs'])==saved['tensor_sha256']
-            return saved['inputs']
-        # ponytail: reuse the deterministic encoder; bound only the new private cache.
-        if i%64==0:
-            import fcntl
-            folder=self.base.root/'cache'/self.base.namespace;folder.mkdir(parents=True,exist_ok=True)
-            with (folder/'eviction.lock').open('a') as lock:
-                fcntl.flock(lock,fcntl.LOCK_EX)
-                files=sorted(folder.glob('*.pt'),key=lambda p:p.stat().st_mtime);size=sum(p.stat().st_size for p in files)
-                for p in files:
-                    if size<=3*1024**3:break
-                    if time.time()-p.stat().st_mtime>60:size-=p.stat().st_size;p.unlink()
-        try:return self.base[i]
-        except FileNotFoundError:return self.base[i]
+        ("def run(a):",'''    def cached_item(self,i):
+            from cpu_inputs import tensor_hash
+            row=self.plan[i]
+            key=hashlib.sha256(json.dumps({'namespace':self.base.namespace,'uid':row['uid'],'command_sha256':row['command_sha256'],'observation_sha256':row['observation_sha256']},sort_keys=True).encode()).hexdigest()
+            old=Path(self.base.root).parent.parent/'PI0282/data/cache'/self.base.namespace/(key+'.pt')
+            if old.exists():
+                saved=torch.load(old,map_location='cpu',weights_only=True)
+                assert saved['key']==key and saved['uid']==row['uid'] and tensor_hash(saved['inputs'])==saved['tensor_sha256']
+                return saved['inputs']
+            # ponytail: reuse the deterministic encoder; bound only the new private cache.
+            if i%64==0:
+                import fcntl
+                folder=self.base.root/'cache'/self.base.namespace;folder.mkdir(parents=True,exist_ok=True)
+                with (folder/'eviction.lock').open('a') as lock:
+                    fcntl.flock(lock,fcntl.LOCK_EX)
+                    files=sorted(folder.glob('*.pt'),key=lambda p:p.stat().st_mtime);size=sum(p.stat().st_size for p in files)
+                    for p in files:
+                        if size<=3*1024**3:break
+                        if time.time()-p.stat().st_mtime>60:size-=p.stat().st_size;p.unlink()
+            try:return self.base[i]
+            except FileNotFoundError:return self.base[i]
 
 
 def run(a):'''),
