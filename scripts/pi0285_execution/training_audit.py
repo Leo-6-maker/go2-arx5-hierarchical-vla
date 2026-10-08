@@ -65,7 +65,7 @@ def audit(arm,step):
     entries=[dict(path=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(cp.iterdir()) if p.is_file()]
     value=dict(status='PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE',point=f'{arm}-{step}',checkpoint=str(cp),entries=entries,plan_sha256=sha(card['plan_path']),export_sha256=sha(export),journal_prefixes=dict(consumption=cproof,native_forward=fproof,native_modes=mproof),formal_microbatches=len(consumed),chunks=len(visits),task_counts=dict(Counter(v['task'] for v in visits)),phase_counts=dict(Counter(v['phase'] for v in visits)),detailed_gradient_microbatches=detailed,actual_LR_peaks=peaks,actual_module_modes_first=modes[0]['modules'],native_loss_first16_mean=sum(m['native_loss'] for m in modes[:32])/32,native_loss_last16_mean=sum(m['native_loss'] for m in modes[-32:])/32,changed_row10_tensors=changed_rows,changed_DiT_tensors=changed_dit,frozen_parameter_tensors=frozen,other31_rows_exact=True,other31_Adam_moments_zero=True,new_model_queries=0,new_optimizer_updates=0,new_physics=0,selected='NONE',deployment='NONE')
     target=ROOT/'evidence'/f'{arm}-{step}_TRAINING_CPU.json'
-    if target.exists():assert json.loads(target.read_text())==value
+    if target.exists():assert json.loads(target.read_text())==json.loads(json.dumps(value))
     else:write(target,value)
     print(json.dumps({k:v for k,v in value.items() if k not in ('entries','actual_module_modes_first','changed_row10_tensors')}))
 
