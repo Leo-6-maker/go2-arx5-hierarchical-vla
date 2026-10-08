@@ -9,6 +9,10 @@
     "DEV": {
       "source_sha256": "4dea515717c8f3a17dfdb87ce12d81de8be42240055da3057455524f5818d3f1",
       "CPU_sha256": "dd63f483c901275809d368ec1f62becc18069c2accf4d5e50fb9b81b49517b18"
+    },
+    "CONFIRM_A": {
+      "source_sha256": "c6d5a41f81054bfe3d53ca0d99cf6bc5a115a294641f344332afedc67e4d6b7e",
+      "CPU_sha256": "ca971a971f3e41786c8fd3ac7a3d21900d6aab7d68d584a90ed747b9861b1e8b"
     }
   },
   "panels": {
@@ -19,6 +23,10 @@
     "DEV": {
       "requested": 16,
       "success": 13
+    },
+    "CONFIRM_A": {
+      "requested": 32,
+      "success": 20
     }
   },
   "route": {
@@ -30,8 +38,10 @@
     "DEV": {
       "T1": 13
     },
-    "confirmation": null,
-    "next_action": "FREEZE_FIRST_CANDIDATE_FOR_UNIQUE_CONFIRM_A",
+    "confirmation": {
+      "T1": 20
+    },
+    "next_action": "STOP_CONFIRMATION_VALID_QUALITY_FAIL_NO_SECOND_CANDIDATE",
     "proofs": {
       "TRAIN": {
         "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/evidence/REPAIR_A2048-2048_TRAIN.json",
@@ -45,7 +55,12 @@
         "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/audit/REPAIR_A2048-2048_DEV_CPU.json",
         "CPU_sha256": "dd63f483c901275809d368ec1f62becc18069c2accf4d5e50fb9b81b49517b18"
       },
-      "CONFIRM": null
+      "CONFIRM": {
+        "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/evidence/REPAIR_A2048-2048_CONFIRM_A.json",
+        "source_sha256": "c6d5a41f81054bfe3d53ca0d99cf6bc5a115a294641f344332afedc67e4d6b7e",
+        "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/audit/REPAIR_A2048-2048_CONFIRM_A_CPU.json",
+        "CPU_sha256": "ca971a971f3e41786c8fd3ac7a3d21900d6aab7d68d584a90ed747b9861b1e8b"
+      }
     },
     "selected": "NONE",
     "deployment": "NONE"

@@ -9,6 +9,10 @@
     "DEV": {
       "source_sha256": "4dea515717c8f3a17dfdb87ce12d81de8be42240055da3057455524f5818d3f1",
       "CPU_sha256": "dd63f483c901275809d368ec1f62becc18069c2accf4d5e50fb9b81b49517b18"
+    },
+    "CONFIRM_A": {
+      "source_sha256": "c6d5a41f81054bfe3d53ca0d99cf6bc5a115a294641f344332afedc67e4d6b7e",
+      "CPU_sha256": "ca971a971f3e41786c8fd3ac7a3d21900d6aab7d68d584a90ed747b9861b1e8b"
     }
   },
   "rows": [
@@ -3227,6 +3231,4708 @@
       "videos": [],
       "video_status": "NOT_YET_RENDERED",
       "source_result_sha256": "d4665d20600899fc851f7119760948a5e832374257695ed1db1f724a5b22da21"
+    },
+    {
+      "task": "T1",
+      "layout": 285300,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.36,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": true
+            },
+            {
+              "time_s": 14.47,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.8200000000000003,
+          "changes": [
+            {
+              "time_s": 2.8200000000000003,
+              "value": true
+            },
+            {
+              "time_s": 14.18,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 6.16,
+          "changes": [
+            {
+              "time_s": 6.16,
+              "value": true
+            },
+            {
+              "time_s": 11.15,
+              "value": false
+            },
+            {
+              "time_s": 11.56,
+              "value": true
+            },
+            {
+              "time_s": 11.66,
+              "value": false
+            },
+            {
+              "time_s": 11.69,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 12.85,
+          "changes": [
+            {
+              "time_s": 12.85,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": false
+            },
+            {
+              "time_s": 14.47,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.12,
+              "value": false
+            },
+            {
+              "time_s": 15.309999999999999,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 15.309999999999999,
+          "changes": [
+            {
+              "time_s": 15.309999999999999,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 15.309999999999999,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 0.005008479550988283,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006581319496035576,
+      "IK_holds": 42,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "f6864b2b9db58dbc294f5c02ccfee45a9f9d0f95625a1a9367a65052a5290505"
+    },
+    {
+      "task": "T1",
+      "layout": 285301,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 3.01,
+          "changes": [
+            {
+              "time_s": 3.01,
+              "value": true
+            },
+            {
+              "time_s": 8.67,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.4299999999999997,
+          "changes": [
+            {
+              "time_s": 3.4299999999999997,
+              "value": true
+            },
+            {
+              "time_s": 8.19,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.82,
+          "changes": [
+            {
+              "time_s": 5.82,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.28,
+          "changes": [
+            {
+              "time_s": 6.28,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.01,
+              "value": false
+            },
+            {
+              "time_s": 8.67,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.62,
+              "value": false
+            },
+            {
+              "time_s": 9.96,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 9.96,
+          "changes": [
+            {
+              "time_s": 9.96,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 9.96,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.672791379306368e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006102209445089102,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "c62892719d4507c37ca264676544dc6279c92e43320a961b4b90f9bdb6b188d0"
+    },
+    {
+      "task": "T1",
+      "layout": 285302,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": false,
+        "horizontal_transfer": false
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 2.31,
+          "changes": [
+            {
+              "time_s": 2.31,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.31,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.31,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.013113114315615427,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.003701240522786975,
+      "IK_holds": 534,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "4edb0d716307e814fc4118fdb7036a6b6347b470bce6ea834863fd275b28fabe"
+    },
+    {
+      "task": "T1",
+      "layout": 285303,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 11.61,
+          "changes": [
+            {
+              "time_s": 11.61,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 41,
+          "first_true_s": 12.39,
+          "changes": [
+            {
+              "time_s": 12.39,
+              "value": true
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 16.39,
+          "changes": [
+            {
+              "time_s": 16.39,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 17.92,
+          "changes": [
+            {
+              "time_s": 17.92,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 11.61,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.42,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 6.334246079127051e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.008484804071485996,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "49721e8f2e44aea9bfb4db83f9367ceef064dd0677e85879acff01daa433ec32"
+    },
+    {
+      "task": "T1",
+      "layout": 285304,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 1.9500000000000002,
+          "changes": [
+            {
+              "time_s": 1.9500000000000002,
+              "value": true
+            },
+            {
+              "time_s": 4.87,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.17,
+          "changes": [
+            {
+              "time_s": 2.17,
+              "value": true
+            },
+            {
+              "time_s": 4.8100000000000005,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 3.96,
+          "changes": [
+            {
+              "time_s": 3.96,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": 4.68,
+          "changes": [
+            {
+              "time_s": 4.68,
+              "value": true
+            },
+            {
+              "time_s": 4.82,
+              "value": false
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.9500000000000002,
+              "value": false
+            },
+            {
+              "time_s": 4.87,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.72,
+              "value": false
+            },
+            {
+              "time_s": 5.9,
+              "value": true
+            },
+            {
+              "time_s": 16.0,
+              "value": false
+            },
+            {
+              "time_s": 16.03,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 6.342413003087601e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005219575017690659,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "3cbbb17697b56b896e65f21e0a5d682cf60eaefd092d4b961024f27287dc623b"
+    },
+    {
+      "task": "T1",
+      "layout": 285305,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 14,
+          "first_true_s": 2.2800000000000002,
+          "changes": [
+            {
+              "time_s": 2.2800000000000002,
+              "value": true
+            },
+            {
+              "time_s": 2.42,
+              "value": false
+            },
+            {
+              "time_s": 2.52,
+              "value": true
+            },
+            {
+              "time_s": 2.8200000000000003,
+              "value": false
+            },
+            {
+              "time_s": 2.99,
+              "value": true
+            },
+            {
+              "time_s": 25.22,
+              "value": false
+            },
+            {
+              "time_s": 25.27,
+              "value": true
+            },
+            {
+              "time_s": 26.82,
+              "value": false
+            },
+            {
+              "time_s": 26.93,
+              "value": true
+            },
+            {
+              "time_s": 27.62,
+              "value": false
+            },
+            {
+              "time_s": 27.67,
+              "value": true
+            },
+            {
+              "time_s": 28.02,
+              "value": false
+            },
+            {
+              "time_s": 28.07,
+              "value": true
+            },
+            {
+              "time_s": 28.41,
+              "value": false
+            },
+            {
+              "time_s": 28.5,
+              "value": true
+            },
+            {
+              "time_s": 28.51,
+              "value": false
+            },
+            {
+              "time_s": 28.6,
+              "value": true
+            },
+            {
+              "time_s": 28.810000000000002,
+              "value": false
+            },
+            {
+              "time_s": 30.67,
+              "value": true
+            },
+            {
+              "time_s": 30.8,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 7.09,
+          "changes": [
+            {
+              "time_s": 7.09,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 27,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.2800000000000002,
+              "value": false
+            },
+            {
+              "time_s": 2.42,
+              "value": true
+            },
+            {
+              "time_s": 2.52,
+              "value": false
+            },
+            {
+              "time_s": 2.8200000000000003,
+              "value": true
+            },
+            {
+              "time_s": 2.99,
+              "value": false
+            },
+            {
+              "time_s": 25.22,
+              "value": true
+            },
+            {
+              "time_s": 25.27,
+              "value": false
+            },
+            {
+              "time_s": 26.82,
+              "value": true
+            },
+            {
+              "time_s": 26.93,
+              "value": false
+            },
+            {
+              "time_s": 27.62,
+              "value": true
+            },
+            {
+              "time_s": 27.67,
+              "value": false
+            },
+            {
+              "time_s": 28.02,
+              "value": true
+            },
+            {
+              "time_s": 28.07,
+              "value": false
+            },
+            {
+              "time_s": 28.41,
+              "value": true
+            },
+            {
+              "time_s": 28.5,
+              "value": false
+            },
+            {
+              "time_s": 28.51,
+              "value": true
+            },
+            {
+              "time_s": 28.6,
+              "value": false
+            },
+            {
+              "time_s": 28.810000000000002,
+              "value": true
+            },
+            {
+              "time_s": 30.67,
+              "value": false
+            },
+            {
+              "time_s": 30.8,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.72,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.011899257560178638,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0039689801633358,
+      "IK_holds": 444,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "d0cb60f8aa1c7fa63d65ab49de4e2f798a3570e6e50433d1558e2857472f3cf1"
+    },
+    {
+      "task": "T1",
+      "layout": 285306,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 3.04,
+          "changes": [
+            {
+              "time_s": 3.04,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 41,
+          "first_true_s": 6.9,
+          "changes": [
+            {
+              "time_s": 6.9,
+              "value": true
+            },
+            {
+              "time_s": 6.98,
+              "value": false
+            },
+            {
+              "time_s": 7.1899999999999995,
+              "value": true
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 14.56,
+          "changes": [
+            {
+              "time_s": 14.56,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 15.420000000000002,
+          "changes": [
+            {
+              "time_s": 15.420000000000002,
+              "value": true
+            },
+            {
+              "time_s": 30.04,
+              "value": false
+            },
+            {
+              "time_s": 30.240000000000002,
+              "value": true
+            },
+            {
+              "time_s": 30.720000000000002,
+              "value": false
+            },
+            {
+              "time_s": 30.87,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.04,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.88,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.004641976499342872,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006068266928195953,
+      "IK_holds": 112,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "8f5481d8eef0dd7859e193e50910d8ed5b84fa2c5ca4832e7c69051d69a9ebc5"
+    },
+    {
+      "task": "T1",
+      "layout": 285307,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.27,
+          "changes": [
+            {
+              "time_s": 2.27,
+              "value": true
+            },
+            {
+              "time_s": 7.620000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.72,
+          "changes": [
+            {
+              "time_s": 2.72,
+              "value": true
+            },
+            {
+              "time_s": 7.49,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.49,
+          "changes": [
+            {
+              "time_s": 5.49,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.61,
+          "changes": [
+            {
+              "time_s": 6.61,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.27,
+              "value": false
+            },
+            {
+              "time_s": 7.620000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.97,
+              "value": false
+            },
+            {
+              "time_s": 8.78,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.78,
+          "changes": [
+            {
+              "time_s": 8.78,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.78,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.606101996445773e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006012673955410719,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "c3f578e9309719d9fb875c5c9cae2da3cf915c91afcc971b0990dc5fa8217742"
+    },
+    {
+      "task": "T1",
+      "layout": 285308,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.83,
+          "changes": [
+            {
+              "time_s": 2.83,
+              "value": true
+            },
+            {
+              "time_s": 7.120000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.2800000000000002,
+          "changes": [
+            {
+              "time_s": 3.2800000000000002,
+              "value": true
+            },
+            {
+              "time_s": 6.95,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.45,
+          "changes": [
+            {
+              "time_s": 5.45,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.9,
+          "changes": [
+            {
+              "time_s": 5.9,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.83,
+              "value": false
+            },
+            {
+              "time_s": 7.120000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.33,
+              "value": false
+            },
+            {
+              "time_s": 7.91,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 7.91,
+          "changes": [
+            {
+              "time_s": 7.91,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 7.91,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.338317084798535e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006011293735355139,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "b218a0e49df3e36d52bc9acc9dca7d3fc7b765dfcec8d42bf4280c114682d170"
+    },
+    {
+      "task": "T1",
+      "layout": 285309,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.99,
+          "changes": [
+            {
+              "time_s": 2.99,
+              "value": true
+            },
+            {
+              "time_s": 7.220000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.5300000000000002,
+          "changes": [
+            {
+              "time_s": 3.5300000000000002,
+              "value": true
+            },
+            {
+              "time_s": 7.029999999999999,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.6000000000000005,
+          "changes": [
+            {
+              "time_s": 5.6000000000000005,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.21,
+          "changes": [
+            {
+              "time_s": 6.21,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.99,
+              "value": false
+            },
+            {
+              "time_s": 7.220000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.69,
+              "value": false
+            },
+            {
+              "time_s": 8.34,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.34,
+          "changes": [
+            {
+              "time_s": 8.34,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.34,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.369535716080278e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005811729934066534,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "9f8fb9724b93d418c8cd0e4787c37ab03913e7916b5217de9fb2ee41de3de853"
+    },
+    {
+      "task": "T1",
+      "layout": 285310,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.31,
+          "changes": [
+            {
+              "time_s": 2.31,
+              "value": true
+            },
+            {
+              "time_s": 8.77,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.0999999999999996,
+          "changes": [
+            {
+              "time_s": 3.0999999999999996,
+              "value": true
+            },
+            {
+              "time_s": 8.53,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 6.36,
+          "changes": [
+            {
+              "time_s": 6.36,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 7.370000000000001,
+          "changes": [
+            {
+              "time_s": 7.370000000000001,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.31,
+              "value": false
+            },
+            {
+              "time_s": 8.77,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.9199999999999999,
+              "value": false
+            },
+            {
+              "time_s": 9.63,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 9.63,
+          "changes": [
+            {
+              "time_s": 9.63,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 9.63,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.616968841800442e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006036199629306793,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "a928baa5957c8dc05be7dc70ac168e06b7e8a3784a87c3222ecd82aa695c56a3"
+    },
+    {
+      "task": "T1",
+      "layout": 285311,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 1.9,
+          "changes": [
+            {
+              "time_s": 1.9,
+              "value": true
+            },
+            {
+              "time_s": 9.15,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.33,
+          "changes": [
+            {
+              "time_s": 2.33,
+              "value": true
+            },
+            {
+              "time_s": 8.94,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.390000000000001,
+          "changes": [
+            {
+              "time_s": 5.390000000000001,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.23,
+          "changes": [
+            {
+              "time_s": 6.23,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.9,
+              "value": false
+            },
+            {
+              "time_s": 9.15,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.81,
+              "value": false
+            },
+            {
+              "time_s": 10.41,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 10.41,
+          "changes": [
+            {
+              "time_s": 10.41,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 10.41,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.63051874019389e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006150736939162016,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "bbc5cbef1d9386a3cec29c1c3a5163b79bc81cf16430d38b22e91d584e268af6"
+    },
+    {
+      "task": "T1",
+      "layout": 285312,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": false
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 40,
+          "first_true_s": 2.2,
+          "changes": [
+            {
+              "time_s": 2.2,
+              "value": true
+            },
+            {
+              "time_s": 2.42,
+              "value": false
+            },
+            {
+              "time_s": 2.47,
+              "value": true
+            },
+            {
+              "time_s": 15.219999999999999,
+              "value": false
+            },
+            {
+              "time_s": 15.27,
+              "value": true
+            },
+            {
+              "time_s": 16.82,
+              "value": false
+            },
+            {
+              "time_s": 16.87,
+              "value": true
+            },
+            {
+              "time_s": 20.02,
+              "value": false
+            },
+            {
+              "time_s": 20.14,
+              "value": true
+            },
+            {
+              "time_s": 20.42,
+              "value": false
+            },
+            {
+              "time_s": 20.47,
+              "value": true
+            },
+            {
+              "time_s": 21.22,
+              "value": false
+            },
+            {
+              "time_s": 21.27,
+              "value": true
+            },
+            {
+              "time_s": 22.42,
+              "value": false
+            },
+            {
+              "time_s": 22.47,
+              "value": true
+            },
+            {
+              "time_s": 22.82,
+              "value": false
+            },
+            {
+              "time_s": 22.87,
+              "value": true
+            },
+            {
+              "time_s": 24.82,
+              "value": false
+            },
+            {
+              "time_s": 24.86,
+              "value": true
+            },
+            {
+              "time_s": 26.82,
+              "value": false
+            },
+            {
+              "time_s": 26.87,
+              "value": true
+            },
+            {
+              "time_s": 28.02,
+              "value": false
+            },
+            {
+              "time_s": 28.07,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 5.23,
+          "changes": [
+            {
+              "time_s": 5.23,
+              "value": true
+            },
+            {
+              "time_s": 5.98,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 1,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.2,
+              "value": false
+            },
+            {
+              "time_s": 2.42,
+              "value": true
+            },
+            {
+              "time_s": 2.47,
+              "value": false
+            },
+            {
+              "time_s": 15.219999999999999,
+              "value": true
+            },
+            {
+              "time_s": 15.27,
+              "value": false
+            },
+            {
+              "time_s": 16.82,
+              "value": true
+            },
+            {
+              "time_s": 16.87,
+              "value": false
+            },
+            {
+              "time_s": 20.02,
+              "value": true
+            },
+            {
+              "time_s": 20.14,
+              "value": false
+            },
+            {
+              "time_s": 20.42,
+              "value": true
+            },
+            {
+              "time_s": 20.47,
+              "value": false
+            },
+            {
+              "time_s": 21.22,
+              "value": true
+            },
+            {
+              "time_s": 21.27,
+              "value": false
+            },
+            {
+              "time_s": 22.42,
+              "value": true
+            },
+            {
+              "time_s": 22.47,
+              "value": false
+            },
+            {
+              "time_s": 22.82,
+              "value": true
+            },
+            {
+              "time_s": 22.87,
+              "value": false
+            },
+            {
+              "time_s": 24.82,
+              "value": true
+            },
+            {
+              "time_s": 24.86,
+              "value": false
+            },
+            {
+              "time_s": 26.82,
+              "value": true
+            },
+            {
+              "time_s": 26.87,
+              "value": false
+            },
+            {
+              "time_s": 28.02,
+              "value": true
+            },
+            {
+              "time_s": 28.07,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.19,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.012692111368193875,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0038131033070385456,
+      "IK_holds": 514,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "49be97be9af503d223b540db5c0cae6c7854755fb68a4c7f41aae772b7c092d6"
+    },
+    {
+      "task": "T1",
+      "layout": 285313,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 3.0600000000000005,
+          "changes": [
+            {
+              "time_s": 3.0600000000000005,
+              "value": true
+            },
+            {
+              "time_s": 3.0700000000000003,
+              "value": false
+            },
+            {
+              "time_s": 3.1399999999999997,
+              "value": true
+            },
+            {
+              "time_s": 8.17,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.3600000000000003,
+          "changes": [
+            {
+              "time_s": 3.3600000000000003,
+              "value": true
+            },
+            {
+              "time_s": 7.73,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.12,
+          "changes": [
+            {
+              "time_s": 5.12,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.5,
+          "changes": [
+            {
+              "time_s": 5.5,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.0600000000000005,
+              "value": false
+            },
+            {
+              "time_s": 3.0700000000000003,
+              "value": true
+            },
+            {
+              "time_s": 3.1399999999999997,
+              "value": false
+            },
+            {
+              "time_s": 8.17,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.0699999999999998,
+              "value": false
+            },
+            {
+              "time_s": 9.28,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 9.28,
+          "changes": [
+            {
+              "time_s": 9.28,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 9.28,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.501147199161999e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005910100415349007,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "4dfa442549916cfc3cc6f369becdce2a3668459ec30997574c5ddd711a1b33be"
+    },
+    {
+      "task": "T1",
+      "layout": 285314,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.5500000000000003,
+          "changes": [
+            {
+              "time_s": 2.5500000000000003,
+              "value": true
+            },
+            {
+              "time_s": 24.42,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.2199999999999998,
+          "changes": [
+            {
+              "time_s": 3.2199999999999998,
+              "value": true
+            },
+            {
+              "time_s": 24.18,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 7.460000000000001,
+          "changes": [
+            {
+              "time_s": 7.460000000000001,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 8.3,
+          "changes": [
+            {
+              "time_s": 8.3,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.5500000000000003,
+              "value": false
+            },
+            {
+              "time_s": 24.42,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.2000000000000002,
+              "value": false
+            },
+            {
+              "time_s": 25.330000000000002,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 25.330000000000002,
+          "changes": [
+            {
+              "time_s": 25.330000000000002,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 25.330000000000002,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.772754581653266e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006209309678524733,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "49883c5371d6a67df2481530b8122c0f231e24c9b78b12dacb854a73fe1f783e"
+    },
+    {
+      "task": "T1",
+      "layout": 285315,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.58,
+          "changes": [
+            {
+              "time_s": 2.58,
+              "value": true
+            },
+            {
+              "time_s": 2.8200000000000003,
+              "value": false
+            },
+            {
+              "time_s": 2.98,
+              "value": true
+            },
+            {
+              "time_s": 8.82,
+              "value": false
+            },
+            {
+              "time_s": 8.86,
+              "value": true
+            },
+            {
+              "time_s": 8.92,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.51,
+          "changes": [
+            {
+              "time_s": 3.51,
+              "value": true
+            },
+            {
+              "time_s": 8.83,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 6.83,
+          "changes": [
+            {
+              "time_s": 6.83,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 7.290000000000001,
+          "changes": [
+            {
+              "time_s": 7.290000000000001,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.58,
+              "value": false
+            },
+            {
+              "time_s": 2.8200000000000003,
+              "value": true
+            },
+            {
+              "time_s": 2.98,
+              "value": false
+            },
+            {
+              "time_s": 8.82,
+              "value": true
+            },
+            {
+              "time_s": 8.86,
+              "value": false
+            },
+            {
+              "time_s": 8.92,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.38,
+              "value": false
+            },
+            {
+              "time_s": 9.8,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 9.8,
+          "changes": [
+            {
+              "time_s": 9.8,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 9.8,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.561086815291009e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005944707430899143,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "1367763d0c44d878328c29e4f4fee2be907c206375778916ae4cc327e19e3854"
+    },
+    {
+      "task": "T1",
+      "layout": 285316,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.45,
+          "changes": [
+            {
+              "time_s": 2.45,
+              "value": true
+            },
+            {
+              "time_s": 5.62,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.81,
+          "changes": [
+            {
+              "time_s": 2.81,
+              "value": true
+            },
+            {
+              "time_s": 5.44,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 4.0600000000000005,
+          "changes": [
+            {
+              "time_s": 4.0600000000000005,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 4.2,
+          "changes": [
+            {
+              "time_s": 4.2,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.45,
+              "value": false
+            },
+            {
+              "time_s": 5.62,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.1099999999999999,
+              "value": false
+            },
+            {
+              "time_s": 6.5200000000000005,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 6.5200000000000005,
+          "changes": [
+            {
+              "time_s": 6.5200000000000005,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 6.5200000000000005,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.352497068491207e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005496300291270018,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "6b7f2064483d456fb7bd09f0b66154d839ddadac236527caa67ce0de952599b3"
+    },
+    {
+      "task": "T1",
+      "layout": 285317,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.41,
+          "changes": [
+            {
+              "time_s": 2.41,
+              "value": true
+            },
+            {
+              "time_s": 7.220000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.4699999999999998,
+          "changes": [
+            {
+              "time_s": 3.4699999999999998,
+              "value": true
+            },
+            {
+              "time_s": 7.0600000000000005,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.32,
+          "changes": [
+            {
+              "time_s": 5.32,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.94,
+          "changes": [
+            {
+              "time_s": 5.94,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.41,
+              "value": false
+            },
+            {
+              "time_s": 7.220000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.1400000000000001,
+              "value": false
+            },
+            {
+              "time_s": 8.15,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.15,
+          "changes": [
+            {
+              "time_s": 8.15,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.15,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.604771976456564e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0057596080005168915,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "91921056bbe839d1c23795b5aaff755afd432a14b97c0b2360448357a680f55f"
+    },
+    {
+      "task": "T1",
+      "layout": 285318,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 1.9100000000000001,
+          "changes": [
+            {
+              "time_s": 1.9100000000000001,
+              "value": true
+            },
+            {
+              "time_s": 7.77,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.39,
+          "changes": [
+            {
+              "time_s": 2.39,
+              "value": true
+            },
+            {
+              "time_s": 7.25,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.09,
+          "changes": [
+            {
+              "time_s": 5.09,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.93,
+          "changes": [
+            {
+              "time_s": 5.93,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.9100000000000001,
+              "value": false
+            },
+            {
+              "time_s": 7.77,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.73,
+              "value": false
+            },
+            {
+              "time_s": 8.91,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.91,
+          "changes": [
+            {
+              "time_s": 8.91,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.91,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.611417914539474e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006098122335970402,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "3199dffeae820d17dcd25163f6d6bc86fd3b76c39c02b4664294fb6d5ecf17c3"
+    },
+    {
+      "task": "T1",
+      "layout": 285319,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.2600000000000002,
+          "changes": [
+            {
+              "time_s": 2.2600000000000002,
+              "value": true
+            },
+            {
+              "time_s": 5.22,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.54,
+          "changes": [
+            {
+              "time_s": 2.54,
+              "value": true
+            },
+            {
+              "time_s": 4.96,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 3.92,
+          "changes": [
+            {
+              "time_s": 3.92,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 4.03,
+          "changes": [
+            {
+              "time_s": 4.03,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.2600000000000002,
+              "value": false
+            },
+            {
+              "time_s": 5.22,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.02,
+              "value": false
+            },
+            {
+              "time_s": 6.0,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 6.0,
+          "changes": [
+            {
+              "time_s": 6.0,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 6.0,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.46303536424437e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005420473869889975,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "ab04b29a51a8cf1aa317b9ed180d4f4634e203d1984ad07008a96f0a846dd2fb"
+    },
+    {
+      "task": "T1",
+      "layout": 285320,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.71,
+          "changes": [
+            {
+              "time_s": 2.71,
+              "value": true
+            },
+            {
+              "time_s": 7.370000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.04,
+          "changes": [
+            {
+              "time_s": 3.04,
+              "value": true
+            },
+            {
+              "time_s": 7.4,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 4.9,
+          "changes": [
+            {
+              "time_s": 4.9,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.87,
+          "changes": [
+            {
+              "time_s": 6.87,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.71,
+              "value": false
+            },
+            {
+              "time_s": 7.370000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.3900000000000001,
+              "value": false
+            },
+            {
+              "time_s": 8.46,
+              "value": true
+            },
+            {
+              "time_s": 11.4,
+              "value": false
+            },
+            {
+              "time_s": 11.68,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.46,
+          "changes": [
+            {
+              "time_s": 8.46,
+              "value": true
+            },
+            {
+              "time_s": 11.4,
+              "value": false
+            },
+            {
+              "time_s": 11.68,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.46,
+      "first_task_hold_loss_s": 11.4,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.558796314158377e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005356833804398775,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "6c2aa6ef0930dc4f8d2d93d4a74e21e1c7f5ca53032c27e2214783e3bff520d4"
+    },
+    {
+      "task": "T1",
+      "layout": 285321,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 2.47,
+          "changes": [
+            {
+              "time_s": 2.47,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 41,
+          "first_true_s": 3.13,
+          "changes": [
+            {
+              "time_s": 3.13,
+              "value": true
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.92,
+          "changes": [
+            {
+              "time_s": 5.92,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.72,
+          "changes": [
+            {
+              "time_s": 6.72,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.47,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.8700000000000001,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 7.009838966341484e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0061990562826395035,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "efe2859c427065df2db459d944571e24b0f087746847ec1555582861b871e320"
+    },
+    {
+      "task": "T1",
+      "layout": 285322,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 2.3000000000000003,
+          "changes": [
+            {
+              "time_s": 2.3000000000000003,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 41,
+          "first_true_s": 5.18,
+          "changes": [
+            {
+              "time_s": 5.18,
+              "value": true
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 6.890000000000001,
+          "changes": [
+            {
+              "time_s": 6.890000000000001,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.3000000000000003,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.3599999999999999,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 7.315176971702935e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.007061534561216831,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "9f090951a10834bacc0f2687cdbc00bce1dc20368dcd0d941ad44967a885c65d"
+    },
+    {
+      "task": "T1",
+      "layout": 285323,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": false,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 11.38,
+          "changes": [
+            {
+              "time_s": 11.38,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": []
+        },
+        "withdraw": {
+          "hold_pass": 1,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.3000000000000003,
+              "value": false
+            },
+            {
+              "time_s": 24.82,
+              "value": true
+            },
+            {
+              "time_s": 24.91,
+              "value": false
+            },
+            {
+              "time_s": 24.92,
+              "value": true
+            },
+            {
+              "time_s": 24.93,
+              "value": false
+            },
+            {
+              "time_s": 25.21,
+              "value": true
+            },
+            {
+              "time_s": 25.34,
+              "value": false
+            },
+            {
+              "time_s": 28.82,
+              "value": true
+            },
+            {
+              "time_s": 28.89,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.011136804545318782,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.015327285043895245,
+      "IK_holds": 122,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "e0e5894a74bad78e6e9dfe7a880ddcba1ccb523a892369520c85172b4be44710"
+    },
+    {
+      "task": "T1",
+      "layout": 285324,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.36,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": true
+            },
+            {
+              "time_s": 6.2700000000000005,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.75,
+          "changes": [
+            {
+              "time_s": 2.75,
+              "value": true
+            },
+            {
+              "time_s": 5.9,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 4.38,
+          "changes": [
+            {
+              "time_s": 4.38,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 4.92,
+          "changes": [
+            {
+              "time_s": 4.92,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": false
+            },
+            {
+              "time_s": 6.2700000000000005,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.27,
+              "value": false
+            },
+            {
+              "time_s": 7.26,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 7.26,
+          "changes": [
+            {
+              "time_s": 7.26,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 7.26,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.558895999239029e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005775986239314079,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "18e7a9dfe1daa485baa0a7d3344d5148da615a0c2dc9e6085993d39bd80554e9"
+    },
+    {
+      "task": "T1",
+      "layout": 285325,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": false,
+        "horizontal_transfer": false
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 29,
+          "first_true_s": 1.96,
+          "changes": [
+            {
+              "time_s": 1.96,
+              "value": true
+            },
+            {
+              "time_s": 1.98,
+              "value": false
+            },
+            {
+              "time_s": 2.0100000000000002,
+              "value": true
+            },
+            {
+              "time_s": 2.16,
+              "value": false
+            },
+            {
+              "time_s": 3.96,
+              "value": true
+            },
+            {
+              "time_s": 6.0200000000000005,
+              "value": false
+            },
+            {
+              "time_s": 6.08,
+              "value": true
+            },
+            {
+              "time_s": 7.620000000000001,
+              "value": false
+            },
+            {
+              "time_s": 7.74,
+              "value": true
+            },
+            {
+              "time_s": 8.42,
+              "value": false
+            },
+            {
+              "time_s": 8.540000000000001,
+              "value": true
+            },
+            {
+              "time_s": 9.22,
+              "value": false
+            },
+            {
+              "time_s": 9.27,
+              "value": true
+            },
+            {
+              "time_s": 11.22,
+              "value": false
+            },
+            {
+              "time_s": 11.280000000000001,
+              "value": true
+            },
+            {
+              "time_s": 12.02,
+              "value": false
+            },
+            {
+              "time_s": 12.14,
+              "value": true
+            },
+            {
+              "time_s": 12.43,
+              "value": false
+            },
+            {
+              "time_s": 12.46,
+              "value": true
+            },
+            {
+              "time_s": 12.82,
+              "value": false
+            },
+            {
+              "time_s": 12.88,
+              "value": true
+            },
+            {
+              "time_s": 13.620000000000001,
+              "value": false
+            },
+            {
+              "time_s": 13.69,
+              "value": true
+            },
+            {
+              "time_s": 14.02,
+              "value": false
+            },
+            {
+              "time_s": 14.07,
+              "value": true
+            },
+            {
+              "time_s": 14.42,
+              "value": false
+            },
+            {
+              "time_s": 14.48,
+              "value": true
+            },
+            {
+              "time_s": 14.82,
+              "value": false
+            },
+            {
+              "time_s": 14.94,
+              "value": true
+            },
+            {
+              "time_s": 15.219999999999999,
+              "value": false
+            },
+            {
+              "time_s": 15.280000000000001,
+              "value": true
+            },
+            {
+              "time_s": 16.02,
+              "value": false
+            },
+            {
+              "time_s": 16.14,
+              "value": true
+            },
+            {
+              "time_s": 17.62,
+              "value": false
+            },
+            {
+              "time_s": 17.78,
+              "value": true
+            },
+            {
+              "time_s": 18.42,
+              "value": false
+            },
+            {
+              "time_s": 18.47,
+              "value": true
+            },
+            {
+              "time_s": 18.82,
+              "value": false
+            },
+            {
+              "time_s": 18.88,
+              "value": true
+            },
+            {
+              "time_s": 19.240000000000002,
+              "value": false
+            },
+            {
+              "time_s": 19.26,
+              "value": true
+            },
+            {
+              "time_s": 19.62,
+              "value": false
+            },
+            {
+              "time_s": 19.75,
+              "value": true
+            },
+            {
+              "time_s": 20.02,
+              "value": false
+            },
+            {
+              "time_s": 20.07,
+              "value": true
+            },
+            {
+              "time_s": 20.42,
+              "value": false
+            },
+            {
+              "time_s": 20.53,
+              "value": true
+            },
+            {
+              "time_s": 21.63,
+              "value": false
+            },
+            {
+              "time_s": 21.67,
+              "value": true
+            },
+            {
+              "time_s": 22.02,
+              "value": false
+            },
+            {
+              "time_s": 22.07,
+              "value": true
+            },
+            {
+              "time_s": 22.42,
+              "value": false
+            },
+            {
+              "time_s": 22.47,
+              "value": true
+            },
+            {
+              "time_s": 22.82,
+              "value": false
+            },
+            {
+              "time_s": 22.87,
+              "value": true
+            },
+            {
+              "time_s": 23.22,
+              "value": false
+            },
+            {
+              "time_s": 23.34,
+              "value": true
+            },
+            {
+              "time_s": 24.02,
+              "value": false
+            },
+            {
+              "time_s": 24.14,
+              "value": true
+            },
+            {
+              "time_s": 24.42,
+              "value": false
+            },
+            {
+              "time_s": 24.47,
+              "value": true
+            },
+            {
+              "time_s": 24.82,
+              "value": false
+            },
+            {
+              "time_s": 24.87,
+              "value": true
+            },
+            {
+              "time_s": 25.22,
+              "value": false
+            },
+            {
+              "time_s": 25.34,
+              "value": true
+            },
+            {
+              "time_s": 25.62,
+              "value": false
+            },
+            {
+              "time_s": 25.740000000000002,
+              "value": true
+            },
+            {
+              "time_s": 26.02,
+              "value": false
+            },
+            {
+              "time_s": 26.080000000000002,
+              "value": true
+            },
+            {
+              "time_s": 26.42,
+              "value": false
+            },
+            {
+              "time_s": 26.46,
+              "value": true
+            },
+            {
+              "time_s": 26.82,
+              "value": false
+            },
+            {
+              "time_s": 26.94,
+              "value": true
+            },
+            {
+              "time_s": 27.22,
+              "value": false
+            },
+            {
+              "time_s": 27.32,
+              "value": true
+            },
+            {
+              "time_s": 27.62,
+              "value": false
+            },
+            {
+              "time_s": 27.67,
+              "value": true
+            },
+            {
+              "time_s": 28.02,
+              "value": false
+            },
+            {
+              "time_s": 28.14,
+              "value": true
+            },
+            {
+              "time_s": 28.42,
+              "value": false
+            },
+            {
+              "time_s": 28.54,
+              "value": true
+            },
+            {
+              "time_s": 28.82,
+              "value": false
+            },
+            {
+              "time_s": 29.0,
+              "value": true
+            },
+            {
+              "time_s": 29.22,
+              "value": false
+            },
+            {
+              "time_s": 29.310000000000002,
+              "value": true
+            },
+            {
+              "time_s": 29.62,
+              "value": false
+            },
+            {
+              "time_s": 29.8,
+              "value": true
+            },
+            {
+              "time_s": 30.02,
+              "value": false
+            },
+            {
+              "time_s": 30.080000000000002,
+              "value": true
+            },
+            {
+              "time_s": 30.42,
+              "value": false
+            },
+            {
+              "time_s": 30.470000000000002,
+              "value": true
+            },
+            {
+              "time_s": 30.82,
+              "value": false
+            },
+            {
+              "time_s": 30.87,
+              "value": true
+            },
+            {
+              "time_s": 31.619999999999997,
+              "value": false
+            },
+            {
+              "time_s": 31.730000000000004,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 12,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.96,
+              "value": false
+            },
+            {
+              "time_s": 1.98,
+              "value": true
+            },
+            {
+              "time_s": 2.0100000000000002,
+              "value": false
+            },
+            {
+              "time_s": 2.16,
+              "value": true
+            },
+            {
+              "time_s": 3.96,
+              "value": false
+            },
+            {
+              "time_s": 6.0200000000000005,
+              "value": true
+            },
+            {
+              "time_s": 6.08,
+              "value": false
+            },
+            {
+              "time_s": 7.620000000000001,
+              "value": true
+            },
+            {
+              "time_s": 7.74,
+              "value": false
+            },
+            {
+              "time_s": 8.42,
+              "value": true
+            },
+            {
+              "time_s": 8.540000000000001,
+              "value": false
+            },
+            {
+              "time_s": 9.22,
+              "value": true
+            },
+            {
+              "time_s": 9.27,
+              "value": false
+            },
+            {
+              "time_s": 11.22,
+              "value": true
+            },
+            {
+              "time_s": 11.280000000000001,
+              "value": false
+            },
+            {
+              "time_s": 12.02,
+              "value": true
+            },
+            {
+              "time_s": 12.14,
+              "value": false
+            },
+            {
+              "time_s": 12.43,
+              "value": true
+            },
+            {
+              "time_s": 12.46,
+              "value": false
+            },
+            {
+              "time_s": 12.82,
+              "value": true
+            },
+            {
+              "time_s": 12.88,
+              "value": false
+            },
+            {
+              "time_s": 13.620000000000001,
+              "value": true
+            },
+            {
+              "time_s": 13.69,
+              "value": false
+            },
+            {
+              "time_s": 14.02,
+              "value": true
+            },
+            {
+              "time_s": 14.07,
+              "value": false
+            },
+            {
+              "time_s": 14.42,
+              "value": true
+            },
+            {
+              "time_s": 14.48,
+              "value": false
+            },
+            {
+              "time_s": 14.82,
+              "value": true
+            },
+            {
+              "time_s": 14.94,
+              "value": false
+            },
+            {
+              "time_s": 15.219999999999999,
+              "value": true
+            },
+            {
+              "time_s": 15.280000000000001,
+              "value": false
+            },
+            {
+              "time_s": 16.02,
+              "value": true
+            },
+            {
+              "time_s": 16.14,
+              "value": false
+            },
+            {
+              "time_s": 17.62,
+              "value": true
+            },
+            {
+              "time_s": 17.78,
+              "value": false
+            },
+            {
+              "time_s": 18.42,
+              "value": true
+            },
+            {
+              "time_s": 18.47,
+              "value": false
+            },
+            {
+              "time_s": 18.82,
+              "value": true
+            },
+            {
+              "time_s": 18.88,
+              "value": false
+            },
+            {
+              "time_s": 19.240000000000002,
+              "value": true
+            },
+            {
+              "time_s": 19.26,
+              "value": false
+            },
+            {
+              "time_s": 19.62,
+              "value": true
+            },
+            {
+              "time_s": 19.75,
+              "value": false
+            },
+            {
+              "time_s": 20.02,
+              "value": true
+            },
+            {
+              "time_s": 20.07,
+              "value": false
+            },
+            {
+              "time_s": 20.42,
+              "value": true
+            },
+            {
+              "time_s": 20.53,
+              "value": false
+            },
+            {
+              "time_s": 21.63,
+              "value": true
+            },
+            {
+              "time_s": 21.67,
+              "value": false
+            },
+            {
+              "time_s": 22.02,
+              "value": true
+            },
+            {
+              "time_s": 22.07,
+              "value": false
+            },
+            {
+              "time_s": 22.42,
+              "value": true
+            },
+            {
+              "time_s": 22.47,
+              "value": false
+            },
+            {
+              "time_s": 22.82,
+              "value": true
+            },
+            {
+              "time_s": 22.87,
+              "value": false
+            },
+            {
+              "time_s": 23.22,
+              "value": true
+            },
+            {
+              "time_s": 23.34,
+              "value": false
+            },
+            {
+              "time_s": 24.02,
+              "value": true
+            },
+            {
+              "time_s": 24.14,
+              "value": false
+            },
+            {
+              "time_s": 24.42,
+              "value": true
+            },
+            {
+              "time_s": 24.47,
+              "value": false
+            },
+            {
+              "time_s": 24.82,
+              "value": true
+            },
+            {
+              "time_s": 24.87,
+              "value": false
+            },
+            {
+              "time_s": 25.22,
+              "value": true
+            },
+            {
+              "time_s": 25.34,
+              "value": false
+            },
+            {
+              "time_s": 25.62,
+              "value": true
+            },
+            {
+              "time_s": 25.740000000000002,
+              "value": false
+            },
+            {
+              "time_s": 26.02,
+              "value": true
+            },
+            {
+              "time_s": 26.080000000000002,
+              "value": false
+            },
+            {
+              "time_s": 26.42,
+              "value": true
+            },
+            {
+              "time_s": 26.46,
+              "value": false
+            },
+            {
+              "time_s": 26.82,
+              "value": true
+            },
+            {
+              "time_s": 26.94,
+              "value": false
+            },
+            {
+              "time_s": 27.22,
+              "value": true
+            },
+            {
+              "time_s": 27.32,
+              "value": false
+            },
+            {
+              "time_s": 27.62,
+              "value": true
+            },
+            {
+              "time_s": 27.67,
+              "value": false
+            },
+            {
+              "time_s": 28.02,
+              "value": true
+            },
+            {
+              "time_s": 28.14,
+              "value": false
+            },
+            {
+              "time_s": 28.42,
+              "value": true
+            },
+            {
+              "time_s": 28.54,
+              "value": false
+            },
+            {
+              "time_s": 28.82,
+              "value": true
+            },
+            {
+              "time_s": 29.0,
+              "value": false
+            },
+            {
+              "time_s": 29.22,
+              "value": true
+            },
+            {
+              "time_s": 29.310000000000002,
+              "value": false
+            },
+            {
+              "time_s": 29.62,
+              "value": true
+            },
+            {
+              "time_s": 29.8,
+              "value": false
+            },
+            {
+              "time_s": 30.02,
+              "value": true
+            },
+            {
+              "time_s": 30.080000000000002,
+              "value": false
+            },
+            {
+              "time_s": 30.42,
+              "value": true
+            },
+            {
+              "time_s": 30.470000000000002,
+              "value": false
+            },
+            {
+              "time_s": 30.82,
+              "value": true
+            },
+            {
+              "time_s": 30.87,
+              "value": false
+            },
+            {
+              "time_s": 31.619999999999997,
+              "value": true
+            },
+            {
+              "time_s": 31.730000000000004,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.0899999999999999,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.014149442324433536,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004723675083369017,
+      "IK_holds": 483,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "46d42cc69f1891d7c7bd4bae333bca980700b8b98653206fb7298bacc45ef76f"
+    },
+    {
+      "task": "T1",
+      "layout": 285326,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 3.04,
+          "changes": [
+            {
+              "time_s": 3.04,
+              "value": true
+            },
+            {
+              "time_s": 9.22,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.5600000000000005,
+          "changes": [
+            {
+              "time_s": 3.5600000000000005,
+              "value": true
+            },
+            {
+              "time_s": 8.950000000000001,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.91,
+          "changes": [
+            {
+              "time_s": 5.91,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.13,
+          "changes": [
+            {
+              "time_s": 6.13,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.04,
+              "value": false
+            },
+            {
+              "time_s": 9.22,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.02,
+              "value": false
+            },
+            {
+              "time_s": 10.11,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 10.11,
+          "changes": [
+            {
+              "time_s": 10.11,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 10.11,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.319763492461593e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.00626211566850543,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "35faa99a8142561b33bfac6d0c306f2b5f006986910059fdd801120ef7aa3445"
+    },
+    {
+      "task": "T1",
+      "layout": 285327,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": false
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 2.3000000000000003,
+          "changes": [
+            {
+              "time_s": 2.3000000000000003,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 18.8,
+          "changes": [
+            {
+              "time_s": 18.8,
+              "value": true
+            },
+            {
+              "time_s": 19.78,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.3000000000000003,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.08,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.013594614938446659,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.003478527534753084,
+      "IK_holds": 544,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "0926edba91620e038a7e43c4aac922fce804b9d4de806a77cb80a87ba3a8cea0"
+    },
+    {
+      "task": "T1",
+      "layout": 285328,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.3000000000000003,
+          "changes": [
+            {
+              "time_s": 2.3000000000000003,
+              "value": true
+            },
+            {
+              "time_s": 7.27,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.05,
+          "changes": [
+            {
+              "time_s": 3.05,
+              "value": true
+            },
+            {
+              "time_s": 6.96,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.13,
+          "changes": [
+            {
+              "time_s": 5.13,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.43,
+          "changes": [
+            {
+              "time_s": 5.43,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.3000000000000003,
+              "value": false
+            },
+            {
+              "time_s": 7.27,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.0699999999999998,
+              "value": false
+            },
+            {
+              "time_s": 8.08,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.08,
+          "changes": [
+            {
+              "time_s": 8.08,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.08,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.276759334459683e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006074617151170969,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "1dd4973d07a9224123b8ef7f0fcafde1cc8052a0b3bb28e2d3e63c5caebd4320"
+    },
+    {
+      "task": "T1",
+      "layout": 285329,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 2.36,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": true
+            },
+            {
+              "time_s": 2.43,
+              "value": false
+            },
+            {
+              "time_s": 2.73,
+              "value": true
+            },
+            {
+              "time_s": 2.99,
+              "value": false
+            },
+            {
+              "time_s": 5.19,
+              "value": true
+            },
+            {
+              "time_s": 5.41,
+              "value": false
+            },
+            {
+              "time_s": 5.42,
+              "value": true
+            },
+            {
+              "time_s": 5.640000000000001,
+              "value": false
+            },
+            {
+              "time_s": 14.620000000000001,
+              "value": true
+            },
+            {
+              "time_s": 14.66,
+              "value": false
+            },
+            {
+              "time_s": 14.72,
+              "value": true
+            },
+            {
+              "time_s": 14.8,
+              "value": false
+            },
+            {
+              "time_s": 15.030000000000001,
+              "value": true
+            },
+            {
+              "time_s": 15.11,
+              "value": false
+            },
+            {
+              "time_s": 15.120000000000001,
+              "value": true
+            },
+            {
+              "time_s": 15.14,
+              "value": false
+            },
+            {
+              "time_s": 16.69,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 41,
+          "first_true_s": 18.18,
+          "changes": [
+            {
+              "time_s": 18.18,
+              "value": true
+            },
+            {
+              "time_s": 18.34,
+              "value": false
+            },
+            {
+              "time_s": 18.48,
+              "value": true
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.38,
+          "changes": [
+            {
+              "time_s": 5.38,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": false
+            },
+            {
+              "time_s": 2.43,
+              "value": true
+            },
+            {
+              "time_s": 2.73,
+              "value": false
+            },
+            {
+              "time_s": 2.99,
+              "value": true
+            },
+            {
+              "time_s": 5.19,
+              "value": false
+            },
+            {
+              "time_s": 5.41,
+              "value": true
+            },
+            {
+              "time_s": 5.42,
+              "value": false
+            },
+            {
+              "time_s": 5.640000000000001,
+              "value": true
+            },
+            {
+              "time_s": 14.620000000000001,
+              "value": false
+            },
+            {
+              "time_s": 14.66,
+              "value": true
+            },
+            {
+              "time_s": 14.72,
+              "value": false
+            },
+            {
+              "time_s": 14.8,
+              "value": true
+            },
+            {
+              "time_s": 15.030000000000001,
+              "value": false
+            },
+            {
+              "time_s": 15.11,
+              "value": true
+            },
+            {
+              "time_s": 15.120000000000001,
+              "value": false
+            },
+            {
+              "time_s": 15.14,
+              "value": true
+            },
+            {
+              "time_s": 16.69,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 0.8300000000000001,
+              "value": false
+            },
+            {
+              "time_s": 12.26,
+              "value": true
+            },
+            {
+              "time_s": 12.32,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 6.959256228615196e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.012348631396889687,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "8c19ef7198b0bec8338b9c84c053357dce2ebea3b33e46bce718ea6273405fe3"
+    },
+    {
+      "task": "T1",
+      "layout": 285330,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.41,
+          "changes": [
+            {
+              "time_s": 2.41,
+              "value": true
+            },
+            {
+              "time_s": 12.370000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.84,
+          "changes": [
+            {
+              "time_s": 3.84,
+              "value": true
+            },
+            {
+              "time_s": 12.17,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 10.24,
+          "changes": [
+            {
+              "time_s": 10.24,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 11.19,
+          "changes": [
+            {
+              "time_s": 11.19,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.41,
+              "value": false
+            },
+            {
+              "time_s": 12.370000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.2800000000000002,
+              "value": false
+            },
+            {
+              "time_s": 13.31,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 13.31,
+          "changes": [
+            {
+              "time_s": 13.31,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 13.31,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.855197003740976e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0067314282059669495,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "5c3bdf0cc17b1aa7815d2ff279e086dd75e08ff44e2cb79f9ecc67c4c7a2a5f3"
+    },
+    {
+      "task": "T1",
+      "layout": 285331,
+      "panel": "CONFIRM_A",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.5,
+          "changes": [
+            {
+              "time_s": 2.5,
+              "value": true
+            },
+            {
+              "time_s": 8.120000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.12,
+          "changes": [
+            {
+              "time_s": 3.12,
+              "value": true
+            },
+            {
+              "time_s": 7.870000000000001,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.87,
+          "changes": [
+            {
+              "time_s": 5.87,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.47,
+          "changes": [
+            {
+              "time_s": 6.47,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.5,
+              "value": false
+            },
+            {
+              "time_s": 8.120000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.31,
+              "value": false
+            },
+            {
+              "time_s": 9.03,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 9.03,
+          "changes": [
+            {
+              "time_s": 9.03,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 9.03,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 0.0011462657906965374,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006332356482744217,
+      "IK_holds": 7,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "a5b917ce033caf34736f532b3bb62615c33feee2b731507f7abdc18201911af5"
     }
   ],
   "model_queries_added": 0,

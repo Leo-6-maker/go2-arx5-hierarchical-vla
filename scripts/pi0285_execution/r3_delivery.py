@@ -90,7 +90,9 @@ def build(root,point):
             input_schema(row['input'],INSTRUCTIONS[row['task']])
         reused_inputs['DIAG']=dict(plan_sha256=sha(diag),rows=len(dd['rows']),all_input_target_hashes_verified=True,input_schema_verified=True)
     videos=[]
-    for panel in root.glob(f'source/evidence/{point}_*.json'):
+    for split in ('TRAIN','DEV','CONFIRM_A','CONFIRM_B','ACQUISITION'):
+        panel=root/'source/evidence'/f'{point}_{split}.json'
+        if not panel.exists():continue
         for row in json.loads(panel.read_text()).get('rows',[]):
             folder=Path(row['folder'])
             for v in sorted(folder.glob('*.mp4')):videos.append(dict(path=str(v),sha256=sha(v),bytes=v.stat().st_size,task=row['task'],layout=row['layout'],split=row['split']))
