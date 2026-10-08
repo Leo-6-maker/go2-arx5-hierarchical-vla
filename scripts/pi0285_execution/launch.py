@@ -7,7 +7,7 @@ from budget import process,time_allowed,seconds
 
 def lease(root):
     job=os.environ['PBS_JOBID'];assert os.environ.get('CUDA_VISIBLE_DEVICES')
-    raw=subprocess.check_output(['qstat','-f',job],text=True)
+    raw=subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-f',job],text=True)
     wall=re.search(r'Resource_List.walltime\s*=\s*(\d+):(\d+):(\d+)',raw)
     elapsed=re.search(r'resources_used.walltime\s*=\s*(\d+):(\d+):(\d+)',raw)
     assert wall and re.search(r'job_state\s*=\s*R\b',raw)

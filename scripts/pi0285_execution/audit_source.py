@@ -37,8 +37,32 @@ def audit(split):
         with np.load(folder/'observations.npz') as f:
             states=f['state_v1'].copy();clock=f['time_s'].copy()
             initial[row['task'],row['layout']]={f'{k}@control{a}':f[k][a].copy() for k in ('base_camera_raw','hand_camera_raw','state_v1','base_camera_extrinsic_cv','hand_camera_extrinsic_cv') if k in f.files for a in (0,20) if a<len(f[k])}
-        assert len(states)==len(commands)==len(clock) and np.allclose(clock,np.arange(len(clock))*.05)
+        # A rejected query has one observed current tick and no command installed there.
+        assert len(states)==len(clock) and len(commands)==row['control_calls']
+        assert len(clock)==len(commands) or row['status']!='VALID_SOURCE_COMPLETE' and len(clock)==len(commands)+1
+        assert np.allclose(clock,np.arange(len(clock))*.05)
         assert np.allclose(states[:,:3],data['tcp'][::5][:len(states),:3,3],atol=1e-7),'Actual pre-command input clock'
+        queries=folder/'QUERIES.json'
+        if queries.exists():
+            from contract import INSTRUCTIONS
+            from gate import original_gate
+            actual_queries=json.loads(queries.read_text())
+            for i,q in enumerate(actual_queries):
+                assert q['index']==i and q['task_time_s']==i*.4
+                tick=20+i*8;query_folder=folder/f'q{i:03d}'
+                for name,h in [('input.npz',q['input_sha256']),('output.npz',q['output_sha256'])]:assert sha(query_folder/name)==h
+                with np.load(query_folder/'input.npz') as f:
+                    actual=f['actual_state'].copy();assert np.array_equal(actual,states[tick]) and str(f['instruction'])==INSTRUCTIONS[row['task']]
+                    with np.load(folder/'observations.npz') as observed:
+                        assert np.array_equal(f['base_raw'],observed['base_camera_raw'][tick]) and np.array_equal(f['wrist_raw'],observed['hand_camera_raw'][tick])
+                with np.load(query_folder/'output.npz') as f:
+                    assert str(f['source_sha256'])==q['input_sha256'] and int(f['K'])==4
+                    assert f['noise_uint16'].shape==(1,40,132) and f['noise_uint16'].dtype==np.uint16
+                    assert f['raw_states_uint16'].shape==(5,1,40,132)
+                    predicted=f['decoded'].copy()
+                if 'gate' in q:
+                    assert original_gate(predicted,actual,tick*.05,f"{json.loads((folder/'START.json').read_text())['slot']}-{i}")==q['gate']
+                if i+1<len(actual_queries):assert tick+8<=len(commands),'New observation before executing the prefix'
         with np.load(folder/'installed.npz') as f:installed=f['installed_target_fk'].copy()
         targets=np.tile(np.eye(4),(len(commands),1,1));targets[:,:3,3]=commands[:,:3]
         x=commands[:,3:6];x=x/np.linalg.norm(x,axis=1)[:,None];y=commands[:,6:9]-(x*commands[:,6:9]).sum(1)[:,None]*x;y=y/np.linalg.norm(y,axis=1)[:,None];z=np.cross(x,y)
