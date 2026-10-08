@@ -1,0 +1,17 @@
+{
+  "epoch": 1791491135.7730985,
+  "updates": 562,
+  "last": [
+    {
+      "arm": "REPAIR_A2048",
+      "phase": "main",
+      "work_kind": "formal",
+      "step": 562,
+      "consumed_chunks": 4496,
+      "wall": 1791491135.5297673
+    }
+  ],
+  "recent_median_s": 0.8888735771179199,
+  "qstat": "Job Id: 655670.hopper-m-02\n    Job_Name = pi0285_dose\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 116\n    resources_used.cput = 00:25:50\n    resources_used.mem = 56326364kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 97656560kb\n    resources_used.walltime = 00:26:23\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  9 03:58:31 2026\n    Error_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0285_dose.e655\n\t670\n    exec_host = hopper-29/5*12\n    exec_vnode = (hopper-29:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  9 04:25:19 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0285/runtime/pi0285_dose.o655670\n    Priority = 0\n    qtime = Fri Oct  9 03:58:31 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Fri Oct  9 03:58:54 2026\n    session_id = 2736319\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 09 at 03:58 on (hopper-29:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Fri Oct  9 03:58:31 2026\n    run_count = 1\n    Submit_arguments = -P CFP05-CF-052 /scratch/e1192548/Projects/go2-arx5/expe\n\triments/PI0285/code/train_dose.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "closed": false
+}

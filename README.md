@@ -5,7 +5,15 @@ contracts, adapters, experiment runners, tests, and provenance documents.
 Large or private model, WBC, dataset, simulator, and hardware inputs remain
 outside Git and are referenced through manifests and reports.
 
-## Current execution priority — PI0282 R2, deadline-gated policy delivery
+## Current execution priority — PI0285 R3, source manipulation policy delivery
+
+Read the [fixed R3 protocol](docs/protocols/PI0285_R3_PARALLEL_WORKPACKAGES_AND_POLICY_DELIVERY_V1.md), [authority #6066233135](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-6066233135), and [actual execution receipts](reports/PI0285/r3/PLACE4096_COMPLETE_AND_SOLE_DOSE_CONTINUATION.md). Release `d6bdb8678e28ca5331d335b2ccd4d5753aef17d6` continues the original R2 recipe and cumulative budgets on `pi0267/executor-decoupled-recovery`.
+
+PLACE4096 training and fixed evaluation are complete; TRAIN1024/2048/4096 success is0/8,2/8,4/8, all below7/8. The original sole DOSE2048 branch is running after a genuine non-null-parent restore canary PASS. These are source PANDA/native-PD results, not target WBC or hardware qualification. The first T1 candidate must pass original TRAIN/DEV and unique CONFIRM before protection and shared-task training; `selected/deployment=NONE`.
+
+**2026-10-09 Asia/Singapore stops:** optional research05:30; new recovery collection06:00; new optional/shared optimization06:30; optimizer08:30; neural/physics09:45; handoff10:00. No date rollover, new search, recurring monitor or merge. Actual task feedback and recovery integrity precede optional analysis and bulk HF archival.
+
+## Historical execution priority — PI0282 R2, deadline-gated policy delivery
 
 **Hard deadline: 2026-10-08 09:00 Asia/Singapore.** Read the [R2 gated pretrained-policy sprint](docs/protocols/PI0282_R2_0900_GATED_PRETRAINED_POLICY_SPRINT_V1.md), [cumulative limits](reports/PI0282/design/R2_DEADLINE_AUTHORITY_AND_LIMITS.json), and newest PI0282 R2 canonical in [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11). This is a continuation of the current owner goal, not a competing run. Adopt actual completed R1 data/canaries/training and preserve counters. Publication is not a remote start receipt.
 
