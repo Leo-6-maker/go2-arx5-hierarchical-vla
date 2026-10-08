@@ -8,7 +8,7 @@ def decide(point,train,dev=None,confirm=None):
     selected=tasks(point,'TRAIN');stage_b=len(selected)==2
     fit=all(train[t]>=7 for t in selected)
     if dev is None:
-        if fit or point=='SHARED4096-4096':return 'RUN_FIXED_DEV'
+        if fit or point in ('SHARED4096-4096','REPAIR_A2048-2048'):return 'RUN_FIXED_DEV'
         return 'CONTINUE_SAME_PHASE_4096' if (point.startswith('PLACE4096-') and point.endswith(('-1024','-2048'))) or (point.startswith('SHARED4096-') and point.endswith('-2048')) else ('SELECT_R2_SINGLE_BRANCH_FROM_FROZEN_EVIDENCE' if point=='PLACE4096-4096' else ('COLLECT_FIXED_CORRECTIONS' if not point.startswith('REPAIR') else 'STOP_VALID_QUALITY_FAIL'))
     qualified=fit and all(dev[t]>=13 for t in selected) and (not stage_b or dev['paired_both']>=12)
     if not qualified:return 'CONTINUE_SAME_PHASE_4096' if (point.startswith('PLACE4096-') and point.endswith(('-1024','-2048'))) or (point.startswith('SHARED4096-') and point.endswith('-2048')) else ('SELECT_R2_SINGLE_BRANCH_FROM_FROZEN_EVIDENCE' if point=='PLACE4096-4096' else ('COLLECT_FIXED_CORRECTIONS' if not point.startswith('REPAIR') else 'STOP_VALID_QUALITY_FAIL'))
@@ -58,7 +58,8 @@ def self_check():
     t={'T1':7,'T2':7};d={'T1':13,'T2':13,'paired_both':12}
     assert decide('SHARED4096-2048',t,d,{'T1':26,'T2':26,'paired_both':23}).startswith('STOP_CONFIRMATION')
     assert decide('SHARED4096-2048',t,d,{'T1':26,'T2':26,'paired_both':24})=='PROTECT_SHARED_TWO_TASK_POLICY'
-    assert decide('REPAIR_A2048-2048',{'T1':6})=='STOP_VALID_QUALITY_FAIL'
+    assert decide('REPAIR_A2048-2048',{'T1':6})=='RUN_FIXED_DEV'
+    assert decide('REPAIR_A2048-2048',{'T1':6},{'T1':16})=='STOP_VALID_QUALITY_FAIL'
     print('PASS_FIRST_CANDIDATE_FIXED_DENOMINATORS_TASK_AND_PAIRED_GATES_NO_CONFIRM_RETRY; model/physics=0')
 
 

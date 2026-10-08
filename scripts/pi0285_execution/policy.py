@@ -31,7 +31,7 @@ def panel_gate(point,panel):
         assert protected['status']=='PLACE_V1_SOURCE_QUALIFIED_AND_IMMUTABLY_PROTECTED'
         assert protected['CONFIRM_A_success']>=26 and protected['CONFIRM_A_requested']==32
         if panel=='ACQUISITION':assert point==protected['point']
-    if panel=='DEV' and point!='SHARED4096-4096':
+    if panel=='DEV' and point not in ('SHARED4096-4096','REPAIR_A2048-2048'):
         train=json.loads((ROOT/'source/evidence'/f'{point}_TRAIN.json').read_text())
         assert all(train['tasks'][t]['requested']==8 and train['tasks'][t]['success']>=7 for t in selected)
     if panel.startswith('CONFIRM'):

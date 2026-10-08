@@ -1,0 +1,38 @@
+{
+  "PBS_JOBID": "655670.hopper-m-02",
+  "qstat": "Job Id: 655670.hopper-m-02\n    Job_Name = pi0285_dose\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 0\n    resources_used.cput = 00:00:00\n    resources_used.mem = 0b\n    resources_used.ncpus = 12\n    resources_used.vmem = 9645380kb\n    resources_used.walltime = 00:01:17\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  9 03:58:31 2026\n    Error_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0285_dose.e655\n\t670\n    exec_host = hopper-29/5*12\n    exec_vnode = (hopper-29:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  9 04:00:13 2026\n    Output_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0285_dose.o65\n\t5670\n    Priority = 0\n    qtime = Fri Oct  9 03:58:31 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 21600,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 06:00:00\n    stime = Fri Oct  9 03:58:54 2026\n    session_id = 2736319\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 09 at 03:58 on (hopper-29:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Fri Oct  9 03:58:31 2026\n    run_count = 1\n    Submit_arguments = -P CFP05-CF-052 /scratch/e1192548/Projects/go2-arx5/expe\n\triments/PI0285/code/train_dose.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "qstat_stderr": "",
+  "runtime": [
+    {
+      "path": "REPAIR_A2048-continuous-0-8.start.json",
+      "value": {
+        "pid": 701196,
+        "parent_pid": 2820933,
+        "PBS_JOBID": "655670.hopper-m-02",
+        "argv": [
+          "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+          "-u",
+          "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/code/train.py",
+          "--root",
+          "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285",
+          "--base",
+          "/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+          "--data-root",
+          "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/data",
+          "--card",
+          "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/design/REPAIR_A2048_CARD.json",
+          "--arm",
+          "REPAIR_A2048",
+          "--phase",
+          "continuous",
+          "--resume",
+          "0",
+          "--stop",
+          "8"
+        ],
+        "utc_ns": 1791489579184681592
+      }
+    }
+  ],
+  "pbs_output": []
+}

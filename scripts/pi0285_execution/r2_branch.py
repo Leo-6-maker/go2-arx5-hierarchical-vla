@@ -18,17 +18,18 @@ def dynamic(rows):
 
 
 def decide(previous,current,finish_failures):
+    invalid=lambda rows:sum(r['prefix'] is None for r in rows)
+    rejects=lambda rows:sum(r['gate']['decision']=='REJECT' for r in rows)
+    invalid_counts=[invalid(previous),invalid(current)];reject_counts=[rejects(previous),rejects(current)]
     p,x,_=dynamic(previous);c,y,passed=dynamic(current)
     assert [r['uid'] for r in p]==[r['uid'] for r in c]
     counts=[int(sum(ok and r['phase']==phase for r,ok in zip(c,passed))) for phase in range(4)]
     recovery=bool(passed.sum()>=24 and min(counts)>=4 or finish_failures>=6)
-    invalid=lambda rows:sum(r['prefix'] is None for r in rows)
-    rejects=lambda rows:sum(r['gate']['decision']=='REJECT' for r in rows)
     j0=float(np.median(np.mean((x/TOL)**2,axis=1)));j1=float(np.median(np.mean((y/TOL)**2,axis=1)))
     with np.errstate(invalid='ignore'):p0,p1=np.percentile(x,95,axis=0),np.percentile(y,95,axis=0)
     p95_ok=bool(np.isfinite(p0).all() and np.isfinite(p1).all() and (p1<=1.25*p0).all())
-    dose=bool(not recovery and passed.sum()<24 and np.isfinite(j0) and np.isfinite(j1) and j1<=.85*j0 and p95_ok and invalid(c)<=invalid(p) and rejects(c)<=rejects(p))
-    return dict(branch='RECOVERY2048' if recovery else ('DOSE2048' if dose else 'STOP_NO_ADMITTED_EXTRA_BRANCH'),dynamic_pass=int(passed.sum()),pass_per_nonterminal_group=counts,finish_failures=finish_failures,RECOVERY_priority=recovery,DOSE_allowed=dose,J_median_2048=j0 if np.isfinite(j0) else 'NONFINITE',J_median_4096=j1 if np.isfinite(j1) else 'NONFINITE',dynamic_p95_growth_gate=p95_ok,invalid_decode_counts=[invalid(p),invalid(c)],DIAG_reject_counts=[rejects(p),rejects(c)])
+    dose=bool(not recovery and passed.sum()<24 and np.isfinite(j0) and np.isfinite(j1) and j1<=.85*j0 and p95_ok and invalid_counts[1]<=invalid_counts[0] and reject_counts[1]<=reject_counts[0])
+    return dict(branch='RECOVERY2048' if recovery else ('DOSE2048' if dose else 'STOP_NO_ADMITTED_EXTRA_BRANCH'),dynamic_pass=int(passed.sum()),pass_per_nonterminal_group=counts,finish_failures=finish_failures,RECOVERY_priority=recovery,DOSE_allowed=dose,J_median_2048=j0 if np.isfinite(j0) else 'NONFINITE',J_median_4096=j1 if np.isfinite(j1) else 'NONFINITE',dynamic_p95_growth_gate=p95_ok,invalid_decode_counts=invalid_counts,DIAG_reject_counts=reject_counts)
 
 
 def freeze():
@@ -66,6 +67,9 @@ def self_check():
     a,b=rows(2),rows(1.7);a[0]['prefix']=b[0]['prefix']=None
     assert decide(a,b,0)['branch']=='DOSE2048' # unchanged invalid count; finite median and p95 still prove the gate
     assert decide(rows(2),rows(2.1),0)['branch']=='STOP_NO_ADMITTED_EXTRA_BRANCH'
+    late=dict(uid='DEV-hold',task='T1',split='DEV',phase=4,prefix={k:0. for k in KEYS},gate=dict(decision='ACCEPT'))
+    assert decide(rows(2)+[late],rows(1.7)+[dict(late,gate=dict(decision='REJECT'))],0)['branch']=='STOP_NO_ADMITTED_EXTRA_BRANCH'
+    assert decide(rows(2)+[late],rows(1.7)+[dict(late,prefix=None)],0)['branch']=='STOP_NO_ADMITTED_EXTRA_BRANCH'
     print('PASS_FIXED_DYNAMIC_GROUPS_RECOVERY_PRIORITY_DOSE_AND_NO_THIRD_BRANCH_CPU_ONLY')
 
 

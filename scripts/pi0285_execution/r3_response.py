@@ -65,7 +65,7 @@ def freeze_noise():
                         with temp.open('wb') as f:np.save(f,packet);f.flush();os.fsync(f.fileno())
                         temp.replace(p)
                     packet=np.load(p);assert packet.dtype==np.uint16 and packet.shape==(1,40,132)
-                    rows.append(dict(uid=row['uid'],**n,packet_sha256=sha(p),status='FROZEN_NATIVE_CUDA_BF16_FULL_PACKET'))
+                    rows.append(dict(n,uid=row['uid'],packet_sha256=sha(p),status='FROZEN_NATIVE_CUDA_BF16_FULL_PACKET'))
             assert len(rows)==16 and len({r['noise_file'] for r in rows})==16
             write(out/'NOISE16_FROZEN.json',dict(status='ALL16_NATIVE_CUDA_BF16_PACKETS_FROZEN_BEFORE_PROBES',input_plan_sha256=sha(out/'FROZEN_INPUT_PLAN.json'),rows=rows,new_model_queries=0))
     finally:process(ROOT,'end',started)
@@ -148,6 +148,8 @@ def self_check():
     values=[noise_identity('T1-TRAIN-'+str(x)+'-100',n) for x in range(285100,285108) for n in range(2)]
     assert len({r['noise_file'] for r in values})==16 and values==[noise_identity('T1-TRAIN-'+str(x)+'-100',n) for x in range(285100,285108) for n in range(2)]
     assert all(set(r['condition'])=={'WP4_UID','noise_replica'} and r['query_index']==0 for r in values)
+    record=dict(values[0],packet_sha256='UNOBSERVED',status='NOT_FROZEN')
+    frozen=dict(record,uid='fixture',packet_sha256='actual',status='FROZEN_NATIVE_CUDA_BF16_FULL_PACKET');assert frozen['packet_sha256']=='actual' and frozen['condition']==record['condition']
     assert 8*2*2==32 and 32*3==96 and 128*4==512
     content=dict(base_raw=np.zeros((128,128,3),dtype=np.uint8),wrist_raw=np.ones((128,128,3),dtype=np.uint8),actual_state=np.asarray([0,0,0,1,0,0,0,1,0,1],dtype=np.float32));buffers=[]
     for text in INSTRUCTIONS.values():

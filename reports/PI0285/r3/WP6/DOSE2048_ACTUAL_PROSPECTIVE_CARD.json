@@ -1,0 +1,93 @@
+{
+  "release": "97773a036ebaffe59285bd2ecbee0c155f12822b",
+  "canonical": 6065031954,
+  "stage": "REPAIR_A2048",
+  "launch_allowed": false,
+  "parent": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/PLACE4096/main/checkpoint-4096",
+  "parent_global_update": 4096,
+  "updates": 2048,
+  "warmup": 103,
+  "peak_LRs": [
+    5e-05,
+    5e-06
+  ],
+  "plan_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/data/DOSE_PREPARED/REPAIR_A2048.jsonl",
+  "plan_sha256": "0f796594f3726a175c74357039aae53c4ff85194982424ea37be40b1154993db",
+  "data_readback_sha256": "e1885d2027b41b0355e1ddf1764ebfbb39a4d446659130fe7fe63d8d8ea8f971",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "parent_files": {
+    "PI0282_RECOVERY.json": {
+      "bytes": 67010,
+      "sha256": "ed6849e57a915904e3561565afac5581c4cd0fbc27230484e5be86c209c47fa9"
+    },
+    "PI0282_SCOPE_PROOF.json": {
+      "bytes": 1681,
+      "sha256": "df1f8000e65d52fc222496bbdcc65fc7c3a4ea4d6d3d447d504d09a03d9825bf"
+    },
+    "config.json": {
+      "bytes": 2105,
+      "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+    },
+    "embodiment_id.json": {
+      "bytes": 2146,
+      "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+    },
+    "model-00001-of-00002.safetensors": {
+      "bytes": 4993709288,
+      "sha256": "772af311ee22deca4b8407b021660345f79eaee0a9a70c1c2bce3942b78e3379"
+    },
+    "model-00002-of-00002.safetensors": {
+      "bytes": 4129471992,
+      "sha256": "908ee18ffd94983eaa40fbad9358564d57497fb4c5cdfbe596e1836cf2a90db0"
+    },
+    "model.safetensors.index.json": {
+      "bytes": 104912,
+      "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+    },
+    "optimizer.pt": {
+      "bytes": 11340455909,
+      "sha256": "7726535999e5c42f7383234a068c7dcd6facf1163663564db68c369b0fd8a898"
+    },
+    "processor_config.json": {
+      "bytes": 23145,
+      "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+    },
+    "rng_state.pth": {
+      "bytes": 14709,
+      "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+    },
+    "scheduler.pt": {
+      "bytes": 1465,
+      "sha256": "4363cd9a78c9f018e04099d17bb38a8d59f53ee1f167e35ffdaba32c17af8a93"
+    },
+    "statistics.json": {
+      "bytes": 4299523,
+      "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+    },
+    "trainer_state.json": {
+      "bytes": 36333,
+      "sha256": "53e66eb730a18f629a1359a177bc22128c3342d492902a3176ff65847c043476"
+    },
+    "training_args.bin": {
+      "bytes": 5905,
+      "sha256": "5707cbb419c4ffed19a68f59ba21b65dd3631796d7756d308cc3e2491ee59c93"
+    }
+  },
+  "parent_export": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/delivery/PLACE4096-4096/EXPORT.json",
+  "parent_export_sha256": "d3927abfe1d7147cf6879eb7886f19ef8cc6f8f135064350d8b00bbf927989d1",
+  "parent_phase_step": 4096,
+  "parent_full_master_sha256": "da9524edce827d18dc18303f9002ce7cb65ea821c19f9003c7981e1995599209",
+  "parent_audit_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/evidence/PLACE4096-4096_TRAINING_CPU.json",
+  "parent_audit_sha256": "25568881b3fd87064861feaed64490981ceaf075fdaa1534bfbbb37b499d9fcf",
+  "expert_plan_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/data/PLACE4096.jsonl",
+  "expert_plan_sha256": "719f2dd2d40208edf91cf822fc3d4774b92d48289e54f25e56dfad88ca03f96a",
+  "branch": "DOSE2048",
+  "branch_decision_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/qualification/R2_A_SINGLE_BRANCH.json",
+  "branch_decision_sha256": "97ceaf3f2f9ea6b2452eda40c3309706a2805a7ce5430320f50fbe2f9298ef12",
+  "status": "PREPARED_REAL_BOUND_BRANCH_CARD_OWNER_ADMISSION_PENDING",
+  "Adam": "CARRY_EXACT_MOMENTS_AND_GLOBAL_STEPS",
+  "scheduler": "NEW_COSINE2048_WARMUP103",
+  "phase_cursor": 0,
+  "canary_status": "NEW_PARENT_CARRY_SEMANTICS_NOT_COVERED_BY_PLACE_PARENT_NONE_PROOF"
+}
