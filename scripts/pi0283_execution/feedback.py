@@ -10,7 +10,7 @@ def write(path,v):
     tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(v,indent=2)+'\n');tmp.replace(path)
 
 
-def run(point,panel,resume_technical=False):
+def run(point,panel,resume_technical=False,resume_reason='MISSING_ORIGINAL_CUBLAS_WORKSPACE_ENVIRONMENT'):
     assert point in ('MORE1024','MORE2048','EVENT1024') and panel in ('TRAIN','DEV','CONFIRM')
     runtime=ROOT/'runtime';done=runtime/(point+'-'+panel+'-feedback.done.json')
     if done.exists():assert json.loads(done.read_text())['returncode']==0;return
@@ -21,7 +21,7 @@ def run(point,panel,resume_technical=False):
             assert resume_technical,'ADOPT_EXISTING_FEEDBACK_NO_DUPLICATE'
             prior=json.loads(start.read_text())
             assert not Path('/proc/'+str(prior['pid'])).exists(),'HEALTHY_FEEDBACK_NO_RESTART'
-            write(runtime/(point+'-'+panel+'-feedback.technical-resume.json'),dict(pid=os.getpid(),prior=prior,started_epoch=began,reason='MISSING_ORIGINAL_CUBLAS_WORKSPACE_ENVIRONMENT',quality_retry=False))
+            write(runtime/(point+'-'+panel+'-feedback.technical-resume.json'),dict(pid=os.getpid(),prior=prior,started_epoch=began,reason=resume_reason,quality_retry=False))
         else:write(start,dict(pid=os.getpid(),point=point,panel=panel,started_epoch=began))
         env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',PYTHONPATH=str(ROOT/'code')+':/home/liuyu-nfs/Projects/go2-arx5/PI0280/official:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
         def call(script,args,gpu=False):
@@ -54,4 +54,4 @@ def run(point,panel,resume_technical=False):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('point');p.add_argument('--panel',default='TRAIN');p.add_argument('--resume-technical',action='store_true');a=p.parse_args();run(a.point,a.panel,a.resume_technical)
+    p=argparse.ArgumentParser();p.add_argument('point');p.add_argument('--panel',default='TRAIN');p.add_argument('--resume-technical',action='store_true');p.add_argument('--resume-reason',default='MISSING_ORIGINAL_CUBLAS_WORKSPACE_ENVIRONMENT');a=p.parse_args();run(a.point,a.panel,a.resume_technical,a.resume_reason)

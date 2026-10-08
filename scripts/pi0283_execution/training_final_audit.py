@@ -33,8 +33,10 @@ def audit(root,stage):
         visits+=r['visits']
     assert Counter(v['phase'] for v in visits)==dict.fromkeys(range(4),total*2)
     scope=json.loads((folder/'SCOPE.json').read_text());projectors=list(scope['source_rows']);assert len(projectors)==14
+    print('PASS_ORDER_NATIVE_INPUT_NOISE_TIME_AND_PHASE_COUNTS',flush=True)
     checkpoints=[]
     for step in ((1024,2048) if stage=='MORE' else (1024,)):
+        print('READ_ONLY_CHECKPOINT',stage,step,flush=True)
         cp=folder/f'checkpoint-{step}';export=root/f'delivery/{stage}{step}/EXPORT.json'
         record=json.loads(export.read_text());recovery=json.loads((cp/'PI0282_RECOVERY.json').read_text())
         assert recovery['cursor']==step*8 and json.loads((cp/'trainer_state.json').read_text())['global_step']==step
@@ -58,7 +60,7 @@ def audit(root,stage):
                     else:assert torch.equal(value,old),('FROZEN_PRETRAIN_CHANGED',n);frozen+=1
                     seen.add(n);del value,old
         assert seen==set(record['full_FP32_master_state']) and changed_projectors and changed_dit
-        opt=torch.load(cp/'optimizer.pt',map_location='cpu',weights_only=False)
+        opt=torch.load(cp/'optimizer.pt',map_location='cpu',weights_only=False,mmap=True)
         assert len(opt['param_groups'])==2
         pgroup,dgroup=opt['param_groups'];assert pgroup['weight_decay']==0. and dgroup['weight_decay']==1e-5
         assert len(pgroup['params'])==14 and opt['state']

@@ -41,12 +41,23 @@ def load(root,point):
     assert codec.identity==manifest['codec_identity'],'PROCESSOR_STATISTICS_MAPPING_CHANGED'
     return model,codec,binding
 
+def inference_paths(root,source,target):
+    allowed=[root.resolve()]
+    tier=root/'evidence/OUTPUT_TIERING.json'
+    if tier.exists():
+        assert json.loads(tier.read_text())['status']=='PASS_EXACT_BYTES_DURABLE_NVME_TIERING_AT_DEAD_PROCESS_BOUNDARY'
+        assert root==Path('/home/liuyu-nfs/Projects/go2-arx5/PI0283')
+        allowed.append(Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0283/source').resolve())
+    for path in (source,target):
+        assert path.is_relative_to(root) and any(path.resolve().is_relative_to(p) for p in allowed),'UNAUTHORIZED_INFERENCE_PATH'
+
+
 def query(root,model,codec,request):
     from authority import allowed
     allowed(root,'query',reserve_s=2)
     from gr00t.policy.gr00t_policy import _rec_to_dtype
     source,target=Path(request['input']),Path(request['output'])
-    assert source.resolve().is_relative_to(root.resolve()) and target.resolve().is_relative_to(root.resolve())
+    inference_paths(root,source,target)
     assert not target.exists(),'Reuse first valid saved output'
     with np.load(source) as data:
         state=data['actual_state'].copy();base=data['base_raw'].copy();wrist=data['wrist_raw'].copy()
