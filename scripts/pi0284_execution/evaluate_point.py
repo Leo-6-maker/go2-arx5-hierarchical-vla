@@ -52,12 +52,14 @@ def diagnostic(root,point):
 
 def source(root,point,panel):
     name=point+'-'+panel;runtime=root/'runtime';done=runtime/(name+'-source.done.json');start=runtime/(name+'-source.start.json')
-    if done.exists():assert json.loads(done.read_text())['returncode']==0;return
-    assert not start.exists(),'Adopt existing physical execution, never quality retry'
-    with (runtime/(name+'-source.log')).open('ab') as log:
-        began=time.time();worker=subprocess.Popen([SOURCE_PYTHON,'-u',str(root/'code/source_entry.py'),'--root',str(root),'--point',point,'--panel',panel],env=environment(root,True),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT)
-        write(start,dict(pid=worker.pid,started_epoch=began,point=point,panel=panel));returncode=worker.wait()
-    write(done,dict(returncode=returncode,started_epoch=began,ended_epoch=time.time(),point=point,panel=panel));assert returncode==0
+    if done.exists():assert json.loads(done.read_text())['returncode']==0
+    else:
+        assert not start.exists(),'Adopt existing physical execution, never quality retry'
+        with (runtime/(name+'-source.log')).open('ab') as log:
+            began=time.time();worker=subprocess.Popen([SOURCE_PYTHON,'-u',str(root/'code/source_entry.py'),'--root',str(root),'--point',point,'--panel',panel],env=environment(root,True),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT)
+            write(start,dict(pid=worker.pid,started_epoch=began,point=point,panel=panel));returncode=worker.wait()
+        write(done,dict(returncode=returncode,started_epoch=began,ended_epoch=time.time(),point=point,panel=panel));assert returncode==0
+    # A failed report is resumed from saved arrays; completed physics is never repeated.
     code=json.loads((root/'design/RUNTIME_CARD.json').read_text())['independent_CPU_audit']
     program="import importlib.util;from pathlib import Path;s=importlib.util.spec_from_file_location('independent_fixed_task',"+repr(code)+");m=importlib.util.module_from_spec(s);s.loader.exec_module(m);m.ROOT=Path("+repr(str(root))+");m.audit("+repr(point)+","+repr(panel)+")"
     with (runtime/(name+'-independent-CPU.log')).open('ab') as log:subprocess.run([PYTHON,'-c',program],env=environment(root,False),stdout=log,stderr=subprocess.STDOUT,check=True)

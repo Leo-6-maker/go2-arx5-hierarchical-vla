@@ -6,7 +6,7 @@ from coordinator import remote
 
 def stage():
     here=Path(__file__).resolve().parent
-    names=('budget.py','authority.py','endpoint_worker.py','source_entry.py','evaluate_point.py','retention.py','retention_cpu_check.py','materialize_point.py','native_worker.py','prepare_core.py','diagnostic_runner.py','score.py','eval_cpu_check.py')
+    names=('budget.py','authority.py','endpoint_worker.py','source_entry.py','evaluate_point.py','retention.py','retention_cpu_check.py','materialize_point.py','native_worker.py','prepare_core.py','diagnostic_runner.py','score.py','eval_cpu_check.py','offline_cpu_audit.py')
     files={n:base64.b64encode((here/n).read_bytes()).decode() for n in names}
     print(remote('core',f"""import base64,json,hashlib,shutil,subprocess
 from pathlib import Path

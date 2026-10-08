@@ -1,5 +1,5 @@
 """Boundary/schema and retained-source checks before any endpoint call."""
-import json,os,sys
+import json,os,sys,tempfile
 from pathlib import Path
 import numpy as np
 from budget import interval_seconds
@@ -31,6 +31,17 @@ def check(root):
         else:raise AssertionError('Intermediate incorrectly admitted to DEV')
     finally:os.environ['CUDA_VISIBLE_DEVICES']=old_visible
     assert interval_seconds([(0,4),(1,3),(3,8),(10,11)])==9
+    # A saved physical completion still runs its independent CPU report on recovery.
+    from unittest.mock import patch
+    from evaluate_point import source as resume_source
+    with tempfile.TemporaryDirectory(dir=root/'runtime') as directory:
+        temporary=Path(directory);(temporary/'runtime').mkdir();(temporary/'design').mkdir()
+        write(temporary/'runtime/CTRL1024-TRAIN-source.done.json',dict(returncode=0))
+        write(temporary/'design/SOURCE_CARD.json',card)
+        write(temporary/'design/RUNTIME_CARD.json',json.loads((root/'design/RUNTIME_CARD.json').read_text()))
+        with patch('evaluate_point.subprocess.Popen',side_effect=AssertionError('Duplicate physics')),patch('evaluate_point.subprocess.run') as audit:
+            resume_source(temporary,'CTRL1024','TRAIN');assert audit.call_count==1
+            assert audit.call_args.kwargs['env']['CUDA_VISIBLE_DEVICES']==''
     retained=json.loads((root/'design/RETENTION32.json').read_text());assert len(retained['rows'])==32 and retained['history_frame_deltas']==[-15,0]
     for row in retained['rows']:
         assert sha(row['input_path'])==row['input_sha256'] and sha(row['noise_path'])==row['noise_sha256']
