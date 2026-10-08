@@ -1,5 +1,6 @@
 """Fixed native feedback panels: fresh RGB/state, K4, gate, eight controls, repeat."""
 import argparse,json,os,subprocess,time
+from contextlib import contextmanager
 from pathlib import Path
 import numpy as np
 from contract import ROOT,INSTRUCTIONS,SPLITS,guard,sha,write
@@ -51,6 +52,18 @@ def reply(server,key):
         try:value=json.loads(line)
         except json.JSONDecodeError:continue
         if key in value:return value
+
+
+@contextmanager
+def resident_worker(point,log_path):
+    env=dict(os.environ,PYTHONPATH=':'.join([str(ROOT/'code'),str(ROOT.parent/'PI0283/code'),str(ROOT.parent/'PI0280/official'),str(ROOT/'project-src'),str(ROOT/'project-src/src')]))
+    command=[str(ROOT.parent/'PI0250/runtime/venv/bin/python'),'-u',str(ROOT/'code/model_worker.py'),'--point',point]
+    with Path(log_path).open('ab') as log:
+        server=subprocess.Popen(command,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=log,text=True,bufsize=1)
+        try:
+            assert reply(server,'ready')['ready'];yield server
+        finally:
+            server.stdin.close();assert server.wait(timeout=120)==0
 
 
 def disposition(commands,error):
@@ -118,19 +131,13 @@ def run(point,panel):
     if path.exists():return json.loads(path.read_text())
     lock=(ROOT/'runtime/SOURCE_GPU0.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     # ponytail: one resident model process for a finite panel, no background service.
-    env=dict(os.environ,PYTHONPATH=':'.join([str(ROOT/'code'),str(ROOT.parent/'PI0283/code'),str(ROOT.parent/'PI0280/official'),str(ROOT/'project-src'),str(ROOT/'project-src/src')]))
-    command=[str(ROOT.parent/'PI0250/runtime/venv/bin/python'),'-u',str(ROOT/'code/model_worker.py'),'--point',point]
     began=process(ROOT,'start');rows=[]
     try:
-        with (ROOT/'runtime'/f'{point}_{panel}_worker.log').open('ab') as log:
-            server=subprocess.Popen(command,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=log,text=True,bufsize=1)
-            try:
-                assert reply(server,'ready')['ready']
-                for seed in seeds:
-                    for task in selected:
-                        rows.append(episode(server,point,panel,task,seed))
-                        write(ROOT/'source/evidence'/f'{point}_{panel}_PROGRESS.json',dict(rows=rows))
-            finally:server.stdin.close();assert server.wait(timeout=120)==0
+        with resident_worker(point,ROOT/'runtime'/f'{point}_{panel}_worker.log') as server:
+            for seed in seeds:
+                for task in selected:
+                    rows.append(episode(server,point,panel,task,seed))
+                    write(ROOT/'source/evidence'/f'{point}_{panel}_PROGRESS.json',dict(rows=rows))
         counts={task:dict(success=sum(r['persistent_success'] for r in rows if r['task']==task),requested=len(seeds)) for task in selected}
         paired=sum(all(next(r['persistent_success'] for r in rows if r['task']==t and r['layout']==s) for t in selected) for s in seeds) if len(selected)==2 else None
         value=dict(status='FIXED_NATIVE_FEEDBACK_PANEL_COMPLETE',point=point,split=panel,tasks=counts,paired_both_success=paired,rows=rows,new_teacher_calls=0,new_WBC=0,selected='NONE',deployment='NONE')

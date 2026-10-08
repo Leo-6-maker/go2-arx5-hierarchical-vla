@@ -1,0 +1,50 @@
+{
+  "status": "OBSERVED_COLLECTION_AND_CPU_SOURCE_AUDIT_COMPLETE_CODEC_FINAL_RECEIPT_UNVERIFIED",
+  "captured_utc": "2026-10-08T13:57:22.991737+00:00",
+  "authority_release": "7e840324c71aef47b401bd861b22710774334c97",
+  "canonical": 6058329368,
+  "source_code_commit": "1ca9be062b4c0b8c0e590e46c6cd646066978010",
+  "collection": {
+    "pid": 1825185,
+    "returncode": 0,
+    "started_epoch": 1791461869.7926266,
+    "ended_epoch": 1791465350.296061
+  },
+  "PILOT": {
+    "T1": "8/8",
+    "T2": "8/8",
+    "CPU": "PASS_ORIGINAL_ARRAYS"
+  },
+  "TRAIN": {
+    "T1": "64/64",
+    "T2": "64/64",
+    "CPU": "PASS",
+    "CPU_ended_epoch": 1791465397.911553
+  },
+  "DEV": {
+    "T1": "16/16",
+    "T2": "16/16",
+    "CPU": "PASS",
+    "CPU_ended_epoch": 1791465410.4769597
+  },
+  "data_build": {
+    "episodes": 160,
+    "returncode": 0,
+    "ended_epoch": 1791465989.399994
+  },
+  "codec": {
+    "last_verified_epoch": 1791466179.151946,
+    "pid": 1885138,
+    "last_verified_state": "RUNNING",
+    "current_state": "UNOBSERVED_DUE_CORELAB_SSH_TIMEOUT",
+    "final_receipt": "NOT_YET_READ",
+    "rerun": false
+  },
+  "new_neural_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_qsub": 0,
+  "current_blocker": "CORELAB_LOGIN_TCP_CONNECT_TIMEOUT_BEFORE_AUTHENTICATION",
+  "receipt_files": "Original completion/source/CPU files stay on Corelab; current metadata retrieval failed, this is an observed progress snapshot rather than a new full-file readback",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
