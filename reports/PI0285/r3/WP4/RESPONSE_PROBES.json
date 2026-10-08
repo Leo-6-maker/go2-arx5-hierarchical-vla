@@ -1,0 +1,22 @@
+{
+  "status": "READY_CPU_PREPARATION_ONLY_REAL_NEURAL_PROBES_NOT_EXECUTED",
+  "plan_sha256": "447638442285afa90a8cf9b6ea1ba99c7fafc11cc07055e3c8da9ee980359fb0",
+  "helper_sha256": "14b879101b2c7363b1e15c2b27960a67151cafd1adac58d2cc50a8a2bb3b500d",
+  "frozen_original_observations": 8,
+  "real_BF16_noise_packets": "UNOBSERVED",
+  "real_probe_outputs": "UNOBSERVED",
+  "actual_model_queries": 0,
+  "actual_K4_heads": 0,
+  "physics": 0,
+  "teacher": 0,
+  "render": 0,
+  "normalizer_changed": false,
+  "qualification_effect": false,
+  "owner_run_order": [
+    "Stage isolated helper and exact frozen plan under existing authority",
+    "At primary/frozen-candidate boundary freeze-noise once on GPU; creates and binds all16 before output",
+    "run --point PLACE4096-1024 --slot EARLIEST1024 then cpu --point PLACE4096-1024",
+    "run same operations for unique frozen candidate/final T1 and admitted final shared endpoints; identical tensor identity reuses results",
+    "Never probe after a failed confirmation; no automatic missing-output query retry"
+  ]
+}
