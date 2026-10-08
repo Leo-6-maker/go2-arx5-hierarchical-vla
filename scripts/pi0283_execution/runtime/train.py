@@ -138,6 +138,20 @@ class PlannedDataset(torch.utils.data.Dataset):
             except FileNotFoundError:return self.base[i]
 
 
+def continuation_proof(root,arm):
+    # EVENT reuses the one authorized generic carry proof; no second canary is claimed.
+    proof_arm='MORE' if arm=='EVENT' else arm
+    path=root/'learning'/proof_arm/'CANARY_COMPARISON.json'
+    v=json.loads(path.read_text());assert v['status']=='PASS_FULL_RESUME_CANARY'
+    if arm=='EVENT':
+        assert v['arm']=='MORE' and v['model_bitwise_equal'] and v['inputs_native_noise_time_exact'] and v['predictions_gates_exact']
+        from learning import file_digest
+        from training_launch import write
+        record=dict(status='REUSED_MORE_CARRY_MECHANISM_PROOF_NOT_EVENT_CANARY',source_path=str(path),source_sha256=file_digest(path),EVENT_canary_updates=0,EVENT_parent_admission=str(root/'runtime/MORE_TRAINING_FINAL_CPU_AUDIT.json'))
+        assert json.loads(Path(record['EVENT_parent_admission']).read_text())['status']=='PASS_ACTUAL_NATIVE_CONTINUATION_FULL_TRAINERS_ORDER_SCOPE_AND_MOMENTS_CPU'
+        write(root/'runtime/EVENT_CARRY_PROOF_REUSE.json',record)
+
+
 def run(a):
     root=Path(a.root)
     from authority import allowed
@@ -157,7 +171,7 @@ def run(a):
         from phase import validate
         continuation=validate(root,Path(a.continuation_card))
         assert a.arm==continuation['stage']
-    if a.phase=='main':assert json.loads((root/'learning'/a.arm/'CANARY_COMPARISON.json').read_text())['status']=='PASS_FULL_RESUME_CANARY'
+    if a.phase=='main':continuation_proof(root,a.arm)
     torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     torch.manual_seed(28203);torch.cuda.manual_seed_all(28203)
     # Stock model and stock forward/loss. All dependencies remain offline.
