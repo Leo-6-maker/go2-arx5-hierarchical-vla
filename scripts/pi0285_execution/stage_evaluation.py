@@ -7,7 +7,7 @@ from coordinator import remote
 
 def stage():
     here=Path(__file__).resolve().parent
-    names=('budget.py','policy.py','model_worker.py','audit_source.py','qualification.py','diagnostics.py','transport.py','evaluate.py')
+    names=('budget.py','policy.py','model_worker.py','audit_source.py','qualification.py','diagnostics.py','transport.py','evaluate.py','r2_branch.py')
     files={n:base64.b64encode((here/n).read_bytes()).decode() for n in names}
     commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
     value=json.loads(remote('core',f'''import base64,hashlib,json,subprocess,time
