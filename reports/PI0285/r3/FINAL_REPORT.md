@@ -81,6 +81,23 @@ PUBLIC repo: `leoyuer/pi0246-gate-pass-campaign`. Each listed complete Trainer p
 
 DOSE full Trainer is20,468,184,976bytes, tree `fb17b65effc3ae8dcbefa784adc8f7e6fab916821d29e4b2539e5be685ed8469`. Hopper retains complete recovery; Corelab retains only its immutable native BF16 inference view. Full Trainers were not copied to Corelab or the PC. These are recoverable research artifacts with a valid negative quality verdict, not qualified deployment policies.
 
-Actual saved-frame videos include fixed TRAIN success285100/failure285106, and unique-confirmation first success285300/first failure285302. All show both real source views, full task time and explicit actual-model/NON_REALTIME/not-target-WBC labels. Video packaging creates zero new render, physics or model calls. Final compact evidence archives are in PUBLIC `evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/{core,hop}`. Their upload and full-file readback remain in progress as of06:30SGT; no PASS is inferred from upload progress. Full RGB remains on Corelab, and complete Trainers have separate completed pinned receipts. Final archive completion receipts will be added without new scientific calls.
+Actual saved-frame videos include fixed TRAIN success285100/failure285106, and unique-confirmation first success285300/first failure285302. All show both real source views, full task time and explicit actual-model/NON_REALTIME/not-target-WBC labels. Video packaging creates zero new render, physics or model calls. Final compact evidence archives are in PUBLIC `evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/{core,hop}`. Both complete packages passed anonymous fixed-revision full-file byte/SHA256 readback. Full RGB remains on Corelab, and complete Trainers have separate completed pinned receipts. Archival completion introduced no new scientific calls.
 
 Scientific execution stops here. Mail/monitor/merge, target WBC/physics, hardware and protected TEST/DEV-F remain untouched.
+
+## Public terminal CPU/video bundle
+
+The nine-file scientific delivery passed anonymous fixed-revision byte/SHA256 readback at `168e6526af80a02278ee0f2814abf281357cef9a`, prefix `evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/scientific-delivery`. It contains the actual first confirmation success285300/failure285302 videos, immutable CPU load/qualification bundle, terminal receipt and exact canonical readback. [Actual confirmation failure video](https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/168e6526af80a02278ee0f2814abf281357cef9a/evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/scientific-delivery/CONFIRM_A-285302-ACTUAL_MODEL.mp4). [Actual confirmation success video](https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/168e6526af80a02278ee0f2814abf281357cef9a/evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/scientific-delivery/CONFIRM_A-285300-ACTUAL_MODEL.mp4). The published report in that revision is an immutable earlier archival-status snapshot; this GitHub report and later archive receipts supply the forward state.
+
+Closed bulk archive engineering recovery: Hopper same-revision readback uses verified HTTP byte ranges after an interrupted full response; Corelab native Xet timed out and stalled, so only its exact archive-only worker was retired and its same sealed package resumed through standard HF upload. Original errors, package identity and runtime seals remain preserved; no repack, new learning, quality retry or scientific call resulted.
+
+Hopper compact evidence readback completed: revision `ca204739b890698dd3ce6d6378dc172817c0456d`,1291 members,6,736,920,852archive bytes, SHA256 `eeab3d5ea9dcfc6c944044404ada1b60c0afa37f33ae38e5e33c2ceccaa9d1a5`; complete anonymous full-file readback PASS. Corelab also completed the full readback, as recorded below.
+
+## Final archive closure
+
+| Host | Fixed revision | Members | Archive bytes | Archive SHA256 |
+|---|---|---:|---:|---|
+| Hopper | ca204739b890698dd3ce6d6378dc172817c0456d | 1291 | 6736920852 | eeab3d5ea9dcfc6c944044404ada1b60c0afa37f33ae38e5e33c2ceccaa9d1a5 |
+| Corelab | ab78b1aa6d15f31501b6cea744524fc1cf68392f | 29126 | 8095560063 | bb268f3a26cc774dbcc38d9048d66a874735864d47c43c90a7bacd171df4d9ba |
+
+Both PUBLIC full-file readbacks are PASS. The nine-file scientific delivery at168e6526 also passed byte/SHA256 readback. Current final archival receipts supersede earlier pending snapshots without rewriting them. The scientific confirmation FAIL and6144 formal/32 canary updates are unchanged; no new neural, teacher, render or physics call occurred during archive recovery.

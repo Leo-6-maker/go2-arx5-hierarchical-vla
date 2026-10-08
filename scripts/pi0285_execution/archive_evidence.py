@@ -1,5 +1,5 @@
 """Seal compact evidence after terminal; full RGB and full Trainers stay protected."""
-import argparse,gzip,hashlib,json,os,shutil,tarfile
+import argparse,gzip,hashlib,json,os,shutil,tarfile,time
 from pathlib import Path
 
 
@@ -14,9 +14,55 @@ def allowed(p,roots):
     return any(p.resolve().is_relative_to(r.resolve()) for r in roots)
 
 
-def main(root,host):
+def readback(root,host):
+    import requests
+    from huggingface_hub import hf_hub_url
+    out=root/'archive/compact-terminal'
+    upload=json.loads((root/'archive/COMPACT_UPLOAD.json').read_text())
+    inventory=json.loads((out/'INVENTORY.json').read_text());assert inventory['host']==host
+    repo='leoyuer/pi0246-gate-pass-campaign';prefix='evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/'+host
+    session=requests.Session();session.trust_env=False;checked=[]
+    for name,expected_sha in sorted(upload['files'].items()):
+        p=out/name;assert p.parent==out and p.is_file() and sha(p)==expected_sha
+        total=p.stat().st_size;h=hashlib.sha256();offset=0
+        url=hf_hub_url(repo,prefix+'/'+name,revision=upload['revision'])
+        while offset<total:
+            end=min(offset+(128<<20),total)-1
+            try:
+                with session.get(url,headers={'Range':f'bytes={offset}-{end}'},stream=True,timeout=(30,180)) as response:
+                    response.raise_for_status();assert 'Authorization' not in response.request.headers
+                    assert (response.status_code==206 and response.headers.get('Content-Range')==f'bytes {offset}-{end}/{total}') or (response.status_code==200 and offset==0 and end+1==total)
+                    block=b''.join(response.iter_content(8<<20));assert len(block)==end-offset+1
+            except requests.RequestException as error:
+                print('READBACK_NETWORK_RETRY',name,offset,type(error).__name__,flush=True);time.sleep(10);continue
+            h.update(block);offset=end+1
+            (root/'archive/READBACK_PROGRESS.json').write_text(json.dumps(dict(file=name,bytes_verified=offset,total=total,revision=upload['revision']))+'\n')
+        assert h.hexdigest()==expected_sha
+        checked.append(dict(path=name,bytes=total,sha256=h.hexdigest()))
+    result=dict(status='PASS_PUBLIC_FIXED_REVISION_FULL_FILE_READBACK',repo_id=repo,prefix=prefix,revision=upload['revision'],files=checked,members=len(inventory['members']),source_bytes=sum(v['bytes'] for v in inventory['members']),full_RGB='RETAINED_CORELAB_NOT_IN_COMPACT_ARCHIVE',full_Trainers='PINNED_HF_SEPARATE_FULL_READBACK_RECEIPTS',new_model_queries=0,new_training_updates=0,new_physics=0)
+    (root/'evidence/COMPACT_ARCHIVE.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
+
+
+def publish(root,host):
+    os.environ.update(HF_HUB_OFFLINE='0',CUDA_VISIBLE_DEVICES='',HF_HOME=str(root/'runtime/hf_online'))
+    from huggingface_hub import HfApi
+    token=Path('/home/liuyu-nfs/.config/huggingface/token') if host=='core' else Path.home()/'.config/huggingface/token'
+    repo='leoyuer/pi0246-gate-pass-campaign';prefix='evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/'+host
+    out=root/'archive/compact-terminal';identity={p.name:sha(p) for p in out.iterdir() if p.is_file()}
+    upload=root/'archive/COMPACT_UPLOAD.json'
+    if upload.exists():assert json.loads(upload.read_text())['files']==identity
+    else:
+        api=HfApi(token=token.read_text().strip());assert api.model_info(repo).private is False
+        revision=api.upload_folder(repo_id=repo,folder_path=str(out),path_in_repo=prefix,commit_message='PI0285 '+host+' immutable terminal evidence and actual videos').oid
+        upload.write_text(json.dumps(dict(revision=revision,files=identity)))
+    return readback(root,host)
+
+
+def main(root,host,readback_only=False,publish_only=False):
     root=Path(root);assert host in ('core','hop')
     assert json.loads((root/'evidence/TERMINAL_RECEIPT.json').read_text())['execution_closed']
+    if readback_only:return readback(root,host)
+    if publish_only:return publish(root,host)
     roots=[root]
     if host=='core':roots.append(Path('/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285'))
     out=root/'archive/compact-terminal';out.mkdir(parents=True,exist_ok=True)
@@ -64,30 +110,8 @@ def main(root,host):
         q=out/(p.parent.parent.name+'-'+p.name)
         if q.exists():assert sha(q)==sha(p)
         else:shutil.copyfile(p,q)
-    os.environ.update(HF_HUB_OFFLINE='0',CUDA_VISIBLE_DEVICES='',HF_HOME=str(root/'runtime/hf_online'))
-    import requests
-    from huggingface_hub import HfApi,hf_hub_url
-    token=Path('/home/liuyu-nfs/.config/huggingface/token') if host=='core' else Path.home()/'.config/huggingface/token'
-    repo='leoyuer/pi0246-gate-pass-campaign';prefix='evidence/PI0285/common-scene-first-policy-20261008/terminal-R3/'+host
-    api=HfApi(token=token.read_text().strip());assert api.model_info(repo).private is False
-    identity={p.name:sha(p) for p in out.iterdir() if p.is_file()}
-    upload=root/'archive/COMPACT_UPLOAD.json'
-    if upload.exists():
-        prior=json.loads(upload.read_text());assert prior['files']==identity;revision=prior['revision']
-    else:
-        revision=api.upload_folder(repo_id=repo,folder_path=str(out),path_in_repo=prefix,commit_message='PI0285 '+host+' immutable terminal evidence and actual videos').oid
-        upload.write_text(json.dumps(dict(revision=revision,files=identity)))
-    session=requests.Session();session.trust_env=False;checked=[]
-    for p in sorted(out.iterdir()):
-        h=hashlib.sha256();size=0
-        with session.get(hf_hub_url(repo,prefix+'/'+p.name,revision=revision),stream=True,timeout=(30,180)) as response:
-            response.raise_for_status();assert 'Authorization' not in response.request.headers
-            for b in response.iter_content(8<<20):h.update(b);size+=len(b)
-        assert h.hexdigest()==identity[p.name] and size==p.stat().st_size
-        checked.append(dict(path=p.name,bytes=size,sha256=h.hexdigest()))
-    result=dict(status='PASS_PUBLIC_FIXED_REVISION_FULL_FILE_READBACK',repo_id=repo,prefix=prefix,revision=revision,files=checked,members=len(rows),source_bytes=sum(v['bytes'] for v in rows),full_RGB='RETAINED_CORELAB_NOT_IN_COMPACT_ARCHIVE',full_Trainers='PINNED_HF_SEPARATE_FULL_READBACK_RECEIPTS',new_model_queries=0,new_training_updates=0,new_physics=0)
-    (root/'evidence/COMPACT_ARCHIVE.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
+    return publish(root,host)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--host',choices=('hop','core'),required=True);a=p.parse_args();main(a.root,a.host)
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--host',choices=('hop','core'),required=True);mode=p.add_mutually_exclusive_group();mode.add_argument('--readback-only',action='store_true');mode.add_argument('--publish-only',action='store_true');a=p.parse_args();main(a.root,a.host,a.readback_only,a.publish_only)
