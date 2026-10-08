@@ -17,4 +17,7 @@ def allowed(root,kind,reserve_s=0):
         assert route['arms']==['CTRL2048','LR5X2048'] and route['K']==4
         allocation=root/'runtime/TRAINING_ALLOCATION.json'
         if allocation.exists():assert time.time()-json.loads(allocation.read_text())['started_epoch']+reserve_s<v['training_GPU_reservation_s']
+    elif kind in ('query','episode'):
+        from budget import time_allowed
+        time_allowed(root,reserve_s)
     return v
