@@ -1,0 +1,31 @@
+{
+  "status": "PASS_OBSERVED_COMBINED_OWNED_LOCAL_VOLUME_WITHIN_80_GiB",
+  "hosts": {
+    "hop": {
+      "status": "ACTUAL_OWNED_OUTPUT_BYTES_BEFORE_COMPACT_ARCHIVE",
+      "host": "hop",
+      "logical_bytes": 64968344101,
+      "allocated_bytes": 64971153408,
+      "GiB": 60.506485496647656,
+      "unique_inodes": 1354,
+      "quota": "UNKNOWN",
+      "old_data_dependencies_excluded": true
+    },
+    "core": {
+      "status": "ACTUAL_OWNED_OUTPUT_BYTES_BEFORE_COMPACT_ARCHIVE",
+      "host": "core",
+      "logical_bytes": 10614891818,
+      "allocated_bytes": 10623524864,
+      "GiB": 9.885888377204537,
+      "unique_inodes": 4058,
+      "quota": "UNKNOWN",
+      "old_data_dependencies_excluded": true
+    }
+  },
+  "combined_logical_bytes": 75583235919,
+  "combined_GiB": 70.3923738738522,
+  "hard_cap_GiB": 80,
+  "quota": "UNKNOWN",
+  "shared_df_not_used_as_personal_quota": true,
+  "full_Trainer_retired": 0
+}

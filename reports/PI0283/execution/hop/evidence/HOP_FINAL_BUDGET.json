@@ -1,0 +1,61 @@
+{
+  "status": "PASS_CLOSED_HOPPER_ACTUAL_UPDATE_QUERY_AND_PBS_ACCOUNTING",
+  "jobs": [
+    {
+      "job_id": "653749",
+      "status": "F",
+      "exit_status": 1,
+      "PBS_wall_s": 179,
+      "PBS_CPU_s": 120,
+      "start_to_obit_GPU_bound_s": 183,
+      "SGT_start": "Thu Oct  8 10:11:15 2026",
+      "SGT_obit": "Thu Oct  8 10:14:18 2026"
+    },
+    {
+      "job_id": "653762",
+      "status": "F",
+      "exit_status": 1,
+      "PBS_wall_s": 5635,
+      "PBS_CPU_s": 3166,
+      "start_to_obit_GPU_bound_s": 5643,
+      "SGT_start": "Thu Oct  8 10:40:08 2026",
+      "SGT_obit": "Thu Oct  8 12:14:11 2026"
+    },
+    {
+      "job_id": "653917",
+      "status": "F",
+      "exit_status": 0,
+      "PBS_wall_s": 1162,
+      "PBS_CPU_s": 1243,
+      "start_to_obit_GPU_bound_s": 1165,
+      "SGT_start": "Thu Oct  8 12:40:01 2026",
+      "SGT_obit": "Thu Oct  8 12:59:26 2026"
+    }
+  ],
+  "GPU_allocation_seconds_conservative": 6991,
+  "PBS_CPU_seconds": 4529,
+  "completed_updates": 3088,
+  "update_kind_counts": {
+    "canary": 16,
+    "formal": 3072
+  },
+  "arm_phase_counts": {
+    "('MORE', 'continuous')": 8,
+    "('MORE', 'split')": 8,
+    "('MORE', 'main')": 2048,
+    "('EVENT', 'main')": 1024
+  },
+  "model_counts": {
+    "policy_attempt": 2,
+    "action_head": 8
+  },
+  "technical_recoveries": 2,
+  "canary16_discarded": true,
+  "formal_chunks": 24576,
+  "native_training_microbatches": 6176,
+  "older_budget_unchanged": 2080,
+  "new_plus_old_all_updates": 5168,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "initial_failed_GPU_charge_reconciled": "Final uniform start-to-obit bound uses183s for653749; old reservation receipt retained. No new allocation; actual combined GPU still below14400s."
+}

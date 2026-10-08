@@ -39,7 +39,10 @@ def main(root,host):
                 name=q.relative_to(root).as_posix()
                 if q.is_symlink():links.append(dict(path=name,resolved=str(q.resolve())))
                 if n=='observations.npz' or q.suffix in ('.safetensors','.pt','.pth','.bin'):
-                    excluded.append(dict(path=name,bytes=q.stat().st_size,sha256=sha(q),class_='FULL_RGB_OR_TRAINER_PAYLOAD_RETAINED',retained_locally=True));continue
+                    row=dict(path=name,bytes=q.stat().st_size,class_='FULL_RGB_OR_TRAINER_PAYLOAD_RETAINED',retained_locally=True)
+                    if n=='observations.npz':row['sha256']=sha(q)
+                    else:row['identity_receipt']='Separate full Trainer/export/materialization readback receipt; not rehashed by compact packer'
+                    excluded.append(row);continue
                 if n=='COMPACT_ARCHIVE.json' or q.suffix not in ('.json','.jsonl','.npz','.npy','.md','.py','.sh','.pbs','.log','.mp4'):continue
                 row=dict(path=name,bytes=q.stat().st_size,sha256=sha(q));files.append((q,row))
                 if q.suffix=='.mp4':videos.append(q)
