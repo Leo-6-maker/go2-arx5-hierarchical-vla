@@ -1,0 +1,22 @@
+{
+  "status": "PASS_ACTUAL_NEW_PARENT_ADAM4104_AND_FRESH_103_WARMUP_SCHEDULE_CPU_RECONCILIATION",
+  "source": "reports\\PI0285\\r3\\WP1\\DOSE_CANARY_BOUNDARY.json",
+  "source_sha256": "74b79810c578105e90ac0a4fcd41fb62242faf7d05d54436ab5cb43caaddbed3",
+  "parent_global_update": 4096,
+  "endpoint_Adam_global_update": 4104,
+  "Adam_parameter_states": 470,
+  "model_bitwise_equal": true,
+  "optimizer_scheduler_RNG_bitwise": {
+    "optimizer.pt": true,
+    "scheduler.pt": true,
+    "rng_state.pth": true
+  },
+  "consumed_native_input_noise_time_exact": true,
+  "K4_prediction_gate_exact": true,
+  "fresh_processes": 3,
+  "discarded_updates": 16,
+  "cumulative_canary": 32,
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0
+}
