@@ -1,0 +1,91 @@
+{
+  "response": {
+    "status": "PASS_CPU_NATURAL_RESPONSE_WITH_REAL_CONDITIONING_AND_SAME_NOISE",
+    "pairs": 1,
+    "weak_response": "INCONCLUSIVE",
+    "results": [
+      {
+        "pair": 0,
+        "expert_displacement_difference7": [
+          0.0136047238484025,
+          0.07490485347807407,
+          -0.009645819664001465
+        ],
+        "predicted_displacement_differences7": [
+          [
+            0.027993425726890564,
+            0.14492736756801605,
+            -0.009319044649600983
+          ],
+          [
+            0.003170735202729702,
+            0.10330279171466827,
+            -0.02499391883611679
+          ]
+        ],
+        "mean_predicted_norm": 0.12711535394191742,
+        "expert_norm": 0.07673895635564426,
+        "response_ratio": 1.6564644605382088,
+        "noise_spread": 0.05093596875667572,
+        "pixel_feature_checks": [
+          {
+            "packet": 0,
+            "changed_condition_fields": [
+              "pixel_values",
+              "state"
+            ],
+            "actual_pixel_fields_differ": [
+              "pixel_values"
+            ],
+            "backbone_features_differ": true,
+            "input_hashes": {
+              "a": "3d6f5a189aae6c4541b47d5fc89e15b28f298d195454b118bea12ca313ecb03b",
+              "b": "817a01c08c6f68525e264e34d93a7890c1b3899aee0cf7565254f23878a85b9e"
+            }
+          },
+          {
+            "packet": 1,
+            "changed_condition_fields": [
+              "pixel_values",
+              "state"
+            ],
+            "actual_pixel_fields_differ": [
+              "pixel_values"
+            ],
+            "backbone_features_differ": true,
+            "input_hashes": {
+              "a": "3d6f5a189aae6c4541b47d5fc89e15b28f298d195454b118bea12ca313ecb03b",
+              "b": "817a01c08c6f68525e264e34d93a7890c1b3899aee0cf7565254f23878a85b9e"
+            }
+          }
+        ]
+      }
+    ],
+    "new_model_queries": 0,
+    "new_physics": 0
+  },
+  "route": {
+    "status": "FROZEN_SINGLE_REGISTERED_COMPARISON_BEFORE_OPTIMIZER",
+    "authority": "PI0284_NATIVE_GENERATION_CONDITIONING_GO_V1",
+    "release": "fc9647b2183e5bb9d3943f4a57565ed9751e0739",
+    "canonical": 6053658526,
+    "K": 4,
+    "arms": [
+      "CTRL2048",
+      "LR5X2048"
+    ],
+    "reason": "Expert-state packet0 fit6/24 inadequate and natural contrast1 pair gives INCONCLUSIVE; default registered LR branch",
+    "parent": "PI0283_EVENT1024",
+    "parent_global_Adam": 5120,
+    "only_between_arm_difference": "SHARED_DIT_PEAK_LR_1E-5_VS_5E-5",
+    "projector_peak_LR_both": 0.0001,
+    "state_dropout_both": 0.0,
+    "updates_per_arm": 2048,
+    "warmup": 103,
+    "formal_updates_cap": 4096,
+    "same_parent_moments_and_actual_flow_noise_time_required": true,
+    "new_STATE20_branch": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}
