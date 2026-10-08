@@ -56,7 +56,7 @@ def reply(server,key):
 
 @contextmanager
 def resident_worker(point,log_path):
-    env=dict(os.environ,PYTHONPATH=':'.join([str(ROOT/'code'),str(ROOT.parent/'PI0283/code'),str(ROOT.parent/'PI0280/official'),str(ROOT/'project-src'),str(ROOT/'project-src/src')]))
+    env=dict(os.environ,HF_HOME=str(ROOT.parent/'PI0250/runtime/hf_home'),PYTHONPATH=':'.join([str(ROOT/'code'),str(ROOT.parent/'PI0283/code'),str(ROOT.parent/'PI0280/official'),str(ROOT/'project-src'),str(ROOT/'project-src/src')]))
     command=[str(ROOT.parent/'PI0250/runtime/venv/bin/python'),'-u',str(ROOT/'code/model_worker.py'),'--point',point]
     with Path(log_path).open('ab') as log:
         server=subprocess.Popen(command,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=log,text=True,bufsize=1)
