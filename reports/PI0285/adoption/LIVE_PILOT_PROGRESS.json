@@ -1,4 +1,5 @@
 {
+  "snapshot_epoch": 1791460246.4660292,
   "rows": [
     {
       "task": "T1",
@@ -47,9 +48,21 @@
       "layout": 285003,
       "success": true,
       "hold": 41
+    },
+    {
+      "task": "T1",
+      "layout": 285004,
+      "success": true,
+      "hold": 41
+    },
+    {
+      "task": "T2",
+      "layout": 285004,
+      "success": true,
+      "hold": 41
     }
   ],
-  "upload": {
+  "video": {
     "status": "PASS_PUBLIC_FIXED_REVISION_PILOT_VIDEO_READBACK_NOT_POLICY_QUALIFICATION",
     "repo": "leoyuer/pi0246-gate-pass-campaign",
     "prefix": "evidence/PI0285/common-scene-first-policy-20261008/pilot-videos",
@@ -76,5 +89,113 @@
     "new_physics": 0,
     "new_render": 0
   },
-  "process": "    PID ELAPSED %CPU   RSS S WCHAN\n1770786    1813  141 2333252 D folio_wait_bit_common\n"
+  "CPU_windows": {
+    "status": "PASS_COMPLETED_PILOT_RAW_WINDOWS_ONLY_NOT_TRAIN_DATA_ADMISSION",
+    "rows": [
+      {
+        "task": "T1",
+        "layout": 285000,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 90
+      },
+      {
+        "task": "T2",
+        "layout": 285000,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 90
+      },
+      {
+        "task": "T1",
+        "layout": 285001,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 96
+      },
+      {
+        "task": "T2",
+        "layout": 285001,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 96
+      },
+      {
+        "task": "T1",
+        "layout": 285002,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 96
+      },
+      {
+        "task": "T2",
+        "layout": 285002,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 96
+      },
+      {
+        "task": "T1",
+        "layout": 285003,
+        "windows": 601,
+        "buckets": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "first8": 38,
+        "tail_only": 91
+      }
+    ],
+    "new_model_calls": 0,
+    "new_physics": 0
+  },
+  "process": "    PID ELAPSED %CPU   RSS S WCHAN\n1770786    2315  139 2401928 D folio_wait_bit_common\n",
+  "actual_model_queries": 0,
+  "actual_optimizer_updates": 0,
+  "whole_pilot_complete": false
 }

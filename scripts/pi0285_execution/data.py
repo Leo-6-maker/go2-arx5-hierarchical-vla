@@ -51,18 +51,19 @@ def plan(rows,tasks,updates):
     for task,count in zip(tasks,counts):
         bucket_counts=quotas(count,WEIGHTS)
         streams[task]=iter(ordered([(p,j) for p,n in enumerate(bucket_counts) for j in range(n)],task))
-    visits=Counter();out=[]
+    visits=Counter();bucket_visits=Counter();pool_visits=Counter();out=[]
     for i in range(updates*8):
         task=tasks[i%len(tasks)];visit=i//len(tasks);seed=layouts[task][visit%len(layouts[task])]
         phase,_=next(streams[task]);key=(task,seed,phase);group=groups[key];assert group,key
-        event=[r for r in group if r['event_first8']];ordinal=visits[key];prioritize=phase!=4 and ordinal%2==0
+        event=[r for r in group if r['event_first8']];prioritize=phase!=4 and bucket_visits[task,phase]%2==0
         pool=event if prioritize and event else group
         pool=sorted(pool,key=lambda r:r['anchor'])
         # ponytail: deterministic eight strata, sufficient for the fixed finite stream.
-        strata=min(8,len(pool));stratum=(ordinal//2 if phase!=4 else ordinal)%strata
-        eligible=pool[stratum::strata];chosen=eligible[(ordinal//(2*strata))%len(eligible)]
+        poolkey=key+(bool(prioritize and event),);ordinal=pool_visits[poolkey]
+        strata=min(8,len(pool));stratum=ordinal%strata
+        eligible=pool[stratum::strata];chosen=eligible[(ordinal//strata)%len(eligible)]
         out.append(dict(chosen,index=i,sampling_event_priority=prioritize,event_fallback=bool(prioritize and not event),stratum=stratum))
-        visits[key]+=1
+        visits[key]+=1;bucket_visits[task,phase]+=1;pool_visits[poolkey]+=1
     assert Counter(r['task'] for r in out)==dict(zip(tasks,counts))
     for task,count in zip(tasks,counts):assert [sum(r['task']==task and r['phase']==p for r in out) for p in range(5)]==quotas(count,WEIGHTS)
     return out
@@ -177,6 +178,11 @@ def self_check():
     rows=[dict(task=task,layout=seed,phase=p,split='TRAIN',uid=f'{task}:{seed}:{p}:{a}',anchor=a,event_first8=a==0,event_tail_only=a==1,source='expert') for task in ('T1','T2') for seed in range(2) for p in range(5) for a in range(4)]
     a=plan(rows,['T1'],4096);b=plan(rows,['T1','T2'],4096)
     assert all(r['task']=='T1' for r in a) and Counter(r['task'] for r in b)=={'T1':16384,'T2':16384}
+    for values in (a,b):
+        for task in {r['task'] for r in values}:
+            for p in range(4):
+                group=[r for r in values if r['task']==task and r['phase']==p]
+                assert sum(r['sampling_event_priority'] for r in group)==quotas(len(group),[1,1])[0]
     assert a==plan(rows,['T1'],4096)
     assert max(Counter(r['layout'] for r in a).values())-min(Counter(r['layout'] for r in a).values())<=1
     print('PASS_LARGEST_REMAINDER_TASK_EPISODE_EVENT_PLAN; model/optimizer/physics=0')
