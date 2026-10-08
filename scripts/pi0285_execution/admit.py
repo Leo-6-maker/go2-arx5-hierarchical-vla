@@ -10,7 +10,7 @@ def run():
     deadline=start['start_epoch']+4*3600;completed=ROOT/'runtime/COLLECTION_COMPLETE.json'
     # ponytail: wait for this one existing dependency; no scheduler or recurring monitor.
     while not completed.exists():
-        assert Path('/proc'/str(pid)).exists(),'Original collection exited without its completion receipt'
+        assert (Path('/proc')/str(pid)).exists(),'Original collection exited without its completion receipt'
         assert time.time()<deadline,'Finite collection dependency timeout; inspect original process'
         time.sleep(10)
     value=json.loads(completed.read_text());assert value['returncode']==0,value
