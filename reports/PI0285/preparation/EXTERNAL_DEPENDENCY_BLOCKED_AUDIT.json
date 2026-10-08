@@ -1,0 +1,33 @@
+{
+  "status": "BLOCKED_AUDIT_THRESHOLD_MET_GOAL_NOT_SCIENTIFIC_COMPLETE",
+  "captured_utc": "2026-10-08T14:13:06.382847+00:00",
+  "same_blocker": "Corelab login 10.248.54.20:65522 TCP connect timeout before SSH authentication",
+  "consecutive_goal_turns_at_least": 3,
+  "current_original_handle_poll": "FAILED_TCP_TIMEOUT_NOT_TERMINAL_PROCESS_EVIDENCE",
+  "original_cpu_pids": [
+    1846449,
+    1885138
+  ],
+  "original_cpu_current_state": "UNOBSERVED_DO_NOT_RESTART",
+  "required_missing_current_evidence": [
+    "DATA_ADMISSION_COMPLETE.json",
+    "DATA_CODEC_ADMISSION.json",
+    "codec_check-BANK.CPU_COMPLETE.json"
+  ],
+  "Hopper_current": {
+    "formal_data_present": false,
+    "models_present": false,
+    "job_submission": null,
+    "renderer_dependencies_present": false
+  },
+  "completed_preparation_commit": "97acc115f",
+  "continuation": "Restore Corelab access; inspect original CPU handles/receipts; same-contract repair if needed; direct full data readback; canary and PLACE training; frozen finite endpoint evaluation",
+  "checkpoint_gate_bypassed": false,
+  "dataset_recollected": false,
+  "new_qsub": 0,
+  "neural_queries": 0,
+  "optimizer_updates": 0,
+  "files_deleted": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
