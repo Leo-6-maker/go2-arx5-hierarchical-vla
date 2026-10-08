@@ -2,6 +2,8 @@
 import argparse,hashlib,json,os,sys,time
 from pathlib import Path
 import numpy as np
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG',':4096:8')
+assert os.environ['CUBLAS_WORKSPACE_CONFIG']==':4096:8'
 import torch
 from codec import load_codec,sha
 
