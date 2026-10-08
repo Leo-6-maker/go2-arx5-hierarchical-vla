@@ -1,0 +1,1181 @@
+{
+  "status": "ACTUAL_CPU_CLOSED_EPISODE_FUNNEL_NOT_NEW_QUALIFICATION",
+  "point": "REPAIR_A2048-2048",
+  "proofs": {
+    "TRAIN": {
+      "source_sha256": "8f47b7db356d07a24f33e6dbbb0324481363c9aa7d2be0ab669d2268f37e9e8c",
+      "CPU_sha256": "0188ebe62d13e11ac3101b6ed1de59d78dcf8b46a6299ade902b3cb6ed98718c"
+    }
+  },
+  "rows": [
+    {
+      "task": "T1",
+      "layout": 285100,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.81,
+          "changes": [
+            {
+              "time_s": 2.81,
+              "value": true
+            },
+            {
+              "time_s": 14.27,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 4.42,
+          "changes": [
+            {
+              "time_s": 4.42,
+              "value": true
+            },
+            {
+              "time_s": 4.47,
+              "value": false
+            },
+            {
+              "time_s": 4.74,
+              "value": true
+            },
+            {
+              "time_s": 4.92,
+              "value": false
+            },
+            {
+              "time_s": 5.0600000000000005,
+              "value": true
+            },
+            {
+              "time_s": 13.84,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 7.65,
+          "changes": [
+            {
+              "time_s": 7.65,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 11.32,
+          "changes": [
+            {
+              "time_s": 11.32,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.81,
+              "value": false
+            },
+            {
+              "time_s": 14.27,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.75,
+              "value": false
+            },
+            {
+              "time_s": 15.240000000000002,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 15.240000000000002,
+          "changes": [
+            {
+              "time_s": 15.240000000000002,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 15.240000000000002,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.656192125278536e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0058530536480247974,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "2ba5f167b285560d2327dd37519a52837d76fbff2a1f5c2a58624499aa26c47f"
+    },
+    {
+      "task": "T1",
+      "layout": 285101,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.11,
+          "changes": [
+            {
+              "time_s": 2.11,
+              "value": true
+            },
+            {
+              "time_s": 7.42,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.64,
+          "changes": [
+            {
+              "time_s": 2.64,
+              "value": true
+            },
+            {
+              "time_s": 7.040000000000001,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 4.72,
+          "changes": [
+            {
+              "time_s": 4.72,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.140000000000001,
+          "changes": [
+            {
+              "time_s": 5.140000000000001,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.11,
+              "value": false
+            },
+            {
+              "time_s": 7.42,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.02,
+              "value": false
+            },
+            {
+              "time_s": 8.94,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.94,
+          "changes": [
+            {
+              "time_s": 8.94,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.94,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.589101324219537e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005627415142953396,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "16197c93033808fcf5e0c163fbac0cc3ae323beb232bf8dacfe0b39dc0a1ec38"
+    },
+    {
+      "task": "T1",
+      "layout": 285102,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.21,
+          "changes": [
+            {
+              "time_s": 2.21,
+              "value": true
+            },
+            {
+              "time_s": 7.17,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.8200000000000003,
+          "changes": [
+            {
+              "time_s": 2.8200000000000003,
+              "value": true
+            },
+            {
+              "time_s": 6.94,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.09,
+          "changes": [
+            {
+              "time_s": 5.09,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 6.0600000000000005,
+          "changes": [
+            {
+              "time_s": 6.0600000000000005,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.21,
+              "value": false
+            },
+            {
+              "time_s": 7.17,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.21,
+              "value": false
+            },
+            {
+              "time_s": 8.43,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 8.43,
+          "changes": [
+            {
+              "time_s": 8.43,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 8.43,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.87838862730012e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006355371791869402,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "c52955d09c2254c1fbebb9f0bf70d8d7b284165628a55d308e27dde77ffb7ba9"
+    },
+    {
+      "task": "T1",
+      "layout": 285103,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 3.1900000000000004,
+          "changes": [
+            {
+              "time_s": 3.1900000000000004,
+              "value": true
+            },
+            {
+              "time_s": 10.47,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.59,
+          "changes": [
+            {
+              "time_s": 3.59,
+              "value": true
+            },
+            {
+              "time_s": 10.42,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 7.720000000000001,
+          "changes": [
+            {
+              "time_s": 7.720000000000001,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 8.08,
+          "changes": [
+            {
+              "time_s": 8.08,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.1900000000000004,
+              "value": false
+            },
+            {
+              "time_s": 10.47,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.02,
+              "value": false
+            },
+            {
+              "time_s": 11.530000000000001,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 11.530000000000001,
+          "changes": [
+            {
+              "time_s": 11.530000000000001,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 11.530000000000001,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.256422914527576e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.005984172690659761,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "bc7874e69f484edd4a929646b93feaed66719bb2ce6f872eff137b02a8508b4e"
+    },
+    {
+      "task": "T1",
+      "layout": 285104,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.25,
+          "changes": [
+            {
+              "time_s": 2.25,
+              "value": true
+            },
+            {
+              "time_s": 10.52,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.72,
+          "changes": [
+            {
+              "time_s": 2.72,
+              "value": true
+            },
+            {
+              "time_s": 3.09,
+              "value": false
+            },
+            {
+              "time_s": 3.1799999999999997,
+              "value": true
+            },
+            {
+              "time_s": 10.43,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 6.79,
+          "changes": [
+            {
+              "time_s": 6.79,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 9.13,
+          "changes": [
+            {
+              "time_s": 9.13,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.25,
+              "value": false
+            },
+            {
+              "time_s": 10.52,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.0699999999999998,
+              "value": false
+            },
+            {
+              "time_s": 11.32,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 11.32,
+          "changes": [
+            {
+              "time_s": 11.32,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 11.32,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.733126669344105e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006379773374646902,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "aa46510803d55491f089eb0f7366d1a88dd227bc8c741d66a2f3e520ed9e0ce8"
+    },
+    {
+      "task": "T1",
+      "layout": 285105,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.35,
+          "changes": [
+            {
+              "time_s": 2.35,
+              "value": true
+            },
+            {
+              "time_s": 5.75,
+              "value": false
+            },
+            {
+              "time_s": 5.97,
+              "value": true
+            },
+            {
+              "time_s": 6.07,
+              "value": false
+            },
+            {
+              "time_s": 6.3500000000000005,
+              "value": true
+            },
+            {
+              "time_s": 12.92,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 7.609999999999999,
+          "changes": [
+            {
+              "time_s": 7.609999999999999,
+              "value": true
+            },
+            {
+              "time_s": 7.65,
+              "value": false
+            },
+            {
+              "time_s": 7.91,
+              "value": true
+            },
+            {
+              "time_s": 12.700000000000001,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 10.68,
+          "changes": [
+            {
+              "time_s": 10.68,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 11.52,
+          "changes": [
+            {
+              "time_s": 11.52,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.35,
+              "value": false
+            },
+            {
+              "time_s": 5.75,
+              "value": true
+            },
+            {
+              "time_s": 5.97,
+              "value": false
+            },
+            {
+              "time_s": 6.07,
+              "value": true
+            },
+            {
+              "time_s": 6.3500000000000005,
+              "value": false
+            },
+            {
+              "time_s": 12.92,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.1800000000000002,
+              "value": false
+            },
+            {
+              "time_s": 14.040000000000001,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 14.040000000000001,
+          "changes": [
+            {
+              "time_s": 14.040000000000001,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 14.040000000000001,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.3689357276633e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.006550268270075321,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "2c3558720913667cb29315bb59fd698e8aa993b7f23dba996927d30306c83b1a"
+    },
+    {
+      "task": "T1",
+      "layout": 285106,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": false,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 4.97,
+          "changes": [
+            {
+              "time_s": 4.97,
+              "value": true
+            },
+            {
+              "time_s": 5.0600000000000005,
+              "value": false
+            },
+            {
+              "time_s": 5.34,
+              "value": true
+            },
+            {
+              "time_s": 5.47,
+              "value": false
+            },
+            {
+              "time_s": 6.17,
+              "value": true
+            },
+            {
+              "time_s": 6.23,
+              "value": false
+            },
+            {
+              "time_s": 6.2700000000000005,
+              "value": true
+            },
+            {
+              "time_s": 6.3,
+              "value": false
+            },
+            {
+              "time_s": 6.38,
+              "value": true
+            },
+            {
+              "time_s": 6.390000000000001,
+              "value": false
+            },
+            {
+              "time_s": 6.61,
+              "value": true
+            },
+            {
+              "time_s": 6.69,
+              "value": false
+            },
+            {
+              "time_s": 6.92,
+              "value": true
+            },
+            {
+              "time_s": 7.040000000000001,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 3.1900000000000004,
+          "changes": [
+            {
+              "time_s": 3.1900000000000004,
+              "value": true
+            },
+            {
+              "time_s": 3.3600000000000003,
+              "value": false
+            },
+            {
+              "time_s": 3.38,
+              "value": true
+            },
+            {
+              "time_s": 3.4800000000000004,
+              "value": false
+            },
+            {
+              "time_s": 4.2700000000000005,
+              "value": true
+            },
+            {
+              "time_s": 4.41,
+              "value": false
+            },
+            {
+              "time_s": 9.77,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 4.97,
+              "value": false
+            },
+            {
+              "time_s": 5.0600000000000005,
+              "value": true
+            },
+            {
+              "time_s": 5.34,
+              "value": false
+            },
+            {
+              "time_s": 5.47,
+              "value": true
+            },
+            {
+              "time_s": 6.17,
+              "value": false
+            },
+            {
+              "time_s": 6.23,
+              "value": true
+            },
+            {
+              "time_s": 6.2700000000000005,
+              "value": false
+            },
+            {
+              "time_s": 6.3,
+              "value": true
+            },
+            {
+              "time_s": 6.38,
+              "value": false
+            },
+            {
+              "time_s": 6.390000000000001,
+              "value": true
+            },
+            {
+              "time_s": 6.61,
+              "value": false
+            },
+            {
+              "time_s": 6.69,
+              "value": true
+            },
+            {
+              "time_s": 6.92,
+              "value": false
+            },
+            {
+              "time_s": 7.040000000000001,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.1,
+              "value": false
+            },
+            {
+              "time_s": 19.69,
+              "value": true
+            },
+            {
+              "time_s": 20.73,
+              "value": false
+            },
+            {
+              "time_s": 20.82,
+              "value": true
+            },
+            {
+              "time_s": 21.71,
+              "value": false
+            },
+            {
+              "time_s": 23.03,
+              "value": true
+            },
+            {
+              "time_s": 23.93,
+              "value": false
+            },
+            {
+              "time_s": 23.98,
+              "value": true
+            },
+            {
+              "time_s": 24.16,
+              "value": false
+            },
+            {
+              "time_s": 24.28,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.009653706872665667,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.021379457786679268,
+      "IK_holds": 81,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "4283385b52830b68f14d689ccd4b9798322b1b25500e71dcdb54a4157d0baca9"
+    },
+    {
+      "task": "T1",
+      "layout": 285107,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.0,
+          "changes": [
+            {
+              "time_s": 2.0,
+              "value": true
+            },
+            {
+              "time_s": 2.0100000000000002,
+              "value": false
+            },
+            {
+              "time_s": 3.92,
+              "value": true
+            },
+            {
+              "time_s": 5.62,
+              "value": false
+            },
+            {
+              "time_s": 7.1899999999999995,
+              "value": true
+            },
+            {
+              "time_s": 15.41,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 4.63,
+          "changes": [
+            {
+              "time_s": 4.63,
+              "value": true
+            },
+            {
+              "time_s": 5.69,
+              "value": false
+            },
+            {
+              "time_s": 8.41,
+              "value": true
+            },
+            {
+              "time_s": 8.450000000000001,
+              "value": false
+            },
+            {
+              "time_s": 8.58,
+              "value": true
+            },
+            {
+              "time_s": 15.080000000000002,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 12.35,
+          "changes": [
+            {
+              "time_s": 12.35,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 13.67,
+          "changes": [
+            {
+              "time_s": 13.67,
+              "value": true
+            },
+            {
+              "time_s": 13.700000000000001,
+              "value": false
+            },
+            {
+              "time_s": 13.8,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.0,
+              "value": false
+            },
+            {
+              "time_s": 2.0100000000000002,
+              "value": true
+            },
+            {
+              "time_s": 3.92,
+              "value": false
+            },
+            {
+              "time_s": 5.62,
+              "value": true
+            },
+            {
+              "time_s": 7.1899999999999995,
+              "value": false
+            },
+            {
+              "time_s": 15.41,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.2600000000000002,
+              "value": false
+            },
+            {
+              "time_s": 16.29,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 16.29,
+          "changes": [
+            {
+              "time_s": 16.29,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 16.29,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.780096244793897e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.007387878838926554,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "2859c7d28efb382eacf21302b0f5cfbd43fed00b2625f14e7c9611a2f9a07bed"
+    }
+  ],
+  "model_queries_added": 0,
+  "physics_added": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
