@@ -11,19 +11,25 @@ def pull(point,ready_only=False):
     final=ROOT/'transfers'/point
     key=ROOT/'runtime/hopper_model_pull';assert key.stat().st_mode&0o777==0o600
     before=time.time()
+    ssh=shlex.join(['ssh','-i',str(key),'-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','UserKnownHostsFile='+str(ROOT/'runtime/hopper_known_hosts'),'-o','ConnectTimeout=15'])
     if not final.exists():
-        ssh=shlex.join(['ssh','-i',str(key),'-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','UserKnownHostsFile='+str(ROOT/'runtime/hopper_known_hosts'),'-o','ConnectTimeout=15'])
         source='e1192548@hopper.nus.edu.sg:'+point+('/READY.json' if ready_only else '/')
         subprocess.run(['rsync','-a','--partial','--append-verify','-e',ssh,source,str(folder)+'/'],check=True)
         ready=json.loads((folder/'READY.json').read_text())
         assert ready['point']==point and not ready['optimizer_transfer'] and ready['status']=='LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT'
         if ready_only:return ready
+        subprocess.run(['rsync','-a','-e',ssh,'e1192548@hopper.nus.edu.sg:audits/'+point+'.json',str(folder/'TRAINING_CPU.json')],check=True)
+        audit=json.loads((folder/'TRAINING_CPU.json').read_text())
+        assert audit['status']=='PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE' and audit['point']==point
+        assert audit['checkpoint']==ready['full_recovery'] and audit['export_sha256']==sha(folder/'EXPORT.json')
         assert {v['path'] for v in ready['files']}=={'exact_changed_tensors.safetensors','EXPORT.json','config.json','processor_config.json','statistics.json','embodiment_id.json'}
         for item in ready['files']:
             p=folder/item['path'];assert p.stat().st_size==item['bytes'] and sha(p)==item['sha256'],item['path']
         folder.replace(final)
         write(final/'DIRECT_READBACK.json',dict(status='PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK',point=point,files=ready['files'],elapsed_s=time.time()-before,optimizer_transfer=False,HF_critical_path=False))
     assert not ready_only
+    actual_audit=json.loads((final/'TRAINING_CPU.json').read_text())
+    assert actual_audit['status']=='PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE' and actual_audit['point']==point
     # Native master reconstruction and BF16 casting were already verified by this helper.
     sys.path.append(str(ROOT.parent/'PI0283/code'))
     from model_view import materialize

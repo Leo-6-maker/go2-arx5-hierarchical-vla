@@ -21,6 +21,9 @@ def panel_gate(point,panel):
     assert admission['status']=='PASS_NEW_COMMON_SCENE_FULL_NATIVE_CODEC_AND_TWO_WORKERS'
     for name,h in admission['bindings'].items():assert sha(ROOT/'data'/name)==h,name
     binding=json.loads((ROOT/'design/MODEL_POINTS.json').read_text())[point]
+    training=json.loads((ROOT/'transfers'/point/'TRAINING_CPU.json').read_text())
+    assert training['status']=='PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE' and training['point']==point
+    assert training['export_sha256']==sha(ROOT/'transfers'/point/'EXPORT.json')
     for name,h in binding['files'].items():assert sha(Path(binding['model_root'])/name)==h,name
     if point.startswith(('SHARED','REPAIR_B')) or panel=='ACQUISITION':
         protected=json.loads((ROOT/'qualification/PLACE_V1_PROTECTED.json').read_text())
@@ -99,6 +102,8 @@ def episode(server,point,panel,task,seed):
         resultscore=score(data,task,ep.env.layout_spec['zone_xy'],red,green,status,ep.control)
         write(ep.folder/'QUERIES.json',queries);write(ep.folder/'TASK_SCORE_CPU.json',resultscore)
         result=ep.finish(status)
+        result['original_native_stack_first_success_s']=result.pop('first_success_s')
+        result['first_task_hold_s']=resultscore['subpredicates'][task+'_hold']['first_true_s']
         result.update(point=point,task=task,split=panel,layout=seed,instruction=INSTRUCTIONS[task],folder=str(ep.folder),task_score=resultscore,persistent_success=resultscore['persistent_success'],elapsed_wall_s=time.time()-began,model_queries=len(queries),teacher_passes=0,NON_REALTIME=True,domain='NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK',selected='NONE',deployment='NONE')
         write(ep.folder/'RESULT.json',result);return result
     except BaseException as exc:

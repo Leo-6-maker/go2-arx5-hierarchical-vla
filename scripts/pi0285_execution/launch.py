@@ -1,5 +1,5 @@
 """One scheduler lease, actual full-resume canary, then one fixed training segment."""
-import argparse,fcntl,json,os,re,subprocess,sys,time
+import argparse,fcntl,json,os,re,shutil,subprocess,sys,time
 from pathlib import Path
 from contract import ROOT,guard,sha,write
 from budget import process,time_allowed,seconds
@@ -58,12 +58,15 @@ def run(a):
             output=root/'learning'/a.arm/'main';checkpoints=sorted(output.glob('checkpoint-*'),key=lambda p:int(p.name.split('-')[-1]))
             assert checkpoints;last=int(checkpoints[-1].name.split('-')[-1])
             assert json.loads((checkpoints[-1]/'PI0282_RECOVERY.json').read_text())['cursor']==last*8
-            state='FIXED_SEGMENT_COMPLETE' if last==a.stop else 'SAFE_STOP_FULL_EXACT_RECOVERY'
+            state='TRAINING_COMPLETE_CPU_FINALIZATION_PENDING' if last==a.stop else 'SAFE_STOP_FULL_EXACT_RECOVERY'
             if last==a.stop:
                 # CPU readback is part of this one lease; it adds no forward/gradient query.
                 command=[sys.executable,'-u',str(root/'code/training_audit.py'),'--arm',a.arm,'--step',str(last)]
                 with (root/'runtime'/f'{a.arm}-{last}_training_CPU.log').open('ab') as log:
                     subprocess.run(command,env=dict(os.environ,CUDA_VISIBLE_DEVICES=''),stdout=log,stderr=subprocess.STDOUT,check=True)
+                audits=root/'delivery/audits';audits.mkdir(exist_ok=True)
+                shutil.copyfile(root/'evidence'/f'{a.arm}-{last}_TRAINING_CPU.json',audits/f'{a.arm}-{last}.json')
+                state='FIXED_SEGMENT_COMPLETE'
             write(root/'runtime'/f'{a.arm}_SEGMENT_{a.resume}_{a.stop}.json',dict(status=state,last_completed_step=last,checkpoint=str(checkpoints[-1]),PBS_JOBID=allocation['PBS_JOBID'],card_sha256=sha(a.card),selected='NONE',deployment='NONE'))
         finally:
             process(root,'end',began)
