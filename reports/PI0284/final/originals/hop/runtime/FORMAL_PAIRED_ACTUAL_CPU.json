@@ -1,0 +1,40 @@
+{
+  "status": "PASS_FULL_FORMAL_ACTUAL_PAIRING_AND_ONLY_DIT_LR_SCALE",
+  "microbatches_each": 4096,
+  "chunks_each": 16384,
+  "sources": {
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/learning/CTRL2048/main/consumption.jsonl": "ef69e525b7a2961a624715296ca6fed17ced86646f249d55b8e422e2d5f95716",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/learning/CTRL2048/main/native_loss_modes_LR.jsonl": "e0195e7af6d3b8faef8296e2b577074bc6aa00072ebd4405fd437a1f6cc00293",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/learning/LR5X2048/main/consumption.jsonl": "1869d40fdb16786417ba8d87cbf0f8d5537ff191ce6d96997bbd9fa4b5583f2d",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/learning/LR5X2048/main/native_loss_modes_LR.jsonl": "4556d762e3920c12377a26019e388bdeb644ae373e3929069a540d73bd9758dc"
+  },
+  "common_plan_sha256": "9b4e64d949090dce2f60250ed091351a1de3a9fd4a859b500dda1be6615e8c26",
+  "events_by_phase": {
+    "0": {
+      "close_first8": 1469,
+      "close_tail_only": 1757,
+      "stable_open": 870,
+      "open_tail_only": 2
+    },
+    "1": {
+      "stable_closed": 3216,
+      "open_tail_only": 136,
+      "close_first8": 748
+    },
+    "2": {
+      "open_first8": 1465,
+      "open_tail_only": 1557,
+      "stable_closed": 1074
+    },
+    "3": {
+      "stable_open": 3856,
+      "open_first8": 240
+    }
+  },
+  "event_definition": "Full episode gripper diff including transition into anchor sample0; original first8/tail threshold .1. Preparatory opening_first8_draws excluded that transition and is not numerically interchangeable.",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

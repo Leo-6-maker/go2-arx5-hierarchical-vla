@@ -1,0 +1,164 @@
+{
+  "release": "8fdaab73b8b6686409317d9562833235c2839acc",
+  "canonical": 6053658526,
+  "points": [
+    "CTRL1024",
+    "CTRL2048",
+    "LR5X1024",
+    "LR5X2048"
+  ],
+  "panels": {
+    "TRAIN": [
+      10000,
+      10001,
+      10002,
+      10003
+    ],
+    "DEV": [
+      30000,
+      30001,
+      30002,
+      30003,
+      30004,
+      30005,
+      30006,
+      30007
+    ],
+    "CONFIRM": [
+      30100,
+      30101,
+      30102,
+      30103,
+      30104,
+      30105,
+      30106,
+      30107,
+      30108,
+      30109,
+      30110,
+      30111,
+      30112,
+      30113,
+      30114,
+      30115
+    ]
+  },
+  "codec_command": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+    "-u",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/codec.py",
+    "--stdio",
+    "--root",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/data"
+  ],
+  "policy_command": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+    "-u",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0284/code/endpoint_worker.py",
+    "--root",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0284"
+  ],
+  "native_pythonpath": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/code:/home/liuyu-nfs/Projects/go2-arx5/PI0283/code:/home/liuyu-nfs/Projects/go2-arx5/PI0280/official:/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/src:/home/liuyu-nfs/Projects/go2-arx5/PI0276/code",
+  "hf_home": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/hf_home",
+  "expert_parents": {
+    "10000": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10000-eef/attempt-000",
+      "files": {
+        "RESULT.json": "e31e4eab5bf9bda7647eae0c1eb283f1dcba2dd750fe6cc7c00c538948fe15ca",
+        "commands.npz": "865c26a7bad29183cd01dfdd018f6f660515a1dd3c19340790756f66d357d076",
+        "initial.npz": "bc6e0cf1ebbc8a4d80fc14ab05af78e24fd033843619e86e8b538434010281c2"
+      }
+    },
+    "10001": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10001-eef/attempt-000",
+      "files": {
+        "RESULT.json": "7a68026182f90bef46631276582f6eaeb3fae3e5c5a27d917722c8b3f79279d4",
+        "commands.npz": "5880501be81568f835f400ece77092d6555ef16127ee46ebd6abb687402c5d17",
+        "initial.npz": "3969116792246743486d792d1ff8f41ef7f51b54bba14c8a206b99dbcac2c42f"
+      }
+    },
+    "10002": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10002-eef/attempt-000",
+      "files": {
+        "RESULT.json": "3f932d3625623288d7419eccf108c8ff0ea12b2fa3cfb34754c6c547cd903137",
+        "commands.npz": "123149bdb1b34beea939b7875cb7f0a3a440ad2f7f2ef9458963c5ee64447b97",
+        "initial.npz": "5505d107c95cc4d6b7ba866ba08130b23a5d5859e8ab64273b1e6d412a170bf9"
+      }
+    },
+    "10003": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10003-eef/attempt-000",
+      "files": {
+        "RESULT.json": "23be88c3d35f099f6e5d015327768c83485db387013e3c2b6bdedd39bf8baf0d",
+        "commands.npz": "831742944b4140faaad59c0c359e654b250aa8d804085c1a31c6f9e27307ea13",
+        "initial.npz": "d7aafd71dce40a40ce37dc99bfba3d8a1687c1bd28bfe6bfa6edbce4494d6992"
+      }
+    }
+  },
+  "predecessors": {
+    "source_worker": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/source_worker.py",
+      "sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3"
+    },
+    "source_fileset": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/design/SOURCE_FILESET.json",
+      "sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190"
+    },
+    "native_source": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/source.py",
+      "sha256": "1e931308f9f64feb83bdfeb2f47a4320e249e4049990dd2a82f13843fe8c5fee"
+    },
+    "native_source_guard_expert_result": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/source/evidence/RESULT_EXPERT_TRAIN.json",
+      "sha256": "15cce0427b0104c6d0fa32be06ba9b9d2258deebed667fb0fec824f4dd554219"
+    }
+  },
+  "code_sha256": {
+    "budget.py": "b6ec4b9be4fca6529e495a061aa8e884960e46e69b8e11b4a8d59c3fac7cd716",
+    "authority.py": "964db9eace16ad895ce941715587619b81532b8a40a0ddba54441674a99d81a8",
+    "endpoint_worker.py": "88bb586a5af40a125be42f6bb85f307f30eaca60eb3685d6c38e7a10382d3baf",
+    "source_entry.py": "64d10ae214bbbf49026fa7cf018d8e72ec6493a30b2a2b65f3607b09c77f8e9d",
+    "evaluate_point.py": "eb9054351352575a17f2422cf799553d7d757da4c95b301dfda439d6eed45de4",
+    "retention.py": "9cb7b0f4d3af745cc84434016a63389ff567b0445301b8d87ee02ead5fe70dde",
+    "retention_cpu_check.py": "af5e77bd19f129a569124540e8b1e0b24ec763bfd26e23a5b84382f5de8b669a",
+    "materialize_point.py": "c1fab1e38e3522619c8cf10d2150390a66cc1cf474bf263307fe292f6ca2dba2",
+    "native_worker.py": "38ba46ca0c6d31b11984707129171c0539bf4c00a830a0db72426dd6c1945223",
+    "prepare_core.py": "f34f8a79dd117b5005e97d0eac0a19008d64b92d7e6bce595e7a95d72bb2ac51",
+    "diagnostic_runner.py": "ecdf7031aabe92f6cbfc721ad324ea37b5759b38e77af86361a00200a061c287",
+    "score.py": "a47b8d21c8c23659a7d979e2045320c963fc75bbc1cfa7ac36737f75df91510c",
+    "eval_cpu_check.py": "b4c9c35c2c4d13fa966c665c7811b9bdf94011808f96617c535b370ff3b5503f",
+    "offline_cpu_audit.py": "81c0acf1ae8c9a117cd71d6c254ebd4e02264b448ee3ab3539d64f5b0d1539a8"
+  },
+  "step_s": 0.05,
+  "control_Hz": 20,
+  "physics_Hz": 100,
+  "task_control_calls": 640,
+  "pre_roll_control_calls": 20,
+  "H": 40,
+  "prefix": 8,
+  "observations": "ACTUAL_CURRENT_RAW128_TCP_ROW6D_MEASURED_OPENING_NO_JOINT_PHASE_TIME_OR_TRUTH",
+  "source_controller": "UNCHANGED_PI0276_NATIVE_PD_EE_POSE",
+  "physical_caps": {
+    "starts": 64,
+    "control": 45000,
+    "physics": 230000,
+    "rgb": 45000,
+    "dispatches": 90000,
+    "teacher": 0
+  },
+  "model_caps": {
+    "requests": 6272,
+    "heads": 100352
+  },
+  "metric": "FULL32S_AND_ALL41_ORIGINAL_TASK_SUCCESS_SAMPLES28_TO30",
+  "NON_REALTIME": true,
+  "technical_replacements": {},
+  "point_bindings": {},
+  "selected": "NONE",
+  "deployment": "NONE",
+  "authority_release": "fc9647b2183e5bb9d3943f4a57565ed9751e0739",
+  "development_points": [
+    "CTRL2048",
+    "LR5X2048"
+  ],
+  "conservative_episode_reserve_s": 360
+}

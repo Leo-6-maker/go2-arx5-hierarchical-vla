@@ -1,0 +1,65 @@
+{
+  "status": "PASS_CPU_NATURAL_RESPONSE_WITH_REAL_CONDITIONING_AND_SAME_NOISE",
+  "pairs": 1,
+  "weak_response": "INCONCLUSIVE",
+  "results": [
+    {
+      "pair": 0,
+      "expert_displacement_difference7": [
+        0.0136047238484025,
+        0.07490485347807407,
+        -0.009645819664001465
+      ],
+      "predicted_displacement_differences7": [
+        [
+          0.027993425726890564,
+          0.14492736756801605,
+          -0.009319044649600983
+        ],
+        [
+          0.003170735202729702,
+          0.10330279171466827,
+          -0.02499391883611679
+        ]
+      ],
+      "mean_predicted_norm": 0.12711535394191742,
+      "expert_norm": 0.07673895635564426,
+      "response_ratio": 1.6564644605382088,
+      "noise_spread": 0.05093596875667572,
+      "pixel_feature_checks": [
+        {
+          "packet": 0,
+          "changed_condition_fields": [
+            "pixel_values",
+            "state"
+          ],
+          "actual_pixel_fields_differ": [
+            "pixel_values"
+          ],
+          "backbone_features_differ": true,
+          "input_hashes": {
+            "a": "3d6f5a189aae6c4541b47d5fc89e15b28f298d195454b118bea12ca313ecb03b",
+            "b": "817a01c08c6f68525e264e34d93a7890c1b3899aee0cf7565254f23878a85b9e"
+          }
+        },
+        {
+          "packet": 1,
+          "changed_condition_fields": [
+            "pixel_values",
+            "state"
+          ],
+          "actual_pixel_fields_differ": [
+            "pixel_values"
+          ],
+          "backbone_features_differ": true,
+          "input_hashes": {
+            "a": "3d6f5a189aae6c4541b47d5fc89e15b28f298d195454b118bea12ca313ecb03b",
+            "b": "817a01c08c6f68525e264e34d93a7890c1b3899aee0cf7565254f23878a85b9e"
+          }
+        }
+      ]
+    }
+  ],
+  "new_model_queries": 0,
+  "new_physics": 0
+}
