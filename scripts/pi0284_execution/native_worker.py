@@ -15,7 +15,8 @@ def query(root,model,codec,request):
     source=Path(request['input']);target=Path(request['output']);noise_path=Path(request['noise'])
     assert not target.exists(),'Reuse valid output'
     assert target.resolve().is_relative_to(root.resolve())
-    for p in (source,noise_path):assert p.resolve().is_relative_to(root.resolve()) or p.resolve().is_relative_to(Path('/home/liuyu-nfs/Projects/go2-arx5/PI0283').resolve())
+    reused=Path(json.loads((root/'design/RUNTIME_CARD.json').read_text())['parent_root'])
+    for p in (source,noise_path):assert p.resolve().is_relative_to(root.resolve()) or p.resolve().is_relative_to(reused.resolve())
     with np.load(source) as f:state=f['actual_state'].copy();base=f['base_raw'].copy();wrist=f['wrist_raw'].copy()
     from gr00t.policy.gr00t_policy import _rec_to_dtype
     inputs=_rec_to_dtype(dict(codec.observation(base,wrist,state)),dtype=torch.bfloat16)
