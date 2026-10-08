@@ -36,7 +36,7 @@ def audit(split):
         with np.load(folder/'commands.npz') as f:commands=f['action'].copy();phase=f['phase'].copy()
         with np.load(folder/'observations.npz') as f:
             states=f['state_v1'].copy();clock=f['time_s'].copy()
-            initial[row['task'],row['layout']]={k:f[k][0].copy() for k in ('base_camera_raw','hand_camera_raw','state_v1','base_camera_extrinsic_cv','hand_camera_extrinsic_cv') if k in f.files}
+            initial[row['task'],row['layout']]={f'{k}@control{a}':f[k][a].copy() for k in ('base_camera_raw','hand_camera_raw','state_v1','base_camera_extrinsic_cv','hand_camera_extrinsic_cv') if k in f.files for a in (0,20) if a<len(f[k])}
         assert len(states)==len(commands)==len(clock) and np.allclose(clock,np.arange(len(clock))*.05)
         assert np.allclose(states[:,:3],data['tcp'][::5][:len(states),:3,3],atol=1e-7),'Actual pre-command input clock'
         with np.load(folder/'installed.npz') as f:installed=f['installed_target_fk'].copy()

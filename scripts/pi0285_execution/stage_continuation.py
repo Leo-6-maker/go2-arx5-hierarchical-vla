@@ -1,5 +1,5 @@
 """Change only future output placement after the complete, audited pilot closes."""
-import base64,hashlib,json,sys
+import base64,hashlib,json,subprocess,sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'pi0276_execution'))
 from coordinator import remote
@@ -8,7 +8,8 @@ from coordinator import remote
 def stage():
     here=Path(__file__).resolve().parent
     files={p.name:base64.b64encode(p.read_bytes()).decode() for p in here.glob('*.py') if not p.name.startswith('stage')}
-    code=f'FILES={files!r}\n'+r'''
+    commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+    code=f'FILES={files!r}\nCOMMIT={commit!r}\n'+r'''
 import base64,hashlib,json,os,shutil,subprocess,time
 from collections import Counter
 from pathlib import Path
@@ -44,11 +45,25 @@ assert counts['starts']==16
 oldseal=r/'design/CODE_SEAL.json';preserved=r/'design/CODE_SEAL_PILOT.json'
 if preserved.exists():assert preserved.read_bytes()==oldseal.read_bytes()
 else:shutil.copyfile(oldseal,preserved)
-tier=dict(status='PASS_CLOSED_PILOT_CUMULATIVE_LEDGER_DURABLE_LOCAL_TIER',record_root=str(local),original_pilot_root=str(r/'source'),original_pilot_seal_sha256=sha(preserved),closed_pid=closed['pid'],PILOT_CPU_sha256=sha(r/'audit/PILOT_CPU.json'),prior_ledger_sha256=sha(source),initial_cumulative_counts=counts,fstype=fstype,measured_local_free_bytes=before.free,personal_quota='UNKNOWN',scope='ONLY_FUTURE_RAW_OUTPUT_LOCATION_NO_TEACHER_SCORER_CAMERA_PHYSICS_OR_SEED_CHANGE',pilot_evidence_moved_or_deleted=False)
+large={}
+for name in ('data','models','transfers'):
+ target=local.parent/name;target.mkdir(exist_ok=True);alias=r/name
+ assert target.resolve().is_relative_to(local.parent.resolve())
+ if alias.is_symlink():assert alias.resolve()==target.resolve()
+ else:
+  if alias.exists():assert alias.is_dir() and not any(alias.iterdir());alias.rmdir()
+  alias.symlink_to(target,target_is_directory=True)
+ large[name]=str(target)
+tier=dict(status='PASS_CLOSED_PILOT_CUMULATIVE_LEDGER_DURABLE_LOCAL_TIER',record_root=str(local),large_output_roots=large,original_pilot_root=str(r/'source'),original_pilot_seal_sha256=sha(preserved),closed_pid=closed['pid'],PILOT_CPU_sha256=sha(r/'audit/PILOT_CPU.json'),prior_ledger_sha256=sha(source),initial_cumulative_counts=counts,fstype=fstype,measured_local_free_bytes=before.free,personal_quota='UNKNOWN',scope='FUTURE_OWN_RAW_DATA_MODEL_VIEWS_AND_TRANSFERS_NO_TEACHER_SCORER_CAMERA_PHYSICS_OR_SEED_CHANGE',pilot_evidence_moved_or_deleted=False)
 (r/'design/RECORDING_TIER.json').write_text(json.dumps(tier,indent=2)+'\n')
 for name,b in FILES.items():(r/'code'/name).write_bytes(base64.b64decode(b))
-seal=json.loads(preserved.read_text());seal.update(files={n:sha(r/'code'/n) for n in FILES},prior_pilot_seal_sha256=sha(preserved),reason='POST_CLOSED_PILOT_OUTPUT_TIER_AND_PREPARED_NATIVE_DATA_TRAINING_ENTRY')
+seal=json.loads(preserved.read_text());seal.update(files={n:sha(r/'code'/n) for n in FILES},published_commit=COMMIT,prior_pilot_seal_sha256=sha(preserved),reason='POST_CLOSED_PILOT_OUTPUT_TIER_AND_PREPARED_NATIVE_DATA_TRAINING_ENTRY')
 oldseal.write_text(json.dumps(seal,indent=2)+'\n')
+reservations=dict(query=32640,head=130560,GPU_seconds=57600,host='core',global=dict(query=32768,head=131072,GPU_seconds=115200),hop=dict(query=128,head=512,GPU_seconds=57600))
+(r/'design/RESOURCE_RESERVATIONS.json').write_text(json.dumps(reservations,indent=2)+'\n')
+start=json.loads((r/'runtime/PILOT_PROCESS.json').read_text())['start_epoch']
+processes=r/'runtime/GPU_PROCESSES.jsonl';assert not processes.exists()
+processes.write_text(json.dumps(dict(event='end',pid=closed['pid'],start_epoch=start,epoch=closed['end_epoch'],device='CORE_GPU0',scope='ADOPT_ACTUAL_CLOSED_PILOT_CONTEXT_INCLUDING_IO_WAIT'))+'\n')
 print(json.dumps(tier))
 '''
     result=json.loads(remote('core',code))

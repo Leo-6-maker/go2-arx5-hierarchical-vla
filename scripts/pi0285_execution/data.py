@@ -169,7 +169,13 @@ def build(root):
         values=plan(rows,selected,4096);path=root/(name+'.jsonl');payload=''.join(json.dumps(r,sort_keys=True)+'\n' for r in values)
         if path.exists():assert path.read_text()==payload
         else:path.write_text(payload)
-        immutable(root/(name+'_PLAN_AUDIT.json'),dict(status='FROZEN_PLAN_NOT_TRAINING_ADMISSION',plan_sha256=sha(path),rows=len(values),task_counts=dict(Counter(r['task'] for r in values)),phase_counts=dict(Counter(r['phase'] for r in values)),source_counts=dict(Counter(r['source'] for r in values)),unique_layouts=len({r['layout'] for r in values}),unique_UIDs=len({r['uid'] for r in values}),event_first8=sum(r['event_first8'] for r in values),tail_only=sum(r['event_tail_only'] for r in values),event_fallback=sum(r['event_fallback'] for r in values),A_T2_gradient_allowed=False,B_launch_requires_CONFIRMED_A=True))
+        dataset=Dataset(root,path);images=set();states=set();pairs=set();seen=set()
+        for r in values:
+            if r['uid'] in seen:continue
+            seen.add(r['uid']);base,wrist,state,_=dataset.raw(r)
+            rgb=hashlib.sha256(base.tobytes()+wrist.tobytes()).hexdigest();actual=hashlib.sha256(state.tobytes()).hexdigest()
+            images.add(rgb);states.add(actual);pairs.add((rgb,actual))
+        immutable(root/(name+'_PLAN_AUDIT.json'),dict(status='FROZEN_PLAN_NOT_TRAINING_ADMISSION',plan_sha256=sha(path),rows=len(values),task_counts=dict(Counter(r['task'] for r in values)),phase_counts=dict(Counter(r['phase'] for r in values)),source_counts=dict(Counter(r['source'] for r in values)),unique_layouts=len({r['layout'] for r in values}),unique_UIDs=len(seen),unique_actual_two_view_RGB=len(images),unique_actual_states=len(states),unique_actual_RGB_state_pairs=len(pairs),event_first8=sum(r['event_first8'] for r in values),tail_only=sum(r['event_tail_only'] for r in values),event_fallback=sum(r['event_fallback'] for r in values),A_T2_gradient_allowed=False,B_launch_requires_CONFIRMED_A=True))
     immutable(root/'WINDOW_INDEX.json',dict(rows=rows,full_H40_real_future=True,neutral_excluded=True,failed_teacher_supervision=0,phase_or_object_truth_in_policy_input=False))
 
 
