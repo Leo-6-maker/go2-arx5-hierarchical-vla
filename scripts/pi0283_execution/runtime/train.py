@@ -193,7 +193,7 @@ def run(a):
        logging_steps=16,save_steps=1024,save_total_limit=2,save_only_model=False,report_to='none',
        dataloader_num_workers=2,dataloader_pin_memory=True,remove_unused_columns=False,ignore_data_skip=True,seed=28203,data_seed=28203)
     trainer=ConsumedTrainer(model=model,args=args,train_dataset=PlannedDataset(a.data_root,continuation['plan_path'] if continuation else None),data_collator=collate_with_metadata)
-    trainer.warmup=continuation['warmup'];trainer.phase_updates=continuation['updates'];trainer.lineage_offset=continuation['parent_global_update'];trainer.lease_deadline=json.loads((root/'runtime/TRAINING_ALLOCATION.json').read_text())['started_epoch']+allocation['training_GPU_reservation_s']
+    trainer.warmup=continuation['warmup'];trainer.phase_updates=continuation['updates'];trainer.lineage_offset=continuation['parent_global_update'];trainer.lease_deadline=json.loads((root/'runtime/TRAINING_ALLOCATION.json').read_text())['started_epoch']+allocation['training_GPU_reservation_s']-120
     trainer.groups=groups;trainer.start_step=a.resume;trainer.stop_step=a.stop;trainer.microbatch=a.microbatch;trainer.accumulation=8//a.microbatch;trainer.data_root=a.data_root;trainer.original_base=a.base
     trainer.root=root;trainer.arm=a.arm;trainer.phase=a.phase
     trainer.cursor=a.resume*8;trainer.previous_end=time.perf_counter();trainer.journal=Journal(output/'consumption.jsonl')
