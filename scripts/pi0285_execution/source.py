@@ -28,11 +28,12 @@ def step(ep,command,phase,teacher):
 
 
 def episode(task,split,seed):
-    slot=f'{task}-{split}-{seed}-TEACHER';parent=ROOT/'source/episodes'/slot
-    valid=[p for p in parent.glob('attempt-*/RESULT.json') if json.loads(p.read_text())['status'].startswith('VALID')]
+    slot=f'{task}-{split}-{seed}-TEACHER';parent=recorder.RAW/'episodes'/slot
+    roots={parent,ROOT/'source/episodes'/slot}
+    valid=[p for directory in roots for p in directory.glob('attempt-*/RESULT.json') if json.loads(p.read_text())['status'].startswith('VALID')]
     if valid:
         assert len(valid)==1;return json.loads(valid[0].read_text())
-    assert not list(parent.glob('attempt-*')),'Incomplete attempts need exact owner audit before technical replacement'
+    assert not any(list(directory.glob('attempt-*')) for directory in roots),'Incomplete attempts need exact owner audit before technical replacement'
     ep=recorder.Episode(slot,seed,'pd_ee_pose','PI0285PickPlaceStack-v1',dict(layout_id=seed))
     began=time.time();status='VALID_SOURCE_COMPLETE';gates=[]
     try:

@@ -14,7 +14,11 @@ from mani_skill.utils.geometry.rotation_conversions import euler_angles_to_matri
 from contract import ROOT, sha, write
 
 LIMITS = dict(starts=840, control=580000, physics=2900000, rgb=580000, teacher=400000, dispatch=1160000)
-RAW=ROOT/'source'
+RAW=Path(os.environ.get('PI0285_RECORD_ROOT',str(ROOT/'source')))
+if RAW!=ROOT/'source':
+    tier=json.loads((ROOT/'design/RECORDING_TIER.json').read_text())
+    assert tier['status']=='PASS_CLOSED_PILOT_CUMULATIVE_LEDGER_DURABLE_LOCAL_TIER'
+    assert RAW.resolve()==Path(tier['record_root']).resolve()
 
 def opening(q):
     # Native rubber-pad inner faces are 7.58mm +/- half of 15.2mm.
