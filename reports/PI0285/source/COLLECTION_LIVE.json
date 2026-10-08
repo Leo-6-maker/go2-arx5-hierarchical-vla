@@ -1,72 +1,33 @@
 {
-  "epoch": 1791462399.7479703,
-  "process": {
-    "pid": 1825185,
-    "start_epoch": 1791461869.7926266,
-    "argv": [
-      "/home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python",
-      "-u",
-      "-c",
-      "from source import run;run('TRAIN');run('DEV')"
-    ],
-    "source_code_seal": {
-      "files": {
-        "audit_source.py": "1e6ca86323d066ce91c35e22517e896db4a95643dba074d5f4c6d08c5258ab8a",
-        "authority.py": "c972b13ea57b96e42919f96a7e259f1c048ee9403c923c8fd31b8485e4c919d3",
-        "budget.py": "d5e8e485004cb0ab8763b9a35016f837cd6fc2603c8dc235ede6122a556468b6",
-        "codec_check.py": "f838eb74ca67adc880e244d5ad51028f5577df8e25d6a7c2c49f6af680224e0a",
-        "contract.py": "e9f33ddf080d257b3356e9ae2668e6071451f48e05e0d3967e3a1ae45af6c556",
-        "data.py": "e81c86e2e8cbac0bcf42e265b0059399c17ec858c801927624a597658c9c4c1c",
-        "gate.py": "7d2007163d4270e50196735891626eff46cffaf26fe9d49302c020b8e0fef284",
-        "language.py": "fc429ef29b1e22c7effc3510e647a4f723f3d8e688dbe3a7bd86dc5aa97674fd",
-        "model_worker.py": "58560af96e0a35b6cbb16ecc7e75f5d83b9f5f1a8c5396e0103c912eeff435b3",
-        "recorder.py": "e746d83860378ff3ab73d071b39e84bce8fe3d509e39b84f1a670bd325242def",
-        "scene.py": "38bfc71c00c9b8b3c0c7e424e9924e354fcfe9533ebf0dfc317c76ce6800e892",
-        "scorer.py": "10890d06713721f330a8850b3a81802fbed0eac76dc347fd0e614f0226d79a4c",
-        "source.py": "55e5a4659eed9e50a5c3d273ac51c27d6f6078e8cc4ea55ebaa8b9340f7a21fc",
-        "teacher.py": "88c386c35734914964a496cf2cb6ff7700edf7cd7e2e211d8e89a8047bc0e7d7",
-        "train.py": "22151b6e791088bbaa2284ea573e19bffad089b3d6a338f773da240357d910ea",
-        "video_saved.py": "a0b78250311542fda1baf8ad8006ea8443c42b5551c9096fd1265e09609412be"
-      },
-      "release": "7e840324c71aef47b401bd861b22710774334c97",
-      "canonical": 6058329368,
-      "published_commit": "1ca9be062b4c0b8c0e590e46c6cd646066978010",
-      "prior_pilot_seal_sha256": "12c1aa228229aedf42be069a4b81d5f9dda9b7b6b0a0d691f9a8e8af5747c2ab",
-      "reason": "POST_CLOSED_PILOT_OUTPUT_TIER_AND_PREPARED_NATIVE_DATA_TRAINING_ENTRY"
-    },
-    "TRAIN_requests": 128,
-    "DEV_requests": 32,
-    "record_root": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source",
-    "new_model_queries": 0
-  },
-  "live": "    PID     ELAPSED %CPU   RSS STAT COMMAND\n1825185       08:49  386 2670960 Sl /home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python -u -c from source import run;run('TRAIN');run('DEV')\n",
+  "epoch": 1791464767.769068,
+  "live": "    PID     ELAPSED STAT\n1825185       48:17 Rl\n1846449       24:01 Ss\n",
   "TRAIN": {
-    "completed": 24,
+    "status": "FIXED_TEACHER_PANEL_COMPLETE",
     "tasks": {
       "T1": {
-        "success": 12,
-        "complete": 12
+        "success": 64,
+        "requested": 64,
+        "admitted": true
       },
       "T2": {
-        "success": 12,
-        "complete": 12
+        "success": 64,
+        "requested": 64,
+        "admitted": true
       }
     },
-    "last": [
-      {
-        "task": "T1",
-        "layout": 285111,
-        "status": "VALID_SOURCE_COMPLETE",
-        "persistent_success": true,
-        "elapsed_wall_s": 19.851434230804443
+    "completed": 128
+  },
+  "DEV": {
+    "completed": 4,
+    "tasks": {
+      "T1": {
+        "success": 2,
+        "n": 2
       },
-      {
-        "task": "T2",
-        "layout": 285111,
-        "status": "VALID_SOURCE_COMPLETE",
-        "persistent_success": true,
-        "elapsed_wall_s": 19.386702060699463
+      "T2": {
+        "success": 2,
+        "n": 2
       }
-    ]
+    }
   }
 }

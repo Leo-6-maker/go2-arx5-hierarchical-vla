@@ -9,6 +9,7 @@ def run(a):
     from transformers import TrainingArguments,TrainerCallback
     from authority import allowed,completed_kind,stage_card
     root=Path(a.root);allowed(root,'update',60);card=stage_card(root,a.card);assert a.arm==card['stage']
+    for path,h in json.loads((root/'design/CODE_SEAL.json').read_text()).get('native_dependencies',{}).items():assert sha(path)==h,path
     assert 0<=a.resume<a.stop<=card['updates'] and a.microbatch==4
     if a.phase=='main':assert json.loads((root/'learning'/a.arm/'CANARY_COMPARISON.json').read_text())['status']=='PASS_FULL_RESUME_CANARY'
     prior=root.parent/'PI0283/code';sys.path.append(str(prior))

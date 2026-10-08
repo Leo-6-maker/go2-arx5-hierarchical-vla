@@ -36,6 +36,7 @@ def audit(split):
         with np.load(folder/'commands.npz') as f:commands=f['action'].copy();phase=f['phase'].copy()
         with np.load(folder/'observations.npz') as f:
             states=f['state_v1'].copy();clock=f['time_s'].copy()
+            images={k:f[k].copy() for k in ('base_camera_raw','hand_camera_raw')} if (folder/'QUERIES.json').exists() else {}
             initial[row['task'],row['layout']]={f'{k}@control{a}':f[k][a].copy() for k in ('base_camera_raw','hand_camera_raw','state_v1','base_camera_extrinsic_cv','hand_camera_extrinsic_cv') if k in f.files for a in (0,20) if a<len(f[k])}
         # A rejected query has one observed current tick and no command installed there.
         assert len(states)==len(clock) and len(commands)==row['control_calls']
@@ -53,8 +54,7 @@ def audit(split):
                 for name,h in [('input.npz',q['input_sha256']),('output.npz',q['output_sha256'])]:assert sha(query_folder/name)==h
                 with np.load(query_folder/'input.npz') as f:
                     actual=f['actual_state'].copy();assert np.array_equal(actual,states[tick]) and str(f['instruction'])==INSTRUCTIONS[row['task']]
-                    with np.load(folder/'observations.npz') as observed:
-                        assert np.array_equal(f['base_raw'],observed['base_camera_raw'][tick]) and np.array_equal(f['wrist_raw'],observed['hand_camera_raw'][tick])
+                    assert np.array_equal(f['base_raw'],images['base_camera_raw'][tick]) and np.array_equal(f['wrist_raw'],images['hand_camera_raw'][tick])
                 with np.load(query_folder/'output.npz') as f:
                     assert str(f['source_sha256'])==q['input_sha256'] and int(f['K'])==4
                     assert f['noise_uint16'].shape==(1,40,132) and f['noise_uint16'].dtype==np.uint16

@@ -1,5 +1,6 @@
 """Current GO, finite completed-work caps and actual data/confirmation gates."""
 import json,os,time
+from functools import lru_cache
 from pathlib import Path
 from contract import ROOT,guard,sha
 
@@ -10,11 +11,21 @@ def load(root):
     return dict(formal_cap=caps['formal_updates'],all_updates_cap=caps['all_completed_updates'],canary_cap=caps['discarded_canary_updates'],memory_cap=caps['memory_check_updates'],technical_cap=caps['completed_technical_rollback_updates'])
 
 
-def allowed(root,kind,reserve_s=0):
-    root=Path(root);limits=load(root);assert kind=='update'
-    data=json.loads((root/'data/DATA_CODEC_ADMISSION.json').read_text())
+@lru_cache(maxsize=1)
+def admitted(root,receipt_stamp,member_stamps):
+    root=Path(root);data=json.loads((root/'data/DATA_CODEC_ADMISSION.json').read_text())
     assert data['status']=='PASS_NEW_COMMON_SCENE_FULL_NATIVE_CODEC_AND_TWO_WORKERS'
     for name,h in data['bindings'].items():assert sha(root/'data'/name)==h,name
+    return data
+
+
+def allowed(root,kind,reserve_s=0):
+    root=Path(root);limits=load(root);assert kind=='update'
+    path=root/'data/DATA_CODEC_ADMISSION.json';data=json.loads(path.read_text())
+    def stamp(p):
+        s=p.stat();return s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns
+    # ponytail: full readback once per process/file version, not each optimizer update.
+    admitted(str(root),stamp(path),tuple((n,h,stamp(root/'data'/n)) for n,h in sorted(data['bindings'].items())))
     allocation=json.loads((root/'runtime/TRAINING_ALLOCATION.json').read_text())
     assert allocation['kind']=='PBS_H200' and os.environ.get('PBS_JOBID')==allocation['PBS_JOBID']
     assert time.time()+reserve_s<allocation['deadline_epoch']
