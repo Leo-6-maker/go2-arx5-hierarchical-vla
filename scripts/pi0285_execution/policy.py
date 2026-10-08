@@ -74,6 +74,16 @@ def disposition(commands,error):
     return None
 
 
+def audited_replacement(parent):
+    for attempt in parent.glob('attempt-*'):
+        result=attempt/'RESULT.json';receipt=attempt/'ENGINEERING_REPLACEMENT.json'
+        assert result.is_file() and receipt.is_file(),'Audit original engineering attempt before exact technical replacement'
+        v=json.loads(receipt.read_text())
+        assert v['status']=='OWNER_AUDITED_INCOMPLETE_SAME_CONDITION_REPLACEMENT'
+        assert json.loads(result.read_text())['status']=='ENGINEERING_INCOMPLETE' and v['result_sha256']==sha(result)
+        for name,h in v['original_files'].items():assert sha(attempt/name)==h,name
+
+
 def episode(server,point,panel,task,seed):
     import recorder,scene
     from source import step
@@ -84,7 +94,7 @@ def episode(server,point,panel,task,seed):
     saved=list(parent.glob('attempt-*/RESULT.json'))
     valid=[p for p in saved if json.loads(p.read_text())['status'].startswith('VALID')]
     if valid:assert len(valid)==1;return json.loads(valid[0].read_text())
-    assert not list(parent.glob('attempt-*')),'Audit original engineering attempt before exact technical replacement'
+    audited_replacement(parent)
     time_allowed(ROOT,60)
     ep=recorder.Episode(slot,seed,'pd_ee_pose','PI0285PickPlaceStack-v1',dict(layout_id=seed))
     began=time.time();queries=[];status='VALID_SOURCE_COMPLETE'
@@ -146,6 +156,19 @@ def run(point,panel):
 
 
 def self_check():
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        parent=Path(d);attempt=parent/'attempt-000';attempt.mkdir()
+        try:audited_replacement(parent)
+        except AssertionError:pass
+        else:raise AssertionError('Unreviewed incomplete attempt accepted')
+        write(attempt/'RESULT.json',dict(status='ENGINEERING_INCOMPLETE'))
+        write(attempt/'ENGINEERING_REPLACEMENT.json',dict(status='OWNER_AUDITED_INCOMPLETE_SAME_CONDITION_REPLACEMENT',result_sha256=sha(attempt/'RESULT.json'),original_files={}))
+        audited_replacement(parent)
+        write(attempt/'RESULT.json',dict(status='VALID_SOURCE_COMPLETE'))
+        try:audited_replacement(parent)
+        except AssertionError:pass
+        else:raise AssertionError('Valid scientific result admitted for replacement')
     assert tasks('PLACE4096-2048','TRAIN')==['T1']
     assert tasks('SHARED4096-4096','CONFIRM_B')==['T1','T2']
     for point,panel in [('SHARED4096-2048','CONFIRM_A'),('PLACE4096-2048','CONFIRM_B')]:
