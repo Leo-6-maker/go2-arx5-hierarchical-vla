@@ -59,7 +59,7 @@ tier=dict(status='PASS_CLOSED_PILOT_CUMULATIVE_LEDGER_DURABLE_LOCAL_TIER',record
 for name,b in FILES.items():(r/'code'/name).write_bytes(base64.b64decode(b))
 seal=json.loads(preserved.read_text());seal.update(files={n:sha(r/'code'/n) for n in FILES},published_commit=COMMIT,prior_pilot_seal_sha256=sha(preserved),reason='POST_CLOSED_PILOT_OUTPUT_TIER_AND_PREPARED_NATIVE_DATA_TRAINING_ENTRY')
 oldseal.write_text(json.dumps(seal,indent=2)+'\n')
-reservations=dict(query=32640,head=130560,GPU_seconds=57600,host='core',global=dict(query=32768,head=131072,GPU_seconds=115200),hop=dict(query=128,head=512,GPU_seconds=57600))
+reservations=dict(query=32640,head=130560,GPU_seconds=57600,host='core',global_caps=dict(query=32768,head=131072,GPU_seconds=115200),hop=dict(query=128,head=512,GPU_seconds=57600))
 (r/'design/RESOURCE_RESERVATIONS.json').write_text(json.dumps(reservations,indent=2)+'\n')
 start=json.loads((r/'runtime/PILOT_PROCESS.json').read_text())['start_epoch']
 processes=r/'runtime/GPU_PROCESSES.jsonl';assert not processes.exists()
