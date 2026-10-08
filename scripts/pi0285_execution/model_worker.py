@@ -1,6 +1,8 @@
 """Resident original BF16 K4 inference with actual per-episode language."""
 import argparse,json,os,sys,time
 from pathlib import Path
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG',':4096:8')
+assert os.environ['CUBLAS_WORKSPACE_CONFIG']==':4096:8'
 import numpy as np
 from contract import ROOT,INSTRUCTIONS,guard,sha,write
 from budget import charge,process,time_allowed

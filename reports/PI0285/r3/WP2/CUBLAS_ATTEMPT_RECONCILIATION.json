@@ -1,0 +1,56 @@
+{
+  "status": "PASS_CLOSED_CUBLAS_ENGINEERING_ATTEMPT_RECONCILED",
+  "preserved": [
+    {
+      "path": "runtime/PLACE4096-1024_EVALUATION_CLOSED.json",
+      "bytes": 176,
+      "sha256": "0102d0c761f7d3d8b34bf6dfdf4ae8a87c113f07b3ae9eac31fdbda76b2c125a"
+    },
+    {
+      "path": "runtime/PLACE4096-1024_EVALUATION_START.json",
+      "bytes": 392,
+      "sha256": "9c7d604753f9904d1da589e0af2a11675dad284bbcb74cbe4ed155d2cb90c0eb"
+    },
+    {
+      "path": "runtime/EVALUATION_PROCESS.json",
+      "bytes": 145,
+      "sha256": "55dac71b932d3f22de8b50a087a76f70890ebd8dade72c45568380a54679f231"
+    },
+    {
+      "path": "runtime/diagnostics-329908d5295b.EVAL_COMPLETE.json",
+      "bytes": 218,
+      "sha256": "13a57c4f481c3fcd9808c7991cf57bcecdec9697d939d00f3d64f1c8cf376c4a"
+    },
+    {
+      "path": "design/CODE_SEAL.json",
+      "bytes": 2792,
+      "sha256": "060480c0df0e471fb2f813d3c3d8065fe954b76d59c131971f92a000b42168b4"
+    },
+    {
+      "path": "diagnostics/PLACE4096-1024/worker.log",
+      "bytes": 15019,
+      "sha256": "91e8e070c51571c2bd2d18255dd8b5e16b09add0bf9449e12194016dfbaacaa6"
+    },
+    {
+      "path": "runtime/PLACE4096-1024_EVALUATION_OWNER.log",
+      "bytes": 1666,
+      "sha256": "489fe835ec08723fabd8dee104c7bba8920e3b1f87de92eb02b76839bfa94895"
+    },
+    {
+      "path": "runtime/diagnostics-329908d5295b.EVAL.log",
+      "bytes": 3411,
+      "sha256": "3e29ae9ee2d16f78591765405659064c6978ceb9b2a6ad9ee0baa3cd27417109"
+    }
+  ],
+  "archive": "runtime/recovery/1024-cublas-1791484849",
+  "returned_queries": 0,
+  "physical_attempts": 0,
+  "cumulative_raw_quality_counts": {
+    "query": 1,
+    "head": 0
+  },
+  "reason": "Missing original fixed deterministic CuBLAS workspace before first torch initialization",
+  "repair": "Same :4096:8 as mature PI0283/PI0284 inference entry",
+  "quality_retry": false,
+  "scientific_identity_changed": false
+}
