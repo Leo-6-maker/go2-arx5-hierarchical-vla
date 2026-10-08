@@ -61,7 +61,8 @@ def run(a):
             rows={n:digest(p[10]) for n,p in kwargs['model'].named_parameters() if is_projector(n)}
             assert any(rows[n]!=scope['FP32_initial_row10_hashes'][n] for n in rows)
             assert any(digest(p)!=scope['initial_DiT_hashes'][n] for n,p in kwargs['model'].named_parameters() if n.startswith('action_head.model.'))
-            write(checkpoint/'PI0285_SCOPE_PROOF.json',dict(status='FROZEN_EXACT_ROWS_MOMENTS_ZERO_ROW10_AND_DIT_CHANGED',row10=rows))
+            # Same recovery ABI lets the mature disposable-canary retirement keep its proofs.
+            write(checkpoint/'PI0282_SCOPE_PROOF.json',dict(status='FROZEN_EXACT_ROWS_MOMENTS_ZERO_ROW10_AND_DIT_CHANGED',authority_release=card['release'],row10=rows))
             if a.phase=='main' and state.global_step in (2048,4096):
                 snapshot=root/'delivery'/(a.arm+'-'+str(state.global_step))
                 learning.export_point(checkpoint,a.base,snapshot,set(dict(kwargs['model'].named_parameters())))
