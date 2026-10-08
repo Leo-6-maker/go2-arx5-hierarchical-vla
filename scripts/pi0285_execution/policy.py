@@ -86,7 +86,7 @@ def episode(server,point,panel,task,seed):
             inp=folder/'input.npz';out=folder/'output.npz'
             np.savez_compressed(inp,actual_state=state,base_raw=observation['base_camera_raw'],wrist_raw=observation['hand_camera_raw'],instruction=np.asarray(INSTRUCTIONS[task]))
             # Point excluded from noise identity: fixed condition/index across candidates.
-            request=dict(input=str(inp),output=str(out),condition=dict(task=task,panel=panel,layout=seed),query_index=index)
+            request=dict(input=str(inp),output=str(out),condition=dict(task=task,layout=seed),query_index=index)
             server.stdin.write(json.dumps(request)+'\n');server.stdin.flush()
             assert reply(server,'output')['output']==str(out)
             q=dict(index=index,task_time_s=index*.4,input_sha256=sha(inp),output_sha256=sha(out));queries.append(q)
