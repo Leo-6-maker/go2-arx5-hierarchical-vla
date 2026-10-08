@@ -1,0 +1,70 @@
+{
+  "status": "PASS_ACTUAL_NATIVE_REDUCTION_LR_AND_MODULE_MODE_TRACE",
+  "complete_compared_microbatches": 1392,
+  "native_mask_sums": [
+    1600.0
+  ],
+  "observed_LR_peaks": [
+    5e-05,
+    5e-06
+  ],
+  "first_modes": {
+    "action_head.action_decoder": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.action_decoder.layer1": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.action_decoder.layer2": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.action_encoder": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.model": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.position_embedding": {
+      "trainable_parameters": false,
+      "training": true
+    },
+    "action_head.state_encoder": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.vl_self_attention": {
+      "trainable_parameters": false,
+      "training": false
+    },
+    "action_head.vlln": {
+      "trainable_parameters": false,
+      "training": false
+    },
+    "backbone": {
+      "trainable_parameters": false,
+      "training": true
+    },
+    "backbone.model": {
+      "trainable_parameters": false,
+      "training": true
+    }
+  },
+  "position_parameters": {
+    "action_head.position_embedding.weight": {
+      "dtype": "torch.bfloat16",
+      "requires_grad": false
+    },
+    "backbone.model.model.visual.pos_embed.weight": {
+      "dtype": "torch.bfloat16",
+      "requires_grad": false
+    }
+  },
+  "mean_returned_microbatch_loss": 0.01940201148062934,
+  "new_extra_model_queries": 0,
+  "new_extra_optimizer_updates": 0
+}
