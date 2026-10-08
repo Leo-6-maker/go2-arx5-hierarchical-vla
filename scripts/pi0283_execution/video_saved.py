@@ -8,7 +8,9 @@ from closed_loop_audit import ROOT,sha
 
 def main(point,condition):
     assert os.environ.get('CUDA_VISIBLE_DEVICES')==''
-    folder=ROOT/'source/episodes'/f'{point}-TRAIN-{condition}'/'attempt-000'
+    panel=json.loads((ROOT/'source/evidence'/f'RESULT_{point}_TRAIN.json').read_text())
+    row=next(r for r in panel['rows'] if r['condition']==condition)
+    folder=Path(row['folder'])
     result=json.loads((folder/'RESULT.json').read_text())
     assert result['status'].startswith('VALID')
     (ROOT/'videos').mkdir(exist_ok=True)
