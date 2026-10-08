@@ -11,6 +11,7 @@ def archive(root,arm,step):
     assert proof['point']==f'{arm}-{step}' and proof['checkpoint']==str(root/'learning'/arm/'main'/f'checkpoint-{step}')
     assert step<=card['updates'] and step in (1024,2048,4096)
     helper=root.parent/'PI0284/runtime/archive_trainer.py';source=helper.read_text()
+    assert hashlib.sha256(helper.read_bytes()).hexdigest()=='126880ca6a0aab20ad556417335500f5b18f26c1f9fbbfdb81027b62049a064c'
     old='/scratch/e1192548/Projects/go2-arx5/experiments/PI0284'
     assert source.count(old)==3 and "assert len(entries) == 14" in source
     # ponytail: reuse upload/readback verbatim; only bind the new root and campaign.
