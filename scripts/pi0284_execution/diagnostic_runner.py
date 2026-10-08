@@ -15,7 +15,8 @@ def reply(server,key):
 def run(root):
     done=root/'diagnostics/RESULT.json'
     assert not done.exists(),'Reuse complete sampler study'
-    env=dict(os.environ,CUDA_VISIBLE_DEVICES='0',CUBLAS_WORKSPACE_CONFIG=':4096:8',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',PYTHONPATH=str(root/'code')+':/home/liuyu-nfs/Projects/go2-arx5/PI0280/official:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src')
+    hf_home=json.loads(Path('/home/liuyu-nfs/Projects/go2-arx5/PI0283/design/SOURCE_CARD.json').read_text())['hf_home']
+    env=dict(os.environ,CUDA_VISIBLE_DEVICES='0',CUBLAS_WORKSPACE_CONFIG=':4096:8',OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',HF_HOME=hf_home,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',NO_ALBUMENTATIONS_UPDATE='1',PYTHONPATH=str(root/'code')+':/home/liuyu-nfs/Projects/go2-arx5/PI0280/official:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src')
     worker=[sys.executable,'-u',str(root/'code/native_worker.py'),'--root',str(root)]
     if not (root/'design/NOISE_PACKETS.json').exists():subprocess.run(worker+['--prepare-noise'],env=env,check=True)
     data=json.loads((root/'design/PRE_SCORE_INPUTS.json').read_text());pairs=json.loads((root/'design/NATURAL_PAIRS.json').read_text())['pairs']
