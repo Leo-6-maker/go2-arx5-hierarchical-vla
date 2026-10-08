@@ -1,0 +1,69 @@
+{
+  "status": "PASS_TERMINAL_ZERO_UPDATES_AUDIT_REPAIR",
+  "PBS_JOBID": "655259.hopper-m-02",
+  "completed_optimizer_updates": 0,
+  "raw_native_forward_backward_microbatches": 1,
+  "raw_chunks": 4,
+  "rolled_back_without_optimizer": true,
+  "preserved_files": [
+    {
+      "path": "learning/PLACE4096/continuous/PROCESS_resume0_stop8.json",
+      "bytes": 493,
+      "sha256": "3696235a8b8cc5b3b34fe238348dab2c5ccf4dcef81c8358b859ad8bb0702b8f"
+    },
+    {
+      "path": "learning/PLACE4096/continuous/native_training_forwards.jsonl",
+      "bytes": 3218,
+      "sha256": "d67c2aff54f2dfe36c8d6162140db961ab70ea8c53bfe5f9a6942e725b387e89"
+    },
+    {
+      "path": "learning/PLACE4096/continuous/native_loss_modes_LR.jsonl",
+      "bytes": 1311,
+      "sha256": "6584184e0caf4f4358bfcd917d19abde90aa2153d2ccc63b29eb98c4c0fd4869"
+    },
+    {
+      "path": "learning/PLACE4096/continuous/SCOPE.json",
+      "bytes": 65607,
+      "sha256": "71612c9f033b1a6fd003f6fbb1d5883b3f677eca910bf6a0fbe0dfc7038ced29"
+    },
+    {
+      "path": "learning/PLACE4096/continuous/consumption.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "learning/PLACE4096/continuous/JOURNAL.json",
+      "bytes": 1283,
+      "sha256": "bd49ac959b8a16f1a6df25e516d5703c86ad49c4a1958623cf4fd87bff91e69e"
+    },
+    {
+      "path": "runtime/PLACE4096-continuous-0-8.start.json",
+      "bytes": 811,
+      "sha256": "67ac6200470d2c7403c099e45e965b123e07bbbe55f3673ca48b7e548086b158"
+    },
+    {
+      "path": "runtime/PLACE4096-continuous-0-8.done.json",
+      "bytes": 131,
+      "sha256": "0142c507c14a55a1f7dba4077052302f7eef94ea9764d070a11849e5413643f6"
+    },
+    {
+      "path": "runtime/PLACE4096-continuous-0-8.log",
+      "bytes": 5600,
+      "sha256": "426cf2afac8edb6e282b77413a051e1dd31a20d2899bd0cc57f75b5a856418b4"
+    },
+    {
+      "path": "design/CODE_SEAL.json",
+      "bytes": 6265,
+      "sha256": "feb0e283b7a4d6406ac3a0f36615e13c228a7f87005ebf2688e1b03df4650241"
+    }
+  ],
+  "CPU_check": "PASS_ACTUAL_FOUR_INPUT_BATCH_MAPPING_AND_NESTED_TENSOR_HASHES_ZERO_MODEL_QUERIES\n",
+  "model_optimizer_physics_queries_added_by_repair": 0,
+  "code_files": {
+    "train.py": "a98d3c07386054008eb0a20b922bd5b48d57140ff44c9c35e55177deaceb158f",
+    "submit.py": "54bef6ad889e4d86eab558c56024ad28b3f873d45b73f6af869989e47d126829"
+  },
+  "scientific_contract_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

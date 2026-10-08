@@ -36,7 +36,22 @@ def prepare():
                     records.append(dict(row,input=str(folder/'input.npz'),input_sha256=sha(folder/'input.npz'),target=str(folder/'target.npz'),target_sha256=sha(folder/'target.npz')))
     assert all(sum(r['task']==t for r in records)==96 for t in bank['tasks'])
     value=dict(status='FROZEN_PRE_SCORE_DIAG96_PER_ADMITTED_TASK',rows=records,window_index_sha256=sha(ROOT/'data/WINDOW_INDEX.json'),anchor_rule='FIRST_VALID_H40_IN_PHASE_0_1_2_3_4_AND_LAST_H40_620',noise_rule='ONE_NATIVE_K4_PACKET_PER_UID_REUSED_ACROSS_ENDPOINTS',teacher_queries=0,physics=0,model_queries=0)
-    immutable(ROOT/'design/DIAG96_PER_TASK.json',value);return value
+    immutable(ROOT/'design/DIAG96_PER_TASK.json',value)
+    codec_bias(records)
+    return value
+
+
+def codec_bias(records):
+    from data import codec,immutable
+    encoder=codec(str(ROOT/'data'));rows=[]
+    for row in records:
+        assert sha(row['input'])==row['input_sha256'] and sha(row['target'])==row['target_sha256']
+        with np.load(row['input']) as f:state=f['actual_state'].copy()
+        with np.load(row['target']) as f:target=f['commands'].copy()
+        reconstructed=encoder.decode_actions(encoder.encode_actions(target,state),state)
+        delta=abs(reconstructed.astype(float)-target.astype(float))
+        rows.append(dict(uid=row['uid'],task=row['task'],split=row['split'],layout=row['layout'],phase=row['phase'],anchor=row['anchor'],prefix=metrics(reconstructed[:8],target[:8],True),full_H40=metrics(reconstructed,target,True),prefix_MAE_by_channel=delta[:8].mean(0).tolist(),prefix_max_by_channel=delta[:8].max(0).tolist(),H40_MAE_by_channel=delta.mean(0).tolist(),H40_max_by_channel=delta.max(0).tolist(),preclip=encoder.action_audit(target,state),input_sha256=row['input_sha256'],target_sha256=row['target_sha256']))
+    immutable(ROOT/'audit/DIAG_CODEC_BIAS_CPU.json',dict(status='PASS_RAW_TARGET_VS_FROZEN_CODEC_DESCRIPTIVE_CPU_AUDIT_NOT_NEW_ADMISSION',rows=rows,processor=encoder.identity,truth='ORIGINAL_RAW_TEACHER_COMMANDS_UNCHANGED',prefix_ticks=8,H=40,new_model_queries=0,new_physics=0,normalizer_changed=False,selected='NONE',deployment='NONE'))
 
 
 def run(point):

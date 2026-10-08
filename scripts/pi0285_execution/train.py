@@ -4,6 +4,14 @@ from pathlib import Path
 from contract import guard,sha,write
 
 
+def audit_tensor_tree(value):
+    from collections.abc import Mapping
+    from learning import tensor_tree
+    if isinstance(value,Mapping):return {str(k):audit_tensor_tree(v) for k,v in value.items()}
+    if isinstance(value,(list,tuple)):return [audit_tensor_tree(v) for v in value]
+    return tensor_tree(value)
+
+
 def run(a):
     import torch
     from transformers import TrainingArguments,TrainerCallback
@@ -15,6 +23,7 @@ def run(a):
     prior=root.parent/'PI0283/code';sys.path.append(str(prior))
     spec=importlib.util.spec_from_file_location('pi0283_native_trainer',prior/'train.py');native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
     import learning
+    native.tensor_tree=audit_tensor_tree
     learning.completed_kind=completed_kind
     from scope import configure,frozen_hashes,assert_frozen,digest,is_projector
     from native_model import load_model
