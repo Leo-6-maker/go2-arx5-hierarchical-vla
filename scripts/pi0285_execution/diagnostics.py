@@ -16,8 +16,8 @@ def anchors(rows):
 def prepare():
     guard();assert os.environ['CUDA_VISIBLE_DEVICES']==''
     from data import Dataset,immutable
-    receipt=json.loads((ROOT/'data/DATA_CODEC_ADMISSION.json').read_text())
-    assert receipt['status']=='PASS_NEW_COMMON_SCENE_FULL_NATIVE_CODEC_AND_TWO_WORKERS'
+    from r2 import admission
+    receipt=admission()
     for n,h in receipt['bindings'].items():assert sha(ROOT/'data'/n)==h,n
     windows=json.loads((ROOT/'data/WINDOW_INDEX.json').read_text())['rows']
     bank=json.loads((ROOT/'data/SOURCE_BANK.json').read_text());records=[]

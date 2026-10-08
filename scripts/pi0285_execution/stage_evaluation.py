@@ -12,8 +12,8 @@ def stage():
     commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
     value=json.loads(remote('core',f'''import base64,hashlib,json,subprocess,time
 from pathlib import Path
-r=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0285');admission=r/'runtime/DATA_ADMISSION_COMPLETE.json'
-assert json.loads(admission.read_text())['status']=='PASS_ACTUAL_BANK_CPU_READBACK_FULL_CODEC_TWO_WORKERS_CANARY_INPUT'
+r=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0285');admission=r/'runtime/R2_ADMISSION_COMPLETE.json'
+assert json.loads(admission.read_text())['status']=='PASS_SUPERVISED_TRAIN_AND_INPUTS_WITH_DISCLOSED_DEV_EXTRAPOLATION'
 # A completed receipt alone does not prove the process has exited.
 active=[]
 for p in Path('/proc').glob('[0-9]*/cmdline'):

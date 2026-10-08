@@ -10,6 +10,8 @@ from gate import original_gate
 
 
 def step(ep,command,phase,teacher):
+    from r2 import phase_allowed
+    phase_allowed('physics')
     from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix
     target=np.eye(4);target[:3,3]=command[:3];target[:3,:3]=rot6d_rows_to_matrix(command[None,3:9])[0]
     action=recorder.native_action(target,ep.root,float(command[-1]))

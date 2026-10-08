@@ -14,7 +14,7 @@ def audit(arm,step):
     torch.set_num_threads(4)
     card=json.loads((ROOT/'design'/(arm+'_CARD.json')).read_text());folder=ROOT/'learning'/arm/'main'
     plan=[json.loads(x) for x in Path(card['plan_path']).read_text().splitlines()]
-    assert step<=card['updates'] and step in (2048,4096)
+    assert step<=card['updates'] and step in (1024,2048,4096)
     def prefix(name):
         p=folder/name;lines=p.read_bytes().splitlines(keepends=True);assert len(lines)>=step*2
         blob=b''.join(lines[:step*2]);return [json.loads(x) for x in lines[:step*2]],dict(path=str(p),bytes=len(blob),lines=step*2,sha256=hashlib.sha256(blob).hexdigest())

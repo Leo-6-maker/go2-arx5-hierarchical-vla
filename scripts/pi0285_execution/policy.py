@@ -7,7 +7,7 @@ from contract import ROOT,INSTRUCTIONS,SPLITS,guard,sha,write
 
 
 def tasks(point,panel):
-    assert point in ('PLACE4096-2048','PLACE4096-4096','REPAIR_A2048-2048','SHARED4096-2048','SHARED4096-4096','REPAIR_B2048-2048')
+    assert point in ('PLACE4096-1024','PLACE4096-2048','PLACE4096-4096','REPAIR_A2048-2048','SHARED4096-2048','SHARED4096-4096','REPAIR_B2048-2048')
     assert panel in ('TRAIN','DEV','CONFIRM_A','CONFIRM_B','ACQUISITION')
     stage_b=point.startswith(('SHARED','REPAIR_B'))
     if panel=='ACQUISITION':assert not stage_b;return ['T2']
@@ -18,8 +18,8 @@ def tasks(point,panel):
 
 def panel_gate(point,panel):
     guard();selected=tasks(point,panel)
-    admission=json.loads((ROOT/'data/DATA_CODEC_ADMISSION.json').read_text())
-    assert admission['status']=='PASS_NEW_COMMON_SCENE_FULL_NATIVE_CODEC_AND_TWO_WORKERS'
+    from r2 import admission as scoped_admission
+    admission=scoped_admission()
     for name,h in admission['bindings'].items():assert sha(ROOT/'data'/name)==h,name
     binding=json.loads((ROOT/'design/MODEL_POINTS.json').read_text())[point]
     training=json.loads((ROOT/'transfers'/point/'TRAINING_CPU.json').read_text())

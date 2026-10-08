@@ -3,6 +3,7 @@ import argparse,fcntl,json,os,re,shutil,subprocess,sys,time
 from pathlib import Path
 from contract import ROOT,guard,sha,write
 from budget import process,time_allowed,seconds
+from r2 import UPDATE_STOP
 
 
 def lease(root):
@@ -21,7 +22,7 @@ def lease(root):
     assert all((r['pid'],r['start_epoch']) in ended for r in rows if r['event']=='start'),'Adopt actual unclosed allocation before another lease'
     used=seconds([(r['start_epoch'],r['epoch']) for r in rows if r['event']=='end'])
     left=min(left,limits['GPU_seconds']-used);assert left>600
-    return dict(kind='PBS_H200',PBS_JOBID=job,pid=os.getpid(),started_epoch=time.time(),deadline_epoch=time.time()+left,scheduler_CUDA_VISIBLE_DEVICES=os.environ['CUDA_VISIBLE_DEVICES'],scheduler_record=raw,actual_GPU=gpu,remaining_own_GPU_seconds=limits['GPU_seconds']-used,selected='NONE',deployment='NONE')
+    return dict(kind='PBS_H200',PBS_JOBID=job,pid=os.getpid(),started_epoch=time.time(),deadline_epoch=min(time.time()+left,UPDATE_STOP+120),scheduler_CUDA_VISIBLE_DEVICES=os.environ['CUDA_VISIBLE_DEVICES'],scheduler_record=raw,actual_GPU=gpu,remaining_own_GPU_seconds=limits['GPU_seconds']-used,selected='NONE',deployment='NONE')
 
 
 def run(a):

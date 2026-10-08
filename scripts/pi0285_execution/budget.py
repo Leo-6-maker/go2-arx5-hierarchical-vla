@@ -3,6 +3,7 @@ import json,os,time
 from collections import Counter
 from pathlib import Path
 from contract import ROOT,guard
+from r2 import phase_allowed
 COUNTS={}
 
 
@@ -12,7 +13,7 @@ def publication(root):
 
 def charge(root,kind,identity):
     import fcntl
-    root=Path(root);publication(root);assert kind in ('query','head')
+    root=Path(root);publication(root);assert kind in ('query','head');phase_allowed('model')
     limits=json.loads((root/'design/RESOURCE_RESERVATIONS.json').read_text())
     tier=root/'design/RECORDING_TIER.json'
     p=Path(json.loads(tier.read_text())['record_root'])/'evidence/quality_budget.jsonl' if tier.exists() else root/'runtime/quality_budget.jsonl'
@@ -44,7 +45,7 @@ def seconds(intervals):
 
 
 def time_allowed(root,reserve=0):
-    root=Path(root);limits=json.loads((root/'design/RESOURCE_RESERVATIONS.json').read_text())
+    root=Path(root);phase_allowed('model',reserve);limits=json.loads((root/'design/RESOURCE_RESERVATIONS.json').read_text())
     path=root/'runtime/GPU_PROCESSES.jsonl';rows=[json.loads(x) for x in path.read_text().splitlines()] if path.exists() else []
     ended={(r['pid'],r['start_epoch']) for r in rows if r['event']=='end'}
     intervals=[(r['start_epoch'],r['epoch']) for r in rows if r['event']=='end']

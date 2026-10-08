@@ -1,5 +1,5 @@
 """Instruction-aware adapter around the already verified native GR00T Trainer."""
-import argparse,functools,importlib.util,json,os,shutil,sys,time
+import argparse,functools,importlib.util,json,os,shutil,subprocess,sys,time
 from pathlib import Path
 from contract import guard,sha,write
 
@@ -64,11 +64,16 @@ def run(a):
             assert any(digest(p)!=scope['initial_DiT_hashes'][n] for n,p in kwargs['model'].named_parameters() if n.startswith('action_head.model.'))
             # Same recovery ABI lets the mature disposable-canary retirement keep its proofs.
             write(checkpoint/'PI0282_SCOPE_PROOF.json',dict(status='FROZEN_EXACT_ROWS_MOMENTS_ZERO_ROW10_AND_DIT_CHANGED',authority_release=card['release'],row10=rows))
-            if a.phase=='main' and state.global_step in (2048,4096):
+            if a.phase=='main' and state.global_step in (1024,2048,4096):
                 snapshot=root/'delivery'/(a.arm+'-'+str(state.global_step))
                 learning.export_point(checkpoint,a.base,snapshot,set(dict(kwargs['model'].named_parameters())))
                 for name in ('config.json','processor_config.json','statistics.json','embodiment_id.json'):shutil.copyfile(checkpoint/name,snapshot/name)
                 write(snapshot/'READY.json',dict(status='LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT',point=snapshot.name,full_recovery=str(checkpoint),card_sha256=sha(a.card),files=[dict(path=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in snapshot.iterdir() if p.is_file()],optimizer_transfer=False))
+                # Immutable checkpoint and journal prefix are audited while this lease stays owned.
+                with (root/'runtime'/f'{a.arm}-{state.global_step}_training_CPU.log').open('ab') as log:
+                    subprocess.run([sys.executable,'-u',str(root/'code/training_audit.py'),'--arm',a.arm,'--step',str(state.global_step)],env=dict(os.environ,CUDA_VISIBLE_DEVICES=''),stdout=log,stderr=subprocess.STDOUT,check=True)
+                audits=root/'delivery/audits';audits.mkdir(exist_ok=True)
+                shutil.copyfile(root/'evidence'/f'{a.arm}-{state.global_step}_TRAINING_CPU.json',audits/f'{a.arm}-{state.global_step}.json')
     trainer.add_callback(Provenance())
     resume=output/f'checkpoint-{a.resume}' if a.resume else None
     if resume:

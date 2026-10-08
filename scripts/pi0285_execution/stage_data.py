@@ -10,9 +10,9 @@ def stage():
     remote('hop',f"from pathlib import Path\nr=Path({hop!r});assert not (r/'runtime/TRAINING_ALLOCATION.json').exists() and not (r/'runtime/JOB_SUBMISSION.json').exists(),'Adopt accepted training instead of restaging its inputs'\nprint('IDLE_OWN_DATA_DESTINATION')")
     transfer=json.loads(remote('core',f'''import json,subprocess,shlex,time,hashlib
 from pathlib import Path
-r=Path({core!r});proof=json.loads((r/'runtime/DATA_ADMISSION_COMPLETE.json').read_text())
-assert proof['status']=='PASS_ACTUAL_BANK_CPU_READBACK_FULL_CODEC_TWO_WORKERS_CANARY_INPUT'
-assert hashlib.sha256((r/'data/DATA_CODEC_ADMISSION.json').read_bytes()).hexdigest()==proof['data_codec_sha256']
+r=Path({core!r});proof=json.loads((r/'runtime/R2_ADMISSION_COMPLETE.json').read_text())
+assert proof['status']=='PASS_SUPERVISED_TRAIN_AND_INPUTS_WITH_DISCLOSED_DEV_EXTRAPOLATION'
+assert hashlib.sha256((r/'data/R2_SCOPED_DATA_ADMISSION.json').read_bytes()).hexdigest()==proof['data_codec_sha256']
 key=r/'runtime/hopper_data_push';assert key.stat().st_mode&0o777==0o600
 ssh=shlex.join(['ssh','-i',str(key),'-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','UserKnownHostsFile='+str(r/'runtime/hopper_known_hosts'),'-o','ConnectTimeout=15'])
 before=time.time()
@@ -28,8 +28,8 @@ def sha(p):
  with p.open('rb') as f:
   for b in iter(lambda:f.read(8<<20),b''):h.update(b)
  return h.hexdigest()
-receipt=json.loads((d/'DATA_CODEC_ADMISSION.json').read_text());assert receipt['status']=='PASS_NEW_COMMON_SCENE_FULL_NATIVE_CODEC_AND_TWO_WORKERS'
-assert sha(d/'DATA_CODEC_ADMISSION.json')=={transfer['source_admission']['data_codec_sha256']!r}
+receipt=json.loads((d/'R2_SCOPED_DATA_ADMISSION.json').read_text());assert receipt['status']=='PASS_SUPERVISED_TRAIN_AND_INPUTS_WITH_DISCLOSED_DEV_EXTRAPOLATION'
+assert sha(d/'R2_SCOPED_DATA_ADMISSION.json')=={transfer['source_admission']['data_codec_sha256']!r}
 for n,h in receipt['bindings'].items():assert sha(d/n)==h,n
 bank=json.loads((d/'SOURCE_BANK.json').read_text());members=[]
 for ep in bank['admitted_episodes']:
@@ -42,7 +42,7 @@ code="""import json,functools,torch
 from pathlib import Path
 from data import Dataset,codec,collate
 from cpu_inputs import tensor_hash
-r=Path(ROOT);expected=json.loads((r/'DATA_CODEC_ADMISSION.json').read_text());dataset=Dataset(r,r/'CPU_INPUT_CHECK_PLAN.jsonl');encoder=codec(str(r))
+r=Path(ROOT);expected=json.loads((r/'NATIVE_INPUTS_CHECK.json').read_text());dataset=Dataset(r,r/'CPU_INPUT_CHECK_PLAN.jsonl');encoder=codec(str(r))
 assert len(dataset)==len(expected['inputs'])
 for i,row in enumerate(expected['inputs']):
  item=dataset[i];item.pop('_pi0282_visit');value=encoder.batch([item])['inputs'];assert tensor_hash(value)==row['input_sha256'],row['uid']
@@ -53,9 +53,9 @@ print('PASS_REAL_HOPPER_NATIVE_INPUTS_AND_ORDERED_TWO_WORKERS_CORELAB_IDENTICAL;
 check=r/'runtime/cross_host_inputs.py';check.write_text('ROOT='+repr(str(d))+'\\nif __name__=="__main__":\\n'+''.join(' '+line+'\\n' for line in code.splitlines()))
 shell='source '+str(r/'code/environment.sh')+'; export CUDA_VISIBLE_DEVICES=""; "$venv/bin/python" '+str(check)
 test=subprocess.run(['/bin/bash','-lc',shell],capture_output=True,text=True);assert test.returncode==0,(test.stdout[-3000:],test.stderr[-6000:])
-v=dict(status='PASS_DIRECT_ALL_ADMITTED_DATA_MEMBERS_AND_CROSS_HOST_NATIVE_TWO_WORKER_INPUTS',members=members,total_bytes=sum(x['bytes'] for x in members),data_codec_sha256=sha(d/'DATA_CODEC_ADMISSION.json'),source_admission={transfer['source_admission']!r},CPU_check=test.stdout,new_model_queries=0,new_optimizer_updates=0,new_PBS_submissions=0)
+v=dict(status='PASS_DIRECT_ALL_ADMITTED_DATA_MEMBERS_AND_CROSS_HOST_NATIVE_TWO_WORKER_INPUTS',members=members,total_bytes=sum(x['bytes'] for x in members),data_codec_sha256=sha(d/'R2_SCOPED_DATA_ADMISSION.json'),source_admission={transfer['source_admission']!r},CPU_check=test.stdout,new_model_queries=0,new_optimizer_updates=0,new_PBS_submissions=0)
 (r/'evidence/DIRECT_DATA_READBACK.json').write_text(json.dumps(v,indent=2)+'\\n')
-card=dict(release='7e840324c71aef47b401bd861b22710774334c97',canonical=6058329368,stage='PLACE4096',launch_allowed=True,parent=None,parent_global_update=0,updates=4096,warmup=205,peak_LRs=[1e-4,1e-5],plan_path=str(d/'PLACE4096.jsonl'),plan_sha256=sha(d/'PLACE4096.jsonl'),data_readback_sha256=sha(r/'evidence/DIRECT_DATA_READBACK.json'),selected='NONE',deployment='NONE')
+card=dict(release='97773a036ebaffe59285bd2ecbee0c155f12822b',canonical=6065031954,stage='PLACE4096',launch_allowed=True,parent=None,parent_global_update=0,updates=4096,warmup=205,peak_LRs=[1e-4,1e-5],plan_path=str(d/'PLACE4096.jsonl'),plan_sha256=sha(d/'PLACE4096.jsonl'),data_readback_sha256=sha(r/'evidence/DIRECT_DATA_READBACK.json'),selected='NONE',deployment='NONE')
 p=r/'design/PLACE4096_CARD.json'
 if p.exists():assert json.loads(p.read_text())==card,'Frozen card changed'
 else:p.write_text(json.dumps(card,indent=2)+'\\n')

@@ -3,6 +3,7 @@ import json,os,time
 from functools import lru_cache
 from pathlib import Path
 from contract import ROOT,guard,sha
+from r2 import admission,publication,phase_allowed,RELEASE
 
 
 def load(root):
@@ -13,15 +14,14 @@ def load(root):
 
 @lru_cache(maxsize=1)
 def admitted(root,receipt_stamp,member_stamps):
-    root=Path(root);data=json.loads((root/'data/DATA_CODEC_ADMISSION.json').read_text())
-    assert data['status']=='PASS_NEW_COMMON_SCENE_FULL_NATIVE_CODEC_AND_TWO_WORKERS'
+    root=Path(root);data=admission(root)
     for name,h in data['bindings'].items():assert sha(root/'data'/name)==h,name
     return data
 
 
 def allowed(root,kind,reserve_s=0):
-    root=Path(root);limits=load(root);assert kind=='update'
-    path=root/'data/DATA_CODEC_ADMISSION.json';data=json.loads(path.read_text())
+    root=Path(root);limits=load(root);assert kind=='update';phase_allowed(kind,reserve_s)
+    path=root/'data/R2_SCOPED_DATA_ADMISSION.json';data=json.loads(path.read_text())
     def stamp(p):
         s=p.stat();return s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns
     # ponytail: full readback once per process/file version, not each optimizer update.
@@ -47,7 +47,7 @@ def completed_kind(rows,arm,phase,step,limits):
 
 def stage_card(root,path):
     root=Path(root);guard();v=json.loads(Path(path).read_text())
-    assert v['release']=='7e840324c71aef47b401bd861b22710774334c97' and v['launch_allowed']
+    publication(root);assert v['release']==RELEASE and v['canonical']==6065031954 and v['launch_allowed']
     arm=v['stage'];assert arm in ('PLACE4096','SHARED4096','REPAIR_A2048','REPAIR_B2048')
     repair=arm.startswith('REPAIR_')
     assert v['updates']==(2048 if repair else 4096) and v['warmup']==(103 if repair else 205)

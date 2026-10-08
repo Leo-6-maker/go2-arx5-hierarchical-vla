@@ -9,9 +9,9 @@ def decide(point,train,dev=None,confirm=None):
     fit=all(train[t]>=7 for t in selected)
     if dev is None:
         if fit or point=='SHARED4096-4096':return 'RUN_FIXED_DEV'
-        return 'CONTINUE_SAME_PHASE_4096' if point.endswith('-2048') and not point.startswith('REPAIR') else ('COLLECT_FIXED_CORRECTIONS' if not point.startswith('REPAIR') else 'STOP_VALID_QUALITY_FAIL')
+        return 'CONTINUE_SAME_PHASE_4096' if (point.startswith('PLACE4096-') and point.endswith(('-1024','-2048'))) or (point.startswith('SHARED4096-') and point.endswith('-2048')) else ('SELECT_R2_SINGLE_BRANCH_FROM_FROZEN_EVIDENCE' if point=='PLACE4096-4096' else ('COLLECT_FIXED_CORRECTIONS' if not point.startswith('REPAIR') else 'STOP_VALID_QUALITY_FAIL'))
     qualified=fit and all(dev[t]>=13 for t in selected) and (not stage_b or dev['paired_both']>=12)
-    if not qualified:return 'CONTINUE_SAME_PHASE_4096' if point.endswith('-2048') and not point.startswith('REPAIR') else ('COLLECT_FIXED_CORRECTIONS' if not point.startswith('REPAIR') else 'STOP_VALID_QUALITY_FAIL')
+    if not qualified:return 'CONTINUE_SAME_PHASE_4096' if (point.startswith('PLACE4096-') and point.endswith(('-1024','-2048'))) or (point.startswith('SHARED4096-') and point.endswith('-2048')) else ('SELECT_R2_SINGLE_BRANCH_FROM_FROZEN_EVIDENCE' if point=='PLACE4096-4096' else ('COLLECT_FIXED_CORRECTIONS' if not point.startswith('REPAIR') else 'STOP_VALID_QUALITY_FAIL'))
     if confirm is None:return 'FREEZE_FIRST_CANDIDATE_FOR_UNIQUE_CONFIRM_B' if stage_b else 'FREEZE_FIRST_CANDIDATE_FOR_UNIQUE_CONFIRM_A'
     passed=all(confirm[t]>=26 for t in selected) and (not stage_b or confirm['paired_both']>=24)
     return ('PROTECT_SHARED_TWO_TASK_POLICY' if stage_b else 'PROTECT_PLACE_V1_BEFORE_SHARED') if passed else 'STOP_CONFIRMATION_VALID_QUALITY_FAIL_NO_SECOND_CANDIDATE'
