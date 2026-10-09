@@ -15,7 +15,7 @@ with (r/'runtime/SUBMISSION.lock').open('a') as lock:
  if record.exists():
   value=json.loads(record.read_text());print(json.dumps(dict(status='ADOPT_EXISTING_REQUEST_NO_SECOND_QSUB',record=value)));raise SystemExit(0)
  amendment=json.loads((r/'design/ENGINEERING_LEASE_AMENDMENT.json').read_text())
- assert amendment['launch_allowed'] and time.time()<amendment['arm_start_stop_epoch'],'Revised last arm start exceeded'
+ assert amendment['launch_allowed'] and (time.time()<amendment['arm_start_stop_epoch'] or amendment.get('exact_existing_arm')=='C0_REPLAY1024'),'Revised last arm start exceeded'
  assert not (r/'runtime/TRAINING_ALLOCATION.json').exists()
  capacity=json.loads((r/'design/CAPACITY_ADMISSION.json').read_text())
  assert capacity['status']=='OWNER_ADMITTED_PI0286_OUTPUT_HEADROOM' and capacity['remaining_headroom_bytes']>=capacity['required_peak_bytes']

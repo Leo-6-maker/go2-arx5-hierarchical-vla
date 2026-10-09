@@ -6,6 +6,15 @@ from budget import process,time_allowed,seconds
 from r2 import UPDATE_STOP,ARM_START_STOP
 
 
+def arm_start_allowed(root,arm):
+    if time.time()<ARM_START_STOP:return
+    receipt=json.loads((root/'design/EXACT_ENGINEERING_RECOVERY_2.json').read_text())
+    assert arm=='C0_REPLAY1024' and receipt['arm']==arm and receipt['launch_allowed']
+    rows=[json.loads(x) for x in (root/'learning/completed_updates.jsonl').read_text().splitlines()]
+    assert len(rows)==16 and all(r['arm']==arm and r['work_kind']=='canary' for r in rows)
+    assert {(r['phase'],r['step']) for r in rows}=={(p,s) for p in ('continuous','split') for s in range(1,9)}
+
+
 def lease(root):
     job=os.environ['PBS_JOBID'];assert os.environ.get('CUDA_VISIBLE_DEVICES')
     raw=subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-f',job],text=True)
@@ -30,7 +39,7 @@ def run_arm(root,arm,base,card_path,stop=1024):
     from canary import compare
     from authority import allowed,stage_card
     allowed(root,'update',120);card=stage_card(root,card_path);assert card['stage']==arm
-    assert time.time()<ARM_START_STOP
+    arm_start_allowed(root,arm)
     common=['--root',str(root),'--base',base,'--data-root',str(root/'data'),'--card',str(card_path),'--arm',arm]
     proof=root/'learning'/arm/'CANARY_COMPARISON.json'
     assert not proof.exists(),'New PI0286 arm requires its real new carry proof; adopt existing work instead'
@@ -56,7 +65,7 @@ def run_arm(root,arm,base,card_path,stop=1024):
 
 
 def run(a):
-    root=Path(a.root);assert root.resolve()==ROOT.resolve();guard();assert time.time()<ARM_START_STOP
+    root=Path(a.root);assert root.resolve()==ROOT.resolve();guard();arm_start_allowed(root,'C0_REPLAY1024')
     sys.path.append(str(root.parent/'PI0283/code'))
     with (root/'runtime/TRAINING_ALLOCATION.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
