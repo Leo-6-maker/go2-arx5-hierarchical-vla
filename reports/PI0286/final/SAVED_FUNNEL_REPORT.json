@@ -1,0 +1,135 @@
+{
+  "status": "PASS_SAVED_SCORE_FUNNEL_AND_PAIRED_TEACHER_DESCRIPTIVE_REPORT",
+  "panels": {
+    "TRAIN": {
+      "requested": 8,
+      "grasp_history": 7,
+      "grasp_and_lift_history": 7,
+      "acquisition_history": 7,
+      "acquisition_plus_stable_place": 7,
+      "previous_plus_release": 7,
+      "previous_plus_withdraw": 7,
+      "complete_task": 7
+    },
+    "DEV": {
+      "requested": 16,
+      "grasp_history": 15,
+      "grasp_and_lift_history": 13,
+      "acquisition_history": 13,
+      "acquisition_plus_stable_place": 13,
+      "previous_plus_release": 13,
+      "previous_plus_withdraw": 13,
+      "complete_task": 13
+    },
+    "CONFIRM_A": {
+      "requested": 32,
+      "grasp_history": 31,
+      "grasp_and_lift_history": 28,
+      "acquisition_history": 26,
+      "acquisition_plus_stable_place": 20,
+      "previous_plus_release": 20,
+      "previous_plus_withdraw": 20,
+      "complete_task": 20
+    },
+    "EXPLORATORY_TRAIN16": {
+      "requested": 16,
+      "grasp_history": 14,
+      "grasp_and_lift_history": 13,
+      "acquisition_history": 13,
+      "acquisition_plus_stable_place": 12,
+      "previous_plus_release": 12,
+      "previous_plus_withdraw": 12,
+      "complete_task": 12
+    },
+    "CORRECTION3S": {
+      "requested": 16,
+      "grasp_history": 16,
+      "grasp_and_lift_history": 15,
+      "acquisition_history": 15,
+      "acquisition_plus_stable_place": 15,
+      "previous_plus_release": 15,
+      "previous_plus_withdraw": 15,
+      "complete_task": 15
+    },
+    "CORRECTION12S": {
+      "requested": 16,
+      "grasp_history": 14,
+      "grasp_and_lift_history": 13,
+      "acquisition_history": 13,
+      "acquisition_plus_stable_place": 13,
+      "previous_plus_release": 13,
+      "previous_plus_withdraw": 13,
+      "complete_task": 13
+    }
+  },
+  "old_confirmation_failure_categories": {
+    "ACQUISITION_HISTORY_INCOMPLETE": 6,
+    "LATE_TASK_HOLD_FAILURE": 6
+  },
+  "late_failure_predicates": {
+    "episodes": 6,
+    "counts": {
+      "zone": 3,
+      "table": 5,
+      "static": 5,
+      "not_grasped": 5,
+      "TCP_clear": 5,
+      "green_unmoved": 0
+    },
+    "overlapping_counts_not_independent_causes": true
+  },
+  "IK_and_tracking_association": [
+    {
+      "group": "CONFIRM_SUCCESS",
+      "n": 20,
+      "with_IK_holds": 2,
+      "zero_IK_holds": 18,
+      "gate_rejects": 0,
+      "reference_to_installed_XYZ_RMS_m_median": 6.582929395873787e-05,
+      "installed_to_next_50ms_achieved_XYZ_RMS_m_median": 0.006024436792358756
+    },
+    {
+      "group": "CONFIRM_FAIL",
+      "n": 12,
+      "with_IK_holds": 7,
+      "zero_IK_holds": 5,
+      "gate_rejects": 0,
+      "reference_to_installed_XYZ_RMS_m_median": 0.007889390522330827,
+      "installed_to_next_50ms_achieved_XYZ_RMS_m_median": 0.005643920972943306
+    }
+  ],
+  "parent_outcome_conditioned_teacher_branches": [
+    {
+      "parent_32s_task_success": true,
+      "requested_branches": 24,
+      "teacher_32s_task_success": 24,
+      "native_codec_valid": 24
+    },
+    {
+      "parent_32s_task_success": false,
+      "requested_branches": 8,
+      "teacher_32s_task_success": 4,
+      "native_codec_valid": 3
+    }
+  ],
+  "method": {
+    "history": "ORIGINAL_SUSTAINED_CONTACT_LIFT_AND_HORIZONTAL_HISTORY",
+    "cumulative": "PREFIX_HISTORY_THEN_ALL41_FINAL_HOLD_SAMPLES_ZONE_TABLE_STATIC_RELEASE_TCP_CLEAR",
+    "release_and_withdraw_not_counted_by_first_true_at_reset": true,
+    "correction_history_includes_faithful_replayed_model_prefix": true,
+    "tracking_time": "INSTALLED_COMMAND_TO_ACHIEVED_AFTER_SAME_50MS_CONTROL_INTERVAL",
+    "causal_learning_comparison": "UNOBSERVED_C0_C1_NOT_EXECUTED",
+    "heldout_confirmation": "OLD_EXPOSED_CONFIRM_A_DESCRIPTIVE_ONLY"
+  },
+  "sources": {
+    "reports\\PI0286\\final\\ACTUAL_SCORE_SOURCE_READBACK.json": "b01c11630a2c3b5a1057114da048380234eea1d98ca8d65912e4ee5aba260be3",
+    "reports\\PI0285\\r3\\WP2\\REPAIR_A2048-2048\\EPISODE_FUNNEL.json": "9f9e7b370b3af38b1c1d77353d3f66f84a1053584d35db74b3064725db0c577e",
+    "reports\\PI0286\\correction\\ACTUAL_CORRECTION_ADMISSION_AND_FAILURES.json": "44358fee958a6f6b374ec28cc88da00d44a2ad7706f4e9a8890ad0053acf1378",
+    "reports\\PI0286\\correction\\BANK_NATIVE_CONTRACT_V2_COMPACT.json": "5b5cd22aa1038b3ddc49b3d589b3d8706c2f47b9948219a51a5836d0261a4b1b"
+  },
+  "new_neural_queries": 0,
+  "new_physics": 0,
+  "new_optimizer_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

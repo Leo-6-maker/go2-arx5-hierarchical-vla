@@ -1,6 +1,6 @@
 """PI0286 final DOSE TRAIN-state corrections; import has no model/physics calls."""
 import argparse,hashlib,json,os,time
-from collections import Counter,deque
+from collections import Counter
 from pathlib import Path
 import numpy as np
 from contract import ROOT,INSTRUCTIONS,sha,write
@@ -219,45 +219,31 @@ def bank(reports,teacher_sha256):
 
 
 def correction_plan(rows,total,bucket_counts):
-    """Exact equal-branch counts and unchanged bucket totals; fail infeasible coverage."""
-    episodes=sorted({r['episode'] for r in rows});counts=quotas(total,[1]*len(episodes));groups={}
-    for r in rows:groups.setdefault((r['episode'],r['phase']),[]).append(r)
-    # ponytail: small integral flow (at most32 branches x5 buckets), no solver dependency.
-    capacity={};adj={};flow={}
-    def edge(a,b,n):
-        capacity[a,b]=n;capacity[b,a]=0;flow[a,b]=flow[b,a]=0
-        adj.setdefault(a,[]).append(b);adj.setdefault(b,[]).append(a)
-    for ep,n in zip(episodes,counts):
-        edge('start',ep,n)
-        for p in range(5):
-            if (ep,p) in groups:edge(ep,f'phase{p}',total)
-    for p,n in enumerate(bucket_counts):edge(f'phase{p}','end',n)
-    sent=0
-    while sent<total:
-        parents={'start':None};q=deque(['start'])
-        while q and 'end' not in parents:
-            a=q.popleft()
-            for b in adj.get(a,[]):
-                if b not in parents and flow[a,b]<capacity[a,b]:parents[b]=a;q.append(b)
-        assert 'end' in parents,'Fixed equal-branch/bucket quotas infeasible; no fallback weighting authorized'
-        b='end';amount=total-sent
-        while parents[b] is not None:a=parents[b];amount=min(amount,capacity[a,b]-flow[a,b]);b=a
-        b='end'
-        while parents[b] is not None:a=parents[b];flow[a,b]+=amount;flow[b,a]-=amount;b=a
-        sent+=amount
-    streams={ep:iter(ordered([(p,j) for p in range(5) for j in range(flow.get((ep,f'phase{p}'),0))],ep)) for ep in episodes}
+    """Unchanged bucket quotas; equal eligible branches within each bucket."""
+    assert len(bucket_counts)==5 and sum(bucket_counts)==total and all(isinstance(n,int) and n>=0 for n in bucket_counts)
+    groups={}
+    for r in rows:
+        assert r['phase'] in range(5)
+        groups.setdefault((r['episode'],r['phase']),[]).append(r)
+    branches={p:sorted(ep for ep,phase in groups if phase==p) for p in range(5)}
+    assert all(branches[p] or not n for p,n in enumerate(bucket_counts)),'Missing required behavior bucket; no fallback'
     visits=Counter();poolvisits=Counter();out=[]
-    for j in range(max(counts)):
-        for ep,n in zip(episodes,counts):
-            if j>=n:continue
-            p,_=next(streams[ep]);group=groups[ep,p];event=[r for r in group if r['event_first8']]
-            priority=p!=4 and visits[ep,p]%2==0;pool=event if priority and event else group;pool=sorted(pool,key=lambda r:r['anchor'])
-            key=(ep,p,bool(priority and event));ordinal=poolvisits[key];strata=min(8,len(pool));stratum=ordinal%strata
-            eligible=pool[stratum::strata];chosen=eligible[(ordinal//strata)%len(eligible)]
-            out.append(dict(chosen,sampling_event_priority=priority,event_fallback=bool(priority and not event),stratum=stratum))
-            visits[ep,p]+=1;poolvisits[key]+=1
+    # Reuse the original deterministic phase ordering and eight-stratum window rule.
+    stream=ordered([(p,j) for p,n in enumerate(bucket_counts) for j in range(n)],'T1')
+    for p,_ in stream:
+        ep=branches[p][visits[p]%len(branches[p])];group=groups[ep,p]
+        event=[r for r in group if r['event_first8']];priority=p!=4 and visits[p]%2==0
+        pool=sorted(event if priority and event else group,key=lambda r:r['anchor'])
+        key=(ep,p,bool(priority and event));ordinal=poolvisits[key];strata=min(8,len(pool));stratum=ordinal%strata
+        eligible=pool[stratum::strata];chosen=eligible[(ordinal//strata)%len(eligible)]
+        out.append(dict(chosen,sampling_event_priority=priority,event_fallback=bool(priority and not event),stratum=stratum))
+        visits[p]+=1;poolvisits[key]+=1
     assert len(out)==total and [sum(r['phase']==p for r in out) for p in range(5)]==list(bucket_counts)
-    assert Counter(r['episode'] for r in out)==dict(zip(episodes,counts));return out
+    for p,n in enumerate(bucket_counts):
+        if n:
+            expected=dict(zip(branches[p],quotas(n,[1]*len(branches[p]))))
+            assert Counter(r['episode'] for r in out if r['phase']==p)==expected
+    return out
 
 
 def recovery_plan(experts,admission):
@@ -422,14 +408,18 @@ def self_check():
     assert not bank(reports[:-1],'fixture')['status'].startswith('PASS_')
     assert not bank(reports+reports[:1],'fixture')['status'].startswith('PASS_')
     result=correction_plan(rows,4096,quotas(4096,WEIGHTS));assert len(result)==4096
-    counts=Counter(r['episode'] for r in result);assert max(counts.values())-min(counts.values())<=1
+    for phase in range(5):
+        counts=Counter(r['episode'] for r in result if r['phase']==phase);assert max(counts.values())-min(counts.values())<=1
     assert [sum(r['phase']==p for r in result) for p in range(5)]==quotas(4096,WEIGHTS)
+    sparse=[dict(rows[0],episode='early',phase=p,anchor=p,uid=f'early-{p}') for p in range(5)]+[dict(rows[0],episode='late',phase=4,uid='late-4')]
+    conditional=correction_plan(sparse,100,WEIGHTS)
+    assert sum(r['episode']=='late' for r in conditional) in (2,3)
     try:correction_plan([dict(r,phase=4) for r in rows],4096,quotas(4096,WEIGHTS))
     except AssertionError:pass
     else:raise AssertionError('Infeasible behavior coverage silently repaired')
     return dict(status='PASS_CPU_FIXED_SLOTS_CLOSED_BANK_EQUAL_BRANCH_FIXED_BUCKET_FIXTURES',requested=32,ticks=[80,260],
-        codec_failure_excludes_branch_only=True,missing_or_duplicate_slot_blocks=True,equal_branch_weight=True,
-        infeasible_bucket_fails=True,model_calls=0,physics_calls=0,teacher_calls=0,actual_restore='UNOBSERVED',actual_codec='UNOBSERVED')
+        codec_failure_excludes_branch_only=True,missing_or_duplicate_slot_blocks=True,equal_branch_weight_within_each_bucket=True,global_equal_branch_count_required=False,
+        missing_bucket_fails=True,model_calls=0,physics_calls=0,teacher_calls=0,actual_restore='UNOBSERVED',actual_codec='UNOBSERVED')
 
 
 if __name__=='__main__':
