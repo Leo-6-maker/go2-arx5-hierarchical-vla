@@ -7,10 +7,15 @@ from contract import ROOT,sha,write
 
 def build(data_root):
     assert os.environ['CUDA_VISIBLE_DEVICES']==''
-    data_root=Path(data_root);bank_path=ROOT/'correction/CORRECTION_BANK.json';bank=json.loads(bank_path.read_text())
+    data_root=Path(data_root);bank_path=ROOT/'correction/BANK_NATIVE_CONTRACT_V2.json';bank=json.loads(bank_path.read_text())
     assert bank['requested_branches']==32 and bank['parent_point']=='PI0285_REPAIR_A2048-2048'
     assert bank['layouts']==list(range(285108,285124)) and bank['branch_times_seconds']==[3,12]
-    plan_path=ROOT/'correction/C1_PLAN_AUDIT.json';plan=json.loads(plan_path.read_text())
+    plan_path=ROOT/'correction/SAMPLER_BUCKET_CONTRACT_V3/CPU_PLAN_DRAFT.json';plan=json.loads(plan_path.read_text())
+    training_plan=plan_path.parent/'C1_CORRECT1024_BUCKET_CONTRACT_V3.jsonl'
+    assert sha(bank_path)==plan['data_bank_sha256']=='f2c7b43af6edc42795ee0595ed0a9c9f05f440369945d5b43bfc38419e21cb8d'
+    assert plan['status']=='PASS_ACTUAL_BANK_ORIGINAL_BUCKET_CONDITIONAL_EQUALITY_CPU_PLAN_DRAFT'
+    assert sha(training_plan)==plan['plan_sha256']=='0194583c35e93000771aed598817091a6d670b9f1720d31da6a06d6b37934f0e'
+    assert plan['rows']==8192 and plan['source_counts']=={'expert':4096,'corrected_suffix':4096}
     result=dict(status='CORRECTION_NOT_ADMITTED_NO_TRAINING_TRANSFER',bank_status=bank['status'],plan_status=plan['status'],
         bank_sha256=sha(bank_path),plan_audit_sha256=sha(plan_path),files=[],failed_prefix_members=0,
         original_expert_members_copied=0,normalizer_members_copied=0,model_calls=0,physics_calls=0)
@@ -43,9 +48,11 @@ def build(data_root):
         tree=hashlib.sha256(json.dumps([[v['path'],v['bytes'],v['sha256']] for v in files],separators=(',',':')).encode()).hexdigest()
         result.update(status='PASS_ACTUAL_CORRECTION_NUMPY_FULL_MEMBER_READBACK_NOT_TRAINING_ADMISSION',files=files,branches=branches,
             tree_sha256=tree,total_bytes=sum(v['bytes'] for v in files),frozen_processor=bank['processor'],
-            plan_path=str(data_root/'C1_CORRECT1024.jsonl') if plan['status'].startswith('PREPARED_C1_') else None,
+            plan_path=str(training_plan),
             plan_sha256=plan.get('plan_sha256'),copy_scope='EXACT_NEW_ADMITTED_CORRECTION_NPY_ONLY',optimizer_launch_allowed=False)
-    write(ROOT/'correction/CORRECTION_TRANSFER_MANIFEST.json',result)
+    output=ROOT/'correction/CORRECTION_TRANSFER_MANIFEST_NATIVE_V2_BUCKET_V3.json'
+    if output.exists():assert json.loads(output.read_text())==result
+    else:write(output,result)
     return result
 
 

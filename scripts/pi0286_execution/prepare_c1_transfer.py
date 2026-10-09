@@ -2,7 +2,7 @@
 
 Runs only after actual Core correction bank and fixed sampler PASS. Streams
 only named fresh array members and receipts through existing PC SSH identities.
-Writes a prospective C1 card; owner reserve/admission promotion remains explicit.
+Writes prospective and CPU-validated C1 cards; owner controls capacity and launch.
 """
 import argparse,json,shlex,subprocess,sys
 from pathlib import Path
@@ -24,10 +24,14 @@ def sha(p):
  with p.open('rb') as f:
   for b in iter(lambda:f.read(8<<20),b''):h.update(b)
  return h.hexdigest()
-b=json.loads((r/'correction/CORRECTION_BANK.json').read_text());a=json.loads((r/'correction/C1_PLAN_AUDIT.json').read_text())
+b=json.loads((r/'correction/BANK_NATIVE_CONTRACT_V2.json').read_text());a=json.loads((r/'correction/SAMPLER_BUCKET_CONTRACT_V3/CPU_PLAN_DRAFT.json').read_text())
 assert b['status']=='PASS_ACTUAL_BRANCH_RESTORE_FRESH_CORRECTIONS_FIXED_CODEC' and b['requested_branches']==32 and b['valid_branches']>=24
 assert not b['missing'] and not b['duplicates'] and not b['duplicate_states']
-assert a['status']=='PREPARED_C1_EQUAL_EXPERT_CORRECTION_PLAN_NOT_TRAINING_ADMISSION' and a['rows']==8192 and a['source_counts']=={'expert':4096,'corrected_suffix':4096}
+assert a['status']=='PASS_ACTUAL_BANK_ORIGINAL_BUCKET_CONDITIONAL_EQUALITY_CPU_PLAN_DRAFT' and a['rows']==8192 and a['source_counts']=={'expert':4096,'corrected_suffix':4096}
+assert b['valid_branches']==27 and a['data_bank_sha256']=='f2c7b43af6edc42795ee0595ed0a9c9f05f440369945d5b43bfc38419e21cb8d'
+assert a['plan_sha256']=='0194583c35e93000771aed598817091a6d670b9f1720d31da6a06d6b37934f0e'
+readback=json.loads((r/'correction/CORRECTION_TRANSFER_MANIFEST_NATIVE_V2_BUCKET_V3.json').read_text())
+assert readback['status']=='PASS_ACTUAL_CORRECTION_NUMPY_FULL_MEMBER_READBACK_NOT_TRAINING_ADMISSION'
 members={}
 for row in b['rows']:
  for name,h in row['source_identity'].items():
@@ -35,9 +39,10 @@ for row in b['rows']:
   rel='data/'+name;p=r/rel;assert p.resolve().is_relative_to(r.resolve()) and p.is_file()
   assert rel not in members or members[rel]['sha256']==h
   members[rel]=dict(bytes=p.stat().st_size,sha256=h)
-for rel in ('correction/CORRECTION_BANK.json','correction/C1_PLAN_AUDIT.json','data/C1_CORRECT1024.jsonl'):
+for rel in ('correction/BANK_NATIVE_CONTRACT_V2.json','correction/SAMPLER_BUCKET_CONTRACT_V3/CPU_PLAN_DRAFT.json','correction/SAMPLER_BUCKET_CONTRACT_V3/C1_CORRECT1024_BUCKET_CONTRACT_V3.jsonl','correction/CORRECTION_TRANSFER_MANIFEST_NATIVE_V2_BUCKET_V3.json','correction/C1_DATA_ADMISSION_NATIVE_V2_BUCKET_V3.json'):
  p=r/rel;members[rel]=dict(bytes=p.stat().st_size,sha256=sha(p))
-assert members['data/C1_CORRECT1024.jsonl']['sha256']==a['plan_sha256'] and members['correction/CORRECTION_BANK.json']['sha256']==a['correction_bank_sha256']
+assert members['correction/SAMPLER_BUCKET_CONTRACT_V3/C1_CORRECT1024_BUCKET_CONTRACT_V3.jsonl']['sha256']==a['plan_sha256'] and members['correction/BANK_NATIVE_CONTRACT_V2.json']['sha256']==a['data_bank_sha256']
+assert len([k for k in members if k.endswith('.npy')])==162
 print(json.dumps(dict(status='ACTUAL_C1_TRANSFER_FIXED_FILELIST',members=members,valid_branches=b['valid_branches'])))
 '''
     manifest=json.loads(remote('core','CORE='+repr(CORE)+'\n'+metadata))
@@ -76,39 +81,50 @@ with tarfile.open(fileobj=sys.stdin.buffer,mode='r|') as t:
   else:partial.replace(p)
   seen.add(rel)
 assert seen==set(MANIFEST['members'])
-b=json.loads((r/'correction/CORRECTION_BANK.json').read_text());a=json.loads((r/'correction/C1_PLAN_AUDIT.json').read_text())
+b=json.loads((r/'correction/BANK_NATIVE_CONTRACT_V2.json').read_text());a=json.loads((r/'correction/SAMPLER_BUCKET_CONTRACT_V3/CPU_PLAN_DRAFT.json').read_text())
 assert b['status']=='PASS_ACTUAL_BRANCH_RESTORE_FRESH_CORRECTIONS_FIXED_CODEC' and b['requested_branches']==32 and b['valid_branches']>=24
 assert a['source_counts']=={'expert':4096,'corrected_suffix':4096} and a['rows']==8192
-rows=[json.loads(x) for x in (r/'data/C1_CORRECT1024.jsonl').read_text().splitlines()]
+rows=[json.loads(x) for x in (r/'correction/SAMPLER_BUCKET_CONTRACT_V3/C1_CORRECT1024_BUCKET_CONTRACT_V3.jsonl').read_text().splitlines()]
 assert len(rows)==8192 and [v['index'] for v in rows]==list(range(8192))
 for v in rows:
  if v['source']=='corrected_suffix':
   assert v['episode'] in b['valid_slots']
   for name,h in v['source_identity'].items():assert MANIFEST['members']['data/'+name]['sha256']==h
-card=json.loads((r/'design/C0_REPLAY1024_CARD.json').read_text());card.update(stage='C1_CORRECT1024',plan_path=str(r/'data/C1_CORRECT1024.jsonl'),plan_sha256=sha(r/'data/C1_CORRECT1024.jsonl'),correction_admission=str(r/'correction/CORRECTION_BANK.json'),correction_admission_sha256=sha(r/'correction/CORRECTION_BANK.json'),launch_allowed=False)
-p=r/'design/C1_CORRECT1024_CARD.prospective.json'
+c0=r/'design/C0_REPLAY1024_CARD.json'
+if not c0.exists():c0=r/'design/C0_REPLAY1024_CARD.prospective.json'
+card=json.loads(c0.read_text());card.update(stage='C1_CORRECT1024',plan_path=str(r/'correction/SAMPLER_BUCKET_CONTRACT_V3/C1_CORRECT1024_BUCKET_CONTRACT_V3.jsonl'),plan_sha256=a['plan_sha256'],correction_admission=str(r/'correction/BANK_NATIVE_CONTRACT_V2.json'),correction_admission_sha256=a['data_bank_sha256'],launch_allowed=False,canary='NEW_REAL_CONTINUOUS8_VS_FRESH4_RESTORE4_REQUIRED')
+p=r/'design/C1_CORRECT1024_CARD_NATIVE_V2_BUCKET_V3.prospective.json'
 if p.exists():assert json.loads(p.read_text())==card
 else:write(p,card)
-# Validate the same admission checks without publishing an active launch card.
-probe=r/'design/C1_CARD_CPU_VALIDATION.json';write(probe,dict(card,launch_allowed=True))
+# Validate the original admission checks before publishing the C1-only card.
+probe=r/'design/C1_CARD_CPU_VALIDATION_NATIVE_V2_BUCKET_V3.json';write(probe,dict(card,launch_allowed=True))
 try:
  from authority import stage_card
  stage_card(r,probe)
 finally:probe.unlink()
-value=dict(status='PASS_ACTUAL_C1_EXACT_TRANSFER_READBACK_PROSPECTIVE_CARD',manifest=MANIFEST,card_sha256=sha(p),valid_branches=b['valid_branches'],optimizer_updates=0,model_queries=0,PBS_submissions=0,launch_allowed=False)
-write(r/'evidence/C1_TRANSFER_READBACK.json',value);print(json.dumps(value))
+active=r/'design/C1_CORRECT1024_CARD.json';active_card=dict(card,launch_allowed=True)
+if active.exists():assert json.loads(active.read_text())==active_card
+else:write(active,active_card)
+value=dict(status='PASS_ACTUAL_C1_NATIVE_V2_BUCKET_V3_EXACT_TRANSFER_READBACK_AND_CARD',manifest=MANIFEST,card_sha256=sha(active),card_path=str(active),prospective_card_sha256=sha(p),valid_branches=b['valid_branches'],optimizer_updates=0,model_queries=0,PBS_submissions=0,launch_allowed=True,actual_canary='UNOBSERVED_FRESH_C1_REQUIRED')
+write(r/'evidence/C1_TRANSFER_READBACK_NATIVE_V2_BUCKET_V3.json',value);print(json.dumps(value))
 '''
     prefix='CORE='+repr(CORE)+'\nHOP='+repr(HOP)+'\nMANIFEST='+repr(manifest)+'\n'
-    src_remote=shlex.join(['python3','-c',prefix+source])
+    def stage_relay(host,root,name,body):
+        path=root+'/correction/transfer_tools/'+name
+        script='from pathlib import Path\np=Path('+repr(path)+')\np.parent.mkdir(parents=True,exist_ok=True)\nb='+repr(body.encode())+'\nif p.exists():assert p.read_bytes()==b\nelse:p.write_bytes(b)\n'
+        remote(host,script);return path
+    source_path=stage_relay('core',CORE,'SOURCE_NATIVE_V2_BUCKET_V3.py',prefix+source)
+    target_path=stage_relay('hop',HOP,'TARGET_NATIVE_V2_BUCKET_V3.py',prefix+target)
+    src_remote=shlex.join(['python3',source_path])
     src_cmd=['ssh',*OPTIONS,'corelab-amd-server',shlex.join(['ssh',*OPTIONS,'corelab-4080s',src_remote])]
-    dst_cmd=['ssh',*OPTIONS,'nus-hopper',shlex.join(['python3','-c',prefix+target])]
+    dst_cmd=['ssh',*OPTIONS,'nus-hopper',shlex.join(['python3',target_path])]
     with subprocess.Popen(src_cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE) as src:
         with subprocess.Popen(dst_cmd,stdin=src.stdout,stdout=subprocess.PIPE,stderr=subprocess.PIPE) as dst:
             src.stdout.close();out,error=dst.communicate();src_error=src.stderr.read();code=src.wait()
             assert dst.returncode==code==0,(code,dst.returncode,src_error[-3000:].decode(),error[-3000:].decode())
-    value=json.loads(out);p=Path('reports/PI0286/preparation/C1_TRANSFER_READBACK.json');p.write_text(json.dumps(value,indent=2)+'\n');return value
+    value=json.loads(out);p=Path('reports/PI0286/preparation/C1_TRANSFER_READBACK_NATIVE_V2_BUCKET_V3.json');p.write_text(json.dumps(value,indent=2)+'\n');return value
 
 
 if __name__=='__main__':
     argparse.ArgumentParser(description=__doc__).parse_args()
-    print(json.dumps(transfer()))
+    value=transfer();print(json.dumps({k:v for k,v in value.items() if k!='manifest'}))
