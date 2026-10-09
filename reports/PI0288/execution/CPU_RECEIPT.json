@@ -1,0 +1,25 @@
+{
+  "local_suite": {
+    "command": "py -3.12 -m pytest tests/target_mujoco -q",
+    "passed": 13,
+    "skipped": 1,
+    "wall_s": 16.57,
+    "skip_reason": "private source not available locally"
+  },
+  "actual_private_callback_test": {
+    "status": "PASS",
+    "calls": {
+      "native_accept": 2,
+      "native_send": 1,
+      "publisher": 1,
+      "arm": 1
+    },
+    "trace_sha256": "05913d0d1c314c6cfffc261a617dc13a560b796b29a4dd701ce7a925c71bc788"
+  },
+  "loaded_model_zero_step_audit": {
+    "status": "PASS_FOR_MEASUREMENT_NOT_SAFETY",
+    "snapshot_original_state_unchanged": true,
+    "invalid_default_joints": 4
+  },
+  "official_GR00T_processor_batch": "NOT_RUN_NO_ADMITTED_REAL_DATA"
+}
