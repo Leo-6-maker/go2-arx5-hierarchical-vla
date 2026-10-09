@@ -1,0 +1,187 @@
+{
+  "status": "DEADLINE_PARTIAL_NO_NEW_TRAINED_ENDPOINT",
+  "scientific_execution_closed": true,
+  "archival_delivery": "IN_PROGRESS",
+  "authority": {
+    "canonical": 6072813602,
+    "release": "eae6dbc1f9281b204a4e28e5f7c100d705837318",
+    "erratum_canonical": 6073765687
+  },
+  "objective_achieved": false,
+  "new_source_policy_qualified": false,
+  "original_PI0285": {
+    "formal_updates": 6144,
+    "discarded_canary_updates": 32,
+    "TRAIN": [
+      7,
+      8
+    ],
+    "DEV": [
+      13,
+      16
+    ],
+    "CONFIRM_A": [
+      20,
+      32
+    ],
+    "qualification": "VALID_CONFIRMATION_QUALITY_FAIL_UNCHANGED",
+    "confirmation_failure_decomposition": {
+      "missing_acquisition_history": 6,
+      "later_task_hold_failure": 6,
+      "IK_hold_present": 7,
+      "IK_hold_absent": 5,
+      "unique_cause_proven": false
+    }
+  },
+  "PI0286": {
+    "parent_exploratory_TRAIN16": {
+      "completed": 16,
+      "physical_success": 12,
+      "independent_confirmation": false
+    },
+    "corrections": {
+      "requested": 32,
+      "faithful_restores": 32,
+      "physical_success": 28,
+      "native_physical_codec_pass": 27,
+      "required": 24,
+      "by_takeover": {
+        "3s": {
+          "requested": 16,
+          "physical_success": 15,
+          "codec_pass": 14
+        },
+        "12s": {
+          "requested": 16,
+          "physical_success": 13,
+          "codec_pass": 13
+        }
+      },
+      "raw_failed_model_prefix_used_for_supervision": false,
+      "old_preclip_gate_result": 15,
+      "old_result_interpretation": "SUPERSEDED_IMPLEMENTATION_ADDED_GATE",
+      "real_codec_failed_slot": "T1-TRAIN-285118-TAKEOVER-03s",
+      "real_SO3_max_rad": 0.010654909013566369,
+      "bank_sha256": "f2c7b43af6edc42795ee0595ed0a9c9f05f440369945d5b43bfc38419e21cb8d"
+    },
+    "training": {
+      "C0": "NOT_EXECUTED",
+      "C1": "NOT_EXECUTED",
+      "formal_updates": 0,
+      "canary_updates": 0,
+      "rollback_updates": 0,
+      "checkpoints": 0,
+      "sole_accepted_job": "655971.hopper-m-02",
+      "job_exit": 1,
+      "job_failure_phase": "BEFORE_MODEL_LOAD",
+      "job_failure": "CROSS_MOUNT_FILE_STAT_IDENTITY_CHECK",
+      "repair": "CPU_PASS_FULL_BYTE_IDENTITY",
+      "replacement_submitted": false,
+      "time_gate": "2026-10-09T11:30:00+08:00"
+    },
+    "sampler": {
+      "actual_attempts": 1,
+      "implemented_global_exact_branch_and_bucket_flow": "INFEASIBLE",
+      "minimum_forced_hold_draws": 1517,
+      "hold_quota": 205,
+      "release_within_bucket_feasibility": "NOT_DISPROVEN_BY_GLOBAL_CONSTRAINT",
+      "new_sampler_trials": 0
+    },
+    "evaluation": {
+      "new_TRAIN": "NOT_EXECUTED_NO_ENDPOINT",
+      "new_DEV": "NOT_EXECUTED_NO_ENDPOINT",
+      "CONFIRM_C": "UNQUERIED_NO_ENDPOINT",
+      "learning_improvement": "UNOBSERVED_NO_MATCHED_TRAINING",
+      "no_new_quality_failure_claim": true
+    }
+  },
+  "current_budget": {
+    "formal_updates": 0,
+    "canary_updates": 0,
+    "quality_requests": 1336,
+    "K4_heads": 5344,
+    "physical_starts": 49,
+    "valid_unique_episodes": 48,
+    "engineering_interrupted_starts": 1,
+    "RGB_pairs": 32147,
+    "control_calls": 32148,
+    "dispatches": 64296,
+    "physics_integrations": 160735,
+    "teacher_controls": 15680,
+    "Core_GPU_process_union_seconds": 1684.9382734298706,
+    "Hopper_GPU_process_union_seconds": 14.17257046699524,
+    "PBS_reported_walltime_seconds": 17,
+    "exact_CPU_core_hours": "UNOBSERVED_AGGREGATE",
+    "planner_calls": "UNOBSERVED_IN_CURRENT_COUNTER_SNAPSHOT",
+    "raw_budget_reset": false
+  },
+  "model_recovery": {
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "prefix": "arms/PI0285/REPAIR_A2048/checkpoint-2048",
+    "revision": "75432eb91a2c602930a9e1e979aaebbeaebff02b",
+    "tree_sha256": "fb17b65effc3ae8dcbefa784adc8f7e6fab916821d29e4b2539e5be685ed8469",
+    "Hopper": "FULL_14_FILE_TRAINER_RETAINED",
+    "Core": "MODEL_ONLY_VIEW_RETAINED",
+    "new_model": "NONE"
+  },
+  "storage": {
+    "status": "PASS_EXACT_RETIRED_FAILURE_PAYLOADS_DELETED_ACTIVE_PARENT_PRESERVED",
+    "Hopper": {
+      "logical_deleted_bytes": 122781862302,
+      "target_allocated_decrease_bytes": 122781892608,
+      "observed_shared_free_delta_bytes": 122780909568,
+      "protected_parent": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/checkpoint-2048",
+      "parent_stamps_unchanged": true,
+      "quota": "CACHED_2026_10_09_1123_SGT_898_6GB_USED_OF_1_0TB",
+      "exact_live_quota_headroom": "UNKNOWN"
+    },
+    "Corelab": {
+      "first_logical_deleted_bytes": 12576338896,
+      "first_allocated_decrease_bytes": 12576366592,
+      "extra_logical_bytes": 18864508344,
+      "extra_allocated_bytes": 18864549888,
+      "extra_free_before_bytes": 7932252160,
+      "extra_free_after_bytes": 26469625856,
+      "extra_observed_shared_free_delta_bytes": 18537373696
+    },
+    "HF_history_deleted": false,
+    "small_evidence_retained": true,
+    "no_model_or_physics_calls": true,
+    "source_receipts": {
+      "storage/PURGE_EXECUTED.json": "037083e371733b800404aebfd8d26a6c7b1fce53764cae550a9e4c2c3903f331",
+      "preparation/SSD_RECLAIM_EXECUTED.json": "a0d21bb50659a27e10acc1f64b8f2fc38346e06a7f79f034cc0bd75f8dcc66f7",
+      "preparation/SSD_RECLAIM_EXTRA_EXECUTED.json": "0239c2ab0616e6e9c3e1755a373bdf25abcfcc2adc7e70c0a02c4abb3a25fc6f",
+      "storage/POST_CLEANUP_QUOTA_REFRESH.json": "0e5bce7603606efe2300feaa16e9ec31dd3724604b10da078634abdde405bbe1"
+    }
+  },
+  "next_experiment_recommendation": {
+    "launch_allowed": false,
+    "status": "NOT_AUTHORIZED_NEW_TIME_OR_LEASE",
+    "question": "Same-parent equal-update original replay versus actual correction data",
+    "retain": [
+      "original donor and optimizer identity",
+      "native EEF10 gripper objective and frozen WBC",
+      "all original physical and codec thresholds",
+      "new unexposed confirmation panel"
+    ],
+    "prerequisites": [
+      "explicit replacement lease and new scientific time window",
+      "source-bound correction sampler interpretation without added global quota gate",
+      "real continuous versus save-restore canary for each arm"
+    ],
+    "claim_limit": "No learning gain measured; 28/32 teacher completion is not a trained policy result or WBC transfer",
+    "new_loss_seed_candidate_search": false
+  },
+  "target_WBC_hardware_calls": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "raw_evidence_retention": {
+    "valid_episodes": 48,
+    "raw_logical_bytes": 16330911173,
+    "all_offload_receipts_verified": true,
+    "durable_location": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/durable/episodes",
+    "original_logical_paths_preserved_by_symlinks": true,
+    "free_SSD_snapshot_bytes": 38146273280,
+    "raw_migration_bytes_not_claimed_as_failed_checkpoint_deletion": true
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "epoch": 1791517098.0698576,
+  "active_scientific_scripts": [],
+  "new_scientific_calls": 0,
+  "initial_path_probe_not_budget_authority": {
+    "source/BUDGET.jsonl": {
+      "exists": false
+    },
+    "runtime/QUALITY_BUDGET.jsonl": {
+      "exists": false
+    },
+    "runtime/UPDATES.jsonl": {
+      "exists": false
+    },
+    "runtime/GPU_PROCESSES.jsonl": {
+      "bytes": 1209,
+      "sha256": "680ef4016aefebd99e3d503369b3c57176023c14ff4e51a80b4329a88274ba4c"
+    }
+  },
+  "actual_ledger_readback": {
+    "status": "PASS_SAME_ACTUAL_SCIENTIFIC_LEDGER_BYTES_SINCE_1105_NO_NEW_UPDATES",
+    "epoch": 1791517148.5341406,
+    "ledgers": {
+      "source/evidence/budget.jsonl": {
+        "exists": true,
+        "bytes": 34787178,
+        "sha256": "16ed6902ea25a8c54d4687db2c0a57ffb0dcd95010a0110f5f493f8d4b7cd07f"
+      },
+      "source/evidence/quality_budget.jsonl": {
+        "exists": true,
+        "bytes": 1388562,
+        "sha256": "d63ed5b209cfc711b696d437eec7a67627fd5d7d924cc48b879fddc28968a7e1"
+      },
+      "learning/completed_updates.jsonl": {
+        "exists": false
+      },
+      "runtime/GPU_PROCESSES.jsonl": {
+        "exists": true,
+        "bytes": 1209,
+        "sha256": "680ef4016aefebd99e3d503369b3c57176023c14ff4e51a80b4329a88274ba4c"
+      }
+    }
+  }
+}
