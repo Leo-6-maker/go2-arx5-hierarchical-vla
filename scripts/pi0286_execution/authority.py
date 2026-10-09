@@ -19,6 +19,19 @@ def stamp(path):
     s=Path(path).stat();return [s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns]
 
 
+@lru_cache(maxsize=None)
+def verified_bytes(path,expected_bytes,expected_sha256,local_stamp):
+    # Mount-specific metadata is a local cache key, never a cross-host identity.
+    assert Path(path).stat().st_size==expected_bytes,path
+    assert sha(path)==expected_sha256,path
+    return True
+
+
+def member_identity(path,item):
+    expected_bytes=item['bytes'] if 'bytes' in item else item['stamp'][2]
+    return verified_bytes(str(path),expected_bytes,item['sha256'],tuple(stamp(path)))
+
+
 @lru_cache(maxsize=1)
 def admitted(path,receipt_stamp):
     v=json.loads(Path(path).read_text())
@@ -26,13 +39,13 @@ def admitted(path,receipt_stamp):
     assert v['TRAIN_layouts']==list(range(285100,285164)) and v['supervised_tasks']==['T1']
     assert v['original_full_codec_status']=='FAIL_PRESERVED' and v['old_CONFIRM_or_DEV_supervision']==0
     for name,h in v['bindings'].items():assert sha(ROOT/'data'/name)==h,name
-    for name,item in v['array_members'].items():assert stamp(ROOT/'data'/name)==item['stamp'],name
+    for name,item in v['array_members'].items():member_identity(ROOT/'data'/name,item)
     return v
 
 
 def data_admission(root):
     root=Path(root);p=root/'data/EXPERT_DATA_ADMISSION.json';v=json.loads(p.read_text())
-    # ponytail: immutable member readback once per process/receipt version, not320 stats per update.
+    # Immutable full-byte readback once per process/receipt version.
     return admitted(str(p),tuple(stamp(p)))
 
 
@@ -66,7 +79,7 @@ def stage_card(root,path):
     assert proof['HF_revision']=='75432eb91a2c602930a9e1e979aaebbeaebff02b'
     assert proof['HF_tree']=='fb17b65effc3ae8dcbefa784adc8f7e6fab916821d29e4b2539e5be685ed8469'
     assert len(v['parent_files'])==14 and v['parent_files']==proof['files']
-    for name,item in proof['files'].items():assert stamp(parent/name)==item['stamp'],name
+    for name,item in proof['files'].items():member_identity(parent/name,item)
     assert sha(v['parent_export'])==v['parent_export_sha256']==proof['export_sha256']
     assert v['parent_full_master_sha256']==proof['full_master_sha256']
     assert json.loads((parent/'PI0282_RECOVERY.json').read_text())['cursor']==16384
@@ -84,6 +97,20 @@ def stage_card(root,path):
 
 
 def self_check():
+    import tempfile
+    with tempfile.TemporaryDirectory(prefix='pi0286-byte-identity-') as folder:
+        p=Path(folder)/'member.bin';p.write_bytes(b'original')
+        historical=stamp(p);historical[0]+=1;historical[1]+=1;historical[4]+=1
+        member=dict(sha256=sha(p),stamp=historical)
+        assert member_identity(p,member) and member_identity(p,member)
+        assert verified_bytes.cache_info().hits>=1
+        p.write_bytes(b'changed!')
+        try:member_identity(p,member)
+        except AssertionError:pass
+        else:raise AssertionError('Changed same-size bytes admitted')
+        try:member_identity(p,dict(bytes=p.stat().st_size+1,sha256=sha(p)))
+        except AssertionError:pass
+        else:raise AssertionError('Wrong byte size admitted')
     limits=dict(formal_cap=2048,all_updates_cap=2112,canary_cap=32,memory_cap=0,technical_cap=32)
     assert completed_kind([],ARMS[0],'main',1,limits)=='formal'
     assert completed_kind([dict(arm=ARMS[0],phase='main',step=1,work_kind='formal')],ARMS[0],'main',1,limits)=='technical'
@@ -91,7 +118,7 @@ def self_check():
         try:completed_kind(rows,arm,phase,step,limits)
         except AssertionError:pass
         else:raise AssertionError('New arm/canary/phase bound omitted')
-    return dict(status='PASS_PI0286_NEW_COUNTERS_ONLY_CPU',optimizer_updates=0,model_queries=0)
+    return dict(status='PASS_PI0286_NEW_COUNTERS_AND_MOUNT_INDEPENDENT_FULL_BYTE_IDENTITY_CPU',optimizer_updates=0,model_queries=0)
 
 
 if __name__=='__main__':print(json.dumps(self_check()))
