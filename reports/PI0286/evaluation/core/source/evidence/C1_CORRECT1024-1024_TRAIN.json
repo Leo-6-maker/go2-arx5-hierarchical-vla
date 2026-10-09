@@ -1,0 +1,2042 @@
+{
+  "status": "PI0286_FIXED_FIRST_VALID_NATIVE_PANEL_COMPLETE",
+  "point": "C1_CORRECT1024-1024",
+  "split": "TRAIN",
+  "tasks": {
+    "T1": {
+      "success": 8,
+      "requested": 8
+    }
+  },
+  "paired_both_success": null,
+  "rows": [
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "9d6bd85dd743f2a5368e51dc5ba324cd8e575cd45cfe42ffb735a34ba3bb7cb5",
+        "installed.npz": "b1b014a01902fcf0ecceb83567a55e7fb0e5d31b3e8df827ed858a517f89ce5d",
+        "physics.npz": "b1131faa0af0e8fcbced9ec4c0e3dfb75a78efa0c342059dc1f6fa61cbf286e9",
+        "START.json": "9387305672fb8a8ef09946a7e52c28199e68fe64bde31bfb53fa9af612238a08",
+        "TASK_SCORE_CPU.json": "2b3718d2ec148b2ce17bfda723df4820a5d56002609433061551904e499b7d33",
+        "contacts.jsonl": "07f92f639d3dcec63e1b7c94d9fa94a206ac49be2856084f19febdb4e43bc514",
+        "EPISODE_CARD.json": "3f187fdd0ff0dc3f4739e6d1b4f3944e73823daa5ee351b23965bdc199e8381c",
+        "commands.npz": "1c8fe557cac9ff787cf504d0130b7af3af166410125b9e92d7987355d20e5dbf",
+        "initial.npz": "5d5570d19c1bb68e7526389f5ec21d8c7fba57824652a70994e8958ee76a3958",
+        "NATIVE_INVENTORY.json": "e36c63a106d11e5b16571a48c9e120ab97d06767473dea6c9c7eb6aea626ac79",
+        "QUERIES.json": "cd73a3bb851ab92b68db7d6ba59d12f948b15a5c7697d92e83ae3630ef280870"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 23.77,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285100,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285100/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 11.8,
+            "changes": [
+              {
+                "time_s": 11.8,
+                "value": true
+              },
+              {
+                "time_s": 23.060000000000002,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 12.450000000000001,
+            "changes": [
+              {
+                "time_s": 12.450000000000001,
+                "value": true
+              },
+              {
+                "time_s": 22.85,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 12.48,
+            "changes": [
+              {
+                "time_s": 12.48,
+                "value": true
+              },
+              {
+                "time_s": 13.66,
+                "value": false
+              },
+              {
+                "time_s": 14.85,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 15.600000000000001,
+            "changes": [
+              {
+                "time_s": 15.600000000000001,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 12.14,
+                "value": false
+              },
+              {
+                "time_s": 23.080000000000002,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 5.72,
+                "value": false
+              },
+              {
+                "time_s": 6.08,
+                "value": true
+              },
+              {
+                "time_s": 8.32,
+                "value": false
+              },
+              {
+                "time_s": 8.43,
+                "value": true
+              },
+              {
+                "time_s": 8.6,
+                "value": false
+              },
+              {
+                "time_s": 9.3,
+                "value": true
+              },
+              {
+                "time_s": 9.73,
+                "value": false
+              },
+              {
+                "time_s": 10.08,
+                "value": true
+              },
+              {
+                "time_s": 10.27,
+                "value": false
+              },
+              {
+                "time_s": 10.450000000000001,
+                "value": true
+              },
+              {
+                "time_s": 10.76,
+                "value": false
+              },
+              {
+                "time_s": 10.81,
+                "value": true
+              },
+              {
+                "time_s": 10.9,
+                "value": false
+              },
+              {
+                "time_s": 10.99,
+                "value": true
+              },
+              {
+                "time_s": 11.01,
+                "value": false
+              },
+              {
+                "time_s": 11.02,
+                "value": true
+              },
+              {
+                "time_s": 11.07,
+                "value": false
+              },
+              {
+                "time_s": 11.13,
+                "value": true
+              },
+              {
+                "time_s": 11.16,
+                "value": false
+              },
+              {
+                "time_s": 11.21,
+                "value": true
+              },
+              {
+                "time_s": 11.42,
+                "value": false
+              },
+              {
+                "time_s": 11.450000000000001,
+                "value": true
+              },
+              {
+                "time_s": 11.46,
+                "value": false
+              },
+              {
+                "time_s": 11.47,
+                "value": true
+              },
+              {
+                "time_s": 11.700000000000001,
+                "value": false
+              },
+              {
+                "time_s": 23.13,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 11.8,
+                "value": false
+              },
+              {
+                "time_s": 23.060000000000002,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.4700000000000002,
+                "value": false
+              },
+              {
+                "time_s": 2.72,
+                "value": true
+              },
+              {
+                "time_s": 3.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 23.77,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 23.77,
+            "changes": [
+              {
+                "time_s": 23.77,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 34.0647988319397,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 1,
+      "files": {
+        "observations.npz": "94b430d1ba842122bb8207a3f937f848d310f43a820f5c85387266969a838913",
+        "installed.npz": "b3026f016f7e71b753a6a2736a8df12ec7f3e53d243c7ec8e3a20699aa643506",
+        "physics.npz": "46fc9fc94c4b38c1fde4ab7558310b151301f551037c885d3a69d7df11e83788",
+        "START.json": "e527dec99b5f25a1a2b1aad3d7d1d8c19be9fb0976d4d722f2b86ba09b89d215",
+        "TASK_SCORE_CPU.json": "ba2e2668a73839733ae3351a6c6f82401e46c09b229bdd32ed81419ba7f6d74b",
+        "contacts.jsonl": "b53b12f4f4b37688c34941effb878898e6ea3465745384c2eabd1ec093b292b4",
+        "EPISODE_CARD.json": "9210c2ab4bf0aa12b0bddc08a752e79604023893254a12cee62eaac8766358b4",
+        "commands.npz": "93f6f46735945ae327653b37a6ff6534eae2fa46964e99a55bc2bc044e1f0722",
+        "initial.npz": "a3550d3730bd8b1cfb6371e578e9ed4daed1ed423f8ee38b017a9e2608cc21d5",
+        "NATIVE_INVENTORY.json": "73b2b4ba5bafcf09520221073f375d3b13eb3c96f8b0cc687e01955a36e14710",
+        "QUERIES.json": "cc48a9bf8cdc4789f7b8cfbbabf3200c1ee9cfe7fcaf83b226442444c4219eae"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 19.490000000000002,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285101,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285101/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.79,
+            "changes": [
+              {
+                "time_s": 2.79,
+                "value": true
+              },
+              {
+                "time_s": 2.8200000000000003,
+                "value": false
+              },
+              {
+                "time_s": 4.0,
+                "value": true
+              },
+              {
+                "time_s": 4.01,
+                "value": false
+              },
+              {
+                "time_s": 4.34,
+                "value": true
+              },
+              {
+                "time_s": 4.41,
+                "value": false
+              },
+              {
+                "time_s": 5.44,
+                "value": true
+              },
+              {
+                "time_s": 5.63,
+                "value": false
+              },
+              {
+                "time_s": 9.200000000000001,
+                "value": true
+              },
+              {
+                "time_s": 18.31,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 9.57,
+            "changes": [
+              {
+                "time_s": 9.57,
+                "value": true
+              },
+              {
+                "time_s": 17.94,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 13.07,
+            "changes": [
+              {
+                "time_s": 13.07,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 13.91,
+            "changes": [
+              {
+                "time_s": 13.91,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 9.370000000000001,
+                "value": false
+              },
+              {
+                "time_s": 18.150000000000002,
+                "value": true
+              },
+              {
+                "time_s": 18.28,
+                "value": false
+              },
+              {
+                "time_s": 18.32,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 2.8200000000000003,
+                "value": true
+              },
+              {
+                "time_s": 3.9800000000000004,
+                "value": false
+              },
+              {
+                "time_s": 4.04,
+                "value": true
+              },
+              {
+                "time_s": 4.24,
+                "value": false
+              },
+              {
+                "time_s": 4.41,
+                "value": true
+              },
+              {
+                "time_s": 4.54,
+                "value": false
+              },
+              {
+                "time_s": 4.72,
+                "value": true
+              },
+              {
+                "time_s": 5.43,
+                "value": false
+              },
+              {
+                "time_s": 5.69,
+                "value": true
+              },
+              {
+                "time_s": 8.9,
+                "value": false
+              },
+              {
+                "time_s": 8.96,
+                "value": true
+              },
+              {
+                "time_s": 9.03,
+                "value": false
+              },
+              {
+                "time_s": 9.06,
+                "value": true
+              },
+              {
+                "time_s": 9.11,
+                "value": false
+              },
+              {
+                "time_s": 18.36,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.79,
+                "value": false
+              },
+              {
+                "time_s": 2.8200000000000003,
+                "value": true
+              },
+              {
+                "time_s": 4.0,
+                "value": false
+              },
+              {
+                "time_s": 4.01,
+                "value": true
+              },
+              {
+                "time_s": 4.34,
+                "value": false
+              },
+              {
+                "time_s": 4.41,
+                "value": true
+              },
+              {
+                "time_s": 5.44,
+                "value": false
+              },
+              {
+                "time_s": 5.63,
+                "value": true
+              },
+              {
+                "time_s": 9.200000000000001,
+                "value": false
+              },
+              {
+                "time_s": 18.31,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 19.490000000000002,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 19.490000000000002,
+            "changes": [
+              {
+                "time_s": 19.490000000000002,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 27.22694444656372,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "eb4c3f060af82c960f8542d8a98de812e472ccb9e52918f5b2b9cc87cb1694c9",
+        "installed.npz": "9461eb2e0a5f03279716507bba85c5e6273d61803f351419bf7acf98e7f77f51",
+        "physics.npz": "eccb0d0da45c0827a334fdaaa7604b7f75e33f7f736a8ac47bc71b0c943ffc40",
+        "START.json": "f9a5ee6fdf822bd0798e79dbec602893f35227fdb1ecf2db1ca4b64d4079eb53",
+        "TASK_SCORE_CPU.json": "1bfc94330fdc8db47de6d20cf4296546fe2891877d6ac27e5e93e05f63ef3220",
+        "contacts.jsonl": "ac6a242e6aad625ad60dee18238562660d367ae306ba377e0e56cf7b9e0b6645",
+        "EPISODE_CARD.json": "40cb080d3ae6b950b9ff465bb96651ca401bc13297b39a5dabd9fa10b786f6a8",
+        "commands.npz": "2ac7902d05ec9044a6eb88df51a737bb236f408fe67b2730fe5a6f342c3610d2",
+        "initial.npz": "bf6ad4165474ed2390d9b79a1d1f7df6291fb88b8252f53b724fba4828f5ba19",
+        "NATIVE_INVENTORY.json": "9b8db27e9b3b539d5cf4d8b87dc91a09fbde7fb447f6c6cabc7680a9b3b219b2",
+        "QUERIES.json": "a4ada07bf4de125fe05ca60295e52734fdc31c4d0581ef788c587d11500a7dcd"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 11.74,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285102,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285102/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 5.51,
+            "changes": [
+              {
+                "time_s": 5.51,
+                "value": true
+              },
+              {
+                "time_s": 10.82,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 5.79,
+            "changes": [
+              {
+                "time_s": 5.79,
+                "value": true
+              },
+              {
+                "time_s": 10.53,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 7.84,
+            "changes": [
+              {
+                "time_s": 7.84,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 8.69,
+            "changes": [
+              {
+                "time_s": 8.69,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 5.7,
+                "value": false
+              },
+              {
+                "time_s": 10.74,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 4.16,
+                "value": false
+              },
+              {
+                "time_s": 4.23,
+                "value": true
+              },
+              {
+                "time_s": 4.24,
+                "value": false
+              },
+              {
+                "time_s": 4.25,
+                "value": true
+              },
+              {
+                "time_s": 4.26,
+                "value": false
+              },
+              {
+                "time_s": 4.3100000000000005,
+                "value": true
+              },
+              {
+                "time_s": 4.66,
+                "value": false
+              },
+              {
+                "time_s": 4.79,
+                "value": true
+              },
+              {
+                "time_s": 5.47,
+                "value": false
+              },
+              {
+                "time_s": 10.85,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 5.51,
+                "value": false
+              },
+              {
+                "time_s": 10.82,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.17,
+                "value": false
+              },
+              {
+                "time_s": 11.74,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 11.74,
+            "changes": [
+              {
+                "time_s": 11.74,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 39.42931318283081,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 3,
+      "files": {
+        "observations.npz": "88c0d14f6fc3ac1f8324e87ed73c9692e64363fadb2054d7bed952a37e244aea",
+        "installed.npz": "db5394ce1c49544d037e4f6a09ccbed02bcd261328cd31caae18a7f39cb53d46",
+        "physics.npz": "633cab40d4612c4526519e6cb79071f7dabdcd32ad242e65c2e5875ccf8acedc",
+        "START.json": "3bc3ccb8eb5482178c81f8a88df9eacda191bf5929c97a4cb943a12e10faf35e",
+        "TASK_SCORE_CPU.json": "e0b1a1afdea1d5cb45642da2bf9513f0b1c82a572470750d711b9eaadbc2654f",
+        "contacts.jsonl": "bc25d1a3ddda78786b13d2e71178f778cd3992f5166980ea9d41c60a00221ea5",
+        "EPISODE_CARD.json": "71186b95dcc804286c2d4be0cec13833c99bf1f39acf758c7c4af39595aa5d70",
+        "commands.npz": "169f4b6f0e31ba18bacb36153aa8e12abef599d4aa1df333c351a82a37bbd521",
+        "initial.npz": "0e76f7809bc5cb60842c1dab79d80cdb955c14dab66acf733f338397e9f92b08",
+        "NATIVE_INVENTORY.json": "53287f9c4eb0cea9bd19bbb41ef4d3629bb5dd7c4034829a40c0eb6f8f63d997",
+        "QUERIES.json": "ed75c42157aa742df21abef35e495703d48b090aab5b46975a2e0860c116db26"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 9.21,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285103,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285103/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 4.36,
+            "changes": [
+              {
+                "time_s": 4.36,
+                "value": true
+              },
+              {
+                "time_s": 8.370000000000001,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 4.68,
+            "changes": [
+              {
+                "time_s": 4.68,
+                "value": true
+              },
+              {
+                "time_s": 8.08,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 6.42,
+            "changes": [
+              {
+                "time_s": 6.42,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 6.7700000000000005,
+            "changes": [
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 4.49,
+                "value": false
+              },
+              {
+                "time_s": 8.22,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": false
+              },
+              {
+                "time_s": 8.39,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 4.36,
+                "value": false
+              },
+              {
+                "time_s": 8.370000000000001,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0700000000000003,
+                "value": false
+              },
+              {
+                "time_s": 9.21,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 9.21,
+            "changes": [
+              {
+                "time_s": 9.21,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 27.07508420944214,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 47,
+      "files": {
+        "observations.npz": "10e93173d3d3063d4c64bf004f1eb21d361c505a9e5780a4150360b964d6d8a1",
+        "installed.npz": "7282ecf61e076d709ec4fea3373878c76c2ab3cf42ae8f9e524e59d4366ab62c",
+        "physics.npz": "8fc8deb0f9cc1a340e9e3c6d818bbbef178ec138ff31fd699a10d1eccbd083fb",
+        "START.json": "06ee402cf12905754edea175b92d8696b3a93286bb35f8618de8d7365ad4c2d4",
+        "TASK_SCORE_CPU.json": "3bfbab351f4b2a47a2082a6beb103a72289a277443a03bd2dc2c0f92e7c85674",
+        "contacts.jsonl": "e12f357dfd7beb5e5ece3d3ad0ca162c085a8e626934fa4ef114ab3c6ed07ec7",
+        "EPISODE_CARD.json": "e31b7baef3ade1b2a8e5ad5f8f2700c1d9396b7e03ac9caefdb004e40ec4cbb9",
+        "commands.npz": "9484d3c18a752ed70fcab3a58d6b8761a8d4c837d41a682e913b66ca53443f68",
+        "initial.npz": "a8eb1fd2604530bebec8a3de522d1934ca4c1f46e7dc0e8cf971be2df41afba4",
+        "NATIVE_INVENTORY.json": "9b8db27e9b3b539d5cf4d8b87dc91a09fbde7fb447f6c6cabc7680a9b3b219b2",
+        "QUERIES.json": "a54d991eb66f56c8e69df3387d8e7cc7845bcd48d61f10936ec5348326db81ae"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 19.93,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285104,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285104/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.6,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": true
+              },
+              {
+                "time_s": 3.7700000000000005,
+                "value": false
+              },
+              {
+                "time_s": 5.55,
+                "value": true
+              },
+              {
+                "time_s": 18.87,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 3.7,
+            "changes": [
+              {
+                "time_s": 3.7,
+                "value": true
+              },
+              {
+                "time_s": 3.79,
+                "value": false
+              },
+              {
+                "time_s": 6.42,
+                "value": true
+              },
+              {
+                "time_s": 18.46,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 12.540000000000001,
+            "changes": [
+              {
+                "time_s": 12.540000000000001,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 13.620000000000001,
+            "changes": [
+              {
+                "time_s": 13.620000000000001,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.2300000000000004,
+                "value": false
+              },
+              {
+                "time_s": 3.8200000000000003,
+                "value": true
+              },
+              {
+                "time_s": 5.8,
+                "value": false
+              },
+              {
+                "time_s": 18.59,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.58,
+                "value": false
+              },
+              {
+                "time_s": 3.8899999999999997,
+                "value": true
+              },
+              {
+                "time_s": 4.39,
+                "value": false
+              },
+              {
+                "time_s": 4.43,
+                "value": true
+              },
+              {
+                "time_s": 4.91,
+                "value": false
+              },
+              {
+                "time_s": 4.93,
+                "value": true
+              },
+              {
+                "time_s": 4.97,
+                "value": false
+              },
+              {
+                "time_s": 5.01,
+                "value": true
+              },
+              {
+                "time_s": 5.51,
+                "value": false
+              },
+              {
+                "time_s": 18.88,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              },
+              {
+                "time_s": 3.7700000000000005,
+                "value": true
+              },
+              {
+                "time_s": 5.55,
+                "value": false
+              },
+              {
+                "time_s": 18.87,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.1800000000000002,
+                "value": false
+              },
+              {
+                "time_s": 19.93,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 19.93,
+            "changes": [
+              {
+                "time_s": 19.93,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.399670600891113,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "bf5feaa6d52ee840311f73eb95c7e448432320d6da84d6ae4faabc566f5eaa01",
+        "installed.npz": "2c644f4b240c2ec3291949d8bce219cc627d386f056753d13dd96f44a8a699b0",
+        "physics.npz": "4bea025585cff8a78f14ac3cc12166d25432f5fa8109456b1a9dbe41a339ed27",
+        "START.json": "1ae6ff683e1b1dfcea7a6fa6551cd240b2622aabbb4ac7f5ff797cdb1be99a7d",
+        "TASK_SCORE_CPU.json": "0e12d498512d1867282944b6822e021a60bfb85ba5ae465c2efed02b9329fa8c",
+        "contacts.jsonl": "b6de781fa1f2981c1fcfc1b59d65542e5743ec15f0d9b37c4ea9920d41e70b3a",
+        "EPISODE_CARD.json": "a09fc7f75e84143c52460e08c0fdf249160d199e3f90f43f1007a3228ee6565f",
+        "commands.npz": "ce7807f5ada6a770f3f45e3b634901523dfbfb55d0f485db3a45de26f32006d6",
+        "initial.npz": "af9a2bd188a58c948a4f5a8d2c033caaa9308dae9490786b764257d26cfb2e56",
+        "NATIVE_INVENTORY.json": "5758235b303f007d991ecf6c8f5a0c07deeab5624fb9d63162907137ee109847",
+        "QUERIES.json": "0ff5ae0cf599b880002ad03a591617dffcc3ccbb7fb7bbc9aa6e1b2626f86be1"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 13.77,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285105,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285105/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 5.88,
+            "changes": [
+              {
+                "time_s": 5.88,
+                "value": true
+              },
+              {
+                "time_s": 6.42,
+                "value": false
+              },
+              {
+                "time_s": 6.47,
+                "value": true
+              },
+              {
+                "time_s": 13.07,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 6.92,
+            "changes": [
+              {
+                "time_s": 6.92,
+                "value": true
+              },
+              {
+                "time_s": 13.14,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 7.220000000000001,
+            "changes": [
+              {
+                "time_s": 7.220000000000001,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 12.42,
+            "changes": [
+              {
+                "time_s": 12.42,
+                "value": true
+              },
+              {
+                "time_s": 12.56,
+                "value": false
+              },
+              {
+                "time_s": 13.200000000000001,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 6.7,
+                "value": false
+              },
+              {
+                "time_s": 13.15,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.7,
+                "value": false
+              },
+              {
+                "time_s": 2.77,
+                "value": true
+              },
+              {
+                "time_s": 2.7800000000000002,
+                "value": false
+              },
+              {
+                "time_s": 2.85,
+                "value": true
+              },
+              {
+                "time_s": 2.86,
+                "value": false
+              },
+              {
+                "time_s": 4.08,
+                "value": true
+              },
+              {
+                "time_s": 5.76,
+                "value": false
+              },
+              {
+                "time_s": 5.78,
+                "value": true
+              },
+              {
+                "time_s": 5.8100000000000005,
+                "value": false
+              },
+              {
+                "time_s": 6.44,
+                "value": true
+              },
+              {
+                "time_s": 6.47,
+                "value": false
+              },
+              {
+                "time_s": 13.26,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 5.88,
+                "value": false
+              },
+              {
+                "time_s": 6.42,
+                "value": true
+              },
+              {
+                "time_s": 6.47,
+                "value": false
+              },
+              {
+                "time_s": 13.07,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.1600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 13.77,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 13.77,
+            "changes": [
+              {
+                "time_s": 13.77,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 27.808383226394653,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "6a792ce8e37e045add121682bbf20f5f2912b0053895d960bf4ef85d2e028258",
+        "installed.npz": "e0dfdbd56da82ce02dfea8652efbc373d4a2dc168827baefa39d439247e0efd7",
+        "physics.npz": "8a48a9cdd3176db00dfbc52755f92af4181a5a9a004bd60f5e8086fe310fb113",
+        "START.json": "e60c5a4e2bcb3175c2a40dc0eacf54f1fc3fc1f6ad234b168737e1c632fe4930",
+        "TASK_SCORE_CPU.json": "413a360997acfa20c94b0449d1500ba6f28b3849bb62c708e935bdeeace8a02c",
+        "contacts.jsonl": "90850360dda6de1dafd17387fa12f341e3400cd28b78ff588b611457faf9ce0c",
+        "EPISODE_CARD.json": "dcd84cf78447f8cc94422eb0b65b1f3f444cccb6e04a8967256880398c7d5882",
+        "commands.npz": "156e728e55b679774d33b012e816d3f801f2f403632ab7293da9f765127086a4",
+        "initial.npz": "36e6dce19863a123924a06c0433ca63477211f20f66af908ba2bcc639c4e47a1",
+        "NATIVE_INVENTORY.json": "a8db8083c1932f653048d60face9361568c3a988d2aa11c0d1db0f2d6e15dd83",
+        "QUERIES.json": "b34c3178cc35a8c3b372377440aea89eb7b8437b14519131d8c9bb53cb28065c"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 15.809999999999999,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285106,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285106/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 8.8,
+            "changes": [
+              {
+                "time_s": 8.8,
+                "value": true
+              },
+              {
+                "time_s": 9.22,
+                "value": false
+              },
+              {
+                "time_s": 10.4,
+                "value": true
+              },
+              {
+                "time_s": 10.67,
+                "value": false
+              },
+              {
+                "time_s": 11.0,
+                "value": true
+              },
+              {
+                "time_s": 14.67,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 11.61,
+            "changes": [
+              {
+                "time_s": 11.61,
+                "value": true
+              },
+              {
+                "time_s": 14.18,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 11.700000000000001,
+            "changes": [
+              {
+                "time_s": 11.700000000000001,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 13.38,
+            "changes": [
+              {
+                "time_s": 13.38,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 8.9,
+                "value": false
+              },
+              {
+                "time_s": 9.27,
+                "value": true
+              },
+              {
+                "time_s": 11.4,
+                "value": false
+              },
+              {
+                "time_s": 14.450000000000001,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0700000000000003,
+                "value": false
+              },
+              {
+                "time_s": 2.45,
+                "value": true
+              },
+              {
+                "time_s": 5.13,
+                "value": false
+              },
+              {
+                "time_s": 5.26,
+                "value": true
+              },
+              {
+                "time_s": 7.1899999999999995,
+                "value": false
+              },
+              {
+                "time_s": 7.640000000000001,
+                "value": true
+              },
+              {
+                "time_s": 8.77,
+                "value": false
+              },
+              {
+                "time_s": 9.28,
+                "value": true
+              },
+              {
+                "time_s": 10.06,
+                "value": false
+              },
+              {
+                "time_s": 10.27,
+                "value": true
+              },
+              {
+                "time_s": 10.36,
+                "value": false
+              },
+              {
+                "time_s": 10.74,
+                "value": true
+              },
+              {
+                "time_s": 10.98,
+                "value": false
+              },
+              {
+                "time_s": 14.68,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 8.8,
+                "value": false
+              },
+              {
+                "time_s": 9.22,
+                "value": true
+              },
+              {
+                "time_s": 10.4,
+                "value": false
+              },
+              {
+                "time_s": 10.67,
+                "value": true
+              },
+              {
+                "time_s": 11.0,
+                "value": false
+              },
+              {
+                "time_s": 14.67,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.04,
+                "value": false
+              },
+              {
+                "time_s": 15.809999999999999,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 15.809999999999999,
+            "changes": [
+              {
+                "time_s": 15.809999999999999,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 29.35066032409668,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "99729f77b095d9f7f927ebe8e773594d9b547473ffc7aaa7d3663c7424b664d3",
+        "installed.npz": "a0e6b37aea5117dd11558eb06167cbd64c7d99eabad9a0e03748d38465e7680f",
+        "physics.npz": "85844d51c9aa3b0d75b5131aee88f425ad65401f08f3c7a15a53777163a97c3d",
+        "START.json": "3e2f8415516f76410ea74b12520273b553ddb890db54a9ecbd54c4cf18f3165b",
+        "TASK_SCORE_CPU.json": "37e4edc7430eafc779029976eb8a35c28e0ca1363d1221ec79c28e6293c5c2a1",
+        "contacts.jsonl": "615e8417e58d62389e4b79b2ba717d9a3087a05bdf2413f63a33d8a7c2040f30",
+        "EPISODE_CARD.json": "56c2bccadaa64d0fcd5e8c943edc2acbe559724aa2f78184fbe18aea346981b1",
+        "commands.npz": "966ee7ff151330d07db52c150080d93f68096846a8cf088f250e6bd2b06d729a",
+        "initial.npz": "1658ded5fd51315f0c789ac87e2b561125936883afad98d19dc994ecfa312367",
+        "NATIVE_INVENTORY.json": "a8db8083c1932f653048d60face9361568c3a988d2aa11c0d1db0f2d6e15dd83",
+        "QUERIES.json": "7693e9d8f156775afcb6795ce60d1d1eff33151a22a76c90102bbb47447f9797"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 11.280000000000001,
+      "point": "C1_CORRECT1024-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285107,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/episodes/C1_CORRECT1024-1024-T1-TRAIN-285107/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 3.58,
+            "changes": [
+              {
+                "time_s": 3.58,
+                "value": true
+              },
+              {
+                "time_s": 3.8200000000000003,
+                "value": false
+              },
+              {
+                "time_s": 4.6000000000000005,
+                "value": true
+              },
+              {
+                "time_s": 10.370000000000001,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 5.09,
+            "changes": [
+              {
+                "time_s": 5.09,
+                "value": true
+              },
+              {
+                "time_s": 10.200000000000001,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 7.9399999999999995,
+            "changes": [
+              {
+                "time_s": 7.9399999999999995,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 8.8,
+            "changes": [
+              {
+                "time_s": 8.8,
+                "value": true
+              },
+              {
+                "time_s": 10.31,
+                "value": false
+              },
+              {
+                "time_s": 10.32,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.7199999999999998,
+                "value": false
+              },
+              {
+                "time_s": 3.87,
+                "value": true
+              },
+              {
+                "time_s": 4.88,
+                "value": false
+              },
+              {
+                "time_s": 10.4,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.55,
+                "value": false
+              },
+              {
+                "time_s": 3.92,
+                "value": true
+              },
+              {
+                "time_s": 4.5600000000000005,
+                "value": false
+              },
+              {
+                "time_s": 10.43,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.58,
+                "value": false
+              },
+              {
+                "time_s": 3.8200000000000003,
+                "value": true
+              },
+              {
+                "time_s": 4.6000000000000005,
+                "value": false
+              },
+              {
+                "time_s": 10.370000000000001,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.31,
+                "value": false
+              },
+              {
+                "time_s": 2.38,
+                "value": true
+              },
+              {
+                "time_s": 2.46,
+                "value": false
+              },
+              {
+                "time_s": 11.280000000000001,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 11.280000000000001,
+            "changes": [
+              {
+                "time_s": 11.280000000000001,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.246743202209473,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  ],
+  "new_teacher_calls": 0,
+  "new_WBC": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,5 +1,11 @@
 # C0 full Trainer PUBLIC archival — actual PASS
 
+## Local receipt copy deviation and repair
+
+The first C1 receipt collection accidentally wrote generic C1 receipt filenames into the local C0 folder because its copied download command retained the C0 destination. This was a local report-copy error. The earlier claim that the C1 local receipt set had been copied correctly is retracted. The incorrect local bytes were preserved before repair in `../receipt_copy_deviation_20261009_1428/`, with `ERROR_COPY_INVENTORY.json` and `REPAIR_RESULT.json`.
+
+Both arms were subsequently fetched from their original explicit Hopper paths with `fetch_trainer_archive_receipts.py`. C0 now binds revision `b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9`; all 12 copied receipt hashes and all 14 native/upload/readback entries and the campaign tree passed. Corrected C0 index SHA256: `c4eb263635e81cb02f26ea84b0885cdf4dbf947223509ca9c5c1d7f0babb86af`. Remote original receipts were unchanged; the repair reran zero models, uploads, or model byte readbacks.
+
 Completed 2026-10-09 13:23:42 SGT. Repository `leoyuer/pi0246-gate-pass-campaign`, prefix `arms/PI0286/C0_REPLAY1024/checkpoint-1024`, fixed revision `b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9`.
 
 All14 files, 20,468,176,040 bytes, fully read back anonymously at that revision. Every size/SHA equals the native TRAINING_CPU audit and upload manifest. Campaign tree recomputed: `e61e2d5288dab9a0408a67bd88583d022e3c85d42aef5ebfbe699957bcb3d7ab`.

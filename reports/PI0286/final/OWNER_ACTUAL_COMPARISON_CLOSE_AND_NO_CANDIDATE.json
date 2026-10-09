@@ -1,0 +1,89 @@
+{
+  "status": "NO_DEVELOPMENT_QUALIFIED_CANDIDATE",
+  "comparison": {
+    "status": "OWNER_CLOSED_PREDECLARED_PI0286_COMPARISON",
+    "reason": "BOTH_ENDPOINTS_CLOSED",
+    "closed_endpoints": [
+      "C0_REPLAY1024-1024",
+      "C1_CORRECT1024-1024"
+    ],
+    "actual_closures": {
+      "C0_REPLAY1024-1024": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/C0_REPLAY1024-1024_endpoint_EVALUATION_CLOSED.json",
+        "sha256": "09bbd5b082cd2a8463c2f76e79d69a4f7fda200eb0dd1663a905df8b704fda40",
+        "status": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+        "ended_epoch": 1791523291.0729396
+      },
+      "C1_CORRECT1024-1024": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/C1_CORRECT1024-1024_endpoint_EVALUATION_CLOSED.json",
+        "sha256": "c0609fdba6acce4d614b4b4e960d3e65bfa7d2c3795d86b32e503f42531f6d1b",
+        "status": "ENDPOINT_CLOSED_VALID_DEVELOPMENT_FAIL",
+        "ended_epoch": 1791526705.9273503
+      }
+    },
+    "actual_routes": {
+      "C0_REPLAY1024-1024": "401aaf319128e353019a0cbc9c7c6f7b914c4c4050413456b2f0d565222f0406",
+      "C1_CORRECT1024-1024": "0dc5b0669b80f92c8a3b6222d2eb8e9d7f03f8ff9c17d16bf40372a2d3d24c82"
+    },
+    "checked_epoch": 1791526929.2700977,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "actual_routes": {
+    "C0_REPLAY1024-1024": {
+      "status": "PI0286_ACTUAL_INDEPENDENT_CPU_ENDPOINT_ROUTE",
+      "point": "C0_REPLAY1024-1024",
+      "TRAIN": {
+        "T1": 2
+      },
+      "DEV": null,
+      "confirmation": null,
+      "next_action": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+      "proofs": {
+        "TRAIN": {
+          "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C0_REPLAY1024-1024_TRAIN.json",
+          "source_sha256": "fa57e598b7cda729eb88527f2ead8b9a151fd124dc7611215f83298a32127f22",
+          "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C0_REPLAY1024-1024_TRAIN_CPU.json",
+          "CPU_sha256": "a3903ed818e03825c6fda5cb28facc7cd822c7f026a9beec52540cab2ff81a69"
+        },
+        "DEV": null,
+        "CONFIRM_C": null
+      },
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    "C1_CORRECT1024-1024": {
+      "status": "PI0286_ACTUAL_INDEPENDENT_CPU_ENDPOINT_ROUTE",
+      "point": "C1_CORRECT1024-1024",
+      "TRAIN": {
+        "T1": 8
+      },
+      "DEV": {
+        "T1": 5
+      },
+      "confirmation": null,
+      "next_action": "ENDPOINT_CLOSED_VALID_DEVELOPMENT_FAIL",
+      "proofs": {
+        "TRAIN": {
+          "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C1_CORRECT1024-1024_TRAIN.json",
+          "source_sha256": "dfe3c877e314bc78f73d760555a706fb2ac8be0d517cd57b4ab17c58d5803c51",
+          "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C1_CORRECT1024-1024_TRAIN_CPU.json",
+          "CPU_sha256": "340dc4c78e528156bce8b71e0b26bec7d73298301efc3ba4f819c28df6750865"
+        },
+        "DEV": {
+          "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C1_CORRECT1024-1024_DEV.json",
+          "source_sha256": "dcf3aacd363de217f0ee8bbbc727a041827b4dfc13f714ddd96f2e1768e477f2",
+          "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C1_CORRECT1024-1024_DEV_CPU.json",
+          "CPU_sha256": "50bd2ccb379535bffca91db1dc96c169c0840290fa934d11ee41dce896aaf5e3"
+        },
+        "CONFIRM_C": null
+      },
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  },
+  "final_receipt_sha256": "ae3e4d81072a1dc664b21cb908972e8185fb0fa8668e1ddb55c1f8e550e6bb1e",
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "new_optimizer_updates": 0
+}

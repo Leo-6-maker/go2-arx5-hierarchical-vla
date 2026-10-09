@@ -1,0 +1,268 @@
+{
+  "status": "CLOSED_SCIENCE_ACTUAL_FINAL_LEDGER_COUNTS_AND_DEVICE_INTERVAL_UNIONS",
+  "snapshot_epochs": {
+    "hop": 1791526815.6485093,
+    "core": 1791526816.1020153
+  },
+  "original_caps": {
+    "starts": 176,
+    "rgb": 116160,
+    "control": 116160,
+    "dispatch": 232320,
+    "physics": 580800,
+    "teacher": 43000,
+    "query": 10000,
+    "head": 40000,
+    "formal": 2048,
+    "canary": 32,
+    "technical": 32,
+    "all_updates": 2112,
+    "owned_bytes": 107374182400
+  },
+  "closed_training_counts": {
+    "formal": 2048,
+    "canary": 32,
+    "technical": 0,
+    "all_updates": 2080
+  },
+  "updates_by_arm_phase": {
+    "C0_REPLAY1024/continuous/canary": 8,
+    "C0_REPLAY1024/split/canary": 8,
+    "C0_REPLAY1024/main/formal": 1024,
+    "C1_CORRECT1024/continuous/canary": 8,
+    "C1_CORRECT1024/split/canary": 8,
+    "C1_CORRECT1024/main/formal": 1024
+  },
+  "quality_counts": {
+    "query": 4092,
+    "head": 16368
+  },
+  "raw_charged_cumulative_counts": {
+    "starts": 81,
+    "rgb": 53267,
+    "control": 53268,
+    "dispatch": 106536,
+    "physics": 266335,
+    "teacher": 15680
+  },
+  "remaining_at_snapshot": {
+    "starts": 95,
+    "rgb": 62893,
+    "control": 62892,
+    "dispatch": 125784,
+    "physics": 314465,
+    "teacher": 27320,
+    "query": 5908,
+    "head": 23632
+  },
+  "raw_starts_unique_slots": 80,
+  "repeated_raw_start_slots": {
+    "PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109": 2
+  },
+  "charged_before_operation": "Ledger reservation rows are counted, including incomplete engineering attempts and live partial operations; not a claim that every currently reserved operation is completed.",
+  "GPU_intervals": {
+    "hop": {
+      "closed_interval_union_seconds": 5083.990034818649,
+      "active_starts": [],
+      "interpretation": "Reservation/service interval union, not measured GPU-compute utilization. Never sum nested model child phases again within same device lease."
+    },
+    "core": {
+      "closed_interval_union_seconds": 3147.9018359184265,
+      "active_starts": [],
+      "interpretation": "Reservation/service interval union, not measured GPU-compute utilization. Never sum nested model child phases again within same device lease."
+    }
+  },
+  "known_closed_scheduler": {
+    "C0": {
+      "walltime_seconds": 1576,
+      "status": "OWNER_VERIFIED_QSTAT_F_EXIT0",
+      "peak_host_memory": "UNOBSERVED_IN_THIS_SMALL_RECEIPT"
+    },
+    "C1": {
+      "walltime_seconds": 2853,
+      "status": "ACTUAL_CLOSED_QSTAT_F_EXIT0",
+      "peak_host_mem_kb": 62223724,
+      "peak_host_vmem_kb": 118993688,
+      "source": "reports/PI0286/execution/C1_ACTUAL_FULL1024_TRAINING_CPU_AND_ACCOUNTING.json"
+    }
+  },
+  "scheduler_walltime_not_added_again_to_GPU_interval_union": true,
+  "planner_calls": "UNOBSERVED_NO_PLANNER_COUNTER_IN_THE_READ_LEDGERS",
+  "CPU_per_phase_utilization": "UNOBSERVED; saved native timing and scheduler cput are not full hardware utilization",
+  "GPU_compute_utilization": "UNOBSERVED; interval occupancy is not GPU busy fraction",
+  "model_eval_starts_final": "C0TRAIN8+C1TRAIN8+C1DEV16=32_SOURCE_EVALUATION_EPISODES; not counting learner16 or correction32 as model evaluation",
+  "source_confirm_started": "NOT_STARTED_NO_ELIGIBLE_ENDPOINT",
+  "new_model": 0,
+  "new_gradient": 0,
+  "new_optimizer": 0,
+  "new_physics": 0,
+  "new_codec": 0,
+  "owner_final_receipt_sha256": "ae3e4d81072a1dc664b21cb908972e8185fb0fa8668e1ddb55c1f8e550e6bb1e",
+  "owner_readback_container_sha256": "5935069e274db90d81519f731ebea15db6d72a7c40e0356f96c4e19b76457e1b",
+  "science_stopped": true,
+  "remaining_CPU_cumulative_budget": "UNOBSERVED_NO_CUMULATIVE_CPU_QUOTA_IN_READ_LEDGERS;4threads/16GiB are per-worker limits, not measured remaining CPU-time budget",
+  "remaining_GPU_arithmetic_headroom_not_new_science_authority": true,
+  "closed_readback_epochs": {
+    "hop": 1791527135.5503924,
+    "core": 1791527136.018374
+  },
+  "observed_counts_unchanged_between_closure_readbacks": true,
+  "source_counter_scope": "PI0286_ONLY_ORIGINAL_CUMULATIVE_LEDGER_INCLUDING_ENGINEERING_INCOMPLETE_ATTEMPT",
+  "quality_count_method": "DIRECT_COUNT_OF_COMPLETE_LEDGER_ROWS_NOT_EPISODE_MULTIPLICATION",
+  "ledger_prefix_identity": {
+    "hop": {
+      "runtime/quality_budget.jsonl": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/runtime/quality_budget.jsonl",
+        "realpath": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/runtime/quality_budget.jsonl",
+        "captured_bytes": 3671,
+        "complete_prefix_bytes": 3671,
+        "discarded_incomplete_tail_bytes": 0,
+        "prefix_sha256": "a6e93eeb2d512846cc4316968d8d6ea8fddb5ec0ec7640c4c0d0903edb15422e",
+        "lines": 20,
+        "snapshot_epoch": 1791527135.5503924
+      },
+      "GPU_process_intervals": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/runtime/GPU_PROCESSES.jsonl",
+        "realpath": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/runtime/GPU_PROCESSES.jsonl",
+        "captured_bytes": 2252,
+        "complete_prefix_bytes": 2252,
+        "discarded_incomplete_tail_bytes": 0,
+        "prefix_sha256": "72e532d1528fc5fad5a013efdbca8272fd7b99427756b57c2caec0396182d7dc",
+        "lines": 18,
+        "snapshot_epoch": 1791527135.5503924
+      },
+      "completed_updates": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/completed_updates.jsonl",
+        "realpath": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/completed_updates.jsonl",
+        "captured_bytes": 272486,
+        "complete_prefix_bytes": 272486,
+        "discarded_incomplete_tail_bytes": 0,
+        "prefix_sha256": "e77f88f454db16031d4c419a961c24e75a541b1dc616abb52493dc548c6fd5af",
+        "lines": 2080,
+        "snapshot_epoch": 1791527135.5503924
+      }
+    },
+    "core": {
+      "runtime/quality_budget.jsonl": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/quality_budget.jsonl",
+        "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/quality_budget.jsonl",
+        "captured_bytes": 4136227,
+        "complete_prefix_bytes": 4136227,
+        "discarded_incomplete_tail_bytes": 0,
+        "prefix_sha256": "30102d20015b84793d96bdb9c8eca66ae032ab7ea66a6ca60dbff7b6e6dd4323",
+        "lines": 20440,
+        "snapshot_epoch": 1791527136.018374
+      },
+      "source/evidence/budget.jsonl": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/budget.jsonl",
+        "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/budget.jsonl",
+        "captured_bytes": 56862411,
+        "complete_prefix_bytes": 56862411,
+        "discarded_incomplete_tail_bytes": 0,
+        "prefix_sha256": "3b046fdeb05af92434b4afdcaf11a901054ac718c81b8b8c05f3a6fcb1cd78fc",
+        "lines": 495167,
+        "snapshot_epoch": 1791527136.018374
+      },
+      "GPU_process_intervals": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/GPU_PROCESSES.jsonl",
+        "realpath": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/GPU_PROCESSES.jsonl",
+        "captured_bytes": 3626,
+        "complete_prefix_bytes": 3626,
+        "discarded_incomplete_tail_bytes": 0,
+        "prefix_sha256": "16b85d2f0f69a94a5cd1ef9924cee39cfea279601a88179ea6ea05b71dfd00b6",
+        "lines": 30,
+        "snapshot_epoch": 1791527136.018374
+      }
+    }
+  },
+  "owner_terminal_status": "NO_DEVELOPMENT_QUALIFIED_CANDIDATE",
+  "owner_terminal_local_wrapper_sha256": "5935069e274db90d81519f731ebea15db6d72a7c40e0356f96c4e19b76457e1b",
+  "endpoint_closure_identities": {
+    "C0_REPLAY1024-1024": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/C0_REPLAY1024-1024_endpoint_EVALUATION_CLOSED.json",
+      "sha256": "09bbd5b082cd2a8463c2f76e79d69a4f7fda200eb0dd1663a905df8b704fda40",
+      "status": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+      "ended_epoch": 1791523291.0729396
+    },
+    "C1_CORRECT1024-1024": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/C1_CORRECT1024-1024_endpoint_EVALUATION_CLOSED.json",
+      "sha256": "c0609fdba6acce4d614b4b4e960d3e65bfa7d2c3795d86b32e503f42531f6d1b",
+      "status": "ENDPOINT_CLOSED_VALID_DEVELOPMENT_FAIL",
+      "ended_epoch": 1791526705.9273503
+    }
+  },
+  "CPU_core_hours": "UNOBSERVED_NO_FULL_CPU_ACCOUNTING_LEDGER",
+  "remaining_CPU_core_hours": "UNOBSERVED_NO_CUMULATIVE_CPU_QUOTA_OR_REMAINING_CPU_METER",
+  "CPU_limits": "4threads/16GiB per bounded worker; not a cumulative CPU-time allowance",
+  "known_arithmetic_GPU_reservation_seconds_remaining": {
+    "hop": 9316.00996518135,
+    "core": 11252.098164081573
+  },
+  "remaining_compute_authorization": "NONE_FOR_NEW_SCIENCE; only CPU reporting/HF/video archival",
+  "observed_counter_cap_comparisons": {
+    "starts": {
+      "count": 81,
+      "cap": 176,
+      "within_cap": true
+    },
+    "rgb": {
+      "count": 53267,
+      "cap": 116160,
+      "within_cap": true
+    },
+    "control": {
+      "count": 53268,
+      "cap": 116160,
+      "within_cap": true
+    },
+    "dispatch": {
+      "count": 106536,
+      "cap": 232320,
+      "within_cap": true
+    },
+    "physics": {
+      "count": 266335,
+      "cap": 580800,
+      "within_cap": true
+    },
+    "teacher": {
+      "count": 15680,
+      "cap": 43000,
+      "within_cap": true
+    },
+    "query": {
+      "count": 4092,
+      "cap": 10000,
+      "within_cap": true
+    },
+    "head": {
+      "count": 16368,
+      "cap": 40000,
+      "within_cap": true
+    },
+    "formal": {
+      "count": 2048,
+      "cap": 2048,
+      "within_cap": true
+    },
+    "canary": {
+      "count": 32,
+      "cap": 32,
+      "within_cap": true
+    },
+    "technical": {
+      "count": 0,
+      "cap": 32,
+      "within_cap": true
+    },
+    "all_updates": {
+      "count": 2080,
+      "cap": 2112,
+      "within_cap": true
+    }
+  },
+  "all_caps_PASS_claim": false,
+  "unknown_limits_cannot_be_imputed_PASS": true,
+  "new_query_calls_by_this_worker": 0,
+  "new_physics_calls_by_this_worker": 0
+}

@@ -1,6 +1,6 @@
 {
-  "epoch": 1791526274.4675202,
-  "process_alive": true,
+  "epoch": 1791527162.8067763,
+  "process_alive": false,
   "members_readback": [
     {
       "status": "PI0286_HF_MEMBER_READBACK",
@@ -50,10 +50,59 @@
       "step": 1024,
       "path": "model.safetensors.index.json",
       "bytes": 104912
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "optimizer.pt",
+      "bytes": 11340462437
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "processor_config.json",
+      "bytes": 23145
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "rng_state.pth",
+      "bytes": 14709
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "scheduler.pt",
+      "bytes": 1465
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "statistics.json",
+      "bytes": 4299523
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "trainer_state.json",
+      "bytes": 9618
+    },
+    {
+      "status": "PI0286_HF_MEMBER_READBACK",
+      "arm": "C1_CORRECT1024",
+      "step": 1024,
+      "path": "training_args.bin",
+      "bytes": 5905
     }
   ],
-  "complete": false,
-  "binding": false,
+  "complete": true,
+  "binding": true,
   "uploaded": true,
   "actual_bound": true,
   "ready": true

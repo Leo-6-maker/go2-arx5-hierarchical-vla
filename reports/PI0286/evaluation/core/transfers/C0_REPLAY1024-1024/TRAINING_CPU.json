@@ -1,0 +1,189 @@
+{
+  "status": "PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE",
+  "point": "C0_REPLAY1024-1024",
+  "checkpoint": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/C0_REPLAY1024/main/checkpoint-1024",
+  "entries": [
+    {
+      "path": "PI0282_RECOVERY.json",
+      "bytes": 67108,
+      "sha256": "6aef4a1552fd2c4cb569456136402745150853bc1bed52140c46c1d4f0dd9ca1"
+    },
+    {
+      "path": "PI0282_SCOPE_PROOF.json",
+      "bytes": 1681,
+      "sha256": "5065699e719641244ce961d707f960ab2c21f364451d65564aeeaf4701d2fe52"
+    },
+    {
+      "path": "config.json",
+      "bytes": 2105,
+      "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+    },
+    {
+      "path": "embodiment_id.json",
+      "bytes": 2146,
+      "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+    },
+    {
+      "path": "model-00001-of-00002.safetensors",
+      "bytes": 4993709288,
+      "sha256": "de31bfffe2193b70598c162e675b6fc1db54e5bcbe78db3c8ca38b2b981dc5e6"
+    },
+    {
+      "path": "model-00002-of-00002.safetensors",
+      "bytes": 4129471992,
+      "sha256": "00e8ec2ebfb5d66b03dc6e1da7af077c7b961bdde90550174155565e8f4dfab0"
+    },
+    {
+      "path": "model.safetensors.index.json",
+      "bytes": 104912,
+      "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+    },
+    {
+      "path": "optimizer.pt",
+      "bytes": 11340462437,
+      "sha256": "8913bce265bca016fa5c04af21b680c58e7638121efc732b4f037c958ccc2179"
+    },
+    {
+      "path": "processor_config.json",
+      "bytes": 23145,
+      "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+    },
+    {
+      "path": "rng_state.pth",
+      "bytes": 14709,
+      "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+    },
+    {
+      "path": "scheduler.pt",
+      "bytes": 1465,
+      "sha256": "d66cf08b9a623ee714984c205e4c9719647ebb2ca990f323acacd03f79508431"
+    },
+    {
+      "path": "statistics.json",
+      "bytes": 4299523,
+      "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+    },
+    {
+      "path": "trainer_state.json",
+      "bytes": 9624,
+      "sha256": "d7e5865b9bd68e1fe3bfd26c1bb17b3082437467498df599be2b88d79e7a121c"
+    },
+    {
+      "path": "training_args.bin",
+      "bytes": 5905,
+      "sha256": "9bea32b99c33fe21e8769cffbb2020ff5bd6ed33dbfda8565e12c6bcc55f386f"
+    }
+  ],
+  "plan_sha256": "605880307e8d053ef4dcfa7ffc957d94514a65cd76069aada81602cc17994f4a",
+  "export_sha256": "c4c7a9f88730da968b6da6970f271231c1766bfbda5739110f99221c57108c57",
+  "journal_prefixes": {
+    "consumption": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/C0_REPLAY1024/main/consumption.jsonl",
+      "bytes": 9870155,
+      "lines": 2048,
+      "sha256": "c74bba7f0a7c48844e43dc7c6bb10274bd98a469fb1c699a4741e162dda58218"
+    },
+    "native_forward": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/C0_REPLAY1024/main/native_training_forwards.jsonl",
+      "bytes": 6630747,
+      "lines": 2048,
+      "sha256": "e1286916c0718ae56f21d0af1734f255f75f63d3105c763d1a0a07564c21c040"
+    },
+    "native_modes": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/C0_REPLAY1024/main/native_loss_modes_LR.jsonl",
+      "bytes": 2780443,
+      "lines": 2048,
+      "sha256": "999ffda9f03650df76f1d01e8d58d8ab0764c8f01de7425fa8ff57259cb0b19d"
+    }
+  },
+  "formal_microbatches": 2048,
+  "chunks": 8192,
+  "task_counts": {
+    "T1": 8192
+  },
+  "phase_counts": {
+    "3": 1638,
+    "1": 2048,
+    "0": 2048,
+    "2": 2048,
+    "4": 410
+  },
+  "detailed_gradient_microbatches": 32,
+  "actual_LR_peaks": [
+    5e-05,
+    5e-06
+  ],
+  "actual_module_modes_first": {
+    "action_head.action_decoder": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.action_decoder.layer1": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.action_decoder.layer2": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.action_encoder": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.model": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.position_embedding": {
+      "trainable_parameters": false,
+      "training": true
+    },
+    "action_head.state_encoder": {
+      "trainable_parameters": true,
+      "training": true
+    },
+    "action_head.vl_self_attention": {
+      "trainable_parameters": false,
+      "training": false
+    },
+    "action_head.vlln": {
+      "trainable_parameters": false,
+      "training": false
+    },
+    "backbone": {
+      "trainable_parameters": false,
+      "training": true
+    },
+    "backbone.model": {
+      "trainable_parameters": false,
+      "training": true
+    }
+  },
+  "native_loss_first16_mean": 0.016680526721756905,
+  "native_loss_last16_mean": 0.009791978642169852,
+  "changed_row10_tensors": [
+    "action_head.action_decoder.layer1.W",
+    "action_head.action_decoder.layer1.b",
+    "action_head.action_decoder.layer2.W",
+    "action_head.action_decoder.layer2.b",
+    "action_head.action_encoder.W1.W",
+    "action_head.action_encoder.W1.b",
+    "action_head.action_encoder.W2.W",
+    "action_head.action_encoder.W2.b",
+    "action_head.action_encoder.W3.W",
+    "action_head.action_encoder.W3.b",
+    "action_head.state_encoder.layer1.W",
+    "action_head.state_encoder.layer1.b",
+    "action_head.state_encoder.layer2.W",
+    "action_head.state_encoder.layer2.b"
+  ],
+  "changed_DiT_tensors": 456,
+  "frozen_parameter_tensors": 560,
+  "other31_rows_exact": true,
+  "other31_Adam_moments_zero": true,
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

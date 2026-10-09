@@ -1,0 +1,502 @@
+{
+  "schema": "PI0286_TWO_ARM_ENDPOINT_COMPARISON_PENDING_ACTUAL_CPU_V1",
+  "epoch": 1791523149.5934143,
+  "status": "PENDING_ACTUAL_ENDPOINT_CPU_PANELS_NOT_QUALIFICATION",
+  "authority": {
+    "release": "eae6dbc1f9281b204a4e28e5f7c100d705837318",
+    "canonical": 6072813602,
+    "latest_owner_time_window": "EXPLICIT_USER_AUTHORIZED_BEYOND14:00; recipe and cumulative budget unchanged; root owns hard stops",
+    "source_only": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "parent": {
+    "point": "PI0285_REPAIR_A2048-2048",
+    "formal_parent_updates": 6144,
+    "independent_parent_reset_each_arm": true,
+    "shared_seed_and_native_noise_schedule": true
+  },
+  "correction": {
+    "requested": 32,
+    "faithful_restores": 32,
+    "physical_success": 28,
+    "physical_failures": 4,
+    "native_codec_only_failures": 1,
+    "admitted": 27,
+    "by_branch_time": {
+      "03s": {
+        "requested": 16,
+        "faithful_restore": 16,
+        "physical_success": 15,
+        "physical_failure": 1,
+        "codec_failure_after_physical_success": 1,
+        "admitted": 14
+      },
+      "12s": {
+        "requested": 16,
+        "faithful_restore": 16,
+        "physical_success": 13,
+        "physical_failure": 3,
+        "codec_failure_after_physical_success": 0,
+        "admitted": 13
+      }
+    },
+    "excluded_slots": [
+      {
+        "slot": "T1-TRAIN-285113-TAKEOVER-03s",
+        "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED",
+        "physical_success": false,
+        "maxima": null,
+        "failed_H40_count": 0
+      },
+      {
+        "slot": "T1-TRAIN-285113-TAKEOVER-12s",
+        "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED",
+        "physical_success": false,
+        "maxima": null,
+        "failed_H40_count": 0
+      },
+      {
+        "slot": "T1-TRAIN-285114-TAKEOVER-12s",
+        "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED",
+        "physical_success": false,
+        "maxima": null,
+        "failed_H40_count": 0
+      },
+      {
+        "slot": "T1-TRAIN-285118-TAKEOVER-03s",
+        "status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH",
+        "physical_success": true,
+        "maxima": {
+          "XYZ_max_m": 2.686345013103164e-08,
+          "SO3_max_rad": 0.010654909013566369,
+          "gripper_max_fraction": 0.0
+        },
+        "failed_H40_count": 3
+      },
+      {
+        "slot": "T1-TRAIN-285118-TAKEOVER-12s",
+        "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED",
+        "physical_success": false,
+        "maxima": null,
+        "failed_H40_count": 0
+      }
+    ],
+    "bank_sha256": "f2c7b43af6edc42795ee0595ed0a9c9f05f440369945d5b43bfc38419e21cb8d",
+    "plan_sha256": "0194583c35e93000771aed598817091a6d670b9f1720d31da6a06d6b37934f0e",
+    "admission_receipt_sha256": "f20f1f3aa161603320da4d59312da8cd692c57e7767ccb3ef6ae486b339df5ce",
+    "new_array_members": 162,
+    "new_array_bytes": 1310708736,
+    "array_tree_sha256": "254aeb875b6961dcbc8c43c3acaa9885c03b15b2111b3179a44185a901353ffa",
+    "source_counts": {
+      "expert": 4096,
+      "corrected_suffix": 4096
+    },
+    "bucket_counts": [
+      1024,
+      1024,
+      1024,
+      819,
+      205
+    ],
+    "historical_V1_15_of_32": "SUPERSEDED_IMPLEMENTATION_ADDED_ZERO_PRECLIP_GATE_NOT_PROTOCOL_SCIENTIFIC_FAILURE",
+    "failed_prefix_labels": 0,
+    "historical_pre1130_flags": "ARCHIVED_TIME_FLAGS_SUPERSEDED_BY_EXPLICIT_USER_EXTENSION_ACTUAL_SUBMISSION"
+  },
+  "arms": [
+    {
+      "arm": "C0_REPLAY1024",
+      "point": "C0_REPLAY1024-1024",
+      "formal_updates": 1024,
+      "requested_updates": 1024,
+      "canary_status": "PASS_FULL_RESUME_CANARY",
+      "training_integrity_status": "PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE",
+      "training_CPU_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/evidence/C0_REPLAY1024-1024_TRAINING_CPU.json",
+      "training_CPU_sha256": "5f41404bd6463ee2edfed76b0efc8ec04f3c23e9cf332898f74b06e50f61face",
+      "training_details": {
+        "plan_sha256": "605880307e8d053ef4dcfa7ffc957d94514a65cd76069aada81602cc17994f4a",
+        "formal_microbatches": 2048,
+        "chunks": 8192,
+        "task_counts": {
+          "T1": 8192
+        },
+        "phase_counts": {
+          "3": 1638,
+          "1": 2048,
+          "0": 2048,
+          "2": 2048,
+          "4": 410
+        },
+        "actual_LR_peaks": [
+          5e-05,
+          5e-06
+        ],
+        "changed_row10_tensors": [
+          "action_head.action_decoder.layer1.W",
+          "action_head.action_decoder.layer1.b",
+          "action_head.action_decoder.layer2.W",
+          "action_head.action_decoder.layer2.b",
+          "action_head.action_encoder.W1.W",
+          "action_head.action_encoder.W1.b",
+          "action_head.action_encoder.W2.W",
+          "action_head.action_encoder.W2.b",
+          "action_head.action_encoder.W3.W",
+          "action_head.action_encoder.W3.b",
+          "action_head.state_encoder.layer1.W",
+          "action_head.state_encoder.layer1.b",
+          "action_head.state_encoder.layer2.W",
+          "action_head.state_encoder.layer2.b"
+        ],
+        "changed_DiT_tensors": 456,
+        "frozen_parameter_tensors": 560,
+        "other31_rows_exact": true,
+        "other31_Adam_moments_zero": true
+      },
+      "dataset": "EXPERT8192",
+      "submission": "ACTUAL_COMPLETE_PREVIOUS_LEASE",
+      "panels": {
+        "TRAIN": {
+          "status": "ACTUAL_CLOSED_INDEPENDENT_CPU_PASS",
+          "requested_denominator": 8,
+          "success": 2,
+          "gate": 7,
+          "layouts": [
+            285100,
+            285101,
+            285102,
+            285103,
+            285104,
+            285105,
+            285106,
+            285107
+          ],
+          "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C0_REPLAY1024-1024_TRAIN.json",
+          "source_sha256": "fa57e598b7cda729eb88527f2ead8b9a151fd124dc7611215f83298a32127f22",
+          "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C0_REPLAY1024-1024_TRAIN_CPU.json",
+          "CPU_sha256": "a3903ed818e03825c6fda5cb28facc7cd822c7f026a9beec52540cab2ff81a69",
+          "scorer_and_actual_input_install_checks": "PASS_INDEPENDENT_CPU_CONTACT_SCORE_CLOCK_INSTALLATION_AND_PAIRED_INITIAL_INPUTS",
+          "statuses": {
+            "VALID_SOURCE_COMPLETE": 8
+          },
+          "failure_layouts": [
+            285100,
+            285101,
+            285103,
+            285104,
+            285106,
+            285107
+          ]
+        },
+        "DEV": {
+          "status": "NOT_RUN_ORIGINAL_TRAIN_GATE_FAILED",
+          "requested_denominator": 16,
+          "success": null,
+          "gate": 13,
+          "layouts": [
+            285200,
+            285201,
+            285202,
+            285203,
+            285204,
+            285205,
+            285206,
+            285207,
+            285208,
+            285209,
+            285210,
+            285211,
+            285212,
+            285213,
+            285214,
+            285215
+          ],
+          "source_path": null,
+          "source_sha256": null,
+          "CPU_path": null,
+          "CPU_sha256": null,
+          "scorer_and_actual_input_install_checks": null,
+          "source_exists": false,
+          "CPU_exists": false
+        },
+        "CONFIRM_C": {
+          "status": "UNOBSERVED_INDEPENDENT_CPU_CLOSED",
+          "requested_denominator": 32,
+          "success": null,
+          "gate": 26,
+          "layouts": [
+            285500,
+            285501,
+            285502,
+            285503,
+            285504,
+            285505,
+            285506,
+            285507,
+            285508,
+            285509,
+            285510,
+            285511,
+            285512,
+            285513,
+            285514,
+            285515,
+            285516,
+            285517,
+            285518,
+            285519,
+            285520,
+            285521,
+            285522,
+            285523,
+            285524,
+            285525,
+            285526,
+            285527,
+            285528,
+            285529,
+            285530,
+            285531
+          ],
+          "source_path": null,
+          "source_sha256": null,
+          "CPU_path": null,
+          "CPU_sha256": null,
+          "scorer_and_actual_input_install_checks": null,
+          "source_exists": false,
+          "CPU_exists": false
+        }
+      },
+      "DIAG96_rejects": 0,
+      "eligibility": "TRAIN_GATE_FAIL_2_OF_8_ACTUAL_CPU_CLOSED",
+      "qualification": "NOT_ELIGIBLE_FOR_DEV_OR_CONFIRM_FROM_THIS_FIXED_ENDPOINT",
+      "canary_receipt_identity": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/C0_REPLAY1024/CANARY_COMPARISON.json",
+        "sha256": "fa2a43dac77b4052562c374cb74c69c9ff9fe215bac9506ef9010a65370dd563"
+      },
+      "DIAG96_gate_counts": {
+        "ACCEPT": 95,
+        "WARN": 1
+      },
+      "DIAG96_CPU_sha256": "40cb37465afd488cca2cde3f4e3e71307e60fc12d7b85af82261174df5a3c84f",
+      "failure_stage_summary": {
+        "NO_RECORDED_FORCE_GRASP_OR_LIFT": 2,
+        "TARGET_ZONE_REACHED_NO_RELEASE_TABLE_STATIC_HOLD": 1,
+        "TASK_SUCCESS_FULL_41_HOLD": 2,
+        "HORIZONTAL_HISTORY_WITHOUT_TARGET_ZONE": 3
+      },
+      "full_checkpoint_storage": "HF_ONLY_ACTUAL_FULL_READBACK_AND_OWNER_LOCAL_PAYLOAD_RETIREMENT"
+    },
+    {
+      "arm": "C1_CORRECT1024",
+      "point": "C1_CORRECT1024-1024",
+      "formal_updates": 1024,
+      "requested_updates": 1024,
+      "canary_status": "PASS_FULL_RESUME_CANARY",
+      "training_integrity_status": "PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE",
+      "training_CPU_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/evidence/C1_CORRECT1024-1024_TRAINING_CPU.json",
+      "training_CPU_sha256": "210385b5caf3a79bf768cac459fc8afc5d72bdc124a6856b906f81caaf8b4d81",
+      "training_details": {
+        "CPU_sha256": "210385b5caf3a79bf768cac459fc8afc5d72bdc124a6856b906f81caaf8b4d81",
+        "consumption_prefix_sha256": "0bc238f6d38bfd1f91f23911b26572026a5049c4945dc3e59102ce3f7e2bbad8",
+        "source_counts": {
+          "expert": 4096,
+          "corrected_suffix": 4096
+        },
+        "phase_counts": {
+          "3": 1638,
+          "1": 2048,
+          "2": 2048,
+          "0": 2048,
+          "4": 410
+        },
+        "native_loss_first16_mean": 0.13281707481655758,
+        "native_loss_last16_mean": 0.026623198020388372,
+        "frozen_parameter_tensors": 560,
+        "other31_rows_exact": true,
+        "other31_Adam_moments_zero": true
+      },
+      "dataset": "EXPERT4096+CORRECTION4096",
+      "submission": "656178.hopper-m-02",
+      "panels": {
+        "TRAIN": {
+          "status": "ACTUAL_CLOSED_INDEPENDENT_CPU_PASS",
+          "requested_denominator": 8,
+          "success": 8,
+          "gate": 7,
+          "layouts": [
+            285100,
+            285101,
+            285102,
+            285103,
+            285104,
+            285105,
+            285106,
+            285107
+          ],
+          "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C1_CORRECT1024-1024_TRAIN.json",
+          "source_sha256": "dfe3c877e314bc78f73d760555a706fb2ac8be0d517cd57b4ab17c58d5803c51",
+          "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C1_CORRECT1024-1024_TRAIN_CPU.json",
+          "CPU_sha256": "340dc4c78e528156bce8b71e0b26bec7d73298301efc3ba4f819c28df6750865",
+          "scorer_and_actual_input_install_checks": "PASS_INDEPENDENT_CPU_CONTACT_SCORE_CLOCK_INSTALLATION_AND_PAIRED_INITIAL_INPUTS",
+          "source_exists": false,
+          "CPU_exists": false,
+          "statuses": {
+            "VALID_SOURCE_COMPLETE": 8
+          },
+          "failure_layouts": []
+        },
+        "DEV": {
+          "status": "ACTUAL_CLOSED_INDEPENDENT_CPU_PASS",
+          "requested_denominator": 16,
+          "success": 5,
+          "gate": 13,
+          "layouts": [
+            285200,
+            285201,
+            285202,
+            285203,
+            285204,
+            285205,
+            285206,
+            285207,
+            285208,
+            285209,
+            285210,
+            285211,
+            285212,
+            285213,
+            285214,
+            285215
+          ],
+          "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C1_CORRECT1024-1024_DEV.json",
+          "source_sha256": "dcf3aacd363de217f0ee8bbbc727a041827b4dfc13f714ddd96f2e1768e477f2",
+          "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C1_CORRECT1024-1024_DEV_CPU.json",
+          "CPU_sha256": "50bd2ccb379535bffca91db1dc96c169c0840290fa934d11ee41dce896aaf5e3",
+          "scorer_and_actual_input_install_checks": "PASS_INDEPENDENT_CPU_CONTACT_SCORE_CLOCK_INSTALLATION_AND_PAIRED_INITIAL_INPUTS",
+          "source_exists": false,
+          "CPU_exists": false,
+          "statuses": {
+            "VALID_SOURCE_COMPLETE": 16
+          },
+          "failure_layouts": [
+            285200,
+            285204,
+            285205,
+            285207,
+            285208,
+            285209,
+            285210,
+            285212,
+            285213,
+            285214,
+            285215
+          ]
+        },
+        "CONFIRM_C": {
+          "status": "UNOBSERVED_INDEPENDENT_CPU_CLOSED",
+          "requested_denominator": 32,
+          "success": null,
+          "gate": 26,
+          "layouts": [
+            285500,
+            285501,
+            285502,
+            285503,
+            285504,
+            285505,
+            285506,
+            285507,
+            285508,
+            285509,
+            285510,
+            285511,
+            285512,
+            285513,
+            285514,
+            285515,
+            285516,
+            285517,
+            285518,
+            285519,
+            285520,
+            285521,
+            285522,
+            285523,
+            285524,
+            285525,
+            285526,
+            285527,
+            285528,
+            285529,
+            285530,
+            285531
+          ],
+          "source_path": null,
+          "source_sha256": null,
+          "CPU_path": null,
+          "CPU_sha256": null,
+          "scorer_and_actual_input_install_checks": null,
+          "source_exists": false,
+          "CPU_exists": false
+        }
+      },
+      "DIAG96_rejects": 0,
+      "eligibility": "TRAIN8_OF8_PASS_DEV5_OF16_FAIL_ORIGINAL13_GATE",
+      "qualification": "NO_ELIGIBLE_SOURCE_CANDIDATE_AT_THIS_FIXED_ENDPOINT",
+      "canary_receipt_identity": {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/learning/C1_CORRECT1024/CANARY_COMPARISON.json",
+        "sha256": "a65f9612a3a565ec347126b07c66eb3288b12b086cda22dd68e1bc0d4ae1ff9e"
+      },
+      "main_status": "ACTUAL_FIXED_SEGMENT_COMPLETE_FULL14_TRAINER_NATIVE_CPU_PASS",
+      "source_phase_journal_analysis": "PASS_C1_CLOSED_NATIVE_JOURNAL_DESCRIPTIVE_SOURCE_PHASE_EXPOSURE_AND_STORED_SCALAR_LOSS",
+      "closed_journal_summary_helper": "reports/PI0286/final/read_only_tools/c1_closed_journal_summary.py",
+      "source_phase_summary_path": "reports\\PI0286\\final\\C1_CLOSED_SOURCE_PHASE_LOSS.json",
+      "DIAG96_gate_counts": {
+        "ACCEPT": 96
+      },
+      "DIAG96_CPU_sha256": "c1ab61b4c8cdeec020f85cf1eb609dd247be089527ebc8a05671a54ca492f418",
+      "DEV_failure_funnel_path": "reports\\PI0286\\final\\C1_ACTUAL_DEV_FAILURE_FUNNEL.json"
+    }
+  ],
+  "comparison": "OWNER_CLOSED_BOTH_ENDPOINTS_ACTUAL_NO_DEVELOPMENT_QUALIFIED_CANDIDATE",
+  "confirmation": "NOT_STARTED_NO_ELIGIBLE_ENDPOINT",
+  "success_causality": "UNPROVEN",
+  "new_model_calls": 0,
+  "new_physics_calls": 0,
+  "new_optimizer_updates": 0,
+  "publication": 0,
+  "receipt_refresh_epoch": 1791526740.33146,
+  "storage_current_allocated_bytes": 75941203968,
+  "cross_arm_training_noise_identity": {
+    "microbatches": 2048,
+    "noise_equal": 2048,
+    "time_equal": 2048,
+    "receipt": "reports\\PI0286\\final\\TWO_ARM_CLOSED_EXPOSURE_NOISE_IDENTITY.json"
+  },
+  "actual_update_counts": {
+    "formal": 2048,
+    "canary": 32,
+    "technical": 0,
+    "all_updates": 2080
+  },
+  "budget_snapshot_path": "reports\\PI0286\\final\\PI0286_BUDGET_SUMMARY_SNAPSHOT.json",
+  "TRAIN8_initial_noise_pairing_path": "reports\\PI0286\\final\\TWO_ARM_TRAIN8_INITIAL_NOISE_PAIRING.json",
+  "budget_snapshot_status": "CLOSED_SCIENCE_ACTUAL_FINAL_LEDGER_COUNTS_AND_DEVICE_INTERVAL_UNIONS",
+  "owner_terminal_integration_pending": false,
+  "paired_TRAIN8_outcomes": {
+    "C0_success": 2,
+    "C1_success": 8,
+    "both_success": 2,
+    "C0_fail_C1_success": 6,
+    "C0_success_C1_fail": 0,
+    "denominator": 8,
+    "scope": "FIXED_TRAIN_DOMAIN_NOT_NEW_BLIND_GENERALIZATION_OR_UNIQUE_CAUSAL_THEOREM"
+  },
+  "terminal_owner_final_receipt_sha256": "ae3e4d81072a1dc664b21cb908972e8185fb0fa8668e1ddb55c1f8e550e6bb1e",
+  "terminal_local_readback_container_sha256": "5935069e274db90d81519f731ebea15db6d72a7c40e0356f96c4e19b76457e1b",
+  "terminal_owner_receipt_path": "reports\\PI0286\\final\\OWNER_ACTUAL_COMPARISON_CLOSE_AND_NO_CANDIDATE.json",
+  "science_state": "ALL_SCIENTIFIC_EXECUTION_STOPPED_CPU_HF_VIDEO_ARCHIVAL_ONLY",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "closed_final_budget_path": "reports\\PI0286\\final\\PI0286_CLOSED_FINAL_BUDGET.json"
+}
