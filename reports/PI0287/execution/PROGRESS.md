@@ -1,5 +1,9 @@
 # PI0287实际接入进度（未完成）
 
+## 后续更新：第四次启动已收口
+
+用户明确授权额外最多3次启动后，已运行修复后的六项固定参考。实际结果0/6：5项加载硬限越界、1项原生abort。独立CPU重算一致；没有任何10秒完整fixture。按原门停止teacher/pilot/TRAIN/DEV，不再追分启动。完整结果见同目录 `CLOSEOUT.md`、`REFERENCE_CPU_RECOMPUTATION.json` 与实际失败RGB视频。累计4次启动、21 env starts、784 physics integrations、205 actor预算预扣、38 RGB pairs；GR00T/优化更新/teacher均0。下文保留前三次历史进度，旧soft-limit FAIL仍是工程无效，不改判为新结果。
+
 固定授权：release `7a9f0c02b55222646601307ccd7922e9297e2ab5`，Issue11 #6084617266。隔离本机PI0287 worktree及Corelab `/home/liuyu-nfs/Projects/go2-arx5/PI0287`；原PI0286无重启。
 
 ## 已实际完成

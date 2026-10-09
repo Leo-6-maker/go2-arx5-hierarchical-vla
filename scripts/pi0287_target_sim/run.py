@@ -136,7 +136,8 @@ def reference_fixtures(root, config, budget):
     from go2arx5_vla.trajectory.so3 import matrix_to_quat, geodesic_angle
     from go2arx5_vla.target_sim.limits import hard_limit_report
     # A completed valid fixture is never rerun. Original safety is checked per fixture.
-    directory = root / 'evidence' / 'reference-fixtures'; directory.mkdir(exist_ok=True)
+    # Retain the invalid soft-limit attempt; repaired readouts are a separate version.
+    directory = root / 'evidence' / 'reference-fixtures-hard-limits-v2'; directory.mkdir(exist_ok=True)
     names = ('hold', 'horizontal_5cm', 'vertical_5cm', 'pure_rotation_0p10rad',
              'vertical_return_5cm', 'hotswap_0p4s')
     results = []
@@ -170,8 +171,8 @@ def reference_fixtures(root, config, budget):
                   FK_expected=fk.tolist(), FK_measured=measured.tolist(), camera=camera,
                   supporting_pinned_diagnostics_not_task_success=True,
                   controller_class=config['controller_class'])
-        (root/'evidence'/'G1.json').write_text(json.dumps(G1,indent=2)+'\n')
-        np.savez_compressed(root/'evidence'/'G1_ACTUAL_RGB.npz', frames=np.stack(images))
+        (directory/'G1_SUBCHECKS.json').write_text(json.dumps(G1,indent=2)+'\n')
+        np.savez_compressed(directory/'G1_ACTUAL_RGB.npz', frames=np.stack(images))
         if G1['status'] != 'PASS': return dict(status='PHYSICAL_ENV_NOT_READY', G1=G1)
         for name in names:
             if (directory / (name + '.json')).exists():
@@ -234,6 +235,8 @@ def reference_fixtures(root, config, budget):
                         frames.append(np.concatenate(images, axis=1)); camera_trace.append(cams)
                     if hard: raise RuntimeError('ACTUAL_HARD_LIMIT_PENETRATION')
             except RuntimeError as e:
+                if not str(e).startswith(('NATIVE_ABORT ', 'ACTUAL_HARD_LIMIT_PENETRATION')):
+                    raise
                 failure = str(e)
             late = [row for row in trace if row['time_s'] >= 8. - 1e-6]
             if late:
@@ -248,6 +251,7 @@ def reference_fixtures(root, config, budget):
             result = dict(name=name, status='PASS' if passed else 'VALID_REFERENCE_QUALITY_FAIL',
                           evidence_kind='REAL_TARGET_PHYSICS', controller_class=config['controller_class'],
                           failure=failure, metrics=metrics, ticks=len(trace), native_safety_preserved=True,
+                          hard_limit_source='ACTUAL_LOADED_ACTOR_DOF_PROPERTIES_UNSHRUNK',
                           raw_position=positions.tolist(), raw_rotation=rotations.tolist(), trace=trace,
                           bridge_receipts=bridge.receipts, camera_trace=camera_trace)
             (directory / (name + '.json')).write_text(json.dumps(result, indent=2) + '\n')
@@ -277,9 +281,18 @@ def main():
         starts = root / 'runtime' / 'LAUNCHES.jsonl'
         starts.parent.mkdir(parents=True, exist_ok=True)
         count = len(starts.read_text().splitlines()) if starts.exists() else 0
-        if count >= 3: raise RuntimeError('BUDGET_STOP sequential_launch_attempts')
+        extension = json.loads((Path(__file__).resolve().parents[2] /
+                                'reports/PI0287/design/SERIAL_LAUNCH_EXTENSION.json').read_text())
+        if (extension['original_release'] != config['original_release'] or
+                extension['additional_serial_launches_authorized'] != 3 or
+                extension['original_scientific_caps_unchanged'] is not True):
+            raise RuntimeError('Invalid launch extension receipt')
+        if count >= 6: raise RuntimeError('BUDGET_STOP sequential_launch_attempts')
         start = time.time()
-        with starts.open('a') as f: f.write(json.dumps(dict(mode=args.mode, pid=__import__('os').getpid(), started_epoch=start, seed=args.seed)) + '\n')
+        import hashlib
+        with starts.open('a') as f: f.write(json.dumps(dict(mode=args.mode, pid=__import__('os').getpid(), started_epoch=start, seed=args.seed,
+            source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            launch_extension=extension)) + '\n')
         try:
             if args.mode == 'scene-smoke': result = scene_smoke(root, config, budget)
             elif args.mode == 'reference-fixtures': result = reference_fixtures(root, config, budget)
