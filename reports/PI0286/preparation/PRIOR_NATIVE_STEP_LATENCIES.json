@@ -1,0 +1,32 @@
+{
+  "status": "READ_ONLY_PRIOR_PI0285_STEP_TIMING_NOT_NEW_RUN_PREDICTION",
+  "rows": [
+    {
+      "arm": "PLACE4096",
+      "source": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/PLACE4096/main/consumption.jsonl",
+      "completed_steps": 4096,
+      "measure": "sum two microbatch forward_backward_s+loader_wait_s; excludes optimizer, model load, checkpoints, audits",
+      "p50_s": 0.8353760745376348,
+      "p90_s": 0.8547678431496024,
+      "p95_s": 0.8684184770099819,
+      "first_step_s": 28.5173784699291,
+      "conservative1024_core_seconds": 1094.102839231491,
+      "conservative16_canary_core_seconds": 17.09535686299205
+    },
+    {
+      "arm": "REPAIR_A2048",
+      "source": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/consumption.jsonl",
+      "completed_steps": 2048,
+      "measure": "sum two microbatch forward_backward_s+loader_wait_s; excludes optimizer, model load, checkpoints, audits",
+      "p50_s": 0.8873237629886717,
+      "p90_s": 0.9103934183018282,
+      "p95_s": 0.9549287869245745,
+      "first_step_s": 56.29743556608446,
+      "conservative1024_core_seconds": 1165.30357542634,
+      "conservative16_canary_core_seconds": 18.207868366036564
+    }
+  ],
+  "epoch": 1791514589.7284443,
+  "model_queries": 0,
+  "optimizer_updates": 0
+}

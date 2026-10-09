@@ -1,0 +1,407 @@
+{
+  "summary": {
+    "status": "ACTUAL_PI0286_C1_CORRECTION_NOT_ADMITTED_NO_OPTIMIZER",
+    "requested": 32,
+    "physical_success": 28,
+    "faithful_restores": 32,
+    "codec_pass": 15,
+    "codec_fail": 13,
+    "valid_branches": 15,
+    "required": 24,
+    "bank_status": "CORRECTION_NOT_ADMITTED",
+    "plan_status": "CORRECTION_NOT_ADMITTED",
+    "manifest_status": "CORRECTION_NOT_ADMITTED_NO_TRAINING_TRANSFER",
+    "transfer_files": 0,
+    "global_codec_maxima": {
+      "XYZ_max_m": 3.1828893298779803e-08,
+      "SO3_max_rad": 0.010654909013566369,
+      "gripper_max_fraction": 0.0
+    },
+    "codec_failure_window_reasons": {
+      "native_preclip_out_of_range_count": 15,
+      "SO3_max_rad": 3
+    },
+    "physical_failure_hold_predicate_counts": {
+      "zone": 4,
+      "TCP_clear": 4
+    },
+    "physical_failure_history_counts": {
+      "lift": 4,
+      "horizontal_transfer": 3,
+      "grasp": 2
+    },
+    "duplicates": [],
+    "duplicate_states": [],
+    "missing": [],
+    "new_model_queries": 0,
+    "additional_physics_checks": 0,
+    "learning_causality": "UNPROVEN",
+    "source_policy_qualification": false
+  },
+  "receipts": {
+    "correction/COLLECTION_CLOCK.json": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/correction/COLLECTION_CLOCK.json",
+      "sha256": "19830dd6e8aada1ffc185913afa5fdb1f4dce73f41f57232bec01b6977679582",
+      "bytes": 9869
+    },
+    "source/evidence/CORRECTIONS32.json": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/CORRECTIONS32.json",
+      "sha256": "503f1597e304df1f29881cf1eade99bc2ab54a4aa11620067f4051a8737cf765",
+      "bytes": 447531
+    },
+    "correction/CORRECTION_BANK.json": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/correction/CORRECTION_BANK.json",
+      "sha256": "d65d138ba6237f839dcd18222745c602f4f5c4bd971cf439a434253c74384da6",
+      "bytes": 31291804
+    },
+    "correction/C1_PLAN_AUDIT.json": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/correction/C1_PLAN_AUDIT.json",
+      "sha256": "a8f6f00b1b569c775e178caed2d47e67a52ed977a5959945122f098c629a92d7",
+      "bytes": 154
+    },
+    "correction/CORRECTION_TRANSFER_MANIFEST.json": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/correction/CORRECTION_TRANSFER_MANIFEST.json",
+      "sha256": "b85ca4622f3bdd57597fed314fa10fc7d957adfcb3df91b9a088bc77ce45f9a3",
+      "bytes": 487
+    },
+    "runtime/CORRECTION_CHAIN_002_STATE.json": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/runtime/CORRECTION_CHAIN_002_STATE.json",
+      "sha256": "7bc9f9e998b19258090c0aa0bcb8f503186d9e5b52c266cc0d6763d3b13e7f97",
+      "bytes": 408
+    }
+  },
+  "collection_clock": {
+    "status": "ACTUAL_PI0286_CORRECTION_COLLECTION_STARTED",
+    "started_epoch": 1791514113.7995143,
+    "deadline_epoch": 1791516300.0,
+    "learner_panel_sha256": "8c3dac9231aa33504bdd69697005af9d8229a8b173ec5d1845abc373b122f4cc",
+    "learner_CPU_sha256": "25b749702c5c5fefa5e01e1432fea6ba3f77b3a11c53f196efb56941775d499f",
+    "slots": [
+      {
+        "slot": "T1-TRAIN-285108-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285108,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285108-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285108,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285109-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285109,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285109-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285109,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285110-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285110,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285110-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285110,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285111-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285111,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285111-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285111,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285112-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285112,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285112-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285112,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285113-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285113,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285113-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285113,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285114-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285114,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285114-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285114,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285115-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285115,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285115-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285115,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285116-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285116,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285116-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285116,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285117-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285117,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285117-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285117,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285118-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285118,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285118-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285118,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285119-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285119,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285119-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285119,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285120-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285120,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285120-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285120,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285121-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285121,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285121-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285121,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285122-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285122,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285122-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285122,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285123-TAKEOVER-03s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285123,
+        "task_time_s": 3,
+        "control_tick": 80,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      },
+      {
+        "slot": "T1-TRAIN-285123-TAKEOVER-12s",
+        "task": "T1",
+        "split": "TRAIN",
+        "layout": 285123,
+        "task_time_s": 12,
+        "control_tick": 260,
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away."
+      }
+    ],
+    "physical_passes_per_slot": 1,
+    "quality_retries": 0,
+    "maximum_authorized_passes": 2
+  },
+  "plan": {
+    "status": "CORRECTION_NOT_ADMITTED",
+    "valid_branches": 15,
+    "required": 24,
+    "closed": 32,
+    "missing": [],
+    "optimizer_launch_allowed": false
+  },
+  "manifest": {
+    "status": "CORRECTION_NOT_ADMITTED_NO_TRAINING_TRANSFER",
+    "bank_status": "CORRECTION_NOT_ADMITTED",
+    "plan_status": "CORRECTION_NOT_ADMITTED",
+    "bank_sha256": "d65d138ba6237f839dcd18222745c602f4f5c4bd971cf439a434253c74384da6",
+    "plan_audit_sha256": "a8f6f00b1b569c775e178caed2d47e67a52ed977a5959945122f098c629a92d7",
+    "files": [],
+    "failed_prefix_members": 0,
+    "original_expert_members_copied": 0,
+    "normalizer_members_copied": 0,
+    "model_calls": 0,
+    "physics_calls": 0
+  },
+  "chain": {
+    "status": "ACTUAL32_COLLECTION_CPU_ASSEMBLY_MANIFEST_CLOSED",
+    "pid": 2541629,
+    "started_epoch": 1791513753.293469,
+    "ended_epoch": 1791515071.633836,
+    "bank_status": "CORRECTION_NOT_ADMITTED",
+    "valid_branches": 15,
+    "requested": 32,
+    "plan_status": "CORRECTION_NOT_ADMITTED",
+    "manifest_status": "CORRECTION_NOT_ADMITTED_NO_TRAINING_TRANSFER",
+    "transfer_files": 0,
+    "new_model_queries": 0
+  }
+}
