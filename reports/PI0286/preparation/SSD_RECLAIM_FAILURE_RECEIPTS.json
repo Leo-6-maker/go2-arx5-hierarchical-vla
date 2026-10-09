@@ -1,0 +1,533 @@
+[
+  {
+    "run": "PI0283",
+    "point": "EVENT1024",
+    "receipts": [
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/source/evidence/PROGRESS_EVENT1024_TRAIN.json",
+        "sha256": "6acd527ea9e92f213b5fca4a6b0fa06ca18a8b0ea806cfa7bd1c6e22c3cc14ce",
+        "evidence": {
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/source/evidence/RESULT_EVENT1024_TRAIN.json",
+        "sha256": "cadc66b93bf23ed9237a8f9e301bde44a337b84cb43aff464fe2b9f7ce29c411",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/audit/EVENT1024_TRAIN_CLOSED_LOOP_CPU.json",
+        "sha256": "94311ead392707b45456b5a39383b5eed20cac5295db74c50d4750ab624e3792",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "EVENT1024",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/EXPORT.json",
+        "sha256": "fbcd52b6c293ab52a0d7683a62f305b07b7a25222894947b11799e8cf9e895cd",
+        "evidence": {
+          "status": "PASS_CPU_EXACT_CHANGED_TENSOR_EXPORT_AND_FULL_STATE_HASH_PARITY"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/READY.json",
+        "sha256": "a2495c4228e4a3caf8aa2f9c81e693e51724404f1be95ed08ded4a86e9227bae",
+        "evidence": {
+          "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+          "point": "EVENT1024"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/config.json",
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/embodiment_id.json",
+        "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/processor_config.json",
+        "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/statistics.json",
+        "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/DIRECT_READBACK.json",
+        "sha256": "da01702ee7af9e2e903323be75233b56ba020db2ad1953e44ab9477f5aed73fe",
+        "evidence": {
+          "status": "PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK",
+          "point": "EVENT1024"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/transfers/EVENT1024/DUPLICATE_RETIREMENT.json",
+        "sha256": "e2d40cfc5c63b4028057833e3cdc956f54236c550b6de71f4ce2d3ef7f6f4314",
+        "evidence": {
+          "status": "DELETED_VERIFIED_DUPLICATE"
+        }
+      }
+    ]
+  },
+  {
+    "run": "PI0284",
+    "point": "CTRL1024",
+    "receipts": [
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/PROGRESS_CTRL1024_TRAIN.json",
+        "sha256": "8bc433a5bb863cef3a591c01af939797ed3d8800f0ad12a04ed3757eb7f56d1b",
+        "evidence": {
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/RESULT_CTRL1024_TRAIN.json",
+        "sha256": "11accd09af0b1fbe5502b3791bc89eb322333bbe01b376de8d63e689ab7f01c0",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/CTRL1024_TRAIN_CLOSED_LOOP_CPU.json",
+        "sha256": "a3d388b530fd71f4ff985802f936159fb88d805f9e00913791eca5141061d87f",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "CTRL1024",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/CTRL1024_DIAG_CPU.json",
+        "sha256": "0313bf4eda7c8b13bad02095a3147ad8768549ba427de5a01db1a054785002bb",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_FIXED96_NOISE_METRICS_GATE_AND_RAW_OOB",
+          "point": "CTRL1024",
+          "source_sha256": "ce4665762c2d9abc61b5a79a29b24e52f2d89b685c24f2e63424ced082f76c6e",
+          "CPU_rows": 96,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/config.json",
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/DUPLICATE_RETIREMENT.json",
+        "sha256": "7362cd0c97542b8d8d7fdfac80007a627bf59c74ffb3e05ab4329d297c025f6c",
+        "evidence": {
+          "status": "DELETED_CONSUMED_TRANSFER_DUPLICATE_PROOFS_RETAINED"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/embodiment_id.json",
+        "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/processor_config.json",
+        "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/EXPORT.json",
+        "sha256": "a42620a6ad95233c82d4567e8a39a212d0cd2f18052b15505b5806e93b205592",
+        "evidence": {
+          "status": "PASS_CPU_EXACT_CHANGED_TENSOR_EXPORT_AND_FULL_STATE_HASH_PARITY"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/READY.json",
+        "sha256": "dc95f3977b53c9800a67a48b88283ab728e715e56650ab4ad56ae0d026c088e9",
+        "evidence": {
+          "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+          "point": "CTRL20481024"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/DIRECT_READBACK.json",
+        "sha256": "8b587ae921bff15fc4dfeccdf80a2a8199cd04393c0de9d3d977954d30ce9ac9",
+        "evidence": {
+          "status": "PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK",
+          "point": "CTRL1024"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL1024/statistics.json",
+        "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9",
+        "evidence": {}
+      }
+    ]
+  },
+  {
+    "run": "PI0284",
+    "point": "CTRL2048",
+    "receipts": [
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/PROGRESS_CTRL2048_TRAIN.json",
+        "sha256": "0b376c47f21cb81be710579a69a4820894408731e2119e5b6fd8e9efb2c8f08f",
+        "evidence": {
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/RESULT_CTRL2048_TRAIN.json",
+        "sha256": "15fd17d49130b40999c8c3d2edaac028306823afda9fda08948d4cc9950b9e79",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/PROGRESS_CTRL2048_DEV.json",
+        "sha256": "da71c86f80435686324d1889741f6b483a601ba12d61b91b0d05b4de6246a44c",
+        "evidence": {
+          "CPU_rows": 8,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/RESULT_CTRL2048_DEV.json",
+        "sha256": "6c60974d0be57f350a6978dbdcba78adc5d39fcba2d9a2bdb3973d3b654eb2f2",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 8,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/CTRL2048_TRAIN_CLOSED_LOOP_CPU.json",
+        "sha256": "609535a1a440dd273a8fa4944a3d0891c77f17faef191c5d37d3ffee36bd8a43",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "CTRL2048",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/CTRL2048_DIAG_CPU.json",
+        "sha256": "7ece5646c7ea60f63f98fbe39d5e68c9b33147a8b1d11d0e3aea3ec7fdc9e8e2",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_FIXED96_NOISE_METRICS_GATE_AND_RAW_OOB",
+          "point": "CTRL2048",
+          "source_sha256": "e3bf1a489782057d9b545464593aa7876030331d98faac9f40ac1135177d6cd6",
+          "CPU_rows": 96,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/CTRL2048_DROID_CPU.json",
+        "sha256": "7a94670c8bfa8a504b2872b9a4babad05c2a30ae242400a274aee9875bed66a2",
+        "evidence": {
+          "status": "PASS_SAVED_DROID32_IDENTITY_NOISE_AND_ORIGINAL_DECODER_CPU",
+          "point": "CTRL2048",
+          "source_sha256": "c79a50dfb1045761e8c1632e773d6a3996b044f91f0430a2ea6b508517cc7ea6"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/CTRL2048_DEV_CLOSED_LOOP_CPU.json",
+        "sha256": "cd8b62684f91ce77fe882b75bc51dd23d91d2f2cb8dc9f0e8b7b1a2a199d785e",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "CTRL2048",
+          "CPU_rows": 8,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/config.json",
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/DUPLICATE_RETIREMENT.json",
+        "sha256": "f98c2e320db7e8849d9c4c027efd7d58876ce5fc46585fec758b91ce7963f7d6",
+        "evidence": {
+          "status": "DELETED_CONSUMED_TRANSFER_DUPLICATE_PROOFS_RETAINED"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/embodiment_id.json",
+        "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/processor_config.json",
+        "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/EXPORT.json",
+        "sha256": "aa6916250945c77e65c71ee9e6d3f8d6bfc572f3f69ae6a908e3c798aaf9e48a",
+        "evidence": {
+          "status": "PASS_CPU_EXACT_CHANGED_TENSOR_EXPORT_AND_FULL_STATE_HASH_PARITY"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/READY.json",
+        "sha256": "90dc1dc3d3e866d1512f1f0a3be3ef1b959b1e47d5205c7b99cdf33c37b4b19d",
+        "evidence": {
+          "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+          "point": "CTRL20482048"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/DIRECT_READBACK.json",
+        "sha256": "ce16081bcdaa93e2aec4bcb3200f5595d1e3ca5c3e7a813b3e81d5eeef8a60dd",
+        "evidence": {
+          "status": "PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK",
+          "point": "CTRL2048"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/CTRL2048/statistics.json",
+        "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9",
+        "evidence": {}
+      }
+    ]
+  },
+  {
+    "run": "PI0284",
+    "point": "LR5X1024",
+    "receipts": [
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/RESULT_LR5X1024_TRAIN.json",
+        "sha256": "6193d5ea02b42ed64036dd0d0fd5c4fa4418352171f57e13d78996757575da8e",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/PROGRESS_LR5X1024_TRAIN.json",
+        "sha256": "57289ded5884ca88ab1317b2d5b030a69350f3436f9eff6cd5ead7d9d550e39a",
+        "evidence": {
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/LR5X1024_DIAG_CPU.json",
+        "sha256": "3cd408ddfc86cd53ae891abf2e33d6cc9ef83cf857c169a25267515cafe99fdd",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_FIXED96_NOISE_METRICS_GATE_AND_RAW_OOB",
+          "point": "LR5X1024",
+          "source_sha256": "dbe02f9513a6ce3ed3284c4563f6d0e0501b0b2242e2977083ad5491630d10ce",
+          "CPU_rows": 96,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/LR5X1024_TRAIN_CLOSED_LOOP_CPU.json",
+        "sha256": "2876da9e345bef72f38e1227c80a77764d4bacc3f13cf0df12eae1aed42211b3",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "LR5X1024",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/config.json",
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/DUPLICATE_RETIREMENT.json",
+        "sha256": "7ca779e87632ea6323372efbcf8989398878d046a0ccc7a4adb713703576ad00",
+        "evidence": {
+          "status": "DELETED_CONSUMED_TRANSFER_DUPLICATE_PROOFS_RETAINED"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/embodiment_id.json",
+        "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/processor_config.json",
+        "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/EXPORT.json",
+        "sha256": "abbe6cff96fc21374e0b4644e4dcd71f0f66bd282d54dc3bea678e82017a63f4",
+        "evidence": {
+          "status": "PASS_CPU_EXACT_CHANGED_TENSOR_EXPORT_AND_FULL_STATE_HASH_PARITY"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/READY.json",
+        "sha256": "5734941b81d329c7f49e9881295db5f239ff942941e0c4c6aa73c82e5d75a1e1",
+        "evidence": {
+          "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+          "point": "LR5X20481024"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/DIRECT_READBACK.json",
+        "sha256": "399e8e2861e81426bf7666e7b2280a9bc6957864228fa39988b21d8734bded56",
+        "evidence": {
+          "status": "PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK",
+          "point": "LR5X1024"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X1024/statistics.json",
+        "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9",
+        "evidence": {}
+      }
+    ]
+  },
+  {
+    "run": "PI0284",
+    "point": "LR5X2048",
+    "receipts": [
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/PROGRESS_LR5X2048_TRAIN.json",
+        "sha256": "e76e86207a5ef0afa20b9943cb7467f1a2fd39c4b2385e72fcdd355dade38000",
+        "evidence": {
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/PROGRESS_LR5X2048_DEV.json",
+        "sha256": "bd1362f938b1560987ee2dbff1af41c3cf3b82a6c517120d0d1cd95638463bba",
+        "evidence": {
+          "CPU_rows": 8,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/RESULT_LR5X2048_DEV.json",
+        "sha256": "0c608f2a908c9384f5d1946212512292461ac339d05bc2a9d5fe9a137e48f13c",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 8,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/source/evidence/RESULT_LR5X2048_TRAIN.json",
+        "sha256": "d384cb19ca8fa68edfdb8fc61b82c37bb92a65107bbba53fb4789dfef89ffbe1",
+        "evidence": {
+          "status": "FIXED_PANEL_EXECUTED",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/LR5X2048_TRAIN_CLOSED_LOOP_CPU.json",
+        "sha256": "3a223e6f15f4a5859596348810ca0b35a502dae0e3472729542c05c979e5b23f",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "LR5X2048",
+          "CPU_rows": 4,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/LR5X2048_DIAG_CPU.json",
+        "sha256": "0609c6be237e3d30137781e8778cfd648ab73e15d6f4371a8ba172d97df9e200",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_FIXED96_NOISE_METRICS_GATE_AND_RAW_OOB",
+          "point": "LR5X2048",
+          "source_sha256": "8c7568035c01fe96731c4666e8e60d57e1929202b5e328de2f96844cc7856796",
+          "CPU_rows": 96,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/LR5X2048_DROID_CPU.json",
+        "sha256": "97e2603bc89750cafa9f4a294692b2c55e4d05314ff9e2494f42323cf1d16439",
+        "evidence": {
+          "status": "PASS_SAVED_DROID32_IDENTITY_NOISE_AND_ORIGINAL_DECODER_CPU",
+          "point": "LR5X2048",
+          "source_sha256": "26015da00a72566589ef30223771ef0dedfdaa55dbedf8911ddb6b227575a260"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/audit/LR5X2048_DEV_CLOSED_LOOP_CPU.json",
+        "sha256": "8467e712f956d06945667304bb889f20fb41f9bebee5509232e756cca5c8ec8e",
+        "evidence": {
+          "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+          "point": "LR5X2048",
+          "CPU_rows": 8,
+          "success_count": 0
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/config.json",
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/DUPLICATE_RETIREMENT.json",
+        "sha256": "b748accc70a80791a5ea6e16e5e7ce631fbc1456864593b42b3570788c9d9d40",
+        "evidence": {
+          "status": "DELETED_CONSUMED_TRANSFER_DUPLICATE_PROOFS_RETAINED"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/embodiment_id.json",
+        "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/processor_config.json",
+        "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d",
+        "evidence": {}
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/EXPORT.json",
+        "sha256": "ce932a7c75aa3a7dbbe20b506fcc4de64ac53a32bda3b7578b3374d14bba9f7b",
+        "evidence": {
+          "status": "PASS_CPU_EXACT_CHANGED_TENSOR_EXPORT_AND_FULL_STATE_HASH_PARITY"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/READY.json",
+        "sha256": "e398c296bcb3d15e5156f9f9ba0aac213ec6d2c123aff0a2f5dda23d1f7d4156",
+        "evidence": {
+          "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+          "point": "LR5X20482048"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/DIRECT_READBACK.json",
+        "sha256": "63c4dcad149117ec34d726522e941ad6dab86eab3975d79106a57b42b04dafd2",
+        "evidence": {
+          "status": "PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK",
+          "point": "LR5X2048"
+        }
+      },
+      {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0284/transfers/LR5X2048/statistics.json",
+        "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9",
+        "evidence": {}
+      }
+    ]
+  }
+]

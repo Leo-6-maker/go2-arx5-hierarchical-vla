@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N pi0286_c1
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb:gpu_model=H200
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m n
+set -euo pipefail
+source /scratch/e1192548/Projects/go2-arx5/experiments/PI0286/code/environment.sh
+cd "$root"
+exec "$venv/bin/python" -u "$root/code/launch.py" --root "$root" --base /scratch/e1192548/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B --card "$root/design/C1_CORRECT1024_CARD.json" --arm C1_CORRECT1024 --stop 1024

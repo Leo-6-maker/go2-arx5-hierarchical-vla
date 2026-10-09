@@ -1,0 +1,67 @@
+{
+  "status": "PREPARED_OWNER_CALLABLE_NOT_ACTUAL_CORRECTION_ADMISSION",
+  "protocol": "docs/protocols/PI0286_TO_1300_RECOVERY_VS_REPLAY_AND_REPORT_V1.md",
+  "release": "eae6dbc1f9281b204a4e28e5f7c100d705837318",
+  "canonical": 6072813602,
+  "parent": "PI0285_REPAIR_A2048-2048",
+  "learner_point": "PARENT_DOSE6144",
+  "panel": "LEARNER_TRAIN16",
+  "layouts": [
+    285108,
+    285109,
+    285110,
+    285111,
+    285112,
+    285113,
+    285114,
+    285115,
+    285116,
+    285117,
+    285118,
+    285119,
+    285120,
+    285121,
+    285122,
+    285123
+  ],
+  "branch_times_seconds": [
+    3,
+    12
+  ],
+  "takeover_control_ticks": [
+    80,
+    260
+  ],
+  "teacher_query_changed": false,
+  "placed_initialization": "Original scorer zone/table/static/not_grasped => existing hold if TCP_clear, otherwise existing withdraw with original10cm retreat",
+  "requested": 32,
+  "admission_required": 24,
+  "maximum_physical_passes_authorized": 2,
+  "default_physical_passes": 1,
+  "teacher_algorithms_changed": 0,
+  "statistics_changed": 0,
+  "failed_prefix_labels": 0,
+  "strict_codec": {
+    "XYZ_m": 1e-05,
+    "SO3_rad": 0.0001,
+    "gripper": 1e-05,
+    "native_preclip_out_of_range_count": 0
+  },
+  "data_source_weights": {
+    "expert": 0.5,
+    "corrected_suffix": 0.5
+  },
+  "equal_branch_weighting": true,
+  "existing_behavior_weights": [
+    25,
+    25,
+    25,
+    20,
+    5
+  ],
+  "infeasible_sampler": "NOT_ADMITTED_NO_RENORMALIZATION",
+  "actual_model_rollouts": "UNOBSERVED_BY_THIS_PREPARATION",
+  "actual_corrections": "UNOBSERVED",
+  "recovery_sha256": "62c6cd64e9a0ce6980243881f4948122d8ba3170fba52e535dbc0e89a546128d",
+  "prepared_code_checks_actual_learner_input_and_first8_prefix": true
+}
