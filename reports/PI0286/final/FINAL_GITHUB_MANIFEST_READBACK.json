@@ -1,0 +1,159 @@
+{
+  "status": "PASS_FIXED_GITHUB_COMMIT_DECODED_MANIFEST_READBACK",
+  "commit": "2f619bd1ed2c6f02aecccadb628300d19f4a9bcb",
+  "url": "https://api.github.com/repos/Leo-6-maker/go2-arx5-hierarchical-vla/contents/reports/PI0286/final/FINAL_DELIVERY_MANIFEST.json?ref=2f619bd1ed2c6f02aecccadb628300d19f4a9bcb",
+  "remote_manifest": {
+    "status": "COMPLETE_EXECUTION_VALID_ORIGINAL_QUALITY_FAIL_AND_REQUIRED_ARCHIVAL_CLOSED",
+    "checked_epoch": 1791528433.2432468,
+    "original_release": "eae6dbc1f9281b204a4e28e5f7c100d705837318",
+    "canonical_authority": 6072813602,
+    "original_scientific_recipe_and_budget_unchanged": true,
+    "quality_pass": false,
+    "source_qualified_policy": false,
+    "actual_routes": {
+      "C0_REPLAY1024-1024": {
+        "status": "PI0286_ACTUAL_INDEPENDENT_CPU_ENDPOINT_ROUTE",
+        "point": "C0_REPLAY1024-1024",
+        "TRAIN": {
+          "T1": 2
+        },
+        "DEV": null,
+        "confirmation": null,
+        "next_action": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+        "proofs": {
+          "TRAIN": {
+            "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C0_REPLAY1024-1024_TRAIN.json",
+            "source_sha256": "fa57e598b7cda729eb88527f2ead8b9a151fd124dc7611215f83298a32127f22",
+            "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C0_REPLAY1024-1024_TRAIN_CPU.json",
+            "CPU_sha256": "a3903ed818e03825c6fda5cb28facc7cd822c7f026a9beec52540cab2ff81a69"
+          },
+          "DEV": null,
+          "CONFIRM_C": null
+        },
+        "selected": "NONE",
+        "deployment": "NONE"
+      },
+      "C1_CORRECT1024-1024": {
+        "status": "PI0286_ACTUAL_INDEPENDENT_CPU_ENDPOINT_ROUTE",
+        "point": "C1_CORRECT1024-1024",
+        "TRAIN": {
+          "T1": 8
+        },
+        "DEV": {
+          "T1": 5
+        },
+        "confirmation": null,
+        "next_action": "ENDPOINT_CLOSED_VALID_DEVELOPMENT_FAIL",
+        "proofs": {
+          "TRAIN": {
+            "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C1_CORRECT1024-1024_TRAIN.json",
+            "source_sha256": "dfe3c877e314bc78f73d760555a706fb2ac8be0d517cd57b4ab17c58d5803c51",
+            "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C1_CORRECT1024-1024_TRAIN_CPU.json",
+            "CPU_sha256": "340dc4c78e528156bce8b71e0b26bec7d73298301efc3ba4f819c28df6750865"
+          },
+          "DEV": {
+            "source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source/evidence/C1_CORRECT1024-1024_DEV.json",
+            "source_sha256": "dcf3aacd363de217f0ee8bbbc727a041827b4dfc13f714ddd96f2e1768e477f2",
+            "CPU_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/audit/C1_CORRECT1024-1024_DEV_CPU.json",
+            "CPU_sha256": "50bd2ccb379535bffca91db1dc96c169c0840290fa934d11ee41dce896aaf5e3"
+          },
+          "CONFIRM_C": null
+        },
+        "selected": "NONE",
+        "deployment": "NONE"
+      }
+    },
+    "original_selection_result": "NO_DEVELOPMENT_QUALIFIED_CANDIDATE",
+    "fresh_CONFIRM_C_episodes": 0,
+    "models": {
+      "C0_REPLAY1024": {
+        "status": "OWNER_INDEPENDENT_LOCAL_RECEIPT_14_FILE_NATIVE_UPLOAD_READBACK_EQUALITY_PASS",
+        "revision": "b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9",
+        "prefix": "arms/PI0286/C0_REPLAY1024/checkpoint-1024",
+        "repo": "leoyuer/pi0246-gate-pass-campaign",
+        "tree_sha256": "e61e2d5288dab9a0408a67bd88583d022e3c85d42aef5ebfbe699957bcb3d7ab",
+        "bytes": 20468176040,
+        "files": 14,
+        "local_hopper_classification": "HF_ONLY_FULL_TRAINER_LOCAL_METADATA_ONLY_NOT_RESUME",
+        "core_classification": "MODEL_ONLY_NATIVE_BF16_NOT_TRAINER_RESUME",
+        "actual_receipts": {
+          "reports\\PI0286\\archival\\C0\\checkpoint-1024.full_readback.json": "daba4bae104b639a672a6b15721cd76f0e00aa546cde3b8dcd5f6ad25eb40169",
+          "reports\\PI0286\\archival\\C0\\checkpoint-1024.archive_receipt.json": "66f7678bbccf390c3dba2661f1c6b1b9a31df830d8546a442a02cced8d0f2630",
+          "reports\\PI0286\\archival\\C0\\C0_REPLAY1024-1024_TRAINING_CPU.json": "5f41404bd6463ee2edfed76b0efc8ec04f3c23e9cf332898f74b06e50f61face"
+        }
+      },
+      "C1_CORRECT1024": {
+        "status": "OWNER_INDEPENDENT_LOCAL_RECEIPT_14_FILE_NATIVE_UPLOAD_READBACK_EQUALITY_PASS",
+        "revision": "d35dcda18def3d0691b55957ce461fe6b8449437",
+        "prefix": "arms/PI0286/C1_CORRECT1024/checkpoint-1024",
+        "repo": "leoyuer/pi0246-gate-pass-campaign",
+        "tree_sha256": "df2bfeedc443e68fe8f06d60f2786e02cd128e5e2dc881011d3ebfed37f8ad5f",
+        "bytes": 20468176035,
+        "files": 14,
+        "local_hopper_classification": "LOCAL_COMPLETE_FULL_TRAINER_AND_PINNED_HF",
+        "core_classification": "MODEL_ONLY_NATIVE_BF16_NOT_TRAINER_RESUME",
+        "actual_receipts": {
+          "reports\\PI0286\\archival\\C1\\checkpoint-1024.full_readback.json": "dc7be9e22ec6012493043368cbc8d3181f4709881dc16765e786399c61fd6ba2",
+          "reports\\PI0286\\archival\\C1\\checkpoint-1024.archive_receipt.json": "37e3e583fe6f2f3910e3256c7983935bfa38ec72d40f41c3ef6ff5eeea5d01e2",
+          "reports\\PI0286\\archival\\C1\\C1_CORRECT1024-1024_TRAINING_CPU.json": "210385b5caf3a79bf768cac459fc8afc5d72bdc124a6856b906f81caaf8b4d81"
+        }
+      }
+    },
+    "evidence_archive": {
+      "repo": "leoyuer/pi0246-gate-pass-campaign",
+      "prefix": "evidence/PI0286/recovery-vs-replay-20261009/endpoint-closed",
+      "revision": "8927fcf7c6bbdae5b8f85531162298c51fd9edba",
+      "files": 55,
+      "bytes": 43196338,
+      "status": "PASS_PUBLIC_FIXED_REVISION_FULL_FILE_READBACK",
+      "readback_receipt_sha256": "569460a2903c3c5dcce584e7a6965d2f3f86cffbbfb0b68cd557697c267990cf"
+    },
+    "actual_video": {
+      "C0_TRAIN.mp4": {
+        "bytes": 7849081,
+        "sha256": "8cdd727e9b6462030ed1a5ac519c680cc0201038fb7049b3dbb12488c9079a0c",
+        "url": "https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/8927fcf7c6bbdae5b8f85531162298c51fd9edba/evidence/PI0286/recovery-vs-replay-20261009/endpoint-closed/C0_TRAIN.mp4",
+        "conditions": 8,
+        "actual_saved_two_view_RGB": true,
+        "NON_REALTIME": true
+      },
+      "C1_TRAIN.mp4": {
+        "bytes": 10744774,
+        "sha256": "7112b2213c7af7b35ccf6f0b448d780e5d11a6c8fe67f92116530e1245145396",
+        "url": "https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/8927fcf7c6bbdae5b8f85531162298c51fd9edba/evidence/PI0286/recovery-vs-replay-20261009/endpoint-closed/C1_TRAIN.mp4",
+        "conditions": 8,
+        "actual_saved_two_view_RGB": true,
+        "NON_REALTIME": true
+      },
+      "C1_DEV.mp4": {
+        "bytes": 19822719,
+        "sha256": "d71926e5e7352dd28454298820c638528763e529850de3019eeeeb6c6c3ea973",
+        "url": "https://huggingface.co/leoyuer/pi0246-gate-pass-campaign/blob/8927fcf7c6bbdae5b8f85531162298c51fd9edba/evidence/PI0286/recovery-vs-replay-20261009/endpoint-closed/C1_DEV.mp4",
+        "conditions": 16,
+        "actual_saved_two_view_RGB": true,
+        "NON_REALTIME": true
+      }
+    },
+    "source_arrays_retained_on_Core": true,
+    "full_Trainer_not_copied_to_Core_or_PC": true,
+    "science_budget_receipt_sha256": "2c7e34c583e41891b6917db6543fadebecdda22964fc762f20ea094100f54288",
+    "post_archive_owned_storage": {
+      "allocated_bytes": 76025528320,
+      "GiB": 70.80429077148438,
+      "cap_bytes": 107374182400,
+      "headroom_bytes": 31348654080,
+      "host_snapshot_epochs": {
+        "core": 1791528207.1576028,
+        "hop": 1791528201.2280686
+      },
+      "personal_quota_headroom": "UNKNOWN"
+    },
+    "owner_local_copy_checks": {
+      "HF_receipt_members": 14,
+      "source_CPU_receipt_members": 45
+    },
+    "new_scientific_calls_for_finalization": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}
