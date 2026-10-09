@@ -1,0 +1,36 @@
+{
+  "epoch": 1791526045.791223,
+  "source/evidence/C1_CORRECT1024-1024_TRAIN.json": {
+    "status": "PI0286_FIXED_FIRST_VALID_NATIVE_PANEL_COMPLETE",
+    "tasks": {
+      "T1": {
+        "success": 8,
+        "requested": 8
+      }
+    },
+    "selected": "NONE",
+    "deployment": "NONE",
+    "receipt_sha256": "dfe3c877e314bc78f73d760555a706fb2ac8be0d517cd57b4ab17c58d5803c51",
+    "rows": 8
+  },
+  "audit/C1_CORRECT1024-1024_TRAIN_CPU.json": {
+    "status": "PASS_INDEPENDENT_CPU_CONTACT_SCORE_CLOCK_INSTALLATION_AND_PAIRED_INITIAL_INPUTS",
+    "source_sha256": "dfe3c877e314bc78f73d760555a706fb2ac8be0d517cd57b4ab17c58d5803c51",
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "receipt_sha256": "340dc4c78e528156bce8b71e0b26bec7d73298301efc3ba4f819c28df6750865",
+    "rows": 8
+  },
+  "qualification/C1_CORRECT1024-1024_ROUTE.json": {
+    "status": "PI0286_ACTUAL_INDEPENDENT_CPU_ENDPOINT_ROUTE",
+    "TRAIN": {
+      "T1": 8
+    },
+    "DEV": null,
+    "confirmation": null,
+    "next_action": "RUN_FIXED_DEV",
+    "selected": "NONE",
+    "deployment": "NONE",
+    "receipt_sha256": "18bf6c8c50da19862ecfc098b07301467ae470c5d2116b5f932a5c3643e5932b"
+  }
+}

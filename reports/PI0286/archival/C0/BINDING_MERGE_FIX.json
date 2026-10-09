@@ -1,0 +1,12 @@
+{
+  "status": "ARCHIVE_ONLY_RECEIPT_STATUS_MERGE_REPAIRED_NO_UPLOAD_BEFORE_FAILURE",
+  "arm": "C0_REPLAY1024",
+  "wrapper_sha256": "ac2a142d81e1a75eb7854e91a2332956a34195e7d7bfa863905f71ac3c68eafc",
+  "old_failure": "{\n  \"status\": \"ARCHIVE_CPU_FAILURE_OR_PARTIAL_RETAIN_LOCAL_TRAINER\",\n  \"returncode\": 1,\n  \"pid\": 380669,\n  \"ended_epoch\": 1791522018.3394055,\n  \"user_CPU_s\": 0.255861,\n  \"system_CPU_s\": 0.05887600000000001,\n  \"model_queries\": 0,\n  \"optimizer_updates\": 0\n}\n",
+  "log_tail": "a064c\", \"wrapper_sha256\": \"3c52d08e06a8e0178eb08f78af2a407ba97d97da9fca2f9ab815166fca92d39f\", \"max_CPU_threads\": 4, \"memory_limit_bytes\": 17179869184, \"offline_training_environment_changed\": false, \"local_full_trainer_retained\": true, \"model_queries\": 0, \"optimizer_updates\": 0, \"physics_calls\": 0, \"epoch\": 1791520398.1171403}\n{\"status\": \"PASS_CPU_ONLY_ONLINE_PUBLIC_ARCHIVE_PREFLIGHT\", \"repo_id\": \"leoyuer/pi0246-gate-pass-campaign\", \"public\": true, \"prefix\": \"arms/PI0286/C0_REPLAY1024/checkpoint-1024\", \"helper_sha256\": \"126880ca6a0aab20ad556417335500f5b18f26c1f9fbbfdb81027b62049a064c\", \"wrapper_sha256\": \"086b8a5f3036bfa55de824cffa7c7de98347e088010070b4076e7eec3a6b32c6\", \"max_CPU_threads\": 4, \"memory_limit_bytes\": 17179869184, \"offline_training_environment_changed\": false, \"local_full_trainer_retained\": true, \"model_queries\": 0, \"optimizer_updates\": 0, \"physics_calls\": 0, \"epoch\": 1791521117.941665}\nTraceback (most recent call last):\n  File \"/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/archive/c0_full_trainer/archive_c0_trainer.py\", line 95, in <module>\n    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--preflight',action='store_true');a=p.parse_args();run(a.preflight)\n                                                                                                                      ^^^^^^^^^^^^^^^^\n  File \"/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/archive/c0_full_trainer/archive_c0_trainer.py\", line 82, in run\n    write(archive/'ACTUAL_C0_BINDING.json',dict(**online,**boundary,status='ACTUAL_COMPLETE_C0_CPU_AUDIT_BOUND_BEFORE_ARCHIVE'))\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: dict() got multiple values for keyword argument 'status'\n",
+  "epoch": 1791522069.1541905,
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "physics_calls": 0,
+  "healthy_code_seal_changed": false
+}
