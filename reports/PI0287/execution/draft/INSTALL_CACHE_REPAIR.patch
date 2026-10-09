@@ -1,0 +1,12 @@
+diff --git a/src/go2arx5_vla/target_sim/bridge.py b/src/go2arx5_vla/target_sim/bridge.py
+--- a/src/go2arx5_vla/target_sim/bridge.py
++++ b/src/go2arx5_vla/target_sim/bridge.py
+@@ -127,6 +127,8 @@
+         s_ref = batch.s_ref(times)
+         self.wbc.arm_goal_pos_world[env_id] = batch.p_at(s_ref)[env_id]
+         self.wbc.arm_goal_quat_world[env_id] = batch.quat_at(s_ref)[env_id]
++        # Refresh existing native actor-derived targets before the next readout.
++        self.wbc._update_ee_task_space_error()
+         sample_times = torch.as_tensor(world.point_timestamps - world.point_timestamps[0], dtype=torch.float32)
+         canonical_s = time_law.s_ref(sample_times)
+         canonical_pos = _numpy(gamma.p_at(canonical_s))
