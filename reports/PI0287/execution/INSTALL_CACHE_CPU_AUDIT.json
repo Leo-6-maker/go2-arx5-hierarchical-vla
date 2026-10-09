@@ -1,0 +1,37 @@
+{
+  "status": "CPU_REPRODUCED_INSTALL_READOUT_CACHE_GAP",
+  "native_source_sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+  "bridge_source_sha256": "f9f13da006e6cc2441ff78984e11543bd9adcaf9930d443b8d51ef1e7ef121e3",
+  "witness": "Actual native Gamma/TimeLaw with synthetic CPU cache arrays; no actor inference",
+  "installed_world_position": [
+    2.0,
+    3.0,
+    4.0
+  ],
+  "native_actor_consumes_cached_fields": [
+    "ee_pos_err",
+    "ee_rot_err_axis_angle",
+    "arm_target_pos_body",
+    "arm_target_quat_body"
+  ],
+  "cached_fields_unchanged": {
+    "ee_pos_err": true,
+    "ee_rot_err_axis_angle": true,
+    "arm_target_pos_body": true,
+    "arm_target_quat_body": true
+  },
+  "native_refresh_called": false,
+  "actual_first_fixture_actor_caches": "UNOBSERVED_NOT_RECORDED",
+  "explains_actual_failure": "NOT_PROVEN",
+  "original_physical_failures_preserved": true,
+  "implementation_gap": "Bridge install and nominal_reset do not refresh native task-error/body-target caches before first actor readout",
+  "proposed_repair": "Refresh native derived target state before inference; verify actual cache parity without altering progress/gains",
+  "runtime_repair_applied": false,
+  "extra_GPU_run_allowed": false,
+  "new_physics": 0,
+  "WBC_forwards": 0,
+  "GR00T_forwards": 0,
+  "optimizer_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
