@@ -14,7 +14,8 @@ with (r/'runtime/SUBMISSION.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
  if record.exists():
   value=json.loads(record.read_text());print(json.dumps(dict(status='ADOPT_EXISTING_REQUEST_NO_SECOND_QSUB',record=value)));raise SystemExit(0)
- assert time.time()<1791516600,'No optimizer arm starts after11:30 SGT'
+ amendment=json.loads((r/'design/ENGINEERING_LEASE_AMENDMENT.json').read_text())
+ assert amendment['launch_allowed'] and time.time()<amendment['arm_start_stop_epoch'],'Revised last arm start exceeded'
  assert not (r/'runtime/TRAINING_ALLOCATION.json').exists()
  capacity=json.loads((r/'design/CAPACITY_ADMISSION.json').read_text())
  assert capacity['status']=='OWNER_ADMITTED_PI0286_OUTPUT_HEADROOM' and capacity['remaining_headroom_bytes']>=capacity['required_peak_bytes']
@@ -26,7 +27,7 @@ with (r/'runtime/SUBMISSION.lock').open('a') as lock:
  old=r.parent/'PI0285/runtime/JOB_SUBMISSION.json';prior=json.loads(old.read_text());project=prior.get('project')
  assert project=='CFP05-CF-052','Existing verified project identity only'
  request=dict(status='REQUEST_RECORDED_BEFORE_SOLE_QSUB',requested_epoch=time.time(),script=str(p),script_sha256=hashlib.sha256(p.read_bytes()).hexdigest(),project=project,
-  canonical=6072813602,release='eae6dbc1f9281b204a4e28e5f7c100d705837318',one_lease_driver='C0_then_C1_if_admitted_before1130_same_full6144_parent',
+  canonical=6072813602,release='eae6dbc1f9281b204a4e28e5f7c100d705837318',one_lease_driver='C0_then_C1_with_explicit_1400_extension_same_full6144_parent',
   capacity_sha256=hashlib.sha256((r/'design/CAPACITY_ADMISSION.json').read_bytes()).hexdigest(),queue='auto',mail='n',selected='NONE',deployment='NONE')
  record.write_text(json.dumps(request,indent=2)+'\n')
  out=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qsub','-P',project,str(p)],capture_output=True,text=True)

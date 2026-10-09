@@ -1,0 +1,106 @@
+{
+  "status": "READ_ONLY_HOPPER_CAPACITY_REFRESH",
+  "epoch": 1791519023.5866537,
+  "quota_returncode": 1,
+  "quota": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-09 11:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     20.53G     40.00G      51.3%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-09 12:03]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    898.6GB |    1.0TB   ||   588493  | unlimited \n=========================================================================\n\n",
+  "quota_stderr": "",
+  "scheduler": "Job Id: 655971.hopper-m-02\n    Job_Name = pi0286_c0\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 17\n    resources_used.cput = 00:00:02\n    resources_used.mem = 1371896kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 4699720kb\n    resources_used.walltime = 00:00:17\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  9 10:36:11 2026\n    Error_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0286_c0.e65597\n\t1\n    exec_host = hopper-17/0*12\n    exec_vnode = (hopper-17:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  9 10:47:12 2026\n    Output_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0286_c0.o6559\n\t71\n    Priority = 0\n    qtime = Fri Oct  9 10:36:11 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 7200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 02:00:00\n    stime = Fri Oct  9 10:46:37 2026\n    obittime = Fri Oct  9 10:47:11 2026\n    session_id = 2053954\n    jobdir = /home/svu/e1192548\n    substate = 93\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 09 at 10:46 on (hopper-17:ngpus=1:ncpus=12:mem\n\t=235929600kb) and failed\n    etime = Fri Oct  9 10:36:11 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 1\n    Submit_arguments = -P CFP05-CF-052 /scratch/e1192548/Projects/go2-arx5/expe\n\triments/PI0286/code/C0_REPLAY1024.pbs\n    history_timestamp = 1791514032\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "user_jobs": "",
+  "shared_filesystem": {
+    "total": 4434314989142016,
+    "used": 934625140539392,
+    "free": 3499689848602624
+  },
+  "home_filesystem": {
+    "total": 42949672960,
+    "used": 22040018944,
+    "free": 20909654016
+  },
+  "previous_admission": {
+    "status": "OWNER_ADMITTED_PI0286_OUTPUT_HEADROOM",
+    "remaining_headroom_bytes": 107374182400,
+    "required_peak_bytes": 96636764160,
+    "valid_until_epoch": 1791515084.7966917,
+    "epoch": 1791513284.7966928,
+    "basis": "Conservative100GiB lowerbound: actual cached10:33usage910.7GB/1TB plus26.7GB subsequently released probe; exact114.35GiB retired beforehand",
+    "quota_headroom": "UNKNOWN_CACHED_REPORT",
+    "retirement_receipt": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/evidence/storage/PURGE_EXECUTED.json",
+    "slow_probe": {
+      "status": "CANCELLED_UNNECESSARY_LONG_FALLOCATE_NO_MODEL_WORK",
+      "allocated_bytes_before_removal": 26728042496,
+      "size_before_removal": 26728042496,
+      "deleted": true
+    },
+    "new_owned_output_cap_bytes": 107374182400,
+    "latest_reported_usage": "910.7GB/1.0TB at10:33SGT BEFORE confirmed26.7GB probe removal"
+  },
+  "new_checkpoint_files": [],
+  "parent_files": {
+    "model-00001-of-00002.safetensors": {
+      "bytes": 4993709288
+    },
+    "rng_state.pth": {
+      "bytes": 14709
+    },
+    "trainer_state.json": {
+      "bytes": 18563
+    },
+    "processor_config.json": {
+      "bytes": 23145
+    },
+    "PI0282_RECOVERY.json": {
+      "bytes": 67105
+    },
+    "embodiment_id.json": {
+      "bytes": 2146
+    },
+    "PI0282_SCOPE_PROOF.json": {
+      "bytes": 1681
+    },
+    "model-00002-of-00002.safetensors": {
+      "bytes": 4129471992
+    },
+    "model.safetensors.index.json": {
+      "bytes": 104912
+    },
+    "training_args.bin": {
+      "bytes": 5905
+    },
+    "statistics.json": {
+      "bytes": 4299523
+    },
+    "config.json": {
+      "bytes": 2105
+    },
+    "optimizer.pt": {
+      "bytes": 11340462437
+    },
+    "scheduler.pt": {
+      "bytes": 1465
+    }
+  },
+  "new_job_submission": {
+    "status": "ACCEPTED",
+    "requested_epoch": 1791513371.146456,
+    "script": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/code/C0_REPLAY1024.pbs",
+    "script_sha256": "f3ea68c6045950d6f249156cdd460e60b984df49fce7c3be5021fab74c9e2fc3",
+    "project": "CFP05-CF-052",
+    "canonical": 6072813602,
+    "release": "eae6dbc1f9281b204a4e28e5f7c100d705837318",
+    "one_lease_driver": "C0_then_C1_if_admitted_before1130_same_full6144_parent",
+    "capacity_sha256": "66dfe21b6b4bbf8fac9bfdfaa33f3a3a4988b91cebffa2da7a0febdb65db4774",
+    "queue": "auto",
+    "mail": "n",
+    "selected": "NONE",
+    "deployment": "NONE",
+    "returncode": 0,
+    "stdout": "655971.hopper-m-02\n",
+    "stderr": "",
+    "PBS_JOBID": "655971.hopper-m-02"
+  },
+  "user_jobs_command": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

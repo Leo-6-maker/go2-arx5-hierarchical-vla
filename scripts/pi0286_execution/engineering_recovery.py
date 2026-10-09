@@ -25,7 +25,7 @@ if not authorized:
 assert a['previous_PBS_JOBID']==old_job and a['maximum_accepted_total']==2 and a['replacement_leases_allowed']==1
 assert isinstance(a['explicit_user_approval'],str) and a['explicit_user_approval'].strip() and 0<a['approval_received_epoch']<=time.time()
 assert a['canonical']==6072813602 and a['release']=='eae6dbc1f9281b204a4e28e5f7c100d705837318'
-assert time.time()<1791516600
+assert time.time()<a['arm_start_stop_epoch']
 with (r/'runtime/SUBMISSION.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
  handoff=r/'runtime/ENGINEERING_RECOVERY_1_HANDOFF.json'
