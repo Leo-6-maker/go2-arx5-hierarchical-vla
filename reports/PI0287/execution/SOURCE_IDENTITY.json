@@ -1,0 +1,54 @@
+{
+  "status": "SOURCE_BOUND_REFERENCE_TERMINAL",
+  "original_release": "7a9f0c02b55222646601307ccd7922e9297e2ab5",
+  "implementation_commit": "0deb22165",
+  "controller_class": "HISTORICAL_EXECUTOR_BASELINE",
+  "WBCv1_zip_sha256": "3c59a6d5f8f924df0b838ad2d501d3a853274d741db191a9de453f58212063ee",
+  "controller_files": [
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/parameters.pkl",
+      "bytes": 19444,
+      "sha256": "6fc10bd18d37b00355b3a4c0cd4b4ffb55d91c39a724b2affbb28c9321c3e7bb"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "bytes": 52693641,
+      "sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "bytes": 12607221,
+      "sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
+    }
+  ],
+  "runtime": {
+    "python": "3.8.20 (default, Oct  3 2024, 15:24:27) \n[GCC 11.2.0]",
+    "python_executable": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13c/runtime_env/native_py38_4080/bin/python",
+    "isaacgym_file": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/stage13c/runtime_env/public_native/isaacgym/python/isaacgym/__init__.py",
+    "torch": "2.3.1",
+    "cuda": "12.1",
+    "sim_dt_s": 0.005,
+    "decimation": 4,
+    "actor_dt_s": 0.02
+  },
+  "executed_run": {
+    "pid": 3252669,
+    "command": [
+      "/bin/bash",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0287/project-src/scripts/pi0287_target_sim/corelab_environment.sh",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0287/project-src/scripts/pi0287_target_sim/run.py",
+      "--mode",
+      "reference-fixtures",
+      "--config",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0287/private/config.json",
+      "--output-root",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0287"
+    ],
+    "source_sha256": "596e8fdeb60e1eecacac6a8a902d24c16d61ebd8a14dda3cd2ea2b62e6f1337e",
+    "log": "/home/liuyu-nfs/Projects/go2-arx5/PI0287/runtime/reference-hard-limits-v2.log"
+  },
+  "original_manifest_sha256": "e44a100d58f976f3e9073303cda3ebc389d7114319370cbda420c975db77492d",
+  "source_seed_note": "CLI seed recorded; explicit global numpy/torch seeding was not added. No seed replay identity claim.",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
