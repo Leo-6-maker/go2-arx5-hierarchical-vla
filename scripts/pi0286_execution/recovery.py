@@ -183,7 +183,6 @@ def suffix(root,folder,encoder,physical_errors):
             err['native_preclip_out_of_range_count']=encoder.action_audit(target,state)['native_preclip_out_of_range_count']
             valid=not err['nonfinite'] and not err['decoded_rot6d_validity']['degenerate_count'] and not err['command_rot6d_validity']['degenerate_count']
             valid=valid and all(err[k]<=t for k,t in zip(maxima,(1e-5,1e-4,1e-5)))
-            valid=valid and err['native_preclip_out_of_range_count']==0
             for k in maxima:maxima[k]=max(maxima[k],err[k])
         except (ValueError,AssertionError,FloatingPointError) as exc:valid=False;err=dict(error=str(exc))
         if not valid:failures.append(dict(anchor=a,errors=err))

@@ -1,0 +1,150 @@
+{
+  "status": "PASS_ACTUAL_SOURCE_VALID_STATEMENTS_BOUNDARIES_AND_REAL_SO3_FAILURE",
+  "synthetic": [
+    {
+      "case": "diagnostic_preclip80_with_valid_physical_error",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "case": "XYZ_max_m_at_boundary",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "case": "XYZ_max_m_above_boundary",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "case": "SO3_max_rad_at_boundary",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "case": "SO3_max_rad_above_boundary",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "case": "gripper_max_fraction_at_boundary",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "case": "gripper_max_fraction_above_boundary",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "case": "nonfinite",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "case": "decoded_rot6d_validity_degenerate",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "case": "command_rot6d_validity_degenerate",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "real_sealed_failed_windows": [
+    {
+      "slot": "T1-TRAIN-285108-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285109-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285111-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285112-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285115-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285116-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285117-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285118-TAKEOVER-03s",
+      "anchor": 0,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "slot": "T1-TRAIN-285118-TAKEOVER-03s",
+      "anchor": 1,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "slot": "T1-TRAIN-285118-TAKEOVER-03s",
+      "anchor": 2,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "slot": "T1-TRAIN-285119-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285120-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285121-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285122-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "slot": "T1-TRAIN-285123-TAKEOVER-12s",
+      "anchor": 0,
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "model_calls": 0,
+  "physics_calls": 0,
+  "codec_calls": 0
+}
