@@ -1,0 +1,172 @@
+{
+  "schema": "PI0289_AUTONOMOUS_BRINGUP_AND_TARGET_DATA_V1",
+  "authority": "PI0289_OCS2_MUJOCO_AUTONOMOUS_BRINGUP_AND_DATA_GO_V1",
+  "protocol": "docs/protocols/PI0289_AUTONOMOUS_OCS2_STARTUP_TO_TARGET_DATA_V1.md",
+  "protocol_parent_commit": "0f73ae493bc8155fe54362f93e57d1bf527a1f60",
+  "source_ref": "4f90b59f4f32d0dbad4f61ad3b8cf9357f66d1c8",
+  "source_issue_comment": 6091994226,
+  "branch": "pi0267/executor-decoupled-recovery",
+  "active_owner_limit": 1,
+  "max_workers": 3,
+  "sim_stacks_concurrent_max": 1,
+  "reused_executor": {
+    "status": "NATIVE_HOLD_PASS_BUT_STARTUP_SAFETY_FAIL",
+    "archive_sha256": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52",
+    "controller_core_algorithms_locked": true
+  },
+  "actual_failure": {
+    "episode": "53861d09823f4dbc8690e7cf24c4522d",
+    "valid": true,
+    "actual_steps": 42,
+    "time_s": 0.084,
+    "grasp_data": 0,
+    "movement_tests_run": 0,
+    "arm_ctrl_before_stop": "all_zero",
+    "first_foot_margin_contact_s": 0.056,
+    "first_negative_foot_contact_s": 0.058,
+    "x5_joint3_initial_lower_margin_rad": 0,
+    "x5_joint3_warning_start_s": 0.066,
+    "x5_joint3_violation_max_rad": 0.0006616251710775618,
+    "x5_joint3_contiguous_violation_s": 0.02,
+    "x5_joint2_violation_max_rad": 0.000847216678609641,
+    "hypothesis": "contact_impulse_with_passive_arm_and_zero_margin",
+    "hypothesis_is_unique_cause_proven": false
+  },
+  "allowed": {
+    "private_source_and_physics_diagnostics": true,
+    "evidence_backed_startup_initialization_variants": true,
+    "original_supported_arm_standby_mode": true,
+    "CPU_tests_and_small_diagnostic_physics": true,
+    "fixed_one_valid_episode_per_variant": true,
+    "full_G1_then_G2_then_teacher_and_data": true,
+    "provisional_gripper_SIM_ONLY": true,
+    "official_GR00T_processor_CPU": true
+  },
+  "forbidden": [
+    "disable_or_delay_original_safety_monitor",
+    "weaken_joint_limits_or_numerical_gate_after_failure",
+    "sweep_poses_seeds_or_gains_to_pick_success",
+    "modify_MPC_solver_costs_or_RL_weights_normalizer_or_PD_gains_without_separate_approval",
+    "real_hardware_drivers_or_network_control",
+    "weld_or_magnetically_attach_object_for_task_success",
+    "use_sim_oracle_as_policy_input",
+    "GR00T_neural_forward_or_optimizer",
+    "WBC_RL_optimizer",
+    "rewrite_prior_failures",
+    "publish_private_assets_or_credentials"
+  ],
+  "allowed_startup_variants_max": 4,
+  "preflight": [
+    "model_limits_and_named_joint_actuator_map",
+    "first_ground_contact_geometry",
+    "controller_mode_and_earliest_arm_actuation_time",
+    "zero_margin_arm_joint2_3",
+    "valid_robot_supported_startup_pose_or_unique_analytical_variant",
+    "valid_base_contact_and_foot_configuration",
+    "full_state_reset_and_time_compatibility",
+    "unaltered_safety_and_raw_joint_limits"
+  ],
+  "gate_sequence": [
+    {
+      "id": "D0",
+      "name": "CAUSAL_DIAG",
+      "requires": [
+        "saved42_readback",
+        "force_and_control_time_alignment",
+        "contact_analysis",
+        "candidate_fix_statement"
+      ]
+    },
+    {
+      "id": "S1",
+      "name": "SAFE_NATIVE_STARTUP",
+      "conditions": "fixed10s WBC mode full raw limits, no warnings/aborts or illegal contact; first integration armed"
+    },
+    {
+      "id": "G1",
+      "name": "NATIVE_EEF_REFERENCE_6_OF_6",
+      "fixtures": [
+        "hold",
+        "horizontal_0p05m",
+        "vertical_0p05m",
+        "local_z_rotation_0p15rad",
+        "vertical_return",
+        "H40_hotswap_every_0p4s"
+      ],
+      "episode_s": 10,
+      "XYZ_last2_RMS_m": 0.015,
+      "SO3_last2_RMS_rad": 0.05,
+      "hot_swap_accepted_min": 24
+    },
+    {
+      "id": "G2",
+      "name": "EQUIPPED_TASK_EXECUTOR_FREEZE",
+      "requirements": [
+        "true_named_gripper_driver_and_contact",
+        "body_wrist_RGB20Hz",
+        "object_and_table_physics",
+        "clock_and_reset_negatives",
+        "repeat_native_six_reference_fixtures_PASS",
+        "hardware_gripper_spec_bound"
+      ]
+    },
+    {
+      "id": "G3",
+      "name": "TARGET_TEACHER_PILOT",
+      "development_max": 16,
+      "pilot_episodes": 8,
+      "success_min": 7,
+      "seconds_per_episode": 32
+    },
+    {
+      "id": "G4",
+      "name": "TARGET_DATA_AND_CPU_INPUT_READY",
+      "train_episodes": 64,
+      "train_success_min": 56,
+      "dev_episodes": 16,
+      "dev_success_min": 14,
+      "GR00T_training": 0
+    }
+  ],
+  "gripper_spec_blocker": [
+    "deployment_model_revision",
+    "speed_force_limits",
+    "contact_pad_geometry_material_friction",
+    "TCP_and_mass_inertia"
+  ],
+  "budgets_new_not_carried_over": {
+    "env_episodes_total": 180,
+    "startup_and_clock": 16,
+    "scene_sensor_gripper": 24,
+    "reference_native_and_equipped": 12,
+    "teacher_development": 16,
+    "teacher_pilot": 8,
+    "formal_train_and_dev": 80,
+    "technical_replace": 24,
+    "physics_integrations": 10000000,
+    "leg_RL_forward": 2000000,
+    "MPC_attempts": 1000000,
+    "dispatch": 4000000,
+    "teacher_queries": 120000,
+    "RGB_pairs": 200000,
+    "GPU_union_hours": 16,
+    "CPU_core_hours": 256,
+    "owned_output_GiB": 100,
+    "GR00T_forward_optimizer": 0,
+    "WBC_optimizer": 0,
+    "hardware": 0
+  },
+  "completion_options": [
+    "TARGET_TASK_DATA_AND_FINETUNE_INPUT_READY",
+    "BLOCKED_SPEC_OR_INTRINSIC_WBC",
+    "VALID_QUALITY_FAIL",
+    "BUDGET_STOP",
+    "BLOCKED_RUNTIME"
+  ],
+  "parent_PI0288_budget_reset": false,
+  "first_valid_quality_failure_preserved": true,
+  "new_controller_variant_requires_full_new_hash_and_pairing": true,
+  "publication_is_execution": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
