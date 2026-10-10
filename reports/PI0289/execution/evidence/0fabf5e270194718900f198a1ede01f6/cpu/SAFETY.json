@@ -1,0 +1,123 @@
+{
+  "actual_initial_state_same_mjData": true,
+  "raw_limit_peak": {
+    "FL_hip_joint": 0,
+    "FL_thigh_joint": 0,
+    "FL_calf_joint": 0,
+    "FR_hip_joint": 0,
+    "FR_thigh_joint": 0,
+    "FR_calf_joint": 0,
+    "RL_hip_joint": 0,
+    "RL_thigh_joint": 0,
+    "RL_calf_joint": 0,
+    "RR_hip_joint": 0,
+    "RR_thigh_joint": 0,
+    "RR_calf_joint": 0,
+    "x5_joint1": 0,
+    "x5_joint2": 0,
+    "x5_joint3": 0,
+    "x5_joint4": 0,
+    "x5_joint5": 0,
+    "x5_joint6": 0
+  },
+  "native_warnings": false,
+  "illegal_contact": true,
+  "stop_records": [
+    {
+      "kind": "stop",
+      "reason": "ILLEGAL_CONTACT",
+      "steps": 471
+    }
+  ],
+  "physics_integrations_observed_lower_bound": 471,
+  "exact_total_integrations": 471,
+  "last_sim_s": 0.9420000000000007,
+  "safe": false,
+  "original_result": {
+    "status": "TECHNICAL_UNCLASSIFIED",
+    "episode": "0fabf5e270194718900f198a1ede01f6",
+    "error": "Native process exit",
+    "counts": {
+      "mode": 2,
+      "odom": 189,
+      "arm": 189,
+      "arm_target": 170,
+      "target": 65
+    },
+    "service_s": 8.07904240093194,
+    "stop_wall_s": 1791597787.2971227,
+    "returncodes": [
+      139,
+      0
+    ],
+    "reset_method": "FRESH_WHOLE_STACK_NO_STATE_REUSE"
+  },
+  "inventory": [
+    {
+      "name": "control.jsonl",
+      "bytes": 38644,
+      "sha256": "177630ffb1c3f642a11797f44641f44eeb54975b6b0c4fd96ea378328ae279c7"
+    },
+    {
+      "name": "initialization.jsonl",
+      "bytes": 406,
+      "sha256": "3038d4e339cad0ccc3e3a30cb7e48ec828368c1778d103525fc95a1be3652e6c"
+    },
+    {
+      "name": "sim.log",
+      "bytes": 35514,
+      "sha256": "430cd76efe63c7c4a1e674fe3c518494182a293982d0d007ff3c9e03c32cd4ee"
+    },
+    {
+      "name": "CONTACT_SAFETY_ARMED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "wbc.log",
+      "bytes": 58440,
+      "sha256": "510a3367e143d54d21f76afa208d83404012e250a833f35aa42fa94ad82d4b0a"
+    },
+    {
+      "name": "physics.jsonl",
+      "bytes": 1068285,
+      "sha256": "f0dca36b522a46de664a0a68bb43591f116ef80a01b34c1a1e9af957432652bb"
+    },
+    {
+      "name": "START.json",
+      "bytes": 692,
+      "sha256": "59fe01cec7be975e45d1e69c27da89cd6742aa97c7d2139ac631bbfc7ca733bf"
+    },
+    {
+      "name": "RESULT.json",
+      "bytes": 394,
+      "sha256": "8863a850e79f495142d07e1f7843302cc4b38ff3a398813ee34ec6251263abf1"
+    },
+    {
+      "name": "STARTUP_COMMANDS.jsonl",
+      "bytes": 192,
+      "sha256": "6869677449864b9960d89cf66ff7361cfea548a57866894033ec4e3b729660ef"
+    },
+    {
+      "name": "BEFORE_FIRST_INTEGRATION.json",
+      "bytes": 1703,
+      "sha256": "8f85874dfa0a0e79f2557479b47418b06d52a0b82deb12497f59427371b47d7a"
+    },
+    {
+      "name": "PREEXECUTION_AUDIT.json",
+      "bytes": 9180,
+      "sha256": "e990e2d24ecfa03807d70b5df992479046931f140b7335f07e6d2a8a0d9cb2c9"
+    },
+    {
+      "name": "planner.jsonl",
+      "bytes": 29754,
+      "sha256": "34edec2555bed5d29934a163bf1bcee5d3d3e874b44b96c04bb3dcad305268ee"
+    },
+    {
+      "name": "ros.jsonl",
+      "bytes": 409116,
+      "sha256": "ad26766c88962f07c56fb5b74231839b1474547242d19cfde3d68376bbda6a62"
+    }
+  ],
+  "dispatch_control_cycles_observed": 195
+}

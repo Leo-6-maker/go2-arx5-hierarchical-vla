@@ -1,0 +1,233 @@
+{
+  "schema": "PI0289_ACTUAL_GATE_CLOSEOUT_V1",
+  "authority_release": "1b9990c780e652a81cc585ef345af250de9bdfea",
+  "status": "VALID_QUALITY_FAIL",
+  "S1": {
+    "status": "PASS_SAFE_NATIVE_STARTUP_10S",
+    "episode": "a7ff3a9a26c34aab9843fa5c4abecef3",
+    "native_task_duration_s": 10.000178503999999,
+    "G1_pass": false
+  },
+  "G1": {
+    "status": "NOT_QUALIFIED_PARTIAL",
+    "conditions": [
+      {
+        "condition": "hold",
+        "status": "VALID_REFERENCE_QUALITY_FAIL",
+        "episode": "a7ff3a9a26c34aab9843fa5c4abecef3"
+      },
+      {
+        "condition": "horizontal_0p05m",
+        "status": "NOT_RUN_UPSTREAM_CLOCK_AND_FIRST_VALID_HOLD_FAIL",
+        "episode": null
+      },
+      {
+        "condition": "vertical_0p05m",
+        "status": "NOT_RUN_UPSTREAM_CLOCK_AND_FIRST_VALID_HOLD_FAIL",
+        "episode": null
+      },
+      {
+        "condition": "local_z_rotation_0p15rad",
+        "status": "NOT_RUN_UPSTREAM_CLOCK_AND_FIRST_VALID_HOLD_FAIL",
+        "episode": null
+      },
+      {
+        "condition": "vertical_return",
+        "status": "NOT_RUN_UPSTREAM_CLOCK_AND_FIRST_VALID_HOLD_FAIL",
+        "episode": null
+      },
+      {
+        "condition": "H40_hotswap_every_0p4s",
+        "status": "NOT_RUN_UPSTREAM_CLOCK_AND_FIRST_VALID_HOLD_FAIL",
+        "episode": null
+      }
+    ],
+    "hold_score": {
+      "status": "REFERENCE_QUALITY_FAIL",
+      "pass": false,
+      "condition": "hold",
+      "complete_10s": true,
+      "sample_count": 2001,
+      "reasons": [
+        "TRACKING_FAIL_requested_pose",
+        "TRACKING_FAIL_installed_pose"
+      ],
+      "missing_real_evidence": [],
+      "errors": {
+        "requested_pose": {
+          "full_position_m": {
+            "RMS": 0.013695918839320163,
+            "P95": 0.025452082350118067,
+            "max": 0.033402475886830874
+          },
+          "full_SO3_rad": {
+            "RMS": 0.06430640319362099,
+            "P95": 0.06574162879887133,
+            "max": 0.08820866920292396
+          },
+          "last2_position_m": {
+            "RMS": 0.011672953955557097,
+            "P95": 0.011700049959201778,
+            "max": 0.011712613973242744
+          },
+          "last2_SO3_rad": {
+            "RMS": 0.06519971661469263,
+            "P95": 0.06525677569558558,
+            "max": 0.06529582304703958
+          }
+        },
+        "installed_pose": {
+          "full_position_m": {
+            "RMS": 0.014166364760042313,
+            "P95": 0.026550182583931582,
+            "max": 0.04651316617661697
+          },
+          "full_SO3_rad": {
+            "RMS": 0.0646213630538039,
+            "P95": 0.06574397470597523,
+            "max": 0.09266272174737329
+          },
+          "last2_position_m": {
+            "RMS": 0.011672953955557095,
+            "P95": 0.011700049959201778,
+            "max": 0.011712613973242744
+          },
+          "last2_SO3_rad": {
+            "RMS": 0.06519971661469288,
+            "P95": 0.06525677569558558,
+            "max": 0.06529582304703618
+          }
+        }
+      },
+      "directed_completion": null,
+      "latency": [
+        {
+          "ref_id": "a7ff3a9a26c34aab9843fa5c4abecef3:0",
+          "accept_s": 0.02407031483016908,
+          "install_s": 0.08008242887444794
+        }
+      ],
+      "common_future_jumps": [],
+      "reference_v_max_m_s": 0.05,
+      "reference_w_max_rad_s": 0.2
+    }
+  },
+  "clock": {
+    "status": "BLOCKED_CLOCK_OR_RESET",
+    "original_max_residual_s": 0.0478031573168618,
+    "ceiling_s": 0.025,
+    "lifecycle_negatives": "PASS",
+    "corrected_publisher_origin_diagnostic_only": {
+      "origin_actual_observed": false,
+      "estimated_source_corrected_residual_s": 0.0029677344063383515,
+      "receiver_latency_max_s": 0.048503119964152575,
+      "launch_admission": false
+    }
+  },
+  "G2": {
+    "status": "BLOCKED_G1_AND_UNVERIFIED_DEPLOYMENT_SPEC",
+    "gripper_selection": "DELIVERED_ARX5_PARALLEL_MIMIC_GRIPPER_SIM_ONLY_V1"
+  },
+  "teacher": {
+    "development": 0,
+    "pilot": 0,
+    "TRAIN": 0,
+    "DEV": 0
+  },
+  "budget": {
+    "episodes": 4,
+    "episode_cap": 180,
+    "setup_charged": 4,
+    "observed_physics_lower_bound": 18186,
+    "exact_physics_total": "UNOBSERVED_AFTER_FINAL_PERIODIC_SAMPLE",
+    "service_union_s": 53.80007270281203,
+    "GPU_reservation_s": 240,
+    "CPU_reservation_core_s": 4800,
+    "actual_leg_RL_forwards": "UNOBSERVED",
+    "actual_MPC_solve_attempts": "UNOBSERVED",
+    "actual_CPU_core_hours": "UNOBSERVED",
+    "GR00T_forwards": 0,
+    "optimizer_updates": 0,
+    "physics_safety_enforced_from_first_integration": true
+  },
+  "episodes": [
+    {
+      "episode": "0fabf5e270194718900f198a1ede01f6",
+      "variant": "V1_MPC_INITIAL_ARM_PAUSED_HOLD",
+      "raw_status": "TECHNICAL_UNCLASSIFIED",
+      "service_s": 8.07904240093194,
+      "observed_integrations_lower_bound": 471,
+      "published_counts": {
+        "mode": 2,
+        "odom": 189,
+        "arm": 189,
+        "arm_target": 170,
+        "target": 65
+      },
+      "adjudication": "VALID_SAFETY_FAIL"
+    },
+    {
+      "episode": "dd13faf1951544d1ba9abefd1dc6d0dd",
+      "variant": "V2_MPC_INITIAL_ARM_PAUSED_NATIVE_LOCOMOTION_HOLD",
+      "raw_status": "TECHNICAL_UNCLASSIFIED",
+      "service_s": 21.02258676919155,
+      "observed_integrations_lower_bound": 7498,
+      "published_counts": {
+        "mode": 2661,
+        "odom": 2672,
+        "arm": 2672,
+        "arm_target": 2672,
+        "target": 145,
+        "ee": 2576,
+        "observation": 1,
+        "policy": 1
+      },
+      "adjudication": "ENGINEERING_MODE_ROUTE_FAIL"
+    },
+    {
+      "episode": "a7ff3a9a26c34aab9843fa5c4abecef3",
+      "variant": "V3_MPC_INITIAL_ARM_PAUSED_NATIVE_LOCOMOTION_MODE_TOPIC",
+      "raw_status": "RAW_COMPLETE",
+      "service_s": 17.252120463876054,
+      "observed_integrations_lower_bound": 7558,
+      "published_counts": {
+        "mode": 3,
+        "odom": 2694,
+        "arm": 2694,
+        "arm_target": 2694,
+        "ee": 2927,
+        "target": 146,
+        "observation": 2023,
+        "policy": 2022,
+        "arm_request": 2021,
+        "base": 2020
+      },
+      "adjudication": "SAFE_STARTUP_PASS_AND_VALID_HOLD_QUALITY_FAIL"
+    },
+    {
+      "episode": "7bdc332eae2843c0aa3edeffe4a52fde",
+      "variant": "V4_V3_STARTUP_WITH_REFERENCE_LIFECYCLE_V1",
+      "raw_status": "RAW_COMPLETE",
+      "service_s": 7.4463230688124895,
+      "observed_integrations_lower_bound": 2659,
+      "published_counts": {
+        "mode": 8,
+        "odom": 951,
+        "arm": 951,
+        "arm_target": 955,
+        "target": 46,
+        "ee": 571,
+        "observation": 62,
+        "policy": 61,
+        "arm_request": 60,
+        "base": 60
+      },
+      "adjudication": "LIFECYCLE_NEGATIVES_PASS_CLOCK_RECORD_BLOCKED"
+    }
+  ],
+  "old_PI0288_FAIL_preserved": true,
+  "core_algorithms_gains_weights_and_limits_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "next_controller_question": "Check delivered arm preview/velocity feedforward versus physical PD/gravity holding error; no compensation/gain/solver change authorized or applied."
+}

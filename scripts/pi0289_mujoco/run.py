@@ -28,12 +28,15 @@ def write(path, value):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--config',required=True);p.add_argument('--root',required=True)
-    p.add_argument('--mode',choices=['interface-tests','native-reference','task-reference','teacher-dev','teacher-pilot','collect'],required=True)
+    p.add_argument('--mode',choices=['interface-tests','clock-negatives','native-reference','task-reference','teacher-dev','teacher-pilot','collect'],required=True)
     p.add_argument('--condition',choices=CONDITIONS,default=CONDITIONS[0]);args=p.parse_args()
     root=Path(args.root);config=json.loads(Path(args.config).read_text());private=Path(config['private_root'])
     for name in ['runtime','runtime/tmp','runtime/ros-logs','evidence']:(root/name).mkdir(parents=True,exist_ok=True)
     lease=(private.parent/'PI0289_SIM_LEASE').open('a');fcntl.flock(lease,fcntl.LOCK_EX|fcntl.LOCK_NB)
-    if args.mode not in ['interface-tests','native-reference']:
+    verdict=root/'evidence/GATE_RECEIPT.json'
+    if verdict.exists() and json.loads(verdict.read_text())['status']=='VALID_QUALITY_FAIL':
+        raise RuntimeError('First-valid hold quality FAIL sealed; controller decision required before further qualification')
+    if args.mode not in ['interface-tests','clock-negatives','native-reference']:
         raise RuntimeError('G1/G2 upstream receipts and verified gripper specification required before task execution')
     g0=root/'evidence/CLOCK_CONTRACT.json'
     if args.mode=='native-reference' and (not g0.exists() or json.loads(g0.read_text())['status']!='PASS'):
@@ -66,9 +69,11 @@ def main():
     ledger=json.loads(ledger_path.read_text()) if ledger_path.exists() else {'episodes':[]}
     if args.mode=='interface-tests' and any(x.get('startup_variant')==config['startup_variant'] for x in ledger['episodes']):
         raise RuntimeError('This startup variant already has its first attempt; review evidence before replacement')
+    if args.mode=='clock-negatives' and any(x['mode']==args.mode and x.get('startup_variant')==config['startup_variant'] for x in ledger['episodes']):
+        raise RuntimeError('Lifecycle cases already charged for this version')
     if initialization and sum(bool(x.get('technical_replacement')) for x in ledger['episodes'])>=16:
         raise RuntimeError('Technical replacement slots exhausted')
-    category='setup' if args.mode=='interface-tests' else 'native_reference'
+    category='setup' if args.mode in ['interface-tests','clock-negatives'] else 'native_reference'
     if len(ledger['episodes'])>=180 or sum(x['category']==category for x in ledger['episodes'])>=(16 if category=='setup' else 6):raise RuntimeError('Episode category exhausted')
     if any(x['mode']==args.mode and x.get('condition')==args.condition and x.get('status') in ['PASS','QUALITY_FAIL','RUNNING'] for x in ledger['episodes']):raise RuntimeError('Do not repeat valid or active tuple')
     reservation={'physics':60000,'leg_rl':6000,'mpc_attempts':12000,'dispatch':36000,'gpu_s':60,'cpu_core_s':1200}
@@ -92,6 +97,7 @@ def main():
             ('base','/go2_x5/base/command',Float32MultiArray,10),('mode','/go2_x5/arm/mode/state',String,QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))]
     for key,topic,cls,qos in topics:subs.append(node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos))
     keys=node.create_publisher(String,'/go2_x5/fsm/key',10);refs=node.create_publisher(String,'/go2_x5/ee/trajectory_json',1)
+    modes=node.create_publisher(String,'/go2_x5/arm/mode/request',10)
     start=time.monotonic();issued=[];result={}
     def spin(seconds,predicate=None):
         until=time.monotonic()+seconds
@@ -104,6 +110,9 @@ def main():
     def key(value):
         msg=String();msg.data=value;keys.publish(msg)
         with (out/'STARTUP_COMMANDS.jsonl').open('a') as f:f.write(json.dumps(dict(key=value,monotonic_s=time.monotonic()))+'\n')
+    def arm_mode(value):
+        msg=String();msg.data=value;modes.publish(msg)
+        with (out/'STARTUP_COMMANDS.jsonl').open('a') as f:f.write(json.dumps(dict(arm_mode=value,monotonic_s=time.monotonic()))+'\n')
     def control_ready():
         p=out/'control.jsonl'
         if not p.exists():return False
@@ -122,13 +131,15 @@ def main():
         h=(out/'sim.log').open('w');handles.append(h)
         processes.append(subprocess.Popen(['xvfb-run','-a',*sim_command],cwd=private,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True))
         env=os.environ.copy();env['PI0288_PLANNER_TRACE']=str(out/'planner.jsonl')
-        env['PYTHONPATH']=str(root/'project-src/scripts/pi0288_mujoco/planner_observer')+':'+env.get('PYTHONPATH','')
+        env['PI0289_EPISODE']=episode
+        env['PYTHONPATH']=str(root/'project-src/scripts/pi0289_mujoco/planner_observer')+':'+env.get('PYTHONPATH','')
         h=(out/'wbc.log').open('w');handles.append(h)
         processes.append(subprocess.Popen([str(private/'run.sh'),'wbc','rviz:=false'],cwd=private,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True))
         if not spin(15,lambda:counts.get('odom',0)>10 and counts.get('arm',0)>10):raise RuntimeError('Feedback unavailable')
         physics_start=time.monotonic()
         if config['startup_variant'].startswith('V1_'):key('0');spin(.04)
-        key('2')
+        if config['startup_variant'].startswith(('V3_','V4_')):arm_mode('HOLD')
+        else:key('2')
         if not spin(.15,control_ready):raise RuntimeError('Paused GetUp/HOLD actual command not ready')
         if (out/'physics.jsonl').exists():raise RuntimeError('Physics ran before native standby')
         write(out/'BEFORE_FIRST_INTEGRATION.json',dict(control=json.loads((out/'control.jsonl').read_text().splitlines()[-1]),physics_integrations=0,source='ACTUAL_NATIVE_COMMAND_NOT_OBSERVER_SUBSTITUTE'))
@@ -136,11 +147,29 @@ def main():
         if config['startup_variant'].startswith('V1_'):spin(4);key('1')
         spin(5)
         if not spin(max(0,13-(time.monotonic()-physics_start)),lambda:counts.get('ee',0)>10):raise RuntimeError('Warmup controller not ready')
-        key('5')
+        if config['startup_variant'].startswith(('V3_','V4_')):arm_mode('WBC')
+        else:key('5')
         if not spin(max(0,15-(time.monotonic()-physics_start)),lambda:counts.get('policy',0)>3 and counts.get('arm_request',0)>20 and latest.get('mode',(None,None,None))[2].data=='WBC'):
             raise RuntimeError('Registered warmup limit: WBC not ready')
         initial=list(latest['ee'][2].state.value[:7]);t0=latest['ee'][2].time
         write(out/'TASK_START.json',dict(initial_tcp=initial,mpc_time_s=t0,wall_s=time.time(),monotonic_s=time.monotonic(),warmup_s=time.monotonic()-physics_start))
+        if args.mode=='clock-negatives':
+            from go2arx5_vla.target_mujoco.reference import native_document
+            negative=[]
+            for label,epoch,issued_time in [('WRONG_EPISODE','old-episode',time.monotonic()),('STALE_PACKET',episode,time.monotonic()-1)]:
+                doc=native_document('hold',initial);doc['_pi0289']=dict(episode=epoch,sequence=0,issued_monotonic_s=issued_time)
+                msg=String();msg.data=json.dumps(doc);refs.publish(msg)
+                if not spin(.4,lambda:latest['mode'][2].data=='HOLD'):raise RuntimeError('Negative reference did not enter original HOLD')
+                negative.append(dict(label=label,wire=msg.data,mode=latest['mode'][2].data))
+                arm_mode('WBC')
+                if not spin(.4,lambda:latest['mode'][2].data=='WBC'):raise RuntimeError('Native WBC reentry unavailable')
+            doc=native_document('hold',initial);doc['waypoints']=doc['waypoints'][:3];doc['_pi0289']=dict(episode=episode,sequence=0,issued_monotonic_s=time.monotonic())
+            msg=String();msg.data=json.dumps(doc);refs.publish(msg)
+            if not spin(.6,lambda:latest['mode'][2].data=='HOLD'):raise RuntimeError('Expired accepted reference did not enter original HOLD')
+            negative.append(dict(label='EXPIRY',wire=msg.data,mode=latest['mode'][2].data))
+            write(out/'NEGATIVE_CASES.json',negative)
+            result=dict(status='RAW_COMPLETE',episode=episode,mode=args.mode,counts=counts,scope='Lifecycle negative tests; not G1 quality or new startup PASS')
+            return 0
         if args.mode=='native-reference':(out/'CONTACT_SAFETY_ARMED').touch()
         chunks=panel_chunks(args.condition,initial,episode) if args.mode=='native-reference' else panel_chunks(CONDITIONS[0],initial,episode)
         duration=10
@@ -149,7 +178,12 @@ def main():
             if latest['mode'][2].data!='WBC':raise RuntimeError('Native WBC mode lost')
             t=latest['ee'][2].time-t0
             if next_chunk<len(chunks) and t+1e-6>=chunks[next_chunk]['issue_time_s']:
-                c=chunks[next_chunk];msg=String();msg.data=c['wire_json'];refs.publish(msg)
+                c=chunks[next_chunk];msg=String()
+                # Owned envelope is checked before the original native parser; geometry is unchanged.
+                doc=json.loads(c['wire_json']);doc['_pi0289']=dict(episode=episode,sequence=next_chunk,issued_monotonic_s=time.monotonic())
+                msg.data=json.dumps(doc,separators=(',',':'),allow_nan=False)
+                c=dict(c,wire_json=msg.data,wire_sha256=hashlib.sha256(msg.data.encode()).hexdigest())
+                refs.publish(msg)
                 issued.append(dict(**c,wall_s=time.time(),monotonic_s=time.monotonic(),actual_issue_mpc_s=latest['ee'][2].time))
                 next_chunk+=1
             spin(.005)
