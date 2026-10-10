@@ -1,5 +1,6 @@
 """Reuse the source-pinned incremental PI0288 build in a new PI0289 workspace."""
 import base64
+import argparse
 import sys
 from pathlib import Path
 WORKTREE=Path(__file__).resolve().parents[2]
@@ -7,7 +8,7 @@ sys.path.insert(0,str(WORKTREE/'scripts/pi0287_target_sim'))
 from owner import remote
 ROOT='/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0289'
 
-def body():
+def body(variant=1):
     build=(WORKTREE/'scripts/pi0288_mujoco/initialization_build_remote.py').read_text()
     build=build.replace("/go2-arx5/PI0288'","/go2-arx5/PI0289'").replace("repair=root/'initialization-repair'","repair=root/'startup-v1'\nrepair.mkdir(exist_ok=True)")
     build=build.replace('PI0288ResetHome(mnew, dnew)','PI0289ResetStartup(mnew, dnew)').replace('PI0288ResetHome(m, d)','PI0289ResetStartup(m, d)')
@@ -32,9 +33,14 @@ parity=json.loads((cache.parent/'COMPILED_MODEL_PARITY.json').read_text())
     build=build.replace("repair/'native_home.hpp',repair/'audit_home.cpp'","repair/'native_home.hpp',repair/'native_startup.hpp',repair/'audit_home.cpp'")
     build=build.replace("'x5_joint2/3 have zero lower margin'","'x5_joint2/3 .9 rad from delivered MPC initialState; RL normalizer unchanged'")
     build=build.replace("config['initialization']=dict(","config['startup_variant']='V1_MPC_INITIAL_ARM_PAUSED_HOLD'\nconfig['initialization']=dict(")
+    if variant==2:
+        build=build.replace("repair=root/'startup-v1'","repair=root/'startup-v2'")
+        build=build.replace("    (overlay/name).write_text(after)","    if name=='rl_sim_mujoco.cpp':\n        assert after.count('    // loop\\n')==1\n        after=after.replace('    // loop\\n','    this->fsm.RequestStateChange(\"RLFSMStateRLLocomotion\");\\n\\n    // loop\\n')\n    (overlay/name).write_text(after)")
+        build=build.replace('V1_MPC_INITIAL_ARM_PAUSED_HOLD','V2_MPC_INITIAL_ARM_PAUSED_NATIVE_LOCOMOTION_HOLD')
     return build
 
 def main():
+    p=argparse.ArgumentParser();p.add_argument('--variant',type=int,choices=[1,2],default=1);args=p.parse_args()
     audit=(WORKTREE/'src/go2arx5_vla/target_mujoco/audit_home.cpp').read_text().replace('#include "native_home.hpp"','#include "native_startup.hpp"').replace('PI0288ResetHome(m,d)','PI0289ResetStartup(m,d)').replace('\\\"key\\\":\\\"home\\\"','\\\"key\\\":\\\"home_plus_MPC_initial_arm_V1\\\"')
     paths=['src/go2arx5_vla/target_mujoco/native_home.hpp','src/go2arx5_vla/target_mujoco/native_startup.hpp','scripts/pi0289_mujoco/run.py','scripts/pi0289_mujoco/force_audit.cpp']
     payload={Path(p).name:base64.b64encode((WORKTREE/p).read_bytes()).decode() for p in paths}
@@ -60,7 +66,9 @@ import json,shutil
 r=Path({ROOT!r});r.mkdir(exist_ok=True)
 for n in ['runtime','runtime/tmp','runtime/ros-logs','private','evidence']:(r/n).mkdir(exist_ok=True)
 parent=r.parent/'PI0288'
-assert not (r/'evidence/BUDGET.json').exists(),'Do not restage an executed variant'
+assert not (r/'startup-v{args.variant}').exists(),'Do not restage an existing startup variant'
+if (r/'evidence/BUDGET.json').exists():
+    ledger=json.loads((r/'evidence/BUDGET.json').read_text());assert all(x['status']!='RUNNING' for x in ledger['episodes'])
 config=json.loads((parent/'private/config.json').read_text());config.update(release='1b9990c780e652a81cc585ef345af250de9bdfea',canonical=6092294476)
 (r/'private/config.json').write_text(json.dumps(config,indent=2))
 '''
@@ -70,6 +78,6 @@ execute(['g++','-O2','-std=c++17','-I'+str(lib/'include'),str(repair/'force_audi
 config['initialization']['pinned_files'].update({str(root/'runtime/observer.so'):sha(root/'runtime/observer.so'),str(repair/'observer.cpp'):sha(repair/'observer.cpp')})
 (repair/'config.json').write_text(json.dumps(config,indent=2)+'\\n')
 '''
-    print(remote(setup+'\npayload='+repr(payload)+'\n'+body()+suffix))
+    print(remote(setup+'\npayload='+repr(payload)+'\n'+body(args.variant)+suffix))
 
 if __name__=='__main__':main()

@@ -111,7 +111,8 @@ def main():
         if not lines:return False
         try:c=json.loads(lines[-1])
         except json.JSONDecodeError:return False
-        return c['fsm']=='RLFSMStateGetUp' and c['arm_mode']=='HOLD' and not c['running'] and c['sim_time_s']==0 and c['kp'][12:]==[40,70,70,25,25,25] and all(abs(x-y)<1e-6 for x,y in zip(c['q_target'][12:],[0,.9,.9,0,0,0]))
+        expected_fsm='RLFSMStateGetUp' if config['startup_variant'].startswith('V1_') else 'RLFSMStateRLLocomotion'
+        return c['fsm']==expected_fsm and c['arm_mode']=='HOLD' and not c['running'] and c['sim_time_s']==0 and c['kp'][12:]==[40,70,70,25,25,25] and all(abs(x-y)<1e-6 for x,y in zip(c['q_target'][12:],[0,.9,.9,0,0,0]))
 
     try:
         env=os.environ.copy();env.update(PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP='60000',PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'))
@@ -126,11 +127,14 @@ def main():
         processes.append(subprocess.Popen([str(private/'run.sh'),'wbc','rviz:=false'],cwd=private,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True))
         if not spin(15,lambda:counts.get('odom',0)>10 and counts.get('arm',0)>10):raise RuntimeError('Feedback unavailable')
         physics_start=time.monotonic()
-        key('0');spin(.04);key('2')
+        if config['startup_variant'].startswith('V1_'):key('0');spin(.04)
+        key('2')
         if not spin(.15,control_ready):raise RuntimeError('Paused GetUp/HOLD actual command not ready')
         if (out/'physics.jsonl').exists():raise RuntimeError('Physics ran before native standby')
         write(out/'BEFORE_FIRST_INTEGRATION.json',dict(control=json.loads((out/'control.jsonl').read_text().splitlines()[-1]),physics_integrations=0,source='ACTUAL_NATIVE_COMMAND_NOT_OBSERVER_SUBSTITUTE'))
-        key('ENTER');spin(4);key('1');spin(5)
+        key('ENTER')
+        if config['startup_variant'].startswith('V1_'):spin(4);key('1')
+        spin(5)
         if not spin(max(0,13-(time.monotonic()-physics_start)),lambda:counts.get('ee',0)>10):raise RuntimeError('Warmup controller not ready')
         key('5')
         if not spin(max(0,15-(time.monotonic()-physics_start)),lambda:counts.get('policy',0)>3 and counts.get('arm_request',0)>20 and latest.get('mode',(None,None,None))[2].data=='WBC'):

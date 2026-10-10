@@ -1,0 +1,64 @@
+{
+  "status": "VALID_QUALITY_FAIL",
+  "variant": "V1_MPC_INITIAL_ARM_PAUSED_HOLD",
+  "episode": "0fabf5e270194718900f198a1ede01f6",
+  "physics_integrations": 471,
+  "stop_sim_s": 0.9420000000000007,
+  "contact_state_s": 0.9400000000000007,
+  "original_result": {
+    "status": "TECHNICAL_UNCLASSIFIED",
+    "episode": "0fabf5e270194718900f198a1ede01f6",
+    "error": "Native process exit",
+    "counts": {
+      "mode": 2,
+      "odom": 189,
+      "arm": 189,
+      "arm_target": 170,
+      "target": 65
+    },
+    "service_s": 8.07904240093194,
+    "stop_wall_s": 1791597787.2971227,
+    "returncodes": [
+      139,
+      0
+    ],
+    "reset_method": "FRESH_WHOLE_STACK_NO_STATE_REUSE"
+  },
+  "root_z_last_m": 0.12659402025396135,
+  "illegal_base_floor_contact": [
+    {
+      "geom_a": {
+        "id": 0,
+        "name": "floor",
+        "body": "world"
+      },
+      "geom_b": {
+        "id": 8,
+        "name": "",
+        "body": "base_link"
+      },
+      "distance": 0.0009227938573184297,
+      "force": [
+        89.83449126903466,
+        -0.0741151402659541,
+        29.17517604868797,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "arm_HOLD_from_before_first_step": true,
+  "all_sampled_joints_legal": true,
+  "native_warnings": 0,
+  "observed_arm_min_q": {
+    "x5_joint2": 0.895556927934316,
+    "x5_joint3": 0.8204844021740783
+  },
+  "same_actual_mjData_and_initial_q": true,
+  "G1": "NOT_RUN",
+  "quality_retry_same_version": false,
+  "next_version_basis": "Original stand home is forced through 1s crouched GetUp(1.36,-2.65); floor contact base_link at .94s. V2 uses existing RLLocomotion state via existing RequestStateChange after InitControl while paused; no controller state laws or pose/gain changes.",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

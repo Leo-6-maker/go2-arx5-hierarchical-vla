@@ -1,0 +1,18 @@
+{
+  "parent_contract": "LOAD_INIT_CONTRACT.json",
+  "variant": "V2_MPC_INITIAL_ARM_PAUSED_NATIVE_LOCOMOTION_HOLD",
+  "change": "Bootstrap existing RLLocomotion after native initialization while paused, not GetUp crouch; existing key2 HOLD then ENTER;5s native locomotion then WBC10s",
+  "source_binding": "fsm.hpp RequestStateChange lines46-60 and fsm_go2_x5.hpp RLLocomotion Enter/Run lines207-279",
+  "initial_pose_unchanged": [
+    0,
+    0.9,
+    0.9,
+    0,
+    0,
+    0
+  ],
+  "core_laws_gains_weights_normalizer_unchanged": true,
+  "runtime_Passive_safety_coupling_unchanged": true,
+  "hardware_startup_NOT_QUALIFIED": true,
+  "new_causal_version_not_same_FAIL_retry": true
+}
