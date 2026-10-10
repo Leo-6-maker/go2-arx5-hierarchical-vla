@@ -1,0 +1,20 @@
+{
+  "physics_integrations": 0,
+  "source_sha256": "784a0132fe61593b1a1c9581ae2dd8fc6ffcc0948c0d01304cfdd462e7ab3660",
+  "binary_sha256": "e8bcd005d80aafc07e8211f81af923bce56306dc8c1a783c6e41f9efdf198b85",
+  "scene_sha256": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+  "command": [
+    "g++",
+    "-O2",
+    "-std=c++17",
+    "-I/var/cache/users/liuyu-nfs/Projects/go2-arx5/executor-candidates/wbc-mujoco-6dd13098/wbc_mujoco_minimal/src/ctrl/rl_sar/library/mujoco/include",
+    "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0288/initialization-repair/audit_home.cpp",
+    "-L/var/cache/users/liuyu-nfs/Projects/go2-arx5/executor-candidates/wbc-mujoco-6dd13098/wbc_mujoco_minimal/src/ctrl/rl_sar/library/mujoco/lib",
+    "-Wl,-rpath,/var/cache/users/liuyu-nfs/Projects/go2-arx5/executor-candidates/wbc-mujoco-6dd13098/wbc_mujoco_minimal/src/ctrl/rl_sar/library/mujoco/lib",
+    "-lmujoco",
+    "-o",
+    "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0288/initialization-repair/audit_home"
+  ],
+  "exit_code": 0,
+  "unix_time": 1791593317.2712333
+}

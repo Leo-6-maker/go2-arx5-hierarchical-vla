@@ -31,7 +31,7 @@ def main():
     p.add_argument('--mode',choices=['interface-tests','native-reference','task-reference','teacher-dev','teacher-pilot','collect'],required=True)
     p.add_argument('--condition',choices=CONDITIONS,default=CONDITIONS[0]);args=p.parse_args()
     root=Path(args.root);config=json.loads(Path(args.config).read_text());private=Path(config['private_root'])
-    for name in ['runtime','evidence']:(root/name).mkdir(parents=True,exist_ok=True)
+    for name in ['runtime','runtime/tmp','runtime/ros-logs','evidence']:(root/name).mkdir(parents=True,exist_ok=True)
     lease=(root/'runtime/lease').open('a');fcntl.flock(lease,fcntl.LOCK_EX|fcntl.LOCK_NB)
     if args.mode not in ['interface-tests','native-reference']:
         raise RuntimeError('G1/G2 upstream receipts and verified gripper specification required before task execution')
@@ -40,9 +40,21 @@ def main():
         raise RuntimeError('Actual G0 clock receipt required')
     for relative, expected in config['core_hashes'].items():
         if hashlib.sha256((private/relative).read_bytes()).hexdigest()!=expected:raise RuntimeError('Core pin mismatch: '+relative)
-    audit=subprocess.run([str(root/'runtime/audit_model'),str(private/'src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/scene.xml')],capture_output=True,text=True,check=True)
+    initialization=config.get('initialization')
+    audit_binary=root/'runtime/audit_model'
+    sim_command=[str(private/'run.sh'),'sim']
+    if initialization:
+        if initialization['authorization']!='USER_DELEGATED_HOME_QUALIFICATION':raise RuntimeError('Initialization authorization missing')
+        for path,expected in initialization['pinned_files'].items():
+            if hashlib.sha256(Path(path).read_bytes()).hexdigest()!=expected:raise RuntimeError('Initialization pin mismatch: '+path)
+        audit_binary=Path(initialization['audit_binary'])
+        sim_command=[initialization['sim_binary'],'go2_x5','scene']
+    model_path=initialization['compiled_model'] if initialization else str(private/'src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/scene.xml')
+    audit=subprocess.run([str(audit_binary),model_path],capture_output=True,text=True,check=True)
     model_audit=json.loads(audit.stdout)
-    if model_audit['invalid_default_joint_count']:
+    if initialization and (model_audit['key']!='home' or model_audit['invalid_joint_count'] or model_audit['illegal_touching_contacts'] or not model_audit['finite'] or not model_audit['reset_exact']):
+        raise RuntimeError('PREEXECUTION_REJECTED: applied home contract failed')
+    if not initialization and model_audit['invalid_default_joint_count']:
         raise RuntimeError('PREEXECUTION_REJECTED: native default pose exceeds raw model limits; no pose substitution authorized')
     rclpy.init();node=rclpy.create_node('pi0288_owner')
     # ponytail: fresh whole stack per episode clears native warmstart/history/queues.
@@ -52,6 +64,10 @@ def main():
     episode=uuid.uuid4().hex;out=root/'evidence'/episode;out.mkdir()
     ledger_path=root/'evidence/BUDGET.json'
     ledger=json.loads(ledger_path.read_text()) if ledger_path.exists() else {'episodes':[]}
+    if initialization and args.mode=='interface-tests' and any(x.get('initialization_repair') and x.get('compiled_model_runtime') for x in ledger['episodes']):
+        raise RuntimeError('The single authorized native startup has already been charged')
+    if initialization and sum(bool(x.get('technical_replacement')) for x in ledger['episodes'])>=16:
+        raise RuntimeError('Technical replacement slots exhausted')
     category='setup' if args.mode=='interface-tests' else 'native_reference'
     if len(ledger['episodes'])>=180 or sum(x['category']==category for x in ledger['episodes'])>=(48 if category=='setup' else 6):raise RuntimeError('Episode category exhausted')
     if any(x['mode']==args.mode and x.get('condition')==args.condition and x.get('status') in ['PASS','QUALITY_FAIL','RUNNING'] for x in ledger['episodes']):raise RuntimeError('Do not repeat valid or active tuple')
@@ -60,8 +76,10 @@ def main():
     for k,v in reservation.items():
         if sum(x['reservation'][k] for x in ledger['episodes'])+v>caps[k]:raise RuntimeError('Budget cap '+k)
     entry=dict(episode=episode,category=category,mode=args.mode,condition=args.condition,reservation=reservation,status='RUNNING',out=str(out),start_wall_s=time.time())
+    if initialization:entry.update(initialization_repair=True,compiled_model_runtime=True,technical_replacement=args.mode=='interface-tests',config_sha256=hashlib.sha256(Path(args.config).read_bytes()).hexdigest())
     ledger['episodes'].append(entry);write(ledger_path,ledger)
     write(out/'START.json',entry)
+    write(out/'PREEXECUTION_AUDIT.json',dict(model_audit=model_audit,initialization=initialization,core_hashes=config['core_hashes']))
     raw=(out/'ros.jsonl').open('w');latest={};counts={};subs=[];processes=[];handles=[]
     def record(key,msg):
         counts[key]=counts.get(key,0)+1;latest[key]=(time.time(),time.monotonic(),msg)
@@ -85,9 +103,10 @@ def main():
     def key(value):msg=String();msg.data=value;keys.publish(msg)
     try:
         env=os.environ.copy();env.update(PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP='60000',PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'))
+        if initialization:env.update(PI0288_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0288_COMPILED_MODEL=initialization['compiled_model'])
         env['LD_PRELOAD']=str(root/'runtime/observer.so')
         h=(out/'sim.log').open('w');handles.append(h)
-        processes.append(subprocess.Popen(['xvfb-run','-a',str(private/'run.sh'),'sim'],cwd=private,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True))
+        processes.append(subprocess.Popen(['xvfb-run','-a',*sim_command],cwd=private,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True))
         env=os.environ.copy();env['PI0288_PLANNER_TRACE']=str(out/'planner.jsonl')
         env['PYTHONPATH']=str(root/'project-src/scripts/pi0288_mujoco/planner_observer')+':'+env.get('PYTHONPATH','')
         h=(out/'wbc.log').open('w');handles.append(h)

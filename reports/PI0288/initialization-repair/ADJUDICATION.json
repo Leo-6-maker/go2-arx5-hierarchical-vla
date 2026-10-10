@@ -1,0 +1,61 @@
+{
+  "status": "ENV_READY_INTERFACE_BLOCKED",
+  "initialization_cpu": "PASS",
+  "actual_native_initialization": "PASS_HOME_APPLIED",
+  "native_startup": "VALID_SAFETY_FAIL",
+  "episode": "53861d09823f4dbc8690e7cf24c4522d",
+  "stop_reason": "x5_joint3 below raw lower bound >1e-4 rad for continuous .020s",
+  "stop_step": 42,
+  "stop_sim_s": 0.084,
+  "violations": [
+    {
+      "joint": "x5_joint2",
+      "peak_positive_violation_rad": 0.000847216678609641,
+      "first_warning_sim_s": 0.08200000000000006,
+      "last_warning_sim_s": 0.08400000000000006,
+      "warning_steps": 2,
+      "ending_contiguous_warning_s": 0.004,
+      "immediate_threshold_events": [],
+      "sustained_stop_events": []
+    },
+    {
+      "joint": "x5_joint3",
+      "peak_positive_violation_rad": 0.0006616251710775618,
+      "first_warning_sim_s": 0.06600000000000004,
+      "last_warning_sim_s": 0.08400000000000006,
+      "warning_steps": 10,
+      "ending_contiguous_warning_s": 0.020000000000000004,
+      "immediate_threshold_events": [],
+      "sustained_stop_events": [
+        0.08400000000000006
+      ]
+    }
+  ],
+  "original_result": {
+    "status": "TECHNICAL_UNCLASSIFIED",
+    "episode": "53861d09823f4dbc8690e7cf24c4522d",
+    "error": "Native process exit",
+    "counts": {
+      "mode": 1,
+      "odom": 17,
+      "arm": 17
+    },
+    "service_s": 7.692607863107696,
+    "stop_wall_s": 1791593990.9282138,
+    "returncodes": [
+      139,
+      0
+    ],
+    "reset_method": "FRESH_WHOLE_STACK_NO_STATE_REUSE"
+  },
+  "shutdown_fault": "exit139 follows registered SIGINT; not the initiating safety cause",
+  "original_verdict_preserved": true,
+  "old_default_violation_preserved": true,
+  "G1": "NOT_RUN_UPSTREAM_STARTUP_FAILED",
+  "G2": "BLOCKED_DEPLOYMENT_GRIPPER_SPEC_INDEPENDENT",
+  "G3": "NOT_RUN",
+  "G4": "NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "quality_retry": false
+}
