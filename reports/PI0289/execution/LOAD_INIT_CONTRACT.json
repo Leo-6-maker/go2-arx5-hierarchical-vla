@@ -1,0 +1,265 @@
+{
+  "status": "CPU_PASS_NATIVE_NOT_RUN",
+  "variant": "V1_MPC_INITIAL_ARM_PAUSED_HOLD",
+  "authority": "PI0289_OCS2_MUJOCO_AUTONOMOUS_BRINGUP_AND_DATA_GO_V1",
+  "release": "1b9990c780e652a81cc585ef345af250de9bdfea",
+  "initial_state": {
+    "root": [
+      0,
+      0,
+      0.34,
+      1,
+      0,
+      0,
+      0
+    ],
+    "legs": [
+      0.1,
+      0.8,
+      -1.5,
+      -0.1,
+      0.8,
+      -1.5,
+      0.1,
+      1,
+      -1.5,
+      -0.1,
+      1,
+      -1.5
+    ],
+    "arm": [
+      0,
+      0.9,
+      0.9,
+      0,
+      0,
+      0
+    ],
+    "qvel": "ZERO",
+    "ctrl": "ZERO",
+    "time": 0
+  },
+  "source": "Delivered task_floating.info initialState.arm lines182-192; base and legs remain delivered home",
+  "startup_sequence": [
+    "Paused before PhysicsThread; simulation_running=false",
+    "Actual feedback ready at simtime0",
+    "Original key0 GetUp",
+    "Original key2 HOLD; check latched actual .9/.9 and fixed kp/kd at simtime0",
+    "Original ENTER unpause; safety armed before first integration",
+    "Complete original GetUp4s -> key1 locomotion5s -> key5 WBC",
+    "At least10s safe WBC hold, no mode loss"
+  ],
+  "margin": [
+    {
+      "name": "FL_hip_joint",
+      "q": 0.1,
+      "lower": -1.0472,
+      "upper": 1.0472,
+      "lower_margin": 1.1472,
+      "upper_margin": 0.9471999999999999,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -1.597612815808406e-15
+    },
+    {
+      "name": "FL_thigh_joint",
+      "q": 0.8,
+      "lower": -1.5708,
+      "upper": 3.4907,
+      "lower_margin": 2.3708,
+      "upper_margin": 2.6906999999999996,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 7.772055097369968e-16
+    },
+    {
+      "name": "FL_calf_joint",
+      "q": -1.5,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "lower_margin": 1.2227000000000001,
+      "upper_margin": 0.66224,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 7.436420290630519e-16
+    },
+    {
+      "name": "FR_hip_joint",
+      "q": -0.1,
+      "lower": -1.0472,
+      "upper": 1.0472,
+      "lower_margin": 0.9471999999999999,
+      "upper_margin": 1.1472,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 1.77662051399103e-15
+    },
+    {
+      "name": "FR_thigh_joint",
+      "q": 0.8,
+      "lower": -1.5708,
+      "upper": 3.4907,
+      "lower_margin": 2.3708,
+      "upper_margin": 2.6906999999999996,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 7.355741120971996e-16
+    },
+    {
+      "name": "FR_calf_joint",
+      "q": -1.5,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "lower_margin": 1.2227000000000001,
+      "upper_margin": 0.66224,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 7.452388336900053e-16
+    },
+    {
+      "name": "RL_hip_joint",
+      "q": 0.1,
+      "lower": -1.0472,
+      "upper": 1.0472,
+      "lower_margin": 1.1472,
+      "upper_margin": 0.9471999999999999,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -2.485986136889445e-15
+    },
+    {
+      "name": "RL_thigh_joint",
+      "q": 1,
+      "lower": -0.5236,
+      "upper": 4.5379,
+      "lower_margin": 1.5236,
+      "upper_margin": 3.5378999999999996,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -2.4989406703056175e-15
+    },
+    {
+      "name": "RL_calf_joint",
+      "q": -1.5,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "lower_margin": 1.2227000000000001,
+      "upper_margin": 0.66224,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 3.6458168714488183e-16
+    },
+    {
+      "name": "RR_hip_joint",
+      "q": -0.1,
+      "lower": -1.0472,
+      "upper": 1.0472,
+      "lower_margin": 0.9471999999999999,
+      "upper_margin": 1.1472,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 1.8381253024207576e-15
+    },
+    {
+      "name": "RR_thigh_joint",
+      "q": 1,
+      "lower": -0.5236,
+      "upper": 4.5379,
+      "lower_margin": 1.5236,
+      "upper_margin": 3.5378999999999996,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -2.418180609605186e-15
+    },
+    {
+      "name": "RR_calf_joint",
+      "q": -1.5,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "lower_margin": 1.2227000000000001,
+      "upper_margin": 0.66224,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 3.37195298297981e-16
+    },
+    {
+      "name": "x5_joint1",
+      "q": 0,
+      "lower": -2.094,
+      "upper": 3.14159,
+      "lower_margin": 2.094,
+      "upper_margin": 3.14159,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": 7.327656013676376e-16
+    },
+    {
+      "name": "x5_joint2",
+      "q": 0.9,
+      "lower": 0,
+      "upper": 3.665,
+      "lower_margin": 0.9,
+      "upper_margin": 2.765,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -6.7531684312915e-16
+    },
+    {
+      "name": "x5_joint3",
+      "q": 0.9,
+      "lower": 0,
+      "upper": 3.24,
+      "lower_margin": 0.9,
+      "upper_margin": 2.3400000000000003,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -8.960332601656989e-15
+    },
+    {
+      "name": "x5_joint4",
+      "q": 0,
+      "lower": -1.671,
+      "upper": 1.671,
+      "lower_margin": 1.671,
+      "upper_margin": 1.671,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -1.1982988990287192e-14
+    },
+    {
+      "name": "x5_joint5",
+      "q": 0,
+      "lower": -1.671,
+      "upper": 1.671,
+      "lower_margin": 1.671,
+      "upper_margin": 1.671,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -2.763241039563083e-16
+    },
+    {
+      "name": "x5_joint6",
+      "q": 0,
+      "lower": -2.094,
+      "upper": 2.094,
+      "lower_margin": 2.094,
+      "upper_margin": 2.094,
+      "qvel": 0,
+      "qacc_at_zero_ctrl": -3.778233530127132e-17
+    }
+  ],
+  "feet": [
+    {
+      "name": "FL",
+      "center_z": 0.03849743062549982,
+      "floor_distance": 0.01649743062549982
+    },
+    {
+      "name": "FR",
+      "center_z": 0.03849743062549982,
+      "floor_distance": 0.01649743062549982
+    },
+    {
+      "name": "RL",
+      "center_z": 0.04807934307223058,
+      "floor_distance": 0.02607934307223058
+    },
+    {
+      "name": "RR",
+      "center_z": 0.04807934307223058,
+      "floor_distance": 0.02607934307223058
+    }
+  ],
+  "contacts": [],
+  "no_deployment_nominal_pose_claim": true,
+  "no_algorithm_gain_normalizer_changes": true,
+  "no_base_pin": true,
+  "no_pose_seed_sweep": true,
+  "parent42_original_force_channels": "UNOBSERVED",
+  "cpu_force_reconstruction_not_unique_cause_proof": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
