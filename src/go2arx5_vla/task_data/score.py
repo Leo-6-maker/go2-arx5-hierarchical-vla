@@ -12,6 +12,19 @@ def saved_score(folder):
     root=Path(folder);card=json.loads((root/'CARD.json').read_text())
     with np.load(root/'physics.npz',allow_pickle=False) as data:arrays={k:data[k].copy() for k in data.files}
     complete=bool(len(arrays['time_s'])==641)
+    if card['mode']=='empty_grasp':
+        t=arrays['time_s'];grasp=arrays['native_grasp'];run=0;maximum=0
+        for value in grasp:
+            run=run+1 if value else 0;maximum=max(maximum,run)
+        result=dict(task_id=TASK,domain='INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME',
+            fixture='EMPTY_GRASP_CONTACT_NEGATIVE_NOT_A_T1_QUALITY_LAYOUT',
+            original_source_shift_m=.22,complete_32s=complete and abs(float(t[-1])-32)<1e-8,
+            safety_valid=bool(arrays['safety_valid'].all()),
+            history=dict(sustained_grasp=bool(maximum>=7),sustained_lift=False,horizontal_carry=False),
+            actual_grasp_samples=int(grasp.sum()),left_contact_samples=int(arrays['left_object_contact'].sum()),
+            right_contact_samples=int(arrays['right_object_contact'].sum()),persistent_success=False,
+            physics_sha256=file_hash(root/'physics.npz'),raw_sample_count=len(t),selected='NONE',deployment='NONE')
+        write(root/'SCORE.json',result);return result
     result=score_episode(arrays,goal_center=[*card['goal_xy'],P['table_top']+.02],
         initial_object_pose=arrays['object_pose'][0],table_height_m=P['table_top'],complete=complete,
         evidence_source='REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL')

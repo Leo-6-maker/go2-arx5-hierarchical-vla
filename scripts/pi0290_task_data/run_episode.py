@@ -115,10 +115,12 @@ def run(root,identifier,source,mode,backend):
             paired_samples=len(samples),GPU_service_s=GPU_s,render_backend=backend,domain=DOMAIN,selected='NONE',deployment='NONE')
         write(folder/'RESULT.json',result)
         budget.progress(identifier,result['physics_steps'],len(samples))
-        if physical:
-            score=saved_score(folder);result['score']=score
-        write(folder/'RESULT.json',result);write(folder/'FILE_MANIFEST.json',manifest(folder))
-        budget.finish(identifier,status,GPU_s)
+        try:
+            if physical:
+                score=saved_score(folder);result['score']=score
+            write(folder/'RESULT.json',result);write(folder/'FILE_MANIFEST.json',manifest(folder))
+        finally:
+            budget.finish(identifier,status,GPU_s)
         print(__import__('json').dumps(jsonable(result)),flush=True)
     return result
 
