@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 import xml.etree.ElementTree as ET
 import numpy as np
 
@@ -22,7 +23,10 @@ def _quat_product(a, b):
 def xml_scene(card, asset_root, parameters):
     root_path = Path(asset_root).resolve()
     source = root_path / 'go2_x5.xml'
-    root = ET.parse(source).getroot()
+    # Delivered MuJoCo comments contain XML-forbidden internal "--". Remove
+    # comments only before structured parsing; the original file remains intact.
+    source_text = re.sub(r'<!--.*?-->', '', source.read_text(), flags=re.DOTALL)
+    root = ET.fromstring(source_text)
     root.set('model', 'PI0291_FIXED_BASE_ARX5_TASK_SIM')
     root.find('compiler').set('meshdir', str(root_path / 'assets'))
     option = root.find('option')
