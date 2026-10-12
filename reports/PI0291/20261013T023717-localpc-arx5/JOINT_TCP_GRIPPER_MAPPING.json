@@ -296,10 +296,11 @@
     "this_mapping_physical_evidence": "V1 C29100 source 302ad022f3d3a74dcaba72aa46e59282effad215",
     "pre_pilot_V2": {
       "version": "PI0291_REAL_CHAIN_V2_EXACT_TARGET_IK_CACHE",
-      "change": "exact-target IK cache and duplicate-forward removal only",
+      "change": "exact-target IK cache only; proposed duplicate-forward removal rejected after first strict diagnostic failure",
       "unchanged": "six IK iterations, solver thresholds, motor force/slew, geometry, each2ms state/contact/safety, cameras, codec, scoring",
       "cache_invalidation": "any exact target matrix change or explicit reset; initialized empty",
       "bitwise_IK_trajectory_equivalence_claim": false,
+      "forward_solver_behavior": "Original explicit step mj_forward and subsequent snapshot mj_forward restored; no equivalence threshold relaxed",
       "qualification": "Requires owner's independent benchmark receipt and distinct C29103 physical source/hash; not established by these V1 N1 facts"
     },
     "finite_motor_torque": "clip(kp*(slewed_q_target-actual_q)+actual qfrc_bias, delivered effort limits)",

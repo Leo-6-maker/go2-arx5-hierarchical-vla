@@ -1,0 +1,49 @@
+{
+  "schema": "PHASE2_ACTUAL_SANITIZED_RECEIPT_V1",
+  "status": "PARTIAL_WITH_SKIPS",
+  "session": "20261013T023717-localpc-arx5",
+  "prepared_utc": "2026-10-12T19:08:36.389776+00:00",
+  "scope": "Existing bounded maintenance GO and exact stopped-process addendum; no new scientific authorization",
+  "M0": "PASS_SOURCE_PIN_AND_COMPLETE_STRUCTURED_RECONCILIATION",
+  "M1": "22_OF_24_COPY_READBACK_VERIFIED_ALL_SOURCES_RETAINED",
+  "M2": "NO_FILES_DELETED_TWO_VERIFIED_STOPPED_IDENTITIES_SIGNALED_WITH_FD_VISIBILITY_CAVEAT",
+  "M3": "ACTUAL_HOST_AWARE_PRIVATE_NAVIGATION_WRITTEN_AND_READ_BACK_PUBLICATION_PENDING",
+  "copy": {
+    "copied_verified_candidates": 22,
+    "skipped_candidates": 2,
+    "regular_files_copied_verified": 2206,
+    "logical_bytes_copied": 140069069,
+    "destination_regular_file_allocated_bytes": 144109568
+  },
+  "file_deletions": 0,
+  "cache_candidates_skipped": 9,
+  "derived_view_deletions": 0,
+  "process_individual_signals": 2,
+  "process_exit_observed": 2,
+  "other_processes_signaled": 0,
+  "phase2_new_freed_allocated_bytes": 0,
+  "earlier_phase1": {
+    "already_freed_allocated_bytes": 44017266688,
+    "allocated_GiB": 40.9942741394043,
+    "repeat_or_recount": false,
+    "public_receipt": "reports/maintenance/2026-10-13-corelab-storage/ACTUAL_RECEIPT.json"
+  },
+  "CPU_accounting": 32.452880115,
+  "navigation_readback": "NAVIGATION_READBACK.json",
+  "private_receipt_sha256": {
+    "MIGRATION_COPY_PRIVATE.json": "6ede2247639aad07e90094753da2ab544590f8a1e32d5b7f7d7e182196321593",
+    "PROCESS_RETIREMENT_PRIVATE.json": "8b5a3d97b737587c258755b89974c641dc5649d0461504132e96cc76a6af1897",
+    "PROCESS_RETIREMENT_FINAL_PRIVATE.json": "f7f7a4d442d2e1adf772b9d60d592943e73ed27068e594094f4ce63f73890448",
+    "ARCHIVE_POST_ONLY_PRIVATE.json": "89cb1c5306320f05ec417e2317b63023405e4caf8690dd93314ee3491ddce69b"
+  },
+  "source_and_execution_identity": "SOURCE_AUDIT_SHA.json",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "GitHub_comment_and_readback": "OWNER_PENDING_NOT_CLAIMED",
+  "remaining": [
+    "Permission-limited FD visibility after child exit",
+    "Nine cache and two static-reference copy candidates skipped",
+    "No eligible new model view",
+    "Quota and bounded static references unresolved"
+  ]
+}

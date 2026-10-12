@@ -1,0 +1,53 @@
+{
+  "schema": "PHASE2_SOURCE_AUDIT_SHA_V1",
+  "status": "PASS_RECONCILED_ALL_448_ENTRIES",
+  "original_files": {
+    "AUDIT_REPORT.md": {
+      "sha256": "48563f85e9f5ec9593e93113a126a6b8cc2403bd0a57443d90cacb66b218e38e",
+      "bytes": 10405
+    },
+    "FULL_STORAGE_INVENTORY.csv": {
+      "sha256": "078afa239879295c3aceaba251ffb1b0911ab365f3363c1b8c42c10ba29b885b",
+      "bytes": 421530
+    },
+    "RETENTION_PLAN.json": {
+      "sha256": "6479293982cfd1df00dff127484cf5662ead98e28acefa0ac6d488eda3e195f3",
+      "bytes": 2559381
+    },
+    "README_STORAGE.md": {
+      "sha256": "1977598ae11f250234af4aee5699a1499a99ebf24ad032bc3d97c45f5a77ad2c",
+      "bytes": 7128
+    },
+    "validate_run_paths.py": {
+      "sha256": "f7c5574037952b6a1b561ad4aa9cd2928821acea1a6cd8b14117c6539e175a4b",
+      "bytes": 3701
+    },
+    "PILOT_SOURCE_MANIFEST.json": {
+      "sha256": "ef4c41f736540d87b8f591e180c8712276aa99066dd7155e88c1e80861b2b8cf",
+      "bytes": 1686
+    },
+    "MIGRATION_PILOT_PLAN.json": {
+      "sha256": "8effe90f167d0184a598316a4bf6c5f9406fb10df8454dee2aabe152c853f8f8",
+      "bytes": 686
+    },
+    "CHECKPOINT_INDEX.json": {
+      "sha256": "d2b0946f05220aa88a9271151b3d183c097818ae05b5af5d59b182a557ed52e1",
+      "bytes": 48591
+    },
+    "PI0276_ARCHIVE_STATUS.json": {
+      "sha256": "37a7a7a641c64177e1ee066b72e7a70e365259ad9605b5ff2a501d8db79d9fce",
+      "bytes": 5707
+    }
+  },
+  "source_originals_modified": false,
+  "reconciliation": "Complete JSON parse and complete CSV parse; every 448 node/path record compared.",
+  "source_paths": "PRIVATE_LOCAL_ONLY",
+  "run_script_identity_type": "SHA256_OF_PRIVATE_EXECUTION_SOURCE_NOT_GIT_COMMIT",
+  "private_source_file_sha256": {
+    "copy_only.py": "5b4b0f88312ed4714eb3f971d231c67391335cc32e56d9615068b66bd09c770e",
+    "retire_exact_stopped.py": "7c7676614b833a3c0f207b8d595187a537602f66b357e4baf1efecd916c6fcb6",
+    "resume_parent_retirement.py": "9ead1d90b560d80be8fad7eb1bc15972f5ae0e433218e74ba3f483bb3bc3a2b5"
+  },
+  "run_git_sha": "NOT_APPLICABLE_PRIVATE_MAINTENANCE_SCRIPTS",
+  "published_repo_context_sha": "4b8929174d124520d348855614e4639d48a0870c"
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "PHASE2_RETENTION_DECISIONS_SUMMARY_V1",
+  "status": "PARTIAL_WITH_SKIPS",
+  "original_inventory_entries": 448,
+  "original_regular_file_count_sum": 1812834,
+  "original_decision_counts": {
+    "REVIEW": 343,
+    "KEEP": 72,
+    "MIGRATE": 24,
+    "CACHE_DELETE": 9
+  },
+  "migration": {
+    "original_candidates": 24,
+    "copied_verified": 22,
+    "skipped": 2,
+    "all_sources_retained": true
+  },
+  "caches": {
+    "original_candidates": 9,
+    "deleted": 0,
+    "skipped": 9,
+    "original_allocated_bytes": 7163904,
+    "reasons": [
+      "Affirmative exact rebuild/recovery proof incomplete",
+      "Current cross-node reference inspection has permission gaps",
+      "Potential cache lock/creation metadata must not be silently treated as disposable"
+    ],
+    "candidate_details": [
+      {
+        "candidate_id": "CACHE_01",
+        "node": "corelab-amd-server",
+        "original_regular_files": 5,
+        "original_allocated_bytes": 3297280,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_02",
+        "node": "corelab-amd-server",
+        "original_regular_files": 2,
+        "original_allocated_bytes": 8192,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_03",
+        "node": "corelab-amd-server",
+        "original_regular_files": 0,
+        "original_allocated_bytes": 4096,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_04",
+        "node": "corelab-amd-server",
+        "original_regular_files": 0,
+        "original_allocated_bytes": 8192,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_05",
+        "node": "corelab-4080s",
+        "original_regular_files": 3,
+        "original_allocated_bytes": 520192,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_06",
+        "node": "corelab-4080s",
+        "original_regular_files": 0,
+        "original_allocated_bytes": 4096,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_07",
+        "node": "corelab-4080s",
+        "original_regular_files": 0,
+        "original_allocated_bytes": 4096,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_08",
+        "node": "corelab-4080s",
+        "original_regular_files": 5,
+        "original_allocated_bytes": 3309568,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      },
+      {
+        "candidate_id": "CACHE_09",
+        "node": "corelab-4080s",
+        "original_regular_files": 0,
+        "original_allocated_bytes": 8192,
+        "status": "SKIP_PERMISSION_OR_RECOVERY_UNPROVEN"
+      }
+    ]
+  },
+  "new_derived_model_views": {
+    "cap": 2,
+    "eligible_proven": 0,
+    "deleted": 0,
+    "reason": "No source audit checkpoint entry proves a newly eligible derived view with full independent immutable recovery."
+  },
+  "checkpoints": {
+    "original_index_entries": 50,
+    "weights_or_partial_trainer_not_resume_verified": 48,
+    "full_trainer_components_not_resume_verified": 2,
+    "checkpoint_entries_deleted": 0
+  },
+  "immutable_protect": [
+    "PI0250",
+    "PI0276",
+    "PI0290",
+    "PI0291 active collection paths",
+    "PI0209 UNKNOWN_HOLD",
+    "private WBC originals",
+    "unique/full Trainer originals",
+    "raw RGB/physics/videos and failure evidence"
+  ],
+  "unknown_hold_original_entries": 343,
+  "no_whole_population_recrawl": true
+}

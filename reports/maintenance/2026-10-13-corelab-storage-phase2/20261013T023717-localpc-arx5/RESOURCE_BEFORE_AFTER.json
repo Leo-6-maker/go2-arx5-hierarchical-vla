@@ -1,0 +1,43 @@
+{
+  "schema": "PHASE2_RESOURCE_BEFORE_AFTER_V1",
+  "status": "NO_RECLAMATION_CLAIM",
+  "baseline": "Original audit snapshots, not a synchronized immediate-before df sample.",
+  "original_audit_available_GiB_display": {
+    "shared_NFS": 1395.8,
+    "4080S_SSD": 536.38
+  },
+  "post_only_utc": "2026-10-12T19:05:01.507881+00:00",
+  "post_only": [
+    {
+      "storage_role": "shared_NFS",
+      "filesystem_total_bytes": 4000785104896,
+      "filesystem_free_bytes": 1497686343680,
+      "available_bytes": 1497686343680,
+      "inodes_free_raw": 0,
+      "personal_quota": "UNKNOWN"
+    },
+    {
+      "storage_role": "4080S_SSD",
+      "filesystem_total_bytes": 1905283825664,
+      "filesystem_free_bytes": 574984302592,
+      "available_bytes": 574984302592,
+      "inodes_free_raw": 113932773,
+      "personal_quota": "UNKNOWN"
+    }
+  ],
+  "NFS_inode_note": "NFS raw inode-availability value zero is not proof of exhaustion; unsupported/unknown.",
+  "phase2_new_freed_allocated_bytes": 0,
+  "copied_regular_file_allocated_bytes_added": 144109568,
+  "df_difference_attribution": "NOT_CLAIMED_OTHER_WRITERS_AND_NON_SYNCHRONOUS_BASELINE",
+  "known_measured_CPU_s": 2.4300964009999997,
+  "additional_unmetered_CPU_s_conservative_upper_bound": 30,
+  "charged_upper_CPU_s": 32.430096401,
+  "accounting_note": "Owner aggregates this bound once into PI0291 ledger; includes initial partial retirement and tiny read probes, not an observed utilization metric.",
+  "scientific_compute_in_this_maintenance": {
+    "physics_integrations": 0,
+    "GPU_s": 0,
+    "model_load_forward_train": 0,
+    "Hopper_new_PBS": 0
+  },
+  "personal_quota": "UNKNOWN"
+}

@@ -1,0 +1,38 @@
+{
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "authority_sha": "15cc7957488fb879f5f050e3602327592da7036b",
+  "scope": "PRE_PILOT_ZERO_INTEGRATION_DRIVER_ENGINEERING",
+  "same_class_diagnostic_limit": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "source_sha": "3f8692c94ffcf65c0ef475e3b48d2ba37dfe9be2",
+      "input_episode": "C29100",
+      "input_physical_source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+      "script": "scripts/pi0291_arx5_data/benchmark_driver_cache.py",
+      "actual_exit_code": 1,
+      "status": "FAILED_STRICT_DUPLICATE_FORWARD_EQUIVALENCE_ASSERTION",
+      "sanitized_error": "AssertionError: assert max_snapshot_error < 1e-12 and max_contact_error < 1e-10",
+      "numeric_receipt_written": false,
+      "failed_component": "At least one state/contact-force threshold failed; per-field attribution not available from failed attempt",
+      "physics_steps": 0,
+      "render_pairs": 0,
+      "new_episode_starts": 0,
+      "CPU_s": "UNKNOWN; owner accounting must preserve measured or conservative bound, not replace with zero",
+      "proposal_disposition": "Duplicate-forward removal REJECTED; original solver/forward sequence restored",
+      "source_originals_preserved": true
+    }
+  ],
+  "second_diagnostic": {
+    "status": "OWNER_PENDING_ON_NEW_SOURCE",
+    "purpose": "Persist per-field non-equivalence evidence and independent IK-cache metrics; no changed threshold or third unchanged diagnostic",
+    "forward_thresholds_unchanged": {
+      "snapshot_abs": 1e-12,
+      "contact_force_N": 1e-10
+    },
+    "accepted_candidate_change": "Exact-target IK cache only; physical commissioning remains required"
+  },
+  "scientific_quality_claim": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

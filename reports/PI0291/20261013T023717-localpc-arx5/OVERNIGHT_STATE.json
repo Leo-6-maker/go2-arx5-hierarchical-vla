@@ -7,12 +7,18 @@
   "T0_utc": "2026-10-12T18:37:17Z",
   "deadline_utc": "2026-10-13T00:37:17Z",
   "physics_cutoff_utc": "2026-10-12T23:52:17Z",
-  "phase": "N0",
+  "phase": "N2_PRE_PILOT_COMMISSIONING",
   "owner": "EXISTING_LOCAL_PC",
   "resumption_resets_budget": false,
-  "new_physics_starts": 0,
-  "new_integrations": 0,
+  "new_physics_starts": 4,
+  "completed_physics_starts": 3,
+  "completed_integrations": 48000,
+  "live_attempt": "C29103",
+  "live_attempt_source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "counter_authority": "Corelab persistent RESOURCE_ACCOUNTING.json includes live attempt progress; this is a milestone snapshot",
+  "commissioning": "C29100 actual success; C29101 empty-grasp negative; C29102 single-side negative",
+  "native_CPU_precheck": "PASS_ACTUAL_ARX5_COMMISSIONING_DIAGNOSTIC_NOT_ADMITTED",
   "selected": "NONE",
   "deployment": "NONE",
-  "next": "Compile isolated real-asset ARX5 scene, static FK/IK and camera checks before commissioning"
+  "next": "Finish distinct C29103 IK-cache driver qualification, immutable seal and eight first-attempt pilots; no formal expansion until eight raw audits and score gate pass"
 }

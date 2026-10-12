@@ -28,9 +28,11 @@ Finger masses/inertias are delivered native values. Added finite pad boxes, thei
 
 ### Pre-Pilot V2 Performance Engineering
 
-After preserving the actual C29100/C29101/C29102 V1 originals, the owner approved `PI0291_REAL_CHAIN_V2_EXACT_TARGET_IK_CACHE` before any pilot. V2 reuses the six-iteration IK solution while the exact committed EEF target matrix is unchanged, invalidates on any target change or explicit cache reset, and removes one redundant `mj_forward` immediately before the snapshot's own forward. Each 2 ms motor slew, force clipping, actual state/contact reconstruction and safety check remains. The arm/cube physical state is never rewritten by this cache.
+After preserving the actual C29100/C29101/C29102 V1 originals, the owner approved `PI0291_REAL_CHAIN_V2_EXACT_TARGET_IK_CACHE` before any pilot. V2 reuses the six-iteration IK solution while the exact committed EEF target matrix is unchanged and invalidates on any target change or explicit cache reset. Each 2 ms motor slew, force clipping, actual state/contact reconstruction and safety check remains. The arm/cube physical state is never rewritten by this cache.
 
 The IK warm-start numerical trajectory is not asserted bitwise equivalent to V1; V2 is an explicitly new pre-pilot driver identity, not a post-seal logging patch. The independent zero-integration `benchmark_driver_cache.py` checks saved C29100 commands, actual-state snapshot/contact equivalence for duplicate-forward removal, cache invalidation, independent FK residuals and measured CPU performance. Its actual receipt and a distinct C29103 physical qualification must be bound by the owner before V2 pilot admission. This N1 C29100 success and original source/physics hashes remain unchanged.
+
+The first zero-step benchmark at source `3f8692c94ffcf65c0ef475e3b48d2ba37dfe9be2` failed its strict combined duplicate-forward equivalence assertion before writing numeric metrics. The proposed forward removal is rejected: the original explicit step `mj_forward` followed by the snapshot's `mj_forward` has been restored. No threshold is relaxed to label that proposal equivalent. A second bounded diagnostic preserves per-field/contact error metrics, the original 1e-12 state / 1e-10 N force criteria, and separate cache gates even when forward equivalence fails. The accepted V2 performance change is IK caching only, pending its distinct commissioning qualification.
 
 ## Task And Sensors
 

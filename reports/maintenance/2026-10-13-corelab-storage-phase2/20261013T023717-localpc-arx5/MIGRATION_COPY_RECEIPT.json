@@ -1,0 +1,40 @@
+{
+  "schema": "PHASE2_MIGRATION_COPY_RECEIPT_V1",
+  "status": "PARTIAL_WITH_SKIPS",
+  "source_private_receipt_sha256": "6ede2247639aad07e90094753da2ab544590f8a1e32d5b7f7d7e182196321593",
+  "pilot_files": 7,
+  "pilot_full_content_readback": "PASS",
+  "original_candidates": 24,
+  "copied_verified_candidates": 22,
+  "skipped_candidates": 2,
+  "regular_files_copied_verified": 2206,
+  "logical_bytes_copied": 140069069,
+  "source_regular_file_allocated_bytes": 144109568,
+  "destination_regular_file_allocated_bytes": 144109568,
+  "already_identical_files": 0,
+  "source_deletions": 0,
+  "freed_allocated_bytes": 0,
+  "same_shared_NFS": "Source and copied destination reside on the same AMD shared filesystem; copied data increases occupied space.",
+  "verification": "Each copied regular file: source pre/post identity and SHA256, destination SHA256, rights check; final source file-set and full hash reread.",
+  "not_claimed": [
+    "complete directory metadata clone",
+    "empty-directory migration",
+    "source removal",
+    "disk reclamation"
+  ],
+  "skips": [
+    {
+      "candidate": "MIGRATE_STATIC_REF_01",
+      "reason": "external static references not individually resolved; source protected",
+      "known_external_static_references": 2,
+      "source_retained": true
+    },
+    {
+      "candidate": "MIGRATE_STATIC_REF_02",
+      "reason": "external static references not individually resolved; source protected",
+      "known_external_static_references": 2,
+      "source_retained": true
+    }
+  ],
+  "CPU_s_measured": 2.37597005
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "PHASE2_PROCESS_RETIREMENT_RECEIPT_V1",
+  "status": "EXIT_OBSERVED_WITH_FD_PERMISSION_CAVEAT",
+  "partial_private_receipt_sha256": "8b5a3d97b737587c258755b89974c641dc5649d0461504132e96cc76a6af1897",
+  "final_private_receipt_sha256": "f7f7a4d442d2e1adf772b9d60d592943e73ed27068e594094f4ce63f73890448",
+  "original_partial_error": "Leaf exit was signaled successfully; reading its post-exit FD directory raised PermissionError. Partial receipt retained.",
+  "continuation": "No leaf re-signal. Remaining exact stopped parent identity revalidated in two observations, then individually signaled.",
+  "identity_gate": "Own UID, exact start ticks/executable/commandline/cwd/parent relationship and state T/t verified against pinned earlier observations; pidfd recheck immediately before each signal.",
+  "signals": [
+    {
+      "historical_pid_locator": 3455362,
+      "start_time_ticks": 105137443,
+      "signal": "SIGKILL_INDIVIDUAL_PIDFD",
+      "state_after": "Z",
+      "exit_observed": true,
+      "FD_visibility": "UNKNOWN_PERMISSION"
+    },
+    {
+      "historical_pid_locator": 3455361,
+      "start_time_ticks": 105137441,
+      "signal": "SIGKILL_INDIVIDUAL_PIDFD",
+      "state_after": "ABSENT",
+      "exit_observed": true,
+      "FD_visibility": "UNKNOWN_IF_ZOMBIE_PROC_PERMISSION"
+    }
+  ],
+  "individual_signals": 2,
+  "other_processes_signaled": 0,
+  "process_group_signals": 0,
+  "SIGCONT": 0,
+  "preserved_logs": {
+    "count": 3,
+    "logical_bytes": 3591251,
+    "all_log_content_sha256_unchanged": true,
+    "all_log_metadata_unchanged": true,
+    "paths_and_FDs": "PRIVATE_ONLY"
+  },
+  "large_archives": {
+    "count_current_stat": 2,
+    "status": "POST_ONLY_METADATA_OBSERVED_NOT_PRE_POST_VERIFIED",
+    "files": [
+      {
+        "alias": "PI0276_predictions_archive",
+        "logical_bytes": 120083937280,
+        "allocated_bytes": 120083951616,
+        "content_hash": "NOT_RUN",
+        "metadata_matches_original_audit_size": true
+      },
+      {
+        "alias": "PI0276_source_archive",
+        "logical_bytes": 119441582080,
+        "allocated_bytes": 119441596416,
+        "content_hash": "NOT_RUN",
+        "metadata_matches_original_audit_size": true
+      }
+    ],
+    "no_archive_content_rehash": true,
+    "original_retirement_script_tar_glob": "Matched no nested tar files; only three logs were in its preservation list.",
+    "no_claim": "Do not use the private generic archives_metadata_unchanged flag to claim 111-GiB archives were checked before and after."
+  },
+  "file_deletions": 0,
+  "freed_allocated_bytes": 0,
+  "PI0250_PI0276_file_protection": "UNCHANGED",
+  "CPU_s_measured_final_continuation_only": 0.006417701999999997,
+  "initial_partial_CPU_s": "NOT_METERED_USE_UPPER_BOUND"
+}
