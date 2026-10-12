@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location('binding',Path(__file__).with_name('bind_consumer.py'))
 binding = importlib.util.module_from_spec(spec)
@@ -49,6 +50,24 @@ class BindingTests(unittest.TestCase):
             (raw/'T291000/physics.npz').write_bytes(b'wrong bytes')
             with self.assertRaises(AssertionError):
                 binding.bind(native,raw,root/'consumer',['T291000'])
+
+    def test_wrong_native_hash_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            native,raw = self.fixture(root)
+            (native/'episodes/T291000.npz').write_bytes(b'wrong export bytes')
+            with self.assertRaises(AssertionError):
+                binding.bind(native,raw,root/'consumer',['T291000'])
+
+    def test_copy_corruption_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            native,raw = self.fixture(root)
+            def corrupt(source, destination):
+                Path(destination).write_bytes(b'unit simulated bad copy')
+            with patch.object(binding.shutil,'copy2',side_effect=corrupt):
+                with self.assertRaises(AssertionError):
+                    binding.bind(native,raw,root/'consumer',['T291000'])
 
 
 if __name__ == '__main__':

@@ -13,6 +13,7 @@ from huggingface_hub import hf_hub_download
 
 from bind_consumer import bind
 from deadline_guard import atomic_write, install_deadline, EXTERNAL_OUTPUT_UPPER_BYTES
+from archive_transfer import guard
 
 
 def sha(path):
@@ -27,7 +28,12 @@ def read(path):
     return json.loads(Path(path).read_text())
 
 
-def extract_checked(path, target, expected):
+def extract_checked(path, target, expected, preflight):
+    with tarfile.open(path,'r:gz') as archive:
+        members = archive.getmembers()
+        assert all(member.isfile() for member in members)
+        planned_bytes = sum(member.size for member in members)
+    preflight(planned_bytes)
     target.mkdir(parents=True)
     actual = {}
     with tarfile.open(path,'r|gz') as archive:
@@ -53,6 +59,8 @@ def main(args):
     begin = time.monotonic()
     receipt = read(args.transfer_manifest)
     root = Path(args.run_root)
+    initial = resource.getrusage(resource.RUSAGE_SELF)
+    began_cpu = initial.ru_utime+initial.ru_stime
     install_deadline(root,'readback_transfer')
     seal = read(root/'TEACHER_AND_LAYOUT_SEAL.json')
     assert seal['source_sha'] == receipt['source_sha']
@@ -77,6 +85,7 @@ def main(args):
     def download(relative):
         name = prefix+'/'+relative
         row = files[name]
+        guard(root,began_cpu,row['bytes']+1024**2)
         path = Path(hf_hub_download(repo,filename=name,repo_type='dataset',revision=revision,
             token=token,local_dir=output/'blobs'))
         assert path.stat().st_size == row['bytes'] and sha(path) == row['sha256']
@@ -94,9 +103,11 @@ def main(args):
     identifier = candidates[0]
     episode_archive = download('episodes/'+identifier+'.tar.gz')
     native_archive = download('native_dataset.tar.gz')
-    episode_files = extract_checked(episode_archive,output/'raw',proofs[identifier]['member_sha256'])
-    native_files = extract_checked(native_archive,output/'native',proofs['native_dataset']['member_sha256'])
+    preflight = lambda extra: guard(root,began_cpu,extra+1024**2)
+    episode_files = extract_checked(episode_archive,output/'raw',proofs[identifier]['member_sha256'],preflight)
+    native_files = extract_checked(native_archive,output/'native',proofs['native_dataset']['member_sha256'],preflight)
     assert sha(output/'native/DATASET_MANIFEST.json') == sha(producer/'DATASET_MANIFEST.json')
+    preflight(sum(path.stat().st_size for path in (output/'native').rglob('*') if path.is_file()))
     bind(output/'native',output/'raw',output/'consumer',[identifier])
     sys.path.insert(0,str(Path(args.frozen_code_root)/'scripts/pi0291_arx5_data'))
     from native_dataset import DatasetLoader
@@ -109,6 +120,7 @@ def main(args):
         batches.append(dict(identity=value['identity'],actual_batch=check_batch(dataset.processor.collator([value['processed']]),1)))
     codec = codec_all_windows(output/'consumer',dataset.processor,('TRAIN',))
     assert codec['TRAIN']['full_H40_windows_actually_checked'] == 601
+    guard(root,began_cpu)
     own = resource.getrusage(resource.RUSAGE_SELF)
     children = resource.getrusage(resource.RUSAGE_CHILDREN)
     result = dict(status='PASS_ACTUAL_FIXED_REVISION_COMPLETE_EPISODE_AND_NATIVE_SHARD_READBACK',

@@ -3,6 +3,8 @@ import json
 import os
 from pathlib import Path
 import signal
+import resource
+import math
 import time
 
 DEADLINE = 1791851837.0
@@ -32,3 +34,19 @@ def install_deadline(root, stage):
     remaining = DEADLINE - time.time()
     assert remaining > 0, 'Original deadline expired; no reset or extension'
     signal.setitimer(signal.ITIMER_REAL, remaining)
+    ledger_path = Path(root)/'RESOURCE_ACCOUNTING.json'
+    if ledger_path.is_file():
+        ledger = json.loads(ledger_path.read_text())
+        cpu_remaining = 48*3600-ledger['CPU_s']-ledger['unmetered_dependency_setup_CPU_s_upper']
+        assert cpu_remaining > 1, 'Original cumulative CPU budget exhausted'
+        own = resource.getrusage(resource.RUSAGE_SELF)
+        limit = math.ceil(own.ru_utime+own.ru_stime+cpu_remaining)
+        def cpu_expired(signum, frame):
+            atomic_write(Path(root)/'evidence'/('DELIVERY_CPU_STOP_'+stage+'.json'),
+                dict(status='STOP_ORIGINAL_CPU_BUDGET',stage=stage,process_CPU_limit_s=limit,
+                     other_processes_signalled=0))
+            os._exit(125)
+        signal.signal(signal.SIGXCPU,cpu_expired)
+        _, hard = resource.getrlimit(resource.RLIMIT_CPU)
+        assert hard == resource.RLIM_INFINITY or hard >= limit
+        resource.setrlimit(resource.RLIMIT_CPU,(limit,hard))
