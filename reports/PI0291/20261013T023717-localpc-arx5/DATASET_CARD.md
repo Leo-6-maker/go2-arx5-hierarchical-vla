@@ -45,6 +45,14 @@ Split is by episode, layout group and seed before window construction. The
 data version and is not a blind final model TEST. Original T1 instruction is
 unchanged; variable-text CPU collator diagnostics are not extra language data.
 
+The exact original policy instruction is "Pick up the red cube, place it
+inside the blue square, release it, and move the gripper away." The frozen
+export's shorter `task_map.json` T1 text is a descriptive metadata label only.
+The actual loader takes the verbatim NPZ instruction from original raw
+observations, not that label. A future Trainer adapter must preserve this
+distinction. Authoritative uint64 seeds are compared losslessly in Python;
+sanitized report seeds use decimal strings, not JavaScript floating numbers.
+
 ## Statistics And Interface
 
 Frozen rule: `TRAIN_ONLY_ALL_FULL_H40_EQUAL_WINDOW_TIMESTEP_WEIGHT_MINMAX_V1`.

@@ -23,7 +23,12 @@
     "TRAIN_statistics_reuse_required": true,
     "DEV_refit_allowed": false,
     "policy_inputs": ["actual_body_RGB", "actual_wrist_RGB", "original_language", "actual_EEF10"],
-    "privileged_inputs_allowed": false
+    "privileged_inputs_allowed": false,
+    "instruction_authority": "Exact original policy_obs instruction, copied verbatim into NPZ and passed directly to official processor",
+    "original_instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+    "task_map_shortened_T1_label": "Descriptive metadata only; not read by frozen DatasetLoader/qualifier and not substituted for original instruction",
+    "future_Trainer_instruction_requirement": "Consume exact original NPZ/raw instruction, not shortened task_map label",
+    "seed_identity_handling": "Authoritative raw/seal integers compared in Python losslessly; sanitized reports use decimal strings to avoid JavaScript Number uint64 rounding"
   },
   "pretrained_candidate": {
     "logical_path": "HOPPER_EXISTING_OFFICIAL_GR00T_N1_7_3B_CANDIDATE",
