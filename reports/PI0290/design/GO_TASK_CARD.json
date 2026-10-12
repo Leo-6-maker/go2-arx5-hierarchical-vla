@@ -1,0 +1,230 @@
+{
+  "schema": "PI0290_INDEPENDENT_DYNAMIC_TOOL_TASK_DATA_PILOT_GO_V1",
+  "status": "GO_NEW_BOUND_ONLY",
+  "owner": "EXISTING_LOCAL_PC_SINGLE_OWNER",
+  "goal": "Prove independent MuJoCo 3.2.7 dynamic parallel-gripper teacher can produce physically successful pick/place/release/withdraw complete episodes with full causal task data, without using target WBC or GR00T.",
+  "source_branch": "pi0267/executor-decoupled-recovery",
+  "prior_actual_head": "f906059e9f752f7f6110a28f0847085ce9caf6bf",
+  "protocol_path": "docs/protocols/PI0290_INDEPENDENT_MUJOCO_TASK_TEACHER_AND_DATA_PILOT_V1.md",
+  "fixed_wbc_archive_sha256": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52",
+  "wbc_usage": "READ_ONLY_ASSET_AND_GEOMETRY_REFERENCE_ONLY_NO_WBC_CALL",
+  "experiment_domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+  "user_scope": "Corelab physics/teacher/data/CPU/video; Hopper/H200 neural/training/eval zero; HF limited approved private artifacts; GitHub code and small receipts",
+  "science": {
+    "charter": "GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1",
+    "object_task_id": "INDEP_MJ_PLACE_V1",
+    "source": "INDEPENDENT_DYNAMIC_TOOL",
+    "scene": {
+      "cube_edge_m": 0.04,
+      "cube_mass_kg_sim_assumption": 0.05,
+      "zone_side_m": 0.16,
+      "source_goal_xy_min_m": 0.15,
+      "simulation_duration_s": 32,
+      "sim_timestep_s": 0.002,
+      "sensor_rate_hz": 20,
+      "frame_count_complete": 641,
+      "dual_rgb_min_px": [
+        256,
+        256
+      ],
+      "max_sensor_skew_s": 0.025
+    },
+    "teacher": {
+      "stages": [
+        "approach",
+        "align",
+        "close",
+        "verify_grasp",
+        "lift",
+        "carry",
+        "lower",
+        "release",
+        "withdraw",
+        "hold"
+      ],
+      "reference": "EEF_SE3_H40_20HZ_ABSOLUTE_GRIPPER_0P4S_PREFIX8",
+      "feedback": "ACTUAL_PHYSICS",
+      "privileged_for_teacher_not_policy": true,
+      "max_teacher_versions": 2
+    },
+    "success": {
+      "bilateral_same_object_contact_sustained_s": 0.3,
+      "lift_with_grasp_min_m": 0.02,
+      "carry_xy_with_grasp_min_m": 0.1,
+      "all_cube_corners_target_center_plusminus_xy_m": 0.07,
+      "object_z_center_table_plus_m": 0.02,
+      "object_z_tolerance_m": 0.005,
+      "linear_speed_max_m_s": 0.02,
+      "angular_speed_max_rad_s": 0.1,
+      "tcp_clear_object_center_min_m": 0.08,
+      "hold_times_s": [
+        28,
+        30
+      ],
+      "hold_sample_count": 41,
+      "hold_all": true,
+      "no_safety_warning_or_disallowed_contact": true
+    },
+    "camera": "ACTUAL_MUJOCO_BODY_AND_WRIST_NOT_VIEWER_AND_NOT_PANDA",
+    "data_schema": "INDEPENDENT_DYNAMIC_TOOL_DATA_V1",
+    "data_streams": [
+      "policy_obs",
+      "causal_history",
+      "desired_H40",
+      "accepted_installed_committed_prefix",
+      "actual_tool_and_gripper",
+      "physical_milestones",
+      "metric_camera_and_object_geometry",
+      "provenance_hashes"
+    ],
+    "no_leak": [
+      "privileged_object_truth",
+      "teacher_stage",
+      "future_physics",
+      "success_oracle"
+    ]
+  },
+  "design": {
+    "commissioning_ids": [
+      "C2900",
+      "C2901",
+      "C2902",
+      "C2903"
+    ],
+    "pilot_ids": [
+      "P2900",
+      "P2901",
+      "P2902",
+      "P2903",
+      "P2904",
+      "P2905",
+      "P2906",
+      "P2907"
+    ],
+    "pilot_layout_classes": {
+      "seen": 4,
+      "heldout": 4
+    },
+    "pilot_seal": "BEFORE_FIRST_PILOT",
+    "pilots_success_min": 7,
+    "pilots_heldout_success_min": 3,
+    "real_sensor_and_physics_valid_pilots_min": 8,
+    "first_valid_quality_no_retries": true,
+    "no_fake_grasp": true
+  },
+  "gates": [
+    {
+      "id": "D0",
+      "name": "Runtime and source/asset permissions",
+      "evidence": "READ_ONLY_DOCTOR_AND_RUNTIME_SEAL"
+    },
+    {
+      "id": "D1",
+      "name": "Independent physical gripper contact, reset, scene and calibrated 20Hz dual RGB",
+      "evidence": "D1_REAL_PHYSICS_AND_SENSOR_RECEIPT"
+    },
+    {
+      "id": "D2",
+      "name": "Presealed 8 original pilot physical task attempts",
+      "evidence": "TEACHER_LAYOUT_SEAL_AND_PILOT_RAW_MANIFEST"
+    },
+    {
+      "id": "D3",
+      "name": "Independent CPU score, dataset provenance, codec, history/privileged separation",
+      "evidence": "D3_DATA_ADMISSION_AND_CODEC_RECEIPT"
+    },
+    {
+      "id": "D4",
+      "name": "Publish source, actual pilot outcomes and next GR00T B0 draft",
+      "evidence": "D4_CLOSEOUT_AND_READBACK"
+    }
+  ],
+  "limits": {
+    "commissioning_physics_starts_max": 4,
+    "pilot_physics_starts_max": 8,
+    "all_physics_starts_max": 12,
+    "maximum_episode_duration_s": 32,
+    "episode_physics_steps_at_dt_2ms_max": 192000,
+    "preregistered_setup_physics_steps_max": 8000,
+    "all_physics_steps_max": 200000,
+    "real_obs_rgb_pairs_max": 7692,
+    "Corelab_GPU_reservation_or_service_union_hours_max": 1,
+    "Corelab_CPU_core_hours_max": 24,
+    "new_owned_output_GiB_max": 10,
+    "physical_sim_instances_concurrent_max": 1,
+    "Hopper_PBS_submissions": 0,
+    "GR00T_loads": 0,
+    "GR00T_forwards": 0,
+    "GR00T_optimizer_updates": 0,
+    "GR00T_eval": 0,
+    "WBC_sim_calls": 0,
+    "WBC_optimizer_updates": 0,
+    "hardware": 0
+  },
+  "allow": [
+    "isolated_muJoCo_runtime_check_and_setup_without_sudo",
+    "bounded_CPU_tests",
+    "construct_independent_scene_and_tool_contact",
+    "up_to_4_commissioning_attempts",
+    "freeze_scene_teacher_before_pilot",
+    "run_once_each_of_8_fixed_pilot_layouts",
+    "raw_episode_RGB_video_scoring",
+    "source_safe_GitHub_small_receipts",
+    "HF_private_upload_only_if_license_visibility_verified"
+  ],
+  "forbid": [
+    "modify_original_WBC_source_model_weights_gains_or_params",
+    "run_OCS2_or_leg_RL_as_teacher",
+    "silently_change_existing_target_mujoco_validator",
+    "claim_fixed_base_or_tool_domain_success_as_Go2_mobile_WBC",
+    "weld_snap_mocap_teleport_or_assign_object_pose_for_task_success",
+    "backfill_missing_physics_or_fabricate_contacts",
+    "quality_retry_same_layout",
+    "train_forward_or_evaluate_GR00T",
+    "overwrite_existing_PI0285_to_PI0289_results",
+    "leak_credentials_or_private_assets_to_public_HF_or_GitHub",
+    "start_new_remote_long_running_without_lease",
+    "kill_other_users_jobs"
+  ],
+  "HF": {
+    "previous_repo": "leoyuer/pi0246-gate-pass-campaign",
+    "previous_repo_is_public": true,
+    "new_artifact_destination": "RESOLVE_PRIVATE_IF_RESTRICTED",
+    "write_permission": "NOT_YET_TESTED",
+    "publish_only_after_source_license_check": true,
+    "ready_manifest_requirements": [
+      "repo_id",
+      "repo_type",
+      "visibility",
+      "complete_revision",
+      "prefix",
+      "sha256_per_file",
+      "code_scene_teacher_data_identity"
+    ],
+    "Hopper_data_transfer": "DEFER_UNTIL_NEW_TRAINING_GO"
+  },
+  "known_blockers": [
+    "standalone_Corelab_MuJoCo_import_and_render_UNVERIFIED",
+    "formal_FH_write_scope_UNVERIFIED",
+    "private_or_restricted_dataset_destination_UNRESOLVED",
+    "GPU_occupancy_other_users",
+    "personal_quota_UNKNOWN"
+  ],
+  "terminal_states": [
+    "INDEPENDENT_DATA_PILOT_READY",
+    "PILOT_VALID_QUALITY_FAIL",
+    "PILOT_DATA_INVALID",
+    "BLOCKED_RUNTIME",
+    "BLOCKED_PRIVACY_OR_HF",
+    "BUDGET_STOP"
+  ],
+  "future_steps_not_authorized": [
+    "TRAIN64_DEV16",
+    "H200_GR00T_B0_FINETUNE",
+    "B1_HISTORY_B2_TASKSTATE",
+    "WBC_EXECUTOR_COMPOSITION",
+    "REAL_HARDWARE"
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}
