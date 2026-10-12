@@ -1,104 +1,37 @@
-# Go2 + ARX5 Hierarchical EEF / VLA Research
+# Go2＋ARX5 Hierarchical Task-Space VLA
 
-> **Start here.** Repository navigation was consolidated on 2026-10-01. Historical
-> experiments are retained, not reclassified as passing. `main` contains the
-> accepted baseline plus current navigation; the latest experimental runtime is
-> **not** silently merged into that baseline.
+> **2026-10-12：新local-pc Codex先接管，再申请下一科学实验。** main保留较早accepted代码，本次只更新导航，不合并现役实验实现、不重写历史。
 
-## Current entry points
+## 当前入口
 
-| Need | Canonical location |
+| 需要 | 固定入口 |
 |---|---|
-| Current scientific status and claim limits | [Project status](docs/PROJECT_STATUS.md) |
-| Scientific authorization and experiment returns | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
-| Current experimental implementation | [`pi0266/state-conditioned-feedback`](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/tree/pi0266/state-conditioned-feedback) |
-| Protocols and recent result pointers | [Research index](docs/RESEARCH_INDEX.md) |
-| Branches, PRs, archival and source recovery | [Repository workflow](docs/REPOSITORY_WORKFLOW.md) |
-| Actual consolidation inventory and receipt | [2026-10-01 consolidation](docs/maintenance/2026-10-01/RESULT.md) |
-| Tested reusable-code integration still to do | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
+| 新窗口完整接管prompt | [Local-pc adoption / 双服务器与HF规范](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/3d3cecaa5a5d8b9c6a17158912b6f5816702b678/docs/handover/2026-10-12_LOCAL_PC_ADOPTION.md) |
+| 现役分支入口 | [START_HERE](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/3d3cecaa5a5d8b9c6a17158912b6f5816702b678/START_HERE.md) |
+| 科学协议/实际进度/审核 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
+| 工程/CI/分支维护 | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
+| 当前实验实现 | [pi0267/executor-decoupled-recovery](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/tree/pi0267/executor-decoupled-recovery) |
+| 分支审计，尚未删除 | [allowlist](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/3d3cecaa5a5d8b9c6a17158912b6f5816702b678/docs/handover/2026-10-12_BRANCH_RETIREMENT_PLAN.json) / [精确lease清理流程](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/3d3cecaa5a5d8b9c6a17158912b6f5816702b678/docs/handover/2026-10-12_BRANCH_CLEANUP_RUNBOOK.md) |
+| 最新导航快照 | [Project status](docs/PROJECT_STATUS.md) |
 
-**Do not use historical PR #77 as the current implementation or as a mandatory
-pointer destination.** It is an archived Stage45H provenance discussion; its
-original code and comments remain accessible.
+## 研究目标与资源分工
 
-## Research objective and implementation boundary
+视觉＋语言＋实际TCP/夹爪 → GR00T的任务空间EEF/夹爪参考 → 明确的坐标/时间/安全接口 → 师兄的冻结WBC → 实际反馈。
 
-```text
-Visual observations + language + task-space feedback
-             -> GR00T / high-level EEF trajectory policy
-             -> explicit decode, frame/TCP conversion and SafetyGate
-             -> reference-only handoff
-             -> embodiment-specific execution / WBC
-             -> actual task feedback
-```
+上层团队负责独立物理任务、可信专家数据和GR00T学习；不继续替师兄调WBC。EEF表示降低本体耦合，不自动证明任意参考可执行或跨本体泛化。
 
-The research objective is to make task data and high-level policy weights
-reusable across execution backends, rather than assume arbitrary EEF references
-are executable. Current work on Go2 + ARX5 does **not** yet establish general
-cross-embodiment transfer. Knowing actual TCP state is different from conditioning
-on a particular robot's joints or model ID.
+用户最新安排：Corelab做仿真/教师数据/预处理/物理推进/CPU评分/视频；Hopper H200做GR00T训练、神经推理和模型eval；local-pc为唯一owner。两服务器不能互连，数据和模型通过HF固定revision交接。真正闭环需要当前动作后的新观测，未来可由local-pc双SSH中继；HF不是每0.4秒的实时消息队列，离线预测不是闭环成功。
 
-The established external interface is task-space XYZ + SO(3), with an independent
-gripper channel. Robot/body/gait realization belongs to the execution layer.
-A usable policy identity includes weights, processor, statistics, action/state
-mapping and decoder. Read the applicable immutable protocol: the historical
-StructuredAction and newer training lineages must not be mixed by name alone.
+## 最近科学证据，非实时GPU状态
 
-Repository administration does not authorize a new experiment, change a gate,
-open protected data, or grant deployment qualification. Historical FAIL/PARTIAL
-and `selected_checkpoint=NONE` / `deployment_selected_checkpoint=NONE` remain.
+PI0285源Panda确认20/32未达26/32。PI0286 C0 TRAIN2/8、C1 TRAIN8/8与DEV5/16，新确认未运行。PI0289安全启动PASS，但首hold姿态RMS0.0652rad>0.05与时钟残差47.8ms>25ms未过门；其他五运动参考和目标教师数据未完成。最近已读取ledger终局为2026-10-10 11:08:34 SGT，开始工作时必须刷新#11。
 
-## Code baseline versus research evidence
+TaskAnchor/UNITAS为研究设计稿，未作为新方法在本项目实训。接管本身不授权GPU、forward、teacher、仿真、WBC或硬件；旧deadline和预算不会随窗口重置。selected/deployment=NONE。
 
-Before this housekeeping merge, `main` was at
-`607c7b734ba88ee0215a432aa8d2f576da9e77b0`, following the accepted Stage44R
-consolidation. This update does not bulk-merge experimental implementations or
-rewrite their commit ancestry. Use a protocol's pinned execution SHA for a run,
-not the current `main` tip or an old PR number.
+## main与历史保护
 
-The earlier documentation remains available as historical context:
-[research timeline](docs/RESEARCH_TIMELINE.md),
-[accepted baselines](docs/ACCEPTED_BASELINES.md),
-[repository guide](docs/REPOSITORY_GUIDE.md), and
-[original README at the pre-cleanup commit](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/607c7b734ba88ee0215a432aa8d2f576da9e77b0/README.md).
-They must not be read as the latest PI0266 status.
+main仍为accepted较早代码＋导航；运行一律以各协议/收据固定SHA为准。旧PR77不是必写入口，旧hpc脚本不得自动重跑。私有WBC/vendor模型/源码/mesh/权重/密钥不公开，大资产留已授权HF/服务器，以完整manifest绑定。
 
-## Tests and artifacts
+之前main README完整保存在[2026-10-01导航版本](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1f05bfc919b25d3146839529d2763ac847010d7d/README.md)。旧[Research index](docs/RESEARCH_INDEX.md)、[Repository workflow](docs/REPOSITORY_WORKFLOW.md)、[Consolidation result](docs/maintenance/2026-10-01/RESULT.md)、[Timeline](docs/RESEARCH_TIMELINE.md)保留其历史日期；它们不构成当前科学GO。
 
-The accepted baseline's CPU contract suite is run with `python -m pytest -q`.
-Administrative safety tests are independent:
-`python scripts/maintenance/test_consolidate_repo.py`.
-A passing CPU test is not a model or controller quality PASS.
-
-Large model checkpoints, raw datasets and videos stay outside Git and are bound
-by manifests and fixed archive revisions. Private WBC, simulator/vendor assets,
-credentials and machine-specific caches must not be published as public evidence.
-Existing remote training jobs, local worktrees and artifact stores are not changed
-by this repository cleanup.
-
-<details>
-<summary>Historical accepted architecture and Stage45 hold (not current execution status)</summary>
-
-The earlier accepted Stage44R source is
-`bd0f02934e680789cf38adacb838e1ea555c707d`. Its original architecture was documented as:
-
-```text
-Vision + Language + Proprioception
-    -> GR00T N1.7
-    -> StructuredActionV1
-    -> SafetyGate
-    -> reference-only receding-horizon handoff
-    -> general trajectory-tracking WBC
-```
-
-Here, "general trajectory-tracking WBC" is the historical component label,
-**not** a claim that PI0265 established arbitrary-trajectory control or universal
-physical success. StructuredActionV1 is that historical interface, not a license
-to replace the currently pinned dense-action mapping.
-
-The then-future Stage45 design-only hold and H200 admission requirements remain
-in their archived documents. They are historical scope decisions, not current
-PI0266 status. Current actions require the applicable scientific authorization;
-this navigation update grants no GPU or simulator work.
-
-</details>
+本次已审计9分支、0开放PR；四个祖先head列入条件清理，三个含独立提交的旧branch保留。远端branch删除尚未执行，由local-pc备份兼容tag、检查实时SHA/保护/PR/lease后按allowlist执行并回读；本次不删除历史文件、模型或数据。
