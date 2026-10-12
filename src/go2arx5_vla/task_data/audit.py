@@ -56,6 +56,7 @@ def audit_episode(folder,negative_fixture=None):
     cubegeom=nameid(mujoco.mjtObj.mjOBJ_GEOM,'cube_geom')
     data.qpos[qidx]=P['finger_travel']
     max_camera_error=0.;max_codec_error=0.;contact_counts=[0,0];max_snapshot_skew=0.;wrist_rig=None;body_rig=None
+    minimum_wrist_red_pixels=256*256;maximum_contact_force_error=0.
     for i,s in enumerate(samples):
         obs=s['policy_obs'];assert set(obs)==OBS_KEYS and obs['instruction']==INSTRUCTION and obs['valid']
         time=i/20;assert abs(obs['timestamp_s']-time)<=1e-8
@@ -64,6 +65,7 @@ def audit_episode(folder,negative_fixture=None):
         near(obs['actual_tcp'],physics['tcp_world'][i]);near(s['privileged']['object_pose'],physics['object_pose'][i])
         if i:
             row=high[i*25-1];data.qpos[:]=row[1:17];data.qvel[:]=row[17:31];data.ctrl[:]=row[31:33];data.time=time
+            data.xfrc_applied[tool]=row[33:39]
         mujoco.mj_forward(model,data)
         tcp=np.eye(4);tcp[:3,:3]=data.xmat[tool].reshape(3,3);tcp[:3,3]=data.xpos[tool]
         obj=np.eye(4);obj[:3,:3]=data.xmat[cube].reshape(3,3);obj[:3,3]=data.xpos[cube]
@@ -72,6 +74,16 @@ def audit_episode(folder,negative_fixture=None):
         assert abs(obs['actual_gripper']-np.mean(data.qpos[qidx])/P['finger_travel'])<1e-8
         assert abs(obs['actual_gripper_speed']-np.mean(data.qvel[vindex])/P['finger_travel'])<1e-8
         points=obj[:3,3]+POINTS@obj[:3,:3].T;near(points,s['privileged']['object_points'])
+        for body,keylinear,keyangular in [(cube,'object_linear_velocity','object_angular_velocity')]:
+            velocity=np.zeros(6);mujoco.mj_objectVelocity(model,data,mujoco.mjtObj.mjOBJ_BODY,body,velocity,0)
+            near(velocity[3:],physics[keylinear][i]);near(velocity[:3],physics[keyangular][i])
+        assert len(s['privileged']['contacts'])==data.ncon
+        for j,recorded in enumerate(s['privileged']['contacts']):
+            contact=data.contact[j];force=np.zeros(6);mujoco.mj_contactForce(model,data,j,force)
+            assert recorded['geom0']==contact.geom1 and recorded['geom1']==contact.geom2
+            near(recorded['normal'],contact.frame[:3]);assert abs(recorded['distance_m']-contact.dist)<1e-8
+            error=abs(recorded['normal_force_N']-force[0]);maximum_contact_force_error=max(maximum_contact_force_error,error)
+            assert error<=1e-5,error
         normals=[[],[]]
         for contact in s['privileged']['contacts']:
             assert contact['distance_m']>=-P['penetration_stop_m'] if complete else True
@@ -90,6 +102,10 @@ def audit_episode(folder,negative_fixture=None):
             path=folder/image['path'];assert path.resolve().is_relative_to(folder.resolve())
             assert file_hash(path)==image['sha256'];rgb=np.asarray(Image.open(path))
             assert rgb.shape==(256,256,3) and rgb.dtype==np.uint8 and float(rgb.std())>8
+            if camera=='wrist_rgb':
+                red=int(np.sum((rgb[:,:,0].astype(float)>1.5*rgb[:,:,1])&(rgb[:,:,0].astype(float)>1.5*rgb[:,:,2])&(rgb[:,:,0]>80)))
+                minimum_wrist_red_pixels=min(minimum_wrist_red_pixels,red)
+                if card['id'].startswith('P'):assert red>=20,'Wrist object visibility diagnostic failed'
             cid=nameid(mujoco.mjtObj.mjOBJ_CAMERA,camera);T=np.eye(4)
             T[:3,:3]=data.cam_xmat[cid].reshape(3,3)@np.diag([1.,-1.,-1.]);T[:3,3]=data.cam_xpos[cid]
             max_camera_error=max(max_camera_error,near(T,g['T_world_optical']))
@@ -132,6 +148,9 @@ def audit_episode(folder,negative_fixture=None):
         complete=complete,paired_samples=n,physics_steps=len(high),file_count=len(files),
         contact_samples=dict(left=contact_counts[0],right=contact_counts[1]),
         max_camera_kinematic_error=max_camera_error,max_sensor_skew_s=max_snapshot_skew,max_codec_roundtrip_error=max_codec_error,
+        max_forward_recomputed_contact_force_error_N=maximum_contact_force_error,
+        minimum_wrist_visible_red_pixels=minimum_wrist_red_pixels,
+        visual_admission=bool(card['id'].startswith('P') and minimum_wrist_red_pixels>=20),
         actual_committed_H40_windows=windows,terminal_observation_has_no_invented_command=True,
         RGB_shape=[2,256,256,3],action_shape=[40,10],privileged_policy_separation=True,
         physics_sha256=file_hash(folder/'physics.npz'),manifest_sha256=file_hash(folder/'FILE_MANIFEST.json'),
