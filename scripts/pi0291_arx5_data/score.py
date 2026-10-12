@@ -18,7 +18,7 @@ def saved_score(folder):
             run=run+1 if value else 0;maximum=max(maximum,run)
         result=dict(task_id=TASK,domain='FIXED_BASE_ARX5_TASK_SIM',
             fixture='EMPTY_GRASP_CONTACT_NEGATIVE_NOT_A_T1_QUALITY_LAYOUT',
-            original_source_shift_m=.22,complete_32s=complete and abs(float(t[-1])-32)<1e-8,
+            original_source_shift_m=.18,complete_32s=complete and abs(float(t[-1])-32)<1e-8,
             safety_valid=bool(arrays['safety_valid'].all()),
             history=dict(sustained_grasp=bool(maximum>=7),sustained_lift=False,horizontal_carry=False),
             actual_grasp_samples=int(grasp.sum()),left_contact_samples=int(arrays['left_object_contact'].sum()),
