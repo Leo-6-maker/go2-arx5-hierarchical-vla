@@ -11,6 +11,7 @@ import time
 
 from huggingface_hub import HfApi, CommitOperationAdd, hf_hub_url
 import requests
+from deadline_guard import atomic_write, install_deadline, EXTERNAL_OUTPUT_UPPER_BYTES
 
 DEADLINE = 1791851837.0
 LIMIT_BYTES = 40 * 1024**3
@@ -28,9 +29,7 @@ def read(path):
 
 
 def write(path, value):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, allow_nan=False)+'\n')
+    atomic_write(path, value)
 
 
 def digest(stream):
@@ -64,7 +63,7 @@ def guard(root, began_cpu, planned_extra=0):
     used = own.ru_utime+own.ru_stime-began_cpu
     assert ledger['CPU_s']+ledger['unmetered_dependency_setup_CPU_s_upper']+used < LIMIT_CPU_S
     size = sum(path.stat().st_size for path in root.rglob('*') if path.is_file() and not path.is_symlink())
-    assert size+planned_extra < LIMIT_BYTES
+    assert size+planned_extra+EXTERNAL_OUTPUT_UPPER_BYTES < LIMIT_BYTES
     free = __import__('shutil').disk_usage(root).free
     assert free > planned_extra+10*1024**3
 
@@ -89,6 +88,7 @@ def main(args):
     os.sched_setaffinity(0, set(sorted(os.sched_getaffinity(0))[-2:]))
     begin = time.monotonic()
     root = Path(args.root)
+    install_deadline(root, 'archive_transfer')
     usage = resource.getrusage(resource.RUSAGE_SELF)
     began_cpu = usage.ru_utime+usage.ru_stime
     guard(root,began_cpu)
@@ -103,6 +103,7 @@ def main(args):
     native_manifest = read(native/'DATASET_MANIFEST.json')
     assert smoke['dataset_manifest_sha256'] == sha(native/'DATASET_MANIFEST.json')
     assert smoke['statistics_sha256'] == sha(native/'statistics.json')
+    assert smoke['statistics_provenance_sha256'] == sha(native/'STATISTICS_PROVENANCE.json')
     assert native_manifest['admission_sha256'] == sha(root/'DATASET_ADMISSION.json')
     assert native_manifest['domain'] == 'FIXED_BASE_ARX5_TASK_SIM'
     assert native_manifest['official_source_sha'] == smoke['official_source_sha'] == '51d4c89f72fda44cbf77285c6a8114b52676b8a1'
@@ -145,10 +146,17 @@ def main(args):
     allowed_native = NATIVE_METADATA | {'episodes/'+row['id']+'.npz' for row in native_manifest['episodes']}
     actual_native = {path.relative_to(native).as_posix() for path in native.rglob('*') if path.is_file()}
     assert actual_native == allowed_native, 'Unexpected export file: never silently upload'
+    for row in native_manifest['episodes']:
+        assert row['file'] == 'episodes/'+row['id']+'.npz'
+        assert sha(contained_file(native,row['file'])) == row['sha256']
     members = {name:contained_file(native,name) for name in allowed_native}
     native_tar = archive/'native_dataset.tar.gz'
     proofs['native_dataset'] = verified_tar(native_tar, members)
     payload['native_dataset.tar.gz'] = native_tar
+    delivery_members = {name:Path(__file__).with_name(name) for name in
+                        ('archive_transfer.py','bind_consumer.py','readback_transfer.py','deadline_guard.py')}
+    proofs['delivery_source'] = verified_tar(archive/'delivery_source.tar.gz',delivery_members)
+    payload['delivery_source.tar.gz'] = archive/'delivery_source.tar.gz'
     for name in ('TEACHER_AND_LAYOUT_SEAL.json', 'DATASET_ADMISSION.json', 'RESOURCE_ACCOUNTING.json'):
         payload['receipts/'+name] = root/name
     for name in ('DATALOADER_SMOKE.json', 'PILOT_SCORE.json', 'DATASET_CARD.md', 'TRAINING_HANDOFF.json'):
@@ -195,7 +203,9 @@ def main(args):
         assert sum(row['id'].startswith('T') for row in ledger['starts']) == 64
         assert sum(row['id'].startswith('D') for row in ledger['starts']) == 16
         assert read(root/'PILOT_GATE.json')['status'] == 'PASS'
-    ready = dict(status=admission['dataset_status'], repo_id=args.repo, repo_type='dataset', private=True,
+    ready = dict(status='READY_FOR_FIXED_REVISION_READBACK', dataset_component_status=admission['dataset_status'],
+        complete_episode_download='NOT_RUN', Hopper_small_READY='NOT_RUN',
+        repo_id=args.repo, repo_type='dataset', private=True,
         prefix=prefix, data_revision=data_revision, source_sha=seal['source_sha'], files=files,
         dataset_counts=admission['counts'], admitted_episode_counts=actual_counts,
         NATIVE_DATALOADER_PASS=True, license_scope=license_scope,

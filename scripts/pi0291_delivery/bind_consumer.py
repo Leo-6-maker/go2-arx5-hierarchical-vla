@@ -44,11 +44,14 @@ def bind(native, raw, output, selected=None):
         assert row['file'] == 'episodes/'+row['id']+'.npz'
         assert sha(native/row['file']) == row['sha256']
         shutil.copy2(native/row['file'],output/row['file'])
+        assert sha(output/row['file']) == row['sha256']
         mappings.append(dict(id=row['id'],producer_raw_root=row['raw_root'],consumer_raw_root=str(folder.resolve()),
                              samples_sha256=row['samples_sha256'],physics_sha256=row['physics_sha256']))
         row['raw_root'] = str(folder.resolve())
     for name in ('statistics.json','STATISTICS_PROVENANCE.json','modality.json','task_map.json'):
         shutil.copy2(native/name,output/name)
+        assert sha(output/name) == sha(native/name)
+    assert sha(output/'statistics.json') == original['statistics_sha256']
     rebound = dict(original,episodes=records,
         TRAIN_windows=sum(row['windows'] for row in records if row['split']=='TRAIN'),
         DEV_windows=sum(row['windows'] for row in records if row['split']=='DEV'),
