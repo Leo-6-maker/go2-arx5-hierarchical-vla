@@ -1,0 +1,213 @@
+{
+  "schema": "LOCAL_PC_ADOPTION_RESOURCE_MAP_V1",
+  "status": "ADOPTION_READY_FOR_REVIEW",
+  "observed_window_sgt": "2026-10-12 23:08-23:18 +08:00",
+  "owner": "local-pc",
+  "scope": "ADOPTION_ONLY",
+  "local": {
+    "cwd_is_git_checkout": false,
+    "existing_checkout_found_in_project_locations": false,
+    "git": "2.34.1",
+    "python": "3.10.12",
+    "shell": "bash",
+    "shell_version": "5.1.16(1)-release",
+    "ssh": true,
+    "gh": "NOT_INSTALLED",
+    "powershell": "NOT_FOUND",
+    "git_auth": "NO_EXISTING_LOCAL_CREDENTIAL_RESOLVED; HTTPS ls-remote failed",
+    "github_connector": "READ_WRITE_CONFIRMED",
+    "disk_free_display": "391G",
+    "inode_free": 29682790,
+    "private_runmap": "LOCAL_ONLY"
+  },
+  "corelab": {
+    "role": [
+      "simulation",
+      "teacher collection",
+      "preprocessing",
+      "physics",
+      "CPU scoring",
+      "video"
+    ],
+    "ssh_route": [
+      "corelab-amd-server",
+      "corelab-4080s"
+    ],
+    "ssh_status": "VERIFIED_TWO_HOP",
+    "project_root": "<CORE_PROJECT>",
+    "paths_verified": [
+      "PI0285",
+      "PI0286",
+      "PI0287",
+      "private/wbc_mujoco_minimal_20261009_6dd13098/wbc_mujoco_minimal",
+      "<CORE_SSD_PROJECT>/executor-candidates/wbc-mujoco-6dd13098/wbc_mujoco_minimal",
+      "<CORE_SSD_PROJECT>/PI0289/evidence",
+      "task-data-preparation/runtime"
+    ],
+    "ros": "Jazzy directory present",
+    "system_python": "3.12.3",
+    "historical_neural_venv": {
+      "path": "PI0250/runtime/venv",
+      "python": "3.12.14",
+      "packages": {
+        "torch": "2.9.0+cu128",
+        "transformers": "4.57.3",
+        "huggingface-hub": "0.36.2",
+        "mujoco": "NOT_INSTALLED",
+        "mani-skill": "NOT_INSTALLED",
+        "numpy": "1.26.4",
+        "gr00t": "NOT_INSTALLED"
+      },
+      "use_for_new_groot_eval": false
+    },
+    "task_runtime": "mujoco-3.2.7 is a directory name; only pip dist-info seen at bounded depth, MuJoCo installation NOT_VERIFIED",
+    "storage": {
+      "NFS_free_display": "1.4T",
+      "SSD_free_display": "508G",
+      "SSD_inode_free": 113963254,
+      "NFS_inodes": "NOT_REPORTED",
+      "personal_quota": "UNKNOWN; quota command not available"
+    },
+    "gpu": {
+      "observed": "2 NVIDIA RTX 4080 SUPER entries",
+      "memory_used_mib": [
+        10150,
+        7357
+      ],
+      "utilization_pct": [
+        91,
+        44
+      ],
+      "compute_processes": "OTHER_USERS; preserved",
+      "permission_to_run_science": false
+    },
+    "owned_processes": {
+      "new_project_compute": 0,
+      "old_archival": [
+        {
+          "experiment": "PI0276",
+          "pid": 3455361,
+          "state": "T",
+          "kind": "archive parent"
+        },
+        {
+          "experiment": "PI0276",
+          "pid": 3455362,
+          "state": "T",
+          "kind": "archive predictions worker"
+        }
+      ],
+      "archival_health": "UNASSESSED; last log modification 2026-10-06; not resumed or killed",
+      "AMD_codex_process": "existing process observed; task identity UNKNOWN"
+    },
+    "known_leases": "historical empty lock files present; lslocks found no held go2-arx5 locks; file presence is not active ownership",
+    "hf_auth": {
+      "credential_file_present": true,
+      "write_canary": "NOT_RUN",
+      "account": "leoyuer",
+      "authentication": "PASS",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "repo_type": "model",
+      "private": false,
+      "read_revision": "277132b7c267f821836d90e4de93592196459d9c"
+    }
+  },
+  "hopper": {
+    "role": [
+      "GR00T training",
+      "neural inference",
+      "model eval"
+    ],
+    "ssh_alias": "hopper",
+    "ssh_status": "VERIFIED",
+    "surface": "LOGIN_NODE",
+    "project_root": "<HOP_PROJECT>",
+    "paths_verified": [
+      "experiments/PI0285",
+      "experiments/PI0286",
+      "<HOP_RUNTIME>/runtime/venv",
+      "<HOP_RUNTIME>/src/isaac-gr00t",
+      "<HOP_HF_HOME>",
+      "archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B"
+    ],
+    "venv": {
+      "python": "3.12.3",
+      "packages": {
+        "torch": "2.9.0+cu128",
+        "transformers": "4.57.3",
+        "huggingface-hub": "0.36.2",
+        "mujoco": "NOT_INSTALLED",
+        "mani-skill": "NOT_INSTALLED",
+        "numpy": "1.26.4",
+        "gr00t": "0.1.0"
+      }
+    },
+    "official_source": {
+      "sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "git_status": "CLEAN_AT_READ"
+    },
+    "pbs": {
+      "client": "/cm/shared/apps/pbspro/current/bin/qstat",
+      "version": "2024.1.0.20240130071604",
+      "H200_resources": "PBS node metadata reports H200; no GPU program run",
+      "own_running_jobs": [
+        {
+          "id": "662514",
+          "name": "pi05_world_full",
+          "queue": "small",
+          "state": "R",
+          "requested_memory": "225GB",
+          "requested_cpus": 12
+        },
+        {
+          "id": "662515",
+          "name": "pi05_noxyz_full",
+          "queue": "small",
+          "state": "R",
+          "requested_memory": "225GB",
+          "requested_cpus": 12
+        }
+      ],
+      "jobs_scope": "output paths identify separate vla_wbc project; no adoption allocation claimed; existing jobs preserved",
+      "new_submissions": 0
+    },
+    "login_processes": "ssh/shell/session infrastructure; no owned go2-arx5 neural process observed",
+    "storage": {
+      "scratch_free_display": "93G",
+      "scratch_use_pct": 91,
+      "home_free_display": "20G",
+      "home_use_pct": 52,
+      "personal_quota": "UNKNOWN; quota returned mount errors and no usable headroom",
+      "owned_project_storage_total": "NOT_REMEASURED"
+    },
+    "hf_auth": {
+      "credential_file_present": true,
+      "write_canary": "NOT_RUN",
+      "account": "leoyuer",
+      "authentication": "PASS",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "repo_type": "model",
+      "private": false,
+      "read_revision": "277132b7c267f821836d90e4de93592196459d9c"
+    }
+  },
+  "unknowns": [
+    "Personal quotas and new project storage budget",
+    "Future queue/allocation and compute-node SSH forwarding permission",
+    "Old archive process health and existing AMD Codex task identity",
+    "Complete independent-task MuJoCo runtime installation",
+    "Future relay bandwidth, latency, clock and failure qualification"
+  ],
+  "scientific_calls_this_session": {
+    "PBS_submissions": 0,
+    "GPU_programs": 0,
+    "GR00T_loads": 0,
+    "GR00T_forwards": 0,
+    "optimizer_updates": 0,
+    "teacher_calls": 0,
+    "physics": 0,
+    "WBC": 0,
+    "hardware": 0
+  }
+}
+
