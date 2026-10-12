@@ -211,6 +211,7 @@ class Engine:
         self.data.qfrc_applied[:] = 0.
         mujoco.mj_step(self.model, self.data)
         self.steps += 1
+        mujoco.mj_forward(self.model, self.data)
         snapshot = self.snapshot()
         if snapshot['illegal_contact']:
             self.safety.append('ILLEGAL_CONTACT_OR_PENETRATION')
