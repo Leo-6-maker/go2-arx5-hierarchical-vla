@@ -83,7 +83,7 @@ def run(root,identifier,source,mode,backend):
             history=dict(episode_id=identifier,segment_id=0,previous_samples=step,previous_committed=step,reset=False,abort=False,takeover=False)
             physical.append({k:s[k] for k in ['time_s','object_pose','tcp','object_linear_velocity','object_angular_velocity',*BOOL_FIELDS]})
             samples.append(dict(snapshot_id=snapshot,policy_obs=obs,causal_history=history,supervision=supervisor,
-                execution=dict(actual_tcp=s['tcp'],actual_finger_q=s['finger_q'],actual_finger_qd=s['finger_qd'],
+                execution=dict(actual_tcp=s['tcp'],actual_finger_q=s['finger_q'],actual_finger_qd=s['finger_qd'],actual_gripper_gap_m=s['gripper_gap_m'],
                     actuator_force=s['actuator_force'],actual_joint_q=s['arm_q'],actual_joint_qd=s['arm_qd'],previous_finger_targets=engine.finger_targets.copy(),reference_pose_error=None if supervisor is None else float(np.linalg.norm(target[:3,3]-s['tcp'][:3,3]))),
                 privileged=dict(object_pose=s['object_pose'],object_linear_velocity=s['object_linear_velocity'],object_angular_velocity=s['object_angular_velocity'],
                     current_grasped=s['native_grasp'],ever_lifted=teacher.lifted,ever_carried=teacher.carried,teacher_stage=teacher.stage,

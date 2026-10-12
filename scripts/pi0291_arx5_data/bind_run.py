@@ -18,7 +18,11 @@ def bind(root, source):
     files = {p.relative_to(code).as_posix(): file_hash(p)
              for tree in ('scripts/pi0291_arx5_data', 'src/go2arx5_vla')
              for p in (code/tree).rglob('*.py')}
-    write(root/'CODE_SEAL.json', dict(source_sha=source, files=files))
+    seal_path=root/'CODE_SEAL.json'
+    if seal_path.exists():
+        prior=json.loads(seal_path.read_text())
+        write(root/'evidence'/('CODE_SEAL_'+prior['source_sha']+'.json'),prior)
+    write(seal_path, dict(source_sha=source, files=files))
     private = json.loads((root/'PRIVATE_ASSET_BINDING.json').read_text())
     native = Path(private['native_asset_root']) / 'go2_x5.xml'
     assert file_hash(native) == 'b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501'
@@ -40,7 +44,7 @@ def bind(root, source):
                  fixed_asset_preserved=True, parameter_sha256=canonical_hash(PARAMETERS))
     write(root/'PRIVATE_PATH_INDEX.json', index)
     write(root/'REGISTERED_LAYOUTS.json', {i:layout(i) for i in COMMISSIONING+PILOTS+TRAIN+DEV})
-    write(root/'evidence/N0_BINDING.json', dict(source_sha=source, native_sha256=file_hash(native),
+    write(root/'evidence'/('N0_BINDING_'+source+'.json'), dict(source_sha=source, native_sha256=file_hash(native),
           free_bytes=usage.free, quota='UNKNOWN', actual_write_proof_bytes=st.st_blocks*512,
           proof_removed=True, runtime_reused=True, new_physics=0, setup_steps_actual=0,
           registered_engineering_steps_max=8000, paired_static_diagnostic_count=1))
