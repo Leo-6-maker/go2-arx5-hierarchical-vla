@@ -1,0 +1,70 @@
+{
+  "status": "READ_ONLY_PREPARATION_NOT_RUNTIME_QUALIFIED",
+  "user_designated_latest": true,
+  "local_bundle_sha256": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52",
+  "delivery_checksums": {
+    "count": 11338,
+    "verification_exit_code": 0,
+    "SHA256SUMS_sha256": "09f8e9539edca98d343d027e61ca98b0da574e4318e73ab3c545b351ec033e04"
+  },
+  "matches_existing_Corelab_reference": {
+    "arx5_ac1_urdf_sha256": "6a13a475cb7103a15ea6bd66713fc189d624eb74f32a021310d25781a8804363",
+    "native_mjcf_sha256": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+    "SOURCE_MANIFEST_sha256": "b654eca8d377ba723a0bb0b4b04b5525171047ce49f4b32bd56dc19c89bf0da8"
+  },
+  "native_gap": "URDF has opposed slide/mimic; native MJCF link7/8 have visual-only fixed bodies, no finger joint/actuator",
+  "private_original_modified": false,
+  "original_WBC_calls": 0,
+  "source_reference_only": true,
+  "third_party_pins": [
+    {
+      "repo": "lemonoscar/Go2-X5-lab",
+      "branch": "main",
+      "sha": "4c6213f524f38088309b523cc79e167d98c92c1e",
+      "license_detected_by_GitHub": null,
+      "tree_complete": true
+    },
+    {
+      "repo": "zzzJie-Robot/LeggedManip_Lab",
+      "branch": "master",
+      "sha": "4e12109d1eccb1d9da2e4a35f189fabea3f13677",
+      "license_detected_by_GitHub": "Apache-2.0",
+      "tree_complete": true
+    },
+    {
+      "repo": "yhykid/RoboDuet-Isaaclab",
+      "branch": "main",
+      "sha": "5a0a039a881b9fd10fc3c021f041818b796536b8",
+      "license_detected_by_GitHub": null,
+      "tree_complete": true
+    }
+  ],
+  "Go2_X5_lab_static_findings": {
+    "checked_in_USD_URDF": true,
+    "EEF_offset_m": [
+      0.08657,
+      0,
+      0
+    ],
+    "native_ARX5_TCP_offset_m": [
+      0.1424,
+      0,
+      0.0001057
+    ],
+    "camera_size": [
+      224,
+      224
+    ],
+    "native_action": "cmd_vel3 + arm_joint_pos6 + gripper1; not EEF10",
+    "base_control": "default leg joint hold, not physical cmd_vel execution",
+    "student_privilege": "StudentVisualCfg contains stage_one_hot",
+    "gripper_actuator_review": "j7/8 action commands exist, but GO2_X5_CFG Python actuator groups only cover legs and j1..6; USD drive must be checked",
+    "selected_source_headers_license": "Apache-2.0; robot mesh/USD redistribution license not fully audited"
+  },
+  "Corelab_Isaac_runtime": "NOT_QUALIFIED_THIS_GO",
+  "Isaac_launches": 0,
+  "ARX5_physics_starts": 0,
+  "new_large_installs": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
