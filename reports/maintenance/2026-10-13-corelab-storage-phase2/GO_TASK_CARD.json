@@ -1,0 +1,118 @@
+{
+  "schema": "CORELAB_STORAGE_PHASE2_CONDITIONAL_CLEANUP_V1",
+  "authorization": "USER_2026_10_13_SCOPED_STORAGE_MAINTENANCE",
+  "status": "APPROVED_BOUNDED_LOCAL_PC_MAINTENANCE_NOT_EXECUTED",
+  "science_go": false,
+  "execution_owner": "existing_local_pc",
+  "review_parent_head": "03ae690569d7e58ab9f3ad1eadb0a1a71c8cf8e5",
+  "protocol_commit": "b58121f04312365145587066b9831d1877219bef",
+  "protocol_path": "docs/maintenance/2026-10-13_CORELAB_STORAGE_SAFE_CLEANUP_V1.md",
+  "source_audit_local_relative": "work/corelab-storage-audit-20261013",
+  "source_audit_files": [
+    "AUDIT_REPORT.md",
+    "FULL_STORAGE_INVENTORY.csv",
+    "RETENTION_PLAN.json",
+    "README_STORAGE.md"
+  ],
+  "original_audit_not_mounted_in_chat": true,
+  "reported_inventory": {
+    "entries": 448,
+    "files_approx": 1810000,
+    "migrate_candidates": 24,
+    "cache_candidates": 9,
+    "small_hash_pilot_files": 7
+  },
+  "current_known_protect": {
+    "PI0276_SSD_GiB": 337.6,
+    "PI0209_home_GiB": 53.9,
+    "stopped_archive_dependencies": [
+      "PI0250",
+      "PI0276"
+    ],
+    "active_new_episode_data": [
+      "PI0290"
+    ],
+    "private_wbc": true
+  },
+  "known_prior_cleanup": {
+    "source": "reports/maintenance/2026-10-13-corelab-storage/ACTUAL_RECEIPT.json",
+    "already_freed_allocated_bytes": 44017266688,
+    "repeat_or_recount": false
+  },
+  "gates": [
+    {
+      "phase": "M0",
+      "permitted": "audit read + recheck exact files/links/process refs/allocated space; no mass recrawl",
+      "deletion_allowed": false
+    },
+    {
+      "phase": "M1",
+      "permitted": "safe path index and copy-only migration validation starting 7 small checked files; sources remain",
+      "deletion_allowed": false
+    },
+    {
+      "phase": "M2",
+      "permitted": "exact manifest-driven cache/derived-view unlinks after all hashes, independent copies and no refs",
+      "deletion_allowed": true,
+      "max_cache_candidate_classes": 9,
+      "max_new_model_only_derived_views": 2,
+      "max_new_freed_allocated_GiB": 50
+    },
+    {
+      "phase": "M3",
+      "permitted": "per-filesystem before/after, SHA readback and GitHub evidence",
+      "deletion_allowed": false
+    }
+  ],
+  "never_delete": [
+    "PI0250",
+    "PI0276",
+    "PI0290",
+    "private_wbc",
+    "unique_full_trainer",
+    "optimizer_rng_scheduler",
+    "original_physics_rgb_dataset_video",
+    "unique_raw_negative_evidence",
+    "active_compute_or_paused_process_dependencies"
+  ],
+  "known_unknowns": [
+    "personal_quota",
+    "permission_gap_private_wbc",
+    "incomplete_reference_scan",
+    "source_audit_content_unread_in_this_chat",
+    "PI0209_provenance"
+  ],
+  "stop_on": [
+    "missing_source_audits",
+    "source_sha_or_inode_changed",
+    "active_ref_or_fd",
+    "unknown_copy_provenance",
+    "insufficient_permissions_or_disk",
+    "bad_symlink_resolution",
+    "active_PI0290_mutation",
+    "budget_cap",
+    "unverified_HF_backup"
+  ],
+  "no_actions": [
+    "new_PBS",
+    "GR00T_train_eval",
+    "WBC_run_or_modify",
+    "MuJoCo_teacher_physics",
+    "hardware",
+    "kill_or_resume_archive_processes",
+    "generic_rm_rf_top_level",
+    "cross_node_direct_network"
+  ],
+  "deliverables": [
+    "SOURCE_AUDIT_SHA.json",
+    "PATH_ROLE_MAP.json",
+    "RETENTION_DECISIONS.json",
+    "MIGRATION_COPY_RECEIPT.json",
+    "DELETION_RECEIPT.json",
+    "RESOURCE_BEFORE_AFTER.json",
+    "UNRESOLVED_AND_NEXT_ACTIONS.md"
+  ],
+  "issue_for_receipt": 47,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
