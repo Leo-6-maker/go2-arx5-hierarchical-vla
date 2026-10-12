@@ -1,0 +1,65 @@
+{
+  "schema": "CORELAB_ARCHIVE_PROCESS_RETIREMENT_ADDENDUM_V1",
+  "date": "2026-10-13",
+  "type": "MAINTENANCE_AMENDMENT_NOT_SCIENTIFIC_GO",
+  "user_authorization": "User confirmed old stopped PI0276 archival processes are not needed for current experiments and may be terminated.",
+  "parent_release": "6b4cf12ef55ed45730069fd15d32e397b7fd7b16",
+  "parent_issue_47_comment": 6129475191,
+  "addendum_release": "67897d25bb903ac549d0670f97097ec345798f8c",
+  "addendum_path": "docs/maintenance/2026-10-13_CORELAB_ARCHIVE_PROCESS_RETIREMENT_ADDENDUM_V1.md",
+  "sole_owner": "existing_local_pc_codex",
+  "historical_pid_locators": [
+    {
+      "pid": 3455361,
+      "kind": "PI0276 archive parent",
+      "state_at_old_audit": "T"
+    },
+    {
+      "pid": 3455362,
+      "kind": "PI0276 predictions worker",
+      "state_at_old_audit": "T"
+    }
+  ],
+  "identity_required": [
+    "current UID",
+    "/proc PID starttime ticks",
+    "State T/t",
+    "exact matching PI0276 archive role from cmdline and cwd",
+    "exe",
+    "parent-child identity",
+    "FD dependencies",
+    "not other user's job",
+    "no active/current PI0290 lease"
+  ],
+  "if_identity_not_exact": "SKIP_NO_SIGNAL",
+  "allowed_signals": "SIGKILL solely to verified individual stopped processes, leaf before parent; no SIGCONT and no group/pattern kills",
+  "data_protection": "Termination does not authorize deletion of any PI0250/PI0276 directory or file; each candidate requires parent M2 per-file proofs",
+  "parent_cleanup_cap_unchanged": {
+    "new_allocated_GiB": 50,
+    "cache_candidates_max": 9,
+    "derived_model_views_max": 2
+  },
+  "previous_41GiB_reclamation_excluded_from_new_cap": true,
+  "specific_protected": [
+    "PI0290 physical pilot raw frames/physics/reports",
+    "PI0250/PI0276 unique original data and receipts",
+    "PI0209 UNKNOWN_HOLD",
+    "private WBC",
+    "full Trainer without a complete independently verified durable copy"
+  ],
+  "needed_receipt": "PROCESS_RETIREMENT_RECEIPT.json plus parent M0-M3 receipts",
+  "audit_source_relative": "work/corelab-storage-audit-20261013",
+  "user_local_audit_not_available_to_this_chat": true,
+  "allowed_when_source_missing": "READ_ONLY_PROCESS_DIAGNOSIS_ONLY; no signals without independent exact identity; no file deletion",
+  "science": {
+    "Hopper": 0,
+    "GR00T_forward": 0,
+    "optimizer": 0,
+    "MuJoCo": 0,
+    "WBC": 0,
+    "hardware": 0
+  },
+  "status": "PUBLISHED_NOT_EXECUTED",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

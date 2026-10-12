@@ -1,0 +1,221 @@
+{
+  "schema": "BOUNDED_OVERNIGHT_ARX5_DATA_GOAL_V1",
+  "goal_id": "PI0291",
+  "status": "USER_REQUESTED_READY_FOR_EXISTING_LOCAL_PC_ADOPTION_NOT_EXECUTED_BY_PUBLICATION",
+  "owner": "EXISTING_LOCAL_PC_ONLY",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "reviewed_head": "b3e1df2d8c944d79c3dfd02c8df7624ae2bd8f95",
+  "protocol_path": "docs/protocols/PI0291_ARX5_REAL_ASSET_SCENE_DATASET_OVERNIGHT_V1.md",
+  "protocol_sha256": "fd78d8813afad7a6e29cbdb2bd3f37385a989d5b9396202fb07cdc141a71a9ae",
+  "execute_prompt_path": "reports/PI0291/design/LOCAL_PC_EXECUTE_PROMPT.md",
+  "execute_prompt_sha256": "0b90c08643080f5a8da83df68674df01a494065d626006f4df10f42149cf96a3",
+  "time": {
+    "timezone": "Asia/Singapore",
+    "deadline_local": "2026-10-13T09:00:00+08:00",
+    "deadline_utc": "2026-10-13T01:00:00Z",
+    "max_elapsed_hours_from_first_adoption": 6,
+    "closeout_reserve_minutes": 45,
+    "resume_reuses_original_T0_run_uuid_and_ledger": true,
+    "past_deadline_new_physics": false
+  },
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "task": "T1_CUBE_PICK_PLACE_RELEASE_WITHDRAW_HOLD",
+  "engine": {
+    "preferred": "EXISTING_VERIFIED_MUJOCO_3_2_7",
+    "alternative": "ONLY_ALREADY_INSTALLED_QUALIFIED_SINGLE_ENGINE_BEFORE_FIRST_PHYSICS",
+    "large_engine_or_driver_install": false
+  },
+  "robot": {
+    "real_ARX5_articulated_chain": true,
+    "fixed_base_support_declared": true,
+    "teacher_executor": "INDEPENDENT_FINITE_JOINT_DRIVER",
+    "gripper": "INDEPENDENT_OPPOSED_PRISMATIC_CONTACT",
+    "gripper_normalized_closed": 0,
+    "gripper_normalized_open": 1,
+    "private_WBC_source_modified": false,
+    "frozen_WBC_calls": 0
+  },
+  "attachments_sha256": {
+    "WBCv1.zip": "3c59a6d5f8f924df0b838ad2d501d3a853274d741db191a9de453f58212063ee",
+    "wbc_mujoco_minimal.tar.gz": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52"
+  },
+  "phases": [
+    {
+      "id": "N0",
+      "work": "ADOPT_CURRENT_EVIDENCE_AND_LEASE",
+      "target_minutes": [
+        0,
+        20
+      ]
+    },
+    {
+      "id": "N1",
+      "work": "REAL_ASSET_SCENE_GRIPPER_CAMERAS",
+      "target_minutes": [
+        20,
+        90
+      ]
+    },
+    {
+      "id": "N2",
+      "work": "COMMISSION_AND_SEALED_PILOT",
+      "target_minutes": [
+        90,
+        150
+      ]
+    },
+    {
+      "id": "N3",
+      "work": "FROZEN_TRAIN64_DEV16_ATTEMPTS",
+      "requires": "N2_PILOT_PASS",
+      "target_minutes": [
+        150,
+        270
+      ]
+    },
+    {
+      "id": "N4",
+      "work": "NATIVE_DATALOADER_STATISTICS_PRIVATE_TRANSFER",
+      "target_minutes": [
+        270,
+        315
+      ]
+    },
+    {
+      "id": "N5",
+      "work": "FINAL_EVIDENCE_AND_RESUME_HANDOFF",
+      "target_minutes": [
+        315,
+        360
+      ]
+    }
+  ],
+  "new_science_budget": {
+    "commissioning_starts": 12,
+    "pilot_starts": 8,
+    "train_starts": 64,
+    "dev_starts": 16,
+    "total_episode_starts": 100,
+    "max_episode_sim_seconds": 32,
+    "physics_dt_seconds": 0.002,
+    "max_episode_integrations": 1600000,
+    "max_registered_engineering_integrations": 8000,
+    "max_total_integrations": 1608000,
+    "engineering_starts_count_within_commissioning": true,
+    "max_total_paired_samples": 64100,
+    "max_formal_paired_samples": 51280,
+    "max_zero_integration_diagnostic_pairs": 256,
+    "max_corelab_gpu_union_hours": 4,
+    "max_concurrent_gpu": 1,
+    "max_new_cpu_core_hours_including_maintenance": 48,
+    "max_concurrent_cpu": 8,
+    "max_new_PI0291_peak_GiB": 40,
+    "max_small_dependency_download_GiB": 2,
+    "new_hopper_PBS": 0,
+    "GR00T_model_loads": 0,
+    "GR00T_forwards": 0,
+    "backward_optimizer_steps": 0,
+    "WBC_calls": 0,
+    "hardware_calls": 0
+  },
+  "gates": {
+    "pilot_attempts_required": 8,
+    "pilot_complete_evidence_required": 8,
+    "pilot_success_min": 7,
+    "pilot_new_qualification_family_attempts": 4,
+    "pilot_new_qualification_family_success_min": 3,
+    "formal_train_attempts_required": 64,
+    "formal_dev_attempts_required": 16,
+    "train_admitted_success_min": 56,
+    "dev_admitted_success_min": 14,
+    "quality_failure_retry": false,
+    "postpilot_semantic_change_can_reuse_old_passes": false,
+    "native_official_processor_collator_required": true,
+    "train_only_statistics": true,
+    "training_dataset_max_state_action_active_dims": 10,
+    "native_internal_padding_dims": 132,
+    "full_TRAIN_official_codec_error_max": {
+      "xyz_m": 1e-05,
+      "so3_rad": 0.0001,
+      "gripper": 1e-05
+    },
+    "highest_status": "ARX5_DATASET_READY_FOR_FIRST_TRAINING"
+  },
+  "data_contract": {
+    "sensor_hz": 20,
+    "H": 40,
+    "prefix": 8,
+    "offset_seconds": [
+      0,
+      1.95
+    ],
+    "observations_per_complete_episode": 641,
+    "committed_commands_per_complete_episode": 640,
+    "max_full_windows_per_complete_episode": 601,
+    "max_formal_windows_if_all_80_admitted": 48080,
+    "normal_replans_may_be_crossed": true,
+    "reset_abort_takeover_executor_identity_boundary_may_be_crossed": false,
+    "partial_H40_admitted": false,
+    "official_relative_loader_input": "ABSOLUTE_COMMITTED_EEF10_AND_ABSOLUTE_MEASURED_STATE",
+    "relative_codec": "T_ACTUAL_OBS_INVERSE_TIMES_T_COMMITTED_NATIVE_ROW_ROT6D",
+    "RGB_from_same_physical_episode_tick": true,
+    "privileged_allowed_in_student": false,
+    "episode_and_layout_group_split_before_windowing": true
+  },
+  "existing_maintenance": {
+    "canonical_issue": 47,
+    "parent_comment_id": 6129475191,
+    "parent_release": "6b4cf12ef55ed45730069fd15d32e397b7fd7b16",
+    "process_addendum_comment_id": 6129639251,
+    "process_addendum_release": "b3e1df2d8c944d79c3dfd02c8df7624ae2bd8f95",
+    "new_budget_reset": false,
+    "max_phase2_cumulative_freed_allocated_GiB": 50,
+    "previous_phase1_freed_allocated_bytes_excluded": 44017266688,
+    "copy_only_candidates_max": 24,
+    "initial_hashed_small_copy_pilot": 7,
+    "cache_candidates_max": 9,
+    "additional_derived_model_only_views_max": 2,
+    "owner_active_maintenance_minutes_max": 60,
+    "audit_source_private_local_root": "work/corelab-storage-audit-20261013",
+    "required_originals": [
+      "AUDIT_REPORT.md",
+      "FULL_STORAGE_INVENTORY.csv",
+      "RETENTION_PLAN.json",
+      "README_STORAGE.md"
+    ],
+    "path_checker_also_required": true,
+    "any_missing_audit": "BLOCKED_AUDIT_SOURCE_ALL_DELETE_ZERO_PROCESS_RETIREMENT_PENDING",
+    "historical_process_locators": [
+      3455361,
+      3455362
+    ],
+    "process_action": "ONLY_EXACT_VERIFIED_STOPPED_OWN_PROCESSES_UNDER_EXISTING_ADDENDUM",
+    "migrate_source_deletion": false,
+    "process_retirement_permits_PI0276_file_deletion": false,
+    "exact_targets_must_come_from_real_audit": true
+  },
+  "storage": {
+    "new_run_root": "<VERIFIED_CORELAB_SSD_PROJECT>/PI0291/<run_uuid>",
+    "source_artifacts_preserved": true,
+    "new_data_private_HF_required": true,
+    "READY_uploaded_last": true,
+    "fixed_revision_readback_required": true,
+    "servers_direct_network": false
+  },
+  "reporting": {
+    "science": "reports/PI0291/<run_uuid>/ and Issue #11",
+    "maintenance": "reports/maintenance/2026-10-13-corelab-storage-phase2/<session>/ and Issue #47",
+    "component_statuses": [
+      "scene",
+      "teacher",
+      "dataset",
+      "native_loader",
+      "transfer",
+      "maintenance"
+    ],
+    "selected": "NONE",
+    "deployment": "NONE",
+    "publication_is_execution_evidence": false
+  }
+}
