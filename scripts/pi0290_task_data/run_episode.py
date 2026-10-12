@@ -19,21 +19,26 @@ from go2arx5_vla.task_data.score import saved_score,BOOL_FIELDS
 from go2arx5_vla.trajectory.so3 import matrix_to_quat
 
 
-def run(root,identifier,source,mode):
+def run(root,identifier,source,mode,backend):
     affinity=sorted(os.sched_getaffinity(0));os.sched_setaffinity(0,set(affinity[:4]))
     root=Path(root);folder=root/'episodes'/identifier
     code_seal=__import__('json').loads((root/'CODE_SEAL.json').read_text())
     assert code_seal['source_sha']==source
     for name,digest in code_seal['files'].items():assert file_hash(root/'code'/name)==digest,name
-    gpu_check=__import__('subprocess').run(['nvidia-smi','-i','1','--query-compute-apps=pid','--format=csv,noheader'],capture_output=True,text=True,check=True)
-    if gpu_check.stdout.strip():raise RuntimeError('GPU1 compute resource not idle: preserve other user work')
+    if backend=='mesa_cpu':
+        assert os.environ.get('__EGL_VENDOR_LIBRARY_FILENAMES')=='/usr/share/glvnd/egl_vendor.d/50_mesa.json'
+        assert os.environ.get('LIBGL_ALWAYS_SOFTWARE')=='1' and os.environ.get('CUDA_VISIBLE_DEVICES')==''
+        assert 'MUJOCO_EGL_DEVICE_ID' not in os.environ
+    else:
+        gpu_check=__import__('subprocess').run(['nvidia-smi','-i','1','--query-compute-apps=pid','--format=csv,noheader'],capture_output=True,text=True,check=True)
+        if gpu_check.stdout.strip():raise RuntimeError('GPU1 compute resource not idle: preserve other user work')
     if folder.exists():raise RuntimeError('Existing episode evidence: will not overwrite or retry')
     if identifier.startswith('P'):
         seal=__import__('json').loads((root/'TEACHER_AND_LAYOUT_SEAL.json').read_text())
         assert seal['source_sha']==source and seal['parameter_sha256']==canonical_hash(P) and mode=='normal'
         card=seal['layouts'][identifier]
     else:card=layout(identifier)
-    budget=Budget(root);budget.start(identifier,source)
+    budget=Budget(root,gpu_service=backend=='nvidia_egl');budget.start(identifier,source)
     folder.mkdir();write(folder/'CARD.json',{**card,'mode':mode,'source_sha':source,'authority':AUTHORITY,'domain':DOMAIN})
     began=time.monotonic();engine=None;samples=[];physical=[];refs=[];highrate=[];status='ENGINEERING_INCOMPLETE';error=None;GPU_s=0.
     try:
@@ -43,8 +48,14 @@ def run(root,identifier,source,mode):
             if not s['safety_valid']:raise RuntimeError('REAL_SAFETY_FAIL')
             images,geometry=engine.render(s)
             if step==0:
+                from OpenGL import GL
+                gl_renderer=GL.glGetString(GL.GL_RENDERER).decode()
+                gl_vendor=GL.glGetString(GL.GL_VENDOR).decode()
+                if backend=='mesa_cpu':assert gl_vendor=='Mesa' and 'llvmpipe' in gl_renderer
                 gpu=__import__('subprocess').run(['nvidia-smi','--query-compute-apps=pid,gpu_uuid,used_memory','--format=csv,noheader'],capture_output=True,text=True)
-                write(folder/'RENDER_PROCESS.json',dict(pid=os.getpid(),observed_own_rows=[x for x in gpu.stdout.splitlines() if x.strip().startswith(str(os.getpid())+',')],requested_EGL_device=1))
+                own_rows=[x for x in gpu.stdout.splitlines() if x.strip().startswith(str(os.getpid())+',')]
+                if backend=='mesa_cpu':assert not own_rows
+                write(folder/'RENDER_PROCESS.json',dict(pid=os.getpid(),observed_own_rows=own_rows,backend=backend,GL_VENDOR=gl_vendor,GL_RENDERER=gl_renderer,requested_EGL_device=1 if backend=='nvidia_egl' else None))
             snapshot=f'{identifier}:{engine.steps}';obs=dict(instruction=card['instruction'],actual_tcp=s['tcp'],
                 actual_gripper=s['gripper_fraction'],actual_gripper_speed=s['gripper_speed'],timestamp_s=s['time_s'],valid=True)
             for camera,image in images.items():
@@ -92,7 +103,7 @@ def run(root,identifier,source,mode):
         write(folder/'ERROR.json',dict(error=error,traceback=traceback.format_exc(),steps=0 if engine is None else engine.steps))
     finally:
         if engine is not None:engine.close()
-        GPU_s=time.monotonic()-began
+        GPU_s=time.monotonic()-began if backend=='nvidia_egl' else 0.
         if physical:
             arrays={k:np.asarray([s[k] for s in physical]) for k in physical[0]}
             arrays['tcp_world']=arrays.pop('tcp');np.savez_compressed(folder/'physics.npz',**arrays)
@@ -101,7 +112,7 @@ def run(root,identifier,source,mode):
         write(folder/'samples.json',samples);write(folder/'references.json',refs)
         if engine is not None:write(folder/'scene.xml.json',dict(xml=engine.xml,sha256=__import__('hashlib').sha256(engine.xml.encode()).hexdigest()))
         result=dict(id=identifier,status=status,error=error,source_sha=source,physics_steps=0 if engine is None else engine.steps,
-            paired_samples=len(samples),GPU_service_s=GPU_s,domain=DOMAIN,selected='NONE',deployment='NONE')
+            paired_samples=len(samples),GPU_service_s=GPU_s,render_backend=backend,domain=DOMAIN,selected='NONE',deployment='NONE')
         write(folder/'RESULT.json',result)
         budget.progress(identifier,result['physics_steps'],len(samples))
         if physical:
@@ -115,4 +126,4 @@ def run(root,identifier,source,mode):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--id',required=True)
     p.add_argument('--source-sha',required=True);p.add_argument('--mode',choices=['normal','empty_grasp','single_side'],default='normal');a=p.parse_args()
-    run(a.root,a.id,a.source_sha,a.mode)
+    run(a.root,a.id,a.source_sha,a.mode,'mesa_cpu' if os.environ.get('LIBGL_ALWAYS_SOFTWARE')=='1' else 'nvidia_egl')
