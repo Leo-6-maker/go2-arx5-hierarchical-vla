@@ -1,0 +1,32 @@
+{
+  "schema": "BRANCH_RETIREMENT_PLAN_20261012_V1",
+  "status": "AUDITED_NOT_EXECUTED",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "execution_owner": "LOCAL_PC_EXISTING_AUTH",
+  "observed_branch_count": 9,
+  "observed_open_pr_count": 0,
+  "review_active_sha": "5c757eaea3b3078e3406b604e70267ca5d0c0130",
+  "review_main_sha": "1f05bfc919b25d3146839529d2763ac847010d7d",
+  "delete_authorized_only_after_live_recheck": true,
+  "archive_strategy": "same-name compatibility tag, read back, then exact-lease branch deletion",
+  "no_remote_branches_deleted_by_chatgpt": true,
+  "allowlist": [
+    {"branch":"pi0263/train-template-counterbalancing","expected_sha":"1ea9a1ac7bc5f28f360f32c86fa958f266b56c4b","ancestor_of":"pi0267/executor-decoupled-recovery","unique_commits":0,"result":"NOT_EXECUTED"},
+    {"branch":"pi0265/new-scene-feedback","expected_sha":"1ea7c2ecb593ce81d361c25da91386a5d27b708d","ancestor_of":"pi0267/executor-decoupled-recovery","unique_commits":0,"result":"NOT_EXECUTED"},
+    {"branch":"pi0266/state-conditioned-feedback","expected_sha":"48048ae37b76534bbbe8a0ba76a9c84ed793e7ea","ancestor_of":"pi0267/executor-decoupled-recovery","unique_commits":0,"result":"NOT_EXECUTED"},
+    {"branch":"repo-maintenance/consolidation-20261001","expected_sha":"f9546251ebf67d26dbe8b1d70e4c70584c821faf","ancestor_of":"main","unique_commits":0,"result":"NOT_EXECUTED"}
+  ],
+  "keep_diverged": [
+    {"branch":"pi0257/corelab-video-evidence-workflow-v1","sha":"1e760ba055106cb85b508711f1466d1cb78a9656","unique_commits_vs_active":1,"reason":"independent video protocol history"},
+    {"branch":"pi0263/storage-subagent-model-audit-go","sha":"b809ee4315b585bd9e77400115ead784e33465ae","unique_commits_vs_active":2,"reason":"independent protocol/storage audit history"},
+    {"branch":"pi0264/language-diversity-transfer","sha":"f2eafce181499e6854f879533f3394b5b379524e","unique_commits_vs_active":1,"reason":"independent FINAL_GITHUB_LEDGER"}
+  ],
+  "protected_by_task": ["main","pi0267/executor-decoupled-recovery"],
+  "required_live_checks": ["repo identity","unchanged candidate SHA","ancestry in keeper","no open PR head/base use","not default or protected","no active known project lease dependent on branch name","archive tag points to same commit before deletion"],
+  "forbidden": ["delete any branch outside allowlist","overwrite archive tag","force-update main or active branch","delete historical files or HF artifacts","claim dry-run as deletion"],
+  "same_name_tag_command_template": "git push origin <expected_sha>:refs/tags/<candidate>",
+  "delete_command_template": "git push --force-with-lease=refs/heads/<candidate>:<expected_sha> origin :refs/heads/<candidate>",
+  "readback": "head absent and compatibility tag peeled commit equals expected_sha; record sanitized evidence in Issue47",
+  "all_success_projected_branch_count": 5,
+  "projected_count_is_not_execution_result": true
+}

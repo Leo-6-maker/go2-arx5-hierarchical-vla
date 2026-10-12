@@ -1,125 +1,41 @@
-# Go2 + ARX5 Hierarchical Whole-Body VLA
+# Go2＋ARX5 Hierarchical Task-Space VLA
 
-This repository is the source of truth for the Go2 + ARX5 hierarchical VLA
-contracts, adapters, experiment runners, tests, and provenance documents.
-Large or private model, WBC, dataset, simulator, and hardware inputs remain
-outside Git and are referenced through manifests and reports.
+> **2026-10-12：新local-pc Codex先从 [START_HERE.md](START_HERE.md) 接管。** 本次更新只整理导航、交接和分支维护，不启动训练/仿真，不合并或重写历史运行代码。
 
-## Current execution priority — PI0285 R3, source manipulation policy delivery
+## 项目与当前分工
 
-Read the [fixed R3 protocol](docs/protocols/PI0285_R3_PARALLEL_WORKPACKAGES_AND_POLICY_DELIVERY_V1.md), [authority #6066233135](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-6066233135), and [actual execution receipts](reports/PI0285/r3/PLACE4096_COMPLETE_AND_SOLE_DOSE_CONTINUATION.md). Release `d6bdb8678e28ca5331d335b2ccd4d5753aef17d6` continues the original R2 recipe and cumulative budgets on `pi0267/executor-decoupled-recovery`.
+视觉＋语言＋实际TCP/夹爪 → 预训练GR00T的EEF/夹爪操作参考 → 明确的frame/time/safety接口 → 师兄的冻结WBC → 实际反馈。
 
-PI0285 R3 scientific execution is closed: [terminal report](reports/PI0285/r3/FINAL_REPORT.md). PLACE1024/2048/4096 TRAIN results0/8,2/8,4/8 remain valid FAIL. The sole DOSE2048 completed2048 updates and full Trainer integrity/HF readback; its frozen candidate passed TRAIN7/8 and DEV13/16, then failed the original unique CONFIRM_A at20/32 versus26/32 with independent CPU scoring. No second candidate, shared training or further neural/physics probes follow. Source PANDA/native PD is NON_REALTIME, not target WBC or hardware qualification; `selected/deployment=NONE`.
+上层团队以独立任务数据、GR00T微调、物体闭环与多任务为主线；不替师兄继续调WBC。EEF表示降低本体耦合，但源Panda/独立工具成功不等于Go2跨本体或真机成功。
 
-**2026-10-09 Asia/Singapore stops:** optional research05:30; new recovery collection06:00; new optional/shared optimization06:30; optimizer08:30; neural/physics09:45; handoff10:00. No date rollover, new search, recurring monitor or merge. Actual task feedback and recovery integrity precede optional analysis and bulk HF archival.
+## 接管与证据入口
 
-## Historical execution priority — PI0282 R2, deadline-gated policy delivery
+| 需要 | 去哪里 |
+|---|---|
+| 新窗口完整接管prompt、SSH/HF与双端分工 | [Local-pc adoption](docs/handover/2026-10-12_LOCAL_PC_ADOPTION.md) |
+| 条件化分支清理；尚未删除任何head | [Audit allowlist](docs/handover/2026-10-12_BRANCH_RETIREMENT_PLAN.json) |
+| 研究前提 | [任务空间研究章程](docs/RESEARCH_CHARTER_TASK_SPACE_MANIPULATION_V1.md) |
+| 科学授权与实际进度 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
+| 工程/CI/分支归档 | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
+| 最近上层学习终局 | [PI0286](reports/PI0286/final/FINAL_SCIENTIFIC_REPORT.md) |
+| 最新部署路线执行器终局 | [PI0289](reports/PI0289/execution/REPORT.md) |
+| WBC版本与接口比较 | [2026-10-10 review](docs/coordination/2026-10-10_WBC_PACKAGE_COMPARISON_AND_TARGET_LEARNING_REVIEW.md) |
+| TaskAnchor/UNITAS启发，尚非GO | [2026-10-12 review](docs/coordination/2026-10-12_TASKANCHOR_UNITAS_DATA_AND_FINETUNING_REVIEW.md) |
 
-**Hard deadline: 2026-10-08 09:00 Asia/Singapore.** Read the [R2 gated pretrained-policy sprint](docs/protocols/PI0282_R2_0900_GATED_PRETRAINED_POLICY_SPRINT_V1.md), [cumulative limits](reports/PI0282/design/R2_DEADLINE_AUTHORITY_AND_LIMITS.json), and newest PI0282 R2 canonical in [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11). This is a continuation of the current owner goal, not a competing run. Adopt actual completed R1 data/canaries/training and preserve counters. Publication is not a remote start receipt.
+本分支pi0267/executor-decoupled-recovery保存实际近期代码；main保留较早accepted代码与导航。每次执行绑定protocol/receipt所指完整SHA，不能从当前branch HEAD自动恢复旧任务。
 
-Prioritize genuine-pretrained ACTION native-loss adaptation, immutable local snapshots and real source task feedback. Optional INTERFACE comparison and HF bulk are not prerequisites for delivery. The protocol permits bounded same-data continuation, concentrated fit, and one validated recovery-supervision branch only when their respective gates hold. WBC, target simulation/model calls and hardware remain zero; VLM and all undeclared parameters remain frozen. No old task-weight lineage, custom losses, fabricated observations, relaxed task thresholds or scripted online finish.
+用户最新资源要求：Corelab负责仿真/数据/CPU分析等非训练工作；Hopper H200负责GR00T训练、神经推理与模型eval。两服务器不能直连，数据和权重经HF固定revision；未来闭环obs/action中继由local-pc单独设计与验收。
 
-Formal PI0282 R1+R2 updates are capped at8192 cumulatively, not8192 additional. Stop new updates no later than07:30 and earlier if measured evaluation time requires; no new recovery collection after06:00. Freeze one development-qualified candidate for a single CONFIRM16; all neural/physical work ends by08:50 and handoff by09:00. No automatic date rollover. If no qualified policy is obtained, deliver the best explicitly unconfirmed result and actual failure, not a claimed PASS. `selected/deployment=NONE`; source prototype qualification is not Go2/WBC deployment.
+## 最近结果与资格边界
 
-## Parent protocol — PI0282 R1 (R2 supersedes conflicting execution rules)
+PI0285源Panda独立确认20/32未过资格。PI0286 C0 TRAIN2/8，C1 TRAIN8/8、DEV5/16，新确认未运行。PI0289安全启动通过，首hold姿态质量与时钟资格仍未通过；其余运动、目标教师数据尚未完成。最近科学账本时间2026-10-10 11:08:34 SGT，需查询#11是否更新。这不是实时GPU/PBS状态。
 
-The [PI0282 pristine native-loss EEF interface protocol](docs/protocols/PI0282_PRISTINE_NATIVE_EEF_INTERFACE_ADAPTATION_V1.md) and [original review/limits](reports/PI0282/design/REVIEW_AND_LIMITS.json) preserve the initial design. R2 changes priority, bounded continuations, intermediate selection, deadline and cumulative caps; untouched semantic requirements remain.
+`selected/deployment=NONE`。TaskAnchor、UNITAS和独立数据路线是准备/研究设计，不等于已实施。接管不会重置预算、放宽阈值、重新打开旧确认集或授权WBC/GR00T运行。
 
-PI0280/PI0281 native baseline work is sealed: original model calls reproduced; direct EEF, joint closed loop and commanded-FK replay are0/4 on the developed source task; expert bridge4/4. The delivered WBC progress repair prevents the immediate return abort but orientation qualification still fails. The original model has no honest target EEF-only input route. These source/control findings are not a completed GR00T+Go2 high-level closed loop.
+## 历史与资产保护
 
-The parent comparison used INTERFACE2048 and ACTION2048 from the same pristine GR00T-N1.7-3B and newly declared EEF10 interface, native flow-matching only. Compare row10 state/action encoders+decoder with that same scope plus shared DiT; freeze VLM and protect other rows. The placeholder is not a pretrained zero-shot target route. Under R2, practical source-policy delivery precedes completion of this matched comparison; omitted or shortened arms are explicitly reported.
+此前README含Stage45及PI0282/PI0285 deadline导航，完整保存在[交接前固定README](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/5c757eaea3b3078e3406b604e70267ca5d0c0130/README.md)。这些历史结果和代码均保留；本次只更换入口，不把历史内容改判为PASS。
 
-PI0279 CLEAR4096 and all old automatic fine-tuning/recovery-data continuations remain `PAUSED_BY_USER_PRETRAINED_BASELINE_PRIORITY`; their pause and recoveries are preserved. R2's permission to reuse named validated recovery examples is not permission to restart those old drivers. New target WBC/physics/model calls and hardware remain0. Source data admission remains independent of target-WBC success. H200 training and Corelab evaluation use actual legal allocations, local checkpoints and verified caching; HF bulk stays deferred. `selected/deployment=NONE`; source-policy qualification is separate from target deployment.
+大模型、完整Trainer、数据和视频留HF/已授权服务器，用manifest固定身份；私有WBC/vendor源码、mesh、二进制、密钥不得公开。权重+processor+statistics+mapping+decode+executor/clock共同构成可重现实验身份。
 
-Historical priorities: [PI0280 no-training baseline](docs/protocols/PI0280_GENUINE_PRETRAINED_GROOT_FROZEN_WBC_BASELINE_NO_TRAIN_V1.md), [PI0281 readout/WBC reference review](docs/protocols/PI0281_CORELAB_NATIVE_READOUT_AND_WBC_REFERENCE_REPAIR_NO_TRAIN_V1.md), and [original pause decision #6037170888](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-6037170888). Their zero-update execution records remain unchanged.
-
-## Current research direction — read first (2026-10-05)
-
-**后续GR00T方案的统一前提：** [任务空间物体操作研究章程 V1](docs/RESEARCH_CHARTER_TASK_SPACE_MANIPULATION_V1.md)
-(`GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1`).
-
-> 我们让VLA只学习task-space manipulation behavior，而不学习目标机器人的joint action；低层WBC独立学习广泛的task-space tracking。因此任务数据可以不依赖目标机器人遥操作，而同一冻结WBC能承接多个新任务。
-
-**从现在起，真正的物体操作任务数据、GR00T学习与闭环执行是主线；简单轨迹生成/跟随降为基础设施、执行侧qualification与有界诊断。** 上层团队继续冻结师兄提供的WBC，不将低层训练计为上层新增成果。上述claim是设计前提与待验证目标，不是既成实验结论。
-
-每份后续protocol须引用章程并明确物体任务、独立任务数据来源、EEF/夹爪接口、固定WBC身份、对照、任务成功标准与预算。不要把降低轨迹RMSE当作物体任务成功，不要按目标WBC执行成功筛选高层任务数据。
-
-The current working branch is `pi0267/executor-decoupled-recovery`; use the latest explicit execution authority and actual receipts in [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11). This direction does not restart or change PI0274, authorize new runs, or reset budgets. `selected/deployment=NONE` remains. The accepted-baseline and Stage45A references below are historical navigation, not the current experiment authorization.
-
-Related preparation: [sim-first object-task roadmap](docs/coordination/2026-10-05_SIM_FIRST_OBJECT_MANIPULATION_ROADMAP.md) and [GR00T/frozen-WBC meeting handoff](docs/coordination/2026-10-07_GROOT_WBC_MEETING_PREPARATION.md).
-
-## Accepted repository baseline
-
-The current accepted research tip is the normal-merge tip on `main`:
-
-```text
-branch: main
-commit: bfa14bf1b74eae908c0922575a4db671c903b9b8
-parents: 237be6fc37c20cf44ccccf5f0cfbd3cce629760f + 9852090f66759c8ddc7ce974b31e57350ab536c1
-accepted source: stage44r/corelab-attribution-repair @ bd0f02934e680789cf38adacb838e1ea555c707d
-diagnosis: STAGE44_TINY1_SINGLE_SAMPLE_COVERAGE_LIMITATION_SUPPORTED
-```
-
-The normal consolidation merge preserves the forward-only Stage19--Stage44R
-history and adds navigation and audit material; it does not rewrite, squash,
-or delete scientific history. Stage45A now has a CPU/read-only design branch
-and protocol ([protocol](docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md),
-[manifest](manifests/STAGE45A_FULL24_ADAPTATION_DESIGN_V1.json)); it does not
-authorize model construction, training, data generation, H200 fine-tuning,
-Vanda A40 execution, or new model/WBC runs.
-
-## Current architecture
-
-```text
-Vision + Language + Proprioception
-        -> GR00T N1.7
-        -> StructuredActionV1 / EEF trajectory
-        -> SafetyGate
-        -> reference-only receding-horizon handoff
-        -> general trajectory-tracking WBC
-        -> Go2 + ARX5
-```
-
-The external model/controller waist is EEF-only: XYZ + SO(3) trajectory with
-an independent parallel-gripper channel. The delivered WBC performs internal
-whole-body redundancy resolution; its structured body/gait signal is not a
-GR00T label. Stage40--Stage43 closed-loop records and Stage44R attribution are
-engineering and diagnostic evidence, not claims of task success, general
-robustness, real-time operation, or hardware readiness.
-
-## Navigate the repository
-
-- [Research timeline](docs/RESEARCH_TIMELINE.md) — Stage19 through Stage44R,
-  with canonical branches, narrow outcomes, and evidence pointers.
-- [Accepted baselines](docs/ACCEPTED_BASELINES.md) — what each accepted gate
-  establishes and what remains explicitly unproven.
-- [Repository guide](docs/REPOSITORY_GUIDE.md) — source, runner, test, report,
-  manifest, and HPC directory conventions.
-- [Consolidation audit](reports/REPOSITORY_CONSOLIDATION_AUDIT.md) — the
-  read-only RC0 inventory and provenance findings.
-- [Historical archival recommendation](docs/HISTORICAL_ARCHIVAL_RECOMMENDATION.md)
-  — RC8 PR-closure record and branch-preservation recommendation.
-- [Stage45A FULL24 adaptation protocol](docs/stages/STAGE45A_FULL24_ADAPTATION_PROTOCOL.md)
-  — design-only, pre-registered data-expansion gate; no training is authorized.
-
-## CPU validation
-
-The maintained contract suite is CPU-only:
-
-```bash
-python -m pytest -q
-```
-
-When the optional test dependency is unavailable, the standard-library tests
-and the static checks described in [the repository guide](docs/REPOSITORY_GUIDE.md)
-remain the required fallback. No command in this consolidation performs a
-model forward, simulator/WBC rollout, training, data generation, or hardware
-action.
-
-## Provenance and private inputs
-
-Historical stage runners and reports stay at their original paths because
-Issue #11 evidence and sealed manifests refer to them. Node-local caches and
-evidence roots (for example `/var/cache/...` or `/scratch/...`) are references,
-not repository contents. Do not commit credentials, checkpoints, videos,
-datasets, USD assets, or private WBC sources.
+历史hpc/和owner脚本受各自协议约束，先读后用。本次首轮只做轻量接管与维护，没有新GPU、模型、teacher、physics或硬件授权。
