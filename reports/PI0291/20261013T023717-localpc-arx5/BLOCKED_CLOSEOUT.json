@@ -1,0 +1,50 @@
+{
+  "status": "BLOCKED_REMOTE_OBSERVATION_PENDING_NETWORK_RESTORATION",
+  "observed_utc": "2026-10-12T23:41:22Z",
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "authority_sha": "15cc7957488fb879f5f050e3602327592da7036b",
+  "frozen_source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "blocker_audit": {
+    "consecutive_goal_turns": 3,
+    "same_class_bounded_ssh_retries_used": 2,
+    "current_local_network_state_changed": false,
+    "user_network_restoration_reply_received": false,
+    "additional_identical_ssh_retry": false,
+    "root_cause": "NOT_PROVEN",
+    "independent_remaining_delivery": "No remaining substantive objective gate can be completed from saved local evidence alone"
+  },
+  "last_verified_formal_observation": {
+    "utc": "2026-10-12T23:13:54.847Z",
+    "complete_raw_pass_candidates": 54,
+    "ids": "T291000 through T291053",
+    "final_owner_admission": "NOT_GENERATED_OR_VERIFIED"
+  },
+  "remote_after_disconnect": {
+    "owner_and_queue_liveness": "UNKNOWN",
+    "T291054_onward_attempts_and_results": "UNKNOWN",
+    "final_resource_totals": "UNKNOWN",
+    "ssh_timeout_proves_remote_termination": false,
+    "remote_cancel_signal_or_restart": false
+  },
+  "incomplete_gates": [
+    "Terminal attempt ledger and final admission",
+    "Formal TRAIN-only statistics and actual multi-episode official CPU data qualification",
+    "Private ARX5 HF READY-last immutable revision and fresh actual download/readback",
+    "Hopper small fixed-revision READY readback",
+    "Final resource accounting and remote terminal receipts"
+  ],
+  "training_adapter": "BLOCKED_OFFICIAL_TRAINER_ADAPTER_NOT_QUALIFIED",
+  "original_clock": {
+    "T0": "2026-10-12T18:37:17Z",
+    "new_physics_cutoff": "2026-10-12T23:52:17Z",
+    "absolute_deadline": "2026-10-13T00:37:17Z",
+    "clock_or_budget_reset": false
+  },
+  "recovery": "Restore existing connectivity, then inspect original PID identities, locks, persisted state, ledger and immutable receipts read-only. Never relaunch initial-only dispatcher. After the original absolute deadline, missing heavy execution requires fresh bounded GO.",
+  "is_terminal_dataset_receipt": false,
+  "goal_complete": false,
+  "highest_READY_allowed": false,
+  "model_load_forward_train_new_PBS_original_WBC_hardware": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
