@@ -5,9 +5,9 @@ from pathlib import Path
 import time
 
 from PIL import Image
-from OpenGL import GL
 from go2arx5_vla.task_data.config import layout
 from go2arx5_vla.task_data.engine import Engine
+from OpenGL import GL
 from go2arx5_vla.task_data.io import write,file_hash
 from go2arx5_vla.task_data.resource import Budget
 
