@@ -1,0 +1,89 @@
+{
+  "schema": "CORELAB_FAILED_MODEL_RETIREMENT_SANITIZED_V1",
+  "authorization": "User explicitly requested path management then deletion of previous failed checkpoints",
+  "status": "COMPLETE",
+  "paths_organized_before_deletion": true,
+  "canonical_path_policy": {
+    "SSD": "active runtime/code/episodes/evidence primary",
+    "NFS": "historical immutable evidence and navigation alias; no duplicate PI0290 working copy",
+    "models": "derived inference views classified separately from full Trainer",
+    "private_WBC": "read-only protected"
+  },
+  "records": [
+    {
+      "name": "PI0282_ACTION1024",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "60027054d3f62e5ae0b2b3e70be54e76fe9a2980",
+      "HF_prefix": "evidence/PI0282/R2-delivery/ACTION1024",
+      "freed_allocated_bytes": 6288183296
+    },
+    {
+      "name": "PI0282_ACTION2048",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "4f32c9fd680a1db69ef1fdc0f1411e16a801ccdc",
+      "HF_prefix": "evidence/PI0282/R2-delivery/ACTION2048",
+      "freed_allocated_bytes": 6288183296
+    },
+    {
+      "name": "PI0283_EVENT1024",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "2a288c49d2d2aa7517da2103bf92911bade01947",
+      "HF_prefix": "arms/PI0283/EVENT/checkpoint-1024",
+      "freed_allocated_bytes": 6288183296
+    },
+    {
+      "name": "PI0285_PLACE1024",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "0810fb97bd3fa8624ecb7494f5fa01aae55accbc",
+      "HF_prefix": "arms/PI0285/PLACE4096/checkpoint-1024",
+      "freed_allocated_bytes": 6288175104
+    },
+    {
+      "name": "PI0285_DOSE2048",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "75432eb91a2c602930a9e1e979aaebbeaebff02b",
+      "HF_prefix": "arms/PI0285/REPAIR_A2048/checkpoint-2048",
+      "freed_allocated_bytes": 6288183296
+    },
+    {
+      "name": "PI0286_C0",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9",
+      "HF_prefix": "arms/PI0286/C0_REPLAY1024/checkpoint-1024",
+      "freed_allocated_bytes": 6288175104
+    },
+    {
+      "name": "PI0286_C1",
+      "weights_absent": true,
+      "deleted_weights_match_original_materialization": true,
+      "metadata_present": true,
+      "HF_revision": "d35dcda18def3d0691b55957ce461fe6b8449437",
+      "HF_prefix": "arms/PI0286/C1_CORRECT1024/checkpoint-1024",
+      "freed_allocated_bytes": 6288183296
+    }
+  ],
+  "freed_allocated_bytes": 44017266688,
+  "freed_GiB": 40.9942741394043,
+  "retired_shards": 14,
+  "metadata_and_historical_FAILs_retained": true,
+  "baseline_shards_preserved": 2,
+  "Hopper_full_trainers_changed": false,
+  "raw_data_deleted": false,
+  "WBC_changed": false,
+  "model_loads_for_cleanup": 0,
+  "large_HF_downloads_for_cleanup": 0,
+  "remote_backups": "pinned inventories/small receipts verified; archived full-byte readbacks retained; changed-tensor exports + pristine base for PI0282, full Trainer for later models",
+  "source_receipt_location": "<CORE_PROJECT>/inventory/2026-10-13-local-pc/{PATH_ROLE_INDEX,RETIREMENT_ACTUAL}.json"
+}

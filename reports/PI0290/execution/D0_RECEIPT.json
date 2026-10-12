@@ -1,0 +1,58 @@
+{
+  "stage": "D0",
+  "status": "PASS_ISOLATED_MUJOCO_ENGINE_AND_HEADLESS_RENDER",
+  "authority": "e9918c68d03cc9a1049aa33e2bd2b0ef4eaea398",
+  "source_sha": "9809117609b77cae4583b787906c037f7f1ce0ab",
+  "engine": "3.2.7",
+  "backend": "egl",
+  "EGL_device": "1",
+  "model_xml_sha256": "cb2a252fe02377a75507d23b7c28609b8d78a92ed791ee73cea87fe06d42276f",
+  "nq": 16,
+  "nv": 14,
+  "nu": 2,
+  "neq": 0,
+  "nmocap": 0,
+  "image_sha256": "c4325be1d90306c42d9ce91c42f4321ab0818bd032938915c6ff84b2c24f7953",
+  "image_std": 72.36948038430796,
+  "physics_steps": 0,
+  "episode_starts": 0,
+  "paired_observations": 0,
+  "standalone_probe_images": 1,
+  "GPU_service_s": 0.18143939971923828,
+  "CPU_s": 0.15447199999999997,
+  "packages": {
+    "mujoco": "3.2.7",
+    "numpy": "2.5.4",
+    "pillow": "12.3.0",
+    "imageio": "2.38.1",
+    "imageio-ffmpeg": "0.6.0",
+    "pytest": "9.1.1"
+  },
+  "GR00T": 0,
+  "WBC": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "private_asset_hash_verified": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52",
+  "storage_allocation_proof": {
+    "allocated_bytes": 8589938688,
+    "requested_bytes": 8589934592,
+    "status": "PASS_OWN_PATH_ALLOCATION_PROOF"
+  },
+  "filesystem": {
+    "SSD_free_display": "537G",
+    "NFS_free_display": "1.4T",
+    "SSD_mount_options": "ext4 rw,relatime",
+    "personal_quota_api": "UNAVAILABLE; actual own-path allocation proof succeeded"
+  },
+  "paths": {
+    "runtime": "<CORE_SSD_PROJECT>/PI0290/runtime/venv",
+    "code": "<CORE_SSD_PROJECT>/PI0290/code",
+    "episodes": "<CORE_SSD_PROJECT>/PI0290/episodes",
+    "NFS_navigation": "<CORE_PROJECT>/PI0290 -> SSD primary"
+  },
+  "engineering_deviations": [
+    "system ensurepip missing: isolated pip --python setup used without sudo",
+    "first zero-integration probe failed before MuJoCo import due to missing staged contracts dependency; added unchanged package dependency"
+  ],
+  "D1_physics_started": false
+}
