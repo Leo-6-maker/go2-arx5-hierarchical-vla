@@ -12,7 +12,7 @@ INSTRUCTION = 'Pick up the red cube, place it inside the blue square, release it
 COMMISSIONING = tuple(f'C290{i}' for i in range(4))
 PILOTS = tuple(f'P290{i}' for i in range(8))
 PARAMETERS = {
-    'version': 'PI0290_DYNAMIC_TOOL_V1', 'dt': .002, 'duration': 32.,
+    'version': 'PI0290_DYNAMIC_TOOL_V2_IMPLICIT_DAMPING', 'dt': .002, 'duration': 32.,
     'sensor_hz': 20, 'H': 40, 'prefix': 8, 'pixels': 256,
     'table_top': .4, 'cube_edge': .04, 'cube_mass': .05,
     'finger_travel': .044, 'closed_inner_gap': .007,

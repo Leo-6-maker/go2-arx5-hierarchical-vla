@@ -53,6 +53,21 @@ def test_no_post_reset_pose_assignment():
             assert not any('qpos' in ast.unparse(x) or 'xpos' in ast.unparse(x) or 'mocap' in ast.unparse(x) for x in targets)
 
 
+def test_rotation_feedback_discrete_stability_from_actual_inertia_no_integration():
+    import mujoco
+    for identifier in COMMISSIONING+PILOTS:
+        engine=Engine(layout(identifier));M=np.zeros((engine.model.nv,engine.model.nv))
+        mujoco.mj_fullM(engine.model,M,engine.data.qM)
+        A=np.linalg.inv(M[engine.tool_v:,engine.tool_v:])[3:6,3:6]
+        B=np.linalg.inv(np.eye(3)+P['dt']*P['tool_rotation_kd']*A)
+        F=np.eye(3)-P['dt']*A@B*P['tool_rotation_kd']
+        G=-P['dt']*A@B*P['tool_rotation_kp']
+        transition=np.block([[np.eye(3)+P['dt']*G,P['dt']*F],[G,F]])
+        assert np.max(np.abs(np.linalg.eigvals(transition)))<1
+        assert engine.steps==0
+        engine.close()
+
+
 def synthetic_physics():
     n=641;t=np.arange(n)/20;obj=np.repeat(np.eye(4)[None],n,axis=0);obj[:,:3,3]=[-.1,0,.42]
     obj[40:80,2,3]=.46;obj[80:160,:3,3]=[.12,0,.46];obj[160:,:3,3]=[.12,0,.42]

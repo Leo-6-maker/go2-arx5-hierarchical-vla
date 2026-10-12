@@ -81,6 +81,14 @@ class Engine:
         Rerr=target[:3,:3]@tcp[:3,:3].T
         axis=np.array([Rerr[2,1]-Rerr[1,2],Rerr[0,2]-Rerr[2,0],Rerr[1,0]-Rerr[0,1]])*.5
         torque=P['tool_rotation_kp']*axis-P['tool_rotation_kd']*ang
+        # External wrench damping is not integrated implicitly by MuJoCo.
+        # Use the actual articulated inertia to stabilize its rotational feedback.
+        M=np.zeros((self.model.nv,self.model.nv));mujoco.mj_fullM(self.model,M,self.data.qM)
+        block=M[self.tool_v:,self.tool_v:]
+        inverse_rotation=np.linalg.inv(block)[3:6,3:6]
+        R=tcp[:3,:3]
+        inverse_world=R@inverse_rotation@R.T
+        torque=np.linalg.solve(np.eye(3)+P['dt']*P['tool_rotation_kd']*inverse_world,torque)
         force=np.clip(force,-P['tool_force_max_N'],P['tool_force_max_N'])
         torque=np.clip(torque,-P['tool_torque_max_Nm'],P['tool_torque_max_Nm'])
         self.data.xfrc_applied[:]=0
