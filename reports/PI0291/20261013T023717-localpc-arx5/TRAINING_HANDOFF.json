@@ -1,0 +1,59 @@
+{
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "status": "DRAFT_FORMAL_CPU_AND_HF_PENDING_TRAINER_ADAPTER_BLOCKED",
+  "authorization_release": "15cc7957488fb879f5f050e3602327592da7036b",
+  "physical_source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "official_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "dataset": {
+    "authority": "Terminal DATASET_ADMISSION.json and native DATASET_MANIFEST.json, not this milestone draft",
+    "TRAIN_planned": 64,
+    "DEV_planned": 16,
+    "formal_native_CPU_receipt": "PENDING",
+    "HF_repo_candidate": "leoyuer/pi0291-arx5-fixed-base",
+    "HF_fixed_revision": null,
+    "HF_actual_readback": "NOT_RUN_AT_MILESTONE",
+    "raw_actions": "ABSOLUTE_COMMITTED_EEF10",
+    "relative_action": "Official transform once, inverse(actual observation TCP) times committed target",
+    "gripper": "Absolute normalized mean opposed-finger stroke; closed0/open1; not hardware SDK polarity",
+    "windows_per_complete_episode": 601,
+    "H": 40,
+    "dimensions": {"valid": 10, "padded_total": 132},
+    "statistics_rule": "TRAIN_ONLY_ALL_FULL_H40_EQUAL_WINDOW_TIMESTEP_WEIGHT_MINMAX_V1",
+    "TRAIN_statistics_reuse_required": true,
+    "DEV_refit_allowed": false,
+    "policy_inputs": ["actual_body_RGB", "actual_wrist_RGB", "original_language", "actual_EEF10"],
+    "privileged_inputs_allowed": false
+  },
+  "pretrained_candidate": {
+    "logical_path": "HOPPER_EXISTING_OFFICIAL_GR00T_N1_7_3B_CANDIDATE",
+    "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+    "declared_weight_bytes": 6910361856,
+    "two_expected_safetensors_shards_exist": true,
+    "fresh_full_weight_hash": "NOT_RUN",
+    "candidate_qualification": "UNPROVEN_NOT_SELECTED",
+    "model_load": "NOT_RUN",
+    "exact_private_path": "Private owner runmap; not a claim that every historical model directory is loadable"
+  },
+  "future_training": {
+    "status": "BLOCKED_OFFICIAL_TRAINER_ADAPTER_NOT_QUALIFIED",
+    "official_entry": "gr00t/experiment/launch_finetune.py",
+    "module": "gr00t.experiment.launch_finetune",
+    "runnable_training_command": null,
+    "why_no_command": "Stock dataset-path expects LeRobot parquet/meta and invokes statistics construction; NPZ+PNG project wrapper is not directly integrated. Pipeline setup constructs a neural model before dataset return. No truthful training command is qualified yet.",
+    "required_before_execution": [
+      "Fresh scientific GO and legal Hopper PBS allocation",
+      "Separate train-capable adapter; preserve frozen CPU diagnostic guard",
+      "get_dataset_statistics supplies exact frozen admitted TRAIN stats without refit",
+      "Official collator receives processed-only items, never identity/privileged metadata",
+      "Worker/rank sampling and seed/reset_seed resume semantics are qualified",
+      "Fixed source, processor, pretrained identity, new_embodiment=10, H40 and padding are pinned",
+      "Minimal forward/backward and independent DEV/model-eval entry are separately qualified"
+    ],
+    "review_receipt": "TRAINER_INTERFACE_READONLY_REVIEW.json",
+    "neural_location": "Hopper only; never silently moved to Corelab"
+  },
+  "prohibitions_this_goal": {"model_loads": 0, "neural_forward": 0, "backward": 0, "optimizer_steps": 0, "new_Hopper_PBS": 0, "WBC_runs": 0, "hardware_actions": 0},
+  "selected": "NONE",
+  "deployment": "NONE"
+}
