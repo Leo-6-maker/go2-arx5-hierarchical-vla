@@ -1,0 +1,1352 @@
+{
+  "schema": "PI0291_PILOT_RAW_AUDIT_V1",
+  "authority": "15cc7957488fb879f5f050e3602327592da7036b",
+  "run_id": "20261013T023717-localpc-arx5",
+  "created_utc": "2026-10-12 19:45:45 UTC",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "status": "PASS_EIGHT_FIRST_ATTEMPT_RAW_AUDITS",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "teacher_layout_seal_sha256": "f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d",
+  "code_seal_sha256": "1fd64b8aa2304de7e30ec1e1229ac8abaf85fda28934779f71d0b81361de945c",
+  "audit_script_sha256": "786a972b02e4fb8de4a65cd61aab9b12bbe150bdd47fbaede3f5dd5336ab203b",
+  "per_episode": [
+    {
+      "audit_receipt": "evidence/P29100_RAW_AUDIT.json",
+      "audit_receipt_sha256": "85f8484481e02eb6c3a204e9fc784d4210c60ec918b562d8d64c1a7cc7bb3fbb",
+      "audit_CPU_s": 3.3376049999999995,
+      "id": "P29100",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "10f2c99facae52326c7756a0aafa673f47fede3c8ac484eec7601999ca258f94",
+      "samples_sha256": "979573626f1f40f5369d78780df61bf709996c94646152dce3b729d11ddf4bef",
+      "manifest_sha256": "916edb1b5e99279e8ceeb776ae5ca3159dd7bcbf2fb86343ab9525a4669c80ac",
+      "saved_scene_sha256": "8e92edb5d305c0e4340931ca102fd952be8e15939c83c7390f2b3b27b1df729a",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.968520370800093e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.7748531389315545e-9,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2376,
+        "minimum_body_red_pixels": 50,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3353,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3345,
+            "maximum_red_pixels": 4983
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3523,
+            "maximum_red_pixels": 5122
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3540,
+            "maximum_red_pixels": 3567
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2972,
+            "maximum_red_pixels": 3748
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 3082,
+            "maximum_red_pixels": 4113
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 4021,
+            "maximum_red_pixels": 4088
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3978,
+            "maximum_red_pixels": 4952
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2457,
+            "maximum_red_pixels": 5541
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2376,
+            "maximum_red_pixels": 2529
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4317512283709613,
+        1.0006495366646244
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29101_RAW_AUDIT.json",
+      "audit_receipt_sha256": "a29fca8fffbc27bf36c10f39e39278d91cd32c2072cb2d9c49f9ede385ce12f2",
+      "audit_CPU_s": 3.3821630000000003,
+      "id": "P29101",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "ea4f4baa23c81963cca843fcf5ae300728475d3a5808dad7165c760029200939",
+      "samples_sha256": "95fd6e62f2025f54e894479a3c278ba5f77257b54b34f5e8309a0dfae30fd9fc",
+      "manifest_sha256": "fb396c71c982d8468ad5bbec71eb4d2251a3d6035dde32f14e0031320b7d8a61",
+      "saved_scene_sha256": "8bfbb5854f7e7e00c6513cb773fe1b420dae5525c1aa8fc494f9ce3592cd671b",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.8299235043928164e-9,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2362,
+        "minimum_body_red_pixels": 61,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2878,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2865,
+            "maximum_red_pixels": 4251
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2660,
+            "maximum_red_pixels": 4367
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2656,
+            "maximum_red_pixels": 2669
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2650,
+            "maximum_red_pixels": 2677
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2659,
+            "maximum_red_pixels": 4030
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3961,
+            "maximum_red_pixels": 4006
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3926,
+            "maximum_red_pixels": 4935
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2442,
+            "maximum_red_pixels": 5511
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2362,
+            "maximum_red_pixels": 2536
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319147001857592,
+        1.000649519686207
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29102_RAW_AUDIT.json",
+      "audit_receipt_sha256": "07b366561aa171bc4b1be1eb77092181dee3b873ed02c6c668931f65954bd746",
+      "audit_CPU_s": 3.3755439999999997,
+      "id": "P29102",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "022a4533d9ccebc2e34b9d984e9102c9e780530ad5ee80fe9e743f61e0efc08c",
+      "samples_sha256": "4d9ee3504f51a4744757e085bbb33d655ca7b7ecd4a979de105e27533b1438fa",
+      "manifest_sha256": "13f67f4550d6a78498cc77118076a921739fe2d0c9746456a745d0521646305b",
+      "saved_scene_sha256": "1a8de0d722d8e04b27f0ea91fb8daec3a813843bca8f8b1c8defb6228b87cb38",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.3082283534249228e-8,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2357,
+        "minimum_body_red_pixels": 55,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2854,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2851,
+            "maximum_red_pixels": 4240
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2658,
+            "maximum_red_pixels": 4373
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2657,
+            "maximum_red_pixels": 2674
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2652,
+            "maximum_red_pixels": 2688
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2670,
+            "maximum_red_pixels": 4038
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 3974,
+            "maximum_red_pixels": 4022
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3934,
+            "maximum_red_pixels": 4938
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2441,
+            "maximum_red_pixels": 5510
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2357,
+            "maximum_red_pixels": 2536
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319007669717301,
+        1.0006495197822063
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29103_RAW_AUDIT.json",
+      "audit_receipt_sha256": "9784f564b5d93a24e370ddb0be29332b21eacc52becfed86e01c57d4d33864f8",
+      "audit_CPU_s": 3.3584709999999998,
+      "id": "P29103",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "042924e0272105c7c9ff038a84ff40833de1bdb61a3eb22031ea74465a6f002a",
+      "samples_sha256": "bb1fe478183466d767984885664aa75b0ee4b3525f63af189c0a0ef3f53df601",
+      "manifest_sha256": "9ed1e66ed6359875b9891a6d2f19d5eba65ddfb5c8560aed0055248df11207f3",
+      "saved_scene_sha256": "cc77e4b7b93fc762f7cd14e7506592ad0d45885c6cee59dfa34162541dfffc9a",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.9614057877870295e-9,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2372,
+        "minimum_body_red_pixels": 57,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2822,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2814,
+            "maximum_red_pixels": 4228
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2671,
+            "maximum_red_pixels": 4363
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2682,
+            "maximum_red_pixels": 2698
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2672,
+            "maximum_red_pixels": 2703
+          },
+          "carry": {
+            "frames": 65,
+            "minimum_red_pixels": 2689,
+            "maximum_red_pixels": 4063
+          },
+          "lower": {
+            "frames": 29,
+            "minimum_red_pixels": 3982,
+            "maximum_red_pixels": 4045
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3933,
+            "maximum_red_pixels": 4981
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5552
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2372,
+            "maximum_red_pixels": 2546
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.43192101502446456,
+        1.000649580268934
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29104_RAW_AUDIT.json",
+      "audit_receipt_sha256": "05c937aaaefeba8c169b3f60eb54ccb8b772f2bab44c5f3a8d3dde15c1d3c05b",
+      "audit_CPU_s": 3.339613,
+      "id": "P29104",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "3d54cb0262837a3766cc28cb7ee54fcc5ba4cb3be3c8e9b4a07900be6ef2f48f",
+      "samples_sha256": "2278cde342bbdd77ceb0238deb5677a7b4efe8e8c40a6cd09746ce7b80676ccd",
+      "manifest_sha256": "9a868fe1ca2e3196802b5802843ef15b70ad11a66fe72d5dfec3be2c1ca5e0c0",
+      "saved_scene_sha256": "4c6d38b10bb97b154a83e06a0b14406af020e5653ef6f7be827b46e3d33f9b61",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 7.771561172376096e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.1730113458628963e-8,
+      "native_codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2337,
+        "minimum_body_red_pixels": 48,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3350,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3338,
+            "maximum_red_pixels": 5394
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3991,
+            "maximum_red_pixels": 5665
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3985,
+            "maximum_red_pixels": 4027
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 3993,
+            "maximum_red_pixels": 4062
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2853,
+            "maximum_red_pixels": 4082
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 2717,
+            "maximum_red_pixels": 3364
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3317,
+            "maximum_red_pixels": 4574
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2408,
+            "maximum_red_pixels": 5183
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2337,
+            "maximum_red_pixels": 2519
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319233009549534,
+        1.0006495545131122
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29105_RAW_AUDIT.json",
+      "audit_receipt_sha256": "1a162a7e4f7a7a31fa28db23a8cfa360306c483ef81363192c9c7875807fae63",
+      "audit_CPU_s": 3.3719580000000002,
+      "id": "P29105",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "e451611ad03ae991db1bf90dbd13250d9a3b7637ecc28023ce2a47596b311c14",
+      "samples_sha256": "95a6cb5d71a2998ab6cc3eabc3202a46645a9f47d748be290ef03c48007fb15d",
+      "manifest_sha256": "0c9b456e50b235fd723ec049bb66d882e3116e5f38a7b66492594e9412bccdc8",
+      "saved_scene_sha256": "d325b33f305a54ed78ca139c7688d624c82f669cf719d85cabd108aa97299e09",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 6.8681598741626715e-9,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2121,
+        "minimum_body_red_pixels": 54,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3224,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3221,
+            "maximum_red_pixels": 5440
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3948,
+            "maximum_red_pixels": 5650
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3931,
+            "maximum_red_pixels": 3970
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 3942,
+            "maximum_red_pixels": 3990
+          },
+          "carry": {
+            "frames": 65,
+            "minimum_red_pixels": 2641,
+            "maximum_red_pixels": 3995
+          },
+          "lower": {
+            "frames": 29,
+            "minimum_red_pixels": 2661,
+            "maximum_red_pixels": 2692
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 2658,
+            "maximum_red_pixels": 3587
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2183,
+            "maximum_red_pixels": 4223
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2121,
+            "maximum_red_pixels": 2229
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.43192722237998166,
+        1.0006495649870164
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29106_RAW_AUDIT.json",
+      "audit_receipt_sha256": "fc565ca47a3a107a70a6b859365d3d9dfcec3644eab3b6c85e950064763b6f07",
+      "audit_CPU_s": 3.344963,
+      "id": "P29106",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "e94e0df0a3d1861ef9740918f37d2989224ad13037f0af7c3a76ad6afc3b0428",
+      "samples_sha256": "f7f1cf961b1a1af7a354fbc97b8d23bed8645760f310fc1b629edc82974b437f",
+      "manifest_sha256": "698111fbacca1d9d37617119b8a933a1f17e73dca449d7b85c82caf7d42afcaa",
+      "saved_scene_sha256": "90c2175e25306334902b71d062473dee5d75be7911f0f784e5cf5da35ca1f481",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 4.093816619032964e-9,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2175,
+        "minimum_body_red_pixels": 46,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3319,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3312,
+            "maximum_red_pixels": 5406
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3980,
+            "maximum_red_pixels": 5669
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3970,
+            "maximum_red_pixels": 4006
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 3975,
+            "maximum_red_pixels": 4032
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2697,
+            "maximum_red_pixels": 4058
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 2695,
+            "maximum_red_pixels": 2729
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 2685,
+            "maximum_red_pixels": 3848
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2235,
+            "maximum_red_pixels": 4473
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2175,
+            "maximum_red_pixels": 2411
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.431703216343012,
+        1.000649559044089
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    },
+    {
+      "audit_receipt": "evidence/P29107_RAW_AUDIT.json",
+      "audit_receipt_sha256": "4deeae4e40401a786ee0719b9b8d1c9a5e3ae6df3b34c4a4d9ee57e1949e8db0",
+      "audit_CPU_s": 3.326618,
+      "id": "P29107",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "b716b14b411eee2ff3e2e038598156fb92b37868c5a2e0c93cb11ce173bfe8d2",
+      "samples_sha256": "bbddb8e68e88715eafbefd275b832ccb0cd5aa353e443e31a332ef7b1763863e",
+      "manifest_sha256": "97c60f294601f9e167a66d898835ba4f18d9cd62ec1bdb98763c21a3ebc7e6d0",
+      "saved_scene_sha256": "dfc66e8535b92c35a8f8778cea86f729da41ff8d5c537bedf7fd47b99e17090c",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 7.771561172376096e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 4.433291012073681e-9,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2194,
+        "minimum_body_red_pixels": 49,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3345,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3333,
+            "maximum_red_pixels": 5396
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 3970,
+            "maximum_red_pixels": 5655
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3990,
+            "maximum_red_pixels": 4016
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 3990,
+            "maximum_red_pixels": 4046
+          },
+          "carry": {
+            "frames": 64,
+            "minimum_red_pixels": 2709,
+            "maximum_red_pixels": 4067
+          },
+          "lower": {
+            "frames": 30,
+            "minimum_red_pixels": 2699,
+            "maximum_red_pixels": 2738
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 2689,
+            "maximum_red_pixels": 3936
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2253,
+            "maximum_red_pixels": 4531
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2194,
+            "maximum_red_pixels": 2430
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319122673466297,
+        1.0006495283372092
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    }
+  ],
+  "bindings": {
+    "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+    "code_seal_sha256": "1fd64b8aa2304de7e30ec1e1229ac8abaf85fda28934779f71d0b81361de945c",
+    "teacher_layout_seal_sha256": "f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d",
+    "code_file_count": 121,
+    "code_hash_mismatches": [],
+    "rows": [
+      {
+        "id": "P29100",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "c1e575844370e08a26a4e49c5dc89cd71565be56a94d52154991bf21e7531538",
+        "card_sha256": "2ea4c7cdcf9ddaa65c83ac1f9b2784933c62df47e60ebbd1285eb8ef3cbc5b6f",
+        "audit_receipt_sha256": "85f8484481e02eb6c3a204e9fc784d4210c60ec918b562d8d64c1a7cc7bb3fbb",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29101",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "ff19289fade3be896bba05828d21214b92f7ad682a5f5a777c4a9be3bf23e62c",
+        "card_sha256": "05e6ac227c94c4c3e94b567df72263dd09616aa74c9bcc37b9b1e4d3f5fd913a",
+        "audit_receipt_sha256": "a29fca8fffbc27bf36c10f39e39278d91cd32c2072cb2d9c49f9ede385ce12f2",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29102",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "e8af687b4b1801c12f60f41894c5db69f32e604a14457a7d94a58df981c942ea",
+        "card_sha256": "80cb59234f8b714710c846c14125d64b346df4879f11b7f5563144f1eba456eb",
+        "audit_receipt_sha256": "07b366561aa171bc4b1be1eb77092181dee3b873ed02c6c668931f65954bd746",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29103",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "e4304327c4de018042f4e2d4a8710cb7f745a0d598570878d6c6e41200e8198b",
+        "card_sha256": "b7a6b7554896aa45b8a84f23891dfceba8163dd09e489fd3046740b757b1eada",
+        "audit_receipt_sha256": "9784f564b5d93a24e370ddb0be29332b21eacc52becfed86e01c57d4d33864f8",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29104",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "5660b0cc7df40accf79c9ba7c77b08fbd3e11699f41df8ded356ff420f3a84b9",
+        "card_sha256": "cdabd2202291bc6e2057e9568ec474c27c81d626c7bc962931ee756a8f70271e",
+        "audit_receipt_sha256": "05c937aaaefeba8c169b3f60eb54ccb8b772f2bab44c5f3a8d3dde15c1d3c05b",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29105",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "99d3e5e9cbb1d3c8bd5a786389cb848db6bc121c81f493f46dcee0bf3da6ab2e",
+        "card_sha256": "a2a16fb5ea4253f79c6a6cffe30eb4b8685d45cbecadb20653a45f1baea03fe8",
+        "audit_receipt_sha256": "1a162a7e4f7a7a31fa28db23a8cfa360306c483ef81363192c9c7875807fae63",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29106",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "7ba8d245bf1fd8ca3e37ebba60173955c0b9cc4bb40997bf1aff7dcb49421a14",
+        "card_sha256": "be151cb2e83fe42ddf0f3491d9c87ab41de3084cf2cab999f7f9d9403f2e6ef3",
+        "audit_receipt_sha256": "fc565ca47a3a107a70a6b859365d3d9dfcec3644eab3b6c85e950064763b6f07",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      },
+      {
+        "id": "P29107",
+        "card_matches_sealed_layout": true,
+        "card_source_matches": true,
+        "card_authority_matches": true,
+        "source_matches": true,
+        "manifest_complete_coverage": true,
+        "manifest_unique_paths": true,
+        "manifest_unlisted": [],
+        "manifest_missing": [],
+        "result_sha256": "28d6312b92e1438a12e68d5164efbd63c84dbce1ad0b90c36b2d4db95e5208ca",
+        "card_sha256": "0bfedaabe9b84f321aa7e25b72051914952f0a5e01e035e3c4fadb6968ba60bf",
+        "audit_receipt_sha256": "4deeae4e40401a786ee0719b9b8d1c9a5e3ae6df3b34c4a4d9ee57e1949e8db0",
+        "audit_receipt_matches_raw": true,
+        "audit_script_matches_seal": true
+      }
+    ],
+    "queue": {
+      "attempted": [
+        {
+          "id": "P29100",
+          "paired_samples": 641,
+          "physics_sha256": "10f2c99facae52326c7756a0aafa673f47fede3c8ac484eec7601999ca258f94",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 206.01170229911804
+        },
+        {
+          "id": "P29101",
+          "paired_samples": 641,
+          "physics_sha256": "ea4f4baa23c81963cca843fcf5ae300728475d3a5808dad7165c760029200939",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 209.2369749546051
+        },
+        {
+          "id": "P29102",
+          "paired_samples": 641,
+          "physics_sha256": "022a4533d9ccebc2e34b9d984e9102c9e780530ad5ee80fe9e743f61e0efc08c",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 210.17963695526123
+        },
+        {
+          "id": "P29103",
+          "paired_samples": 641,
+          "physics_sha256": "042924e0272105c7c9ff038a84ff40833de1bdb61a3eb22031ea74465a6f002a",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 208.56457781791687
+        },
+        {
+          "id": "P29104",
+          "paired_samples": 641,
+          "physics_sha256": "3d54cb0262837a3766cc28cb7ee54fcc5ba4cb3be3c8e9b4a07900be6ef2f48f",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 202.45632410049438
+        },
+        {
+          "id": "P29105",
+          "paired_samples": 641,
+          "physics_sha256": "e451611ad03ae991db1bf90dbd13250d9a3b7637ecc28023ce2a47596b311c14",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 207.8524842262268
+        },
+        {
+          "id": "P29106",
+          "paired_samples": 641,
+          "physics_sha256": "e94e0df0a3d1861ef9740918f37d2989224ad13037f0af7c3a76ad6afc3b0428",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 204.51516366004944
+        },
+        {
+          "id": "P29107",
+          "paired_samples": 641,
+          "physics_sha256": "b716b14b411eee2ff3e2e038598156fb92b37868c5a2e0c93cb11ce173bfe8d2",
+          "physics_status": "VALID_COMPLETE",
+          "physics_steps": 16000,
+          "physics_success": true,
+          "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+          "structure_error": null,
+          "structure_valid": true,
+          "wall_s": 205.15556001663208
+        }
+      ],
+      "began_epoch": 1791832598.3474958,
+      "independent_raw_admission": "PENDING_SEPARATE_AUDIT",
+      "no_retries": true,
+      "phase": "pilot",
+      "physics_cutoff_epoch": 1791849137,
+      "requested": [
+        "P29100",
+        "P29101",
+        "P29102",
+        "P29103",
+        "P29104",
+        "P29105",
+        "P29106",
+        "P29107"
+      ],
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "unattempted": [],
+      "updated_epoch": 1791834252.3218715
+    },
+    "queue_sha256": "f9ba89bfb353919e5fed27e6e960d5351eb19b649510354589e6f83e8d30358e",
+    "CPU_s": 0.284138
+  },
+  "CPU_s": {
+    "pre_pilot_data_qualification": 46.961698,
+    "C29103_raw_audit": 3.328051,
+    "pilot_raw_audits": 26.836935,
+    "final_binding_check": 0.284138,
+    "unique_data_agent_total": 77.410822,
+    "owner_ledger_mutation": false,
+    "already_charged_by_owner": "pre-pilot, C29103 and P29100-P29106 once",
+    "not_yet_charged_at_report_creation": [
+      "P29107 audit 3.326618 s",
+      "final binding check 0.284138 s"
+    ]
+  },
+  "audit_scope": {
+    "manifest": "All listed bytes/hash checked; exact coverage and unique path sets rechecked against original episode files",
+    "source": "All 121 sealed source files rehashed; cards matched pre-pilot sealed layouts and source/authority",
+    "physical_state": "All 16000 saved rows validated; 641 snapshots reconstructed with mj_forward only; independent delivered-native FK; actual contacts, EEF, gripper, camera transforms, projection, RGB and score checked",
+    "high_rate_contact_limit": "Between sensor snapshots the original frozen engine safety monitor is evidence; independent contact-force reconstruction covers 641 sensor snapshots, not every high-rate contact",
+    "causality": "641 actual observations after preceding committed actions, 640 actual committed commands, reference prefixes, no terminal command, all 601 H40 windows checked",
+    "codec": "Raw absolute EEF10 reconstruction only; formal official processor qualification remains NOT_RUN",
+    "video": "Pilot RGB files checked; no pilot mp4 was generated or claimed"
+  },
+  "boundary": {
+    "allows": "Owner review before fixed-source formal data collection under PI0291 authorization; this report does not launch collection",
+    "pilot_formal_BC_admission": false,
+    "failed_quality_attempts": "Preserved raw diagnostic evidence; remain in all denominators; never success-filtered/retried",
+    "formal_TRAIN_64": "NOT_RUN_AT_GATE",
+    "formal_DEV_16": "NOT_RUN_AT_GATE",
+    "formal_statistics": "NOT_RUN",
+    "formal_native_loader_qualification": "NOT_RUN",
+    "HF_dataset_release": "NOT_RUN",
+    "model_training": 0,
+    "neural_forward": 0,
+    "Hopper_PBS": 0,
+    "WBC_runs": 0,
+    "hardware_runs": 0,
+    "auditor_physics_integrations": 0,
+    "auditor_render_calls": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

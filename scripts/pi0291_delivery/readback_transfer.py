@@ -54,6 +54,10 @@ def main(args):
     receipt = read(args.transfer_manifest)
     root = Path(args.run_root)
     install_deadline(root,'readback_transfer')
+    seal = read(root/'TEACHER_AND_LAYOUT_SEAL.json')
+    assert seal['source_sha'] == receipt['source_sha']
+    code = Path(args.frozen_code_root)
+    assert all(sha(code/name)==expected for name,expected in seal['code_files'].items())
     ledger = read(root/'RESOURCE_ACCOUNTING.json')
     assert ledger['CPU_s']+ledger['unmetered_dependency_setup_CPU_s_upper']+600 < 48*3600
     output = root/'delivery'/'actual_download_readback'
