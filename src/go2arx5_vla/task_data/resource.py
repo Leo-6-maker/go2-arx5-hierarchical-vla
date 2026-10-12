@@ -47,7 +47,7 @@ class Budget:
     def guard(self):
         cpu=resource.getrusage(resource.RUSAGE_SELF);child=resource.getrusage(resource.RUSAGE_CHILDREN)
         elapsed_cpu=cpu.ru_utime+cpu.ru_stime-self.cpu0.ru_utime-self.cpu0.ru_stime+child.ru_utime+child.ru_stime-self.child0.ru_utime-self.child0.ru_stime
-        if self.value['physics_steps']>LIMITS['physics_steps'] or self.value['pairs']>LIMITS['pairs']:raise RuntimeError('BUDGET_STOP_COUNTS')
+        if self.value['physics_steps']>LIMITS['physics_steps'] or self.value['pairs']+self.value.get('diagnostic_pairs_actual',0)>LIMITS['pairs']:raise RuntimeError('BUDGET_STOP_COUNTS')
         if self.value['GPU_s']+(time.monotonic()-self.began if self.gpu_service else 0)>=LIMITS['GPU_s']:raise RuntimeError('BUDGET_STOP_GPU')
         if self.value['CPU_s']+self.value['unmetered_dependency_setup_CPU_s_upper']+elapsed_cpu>=LIMITS['CPU_s']:raise RuntimeError('BUDGET_STOP_CPU')
         if time.monotonic()-self.last_storage_check>=2:

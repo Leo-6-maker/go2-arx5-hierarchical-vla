@@ -24,7 +24,7 @@ def xml_scene(card):
     yaw = card['cube_yaw']
     cube_quat = f'{np.cos(yaw/2)} 0 0 {np.sin(yaw/2)}'
     body_cam = camera_quat([.45, -.65, .92], [0, 0, .43])
-    wrist_cam = camera_quat([.0, -.10, .15], [0, 0, 0])
+    wrist_cam = camera_quat([.10, .0, .04], [0, 0, -.04])
     return f'''<mujoco model="PI0290_independent_dynamic_tool">
   <compiler angle="radian" autolimits="true"/>
   <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" solver="Newton" iterations="50" tolerance="1e-10"/>
@@ -47,7 +47,7 @@ def xml_scene(card):
       <freejoint name="tool_free"/>
       <geom name="palm" type="box" pos="0 0 .065" size=".038 .062 .012" mass=".36" rgba=".12 .15 .18 1"/>
       <site name="tcp" pos="0 0 0" size=".003" rgba=".1 .8 .2 1"/>
-      <camera name="wrist_rgb" pos="0 -.10 .15" quat="{wrist_cam}" fovy="62"/>
+      <camera name="wrist_rgb" pos=".10 0 .04" quat="{wrist_cam}" fovy="62"/>
       <body name="left_finger" pos="0 .010 0">
         <joint name="left_slide" type="slide" axis="0 1 0" range="0 .044" damping=".2"/>
         <geom name="left_pad" type="box" size=".018 .0065 .016" mass=".06" friction="1.2 .005 .0001" rgba=".26 .3 .32 1"/>
@@ -75,4 +75,5 @@ def freeze_description():
                 object_manipulation='MuJoCo contact only; no object pose write after initial construction',
                 camera_convention='K plus T_world_optical; optical x right, y down, z forward',
                 camera_parent={'body_rgb':'fixed world rig', 'wrist_rgb':'rigid dynamic tool'},
+                camera_revision='V2_X_SIDE_UNDER_PALM_OPTICS_ONLY_NO_DYNAMICS_CHANGE',
                 friction_and_force='explicit provisional simulation assumptions, not hardware certification')
