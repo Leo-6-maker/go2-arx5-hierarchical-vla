@@ -1,0 +1,79 @@
+{
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "authority_sha": "15cc7957488fb879f5f050e3602327592da7036b",
+  "execution_source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "status": "N1_NATIVE_ASSET_COMPILED_AND_C29100_CONTACT_OBSERVED",
+  "assets": {
+    "minimal_bundle": {
+      "sha256": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52",
+      "bytes": 215194129,
+      "current_local_archive_hash": "MATCH",
+      "prior_delivery_checksum_payload_count": 11338,
+      "full_payload_check_this_N1": "NOT_REPEATED"
+    },
+    "native_mjcf": {
+      "sha256": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+      "current_local_and_Corelab_small_file_hashes": "MATCH"
+    },
+    "arx5_urdf": {
+      "sha256": "6a13a475cb7103a15ea6bd66713fc189d624eb74f32a021310d25781a8804363",
+      "current_local_and_Corelab_small_file_hashes": "MATCH"
+    },
+    "source_manifest": {
+      "sha256": "b654eca8d377ba723a0bb0b4b04b5525171047ce49f4b32bd56dc19c89bf0da8",
+      "current_local_and_Corelab_small_file_hashes": "MATCH"
+    },
+    "WBCv1_zip": {
+      "expected_sha256": "3c59a6d5f8f924df0b838ad2d501d3a853274d741db191a9de453f58212063ee",
+      "expected_bytes": 159225884,
+      "current_copy_verification": "NOT_LOCATED_IN_BOUNDED_KNOWN_PATH_CHECK",
+      "historical_evidence": "docs/coordination/2026-10-10_WBC_PACKAGE_COMPARISON_AND_TARGET_LEARNING_REVIEW.md at authorization SHA",
+      "scene_dependency": false,
+      "known_old_stage13_archive": "Different 963451251-byte historical archive; not substituted or hashed as WBCv1"
+    }
+  },
+  "actual_runtime": {
+    "engine": "MuJoCo",
+    "version": "3.2.7",
+    "dt_s": 0.002,
+    "integrator": "implicitfast",
+    "render_backend": "Mesa llvmpipe CPU",
+    "new_large_engine_installs": 0
+  },
+  "extensions": {
+    "original_modified": false,
+    "original_WBC_executed": false,
+    "native_chain_and_inertia_retained": true,
+    "independent_scene_extension_only": true,
+    "comment_read_adapter": "Remove comments containing XML-forbidden internal double hyphens, then structured ElementTree parse",
+    "private_meshes_uploaded_to_GitHub": false,
+    "private_WBC_source_uploaded_to_GitHub": false,
+    "mesh_redistribution_license": "NOT_FULLY_AUDITED; retain private reference dependency",
+    "third_party_assets_used": false
+  },
+  "source_file_sha256": {
+    "scene": "86d15d28cf294c1289b941f792c9c949180e1914142f1bb3794549717db6fb49",
+    "engine": "efe82007be19ac8b38d303935b480c52c5737b6687ebaa1ae829e50cf05fc90f",
+    "static_probe": "d0dcc2f97aa96286062316032fa7325a6975c5a6909be6b8658d6bb9c9f4b75c"
+  },
+  "static_evidence": {
+    "logical_path": "evidence/static-v2/STATIC_PROBE.json",
+    "sha256": "42796bde91b61cc857629c9a6ba44aec88f56ef5ccdc646836e9fc4ceba5bfa1",
+    "steps": 0,
+    "rendered_pairs": 1
+  },
+  "first_physical_evidence": {
+    "episode": "C29100",
+    "steps": 16000,
+    "samples": 641,
+    "physics_sha256": "19a788c6a6b4d999f0462ecf0ed3a040048f694e9d23a1a01d97b406ff9dc338",
+    "persistent_success": true,
+    "hold_pass": 41,
+    "hold_total": 41,
+    "video_sha256": "7ea2c4f44c650830df51539e08f63deca2d235f2f4ab350da4fad61e2eaf63e9"
+  },
+  "claim_boundary": "Fixed-base simulated target geometry; not mobile WBC, hardware calibration, real robot, formal bank, or GR00T qualification"
+}

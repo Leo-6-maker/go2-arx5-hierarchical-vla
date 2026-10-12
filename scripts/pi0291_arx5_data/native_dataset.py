@@ -67,8 +67,9 @@ def validate_samples(samples, verify_images=None):
             raise ValueError("Actual TCP must be finite SE3")
         if not np.allclose(matrix[3], [0, 0, 0, 1], atol=1e-8) or not np.allclose(matrix[:3, :3] @ matrix[:3, :3].T, np.eye(3), atol=1e-7) or np.linalg.det(matrix[:3, :3]) < .999999:
             raise ValueError("Invalid actual TCP rotation")
-        if not 0 <= obs["actual_gripper"] <= 1:
-            raise ValueError("Normalized actual gripper must be closed=0/open=1")
+        # Preserve measured compliance/overshoot; never clip sensor truth to a command.
+        if not -.001 / .044 <= obs["actual_gripper"] <= 1 + .001 / .044:
+            raise ValueError("Actual gripper outside frozen1mm physical validity tolerance")
         history = sample["causal_history"]
         segments.add((history["episode_id"], history["segment_id"]))
         if history["previous_samples"] != index or history["previous_committed"] != index or any(history[k] for k in ("reset", "abort", "takeover")):
@@ -150,12 +151,15 @@ def build_processor(source, cosmos, statistics):
 class DatasetLoader:
     """The project training entrance: raw absolute data -> official processor."""
     def __init__(self, dataset_root, source, cosmos, split, indices=None):
-        if split not in ("TRAIN", "DEV"):
+        if split not in ("TRAIN", "DEV", "DIAGNOSTIC"):
             raise ValueError("Explicit source split required")
         self.root = Path(dataset_root)
         self.manifest = read(self.root / "DATASET_MANIFEST.json")
         if self.manifest["domain"] != DOMAIN:
             raise ValueError("ARX5 domain isolation required")
+        diagnostic = self.manifest.get("purpose") == "NOT_ADMITTED_COMMISSIONING_DIAGNOSTIC"
+        if (split == "DIAGNOSTIC") != diagnostic:
+            raise ValueError("Commissioning diagnostic must never enter formal TRAIN/DEV loader")
         self.source, self.cosmos, self.split = str(source), str(cosmos), split
         self.statistics = read(self.root / "statistics.json")
         if sha(self.root / "statistics.json") != self.manifest["statistics_sha256"]:

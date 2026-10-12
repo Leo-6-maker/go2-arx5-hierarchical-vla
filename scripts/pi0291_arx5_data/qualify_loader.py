@@ -39,14 +39,14 @@ def maxima(left, right):
     return {key: max(left[key], right[key]) for key in left}
 
 
-def codec_all_windows(dataset_root, processor):
+def codec_all_windows(dataset_root, processor, splits=("TRAIN", "DEV")):
     root = Path(dataset_root)
     records = read(root / "DATASET_MANIFEST.json")["episodes"]
     from gr00t.data.types import ActionType, ActionFormat
     from gr00t.data.embodiment_tags import EmbodimentTag
     sap = processor.state_action_processor
     reports = {}
-    for split in ("TRAIN", "DEV"):
+    for split in splits:
         normalized_errors = {"XYZ_m": 0., "SO3_rad": 0., "gripper": 0.}
         raw_errors = normalized_errors.copy()
         relative_max_error, preclip, inverseclip, windows = 0., 0, 0, 0
@@ -88,7 +88,7 @@ def codec_all_windows(dataset_root, processor):
         if split == "TRAIN" and windows:
             if normalized_errors["XYZ_m"] > 1e-5 or normalized_errors["SO3_rad"] > 1e-4 or normalized_errors["gripper"] > 1e-5 or relative_max_error > 1e-8:
                 raise ValueError("TRAIN official codec strict gate failed: " + json.dumps(reports[split]))
-    if not reports["TRAIN"]["full_H40_windows_actually_checked"]:
+    if "TRAIN" in reports and not reports["TRAIN"]["full_H40_windows_actually_checked"]:
         raise ValueError("No TRAIN H40 passed official encode/decode")
     return reports
 

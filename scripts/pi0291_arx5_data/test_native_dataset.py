@@ -56,9 +56,15 @@ class ContractTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_samples(rows)
         rows = synthetic_rows()
-        rows[80]["policy_obs"]["actual_gripper"] = 1.01
+        rows[80]["policy_obs"]["actual_gripper"] = 1.03
         with self.assertRaises(ValueError):
             validate_samples(rows)
+
+    def test_measured_physical_compliance_not_clipped(self):
+        rows = synthetic_rows()
+        rows[80]["policy_obs"]["actual_gripper"] = 1.0001
+        validate_samples(rows)
+        self.assertEqual(rows[80]["policy_obs"]["actual_gripper"], 1.0001)
 
     def test_row_rot6d_se3_not_translation_only(self):
         anchor = np.eye(4)

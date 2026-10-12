@@ -12,6 +12,7 @@ except ImportError:
     from scene import ARM_NAMES, FINGER_NAMES, TCP_OFFSET, DOWNWARD_ROTATION, PAD_INNER_GAP_AT_ZERO, xml_scene
 
 POINTS = np.asarray(list(itertools.product((-.02, .02), repeat=3)))
+DRIVER_VERSION = 'PI0291_REAL_CHAIN_V2_EXACT_TARGET_IK_CACHE'
 
 
 def rotation_error(target, current):
@@ -66,8 +67,27 @@ class Engine:
         self.finger_targets = np.full(2, P['finger_travel'])
         self.steps, self.safety, self.renderer = 0, [], None
         self.last_ik_error = error
+        self.reset_ik_cache()
         assert self.model.neq == 0 and self.model.nmocap == 0 and self.model.nu == 8
         mujoco.mj_forward(self.model, self.data)
+
+    def reset_ik_cache(self):
+        self._ik_target = None
+        self._cached_ik_solution = None
+        self._cached_ik_error = None
+        self.ik_solve_calls = 0
+        self.ik_cache_hits = 0
+
+    def command_ik(self, target):
+        if self._ik_target is None or not np.array_equal(target, self._ik_target):
+            solution, error = self.solve_ik(target)
+            self._ik_target = np.asarray(target).copy()
+            self._cached_ik_solution = solution.copy()
+            self._cached_ik_error = list(error)
+            self.ik_solve_calls += 1
+        else:
+            self.ik_cache_hits += 1
+        return self._cached_ik_solution.copy(), list(self._cached_ik_error)
 
     def _id(self, kind, name):
         result = mujoco.mj_name2id(self.model, kind, name)
@@ -168,10 +188,12 @@ class Engine:
                     qpos=self.data.qpos.copy(), qvel=self.data.qvel.copy(),
                     arm_q=self.data.qpos[self.arm_q].copy(), arm_qd=self.data.qvel[self.arm_v].copy(),
                     object_points=obj[:3, 3]+POINTS @ obj[:3, :3].T,
-                    table_top_m=float(P['table_top']), last_ik_error=self.last_ik_error)
+                    table_top_m=float(P['table_top']), last_ik_error=self.last_ik_error,
+                    driver_version=DRIVER_VERSION, ik_solve_calls=self.ik_solve_calls,
+                    ik_cache_hits=self.ik_cache_hits)
 
     def step(self, target, opening):
-        solution, self.last_ik_error = self.solve_ik(target)
+        solution, self.last_ik_error = self.command_ik(target)
         slew = P.get('arm_target_speed_rad_s', .7)*P['dt']
         self.arm_targets += np.clip(solution-self.arm_targets, -slew, slew)
         kp = np.asarray(P.get('arm_kp', [90., 120., 100., 40., 30., 25.]))
@@ -189,7 +211,6 @@ class Engine:
         self.data.qfrc_applied[:] = 0.
         mujoco.mj_step(self.model, self.data)
         self.steps += 1
-        mujoco.mj_forward(self.model, self.data)
         snapshot = self.snapshot()
         if snapshot['illegal_contact']:
             self.safety.append('ILLEGAL_CONTACT_OR_PENETRATION')
