@@ -121,3 +121,13 @@ New PBS jobs0; GPU programs0; GR00T loads/forward/updates0; teacher0; physics0; 
 Remote checks were SSH, metadata/process/PBS/storage reads and limited HF GETs. Credentials were neither requested nor printed.
 Private addresses, usernames, absolute resource paths and probe details stay in the local private runmap. The six committed files contain sanitized aliases and small evidence.
 
+
+## Maintenance Completion Addendum: 2026-10-12 23:44 SGT
+
+The earlier SKIPPED result above remains the historical first attempt at commit4944ea53d8efd0e65abefc31ee575a4fad110452. After the user resumed pushing and explicitly authorized local-PC GitHub configuration, the existing project GitHub account was verified as Leo-6-maker and a repository-scoped local Git credential helper was configured. It reads the existing Hopper credential transiently over authenticated SSH; no plaintext token was saved locally or printed. Authentication depends on Hopper SSH reachability.
+
+Full, non-shallow Git ancestry metadata was fetched into an isolated bare repository without checking out or rewriting user files. All four allowlisted live SHAs matched, all were ancestors of their keepers, open PRs0, protected=false, rulesets empty, and bounded owned-process/lock checks found no active candidate branch dependency. Existing paused archive processes, other-project PBS jobs and AMD Codex were preserved.
+
+All four same-name lightweight compatibility tags were actually created and read back at their exact expected SHA before deletion. Each head then passed its own exact expected-SHA lease dry-run and actual deletion, followed by authenticated readback showing the head absent and tag unchanged. Final API inventories confirm9->5 heads and164->168 tags. main, the active branch and the three independent-commit branches were retained. No tag was overwritten, keeper force-updated, local historical refs pruned, model/data removed, or scientific work started.
+
+BRANCH_MAINTENANCE_RECEIPT.json now records the complete actual result and preserves the first-attempt pointer. RESOURCE_MAP.json records the resolved local authentication and its SSH dependency. All original scientific limitations and NEXT_DATA_GOAL_DRAFT=NOT_AUTHORIZED remain unchanged. selected/deployment=NONE; state ADOPTION_READY_FOR_REVIEW.
