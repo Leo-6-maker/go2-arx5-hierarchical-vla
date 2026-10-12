@@ -80,10 +80,19 @@ def main():
         if worker_proofs["0"] != worker_proofs["2"]:
             raise ValueError("Actual ARX5 CPU two-worker batch differs")
         codec = codec_all_windows(output, processor, ("DIAGNOSTIC",))
+        isolation = {}
+        for split in ("TRAIN", "DEV"):
+            try:
+                DatasetLoader(output, args.source, args.cosmos, split)
+            except ValueError:
+                isolation[split] = "REJECTED_COMMISSIONING_DIAGNOSTIC_AS_FORMAL_SPLIT"
+            else:
+                raise ValueError("Commissioning diagnostic leaked into formal " + split)
         proof.update(status="PASS_ACTUAL_ARX5_NATIVE_PROCESSOR_DIAGNOSTIC_NOT_ADMITTED", official_processor=type(processor).__name__,
                      official_collator=type(processor.collator).__name__, project_loader="native_dataset.DatasetLoader split=DIAGNOSTIC", single_actual_sample=single,
                      mixed_actual_phase_batch=mixed, variable_text_padding_diagnostic=variable, original_language_modified=False,
                      two_worker_readbacks=worker_proofs, two_workers_equal=True, codec=codec, checked_anchors=offsets,
+                     commissioning_split_isolation=isolation,
                      multiple_episode_requirement="UNMET: only one commissioning episode used; formal dataset still NOT_RUN")
     except Exception as error:
         proof.update(status="ACTUAL_ARX5_PROCESSOR_DIAGNOSTIC_BLOCKED", error_type=type(error).__name__, error=str(error))

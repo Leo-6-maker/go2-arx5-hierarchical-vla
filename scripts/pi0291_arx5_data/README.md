@@ -72,3 +72,9 @@ clock/history mutations in memory. The script forbids all `mj_step` variants,
 does not render, never modifies raw records, and writes measured CPU usage for
 the sole owner to charge serially. Use the physical source matching the saved
 episode rather than a later changed commissioning configuration.
+
+`probe_arx5.py` uses an explicitly non-admitted commissioning namespace and
+diagnostic statistics to test the real project DatasetLoader with actual C29100
+pixels and commands. Its DIAGNOSTIC split is refused by TRAIN/DEV entry points.
+It cannot establish formal TRAIN-only statistics or the multi-episode formal
+qualification gate; these remain pending new independently admitted data.
