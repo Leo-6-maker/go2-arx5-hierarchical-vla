@@ -1,0 +1,61 @@
+{
+  "schema": "PI0291_LANGUAGE_SOURCE_AUDIT_V1",
+  "run_id": "20261013T023717-localpc-arx5",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "status": "EXACT_POLICY_LANGUAGE_PRESERVED_TASK_MAP_DESCRIPTIVE_ONLY",
+  "observed_diagnostic": {
+    "status": "PASS_EXACT_RAW_NPZ_PROJECT_LOADER_LANGUAGE",
+    "episode": "C29100",
+    "purpose": "NOT_ADMITTED_COMMISSIONING_DIAGNOSTIC",
+    "text": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+    "raw_card_text_equal": true,
+    "raw_sample_text_equal": true,
+    "processor_initialized": false,
+    "formal_dataset_export": "NOT_RUN",
+    "CPU_s": 0.106122
+  },
+  "authoritative_instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+  "descriptive_task_map_T1_label": "Place the red cube in the target region and release it.",
+  "source_lineage": [
+    {
+      "file": "scripts/pi0291_arx5_data/export_dataset.py",
+      "line": 67,
+      "behavior": "Require exactly one original policy_obs instruction across raw episode"
+    },
+    {
+      "file": "scripts/pi0291_arx5_data/export_dataset.py",
+      "line": 76,
+      "behavior": "Save exact original string as NPZ instruction"
+    },
+    {
+      "file": "scripts/pi0291_arx5_data/native_dataset.py",
+      "line": 204,
+      "behavior": "DatasetLoader.raw returns NPZ packet instruction directly"
+    },
+    {
+      "file": "scripts/pi0291_arx5_data/native_dataset.py",
+      "line": 211,
+      "behavior": "Project loader passes exact raw text to VLAStepData then fixed official processor"
+    },
+    {
+      "file": "scripts/pi0291_arx5_data/export_dataset.py",
+      "line": 113,
+      "behavior": "Write shorter descriptive T1 metadata label; no current loader/qualifier task_map consumer"
+    }
+  ],
+  "future_training_adapter_requirement": "Use qualified project DatasetLoader and exact raw/NPZ instruction. Do not substitute the descriptive task_map label or silently reconstruct language from task IDs; independently validate this in future authorized trainer.",
+  "qualification_boundary": {
+    "formal_export_and_formal_processor": "NOT_RUN_AT_THIS_CHECK",
+    "actual_fixture": "Commissioning C29100 native diagnostic only; not formal TRAIN/DEV",
+    "raw_language_modified": false,
+    "frozen_source_modified": false,
+    "model_or_processor_initialized": false,
+    "neural_forward": 0,
+    "physics_integrations": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "CPU_s": 0.106122,
+  "CPU_affinity_limit": 1,
+  "owner_ledger_mutation": false
+}
