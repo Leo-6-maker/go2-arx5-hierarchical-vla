@@ -1,12 +1,12 @@
 # GR00T＋WBC — 唯一仓库与 CoreLab 工作入口（2026-10-13）
 
-**新 Codex 与所有后续工作请先从这里开始。** GitHub 是本团队 VLA 代码、协议、测试、小型执行收据的版本权威；CoreLab 共享 \`~/Projects/GR00T-WBC\` 是人类统一工作入口，但不能把私有原始数据、WBC、权重都视为已保存在 GitHub。
+**新 Codex 与所有后续工作请先从这里开始。** GitHub 是本团队 VLA 代码、协议、测试、小型执行收据的版本权威；CoreLab 共享 `~/Projects/GR00T-WBC` 是人类统一工作入口，但不能把私有原始数据、WBC、权重都视为已保存在 GitHub。
 
 - **[现行统一入口／GitHub 同步规范](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)**：host-aware profiles、固定源 SHA、运行 manifest、分支同步、旧目录退役验收。
-- **CoreLab 现有可执行入口**：\`~/Projects/GR00T-WBC/infrastructure/enter.sh amd-management\`（AMD），或在 4080S 使用 \`4080-simulation\`／\`4080-cpu-data\`。不提供自动跨主机 SSH；不经许可启动物理／模型。
+- **CoreLab 现有可执行入口**：`~/Projects/GR00T-WBC/infrastructure/enter.sh amd-management`（AMD），或在 4080S 使用 `4080-simulation`／`4080-cpu-data`。不提供自动跨主机 SSH；不经许可启动物理／模型。
 - **[最新真实维护终局](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47#issuecomment-6137981521)**：已实际退役33源路径；Projects仍7项，有受保护科学依赖。后续统一入口操作只凭新执行收据计为完成。
 - **[科学主线 #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11)**：PI0292 以其独立 run capsule、source seal 和当前资源账为准，不要用当前分支 HEAD 自动替代已在执行的源码。
-- **Git**：实际活跃科学分支 \`pi0267/executor-decoupled-recovery\`；\`main\` 是较早的稳定导航，不是当前仿真或训练启动源。只有作业边界+doctor通过，才允许新 \`code/vla\` checkout fast-forward，同步本地不改历史 run。
+- **Git**：实际活跃科学分支 `pi0267/executor-decoupled-recovery`；`main` 是较早的稳定导航，不是当前仿真或训练启动源。只有作业边界+doctor通过，才允许新 `code/vla` checkout fast-forward，同步本地不改历史 run。
 
 以下是 **2026-10-12 的历史接管文档**，保留供追溯；其中的“尚未授权实验／旧最新状态”不再作为当前实时状态或新 GO。
 
