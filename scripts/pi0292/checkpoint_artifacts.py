@@ -21,13 +21,34 @@ ALLOWED_FILES = set(REQUIRED) | set(PROCESSOR_FILES) | {
 
 
 def inventory(checkpoint, *, expected_step, recipe, statistics_sha256, manifest_sha256):
+    """Original PI0292 inventory retains its registered steps and cyclic sampler."""
+    if expected_step not in (2, 4, 2048, 4096):
+        raise ValueError('REGISTERED_CHECKPOINT_STEP_REQUIRED')
+    checkpoint=Path(checkpoint)
+    if checkpoint.is_symlink() or not checkpoint.is_dir():
+        raise ValueError('REGULAR_CHECKPOINT_DIRECTORY_REQUIRED')
+    if any(path.is_symlink() for path in checkpoint.rglob('*')):
+        raise ValueError('CHECKPOINT_SYMLINK_REFUSED')
+    saved=read(checkpoint/'SAMPLER_STATE.json')
+    expected=CyclicSampler(saved['sampler']['size'],stop=recipe['max_steps']*32).state_dict(expected_step*32)
+    return inventory_bound_sampler(checkpoint,expected_step=expected_step,recipe=recipe,
+        statistics_sha256=statistics_sha256,manifest_sha256=manifest_sha256,expected_sampler=expected)
+
+
+def inventory_bound_sampler(checkpoint, *, expected_step, recipe, statistics_sha256,
+                            manifest_sha256, expected_sampler):
+    """Shared byte verifier; caller reconstructs the registered sampler independently.
+
+    This function grants no execution, resume qualification, or policy selection.
+    """
     checkpoint = Path(checkpoint)
     if checkpoint.is_symlink() or not checkpoint.is_dir():
         raise ValueError('REGULAR_CHECKPOINT_DIRECTORY_REQUIRED')
     if any(path.is_symlink() for path in checkpoint.rglob('*')):
         raise ValueError('CHECKPOINT_SYMLINK_REFUSED')
-    if expected_step not in (2, 4, 2048, 4096):
-        raise ValueError('REGISTERED_CHECKPOINT_STEP_REQUIRED')
+    if (type(expected_step) is not int or not 0<expected_step<=6144 or
+        expected_sampler['cursor']!=expected_step*32 or expected_sampler['stop']!=recipe['max_steps']*32):
+        raise ValueError('EXACT_INDEPENDENT_CONSUMED_SAMPLER_REQUIRED')
     complete = read(checkpoint / 'CHECKPOINT_COMPLETE.json')
     if complete['status'] != 'FULL_STATE_SAVED_MODEL_ARCHIVE_HASH_PENDING':
         raise ValueError('NATIVE_FULL_STATE_SAVE_RECEIPT_REQUIRED')
@@ -41,8 +62,7 @@ def inventory(checkpoint, *, expected_step, recipe, statistics_sha256, manifest_
         raise ValueError('CHECKPOINT_STEP_OR_RECIPE_CHANGED')
     if sampler['statistics_sha256'] != statistics_sha256 or sampler['manifest_sha256'] != manifest_sha256:
         raise ValueError('CHECKPOINT_DATA_IDENTITY_CHANGED')
-    expected = CyclicSampler(sampler['sampler']['size'], stop=recipe['max_steps'] * 32).state_dict(expected_step * 32)
-    if sampler['sampler'] != expected:
+    if sampler['sampler'] != expected_sampler:
         raise ValueError('CONSUMED_SAMPLE_CURSOR_CHANGED')
     trace = sampler['worker_trace']
     if (trace['status'] != 'PASS_ACTUAL_CONSUMED_WORKER_IDENTITIES'
