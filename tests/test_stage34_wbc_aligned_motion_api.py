@@ -16,6 +16,7 @@ from go2arx5_vla.motion_api import (
     evaluate_preview_equivalence,
 )
 from go2arx5_vla.trajectory.so3 import geodesic_angle, matrix_to_quat, quat_to_matrix
+from go2arx5_vla.motion_api.qualification import build_timing_candidate_with_knots
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -121,6 +122,17 @@ def test_motion_intent_v2_rejects_identity_timing_and_nonfinite_drift() -> None:
     fields["eef_position"] = position
     with pytest.raises(ValueError, match="non-finite"):
         MotionIntentV2(**fields)
+
+
+def test_t1_has_two_endpoints_and_rejects_extra_knots() -> None:
+    dense = _chunk()
+    geometry = build_geometry_candidate(dense, 4)
+    candidate = build_timing_candidate(dense, geometry, "T1")
+    query = np.linspace(0.0, 2.0, 9)
+    assert np.array_equal(candidate.timing_arc_fraction, [0.0, 1.0])
+    assert np.allclose(candidate.progress_at(query), query / 2.0)
+    with pytest.raises(ValueError, match="exactly 2 timing knots"):
+        build_timing_candidate_with_knots(dense, geometry, "T1", [0.0, 0.5, 1.0])
 
 
 def test_v1_contracts_remain_importable_and_separate() -> None:

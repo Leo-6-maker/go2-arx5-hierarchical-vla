@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from go2arx5_vla.stage40_structured_decode import (
     EXPECTED_STRUCTURED_STATS_SHA256,
@@ -30,6 +31,8 @@ TS = np.arange(40, dtype=np.float64) * 0.05
 
 
 def test_structured_statistics_are_frozen() -> None:
+    if not STATS.is_file() and "STAGE40_STRUCTURED_STATS" not in os.environ:
+        pytest.skip("historical private statistics are not present on this host")
     lower, upper, mask, digest = load_structured_statistics(STATS)
     assert digest == EXPECTED_STRUCTURED_STATS_SHA256
     assert lower.shape == (132,)
@@ -38,8 +41,8 @@ def test_structured_statistics_are_frozen() -> None:
 
 
 def test_saved_d0_outputs_redecode_exactly() -> None:
-    if not STATS.is_file() or not RUN_ROOT.is_dir():
-        return
+    if not STATS.is_file() or not RUN_ROOT.is_dir() or not D0_ROOT.is_dir():
+        pytest.skip("historical private decode evidence is not present on this host")
     for seed in (2223, 2228, 2233, 2238):
         with np.load(RUN_ROOT / "mailbox" / "responses" / f"stage40-s{seed}-q0.npz", allow_pickle=False) as data:
             raw = np.asarray(data["raw_universal_action"])

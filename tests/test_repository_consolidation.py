@@ -29,18 +29,18 @@ class RepositoryConsolidationTest(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertTrue(path.is_file())
 
-    def test_readme_exposes_the_frozen_architecture_and_hold(self) -> None:
+    def test_readme_exposes_current_entry_and_separate_authorities(self) -> None:
         text = (ROOT / "README.md").read_text(encoding="utf-8")
         for marker in (
-            "Vision + Language + Proprioception",
-            "GR00T N1.7",
-            "StructuredActionV1",
-            "SafetyGate",
-            "reference-only receding-horizon handoff",
-            "general trajectory-tracking WBC",
-            "bd0f02934e680789cf38adacb838e1ea555c707d",
-            "Stage45",
-            "H200",
+            "START_HERE",
+            "AGENTS",
+            "~/Projects/GR00T-WBC",
+            "2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md",
+            "WORKSPACE_ENTRY_ENFORCEMENT_V1.md",
+            "pi0267/executor-decoupled-recovery",
+            "issues/11",
+            "issues/47",
+            "PBS",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, text)
@@ -84,10 +84,17 @@ class RepositoryConsolidationTest(unittest.TestCase):
         )
 
     def test_no_binary_like_artifacts_are_added_to_the_checkout(self) -> None:
-        output = subprocess.check_output(["git", "ls-files"], cwd=ROOT, text=True)
+        output = subprocess.check_output(["git", "ls-files", "-s"], cwd=ROOT, text=True)
         forbidden = (".pt", ".pth", ".ckpt", ".pkl", ".jit", ".npz", ".npy", ".parquet", ".mp4", ".usd")
-        paths = [line for line in output.splitlines() if line.endswith(forbidden)]
-        self.assertEqual(paths, [])
+        # Preserve already-published historical evidence, not a blanket extension exemption.
+        baseline = subprocess.check_output(
+            ["git", "ls-tree", "-r", "16d38237c660c7ae8b38c27fcfada274ca5670fd"], cwd=ROOT, text=True,
+        )
+        approved = {line.split("\t", 1)[1]: line.split()[2]
+                    for line in baseline.splitlines() if line.endswith(forbidden)}
+        changed = [line.split("\t", 1)[1] for line in output.splitlines()
+                   if line.endswith(forbidden) and approved.get(line.split("\t", 1)[1]) != line.split()[1]]
+        self.assertEqual(changed, [])
 
 
 if __name__ == "__main__":

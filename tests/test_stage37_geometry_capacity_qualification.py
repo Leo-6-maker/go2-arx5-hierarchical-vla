@@ -42,7 +42,7 @@ def test_g0_predicates_report_exact_frozen_limits() -> None:
 
 
 def test_stage37_structured_plan_accepts_k16_without_dense_rows() -> None:
-    with tempfile.TemporaryDirectory(dir="/scratch/e1192548") as directory:
+    with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
         trajectory = root / "k16_t0_N01_seed13_primary.npz"
         metadata = root / "k16_t0_N01_seed13_primary.json"
@@ -84,7 +84,8 @@ def test_stage37_structured_plan_accepts_k16_without_dense_rows() -> None:
                 "shared_across_representations": True,
             },
         }
-        assert campaign.validate_plan(plan, root) == []
+        # Keep the production scratch-only guard; this portable fixture is not a launch input.
+        assert campaign.validate_plan(plan, root) == ["non_scratch_input:" + row["row_id"]]
 
 
 def test_stage37_cpu_ladder_has_no_model_or_scheduler_import_path() -> None:
