@@ -75,7 +75,10 @@ stock float32 inverse clip0, state preclip0, encoder clipping0. DEV has
 zero windows and is NOT_TESTED, not a zero-error validation success.
 The immutable exporter manifest retains its at-export NOT_RUN field;
 the actual final qualification authority is `evidence/DATALOADER_SMOKE.json`.
-Fixed-revision HF readback is pending at upload time. The existing
+The upload-time producer card honestly recorded HF readback pending.
+Actual complete-episode/native-shard readback and Hopper small READY have
+now passed at revisionc25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea. This public
+post-readback summary does not rewrite the immutable producer card. The existing
 official training launcher does not directly consume this NPZ+PNG wrapper:
 see `TRAINER_INTERFACE_READONLY_REVIEW.json`. CPU data qualification must not
 be misrepresented as completed Trainer integration.
@@ -88,9 +91,12 @@ Separate CPU-only closeout window:2026-10-13T01:12:42Z to02:12:42Z,
 new CPU allowance14400s, original total output cap40GiB. The original
 physical clock/counters are not reset and no missing DEV is collected.
 Seal SHA256: `f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d`.
-The authoritative immutable private HF repository, prefix, revisions and blob
-hashes will be recorded in the actual transfer/readback receipts, not inferred
-from a repository name or mutable HEAD.
+Private repo:leoyuer/pi0291-arx5-fixed-base; prefix
+PI0291/20261013T023717-localpc-arx5/v1-57a02b49; fixed revision
+c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea. Actual transfer/readback receipts
+in closeout-final/ bind81 files/all hashes and fresh1,295-member complete
+episode plus63-member full native shard. Repository name/mutable HEAD alone
+are not handoff authority.
 
 No private WBC source, robot meshes, neural weights, tokenizer cache or
 credentials are included in this data handoff. Physics replay depends on

@@ -1,0 +1,41 @@
+{
+  "owner": "EXISTING_LOCAL_PC_ROOT_ONLY",
+  "pid": 2616648,
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "T0_epoch": 1791830237,
+  "cutoff_epoch": 1791849137.0,
+  "deadline_epoch": 1791851837,
+  "phase": "N3",
+  "order": "TRAIN64_THEN_DEV16",
+  "completed_chunks": [
+    {
+      "phase": "train",
+      "start": 0,
+      "count": 16,
+      "exit_code": 0
+    },
+    {
+      "phase": "train",
+      "start": 16,
+      "count": 16,
+      "exit_code": 0
+    },
+    {
+      "phase": "train",
+      "start": 32,
+      "count": 16,
+      "exit_code": 0
+    },
+    {
+      "phase": "train",
+      "start": 48,
+      "count": 16,
+      "exit_code": 120
+    }
+  ],
+  "no_retries": true,
+  "current": null,
+  "updated_epoch": 1791847108.4843779,
+  "stop": "CHILD_STOP_PRESERVE_FIRST_ATTEMPTS_NO_RETRY",
+  "physics_running": false
+}

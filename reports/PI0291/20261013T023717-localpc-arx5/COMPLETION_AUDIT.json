@@ -1,31 +1,77 @@
 {
-  "status": "GOAL_COMPLETION_UNPROVEN_REMOTE_NETWORK_BLOCKED",
-  "is_terminal_dataset_receipt": false,
-  "authority": "15cc7957488fb879f5f050e3602327592da7036b",
-  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "status": "BOUNDED_EXISTING_DATA_CLOSEOUT_COMPLETE_SCIENTIFIC_BANK_PARTIAL",
+  "observed_utc": "2026-10-13T01:42:51Z",
   "run_uuid": "20261013T023717-localpc-arx5",
-  "observed_utc": "2026-10-12T23:32:57Z",
-  "original_clock": {
-    "T0": "2026-10-12T18:37:17Z",
-    "new_physics_cutoff": "2026-10-12T23:52:17Z",
-    "absolute_deadline": "2026-10-13T00:37:17Z",
-    "clock_or_budget_reset": false
-  },
+  "authority": "15cc7957488fb879f5f050e3602327592da7036b",
+  "fresh_local_human_authority_comment": 6135957173,
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "is_terminal_dataset_receipt": true,
   "requirements": [
-    {"id": "N0", "state": "EVIDENCE_PRESENT", "evidence": ["ADOPTION_DELTA.json", "RESOURCE_AND_PATH_BINDING.json", "OVERNIGHT_STATE.json"], "claim": "Unique existing local-PC owner, original clock, isolated Corelab runtime/path and budgets registered"},
-    {"id": "N1", "state": "CONTACT_QUALIFIED_EVIDENCE_PRESENT", "evidence": ["ASSET_PROVENANCE.json", "SCENE_BUILD_REPORT.md", "JOINT_TCP_GRIPPER_MAPPING.json", "CAMERA_CALIBRATION.json", "COMMISSIONING_RAW_AUDIT.json"], "claim": "Native fixed-base ARX5 six-joint finite actuation, opposed finger contact, real dual RGB. Not WBC/mobile/hardware qualification"},
-    {"id": "N2", "state": "PILOT_PASS", "evidence": ["TEACHER_AND_LAYOUT_SEAL.json", "PILOT_GATE.json", "PILOT_RAW_AUDIT.json", "PILOT_GITHUB_READBACK.json"], "claim": "Frozen first-attempt pilots8/8, new qualification4/4, all independent raw audit and 121 sealed file bindings pass"},
-    {"id": "N3", "state": "INCOMPLETE_CURRENT_REMOTE_STATE_UNKNOWN", "evidence": ["FORMAL_RAW_AUDIT_TRAIN_000_016.json", "FORMAL_RAW_AUDIT_TRAIN_016_016.json", "FORMAL_RAW_AUDIT_TRAIN_032_016.json", "RAW_AUDIT_LOCAL_SNAPSHOT_TRAIN_048_006.json", "NETWORK_INTERRUPTION.json"], "claim": "Last observed54 complete and raw PASS. Whole64TRAIN/16DEV attempts, terminal counters, owner admission and T54-onward status cannot be verified. Unread is not unattempted"},
-    {"id": "N4_NATIVE", "state": "FORMAL_NOT_EXECUTED_OR_VERIFIED", "evidence": ["NATIVE_PROCESSOR_PRECHECK.json", "LANGUAGE_SOURCE_AUDIT.json"], "claim": "Actual commissioning diagnostic exists, not formal TRAIN-only statistics or formal all-window/multi-episode CPU qualification. Frozen exporter/qualifier and bounded delivery helpers are prepared, not execution proof"},
-    {"id": "N4_HF", "state": "NOT_EXECUTED_OR_VERIFIED", "evidence": ["DATASET_CARD.md", "TRAINING_HANDOFF.json"], "claim": "Milestone drafts only; no ARX5 READY-last revision, all-blob proof, fresh complete-episode/native-shard download or Hopper small READY readback. PI0290 HF assets are not substituted"},
-    {"id": "N4_TRAINER", "state": "BLOCKED_OFFICIAL_TRAINER_ADAPTER_NOT_QUALIFIED", "evidence": ["TRAINER_INTERFACE_READONLY_REVIEW.json", "TRAINING_HANDOFF.json"], "claim": "CPU data qualification is distinct from actual Trainer integration. Stock factory expects another format and constructs model before data; do not advertise a runnable training command"},
-    {"id": "MAINTENANCE", "state": "PARTIAL_WITH_SKIPS_ACTUAL_RECEIPTS_PRESENT", "evidence": ["reports/maintenance/2026-10-13-corelab-storage-phase2/20261013T023717-localpc-arx5/ACTUAL_RECEIPT.json", "reports/maintenance/2026-10-13-corelab-storage-phase2/20261013T023717-localpc-arx5/NAVIGATION_READBACK.json"], "claim": "22/24 copy candidates,2206 files/source retained;2 dependency skips,9 cache skips, no eligible extra model view; phase2delete0/free0, prior40.994GiB separate. Exact verified stopped-process retirement does not authorize data deletion"},
-    {"id": "VIDEOS", "state": "ACTUAL_SAVED_RGB_REPRESENTATIVES_PRESENT", "evidence": ["C29100 first success", "C29101 empty-grasp negative", "C29102 single-side negative", "C29103 success", "T291000 formal success"], "claim": "Original dual RGB videos delivered locally, source physics hashes retained. No regenerated observations or new integration for video"},
-    {"id": "N5", "state": "PARTIAL_LOCAL_CLOSEOUT_REMOTE_TERMINAL_EVIDENCE_MISSING", "evidence": ["NETWORK_INTERRUPTION.json", "NETWORK_PUBLICATION_READBACK.json", "NEXT_DATA_GOAL_DRAFT.md"], "claim": "Sanitized observed state published/read back. Complete attempt ledger/admission, final native/HF receipts, final resource totals and remote termination evidence remain unavailable"}
+    {
+      "id": "N0",
+      "state": "VERIFIED",
+      "evidence": "RESOURCE_AND_PATH_BINDING.json"
+    },
+    {
+      "id": "N1",
+      "state": "CONTACT_QUALIFIED",
+      "evidence": "SCENE_BUILD_REPORT.md",
+      "scope": "Fixed-base native ARX5 only"
+    },
+    {
+      "id": "N2",
+      "state": "PILOT_PASS",
+      "evidence": "PILOT_GATE.json",
+      "counts": "8/8 and new-layout4/4"
+    },
+    {
+      "id": "N3",
+      "state": "TERMINAL_PARTIAL",
+      "evidence": "closeout-raw/DATASET_ADMISSION.json",
+      "counts": "56/64 TRAIN attempted/admitted;0/16 DEV;24 unattempted;all80 denominator rows retained"
+    },
+    {
+      "id": "N4_NATIVE",
+      "state": "NATIVE_DATALOADER_PASS",
+      "evidence": "closeout-native/DATALOADER_SMOKE.json",
+      "scope": "All33656 TRAIN H40;real mixed samples/two workers/strict codec;DEV not tested because0 windows"
+    },
+    {
+      "id": "N4_HF",
+      "state": "VERIFIED",
+      "evidence": "closeout-final/HF_READBACK_RECEIPT.json",
+      "revision": "c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea",
+      "scope": "81 remote files/allSHA;fresh complete episode/full native shard;Hopper small READY separately PASS"
+    },
+    {
+      "id": "N4_TRAINER",
+      "state": "NOT_QUALIFIED_FUTURE_GO_REQUIRED",
+      "evidence": "TRAINER_INTERFACE_READONLY_REVIEW.json",
+      "scope": "No runnable training command claimed;CPU loader qualification is not Trainer integration"
+    },
+    {
+      "id": "MAINTENANCE",
+      "state": "PARTIAL_WITH_SKIPS",
+      "evidence": "reports/maintenance/2026-10-13-corelab-storage-phase2/20261013T023717-localpc-arx5/ACTUAL_RECEIPT.json",
+      "scope": "22/24 copy-only/source retained;phase2delete0/free0;prior40.994GiB separate"
+    },
+    {
+      "id": "VIDEOS",
+      "state": "ACTUAL_REPRESENTATIVES_DELIVERED",
+      "evidence": "C29100/C29101/C29102/C29103/T291000 original dual RGB videos"
+    },
+    {
+      "id": "N5",
+      "state": "EXACT_PARTIAL_CLOSEOUT",
+      "evidence": "FINAL_REPORT.md",
+      "scope": "Terminal ledger/admission/resources/native/HF proof and accurate no-restart recovery instructions"
+    }
   ],
-  "completion_allowed": false,
+  "fresh_existing56_CPU_closeout_complete": true,
+  "original_full80_scientific_bank_complete": false,
+  "completion_allowed_scope": "Only the explicit existing56 CPU data-closeout execution;not first-training readiness or the entire research project",
   "highest_READY_allowed": false,
-  "safe_next_action": "Restore existing connectivity; read original owner PID, lock, queue state, ledger and immutable results. Never restart initial-only dispatcher or infer termination from SSH timeout. Apply only still-authorized within-original-deadline closeout after terminal revalidation.",
+  "next_action": "Scientific review;new bounded GO for missing DEV/new data or separate Trainer/weight/model qualification with legal Hopper PBS",
   "own_new_model_load_forward_train_PBS_WBC_hardware": 0,
   "selected": "NONE",
   "deployment": "NONE"

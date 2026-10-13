@@ -1,70 +1,63 @@
-# PI0291 Recovery Entry
+# PI0291 Review And Recovery Entry
 
-Current blocker: existing Corelab SSH route times out and the configured
-Hopper alias cannot resolve. The original N3 SSH observation session has
-ended, but remote owner/queue termination is **UNKNOWN**, not inferred from
-connection failure. The latest successful observation was
-`2026-10-12T23:13:54.847Z`:54 complete/formal raw-PASS records through T291053.
+Current state:ARX5_DATA_PARTIAL_NATIVE_CPU_AND_HF_VERIFIED. The original queue
+is terminal and the explicitly authorized existing56-episode CPU-only
+closeout completed. No original or fresh quota is automatically inherited
+for new science. Network-blocked files remain historical;
+NETWORK_RESTORED_POSTDEADLINE.json and FINAL_REPORT.md are current.
 
-## First Action
+## Read First
 
-Restore the user's existing network or campus VPN. No new tunnel/service,
-alternate guessed hostname or additional cloud owner is required or
-authorized. Use only existing SSH aliases and authentication. Inspect the
-original owner PID/identity, queue child, locks, persisted queue state,
-resource ledger and immutable RESULT/FILE_MANIFEST/audit receipts before
-deciding the next step. Exact paths and a bounded read-only inspection entry
-are retained in the private local owner workspace, not this public report.
+From the current repository checkout, this is a safe small read-only command:
 
-Do not relaunch `pi0291_n3_owner.py`:its initial-only assertions correctly
-reject existing attempts/state. Do not delete locks, reset counters, reuse
-attempted IDs or classify unobserved T291054-onward records as unattempted.
-If the original dispatcher is live, leave it alone and observe it. If it is
-actually terminal/missing, inspect the persisted first attempts before any
-explicitly still-authorized recovery; no speculative restart.
+```bash
+python3 -m json.tool reports/PI0291/20261013T023717-localpc-arx5/closeout-final/TRANSFER_MANIFEST.json
+```
 
-## Original Boundaries
+Read terminal admission and the92-row attempt ledger in closeout-raw/,
+actual official CPU qualification in closeout-native/, and final transfer,
+fresh complete-episode/native-shard readback, Hopper READY and resources in
+closeout-final/. Public projections are not producer bytes:the projection
+manifests bind both SHA namespaces. Exact Corelab/Hopper paths, interpreters,
+existing-auth locations and private controller remain in the local owner
+runmap, not public GitHub. Never print tokens or copy credentials into data.
 
-T0 remains `2026-10-12T18:37:17Z`, new-physics cutoff
-`2026-10-12T23:52:17Z`, absolute deadline `2026-10-13T00:37:17Z`.
-New physical starts stop at cutoff. An already-started bounded episode may
-finish under the original absolute deadline. Do not interrupt healthy work
-merely because the observation connection expired. These are not fresh
-six-hour budgets when connectivity returns.
+## Do Not Restart
 
-Within the original deadline, only after the real queue is terminal and
-all receipts are revalidated: charge each unique auxiliary/raw audit once;
-derive all80 planned admission rows with exact integer seeds; encode any
-original DEV representative video before final manifest binding/export;
-execute the frozen export and official CPU qualifier; then READY-last
-private HF delivery and actual immutable-revision download/readback. The
-delivery helpers are separate from sealed physical source57a and must retain
-their original wall/CPU/storage guards. They are prepared code, not PASS
-receipts. Reconcile every partial journal/destination before any retry.
+Original owner persisted current=null/physics_running=false and child exit120
+after56 complete TRAIN. Its PID was absent after restoration. Exact exit
+root cause is not proven. T291056-063 and D291000-015 are actually unattempted,
+based on terminal state, absent ledger starts and absent episode directories,
+not inferred from old SSH failure. Never relaunch initial-only N3 dispatcher,
+delete locks, reset counters, repeat completed IDs, add seeds or relabel the
+original80-attempt bank as complete. Healthy unrelated jobs remain untouched.
 
-After absolute deadline, no new physics, training, model execution, heavy
-validation or HF workflow is automatically authorized. Only inspect and
-report existing artifacts; obtain a fresh bounded GO for missing execution.
-Do not extend the original night to fill missing DEV IDs or hide a partial
-bank.
+Original physics T0/cutoff/deadline remained18:37:17Z/23:52:17Z/00:37:17Z.
+Separate local-human CPU-only GO ran01:12:42Z to02:12:42Z on2026-10-13,
+14400s new CPU and unchanged40GiB total output cap. All required existing-data
+closeout stages actually finished well before that boundary. No model,
+physics, PBS, WBC, hardware, service, tunnel or deletion continuation follows.
+Any absent future scientific stage needs a fresh bounded GO.
 
-## Git Reconciliation
+## Immutable Data
 
-Last network-interruption report remote commit:
-`cdf5180de65b23b818ac01fa1bc004a2858667b8`.
-Its report tree equals the preserved local tree at publication. Local Git
-push failed because its scoped credential helper uses existing Hopper auth.
-The report was published through the already-connected GitHub tool with
-exact expected SHA and force=false, not a second execution owner. Local
-original commits remain intact; restore auth connectivity, fetch and
-reconcile current remote history before normal fast-forward push. Do not
-reset the checkout or overwrite concurrent commits.
+Private HF repo leoyuer/pi0291-arx5-fixed-base, prefix
+PI0291/20261013T023717-localpc-arx5/v1-57a02b49, fixed READY-last revision
+c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea. Read actual file/member SHA receipts
+before any authorized incremental download. Do not repeat full historical
+model downloads or reupload this existing prefix. Consumer rebinding of the
+actual downloaded episode was already PASS;no statistics refit or neural
+execution. Full physical replay still requires privately held robot assets.
 
-## Training
+## Git And Training
 
-The official Trainer adapter is not qualified. No runnable training command
-is represented as ready. Preserve the exact NPZ/raw language, frozen
-TRAIN-only statistics, absolute committed EEF10 and one relative conversion.
-Any future neural work needs fresh scientific GO and legal Hopper PBS;
-the CPU diagnostic guard is not removed to enable training. No automatic
-selection of historical models. `selected=NONE; deployment=NONE`.
+Ordinary local Git auth is restored. Original local and connector histories
+were preserved in merge738ce31b445df8191030114121f19899daf8e34a and pushed
+fast-forward;no reset/force. Refresh branch HEAD before future edits/push.
+Official Trainer adapter remains NOT_QUALIFIED. Preserve exact original
+language, frozen TRAIN statistics, absolute committed EEF10, relative once,
+10 valid/132 padded dimensions, and CPU diagnostic guard. No truthful
+runnable training command exists yet. Future adapter/model work and
+independent DEV qualification require review, fresh GO and legal Hopper PBS.
+
+NEXT_DATA_GOAL_DRAFT.md is NOT_AUTHORIZED. Selected/deployment remain NONE.
