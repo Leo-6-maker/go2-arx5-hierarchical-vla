@@ -1,0 +1,1324 @@
+{
+  "status": "NATIVE_DATALOADER_PASS",
+  "RAW_DATA_READY": true,
+  "CODEC_READY": true,
+  "NATIVE_DATALOADER_PASS": true,
+  "official_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "dataset_manifest_sha256": "c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a",
+  "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4",
+  "statistics_provenance_sha256": "f35f76d3faa3f939c4109f45d5f2c0f7965bc0d4a08ad710e3140f0453ec2c08",
+  "single_actual_sample": {
+    "inputs": {
+      "action": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "12515b54de276311b098d22fde716bdca9902e6561ea3f10357ada5f38f124c7"
+      },
+      "action_mask": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "float64",
+        "sha256": "f1e5d2c10d7a698b010e6aa1c2c00b5f8b9105ea043b381bc7e8fda3c4450f08"
+      },
+      "attention_mask": {
+        "shape": [
+          1,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+      },
+      "embodiment_id": {
+        "shape": [
+          1
+        ],
+        "dtype": "int64",
+        "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+      },
+      "image_grid_thw": {
+        "shape": [
+          2,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+      },
+      "input_ids": {
+        "shape": [
+          1,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+      },
+      "pixel_values": {
+        "shape": [
+          512,
+          1536
+        ],
+        "dtype": "float32",
+        "sha256": "3b17ebfd2d43434802f72ee86f337d15285c91ecda973e412dd3eb843d5dbb86"
+      },
+      "state": {
+        "shape": [
+          1,
+          1,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "81db925b2635b690661318e1d4b9058d89680cce04a564a652cc1a774567bd12"
+      }
+    }
+  },
+  "mixed_two_episode_batch": {
+    "inputs": {
+      "action": {
+        "shape": [
+          2,
+          40,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "7b3995442b36a0a63e4704fe8381b2a03bb626204600a33669c0d210f08aae7e"
+      },
+      "action_mask": {
+        "shape": [
+          2,
+          40,
+          132
+        ],
+        "dtype": "float64",
+        "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+      },
+      "attention_mask": {
+        "shape": [
+          2,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+      },
+      "embodiment_id": {
+        "shape": [
+          2
+        ],
+        "dtype": "int64",
+        "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+      },
+      "image_grid_thw": {
+        "shape": [
+          4,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+      },
+      "input_ids": {
+        "shape": [
+          2,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+      },
+      "pixel_values": {
+        "shape": [
+          1024,
+          1536
+        ],
+        "dtype": "float32",
+        "sha256": "57e4d3bcdd0cae38980ceaa289a723b9b4da37231db1cc4be4c452715c23e1f4"
+      },
+      "state": {
+        "shape": [
+          2,
+          1,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "5aee4537cdad77f25f740a6088f5255ca7d7d1ad47f0e4ebfa980baef8901fd6"
+      }
+    }
+  },
+  "actual_multiple_stage_anchor_indices": [
+    0,
+    80,
+    160,
+    320,
+    480,
+    600
+  ],
+  "variable_instruction_padding_diagnostic": {
+    "inputs": {
+      "action": {
+        "shape": [
+          2,
+          40,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "427260007565397c7dabdf0081a6a5cea71480e4f62d07ed8694932b82e52042"
+      },
+      "action_mask": {
+        "shape": [
+          2,
+          40,
+          132
+        ],
+        "dtype": "float64",
+        "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+      },
+      "attention_mask": {
+        "shape": [
+          2,
+          172
+        ],
+        "dtype": "int64",
+        "sha256": "369bc8321c867d70b064515415aae4ad7015d5e63e2ce0f317fa9627bb37c3f7"
+      },
+      "embodiment_id": {
+        "shape": [
+          2
+        ],
+        "dtype": "int64",
+        "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+      },
+      "image_grid_thw": {
+        "shape": [
+          4,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+      },
+      "input_ids": {
+        "shape": [
+          2,
+          172
+        ],
+        "dtype": "int64",
+        "sha256": "d688a9e15ade294ebd4b1dcfc70bf76a332e559f148700c7ea002376be0db2ed"
+      },
+      "pixel_values": {
+        "shape": [
+          1024,
+          1536
+        ],
+        "dtype": "float32",
+        "sha256": "5269098f945db1a9bf24466efd18c10ace4b966bcb79259eb2bbb25b3be1975c"
+      },
+      "state": {
+        "shape": [
+          2,
+          1,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "620a108e1eaa58ca4f439fb08ff704e2d5f03f58e9a7b096f8a8a251bc3e7031"
+      }
+    }
+  },
+  "raw_episode_language_modified": false,
+  "worker_batch_checks": {
+    "0": [
+      {
+        "identities": [
+          {
+            "episode_id": "T291000",
+            "anchor": 0,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291000",
+            "anchor": 80,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "76032b3ec3a2b437930d3cb4894571ea6ea9d794f15b4e155888d396a318ffb4"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "a5537d5ee0f8a06d66e85323f644be27dbc43b19da2b33f9d01c6d37d5d8bcd6"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "a4e9c28298d976316b64cf6fe67f0bc67fa3a71b4b4b8c4b95b901e8169c1420"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291000",
+            "anchor": 160,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291000",
+            "anchor": 320,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "8b1ac82a145b75644fbc35aee6ae69111b3961bdbd41261198b9b1fced2d2bd0"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "d164689abefa87425faee8a83c7783ce12aae614424b57361d83cc7c7d445a76"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "b11b76dea7b9dd517de3f2415369ae1193ab04ea145ceece18b1ed2352250296"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291000",
+            "anchor": 480,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291000",
+            "anchor": 600,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "fb3f1911808ec879d41718297eecbe9a6c0cd182200d1dd496b513028688f24e"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "a1e0e7fc6e433f15d19321080600938e456257b744233ba387e2a0a9b2742d88"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "ef074feb4afbbad5dc6c4a047b59440f3205b09174df85614f02b5ba9579da7b"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291001",
+            "anchor": 0,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291001",
+            "anchor": 80,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "11bbfdf0a551cb341671719e49957c6e6f69ea750fed31180dd939da451d10f5"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "296b28e45b9e0294550a11fcdf06c225be6bd1d0ad20da751eed21cbf596a8c6"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "16a2148df4ed3ff2897de67ea50624721c7dc8b5238e13cefcb33528d612d4e2"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291001",
+            "anchor": 160,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291001",
+            "anchor": 320,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "8ea80f8694ce726a758e8d4dae8dec2b2b3e87d5aa731c4066b5d76f786668ee"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "0a25362a66ebb34c9346b5dcec0139875da3d2d072e6b2fc53e9d18e30a58a9b"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "fff11c539c229e9960a1bec9f5078db2b012447f355e483b48e33e9eaf2494c1"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291001",
+            "anchor": 480,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291001",
+            "anchor": 600,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "eaeb323a538332b4b4a104793284f03f2c8420de6ff75bc85d67051e91bae757"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "3ca9aee20fe4b39ac9e7867c9245ae5a0c34c1a036039cea9a63e06922aa7c56"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "5306723a22c88193681c3fd938674af810a3db32a3452899869b6ca9b4c398af"
+            }
+          }
+        }
+      }
+    ],
+    "2": [
+      {
+        "identities": [
+          {
+            "episode_id": "T291000",
+            "anchor": 0,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291000",
+            "anchor": 80,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "76032b3ec3a2b437930d3cb4894571ea6ea9d794f15b4e155888d396a318ffb4"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "a5537d5ee0f8a06d66e85323f644be27dbc43b19da2b33f9d01c6d37d5d8bcd6"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "a4e9c28298d976316b64cf6fe67f0bc67fa3a71b4b4b8c4b95b901e8169c1420"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291000",
+            "anchor": 160,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291000",
+            "anchor": 320,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "8b1ac82a145b75644fbc35aee6ae69111b3961bdbd41261198b9b1fced2d2bd0"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "d164689abefa87425faee8a83c7783ce12aae614424b57361d83cc7c7d445a76"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "b11b76dea7b9dd517de3f2415369ae1193ab04ea145ceece18b1ed2352250296"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291000",
+            "anchor": 480,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291000",
+            "anchor": 600,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "fb3f1911808ec879d41718297eecbe9a6c0cd182200d1dd496b513028688f24e"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "a1e0e7fc6e433f15d19321080600938e456257b744233ba387e2a0a9b2742d88"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "ef074feb4afbbad5dc6c4a047b59440f3205b09174df85614f02b5ba9579da7b"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291001",
+            "anchor": 0,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291001",
+            "anchor": 80,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "11bbfdf0a551cb341671719e49957c6e6f69ea750fed31180dd939da451d10f5"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "296b28e45b9e0294550a11fcdf06c225be6bd1d0ad20da751eed21cbf596a8c6"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "16a2148df4ed3ff2897de67ea50624721c7dc8b5238e13cefcb33528d612d4e2"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291001",
+            "anchor": 160,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291001",
+            "anchor": 320,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "8ea80f8694ce726a758e8d4dae8dec2b2b3e87d5aa731c4066b5d76f786668ee"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "0a25362a66ebb34c9346b5dcec0139875da3d2d072e6b2fc53e9d18e30a58a9b"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "fff11c539c229e9960a1bec9f5078db2b012447f355e483b48e33e9eaf2494c1"
+            }
+          }
+        }
+      },
+      {
+        "identities": [
+          {
+            "episode_id": "T291001",
+            "anchor": 480,
+            "split": "TRAIN"
+          },
+          {
+            "episode_id": "T291001",
+            "anchor": 600,
+            "split": "TRAIN"
+          }
+        ],
+        "batch": {
+          "inputs": {
+            "action": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "eaeb323a538332b4b4a104793284f03f2c8420de6ff75bc85d67051e91bae757"
+            },
+            "action_mask": {
+              "shape": [
+                2,
+                40,
+                132
+              ],
+              "dtype": "float64",
+              "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+            },
+            "attention_mask": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+            },
+            "embodiment_id": {
+              "shape": [
+                2
+              ],
+              "dtype": "int64",
+              "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+            },
+            "image_grid_thw": {
+              "shape": [
+                4,
+                3
+              ],
+              "dtype": "int64",
+              "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+            },
+            "input_ids": {
+              "shape": [
+                2,
+                156
+              ],
+              "dtype": "int64",
+              "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+            },
+            "pixel_values": {
+              "shape": [
+                1024,
+                1536
+              ],
+              "dtype": "float32",
+              "sha256": "3ca9aee20fe4b39ac9e7867c9245ae5a0c34c1a036039cea9a63e06922aa7c56"
+            },
+            "state": {
+              "shape": [
+                2,
+                1,
+                132
+              ],
+              "dtype": "float32",
+              "sha256": "5306723a22c88193681c3fd938674af810a3db32a3452899869b6ca9b4c398af"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "two_workers_repeat_equal": true,
+  "codec": {
+    "TRAIN": {
+      "full_H40_windows_actually_checked": 38464,
+      "raw_official_pose_roundtrip": {
+        "XYZ_m": 2.220446049250313e-16,
+        "SO3_rad": 2.1073424255447017e-08,
+        "gripper": 0.0
+      },
+      "official_normalized_float32_132D_decode": {
+        "XYZ_m": 8.57280324506604e-09,
+        "SO3_rad": 2.9802322387695312e-08,
+        "gripper": 0.0
+      },
+      "independent_SE3_vs_official_relative_max_abs": 8.517492267046123e-16,
+      "action_preclip_components": 36,
+      "stock_inverse_clip_components_float32": 0,
+      "state_preclip_components": 0,
+      "encode_clip_components": 0,
+      "DEV_refit": false,
+      "input_actions": "absolute committed; never pre-relative"
+    },
+    "DEV": {
+      "full_H40_windows_actually_checked": 9616,
+      "raw_official_pose_roundtrip": {
+        "XYZ_m": 2.220446049250313e-16,
+        "SO3_rad": 2.1073424255447017e-08,
+        "gripper": 0.0
+      },
+      "official_normalized_float32_132D_decode": {
+        "XYZ_m": 0.001337304592551547,
+        "SO3_rad": 3.067574049519817e-05,
+        "gripper": 0.0
+      },
+      "independent_SE3_vs_official_relative_max_abs": 7.771561172376096e-16,
+      "action_preclip_components": 44,
+      "stock_inverse_clip_components_float32": 44,
+      "state_preclip_components": 9,
+      "encode_clip_components": 0,
+      "DEV_refit": false,
+      "input_actions": "absolute committed; never pre-relative"
+    }
+  },
+  "oracle_and_causality_negatives": {
+    "policy_object_pose": {
+      "rejected": true,
+      "reason": "Illegal or missing policy observation fields"
+    },
+    "policy_teacher_stage": {
+      "rejected": true,
+      "reason": "Illegal or missing policy observation fields"
+    },
+    "policy_success": {
+      "rejected": true,
+      "reason": "Illegal or missing policy observation fields"
+    },
+    "future_history": {
+      "rejected": true,
+      "reason": "Future history or discontinuity in complete episode"
+    },
+    "unordered_time": {
+      "rejected": true,
+      "reason": "Invalid or unordered observation clock"
+    }
+  },
+  "official_processor": "Gr00tN1d7Processor",
+  "official_collator": "Gr00tN1d7DataCollator",
+  "valid_physical_dims": 10,
+  "native_padded_dims": 132,
+  "official_state_mask": "Not emitted by fixed upstream; raw valid flags enforced before processing, padded state dims verified zero",
+  "policy_joint_or_privileged_inputs": false,
+  "model_loads": 0,
+  "neural_forward": 0,
+  "training_steps": 0,
+  "GPU_used": false,
+  "physics_integrations": 0,
+  "joint_state_is_execution_evidence_only": true,
+  "elapsed_s": 618.689287556801,
+  "CPU_self_s": 614.354674,
+  "CPU_children_s": 7.463841,
+  "CPU_total_s": 621.818515
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "PI0292_HOPPER_RESOURCE_LEDGER_V1",
+  "PBS_submissions": [],
+  "GPU_allocated_s": 0,
+  "model_smoke_updates": 0,
+  "main_updates": 0,
+  "generation_queries": 0,
+  "CPU_s": 229.768325,
+  "CPU_upper_s": 60,
+  "CPU_upper_reason": "Remote metadata reads and staging child processes not separately measured",
+  "stages": [
+    {
+      "id": "ORIGINAL_TRAIN_CONSUMER",
+      "CPU_reserved_s": 0,
+      "bytes_reserved": 17179869184,
+      "status": "ALL_56_FULL_MEMBERS_VERIFIED",
+      "CPU_s": 185.41057,
+      "actual_bytes": 6579462924
+    },
+    {
+      "id": "ORIGINAL_CPU_QUALIFICATION",
+      "CPU_reserved_s": 0,
+      "status": "PASS_ACTUAL_CROSS_HOST_RGB_PROCESSOR_TENSORS",
+      "CPU_s": 22.500555
+    }
+  ],
+  "deletions": 0,
+  "model_loads": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
