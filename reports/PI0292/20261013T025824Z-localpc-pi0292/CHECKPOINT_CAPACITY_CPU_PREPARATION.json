@@ -1,21 +1,21 @@
 {
   "schema": "PI0292_CHECKPOINT_CAPACITY_CPU_PREPARATION_V1",
   "status": "LOCAL_CPU_TESTED_NOT_DEPLOYED_NOT_MAIN_ADMISSION",
-  "observed_epoch": 1791872206.0260298,
+  "observed_epoch": 1791872547.7933917,
   "run_uuid": "20261013T025824Z-localpc-pi0292",
   "protocol_release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
   "files": {
-    "scripts/pi0292/checkpoint_artifacts.py": "dba505be6543f2d804adfe4719542faf785742a782da7feeef23c429bceda860",
+    "scripts/pi0292/checkpoint_artifacts.py": "6198125eec0352970404163a0d6bcf6be70e596be563fc6d433b6d2fb0f2cb3b",
     "scripts/pi0292/main_capacity.py": "ddc7b5cb172a8479e1a1c516062e129bd8c3d3526e213a340ea77bfc69717531",
-    "scripts/pi0292/test_checkpoint_capacity.py": "59dbee1228839a42a8ad2071be108c9b924ce05f1b3658d46256baa0e92fa780"
+    "scripts/pi0292/test_checkpoint_capacity.py": "8454e36033118522021cea925595384d441c029a5e88abf491a957bd53d2b99d"
   },
   "tests": {
-    "new_methods": 15,
-    "new_subtests": 4,
-    "all_PI0292_passed": 56,
-    "all_PI0292_subtests": 22,
-    "junit_sha256": "9c04f7c1effdfc9e900c6e622bbbdc93642859bf81cd67ea357b34a4e742a2f0",
-    "measured_CPU_s_this_two_test_command_delta": 5.71,
+    "new_methods": 19,
+    "new_subtests": 6,
+    "all_PI0292_passed": 60,
+    "all_PI0292_subtests": 24,
+    "junit_sha256": "f9b182a46cf55599f79606d9d0c7ed31ba40409ee782dd3ce6c29f78e0fe6ecd",
+    "measured_CPU_s_final_test_command": 3.67,
     "earlier_cumulative_CPU": "NOT_ZERO_NOT_RECONSTRUCTED_HERE"
   },
   "checkpoint_audit": {
@@ -24,6 +24,10 @@
     "optimizer_scheduler_RNG_files": true,
     "frozen_statistics": true,
     "processor_config": true,
+    "processor_statistics": true,
+    "processor_embodiment_mapping": true,
+    "processor_statistics_match_canonical": true,
+    "unknown_files_refused": true,
     "consumed_cursor_and_worker_trace": true,
     "rejects_symlinks": true,
     "uses_official_safetensors_parser": true,
@@ -55,7 +59,7 @@
     "existing_official_amgr_sshlogin": "EXIT_1_OUTPUT_NOT_RETAINED_NO_CREDENTIAL_DISCLOSURE",
     "subsequent_structured_project_query": "EXIT_1_LOGIN_REQUIRED",
     "scratch_quota_display": "940.7GB / 1.0TB",
-    "quota_report_local": "2026-10-13 13:53",
+    "quota_report_local": "2026-10-13 14:13",
     "new_qsub_calls": 0,
     "known_PI0292_jobs": [],
     "GPU_allocated_s": 0,

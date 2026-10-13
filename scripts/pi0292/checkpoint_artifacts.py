@@ -6,12 +6,18 @@ bytes and structural bindings; the separate actual smoke proves resumability.
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 from .durable import read
 from .train_adapter import CyclicSampler, sha
 
 REQUIRED = ('optimizer.pt', 'scheduler.pt', 'rng_state.pth', 'trainer_state.json',
             'statistics.json', 'SAMPLER_STATE.json')
+PROCESSOR_FILES = ('processor/processor_config.json', 'processor/statistics.json',
+                   'processor/embodiment_id.json')
+ALLOWED_FILES = set(REQUIRED) | set(PROCESSOR_FILES) | {
+    'CHECKPOINT_COMPLETE.json', 'config.json', 'training_args.bin',
+    'generation_config.json', 'model.safetensors.index.json', 'model.safetensors'}
 
 
 def inventory(checkpoint, *, expected_step, recipe, statistics_sha256, manifest_sha256):
@@ -51,6 +57,8 @@ def inventory(checkpoint, *, expected_step, recipe, statistics_sha256, manifest_
             raise ValueError('CHECKPOINT_SYMLINK_REFUSED')
         if path.is_file():
             relative = path.relative_to(checkpoint).as_posix()
+            if relative not in ALLOWED_FILES and not re.fullmatch(r'model-\d{5}-of-\d{5}\.safetensors', relative):
+                raise ValueError('UNREGISTERED_CHECKPOINT_FILE_REFUSED')
             before = path.stat()
             digest = sha(path)
             after = path.stat()
@@ -60,10 +68,21 @@ def inventory(checkpoint, *, expected_step, recipe, statistics_sha256, manifest_
     for name, digest in complete['required_files'].items():
         if name not in files or files[name]['sha256'] != digest:
             raise ValueError('FULL_STATE_FILE_MISSING_OR_CHANGED')
-    for name in ('config.json', 'processor/processor_config.json'):
+    for name in ('config.json', *PROCESSOR_FILES):
         if name not in files or not files[name]['bytes']:
             raise ValueError('MODEL_OR_PROCESSOR_CONFIG_MISSING')
         read(checkpoint / name)
+    if read(checkpoint / 'processor/statistics.json') != read(checkpoint / 'statistics.json'):
+        raise ValueError('SAVED_PROCESSOR_STATISTICS_CHANGED')
+    if read(checkpoint / 'processor/embodiment_id.json').get('new_embodiment') != 10:
+        raise ValueError('SAVED_PROCESSOR_EMBODIMENT_ROUTE_CHANGED')
+    processor = read(checkpoint / 'processor/processor_config.json')['processor_kwargs']
+    expected_processor = dict(max_state_dim=132, max_action_dim=132, max_action_horizon=40,
+        use_percentiles=False, use_mean_std=False, clip_outliers=False, use_relative_action=True,
+        state_dropout_prob=0., exclude_state=False, use_albumentations=False,
+        image_crop_size=[256, 256], image_target_size=[256, 256], crop_fraction=1.)
+    if any(processor.get(name) != value for name, value in expected_processor.items()):
+        raise ValueError('SAVED_PROCESSOR_INTERFACE_CHANGED')
     actual_weight_files = sorted(name for name in files if '/' not in name and name.endswith('.safetensors'))
     index = checkpoint / 'model.safetensors.index.json'
     mapping = read(index)['weight_map'] if index.exists() else None

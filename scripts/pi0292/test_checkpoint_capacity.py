@@ -40,7 +40,13 @@ class TestCheckpointInventory(unittest.TestCase):
         for name in ('optimizer.pt', 'scheduler.pt', 'rng_state.pth'):
             (self.root / name).write_bytes(b'SYNTHETIC_TEST_NOT_A_CHECKPOINT')
         self.put('config.json', {'fixture_only': True})
-        self.put('processor/processor_config.json', {'fixture_only': True})
+        self.put('processor/processor_config.json', dict(processor_kwargs=dict(
+            max_state_dim=132, max_action_dim=132, max_action_horizon=40,
+            use_percentiles=False, use_mean_std=False, clip_outliers=False, use_relative_action=True,
+            state_dropout_prob=0., exclude_state=False, use_albumentations=False,
+            image_crop_size=[256, 256], image_target_size=[256, 256], crop_fraction=1.)))
+        self.put('processor/statistics.json', {'synthetic': True})
+        self.put('processor/embodiment_id.json', {'new_embodiment': 10})
         save_file({'weight':np.arange(6, dtype=np.float32).reshape(2, 3)}, self.root / 'model.safetensors')
         self.refresh_receipt()
 
@@ -71,6 +77,38 @@ class TestCheckpointInventory(unittest.TestCase):
     def test_processor_is_required_for_full_resume_artifact(self):
         (self.root / 'processor/processor_config.json').unlink()
         with self.assertRaisesRegex(ValueError, 'PROCESSOR_CONFIG_MISSING'):
+            self.inspect()
+
+    def test_processor_stats_and_embodiment_are_not_optional(self):
+        for name in ('statistics.json', 'embodiment_id.json'):
+            with self.subTest(name=name):
+                path = self.root / 'processor' / name
+                content = path.read_bytes()
+                path.unlink()
+                with self.assertRaisesRegex(ValueError, 'PROCESSOR_CONFIG_MISSING'):
+                    self.inspect()
+                path.write_bytes(content)
+
+    def test_saved_processor_cannot_refit_stats_or_change_route(self):
+        self.put('processor/statistics.json', {'synthetic': 'changed'})
+        with self.assertRaisesRegex(ValueError, 'PROCESSOR_STATISTICS_CHANGED'):
+            self.inspect()
+        self.put('processor/statistics.json', {'synthetic': True})
+        self.put('processor/embodiment_id.json', {'new_embodiment': 3})
+        with self.assertRaisesRegex(ValueError, 'PROCESSOR_EMBODIMENT_ROUTE_CHANGED'):
+            self.inspect()
+
+    def test_unregistered_file_never_enters_archive_inventory(self):
+        (self.root / 'credentials.txt').write_text('dummy fixture, not a credential')
+        with self.assertRaisesRegex(ValueError, 'UNREGISTERED_CHECKPOINT_FILE_REFUSED'):
+            self.inspect()
+
+    def test_processor_normalization_change_is_refused(self):
+        path = self.root / 'processor/processor_config.json'
+        value = json.loads(path.read_text())
+        value['processor_kwargs']['use_percentiles'] = True
+        self.put('processor/processor_config.json', value)
+        with self.assertRaisesRegex(ValueError, 'SAVED_PROCESSOR_INTERFACE_CHANGED'):
             self.inspect()
 
     def test_cursor_is_consumed_not_prefetched(self):
