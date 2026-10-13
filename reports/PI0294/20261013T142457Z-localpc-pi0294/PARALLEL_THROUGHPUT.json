@@ -1,0 +1,20 @@
+{
+  "status": "PASS_ACTUAL_PARALLEL_QUALIFICATION",
+  "source_sha": "8810aa2927c44f428a455534414fc00479e44db1",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "diagnostic_not_formal_training_data": true,
+  "qualified_workers": 4,
+  "render_backend": "mesa_cpu",
+  "comparison": {"physical_arrays_exact": true, "high_rate_contacts_exact": true, "submitted_H40_exact": true, "all_1282_PNG_bytes_per_episode_exact": true, "independent_audits_admitted": true, "all_first_attempts_preserved": true},
+  "serial": {"episodes": 2, "actual_pipeline_wall_s": 417.44450426101685, "admitted_episodes_per_hour": 17.247801627538095, "CPU_s": 824.4974213319999},
+  "two_workers": {"episodes": 2, "actual_pipeline_wall_s": 226.87686133384705, "admitted_episodes_per_hour": 31.735276826689134, "CPU_s": 846.041849825, "speedup_vs_serial": 1.8399606809032474},
+  "four_workers": {"episodes": 4, "actual_pipeline_wall_s": 292.474627494812, "admitted_episodes_per_hour": 49.235040055758105, "CPU_s": 1900.274996834, "speedup_vs_serial": 2.8545690122704515},
+  "wall_clock_basis": "ACTUAL_DISPATCH_EPOCH_TO_LAST_ATOMIC_AUDIT_FILE_MTIME",
+  "qualification_comparison_CPU_s": 0.740245,
+  "qualification_comparison_integrations": 0,
+  "qualification_comparison_render_calls": 0,
+  "short_batch_only_not_sustained_production_rate": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
