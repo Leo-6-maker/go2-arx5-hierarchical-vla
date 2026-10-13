@@ -5,6 +5,7 @@ from pathlib import Path
 import socket
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from scripts.iteration.queue import LiveCoordinator, digest, value_digest
 from scripts.pi0292.durable import read, write
@@ -12,6 +13,9 @@ from scripts.pi0292.durable import read, write
 
 class QueueTest(unittest.TestCase):
     def setUp(self):
+        self.affinity = patch('scripts.iteration.queue.os.sched_getaffinity', return_value=set(range(16)))
+        self.affinity.start()
+        self.addCleanup(self.affinity.stop)
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         self.clock = 1791901600
@@ -152,6 +156,11 @@ class QueueTest(unittest.TestCase):
             self.assertIn('a', owner.value['reservations'])
         finally:
             owner.close()
+
+    def test_too_few_actual_allowed_cores_rejected(self):
+        with patch('scripts.iteration.queue.os.sched_getaffinity', return_value={0, 1}):
+            with self.assertRaisesRegex(ValueError, 'ACTUAL_ALLOWED_CPU'):
+                self.owner()
 
 
 if __name__ == '__main__':
