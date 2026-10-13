@@ -161,6 +161,8 @@ def main(args):
     payload['delivery_source.tar.gz'] = archive/'delivery_source.tar.gz'
     for name in ('TEACHER_AND_LAYOUT_SEAL.json', 'DATASET_ADMISSION.json', 'RESOURCE_ACCOUNTING.json'):
         payload['receipts/'+name] = root/name
+    if os.environ.get('PI0291_CLOSEOUT_AUTHORIZATION_SHA256'):
+        payload['receipts/DATA_CLOSEOUT_AUTHORIZATION.json'] = root/'evidence/DATA_CLOSEOUT_AUTHORIZATION.json'
     for name in ('DATALOADER_SMOKE.json', 'PILOT_SCORE.json', 'DATASET_CARD.md', 'TRAINING_HANDOFF.json'):
         payload['receipts/'+name] = root/'evidence'/name
     proof_file = archive/'ARCHIVE_MEMBER_MANIFEST.json'
@@ -213,6 +215,8 @@ def main(args):
         NATIVE_DATALOADER_PASS=True, license_scope=license_scope,
         raw_attempts=len(ledger['starts']), READY_uploaded_last=True, model_loads=0, neural_forward=0,
         training=0, WBC=0, hardware=0, selected='NONE', deployment='NONE')
+    if os.environ.get('PI0291_CLOSEOUT_AUTHORIZATION_SHA256'):
+        ready['CPU_only_closeout_authority_sha256'] = os.environ['PI0291_CLOSEOUT_AUTHORIZATION_SHA256']
     ready_file = archive/'READY.json'
     write(ready_file,ready)
     final = api.create_commit(args.repo,repo_type='dataset',parent_commit=data_revision,

@@ -1,0 +1,140 @@
+{
+  "status": "PASS_RAW_DATA_AUDIT",
+  "episodes": [
+    {
+      "id": "T291054",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "physics_sha256": "d6f78438d767a5c84356f4d3874822b9dfd32714143e14862f4acff1ee7b3318",
+      "samples_sha256": "ec3d85a0b4a57e93ced46a3b72287a74c9beb6110e65ec3ab7034b188e1577fe",
+      "manifest_sha256": "2624b29586ab99d2fc0199191c8996b9cbe81f9258f7b356e319da5348bb52ea",
+      "saved_scene_sha256": "e9cea942d3688142d55f51f6e38e019e6cce695395626fc8f5564968c501c9a4",
+      "max_sensor_error": 0.0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0.0,
+      "max_keypoint_projection_error_px": 0.0,
+      "max_reconstructed_contact_force_error_N": 3.048580554665392e-09,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2370,
+        "minimum_body_red_pixels": 55,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3293,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3170,
+            "maximum_red_pixels": 4651
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2853,
+            "maximum_red_pixels": 4470
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2888,
+            "maximum_red_pixels": 2916
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2690,
+            "maximum_red_pixels": 3254
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2701,
+            "maximum_red_pixels": 4079
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3991,
+            "maximum_red_pixels": 4044
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3951,
+            "maximum_red_pixels": 4930
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2445,
+            "maximum_red_pixels": 5513
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2370,
+            "maximum_red_pixels": 2524
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319271543389113,
+        1.000649535219155
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0
+    }
+  ],
+  "CPU_s": 3.858705,
+  "elapsed_s": 3.289842880098149,
+  "audit_script_sha256": "786a972b02e4fb8de4a65cd61aab9b12bbe150bdd47fbaede3f5dd5336ab203b",
+  "integrations": 0,
+  "model_loads": 0,
+  "render_calls": 0,
+  "CPU_includes_children": true,
+  "resource_ledger_mutation": "Owner must serially charge this measured CPU; auditor does not race physical ledger"
+}

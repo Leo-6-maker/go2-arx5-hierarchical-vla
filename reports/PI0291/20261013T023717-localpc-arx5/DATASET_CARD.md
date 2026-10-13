@@ -1,8 +1,10 @@
 # PI0291 Fixed-Base ARX5 Teacher Data
 
-Status at this milestone: formal collection in progress. Final attempted,
-admitted and unattempted counts are authoritative only in the terminal
-`DATASET_ADMISSION.json`; no complete-bank or training-ready claim is made.
+Status: `PARTIAL`. The original queue is terminal:56 TRAIN attempted and
+owner-admitted;8 TRAIN and16 DEV not attempted. All56 independent raw audits
+passed. Frozen export contains33,656 TRAIN H40 windows and0 DEV windows.
+These are overlapping windows, not independent trials. No complete-bank or
+first-training-ready claim is made. See terminal `DATASET_ADMISSION.json`.
 
 ## Scope
 
@@ -63,8 +65,9 @@ normalization and input outlier clipping are disabled; stock inverse clipping
 is measured, with no DEV refit or processor monkeypatch.
 
 Official source is `51d4c89f72fda44cbf77285c6a8114b52676b8a1`.
-Actual formal CPU DatasetLoader/processor/collator, all-window codec and
-fixed-revision HF readback are pending at this milestone. The existing
+Actual formal CPU DatasetLoader/processor/collator and all-window codec are
+running under a new explicit60-minute CPU-only closeout authority; they are
+not yet PASS. Fixed-revision HF readback is pending. The existing
 official training launcher does not directly consume this NPZ+PNG wrapper:
 see `TRAINER_INTERFACE_READONLY_REVIEW.json`. CPU data qualification must not
 be misrepresented as completed Trainer integration.
@@ -73,6 +76,9 @@ be misrepresented as completed Trainer integration.
 
 Physical source: `57a02b4923e5001df5fd4b3b5958c372b9cff541`.
 Run: `20261013T023717-localpc-arx5`.
+Separate CPU-only closeout window:2026-10-13T01:12:42Z to02:12:42Z,
+new CPU allowance14400s, original total output cap40GiB. The original
+physical clock/counters are not reset and no missing DEV is collected.
 Seal SHA256: `f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d`.
 The authoritative immutable private HF repository, prefix, revisions and blob
 hashes will be recorded in the actual transfer/readback receipts, not inferred
