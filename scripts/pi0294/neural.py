@@ -29,9 +29,13 @@ def verify_allocation(root,mode,request_path):
         raise PermissionError('EXACT_REQUEST_MODE_ALLOCATION_REQUIRED')
     visible=os.environ.get('CUDA_VISIBLE_DEVICES','')
     if not visible or ',' in visible or visible=='-1':raise PermissionError('SCHEDULER_SINGLE_GPU_VISIBILITY_REQUIRED')
+    from .numerics import prepare_environment,configure_torch
+    numerical_mode=read(request_path).get('numerical_mode')
+    prepare_environment(numerical_mode)
     import torch
     if torch.cuda.device_count()!=1 or 'H200' not in torch.cuda.get_device_name(0):raise PermissionError('ONE_H200_REQUIRED')
     allocation.update(allocation_end_epoch=authorization['allocation_end_epoch'],gpu=torch.cuda.get_device_name(0))
+    allocation['numerical_configuration']=configure_torch(torch,numerical_mode)
     return allocation
 
 
@@ -371,6 +375,8 @@ def run(args):
     torch.set_num_threads(4)
     os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
     recipe=recipe_for(mode,args.microbatch,args.workers,getattr(args,'max_steps',4096))
+    if read(args.request).get('numerical_mode'):
+        recipe['numerical_configuration']=allocation['numerical_configuration']
     if mode=='main':
         profile=read(root/'evidence/TRAINING_PROFILE_SEAL.json')
         if profile['microbatch']!=args.microbatch or profile['workers']!=args.workers:
