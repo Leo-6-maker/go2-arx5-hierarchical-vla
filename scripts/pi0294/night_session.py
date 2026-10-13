@@ -73,7 +73,8 @@ def run(args):
     owner=OwnerLock(root/'NIGHT_SESSION_OWNER.lock')
     directory=Path(args.request).parent/'night-session';directory.mkdir(exist_ok=False)
     state=dict(status='ACTUAL_FINAL_ALLOCATION_REQUALIFICATION',job_id=allocation['job_id'],
-        run_uuid=root.name,sequence=0,pid=os.getpid(),stages=[],main_started=False,selected='NONE',deployment='NONE')
+        run_uuid=root.name,sequence=0,pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],
+        parent_request_sha256=sha(args.request),stages=[],main_started=False,selected='NONE',deployment='NONE')
     write(directory/'STATE.json',state)
     try:
         run_smoke(args)

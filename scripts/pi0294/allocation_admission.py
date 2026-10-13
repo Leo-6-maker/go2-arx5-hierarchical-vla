@@ -35,7 +35,8 @@ def sha(path):
     return value.hexdigest()
 
 
-def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,hostname):
+def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,hostname,
+             continued_allocation=None):
     closeout=request['stage'] in ('resident','checkpoint')
     if (adoption['pi'] != 'PI0294' or adoption['T0_epoch'] != T0
         or adoption['new_work_cutoff_epoch'] != CUTOFF or adoption['deadline_epoch'] != DEADLINE
@@ -65,16 +66,86 @@ def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,host
         raise PermissionError('PEER_SINGLE_OWN_GPU_REQUIRED')
     project = project_receipt['project']
     day = datetime.fromtimestamp(now,timezone(timedelta(hours=8))).date()
+    fresh_project = 0 <= now-project_receipt['observed_epoch'] <= 1800
+    if continued_allocation is not None:
+        proof=continued_allocation
+        if (proof.get('status')!='PASS_PI0294_BOUND_LIVE_NIGHT_PARENT'
+                or proof.get('job_id')!=job_id or proof.get('project')!=PROJECT
+                or proof.get('project_attestation_sha256')!=request.get('project_admission_sha256')
+                or not 0 <= proof['initial_admission_epoch']-project_receipt['observed_epoch'] <= 1800
+                or not proof['initial_admission_epoch'] <= now < proof['allocation_end_epoch']
+                or request['stage'] not in ('main','resident','checkpoint')):
+            raise PermissionError('EXACT_INITIAL_PROJECT_PROOF_AND_LIVE_ALLOCATION_REQUIRED')
+        fresh_project=True
     if (project['name'] != PROJECT or not project['active'] or user not in project['users']
         or 'hopper-m-02' not in project['cluster']
         or not date.fromisoformat(project['start_date']) <= day <= date.fromisoformat(project['end_date'])
-        or not 0 <= now-project_receipt['observed_epoch'] <= 1800
+        or not fresh_project
         or not 0 < project_receipt['balance_su'] < float('inf')):
         raise PermissionError('FRESH_NATIVE_LOGIN_PROJECT_PROOF_REQUIRED')
     if quota['user'] != user or not 0 <= now-quota['report_epoch'] <= 900 or quota['hard_bytes']-quota['used_bytes'] < request['predicted_remaining_peak_bytes']+20*GIB:
         raise PermissionError('CURRENT_PERSONAL_QUOTA_HEADROOM_REQUIRED')
     return dict(status='PASS_PI0294_OWN_NATIVE_PBS_ADMISSION_NOT_MODEL_QUALIFICATION',
-                job_id=job_id,hostname=hostname,project=PROJECT,observed_epoch=now)
+                job_id=job_id,hostname=hostname,project=PROJECT,observed_epoch=now,
+                project_proof_mode='SAME_LIVE_NATIVE_ALLOCATION_INITIAL_ENTITLEMENT'
+                    if continued_allocation is not None else 'FRESH_LOGIN_PROJECT_AT_INITIAL_ADMISSION')
+
+
+def night_parent_proof(root,request_path,request,*,job_id,now=None):
+    """A live same-job parent can continue, never authorize another allocation."""
+    now=time.time() if now is None else now
+    names=('night_parent_request_relative','night_parent_request_sha256')
+    if not any(k in request for k in names):return None
+    if not all(k in request for k in names):
+        raise PermissionError('COMPLETE_BOUND_NIGHT_PARENT_REFERENCE_REQUIRED')
+    relative=Path(request[names[0]])
+    root,request_path=Path(root),Path(request_path)
+    path=root/relative
+    if (relative.is_absolute() or '..' in relative.parts or path.is_symlink()
+            or not path.resolve().is_relative_to(root.resolve()) or path==request_path
+            or not path.is_file() or sha(path)!=request[names[1]]):
+        raise PermissionError('EXACT_PARENT_REQUEST_INSIDE_OWN_RUN_REQUIRED')
+    parent=read(path)
+    if parent.get('stage')!='night-final' or parent.get('mode')!='night-final':
+        raise PermissionError('INITIAL_NIGHT_ALLOCATION_ONLY')
+    for key in ('root','source_sha','run_manifest_sha256','code_seal_sha256','bindings','bindings_sha256',
+                'walltime_s','submit_count','prior_GPU_allocated_s','numerical_mode','microbatch','workers',
+                'project_admission_sha256','request_nonce'):
+        if request.get(key)!=parent.get(key):
+            raise PermissionError('PARENT_ALLOCATION_IDENTITY_CHANGED:'+key)
+    admission_path=path.parent/'ALLOCATION_ADMISSION.json'
+    state_path=path.parent/'night-session/STATE.json'
+    if any(p.is_symlink() or not p.is_file() or not p.resolve().is_relative_to(root.resolve())
+           for p in (admission_path,state_path)):
+        raise PermissionError('ACTUAL_PARENT_ADMISSION_AND_STATE_REQUIRED')
+    admission,state=read(admission_path),read(state_path)
+    if (admission.get('status')!='PASS_PI0294_OWN_NATIVE_PBS_ADMISSION_NOT_MODEL_QUALIFICATION'
+            or admission.get('project_proof_mode')!='FRESH_LOGIN_PROJECT_AT_INITIAL_ADMISSION'
+            or admission.get('job_id')!=job_id or admission.get('project')!=PROJECT
+            or admission.get('request_sha256')!=sha(path)
+            or admission.get('project_attestation_sha256')!=parent['project_admission_sha256']
+            or state.get('job_id')!=job_id or state.get('run_uuid')!=root.name
+            or state.get('parent_request_sha256')!=sha(path)
+            or state.get('active_request_sha256')!=sha(request_path)
+            or state.get('status')!='RUNNING_'+request['stage'].upper()
+            or not admission['observed_epoch']<=now<admission['allocation_end_epoch']):
+        raise PermissionError('ACTUAL_SAME_JOB_PARENT_SUBSTAGE_REQUIRED')
+    pid=state.get('pid');start=state.get('proc_start')
+    if type(pid) is not int or pid<=0 or not isinstance(start,str):
+        raise PermissionError('EXACT_LIVE_PARENT_PROCESS_IDENTITY_REQUIRED')
+    proc=Path('/proc')/str(pid)
+    try:
+        fields=(proc/'stat').read_text().split()
+        command=(proc/'cmdline').read_bytes().split(b'\0')
+        if (proc.stat().st_uid!=os.getuid() or fields[21]!=start or fields[2] in ('Z','X')
+                or b'scripts.pi0294.night_session' not in command or str(path).encode() not in command):
+            raise PermissionError('PARENT_PID_REUSED_TERMINAL_OR_WRONG_COMMAND')
+    except (FileNotFoundError,ProcessLookupError):
+        raise PermissionError('NIGHT_PARENT_NOT_LIVE') from None
+    return dict(status='PASS_PI0294_BOUND_LIVE_NIGHT_PARENT',job_id=job_id,project=PROJECT,
+        initial_admission_epoch=admission['observed_epoch'],allocation_end_epoch=admission['allocation_end_epoch'],
+        project_attestation_sha256=admission['project_attestation_sha256'],parent_request_sha256=sha(path),
+        parent_pid=pid,parent_proc_start=start)
 
 
 def admit(root,request_path):
@@ -113,16 +184,22 @@ def admit(root,request_path):
     owned = sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
     admission_request=dict(request)
     admission_request['predicted_remaining_peak_bytes']=remaining_peak(request,owned)
+    continuation=night_parent_proof(root,request_path,request,job_id=job_id)
     result = validate(now=time.time(),user=os.environ['USER'],job_id=job_id,
         jobs=jobs,quota=personal_quota(os.environ['USER']),
-        project_receipt=project,adoption=adoption,request=admission_request,hostname=socket.gethostname())
+        project_receipt=project,adoption=adoption,request=admission_request,hostname=socket.gethostname(),
+        continued_allocation=continuation)
     elapsed=jobs[job_id].get('resources_used',{}).get('walltime','00:00:00')
     elapsed_s=sum(int(v)*m for v,m in zip(elapsed.split(':'),(3600,60,1)))
     result['allocation_end_epoch']=min(DEADLINE,time.time()+request['walltime_s']-elapsed_s)
+    if continuation is not None:
+        result['allocation_end_epoch']=min(result['allocation_end_epoch'],continuation['allocation_end_epoch'])
+        result['continued_allocation']=continuation
     remaining = admission_request['predicted_remaining_peak_bytes']
     if remaining <= 0 or owned+remaining > 180*GIB or shutil.disk_usage(root).free < remaining+20*GIB:
         raise PermissionError('HOPPER_PEAK_SPACE_BOUND')
     result['request_sha256'] = sha(request_path)
+    result['project_attestation_sha256']=request['project_admission_sha256']
     result.update(current_owned_bytes=owned,predicted_remaining_peak_bytes=remaining)
     return result
 
