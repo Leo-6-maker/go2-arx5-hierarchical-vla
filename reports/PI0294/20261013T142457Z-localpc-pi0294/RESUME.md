@@ -38,6 +38,12 @@ Preserve runtime source `a171997a704072e127d16410ba584c8aa0ddd573`, official
 GR00T source `51d4c89f72fda44cbf77285c6a8114b52676b8a1`, base revision
 `2fc962b973bccdd5d8ce4f67cc63b264d6886495`, saved processor and v3.0 stats.
 Recheck local member hashes against the full inventory before reuse.
+The saved model config hash is
+`47c08fa0e975ad285ec0e54ecc9e44a83542c127e4c03889d5f2f36a3d443f16`;
+saved processor config is
+`cc5836fbc0be4baa69f772b5cff9c436f262305307ba905edac277e90392ebcc`.
+Root and saved processor statistics differ in serialized file hash but were
+read back equal as structured JSON; preserve each original file's exact hash.
 
 The actual main request was
 `ed50e237160a9603118c2925ba95c108d49d5d7bf686d29723fc77be84b63563`
