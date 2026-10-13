@@ -178,6 +178,8 @@ def run(args):
                     scheduler=trainer.lr_scheduler.state_dict(),rng=rng_identity(),epoch=time.time()),sort_keys=True)+'\n')
             if mode=='smoke-first' and state.global_step==2:
                 control.should_save=True;control.should_training_stop=True
+            if time.time()>=min(read(root/'ADOPTION.json')['new_work_cutoff_epoch'],allocation['allocation_end_epoch'])-180:
+                control.should_save=True;control.should_training_stop=True
 
     trainer=make_trainer_class()(model=model,args=training_args,train_dataset=dataset,
         data_collator=ProcessedCollator(dataset.processor),callbacks=[AuditCallback()],
@@ -190,7 +192,9 @@ def run(args):
     changed=[name for name in initial if initial[name]['requires_grad'] and initial[name]['sha256']!=final[name]['sha256']]
     if not unchanged or not changed:raise ValueError('FROZEN_VLM_CHANGED_OR_NO_ACTION_WEIGHT_UPDATED')
     u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
-    write(evidence/'TRAINING_RUN.json',dict(status='RUN_COMPLETE_COMPARISON_PENDING' if mode!='main' else 'MAIN_COMPLETED_FIXED_S4096',
+    final_status='RUN_COMPLETE_COMPARISON_PENDING'
+    if mode=='main':final_status='MAIN_COMPLETED_FIXED_S4096' if trainer.state.global_step==4096 else 'MAIN_PARTIAL_B1_NOT_AVAILABLE'
+    write(evidence/'TRAINING_RUN.json',dict(status=final_status,
         mode=mode,global_step=trainer.state.global_step,consumed_samples=trainer.consumed,
         frozen_backbone_unchanged=unchanged,changed_trainable_parameters=changed,final_parameters=final,
         native_metrics=result.metrics,elapsed_training_s=time.time()-started,
