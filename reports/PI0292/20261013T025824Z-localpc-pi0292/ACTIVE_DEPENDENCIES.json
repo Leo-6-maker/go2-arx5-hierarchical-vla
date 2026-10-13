@@ -1,0 +1,86 @@
+{
+  "status": "HELD_FOR_SCIENCE",
+  "deadline_epoch": 1791946704,
+  "roles": [
+    {
+      "role": "VLA_CODE",
+      "executor_node": "BOTH_CORELAB_NODES",
+      "storage_role": "SHARED_NFS",
+      "present": true
+    },
+    {
+      "role": "OFFICIAL_GR00T_SHARED",
+      "executor_node": "BOTH_CORELAB_NODES",
+      "storage_role": "SHARED_NFS",
+      "present": true
+    },
+    {
+      "role": "OFFICIAL_GR00T_CPU_RUNTIME",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "PI0290_RAW",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "PI0291_RAW",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "PI0291_NATIVE_DATA",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "PI0291_EVIDENCE",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "PI0291_FROZEN_CODE",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "SIMULATION_PYTHON",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "CPU_DATA_PYTHON",
+      "executor_node": "corelab-4080s",
+      "storage_role": "NODE_LOCAL_SSD",
+      "present": true
+    },
+    {
+      "role": "PRIVATE_NATIVE_WBC",
+      "executor_node": "BOTH_CORELAB_NODES",
+      "storage_role": "SHARED_NFS",
+      "present": true
+    },
+    {
+      "role": "HISTORICAL_WBC_REPO",
+      "executor_node": "BOTH_CORELAB_NODES",
+      "storage_role": "SHARED_NFS",
+      "present": true
+    },
+    {
+      "role": "LEGACY_ASSET_INDEX",
+      "executor_node": "BOTH_CORELAB_NODES",
+      "storage_role": "SHARED_NFS",
+      "present": true
+    }
+  ],
+  "paths": "Private owner map only; stable original runtime/raw paths; new immutable operations snapshots",
+  "maintenance_thread_ack": true
+}

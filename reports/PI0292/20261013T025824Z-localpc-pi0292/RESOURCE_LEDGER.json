@@ -1,0 +1,98 @@
+{
+  "schema": "PI0292_RESOURCE_LEDGER_V1",
+  "starts": [
+    {
+      "id": "C29200",
+      "status": "VALID_COMPLETE",
+      "source_sha": "35290803cd82e10a164daaa53af5743dd43054ee",
+      "attempt_uid": "20261013T025824Z-localpc-pi0292/C29200",
+      "steps": 16000,
+      "pairs": 641,
+      "epoch": 1791861156.3258514,
+      "reserved_steps": 0,
+      "reserved_pairs": 0,
+      "CPU_upper_s": 0,
+      "pid": 2993925,
+      "proc_start": "163026334",
+      "CPU_s": 440.895059
+    },
+    {
+      "id": "C29201",
+      "status": "VALID_COMPLETE",
+      "source_sha": "35290803cd82e10a164daaa53af5743dd43054ee",
+      "attempt_uid": "20261013T025824Z-localpc-pi0292/C29201",
+      "steps": 16000,
+      "pairs": 641,
+      "epoch": 1791861592.7143774,
+      "reserved_steps": 0,
+      "reserved_pairs": 0,
+      "CPU_upper_s": 0,
+      "pid": 3001003,
+      "proc_start": "163069974",
+      "CPU_s": 413.94831899999997
+    },
+    {
+      "id": "D291000",
+      "status": "STARTED",
+      "source_sha": "35290803cd82e10a164daaa53af5743dd43054ee",
+      "attempt_uid": "20261013T025824Z-localpc-pi0292/D291000",
+      "steps": 13625,
+      "pairs": 546,
+      "epoch": 1791861825.6925077,
+      "reserved_steps": 16000,
+      "reserved_pairs": 641,
+      "CPU_upper_s": 3600,
+      "pid": 3005163,
+      "proc_start": "163093271"
+    }
+  ],
+  "physics_steps": 45625,
+  "pairs": 1828,
+  "CPU_s": 891.7655570000001,
+  "CPU_upper_s": 4200,
+  "CPU_upper_reason": "Bounded bootstrap plus S0 metadata/engineering reserve; replace only with complete measured evidence",
+  "corelab_GPU_s": 0,
+  "Hopper_GPU_allocated_s": 0,
+  "PBS_submissions": 0,
+  "model_smoke_updates": 0,
+  "main_updates": 0,
+  "generation_queries": 0,
+  "diagnostic_pairs": 0,
+  "events": [
+    {
+      "stage": "AUDIT_C29200",
+      "CPU_s": 1.1430250000000228,
+      "physics_steps": 0
+    },
+    {
+      "stage": "AUDIT_C29200",
+      "CPU_s": 3.488463,
+      "physics_steps": 0
+    },
+    {
+      "stage": "VIDEO_C29200",
+      "CPU_s": 3.460924,
+      "physics_steps": 0
+    },
+    {
+      "stage": "AUDIT_C29201",
+      "CPU_s": 3.5024569999999926,
+      "physics_steps": 0
+    },
+    {
+      "stage": "VIDEO_C29201",
+      "CPU_s": 3.48068,
+      "physics_steps": 0
+    },
+    {
+      "stage": "ADAPTER_PRELIMINARY",
+      "CPU_s": 21.846629999999998,
+      "model_calls": 0
+    }
+  ],
+  "deletions": 0,
+  "WBC": 0,
+  "hardware": 0,
+  "owned_bytes_at_start": 128279495,
+  "owned_bytes": 128266235
+}

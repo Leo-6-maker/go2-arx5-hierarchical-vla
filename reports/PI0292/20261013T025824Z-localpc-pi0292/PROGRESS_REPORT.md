@@ -1,0 +1,16 @@
+# PI0292 Progress Checkpoint
+
+PI0292 is active. This is an intermediate execution receipt, not completion of S0-S6.
+
+- Authority: release `261bc5b37f20aaff1ad7d5742252d3dc1a91fa65`, Issue #11 comment 6137102979.
+- Run: `20261013T025824Z-localpc-pi0292`. T0 `2026-10-13T02:58:24Z`; deadline `2026-10-14T02:58:24Z`; new work cutoff `2026-10-14T01:58:24Z`. Resumes do not reset these times.
+- S0 passed: maintenance owner reports no active migration/deletion; exact private dependencies and shared NFS lease established. Original 121 sealed source hashes verified; old owner terminal; original 56 TRAIN retained; all 24 supplement IDs were unattempted.
+- Durable fake job completed 179 persisted updates after observation disconnect; live duplicate rejected with exit73. CPU fault tests cover stale/duplicate/reorder/corrupt messages, counter/deadline rejection and preservation of the last committed state on disk-write error.
+- Physical capsule source `35290803cd82e10a164daaa53af5743dd43054ee`. Original physics/scene/teacher/scorer/camera math unchanged; original run loop AST identical. Initial pre-physics source labeling was corrected after a sparse-checkout git-add failure; its correction receipt is retained.
+- Environment canaries: 2/2 full 32-second success, independent raw audits and original dual-RGB videos verified; no quality retries, excluded from TRAIN/DEV. First canary initially failed camera identity audit because raw geometry kept the origin layout ID; separate operations `a917c6ea` binds that identity to the sealed origin. Original audit FAIL retained, same data re-audited, no physics repeated.
+- Supplement is RUNNING: 0/24 completed at this snapshot, current `D291000`. Sequence is DEV16 then TRAIN8. Dispatcher operations `688946a95aa36847fc9775199397a8d131b77a9e`; source and attempt namespace independent of the old PI0291 ledger.
+- Preliminary new training adapter matches legacy processor/collator tensors on actual old TRAIN observations across two episodes and multiple anchors, with workers0/2 identical. Frozen stats, processed-only collation, DEV exclusion and complete-cycle/resume sampling checked. New bank/DEV qualification and the actual Trainer/model interface remain pending.
+- Existing Hopper base files match official `nvidia/GR00T-N1.7-3B` revision `2fc962b973bccdd5d8ce4f67cc63b264d6886495`: both full shards and configuration hashes checked. Tensor bytes 6,910,361,856; physical shard files 6,910,499,416 bytes including headers. No model load or PBS submission. Old private HF READY at `c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea` re-read and hash/private status verified; new handoff not yet executed.
+- Actual resource snapshot: 3 starts, 45625 integrations, 1828 paired observations; Corelab CPU 891.765557s measured plus 4200s retained upper bounds/reservations. Hopper metadata/hash CPU 12.630457s. Local-PC administrative CPU retains a separate conservative 600s upper. No maintenance deletion/space reclamation is attributed to science. Quota remains UNKNOWN.
+
+PI0291 remains PARTIAL. No original 56 recollection, original ledger/stat overwrite, WBC/hardware run, or selected/deployment candidate. The adopted S3-S6 work remains authorized conditionally on its gates and budgets.

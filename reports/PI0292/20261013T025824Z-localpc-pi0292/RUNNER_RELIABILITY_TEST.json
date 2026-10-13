@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "fake_jobs_started": 1,
+  "max_allowed": 2,
+  "actual_remote_observer_disconnected_after_launch": true,
+  "actual_reconnect_state": {
+    "pid": 2991582,
+    "proc_start": "163014036",
+    "status": "TERMINAL_SUCCESS",
+    "sequence": 179,
+    "started": 1791861033.2520876,
+    "physics_steps": 0,
+    "model_calls": 0,
+    "updated": 1791861078.4325998
+  },
+  "actual_running_observation": {
+    "pid": 2991582,
+    "proc_start": "163014036",
+    "sequence": 126,
+    "updated": 1791861064.8047714
+  },
+  "actual_duplicate_start_exit": 73,
+  "duplicate_message": "DUPLICATE_OWNER_REJECTED",
+  "fault_tests": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": "test_counter_deadline_and_duplicate_guards (scripts.pi0292.test_durable.DurableTest.test_counter_deadline_and_duplicate_guards) ... ok\ntest_failed_atomic_write_preserves_previous_state (scripts.pi0292.test_durable.DurableTest.test_failed_atomic_write_preserves_previous_state) ... ok\ntest_lock_refuses_duplicate (scripts.pi0292.test_durable.DurableTest.test_lock_refuses_duplicate) ... ok\ntest_message_rejections_do_not_advance (scripts.pi0292.test_durable.DurableTest.test_message_rejections_do_not_advance) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.011s\n\nOK\n"
+  },
+  "disk_failure_original_state_preserved": true,
+  "stdout_stderr_direct_regular_files": true,
+  "physics_steps": 0,
+  "model_calls": 0
+}
