@@ -1,0 +1,87 @@
+{
+  "schema": "PI0292_EXTERNAL_BLOCKED_AUDIT_V1",
+  "status": "BLOCKED_AT_S3_EXTERNAL_PREREQUISITES",
+  "observed_epoch": 1791873233.4181778,
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "authority_release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+  "goal_completed": false,
+  "scope": "FULL_ORIGINAL_S0_S6_PRESERVED",
+  "same_conditions_verified_across_at_least_three_consecutive_goal_turns": true,
+  "earlier_public_receipts": [
+    6139319043,
+    6139753101
+  ],
+  "current": {
+    "project_lookup": "USER_ACCOUNT_MANAGER_LOGIN_REQUIRED",
+    "original_project": "CFP03-CF-004",
+    "original_project_status": "QSUB_REJECTED_PROJECT_ENDED",
+    "personal_scratch_used_display": "940.7GB",
+    "personal_scratch_hard_display": "1.0TB",
+    "quota_report_local": "2026-10-13 14:33",
+    "prepared_peak_plus_margin_GiB": 100,
+    "exact_personal_free_bytes": "NOT_RETURNED_BY_SUMMARY",
+    "own_jobs": [],
+    "GPU_allocated_s": 0,
+    "model_loads": 0,
+    "smoke_updates": 0,
+    "main_updates": 0,
+    "PBS_calls_used": 1,
+    "PBS_call_cap": 3,
+    "live_process_wait": false
+  },
+  "established": {
+    "S0": "WORKSPACE_HANDSHAKE_AND_DURABLE_RUNNER_QUALIFIED",
+    "S1": "BANK_V2_64_TRAIN_16_DEV_QUALIFIED",
+    "S2": "ACTUAL_CROSS_HOST_DATA_AND_CPU_ADAPTER_PASS",
+    "HF_revision": "6075aac0cdc44b8d252d7540efbac208701c30b3",
+    "original_56_recollected": 0,
+    "original_PI0291": "PARTIAL",
+    "CPU_preparation_tests_passed": 67,
+    "CPU_preparation_subtests_passed": 31,
+    "CPU_preparation_latest_source": "4b935fab4536094b6a398dafd6a7a974bd973758",
+    "CPU_preparation_actual_GitHub_CI": "38357110594_SUCCESS"
+  },
+  "missing": {
+    "S3": "ACTUAL_MODEL_SMOKE_AND_RESUME_EQUIVALENCE_NOT_RUN",
+    "S4": "ACTUAL_FULL_4096_AND_CHECKPOINTS_NOT_RUN",
+    "S5": "ACTUAL_B0_S2048_S4096_OFFLINE_PROFILES_NOT_RUN",
+    "S6": "REAL_RELAY_ENDPOINT_AND_TEACHER_MODEL_QUALIFICATION_NOT_RUN",
+    "final_scientific_delivery": "NOT_COMPLETE",
+    "remaining_runtime_integration": "REQUIRES_ACTUAL_S3_RECEIPTS_AND_LIVE_ADMISSION"
+  },
+  "next_conditions": [
+    "User authenticates directly on Hopper with amgr login; credentials stay on server",
+    "Owner verifies currently authorized unexpired PBS project and current budget",
+    "Owner verifies sufficient personal quota or explicitly authorized storage binding",
+    "Refresh original deadline, counters, leases and model/data identities before a distinct retry",
+    "Retain first failed submission; design remaining stages within two remaining calls and total8h",
+    "Continue original S3-S6 only after actual preceding gates pass"
+  ],
+  "time": {
+    "T0_epoch": 1791860304,
+    "new_work_cutoff_epoch": 1791943104,
+    "deadline_epoch": 1791946704,
+    "clock_paused": false,
+    "reset_on_resume": false
+  },
+  "preserved": {
+    "raw_data": true,
+    "failed_receipts": true,
+    "original_ledgers": true,
+    "old_statistics": true,
+    "frozen_capsules": true,
+    "checkpoints_and_models": true,
+    "dependency_leases": true
+  },
+  "prohibited_fallbacks": [
+    "Model work on login/Corelab",
+    "Borrowing another allocation",
+    "Guessing project IDs",
+    "Deleting historical assets under science authority",
+    "Extra submission or reset clock",
+    "Intermediate checkpoint substituted for fixedS4096"
+  ],
+  "private_observation_sha256": "a2916e0847247b0b441b2853dbc9cf9ff638b998daf62742343c165390a33438",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
