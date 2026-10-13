@@ -101,6 +101,23 @@ class NeuralContracts(unittest.TestCase):
         restored=list(BalancedSampler(data,start=96,stop=320))
         self.assertEqual(full[96:],restored)
 
+    def test_actual_legacy_only_F0_does_not_distort_family_balance(self):
+        data=fixture()
+        data.rows=[item for item in data.rows if item[0]['origin']!='legacy' or item[0]['family']=='F0']
+        sampler=BalancedSampler(data,stop=12000)
+        samples=[data.rows[index][0] for _,index in sampler]
+        for task in ('T1','T2'):
+            task_rows=[row for row in samples if row['task']==task]
+            self.assertEqual(len(task_rows),6000)
+            self.assertLess(abs(sum(row['family']=='F0' for row in task_rows)-3000),180)
+        self.assertLessEqual(sum(row['origin']=='legacy' for row in samples),2000)
+        self.assertIn('FAMILY_FIRST',sampler.state_dict(32)['algorithm'])
+
+    def test_previous_single_task_smoke_sampler_identity_is_preserved(self):
+        data=fixture();data.rows=[item for item in data.rows if item[0]['task']=='T1' and item[0]['origin']=='legacy']
+        sampler=BalancedSampler(data,stop=128,smoke=True)
+        self.assertEqual(sampler.state_dict(128)['algorithm'],'PI0294_POSITION_TASK_FAMILY_EPISODE_STAGE_V1')
+
     def test_empty_phase_explicit_renormalization(self):
         data=fixture()
         for row,anchor in data.rows:
