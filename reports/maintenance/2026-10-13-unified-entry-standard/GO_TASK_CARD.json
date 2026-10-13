@@ -81,5 +81,23 @@
     "SINGLE_HUMAN_ENTRY_PASS_OR_FAIL",
     "PHYSICAL_TOP_LEVEL_ONE_DIR_TRUE_OR_FALSE"
   ],
-  "publication_is_not_execution": true
+  "publication_is_not_execution": true,
+  "maintenance_execution_budget": {
+    "start": "OWNER_ADOPTION_TIME_PERSISTED",
+    "wall_hours": 4,
+    "CPU_core_hours": 8,
+    "concurrent_CPU_cores": 4,
+    "new_created_peak_GiB": 8,
+    "prior_private_recovery_area": "PRESERVE_NOT_NEW_OUTPUT",
+    "no_reset_on_reconnect": true,
+    "stop_status": "PARTIAL_WITH_EXACT_HOLDS"
+  },
+  "required_ci": [
+    "CPU_ONLY_MANIFEST_SCHEMA",
+    "HOST_REQUIRED_WRONG_NODE",
+    "SOURCE_AND_PROCESSOR_PIN",
+    "PRIVATE_PATH_AND_SECRET_EXCLUSION",
+    "ACTIVE_LEASE_SWITCH_DENIAL",
+    "EXISTING_ENTRY_BACKWARD_COMPAT"
+  ]
 }

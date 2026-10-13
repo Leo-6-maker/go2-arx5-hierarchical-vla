@@ -10,6 +10,10 @@
 
 **严禁**借此次统一改动修改 PI0291/PI0292 冻结物理、教师、数据、stats、训练目标、WBC、模型参数、安全阈值及科学质量判定；不擅自提交 PBS、模型加载、物理 rollout、新数据采集或新数据删除。PI0292 的现有授权／截止和科学 source capsule 继续生效。
 
+### 本轮入口规范执行的独立维护预算
+
+由已有 local-pc owner 首次实际采用时记录新维护 `T0` 与独立 ledger：最长 **4 小时实际墙钟**、新增 **8 CPU core-hours**、同时至多 **4 CPU cores**、新生成的入口源码／小收据／必要增量恢复副本峰值 **≤8 GiB**。既有已封存的 5.24 GiB 私有代码恢复区不删除、不算本轮新生成空间。排队或断连不重置 T0；预算不足则交付 `PARTIAL_WITH_EXACT_HOLDS`。这不是新的科学 PI 授权，不能消耗或重置 PI0292 的时间／物理／Hopper 配额。
+
 ## 1. 当前可据以交接的实情（刷新现场收据优先）
 
 1. #47 清理终局 `3bbbb9ca72637ee941aee73593fd66546e5fe756`：33 个原源路径退役、Home 48→21、Projects 13→7、四个旧 linked worktree 已在 AMD 通过非 force 移除。状态 `PARTIAL_WITH_EXACT_HOLDS`，剩余 23 项有明确保护或依赖原因。本次不得重新删除、重复计数。
@@ -150,7 +154,7 @@ git merge --ff-only origin/pi0267/executor-decoupled-recovery
 
 **E1：统一入口代码的归属**。把已在 CoreLab 正常工作的 resolver、enter、doctor及小型配置 schema纳入可版本化自有 VLA repo，保留现有CLI语义；真实 PATH_REGISTRY/ENVIRONMENTS/ENTRY_HASH_BASELINE分 public schema 与 private host-bound文件，禁止把私有数据推Git。建立错主机拒绝、固定源码 SHA、数据registry、旧路径兼容、零物理/零模型验收。
 
-**E2：后续所有新任务走入口**。建立模板和公共 `RUN_MANIFEST` schema，至少让一个零物理、零模型的诊断任务通过统一入口创建/验证。每个新PI启动前显式选择 profile+fixed code+data/model refs+科学GO+resource ledger；旧 sealed scientific source 保留原启动方法直到其作业边界。
+**E2：后续所有新任务走入口**。建立模板和公共 `RUN_MANIFEST` schema，至少让一个零物理、零模型的诊断任务通过统一入口创建/验证。增加 GitHub CPU-only CI 契约测试：schema、HOST_REQUIRED、source/processor pin、禁止私有绝对路径或密钥、已用lease禁切换、旧路径兼容与变更说明。不能在 GitHub Actions 启动 MuJoCo/WBC/神经模型或远端SSH。每个新PI启动前显式选择 profile+fixed code+data/model refs+科学GO+resource ledger；旧 sealed scientific source 保留原启动方法直到其作业边界。
 
 **E3：安全切换，退役旧源码引用**。作业边界后 refresh active run，完成旧VLA/旧GR00T绑定向独立canonical的只读路径切换，在相同解释器和源版本下两端CPU测试PASS；若旧parent有其他 consumers，则精确保留并解释。只有独立恢复、子worktree/reference闭合后才在原有维护GO内删除，不强制减少剩余数。
 
