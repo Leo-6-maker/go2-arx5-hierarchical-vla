@@ -1,0 +1,83 @@
+{
+  "cases": [
+    {
+      "candidate": "go2-arx5-hierarchical-vla-pi0240",
+      "former_4080_status": "AMD_ONLY_GITDIR_NAMESPACE_NOT_RESOLVABLE",
+      "execution_host": "corelab-amd-server",
+      "method": "git worktree remove (non-force)",
+      "native_remove_rc": 0,
+      "source_absent_both_nodes": true,
+      "old_4080_gitdir_not_repaired": true,
+      "metadata_backup": "private candidate git_worktree_metadata",
+      "force": false
+    },
+    {
+      "candidate": "go2-arx5-hierarchical-vla-pi0241",
+      "former_4080_status": "AMD_ONLY_GITDIR_NAMESPACE_NOT_RESOLVABLE",
+      "execution_host": "corelab-amd-server",
+      "method": "git worktree remove (non-force)",
+      "native_remove_rc": 0,
+      "source_absent_both_nodes": true,
+      "old_4080_gitdir_not_repaired": true,
+      "metadata_backup": "private candidate git_worktree_metadata",
+      "force": false
+    },
+    {
+      "candidate": "go2-arx5-hierarchical-vla-rtx4080s",
+      "former_4080_status": "AMD_ONLY_GITDIR_NAMESPACE_NOT_RESOLVABLE",
+      "execution_host": "corelab-amd-server",
+      "method": "git worktree remove (non-force)",
+      "native_remove_rc": 0,
+      "source_absent_both_nodes": true,
+      "old_4080_gitdir_not_repaired": true,
+      "metadata_backup": "private candidate git_worktree_metadata",
+      "force": false
+    },
+    {
+      "candidate": "isaac-gr00t-rtx4080s",
+      "former_4080_status": "AMD_ONLY_GITDIR_NAMESPACE_NOT_RESOLVABLE",
+      "execution_host": "corelab-amd-server",
+      "method": "git worktree remove (non-force)",
+      "native_remove_rc": 0,
+      "source_absent_both_nodes": true,
+      "old_4080_gitdir_not_repaired": true,
+      "metadata_backup": "private candidate git_worktree_metadata",
+      "force": false
+    }
+  ],
+  "parent_relations": [
+    {
+      "name": "go2-arx5-hierarchical-vla",
+      "reason": "PARENT_HAS_SURVIVING_LINKED_WORKTREES"
+    },
+    {
+      "name": "isaac-gr00t",
+      "reason": "Initialized third-party submodules (5) and parent common-dir still required by protected PI0280 official worktree and PI0292 old shared official worktree. Dirty CLAUDE/notebook raw bytes and exact patches are privately restored."
+    },
+    {
+      "name": "isaac-gr00t-rtx4080s-remote",
+      "reason": "PI0292 HELD_FOR_SCIENCE explicitly pins this direct source path; no switch while dispatcher is collecting."
+    }
+  ],
+  "official_entry_switch": {
+    "epoch": 1791863191.3860633,
+    "old_navigation_target": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+    "new_navigation_target": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f",
+    "fixed_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "independent_git_common_dir": "<AMD_EXPORT>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f/.git",
+    "alternates": false,
+    "old_source_deleted": false,
+    "atomic_symlink_replace": true,
+    "current_science_binding_unchanged": true
+  },
+  "VLA_sync": {
+    "status": "HELD_BY_PI0292_SOURCE_LEASE",
+    "head": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+    "origin_head": "f9929001b32f442f54192205d8d043a1ede47d69",
+    "fetch_completed": true,
+    "reset_force_checkout": false,
+    "next_action": "At PI0292 job boundary refresh protected bindings then fast-forward canonical VLA"
+  },
+  "global_prune": false,
+  "force": false
+}
