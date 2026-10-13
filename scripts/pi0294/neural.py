@@ -60,8 +60,10 @@ def recipe_for(mode,microbatch,workers=2,max_steps=4096):
 
 def dev_panel(records):
     """All eight fixed DEV attempts remain in denominator; packets are not evidence."""
-    if len(records)!=8 or len({r['layout_id'] for r in records})!=8:
+    if len(records)!=8 or len({(r['task'],r['layout_id']) for r in records})!=8:
         raise ValueError('EXACT_FIXED_EIGHT_DEV_ATTEMPTS_REQUIRED')
+    if {r['layout_id'] for r in records if r['task']=='T1'}!={r['layout_id'] for r in records if r['task']=='T2'}:
+        raise ValueError('SAME_FOUR_PAIRED_DEV_INITIAL_LAYOUTS_REQUIRED')
     for row in records:
         if (row['task'] not in ('T1','T2') or row['attempted'] is not True
             or row['proof_kind']!='REAL_CORELAB_MODEL_CLOSED_LOOP'
@@ -220,7 +222,11 @@ def smoke_output_root(root, request):
         resume=(proof['status']=='KNOWN_TERMINAL_SIX_UPDATE_SMOKE_RESUME_ONLY' and proof['actual_optimizer_updates']==6
                 and request['mode']=='smoke-recovery-benchmark' and 'smoke-continuous' not in request['allowed_modes']
                 and 'smoke-first' not in request['allowed_modes'])
-        if proof['run_uuid']!=Path(root).name or not proof['prior_job_terminal'] or not (zero or resume):
+        requal=(proof['status']=='KNOWN_TERMINAL_NUMERICAL_SMOKE_REQUALIFICATION_8_REMAINING'
+                and proof['actual_optimizer_updates']==8 and request['mode']=='night-final'
+                and request.get('numerical_mode')=='DETERMINISTIC_CUDA_MATH_SDP_V1'
+                and request.get('prior_engineering_updates')==8)
+        if proof['run_uuid']!=Path(root).name or not proof['prior_job_terminal'] or not (zero or resume or requal):
             raise PermissionError('NO_RETRY_AFTER_UNKNOWN_OR_ACTUAL_UPDATES')
     return path
 
@@ -235,7 +241,8 @@ def run_smoke(args):
     if not {'smoke-all',*(mode for mode,_ in smoke_plan())}.issubset(set(request['allowed_modes'])):
         raise PermissionError('EXACT_COMPARISON_SUBMODES_MUST_BE_AUTHORIZED')
     ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
-    if ledger['model_smoke_updates']!=0 or ledger.get('pending_updates',0) or ledger.get('benchmark_updates',0):
+    baseline=request.get('prior_engineering_updates',0)
+    if baseline not in (0,8) or ledger['model_smoke_updates']!=baseline or ledger.get('pending_updates',0) or ledger.get('benchmark_updates',0):
         raise PermissionError('SMOKE_FIRST_ATTEMPT_ONLY_NO_AUTOMATIC_RETRY')
     if any((smoke_root/name).exists() for name in ('training/smoke_continuous','training/smoke_split',
         'evidence/MODEL_SMOKE.json','evidence/RESUME_EQUIVALENCE.json','evidence/SMOKE_DRIVER.json')):
@@ -254,7 +261,7 @@ def run_smoke(args):
             if result.returncode:raise RuntimeError('ACTUAL_SMOKE_SUBPROCESS_FAILED_NO_RETRY:'+mode)
             completed.append(dict(mode=mode,updates=updates))
         actual=read(root/'HOPPER_RESOURCE_LEDGER.json')
-        if actual['model_smoke_updates']!=8 or actual.get('pending_updates',0):
+        if actual['model_smoke_updates']!=baseline+8 or actual.get('pending_updates',0):
             raise ValueError('ACTUAL_EIGHT_UPDATE_LEDGER_REQUIRED')
         remaining=min(CUTOFF,allocation['allocation_end_epoch']-60)-time.time()
         if remaining<=0:raise TimeoutError('NO_TIME_FOR_FULL_NATIVE_CHECKPOINT_COMPARISON')
@@ -433,7 +440,8 @@ def run(args):
         warmup_steps=308 if mode=='main' else 0,bf16=True,tf32=True,optim='adamw_torch_fused',
         dataloader_num_workers=args.workers,dataloader_pin_memory=True,remove_unused_columns=False,
         seed=29400,data_seed=29400,eval_strategy='no',logging_strategy='steps',logging_steps=1,
-        save_strategy='no' if mode in ('main','benchmark') else 'steps',save_steps=2,save_total_limit=None,
+        save_strategy='no' if mode in ('main','benchmark') or
+            mode=='smoke-continuous' and read(args.request).get('minimal_engineering_checkpoints') else 'steps',save_steps=2,save_total_limit=None,
         save_only_model=False,gradient_checkpointing=False,report_to=[],disable_tqdm=True,
         ignore_data_skip=True,load_best_model_at_end=False)
     trainer=None
@@ -478,6 +486,8 @@ def run(args):
             if mode=='main' and state.global_step in (512,2048,4096,6144):control.should_save=True
             if mode=='smoke-first' and state.global_step==2:
                 control.should_save=mode!='benchmark';control.should_training_stop=True
+            if mode=='smoke-continuous' and state.global_step==4:
+                control.should_save=True
             if time.time()>=min(read(root/'ADOPTION.json')['new_work_cutoff_epoch'],allocation['allocation_end_epoch'])-180:
                 control.should_save=True;control.should_training_stop=True
 

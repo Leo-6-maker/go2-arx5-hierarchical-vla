@@ -395,7 +395,7 @@ class LiveCoordinator:
         self.value = v
 
     def reserve_auxiliary(self, identifier, *, cpu_count, timeout_s, output_bytes,
-                          memory_bytes=1024**3):
+                          memory_bytes=1024**3, manifest_path=None):
         if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', identifier):
             raise ValueError('SAFE_AUXILIARY_ID_REQUIRED')
         if type(cpu_count) is not int or cpu_count <= 0:
@@ -417,11 +417,28 @@ class LiveCoordinator:
         for k in LIVE_KEYS + ('memory_bytes',):
             self._cost(k, cost[k])
         self._capacity(cost, memory_bytes)
+        source_sha=self.admission['source_sha']
+        manifest_sha=self.admission['run_manifest_sha256']
+        manifest_relative=None
+        if manifest_path is not None:
+            from scripts.pi0294.run_admission import validate
+            path=Path(manifest_path)
+            if not path.resolve().is_relative_to(self.root) or path.is_symlink():
+                raise ValueError('CPU_MANIFEST_MUST_BE_INSIDE_REGISTERED_RUN')
+            manifest=read(path)
+            profile=manifest['execution']['profile']
+            if profile not in ('4080-cpu-data','4080-simulation'):
+                raise ValueError('CPU_AUXILIARY_CANNOT_ADOPT_NEURAL_PROFILE')
+            validate(self.root,profile=profile,manifest_path=path)
+            source_sha=manifest['code']['vla_commit']
+            manifest_sha=digest(path)
+            manifest_relative=str(path.relative_to(self.root))
         v = copy.deepcopy(self.value)
         v['auxiliary'][identifier] = dict(schema='PI0294_CPU_RESERVATION_V1', id=identifier,
-            root=str(self.root), fixture=False, source_sha=self.admission['source_sha'],
-            run_manifest_sha256=self.admission['run_manifest_sha256'], reservation=cost,
+            root=str(self.root), fixture=False, source_sha=source_sha,
+            run_manifest_sha256=manifest_sha, reservation=cost,
             cpus=cpus, deadline_epoch=self.now() + duration)
+        if manifest_relative is not None:v['auxiliary'][identifier]['manifest_relative']=manifest_relative
         write(self.path, v)
         self.value = v
         write(self.root / 'reservations' / ('aux-' + identifier + '.json'), v['auxiliary'][identifier])

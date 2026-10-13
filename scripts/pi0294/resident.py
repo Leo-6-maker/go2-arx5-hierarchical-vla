@@ -181,7 +181,7 @@ def serve(args):
         def expire(signum,frame):raise TimeoutError('FRESH_QUERY_TIMEOUT_NO_RESAMPLE')
         signal.signal(signal.SIGALRM,expire)
         seen=set()
-        end=min(allocation['allocation_end_epoch']-120,1791939600)
+        end=min(allocation['allocation_end_epoch']-120,1791943200)
         state['status']='RESIDENT_WAIT_FRESH_REAL_OBSERVATION';write(directory/'STATE.json',state)
         while time.time()<end:
             if (directory/'STOP.json').exists():

@@ -81,6 +81,37 @@ class QueueTest(unittest.TestCase):
         finally:
             owner.close()
 
+    def test_cpu_sidecar_is_sealed_without_changing_collector_source(self):
+        sidecar=self.root/'CPU_MANIFEST.json'
+        value=dict(execution=dict(profile='4080-cpu-data'),code=dict(vla_commit='b'*40))
+        write(sidecar,value)
+        owner=self.owner()
+        try:
+            with patch('scripts.pi0294.run_admission.validate',return_value=value) as validate:
+                ticket=owner.reserve_auxiliary('new-cpu-code',cpu_count=1,timeout_s=30,output_bytes=100,
+                    memory_bytes=100,manifest_path=sidecar)
+            validate.assert_called_once_with(self.root,profile='4080-cpu-data',manifest_path=sidecar)
+            self.assertEqual(ticket['source_sha'],'b'*40)
+            self.assertEqual(ticket['manifest_relative'],'CPU_MANIFEST.json')
+            self.assertEqual(ticket['run_manifest_sha256'],digest(sidecar))
+            self.assertEqual(owner.value['source_sha'],'f'*40)
+            self.assertEqual(owner.value['actual'],self.admission['prior_actual'])
+        finally:owner.close()
+
+    def test_auxiliary_cannot_claim_neural_or_foreign_manifest(self):
+        owner=self.owner()
+        try:
+            sidecar=self.root/'BAD_MANIFEST.json'
+            write(sidecar,dict(execution=dict(profile='hopper-neural')))
+            with self.assertRaisesRegex(ValueError,'NEURAL_PROFILE'):
+                owner.reserve_auxiliary('bad-neural',cpu_count=1,timeout_s=30,output_bytes=100,
+                    memory_bytes=100,manifest_path=sidecar)
+            with self.assertRaisesRegex(ValueError,'REGISTERED_RUN'):
+                owner.reserve_auxiliary('bad-path',cpu_count=1,timeout_s=30,output_bytes=100,
+                    memory_bytes=100,manifest_path=self.root.parent/'outside.json')
+            self.assertFalse(owner.value['auxiliary'])
+        finally:owner.close()
+
     def test_crash_retains_reservation_and_forbids_stage_boundary(self):
         owner = self.owner()
         owner.reserve('a')

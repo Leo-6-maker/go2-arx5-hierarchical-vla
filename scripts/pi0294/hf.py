@@ -86,7 +86,7 @@ def package(root, native, old_transfer, output, *, output_budget_bytes=None):
 
 
 def publish(root, native, old_transfer, output, repo, *, qualification, output_budget_bytes=None,
-            source_sha=None):
+            source_sha=None,existing_token_file=None):
     os.environ['HF_HUB_OFFLINE'] = '0'
     from huggingface_hub import HfApi, CommitOperationAdd, hf_hub_download
     root, native, output = Path(root), Path(native), Path(output)
@@ -112,8 +112,9 @@ def publish(root, native, old_transfer, output, repo, *, qualification, output_b
         payload, proofs, dependency = package(root, native, old_transfer, output,
                                              output_budget_bytes=output_budget_bytes)
         payload['receipts/CPU_QUALIFICATION.json'] = Path(qualification)
-        # Use the existing authenticated session; never read or print credentials.
-        api = HfApi()
+        # Reuse configured authentication without logging credential contents.
+        token=Path(existing_token_file).read_text().strip() if existing_token_file else None
+        api = HfApi(token=token)
         info = api.repo_info(repo, repo_type='dataset')
         if not info.private:
             raise PermissionError('EXISTING_PRIVATE_DATASET_REPOSITORY_REQUIRED')
@@ -143,7 +144,7 @@ def publish(root, native, old_transfer, output, repo, *, qualification, output_b
                 if item.lfs:
                     actual = item.lfs.sha256 if hasattr(item.lfs, 'sha256') else item.lfs['sha256']
                 else:
-                    actual = digest(hf_hub_download(repo, row['path'], repo_type='dataset', revision=fixed_revision))
+                    actual = digest(hf_hub_download(repo, row['path'], repo_type='dataset', revision=fixed_revision,token=token))
                 if actual != row['sha256']:
                     raise ValueError('FIXED_REVISION_REMOTE_SHA_CHANGED')
         verify(revision, files)
@@ -178,7 +179,7 @@ def publish(root, native, old_transfer, output, repo, *, qualification, output_b
         owner.close()
 
 
-def download(delivery_manifest, output, old_native, old_bindings):
+def download(delivery_manifest, output, old_native, old_bindings,*,existing_token_file=None):
     """Fetch only this new bank; bind preserved local old RGB explicitly."""
     os.environ['HF_HUB_OFFLINE'] = '0'
     from huggingface_hub import HfApi, hf_hub_download
@@ -190,7 +191,8 @@ def download(delivery_manifest, output, old_native, old_bindings):
     if output.exists():
         raise FileExistsError('PRESERVE_FIRST_IMMUTABLE_DATA_DOWNLOAD')
     output.mkdir(parents=True)
-    api = HfApi()
+    token=Path(existing_token_file).read_text().strip() if existing_token_file else None
+    api = HfApi(token=token)
     repo, revision, prefix = transfer['repo_id'], transfer['revision'], transfer['prefix']
     info = api.repo_info(repo, repo_type='dataset', revision=revision)
     if not info.private or info.sha != revision:
@@ -204,7 +206,7 @@ def download(delivery_manifest, output, old_native, old_bindings):
     def get(name):
         guard()
         path = Path(hf_hub_download(repo, prefix + '/' + name, repo_type='dataset',
-            revision=revision, local_dir=output / 'blobs'))
+            revision=revision, local_dir=output / 'blobs',token=token))
         bound = bypath[prefix + '/' + name]
         if path.stat().st_size != bound['bytes'] or digest(path) != bound['sha256']:
             raise ValueError('FIXED_REVISION_DOWNLOAD_HASH_CHANGED')
@@ -267,6 +269,7 @@ def main():
         p.add_argument('--' + name)
     p.add_argument('--mode', choices=('publish', 'download'), default='publish')
     p.add_argument('--manifest')
+    p.add_argument('--existing-token-file')
     args = p.parse_args()
     from .bank import validate_cpu_ticket
     ticket = validate_cpu_ticket(args.root, args.reservation, args.manifest)
@@ -275,11 +278,13 @@ def main():
             p.error('publish requires --native --old-transfer --repo --qualification')
         result = publish(args.root, args.native, args.old_transfer, args.output, args.repo,
                          qualification=args.qualification,
-                         output_budget_bytes=ticket['reservation']['output_bytes'], source_sha=ticket['source_sha'])
+                         output_budget_bytes=ticket['reservation']['output_bytes'], source_sha=ticket['source_sha'],
+                         existing_token_file=args.existing_token_file)
     else:
         if any(getattr(args, name) is None for name in ('delivery_manifest', 'old_native', 'old_bindings')):
             p.error('download requires --delivery-manifest --old-native --old-bindings')
-        result = download(args.delivery_manifest, args.output, args.old_native, args.old_bindings)
+        result = download(args.delivery_manifest, args.output, args.old_native, args.old_bindings,
+                          existing_token_file=args.existing_token_file)
     print(json.dumps({k: result[k] for k in ('status', 'revision', 'prefix')}))
 
 

@@ -34,7 +34,7 @@ def validate_cpu_ticket(root, reservation_path, manifest_path=None):
     queue = read(root / 'LIVE_QUEUE.json')
     if queue['auxiliary'].get(ticket['id']) != ticket:
         raise ValueError('CPU_RESERVATION_NOT_IN_AUTHORITATIVE_QUEUE')
-    path = Path(manifest_path) if manifest_path else root / 'RUN_MANIFEST.json'
+    path = Path(manifest_path) if manifest_path else root / ticket.get('manifest_relative','RUN_MANIFEST.json')
     if digest(path) != ticket['run_manifest_sha256']:
         raise ValueError('CPU_MANIFEST_IDENTITY_CHANGED')
     manifest = read(path)

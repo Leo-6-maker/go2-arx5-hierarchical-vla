@@ -36,11 +36,12 @@ def sha(path):
 
 
 def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,hostname):
+    closeout=request['stage']=='resident'
     if (adoption['pi'] != 'PI0294' or adoption['T0_epoch'] != T0
         or adoption['new_work_cutoff_epoch'] != CUTOFF or adoption['deadline_epoch'] != DEADLINE
-        or adoption['reset_on_resume'] or now >= CUTOFF):
+        or adoption['reset_on_resume'] or now < T0 or now >= (DEADLINE if closeout else CUTOFF)):
         raise PermissionError('PI0294_ORIGINAL_AUTHORITY_CLOCK_REQUIRED')
-    if request['stage'] not in ('smoke','benchmark','main','resident'):
+    if request['stage'] not in ('smoke','benchmark','main','resident','night-final'):
         raise PermissionError('UNKNOWN_STAGE')
     if request['submit_count'] > 4 or request['prior_GPU_allocated_s']+request['walltime_s'] > 43200:
         raise PermissionError('NIGHT_SUBMISSION_OR_GPU_ALLOCATION_CAP')
@@ -79,9 +80,10 @@ def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,host
 def admit(root,request_path):
     root,request_path = Path(root),Path(request_path)
     from .run_admission import validate as entry_validate
-    manifest=entry_validate(root,profile='hopper-neural')
     if not request_path.resolve().is_relative_to(root.resolve()):
         raise PermissionError('REQUEST_OUTSIDE_REGISTERED_RUN')
+    request=read(request_path)
+    manifest=entry_validate(root,profile='hopper-neural',closeout=request.get('stage')=='resident')
     request,adoption = read(request_path),read(root/'ADOPTION.json')
     seal_path=root/manifest['code'].get('source_seal_relative','SOURCE_SEAL.json')
     capsule=root/manifest['code'].get('capsule_relative','code')
@@ -134,6 +136,17 @@ def main():
         allocation_walltime_s=request['walltime_s'],prior_GPU_allocated_s=request['prior_GPU_allocated_s'],
         predicted_remaining_peak_bytes=request['predicted_remaining_peak_bytes'])
     write(root/'NEURAL_AUTHORIZATION.json',authorization)
+    if request['mode']=='night-final':
+        command=[request['python'],'-m','scripts.pi0294.night_session','--root',str(root),
+            '--request',str(request_path),'--bindings',request['bindings'],
+            '--microbatch',str(request.get('microbatch',2)),'--workers',str(request.get('workers',2))]
+        os.execv(request['python'],command)
+    if request['mode']=='resident':
+        command=[request['python'],'-m','scripts.pi0294.resident','--root',str(root),
+            '--request',str(request_path),'--bindings',request['bindings']]
+        for key in ('checkpoint','registry','identity','directory'):
+            command+=['--'+key,request[key]]
+        os.execv(request['python'],command)
     command=[request['python'],'-m','scripts.pi0294.neural','--root',str(root),
         '--request',str(request_path),'--bindings',request['bindings'],'--mode',request['mode'],
         '--microbatch',str(request.get('microbatch',2)),'--workers',str(request.get('workers',2)),
