@@ -1,41 +1,33 @@
 # Go2＋ARX5 Hierarchical Task-Space VLA
 
-> **2026-10-12：新local-pc Codex先从 [START_HERE.md](START_HERE.md) 接管。** 本次更新只整理导航、交接和分支维护，不启动训练/仿真，不合并或重写历史运行代码。
+> **日常从 [START_HERE.md](START_HERE.md) 与根 [AGENTS.md](AGENTS.md) 开始。** CoreLab统一入口：`~/Projects/GR00T-WBC`。唯一现行规范是 [统一入口与GitHub同步](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)；[强制接入补充](docs/operations/WORKSPACE_ENTRY_ENFORCEMENT_V1.md) 明确后续任务与固定版本部署要求，不另建平行入口。
 
-## 项目与当前分工
+## 代码、执行和证据入口
 
-视觉＋语言＋实际TCP/夹爪 → 预训练GR00T的EEF/夹爪操作参考 → 明确的frame/time/safety接口 → 师兄的冻结WBC → 实际反馈。
-
-上层团队以独立任务数据、GR00T微调、物体闭环与多任务为主线；不替师兄继续调WBC。EEF表示降低本体耦合，但源Panda/独立工具成功不等于Go2跨本体或真机成功。
-
-## 接管与证据入口
-
-| 需要 | 去哪里 |
+| 需要 | 入口 |
 |---|---|
-| 新窗口完整接管prompt、SSH/HF与双端分工 | [Local-pc adoption](docs/handover/2026-10-12_LOCAL_PC_ADOPTION.md) |
-| 条件化分支清理；尚未删除任何head | [Audit allowlist](docs/handover/2026-10-12_BRANCH_RETIREMENT_PLAN.json) |
+| 目录、代码、环境、数据及同步规范 | [Canonical workspace standard](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md) |
+| 新任务接入与部署的补充要求 | [Entry enforcement](docs/operations/WORKSPACE_ENTRY_ENFORCEMENT_V1.md) / [ENTRY_POLICY](infrastructure/workspace/ENTRY_POLICY.json) |
+| 现有Codex接续指令 | [Workspace execute prompt](docs/handover/2026-10-13_WORKSPACE_ENTRY_EXECUTE_PROMPT.md) |
+| 科学授权及实际结果 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
+| 工作区/CI/存储实际结果 | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
+| 当前ARX5数据/原生训练/闭环计划 | [PI0292 protocol](docs/protocols/PI0292_ARX5_NATIVE_B0_TRAINING_AND_CLOSED_LOOP_V1.md) |
+| ARX5首版数据原窗口终局 | [PI0291 FINAL_REPORT](reports/PI0291/20261013T023717-localpc-arx5/FINAL_REPORT.md) |
+| WBC独立资格的历史终局 | [PI0289](reports/PI0289/execution/REPORT.md) |
 | 研究前提 | [任务空间研究章程](docs/RESEARCH_CHARTER_TASK_SPACE_MANIPULATION_V1.md) |
-| 科学授权与实际进度 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
-| 工程/CI/分支归档 | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
-| 最近上层学习终局 | [PI0286](reports/PI0286/final/FINAL_SCIENTIFIC_REPORT.md) |
-| 最新部署路线执行器终局 | [PI0289](reports/PI0289/execution/REPORT.md) |
-| WBC版本与接口比较 | [2026-10-10 review](docs/coordination/2026-10-10_WBC_PACKAGE_COMPARISON_AND_TARGET_LEARNING_REVIEW.md) |
-| TaskAnchor/UNITAS启发，尚非GO | [2026-10-12 review](docs/coordination/2026-10-12_TASKANCHOR_UNITAS_DATA_AND_FINETUNING_REVIEW.md) |
 
-本分支pi0267/executor-decoupled-recovery保存实际近期代码；main保留较早accepted代码与导航。每次执行绑定protocol/receipt所指完整SHA，不能从当前branch HEAD自动恢复旧任务。
+## 科学边界
 
-用户最新资源要求：Corelab负责仿真/数据/CPU分析等非训练工作；Hopper H200负责GR00T训练、神经推理与模型eval。两服务器不能直连，数据和权重经HF固定revision；未来闭环obs/action中继由local-pc单独设计与验收。
+视觉＋语言＋实际TCP/夹爪 → GR00T任务空间EEF/夹爪参考 → 显式frame/time/safety接口 → 已资格执行器 → 实际反馈。当前固定底座ARX5使用独立IK/有限力矩执行器，不代表原冻结WBC或移动Go2通过。上层数据/轨迹拟合不证明跨本体泛化，师兄WBC仅按对应协议使用。
 
-## 最近结果与资格边界
+## 分支和机器职责
 
-PI0285源Panda独立确认20/32未过资格。PI0286 C0 TRAIN2/8，C1 TRAIN8/8、DEV5/16，新确认未运行。PI0289安全启动通过，首hold姿态质量与时钟资格仍未通过；其余运动、目标教师数据尚未完成。最近科学账本时间2026-10-10 11:08:34 SGT，需查询#11是否更新。这不是实时GPU/PBS状态。
+过渡期唯一集成分支：`pi0267/executor-decoupled-recovery`。main为较早accepted代码与路由，不直接作为最新runtime。运行使用full SHA和独立source capsule，不能因远端更新而热pull活动目录。未来提升main经专门PR/测试/路由切换记录，不覆盖历史。
 
-`selected/deployment=NONE`。TaskAnchor、UNITAS和独立数据路线是准备/研究设计，不等于已实施。接管不会重置预算、放宽阈值、重新打开旧确认集或授权WBC/GR00T运行。
+local-pc协调发布；CoreLab做仿真/数据/CPU；Hopper H200做合法PBS授权的GR00T神经工作。数据和完整模型使用已授权私有HF固定revision/prefix/成员hash。源码Git、私有配置和大资产分开，不git-init整棵工作区。
 
-## 历史与资产保护
+新workspace CLI/强制接入必须有实际部署收据；既有enter.sh的三个CoreLab profiles已通过前次验收。注册profile不等于运行模型，文档发布不等于目录已经迁完。旧run保持其授权、时钟和来源，不因规范改变而重跑。私有WBC/mesh/凭据、唯一原数据、完整Trainer与失败证据不因清理而丢弃。
 
-此前README含Stage45及PI0282/PI0285 deadline导航，完整保存在[交接前固定README](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/5c757eaea3b3078e3406b604e70267ca5d0c0130/README.md)。这些历史结果和代码均保留；本次只更换入口，不把历史内容改判为PASS。
+## 历史保留
 
-大模型、完整Trainer、数据和视频留HF/已授权服务器，用manifest固定身份；私有WBC/vendor源码、mesh、二进制、密钥不得公开。权重+processor+statistics+mapping+decode+executor/clock共同构成可重现实验身份。
-
-历史hpc/和owner脚本受各自协议约束，先读后用。本次首轮只做轻量接管与维护，没有新GPU、模型、teacher、physics或硬件授权。
+2026-10-12 README保存在commit `c187d9573bdff302783fb5f41d06fcaa1753d2a8`；START_HERE保留日期化旧交接。科学实时进度查#11及对应原始收据，不以旧导航的阶段/截止决定新执行权限。
