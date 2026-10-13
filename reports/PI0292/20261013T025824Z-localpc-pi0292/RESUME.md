@@ -2,6 +2,12 @@
 
 ## Latest Hold: 2026-10-13 13:56 UTC
 
+Later engineering review: `AUTO_QUEUE_AND_MATURE_TRAINER_REVIEW.md` and
+`NATIVE_PROJECT_READER_CPU_REVIEW.json` describe the opt-in login attestation
+mode, actual login CPU reader/terminal-job rejection, and the existing native
+auto queue/official Trainer. This mode is not deployed or compute-qualified and
+does not authorize another old submission. Existing failed capsules stay sealed.
+
 Read `S3_COMPUTE_ADMISSION_HOLD.md` and `S3_SMOKE03_TERMINAL_RECEIPT.json` first.
 Login authentication/project qualification is restored. Both actual S3-smoke-02
 and the single explicitly authorized engineering retry S3-smoke-03 are terminal,
