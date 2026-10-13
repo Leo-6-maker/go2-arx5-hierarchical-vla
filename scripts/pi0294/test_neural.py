@@ -13,6 +13,9 @@ from .native_dataset import ByteLRU
 from .sampling import BalancedSampler, PHASES
 from .neural import recipe_for,benchmark_plan,smoke_plan
 from .native_train import MeasuredLoader,qualify_cpu
+from .local_backbone import local_model_name
+from .neural import smoke_output_root
+from .native_dataset import sha
 
 
 def fixture():
@@ -27,6 +30,29 @@ def fixture():
 
 
 class NeuralContracts(unittest.TestCase):
+    def test_local_backbone_requires_exact_snapshot_alias(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);snapshot=root/'existing-snapshot';snapshot.mkdir()
+            alias=root/'model_inputs/nvidia/Cosmos-Reason2-2B'
+            alias.parent.mkdir(parents=True)
+            with self.assertRaises(PermissionError):local_model_name(root,{'cosmos':str(snapshot)})
+            alias.symlink_to(snapshot,target_is_directory=True)
+            self.assertEqual(local_model_name(root,{'cosmos':str(snapshot)}),str(alias))
+            with self.assertRaises(PermissionError):local_model_name(root,{'cosmos':str(root)})
+
+    def test_smoke_retry_requires_known_zero_update_terminal_proof(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);proof=root/'retry.json'
+            value=dict(status='KNOWN_TERMINAL_ZERO_UPDATE_ENGINEERING_RETRY',run_uuid=root.name,
+                       actual_optimizer_updates=0,prior_job_terminal=True)
+            proof.write_text(json.dumps(value))
+            request=dict(smoke_output_relative='smoke_attempts/02',engineering_retry_receipt=str(proof),
+                         engineering_retry_receipt_sha256=sha(proof))
+            self.assertEqual(smoke_output_root(root,request),root/'smoke_attempts/02')
+            with self.assertRaises(PermissionError):smoke_output_root(root,dict(request,smoke_output_relative='../escape'))
+            value['actual_optimizer_updates']=1;proof.write_text(json.dumps(value));request['engineering_retry_receipt_sha256']=sha(proof)
+            with self.assertRaises(PermissionError):smoke_output_root(root,request)
+
     def test_task_and_old_exposure(self):
         data=fixture();sampler=BalancedSampler(data,stop=600)
         samples=[data.rows[i][0] for _,i in sampler]

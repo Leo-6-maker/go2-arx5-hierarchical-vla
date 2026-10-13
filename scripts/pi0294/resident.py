@@ -41,8 +41,9 @@ class ResidentModel:
         from transformers import AutoModel
         import gr00t.model.gr00t_n1d7.gr00t_n1d7
         from scripts.pi0292.train_adapter import build_processor
+        from .local_backbone import local_model_name
         self.model,loading=AutoModel.from_pretrained(checkpoint,local_files_only=True,trust_remote_code=True,
-            output_loading_info=True,transformers_loading_kwargs=dict(local_files_only=True,trust_remote_code=True,
+            output_loading_info=True,model_name=local_model_name(root,bindings),transformers_loading_kwargs=dict(local_files_only=True,trust_remote_code=True,
                 cache_dir=bindings['cosmos_hub'],revision=COSMOS_REVISION),tune_llm=False,tune_visual=False,
             tune_projector=True,tune_diffusion_model=True,tune_vlln=True,state_dropout_prob=0.,
             backbone_trainable_params_fp32=True,load_bf16=False)

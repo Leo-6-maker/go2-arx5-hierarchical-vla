@@ -202,20 +202,38 @@ def smoke_plan():
     return [('smoke-continuous',4),('smoke-first',2),('smoke-resume',2)]
 
 
+def smoke_output_root(root, request):
+    relative=request.get('smoke_output_relative', '.')
+    path=Path(root)/relative
+    if Path(relative).is_absolute() or '..' in Path(relative).parts or not path.resolve().is_relative_to(Path(root).resolve()):
+        raise PermissionError('SMOKE_OUTPUT_MUST_REMAIN_IN_REGISTERED_RUN')
+    if relative!='.':
+        proof_path=Path(request['engineering_retry_receipt'])
+        if not proof_path.resolve().is_relative_to(Path(root).resolve()) or sha(proof_path)!=request['engineering_retry_receipt_sha256']:
+            raise PermissionError('EXACT_ENGINEERING_RETRY_RECEIPT_REQUIRED')
+        proof=read(proof_path)
+        if (proof['status']!='KNOWN_TERMINAL_ZERO_UPDATE_ENGINEERING_RETRY' or proof['run_uuid']!=Path(root).name
+            or proof['actual_optimizer_updates']!=0 or not proof['prior_job_terminal']):
+            raise PermissionError('NO_RETRY_AFTER_UNKNOWN_OR_ACTUAL_UPDATES')
+    return path
+
+
 def run_smoke(args):
     """One PBS allocation, three fresh model processes, one actual comparison."""
     import sys
     root=Path(args.root);allocation=verify_allocation(root,'smoke-all',args.request)
     bindings=read(args.bindings);verify_inputs(root,bindings,'smoke-continuous')
     request=read(args.request)
+    smoke_root=smoke_output_root(root,request)
     if not {'smoke-all',*(mode for mode,_ in smoke_plan())}.issubset(set(request['allowed_modes'])):
         raise PermissionError('EXACT_COMPARISON_SUBMODES_MUST_BE_AUTHORIZED')
     ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
     if ledger['model_smoke_updates']!=0 or ledger.get('pending_updates',0) or ledger.get('benchmark_updates',0):
         raise PermissionError('SMOKE_FIRST_ATTEMPT_ONLY_NO_AUTOMATIC_RETRY')
-    if any((root/name).exists() for name in ('training/smoke_continuous','training/smoke_split',
+    if any((smoke_root/name).exists() for name in ('training/smoke_continuous','training/smoke_split',
         'evidence/MODEL_SMOKE.json','evidence/RESUME_EQUIVALENCE.json','evidence/SMOKE_DRIVER.json')):
         raise FileExistsError('Preserve any earlier actual smoke evidence')
+    (smoke_root/'evidence').mkdir(parents=True,exist_ok=True)
     started=time.monotonic();status='FAILED_PRESERVED';completed=[]
     before=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
     try:
@@ -235,18 +253,22 @@ def run_smoke(args):
         if remaining<=0:raise TimeoutError('NO_TIME_FOR_FULL_NATIVE_CHECKPOINT_COMPARISON')
         # The sealed comparator reads this adapter's actual saved sampler state;
         # it does not invoke the PI0292 sampler or inherit any PI0292 PASS.
-        result=subprocess.run([sys.executable,'-m','scripts.pi0292.compare_smoke','--root',str(root)],
+        result=subprocess.run([sys.executable,'-m','scripts.pi0292.compare_smoke','--root',str(smoke_root)],
             check=False,timeout=remaining)
-        comparison=root/'evidence/RESUME_EQUIVALENCE.json'
+        comparison=smoke_root/'evidence/RESUME_EQUIVALENCE.json'
         if (result.returncode or not comparison.exists()
             or read(comparison)['status']!='PASS_FIXED_RESUME_EQUIVALENCE'
-            or read(root/'evidence/MODEL_SMOKE.json')['status']!='TRAINER_MODEL_INTERFACE_QUALIFIED'):
+            or read(smoke_root/'evidence/MODEL_SMOKE.json')['status']!='TRAINER_MODEL_INTERFACE_QUALIFIED'):
             raise ValueError('ACTUAL_FULL_RESUME_COMPARISON_DID_NOT_PASS')
+        if smoke_root!=root:
+            if (root/'evidence/MODEL_SMOKE.json').exists():raise FileExistsError('Preserve actual model gate')
+            write(root/'evidence/MODEL_SMOKE.json',dict(read(smoke_root/'evidence/MODEL_SMOKE.json'),
+                actual_comparison=str(comparison),actual_comparison_sha256=sha(comparison)))
         status='PASS_ACTUAL_EIGHT_UPDATE_NATIVE_SMOKE'
     finally:
         after=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
         cpu=[a.ru_utime+a.ru_stime-b.ru_utime-b.ru_stime for a,b in zip(after,before)]
-        write(root/'evidence/SMOKE_DRIVER.json',dict(status=status,completed_subprocesses=completed,
+        write(smoke_root/'evidence/SMOKE_DRIVER.json',dict(status=status,completed_subprocesses=completed,
             job_id=allocation['job_id'],request_sha256=sha(args.request),wall_s=time.monotonic()-started,
             self_CPU_s=cpu[0],reaped_children_CPU_s=cpu[1],CPU_s=sum(cpu),
             accounting_scope='WHOLE_DRIVER_INCLUDES_SUBPROCESS_CPU_NOT_ADDITIVE_TO_CHILD_RECEIPTS',
@@ -278,7 +300,8 @@ def run(args):
         verify_extension(root,args.resume,allocation,ledger)
     if mode=='benchmark' and ledger.get('benchmark_updates',0)+2>6:
         raise PermissionError('EXACT_THREE_TWO_UPDATE_BENCHMARKS_ONLY')
-    output=root/'training'/('main' if mode=='main' else ('benchmark-'+str(args.microbatch)+'-'+str(args.workers) if mode=='benchmark' else ('smoke_continuous' if mode=='smoke-continuous' else 'smoke_split')))
+    output_root=smoke_output_root(root,read(args.request)) if mode.startswith('smoke-') else root
+    output=output_root/'training'/('main' if mode=='main' else ('benchmark-'+str(args.microbatch)+'-'+str(args.workers) if mode=='benchmark' else ('smoke_continuous' if mode=='smoke-continuous' else 'smoke_split')))
     session='session-resume' if mode=='smoke-resume' else 'session-start'
     if mode=='main' and args.resume:session='session-resume-'+str(read(Path(args.resume)/'trainer_state.json')['global_step'])
     evidence=output/session
@@ -293,10 +316,11 @@ def run(args):
     write(evidence/'ALLOCATION.json',allocation);write(evidence/'RECIPE.json',recipe)
     set_seed(29400)
     loading=dict(local_files_only=True,trust_remote_code=True,cache_dir=bindings['cosmos_hub'],revision=COSMOS_REVISION)
+    from .local_backbone import local_model_name
     ledger['model_loads']+=1
     write(ledger_path,ledger)
     model,loading_info=AutoModel.from_pretrained(bindings['base'],local_files_only=True,trust_remote_code=True,
-        output_loading_info=True,transformers_loading_kwargs=loading,
+        output_loading_info=True,transformers_loading_kwargs=loading,model_name=local_model_name(root,bindings),
         tune_llm=False,tune_visual=False,tune_projector=True,tune_diffusion_model=True,tune_vlln=True,
         state_dropout_prob=0.,backbone_trainable_params_fp32=True,load_bf16=False)
     missing=loading_info.get('missing_keys',[])
