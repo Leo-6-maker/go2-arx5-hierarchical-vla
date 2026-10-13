@@ -1,5 +1,22 @@
 # PI0292 Resume
 
+## Latest Hold: 2026-10-13 13:56 UTC
+
+Read `S3_COMPUTE_ADMISSION_HOLD.md` and `S3_SMOKE03_TERMINAL_RECEIPT.json` first.
+Login authentication/project qualification is restored. Both actual S3-smoke-02
+and the single explicitly authorized engineering retry S3-smoke-03 are terminal,
+reconciled pre-model compute-admission failures. Total allocated GPU time is 17
+seconds; model loads and updates remain zero. PBS calls are 3/4 under the direct
+human revision in `ENGINEERING_PBS_REVISION.json`. No PI0292 allocation is active.
+Do not submit either old request again or start main without the actual S3 gate.
+Another automatic engineering smoke is not authorized. Preserve the one remaining
+submission and original T0/cutoff/deadline until explicit review of the compute
+project-attestation repair and submission plan. The healthy peer is untouched.
+
+The remainder below is the older first-submission recovery snapshot, preserved
+for provenance. Its authentication, capacity and 3-call-cap observations do not
+supersede the current receipts.
+
 Keep the original run UUID/T0/deadline. All24 supplement attempts are terminal; do not relaunch them.
 
 ## Current S3 Hold
