@@ -19,6 +19,14 @@ T0, CUTOFF, DEADLINE = 1791901497, 1791939600, 1791943200
 GIB = 1024**3
 
 
+def remaining_peak(request,owned):
+    if 'predicted_total_owned_peak_bytes' not in request:return request['predicted_remaining_peak_bytes']
+    total=request['predicted_total_owned_peak_bytes']
+    if type(total) is not int or not owned<total<=180*GIB:
+        raise PermissionError('SEALED_TOTAL_PEAK_EXCEEDS_CAP_OR_ALREADY_EXHAUSTED')
+    return total-owned
+
+
 def sha(path):
     value = hashlib.sha256()
     with Path(path).open('rb') as stream:
@@ -100,17 +108,20 @@ def admit(root,request_path):
     if not job_id:
         raise PermissionError('NO_NEURAL_ON_LOGIN')
     jobs=owned_jobs(os.environ['USER'])
+    owned = sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+    admission_request=dict(request)
+    admission_request['predicted_remaining_peak_bytes']=remaining_peak(request,owned)
     result = validate(now=time.time(),user=os.environ['USER'],job_id=job_id,
         jobs=jobs,quota=personal_quota(os.environ['USER']),
-        project_receipt=project,adoption=adoption,request=request,hostname=socket.gethostname())
+        project_receipt=project,adoption=adoption,request=admission_request,hostname=socket.gethostname())
     elapsed=jobs[job_id].get('resources_used',{}).get('walltime','00:00:00')
     elapsed_s=sum(int(v)*m for v,m in zip(elapsed.split(':'),(3600,60,1)))
     result['allocation_end_epoch']=min(DEADLINE,time.time()+request['walltime_s']-elapsed_s)
-    remaining = request['predicted_remaining_peak_bytes']
-    owned = sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+    remaining = admission_request['predicted_remaining_peak_bytes']
     if remaining <= 0 or owned+remaining > 180*GIB or shutil.disk_usage(root).free < remaining+20*GIB:
         raise PermissionError('HOPPER_PEAK_SPACE_BOUND')
     result['request_sha256'] = sha(request_path)
+    result.update(current_owned_bytes=owned,predicted_remaining_peak_bytes=remaining)
     return result
 
 

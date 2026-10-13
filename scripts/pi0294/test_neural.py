@@ -14,7 +14,8 @@ from .sampling import BalancedSampler, PHASES
 from .neural import recipe_for,benchmark_plan,smoke_plan
 from .native_train import MeasuredLoader,qualify_cpu
 from .local_backbone import local_model_name
-from .neural import smoke_output_root
+from .neural import smoke_output_root,retire_redundant_smoke
+from .allocation_admission import remaining_peak,GIB
 from .native_dataset import sha
 
 
@@ -52,6 +53,41 @@ class NeuralContracts(unittest.TestCase):
             with self.assertRaises(PermissionError):smoke_output_root(root,dict(request,smoke_output_relative='../escape'))
             value['actual_optimizer_updates']=1;proof.write_text(json.dumps(value));request['engineering_retry_receipt_sha256']=sha(proof)
             with self.assertRaises(PermissionError):smoke_output_root(root,request)
+
+    def test_remaining_peak_does_not_double_count_existing_checkpoints(self):
+        request=dict(predicted_total_owned_peak_bytes=160*GIB,predicted_remaining_peak_bytes=110*GIB)
+        self.assertEqual(remaining_peak(request,71*GIB),89*GIB)
+        for total in (70*GIB,181*GIB):
+            with self.assertRaises(PermissionError):remaining_peak(dict(request,predicted_total_owned_peak_bytes=total),71*GIB)
+
+    def test_six_update_recovery_forbids_repeating_first_half(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);proof=root/'retry.json'
+            value=dict(status='KNOWN_TERMINAL_SIX_UPDATE_SMOKE_RESUME_ONLY',run_uuid=root.name,
+                       actual_optimizer_updates=6,prior_job_terminal=True)
+            proof.write_text(json.dumps(value))
+            request=dict(smoke_output_relative='smoke_attempts/02',engineering_retry_receipt=str(proof),
+                         engineering_retry_receipt_sha256=sha(proof),mode='smoke-recovery-benchmark',
+                         allowed_modes=['smoke-recovery-benchmark','smoke-resume','benchmark-all','benchmark'])
+            self.assertEqual(smoke_output_root(root,request),root/'smoke_attempts/02')
+            with self.assertRaises(PermissionError):smoke_output_root(root,dict(request,allowed_modes=['smoke-first']))
+
+    def test_only_redundant_generated_smoke_states_retired_after_comparison(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'evidence').mkdir();smoke=root/'smoke_attempts/02'
+            comparison=smoke/'evidence/comparison.json';comparison.parent.mkdir(parents=True)
+            comparison.write_text(json.dumps(dict(status='FAIL_PRESERVED')))
+            with self.assertRaises(PermissionError):retire_redundant_smoke(root,smoke,comparison)
+            comparison.write_text(json.dumps(dict(status='PASS_FIXED_RESUME_EQUIVALENCE')))
+            for name in ('smoke_continuous/checkpoint-2','smoke_continuous/checkpoint-4','smoke_split/checkpoint-2','smoke_split/checkpoint-4'):
+                path=smoke/'training'/name;path.mkdir(parents=True)
+                (path/'state').write_bytes(b'unit fixture only')
+                (path/'CHECKPOINT_COMPLETE.json').write_text(json.dumps(dict(global_step=int(name[-1]),required_files={'state':sha(path/'state')})))
+            retire_redundant_smoke(root,smoke,comparison)
+            self.assertTrue((smoke/'training/smoke_split/checkpoint-4/state').exists())
+            self.assertFalse((smoke/'training/smoke_continuous/checkpoint-4').exists())
+            actual=json.loads((root/'evidence/REDUNDANT_SMOKE_RETIREMENT_ACTUAL.json').read_text())
+            self.assertFalse(actual['historical_assets_deleted'])
 
     def test_task_and_old_exposure(self):
         data=fixture();sampler=BalancedSampler(data,stop=600)

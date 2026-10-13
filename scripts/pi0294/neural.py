@@ -212,8 +212,11 @@ def smoke_output_root(root, request):
         if not proof_path.resolve().is_relative_to(Path(root).resolve()) or sha(proof_path)!=request['engineering_retry_receipt_sha256']:
             raise PermissionError('EXACT_ENGINEERING_RETRY_RECEIPT_REQUIRED')
         proof=read(proof_path)
-        if (proof['status']!='KNOWN_TERMINAL_ZERO_UPDATE_ENGINEERING_RETRY' or proof['run_uuid']!=Path(root).name
-            or proof['actual_optimizer_updates']!=0 or not proof['prior_job_terminal']):
+        zero=proof['status']=='KNOWN_TERMINAL_ZERO_UPDATE_ENGINEERING_RETRY' and proof['actual_optimizer_updates']==0
+        resume=(proof['status']=='KNOWN_TERMINAL_SIX_UPDATE_SMOKE_RESUME_ONLY' and proof['actual_optimizer_updates']==6
+                and request['mode']=='smoke-recovery-benchmark' and 'smoke-continuous' not in request['allowed_modes']
+                and 'smoke-first' not in request['allowed_modes'])
+        if proof['run_uuid']!=Path(root).name or not proof['prior_job_terminal'] or not (zero or resume):
             raise PermissionError('NO_RETRY_AFTER_UNKNOWN_OR_ACTUAL_UPDATES')
     return path
 
@@ -275,7 +278,85 @@ def run_smoke(args):
             selected='NONE',deployment='NONE'))
 
 
+def run_recovery(args):
+    """Continue the saved six-update test, then benchmark in this allocation."""
+    import sys
+    root=Path(args.root);allocation=verify_allocation(root,'smoke-recovery-benchmark',args.request)
+    request=read(args.request);smoke_root=smoke_output_root(root,request)
+    ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+    if ledger['model_smoke_updates']!=6 or ledger.get('pending_updates',0) or ledger['main_updates']:
+        raise PermissionError('EXACT_SIX_COMPLETED_UPDATES_FULL_RESUME_ONLY')
+    resume=smoke_root/'training/smoke_split/checkpoint-2'
+    if (read(resume/'CHECKPOINT_COMPLETE.json')['global_step']!=2
+        or (smoke_root/'training/smoke_split/session-resume').exists()):
+        raise PermissionError('NEW_RESUME_SESSION_FROM_EXACT_COMPLETE_STATE_REQUIRED')
+    for label,expected in (('smoke_continuous',4),('smoke_split',2)):
+        run=read(smoke_root/'training'/label/'session-start/TRAINING_RUN.json')
+        if run['global_step']!=expected or not run['frozen_backbone_unchanged']:
+            raise PermissionError('ACTUAL_CONTINUOUS_AND_FIRST_HALF_PROOFS_REQUIRED')
+    output=root/'evidence/SMOKE_RECOVERY_DRIVER.json'
+    if output.exists():raise FileExistsError('Preserve first recovery outcome')
+    started=time.monotonic();status='FAILED_PRESERVED'
+    try:
+        for mode in ('smoke-resume','compare','benchmark-all'):
+            remaining=min(CUTOFF,allocation['allocation_end_epoch']-120)-time.time()
+            if remaining<=0:raise TimeoutError('NO_TIME_FOR_NEXT_RECOVERY_STAGE')
+            if mode=='compare':
+                command=[sys.executable,'-m','scripts.pi0292.compare_smoke','--root',str(smoke_root)]
+            else:
+                command=[sys.executable,'-m','scripts.pi0294.neural','--root',str(root),'--request',args.request,
+                    '--bindings',args.bindings,'--mode',mode,'--microbatch',str(args.microbatch),'--workers',str(args.workers)]
+            result=subprocess.run(command,timeout=remaining)
+            if result.returncode:raise RuntimeError('RECOVERY_STAGE_FAILED_NO_RETRY:'+mode)
+            if mode=='compare':
+                proof=smoke_root/'evidence/RESUME_EQUIVALENCE.json'
+                gate=read(smoke_root/'evidence/MODEL_SMOKE.json')
+                if read(proof)['status']!='PASS_FIXED_RESUME_EQUIVALENCE' or gate['status']!='TRAINER_MODEL_INTERFACE_QUALIFIED':
+                    raise PermissionError('ACTUAL_FULL_RESUME_COMPARISON_REQUIRED')
+                if (root/'evidence/MODEL_SMOKE.json').exists():raise FileExistsError('Preserve earlier gate')
+                write(root/'evidence/MODEL_SMOKE.json',dict(gate,actual_comparison=str(proof),actual_comparison_sha256=sha(proof)))
+                retire_redundant_smoke(root,smoke_root,proof)
+        status='PASS_ACTUAL_RESUME_AND_MICROBATCH_BENCHMARK'
+    finally:
+        write(output,dict(status=status,request_sha256=sha(args.request),job_id=allocation['job_id'],
+            wall_s=time.monotonic()-started,earlier_updates_not_repeated=True,selected='NONE',deployment='NONE'))
+
+
+def retire_redundant_smoke(root,smoke_root,comparison):
+    """Keep final full resume state; retire only this run's redundant test states."""
+    if read(comparison)['status']!='PASS_FIXED_RESUME_EQUIVALENCE':
+        raise PermissionError('NO_ENGINEERING_STATE_RETIREMENT_BEFORE_FULL_COMPARISON')
+    lock=OwnerLock(Path(root)/'NEURAL_OWNER.lock')
+    rows=[]
+    try:
+        keep=Path(smoke_root)/'training/smoke_split/checkpoint-4'
+        if read(keep/'CHECKPOINT_COMPLETE.json')['global_step']!=4:
+            raise PermissionError('RETAIN_ONE_COMPLETE_FINAL_ENGINEERING_RESUME')
+        for relative in ('training/smoke_continuous/checkpoint-2','training/smoke_continuous/checkpoint-4',
+                         'training/smoke_split/checkpoint-2'):
+            path=Path(smoke_root)/relative
+            if path.is_symlink() or not path.resolve().is_relative_to(Path(root).resolve()):
+                raise PermissionError('ONLY_OWN_GENERATED_TEST_CHECKPOINTS')
+            receipt=read(path/'CHECKPOINT_COMPLETE.json')
+            for name,digest in receipt['required_files'].items():
+                if sha(path/name)!=digest:raise ValueError('TEST_CHECKPOINT_CHANGED_BEFORE_RETIREMENT')
+            rows.append(dict(relative=str(path.relative_to(root)),checkpoint_complete=receipt,
+                bytes=sum(p.stat().st_size for p in path.rglob('*') if p.is_file()),reason='REDUNDANT_OWN_ENGINEERING_STATE_AFTER_VERIFIED_FULL_EQUIVALENCE'))
+        evidence=Path(root)/'evidence/REDUNDANT_SMOKE_RETIREMENT.json'
+        if evidence.exists():raise FileExistsError('Preserve earlier test retirement receipt')
+        write(evidence,dict(status='EXACT_GENERATED_TEST_MEMBERS_VALIDATED_BEFORE_DELETE',rows=rows,
+            comparison_sha256=sha(comparison),retained_final_checkpoint=str(keep.relative_to(root)),
+            historical_assets_deleted=False,formal_candidates_deleted=False))
+        for row in rows:shutil.rmtree(Path(root)/row['relative'])
+        write(Path(root)/'evidence/REDUNDANT_SMOKE_RETIREMENT_ACTUAL.json',dict(status='ACTUAL_REDUNDANT_ENGINEERING_STATES_REMOVED',
+            rows=rows,removed_bytes=sum(r['bytes'] for r in rows),retained_complete_sha256=sha(keep/'CHECKPOINT_COMPLETE.json'),
+            remaining_owned_bytes=sum(p.stat().st_size for p in Path(root).rglob('*') if p.is_file() and not p.is_symlink()),
+            historical_assets_deleted=False,formal_candidates_deleted=False))
+    finally:lock.close()
+
+
 def run(args):
+    if args.mode=='smoke-recovery-benchmark':return run_recovery(args)
     if args.mode=='smoke-all':return run_smoke(args)
     if args.mode=='benchmark-all':return run_benchmarks(args)
     root=Path(args.root);lock=OwnerLock(root/'NEURAL_OWNER.lock')
@@ -425,7 +506,7 @@ def run(args):
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--root',required=True);parser.add_argument('--bindings',required=True);parser.add_argument('--request',required=True)
-    parser.add_argument('--mode',choices=['smoke-all','smoke-continuous','smoke-first','smoke-resume','benchmark','benchmark-all','main'],required=True)
+    parser.add_argument('--mode',choices=['smoke-recovery-benchmark','smoke-all','smoke-continuous','smoke-first','smoke-resume','benchmark','benchmark-all','main'],required=True)
     parser.add_argument('--microbatch',type=int,default=2);parser.add_argument('--workers',type=int,default=2)
     parser.add_argument('--stop-at',type=int,choices=[512,2048,4096,6144],default=4096);parser.add_argument('--resume')
     parser.add_argument('--max-steps',type=int,choices=[4096,6144],default=4096)

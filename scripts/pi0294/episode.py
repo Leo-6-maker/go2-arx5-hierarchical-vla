@@ -108,6 +108,9 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
         first = engine.snapshot()
         initial = first['object_pose'].copy()
         teacher = make_teacher(card, initial, engine)
+        if 'relay_request_relative' in card:
+            from .relay_teacher import RelayTeacher
+            teacher = RelayTeacher(teacher, root, folder, card)
         write(folder/'INITIAL_STATE.json', dict(qpos=first['qpos'], qvel=first['qvel'],
                                                 object_pose=initial, tcp=first['tcp'],
                                                 model_xml_sha256=hashlib.sha256(engine.xml.encode()).hexdigest(),
@@ -150,13 +153,13 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
             if step < 640 and not static_failed:
                 if step % 8 == 0:
                     plan = teacher.plan(state)
-                    ref_id = f"{card['id']}:ref{step//8:03d}"
+                    ref_id = plan.get('reference_uuid', f"{card['id']}:ref{step//8:03d}")
                     refs.append(dict(ref_id=ref_id, decision_index=step//8, decision_time_s=state['time_s'],
                                      observation_snapshot=snapshot, prior_committed_count=step, anchor_actual_tcp=state['tcp'],
                                      planned_H40=plan['poses'], gripper_H40=plan['opening'], offsets_s=plan['offset_s'],
                                      rows10=np.stack([pose10(a, b) for a, b in zip(plan['poses'], plan['opening'])]),
                                      raw_quaternion_xyzw=np.stack([matrix_to_quat(a[:3, :3]) for a in plan['poses']]),
-                                     privileged_teacher_stage=plan['stage'], source='ACTUAL_FEEDBACK_TEACHER', committed_prefix_count=0))
+                                     privileged_teacher_stage=plan['stage'], source=plan.get('source','ACTUAL_FEEDBACK_TEACHER'), committed_prefix_count=0))
                 k = step % 8
                 target, opening = plan['poses'][k], float(plan['opening'][k])
                 supervisor = dict(ref_id=ref_id, sequence=step, point_index=k, command_time_s=state['time_s'],
@@ -184,12 +187,15 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
                 raise RuntimeError('STATIC_QUALIFICATION_FAILED_NO_INTEGRATION')
             if step < 640:
                 for tick in range(25):
+                    if hasattr(teacher, 'guard_prefix'):teacher.guard_prefix()
                     try:
                         engine.step(target, opening)
                     except Exception:
                         record_tick()
                         raise
                     record_tick()
+                if step % 8 == 7 and hasattr(teacher, 'acknowledge'):
+                    teacher.acknowledge(engine, highrate[-200:])
         status = 'VALID_COMPLETE'
     except Exception as exc:
         error = f'{type(exc).__name__}: {exc}'
@@ -197,6 +203,7 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
             status = 'SAFETY_STOP_PRESERVED'
         write(folder/'ERROR.json', dict(error=error, traceback=traceback.format_exc(), steps=0 if engine is None else engine.steps))
     finally:
+        if teacher is not None and hasattr(teacher, 'finish'):teacher.finish(status,error)
         if engine is not None:
             engine.close()
         if physical:
