@@ -20,6 +20,12 @@ from .data_consumer import extract_checked
 
 EPISODE_METADATA={'CARD.json','RESULT.json','SCORE.json','RENDER_PROCESS.json','samples.json','references.json',
     'physics.npz','highrate.npz','scene.xml.json','TEACHER_EVENTS.json','ERROR.json','ACTUAL_DUAL_RGB.mp4','VIDEO_RECEIPT.json'}
+NON_PY_CODE={'scripts/pi0291_arx5_data/README.md'}|{'src/go2arx5_vla/target_mujoco/'+name for name in
+    ('audit_home.cpp','native_home.hpp','audit_model.cpp','native_startup.hpp','observer.cpp','audit_start_boundary.cpp','compile_model.cpp')}
+
+
+def allowed_code(name):
+    return name in NON_PY_CODE or (name.endswith('.py') and name.startswith(('scripts/','src/')))
 
 
 def contained(base,name):
@@ -34,11 +40,12 @@ def contained(base,name):
     return path
 
 
-def verified_tar(path,members):
-    if path.exists():raise FileExistsError('Preserve first archive, including partial failures')
+def verified_tar(path,members,reuse=False):
+    if path.exists() and not reuse:raise FileExistsError('Preserve first archive, including partial failures')
     expected={name:sha(source) for name,source in members.items()}
-    with tarfile.open(path,'w:gz',compresslevel=3) as archive:
-        for name,source in sorted(members.items()):archive.add(source,arcname=name,recursive=False)
+    if not path.exists():
+        with tarfile.open(path,'w:gz',compresslevel=3) as archive:
+            for name,source in sorted(members.items()):archive.add(source,arcname=name,recursive=False)
     actual={}
     with tarfile.open(path,'r|gz') as archive:
         for member in archive:
@@ -56,7 +63,13 @@ def transfer(args):
     import requests
     root=Path(args.root);operations=Path(args.operations);native=root/'bank_v2_native'
     owner=OwnerLock(root/'PHYSICS_OWNER.lock')
-    if (root/'evidence/BANK_TRANSFER_PROGRESS.json').exists():raise FileExistsError('Inspect existing HF commit journal before repair')
+    repair=args.repair_preserved_packaging
+    journal_path=root/'evidence'/('BANK_TRANSFER_PROGRESS_repair1.json' if repair else 'BANK_TRANSFER_PROGRESS.json')
+    if journal_path.exists():raise FileExistsError('Inspect existing HF commit journal before repair')
+    if repair:
+        failure=read(root/'evidence/BANK_TRANSFER_PROGRESS.json')
+        if failure['status']!='FAILED_PRESERVED' or failure['error']!='NONCODE_CAPSULE_FILE' or failure['READY_claim'] or 'data_revision' in failure:
+            raise PermissionError('ONLY_PROVEN_PRECOMMIT_CODE_WHITELIST_REPAIR_ALLOWED')
     adoption=read(root/'ADOPTION.json');deadline=min(time.time()+3600,adoption['new_work_cutoff_epoch'])
     if deadline-time.time()<300:raise TimeoutError('INSUFFICIENT_TRANSFER_WINDOW')
     os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
@@ -72,9 +85,12 @@ def transfer(args):
     if ledger['CPU_s']+ledger['CPU_upper_s']+reserve>=96*3600:raise ValueError('CPU_TRANSFER_RESERVATION')
     ledger['CPU_upper_s']+=reserve;write(root/'RESOURCE_LEDGER.json',ledger)
     started=time.time();cpu0=resource.getrusage(resource.RUSAGE_SELF)
-    output=root/'delivery/bank_v2';output.mkdir(parents=True,exist_ok=False)
-    journal=dict(status='PACKAGING',started=started,CPU_reserved_s=reserve,READY_claim=False)
-    journal_path=root/'evidence/BANK_TRANSFER_PROGRESS.json';write(journal_path,journal)
+    output=root/'delivery/bank_v2';output.mkdir(parents=True,exist_ok=repair)
+    if repair and {p.name for p in output.iterdir()}!={i+'.tar.gz' for i in expected_ids}|{'native_dataset.tar.gz'}:
+        raise PermissionError('ONLY_PREVIOUS_VERIFIED_RAW_AND_NATIVE_ARCHIVES_MAY_BE_REUSED')
+    journal=dict(status='PACKAGING',started=started,CPU_reserved_s=reserve,READY_claim=False,
+        preserved_packaging_repair=repair,prior_failure_sha256=sha(root/'evidence/BANK_TRANSFER_PROGRESS.json') if repair else None)
+    write(journal_path,journal)
 
     def guard(extra=0):
         if time.time()>=deadline:raise TimeoutError('BANK_TRANSFER_CUTOFF')
@@ -101,7 +117,7 @@ def transfer(args):
         def pack(key,name,members):
             guard(sum(p.stat().st_size for p in members.values())+1024**2)
             archive=output/Path(name).name
-            proofs[key]=verified_tar(archive,members);payload[name]=archive
+            proofs[key]=verified_tar(archive,members,reuse=repair);payload[name]=archive
         for row in ledger['starts']:
             folder=root/'episodes'/row['id'];entries=read(folder/'FILE_MANIFEST.json')
             names={r['path'] for r in entries}
@@ -122,7 +138,7 @@ def transfer(args):
         pack('native_dataset','native_dataset.tar.gz',native_files)
         code_seal=read(root/'CODE_SEAL.json')
         code_members={name:contained(root/'code',name) for name in code_seal['files']}
-        if any(not name.endswith('.py') or not name.startswith(('scripts/','src/')) for name in code_members):raise ValueError('NONCODE_CAPSULE_FILE')
+        if any(not allowed_code(name) for name in code_members):raise ValueError('NONCODE_CAPSULE_FILE')
         if {k:sha(p) for k,p in code_members.items()}!=code_seal['files']:raise ValueError('PHYSICAL_CAPSULE_CHANGED')
         pack('frozen_source','frozen_source.tar.gz',code_members)
         seal=read(operations/'OPERATIONS_SEAL.json')
@@ -136,6 +152,7 @@ def transfer(args):
             'evidence/DISPATCH_supplement.json','evidence/DATALOADER_SMOKE.json','evidence/TRAINER_ADAPTER_CPU_QUALIFICATION.json',
             'evidence/OPEN_LOOP_PROBE_SEAL.json','evidence/BANK_PIPELINE.json','evidence/AUDIT_C29200.json']
         receipt_names += ['evidence/AUDIT_BOUND_'+r['id']+'.json' for r in ledger['starts']]
+        if repair:receipt_names.append('evidence/BANK_TRANSFER_PROGRESS.json')
         receipt_names += ['evidence/adapter_bank_v2/'+split+'_'+kind+'.json' for split in ('TRAIN','DEV') for kind in ('reference','adapter','COMPARISON')]
         for name in receipt_names:
             path=contained(root,name);destination=output/('receipt_'+name.replace('/','_'))
@@ -219,4 +236,5 @@ def transfer(args):
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     for name in ('root','operations','repo','existing-token-file','original-manifest','source','cosmos'):p.add_argument('--'+name,required=True)
+    p.add_argument('--repair-preserved-packaging',action='store_true')
     value=transfer(p.parse_args());print(json.dumps({k:value[k] for k in ('status','revision','CPU_s')}))
