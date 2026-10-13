@@ -1,0 +1,93 @@
+{
+  "schema": "HOPPER_QUOTA_RECOVERY_ADDENDUM_V1",
+  "status": "PUBLISHED_NO_SSH_EXECUTED",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "parent_go_commit": "33bbc2933e8bd6554d49b04f536519c10d0b962f",
+  "owner": "EXISTING_LOCAL_PC_ONLY",
+  "urgency": "RECLAIM_GB_NOT_SMALL_SOURCE_COUNTS",
+  "last_audited_stage22": {
+    "total_removed_files": 338,
+    "removed_empty_dirs": 43,
+    "allocated_lower_bound_bytes": 2936832,
+    "Stage22_checkpoint_progress": "196000/200000",
+    "Hopper_model_deletion": 0,
+    "Stage22_actual_resume_preserved": true,
+    "PI0292_dependency": true,
+    "job_queue_empty_at_prior_audit": true
+  },
+  "last_known_personal_scratch": {
+    "usage_display": "940.7 GB",
+    "limit_display": "1.0 TB",
+    "unit_and_current_value": "MUST_REFRESH_REAL_HPC_QUOTA"
+  },
+  "capacity_goal": {
+    "phase1_used_at_most_GB": 850,
+    "alternate_free_at_least_GiB": 120,
+    "gate": "RECALCULATE_USING_ACTUAL_USER_QUOTA_AND_PI0292_CHECKPOINT_CAPACITY",
+    "no_false_S4_admission": true
+  },
+  "first_priorities": [
+    "PI0286_C1_LOCAL_FULL_TRAINER_IF_LIVE_UNUSED_AND_HF_READBACK_QUALIFIED",
+    "PROVEN_OLD_FAILED_FULL_TRAINERS",
+    "DUPLICATE_MODEL_ONLY_AND_TEMP_CACHES",
+    "STAGE22_HISTORICAL_REDUNDANT_CHECKPOINTS_ONLY_IF_CURRENT_196K_AND_MIN_FALLBACK_FULLY_PROTECTED",
+    "EVALUATE_QUOTA_INCREASE_OR_AUTHORIZED_SECOND_STORAGE_IF_SHORT"
+  ],
+  "do_not_recount": [
+    "STAGE22_CACHED_338_FILES",
+    "PRIOR_9_TRAINERS",
+    "PI0286_C0_PREVIOUSLY_RETIRED",
+    "CORELAB_DISK_CLEANUP"
+  ],
+  "always_protect": [
+    "LATEST_FULL_STAGE22_196K_RESUME_AND_REQUIRED_ROLLBACK",
+    "PI0292_MODEL_AND_SOURCE_AND_DATA_AND_PROCESSOR_AND_STATS",
+    "BASE_N17_COSMOS",
+    "WBC_ASSETS",
+    "ACTIVE_OR_UNKNOWN_FD_AND_LEASE",
+    "USER_HOME_OTHER_ACCOUNTS"
+  ],
+  "rights": {
+    "failed_weights_direct_delete_if_unused": true,
+    "previous_HF_full_trainer_duplicate_local_delete_if_unused": true,
+    "new_full_resume_publication": false,
+    "new_science_train": false
+  },
+  "budget": {
+    "same_T0_as_parent_go": true,
+    "same_limits_no_extension": true,
+    "wall_hours_total": 4,
+    "CPU_core_hours_total": 12,
+    "concurrent_CPU_total": 4,
+    "new_evidence_peak_GiB": 2,
+    "max_new_public_models": 2,
+    "new_public_uploaded_GiB": 30,
+    "GPU_hours": 0,
+    "PBS": 0,
+    "model_loads": 0,
+    "physics": 0,
+    "WBC": 0
+  },
+  "outputs": [
+    "CAPACITY_TOP30.json",
+    "STAGE22_DEPENDENCY_MATRIX.json",
+    "RETENTION_DECISION.json",
+    "DELETE_ACTUAL_RECEIPTS.jsonl",
+    "QUOTA_BEFORE_AFTER.json",
+    "HF_RELEASE_OR_ARCHIVE_READBACK.json",
+    "PI0292_CAPACITY_GATE_READONLY.json",
+    "CAPACITY_BLOCKERS_AND_FALLBACK.md",
+    "FINAL_REPORT.md"
+  ],
+  "pause_if": [
+    "MISSING_VERIFIED_UID",
+    "LIVE_FD_OR_PBS_REFERENCE",
+    "UNKNOWN_HARDLINK",
+    "ONLY_FULL_RESUME",
+    "PRIVATE_DATA_PUBLICATION_RISK",
+    "CAPACITY_WORK_OVER_BUDGET"
+  ],
+  "deployment": "NONE",
+  "publication_not_execution": true
+}
