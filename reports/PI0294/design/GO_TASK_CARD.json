@@ -1,0 +1,169 @@
+{
+  "schema": "PI0294_BOUNDED_MULTITASK_GO_V1",
+  "pi": "PI0294",
+  "owner": "EXISTING_LOCAL_PC",
+  "authority": "DIRECT_USER_REPLACEMENT_THREAD_GOAL_OBJECTIVE",
+  "objective_source_sha256": "9d1782833b412ae35eb86d953f12919f5a575041d9c7ccf63fca34efabe7bd40",
+  "renumbered_from": "PI0293",
+  "namespace_conflict_sha": "67034abb9d7fb046b8d38e1cdcca65c8121c40f9",
+  "protocol": "docs/protocols/PI0294_MULTITASK_POLICY_AND_PARALLEL_DATA_OVERNIGHT_V1.md",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "T0_epoch": 1791901497,
+  "new_work_cutoff_epoch": 1791939600,
+  "deadline_epoch": 1791943200,
+  "deadline_sgt": "2026-10-14 10:00:00",
+  "cutoff_sgt": "2026-10-14 09:00:00",
+  "resume_resets_clock": false,
+  "limits": {
+    "max_CoreLab_workers": 4,
+    "initial_workers": 2,
+    "max_cpu_per_initial_worker": 3,
+    "max_CoreLab_concurrent_cpu": 16,
+    "CoreLab_cpu_core_hours": 160,
+    "Hopper_team_GPU_hours": 12,
+    "max_team_H200": 1,
+    "max_account_independent_gpu_allocations": 2,
+    "new_PBS_calls": 4,
+    "model_smoke_updates": 16,
+    "formal_updates": 6144,
+    "CoreLab_new_peak_GiB": 192,
+    "Hopper_new_peak_GiB": 180,
+    "local_new_peak_GiB": 8,
+    "physical_starts": 400,
+    "integrations": 6400000,
+    "paired_observations": 256400,
+    "WBC_calls": 0,
+    "hardware_calls": 0,
+    "new_deletions": 0
+  },
+  "project": "CFP04-CF-007",
+  "queue": "auto",
+  "task_contract": {
+    "skills": [
+      "PICK_PLACE",
+      "PUSH"
+    ],
+    "same_state_different_language": true,
+    "one_checkpoint_for_both_tasks": true,
+    "physics_dt_s": 0.002,
+    "sensor_hz": 20,
+    "H": 40,
+    "prefix": 8,
+    "RGB_shape": [
+      256,
+      256,
+      3
+    ],
+    "cameras": 2,
+    "EEF_dim": 10,
+    "episode_s": 32,
+    "observations": 641,
+    "commands": 640,
+    "legal_H40_windows": 601
+  },
+  "push_gates": {
+    "actual_contact": true,
+    "min_horizontal_displacement_m": 0.1,
+    "max_center_height_rise_m": 0.005,
+    "max_sustained_bilateral_grasp_s": 0.3,
+    "full_cube_inside_target": true,
+    "robot_separated": true,
+    "persistent_hold_and_safety": true
+  },
+  "dataset": {
+    "v3_0": {
+      "new_TRAIN_groups": 32,
+      "new_DEV_groups": 8,
+      "new_episodes": 80,
+      "min_admitted_TRAIN_per_task": 28,
+      "min_admitted_DEV_per_task": 7
+    },
+    "v3_1": {
+      "total_new_TRAIN_groups": 96,
+      "total_new_DEV_groups": 16,
+      "total_new_episodes_including_v3_0": 224
+    },
+    "reuse_original_TRAIN": 64,
+    "reuse_original_DEV": 16,
+    "statistics": "FIT_ON_FROZEN_VERSION_TRAIN_ONLY_ONCE",
+    "hot_update_active_training": false
+  },
+  "training": {
+    "base_repo": "nvidia/GR00T-N1.7-3B",
+    "base_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "official_source": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "freeze_VLM": true,
+    "tune_projector": true,
+    "tune_action_DiT": true,
+    "loss": "OFFICIAL_MASKED_FLOW_MATCHING",
+    "effective_batch": 32,
+    "lr": 0.0001,
+    "optimizer": "AdamW",
+    "precision": "bf16",
+    "schedule": "cosine",
+    "warmup_fraction": 0.05,
+    "regular_steps": 4096,
+    "absolute_max_steps": 6144,
+    "checkpoints": [
+      512,
+      2048,
+      4096,
+      6144
+    ],
+    "microbatch_candidates": [
+      [
+        2,
+        16
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        8,
+        4
+      ]
+    ],
+    "loader_worker_candidates": [
+      0,
+      2,
+      4
+    ],
+    "task_sampling_probabilities": {
+      "T1": 0.5,
+      "T2": 0.5
+    },
+    "max_old_fraction_within_T1": 0.3333333333333333,
+    "phase_weights": [
+      0.2,
+      0.25,
+      0.25,
+      0.2,
+      0.1
+    ],
+    "task_or_phase_as_model_input": false,
+    "extra_2048_condition": "M4096_DEV_TOTAL_AT_LEAST_M2048_PLUS_2_AND_EACH_TASK_HAS_SUCCESS_AND_NO_SAFETY_AND_BUDGET"
+  },
+  "confirmation": {
+    "core_groups": 8,
+    "challenge_groups": 8,
+    "teacher_core_min_success_per_task": 7,
+    "policy_core_min_success_per_task": 6,
+    "core_both_instructions_success_groups": 5,
+    "old_pickplace_regression_min_success": 6,
+    "regression_count": 8,
+    "real_safety_violations": 0,
+    "candidate_selection": "MAX_MIN_TASK_DEV_SUCCESS_THEN_MACRO_AVERAGE_THEN_MIN_REJECTION_THEN_EARLIER"
+  },
+  "old_PI0292_preserved": {
+    "GPU_allocated_s_before_this_T0": 17,
+    "PBS_calls": 3,
+    "PBS_cap": 4,
+    "models_or_updates": 0,
+    "data_qualified": true,
+    "do_not_relabel_new_policy_as_B1": true
+  },
+  "status": "ADOPTED_PROTOCOL_PENDING_RELEASE_AND_RUNTIME_GATES",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
