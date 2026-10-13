@@ -1,0 +1,69 @@
+{
+  "schema": "PI0292_PAIRED_OFFLINE_CPU_PREPARATION_V1",
+  "status": "CPU_PREPARATION_PASS_ACTUAL_MODEL_PROFILES_NOT_RUN",
+  "observed_epoch": 1791873036.9042645,
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "authority_release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+  "files": {
+    "scripts/pi0292/compare_profiles.py": "51cce70b036edf4c023bc4fc173db09a1fdf70268fa53e2dd379f1e4ab6503bc",
+    "scripts/pi0292/test_compare_profiles.py": "82eada659e3bbae61546ecbafdb5aba4bc2d0651520b82a65bd21939f8f6ea1d"
+  },
+  "tests": {
+    "new_methods": 7,
+    "new_subtests": 7,
+    "all_PI0292_passed": 67,
+    "all_PI0292_subtests": 31,
+    "actual_junit_sha256": "eb05aeb611b3a1f57123030f0a5acea78de4a61cf6f53486fa9728ef44ba7dad",
+    "measured_final_test_CPU_s": 4.64,
+    "earlier_usage": "NOT_ZERO_NOT_RECONSTRUCTED_BY_THIS_DELTA"
+  },
+  "behavior": {
+    "requires_all_three_complete_profiles": true,
+    "exact_probe_query_sets": true,
+    "actual_initial_noise_bytes_paired": true,
+    "actual_EEF_and_expert_bytes_paired": true,
+    "recomputes_error_from_saved_arrays": true,
+    "recomputes_frozen_Gate": true,
+    "retains_all_REJECT_rows": true,
+    "incomplete_errors_remain_null": true,
+    "TRAIN_DEV_and_stage_episode_macro": true,
+    "paired_error_differences": true,
+    "missing_spurious_gripper_events_retained": true,
+    "fixed_B1": "S4096",
+    "checkpoint_selection": "NONE"
+  },
+  "stages": {
+    "model_smoke": "NOT_RUN",
+    "main": "NOT_RUN",
+    "B0": "NOT_RUN",
+    "S2048": "NOT_AVAILABLE",
+    "S4096": "NOT_AVAILABLE",
+    "actual_paired_comparison": "NOT_RUN",
+    "live_relay": "NOT_RUN"
+  },
+  "preserved": {
+    "sealed_generation_scripts_changed": false,
+    "probe_selection_changed": false,
+    "raw_data_changed": false,
+    "stats_refitted": false,
+    "source_capsules_hot_switched": false,
+    "original_deadline_reset": false
+  },
+  "boundaries": {
+    "new_PBS_calls": 0,
+    "model_loads": 0,
+    "physics_integrations": 0,
+    "WBC_calls": 0,
+    "actual_model_result_claim": false,
+    "source_deployed": false
+  },
+  "prerequisites": {
+    "project": "CURRENT_HOPPER_ACCOUNT_LOGIN_AND_AUTHORIZED_UNEXPIRED_PROJECT_REQUIRED",
+    "quota": "940.7GB_USED_1.0TB_HARD_REPORT_14_23_REQUIRES_ADDITIONAL_VERIFIED_STORAGE",
+    "failed_PBS_calls_retained": 1,
+    "total_PBS_call_cap": 3,
+    "GPU_allocated_s": 0
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}
