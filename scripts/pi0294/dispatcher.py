@@ -23,7 +23,8 @@ def _spawn_worker(reservation_path, python):
                NUMEXPR_NUM_THREADS='1', PYTHONDONTWRITEBYTECODE='1',
                MUJOCO_GL='egl', GALLIUM_DRIVER='llvmpipe', LIBGL_ALWAYS_SOFTWARE='1',
                __EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json',
-               TOKENIZERS_PARALLELISM='false')
+               TOKENIZERS_PARALLELISM='false',
+               PYTHONPATH=str(Path(ticket['source_root']) / 'src') + os.pathsep + ticket['source_root'])
     env.pop('MUJOCO_EGL_DEVICE_ID', None)
     # The spawn process owns a fresh interpreter and fresh rendering context.
     command = [python, '-m', 'scripts.pi0294.episode', '--root', ticket['root'],
@@ -104,7 +105,9 @@ def dispatch(root, plan, admission, *, workers=2, python=sys.executable,
                 reservation = coordinator.reserve_auxiliary('audit-' + identifier, cpu_count=1,
                     timeout_s=600, output_bytes=1024**2, memory_bytes=2 * 1024**3)
                 env = dict(os.environ, CUDA_VISIBLE_DEVICES='', OMP_NUM_THREADS='1',
-                    OPENBLAS_NUM_THREADS='1', MKL_NUM_THREADS='1', PYTHONDONTWRITEBYTECODE='1')
+                    OPENBLAS_NUM_THREADS='1', MKL_NUM_THREADS='1', PYTHONDONTWRITEBYTECODE='1',
+                    PYTHONPATH=str(Path(coordinator.admission['source_root']) / 'src')
+                        + os.pathsep + coordinator.admission['source_root'])
                 command = [python, '-m', 'scripts.pi0294.audit', '--root', str(root),
                     '--id', identifier, '--asset-root', coordinator.admission['asset_root'],
                     '--cpus', ','.join(map(str, reservation['cpus']))]
