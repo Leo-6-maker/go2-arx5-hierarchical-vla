@@ -1,0 +1,85 @@
+{
+  "schema": "UNIFIED_WORKSPACE_GITHUB_SYNC_TASK_V1",
+  "status": "PROTOCOL_PUBLICATION_NOT_REMOTE_EXECUTION",
+  "owner": "EXISTING_LOCAL_PC_CODEX_ONLY",
+  "date": "2026-10-13",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "canonical_workspace": "~/Projects/GR00T-WBC",
+  "roles": {
+    "code": "GitHub fixed commit SHA / canonical code/vla",
+    "official": "Independent NVIDIA GR00T pinned 51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "data": "Corelab 4080S SSD raw plus immutable private HF revision and DATASET_INDEX",
+    "neural": "Hopper H200 legal PBS; fixed model + processor + stats",
+    "wbc": "Original private protected read-only, no auto Git/HF publication"
+  },
+  "existing_entry": {
+    "profiles": [
+      "amd-management",
+      "4080-simulation",
+      "4080-cpu-data",
+      "hopper-neural"
+    ],
+    "deployed_and_qualified": [
+      "amd-management",
+      "4080-simulation",
+      "4080-cpu-data"
+    ],
+    "hopper": "METADATA_ONLY_NOT_DEPLOYED",
+    "commands": [
+      "infrastructure/enter.sh",
+      "infrastructure/doctor.py"
+    ],
+    "entry_source_record": "reports/maintenance/2026-10-13-corelab-verified-retirement/20261013T031510Z-localpc-retirement/ENTRY_IMPLEMENTATION"
+  },
+  "observed_previous": {
+    "retirement_status": "PARTIAL_WITH_EXACT_HOLDS",
+    "retired_old_source_paths": 33,
+    "projects_after": 7,
+    "home_after": 21,
+    "pi0292_sci_lease_protects_old_e3cdb22a": true,
+    "new_bank_train": 64,
+    "new_bank_dev": 16,
+    "model_training_at_observation": "NOT_STARTED",
+    "data_hf_packaging_at_observation": "NOT_READY"
+  },
+  "phases": [
+    "E0_REFRESH_PI0292_AND_MAINTENANCE_LEASES",
+    "E1_VERSION_EXISTING_CANONICAL_ENTRY_AND_PRIVATE_REGISTRIES",
+    "E2_RUN_MANIFEST_SCHEMA_AND_READONLY_ENTRY_DIAGNOSTIC",
+    "E3_JOB_BOUNDARY_CONSUMER_REBINDING_AND_VERIFIED_RETIREMENT",
+    "E4_REMOTE_GIT_READBACK_AND_BOTH_HOST_ACCEPTANCE"
+  ],
+  "no_new_authority": [
+    "PHYSICS",
+    "HOPPER_PBS",
+    "MODEL_LOAD_FORWARD_TRAIN",
+    "WBC_MODIFICATION_OR_RUN",
+    "HARDWARE",
+    "UNVERIFIED_RAW_CHECKPOINT_ASSET_DELETION",
+    "GLOBAL_GIT_FORCE_RESET_CLEAN_PRUNE"
+  ],
+  "must_preserve": [
+    "CURRENT_PI0292_ACTIVE_SCIENTIFIC_CAPSULE",
+    "PI0291_56_TRAIN_ORIGINALS",
+    "PI0292_V2_BANK_AND_STATS",
+    "PRIVATE_WBC_AND_GO2_ARX5_NATIVE_ASSETS",
+    "UNIQUE_TRAINER_AND_FAILED_EVIDENCE",
+    "DIRTY_THIRD_PARTY_AND_NESTED_GIT_RECOVERY",
+    "HOME_PYTHON_ENVIRONMENTS",
+    "CREDENTIALS"
+  ],
+  "required_receipts": [
+    "WORKSPACE_CONTRACT_IMPLEMENTATION.json",
+    "GIT_SYNC_READBACK.json",
+    "RUN_ENTRY_CONTRACT_TEST.json",
+    "RETAINED_PATH_DECISIONS.json",
+    "ENVIRONMENT_ENTRY_CHECK.json",
+    "FINAL_REPORT.md"
+  ],
+  "separate_verdicts": [
+    "SINGLE_HUMAN_ENTRY_PASS_OR_FAIL",
+    "PHYSICAL_TOP_LEVEL_ONE_DIR_TRUE_OR_FALSE"
+  ],
+  "publication_is_not_execution": true
+}
