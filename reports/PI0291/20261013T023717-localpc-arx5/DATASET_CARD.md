@@ -65,9 +65,17 @@ normalization and input outlier clipping are disabled; stock inverse clipping
 is measured, with no DEV refit or processor monkeypatch.
 
 Official source is `51d4c89f72fda44cbf77285c6a8114b52676b8a1`.
-Actual formal CPU DatasetLoader/processor/collator and all-window codec are
-running under a new explicit60-minute CPU-only closeout authority; they are
-not yet PASS. Fixed-revision HF readback is pending. The existing
+Actual formal CPU DatasetLoader/processor/collator and all-window codec
+passed:all33,656 TRAIN H40 windows, real dual RGB, mixed two-episode/stage
+batches, variable-text diagnostic, deterministic0/2-worker equality and
+five oracle/causality negatives. Actual CPU618.029364s including children.
+Normalized float32 official decode maxima:XYZ8.5735081e-9m,
+SO3 2.1073424e-8rad, gripper0. Pre-float32 action preclip35 components;
+stock float32 inverse clip0, state preclip0, encoder clipping0. DEV has
+zero windows and is NOT_TESTED, not a zero-error validation success.
+The immutable exporter manifest retains its at-export NOT_RUN field;
+the actual final qualification authority is `evidence/DATALOADER_SMOKE.json`.
+Fixed-revision HF readback is pending at upload time. The existing
 official training launcher does not directly consume this NPZ+PNG wrapper:
 see `TRAINER_INTERFACE_READONLY_REVIEW.json`. CPU data qualification must not
 be misrepresented as completed Trainer integration.

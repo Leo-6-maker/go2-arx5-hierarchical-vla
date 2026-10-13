@@ -5,6 +5,12 @@ PI0291's original deadline, seeds, resource budget or scientific permissions.
 
 ## First Review
 
+Recovered terminal bank is56 admitted TRAIN and0 DEV, with8 TRAIN and16 DEV
+actually unattempted. The explicit60-minute CPU-only closeout does not
+authorize collecting those IDs. Any subsequent DEV/data collection needs a
+new bounded scientific GO and explicit identity/denominator handling;
+never relabel the original80-attempt bank as complete.
+
 Review terminal admission, all fixed TRAIN64/DEV16 denominators, original
 RGB/physics hashes, TRAIN-only statistics, official CPU data-chain receipts
 and actual fixed-revision HF readback. A partial bank remains partial even
@@ -29,6 +35,13 @@ fresh scientific GO and a legal Hopper PBS allocation; neural execution
 remains on Hopper, never silently moved to Corelab.
 
 ## Next Data Bank
+
+Before another physical queue, qualify durable remote stdout/log handling
+and reconnect inspection under the same sole local owner. The last queue
+persisted child exit120 after56 complete TRAIN; the exact exit root cause
+is not proven. Future reliability work must preserve first-attempt evidence,
+never treat an expired observation connection as permission to relaunch a
+queue, and must not change the sealed physical semantics retroactively.
 
 Use the real native ARX5 fixed-base scene as the starting point, not Panda or
 the earlier independent free tool. Before collecting a new bank, register

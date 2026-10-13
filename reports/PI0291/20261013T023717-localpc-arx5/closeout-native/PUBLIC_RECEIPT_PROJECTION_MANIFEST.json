@@ -1,0 +1,25 @@
+{
+  "status": "SANITIZED_PROJECTION_NOT_PRODUCER_BYTES",
+  "files": [
+    {
+      "public_file": "DATALOADER_SMOKE.json",
+      "producer_receipt_sha256": "6b2a94b1af677a48704ab873641729fcbb3e9319a4639fd35ec8b010d2b80142",
+      "public_projection_sha256": "6b2a94b1af677a48704ab873641729fcbb3e9319a4639fd35ec8b010d2b80142",
+      "original_private_receipt_retained": true
+    },
+    {
+      "public_file": "RESOURCE_ACCOUNTING_AT_NATIVE_PASS.json",
+      "producer_receipt_sha256": "1785fdce7ca620588b289cec15f34cb40079f56e94fd6fd209886e4dd3d5bcce",
+      "public_projection_sha256": "1785fdce7ca620588b289cec15f34cb40079f56e94fd6fd209886e4dd3d5bcce",
+      "original_private_receipt_retained": true
+    }
+  ],
+  "transformations": [
+    "Private absolute path-bearing values replaced with a placeholder",
+    "Exact integer seed rendered as decimal string, never passed through floating point"
+  ],
+  "producer_HASH_and_public_HASH_are_distinct": true,
+  "dataset_mutation": false,
+  "physics_steps": 0,
+  "model_loads": 0
+}
