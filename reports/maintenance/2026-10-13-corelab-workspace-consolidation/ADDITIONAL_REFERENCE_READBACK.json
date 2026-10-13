@@ -1,0 +1,63 @@
+{
+  "status": "PASS_BOTH_HOSTS_PRIOR_DATA_POINTERS_NO_DOWNLOAD",
+  "checks": [
+    {
+      "node": "corelab-amd-server",
+      "status": "PASS_ADDITIVE_PRIOR_DATA_AND_SSH_REFERENCES_READBACK",
+      "files": 4,
+      "file_hashes": [
+        {
+          "path": "datasets/PI0290/HF_TRANSFER_READY.json",
+          "sha256": "2ea6ff8c48be984c93e371d3b113f05073f031a21a47162ad36c23f04291389a",
+          "bytes": 7897
+        },
+        {
+          "path": "datasets/PI0290/HF_CODEC_WINDOWS_READY.json",
+          "sha256": "635fb2e9e8ed3a6eae00d80f4429ba737ab7a1b3abe126f32f75be03fedc6003",
+          "bytes": 2291
+        },
+        {
+          "path": "infrastructure/receipts/GITHUB_SSH_AUTH_RECEIPT.json",
+          "sha256": "f8f379648f5d013d0c1ace5524e047fda56f930c1711c888be5e2dd874d49552",
+          "bytes": 407
+        },
+        {
+          "path": "infrastructure/CONSOLIDATION_REPORT.md",
+          "sha256": "47dd6954a388e0bda22e9839158a2d6cbbc1b2ab6ed7d28a78b63be51bd8ae50",
+          "bytes": 6534
+        }
+      ]
+    },
+    {
+      "node": "corelab-4080s",
+      "status": "PASS_ADDITIVE_PRIOR_DATA_AND_SSH_REFERENCES_READBACK",
+      "files": 4,
+      "file_hashes": [
+        {
+          "path": "datasets/PI0290/HF_TRANSFER_READY.json",
+          "sha256": "2ea6ff8c48be984c93e371d3b113f05073f031a21a47162ad36c23f04291389a",
+          "bytes": 7897
+        },
+        {
+          "path": "datasets/PI0290/HF_CODEC_WINDOWS_READY.json",
+          "sha256": "635fb2e9e8ed3a6eae00d80f4429ba737ab7a1b3abe126f32f75be03fedc6003",
+          "bytes": 2291
+        },
+        {
+          "path": "infrastructure/receipts/GITHUB_SSH_AUTH_RECEIPT.json",
+          "sha256": "f8f379648f5d013d0c1ace5524e047fda56f930c1711c888be5e2dd874d49552",
+          "bytes": 407
+        },
+        {
+          "path": "infrastructure/CONSOLIDATION_REPORT.md",
+          "sha256": "47dd6954a388e0bda22e9839158a2d6cbbc1b2ab6ed7d28a78b63be51bd8ae50",
+          "bytes": 6534
+        }
+      ]
+    }
+  ],
+  "initial27_plus4_additive_files": true,
+  "PI0290_fixed_revision": "0fd9247ba5426eb54ebf152912432302b193b479",
+  "PI0290_is_not_ARX5": true,
+  "current_task_new_HF_readback": "NOT_RUN_NO_FULL_HISTORICAL_DOWNLOAD"
+}
