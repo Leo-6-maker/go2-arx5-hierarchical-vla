@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import uuid
 
 PROJECT = 'CFP04-CF-007'
 RELEASE = '261bc5b37f20aaff1ad7d5742252d3dc1a91fa65'
@@ -99,6 +100,29 @@ def current_project(query=subprocess.check_output, executable='amgr'):
     return dict(project=projects[0], balance_su=balance['su'], observed_epoch=time.time())
 
 
+def allocation_project_receipt(request, project_path):
+    """Use a bound login attestation; validate() still checks fresh PBS identity."""
+    if request.get('project_admission_mode') != 'FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1':
+        raise PermissionError('EXPLICIT_LOGIN_PROJECT_ATTESTATION_MODE_REQUIRED')
+    if sha(project_path) != request.get('project_admission_sha256'):
+        raise PermissionError('BOUND_LOGIN_PROJECT_RECEIPT_CHANGED')
+    receipt = read(project_path)
+    nonce = request.get('submission_nonce')
+    try:
+        parsed = uuid.UUID(nonce)
+    except (ValueError, AttributeError, TypeError):
+        raise PermissionError('CANONICAL_SUBMISSION_NONCE_REQUIRED') from None
+    if parsed.version != 4 or str(parsed) != nonce:
+        raise PermissionError('CANONICAL_SUBMISSION_NONCE_REQUIRED')
+    if (receipt.get('schema') != 'PI0292_LOGIN_NATIVE_PROJECT_ATTESTATION_V1'
+            or receipt.get('source') != 'HOPPER_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE'
+            or receipt.get('run_uuid') != '20261013T025824Z-localpc-pi0292'
+            or receipt.get('request_id') != request['request_id']
+            or receipt.get('submission_nonce') != nonce):
+        raise PermissionError('EXACT_NATIVE_LOGIN_RECEIPT_RUN_AND_REQUEST_REQUIRED')
+    return receipt
+
+
 def validate(*, now, user, job_id, jobs, quota, adoption, project_receipt,
              dependency, request, binding_sha256):
     if (adoption['release'] != RELEASE or adoption['T0_epoch'] != 1791860304
@@ -181,10 +205,11 @@ def main():
             or not lease['no_move_or_delete'] or str(root) not in lease['protected']
             or sha(root/'DEPENDENCY_LEASE.json') != request['lease_sha256']):
         raise PermissionError('CURRENT_DEPENDENCY_LEASE_REQUIRED')
-    # Queue time does not extend a login-node project observation. Re-query
-    # inside the actual allocation; unavailable authentication fails closed.
+    login_receipt_mode = request.get('project_admission_mode') == 'FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1'
+    if request.get('project_admission_mode') not in (None, 'FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1'):
+        raise PermissionError('UNKNOWN_PROJECT_ADMISSION_MODE')
     executable = request.get('project_query_executable', 'amgr')
-    if request['request_id'] == 'S3-smoke-03':
+    if request['request_id'] == 'S3-smoke-03' and not login_receipt_mode:
         path = Path(executable)
         if (not path.is_absolute() or path.name != 'amgr' or not os.access(path, os.X_OK)
                 or sha(path) != request.get('project_query_executable_sha256')):
@@ -193,7 +218,15 @@ def main():
         if (sha(revision_path) != request.get('engineering_revision_sha256')
                 or read(revision_path) != request.get('engineering_revision')):
             raise PermissionError('BOUND_ENGINEERING_REVISION_CHANGED')
-    project = current_project(executable=executable)
+    if login_receipt_mode:
+        project = allocation_project_receipt(request, project_path)
+    else:
+        project = current_project(executable=executable)
+    if request['request_id'] == 'S3-smoke-03' and login_receipt_mode:
+        revision_path = root/'evidence/ENGINEERING_PBS_REVISION.json'
+        if (sha(revision_path) != request.get('engineering_revision_sha256')
+                or read(revision_path) != request.get('engineering_revision')):
+            raise PermissionError('BOUND_ENGINEERING_REVISION_CHANGED')
     result = validate(now=time.time(), user=user, job_id=job_id, jobs=owned_jobs(user),
         quota=personal_quota(user), adoption=read(root/'ADOPTION.json'),
         project_receipt=project, dependency=read(dependency_path), request=request,

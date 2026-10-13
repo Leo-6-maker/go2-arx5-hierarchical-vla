@@ -1,8 +1,10 @@
 import copy
 import json
+from pathlib import Path
+import tempfile
 from types import SimpleNamespace
 import unittest
-from scripts.pi0292.allocation_admission import ENGINEERING_AUTHORITY, GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, current_project, owned_jobs, validate, validate_engineering_revision
+from scripts.pi0292.allocation_admission import ENGINEERING_AUTHORITY, GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, allocation_project_receipt, current_project, owned_jobs, sha, validate, validate_engineering_revision
 
 
 def engineering_revision():
@@ -94,6 +96,42 @@ class TestAllocationAdmission(unittest.TestCase):
                 with self.assertRaises(PermissionError):validate_engineering_revision(bad)
         self.arguments['request'].pop('engineering_revision')
         with self.assertRaises(PermissionError):validate(**self.arguments)
+
+    def test_bound_login_receipt_needs_no_compute_amgr_but_does_not_admit_a_job(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'PROJECT_ADMISSION.private.json'
+            nonce='c9e9f761-f1e8-4cf4-9851-68adb68d1f21'
+            receipt=dict(self.arguments['project_receipt'],
+                schema='PI0292_LOGIN_NATIVE_PROJECT_ATTESTATION_V1',
+                source='HOPPER_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE',
+                run_uuid='20261013T025824Z-localpc-pi0292',request_id='S3-smoke-02',submission_nonce=nonce)
+            path.write_text(json.dumps(receipt))
+            request=dict(self.arguments['request'],submission_nonce=nonce,
+                project_admission_mode='FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1',project_admission_sha256=sha(path))
+            self.assertEqual(allocation_project_receipt(request,path),receipt)
+            arguments=copy.deepcopy(self.arguments);arguments['project_receipt']=receipt
+            for state in ('Q','F','X'):
+                with self.subTest(state=state):
+                    arguments['jobs']['123.server']['job_state']=state
+                    with self.assertRaises(PermissionError):validate(**arguments)
+            for key,value in [('project_admission_sha256','changed'),('submission_nonce',None),
+                    ('submission_nonce','not-a-uuid'),('project_admission_mode','implicit')]:
+                with self.subTest(key=key):
+                    wrong=dict(request);wrong[key]=value
+                    with self.assertRaises(PermissionError):allocation_project_receipt(wrong,path)
+            for key,value in [('request_id','another-request'),('run_uuid','another-run'),
+                    ('source','TIMESTAMP_ONLY'),('submission_nonce','98943063-6064-4354-b0a7-c3b0c524e6db')]:
+                with self.subTest(key=key):
+                    bad=dict(receipt);bad[key]=value;path.write_text(json.dumps(bad))
+                    wrong=dict(request,project_admission_sha256=sha(path))
+                    with self.assertRaises(PermissionError):allocation_project_receipt(wrong,path)
+
+    def test_login_attestation_never_refreshes_old_or_future_native_observation(self):
+        for observed in (self.now-1801,self.now+1):
+            with self.subTest(observed=observed):
+                arguments=copy.deepcopy(self.arguments)
+                arguments['project_receipt']['observed_epoch']=observed
+                with self.assertRaises(PermissionError):validate(**arguments)
 
     def test_explicit_two_job_revision_keeps_exact_single_gpu_peers(self):
         self.arguments['request'].update(parallel_authority=PARALLEL_AUTHORITY,parallel_peer_ids=['999.server'])
