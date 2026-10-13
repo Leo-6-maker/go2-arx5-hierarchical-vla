@@ -75,5 +75,16 @@ class TestBoundSmokeCapacityReceipt(unittest.TestCase):
         (self.root/'training/smoke_split/checkpoint-2/optimizer.pt').unlink()
         with self.assertRaisesRegex(ValueError,'FILE_MISSING_OR_CHANGED'):build(self.root,**self.arguments)
 
+    def test_prior_view_cannot_hide_spent_resources(self):
+        import copy
+        path=self.root/'HOPPER_RESOURCE_LEDGER.json';value=json.loads(path.read_text())
+        value['PBS_submissions'].append(dict(stage='main-eval',status='SUBMITTED'))
+        self.put('HOPPER_RESOURCE_LEDGER.json',value)
+        view=copy.deepcopy(value);view['PBS_submissions']=view['PBS_submissions'][:2]
+        self.assertFalse(build(self.root,**self.arguments,prior_ledger=view)['authorizes_execution'])
+        view['GPU_allocated_s']=0
+        with self.assertRaisesRegex(PermissionError,'HIDE_ANY_USED_RESOURCES'):
+            build(self.root,**self.arguments,prior_ledger=view)
+
 
 if __name__=='__main__':unittest.main()

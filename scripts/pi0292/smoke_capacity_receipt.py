@@ -8,7 +8,7 @@ from .train_adapter import sha
 
 
 def build(root, *, owned_bytes, filesystem_free_bytes, quota_free_bytes,
-          extra_peak_bytes, now):
+          extra_peak_bytes, now, prior_ledger=None):
     root = Path(root)
     adoption = read(root/'ADOPTION.json')
     if (adoption['T0_epoch'] != 1791860304 or adoption['deadline_epoch'] != 1791946704
@@ -19,6 +19,16 @@ def build(root, *, owned_bytes, filesystem_free_bytes, quota_free_bytes,
     data_path = root/'evidence/HOPPER_DATA_QUALIFICATION.json'
     ledger_path = root/'HOPPER_RESOURCE_LEDGER.json'
     gate, wrapper, data, ledger = map(read, (gate_path, wrapper_path, data_path, ledger_path))
+    if prior_ledger is not None:
+        import copy
+        expected = copy.deepcopy(ledger)
+        if (len(expected['PBS_submissions']) != 3
+                or expected['PBS_submissions'][-1]['stage'] != 'main-eval'
+                or expected['PBS_submissions'][-1]['status'] != 'SUBMITTED'):
+            raise PermissionError('EXACT_JUST_STARTED_MAIN_ALLOCATION_VIEW_REQUIRED')
+        expected['PBS_submissions'] = expected['PBS_submissions'][:2]
+        if prior_ledger != expected:
+            raise PermissionError('PRIOR_CAPACITY_VIEW_MUST_NOT_HIDE_ANY_USED_RESOURCES')
     if (data['status'] != 'PASS_BANK_V2_FULL_DATA_AND_CPU_INTERFACE'
             or read(root/'evidence/OPEN_LOOP_PROBE_SEAL.json')['status'] != 'SEALED_BEFORE_MAIN'):
         raise PermissionError('QUALIFIED_FIXED_DATA_AND_PREMAIN_PROBE_REQUIRED')
@@ -42,7 +52,7 @@ def build(root, *, owned_bytes, filesystem_free_bytes, quota_free_bytes,
     steps = [json.loads(line) for line in step_path.read_text().splitlines()]
     full_bytes = max(row['total_bytes'] for row in checkpoints)
     plan = calculate(smoke_gate=gate, smoke_runs=runs, step_records=steps, wrapper=wrapper,
-        ledger=ledger, checkpoint_bytes=full_bytes, owned_bytes=owned_bytes,
+        ledger=ledger if prior_ledger is None else prior_ledger, checkpoint_bytes=full_bytes, owned_bytes=owned_bytes,
         filesystem_free_bytes=filesystem_free_bytes, quota_free_lower_bound_bytes=quota_free_bytes,
         extra_peak_bytes=extra_peak_bytes, now=now, new_work_cutoff=adoption['new_work_cutoff_epoch'])
     plan.update(actual_checkpoint_inventories=checkpoints,
