@@ -2,6 +2,7 @@
 from datetime import date
 import math
 import re
+from .allocation_admission import PARALLEL_AUTHORITY, parallel_peer_jobs
 
 GIB = 1024**3
 
@@ -14,7 +15,8 @@ def nonnegative(value, name):
 
 def prepare(*, authorized_project, project, user, cluster, today, balance_su,
             ledger, own_jobs, quota, filesystem_free_bytes, owned_bytes,
-            now, adoption, deferred_after_any=(), dependency_queue_authority=None):
+            now, adoption, deferred_after_any=(), dependency_queue_authority=None,
+            parallel_authority=None, parallel_peer_ids=()):
     if project['name'] != authorized_project:
         raise PermissionError('EXPLICIT_PROJECT_BINDING_REQUIRED')
     day = date.fromisoformat(today)
@@ -25,7 +27,11 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
     if nonnegative(balance_su, 'BALANCE_SU') == 0:
         raise PermissionError('POSITIVE_CURRENT_BALANCE_REQUIRED')
     dependencies = sorted(deferred_after_any)
-    if own_jobs or dependencies:
+    if parallel_authority:
+        if dependencies or dependency_queue_authority:
+            raise PermissionError('PARALLEL_AND_DEPENDENCY_QUEUE_MODES_MUST_BE_DISTINCT')
+        parallel_peer_jobs(jobs=own_jobs, user=user, allowed_ids=parallel_peer_ids, authority=parallel_authority)
+    elif own_jobs or dependencies:
         if (dependency_queue_authority != '2026-10-13_DIRECT_USER_ALLOW_PBS_DEPENDENCY_QUEUE_ONLY'
                 or not dependencies or len(set(dependencies)) != len(dependencies)
                 or set(dependencies) != set(own_jobs)):
@@ -90,6 +96,8 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
         recheck_at_submission_and_allocation=True, main_training=False,
         queue_only_after_any_dependencies=dependencies,
         dependency_queue_authority=dependency_queue_authority if dependencies else None,
-        actual_allocation_still_requires_no_other_own_job=True,
+        actual_allocation_still_requires_no_other_own_job=not bool(parallel_authority),
+        parallel_authority=parallel_authority,
+        parallel_peer_ids=list(parallel_peer_ids) if parallel_authority else [],
         remaining_main_and_eval_must_share_one_allocation=True,
         budget_reset=False, selected='NONE', deployment='NONE')

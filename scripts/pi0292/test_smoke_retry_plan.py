@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from .smoke_retry_plan import GIB, prepare
+from .smoke_retry_plan import GIB, PARALLEL_AUTHORITY, prepare
 
 
 class TestSmokeRetryPlan(unittest.TestCase):
@@ -71,6 +71,18 @@ class TestSmokeRetryPlan(unittest.TestCase):
                 values['quota'][field] = value
                 with self.assertRaises((PermissionError, ValueError)):
                     prepare(**values)
+
+    def test_explicit_parallel_revision_does_not_expand_pi0292_budgets(self):
+        values=self.inputs();values['quota']['used_bytes']=850*GIB
+        values['own_jobs']={'123.server':dict(Job_Owner='test-user@host',job_state='R',Job_Name='pi05_relative',project='CFP04-CF-009',Resource_List=dict(ngpus=1))}
+        values.update(parallel_authority=PARALLEL_AUTHORITY,parallel_peer_ids=['123.server'])
+        result=prepare(**values)
+        self.assertEqual(result['PBS_calls_remaining'],2)
+        self.assertEqual(result['next_smoke_walltime_s'],1800)
+        self.assertFalse(result['authorizes_execution'])
+        self.assertEqual(result['queue_only_after_any_dependencies'],[])
+        values['parallel_peer_ids']=[]
+        with self.assertRaises(PermissionError):prepare(**values)
 
     def test_explicit_dependency_queue_never_authorizes_overlap(self):
         values=self.inputs();values['quota']['used_bytes']=850*GIB

@@ -2,7 +2,7 @@ import copy
 import json
 from types import SimpleNamespace
 import unittest
-from scripts.pi0292.allocation_admission import GIB, PROJECT, RELEASE, SOURCE, current_project, owned_jobs, validate
+from scripts.pi0292.allocation_admission import GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, current_project, owned_jobs, validate
 
 
 class TestAllocationAdmission(unittest.TestCase):
@@ -71,6 +71,24 @@ class TestAllocationAdmission(unittest.TestCase):
         self.assertEqual(receipt['balance_su'],42)
         self.assertGreater(receipt['observed_epoch'],self.now)
         self.assertEqual(len(calls),2)
+
+    def test_explicit_two_job_revision_keeps_exact_single_gpu_peers(self):
+        self.arguments['request'].update(parallel_authority=PARALLEL_AUTHORITY,parallel_peer_ids=['999.server'])
+        peer=dict(self.job,Job_Name='pi05_relative',project='CFP04-CF-009')
+        self.arguments['jobs']['999.server']=peer
+        self.assertEqual(validate(**self.arguments)['own_current_jobs'],2)
+        for mutation in ('third-job','wrong-project','two-gpu','foreign-owner','same-project','wrong-authority'):
+            with self.subTest(mutation=mutation):
+                altered=copy.deepcopy(self.arguments)
+                if mutation=='third-job':altered['jobs']['888.server']=peer
+                if mutation=='wrong-project':altered['jobs']['999.server']['project']='unknown'
+                if mutation=='same-project':altered['jobs']['999.server']['project']=PROJECT
+                if mutation=='two-gpu':altered['jobs']['999.server']['Resource_List']['ngpus']=2
+                if mutation=='foreign-owner':altered['jobs']['999.server']['Job_Owner']='other@host'
+                if mutation=='wrong-authority':altered['request']['parallel_authority']='inferred'
+                with self.assertRaises(PermissionError):validate(**altered)
+        del self.arguments['jobs']['999.server']
+        self.assertEqual(validate(**self.arguments)['own_current_jobs'],1)
 
 
 if __name__=='__main__':unittest.main()

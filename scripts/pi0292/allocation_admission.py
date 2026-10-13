@@ -14,6 +14,18 @@ RELEASE = '261bc5b37f20aaff1ad7d5742252d3dc1a91fa65'
 SOURCE = 'c187d9573bdff302783fb5f41d06fcaa1753d2a8'
 GIB = 1024**3
 PBS = '/cm/shared/apps/pbspro/current/bin/'
+PARALLEL_AUTHORITY = '2026-10-13_DIRECT_USER_TWO_INDEPENDENT_GPU_ALLOCATIONS_PI0292_ONE_GPU_8H'
+
+
+def parallel_peer_jobs(*, jobs, user, allowed_ids, authority):
+    if (authority != PARALLEL_AUTHORITY or len(set(allowed_ids)) != len(allowed_ids)
+            or len(allowed_ids) > 1 or not set(jobs).issubset(set(allowed_ids))):
+        raise PermissionError('EXACT_TWO_JOB_PARALLEL_AUTHORITY_REQUIRED')
+    for job in jobs.values():
+        if (job['Job_Owner'].split('@')[0] != user or job['job_state'] != 'R'
+                or job.get('project') != 'CFP04-CF-009' or job.get('Job_Name') != 'pi05_relative'
+                or int(job['Resource_List']['ngpus']) != 1):
+            raise PermissionError('ONLY_OBSERVED_UNRELATED_SINGLE_GPU_PEER_ALLOWED')
 
 
 def read(path):
@@ -81,8 +93,14 @@ def validate(*, now, user, job_id, jobs, quota, adoption, project_receipt,
         raise PermissionError('ORIGINAL_AUTHORITY_AND_CLOCK_REQUIRED')
     if now >= adoption['new_work_cutoff_epoch']:
         raise PermissionError('ORIGINAL_NEW_WORK_CUTOFF')
-    if set(jobs) != {job_id}:
+    peers = {key: value for key, value in jobs.items() if key != job_id}
+    if request.get('parallel_authority'):
+        parallel_peer_jobs(jobs=peers, user=user, allowed_ids=request['parallel_peer_ids'],
+                           authority=request['parallel_authority'])
+    elif peers:
         raise PermissionError('NO_OVERLAPPING_OWN_ALLOCATION')
+    if job_id not in jobs:
+        raise PermissionError('EXACT_RUNNING_JOB_MISSING')
     job = jobs[job_id]
     if (job['job_state'] != 'R' or job['Job_Owner'].split('@')[0] != user
             or job.get('project') != PROJECT or int(job['Resource_List']['ngpus']) != 1
@@ -113,6 +131,7 @@ def validate(*, now, user, job_id, jobs, quota, adoption, project_receipt,
         raise PermissionError('EXACT_UNCHANGED_S3_RETRY_REQUIRED')
     return dict(status='OUTER_S3_ALLOCATION_ADMISSION_PASS_NOT_MODEL_QUALIFICATION',
                 job_id=job_id, project=PROJECT, observed_epoch=now,
+                own_current_jobs=len(jobs), parallel_authority=request.get('parallel_authority'),
                 personal_free_bytes=quota['hard_bytes']-quota['used_bytes'])
 
 
@@ -125,7 +144,9 @@ def main():
     if sha(__file__) != request['guard_sha256']:
         raise PermissionError('OUTER_GUARD_HASH_CHANGED')
     for name, key in [('SUBMISSION_RUN_MANIFEST.json', 'run_manifest_sha256'),
-                      ('PATH_ADOPTION_DELTA.json', 'adoption_delta_sha256')]:
+                      (request.get('adoption_delta_name', 'PATH_ADOPTION_DELTA.json'), 'adoption_delta_sha256')]:
+        if name not in ('SUBMISSION_RUN_MANIFEST.json', 'PATH_ADOPTION_DELTA.json', 'PARALLEL_PATH_ADOPTION_DELTA.json'):
+            raise PermissionError('EXPECTED_ADOPTION_FILENAME_REQUIRED')
         if sha(request_path.parent/name) != request[key]:
             raise PermissionError('BOUND_MANIFEST_OR_ADOPTION_DELTA_CHANGED')
     user = os.environ['USER']
