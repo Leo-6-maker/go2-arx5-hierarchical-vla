@@ -8,7 +8,7 @@ import time
 
 from scripts.pi0292.durable import OwnerLock,read,write
 from .native_dataset import sha
-from .neural import verify_allocation,run_smoke,smoke_output_root
+from .neural import verify_allocation,run_smoke,smoke_output_root,retire_redundant_smoke
 from .run_admission import CUTOFF,DEADLINE
 
 
@@ -21,7 +21,7 @@ def validate_stage(root,original,stage,*,job_id,sequence):
         if stage['request_relative'] is not None or stage['request_sha256'] is not None:
             raise PermissionError('FINISH_DOES_NOT_RUN_A_SUBREQUEST')
         return None
-    if stage['mode'] not in ('main','resident'):
+    if stage['mode'] not in ('main','resident','checkpoint'):
         raise PermissionError('ONLY_PREREGISTERED_MAIN_OR_RESIDENT_SUBSTAGES')
     relative=Path(stage['request_relative']);path=Path(root)/relative
     if relative.is_absolute() or '..' in relative.parts or path.is_symlink() or not path.resolve().is_relative_to(Path(root).resolve()) or sha(path)!=stage['request_sha256']:
@@ -81,6 +81,9 @@ def run(args):
         if ledger['model_smoke_updates']!=16 or ledger.get('pending_updates',0):
             raise PermissionError('EXACT_CUMULATIVE_SIXTEEN_ENGINEERING_UPDATES_REQUIRED')
         seal_single_measured_profile(root,request)
+        if request.get('minimal_engineering_checkpoints'):
+            smoke=smoke_output_root(root,request)
+            retire_redundant_smoke(root,smoke,smoke/'evidence/RESUME_EQUIVALENCE.json',minimal=True)
         end=min(DEADLINE,allocation['allocation_end_epoch']-120)
         while time.time()<end:
             sequence=state['sequence']

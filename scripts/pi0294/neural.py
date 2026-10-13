@@ -333,7 +333,7 @@ def run_recovery(args):
             wall_s=time.monotonic()-started,earlier_updates_not_repeated=True,selected='NONE',deployment='NONE'))
 
 
-def retire_redundant_smoke(root,smoke_root,comparison):
+def retire_redundant_smoke(root,smoke_root,comparison,*,minimal=False):
     """Keep final full resume state; retire only this run's redundant test states."""
     if read(comparison)['status']!='PASS_FIXED_RESUME_EQUIVALENCE':
         raise PermissionError('NO_ENGINEERING_STATE_RETIREMENT_BEFORE_FULL_COMPARISON')
@@ -346,6 +346,8 @@ def retire_redundant_smoke(root,smoke_root,comparison):
         for relative in ('training/smoke_continuous/checkpoint-2','training/smoke_continuous/checkpoint-4',
                          'training/smoke_split/checkpoint-2'):
             path=Path(smoke_root)/relative
+            if minimal and relative=='training/smoke_continuous/checkpoint-2' and not path.exists():
+                continue
             if path.is_symlink() or not path.resolve().is_relative_to(Path(root).resolve()):
                 raise PermissionError('ONLY_OWN_GENERATED_TEST_CHECKPOINTS')
             receipt=read(path/'CHECKPOINT_COMPLETE.json')

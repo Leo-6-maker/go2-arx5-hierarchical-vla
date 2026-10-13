@@ -36,12 +36,12 @@ def sha(path):
 
 
 def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,hostname):
-    closeout=request['stage']=='resident'
+    closeout=request['stage'] in ('resident','checkpoint')
     if (adoption['pi'] != 'PI0294' or adoption['T0_epoch'] != T0
         or adoption['new_work_cutoff_epoch'] != CUTOFF or adoption['deadline_epoch'] != DEADLINE
         or adoption['reset_on_resume'] or now < T0 or now >= (DEADLINE if closeout else CUTOFF)):
         raise PermissionError('PI0294_ORIGINAL_AUTHORITY_CLOCK_REQUIRED')
-    if request['stage'] not in ('smoke','benchmark','main','resident','night-final'):
+    if request['stage'] not in ('smoke','benchmark','main','resident','night-final','checkpoint'):
         raise PermissionError('UNKNOWN_STAGE')
     if request['submit_count'] > 4 or request['prior_GPU_allocated_s']+request['walltime_s'] > 43200:
         raise PermissionError('NIGHT_SUBMISSION_OR_GPU_ALLOCATION_CAP')
@@ -83,7 +83,7 @@ def admit(root,request_path):
     if not request_path.resolve().is_relative_to(root.resolve()):
         raise PermissionError('REQUEST_OUTSIDE_REGISTERED_RUN')
     request=read(request_path)
-    manifest=entry_validate(root,profile='hopper-neural',closeout=request.get('stage')=='resident')
+    manifest=entry_validate(root,profile='hopper-neural',closeout=request.get('stage') in ('resident','checkpoint'))
     request,adoption = read(request_path),read(root/'ADOPTION.json')
     seal_path=root/manifest['code'].get('source_seal_relative','SOURCE_SEAL.json')
     capsule=root/manifest['code'].get('capsule_relative','code')
@@ -146,6 +146,10 @@ def main():
             '--request',str(request_path),'--bindings',request['bindings']]
         for key in ('checkpoint','registry','identity','directory'):
             command+=['--'+key,request[key]]
+        os.execv(request['python'],command)
+    if request['mode']=='checkpoint':
+        command=[request['python'],'-m','scripts.pi0294.checkpoint_session','--root',str(root),
+            '--request',str(request_path)]
         os.execv(request['python'],command)
     command=[request['python'],'-m','scripts.pi0294.neural','--root',str(root),
         '--request',str(request_path),'--bindings',request['bindings'],'--mode',request['mode'],
