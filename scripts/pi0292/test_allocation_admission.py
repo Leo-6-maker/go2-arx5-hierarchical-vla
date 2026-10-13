@@ -2,7 +2,7 @@ import copy
 import json
 from types import SimpleNamespace
 import unittest
-from scripts.pi0292.allocation_admission import GIB, PROJECT, RELEASE, SOURCE, owned_jobs, validate
+from scripts.pi0292.allocation_admission import GIB, PROJECT, RELEASE, SOURCE, current_project, owned_jobs, validate
 
 
 class TestAllocationAdmission(unittest.TestCase):
@@ -61,6 +61,16 @@ class TestAllocationAdmission(unittest.TestCase):
     def test_unknown_scheduler_does_not_mean_empty(self):
         def query(*args,**kwargs):return SimpleNamespace(returncode=1,stdout='',stderr='offline')
         with self.assertRaises(PermissionError):owned_jobs('owner',query)
+
+    def test_project_is_requeried_not_refreshed_from_stale_receipt(self):
+        calls=[]
+        def query(command,**kwargs):
+            calls.append(command)
+            return json.dumps([self.arguments['project_receipt']['project']]) if 'ls project' in command[-1] else "{'su': 42}"
+        receipt=current_project(query)
+        self.assertEqual(receipt['balance_su'],42)
+        self.assertGreater(receipt['observed_epoch'],self.now)
+        self.assertEqual(len(calls),2)
 
 
 if __name__=='__main__':unittest.main()

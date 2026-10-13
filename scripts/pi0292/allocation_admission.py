@@ -1,4 +1,5 @@
 """Stdlib-only outer admission for the unchanged sealed S3 allocation wrapper."""
+import ast
 from datetime import date, datetime, timedelta, timezone
 import hashlib
 import json
@@ -62,6 +63,16 @@ def personal_quota(user, path='/home/svu/ccepbs/nushpc/quota_hw_report/hpfs_quot
                 report_epoch=path.stat().st_mtime)
 
 
+def current_project(query=subprocess.check_output):
+    projects = json.loads(query(['bash', '-lc', 'amgr ls project --name CFP04-CF-007 --json-info'],
+                                text=True, timeout=30))
+    balance = ast.literal_eval(query(['bash', '-lc', 'amgr checkbalance project --name CFP04-CF-007'],
+                                     text=True, timeout=30))
+    if len(projects) != 1:
+        raise PermissionError('EXACT_CURRENT_PROJECT_REQUIRED')
+    return dict(project=projects[0], balance_su=balance['su'], observed_epoch=time.time())
+
+
 def validate(*, now, user, job_id, jobs, quota, adoption, project_receipt,
              dependency, request, binding_sha256):
     if (adoption['release'] != RELEASE or adoption['T0_epoch'] != 1791860304
@@ -113,6 +124,10 @@ def main():
         raise PermissionError('EXISTING_REGISTERED_RUN_REQUIRED')
     if sha(__file__) != request['guard_sha256']:
         raise PermissionError('OUTER_GUARD_HASH_CHANGED')
+    for name, key in [('SUBMISSION_RUN_MANIFEST.json', 'run_manifest_sha256'),
+                      ('PATH_ADOPTION_DELTA.json', 'adoption_delta_sha256')]:
+        if sha(request_path.parent/name) != request[key]:
+            raise PermissionError('BOUND_MANIFEST_OR_ADOPTION_DELTA_CHANGED')
     user = os.environ['USER']
     job_id = os.environ.get('PBS_JOBID')
     if not job_id:
@@ -125,11 +140,15 @@ def main():
         raise PermissionError('PROJECT_RECEIPT_CHANGED')
     lease = read(root/'DEPENDENCY_LEASE.json')
     if (lease['status'] != 'ACTIVE' or lease['expires'] != 1791946704
-            or not lease['no_move_or_delete'] or sha(root/'DEPENDENCY_LEASE.json') != request['lease_sha256']):
+            or not lease['no_move_or_delete'] or str(root) not in lease['protected']
+            or sha(root/'DEPENDENCY_LEASE.json') != request['lease_sha256']):
         raise PermissionError('CURRENT_DEPENDENCY_LEASE_REQUIRED')
+    # Queue time does not extend a login-node project observation. Re-query
+    # inside the actual allocation; unavailable authentication fails closed.
+    project = current_project()
     result = validate(now=time.time(), user=user, job_id=job_id, jobs=owned_jobs(user),
         quota=personal_quota(user), adoption=read(root/'ADOPTION.json'),
-        project_receipt=read(project_path), dependency=read(dependency_path), request=request,
+        project_receipt=project, dependency=read(dependency_path), request=request,
         binding_sha256=sha(request['bindings']))
     destination = request_path.parent/'ALLOCATION_ADMISSION.json'
     with destination.open('x') as handle:
