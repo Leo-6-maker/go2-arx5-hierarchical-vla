@@ -11,7 +11,7 @@ import time
 
 from huggingface_hub import HfApi, CommitOperationAdd, hf_hub_url
 import requests
-from deadline_guard import atomic_write, install_deadline, EXTERNAL_OUTPUT_UPPER_BYTES
+from deadline_guard import atomic_write, install_deadline, EXTERNAL_OUTPUT_UPPER_BYTES, resource_bounds
 
 DEADLINE = 1791851837.0
 LIMIT_BYTES = 40 * 1024**3
@@ -57,10 +57,12 @@ def contained_file(base, relative):
 
 
 def guard(root, began_cpu, planned_extra=0):
-    assert time.time() < DEADLINE, 'Original overnight deadline: no extension'
+    deadline, remaining = resource_bounds(root)
+    assert time.time() < deadline, 'Bound delivery deadline expired'
     ledger = read(root/'RESOURCE_ACCOUNTING.json')
     own = resource.getrusage(resource.RUSAGE_SELF)
     used = own.ru_utime+own.ru_stime-began_cpu
+    assert used < remaining, 'Bound delivery CPU allowance exhausted'
     assert ledger['CPU_s']+ledger['unmetered_dependency_setup_CPU_s_upper']+used < LIMIT_CPU_S
     size = sum(path.stat().st_size for path in root.rglob('*') if path.is_file() and not path.is_symlink())
     assert size+planned_extra+EXTERNAL_OUTPUT_UPPER_BYTES < LIMIT_BYTES

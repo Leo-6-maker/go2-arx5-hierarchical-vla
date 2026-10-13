@@ -11,7 +11,7 @@ import signal
 import sys
 import time
 
-from deadline_guard import atomic_write, install_deadline
+from deadline_guard import atomic_write, install_deadline, resource_bounds
 
 
 def cpu():
@@ -20,14 +20,16 @@ def cpu():
     return own.ru_utime+own.ru_stime+children.ru_utime+children.ru_stime
 
 
-def run(root, stage, arguments):
+def run(root, stage, arguments, stage_receipt=None):
     root = Path(root)
     began = time.monotonic()
     seal = json.loads((root/'TEACHER_AND_LAYOUT_SEAL.json').read_text())
     relative = 'scripts/pi0291_arx5_data/'+stage+'.py'
     script = root/'code'/relative
     assert hashlib.sha256(script.read_bytes()).hexdigest() == seal['code_files'][relative]
-    receipt = root/('native_dataset/EXPORT_RECEIPT.json' if stage == 'export_dataset' else 'evidence/DATALOADER_SMOKE.json')
+    receipt = Path(stage_receipt) if stage_receipt else root/('native_dataset/EXPORT_RECEIPT.json' if stage == 'export_dataset' else 'evidence/DATALOADER_SMOKE.json')
+    assert stage != 'audit_data' or stage_receipt
+    assert receipt.resolve().is_relative_to(root.resolve())
     assert not receipt.exists(), 'Preserve any prior invocation and receipt'
     usage_receipt = root/'evidence'/f'CPU_AUX_NATIVE_WRAPPER_{stage}_{int(time.time())}_{os.getpid()}.json'
     status = 'FAILED_PRESERVED'
@@ -57,7 +59,7 @@ def run(root, stage, arguments):
     try:
         install_deadline(root,stage)
         ledger = json.loads((root/'RESOURCE_ACCOUNTING.json').read_text())
-        remaining = 48*3600-ledger['CPU_s']-ledger['unmetered_dependency_setup_CPU_s_upper']
+        _, remaining = resource_bounds(root)
         # Parent plus the frozen qualifier's two workers share a conservative reserve.
         per_process_limit = int((remaining-600)/3)
         assert per_process_limit > cpu()+1
@@ -90,8 +92,9 @@ def run(root, stage, arguments):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--root',required=True)
-    parser.add_argument('--stage',choices=('export_dataset','qualify_loader'),required=True)
+    parser.add_argument('--stage',choices=('audit_data','export_dataset','qualify_loader'),required=True)
+    parser.add_argument('--stage-receipt')
     parser.add_argument('arguments',nargs=argparse.REMAINDER)
     args = parser.parse_args()
     arguments = args.arguments[1:] if args.arguments[:1] == ['--'] else args.arguments
-    run(args.root,args.stage,arguments)
+    run(args.root,args.stage,arguments,args.stage_receipt)
