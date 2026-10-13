@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -31,6 +32,8 @@ def official_import(source):
     source=Path(source)
     if subprocess.check_output(['git','-C',str(source),'rev-parse','HEAD'],text=True).strip()!=OFFICIAL_SHA:
         raise ValueError('OFFICIAL_SOURCE_SHA_MISMATCH')
+    if subprocess.run(['git','-C',str(source),'diff','--quiet','HEAD','--'],check=False).returncode!=0:
+        raise ValueError('OFFICIAL_TRACKED_SOURCE_DIRTY')
     for name in ('gr00t/data/state_action/pose.py','gr00t/data/state_action/state_action_processor.py',
                  'gr00t/data/utils.py','gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py'):
         data=subprocess.check_output(['git','-C',str(source),'show',OFFICIAL_SHA+':'+name])
@@ -65,7 +68,7 @@ def build_processor(source,cosmos,statistics):
 
 
 class NativeDataset:
-    def __init__(self,root,source,cosmos,split='TRAIN',*,for_optimization=False,raw_bindings=None):
+    def __init__(self,root,source,cosmos,split='TRAIN',*,for_optimization=False,raw_bindings=None,trace_root=None):
         if split not in ('TRAIN','DEV'):raise ValueError('EXPLICIT_TRAIN_OR_DEV_REQUIRED')
         if for_optimization and split!='TRAIN':raise ValueError('DEV_MUST_NOT_ENTER_OPTIMIZER')
         self.root=Path(root)
@@ -83,6 +86,8 @@ class NativeDataset:
         self.processor=None
         self.cached_id,self.cached=None,None
         self.seed=29200
+        self.trace_root=Path(trace_root) if trace_root is not None else None
+        if self.trace_root is not None:self.trace_root.mkdir(parents=True,exist_ok=True)
 
     def __len__(self):return len(self.rows)
 
@@ -127,6 +132,8 @@ class NativeDataset:
         return dict(episode_id=row['id'],split=self.split,anchor=anchor)
 
     def __getitem__(self,index):
+        cursor=None
+        if isinstance(index,tuple):cursor,index=index
         self.initialize()
         from gr00t.data.types import VLAStepData,MessageType
         from gr00t.data.embodiment_tags import EmbodimentTag
@@ -135,7 +142,13 @@ class NativeDataset:
             states={'eef_9d':state[None,:9],'gripper_position':state[None,9:]},
             actions={'eef_9d':commands[:,:9],'gripper_position':commands[:,9:]},masks=None,text=text,
             embodiment=EmbodimentTag.NEW_EMBODIMENT,metadata={})
-        return {'processed':self.processor([{'type':MessageType.EPISODE_STEP.value,'content':value}])}
+        result={'processed':self.processor([{'type':MessageType.EPISODE_STEP.value,'content':value}])}
+        if self.trace_root is not None:
+            if cursor is None:raise ValueError('AUDITED_LOADER_REQUIRES_POSITIONED_SAMPLER')
+            record=dict(cursor=int(cursor),index=int(index),**self.identity(index))
+            with (self.trace_root/('worker-'+str(os.getpid())+'.jsonl')).open('a') as handle:
+                handle.write(json.dumps(record,sort_keys=True)+'\n')
+        return result
 
 
 class ProcessedCollator:
@@ -148,9 +161,10 @@ class ProcessedCollator:
 
 class CyclicSampler:
     """Cursor is the consumed sample count, never worker-prefetch progress."""
-    def __init__(self,size,seed=29200,start=0,stop=131072):
+    def __init__(self,size,seed=29200,start=0,stop=131072,*,positioned=False):
         if size<=0 or not 0<=start<=stop:raise ValueError('INVALID_SAMPLER_RANGE')
         self.size,self.seed,self.start,self.stop=int(size),int(seed),int(start),int(stop)
+        self.positioned=positioned
 
     def __len__(self):return self.stop-self.start
 
@@ -161,7 +175,8 @@ class CyclicSampler:
             if cycle!=epoch:
                 permutation=np.random.Generator(np.random.PCG64(self.seed+cycle)).permutation(self.size)
                 epoch=cycle
-            yield int(permutation[offset])
+            index=int(permutation[offset])
+            yield (cursor,index) if self.positioned else index
 
     def state_dict(self,consumed):
         if not self.start<=consumed<=self.stop:raise ValueError('INVALID_CONSUMED_CURSOR')
