@@ -43,8 +43,9 @@ def run_fixture(root, card):
     plan=collection_plan(card);coordinator=Coordinator(root,plan,fixture=True)
     order=iter(row['id'] for row in plan['episodes']);pending={};exhausted=False
     try:
-        context=multiprocessing.get_context('spawn');barrier=context.Barrier(plan['workers'])
-        with ProcessPoolExecutor(max_workers=plan['workers'],mp_context=context,
+        workers=min(plan['workers'],len(plan['episodes']))
+        context=multiprocessing.get_context('spawn');barrier=context.Barrier(workers)
+        with ProcessPoolExecutor(max_workers=workers,mp_context=context,
                                  initializer=ready,initargs=(barrier,)) as pool:
             while pending or not exhausted:
                 while not exhausted and len(pending)<plan['workers'] and coordinator.value['status']=='FIXTURE_RUNNING_ZERO_PHYSICS':

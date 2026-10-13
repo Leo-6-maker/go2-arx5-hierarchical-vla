@@ -61,7 +61,7 @@ class Preparation(unittest.TestCase):
             q=Coordinator(root,collection_plan(card()),fixture=True)
             try:
                 t=q.reserve('FIXTURE_0')
-                receipt=dict(id=t['id'],fixture=True,status='FAIL',physics_steps=0,rgb_pairs=0,cpu_s=901,output_bytes=3)
+                receipt=dict(id=t['id'],fixture=True,status='FAIL',physics_steps=0,rgb_pairs=0,model_calls=0,cpu_s=901,output_bytes=3)
                 write(Path(t['output'])/'WORKER_RECEIPT.json',receipt)
                 q.complete(receipt)
                 self.assertEqual(q.value['actual']['cpu_s'],901)
@@ -82,6 +82,22 @@ class Preparation(unittest.TestCase):
             for record in result['records']:
                 packet=json.loads((Path(root)/'episodes'/record['id']/'SYNTHETIC.json').read_text())
                 self.assertEqual(packet['id'],record['id'])
+
+    def test_one_episode_does_not_wait_for_unused_second_worker(self):
+        with tempfile.TemporaryDirectory() as root:
+            c=card();c['episodes']=c['episodes'][:1]
+            result=run_fixture(root,c)
+            self.assertEqual(result['status'],'FIXTURE_TERMINAL_ZERO_PHYSICS')
+            self.assertEqual(len(result['records']),1)
+
+    def test_output_symlink_escape_keeps_reservation_unchanged(self):
+        with tempfile.TemporaryDirectory() as root,tempfile.TemporaryDirectory() as other:
+            q=Coordinator(root,collection_plan(card()),fixture=True)
+            try:
+                (Path(root)/'episodes').symlink_to(other,target_is_directory=True)
+                with self.assertRaisesRegex(ValueError,'OUTPUT_PATH_ESCAPE'):q.reserve('FIXTURE_0')
+                self.assertFalse(q.value['reservations']);self.assertFalse(list(Path(other).iterdir()))
+            finally:q.close()
 
     def test_hopper_plan_pinned_cpu_only(self):
         identity={k:'a'*64 for k in ('dataset_manifest_sha256','statistics_sha256','processor_sha256','source_seal_sha256')}

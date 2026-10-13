@@ -8,6 +8,7 @@ from __future__ import annotations
 import copy
 import math
 from pathlib import Path
+import re
 
 from scripts.pi0292.durable import OwnerLock, read, write
 
@@ -19,7 +20,7 @@ class Coordinator:
         if not fixture:raise ValueError('LIVE_ADAPTER_NOT_ADMITTED_PREPARATION_ONLY')
         if plan['authorizes_execution'] or plan['status']!='PREPARED_NOT_AUTHORIZED':
             raise ValueError('FIXTURE_PLAN_REQUIRED')
-        self.root=Path(root);self.root.mkdir(parents=True,exist_ok=True)
+        self.root=Path(root);self.root.mkdir(parents=True,exist_ok=True);self.root=self.root.resolve(strict=True)
         self.lock=OwnerLock(self.root/'COORDINATOR.lock')
         self.path=self.root/'QUEUE.json'
         if self.path.exists():
@@ -34,6 +35,7 @@ class Coordinator:
         v=copy.deepcopy(self.value)
         if v['status']!='FIXTURE_RUNNING_ZERO_PHYSICS':raise ValueError('STOPPED_OWNER')
         if identifier not in [r['id'] for r in self.plan['episodes']]:raise ValueError('UNREGISTERED_ID')
+        if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}',identifier):raise ValueError('UNSAFE_ID')
         if identifier in v['reservations'] or any(r['id']==identifier for r in v['records']):
             raise ValueError('FIRST_ATTEMPT_ALREADY_RESERVED_OR_FINISHED')
         if len(v['reservations'])>=self.plan['workers']:raise ValueError('ALL_WORKER_SLOTS_RESERVED')
@@ -41,6 +43,7 @@ class Coordinator:
         if any(v['actual'][k]+sum(r[k] for r in v['reservations'].values())+cost[k]>self.plan['limits'][k] for k in KEYS):
             raise ValueError('GLOBAL_BUDGET_RESERVATION_EXCEEDED')
         output=self.root/'episodes'/identifier
+        if not output.resolve().is_relative_to(self.root):raise ValueError('OUTPUT_PATH_ESCAPE')
         output.mkdir(parents=True,exist_ok=False)
         v['reservations'][identifier]=copy.deepcopy(cost)
         self.value=v;write(self.path,v)
@@ -50,7 +53,8 @@ class Coordinator:
     def complete(self, receipt):
         identifier=receipt['id'];v=copy.deepcopy(self.value)
         if identifier not in v['reservations']:raise ValueError('UNKNOWN_OR_DUPLICATE_RECEIPT')
-        if receipt['fixture'] is not True or receipt['physics_steps']!=0 or receipt['rgb_pairs']!=0:
+        if (receipt['fixture'] is not True or receipt['physics_steps']!=0 or receipt['rgb_pairs']!=0
+                or receipt['model_calls']!=0):
             raise ValueError('FIXTURE_MUST_NOT_EXECUTE_PHYSICS')
         expected=self.root/'episodes'/identifier/'WORKER_RECEIPT.json'
         if read(expected)!=receipt:raise ValueError('DURABLE_WORKER_RECEIPT_REQUIRED')
