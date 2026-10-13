@@ -18,7 +18,7 @@ import uuid
 from .durable import OwnerLock, read, write
 from .eval_contract import FRAME, TCP, gate_action
 
-PROTOCOL = 'PI0292_PAUSED_RELAY_V1'
+PROTOCOL = 'PI0292_PAUSED_RELAY_ACK_CHAIN_V2'
 CAMERAS = ('external_rgb', 'wrist_rgb')
 RGB_SIZE = (256, 256)  # Frozen PI0291 renderer pixels, before official processing.
 IDENTITY_KEYS = {'profile', 'model_revision', 'source_sha', 'config_sha256',
@@ -181,7 +181,9 @@ class RelayExchange:
                 episode_uuid=self.state['episode_uuid'], sequence=self.state['sequence'], tick=self.state['tick'],
                 query_uuid=query_uuid, reference_uuid=reference_uuid, expires=pending['expires'],
                 observation_sha256=packet['sha256'], anchor_sha256=pending['anchor_sha256'],
-                identity=self.state['identity'], payload=payload))
+                identity=self.state['identity'], payload=payload,
+                previous_ack=read(self.root / ('ack-%03d.json' % (self.state['sequence']-1)))
+                    if self.state['sequence'] else None))
             self.state['used_snapshots'].append(payload['snapshot_uuid'])
             self.state.update(phase='WAIT_ACTION', pending=pending)
             write(self.root / ('observation-%03d.json' % self.state['sequence']), packet)

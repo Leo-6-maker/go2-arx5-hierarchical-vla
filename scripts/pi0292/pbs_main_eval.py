@@ -177,6 +177,7 @@ def run(args):
     write(state_path,state)
     os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
     env = dict(os.environ,PYTHONPATH=str(operations)+':'+str(root/'data/bank_v2/frozen_source/src'),
+        PATH='/cm/shared/apps/pbspro/current/bin:'+os.environ.get('PATH',''),
         PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',
         HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false',NO_ALBUMENTATIONS_UPDATE='1')
     child = None
@@ -192,7 +193,18 @@ def run(args):
         with (root/'logs'/('main-eval-'+stage+'.stdout')).open('xb') as out, (root/'logs'/('main-eval-'+stage+'.stderr')).open('xb') as err:
             child=subprocess.Popen(command,cwd=operations,env=environment,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
             state.update(child_pid=child.pid,child_start=Path('/proc').joinpath(str(child.pid),'stat').read_text().split()[21]);write(state_path,state)
-            code=child.wait(timeout=max(1,end-90-time.time()))
+            if stage!='live-relay':
+                code=child.wait(timeout=max(1,end-90-time.time()))
+            else:
+                while child.poll() is None:
+                    if time.time()>=end-90:raise TimeoutError('LIVE_SESSION_ALLOCATION_CLOSEOUT')
+                    query_state=root/'relay/neural-session-01/QUERY_STATE.json'
+                    if query_state.exists():
+                        pending=read(query_state).get('pending')
+                        if pending and time.time()>=pending['expires']+1:
+                            raise TimeoutError('OWN_LIVE_QUERY_CPU_WATCHDOG_60_SECOND_LIMIT')
+                    time.sleep(.1)
+                code=child.returncode
         child=None
         state['steps'].append(dict(stage=stage,exit=code,wall_s=time.time()-began));write(state_path,state)
         if code:
@@ -212,6 +224,8 @@ def run(args):
             execute('offline-'+profile,[request['python'],'-m','scripts.pi0292.generate_probes',
                 '--root',str(root),'--bindings',request['bindings'],'--profile',profile],env)
         relay_env=dict(env,PYTHONPATH=str(controller)+':'+str(root/'data/bank_v2/frozen_source/src'))
+        execute('paired-offline-analysis',[request['python'],'-m','scripts.pi0292.compare_profiles',
+            '--root',str(root),'--frozen-code',str(root/'data/bank_v2/frozen_source')],relay_env)
         execute('live-relay',[request['python'],'-m','scripts.pi0292.neural_relay',
             '--root',str(root),'--bindings',request['bindings'],'--request',str(request_path)],relay_env)
         # The real relay endpoint reports gates and attempted/remaining cases;
