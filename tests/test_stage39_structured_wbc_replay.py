@@ -141,6 +141,8 @@ def test_wrapper_emits_named_fail_closed_protocol_diagnostic() -> None:
     environment.update(
         {
             "STAGE39_REPO": str(stage39.REPO),
+            "STAGE39_EXECUTION_BUNDLE": "/scratch/unused-bundle.tar.gz",
+            "STAGE39_EXPECTED_BUNDLE_SHA256": "0" * 64,
             "STAGE39_ADMISSION_ROOT": "/scratch/unused-admission",
             "STAGE39_OUTPUT_PARENT": "/scratch/unused-output",
             "STAGE39_AUTHORITY_EXTRACTED_ROOT": "/scratch/unused-authority",

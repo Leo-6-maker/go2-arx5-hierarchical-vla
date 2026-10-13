@@ -350,7 +350,8 @@ def build_timing_candidate_with_knots(
         raise ValueError("timing_knots must start at 0 and end at 1")
     if np.any(np.diff(knots) <= 0.0) or np.any(knots < 0.0) or np.any(knots > 1.0):
         raise ValueError("timing_knots must be strictly increasing in [0,1]")
-    expected_count = int(timing_mode[1:])
+    # T1 is constant speed between two endpoints, not a single-knot curve.
+    expected_count = len(TIMING_KNOTS[timing_mode]) if timing_mode in TIMING_KNOTS else int(timing_mode[1:])
     if knots.size != expected_count:
         raise ValueError(
             f"{timing_mode} requires exactly {expected_count} timing knots, got {knots.size}"
