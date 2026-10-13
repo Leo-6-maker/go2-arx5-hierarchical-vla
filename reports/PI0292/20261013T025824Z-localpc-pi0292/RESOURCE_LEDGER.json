@@ -394,8 +394,8 @@
   ],
   "physics_steps": 416000,
   "pairs": 16666,
-  "CPU_s": 12698.830999999998,
-  "CPU_upper_s": 14999.999346733093,
+  "CPU_s": 12923.228333,
+  "CPU_upper_s": 600.0,
   "CPU_upper_reason": "Bounded bootstrap plus S0 metadata/engineering reserve; replace only with complete measured evidence",
   "corelab_GPU_s": 0,
   "Hopper_GPU_allocated_s": 0,
@@ -691,11 +691,17 @@
       "CPU_s": 36.949947,
       "status": "FAILED_PRESERVED",
       "physics_steps": 0
+    },
+    {
+      "stage": "BANK_PRIVATE_HF",
+      "CPU_s": 224.397333,
+      "status": "BANK_V2_FIXED_HF_FULL_SET_AND_ACTUAL_NEW_EPISODE_READBACK_PASS",
+      "physics_steps": 0
     }
   ],
   "deletions": 0,
   "WBC": 0,
   "hardware": 0,
   "owned_bytes_at_start": 1623292538,
-  "owned_bytes": 3105518816
+  "owned_bytes": 3244946069
 }
