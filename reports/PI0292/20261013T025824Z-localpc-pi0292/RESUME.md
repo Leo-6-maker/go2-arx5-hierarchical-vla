@@ -2,6 +2,36 @@
 
 Keep the original run UUID/T0/deadline. All24 supplement attempts are terminal; do not relaunch them.
 
+## Current S3 Hold
+
+First qsub call was rejected because CFP03-CF-004 ended. It has no job ID and
+counts conservatively as 1/3 submission calls; no allocation or model execution
+occurred. Do not rerun `submit-smoke`: the original request, bindings, manifest
+and failure are preserved. The status-only command is:
+
+```bash
+python3 work/private/pi0292_pbs_control.py status --source c187d9573bdff302783fb5f41d06fcaa1753d2a8
+```
+
+Before preparing a distinct retry, the user must refresh Hopper's existing
+account-manager login (`amgr login`, no credentials in chat), and the owner must
+verify a currently authorized unexpired project. The personal quota report also
+fails the prepared 80 GiB smoke peak +20 GiB margin: 940.7GB/1.0TB. Do not infer
+permission or capacity from historical project lists or shared df output. Obtain
+verified additional quota or an explicitly authorized storage binding; do not
+delete historical checkpoints/data under this science GO.
+
+The retry must retain the first failure and original T0/counters. Only two
+submission calls remain under conservative accounting. Plan any later main and
+evaluation allocation accordingly, without adding a fourth submission or
+changing 4096-step candidate, full checkpoints, thresholds, or evaluation scope.
+If prerequisites cannot be met within original time/budget, deliver the exact
+partial outcome. No model work on login/Corelab is a fallback.
+
+The new relay packet code has only synthetic CPU coverage. Actual SSH compute
+reachability, endpoints, real observation provenance and teacher 2/2 physics
+qualification remain to implement/verify at the original stage gates.
+
 Read the durable CPU/data stages from the existing local workspace:
 ```bash
 python3 work/private/pi0292_bank_control.py status bank

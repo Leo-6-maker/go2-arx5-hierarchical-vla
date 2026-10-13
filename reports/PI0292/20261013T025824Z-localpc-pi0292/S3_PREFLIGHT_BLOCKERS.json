@@ -1,0 +1,50 @@
+{
+  "schema": "PI0292_S3_PREFLIGHT_HOLD_V1",
+  "status": "NOT_RUN_EXTERNAL_PREREQUISITES_MISSING",
+  "observed_epoch": 1791870484.8940554,
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "protocol_release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+  "source_sha": "c187d9573bdff302783fb5f41d06fcaa1753d2a8",
+  "scheduler": {
+    "project": "CFP03-CF-004",
+    "actual_exit": "QSUB_REJECTED",
+    "reason": "qsub: Budgets-am_hook: Project has already ended.",
+    "job_id": null,
+    "own_jobs_at_observation": 0,
+    "submission_calls_used": 1,
+    "submission_call_cap": 3,
+    "allocated_GPU_s": 0,
+    "models_loaded": 0,
+    "optimizer_updates": 0,
+    "next_requirement": "Refresh existing HPC account-manager authentication and verify a currently authorized, unexpired project; do not guess or retry old project"
+  },
+  "quota": {
+    "source": "Actual /usr/bin/hpc quota output saved privately",
+    "report_local": "2026-10-13 13:43",
+    "scratch_usage_display": "940.7GB",
+    "scratch_hard_display": "1.0TB",
+    "home_usage_display": "20.52G",
+    "home_quota_display": "40.00G",
+    "exact_scratch_bytes": "NOT_REPORTED_BY_THIS_SUMMARY",
+    "most_generous_consistent_binary_headroom_GiB": 83.3,
+    "forecast_new_smoke_peak_GiB": 80,
+    "required_free_margin_GiB": 20,
+    "status": "DISPLAYED_PERSONAL_QUOTA_CANNOT_SUPPORT_100_GiB_HEADROOM",
+    "next_requirement": "Obtain sufficient personal quota or separately authorized storage path/retirement; no checkpoint deletion authorized here"
+  },
+  "preserved": {
+    "original_56": true,
+    "PI0291_PARTIAL": true,
+    "all_data": true,
+    "all_checkpoints": true,
+    "source_capsules": true,
+    "original_deadline_epoch": 1791946704
+  },
+  "stage_manifest_sha256": "487a207b45dd6d040466dedc9983b1ca6e0c1e63252d586bee392348af871070",
+  "adoption_delta_sha256": "6a6844629e00c3ac53ecf632be7e5110c3e373b5eb8a7e780dd4d89fc4c77a27",
+  "main": "NOT_RUN",
+  "offline": "NOT_RUN",
+  "relay": "NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

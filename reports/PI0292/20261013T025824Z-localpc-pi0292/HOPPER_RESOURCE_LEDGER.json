@@ -1,13 +1,26 @@
 {
   "schema": "PI0292_HOPPER_RESOURCE_LEDGER_V1",
-  "PBS_submissions": [],
+  "PBS_submissions": [
+    {
+      "request_id": "S3-smoke-01",
+      "stage": "smoke",
+      "status": "SUBMIT_FAILED_PRESERVED",
+      "job_id": null,
+      "submitted_epoch": 1791870298.4368896,
+      "source_sha": "c187d9573bdff302783fb5f41d06fcaa1753d2a8",
+      "script_sha256": "bf1fb2e70e2b9314c9db4123c2e692ca8e454a9904d0c7a66e097ee24dff816a",
+      "GPU_reserved_s": 0,
+      "CPU_reserved_s": 0,
+      "error": "qsub: Budgets-am_hook: Project has already ended.\n"
+    }
+  ],
   "GPU_allocated_s": 0,
   "model_smoke_updates": 0,
   "main_updates": 0,
   "generation_queries": 0,
   "CPU_s": 381.024862,
-  "CPU_upper_s": 60,
-  "CPU_upper_reason": "Remote metadata reads and staging child processes not separately measured",
+  "CPU_upper_s": 660,
+  "CPU_upper_reason": "Remote metadata reads and staging child processes not separately measured; plus 600s conservative bound for S3 submission/preflight and scheduler/quota metadata (not measured zero)",
   "stages": [
     {
       "id": "ORIGINAL_TRAIN_CONSUMER",
