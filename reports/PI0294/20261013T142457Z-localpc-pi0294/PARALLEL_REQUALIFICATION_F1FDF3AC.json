@@ -1,0 +1,32 @@
+{
+  "status": "PASS_ACTUAL_PARALLEL_QUALIFICATION",
+  "source_sha": "f1fdf3acd481687cb275334ba512ce038eba51e9",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "new_diagnostic_first_attempts": 8,
+  "new_diagnostic_independent_audit_admitted": 8,
+  "not_formal_training_data": true,
+  "old_diagnostic_attempts_and_proofs_preserved": true,
+  "physical_arrays_contact_H40_and_1282_PNG_each_vs_new_serial": "EXACT",
+  "qualified_workers": 4,
+  "serial": {"episodes": 2, "actual_pipeline_wall_s": 418.74806213378906,
+    "admitted_episodes_per_hour": 17.19410942061773, "worker_and_auditor_CPU_s": 829.310791114},
+  "two_workers": {"episodes": 2, "actual_pipeline_wall_s": 227.85113072395325,
+    "admitted_episodes_per_hour": 31.5995798534042, "worker_and_auditor_CPU_s": 850.017055864,
+    "speedup_vs_serial": 1.8378142816465182},
+  "four_workers": {"episodes": 4, "actual_pipeline_wall_s": 292.8576121330261,
+    "admitted_episodes_per_hour": 49.17065291599461, "worker_and_auditor_CPU_s": 1900.867162008,
+    "speedup_vs_serial": 2.859738280892484},
+  "comparison_only_CPU_s": {"level2": 0.24863599999999997, "level4": 0.48425999999999997},
+  "comparison_additional_integrations": 0,
+  "comparison_additional_render_calls": 0,
+  "all_new_diagnostic_parents_and_children_terminal": true,
+  "not_a_guarantee_of_fourfold_or_sustained_throughput": true,
+  "CoreLab_fully_charged_snapshot_before_Teacher_route": {
+    "physics_starts": 108, "physics_steps": 1728000, "rgb_pairs": 69228,
+    "CPU_s": 55341.28103149797, "output_bytes": 10797429474
+  },
+  "Teacher_double_SSH": "ACTUAL_FIRST_EPISODE_ACTIVE_NOT_YET_QUALIFIED",
+  "model_policy_double_SSH": "NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
