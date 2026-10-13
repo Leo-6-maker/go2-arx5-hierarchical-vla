@@ -1,0 +1,61 @@
+{
+  "schema": "ITERATION_ACCELERATION_PREPARATION_RECEIPT_V1",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "authority": "2026-10-13 direct user request, narrowed to script preparation only",
+  "fixed_source_commit": "56b914f8844e93985739ed26fb34952e55725699",
+  "initial_source_commit": "9ead256d1e4ef379e62555d3845e3ea752b365df",
+  "integration_branch": "pi0267/executor-decoupled-recovery",
+  "corelab": {
+    "profile": "4080-cpu-data",
+    "status": "ACTUAL_TWO_SPAWNED_SYNTHETIC_WORKERS_PASS",
+    "fixture_records": 4,
+    "distinct_worker_processes": 2,
+    "terminal_worker_handles_absent": true,
+    "isolated_outputs": true,
+    "durable_receipts": true,
+    "remaining_reservations": 0,
+    "whole_child_tree_measured_CPU_s": 0.18934199999999998,
+    "live_physics_worker_adapter": "NOT_IMPLEMENTED_NOT_ADMITTED",
+    "first_entry_failure": "MODULE_NOT_FOUND_BEFORE_WORKER_START; preserved separately",
+    "packaging_delta": "Private fixture bootstrap verifies fixed file hashes and binds the sealed scripts namespace after the existing entry selects its interpreter. No live entry or scientific source edits.",
+    "controller_receipt_filename_collision": "Recovered by reading the actual terminal receipt, without rerunning workers"
+  },
+  "hopper": {
+    "status": "FIXED_FILES_STAGED_AND_BYTE_READBACK_PASS",
+    "staged_file_count": 8,
+    "neural_entry_admitted": false,
+    "loader_matrix": [0, 2, 4],
+    "decoded_RGB_cache": "BOUNDED_VERIFIED_LRU_PROTOTYPE_NOT_CONNECTED_TO_NATIVE_DATASET",
+    "active_PI0292_recipe": "UNCHANGED",
+    "speedup": "NOT_MEASURED"
+  },
+  "verification": {
+    "targeted_local_methods": 10,
+    "targeted_local_subtests": 8,
+    "initial_full_CPU_suite": {"passed": 756, "explicit_skips": 14, "subtests": 53},
+    "initial_combined_iteration_and_PI0292": {"passed": 80, "subtests": 57},
+    "fixed_source_CI": {
+      "run": 38370043504,
+      "head_sha": "56b914f8844e93985739ed26fb34952e55725699",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "initial_seven_files_GitHub_exact_readback": "PASS",
+    "hardened_three_files_GitHub_exact_readback": "PASS",
+    "eight_server_files_exact_hash_readback": "PASS"
+  },
+  "new_scientific_execution": {
+    "scope": "This next-version script-preparation request only; not global account PBS activity or later original PI0292 continuation",
+    "data_collection": 0,
+    "physics_integrations": 0,
+    "model_loads": 0,
+    "training_updates": 0,
+    "PBS_submissions": 0,
+    "GPU_allocations": 0,
+    "WBC_or_hardware_runs": 0
+  },
+  "dataset_policy": "NEXT_VERSION_ONLY; never append to an active frozen training bank",
+  "next_step": "Await a fixed science task card and bounded GO, then implement/admit the native parallel worker budget adapter and conduct serial/parallel equivalence and measured throughput acceptance.",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
