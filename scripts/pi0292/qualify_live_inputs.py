@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import resource
+import signal
 import uuid
 
 from PIL import Image
@@ -26,6 +27,10 @@ def run(args):
     import torch
     torch.set_num_threads(1)
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+    resource.setrlimit(resource.RLIMIT_CPU,(300,310))
+    def expired(signum,frame):
+        raise TimeoutError('OBSERVATION_INPUT_CPU_300_SECOND_LIMIT')
+    signal.signal(signal.SIGALRM,expired);signal.alarm(300)
     root=Path(args.root);bindings=read(args.bindings);records=[]
     for split in ('TRAIN','DEV'):
         dataset=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],split,raw_bindings=read(bindings['raw_bindings']))
@@ -56,6 +61,7 @@ def run(args):
     if Path(args.output).exists():
         raise FileExistsError('Preserve the original input qualification')
     write(args.output,result)
+    signal.alarm(0)
     return result
 
 
