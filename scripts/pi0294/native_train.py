@@ -10,12 +10,33 @@ import json
 from pathlib import Path
 import pickle
 import random
+import time
 
 import numpy as np
 
 from scripts.pi0292.durable import read,write
 from .sampling import BalancedSampler
 from .native_dataset import sha
+
+
+class MeasuredLoader:
+    """Measure parent wait for actual yielded batches, not worker prefetch."""
+    def __init__(self,loader):
+        self.loader,self.wait_s,self.batches=loader,0.,0
+
+    def __len__(self):return len(self.loader)
+
+    def __getattr__(self,name):return getattr(self.loader,name)
+
+    def __iter__(self):
+        iterator=iter(self.loader)
+        while True:
+            started=time.monotonic()
+            try:batch=next(iterator)
+            except StopIteration:return
+            self.wait_s+=time.monotonic()-started
+            self.batches+=1
+            yield batch
 
 
 def tensor_identity(tensor):
@@ -126,7 +147,8 @@ def make_trainer_class():
                 saved=read(checkpoint/'SAMPLER_STATE.json')
                 state=read(checkpoint/'trainer_state.json')
                 expected=BalancedSampler(self.train_dataset,stop=self.args.max_steps*32,smoke=self.train_dataset.sampling_smoke).state_dict(state['global_step']*32)
-                if saved['sampler']!=expected or saved['recipe']!=self.recipe:
+                compatible=saved['sampler']==expected and saved['recipe']==self.recipe
+                if not compatible:
                     raise ValueError('CHECKPOINT_SAMPLER_OR_RECIPE_MISMATCH')
                 if saved['statistics_sha256']!=self.train_dataset.statistics_sha or saved['manifest_sha256']!=self.train_dataset.manifest_sha:
                     raise ValueError('CHECKPOINT_DATASET_MISMATCH')
@@ -141,9 +163,10 @@ def make_trainer_class():
             generator=torch.Generator().manual_seed(29400)
             options=dict(batch_size=self._train_batch_size,sampler=self.sampler,collate_fn=self.data_collator,
                 num_workers=self.args.dataloader_num_workers,pin_memory=self.args.dataloader_pin_memory,
-                persistent_workers=self.args.dataloader_num_workers>0,generator=generator,drop_last=True)
+                persistent_workers=False,generator=generator,drop_last=True)
             if self.args.dataloader_num_workers:options.update(multiprocessing_context='spawn',prefetch_factor=2)
-            return torch.utils.data.DataLoader(self.train_dataset,**options)
+            self.measured_loader=MeasuredLoader(torch.utils.data.DataLoader(self.train_dataset,**options))
+            return self.measured_loader
 
         def compute_loss(self,model,inputs,return_outputs=False,num_items_in_batch=None):
             loss,outputs=super().compute_loss(model,inputs,return_outputs=True,num_items_in_batch=num_items_in_batch)
@@ -192,7 +215,7 @@ def make_trainer_class():
     return NativeTrainer
 
 
-def qualify_cpu(args):
+def _qualify_cpu(args):
     """Exercise this exact loader without initializing Trainer or a model."""
     import os
     import resource
@@ -204,7 +227,7 @@ def qualify_cpu(args):
     import torch
     trainer_type=make_trainer_class()
     raw=read(args.raw_bindings) if args.raw_bindings else None
-    records={}
+    records={};throughput={}
     sample_checks=[]
     for workers in (0,2,4):
         records[str(workers)]={}
@@ -231,12 +254,18 @@ def qualify_cpu(args):
             trainer.state=SimpleNamespace(global_step=step)
             trainer.train_dataset=dataset;trainer.data_collator=ProcessedCollator(dataset.processor)
             trainer._train_batch_size=2
-            loader=trainer.get_train_dataloader();iterator=iter(loader)
-            try:
-                batches=[tree_identity(next(iterator)) for _ in range(4 if step else 20)]
-                trace=validate_worker_trace(directory,dataset,step*32,step*32+len(batches)*2)
-            finally:
-                if workers and hasattr(iterator,'_shutdown_workers'):iterator._shutdown_workers()
+            loader=trainer.get_train_dataloader();started=time.monotonic();iterator=iter(loader)
+            batches=[tree_identity(next(iterator)) for _ in range(4 if step else 20)]
+            consumed_elapsed=time.monotonic()-started;consumed_wait=loader.wait_s
+            # Finish the finite iterator before worker teardown. Drained batches are
+            # engineering qualification only, never optimizer/consumed-cursor input.
+            drained_batches=sum(1 for _ in iterator)
+            trace=validate_worker_trace(directory,dataset,step*32,step*32+len(batches)*2)
+            throughput[str(workers)+'/'+str(step)]=dict(elapsed_s=consumed_elapsed,
+                consumed_samples=len(batches)*2,parent_loader_wait_s=consumed_wait,
+                consumed_samples_per_s=len(batches)*2/consumed_elapsed,
+                drained_samples=drained_batches*2,natural_iterator_exhaustion=True,
+                total_loader_elapsed_s=time.monotonic()-started)
             records[str(workers)][str(step)]=dict(batches=batches,trace=trace)
             del iterator,loader,trainer,dataset
         if records[str(workers)]['0']['batches'][16:20]!=records[str(workers)]['1']['batches']:
@@ -248,11 +277,42 @@ def qualify_cpu(args):
     result=dict(status='PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4',records=records,
         actual_first_middle_last=sample_checks,manifest_sha256=sha(Path(args.dataset)/'DATASET_MANIFEST.json'),
         statistics_sha256=sha(Path(args.dataset)/'statistics.json'),model_loaded=False,neural_forward=False,
-        CUDA_initialized=False,legacy_smoke=args.legacy_smoke,CPU_s=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime)
+        CUDA_initialized=False,legacy_smoke=args.legacy_smoke,actual_loader_throughput=throughput,
+        CPU_s=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime)
     path=Path(args.output)
     if path.exists():raise FileExistsError('Preserve prior qualification')
     write(path,result)
     return result
+
+
+def qualify_cpu(args):
+    """Preserve per-attempt CPU accounting even when qualification raises."""
+    import resource
+    import traceback
+    output=Path(args.output)
+    receipt=output.with_name(output.name+'.CPU_ATTEMPT.json')
+    if output.exists() or receipt.exists():raise FileExistsError('Preserve prior CPU qualification attempt')
+    started=time.monotonic()
+    before=[resource.getrusage(kind) for kind in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+    status='FAILED';failure=None
+    try:
+        result=_qualify_cpu(args)
+        status='PASS'
+        return result
+    except BaseException as error:
+        failure=dict(type=type(error).__name__,traceback=traceback.format_exc())
+        raise
+    finally:
+        after=[resource.getrusage(kind) for kind in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+        cpu=[(a.ru_utime+a.ru_stime)-(b.ru_utime+b.ru_stime) for a,b in zip(after,before)]
+        evidence=dict(status=status,wall_s=time.monotonic()-started,
+            self_CPU_s=cpu[0],reaped_children_CPU_s=cpu[1],CPU_s=sum(cpu),failure=failure,
+            unreaped_children_unknown=status!='PASS',model_loaded=False,neural_forward=False)
+        try:write(receipt,evidence)
+        except Exception:
+            # An accounting-write error must not replace the qualification failure.
+            if failure is None:raise
+            traceback.print_exc()
 
 
 if __name__=='__main__':

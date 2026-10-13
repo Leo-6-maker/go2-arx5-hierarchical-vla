@@ -16,7 +16,7 @@ from go2arx5_vla.task_data.codec import pose10
 from go2arx5_vla.task_data.io import file_hash, jsonable, manifest, write
 from go2arx5_vla.trajectory.so3 import matrix_to_quat
 from .scene_cards import digest
-from .scene import make_engine
+from .scene import make_engine, qualify_engine
 from .score import BOOL_FIELDS, saved_score
 from .teacher import make_teacher
 
@@ -78,6 +78,7 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
     status, error, starts = 'FAILED_PRESERVED', None, 0
     rgb_pairs = 0
     plan = ref_id = None
+    static_qualification = None
 
     def guard():
         if time.time() >= reservation['deadline_epoch']:
@@ -140,9 +141,13 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
                 Image.fromarray(image).save(path)
                 obs[camera] = dict(path=path.relative_to(folder).as_posix(), sha256=file_hash(path), frame_index=step,
                                    timestamp_s=state['time_s'], snapshot_id=snapshot, source='actual_mujoco_renderer', valid=True)
+            if step == 0:
+                static_qualification = qualify_engine(engine, rendered=(images, geometry), guard=guard)
+                write(folder/'STATIC_QUALIFICATION.json', static_qualification)
+            static_failed = static_qualification['status'] != 'STATIC_PASS_PENDING_LIVE_CONTACT'
             teacher.observe(state)
             supervisor = None
-            if step < 640:
+            if step < 640 and not static_failed:
                 if step % 8 == 0:
                     plan = teacher.plan(state)
                     ref_id = f"{card['id']}:ref{step//8:03d}"
@@ -175,6 +180,8 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
                                 relative_motion_valid=state['relative_motion_valid'], object_points=state['object_points']), geometry=geometry))
             if progress:
                 progress(dict(id=card['id'], physics_steps=engine.steps, rgb_pairs=rgb_pairs))
+            if static_failed:
+                raise RuntimeError('STATIC_QUALIFICATION_FAILED_NO_INTEGRATION')
             if step < 640:
                 for tick in range(25):
                     try:
@@ -196,11 +203,12 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
             arrays = {k: np.asarray([s[k] for s in physical]) for k in physical[0]}
             arrays['tcp_world'] = arrays.pop('tcp')
             arrays['contact_time_s'] = np.asarray(contact_times)
-            arrays['contact_audit'] = np.asarray(contact_rows)
+            arrays['contact_audit'] = np.asarray(contact_rows).reshape(-1, 5)
             np.savez_compressed(folder/'physics.npz', **arrays)
-        if highrate:
-            np.savez_compressed(folder/'highrate.npz', rows=np.asarray(highrate), nq=engine.model.nq, nv=engine.model.nv,
-                                external_force_max=np.asarray(external_force_max),
+        if engine is not None:
+            high_columns = 1+engine.model.nq+engine.model.nv+engine.model.nu+6+1
+            np.savez_compressed(folder/'highrate.npz', rows=np.asarray(highrate).reshape(-1, high_columns), nq=engine.model.nq, nv=engine.model.nv,
+                                external_force_max=np.asarray(external_force_max).reshape(-1, 2),
                                 layout=np.asarray(['time', 'qpos', 'qvel', 'finite_joint_motor_ctrl',
                                                    'zero_external_wrench', 'safety_flag']))
         write(folder/'samples.json', samples)
@@ -214,6 +222,7 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
                       cpu_s=time.process_time()-cpu_began, memory_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
                       model_calls=0, render_backend='mesa_cpu', GPU_service_s=0., domain='FIXED_BASE_ARX5_TASK_SIM',
                       card_sha256=reservation['card_sha256'], samples_sha256=file_hash(folder/'samples.json'),
+                      static_qualification_status=None if static_qualification is None else static_qualification['status'],
                       selected='NONE', deployment='NONE')
         if physical:
             try:

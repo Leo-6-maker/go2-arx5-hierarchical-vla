@@ -79,13 +79,15 @@ def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
             or lease.get('protocol_ref') != AUTHORITY):
         raise PermissionError('LIVE_EXACT_LEASE_REQUIRED')
     if verify_source:
-        seal_path = contained(root / 'SOURCE_SEAL.json', root)
+        seal_path = contained(root / manifest['code'].get('source_seal_relative', 'SOURCE_SEAL.json'), root)
         if sha(seal_path) != manifest['code']['source_seal_sha256']:
             raise PermissionError('SOURCE_SEAL_CHANGED')
         seal = read(seal_path)
         if seal['source_sha'] != manifest['code']['vla_commit']:
             raise PermissionError('FIXED_CODE_SHA_CHANGED')
-        code = contained(root / 'code', root)
+        code = contained(root / manifest['code'].get('capsule_relative', 'code'), root)
+        if code.is_symlink():
+            raise PermissionError('NO_MUTABLE_SOURCE_SYMLINK')
         for name, digest in seal['files'].items():
             member = contained(code / name, code)
             if member.is_symlink() or sha(member) != digest:

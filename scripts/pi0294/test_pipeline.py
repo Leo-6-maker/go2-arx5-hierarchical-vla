@@ -1,6 +1,7 @@
 """CPU-only rejection and accounting tests. No MuJoCo integration or model."""
 import copy
 import os
+import pickle
 from pathlib import Path
 import socket
 import tempfile
@@ -23,7 +24,7 @@ class QueueTest(unittest.TestCase):
         self.source.mkdir()
         write(self.source / 'code.json', {'immutable': True})
         write(self.root / 'RUN_MANIFEST.json', dict(pi='PI0294', run_uuid='cpu-test',
-            authority={'protocol_ref': 'f' * 40}))
+            authority={'protocol_ref': 'f' * 40}, code={'capsule_relative': 'source'}))
         write(self.root / 'SOURCE_SEAL.json', dict(source_sha='f' * 40,
             files={'code.json': digest(self.source / 'code.json')}))
         self.plan = dict(fixture=False, authorizes_execution=True,
@@ -157,10 +158,168 @@ class QueueTest(unittest.TestCase):
         finally:
             owner.close()
 
+    def test_auxiliary_cores_are_disjoint_from_coordinator_and_workers(self):
+        self.admission['memory_limit_bytes'] = 12 * 1024**3
+        self.admit()
+        owner = self.owner()
+        try:
+            a, b = owner.reserve('a'), owner.reserve('b')
+            cpu = owner.reserve_auxiliary('audit-a', cpu_count=2, timeout_s=30,
+                                          output_bytes=100, memory_bytes=100)
+            self.assertEqual(cpu['cpus'], [7, 8])
+            self.assertFalse(set(cpu['cpus']) & set(a['cpus'] + b['cpus'] + [6]))
+            self.assertEqual(read(self.root / 'reservations' / 'aux-audit-a.json'), cpu)
+            with self.assertRaisesRegex(ValueError, 'SAFE_AUXILIARY'):
+                owner.reserve_auxiliary('../escape', cpu_count=1, timeout_s=1, output_bytes=1)
+        finally:
+            owner.close()
+
     def test_too_few_actual_allowed_cores_rejected(self):
         with patch('scripts.iteration.queue.os.sched_getaffinity', return_value={0, 1}):
             with self.assertRaisesRegex(ValueError, 'ACTUAL_ALLOWED_CPU'):
                 self.owner()
+
+    def test_admission_cannot_point_at_another_capsule(self):
+        other = self.root / 'other'
+        other.mkdir()
+        write(other / 'code.json', {'immutable': True})
+        self.admission['source_root'] = str(other)
+        self.admit()
+        with self.assertRaisesRegex(ValueError, 'DIFFERS_FROM_MANIFEST_CAPSULE'):
+            self.owner()
+
+    def test_source_advance_requires_terminal_evidence_and_preserves_all_costs(self):
+        self.plan['episodes'] = self.plan['episodes'][:1]
+        write(self.root / 'plan.json', self.plan)
+        self.admission['plan_sha256'] = digest(self.root / 'plan.json')
+        self.admit()
+        owner = self.owner()
+        owner.complete(self.receipt(owner.reserve('a')))
+        owner.finish()
+        actual, old_queue_hash = copy.deepcopy(owner.value['actual']), digest(owner.path)
+        owner.close()
+        self.plan['episodes'] = [dict(id='d', card=dict(id='d', split='TRAIN', task='T2'))]
+        write(self.root / 'plan.json', self.plan)
+        self.admission.update(plan_sha256=digest(self.root / 'plan.json'), prior_actual=actual,
+                              source_sha='e' * 40)
+        write(self.root / 'SOURCE_SEAL.json', dict(source_sha='e' * 40,
+            files={'code.json': digest(self.source / 'code.json')}))
+        self.admission['source_seal_sha256'] = digest(self.root / 'SOURCE_SEAL.json')
+        self.admit()
+        with self.assertRaisesRegex(ValueError, 'SOURCE_BOUNDARY_RECEIPT_REQUIRED'):
+            self.owner(stage_boundary=True)
+        proof = self.root / 'SOURCE_BOUNDARY.json'
+        write(proof, dict(status='VERIFIED_TERMINAL_SOURCE_ADVANCE', run_uuid='cpu-test',
+            old_source_sha='f' * 40, new_source_sha='e' * 40,
+            old_queue_sha256=old_queue_hash, no_active_consumers=True))
+        self.admission.update(source_boundary_receipt_path=str(proof),
+                              source_boundary_receipt_sha256=digest(proof))
+        self.admit()
+        owner = self.owner(stage_boundary=True)
+        try:
+            self.assertEqual(owner.value['actual'], actual)
+            self.assertEqual(len(owner.value['records']), 1)
+            self.assertEqual(owner.value['stages'][0]['source_sha'], 'f' * 40)
+            self.assertEqual(owner.value['stages'][1]['source_sha'], 'e' * 40)
+        finally:
+            owner.close()
+
+    def test_terminal_cpu_owner_preserves_first_attempts_and_accounts_only_auxiliary(self):
+        self.plan['episodes'] = self.plan['episodes'][:1]
+        write(self.root / 'plan.json', self.plan)
+        self.admission['plan_sha256'] = digest(self.root / 'plan.json')
+        self.admit()
+        owner = self.owner()
+        owner.complete(self.receipt(owner.reserve('a')))
+        owner.finish()
+        self.admission['prior_actual'] = copy.deepcopy(owner.value['actual'])
+        owner.close()
+        self.admit()
+        owner = LiveCoordinator.open_terminal(self.root, self.root / 'plan.json', self.root / 'admission.json',
+            now=lambda: self.clock)
+        try:
+            owner.reserve_auxiliary('bank-v3_0', cpu_count=2, timeout_s=30, output_bytes=100, memory_bytes=100)
+            owner.complete_auxiliary('bank-v3_0', cpu_s=2., output_bytes=30)
+            self.assertEqual(owner.value['actual']['physics_starts'], 1)
+            self.assertEqual(owner.value['actual']['cpu_s'], 3.)
+            self.assertEqual(len(owner.value['records']), 1)
+            with self.assertRaisesRegex(ValueError, 'AUXILIARY_ALREADY'):
+                owner.reserve_auxiliary('bank-v3_0', cpu_count=2, timeout_s=30, output_bytes=100)
+            self.assertEqual(owner.finish()['status'], 'LIVE_TERMINAL_ALL_FIRST_ATTEMPTS')
+        finally:
+            owner.close()
+
+
+class PairedAdmissionTest(unittest.TestCase):
+    def test_runpy_launcher_uses_a_picklable_importable_worker(self):
+        import runpy
+        import importlib
+        namespace = runpy.run_module('scripts.pi0294.dispatcher', run_name='cpu_launch_contract')
+        worker = importlib.import_module('scripts.pi0294.dispatcher')._spawn_worker
+        restored = pickle.loads(pickle.dumps(worker))
+        self.assertIs(restored, worker)
+        self.assertEqual(namespace['dispatch'].__globals__['__name__'], 'cpu_launch_contract')
+
+    def test_unterminated_first_attempt_cannot_be_admitted(self):
+        from scripts.pi0294.bank import new_admission
+        base = dict(seed=1, split='TRAIN', family='F0', group_id='one', initial_state_sha256='same')
+        cards = [dict(base, id='a', task='T1', task_id='PICK', instruction='pick'),
+                 dict(base, id='b', task='T2', task_id='PUSH', instruction='push')]
+        with self.assertRaisesRegex(ValueError, 'MUST_BE_TERMINAL'):
+            new_admission('.', {'cards': cards}, {'records': [], 'reservations': {}})
+
+    def test_language_pair_must_share_initial_state_and_split(self):
+        from scripts.pi0294.bank import new_admission
+        base = dict(seed=1, split='TRAIN', family='F0', group_id='one', initial_state_sha256='same')
+        cards = [dict(base, id='a', task='T1', task_id='PICK', instruction='pick'),
+                 dict(base, id='b', task='T2', task_id='PUSH', instruction='push', seed=2)]
+        with self.assertRaisesRegex(ValueError, 'BEYOND_LANGUAGE'):
+            new_admission('.', {'cards': cards}, {'records': [], 'reservations': {}})
+        cards[1]['seed'] = 1
+        cards[1]['split'] = 'DEV'
+        with self.assertRaisesRegex(ValueError, 'INITIAL_STATE_AND_SPLIT'):
+            new_admission('.', {'cards': cards}, {'records': [], 'reservations': {}})
+
+    def test_stage_labels_are_offline_and_unknown_buckets_are_explicit(self):
+        from scripts.pi0294.bank import stages
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write(root / 'samples.json', [dict(privileged={'teacher_stage': s}) for s in
+                                         ('approach', 'contact', 'push', 'detach', 'hold', 'unexpected')])
+            buckets, unknown = stages(root)
+            self.assertEqual(buckets, dict(approach=[0], contact=[1], transport=[2], withdraw=[3], hold=[4]))
+            self.assertEqual(unknown, {'unexpected': [5]})
+
+    def test_push_rejects_a_between_frame_lift_and_exact_300ms_grasp(self):
+        import numpy as np
+        from scripts.pi0294.audit import independent_push_score
+        poses = np.broadcast_to(np.eye(4), (641, 4, 4)).copy()
+        poses[:, 0, 3] = np.minimum(np.arange(641) / 320, 1) * .16
+        poses[:, 2, 3] = .52
+        tcp = poses.copy()
+        tcp[:, 2, 3] += .15
+        micro = np.zeros((16000, 5))
+        micro[:8000, 0] = 1
+        micro[:, 3] = .52
+        data = dict(time_s=np.arange(641) / 20, object_pose=poses, tcp_world=tcp,
+            object_linear_velocity=np.zeros((641, 3)), object_angular_velocity=np.zeros((641, 3)),
+            robot_object_contact=np.arange(641) < 320, contact_audit=micro,
+            contact_time_s=np.arange(1, 16001) * .002)
+        for key in ('object_present', 'contact_valid', 'gripper_state_valid', 'safety_valid'):
+            data[key] = np.ones(641, dtype=bool)
+        for key in ('native_grasp', 'left_object_contact', 'right_object_contact', 'native_abort',
+                    'illegal_contact', 'joint_limit_penetration', 'reset', 'takeover'):
+            data[key] = np.zeros(641, dtype=bool)
+        card = dict(goal_xy=[.16, 0])
+        result = independent_push_score(data, card, True, .5)
+        self.assertTrue(result['persistent_success'])
+        micro[21, 3] = .526
+        self.assertFalse(independent_push_score(data, card, True, .5)['persistent_success'])
+        micro[21, 3] = .52
+        micro[:150, 1] = 1
+        result = independent_push_score(data, card, True, .5)
+        self.assertFalse(result['persistent_success'])
+        self.assertAlmostEqual(result['maximum_bilateral_grasp_s'], .3)
 
 
 if __name__ == '__main__':

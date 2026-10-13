@@ -7,6 +7,7 @@ from PIL import Image
 
 from scripts.pi0292.train_adapter import NativeDataset as OriginalDataset
 from scripts.pi0292.train_adapter import ProcessedCollator, official_import, sha
+from scripts.iteration.rgb_cache import file_identity
 
 
 class ByteLRU:
@@ -50,15 +51,19 @@ class NativeDataset(OriginalDataset):
         path = self.root/row['file']
         if not path.resolve().is_relative_to(self.root.resolve()):
             raise ValueError('NUMERIC_PATH_ESCAPE')
-        stat = path.stat()
-        key = (self.manifest_sha,self.statistics_sha,row['sha256'],str(path.resolve()),stat.st_size,stat.st_mtime_ns)
-        packet = self.numeric_cache.get(key)
-        if packet is None:
+        identity = file_identity(path.stat())
+        key = (self.manifest_sha,self.statistics_sha,row['sha256'],str(path.resolve()))
+        cached = self.numeric_cache.get(key)
+        if cached is not None:
+            previous,packet=cached
+            if previous!=identity:raise ValueError('CACHED_NUMERIC_IDENTITY_CHANGED')
+        else:
             if sha(path) != row['sha256']:
                 raise ValueError('NUMERIC_EXPORT_CHANGED')
             with np.load(path,allow_pickle=False) as saved:
                 packet = {k:saved[k].copy() for k in saved.files}
-            self.numeric_cache.put(key,packet,sum(v.nbytes for v in packet.values()))
+            if file_identity(path.stat())!=identity:raise ValueError('NUMERIC_CHANGED_DURING_READ')
+            self.numeric_cache.put(key,(identity,packet),sum(v.nbytes for v in packet.values()))
         if not packet['valid_window'][anchor] or packet['label_representation'].item() != 'ABSOLUTE_COMMITTED_EEF10':
             raise ValueError('INVALID_ABSOLUTE_SUPERVISION')
         rawroot = Path(self.raw_bindings.get(row['id'],row['raw_root'])).resolve()
@@ -67,18 +72,22 @@ class NativeDataset(OriginalDataset):
             frame = (rawroot/packet['rgb_paths'][anchor,camera]).resolve()
             if not frame.is_relative_to(rawroot):
                 raise ValueError('RGB_PATH_ESCAPE')
-            stat = frame.stat()
-            identity = (self.manifest_sha,self.statistics_sha,'RGB256_DETERMINISTIC_V1',str(frame),
-                        str(packet['rgb_sha256'][anchor,camera]),stat.st_size,stat.st_mtime_ns)
-            image = self.rgb_cache.get(identity)
-            if image is None:
+            identity = file_identity(frame.stat())
+            key = (self.manifest_sha,self.statistics_sha,'RGB256_DETERMINISTIC_V1',str(frame),
+                        str(packet['rgb_sha256'][anchor,camera]))
+            cached = self.rgb_cache.get(key)
+            if cached is not None:
+                previous,image=cached
+                if previous!=identity:raise ValueError('CACHED_RGB_IDENTITY_CHANGED')
+            else:
                 if sha(frame) != packet['rgb_sha256'][anchor,camera]:
                     raise ValueError('RGB_CHANGED')
                 with Image.open(frame) as opened:
                     if opened.mode != 'RGB' or opened.size != (256,256):
                         raise ValueError('INVALID_RGB_FORMAT')
                     image = np.asarray(opened).copy()
-                self.rgb_cache.put(identity,image,image.nbytes)
+                if file_identity(frame.stat())!=identity:raise ValueError('RGB_CHANGED_DURING_READ')
+                self.rgb_cache.put(key,(identity,image),image.nbytes)
             images.append(image.copy())
         return packet['actual_state10'][anchor].copy(),packet['committed_absolute10'][anchor:anchor+40].copy(),images,packet['instruction'].item()
 

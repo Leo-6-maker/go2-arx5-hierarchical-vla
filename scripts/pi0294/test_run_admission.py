@@ -37,7 +37,19 @@ class AdmissionTests(unittest.TestCase):
             self.assertEqual(validate(root, **kwargs), value)
             with self.assertRaisesRegex(PermissionError, 'HOST_PROFILE'):
                 validate(root, **dict(kwargs, hostname='other'))
+            capsule = root / 'capsules' / ('a' * 40)
+            (capsule / 'code').mkdir(parents=True)
+            copied = capsule / 'code' / 'example.py'
+            copied.write_bytes(source.read_bytes())
+            relocated = capsule / 'SOURCE_SEAL.json'
+            relocated.write_bytes(seal.read_bytes())
+            value['code'].update(capsule_relative=str((capsule / 'code').relative_to(root)),
+                                 source_seal_relative=str(relocated.relative_to(root)))
+            write('RUN_MANIFEST.json', value)
+            self.assertEqual(validate(root, **kwargs), value)
             source.write_text('VALUE = 2\n')
+            self.assertEqual(validate(root, **kwargs), value)
+            copied.write_text('VALUE = 2\n')
             with self.assertRaisesRegex(PermissionError, 'SOURCE_MEMBER'):
                 validate(root, **kwargs)
 

@@ -140,17 +140,21 @@ class LiveCoordinator:
                     raise ValueError('ONLY_RECONCILED_TERMINAL_STAGE_BOUNDARY')
                 if prior['actual'] != self.admission['prior_actual']:
                     raise ValueError('AUTHORITATIVE_CUMULATIVE_COST_CHANGED')
-                if prior['run_uuid'] != self.admission['run_uuid'] or prior['source_sha'] != self.admission['source_sha']:
+                if prior['run_uuid'] != self.admission['run_uuid']:
                     raise ValueError('ACTIVE_RUN_SOURCE_CANNOT_CHANGE')
+                if prior['source_sha'] != self.admission['source_sha']:
+                    self._source_boundary(prior)
                 if {r['id'] for r in prior['records']} & {r['id'] for r in self.plan['episodes']}:
                     raise ValueError('FIRST_ATTEMPT_REUSE_FORBIDDEN')
                 self.base_records = len(prior['records'])
                 prior['status'] = 'LIVE_RUNNING'
                 prior['stages'].append(dict(plan_sha256=digest(plan_path),
                     admission_sha256=digest(admission_path), started_epoch=self.now(),
+                    source_sha=self.admission['source_sha'],
                     expected_ids=[r['id'] for r in self.plan['episodes']]))
                 prior['plan_sha256'] = digest(plan_path)
                 prior['admission_sha256'] = digest(admission_path)
+                prior['source_sha'] = self.admission['source_sha']
                 prior['owner_pid'] = os.getpid()
                 prior['owner_proc_start'] = Path('/proc/self/stat').read_text().split()[21]
                 self.value = prior
@@ -164,12 +168,73 @@ class LiveCoordinator:
                 started_epoch=self.now(), actual=copy.deepcopy(self.admission['prior_actual']),
                 reservations={}, records=[], auxiliary={}, stages=[dict(
                     plan_sha256=digest(plan_path), admission_sha256=digest(admission_path),
+                    source_sha=self.admission['source_sha'],
                     started_epoch=self.now(), expected_ids=[r['id'] for r in self.plan['episodes']])])
             (self.root / 'reservations').mkdir(exist_ok=True)
             (self.root / 'episodes').mkdir(exist_ok=True)
             (self.root / 'worker_logs').mkdir(exist_ok=True)
             (self.root / 'worker_processes').mkdir(exist_ok=True)
             write(self.path, self.value)
+        except BaseException:
+            self.lock.close()
+            raise
+
+    def _source_boundary(self, prior):
+        a = self.admission
+        path = Path(a.get('source_boundary_receipt_path', ''))
+        if not path.is_file() or not path.resolve().is_relative_to(self.root):
+            raise ValueError('EXPLICIT_TERMINAL_SOURCE_BOUNDARY_RECEIPT_REQUIRED')
+        if digest(path) != a.get('source_boundary_receipt_sha256'):
+            raise ValueError('SOURCE_BOUNDARY_RECEIPT_CHANGED')
+        receipt = read(path)
+        if (receipt.get('status') != 'VERIFIED_TERMINAL_SOURCE_ADVANCE'
+                or receipt.get('run_uuid') != a['run_uuid']
+                or receipt.get('old_queue_sha256') != digest(self.path)
+                or receipt.get('old_source_sha') != prior['source_sha']
+                or receipt.get('new_source_sha') != a['source_sha']
+                or receipt.get('no_active_consumers') is not True):
+            raise ValueError('SOURCE_BOUNDARY_NOT_VERIFIED')
+        for process_file in (self.root / 'worker_processes').glob('*.json'):
+            record = read(process_file)
+            if 'pid' not in record:
+                continue
+            status = Path('/proc') / str(record['pid']) / 'stat'
+            if status.is_file():
+                fields = status.read_text().split()
+                if fields[21] == record['proc_start'] and fields[2] != 'Z':
+                    raise ValueError('SOURCE_BOUNDARY_ACTIVE_WORKER')
+
+    @classmethod
+    def open_terminal(cls, root, plan_path, admission_path, *, workers=2, now=None):
+        """Claim a reconciled terminal owner solely for bounded CPU work."""
+        self = cls.__new__(cls)
+        self.root = Path(root).resolve(strict=True)
+        self.plan_path, self.admission_path = Path(plan_path), Path(admission_path)
+        self.plan, self.admission = read(plan_path), read(admission_path)
+        self.now = now or time.time
+        self.lock = OwnerLock(self.root / 'COORDINATOR.lock')
+        self.path = self.root / 'LIVE_QUEUE.json'
+        try:
+            self._admit(workers)
+            prior = read(self.path)
+            if prior['status'] != 'LIVE_TERMINAL_ALL_FIRST_ATTEMPTS' or prior['reservations'] or prior['auxiliary']:
+                raise ValueError('CPU_OWNER_REQUIRES_RECONCILED_TERMINAL_QUEUE')
+            if prior['actual'] != self.admission['prior_actual'] or prior['run_uuid'] != self.admission['run_uuid']:
+                raise ValueError('CPU_OWNER_CUMULATIVE_IDENTITY_CHANGED')
+            if prior['plan_sha256'] != digest(plan_path):
+                raise ValueError('CPU_OWNER_MUST_BIND_LAST_SEALED_PLAN')
+            if prior['source_sha'] != self.admission['source_sha']:
+                self._source_boundary(prior)
+                prior['stages'].append(dict(kind='CPU_ONLY_SOURCE_BOUNDARY', source_sha=self.admission['source_sha'],
+                    started_epoch=self.now(), expected_ids=[], admission_sha256=digest(admission_path)))
+                prior['source_sha'] = self.admission['source_sha']
+            prior['owner_pid'] = os.getpid()
+            prior['owner_proc_start'] = Path('/proc/self/stat').read_text().split()[21]
+            prior['admission_sha256'] = digest(admission_path)
+            self.value, self.workers, self.base_records = prior, workers, len(prior['records'])
+            self.plan = dict(episodes=[])
+            write(self.path, prior)
+            return self
         except BaseException:
             self.lock.close()
             raise
@@ -189,10 +254,21 @@ class LiveCoordinator:
             raise ValueError('RUN_MANIFEST_CHANGED')
         if manifest['pi'] != 'PI0294' or manifest['run_uuid'] != a['run_uuid'] or not manifest.get('authority'):
             raise ValueError('NEW_PI0294_AUTHORITY_REQUIRED')
-        seal = read(self.root / 'SOURCE_SEAL.json')
-        if digest(self.root / 'SOURCE_SEAL.json') != a['source_seal_sha256'] or seal['source_sha'] != a['source_sha']:
+        code = manifest.get('code', {})
+        capsule_name = Path(code.get('capsule_relative', 'code'))
+        seal_name = Path(code.get('source_seal_relative', 'SOURCE_SEAL.json'))
+        if any(path.is_absolute() or '..' in path.parts for path in (capsule_name, seal_name)):
+            raise ValueError('CAPSULE_AND_SEAL_MUST_BE_RUN_RELATIVE')
+        capsule = (self.root / capsule_name).resolve(strict=True)
+        seal_path = (self.root / seal_name).resolve(strict=True)
+        if not capsule.is_relative_to(self.root) or not seal_path.is_relative_to(self.root):
+            raise ValueError('CAPSULE_OR_SEAL_PATH_ESCAPE')
+        seal = read(seal_path)
+        if digest(seal_path) != a['source_seal_sha256'] or seal['source_sha'] != a['source_sha']:
             raise ValueError('SOURCE_SEAL_CHANGED')
         source = Path(a['source_root']).resolve(strict=True)
+        if source != capsule:
+            raise ValueError('ADMISSION_SOURCE_ROOT_DIFFERS_FROM_MANIFEST_CAPSULE')
         for name, expected in seal['files'].items():
             path = (source / name).resolve(strict=True)
             if not path.is_relative_to(source) or digest(path) != expected:
@@ -212,7 +288,7 @@ class LiveCoordinator:
         cpus = a['allowed_cpus']
         if len(cpus) != len(set(cpus)) or len(cpus) > 16 or not set(cpus).issubset(os.sched_getaffinity(0)):
             raise ValueError('ACTUAL_ALLOWED_CPU_BINDING_REQUIRED')
-        if len(cpus) < 3 * workers + a.get('auxiliary_cpu_count', 1):
+        if len(cpus) < 3 * workers + a.get('coordinator_cpu_count', 1) + a.get('auxiliary_cpu_count', 1):
             raise ValueError('DISJOINT_WORKER_AND_AUDITOR_CORES_REQUIRED')
         if any(a['limits'][k] > LIVE_LIMITS[k] for k in LIVE_KEYS):
             raise ValueError('PROTOCOL_LIMIT_EXCEEDED')
@@ -320,9 +396,15 @@ class LiveCoordinator:
 
     def reserve_auxiliary(self, identifier, *, cpu_count, timeout_s, output_bytes,
                           memory_bytes=1024**3):
-        if identifier in self.value['auxiliary']:
+        if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', identifier):
+            raise ValueError('SAFE_AUXILIARY_ID_REQUIRED')
+        if type(cpu_count) is not int or cpu_count <= 0:
+            raise ValueError('INTEGER_AUXILIARY_CPU_COUNT_REQUIRED')
+        if type(timeout_s) not in (int, float) or not math.isfinite(timeout_s) or timeout_s <= 0:
+            raise ValueError('BOUNDED_AUXILIARY_TIMEOUT_REQUIRED')
+        if identifier in self.value['auxiliary'] or any(r['id'] == identifier for r in self.value.get('auxiliary_records', [])):
             raise ValueError('AUXILIARY_ALREADY_RESERVED')
-        available = self.admission['allowed_cpus'][3 * self.workers:]
+        available = self.admission['allowed_cpus'][3 * self.workers + self.admission.get('coordinator_cpu_count', 1):]
         occupied = {c for row in self.value['auxiliary'].values() for c in row['cpus']}
         cpus = [c for c in available if c not in occupied][:cpu_count]
         if cpu_count <= 0 or len(cpus) != cpu_count:
@@ -336,9 +418,13 @@ class LiveCoordinator:
             self._cost(k, cost[k])
         self._capacity(cost, memory_bytes)
         v = copy.deepcopy(self.value)
-        v['auxiliary'][identifier] = dict(reservation=cost, cpus=cpus, deadline_epoch=self.now() + duration)
+        v['auxiliary'][identifier] = dict(schema='PI0294_CPU_RESERVATION_V1', id=identifier,
+            root=str(self.root), fixture=False, source_sha=self.admission['source_sha'],
+            run_manifest_sha256=self.admission['run_manifest_sha256'], reservation=cost,
+            cpus=cpus, deadline_epoch=self.now() + duration)
         write(self.path, v)
         self.value = v
+        write(self.root / 'reservations' / ('aux-' + identifier + '.json'), v['auxiliary'][identifier])
         return copy.deepcopy(v['auxiliary'][identifier])
 
     def complete_auxiliary(self, identifier, *, cpu_s, output_bytes):
@@ -350,6 +436,9 @@ class LiveCoordinator:
             if actual > row['reservation'][k]:
                 v['status'] = 'LIVE_STOP_RESOURCE_BREACH'
         del v['auxiliary'][identifier]
+        v.setdefault('auxiliary_records', []).append(dict(id=identifier, cpu_s=cpu_s,
+            output_bytes=output_bytes, source_sha=row['source_sha'],
+            run_manifest_sha256=row['run_manifest_sha256'], cpus=row['cpus']))
         write(self.path, v)
         self.value = v
 

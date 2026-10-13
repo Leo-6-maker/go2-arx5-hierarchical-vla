@@ -71,19 +71,22 @@ def validate(*, now,user,job_id,jobs,quota,project_receipt,adoption,request,host
 def admit(root,request_path):
     root,request_path = Path(root),Path(request_path)
     from .run_admission import validate as entry_validate
-    entry_validate(root,profile='hopper-neural')
+    manifest=entry_validate(root,profile='hopper-neural')
     if not request_path.resolve().is_relative_to(root.resolve()):
         raise PermissionError('REQUEST_OUTSIDE_REGISTERED_RUN')
     request,adoption = read(request_path),read(root/'ADOPTION.json')
-    for name,key in (('RUN_MANIFEST.json','run_manifest_sha256'),('CODE_SEAL.json','code_seal_sha256')):
-        if sha(root/name) != request[key]:
-            raise PermissionError('REQUEST_BOUND_IDENTITY_CHANGED')
-    seal = read(root/'CODE_SEAL.json')
+    seal_path=root/manifest['code'].get('source_seal_relative','SOURCE_SEAL.json')
+    capsule=root/manifest['code'].get('capsule_relative','code')
+    if (sha(root/'RUN_MANIFEST.json')!=request['run_manifest_sha256']
+        or sha(seal_path)!=request['code_seal_sha256']
+        or request['source_sha']!=manifest['code']['vla_commit']):
+        raise PermissionError('REQUEST_BOUND_IDENTITY_CHANGED')
+    seal = read(seal_path)
     if seal['source_sha'] != request['source_sha'] or seal['protocol_release'] != adoption['protocol_release']:
         raise PermissionError('NEW_PROTOCOL_AND_CODE_BINDING_REQUIRED')
     for name,digest in seal['files'].items():
-        path = root/'code'/name
-        if not path.resolve().is_relative_to((root/'code').resolve()) or sha(path) != digest:
+        path = capsule/name
+        if not path.resolve().is_relative_to(capsule.resolve()) or path.is_symlink() or sha(path) != digest:
             raise PermissionError('FIXED_CAPSULE_CHANGED')
     if sha(request['bindings']) != request['bindings_sha256']:
         raise PermissionError('PRIVATE_BINDING_CHANGED')
@@ -120,9 +123,12 @@ def main():
         allocation_walltime_s=request['walltime_s'],prior_GPU_allocated_s=request['prior_GPU_allocated_s'],
         predicted_remaining_peak_bytes=request['predicted_remaining_peak_bytes'])
     write(root/'NEURAL_AUTHORIZATION.json',authorization)
-    os.execv(request['python'],[request['python'],'-m','scripts.pi0294.neural','--root',str(root),
+    command=[request['python'],'-m','scripts.pi0294.neural','--root',str(root),
         '--request',str(request_path),'--bindings',request['bindings'],'--mode',request['mode'],
-        '--microbatch',str(request.get('microbatch',2)),'--workers',str(request.get('workers',2))])
+        '--microbatch',str(request.get('microbatch',2)),'--workers',str(request.get('workers',2)),
+        '--max-steps',str(request.get('max_steps',4096)),'--stop-at',str(request.get('stop_at',4096))]
+    if request.get('resume'):command+=['--resume',request['resume']]
+    os.execv(request['python'],command)
 
 
 if __name__ == '__main__':

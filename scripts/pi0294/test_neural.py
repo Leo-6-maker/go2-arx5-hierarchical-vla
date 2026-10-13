@@ -1,12 +1,18 @@
 """CPU-only sampling/allocation/cache contracts, not neural qualification."""
 import unittest
+from unittest.mock import patch
+from pathlib import Path
+import json
+import tempfile
+import sys
 from types import SimpleNamespace
 
 import numpy as np
 
 from .native_dataset import ByteLRU
 from .sampling import BalancedSampler, PHASES
-from .neural import recipe_for
+from .neural import recipe_for,benchmark_plan,smoke_plan
+from .native_train import MeasuredLoader,qualify_cpu
 
 
 def fixture():
@@ -65,6 +71,56 @@ class NeuralContracts(unittest.TestCase):
                 self.assertFalse(recipe['tune_llm'])
                 self.assertFalse(recipe['tune_visual'])
                 self.assertTrue(recipe['bf16'])
+
+    def test_partial_qualification_naturally_drains_finite_iterator(self):
+        loader=MeasuredLoader(range(32));iterator=iter(loader)
+        consumed=[next(iterator) for _ in range(20)]
+        drained=list(iterator)
+        self.assertEqual(consumed,list(range(20)))
+        self.assertEqual(drained,list(range(20,32)))
+        self.assertEqual(loader.batches,32)
+
+    def test_failed_cpu_attempt_preserves_original_error_and_accounting(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output=Path(directory)/'qualification.json'
+            with patch.object(sys.modules[qualify_cpu.__module__],'_qualify_cpu',side_effect=ValueError('PRIMARY')):
+                with self.assertRaisesRegex(ValueError,'PRIMARY'):
+                    qualify_cpu(SimpleNamespace(output=str(output)))
+            receipt=json.loads(output.with_name(output.name+'.CPU_ATTEMPT.json').read_text())
+            self.assertFalse(output.exists())
+            self.assertEqual(receipt['status'],'FAILED')
+            self.assertTrue(receipt['unreaped_children_unknown'])
+            self.assertGreaterEqual(receipt['CPU_s'],0)
+
+    def test_prior_attempt_never_reused(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output=Path(directory)/'qualification.json'
+            output.with_name(output.name+'.CPU_ATTEMPT.json').touch()
+            with patch.object(sys.modules[qualify_cpu.__module__],'_qualify_cpu') as execute:
+                with self.assertRaises(FileExistsError):qualify_cpu(SimpleNamespace(output=str(output)))
+                execute.assert_not_called()
+
+    def test_main_scheduler_identical_across_conditional_extension(self):
+        normal=recipe_for('main',2,0,4096)
+        extension=recipe_for('main',2,0,6144)
+        self.assertEqual(normal,extension)
+        self.assertEqual(normal['scheduler_horizon_steps'],6144)
+        self.assertEqual(normal['warmup_steps'],308)
+
+    def test_benchmarks_exact_six_updates_fixed_order(self):
+        qualification=dict(status='PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4',
+            actual_loader_throughput={f'{w}/{s}':dict(natural_iterator_exhaustion=True,
+                consumed_samples_per_s=10+w) for w in (0,2,4) for s in (0,1)})
+        plan=benchmark_plan(qualification)
+        self.assertEqual([r['microbatch'] for r in plan],[2,4,8])
+        self.assertEqual(sum(r['updates'] for r in plan),6)
+        self.assertTrue(all(r['workers']==4 for r in plan))
+        qualification['actual_loader_throughput']['4/1']['natural_iterator_exhaustion']=False
+        with self.assertRaises(PermissionError):benchmark_plan(qualification)
+
+    def test_one_allocation_smoke_exact_eight_update_order(self):
+        self.assertEqual(smoke_plan(),[('smoke-continuous',4),('smoke-first',2),('smoke-resume',2)])
+        self.assertEqual(sum(n for _,n in smoke_plan()),8)
 
 
 if __name__=='__main__':

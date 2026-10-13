@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import multiprocessing
 import os
@@ -58,6 +59,9 @@ def dispatch(root, plan, admission, *, workers=2, python=sys.executable,
     validate(root, profile='4080-simulation')
     coordinator = LiveCoordinator(root, plan, admission, workers=workers,
                                   stage_boundary=stage_boundary)
+    os.sched_setaffinity(0, {coordinator.admission['allowed_cpus'][3 * workers]})
+    # runpy launchers name this module __main__; spawn needs an importable target.
+    spawned_worker = importlib.import_module('scripts.pi0294.dispatcher')._spawn_worker
     ctx = multiprocessing.get_context('spawn')
     pending = [r['id'] for r in coordinator.plan['episodes']]
     active, audits, audit_pending = {}, {}, []
@@ -77,7 +81,7 @@ def dispatch(root, plan, admission, *, workers=2, python=sys.executable,
                 identifier = pending.pop(0)
                 ticket = coordinator.reserve(identifier, timeout_s=timeout_s)
                 path = Path(root) / 'reservations' / (identifier + '.json')
-                proc = ctx.Process(target=_spawn_worker, args=(path, python), name=identifier)
+                proc = ctx.Process(target=spawned_worker, args=(path, python), name=identifier)
                 try:
                     proc.start()
                 except BaseException:
@@ -110,6 +114,7 @@ def dispatch(root, plan, admission, *, workers=2, python=sys.executable,
                         + os.pathsep + coordinator.admission['source_root'])
                 command = [python, '-m', 'scripts.pi0294.audit', '--root', str(root),
                     '--id', identifier, '--asset-root', coordinator.admission['asset_root'],
+                    '--reservation', str(Path(root) / 'reservations' / ('aux-audit-' + identifier + '.json')),
                     '--cpus', ','.join(map(str, reservation['cpus']))]
                 output = Path(root) / 'episodes' / identifier
                 log = (output / 'auditor.stdout').open('xb')

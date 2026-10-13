@@ -18,7 +18,13 @@ from scripts.pi0292.durable import read, write
 
 def independent_push_score(data, card, complete, table_height):
     import numpy as np
-    from scripts.pi0292.audit_data import sustained
+    def sustained(flags):
+        count = 0
+        for flag in flags:
+            count = count + 1 if flag else 0
+            if count >= 7:
+                return True
+        return False
     xyz = data['object_pose'][:, :3, 3]
     grasp = np.logical_and.reduce([data[k] for k in ('object_present', 'contact_valid',
         'gripper_state_valid', 'native_grasp', 'left_object_contact', 'right_object_contact')])
@@ -120,6 +126,8 @@ def audit_episode(root, identifier, asset_root):
         raise ValueError('FIRST_ATTEMPT_CARD_CHANGED')
     if card['id'] != identifier or Path(ticket['output']).resolve() != folder.resolve():
         raise ValueError('RESERVATION_EPISODE_BINDING_CHANGED')
+    if worker.get('source_sha') != ticket['source_sha']:
+        raise ValueError('WORKER_SOURCE_DIFFERS_FROM_RESERVATION')
     before = digest(folder / 'FILE_MANIFEST.json')
     started = time.monotonic()
     cpu0 = resource.getrusage(resource.RUSAGE_SELF)
@@ -134,6 +142,10 @@ def audit_episode(root, identifier, asset_root):
         base = importlib.import_module('scripts.pi0292.audit_data')
         from scripts.pi0291_arx5_data.config import PARAMETERS
         from .scene import make_engine
+        with np.load(folder / 'highrate.npz', allow_pickle=False) as archive:
+            external = archive['external_force_max']
+            if external.shape != (worker['physics_steps'], 2) or not np.isfinite(external).all() or np.any(external != 0):
+                raise ValueError('NONZERO_OR_INCOMPLETE_ALL_BODY_EXTERNAL_FORCE_EVIDENCE')
         def forbidden(*args, **kwargs):
             raise PermissionError('AUDITOR_FORBIDS_PHYSICS_INTEGRATION')
         originals = [mujoco.mj_step, mujoco.mj_step1, mujoco.mj_step2]
@@ -183,9 +195,13 @@ def main():
     for name in ('root', 'id', 'asset-root'):
         p.add_argument('--' + name, required=True)
     p.add_argument('--cpus')
+    p.add_argument('--reservation', required=True)
+    p.add_argument('--manifest')
     args = p.parse_args()
     if args.cpus:
         os.sched_setaffinity(0, {int(c) for c in args.cpus.split(',')})
+    from .bank import validate_cpu_ticket
+    validate_cpu_ticket(args.root, args.reservation, args.manifest)
     value = audit_episode(args.root, args.id, args.asset_root)
     print(json.dumps(dict(id=args.id, status=value['status'], admitted=value['admitted'], integrations=0)))
     return 0 if value['status'] == 'PASS_INDEPENDENT_RAW_AUDIT' else 2
