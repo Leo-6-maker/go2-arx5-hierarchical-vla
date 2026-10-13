@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import resource
 import sys
+import time
 
 from .durable import read,write
 from .train_adapter import sha
@@ -65,7 +66,12 @@ def build(root,old):
         if row['admitted']:(view/'episodes'/row['id']).symlink_to(Path(row['raw_root']))
     sys.path.insert(0,str(root/'code/scripts/pi0291_arx5_data'))
     from export_dataset import export
+    began=time.monotonic()
     manifest=export(view,root/'BANK_V2_ADMISSION.json',root/'bank_v2_native')
+    usage=resource.getrusage(resource.RUSAGE_SELF)
+    write(root/'bank_v2_native/EXPORT_RECEIPT.json',dict(status='RAW_DATA_READY',
+        TRAIN_windows=manifest['TRAIN_windows'],DEV_windows=manifest['DEV_windows'],
+        elapsed_s=time.monotonic()-began,CPU_s=usage.ru_utime+usage.ru_stime,model_loads=0,physics_steps=0))
     write(root/'BANK_V2_MANIFEST.json',dict(status='EXPORTED_NATIVE_QUALIFICATION_PENDING',
         manifest_sha256=sha(root/'bank_v2_native/DATASET_MANIFEST.json'),statistics_sha256=manifest['statistics_sha256'],
         TRAIN_windows=manifest['TRAIN_windows'],DEV_windows=manifest['DEV_windows'],episodes=manifest['episodes'],
