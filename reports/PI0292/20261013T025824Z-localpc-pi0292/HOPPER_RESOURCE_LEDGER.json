@@ -5,7 +5,7 @@
   "model_smoke_updates": 0,
   "main_updates": 0,
   "generation_queries": 0,
-  "CPU_s": 229.768325,
+  "CPU_s": 381.024862,
   "CPU_upper_s": 60,
   "CPU_upper_reason": "Remote metadata reads and staging child processes not separately measured",
   "stages": [
@@ -25,9 +25,11 @@
     },
     {
       "id": "BANK_V2_CONSUMER",
-      "status": "RUNNING",
-      "CPU_reserved_s": 14399.964398384094,
-      "bytes_reserved": 21474836480
+      "status": "PASS_BANK_V2_FULL_DATA_AND_CPU_INTERFACE",
+      "CPU_reserved_s": 0,
+      "bytes_reserved": 21474836480,
+      "CPU_s": 151.25653699999998,
+      "actual_bytes": 3107139862
     }
   ],
   "deletions": 0,
