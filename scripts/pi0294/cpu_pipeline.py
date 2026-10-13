@@ -15,6 +15,39 @@ from .native_dataset import sha,official_import,NativeDataset,ProcessedCollator
 from .native_train import tree_identity
 
 
+def verify_frozen_bank(native, seal_sha256, manifest_sha256, statistics_sha256):
+    """Reuse exact export bytes, never rebuild or fit statistics on recovery."""
+    native=Path(native).resolve(strict=True)
+    seal_path=native/'BANK_SEAL.json'
+    if sha(seal_path)!=seal_sha256:
+        raise ValueError('FROZEN_BANK_SEAL_CHANGED')
+    seal=read(seal_path)
+    if (seal.get('schema')!='PI0294_BANK_SEAL_V1' or seal.get('fixture') is not False
+        or seal.get('statistics_fit_count')!=1
+        or seal.get('manifest_sha256')!=manifest_sha256
+        or seal.get('statistics_sha256')!=statistics_sha256):
+        raise ValueError('EXACT_FROZEN_BANK_IDENTITY_REQUIRED')
+    actual={p.relative_to(native).as_posix() for p in native.rglob('*') if p.is_file()}
+    if actual!=set(seal['file_sha256'])|{'BANK_SEAL.json'}:
+        raise ValueError('FROZEN_BANK_MEMBER_SET_CHANGED')
+    for name,digest in seal['file_sha256'].items():
+        path=native/name
+        if path.is_symlink() or not path.resolve().is_relative_to(native) or sha(path)!=digest:
+            raise ValueError('FROZEN_BANK_MEMBER_CHANGED')
+    bank=read(native/'DATASET_MANIFEST.json')
+    if (bank.get('schema')!='PI0294_FROZEN_MULTITASK_NATIVE_V1'
+        or bank.get('version') not in ('v3.0','v3.1')
+        or bank.get('version')!=seal.get('version')
+        or bank.get('frozen') is not True or bank.get('fixture') is not False
+        or bank.get('statistics_fit_count')!=1
+        or bank.get('all_planned_first_attempts_terminal') is not True
+        or bank.get('partial_extension_archive_only') is not False
+        or sha(native/'DATASET_MANIFEST.json')!=manifest_sha256
+        or sha(native/'statistics.json')!=statistics_sha256):
+        raise ValueError('FULL_TERMINAL_FROZEN_BANK_REQUIRED')
+    return bank
+
+
 def qualify(args,output):
     """Actual native TRAIN/DEV tensors plus all-window codec and exact new loader."""
     official_import(args.source)
@@ -67,12 +100,32 @@ def run(args):
         OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',TOKENIZERS_PARALLELISM='false',
         NO_ALBUMENTATIONS_UPDATE='1',PYTHONDONTWRITEBYTECODE='1')
     args.deadline=ticket['deadline_epoch']
-    evidence=root/'evidence'/('bank-qualification-'+read(args.scene_plan)['version'].replace('.','_'))
+    version=read(args.scene_plan)['version'].replace('.','_')
+    attempt=getattr(args,'qualification_attempt',1)
+    if type(attempt) is not int or attempt<1:
+        raise ValueError('POSITIVE_CPU_QUALIFICATION_ATTEMPT_REQUIRED')
+    evidence=root/'evidence'/('bank-qualification-'+version+('' if attempt==1 else '-'+str(attempt).zfill(2)))
     evidence.mkdir(exist_ok=False)
     started=time.monotonic();before=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
     status='FAILED_PRESERVED';failure=None
     try:
-        bank=build(root,args.scene_plan,args.old_native,args.old_admission,args.output)
+        frozen=getattr(args,'frozen_bank_seal_sha256',None)
+        if frozen:
+            if attempt<2:
+                raise ValueError('FROZEN_RECOVERY_MUST_PRESERVE_FIRST_ATTEMPT')
+            previous=read(root/'evidence'/('bank-qualification-'+version)/'CPU_ATTEMPT.json')
+            if (previous.get('status')!='FAILED_PRESERVED'
+                or (root/'evidence'/('bank-qualification-'+version)/'CPU_QUALIFICATION.json').exists()):
+                raise ValueError('FROZEN_RECOVERY_REQUIRES_ACTUAL_FAILED_FIRST_ATTEMPT')
+            manifest=read(args.manifest)
+            bank=verify_frozen_bank(args.output,frozen,
+                manifest['data']['manifest_sha256'],manifest['interfaces']['statistics_sha256'])
+            if bank['version']!=read(args.scene_plan)['version']:
+                raise ValueError('FROZEN_BANK_SCENE_PLAN_VERSION_CHANGED')
+        else:
+            if attempt!=1:
+                raise ValueError('RECOVERY_CANNOT_REBUILD_OR_REFIT_BANK')
+            bank=build(root,args.scene_plan,args.old_native,args.old_admission,args.output)
         if bank.get('status')=='PI0294_BANK_QUALITY_GATE_FAIL':raise PermissionError('FIRST_ATTEMPT_QUALITY_GATE_FAILED')
         value=qualify(args,evidence);write(evidence/'CPU_QUALIFICATION.json',value)
         status=value['status'];return value
@@ -92,4 +145,6 @@ if __name__=='__main__':
     for name in ('root','scene-plan','old-native','old-admission','output','reservation','source','cosmos'):
         p.add_argument('--'+name,required=True)
     p.add_argument('--manifest')
+    p.add_argument('--qualification-attempt',type=int,default=1)
+    p.add_argument('--frozen-bank-seal-sha256')
     value=run(p.parse_args());print(json.dumps(dict(status=value['status'],model_loaded=False,CUDA_initialized=False)))
