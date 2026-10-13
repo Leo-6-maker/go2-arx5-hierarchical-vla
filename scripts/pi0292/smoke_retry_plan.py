@@ -2,7 +2,7 @@
 from datetime import date
 import math
 import re
-from .allocation_admission import PARALLEL_AUTHORITY, parallel_peer_jobs
+from .allocation_admission import PARALLEL_AUTHORITY, parallel_peer_jobs, validate_engineering_revision
 
 GIB = 1024**3
 
@@ -16,7 +16,7 @@ def nonnegative(value, name):
 def prepare(*, authorized_project, project, user, cluster, today, balance_su,
             ledger, own_jobs, quota, filesystem_free_bytes, owned_bytes,
             now, adoption, deferred_after_any=(), dependency_queue_authority=None,
-            parallel_authority=None, parallel_peer_ids=()):
+            parallel_authority=None, parallel_peer_ids=(), engineering_revision=None):
     if project['name'] != authorized_project:
         raise PermissionError('EXPLICIT_PROJECT_BINDING_REQUIRED')
     day = date.fromisoformat(today)
@@ -51,7 +51,23 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
             or ledger.get('pending_updates', 0)):
         raise PermissionError('UNEXECUTED_S3_ONLY_NOT_ENGINEERING_MODEL_RETRY')
     submissions = ledger['PBS_submissions']
-    if (len(submissions) != 1 or submissions[0]['request_id'] != 'S3-smoke-01'
+    submission_cap = 3
+    request_id = 'S3-smoke-02'
+    expected_previous = 1
+    if engineering_revision is not None:
+        submission_cap = validate_engineering_revision(engineering_revision)
+        request_id = 'S3-smoke-03'
+        expected_previous = 2
+        if len(submissions) != 2:
+            raise PermissionError('EXACT_SECOND_ALLOCATION_FAILURE_REQUIRED')
+        previous = submissions[1]
+        if (previous['request_id'] != 'S3-smoke-02' or previous['status'] != 'RECONCILED_TERMINAL'
+                or not previous.get('job_id') or previous.get('exit_status') != 1
+                or previous.get('GPU_reserved_s', 0) or previous.get('CPU_reserved_s', 0)
+                or not 0 <= previous.get('GPU_actual_allocated_s', -1) <= 120
+                or previous.get('failure_kind') != 'NATIVE_AMGR_COMMAND_NOT_FOUND_BEFORE_MODEL'):
+            raise PermissionError('EXACT_PRE_MODEL_AMGR_FAILURE_REQUIRED')
+    if (len(submissions) != expected_previous or submissions[0]['request_id'] != 'S3-smoke-01'
             or submissions[0]['status'] != 'SUBMIT_FAILED_PRESERVED'
             or submissions[0]['job_id'] is not None
             or submissions[0].get('GPU_reserved_s', 0)
@@ -86,8 +102,8 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
         status='PREPARED_NOT_SUBMITTED_CAPACITY_HOLD' if blockers else 'PREPARED_REQUIRES_LIVE_SUBMISSION_ADMISSION',
         project=authorized_project, project_end_date=project['end_date'],
         project_membership_verified=True, positive_balance_verified=True,
-        request_id='S3-smoke-02', previous_failure_retained=True,
-        PBS_calls_used=1, PBS_calls_remaining=2, next_smoke_walltime_s=1800,
+        request_id=request_id, previous_failure_retained=True,
+        PBS_calls_used=len(submissions), PBS_calls_remaining=submission_cap-len(submissions), next_smoke_walltime_s=1800,
         required_remaining_peak_bytes=forecast, required_margin_bytes=margin,
         personal_used_bytes=used, personal_hard_bytes=hard, personal_free_bytes=free,
         additional_headroom_needed_bytes=max(0, forecast + margin - free),
@@ -99,5 +115,6 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
         actual_allocation_still_requires_no_other_own_job=not bool(parallel_authority),
         parallel_authority=parallel_authority,
         parallel_peer_ids=list(parallel_peer_ids) if parallel_authority else [],
+        engineering_revision=engineering_revision,
         remaining_main_and_eval_must_share_one_allocation=True,
         budget_reset=False, selected='NONE', deployment='NONE')

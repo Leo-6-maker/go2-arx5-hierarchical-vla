@@ -2,7 +2,17 @@ import copy
 import json
 from types import SimpleNamespace
 import unittest
-from scripts.pi0292.allocation_admission import GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, current_project, owned_jobs, validate
+from scripts.pi0292.allocation_admission import ENGINEERING_AUTHORITY, GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, current_project, owned_jobs, validate, validate_engineering_revision
+
+
+def engineering_revision():
+    return dict(schema='PI0292_SINGLE_ENGINEERING_PBS_REVISION_V1',
+        authority=ENGINEERING_AUTHORITY, run_uuid='20261013T025824Z-localpc-pi0292',
+        science_release=RELEASE, original_submission_cap=3, revised_submission_cap=4,
+        added_engineering_smoke_submissions=1, GPU_cap_s=28800,
+        max_PI0292_concurrent_GPU=1, original_T0_epoch=1791860304,
+        new_work_cutoff_epoch=1791943104, deadline_epoch=1791946704,
+        reset_clock_or_budget=False, recipe_changed=False, science_gates_changed=False)
 
 
 class TestAllocationAdmission(unittest.TestCase):
@@ -66,11 +76,24 @@ class TestAllocationAdmission(unittest.TestCase):
         calls=[]
         def query(command,**kwargs):
             calls.append(command)
-            return json.dumps([self.arguments['project_receipt']['project']]) if 'ls project' in command[-1] else "{'su': 42}"
-        receipt=current_project(query)
+            return json.dumps([self.arguments['project_receipt']['project']]) if command[1]=='ls' else "{'su': 42}"
+        receipt=current_project(query,executable='/qualified/native/bin/amgr')
         self.assertEqual(receipt['balance_su'],42)
         self.assertGreater(receipt['observed_epoch'],self.now)
         self.assertEqual(len(calls),2)
+        self.assertEqual(calls[0],['/qualified/native/bin/amgr','ls','project','--name',PROJECT,'--json-info'])
+        self.assertEqual(calls[1],['/qualified/native/bin/amgr','checkbalance','project','--name',PROJECT])
+
+    def test_third_smoke_requires_exact_human_revision_without_other_expansion(self):
+        self.arguments['request'].update(request_id='S3-smoke-03',engineering_revision=engineering_revision())
+        self.assertIn('NOT_MODEL_QUALIFICATION',validate(**self.arguments)['status'])
+        for key,value in [('revised_submission_cap',5),('GPU_cap_s',28801),
+                ('reset_clock_or_budget',True),('deadline_epoch',1791946705),('recipe_changed',True)]:
+            with self.subTest(key=key):
+                bad=engineering_revision();bad[key]=value
+                with self.assertRaises(PermissionError):validate_engineering_revision(bad)
+        self.arguments['request'].pop('engineering_revision')
+        with self.assertRaises(PermissionError):validate(**self.arguments)
 
     def test_explicit_two_job_revision_keeps_exact_single_gpu_peers(self):
         self.arguments['request'].update(parallel_authority=PARALLEL_AUTHORITY,parallel_peer_ids=['999.server'])

@@ -15,6 +15,20 @@ SOURCE = 'c187d9573bdff302783fb5f41d06fcaa1753d2a8'
 GIB = 1024**3
 PBS = '/cm/shared/apps/pbspro/current/bin/'
 PARALLEL_AUTHORITY = '2026-10-13_DIRECT_USER_TWO_INDEPENDENT_GPU_ALLOCATIONS_PI0292_ONE_GPU_8H'
+ENGINEERING_AUTHORITY = '2026-10-13_DIRECT_USER_ONE_EXTRA_ENGINEERING_SMOKE_PBS_3_TO_4'
+
+
+def validate_engineering_revision(revision):
+    expected = dict(schema='PI0292_SINGLE_ENGINEERING_PBS_REVISION_V1',
+        authority=ENGINEERING_AUTHORITY, run_uuid='20261013T025824Z-localpc-pi0292',
+        science_release=RELEASE, original_submission_cap=3, revised_submission_cap=4,
+        added_engineering_smoke_submissions=1, GPU_cap_s=28800,
+        max_PI0292_concurrent_GPU=1, original_T0_epoch=1791860304,
+        new_work_cutoff_epoch=1791943104, deadline_epoch=1791946704,
+        reset_clock_or_budget=False, recipe_changed=False, science_gates_changed=False)
+    if revision != expected:
+        raise PermissionError('EXACT_SINGLE_ENGINEERING_PBS_REVISION_REQUIRED')
+    return 4
 
 
 def parallel_peer_jobs(*, jobs, user, allowed_ids, authority):
@@ -75,10 +89,10 @@ def personal_quota(user, path='/home/svu/ccepbs/nushpc/quota_hw_report/hpfs_quot
                 report_epoch=path.stat().st_mtime)
 
 
-def current_project(query=subprocess.check_output):
-    projects = json.loads(query(['bash', '-lc', 'amgr ls project --name CFP04-CF-007 --json-info'],
+def current_project(query=subprocess.check_output, executable='amgr'):
+    projects = json.loads(query([executable, 'ls', 'project', '--name', PROJECT, '--json-info'],
                                 text=True, timeout=30))
-    balance = ast.literal_eval(query(['bash', '-lc', 'amgr checkbalance project --name CFP04-CF-007'],
+    balance = ast.literal_eval(query([executable, 'checkbalance', 'project', '--name', PROJECT],
                                      text=True, timeout=30))
     if len(projects) != 1:
         raise PermissionError('EXACT_CURRENT_PROJECT_REQUIRED')
@@ -125,7 +139,10 @@ def validate(*, now, user, job_id, jobs, quota, adoption, project_receipt,
             or dependency['original_T0'] != adoption['T0_epoch']
             or dependency['original_deadline'] != adoption['deadline_epoch']):
         raise PermissionError('ACTUAL_MIGRATED_DEPENDENCY_QUALIFICATION_REQUIRED')
-    if (request['request_id'] != 'S3-smoke-02' or request['source_sha'] != SOURCE
+    request_id = request['request_id']
+    if request_id == 'S3-smoke-03':
+        validate_engineering_revision(request.get('engineering_revision'))
+    if (request_id not in ('S3-smoke-02', 'S3-smoke-03') or request['source_sha'] != SOURCE
             or request['stage'] != 'smoke' or request['walltime_s'] != 1800
             or request['predicted_remaining_peak_bytes'] != 80*GIB):
         raise PermissionError('EXACT_UNCHANGED_S3_RETRY_REQUIRED')
@@ -166,7 +183,17 @@ def main():
         raise PermissionError('CURRENT_DEPENDENCY_LEASE_REQUIRED')
     # Queue time does not extend a login-node project observation. Re-query
     # inside the actual allocation; unavailable authentication fails closed.
-    project = current_project()
+    executable = request.get('project_query_executable', 'amgr')
+    if request['request_id'] == 'S3-smoke-03':
+        path = Path(executable)
+        if (not path.is_absolute() or path.name != 'amgr' or not os.access(path, os.X_OK)
+                or sha(path) != request.get('project_query_executable_sha256')):
+            raise PermissionError('QUALIFIED_NATIVE_AMGR_ABSOLUTE_EXECUTABLE_REQUIRED')
+        revision_path = root/'evidence/ENGINEERING_PBS_REVISION.json'
+        if (sha(revision_path) != request.get('engineering_revision_sha256')
+                or read(revision_path) != request.get('engineering_revision')):
+            raise PermissionError('BOUND_ENGINEERING_REVISION_CHANGED')
+    project = current_project(executable=executable)
     result = validate(now=time.time(), user=user, job_id=job_id, jobs=owned_jobs(user),
         quota=personal_quota(user), adoption=read(root/'ADOPTION.json'),
         project_receipt=project, dependency=read(dependency_path), request=request,

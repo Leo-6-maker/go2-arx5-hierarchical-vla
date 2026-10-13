@@ -2,6 +2,7 @@ import copy
 import unittest
 
 from .smoke_retry_plan import GIB, PARALLEL_AUTHORITY, prepare
+from .test_allocation_admission import engineering_revision
 
 
 class TestSmokeRetryPlan(unittest.TestCase):
@@ -103,6 +104,26 @@ class TestSmokeRetryPlan(unittest.TestCase):
                 if mutation=='current-project':altered['own_jobs']['123.server']['project']=altered['authorized_project']
                 if mutation=='two-gpu':altered['own_jobs']['123.server']['Resource_List']['ngpus']=2
                 with self.assertRaises(PermissionError):prepare(**altered)
+
+    def test_one_engineering_retry_retains_real_failed_allocation_and_spent_gpu(self):
+        values=self.inputs();values['quota']['used_bytes']=850*GIB
+        values['engineering_revision']=engineering_revision()
+        values['ledger']['GPU_allocated_s']=12
+        values['ledger']['PBS_submissions'].append(dict(request_id='S3-smoke-02',
+            status='RECONCILED_TERMINAL',job_id='456.server',exit_status=1,
+            GPU_actual_allocated_s=12,GPU_reserved_s=0,CPU_reserved_s=0,
+            failure_kind='NATIVE_AMGR_COMMAND_NOT_FOUND_BEFORE_MODEL'))
+        original=copy.deepcopy(values)
+        result=prepare(**values)
+        self.assertEqual(values,original)
+        self.assertEqual(result['request_id'],'S3-smoke-03')
+        self.assertEqual(result['PBS_calls_used'],2)
+        self.assertEqual(result['PBS_calls_remaining'],2)
+        for key,value in [('status','RUNNING'),('exit_status',0),('failure_kind','unknown'),
+                ('GPU_reserved_s',1800),('GPU_actual_allocated_s',121)]:
+            with self.subTest(key=key):
+                bad=copy.deepcopy(values);bad['ledger']['PBS_submissions'][1][key]=value
+                with self.assertRaises(PermissionError):prepare(**bad)
 
 
 if __name__ == '__main__':
