@@ -57,6 +57,8 @@ def seal(args):
         per_profile_queries=len(rows)*2,total_three_profile_queries=len(rows)*6,native_inference_steps=4,
         statistics_sha256=manifest['statistics_sha256'],manifest_sha256=sha(Path(args.dataset)/'DATASET_MANIFEST.json'),
         gate=gate_configuration(),gate_code_hashes={p:sha(Path(args.frozen_code)/p) for p in files},
+        evaluation_script_hashes={name:sha(Path(__file__).parent/name) for name in
+            ('seal_probe.py','eval_contract.py','generate_probes.py')},
         expert_positive_controls=experts,expert_rejects=sum(r['gate']['decision']=='REJECT' for r in experts),
         retain_rejected_errors=True,per_episode_macro_required=True,models_loaded=0,physics_steps=0,
         CPU_s=u.ru_utime+u.ru_stime)

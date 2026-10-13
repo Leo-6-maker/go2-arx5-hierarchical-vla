@@ -60,6 +60,12 @@ def build(root,old):
         original_admission_sha256=sha(old/'DATASET_ADMISSION.json'),old_statistics_sha256=OLD_STATS,
         successor_attempts=planned,all_24_terminal=True,canaries_excluded=True)
     write(root/'BANK_V2_ADMISSION.json',admission)
+    write(root/'SUPPLEMENT_ATTEMPT_LEDGER.json',dict(origin_plan='PI0291',authority='PI0292',
+        original_PI0291_status='PARTIAL',original_ledger_modified=False,planned_order=planned,
+        attempts=[dict(logical_id=identifier,attempt_uid=root.name+'/'+identifier,
+            original_seed=str(plan['attempts'][identifier]['card']['seed']),
+            terminal=next(r for r in records if r['id']==identifier)['terminal'],
+            dispatcher_record=next(r for r in state['records'] if r['id']==identifier)) for identifier in planned]))
     if not qualified:return admission
     view=root/'bank_v2_input';(view/'episodes').mkdir(parents=True)
     for row in records:
@@ -86,6 +92,31 @@ def build(root,old):
     write(root/'STATISTICS_PROVENANCE.json',dict(new=read(root/'bank_v2_native/STATISTICS_PROVENANCE.json'),
         old_sha256=OLD_STATS,new_sha256=sha(root/'bank_v2_native/statistics.json'),max_abs_differences=diff,
         fit_count=1,DEV_fit=False,old_file_unchanged=sha(old/'native_dataset/statistics.json')==OLD_STATS))
+    (root/'DATASET_CARD.md').write_text(f'''# PI0292 ARX5 Bank V2
+
+Independent fixed-base ARX5 MuJoCo simulation, not WBC, mobile Go2, or hardware qualification.
+Original PI0291 remains PARTIAL. Original56 TRAIN are referenced unchanged; the 24 successor attempts
+are first attempts under PI0292, ordered DEV16 then TRAIN8. Canaries, failures and unadmitted data
+do not enter optimization; all planned denominators remain in BANK_V2_ADMISSION.json.
+
+Admitted TRAIN: {counts['TRAIN']['admitted']}/64; admitted DEV: {counts['DEV']['admitted']}/16.
+TRAIN windows: {manifest['TRAIN_windows']}; DEV windows: {manifest['DEV_windows']}.
+Each admitted episode has 641 original dual-RGB observations, 640 committed absolute EEF10 commands,
+and 601 full H40 windows. Row-packed rot6d, 20Hz actions, prefix8. No synthetic command padding.
+State/labels use 10 physical dimensions and official132 padding. The original instruction is retained.
+Privileged object/teacher/stage/joint evidence is not a policy input.
+
+New statistics were fitted once on admitted TRAIN with the frozen equal-window/timestep rule;
+DEV and confirmation layouts never participate. Old stats {OLD_STATS} are preserved.
+New stats {manifest['statistics_sha256']}. Min/max, no image augmentation, state_dropout0;
+official relative EEF conversion occurs once and gripper remains absolute closed0/open1.
+Native inverse clipping is measured during independent TRAIN/DEV CPU qualification.
+
+Official processor source: 51d4c89f72fda44cbf77285c6a8114b52676b8a1.
+Original private HF dependency revision: {OLD_HF_REVISION}.
+This card describes an exported raw bank; CPU/model/closed-loop qualification is proven only
+by its separate actual receipts. No model result is claimed here. selected=NONE; deployment=NONE.
+''')
     return admission
 
 

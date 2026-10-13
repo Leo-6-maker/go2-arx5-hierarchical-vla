@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from .eval_contract import uniform_train_ids,stage_anchors,noise_seed,matrix10,gate_action,error_metrics
+from .eval_contract import uniform_train_ids,stage_anchors,noise_seed,matrix10,gate_action,error_metrics,summarize_records
 
 
 class TestEvalContract(unittest.TestCase):
@@ -47,6 +47,20 @@ class TestEvalContract(unittest.TestCase):
         self.assertNotEqual(noise_seed(29201,'T291000',0),noise_seed(29202,'T291000',0))
         self.assertNotEqual(noise_seed(29201,'T291000',0),noise_seed(29201,'T291000',1))
         with self.assertRaises(ValueError):noise_seed(0,'T291000',0)
+
+    def test_macro_keeps_rejected_and_incomplete_rows(self):
+        state=np.r_[.4,0.,.5,1.,0.,0.,0.,1.,0.,1.]
+        expert=np.repeat(state[None],40,axis=0);prediction=expert.copy();prediction[:,0]+=1
+        row=dict(id='T291000',split='TRAIN',gate=dict(decision='REJECT',issues=[dict(code='TEST')]),
+            errors=error_metrics(prediction,expert,state))
+        summary=summarize_records([row])['TRAIN']
+        self.assertAlmostEqual(summary['episode_macro']['H40']['XYZ_euclidean_m']['mean'],1)
+        self.assertEqual(summary['decisions'],{'REJECT':1})
+        prediction[0,0]=np.nan;row['errors']=error_metrics(prediction,expert,state)
+        summary=summarize_records([row])['TRAIN']
+        self.assertIsNone(summary['episode_macro']['H40']['XYZ_euclidean_m']['mean'])
+        self.assertEqual(summary['episodes']['T291000']['H40']['XYZ_euclidean_m']['expected_points'],40)
+
 
 
 if __name__=='__main__':unittest.main()

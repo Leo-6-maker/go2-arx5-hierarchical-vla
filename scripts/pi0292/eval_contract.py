@@ -102,6 +102,8 @@ def error_metrics(prediction,expert,state):
     metrics.update(first_position_jump_m=float(np.linalg.norm(prediction[0,:3]-state[:3])) if np.isfinite(prediction[0,:3]).all() else None,
         linear_speed_mps=summary(np.linalg.norm(np.diff(prediction[:,:3],axis=0),axis=-1)/.05),
         angular_speed_radps=summary(angular))
+    metrics['pointwise']={name:[float(v) if np.isfinite(v) else None for v in values]
+        for name,values in (('XYZ_euclidean_m',xyz),('SO3_rad',angles),('gripper_absolute',grip))}
     for label,less in (('close',True),('open',False)):
         def transition(values):
             sequence=np.r_[state[9],values[:,9]]
@@ -112,3 +114,36 @@ def error_metrics(prediction,expert,state):
             first_timing_error_s=(actual[0]-expected[0])*.05 if expected and actual else None,
             missing=bool(expected and not actual),spurious=bool(actual and not expected),threshold=.5)
     return metrics
+
+
+def summarize_records(records):
+    """Every finite Gate-REJECT row remains in the same error denominator."""
+    from collections import Counter
+    result={}
+    for split in ('TRAIN','DEV'):
+        rows=[r for r in records if r['split']==split]
+        episodes={}
+        for identifier in sorted({r['id'] for r in rows}):
+            own=[r for r in rows if r['id']==identifier];views={}
+            for name,length in (('H40',40),('prefix8',8)):
+                views[name]={}
+                for metric in ('XYZ_euclidean_m','SO3_rad','gripper_absolute'):
+                    values=[v for row in own for v in row.get('errors',{}).get('pointwise',{}).get(metric,[None]*40)[:length]]
+                    finite=[v for v in values if v is not None]
+                    views[name][metric]=dict(expected_points=len(values),finite_points=len(finite),
+                        median=float(np.median(finite)) if finite else None,p95=float(np.percentile(finite,95)) if finite else None,
+                        mean=float(np.mean(finite)) if finite else None,complete=len(finite)==len(values))
+            episodes[identifier]=views
+        macro={}
+        for view in ('H40','prefix8'):
+            macro[view]={}
+            for metric in ('XYZ_euclidean_m','SO3_rad','gripper_absolute'):
+                values=[r[view][metric] for r in episodes.values()]
+                complete=bool(values) and all(v['complete'] for v in values)
+                macro[view][metric]=dict(episodes=len(values),complete=complete,
+                    **{key:float(np.mean([v[key] for v in values])) if complete else None for key in ('mean','median','p95')})
+        result[split]=dict(queries=len(rows),episodes=episodes,episode_macro=macro,
+            decisions=dict(Counter(r['gate']['decision'] for r in rows)),
+            reasons=dict(Counter(issue['code'] for r in rows for issue in r['gate']['issues'])),
+            rejected_rows_excluded=False,macro_rule='Mean of within-episode pooled-window/noise statistics; incomplete dimensions remain null')
+    return result
