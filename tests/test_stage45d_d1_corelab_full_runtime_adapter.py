@@ -6,6 +6,8 @@ import ast
 import json
 from pathlib import Path
 import sys
+import subprocess
+import os
 
 import pytest
 
@@ -39,7 +41,12 @@ def test_full_profile_and_static_contract() -> None:
     profile = full.validate_profile()
     assert profile["execution"]["total_model_side_calls"] == 720
     assert profile["resource_margin"]["minimum_free_bytes"] == 4 * 1024**3
-    result = full.validate_static_contract()
+    # The admission guard deliberately rejects any prior torch import. Test it
+    # in a fresh process, independent of tensor tests collected in this process.
+    result = json.loads(subprocess.check_output(
+        [sys.executable, "-c", "import json; import stage45d_d1_corelab_full_runtime_adapter as m; print(json.dumps(m.validate_static_contract()))"],
+        cwd=ROOT, env={**os.environ, "PYTHONPATH": str(ROOT / "scripts") + os.pathsep + str(ROOT / "src")}, text=True,
+    ))
     assert result["status"] == "PASS_STATIC_NOT_EXECUTED"
     assert result["execution_boundary"]["gpu"] == 0
     assert result["static_guard"]["status"] == "PASS"

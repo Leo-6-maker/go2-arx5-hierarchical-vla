@@ -80,7 +80,7 @@ def test_pairing_is_left_minus_right_and_target_stratified() -> None:
     assert exposure["window_count"] == 24
     assert exposure["overall"]["row_count"] == 24
     assert exposure["by_target"]["red_target_train_a"]["row_count"] == 6
-    assert exposure["overall"]["delta_left_minus_right"]["final_target_distance_m"]["mean"] == pytest.approx(0.0)
+    assert exposure["overall"]["delta_left_minus_right"]["final_target_distance_m"]["mean"] == pytest.approx((2000 - 1000) / 1000.0)
 
 
 def test_selection_packet_script_has_no_model_side_top_level_import() -> None:

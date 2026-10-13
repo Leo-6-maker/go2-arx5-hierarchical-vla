@@ -76,7 +76,7 @@ class RestoreStepTest(unittest.TestCase):
                    "durable_path": "owner/repo/family/checkpoint-2000",
                    "hf_manifest_commit_id": "a" * 40,
                    "source_record": {"inventory": {"entries": [{"path": name} for name in names]}}}
-        with tempfile.TemporaryDirectory() as root, patch.object(Path, "read_text", return_value=json.dumps(receipt)):
+        with tempfile.TemporaryDirectory() as root, patch.object(Path, "read_text", return_value=json.dumps(receipt)), patch.dict(sys.modules, {"huggingface_hub": hub}):
             args = ["restore", "--receipt", str(Path(root) / "receipt.json"),
                     "--model-root", str(Path(root) / "model"), "--cache-root", str(Path(root) / "cache")]
             with patch.object(sys, "argv", args), self.assertRaises(AssertionError):

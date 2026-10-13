@@ -5,7 +5,6 @@ import pytest
 from go2arx5_vla.task_data.config import layout,COMMISSIONING,PILOTS,PARAMETERS as P
 from go2arx5_vla.task_data.scene import xml_scene
 from go2arx5_vla.task_data.codec import relative_action,decode
-from go2arx5_vla.task_data.engine import Engine
 from go2arx5_vla.task_data.teacher import Teacher
 from go2arx5_vla.trajectory.so3 import quat_to_matrix,geodesic_angle
 from go2arx5_vla.target_sim.scorer import score_episode,BOOL_FIELDS
@@ -32,7 +31,9 @@ def test_native_row6d_relative_roundtrip_nonidentity():
         assert np.max(np.abs(decoded-pose))<1e-12 and abs(grip-opening)<1e-12
 
 
+@pytest.mark.mujoco
 def test_no_mocap_constraint_or_private_assets_and_named_dofs():
+    from go2arx5_vla.task_data.engine import Engine
     engine=Engine(layout('C2900'))
     assert engine.model.neq==0 and engine.model.nmocap==0
     assert engine.model.nq==16 and engine.model.nv==14 and engine.model.nu==2
@@ -53,7 +54,9 @@ def test_no_post_reset_pose_assignment():
             assert not any('qpos' in ast.unparse(x) or 'xpos' in ast.unparse(x) or 'mocap' in ast.unparse(x) for x in targets)
 
 
+@pytest.mark.mujoco
 def test_rotation_feedback_discrete_stability_from_actual_inertia_no_integration():
+    from go2arx5_vla.task_data.engine import Engine
     import mujoco
     for identifier in COMMISSIONING+PILOTS:
         engine=Engine(layout(identifier));M=np.zeros((engine.model.nv,engine.model.nv))
@@ -87,7 +90,9 @@ def test_score_requires_history_complete_hold_and_real_bilateral_flags():
     assert score_episode(d,**args)['hold_pass']==40 and not score_episode(d,**args)['persistent_success']
 
 
+@pytest.mark.mujoco
 def test_teacher_reads_actual_contact_and_does_not_advance_on_close_command():
+    from go2arx5_vla.task_data.engine import Engine
     engine=Engine(layout('C2901'));s=engine.snapshot();teacher=Teacher(layout('C2901'),s['object_pose'])
     teacher.stage='close'
     for t in np.arange(0,2,.05):s['time_s']=float(t);s['native_grasp']=False;teacher.observe(s)

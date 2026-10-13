@@ -16,12 +16,24 @@ import stage45e_h200_unified_replication as campaign
 
 
 def test_static_surfaces_are_cpu_only() -> None:
+    if not (ROOT / "artifacts/pi0147_native_fixture_079e288.tar").is_file():
+        pytest.skip("full historical admission requires the uncommitted PI0147 predecessor archive")
     result = campaign.static_audit()
     assert result["status"] == "PASS"
     assert result["gpu"] == 0
     assert result["model_forward"] == 0
     assert result["training"] == 0
     assert diagnostics.static_audit()["status"] == "PASS"
+
+
+def test_diagnostic_static_guard_without_private_archive() -> None:
+    assert diagnostics.static_audit()["status"] == "PASS"
+
+
+def test_pi0149_missing_predecessor_is_not_admitted(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(campaign, "REPO", tmp_path)
+    with pytest.raises(RuntimeError, match="predecessor tar is unavailable"):
+        campaign.validate_pi0149_contract_manifest()
 
 
 def test_manifest_has_exact_pi0134_budget_queue_and_continuation_ceiling() -> None:
@@ -97,13 +109,16 @@ def test_legacy_v1_pre_model_failure_is_source_bound_zero_and_retryable(tmp_path
         "traceback": "File '/scratch/legacy/scripts/stage45e_legacy_matched_seed.py', line 576, in e4",
     }
     (root / "unified_failure_seal.json").write_text(json.dumps(failure), encoding="utf-8")
-    (root / "cache").mkdir()
     (root / "tmp").mkdir()
     counts = campaign._attempt_call_counts(root)
     assert counts["model_side_calls"] == 0
     assert counts["counters_complete"] is True
     assert counts["counter_source"] == "SOURCE_BOUND_PRE_MODEL_FAILURE_PROOF"
     assert campaign._diagnostic_retry_allowed({"root": str(root)}) is True
+
+    # An arbitrary cache is not the exact bound historical cache layout.
+    (root / "cache").mkdir()
+    assert campaign._attempt_call_counts(root)["counters_complete"] is False
 
 
 def test_legacy_v1_pre_model_failure_accepts_exact_bound_cosmos_cache(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -730,7 +745,7 @@ def test_e4_recovery_source_selects_only_missing_checkpoint_arms(tmp_path: Path)
             "sampler": {"steps_observed": 4, "official_public_sampler_called": False},
             "raw_prediction_artifact": {"path": str(raw_path.relative_to(source)), "sha256": raw_sha, "shape": [1, 40, 132]},
         })
-        raw_records.append({"path": str(raw_path.relative_to(source)), "file_sha256": raw_sha, "sampler_calls_observed": 4, "stats_route": "FULL24_RUNTIME_V2"})
+        raw_records.append({"path": str(raw_path.relative_to(source)), "window_id": window_id, "file_sha256": raw_sha, "sampler_calls_observed": 4, "stats_route": "FULL24_RUNTIME_V2"})
     (source / "rows_LEGACY(seed2223)_at_1000.json").write_text(json.dumps(rows), encoding="utf-8")
     (source / "raw_predictions.jsonl").write_text("\n".join(json.dumps(item) for item in raw_records) + "\n", encoding="utf-8")
     spec_doc = {"train24_contract": {"window_ids": window_ids}}
@@ -832,6 +847,8 @@ def test_pi0147_native_contract_is_cpu_static_and_explicit() -> None:
 
 
 def test_pi0149_native_rows_contract_is_cpu_static_and_explicit() -> None:
+    if not (ROOT / "artifacts/pi0147_native_fixture_079e288.tar").is_file():
+        pytest.skip("full historical admission requires the uncommitted PI0147 predecessor archive")
     result = campaign.validate_pi0149_contract_manifest()
     assert result["status"] == "PASS"
     assert result["historical_binding_count"] == 8
