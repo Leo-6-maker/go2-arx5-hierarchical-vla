@@ -1,0 +1,83 @@
+{
+  "schema": "PI0294_FULL_FIRST_ATTEMPT_POPULATION_AND_FROZEN_EXPORT_V1",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "physical_source_sha": "f1fdf3acd481687cb275334ba512ce038eba51e9",
+  "CPU_export_source_sha": "c09eed98e311514bb1a83f29afc637ba65ebd6ba",
+  "CPU_sidecar_manifest_sha256": "0ea81d3dc1d1f2e1ef86cbc7c8c5befdef6a73b935d18b37a0bdbf170af82e48",
+  "last_chunk": {
+    "prefrozen_offset": 128,
+    "first_attempts": 16,
+    "independently_admitted": 15,
+    "rejected_preserved": 1,
+    "terminal_observed_epoch": 1791933422.4864993,
+    "original_coordinator_PID": 4137321,
+    "original_coordinator_proc_start": "170129973",
+    "original_coordinator_and_workers_live": false,
+    "physical_and_audit_reservations": 0
+  },
+  "new_population": {
+    "paired_scene_groups": 112,
+    "prefrozen_first_attempts": 224,
+    "all_first_attempts_terminal": true,
+    "independently_admitted": 215,
+    "rejected_preserved": 9,
+    "T1": {"TRAIN": {"planned": 96, "admitted": 93}, "DEV": {"planned": 16, "admitted": 16}},
+    "T2": {"TRAIN": {"planned": 96, "admitted": 91}, "DEV": {"planned": 16, "admitted": 15}},
+    "static_visibility_failures": [
+      "PI0294-TRAIN-F0-010-T1", "PI0294-TRAIN-F0-010-T2",
+      "PI0294-TRAIN-F1-028-T1", "PI0294-TRAIN-F1-028-T2",
+      "PI0294-TRAIN-F3-008-T1", "PI0294-TRAIN-F3-008-T2"
+    ],
+    "independent_reconstruction_failures": [
+      "PI0294-TRAIN-F1-011-T2", "PI0294-TRAIN-F2-003-T2", "PI0294-DEV-F3-000-T2"
+    ],
+    "new_DEV_reconstruction_error": 1.5550326613211762e-05,
+    "unchanged_reconstruction_tolerance": 1e-05,
+    "failed_attempts_omitted_from_denominator": false,
+    "physical_seed_replacements": 0,
+    "threshold_relaxation": false
+  },
+  "cumulative_CoreLab_at_physical_terminal": {
+    "physics_starts": 254,
+    "physics_steps": 3968000,
+    "RGB_pairs": 158974,
+    "charged_CPU_s": 125802.8896407231,
+    "charged_output_bytes": 19639849029
+  },
+  "frozen_native_export": {
+    "observed_epoch": 1791934086.3462265,
+    "version": "v3.1",
+    "new_admitted_episodes": 215,
+    "legacy_reused_episodes": 80,
+    "total_episodes": 295,
+    "TRAIN_windows": 149048,
+    "DEV_windows": 28247,
+    "partial_extension_archive_only": false,
+    "manifest_sha256": "dc65f0e123eb848ea7fd6ddc6a1739dd568143e4b4c55336ff5b30839b3da56e",
+    "statistics_sha256": "98b1df9047aabdd7878b57187dee21105e599e8062427e1309837a048c8d3def",
+    "bank_seal_sha256": "339d1f581e7d92452038fd6f9275be86e99aa504e6320bd6f2684467cfdcf6f5",
+    "bank_export_CPU_s": 132.529893,
+    "bank_export_wall_s": 151.38219267386012,
+    "full_official_processor_codec_and_loader_qualification": "RUNNING_NOT_YET_PASS",
+    "CPU_parent_PID": 4156099,
+    "CPU_parent_proc_start": "170257895",
+    "CPU_child_PID": 4156143,
+    "CPU_child_proc_start": "170257915",
+    "CPU_reserved_upper_s": 7200,
+    "CPU_stage_deadline_epoch": 1791935872.0015364
+  },
+  "v3_0_statistics_still_unchanged": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "M512_trained_dataset_hot_updated": false,
+  "v3_1_HF_publication": "NOT_ATTEMPTED_HF_PRIVATE_CAPACITY_HOLD",
+  "actual_main_updates": 512,
+  "actual_model_closed_loop": "NOT_RUN",
+  "PBS_calls_used": 4,
+  "fifth_submission": "NOT_AUTHORIZED_NOT_ATTEMPTED",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "WBC_Go2_hardware": "NOT_RUN",
+  "cutoff_epoch": 1791939600,
+  "deadline_epoch": 1791943200,
+  "budget_reset": false,
+  "full_goal": "ACTIVE_INCOMPLETE_WITH_CPU_QUALIFICATION_PROGRESS_AND_EXTERNAL_NEURAL_HOLDS"
+}
