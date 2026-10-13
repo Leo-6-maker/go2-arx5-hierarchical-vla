@@ -1,6 +1,7 @@
 """CPU-only S3 retry preparation; no submission or model side effects."""
 from datetime import date
 import math
+import re
 
 GIB = 1024**3
 
@@ -13,7 +14,7 @@ def nonnegative(value, name):
 
 def prepare(*, authorized_project, project, user, cluster, today, balance_su,
             ledger, own_jobs, quota, filesystem_free_bytes, owned_bytes,
-            now, adoption):
+            now, adoption, deferred_after_any=(), dependency_queue_authority=None):
     if project['name'] != authorized_project:
         raise PermissionError('EXPLICIT_PROJECT_BINDING_REQUIRED')
     day = date.fromisoformat(today)
@@ -23,8 +24,18 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
         raise PermissionError('CURRENT_PROJECT_MEMBERSHIP_CLUSTER_AND_DATES_REQUIRED')
     if nonnegative(balance_su, 'BALANCE_SU') == 0:
         raise PermissionError('POSITIVE_CURRENT_BALANCE_REQUIRED')
-    if own_jobs:
-        raise PermissionError('NO_OVERLAPPING_OWN_ALLOCATION')
+    dependencies = sorted(deferred_after_any)
+    if own_jobs or dependencies:
+        if (dependency_queue_authority != '2026-10-13_DIRECT_USER_ALLOW_PBS_DEPENDENCY_QUEUE_ONLY'
+                or not dependencies or len(set(dependencies)) != len(dependencies)
+                or set(dependencies) != set(own_jobs)):
+            raise PermissionError('NO_OVERLAPPING_OWN_ALLOCATION')
+        for job_id, job in own_jobs.items():
+            if (not re.fullmatch(r'[0-9]+\.[A-Za-z0-9._-]+', job_id)
+                    or job['Job_Owner'].split('@')[0] != user or job['job_state'] != 'R'
+                    or int(job['Resource_List']['ngpus']) != 1
+                    or job.get('project') == authorized_project):
+                raise PermissionError('EXACT_OBSERVED_UNRELATED_OWN_RUNNING_GPU_DEPENDENCY_REQUIRED')
     if (adoption['release'] != '261bc5b37f20aaff1ad7d5742252d3dc1a91fa65'
             or adoption['T0_epoch'] != 1791860304
             or adoption['new_work_cutoff_epoch'] != 1791943104
@@ -77,5 +88,8 @@ def prepare(*, authorized_project, project, user, cluster, today, balance_su,
         quota_report_epoch=quota['report_epoch'], observed_epoch=now,
         blockers=blockers, authorizes_execution=False,
         recheck_at_submission_and_allocation=True, main_training=False,
+        queue_only_after_any_dependencies=dependencies,
+        dependency_queue_authority=dependency_queue_authority if dependencies else None,
+        actual_allocation_still_requires_no_other_own_job=True,
         remaining_main_and_eval_must_share_one_allocation=True,
         budget_reset=False, selected='NONE', deployment='NONE')

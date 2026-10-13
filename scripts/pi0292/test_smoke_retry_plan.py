@@ -72,6 +72,26 @@ class TestSmokeRetryPlan(unittest.TestCase):
                 with self.assertRaises((PermissionError, ValueError)):
                     prepare(**values)
 
+    def test_explicit_dependency_queue_never_authorizes_overlap(self):
+        values=self.inputs();values['quota']['used_bytes']=850*GIB
+        values['own_jobs']={'123.server':dict(Job_Owner='test-user@host',job_state='R',project='other-project',Resource_List=dict(ngpus=1))}
+        values['deferred_after_any']=['123.server']
+        values['dependency_queue_authority']='2026-10-13_DIRECT_USER_ALLOW_PBS_DEPENDENCY_QUEUE_ONLY'
+        result=prepare(**values)
+        self.assertEqual(result['queue_only_after_any_dependencies'],['123.server'])
+        self.assertFalse(result['authorizes_execution'])
+        self.assertTrue(result['actual_allocation_still_requires_no_other_own_job'])
+        for mutation in ('no-authority','wrong-id','foreign-owner','not-running','current-project','two-gpu'):
+            with self.subTest(mutation=mutation):
+                altered=copy.deepcopy(values)
+                if mutation=='no-authority':altered['dependency_queue_authority']=None
+                if mutation=='wrong-id':altered['deferred_after_any']=['999.server']
+                if mutation=='foreign-owner':altered['own_jobs']['123.server']['Job_Owner']='other@host'
+                if mutation=='not-running':altered['own_jobs']['123.server']['job_state']='Q'
+                if mutation=='current-project':altered['own_jobs']['123.server']['project']=altered['authorized_project']
+                if mutation=='two-gpu':altered['own_jobs']['123.server']['Resource_List']['ngpus']=2
+                with self.assertRaises(PermissionError):prepare(**altered)
+
 
 if __name__ == '__main__':
     unittest.main()
