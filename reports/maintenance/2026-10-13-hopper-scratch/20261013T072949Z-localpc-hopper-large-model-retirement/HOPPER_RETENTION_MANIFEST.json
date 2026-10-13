@@ -1,0 +1,52 @@
+{
+  "explicitly_retired": "All selected September Stage22 recovery/model/optimizer state, including the 196000/200000 recovery set, plus other September experiment and archive candidates; no equivalent-size backup or HF upload was made.",
+  "retained": [
+    {
+      "asset": "Active PI0292 run, data bank, run evidence, adapter and current task lease",
+      "readback": "Present; data and run files were not deleted."
+    },
+    {
+      "asset": "Pristine official GR00T N1.7 base model and processor/config/statistics",
+      "identity": "Pinned official revision 2fc962b973bc",
+      "verification": "7 of 7 protected files matched the prior expected byte sizes and SHA-256 values; full per-file hashes remain private."
+    },
+    {
+      "asset": "Official Isaac GR00T source",
+      "identity": "Commit 51d4c89f72fd",
+      "verification": "Expected commit matched and worktree clean."
+    },
+    {
+      "asset": "NVIDIA Cosmos Reason 2B fixed cache",
+      "identity": "Revision 9ce19a195e42",
+      "verification": "Fixed snapshot path matched; 10 files present."
+    },
+    {
+      "asset": "PI0292 Python runtime and processor binding",
+      "verification": "Python 3.12.3; Gr00tN1d7Processor constructed; new_embodiment projector index 10; current PI0292 state-action statistics found."
+    },
+    {
+      "asset": "October PI0263+ experiment roots",
+      "verification": "Root modification dates observed between 2026-10-01 and 2026-10-09; outside September-only scope."
+    },
+    {
+      "asset": "Home, shared/system installations, CoreLab, WBC, and other users",
+      "verification": "No paths in these areas were modified."
+    },
+    {
+      "asset": "Small Hugging Face cache metadata",
+      "verification": "Four September snapshot directories contain configuration/index/preflight metadata only; no model weight files were present in the snapshot trees. Three cached blobs total 107154 bytes; retained as small identity/provenance evidence."
+    },
+    {
+      "asset": "Generic runtime cache namespaces dated before September",
+      "verification": "Top-level dates were May 20, May 23, and August 4; outside the September-only scope and not file-manifested."
+    }
+  ],
+  "retired_temporaries": [
+    {
+      "asset": "September Hugging Face Xet shard/staging cache",
+      "result": "15 files and 7 directories removed after ownership, link-count, open-handle, and exact-manifest checks."
+    }
+  ],
+  "run_id": "20261013T072949Z-localpc-hopper-large-model-retirement",
+  "schema": "HOPPER_RETENTION_MANIFEST_V1"
+}
