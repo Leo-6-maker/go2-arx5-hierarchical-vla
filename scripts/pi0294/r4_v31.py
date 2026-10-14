@@ -21,6 +21,10 @@ def run(args):
         for folder in (v30,v31):
             manifest=read(folder/'DATASET_MANIFEST.json')
             banks.append(verify_frozen_bank(folder,sha(folder/'BANK_SEAL.json'),sha(folder/'DATASET_MANIFEST.json'),sha(folder/'statistics.json')))
+        qualification=v31.parents[2]/'evidence/bank-qualification-v3_1-02/CPU_QUALIFICATION.json'
+        qualified=read(qualification)
+        if qualified['status']!='PASS_PI0294_TRAIN_DEV_AND_TRAINER_LOADER_CPU' or qualified['manifest_sha256']!=sha(v31/'DATASET_MANIFEST.json'):
+            raise ValueError('ACTUAL_V31_PRIOR_CPU_ADMISSION_REQUIRED')
         old={r['id']:r for r in banks[0]['episodes']}
         for r in banks[1]['episodes']:
             if r['id'] in old:
