@@ -242,6 +242,11 @@ def main():
         command=[request['python'],'-m','scripts.pi0294.checkpoint_session','--root',str(root),
             '--request',str(request_path)]
         os.execv(request['python'],command)
+    from .continuation import RUN as CONTINUATION_RUN
+    if root.name==CONTINUATION_RUN and request['mode']=='main':
+        command=[request['python'],'-m','scripts.pi0294.r3_offline','--root',str(root),
+                 '--request',str(request_path),'--bindings',request['bindings'],'--resume',request['resume']]
+        os.execv(request['python'],command)
     command=[request['python'],'-m','scripts.pi0294.neural','--root',str(root),
         '--request',str(request_path),'--bindings',request['bindings'],'--mode',request['mode'],
         '--microbatch',str(request.get('microbatch',2)),'--workers',str(request.get('workers',2)),

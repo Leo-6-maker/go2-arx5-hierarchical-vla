@@ -7,7 +7,7 @@ import resource
 import time
 
 from scripts.pi0292.durable import OwnerLock, read, write
-from .continuation import RUN, CUTOFF
+from .continuation import RUN, CUTOFF, validate_mode
 from .native_dataset import sha
 from .neural import verify_allocation
 
@@ -36,19 +36,9 @@ def validate_stage(root, original, stage, *, job_id, sequence):
     if request['stage'] != stage['mode'] or request['mode'] != stage['mode'] or request['allowed_modes'] != [stage['mode']]:
         raise PermissionError('EXACT_CONTINUATION_MODE_REQUIRED')
     if stage['mode'] == 'main':
-        if request['max_steps'] != 4096 or request['stop_at'] not in (2048,4096) or not request.get('resume'):
+        if request['max_steps'] != 4096 or request['stop_at'] != 2048 or not request.get('resume'):
             raise PermissionError('RESUME_ORIGINAL_CHAIN_ONLY')
-        if not original.get('P1_behavior_gate_sha256') and not request.get('P1_behavior_gate_sha256'):
-            raise PermissionError('ACTUAL_P1_MODEL_INTERFACE_EVIDENCE_BEFORE_NEW_UPDATES')
-        gate_path = within(Path(root)/request['P1_behavior_gate_relative'], root)
-        if sha(gate_path) != request['P1_behavior_gate_sha256']:
-            raise PermissionError('P1_BEHAVIOR_GATE_CHANGED')
-        gate = read(gate_path)
-        if (gate['status'] != 'PASS_ACTUAL_M512_MODEL_INTERFACE_NO_UNHANDLED_REAL_SAFETY_ERROR'
-                or gate['run_uuid'] != RUN or gate['completed_development_attempts'] != 4
-                or gate['generation_queries'] <= 0 or gate['real_safety_violations'] != 0
-                or gate['expert_positive_control'] != 'PASS'):
-            raise PermissionError('ACTUAL_MODEL_AND_EXPERT_CONTROL_REQUIRED_NOT_SUCCESS_THRESHOLD')
+    validate_mode(root,request)
     return path
 
 
