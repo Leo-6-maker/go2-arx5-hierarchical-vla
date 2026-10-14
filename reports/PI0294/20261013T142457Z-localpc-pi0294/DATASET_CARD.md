@@ -1,7 +1,9 @@
 # PI0294 Dual-Task Dataset Card
 
 Status: v3.0 CPU-qualified and delivered; v3.1 frozen export complete,
-full CPU qualification still running. Neither dataset proves model skill.
+full CPU qualification in a frozen-bank recovery attempt. Neither dataset
+proves model skill. The first full codec attempt timed out at its original
+2400-second stage limit; its failure remains, and this is not a quality PASS.
 
 All new scenes were fixed before rollout. T1 pick-and-place and T2 pushing
 share robot/object/target/camera/light initial conditions; only language and

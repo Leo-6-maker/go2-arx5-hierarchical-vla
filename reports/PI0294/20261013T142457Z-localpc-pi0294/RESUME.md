@@ -8,9 +8,14 @@ New-work cutoff is 2026-10-14 09:00 SGT; absolute deadline is 10:00 SGT.
 ## Current Work
 
 All 224 new data attempts are terminal. v3.1 has been exported and frozen,
-but the original CPU qualification process is still running as of the
-associated snapshot. Read its exact PID/start identity and original deadline;
-an SSH disconnect is not permission to rebuild, refit or restart it.
+but full CPU qualification has not passed. The original attempt actually
+timed out at its unchanged deadline and all its own processes became terminal.
+The exact original failure and frozen-bank bytes are preserved. A distinct
+three-core, 3600-second frozen-bank qualification ticket is now running under
+source `e5eb89237cddfc86ca6ae9a3f434a63a024791d1`, without export or refit.
+Its deadline is epoch 1791939505.102798, before the original 09:00 cutoff.
+Read the exact new PID/start identity from the private runmap; an SSH
+disconnect is not permission to rebuild, refit or restart it.
 M512 training used only frozen v3.0 and its original statistics.
 
 All four Hopper PBS allocations are terminal and reconciled. Formal main
