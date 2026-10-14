@@ -28,10 +28,16 @@ The full local checkpoint, per-file inventory and failure journal remain.
 
 ## Required External Changes
 
-Available, authorized private HF capacity is required before artifact retry.
-Do not pay, make assets public, remove private history, request tokens or
-invent a model revision. An alternate repository in the same full account
-does not itself solve account-level capacity.
+The original private HF failure is preserved; its account-level storage gate
+has not been repaired. Subsequent user authorization allowed a new, separately
+sanitized public M512 artifact, now delivered and anonymously SHA-verified:
+repository `leoyuer/pi0294-public-artifacts`, dataset type, prefix
+`PI0294/20261013T142457Z-localpc-pi0294/public-M512-bc28535755c4`, READY revision
+`c698f54d0fc422ebfdd1e2ce1fc96552b6930c52`. See PUBLIC_CHECKPOINT_DELIVERY_ACTUAL.json.
+Do not pay, remove private history, request tokens or change existing private
+repository visibility. Raw data, WBC and third-party meshes remain unpublished.
+No repeat artifact upload is needed. This storage authorization does not
+authorize new PBS, model loading, physical execution or an extended clock.
 
 One additional PBS allocation requires explicit revision of the 4-call cap.
 Login recovery alone is not that revision. No fifth allocation, repeated
@@ -63,6 +69,11 @@ both bound to the original night parent request
 `4caa9d937cf9979201d69dbdcf0b0643af67c9845f917d6109de1bd103a79963`.
 Do not replace the child provenance with the parent SHA to bypass admission.
 An independent M512 resume has not yet been proven.
+The public derivative has three distinct metadata hashes. Cosmos paths are
+rebound to `nvidia/Cosmos-Reason2-2B`; two Trainer paths are `PUBLIC_RUN_ROOT`.
+Use the public inventory for public bytes, not the original private hashes.
+Rebind role paths in a local copy before any future authorized restore, and
+qualify that restore independently. Numerical tensors remain unchanged.
 
 Any new allocation must pass fresh native project/quota/own-job admission;
 same-allocation stages must bind the admitted parent, not re-login each stage.

@@ -1,6 +1,6 @@
 # PI0294 M512 Policy Card
 
-Status: LOCAL_FORMAL_CHECKPOINT_UNQUALIFIED. This is not a working-policy claim.
+Status: PUBLIC_SANITIZED_FORMAL_CHECKPOINT_UNQUALIFIED. This is not a working-policy claim.
 
 One shared GR00T-N1.7-3B was trained for 512 actual optimizer updates on
 frozen v3.0. Both tasks use dual RGB, language and measured EEF/gripper state;
@@ -20,8 +20,14 @@ language-conditioned behavior are unknown. Loss 0.315059 does not establish
 either skill. Teacher route success is not model route success.
 
 The 25,541,023,437-byte local full state is preserved. HF LFS preupload failed
-with private-account storage HTTP 403; no verified model revision or READY
-exists. M512 independent resume has not run. Exact full-state engineering
+with private-account storage HTTP 403; the original failure remains. A separate
+sanitized public derivative is now verified at READY revision
+`c698f54d0fc422ebfdd1e2ce1fc96552b6930c52` in dataset artifact repository
+`leoyuer/pi0294-public-artifacts`, prefix
+`PI0294/20261013T142457Z-localpc-pi0294/public-M512-bc28535755c4`.
+Three metadata files differ; numerical tensors are unchanged. The existing
+private repository remains private. M512 independent resume has not run.
+Exact full-state engineering
 resume passed separately at the original numerical tolerances.
 
 Selected: NONE. Deployment: NONE. WBC, mobile Go2 and hardware: NOT_RUN.

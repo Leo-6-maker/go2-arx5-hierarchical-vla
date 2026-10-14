@@ -19,8 +19,10 @@ M6144 were not reached; the candidate-selection/extension gates were not used.
 The 25,541,023,437-byte local checkpoint and full inventory are preserved.
 Final readback found all 16 members present with recorded sizes; this was
 metadata verification, not a repeated full-weight hash or neural load.
-HF preupload failed with account private-storage HTTP 403. No M512 fixed
-revision/READY exists. There are no actual model TRAIN/DEV/confirmation/
+Original private HF preupload failed with account storage HTTP 403; that
+failure remains preserved. The user's subsequent public-storage authorization
+enabled a separate sanitized public full-state delivery, described below.
+There are no actual model TRAIN/DEV/confirmation/
 regression results or policy videos. Success and safety are unknown, not zero
 success estimates or a safety pass. Loss 0.315059 is not a task result.
 
@@ -73,11 +75,12 @@ Registered bytes are not disk-free deltas or a continuously sampled peak.
 
 ## Remaining Requirements
 
-Available authorized private HF capacity, explicit additional PBS authority
-and valid new execution-window authority are necessary for further science.
-Existing credentials must be reused; do not export tokens, pay, make assets
-public or delete private HF history. Actual fixed-revision model delivery,
-M512 model routing, later learning/DEV selection, core/challenge/regression
+The storage delivery hold is resolved for the sanitized public M512 artifact,
+not for the original failed private route or unreleased v3.1 data. Explicit
+additional PBS authority and valid new execution-window authority remain
+necessary for further science. Existing credentials must be reused; do not
+export tokens, pay or delete private HF history. Independent public-artifact
+resume, M512 model routing, later learning/DEV selection, core/challenge/regression
 behavior, confirmation safety and policy videos remain missing.
 
 Use RESUME.md for the preserved request/source/processor/stats/data identities
@@ -85,3 +88,27 @@ and original accounting. The actual recorded main request is bound to
 `scripts.pi0294.neural` in the legal Hopper profile and parent allocation;
 there is no currently authorized executable continuation command. Do not
 reinterpret these partial results as MULTITASK_SIM_WORKING_V1.
+
+## Authorized Public Delivery Update
+
+New repository: `leoyuer/pi0294-public-artifacts` (dataset artifact storage).
+Prefix: `PI0294/20261013T142457Z-localpc-pi0294/public-M512-bc28535755c4`.
+READY-last revision: `c698f54d0fc422ebfdd1e2ce1fc96552b6930c52`.
+Manifest SHA: `bc28535755c4034c8c5f0cc10cb127cf46893f205f49aa663d6b1e417e5421f2`.
+Payload excluding READY is 25,541,086,052 bytes; 24 final files include 16
+checkpoint members, licenses/notices, manifest and READY. An independent
+anonymous readback verified exact members, sizes and SHA256 at that revision.
+Large files used LFS SHA/size; small files were actually downloaded and hashed.
+Original full checkpoint files were SHA-verified before and after upload.
+
+Three metadata files were sanitized in a separate derivative: model/processor
+Cosmos paths became a public repo ID; two training-argument path operands
+became PUBLIC_RUN_ROOT without executing pickle. All numerical tensors are
+unchanged, but public metadata has a distinct identity and requires local
+path rebinding before a future authorized resume. Independent public resume
+is NOT_RUN. Original private checkpoint and private HF visibility are unchanged.
+No credentials, private runmap, WBC, meshes, environments, raw data or source
+archive were published. The upstream licenses/notices and research restrictions
+are included. Delivery used 203.314889 CPU seconds, no GPU, PBS or neural load;
+the uploader is terminal and its reservation released. See
+PUBLIC_CHECKPOINT_DELIVERY_ACTUAL.json. This does not complete the scientific goal.
