@@ -226,6 +226,13 @@ def main():
             '--microbatch',str(request.get('microbatch',2)),'--workers',str(request.get('workers',2))]
         os.execv(request['python'],command)
     if request['mode']=='resident':
+        if request.get('resident_operation')=='TRAIN_DIAGNOSTIC':
+            from .continuation import RUN as CONTINUATION_RUN
+            if root.name!=CONTINUATION_RUN:
+                raise PermissionError('DIAGNOSTIC_ONLY_UNDER_NEW_EXPLICIT_AUTHORITY')
+            command=[request['python'],'-m','scripts.pi0294.policy_diagnostic',
+                '--root',str(root),'--request',str(request_path),'--bindings',request['bindings']]
+            os.execv(request['python'],command)
         command=[request['python'],'-m','scripts.pi0294.resident','--root',str(root),
             '--request',str(request_path),'--bindings',request['bindings']]
         for key in ('checkpoint','registry','identity','directory'):

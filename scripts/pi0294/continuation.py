@@ -162,6 +162,23 @@ def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
                 project_proof_mode='INITIAL_NATIVE_PROJECT_PROOF' if initial is None else 'SAME_LIVE_PARENT_INITIAL_PROJECT_PROOF')
 
 
+def validate_cpu_admission(manifest, admission, plan, workers, now):
+    validate_authority(manifest, now)
+    if (admission['run_uuid'] != RUN or admission['T0_epoch'] != T0
+            or admission['cutoff_epoch'] != CUTOFF or admission['deadline_epoch'] != DEADLINE
+            or admission['lease_expires_epoch'] != DEADLINE):
+        raise PermissionError('EXACT_INCREMENTAL_CORELAB_CLOCK_REQUIRED')
+    caps=dict(physics_starts=96,physics_steps=1536000,rgb_pairs=61536,
+              cpu_s=144000,output_bytes=32*GIB)
+    if any(admission['limits'][k] > v for k,v in caps.items()):
+        raise PermissionError('CONTINUATION_INCREMENTAL_CORELAB_LIMIT')
+    if (workers not in (1,2) or len(admission['allowed_cpus']) > 8
+            or plan.get('kind') not in ('MODEL_EVALUATION','RELAY_QUALIFICATION')
+            or plan.get('not_formal_data') is not True
+            or any(not r['card'].get('relay_request_relative') for r in plan['episodes'])):
+        raise PermissionError('NO_COLLECTION_OR_NEW_PARALLEL_RULE_IN_EVAL_FIRST_RUN')
+
+
 def admit(root, request_path):
     from scripts.pi0292.allocation_admission import owned_jobs, personal_quota
     root, request_path = Path(root), Path(request_path)

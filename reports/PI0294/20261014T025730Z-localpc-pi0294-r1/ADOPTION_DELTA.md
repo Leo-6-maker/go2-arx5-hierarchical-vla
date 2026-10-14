@@ -26,6 +26,9 @@ without redundant full copies or new global management checkouts.
   remote delivery. M512 must match the retained original private inventory.
 - Existing `run_admission.py` and `allocation_admission.py`: delegation only
   for the exact new run; original closed-run admission remains unchanged.
+- Existing `scripts/iteration/queue.py`: delegate new-run clock/limits only;
+  reject collection, four workers or more than eight CPU cores under this GO.
+  Original queue reservation, receipt, safety-stop and accounting rules remain.
 - Existing `relay_transport.py`: explicit authorized local same-node identity
   and retained parent panel; unchanged cards/pairs/ACK wire semantics. Local
   identity is labeled content-addressed, not a fabricated HF revision.
@@ -33,6 +36,11 @@ without redundant full copies or new global management checkouts.
   accounting only. Generation, observation-only inputs, deterministic noise,
   original four-step sampling and decode paths remain unchanged.
 - New CPU-only boundary tests and this run's task/adoption receipts.
+- New `policy_diagnostic.py` and resident-operation dispatch: at most48
+  fixed-noise H40 draws from the original four TRAIN episodes, using actual
+  sealed stage anchors only for sampling. NN inputs remain observation-only.
+  Original expert decode/SafetyGate provides a separate positive control.
+  This is offline diagnosis, not a closed-loop or task-success claim.
 
 No changes to neural.py, native_train.py, native_dataset.py, sampling.py,
 numerics.py, local_backbone.py, episode.py, scene.py, scene_cards.py, teacher.py,

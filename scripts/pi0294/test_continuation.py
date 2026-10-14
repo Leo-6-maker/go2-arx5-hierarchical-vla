@@ -66,6 +66,21 @@ class ContinuationTests(unittest.TestCase):
             broken=copy.deepcopy(value);broken['request'].update(change)
             with self.assertRaises(PermissionError):c.validate_allocation(**broken)
 
+    def test_cpu_queue_is_eval_only_and_incremental(self):
+        m=self.manifest()
+        a=dict(run_uuid=c.RUN,T0_epoch=c.T0,cutoff_epoch=c.CUTOFF,deadline_epoch=c.DEADLINE,
+            lease_expires_epoch=c.DEADLINE,allowed_cpus=list(range(8)),
+            limits=dict(physics_starts=96,physics_steps=1536000,rgb_pairs=61536,cpu_s=144000,output_bytes=32*c.GIB))
+        p=dict(kind='MODEL_EVALUATION',not_formal_data=True,episodes=[dict(card=dict(relay_request_relative='sealed.json'))])
+        c.validate_cpu_admission(m,a,p,1,c.T0+1)
+        c.validate_cpu_admission(m,a,p,2,c.T0+1)
+        for changes in (dict(kind='COLLECTION'),dict(not_formal_data=False)):
+            with self.assertRaises(PermissionError):c.validate_cpu_admission(m,a,dict(p,**changes),1,c.T0+1)
+        for k in a['limits']:
+            bad=copy.deepcopy(a);bad['limits'][k]+=1
+            with self.assertRaises(PermissionError):c.validate_cpu_admission(m,bad,p,1,c.T0+1)
+        with self.assertRaises(PermissionError):c.validate_cpu_admission(m,a,p,4,c.T0+1)
+
     def test_same_job_initial_auth_can_age_not_refresh_per_stage(self):
         value=self.allocation();value['now']+=2000
         with self.assertRaises(PermissionError):c.validate_allocation(**value)

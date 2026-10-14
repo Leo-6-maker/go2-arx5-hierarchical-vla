@@ -273,7 +273,10 @@ class LiveCoordinator:
             path = (source / name).resolve(strict=True)
             if not path.is_relative_to(source) or digest(path) != expected:
                 raise ValueError('SEALED_SOURCE_BYTES_CHANGED')
-        if a.get('T0_epoch') != 1791901497 or a.get('cutoff_epoch') != 1791939600 or a.get('deadline_epoch') != 1791943200:
+        from scripts.pi0294.continuation import RUN as CONTINUATION_RUN, validate_cpu_admission
+        if a['run_uuid'] == CONTINUATION_RUN:
+            validate_cpu_admission(manifest, a, p, workers, self.now())
+        elif a.get('T0_epoch') != 1791901497 or a.get('cutoff_epoch') != 1791939600 or a.get('deadline_epoch') != 1791943200:
             raise ValueError('CLOCK_RESET_OR_DEADLINE_CHANGED')
         if self.now() >= a['cutoff_epoch'] or self.now() >= a['lease_expires_epoch']:
             raise TimeoutError('LIVE_LEASE_OR_NEW_WORK_CUTOFF')
