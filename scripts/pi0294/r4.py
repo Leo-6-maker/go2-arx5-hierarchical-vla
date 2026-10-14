@@ -61,10 +61,12 @@ def validate_cpu_admission(manifest,admission,plan,workers,now):
     expected=4 if plan['kind']=='R4_CONTACT_PILOT' else 48 if plan['kind']=='R4_CONTACT_TRAIN' else None
     if expected is not None and len(plan['episodes'])!=expected:raise PermissionError('R4_EXACT_FIXED_COLLECTION_COUNT')
     root=Path(admission['root']);budget=read(root/'R4_RESOURCE_LEDGER.json')
-    reserved={c for r in budget['CPU_reservations'].values() for c in r['cpus']}
+    other=[r for r in budget['CPU_reservations'].values() if not(r.get('kind')=='COLLECTION' and r['pid']==os.getpid())]
+    reserved={c for r in other for c in r['cpus']}
     if reserved&set(admission['allowed_cpus']):raise PermissionError('R4_CPU_TICKETS_MUST_BE_DISJOINT')
     if len(admission['allowed_cpus'])+len(reserved)>16:raise PermissionError('R4_UNION_CPU_CAP')
-    if admission['limits']['cpu_s']+budget['Core_CPU_s']+sum(r['cpu_s_cap'] for r in budget['CPU_reservations'].values())>96*3600:
+    outside_collection=budget['Core_CPU_s']-budget.get('collection_CPU_s',0.)
+    if admission['limits']['cpu_s']+outside_collection+sum(r['cpu_s_cap'] for r in other)>96*3600:
         raise PermissionError('R4_ALL_LANES_SHARE_CPU_BUDGET')
 
 

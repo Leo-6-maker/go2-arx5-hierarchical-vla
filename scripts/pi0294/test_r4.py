@@ -29,5 +29,19 @@ class R4AuthorityTests(unittest.TestCase):
             self.assertEqual(r4.DEADLINE-r4.T0,12*3600)
             self.assertEqual(r4.AUG_FREEZE-r4.T0,3*3600)
 
+    def test_collection_union_and_fixed_counts(self):
+        m=dict(run_uuid=r4.RUN)
+        a=dict(T0_epoch=r4.T0,cutoff_epoch=r4.CUTOFF,deadline_epoch=r4.DEADLINE,
+            lease_expires_epoch=r4.DEADLINE,allowed_cpus=list(range(8)),root='unused',
+            limits=dict(physics_starts=160,physics_steps=2560000,rgb_pairs=102560,cpu_s=80*3600,output_bytes=72*1024**3))
+        p=dict(kind='R4_CONTACT_PILOT',episodes=[{}]*4)
+        budget=dict(Core_CPU_s=930,CPU_reservations={})
+        with patch.object(r4,'read',return_value=budget):r4.validate_cpu_admission(m,a,p,2,r4.T0+1)
+        with patch.object(r4,'read',return_value=budget):
+            with self.assertRaises(PermissionError):r4.validate_cpu_admission(m,a,dict(p,episodes=[{}]*3),2,r4.T0+1)
+        budget['CPU_reservations']['other']=dict(cpus=[0],cpu_s_cap=100,kind='CPU',pid=-1)
+        with patch.object(r4,'read',return_value=budget):
+            with self.assertRaises(PermissionError):r4.validate_cpu_admission(m,a,p,2,r4.T0+1)
+
 
 if __name__=='__main__':unittest.main()
