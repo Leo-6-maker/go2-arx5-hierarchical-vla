@@ -7,7 +7,7 @@ import resource
 import time
 
 from scripts.pi0292.durable import OwnerLock, read, write
-from .continuation import RUN, CUTOFF, validate_mode
+from .continuation import RUN, CUTOFF, validate_mode, evaluation_amendment
 from .native_dataset import sha
 from .neural import verify_allocation
 
@@ -23,11 +23,16 @@ def validate_stage(root, original, stage, *, job_id, sequence):
         return None
     if stage['mode'] not in ('resident','main'):
         raise PermissionError('ARCHIVE_AND_RESMOKE_NOT_MODEL_STAGE_DEPENDENCIES')
+    if evaluation_amendment(original) and stage['mode'] != 'resident':
+        raise PermissionError('EVALUATION_AMENDMENT_CANNOT_START_TRAINING')
     from .continuation import within
     path = within(Path(root)/stage['request_relative'], root)
     if Path(stage['request_relative']).is_absolute() or sha(path) != stage['request_sha256']:
         raise PermissionError('EXACT_SEALED_CONTINUATION_SUBREQUEST')
     request = read(path)
+    for k in ('evaluation_amendment_relative', 'evaluation_amendment_sha256'):
+        if request.get(k) != original.get(k):
+            raise PermissionError('CONTINUATION_AMENDMENT_CHANGED:'+k)
     for k in ('root','source_sha','run_manifest_sha256','code_seal_sha256','bindings','bindings_sha256',
               'walltime_s','submit_count','prior_GPU_allocated_s','numerical_mode','microbatch','workers',
               'request_nonce','project_admission_sha256','allowed_peer_ids'):

@@ -19,6 +19,19 @@ DATA = 'b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df'
 STATS = 'fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7'
 PROJECT = 'CFP04-CF-007'
 GIB = 1024**3
+EVAL_AMENDMENT_SHA = '620eb4f7d28a0ed113d011a446c88f6975a9e6264255eb97b0fe409c84de233c'
+
+
+def evaluation_amendment(request):
+    digest = request.get('evaluation_amendment_sha256')
+    if digest is None:
+        return False
+    if (digest != EVAL_AMENDMENT_SHA or request['stage'] not in ('continuation', 'resident')
+            or request['submit_count'] != 3 or not 0 < request['walltime_s'] <= 7200):
+        raise PermissionError('EXACT_SINGLE_EVALUATION_RESOURCE_AMENDMENT_ONLY')
+    return True
+
+
 LIMITS = dict(T0_epoch=T0, new_work_cutoff_epoch=CUTOFF, deadline_epoch=DEADLINE,
               reset_on_resume=False, PBS_calls=2, GPU_allocated_s=21600,
               new_formal_updates=1536, new_engineering_updates=4,
@@ -125,7 +138,8 @@ def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
         raise PermissionError('CONTINUATION_SCIENCE_WINDOW_CLOSED')
     if request['stage'] not in ('continuation', 'resident', 'main'):
         raise PermissionError('NO_OLD_SMOKE_BENCHMARK_ARCHIVE_OR_M6144_STAGE')
-    if (type(request['submit_count']) is not int or not 1 <= request['submit_count'] <= 2
+    amended = evaluation_amendment(request)
+    if (type(request['submit_count']) is not int or not 1 <= request['submit_count'] <= (3 if amended else 2)
             or type(request['walltime_s']) is not int or not 0 < request['walltime_s'] <= 21600
             or request['prior_GPU_allocated_s'] < 0
             or request['prior_GPU_allocated_s']+request['walltime_s'] > 21600
@@ -152,7 +166,7 @@ def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
         raise PermissionError('NO_NEURAL_ON_LOGIN_OR_FOREIGN_NODE')
     peers = {k:v for k,v in jobs.items() if k != job_id and v['job_state']=='R'
              and int(v.get('Resource_List',{}).get('ngpus',0)) > 0}
-    if len(peers) > 1 or not set(peers).issubset(request['allowed_peer_ids']):
+    if len(peers) > (2 if amended else 1) or (not amended and not set(peers).issubset(request['allowed_peer_ids'])):
         raise PermissionError('MAX_TWO_AUTHORIZED_INDEPENDENT_OWN_ALLOCATIONS')
     if any(v['Job_Owner'].split('@')[0] != user or int(v['Resource_List']['ngpus']) != 1 for v in peers.values()):
         raise PermissionError('OWN_SINGLE_GPU_PEER_REQUIRED')
@@ -197,6 +211,10 @@ def admit(root, request_path):
     root, request_path = Path(root), Path(request_path)
     m = validate_entry(root, profile='hopper-neural')
     request = read(within(request_path, root))
+    if evaluation_amendment(request):
+        proof = within(root/request['evaluation_amendment_relative'], root)
+        if sha(proof) != EVAL_AMENDMENT_SHA:
+            raise PermissionError('HUMAN_EVALUATION_AMENDMENT_RECEIPT_CHANGED')
     if (request['source_sha'] != m['code']['vla_commit']
             or request['run_manifest_sha256'] != sha(root/'RUN_MANIFEST.json')
             or request['code_seal_sha256'] != m['code']['source_seal_sha256']
@@ -220,6 +238,9 @@ def admit(root, request_path):
         if sha(parent) != request['parent_request_sha256'] or parent == request_path:
             raise PermissionError('EXACT_DISTINCT_PARENT_REQUEST_REQUIRED')
         original = read(parent)
+        for k in ('evaluation_amendment_relative', 'evaluation_amendment_sha256'):
+            if request.get(k) != original.get(k):
+                raise PermissionError('CONTINUATION_PARENT_AMENDMENT_CHANGED:'+k)
         for k in ('source_sha','run_manifest_sha256','code_seal_sha256','bindings','bindings_sha256',
                   'request_nonce','project_admission_sha256','walltime_s','submit_count','prior_GPU_allocated_s',
                   'numerical_mode','microbatch','workers','allowed_peer_ids'):
@@ -271,6 +292,7 @@ def admit(root, request_path):
 def validate_mode(root, request):
     """R3 separates permission for unchanged offline learning and protected live."""
     root=Path(root)
+    evaluation_amendment(request)
     if request['stage']=='main':
         parent=read(root/'PARENT_BINDING.private.json')
         expected=Path(parent['root'])/'training/main/checkpoint-512'
