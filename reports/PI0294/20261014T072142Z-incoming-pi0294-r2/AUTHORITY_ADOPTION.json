@@ -1,0 +1,131 @@
+{
+  "schema": "PI0294_R2_EXPLICIT_MERGED_GO_ADOPTION_V1",
+  "status": "HUMAN_ADOPTED_NEW_WINDOW_NOT_YET_SCIENTIFIC_PASS",
+  "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+  "owner": "EXISTING_LOCAL_PC",
+  "owner_mode": "REPLACE_STOPPED_OWNER",
+  "protocol_ref": "d07df8d97f278fd3ed3813f85a9021be67c781f7",
+  "plan_release": "c85dfc7f6c8841263a7d4784e88005aaab0cfbcf",
+  "approval_source": "DIRECT_HUMAN_CHAT_REPLY_TO_MERGED_PACKAGE",
+  "approval_text": "采用完整合并包，含脱敏checkpoint公开发布",
+  "approval_text_sha256": "265b2c897dea85f4f62abd6a63b5e1e0657c0c42b6148b09222fe6a97f41d8fe",
+  "authorizes_scientific_execution": true,
+  "T0_epoch": 1791962502,
+  "new_work_cutoff_epoch": 1792002102,
+  "deadline_epoch": 1792005702,
+  "safety_substage_deadline_epoch": 1791976902,
+  "T0_SGT": "2026-10-14 15:21:42 +08:00",
+  "new_work_cutoff_SGT": "2026-10-15 02:21:42 +08:00",
+  "deadline_SGT": "2026-10-15 03:21:42 +08:00",
+  "limits": {
+    "Core_CPU_core_hours": 48,
+    "Core_concurrent_cores": 8,
+    "GPU_allocated_hours": 8,
+    "H200_concurrent": 1,
+    "H40_query_intents": 5200,
+    "Hopper_CPU_core_hours": 16,
+    "PBS_calls": 3,
+    "WBC_calls": 0,
+    "account_independent_allocations": 2,
+    "all_RGB_pairs": 82048,
+    "all_integrations": 2048000,
+    "all_physical_starts": 128,
+    "conditional_public_derivatives": {
+      "aggregate_GiB": 60,
+      "max_checkpoints": 2,
+      "requires_explicit_publication_scope_adoption": true
+    },
+    "hardware_calls": 0,
+    "historical_deletions": 0,
+    "isolated_engineering_updates": 4,
+    "new_formal_updates": 3584,
+    "new_peak_GiB": {
+      "CoreLab": 36,
+      "Hopper": 120,
+      "local_pc": 1
+    },
+    "new_training_data_collection": 0,
+    "old_windows_and_balances_reused": false,
+    "personal_free_margin_GiB": 20,
+    "safety_subcaps": {
+      "Core_CPU_core_hours": 8,
+      "GPU_before_D1_teacher_pass": 0,
+      "RGB_pairs": 20512,
+      "concurrent_cores": 4,
+      "integrations": 512000,
+      "physical_starts_including_P1R": 32,
+      "wall_hours": 4
+    },
+    "target_global_step": 4096,
+    "wall_hours": 12,
+    "window": "NEW_T0_PLUS12H_CUTOFF_PLUS11H_AFTER_EXPLICIT_ADOPTION_ONLY"
+  },
+  "fixed_training": {
+    "accumulation": 16,
+    "conditional_6144_allowed": false,
+    "dataset": "v3.0",
+    "effective_batch": 32,
+    "freeze_VLM": true,
+    "hot_dataset_switch": false,
+    "microbatch": 2,
+    "native_loss": "MASKED_FLOW_MATCHING",
+    "numerics": "DETERMINISTIC_CUDA_MATH_SDP_V1",
+    "scheduler_horizon": 6144,
+    "warmup_steps": 308,
+    "workers": 0
+  },
+  "gate_details": {
+    "D1": "FIRST_FULL_STRESS_PASS_CANDIDATE_THEN_TEACHER8_OF8_HIGH_RATE_SAFE",
+    "DEV": "SAME8_AT_BOTH_CHECKPOINTS",
+    "P1R": "FOUR_COMPLETE_FRESH_CASES_ZERO_REAL_SAFETY_ERRORS_TASK_SUCCESS_REPORTED_SEPARATELY",
+    "challenge": "ONLY_REMAINING_LEGAL_BUDGET_AFTER_CORE_AND_REGRESSION",
+    "checkpoints": [
+      2048,
+      4096
+    ],
+    "core_model": "EACH_TASK6_OF8_PAIRED5_OF8_REGRESSION6_OF8_ZERO_REAL_SAFETY",
+    "core_teacher": "EACH_TASK7_OF8_ZERO_REAL_SAFETY",
+    "selector": "MAX_MIN_TASK_SUCCESS_THEN_MACRO_THEN_LOWER_REJECT_RATE_THEN_EARLIER_STEP"
+  },
+  "identities": {
+    "base_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "dataset": "v3.0",
+    "dataset_READY_revision": "6aa94f4f40d791bedd6b4e75489e4ede6504d10d",
+    "native_neural_parent": "a171997a704072e127d16410ba584c8aa0ddd573",
+    "official_GR00T": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "public_M512_READY_revision": "c698f54d0fc422ebfdd1e2ce1fc96552b6930c52",
+    "runtime": "021d813fd669561a24ffbf89431a4a9812e0f2ca",
+    "stats_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+  },
+  "invariants": [
+    "NO_SAFETY_LIMIT_RELAXATION",
+    "NO_QPOS_QVEL_CLAMP",
+    "NO_MODEL_GRIPPER_THRESHOLD_OR_SMOOTHING_HIDDEN_CHANGE",
+    "NO_TEACHER_TAKEOVER",
+    "SAME_D1_FOR_TEACHER_AND_MODEL",
+    "OLD_D0_P1FAIL_IMMUTABLE",
+    "LOCAL_READY_SEPARATE_FROM_REMOTE_ARCHIVE",
+    "NO_ARCHIVED_OWNER_SCRIPT_DIRECT_EXECUTION",
+    "NO_AUTO_OLD_PBS_BALANCE_OR_CLOCK_REUSE"
+  ],
+  "old_parent_run": "20261013T142457Z-localpc-pi0294",
+  "old_R1_run": "20261014T025730Z-localpc-pi0294-r1",
+  "old_P1": "FAIL_RETAINED",
+  "old_clock_and_remaining_balances_used": false,
+  "public_checkpoint_derivatives": {
+    "authorized": true,
+    "maximum_count": 2,
+    "aggregate_GiB": 60,
+    "sanitized_only": true,
+    "raw_WBC_video_publication": false
+  },
+  "source_change_allowlist": [
+    "new_adopted_run_admission_and_accounting",
+    "new_G0_G3_diagnostic_worker",
+    "evidence_conditioned_independent_finger_driver_D1",
+    "new_high_rate_safety_aggregation"
+  ],
+  "phase": "B0_SOURCE_BOUND_G0_PREPARATION",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
