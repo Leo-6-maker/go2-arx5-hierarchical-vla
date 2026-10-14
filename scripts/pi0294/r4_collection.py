@@ -30,7 +30,7 @@ def run(root,*,pilot,workers):
     cores=3*workers+2;cpus=sorted(os.sched_getaffinity(0))[-16:][:cores]
     if workers not in (1,2,4) or pilot and workers!=2 or len(cpus)!=cores:raise PermissionError('R4_ACTUAL_COLLECTION_CORE_BINDING')
     previous=read(root/'LIVE_QUEUE.json') if (root/'LIVE_QUEUE.json').exists() else None
-    prior=previous['actual'] if previous else {k:0 for k in LIVE_KEYS}
+    prior=previous['actual'] if previous else ledger.get('collection_reconciled_prior',{k:0 for k in LIVE_KEYS})
     # CPU and disk are total collection-lane ceilings; already charged pilot
     # costs remain in the queue while the global ledger includes them once.
     collection_charged=ledger.get('collection_CPU_s',0.)
