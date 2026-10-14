@@ -16,6 +16,16 @@ from .native_dataset import sha, official_import
 from .neural import verify_allocation, verify_inputs, COSMOS_REVISION
 
 
+def seed_inference(seed, framework_seed, torch_seed):
+    """Keep the full fixed Torch draw seed; NumPy's legacy API is uint32."""
+    if type(seed) is not int or not 0 <= seed < 2**63:
+        raise ValueError('CANONICAL_FIXED_INFERENCE_SEED_REQUIRED')
+    framework_seed(seed % 2**32)
+    torch_seed(seed)
+    return dict(torch_seed=seed, numpy_legacy_seed=seed % 2**32,
+                mode='FIXED_TORCH63_NUMPY32_COMPAT_V1')
+
+
 class ResidentModel:
     def __init__(self,root,request_path,bindings,checkpoint,identity):
         self.root,self.bindings = Path(root),bindings
@@ -69,7 +79,7 @@ class ResidentModel:
                 noise.append(args[0].detach().clone())
         hook=self.model.action_head.action_encoder.register_forward_pre_hook(record)
         try:
-            set_seed(int(seed))
+            seed_inference(seed,set_seed,torch.manual_seed)
             with torch.inference_mode(),torch.autocast('cuda',dtype=torch.bfloat16):
                 normalized=self.model.get_action(**batch)['action_pred'].detach().float().cpu().numpy()
             actual=np.asarray(payload['state_eef10'],dtype=np.float64)

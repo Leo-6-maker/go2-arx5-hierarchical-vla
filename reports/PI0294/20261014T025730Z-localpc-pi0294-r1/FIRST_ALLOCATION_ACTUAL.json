@@ -1,0 +1,70 @@
+{
+  "schema": "PI0294_R1_FIRST_ALLOCATION_ACTUAL_V1",
+  "run_uuid": "20261014T025730Z-localpc-pi0294-r1",
+  "job_id": "665153.hopper-m-02",
+  "request_id": "eval-first-01",
+  "source_sha": "46bf14f4baa91a6e030b8b5f760d4d06989480e6",
+  "submission_queue": "auto",
+  "native_routed_queue": "small",
+  "project": "CFP04-CF-007",
+  "status": "RECONCILED_TERMINAL",
+  "exit_status": 1,
+  "requested_GPU": 1,
+  "requested_ncpus": 12,
+  "requested_walltime_s": 21600,
+  "queued_memory_revision": {
+    "original_GiB": 225,
+    "revised_GiB": 128,
+    "native_qalter_exit": 0,
+    "native_readback": "VERIFIED_QUEUED_ONLY_SAME_JOB",
+    "basis": "Parent successful full Trainer peak 42441848kb; queue reported insufficient mem",
+    "new_qsub": 0,
+    "cancelled_jobs": 0
+  },
+  "actual": {
+    "GPU_allocated_s_conservative": 321,
+    "scheduler_walltime_s": 311,
+    "scheduler_CPU_s": 52,
+    "scheduler_peak_memory_kb": 22010848,
+    "model_loads": 1,
+    "generation_query_reservations": 1,
+    "completed_H40_generations": 0,
+    "new_optimizer_updates": 0,
+    "physical_starts": 0
+  },
+  "failure": {
+    "stage": "FIRST_FIXED_DIAGNOSTIC_DRAW_BEFORE_MODEL_FORWARD",
+    "error": "ValueError: Seed must be between 0 and 2**32 - 1",
+    "canonical_seed": 2566782898028649176,
+    "cause": "Transformers set_seed passes the fixed 63-bit seed to the NumPy legacy uint32 API",
+    "evidence": "Terminal traceback precedes get_action; only INTENT-000.json exists; no output arrays",
+    "previous_query_charged": true,
+    "unknown_generation_replayed": false,
+    "old_output_preserved": true
+  },
+  "incremental_ledger_after_reconcile": {
+    "PBS_used": 1,
+    "PBS_cap": 3,
+    "GPU_allocated_s": 321,
+    "GPU_reserved_s": 0,
+    "Hopper_CPU_s": 264.162405,
+    "Hopper_CPU_reserved_s": 0,
+    "main_global_step": 512,
+    "new_formal_updates": 0,
+    "new_engineering_updates": 0,
+    "generation_queries": 1,
+    "pending_updates": 0
+  },
+  "repair_scope": {
+    "basis": "Existing official pinned GR00T Trainer chain that actually produced M512",
+    "unchanged": "All 18 pinned numerical training/physics/decoder/teacher/scorer paths",
+    "compatibility": "Framework legacy seed modulo 2**32, followed by original full Torch seed; no new noise selection",
+    "retry": "Only known terminal pre-forward failure; new sealed request/output, fixed original diagnostic plan",
+    "submission_queue": "auto",
+    "original_T0_and_caps_unchanged": true
+  },
+  "independent_full_state_neural_restore": "NOT_RUN",
+  "model_closed_loop": "NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
