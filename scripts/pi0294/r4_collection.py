@@ -3,7 +3,11 @@ import argparse
 import os
 from pathlib import Path
 import socket
+import sys
 import time
+if not __package__:
+    sys.path[:0]=[str(Path(__file__).resolve().parents[2]),str(Path(__file__).resolve().parents[2]/'src')]
+    __package__='scripts.pi0294'
 
 from scripts.pi0292.durable import OwnerLock,read,write
 from scripts.iteration.queue import digest,LIVE_KEYS
