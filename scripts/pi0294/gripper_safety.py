@@ -18,6 +18,8 @@ T0, CUTOFF, DEADLINE = 1791962502, 1792002102, 1792005702
 SAFETY_DEADLINE = T0 + 4*3600
 REPO = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(REPO), str(REPO/'src')]
+if not __package__:
+    __package__ = 'scripts.pi0294'
 
 
 def read(path):
