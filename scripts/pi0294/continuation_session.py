@@ -48,7 +48,9 @@ def run(args):
     allocation = verify_allocation(root,'continuation',request_path)
     owner = OwnerLock(root/'CONTINUATION_OWNER.lock')
     directory = request_path.parent/'continuation-session'
-    directory.mkdir(exist_ok=False)
+    if directory.exists() and {p.name for p in directory.iterdir()}!={'NEXT-000.json'}:
+        raise FileExistsError('Preserve previous actual continuation state')
+    directory.mkdir(exist_ok=True)  # queued owner directive; validated before dispatch
     state = dict(status='WAIT_OWNER_NEXT_SEALED_STAGE',run_uuid=RUN,job_id=allocation['job_id'],
         pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],
         parent_request_sha256=sha(request_path),sequence=0,stages=[],selected='NONE',deployment='NONE')
