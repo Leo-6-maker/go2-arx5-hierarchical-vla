@@ -43,7 +43,7 @@ static std::chrono::steady_clock::time_point PI0294SimNow() {
         assert after.count(needle)==1
         after=after.replace(needle,'    if (PI0294ClockPub) { rosgraph_msgs::msg::Clock clock; clock.clock = rclcpp::Time(PI0294SimNs.load()); PI0294ClockPub->publish(clock); }\n'+needle)
         (out/'rl_sim_mujoco.cpp').write_text(after)
-        for name in ('rl_sim_mujoco.hpp','native_home.hpp','native_startup.hpp'):
+        for name in ('rl_sim_mujoco.hpp','mujoco_utils.hpp','native_home.hpp','native_startup.hpp'):
             p=source/name if (source/name).is_file() else startup/'startup-v2'/name
             (out/name).write_bytes(p.read_bytes())
         node=native/'src/ctrl/go2_x5_ocs2/src/go2_x5_ocs2_node.cpp';node_before=node.read_text()
