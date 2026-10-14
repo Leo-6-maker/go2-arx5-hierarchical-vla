@@ -1,5 +1,34 @@
 # PI0294 R1 Recovery Boundary
 
+## Saved Gripper Audit Update
+
+The previous goal turn made actual progress (48real draws/6live actions/
+native safety evidence), not just a status restatement. Fresh native readback
+still shows PBS665199 F and all old reservations0; no superseding science GO
+was found. The same real-safety/P1 blocker remains.
+
+A separate CPU sidecar aa9664cd7e55773ad7c6a91a561944f3df8bc04f now analyzed
+the saved1081rows and6sent prefixes.133PI0294 CPU tests/96subtests PASS;
+2newGit blobs exact readback. It did not change the runtime source021d813f,
+RUN_MANIFEST or18frozen numerical files; its own manifest/source seal/ticket
+were validated, with all work on one CoreLab CPU and no NN/integrations.
+
+All48sent prefix gripper points are within[0,1]. Frozen slewed targets stay
+0.042..0.044m. Saved control forces exactly match the frozen controller's
+slew/proportional/force-cap arithmetic (maxabs error0N). At tick1081, the
+last command is0.0771693open; target0.04352m, right achieved0.04500427m,
+outward velocity0.005746m/s despite inward control-0.589112N. This narrows
+the failure to achieved dynamic overshoot, not a command outside[0,1] or
+demonstrated unit mismatch. Earlier grip changes versus arm/contact/servo
+causal contributions remain UNISOLATED; no physical replay was performed.
+
+New CPU measured0.552822s+10sstartup upper; cumulative Core charged
+5240.044481548s, reservations0. Hopper counts890GPU/511.035013CPU/2PBS/
+55query reservations/global512 unchanged. See SAVED_GRIPPER_TRACE_ACTUAL.json.
+P1 remains FAIL and training/remaining physical evaluation blocked. Do not
+turn this read-only audit PASS into safety PASS or silently add clipping,
+smoothing, executor tuning, a relaxed limit, a new PBS or a reset clock.
+
 ## Latest Actual Boundary: Native Safety Stop
 
 This section supersedes the preparation-only runtime status below, not its
