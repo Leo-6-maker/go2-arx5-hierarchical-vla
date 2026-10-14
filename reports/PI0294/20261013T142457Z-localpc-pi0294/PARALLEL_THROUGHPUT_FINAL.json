@@ -1,0 +1,29 @@
+{
+  "schema": "PI0294_LATEST_ACTUAL_PARALLEL_AND_PRODUCTION_COST_INDEX_V1",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "physical_source_sha": "f1fdf3acd481687cb275334ba512ce038eba51e9",
+  "current_qualification_receipt": "PARALLEL_REQUALIFICATION_F1FDF3AC.json",
+  "earlier_8810_source_receipt_preserved_unchanged": "PARALLEL_THROUGHPUT.json",
+  "qualified_workers": 4,
+  "physical_arrays_contacts_H40_and_each_1282_PNG_bytes": "EXACT_VS_SERIAL",
+  "actual_pipeline_admitted_episodes_per_hour": {"serial": 17.19410942061773, "two_workers": 31.5995798534042, "four_workers": 49.17065291599461},
+  "speedup_vs_serial": {"two_workers": 1.8378142816465182, "four_workers": 2.859738280892484},
+  "short_diagnostic_batch_not_guaranteed_sustained_or_fourfold_speedup": true,
+  "formal_new_production_cost": {
+    "first_attempts": 224,
+    "admitted": 215,
+    "rejected_preserved": 9,
+    "worker_records_audited": 224,
+    "independent_auditor_records_audited": 224,
+    "worker_measured_CPU_s": 103593.971560848,
+    "auditor_measured_CPU_s": 1396.793614,
+    "combined_measured_core_hours": 29.164101437457777,
+    "combined_core_hours_per_admitted_episode": 0.13564698343003617,
+    "includes_cost_of_rejected_first_attempts": true,
+    "export_qualification_hashing_and_diagnostic_overhead_not_in_this_production_metric": true
+  },
+  "all_CoreLab_charged_core_hours_including_overhead_and_conservative_upper": 37.8424347121453,
+  "GPU_step_and_loader_wait_receipt": "TRAINING_RECEIPT.json",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

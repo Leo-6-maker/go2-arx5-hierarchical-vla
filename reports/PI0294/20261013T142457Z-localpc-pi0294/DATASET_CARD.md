@@ -1,9 +1,9 @@
 # PI0294 Dual-Task Dataset Card
 
-Status: v3.0 CPU-qualified and delivered; v3.1 frozen export complete,
-full CPU qualification in a frozen-bank recovery attempt. Neither dataset
-proves model skill. The first full codec attempt timed out at its original
-2400-second stage limit; its failure remains, and this is not a quality PASS.
+Status: v3.0 CPU-qualified and delivered; v3.1 frozen export and complete CPU
+qualification passed. Neither dataset proves model skill. The first full
+codec attempt timed out at its original 2400-second stage limit; its failure
+remains. A distinct frozen-bank attempt passed without export or stats refit.
 
 All new scenes were fixed before rollout. T1 pick-and-place and T2 pushing
 share robot/object/target/camera/light initial conditions; only language and
@@ -47,7 +47,14 @@ v3.0 all-window official codec and native 0/2/4 loader checks passed. Its DEV
 float32 inverse clipping affected 27 components, with 190 state preclip
 components; maximum decoded XYZ error was 0.000310253 m and SO3 error
 0.000137690 rad. These are disclosed, not silently removed or refitted away.
-v3.1 full codec/clipping/loader results are not yet available.
+v3.1 checked all 149048 TRAIN and 28247 DEV windows. TRAIN decoded maximum
+XYZ error was 9.929381e-9 m and SO3 error 4.214685e-8 rad, with zero float32
+inverse clips. Four preclip components before float32 conversion are retained
+in the report. DEV had five float32 inverse-clip components and 175 state
+preclip components, maximum XYZ error 0.000173080 m and SO3 4.214685e-8 rad.
+The official 0/2/4-loader consumption/resume checks passed. The warning that
+four worker processes share three reserved cores is preserved; the short CPU
+throughput measurements are not GPU training benchmarks.
 
 M512 trained only on v3.0. The new v3.1 statistics were not hot-added.
 Fixed hashes and private HF revision are in DATASET_MANIFEST.json; private raw

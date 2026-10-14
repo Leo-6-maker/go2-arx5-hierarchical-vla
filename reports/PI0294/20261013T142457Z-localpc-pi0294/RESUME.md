@@ -8,14 +8,16 @@ New-work cutoff is 2026-10-14 09:00 SGT; absolute deadline is 10:00 SGT.
 ## Current Work
 
 All 224 new data attempts are terminal. v3.1 has been exported and frozen,
-but full CPU qualification has not passed. The original attempt actually
+and full CPU qualification has now passed. The original attempt actually
 timed out at its unchanged deadline and all its own processes became terminal.
 The exact original failure and frozen-bank bytes are preserved. A distinct
-three-core, 3600-second frozen-bank qualification ticket is now running under
+three-core, 3600-second frozen-bank qualification ticket completed under
 source `e5eb89237cddfc86ca6ae9a3f434a63a024791d1`, without export or refit.
-Its deadline is epoch 1791939505.102798, before the original 09:00 cutoff.
-Read the exact new PID/start identity from the private runmap; an SSH
-disconnect is not permission to rebuild, refit or restart it.
+Its original deadline was epoch 1791939505.102798, before the 09:00 cutoff.
+Actual parent/child/own groups are terminal and all tickets released. The full
+CPU qualification hash is
+`f6cf38345d436cc8fc85e84751826f7dc157040e3834fd19e81375b4a6f76c3a`.
+Do not run a third bank qualification or repeat the statistics fit.
 M512 training used only frozen v3.0 and its original statistics.
 
 All four Hopper PBS allocations are terminal and reconciled. Formal main
@@ -35,6 +37,9 @@ One additional PBS allocation requires explicit revision of the 4-call cap.
 Login recovery alone is not that revision. No fifth allocation, repeated
 engineering smoke or neural execution on login/CoreLab is authorized.
 The original GPU, optimizer-update, concurrency and clock limits still bind.
+The 09:00 new-work cutoff has now passed. Any later new scientific execution
+also needs explicit window authority; automatic goal continuation does not
+extend this night. Reconcile prior costs, never reset them to hide expenditure.
 
 ## Resume Integrity
 
