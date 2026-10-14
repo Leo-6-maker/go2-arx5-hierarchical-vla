@@ -1,0 +1,114 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Bound one existing complete engineering checkpoint delivery; no neural work."""
+import argparse
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import hashlib,json,os,resource,shutil,socket,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+directory=root/'evidence/checkpoint-delivery-engineering-M4-01'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def write(p,v):
+ with p.open('xb') as f:f.write((json.dumps(v,indent=2)+'\n').encode());f.flush();os.fsync(f.fileno())
+ p.chmod(0o600)
+if ACTION=='status':
+ record=json.loads((directory/'PROCESS.private.json').read_text());path=Path('/proc/'+str(record['pid'])+'/stat')
+ stat=path.read_text().split() if path.exists() else None
+ output=root/'delivery/checkpoint-engineering-M4-01';receipt=output/'DELIVERY.json'
+ v=dict(epoch=time.time(),pid=record['pid'],proc_start=record['proc_start'],
+  live_exact_identity=bool(stat and stat[21]==record['proc_start'] and stat[2] not in ('Z','X')),
+  receipt=json.loads(receipt.read_text()) if receipt.exists() else None,
+  terminal=json.loads((directory/'CPU_STAGE.json').read_text()) if (directory/'CPU_STAGE.json').exists() else None)
+ if v['receipt']:v['receipt']={k:v['receipt'].get(k) for k in ['status','kind','global_step','prefix','repo_id','data_revision','revision','total_checkpoint_bytes','CPU_s','wall_s','error_type']}
+ print(json.dumps(v));raise SystemExit(0)
+assert socket.gethostname()=='hopper-l-01' and not os.environ.get('PBS_JOBID')
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text())
+assert manifest['code']['vla_commit']==SOURCE
+source=root/manifest['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,DEADLINE
+from scripts.pi0292.durable import OwnerLock,read,write as atomic
+from scripts.pi0292.allocation_admission import personal_quota,owned_jobs
+validate(root,profile='hopper-neural')
+jobs=owned_jobs(os.environ['USER']);assert not any(row.get('project')=='CFP04-CF-007' and row['job_state'] in ('R','Q') for row in jobs.values())
+lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock');ledger_path=root/'HOPPER_RESOURCE_LEDGER.json';ledger=read(ledger_path)
+assert len(ledger['PBS_submissions'])==3 and all(r['status']=='RECONCILED_TERMINAL' for r in ledger['PBS_submissions'])
+assert ledger['main_updates']==0 and ledger['model_smoke_updates']==8 and not ledger.get('pending_updates',0)
+assert not ledger.get('CPU_reserved_s',0) and not ledger.get('GPU_reserved_s',0)
+owned=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+assert owned+32*1024**3<=180*1024**3
+quota=personal_quota(os.environ['USER']);assert 0<=time.time()-quota['report_epoch']<=900
+assert quota['hard_bytes']-quota['used_bytes']>=52*1024**3 and shutil.disk_usage(root).free>=52*1024**3
+directory.mkdir(exist_ok=False);checkpoint=root/'smoke_attempts/model-smoke-02/training/smoke_split/checkpoint-4'
+binding=read(root/'NEURAL_BINDINGS.private.json');output=root/'delivery/checkpoint-engineering-M4-01'
+request=dict(run_uuid=RUN,source_sha=SOURCE,run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+ purpose='CPU_ONLY_COMPLETE_CHECKPOINT_DELIVERY_NO_MODEL',checkpoint=str(checkpoint),dataset=binding['dataset'],
+ output=str(output),kind='engineering',expected_step=4,deadline_epoch=min(DEADLINE,time.time()+1800),
+ cpus=[min(os.sched_getaffinity(0))],max_owned_bytes=180*1024**3,growth_reserved_bytes=32*1024**3,
+ initial_owned_bytes=owned,checkpoint_complete_sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json'),
+ origin_request=str(root/'pbs/model-recovery-03/REQUEST.json'),
+ origin_allocation=str(checkpoint.parent/'session-resume/ALLOCATION.json'))
+path=directory/'REQUEST.private.json';write(path,request)
+ledger.update(CPU_reserved_s=1800,CPU_artifact_request_sha256=sha(path));atomic(ledger_path,ledger)
+bootstrap=r"""
+import os,resource,signal,subprocess,sys,time
+from pathlib import Path
+from scripts.pi0292.durable import read,write
+root=Path(sys.argv[1]);path=Path(sys.argv[2]);directory=path.parent;request=read(path)
+binding=read(root/'NEURAL_BINDINGS.private.json');ledger_path=root/'HOPPER_RESOURCE_LEDGER.json'
+os.sched_setaffinity(0,set(request['cpus']))
+before=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)];started=time.monotonic()
+args=[binding['python'],'-m','scripts.pi0294.checkpoint_delivery','--root',str(root),
+ '--request',str(path),'--checkpoint',request['checkpoint'],'--dataset',request['dataset'],
+ '--output',request['output'],'--repo','leoyuer/pi0291-arx5-fixed-base','--kind','engineering','--expected-step','4',
+ '--existing-token-file','@HOPPER_SHARED_HOME@/@HOPPER_ACCOUNT@/.config/huggingface/token']
+child=subprocess.Popen(args,start_new_session=True)
+write(directory/'CHILD.private.json',dict(pid=child.pid,proc_start=Path('/proc/'+str(child.pid)+'/stat').read_text().split()[21]))
+try:code=child.wait(timeout=max(1,request['deadline_epoch']-time.time())+5)
+except subprocess.TimeoutExpired:
+ os.killpg(child.pid,signal.SIGTERM)
+ try:code=child.wait(timeout=5)
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);code=child.wait()
+survivors=[]
+for proc in Path('/proc').iterdir():
+ if not proc.name.isdigit():continue
+ try:
+  if proc.stat().st_uid!=os.getuid():continue
+  fields=(proc/'stat').read_text().split()
+  if int(fields[4])==child.pid and fields[2] not in ('Z','X'):survivors.append(int(proc.name))
+ except (OSError,PermissionError):pass
+assert not survivors,'OWN_CPU_GROUP_NOT_YET_TERMINAL'
+after=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+cpu=sum(a.ru_utime+a.ru_stime-b.ru_utime-b.ru_stime for a,b in zip(after,before))
+ledger=read(ledger_path)
+assert ledger['CPU_reserved_s']==1800 and ledger['CPU_artifact_request_sha256']==__import__('hashlib').sha256(path.read_bytes()).hexdigest()
+ledger['CPU_s']+=cpu;ledger['CPU_reserved_s']=0
+ledger.setdefault('CPU_artifact_stages',[]).append(dict(status='KNOWN_TERMINAL_ACTUAL_CPU_ACCOUNTED',
+ request_sha256=ledger['CPU_artifact_request_sha256'],exit=code,CPU_s=cpu,wall_s=time.monotonic()-started,
+ own_process_group_terminal=True,new_model_loads=0,new_PBS_submissions=0))
+write(ledger_path,ledger);write(directory/'CPU_STAGE.json',ledger['CPU_artifact_stages'][-1])
+raise SystemExit(code)
+"""
+env=dict(os.environ,PYTHONPATH=str(source/'src')+':'+str(source),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',
+ OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',HF_HUB_OFFLINE='0',TRANSFORMERS_OFFLINE='1',
+ TOKENIZERS_PARALLELISM='false',NO_ALBUMENTATIONS_UPDATE='1')
+out=(directory/'stdout.log').open('xb');err=(directory/'stderr.log').open('xb')
+proc=subprocess.Popen([binding['python'],'-c',bootstrap,str(root),str(path)],env=env,cwd=source,stdout=out,stderr=err,
+ stdin=subprocess.DEVNULL,start_new_session=True)
+record=dict(status='CPU_ARTIFACT_DELIVERY_DISPATCHED_NOT_YET_VERIFIED',stage=directory.name,pid=proc.pid,
+ proc_start=Path('/proc/'+str(proc.pid)+'/stat').read_text().split()[21],source_sha=SOURCE,
+ request_sha256=sha(path),deadline_epoch=request['deadline_epoch'],kind='engineering',global_step=4,
+ new_model_loads=0,new_PBS_submissions=0,local_checkpoint_deletion=False)
+write(directory/'PROCESS.private.json',record);lock.close();print(json.dumps(record))
+'''
+
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('action',choices=['launch','status']);p.add_argument('--source');a=p.parse_args()
+ if a.action=='launch':assert a.source and len(a.source)==40
+ result=remote('hopper','\n'.join(k+'='+repr(v) for k,v in dict(RUN=RUN,ACTION=a.action,SOURCE=a.source).items())+'\n'+CODE)
+ save(BASE/('CHECKPOINT_'+a.action+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr_kind='HELPER_FAILED' if result.returncode else None))
+ if result.returncode:raise RuntimeError('Checkpoint helper failed; private error inspection required')
+ print(result.stdout)

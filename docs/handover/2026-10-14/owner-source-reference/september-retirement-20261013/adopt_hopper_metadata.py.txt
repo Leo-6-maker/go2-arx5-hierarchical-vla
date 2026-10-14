@@ -1,0 +1,69 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Reflect already-completed Hopper path cutover in shared navigation, not science."""
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+sys.path.insert(0,str(Path(__file__).parents[1]))
+from pi0292_adopt import remote,save
+
+HERE=Path(__file__).parent
+RUN='20261013T074558Z-localpc-september-retirement'
+snapshot=json.loads(json.loads((HERE/RUN/'HOPPER_FINAL_BINDINGS_02.private.json').read_text())['stdout'])
+assert all(snapshot['existing_dependency_paths'].values())
+binding=snapshot['bindings']
+program=r'''
+from pathlib import Path
+import hashlib,json,fcntl,os,time
+base=Path('@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/infrastructure')
+output=base/'maintenance'/RUN/'hopper-navigation-adoption';output.mkdir(parents=True,exist_ok=False,mode=0o700)
+binding=BINDING
+lock=(base/'NAVIGATION_OWNER.lock').open('a');fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+def sha(value):return hashlib.sha256(value).hexdigest()
+changes=[]
+for name in ['PATH_REGISTRY.json','ENVIRONMENTS.json','leases/PI0292.json']:
+ path=base/name;before=path.read_bytes();value=json.loads(before)
+ backup=output/(Path(name).name+'.before');backup.write_bytes(before);backup.chmod(0o600)
+ rows=value.get('entries',value.get('profiles',value.get('protected_entries',[])))
+ for row in rows:
+  key=row.get('role')
+  target=None
+  if key=='HOPPER_OFFICIAL_CODE':target=binding['source']
+  elif key=='HOPPER_PRETRAINED_CANDIDATE':target=binding['base']
+  if target is not None:
+   old=row['path']
+   assert old==target or old.startswith('@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902') or '/archive/stage_runs/stage22_handoff_deb920a_20260902/' in old
+   row['path']=target
+   row['lifecycle']='CURRENT_PI0292_DEPENDENCY_PATH_LEASE_PROTECTED_NOT_NEW_MODEL_QUALIFICATION'
+   if 'realpath' in row:row['realpath']=target
+   for obsolete in ('st_dev','st_ino','mode'):row.pop(obsolete,None)
+  if row.get('name')=='hopper-neural':
+   row['python']=binding['python'];row['source']=binding['source']
+   row['path_adoption']='Already performed by existing Hopper maintenance; navigation metadata only'
+ if name=='ENVIRONMENTS.json':
+  value['existing_absolute_paths_unchanged']=False
+  value['Corelab_absolute_runtime_paths_unchanged']=True
+  value['Hopper_cutover_scope']='Actual existing PI0292 dependency binding; no source/stat/recipe/deadline changes'
+ value['Hopper_navigation_cutover_observation_epoch']=OBSERVATION
+ value['Hopper_neural_entry_deployment']='NOT_ESTABLISHED_BY_NAVIGATION_METADATA'
+ assert path.read_bytes()==before,'CONCURRENT_NAVIGATION_CHANGE'
+ after=(json.dumps(value,indent=2)+'\n').encode()
+ tmp=path.with_name(path.name+'.pending.'+str(os.getpid()))
+ with tmp.open('xb') as f:f.write(after);f.flush();os.fsync(f.fileno())
+ tmp.chmod(path.stat().st_mode&0o777);os.replace(tmp,path)
+ assert path.read_bytes()==after
+ changes.append(dict(file=name,before_sha256=sha(before),after_sha256=sha(after)))
+result=dict(status='HOPPER_NAVIGATION_PATH_ADOPTION_PASS_NO_SCIENTIFIC_MUTATION',changes=changes,
+ actual_Hopper_binding_epoch=OBSERVATION,scientific_run='20261013T025824Z-localpc-pi0292',
+ original_T0=1791860304,original_deadline=1791946704,model_qualification='NOT_CHANGED',
+ source_commit=binding['source_commit'],physics=0,model=0,pbs=0)
+(output/'RECEIPT.private.json').write_text(json.dumps(result,indent=2));lock.close()
+print(json.dumps(result))
+'''.replace('RUN',repr(RUN)).replace('BINDING',repr(binding)).replace('OBSERVATION',repr(snapshot['epoch']))
+r=remote('corelab-amd-server',program)
+save(HERE/RUN/'HOPPER_NAVIGATION_ADOPTION.private.json',dict(returncode=r.returncode,stdout=r.stdout,stderr=r.stderr))
+print(r.stdout,r.stderr)
+if r.returncode:raise RuntimeError('NAVIGATION_ADOPTION_PARTIAL_INSPECT_NO_RESET')

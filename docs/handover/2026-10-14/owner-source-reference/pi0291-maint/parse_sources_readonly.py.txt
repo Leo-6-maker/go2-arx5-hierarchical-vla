@@ -1,0 +1,81 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read original structured audit once; write private decisions, never touch Corelab."""
+import collections
+import csv
+import hashlib
+import json
+from pathlib import Path
+import time
+
+start = time.process_time()
+source = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/corelab-storage-audit-20261013')
+out = Path(__file__).parent
+names = ['AUDIT_REPORT.md', 'FULL_STORAGE_INVENTORY.csv', 'RETENTION_PLAN.json',
+         'README_STORAGE.md', 'validate_run_paths.py', 'PILOT_SOURCE_MANIFEST.json',
+         'MIGRATION_PILOT_PLAN.json', 'CHECKPOINT_INDEX.json', 'PI0276_ARCHIVE_STATUS.json']
+pins = {n: {'sha256': hashlib.sha256((source/n).read_bytes()).hexdigest(),
+            'bytes': (source/n).stat().st_size} for n in names}
+plan = json.loads((source/'RETENTION_PLAN.json').read_text())
+with (source/'FULL_STORAGE_INVENTORY.csv').open(newline='') as f:
+    inventory = list(csv.DictReader(f))
+indexed = {(r['node'], r['path']): r for r in inventory}
+assert len(indexed) == len(inventory) == len(plan['items']) == 448
+counts = collections.Counter(x['decision'] for x in plan['items'])
+assert counts == plan['decision_counts']
+checks = ['realpath', 'asset_id', 'mtime', 'scan_status', 'decision', 'reason']
+integers = ['logical_bytes', 'allocated_bytes', 'file_count',
+            'static_reference_count', 'external_static_reference_count']
+json_fields = ['mount_id', 'process_reference', 'github_commit', 'hf_revision', 'sha256', 'next_gate']
+decisions = []
+for x in plan['items']:
+    row = indexed[(x['node'], x['path'])]
+    for key in checks:
+        assert row[key] == x[key], (x['path'], key)
+    for key in integers:
+        assert int(row[key]) == x[key], (x['path'], key)
+    for key in json_fields:
+        assert json.loads(row[key]) == x[key], (x['path'], key)
+    assert row['shared'] == str(x['shared'])
+    assert row['executable_now'] == str(x['executable_now'])
+    assert not x['executable_now']
+    if x['decision'] == 'MIGRATE':
+        status = 'COPY_ONLY_CANDIDATE_REQUIRES_LIVE_SOURCE_DESTINATION_HASH_AND_REFS'
+    elif x['decision'] == 'CACHE_DELETE':
+        status = 'SKIP_UNTIL_EXACT_FILE_HASH_INODE_AND_AFFIRMATIVE_REBUILD_PROVENANCE'
+    elif x['decision'] == 'KEEP':
+        status = 'PROTECT_ORIGINAL'
+    else:
+        status = 'UNKNOWN_HOLD'
+    decisions.append({k: x[k] for k in ['node', 'path', 'realpath', 'asset_id',
+        'shared', 'logical_bytes', 'allocated_bytes', 'file_count', 'scan_status',
+        'process_reference', 'static_reference_count', 'external_static_reference_count',
+        'github_commit', 'hf_revision', 'sha256', 'reason', 'next_gate', 'archive_target']}
+        | {'original_decision': x['decision'], 'current_decision': status,
+           'metadata_evidence': x.get('metadata_evidence')})
+pilot = json.loads((source/'PILOT_SOURCE_MANIFEST.json').read_text())
+pilot_files = [x for x in pilot['files'] if x['type'] == 'file']
+assert len(pilot_files) == 7 and all(x['stable'] for x in pilot_files)
+checkpoints = json.loads((source/'CHECKPOINT_INDEX.json').read_text())
+checkpoint_entries = checkpoints.get('checkpoints', [])
+fact = {'schema': 'PRIVATE_SOURCE_AUDIT_AND_DECISIONS_V1',
+    'source_pins': pins, 'source_reconciliation': 'PASS_ALL_448_CSV_JSON_ENTRIES',
+    'decision_counts': dict(counts), 'file_count_sum': sum(x['file_count'] for x in plan['items']),
+    'migrate': [x for x in decisions if x['original_decision']=='MIGRATE'],
+    'cache': [x for x in decisions if x['original_decision']=='CACHE_DELETE'],
+    'seven_file_pilot': pilot,
+    'new_model_only_view_eligible_count': 0,
+    'new_model_only_view_reason': 'No audit checkpoint entry contains affirmative independently verified derived-view recovery proof; do not invent two targets to fill cap.',
+    'checkpoint_index': checkpoint_entries,
+    'cpu_seconds': time.process_time()-start,
+    'no_remote_mutations': True, 'no_remote_mass_recrawl': True}
+(out/'SOURCE_AUDIT_DECISION_FACTS.json').write_text(json.dumps(fact, ensure_ascii=False, indent=2)+'\n')
+(out/'ALL_448_RETENTION_DECISIONS_PRIVATE.json').write_text(json.dumps(decisions, ensure_ascii=False, indent=2)+'\n')
+print(json.dumps({k: fact[k] for k in ['source_reconciliation', 'decision_counts', 'file_count_sum',
+    'new_model_only_view_eligible_count', 'cpu_seconds']}, indent=2))
+for group in ['migrate', 'cache']:
+    for x in fact[group]:
+        print(group, x['node'], x['path'], x['file_count'], x['allocated_bytes'],
+              'refs', len(x['process_reference']), x['external_static_reference_count'], x['current_decision'])
+print('checkpoints', len(checkpoint_entries))

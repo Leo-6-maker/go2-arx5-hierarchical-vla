@@ -1,0 +1,120 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Exact original candidates only; sources never moved, overwritten or deleted."""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import resource
+import shutil
+import socket
+import time
+
+
+def digest(p):
+    h=hashlib.sha256()
+    with p.open('rb') as f:
+        for block in iter(lambda:f.read(1024*1024),b''):h.update(block)
+    return h.hexdigest()
+
+
+def identity(p):
+    s=p.stat()
+    return dict(dev=s.st_dev,ino=s.st_ino,nlink=s.st_nlink,size=s.st_size,
+                allocated=s.st_blocks*512,mtime_ns=s.st_mtime_ns,mode=s.st_mode,uid=s.st_uid)
+
+
+def safe_destination(p):
+    base=Path('@LOCAL_OR_CORE_HOME@-nfs/Projects/go2-arx5/archive/legacy_home/2026-10-13')
+    p.relative_to(base)
+    resolved_base=base.resolve()
+    p.resolve().relative_to(resolved_base)
+    for parent in (p,*p.parents):
+        if parent==Path('@LOCAL_OR_CORE_HOME@-nfs'):break
+        if parent.is_symlink():raise ValueError('destination ancestor symlink')
+
+
+def own_references(paths):
+    refs=[]
+    for proc in Path('/proc').iterdir():
+        if not proc.name.isdigit() or int(proc.name)==os.getpid():continue
+        try:
+            if proc.stat().st_uid!=os.getuid():continue
+            values=[(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')]
+            for part in ('cwd','exe'):
+                try:values.append(os.readlink(proc/part))
+                except OSError:pass
+            for fd in (proc/'fd').iterdir():
+                try:values.append(os.readlink(fd))
+                except OSError:pass
+            values.append((proc/'maps').read_text())
+            for source in paths:
+                if any(source in value for value in values):refs.append(dict(pid=int(proc.name),source=source))
+        except (OSError,ProcessLookupError):continue
+    return refs
+
+
+def run(facts,output):
+    assert socket.gethostname()=='corelab-amd-server'
+    cpu=time.process_time();facts=json.loads(Path(facts).read_text())
+    assert facts['source_reconciliation']=='PASS_ALL_448_CSV_JSON_ENTRIES'
+    candidates=facts['migrate'];assert len(candidates)==24
+    pilot=facts['seven_file_pilot'];pilot_name=pilot['source_path']
+    candidates.sort(key=lambda x:x['path']!=pilot_name)
+    refs=own_references([x['path'] for x in candidates])
+    receipts=[];pilot_pass=False
+    for candidate in candidates:
+        src=Path(candidate['path']);dst=Path(candidate['archive_target'])
+        record=dict(source=str(src),destination=str(dst),status='SKIP',files=[])
+        receipts.append(record)
+        try:
+            if src.as_posix()!=pilot_name and not pilot_pass:raise ValueError('seven-file pilot not verified')
+            if candidate['external_static_reference_count']:raise ValueError('external static references not individually resolved; source protected')
+            if any(x['source']==str(src) for x in refs):raise ValueError('currently referenced source')
+            if src.is_symlink() or str(src.resolve())!=candidate['realpath']:raise ValueError('source realpath drift or symlink')
+            safe_destination(dst)
+            paths=[src] if src.is_file() else sorted(src.rglob('*'))
+            if any(p.is_symlink() for p in paths):raise ValueError('source contains symlink; no blind dereference')
+            files=[p for p in paths if p.is_file()]
+            if len(files)!=candidate['file_count']:raise ValueError('original file count drift')
+            if len(files)>2500 or sum(p.stat().st_size for p in files)>200*1024**2:raise ValueError('candidate bound exceeded')
+            if shutil.disk_usage(dst.parent if dst.parent.exists() else '@LOCAL_OR_CORE_HOME@-nfs').free<1024**3:raise ValueError('capacity reserve insufficient')
+            known={x['relative_path']:x for x in pilot['files'] if x['type']=='file'} if str(src)==pilot_name else {}
+            for file in files:
+                relative=file.relative_to(src).as_posix() if src.is_dir() else '.'
+                meta=identity(file);sha=digest(file)
+                if known:assert relative in known and sha==known[relative]['sha256'] and meta['size']==known[relative]['bytes']
+                target=dst/relative if src.is_dir() else dst
+                safe_destination(target)
+                target.parent.mkdir(parents=True,exist_ok=True)
+                existed=target.exists()
+                if existed:assert target.is_file() and not target.is_symlink() and digest(target)==sha
+                else:
+                    with file.open('rb') as read,target.open('xb') as write:shutil.copyfileobj(read,write)
+                    shutil.copystat(file,target)
+                assert digest(target)==sha and digest(file)==sha and identity(file)==meta
+                assert target.stat().st_mode & 0o777 == meta['mode'] & 0o777
+                record['files'].append(dict(relative=relative,sha256=sha,source_identity=meta,
+                                           destination_identity=identity(target),already_identical=existed))
+            final_files=[src] if src.is_file() else sorted(p for p in src.rglob('*') if p.is_file())
+            assert final_files==files
+            if src.is_dir():assert not any(p.is_symlink() for p in src.rglob('*'))
+            for item,file in zip(record['files'],files):
+                target=dst/item['relative'] if src.is_dir() else dst
+                assert identity(file)==item['source_identity'] and digest(file)==item['sha256']
+                assert digest(target)==item['sha256']
+            record['status']='COPY_READBACK_VERIFIED_SOURCE_RETAINED'
+            if str(src)==pilot_name:pilot_pass=len(record['files'])==7
+        except (OSError,AssertionError,ValueError) as e:record['reason']=str(e) or type(e).__name__
+    result=dict(status='PARTIAL_WITH_SKIPS',pilot_pass=pilot_pass,candidates=receipts,
+                copied_files=sum(len(x['files']) for x in receipts),source_deletions=0,
+                freed_allocated_bytes=0,CPU_s=time.process_time()-cpu,source_refs=refs)
+    Path(output).write_text(json.dumps(result,indent=2)+'\n')
+    print(json.dumps({k:result[k] for k in ['status','pilot_pass','copied_files','source_deletions','freed_allocated_bytes','CPU_s']}))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--facts',required=True);p.add_argument('--output',required=True)
+    a=p.parse_args();run(a.facts,a.output)

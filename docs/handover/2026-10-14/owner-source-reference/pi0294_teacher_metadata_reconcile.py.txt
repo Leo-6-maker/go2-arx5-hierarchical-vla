@@ -1,0 +1,81 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Repair terminal metadata after all actual ACKs; no replay or simulation."""
+import json
+from pathlib import Path
+from pi0294_adopt import save
+from pi0294_teacher_route import LOCAL,CORE_ROOT,call
+
+CODE=r'''
+import json,os,sys,time
+from pathlib import Path
+root=Path(ROOT);stage=root/'evidence/teacher-relay-01'
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read,write,OwnerLock
+validate(root,profile='4080-simulation');lock=OwnerLock(root/'COORDINATOR.lock')
+registry=read(stage/'REGISTRY.json');process=read(stage/'PROCESS.private.json')
+records=[process,*[read(root/'worker_processes'/(case['attempt_id']+'.json')) for case in registry['cases'].values()]]
+groups={r['pid'] for r in records};alive=[]
+for p in Path('/proc').iterdir():
+    if not p.name.isdigit():continue
+    try:
+        if p.stat().st_uid!=os.getuid():continue
+        f=(p/'stat').read_text().split()
+        if f[2] not in ('Z','X') and (int(f[4]) in groups or any(int(p.name)==r['pid'] and f[21]==r['proc_start'] for r in records)):
+            alive.append(int(p.name))
+    except OSError:pass
+assert not alive,'ORIGINAL_CORE_GROUP_STILL_LIVE_NO_REPAIR_OR_REPLAY'
+qpath=root/'LIVE_QUEUE.json';q=read(qpath)
+assert q['status']=='LIVE_STOP_UNRECONCILED_RELAY_PRESERVED' and not q['reservations']
+assert q['plan_sha256']==sha(root/'plans/teacher-relay-01.json')
+assert set(q['auxiliary'])=={'teacher-relay-RPC-01'}
+for case in registry['cases'].values():
+    folder=root/'episodes'/case['attempt_id'];worker=read(folder/'WORKER_RECEIPT.json');audit=read(folder/'AUDIT.json')
+    assert worker['status']=='VALID_COMPLETE' and worker['score']['safety_valid'] and worker['score']['persistent_success']
+    assert audit['admitted'] and read(folder/'relay/STATE.json')['acknowledged_commands']==80
+    assert any(r['id']==case['attempt_id'] for r in q['records'])
+ticket=q['auxiliary']['teacher-relay-RPC-01'];assert ticket['reservation']['cpu_s']==2700
+assert not (stage/'METADATA_FAILURE_RECONCILIATION.json').exists()
+with (stage/'FAILED_QUEUE.private.json').open('xb') as f:f.write(qpath.read_bytes())
+write(stage/'LOCAL_ROUTE_TERMINAL.json',TERMINAL)
+rpc_records=[read(p) for p in (stage/'rpc').glob('*.json')]
+assert all(r['exit']==0 and r['models_loaded']==0 for r in rpc_records)
+proof=dict(status='TERMINAL_METADATA_REPAIRED_WITHOUT_ACTION_REPLAY',
+    original_failure_preserved=True,local_error='EXCLUSIVE_PROGRESS_FILE_ALREADY_EXISTS_AFTER_SECOND_COMPLETE_ROUTE',
+    Core_original_failure_sha256=sha(stage/'CORE_FAILURE.json'),old_queue_sha256=sha(stage/'FAILED_QUEUE.private.json'),
+    CPU_charged_upper_s=2700,known_RPC_measured_CPU_s=sum(r['CPU_s'] for r in rpc_records),
+    accounting='FULL_RESERVED_UPPER_FOR_RPC_AND_UNMETERED_TERMINAL_COORDINATOR_ONCE_NOT_MEASURED',
+    original_groups_terminal=True,physics_starts=0,integrations=0,models_loaded=0,epoch=time.time())
+write(stage/'METADATA_FAILURE_RECONCILIATION.json',proof)
+q['actual']['cpu_s']+=2700
+q['actual']['output_bytes']+=sum(p.stat().st_size for p in stage.rglob('*') if p.is_file())
+q.setdefault('auxiliary_records',[]).append(dict(id=ticket['id'],cpu_s=2700,
+    CPU_is_upper=True,output_bytes=sum(p.stat().st_size for p in stage.rglob('*') if p.is_file()),
+    source_sha=ticket['source_sha'],run_manifest_sha256=ticket['run_manifest_sha256'],cpus=ticket['cpus']))
+del q['auxiliary'][ticket['id']]
+q['status']='LIVE_TERMINAL_ALL_FIRST_ATTEMPTS';write(qpath,q)
+write(stage/'CORE_TERMINAL.json',dict(status='PASS_TWO_TEACHER_ROUTES_AND_INDEPENDENT_AUDITS',
+    metadata_failure_preserved=True,reconciliation_sha256=sha(stage/'METADATA_FAILURE_RECONCILIATION.json'),models_loaded=0))
+lock.close();print(json.dumps(proof))
+'''
+
+if __name__=='__main__':
+    r=json.loads((LOCAL/'LOCAL_PROCESS.private.json').read_text());p=Path('/proc')/str(r['pid'])/'stat'
+    if p.exists():
+        f=p.read_text().split();assert f[21]!=r['proc_start'] or f[2] in ('Z','X')
+    assert 'PROGRESS.private.json' in (LOCAL/'stderr.log').read_text() and 'FileExistsError' in (LOCAL/'stderr.log').read_text()
+    registry=json.loads((LOCAL/'REGISTRY.private.json').read_text());rows=[]
+    for episode in registry['cases']:
+        value=json.loads((LOCAL/episode/'ROUTE.json').read_text())
+        state=json.loads((LOCAL/episode/'STATE.json').read_text())
+        assert value['status']=='PASS_ACTUAL_MESSAGE_ACK_CHAIN_PENDING_INDEPENDENT_PHYSICAL_AUDIT'
+        assert value['acknowledgements']==value['fresh_observations']==value['commands_sent']==80
+        assert state['phase']=='DONE' and state['tick']==16000
+        rows.append(value)
+    terminal=dict(status='PASS_TWO_ACTUAL_TEACHER_ACK_CHAINS',records=rows,metadata_only_reconciliation=True)
+    result=call('corelab-4080s',CODE,ROOT=CORE_ROOT,TERMINAL=terminal)
+    save(LOCAL/'METADATA_RECONCILIATION.private.json',result)
+    save(LOCAL/'TERMINAL.private.json',terminal)
+    print(json.dumps(result))

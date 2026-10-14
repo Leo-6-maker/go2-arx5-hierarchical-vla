@@ -1,0 +1,122 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Publish only sanitized small actual stage receipts, never synthetic completion."""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import time
+from pi0292_adopt import BASE,REPO,NEW,RUN_ID,remote,save
+from pi0292_report import sanitized
+
+CORE=r'''
+import hashlib,json,time
+from pathlib import Path
+root=Path(NEW)
+names=['RESOURCE_LEDGER.json','SUPPLEMENT_ATTEMPT_LEDGER.json','BANK_V2_ADMISSION.json','STATISTICS_PROVENANCE.json',
+    'bank_v2_native/EXPORT_RECEIPT.json','evidence/BANK_PIPELINE.json','evidence/TRAINER_ADAPTER_CPU_QUALIFICATION.json',
+    'evidence/BANK_TRANSFER_PROGRESS.json','evidence/BANK_TRANSFER_PROGRESS_repair1.json','evidence/BANK_TRANSFER_MANIFEST.json']
+result={name:json.loads((root/name).read_text()) for name in names if (root/name).exists()}
+probe=root/'evidence/OPEN_LOOP_PROBE_SEAL.json'
+if probe.exists():
+    value=json.loads(probe.read_text())
+    result['OPEN_LOOP_PROBE_SUMMARY.json']={k:v for k,v in value.items() if k not in ('expert_positive_controls','probes')}
+    result['OPEN_LOOP_PROBE_SUMMARY.json'].update(full_receipt_sha256=hashlib.sha256(probe.read_bytes()).hexdigest(),
+        actual_windows=len(value['probes']),model_generation_calls=0)
+codec=root/'evidence/DATALOADER_SMOKE.json'
+if codec.exists():result['DATALOADER_SMOKE.json']=json.loads(codec.read_text())
+result['epoch']=time.time();print(json.dumps(result))
+'''
+HOPPER=r'''
+import json,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+names=['HOPPER_RESOURCE_LEDGER.json','evidence/original_cpu/RESULT.json','evidence/BANK_V2_CONSUMER.json','evidence/HOPPER_DATA_QUALIFICATION.json','evidence/BANK_CONSUMER_LAUNCH.json']
+result={name:json.loads((root/name).read_text()) for name in names if (root/name).exists()}
+result['epoch']=time.time();print(json.dumps(result))
+'''
+
+if __name__=='__main__':
+    snapshots={}
+    for host,code in [('corelab-4080s','NEW='+repr(NEW)+'\n'+CORE),('hopper','RUN_ID='+repr(RUN_ID)+'\n'+HOPPER)]:
+        result=remote(host,code)
+        if result.returncode:print(result.stderr[-2000:]);sys.exit(result.returncode)
+        snapshots[host]=json.loads(result.stdout)
+    save(BASE/('BANK_PUBLIC_SNAPSHOT_'+str(int(time.time()))+'.private.json'),snapshots)
+    core=snapshots['corelab-4080s'];hopper=snapshots['hopper'];output=REPO/'reports/PI0292'/RUN_ID
+    def publish(name,value):
+        (output/name).write_text(json.dumps(sanitized(value),indent=2,ensure_ascii=False)+'\n')
+    for name in ('RESOURCE_LEDGER.json','SUPPLEMENT_ATTEMPT_LEDGER.json','BANK_V2_ADMISSION.json','STATISTICS_PROVENANCE.json',
+        'OPEN_LOOP_PROBE_SUMMARY.json','DATALOADER_SMOKE.json','evidence/BANK_PIPELINE.json','evidence/TRAINER_ADAPTER_CPU_QUALIFICATION.json'):
+        if name in core:publish(Path(name).name,core[name])
+    ledger=hopper['HOPPER_RESOURCE_LEDGER.json'];publish('HOPPER_RESOURCE_LEDGER.json',ledger)
+    publish('HOPPER_ORIGINAL_CPU.json',hopper['evidence/original_cpu/RESULT.json'])
+    transfer=core.get('evidence/BANK_TRANSFER_MANIFEST.json',core.get('evidence/BANK_TRANSFER_PROGRESS_repair1.json',core.get('evidence/BANK_TRANSFER_PROGRESS.json',{})))
+    if 'evidence/BANK_TRANSFER_PROGRESS_repair1.json' in core:
+        publish('HF_PACKAGING_FIRST_FAILURE.json',core['evidence/BANK_TRANSFER_PROGRESS.json'])
+    consumer=hopper.get('evidence/BANK_V2_CONSUMER.json',dict(status='LAUNCHED_PREFLIGHT_PENDING') if 'evidence/BANK_CONSUMER_LAUNCH.json' in hopper else {})
+    publish('HF_BANK_PROGRESS.json',{k:v for k,v in transfer.items() if k not in ('files','actual_RGB_processor_batches','original_dependency')})
+    publish('HOPPER_DATA_PROGRESS.json',dict(status=consumer.get('status','BANK_V2_NOT_STARTED'),
+        original56_status=hopper['evidence/original_cpu/RESULT.json']['status'],
+        bank_completed=len(consumer.get('completed',[])),current=consumer.get('current'),
+        error=consumer.get('error'),observed_epoch=hopper['epoch'],original56_recollected=False))
+    if 'evidence/HOPPER_DATA_QUALIFICATION.json' in hopper:
+        publish('HOPPER_DATA_QUALIFICATION.json',hopper['evidence/HOPPER_DATA_QUALIFICATION.json'])
+    pipeline=core.get('evidence/BANK_PIPELINE.json',{});admission=core.get('BANK_V2_ADMISSION.json',{})
+    adapter=core.get('evidence/TRAINER_ADAPTER_CPU_QUALIFICATION.json',{})
+    probe=core.get('OPEN_LOOP_PROBE_SUMMARY.json',{})
+    phases=dict(observed_epoch=core['epoch'],WORKSPACE='PASS',ENV_CANARY='PASS_2_OF_2',SUPPLEMENT='TERMINAL_SUCCESS',
+        supplement_completed=24,current=None,DATASET=admission.get('status','NOT_RUN'),
+        ADAPTER_CPU=adapter.get('status','NEW_BANK_IN_PROGRESS'),MODEL_SMOKE='NOT_RUN',TRAIN='NOT_RUN',
+        OPEN_LOOP='EXPERT_CONTROL_'+probe.get('status','PENDING')+'_MODEL_NOT_RUN',RELAY='NOT_RUN',CLOSED_LOOP='NOT_RUN',
+        HF=transfer.get('status','NEW_BANK_NOT_RUN'),HOPPER_DATA=consumer.get('status','BANK_V2_NOT_RUN'),selected='NONE',deployment='NONE')
+    if ledger['model_loads'] or ledger['PBS_submissions']:raise ValueError('Refresh report logic after first actual neural submission')
+    publish('PHASE_STATUS.json',phases)
+    cpu=core['RESOURCE_LEDGER.json'];source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    codec=core.get('DATALOADER_SMOKE.json',{}).get('codec',{})
+    train_codec=codec.get('TRAIN',{});dev_codec=codec.get('DEV',{})
+    report=f'''# PI0292 Data Milestone
+
+This is an intermediate actual receipt. PI0292 S0-S6 is still active, not complete.
+
+- Authority: fixed release `261bc5b37f20aaff1ad7d5742252d3dc1a91fa65`, Issue #11 comment 6137102979.
+- Run `{RUN_ID}`; T0 `2026-10-13T02:58:24Z`; new-work cutoff `2026-10-14T01:58:24Z`; deadline `2026-10-14T02:58:24Z`. No reset.
+- All24 successor attempts completed in DEV16 then TRAIN8 order. Original dispatcher PID/start exited before the separate CPU bank pipeline started. Both environment canaries also completed, excluded from TRAIN/DEV. Original56 were not recollected.
+- Bank raw admission: `{admission.get('status')}`; counts `{admission.get('counts')}`. Original PI0291 remains PARTIAL; original ledger/statistics and the initial canary audit failure are preserved.
+- New-bank CPU pipeline: `{pipeline.get('status')}`, current `{pipeline.get('current')}`. Adapter gate `{adapter.get('status','PENDING')}`. New statistics fitted once on admitted TRAIN only. DEV is never optimized or fitted.
+- All-window numerical receipt: TRAIN {train_codec.get('full_H40_windows_actually_checked','PENDING')} windows; DEV {dev_codec.get('full_H40_windows_actually_checked','PENDING')} windows. TRAIN normalized XYZ maximum-component error {train_codec.get('official_normalized_float32_132D_decode',{}).get('XYZ_m','PENDING')} m, strict gate passed when the numerical receipt says PASS. DEV has {dev_codec.get('stock_inverse_clip_components_float32','PENDING')} inverse-clipped components, {dev_codec.get('state_preclip_components','PENDING')} state out-of-range components, and maximum-coordinate reconstruction error {dev_codec.get('official_normalized_float32_132D_decode',{}).get('XYZ_m','PENDING')} m. DEV is reported, not subjected to the TRAIN-only strict bound; no refit or threshold change.
+- Expert probe seal: `{probe.get('status','PENDING')}`; actual windows `{probe.get('actual_windows','PENDING')}`, expert rejects `{probe.get('expert_rejects','PENDING')}`. Evaluation code, canonical Gate and two-noise identities sealed before any main training; no model-generated trajectory is claimed.
+- Hopper original56 dependency: all56 original archives and all members verified. Actual RGB/official processor/collator tensors match Corelab with workers0/2. New-bank consumer `{consumer.get('status','NOT_STARTED')}`; completed new archives `{len(consumer.get('completed',[]))}/26`. Original56 archives will not be downloaded again.
+- New private HF stage `{transfer.get('status','NOT_STARTED')}`; fixed revision `{transfer.get('revision','NOT_YET_CREATED')}`. READY-last, full file-set/hash verification and actual sample readback are required; pending stages are not PASS.
+- Packaging repair flag `{transfer.get('preserved_packaging_repair',False)}`. The first pre-upload failure, when present, is retained in HF_PACKAGING_FIRST_FAILURE.json: the allowlist omitted already sealed C++ audit sources and README. The explicit repair admits only those exact paths and rechecks/reuses existing raw archives; no original data, source capsule or scientific threshold changed.
+- Existing N1.7 full-shard identity and Cosmos cache match their fixed official revisions, without historical model redownload. Models loaded `{ledger['model_loads']}`; PBS submissions `{len(ledger['PBS_submissions'])}`; neural smoke/main/offline/relay remain NOT_RUN.
+- Corelab actual totals: {len(cpu['starts'])} starts, {cpu['physics_steps']} integrations, {cpu['pairs']} paired observations; measured CPU {cpu['CPU_s']:.6f}s plus retained conservative/reserved {cpu['CPU_upper_s']:.2f}s. Hopper measured CPU {ledger['CPU_s']:.6f}s; stage reservations are separate in its ledger. Quota remains UNKNOWN, not inferred from shared free space. Scientific deletions, WBC and hardware calls remain zero.
+- Latest code available to this projection: `{source}`. Executed pipeline source and step receipts are in BANK_PIPELINE/adapter evidence; physical source remains `35290803cd82e10a164daaa53af5743dd43054ee`.
+
+Proceed only through the adopted data/model/resource gates. Fixed-base ARX5 results do not prove mobile Go2, WBC, or hardware success. selected=NONE; deployment=NONE.
+'''
+    (output/'PROGRESS_REPORT.md').write_text(report)
+    (output/'RESUME.md').write_text('''# PI0292 Resume
+
+Keep the original run UUID/T0/deadline. All24 supplement attempts are terminal; do not relaunch them.
+
+Read the durable CPU/data stages from the existing local workspace:
+```bash
+python3 work/private/pi0292_bank_control.py status bank
+python3 work/private/pi0292_bank_control.py status transfer
+python3 work/private/pi0292_bank_hopper.py status
+```
+
+Only launch a stage after proving its prior gate, absence of its earlier attempt and no competing owner. Launch acknowledgements are not completion. On failures preserve all files, receipts and budgets; diagnose before an explicit engineering repair. Original56 have been fully consumed on Hopper, with actual cross-host CPU tensors verified. Never rerun its workspace initializer or original56 consumer.
+
+After bank CPU/probe and immutable private HF producer readback pass, complete the new-bank full Hopper consumer and actual TRAIN/DEV CPU comparisons. S3 requires those gates and a new own single-H200 PBS allocation. The prepared PBS smoke wrapper only runs the 4-vs-2+2 engineering chain, not main training. Reconcile actual scheduler allocation time and complete-state storage before further submissions. S4 additionally requires exact smoke equivalence and full4096 throughput/capacity qualification. Continue S0-S6 within fixed authority, without resetting budget or substituting another candidate.
+
+Use private runmap bindings and existing credentials only. GitHub files are sanitized projections; full raw images/numeric data, private bindings and complete checkpoint assets do not belong in this repository.
+''')
+    deliver=Path('@LOCAL_OR_CORE_HOME@/Documents/Codex/2026-10-12/github-plugin-github-openai-curated-remote-2/outputs/PI0292_PROGRESS_REPORT.md')
+    deliver.write_text(report)
+    publish('ARTIFACT_INDEX.json',dict(files=[dict(path=p.name,bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest())
+        for p in sorted(output.iterdir()) if p.is_file() and p.name!='ARTIFACT_INDEX.json'],producer_raw_private=True,public_projection=True))
+    print(json.dumps(phases))

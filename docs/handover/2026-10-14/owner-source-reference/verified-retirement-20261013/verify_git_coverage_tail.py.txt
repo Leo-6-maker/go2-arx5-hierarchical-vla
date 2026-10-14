@@ -1,0 +1,39 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+# Appended to maintenance definitions; the module entrypoint is disabled.
+checks=[]
+with (ROOT/'OWNER.lock').open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ for auditfile in (ROOT/'code').glob('*/CODE_BACKUP_AUDIT.json'):
+  a=json.loads(auditfile.read_text())
+  if not a.get('independent_all_files_verified'):continue
+  objects={a['head'],a['tree']}
+  objects.update(line.split('\0')[-1] for line in a['refs'].splitlines())
+  objects.update(a.get('reflog_commits',[]))
+  objects.update(line.split()[-1] for line in a.get('fsck_unreachable','').splitlines() if len(line.split())==3 and len(line.split()[-1])==40)
+  def missing_from(backup):
+   q=subprocess.run(['git','--git-dir',str(backup),'cat-file','--batch-check'],input=('\n'.join(sorted(objects))+'\n').encode(),capture_output=True,env=ENV,check=True)
+   return [x.split()[0] for x in q.stdout.decode().splitlines() if x.endswith(' missing')]
+  backup=Path(a['raw_common_backup']);assert not (backup/'objects/info/alternates').exists(),'raw backup has source alternates';missing=missing_from(backup)
+  if missing:
+   original=Path(a['common_dir']);assert original.exists(),'missing independent objects and original no longer exists'
+   fresh=ROOT/'objects'/(a['common_id']+'-final');rows=walk(original);copy_verified(original,fresh,rows);save(fresh.with_name(fresh.name+'.manifest.json'),rows)
+   assert not missing_from(fresh)
+   a['raw_common_backup']=str(fresh);a['all_captured_refs_reflog_unreachable_objects_verified']=True;save(auditfile,a);backup=fresh
+  assert not missing_from(backup)
+  nested_checks=[]
+  for ni in a.get('initialized_nested_git',[]):
+   nb=Path(a['raw_common_backup'])/ni['common_relative'];assert not (nb/'objects/info/alternates').exists()
+   ids={ni['head'],ni['tree']}|set(ni['reflog_commits']);ids.update(line.split('\0')[-1] for line in ni['refs'].splitlines())
+   ids.update(line.split()[-1] for line in ni.get('fsck_unreachable','').splitlines() if len(line.split())==3 and len(line.split()[-1])==40)
+   q=subprocess.run(['git','--git-dir',str(nb),'--work-tree',str(ROOT),'cat-file','--batch-check'],input=('\n'.join(sorted(ids))+'\n').encode(),capture_output=True,env=ENV,check=True)
+   assert not any(x.endswith(' missing') for x in q.stdout.decode().splitlines())
+   bundledir=auditfile.parent/'nested_bundles';bundledir.mkdir(exist_ok=True);bundle=bundledir/(hashlib.sha256(ni['relative'].encode()).hexdigest()[:12]+'.bundle')
+   if not bundle.exists():git(Path(ni['independent_restore']),'bundle','create',str(bundle),'--all','HEAD',timeout=180)
+   git(Path(ni['independent_restore']),'bundle','verify',str(bundle))
+   nested_checks.append(dict(bundle=str(bundle),bundle_sha256=sha(bundle),bundle_verify_rc=0,relative=ni['relative'],head=ni['head'],objects_verified=len(ids),independent_restore=ni['independent_restore'],no_source_objects_or_alternates=True))
+  checks.append(dict(initialized_nested_git=nested_checks,candidate=a['path'],objects_verified=len(objects),all_refs_reflog_and_unreachable_available_independently=True,raw_common_backup=str(backup)))
+ save(ROOT/'GIT_OBJECT_COVERAGE_VERIFY.json',dict(status='PASS',checks=checks,cpu_seconds=usage(),epoch=time.time()))
+ save(ROOT/('RESOURCE_'+str(time.time_ns())+'.json'),dict(cpu_seconds=usage(),recovery_bytes=budget(),action='verify-complete-object-coverage',epoch=time.time()))
+ print(json.dumps(dict(status='PASS_ALL_CAPTURED_GIT_OBJECTS',candidates=len(checks),cpu_seconds=usage())))

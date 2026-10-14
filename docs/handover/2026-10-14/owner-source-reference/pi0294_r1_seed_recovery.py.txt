@@ -1,0 +1,64 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Explicit terminal pre-forward recovery, preserving prior evidence and caps."""
+import argparse
+import base64
+import hashlib
+import subprocess
+import time
+
+from pi0294_r1_prepare import BASE, REPO, RUN, NUMERICAL_PATHS, save
+from pi0294_remote import remote_multiplexed
+from pi0294_r1_boundary import CODE as BOUNDARY
+from pi0294_r1_pbs import CODE as PBS
+
+OLD = '46bf14f4baa91a6e030b8b5f760d4d06989480e6'
+
+
+def replace(code, old, new):
+    assert code.count(old) == 1, old
+    return code.replace(old, new)
+
+
+def boundary():
+    code = replace(BOUNDARY, "assert m['code']['vla_commit']=='5e974b4fccd239656b2feda119a4c34426e72553'", "assert m['code']['vla_commit']=="+repr(OLD))
+    code = replace(code, "and not l['PBS_submissions']", "and len(l['PBS_submissions'])==1\n assert l['PBS_submissions'][0]['status']=='RECONCILED_TERMINAL' and l['PBS_submissions'][0]['job_id']=='665153.hopper-m-02'\n assert l['main_updates']==512 and l['generation_queries']==1 and l['GPU_allocated_s']==321\n import subprocess\n job=json.loads(subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-xf','-F','json','665153.hopper-m-02'],text=True))['Jobs']['665153.hopper-m-02']\n assert job['job_state']=='F' and job['Exit_status']==1\n prior=root/'pbs/eval-first-01/continuation-session/STATE.json'\n state=read(prior);assert state['status']=='FAILED_PRESERVED_NO_AUTOMATIC_RETRY'\n proc=Path('/proc')/str(state['pid'])/'stat';assert not proc.exists() or proc.read_text().split()[21]!=state['proc_start'] or proc.read_text().split()[2] in ('Z','X')\n for lockname in ('NEURAL_OWNER.lock','CONTINUATION_OWNER.lock'):\n  probe=OwnerLock(root/lockname);probe.close()")
+    code = replace(code, "capsules/eval-first-02", "capsules/seed-api-recovery-03")
+    code = replace(code, "old_source_sha='5e974b4fccd239656b2feda119a4c34426e72553'", "old_source_sha="+repr(OLD))
+    source = subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    names = subprocess.check_output(['git','ls-tree','-r','--name-only',source,'src','scripts/pi0291_arx5_data',
+                                    'scripts/pi0292','scripts/pi0294','scripts/iteration'],cwd=REPO,text=True).splitlines()
+    changed = subprocess.check_output(['git','diff','--name-only',OLD,source,'src','scripts/pi0291_arx5_data',
+                                      'scripts/pi0292','scripts/pi0294','scripts/iteration'],cwd=REPO,text=True).splitlines()
+    assert sorted(changed)==['scripts/pi0294/resident.py','scripts/pi0294/test_inference_seed.py']
+    contents={n:base64.b64encode(subprocess.check_output(['git','show',source+':'+n],cwd=REPO)).decode() for n in names}
+    numerical={}
+    for n in NUMERICAL_PATHS:
+        parent=subprocess.check_output(['git','show','a171997a704072e127d16410ba584c8aa0ddd573:'+n],cwd=REPO)
+        assert base64.b64decode(contents[n])==parent
+        numerical[n]=hashlib.sha256(parent).hexdigest()
+    for host,role in [('hopper','hopper'),('corelab-4080s','core')]:
+        values=dict(RUN=RUN,ROLE=role,SOURCE=source,CONTENTS=contents,NUMERICAL=numerical)
+        r=remote_multiplexed(host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+code)
+        save(BASE/('SEED_BOUNDARY_'+role+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+        assert r.returncode==0,'Preserve partial deployment; no automatic repeat'
+        print(r.stdout)
+
+
+def pbs(action):
+    code=replace(PBS,"l['generation_queries']==0,'FIRST_EVAL_ALLOCATION_ONLY'", "l['generation_queries']==1,'KNOWN_PRE_FORWARD_RECOVERY_ONLY'\nassert len(l['PBS_submissions'])==1 and l['PBS_submissions'][0]['job_id']=='665153.hopper-m-02'\nassert l['PBS_submissions'][0]['status']=='RECONCILED_TERMINAL' and l['GPU_allocated_s']==321\nfailed=root/'evidence/model-M512/offline'\nassert sorted(p.name for p in failed.iterdir())==['INTENT-000.json']\nassert read(failed/'INTENT-000.json')['draw']['seed']==2566782898028649176\nlog=(root/'pbs/eval-first-01/pbs.log').read_text()\nassert 'ValueError: Seed must be between 0 and 2**32 - 1' in log\nassert 'set_seed(int(seed))' in log\nassert read(root/'pbs/eval-first-01/continuation-session/STATE.json')['status']=='FAILED_PRESERVED_NO_AUTOMATIC_RETRY'")
+    code=replace(code,"assert cpu['source_sha']==m['code']['vla_commit']", "assert cpu['source_sha']=="+repr(OLD))
+    code=replace(code,'mem=225gb','mem=128gb')
+    code=replace(code,"directory=str(root/'evidence/model-M512/offline'),", "directory=str(root/'evidence/model-M512/offline-02'),\n engineering_recovery=dict(prior_job_id='665153.hopper-m-02',known_pre_forward_failure=True,prior_query_charged=True,\n canonical_plan_unchanged=True,new_noise_selection=False,old_output_preserved=True),")
+    code=replace(code,"assert l['GPU_allocated_s']+wall<=28800", "assert l['GPU_allocated_s']+wall<=28800\nassert time.time()+1200<read(root/'evidence/model-M512/REGISTRY.json')['deadline_epoch']\nassert not (root/'evidence/model-M512/offline-02').exists()")
+    r=remote_multiplexed('hopper','RUN='+repr(RUN)+'\nACTION='+repr(action)+'\n'+code)
+    save(BASE/('SEED_PBS_'+action+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    print(r.stdout if not r.returncode else 'RECOVERY_GATE_FAILED_INSPECT_PRIVATE_RECEIPT_NO_RETRY')
+    assert r.returncode==0
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['boundary','plan','submit']);args=parser.parse_args()
+    if args.action=='boundary':boundary()
+    else:pbs(args.action)

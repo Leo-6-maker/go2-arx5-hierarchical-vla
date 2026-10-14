@@ -1,0 +1,57 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Rebind the reviewed commit before physical execution and close S0 evidence."""
+import hashlib
+import json
+import subprocess
+import sys
+from pi0292_adopt import BASE, REPO, OLD, NEW, RUN_ID, remote, save
+
+CODE=r'''
+import hashlib,json,os,resource,subprocess,time
+from pathlib import Path
+root=Path(NEW)
+sys.path.insert(0,str(root/'code'))
+from scripts.pi0292.durable import read,write
+fake=read(root/'reliability/job1/STATE.json')
+assert fake['status']=='TERMINAL_SUCCESS' and fake['sequence']>=150
+assert fake['physics_steps']==fake['model_calls']==0
+for name,h in HASHES.items():assert hashlib.sha256((root/'code'/name).read_bytes()).hexdigest()==h,name
+seal=read(root/'CODE_SEAL.json');prior=seal['source_sha']
+assert prior=='3835ecea4560ed523ce77dad4c3e9dd2e937a817'
+assert not read(root/'RESOURCE_LEDGER.json')['starts']
+write(root/'evidence/PRE_PHYSICS_SOURCE_IDENTITY_CORRECTION.json',dict(status='CORRECTED_BEFORE_ANY_PHYSICAL_START',
+    prior_base_sha=prior,actual_execution_sha=SOURCE,reason='Initial deployment ran after sparse git-add failure; exact new files now committed and compared',files=HASHES))
+seal['source_sha']=SOURCE;write(root/'CODE_SEAL.json',seal)
+eq=read(root/'SCIENCE_SOURCE_EQUIVALENCE.json');eq['actual_new_source_sha']=SOURCE;write(root/'SCIENCE_SOURCE_EQUIVALENCE.json',eq)
+write(root/'RUNNER_RELIABILITY_TEST.json',dict(status='PASS',fake_jobs_started=1,max_allowed=2,
+    actual_remote_observer_disconnected_after_launch=True,actual_reconnect_state=fake,
+    actual_running_observation=dict(pid=2991582,proc_start='163014036',sequence=126,updated=1791861064.8047714),
+    actual_duplicate_start_exit=73,duplicate_message='DUPLICATE_OWNER_REJECTED',
+    fault_tests=read(root/'evidence/ENGINEERING_TESTS.json'),disk_failure_original_state_preserved=True,
+    stdout_stderr_direct_regular_files=True,physics_steps=0,model_calls=0))
+binding=read(root/'DEPENDENCY_LEASE.json')
+write(root/'HOST_PATH_BINDINGS.private.json',binding)
+write(root/'WORKSPACE_HANDSHAKE.json',dict(status='PASS',maintenance_thread='01a1311d-dfd8-7491-9f2f-2affe83b6010',
+    maintenance_ack='No active scans, moves, deletes or unpublished leases; CLEANUP.lock unheld; preserve scientific dependencies',
+    maintenance_release='3835ecea4560ed523ce77dad4c3e9dd2e937a817',maintenance_originals_retained=True,
+    physical_source_old_hashes=121,stable_private_bindings='HOST_PATH_BINDINGS.private.json',
+    no_project_worker_at_initial_observation=True,limited_write_readback_bytes=1048576,
+    quota='UNKNOWN_TOOL_ABSENT',filesystem_free_not_quota=True,
+    capsule_source_sha=SOURCE,old_PI0291_unmodified=True,new_entry_code_pin='e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b',
+    execution_uses_new_frozen_capsule_not_live_entry=True))
+print(json.dumps(dict(status='S0_PASS',source_sha=SOURCE,fake=fake,bindings=binding,
+    handshake=read(root/'WORKSPACE_HANDSHAKE.json'),equivalence=eq,reliability=read(root/'RUNNER_RELIABILITY_TEST.json'))))
+'''
+
+if __name__=='__main__':
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    hashes={str(p.relative_to(REPO)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (REPO/'scripts/pi0292').glob('*.py')}
+    pre='import sys\nNEW='+repr(NEW)+'\nSOURCE='+repr(source)+'\nHASHES='+repr(hashes)+'\n'
+    r=remote('corelab-4080s',pre+CODE)
+    if r.returncode:print(r.stderr);sys.exit(r.returncode)
+    result=json.loads(r.stdout)
+    save(BASE/'S0_FINAL_RECEIPT.private.json',result)
+    save(BASE/'HOST_PATH_BINDINGS.private.json',result['bindings'])
+    print(json.dumps({k:result[k] for k in ('status','source_sha','fake','handshake','equivalence')}))

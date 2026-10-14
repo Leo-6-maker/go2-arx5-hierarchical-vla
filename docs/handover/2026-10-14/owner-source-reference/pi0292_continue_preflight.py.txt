@@ -1,0 +1,38 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read current PI0292 bindings and admission facts without model execution."""
+import json
+import time
+from pi0292_adopt import BASE, RUN_ID, remote, save
+from pi0292_prepare_retry import CODE, SOURCE
+
+QUERY = """
+ids=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qselect','-u',os.environ['USER']],capture_output=True,text=True,timeout=20)
+assert ids.returncode==0,ids.stderr
+own={}
+for jid in ids.stdout.split():
+ result=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat','-f','-F','json',jid],capture_output=True,text=True,timeout=20)
+ assert result.returncode==0,'Scheduler changed during observation; repeat read-only preflight'
+ record=json.loads(result.stdout)['Jobs'][jid]
+ assert record['Job_Owner'].split('@')[0]==os.environ['USER']
+ own[jid]={k:record.get(k) for k in ('Job_Name','Job_Owner','job_state','project','queue','Resource_List','resources_used','stime','exec_host')}
+jobs=json.dumps({'Jobs':own})
+"""
+OLD = "jobs=subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-u',os.environ['USER'],'-f','-F','json'],text=True,timeout=20)"
+assert CODE.count(OLD) == 1
+code = CODE.replace(OLD, QUERY).replace("workspace_entry_exists=", "bindings=binding,workspace_entry_exists=")
+
+if __name__ == '__main__':
+    result=remote('hopper','RUN_ID='+repr(RUN_ID)+'\nSOURCE='+repr(SOURCE)+'\n'+code)
+    if result.returncode:
+        save(BASE/('CONTINUE_PREFLIGHT_FAILURE_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stderr=result.stderr[-4000:]))
+        raise SystemExit(result.stderr[-2000:])
+    snap=json.loads(result.stdout)
+    path=BASE/('CONTINUE_PREFLIGHT_'+str(time.time_ns())+'.private.json')
+    save(path,snap)
+    print(json.dumps(dict(receipt=str(path),epoch=snap['epoch'],quota=snap['quota'],
+        own_jobs=snap['own_jobs'],owned_bytes=snap['owned_bytes'],
+        operations_seal_sha256=snap['operations_seal_sha256'],bindings_sha256=snap['bindings_sha256'],
+        ledger={k:snap['ledger'][k] for k in ('model_loads','model_smoke_updates','main_updates','GPU_allocated_s','CPU_s','CPU_upper_s','PBS_submissions')},
+        project=snap['project'],balance_su=snap['balance']['su'])))

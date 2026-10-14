@@ -1,0 +1,90 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Install new-only capsule, retain old paths, and start a no-physics fake job."""
+import base64
+import json
+from pathlib import Path
+import sys
+
+from pi0292_adopt import BASE, REPO, OLD, NEW, RUN_ID, T0, remote, save
+
+CODE = r'''
+import ast,base64,hashlib,json,os,resource,shutil,subprocess,sys,time
+from pathlib import Path
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def put(p,v):
+    with p.open('x') as f:json.dump(v,f,indent=2);f.write('\n')
+    p.chmod(0o600)
+root=Path(NEW);old=Path(OLD)
+assert not root.exists(),'New run already exists: inspect journal; never reset'
+root.mkdir(parents=True,mode=0o700)
+put(root/'ADOPTION.json',ADOPTION)
+shutil.copytree(old/'code',root/'code',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+for name,b64 in PAYLOAD.items():
+    p=root/'code'/name;p.parent.mkdir(parents=True,exist_ok=True)
+    with p.open('xb') as f:f.write(base64.b64decode(b64))
+oldseal=json.loads((old/'CODE_SEAL.json').read_text())
+for name,h in oldseal['files'].items():assert sha(root/'code'/name)==h,name
+physical=['config.py','engine.py','scene.py','teacher.py','score.py','audit_data.py','native_dataset.py']
+eq={name:sha(root/'code/scripts/pi0291_arx5_data'/name)==sha(old/'code/scripts/pi0291_arx5_data'/name) for name in physical}
+def body(path):
+    a=ast.parse(path.read_text());fn=next(n for n in a.body if isinstance(n,ast.FunctionDef) and n.name=='run')
+    return ast.dump(next(n for n in fn.body if isinstance(n,ast.Try)),include_attributes=False)
+assert body(root/'code/scripts/pi0292/run_episode.py')==body(old/'code/scripts/pi0291_arx5_data/run_episode.py')
+put(root/'SCIENCE_SOURCE_EQUIVALENCE.json',dict(status='PASS',old_source_sha=oldseal['source_sha'],original_121_hashes_identical=True,
+    exact_physical_modules=eq,run_episode_try_loop_AST_identical=True,
+    changed=['new import routes','new authority','new card lookup','new budget accounting','new dispatcher'],
+    actual_new_source_sha=SOURCE))
+seal=json.loads((old/'TEACHER_AND_LAYOUT_SEAL.json').read_text())
+attempts={}
+for new,logical in [('C29200','C29103'),('C29201','P29104')]+[(x,x) for x in IDS]:
+    card=json.loads((old/'episodes/C29103/CARD.json').read_text()) if logical=='C29103' else seal['layouts'][logical]
+    for key in ('mode','source_sha','authority','domain','asset_root'):card.pop(key,None)
+    assert isinstance(card['seed'],int)
+    attempts[new]=dict(origin_plan='PI0291',logical_id=logical,card=card,
+        category='ENV_CANARY' if new.startswith('C') else 'SUPPLEMENT',
+        card_sha256=hashlib.sha256(json.dumps(card,sort_keys=True,separators=(',',':')).encode()).hexdigest())
+put(root/'ATTEMPT_PLAN.json',dict(parameter_sha256=seal['parameter_sha256'],attempts=attempts,
+    order=['C29200','C29201']+IDS,original_TRAIN56_reference=OLD,old_ledger_overwritten=False))
+shutil.copyfile(old/'PRIVATE_ASSET_BINDING.json',root/'PRIVATE_ASSET_BINDING.json')
+files={str(p.relative_to(root/'code')):sha(p) for p in (root/'code').rglob('*') if p.is_file()}
+put(root/'CODE_SEAL.json',dict(source_sha=SOURCE,files=files,original_reference=oldseal['source_sha']))
+ledger=dict(schema='PI0292_RESOURCE_LEDGER_V1',starts=[],physics_steps=0,pairs=0,CPU_s=0,CPU_upper_s=600,
+    CPU_upper_reason='Bounded bootstrap plus S0 metadata/engineering reserve; replace only with complete measured evidence',
+    corelab_GPU_s=0,Hopper_GPU_allocated_s=0,PBS_submissions=0,model_smoke_updates=0,main_updates=0,
+    generation_queries=0,diagnostic_pairs=0,events=[],deletions=0,WBC=0,hardware=0)
+put(root/'RESOURCE_LEDGER.json',ledger)
+probe=root/'WRITE_PROBE.bin'
+with probe.open('xb') as f:f.write(bytes(1024*1024));f.flush();os.fsync(f.fileno())
+assert sha(probe)==hashlib.sha256(bytes(1024*1024)).hexdigest()
+lease=dict(schema='PI0292_DEPENDENCY_LEASE_V1',run_uuid=RUN_ID,T0_epoch=ADOPTION['T0_epoch'],deadline_epoch=ADOPTION['deadline_epoch'],
+    owner='EXISTING_LOCAL_PC',status='HELD_FOR_SCIENCE',protected_entries=DEPENDENCIES,
+    new_run=NEW,protected_roots=[OLD,NEW],operation='NO_MIGRATION_OR_DELETION_WHILE_LEASE_HELD')
+leasepath=Path('@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/infrastructure/leases')
+leasepath.mkdir(exist_ok=True,mode=0o700)
+put(leasepath/'PI0292.json',lease);put(root/'DEPENDENCY_LEASE.json',lease)
+put(root/'ACTIVE_DEPENDENCIES.json',lease)
+for folder in ('episodes','evidence','logs','reliability'): (root/folder).mkdir()
+env=dict(os.environ,PYTHONPATH=str(root/'code'),PYTHONDONTWRITEBYTECODE='1')
+check=subprocess.run(['python3','-m','unittest','scripts.pi0292.test_durable','-v'],cwd=root/'code',env=env,capture_output=True,text=True)
+put(root/'evidence/ENGINEERING_TESTS.json',dict(exit=check.returncode,stdout=check.stdout,stderr=check.stderr))
+assert check.returncode==0,check.stderr
+out=(root/'logs/fake.stdout').open('xb');err=(root/'logs/fake.stderr').open('xb')
+child=subprocess.Popen(['python3','-m','scripts.pi0292.durable','--fake-root',str(root/'reliability/job1'),'--duration','45'],
+    cwd=root/'code',env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
+put(root/'reliability/LAUNCH.json',dict(pid=child.pid,observer_exits=True,stdout_direct_regular_file=True))
+print(json.dumps(dict(status='NEW_CAPSULE_CREATED_FAKE_JOB_STARTED',run_uuid=RUN_ID,pid=child.pid,original_source_files=len(oldseal['files']),
+    capsule_files=len(files),science_equivalence=True,engineering_tests=check.returncode,limited_write_bytes=1024*1024)))
+'''
+
+if __name__ == '__main__':
+    probe=json.loads((BASE/'S0_CORELAB_PROBE.private.json').read_text())
+    data={str(p.relative_to(REPO)):base64.b64encode(p.read_bytes()).decode() for p in (REPO/'scripts/pi0292').glob('*.py')}
+    import subprocess
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    args=dict(OLD=OLD,NEW=NEW,RUN_ID=RUN_ID,ADOPTION=json.loads((BASE/'ADOPTION.json').read_text()),PAYLOAD=data,
+              IDS=probe['supplement_not_attempted'],DEPENDENCIES=probe['entries'],SOURCE=source)
+    result=remote('corelab-4080s','\n'.join(k+'='+repr(v) for k,v in args.items())+'\n'+CODE)
+    save(BASE/'S0_DEPLOYMENT_RESULT.private.json',dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+    print(result.stdout);print(result.stderr[-3000:]);sys.exit(result.returncode)

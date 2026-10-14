@@ -1,0 +1,98 @@
+{
+  "accounting_note": "File-path block sums are not reported as freed quota because external hard links can share allocated inodes. Actual quota readback is the capacity result.",
+  "basis": "Owner and exact manifests verified before deletion; scope limited to personally owned September 2026 historical candidates. The user explicitly abandoned Stage22 recovery at 196000/200000 and September research branches regardless of prior success.",
+  "classes": [
+    {
+      "category": "stage22_history",
+      "description": "Stage22 2026-09 historical recovery state",
+      "directories_removed": 4011,
+      "regular_files_unlinked": 36374,
+      "retired_roots": 12,
+      "symlink_objects_unlinked_within_roots": 470
+    },
+    {
+      "category": "september_pi_experiment",
+      "description": "September PI experiment roots",
+      "directories_removed": 2233,
+      "regular_files_unlinked": 53794,
+      "retired_roots": 28,
+      "symlink_objects_unlinked_within_roots": 162
+    },
+    {
+      "category": "september_stage_run",
+      "description": "September archived stage runs",
+      "directories_removed": 7783,
+      "regular_files_unlinked": 39003,
+      "retired_roots": 183,
+      "symlink_objects_unlinked_within_roots": 129
+    },
+    {
+      "category": "september_repository_mirror",
+      "description": "September repository mirrors",
+      "directories_removed": 3054,
+      "regular_files_unlinked": 31305,
+      "retired_roots": 41,
+      "symlink_objects_unlinked_within_roots": 0
+    },
+    {
+      "category": "september_archive_remainder",
+      "description": "September archive remainders",
+      "directories_removed": 348,
+      "regular_files_unlinked": 1002,
+      "retired_roots": 15,
+      "symlink_objects_unlinked_within_roots": 17
+    },
+    {
+      "category": "legacy_personal_storage",
+      "description": "Personal legacy storage archive",
+      "directories_removed": 6616,
+      "regular_files_unlinked": 31564,
+      "retired_roots": 1,
+      "symlink_objects_unlinked_within_roots": 18
+    },
+    {
+      "category": "september_misc_experiment",
+      "description": "September miscellaneous experiment root",
+      "directories_removed": 3,
+      "regular_files_unlinked": 16,
+      "retired_roots": 1,
+      "symlink_objects_unlinked_within_roots": 0
+    },
+    {
+      "allocated_bytes_unlinked": 175456256,
+      "category": "september_temporary_hf_xet_cache",
+      "description": "September Hugging Face Xet temporary shard cache",
+      "directories_removed": 7,
+      "regular_files_unlinked": 15,
+      "retired_roots": 1,
+      "symlink_objects_unlinked_within_roots": 0
+    }
+  ],
+  "out_of_manifest_retention": [
+    {
+      "asset": "Small Hugging Face cache metadata for a September experiment",
+      "observed": "Four snapshot directories contain configuration/index and two small preflight JSON views; no weight tensors are in the snapshots, with 107154 bytes across three cached blobs.",
+      "reason": "Retained as small identity/provenance evidence; it is not a model-weight copy or a meaningful quota object."
+    },
+    {
+      "asset": "Other generic runtime cache namespaces",
+      "observed": "Top-level last-modified dates were 2026-05-20, 2026-05-23, and 2026-08-04.",
+      "reason": "Predate September, are outside this authorization’s date scope, and were not assigned exact file manifests; not deleted."
+    }
+  ],
+  "resolved_rechecks": [
+    "8 initially permission-limited stage-run roots were freshly inventoried and removed after changing owner permissions on directories only.",
+    "Candidate identity changes caused by mtime or hard-link count drift were re-inventoried; final deletion receipts show all selected roots absent.",
+    "A standalone September Xet shard/staging cache was re-inventoried; 15 owned regular files had no external hard links or open file handles and were unlinked by exact manifest, then 7 empty directories were removed."
+  ],
+  "retired_candidate_roots": 282,
+  "run_id": "20261013T072949Z-localpc-hopper-large-model-retirement",
+  "schema": "HOPPER_CLASSIFICATION_SUMMARY_V1",
+  "unresolved_september_candidate_roots": 0,
+  "verified_operations": {
+    "directories_removed": 24055,
+    "regular_file_unlinks": 193073,
+    "separate_personal_alias_symlink_unlinks": 10,
+    "symlink_objects_unlinked_within_roots": 796
+  }
+}

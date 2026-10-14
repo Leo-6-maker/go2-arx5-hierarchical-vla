@@ -1,0 +1,87 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read-only host-qualified entry validation; never loads models or physics."""
+from pathlib import Path
+import argparse,hashlib,importlib,importlib.util,json,os,resource,socket,subprocess,sys,time
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+HERE=Path(__file__).resolve().parent
+
+def sha(path):
+ h=hashlib.sha256()
+ with Path(path).open('rb') as f:
+  for b in iter(lambda:f.read(4<<20),b''):h.update(b)
+ return h.hexdigest()
+
+def query(args,cwd=None,env=None):
+ r=subprocess.run(args,cwd=cwd,env=env,capture_output=True,text=True,timeout=90)
+ if r.returncode:raise RuntimeError(str(args[:3])+': '+r.stderr[-1500:])
+ return r.stdout
+
+def profile(name):
+ cfg=json.loads((HERE/'ENVIRONMENTS.json').read_text());rows=[x for x in cfg['profiles'] if x['name']==name]
+ if len(rows)!=1:raise ValueError('UNKNOWN_PROFILE')
+ row=rows[0];host=socket.gethostname()
+ if host not in row['hostnames']:return dict(status='HOST_REQUIRED',profile=name,observed_host=host,required_hostnames=row['hostnames'],automatically_connected=False)
+ if not Path(row['python']).exists():return dict(status='INTERPRETER_ABSENT',profile=name,python=row['python'])
+ return dict(status='PROFILE_PATHS_READY',profile=name,host=host,python=row['python'],cwd=str(HERE.parent/'code/vla'),pythonpath=[str(HERE.parent/'code/vla/src'),str(HERE.parent/'code/isaac-gr00t')])
+
+def check(name):
+ start=time.time();p=profile(name)
+ if p['status']!='PROFILE_PATHS_READY':return p
+ checks=[];failures=[];root=HERE.parent;expected=json.loads((HERE/'ENTRY_HASH_BASELINE.json').read_text())
+ env=dict(os.environ,PYTHONPATH=os.pathsep.join(p['pythonpath']),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+ for key in ['PYTEST_CURRENT_TEST','GROOT_HF_LOCAL_FIRST','GROOT_PATCH_MISTRAL','GROOT_SKIP_HF_MODEL_WEIGHTS']:env.pop(key,None)
+ def attempt(label,fn):
+  try:checks.append(dict(check=label,status='PASS',result=fn()))
+  except Exception as e:failures.append(dict(check=label,status='FAIL',reason=str(e)))
+ def source():
+  out=[]
+  for name in ['vla','isaac-gr00t']:
+   code=root/'code'/name;head=query(['git','-C',str(code),'rev-parse','HEAD']).strip();common=Path(query(['git','-C',str(code),'rev-parse','--path-format=absolute','--git-common-dir']).strip())
+   assert head==expected['source_sha'][name] and common.resolve().is_relative_to((root/'code').resolve())
+   assert not (common/'objects/info/alternates').exists()
+   assert query(['git','-C',str(code),'status','--porcelain=v1','--untracked-files=all'])==''
+   out.append(dict(code=name,head=head,common_dir=str(common),independent=True))
+  return out
+ attempt('independent_fixed_source',source)
+ def imports():
+  modules=['go2arx5_vla'] if name=='amd-management' else ['go2arx5_vla','go2arx5_vla.task_data.io','gr00t']
+  if name=='4080-cpu-data':modules.append('gr00t.data.state_action.pose')
+  code='import importlib,json,sys; mods='+repr(modules)+'; print(json.dumps(dict(python=sys.executable,version=sys.version,modules={n:importlib.import_module(n).__file__ for n in mods})))'
+  result=json.loads(query([p['python'],'-c',code],env=env))
+  for module,f in result['modules'].items():
+   base=root/'code'/('isaac-gr00t' if module.startswith('gr00t') else 'vla')
+   assert Path(f).resolve().is_relative_to(base.resolve()),module+' imported outside canonical source'
+  return result
+ attempt('actual_canonical_module_import',imports)
+ def fixed_bytes():
+  results=[]
+  for row in expected['shared_files']:
+   f=root/row['relative'];assert sha(f)==row['sha256'],row['relative'];results.append(row)
+  return results
+ attempt('fixed_official_processor_and_shared_statistics',fixed_bytes)
+ spec=importlib.util.spec_from_file_location('entry_resolver',HERE/'resolve_path.py');resolver=importlib.util.module_from_spec(spec);spec.loader.exec_module(resolver)
+ registry=json.loads((HERE/'PATH_REGISTRY.json').read_text())
+ def paths():
+  out=[resolver.resolve(registry,x['role'],socket.gethostname(),True) for x in registry['entries']]
+  assert all(x['status'] in {'HOST_REQUIRED','PATH_OBSERVED','PATH_AND_GIT_IDENTITY_PASS'} for x in out)
+  return out
+ attempt('host_qualified_asset_and_data_paths',paths)
+ if socket.gethostname()=='corelab-4080s':
+  def data():
+   out=[]
+   for row in expected['4080_files']:
+    assert sha(row['path'])==row['sha256'],row['role'];out.append(row)
+   # Hash a complete original sample export. No model, loader mutation or physics.
+   row=expected['original_sample'];assert sha(row['path'])==row['sha256'];out.append(row)
+   return out
+  attempt('original_sample_statistics_and_fixed_tokenizer_bytes',data)
+ u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+ return dict(status='PASS' if not failures else 'FAIL',**{k:v for k,v in p.items() if k!='status'},checks=checks,failures=failures,epoch=time.time(),wall_seconds=time.time()-start,cpu_seconds=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime,model_load_forward_train_physics_WBC_PBS_hardware=0)
+
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('profile');ap.add_argument('--resolve-only',action='store_true');args=ap.parse_args()
+ v=profile(args.profile) if args.resolve_only else check(args.profile)
+ print(json.dumps(v,indent=2));return 0 if v['status'] in {'PASS','PROFILE_PATHS_READY'} else 2
+if __name__=='__main__':raise SystemExit(main())

@@ -2,6 +2,7 @@
 
 **新 Codex 与所有后续工作请先从这里开始。** GitHub 是本团队 VLA 代码、协议、测试、小型执行收据的版本权威；CoreLab 共享 `~/Projects/GR00T-WBC` 是人类统一工作入口，但不能把私有原始数据、WBC、权重都视为已保存在 GitHub。
 
+- **[2026-10-14 完整工作总结与下一 owner 交接](docs/handover/2026-10-14/HANDOFF.md)**：Oct12-14 已执行事实、代码入口、固定 HF 资产、终局与剩余预算。当前 M512 实际闭环触发原生夹爪关节限位，科学线 BLOCKED；交接不授权重启。夹爪重资格方案仍未获明确采纳。
 - **[现行统一入口／GitHub 同步规范](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)**：host-aware profiles、固定源 SHA、运行 manifest、分支同步、旧目录退役验收。
 - **CoreLab 现有可执行入口**：`~/Projects/GR00T-WBC/infrastructure/enter.sh amd-management`（AMD），或在 4080S 使用 `4080-simulation`／`4080-cpu-data`。不提供自动跨主机 SSH；不经许可启动物理／模型。
 - **[最新真实维护终局](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47#issuecomment-6137981521)**：已实际退役33源路径；Projects仍7项，有受保护科学依赖。后续统一入口操作只凭新执行收据计为完成。

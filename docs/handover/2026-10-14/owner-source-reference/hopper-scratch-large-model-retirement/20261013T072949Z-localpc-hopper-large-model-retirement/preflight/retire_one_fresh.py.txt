@@ -1,0 +1,87 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import json, os, stat, sys, time
+manifest, receipt = sys.argv[1:3]
+root='@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h200_runtime_deb920_20260902'
+alias='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902'
+if os.getuid()!=22182: raise SystemExit('uid mismatch')
+expected=[]
+for line in open(manifest):
+ x=json.loads(line)
+ if x.get('event')=='path' and x.get('root')==root: expected.append(x)
+if not expected: raise SystemExit('missing manifest root')
+def typ(s):
+ if stat.S_ISREG(s.st_mode): return 'regular'
+ if stat.S_ISDIR(s.st_mode): return 'directory'
+ if stat.S_ISLNK(s.st_mode): return 'symlink'
+ return 'special'
+exp={x['path']:x for x in expected}
+actual={}
+for d, dirs, files in os.walk(root, topdown=True, followlinks=False):
+ for name in list(dirs):
+  p=os.path.join(d,name); s=os.lstat(p)
+  if stat.S_ISLNK(s.st_mode):
+   dirs.remove(name); actual[p]=(s,os.readlink(p))
+  else: actual[p]=(s,None)
+ for name in files:
+  p=os.path.join(d,name); s=os.lstat(p)
+  actual[p]=(s,os.readlink(p) if stat.S_ISLNK(s.st_mode) else None)
+s=os.lstat(root); actual[root]=(s,None)
+if set(actual)!=set(exp):
+ raise SystemExit(f'path set changed: expected={len(exp)} actual={len(actual)} extra={list(set(actual)-set(exp))[:10]} missing={list(set(exp)-set(actual))[:10]}')
+mismatch=[]
+for p,(s,target) in actual.items():
+ x=exp[p]
+ got=(typ(s),s.st_uid,s.st_gid,s.st_dev,s.st_ino,s.st_nlink,s.st_size,s.st_blocks,stat.S_IMODE(s.st_mode),target)
+ want=(x['type'],x['uid'],x['gid'],x['dev'],x['ino'],x['nlink'],x['size_bytes'],x['blocks'],x['mode'],x.get('link_target'))
+ if got!=want: mismatch.append((p,want,got))
+ # Regular files and symlinks require exact old mtime; directory mtime may have shifted due a metadata-only operation.
+ if not stat.S_ISDIR(s.st_mode) and s.st_mtime_ns!=x['mtime_ns']:
+  mismatch.append((p,'mtime_ns='+str(x['mtime_ns']),'mtime_ns='+str(s.st_mtime_ns)))
+if mismatch: raise SystemExit('identity mismatch: '+repr(mismatch[:10]))
+if any(typ(s)=='special' for s,_ in actual.values()): raise SystemExit('special object present')
+# No current process owned by this uid may hold a cwd/root/executable/fd in the candidate.
+active=[]
+for pid in os.listdir('/proc'):
+ if not pid.isdigit(): continue
+ pd='/proc/'+pid
+ try:
+  if os.stat(pd).st_uid!=22182: continue
+ except OSError: continue
+ for n in ('cwd','root','exe'):
+  try: v=os.readlink(pd+'/'+n)
+  except OSError: continue
+  if v==root or v.startswith(root+'/'): active.append((pid,n,v)); break
+ if active: continue
+ try: fds=os.listdir(pd+'/fd')
+ except OSError: continue
+ for fd in fds:
+  try: v=os.readlink(pd+'/fd/'+fd)
+  except OSError: continue
+  if v==root or v.startswith(root+'/'): active.append((pid,'fd:'+fd,v)); break
+if active: raise SystemExit('owned process active reference: '+repr(active[:20]))
+# Record refreshed identities and delete only this exact path set.
+with open(receipt,'a') as f:
+ f.write(json.dumps({'event':'candidate_revalidated','root':root,'manifest_entries':len(expected),'mtime_only_directory_drift_allowed':True,'verified_at_ns':time.time_ns()},sort_keys=True)+'\n')
+for x in sorted((x for x in expected if x['type'] in ('regular','symlink')),key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+ p=x['path']
+ s=os.lstat(p)
+ os.unlink(p); absent=not os.path.lexists(p)
+ with open(receipt,'a') as f: f.write(json.dumps({'event':'unlink','root':root,'path':p,'type':x['type'],'uid':s.st_uid,'dev':s.st_dev,'ino':s.st_ino,'size_bytes':s.st_size,'allocated_bytes':s.st_blocks*512,'result':'unlinked' if absent else 'still_present','verified_absent':absent},sort_keys=True)+'\n')
+ if not absent: raise SystemExit('unlink verification failed: '+p)
+for x in sorted((x for x in expected if x['type']=='directory'),key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+ p=x['path']
+ try: os.rmdir(p)
+ except PermissionError:
+  os.chmod(p,stat.S_IMODE(os.lstat(p).st_mode)|0o700,follow_symlinks=False); os.rmdir(p)
+ absent=not os.path.lexists(p)
+ with open(receipt,'a') as f: f.write(json.dumps({'event':'rmdir','root':root,'path':p,'result':'removed' if absent else 'still_present','verified_absent':absent},sort_keys=True)+'\n')
+ if not absent: raise SystemExit('rmdir verification failed: '+p)
+if os.path.lexists(root): raise SystemExit('root remains')
+s=os.lstat(alias)
+if not stat.S_ISLNK(s.st_mode) or s.st_uid!=22182 or os.readlink(alias)!='Projects/go2-arx5/archive/stage_runs/stage22_h200_runtime_deb920_20260902': raise SystemExit('alias identity mismatch')
+os.unlink(alias)
+if os.path.lexists(alias): raise SystemExit('alias remains')
+with open(receipt,'a') as f: f.write(json.dumps({'event':'candidate_result','root':root,'status':'retired','member_count':len(expected),'root_absent':True},sort_keys=True)+'\n'); f.write(json.dumps({'event':'alias_unlink','path':alias,'verified_absent':True},sort_keys=True)+'\n')
+print(json.dumps({'root':root,'status':'retired','manifest_entries':len(expected),'alias_removed':True}))

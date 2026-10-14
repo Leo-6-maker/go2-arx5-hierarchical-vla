@@ -1,0 +1,115 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Authorized two stopped identities only. No process-group signal or file removal."""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import select
+import signal
+import socket
+import time
+
+
+def sha(p):
+    h=hashlib.sha256()
+    with p.open('rb') as f:
+        for block in iter(lambda:f.read(1024*1024),b''):h.update(block)
+    return h.hexdigest()
+
+
+def info(pid):
+    p=Path('/proc')/str(pid)
+    fields=(p/'stat').read_text().split(') ',1)[1].split()
+    uid=next(x for x in (p/'status').read_text().splitlines() if x.startswith('Uid:')).split()[1:]
+    return dict(pid=pid,state=fields[0],ppid=int(fields[1]),start_time_ticks=int(fields[19]),
+                uid=uid,exe=os.readlink(p/'exe'),cwd=os.readlink(p/'cwd'),
+                cmdline=(p/'cmdline').read_bytes().replace(b'\0',b' ').decode())
+
+
+def meta(p):
+    s=p.stat();return dict(dev=s.st_dev,ino=s.st_ino,nlink=s.st_nlink,size=s.st_size,
+                         allocated_bytes=s.st_blocks*512,mtime_ns=s.st_mtime_ns)
+
+
+def run(expected, output):
+    assert socket.gethostname()=='corelab-4080s' and os.getuid()==2009
+    output=Path(output)
+    if output.exists():raise ValueError('Retirement receipt exists: read it instead of resetting maintenance')
+    expected=json.loads(Path(expected).read_text())['observations'][0]['targets']
+    expected={x['pid']:x for x in expected}
+    assert set(expected)=={3455361,3455362}
+    began=time.process_time();observations=[];logs=set();preserved={}
+    keys=['pid','ppid','start_time_ticks','uid','exe','cwd','cmdline']
+    for n in range(2):
+        current=[info(pid) for pid in (3455361,3455362)]
+        for item in current:
+            assert item['state'] in ('T','t')
+            assert all(item[key]==expected[item['pid']][key] for key in keys)
+        observations.append(current)
+        if n==0:time.sleep(1.)
+    # Reject any unrelated descendant or active archive worker rather than guessing.
+    for proc in Path('/proc').iterdir():
+        if not proc.name.isdigit() or int(proc.name) in expected or int(proc.name)==os.getpid():continue
+        try:
+            fields=(proc/'stat').read_text().split(') ',1)[1].split()
+            assert int(fields[1]) not in expected, 'unapproved descendant'
+            if proc.stat().st_uid==2009:
+                cmd=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
+                assert not ('PI0276/code/archive.py' in cmd and fields[0] not in ('T','t','Z')), 'active separate archival role'
+        except (FileNotFoundError,ProcessLookupError):pass
+    locks=Path('/proc/locks').read_text()
+    assert not any(f' {pid} ' in line for pid in expected for line in locks.splitlines()), 'active kernel lock'
+    for pid in expected:
+        for fd in (Path('/proc')/str(pid)/'fd').iterdir():
+            target=os.readlink(fd)
+            assert not target.endswith(' (deleted)'), 'deleted-open descriptor: preserve and inspect'
+            if target.startswith('/') and 'PI0276' in target and Path(target).is_file():logs.add(target)
+    for name in logs:
+        p=Path(name);assert p.stat().st_size<10*1024**2
+        preserved[name]=dict(metadata=meta(p),sha256=sha(p))
+    root=Path('@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0276/archive')
+    for p in root.glob('*.tar*'):
+        if p.is_file():preserved[str(p)]=dict(metadata=meta(p),sha256='NOT_REHASHED_LARGE_ARCHIVE_PRESERVED_METADATA_ONLY')
+    records=[]
+    def persist(status,error=None):
+        output.write_text(json.dumps(dict(status=status,observations=observations,signals=records,
+           preserved=preserved,error=error,file_deletions=0,freed_allocated_bytes=0,
+           large_archive_content_rehash='NOT_RUN',other_processes_signaled=0),indent=2)+'\n')
+    for pid in (3455362,3455361):
+        handle=os.pidfd_open(pid)
+        try:
+            item=info(pid)
+            assert item['state'] in ('T','t') and all(item[k]==expected[pid][k] for k in keys)
+            signal.pidfd_send_signal(handle,signal.SIGKILL)
+            records.append(dict(pid=pid,start_time_ticks=item['start_time_ticks'],signal='SIGKILL_INDIVIDUAL_PIDFD',state_after='PENDING'))
+            persist('PARTIAL_SIGNAL_SENT_EXIT_PENDING')
+            poll=select.poll();poll.register(handle,select.POLLIN)
+            assert poll.poll(3000), 'target exit not observed'
+            proc=Path('/proc')/str(pid)
+            state=(proc/'stat').read_text().split(') ',1)[1].split()[0] if proc.exists() else 'ABSENT'
+            assert state in ('Z','ABSENT')
+            records[-1].update(state_after=state,FD_closed=not (proc/'fd').exists() or not list((proc/'fd').iterdir()))
+            persist('PARTIAL_IDENTITY_RETIRED_NEXT_PENDING')
+        except Exception as error:
+            persist('PARTIAL_STOP_ON_ERROR',str(error))
+            raise
+        finally:os.close(handle)
+    try:
+        for name,item in preserved.items():
+            p=Path(name);assert meta(p)==item['metadata']
+            if item['sha256']!='NOT_REHASHED_LARGE_ARCHIVE_PRESERVED_METADATA_ONLY':assert sha(p)==item['sha256']
+    except Exception as error:
+        persist('PARTIAL_POST_PRESERVATION_CHECK_ERROR',str(error));raise
+    result=dict(status='EXACT_STOPPED_ARCHIVE_PROCESSES_RETIRED',observations=observations,signals=records,
+                preserved=preserved,logs_content_hash_unchanged=True,archives_metadata_unchanged=True,
+                large_archive_content_rehash='NOT_RUN',file_deletions=0,freed_allocated_bytes=0,
+                CPU_s=time.process_time()-began,other_processes_signaled=0,PI0276_file_protection_unchanged=True)
+    output.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:result[k] for k in ['status','signals','logs_content_hash_unchanged','archives_metadata_unchanged','freed_allocated_bytes','CPU_s']}))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--expected',required=True);p.add_argument('--output',required=True)
+    a=p.parse_args();run(a.expected,a.output)

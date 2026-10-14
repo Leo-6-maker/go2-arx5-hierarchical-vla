@@ -1,0 +1,1849 @@
+{
+  "schema": "SANITIZED_OWNER_SOURCE_REFERENCE_V1",
+  "status": "SOURCE_REFERENCE_NOT_RUNNABLE_DEPLOYMENT",
+  "source_file_count": 166,
+  "total_bytes": 983976,
+  "files": [
+    {
+      "path": "build_workspace_plan.py.txt",
+      "original_source_sha256": "5029ed0eb4200ef358fc7083aebcd9a26c42685e4c424020aefe5fb17ad0a718",
+      "sanitized_source_sha256": "f02a776e3dad49d2add8eaae6707e5d94e1382a4a4a5fbe9a4d36999d98fd0ee",
+      "bytes": 14555,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 5,
+        "@HOPPER_SCRATCH@": 2,
+        "@HOME_PROJECTS@": 1,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "deploy_workspace_entry.py.txt",
+      "original_source_sha256": "a5d4df5a83a8c3b49ab554a0d424107939df369e7ae83c831b8c9c4381e37cf5",
+      "sanitized_source_sha256": "e4bab28dc036a997bb66ee1d9faa5315d84570adbb7ef38a2f6361a3d26abebf",
+      "bytes": 4245,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "finish_workspace_inventory.py.txt",
+      "original_source_sha256": "dc62ea8ecf6a55629baa8e8cc4c2dacedf25ca605545ea0fcee0f6db822e5838",
+      "sanitized_source_sha256": "8b3cb1fd411c3681d79afec5dd3db165e6194285b724c45789a6a660d36350f1",
+      "bytes": 4399,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/capture_after_and_prune_aliases.py.txt",
+      "original_source_sha256": "7139b2f12932a998976c64826b323f0527fe91d1a363cc1c31e2bb0f003b02a8",
+      "sanitized_source_sha256": "99bc53e531570d651bac5e9132bf71c3b034e36223efa97d73f0f59a880597d0",
+      "bytes": 2360,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/delete_candidate_batch.py.txt",
+      "original_source_sha256": "fb9a3a3e7b776187c92368b24e5926aa355ba7f73f10433047c4d9fde222d3f9",
+      "sanitized_source_sha256": "005bbda181442330e1e12ad6bb4ef934f55ffc159c0c8d8e943f52157f633469",
+      "bytes": 9417,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 30
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/delete_candidates_v2.py.txt",
+      "original_source_sha256": "ba078b8266aba13dee5181f727dd6aec11ddf2e689d27f24427be870248dbd32",
+      "sanitized_source_sha256": "5506d120e63db298c62bbd1c0dd4747a19c2b55a8eb9f633287ecdc36b0c50db",
+      "bytes": 13681,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 53
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/delete_exact_manifest.py.txt",
+      "original_source_sha256": "e6af071f8c10a24cfef9d9a3230dbfd1f66dff509f9ddafcb881582a376071ae",
+      "sanitized_source_sha256": "fec41b72866b92f587d67b80eb2a8ba671b36a9df18cda79b1f66935d41b6390",
+      "bytes": 9326,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 16
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/delete_hf_xet_cache_exact.py.txt",
+      "original_source_sha256": "59ae3c5af8a7e7949cfc092548bf17537ac5a769c3eb5ab2c826b40d15c4e6f8",
+      "sanitized_source_sha256": "7b5afd4a254fd36c2c934e23c018b4b1cbb5a0b60c3dd7473d01c8a518cac00b",
+      "bytes": 4963,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/delete_readonly_candidates.py.txt",
+      "original_source_sha256": "4aa6542ae8f22d7e676715ebc0f898cbd05c65972dc3c7764004a2ed3f272b35",
+      "sanitized_source_sha256": "8f29fc7c536f7324cd5c31720b80d55a69648a2e3a9646b6e52d963c230f080a",
+      "bytes": 5839,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/inventory_manifest.py.txt",
+      "original_source_sha256": "cd8bea338cccacef6570c71aee2fd0fb4bae3a18817bafa77fffe826a10b6bae",
+      "sanitized_source_sha256": "2d0deee4cb6fde3b633415142b79a557b40f7b7d244da66e66afbc059f4d8d11",
+      "bytes": 23382,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 228
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/inventory_roots.py.txt",
+      "original_source_sha256": "b14013faec189e8a5c82073c939bf30234d315e7a236c1ebb3676cf662622e04",
+      "sanitized_source_sha256": "b25169bec707b5bf8950c6e0b6da3778991e08b73185e759fbd415aee8f36eb9",
+      "bytes": 1561,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/inventory_single.py.txt",
+      "original_source_sha256": "5c825f6bba15221b381fdffdf07099fd5fc89714a25b4161456071cad4a5e1d1",
+      "sanitized_source_sha256": "5e2bb34a062a9bc63f8f73ed0130548e0957bfe5d5a87dcd75b486f41c45f964",
+      "bytes": 1325,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/retire_one_fresh.py.txt",
+      "original_source_sha256": "bdac96f4f49b0196dd8cd2492fd0cf01451372c6681a130f5dff1c2e1448d018",
+      "sanitized_source_sha256": "0d4226414f911222e786666258e7acbb1e8dff1d86dd5559eeb4eadab6ba9435",
+      "bytes": 5190,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/scan_repository_refs.py.txt",
+      "original_source_sha256": "eb0551f0b8416e517730fb4641892e972cc636d63984644b69b22e9b0dd6ed8c",
+      "sanitized_source_sha256": "a78e7b86b169dd06b080368ab7183f2ca205e6f42b92cb059aaf42aa58f707e5",
+      "bytes": 1181,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/verify_pi0292_deps.py.txt",
+      "original_source_sha256": "94467765afcbb207afabed2a5dd3a0bf802edbf7be3c69badd6215a024fafd9a",
+      "sanitized_source_sha256": "ca8ff65ec0c4f9e711e6e518aa41dcb9d1ce551463942a65448fc2a91b402944",
+      "bytes": 3309,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/verify_processor_runtime.py.txt",
+      "original_source_sha256": "374be3269d0aee959e128e05704948deaa4acc5225dea97b19b3a61f2dc2dc8a",
+      "sanitized_source_sha256": "010c9a5e71f3858810283ea18db88d86ce0b9e7f3d0761d23ba6fe7c6969c3b0",
+      "bytes": 1349,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "hopper-scratch-large-model-retirement/20261013T072949Z-localpc-hopper-large-model-retirement/preflight/watch_repository_metadata.py.txt",
+      "original_source_sha256": "07cf286bb3dc70df62f0983a24f0dfa78c723a71c3890bd6657c454cf3108f3b",
+      "sanitized_source_sha256": "934d6eab66191f34d5a6ddb5535181b1becaf007c1512fe55ed8b91f1eaa8b34",
+      "bytes": 1698,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/archive_metadata_readonly.py.txt",
+      "original_source_sha256": "e0d31c75994c65b827b3bf645313a78714e98572aecccca358d9dc2133ce13a9",
+      "sanitized_source_sha256": "b87c3e59714ad735f2d76c68b3bfdf813735c1db3e74043b677f42014f34f573",
+      "bytes": 1787,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 3,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/build_public_receipts.py.txt",
+      "original_source_sha256": "ac893114b4e610726ec284ac7ebb3043eb10c40934da0af67b5164f25c25699b",
+      "sanitized_source_sha256": "0dd0c28458c4cd9c3013112aba8b8d6662e01ff8db986e0309f36fc3a5e7a9e3",
+      "bytes": 14984,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/candidate_refs_readonly.py.txt",
+      "original_source_sha256": "8e1bc6212e615576ea9636d2f4502efca9e43bc860f2f0a5b7e0e30392cb6843",
+      "sanitized_source_sha256": "5847e7b67fd0fd24c02c9d9501597b0d3109b1f28e36a81b9acc645e5d520b3d",
+      "bytes": 3570,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/copy_only.py.txt",
+      "original_source_sha256": "5b4b0f88312ed4714eb3f971d231c67391335cc32e56d9615068b66bd09c770e",
+      "sanitized_source_sha256": "9028d83f7120eacc57ed676dc65df34b7c49c007bd85989989c54f0539f8ce5b",
+      "bytes": 6574,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/parse_sources_readonly.py.txt",
+      "original_source_sha256": "5012de59593ae7f217260976f3814b5aa32916373c75319941498dcb7b519a4d",
+      "sanitized_source_sha256": "8eab24e6ea4e4004b1c73d4bbac24e5008d5a5b5401e9ef0d1335415fd7d879d",
+      "bytes": 4793,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/process_identity_readonly.py.txt",
+      "original_source_sha256": "0c924382e0e9f6d3c3f5245013efc6142a441a38df0d57d64566f8a6d4f53ab1",
+      "sanitized_source_sha256": "3b40f0a92135cf2fa162bffab72f82f0f1182a11f8780b49304629a25bc0155b",
+      "bytes": 3018,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/register_navigation.py.txt",
+      "original_source_sha256": "7c1238faf723bb66cb33b8972d56d763af1f7ccefadec2edfde832857b500270",
+      "sanitized_source_sha256": "525ff591120ecc8359752fb17d6ebfe09b632ca49d424ea2fee52c0f761ca4f4",
+      "bytes": 3670,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/resume_parent_retirement.py.txt",
+      "original_source_sha256": "9ead1d90b560d80be8fad7eb1bc15972f5ae0e433218e74ba3f483bb3bc3a2b5",
+      "sanitized_source_sha256": "56f97667bb16fad19fa2e11b2bef75f09adc97e2c35b1e8f093bec00890fb53d",
+      "bytes": 4172,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291-maint/retire_exact_stopped.py.txt",
+      "original_source_sha256": "7c7676614b833a3c0f207b8d595187a537602f66b357e4baf1efecd916c6fcb6",
+      "sanitized_source_sha256": "06d387ccfd1cf7c7ad4e4fcc2d6f12ac78b7845719003ce8cc5a27faa99d5a7b",
+      "bytes": 6212,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291_accounting.py.txt",
+      "original_source_sha256": "0a49c9dfeee5e331ba324b32f44f0e5d61147c864c571b3007e5d73fcd15f0ba",
+      "sanitized_source_sha256": "5d36e9c7ac0b628dee3fc8cdf0ba5a73d73c002814d1f5a9e490ec638f4c8388",
+      "bytes": 4266,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291_closeout_owner.py.txt",
+      "original_source_sha256": "ed9469ac43f1ef47f6569c504073ebb960ad2eb377d12c1b1a57143a34014881",
+      "sanitized_source_sha256": "415bc3ba78965236e18bc17718d12146f30eaa54d1a5c0232667b25f3d21936c",
+      "bytes": 15445,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 4,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291_closeout_qa.py.txt",
+      "original_source_sha256": "75500c4616f40bcdb0e2da2d62849f96c8221b1954122f3112c39979b966e902",
+      "sanitized_source_sha256": "c6c536911694fee8584bdcdbe62e1b14df137278b299336423d1d7a597775122",
+      "bytes": 4199,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291_n3_owner.py.txt",
+      "original_source_sha256": "5ecc80380a91a459ba97064ba040ad7808b58a0caf89ef6846ee5098c6242270",
+      "sanitized_source_sha256": "969bac13e4f38c30cddc34483c966dc228ef256384b51071992678f71b67c4cc",
+      "bytes": 3645,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291_postdeadline_metadata.py.txt",
+      "original_source_sha256": "5e68be9bb150a058bcafa68fa71d45b1108936ba29d5543308da4680835dcfcc",
+      "sanitized_source_sha256": "5935065e3e9d9c7bb944142347fd88e0b3d5b9fe474558b30fc497f56cadbe33",
+      "bytes": 3964,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0291_resume_inspect.py.txt",
+      "original_source_sha256": "23c7d6e120ba81567bec07f0e50bef15ed497cc0109310de63fb7dc284d562f8",
+      "sanitized_source_sha256": "1536b6576a67d872287bbdc1d453c3517929a3ed41e0982fe087676321cae0bd",
+      "bytes": 2810,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_adapter_probe.py.txt",
+      "original_source_sha256": "1e57c2745079f912f5884cf6bd22fb47dd2d45c32b676be9b73ab02227e0798e",
+      "sanitized_source_sha256": "adb9036d1b4af31471145ea95109b5b6dfa7e4e855ba528c2fbe647cdba7003e",
+      "bytes": 2208,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_adopt.py.txt",
+      "original_source_sha256": "847d3c91bfd8e4c3b286d418fd8ae545eff6966b6b25ae88891652e1a789162f",
+      "sanitized_source_sha256": "3bb658679b9e7289314f008cf5d79147a433d57924b46b51c4341a901b34b5b9",
+      "bytes": 2694,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_auth_reblock_projection.py.txt",
+      "original_source_sha256": "cefa4d428118b94a0b63450985b694f451251d16194ccd86bcf0ff4497c709b6",
+      "sanitized_source_sha256": "63b772ae3f2c2c26bff5ea6991fde25bc06dd021e837eda4f4c7c5b602a1c53d",
+      "bytes": 4618,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_auth_resume_audit.py.txt",
+      "original_source_sha256": "9aaf04dd96e2c4371b1083d6f1408258a9f389697a6595991060d3526fd84dcc",
+      "sanitized_source_sha256": "37ea8d0d8269bdc762d7bb36f307c7e935e30aebcf24bfac4f513066bf2bfd4b",
+      "bytes": 3138,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_bank_control.py.txt",
+      "original_source_sha256": "19a36108e64dae5d9553307aa4f2e428663a005dadcfbbb201135e2cd538cb90",
+      "sanitized_source_sha256": "6ab855ce24fd5eece3f0f75c761746c480d52828016524c71a9d4ed48f99a1e7",
+      "bytes": 5404,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_bank_hopper.py.txt",
+      "original_source_sha256": "b182ff333c41488daeaae9b6db55f343d0b8c08852cc9c4c71c868990ae15a47",
+      "sanitized_source_sha256": "22c04d9951716f7148c93eea021d1d36b1622a7391be37b55b5a9c3d193fea0b",
+      "bytes": 4450,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_bank_report.py.txt",
+      "original_source_sha256": "2cc66172b33ed26dd40b39da91ba265f3df1c593cd725b952ba80f841c46fe42",
+      "sanitized_source_sha256": "00c4709e57bae8f714282623f0318b596b74c4cf5744a0ed078c15f4fee44b7d",
+      "bytes": 11968,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_blocked_projection.py.txt",
+      "original_source_sha256": "ebb63f5e3990f9ab3f48cd0df3fa359f914c57448a74337656b6539fbdeec9b6",
+      "sanitized_source_sha256": "9d7fb8fe2075c6bb04513744eef94414f90361c13d937f8758dcfa5695f6dafe",
+      "bytes": 8750,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_capacity_report.py.txt",
+      "original_source_sha256": "b083038764316cee4098632e69cce62d01ad7bba6b5cf0cfab45afe2346d7a51",
+      "sanitized_source_sha256": "5d64e0cb007e4f52af7927381155ed7c0f4f4d294ce8d6fd2973bdd8c720d8f0",
+      "bytes": 4616,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_close_auth_preflight.py.txt",
+      "original_source_sha256": "66062724977313590329b94042f519f492b53134016d3ade9692c8b1b50a2634",
+      "sanitized_source_sha256": "4287246127aa1a5085b5b9aa72eac30e9add3c445bde187f4d0072dbe1532c49",
+      "bytes": 2413,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_continue_preflight.py.txt",
+      "original_source_sha256": "bc5aa8e70644d4c83ef5a64513dfb0c045c054dbcc15008f8cb6a8ac1b7a7de2",
+      "sanitized_source_sha256": "8744f81728122455aa25a03d407196de0244538230ab9e2c234b907a4b33fa1f",
+      "bytes": 2369,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_control.py.txt",
+      "original_source_sha256": "51f43e5ed0e74b5240deb1d55bed2691e13168aaf5dd8d99a3378283f9354443",
+      "sanitized_source_sha256": "c8f0676ce78a2b6ccb9e0e0b41f8ca620ebccaf6b8ad440264a1a980aab9e88a",
+      "bytes": 2972,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_cosmos_identity.py.txt",
+      "original_source_sha256": "78c4bce6b2db5a572550fd9602b0220ac7d4b120e61f7129b8dd9f48cf4f17ac",
+      "sanitized_source_sha256": "3b224ad363cfd99dcd6d170090ae002e3fb364aed2e60a30299d4827db86fb20",
+      "bytes": 2531,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_dependency_qualification.py.txt",
+      "original_source_sha256": "3483dc2db0900f6e8835a1d294a56c32188c0f0420eed75d3dfa573f24f09624",
+      "sanitized_source_sha256": "7f1638a1fdf3bec68564485177f9a19d68346cb992a6e785e9212446c7df51c6",
+      "bytes": 9128,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_dependency_status.py.txt",
+      "original_source_sha256": "246f5187e09bd502ce7ce41f21a4ecb1da9f97e44ccc8f21a17f3ba7e246d5a5",
+      "sanitized_source_sha256": "1ea117986857145c7cb8230cf429d373c40a9244ca94310b299a1b4e3ecffbd6",
+      "bytes": 2026,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_finish_s0.py.txt",
+      "original_source_sha256": "7f55efc6c1fb24695152b594f92298d911c0f3af06d80bede0db86c48400ba80",
+      "sanitized_source_sha256": "1e30cd25cb256bb9e680dee8906b99ec0034a4f2a6feb616ad87cace4cbba43e",
+      "bytes": 3852,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_hopper_identity.py.txt",
+      "original_source_sha256": "95339c153f24f49f90ebcbf86dce96a31842482886204aa5a9e3e525803d7fd2",
+      "sanitized_source_sha256": "cfac74604a6eaa2300b3bcc89da53d37a46a3f2ffc31e926847c0bc4b221d548",
+      "bytes": 3789,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_hopper_ops.py.txt",
+      "original_source_sha256": "bee0d9d4be097a253558caa0489b23af99191e29bbc9fb9682de823874040b5f",
+      "sanitized_source_sha256": "ecffc9e15e070f628266248a0db365e52dc26f029f51daddcbd63a85b25b704f",
+      "bytes": 2087,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_hopper_original_cpu.py.txt",
+      "original_source_sha256": "010f2739f37b1df4f5c0d5e010f2af26e7bab19d8c7146d09e5f3c9ba7ca6882",
+      "sanitized_source_sha256": "a1a616ab9ddf4ec3eda4040b4a1d428549288dfc051816995157f5abf8dab9d2",
+      "bytes": 4002,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_hopper_stage.py.txt",
+      "original_source_sha256": "723197d8d61513d87af170adbf322ab99e2aab5c1024cd13eaf3cfad3f0c64ee",
+      "sanitized_source_sha256": "77bc3567c76d9ad94ad9ec8199af9504cc4db4c44458e45385062fc7d5b0548f",
+      "bytes": 6065,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 4
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_hopper_status.py.txt",
+      "original_source_sha256": "5443ba540c2598b469edd2e051c5810ff3893ebee1d84e469ab3c3e52adeb15d",
+      "sanitized_source_sha256": "bad49965cd4277ae6c8b5d7b9ecd542cf707bf602dbd7934000327ae2d72a164",
+      "bytes": 1518,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_launch_dependency_qualification.py.txt",
+      "original_source_sha256": "2ddaf59e049878f52c357cde87289763002245ed63cc4ed0f89a44873b6b3674",
+      "sanitized_source_sha256": "37a83f27c9132891e7f813e01afb6f5db1a62e35d91f10a3b5cb71eca568a675",
+      "bytes": 4081,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_live_input_cpu.py.txt",
+      "original_source_sha256": "daf78ee211bff35aa98dc1c169261bd49eb43f1afcb382aa418790734aed6138",
+      "sanitized_source_sha256": "e0c52cbaf89f87b04a53e101560244cef9b4bb20269497daf2a9b3450b952b24",
+      "bytes": 5392,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_live_input_status.py.txt",
+      "original_source_sha256": "90fd214de723b27f279aedb72040bcabba80361e7adb48c3df481ed59acbbfd2",
+      "sanitized_source_sha256": "4cf4a360d0dce72641a556eb9b746702bb5e791baec3a51fda35473f27617e4d",
+      "bytes": 3014,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_native_project_reader_review.py.txt",
+      "original_source_sha256": "cf84d926a7282000df07f205c6a85c821558b0a036638b98326e8ca0f0d0aad9",
+      "sanitized_source_sha256": "1128573b3af9da5c38ea4ef7ea81e93fed606b3c9832cf4fda02f43ac951dddc",
+      "bytes": 5699,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_neural_import_preflight.py.txt",
+      "original_source_sha256": "524d4d2e5dc9f487cb9466ec214c32b6f26d7bae88c9b3e4796658bd55f138fc",
+      "sanitized_source_sha256": "1c755fdfd260a99212ad6950f0b29bb74b945eac7d64f68458aa437d4ce9a4b2",
+      "bytes": 3728,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_observe_smoke02.py.txt",
+      "original_source_sha256": "db99f59feb8ce704f400868d02cc6fb47851f0985523f0a4e081424c70abbd4f",
+      "sanitized_source_sha256": "53d96ade48df783616b9c8e5f17553fd49bd1dd1a2d70367ec3062781bbd9459",
+      "bytes": 3069,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_operations.py.txt",
+      "original_source_sha256": "2ec3906ff843f0ccd62379cf716c63904f8a9a432686226812e22e9a4d634e67",
+      "sanitized_source_sha256": "cb76a6c69c3c265f413168e7cbcf418d9526ea6823724e63faa1f4473c768e5b",
+      "bytes": 3417,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_paired_preparation_report.py.txt",
+      "original_source_sha256": "b45e2a424450502bed9fc68672903f8cb6b949cf2b5c0e9d6c7566840f539f74",
+      "sanitized_source_sha256": "f5e99f5b40c9306e714cfd7b123e16a4cc1dc53f35e19f766f51c3ba9e326a0d",
+      "bytes": 3560,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_pbs_control.py.txt",
+      "original_source_sha256": "542d18841de91f8362298c2dad4946d3605005098ee2ced036f16e3fddace921",
+      "sanitized_source_sha256": "ff50c05ed18cb8b35ab354f56ad294ebe05f705ac5bb96b1bc60f9381ce1e106",
+      "bytes": 12488,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 4,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_prepare_retry.py.txt",
+      "original_source_sha256": "bdf2a99b65db49cda3c605c82a8391ee8d8216d05a799cbac3ab6de1d88f7b1b",
+      "sanitized_source_sha256": "4462d559b23291cfba8f831edb09b462f53889edad9e70fd007c0f5a7841d17d",
+      "bytes": 7353,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 2,
+        "@HOPPER_SHARED_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_probe.py.txt",
+      "original_source_sha256": "e70ee01db25e5239ef171d7d2a9a5eb44efa1fdc5ca1f5c406ca5045f5b2c37e",
+      "sanitized_source_sha256": "780072cee9a1a0f78dde966eec49511c078d1668f863a8b782b806ea4cb3df9e",
+      "bytes": 4023,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_project_dependency_receipt.py.txt",
+      "original_source_sha256": "828ce8296aca321216e701db0bb00cc04da5efec46dfb18309364e10cdabd668",
+      "sanitized_source_sha256": "4fae2c7d8b2d49b2522c0ce63b1a21552b6c27e140fb01aa51c4aab79099e5ad",
+      "bytes": 3429,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_project_live_input_receipt.py.txt",
+      "original_source_sha256": "1b99fdd53151b0c98e11123a41ae250ac454da0f3800125c6ca322fe3133d2db",
+      "sanitized_source_sha256": "649549b3ae1ef57526b6cfe74b86ecee1734890a7c71101776fda0dcd10c3de3",
+      "bytes": 2511,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_publish_s3_projection.py.txt",
+      "original_source_sha256": "1eb1f74f7f5b413f5d047520207ecb3bb351be1f7fb01ede81983341091e88af",
+      "sanitized_source_sha256": "2fcce6ecbb969c89adb30940b24542dc7b6427178596c11833150a9bea74353b",
+      "bytes": 4008,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_refresh_phase_status.py.txt",
+      "original_source_sha256": "583fceb090d299bc8235dc00e19fb09ca491e7d7918dacb8dc311611cf422707",
+      "sanitized_source_sha256": "f82ed93e38b5df5594c76f8f77b3331ea1abb11b521b6dda815713cc74a10931",
+      "bytes": 4042,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_report.py.txt",
+      "original_source_sha256": "e9a6177ac71a0d9fcbe0d248968d3a48d52005fd1c72cdc12e1334b2c88fa134",
+      "sanitized_source_sha256": "55c2f1d4297f030b539f9d90b913780d2a321241f7a31b5146508aed3446aab6",
+      "bytes": 12399,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1,
+        "@CORELAB_STORAGE_USER@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_s3_hold.py.txt",
+      "original_source_sha256": "876bba883d115c9afebbfd1b0e0649571401e3aad323860c802521f883d8e758",
+      "sanitized_source_sha256": "f790941ec37172847c66aca03df7a046dbc1e8c858c4cffc61fb1232b431806a",
+      "bytes": 4275,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_smoke_engineering_retry.py.txt",
+      "original_source_sha256": "238bc50ff23904ad10d0ff915d056ddbbf52ee0ef506086db82c9333f79e3728",
+      "sanitized_source_sha256": "df330cd268a54a7a727b2afdb86b09c33d03c5a46b44821475fb10f3d6d0a0c2",
+      "bytes": 8130,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_smoke_retry_control.py.txt",
+      "original_source_sha256": "a9649203280d0fba93d1cb4d868d8c9e448fa201b8cd82b8393ec90b4ad96bb9",
+      "sanitized_source_sha256": "c84216bd190a4f64fd2d8f751bcca06a5a325a04222fa7897162d87a06826d2b",
+      "bytes": 13455,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_stage_s0.py.txt",
+      "original_source_sha256": "f8501f656efa765b203168e17084276b3a317cdc89cd23b40f43a31d476e2779",
+      "sanitized_source_sha256": "3d5dc5e37326bca16760a159d9477824db7367cce372a9950ba232d6a22abf77",
+      "bytes": 6490,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0292_trainer_loader_probe.py.txt",
+      "original_source_sha256": "8147ce4327077ac5674f49dcab85adeab1b2b2a89ede5066bb3e85e52637856f",
+      "sanitized_source_sha256": "c7d6b00617c6d84c2e8feb34e9fdad84971ad088c7503148fcdba3551744f763",
+      "bytes": 2530,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_adopt.py.txt",
+      "original_source_sha256": "7ec8fecd6fae0105f24b8e6bf541ddf0da88d530c7d093056ee5143ff3ba2b2a",
+      "sanitized_source_sha256": "6928206745aff35b6274ff3e0ec5bfa21e90f1da848b6c6e416682994189d72c",
+      "bytes": 4851,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 2,
+        "@LOCAL_OR_CORE_HOME@": 2,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_adopt_v3_inputs.py.txt",
+      "original_source_sha256": "1c09b4adf98e1e8dbf36801e5e356feed158cb760d44179bb86d5816259f7d48",
+      "sanitized_source_sha256": "fd9164ccc4990b781af6b62049e589062a3f53d40bbd691aaee1591e9cb0a3e7",
+      "bytes": 8495,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_advance.py.txt",
+      "original_source_sha256": "3aaec35dbde2d66301ad58ac0a5ea7678766cda0a66104799db19bf1120d4124",
+      "sanitized_source_sha256": "094aa87ee43a92d66e91dae3bb2669328fc9a9678cb7aa139ebddf7baf9cb58f",
+      "bytes": 5298,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_audit_existing.py.txt",
+      "original_source_sha256": "5659af3a7e70a506ebdb83d557b8d266838c1b4dd5db29c832a45b149d9fd92d",
+      "sanitized_source_sha256": "5ae3761401e31940199c19e1b1856968848da3c4f29b2071f6f7182d95fdcf3c",
+      "bytes": 4156,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_auth_diagnostic.py.txt",
+      "original_source_sha256": "7a98715bcc7e8addf0ea5efa7c5244fffa0a3c04b609eed3b6fdbd2532596d39",
+      "sanitized_source_sha256": "8e3cfddaa1ae65ca65578112e2ef252e86c5ac8524c0c7812b74ac6b517d8e4d",
+      "bytes": 1676,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_checkpoint_launch.py.txt",
+      "original_source_sha256": "2160cec14f13e1a5fc1145c20ccbf641296fccd7315a89d81ab5278839a7d50d",
+      "sanitized_source_sha256": "e35c6d87f98f4d75d09569739ab67da492be42556a66342d0a1a2a90ae11cd62",
+      "bytes": 8226,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_checkpoint_probe.py.txt",
+      "original_source_sha256": "1ca2995773dac69679b0bc4a5a9b3943e62d30f3479727e98725558b76b60d19",
+      "sanitized_source_sha256": "23c9e03c0cd37bdbe4edf69dbb5155d9d32ed02d6b713b8df59e3ffb24e90a47",
+      "bytes": 2043,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_checkpoint_receipt.py.txt",
+      "original_source_sha256": "05ad0e7ef02432cd271ec4a326080f2afacc99f3f8f22f9ef7f93aa16b6e1b4b",
+      "sanitized_source_sha256": "0b2a352254d9779503f6ec2c047bb19d6a1ef977f27c984f8dde1983fe914b87",
+      "bytes": 2137,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_cpu_stage.py.txt",
+      "original_source_sha256": "fadedc1735d8beac1625a106f235efad5a788a63a3eabafa4313418a30b36136",
+      "sanitized_source_sha256": "854887a0b0d82b2772fa944e79079ca06d97832dcf875707cdf26db9f9c82fd1",
+      "bytes": 12737,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 4,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_cpu_startup_reconcile.py.txt",
+      "original_source_sha256": "84af6cb5921718c2ed7829b5adfc1a8196115a7682580df9f6d04545bcbb3ebb",
+      "sanitized_source_sha256": "d2499ad42819eb34316fab9f3409eac38018b22ef941e9e4b678ae7a8da33be4",
+      "bytes": 2924,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_cpu_status.py.txt",
+      "original_source_sha256": "91dd1dfd09d3819b87775f9d9efe6c9c7f9b50f32ca1e33d2f22488b70e31f1c",
+      "sanitized_source_sha256": "866d6796cdb76c879e731ce8aa729b6455d32dc86215afb39a1c18f9d1bf8d0d",
+      "bytes": 4075,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_deploy.py.txt",
+      "original_source_sha256": "e378df97d56341708650b07ffc000648c349b5b7e22d4254707db0d28dafef74",
+      "sanitized_source_sha256": "3bcee41529c1e272f96d88e13b1f5aa7b99a37af45435b877e6efedbb337e484",
+      "bytes": 7475,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@HOPPER_SCRATCH@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_eval_panel_freeze.py.txt",
+      "original_source_sha256": "5d41555f663bd21c8ad18052975e61054c6ac59fd37e02cfec821651b0e8b6c5",
+      "sanitized_source_sha256": "b8fce174024cfe0377c6a83d17f36aab4b125c84c121a444e6933913afb395bd",
+      "bytes": 4029,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_extension_chunk.py.txt",
+      "original_source_sha256": "fa0377a09c056c11ac854d9f0c5813a3bc2cc27d87ca32b3f5e347ad1d7fcdd2",
+      "sanitized_source_sha256": "b016513074d0e88127608dc62cea73ddbf0ca350305fe60255fbe2712e947d02",
+      "bytes": 4906,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_final_preflight.py.txt",
+      "original_source_sha256": "b1d2ee14092446d81889f8b752ddfc0dc3c885dd5488dd752660b792bf8ddf1f",
+      "sanitized_source_sha256": "388846bf681d3be92700c2116a3422e0e0766a43cee81126202ed5434f6095d2",
+      "bytes": 2431,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_formal_receipt.py.txt",
+      "original_source_sha256": "d1c0e9a374ba53b7d1b3902e49e75a789071ea3290c9a8e812e3d269f3f42d27",
+      "sanitized_source_sha256": "f058ac48f021fb0b8ee32add970efbdeaa299f01d75e8c8c52d602b9610abbf7",
+      "bytes": 2548,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_frozen_cpu_reconcile.py.txt",
+      "original_source_sha256": "c3952db672257e5de4a07bbcf7e2624e59fc63f39875a84378f132168be819c9",
+      "sanitized_source_sha256": "dc254a1430f6f7b51a6a02161364cd35136a5448a40faec24f3f77cc5f0c74f3",
+      "bytes": 4982,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_hf_preflight.py.txt",
+      "original_source_sha256": "933f4cd141b0c22d9acbe3b71c82791ddc1bc7d08b058d90a17aec4c72393436",
+      "sanitized_source_sha256": "c9a1042853eede826a3f377e00685a8092da863894c426b40bd79ad6d152670f",
+      "bytes": 1608,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_hopper_data_status.py.txt",
+      "original_source_sha256": "c9b2482f58b053b739e14bf59a808750928ba5acafe05cd86fb6bc0b82999942",
+      "sanitized_source_sha256": "03a010de7b5af57acded599ae6d6a9815c8c32b5ca6906b9cc6728faa5c12050",
+      "bytes": 2882,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_hopper_receive.py.txt",
+      "original_source_sha256": "080b412c49cbcf0a71b06b763c083417d1b78a9e022183e64fc119f655fe9b2a",
+      "sanitized_source_sha256": "8d4480098cdc28eb7e676e79301995676a85154df2e83c3bdc84a80a68089a94",
+      "bytes": 8062,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_hopper_terminal_data_audit.py.txt",
+      "original_source_sha256": "4d94abdb463884470fecac287ac887702a2c09910fdde7b480dcf2ac827569af",
+      "sanitized_source_sha256": "54c6d323f3197faf86e6b127eaf10711e5c685bd0c124fe2da636adb86487c66",
+      "bytes": 5915,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_launch.py.txt",
+      "original_source_sha256": "73cba8a1b8be23a0f23a39b050ee4d72baee9eba3d87635e5489443534cc6e8d",
+      "sanitized_source_sha256": "3f1db69fa6c3810c610c0ccdb914df133147054a2028d9004d52581aef2de622",
+      "bytes": 9617,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_model_prepare.py.txt",
+      "original_source_sha256": "c8fc658cefcc2261a9fb9a4aedbdd6a4c53315550e7fead4e31ce38db548e039",
+      "sanitized_source_sha256": "9601ff35ea15987abb01d91230711e8113069f68fad3e94e707f8fe66ec5fb0b",
+      "bytes": 4183,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_model_route.py.txt",
+      "original_source_sha256": "41d71cf6f6ab641428fd6c1c7d10b1218be2ae291e5076fb53e37bef25a1e6d7",
+      "sanitized_source_sha256": "5175e7a560a83602d60c6d24bdc33f3f5f1d1154792838baa1224374b0b88194",
+      "bytes": 24036,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_model_route_test.py.txt",
+      "original_source_sha256": "f73254f0918869ff0840fd5664c3b48edbe97ff95b01a981ed273eb30ef0ea73",
+      "sanitized_source_sha256": "d2e0fce5c311500406dc39ffe57163c9475d35cc317bfecd763d921c20671fca",
+      "bytes": 4909,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_offline_retry.py.txt",
+      "original_source_sha256": "0914d5715acce97287b8121b357092d4a110dd541c2dc7c46bcef1124fe738a5",
+      "sanitized_source_sha256": "17c3b4dc3ffd71d7803767cb85d660af54921f316fb44f20d221c11c52d03bb4",
+      "bytes": 5499,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_parallel_compare.py.txt",
+      "original_source_sha256": "25472f6a535255b0df59aa8ec9c191c826c46f7ed64b7eb6edc6b2f7aa66a6e2",
+      "sanitized_source_sha256": "4e1cdc93f7e4b14928fbb34748b5e9ec27d033be5865fd898af6eead3e2b4425",
+      "bytes": 7843,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_pbs.py.txt",
+      "original_source_sha256": "2a8999aab09a765893993dbd47c5d9136cf854221f584c4967127a55e5dd7337",
+      "sanitized_source_sha256": "c24b330f94364e54b98088b15403dce222ea789f7a27b519afad03103e3d38fd",
+      "bytes": 16991,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_pilot_plan.py.txt",
+      "original_source_sha256": "888b9fc5d6534f168be1703aee9bbdba1160ee60355bde5f6f6c1a498142e56c",
+      "sanitized_source_sha256": "3ce7a990347b52adf1ffa8502e4efa761a41ca9607088d22a5313a6197ac4509",
+      "bytes": 2606,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_plans.py.txt",
+      "original_source_sha256": "00a9c786d72bd881f3db664d2236284578b43503d8df2d5cb65ff0a831866693",
+      "sanitized_source_sha256": "6c31680a8bbabc40c789f4aae490a028ad3843fb2b17d949388dc9565edb4b9c",
+      "bytes": 3130,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_public_upload.py.txt",
+      "original_source_sha256": "f99bfb124dcab90ca3dafc2f57effb38a0c7428c0a665b334bc07877d85fabd9",
+      "sanitized_source_sha256": "8015e09dcb4a04048bbbad6bf11dda29dcc3c58783aefa457f16f51504fefe41",
+      "bytes": 14865,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_qualify_inputs.py.txt",
+      "original_source_sha256": "614b503ee46b47b09ee4189799e7973f793bad8ecb32b644e2c356cd4a6130fc",
+      "sanitized_source_sha256": "3dd8c54cad007122c762bae027fc8668a8955a89f284f26e5241d9b586da88b5",
+      "bytes": 3992,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_boundary.py.txt",
+      "original_source_sha256": "65eb7e451e68844ac0eaed020b172041435e88158264a1542a89a0aa15506e14",
+      "sanitized_source_sha256": "69b3bf94679cb1058a8e3f5530a58ba33f6f8e11048c506d67661e40e7719550",
+      "bytes": 4902,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_final_census.py.txt",
+      "original_source_sha256": "9c6df80c38ccf8d4c2ddb75b427a1fd47bd6643d857d83acb5f86096d8a89405",
+      "sanitized_source_sha256": "8678096e20adf788a1bec0d218b1980c195c8d4a3f6bc8f72347583ff1f98005",
+      "bytes": 6929,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_freeze_eval.py.txt",
+      "original_source_sha256": "fd0fc7edee9650be09bee2bdfecb06cff98bab1c06807632b1f4c4526e3d1e24",
+      "sanitized_source_sha256": "21a8ed571ebb04cd1942df8a5db77bc5ee75f40f443c966aac8c2821a0e3e030",
+      "bytes": 8148,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_gripper_trace.py.txt",
+      "original_source_sha256": "8e4ed7ea4d8c509a2eb604ff8c36baafbfee888f6591380b4d9d70e1eb9a24b3",
+      "sanitized_source_sha256": "ac8522f0f5c53a283627592def4a1381be784f68a596ab03c2e730e03397d638",
+      "bytes": 8971,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_install_cases.py.txt",
+      "original_source_sha256": "2c16d181a7f01dbc27c848602e9dbc56b9b50b8898f54907b117faa640fa5a93",
+      "sanitized_source_sha256": "3c59ff6f9cec606daf72a659d518c75357c6c99706d595fc8104b4355ea520a1",
+      "bytes": 3209,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_local_ready.py.txt",
+      "original_source_sha256": "caf77af3ba7b7793bac7281e5d64ab4690af1f7d7b055e8bb67f2852d0a6eece",
+      "sanitized_source_sha256": "059cf55d30cba25636cdf01bf88ec568e9f8ab7a897b4507b67fc5fc8308e269",
+      "bytes": 4757,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_pbs.py.txt",
+      "original_source_sha256": "24a79cbc5c643cca30d9e2f3403db4fc89d52262a43c5a94ad0f86a13c1be363",
+      "sanitized_source_sha256": "2b99bb3ff45cb11b5ee1f6062c29b9b9eaf06fb3d610efafc38e41c8b2dc25b6",
+      "bytes": 7397,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_prepare.py.txt",
+      "original_source_sha256": "12e3c822aa60766a4f70ae83cf2d9b6a8ec61cf020c52bf459b847b71e3174fa",
+      "sanitized_source_sha256": "8424cc3b18c2592ea48afd654b9d44d62860867190572fab1c1e126e0c55d8b0",
+      "bytes": 9517,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_rebind_eval.py.txt",
+      "original_source_sha256": "1830bd3e57a36845b8c49491e50abd69d4c53a494cac3535763bb952a974c939",
+      "sanitized_source_sha256": "165d243bae92cc499ed2d010ea646351c5337a2f963ea0c416744d8795e93121",
+      "bytes": 6031,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_route.py.txt",
+      "original_source_sha256": "4e350f294d2af0a2c7a46ee71b08f1d50953c864b16f8d4123af8f5a0dcfa231",
+      "sanitized_source_sha256": "b6c1f89b660473a05f4acdce2349727f6e4c6c37624b51cf42c3d63b6813db5c",
+      "bytes": 16493,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_safety_closeout.py.txt",
+      "original_source_sha256": "fd8c375080d08c9fb6b2b936c008ca1c563c6b1a3cd0bd840b9225c49477015c",
+      "sanitized_source_sha256": "e6c269b88f0bccbf86e960b98238bcbc21a057c1a13f1c809d45a90247e668a4",
+      "bytes": 13048,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_seed_recovery.py.txt",
+      "original_source_sha256": "19d842c082bf9b39983f6eb9a8a3ef8a9463ac971fd87b4855094a2178f19804",
+      "sanitized_source_sha256": "596b4b7617d403c732dbdee059bf6278f4cb19dcb43c16287b8d4b1793c7f56d",
+      "bytes": 5774,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_r1_stages.py.txt",
+      "original_source_sha256": "3cc3867c94d5d2fa165be5f3387464b6d5b98cdf330bbc00bc26d22068d0c019",
+      "sanitized_source_sha256": "0a66fac3e1b1546a23b95be40033ce73361d422a0239e18b277aa5dbc194d63a",
+      "bytes": 6195,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_rate_probe.py.txt",
+      "original_source_sha256": "36efb5c0d8249aa0a5e121b9e277e027fd53d41697f4e0c9d5c995d1cfcb4ef8",
+      "sanitized_source_sha256": "7347218ef95e071b6f705cc9926e0165490be0647331034ec4100afa96d30a16",
+      "bytes": 1243,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_reconcile_aux.py.txt",
+      "original_source_sha256": "6d14500e09d3d58caaa4275eb612157d437950827e6574936f48295b4f28927d",
+      "sanitized_source_sha256": "687369f2b52cca0d59646e47f15923c37e858a910edd7871d382a6ca805aa0bf",
+      "bytes": 2551,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_reconcile_cpu.py.txt",
+      "original_source_sha256": "c942a88f460263de45698fe06d31f47ae71ddbb39cbc9b36bcab3d1b92836788",
+      "sanitized_source_sha256": "353ca8d620bf1c6590d1e7c00bd88bf1721667b1591d1f17af2ddfa0ce97aed1",
+      "bytes": 2624,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_reconcile_spawn.py.txt",
+      "original_source_sha256": "f0a0ee5d607c0246e1f639c6d7d3457796f7fb900809739f61ff38c04d257790",
+      "sanitized_source_sha256": "2b2bc7916a797f7c03c7e1ac88fbf3bdc20c3a19fb6ccfdde0d34adaa4746871",
+      "bytes": 3956,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_recovery_proof.py.txt",
+      "original_source_sha256": "c72d69288b1d4d596c6f4914e0a397cc03312f4e95dbc11f376ec3a633460b48",
+      "sanitized_source_sha256": "316830bcebeab0a051fe3360bf57e12b2d61eea4c1dc7bd89d27d65e5c89793b",
+      "bytes": 3435,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_register.py.txt",
+      "original_source_sha256": "040ce1f21be070e2c56b1a2bf92ae2202e77a5089f206e79a94e1c7d3d7b3141",
+      "sanitized_source_sha256": "f79b89f8d9c0ec37600443f7823679e1366319362750f3955546b780c83e1c4c",
+      "bytes": 5464,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_remote.py.txt",
+      "original_source_sha256": "b44f60633429283ba899e39f9f8721d05e1bdd0d7f595a7848df9f94948ea1dc",
+      "sanitized_source_sha256": "21e3d6d56b355006114cb64715c0ab34ff724e22eaf208f31698f098fdf60dec",
+      "bytes": 3395,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_requal_status.py.txt",
+      "original_source_sha256": "5011a14ca007b4a3300285a19f73c7556a07abdb6eaadb97352e814eadd5396a",
+      "sanitized_source_sha256": "fd73c6d56e45fa6fe3633dc4a6d1baed1eb66d050e0ced7cb1bdac1d10a851ba",
+      "bytes": 1772,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_requalification_plans.py.txt",
+      "original_source_sha256": "ff39ea8f74e807c7dbc07babffbcebd4f308ce9c9f9043888f0fb4b637e3e2ef",
+      "sanitized_source_sha256": "fd31b4fa1f796ff39c483b79f49525e5b335b9db7816c05ce457c6445c6aec02",
+      "bytes": 2259,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_status.py.txt",
+      "original_source_sha256": "2d7429df6614123040e6cd78fdc365ab21e26d7b2464e2367c8753326dbf6473",
+      "sanitized_source_sha256": "f1fbf3884a0cb6da8d9138ae1bb631dbd272b7bba51578b45157de855b751547",
+      "bytes": 4268,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_teacher_metadata_reconcile.py.txt",
+      "original_source_sha256": "9a2846db8a0020af66d357fc147944fe921bb7cc537133f6ca2bc0c1d706c34d",
+      "sanitized_source_sha256": "678a386b615cf2c25c40350e32f4a3d075a63d2bac6eb7f2a68546abe2df6923",
+      "bytes": 5286,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_teacher_route.py.txt",
+      "original_source_sha256": "493227a9c9ec18eaf58eae7ce65230a8690591cc732ecb4a5a8666e1fad5c92a",
+      "sanitized_source_sha256": "9ba6a0321604b3263d53a21309e494aeaddde560199f03e6e96a87af6d36325d",
+      "bytes": 19279,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_teacher_route_finalize.py.txt",
+      "original_source_sha256": "32fde9474693b55f4aff05bb31f0c22ce86ffdfdc5a8dbdb0a1d2322fc6341b6",
+      "sanitized_source_sha256": "954e3197ef2c2992f7ec1d3f31f98aeb8391605176e7645c025978678230672a",
+      "bytes": 7431,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_teacher_route_status.py.txt",
+      "original_source_sha256": "214f70183b845355b809986e928bb3c168440a05489b39606fcd44c88c917716",
+      "sanitized_source_sha256": "829f6168e802349d10ff617830d90b466e7e6a1b73d0a637e9420fa7a198e114",
+      "bytes": 2541,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_transfer_receipt.py.txt",
+      "original_source_sha256": "fd046032708c5922c7a9b11fef4a540ee4057a2d8f92d7fa024e2307a1a6e0e4",
+      "sanitized_source_sha256": "b2db0e1708072532542baab055450d23307d340f39df4093815d1b78839028d2",
+      "bytes": 2087,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "pi0294_transport_probe.py.txt",
+      "original_source_sha256": "ff69139aa645c87dc278b9121921ef5fe5958e7e6c670298d425fdb879c6867b",
+      "sanitized_source_sha256": "91d507b5c14a43f84513bd859482f00b3d4feb027639d8d1ac813692cf7747b3",
+      "bytes": 3093,
+      "role_redaction_counts": {
+        "@HOPPER_ACCOUNT@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "probe_workspace_hopper.py.txt",
+      "original_source_sha256": "2b7bd40c87a13d68a8aef59af06f9d98f0f0cdb7e709c2299c6c51bfd541cc3c",
+      "sanitized_source_sha256": "0e92b0ba6ad31f92664179a0ba0abd845a124550a3f2bcb623719b83673d6163",
+      "bytes": 2420,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "publish_workspace_report.py.txt",
+      "original_source_sha256": "79f3582f6273f98bf82f2865f7ebf27bb4968f55dd8520d8eff00d3d0195a252",
+      "sanitized_source_sha256": "a404739910c3f7802b35dc90b1b57da291b50e5987390a20d3e6d84da04563a5",
+      "bytes": 7812,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "resume_workspace_bundle.py.txt",
+      "original_source_sha256": "02e2a08b2448dc5093af210daa70968782cf1cfd0551b909127d637f8962b7a7",
+      "sanitized_source_sha256": "4d176d3db9845fa41ef02876b15c1f72b22eefc7e77d85a48ccef15d1735058c",
+      "bytes": 4201,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/adopt_hopper_metadata.py.txt",
+      "original_source_sha256": "5a03adfcd1615a9afa18ff3822a9f580924335938041759e8605caa2549e30ca",
+      "sanitized_source_sha256": "820151f43565b1c5093413e66b319413ef7d81eae572d93489f2cf0369ffd219",
+      "bytes": 3953,
+      "role_redaction_counts": {
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/deploy_preparation.py.txt",
+      "original_source_sha256": "3ecde466b99e1e4955dca858ab88c2bbbd9f490c33406c7d43812ff07402b9fc",
+      "sanitized_source_sha256": "7bc6a240b3aa507ea35ae51de17b2e0dfe3d6bf6c701de823c4ca6e841c34b5a",
+      "bytes": 6462,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/dispatch_batch.py.txt",
+      "original_source_sha256": "82fe31d2cfaf67b1ccf7013f3fe7525da8ba0a0af4104e5bae377bd68387651d",
+      "sanitized_source_sha256": "9c3149bcdc1c7a99b4cf0314e254f12217816c176657008087f57e3dcbf3186b",
+      "bytes": 8312,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 5,
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 6
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/exact_retirement.py.txt",
+      "original_source_sha256": "41434c8a4f96d7bd2066f8fa4b5236b6e54fb0a7cb9dc665b56c5616df024cff",
+      "sanitized_source_sha256": "1032203c8a025736854f6e542d1bc45b1c0c0c390042dfa6a9083d2d40f9ba23",
+      "bytes": 16338,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1,
+        "@HOPPER_SHARED_HOME@": 1,
+        "@CORELAB_STORAGE_USER@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/observe_closeout.py.txt",
+      "original_source_sha256": "41c4d2aa4825bb2d7bebadc0b81da597428ad0497191ea6fd3e40162034b2ff9",
+      "sanitized_source_sha256": "8559ebacc27d84aaaca29fa1ec851dba020dbe0f6e432d83387ed489a2ba7c8d",
+      "bytes": 5350,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@LOCAL_OR_CORE_HOME@": 5
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/project_closeout.py.txt",
+      "original_source_sha256": "e49947cf2436d38cdad689304f4dfdab95b4a1d8223cca9f1ebe8c0d89d24d03",
+      "sanitized_source_sha256": "622511cc9cf6e17dc793a044df3c0faad46c10cd8cad2535d483e35d1af9f97a",
+      "bytes": 5515,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/retire_aliases.py.txt",
+      "original_source_sha256": "8dd2b277c75eb7dfbea21bbb84472062bb13f8b5beb32409edabb9f3323af0dc",
+      "sanitized_source_sha256": "368cf6dfff4a1beda65b91b1aaca1ba509173fb04edb1664219706dc51c625f8",
+      "bytes": 2489,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/test_exact_retirement.py.txt",
+      "original_source_sha256": "f3549894d94d2ff15f5f657796b4f1baa4fd94962f05f8f3dd01e2b6a7bcf508",
+      "sanitized_source_sha256": "bda6c7d1ccf8fd1a95358dcc62356167776fdb42caae6c37e8ca7990981069d3",
+      "bytes": 4140,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "september-retirement-20261013/verify_current.py.txt",
+      "original_source_sha256": "9c64b90417008353844d7fd0eac083a6a18fadcd7949f851a4816675282556ed",
+      "sanitized_source_sha256": "9d8440cb5c06eae41517d207b8df833234e9e0cca6e0b71d11203b186cfdd2ea",
+      "bytes": 4005,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 3,
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "update_workspace_hostnames.py.txt",
+      "original_source_sha256": "8ab27b68aeb9fc5bb13fe7f9402494203c358ad05e7629b3d5feba64fb631302",
+      "sanitized_source_sha256": "3234f32bab857d98dd933dd2563f094368a4dd287fd23d8eae693601f71a0108",
+      "bytes": 3047,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/check_entry.py.txt",
+      "original_source_sha256": "e409ffde199bd2ff75f1be824127892ffa9995e7732d2a863c796f77514294cb",
+      "sanitized_source_sha256": "53f8ba90a8c699ab80518c88d23b14a1848977f4b310d04efc84152150f8ba8a",
+      "bytes": 3759,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/collect_report.py.txt",
+      "original_source_sha256": "41f4d016dfd3891bc12c18bd5842fc1c7266ee25308ec112f7d39221fa47fd0e",
+      "sanitized_source_sha256": "115c8db1cdf495941300c6d027b86c5901435517eed3f4662670821081af732a",
+      "bytes": 16776,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 2,
+        "@CORELAB_STORAGE_USER@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/consumer_checks.py.txt",
+      "original_source_sha256": "f7ac957babac59abe297459f439fb3d158c4db04b2f60c20bf9dbcc904d24c6f",
+      "sanitized_source_sha256": "a160faf385e3f88c26647e991685610adf50dca8e905672cdd4629e7798c6959",
+      "bytes": 5400,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@LOCAL_OR_CORE_HOME@": 1,
+        "@CORELAB_STORAGE_USER@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/data_baseline.py.txt",
+      "original_source_sha256": "a10d33e1ffe44cbd0523f0b6dd763edcfb0b434ea62c50744a66af8f7d29bd19",
+      "sanitized_source_sha256": "1c6d9fcab01ad9836e371d183a0723ef08e2c04adfb682f6741bc39c67052b26",
+      "bytes": 2086,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/deploy_entry.py.txt",
+      "original_source_sha256": "7209b515f351513def94b1383cf8536706539c80fbeabc53f752489f568cb13e",
+      "sanitized_source_sha256": "6f2aae196104a49ff84f8022b08fde0b1881f640865d75b0bbd253dcda563b42",
+      "bytes": 7093,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@HOPPER_SCRATCH@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/doctor.py.txt",
+      "original_source_sha256": "013e7cea41740b10fdd213e30f6d65b0fbcaee295cce44b624fc61e23fe6d861",
+      "sanitized_source_sha256": "34154c9605d60b04370a43997c766ab60e7a9e91693636232eb9f83e173cc36c",
+      "bytes": 5576,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/final_snapshot.py.txt",
+      "original_source_sha256": "630bee2fec3dbf974c16f013239f7dd3bf387c2433e5e03394cc0affd5371c1d",
+      "sanitized_source_sha256": "e376b7c18f9b705428d4e8129735090ce8c0a8b1aa2adef242d5fa71a5363e35",
+      "bytes": 1598,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/live_readonly.py.txt",
+      "original_source_sha256": "49571799a18a6bb6f392ba5c804cfff083308bc150132a09ec8b71c712a97101",
+      "sanitized_source_sha256": "7a912f48dd8aa82482149673f23503299e958077f8601f2abf3746fe3e926900",
+      "bytes": 2620,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1,
+        "@CORELAB_STORAGE_USER@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/maintenance.py.txt",
+      "original_source_sha256": "f563122e40fe725eec5175935c29a20466d5c314aeb5a87ab93e2f923dcbf9f0",
+      "sanitized_source_sha256": "e5376f16f785b9bae86a02eb44d44f36f638f013c6b4450e743af366c09dd2e2",
+      "bytes": 28711,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@LOCAL_OR_CORE_HOME@": 1,
+        "@CORELAB_STORAGE_USER@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/publication_emit.py.txt",
+      "original_source_sha256": "b6fe4648bd4b3dfcb76703cdfbe0e2ad2de03f9ccb83eb7c764eb7f15adddc13",
+      "sanitized_source_sha256": "e8843de0e67241c91efdbc07c8d87d927d3a22698248ce0a48813e47661271ac",
+      "bytes": 878,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/test_resolve_path.py.txt",
+      "original_source_sha256": "0658441d2e2b174ad8ab93740793d31f122337fcfb8a82f618be26719e7dd566",
+      "sanitized_source_sha256": "6b0cf6f3207623de6a4e9d6acc50f590455533a472d1cfd11388f511653350e9",
+      "bytes": 2254,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/verify_git_coverage.py.txt",
+      "original_source_sha256": "e21157f3d1dc637757e08b64026c98d3a7449532c112697fa68a19f04ffc1765",
+      "sanitized_source_sha256": "5d0fa3da7d3eb1872983e942c61748100ba384c61b79165030a0d6d6fe1d2ee8",
+      "bytes": 32147,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@LOCAL_OR_CORE_HOME@": 1,
+        "@CORELAB_STORAGE_USER@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/verify_git_coverage_tail.py.txt",
+      "original_source_sha256": "4d738ae12416adffa550d132cf97cf05fc8ce0254c80cb2a277a8431762ff0db",
+      "sanitized_source_sha256": "6ae9a59d473f3b60628e2b33ab1eb87e443b1bcbf3d1a0996a78abc0efec4884",
+      "bytes": 3671,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verified-retirement-20261013/write_final.py.txt",
+      "original_source_sha256": "824854adcb72a99b9b7b8aa1ac1ba5f8bde401558ce307994b02569cb11bdc1e",
+      "sanitized_source_sha256": "02f6514b25056c7bd72c821be5d15345e2baf12c17b6e28817982c9852fb0197",
+      "bytes": 9499,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "verify_workspace_entry.py.txt",
+      "original_source_sha256": "fcd9ccb2790c6ae367e483a5019fd22895d8d810c14e9db0065283d63ae2c55e",
+      "sanitized_source_sha256": "03c7efa5d53886014a9145ea9e14016496e7a4fde774fab0557c908b21a8b108",
+      "bytes": 5603,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 2,
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "workspace_consolidation_probe.py.txt",
+      "original_source_sha256": "aa9f29d1d8a0455e1325b49bb15eda81572667493ac21cc65540a11b346a6d5f",
+      "sanitized_source_sha256": "7a6cc579bd0963ab974dfcf8a70608cfe5bcf5acee0a8fc9dbf4a09a3ba117a5",
+      "bytes": 6078,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "workspace_final_readback.py.txt",
+      "original_source_sha256": "5915afcb65839d356e08e2c4c8ef41f0f93f57b6a3392d35d704669163d66268",
+      "sanitized_source_sha256": "addcc89547c4c385edff03ef3945f50b5471a6e5d5696ffad430c8dbe51c16b5",
+      "bytes": 2901,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "workspace_reference_append.py.txt",
+      "original_source_sha256": "10a94aaba5f31da250de4bf51b46956159dcf69124977f4dcefceece08aab9c1",
+      "sanitized_source_sha256": "f411574ce72462a068c3f281e675fd1cfbb3810b30bc621b7af1cbfd18ab5700",
+      "bytes": 3520,
+      "role_redaction_counts": {
+        "@LOCAL_OR_CORE_HOME@": 2
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    }
+  ],
+  "exact_private_originals_retained": true,
+  "private_json_logs_data_weights_credentials_excluded": true,
+  "runtime_source_changed": false,
+  "scientific_GO_created": false
+}

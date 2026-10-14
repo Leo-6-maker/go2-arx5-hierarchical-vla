@@ -1,0 +1,78 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Owner-only idempotent extra-CPU accounting between physical queue phases."""
+import argparse
+import fcntl
+import json
+from pathlib import Path
+import time
+
+
+def main(args):
+    root = Path(args.root)
+    with (root/'PHYSICS_OWNER.lock').open('a') as lease:
+        fcntl.flock(lease,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        ledger = json.loads((root/'RESOURCE_ACCOUNTING.json').read_text())
+        assert not any(row['status']=='STARTED' for row in ledger['starts'])
+        additions = dict(native_pre_pilot_actual=46.961698,
+                         pre_pilot_cache_benchmark_second=0.744174611,
+                         pilot_final_seal_card_manifest_binding_check=0.284138,
+                         failed_formal_audit_launcher_CPU_s_upper=10,
+                         maintenance_phase2_actual_plus_unmetered_upper=32.452880115)
+        for path in sorted((root/'evidence').glob('*_RAW_AUDIT*.json')):
+            if path.stem.startswith(('P291','T291','D291','C29103')):
+                additions['independent_raw_audit_'+path.stem] = json.loads(path.read_text())['CPU_s']
+        for path in sorted((root/'episodes').glob('*/VIDEO_RECEIPT.json')):
+            video = json.loads(path.read_text())
+            if 'delivery_code_sha256' in video:
+                additions['saved_RGB_delivery_video_'+path.parent.name] = video['CPU_s']
+        extra_paths = list((root/'evidence').glob('PREPACK_*.json'))
+        extra_paths += list((root/'evidence').glob('CPU_AUX_*.json'))
+        extra_paths += [root/'native_dataset/EXPORT_RECEIPT.json',root/'evidence/DATALOADER_SMOKE.json',
+                        root/'evidence/TRANSFER_MANIFEST.json',root/'evidence/HF_READBACK_RECEIPT.json']
+        for path in extra_paths:
+            if path.is_file():
+                value = json.loads(path.read_text())
+                used = value.get('CPU_s',value.get('CPU_total_s'))
+                if used is None:
+                    assert path == root/'evidence/DATALOADER_SMOKE.json'
+                    wrappers = [json.loads(p.read_text()) for p in
+                        (root/'evidence').glob('CPU_AUX_NATIVE_WRAPPER_qualify_loader_*.json')]
+                    assert any(w['already_covered_by_stage_receipt_CPU_s'] == 0
+                        and w['status'] != 'FROZEN_STAGE_FINISHED_CHECK_ACTUAL_RECEIPT'
+                        for w in wrappers), 'Partial smoke needs measured whole-invocation wrapper usage'
+                    ledger['partial_stage_receipts_without_CPU'] = [str(path.relative_to(root))]
+                    continue
+                additions['extra_receipt_'+str(path.relative_to(root))] = used
+        for path in args.receipt:
+            value = json.loads(Path(path).read_text())
+            used = value.get('CPU_s')
+            if used is None:
+                used = value['CPU_self_s']+value['CPU_children_s']
+            additions['extra_receipt_'+str(Path(path).relative_to(root))] = used
+        known = {row.get('stage') for row in ledger['events']}
+        added = []
+        for key, cpu in additions.items():
+            assert cpu >= 0
+            if key not in known:
+                ledger['CPU_s'] += cpu
+                event = dict(stage=key,CPU_s=cpu,GPU_s=0,owner_accounted_epoch=time.time())
+                ledger['events'].append(event)
+                added.append(event)
+        ledger['external_new_output_bytes_upper'] = 256*1024**2
+        temporary = root/'RESOURCE_ACCOUNTING.json.owner-pending'
+        with temporary.open('w') as stream:
+            stream.write(json.dumps(ledger,indent=2)+'\n')
+            stream.flush()
+            __import__('os').fsync(stream.fileno())
+        temporary.replace(root/'RESOURCE_ACCOUNTING.json')
+        print(json.dumps(dict(added=added,CPU_s=ledger['CPU_s'],
+            unknown_bootstrap_upper=ledger['unmetered_dependency_setup_CPU_s_upper'])))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root',required=True)
+    parser.add_argument('--receipt',action='append',default=[])
+    main(parser.parse_args())

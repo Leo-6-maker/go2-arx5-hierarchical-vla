@@ -1,0 +1,61 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import hashlib
+import importlib.metadata
+import importlib.util
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+base = Path("@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/dependencies/20261013T072949Z-september-retirement")
+run = Path("@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292")
+identity = json.load(open("/tmp/SUPERSEDED_PREDELETE_MANIFEST_20261013.json"))
+model_files = identity["protected"]["pretrained_files"]
+model_dir = base / "n1.7-3b"
+checks = []
+for row in model_files:
+    path = model_dir / row["name"]
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8 * 1024 * 1024), b""):
+            h.update(chunk)
+    observed = {"name": row["name"], "bytes": path.stat().st_size, "sha256": h.hexdigest(),
+                "expected_bytes": row["bytes"], "expected_sha256": row["sha256"]}
+    observed["match"] = observed["bytes"] == row["bytes"] and observed["sha256"] == row["sha256"]
+    checks.append(observed)
+source = base / "isaac-gr00t"
+commit = subprocess.check_output(["git", "-C", str(source), "rev-parse", "HEAD"], text=True).strip()
+status = subprocess.check_output(["git", "-C", str(source), "status", "--porcelain"], text=True)
+cosmos = Path("@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/dependencies/20261013T072949Z-september-retirement/cosmos/hf_home/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561")
+cosmos_files = [p for p in cosmos.rglob("*") if p.is_file()]
+cosmos_bytes = sum(p.stat().st_size for p in cosmos_files)
+operation = run / "operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8/scripts/pi0292/train_adapter.py"
+spec = importlib.util.spec_from_file_location("pi0292_processor_readback", operation)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+statistics_path = run / "data/bank_v2/native/statistics.json"
+statistics = json.load(open(statistics_path))
+processor = module.build_processor(str(source), str(cosmos), statistics)
+import torch
+result = {
+    "n1_7_files": checks,
+    "n1_7_all_match": all(x["match"] for x in checks),
+    "source_commit": commit,
+    "source_worktree_clean": not status.strip(),
+    "source_expected_commit": identity["protected"]["source_sha"],
+    "cosmos_revision_path_matches": str(cosmos).endswith("9ce19a195e423419c349abfc86fd07178b230561"),
+    "cosmos_snapshot_file_count": len(cosmos_files),
+    "cosmos_snapshot_logical_bytes": cosmos_bytes,
+    "python_version": sys.version.split()[0],
+    "gr00t_module": sys.modules["gr00t"].__file__,
+    "transformers_version": importlib.metadata.version("transformers"),
+    "processor_constructed": processor.__class__.__name__ == "Gr00tN1d7Processor",
+    "processor_embodiment_projector_index": processor.embodiment_id_mapping.get("new_embodiment"),
+    "processor_has_pi0292_stats": "new_embodiment" in processor.statistics,
+    "pi0292_statistics_sha256": hashlib.sha256(statistics_path.read_bytes()).hexdigest(),
+    "cuda_initialized": torch.cuda.is_initialized(),
+}
+print(json.dumps(result, sort_keys=True))

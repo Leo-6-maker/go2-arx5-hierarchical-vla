@@ -1,0 +1,72 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Produce sanitized actual receipts;exact server paths stay in private index."""
+import csv
+import hashlib
+import io
+import json
+from pathlib import Path
+import re
+import time
+
+BASE=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work')
+private=BASE/'private/workspace-consolidation-20261013'
+public=BASE/'pi0290-source/reports/maintenance/2026-10-13-corelab-workspace-consolidation'
+public.mkdir(parents=True,exist_ok=True)
+def read(path):return json.loads(path.read_text())
+def scrub(value):
+    if isinstance(value,dict):return {k:scrub(v) for k,v in value.items()}
+    if isinstance(value,list):return [scrub(v) for v in value]
+    if isinstance(value,str) and re.search(r'/(home|var/cache|scratch|mnt|tmp)/',value):return 'EXACT_PRIVATE_PATH_OR_DETAIL_RETAINED_IN_OWNER_INDEX'
+    return value
+def write(name,value):
+    b=(json.dumps(value,indent=2,allow_nan=False)+'\n').encode()
+    with (public/name).open('xb') as f:f.write(b)
+plan=read(private/'PLAN.json');deployment=read(private/'DEPLOYMENT_RECEIPT_PRIVATE.json')
+finals=[read(private/('FINAL_READBACK_'+n+'.json')) for n in ['corelab-amd-server','corelab-4080s']]
+assert finals[0]['files'].keys()==finals[1]['files'].keys()
+assert all(finals[0]['files'][n]['sha256']==finals[1]['files'][n]['sha256'] and finals[0]['files'][n]['st_ino']==finals[1]['files'][n]['st_ino'] for n in finals[0]['files'])
+probes=[read(BASE/'private'/n) for n in ['WORKSPACE_AMD_PROBE.json','WORKSPACE_4080S_PROBE.json']]
+old_git=[]
+for p in probes:
+    for x in p['entries']:
+        if 'git' not in x:continue
+        g=x['git'];old_git.append(dict(node=p['node'],name=x['name'],HEAD=g['head']['stdout'].strip() if g['head']['exit_code']==0 else None,query_exit_code=g['head']['exit_code'],tracked_and_normal_untracked_status=g['status']['stdout'],
+            registered_worktree_metadata_present=g['worktrees']['exit_code']==0,git_query_failure_on_4080S_AMD_namespace=p['node']=='corelab-4080s' and g['head']['exit_code']==128,ignored_file_uniqueness='NOT_VERIFIED',global_consumer_closure='UNKNOWN',delete_allowed=False))
+write('ACTIVE_DEPENDENCIES.json',dict(status='PARTIAL_DEPENDENCY_CLOSURE_NOT_CLAIMED',old_git=old_git,
+    shared_official_original_modified_files=['CLAUDE.md','getting_started/GR00T_inference.ipynb'],
+    old_Git_HEAD_status_or_namespace_failure_unchanged_after_tests=True,
+    cross_host_Git_namespace_issue_names=['go2-arx5-hierarchical-vla-pi0240','go2-arx5-hierarchical-vla-pi0241','go2-arx5-hierarchical-vla-rtx4080s','isaac-gr00t-rtx4080s'],
+    own_process_scan_metadata_limits=[dict(node=p['node'],FD_gaps=p['own_FD_gaps'],metadata_unread=p['own_process_metadata_unread'],other_UIDs_not_inspected=p['other_UID_processes_not_inspected']) for p in probes],
+    previous_static_reference_cap_reached='80MiB per host;global dependencies not proven absent',protected_roles=['Original WBC/assets','PI0250/PI0276/PI0290/PI0291 raw/runtimes','Historical Trainer/model/failure/archive originals','Legacy home venv','Private handoff/credentials'],old_paths_moved=0))
+retire=read(private/'payload/infrastructure/RETIRE_CANDIDATES.json')
+home=read(private/'payload/infrastructure/HOME_RETIRE_REVIEW.json')
+write('RETIRE_CANDIDATES.json',scrub(dict(status='NO_EXECUTABLE_DELETE_CANDIDATE_OLD_RETIREMENT_DEFERRED',project_observations=retire['items'],home_candidates=home['items'],approved_exact_file_delete_list=[],delete_count=0,new_freed_allocated_bytes=0,
+    unknowns=['Registered worktree dependency and AMD-only Gitdir namespace','Ignored/untracked/stash/local-only object recovery','Complete independent raw/model/archive restoration','Two-node static/lease/process/FD dependency closure'],next_gate='Review narrowly scoped reference/recovery/worktree repair plan,then exact qualified deletion list;not expand old cache authority')))
+write('SOURCE_AUDIT_SHA.json',read(private/'payload/infrastructure/SOURCE_AUDIT_SHA.json'))
+write('GITHUB_SSH_AUTH_RECEIPT.json',dict(status='PASS_EXISTING_PUBLIC_KEY_AUTH_ON_LOCAL_PC_AND_AMD',GitHub_account='Leo-6-maker',private_key_read_copy_or_output=False,new_canonical_origin='git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git',existing_old_remotes_changed=0,canonical_branch_remote_read=read(private/'GITHUB_SSH_AUTH_RECEIPT.json')['remote_ref'],initial_direct_HTTPS_clone='FAILED_NO_SERVER_HTTPS_AUTH',recovery='Exact89MB local authenticated Git bundle;no credential export'))
+readback=dict(status='ACTUAL_ENTRY_CREATED_BOTH_HOSTS_VERIFIED_RETIREMENT_PENDING',canonical_code_sha=plan['code_sha'],active_branch=plan['branch'],official_sha=plan['official_sha'],independent_new_git_dir=True,
+    shared_official_alias_only_NFS=True,cross_host_SSD_symlinks_added=0,
+    actual_final_metadata_files=27,same_SHA_and_shared_inode_in_both_hosts=True,
+    role_count_per_host=15,host_required_roles_not_missing_data=True,
+    canonical_engineering_unit_tests_per_node=18,local_resolver_unit_tests=4,
+    canonical_package_import_on_4080S='PASS_CPU_EXISTING_ENV_NO_NEURAL_OR_PHYSICS',AMD_import='NOT_RUN_NO_NEW_ENV',
+    official_pose_AST_and_same_bytes_CPU_runtime='PASS_NOT_MODEL_QUALIFICATION',
+    own_new_scientific_or_PBS_WBC_hardware=0,
+    new_workspace_size=finals[0]['new_workspace_size'],old_assets_moved=0,new_reclaimed_bytes=0,
+    old_namespace_errors_unchanged_not_repaired=True,Hopper= scrub(read(private/'HOPPER_METADATA.json')),
+    CPU_measured_probe_deploy_readback_s=sum(p['CPU_self_s']+p['CPU_children_s'] for p in probes)+deployment['CPU_self_s']+deployment['CPU_children_s']+sum(read(private/('READBACK_'+n+'.json'))['CPU_self_s']+read(private/('READBACK_'+n+'.json'))['CPU_children_s'] for n in ['corelab-amd-server','corelab-4080s'])+sum(x['CPU_s'] for x in finals)+read(private/'HOPPER_METADATA.json')['CPU_s'],
+    remaining_admin_and_local_bundle_CPU='NOT_FULLY_METERED_NO_PERFECT_UTILIZATION_CLAIM',initial_failed_clone_CPU='NOT_METERED;bounded120s child timeout;no inference about successful allocation',
+    selected='NONE',deployment='NONE')
+write('WORKSPACE_READBACK.json',readback)
+write('DELETION_RECEIPT.json',dict(status='NO_QUALIFIED_DELETION_PERFORMED',actual_deletions=[],new_freed_allocated_bytes=0,new_source_or_history_moves=0,old_checkpoints_or_venv_deleted=0,
+    previous_phase1_freed_allocated_bytes=44017266688,previous_phase1_not_recounted=True,previous_phase2_delete_and_freed=0,
+    navigation_and_new_clone_do_not_reclaim_space=True,Projects_only_one_physical_directory_goal_complete=False))
+table=io.StringIO();writer=csv.writer(table,delimiter='\t')
+with (private/'payload/infrastructure/DIRECTORY_INVENTORY.tsv').open() as f:
+    for row in csv.reader(f,delimiter='\t'):writer.writerow([scrub(x) for x in row])
+with (public/'DIRECTORY_INVENTORY.tsv').open('x') as f:f.write(table.getvalue())
+manifest=dict(status='SANITIZED_REAL_OBSERVATIONS_NO_DELETION_DRY_RUN_AS_COMPLETION',observed_epoch=time.time(),private_producer_hashes={name:hashlib.sha256((private/name).read_bytes()).hexdigest() for name in ['PLAN.json','DEPLOYMENT_RECEIPT_PRIVATE.json','FINAL_READBACK_corelab-amd-server.json','FINAL_READBACK_corelab-4080s.json','GITHUB_SSH_AUTH_RECEIPT.json']},public_receipts=[dict(file=p.name,sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(public.iterdir()) if p.is_file()])
+write('RECEIPT_PROJECTION_MANIFEST.json',manifest)
+print(json.dumps(dict(public_files=len(list(public.iterdir())),metadata_rows=160,project_candidate_observations=len(retire['items']),home_review_candidates=len(home['items']),actual_deleted=0,new_reclaimed_bytes=0,new_allocated_bytes=finals[0]['new_workspace_size']['new_unique_inode_allocated_bytes'])))

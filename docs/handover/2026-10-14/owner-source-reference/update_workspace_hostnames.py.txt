@@ -1,0 +1,47 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Guarded updates only to newly owned workspace metadata and resolver."""
+import base64
+import hashlib
+import json
+from pathlib import Path
+import shlex
+import subprocess
+
+base=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/workspace-consolidation-20261013')
+plan=json.loads((base/'PLAN.json').read_text())
+registry_path=base/'payload/infrastructure/PATH_REGISTRY.json'
+old=registry_path.read_bytes();registry=json.loads(old)
+hopper=json.loads((base/'HOPPER_METADATA.json').read_text())
+registry['validated_hostnames']={'hopper':[hopper['actual_hostname']]}
+registry['Hopper_alias_hostname_observation_epoch']=hopper['observed_epoch']
+registry['registry_status']='Live role metadata checked;not a workload GO or dependency closure proof'
+new=(json.dumps(registry,indent=2)+'\n').encode()
+resolver=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source/scripts/workspace_consolidation/resolve_path.py').read_bytes()
+files={'infrastructure/PATH_REGISTRY.json':new,'infrastructure/resolve_path.py':resolver,'infrastructure/receipts/HOPPER_METADATA.json':(base/'HOPPER_METADATA.json').read_bytes()}
+code='''import base64,hashlib,json,os,sys
+from pathlib import Path
+p=json.load(sys.stdin);r=Path(p['root']);path=r/'infrastructure/PATH_REGISTRY.json'
+assert hashlib.sha256(path.read_bytes()).hexdigest()==p['old_registry_sha']
+checks={}
+for name,encoded in p['files'].items():
+    b=base64.b64decode(encoded);path=r/name
+    old=hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None
+    temp=path.with_name(path.name+'.owned-update')
+    with temp.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    os.chmod(temp,0o600);temp.replace(path);assert path.read_bytes()==b
+    checks[name]=dict(previous_sha256=old,current_sha256=hashlib.sha256(b).hexdigest())
+receipt=dict(status='OWNED_WORKSPACE_HOST_MAPPING_UPDATED_READBACK_EQUAL',files=checks,existing_legacy_paths_modified=0)
+path=r/'infrastructure/receipts/HOST_MAPPING_UPDATE.json'
+with path.open('x') as f:json.dump(receipt,f,indent=2)
+print(json.dumps(receipt))
+'''
+r=subprocess.run(['ssh','-o','BatchMode=yes','corelab-amd-server',shlex.join(['python3','-c',code])],input=json.dumps(dict(root=plan['workspace_root'],old_registry_sha=hashlib.sha256(old).hexdigest(),files={n:base64.b64encode(b).decode() for n,b in files.items()})).encode(),capture_output=True,check=True,timeout=30)
+with (base/'HOST_MAPPING_UPDATE.json').open('x') as f:f.write(r.stdout.decode())
+with (base/'FINAL_ENTRY_FILES.json').open('x') as f:
+    combined={x['path']:x for x in plan['files']}
+    for x in json.loads((base/'ADDITIVE_FILES_MANIFEST.json').read_text()):combined[x['path']]=x
+    for name,b in files.items():combined[name]=dict(path=name,sha256=hashlib.sha256(b).hexdigest(),bytes=len(b))
+    json.dump(list(combined.values()),f,indent=2)
+print(r.stdout.decode())

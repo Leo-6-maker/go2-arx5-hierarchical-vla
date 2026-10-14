@@ -1,0 +1,228 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Single-owner serial SSH relay, using the frozen model/physical endpoints."""
+import argparse
+import json
+from pathlib import Path
+import sys
+import time
+
+from pi0294_r1_prepare import BASE,REPO,RUN,save
+from pi0294_remote import remote_multiplexed
+
+ROOTS={'core':'@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294/'+RUN,
+       'hopper':'@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294/'+RUN}
+
+
+def call(role,program,**values):
+    host='corelab-4080s' if role=='core' else 'hopper'
+    args=dict(ROOT=ROOTS[role],RUN=RUN,ROLE=role,**values)
+    r=remote_multiplexed(host,'\n'.join(k+'='+repr(v) for k,v in args.items())+'\n'+program)
+    if r.returncode:
+        save(BASE/('ROUTE_RPC_FAILURE_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+        raise RuntimeError('SSH_ENDPOINT_OUTCOME_UNKNOWN_NO_RESEND')
+    return json.loads(r.stdout)
+
+
+READY=r'''
+import json,os,sys,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.pi0292.allocation_admission import owned_jobs
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='hopper-neural')
+d=root/'evidence/model-M512';reg=read(d/'REGISTRY.json');resident=read(d/'resident/STATE.json')
+assert resident['status']=='RESIDENT_WAIT_FRESH_REAL_OBSERVATION' and resident['checkpoint_identity']==reg['checkpoint_identity']
+l=read(root/'HOPPER_RESOURCE_LEDGER.json');entry=l['PBS_submissions'][-1]
+job=owned_jobs(os.environ['USER']).get(entry['job_id']);assert job and job['job_state']=='R' and job['project']=='CFP04-CF-007'
+p=root/'pbs'/entry['request_id'];parent=read(p/'continuation-session/STATE.json')
+request_path=p/'resident-M512/REQUEST.json'
+assert parent['status']=='RUNNING_RESIDENT' and parent['job_id']==resident['job_id']==entry['job_id']
+assert parent['active_request_sha256']==sha(request_path)
+assert time.time()+900<reg['deadline_epoch']
+if ACTION=='reserve':
+ lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock');assert not l['CPU_reserved_s']
+ duration=min(5000,reg['deadline_epoch']-time.time());assert l['CPU_s']+duration<=57600
+ ticket=dict(run_uuid=RUN,source_sha=m['code']['vla_commit'],manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+  registry_sha256=sha(d/'REGISTRY.json'),deadline_epoch=time.time()+duration,cpus=[min(os.sched_getaffinity(0))],
+  CPU_upper_s=duration,mode='MODEL_FILE_MESSAGING_ONLY_NO_LOGIN_NEURAL')
+ write(d/'RPC_RESERVATION.json',ticket);l['CPU_reserved_s']=duration;write(root/'HOPPER_RESOURCE_LEDGER.json',l)
+ (d/'rpc').mkdir(exist_ok=False);lock.close()
+print(json.dumps(dict(status='ACTUAL_NATIVE_PARENT_RESIDENT_PHASE_READY_NOT_TASK_SUCCESS',job_id=entry['job_id'],registry_sha256=sha(d/'REGISTRY.json'),registry=reg)))
+'''
+
+BOOT=r'''
+import importlib,json,multiprocessing,os,resource,sys,time
+from pathlib import Path
+control=json.loads(Path(sys.argv[1]).read_text());sys.path[:0]=[control['source']+'/src',control['source']]
+from scripts.pi0292.durable import read,write
+from scripts.pi0294.continuation import validate_entry
+from scripts.iteration.queue import LiveCoordinator
+root=Path(control['root']);stage=Path(control['stage']);validate_entry(root,profile='4080-simulation')
+owner=LiveCoordinator(root,control['plan'],control['admission'],workers=1)
+os.sched_setaffinity(0,{control['cpus'][3]});began=resource.getrusage(resource.RUSAGE_SELF)
+rpc=owner.reserve_auxiliary('M512-serial-RPC',cpu_count=1,timeout_s=min(5000,control['deadline']-time.time()),
+ output_bytes=256*1024**2,memory_bytes=1024**3);write(stage/'RPC_RESERVATION.json',rpc)
+ctx=multiprocessing.get_context('spawn');target=importlib.import_module('scripts.pi0294.dispatcher')._spawn_worker
+try:
+ for row in owner.plan['episodes']:
+  if owner.value['status']!='LIVE_RUNNING' or time.time()>=control['deadline']:break
+  identifier=row['id'];ticket=owner.reserve(identifier,timeout_s=min(900,control['deadline']-time.time()))
+  p=ctx.Process(target=target,args=(root/'reservations'/(identifier+'.json'),control['python']))
+  p.start();p.join(timeout=max(1,ticket['deadline_epoch']-time.time()+20))
+  if p.is_alive():raise TimeoutError('OWN_EPISODE_NOT_TERMINAL_AT_TICKET_BOUNDARY')
+  receipt=Path(ticket['output'])/'WORKER_RECEIPT.json'
+  if not receipt.exists():owner.unknown(identifier);raise RuntimeError('MISSING_DURABLE_WORKER_NO_RESTART')
+  actual=read(receipt);owner.complete(actual)
+  write(stage/('TERMINAL-'+identifier+'.json'),dict(receipt=actual,receipt_sha256=__import__('hashlib').sha256(receipt.read_bytes()).hexdigest()))
+  # A known protected pre-install rejection is terminal, not grounds to retry.
+  # Real safety stops are retained by the unchanged coordinator.
+ until=min(rpc['deadline_epoch'],time.time()+120)
+ while not (stage/'LOCAL_ROUTE_TERMINAL.json').exists() and time.time()<until:time.sleep(.1)
+ if not (stage/'LOCAL_ROUTE_TERMINAL.json').exists():raise RuntimeError('LOCAL_ROUTE_TERMINAL_NOT_ACKNOWLEDGED')
+ terminal=read(stage/'LOCAL_ROUTE_TERMINAL.json')
+ current=resource.getrusage(resource.RUSAGE_SELF)
+ cpu=sum(read(p)['CPU_s'] for p in (stage/'rpc').glob('*.json'))+current.ru_utime+current.ru_stime-began.ru_utime-began.ru_stime+60
+ owner.complete_auxiliary(rpc['id'],cpu_s=cpu,output_bytes=sum(p.stat().st_size for p in stage.rglob('*') if p.is_file()))
+ if len(owner.value['records'])==len(owner.plan['episodes']) and owner.value['status']=='LIVE_RUNNING':owner.finish()
+ write(stage/'CORE_TERMINAL.json',dict(status='ACTUAL_MODEL_ATTEMPTS_PRESERVED_PENDING_INDEPENDENT_ANALYSIS',
+  queue_status=owner.value['status'],attempted=len(owner.value['records']),planned=len(owner.plan['episodes']),RPC_CPU_charged_s=cpu,
+  physics_starts=owner.value['actual']['physics_starts'],physics_steps=owner.value['actual']['physics_steps'],new_CoreLab_model_loads=0))
+except BaseException as e:
+ write(stage/'CORE_FAILURE.json',dict(type=type(e).__name__,error=str(e)));raise
+finally:owner.close()
+'''
+BOOT='def main():\n'+''.join('    '+line+'\n' for line in BOOT.splitlines())+'\nif __name__ == "__main__":\n    main()\n'
+
+CORE_START=r'''
+import hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write
+from scripts.pi0294.continuation import validate_entry,T0,CUTOFF,DEADLINE
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='4080-simulation')
+stage=root/'evidence/model-M512';reg=read(stage/'REGISTRY.json');assert sha(stage/'REGISTRY.json')==REGISTRY_SHA
+assert READY['registry_sha256']==REGISTRY_SHA and READY['job_id'] and time.time()+900<reg['deadline_epoch']
+assert not (stage/'PROCESS.private.json').exists() and not (root/'LIVE_QUEUE.json').exists()
+entry=read(root/'ENTRY_BINDING.private.json');assets=read(root/'PRIVATE_ASSET_BINDING.json');plan=root/'plans/model-M512.json'
+cpus=sorted(os.sched_getaffinity(0))[:8];assert len(cpus)==8
+admission=dict(schema='PI0294_LIVE_ADMISSION_V1',status='LIVE_ADMITTED_ACTUAL_RUNTIME',fixture=False,
+ hostname='corelab-4080s',profile='4080-simulation',root=str(root),run_uuid=RUN,plan_sha256=sha(plan),
+ run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),source_seal_sha256=m['code']['source_seal_sha256'],
+ source_sha=m['code']['vla_commit'],source_root=str(source),asset_root=assets['native_asset_root'],
+ T0_epoch=T0,cutoff_epoch=CUTOFF,deadline_epoch=DEADLINE,lease_expires_epoch=DEADLINE,
+ qualified_workers=1,qualification_basis='SERIAL_FROZEN_PHYSICS_PARENT_RELAY_QUALIFICATION',allowed_cpus=cpus,
+ auxiliary_cpu_count=2,memory_limit_bytes=32*1024**3,free_space_margin_bytes=20*1024**3,
+ limits=dict(physics_starts=96,physics_steps=1536000,rgb_pairs=61536,cpu_s=144000,output_bytes=32*1024**3),
+ prior_actual=dict(physics_starts=0,physics_steps=0,rgb_pairs=0,cpu_s=180,
+  output_bytes=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())))
+write(stage/'LIVE_ADMISSION.private.json',admission)
+control=dict(root=str(root),source=str(source),stage=str(stage),plan=str(plan),admission=str(stage/'LIVE_ADMISSION.private.json'),
+ python=entry['python'],cpus=cpus,deadline=reg['deadline_epoch'])
+write(stage/'CONTROL.private.json',control)
+program=stage/'CORE_OWNER_BOOTSTRAP.private.py';program.write_text(BOOT);program.chmod(0o400)
+write(stage/'CONTROL_PROGRAM_IDENTITY.json',dict(bootstrap_sha256=sha(program),source_sha=m['code']['vla_commit'],
+ manifest_sha256=sha(root/'RUN_MANIFEST.json'),control_sha256=sha(stage/'CONTROL.private.json'),
+ actual_Hopper_ready=READY,serial_only=True,new_neural_on_CoreLab=0))
+env=dict(os.environ,PYTHONPATH=str(source/'src')+':'+str(source),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',
+ LIBGL_ALWAYS_SOFTWARE='1',__EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json',
+ MUJOCO_GL='egl',GALLIUM_DRIVER='llvmpipe',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',LP_NUM_THREADS='3')
+env.pop('MUJOCO_EGL_DEVICE_ID',None)
+p=subprocess.Popen([entry['entry'],'4080-simulation','python',str(program),str(stage/'CONTROL.private.json')],env=env,cwd=source,
+ start_new_session=True,stdin=subprocess.DEVNULL,stdout=(stage/'stdout.log').open('xb'),stderr=(stage/'stderr.log').open('xb'))
+record=dict(status='SERIAL_MODEL_EVAL_DISPATCHED_NOT_TASK_QUALIFIED',pid=p.pid,
+ proc_start=Path('/proc/'+str(p.pid)+'/stat').read_text().split()[21],source_sha=m['code']['vla_commit'],deadline_epoch=reg['deadline_epoch'])
+write(stage/'PROCESS.private.json',record);print(json.dumps(record))
+'''
+
+RPC=r'''
+import json,os,resource,subprocess,sys,time,uuid
+from pathlib import Path
+root=Path(ROOT);d=root/'evidence/model-M512';m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative']
+ticket=json.loads((d/'RPC_RESERVATION.json').read_text());assert time.time()<ticket['deadline_epoch']
+os.sched_setaffinity(0,set(ticket['cpus']));reg=json.loads((d/'REGISTRY.json').read_text());case=reg['cases'][ARGS['episode']]
+if ROLE=='core' and ARGS['operation']=='observation':
+ p=root/'episodes'/case['attempt_id'];obs=p/'relay/observations'/f"{ARGS['sequence']:03d}.json"
+ if (p/'WORKER_RECEIPT.json').exists() and not obs.exists():
+  print(json.dumps(dict(ok=False,error_code='KNOWN_TERMINAL_PHYSICAL_NO_NEXT_OBSERVATION')));raise SystemExit(0)
+binding=json.loads((root/('ENTRY_BINDING.private.json' if ROLE=='core' else 'NEURAL_BINDINGS.private.json')).read_text())
+if ROLE=='core' and ARGS['operation']=='stop':
+ p=root/'episodes'/case['attempt_id']/'relay/STOP.json';assert p.parent.exists()
+ if not p.exists():p.write_text(json.dumps(dict(run_uuid=RUN,episode_uuid=ARGS['episode'],reason='LOCAL_ONE_SHOT_ROUTE_TERMINAL_NO_REPLAY')))
+ print(json.dumps(dict(ok=True,value={'status':'OWN_CASE_STOP_REQUESTED'})));raise SystemExit(0)
+before=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+program='import json,sys;sys.path[:0]='+repr([str(source/'src'),str(source)])+';from scripts.pi0294.relay_endpoint import Endpoint;e=Endpoint('+repr(str(root))+',"evidence/model-M512/REGISTRY.json",'+repr(REGISTRY_SHA)+','+repr(ROLE)+');args=json.load(sys.stdin)\ntry:print(json.dumps(dict(ok=True,value=e.'+ROLE+'(**args))))\nexcept Exception as err:print(json.dumps(dict(ok=False,error_type=type(err).__name__,error_code=str(err) if str(err) in ("FROZEN_SAFETY_GATE_REJECT","PREVIOUS_ACTUAL_ACK_REQUIRED","GENERATION_INTENT_ALREADY_RESERVED_NO_REQUERY") else "ENDPOINT_EXCEPTION")))'
+env=dict(os.environ,CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+r=subprocess.run([binding['python'],'-c',program],input=json.dumps(ARGS,allow_nan=False),env=env,cwd=source,capture_output=True,text=True,timeout=30)
+after=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+cpu=sum(a.ru_utime+a.ru_stime-b.ru_utime-b.ru_stime for a,b in zip(after,before))
+record=dict(CPU_s=cpu,role=ROLE,operation=ARGS['operation'],episode_uuid=ARGS['episode'],exit=r.returncode,models_loaded_on_endpoint=0)
+with (d/'rpc'/(str(uuid.uuid4())+'.json')).open('x') as f:json.dump(record,f)
+if r.returncode:raise RuntimeError('ONE_SHOT_ENDPOINT_PROCESS_OUTCOME_UNKNOWN')
+print(r.stdout)
+'''
+
+# None of these prepared controllers has been dispatched. Bind only the new
+# registry namespace; retain the original installed requests as NOT_RUN.
+READY=READY.replace('model-M512','model-M512-02')
+BOOT=BOOT.replace('model-M512','model-M512-02')
+CORE_START=CORE_START.replace('model-M512','model-M512-02')
+RPC=RPC.replace('model-M512','model-M512-02')
+
+
+def rpc(role,**args):
+    registry=json.loads((BASE/'MODEL_REGISTRY_02.private.json').read_text())
+    result=call(role,RPC,ARGS=args,REGISTRY_SHA=__import__('hashlib').sha256((json.dumps(registry,indent=2,allow_nan=False)+'\n').encode()).hexdigest())
+    if not result['ok']:
+        raise RuntimeError(result.get('error_code','ENDPOINT_FAILURE_NO_RETRY'))
+    return result.get('value')
+
+
+def run_routes():
+    sys.path[:0]=[str(REPO/'src'),str(REPO)]
+    from scripts.pi0294.relay_transport import run_episode
+    from scripts.pi0292.relay_protocol import unseal
+    registry=json.loads((BASE/'MODEL_REGISTRY_02.private.json').read_text())
+    directory=BASE/'model-M512-02-routes';directory.mkdir(mode=0o700,exist_ok=False)
+    class Core:
+        def observation(self,c,s):return rpc('core',operation='observation',episode=c['episode_uuid'],sequence=s)
+        def teacher(self,c,s):raise PermissionError('NO_TEACHER_MODEL_INPUT')
+        def install(self,c,s,b):return rpc('core',operation='install',episode=c['episode_uuid'],sequence=s,bundle=b)
+        def ack(self,c,s):return rpc('core',operation='ack',episode=c['episode_uuid'],sequence=s)
+    class Hopper:
+        def query(self,c,q,teacher):
+            assert teacher is None
+            return rpc('hopper',operation='query',episode=c['episode_uuid'],query=q)
+        def response(self,c,q):return rpc('hopper',operation='response',episode=c['episode_uuid'],query_uuid=q)
+    records=[]
+    for case in registry['cases'].values():
+        folder=directory/case['episode_uuid'];folder.mkdir(mode=0o700)
+        try:
+            route=run_episode(folder,case,Core(),Hopper())
+            records.append(dict(episode_uuid=case['episode_uuid'],attempt_id=case['attempt_id'],status=route['status']))
+        except Exception as e:
+            records.append(dict(episode_uuid=case['episode_uuid'],attempt_id=case['attempt_id'],status='STOPPED_PRESERVED_NO_RETRY',error_type=type(e).__name__,error_code=str(e)))
+            try:rpc('core',operation='stop',episode=case['episode_uuid'])
+            except Exception:pass
+        save(directory/('PROGRESS-'+str(len(records)).zfill(2)+'.private.json'),dict(records=records))
+    terminal=dict(status='SERIAL_LOCAL_MODEL_ROUTES_TERMINAL_PENDING_PHYSICAL_SCORING',records=records,model_calls_local=0,physics_integrations_local=0)
+    save(directory/'TERMINAL.private.json',terminal)
+    code="from pathlib import Path;import json;p=Path(ROOT)/'evidence/model-M512-02/LOCAL_ROUTE_TERMINAL.json';assert not p.exists();p.write_text(json.dumps(VALUE,indent=2));print(json.dumps({'status':VALUE['status']}))"
+    call('core',code,VALUE=terminal)
+    print(json.dumps(dict(status=terminal['status'],cases=len(records))))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['ready','reserve','core','run']);a=p.parse_args()
+    if a.action in ('ready','reserve'):
+        v=call('hopper',READY,ACTION=a.action);save(BASE/('RESIDENT_'+a.action.upper()+'.private.json'),v)
+        print(json.dumps({k:v[k] for k in ('status','job_id','registry_sha256')}))
+    elif a.action=='core':
+        ready=call('hopper',READY,ACTION='ready')
+        value=call('core',CORE_START,READY={k:ready[k] for k in ('status','job_id','registry_sha256')},REGISTRY_SHA=ready['registry_sha256'],BOOT=BOOT)
+        save(BASE/'MODEL_CORE_PROCESS.private.json',value);print(json.dumps(value))
+    else:run_routes()

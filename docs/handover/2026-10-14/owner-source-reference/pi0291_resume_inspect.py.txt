@@ -1,0 +1,50 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""One bounded read-only recovery probe through already configured SSH routes."""
+import json
+import shlex
+import subprocess
+
+ROOT = '@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5'
+REMOTE = '''
+import json,os,resource,time
+from pathlib import Path
+root=Path(ROOT)
+state=json.loads((root/'evidence/OWNER_N3_QUEUE_STATE.json').read_text())
+ledger=json.loads((root/'RESOURCE_ACCOUNTING.json').read_text())
+owner=Path('/proc')/str(state['pid'])
+try:
+    status=owner.joinpath('status').read_text()
+    uid=[line for line in status.splitlines() if line.startswith('Uid:')][0].split()[1]
+    process=dict(status='EXISTS_METADATA_READ',uid=int(uid),stat=owner.joinpath('stat').read_text())
+    if int(uid)==2009:
+        process.update(cmdline=owner.joinpath('cmdline').read_bytes().replace(bytes([0]),b' ').decode(),cwd=os.readlink(owner/'cwd'),children=owner.joinpath('task',str(state['pid']),'children').read_text())
+    else:
+        process['identity']='UID_MISMATCH_DO_NOT_TOUCH'
+except FileNotFoundError:
+    process=dict(status='PROC_METADATA_NOT_FOUND_AT_OBSERVATION')
+except PermissionError:
+    process=dict(status='UNKNOWN_PERMISSION_LIMITED')
+results=[]
+for identifier in [f'T291{i:03d}' for i in range(64)]+[f'D291{i:03d}' for i in range(16)]:
+    path=root/'episodes'/identifier/'RESULT.json'
+    if path.is_file():
+        value=json.loads(path.read_text())
+        results.append({key:value.get(key) for key in ('id','status','source_sha','physics_steps','paired_samples','error')})
+    else:
+        results.append(dict(id=identifier,RESULT_present=False,attempted_in_ledger=any(row['id']==identifier for row in ledger['starts'])))
+usage=resource.getrusage(resource.RUSAGE_SELF)
+print(json.dumps(dict(observed_epoch=time.time(),owner_state=state,owner_process=process,ledger=ledger,formal_results=results,read_only=True,model_loads=0,physics_steps=0,inspection_CPU_s=usage.ru_utime+usage.ru_stime)))
+'''
+
+
+if __name__ == '__main__':
+    options=['-o','BatchMode=yes','-o','ConnectTimeout=5','-o','ServerAliveInterval=5','-o','ServerAliveCountMax=1']
+    code='ROOT='+repr(ROOT)+'\n'+REMOTE
+    inner=shlex.join(['ssh',*options,'corelab-4080s',shlex.join(['python3','-c',code])])
+    result=subprocess.run(['ssh',*options,'corelab-amd-server',inner],capture_output=True,text=True,timeout=20)
+    if result.returncode:
+        print(json.dumps(dict(status='REMOTE_OBSERVATION_FAILED_NOT_TERMINAL_PROOF',ssh_exit_code=result.returncode,error=result.stderr.strip(),queue_restarted=False)))
+        raise SystemExit(result.returncode)
+    print(result.stdout,end='')

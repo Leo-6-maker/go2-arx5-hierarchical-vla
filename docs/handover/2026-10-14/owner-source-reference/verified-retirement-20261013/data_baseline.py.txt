@@ -1,0 +1,25 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+from pathlib import Path
+import hashlib,json,time,resource
+ROOT=Path('@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset')
+COSMOS=Path('@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561')
+def sha(p):
+ h=hashlib.sha256()
+ with p.open('rb') as f:
+  for b in iter(lambda:f.read(4<<20),b''):h.update(b)
+ return h.hexdigest()
+files=[]
+for name,expected in [('statistics.json','43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d'),('STATISTICS_PROVENANCE.json','0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359'),('DATASET_MANIFEST.json','1d2dd42c681197493570128aa09f60c864e3cc1be80f9a3fa1d6af3b175189d7')]:
+ p=ROOT/name;h=sha(p);assert h==expected,(name,h);files.append(dict(role='PI0291_'+name,path=str(p),sha256=h,expected_from='PI0291_FIXED_ARCHIVE_RECEIPT'))
+for p in sorted(COSMOS.iterdir()):
+ if p.suffix not in {'.json','.txt'}:continue
+ b=p.read_bytes();target=p.resolve();blob=target.name
+ if len(blob)==64:assert hashlib.sha256(b).hexdigest()==blob
+ elif len(blob)==40:assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==blob
+ else:raise AssertionError('unidentified fixed HF blob '+blob)
+ files.append(dict(role='COSMOS_PROCESSOR_'+p.name,path=str(p),sha256=sha(p),blob_id=blob,fixed_revision=COSMOS.name))
+j=json.loads((ROOT/'DATASET_MANIFEST.json').read_text());row=j['episodes'][0];sample=ROOT/row['file'];assert sha(sample)==row['sha256']
+u=resource.getrusage(resource.RUSAGE_SELF)
+print(json.dumps(dict(data_baseline=dict(**{'4080_files':files},original_sample=dict(role='ORIGINAL_PI0291_NATIVE_SAMPLE',path=str(sample),sha256=row['sha256'],episode_id=row['id'])),original_episode_count=len(j['episodes']),cpu_seconds=u.ru_utime+u.ru_stime,epoch=time.time(),model_physics=0)))

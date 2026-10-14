@@ -1,0 +1,33 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read actual completed private checkpoint delivery and storage/accounting."""
+import json
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import hashlib,json,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+out=root/'delivery/checkpoint-engineering-M4-01';directory=root/'evidence/checkpoint-delivery-engineering-M4-01'
+delivery=json.loads((out/'DELIVERY.json').read_text());manifest=json.loads((out/'CHECKPOINT_MANIFEST.json').read_text())
+stage=json.loads((directory/'CPU_STAGE.json').read_text());ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+checkpoint=root/'smoke_attempts/model-smoke-02/training/smoke_split/checkpoint-4'
+v=dict(epoch=time.time(),delivery=delivery,stage=stage,manifest=manifest,
+ manifest_sha256=hashlib.sha256((out/'CHECKPOINT_MANIFEST.json').read_bytes()).hexdigest(),
+ READY_sha256=hashlib.sha256((out/'READY.json').read_bytes()).hexdigest(),
+ local_checkpoint_preserved=checkpoint.is_dir(),local_checkpoint_bytes=sum(p.stat().st_size for p in checkpoint.rglob('*') if p.is_file()),
+ owned_bytes=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink()),
+ ledger={k:ledger.get(k) for k in ['GPU_allocated_s','GPU_reserved_s','model_loads','model_smoke_updates','main_updates','pending_updates','CPU_s','CPU_reserved_s']})
+v['manifest']['model_tensor_count']=len(v['manifest'].pop('model_tensors'))
+print(json.dumps(v))
+'''
+
+if __name__=='__main__':
+ result=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('CHECKPOINT_RECEIPT_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr_kind='READ_FAILED' if result.returncode else None))
+ if result.returncode:raise RuntimeError('Actual checkpoint delivery receipt unavailable')
+ data=json.loads(result.stdout)
+ save(BASE/'CHECKPOINT_DELIVERY_ACTUAL.private.json',data)
+ print(json.dumps(data))

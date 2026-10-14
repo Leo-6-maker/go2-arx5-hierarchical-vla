@@ -1,0 +1,67 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Root-owner serial chunk dispatch using the existing frozen runtime."""
+import argparse
+import json
+import os
+from pathlib import Path
+import subprocess
+import time
+
+SOURCE = '57a02b4923e5001df5fd4b3b5958c372b9cff541'
+CUTOFF = 1791849137.0
+
+
+def main(root):
+    root = Path(root)
+    gate = json.loads((root/'PILOT_GATE.json').read_text())
+    assert gate['status']=='PASS' and gate['source_sha']==SOURCE
+    assert gate['all_eight_independent_raw_audits_pass']
+    initial = json.loads((root/'RESOURCE_ACCOUNTING.json').read_text())
+    assert not any(row['id'].startswith(('T','D')) for row in initial['starts'])
+    assert not any(row['status']=='STARTED' for row in initial['starts'])
+    os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
+    env = dict(os.environ,PYTHONPATH=str(root/'code')+':'+str(root/'code/src'),
+        MUJOCO_GL='egl',__EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json',
+        LIBGL_ALWAYS_SOFTWARE='1',CUDA_VISIBLE_DEVICES='',LP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='1')
+    env.pop('MUJOCO_EGL_DEVICE_ID',None)
+    python = '@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0290/runtime/venv/bin/python'
+    state = dict(owner='EXISTING_LOCAL_PC_ROOT_ONLY',pid=os.getpid(),source_sha=SOURCE,
+        T0_epoch=1791830237,cutoff_epoch=CUTOFF,deadline_epoch=1791851837,
+        phase='N3',order='TRAIN64_THEN_DEV16',completed_chunks=[],no_retries=True)
+    path = root/'evidence/OWNER_N3_QUEUE_STATE.json'
+    assert not path.exists(), 'Preserve original owner dispatch; explicit resume required'
+    for phase,start,count in [('train',i,16) for i in range(0,64,16)]+[('dev',0,16)]:
+        if time.time()>=CUTOFF:
+            state['stop']='ORIGINAL_PHYSICS_CUTOFF'
+            break
+        state.update(current=dict(phase=phase,start=start,count=count),updated_epoch=time.time())
+        path.write_text(json.dumps(state,indent=2)+'\n')
+        print(json.dumps(dict(owner_dispatch=state['current'],source_sha=SOURCE)),flush=True)
+        result = subprocess.run([python,'-m','scripts.pi0291_arx5_data.run_queue',
+            '--root',str(root),'--source-sha',SOURCE,'--phase',phase,'--start',str(start),'--count',str(count)],
+            cwd=root/'code',env=env)
+        state['completed_chunks'].append(dict(phase=phase,start=start,count=count,exit_code=result.returncode))
+        state.update(current=None,updated_epoch=time.time())
+        path.write_text(json.dumps(state,indent=2)+'\n')
+        if result.returncode:
+            state['stop']='CHILD_STOP_PRESERVE_FIRST_ATTEMPTS_NO_RETRY'
+            break
+        receipt = json.loads((root/'evidence'/f'QUEUE_{phase}_{start:03d}_{count:03d}.json').read_text())
+        subprocess.run([python,'@LOCAL_OR_CORE_HOME@-nfs/Projects/go2-arx5/maintenance/pi0291-staging/pi0291_accounting.py',
+                        '--root',str(root)],check=True)
+        if receipt['unattempted']:
+            state['stop']='ORIGINAL_CUTOFF_PARTIAL_CHUNK'
+            break
+    else:
+        state['stop']='ALL_80_FIRST_ATTEMPTS_FINISHED'
+    state.update(current=None,updated_epoch=time.time(),physics_running=False)
+    path.write_text(json.dumps(state,indent=2)+'\n')
+    print(json.dumps(dict(owner_n3_terminal=state['stop'],completed_chunks=state['completed_chunks'])),flush=True)
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--root',required=True)
+    main(parser.parse_args().root)

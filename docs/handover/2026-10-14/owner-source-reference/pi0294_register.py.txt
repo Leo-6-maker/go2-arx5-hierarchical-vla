@@ -1,0 +1,81 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Register host-specific new run roots without changing older consumers."""
+import json
+import time
+
+from pi0294_adopt import BASE, CUTOFF, DEADLINE, RELEASE, RUN, T0, remote, save
+
+CODE = r'''
+import fcntl,hashlib,json,os,socket,time
+from pathlib import Path
+def write(p,v):
+ p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ data=(json.dumps(v,indent=2)+'\n').encode();tmp=p.with_name(p.name+'.pending.'+str(os.getpid()))
+ with tmp.open('xb') as f:f.write(data);f.flush();os.fsync(f.fileno())
+ tmp.chmod(0o600);os.replace(tmp,p)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+host=socket.gethostname();hopper=host.startswith('hopper')
+assert os.getuid()==(22182 if hopper else 2009)
+assert time.time()<CUTOFF
+ws=Path.home()/'Projects/GR00T-WBC' if not hopper else Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC')
+parent=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294') if hopper else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')
+root=parent/RUN;role='PI0294_HOPPER_RUN' if hopper else 'PI0294_4080_RUN'
+infra=ws/'infrastructure';infra.mkdir(parents=True,exist_ok=True,mode=0o700)
+lock=(infra/'PI0294_REGISTRATION.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+registry_path=infra/'PI0294_PATH_REGISTRY.private.json' if hopper else infra/'PATH_REGISTRY.json'
+registry=json.loads(registry_path.read_text()) if registry_path.exists() else dict(schema='PI0294_HOPPER_PRIVATE_ROLE_REGISTRY_V1',entries=[],entry_deployed=False)
+prior_sha=sha(registry_path) if registry_path.exists() else 'NOT_APPLICABLE'
+lease_path=infra/'leases/PI0294.json';index=ws/'experiments/PI0294'/RUN
+if root.exists():
+ assert (root/'OUTPUT_BINDING.private.json').exists(),'INCOMPLETE_ROOT_DO_NOT_OVERWRITE'
+ v=json.loads((root/'OUTPUT_BINDING.private.json').read_text())
+ assert v['run_root']==str(root) and v['role']==role and v['run_uuid']==RUN
+else:
+ parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ assert not parent.is_symlink() and parent.resolve()==parent
+ root.mkdir(mode=0o700)
+ for name in ['evidence','episodes','plans','pbs','code']:(root/name).mkdir(mode=0o700)
+ write(root/'ADOPTION.json',dict(schema='PI0294_ADOPTION_V1',pi='PI0294',run_uuid=RUN,protocol_release=RELEASE,
+   T0_epoch=T0,new_work_cutoff_epoch=CUTOFF,deadline_epoch=DEADLINE,reset_on_resume=False,
+   owner='EXISTING_LOCAL_PC',science_comment=6148228083,objective_sha256='9d1782833b412ae35eb86d953f12919f5a575041d9c7ccf63fca34efabe7bd40'))
+ write(root/'OUTPUT_BINDING.private.json',dict(schema='PI0294_OUTPUT_BINDING_V1',run_uuid=RUN,
+   role=role,run_root=str(root),registered_parent=str(parent),registry=str(registry_path),lease=str(lease_path),
+   host=host,uid=os.getuid(),node_local=True,entry_deployed=not hopper))
+ write(root/'RESOURCE_LEDGER.json',dict(schema='PI0294_INITIAL_RESOURCE_LEDGER_V1',run_uuid=RUN,
+   T0_epoch=T0,deadline_epoch=DEADLINE,CPU_preflight_upper_s=180,physics_starts=0,physics_steps=0,
+   rgb_pairs=0,GPU_allocated_s=0,PBS_submissions=[],model_smoke_updates=0,formal_updates=0,
+   old_PI0292_before_T0=dict(GPU_allocated_s=17,PBS_calls=3,models=0),post_T0_old_GPU_allocated_s=0,
+   counters_never_reset=True))
+if not any(r['role']==role for r in registry['entries']):
+ row=dict(role=role,path=str(root),executor_node=host,storage_role='HOPPER_SCRATCH' if hopper else 'NODE_LOCAL_SSD',
+   lifecycle='CURRENT_PI0294_USER_GO_FIXED_NEW_RUN',run_uuid=RUN,protocol_ref=RELEASE,owner='EXISTING_LOCAL_PC')
+ registry['entries'].append(row);write(root/'PRIOR_REGISTRY.private.json',dict(prior_sha256=prior_sha))
+ write(registry_path,registry)
+else:
+ assert [r['path'] for r in registry['entries'] if r['role']==role]==[str(root)]
+lease=dict(schema='PI0294_LEASE_V1',run_uuid=RUN,owner='EXISTING_LOCAL_PC',status='ACTIVE',
+ protocol_ref=RELEASE,T0_epoch=T0,deadline_epoch=DEADLINE,
+ protected_entries=[dict(path=str(root),role=role)],source_deployment='PENDING_FIXED_CODE_RELEASE',
+ no_hot_update_old_PI0292=True)
+if lease_path.exists():assert json.loads(lease_path.read_text())==lease,'NEVER_OVERWRITE_CHANGED_LEASE'
+else:write(lease_path,lease)
+index.mkdir(parents=True,exist_ok=True,mode=0o700)
+record=dict(schema='PI0294_EXPERIMENT_INDEX_V1',run_uuid=RUN,role=role,executor_node=host,
+ private_binding=str(root/'OUTPUT_BINDING.private.json'),protocol_ref=RELEASE,
+ status='REGISTERED_NOT_EXECUTED',Hopper_entry_deployed=False if hopper else 'NOT_APPLICABLE')
+if (index/'INDEX.private.json').exists():assert json.loads((index/'INDEX.private.json').read_text())==record
+else:write(index/'INDEX.private.json',record)
+print(json.dumps(dict(status='REGISTERED_NOT_EXECUTED',host=host,root=str(root),role=role,
+ output_binding_sha256=sha(root/'OUTPUT_BINDING.private.json'),registry_sha256=sha(registry_path),
+ lease_sha256=sha(lease_path),models=0,physics=0,PBS=0)))
+'''
+
+if __name__ == '__main__':
+ for host in ['corelab-4080s','hopper']:
+  code='\n'.join(k+'='+repr(v) for k,v in dict(RUN=RUN,T0=T0,CUTOFF=CUTOFF,DEADLINE=DEADLINE,RELEASE=RELEASE).items())+'\n'+CODE
+  result=remote(host,code)
+  save(BASE/('REGISTER_'+host+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+  if result.returncode:raise RuntimeError(result.stderr[-2000:])
+  print(result.stdout)

@@ -1,0 +1,34 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+from pathlib import Path
+import importlib.util,json,os,resource,socket,subprocess,time,hashlib
+WS=Path.home()/'Projects/GR00T-WBC';INF=WS/'infrastructure';ROOT=WS/'archive/verified-retirement/20261013T031510Z-localpc-retirement'
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+ENV=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',CUDA_VISIBLE_DEVICES='')
+def run(args,cwd=None,expected=0):
+ r=subprocess.run([str(x) for x in args],cwd=cwd,env=ENV,capture_output=True,text=True,timeout=120)
+ assert r.returncode==expected,(args,r.returncode,r.stderr[-2000:])
+ return dict(returncode=r.returncode,stdout=r.stdout,stderr=r.stderr)
+node=socket.gethostname();profiles=['amd-management'] if node=='corelab-amd-server' else ['4080-simulation','4080-cpu-data']
+checks=[json.loads(run(['/usr/bin/python3',INF/'doctor.py',name])['stdout']) for name in profiles]
+wrong='4080-cpu-data' if node=='corelab-amd-server' else 'amd-management'
+wrongcheck=run([INF/'enter.sh',wrong],expected=2);assert json.loads(wrongcheck['stdout'])['status']=='HOST_REQUIRED'
+entry=run([INF/'enter.sh',profiles[0],'python','-c','import sys,go2arx5_vla;print(sys.executable);print(go2arx5_vla.__file__)'])
+canonical=WS/'code/vla'
+t18=run(['/usr/bin/python3','-m','unittest','discover','-s','scripts/pi0291_delivery','-p','test*.py'],cwd=canonical);assert 'Ran 18 tests' in t18['stderr'] and 'OK' in t18['stderr']
+env=dict(ENV,PYTHONPATH=str(INF));t4=subprocess.run(['/usr/bin/python3','-m','unittest','discover','-s',str(ROOT/'engineering_tests'),'-p','test_resolve_path.py'],env=env,capture_output=True,text=True,timeout=90)
+assert t4.returncode==0 and 'Ran 4 tests' in t4.stderr and 'OK' in t4.stderr,t4.stderr
+retained=[]
+for name in ['GR00T-WholeBodyControl','go2-arx5-hierarchical-vla','isaac-gr00t','isaac-gr00t-rtx4080s-remote']:
+ p=Path.home()/'Projects'/name
+ retained.append(dict(path=str(p),head=run(['git','-C',p,'rev-parse','HEAD'])['stdout'].strip(),status=run(['git','-C',p,'status','--porcelain=v1','--untracked-files=all'])['stdout']))
+mods=json.loads((ROOT/'official_modifications/MANIFEST.json').read_text())
+for r in mods['files']:
+ p=Path.home()/'Projects/isaac-gr00t'/r['relative'];assert hashlib.sha256(p.read_bytes()).hexdigest()==r['sha256']
+# NFS source identities are counted once; host-local disks keep separate identity.
+visible={str(p):[dict(name=x.name,type='symlink' if x.is_symlink() else 'directory' if x.is_dir() else 'file',symlink_target=os.readlink(x) if x.is_symlink() else None) for x in sorted(p.iterdir()) if not x.name.startswith('.')] for p in [Path.home(),Path.home()/'Projects']}
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+v=dict(status='PASS',node=node,epoch=time.time(),profiles=checks,wrong_host_entry=wrongcheck,actual_entry_execution=entry,engineering_tests_18=t18,resolver_tests_4=dict(returncode=t4.returncode,stdout=t4.stdout,stderr=t4.stderr),retained_git=retained,original_notebook_and_CLAUDE_unchanged=True,visible=visible,capacity={str(p):os.statvfs(p).f_bavail*os.statvfs(p).f_frsize for p in [Path.home(),Path('@CORELAB_NODE_STORAGE@')]},cpu_seconds=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime,science_execution=0)
+f=ROOT/('ENVIRONMENT_ENTRY_CHECK_'+node+'.json');f.write_text(json.dumps(v,indent=2)+'\n');f.chmod(0o600)
+print(json.dumps(dict(status=v['status'],node=node,profiles=len(checks),engineering_tests=18,resolver_tests=4,wrong_host='HOST_REQUIRED',entry_execution='PASS',cpu_seconds=v['cpu_seconds'])))

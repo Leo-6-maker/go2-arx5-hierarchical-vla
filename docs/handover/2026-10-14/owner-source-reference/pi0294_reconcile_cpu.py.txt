@@ -1,0 +1,49 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Charge an old failed CPU qualification only after exact group disappearance."""
+import time
+from pi0294_adopt import BASE, RUN, remote, save
+
+CODE=r'''
+import hashlib,json,os,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+stage=root/'evidence/hopper-cpu'
+record=json.loads((stage/'PROCESS.private.json').read_text());pid=record['pid']
+assert pid==483821 and record['proc_start']=='235744054'
+survivors=[]
+for path in Path('/proc').iterdir():
+ if not path.name.isdigit():continue
+ try:
+  if path.stat().st_uid!=os.getuid():continue
+  stat=(path/'stat').read_text().split()
+  if stat[2] in ('Z','X'):continue
+  if stat[4]==str(pid) or (int(path.name)==pid and stat[21]==record['proc_start']):
+   survivors.append(dict(pid=int(path.name),start=stat[21],pgid=stat[4]))
+ except (OSError,PermissionError):pass
+assert not survivors
+assert not (root/'evidence/PI0294_NATIVE_CPU_QUALIFICATION.json').exists()
+stderr=(stage/'stderr.log').read_text();assert '_shutdown_workers' in stderr and 'signal: Aborted' in stderr
+lp=root/'HOPPER_RESOURCE_LEDGER.json';old=lp.read_bytes();ledger=json.loads(old)
+assert ledger['CPU_reserved_s']==3600 and not ledger['PBS_submissions'] and ledger['model_loads']==0
+proof=dict(status='FAILED_CPU_QUALIFICATION_TERMINAL_RESERVED_UPPER_CHARGED',run_uuid=RUN,
+ pid=pid,proc_start=record['proc_start'],live_owned_group_processes=survivors,epoch=time.time(),
+ source_sha=record['source_sha'],stderr_sha256=hashlib.sha256(stderr.encode()).hexdigest(),
+ prior_ledger_sha256=hashlib.sha256(old).hexdigest(),CPU_s=3600,
+ CPU_basis='CONSERVATIVE_FULL_RESERVED_UPPER_NOT_MEASURED_CPU',models_loaded=0,new_PBS=0)
+def write(p,v):
+ with p.open('x') as f:json.dump(v,f,indent=2);f.write('\n');f.flush();os.fsync(f.fileno())
+ p.chmod(0o600)
+write(stage/'FAILED_CPU_RECONCILIATION.json',proof)
+ledger['CPU_s']+=3600;ledger['CPU_reserved_s']=0
+ledger.setdefault('CPU_attempts',[]).append(proof)
+pending=lp.with_name(lp.name+'.reconciled.'+str(os.getpid()));write(pending,ledger)
+assert lp.read_bytes()==old;os.replace(pending,lp)
+print(json.dumps(proof))
+'''
+if __name__=='__main__':
+ result=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('CPU_RECONCILE_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-2000:])
+ print(result.stdout)

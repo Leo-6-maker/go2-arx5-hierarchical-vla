@@ -1,0 +1,36 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import os
+root = "@HOPPER_SCRATCH@/Projects/go2-arx5/repositories/stage45f_vanda_validation_e_gen1_d998fd98_20260913"
+found = []
+for pid in os.listdir("/proc"):
+    if not pid.isdigit():
+        continue
+    pd = "/proc/" + pid
+    try:
+        if os.stat(pd).st_uid != 22182:
+            continue
+    except OSError:
+        continue
+    for name in ("cwd", "root", "exe"):
+        try:
+            target = os.readlink(pd + "/" + name)
+        except OSError:
+            continue
+        if target == root or target.startswith(root + "/"):
+            found.append((pid, name, target))
+            break
+    try:
+        fds = os.listdir(pd + "/fd")
+    except OSError:
+        continue
+    for fd in fds:
+        try:
+            target = os.readlink(pd + "/fd/" + fd)
+        except OSError:
+            continue
+        if target == root or target.startswith(root + "/"):
+            found.append((pid, "fd:" + fd, target))
+            break
+print("references", found)

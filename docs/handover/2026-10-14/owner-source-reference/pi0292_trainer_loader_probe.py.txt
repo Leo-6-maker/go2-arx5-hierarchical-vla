@@ -1,0 +1,40 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Bounded real CPU loader audit, separate from the live physics capsule."""
+import json
+import subprocess
+import sys
+from pi0292_adopt import BASE,REPO,NEW,OLD,remote,save
+
+CODE=r'''
+import json,os,signal,subprocess,time
+from pathlib import Path
+root=Path(NEW);ops=root/'operations'/SOURCE
+outdir=root/'evidence/trainer_loader_preliminary'
+outdir.mkdir(exist_ok=False)
+os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[4:8]))
+python='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/runtime/venv/bin/python'
+official='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/src/isaac-gr00t'
+cosmos='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561'
+env=dict(os.environ,PYTHONPATH=str(ops),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1')
+cmd=[python,'-m','scripts.pi0292.qualify_trainer_loader','--dataset',OLD+'/native_dataset','--source',official,
+    '--cosmos',cosmos,'--output',str(outdir/'LOADER_COMPARISON.json')]
+with (outdir/'stdout.log').open('xb') as out,(outdir/'stderr.log').open('xb') as err:
+    child=subprocess.Popen(cmd,env=env,cwd=ops,stdout=out,stderr=err,start_new_session=True)
+    try:code=child.wait(timeout=100)
+    except subprocess.TimeoutExpired:
+        os.killpg(child.pid,signal.SIGTERM);child.wait(timeout=10);code=124
+result=dict(exit=code,scope='PRELIMINARY_OLD_56_NOT_BANK_V2_MODEL_QUALIFICATION',model_calls=0,
+    CPU_upper_s=400,CPU_reservation_source='Existing unretired 600 CPU-second bootstrap/engineering reserve')
+if (outdir/'LOADER_COMPARISON.json').exists():
+    q=json.loads((outdir/'LOADER_COMPARISON.json').read_text());result.update(status=q['status'],CPU_s=q['CPU_s'])
+else:result.update(status='FAILED',stderr=(outdir/'stderr.log').read_text()[-5000:])
+(outdir/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result))
+'''
+if __name__=='__main__':
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    r=remote('corelab-4080s','SOURCE='+repr(source)+'\nNEW='+repr(NEW)+'\nOLD='+repr(OLD)+'\n'+CODE)
+    if r.returncode:print(r.stderr);sys.exit(r.returncode)
+    v=json.loads(r.stdout);save(BASE/'TRAINER_LOADER_PRELIMINARY.private.json',v);print(json.dumps(v))

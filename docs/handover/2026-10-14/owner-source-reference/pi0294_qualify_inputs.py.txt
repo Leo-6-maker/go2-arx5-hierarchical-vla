@@ -1,0 +1,56 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Bind actual new CPU qualification, then qualify reused immutable model inputs."""
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read,write
+validate(root,profile='hopper-neural')
+stage=root/'evidence/hopper-cpu-02';process=read(stage/'PROCESS.private.json')
+assert process['pid']==737906 and process['proc_start']=='235907213'
+stat=Path('/proc')/str(process['pid'])/'stat'
+assert not stat.exists() or stat.read_text().split()[21]!=process['proc_start'] or stat.read_text().split()[2] in ('Z','X')
+qpath=stage/'PI0294_NATIVE_CPU_QUALIFICATION.json';q=read(qpath)
+cpu=read(qpath.with_name(qpath.name+'.CPU_ATTEMPT.json'))
+assert q['status']=='PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4' and cpu['status']=='PASS'
+assert not q['model_loaded'] and not q['CUDA_initialized'] and not cpu['unreaped_children_unknown']
+bpath=root/'NEURAL_BINDINGS.private.json';b=read(bpath)
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=b['source'],text=True).strip()=='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
+assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=b['source'],text=True).strip()
+dataset=Path(b['dataset'])
+assert sha(dataset/'DATASET_MANIFEST.json')==q['manifest_sha256']=='c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a'
+assert sha(dataset/'statistics.json')==q['statistics_sha256']=='c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4'
+model=read(root/'evidence/PRETRAINED_FILES.private.json')
+assert model['revision']=='2fc962b973bccdd5d8ce4f67cc63b264d6886495'
+for row in model['files']:assert sha(Path(b['base'])/row['name'])==row['sha256']
+cosmos=read(root/'evidence/COSMOS_IDENTITY.private.json')
+assert cosmos['revision']=='9ce19a195e423419c349abfc86fd07178b230561'
+for row in cosmos['files']:assert sha(Path(b['cosmos'])/row['file'])==row['sha256']
+gate=dict(status='PASS_FIXED_INPUTS_CPU_INTERFACE',mode='legacy_smoke_only',run_uuid=RUN,
+ bindings_sha256=sha(bpath),manifest_sha256=q['manifest_sha256'],statistics_sha256=q['statistics_sha256'],
+ actual_cpu_qualification=str(qpath),actual_cpu_qualification_sha256=sha(qpath),
+ source_sha=manifest['code']['vla_commit'],python_sha256=sha(b['python']),
+ pretrained_identity_sha256=sha(root/'evidence/PRETRAINED_FILES.private.json'),
+ cosmos_identity_sha256=sha(root/'evidence/COSMOS_IDENTITY.private.json'),
+ model_loaded=False,CUDA_initialized=False,official_source_verified=True,qualified_epoch=time.time())
+write(root/'evidence/HOPPER_INPUT_QUALIFICATION.json',gate)
+ledger=read(root/'HOPPER_RESOURCE_LEDGER.json');assert ledger['CPU_reserved_s']==3600
+ledger['CPU_s']+=cpu['CPU_s'];ledger['CPU_reserved_s']=0
+ledger.setdefault('CPU_attempts',[]).append(dict(status='PASS',actual_cpu_qualification_sha256=sha(qpath),CPU_s=cpu['CPU_s'],reserved_upper_released_s=3600))
+write(root/'HOPPER_RESOURCE_LEDGER.json',ledger)
+print(json.dumps(dict(status=gate['status'],mode=gate['mode'],source_sha=gate['source_sha'],CPU_s=cpu['CPU_s'],
+ manifest_sha256=gate['manifest_sha256'],statistics_sha256=gate['statistics_sha256'],models=0,PBS=0)))
+'''
+if __name__=='__main__':
+ result=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('INPUT_QUALIFICATION_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-3000:])
+ print(result.stdout)

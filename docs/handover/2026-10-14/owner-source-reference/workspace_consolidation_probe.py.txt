@@ -1,0 +1,109 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Bounded top-level and Git metadata probe; no asset walk or mutations."""
+import json
+import os
+from pathlib import Path
+import resource
+import socket
+import subprocess
+import time
+
+
+def command(args, timeout=12):
+    try:
+        r=subprocess.run(args,capture_output=True,text=True,timeout=timeout,env=dict(os.environ,GIT_OPTIONAL_LOCKS='0'))
+        return dict(exit_code=r.returncode,stdout=r.stdout[:100000],stderr=r.stderr[:2000],truncated=len(r.stdout)>100000)
+    except subprocess.TimeoutExpired:
+        return dict(status='UNKNOWN_COMMAND_TIMEOUT')
+
+
+def identity(p):
+    row=dict(path=str(p),name=p.name)
+    try:
+        s=p.lstat()
+        row.update(kind='symlink' if p.is_symlink() else 'directory' if p.is_dir() else 'file',
+            realpath=str(p.resolve()),st_dev=s.st_dev,st_ino=s.st_ino,nlink=s.st_nlink,uid=s.st_uid,
+            mode=oct(s.st_mode & 0o777),metadata_bytes=s.st_size,metadata_allocated_bytes=s.st_blocks*512,
+            mtime_ns=s.st_mtime_ns,exists_following_link=p.exists())
+        if p.is_symlink():
+            row['link_text']=os.readlink(p)
+            if p.exists():
+                target=p.stat();row['target_identity']=dict(st_dev=target.st_dev,st_ino=target.st_ino)
+    except OSError as e:
+        row.update(status='UNKNOWN',error=type(e).__name__)
+    return row
+
+
+def git(p):
+    def run(*args): return command(['git','-C',str(p),*args],timeout=20)
+    result=dict(head=run('rev-parse','HEAD'),branch=run('symbolic-ref','--short','-q','HEAD'),
+        git_dir=run('rev-parse','--absolute-git-dir'),common_dir=run('rev-parse','--git-common-dir'),
+        worktrees=run('worktree','list','--porcelain'),status=run('status','--porcelain=v1','--untracked-files=normal'),
+        local_branches=run('for-each-ref','--format=%(refname:short) %(objectname)','refs/heads'),
+        origin_refs=run('for-each-ref','--format=%(refname:short) %(objectname)','refs/remotes/origin'),
+        object_storage=run('count-objects','-v'))
+    for name in ['AGENTS.md','pyproject.toml','setup.py','README.md']:
+        q=p/name
+        if name=='AGENTS.md' and q.is_file(): result['AGENTS_text']=q.read_text()[:16000]
+    return result
+
+
+def main():
+    began=time.monotonic();home=Path.home();projects=home/'Projects';ssd=Path('/var/cache/users')/home.name
+    bases=[home,projects,ssd/'Projects',ssd/'Projects/go2-arx5']
+    entries=[]
+    for base in bases:
+        try:
+            for p in sorted(base.iterdir()):
+                if p.name.startswith('.'):
+                    continue
+                row=identity(p);row['base']=str(base)
+                if p.parent==projects and p.is_dir() and (p/'.git').exists(): row['git']=git(p)
+                entries.append(row)
+        except OSError as e:
+            entries.append(dict(path=str(base),status='BASE_UNKNOWN',error=type(e).__name__))
+    mounts={str(p):command(['findmnt','-J','-T',str(p)]) for p in [home,projects,ssd]}
+    protected=[ssd/'Projects/go2-arx5/PI0290',ssd/'Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5',
+        ssd/'go2-arx5-vla-stage10/src/isaac-gr00t',ssd/'Projects/go2-arx5/PI0290/runtime/venv/bin/python',
+        home/'Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098']
+    dependencies=[]
+    for p in protected:
+        row=identity(p)
+        if (p/'.git').exists(): row['git']=git(p)
+        if p.name=='20261013T023717-localpc-arx5':
+            state=p/'evidence/OWNER_N3_QUEUE_STATE.json'
+            if state.is_file(): row['owner_state']=json.loads(state.read_text())
+        dependencies.append(row)
+    processes=[];unread=0;other=0;fd_gaps=0
+    for p in Path('/proc').iterdir():
+        if not p.name.isdigit(): continue
+        try:
+            uid=int(next(x for x in (p/'status').read_text().splitlines() if x.startswith('Uid:')).split()[1])
+            if uid!=os.getuid(): other+=1;continue
+            row=dict(pid=int(p.name),cwd=os.readlink(p/'cwd'),exe=os.readlink(p/'exe'))
+            argv=(p/'cmdline').read_bytes().replace(bytes([0]),b' ').decode(errors='replace')
+            row['command_path_references']=[x['path'] for x in entries+dependencies if x.get('path') in argv]
+            try:
+                row['fd_path_references']=[os.readlink(f) for f in (p/'fd').iterdir() if f.is_symlink() and os.readlink(f).startswith(('/home/','/var/cache/users/'))]
+            except OSError: fd_gaps+=1;row['fd_status']='UNKNOWN_PERMISSION_OR_RACE'
+            if row['command_path_references'] or any(str(b) in row['cwd'] for b in bases) or row.get('fd_path_references'):processes.append(row)
+        except FileNotFoundError: pass
+        except (PermissionError,StopIteration): unread+=1
+    instructions=[]
+    for p in [home/'AGENTS.md',projects/'AGENTS.md',projects/'GR00T-WBC/AGENTS.md',projects/'GR00T-WBC/code/AGENTS.md']:
+        if p.is_file(): instructions.append(dict(path=str(p),text=p.read_text()[:16000]))
+    venv=dict(pyvenv_cfg=(home/'pyvenv.cfg').read_text() if (home/'pyvenv.cfg').is_file() else None,
+        python=identity(home/'bin/python'))
+    u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+    value=dict(node=socket.gethostname(),home=str(home),uid=os.getuid(),observed_epoch=time.time(),entries=entries,
+        mounts=mounts,df=command(['df','-B1','-T',str(home),str(projects),str(ssd)]),protected_dependencies=dependencies,
+        own_process_references=processes,other_UID_processes_not_inspected=other,own_process_metadata_unread=unread,own_FD_gaps=fd_gaps,
+        ancestor_instructions=instructions,legacy_home_venv=venv,read_only=True,recursive_asset_walk=False,
+        external_static_references='NOT_RESCANNED_GLOBAL_DEPENDENCY_CLOSURE_UNKNOWN',
+        wall_s=time.monotonic()-began,CPU_self_s=u.ru_utime+u.ru_stime,CPU_children_s=c.ru_utime+c.ru_stime)
+    print(json.dumps(value))
+
+
+if __name__=='__main__':main()

@@ -1,0 +1,83 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+from pathlib import Path
+import json,hashlib,datetime,shutil
+p=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/reports/maintenance/2026-10-13-corelab-verified-retirement/20261013T031510Z-localpc-retirement')
+j=json.loads((p/'SUMMARY.json').read_text());before=json.loads((p/'BEFORE_AFTER.json').read_text());code=json.loads((p/'CODE_BACKUP_AUDIT.json').read_text())
+rows=[]
+for a in j['code_coverage']:
+ rows.append(f"| {a['candidate']} | `{a['head'][:12]}` | {a['files']} | refs/对象/原字节/独立恢复 PASS | {a['outcome']} |")
+holds='\n'.join(f"- `{x['name']}`：{x['reason']}" for x in j['holds'])
+spaces=j['spaces'];usage=j['usage'];started=datetime.datetime.fromtimestamp(usage['T0_epoch'],datetime.timezone.utc).isoformat();ended=datetime.datetime.fromtimestamp(usage['finished_epoch'],datetime.timezone.utc).isoformat()
+delta=before['observed_capacities'][0]['available_delta_bytes']['<SHARED_HOME>'];ssd=before['observed_capacities'][0]['available_delta_bytes']['<NODE_SSD>']
+text=f'''# Corelab 实际退役与统一入口验收
+
+**PARTIAL_WITH_EXACT_HOLDS**。本批实际退役 **33 个源路径、6,648 个普通文件**，两节点均已重新确认源路径不存在。包括 4 个原生 worktree 移除、1 个独立 clone 的逐文件退役、22 项已有归档原副本退役，以及 6 项保留全部内容的冷态迁移。Home 可见项 **48 → 21**，Projects **13 → 7**；仍有现役依赖和受保护原件，Projects 物理上没有只剩一个目录。
+
+采用 Issue #47 comment 6137256578 的固定 release `3835ecea4560ed523ce77dad4c3e9dd2e937a817`，完整执行文档 hash `8b38307c0b307a25409d09d68a3d9c523b402e73f0d2018c402b0ec98fa86e30`。单一已有 local-pc owner；T0={started}，最终文件系统收据={ended}，没有重置 PI0292 科学时钟。沿用 448 项原审计、24 个两节点 Projects 观测和 44 个 Home review；24 个共享观测对应 12 个对象，本批合计 56 个候选。没有重新扫描 181 万文件。
+
+## 实际代码恢复覆盖
+
+| 原候选 | HEAD | 普通文件 | 恢复覆盖 | 实际结果 |
+|---|---|---:|---|---|
+'''+ '\n'.join(rows)+f'''
+
+上述 8 份 Git 工作树均已独立恢复并逐文件核对 hash、mode 和符号链接。所有捕获的 refs、HEAD/tree、reflog 和 unreachable 对象通过独立对象库核验；Git bundle、原始 common-dir、工作树原字节及精确 patch 保存在私有恢复区，没有借用待删 objects/alternates。本轮 Git 候选 HEAD 均由正常刷新后的 origin 覆盖；额外保存本地 refs、stash/reflog 和孤立对象，不把“remote HEAD 可达”扩大成“所有服务器内容都已上传”。
+
+旧官方父仓库的 5 个初始化嵌套仓库（LIBERO、SimplerEnv、ManiSkill2_real2sim、robocasa、robocasa-gr1-tabletop-tasks）另行保存完整 Git 元数据、原工作树、portable bundle 并独立恢复。它们没有被当成空 Gitlink 丢弃。旧官方 CLAUDE.md 和 inference notebook 的 **原始字节及精确 patch** 均私有保存，原件 hash 未变，notebook 输出未上传。受保护 WBC、mesh、checkpoint/Trainer、原始数据及凭据未进入本次公开报告或新增 Git 文件。
+
+`stage45e_n2_runtime_5080d53` 为无 Git 的 147 个小型源码、配置和文档，逐文件证明没有环境/数据树后完整迁入 archive，原路径实际退役。22 项前次 copy 的文件重新核对原 inode/mtime/hash，补齐空目录与权限并完整回读后退役；没有追溯改写前期 copy-only/delete0 收据。
+
+## 两节点统一入口
+
+沿用 `~/Projects/GR00T-WBC`。`code/isaac-gr00t` 已原子导航至该入口内部的独立官方 checkout，固定 `51d4c89f72fda44cbf77285c6a8114b52676b8a1`；新 .git/common-dir 和 alternates 不再依赖旧目录。`code/vla` 已正常 fetch，origin 为 `f9929001b32f442f54192205d8d043a1ede47d69`；PI0292 当前租约固定 `e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b`，作业边界前保持这个 HEAD。
+
+AMD 使用现成的 base312 管理环境（Python 3.12.9、NumPy 2.3.3）；4080S 仿真与 CPU 数据 profile 使用原来的绝对解释器；Hopper 只登记已有 Python 3.12.3/PBS 环境元数据。环境没有移动，新安装依赖 **0**，全局 PATH/SSH/Git 设置没有修改。
+
+```bash
+# 在 AMD 上
+~/Projects/GR00T-WBC/infrastructure/enter.sh amd-management
+# 在 4080S 上
+~/Projects/GR00T-WBC/infrastructure/enter.sh 4080-simulation
+~/Projects/GR00T-WBC/infrastructure/enter.sh 4080-cpu-data
+```
+
+两节点各实际运行 **18 项 CPU 工程测试＋4 项 resolver 测试，均 PASS**。实际解释器和 canonical 模块 __file__、固定官方 Git 身份、processor 源码字节、固定 Cosmos revision 的 9 个 tokenizer/config blob、原 PI0291 statistics/provenance/manifest、一个完整原始样本导出 hash、资产与数据的主机解析均验收通过。仿真环境只验收它已有的合法模块；官方 pose 的实际导入在 CPU 数据环境验收。错误主机实际返回 `HOST_REQUIRED`，没有自动 SSH 或启动工作负载。Hopper 入口未部署/执行，仅保留外部 PBS profile 元数据，不宣称 Hopper 完整入口 PASS。
+
+四个旧 Gitdir 案例均在 AMD 的有效 common-dir 中通过 `git worktree remove` 非 force 移除。未先修复无须保留的 4080S 旧 Gitdir，没有 force、global prune、git clean、reset 或直接删除 .git/worktrees。
+
+## 删除与空间
+
+- 删除对象 allocated bytes 下界：**{spaces['deleted_source_object_allocated_bytes_lower_bound']:,} bytes（{spaces['deleted_source_object_allocated_bytes_lower_bound']/2**20:.2f} MiB）**。原生移除的 .git 指针文件和父库管理元数据没有计入，故为下界；已删除源对象的 hardlink 清单为 0 项。
+- 其中冷态迁移源对象 **{spaces['cold_migrated_source_allocated_bytes']:,} bytes**，在新 archive 完整保留，不计释放。
+- 新私有恢复区：**{spaces['new_private_recovery']['unique_inode_allocated_bytes']:,} allocated bytes（{spaces['new_private_recovery']['unique_inode_allocated_bytes']/2**30:.2f} GiB）**；新官方 checkout **{spaces['new_official_checkout']['unique_inode_allocated_bytes']:,} bytes**；新冷态 archive **{spaces['new_cold_archive']['unique_inode_allocated_bytes']:,} bytes**。恢复区峰值低于 16 GiB；统计不跟随符号链接。
+- AMD 共享文件系统 available bytes 的本次观测差值 **{delta:,} bytes（{delta/2**30:.2f} GiB）**，AMD 本地 SSD 差值 **{ssd:,} bytes**。4080S SSD 缺少本次 T0 容量采样，只有最终观测；本批没有删除任何节点本地 SSD 候选，不声称该 SSD 有本次回收。
+- **物理净释放未证明**：Btrfs/reflink/快照共享、NFS quota 和持续的 PI0292 写入没有被独占测量。保留新增备份后，共享容量观测反而下降；没有把 copy、rename 或 symlink 当成空间释放。之前 BF16 删除 **44,017,266,688 bytes（40.994 GiB）** 单列排除，本次不重复计。
+
+维护新增 model load/forward、physics、train、PBS、WBC、hardware **均 0**，终止健康作业 **0**。已记录 CPU {usage['recorded_cpu_seconds']:.2f}s，连同早期未单独计时的消费者检查/辅助读回保守 allowance，上界 {usage['conservative_upper_cpu_core_hours']:.3f} core-hours，小于 8。并发上限 4 CPU，后续维护及验收 worker 均限制为单 CPU；持续科学任务的 CPU 与写入不记作维护。
+
+## 仍原位保留的 23 项及精确原因
+
+{holds}
+
+**唯一下一项动作**：在 PI0292 作业边界刷新科学 lease、切换已明确的旧源码绑定到独立 canonical 入口，并复核父库的 PI0250/旧环境 worktree 依赖，再判断剩余代码候选。该动作不重置科学时钟，也不自动扩大到唯一原始数据、checkpoint 或环境。
+
+## 交付文件
+
+- [代码备份覆盖表](CODE_BACKUP_AUDIT.json)
+- [56 个候选的退役／迁移／保留清单](RETIREMENT_MANIFEST.json)
+- [33 个实际退役源路径的删除收据](DELETION_RECEIPT.json)
+- [跨节点 worktree 和父子关系收据](WORKTREE_RECEIPT.json)
+- [AMD／4080S 统一入口和环境验收](ENVIRONMENT_ENTRY_CHECK.json)
+- [Home／Projects 完整前后可见项、别名、归档、原位保护及容量观测](BEFORE_AFTER.json)
+
+私有原路径、逐文件 hash/inode journal、FD、原 patch/notebook 和恢复 payload 保留在 owner 私有环境；此目录只含脱敏收据。ENTRY_IMPLEMENTATION 是实际部署入口的源字节副本；运行还需要 owner 私有 HOST_PATHS/ENVIRONMENTS/ENTRY_HASH_BASELINE，公开占位符不能当真实操作路径。
+'''
+(p/'FINAL_REPORT.md').write_text(text)
+entry=p/'ENTRY_IMPLEMENTATION';entry.mkdir(exist_ok=True)
+for name in ['doctor.py','enter.sh']:shutil.copy2(Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/verified-retirement-20261013')/name,entry/name)
+# These implementations were read back against their actual deployed bytes.
+expected=json.loads((p/'ENVIRONMENT_ENTRY_CHECK.json').read_text())['implementation_readback']['entries']
+for name in ['doctor.py','enter.sh']:assert hashlib.sha256((entry/name).read_bytes()).hexdigest()==expected['infrastructure/'+name]['sha256']
+print(json.dumps(dict(status='REPORT_COMPLETE',files=len(list(p.rglob('*'))),size=sum(x.stat().st_size for x in p.rglob('*') if x.is_file()))))

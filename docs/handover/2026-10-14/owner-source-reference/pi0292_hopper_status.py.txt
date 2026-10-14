@@ -1,0 +1,29 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read the same Hopper consumer handle and persist an immutable observation."""
+import json
+import sys
+import time
+from pi0292_adopt import BASE,RUN_ID,remote,save
+
+CODE=r'''
+from pathlib import Path
+import json,time
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+state=json.loads((root/'evidence/ORIGINAL_TRAIN_CONSUMER.json').read_text())
+pid=state['pid'];proc=Path('/proc')/str(pid)
+stat=(proc/'stat').read_text() if proc.exists() else None
+value=dict(state=state,process=dict(pid=pid,stat=stat,start=stat.split()[21] if stat else None,
+    identity_matches=bool(stat and stat.split()[21]==state['proc_start'])),
+    ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text()),
+    stderr=(root/'logs/original_train.stderr').read_text()[-3000:],observed_epoch=time.time())
+print(json.dumps(value))
+'''
+
+if __name__=='__main__':
+    result=remote('hopper','RUN_ID='+repr(RUN_ID)+'\n'+CODE)
+    if result.returncode:print(result.stderr[-2000:]);sys.exit(result.returncode)
+    value=json.loads(result.stdout);save(BASE/('HOPPER_CONSUMER_STATUS_'+str(int(time.time()))+'.private.json'),value)
+    print(json.dumps(dict(status=value['state']['status'],completed=len(value['state']['completed']),
+        current=value['state']['current'],process=value['process'],stderr=value['stderr'])))

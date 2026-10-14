@@ -1,0 +1,14 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import importlib.util
+import json
+from pathlib import Path
+base=Path("@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/dependencies/20261013T072949Z-september-retirement")
+run=Path("@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292")
+source=base/"isaac-gr00t"; cosmos=base/"cosmos/hf_home/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561"
+operation=run/"operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8/scripts/pi0292/train_adapter.py"
+spec=importlib.util.spec_from_file_location("pi0292_processor_runtime_check",operation);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+stats_path=run/"data/bank_v2/native/statistics.json";stats=json.load(open(stats_path))
+p=m.build_processor(str(source),str(cosmos),stats)
+print(json.dumps({"processor_class":p.__class__.__name__,"projector_index":p.embodiment_id_mapping.get("new_embodiment"),"input_stats_keys":sorted(stats),"state_action_stats_keys":sorted(getattr(p.state_action_processor,"statistics",{})),"processor_stats_keys":sorted(p.statistics),"stats_sha256":m.sha(stats_path),"cuda_touched":False},sort_keys=True))

@@ -1,0 +1,124 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Prepare a project-bound retry without submitting or changing frozen sources."""
+import ast
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import sys
+import time
+
+from pi0292_adopt import BASE, REPO, RUN_ID, remote, save
+
+sys.path.insert(0, str(REPO))
+from scripts.pi0292.smoke_retry_plan import prepare
+
+SOURCE = 'c187d9573bdff302783fb5f41d06fcaa1753d2a8'
+PROJECT = 'CFP04-CF-007'
+CODE = r'''
+import ast, json, os, subprocess, sys, time, shutil
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+ops=root/'operations'/SOURCE
+sys.path.insert(0,str(ops))
+from scripts.pi0292.durable import read
+from scripts.pi0292.train_adapter import sha
+from scripts.pi0292.data_consumer import owned_bytes
+seal=read(ops/'OPERATIONS_SEAL.json')
+assert seal['source_sha']==SOURCE
+for name,digest in seal['files'].items(): assert sha(ops/name)==digest
+gate=read(root/'evidence/HOPPER_DATA_QUALIFICATION.json')
+assert gate['status']=='PASS_BANK_V2_FULL_DATA_AND_CPU_INTERFACE'
+assert read(root/'evidence/OPEN_LOOP_PROBE_SEAL.json')['status']=='SEALED_BEFORE_MAIN'
+binding=read(root/'NEURAL_BINDINGS.private.json')
+assert sha(Path(binding['dataset'])/'DATASET_MANIFEST.json')==gate['manifest_sha256']
+assert sha(Path(binding['dataset'])/'statistics.json')==gate['statistics_sha256']
+adoption=read(root/'ADOPTION.json');lease=read(root/'DEPENDENCY_LEASE.json')
+assert lease['status']=='ACTIVE' and lease['expires']==adoption['deadline_epoch']
+assert lease['run_uuid']==RUN_ID and lease['no_move_or_delete']
+assert str(root) in lease['protected']
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=binding['source'],text=True).strip()=='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
+assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=binding['source'],text=True).strip()
+for role in ('source','base'):
+ assert Path(binding[role]).exists() and binding[role] in lease['protected']
+projects=subprocess.check_output(['bash','-lc','amgr ls project --name CFP04-CF-007 --json-info'],text=True,timeout=30)
+balance=subprocess.check_output(['bash','-lc','amgr checkbalance project --name CFP04-CF-007'],text=True,timeout=30)
+jobs=subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-u',os.environ['USER'],'-f','-F','json'],text=True,timeout=20)
+qp=Path('@HOPPER_SHARED_HOME@/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt')
+rows=[]
+with qp.open() as f:
+ for line in f:
+  fields=line.split()
+  if '/'+os.environ['USER'] in fields: rows.append(fields)
+assert len(rows)==1 and rows[0][3]=='/'+os.environ['USER']
+quota=dict(user=os.environ['USER'],source='NATIVE_HPC_PERSONAL_QUOTA_RAW_BYTES',
+ used_bytes=int(rows[0][4]),hard_bytes=int(rows[0][5]),report_epoch=qp.stat().st_mtime)
+size=owned_bytes(root)
+print(json.dumps(dict(epoch=time.time(),user=os.environ['USER'],project=json.loads(projects),balance=ast.literal_eval(balance),
+ own_jobs=json.loads(jobs).get('Jobs',{}),quota=quota,owned_bytes=size,filesystem_free_bytes=shutil.disk_usage(root).free,
+ adoption=adoption,ledger=read(root/'HOPPER_RESOURCE_LEDGER.json'),
+ operations_seal_sha256=sha(ops/'OPERATIONS_SEAL.json'),bindings_sha256=sha(root/'NEURAL_BINDINGS.private.json'),
+ previous_request_sha256=sha(root/'pbs/S3-smoke-01/REQUEST.json'),
+ previous_manifest=read(root/'pbs/S3-smoke-01/RUN_MANIFEST.json'),lease_sha256=sha(root/'DEPENDENCY_LEASE.json'),
+ workspace_entry_exists=(Path.home()/'Projects/GR00T-WBC/infrastructure/enter.sh').exists())))
+'''
+
+
+if __name__ == '__main__':
+    result = remote('hopper', 'RUN_ID='+repr(RUN_ID)+'\nSOURCE='+repr(SOURCE)+'\n'+CODE)
+    if result.returncode:
+        print(result.stderr[-2000:])
+        raise SystemExit(result.returncode)
+    snapshot = json.loads(result.stdout)
+    save(BASE/('RETRY_PREPARATION_SNAPSHOT_'+str(int(snapshot['epoch']))+'.private.json'), snapshot)
+    assert len(snapshot['project']) == 1 and not snapshot['workspace_entry_exists']
+    today = datetime.datetime.fromtimestamp(snapshot['epoch'], datetime.timezone(datetime.timedelta(hours=8))).date().isoformat()
+    plan = prepare(authorized_project=PROJECT, project=snapshot['project'][0], user=snapshot['user'],
+        cluster='hopper-m-02', today=today, balance_su=snapshot['balance']['su'], ledger=snapshot['ledger'],
+        own_jobs=snapshot['own_jobs'], quota=snapshot['quota'], filesystem_free_bytes=snapshot['filesystem_free_bytes'],
+        owned_bytes=snapshot['owned_bytes'], now=snapshot['epoch'], adoption=snapshot['adoption'])
+    plan.update(run_uuid=RUN_ID, execution_source=SOURCE,
+        operations_seal_sha256=snapshot['operations_seal_sha256'],
+        bindings_sha256=snapshot['bindings_sha256'], previous_request_sha256=snapshot['previous_request_sha256'],
+        controller_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        planner_sha256=hashlib.sha256((REPO/'scripts/pi0292/smoke_retry_plan.py').read_bytes()).hexdigest(),
+        project_authority='DIRECT_CURRENT_HUMAN_INSTRUCTION_CFP04_CF_007',
+        storage_cleanup_owner='USER_NO_SCIENCE_DELETION',
+        deadline_epoch=snapshot['adoption']['deadline_epoch'],
+        new_work_cutoff_epoch=snapshot['adoption']['new_work_cutoff_epoch'],
+        T0_epoch=snapshot['adoption']['T0_epoch'])
+    manifest = snapshot['previous_manifest']
+    manifest.update(status='RETRY_PREPARED_NOT_SUBMITTED', request_id=plan['request_id'])
+    manifest['execution']['project']=PROJECT
+    manifest['code']['controller_sha256']=plan['controller_sha256']
+    manifest['lease_sha256']=snapshot['lease_sha256']
+    payload = dict(plan=plan,manifest=manifest)
+    persist = r'''
+import json,sys
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+ops=root/'operations'/SOURCE;sys.path.insert(0,str(ops))
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.train_adapter import sha
+lock=OwnerLock(root/'PBS_SUBMIT.lock')
+assert read(root/'HOPPER_RESOURCE_LEDGER.json')==EXPECTED_LEDGER
+assert sha(root/'pbs/S3-smoke-01/REQUEST.json')==PAYLOAD['plan']['previous_request_sha256']
+directory=root/'pbs'/'S3-smoke-02'
+if directory.exists():
+ assert read(directory/'PREPARATION.json')==PAYLOAD['plan'],'Existing preparation retained; do not overwrite'
+else:
+ directory.mkdir()
+ write(directory/'PREPARATION.json',PAYLOAD['plan']);write(directory/'RUN_MANIFEST.json',PAYLOAD['manifest'])
+assert not (directory/'job.pbs').exists() and not (directory/'REQUEST.json').exists()
+assert read(root/'HOPPER_RESOURCE_LEDGER.json')==EXPECTED_LEDGER
+lock.close();print(json.dumps(dict(status='PREPARATION_PERSISTED_AND_READ_BACK',qsub_calls_added=0)))
+'''
+    values = dict(RUN_ID=RUN_ID, SOURCE=SOURCE, PAYLOAD=payload, EXPECTED_LEDGER=snapshot['ledger'])
+    result = remote('hopper','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+persist)
+    if result.returncode:
+        print(result.stderr[-2000:]);raise SystemExit(result.returncode)
+    plan['remote_preparation_receipt']=json.loads(result.stdout)
+    save(BASE/('S3_RETRY_PREPARED_'+str(int(snapshot['epoch']))+'.private.json'),plan)
+    print(json.dumps(plan,indent=2))

@@ -1,0 +1,66 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Generate sanitized storage receipts from terminal, read-back observations."""
+import json
+from pathlib import Path
+
+PRIVATE=Path(__file__).parent/'20261013T074558Z-localpc-september-retirement'
+REPO=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source')
+output=REPO/'reports/maintenance/2026-10-13-september-retirement-corelab'
+output.mkdir(parents=True,exist_ok=True)
+storage=[]
+for host,label in [('corelab-amd-server','CORELAB_SHARED_NFS'),('corelab-4080s','CORELAB_4080S_LOCAL_SSD')]:
+    file=sorted(PRIVATE.glob(host+'_CLOSEOUT_*.private.json'))[-1]
+    envelope=json.loads(file.read_text());assert envelope['returncode']==0
+    value=json.loads(envelope['stdout']);rows=value['batches']
+    first=min(rows,key=lambda row:row['started_epoch'])
+    before=next(iter(first['before'].values()))['filesystem_available_bytes']
+    after=next(iter(value['capacity'].values()))['available_bytes']
+    assert all(row['actor_pid_absent'] for row in rows)
+    assert all(row['path_absent'] for batch in rows for row in batch['rows'])
+    storage.append(dict(storage=label,observed_epoch=value['epoch'],
+        deleted_file_entries=sum(row['deleted_files'] for row in rows),
+        deleted_last_link_file_st_blocks_bytes=sum(row['allocated_lower_bound_bytes'] for row in rows),
+        filesystem_available_before_bytes=before,filesystem_available_after_bytes=after,
+        observed_filesystem_available_delta_bytes=after-before,
+        measured_retirement_actor_CPU_s=sum(row['CPU_s'] for row in rows),
+        batch_count=len(rows),all_retirement_actors_terminal_and_absent=True,
+        all_exact_candidate_roots_absent=True,doctors_after_navigation_adoption=value['doctors'],
+        batches=[dict(batch=row['batch'],deleted_file_entries=row['deleted_files'],
+            deleted_last_link_file_st_blocks_bytes=row['allocated_lower_bound_bytes'],CPU_s=row['CPU_s']) for row in rows]))
+    if value['current_verification']:
+        verification=value['current_verification']
+        verification['seals']=[dict(name=row['name'],count=row['count'],source_sha=row['source_sha']) for row in verification['seals']]
+        assert value['operations_seal_files']==30
+        verification['operations_seal_files']=30
+        verification['operations_seal_sha256']=value['operations_seal_sha256']
+
+receipt=dict(schema='SEPTEMBER_RETIREMENT_CORELAB_ACTUAL_RECEIPT_V1',
+    status='CORELAB_EXACT_SEPTEMBER_RETIREMENT_COMPLETE_CURRENT_ASSETS_PASS',
+    authority_comment=6140769226,run_uuid='20261013T074558Z-localpc-september-retirement',
+    maintenance_T0_epoch=1791877558.1337488,maintenance_deadline_epoch=1791891958.1337488,
+    independent_of_science_clock=True,storage=storage,current_data_and_source=verification,
+    accounting='Last-link st_blocks counts are exact deletion accounting, not a guarantee of unique physical extent release on Btrfs. Filesystem available deltas are separately observed and may include concurrent writers, metadata and retained tiny receipts; they are not claimed solely attributable to this actor.',
+    NFS_not_double_counted_on_4080S=True,
+    earlier_failures_preserved=['Pre-dispatch source extraction syntax error','Peer observation syntax error; no deletion',
+        'Verified system desktop integration FD gap','Owned read-only directory cleanup retry',
+        'Hardlink ctime changes caused by own unlink; final-link accounting repair','Alias peer helper stdin __file__ failure before unlink'],
+    transient_holds_resolved_by_exact_retry=True,
+    excluded=['Other user accounts','Current PI0290/PI0291/PI0292 and October experiments',
+        'Mixed original WBC root and provenance-unqualified August contents','Whole mixed go2-arx5 parents'],
+    additional_September_provenance='PI0261/PI0262/PI0263 protocol first publication is September30 SGT; later archival copies are the same abandoned cohort, not current October protocols.',
+    alias_retirement=dict(exact_September_PI0256_stale_alias_removed=True,additional_claimed_release_bytes=0),
+    retained_reports='Bounded small protocol/audit/report files verified in private maintenance receipts; no large backup or HF upload',
+    hopper_scope='Independent pre-existing maintenance actor owns actual Hopper retirement; do not double-delete or credit its released bytes to this CoreLab actor. Observed current migrated bindings are adopted as navigation metadata only.',
+    GPU_PBS_physics_model_WBC_hardware_added_by_maintenance=0,
+    measured_retirement_actor_CPU_s=sum(row['measured_retirement_actor_CPU_s'] for row in storage),
+    maintenance_CPU_wall_cap_upper_s=4*(max(row['observed_epoch'] for row in storage)-1791877558.1337488),
+    maintenance_CPU_upper_basis='Four-CPU ceiling multiplied by actual maintenance wall time through final observation; includes measured actor CPU, not added again',
+    maintenance_CPU_total_upper_below_16_core_hours=True,
+    selected='NONE',deployment='NONE')
+path=output/'RETIREMENT_RECEIPT.json'
+with path.open('w') as f:json.dump(receipt,f,indent=2,allow_nan=False);f.write('\n')
+print(json.dumps(dict(output=str(path),storage=[dict(storage=row['storage'],
+    removed_st_blocks_GiB=row['deleted_last_link_file_st_blocks_bytes']/1024**3,
+    filesystem_available_delta_GiB=row['observed_filesystem_available_delta_bytes']/1024**3) for row in storage])))

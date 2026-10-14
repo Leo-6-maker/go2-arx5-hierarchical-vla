@@ -1,0 +1,94 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import json, os, stat, sys, time
+manifest_path, expected_root = sys.argv[1:3]
+UID, DEV = 22182, 49
+with open(manifest_path, encoding='utf-8') as f:
+    rows = [json.loads(line) for line in f if line.strip()]
+entries = [x for x in rows if x.get('event') == 'path' and x.get('exists')]
+ends = [x for x in rows if x.get('event') == 'root_end']
+roots = {x['root'] for x in entries}
+if roots != {expected_root} or len(ends) != 1 or ends[0].get('root') != expected_root or ends[0].get('manifest_entries') != len(entries):
+    raise SystemExit('manifest scope/count mismatch')
+if os.getuid() != UID or os.path.realpath(expected_root) != expected_root:
+    raise SystemExit('uid or realpath check failed')
+
+def kind(s):
+    if stat.S_ISDIR(s.st_mode): return 'directory'
+    if stat.S_ISREG(s.st_mode): return 'regular'
+    if stat.S_ISLNK(s.st_mode): return 'symlink'
+    return 'special'
+
+def same(x, allow_dir_mtime=False):
+    p=x['path']
+    try: s=os.lstat(p)
+    except OSError: return False
+    t=os.readlink(p) if stat.S_ISLNK(s.st_mode) else None
+    got=(kind(s),s.st_uid,s.st_gid,s.st_dev,s.st_ino,s.st_nlink,s.st_size,s.st_blocks,stat.S_IMODE(s.st_mode),s.st_mtime_ns,t)
+    want=(x['type'],x['uid'],x['gid'],x['dev'],x['ino'],x['nlink'],x['size_bytes'],x['blocks'],x['mode'],x['mtime_ns'],x.get('link_target'))
+    if got==want: return True
+    if allow_dir_mtime and x['type']=='directory' and got[:9]+got[10:]==want[:9]+want[10:]: return True
+    return False
+
+for x in entries:
+    p=x['path']
+    if os.path.commonpath([expected_root,p]) != expected_root or (p != expected_root and not p.startswith(expected_root + '/')):
+        raise SystemExit('manifest path escape')
+    if x.get('uid') != UID or x.get('dev') != DEV or x.get('type') not in ('regular','directory'):
+        raise SystemExit('owner/device/type hold')
+    if x['mtime_ns'] > 1790812799000000000:  # 2026-09-30 23:59:59 UTC
+        raise SystemExit('member is outside September')
+    if x['type']=='regular' and x.get('nlink') != 1:
+        raise SystemExit('external hardlink hold')
+    if not same(x):
+        raise SystemExit('manifest identity changed before delete')
+
+# Check owner processes for cwd/root/executable/open descriptors under the exact cache candidate.
+active=[]
+for pid in os.listdir('/proc'):
+    if not pid.isdigit(): continue
+    pd='/proc/'+pid
+    try:
+        if os.stat(pd).st_uid != UID: continue
+    except OSError: continue
+    for n in ('cwd','root','exe'):
+        try: v=os.readlink(pd+'/'+n)
+        except OSError: continue
+        if v==expected_root or v.startswith(expected_root+'/'):
+            active.append((pid,n)); break
+    if active: continue
+    try: fds=os.listdir(pd+'/fd')
+    except OSError: continue
+    for fd in fds:
+        try: v=os.readlink(pd+'/fd/'+fd)
+        except OSError: continue
+        if v==expected_root or v.startswith(expected_root+'/'):
+            active.append((pid,'fd:'+fd)); break
+if active: raise SystemExit('owned process reference hold: '+repr(active[:20]))
+
+out=[]
+def emit(r):
+    out.append(json.dumps(r,sort_keys=True,separators=(',',':')))
+
+files=sorted((x for x in entries if x['type']=='regular'),key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True)
+dirs=sorted((x for x in entries if x['type']=='directory'),key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True)
+for x in files:
+    p=x['path']
+    if not same(x): raise SystemExit('file identity drift during delete')
+    os.unlink(p)
+    absent=not os.path.lexists(p)
+    emit({'event':'unlink','batch':'september_hf_xet_cache','root':expected_root,'path':p,'type':'regular','uid':x['uid'],'dev':x['dev'],'ino':x['ino'],'size_bytes':x['size_bytes'],'allocated_bytes':x['allocated_bytes'],'verified_absent':absent,'time_ns':time.time_ns()})
+    if not absent: raise SystemExit('unlink did not verify absent')
+for x in dirs:
+    p=x['path']
+    if not same(x,allow_dir_mtime=True): raise SystemExit('directory identity drift during delete')
+    if os.listdir(p): raise SystemExit('directory is not empty')
+    os.rmdir(p)
+    absent=not os.path.lexists(p)
+    emit({'event':'rmdir','batch':'september_hf_xet_cache','root':expected_root,'path':p,'verified_absent':absent,'time_ns':time.time_ns()})
+    if not absent: raise SystemExit('rmdir did not verify absent')
+root_absent=not os.path.lexists(expected_root)
+emit({'event':'candidate_result','batch':'september_hf_xet_cache','root':expected_root,'status':'retired' if root_absent else 'partial_or_held','root_absent':root_absent,'members_removed_verified':len(files)+len(dirs),'member_count':len(entries),'error_count':0 if root_absent else 1,'time_ns':time.time_ns()})
+for row in out: print(row)
+if not root_absent: raise SystemExit('candidate root remains')

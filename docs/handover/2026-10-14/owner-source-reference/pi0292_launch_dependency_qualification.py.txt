@@ -1,0 +1,55 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Stage and detach one CPU-only requalification actor; never restart it."""
+import hashlib
+import json
+from pathlib import Path
+import time
+from pi0292_adopt import BASE,RUN_ID,remote,save
+source=Path(__file__).with_name('pi0292_dependency_qualification.py').read_text()
+code=r'''
+import hashlib,json,os,subprocess
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN
+previous=root/'evidence/dependency-adoption-01'
+assert not (previous/'STATE.json').exists(),'Prior attempt requires explicit reconciliation'
+old=json.loads((previous/'DISPATCH.json').read_text());proc=Path('/proc')/str(old['pid'])/'stat'
+assert not proc.exists() or proc.read_text().split()[21]!=old['proc_start'] or proc.read_text().split()[2]=='Z'
+assert 'KeyError' in (previous/'stderr').read_text()
+directory=root/'evidence/dependency-adoption-02';directory.mkdir(mode=0o700,exist_ok=False)
+script=directory/'qualification.py';script.write_text(SOURCE);script.chmod(0o600)
+assert hashlib.sha256(script.read_bytes()).hexdigest()==DIGEST
+binding=json.loads((root/'NEURAL_BINDINGS.private.json').read_text())
+manifest=json.loads((root/'pbs/S3-smoke-01/RUN_MANIFEST.json').read_text())
+manifest.update(stage='S2_PATH_ADOPTION_CPU_REQUALIFICATION',status='PREPARED_AND_VALIDATED_BEFORE_DISPATCH',
+ request_id='DEPENDENCY_ADOPTION_02',bindings_sha256=hashlib.sha256((root/'NEURAL_BINDINGS.private.json').read_bytes()).hexdigest(),
+ lease_sha256=hashlib.sha256((root/'DEPENDENCY_LEASE.json').read_bytes()).hexdigest())
+manifest['code']['controller_sha256']=DIGEST
+manifest['execution'].update(profile='hopper-cpu-data-qualification',script='HASHED_PRIVATE_PATH_ADOPTION_CPU_QUALIFIER',
+ python_sha256=hashlib.sha256(Path(binding['python']).read_bytes()).hexdigest(),compute_gate='CPU_ONLY_CUDA_HIDDEN_NO_MODEL')
+manifest['limits'].update(path_adoption_wall_s=900,path_adoption_CPU_reserved_s=3600)
+(directory/'RUN_MANIFEST.json').write_text(json.dumps(manifest,indent=2));(directory/'RUN_MANIFEST.json').chmod(0o600)
+assert json.loads((directory/'RUN_MANIFEST.json').read_text())==manifest
+ops=root/'operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8'
+import sys;sys.path.insert(0,str(ops))
+from scripts.pi0292.durable import OwnerLock,read,write
+lock=OwnerLock(root/'PBS_SUBMIT.lock');ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+ledger['stages'].append(dict(id='DEPENDENCY_ADOPTION_01_PREFLIGHT_FAILED',status='TERMINAL_BEFORE_QUALIFICATION',CPU_reserved_s=0,CPU_upper_s=30))
+ledger['CPU_upper_s']+=30
+write(root/'HOPPER_RESOURCE_LEDGER.json',ledger);lock.close()
+(previous/'FAILURE_RECEIPT.json').write_text(json.dumps(dict(status='PREFLIGHT_FAILED_PRESERVED_NO_MODEL_NO_QUALIFICATION',
+ exception='KeyError:id',CPU_upper_s=30,run_manifest_before_first_failed_launch=False)))
+env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+with (directory/'stdout').open('xb') as out,(directory/'stderr').open('xb') as err:
+ p=subprocess.Popen([binding['python'],str(script)],env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,cwd='/',start_new_session=True)
+receipt=dict(pid=p.pid,proc_start=Path('/proc').joinpath(str(p.pid),'stat').read_text().split()[21],
+ directory=str(directory),source_sha256=DIGEST,CPU_reserve_in_actor_s=3600,models_loaded=0)
+(directory/'DISPATCH.json').write_text(json.dumps(receipt))
+print(json.dumps(receipt))
+'''
+values=dict(RUN=RUN_ID,SOURCE=source,DIGEST=hashlib.sha256(source.encode()).hexdigest())
+result=remote('hopper','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+code)
+save(BASE/('DEPENDENCY_QUALIFICATION_DISPATCH_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+print(result.stdout,result.stderr)
+if result.returncode:raise SystemExit('Inspect existing attempt, no blind restart')

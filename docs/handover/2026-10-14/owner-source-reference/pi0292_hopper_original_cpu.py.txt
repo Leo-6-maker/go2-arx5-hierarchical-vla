@@ -1,0 +1,59 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Consume the complete original dependency through the real Hopper CPU loader."""
+import json
+import subprocess
+import sys
+from pi0292_adopt import BASE,REPO,RUN_ID,remote,save
+
+CODE=r'''
+import json,os,signal,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+ops=root/'operations'/SOURCE;sys.path.insert(0,str(ops))
+from scripts.pi0292.durable import OwnerLock,write
+lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock')
+state=json.loads((root/'evidence/ORIGINAL_TRAIN_CONSUMER.json').read_text())
+assert state['status']=='ORIGINAL_56_COMPLETE_ALL_MEMBERS_VERIFIED_CPU_SAMPLE_PENDING' and len(state['completed'])==56
+proc=Path('/proc')/str(state['pid'])/'stat'
+assert not proc.exists() or proc.read_text().split()[21]!=state['proc_start']
+output=root/'evidence/original_cpu';output.mkdir(exist_ok=False)
+write(output/'PRODUCER_REFERENCE.json',REFERENCE)
+ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+stage=next(r for r in ledger['stages'] if r['id']=='ORIGINAL_TRAIN_CONSUMER');assert stage['status']=='RESERVED'
+stage.update(status='ALL_56_FULL_MEMBERS_VERIFIED',CPU_reserved_s=0,CPU_s=state['CPU_s'],actual_bytes=state['owned_bytes'])
+ledger['CPU_s']+=state['CPU_s']
+ledger['stages'].append(dict(id='ORIGINAL_CPU_QUALIFICATION',CPU_reserved_s=400,status='RUNNING'))
+write(root/'HOPPER_RESOURCE_LEDGER.json',ledger)
+python='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python'
+source='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t'
+cache=json.loads((root/'evidence/COSMOS_IDENTITY.private.json').read_text())
+cmd=[python,'-m','scripts.pi0292.qualify_consumer','--dataset',str(root/'data/original_train/native'),
+    '--source',source,'--cosmos',cache['snapshot'],'--raw-bindings',str(root/'data/original_train/RAW_BINDINGS.json'),
+    '--reference',str(output/'PRODUCER_REFERENCE.json'),'--split','TRAIN','--output',str(output/'QUALIFICATION.json')]
+env=dict(os.environ,PYTHONPATH=str(ops),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1')
+with (output/'stdout.log').open('xb') as out,(output/'stderr.log').open('xb') as err:
+    child=subprocess.Popen(cmd,env=env,cwd=ops,stdout=out,stderr=err,start_new_session=True)
+    try:code=child.wait(timeout=100)
+    except subprocess.TimeoutExpired:
+        os.killpg(child.pid,signal.SIGTERM)
+        try:child.wait(timeout=5)
+        except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait()
+        code=124
+result=dict(exit=code,scope='ORIGINAL_56_COMPLETE_DATA_NOT_NEW_BANK_V2',model_loads=0,PBS_submissions=0)
+ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text());stage=ledger['stages'][-1]
+if (output/'QUALIFICATION.json').exists():
+    q=json.loads((output/'QUALIFICATION.json').read_text());result.update(status=q['status'],CPU_s=q['CPU_s'])
+    ledger['CPU_s']+=q['CPU_s'];stage.update(status=result['status'],CPU_reserved_s=0,CPU_s=q['CPU_s'])
+else:result.update(status='FAILED_PRESERVED',stderr=(output/'stderr.log').read_text()[-5000:]);stage['status']='FAILED_UPPER_RETAINED'
+write(root/'HOPPER_RESOURCE_LEDGER.json',ledger);write(output/'RESULT.json',result);lock.close()
+print(json.dumps(result))
+'''
+
+if __name__=='__main__':
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    values=dict(RUN_ID=RUN_ID,SOURCE=source,REFERENCE=json.loads((BASE/'ORIGINAL_TRAIN_REFERENCE.private.json').read_text()))
+    result=remote('hopper','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+    if result.returncode:print(result.stderr[-3000:]);sys.exit(result.returncode)
+    value=json.loads(result.stdout);save(BASE/'HOPPER_ORIGINAL_CPU.private.json',value);print(json.dumps(value))

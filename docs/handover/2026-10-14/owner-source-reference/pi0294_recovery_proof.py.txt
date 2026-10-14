@@ -1,0 +1,49 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Seal scheduler-terminal, actual six-update state for remaining-only smoke."""
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import json,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read,write
+validate(root,profile='hopper-neural')
+ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+assert ledger['model_smoke_updates']==6 and ledger['main_updates']==0 and ledger.get('pending_updates',0)==0
+assert len(ledger['PBS_submissions'])==2 and all(r['status']=='RECONCILED_TERMINAL' for r in ledger['PBS_submissions'])
+assert ledger['PBS_submissions'][-1]['job_id']=='664414.hopper-m-02' and ledger['GPU_allocated_s']==306
+attempt=root/'smoke_attempts/model-smoke-02';runs=[]
+for mode,step in [('smoke_continuous',4),('smoke_split',2)]:
+ run=attempt/'training'/mode/'session-start/TRAINING_RUN.json';receipt=read(run)
+ assert receipt['global_step']==step and receipt['frozen_backbone_unchanged'] and receipt['changed_trainable_parameters']
+ checkpoint=attempt/'training'/mode/('checkpoint-'+str(step));complete=read(checkpoint/'CHECKPOINT_COMPLETE.json')
+ for name,digest in complete['required_files'].items():assert sha(checkpoint/name)==digest
+ runs.append(dict(mode=mode,actual_step=step,training_run_sha256=sha(run),checkpoint_complete_sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json')))
+assert not (attempt/'training/smoke_split/session-resume').exists()
+oldrequest=root/'pbs/model-smoke-02/REQUEST.json';log=root/'pbs/model-smoke-02/pbs.log'
+assert 'HOPPER_PEAK_SPACE_BOUND' in log.read_text()
+owned=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+assert owned<160*1024**3
+proof=dict(status='KNOWN_TERMINAL_SIX_UPDATE_SMOKE_RESUME_ONLY',run_uuid=RUN,prior_job_terminal=True,
+ prior_job_id='664414.hopper-m-02',actual_optimizer_updates=6,full_state_checks=runs,
+ prior_request_sha256=sha(oldrequest),prior_failure_log_sha256=sha(log),source_sha=manifest['code']['vla_commit'],
+ unchanged_data_and_sampler_and_training_recipe=True,known_pending_updates=0,owned_bytes=owned,
+ prior_GPU_allocated_s=306,PBS_calls_used=2,PBS_calls_cap=4,budget_reset=False,
+ prediction_correction='FIXED_TOTAL_OWNED_PEAK_MINUS_CURRENT_OWNED_NOT_INITIAL_REMAINING_PLUS_WRITTEN',
+ predicted_total_owned_peak_bytes=160*1024**3,
+ after_full_smoke_PASS='ONLY_REDUNDANT_CURRENT_RUN_ENGINEERING_STATES_RETIRED_KEEP_FINAL_FULL_STATE_NO_HISTORICAL_DELETE')
+write(root/'evidence/ENGINEERING_RECOVERY_03.json',proof)
+print(json.dumps(dict(status=proof['status'],actual_optimizer_updates=6,owned_bytes=owned,
+ prior_GPU_allocated_s=306,proof_sha256=sha(root/'evidence/ENGINEERING_RECOVERY_03.json'))))
+'''
+if __name__=='__main__':
+ result=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('RECOVERY_PROOF_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-2200:])
+ print(result.stdout)

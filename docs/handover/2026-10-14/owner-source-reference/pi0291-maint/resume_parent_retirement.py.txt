@@ -1,0 +1,70 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Resume only the parent after an already signaled exact leaf exited."""
+import argparse
+import json
+import os
+from pathlib import Path
+import select
+import signal
+import time
+from retire_exact_stopped import info,meta,sha
+
+
+def minimal(pid):
+    p=Path('/proc')/str(pid)
+    if not p.exists():return dict(pid=pid,state='ABSENT')
+    fields=(p/'stat').read_text().split(') ',1)[1].split()
+    uid=next(x for x in (p/'status').read_text().splitlines() if x.startswith('Uid:')).split()[1:]
+    return dict(pid=pid,state=fields[0],start_time_ticks=int(fields[19]),uid=uid)
+
+
+def run(expected,partial,output):
+    cpu=time.process_time();old=json.loads(Path(partial).read_text());expected=json.loads(Path(expected).read_text())['observations'][0]['targets']
+    expected={x['pid']:x for x in expected};output=Path(output)
+    assert not output.exists() and old['status']=='PARTIAL_STOP_ON_ERROR'
+    assert len(old['signals'])==1 and old['signals'][0]['pid']==3455362
+    assert old['signals'][0]['start_time_ticks']==105137443 and 'Permission denied' in old['error']
+    leaf=minimal(3455362)
+    assert leaf['state'] in ('Z','ABSENT')
+    if leaf['state']=='Z':assert leaf['start_time_ticks']==105137443 and leaf['uid']==expected[3455362]['uid']
+    parent=expected[3455361];keys=['pid','ppid','start_time_ticks','uid','exe','cwd','cmdline']
+    observations=[]
+    for n in range(2):
+        current=info(3455361)
+        assert current['state'] in ('T','t') and all(current[k]==parent[k] for k in keys)
+        observations.append(current)
+        if n==0:time.sleep(1.)
+    for name,item in old['preserved'].items():
+        p=Path(name);assert meta(p)==item['metadata']
+        if item['sha256']!='NOT_REHASHED_LARGE_ARCHIVE_PRESERVED_METADATA_ONLY':assert sha(p)==item['sha256']
+    result=dict(status='PARTIAL_PARENT_PENDING',previous_partial_receipt_sha256=sha(Path(partial)),
+                previous_error=old['error'],observations=old['observations']+observations,
+                signals=[dict(old['signals'][0],state_after=leaf['state'],FD_visibility='UNKNOWN_PERMISSION',exit_observed=True)],
+                preserved=old['preserved'],freed_allocated_bytes=0,file_deletions=0,other_processes_signaled=0)
+    def save():output.write_text(json.dumps(result,indent=2)+'\n')
+    handle=os.pidfd_open(3455361)
+    try:
+        current=info(3455361)
+        assert current['state'] in ('T','t') and all(current[k]==parent[k] for k in keys)
+        signal.pidfd_send_signal(handle,signal.SIGKILL)
+        result['signals'].append(dict(pid=3455361,start_time_ticks=current['start_time_ticks'],signal='SIGKILL_INDIVIDUAL_PIDFD',state_after='PENDING'));save()
+        poll=select.poll();poll.register(handle,select.POLLIN);assert poll.poll(3000)
+        after=minimal(3455361);assert after['state'] in ('Z','ABSENT')
+        result['signals'][-1].update(state_after=after['state'],exit_observed=True,FD_visibility='UNKNOWN_IF_ZOMBIE_PROC_PERMISSION')
+        for name,item in result['preserved'].items():
+            p=Path(name);assert meta(p)==item['metadata']
+            if item['sha256']!='NOT_REHASHED_LARGE_ARCHIVE_PRESERVED_METADATA_ONLY':assert sha(p)==item['sha256']
+        result.update(status='EXACT_STOPPED_ARCHIVE_PROCESSES_RETIRED',logs_content_hash_unchanged=True,
+                      archives_metadata_unchanged=True,large_archive_content_rehash='NOT_RUN',CPU_s=time.process_time()-cpu,
+                      PI0276_file_protection_unchanged=True)
+        save();print(json.dumps({k:result[k] for k in ['status','signals','freed_allocated_bytes','CPU_s']}))
+    except Exception as error:
+        result.update(status='PARTIAL_STOP_ON_ERROR',error=str(error));save();raise
+    finally:os.close(handle)
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--expected',required=True);p.add_argument('--partial',required=True);p.add_argument('--output',required=True)
+    a=p.parse_args();run(a.expected,a.partial,a.output)

@@ -1,0 +1,33 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Only the two original audit's named archive files; metadata, not content."""
+import json
+import os
+from pathlib import Path
+import shutil
+import socket
+import time
+
+cpu=time.process_time()
+names=[('PI0276_predictions_archive','@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0276/archive/results-predictions/predictions.tar'),
+       ('PI0276_source_archive','@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0276/archive/results-source/source.tar')]
+rows=[]
+for alias,name in names:
+    try:
+        p=Path(name);s=p.stat()
+        rows.append({'alias':alias,'private_path':name,'realpath':str(p.resolve()),
+            'dev':s.st_dev,'ino':s.st_ino,'nlink':s.st_nlink,'bytes':s.st_size,
+            'allocated_bytes':s.st_blocks*512,'mtime_ns':s.st_mtime_ns,
+            'is_symlink':p.is_symlink(),'content_hash':'NOT_RUN'})
+    except OSError as e:rows.append({'alias':alias,'error':str(e)})
+resources=[]
+for alias,name in [('shared_NFS','@LOCAL_OR_CORE_HOME@-nfs/Projects/go2-arx5'),
+                   ('4080S_SSD','@CORELAB_NODE_STORAGE@/Projects/go2-arx5')]:
+    p=Path(name);s=p.stat();v=os.statvfs(name);d=shutil.disk_usage(name)
+    resources.append({'alias':alias,'dev':s.st_dev,'ino':s.st_ino,'nlink':s.st_nlink,
+        'total_bytes':d.total,'free_bytes':d.free,'f_bavail_bytes':v.f_bavail*v.f_frsize,
+        'inodes_free':v.f_favail,'personal_quota':'UNKNOWN'})
+print(json.dumps({'hostname':socket.gethostname(),'utc_epoch':time.time(),'archives':rows,
+    'resources_post_only':resources,'CPU_s':time.process_time()-cpu,
+    'remote_mutations':0,'archive_rehash':False}))

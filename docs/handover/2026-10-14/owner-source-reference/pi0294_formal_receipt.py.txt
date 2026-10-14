@@ -1,0 +1,35 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read formal paired first-attempt evidence without starting physics."""
+import json
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+CODE=r'''
+import hashlib,json,time
+from pathlib import Path
+root=Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+def read(p):return json.loads(p.read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+plan=read(root/'plans/formal-v3_0.json');rows=[]
+for r in plan['episodes']:
+ folder=root/'episodes'/r['id'];w=read(folder/'WORKER_RECEIPT.json');a=read(folder/'AUDIT.json');score=read(folder/'RESULT.json')['score']
+ rows.append(dict(id=r['id'],group_id=r['card']['group_id'],task=r['card']['task'],family=r['card']['family'],split=r['card']['split'],
+  worker_status=w['status'],audit_status=a['status'],audit_error=a.get('error'),admitted=a['admitted'],persistent_success=score['persistent_success'],
+  safety_valid=score['safety_valid'],steps=w['physics_steps'],pairs=w['rgb_pairs'],CPU_s=w['cpu_s'],
+  result_sha256=sha(folder/'RESULT.json'),audit_sha256=sha(folder/'AUDIT.json'),worker_sha256=sha(folder/'WORKER_RECEIPT.json'),
+  failed_predicates={k:v for k,v in score.items() if isinstance(v,bool) and not v} if not a['admitted'] else {}))
+q=read(root/'LIVE_QUEUE.json');manifest=read(root/'RUN_MANIFEST.json')
+print(json.dumps(dict(status='ACTUAL_FORMAL_FIRST_ATTEMPTS_READBACK',epoch=time.time(),rows=rows,
+ source_sha=manifest['code']['vla_commit'],plan_sha256=sha(root/'plans/formal-v3_0.json'),
+ queue_status=q['status'],actual=q['actual'],reservations=list(q['reservations']),auxiliary=list(q['auxiliary']),
+ admission=read(root/'evidence/BANK_v3_0_ADMISSION.json'),
+ native_manifest_sha256=sha(root/'data/bank_v3_0/native/DATASET_MANIFEST.json'))))
+'''
+if __name__=='__main__':
+ r=remote('corelab-4080s','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('FORMAL_READBACK_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+ if r.returncode:raise RuntimeError(r.stderr[-2000:])
+ v=json.loads(r.stdout);save(BASE/('FORMAL_FIRST_ATTEMPTS_ACTUAL_'+str(time.time_ns())+'.private.json'),v)
+ print(json.dumps(dict(status=v['status'],source_sha=v['source_sha'],counts=v['admission']['counts'],
+  failures=[x for x in v['rows'] if not x['admitted']],actual=v['actual'],native_manifest_sha256=v['native_manifest_sha256'])))

@@ -1,0 +1,64 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Bind actual main artifacts to already frozen cases; never manufacture a model."""
+import argparse
+import json
+import sys
+import time
+from pi0294_adopt import BASE,REPO,RUN,save
+from pi0294_teacher_route import CORE_ROOT,HOPPER_ROOT,call
+
+INFO=r'''
+import json,sys,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read
+validate(root,profile='4080-simulation' if ROLE=='core' else 'hopper-neural')
+value=dict(source_sha=m['code']['vla_commit'],manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+    panel=read(root/'evidence/FIXED_MODEL_EVAL_PANELS.json'),panel_sha256=sha(root/'evidence/FIXED_MODEL_EVAL_PANELS.json'),
+    live_readiness_sha256=sha(root/'evidence/LIVE_READINESS.json'),observed_epoch=time.time())
+if ROLE=='core':
+    value['cards']=[r['card'] for r in read(root/'plans/formal-v3_0.json')['episodes']]
+else:
+    bindings=read(root/'NEURAL_BINDINGS.private.json');data=Path(bindings['dataset'])
+    value.update(data_manifest_sha256=sha(data/'DATASET_MANIFEST.json'),statistics_sha256=sha(data/'statistics.json'),
+        processor_sha256=sha(Path(bindings['source'])/'gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py'))
+    checkpoint=root/'training/main'/('checkpoint-'+str(STEP))
+    delivery=root/'delivery'/('checkpoint-main-M'+str(STEP)+'-01')
+    value['missing_artifacts']=[name for name,path in [('main_complete_checkpoint',checkpoint/'CHECKPOINT_COMPLETE.json'),
+        ('full_HF_delivery',delivery/'DELIVERY.json'),('full_checkpoint_inventory',delivery/'CHECKPOINT_MANIFEST.json')]
+        if not path.is_file()]
+    ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+    value.update(actual_main_updates=ledger['main_updates'],actual_engineering_updates=ledger['model_smoke_updates'],
+        new_PBS=0,new_model_loads=0)
+    if not value['missing_artifacts']:
+        value.update(inventory=read(delivery/'CHECKPOINT_MANIFEST.json'),delivery=read(delivery/'DELIVERY.json'),
+            inventory_sha256=sha(delivery/'CHECKPOINT_MANIFEST.json'))
+print(json.dumps(value))
+'''
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--step',type=int,choices=(512,2048,4096,6144),default=512)
+    args=parser.parse_args()
+    hopper=call('hopper',INFO,ROOT=HOPPER_ROOT,ROLE='hopper',STEP=args.step)
+    if hopper['missing_artifacts']:
+        value=dict(status='NOT_READY_ACTUAL_MAIN_ARTIFACTS_ABSENT',step=args.step,
+            missing_artifacts=hopper['missing_artifacts'],actual_main_updates=hopper['actual_main_updates'],
+            actual_engineering_updates=hopper['actual_engineering_updates'],source_sha=hopper['source_sha'],
+            observed_epoch=hopper['observed_epoch'],fake_identity_created=False,new_PBS=0,new_model_loads=0)
+        save(BASE/('MODEL_ARTIFACT_READINESS_'+str(time.time_ns())+'.private.json'),value)
+        print(json.dumps(value));raise SystemExit(0)
+    core=call('corelab-4080s',INFO,ROOT=CORE_ROOT,ROLE='core',STEP=args.step)
+    assert core['panel_sha256']==hopper['panel_sha256'] and core['live_readiness_sha256']==hopper['live_readiness_sha256']
+    sys.path[:0]=[str(REPO/'src'),str(REPO)]
+    from scripts.pi0294.relay_transport import model_registry
+    value=model_registry(core['panel'],core['cards'],hopper['inventory'],hopper['delivery'],
+        step=args.step,run_uuid=RUN,core=core,hopper=hopper,deadline_epoch=min(1791939600,time.time()+3600),
+        inventory_sha256=hopper['inventory_sha256'],processor_sha256=hopper['processor_sha256'],
+        live_readiness_sha256=core['live_readiness_sha256'])
+    folder=BASE/('model-M'+str(args.step));folder.mkdir(mode=0o700,exist_ok=False)
+    save(folder/'REGISTRY.private.json',value)
+    print(json.dumps(dict(status=value['status'],step=args.step,cases=len(value['cases']),new_PBS=0,new_models=0)))

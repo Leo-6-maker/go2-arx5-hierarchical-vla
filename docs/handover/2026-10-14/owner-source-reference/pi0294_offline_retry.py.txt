@@ -1,0 +1,77 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Prepare exact local snapshot alias and CPU-test the failed load-path repair."""
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r"""
+import json,os,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write
+from scripts.pi0294.run_admission import validate,sha
+validate(root,profile='hopper-neural')
+ledger=read(root/'HOPPER_RESOURCE_LEDGER.json');assert ledger['model_smoke_updates']==ledger['main_updates']==0 and ledger.get('pending_updates',0)==0
+assert len(ledger['PBS_submissions'])==1 and ledger['PBS_submissions'][0]['status']=='RECONCILED_TERMINAL'
+assert ledger['PBS_submissions'][0]['job_id']=='664410.hopper-m-02' and ledger['GPU_allocated_s']==63
+driver=read(root/'evidence/SMOKE_DRIVER.json');assert driver['status']=='FAILED_PRESERVED' and not driver['completed_subprocesses']
+log=root/'pbs/model-smoke-01/pbs.log';assert 'OfflineModeIsEnabled' in log.read_text() and '_patch_mistral_regex' in log.read_text()
+bindings=read(root/'NEURAL_BINDINGS.private.json')
+alias=root/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True,exist_ok=True)
+assert not alias.exists() and not alias.is_symlink();alias.symlink_to(Path(bindings['cosmos']),target_is_directory=True)
+stage=root/'evidence/offline-load-path-cpu';stage.mkdir(exist_ok=False)
+program='''
+import json,os,sys,time,resource
+from pathlib import Path
+sys.path[:0]=SOURCE_PATHS
+os.environ.update(CUDA_VISIBLE_DEVICES='',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false')
+from scripts.pi0294.native_dataset import NativeDataset,official_import,sha
+from scripts.pi0294.native_train import tree_identity
+from scripts.pi0294.local_backbone import local_model_name
+from scripts.pi0292.durable import read,write
+b=read(BINDINGS);official_import(b['source'])
+from transformers import AutoConfig
+from gr00t.model.gr00t_n1d7.gr00t_n1d7 import get_backbone_cls
+from gr00t.model.gr00t_n1d7.processing_gr00t_n1d7 import Gr00tN1d7DataCollator
+config=AutoConfig.from_pretrained(b['base'],local_files_only=True,trust_remote_code=True)
+config.model_name=local_model_name(ROOT,b)
+assert get_backbone_cls(config).__name__=='Qwen3Backbone'
+collator=Gr00tN1d7DataCollator(config.model_name,config.backbone_model_type,dict(local_files_only=True,trust_remote_code=True))
+dataset=NativeDataset(b['dataset'],b['source'],b['cosmos'],for_optimization=False,raw_bindings=read(b['raw_bindings']))
+dataset.initialize();checks=[]
+for index in (0,len(dataset)//2,len(dataset)-1):
+ value=dataset[index]['processed'];left=tree_identity(dataset.processor.collator([value]));right=tree_identity(collator([value]))
+ assert left==right
+ checks.append(dict(index=index,actual_tensor_identity=right,byte_exact=True))
+import torch
+assert not torch.cuda.is_initialized()
+usage=resource.getrusage(resource.RUSAGE_SELF)
+write(OUTPUT,dict(status='PASS_ACTUAL_OFFLINE_LOCAL_ALIAS_PROCESSOR_EQUIVALENCE',checks=checks,
+ CPU_s=usage.ru_utime+usage.ru_stime,model_constructed=False,CUDA_initialized=False,
+ native_backbone_class='Qwen3Backbone',weight_files_changed=False,network_enabled=False))
+'''
+env=dict(os.environ,PYTHONPATH=str(source/'src')+':'+str(source),CUDA_VISIBLE_DEVICES='',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
+ PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',NO_ALBUMENTATIONS_UPDATE='1')
+values=dict(SOURCE_PATHS=[str(source/'src'),str(source)],ROOT=str(root),BINDINGS=str(root/'NEURAL_BINDINGS.private.json'),OUTPUT=str(stage/'RESULT.json'))
+command=[bindings['python'],'-c','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+program]
+result=subprocess.run(command,env=env,cwd=source,text=True,capture_output=True,timeout=120)
+write(stage/'EXECUTION.json',dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+assert result.returncode==0,result.stderr[-2500:]
+cpu=read(stage/'RESULT.json');ledger['CPU_s']+=cpu['CPU_s'];write(root/'HOPPER_RESOURCE_LEDGER.json',ledger)
+proof=dict(status='KNOWN_TERMINAL_ZERO_UPDATE_ENGINEERING_RETRY',run_uuid=RUN,prior_job_terminal=True,
+ prior_job_id='664410.hopper-m-02',actual_optimizer_updates=0,source_sha=manifest['code']['vla_commit'],
+ first_failure_log_sha256=sha(log),first_driver_sha256=sha(root/'evidence/SMOKE_DRIVER.json'),
+ actual_CPU_repair_receipt_sha256=sha(stage/'RESULT.json'),budget_reset=False,prior_GPU_allocated_s=63,
+ PBS_calls_used=1,PBS_calls_cap=4,new_output='smoke_attempts/model-smoke-02',old_outputs_preserved=True)
+write(root/'evidence/ENGINEERING_RETRY_02.json',proof)
+print(json.dumps(dict(status=cpu['status'],model_constructed=False,CUDA_initialized=False,CPU_s=cpu['CPU_s'],
+ retry_proof_sha256=sha(root/'evidence/ENGINEERING_RETRY_02.json'),source_sha=manifest['code']['vla_commit'])))
+"""
+if __name__=='__main__':
+ result=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('OFFLINE_RETRY_CPU_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-3000:])
+ print(result.stdout)

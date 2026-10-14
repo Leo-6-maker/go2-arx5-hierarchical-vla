@@ -1,0 +1,35 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read a terminal dependency qualification and account the preceding preflight."""
+import json
+import time
+from pi0292_adopt import BASE,RUN_ID,remote,save
+CODE=r'''
+import json,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+ops=root/'operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8';sys.path.insert(0,str(ops))
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.train_adapter import sha
+directory=root/'evidence/dependency-adoption-02'
+state=read(directory/'STATE.json')
+assert state['status']=='PASS_MIGRATED_DEPENDENCY_FILES_AND_CPU_PROCESSOR'
+proc=Path('/proc')/str(state['pid'])/'stat'
+assert not proc.exists() or proc.read_text().split()[21]!=state['proc_start'] or proc.read_text().split()[2]=='Z'
+lock=OwnerLock(root/'PBS_SUBMIT.lock');ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+stage_id='CONTINUATION_READ_PREFLIGHT_1791882681'
+if not any(r.get('id')==stage_id for r in ledger['stages']):
+ ledger['stages'].append(dict(id=stage_id,status='TERMINAL_READ_ONLY_PREFLIGHT',CPU_reserved_s=0,CPU_upper_s=180))
+ ledger['CPU_upper_s']+=180;write(root/'HOPPER_RESOURCE_LEDGER.json',ledger)
+lock.close()
+print(json.dumps(dict(epoch=time.time(),state=state,state_sha256=sha(directory/'STATE.json'),
+ state_pid_absent=True,manifest=read(directory/'RUN_MANIFEST.json'),
+ manifest_sha256=sha(directory/'RUN_MANIFEST.json'),ledger=ledger,
+ failure01=read(root/'evidence/dependency-adoption-01/FAILURE_RECEIPT.json'))))
+'''
+r=remote('hopper','RUN_ID='+repr(RUN_ID)+'\n'+CODE)
+path=BASE/('DEPENDENCY_QUALIFICATION_STATUS_'+str(time.time_ns())+'.private.json')
+save(path,dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+print(r.stdout,r.stderr)
+if r.returncode:raise SystemExit('Qualification not terminal/pass; inspect original state')

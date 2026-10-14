@@ -1,0 +1,116 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Adopt only a terminal, actual qualified fixed v3 bank; preserve prior bindings."""
+import argparse
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import copy,json,os,resource,signal,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha,CUTOFF
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.allocation_admission import owned_jobs
+validate(root,profile='hopper-neural')
+assert manifest['code']['vla_commit']=='a171997a704072e127d16410ba584c8aa0ddd573'
+assert not os.environ.get('PBS_JOBID')
+own_run_jobs={row.get('job_id') for row in read(root/'HOPPER_RESOURCE_LEDGER.json')['PBS_submissions']}
+assert not own_run_jobs.intersection(owned_jobs(os.environ['USER']))
+stage=root/'evidence'/QUALIFICATION_STAGE;qualified=read(stage/'INPUT_RECEIVE_QUALIFICATION.json')
+cpu=read(stage/'CPU_STAGE.json')
+assert qualified['status']=='PASS_ACTUAL_INCREMENTAL_HF_AND_HOPPER_NATIVE_LOADER'
+assert cpu['status']==qualified['status'] and not cpu['unreaped_children_unknown']
+for name in ('PROCESS.private.json','CHILD.private.json'):
+    record=read(stage/name);p=Path('/proc')/str(record['pid'])/'stat'
+    if p.exists():
+        fields=p.read_text().split();assert fields[21]!=record['proc_start'] or fields[2] in ('Z','X')
+qpath=root/qualified['actual_loader_receipt_relative'] if 'actual_loader_receipt_relative' in qualified else stage/'PI0294_NATIVE_CPU_QUALIFICATION.json'
+assert qpath.resolve().is_relative_to(root) and not qpath.is_symlink()
+q=read(qpath)
+assert sha(qpath)==qualified['actual_loader_receipt_sha256']
+assert q['status']=='PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4' and not q['legacy_smoke']
+old_seal=read(root/'capsules'/qualified['source_sha']/'SOURCE_SEAL.json')
+new_seal=read(root/manifest['code']['source_seal_relative'])
+same_modules={name:new_seal['files'][name] for name in (
+    'scripts/pi0294/native_dataset.py','scripts/pi0294/native_train.py','scripts/pi0294/sampling.py',
+    'scripts/pi0292/train_adapter.py','scripts/pi0294/local_backbone.py')}
+assert all(old_seal['files'][name]==digest for name,digest in same_modules.items())
+ledger_path=root/'HOPPER_RESOURCE_LEDGER.json';lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock');ledger=read(ledger_path)
+assert not ledger.get('CPU_reserved_s',0) and not ledger.get('GPU_reserved_s',0) and not ledger.get('pending_updates',0)
+assert ledger['main_updates']==0 and ledger['model_smoke_updates']==8 and len(ledger['PBS_submissions'])==3
+directory=root/'evidence/v3-input-adoption-01';directory.mkdir(exist_ok=False)
+write(directory/'PROCESS.private.json',dict(pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],
+    source_sha=manifest['code']['vla_commit'],mode='ZERO_MODEL_FIXED_INPUT_ADOPTION',deadline_epoch=min(CUTOFF,time.time()+900)))
+initial=resource.getrusage(resource.RUSAGE_SELF);started=time.monotonic()
+os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[0]})
+ledger['CPU_reserved_s']=900;write(ledger_path,ledger)
+def timeout(signum,frame):raise TimeoutError('BOUNDED_CPU_INPUT_ADOPTION_DEADLINE')
+signal.signal(signal.SIGALRM,timeout);signal.alarm(max(1,int(min(900,CUTOFF-time.time()))))
+status='FAILED_PRESERVED';adopted=False
+try:
+    bpath=root/'NEURAL_BINDINGS.private.json';old_bytes=bpath.read_bytes();old=read(bpath);binding=copy.deepcopy(old)
+    data=root/'data/bank_v3_0'
+    assert sha(data/'native/DATASET_MANIFEST.json')==q['manifest_sha256']==qualified['manifest_sha256']
+    assert sha(data/'native/statistics.json')==q['statistics_sha256']==qualified['statistics_sha256']
+    assert sha(data/'RAW_BINDINGS.private.json')
+    assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=old['source'],text=True).strip()=='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
+    assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=old['source'],text=True).strip()
+    for file,role,revision,field in (
+        ('PRETRAINED_FILES.private.json','base','2fc962b973bccdd5d8ce4f67cc63b264d6886495','name'),
+        ('COSMOS_IDENTITY.private.json','cosmos','9ce19a195e423419c349abfc86fd07178b230561','file')):
+        identity=read(root/'evidence'/file);assert identity['revision']==revision
+        for row in identity['files']:assert sha(Path(old[role])/row[field])==row['sha256']
+    with (directory/'PRIOR_BINDINGS.private.json').open('xb') as f:f.write(old_bytes)
+    gate_path=root/'evidence/HOPPER_INPUT_QUALIFICATION.json'
+    with (directory/'PRIOR_INPUT_QUALIFICATION.private.json').open('xb') as f:f.write(gate_path.read_bytes())
+    with (directory/'PRIOR_RUN_MANIFEST.json').open('xb') as f:f.write((root/'RUN_MANIFEST.json').read_bytes())
+    binding.update(dataset=str(data/'native'),raw_bindings=str(data/'RAW_BINDINGS.private.json'))
+    write(directory/'NEW_BINDINGS.private.json',binding)
+    manifest['data'].update(dataset_version='v3.0_FROZEN_MULTITASK_NATIVE',
+        hf_revision=qualified['HF_revision'],manifest_sha256=q['manifest_sha256'])
+    manifest['interfaces']['statistics_sha256']=q['statistics_sha256']
+    gate=dict(status='PASS_FIXED_INPUTS_CPU_INTERFACE',mode='multitask_v3',run_uuid=RUN,
+        bindings_sha256=sha(directory/'NEW_BINDINGS.private.json'),manifest_sha256=q['manifest_sha256'],
+        statistics_sha256=q['statistics_sha256'],actual_cpu_qualification=str(qpath),actual_cpu_qualification_sha256=sha(qpath),
+        source_sha=manifest['code']['vla_commit'],qualification_source_sha=qualified['source_sha'],
+        unchanged_qualified_module_SHA=same_modules,python_sha256=sha(binding['python']),
+        pretrained_identity_sha256=sha(root/'evidence/PRETRAINED_FILES.private.json'),
+        cosmos_identity_sha256=sha(root/'evidence/COSMOS_IDENTITY.private.json'),
+        model_loaded=False,CUDA_initialized=False,official_source_verified=True,qualified_epoch=time.time(),
+        HF_revision=qualified['HF_revision'],statistics_refit=False,active_consumers_at_boundary=0)
+    # Each replacement preserves its prior bytes above; no live consumer exists.
+    write(bpath,binding);write(root/'RUN_MANIFEST.json',manifest);write(gate_path,gate);adopted=True
+    validate(root,profile='hopper-neural')
+    status='PASS_ACTUAL_V3_INPUT_ADOPTION_AND_REUSED_FIXED_MODEL_HASHES'
+finally:
+    signal.alarm(0)
+    used=resource.getrusage(resource.RUSAGE_SELF)
+    actual=used.ru_utime+used.ru_stime-initial.ru_utime-initial.ru_stime
+    ledger=read(ledger_path)
+    if status.startswith('PASS'):
+        assert ledger['CPU_reserved_s']==900
+        ledger['CPU_s']+=actual;ledger['CPU_reserved_s']=0
+        ledger.setdefault('CPU_data_stages',[]).append(dict(status=status,CPU_s=actual,wall_s=time.monotonic()-started))
+        write(ledger_path,ledger)
+    write(directory/'RECEIPT.json',dict(status=status,adopted=adopted,CPU_s=actual,wall_s=time.monotonic()-started,
+        source_sha=manifest['code']['vla_commit'],qualification_source_sha=qualified['source_sha'],
+        manifest_sha256=sha(root/'RUN_MANIFEST.json'),bindings_sha256=sha(root/'NEURAL_BINDINGS.private.json'),
+        models_loaded=0,CUDA_initialized=False,PBS_submissions=0,statistics_refit=False,
+        reservation_retained_on_failure=not status.startswith('PASS')))
+    lock.close()
+print(json.dumps(dict(status=status,source_sha=manifest['code']['vla_commit'],CPU_s=actual,
+    manifest_sha256=sha(root/'RUN_MANIFEST.json'),bindings_sha256=sha(root/'NEURAL_BINDINGS.private.json'),
+    HF_revision=qualified['HF_revision'],models_loaded=0,PBS_submissions=0)))
+'''
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--qualification-stage',choices=['hopper-v3_0-receive-01','hopper-v3_0-terminal-audit-02'],default='hopper-v3_0-receive-01')
+    args=p.parse_args()
+    r=remote('hopper','RUN='+repr(RUN)+'\nQUALIFICATION_STAGE='+repr(args.qualification_stage)+'\n'+CODE)
+    save(BASE/('V3_INPUT_ADOPTION_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    if r.returncode:raise RuntimeError(r.stderr[-2000:])
+    print(r.stdout)

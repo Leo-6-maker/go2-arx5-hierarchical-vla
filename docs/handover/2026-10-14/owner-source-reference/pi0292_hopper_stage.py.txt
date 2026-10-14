@@ -1,0 +1,88 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Create the isolated Hopper handoff workspace and start only a CPU data consumer."""
+import base64
+import json
+import subprocess
+import sys
+import zlib
+from pi0292_adopt import BASE,REPO,RUN_ID,remote,save
+
+CODE=r'''
+import base64,hashlib,json,os,resource,shutil,subprocess,time,zlib
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+if root.exists():raise FileExistsError('Inspect existing Hopper root instead of recreating or relaunching')
+free=shutil.disk_usage(root.parent.parent).free
+assert free>36*1024**3
+root.mkdir(parents=True,mode=0o700)
+for name in ('evidence','logs','data','operations'):(root/name).mkdir()
+def save(name,value):
+    with (root/name).open('x') as f:json.dump(value,f,indent=2);f.write('\n')
+save('ADOPTION.json',ADOPTION)
+save('ORIGINAL_TRANSFER_MANIFEST.json',MANIFEST)
+payload=json.loads(zlib.decompress(base64.b64decode(PAYLOAD)))
+ops=root/'operations'/SOURCE;ops.mkdir()
+for name,data in payload.items():
+    p=ops/name;p.parent.mkdir(parents=True,exist_ok=True)
+    with p.open('xb') as f:f.write(base64.b64decode(data))
+(ops/'scripts/__init__.py').touch()
+save('OPERATIONS_SEAL.json',dict(source_sha=SOURCE,files={k:hashlib.sha256(base64.b64decode(v)).hexdigest() for k,v in payload.items()}))
+python='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python'
+source='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t'
+assert subprocess.check_output(['git','-C',source,'rev-parse','HEAD'],text=True).strip()=='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
+assert subprocess.run(['git','-C',source,'diff','--quiet','HEAD','--']).returncode==0
+data=b'PI0292 bounded Hopper actual write/readback\n'*(1024*1024//43+1)
+probe=root/'WRITE_PROBE.bin'
+with probe.open('xb') as f:f.write(data);f.flush();os.fsync(f.fileno())
+assert probe.read_bytes()==data
+quota=[]
+for cmd in (['quota','-s'],['lfs','quota','-u',os.environ['USER'],'/scratch']):
+    try:
+        r=subprocess.run(cmd,capture_output=True,text=True,timeout=3)
+        quota.append(dict(command=cmd,exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    except Exception as e:quota.append(dict(command=cmd,error_type=type(e).__name__,error=str(e)))
+save('evidence/SPACE_PREFLIGHT.json',dict(quota_status='UNKNOWN',quota_probes=quota,free_bytes=free,
+    free_is_not_quota=True,data_stage_peak_bound_bytes=16*1024**3,margin_bytes=20*1024**3,
+    total_added_peak_limit_bytes=180*1024**3,checkpoint_stage_preflight='NOT_YET_AUTHORIZED_BY_THIS_PREFLIGHT',
+    actual_write_readback_bytes=len(data),write_readback_sha256=hashlib.sha256(data).hexdigest()))
+save('evidence/PRETRAINED_FILES.private.json',PRETRAINED)
+save('evidence/COSMOS_IDENTITY.private.json',COSMOS)
+save('DEPENDENCY_LEASE.json',dict(run_uuid=RUN_ID,status='ACTIVE',expires=ADOPTION['deadline_epoch'],
+    protected=[str(root),python,source,COSMOS['HF_HOME'],str(Path(python).parents[3]),
+        '@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B'],
+    no_move_or_delete=True,credential_binding='Existing remote path, not copied into this workspace'))
+u=resource.getrusage(resource.RUSAGE_SELF)
+save('HOPPER_RESOURCE_LEDGER.json',dict(schema='PI0292_HOPPER_RESOURCE_LEDGER_V1',PBS_submissions=[],
+    GPU_allocated_s=0,model_smoke_updates=0,main_updates=0,generation_queries=0,
+    CPU_s=PRETRAINED['CPU_s']+COSMOS['CPU_s']+u.ru_utime+u.ru_stime,
+    CPU_upper_s=60,CPU_upper_reason='Remote metadata reads and staging child processes not separately measured',
+    stages=[dict(id='ORIGINAL_TRAIN_CONSUMER',CPU_reserved_s=1800,bytes_reserved=16*1024**3,status='RESERVED')],
+    deletions=0,model_loads=0,selected='NONE',deployment='NONE'))
+env=dict(os.environ,PYTHONPATH=str(ops),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',
+    OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',HF_HUB_DISABLE_PROGRESS_BARS='1')
+cmd=[python,'-m','scripts.pi0292.data_consumer','--root',str(root),'--manifest',str(root/'ORIGINAL_TRANSFER_MANIFEST.json'),
+    '--existing-token-file',TOKEN_PATH]
+with (root/'logs/original_train.stdout').open('xb') as out,(root/'logs/original_train.stderr').open('xb') as err:
+    child=subprocess.Popen(cmd,cwd=ops,env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
+result=dict(status='HOPPER_WORKSPACE_CREATED_CPU_DATA_CONSUMER_LAUNCHED',root=str(root),source_sha=SOURCE,
+    pid=child.pid,proc_start=Path('/proc/'+str(child.pid)+'/stat').read_text().split()[21],
+    model_loads=0,PBS_submissions=0,observed_epoch=time.time())
+save('evidence/CONSUMER_LAUNCH.json',result)
+print(json.dumps(result))
+'''
+
+if __name__=='__main__':
+    assert not subprocess.check_output(['git','status','--porcelain'],cwd=REPO,text=True).strip()
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    payload={str(p.relative_to(REPO)):base64.b64encode(p.read_bytes()).decode() for p in (REPO/'scripts/pi0292').glob('*.py')}
+    auth=json.loads((BASE.parent/'PI0291_EXISTING_AUTH_PATHS.json').read_text())
+    values=dict(RUN_ID=RUN_ID,SOURCE=source,PAYLOAD=base64.b64encode(zlib.compress(json.dumps(payload).encode())).decode(),
+        TOKEN_PATH=auth['HF_hopper'],ADOPTION=json.loads((BASE/'ADOPTION.json').read_text()),
+        PRETRAINED=json.loads((BASE/'HOPPER_PRETRAINED_FILES.private.json').read_text()),
+        COSMOS=json.loads((BASE/'HOPPER_COSMOS_IDENTITY.private.json').read_text()),
+        MANIFEST=json.loads((BASE.parent/'pi0291-receipts-1791855578/producer/evidence/TRANSFER_MANIFEST.json').read_text()))
+    result=remote('hopper','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+    if result.returncode:print(result.stderr[-3000:]);sys.exit(result.returncode)
+    value=json.loads(result.stdout);save(BASE/'HOPPER_STAGE.private.json',value);print(json.dumps(value))

@@ -1,0 +1,138 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import collections, json, os, stat, sys, time
+manifest, batch, receipt = sys.argv[1:4]
+UID, DEV = 22182, 49
+BATCH_ROOTS={
+ 'experiment_large_batch': {
+  '@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0205','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0208','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0209','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0227','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0252'},
+ 'experiment_remaining_batch': {
+  '@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0228','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0232','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0233','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0236','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0237','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0238','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0239','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0240','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0241','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0242','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0243','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0244','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0245','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0246','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0247','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0248','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0249','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0250','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0251','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0253','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0254','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0260','@HOPPER_SCRATCH@/Projects/go2-arx5/experiments/PI0261'},
+ 'other_september_stage_runs': set(),
+}
+if batch not in BATCH_ROOTS: raise SystemExit('unsupported batch '+batch)
+expected_roots=BATCH_ROOTS[batch]
+if os.getuid()!=UID: raise SystemExit('uid mismatch')
+roots=collections.defaultdict(list); aliases=[]; errors=[]; ends={}
+for line in open(manifest,encoding='utf-8'):
+ x=json.loads(line)
+ if x.get('batch')!=batch: continue
+ if x.get('event')=='path':
+  if x.get('kind')=='alias': aliases.append(x)
+  else: roots[x['root']].append(x)
+ elif x.get('event')=='error': errors.append(x)
+ elif x.get('event')=='root_end': ends[x['root']]=x['manifest_entries']
+if expected_roots and set(roots)!=expected_roots: raise SystemExit(f'root set mismatch: {len(roots)} != {len(expected_roots)}')
+if batch=='other_september_stage_runs': expected_roots=set(roots)
+if errors: raise SystemExit('inventory errors: '+json.dumps(errors[:10]))
+if not expected_roots or set(roots)!=expected_roots: raise SystemExit('empty or incomplete root set')
+if set(ends)!=expected_roots: raise SystemExit('missing root_end entries')
+for root,ents in roots.items():
+ if ends[root]!=len(ents): raise SystemExit('manifest count mismatch: '+root)
+ if os.path.dirname(root)!='@HOPPER_SCRATCH@/Projects/go2-arx5/experiments' and not root.startswith('@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/'):
+  raise SystemExit('root outside authorized bases: '+root)
+ if os.path.realpath(os.path.dirname(root))!=os.path.dirname(root): raise SystemExit('root parent resolves unexpectedly: '+root)
+ if root not in {x['path'] for x in ents}: raise SystemExit('missing root path: '+root)
+ for x in ents:
+  p=x['path']
+  if os.path.commonpath([root,p])!=root or (p!=root and not p.startswith(root+'/')): raise SystemExit('path escapes root: '+p)
+  if not x.get('exists') or x.get('uid')!=UID or x.get('dev')!=DEV: raise SystemExit('unowned/missing/wrong device member: '+p)
+  if x.get('type')=='special': raise SystemExit('special member requires hold: '+p)
+# All regular hardlink paths must be represented in this batch; otherwise leave the candidate intact.
+link_counts=collections.Counter()
+for ents in roots.values():
+ for x in ents:
+  if x.get('type')=='regular': link_counts[(x['dev'],x['ino'])]+=1
+for root,ents in roots.items():
+ for x in ents:
+  if x.get('type')=='regular' and x.get('nlink')!=link_counts[(x['dev'],x['ino'])]:
+   raise SystemExit('external hardlink requires hold: '+x['path'])
+
+def classify(s):
+ if stat.S_ISREG(s.st_mode): return 'regular'
+ if stat.S_ISDIR(s.st_mode): return 'directory'
+ if stat.S_ISLNK(s.st_mode): return 'symlink'
+ return 'special'
+def check(x):
+ p=x['path']
+ try:s=os.lstat(p)
+ except FileNotFoundError:return False,'missing'
+ target=os.readlink(p) if stat.S_ISLNK(s.st_mode) else None
+ got=(classify(s),s.st_uid,s.st_gid,s.st_dev,s.st_ino,s.st_nlink,s.st_size,s.st_blocks,stat.S_IMODE(s.st_mode),s.st_mtime_ns,target)
+ want=(x['type'],x['uid'],x['gid'],x['dev'],x['ino'],x['nlink'],x['size_bytes'],x['blocks'],x['mode'],x['mtime_ns'],x.get('link_target'))
+ return got==want,{'got':got,'want':want}
+def emit(x):
+ with open(receipt,'a',encoding='utf-8') as f:f.write(json.dumps(x,sort_keys=True,separators=(',',':'))+'\n')
+def active_refs(root):
+ found=[]
+ for pid in os.listdir('/proc'):
+  if not pid.isdigit():continue
+  pd='/proc/'+pid
+  try:
+   if os.stat(pd).st_uid!=UID:continue
+  except OSError:continue
+  for name in ('cwd','root','exe'):
+   try:v=os.readlink(pd+'/'+name)
+   except OSError:continue
+   if v==root or v.startswith(root+'/'):found.append((pid,name,v));break
+  if found:continue
+  try:fds=os.listdir(pd+'/fd')
+  except OSError:continue
+  for fd in fds:
+   try:v=os.readlink(pd+'/fd/'+fd)
+   except OSError:continue
+   if v==root or v.startswith(root+'/'):found.append((pid,'fd:'+fd,v));break
+ return found
+for root in sorted(expected_roots):
+ ents=roots[root]
+ bad=[]
+ for x in ents:
+  ok,why=check(x)
+  if not ok:bad.append({'path':x['path'],'reason':why})
+ if bad:
+  emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'identity_changed','mismatch_count':len(bad),'mismatches':bad[:30]});continue
+ refs=active_refs(root)
+ if refs:
+  emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'owned_process_reference','references':refs[:30]});continue
+ files=[x for x in ents if x['type'] in ('regular','symlink')]
+ dirs=[x for x in ents if x['type']=='directory']
+ inode_bytes={}
+ for x in files:
+  if x['type']=='regular':inode_bytes[(x['dev'],x['ino'])]=x['allocated_bytes']
+ emit({'event':'candidate_predelete_pass','batch':batch,'root':root,'members':len(ents),'regular_files':sum(x['type']=='regular' for x in ents),'symlinks':sum(x['type']=='symlink' for x in ents),'directories':len(dirs),'logical_bytes':sum(x.get('size_bytes',0) for x in ents if x['type']=='regular'),'allocated_path_bytes':sum(x.get('allocated_bytes',0) for x in ents if x['type']=='regular'),'unique_inode_allocated_bytes':sum(inode_bytes.values()),'preflight_time_ns':time.time_ns()})
+ failures=[]; removed=0
+ for x in sorted(files,key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+  p=x['path']
+  try:
+   s=os.lstat(p)
+   os.unlink(p); absent=not os.path.lexists(p)
+   emit({'event':'unlink','batch':batch,'root':root,'path':p,'type':x['type'],'uid':s.st_uid,'dev':s.st_dev,'ino':s.st_ino,'size_bytes':s.st_size,'allocated_bytes':s.st_blocks*512,'verified_absent':absent})
+   if not absent:failures.append((p,'still_present'))
+   else:removed+=1
+  except Exception as e:
+   failures.append((p,repr(e)));emit({'event':'unlink_error','batch':batch,'root':root,'path':p,'error':repr(e)})
+ for x in sorted(dirs,key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+  p=x['path']
+  try:
+   try:os.rmdir(p)
+   except PermissionError:
+    os.chmod(p,stat.S_IMODE(os.lstat(p).st_mode)|0o700,follow_symlinks=False);os.rmdir(p)
+   absent=not os.path.lexists(p);emit({'event':'rmdir','batch':batch,'root':root,'path':p,'verified_absent':absent})
+   if not absent:failures.append((p,'still_present'))
+   else:removed+=1
+  except Exception as e:
+   failures.append((p,repr(e)));emit({'event':'rmdir_error','batch':batch,'root':root,'path':p,'error':repr(e)})
+ absent=not os.path.lexists(root)
+ emit({'event':'candidate_result','batch':batch,'root':root,'status':'retired' if absent and not failures else 'partial_or_held','members':len(ents),'members_removed_verified':removed,'error_count':len(failures),'errors':failures[:30],'root_absent':absent})
+# Remove only explicitly inventoried external aliases whose resolved targets are selected roots and now absent.
+for x in aliases:
+ p=x['path']
+ ok,why=check(x)
+ if not ok:emit({'event':'alias_hold','batch':batch,'path':p,'reason':'identity_changed','detail':why});continue
+ target=os.path.realpath(p)
+ if target not in expected_roots:emit({'event':'alias_hold','batch':batch,'path':p,'reason':'target_not_selected','resolved_target':target});continue
+ if os.path.lexists(target):emit({'event':'alias_hold','batch':batch,'path':p,'reason':'target_still_exists','target':target});continue
+ try:os.unlink(p);absent=not os.path.lexists(p);emit({'event':'alias_unlink','batch':batch,'path':p,'resolved_target':target,'verified_absent':absent})
+ except Exception as e:emit({'event':'alias_unlink_error','batch':batch,'path':p,'error':repr(e)})
+print(json.dumps({'batch':batch,'roots':len(expected_roots),'path_records':sum(map(len,roots.values())),'aliases':len(aliases),'receipt':receipt},sort_keys=True))

@@ -1,0 +1,67 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import json
+import os
+from pathlib import Path
+import socket
+import tempfile
+import time
+import unittest
+from unittest.mock import patch
+
+import exact_retirement as actor
+
+
+class Fixture(unittest.TestCase):
+    def test_exact_delete_protect_symlink_and_no_duplicate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);old=root/'old';old.mkdir();(old/'large.bin').write_bytes(b'a'*8192)
+            live=old/'live';live.mkdir();(live/'needed').write_text('keep')
+            outside=root/'outside';outside.write_text('outside')
+            (old/'alias').symlink_to(outside)
+            (old/'report.json').write_text('{"historical":true}')
+            config=dict(output=str(root/'receipt'),authority_comment=6140769226,uid=os.getuid(),
+                hostname=socket.gethostname().split('.')[0],T0_epoch=time.time(),allowed_roots=[tmp],
+                protected=[str(live)],hopper=False,peer=False,candidates=[dict(id='old',path=str(old),provenance='fixture')])
+            cfg=root/'config';cfg.write_text(json.dumps(config))
+            with patch.object(actor,'consumers',return_value=dict(hits=[],unknown_workload_FD_gaps=[])):
+                actor.execute(cfg)
+                with self.assertRaises(FileExistsError):actor.execute(cfg)
+            state=json.loads((root/'receipt/STATE.json').read_text())
+            self.assertEqual(state['completed'][0]['status'],'RETIRED_WITH_MINIMAL_DEPENDENCIES')
+            self.assertEqual(state['completed'][0]['deleted_files'],3)
+            self.assertTrue((live/'needed').exists());self.assertEqual(outside.read_text(),'outside')
+            self.assertTrue((root/'receipt/retained_small_reports/old/report.json').exists())
+
+    def test_consumers_hold_and_root_alias_hold(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);old=root/'old';old.mkdir();(old/'file').write_text('keep')
+            alias=root/'alias';alias.symlink_to(old,target_is_directory=True)
+            config=dict(output=str(root/'receipt'),authority_comment=6140769226,uid=os.getuid(),
+                hostname=socket.gethostname().split('.')[0],T0_epoch=time.time(),allowed_roots=[tmp],protected=[],
+                hopper=False,peer=False,candidates=[dict(id=x.name,path=str(x),provenance='fixture') for x in (old,alias)])
+            cfg=root/'config';cfg.write_text(json.dumps(config))
+            with patch.object(actor,'consumers',return_value=dict(hits=[dict(pid=123)],unknown_workload_FD_gaps=[])):
+                actor.execute(cfg)
+            state=json.loads((root/'receipt/STATE.json').read_text())
+            self.assertTrue(all(x['status']=='HOLD_NO_DELETE' for x in state['completed']))
+            self.assertEqual((old/'file').read_text(),'keep')
+
+    def test_owned_hardlinks_and_readonly_directories(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);old=root/'old';old.mkdir();locked=old/'locked';locked.mkdir()
+            (locked/'a').write_bytes(b'a'*8192);os.link(locked/'a',locked/'b');locked.chmod(0o500)
+            config=dict(output=str(root/'receipt'),authority_comment=6140769226,uid=os.getuid(),
+                hostname=socket.gethostname().split('.')[0],T0_epoch=time.time(),allowed_roots=[tmp],protected=[],
+                hopper=False,peer=False,candidates=[dict(id='old',path=str(old),provenance='fixture')])
+            cfg=root/'config';cfg.write_text(json.dumps(config))
+            with patch.object(actor,'consumers',return_value=dict(hits=[],unknown_workload_FD_gaps=[])):
+                actor.execute(cfg)
+            state=json.loads((root/'receipt/STATE.json').read_text())
+            self.assertEqual(state['completed'][0]['status'],'RETIRED_AND_VERIFIED')
+            self.assertTrue(state['completed'][0]['root_absent'])
+            self.assertEqual(state['completed'][0]['allocated_lower_bound_bytes'],8192)
+
+
+if __name__=='__main__':unittest.main()

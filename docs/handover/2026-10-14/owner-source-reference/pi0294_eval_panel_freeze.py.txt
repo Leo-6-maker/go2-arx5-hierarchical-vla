@@ -1,0 +1,70 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Fix exact original TRAIN/DEV panels before any v3 model update; no rollout."""
+import json
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CORE=r'''
+import json,sys,time
+from pathlib import Path
+root=Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read,write
+validate(root,profile='4080-simulation')
+parent=root/'plans/formal-v3_0.json';freeze=read(root/'evidence/SCENE_PLAN_FREEZE.json')
+assert sha(parent)==freeze['plans'][parent.name]
+plan=read(parent);by_group={}
+for row in plan['episodes']:by_group.setdefault(row['card']['scene_group'],[]).append(row)
+groups=dict(M512_TRAIN=['PI0294/TRAIN/F0/000','PI0294/TRAIN/F1/000'],
+    SHARED_DEV=['PI0294/DEV/F0/000','PI0294/DEV/F1/000','PI0294/DEV/F2/000','PI0294/DEV/F1/001'])
+panels={}
+for name,ids in groups.items():
+    rows=[]
+    for group in ids:
+        pair=by_group[group];assert len(pair)==2 and {r['card']['task'] for r in pair}=={'T1','T2'}
+        assert pair[0]['card']['initial_state_sha256']==pair[1]['card']['initial_state_sha256']
+        for row in pair:
+            rows.append(dict(scene_group=group,task=row['card']['task'],original_attempt_id=row['id'],
+                original_card_sha256=__import__('hashlib').sha256(json.dumps(row['card'],sort_keys=True,separators=(',',':')).encode()).hexdigest(),
+                initial_state_sha256=row['card']['initial_state_sha256']))
+    panels[name]=rows
+value=dict(schema='PI0294_FIXED_MODEL_EVAL_PANELS_V1',status='FROZEN_BEFORE_FIRST_V3_NEURAL_REQUALIFICATION_AND_MAIN_UPDATE',
+    run_uuid=RUN,frozen_epoch=time.time(),formal_plan_sha256=sha(parent),
+    selection_rule='FIXED_FAMILY_ORDER_AND_LOWEST_NUMBERED_ORIGINAL_GROUPS_NOT_MODEL_OUTCOMES',
+    M512_TRAIN_development_not_generalization=True,DEV_same_groups_for_M2048_M4096_and_conditional_M6144=True,
+    panels=panels,no_confirmation_opened=True,failed_attempts_remain_in_denominator=True,
+    one_checkpoint_processor_statistics_for_both_tasks=True,selected='NONE',deployment='NONE',
+    new_physics=0,new_neural=0,new_PBS=0,original_cutoff_epoch=1791939600,original_deadline_epoch=1791943200)
+path=root/'evidence/FIXED_MODEL_EVAL_PANELS.json';assert not path.exists();write(path,value)
+print(json.dumps(dict(value=value,sha256=sha(path))))
+'''
+
+HOPPER=r'''
+import json,sys
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read,write
+validate(root,profile='hopper-neural')
+ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+assert len(ledger['PBS_submissions'])==3 and ledger['main_updates']==0 and ledger['model_smoke_updates']==8
+assert not ledger.get('pending_updates',0) and not ledger.get('CPU_reserved_s',0) and not ledger.get('GPU_reserved_s',0)
+assert read(root/'evidence/HOPPER_INPUT_QUALIFICATION.json')['mode']=='multitask_v3'
+path=root/'evidence/FIXED_MODEL_EVAL_PANELS.json';assert not path.exists();write(path,VALUE)
+print(json.dumps(dict(sha256=sha(path),main_updates=0,v3_engineering_updates=0,new_PBS=0)))
+'''
+
+if __name__=='__main__':
+    from pi0294_teacher_route import call
+    core=call('corelab-4080s',CORE,RUN=RUN)
+    save(BASE/'EVAL_PANEL_CORE_FROZEN.private.json',core)
+    hopper=call('hopper',HOPPER,RUN=RUN,VALUE=core['value'])
+    assert hopper['sha256']==core['sha256']
+    save(BASE/'EVAL_PANELS_BOTH_FROZEN.private.json',dict(core=core,hopper=hopper))
+    print(json.dumps(core))

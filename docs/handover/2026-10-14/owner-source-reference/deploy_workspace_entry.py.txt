@@ -1,0 +1,63 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Create only a new private workspace;never move/remove old paths."""
+import base64
+import hashlib
+import json
+from pathlib import Path
+import shlex
+import subprocess
+
+BASE=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work')
+source=BASE/'private/workspace-consolidation-20261013'
+plan=json.loads((source/'PLAN.json').read_text())
+files={x['path']:base64.b64encode((source/'payload'/x['path']).read_bytes()).decode() for x in plan['files']}
+files['infrastructure/resolve_path.py']=base64.b64encode((BASE/'pi0290-source/scripts/workspace_consolidation/resolve_path.py').read_bytes()).decode()
+code='''import base64,hashlib,json,os,resource,socket,subprocess,sys,time
+from pathlib import Path
+began=time.monotonic();payload=json.load(sys.stdin);p=payload['plan'];root=Path(p['workspace_root'])
+assert socket.gethostname()=='corelab-amd-server' and os.getuid()==2009
+assert root.parent==Path.home()/'Projects' and not root.exists() and not root.is_symlink()
+old=Path(p['official_alias_target'])
+def git(*args,cwd):
+    r=subprocess.run(['git',*args],cwd=cwd,capture_output=True,text=True,timeout=120,
+        env=dict(os.environ,GIT_OPTIONAL_LOCKS='0',GIT_TERMINAL_PROMPT='0',GIT_LFS_SKIP_SMUDGE='1'))
+    assert r.returncode==0,(args,r.stderr[:1500])
+    return r.stdout
+assert git('rev-parse','HEAD',cwd=old).strip()==p['official_sha']
+assert git('status','--porcelain=v1','--untracked-files=normal',cwd=old)==''
+root.mkdir(mode=0o700)
+for name in ['code','assets','datasets','experiments','infrastructure']:(root/name).mkdir(mode=0o700)
+journal=root/'infrastructure/CONSOLIDATION_STATE.json'
+journal.write_text(json.dumps(dict(status='PREPARED_NEW_WORKSPACE_ONLY',code_sha=p['code_sha'],old_paths_moved=0,deletions=0)))
+hashes={}
+for name,encoded in payload['files'].items():
+    relative=Path(name);assert not relative.is_absolute() and '..' not in relative.parts
+    b=base64.b64decode(encoded);target=root/relative;target.parent.mkdir(parents=True,exist_ok=True)
+    with target.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    os.chmod(target,0o600);assert target.read_bytes()==b
+    hashes[name]=hashlib.sha256(b).hexdigest()
+git('-c','credential.helper=','clone','--depth','1','--single-branch','--branch',p['branch'],p['clone_origin'],str(root/'code/vla'),cwd=root)
+canonical=root/'code/vla'
+actual=git('rev-parse','HEAD',cwd=canonical).strip()
+assert actual==p['code_sha'],'Remote changed;preserve newly created checkout and inspect,do not reset'
+assert git('status','--porcelain=v1','--untracked-files=normal',cwd=canonical)==''
+assert (canonical/'.git').is_dir() and not (canonical/'.git/objects/info/alternates').exists()
+(root/'code/isaac-gr00t').symlink_to(old,target_is_directory=True)
+assert (root/'code/isaac-gr00t').resolve()==old.resolve()
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+receipt=dict(status='NEW_CANONICAL_ENTRY_CREATED_OLD_RETIREMENT_DEFERRED',root=str(root),observed_epoch=time.time(),code_sha=actual,branch=p['branch'],
+    independent_git_dir=True,shared_official_alias_is_NFS=True,official_sha=p['official_sha'],files_sha256=hashes,
+    old_paths_moved=0,old_symlinks_changed=0,new_cross_host_SSD_symlinks=0,file_deletions=0,new_freed_bytes=0,model_physics_PBS_WBC_hardware=0,
+    CPU_self_s=u.ru_utime+u.ru_stime,CPU_children_s=c.ru_utime+c.ru_stime,wall_s=time.monotonic()-began)
+journal.write_text(json.dumps(receipt,indent=2)+'\\n');os.chmod(journal,0o600)
+print(json.dumps(receipt))
+'''
+command=shlex.join(['python3','-c',code])
+r=subprocess.run(['ssh','-o','BatchMode=yes','-o','ConnectTimeout=5','corelab-amd-server',command],input=json.dumps(dict(plan=plan,files=files)).encode(),capture_output=True,timeout=180)
+if r.returncode: raise RuntimeError(r.stderr.decode()[:3000])
+value=json.loads(r.stdout)
+dest=source/'DEPLOYMENT_RECEIPT_PRIVATE.json'
+with dest.open('xb') as f:f.write(r.stdout)
+print(json.dumps({k:value[k] for k in ['status','code_sha','branch','independent_git_dir','file_deletions','CPU_self_s','CPU_children_s','wall_s']}))

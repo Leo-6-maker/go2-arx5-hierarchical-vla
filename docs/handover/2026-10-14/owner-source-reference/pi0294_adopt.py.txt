@@ -1,0 +1,88 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Persist the replacement authority and collect bounded private host evidence."""
+import hashlib
+import json
+import time
+from pathlib import Path
+
+from pi0292_adopt import REPO, save
+from pi0294_remote import remote
+
+BASE = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/pi0294')
+RUN = '20261013T142457Z-localpc-pi0294'
+RELEASE = '09e68e41752383fcb1087a23c52fe487c9a14a89'
+T0 = 1791901497
+CUTOFF = 1791939600
+DEADLINE = 1791943200
+OBJECTIVE = Path('@LOCAL_OR_CORE_HOME@/.codex/attachments/b30654c1-24cd-4e8a-927a-0fc5bcd23b83/goal-objective.md')
+
+PROBE = r'''
+import hashlib,json,os,resource,socket,subprocess,time
+from pathlib import Path
+def run(argv):
+ p=subprocess.run(argv,capture_output=True,text=True,timeout=25)
+ return dict(exit=p.returncode,stdout=p.stdout,stderr=p.stderr)
+home=Path.home(); ws=home/'Projects/GR00T-WBC'; infra=ws/'infrastructure'
+v=dict(host=socket.gethostname(),uid=os.getuid(),epoch=time.time(),affinity=sorted(os.sched_getaffinity(0)),
+ load=os.getloadavg(),workspace_exists=ws.is_dir(),files={},capacity={},processes=[])
+for name in ['PATH_REGISTRY.json','HOST_PATHS.json','ENVIRONMENTS.json','ENTRY_HASH_BASELINE.json','enter.sh','doctor.py']:
+ p=infra/name
+ if p.is_file():
+  b=p.read_bytes();v['files'][name]=dict(sha256=hashlib.sha256(b).hexdigest(),content=b.decode())
+for p in [home,Path('@CORELAB_NODE_STORAGE@'),Path('@HOPPER_SCRATCH@')]:
+ if p.exists():
+  s=os.statvfs(p);v['capacity'][str(p)]=dict(available_bytes=s.f_bavail*s.f_frsize,device=p.stat().st_dev)
+for proc in Path('/proc').iterdir():
+ if not proc.name.isdigit():continue
+ try:
+  if proc.stat().st_uid!=os.getuid():continue
+  cmd=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
+  if any(x in cmd for x in ['scripts.pi029','pi0292','pi0294','iteration','mujoco','gr00t']):
+   if cmd.startswith('python3 -'):continue
+   v['processes'].append(dict(pid=int(proc.name),command=cmd[:1500],stat=(proc/'stat').read_text()))
+ except (OSError,PermissionError):pass
+if v['host'].startswith('hopper'):
+ root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292')
+ v['old_ledger']=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+ v['bindings']=json.loads((root/'NEURAL_BINDINGS.private.json').read_text())
+ v['jobs_selector']=run(['/cm/shared/apps/pbspro/current/bin/qselect','-u',os.environ['USER']])
+ v['jobs']={}
+ if v['jobs_selector']['exit']==0:
+  for jid in v['jobs_selector']['stdout'].split():
+   v['jobs'][jid]=run(['/cm/shared/apps/pbspro/current/bin/qstat','-f','-F','json',jid])
+ quota=Path('@HOPPER_SHARED_HOME@/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt')
+ v['quota']=dict(mtime=quota.stat().st_mtime,lines=[x for x in quota.read_text().splitlines() if '/@HOPPER_ACCOUNT@' in x])
+ v['project_query']=run(['/opt/am/python/bin/amgr','ls','project','--name','CFP04-CF-007','--json-info'])
+ v['balance_query']=run(['/opt/am/python/bin/amgr','checkbalance','--project','CFP04-CF-007'])
+else:
+ profile='amd-management' if v['host']=='corelab-amd-server' else '4080-simulation'
+ v['doctor']=run([str(infra/'enter.sh'),profile])
+ leases=infra/'leases'
+ v['leases']={p.name:json.loads(p.read_text()) for p in leases.glob('*.json')}
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+v['cpu_s']=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime
+print(json.dumps(v))
+'''
+
+if __name__ == '__main__':
+ BASE.mkdir(parents=True,exist_ok=True,mode=0o700)
+ adoption=BASE/'ADOPTION.json'
+ if not adoption.exists():
+  card=json.loads((REPO/'reports/PI0294/design/GO_TASK_CARD.json').read_text())
+  assert hashlib.sha256(OBJECTIVE.read_bytes()).hexdigest()==card['objective_source_sha256']
+  save(adoption,dict(card,protocol_release=RELEASE,science_comment=6148228083,maintenance_comment=6148234950,
+    CPU_preflight_reserved_upper_s=180,old_accounts_not_reset=True))
+ for host in ['corelab-amd-server','corelab-4080s','hopper']:
+  result=remote(host,PROBE)
+  path=BASE/('PREFLIGHT_'+host+'_'+str(time.time_ns())+'.private.json')
+  save(path,dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+  if result.returncode:
+   print(json.dumps(dict(host=host,status='OBSERVATION_FAILED',error=result.stderr[-1000:])))
+   continue
+  data=json.loads(result.stdout)
+  print(json.dumps(dict(host=data['host'],uid=data['uid'],cpu_s=data['cpu_s'],capacity=data['capacity'],
+    project_query_exit=data.get('project_query',{}).get('exit'),own_job_ids=list(data.get('jobs',{})),
+    processes=[dict(pid=p['pid'],command=p['command'][:200]) for p in data['processes']],
+    doctor_exit=data.get('doctor',{}).get('exit'),evidence=str(path))))

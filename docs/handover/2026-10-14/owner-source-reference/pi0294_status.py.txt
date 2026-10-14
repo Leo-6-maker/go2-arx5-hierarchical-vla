@@ -1,0 +1,66 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read actual process identities and scientific receipts, never restart."""
+import json
+import time
+
+from pi0294_adopt import BASE, RUN, remote, save
+
+CODE = r'''
+import json,os,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN if HOPPER else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+v=dict(epoch=time.time(),run_uuid=RUN,processes=[],results=[],logs={},queue=None)
+for path in (root/'evidence').glob('*/PROCESS.private.json'):
+ p=json.loads(path.read_text());stage=p.get('stage',path.parent.name);pid=p['pid'];stat=Path('/proc/'+str(pid)+'/stat')
+ observed=stat.read_text().split() if stat.exists() else None
+ alive=bool(observed and observed[21]==p['proc_start'] and observed[2] not in ('Z','X'))
+ v['processes'].append(dict(stage=stage,pid=pid,live_identity_verified=alive,
+  observed_state=observed[2] if observed else 'MISSING',same_start=bool(observed and observed[21]==p['proc_start'])))
+ for name in ('stdout.log','stderr.log'):
+  log=path.parent/name
+  if log.exists():v['logs'][stage+'/'+name]=log.read_text()[-4000:]
+q=root/'LIVE_QUEUE.json'
+if q.exists():
+ queue=json.loads(q.read_text());v['queue']=dict(status=queue['status'],actual=queue['actual'],
+  reservation_ids=list(queue['reservations']),records=queue['records'],auxiliary=list(queue['auxiliary']))
+for folder in (root/'episodes').iterdir():
+ p=folder/'RESULT.json'
+ if p.is_file():v['results'].append(json.loads(p.read_text()))
+ else:
+  receipt=folder/'PROGRESS.json'
+  if receipt.exists():v['results'].append(json.loads(receipt.read_text()))
+for name in ['PI0294_NATIVE_CPU_QUALIFICATION.json','HOPPER_INPUT_QUALIFICATION.json','MODEL_SMOKE.json']:
+ p=root/'evidence'/name
+ if p.is_file():
+  value=json.loads(p.read_text());v[name]={k:value[k] for k in ['status','CPU_s','manifest_sha256','statistics_sha256','model_loaded','CUDA_initialized'] if k in value}
+if HOPPER:
+ ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+ v['Hopper_ledger']={k:ledger.get(k) for k in ['GPU_allocated_s','GPU_reserved_s','model_loads','model_smoke_updates','main_updates','pending_updates','CPU_s']}
+ latest=ledger['PBS_submissions'][-1]['request_id'] if ledger['PBS_submissions'] else None
+ v['PBS_logs']={p.parent.name:p.read_text()[-4000:] for p in (root/'pbs').glob('*/pbs.log') if p.parent.name==latest}
+ v['training']={str(p.relative_to(root)):json.loads(p.read_text())['status'] for p in (root/'training').glob('*/*/TRAINING_RUN.json')}
+v['audits']=[dict(id=p.parent.name,**{k:json.loads(p.read_text()).get(k) for k in ('status','admitted','error')}) for p in (root/'episodes').glob('*/AUDIT.json')]
+print(json.dumps(v))
+'''
+
+if __name__=='__main__':
+ for host in ['corelab-4080s','hopper']:
+  result=remote(host,'RUN='+repr(RUN)+'\nHOPPER='+repr(host=='hopper')+'\n'+CODE)
+  save(BASE/('STATUS_'+host+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+  if result.returncode:print(json.dumps(dict(host=host,error=result.stderr[-2000:])));continue
+  value=json.loads(result.stdout)
+  value['processes']=[r for r in value['processes'] if r['live_identity_verified']]
+  value['result_count']=len(value['results'])
+  value['results']=value['results'][-4:]
+  value['results']=[{k:r.get(k) for k in ('id','status','physics_steps','paired_samples','error','static_qualification_status')}|
+   dict(success=r.get('score',{}).get('persistent_success'),safety=r.get('score',{}).get('safety_valid')) for r in value['results']]
+  if value['queue']:
+   value['queue']['records_count']=len(value['queue']['records'])
+   value['queue'].pop('records')
+  value['logs']={k:v[-1200:] for k,v in value['logs'].items() if v and not k.startswith(('corelab-development','hopper-cpu','development-independent-audit'))}
+  value['audit_count']=len(value['audits']);value['audits']=value['audits'][-3:]
+  if value.get('PBS_logs'):
+   latest=list(value['PBS_logs'])[-1];value['PBS_logs']={latest:value['PBS_logs'][latest][-2200:]}
+  print(json.dumps(dict(host=host,**value)))

@@ -1,0 +1,70 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read persisted small receipts only; no raw replay or data qualification."""
+import json
+import shlex
+import subprocess
+
+from pi0291_resume_inspect import ROOT
+
+REMOTE = r'''
+import hashlib,json,resource,time
+from pathlib import Path
+r=Path(ROOT)
+def read(path):
+    if not path.is_file():
+        return dict(present=False)
+    b=path.read_bytes()
+    return dict(present=True,sha256=hashlib.sha256(b).hexdigest(),bytes=len(b),value=json.loads(b))
+ledger=json.loads((r/'RESOURCE_ACCOUNTING.json').read_text())
+charged={x['stage'] for x in ledger['events']}
+audits=[]
+pending=[]
+for p in sorted((r/'evidence').glob('*.json')):
+    if p.name.startswith(('T291','CPU_AUX_','PREPACK_','QUEUE_')):
+        v=read(p)
+        if p.name.startswith('T291'):
+            if 'RAW_AUDIT' not in p.name:
+                continue
+            a=v['value']
+            result=next((x for x in a.values() if isinstance(x,dict) and x.get('status')=='PASS_FULL_RAW_AUDIT'),a)
+            keys=['id','status','complete','source_sha','physics_sha256','samples_sha256','manifest_sha256','paired_samples','physics_steps','actual_committed_H40_windows']
+            audits.append(dict(file=p.name,sha256=v['sha256'],CPU_s=a.get('CPU_s'),result={k:result.get(k) for k in keys}))
+        else:
+            stage='extra_receipt_evidence/'+p.name
+            if p.name.startswith('QUEUE_') or stage not in charged:
+                value=v['value']
+                if p.name.startswith('QUEUE_'):
+                    value={k:value.get(k) for k in ['phase','source_sha','requested','unattempted','began_epoch','updated_epoch','physics_cutoff_epoch','no_retries']}
+                    value['attempted']=[{k:row.get(k) for k in ['id','physics_status','physics_success','structure_valid','structure_error','paired_samples','physics_steps','physics_sha256','wall_s']} for row in v['value'].get('attempted',[])]
+                else:
+                    value={k:value.get(k) for k in ['status','CPU_s','CPU_total_s','CPU_self_s','CPU_children_s','episodes','completed','source_sha']}
+                pending.append(dict(file=p.name,sha256=v['sha256'],value=value))
+results=[]
+for identifier in [f'T291{i:03d}' for i in range(64)]+[f'D291{i:03d}' for i in range(16)]:
+    ep=r/'episodes'/identifier
+    result=read(ep/'RESULT.json')
+    if result['present']:
+        manifest=read(ep/'FILE_MANIFEST.json')
+        manifest.pop('value',None)
+        value=result['value']
+        score=value.get('score',{})
+        result['value']={k:value.get(k) for k in ['id','status','source_sha','physics_steps','paired_samples','CPU_s','GPU_s','error']}
+        result['value']['persistent_success']=score.get('persistent_success')
+        results.append(dict(id=identifier,result=result,manifest=manifest))
+    else:
+        results.append(dict(id=identifier,RESULT_present=False,episode_directory_present=ep.exists()))
+outputs={name:(r/name).exists() for name in ['DATASET_ADMISSION.json','ATTEMPT_LEDGER.jsonl','native_dataset','evidence/DATALOADER_SMOKE.json','TRANSFER_MANIFEST.json','evidence/HF_READBACK_RECEIPT.json']}
+u=resource.getrusage(resource.RUSAGE_SELF)
+print(json.dumps(dict(observed_epoch=time.time(),audits=audits,pending_receipts=pending,results=results,delivery_paths_present=outputs,inspection_CPU_s=u.ru_utime+u.ru_stime,read_only=True,raw_bytes_replayed=False)))
+'''
+
+if __name__ == '__main__':
+    code='ROOT='+repr(ROOT)+'\n'+REMOTE
+    options=['-o','BatchMode=yes','-o','ConnectTimeout=5']
+    inner=shlex.join(['ssh',*options,'corelab-4080s',shlex.join(['python3','-c',code])])
+    r=subprocess.run(['ssh',*options,'corelab-amd-server',inner],capture_output=True,text=True,timeout=30)
+    if r.returncode:
+        raise RuntimeError(r.stderr)
+    print(r.stdout,end='')

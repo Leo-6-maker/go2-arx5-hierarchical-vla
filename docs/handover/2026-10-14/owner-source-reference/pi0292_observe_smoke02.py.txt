@@ -1,0 +1,51 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read exact retry job, wrapper and bounded logs; no restart or cancellation."""
+import argparse
+import json
+import time
+from pi0292_adopt import BASE,RUN_ID,remote,save
+CODE=r'''
+import json,subprocess,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN
+ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+entries=[r for r in ledger['PBS_submissions'] if r['request_id']==REQUEST_ID]
+assert len(entries)==1
+entry=entries[0];job=entry.get('job_id');info=None
+if job:
+ r=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat','-xf','-F','json',job],capture_output=True,text=True,timeout=20)
+ if r.returncode==0:info=json.loads(r.stdout)['Jobs'][job]
+ else:info=dict(query_exit=r.returncode,query_error=r.stderr[-1200:])
+wrapper=root/'evidence'/('PBS_SMOKE_'+REQUEST_ID+'.json')
+state=json.loads(wrapper.read_text()) if wrapper.exists() else None
+logs={}
+for name in ['pbs-smoke-'+REQUEST_ID.rsplit('-',1)[-1]+'.log',
+ *[REQUEST_ID+'_'+suffix for suffix in ('smoke-continuous.stderr','smoke-continuous.stdout',
+ 'smoke-first.stderr','smoke-resume.stderr','compare.stderr')]]:
+ path=root/'logs'/name
+ if path.exists():
+  with path.open('rb') as f:f.seek(max(0,path.stat().st_size-5000));logs[name]=f.read().decode(errors='replace')
+identities=[]
+if state:
+ for pid,start in [(state['pid'],None),(state.get('child_pid'),state.get('child_start'))]:
+  if not pid:continue
+  proc=Path('/proc')/str(pid)/'stat'
+  observed=proc.read_text().split() if proc.exists() else None
+  identities.append(dict(pid=pid,observed_on_login=observed is not None,
+   interpretation='PBS compute-node processes are not visible in login /proc; scheduler R and compute-node verification required'))
+admission=root/'pbs'/REQUEST_ID/'ALLOCATION_ADMISSION.json'
+print(json.dumps(dict(epoch=time.time(),entry=entry,job=info,wrapper=state,logs=logs,
+ admission=json.loads(admission.read_text()) if admission.exists() else None,
+ ledger={k:ledger[k] for k in ('CPU_s','CPU_upper_s','GPU_allocated_s','model_loads','model_smoke_updates','main_updates','generation_queries')},
+ pending_updates=ledger.get('pending_updates'),process_observation=identities)))
+'''
+parser=argparse.ArgumentParser();parser.add_argument('--request',choices=['S3-smoke-02','S3-smoke-03'],default='S3-smoke-02');args=parser.parse_args()
+r=remote('hopper','RUN='+repr(RUN_ID)+'\nREQUEST_ID='+repr(args.request)+'\n'+CODE)
+save(BASE/(args.request+'_OBSERVATION_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+if r.returncode:raise SystemExit(r.stderr[-2000:])
+value=json.loads(r.stdout)
+if value['job'] and 'Job_Name' in value['job']:
+ value['job']={k:value['job'].get(k) for k in ('Job_Name','job_state','project','Resource_List','resources_used','exec_host','stime','Exit_status','comment')}
+print(json.dumps(value))

@@ -1,0 +1,157 @@
+{
+  "actual_delete_counts": {
+    "directories_removed": 24055,
+    "regular_files_unlinked": 193073,
+    "retired_roots": 282,
+    "separate_alias_symlinks_unlinked": 10,
+    "symlink_objects_unlinked_within_roots": 796
+  },
+  "additional_exact_cache_delete": {
+    "allocated_bytes_unlinked": 175456256,
+    "directories": 7,
+    "quota_report_resolution_note": "The displayed quota remained 707.4 GB at 0.1 GB precision.",
+    "regular_files": 15
+  },
+  "home": {
+    "latest_quota_after": {
+      "hard": "40.00 GB",
+      "reported_at_sgt": "2026-10-13 16:49",
+      "used": "20.52 GB"
+    },
+    "modified_by_this_run": false,
+    "note": "The Home before-entry list was not captured contemporaneously; no Home files were modified by this cleanup.",
+    "quota_before": {
+      "hard": "40.00 GB",
+      "reported_at_sgt": "2026-10-13 14:49",
+      "used": "20.52 GB"
+    },
+    "top_level_after_entry_count": 63,
+    "top_level_before_list_captured": false
+  },
+  "personal_scratch_quota": {
+    "after": {
+      "chunk_files": 538542,
+      "hard": "1.0 TB",
+      "reported_at_sgt": "2026-10-13 17:53",
+      "used": "707.4 GB"
+    },
+    "before": {
+      "chunk_files": 696063,
+      "hard": "1.0 TB",
+      "reported_at_sgt": "2026-10-13 15:43",
+      "used": "940.7 GB"
+    },
+    "change": {
+      "approximate_improvement": "about 217 GiB",
+      "below_850GB_target": true,
+      "used_delta": "-233.3 GB"
+    }
+  },
+  "projects_root": {
+    "after_entries": [
+      {
+        "name": "PI0292",
+        "type": "d"
+      },
+      {
+        "name": "archive",
+        "type": "d"
+      },
+      {
+        "name": "data",
+        "type": "d"
+      },
+      {
+        "name": "experiments",
+        "type": "d"
+      },
+      {
+        "name": "inventory",
+        "type": "d"
+      },
+      {
+        "name": "repositories",
+        "type": "d"
+      },
+      {
+        "name": "runtime",
+        "type": "d"
+      }
+    ],
+    "after_entry_count": 7,
+    "before_entries": [
+      {
+        "name": "data",
+        "type": "directory"
+      },
+      {
+        "name": "repositories",
+        "type": "directory"
+      },
+      {
+        "name": "runtime",
+        "type": "directory"
+      },
+      {
+        "name": "archive",
+        "type": "directory"
+      },
+      {
+        "name": "experiments",
+        "type": "directory"
+      },
+      {
+        "name": "PI0292",
+        "type": "directory"
+      },
+      {
+        "name": "inventory",
+        "type": "directory"
+      },
+      {
+        "name": "PI0250",
+        "type": "symlink"
+      },
+      {
+        "name": "historical_launchers",
+        "type": "symlink"
+      },
+      {
+        "name": "historical_pbs_logs",
+        "type": "symlink"
+      },
+      {
+        "name": "misc_classified",
+        "type": "symlink"
+      },
+      {
+        "name": "probes",
+        "type": "symlink"
+      }
+    ],
+    "before_entry_count": 12,
+    "personal_symlink_aliases_removed_from_projects_root": 5
+  },
+  "remaining_cache_audit": {
+    "older_generic_runtime_cache_namespaces": {
+      "action": "Retained because they predate September, fall outside the authorized date scope, and have no exact file manifest.",
+      "last_modified_dates": [
+        "2026-05-20",
+        "2026-05-23",
+        "2026-08-04"
+      ],
+      "recursive_size_accounted": false
+    },
+    "september_hf_snapshot_metadata": {
+      "action": "Retained as small provenance/configuration metadata.",
+      "cached_blob_bytes": 107154,
+      "cached_blob_count": 3,
+      "snapshot_directories": 4,
+      "weight_files_present": 0
+    },
+    "september_hf_xet_temporary_cache": "Deleted by exact manifest: 15 files, 7 directories, 175456256 allocated bytes; all files had nlink 1 and no open handles."
+  },
+  "run_id": "20261013T072949Z-localpc-hopper-large-model-retirement",
+  "schema": "HOPPER_RESOURCE_BEFORE_AFTER_V1",
+  "scope_observation": "The archived stage_runs directory is empty. Remaining experiment roots are dated October 1-9 and were excluded from this September-only authorization."
+}

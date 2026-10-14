@@ -1,0 +1,61 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""PI0294 route override explicitly supplied by the human and host-key checked."""
+import json
+import os
+from pathlib import Path
+import shlex
+import subprocess
+
+from pi0292_adopt import remote as existing_remote
+
+ROUTE=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/PI0294_CORE_ROUTE.private.json')
+
+
+def remote_multiplexed(host,code):
+    """Opt-in ordinary SSH channel reuse; no forwarding or listener is added."""
+    assert host in ('corelab-amd-server','corelab-4080s','hopper')
+    folder=Path.home()/'.cache/gr00t-ssh'
+    folder.mkdir(parents=True,mode=0o700,exist_ok=True)
+    assert not folder.is_symlink() and folder.stat().st_uid==os.getuid() and folder.stat().st_mode&0o077==0
+    opts=['-o','BatchMode=yes','-o','ConnectTimeout=15','-o','ServerAliveInterval=10',
+        '-o','ServerAliveCountMax=3','-o','StrictHostKeyChecking=yes','-o','ControlMaster=auto',
+        '-o','ControlPersist=30','-o','ControlPath='+str(folder/'PI0294-%C')]
+    target=host;command=shlex.join(['python3','-'])
+    if host.startswith('corelab-'):
+        route=json.loads(ROUTE.read_text())
+        assert route['known_original_host_key_verified'] and route['StrictHostKeyChecking']=='yes'
+        target=route['ssh_config_alias']
+        opts+=['-o','HostName='+route['hostname_override'],'-o','HostKeyAlias='+route['trusted_host_key_alias']]
+        if host=='corelab-4080s':
+            wrapper='''
+import os,sys,subprocess
+from pathlib import Path
+folder=Path.home()/'.cache/gr00t-ssh'
+folder.mkdir(parents=True,mode=0o700,exist_ok=True)
+assert not folder.is_symlink() and folder.stat().st_uid==os.getuid() and folder.stat().st_mode&0o077==0
+opts=['-o','BatchMode=yes','-o','ConnectTimeout=15','-o','ServerAliveInterval=10',
+ '-o','ServerAliveCountMax=3','-o','StrictHostKeyChecking=yes','-o','ControlMaster=auto',
+ '-o','ControlPersist=30','-o','ControlPath='+str(folder/'PI0294-%C')]
+result=subprocess.run(['ssh',*opts,'corelab-4080s','python3 -'],input=sys.stdin.read(),text=True,timeout=100)
+raise SystemExit(result.returncode)
+'''
+            command=shlex.join(['python3','-c',wrapper])
+    return subprocess.run(['ssh',*opts,target,command],input=code,capture_output=True,text=True,timeout=120)
+
+
+def remote(host,code):
+    if host not in ('corelab-amd-server','corelab-4080s') or not ROUTE.exists():
+        return existing_remote(host,code)
+    route=json.loads(ROUTE.read_text())
+    assert route['owner']=='EXISTING_LOCAL_PC' and route['known_original_host_key_verified']
+    assert route['actual_remote_hostname']=='corelab-amd-server' and route['actual_remote_uid']==2009
+    assert route['StrictHostKeyChecking']=='yes' and route['BatchMode']=='yes'
+    opts=['-o','BatchMode=yes','-o','ConnectTimeout=15','-o','ServerAliveInterval=10','-o','ServerAliveCountMax=3']
+    command=shlex.join(['python3','-'])
+    if host=='corelab-4080s':command=shlex.join(['ssh',*opts,host,command])
+    args=['ssh',*opts,'-o','HostName='+route['hostname_override'],
+        '-o','HostKeyAlias='+route['trusted_host_key_alias'],'-o','StrictHostKeyChecking=yes',
+        route['ssh_config_alias'],command]
+    return subprocess.run(args,input=code,capture_output=True,text=True,timeout=120)

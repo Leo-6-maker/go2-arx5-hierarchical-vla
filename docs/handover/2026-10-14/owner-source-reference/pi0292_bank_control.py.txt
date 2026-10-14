@@ -1,0 +1,79 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Launch once or read the durable bank CPU/transfer stages, without physics."""
+import argparse
+import json
+import subprocess
+import sys
+import time
+from pi0292_adopt import BASE,REPO,NEW,OLD,remote,save
+
+CODE=r'''
+import json,os,subprocess,time
+from pathlib import Path
+root=Path(NEW);ops=root/'operations'/SOURCE
+def read(path):return json.loads(path.read_text())
+repair=STAGE=='transfer' and (REPAIR or (ACTION=='status' and (root/'evidence/BANK_TRANSFER_PROGRESS_repair1.json').exists()))
+suffix=STAGE+('_repair1' if repair else '')
+receipt=root/'evidence'/('BANK_PIPELINE.json' if STAGE=='bank' else ('BANK_TRANSFER_PROGRESS_repair1.json' if repair else 'BANK_TRANSFER_PROGRESS.json'))
+if ACTION=='launch':
+    assert not receipt.exists(),'Preserve existing stage and inspect status'
+    assert (ops/'OPERATIONS_SEAL.json').is_file()
+    python='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/runtime/venv/bin/python'
+    source='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/src/isaac-gr00t'
+    cosmos='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561'
+    if STAGE=='bank':
+        prior=read(root/'evidence/DISPATCH_supplement.json')
+        assert prior['status']=='TERMINAL_SUCCESS' and len(prior['records'])==24
+        p=Path('/proc')/str(prior['pid'])/'stat'
+        assert not p.exists() or p.read_text().split()[21]!=str(prior['proc_start']) or p.read_text().split()[2]=='Z'
+        cmd=[python,'-m','scripts.pi0292.bank_pipeline','--root',str(root),'--old',OLD,'--operations',str(ops),
+            '--python',python,'--source',source,'--cosmos',cosmos]
+    else:
+        assert read(root/'evidence/BANK_PIPELINE.json')['status']=='BANK_V2_CPU_AND_EXPERT_PROBE_QUALIFIED'
+        dependency=root/'ORIGINAL_TRANSFER_MANIFEST.private.json'
+        if dependency.exists():assert read(dependency)==ORIGINAL
+        else:
+            with dependency.open('x') as f:json.dump(ORIGINAL,f)
+            dependency.chmod(0o600)
+        cmd=[python,'-m','scripts.pi0292.hf_bank','--root',str(root),'--operations',str(ops),
+            '--repo','leoyuer/pi0291-arx5-fixed-base','--existing-token-file',TOKEN_PATH,
+            '--original-manifest',str(dependency),'--source',source,'--cosmos',cosmos]
+        if repair:cmd.append('--repair-preserved-packaging')
+    env=dict(os.environ,PYTHONPATH=str(ops)+':'+str(root/'code/src'),PYTHONDONTWRITEBYTECODE='1',
+        CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',
+        HF_HUB_OFFLINE='0' if STAGE=='transfer' else '1',TRANSFORMERS_OFFLINE='1')
+    with (root/'logs'/('owner_'+suffix+'.stdout')).open('xb') as out,(root/'logs'/('owner_'+suffix+'.stderr')).open('xb') as err:
+        child=subprocess.Popen(cmd,env=env,cwd=ops,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
+    result=dict(status='LAUNCHED_NOT_COMPLETED',stage=STAGE,pid=child.pid,
+        proc_start=Path('/proc/'+str(child.pid)+'/stat').read_text().split()[21],source_sha=SOURCE,epoch=time.time())
+    with (root/'evidence'/('OWNER_'+suffix+'_LAUNCH.json')).open('x') as f:json.dump(result,f,indent=2)
+else:
+    value=read(receipt) if receipt.exists() else None
+    launch=root/'evidence'/('OWNER_'+suffix+'_LAUNCH.json')
+    pid=read(launch)['pid'] if launch.exists() else None
+    proc=Path('/proc')/str(pid)/'stat'
+    stderr=root/'logs'/('owner_'+suffix+'.stderr')
+    result=dict(epoch=time.time(),state=value,ledger=read(root/'RESOURCE_LEDGER.json'),
+        launch=read(launch) if launch.exists() else None,proc=proc.read_text() if proc.exists() else None,
+        stderr_tail=stderr.read_text()[-3000:] if stderr.exists() else '')
+print(json.dumps(result))
+'''
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['launch','status']);parser.add_argument('stage',choices=['bank','transfer'])
+    parser.add_argument('--repair',action='store_true')
+    args=parser.parse_args();source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    values=dict(NEW=NEW,OLD=OLD,SOURCE=source,ACTION=args.action,STAGE=args.stage,REPAIR=args.repair)
+    if args.action=='launch' and args.stage=='transfer':
+        values['TOKEN_PATH']=json.loads((BASE.parent/'PI0291_EXISTING_AUTH_PATHS.json').read_text())['HF_core']
+        values['ORIGINAL']=json.loads((BASE.parent/'pi0291-receipts-1791855578/producer/evidence/TRANSFER_MANIFEST.json').read_text())
+    result=remote('corelab-4080s','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+    if result.returncode:print(result.stderr[-4000:]);sys.exit(result.returncode)
+    value=json.loads(result.stdout);save(BASE/(args.stage+'_'+args.action+'_'+str(int(time.time()))+'.private.json'),value)
+    if args.action=='launch':print(json.dumps(value))
+    else:
+        state=value['state'] or {};print(json.dumps(dict(status=state.get('status','NOT_STARTED'),current=state.get('current'),
+            steps=state.get('steps'),error=state.get('error'),stderr=value['stderr_tail'],CPU_s=value['ledger']['CPU_s'],
+            proc_present=value['proc'] is not None,source=source)))
