@@ -13,9 +13,12 @@ from .neural import verify_allocation
 
 
 def validate_stage(root, original, stage, *, job_id, sequence):
+    from . import r4
+    fourth=Path(root).name==r4.RUN
+    run=r4.RUN if fourth else RUN
     if set(stage) != {'run_uuid','job_id','sequence','mode','request_relative','request_sha256'}:
         raise PermissionError('EXACT_CONTINUATION_DIRECTIVE_REQUIRED')
-    if stage['run_uuid'] != RUN or stage['job_id'] != job_id or stage['sequence'] != sequence:
+    if stage['run_uuid'] != run or stage['job_id'] != job_id or stage['sequence'] != sequence:
         raise PermissionError('CONTINUATION_JOB_AND_NEXT_SEQUENCE_REQUIRED')
     if stage['mode'] == 'finish':
         if stage['request_relative'] is not None or stage['request_sha256'] is not None:
@@ -41,14 +44,18 @@ def validate_stage(root, original, stage, *, job_id, sequence):
     if request['stage'] != stage['mode'] or request['mode'] != stage['mode'] or request['allowed_modes'] != [stage['mode']]:
         raise PermissionError('EXACT_CONTINUATION_MODE_REQUIRED')
     if stage['mode'] == 'main':
-        if request['max_steps'] != 4096 or request['stop_at'] != 2048 or not request.get('resume'):
+        if request['max_steps'] != 4096 or request['stop_at'] != (4096 if fourth else 2048) or not request.get('resume'):
             raise PermissionError('RESUME_ORIGINAL_CHAIN_ONLY')
-    validate_mode(root,request)
+    (r4.validate_mode if fourth else validate_mode)(root,request)
     return path
 
 
 def run(args):
+    from . import r4
     root, request_path = Path(args.root), Path(args.request)
+    fourth=root.name==r4.RUN
+    cutoff=r4.CUTOFF if fourth else CUTOFF
+    run=r4.RUN if fourth else RUN
     original = read(request_path)
     allocation = verify_allocation(root,'continuation',request_path)
     owner = OwnerLock(root/'CONTINUATION_OWNER.lock')
@@ -56,11 +63,11 @@ def run(args):
     if directory.exists() and {p.name for p in directory.iterdir()}!={'NEXT-000.json'}:
         raise FileExistsError('Preserve previous actual continuation state')
     directory.mkdir(exist_ok=True)  # queued owner directive; validated before dispatch
-    state = dict(status='WAIT_OWNER_NEXT_SEALED_STAGE',run_uuid=RUN,job_id=allocation['job_id'],
+    state = dict(status='WAIT_OWNER_NEXT_SEALED_STAGE',run_uuid=run,job_id=allocation['job_id'],
         pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],
         parent_request_sha256=sha(request_path),sequence=0,stages=[],selected='NONE',deployment='NONE')
     try:
-        end = min(CUTOFF,allocation['allocation_end_epoch']-120)
+        end = min(cutoff,allocation['allocation_end_epoch']-120)
         while time.time() < end:
             state.update(status='WAIT_OWNER_NEXT_SEALED_STAGE',wait_started_epoch=time.time())
             write(directory/'STATE.json',state)
@@ -81,7 +88,7 @@ def run(args):
             write(directory/'STATE.json',state)
             cpu = resource.getrusage(resource.RUSAGE_CHILDREN)
             charged = read(root/'HOPPER_RESOURCE_LEDGER.json')['CPU_s']
-            remaining_cpu = int(57600-charged-cpu.ru_utime-cpu.ru_stime-120)
+            remaining_cpu = int((115200 if fourth else 57600)-charged-cpu.ru_utime-cpu.ru_stime-120)
             if remaining_cpu <= 0:
                 raise PermissionError('CONTINUATION_INCREMENTAL_CPU_CAP')
             def cpu_limit():

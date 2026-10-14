@@ -60,7 +60,8 @@ class ContinuationTests(unittest.TestCase):
         with self.assertRaises(PermissionError):c.validate_allocation(**broken)
 
     def test_resume_only_and_no_new_scheduler(self):
-        value=self.allocation();value['request'].update(stage='main',max_steps=4096,stop_at=2048,resume='/local/M512')
+        value=self.allocation();value['request'].update(stage='main',max_steps=4096,stop_at=2048,resume='/local/M512',walltime_s=14400)
+        value['jobs']['1']['Resource_List']['walltime']='04:00:00'
         c.validate_allocation(**value)
         for change in (dict(resume=None),dict(max_steps=6144),dict(stop_at=512)):
             broken=copy.deepcopy(value);broken['request'].update(change)

@@ -9,6 +9,25 @@ from .r4_collection import validate_pilot
 
 
 class R4AuthorityTests(unittest.TestCase):
+    def test_r4_native_resources_do_not_extend_r3(self):
+        from .test_continuation import ContinuationTests
+        from .continuation import validate_allocation
+        value=ContinuationTests().allocation();value['now']=r4.T0+100
+        value['project_receipt']['observed_epoch']=value['now']
+        value['quota']['report_epoch']=value['now']
+        value['request'].update(submit_count=3,walltime_s=28800)
+        value['jobs']['1']['Resource_List']['walltime']='08:00:00'
+        for key in ('2','3'):value['jobs'][key]=copy.deepcopy(value['jobs']['1'])
+        validate_allocation(**value,r4=True)
+        with self.assertRaises(PermissionError):validate_allocation(**value)
+        for key,new in (('submit_count',4),('prior_GPU_allocated_s',7201),('workers',2)):
+            bad=copy.deepcopy(value);bad['request'][key]=new
+            with self.assertRaises(PermissionError):validate_allocation(**bad,r4=True)
+        bad=copy.deepcopy(value);bad['jobs']['4']=copy.deepcopy(bad['jobs']['1'])
+        with self.assertRaises(PermissionError):validate_allocation(**bad,r4=True)
+        value['now']=r4.CUTOFF
+        with self.assertRaises(PermissionError):validate_allocation(**value,r4=True)
+
     def test_readonly_pilot_correction_remains_bound_to_original_bytes(self):
         rows=[dict(id=str(i),admitted=True,task_success=True,native_failure=False,
             worker_status='VALID_COMPLETE',audit_status='PASS_INDEPENDENT_RAW_AUDIT',

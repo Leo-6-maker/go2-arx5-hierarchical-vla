@@ -133,16 +133,19 @@ def validate_entry(root, *, profile, manifest_path=None, now=None, closeout=Fals
 
 
 def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
-                        request, hostname, initial=None):
-    if not T0 <= now < CUTOFF:
+                        request, hostname, initial=None, r4=False):
+    from .r4 import T0 as R4_T0,CUTOFF as R4_CUTOFF
+    start,cutoff=(R4_T0,R4_CUTOFF) if r4 else (T0,CUTOFF)
+    gpu_cap=36000 if r4 else 21600
+    if not start <= now < cutoff:
         raise PermissionError('CONTINUATION_SCIENCE_WINDOW_CLOSED')
     if request['stage'] not in ('continuation', 'resident', 'main'):
         raise PermissionError('NO_OLD_SMOKE_BENCHMARK_ARCHIVE_OR_M6144_STAGE')
-    amended = evaluation_amendment(request)
-    if (type(request['submit_count']) is not int or not 1 <= request['submit_count'] <= (3 if amended else 2)
-            or type(request['walltime_s']) is not int or not 0 < request['walltime_s'] <= 21600
+    amended = False if r4 else evaluation_amendment(request)
+    if (type(request['submit_count']) is not int or not 1 <= request['submit_count'] <= (3 if amended or r4 else 2)
+            or type(request['walltime_s']) is not int or not 0 < request['walltime_s'] <= gpu_cap
             or request['prior_GPU_allocated_s'] < 0
-            or request['prior_GPU_allocated_s']+request['walltime_s'] > 21600
+            or request['prior_GPU_allocated_s']+request['walltime_s'] > gpu_cap
             or request['numerical_mode'] != 'DETERMINISTIC_CUDA_MATH_SDP_V1'
             or request['microbatch'] != 2 or request['workers'] != 0):
         raise PermissionError('NEW_INCREMENTAL_ALLOCATION_OR_FROZEN_PROFILE_LIMIT')
@@ -150,8 +153,8 @@ def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
     if nonce.version != 4 or str(nonce) != request['request_nonce']:
         raise PermissionError('CONTINUATION_EXACT_NONCE')
     if request['stage'] == 'main' and (request['max_steps'] != 4096
-            or request['stop_at'] != 2048 or not request.get('resume')
-            or request['walltime_s'] > 14400):
+            or request['stop_at'] != (4096 if r4 else 2048) or not request.get('resume')
+            or request['walltime_s'] > (36000 if r4 else 14400)):
         raise PermissionError('ORIGINAL_FULL_STATE_RESUME_ONLY_NO_PRISTINE_OR_EXTENSION')
     job = jobs.get(job_id)
     if (job is None or job['job_state'] != 'R' or job['Job_Owner'].split('@')[0] != user
@@ -166,7 +169,7 @@ def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
         raise PermissionError('NO_NEURAL_ON_LOGIN_OR_FOREIGN_NODE')
     peers = {k:v for k,v in jobs.items() if k != job_id and v['job_state']=='R'
              and int(v.get('Resource_List',{}).get('ngpus',0)) > 0}
-    if len(peers) > (2 if amended else 1) or (not amended and not set(peers).issubset(request['allowed_peer_ids'])):
+    if len(peers) > (2 if amended or r4 else 1) or (not amended and not r4 and not set(peers).issubset(request['allowed_peer_ids'])):
         raise PermissionError('MAX_TWO_AUTHORIZED_INDEPENDENT_OWN_ALLOCATIONS')
     if any(v['Job_Owner'].split('@')[0] != user or int(v['Resource_List']['ngpus']) != 1 for v in peers.values()):
         raise PermissionError('OWN_SINGLE_GPU_PEER_REQUIRED')
@@ -180,11 +183,11 @@ def validate_allocation(*, now, user, job_id, jobs, quota, project_receipt,
             or not 0 < project_receipt['balance_su'] < float('inf')):
         raise PermissionError('INITIAL_NATIVE_PROJECT_MEMBERSHIP_AND_BALANCE')
     remaining = request['predicted_remaining_peak_bytes']
-    if (type(remaining) is not int or not 0 < remaining <= 120*GIB
+    if (type(remaining) is not int or not 0 < remaining <= (180 if r4 else 120)*GIB
             or quota['user'] != user or not 0 <= now-quota['report_epoch'] <= 900
             or quota['hard_bytes']-quota['used_bytes'] < remaining+20*GIB):
         raise PermissionError('FRESH_PERSONAL_QUOTA_NOT_SHARED_DF_REQUIRED')
-    return dict(status='PASS_PI0294_R3_OWN_NATIVE_PBS_ADMISSION_NOT_MODEL_QUALIFICATION',
+    return dict(status='PASS_PI0294_'+('R4' if r4 else 'R3')+'_OWN_NATIVE_PBS_ADMISSION_NOT_MODEL_QUALIFICATION',
                 job_id=job_id,hostname=hostname,project=PROJECT,observed_epoch=now,
                 project_proof_mode='INITIAL_NATIVE_PROJECT_PROOF' if initial is None else 'SAME_LIVE_PARENT_INITIAL_PROJECT_PROOF')
 
@@ -209,7 +212,14 @@ def validate_cpu_admission(manifest, admission, plan, workers, now):
 def admit(root, request_path):
     from scripts.pi0292.allocation_admission import owned_jobs, personal_quota
     root, request_path = Path(root), Path(request_path)
-    m = validate_entry(root, profile='hopper-neural')
+    from . import r4 as fourth
+    is_r4=root.name==fourth.RUN
+    entry=fourth.validate_entry if is_r4 else validate_entry
+    mode_check=fourth.validate_mode if is_r4 else validate_mode
+    run=root.name if is_r4 else RUN
+    cutoff=fourth.CUTOFF if is_r4 else CUTOFF
+    native_status='PASS_PI0294_'+('R4' if is_r4 else 'R3')+'_OWN_NATIVE_PBS_ADMISSION_NOT_MODEL_QUALIFICATION'
+    m = entry(root, profile='hopper-neural')
     request = read(within(request_path, root))
     if evaluation_amendment(request):
         proof = within(root/request['evaluation_amendment_relative'], root)
@@ -224,7 +234,7 @@ def admit(root, request_path):
     if sha(project_path) != request['project_admission_sha256']:
         raise PermissionError('CONTINUATION_INITIAL_PROJECT_PROOF_CHANGED')
     project = read(project_path)
-    if project['run_uuid'] != RUN or project['request_nonce'] != request['request_nonce']:
+    if project['run_uuid'] != run or project['request_nonce'] != request['request_nonce']:
         raise PermissionError('CONTINUATION_PROJECT_NONCE_AND_RUN_REQUIRED')
     job_id = os.environ.get('PBS_JOBID')
     if not job_id:
@@ -232,7 +242,7 @@ def admit(root, request_path):
     initial = None
     direct = request.get('initial_mode_allocation') is True
     if direct:
-        validate_mode(root, request)
+        mode_check(root, request)
     if request['stage'] != 'continuation' and not direct:
         parent = within(root/request['parent_request_relative'], root)
         if sha(parent) != request['parent_request_sha256'] or parent == request_path:
@@ -249,9 +259,9 @@ def admit(root, request_path):
         initial = read(parent.parent/'ALLOCATION_ADMISSION.json')
         state = read(parent.parent/'continuation-session/STATE.json')
         if (initial['request_sha256'] != sha(parent) or initial['job_id'] != job_id
-                or initial['status'] != 'PASS_PI0294_R3_OWN_NATIVE_PBS_ADMISSION_NOT_MODEL_QUALIFICATION'
+                or initial['status'] != native_status
                 or initial['project_attestation_sha256'] != request['project_admission_sha256']
-                or state['job_id'] != job_id or state['run_uuid'] != RUN
+                or state['job_id'] != job_id or state['run_uuid'] != run
                 or state['parent_request_sha256'] != sha(parent)
                 or state.get('active_request_sha256') != sha(request_path)
                 or state['status'] != 'RUNNING_'+request['stage'].upper()
@@ -268,20 +278,20 @@ def admit(root, request_path):
     owned = sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
     total = request['predicted_total_owned_peak_bytes']
     remaining = max(1, total-owned)
-    if (not 0 < total <= 120*GIB or owned > total
+    if (not 0 < total <= (180 if is_r4 else 120)*GIB or owned > total
             or shutil.disk_usage(root).free < remaining+20*GIB
-            or not 512 <= ledger['main_updates'] <= 2048 or ledger['pending_updates']
+            or not (2048 if is_r4 else 512) <= ledger['main_updates'] <= (4096 if is_r4 else 2048) or ledger['pending_updates']
             or len(ledger['PBS_submissions']) != request['submit_count']
-            or ledger['GPU_allocated_s']+ledger['GPU_reserved_s'] > 21600):
+            or ledger['GPU_allocated_s']+ledger['GPU_reserved_s'] > (36000 if is_r4 else 21600)):
         raise PermissionError('CONTINUATION_LIVE_LEDGER_AND_UNION_PEAK_REQUIRED')
     bound = dict(request, predicted_remaining_peak_bytes=remaining)
     jobs = owned_jobs(os.environ['USER'])
     result = validate_allocation(now=time.time(),user=os.environ['USER'],job_id=job_id,jobs=jobs,
         quota=personal_quota(os.environ['USER']),project_receipt=project,request=bound,
-        hostname=socket.gethostname(),initial=initial)
+        hostname=socket.gethostname(),initial=initial,r4=is_r4)
     elapsed = jobs[job_id].get('resources_used',{}).get('walltime','00:00:00')
     elapsed_s = sum(int(v)*m for v,m in zip(elapsed.split(':'),(3600,60,1)))
-    result.update(allocation_end_epoch=min(CUTOFF,time.time()+request['walltime_s']-elapsed_s),
+    result.update(allocation_end_epoch=min(cutoff,time.time()+request['walltime_s']-elapsed_s),
                   request_sha256=sha(request_path),project_attestation_sha256=request['project_admission_sha256'],
                   current_owned_bytes=owned,predicted_remaining_peak_bytes=remaining)
     if initial is not None:

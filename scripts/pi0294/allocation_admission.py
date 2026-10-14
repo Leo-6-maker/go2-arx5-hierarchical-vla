@@ -150,7 +150,8 @@ def night_parent_proof(root,request_path,request,*,job_id,now=None):
 
 def admit(root,request_path):
     from .continuation import RUN as CONTINUATION_RUN, admit as admit_continuation
-    if Path(root).name == CONTINUATION_RUN:
+    from .r4 import RUN as R4_RUN
+    if Path(root).name in (CONTINUATION_RUN,R4_RUN):
         return admit_continuation(root, request_path)
     root,request_path = Path(root),Path(request_path)
     from .run_admission import validate as entry_validate
@@ -243,6 +244,11 @@ def main():
             '--request',str(request_path)]
         os.execv(request['python'],command)
     from .continuation import RUN as CONTINUATION_RUN
+    from .r4 import RUN as R4_RUN
+    if root.name==R4_RUN and request['mode']=='main':
+        command=[request['python'],'-m','scripts.pi0294.r4_offline','--root',str(root),
+                 '--request',str(request_path),'--bindings',request['bindings'],'--resume',request['resume']]
+        os.execv(request['python'],command)
     if root.name==CONTINUATION_RUN and request['mode']=='main':
         command=[request['python'],'-m','scripts.pi0294.r3_offline','--root',str(root),
                  '--request',str(request_path),'--bindings',request['bindings'],'--resume',request['resume']]

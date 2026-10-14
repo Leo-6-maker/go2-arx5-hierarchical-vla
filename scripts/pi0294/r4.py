@@ -17,6 +17,41 @@ GO_COMMENT=6173988141
 T0,CUTOFF,DEADLINE,AUG_FREEZE=1791997770,1792037370,1792040970,1792008570
 
 
+def validate_mode(root,request):
+    root=Path(root)
+    if request['stage']=='main':
+        expected=Path(read(root/'PARENT_BINDING.private.json')['trained_checkpoint'])
+        if (request['mode']!='main' or request['allowed_modes']!=['main']
+                or request.get('arm')!='C0_V30_M4096' or request['max_steps']!=4096
+                or request['stop_at']!=4096 or Path(request['resume'])!=expected):
+            raise PermissionError('R4_ONLY_FROZEN_C0_FROM_COMPLETE_M2048')
+        proof=read(root/'evidence/R0_MODEL_BEHAVIOR_GATE.json')
+        if (proof['status']!='COMPLETE_ACTUAL_M2048_TRAIN4_DEV8_INPUT_CONTRACT_VALID'
+                or proof['M2048_TRAIN_attempts']!=4 or proof['M2048_DEV_attempts']!=8):
+            raise PermissionError('R4_ACTUAL_M2048_PANEL_BEFORE_TRAINING')
+        ready=within(root/request['local_M2048_ready_relative'],root)
+        if sha(ready)!=request['local_M2048_ready_sha256']:
+            raise PermissionError('R4_FULL_M2048_LOCAL_INVENTORY_CHANGED')
+        value=read(ready)
+        if (value['status']!='LOCAL_CHECKPOINT_READY' or value['global_step']!=2048
+                or value['consumed_samples']!=65536 or not value['full_member_SHA_verified']
+                or Path(value['source_directory'])!=expected):
+            raise PermissionError('R4_COMPLETE_ORIGINAL_M2048_TRAINER_REQUIRED')
+        acceleration=read(root/'evidence/DATALOADER_ACCELERATION.json')
+        if acceleration['selected_workers']!=request['workers'] or acceleration['selected_workers']!=0:
+            raise PermissionError('R4_CURRENT_C0_NATIVE_ZERO_WORKER_PROFILE_ONLY')
+    elif request['stage']=='resident':
+        path=within(root/request['S1_qualification_relative'],root)
+        proof=read(path)
+        if (sha(path)!=request['S1_qualification_sha256'] or proof['status']!='S1_TEACHER_QUALIFIED'
+                or proof['teacher_complete_successes']!=4 or proof['teacher_rejects']
+                or proof['live_native_failures'] or proof['clone_contexts_passed']<8):
+            raise PermissionError('R4_ORIGINAL_ACTUAL_S1_QUALIFICATION_REQUIRED')
+        if (root/'evidence/S1_REVOKED.json').exists():raise PermissionError('R4_S1_REVOKED')
+        if not 0<request['max_queries']<=6000:raise PermissionError('R4_GLOBAL_GENERATION_CAP')
+    else:raise PermissionError('R4_FIXED_MAIN_OR_RESIDENT_ONLY')
+
+
 def validate_entry(root,*,profile,manifest_path=None,now=None,closeout=False,hostname=None,uid=None,verify_source=True):
     root=Path(root);now=time.time() if now is None else now
     authority=within(root/'AUTHORITY_ADOPTION.json',root)

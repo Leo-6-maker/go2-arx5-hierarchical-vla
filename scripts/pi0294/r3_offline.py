@@ -9,7 +9,7 @@ from scripts.pi0292.durable import read,write
 from . import native_train,neural
 
 
-def install_observer(root,checkpoint):
+def install_observer(root,checkpoint,*,expected_step=512):
     original=native_train.make_trainer_class
     def factory():
         from transformers import TrainerCallback
@@ -26,7 +26,7 @@ def install_observer(root,checkpoint):
                     def on_step_begin(self,arguments,state,control,**kw):
                         if self.seen:return
                         self.seen=True
-                        if state.global_step!=512 or trainer.consumed!=16384:
+                        if state.global_step!=expected_step or trainer.consumed!=expected_step*32:
                             raise ValueError('R3_ORIGINAL_STEP_AND_CONSUMED_CURSOR_NOT_RESTORED')
                         tensors=trainer.model.state_dict();checked=set()
                         for file in sorted(checkpoint.glob('*.safetensors')):
@@ -64,7 +64,7 @@ def install_observer(root,checkpoint):
                             raise ValueError('R3_ACTUAL_OPTIMIZER_SCHEDULER_OR_RNG_RESTORE_MISMATCH')
                         write(root/'evidence/FULLSTATE_RESTORE.json',dict(
                             status='PASS_ACTUAL_PRE_UPDATE_MODEL_ADAM_SCHEDULER_RNG_SAMPLER',
-                            run_uuid=root.name,global_step=512,consumed_samples=16384,
+                            run_uuid=root.name,global_step=expected_step,consumed_samples=expected_step*32,
                             model_state_tensors_compared=len(checked),exact_tied_storage_aliases=aliases,
                             optimizer_equal=optimizer_equal,
                             scheduler_equal=scheduler_equal,rng_equal=rng_equal,
