@@ -1,3 +1,18 @@
+# GR00T＋WBC — 2026-10-15 当前科学入口
+
+**最新用户方向：完整Go2＋ARX5环境生产数据和测试，GR00T增加有界BASE速度意图，经原生BASE软位姿接口接入冻结WBC；工程问题在明确范围和既有资源内自主修复推进。**
+
+- [R4A完整长程计划](docs/protocols/PI0294_R4A_FULL_GO2_ARX5_AND_BASE_INTENT_V1.md)
+- [EEF13／BASE软参考接口契约](docs/interfaces/EEF13_BASE_SOFT_REFERENCE_V1.md)
+- [R4A机器任务卡](reports/PI0294/design/R4A_FULLBODY_TASK_CARD.json)
+- [现有Codex直接接手Prompt](docs/handover/2026-10-15/PI0294_R4A_EXECUTE_PROMPT.md)
+
+读取根AGENTS、最新#11/#47与原生运行状态后采用。最新已核验模型是M2048；R4旧v3.1增量在v3.0统计下codec失败保留。固定底座实验是基线，不再是完整整机搭建的永久前置。已运行作业不得热改或重复提交；新scope只使用已授权R4剩余资源和窗口，不新增预算、不重置T0。完整WBC在CoreLab仅作冻结推理/仿真执行器，高层GR00T仍在合法Hopper allocation；不授权WBC重训、实机或历史删除。
+
+完整整机、EEF13与BASE桥在有真实执行收据前是待实施，不因文档发布变成PASS。下列2026-10-14及更早的“当前状态/未授权/未推理”是历史接管记录，不应覆盖后续已发生的R2/R3/R4事实或本次范围增补。
+
+---
+
 # GR00T＋WBC — 唯一仓库与 CoreLab 工作入口（2026-10-13）
 
 **新 Codex 与所有后续工作请先从这里开始。** GitHub 是本团队 VLA 代码、协议、测试、小型执行收据的版本权威；CoreLab 共享 `~/Projects/GR00T-WBC` 是人类统一工作入口，但不能把私有原始数据、WBC、权重都视为已保存在 GitHub。
