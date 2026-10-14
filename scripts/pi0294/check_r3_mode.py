@@ -2,6 +2,10 @@
 from copy import deepcopy
 from pathlib import Path
 import argparse
+import sys
+if not __package__:
+    sys.path[:0]=[str(Path(__file__).resolve().parents[2]),str(Path(__file__).resolve().parents[2]/'src')]
+    __package__='scripts.pi0294'
 from scripts.pi0292.durable import write
 from .continuation import RUN,PARENT,AUTHORITY,GO_COMMENT,T0,LIMITS,MODE_AUTHORITY,validate_authority,validate_mode,sha
 
