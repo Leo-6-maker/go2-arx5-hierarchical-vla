@@ -12,11 +12,14 @@ from scripts.pi0292.relay_protocol import RelayExchange,PROTOCOL,sealed,unseal,e
 
 def model_registry(panel,cards,inventory,delivery,*,step,run_uuid,core,hopper,deadline_epoch,
                    inventory_sha256,processor_sha256,live_readiness_sha256,now=None,
-                   continuation_manifest=None):
+                   continuation_manifest=None,train_development=False):
     """Prepare local-owner cases; never load, select, dispatch or infer a model."""
     now=time.time() if now is None else now
-    category='TRAIN_DEVELOPMENT' if step==512 else 'DEV'
-    name='M512_TRAIN' if step==512 else 'SHARED_DEV'
+    train = step==512 or train_development
+    if train_development and (continuation_manifest is None or step!=2048):
+        raise PermissionError('R3_ONLY_ADDITIONAL_M2048_MATCHED_TRAIN4')
+    category='TRAIN_DEVELOPMENT' if train else 'DEV'
+    name='M512_TRAIN' if train else 'SHARED_DEV'
     local = continuation_manifest is not None
     panel_run = run_uuid
     cutoff = 1791939600
@@ -55,7 +58,7 @@ def model_registry(panel,cards,inventory,delivery,*,step,run_uuid,core,hopper,de
         statistics_sha256=inventory['statistics_sha256'])
     validate_identity(identity)
     rows=panel['panels'][name]
-    if len(rows)!=(4 if step==512 else 8) or len({r['original_attempt_id'] for r in rows})!=len(rows):
+    if len(rows)!=(4 if train else 8) or len({r['original_attempt_id'] for r in rows})!=len(rows):
         raise PermissionError('EXACT_REGISTERED_DEVELOPMENT_OR_DEV_DENOMINATOR')
     byid={c['id']:c for c in cards};pairs={};cases={}
     for row in rows:
@@ -63,7 +66,7 @@ def model_registry(panel,cards,inventory,delivery,*,step,run_uuid,core,hopper,de
         if (digest(original)!=row['original_card_sha256']
                 or original['initial_state_sha256']!=row['initial_state_sha256']
                 or original['scene_group']!=row['scene_group'] or original['task']!=row['task']
-                or original['split']!=('TRAIN' if step==512 else 'DEV')):
+                or original['split']!=('TRAIN' if train else 'DEV')):
             raise PermissionError('ORIGINAL_CARD_LANGUAGE_SPLIT_AND_INITIAL_STATE_CHANGED')
         pair=pairs.setdefault(original['scene_group'],[]);pair.append(original)
         card=copy.deepcopy(original)

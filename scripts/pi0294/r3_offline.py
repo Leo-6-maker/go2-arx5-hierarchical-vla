@@ -28,15 +28,25 @@ def install_observer(root,checkpoint):
                         self.seen=True
                         if state.global_step!=512 or trainer.consumed!=16384:
                             raise ValueError('R3_ORIGINAL_STEP_AND_CONSUMED_CURSOR_NOT_RESTORED')
-                        tensors=trainer.model.state_dict();checked=0
+                        tensors=trainer.model.state_dict();checked=set()
                         for file in sorted(checkpoint.glob('*.safetensors')):
                             with safe_open(str(file),framework='pt',device='cpu') as archive:
                                 for name in archive.keys():
                                     expected=archive.get_tensor(name);actual=tensors[name].detach().cpu()
                                     if expected.dtype!=actual.dtype or not torch.equal(expected,actual):
                                         raise ValueError('R3_MODEL_RESUME_TENSOR_CHANGED:'+name)
-                                    checked+=1
-                        if checked!=len(tensors):raise ValueError('R3_MODEL_RESUME_KEY_COVERAGE')
+                                    checked.add(name)
+                        # safetensors saves one owner of tied storage; require exact aliases.
+                        def storage(t):
+                            return (t.untyped_storage().data_ptr(),t.storage_offset(),t.shape,t.stride(),t.dtype)
+                        owners={storage(tensors[name]):name for name in checked};aliases={}
+                        for name in tensors.keys()-checked:
+                            owner=owners.get(storage(tensors[name]))
+                            if owner is None:
+                                write(root/'evidence/RESTORE_KEY_COVERAGE_FAILURE.json',dict(
+                                    saved_keys=len(checked),actual_keys=len(tensors),uncovered_key=name))
+                                raise ValueError('R3_UNSAVED_NONALIAS_STATE_KEY:'+name)
+                            aliases[name]=owner
                         expected=torch.load(checkpoint/'optimizer.pt',map_location='cpu',weights_only=False)
                         optimizer_equal=native_train.tree_identity(expected)==native_train.tree_identity(trainer.optimizer.state_dict())
                         del expected
@@ -55,7 +65,8 @@ def install_observer(root,checkpoint):
                         write(root/'evidence/FULLSTATE_RESTORE.json',dict(
                             status='PASS_ACTUAL_PRE_UPDATE_MODEL_ADAM_SCHEDULER_RNG_SAMPLER',
                             run_uuid=root.name,global_step=512,consumed_samples=16384,
-                            model_state_tensors_compared=checked,optimizer_equal=optimizer_equal,
+                            model_state_tensors_compared=len(checked),exact_tied_storage_aliases=aliases,
+                            optimizer_equal=optimizer_equal,
                             scheduler_equal=scheduler_equal,rng_equal=rng_equal,
                             sampler=trainer.sampler.state_dict(trainer.consumed),
                             updates_before_receipt=0,original_native_training_unchanged=True,

@@ -92,7 +92,12 @@ def main():
     if ledger['main_or_diagnostic_starts']+1>32 or ledger['main_or_diagnostic_integrations']+16000>512000 or ledger['RGB_pairs']+641>20512:
         raise PermissionError('R3_MAIN_BUDGET_CAP')
     folder=root/'episodes'/card['id'];folder.parent.mkdir(exist_ok=True)
-    deadline=min(ENGINEERING_DEADLINE,CUTOFF)
+    model='relay_request_relative' in card
+    deadline=CUTOFF if model else min(ENGINEERING_DEADLINE,CUTOFF)
+    if model:
+        qualification=read(root/'evidence/S1_TEACHER_QUALIFIED.json')
+        if qualification['status']!='S1_TEACHER_QUALIFIED' or qualification['live_native_failures']:
+            raise PermissionError('S1_ACTUAL_TEACHER_QUALIFICATION_REQUIRED')
     def guard():
         if time.time()>=deadline:raise TimeoutError('S1_ENGINEERING_TIMEBOX_CLOSED')
     guard();cpu_start=time.process_time()
@@ -105,11 +110,23 @@ def main():
     original=episode.make_teacher
     def factory(c,initial,engine):
         return ProtectedTeacher(original(c,initial,engine),engine,root,folder,ledger,guard,c['family']+'-'+c['task'])
-    episode.make_teacher=factory;result=None
+    original_relay=None
+    if model:
+        from . import relay_teacher
+        original_relay=relay_teacher.RelayTeacher
+        def protected_relay(t,r,f,c):
+            return ProtectedTeacher(original_relay(t,r,f,c),engine_holder[0],root,folder,ledger,guard,c['family']+'-'+c['task'])
+        engine_holder=[]
+        def base_factory(c,initial,engine):
+            engine_holder.append(engine);return original(c,initial,engine)
+        episode.make_teacher=base_factory;relay_teacher.RelayTeacher=protected_relay
+    else:episode.make_teacher=factory
+    result=None
     try:
         result=episode.run_episode(card,folder,reservation['asset_root'],reservation['source_sha'],reservation)
     finally:
         episode.make_teacher=original
+        if original_relay is not None:relay_teacher.RelayTeacher=original_relay
         ledger['main_or_diagnostic_starts']+=1
         ledger['main_or_diagnostic_integrations']+=result['physics_steps'] if result else 16000
         ledger['RGB_pairs']+=result['rgb_pairs'] if result else 641
