@@ -12,13 +12,8 @@
   "parent_R4_run": "20261014T170930Z-incoming-pi0294-r4",
   "parent_R4_authority_comment": 6173988141,
   "evidence_ref": "ca2b738575e3c37a753454f3b59f227331045408",
-  "adoption_actions": [
-    "REFRESH_NATIVE_JOBS_LEASES_AND_REMAINING_PARENT_BALANCE",
-    "RECORD_CURRENT_USER_INSTRUCTION_AND_FIXED_AMENDMENT_SHA_IN_ISSUE11",
-    "REPLACE_UNSTARTED_OPTIONAL_FIXED_BASE_C1_AND_COLLECTION_NOT_ADD_DUPLICATE_BUDGET",
-    "FINISH_HEALTHY_IN_FLIGHT_EPISODES_JOBS_AT_NORMAL_BOUNDARIES",
-    "NO_ROUTINE_REAPPROVAL_FOR_ALLOWLIST_ENGINEERING_FIXES"
-  ],
+  "concurrent_progress_receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/PROGRESS_0220.json",
+  "adoption_actions": ["REFRESH_NATIVE_JOBS_LEASES_AND_REMAINING_PARENT_BALANCE", "RECORD_CURRENT_USER_INSTRUCTION_AND_FIXED_AMENDMENT_SHA_IN_ISSUE11", "REPLACE_ONLY_UNSTARTED_OPTIONAL_FIXED_BASE_C1_AND_COLLECTION", "FINISH_HEALTHY_IN_FLIGHT_EPISODES_JOBS_AT_NORMAL_BOUNDARIES", "NO_ROUTINE_REAPPROVAL_FOR_ALLOWLIST_ENGINEERING_FIXES"],
   "scope_changes": {
     "primary_domain": "FULL_FLOATING_GO2_ARX5_NATIVE_WBC_TASK_SIM",
     "fixed_base_domain": "PRESERVED_DIAGNOSTIC_AND_REGRESSION_BASELINE",
@@ -70,7 +65,8 @@
     "native_input_trajectory_overwrite": false,
     "EEF_pose_relative_conversion_count": 1,
     "base_pose_endpoints": 41,
-    "EEF_endpoint_at_2s": "DECLARED_HOLD_BRIDGE_PADDING_NOT_NEW_LEARNED_TARGET"
+    "EEF_endpoint_at_2s": "DECLARED_HOLD_BRIDGE_PADDING_NOT_NEW_LEARNED_TARGET",
+    "zero_normalized_BASE_initialization": "MUST_PROVE_ZERO_PHYSICAL_INTENT_NOT_FORWARD_BIAS"
   },
   "new_observation": {
     "recommended_measured_state_fields": 19,
@@ -108,27 +104,12 @@
     "declared_initial_heading_range_rad": [0.15, 0.30],
     "ranges_are_candidate_design_not_measured_reachability": true,
     "base_required_requires_precomputed_reachability_evidence": true,
-    "pilot_groups": 2,
-    "pilot_episodes": 4,
+    "new_fullbody_pilot_groups": 2,
+    "new_fullbody_pilot_episodes_max": 4,
     "pilot_gate": "FOUR_COMPLETE_SAFE_TASK_SUCCESSES",
-    "v4_0_mob13": {
-      "TRAIN_groups": 12,
-      "DEV_groups": 4,
-      "TRAIN_episodes": 24,
-      "DEV_episodes": 8,
-      "TRAIN_groups_per_class": 4,
-      "minimum_TRAIN_admitted_per_task": 11,
-      "minimum_DEV_admitted_per_task": 3
-    },
-    "v4_1_mob13_cumulative": {
-      "TRAIN_groups": 24,
-      "DEV_groups": 8,
-      "TRAIN_episodes": 48,
-      "DEV_episodes": 16,
-      "minimum_TRAIN_admitted_per_task": 22,
-      "minimum_DEV_admitted_per_task": 7,
-      "includes_v4_0": true
-    },
+    "pilot_suballocation_amendment": "NEW_DOMAIN_FOUR_PILOTS_CHARGED_TO_REMAINING_PARENT_160_MAIN_STARTS_SEPARATE_FROM_PRIOR_FIXED_BASE_PILOTS_NO_TOTAL_RESOURCE_INCREASE",
+    "v4_0_mob13": {"TRAIN_groups": 12, "DEV_groups": 4, "TRAIN_episodes": 24, "DEV_episodes": 8, "TRAIN_groups_per_class": 4, "minimum_TRAIN_admitted_per_task": 11, "minimum_DEV_admitted_per_task": 3},
+    "v4_1_mob13_cumulative": {"TRAIN_groups": 24, "DEV_groups": 8, "TRAIN_episodes": 48, "DEV_episodes": 16, "minimum_TRAIN_admitted_per_task": 22, "minimum_DEV_admitted_per_task": 7, "includes_v4_0": true},
     "duration_s": 32,
     "episode_integrations": 16000,
     "episode_observations": 641,
@@ -136,10 +117,12 @@
     "episode_full_H40_windows": 601,
     "warmup_reset_settling_integrations": "SEPARATELY_COUNTED_INSIDE_PARENT_TOTAL",
     "target_base_label": "TEACHER_TASK_PREFERENCE_NOT_WBC_CORRECTION_OR_ACHIEVED_VELOCITY",
-    "new_stats": "FIT_NEW_MOBILE_TRAIN_ONLY_SEPARATE_VERSION",
+    "new_stats": "NEW_MOBILE_TRAIN_ONLY_EEF_STATS_AND_DECLARED_SYMMETRIC_BASE_BOUND_SCALE_NO_DEV_FIT",
     "hot_replace_v3_stats": false,
     "failed_seeds_replaced": false,
-    "public_raw_allowed": false
+    "public_raw_allowed": false,
+    "prior_R4_TRAIN_attempts_consume_shared_48_cap": true,
+    "insufficient_remaining_collection_budget": "PRIORITIZE_BOOTSTRAP_ELSE_PARTIAL_NO_FALSE_FULL_BANK"
   },
   "parallelism": {
     "reuse": ["scripts/pi0294/dispatcher.py", "scripts/pi0294/cpu_pipeline.py"],
@@ -232,7 +215,9 @@
     "local_new_peak_GiB": 4,
     "Hopper_personal_free_margin_GiB": 20,
     "new_TRAIN_total": 48,
-    "pilot_total": 4,
+    "new_DEV_max_within_main_budget": 16,
+    "new_fullbody_pilot_max_within_main_budget": 4,
+    "old_fixed_base_pilot_counts_retained_separately": true,
     "public_sanitized_checkpoint_total": 2,
     "public_sanitized_GiB_total": 60,
     "used_and_reserved_R4_costs_subtracted_first": true
