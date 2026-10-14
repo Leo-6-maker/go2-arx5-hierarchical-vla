@@ -117,6 +117,32 @@ def relink(root,native,startup):
             new_physics=0,leg_RL_forwards=0,GR00T_queries=0,plant_overlay_ready=False))
 
 
+def qualify_runtime_libraries(root,native,startup):
+    root,native,startup=map(Path,(root,native,startup));validate_scope(root)
+    with cpu_stage(root,'FULLBODY_CLOCK_RUNTIME_LIBRARIES_03',cores=1,cpu_s_cap=900):
+        out=root/'fullbody/clock-v1';previous=read(out/'RELINK_02.private.json')
+        if previous['exit'] or not (out/'go2_x5_ocs2_node').is_file():raise PermissionError('COMPLETED_RELINK_REQUIRED_NO_REBUILD')
+        original=subprocess.check_output(['bash','-c','source ./env.sh >/dev/null; printf "%s" "$LD_LIBRARY_PATH"'],cwd=native,text=True)
+        prefixes=[native.parent/'dependency-root/usr/lib/x86_64-linux-gnu',
+            native.parent/'dependency-root/opt/ros/jazzy/lib/x86_64-linux-gnu',
+            native.parent/'dependency-root/opt/ros/jazzy/lib',native/'install/lib',
+            native/'vendor/hpipm/lib',native/'vendor/blasfeo/lib']
+        library_path=':'.join(str(p) for p in prefixes if p.is_dir())+':'+original
+        env=dict(os.environ,LD_LIBRARY_PATH=library_path);checks={}
+        for name in ('rl_sim_mujoco','go2_x5_ocs2_node'):
+            p=subprocess.run(['ldd',str(out/name)],env=env,capture_output=True,text=True)
+            (out/('ldd-'+name+'-03.log')).write_text(p.stdout+p.stderr)
+            if p.returncode or 'not found' in p.stdout:raise RuntimeError('FROZEN_NATIVE_RUNTIME_CLOSURE_UNRESOLVED:'+name)
+            checks[name]=hashlib.sha256((out/name).read_bytes()).hexdigest()
+        write(out/'RUNTIME_ENV.private.json',dict(LD_LIBRARY_PATH=library_path,native_env_sha256=hashlib.sha256((native/'env.sh').read_bytes()).hexdigest(),
+            use_sim_time_required=True,independent_ROS_domain_required=True))
+        cfg=read(startup/'startup-v4/config.json')
+        write(out/'CLOCK_BUILD_RECEIPT.json',dict(status='CLOCK_OVERLAY_COMPILED_NOT_PHYSICS_QUALIFIED',
+            source_pins=cfg['core_hashes'],binary_sha256=checks,transitive_library_sha256=previous['library_sha256'],
+            reused_objects_unchanged=True,controller_costs_gains_limits_unchanged=True,original_native_environment_reused=True,
+            new_physics=0,leg_RL_forwards=0,GR00T_queries=0,plant_overlay_ready=False))
+
+
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     for name in ('root','native','startup'):p.add_argument('--'+name,required=True)
