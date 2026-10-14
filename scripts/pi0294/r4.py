@@ -51,6 +51,23 @@ def validate_entry(root,*,profile,manifest_path=None,now=None,closeout=False,hos
     return m
 
 
+def validate_cpu_admission(manifest,admission,plan,workers,now):
+    if (manifest['run_uuid']!=RUN or (admission['T0_epoch'],admission['cutoff_epoch'],admission['deadline_epoch'])!=(T0,CUTOFF,DEADLINE)
+            or admission['lease_expires_epoch']!=DEADLINE or not T0<=now<CUTOFF):raise PermissionError('R4_EXACT_COLLECTION_CLOCK')
+    caps=dict(physics_starts=160,physics_steps=2560000,rgb_pairs=102560,cpu_s=96*3600,output_bytes=96*1024**3)
+    if workers not in (1,2,4) or len(admission['allowed_cpus'])>16 or any(admission['limits'][k]>v for k,v in caps.items()):
+        raise PermissionError('R4_COLLECTION_RESOURCE_LIMIT')
+    if plan.get('kind') not in ('R4_CONTACT_PILOT','R4_CONTACT_TRAIN','R4_MODEL_EVALUATION'):raise PermissionError('R4_FIXED_AUTHORIZED_LANE_ONLY')
+    expected=4 if plan['kind']=='R4_CONTACT_PILOT' else 48 if plan['kind']=='R4_CONTACT_TRAIN' else None
+    if expected is not None and len(plan['episodes'])!=expected:raise PermissionError('R4_EXACT_FIXED_COLLECTION_COUNT')
+    root=Path(admission['root']);budget=read(root/'R4_RESOURCE_LEDGER.json')
+    reserved={c for r in budget['CPU_reservations'].values() for c in r['cpus']}
+    if reserved&set(admission['allowed_cpus']):raise PermissionError('R4_CPU_TICKETS_MUST_BE_DISJOINT')
+    if len(admission['allowed_cpus'])+len(reserved)>16:raise PermissionError('R4_UNION_CPU_CAP')
+    if admission['limits']['cpu_s']+budget['Core_CPU_s']+sum(r['cpu_s_cap'] for r in budget['CPU_reservations'].values())>96*3600:
+        raise PermissionError('R4_ALL_LANES_SHARE_CPU_BUDGET')
+
+
 @contextlib.contextmanager
 def cpu_stage(root,stage,*,cores=1,cpu_s_cap=7200):
     """One bounded CPU ticket and actual cost; no hidden physics/model budget."""

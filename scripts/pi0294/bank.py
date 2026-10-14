@@ -41,7 +41,9 @@ def validate_cpu_ticket(root, reservation_path, manifest_path=None):
     validate(root, profile=manifest['execution']['profile'], manifest_path=path)
     if manifest['code']['vla_commit'] != ticket['source_sha']:
         raise ValueError('CPU_SOURCE_IDENTITY_CHANGED')
-    if time.time() >= min(ticket['deadline_epoch'], 1791939600):
+    from .r4 import RUN as R4_RUN,CUTOFF as R4_CUTOFF
+    cutoff=R4_CUTOFF if root.name==R4_RUN else 1791939600
+    if time.time() >= min(ticket['deadline_epoch'], cutoff):
         raise TimeoutError('CPU_STAGE_RESERVATION_EXPIRED')
     cpus = ticket['cpus']
     if not cpus or len(cpus) > 16 or len(cpus) != len(set(cpus)) or not set(cpus).issubset(os.sched_getaffinity(0)):
