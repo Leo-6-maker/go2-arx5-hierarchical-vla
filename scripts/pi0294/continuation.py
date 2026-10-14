@@ -75,7 +75,10 @@ def validate_entry(root, *, profile, manifest_path=None, now=None, closeout=Fals
     host = socket.gethostname() if hostname is None else hostname
     uid = os.getuid() if uid is None else uid
     e = m['execution']
-    if root.name != RUN or e['profile'] != profile or e['uid'] != uid or host not in e['hostnames']:
+    native_compute = (profile=='hopper-neural' and os.environ.get('PBS_JOBID')
+                      and host.split('.')[0].removeprefix('hopper-').isdigit()
+                      and host.startswith('hopper-'))
+    if root.name != RUN or e['profile'] != profile or e['uid'] != uid or not(host in e['hostnames'] or native_compute):
         raise PermissionError('CONTINUATION_EXACT_HOST_PROFILE_OWNER')
     p = within(root/'OUTPUT_BINDING.private.json', root)
     b = read(p)
@@ -101,6 +104,8 @@ def validate_entry(root, *, profile, manifest_path=None, now=None, closeout=Fals
     if verify_source:
         seal_path = within(root/m['code']['source_seal_relative'], root)
         seal, code = read(seal_path), within(root/m['code']['capsule_relative'], root)
+        if Path(__file__).resolve() != (code/'scripts/pi0294/continuation.py').resolve():
+            raise PermissionError('R3_ADMISSION_MUST_EXECUTE_FROM_THIS_SEALED_CAPSULE')
         if (sha(seal_path) != m['code']['source_seal_sha256']
                 or seal['source_sha'] != m['code']['vla_commit']
                 or seal['protocol_release'] != AUTHORITY):
