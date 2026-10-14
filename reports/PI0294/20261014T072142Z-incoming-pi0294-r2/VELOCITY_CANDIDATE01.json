@@ -1,0 +1,48 @@
+{
+  "schema": "PI0294_R2_SINGLE_MECHANISM_CANDIDATE_V1",
+  "version": "R2_VEL_C01",
+  "kind": "VELOCITY_FEEDBACK",
+  "frozen_before_stress": true,
+  "evidence_sha256": "93b0e39f725371f269ea8cd2b3202df8fbe2c324a6e7e48bed1aca3ccb0a7cf5",
+  "evidence": "G0-ENG02 and fixed G1 A/B fail, C/D safe; original bias magnitude <=.02N; no claim of unique cause",
+  "inertia_diagonal_bound_kg": 0.091402,
+  "additional_damping_N_s_m": 9.093105473781332,
+  "gain_derivation": "2*sqrt(frozen400N/m * measured maximum diagonal inertia0.091402kg) - existing passive3Ns/m",
+  "diagonal_bound_is_not_exact_coupled_effective_inertia": true,
+  "passive_damping_unchanged": 3.0,
+  "effective_limit_m": [
+    -0.001,
+    0.045
+  ],
+  "nominal_limit_m": [
+    0,
+    0.044
+  ],
+  "force_cap_N": 8.0,
+  "reference_slew_m_s": 0.04,
+  "dt_s": 0.002,
+  "geometry_mass_friction_arm_gains_solver_unchanged": true,
+  "only_finger_motor_extra_dissipative_velocity_force": true,
+  "full_system_stability_claim": false,
+  "stress_order": [
+    "open_hold",
+    "closed_hold",
+    "open_close",
+    "close_open",
+    "high_end",
+    "failure_prefix_hold"
+  ],
+  "stress_initial_fingers": {
+    "open_hold": 0.044,
+    "closed_hold": 0,
+    "open_close": 0.044,
+    "close_open": 0,
+    "high_end": 0.044,
+    "failure_prefix_hold": 0.044
+  },
+  "after_any_real_safety_fail": "RETIRE_CANDIDATE_NO_SAME_PANEL_RETUNE",
+  "maximum_scientific_candidates": 2,
+  "second_candidate": "BIAS_ONLY_IF_DIAGNOSTICS_SUPPORT_NOT_AUTOMATIC",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

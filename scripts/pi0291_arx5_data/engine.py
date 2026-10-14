@@ -189,7 +189,7 @@ class Engine:
                     arm_q=self.data.qpos[self.arm_q].copy(), arm_qd=self.data.qvel[self.arm_v].copy(),
                     object_points=obj[:3, 3]+POINTS @ obj[:3, :3].T,
                     table_top_m=float(P['table_top']), last_ik_error=self.last_ik_error,
-                    driver_version=DRIVER_VERSION, ik_solve_calls=self.ik_solve_calls,
+                    driver_version=getattr(self, 'finger_driver_version', DRIVER_VERSION), ik_solve_calls=self.ik_solve_calls,
                     ik_cache_hits=self.ik_cache_hits)
 
     def step(self, target, opening):
@@ -206,6 +206,8 @@ class Engine:
         self.finger_targets += np.clip(desired-self.finger_targets,
                                        -P['finger_target_speed_m_s']*P['dt'], P['finger_target_speed_m_s']*P['dt'])
         finger_force = P['finger_kp']*(self.finger_targets-self.data.qpos[self.finger_q])
+        if hasattr(self, 'finger_driver'):
+            finger_force = self.finger_driver(self, finger_force)
         self.data.ctrl[self.finger_ctrl] = np.clip(finger_force, -P['finger_force_max_N'], P['finger_force_max_N'])
         self.data.xfrc_applied[:] = 0.
         self.data.qfrc_applied[:] = 0.

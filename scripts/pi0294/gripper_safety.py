@@ -212,15 +212,72 @@ def causal_replay(root,binding,output,guard,case):
         engine.close()
 
 
+def stress(root,binding,output,guard,case,driver_path):
+    import numpy as np
+    import mujoco
+    from scripts.pi0292.eval_contract import matrix10
+    from .gripper_driver import bind
+    cases=('open_hold','closed_hold','open_close','close_open','high_end','failure_prefix_hold')
+    if case not in cases:raise ValueError('EXACT_SIX_FROZEN_STRESS_CASES_REQUIRED')
+    spec_path=Path(driver_path)
+    if not spec_path.resolve().is_relative_to((root/'plans').resolve()):raise ValueError('REGISTERED_FROZEN_DRIVER_SPEC_REQUIRED')
+    spec=read(spec_path)
+    card,initial,old,nq,nv,commands=saved_inputs(binding)
+    engine=bind(create_original(card,initial,binding),spec)
+    rows=[];error=None;final=None
+    try:
+        if case in ('closed_hold','close_open'):
+            # Pre-registered initial finger condition, before the first integration.
+            engine.data.qpos[engine.finger_q]=0.;engine.data.qvel[engine.finger_v]=0.;engine.finger_targets[:]=0.
+            mujoco.mj_forward(engine.model,engine.data)
+        first=engine.snapshot();target=first['tcp'].copy()
+        initial_state=dict(qpos=engine.data.qpos.tolist(),qvel=engine.data.qvel.tolist(),finger_targets=engine.finger_targets.tolist())
+        try:
+            for i in range(2000):
+                guard()
+                t=i*.002
+                if i%25==0:engine.snapshot()
+                pose=target
+                if case=='open_hold':opening=1.
+                elif case=='closed_hold':opening=0.
+                elif case=='open_close':opening=1. if t<1 else 0.
+                elif case=='close_open':opening=0. if t<1 else 1.
+                elif case=='high_end':opening=float(commands[min(i//25,39),9])
+                else:
+                    point=commands[min(i//25,47)];pose=matrix10(point);opening=float(point[9])
+                try:engine.step(pose,opening)
+                except Exception as exc:error=f'{type(exc).__name__}: {exc}'
+                final=engine.snapshot()
+                rows.append(np.r_[engine.data.time,engine.data.qpos,engine.data.qvel,engine.data.ctrl,
+                    engine.data.xfrc_applied[engine.ids['tool']],float(bool(engine.safety))])
+                if error:break
+        except Exception as exc:error=f'{type(exc).__name__}: {exc}'
+        trace=np.asarray(rows)
+        np.savez_compressed(output/'stress_actual.npz',rows=trace,nq=nq,nv=nv)
+        q=trace[:,1+engine.finger_q] if len(trace) else np.empty((0,2))
+        return dict(case=case,driver_version=spec['version'],driver_spec_sha256=sha(spec_path),
+            status='VALID_SAFETY_FAIL_CANDIDATE_RETIRED' if engine.safety else 'ENGINEERING_FAILURE_PRESERVED' if error else 'STRESS_CASE_PASS',
+            error=error,safety=list(engine.safety),physics_steps=engine.steps,physical_starts=1,
+            initial_state=initial_state,final_finger_q=engine.data.qpos[engine.finger_q].tolist(),
+            finger_minimum_m=q.min(0).tolist() if len(q) else None,finger_maximum_m=q.max(0).tolist() if len(q) else None,
+            final_contacts=[] if final is None else final['contacts'],
+            finger_ctrl_saturation_rows=int((np.abs(trace[:,1+nq+nv+engine.finger_ctrl])>=8-1e-12).any(1).sum()) if len(q) else 0,
+            RGB_pairs=0,neural_queries=0,old_safety_and_arm_controller_unchanged=True,
+            explicit_last_reference_hold_after_2_4s=case=='failure_prefix_hold',task_success_claim=False)
+    finally:engine.close()
+
+
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--root',required=True);ap.add_argument('--phase',choices=['G0','G1'],required=True)
-    ap.add_argument('--case',choices=list('ABCD'));ap.add_argument('--attempt',type=int,default=1);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--root',required=True);ap.add_argument('--phase',choices=['G0','G1','G2'],required=True)
+    ap.add_argument('--case');ap.add_argument('--driver-spec');ap.add_argument('--attempt',type=int,default=1);a=ap.parse_args()
     if a.attempt<1:ap.error('positive source-bound engineering attempt required')
     if a.phase=='G1' and a.case is None:ap.error('G1 requires one fixed --case')
+    if a.phase=='G2' and (a.case is None or a.driver_spec is None):ap.error('G2 requires fixed case and driver spec')
     root=Path(a.root);manifest,binding=admitted(root)
     from scripts.pi0292.durable import OwnerLock,write
     lock=OwnerLock(root/'GRIPPER_STAGE_OWNER.lock')
     name=a.phase+('-'+a.case if a.case else '')
+    if a.phase=='G2':name+='-'+read(a.driver_spec)['version']
     if a.attempt>1:name+=f'-ENG{a.attempt:02d}'
     output=root/'evidence'/name
     output.mkdir(parents=True,exist_ok=False)
@@ -239,7 +296,9 @@ def main():
             raise RuntimeError('FOUR_GIB_PROCESS_MEMORY_LIMIT')
     result=None
     try:
-        result=force_balance(root,binding,output,guard) if a.phase=='G0' else causal_replay(root,binding,output,guard,a.case)
+        if a.phase=='G0':result=force_balance(root,binding,output,guard)
+        elif a.phase=='G1':result=causal_replay(root,binding,output,guard,a.case)
+        else:result=stress(root,binding,output,guard,a.case,a.driver_spec)
         write(output/'RESULT.json',result)
         state['status']='TERMINAL_RECORDED'
     except Exception as exc:
@@ -252,10 +311,11 @@ def main():
         state.update(cpu_s=used,wall_s=time.monotonic()-began)
         write(output/'STATE.json',state)
         ledger['Core_CPU_s']=ledger.get('Core_CPU_s',0)+used
-        ledger['physical_starts']=ledger.get('physical_starts',0)+(1 if a.phase=='G1' else 0)
-        charge=1200 if a.phase=='G1' and result is None else 0 if result is None else result.get('physics_steps',0)
+        ledger['physical_starts']=ledger.get('physical_starts',0)+(1 if a.phase in ('G1','G2') else 0)
+        bound=1200 if a.phase=='G1' else 2000
+        charge=bound if a.phase in ('G1','G2') and result is None else 0 if result is None else result.get('physics_steps',0)
         ledger['physics_integrations']=ledger.get('physics_integrations',0)+charge
-        if a.phase=='G1' and result is None:state['integration_charge']='CONSERVATIVE1200_EXACT_COUNT_UNOBSERVED'
+        if a.phase in ('G1','G2') and result is None:state['integration_charge']=f'CONSERVATIVE{bound}_EXACT_COUNT_UNOBSERVED'
         ledger.setdefault('stages',[]).append(dict(phase=name,CPU_s=used,status=state['status']))
         write(root/'RESOURCE_LEDGER.json',ledger)
         lock.close()
