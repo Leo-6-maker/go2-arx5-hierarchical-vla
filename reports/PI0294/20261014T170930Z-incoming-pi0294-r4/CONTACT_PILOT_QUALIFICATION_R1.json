@@ -1,0 +1,77 @@
+{
+  "status": "PASS_FOUR_ACTUAL_PILOT_AFTER_READ_ONLY_INTEGRITY_REPAIR",
+  "successes": 4,
+  "rejected": 0,
+  "native_failures": 0,
+  "rows": [
+    {
+      "id": "PI0294-R4-PILOT-APPROACH-000-T1",
+      "task_success": true,
+      "worker_status": "VALID_COMPLETE",
+      "admitted": true,
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "native_failure": false,
+      "physics_sha256": "488578b1f374d21e5d4ffe176e02cf433e9f683efed8a71282d02c0e7b94466f",
+      "worker_sha256": "4fdaa2c5f83c3e6fd18a68b8100454d8ebc729d04401239e5faed6a3606f08b4",
+      "audit_sha256": "23b1f8cc10a5bfeec9ac9ebd49366288e8d6a014d69c688adc15f63b51800646"
+    },
+    {
+      "id": "PI0294-R4-PILOT-APPROACH-000-T2",
+      "task_success": true,
+      "worker_status": "VALID_COMPLETE",
+      "admitted": true,
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "native_failure": false,
+      "physics_sha256": "7980cbd1dca08889fd40d409dde8915dd690c44e6de1e01849e5f70e6744e1e1",
+      "worker_sha256": "8b41c4628212f27c17baaac2f8760d9cc05d8fe8f56d230161e47bd92a1b1752",
+      "audit_sha256": "f34fedd65d0c7646df19506a91faf9d0f8c9ceffb906b32082ce15b5837de3f5"
+    },
+    {
+      "id": "PI0294-R4-PILOT-COMPOSITE-001-T1",
+      "task_success": true,
+      "worker_status": "VALID_COMPLETE",
+      "admitted": true,
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "native_failure": false,
+      "physics_sha256": "634493516da5fce8fe2082b4ef28569b67ea0df81eda535785a1d1233221a420",
+      "worker_sha256": "8e2e73e9b976eb50a02ccc021cbde1a39ca34257904347b45f4dd728ae77a664",
+      "audit_sha256": "0c73f90d5158af2832fcc975fdc1cccfbd445f8c0ab57b6a4383939d4d716bfb"
+    },
+    {
+      "id": "PI0294-R4-PILOT-COMPOSITE-001-T2",
+      "task_success": true,
+      "worker_status": "VALID_COMPLETE",
+      "admitted": true,
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "native_failure": false,
+      "physics_sha256": "4e48097971eedfa782bc685a4b96f94aebbbae95ab00582f9580229835a68853",
+      "worker_sha256": "5587771ea5c2d317c5e0c0d799a057a929153b30bf91f72af956acc7b2150549",
+      "audit_sha256": "1a8049ee2979fc6dd5d40c9e5b842594deb4c3d6be94f45ecb369938e69cfb9b"
+    }
+  ],
+  "read_only_repairs": [
+    {
+      "id": "PI0294-R4-PILOT-APPROACH-000-T1",
+      "status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "admitted": true,
+      "new_integrations": 0,
+      "new_render_calls": 0,
+      "new_model_loads": 0
+    },
+    {
+      "id": "PI0294-R4-PILOT-APPROACH-000-T2",
+      "status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "admitted": true,
+      "new_integrations": 0,
+      "new_render_calls": 0,
+      "new_model_loads": 0
+    }
+  ],
+  "original_qualification_sha256": "f321dfff655606b114a7d57ef5e9f627a05615e223f092279310058a241278b1",
+  "correction_scope": "ORIGINAL_MISLABELED_QUALITY_FAIL_WAS_TWO_MISSING_INDEX_AUDITS",
+  "original_failures_preserved": true,
+  "new_physics": 0,
+  "new_model_queries": 0,
+  "new_render_calls": 0,
+  "plan_sha256": "ce7c1d52d5e58855bb3de9c1d8fca95e0e8555097a16fd052c245667177acc0e"
+}
