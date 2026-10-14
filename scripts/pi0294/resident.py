@@ -177,11 +177,15 @@ def serve(args):
                checkpoint_identity=identity,selected='NONE',deployment='NONE')
     write(directory/'STATE.json',state)
     try:
+        ledger_path=root/'HOPPER_RESOURCE_LEDGER.json'
+        ledger=read(ledger_path);ledger['model_loads']+=1;write(ledger_path,ledger)
         model=ResidentModel(root,request_path,read(args.bindings),args.checkpoint,identity)
         def expire(signum,frame):raise TimeoutError('FRESH_QUERY_TIMEOUT_NO_RESAMPLE')
         signal.signal(signal.SIGALRM,expire)
         seen=set()
-        end=min(allocation['allocation_end_epoch']-120,1791943200)
+        from .continuation import RUN as CONTINUATION_RUN
+        boundary=read(root/'ADOPTION.json')['new_work_cutoff_epoch'] if root.name==CONTINUATION_RUN else 1791943200
+        end=min(allocation['allocation_end_epoch']-120,boundary)
         state['status']='RESIDENT_WAIT_FRESH_REAL_OBSERVATION';write(directory/'STATE.json',state)
         while time.time()<end:
             if (directory/'STOP.json').exists():
@@ -213,7 +217,15 @@ def serve(args):
                     raise ValueError('INITIAL_QUERY_HAS_NO_ACK')
                 if body['sequence'] and body['previous_ack'] is None:
                     raise ValueError('FRESH_QUERY_NEEDS_PREVIOUS_PHYSICS_ACK')
-                reservations.begin(body,time.time());seen.add(path.name)
+                from .continuation import RUN as CONTINUATION_RUN, LIMITS
+                if root.name==CONTINUATION_RUN:
+                    ledger=read(ledger_path)
+                    if ledger['generation_queries']>=LIMITS['generation_queries']:
+                        raise PermissionError('CONTINUATION_GLOBAL_QUERY_CAP')
+                    reservations.begin(body,time.time())
+                    ledger['generation_queries']+=1;write(ledger_path,ledger)
+                else:reservations.begin(body,time.time())
+                seen.add(path.name)
                 try:
                     signal.alarm(max(1,math.ceil(body['expires']-time.time())))
                     seed=int.from_bytes(hashlib.sha256(('PI0294/'+case['layout_id']+'/'+str(body['sequence'])).encode()).digest()[:8],'big')%(2**63)

@@ -37,6 +37,10 @@ def contained(path, parent):
 
 def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
              hostname=None, uid=None, verify_source=True):
+    from .continuation import RUN as CONTINUATION_RUN, validate_entry
+    if Path(root).name == CONTINUATION_RUN:
+        return validate_entry(root, profile=profile, manifest_path=manifest_path,
+            now=now, closeout=closeout, hostname=hostname, uid=uid, verify_source=verify_source)
     root = Path(root)
     manifest_path = contained(manifest_path or root / 'RUN_MANIFEST.json', root)
     manifest = read(manifest_path)

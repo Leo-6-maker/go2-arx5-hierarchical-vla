@@ -149,6 +149,9 @@ def night_parent_proof(root,request_path,request,*,job_id,now=None):
 
 
 def admit(root,request_path):
+    from .continuation import RUN as CONTINUATION_RUN, admit as admit_continuation
+    if Path(root).name == CONTINUATION_RUN:
+        return admit_continuation(root, request_path)
     root,request_path = Path(root),Path(request_path)
     from .run_admission import validate as entry_validate
     if not request_path.resolve().is_relative_to(root.resolve()):
@@ -213,6 +216,10 @@ def main():
         allocation_walltime_s=request['walltime_s'],prior_GPU_allocated_s=request['prior_GPU_allocated_s'],
         predicted_remaining_peak_bytes=request['predicted_remaining_peak_bytes'])
     write(root/'NEURAL_AUTHORIZATION.json',authorization)
+    if request['mode']=='continuation':
+        command=[request['python'],'-m','scripts.pi0294.continuation_session',
+            '--root',str(root),'--request',str(request_path),'--bindings',request['bindings']]
+        os.execv(request['python'],command)
     if request['mode']=='night-final':
         command=[request['python'],'-m','scripts.pi0294.night_session','--root',str(root),
             '--request',str(request_path),'--bindings',request['bindings'],

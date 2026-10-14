@@ -11,19 +11,34 @@ from scripts.pi0292.relay_protocol import RelayExchange,PROTOCOL,sealed,unseal,e
 
 
 def model_registry(panel,cards,inventory,delivery,*,step,run_uuid,core,hopper,deadline_epoch,
-                   inventory_sha256,processor_sha256,live_readiness_sha256,now=None):
+                   inventory_sha256,processor_sha256,live_readiness_sha256,now=None,
+                   continuation_manifest=None):
     """Prepare local-owner cases; never load, select, dispatch or infer a model."""
     now=time.time() if now is None else now
     category='TRAIN_DEVELOPMENT' if step==512 else 'DEV'
     name='M512_TRAIN' if step==512 else 'SHARED_DEV'
-    if (step not in (512,2048,4096,6144) or panel['run_uuid']!=run_uuid
+    local = continuation_manifest is not None
+    panel_run = run_uuid
+    cutoff = 1791939600
+    if local:
+        from .continuation import validate_authority, RUN, PARENT, CUTOFF
+        validate_authority(continuation_manifest, now)
+        if run_uuid != RUN or step not in (512,2048,4096):
+            raise PermissionError('EXACT_CONTINUATION_NO_M6144')
+        panel_run, cutoff = PARENT, CUTOFF
+        if (delivery.get('status') != 'LOCAL_CHECKPOINT_READY'
+                or delivery.get('run_uuid') != RUN or delivery.get('consumer_host_role') != 'hopper-neural'
+                or delivery.get('inventory_sha256') != inventory_sha256
+                or delivery.get('full_member_SHA_verified') is not True):
+            raise PermissionError('ACTUAL_SAME_NODE_FULL_LOCAL_STATE_REQUIRED')
+    if (step not in (512,2048,4096,6144) or panel['run_uuid']!=panel_run
             or panel['status']!='FROZEN_BEFORE_FIRST_V3_NEURAL_REQUALIFICATION_AND_MAIN_UPDATE'
-            or not panel['frozen_epoch']<=now<deadline_epoch<=1791939600):
+            or not panel['frozen_epoch']<=now<deadline_epoch<=cutoff):
         raise PermissionError('FIXED_PANELS_AND_ORIGINAL_PHYSICAL_CUTOFF_REQUIRED')
     if (inventory['kind']!='main' or inventory['global_step']!=step
             or inventory['status']!='FULL_STATE_BYTES_INVENTORIED_NOT_INDEPENDENT_RESUME_PROOF'
             or inventory['model_loaded'] or inventory['optimizer_pickle_loaded']
-            or delivery['status']!='PASS_COMPLETE_PRIVATE_CHECKPOINT_FIXED_REVISION_READBACK'
+            or delivery['status']!=('LOCAL_CHECKPOINT_READY' if local else 'PASS_COMPLETE_PRIVATE_CHECKPOINT_FIXED_REVISION_READBACK')
             or delivery['kind']!='main' or delivery['global_step']!=step
             or delivery['manifest_sha256']!=inventory_sha256
             or inventory['manifest_sha256']!=hopper['data_manifest_sha256']
@@ -34,7 +49,8 @@ def model_registry(panel,cards,inventory,delivery,*,step,run_uuid,core,hopper,de
             or any(n not in files for n in ('config.json','optimizer.pt','scheduler.pt','rng_state.pth','SAMPLER_STATE.json'))
             or any(delivery['files'].get(n)!=row for n,row in files.items())):
         raise PermissionError('ONE_FULL_DELIVERED_MODEL_AND_RESUME_INVENTORY_REQUIRED')
-    identity=dict(profile='B1',model_revision=delivery['revision'],source_sha=hopper['source_sha'],
+    model_revision = inventory_sha256[:40] if local else delivery['revision']
+    identity=dict(profile='B1',model_revision=model_revision,source_sha=hopper['source_sha'],
         config_sha256=files['config.json']['sha256'],processor_sha256=processor_sha256,
         statistics_sha256=inventory['statistics_sha256'])
     validate_identity(identity)
@@ -70,8 +86,9 @@ def model_registry(panel,cards,inventory,delivery,*,step,run_uuid,core,hopper,de
             raise PermissionError('SAME_INITIAL_SCENE_ONLY_LANGUAGE_DIFFERS')
     checkpoint_identity=dict(files={n:r['sha256'] for n,r in files.items()},relay_identity=identity,
         statistics_sha256=inventory['statistics_sha256'],checkpoint_manifest_sha256=inventory_sha256,
-        HF_revision=delivery['revision'],HF_prefix=delivery['prefix'],global_step=step,
-        revision_kind='PRIVATE_HF_FULL_STATE_READY_LAST_ARTIFACT_REVISION')
+        HF_revision='NOT_APPLICABLE_LOCAL_CONSUMER' if local else delivery['revision'],
+        HF_prefix='NOT_APPLICABLE_LOCAL_CONSUMER' if local else delivery['prefix'],global_step=step,
+        revision_kind='LOCAL_FULL_STATE_MANIFEST_SHA256_TRUNC40' if local else 'PRIVATE_HF_FULL_STATE_READY_LAST_ARTIFACT_REVISION')
     return dict(run_uuid=run_uuid,core_source_sha=core['source_sha'],hopper_source_sha=hopper['source_sha'],
         core_manifest_sha256=core['manifest_sha256'],hopper_manifest_sha256=hopper['manifest_sha256'],
         deadline_epoch=deadline_epoch,cases=cases,checkpoint_identity=checkpoint_identity,
