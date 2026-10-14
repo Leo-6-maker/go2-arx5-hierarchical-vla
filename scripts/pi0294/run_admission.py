@@ -37,6 +37,10 @@ def contained(path, parent):
 
 def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
              hostname=None, uid=None, verify_source=True):
+    from .r4 import RUN as R4_RUN, validate_entry as validate_r4
+    if Path(root).name == R4_RUN:
+        return validate_r4(root,profile=profile,manifest_path=manifest_path,now=now,
+            closeout=closeout,hostname=hostname,uid=uid,verify_source=verify_source)
     from .continuation import RUN as CONTINUATION_RUN, validate_entry
     if Path(root).name == CONTINUATION_RUN:
         return validate_entry(root, profile=profile, manifest_path=manifest_path,
