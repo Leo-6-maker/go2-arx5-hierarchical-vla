@@ -109,6 +109,7 @@ def validate_cpu_admission(manifest,admission,plan,workers,now):
 def cpu_stage(root,stage,*,cores=1,cpu_s_cap=7200):
     """One bounded CPU ticket and actual cost; no hidden physics/model budget."""
     root=Path(root);m=validate_entry(root,profile='4080-simulation');start=time.process_time()
+    children=resource.getrusage(resource.RUSAGE_CHILDREN)
     affinity=sorted(os.sched_getaffinity(0))[-16:]
     with_lock=OwnerLock(root/'R4_RESOURCE_OWNER.lock');p=root/'R4_RESOURCE_LEDGER.json';ledger=read(p)
     active=ledger['CPU_reservations']
@@ -127,7 +128,9 @@ def cpu_stage(root,stage,*,cores=1,cpu_s_cap=7200):
         yield m
         status='COMPLETE'
     finally:
-        cost=time.process_time()-start;owner=OwnerLock(root/'R4_RESOURCE_OWNER.lock');ledger=read(p)
+        used=resource.getrusage(resource.RUSAGE_CHILDREN)
+        cost=time.process_time()-start+used.ru_utime+used.ru_stime-children.ru_utime-children.ru_stime
+        owner=OwnerLock(root/'R4_RESOURCE_OWNER.lock');ledger=read(p)
         ledger['CPU_reservations'].pop(stage);ledger['Core_CPU_s']+=cost
         receipt=dict(ticket,status=status,finished_epoch=time.time(),actual_CPU_s=cost,new_neural_queries=0,new_physics=0)
         ledger['CPU_stages'].append(receipt);write(p,ledger);write(root/'evidence'/f'{stage}-CPU_RECEIPT.json',receipt);owner.close()
