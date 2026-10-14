@@ -75,6 +75,19 @@ def run(root,*,pilot,workers):
         coordinator_cpu_count=1,auxiliary_cpu_count=1,memory_limit_bytes=24*1024**3,
         free_space_margin_bytes=20*1024**3,limits=dict(physics_starts=160,physics_steps=2560000,rgb_pairs=102560,
             cpu_s=cap,output_bytes=72*1024**3),prior_actual=prior)
+    if previous and previous['source_sha']!=m['code']['vla_commit']:
+        boundary=root/Path(m['code']['capsule_relative']).parent/'BOUNDARY_RECEIPT.json'
+        proof=read(boundary)
+        if (previous['status']!='LIVE_TERMINAL_ALL_FIRST_ATTEMPTS' or previous['reservations'] or previous['auxiliary']
+                or proof['status']!='R4_STOPPED_BOUNDARY_NUMERICS18_UNCHANGED'
+                or proof['source_sha']!=m['code']['vla_commit'] or proof['manifest_sha256']!=digest(root/'RUN_MANIFEST.json')):
+            raise PermissionError('R4_ACTUAL_TERMINAL_SOURCE_ADVANCE_REQUIRED')
+        receipt=root/'evidence'/f'{name}-SOURCE_BOUNDARY.json'
+        write(receipt,dict(status='VERIFIED_TERMINAL_SOURCE_ADVANCE',run_uuid=root.name,
+            old_queue_sha256=digest(root/'LIVE_QUEUE.json'),old_source_sha=previous['source_sha'],
+            new_source_sha=m['code']['vla_commit'],no_active_consumers=True,
+            capsule_boundary_sha256=digest(boundary)))
+        admission.update(source_boundary_receipt_path=str(receipt),source_boundary_receipt_sha256=digest(receipt))
     write(admission_path,admission)
     try:
         result=dispatch(root,plan_path,admission_path,workers=workers,timeout_s=600,stage_boundary=previous is not None)
