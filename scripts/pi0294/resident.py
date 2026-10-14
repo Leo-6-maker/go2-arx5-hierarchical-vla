@@ -164,7 +164,11 @@ def serve(args):
         raise PermissionError('ONE_SHARED_CHECKPOINT_FOR_ALL_REGISTERED_CASES')
     validate_identity(identity['relay_identity'])
     ready=read(root/'evidence/LIVE_READINESS.json')
-    if sha(root/'evidence/LIVE_READINESS.json')!=request['live_readiness_sha256'] or ready['run_uuid']!=root.name or ready['status']!='PASS_ACTUAL_TEACHER_AND_DUAL_SSH_ROUTE':
+    from .continuation import RUN as CONTINUATION_RUN, PARENT
+    readiness_run=PARENT if root.name==CONTINUATION_RUN else root.name
+    if (root.name==CONTINUATION_RUN and request['live_readiness_sha256']!='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c'):
+        raise PermissionError('EXACT_REUSED_PARENT_ROUTE_QUALIFICATION_REQUIRED')
+    if sha(root/'evidence/LIVE_READINESS.json')!=request['live_readiness_sha256'] or ready['run_uuid']!=readiness_run or ready['status']!='PASS_ACTUAL_TEACHER_AND_DUAL_SSH_ROUTE':
         raise PermissionError('ACTUAL_TEACHER_AND_ROUTE_PROOF_REQUIRED')
     directory=Path(args.directory)
     if not directory.resolve().is_relative_to(root.resolve()) or directory.exists():
