@@ -5,9 +5,23 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 from . import r4
+from .r4_collection import validate_pilot
 
 
 class R4AuthorityTests(unittest.TestCase):
+    def test_readonly_pilot_correction_remains_bound_to_original_bytes(self):
+        rows=[dict(id=str(i),admitted=True,task_success=True,native_failure=False,
+            worker_status='VALID_COMPLETE',audit_status='PASS_INDEPENDENT_RAW_AUDIT',
+            worker_sha256='fixed',audit_sha256='fixed',physics_sha256='fixed') for i in range(4)]
+        q=dict(status='PASS_FOUR_ACTUAL_PILOT_AFTER_READ_ONLY_INTEGRITY_REPAIR',successes=4,
+            native_failures=0,rejected=0,new_physics=0,new_model_queries=0,new_render_calls=0,
+            original_failures_preserved=True,original_qualification_sha256='fixed',plan_sha256='fixed',rows=rows)
+        def receipt(path):return q if path.name.endswith('_R1.json') else dict(pilot_cards=rows)
+        with patch('scripts.pi0294.r4_collection.read',side_effect=receipt),patch('scripts.pi0294.r4_collection.digest',return_value='fixed'):
+            validate_pilot(Path('unused'))
+            rows[0]['physics_sha256']='changed'
+            with self.assertRaises(PermissionError):validate_pilot(Path('unused'))
+
     def test_no_clock_reset_and_adoption_required(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)/r4.RUN;root.mkdir()

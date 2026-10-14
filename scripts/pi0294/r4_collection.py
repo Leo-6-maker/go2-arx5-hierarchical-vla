@@ -15,6 +15,27 @@ from .dispatcher import dispatch
 from .r4 import validate_entry,T0,CUTOFF,DEADLINE
 
 
+def validate_pilot(root):
+    q=read(root/'evidence/CONTACT_PILOT_QUALIFICATION_R1.json')
+    if (q['status']!='PASS_FOUR_ACTUAL_PILOT_AFTER_READ_ONLY_INTEGRITY_REPAIR'
+            or q['successes']!=4 or q['native_failures'] or q['rejected']
+            or q['new_physics'] or q['new_model_queries'] or q['new_render_calls']
+            or not q['original_failures_preserved']
+            or q['original_qualification_sha256']!=digest(root/'evidence/CONTACT_PILOT_QUALIFICATION.json')
+            or q['plan_sha256']!=digest(root/'plans/CONTACT48_PLAN_FROZEN.json')):
+        raise PermissionError('R4_FOUR_SOURCE_BOUND_ACTUAL_PILOT_SUCCESSES_REQUIRED')
+    cards=read(root/'plans/CONTACT48_PLAN_FROZEN.json')['pilot_cards']
+    if {x['id'] for x in q['rows']}!={x['id'] for x in cards} or len(q['rows'])!=4:
+        raise PermissionError('R4_EXACT_PILOT_IDENTITIES_REQUIRED')
+    for row in q['rows']:
+        folder=root/'episodes'/row['id']
+        if (not row['admitted'] or not row['task_success'] or row['native_failure']
+                or row['worker_status']!='VALID_COMPLETE' or row['audit_status']!='PASS_INDEPENDENT_RAW_AUDIT'
+                or any(row[key]!=digest(folder/file) for key,file in
+                    (('worker_sha256','WORKER_RECEIPT.json'),('audit_sha256','AUDIT.json'),('physics_sha256','physics.npz')))):
+            raise PermissionError('R4_ACTUAL_PILOT_ORIGINAL_BYTES_REQUIRED')
+
+
 def run(root,*,pilot,workers):
     root=Path(root);m=validate_entry(root,profile='4080-simulation')
     freeze=root/'plans/CONTACT48_PLAN_FROZEN.json';f=read(freeze)
@@ -22,9 +43,7 @@ def run(root,*,pilot,workers):
         raise PermissionError('R4_EXACT_PRE_ROLLOUT_DESIGN_REQUIRED')
     name='CONTACT_PILOT' if pilot else 'CONTACT_TRAIN48'
     if not pilot:
-        qualification=read(root/'evidence/CONTACT_PILOT_QUALIFICATION.json')
-        if qualification['successes']!=4 or qualification['native_failures'] or qualification['rejected']:
-            raise PermissionError('R4_FOUR_ORIGINAL_PILOT_SUCCESSES_REQUIRED')
+        validate_pilot(root)
     owner=OwnerLock(root/'R4_RESOURCE_OWNER.lock');ledger=read(root/'R4_RESOURCE_LEDGER.json')
     if ledger['CPU_reservations']:raise PermissionError('R4_COLLECTION_START_ONLY_WITH_DISJOINT_RESERVED_CAPACITY')
     cores=3*workers+2;cpus=sorted(os.sched_getaffinity(0))[-16:][:cores]
