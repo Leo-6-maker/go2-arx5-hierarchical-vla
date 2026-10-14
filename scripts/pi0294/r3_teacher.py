@@ -37,7 +37,7 @@ class ProtectedTeacher:
         forecast.update(sequence=self.engine.steps//25,stage=plan['stage']);self.records.append(forecast)
         write(self.folder/'S1_PREFLIGHTS.json',self.records)
         if forecast['decision']!='PASS':raise PermissionError('PRE_EXECUTION_SAFETY_REJECT')
-        self.index=0;self.forecast=forecast
+        self.index=0;self.forecast=forecast;self.start_tick=self.engine.steps
         if self.negatives is None:self.check_negatives()
         return plan
     def check_negatives(self):
@@ -61,6 +61,7 @@ class ProtectedTeacher:
         if error>1e-10:raise RuntimeError('S1_ACTUAL_LIVE_SHADOW_PARITY_MISMATCH')
     def guard_prefix(self):
         self.guard()
+        if self.engine.steps!=self.start_tick+self.index:raise PermissionError('S1_DUPLICATE_OR_SKIPPED_NATIVE_TICK')
         if self.index==0:bind_install(self.engine,self.poses,self.opening,self.forecast,self.nonce)
         else:self.compare_previous()
         if self.index>=200:raise PermissionError('S1_PREFIX_REPLAY_REJECT')
@@ -69,7 +70,7 @@ class ProtectedTeacher:
     def acknowledge(self,engine,rows):
         if engine is not self.engine or self.index!=200:raise ValueError('S1_EXACT_PREFIX200_REQUIRED')
         self.compare_previous()
-        sequence=self.forecast['sequence']
+        sequence=self.forecast['sequence']//8  # original context card uses decision indices
         if sequence in CONTEXTS.get(self.key,()):
             self.contexts.append(dict(task=self.key,sequence=sequence,stage=self.forecast['stage'],
                 actual_ticks_compared=200,maximum_live_shadow_difference=self.maximum,pre_execution_rejections=0))
@@ -104,7 +105,7 @@ def main():
     reservation=dict(schema='PI0294_LIVE_RESERVATION_V1',fixture=False,id=card['id'],card=card,
         card_sha256=digest(card),source_sha=manifest['code']['vla_commit'],root=str(root),output=str(folder),
         asset_root=read(root/'INPUT_BINDINGS.private.json')['asset_root'],deadline_epoch=deadline,
-        cpus=[min(os.sched_getaffinity(0))],reservation=dict(physics_starts=1,physics_steps=16000,rgb_pairs=641,
+        cpus=sorted(os.sched_getaffinity(0))[:3 if model else 1],reservation=dict(physics_starts=1,physics_steps=16000,rgb_pairs=641,
             cpu_s=min(3600,86400-ledger['Core_CPU_s']),memory_bytes=8*1024**3,output_bytes=512*1024**2))
     ledger['reservations'][card['id']]=reservation;write(root/'RESOURCE_LEDGER.json',ledger)
     original=episode.make_teacher
