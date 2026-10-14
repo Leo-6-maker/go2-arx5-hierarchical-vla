@@ -2,6 +2,7 @@
 
 **新 Codex 与所有后续工作请先从这里开始。** GitHub 是本团队 VLA 代码、协议、测试、小型执行收据的版本权威；CoreLab 共享 `~/Projects/GR00T-WBC` 是人类统一工作入口，但不能把私有原始数据、WBC、权重都视为已保存在 GitHub。
 
+- **[2026-10-14 新 agent 完整接管与科学推进计划](docs/handover/2026-10-14/NEXT_AGENT_EXECUTION_PLAN.md)** · [机器任务卡](docs/handover/2026-10-14/NEXT_AGENT_TASK_CARD.json) · [直接接手 Prompt](docs/handover/2026-10-14/NEXT_AGENT_BOOTSTRAP.md)：当前 PI0294 仍因真实夹爪原生限位 BLOCKED，修订待 GO；这是计划不是自动执行授权。今后交接由 GitHub 固定提交直接供 Codex 读取，不以本地 ZIP 为主。
 - **[2026-10-14 完整工作总结与下一 owner 交接](docs/handover/2026-10-14/HANDOFF.md)**：Oct12-14 已执行事实、代码入口、固定 HF 资产、终局与剩余预算。当前 M512 实际闭环触发原生夹爪关节限位，科学线 BLOCKED；交接不授权重启。夹爪重资格方案仍未获明确采纳。
 - **[现行统一入口／GitHub 同步规范](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)**：host-aware profiles、固定源 SHA、运行 manifest、分支同步、旧目录退役验收。
 - **CoreLab 现有可执行入口**：`~/Projects/GR00T-WBC/infrastructure/enter.sh amd-management`（AMD），或在 4080S 使用 `4080-simulation`／`4080-cpu-data`。不提供自动跨主机 SSH；不经许可启动物理／模型。
