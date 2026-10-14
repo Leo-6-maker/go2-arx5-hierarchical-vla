@@ -1,0 +1,275 @@
+{
+  "status": "PASS_FOUR_ORIGINAL_FULL32S_TEACHERS_CPU_RECOMPUTED",
+  "rows": [
+    {
+      "key": "F0-T1",
+      "score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.08294841613270748,
+        "maximum_actual_carry_xy_m": 0.16959139450898394
+      },
+      "independent_implementation_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_matches_worker": true,
+      "raw_physics_sha256": "b7b19ddbb6e1ec511a24bb35d6e108f86473c87fa2c126143e8b31655766750e",
+      "raw_highrate_sha256": "8d60a878667c40f990262b623f311ea3f0acd5e31fb322e35b4f46337c541eb8",
+      "worker_receipt_sha256": "a2b0434241ea89fdef6f4bc5a9168adfd1fd31f5b3467195c6a0e1ea8df1a97e",
+      "S1_receipt_sha256": "daa373480ba986c79d1a7ae9dab74aa96f5a074ae6550e0922284773779d671f",
+      "pre_execution_rejections": 0,
+      "live_native_failures": 0,
+      "shadow_invocations": 80,
+      "shadow_integrations": 16000
+    },
+    {
+      "key": "F0-T2",
+      "score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0002685872748325324,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00023775283957033766,
+        "maximum_actual_carry_xy_m": 0.1621982922452449
+      },
+      "independent_implementation_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.0002685872748325324,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "score_matches_worker": true,
+      "raw_physics_sha256": "c7939352a1cf6b3bf81968edf29a508630dce54fbb388ab69b5d41bd6705babf",
+      "raw_highrate_sha256": "be50ed501c1ad68af4e35520d8f1642037f16404132ba515d65e0ef0180235a9",
+      "worker_receipt_sha256": "27321646c8628ce490c67c5b425b813b1e4e07a473e6151b80db3ce76709815c",
+      "S1_receipt_sha256": "a598880fa7965caf0d8b6683c99e37646baf7f79df316819f4867a30af310582",
+      "pre_execution_rejections": 0,
+      "live_native_failures": 0,
+      "shadow_invocations": 80,
+      "shadow_integrations": 16000
+    },
+    {
+      "key": "F1-T1",
+      "score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.08287657930847797,
+        "maximum_actual_carry_xy_m": 0.17183714935211633
+      },
+      "independent_implementation_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_matches_worker": true,
+      "raw_physics_sha256": "bd77d365ca3a7290f9d1c7a8ee0aa4e4f7e3a6c8b5d142ddbdf2755aac58a301",
+      "raw_highrate_sha256": "1a1b1e62aca0ba034cc2ada20dd81c20af1dc911c786bf1008f800b9cd3d13f1",
+      "worker_receipt_sha256": "243067dfa3b94e6a58d0823cc32f343181c0e211912b7090f1e79577a82776ef",
+      "S1_receipt_sha256": "3586af5b65cce5df231d0b6b3deb8ff6d21855c39e4f5951596f8f30d18bc299",
+      "pre_execution_rejections": 0,
+      "live_native_failures": 0,
+      "shadow_invocations": 80,
+      "shadow_integrations": 16000
+    },
+    {
+      "key": "F1-T2",
+      "score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.00024331732310156617,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00016574636465299664,
+        "maximum_actual_carry_xy_m": 0.16507776694707466
+      },
+      "independent_implementation_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.00024331732310156617,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "score_matches_worker": true,
+      "raw_physics_sha256": "6133d69207e8813e5b8d07b34a0beea71aa501d6a21b2d3cbe88a42d5c7526d6",
+      "raw_highrate_sha256": "85d0030a1c6576fa96795647a24b34caada7a5ed3225bbba4943719c2c85700b",
+      "worker_receipt_sha256": "5f36c59abe5897a669c9cfe2e99e0a22ded547a10c8e393829113e902abc4638",
+      "S1_receipt_sha256": "e5d02eaf093e1a500213b1e26cb59d49c42c49939faa43d934082ed40aa124bd",
+      "pre_execution_rejections": 0,
+      "live_native_failures": 0,
+      "shadow_invocations": 80,
+      "shadow_integrations": 16000
+    }
+  ]
+}
