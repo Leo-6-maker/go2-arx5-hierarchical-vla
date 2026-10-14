@@ -1,5 +1,44 @@
 # PI0294 R1 Recovery Boundary
 
+## Latest Actual Boundary: Native Safety Stop
+
+This section supersedes the preparation-only runtime status below, not its
+historical evidence. User confirmed continuation and mature-script reuse,
+queue auto. Runtime source is021d813fd669561a24ffbf89431a4a9812e0f2ca;
+CPU CI38511924296 SUCCESS,129PI0294/758repository tests PASS. Eighteen pinned
+numeric files still match the M512-producing parent. No new math/recipe change.
+
+New PBS665153 failed before the first model forward on NumPy32seed handling;
+321GPU seconds/1failed query charged. Explicit seed compatibility repair
+preserved full fixed Torch63seed. PBS665199 produced48offline arrays with
+expert/model gate PASS, then6actual fresh-observation model actions on the
+first TRAIN F0/000/T1. Five complete prefix ACKs, then81partial integrations;
+native JOINT_LIMIT at1081steps/right_slide0.0450042717m>0.045m/time2.162s.
+Remaining TRAIN3 NOT_RUN after real safety stop. Low-rate sample score does
+not override high-rate flag/native abort. Safety threshold and physics frozen.
+
+P1 gate FAIL sha0c154feb382f935a9f2b00b15b99b7f65e3e32ab6be47ecf04afff7e81bfe3e5.
+Do not submit main, replay a query/prefix, restart another case, tune WBC,
+relax the limit or extend the clock. M2048/4096/DEV/confirmation/regression
+NOT_RUN. The scientific objective is ACTIVE/INCOMPLETE, with exact stage
+BLOCKED_REAL_NATIVE_FINGER_JOINT_LIMIT_NO_P1_GATE awaiting scientific review.
+
+Both PBS native F/reconciled, no qdel; own resident/parent finished, local
+route interrupted after stop, all own Core processes terminal. Controller
+handshake timeout preserved and5000CPU-upper conservatively charged, not
+mistaken for measured CPU. All reservations0. New2/3PBS,890GPU seconds,
+Hopper CPU511.035013s; Core charged5229.491659548s,1start/1081steps/44RGB pairs.
+55queries=1known pre-forward failure+48offline+6live generations. Global512,
+newformal0/newengineering0. Parent/source/data/stats/M512 retained.
+
+Actual2.2s/44frame private video fully decoded and exact-hash copied local;
+SHA496bed08316b5a72bdb1825679a5e39b5bc14555d2edaf714c3cdf28242d95a5.
+Use M512_POLICY_EVAL.json, RESOURCE_LEDGER.json and FINAL_REPORT.md for the
+actual terminal evidence. Private runmap/helpers/counters remain local600.
+No thirdPBS/newmodel/physics/HFupload/deletion or automatic science restart.
+
+## Historical Preparation Boundary
+
 This run has an actual new human GO: Issue #11 comment6159886188, complete
 section5 of proposal a14ea255. Do not ask for the same science GO again or
 reinterpret the prior public-storage permission as the source of this GO.
