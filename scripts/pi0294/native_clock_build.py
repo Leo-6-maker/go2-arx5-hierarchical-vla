@@ -85,6 +85,38 @@ static std::chrono::steady_clock::time_point PI0294SimNow() {
             new_physics=0,leg_RL_forwards=0,GR00T_queries=0,plant_overlay_ready=False))
 
 
+def relink(root,native,startup):
+    root,native,startup=map(Path,(root,native,startup));validate_scope(root)
+    with cpu_stage(root,'FULLBODY_CLOCK_RELINK_02',cores=1,cpu_s_cap=900):
+        out=root/'fullbody/clock-v1';commands=read(out/'BUILD_COMMANDS.private.json')
+        if (len(commands)!=4 or [c['exit'] for c in commands]!=[0,0,0,1]
+                or commands[-1]['label']!='link-go2_x5_ocs2_node'):
+            raise PermissionError('EXACT_COMPILED_OBJECTS_TRANSITIVE_LINK_FAILURE_ONLY')
+        cfg=read(startup/'startup-v4/config.json');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+        for name,h in cfg['core_hashes'].items():
+            if sha(native/name)!=h:raise ValueError('FROZEN_NATIVE_MEMBER_CHANGED:'+name)
+        dependency=native.parent/'dependency-root/usr/lib/x86_64-linux-gnu'
+        libraries=[dependency/'liboctomap.so.1.9',dependency/'liboctomath.so.1.9']
+        pins={p.name:sha(p) for p in libraries};objects={p.name:sha(p) for p in out.glob('*.cpp.o')}
+        argv=commands[-1]['argv']+['-Wl,-rpath-link,'+str(dependency),'-Wl,-rpath,'+str(dependency)]
+        result=subprocess.run(argv,cwd=native/'build/go2_x5_ocs2',capture_output=True,text=True,timeout=300)
+        (out/'link-go2_x5_ocs2_node-02.log').write_text(result.stdout+result.stderr)
+        write(out/'RELINK_02.private.json',dict(argv=argv,exit=result.returncode,reused_objects=objects,library_sha256=pins))
+        result.check_returncode()
+        env=dict(os.environ,LD_LIBRARY_PATH=str(dependency)+':'+str(native.parent/'dependency-root/opt/ros/jazzy/lib/x86_64-linux-gnu')+':'+os.environ.get('LD_LIBRARY_PATH',''))
+        loaded=subprocess.run(['ldd',str(out/'go2_x5_ocs2_node')],env=env,capture_output=True,text=True)
+        (out/'ldd-node-02.log').write_text(loaded.stdout+loaded.stderr)
+        if loaded.returncode or 'not found' in loaded.stdout:raise RuntimeError('NATIVE_RUNTIME_TRANSITIVE_LIBRARY_STILL_UNRESOLVED')
+        assert objects=={p.name:sha(p) for p in out.glob('*.cpp.o')}
+        write(out/'CLOCK_BUILD_RECEIPT.json',dict(status='CLOCK_OVERLAY_COMPILED_NOT_PHYSICS_QUALIFIED',
+            source_pins=cfg['core_hashes'],sim_sha256=sha(out/'rl_sim_mujoco'),node_sha256=sha(out/'go2_x5_ocs2_node'),
+            private_diff_sha256=sha(out/'PRIVATE_CLOCK.diff'),transitive_library_sha256=pins,
+            reused_objects_unchanged=True,controller_costs_gains_limits_unchanged=True,
+            source_clock='ACTUAL_MJDATA_TIME_WITH_ATOMIC_NANOSECONDS',watchdogs='SAME_INTERVAL_IN_SIM_TIME',
+            clock_configuration_required='use_sim_time=true_FOR_OWN_NATIVE_ROS_GRAPH',
+            new_physics=0,leg_RL_forwards=0,GR00T_queries=0,plant_overlay_ready=False))
+
+
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     for name in ('root','native','startup'):p.add_argument('--'+name,required=True)
