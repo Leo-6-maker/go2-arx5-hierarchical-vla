@@ -54,7 +54,9 @@ def admitted(root):
             or lease['status'] != 'ACTIVE' or lease['deadline_epoch'] != DEADLINE):
         raise PermissionError('LIVE_R2_REGISTRY_AND_LEASE_REQUIRED')
     seal_path = root/m['code']['source_seal_relative']
-    if sha(seal_path) != m['code']['source_seal_sha256'] or REPO.resolve() != (root/'code').resolve():
+    if (sha(seal_path) != m['code']['source_seal_sha256']
+            or REPO.resolve() != (root/m['code']['capsule_relative']).resolve()
+            or not REPO.resolve().is_relative_to(root.resolve()) or REPO.is_symlink()):
         raise PermissionError('SEALED_WORKER_SOURCE_REQUIRED')
     for name, digest in read(seal_path)['files'].items():
         path = REPO/name
@@ -68,6 +70,7 @@ def admitted(root):
 
 def saved_inputs(binding):
     import numpy as np
+    from scripts.pi0292.relay_protocol import unseal
     folder = Path(binding['original_failure'])
     expected = {'highrate.npz':'92b266d9489d4a0c86d8cb1bf1769ca6a8512b5f1f59148d09ee8fb84bafac68',
                 'INITIAL_STATE.json':'2e1cb6f75ec8702e6365d674c9416ed5b972c1e77009cce262db4ebc7203b641'}
@@ -78,7 +81,10 @@ def saved_inputs(binding):
     commands=[]
     for i in range(6):
         bundle=read(folder/'relay/commands'/f'{i:03d}.json')
-        commands.extend(bundle['command']['prefix_eef10'])
+        body=unseal(bundle['command'])
+        if body['kind']!='install_prefix8' or body['sequence']!=i or body['tick']!=i*200:
+            raise ValueError('ORIGINAL_PACKET_SEQUENCE_REQUIRED')
+        commands.extend(body['prefix_eef10'])
     values=np.asarray(commands,dtype=float)
     if len(rows)!=1081 or values.shape!=(48,10) or not np.isfinite(values).all():
         raise ValueError('EXACT_ORIGINAL_ROWS_AND_SIX_PREFIXES_REQUIRED')
@@ -208,12 +214,14 @@ def causal_replay(root,binding,output,guard,case):
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--root',required=True);ap.add_argument('--phase',choices=['G0','G1'],required=True)
-    ap.add_argument('--case',choices=list('ABCD'));a=ap.parse_args()
+    ap.add_argument('--case',choices=list('ABCD'));ap.add_argument('--attempt',type=int,default=1);a=ap.parse_args()
+    if a.attempt<1:ap.error('positive source-bound engineering attempt required')
     if a.phase=='G1' and a.case is None:ap.error('G1 requires one fixed --case')
     root=Path(a.root);manifest,binding=admitted(root)
     from scripts.pi0292.durable import OwnerLock,write
     lock=OwnerLock(root/'GRIPPER_STAGE_OWNER.lock')
     name=a.phase+('-'+a.case if a.case else '')
+    if a.attempt>1:name+=f'-ENG{a.attempt:02d}'
     output=root/'evidence'/name
     output.mkdir(parents=True,exist_ok=False)
     began=time.monotonic();cpu=time.process_time()
