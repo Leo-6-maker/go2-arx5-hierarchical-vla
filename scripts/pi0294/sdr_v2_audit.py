@@ -101,3 +101,68 @@ def physics(root,episode):
         installed_reference=parity,pause_history_unchanged=True,actual_state_and_FK_replay=True,
         interpretation='BODY_TABLE_SAFETY_FAIL; NOT_TASK_OBJECT_CONTACT_OR_SUCCESS; NO_RETRY',new_physics=0,new_IK=0,new_RRT=0,new_render=0,new_neural_queries=0,selected='NONE',deployment='NONE')
     write(output,summary);return summary
+
+def source_goals(root):
+    """No solver: independently inspect the 96 saved T2 initializations."""
+    import collections,mujoco
+    from .sdr_v2_cpu import saved_input
+    from .mp_client import contact_permitted
+    from scripts.pi0292.durable import write
+    root=Path(root);p=root/FOLDER;output=p/'T2_SAVED_GOAL_NATIVE_AUDIT.json'
+    if output.exists():return read(output)
+    before=sha(p/'SEARCH_LEDGER.json');engine,state,_=saved_input(root,'T2');model=engine.model;data=mujoco.MjData(model)
+    binding=read(root/'maniskill-component-v1/planning-assets/ASSET_BINDING.private.json');folder=p/'requests/SDR2_CPU_T2/0000';request=read(folder/'INPUT.private.json');rows=[];details=[]
+    for index,goal in enumerate(request['goals']):
+        file=folder/f'IK-{index:02d}.private.json';result=read(file);assert result['input_sha256']==sha(folder/'INPUT.private.json');cases=[]
+        for i,candidate in enumerate(result['internal_IK']):
+            q=np.asarray(candidate['solution']).copy();violations=[]
+            for k,j in enumerate(binding['native_joint_ids']):
+                lo,hi=model.jnt_range[j]
+                if model.jnt_type[j]==mujoco.mjtJoint.mjJNT_HINGE:q[k]+=2*np.pi*np.round(((lo+hi)/2-q[k])/(2*np.pi))
+                excess=max(lo-q[k],q[k]-hi,0.)
+                if excess>0:violations.append(dict(joint=binding['joint_names'][k],violation_rad=float(excess)))
+            data.qpos[:]=state['qpos'];data.qvel[:]=state['qvel'];data.ctrl[:]=state['ctrl'];data.qpos[binding['joint_qpos_addresses']]=q;mujoco.mj_forward(model,data)
+            target=np.asarray(goal['pose']);ep=float(np.linalg.norm(data.site_xpos[engine.tcp]-target[:3,3]));er=float(geodesic_angle(data.site_xmat[engine.tcp].reshape(3,3),target[:3,:3]));collisions=[]
+            for c in data.contact:
+                names=[mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_GEOM,g) for g in (c.geom1,c.geom2)]
+                if not contact_permitted(names,c.dist,goal['stage']):collisions.append(dict(names=names,distance_m=float(c.dist)))
+            witness=bool(not violations and not collisions and ep<=1e-3 and er<=1e-3)
+            cases.append(dict(index=i,numerically_converged=candidate['success'],violations=violations,native_position_error_m=ep,native_rotation_error_rad=er,native_rule_collisions=collisions,native_legal_witness=witness))
+        row=dict(package=goal['package'],endpoint=goal['endpoint'],saved_CLIK=len(cases),library_status=result['status'],original_legal_goals=len(result['legal_goals']),
+            independent_native_legal_witnesses=sum(c['native_legal_witness'] for c in cases),numerically_converged=sum(c['numerically_converged'] for c in cases),
+            violations_by_joint=dict(collections.Counter(v['joint'] for c in cases for v in c['violations'])),response_sha256=sha(file))
+        rows.append(row);details.append(dict(row,candidates=cases))
+    assert before==sha(p/'SEARCH_LEDGER.json')
+    value=dict(status='PASS_SAVED_GOAL_RECONCILIATION' if not any(r['independent_native_legal_witnesses'] and not r['original_legal_goals'] for r in rows) else 'NATIVE_WITNESS_REQUIRES_FCL_RECONCILIATION',
+        goal_cases=rows,actual_saved_CLIK=sum(r['saved_CLIK'] for r in rows),new_IK=0,new_RRT=0,new_physics=0,new_render=0,new_neural_queries=0,search_ledger_unchanged=True,
+        global_IK_infeasibility_proven=False,WBC_task_failure_proven=False)
+    write(p/'T2_SAVED_GOAL_NATIVE_DETAILS.private.json',dict(cases=details));write(output,value);return value
+
+def video(root,episode):
+    from PIL import Image,ImageDraw
+    import subprocess
+    from scripts.pi0292.durable import write
+    root=Path(root);folder=root/FOLDER/'episodes'/episode;target=folder/'ACTUAL_V2_SAFETY_STOP.mp4';receipt=folder/'ACTUAL_VIDEO_RECEIPT.json'
+    if receipt.exists():assert sha(target)==read(receipt)['video_sha256'];return read(receipt)
+    assert not target.exists();saved=lines(folder/'samples.jsonl');audit=read(folder/'INDEPENDENT_CPU_AUDIT.json');log=(folder/'VIDEO_ENCODE.log').open('x')
+    process=subprocess.Popen(['/usr/bin/ffmpeg','-nostdin','-v','error','-f','rawvideo','-pix_fmt','rgb24','-s','512x352','-r','20','-i','pipe:0',
+        '-an','-c:v','libx264','-threads','1','-crf','21','-pix_fmt','yuv420p','-movflags','+faststart',str(target)],stdin=subprocess.PIPE,stderr=log)
+    try:
+        for i,s in enumerate(saved):
+            frame=Image.new('RGB',(512,352),'black')
+            for x,camera in ((0,'body_rgb'),(256,'wrist_rgb')):
+                with Image.open(folder/'images'/f'{i:06d}-{camera}.png') as pixels:frame.paste(pixels,(x,96))
+            draw=ImageDraw.Draw(frame);draw.text((6,4),'ACTUAL FULL Go2+ARX5 | V2 | NON REALTIME',fill='white')
+            draw.text((6,20),'VALID NATIVE SAFETY FAIL | NOT A SUCCESS SEED',fill=(255,140,80))
+            draw.text((6,36),'t=%.2fs | %d/14 installed chunks | object contact=0'%(s['time_s'],min(14,i//8+1)),fill='white')
+            draw.text((6,52),'Stop: table / native base_link geometry, at 5.60s',fill='white')
+            draw.text((6,68),'Original WBC / safety / task score unchanged',fill='white')
+            draw.text((6,82),'BODY RGB',fill='white');draw.text((262,82),'WRIST RGB',fill='white');process.stdin.write(frame.tobytes())
+        process.stdin.close();assert process.wait(timeout=60)==0
+    finally:
+        if process.poll() is None:process.kill();process.wait()
+        log.close()
+    value=dict(status='PASS_ACTUAL_SAVED_RGB_VIDEO',frames=len(saved),physical_prefix_s=audit['task_prefix_s'],playback_Hz=20,non_realtime=True,
+        label='V2_VALID_NATIVE_SAFETY_FAIL_NOT_SUCCESS',video_sha256=sha(target),bytes=target.stat().st_size,source_RGB_hashes_sha256=sha(folder/'RGB_HASHES.json'),
+        public=False,new_physics=0,new_render=0,new_model_queries=0)
+    write(receipt,value);return value
