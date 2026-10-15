@@ -43,13 +43,16 @@ def qualify(root,manifest):
     if not md.version('numpy').startswith('2.'):raise ValueError('NATIVE_PROFILE_VERSION_CHANGED')
     for c in conditions['CPU_saved_input_conditions']:
         folder,samples,packets=saved_inputs(root,c);model=mujoco.MjModel.from_binary_path(str(folder/'task-scene.private.mjb'));engine=ActualState(model)
+        submitted={r['index']:r for r in (json.loads(line) for line in (folder/'committed_intents.jsonl').read_text().splitlines())
+            if r.get('phase')=='SUBMITTED_REQUIRES_INSTALL_ACK'}
         card=next(x for x in cards() if x['task']==c['task'] and x['duration_s']==12.)
         teacher=None
         for index,frame in enumerate(c['frame_indices']):
             packet=packets[frame];raw=samples[frame];state=engine.update(packet);state['time_s']=float(raw['time_s'])
             for key in ('qpos','qvel','ctrl'):
                 if not np.array_equal(state[key],raw[key]):raise ValueError('ACTUAL_ARRAY_BYTES_CHANGED')
-            mount=np.asarray(raw['actual_BASE_mount']);before=hashlib.sha256(np.asarray(state['qpos']).tobytes()+np.asarray(state['qvel']).tobytes()).hexdigest()
+            mount=np.asarray(raw['actual_BASE_mount'] if 'actual_BASE_mount' in raw else submitted[frame]['actual_BASE_mount'])
+            before=hashlib.sha256(np.asarray(state['qpos']).tobytes()+np.asarray(state['qvel']).tobytes()).hexdigest()
             if teacher is None:teacher=Teacher(card,state,engine,mount,root=root,condition=c['condition_id'],cpu=True)
             teacher.observe(state,mount)
             teacher.query_index=index
