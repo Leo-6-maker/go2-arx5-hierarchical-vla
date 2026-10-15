@@ -96,7 +96,21 @@ def physics(root,episode):
         i=r['index'];intent=intents[i//8];assert r['sequence']==i and r['prefix_index']==i-intent['index'] and r['opening']==intent['action_EEF13'][i%8][9]
         assert abs(r['source_mpc_s']-packets[i]['time_s'])<1e-10
     pauses=lines(folder/'pause_intervals.jsonl');assert all(all(r['before'][k]==r['after'][k] for k in FROZEN_FIELDS) for r in pauses)
-    parity=installed_parity(planner);times=np.asarray([s['time_s'] for s in saved]);assert np.allclose(times,np.arange(len(saved))*.05,atol=1e-10,rtol=0)
+    native_hold_rows=[]
+    parity_rows=planner
+    if engineering_clock:
+        # Original manager retains the previous ref ID on its automatic native
+        # HOLD publication. It is a measured 7D hold, not a 14D task install.
+        holds=[r['monotonic_s'] for r in lines(folder/'ros.jsonl') if r['kind']=='mode' and r['msg']['data']=='HOLD']
+        last_hold=max(holds)
+        native_hold_rows=[r for r in planner if r['kind']=='installed' and r.get('ref_id') in accepted
+            and r.get('bound_start') is None and r['monotonic_s']>=last_hold]
+        assert len(native_hold_rows)==1
+        row=native_hold_rows[0]
+        assert len(row['times'])==len(row['poses'])==len(row['inputs'])==1
+        assert len(row['poses'][0])==7 and len(row['inputs'][0])==12 and not any(row['inputs'][0])
+        parity_rows=[r for r in planner if r is not row]
+    parity=installed_parity(parity_rows);times=np.asarray([s['time_s'] for s in saved]);assert np.allclose(times,np.arange(len(saved))*.05,atol=1e-10,rtol=0)
     tcp=np.asarray(tcp);obj=np.asarray(objects);reference=np.asarray(reference);micro=np.asarray(micro).reshape(-1,5);object_xyz=np.asarray(object_xyz).reshape(-1,3)
     arrays={k:np.asarray(v,dtype=bool) for k,v in arrays.items()};arrays['robot_object_contact']=np.asarray([s['robot_object_contact'] for s in saved],dtype=bool);arrays.update(time_s=times,tcp_world=tcp,object_pose=obj,object_linear_velocity=np.asarray(v),object_angular_velocity=np.asarray(w))
     complete=bool(len(saved)==int(card['duration_s'])*20+1 and not result['native_stops'] and result['status']=='RAW_TASK_COMPLETE_REQUIRES_INDEPENDENT_CPU_AUDIT')
@@ -117,7 +131,7 @@ def physics(root,episode):
         max_actual_TCP_displacement_m=float(np.linalg.norm(tcp[:,:3,3]-tcp[0,:3,3],axis=1).max()),max_actual_object_horizontal_displacement_m=float(displacement.max(initial=0)),
         tracking_XYZ_initial_m=float(error[0]),tracking_XYZ_final_m=float(error[-1]),tracking_XYZ_median_m=float(np.median(error)),tracking_SO3_final_rad=float(angle[-1]),
         image_files_verified=camera_checks,actual_RGB_pairs=len(saved),source_reference_values_replayed_exact=True,source_gripper20Hz_labels_exact=True,
-        installed_reference=parity,pause_history_unchanged=True,actual_state_and_FK_replay=True,terminal_gripper_commands=terminal_gripper,
+        installed_reference=parity,native_automatic_hold_publications=len(native_hold_rows),pause_history_unchanged=True,actual_state_and_FK_replay=True,terminal_gripper_commands=terminal_gripper,
         interpretation='VERIFIED_ENGINEERING_PREFIX_NOT_COMPLETE_TASK_QUALITY' if engineering_clock else 'ORIGINAL_SAFETY_AND_TASK_VERDICT; NO_RETRY',new_physics=0,new_IK=0,new_RRT=0,new_render=0,new_neural_queries=0,selected='NONE',deployment='NONE')
     write(output,summary);return summary
 
