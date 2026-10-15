@@ -111,7 +111,7 @@ def run(root,episode):
             raise ValueError('ACTUAL_INPUT_SUBMITTED_LABEL_OR_SOURCE_IDENTITY')
         previous=action[7,10:13].copy()
     pauses=rows(folder/'pause_intervals.jsonl')
-    if len(pauses)!=n-1 or any(any(p['before'][k]!=p['after'][k] for k in FROZEN_FIELDS) for p in pauses):
+    if len(pauses)!=(n if engineering else n-1) or any(any(p['before'][k]!=p['after'][k] for k in FROZEN_FIELDS) for p in pauses):
         raise ValueError('NONREALTIME_WAIT_CHANGED_PHYSICAL_CONTROLLER_HISTORY')
     lifecycle=[r for r in planner if r['kind']=='lifecycle']
     if lifecycle:raise ValueError('UNEXPECTED_NATIVE_HOLD_OR_REFERENCE_EXPIRY')
