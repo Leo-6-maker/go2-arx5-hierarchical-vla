@@ -11,6 +11,8 @@ def require_adoption(root,manifest):
     root=Path(root);folder=root/'teacher-qualification-v1'
     if sha(folder/'HUMAN_ADOPTION.json')!=AUTHORITY_SHA256:raise PermissionError('EXPLICIT_NEW_TEACHER_HUMAN_ADOPTION_REQUIRED')
     a=read(folder/'HUMAN_ADOPTION.json');s=read(folder/'SERIES_LEDGER.json')
+    if (folder/'SERIES_CLOSED.json').exists():
+        raise PermissionError('PERSISTENT_TEACHER_SERIES_TERMINAL_PRESERVED')
     if (a['version']!=VERSION or not a['authorizes_execution'] or a['new_T0'] or a['budget_reset']
             or s['authority_sha256']!=AUTHORITY_SHA256 or sha(root/'TASK_PILOT_CLOSED.json')!=OLD_TERMINAL_SHA256):
         raise PermissionError('TEACHER_SERIES_AUTHORITY_OR_OLD_TERMINAL_CHANGED')
