@@ -83,6 +83,7 @@ def reserve_internal(root,key,kind,slot):
     try:
         if time.time()>=1792083759:raise PermissionError('SDR_ORIGINAL_DEADLINE')
         path=root/FOLDER/'SEARCH_LEDGER.json';v=read(path);b=v['bundles'][key]
+        if kind=='DENSE' and not key.startswith('SDR_CPU_') and slot>=1:raise PermissionError('SDR_ONE_DENSE_WINDOW_PER_LIVE_BUNDLE')
         cost=slot_cost(kind,slot,v['counters'],b['slots'])
         for name,n in cost.items():v['counters'][name]=v['counters'].get(name,0)+n
         b['slots'][kind+'/'+str(slot)]=dict(state='RESERVED_NO_REDRAW',reserved_epoch=time.time(),capacity=cost);write(path,v)
