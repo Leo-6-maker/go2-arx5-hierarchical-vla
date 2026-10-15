@@ -71,6 +71,10 @@ def run(root,native,startup,episode):
     expected=read(root/'evidence/STARTUP_EXPECTED_NATIVE_COMMAND.private.json')['parameters']
     leg_nominal=np.asarray(expected['default_dof_pos'][:12])
     assert np.all(np.isfinite(leg_nominal)) and np.all(np.asarray(expected['fixed_kp'][:12])>0)
+    for i,q in enumerate(leg_nominal):
+        actuator=expected['joint_mapping'][i];joint=int(model.actuator_trnid[actuator,0])
+        if not model.jnt_range[joint,0]<=q<=model.jnt_range[joint,1]:
+            raise ValueError('SUPPORTED_NATIVE_NOMINAL_COMMAND_OUT_OF_ORIGINAL_LIMIT')
     lease=OwnerLock(native.parent/'PI0289_SIM_LEASE')
     owner=resource_lock(root);v=read(root/'R1_RESOURCE_LEDGER.json')
     assert len([x for x in v['task_attempts'] if x['role']=='STARTUP'])<4
