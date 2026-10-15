@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**TF-NIGHT已到原生共享启动安全停止点，数据闭环未成功。** [夜间终局、22步实际calf/ctrl图与私有回读](reports/PI0294/teacher-factory-night-20261016/FINAL_REPORT.md)。T0 2026-10-16 00:23:27SGT；采用354e45ab独立scope。T2原生启动22步/.044s原registered joint safety停止，FL_calf=-2.77245＜-2.7227；Teacher提交/任务RGB/成功TRAIN/DEV均0，T1未运行。未证明task-side可修根因，按协议5/11停止新物理，无追相位重跑、无WBC/安全/score修改。3581原件私有逐文件回读；owner/worker终态、预留0；selected/deployment NONE。下列准备/采用/V3进展为历史记录。
+
 **V3已实际运行至合同停止点：真实单侧物体接触已取得，完整成功seed仍0。** [报告、实际TCP/接触图及662原件私有回读](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-access-v3/REPORT.md)。12CPU实际PASS；T1运行5.6s/14安装/113双RGB，右pad真实接触累计.570s；下一未安装窗口原关节加速度4.01285＞1.0门拒绝。独立500Hz另见右slide6点raw超44mm、峰值44.06553mm；无原生stop≠原始机械范围PASS，不能作为成功示范。T2两入口10.346/10.467＞10s、两dense预算用完，001/002未认证/未评，未运行。累计40启动/364111扣账步；整体PARTIAL，停止本V3，无重试/训练，旧FAIL/WBC/安全/评分/窗口不变，selected/deployment=NONE。下列采用/待执行均为历史阶段记录。
 
 **完整V3已获用户明确采用，含累计搜索217bundle/214214dense重分配；沿原窗口/父账执行。** [源绑定人类采用](reports/PI0294/design/SOURCE_ACCESS_V3_HUMAN_ADOPTION.json)。保留V2安全FAIL，新版本实施受影响CPU契约→各task自身源/actual warmup→完整32s；采用不代表运行PASS。下列待采用描述是此前发布阶段记录。

@@ -1,0 +1,81 @@
+{
+  "status": "PASS_NIGHT_CHANGED_CPU_CONTRACTS",
+  "source": "7881fdc047fffd1c5094761f99338d8ab19aad87",
+  "checks": [
+    {
+      "name": "INDEPENDENT_AUTHORITY_AND_HARD_CUTOFF",
+      "status": "PASS",
+      "evidence": {
+        "old_scope_not_reopened": true
+      }
+    },
+    {
+      "name": "FROZEN_FULLBODY_DYNAMICS_AND_SAFETY",
+      "status": "PASS",
+      "evidence": {
+        "initial": {
+          "status": "PASS_ZERO_STEP_INIT_TASK_ONLY",
+          "finger_qpos_m": [
+            0.002,
+            0.002
+          ],
+          "finger_command_fraction": 0.045454545454545456,
+          "table_top_m": 0.44,
+          "cube_center_z_m": 0.46,
+          "time_s": 0.0,
+          "physics_steps": 0
+        }
+      }
+    },
+    {
+      "name": "ALL_NATIVE_LIMITED_JOINTS_HIGH_RATE_NO_TOLERANCE_RELAXATION",
+      "status": "PASS",
+      "evidence": {
+        "fixture_only": true,
+        "raw_excess_rejected": true
+      }
+    },
+    {
+      "name": "T32_IDENTICAL_AND_SLOW_WINDOWS_41_POINTS_LATE_FAILURE_FALSE_CONTACT",
+      "status": "PASS",
+      "evidence": {
+        "tasks": 2,
+        "durations": [
+          32,
+          64,
+          96,
+          128
+        ],
+        "fixtures_not_physics": true
+      }
+    },
+    {
+      "name": "LOCAL_INTERVAL_RETIME_NO_POSE_OR_GRIPPER_SMOOTHING",
+      "status": "PASS",
+      "evidence": {
+        "proof": {
+          "changed_intervals": 3,
+          "original_duration_s": 0.25,
+          "duration_s": 0.55,
+          "max_joint_velocity": 0.12,
+          "max_joint_acceleration": 0.7555555555555554,
+          "spatial_knots_changed": false,
+          "gripper_values_changed": false,
+          "uniform_global_drag": false,
+          "iterations": 2
+        }
+      }
+    },
+    {
+      "name": "ORIGINAL_PREFIX8_RESTORE_IDENTITY",
+      "status": "PASS",
+      "evidence": {
+        "new_physics": 0
+      }
+    }
+  ],
+  "checks_passed": 6,
+  "new_physics": 0,
+  "new_neural_queries": 0,
+  "fixtures_are_not_success_seeds": true
+}
