@@ -57,6 +57,8 @@ def validate_entry(root, *, read_only=False, closeout=False, physical_asset=None
         if sha(old/rel) != digest:
             raise PermissionError('NIGHT_PRIOR_EVIDENCE_CHANGED:'+rel)
     if not read_only:
+        if (root/'NIGHT_SHARED_STARTUP_SAFETY_HOLD.json').exists():
+            raise PermissionError('NIGHT_UNRESOLVED_SHARED_NATIVE_STARTUP_SAFETY')
         ledger = read(root/'NIGHT_RESOURCE_LEDGER.json')
         if (root/'GOAL_CLOSED.json').exists() or ledger['native_safety_failures'] >= 2:
             raise PermissionError('NIGHT_TERMINAL_OR_SECOND_SAFETY_FAILURE')
