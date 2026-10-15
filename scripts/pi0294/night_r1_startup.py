@@ -27,6 +27,13 @@ def command_ready(row, expected, fsm):
     return True
 
 
+def getup_ready(row, expected, completion_from_owned_log):
+    # HOLD can make the visible arm target look final while native GetUp is
+    # still interpolating its internal arm segment. Use its existing completion
+    # acknowledgement, not an arbitrary delay or a guessed command value.
+    return bool(completion_from_owned_log) and command_ready(row,expected,'RLFSMStateGetUp')
+
+
 def run(root,native,startup,episode):
     import mujoco
     import rclpy
@@ -144,7 +151,7 @@ def run(root,native,startup,episode):
         publish(modes,'HOLD')
         if not spin(3,lambda:control().get('arm_mode')=='HOLD'):raise RuntimeError('NATIVE_ARM_HOLD_ACK_MISSING')
         publish(keys,'0')
-        if not spin(4,lambda:command_ready(control(),expected,'RLFSMStateGetUp')):raise RuntimeError('SUPPORTED_GETUP_COMMAND_NOT_READY')
+        if not spin(4,lambda:getup_ready(control(),expected,'Getting up completed' in (out/'sim.log').read_text(errors='replace'))):raise RuntimeError('SUPPORTED_GETUP_COMPLETION_NOT_ACKNOWLEDGED')
         write(out/'GETUP_NATIVE_READY.json',control());old_calls=control()['control_calls'];publish(keys,'1')
         if not spin(10,lambda:control().get('control_calls',0)>old_calls and command_ready(control(),expected,'RLFSMStateRLLocomotion')):raise RuntimeError('NATIVE_LOCOMOTION_INITIAL_COMMAND_NOT_RETAINED')
         if (out/'physics.jsonl').exists():raise ValueError('PHYSICS_BEFORE_NATIVE_READY')
