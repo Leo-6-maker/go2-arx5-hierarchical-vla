@@ -96,7 +96,7 @@ def run(root,native,startup,episode):
         if sha(native/path)!=digest:raise ValueError('FROZEN_NATIVE_SOURCE_CHANGED:'+path)
     for path,digest in clock_build['binary_sha256'].items():
         if sha(clock/path)!=digest:raise ValueError('FROZEN_NATIVE_BINARY_CHANGED')
-    timing=root/'runtime/TASK_PAUSE_R1_03';timing_build=read(timing/'CLOCK_BUILD_RECEIPT.json')
+    timing=root/'runtime/TASK_PAUSE_R1_04';timing_build=read(timing/'CLOCK_BUILD_RECEIPT.json')
     if timing_build['original_clock_binaries']!=clock_build['binary_sha256']:
         raise ValueError('PAUSE_BASE_CLOCK_IDENTITY')
     if sha(timing/'rl_sim_mujoco')!=timing_build['binary_sha256']['rl_sim_mujoco']:

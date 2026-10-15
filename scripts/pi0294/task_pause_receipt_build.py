@@ -16,7 +16,7 @@ def patch(cpp,hpp,utils):
     cpp=cpp.replace(needle,needle+"\n    std::lock_guard<std::mutex> receipt_guard(ros_arm_mutex_);")
     needle='          << ",\\"ack_sequence\\":" << ++task_clock_ack_sequence_'
     assert cpp.count(needle)==1
-    cpp=cpp.replace(needle,'          << ",\\"native_command_sequence\\":" << task_command_sequence_\n          << ",\\"native_command_valid\\":" << (ros_arm_target_valid_ ? "true" : "false")\n          << ",\\"native_command_age_s\\":" << (ros_arm_target_valid_ ? std::chrono::duration<double>(std::chrono::steady_clock::now()-ros_arm_target_time_).count() : -1.0)\n          << ",\\"native_arm_mode\\":\\"" << ros_arm_mode_ << "\\""\n'+needle)
+    cpp=cpp.replace(needle,'          << ",\\"native_command_sequence\\":" << task_command_sequence_\n          << ",\\"native_command_valid\\":" << (ros_arm_target_valid_ ? "true" : "false")\n          << ",\\"native_command_age_s\\":" << (ros_arm_target_valid_ ? std::chrono::duration<double>(PI0294SimNow()-ros_arm_target_time_).count() : -1.0)\n          << ",\\"native_arm_mode\\":\\"" << ros_arm_mode_ << "\\""\n'+needle)
     needle='    ros_arm_target_valid_ = true;'
     assert cpp.count(needle)==1
     cpp=cpp.replace(needle,needle+'\n    ++task_command_sequence_; // Receipt only; original callback above unchanged.')
@@ -33,7 +33,7 @@ def run(root,native,startup):
     for p,h in old_receipt['source_pins'].items():
         if sha(native/p)!=h:raise ValueError('FROZEN_NATIVE_SOURCE_CHANGED')
     assert sha(old/'rl_sim_mujoco.cpp')=='211750eed952f48820c08214e356f3f77a0690a833c5a24d909be587a7ed4cc7'
-    out=root/'runtime/TASK_PAUSE_R1_03';out.mkdir(exist_ok=False)
+    out=root/'runtime/TASK_PAUSE_R1_04';out.mkdir(exist_ok=False)
     names=('rl_sim_mujoco.cpp','rl_sim_mujoco.hpp','mujoco_utils.hpp');before=[(old/n).read_text() for n in names];after=patch(*before)
     for n,text in zip(names,after):(out/n).write_text(text)
     for n in ('native_home.hpp','native_startup.hpp'):(out/n).write_bytes((old/n).read_bytes())
