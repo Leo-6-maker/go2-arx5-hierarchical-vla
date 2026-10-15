@@ -38,7 +38,7 @@
 安装时间插值，替换前参考实际提供约3.36mm局部推进，中位略大于3mm是原
 source距实际观测存在数毫秒间隔，并非改变采样dt。
 
-这些是**实际消费时刻上可复算的任务参考事实**。新参考是否被某一MPC求解
+这些是**真实采样时刻上可复算的任务参考事实**。新参考是否被某一MPC求解
 结果采用、哪一条policy被native最终选中，旧日志没有ref→solver-policy身份，
 仍为`UNKNOWN_NO_SAVED_REFERENCE_TO_SOLVER_POLICY_ID`。安装ACK不代替消费
 证明；本次不钻入WBC优化、servo或重开D1。
