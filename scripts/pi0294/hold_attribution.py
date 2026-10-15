@@ -31,6 +31,51 @@ def interp(policy,t):
     return np.array([np.interp(t,times,states[:,k]) for k in range(states.shape[1])])
 
 
+def strict_snapshots(root,model_path):
+    """Same native sensor/control stamp; independent of physics-log ZOH choice."""
+    import mujoco as mj
+    root=Path(root);validate_scope(root)
+    with cpu_stage(root,'R4B_D0_SAME_STAMP_FORCE_CHECK',cores=1,cpu_s_cap=120):
+        p=root/'fullbody/native-hold-01';task=read(p/'TASK_START.json');out=root/'attribution/R4B_D0'
+        model=mj.MjModel.from_binary_path(str(model_path));data=mj.MjData(model)
+        def forbidden(*a,**kw):raise AssertionError('READ_ONLY')
+        mj.mj_step=mj.mj_step1=mj.mj_step2=forbidden
+        rows=[json.loads(x) for x in (p/'ros.jsonl').read_text().splitlines()]
+        measured={round(stamp(x),9):x['msg'] for x in rows if x['kind']=='arm'}
+        odom={round(stamp(x),9):x['msg'] for x in rows if x['kind']=='odom'}
+        controls=[json.loads(x) for x in (p/'control.jsonl').read_text().splitlines()]
+        physical=[json.loads(x) for x in (p/'physics.jsonl').read_text().splitlines()]
+        samples=[x for x in physical if x['kind']=='sample' and 0<=x['sim_time_s']-task['mpc_time_s']<=10.075]
+        qa=np.array([model.jnt_qposadr[mj.mj_name2id(model,mj.mjtObj.mjOBJ_JOINT,'x5_joint'+str(k))] for k in range(1,7)])
+        va=np.array([model.jnt_dofadr[mj.mj_name2id(model,mj.mjtObj.mjOBJ_JOINT,'x5_joint'+str(k))] for k in range(1,7)])
+        act=np.array([int(np.flatnonzero(model.actuator_trnid[:,0]==mj.mj_name2id(model,mj.mjtObj.mjOBJ_JOINT,'x5_joint'+str(k)))[0]) for k in range(1,7)])
+        target=quat_to_matrix(task['initial_tcp'][3:]);site=mj.mj_name2id(model,mj.mjtObj.mjOBJ_SITE,'x5_ee')
+        values=[];times=[]
+        for c in controls:
+            t=c['sim_time_s'];elapsed=t-task['mpc_time_s'];key=round(t,9)
+            if not 0<=elapsed<=10.075 or key not in measured or key not in odom:continue
+            arm=measured[key];pose=odom[key]['pose']['pose'];rotation=quat_to_matrix([pose['orientation'][k] for k in ('x','y','z','w')])
+            q=np.asarray(samples[0]['qpos']).copy();q[:3]=[pose['position'][k] for k in ('x','y','z')]-rotation@np.array([-.02557,0,.04232]);q[3:7]=np.roll(matrix_to_quat(rotation),1);q[qa]=arm['position']
+            reference=np.array(c['q_target'][12:18]);record=[]
+            for subset in ([],[2],[3],[2,3],list(range(6))):
+                qc=q.copy();qc[qa[subset]]=reference[subset];data.qpos[:]=qc;mj.mj_kinematics(model,data)
+                record.extend([np.linalg.norm(data.site_xpos[site]-task['initial_tcp'][:3]),np.linalg.norm(logrot(target.T@data.site_xmat[site].reshape(3,3)))])
+            values.append(record);times.append(elapsed)
+        a=np.array(values);late=np.array(times)>=8
+        ctrl_vs_force=[];bias=[];actforce=[];post_phase_residual=[]
+        for s in samples:
+            ctrl=np.asarray(s['ctrl'])[act];expected=np.clip(ctrl,model.actuator_ctrlrange[act,0],model.actuator_ctrlrange[act,1]);actual=np.asarray(s['qfrc_actuator'])[va]
+            ctrl_vs_force.append(actual-expected)
+            if s['sim_time_s']-task['mpc_time_s']>=8:bias.append(np.asarray(s['qfrc_bias'])[va]);actforce.append(actual)
+        result=dict(status='SAME_NATIVE_CONTROL_ARM_ODOMETRY_STAMP_COUNTERFACTUAL',samples=len(a),last2s_samples=int(late.sum()),
+            columns=['actual_XYZ','actual_SO3','joint3_XYZ','joint3_SO3','joint4_XYZ','joint4_SO3','joint3_4_XYZ','joint3_4_SO3','all6_XYZ','all6_SO3'],
+            whole=summary(a),last2s=summary(a[late]),
+            timing='Native published sensor snapshots and control targets have identical simulation stamp; sensor evaluation may precede integration by2ms but all compared fields are from that same control cycle. This is an offline target-substitution, not an achieved trajectory.',
+            actuator_force_minus_clipped_ctrl_Nm=summary(ctrl_vs_force),last2s_saved_bias_Nm=summary(bias),last2s_actual_actuator_force_Nm=summary(actforce),
+            actual_consumed_policy_id='UNKNOWN',actual_applied_velocity='UNKNOWN_NOT_LOGGED',new_physics=0,new_model_queries=0,new_render=0)
+        write(out/'STRICT_ALIGNMENT_AND_FORCE_CHECK.json',result);print(json.dumps(result))
+
+
 def main(root,model_path):
     import mujoco as mj
     root=Path(root);validate_scope(root)
