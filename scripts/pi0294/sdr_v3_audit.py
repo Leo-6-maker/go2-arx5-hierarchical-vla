@@ -169,3 +169,72 @@ def video(root,episode):
         label=audit['status'],video_sha256=sha(target),bytes=target.stat().st_size,source_RGB_hashes_sha256=sha(folder/'RGB_HASHES.json'),
         public=False,new_physics=0,new_render=0,new_model_queries=0)
     write(receipt,value);return value
+
+def contact_summary(root,episode):
+    """Read force-bearing task contacts from saved journal; never step or solve."""
+    import mujoco
+    from .task_state import parse_state
+    from scripts.pi0292.durable import write
+    root=Path(root);p=root/FOLDER;e=p/'episodes'/episode;out=e/'TASK_CONTACT_RECONCILIATION.json'
+    if out.exists():return read(out)
+    m=mujoco.MjModel.from_binary_path(str(e/'task-scene.private.mjb'));start=read(e/'TASK_START.json');cube=mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_GEOM,'task_cube_geom');pads={mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_GEOM,'task_'+side+'_pad'):side for side in ['left','right']}
+    events=[];steps=[];table_body=[];root0=None;root_end=None;contacts_all=[]
+    with (e/'state.bin.journal').open('rb') as f:
+        while raw:=f.read(4):
+            n,=struct.unpack('<I',raw);packet=parse_state(f.read(n))
+            if packet['step']<start['native_step']:continue
+            if root0 is None:root0=packet['qpos'][:3].copy()
+            root_end=packet['qpos'][:3].copy();this=False
+            for c in packet['contacts']:
+                ids=[c['geom0'],c['geom1']];names=[mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,int(i)) for i in ids]
+                if 'task_table' in names and any(int(m.geom_bodyid[i])==mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_BODY,'base_link') for i in ids):table_body.append(packet['step'])
+                if cube in ids and any(i in pads for i in ids):
+                    row=dict(step=packet['step'],recorded_task_time_s=(packet['step']-start['native_step'])*.002,contact_source_task_time_s=packet['contact_time_s']-start['time_s'],names=names,pad_side=next(pads[i] for i in ids if i in pads),normal_force_N=float(c['wrench'][0]),distance_m=float(c['distance_m']))
+                    contacts_all.append(row)
+                    if c['wrench'][0]>=.05:events.append(row);this=True
+            if this:steps.append(packet['step'])
+    run=maximum=0;previous=None
+    for step in steps:
+        run=run+1 if previous is not None and step==previous+1 else 1;maximum=max(maximum,run);previous=step
+    output=dict(status='PASS_INDEPENDENT_SAVED_TASK_CONTACT_RECONCILIATION',actual_task_object_contact=bool(events),force_threshold_original_N=.05,
+        force_bearing_contact_ticks=len(steps),cumulative_contact_duration_s=len(steps)*.002,max_contiguous_contact_duration_s=maximum*.002,contact_records=len(events),
+        first_force_contact=events[0] if events else None,last_force_contact=events[-1] if events else None,max_normal_force_N=max([r['normal_force_N'] for r in events],default=0.),
+        deepest_pad_object_distance_m=min([r['distance_m'] for r in contacts_all],default=None),sides=sorted({r['pad_side'] for r in events}),
+        table_base_link_contact_ticks=len(set(table_body)),root_translation_delta_xyz_m=(root_end-root0).tolist(),root_translation_displacement_m=float(np.linalg.norm(root_end-root0)),
+        actual_grasp_ticks=read(e/'INDEPENDENT_CPU_AUDIT.json')['actual_grasp_ticks'],persistent_task_success=read(e/'INDEPENDENT_CPU_AUDIT.json')['quality']['persistent_success'],
+        contact_is_not_grasp_or_success=True,new_physics=0,new_IK=0,new_RRT=0,new_render=0,new_neural_queries=0)
+    write(out,output);return output
+
+def saved_goals(root):
+    """Native audit of saved new T1 IK and reference-only T2 cache identity."""
+    import mujoco
+    from .sdr_v3_cpu import saved_input
+    from .mp_client import contact_permitted
+    from scripts.pi0292.durable import write
+    root=Path(root);p=root/FOLDER;out=p/'SAVED_GOAL_NATIVE_AUDIT.json'
+    if out.exists():return read(out)
+    before=sha(p/'SEARCH_LEDGER.json');engine,state,_=saved_input(root,'T1');m=engine.model;d=mujoco.MjData(m)
+    binding=read(root/'maniskill-component-v1/planning-assets/ASSET_BINDING.private.json');folder=p/'requests/SDR3_CPU_T1/0000';req=read(folder/'INPUT.private.json');summary=[];details=[]
+    for i,goal in enumerate(req['goals']):
+        response=read(folder/f'IK-{i:02d}.private.json');cases=[]
+        for j,candidate in enumerate(response['internal_IK']):
+            q=np.asarray(candidate['solution']).copy();violations=[]
+            for k,joint in enumerate(binding['native_joint_ids']):
+                lo,hi=m.jnt_range[joint]
+                if m.jnt_type[joint]==mujoco.mjtJoint.mjJNT_HINGE:q[k]+=2*np.pi*np.round(((lo+hi)/2-q[k])/(2*np.pi))
+                if not lo<=q[k]<=hi:violations.append(binding['joint_names'][k])
+            d.qpos[:]=state['qpos'];d.qvel[:]=state['qvel'];d.ctrl[:]=state['ctrl'];d.qpos[binding['joint_qpos_addresses']]=q;mujoco.mj_forward(m,d);target=np.asarray(goal['pose'])
+            ep=float(np.linalg.norm(d.site_xpos[engine.tcp]-target[:3,3]));er=float(geodesic_angle(d.site_xmat[engine.tcp].reshape(3,3),target[:3,:3]));collisions=[]
+            for c in d.contact:
+                names=[mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,g) for g in [c.geom1,c.geom2]]
+                if not contact_permitted(names,c.dist,goal['stage']):collisions.append(dict(names=names,distance_m=float(c.dist)))
+            cases.append(dict(index=j,numerically_converged=candidate['success'],limit_violations=violations,native_FK_position_error_m=ep,native_FK_rotation_error_rad=er,collisions=collisions,legal_witness=not violations and not collisions and ep<=1e-3 and er<=1e-3))
+        row=dict(source_index=i,saved_CLIK=len(cases),numerically_converged=sum(c['numerically_converged'] for c in cases),original_legal_goals=len(response['legal_goals']),independent_native_legal_witnesses=sum(c['legal_witness'] for c in cases),response_sha256=sha(folder/f'IK-{i:02d}.private.json'))
+        assert row['independent_native_legal_witnesses'] or not row['original_legal_goals'];summary.append(row);details.append(dict(row,candidates=cases))
+    cached=[]
+    folder=p/'requests/SDR3_CPU_T2/0000'
+    for f in sorted(folder.glob('IK-0*.private.json')):
+        row=read(f);assert row['new_CLIK_initializations']==0 and row['consumer_equivalence'];cached.append(dict(slot=row['slot'],original_input_sha256=row['reused_original_input_sha256'],original_response_sha256=row['reused_original_response_sha256'],consumer_equivalence=True,new_IK=0))
+    output=dict(status='PASS_SAVED_GOAL_NATIVE_AND_CACHE_RECONCILIATION',new_T1_goals=summary,new_T1_saved_CLIK=sum(r['saved_CLIK'] for r in summary),T2_old_closed_tool_view_cache=cached,
+        T2_original_native_audit_sha256=sha(root/'source-demo-retime-join-v2/T2_SAVED_GOAL_NATIVE_AUDIT.json'),search_ledger_unchanged=before==sha(p/'SEARCH_LEDGER.json'),new_IK=0,new_RRT=0,new_physics=0,new_render=0,new_neural_queries=0)
+    assert output['search_ledger_unchanged'];write(p/'SAVED_GOAL_NATIVE_DETAILS.private.json',dict(T1=details));write(out,output);return output
