@@ -77,13 +77,34 @@ def cards(root):
 def require_card(root, manifest, episode):
     validate_entry(root, physical_asset=VERSION)
     card = next(c for c in cards(root) if c['id'] == episode)
-    release = read(Path(root)/FOLDER/'TEACHER_RELEASE.json')
+    release = read(Path(root)/FOLDER/'versions'/card['teacher_version']/'TEACHER_RELEASE.json')
     if (release['version'] != card['teacher_version'] or release['source_sha'] != manifest['code']['vla_commit']
             or release['CPU_admission'] != 'PASS' or release.get('quarantined', False)):
         raise PermissionError('NIGHT_ACTUAL_CHANGED_CONTRACT_ADMISSION_REQUIRED')
     if card['role'] == 'PRODUCTION' and not release['tasks'][card['task']]['repeatability_PASS']:
         raise PermissionError('NIGHT_TWO_OF_THREE_REPEATABILITY_REQUIRED')
     return card
+
+
+def reserve_static(root, name, points):
+    root=Path(root);lock=OwnerLock(root/'NIGHT_RESOURCE_OWNER.lock')
+    try:
+        path=root/FOLDER/'SEARCH_LEDGER.json';v=read(path)
+        reservations=v.setdefault('static_reservations',{})
+        if name in reservations:raise PermissionError('NIGHT_STATIC_FIRST_RESULT_PRESERVED')
+        used=sum(x['reserved_points'] for x in reservations.values())
+        if used+v['counters'].get('dense_reserved_points',0)+points>8000000:raise PermissionError('NIGHT_STATIC_CHECK_CAP')
+        reservations[name]=dict(reserved_points=points,status='RESERVED_NO_REDRAW');write(path,v)
+    finally:lock.close()
+
+
+def finish_static(root, name, actual, status):
+    root=Path(root);lock=OwnerLock(root/'NIGHT_RESOURCE_OWNER.lock')
+    try:
+        path=root/FOLDER/'SEARCH_LEDGER.json';v=read(path);r=v['static_reservations'][name]
+        if r['status']!='RESERVED_NO_REDRAW' or actual>r['reserved_points']:raise ValueError('NIGHT_STATIC_SETTLEMENT')
+        r.update(status=status,actual_points=actual);write(path,v)
+    finally:lock.close()
 
 
 @contextlib.contextmanager
