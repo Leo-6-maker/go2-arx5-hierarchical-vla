@@ -43,11 +43,16 @@ def local_schedule(poses, q, original_time):
     # that same quantized schedule; no new path, goal or library call is made.
     for quantized_iteration in range(24):
         dt=np.maximum(before,np.ceil(dt/.05-1e-10)*.05)
-        velocity=dq/dt[:,None];acceleration=2*np.diff(velocity,axis=0)/(dt[1:]+dt[:-1])[:,None]
+        knot_time=np.r_[0.,np.cumsum(dt)];grid=np.arange(round(knot_time[-1]/.05)+1)*.05
+        qgrid=np.stack([np.interp(grid,knot_time,q[:,j]) for j in range(q.shape[1])],axis=1)
+        velocity=np.diff(qgrid,axis=0)/.05;acceleration=np.diff(velocity,axis=0)/.05
         ratios=np.max(np.abs(acceleration),axis=1);bad=np.flatnonzero(ratios>1*(1+1e-10))
         if not len(bad):break
         factors=np.ones_like(dt)
-        for i in bad:factors[i:i+2]=np.maximum(factors[i:i+2],np.sqrt(ratios[i])*(1+1e-6))
+        for i in bad:
+            lo=max(0,int(np.searchsorted(knot_time,grid[i],side='right')-1))
+            hi=min(len(dt)-1,int(np.searchsorted(knot_time,grid[i+2],side='left')))
+            factors[lo:hi+1]=np.maximum(factors[lo:hi+1],np.sqrt(ratios[i])*(1+1e-6))
         dt*=factors
     else:raise ValueError('NIGHT_QUANTIZED_JOINT_TIME_REJECT')
     changed=dt>before+1e-10;attempts=[];selected=None
