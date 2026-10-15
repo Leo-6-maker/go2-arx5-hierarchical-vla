@@ -1,5 +1,13 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**最新用户决定：不调整WBC，只借用完整环境采集任务数据和训练GR00T。** [主线纠偏与Codex接续规则](docs/protocols/GR00T_TASK_DATA_FIRST_FROZEN_WBC_SCOPE_V1.md)（内含机器规则）。R4B D0已结束，D1及继续控制器归因/补偿/调参不再属于本团队下一步。WBC保持不变。
+
+**新采集采用“真实物体任务成功＋原生安全＋数据完整性”准入；旧保持RMS质量FAIL保留，但不再作为全局数据采集/训练的前置阻断。** 不调高0.05rad、不删除旧FAIL、不忽略实际限位/非法碰撞。应补齐任务夹爪/相机/Teacher，直接检查原样环境能否完成抓放与推送，再制作EEF13数据、并行采集和微调。脚本存在不等于任务或数据已经通过。
+
+本方向已由用户明确，不新增任何资源总量或窗口；owner需绑定有效任务/资源scope，不能自动重开关闭的lease。以下是已发布的事实与历史阶段依赖；其中的“依赖链已停止”描述原阶段终局，不代表新任务还要等待WBC修复或保持精度PASS。
+
+---
+
 **R4B D0实际只读归因已完成：同控制周期FK与力矩证据支持手臂伺服实现偏差主导姿态误差，并有身体预测/实现耦合；尚未证明可自主修的实现bug。** [WBC负责人缺陷包](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/R4B_D0/WBC_OWNER_DEFECT_NOTE.md) · [只读终账](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/R4B_D0/RESOURCE_AND_FINAL_REPORT.md)。新增物理/模型/PBS均0；R4B D1仍未采用，不新开窗口。
 
 **最新实际结果：R4A 原生完整机器人完成10秒世界系EEF保持，姿态RMS0.06965rad超过原0.05rad门；时钟、参考安装及原安全检查通过。整机教师/数据/FB13依赖链已停止，尚无整机学习模型。** [实际报告与CPU收据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/FINAL_NATIVE_QUALIFICATION_REPORT.md)。原始失败保留；这是有效负结果，不是R4A整体完成，selected/deployment仍NONE。
@@ -21,7 +29,7 @@
 
 **新 Codex 与所有后续工作请先从这里开始。** GitHub 是本团队 VLA 代码、协议、测试、小型执行收据的版本权威；CoreLab 共享 `~/Projects/GR00T-WBC` 是人类统一工作入口，但不能把私有原始数据、WBC、权重都视为已保存在 GitHub。
 
-- **[2026-10-14 新 agent 完整接管与科学推进计划](docs/handover/2026-10-14/NEXT_AGENT_EXECUTION_PLAN.md)** · [机器任务卡](docs/handover/2026-10-14/NEXT_AGENT_TASK_CARD.json) · [直接接手 Prompt](docs/handover/2026-10-14/NEXT_AGENT_BOOTSTRAP.md)：当前 PI0294 仍因真实夹爪原生限位 BLOCKED，修订待 GO；这是计划不是自动执行授权。今后交接由 GitHub 固定提交直接供 Codex 读取，不以本地 ZIP 为主。
+- **[2026-10-14 新 agent 完整接管与科学推进计划](docs/handover/2026-10-14/NEXT_AGENT_EXECUTION_PLAN.md)** · [机器任务卡](reports/PI0294/design/../design/../../../../docs/handover/2026-10-14/NEXT_AGENT_TASK_CARD.json) · [直接接手 Prompt](docs/handover/2026-10-14/NEXT_AGENT_BOOTSTRAP.md)：当前 PI0294 仍因真实夹爪原生限位 BLOCKED，修订待 GO；这是计划不是自动执行授权。今后交接由 GitHub 固定提交直接供 Codex 读取，不以本地 ZIP 为主。
 - **[2026-10-14 完整工作总结与下一 owner 交接](docs/handover/2026-10-14/HANDOFF.md)**：Oct12-14 已执行事实、代码入口、固定 HF 资产、终局与剩余预算。当前 M512 实际闭环触发原生夹爪关节限位，科学线 BLOCKED；交接不授权重启。夹爪重资格方案仍未获明确采纳。
 - **[现行统一入口／GitHub 同步规范](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)**：host-aware profiles、固定源 SHA、运行 manifest、分支同步、旧目录退役验收。
 - **CoreLab 现有可执行入口**：`~/Projects/GR00T-WBC/infrastructure/enter.sh amd-management`（AMD），或在 4080S 使用 `4080-simulation`／`4080-cpu-data`。不提供自动跨主机 SSH；不经许可启动物理／模型。
