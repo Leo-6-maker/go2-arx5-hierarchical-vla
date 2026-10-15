@@ -53,7 +53,9 @@ def main(root,native,startup):
     lib=ocs2_codegen_dir('go2_x5_ocs2','arx5_ac1_floating')
     if not Path(lib).is_dir():raise ValueError('EXISTING_NATIVE_CODEGEN_REQUIRED')
     owner=OwnerLock(root/'R4_RESOURCE_OWNER.lock');ledger=read(root/'R4_RESOURCE_LEDGER.json')
-    if (ledger['CPU_reservations'] or ledger['main_starts']+1>160
+    if (len([a for a in ledger.get('native_attempts',[]) if a.get('result',{}).get('physics_lower_bound',0)>0])>=8
+            or (root/'fullbody/NATIVE_VALID_QUALITY_FAIL.json').exists()
+            or ledger['CPU_reservations'] or ledger['main_starts']+1>160
             or ledger['main_integrations']+20000>2560000 or ledger['Core_CPU_s']+2400>96*3600):
         raise PermissionError('NATIVE_PARENT_RESERVATION_EXCEEDED')
     cpus=sorted(os.sched_getaffinity(0))[-16:][:4];os.sched_setaffinity(0,set(cpus))
@@ -142,6 +144,7 @@ def main(root,native,startup):
                 packet=dict(doc,_pi0294=dict(episode=out.name,sequence=sequence,source_mpc_s=now,ttl_s=.4,operation='install'))
                 wire=json.dumps(packet,separators=(',',':'));publish(refs,wire)
                 issued.append(dict(source_mpc_s=now,sequence=sequence,wire_sha256=hashlib.sha256(wire.encode()).hexdigest()))
+                write(out/'ISSUED.json',issued)
                 last=now;sequence+=1
             spin(.002)
         write(out/'ISSUED.json',issued)

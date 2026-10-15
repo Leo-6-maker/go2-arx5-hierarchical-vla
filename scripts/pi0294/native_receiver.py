@@ -38,6 +38,7 @@ def main():
     from std_msgs.msg import String
     original_init=EETrajectoryManager.__init__
     original_send=EETrajectoryManager._send
+    original_observation=EETrajectoryManager.on_observation
     trace=Path(os.environ['PI0294_PLANNER_TRACE'])
     episode=os.environ['PI0294_EPISODE']
 
@@ -45,7 +46,7 @@ def main():
         with trace.open('a') as f:f.write(json.dumps(dict(kind=kind,monotonic_s=time.monotonic(),**kw),allow_nan=False)+'\n')
 
     def hold(self,reason):
-        self.trajectory_started=False;self.bound_start=None;self._r4_deadline=None
+        self.trajectory_started=False;self.bound_start=None;self._r4_deadline=None;self._r4_pending=None
         msg=String();msg.data='HOLD';self._r4_mode.publish(msg)
         record('lifecycle',reason=reason,action='ORIGINAL_NATIVE_HOLD')
 
@@ -53,7 +54,16 @@ def main():
         try:
             if self.observation is None or self.ee_state is None or not self.reference_enabled:
                 raise ValueError('MEASURED_WBC_INPUT_REQUIRED')
-            bound,source,sequence=bind_packet(json.loads(msg.data),episode=episode,
+            document=json.loads(msg.data);source=document['_pi0294']['source_mpc_s']
+            now=float(self.observation.time)
+            # DDS may deliver measured EE before the matching MPC observation.
+            # Wait for that observation; never accept against a future timestamp.
+            if (isinstance(source,(float,int)) and not isinstance(source,bool)
+                    and math.isfinite(source) and 0<source-now<=.025):
+                if self._r4_pending is not None:raise ValueError('PENDING_TRANSACTION_OCCUPIED')
+                self._r4_pending=msg;record('waiting_for_source_observation',source_mpc_s=source,receiver_mpc_s=now)
+                return
+            bound,source,sequence=bind_packet(document,episode=episode,
                 sequence=self._r4_sequence,now=float(self.observation.time),trajectory_type=TaskTrajectory,
                 ee=self.ee_state,base=self.base_state())
         except (KeyError,ValueError,TypeError,OverflowError,RecursionError) as exc:
@@ -68,6 +78,14 @@ def main():
             receiver_mpc_s=float(self.observation.time),deadline=self._r4_deadline)
         self.publish_trajectory()
 
+    def observation(self,msg):
+        original_observation(self,msg)
+        if self._r4_pending is not None:
+            pending=self._r4_pending
+            source=json.loads(pending.data)['_pi0294']['source_mpc_s']
+            if float(msg.time)>=source:
+                self._r4_pending=None;accept(self,pending)
+
     def send(self,msg):
         original_send(self,msg)
         record('installed',ref_id=getattr(self,'_r4_ref',None),bound_start=self.bound_start,
@@ -80,16 +98,20 @@ def main():
                 and float(self.observation.time)>=self._r4_deadline-1e-10):hold(self,'PREFIX_TTL_EXPIRED')
 
     def init(self):
-        original_init(self);self._r4_sequence=-1;self._r4_deadline=None
+        original_init(self);self._r4_sequence=-1;self._r4_deadline=None;self._r4_pending=None
         self._r4_mode=self.create_publisher(String,'/go2_x5/arm/mode/request',10)
         self._r4_timer=self.create_timer(.002,lambda:expiry(self))
 
     EETrajectoryManager.__init__=init
     EETrajectoryManager.on_trajectory_json=accept
+    EETrajectoryManager.on_observation=observation
     EETrajectoryManager._send=send
     rclpy.init();node=EETrajectoryManager()
     try:rclpy.spin(node)
-    finally:node.destroy_node();rclpy.shutdown()
+    except KeyboardInterrupt:pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok():rclpy.shutdown()
 
 
 if __name__=='__main__':main()

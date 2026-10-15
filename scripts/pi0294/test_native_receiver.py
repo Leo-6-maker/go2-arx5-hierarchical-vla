@@ -37,6 +37,11 @@ def check(parser):
     assert bind_packet(cancel,**args)==(None,7.,0)
     absent=copy.deepcopy(doc);del absent['base']
     assert bind_packet(absent,**args)[0].base is None
+    reordered_topics=copy.deepcopy(doc);reordered_topics['_pi0294']['source_mpc_s']=7.006
+    try:bind_packet(reordered_topics,**args)
+    except ValueError:pass
+    else:raise AssertionError('must wait for the source observation')
+    assert bind_packet(reordered_topics,**dict(args,now=7.006))[1]==7.006
     return dict(status='ACTUAL_NATIVE_RECEIVER_CPU_PASS',requested_first_point_preserved=True,
         native_window_points=41,world_EEF_and_BASE=True,source_anchor_preserved=True,
         wrong_epoch_stale_future_duplicate_reordered_cancel_reset_checked=True,new_physics=0,new_model=0)
