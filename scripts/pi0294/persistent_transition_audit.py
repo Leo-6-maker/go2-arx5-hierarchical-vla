@@ -53,6 +53,9 @@ def run(root):
             core=PersistentApproachDraft.restore(previous['persistent'])
             actual=np.asarray(samples[current['index']]['tcp']);dt=current['persistent']['last_time']-previous['persistent']['last_time']
             if abs(dt-.4)>1e-8:raise ValueError('SAVED_QUERY_PERIOD')
+            # Execution passes the configured literal0.4, not subtraction of
+            # two saved float timestamps; preserve that exact call identity.
+            dt=core.config.query_s
             replay,segment=core._advance(core.cursor.copy(),core.segment,actual,dt)
             expected=np.asarray(current['persistent']['cursor'])
             if not np.array_equal(replay,expected) or segment!=current['persistent']['segment']:
