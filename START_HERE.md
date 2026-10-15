@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**ManiSkill组件本轮已到有效规划资格停止点：固定T1/T2起点均无满足原限位的登记IK候选，物理未准入。** [实际结果、独立原生FK复算与私有归档回读](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/maniskill-component-v1/REPORT.md)。24项CPU接口检查通过；12个固定保存输入中7个后续输入可规划、5个失败，不能挑后续帧替换两个失败起点。新物理/接触/成功seed/训练均0，终局`STOP_FIXED_START_NO_ADMISSIBLE_REGISTERED_IK`；不是CPU_READY、WBC任务FAIL或全局IK无解。原WBC、安全、评分和旧终局未改，selected/deployment=NONE。下列采用/待采用措辞保留各自历史阶段，不代表继续运行的许可。
+
 **ManiSkill组件方案现已获人类明确采用执行。** [源绑定采用收据](reports/PI0294/design/MANISKILL_COMPONENT_HUMAN_ADOPTION_V1.json)，采用固定13713019077cb128b55090ab6b7a513e162b975e；原窗口/累计预算、冻结WBC/安全/任务评分不变。将依固定CPU接入→两任务短资格→各自完整32秒推进，采用不代表运行或seed已PASS。下列“待采用”是前一发布阶段记录。
 
 **新增已准备/待采用方案：ManiSkill规划组件→整机W0真实接近/接触/成功seed。** [完整有界方案](docs/protocols/PI0294_MANISKILL_PLANNING_COMPONENT_SEED_QUALIFICATION_DRAFT_V1.md) · [机器卡](reports/PI0294/design/MANISKILL_PLANNING_COMPONENT_TASK_CARD_V1.json)。冻结WBC/原T1/T2评分，替换旧cursor与误差阈值阶段前置；采用固定MPlib IK/RRTConnect、隔离NumPy环境。拟2短＋独立条件2完整、最多2任务前工程替换，共6启动/59018积分/1764双RGB/6CPUcoreh，花原父账与绝对窗口；无GR00T/GPU/PBS/扩采。用户本次只授权准备和发布，authorizes_scientific_execution=false/launch_allowed=false；未安装、未启动新物理、未取得成功seed。下列V2是已有实际终局，不因新方案改判。

@@ -1,0 +1,68 @@
+{
+  "status": "STOP_FIXED_START_NO_ADMISSIBLE_REGISTERED_IK",
+  "scope": "PI0294_MANISKILL_COMPONENT_SEED_QUALIFICATION_V1",
+  "adopted_release": "13713019077cb128b55090ab6b7a513e162b975e",
+  "authority_release": "87b34ae356756895be5bad3b079388a6d96ad5e8",
+  "auditor_source": "59045165b518837fc1cf8fb369f52752caa31ee5",
+  "CPU_interface_checks_passed": 24,
+  "saved_inputs": 12,
+  "valid_planned_snapshots": 7,
+  "failed_planned_snapshots": 5,
+  "fixed_initial_snapshots_admitted": 0,
+  "actual_planning_requests": 12,
+  "actual_IK_candidates": 96,
+  "actual_RRT_calls": 7,
+  "additional_planner_calls_during_reconciliation": 0,
+  "physical_conditions": [
+    {
+      "id": "MP_DEV_W0_T2",
+      "status": "NOT_ADMITTED_FIXED_START_PLANNING_FAIL",
+      "new_physical_starts": 0
+    },
+    {
+      "id": "MP_FULL_W0_T2",
+      "status": "NOT_ADMITTED_OWN_SHORT_PREREQUISITE",
+      "new_physical_starts": 0
+    },
+    {
+      "id": "MP_DEV_W0_T1",
+      "status": "NOT_ADMITTED_FIXED_START_PLANNING_FAIL",
+      "new_physical_starts": 0
+    },
+    {
+      "id": "MP_FULL_W0_T1",
+      "status": "NOT_ADMITTED_OWN_SHORT_PREREQUISITE",
+      "new_physical_starts": 0
+    }
+  ],
+  "new_physical_starts": 0,
+  "new_integrations": 0,
+  "new_RGB": 0,
+  "new_GR00T_queries": 0,
+  "new_GPU_PBS": 0,
+  "new_training_updates": 0,
+  "successful_target_body_seeds": 0,
+  "real_contact": "NOT_OBSERVED_NO_NEW_PHYSICS",
+  "WBC_changes": 0,
+  "safety_threshold_changes": 0,
+  "final_task_score_changes": 0,
+  "initial_parent_counters": {
+    "Core_CPU_s": 15244.79211945514,
+    "main_starts": 37,
+    "main_integrations": 345005,
+    "RGB_pairs": 12007
+  },
+  "pre_archive_parent_counters": {
+    "Core_CPU_s": 15269.662639190139,
+    "main_starts": 37,
+    "main_integrations": 345005,
+    "RGB_pairs": 12007
+  },
+  "pre_archive_CPU_increment_s": 24.870519734999107,
+  "new_T0": false,
+  "budget_reset": false,
+  "no_global_IK_infeasibility_or_WBC_task_failure_claim": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "closed_epoch": 1792063866.6447978
+}
