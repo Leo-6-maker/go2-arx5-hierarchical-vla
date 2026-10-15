@@ -6,7 +6,7 @@ from .task_capture_runtime import read,sha,validate_entry,cpu_stage
 
 FOLDER='source-demo-retime-join-v2'
 VERSION='FULLBODY_SOURCE_LOCAL_RETIME_DIRECT_JOIN_V2'
-AUTHORITY='9023c8baa7cf9c96edadfc937c51c3e2f6bc90cc18b37d1260127f678242da8a'
+AUTHORITY='ad84276c2aa1161fe8d82b1fdd7a2c067f786d0ab99a234ff086d9d068549ff7'
 
 def authority_values(a,digest,now):
     if digest!=AUTHORITY or not a['authorizes_execution'] or a['budget_reset']:raise PermissionError('SDR2_EXPLICIT_ADOPTION_REQUIRED')
