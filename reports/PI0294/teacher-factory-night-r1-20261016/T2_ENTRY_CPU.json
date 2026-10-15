@@ -1,0 +1,63 @@
+{
+  "status": "PASS_T2_COMMON_SCENE_FULL_STATIC_ENTRY_AND_SOURCE_JOIN",
+  "source": "90ca388f0e6a6ed3b512bf860d68b171d350a443",
+  "source_id": "PI0294-TRAIN-F0-000-T2",
+  "program_sha256": "cdf7d4c91ac865b228315bb676653cfb76e5b48f860e79b9ded83409f190eae4",
+  "entry_timing": {
+    "changed_intervals": 73,
+    "original_duration_s": 10.417349952895265,
+    "duration_s": 10.950000000000015,
+    "max_joint_velocity": 0.23891257083798578,
+    "max_joint_acceleration": 0.34946459623661497,
+    "fixed_factor_attempts": [
+      {
+        "factor": 1.0,
+        "duration_s": 10.950000000000015,
+        "max_joint_velocity": 0.23891257083798578,
+        "max_joint_acceleration": 0.34946459623661497,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 1.25,
+        "duration_s": 14.59999999999998,
+        "max_joint_velocity": 0.17918442812849045,
+        "max_joint_acceleration": 0.26209844717755004,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 1.5,
+        "duration_s": 18.25,
+        "max_joint_velocity": 0.1433475425027919,
+        "max_joint_acceleration": 0.2096787577420045,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 2.0,
+        "duration_s": 21.90000000000003,
+        "max_joint_velocity": 0.119456285418994,
+        "max_joint_acceleration": 0.17473229811830748,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      }
+    ],
+    "selected_factor": 1.0,
+    "spatial_knots_changed": false,
+    "gripper_values_changed": false,
+    "uniform_global_drag": false,
+    "iterations": 1,
+    "quantized_iterations": 1,
+    "schema": "QUANTIZED_NATIVE_SLERP_R1",
+    "full_grid_max_linear_speed": 0.04509675761888679,
+    "full_grid_max_angular_speed": 0.285416535229248,
+    "native_interpolation_unchanged": true,
+    "entry_poses_changed": false
+  },
+  "duration_s": 96,
+  "entry_and_activity_s": 86.79999999999995,
+  "static_windows": 30,
+  "max_stitched_joint_velocity": 0.23983365911892207,
+  "max_stitched_joint_acceleration": 0.770927248946407,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_physics": 0,
+  "full_dynamic_task_not_qualified": true
+}
