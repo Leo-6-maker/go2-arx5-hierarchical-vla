@@ -13,15 +13,16 @@ class Client(OriginalClient):
         self.old_series=self.series;self.series=Path(root)/FOLDER
         self.context=None
 
-    def bundle(self,state,packages,stage,condition,index,*,attached=False,hold=False):
+    def bundle(self,state,packages,stage,condition,index,*,attached=False,hold=False,frozen_poses=None,frozen_stages=None):
         from scripts.pi0292.durable import write
         folder=self.series/'requests'/condition/f'{index:04d}';folder.mkdir(parents=True,exist_ok=True)
         config=__import__('scripts.pi0294.sdr_v2_runtime',fromlist=['condition']).condition(self.root,condition)
         batch=config['kind']=='BATCH_SAME_SAVED_ACTUAL_INPUT'
         goals=[]
         for package in packages:
-            entries=([('join',package['contact'],'align',False)] if package.get('direct_join') else
-                [('approach',package['approach'],'approach',False),('contact',package['contact'],'align' if package['task']=='T1' else 'contact',package['task']=='T2')]) if stage=='approach' else [('target',package['target'],stage,False)]
+            if frozen_poses is not None or stage!='approach':entries=[('target',package['target'],stage,False)]
+            elif package.get('direct_join'):entries=[('join',package['contact'],'align',False)]
+            else:entries=[('approach',package['approach'],'approach',False),('contact',package['contact'],'align' if package['task']=='T1' else 'contact',package['task']=='T2')]
             source=config['sources'][package['index']] if batch else None
             streams=source['original_streams'] if batch else config['random_streams'][index]
             paired=len(entries)==2
@@ -36,6 +37,7 @@ class Client(OriginalClient):
         payload.update(schema='SOURCE_RETIME_JOIN_V2_REQUEST',run_root=str(self.root),bundle_key=condition+'/'+str(index),
             goals=goals,condition_kind=config['kind'],implementation_sha=read(self.root/'RUN_MANIFEST.json')['code']['vla_commit'])
         payload['registered_source_programs']=[{k:p[k] for k in ('index','source_id','source_program_sha256','active_duration_s') if k in p} for p in packages]
+        if frozen_poses is not None:payload['frozen_window']=dict(poses=np.asarray(frozen_poses).tolist(),stages=list(frozen_stages))
         input_identity=hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
         reserve_bundle(self.root,condition,index,input_identity)
         request=folder/'INPUT.private.json'
@@ -90,13 +92,18 @@ class Client(OriginalClient):
                 slots=read(self.series/'SEARCH_LEDGER.json')['bundles'][payload['bundle_key']]['slots']
                 response.update(IK_calls=sum(k.startswith('IK/') and v['state']=='COMPLETE' for k,v in slots.items()),
                     RRT_calls=sum(k.startswith('RRT/') and v['state']=='COMPLETE' for k,v in slots.items()))
-                try:poses,certificate=self.cartesian(state,response,speed=.04 if stage in ('contact','push','detach') and packages[0]['task']=='T2' else .06,
-                        attached=attached,stage=stage)
+                try:
+                    if frozen_poses is None:
+                        poses,certificate=self.cartesian(state,response,speed=.06,attached=attached,stage=stage)
+                    else:poses,certificate=self.certify_frozen(state,response,np.asarray(frozen_poses),list(frozen_stages),attached=attached)
                 except PlannerFailure as e:
-                    failures.append(dict(route=route,status=str(e)));continue
+                    failures.append(dict(route=route,status=str(e)))
+                    used=sum(k.startswith('DENSE/') for k in read(self.series/'SEARCH_LEDGER.json')['bundles'][payload['bundle_key']]['slots'])
+                    if used>=config_dense_cap(self.root,payload['bundle_key']):raise PlannerFailure(str(e),dict(routes=failures))
+                    continue
                 self.last_route=response
                 package=next(p for p in packages if p['index']==response['package'])
-                if stage=='approach' and (certificate['duration_s']>10 or certificate['duration_s']+package.get('active_duration_s',0)>28):
+                if frozen_poses is None and stage=='approach' and (certificate['duration_s']>10 or certificate['duration_s']+package.get('active_duration_s',0)>28):
                     failures.append(dict(route=route,status='SOURCE_ENTRY_AND_ACTIVITY_TIME_INFEASIBLE',entry_duration_s=certificate['duration_s'],active_duration_s=package.get('active_duration_s')))
                     continue
                 if npz.exists():
@@ -167,6 +174,61 @@ class Client(OriginalClient):
             write(cache,proof);finish_internal(self.root,c['key'],'DENSE',slot,dict(points=points,local_IK_iterations=iterations,status=status))
         if status!='PASS':raise PlannerFailure(reason,proof)
         return proof
+
+
+    def certify_frozen(self,state,response,poses,stages,*,attached):
+        """Validate the source window on a clone; never replace its active values."""
+        import mujoco
+        from scripts.pi0292.durable import write
+        from .source_retime_v2_analysis import so3_angles
+        if poses.shape!=(40,4,4) or len(stages)!=40:raise ValueError('SDR2_FROZEN_H40_SHAPE')
+        speed=np.linalg.norm(np.diff(poses[:,:3,3],axis=0),axis=1)/.05;angular=so3_angles(poses[:-1,:3,:3],poses[1:,:3,:3])/.05
+        if max(speed.max()/.06,angular.max()/.3)>1+1e-10:raise PlannerFailure('FROZEN_SOURCE_RATE_REJECT',{})
+        c=self.context;ledger=read(self.series/'SEARCH_LEDGER.json');slots=ledger['bundles'][c['key']]['slots'];slot=sum(k.startswith('DENSE/') for k in slots)
+        reserve_internal(self.root,c['key'],'DENSE',slot)
+        path=c['folder']/f"FROZEN-DENSE-{slot:02d}.private.json";trace=c['folder']/f"FROZEN-DENSE-{slot:02d}.private.npz"
+        m,d=self.model,self.native_data;d.qpos[:]=state['qpos'];d.qvel[:]=state['qvel'];d.ctrl[:]=state['ctrl'];d.qpos[self.arm_q]=np.asarray(response['position'])[-1]
+        jacp=np.zeros((3,m.nv));jacr=np.zeros_like(jacp);relative=np.linalg.inv(state['tcp'])@state['object_pose']
+        cube=mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_JOINT,'task_cube_free');cqa=int(m.jnt_qposadr[cube]);points=iterations=0;qs=[];status='PASS';reason=None
+        extended=np.concatenate([poses,poses[-1:]])
+        try:
+            for tick in range(1001):
+                at=tick*.002;i=min(int(at/.05),39);fraction=(at-i*.05)/.05;points+=1
+                target=np.eye(4);target[:3,3]=(1-fraction)*extended[i,:3,3]+fraction*extended[i+1,:3,3]
+                target[:3,:3]=quat_to_matrix(quat_slerp(matrix_to_quat(extended[i,:3,:3]),matrix_to_quat(extended[i+1,:3,:3]),fraction))
+                for iteration in range(5):
+                    iterations+=1;mujoco.mj_forward(m,d);ep=target[:3,3]-d.site_xpos[self.site];delta=matrix_to_quat(target[:3,:3]@d.site_xmat[self.site].reshape(3,3).T)
+                    if delta[3]<0:delta=-delta
+                    length=np.linalg.norm(delta[:3]);er=delta[:3]*(2*np.arctan2(length,delta[3])/max(length,1e-15))
+                    if iteration and np.linalg.norm(ep)<=1e-5 and np.linalg.norm(er)<=1e-4:break
+                    mujoco.mj_jacSite(m,d,jacp,jacr,self.site);step=np.linalg.lstsq(np.vstack([jacp[:,self.arm_v],jacr[:,self.arm_v]]),np.r_[ep,er],rcond=1e-10)[0]
+                    if not np.isfinite(step).all():raise PlannerFailure('FROZEN_SOURCE_NONFINITE_LOCAL_IK',{})
+                    d.qpos[self.arm_q]+=step
+                else:raise PlannerFailure('FROZEN_SOURCE_NATIVE_IK_REJECT',{})
+                if np.any(d.qpos[self.arm_q]<m.jnt_range[self.arm_j,0]) or np.any(d.qpos[self.arm_q]>m.jnt_range[self.arm_j,1]):raise PlannerFailure('FROZEN_SOURCE_NATIVE_LIMIT',{})
+                if attached:
+                    obj=target@relative;d.qpos[cqa:cqa+3]=obj[:3,3];quat=matrix_to_quat(obj[:3,:3]);d.qpos[cqa+3:cqa+7]=np.r_[quat[3],quat[:3]]
+                mujoco.mj_forward(m,d)
+                for contact in d.contact:
+                    names=[mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,g) for g in (contact.geom1,contact.geom2)]
+                    if not contact_permitted(names,contact.dist,stages[i]):raise PlannerFailure('FROZEN_SOURCE_NATIVE_COLLISION:'+str(names),{})
+                qs.append(d.qpos[self.arm_q].copy())
+            command_q=np.asarray(qs)[np.arange(40)*25];vel=np.diff(command_q,axis=0)/.05;acc=np.diff(vel,axis=0)/.05
+            if np.max(np.abs(vel))>.7*(1+1e-10):raise PlannerFailure('FROZEN_SOURCE_JOINT_SPEED',{})
+            if np.max(np.abs(acc))>1.*(1+1e-10):raise PlannerFailure('FROZEN_SOURCE_JOINT_ACCELERATION',{})
+        except PlannerFailure as e:status='FAIL';reason=str(e)
+        except Exception as e:
+            status='ENGINEERING_INCOMPLETE';reason=type(e).__name__+': '+str(e);raise
+        finally:
+            np.savez_compressed(trace,joint_q=np.asarray(qs),poses=poses)
+            proof=dict(status=status,reason=reason,points=points,local_IK_iterations=iterations,
+                installed_pose_values_changed=False,actual_state_modified=False,physics_steps=0,
+                frame_rate_Hz=500,joint_rate_certificate_grid_Hz=20,joint_velocity_limit=.7,joint_acceleration_limit=1.,
+                trace_sha256=sha(trace),input_sha256=sha(c['request']))
+            write(path,proof);finish_internal(self.root,c['key'],'DENSE',slot,dict(status=status,points=points,local_IK_iterations=iterations))
+        if status!='PASS':raise PlannerFailure(reason,proof)
+        return poses,dict(duration_s=2.,dense=proof,max_linear_speed=float(speed.max()),max_angular_speed=float(angular.max()),
+            frozen_source_values_preserved=True,input_sha256=sha(c['request']),response_sha256=response['response_sha256'])
 
 
 def config_dense_cap(root,key):

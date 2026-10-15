@@ -43,7 +43,7 @@ def require_card(root,manifest,episode):
     if proof['checks_passed']!=20:raise PermissionError('SDR2_TWENTY_ACTUAL_CPU_CHECKS_REQUIRED')
     if proof['source_sha']!=manifest['code']['vla_commit']:
         binding=read(p/'CPU_EXECUTION_BINDING.json')
-        if binding['source_sha']!=manifest['code']['vla_commit'] or binding['original_CPU_sha256']!=sha(p/'CPU_ADMISSION.json') or binding['status']!='PASS_SAME_INPUT_AND_FIXED_CORE_NO_REQUERY':raise PermissionError('SDR2_CPU_SOURCE_BINDING')
+        if binding['source_sha']!=manifest['code']['vla_commit'] or binding['original_CPU_sha256']!=sha(p/'CPU_ADMISSION.json') or binding['programs_sha256']!=sha(p/'PROGRAMS.json') or binding['status']!='PASS_SAME_INPUT_AND_FIXED_CORE_NO_REQUERY':raise PermissionError('SDR2_CPU_SOURCE_BINDING')
     r=next(t for t in proof['task_results'] if t['task']==card['task'])
     if r['status']!='PASS_SOURCE_ROUTE_AND_TIME':raise PermissionError('SDR2_OWN_SOURCE_ROUTE_REQUIRED')
     return dict(card,locked_source_id=r['source_id'])
