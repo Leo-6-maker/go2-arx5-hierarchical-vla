@@ -41,18 +41,33 @@ def run(root,episode):
                     float(state['object_pose'][2,3]),int(not state['safety_valid'])]);xyz_micro.append(state['object_pose'][:3,3].copy());endpoint.append(relative*.002)
     commands=rows(folder/'committed_intents.jsonl');intents=[r for r in commands if r['phase']=='SUBMITTED_REQUIRES_INSTALL_ACK'];acks=[r for r in commands if r['phase']=='INSTALL_ACK']
     planner=rows(folder/'planner.jsonl');accepted={r['ref_id']:r for r in planner if r['kind']=='accept'}
-    complete=result['status']=='RAW_TASK_COMPLETE_REQUIRES_INDEPENDENT_CPU_AUDIT' and len(samples)==round(card['duration_s']*20)+1
-    if result.get('recorder_error'):raise ValueError('MPS2_RECORDER_ERROR')
+    recovered=False
+    if result.get('recorder_error'):
+        recovery=read(folder/'RECORDER_RECOVERY.json')
+        if (recovery['status']!='PASS_FIXED_ACTUAL_STATE_RGB_RECONSTRUCTION' or recovery['original_result_sha256']!=sha(folder/'RESULT.json')
+                or recovery['samples_sha256']!=sha(folder/'samples.jsonl') or recovery['journal_sha256']!=sha(folder/'state.bin.journal')
+                or recovery['native_model_sha256']!=sha(folder/'task-scene.private.mjb')):raise ValueError('MPS2_RECOVERY_SOURCE_IDENTITY')
+        for name,digest in recovery['files'].items():
+            if sha(folder/'images'/name)!=digest:raise ValueError('MPS2_RECOVERED_RGB_MEMBER_CHANGED')
+        recovered=True
+    complete=(result['status']=='RAW_TASK_COMPLETE_REQUIRES_INDEPENDENT_CPU_AUDIT' or recovered) and len(samples)==round(card['duration_s']*20)+1
     n=len(samples);t=np.asarray([s['time_s'] for s in samples])
     if not np.allclose(t,np.arange(n)/20,atol=1e-10,rtol=0):raise ValueError('MPS2_ACTUAL_20HZ')
     expected=(n-2)//8+1 if n>1 else 0
     if len(intents)!=expected or len(acks)!=expected or len(accepted)!=expected:raise ValueError('MPS2_PREFIX8_TRANSACTION_COUNTS')
     if complete and native_rows!=start['native_step']+(n-1)*25:raise ValueError('MPS2_COMPLETE_NATIVE_CLOCK')
     hashes={}
+    from .mps2_geometry import packages,alignment
+    selected_index=int(intents[0]['persistent']['selected_candidate']) if intents else 0
+    selected_package=None
     for i,s in enumerate(samples):
         p=sample_packets[i]
         if s['native_step']!=p['step'] or any(not np.array_equal(s[k],p[k]) for k in ('qpos','qvel','ctrl')):raise ValueError('MPS2_ACTUAL_NATIVE_BYTES')
         state=actual.update(p)
+        if selected_package is None:selected_package=packages(actual,state,card['task'],card)[selected_index]
+        computed_geometry=alignment(actual,state,selected_package)
+        if any(computed_geometry[k]!=s['teacher_geometry'][k] for k in ('precontact_geometry_ready','actual_contact_alignment')):
+            raise ValueError('MPS2_ACTUAL_GEOMETRY_REPLAY')
         for key in ('tcp','object_pose','object_linear_velocity','object_angular_velocity'):
             if not np.allclose(state[key],s[key],atol=1e-12,rtol=0):raise ValueError('MPS2_NATIVE_FK_REPLAY:'+key)
         for key in BOOL_FIELDS:
@@ -106,6 +121,7 @@ def run(root,episode):
     proof=dict(status=status,id=episode,source_sha=result['source_sha'],demonstration_source=card['demonstration_source'],
         observations=n,submitted_and_installed=len(intents),native_integrations=native_rows,task_duration_s=float(t[-1]),complete=complete,
         quality=quality,milestones=milestones,actual_contact_ticks=int(micro[:,0].sum()),longest_grasp_s=longest*.002,
+        RGB_from_saved_actual_state_reconstruction=recovered,original_recorder_failure_preserved=recovered,
         max_actual_object_displacement_m=float(disp.max(initial=0.)),max_actual_object_rise_m=float(rise.max(initial=0.)),
         approach_distance_initial_min_final_m=[float(distances[0]),float(distances.min()),float(distances[-1])],
         actual_TCP_initial_final_xyz=tcp[[0,-1],:3,3].tolist(),RGB_pairs=n,installation=parity,source_labels_exact=True,
