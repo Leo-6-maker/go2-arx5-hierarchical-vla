@@ -52,9 +52,13 @@ def diagnostics(root):
             previous_installed_reference_at_actual_sample_position_error_max_m=float(np.max(same_time)),
             local_reference_difference_is_not_final_goal_distance=True,
             new_physics=0,new_model_queries=0,reference_consumption='UNKNOWN',query_details=queries)
+        bases=np.asarray([s['actual_BASE_mount'] for s in samples]);station=np.asarray(intents[0]['persistent']['station'])
+        case.update(actual_BASE_max_forward_m=float(np.max(bases[:,0,3]-bases[0,0,3])),
+            actual_station_XY_initial_final_distance_m=np.linalg.norm(bases[[0,-1],:2,3]-station[:2,3],axis=1).tolist())
         cases.append(case)
         plot.append(dict(id=folder.name,status=audit['status'],time_s=t.tolist(),actual_TCP_xyz=tcp[:,:3,3].tolist(),
             goal_xyz=target[:3,3].tolist(),goal_distance_m=np.linalg.norm(tcp[:,:3,3]-target[:3,3],axis=1).tolist(),
+            goal_angle_rad=[float(geodesic_angle(p[:3,:3],target[:3,:3])) for p in tcp],
             query_time_s=[q['time_s'] for q in queries],cursor_xyz=cursor_xyz.tolist(),
             previous_reference_error_m=same_time,object_xyz=[np.asarray(s['object_pose'])[:3,3].tolist() for s in samples]))
     report=dict(status='SAVED_ARRAY_DIAGNOSTICS_NOT_NEW_INTERVENTION',cases=cases,
