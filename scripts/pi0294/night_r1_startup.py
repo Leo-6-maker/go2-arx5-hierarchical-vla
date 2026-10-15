@@ -75,9 +75,12 @@ def run(root,native,startup,episode):
         if sha(native/name)!=h:raise ValueError('FROZEN_NATIVE_CORE:'+name)
     for path,h in cfg['initialization']['pinned_files'].items():
         if sha(path)!=h:raise ValueError('FROZEN_STARTUP_PIN:'+path)
-    clock=Path(m['dependencies']['native_clock_root']);timing=root/'runtime/TASK_PAUSE_CLOCK_01'
+    clock=Path(m['dependencies']['native_clock_root']);timing=root/'runtime/TASK_PAUSE_R1_02'
     clock_build=read(clock/'CLOCK_BUILD_RECEIPT.json');timing_build=read(timing/'CLOCK_BUILD_RECEIPT.json')
     assert timing_build['original_clock_binaries']==clock_build['binary_sha256']
+    assert timing_build['status']=='PASS_CPU_PAUSE_SYNCHRONIZATION_BUILD_ONLY'
+    assert timing_build['normal_native_N1_sim_mutex_conditional_restored']
+    assert timing_build['full_native_RunModel_computation_equal'] and timing_build['full_native_SetCommand_equal']
     for path,h in clock_build['source_pins'].items():assert sha(native/path)==h
     for path,h in clock_build['binary_sha256'].items():assert sha(clock/path)==h
     assert sha(timing/'rl_sim_mujoco')==timing_build['binary_sha256']['rl_sim_mujoco']
