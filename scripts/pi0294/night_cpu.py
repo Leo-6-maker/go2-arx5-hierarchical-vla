@@ -28,7 +28,7 @@ def source_path(root,client,state,record,endpoint,stage_name):
     import mujoco
     from go2arx5_vla.trajectory.so3 import matrix_to_quat
     program=load(root,record);m,d=client.model,client.native_data;d.qpos[:]=state['qpos'];d.qvel[:]=state['qvel'];d.ctrl[:]=state['ctrl'];d.qpos[client.arm_q]=endpoint
-    jacp=np.zeros((3,m.nv));jacr=np.zeros_like(jacp);qs=[];iterations=0;status='INCOMPLETE'
+    jacp=np.zeros((3,m.nv));jacr=np.zeros_like(jacp);qs=[];iterations=0;status='INCOMPLETE';diagnostic=None
     reserve_static(root,stage_name,5*len(program['poses']))
     try:
         for target in program['poses']:
@@ -46,9 +46,22 @@ def source_path(root,client,state,record,endpoint,stage_name):
             if np.any(d.qpos[client.arm_q]<m.jnt_range[client.arm_j,0]) or np.any(d.qpos[client.arm_q]>m.jnt_range[client.arm_j,1]):
                 raise PlannerFailure('NIGHT_FULL_SOURCE_NATIVE_LIMIT',dict(completed_knots=len(qs)))
             qs.append(d.qpos[client.arm_q].copy())
-        timing,proof=local_schedule(program['poses'],np.asarray(qs),program['time']);status='PASS_LOCAL_JOINT_TIME_NO_PHYSICS'
-        return dict(program,time=timing),proof,np.asarray(qs)
+        status='COMPLETE_STATIC_ROOT_WITNESS'
+    except PlannerFailure as exc:
+        diagnostic=dict(reason=str(exc),evidence=exc.evidence,completed_knots=len(qs))
+        status='PARTIAL_FIXED_ROOT_PREVIEW_NOT_ACTUAL_FULLBODY_FAILURE'
     finally:finish_static(root,stage_name,iterations,status)
+    if len(qs)<2:raise PlannerFailure('NIGHT_ENTRY_STATIC_LOCAL_WITNESS_MISSING',diagnostic)
+    n=len(qs);prefix,proof=local_schedule(program['poses'][:n],np.asarray(qs),program['time'][:n])
+    # The unsolved suffix is retained byte-for-byte in space and in its original
+    # interval durations. A fixed-root clone cannot predict future free-root
+    # state. Every actual H40 is still checked by the unchanged native certifier.
+    timing=np.r_[prefix,prefix[-1]+program['time'][n:]-program['time'][n-1]]
+    proof.update(full_static_root_witness=n==len(program['poses']),static_witness_knots=n,
+        total_source_knots=len(program['poses']),fixed_root_diagnostic=diagnostic,
+        live_fresh_actual_H40_guard_required=True,unwitnessed_suffix_not_claimed_safe=True,
+        duration_s=float(timing[-1]))
+    return dict(program,time=timing),proof,np.asarray(qs)
 
 
 def qualify_source(root,manifest,card):
@@ -70,8 +83,8 @@ def qualify_source(root,manifest,card):
                 index=int(np.searchsorted(program['source_indices'],e['source_index']));events.append(dict(e,program_time_s=float(program['time'][index])))
             updated=dict(record,file=filename,sha256=sha(dest),active_duration_s=float(program['time'][-1]),events=events,original_V3_sha256=record['sha256'],local_timing=proof)
             rows=read(p/'PROGRAMS.json');rows['rows']=[updated if r['id']==record['id'] else r for r in rows['rows']];write(p/'PROGRAMS.json',rows)
-            np.savez_compressed(p/(name+'-STATIC_JOINT_WITNESS.npz'),joint_q=q,time=program['time'])
-            result=dict(status='PASS_SOURCE_ROUTE_FULL_STATIC_TIME',task=card['task'],source_id=record['id'],program_sha256=updated['sha256'],duration_s=duration,certificate=certificate,local_time=proof,CPU_view=state['CPU_view'],earlier_failures=failures,new_physics=0)
+            np.savez_compressed(p/(name+'-STATIC_JOINT_WITNESS.npz'),joint_q=q,time=program['time'][:len(q)])
+            result=dict(status='PASS_ENTRY_ROUTE_DECLARED_TIME_ACTUAL_WINDOW_GUARD_REQUIRED',task=card['task'],source_id=record['id'],program_sha256=updated['sha256'],duration_s=duration,certificate=certificate,local_time=proof,CPU_view=state['CPU_view'],earlier_failures=failures,new_physics=0)
             write(p/(name+'-ADMISSION.json'),result);return result
         except (PlannerFailure,ValueError) as exc:
             value=dict(source_id=package['source_id'],status='NOT_ADMITTED',reason=str(exc),evidence=getattr(exc,'evidence',None));failures.append(value);write(p/(name+'-FAIL.json'),value)

@@ -1,0 +1,23 @@
+{
+  "version": "TFN_V2",
+  "status": "CHANGE_NOTE_BEFORE_CPU_AND_PHYSICS",
+  "parent": "TFN_V1",
+  "reason": [
+    "H44 fixed-root source continuation reaches a joint boundary only in late withdrawal (245/266 or253/274 knots), not an observed free-root episode failure.",
+    "An implementation-added whole-episode frozen-root precondition is inappropriate for the authorized free-root executor; original live actual H40 native gates remain mandatory.",
+    "Use authorized H47 common vertical scene translation for T2; prior H44 source/candidate evidence remains unchanged."
+  ],
+  "changes": [
+    "T2 table/cube/goal/source commonZ+.03m, dimensions/friction/collision unchanged.",
+    "Keep every source pose/gripper knot; apply local timing only where a valid fixed-root joint witness exists.",
+    "Mark unsolved static suffix explicitly unwitnessed, retain it unchanged; never claim full dynamic feasibility.",
+    "Every actual H40 still passes unchanged Cartesian/native joint rate/acceleration/collision checks before installation.",
+    "All native recorded steps checked against original raw joint ranges; no limit tolerance or force changes."
+  ],
+  "versions_consumed": 2,
+  "max_versions": 6,
+  "physics_in_V1": 0,
+  "same_failed_native_episode_rerun": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -108,7 +108,7 @@ def finish_static(root, name, actual, status):
 
 
 @contextlib.contextmanager
-def cpu_scope(root, stage, *, cpu_s_cap=1800, cores=1, closeout=False):
+def cpu_scope(root, stage, *, cpu_s_cap=1800, cores=1, closeout=False, include_children=True):
     root = Path(root); m, _ = validate_entry(root, read_only=closeout)
     t0, wall = time.process_time(), time.monotonic(); before = resource.getrusage(resource.RUSAGE_CHILDREN)
     lock = OwnerLock(root/'NIGHT_RESOURCE_OWNER.lock'); file = root/'NIGHT_RESOURCE_LEDGER.json'; v = read(file)
@@ -129,7 +129,8 @@ def cpu_scope(root, stage, *, cpu_s_cap=1800, cores=1, closeout=False):
         status = 'COMPLETE'
     finally:
         after = resource.getrusage(resource.RUSAGE_CHILDREN)
-        actual = time.process_time()-t0+after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime
+        actual = time.process_time()-t0
+        if include_children:actual += after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime
         charge = max(actual, cores*(time.monotonic()-wall))
         proof = dict(ticket,status=status,actual_CPU_s=actual,conservative_CPU_charged_s=charge)
         lock = OwnerLock(root/'NIGHT_RESOURCE_OWNER.lock');v=read(file);v['CPU_reservations'].pop(stage);v['Core_CPU_s']+=charge;v['CPU_stages'].append(proof);write(file,v);lock.close()

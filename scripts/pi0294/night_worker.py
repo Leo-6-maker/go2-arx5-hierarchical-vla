@@ -101,14 +101,17 @@ def run(root,native,startup,episode):
         if sha(path)!=digest:raise ValueError('QUALIFIED_NATIVE_STARTUP_CHANGED')
     lease=OwnerLock(native.parent/'PI0289_SIM_LEASE')
     owner=OwnerLock(parent/'NIGHT_RESOURCE_OWNER.lock');ledger=read(parent/'NIGHT_RESOURCE_LEDGER.json')
-    if (ledger['CPU_reservations'] or ledger['main_starts']+1>72
+    non_supervisor={k:v for k,v in ledger['CPU_reservations'].items() if k!='NIGHT_COORDINATOR'}
+    if (non_supervisor or ledger['main_starts']+1>72
             or ledger['main_integrations']+step_cap>4788216 or ledger['RGB_pairs']+frame_cap>184392
             or ledger['Core_CPU_s']+7200+21600>230400):raise PermissionError('CUMULATIVE_NATIVE_TASK_BUDGET')
     authority,series_ledger=require_adoption(root,manifest)
     if (series_ledger['starts']+1>72 or series_ledger['integrations']+step_cap>4788216
             or series_ledger['RGB_pairs']+frame_cap>184392 or ledger['Core_CPU_s']+7200+21600>series_ledger['CPU_cap']):
         raise PermissionError('ADOPTED_NEW_TEACHER_SERIES_BUDGET')
-    cpus=sorted(os.sched_getaffinity(0))[-16:][:4]
+    occupied={c for t in ledger['CPU_reservations'].values() for c in t['cpus']}
+    cpus=[c for c in sorted(os.sched_getaffinity(0)) if c not in occupied][-12:][:4]
+    if len(cpus)!=4:raise PermissionError('NIGHT_FOUR_FREE_PHYSICAL_CPU_REQUIRED')
     ticket=dict(stage=root.name+'/'+episode,kind='NATIVE_TASK',pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],
         cpus=cpus,cores=4,cpu_s_cap=7200,physics_steps_cap=step_cap,rgb_pairs_cap=frame_cap,started_epoch=time.time())
     ledger['main_starts']+=1;ledger['main_integrations']+=step_cap;ledger['RGB_pairs']+=frame_cap
