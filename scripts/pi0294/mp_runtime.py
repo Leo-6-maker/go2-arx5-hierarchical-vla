@@ -59,11 +59,13 @@ def reserve_request(root,condition,index,*,cpu=False):
     entries=plan['CPU_saved_input_conditions'] if cpu else plan['conditions']
     c=next(c for c in entries if c.get('id',c.get('condition_id'))==condition)
     item=next(v for v in c['planning_seed_table'] if v['query_index']==index)
-    with OwnerLock(parent/'R4_RESOURCE_OWNER.lock'):
+    owner=OwnerLock(parent/'R4_RESOURCE_OWNER.lock')
+    try:
         p=root/FOLDER/'PLANNING_REQUESTS.json';r=read(p) if p.exists() else dict(requests=[])
         key=condition+'/'+str(index)
         if any(v['key']==key for v in r['requests']):raise PermissionError('FIRST_PLANNING_REQUEST_PRESERVED')
         if len(r['requests'])>=232:raise PermissionError('MANISKILL_REQUEST_BUDGET')
         r['requests'].append(dict(key=key,cpu=cpu,seed=item['seed'],started_epoch=time.time()))
         write(p,r)
+    finally:owner.close()
     return item['seed']
