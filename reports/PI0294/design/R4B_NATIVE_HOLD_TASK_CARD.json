@@ -1,0 +1,101 @@
+{
+  "schema": "PI0294_R4B_NATIVE_HOLD_ATTRIBUTION_V1",
+  "date": "2026-10-15",
+  "status": "AUDIT_AND_PROPOSED_DIAGNOSTIC_ONLY",
+  "authorizes_new_execution": false,
+  "protocol": "docs/protocols/PI0294_R4B_NATIVE_HOLD_ATTRIBUTION_V1.md",
+  "evidence_commit": "a6f2e4bc516fd2f4e3d26a9cc9bff161783eec36",
+  "evidence_comment": 6181996104,
+  "owner": "EXISTING_INCOMING_LOCAL_PC_ONLY",
+  "actual_scope": {
+    "native_free_root_and_12legs_6arm_ran": true,
+    "active_gripper_task_camera_overlay_qualified": false,
+    "native_hold_status": "VALID_QUALITY_FAIL_NOT_NATIVE_SAFETY_FAILURE",
+    "original_reference_and_clock_PASS_preserved": true,
+    "fullbody_Teacher_data_FB13": "NOT_RUN_NOT_PRODUCED_NOT_TRAINED",
+    "current_legacy_policy": "M2048_PRESERVED_BEHAVIOR_PANEL_NOT_RUN",
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "immutable_gates": {
+    "XYZ_RMS_m_max": 0.015,
+    "SO3_RMS_rad_max": 0.05,
+    "source_clock_residual_s_max": 0.025,
+    "native_safety": "ORIGINAL_FIRST_NATIVE_ABORT",
+    "quality_failure_does_not_authorize_retry": true
+  },
+  "existing_evidence": {
+    "physics_XYZ_RMS_m": 0.012535353795480765,
+    "physics_SO3_RMS_rad": 0.0696509067107775,
+    "last2s_SO3_RMS_rad": 0.07051348349343507,
+    "rotation_mean_bias_norm_rad": 0.06930969939823646,
+    "rotation_jitter_RMS_rad": 0.006885809680765592,
+    "joint3_mean_request_error_rad": 0.035365543519485725,
+    "joint4_mean_request_error_rad": 0.03512430384594027,
+    "BASE_reference_mode": "OMITTED_NOT_ZERO_VELOCITY_SOFT_HOLD",
+    "private_archive_files": 92,
+    "private_archive_tree": "65d995cd2b549ba4ab1c0b5594731ed41dd83d1201c615c813803184b61604ac"
+  },
+  "D0_readonly": {
+    "first_action": "REUSE_EXISTING_PRIVATE_SIGNALS_AND_ACTUAL_SOURCE_PINS",
+    "new_integrations": 0,
+    "missing_signal_values": "UNKNOWN_NOT_SYNTHESIZED",
+    "pose_chain": ["REQUESTED_INSTALLED", "FK_PLANNED_BASE_PLANNED_ARM", "FK_ACTUAL_BASE_PLANNED_ARM", "FK_ACTUAL_BASE_REQUESTED_ARM", "FK_ACTUAL_BASE_APPLIED_ARM_TARGET", "ACTUAL_PHYSICS_AND_MEASURED_FK"],
+    "time_alignment": "CAUSAL_SOURCE_TIMESTAMP_WITH_EXPLICIT_PREVIEW_AND_APPLY_TIME",
+    "rotation_residual_rule": "EXACT_SO3_PRODUCTS_AND_COMMON_FRAME_NOT_ADD_SCALAR_RMS",
+    "joint3_4_attribution": "OFFLINE_KINEMATIC_COUNTERFACTUAL_AND_JACOBIAN_NOT_ACTUAL_QPOS_EDIT",
+    "force_balance": "M_VDOT_PLUS_BIAS_EQUALS_ACTUATOR_PASSIVE_EXTERNAL_CONSTRAINT",
+    "bias_is_pure_gravity": false,
+    "constant_EEF_requires_zero_joint_velocity": false,
+    "requested_command_is_applied_actuation": false,
+    "added_gravity_feedforward_automatically_engineering_bugfix": false,
+    "current_numeric_scorer_or_FAIL_rewritten": false
+  },
+  "D1_proposed_physics_only_after_explicit_adoption": {
+    "total_start_cap": 4,
+    "per_start_max_sim_s_including_warmup": 20,
+    "total_integration_cap": 40000,
+    "single_worker": true,
+    "slot1": "INSTRUMENTED_SAME_MODE_BASELINE_ONLY_IF_MISSING_FIELDS",
+    "slot2": "ONE_EXPLICIT_EEF_PLUS_BASE_STATIONARY_SOFT_REFERENCE_MODE_COUNTERFACTUAL",
+    "slots3_4": "ONE_PROVEN_IMPLEMENTATION_PATCH_ORIGINAL_HOLD_AND_PREDECLARED_REGRESSION",
+    "skip_slots_without_new_information_or_concrete_patch": true,
+    "mode_change_is_original_mode_repair": false,
+    "changed_mode_PASS_implies_moving_BASE_qualified": false,
+    "native_fail_stops_affected_arm": true,
+    "fullbody_collection_automatically_unblocked": false
+  },
+  "fix_classification": {
+    "autonomous_in_existing_allowlist": ["FIELD_UNIT_SIGN_INDEX_OR_TIMESTAMP_BUG", "DROPPED_DOCUMENTED_PRODUCER_VALUE", "CONSUMER_MAPPING_BUG", "ENTRY_PROFILE_BINDING", "READ_ONLY_LOGGER_AND_TESTS"],
+    "requires_explicit_controller_version_decision": ["NEW_GRAVITY_OR_INTEGRAL_CONTROL", "GAIN_OR_PREVIEW_OR_VELOCITY_SCALE_CHANGE", "COST_OR_CONSTRAINT_CHANGE", "SOLVER_FRICTION_INERTIA_CHANGE", "WBC_MODEL_OR_WEIGHT_SWITCH"],
+    "never": ["QUALITY_THRESHOLD_RELAXATION_TO_PASS", "TARGET_BIAS_CANCELLATION_FROM_ERROR", "NATIVE_QPOS_QVEL_CLAMP", "DISABLE_COLLISION_OR_HIDDEN_SUPPORT", "FAILED_SEED_REPLACEMENT", "ERASE_PRIOR_FAIL"]
+  },
+  "parallel_work": {
+    "CoreLab": "SAVED_SIGNAL_ATTRIBUTION_AND_EEF13_CPU_CONTRACTS",
+    "Hopper": "NO_NEW_WORK_AUTHORIZED_BY_THIS_DOCUMENT",
+    "legacy_M2048_panel": "INDEPENDENT_EVALUATION_REQUIRES_ITS_OWN_VALID_GO_WINDOW_NO_SILENT_PBS",
+    "synthetic_codec_examples_are_training_demonstrations": false,
+    "new_TRAIN_collection": 0,
+    "new_FB13_or_M4096_training": 0
+  },
+  "proposed_small_package_budget_not_granted": {
+    "wall_hours_after_explicit_adoption": 4,
+    "closeout_minutes": 30,
+    "Core_CPU_core_hours": 8,
+    "Core_concurrent_cores": 4,
+    "native_workers": 1,
+    "main_starts": 4,
+    "main_integrations": 40000,
+    "saved_TRAIN_RGB_pairs": 0,
+    "incidental_native_rendering": "COUNT_OR_MARK_UNOBSERVED_NOT_AUTOMATICALLY_ZERO",
+    "new_small_evidence_peak_GiB": 2,
+    "new_GR00T_queries_PBS_GPU_gradient_updates": 0,
+    "WBC_training_hardware_deletion_public_raw": 0,
+    "frozen_leg_policy_in_diagnostic": "CPU_EXECUTOR_WORKLOAD_COUNTED",
+    "closed_R4_R4A_lease_reopened": false,
+    "old_cutoffs_or_budget_reset": false
+  },
+  "outputs": ["SIGNAL_COVERAGE_AND_ALIGNMENT.json", "POSE_CHAIN_DECOMPOSITION.json", "JOINT_TORQUE_ACCOUNTING.json", "WBC_OWNER_DEFECT_NOTE.md", "MODE_AND_PATCH_RESULTS.json", "RESOURCE_AND_FINAL_REPORT.md"],
+  "code_review_limits": "PUBLIC_REPO_AND_UPLOADED_ARCHIVE_STATIC_ONLY_NO_PRIVATE92FILE_RECOMPUTATION_OR_REMOTE_EXECUTION",
+  "publication_is_not_runtime_or_GO": true
+}
