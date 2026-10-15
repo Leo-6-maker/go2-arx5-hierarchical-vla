@@ -30,7 +30,7 @@ def phases(entry, response, certificate):
 
 def stage(entry, at, task):
     if at<entry.get('free_approach_end_s',entry['time'][-1])-1e-12:
-        return 'approach' if task=='T1' else 'contact'
+        return 'approach' if task=='T1' or 'free_approach_end_s' in entry else 'contact'
     return 'contact'
 
 

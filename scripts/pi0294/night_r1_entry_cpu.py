@@ -17,6 +17,8 @@ def check():
     entry=phases(dict(time=np.array([0.,2.,4.]),poses=np.array([pose]*3)),
         dict(links=[dict(status='Success',time=[0.,1.]),dict(status='Success',time=[0.,1.])]),dict(uniform_time_scale=2.))
     assert stage(entry,0.,'T1')=='approach' and stage(entry,1.999,'T1')=='approach' and stage(entry,2.,'T1')=='contact'
+    assert stage(entry,1.,'T2')=='approach' and stage(entry,2.,'T2')=='contact'
+    assert stage({'time':np.array([0.,4.])},1.,'T2')=='contact'
     t=Teacher.__new__(Teacher);t.entry=entry;t.card={'task':'T1'};t.record={'events':[{'stage':'close','program_time_s':0.},{'stage':'lift','program_time_s':1.}]}
     assert [t.stage_at(x) for x in (0,2,4,5)]==['approach','contact','close','lift']
     t.entry={'time':np.array([0.,4.])}
