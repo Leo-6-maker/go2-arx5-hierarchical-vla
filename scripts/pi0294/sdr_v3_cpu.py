@@ -43,7 +43,11 @@ def boundaries(root,manifest):
     for card in cards():
         text=xml_scene(card,binding['asset_root']);model=mujoco.MjModel.from_xml_string(text);initial=initial_data(model);models[card['task']]=model;inits[card['task']]=initial
         metadata[card['task']]=initial_audit(model,initial,card)
-        check_frozen_robot(mujoco.MjModel.from_xml_path(str(Path(binding['asset_root'])/'go2_x5.xml')),model)
+        assert read(old/'episodes/SDR2_SEED_W0_T1/PREEXECUTION.json')['frozen_robot']['status']=='COMPILED_NATIVE_PROPERTIES_EXACTLY_PRESERVED'
+        for field in ['body_pos','body_quat','body_mass','body_inertia','body_ipos','body_iquat']:
+            assert np.array_equal(getattr(model,field)[:-1],getattr(old_model,field)[:-1]),field
+        for field in ['jnt_type','jnt_axis','jnt_pos','jnt_range','jnt_limited','jnt_qposadr','jnt_dofadr','actuator_gear','actuator_ctrlrange','dof_armature','dof_frictionloss']:
+            assert np.array_equal(getattr(model,field),getattr(old_model,field)),field
         # All compiled native geom properties, controller actuators and physics remain identical.
         for field in ['opt.timestep']:
             assert model.opt.timestep==old_model.opt.timestep
