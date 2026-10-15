@@ -90,8 +90,17 @@ def physics(root,episode):
     from .night_r1_terminal import gripper_tail
     from .night_r1_clock_recovery import verified
     engineering_clock=verified(root,episode)
-    terminal_gripper=gripper_tail(grip,len(saved),count,start['native_step'],
-        bool(result['native_stops']) or result['status']=='VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED' or engineering_clock)
+    if engineering_clock and result['error']=='RuntimeError: LIVE_PAUSE_ACK_MISSING':
+        # This failure occurs after writing the current gripper target while
+        # still paused, before saving that observation or resuming physics.
+        n=len(saved);expected=[i for i in range(n+1) if i%8]
+        assert [r['index'] for r in grip]==expected and count==start['native_step']+25*n
+        terminal_gripper=[dict(command_index=i,integrations_after_write=count-start['native_step']-25*i,
+            next_RGB_and_20Hz_observation_saved=False,full_episode_complete=False,
+            raw_command_preserved=True,basis='VERIFIED_ENGINEERING_PAUSE_AND_NATIVE_JOURNAL') for i in (n-1,n)]
+    else:
+        terminal_gripper=gripper_tail(grip,len(saved),count,start['native_step'],
+            bool(result['native_stops']) or result['status']=='VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED' or engineering_clock)
     for r in grip:
         i=r['index'];intent=intents[i//8];assert r['sequence']==i and r['prefix_index']==i-intent['index'] and r['opening']==intent['action_EEF13'][i%8][9]
         assert abs(r['source_mpc_s']-packets[i]['time_s'])<1e-10
