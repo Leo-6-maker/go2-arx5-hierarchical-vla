@@ -212,6 +212,15 @@ def run(root,native,startup,episode):
         launch([str(native/'install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node'),*params],'solver')
         launch([str(clock/'go2_x5_ocs2_node'),*params],'controller')
         if not spin(30,lambda:counts.get('odom',0)>10 and counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
+        launch([sys.executable,'-m','scripts.pi0294.night_r1_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],
+            'planner',dict(PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=episode))
+        receiver_topics=('/mobile_manipulator_mpc_observation','/go2_x5/ee/state','/clock')
+        def receiver_endpoints_ready():
+            return all(any(x.node_name=='go2_x5_ee_trajectory_manager' for x in node.get_subscriptions_info_by_topic(topic)) for topic in receiver_topics)
+        if not spin(10,receiver_endpoints_ready):raise RuntimeError('ACTUAL_RECEIVER_EE_OBSERVATION_CLOCK_ENDPOINTS_NOT_DISCOVERED')
+        if control().get('sim_time_s')!=0 or (out/'physics.jsonl').exists():raise ValueError('PHYSICS_ADVANCED_DURING_RECEIVER_BOOTSTRAP')
+        write(out/'RECEIVER_BOOTSTRAP_PAUSE_BINDING.json',dict(time_s=0,physics_steps=0,actual_receiver_subscription_topics=list(receiver_topics),
+            readiness_basis='MATCHED_MEASURED_EE_MPC_OBSERVATION_AND_CLOCK_ENDPOINTS_BEFORE_FIRST_INTEGRATION',native_call_order_preserved=True))
         expected=read(root/'evidence/STARTUP_EXPECTED_NATIVE_COMMAND.private.json')['parameters']
         publish(modes,'HOLD')
         if not spin(3,lambda:control().get('arm_mode')=='HOLD'):raise RuntimeError('NATIVE_ARM_HOLD_ACK_MISSING')
@@ -239,15 +248,6 @@ def run(root,native,startup,episode):
         publish(keys,'ENTER')
         if not spin(35,lambda:paused(2450)):raise RuntimeError('BOUNDED_NATIVE_STARTUP_4_9S_NOT_COMPLETE')
         write(out/'BEFORE_WBC_ENTRY.json',dict(control=control(),pause=read(out/'pause_ack.json')))
-        bootstrap_before=read(out/'pause_ack.json')
-        launch([sys.executable,'-m','scripts.pi0294.night_r1_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],
-            'planner',dict(PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=episode))
-        if not spin(10,lambda:node.count_subscribers('/go2_x5/arm/mode/state')>=2):
-            raise RuntimeError('RECEIVER_MODE_SUBSCRIBER_NOT_READY_BEFORE_WBC_EVENT')
-        bootstrap_after=read(out/'pause_ack.json')
-        from .task_clock import FROZEN_FIELDS
-        if any(bootstrap_before[k]!=bootstrap_after[k] for k in FROZEN_FIELDS):raise ValueError('NATIVE_CLOCK_ADVANCED_DURING_RECEIVER_BOOTSTRAP')
-        write(out/'RECEIVER_BOOTSTRAP_PAUSE_BINDING.json',dict(before=bootstrap_before,after=bootstrap_after,original_native_call_order_preserved=True))
         publish(modes,'WBC')
         if not spin(3,lambda:latest.get('mode',String()).data=='WBC'):raise RuntimeError('WBC_MODE_REQUEST_NOT_ACKNOWLEDGED')
         quota(2500);publish(keys,'ENTER')
