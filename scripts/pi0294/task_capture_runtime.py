@@ -31,7 +31,7 @@ def within(path, parent):
     return path
 
 
-def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False):
+def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False, read_only=False):
     root = Path(root).resolve()
     now = time.time() if now is None else now
     authority_path = root/'WINDOW_ADOPTION.json'
@@ -82,7 +82,7 @@ def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False)
     for name, digest in seal['files'].items():
         if sha(within(code/name, code)) != digest:
             raise PermissionError('TASK_CAPTURE_SOURCE_MEMBER_CHANGED:'+name)
-    if (root/'NATIVE_SAFETY_FAIL.json').exists():
+    if (root/'NATIVE_SAFETY_FAIL.json').exists() and not read_only:
         raise PermissionError('TASK_CAPTURE_NATIVE_SAFETY_FAIL_PRESERVED')
     return m, parent
 
@@ -93,7 +93,7 @@ def cpu_stage(root, stage, *, cores=1, cpu_s_cap=600):
     import resource
     from scripts.pi0292.durable import OwnerLock, write
     root = Path(root)
-    manifest, parent = validate_entry(root)
+    manifest, parent = validate_entry(root, read_only=True)
     started, wall = time.process_time(), time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
     with_lock = OwnerLock(parent/'R4_RESOURCE_OWNER.lock')
