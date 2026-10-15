@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**下一版已准备、待采用：MP-S2有界候选搜索＋交互示范备选。** [完整方案](docs/protocols/PI0294_MANISKILL_BOUNDED_SEARCH_AND_ASSISTED_SEED_V2.md) · [机器卡](reports/PI0294/design/MP_SEARCH_V2_TASK_CARD.json) · [接续prompt](docs/handover/2026-10-15/MANISKILL_SEARCH_V2_ADOPTION_PROMPT.md)。每task6几何包、approach/contact成对、单bundle≤12目标IK/192内部初值/8RRT；内部失败继续固定剩余槽。单task独立准入，完整slot互斥走AUTO或真实人工ASSISTED，失败后不换路线重跑。保留原窗口/父账、≤6启动，WBC/安全/最终score冻结，不循环修FSM阈值。**本次只准备发布，authorizes_execution=false/launch_allowed=false；新搜索/物理/seed/模型均0，功能未实施。** 以下旧系列终局永久保留，新方案不自动重开它。
+
 **ManiSkill组件本轮已到有效规划资格停止点：固定T1/T2起点均无满足原限位的登记IK候选，物理未准入。** [实际结果、独立原生FK复算与私有归档回读](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/maniskill-component-v1/REPORT.md)。24项CPU接口检查通过；12个固定保存输入中7个后续输入可规划、5个失败，不能挑后续帧替换两个失败起点。新物理/接触/成功seed/训练均0，终局`STOP_FIXED_START_NO_ADMISSIBLE_REGISTERED_IK`；不是CPU_READY、WBC任务FAIL或全局IK无解。原WBC、安全、评分和旧终局未改，selected/deployment=NONE。下列采用/待采用措辞保留各自历史阶段，不代表继续运行的许可。
 
 **ManiSkill组件方案现已获人类明确采用执行。** [源绑定采用收据](reports/PI0294/design/MANISKILL_COMPONENT_HUMAN_ADOPTION_V1.json)，采用固定13713019077cb128b55090ab6b7a513e162b975e；原窗口/累计预算、冻结WBC/安全/任务评分不变。将依固定CPU接入→两任务短资格→各自完整32秒推进，采用不代表运行或seed已PASS。下列“待采用”是前一发布阶段记录。

@@ -1,0 +1,166 @@
+{
+  "schema": "MP_SEARCH_V2_SEARCH_POLICY",
+  "scope": "PI0294_MANISKILL_SEARCH_AND_ASSISTED_SEED_V2",
+  "status": "FROZEN_PROPOSAL_NOT_RUN",
+  "candidate_geometry": {
+    "T1": {
+      "candidate_count": 6,
+      "ordered_closing_axes": [
+        "actual_OBB_local_X",
+        "actual_OBB_local_Y"
+      ],
+      "tilt_degrees": [
+        0,
+        30,
+        -30
+      ],
+      "direction_sign": "DOT_WITH_EPISODE_INITIAL_ACTUAL_TCP_Y_NONNEGATIVE_TIE_ORIGINAL_POSITIVE",
+      "rotation_columns": [
+        "Rodrigues(closing_axis,tilt)*world_down",
+        "closing_axis",
+        "approach_cross_closing"
+      ],
+      "contact_TCP": "actual_object_center - R * mean_actual_zero_travel_pad_centers_in_TCP",
+      "approach_world_offset_m": [
+        0,
+        0,
+        0.08
+      ],
+      "alignment": "CANDIDATE_FRAME_ACTUAL_PAD_CUBE_ENCLOSURE_AND_TRANSVERSE_OVERLAP_NO_SCORER_CHANGE"
+    },
+    "T2": {
+      "candidate_count": 6,
+      "rotation": "Rodrigues(world_push_direction,roll)*original_push_geometry_rotation",
+      "roll_degrees": [
+        0,
+        30,
+        -30,
+        60,
+        -60,
+        180
+      ],
+      "push_direction": "ORIGINAL_SOURCE_TO_GOAL",
+      "support": "RECOMPUTE_FROM_ACTUAL_CLOSED_PAD_GEOMETRY_FOR_EACH_ROTATION",
+      "contact_TCP_xy": "object_xy-d*(actual_cube_support+rotated_pad_front_support)+0.001*d",
+      "contact_TCP_z": "table_top-rotated_pad_bottom_offset+0.004",
+      "approach_horizontal_backoff_m": 0.025,
+      "approach_up_m": 0.08,
+      "align_backoff_m": 0.012,
+      "detach_backoff_m": 0.04,
+      "withdraw_up_m": 0.13
+    },
+    "selected_package_latched_for_episode": true,
+    "change_on_late_failure": false,
+    "actual_state_teleport": false,
+    "BASE_velocity_intent": [
+      0,
+      0,
+      0
+    ],
+    "new_BASE_station_search": false
+  },
+  "per_bundle": {
+    "geometry_packages": 6,
+    "distinct_goal_poses": 12,
+    "IK_calls": 12,
+    "IK_n_init_each": 16,
+    "actual_CLIK_initializations": 192,
+    "IK_threshold": 0.001,
+    "package_rank": [
+      "arm_L2_actual_to_approach_plus_approach_to_contact",
+      "package_index",
+      "approach_IK_index",
+      "contact_IK_index"
+    ],
+    "package_pair_routes": 2,
+    "RRT_streams_each": 2,
+    "RRT_links_each_route": 2,
+    "RRT_calls": 8,
+    "ordered_routes": [
+      "pair0_stream0",
+      "pair0_stream1",
+      "pair1_stream0",
+      "pair1_stream1"
+    ],
+    "RRT": {
+      "algorithm": "RRTConnect",
+      "planning_time_s": 1.0,
+      "rrt_range": 0.1,
+      "simplify": false,
+      "fix_joint_limits": false,
+      "time_step_s": 0.05,
+      "max_output_rows_per_link": 1024
+    },
+    "selection": "FIRST_FULLY_CERTIFIED_ROUTE_IN_FROZEN_ORDER_NO_PHYSICAL_ROLLOUT_SELECTION",
+    "dense_windows": 2,
+    "dense_points_each": 1001,
+    "dense_local_IK_corrections_each_point": 5,
+    "dense_local_IK_corrections_max": 10010,
+    "wall_seconds": 60
+  },
+  "global_limits": {
+    "bundles": 222,
+    "goal_IK_calls": 2664,
+    "actual_CLIK_initializations": 42624,
+    "RRT_calls": 1776,
+    "new_dense_points": 221221,
+    "new_dense_local_IK_corrections": 1106105,
+    "prior_dense_points": 11011,
+    "cumulative_dense_points": 232232
+  },
+  "flow": {
+    "internal_failure": "TRY_NEXT_REGISTERED_SLOT_WITHIN_ALL_CAPS",
+    "exhausted": "STOP_AFFECTED_BUNDLE_NO_RANDOM_RESTART",
+    "deadline": "RESOURCE_INCOMPLETE_NOT_QUALITY_FAIL",
+    "native_actual_safety_failure": "STOP_ALL_NEW_PHYSICS_THIS_VERSION",
+    "duplicate": "READ_FIRST_IMMUTABLE_RESULT_NEVER_REDRAW",
+    "cache_identity": [
+      "implementation_SHA",
+      "actual_packet_SHA",
+      "goal_bytes",
+      "stage",
+      "asset_SHA",
+      "seed"
+    ]
+  },
+  "physical_interface": {
+    "action": "EEF13_REFERENCE_ONLY_THEN_ORIGINAL_NATIVE14D",
+    "joint_commands": false,
+    "H": 40,
+    "action_Hz": 20,
+    "prefix": 8,
+    "physics_dt_s": 0.002,
+    "linear_speed_m_s": 0.06,
+    "T2_contact_push_detach_m_s": 0.04,
+    "angular_speed_rad_s": 0.3,
+    "planning_joint_speed_rad_s_max": 0.7,
+    "planning_joint_acceleration_rad_s2_max": 1.0,
+    "uniform_retiming": "REUSE_FROZEN_CERTIFIER",
+    "planning_pause": "ORIGINAL_SIM_MPC_HISTORY_PAUSE_NON_REALTIME"
+  },
+  "assisted": {
+    "implemented": false,
+    "requires_actual_human": true,
+    "LLM_as_operator": false,
+    "demonstration_source": "HUMAN_ASSISTED_SIM",
+    "new_renderer": false,
+    "ghost_only": true,
+    "actual_root_joint_object_drag": false,
+    "episode_rollback": false,
+    "edits_per_episode": 128,
+    "decision_slots_per_episode": 80,
+    "translation_step_m_max": 0.02,
+    "rotation_step_rad_max": 0.15,
+    "operator_pause_wall_seconds_max": 900,
+    "BASE_intent": [
+      0,
+      0,
+      0
+    ],
+    "same_planner_gate_and_native_safety": true,
+    "no_operator": "NOT_AVAILABLE_OPERATOR_DO_NOT_BLOCK_OTHER_AUTO_TASK",
+    "extra_episodes": false,
+    "new_slots_after_full_valid_FAIL": false,
+    "manual_goal": "ONE_EDITED_TARGET_PER_BUNDLE_NO_ADDITIONAL_AUTOMATIC_GEOMETRY_ENUMERATION"
+  }
+}
