@@ -143,7 +143,9 @@ def run(root,native,startup,episode):
                 if predicate and predicate():return True
             return bool(predicate()) if predicate else True
         def launch(argv,name,extra=None):
-            env=dict(os.environ,**(extra or {}));h=(out/(name+'.log')).open('x');handles.append(h)
+            capsule=root/manifest['code']['capsule_relative']
+            env=dict(os.environ,PYTHONPATH=str(capsule)+':'+str(capsule/'src')+':'+os.environ.get('PYTHONPATH',''))
+            env.update(extra or {});h=(out/(name+'.log')).open('x');handles.append(h)
             p=subprocess.Popen(argv,cwd=native,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True);processes.append(p);return p
         spin(.3)
         if any(name!=node.get_name() for name in node.get_node_names()):raise RuntimeError('TASK_ROS_DOMAIN_OCCUPIED')
