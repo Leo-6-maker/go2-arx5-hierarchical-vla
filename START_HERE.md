@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**MP-S2已进入真实物理，当前PARTIAL（并非仍待采用）：** [实际结果与独立CPU审计](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/maniskill-search-v2/PROGRESS.md)。16CPU项通过；T1原首帧无合法规划对，T2完成12秒但无接触，短里程碑有效FAIL；两完整AUTO均未准入。原记录器故障保留，241组RGB从相同保存实际状态恢复并收费；真人辅助尚未启动。新成功整机seed/训练均0，旧FAIL/窗口/预算不改。另已完成[公开成功示范来源与重定位审计](docs/reviews/2026-10-15_SUCCESSFUL_DEMO_SOURCE_AND_RETARGET_AUDIT.md)，锁定官方metadata/revision/hash，未下载轨迹或启动新来源实验。以下“待采用/未实施”保留历史阶段措辞。
+
 **下一版已准备、待采用：MP-S2有界候选搜索＋交互示范备选。** [完整方案](docs/protocols/PI0294_MANISKILL_BOUNDED_SEARCH_AND_ASSISTED_SEED_V2.md) · [机器卡](reports/PI0294/design/MP_SEARCH_V2_TASK_CARD.json) · [接续prompt](docs/handover/2026-10-15/MANISKILL_SEARCH_V2_ADOPTION_PROMPT.md)。每task6几何包、approach/contact成对、单bundle≤12目标IK/192内部初值/8RRT；内部失败继续固定剩余槽。单task独立准入，完整slot互斥走AUTO或真实人工ASSISTED，失败后不换路线重跑。保留原窗口/父账、≤6启动，WBC/安全/最终score冻结，不循环修FSM阈值。**本次只准备发布，authorizes_execution=false/launch_allowed=false；新搜索/物理/seed/模型均0，功能未实施。** 以下旧系列终局永久保留，新方案不自动重开它。
 
 **ManiSkill组件本轮已到有效规划资格停止点：固定T1/T2起点均无满足原限位的登记IK候选，物理未准入。** [实际结果、独立原生FK复算与私有归档回读](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/maniskill-component-v1/REPORT.md)。24项CPU接口检查通过；12个固定保存输入中7个后续输入可规划、5个失败，不能挑后续帧替换两个失败起点。新物理/接触/成功seed/训练均0，终局`STOP_FIXED_START_NO_ADMISSIBLE_REGISTERED_IK`；不是CPU_READY、WBC任务FAIL或全局IK无解。原WBC、安全、评分和旧终局未改，selected/deployment=NONE。下列采用/待采用措辞保留各自历史阶段，不代表继续运行的许可。
