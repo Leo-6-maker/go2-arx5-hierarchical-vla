@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 VERSION = 'FULLBODY_TASK_OVERLAY_V1'
-PARAMETERS = dict(table_top=.44, cube_edge=.04, cube_mass=.05,
+PARAMETERS = dict(table_top=.44, table_center_x=.515, cube_edge=.04, cube_mass=.05,
     finger_travel=.044, finger_force_max_N=8., finger_target_speed_m_s=.04,
     finger_kp=400., finger_kd=3., finger_damping=3., finger_armature=.002,
     pad_friction=1.2, table_friction=.8, cube_friction=.8,
@@ -70,7 +70,9 @@ def xml_scene(card, asset_root):
     camera(base,'body_rgb',PARAMETERS['body_camera_position'],PARAMETERS['body_camera_look_at'],[0,0,1])
     camera(link,'wrist_rgb',PARAMETERS['wrist_camera_position'],PARAMETERS['wrist_camera_look_at'],[1,0,0])
     top=PARAMETERS['table_top'];gx,gy=card['goal_xy'];sx,sy=card['source_xy'];yaw=card['cube_yaw']
-    ET.SubElement(world,'geom',name='task_table',type='box',pos=f'.50 0 {top-.025}',
+    # Native base nose collision capsule reaches x=.335 at startup. The proximal
+    # edge is .345: measured 10mm clearance, not a new robot pose or WBC change.
+    ET.SubElement(world,'geom',name='task_table',type='box',pos=f"{PARAMETERS['table_center_x']} 0 {top-.025}",
                   size='.17 .24 .025',rgba='.69 .70 .66 1',friction='.8 .02 .002')
     for i,(x,y,dx,dy) in enumerate(((gx-.08,gy,.002,.08),(gx+.08,gy,.002,.08),(gx,gy-.08,.08,.002),(gx,gy+.08,.08,.002))):
         ET.SubElement(world,'geom',name=f'task_goal_{i}',type='box',pos=f'{x} {y} {top+.0002}',
@@ -111,6 +113,15 @@ def check_frozen_robot(original, task):
         checked[str(kind)]=dict(count=count,fields=list(fields))
     for field in ('dof_damping','dof_armature','dof_frictionloss'):
         assert_array_equal(getattr(original,field),getattr(task,field)[:original.nv])
+    for body in range(original.nbody):
+        old=np.flatnonzero(original.geom_bodyid==body)
+        new=[int(g) for g in np.flatnonzero(task.geom_bodyid==body)
+             if not (mujoco.mj_id2name(task,mujoco.mjtObj.mjOBJ_GEOM,int(g)) or '').startswith('task_')]
+        if len(old)!=len(new):raise ValueError('NATIVE_GEOMETRY_COUNT_CHANGED')
+        for a,b in zip(old,new):
+            for field in ('geom_type','geom_size','geom_pos','geom_quat','geom_friction',
+                          'geom_contype','geom_conaffinity','geom_margin','geom_condim','geom_solref','geom_solimp'):
+                assert_array_equal(getattr(original,field)[a],getattr(task,field)[b])
     return dict(status='COMPILED_NATIVE_PROPERTIES_EXACTLY_PRESERVED',checked=checked,
         original_robot_body_mass_kg=float(original.body_mass.sum()),
         task_robot_body_mass_kg=float(task.body_mass[:original.nbody].sum()),
