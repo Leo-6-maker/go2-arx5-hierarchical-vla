@@ -8,9 +8,9 @@ FOLDER='source-demo-retime-join-v2'
 VERSION='FULLBODY_SOURCE_LOCAL_RETIME_DIRECT_JOIN_V2'
 AUTHORITY='ad84276c2aa1161fe8d82b1fdd7a2c067f786d0ab99a234ff086d9d068549ff7'
 
-def authority_values(a,digest,now):
+def authority_values(a,digest,now,*,read_only=False):
     if digest!=AUTHORITY or not a['authorizes_execution'] or a['budget_reset']:raise PermissionError('SDR2_EXPLICIT_ADOPTION_REQUIRED')
-    if now>=a['window']['execution_work_deadline_epoch']:raise PermissionError('SDR2_ORIGINAL_WORK_DEADLINE')
+    if now>=a['window']['closeout_deadline_epoch' if read_only else 'execution_work_deadline_epoch']:raise PermissionError('SDR2_ORIGINAL_WORK_DEADLINE')
 
 def goal_consumer(request,goal):
     keys=['binding','joint_qpos','root_pose','world_objects','allowed_world_pairs','pad_links','attached_cube','actual_packet_arrays_sha256']
@@ -22,15 +22,15 @@ def cards():
     return [dict(next(c for c in pilot_cards() if c['scene_class']=='W0' and c['task']==t),
         id='SDR2_SEED_W0_'+t,teacher=VERSION,split='SEED_DEVELOPMENT',demonstration_source='DEMO_RETARGETED_LOCAL_RETIME_DIRECT_JOIN') for t in ('T2','T1')]
 
-def require_adoption(root,manifest=None):
+def require_adoption(root,manifest=None,*,read_only=False):
     root=Path(root);p=root/FOLDER
     if manifest is None:manifest,_=validate_entry(root,read_only=True)
     a=read(p/'HUMAN_ADOPTION.json');s=read(p/'SERIES_LEDGER.json')
-    authority_values(a,sha(p/'HUMAN_ADOPTION.json'),time.time())
+    authority_values(a,sha(p/'HUMAN_ADOPTION.json'),time.time(),read_only=read_only)
     for local,key in [('TASK_CARD.json','TASK_CARD'),('CONDITIONS.json','CONDITIONS'),('SOURCE_LOCK.json','SOURCE_LOCK')]:
         if sha(p/local)!=a['source_bound_files']['SOURCE_RETIME_JOIN_V2_'+key+'.json']:raise PermissionError('SDR2_FIXED_CONTRACT_CHANGED')
-    if (p/'SERIES_CLOSED.json').exists():raise PermissionError('SDR2_TERMINAL_PRESERVED')
-    if (p/'NATIVE_SAFETY_FAIL.json').exists():raise PermissionError('SDR2_NATIVE_SAFETY_FAIL_PRESERVED')
+    if (p/'SERIES_CLOSED.json').exists() and not read_only:raise PermissionError('SDR2_TERMINAL_PRESERVED')
+    if (p/'NATIVE_SAFETY_FAIL.json').exists() and not read_only:raise PermissionError('SDR2_NATIVE_SAFETY_FAIL_PRESERVED')
     for name,digest in s['old_evidence'].items():
         if sha(root/name)!=digest:raise PermissionError('SDR2_OLD_EVIDENCE_CHANGED:'+name)
     from .task_capture_runtime import require_task_asset
@@ -50,7 +50,7 @@ def require_card(root,manifest,episode):
 
 @contextlib.contextmanager
 def cpu_scope(root,stage,*,cpu_s_cap=1200,closeout=False):
-    root=Path(root);m,parent=validate_entry(root,read_only=True);a,s=require_adoption(root,m)
+    root=Path(root);m,parent=validate_entry(root,read_only=True,closeout=closeout);a,s=require_adoption(root,m,read_only=closeout)
     ledger=read(parent/'R4_RESOURCE_LEDGER.json');used=ledger['Core_CPU_s']-s['initial_counters']['Core_CPU_s']
     if used+cpu_s_cap+(0 if closeout else 1800)>14390 or ledger['Core_CPU_s']+cpu_s_cap>36844.79211945514:raise PermissionError('SDR2_CPU_RESERVE')
     with cpu_stage(root,'SDR2_'+stage,cores=1,cpu_s_cap=cpu_s_cap):yield m
