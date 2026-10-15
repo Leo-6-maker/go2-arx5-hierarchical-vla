@@ -5,7 +5,8 @@ import numpy as np
 import mplib
 from .sdr_backend import planner_for
 from .mp_backend import transform,AuditedKinematics
-from .night_runtime import reserve_internal,finish_internal,require_adoption,FOLDER,goal_consumer as consumer
+from .night_runtime import reserve_internal,finish_internal,require_adoption,FOLDER
+from .sdr_v3_runtime import goal_consumer as consumer
 from scripts.pi0292.durable import write
 
 def inverse(request,folder):

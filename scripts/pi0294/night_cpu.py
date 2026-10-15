@@ -54,7 +54,7 @@ def source_path(root,client,state,record,endpoint,stage_name):
 def qualify_source(root,manifest,card):
     p=Path(root)/FOLDER;engine,state,base=saved_input(root,card);client=Client(root,engine);packages=packages_for(root,card['task']);failures=[]
     for package in packages:
-        name=card['teacher_version']+'_CPU_'+card['task']+'_'+str(package['index'])
+        name=card['teacher_version']+'_CPU_'+card['task']+'_'+str(package['index'])+card.get('CPU_attempt_suffix','')
         try:
             _,certificate,index=client.bundle(state,[package],'approach',name,0)
             record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==package['source_id'])
