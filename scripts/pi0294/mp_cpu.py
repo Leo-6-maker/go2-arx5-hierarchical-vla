@@ -35,6 +35,10 @@ def qualify(root,manifest):
     from .task_contacts import allowed
     require_adoption(root,manifest);root=Path(root);p=root/FOLDER
     conditions=read(p/'FIXED_CONDITIONS.json');lock=read(p/'SOURCE_LOCK.json');checks={};records=[];first_poses=None;first_state=None;first_engine=None
+    previous=read(p/'P1_PLANNING.partial.json') if (p/'P1_PLANNING.partial.json').exists() else dict(records=[])
+    if previous['records']:
+        historical=p/('P1_BEFORE_REAUDIT_'+previous['source_sha']+'.private.json')
+        if not historical.exists():write(historical,previous)
     for row in lock['frozen_project_members']:
         path=Path(__file__).resolve().parents[2]/row['path']
         if sha(path)!=row['sha256']:raise ValueError('FROZEN_SCORER_SAFETY_OR_ASSET_SOURCE_CHANGED:'+row['path'])
@@ -57,9 +61,21 @@ def qualify(root,manifest):
             teacher.observe(state,mount)
             teacher.query_index=index
             try:
-                result=teacher.plan(state,mount)
+                saved=next((r for r in previous['records'] if r['task']==c['task'] and r['query_index']==index and r['status']=='PASS_VALID_PLANNED_H40'),None)
+                cache=p/(c['condition_id']+'-'+str(index)+'-PLAN.private.npz')
+                if saved is not None:
+                    req=p/'requests'/c['condition_id']/(f'{index:04d}'+'-input.private.json')
+                    target,_=teacher.target(state)
+                    expected=teacher.client.payload(state,target,teacher.stage,c['planning_seed_table'][index]['seed'])
+                    if read(req)!=expected or sha(req)!=saved['certificate']['input_sha256']:raise ValueError('SAVED_PLAN_INPUT_IDENTITY')
+                    with np.load(cache,allow_pickle=False) as arrays:result=dict(poses=arrays['poses'].copy(),opening=arrays['opening'].copy(),persistent=dict(certificate=saved['certificate']))
+                    teacher.query_index=index+1
+                else:result=teacher.plan(state,mount)
                 row=dict(task=c['task'],query_index=index,source_frame=frame,status='PASS_VALID_PLANNED_H40',certificate=result['persistent']['certificate'],source_samples_sha256=c['source_samples_sha256'])
-                np.savez_compressed(p/(c['condition_id']+'-'+str(index)+'-PLAN.private.npz'),poses=result['poses'],opening=result['opening'])
+                if not cache.exists():np.savez_compressed(cache,poses=result['poses'],opening=result['opening'])
+                else:
+                    with np.load(cache,allow_pickle=False) as arrays:
+                        assert np.array_equal(arrays['poses'],result['poses']) and np.array_equal(arrays['opening'],result['opening'])
                 if first_poses is None:first_poses=result['poses'].copy();first_state=state;first_engine=engine
             except PlannerFailure as failure:
                 row=dict(task=c['task'],query_index=index,source_frame=frame,status='VALID_PLANNING_FAIL_PRESERVED',reason=str(failure),evidence=failure.evidence)
@@ -100,7 +116,8 @@ def qualify(root,manifest):
     assert actual_source_age(10.2,10.2)==0.
     checks['INTEGER_NS_CLOCK_PAST_10_2_BOUNDARY']=True
     assert actual_source_age(1.,.9)>.025
-    try:actual_source_age(1.,1.1)
+    assert actual_source_age(1.,1.1)<0
+    try:bind_packet(dict(_pi0294=dict(episode='future',sequence=0,source_mpc_s=1.1,ttl_s=.4,operation='install')),episode='future',sequence=-1,now=1.,trajectory_type=None,ee=None,base=None)
     except ValueError:pass
     else:raise ValueError('FUTURE_SOURCE_TIME_ACCEPTED')
     checks['STALE_AND_FUTURE_SOURCE_TIME_REJECT']=True
