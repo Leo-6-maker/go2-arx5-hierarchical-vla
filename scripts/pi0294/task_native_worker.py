@@ -73,8 +73,15 @@ def run(root,native,startup,episode):
     if plan_path.exists():
         if read(plan_path)['cards']!=pilot_cards():raise ValueError('PILOT_PLAN_CHANGED')
     else:write(plan_path,dict(cards=pilot_cards(),source_sha=manifest['code']['vla_commit'],failed_seed_replacement=False))
-    out=root/'episodes'/episode
-    if out.exists():raise FileExistsError('FIRST_ATTEMPT_EXISTS_NO_QUALITY_RETRY')
+    out=root/'episodes'/episode;engineering_attempt=1
+    while out.exists():
+        prior=read(out/'RESULT.json')
+        if (prior.get('physics_charged',0) or prior.get('submitted_intents',0) or prior.get('native_stops')
+                or prior.get('status')!='ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE'):
+            raise FileExistsError('FIRST_PHYSICAL_ATTEMPT_EXISTS_NO_QUALITY_RETRY')
+        engineering_attempt+=1
+        if engineering_attempt>3:raise PermissionError('BOUNDED_PREDISPATCH_ENGINEERING_ATTEMPTS_EXHAUSTED')
+        out=root/'episodes'/(episode+f'-engineering{engineering_attempt:02d}')
     build_dir=root/'runtime/TASK_ADAPTER_BUILD_01';build=read(build_dir/'BUILD_RECEIPT.json')
     for name,digest in build['binaries'].items():
         if sha(build_dir/(name+'.so'))!=digest:raise ValueError('TASK_ADAPTER_CHANGED')
@@ -99,7 +106,9 @@ def run(root,native,startup,episode):
     ledger['main_starts']+=1;ledger['main_integrations']+=20000;ledger['RGB_pairs']+=641
     ledger['CPU_reservations'][ticket['stage']]=ticket;write(parent/'R4_RESOURCE_LEDGER.json',ledger);owner.close()
     os.sched_setaffinity(0,set(cpus));out.mkdir();(out/'images').mkdir()
-    write(out/'CARD.json',card);write(out/'START.json',dict(ticket,source_sha=manifest['code']['vla_commit'],WBC_parameters_changed=False))
+    (out/'tmp').mkdir();(out/'ros-logs').mkdir()
+    os.environ.update(TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST')
+    write(out/'CARD.json',card);write(out/'START.json',dict(ticket,engineering_attempt=engineering_attempt,source_sha=manifest['code']['vla_commit'],WBC_parameters_changed=False))
     before=resource.getrusage(resource.RUSAGE_CHILDREN);cpu0=time.process_time();wall=time.monotonic()
     processes=[];handles=[];latest={};counts={};subs=[];observed=[];commands=[];frames=[];futures=[]
     pool=ThreadPoolExecutor(max_workers=1);recorder=None;node=None;journal=None;journal_offset=0
@@ -144,7 +153,8 @@ def run(root,native,startup,episode):
             return bool(predicate()) if predicate else True
         def launch(argv,name,extra=None):
             capsule=root/manifest['code']['capsule_relative']
-            env=dict(os.environ,PYTHONPATH=str(capsule)+':'+str(capsule/'src')+':'+os.environ.get('PYTHONPATH',''))
+            env=dict(os.environ,PYTHONPATH=str(capsule)+':'+str(capsule/'src')+':'+os.environ.get('PYTHONPATH',''),
+                PATH=str(native.parent/'dependency-root/usr/bin')+':'+os.environ.get('PATH',''))
             env.update(extra or {});h=(out/(name+'.log')).open('x');handles.append(h)
             p=subprocess.Popen(argv,cwd=native,env=env,stdout=h,stderr=subprocess.STDOUT,start_new_session=True);processes.append(p);return p
         spin(.3)
@@ -158,7 +168,7 @@ def run(root,native,startup,episode):
             PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),PI0288_COMPILED_MODEL=str(model_path),
             LD_PRELOAD=str(build_dir/'task_actuation.so')+':'+str(build_dir/'task_observer.so'),
             GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'))
-        launch(['/usr/bin/xvfb-run','-a',str(clock/'rl_sim_mujoco'),'go2_x5','scene'],'sim',env)
+        launch(['xvfb-run','-a',str(clock/'rl_sim_mujoco'),'go2_x5','scene'],'sim',env)
         params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),
             '-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf'),'-p','libFolder:='+lib]
         launch([str(native/'install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node'),*params],'solver')
