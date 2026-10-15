@@ -8,7 +8,7 @@ VERSION='WORKING_MIDPOINT_THEN_SOURCE_V1'
 def compose(program,entry,card):
     from .night_r1_source import with_entry
     if card.get('entry_gripper_bridge')!=VERSION:return with_entry(program,entry)
-    if card['task']!='T2' or program['gripper'][0]!=0. or card['initial_finger_q_m']!=WORKING_OPEN:
+    if card['task']!='T2' or program['gripper'][0]!=0. or abs(card['initial_finger_q_m']-WORKING_OPEN)>1e-15:
         raise ValueError('EXACT_COMMON_OPEN_TO_CLOSED_T2_SKILL_REQUIRED')
     midpoint=(WORKING_OPEN+WORKING_CLOSED)/2
     close_s=abs(midpoint-WORKING_CLOSED)/SPEED+COMMAND_DT
@@ -32,7 +32,7 @@ def check():
     from .task_gripper_contract import teacher_physical_fraction
     entry=dict(time=np.array([0.,1.,2.]),poses=np.repeat(np.eye(4)[None],3,axis=0))
     program=dict(time=np.array([0.,1.,2.]),poses=np.repeat(np.eye(4)[None],3,axis=0),gripper=np.array([0.,0.,1.]))
-    card=dict(task='T2',initial_finger_q_m=WORKING_OPEN,entry_gripper_bridge=VERSION)
+    card=dict(task='T2',initial_finger_q_m=.042,entry_gripper_bridge=VERSION)
     combined=compose(program,entry,card);begin=source_begin(entry,card)
     assert abs(begin-2.55)<1e-12
     assert np.array_equal(combined['poses'][-len(program['poses']):],program['poses'])
