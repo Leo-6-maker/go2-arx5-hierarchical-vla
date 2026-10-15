@@ -1,0 +1,194 @@
+{
+  "schema": "SOURCE_RETIME_JOIN_V2_SOURCE_LOCK",
+  "proposal_base": "770989874a59447449d649ed3401340b016b66c1",
+  "predecessor_canonical_comment": 6194051557,
+  "predecessor_result_folder": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1",
+  "predecessor_private_tree": "dc4cfd31d4701c73a881b797e02987dd3f668dc3a9933311084a15898c0f83c8",
+  "predecessor_runtime_closure_sha256": "830a578d9b62bf7aebd50d739f506b17581fd810690f290fedae6df0698e7d9d",
+  "source_manifest": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+  "statistics_identity_only": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "statistics_refit": false,
+  "unchanged_native_members": [
+    {
+      "path": "src/go2arx5_vla/target_sim/scorer.py",
+      "git_blob": "54fd37ac22c1423912d8a9af4aae89233b1cf784",
+      "sha256": "8da98606b9301c789ec1619d15ddae50702f94205e7d78025dd2d4a47fa32720",
+      "bytes": 7180
+    },
+    {
+      "path": "scripts/pi0294/score.py",
+      "git_blob": "211ceb3722db56455faaf5f12a7ce67189137b63",
+      "sha256": "143dab0826a7490331a0740bc9e9f322f2aebe5d8a810960bec21ba169e1c956",
+      "bytes": 6423
+    },
+    {
+      "path": "scripts/pi0294/task_plan.py",
+      "git_blob": "8ea678a2ad732d60f288a0b1d5ad8499d7424a9c",
+      "sha256": "5872131e911ec6674c0ba6d11ed0f40ab0fcdaf46aed329710d9959365df0f7d",
+      "bytes": 1181
+    },
+    {
+      "path": "scripts/pi0294/task_contacts.py",
+      "git_blob": "891d2150370dd38202ae39378fa4cf1a1fb41c26",
+      "sha256": "522dff09d62ed52145e947fa86a65a8dc21b4382a455b7c2bed46185b3a33888",
+      "bytes": 1458
+    },
+    {
+      "path": "scripts/pi0294/task_gripper_contract.py",
+      "git_blob": "c50913c34bd86073ebb4827b6d94a0342130291f",
+      "sha256": "ccb3eb07388586b43c9deb8068fd42204648163ec1a523c8590dfac4b23220e8",
+      "bytes": 1311
+    },
+    {
+      "path": "scripts/pi0294/task_plant.py",
+      "git_blob": "7fe70618631c5bf734144e33096b613769910562",
+      "sha256": "558732a93d9cf6dae5146bf82876e62fb4efd7d7a26e9fe3d9c132586a7b39f4",
+      "bytes": 8411
+    },
+    {
+      "path": "scripts/pi0294/task_state.py",
+      "git_blob": "17fcc5c0ed33d5e10b2608926e8563f426592824",
+      "sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+      "bytes": 4793
+    },
+    {
+      "path": "scripts/pi0294/task_clock.py",
+      "git_blob": "8ac232037dea21189816be7517b4b05bd53974e9",
+      "sha256": "82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b08",
+      "bytes": 3696
+    },
+    {
+      "path": "scripts/pi0294/base_intent.py",
+      "git_blob": "13b7338c3e69beb311c462edb935cddb9b814580",
+      "sha256": "c7fda441d3b600d2dacd11345c6e8ad0c910a0578d2f5e8a2c78b24be73c86da",
+      "bytes": 4095
+    },
+    {
+      "path": "src/go2arx5_vla/safety/trajectory_gate.py",
+      "git_blob": "0decb22157169d1db679738ce15e362e242266c1",
+      "sha256": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4",
+      "bytes": 22574
+    },
+    {
+      "path": "scripts/pi0291_arx5_data/config.py",
+      "git_blob": "ce859bd14f78e0ae3bf4c1246436bc0af899a772",
+      "sha256": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c",
+      "bytes": 2679
+    },
+    {
+      "path": "scripts/pi0294/scene.py",
+      "git_blob": "abcf3c4ca77e8fb2035b2ee05b052bf02678af64",
+      "sha256": "29570d70e6d75519eae4fed02aad0a582efe6119deeea048b30bc99e2cf05b11",
+      "bytes": 15667
+    },
+    {
+      "path": "scripts/pi0294/component_teacher.py",
+      "sha256": "665912af2333f9577d1351a4f549c3571fbbc2fcfd06d727b25695effa2570a1",
+      "bytes": 7459,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_teacher.py",
+      "sha256": "65aa0f9088ac60f8308b897a7175f36034a81b580b3732e2fab2fd026612cbbb",
+      "bytes": 8955,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_backend.py",
+      "sha256": "5ab1917a770a01ca0ebb49863830a01f69574aff358eb0b1a88cf785e84a50f0",
+      "bytes": 6023,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_client.py",
+      "sha256": "be4c50602589903821d2b3d615ca8745173862f48dc933b383dd828dd1959c4b",
+      "bytes": 11927,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_window.py",
+      "sha256": "9ee945699dbecfedf5b0c4797e573cd1b85284418a22c5ccd64fe28e8ca27d75",
+      "bytes": 906,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_assets.py",
+      "sha256": "aa66ca8d212a523452ac8aafcf57cdc136bd32d5ba14cebf18aeda873dbc0e0b",
+      "bytes": 6175,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_runtime.py",
+      "sha256": "832a57239b4d2b1691b8db1f8478d66f4adb53b0dc533c6d27a9f692589edf73",
+      "bytes": 4210,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_worker.py",
+      "sha256": "2a16f0015cded5fd61d55999f71a209037958bf1029b3235b26b91ff36eaf076",
+      "bytes": 29198,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    },
+    {
+      "path": "scripts/pi0294/mp_cpu.py",
+      "sha256": "049f3d4a802b53d2f564228fe66740335ea9da0beeeceb89e1b1c77b7e20bb89",
+      "bytes": 14558,
+      "role": "REUSABLE_BASELINE_NOT_NEW_IMPLEMENTATION"
+    }
+  ],
+  "prior_result_members": [
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/ARCHIVE_READBACK_SUMMARY.json",
+      "sha256": "29bec33e9a0fb84eeaec221cef5a2c2d9a80a9570346114858fa3b9e3ae1c562"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/CPU_CONTRACT_CHECKS.json",
+      "sha256": "51892e8d8f0d9b12a02387ebe2c174ee9cdce0fe61e82afb3c6391e86a939c66"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/FINAL_STATE.json",
+      "sha256": "fb90a41f1a07fb0ffef6780dc1715117f4b5d949833dec963366b9d7ea89f7e1"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/FROZEN_NATIVE_READBACK.json",
+      "sha256": "1adfe556cc12863f20ba05ca70637fae22280bde84460d2b7270d3939525a6dc"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/INDEPENDENT_CPU_RECONCILIATION_R1.json",
+      "sha256": "11224ce3ac5b26427ecd91a8c5c41935d1f5b375d4e6dd17712a68737078084f"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/SERIES_CLOSED.json",
+      "sha256": "8fdfe5f3a3c2fc43b8916e1ce47f7b764104abea6d8f2655f2ac6420611c7cdd"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/SETTLED_ACCOUNTING.json",
+      "sha256": "cb5e7a3e2b2e6290c4b9716011e2da36aac5291d38501b495150359bde758199"
+    },
+    {
+      "path": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/SOURCE_EXTRACTION_SUMMARY.json",
+      "sha256": "26bce7def9124f700ce88f2e9a88deae2842820ec1709cf0b362eca6350c965e"
+    }
+  ],
+  "analysis_only_code": {
+    "path": "scripts/pi0294/source_retime_v2_analysis.py",
+    "sha256": "3357cd5cdcb89f6327376a1edd4c01803b0f6ba65a720fd59476981dbc344965",
+    "runtime_adaptation": false,
+    "deployed": false
+  },
+  "proposed_runtime_edit_allowlist": [
+    "scripts/pi0294/sdr_v2_runtime.py",
+    "scripts/pi0294/sdr_v2_source.py",
+    "scripts/pi0294/sdr_v2_teacher.py",
+    "scripts/pi0294/sdr_v2_backend.py",
+    "scripts/pi0294/sdr_v2_client.py",
+    "scripts/pi0294/sdr_v2_cpu.py",
+    "scripts/pi0294/task_capture_runtime.py (version dispatcher only)"
+  ],
+  "actual_native_private_readback_summary_sha256": "1adfe556cc12863f20ba05ca70637fae22280bde84460d2b7270d3939525a6dc",
+  "unchanged_assets_scope": "ORIGINAL_NATIVE_CORE_AND_QUALIFIED_PAUSE_BINARY_AND_FULLBODY_TASK_OVERLAY_V2_WORKING_STROKE",
+  "conditions_sha256": "f7a629d15943da6c30554e0e709b4be3fdb59aaa8199c7665c8526534832f3e8",
+  "prepared_arithmetic_sha256": "595e12c1897874a19fb494cf2e3740c37b0084251ebbb0dad867f488f1f8d01c",
+  "source_prefix_audit_sha256": "e680310d970fb3cfdd00b6ea531ba877ea9d2994d9006c7c2f5d345c0d5d41f2",
+  "raw_models_paths_data_and_credentials_public": false
+}

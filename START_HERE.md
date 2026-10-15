@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**下一版已准备、待采用：T2局部减速＋T1首close直接接入V2。** [完整有界方案](docs/protocols/PI0294_SOURCE_LOCAL_RETIME_AND_DIRECT_JOIN_V2.md) · [任务卡](reports/PI0294/design/SOURCE_RETIME_JOIN_V2_TASK_CARD.json) · [实际只读准备](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retime-join-v2-preparation/PREPARATION_REPORT.md)。保存数组显示T2保留所有源点、只局部延长超速区段时cartesian时间下界为18.60/19.40/19.10秒；T1原首次close索引30仍张开且有旧合法goal，拟以实际自由连接替换原30个非接触align点、保留原均匀减速及完整抓放后缀。连接/关节/碰撞/动态成功尚未验证。沿原窗口/累计预算，拟直接各32秒、≤4启动，无新短门或FSM阈值搜索。**本次只准备发布，launch_allowed=false，runtime未实施，V2正式CPU准入0/20，新搜索/物理/训练均0。** 原V1负结果与旧WBC/安全/score保持。
+
 **自有示范重定位已执行至明确科学停止点：六个固定TRAIN来源均未准入。** [完整候选/独立复算/归档终局](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/REPORT.md)。T2三源uniform slowdown后需50.49/53.87/61.88秒，超过28秒；T1三源接近端均无满足原限位的登记解，接触端有解但不能组成pair。16项CPU检查及6源提取完成，3bundle/6目标IK/96CLIK，新增RRT/物理/RGB/模型/训练均0，真实接触与成功seed未取得。终局`STOP_FIXED_SOURCE_POOL_NOT_ADMITTED`，整体仍PARTIAL；不是WBC物理FAIL或全局IK无解。75文件私有完整回读，旧FAIL/WBC/安全/评分/窗口/累计账保持，selected/deployment=NONE。下列“待采用/未执行”均为历史阶段记录。
 
 **自有示范重定位完整方案已获明确采用：** [源绑定人类采用收据](reports/PI0294/design/SOURCE_DEMO_RETARGET_HUMAN_ADOPTION_V1.json)，固定采用e7d6537facc3c670cdd197e64302eac913965534，原窗口/父账不重置。执行从真实源提交片段/工具映射接续，WBC、安全、原评分和旧FAIL保留；采用不代表新CPU/规划/物理已PASS。下列“待采用”是此前发布阶段记录。
