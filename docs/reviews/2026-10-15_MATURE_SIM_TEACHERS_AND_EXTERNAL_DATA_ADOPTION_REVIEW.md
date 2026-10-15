@@ -3,10 +3,10 @@
 
 ## 直接回答
 **现有 Teacher 不是从 MimicGen、ManiSkill、Isaac Lab Mimic、RoboCasa 或其他成熟专家自动移植的实现。** 实际仓库证据：
-- \`scripts/pi0291_arx5_data/teacher.py\` 的 PickTeacher 为本项目FSM；
-- \`scripts/pi0294/teacher.py\` 的 PushTeacher 是本项目的几何+接触反馈FSM；
-- \`scripts/pi0294/task_native_worker.py\` 实际创建上面两个Teacher，向固定 WBC 的 EEF+BASE 参考接口发命令；
-- \`scripts/pi0294/persistent_teacher.py\` 和 \`persistent_teacher_worker.py\` 是2026-10-15才加入的自研持久接近补丁，不是外部框架port，不能因为CPU测试就认定任务专家已成立。
+- `scripts/pi0291_arx5_data/teacher.py` 的 PickTeacher 为本项目FSM；
+- `scripts/pi0294/teacher.py` 的 PushTeacher 是本项目的几何+接触反馈FSM；
+- `scripts/pi0294/task_native_worker.py` 实际创建上面两个Teacher，向固定 WBC 的 EEF+BASE 参考接口发命令；
+- `scripts/pi0294/persistent_teacher.py` 和 `persistent_teacher_worker.py` 是2026-10-15才加入的自研持久接近补丁，不是外部框架port，不能因为CPU测试就认定任务专家已成立。
 旧固定底座场景曾用IK预放TCP到物体上方；新整机从native home出发，致原pilot连续3条32秒停在approach且无物体接触；这说明源专家迁移的**起点分布和接近规划缺口**，不是“没有WBC权重”或“N1.7学不会”。事实来源 #11 comment6187275435、6187515183、6187967298、6189405130及固定pilot报告7a05ad279349e59e89e51920beec187ac08cdc88。
 
 ## 成熟外部解决方案：分清「无自有真机示范即能种子生成」与「有示范后扩增」
@@ -58,8 +58,8 @@
 **1. 从ManiSkill借「任务与路径规划」，而不是试图整仓移植仿真引擎。**
 - 在独立研究环境审阅其PickCube和PushCube脚本、demonstration HDF5样本，记录object pose、EEF目标、gripper动作、物理事件、task stages、参考帧和时间语义。
 - 借用对象中心 grasp/approach/retreat/placement/推送段、可达性检查、collision-aware waypoint connection和失败恢复策略。
-- 如果采样外部片段有物体参考源姿态 \`T_WO^src\`、源EEF \`T_WE^src\`，新物体姿态 \`T_WO^dst\`，目标EEF世界姿态由
-  \`T_WE^dst = T_WO^dst * inverse(T_WO^src) * T_WE^src\`
+- 如果采样外部片段有物体参考源姿态 `T_WO^src`、源EEF `T_WE^src`，新物体姿态 `T_WO^dst`，目标EEF世界姿态由
+  `T_WE^dst = T_WO^dst * inverse(T_WO^src) * T_WE^src`
   得到。**只适用于与该物体刚性相对定义的相应片段**，移动目标、释放、接触滑动、站位和其它锚点应重新规划，不可生硬整条变换。
 - 插接和轨迹可行性在我们平台里重新验收（绝对时间、采样、碰撞、camera/FOV、gripper几何），不可声称Panda/外部demo的成功自动转移。
 
@@ -77,7 +77,7 @@
 **4. 首批本体成功seed成立后，才采用MimicGen式扩增。** 对每个物体中心子任务保存origin物体姿态、相对EEF/夹爪/base意图、段边界和真实阶段事件；在原TRAIN可用的场景组内改变源物体位姿、任务目标和base站位，重新检查可达性与完整执行，重新过真实成功门。不是仅图片变换或轨迹插值。1 worker成功资格→2 worker隔离/数字等价→4 worker吞吐，后者不继承旧固定臂2.86×。
 
 **5. 与GR00T真正匹配。**
-- 物理训练目标是本体EEF13 (EEF10＋BASE vx/vy/heading preference)，通过官方N1.7 custom embodiment modality 规则声明视频/state/action/language及动作变换。注意视频/状态\`delta_indices=[0]\`，H40未来动作索引与stats完全匹配；新增BASE缺失项必须有真实label，旧EEF10不可零填充当监督。
+- 物理训练目标是本体EEF13 (EEF10＋BASE vx/vy/heading preference)，通过官方N1.7 custom embodiment modality 规则声明视频/state/action/language及动作变换。注意视频/状态`delta_indices=[0]`，H40未来动作索引与stats完全匹配；新增BASE缺失项必须有真实label，旧EEF10不可零填充当监督。
 - 先在极小成功训练样本上做open-loop overfit/codec round-trip，再做**完整32s模型新观测闭环**；离线loss下降不能代表物体任务成功。
 - 优先保留目前已训练固定底座M2048作为模型warmstart/比较组，但新输入/动作模态与数据域意味着新分支，不是假称exact optimizer resume。
 - 源：https://github.com/NVIDIA/Isaac-GR00T/blob/main/getting_started/data_config.md
