@@ -97,6 +97,8 @@ def require_task_asset(root,manifest,version):
         raise PermissionError('UNKNOWN_NATIVE_TASK_ASSET')
     if (root/'NATIVE_SAFETY_FAIL_V2.json').exists():
         raise PermissionError('TASK_V2_NATIVE_SAFETY_FAIL_PRESERVED')
+    if (root/'TASK_PILOT_CLOSED.json').exists():
+        raise PermissionError('FIXED_TASK_PILOTS_TERMINAL_SUCCESS_DATA_NOT_ADMITTED')
     legacy=root/'NATIVE_SAFETY_FAIL.json'
     if sha(legacy)!='175ae9cdab3d108e4826968c5ffb3724a34ec069a3ed1f909cf82fafb6a39a71':
         raise PermissionError('ORIGINAL_TASK_V1_FAILURE_IDENTITY_REQUIRED')
