@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**接近阶段已有真实数组复算：三条位置条件均0/641，推送姿态条件已568/641、561/641成立。** 同刻上一安装参考与实际TCP中位差约3.4mm，但实际距持久阶段目标最终34.8／40.8／46.1cm；原50ms重锚定与prefix8声明不一致，MPC消费身份仍UNKNOWN。见[时间对齐报告和图](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/approach-audit/REPORT.md)。单项持久接近Teacher组件只有CPU草案／10项测试及真实保存输入dry run；新物理、训练0，launch_allowed=false，不因草案或审核自动开放新pilot。
+
 **最新实际任务结果：固定四个整机pilot成功0/4。** V1近场抓放原生安全FAIL保留；V2其余三条完成32秒、真实双RGB／参考／时序及独立CPU一致性通过，但物体任务均FAIL。成功数据0，v4.0／FB13未准入；未运行新训练。已封存全部原件／私有视频及逐文件回读，冻结WBC，不重复有效失败。见[完整结果与收口收据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/FIXED_PILOT_RESULTS.md)。执行完成与任务成功分开，整体数据—训练—闭环仍PARTIAL，selected/deployment=NONE。
 
 **最新用户决定：不调整WBC，只借用完整环境采集任务数据和训练GR00T。** [主线纠偏与Codex接续规则](docs/protocols/GR00T_TASK_DATA_FIRST_FROZEN_WBC_SCOPE_V1.md)（内含机器规则）。R4B D0已结束，D1及继续控制器归因/补偿/调参不再属于本团队下一步。WBC保持不变。
