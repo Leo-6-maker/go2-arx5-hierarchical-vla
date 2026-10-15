@@ -2,9 +2,18 @@
 from pathlib import Path
 import numpy as np
 from .night_r1_plan_runtime import FOLDER,read,sha
-from .sdr_v2_source import sample
+from .sdr_v2_source import sample as original_sample
 from .sdr_v3_source import with_entry
 from .source_retime_v2_analysis import so3_angles
+
+
+def sample(program,at):
+    poses,opening=original_sample(program,at)
+    if 'bridge_close_start_s' in program:
+        times=np.asarray(at)
+        opening=np.where(times<float(program['bridge_entry_end_s']),
+            np.where(times<float(program['bridge_close_start_s']),.5,0.),opening)
+    return poses,opening
 
 
 def load(root,record):

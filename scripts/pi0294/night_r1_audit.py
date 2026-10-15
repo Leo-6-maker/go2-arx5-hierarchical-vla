@@ -67,6 +67,11 @@ def physics(root,episode):
         entry=retime(entry,np.asarray(route['position']))
         assert entry['entry_timing']==entry_binding['entry_timing']
     from .night_r1_entry_bridge import compose
+    from .night_r1_entry_bridge import HORIZON_VERSION,plan_closure
+    if card.get('entry_gripper_bridge')==HORIZON_VERSION:
+        entry=plan_closure(client,first_state,entry,np.asarray(route['position']),root,'AUDIT_'+episode)
+        original=entry_binding['gripper_bridge_plan']
+        assert all(entry['gripper_bridge_plan'][k]==original[k] for k in ('input_sha256','first_neutral_pad_cube_contact_s','close_start_s','forecast_points'))
     record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==entry_binding['source_id']);program=load(root,record);combined=compose(program,entry,card)
     with np.load(folder/'ACTUAL_COMBINED_PROGRAM.npz',allow_pickle=False) as original_combined:
         assert all(np.array_equal(combined[k],original_combined[k]) for k in combined)

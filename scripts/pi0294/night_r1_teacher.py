@@ -64,6 +64,9 @@ class Teacher:
             if self.card.get('entry_design_file'):
                 from .night_r1_entry import phases
                 self.entry=phases(self.entry,route,certificate)
+            from .night_r1_entry_bridge import HORIZON_VERSION,plan_closure
+            if self.card.get('entry_gripper_bridge')==HORIZON_VERSION:
+                self.entry=plan_closure(self.client,state,self.entry,q,self.root,self.card['id'])
             from .night_r1_entry_bridge import compose
             self.combined=compose(self.program,self.entry,self.card)
             if self.combined['time'][-1]>self.card['duration_s']-4:raise PlannerFailure('NIGHT_PREDECLARED_DURATION_DOES_NOT_FIT',certificate)
@@ -71,7 +74,7 @@ class Teacher:
             np.savez_compressed(folder/'ACTUAL_COMBINED_PROGRAM.npz',**self.combined)
             write(folder/'ACTUAL_ENTRY_BINDING.json',dict(source_id=self.record['id'],source_program_sha256=self.record['sha256'],actual_warmup_certificate=certificate,
                 entry_duration_s=float(self.entry['time'][-1]),raw_uniform_entry_duration_s=float(t[-1]),activity_duration_s=self.record['active_duration_s'],entry_and_activity_s=float(self.combined['time'][-1]),actual_packet_time_s=float(state['time_s']),base_intent=[0,0,0],
-                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s'),entry_timing=self.entry.get('entry_timing'),entry_gripper_bridge=self.card.get('entry_gripper_bridge')))
+                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s'),entry_timing=self.entry.get('entry_timing'),entry_gripper_bridge=self.card.get('entry_gripper_bridge'),gripper_bridge_plan=self.entry.get('gripper_bridge_plan')))
         at=float(state['time_s'])+np.arange(40)*.05;poses,opening=sample(self.combined,at);stages=[self.stage_at(t) for t in at]
         attached=bool(self.card['task']=='T1' and state['native_grasp'] and self.stage in ('lift','carry','lower'))
         package=dict(selected,target=poses[0]);validated,cert,_=self.client.bundle(state,[package],self.stage,self.condition,self.query_index,
