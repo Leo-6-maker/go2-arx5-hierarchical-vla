@@ -42,3 +42,31 @@ def run(root):
             paused_state='ACTUAL_MJDATA_FSM_LEG_HISTORY_AND_OWNED_SOLVER_PROCESS_WAIT',
             non_realtime=True,raw_attempts_preserved=True,no_quality_retry=True)
         write(proof,value);print(json.dumps(value))
+
+
+def receive_readiness_fix(root):
+    from scripts.pi0292.durable import write
+    root=Path(root)
+    with cpu_stage(root,'TASK_TIMING_ACCEPTANCE_CPU_R2',cores=1,cpu_s_cap=120):
+        previous=root/'evidence/TASK_TIMING_ENGINEERING_ACCEPTANCE.json'
+        proof=root/'evidence/TASK_TIMING_ENGINEERING_ACCEPTANCE_R2.json'
+        if proof.exists():raise FileExistsError('TIMING_R2_ALREADY_SEALED')
+        value=read(previous)
+        # No rebuild/rerender. The first barrier correctly stopped at step2500.
+        # WBC and its time5 observation were actually received; waiting for >5
+        # observations while paused was an invalid readiness implementation.
+        from .task_clock import preinstall_clock_failure
+        if not preinstall_clock_failure(root/'episodes/TASK-PILOT-W0-T2-engineering02'):
+            raise ValueError('EXACT_PREINSTALL_READINESS_FAILURE_REQUIRED')
+        for key in ('clock_build_receipt','task_build_receipt'):
+            if sha(root/value[key]['relative'])!=value[key]['sha256']:raise ValueError('PRIOR_BUILD_CHANGED')
+        suite=unittest.defaultTestLoader.loadTestsFromName('scripts.pi0294.test_task_clock')
+        result=unittest.TextTestRunner(verbosity=2).run(suite)
+        p=root/'evidence/TASK_TIMING_CONTRACT_CPU_R2.json'
+        write(p,dict(status='PASS' if result.wasSuccessful() else 'FAIL',tests=result.testsRun,new_physics=0,new_model_queries=0))
+        if not result.wasSuccessful():raise ValueError('READINESS_CPU_FAIL')
+        value['CPU_receipt']=dict(relative=str(p.relative_to(root)),sha256=sha(p))
+        value['previous_timing_acceptance_sha256']=sha(previous)
+        value['readiness_fix']='ACTUAL_WBC_AND_FRESH_SOURCE_RECEIPT_NOT_ARBITRARY_PAUSED_MESSAGE_COUNT'
+        for n in value['source_files']:value['source_files'][n]=sha(Path(__file__).with_name(n))
+        write(proof,value);print(json.dumps(value))

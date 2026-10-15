@@ -5,6 +5,12 @@ from pathlib import Path
 FROZEN_FIELDS=('step','time_s','motiontime','leg_history_steps','gait_indices')
 
 
+def actual_source_age(packet_time,source):
+    # ROS clock adapter publishes integer nanoseconds of the actual mjData time.
+    # Retain raw time in evidence; compare in that same existing clock domain.
+    return round(packet_time*1e9)/1e9-source
+
+
 def require_pause(before,after,step):
     if (not before['clock_paused'] or not after['clock_paused'] or before['running'] or after['running']
             or before['step']!=step or after['step']!=step
@@ -18,6 +24,15 @@ def preinstall_clock_failure(folder):
     """Only the already-proved first transaction is replaceable, never quality."""
     folder=Path(folder)
     result=json.loads((folder/'RESULT.json').read_text())
+    if folder.name=='TASK-PILOT-W0-T2-engineering02':
+        if (result.get('source_sha')!='efea8ae9277a3db798dcdf6873754197dde1ca64'
+                or result.get('error')!='RuntimeError: NATIVE_WBC_MODE_UNAVAILABLE'
+                or result.get('native_stops') or result.get('observations') or result.get('submitted_intents')
+                or result.get('actual_plugin_steps')!=2500):return False
+        ack=json.loads((folder/'pause_ack.json').read_text())
+        rows=[json.loads(s) for s in (folder/'planner.jsonl').read_text().splitlines()]
+        return (ack['step']==2500 and ack['clock_paused'] and not ack['running']
+                and not any(r['kind']=='accept' or r.get('ref_id') for r in rows))
     if (folder.name!='TASK-PILOT-W0-T2' or result.get('source_sha')!='df76698220fdea4ae3c4e8977b49e3bc6199c1a6'
             or result.get('status')!='ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE'
             or result.get('native_stops') or result.get('submitted_intents')!=1

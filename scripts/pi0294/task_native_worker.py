@@ -18,7 +18,7 @@ import numpy as np
 from .task_capture_runtime import validate_entry,CUTOFF,read,sha
 from .task_state import ActualState,write_gripper,read_state
 from .task_gripper_contract import VERSION,teacher_physical_fraction,require_working_target
-from .task_clock import require_pause,preinstall_clock_failure
+from .task_clock import require_pause,preinstall_clock_failure,actual_source_age
 
 
 class FrameRecorder:
@@ -202,7 +202,9 @@ def run(root,native,startup,episode):
             except (FileNotFoundError,ValueError):return False
         if not spin(35,lambda:paused(2500)):raise RuntimeError('BOUNDED_NATIVE_WARMUP_UNAVAILABLE')
         publish(modes,'WBC')
-        if not spin(20,lambda:latest.get('mode',String()).data=='WBC' and counts.get('observation',0)>5 and counts.get('ee',0)>3):raise RuntimeError('NATIVE_WBC_MODE_UNAVAILABLE')
+        if not spin(20,lambda:latest.get('mode',String()).data=='WBC' and 'observation' in latest and 'ee' in latest
+                and 0<=actual_source_age(5.,float(latest['ee'].time))<=.025
+                and 0<=actual_source_age(5.,float(latest['observation'].time))<=.025):raise RuntimeError('NATIVE_WBC_MODE_UNAVAILABLE')
         first_step=2500
         start_s=first_step*.002;teacher=None;initial_mount=None;previous_velocity=np.zeros(3);next_step=first_step;last_command_source=-1.;sequence=0
         planner_path=out/'planner.jsonl';planner_offset=0;planner_rows=[]
@@ -226,8 +228,8 @@ def run(root,native,startup,episode):
             packet=read_state(out/'state.bin')
             if packet['step']!=next_step:raise ValueError('ACTUAL_20HZ_FRAME_MISSING_NO_INTERPOLATION')
             if not spin(5,lambda:('ee' in latest and 'observation' in latest
-                    and 0<=packet['time_s']-float(latest['ee'].time)<=.025
-                    and 0<=packet['time_s']-float(latest['observation'].time)<=.025)):
+                    and 0<=actual_source_age(packet['time_s'],float(latest['ee'].time))<=.025
+                    and 0<=actual_source_age(packet['time_s'],float(latest['observation'].time))<=.025)):
                 raise ValueError('ACTUAL_PAUSED_ROS_SOURCE_CLOCK_NOT_BOUND')
             stop_external(True);pause_before=read(out/'pause_ack.json');pause_started=time.monotonic()
             # One same-state transaction; no source timestamp refresh while computing.
@@ -256,11 +258,12 @@ def run(root,native,startup,episode):
                 previous=previous_velocity if i==0 else action[i-1,10:13]
                 action[i,10:13]=previous+np.clip(desired-previous,-ACCEL*.05,ACCEL*.05)
             source=float(latest['ee'].time)
-            if (source<=last_command_source or not 0<=packet['time_s']-source<=.025):raise ValueError('ACTUAL_OBSERVATION_SOURCE_CLOCK_NOT_BOUND')
+            if (source<=last_command_source or not 0<=actual_source_age(packet['time_s'],source)<=.025):raise ValueError('ACTUAL_OBSERVATION_SOURCE_CLOCK_NOT_BOUND')
             document=native_document(action,mount,base_valid=True,previous_velocity=previous_velocity)
             document['_pi0294']=dict(episode=episode,sequence=sequence,source_mpc_s=source,ttl_s=.4,operation='install')
             wire=json.dumps(document,separators=(',',':'))
-            spin(.003);pause_after=read(out/'pause_ack.json');require_pause(pause_before,pause_after,next_step)
+            if not spin(2,lambda:read(out/'pause_ack.json')['ack_sequence']>pause_before['ack_sequence']):raise RuntimeError('LIVE_PAUSE_ACK_MISSING')
+            pause_after=read(out/'pause_ack.json');require_pause(pause_before,pause_after,next_step)
             pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
             stop_external(False)
             write_gripper(out/'gripper.bin',sequence,source,float(action[0,9]));publish(refs,wire)
