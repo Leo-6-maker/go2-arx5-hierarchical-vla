@@ -1,0 +1,7 @@
+# 高频安全判定汇总更正
+
+T2最后4501–4504包右slide下越界，原高频guard终止，原生native warning/持续时间阈值尚未发stop，因此RESULT.native_stops为空并不代表安全通过。原独立审计已保存RAW_MECHANICAL_RANGE_FAIL、safety_valid=false和persistent_success=false，但其摘要status仅按native_stops分类成VALID_TASK_OR_PREFIX_FAIL，摘要分类遗漏高频独立证据。
+
+只修摘要分类：native_stops或任一原始限位FAIL，都归为VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED。原评分、原range阈值、原manifest/审计/视频均保留；对已存在审计新增source/hash绑定的ADJUDICATION_R1收据，不覆写旧原件，不重新运行物理或修改模型。CPU负例包含“无native stop但raw FAIL，甚至低频task_success=true”仍为安全FAIL。
+
+T2实际闭爪目标为2mm、PD逐步复算误差0N、全部4505包中无任何pad接触。尚无可证明的命令映射/控制实现bug；未改变working stroke、PD、阻尼、WBC或安全。此证据不授权新参数或原样重启。

@@ -99,7 +99,8 @@ def physics(root,episode):
     error=np.linalg.norm(reference[:,:3,3]-tcp[:,:3,3],axis=1);angle=geodesic_angle(reference[:,:3,:3],tcp[:,:3,:3]);displacement=np.linalg.norm(object_xyz[:,:2]-obj[0,:2,3],axis=1)
     output_arrays=dict(arrays,reference_tcp_world=reference,tcp_position_tracking_error_m=error,tcp_SO3_tracking_error_rad=angle,contact_time_s=np.asarray(times500),contact_audit=micro,actual_object_xyz_500Hz=object_xyz,actual_TCP_500Hz=np.asarray(tcp500))
     np.savez_compressed(folder/'ACTUAL_PHYSICS.npz',**output_arrays);write(folder/'RGB_HASHES.json',rgb_hashes)
-    summary=dict(status='VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED' if result['native_stops'] else ('COMPLETE_TASK_PASS' if quality['persistent_success'] else 'VALID_TASK_OR_PREFIX_FAIL'),
+    from .night_r1_terminal import verdict
+    summary=dict(status=verdict(result['native_stops'],ranges['all_raw_samples_within_original_ranges'],quality['persistent_success']),
         runtime_source_sha=result['source_sha'],episode=episode,observations=len(saved),installed_chunks=len(intents),native_integrations=count,task_integrations=count-start['native_step'],task_prefix_s=float(times[-1]),
         complete_32s=bool(complete and card['duration_s']==32),complete_declared_duration=complete,duration_domain=quality['duration_domain'],quality=quality,high_rate_ranges=ranges,actual_object_contact_ticks=int(micro[:,0].sum()),actual_grasp_ticks=int(micro[:,1].sum()),
         illegal_contact_records=len(illegal),first_illegal_contact=illegal[0] if illegal else None,last_illegal_contact=illegal[-1] if illegal else None,

@@ -1,4 +1,9 @@
-"""Account for a written gripper command whose final observation was safety-stopped."""
+"""Account for safety terminal evidence without inventing an observation."""
+
+
+def verdict(native_stops, raw_ranges_pass, task_success):
+    if native_stops or not raw_ranges_pass:return 'VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED'
+    return 'COMPLETE_TASK_PASS' if task_success else 'VALID_TASK_OR_PREFIX_FAIL'
 
 
 def gripper_tail(records, observations, native_end_step, start_step, safety_stopped):
@@ -15,6 +20,10 @@ def gripper_tail(records, observations, native_end_step, start_step, safety_stop
 
 
 def check():
+    assert verdict([],False,False)=='VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED'
+    assert verdict([],False,True)=='VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED'
+    assert verdict([],True,True)=='COMPLETE_TASK_PASS'
+    assert verdict([],True,False)=='VALID_TASK_OR_PREFIX_FAIL'
     good=[{'index':i} for i in range(130) if i%8]
     assert gripper_tail(good,131,5750,2500,False)==[]
     actual=good+[{'index':130}]
