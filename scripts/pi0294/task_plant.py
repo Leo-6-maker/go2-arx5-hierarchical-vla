@@ -72,7 +72,7 @@ def xml_scene(card, asset_root):
     top=PARAMETERS['table_top'];gx,gy=card['goal_xy'];sx,sy=card['source_xy'];yaw=card['cube_yaw']
     # Native base nose collision capsule reaches x=.335 at startup. The proximal
     # edge is .345: measured 10mm clearance, not a new robot pose or WBC change.
-    ET.SubElement(world,'geom',name='task_table',type='box',pos=f"{PARAMETERS['table_center_x']} 0 {top-.025}",
+    ET.SubElement(world,'geom',name='task_table',type='box',pos=f"{card.get('table_center_x',PARAMETERS['table_center_x'])} 0 {top-.025}",
                   size='.17 .24 .025',rgba='.69 .70 .66 1',friction='.8 .02 .002')
     for i,(x,y,dx,dy) in enumerate(((gx-.08,gy,.002,.08),(gx+.08,gy,.002,.08),(gx,gy-.08,.08,.002),(gx,gy+.08,.08,.002))):
         ET.SubElement(world,'geom',name=f'task_goal_{i}',type='box',pos=f'{x} {y} {top+.0002}',
