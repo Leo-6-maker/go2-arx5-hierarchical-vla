@@ -93,3 +93,42 @@ def run(root,manifest):
         new_global_IK=0,new_RRT=0,new_physics=0,new_render=0,new_neural_queries=0,unresolved_native_legal_witness=unresolved,
         global_IK_infeasibility_proven=False,WBC_task_failure_proven=False,selected='NONE',deployment='NONE')
     write(output,value);return value
+
+def reconcile_saved(root,manifest):
+    """Correct endpoint-versus-pair aggregation; reuse the immutable FK audit."""
+    from scripts.pi0292.durable import write
+    p=Path(root)/FOLDER;old_file=p/'INDEPENDENT_CPU_AUDIT.json'
+    output=p/'INDEPENDENT_CPU_AUDIT_R1.json'
+    if output.exists():return read(output)
+    old=read(old_file);before=sha(p/'SEARCH_LEDGER.json');rows=[];pairs=[]
+    assert old['actual_saved_CLIK_initializations']==96
+    for original in old['native_goal_cases']:
+        folder=p/'requests'/original['condition']/'0000'
+        request=read(folder/'INPUT.private.json')
+        index=next(i for i,g in enumerate(request['goals']) if g['endpoint']==original['endpoint'])
+        file=folder/f'IK-{index:02d}.private.json';saved=read(file)
+        assert sha(file)==original['response_sha256']
+        count=len(saved['legal_goals']);witnesses=original['native_legal_witnesses']
+        rows.append(dict(condition=original['condition'],endpoint=original['endpoint'],
+            original_legal_goals=count,independent_native_legal_witnesses=witnesses,
+            unexpected_witness=bool(count==0 and witnesses>0),response_sha256=sha(file)))
+    for condition in sorted({r['condition'] for r in rows}):
+        endpoints=[r for r in rows if r['condition']==condition]
+        assert len(endpoints)==2
+        saved=read(p/'requests'/condition/'0000/IK_RESULT.private.json')
+        possible=all(r['independent_native_legal_witnesses']>0 for r in endpoints)
+        pairs.append(dict(condition=condition,original_pairs=len(saved['pairs']),
+            both_endpoints_have_native_witness=possible,
+            unexpected_pair=bool(possible and not saved['pairs'])))
+    unresolved=any(r['unexpected_witness'] for r in rows) or any(r['unexpected_pair'] for r in pairs)
+    assert before==sha(p/'SEARCH_LEDGER.json')
+    value=dict(status='INTEGRITY_EXCEPTION_REQUIRES_RECONCILIATION' if unresolved else
+        'PASS_INDEPENDENT_BOUNDED_SOURCE_ADMISSION_FAIL_RECONCILIATION',
+        source_sha=manifest['code']['vla_commit'],superseded_aggregation_sha256=sha(old_file),
+        original_audit_retained=True,erratum='A legal contact endpoint alone is not an approach/contact pair. Original audit flagged any endpoint witness, including correctly accepted contacts.',
+        endpoint_cases=rows,pair_cases=pairs,time_cases=old['time_cases'],
+        saved_CLIK_initializations_reused=96,new_IK=0,new_RRT=0,new_physics=0,
+        new_render=0,new_neural_queries=0,search_ledger_sha256=before,
+        unresolved_native_legal_witness=unresolved,global_IK_infeasibility_proven=False,
+        WBC_task_failure_proven=False,selected='NONE',deployment='NONE')
+    write(output,value);return value
