@@ -42,11 +42,12 @@ def run(root,native,startup,episode):
     cpu_proof=read(root/'evidence/STARTUP_CPU_CONTRACTS.json')
     if cpu_proof['status']!='PASS_CPU_SUPPORTED_STARTUP_ADMISSION' or cpu_proof['startup_source_sha256']!=sha(__file__):
         raise PermissionError('R1_STARTUP_CHANGED_CONTRACT_TEST_REQUIRED')
-    if episode not in ('TFNR1_STARTUP_OPEN_00','TFNR1_STARTUP_OPEN_01'):
+    if episode not in tuple('TFNR1_STARTUP_OPEN_'+str(i).zfill(2) for i in range(4)):
         raise PermissionError('R1_FIXED_OPEN_STARTUP_SLOTS_ONLY')
     card=pilot_cards()[0]
     card.update(id=episode,role='STARTUP',split='DEVELOPMENT',duration_s=0,warmup_sim_s=5,
-                table_top_m=.47,initial_finger_q_m=.042,ROS_DOMAIN_ID=3741 if episode.endswith('00') else 3742)
+                table_top_m=.47,initial_finger_q_m=.042,ROS_DOMAIN_ID=181+int(episode[-2:]))
+    if not 0<=card['ROS_DOMAIN_ID']<=232:raise ValueError('R1_RMW_SUPPORTED_DOMAIN_RANGE')
     out=root/'factory/episodes'/episode
     if out.exists():raise FileExistsError('R1_STARTUP_FIRST_ATTEMPT_PRESERVED')
     cfg=read(startup/'startup-v4/config.json')
