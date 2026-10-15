@@ -22,9 +22,9 @@ def contracts():
     poses=np.repeat(np.eye(4)[None],40,axis=0);witness=np.zeros((40,6));src=np.arange(40)*.025
     h=ExecutedReferenceHistory()
     bad('NO_PREVIEW_AS_EXECUTED_HISTORY',h.last_two)
-    h.propose('reject',poses,witness,src,native_start_time=10.);h.reject('reject')
+    h.propose('reject',poses,witness,src,native_start_time=10.,witness_frame_id='FIXTURE_ROOT');h.reject('reject')
     bad('REJECT_CANNOT_BE_EXECUTED',lambda:h.acknowledge_executed('reject',0,5000,10.05))
-    h.propose('a',poses,witness,src,native_start_time=10.)
+    h.propose('a',poses,witness,src,native_start_time=10.,witness_frame_id='FIXTURE_ROOT')
     bad('ACK_ID_MISMATCH',lambda:h.acknowledge_install('a','other'))
     h.acknowledge_install('a','a')
     bad('SOURCE_CLOCK_NOT_NATIVE_CLOCK',lambda:h.acknowledge_executed('a',0,5025,.05))
@@ -35,11 +35,12 @@ def contracts():
     good('NATIVE_AND_SOURCE_CLOCKS_SEPARATE',clocks)
     bad('REPLAYED_PREFIX',lambda:h.acknowledge_executed('a',7,5225,10.4))
     bad('UNEXECUTED_PREVIEW_TAIL',lambda:h.acknowledge_executed('a',8,5225,10.45))
-    bad('GAP_AT_CHUNK_JOIN',lambda:h.check_next(witness,native_start_time=10.45))
+    bad('GAP_AT_CHUNK_JOIN',lambda:h.check_next(witness,native_start_time=10.45,witness_frame_id='FIXTURE_ROOT'))
+    bad('INCOMPATIBLE_ROOT_WITNESSES',lambda:h.check_next(witness,native_start_time=10.4,witness_frame_id='OTHER_ROOT'))
     def seam():
-        assert h.check_next(witness,native_start_time=10.4)['max_acceleration']==0
+        assert h.check_next(witness,native_start_time=10.4,witness_frame_id='FIXTURE_ROOT')['max_acceleration']==0
         jumped=witness.copy();jumped[:,2]=.1
-        proof=h.check_next(jumped,native_start_time=10.4)
+        proof=h.check_next(jumped,native_start_time=10.4,witness_frame_id='FIXTURE_ROOT')
         assert proof['max_acceleration']>1 and any('H40_SUBMISSION_BOUNDARY' in v['labels'] for v in proof['violations'])
         assert not proof['uses_actual_qpos_as_reference']
     good('ACTUAL_EXECUTED_COMMAND_SEAM_REJECTS_JUMP',seam)

@@ -81,15 +81,15 @@ class ExecutedReferenceHistory:
     """Keep installed plans separate from the references actually consumed."""
     def __init__(self):self.pending={};self.installed={};self.executed=[]
 
-    def propose(self,identity,poses,joint_witness,source_times,*,native_start_time):
+    def propose(self,identity,poses,joint_witness,source_times,*,native_start_time,witness_frame_id):
         if identity in self.pending or identity in self.installed:raise ValueError('DUPLICATE_REFERENCE_ID')
         poses,q=np.asarray(poses).copy(),np.asarray(joint_witness).copy()
         if poses.shape!=(40,4,4) or q.shape!=(40,6) or not np.isfinite(poses).all() or not np.isfinite(q).all():raise ValueError('REFERENCE_SHAPE')
         source=np.asarray(source_times,dtype=float)
         if (source.shape!=(40,) or not np.isfinite(source).all() or np.any(np.diff(source)<0)
-            or not np.isfinite(native_start_time)):
+            or not np.isfinite(native_start_time) or not isinstance(witness_frame_id,str) or not witness_frame_id):
             raise ValueError('SOURCE_AND_NATIVE_CLOCKS_REQUIRED')
-        self.pending[identity]=dict(poses=poses,q=q,source_times=source.copy(),native_start=float(native_start_time))
+        self.pending[identity]=dict(poses=poses,q=q,source_times=source.copy(),native_start=float(native_start_time),witness_frame_id=witness_frame_id)
 
     def reject(self,identity):self.pending.pop(identity)
 
@@ -105,14 +105,17 @@ class ExecutedReferenceHistory:
                              or source<self.executed[-1]['source_time']-1e-10):raise ValueError('REFERENCE_REPLAY_OR_NONMONOTONE')
         if abs(float(actual_end_time)-native_start-.05)>1e-8:raise ValueError('COMMAND_NATIVE_END_TIME_BINDING')
         self.executed.append(dict(identity=identity,prefix_index=prefix_index,native_step=int(native_step),source_time=source,
-                                  native_start_time=native_start,actual_end_time=float(actual_end_time),pose=p['poses'][prefix_index].copy(),joint_witness=p['q'][prefix_index].copy()))
+                                  native_start_time=native_start,actual_end_time=float(actual_end_time),pose=p['poses'][prefix_index].copy(),joint_witness=p['q'][prefix_index].copy(),
+                                  witness_frame_id=p['witness_frame_id'],joint_witness_is_commanded_joint_action=False))
 
     def last_two(self):
         if len(self.executed)<2:raise ValueError('TWO_REAL_EXECUTED_REFERENCE_SAMPLES_REQUIRED')
         return self.executed[-2:]
 
-    def check_next(self,joint_witness,*,native_start_time):
+    def check_next(self,joint_witness,*,native_start_time,witness_frame_id):
         past=self.last_two();q=np.asarray(joint_witness,dtype=float)
+        if any(r['witness_frame_id']!=witness_frame_id for r in past):
+            raise ValueError('COMMON_ROOT_AND_IK_BRANCH_WITNESS_REQUIRED')
         if q.shape!=(40,6) or abs(native_start_time-past[-1]['actual_end_time'])>1e-8:
             raise ValueError('CONTIGUOUS_NEXT_REFERENCE_REQUIRED')
         times=np.r_[[r['native_start_time'] for r in past],native_start_time+np.arange(40)*.05]
