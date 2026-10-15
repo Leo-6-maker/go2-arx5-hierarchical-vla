@@ -88,8 +88,10 @@ def physics(root,episode):
         assert np.array_equal(a[:,9],teacher_physical_fraction(opening))
         assert intent['source_mpc_s']==round(packet['time_s']*1e9)/1e9 and 0<=wire['receiver_mpc_s']-wire['source_mpc_s']<=.025
     from .night_r1_terminal import gripper_tail
+    from .night_r1_clock_recovery import verified
+    engineering_clock=verified(root,episode)
     terminal_gripper=gripper_tail(grip,len(saved),count,start['native_step'],
-        bool(result['native_stops']) or result['status']=='VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED')
+        bool(result['native_stops']) or result['status']=='VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED' or engineering_clock)
     for r in grip:
         i=r['index'];intent=intents[i//8];assert r['sequence']==i and r['prefix_index']==i-intent['index'] and r['opening']==intent['action_EEF13'][i%8][9]
         assert abs(r['source_mpc_s']-packets[i]['time_s'])<1e-10
@@ -106,7 +108,7 @@ def physics(root,episode):
     output_arrays=dict(arrays,reference_tcp_world=reference,tcp_position_tracking_error_m=error,tcp_SO3_tracking_error_rad=angle,contact_time_s=np.asarray(times500),contact_audit=micro,actual_object_xyz_500Hz=object_xyz,actual_TCP_500Hz=np.asarray(tcp500))
     np.savez_compressed(folder/'ACTUAL_PHYSICS.npz',**output_arrays);write(folder/'RGB_HASHES.json',rgb_hashes)
     from .night_r1_terminal import verdict
-    summary=dict(status=verdict(result['native_stops'],ranges['all_raw_samples_within_original_ranges'],quality['persistent_success']),
+    summary=dict(status='VERIFIED_TASK_WRAPPER_RESUME_ENGINEERING_INCOMPLETE' if engineering_clock else verdict(result['native_stops'],ranges['all_raw_samples_within_original_ranges'],quality['persistent_success']),
         runtime_source_sha=result['source_sha'],episode=episode,observations=len(saved),installed_chunks=len(intents),native_integrations=count,task_integrations=count-start['native_step'],task_prefix_s=float(times[-1]),
         complete_32s=bool(complete and card['duration_s']==32),complete_declared_duration=complete,duration_domain=quality['duration_domain'],quality=quality,high_rate_ranges=ranges,actual_object_contact_ticks=int(micro[:,0].sum()),actual_grasp_ticks=int(micro[:,1].sum()),
         illegal_contact_records=len(illegal),first_illegal_contact=illegal[0] if illegal else None,last_illegal_contact=illegal[-1] if illegal else None,
@@ -116,7 +118,7 @@ def physics(root,episode):
         tracking_XYZ_initial_m=float(error[0]),tracking_XYZ_final_m=float(error[-1]),tracking_XYZ_median_m=float(np.median(error)),tracking_SO3_final_rad=float(angle[-1]),
         image_files_verified=camera_checks,actual_RGB_pairs=len(saved),source_reference_values_replayed_exact=True,source_gripper20Hz_labels_exact=True,
         installed_reference=parity,pause_history_unchanged=True,actual_state_and_FK_replay=True,terminal_gripper_commands=terminal_gripper,
-        interpretation='ORIGINAL_SAFETY_AND_TASK_VERDICT; NO_RETRY',new_physics=0,new_IK=0,new_RRT=0,new_render=0,new_neural_queries=0,selected='NONE',deployment='NONE')
+        interpretation='VERIFIED_ENGINEERING_PREFIX_NOT_COMPLETE_TASK_QUALITY' if engineering_clock else 'ORIGINAL_SAFETY_AND_TASK_VERDICT; NO_RETRY',new_physics=0,new_IK=0,new_RRT=0,new_render=0,new_neural_queries=0,selected='NONE',deployment='NONE')
     write(output,summary);return summary
 
 def video(root,episode):

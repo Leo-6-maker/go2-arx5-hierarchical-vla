@@ -1,7 +1,7 @@
 """Apply the direct user debug rule without resetting exposure or resource totals."""
 
 
-def counts(attempts):
+def counts(attempts,root=None):
     rows=[x for x in attempts if x.get('role')=='DEVELOPMENT']
     engineering=[];scientific=[]
     for row in rows:
@@ -10,12 +10,16 @@ def counts(attempts):
         # records or any observed task exposure remain conservatively counted.
         before_task=(r.get('status')=='ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE'
             and r.get('observations')==0 and not r.get('native_stops'))
-        (engineering if before_task else scientific).append(row)
-    return dict(raw=len(rows),scientific=len(scientific),pre_task_engineering=len(engineering))
+        verified_clock=False
+        if root is not None:
+            from .night_r1_clock_recovery import verified
+            verified_clock=verified(root,row.get('episode'))
+        (engineering if before_task or verified_clock else scientific).append(row)
+    return dict(raw=len(rows),scientific=len(scientific),pre_task_engineering=sum(x.get('result',{}).get('observations')==0 for x in engineering),verified_midtask_engineering=sum(x.get('result',{}).get('observations')!=0 for x in engineering))
 
 
-def admit(attempts,debug,adoption):
-    value=counts(attempts)
+def admit(attempts,debug,adoption,root=None):
+    value=counts(attempts,root)
     approved=(debug.get('authorizes_evidence_bound_engineering_continuation') is True
         and debug.get('arbitrary_engineering_retry_and_startup_requalification_count_cap_removed') is True
         and debug.get('cumulative_resource_and_deadlines_unchanged') is True

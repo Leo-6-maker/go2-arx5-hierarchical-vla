@@ -16,7 +16,7 @@ from .task_state import ActualState,write_gripper,read_state
 from .task_gripper_contract import teacher_physical_fraction,require_working_target
 from .night_r1_plan_runtime import VERSION
 from .night_r1_plan_runtime import require_card,require_adoption
-from .task_clock import finish_pause,preinstall_clock_failure,actual_source_age
+from .task_clock import finish_pause,preinstall_clock_failure,actual_source_age,fresh_command_receipt
 from .night_r1_startup import command_ready,dynamic_getup_ready,paused_mode_ready
 
 
@@ -72,7 +72,7 @@ def run(root,native,startup,episode):
     if card['role']=='DEVELOPMENT':
         from .night_r1_attempt_admission import admit
         debug_path=root/'DEBUG_CONTINUATION_ADOPTION.json'
-        admit(read(root/'R1_RESOURCE_LEDGER.json')['task_attempts'],read(debug_path) if debug_path.exists() else {},read(root/'R1_ADOPTION.json'))
+        admit(read(root/'R1_RESOURCE_LEDGER.json')['task_attempts'],read(debug_path) if debug_path.exists() else {},read(root/'R1_ADOPTION.json'),root=root)
     from .night_r1_teacher import Teacher
     from .mp_client import PlannerFailure
     series=root/'factory'
@@ -96,7 +96,7 @@ def run(root,native,startup,episode):
         if sha(native/path)!=digest:raise ValueError('FROZEN_NATIVE_SOURCE_CHANGED:'+path)
     for path,digest in clock_build['binary_sha256'].items():
         if sha(clock/path)!=digest:raise ValueError('FROZEN_NATIVE_BINARY_CHANGED')
-    timing=root/'runtime/TASK_PAUSE_R1_02';timing_build=read(timing/'CLOCK_BUILD_RECEIPT.json')
+    timing=root/'runtime/TASK_PAUSE_R1_03';timing_build=read(timing/'CLOCK_BUILD_RECEIPT.json')
     if timing_build['original_clock_binaries']!=clock_build['binary_sha256']:
         raise ValueError('PAUSE_BASE_CLOCK_IDENTITY')
     if sha(timing/'rl_sim_mujoco')!=timing_build['binary_sha256']['rl_sim_mujoco']:
@@ -279,6 +279,9 @@ def run(root,native,startup,episode):
             if stopped:
                 if not spin(3,lambda:all('\nState:\tT' in Path(f'/proc/{p.pid}/status').read_text() for p in processes[1:3])):
                     raise RuntimeError('OWNED_CONTROLLER_FREEZE_ACK_MISSING')
+        def resume_command_ready(before):
+            ack=read(out/'pause_ack.json')
+            return fresh_command_receipt(before,ack)
         active_intent=None
         while len(observed)<frame_cap:
             if not spin(10,lambda:paused(next_step)):raise RuntimeError('EXACT_20HZ_PAUSE_MISSING')
@@ -317,7 +320,7 @@ def run(root,native,startup,episode):
                 write_gripper(out/'gripper.bin',len(observed),round(float(packet['time_s'])*1e9)/1e9,opening)
                 command_log.write(json.dumps(dict(phase='GRIPPER_PREFIX20HZ',index=len(observed),sequence=len(observed),intent_sequence=active_intent['sequence'],prefix_index=prefix_index,source_mpc_s=float(packet['time_s']),opening=opening))+'\n');command_log.flush()
                 pause_after=finish_pause(pause_before,next_step,lambda:read_state(out/'state.bin')['step'],
-                    lambda:stop_external(False),lambda:spin(2,lambda:read(out/'pause_ack.json')['ack_sequence']>pause_before['ack_sequence']),
+                    lambda:stop_external(False),lambda:spin(2,lambda:resume_command_ready(pause_before)),
                     lambda:read(out/'pause_ack.json'))
                 pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,query=False,
                     wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
@@ -362,7 +365,7 @@ def run(root,native,startup,episode):
             # physical quota/flags remain paused. Compare the pre-wait counters
             # to the now-live snapshot, not a stale file during peer suspension.
             pause_after=finish_pause(pause_before,next_step,lambda:read_state(out/'state.bin')['step'],
-                lambda:stop_external(False),lambda:spin(2,lambda:read(out/'pause_ack.json')['ack_sequence']>pause_before['ack_sequence']),
+                lambda:stop_external(False),lambda:spin(2,lambda:resume_command_ready(pause_before)),
                 lambda:read(out/'pause_ack.json'))
             pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
             write_gripper(out/'gripper.bin',len(observed),source,float(action[0,9]));publish(refs,wire)
