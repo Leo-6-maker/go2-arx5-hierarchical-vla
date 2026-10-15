@@ -16,6 +16,12 @@ from .r4a import validate_scope
 from .r4 import CUTOFF
 
 
+def require_profile_entry(expected_python,environ=None):
+    env=os.environ if environ is None else environ
+    if env.get('GR00T_WBC_PYTHON')!=expected_python:
+        raise PermissionError('DEPLOYED_PROFILE_ENTRY_REQUIRED_BEFORE_NATIVE_LAUNCH')
+
+
 def main(root,native,startup):
     import rclpy
     from rclpy.qos import qos_profile_sensor_data,QoSProfile,DurabilityPolicy
@@ -28,6 +34,7 @@ def main(root,native,startup):
     from go2arx5_vla.trajectory.so3 import quat_to_matrix,matrix_to_quat
     from .base_intent import native_document
     root,native,startup=map(Path,(root,native,startup));manifest=validate_scope(root)
+    require_profile_entry(read(root/'INPUT_BINDINGS.private.json')['runtime_python'])
     # DDS must initialize before reserving a physical launch.
     rclpy.init()
     lease=OwnerLock(native.parent/'PI0289_SIM_LEASE')
