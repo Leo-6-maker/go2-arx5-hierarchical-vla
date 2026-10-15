@@ -69,7 +69,10 @@ def run(root,native,startup,episode):
     from scripts.pi0292.durable import OwnerLock,write
     root,native,startup=map(Path,(root,native,startup));manifest,parent=validate_entry(root,physical_asset=VERSION)
     card=require_card(root,manifest,episode)
-    if card['role']=='DEVELOPMENT' and sum(x.get('role')=='DEVELOPMENT' for x in read(root/'R1_RESOURCE_LEDGER.json')['task_attempts'])>=6:raise PermissionError('R1_DEVELOPMENT_START_CAP')
+    if card['role']=='DEVELOPMENT':
+        from .night_r1_attempt_admission import admit
+        debug_path=root/'DEBUG_CONTINUATION_ADOPTION.json'
+        admit(read(root/'R1_RESOURCE_LEDGER.json')['task_attempts'],read(debug_path) if debug_path.exists() else {},read(root/'R1_ADOPTION.json'))
     from .night_r1_teacher import Teacher
     from .mp_client import PlannerFailure
     series=root/'factory'
