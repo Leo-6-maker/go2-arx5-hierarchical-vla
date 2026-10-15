@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**自有示范重定位已执行至明确科学停止点：六个固定TRAIN来源均未准入。** [完整候选/独立复算/归档终局](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retarget-v1/REPORT.md)。T2三源uniform slowdown后需50.49/53.87/61.88秒，超过28秒；T1三源接近端均无满足原限位的登记解，接触端有解但不能组成pair。16项CPU检查及6源提取完成，3bundle/6目标IK/96CLIK，新增RRT/物理/RGB/模型/训练均0，真实接触与成功seed未取得。终局`STOP_FIXED_SOURCE_POOL_NOT_ADMITTED`，整体仍PARTIAL；不是WBC物理FAIL或全局IK无解。75文件私有完整回读，旧FAIL/WBC/安全/评分/窗口/累计账保持，selected/deployment=NONE。下列“待采用/未执行”均为历史阶段记录。
+
 **自有示范重定位完整方案已获明确采用：** [源绑定人类采用收据](reports/PI0294/design/SOURCE_DEMO_RETARGET_HUMAN_ADOPTION_V1.json)，固定采用e7d6537facc3c670cdd197e64302eac913965534，原窗口/父账不重置。执行从真实源提交片段/工具映射接续，WBC、安全、原评分和旧FAIL保留；采用不代表新CPU/规划/物理已PASS。下列“待采用”是此前发布阶段记录。
 
 **固定小样本已下载；自有成功片段重定位方案已准备、待采用：** [实际下载/来源资格](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-preparation-v1/PREPARATION_REPORT.md) · [完整有界方案](docs/protocols/PI0294_SUCCESS_DEMO_SEGMENTS_TO_FULLBODY_SEED_DRAFT_V1.md) · [机器卡](reports/PI0294/design/SOURCE_DEMO_RETARGET_TASK_CARD_V1.json) · [采用prompt](docs/handover/2026-10-15/SOURCE_DEMO_RETARGET_ADOPTION_PROMPT.md)。四payload共338566923字节完整SHA通过，6条原TRAIN源身份/成功/成员确认；外部包仅作参考库，不阻塞自有来源。拟直接T2/T1各32秒，≤4启动/42012积分/1282双RGB/14400CPU秒，168bundle及内部IK/RRT/dense逐项封顶，沿原截止/累计余额、冻结WBC/安全/评分，不再修FSM阈值。**本次仅下载/准备已获准并完成；新重定位搜索/物理未授权未执行，launch_allowed=false，运行适配尚未实施。** 原MP-S2真实结果与未启动辅助槽保持，采用新方案后才在停止边界独占接续，旧FAIL不改。

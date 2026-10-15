@@ -1,0 +1,590 @@
+{
+  "status": "PASS_SIX_FROZEN_TRAIN_SOURCE_EXTRACTIONS",
+  "source_sha": "37427a3e2c2de97e6739d489a1e1ed5533bee537",
+  "records": [
+    {
+      "id": "PI0294-TRAIN-F0-000-T2",
+      "task": "T2",
+      "status": "PASS_EXTRACTED_ORIGINAL_COMMITTED_SOURCE",
+      "split": "TRAIN",
+      "observations": 641,
+      "unique_committed_rows": 640,
+      "original_H40_references": 80,
+      "source_numeric_sha256": "f11687ca5db007882137585f0d579b30e8e28c1922fcffaa1dd3b81ce3eb5b38",
+      "raw_source_hashes": {
+        "TEACHER_EVENTS.json": "58c9193df859e31815c63daa877e6e8789591692b966d2603ef50a4872de2e9d",
+        "samples.json": "6ee846ffafb694488fe5ac0dcb7ab8af2d4d776cf052033818d4f476e1706736",
+        "references.json": "cfcec5212667bfe841f84bee6b09b4b4af3bdc1e0fe6df2d957ec983e7ab1000",
+        "SCORE.json": "d415be07e481fe94f1ef6fdafe083c3e64fed1a8aff3c39295117d9f19119e05",
+        "AUDIT.json": "2985f8c135b99dda370e654adb88346b073af09f8918387d82889fd5e4de5aef",
+        "CARD.json": "7b64803b81a10323dffc764f9d61575cde6ab6d7a955ef960da768e230bc2f74",
+        "FILE_MANIFEST.json": "5623c181e23774d77b2253a437b7e29049c61ee0403202487f0bd7900a525551"
+      },
+      "source_model_xml_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+      "derived_file": "PI0294-TRAIN-F0-000-T2.npz",
+      "derived_sha256": "502693693c13242804675f403a2ea997f0a257107b083a50da7dc3ee5414229e",
+      "cut_start_index": 165,
+      "cut_end_inclusive_index": 488,
+      "transport_start_s": 11.550000000000527,
+      "transport_end_s": 20.59999999999946,
+      "cut_duration_s": 16.150000000000002,
+      "events": [
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "approach",
+          "stage": "close",
+          "time_s": 8.249999999999424
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "close",
+          "stage": "align",
+          "time_s": 9.499999999999842
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "align",
+          "stage": "contact",
+          "time_s": 11.100000000000376
+        },
+        {
+          "actual_contact": true,
+          "actual_displacement_m": 6.535353455042996e-05,
+          "previous": "contact",
+          "stage": "push",
+          "time_s": 11.550000000000527
+        },
+        {
+          "actual_contact": true,
+          "actual_displacement_m": 0.1620836120495343,
+          "previous": "push",
+          "stage": "detach",
+          "time_s": 20.59999999999946
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.16211457762826478,
+          "previous": "detach",
+          "stage": "withdraw",
+          "time_s": 21.89999999999874
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.16211457762810697,
+          "previous": "withdraw",
+          "stage": "hold",
+          "time_s": 24.399999999997355
+        }
+      ],
+      "sample_command_parity": "EXACT_ALL_640",
+      "new_physics": 0,
+      "new_IK_queries": 0,
+      "tool_binding_summary": {
+        "source_target_functional_frames_verified": true,
+        "raw_model_kept_private": true
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T2",
+      "task": "T2",
+      "status": "PASS_EXTRACTED_ORIGINAL_COMMITTED_SOURCE",
+      "split": "TRAIN",
+      "observations": 641,
+      "unique_committed_rows": 640,
+      "original_H40_references": 80,
+      "source_numeric_sha256": "cb83c4bc5bb68ce0fb312b44855f8d713db59292a1c8dbe3dde408d17a2bb40f",
+      "raw_source_hashes": {
+        "TEACHER_EVENTS.json": "3fb0ee19cfb08acc8f8cf2e70c09a966f98c9b8461cd40e5706759e58dcac882",
+        "samples.json": "fb9feea731650d08a78a953b3cef4c367c938975b883b4abb69a82b1bae5a7fc",
+        "references.json": "f4e7a4cf95048af44b376cbeabe265245b6ad065ef920f3a08e0e026dfa87c06",
+        "SCORE.json": "a4e2caa55119696c314bf6b026e4f9282a97a66ec9b5cb71dca458c808a0d8ea",
+        "AUDIT.json": "99be9f5feac48b88e620515f726d512792c83a84d6d1132c2096283aa3303b79",
+        "CARD.json": "86f92f53254bbb9d84d9c8cde20d00f06902c6bbeb23434846b9a41cd9326b47",
+        "FILE_MANIFEST.json": "4134d5ef368e2cad83508978498ef9615f47b137af6572085379a210a63a82f2"
+      },
+      "source_model_xml_sha256": "bda92501b6513b1126b07c9c50947d889f5a6ebbd2b6f252baefaea317f2b4ef",
+      "derived_file": "PI0294-TRAIN-F0-001-T2.npz",
+      "derived_sha256": "ff334533d660b753f23f3fa0c5721cd2a2f2e001d01be46dcd72ec4326899be7",
+      "cut_start_index": 172,
+      "cut_end_inclusive_index": 504,
+      "transport_start_s": 11.95000000000066,
+      "transport_end_s": 21.349999999999046,
+      "cut_duration_s": 16.6,
+      "events": [
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "approach",
+          "stage": "close",
+          "time_s": 8.599999999999541
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "close",
+          "stage": "align",
+          "time_s": 9.899999999999975
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "align",
+          "stage": "contact",
+          "time_s": 11.50000000000051
+        },
+        {
+          "actual_contact": true,
+          "actual_displacement_m": 9.42691275810062e-05,
+          "previous": "contact",
+          "stage": "push",
+          "time_s": 11.95000000000066
+        },
+        {
+          "actual_contact": true,
+          "actual_displacement_m": 0.1644691166601559,
+          "previous": "push",
+          "stage": "detach",
+          "time_s": 21.349999999999046
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.1646258169445285,
+          "previous": "detach",
+          "stage": "withdraw",
+          "time_s": 22.699999999998298
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.16462581694437034,
+          "previous": "withdraw",
+          "stage": "hold",
+          "time_s": 25.199999999996912
+        }
+      ],
+      "sample_command_parity": "EXACT_ALL_640",
+      "new_physics": 0,
+      "new_IK_queries": 0,
+      "tool_binding_summary": {
+        "source_target_functional_frames_verified": true,
+        "raw_model_kept_private": true
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T2",
+      "task": "T2",
+      "status": "PASS_EXTRACTED_ORIGINAL_COMMITTED_SOURCE",
+      "split": "TRAIN",
+      "observations": 641,
+      "unique_committed_rows": 640,
+      "original_H40_references": 80,
+      "source_numeric_sha256": "9362b6cc4e66fb3fe8a1190ff1d396e7366ef7b8631a68c4d62c368969e90e27",
+      "raw_source_hashes": {
+        "TEACHER_EVENTS.json": "647324a3ca729da9a35a6bd79380a87ba085541d28f79d027769bdeb6c6345c2",
+        "samples.json": "d49514e04993cbe6404da571bf9dde88bc42bf9536c3d905d0e1d30f6165d66b",
+        "references.json": "0124991f04254be160c258c01cf0c011d43cd185634fc33fbd7fb81a3c491c42",
+        "SCORE.json": "8566523d70fdfd237974e374bcf14e191ba72b5f36818e9a0679d6f6f48784c3",
+        "AUDIT.json": "8d03cb11f97f9354241b96ec536e6675323224272553769600ff0b11dcbe1836",
+        "CARD.json": "452cc78dae428ebae1b5144b670c59182c92813f91f6f4818a298326d4b4ad66",
+        "FILE_MANIFEST.json": "280526d1a93d7fef832b31344f8aa0c5d4aeba3fd7a7b2a028cc6f23b0c8486e"
+      },
+      "source_model_xml_sha256": "42cddb49be40676e4ef8f1e00ca85bdd1c7f58bb73eaeba66d0a25795deb34ef",
+      "derived_file": "PI0294-TRAIN-F0-002-T2.npz",
+      "derived_sha256": "6749f72a35bd5f077052d9a4c76093fbf86674487056fdbb84ec8fee073b52be",
+      "cut_start_index": 166,
+      "cut_end_inclusive_index": 496,
+      "transport_start_s": 11.550000000000527,
+      "transport_end_s": 21.049999999999212,
+      "cut_duration_s": 16.5,
+      "events": [
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "approach",
+          "stage": "close",
+          "time_s": 8.299999999999441
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "close",
+          "stage": "align",
+          "time_s": 9.499999999999842
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.0,
+          "previous": "align",
+          "stage": "contact",
+          "time_s": 11.100000000000376
+        },
+        {
+          "actual_contact": true,
+          "actual_displacement_m": 0.0004288014889836824,
+          "previous": "contact",
+          "stage": "push",
+          "time_s": 11.550000000000527
+        },
+        {
+          "actual_contact": true,
+          "actual_displacement_m": 0.16621854535060654,
+          "previous": "push",
+          "stage": "detach",
+          "time_s": 21.049999999999212
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.16618925541892696,
+          "previous": "detach",
+          "stage": "withdraw",
+          "time_s": 22.29999999999852
+        },
+        {
+          "actual_contact": false,
+          "actual_displacement_m": 0.16618925541876844,
+          "previous": "withdraw",
+          "stage": "hold",
+          "time_s": 24.799999999997134
+        }
+      ],
+      "sample_command_parity": "EXACT_ALL_640",
+      "new_physics": 0,
+      "new_IK_queries": 0,
+      "tool_binding_summary": {
+        "source_target_functional_frames_verified": true,
+        "raw_model_kept_private": true
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-000-T1",
+      "task": "T1",
+      "status": "PASS_EXTRACTED_ORIGINAL_COMMITTED_SOURCE",
+      "split": "TRAIN",
+      "observations": 641,
+      "unique_committed_rows": 640,
+      "original_H40_references": 80,
+      "source_numeric_sha256": "f39779bfae9e8b9fb3f46db501df16460352e483c16eca7e030877c815c4c46b",
+      "raw_source_hashes": {
+        "TEACHER_EVENTS.json": "321fe92abc30ea37f05cfeb527fe91a38f105265c74aca28bb26fc31e903e204",
+        "samples.json": "84e7bc96534acf1e0b7c3f57da68de3f03f32a303db21366f33fe4ef1af86043",
+        "references.json": "3647a6ca216c8d09fd99a541eca31bb902750e0c3d1e6b249b9107369887826b",
+        "SCORE.json": "1a4d24d6cfc274947e74895ed18cf1e7c1d66a38de1a10a89386146fe232a575",
+        "AUDIT.json": "7209998149c33fd9db0aeab9051b46402df63158278e567de546500396dcf773",
+        "CARD.json": "abd38fcb3e0e61f83559ff8a30dfaa08e27aaf78c41fa8fb14649078dc05db3e",
+        "FILE_MANIFEST.json": "54785afa796d8eade02c1185dec68f85c47e2f740442042cc4dcf80d4d1972e0"
+      },
+      "source_model_xml_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+      "derived_file": "PI0294-TRAIN-F0-000-T1.npz",
+      "derived_sha256": "86fb4c5fcb5cb678952d0d4da7bfafe5be7bb7488229cc6831f314ae85a79eb8",
+      "cut_start_index": 0,
+      "cut_end_inclusive_index": 257,
+      "transport_start_s": 4.349999999999743,
+      "transport_end_s": 7.5499999999993905,
+      "cut_duration_s": 12.850000000000001,
+      "events": [
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": false,
+          "previous": "approach",
+          "stage": "align",
+          "time_s": 0.0
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": false,
+          "previous": "align",
+          "stage": "close",
+          "time_s": 1.450000000000001
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": true,
+          "previous": "close",
+          "stage": "verify_grasp",
+          "time_s": 2.249999999999974
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": true,
+          "previous": "verify_grasp",
+          "stage": "lift",
+          "time_s": 2.5999999999999353
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "lift",
+          "stage": "carry",
+          "time_s": 4.349999999999743
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "carry",
+          "stage": "lower",
+          "time_s": 7.5499999999993905
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "lower",
+          "stage": "release",
+          "time_s": 9.049999999999692
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": false,
+          "previous": "release",
+          "stage": "withdraw",
+          "time_s": 10.150000000000059
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": false,
+          "previous": "withdraw",
+          "stage": "hold",
+          "time_s": 12.800000000000944
+        }
+      ],
+      "sample_command_parity": "EXACT_ALL_640",
+      "new_physics": 0,
+      "new_IK_queries": 0,
+      "tool_binding_summary": {
+        "source_target_functional_frames_verified": true,
+        "raw_model_kept_private": true
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T1",
+      "task": "T1",
+      "status": "PASS_EXTRACTED_ORIGINAL_COMMITTED_SOURCE",
+      "split": "TRAIN",
+      "observations": 641,
+      "unique_committed_rows": 640,
+      "original_H40_references": 80,
+      "source_numeric_sha256": "292ac19a4c2892570e5d5bd8957fb8f4dd2f2a39c533ecbd6ff46e9eadb52b52",
+      "raw_source_hashes": {
+        "TEACHER_EVENTS.json": "8314bb8b7008d7a1d5bcd9d70525dc1cb4f0a50185b60fc574ccaae2536601e6",
+        "samples.json": "826f97b6e65c96beb16db75f64de56e774305a0d48a9ed66f6e3532f74cdbdd1",
+        "references.json": "8a91974c8fb3f8086c943f4413525cf990277fb568f655528b32f9befc03cbe2",
+        "SCORE.json": "6d2e717aeb900e36cb52dd917b36f4f1a6b9e3f9cd91f1e0c6a49d7d6d0297b0",
+        "AUDIT.json": "3368609f5a3ddc01b07abf2f6b3ea5c53f3480724ee8cb8c1b28f17f0afe3318",
+        "CARD.json": "1a58c1ad71e392b786f772123b3520986aa53ba430acea238958a6f0b63f8c7c",
+        "FILE_MANIFEST.json": "e17bd2ebac99119b2a8e8e5d93d2df1192712862136909668844bd944e1b1254"
+      },
+      "source_model_xml_sha256": "bda92501b6513b1126b07c9c50947d889f5a6ebbd2b6f252baefaea317f2b4ef",
+      "derived_file": "PI0294-TRAIN-F0-001-T1.npz",
+      "derived_sha256": "689396d3fa99b3bc347d6d24cb00e2b8d4bd615ed5fb8680b5c8bd1d8c12fad4",
+      "cut_start_index": 0,
+      "cut_end_inclusive_index": 257,
+      "transport_start_s": 4.349999999999743,
+      "transport_end_s": 7.5499999999993905,
+      "cut_duration_s": 12.850000000000001,
+      "events": [
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": false,
+          "previous": "approach",
+          "stage": "align",
+          "time_s": 0.0
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": false,
+          "previous": "align",
+          "stage": "close",
+          "time_s": 1.450000000000001
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": true,
+          "previous": "close",
+          "stage": "verify_grasp",
+          "time_s": 2.2999999999999683
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": true,
+          "previous": "verify_grasp",
+          "stage": "lift",
+          "time_s": 2.6499999999999297
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "lift",
+          "stage": "carry",
+          "time_s": 4.349999999999743
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "carry",
+          "stage": "lower",
+          "time_s": 7.5499999999993905
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "lower",
+          "stage": "release",
+          "time_s": 9.049999999999692
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": false,
+          "previous": "release",
+          "stage": "withdraw",
+          "time_s": 10.150000000000059
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": false,
+          "previous": "withdraw",
+          "stage": "hold",
+          "time_s": 12.800000000000944
+        }
+      ],
+      "sample_command_parity": "EXACT_ALL_640",
+      "new_physics": 0,
+      "new_IK_queries": 0,
+      "tool_binding_summary": {
+        "source_target_functional_frames_verified": true,
+        "raw_model_kept_private": true
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T1",
+      "task": "T1",
+      "status": "PASS_EXTRACTED_ORIGINAL_COMMITTED_SOURCE",
+      "split": "TRAIN",
+      "observations": 641,
+      "unique_committed_rows": 640,
+      "original_H40_references": 80,
+      "source_numeric_sha256": "2a3ad5a3a9827f48be43d43f3043db5a64173f63da7d28328df796a3367e3fc8",
+      "raw_source_hashes": {
+        "TEACHER_EVENTS.json": "8314bb8b7008d7a1d5bcd9d70525dc1cb4f0a50185b60fc574ccaae2536601e6",
+        "samples.json": "b1caa76d25630d1ab8e1f56e30147d04fe636569689aae1a8d6a32cde2fc5e0f",
+        "references.json": "b6dedb972c1e37f5f2fb457308fce6d3f2ea5ba07c4f4ce6477c1bae8b4f3d19",
+        "SCORE.json": "7342cdcdd11002e83cd7be768210caba20950c9c37916f7621c34e344ad17313",
+        "AUDIT.json": "d7005587eb43440d6404a164d5ddc38beff7a7a207a9ec8b757271f3ca45984b",
+        "CARD.json": "5e5b94dafd254f8b0f5b1ebd7c2b8b892e0295a96e69682acc78e1dc1c165e2e",
+        "FILE_MANIFEST.json": "2d1bb5eac6cfd0ac6c6f2d5c9f3e8f9d6a215bccd0a6d38d5b80a49099e7ef65"
+      },
+      "source_model_xml_sha256": "42cddb49be40676e4ef8f1e00ca85bdd1c7f58bb73eaeba66d0a25795deb34ef",
+      "derived_file": "PI0294-TRAIN-F0-002-T1.npz",
+      "derived_sha256": "50e6abc96e689c57cc58cb25d08a176386254805288a8620eb7d0298092f5584",
+      "cut_start_index": 0,
+      "cut_end_inclusive_index": 257,
+      "transport_start_s": 4.349999999999743,
+      "transport_end_s": 7.5499999999993905,
+      "cut_duration_s": 12.850000000000001,
+      "events": [
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": false,
+          "previous": "approach",
+          "stage": "align",
+          "time_s": 0.0
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": false,
+          "previous": "align",
+          "stage": "close",
+          "time_s": 1.450000000000001
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": true,
+          "previous": "close",
+          "stage": "verify_grasp",
+          "time_s": 2.2999999999999683
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": false,
+          "physical_grasp": true,
+          "previous": "verify_grasp",
+          "stage": "lift",
+          "time_s": 2.6499999999999297
+        },
+        {
+          "actual_carry": false,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "lift",
+          "stage": "carry",
+          "time_s": 4.349999999999743
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "carry",
+          "stage": "lower",
+          "time_s": 7.5499999999993905
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": true,
+          "previous": "lower",
+          "stage": "release",
+          "time_s": 9.049999999999692
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": false,
+          "previous": "release",
+          "stage": "withdraw",
+          "time_s": 10.150000000000059
+        },
+        {
+          "actual_carry": true,
+          "actual_lift": true,
+          "physical_grasp": false,
+          "previous": "withdraw",
+          "stage": "hold",
+          "time_s": 12.800000000000944
+        }
+      ],
+      "sample_command_parity": "EXACT_ALL_640",
+      "new_physics": 0,
+      "new_IK_queries": 0,
+      "tool_binding_summary": {
+        "source_target_functional_frames_verified": true,
+        "raw_model_kept_private": true
+      }
+    }
+  ],
+  "source_manifest": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+  "statistics_identity_only": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "statistics_refitted": false,
+  "derived_trajectories_public": false,
+  "new_physics": 0
+}

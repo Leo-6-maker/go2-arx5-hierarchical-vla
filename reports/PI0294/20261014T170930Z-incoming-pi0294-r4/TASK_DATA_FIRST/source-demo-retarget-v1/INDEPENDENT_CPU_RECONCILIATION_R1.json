@@ -1,0 +1,199 @@
+{
+  "status": "PASS_INDEPENDENT_BOUNDED_SOURCE_ADMISSION_FAIL_RECONCILIATION",
+  "source_sha": "544abbe48e858fff8c6cf3d5ab14964eee057a65",
+  "superseded_aggregation_sha256": "8a2c659a9bc32260b72fb7a1541bf4586e9a96379adf405b4877529e12a4614b",
+  "original_audit_retained": true,
+  "erratum": "A legal contact endpoint alone is not an approach/contact pair. Original audit flagged any endpoint witness, including correctly accepted contacts.",
+  "endpoint_cases": [
+    {
+      "condition": "SDR_CPU_T1_0",
+      "endpoint": "approach",
+      "original_legal_goals": 0,
+      "independent_native_legal_witnesses": 0,
+      "unexpected_witness": false,
+      "response_sha256": "3b87f5c200f8223dc1436b2d06adf5adbc0c25d77d7e80b00ae878876a96c0e9"
+    },
+    {
+      "condition": "SDR_CPU_T1_0",
+      "endpoint": "contact",
+      "original_legal_goals": 1,
+      "independent_native_legal_witnesses": 10,
+      "unexpected_witness": false,
+      "response_sha256": "8f8b08fac8efd0b0c94bb88ed476f07c9d345990b6ae0b5a78a7ef9e0cde4cc9"
+    },
+    {
+      "condition": "SDR_CPU_T1_1",
+      "endpoint": "approach",
+      "original_legal_goals": 0,
+      "independent_native_legal_witnesses": 0,
+      "unexpected_witness": false,
+      "response_sha256": "6303d4ca45263e02c0fd6379009a60c6990d061cea5ed5a7dc4301f32d769caf"
+    },
+    {
+      "condition": "SDR_CPU_T1_1",
+      "endpoint": "contact",
+      "original_legal_goals": 1,
+      "independent_native_legal_witnesses": 10,
+      "unexpected_witness": false,
+      "response_sha256": "47ca4b29f20f5f3ca21d0b037327b0808fe64711188bfb1512b08797c9cd2414"
+    },
+    {
+      "condition": "SDR_CPU_T1_2",
+      "endpoint": "approach",
+      "original_legal_goals": 0,
+      "independent_native_legal_witnesses": 0,
+      "unexpected_witness": false,
+      "response_sha256": "5ecd2794aae4f4f0983a1232bce79f6e40de615f106c5932c7077d0f4b9dd325"
+    },
+    {
+      "condition": "SDR_CPU_T1_2",
+      "endpoint": "contact",
+      "original_legal_goals": 1,
+      "independent_native_legal_witnesses": 10,
+      "unexpected_witness": false,
+      "response_sha256": "63734ac9086aed487edd48486e78d31350e54302f0231dc2f809ec39a25526be"
+    }
+  ],
+  "pair_cases": [
+    {
+      "condition": "SDR_CPU_T1_0",
+      "original_pairs": 0,
+      "both_endpoints_have_native_witness": false,
+      "unexpected_pair": false
+    },
+    {
+      "condition": "SDR_CPU_T1_1",
+      "original_pairs": 0,
+      "both_endpoints_have_native_witness": false,
+      "unexpected_pair": false
+    },
+    {
+      "condition": "SDR_CPU_T1_2",
+      "original_pairs": 0,
+      "both_endpoints_have_native_witness": false,
+      "unexpected_pair": false
+    }
+  ],
+  "time_cases": [
+    {
+      "id": "PI0294-TRAIN-F0-000-T2",
+      "task": "T2",
+      "status": "TIME_INFEASIBLE_WITH_ZERO_ENTRY_LOWER_BOUND",
+      "independent_min_uniform_slowdown": 3.126596564327011,
+      "independent_zero_entry_duration_s": 50.494534513881234,
+      "duration_cap_s": 28,
+      "raw_max_linear_speed_m_s": 0.18759579385962066,
+      "raw_max_angular_speed_rad_s": 0.36736935733240283,
+      "source_before_retarget_max_linear_m_s": 0.18638557458002,
+      "peak_source_indices": [
+        375,
+        376
+      ],
+      "peak_is_reference_boundary": true,
+      "source_vs_target_functional_tool_matrix_max_abs": 1.4029847342526345e-16,
+      "maximum_saved_pose_reconstruction_abs": 0.0
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T2",
+      "task": "T2",
+      "status": "TIME_INFEASIBLE_WITH_ZERO_ENTRY_LOWER_BOUND",
+      "independent_min_uniform_slowdown": 3.2449611444934465,
+      "independent_zero_entry_duration_s": 53.86635499859122,
+      "duration_cap_s": 28,
+      "raw_max_linear_speed_m_s": 0.19469766866960678,
+      "raw_max_angular_speed_rad_s": 0.4293975983223548,
+      "source_before_retarget_max_linear_m_s": 0.19255997190953938,
+      "peak_source_indices": [
+        367,
+        368
+      ],
+      "peak_is_reference_boundary": true,
+      "source_vs_target_functional_tool_matrix_max_abs": 6.909223266207196e-17,
+      "maximum_saved_pose_reconstruction_abs": 0.0
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T2",
+      "task": "T2",
+      "status": "TIME_INFEASIBLE_WITH_ZERO_ENTRY_LOWER_BOUND",
+      "independent_min_uniform_slowdown": 3.750475495446708,
+      "independent_zero_entry_duration_s": 61.88284567487068,
+      "duration_cap_s": 28,
+      "raw_max_linear_speed_m_s": 0.22502852972680246,
+      "raw_max_angular_speed_rad_s": 0.4487630546234624,
+      "source_before_retarget_max_linear_m_s": 0.22246078409230116,
+      "peak_source_indices": [
+        383,
+        384
+      ],
+      "peak_is_reference_boundary": true,
+      "source_vs_target_functional_tool_matrix_max_abs": 1.1445035186157965e-16,
+      "maximum_saved_pose_reconstruction_abs": 0.0
+    },
+    {
+      "id": "PI0294-TRAIN-F0-000-T1",
+      "task": "T1",
+      "status": "NEEDS_ENTRY_ROUTE",
+      "independent_min_uniform_slowdown": 1.3773923983932796,
+      "independent_zero_entry_duration_s": 17.699492319353645,
+      "duration_cap_s": 28,
+      "raw_max_linear_speed_m_s": 0.08264354390359678,
+      "raw_max_angular_speed_rad_s": 0.3382165345963679,
+      "source_before_retarget_max_linear_m_s": 0.08264354390359568,
+      "peak_source_indices": [
+        167,
+        168
+      ],
+      "peak_is_reference_boundary": true,
+      "source_vs_target_functional_tool_matrix_max_abs": 4.16333636302385e-17,
+      "maximum_saved_pose_reconstruction_abs": 0.0
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T1",
+      "task": "T1",
+      "status": "NEEDS_ENTRY_ROUTE",
+      "independent_min_uniform_slowdown": 1.3438455093611619,
+      "independent_zero_entry_duration_s": 17.268414795290933,
+      "duration_cap_s": 28,
+      "raw_max_linear_speed_m_s": 0.08063073056166971,
+      "raw_max_angular_speed_rad_s": 0.33294460120296465,
+      "source_before_retarget_max_linear_m_s": 0.08063073056166847,
+      "peak_source_indices": [
+        167,
+        168
+      ],
+      "peak_is_reference_boundary": true,
+      "source_vs_target_functional_tool_matrix_max_abs": 7.627281194655019e-17,
+      "maximum_saved_pose_reconstruction_abs": 0.0
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T1",
+      "task": "T1",
+      "status": "NEEDS_ENTRY_ROUTE",
+      "independent_min_uniform_slowdown": 1.356466699237882,
+      "independent_zero_entry_duration_s": 17.430597085206784,
+      "duration_cap_s": 28,
+      "raw_max_linear_speed_m_s": 0.08138800195427291,
+      "raw_max_angular_speed_rad_s": 0.33463196397054296,
+      "source_before_retarget_max_linear_m_s": 0.08138800195427388,
+      "peak_source_indices": [
+        167,
+        168
+      ],
+      "peak_is_reference_boundary": true,
+      "source_vs_target_functional_tool_matrix_max_abs": 5.579757409888289e-17,
+      "maximum_saved_pose_reconstruction_abs": 0.0
+    }
+  ],
+  "saved_CLIK_initializations_reused": 96,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_physics": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "search_ledger_sha256": "c0a56c0bb6fc1b8a55fa53732f2e5701496cd3fae3936e9faafb8c62fb6b5103",
+  "unresolved_native_legal_witness": false,
+  "global_IK_infeasibility_proven": false,
+  "WBC_task_failure_proven": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
