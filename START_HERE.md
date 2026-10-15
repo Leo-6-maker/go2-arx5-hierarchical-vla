@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**自有示范重定位完整方案已获明确采用：** [源绑定人类采用收据](reports/PI0294/design/SOURCE_DEMO_RETARGET_HUMAN_ADOPTION_V1.json)，固定采用e7d6537facc3c670cdd197e64302eac913965534，原窗口/父账不重置。执行从真实源提交片段/工具映射接续，WBC、安全、原评分和旧FAIL保留；采用不代表新CPU/规划/物理已PASS。下列“待采用”是此前发布阶段记录。
+
 **固定小样本已下载；自有成功片段重定位方案已准备、待采用：** [实际下载/来源资格](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-preparation-v1/PREPARATION_REPORT.md) · [完整有界方案](docs/protocols/PI0294_SUCCESS_DEMO_SEGMENTS_TO_FULLBODY_SEED_DRAFT_V1.md) · [机器卡](reports/PI0294/design/SOURCE_DEMO_RETARGET_TASK_CARD_V1.json) · [采用prompt](docs/handover/2026-10-15/SOURCE_DEMO_RETARGET_ADOPTION_PROMPT.md)。四payload共338566923字节完整SHA通过，6条原TRAIN源身份/成功/成员确认；外部包仅作参考库，不阻塞自有来源。拟直接T2/T1各32秒，≤4启动/42012积分/1282双RGB/14400CPU秒，168bundle及内部IK/RRT/dense逐项封顶，沿原截止/累计余额、冻结WBC/安全/评分，不再修FSM阈值。**本次仅下载/准备已获准并完成；新重定位搜索/物理未授权未执行，launch_allowed=false，运行适配尚未实施。** 原MP-S2真实结果与未启动辅助槽保持，采用新方案后才在停止边界独占接续，旧FAIL不改。
 
 **MP-S2已进入真实物理，当前PARTIAL（并非仍待采用）：** [实际结果与独立CPU审计](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/maniskill-search-v2/PROGRESS.md)。16CPU项通过；T1原首帧无合法规划对，T2完成12秒但无接触，短里程碑有效FAIL；两完整AUTO均未准入。原记录器故障保留，241组RGB从相同保存实际状态恢复并收费；真人辅助尚未启动。新成功整机seed/训练均0，旧FAIL/窗口/预算不改。另已完成[公开成功示范来源与重定位审计](docs/reviews/2026-10-15_SUCCESSFUL_DEMO_SOURCE_AND_RETARGET_AUDIT.md)，锁定官方metadata/revision/hash，未下载轨迹或启动新来源实验。以下“待采用/未实施”保留历史阶段措辞。
