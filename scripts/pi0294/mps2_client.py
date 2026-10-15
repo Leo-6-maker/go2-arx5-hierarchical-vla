@@ -77,6 +77,9 @@ class Client(OriginalClient):
                 self.context['route']=route
                 response.update(request_sha256=sha(request),response_sha256=sha(request) if hold else sha(folder/f'ROUTE-{route:02d}.private.json'),
                     FK_error=[0.,0.] if hold else error)
+                slots=read(self.series/'SEARCH_LEDGER.json')['bundles'][payload['bundle_key']]['slots']
+                response.update(IK_calls=sum(k.startswith('IK/') and v['state']=='COMPLETE' for k,v in slots.items()),
+                    RRT_calls=sum(k.startswith('RRT/') and v['state']=='COMPLETE' for k,v in slots.items()))
                 try:poses,certificate=self.cartesian(state,response,speed=.04 if stage in ('contact','push','detach') and packages[0]['task']=='T2' else .06,
                         attached=attached,stage=stage)
                 except PlannerFailure as e:

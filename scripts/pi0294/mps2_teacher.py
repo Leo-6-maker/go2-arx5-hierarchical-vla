@@ -82,8 +82,10 @@ class Teacher(OriginalTeacher):
             self.selected=next(p for p in self.packages if p['index']==selected)
             if self.card['task']=='T1':self.rotation=self.selected['contact'][:3,:3].copy()
             self.initial_distance=float(np.linalg.norm(self.selected['approach'][:3,3]-self.initial_tcp[:3,3]))
+        self.geometry=alignment(self.engine,state,self.selected)
         self.query_index+=1
         self.last_plan=dict(schema='MPS2_ACTUAL_STATE_PLAN',selected_candidate=selected,stage=self.stage,
-            query_index=self.query_index-1,certificate=certificate,physics_steps_in_planning=0,selected_MPC_policy_consumption='UNKNOWN')
+            target=self.target(state)[0].tolist(),query_index=self.query_index-1,certificate=certificate,
+            physics_steps_in_planning=0,selected_MPC_policy_consumption='UNKNOWN')
         return dict(poses=poses,opening=np.full(40,opening),BASE_soft_velocity=np.zeros((40,3)),stage=self.stage,
             persistent=self.last_plan,geometry=self.geometry,milestones=dict(self.milestones),stop_reason=None,version=VERSION)

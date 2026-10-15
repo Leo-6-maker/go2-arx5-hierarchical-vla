@@ -36,7 +36,11 @@ def require_card(root,manifest,episode):
     c=next((c for c in cards() if c['id']==episode),None)
     if c is None:raise PermissionError('MPS2_UNKNOWN_CONDITION')
     cpu=read(p/'CPU_ADMISSION.json')
-    if cpu['source_sha']!=manifest['code']['vla_commit'] or cpu['checks_passed']!=16:raise PermissionError('MPS2_ACTUAL_CPU_CONTRACT_REQUIRED')
+    if cpu['checks_passed']!=16:raise PermissionError('MPS2_ACTUAL_CPU_CONTRACT_REQUIRED')
+    if cpu['source_sha']!=manifest['code']['vla_commit']:
+        rebound=read(p/'CPU_EXECUTION_BINDING.json')
+        if (rebound['source_sha']!=manifest['code']['vla_commit'] or rebound['original_CPU_sha256']!=sha(p/'CPU_ADMISSION.json')
+                or rebound['status']!='PASS_SAME_INPUT_AND_FIXED_CORE_NO_REQUERY'):raise PermissionError('MPS2_ACTUAL_CPU_SOURCE_BINDING_REQUIRED')
     if episode.startswith('MPS2_DEV_'):
         row=next(x for x in cpu['start_results'] if x['task']==c['task'])
         if row['status']!='PASS_VALID_PLANNED_H40':raise PermissionError('MPS2_OWN_START_PATH_REQUIRED')
