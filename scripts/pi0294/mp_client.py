@@ -17,11 +17,28 @@ def root_pose(q):
     p=np.eye(4);p[:3,3]=q[:3];p[:3,:3]=quat_to_matrix(np.r_[q[4:7],q[3]]);return p
 
 
+def check_coverage(model,binding):
+    if binding['leg_joint_count']!=12 or binding['native_robot_bodies']!=model.nbody-2:
+        raise ValueError('FULL_NATIVE_BODY_LEG_COLLISION_COVERAGE_REQUIRED')
+    expected=set(np.flatnonzero((model.geom_contype|model.geom_conaffinity)&(model.geom_bodyid!=0)&(model.geom_bodyid!=model.nbody-1)))
+    if {r['native_geom'] for r in binding['geometry_map']}!=expected:
+        raise ValueError('NATIVE_COLLISION_GEOMETRY_MISSING')
+
+
+def contact_permitted(names,distance,stage):
+    from .task_contacts import allowed
+    permitted=allowed(*names)
+    task_pad='task_cube_geom' in names and any(n in ('task_left_pad','task_right_pad') for n in names)
+    if task_pad and stage in ('approach','align'):return False
+    return bool(permitted and not (task_pad and distance<-.004))
+
+
 class Client:
     def __init__(self,root,engine):
         import mujoco
         self.root=Path(root);self.series=self.root/FOLDER;self.engine=engine;self.model=engine.model
         self.assets=self.series/'planning-assets';self.binding=read(self.assets/'ASSET_BINDING.private.json')
+        check_coverage(self.model,self.binding)
         self.arm_j=np.array([mujoco.mj_name2id(self.model,mujoco.mjtObj.mjOBJ_JOINT,'x5_joint'+str(i)) for i in range(1,7)])
         self.arm_q=self.model.jnt_qposadr[self.arm_j];self.arm_v=self.model.jnt_dofadr[self.arm_j]
         self.native_data=mujoco.MjData(self.model);self.site=engine.tcp
@@ -30,6 +47,8 @@ class Client:
     def payload(self,state,target,stage,seed,*,attached=False,inspect=False,hold=False):
         import mujoco
         m,d=self.model,self.engine.data;objects=[];pairs=[]
+        if np.asarray(target).shape!=(4,4) or not np.isfinite(target).all():raise ValueError('FINITE_TARGET_REQUIRED')
+        if attached and not state['native_grasp']:raise ValueError('PHYSICAL_GRASP_REQUIRED_FOR_ATTACHED_COLLISION')
         for g in range(m.ngeom):
             b=mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_BODY,int(m.geom_bodyid[g]))
             if (m.geom_bodyid[g]!=0 and b!='task_cube') or not (m.geom_contype[g] or m.geom_conaffinity[g]):continue
@@ -66,6 +85,7 @@ class Client:
             subprocess.run([str(self.series/'planner-env/bin/python'),'-m','scripts.pi0294.mp_backend',
                 '--request',str(req),'--output',str(out)],check=True,timeout=30,stdout=log,stderr=subprocess.STDOUT,env=env)
         result=read(out)
+        if result['status']=='ENGINEERING_BACKEND_EXCEPTION':raise RuntimeError(result['error']+'\n'+result['trace'])
         if result['input_sha256']!=sha(req):raise ValueError('CROSS_PROCESS_INPUT_IDENTITY')
         fk=np.asarray(result.get('initial_fk_world',state['tcp']))
         difference=[float(np.linalg.norm(fk[:3,3]-state['tcp'][:3,3])),float(geodesic_angle(fk[:3,:3],state['tcp'][:3,:3]))]
@@ -138,10 +158,7 @@ class Client:
             mujoco.mj_forward(m,d)
             for c in d.contact:
                 names=[mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,g) for g in (c.geom1,c.geom2)]
-                permitted=allowed(*names)
-                task_pad='task_cube_geom' in names and any(n in ('task_left_pad','task_right_pad') for n in names)
-                if task_pad and stage in ('approach','align'):permitted=False
-                if not permitted or (task_pad and c.dist<-.004):raise PlannerFailure('DENSE_NATIVE_COLLISION:'+str(names),{})
+                if not contact_permitted(names,c.dist,stage):raise PlannerFailure('DENSE_NATIVE_COLLISION:'+str(names),{})
             total+=1
         return dict(points=total,max_native_IK_position_residual_m=max_pos,max_native_IK_rotation_residual_rad=max_rot,
             physics_steps=0,actual_state_modified=False,scope='CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS')

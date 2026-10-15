@@ -22,6 +22,9 @@ def require_adoption(root,manifest):
     root=Path(root);p=root/FOLDER;a=read(p/'HUMAN_ADOPTION.json');s=read(p/'SERIES_LEDGER.json')
     if sha(p/'HUMAN_ADOPTION.json')!=AUTHORITY or not a['authorizes_execution'] or a['budget_reset']:
         raise PermissionError('EXPLICIT_FIXED_MANISKILL_ADOPTION_REQUIRED')
+    for local,source in (('TASK_CARD.json','MANISKILL_PLANNING_COMPONENT_TASK_CARD_V1.json'),
+            ('FIXED_CONDITIONS.json','MANISKILL_PLANNER_FIXED_CONDITIONS_V1.json'),('SOURCE_LOCK.json','MANISKILL_PLANNER_SOURCE_LOCK_V1.json')):
+        if sha(p/local)!=a['source_bound_files'][source]:raise PermissionError('ADOPTED_MANISKILL_CARD_CHANGED')
     if time.time()>=a['execution_work_deadline_epoch']:raise PermissionError('MANISKILL_ORIGINAL_WORK_DEADLINE')
     if (p/'SERIES_CLOSED.json').exists():raise PermissionError('MANISKILL_SERIES_TERMINAL_PRESERVED')
     if (p/'NATIVE_SAFETY_FAIL.json').exists():raise PermissionError('MANISKILL_NATIVE_SAFETY_FAIL_PRESERVED')

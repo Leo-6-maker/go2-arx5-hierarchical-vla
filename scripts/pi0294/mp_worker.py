@@ -305,6 +305,9 @@ def run(root,native,startup,episode):
             intent=dict(index=len(observed),sequence=sequence,actual_observation_time_s=packet['time_s'],source_mpc_s=source,
                 wire_sha256=hashlib.sha256(wire.encode()).hexdigest(),action_EEF13=action.tolist(),teacher_stage=teacher.stage,
                 actual_BASE_mount=mount.tolist(),actual_BASE_planar_velocity=measured.tolist(),base_valid=True)
+            from .mp_window import SavedWindow
+            window=SavedWindow(action);intent['scheduled_prefix_EEF13']=window.take(8).tolist()
+            intent['saved_window_after_scheduled_prefix']=window.snapshot()
             intent['canonical_safety_gate']=gate.as_dict()
             intent.update(prefix_points=8,execute_physics_steps=200,record_every_physics_steps=25,
                 persistent=plan['persistent'],geometry=plan['geometry'],milestones=plan['milestones'],
