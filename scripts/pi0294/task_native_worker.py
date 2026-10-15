@@ -58,6 +58,8 @@ def run(root,native,startup,episode):
     from rclpy.qos import qos_profile_sensor_data,QoSProfile,DurabilityPolicy
     from rosidl_runtime_py.convert import message_to_ordereddict
     from std_msgs.msg import String
+    from nav_msgs.msg import Odometry
+    from sensor_msgs.msg import JointState
     from ocs2_msgs.msg import MpcObservation
     from .task_plant import xml_scene,check_frozen_robot
     from .task_plan import pilot_cards
@@ -106,6 +108,7 @@ def run(root,native,startup,episode):
     ledger['main_starts']+=1;ledger['main_integrations']+=20000;ledger['RGB_pairs']+=641
     ledger['CPU_reservations'][ticket['stage']]=ticket;write(parent/'R4_RESOURCE_LEDGER.json',ledger);owner.close()
     os.sched_setaffinity(0,set(cpus));out.mkdir();(out/'images').mkdir()
+    resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     (out/'tmp').mkdir();(out/'ros-logs').mkdir()
     os.environ.update(TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST')
     write(out/'CARD.json',card);write(out/'START.json',dict(ticket,engineering_attempt=engineering_attempt,source_sha=manifest['code']['vla_commit'],WBC_parameters_changed=False))
@@ -134,6 +137,8 @@ def run(root,native,startup,episode):
             latest[key]=msg;counts[key]=counts.get(key,0)+1
             ros_raw.write(json.dumps(dict(kind=key,monotonic_s=time.monotonic(),msg=message_to_ordereddict(msg)))+'\n')
         for key,topic,cls,qos in (
+            ('odom','/go2_x5/slam/odom_mocap',Odometry,qos_profile_sensor_data),
+            ('arm','/go2_x5/arm/state',JointState,qos_profile_sensor_data),
             ('ee','/go2_x5/ee/state',MpcObservation,10),('observation','/mobile_manipulator_mpc_observation',MpcObservation,10),
             ('mode','/go2_x5/arm/mode/state',String,QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))):
             subs.append(node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos))
@@ -175,7 +180,7 @@ def run(root,native,startup,episode):
         launch([str(clock/'go2_x5_ocs2_node'),*params],'controller')
         launch([sys.executable,'-m','scripts.pi0294.native_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],
             'planner',dict(PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=episode))
-        if not spin(30,lambda:counts.get('ee',0)>5):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
+        if not spin(30,lambda:counts.get('odom',0)>10 and counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
         publish(modes,'HOLD')
         if not spin(3,lambda:control().get('arm_mode')=='HOLD' and control().get('fsm')=='RLFSMStateRLLocomotion'):
             raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
@@ -183,7 +188,7 @@ def run(root,native,startup,episode):
         write(out/'BEFORE_FIRST_INTEGRATION.json',control());publish(keys,'ENTER')
         if not spin(35,lambda:control().get('sim_time_s',0)>=5.):raise RuntimeError('BOUNDED_NATIVE_WARMUP_UNAVAILABLE')
         publish(modes,'WBC')
-        if not spin(20,lambda:latest.get('mode',String()).data=='WBC' and counts.get('observation',0)>5):raise RuntimeError('NATIVE_WBC_MODE_UNAVAILABLE')
+        if not spin(20,lambda:latest.get('mode',String()).data=='WBC' and counts.get('observation',0)>5 and counts.get('ee',0)>3):raise RuntimeError('NATIVE_WBC_MODE_UNAVAILABLE')
         journal=(out/'state.bin.journal').open('rb')
         def available():
             nonlocal journal_offset
