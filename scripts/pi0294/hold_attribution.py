@@ -79,8 +79,8 @@ def strict_snapshots(root,model_path):
 def main(root,model_path):
     import mujoco as mj
     root=Path(root);validate_scope(root)
-    with cpu_stage(root,'R4B_D0_FK_TORQUE_ATTRIBUTION',cores=1,cpu_s_cap=1200):
-        p=root/'fullbody/native-hold-01';out=root/'attribution/R4B_D0';out.mkdir(parents=True,exist_ok=True)
+    with cpu_stage(root,'R4B_D0_SOURCE_CAUSAL_R1',cores=1,cpu_s_cap=1200):
+        p=root/'fullbody/native-hold-01';out=root/'attribution/R4B_D0_CAUSAL_R1';out.mkdir(parents=True,exist_ok=False)
         original=read(p/'CPU_VERDICT.json');task=read(p/'TASK_START.json')
         for name,h in original['original_array_hashes'].items():
             if name in ('physics.jsonl','control.jsonl','ros.jsonl','planner.jsonl','TASK_START.json'):
@@ -131,6 +131,8 @@ def main(root,model_path):
         stream=(out/'POSE_CHAIN_ROWS.private.jsonl').open('w')
         for s in samples:
             t=s['sim_time_s'];q=np.array(s['qpos']);ci=np.searchsorted(ct,t+1e-10,side='right')-1;ri=np.searchsorted(rt,t+1e-10,side='right')-1;pi=np.searchsorted(pt,s['monotonic_s'],side='right')-1
+            while ci>=0 and controls[ci]['monotonic_s']>s['monotonic_s']:ci-=1
+            while ri>=0 and requests[ri]['monotonic_s']>s['monotonic_s']:ri-=1
             if min(ci,ri,pi)<0:continue
             c=controls[ci];request=requests[ri]
             pi=np.searchsorted(pt,request['monotonic_s'],side='right')-1
@@ -185,7 +187,7 @@ def main(root,model_path):
             R1_R2='CAUSAL_OWNER_RECEIVED_POLICY_CANDIDATE_AT_ARM_PREVIEW_TIME_NOT_PROVEN_CONSUMED',R3='OBSERVED_REQUEST_ZOH',R4='OBSERVED_NATIVE_TARGET_ZOH_WITH_REPORTED_AGE',
             native_applied_dq='UNKNOWN_NOT_RECORDED',native_control_cycle_state='PUBLISHED_FLOAT_SENSOR_AT_MATCHING_SIM_STAMP',
             dynamics_phase='FORCES_AND_QACC_PRE_INTEGRATION_QPOS_POST_INTEGRATION_BY_0.002s',exact_dynamics_balance='UNKNOWN_PRESTEP_QPOS_MISSING',
-            alignment='SOURCE_TIMESTAMPS_AND_CAUSAL_OWNER_RECEIPT_ZOH_NO_FITTED_TIME_SHIFT',ages_control_request_policy_s=summary(ages),
+            alignment='SOURCE_TIMESTAMPS_AND_CAUSAL_OWNER_RECEIPT_FOR_CONTROL_REQUEST_POLICY_ZOH_NO_FITTED_TIME_SHIFT',ages_control_request_policy_s=summary(ages),
             source_model_frame_closure=summary(closure),plan_request_match_abs_rad=summary(plan_matches),candidate_plan_matches_2e_6_rad=int(np.sum(np.array(plan_matches)<=2e-6)),
             total_candidate_plan_samples=len(plan_matches),native_gravity='RECONSTRUCTED_ZERO_VELOCITY_AT_SAVED_POST_STATE',new_physics=0,new_render=0,new_model_queries=0)
         write(out/'SIGNAL_COVERAGE_AND_ALIGNMENT.json',coverage)
