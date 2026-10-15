@@ -62,6 +62,10 @@ def physics(root,episode):
         reference.append(h40[0][0] if i==0 else h40[(i-1)//8][i-intents[(i-1)//8]['index']])
     first_state=actual.update(packets[0]);entry_binding=read(folder/'ACTUAL_ENTRY_BINDING.json');warm=p/'requests'/(episode+'_WARMUP')/'0000';warm_result=read(warm/'FINAL.private.json');route=read(warm/f"ROUTE-{warm_result['route']:02d}.private.json")
     client=OriginalClient(root,actual);entry=dict(time=np.asarray(route['time'])*warm_result['certificate']['uniform_time_scale'],poses=client.fk_path(first_state,np.asarray(route['position'])))
+    if card.get('entry_timing_version')=='QUANTIZED_NATIVE_SLERP_R1':
+        from .night_r1_entry import retime
+        entry=retime(entry,np.asarray(route['position']))
+        assert entry['entry_timing']==entry_binding['entry_timing']
     record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==entry_binding['source_id']);program=load(root,record);combined=with_entry(program,entry)
     with np.load(folder/'ACTUAL_COMBINED_PROGRAM.npz',allow_pickle=False) as original_combined:
         assert all(np.array_equal(combined[k],original_combined[k]) for k in combined)

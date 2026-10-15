@@ -55,6 +55,9 @@ class Teacher:
             _,certificate,_=self.client.bundle(state,[selected],'approach',self.card['id']+'_WARMUP',0)
             route=self.client.last_route;t=np.asarray(route['time'])*certificate['uniform_time_scale'];q=np.asarray(route['position'])
             self.entry=dict(time=t,poses=self.client.fk_path(state,q))
+            if self.card.get('entry_timing_version')=='QUANTIZED_NATIVE_SLERP_R1':
+                from .night_r1_entry import retime
+                self.entry=retime(self.entry,q)
             if self.card.get('entry_design_file'):
                 from .night_r1_entry import phases
                 self.entry=phases(self.entry,route,certificate)
@@ -64,7 +67,7 @@ class Teacher:
             np.savez_compressed(folder/'ACTUAL_COMBINED_PROGRAM.npz',**self.combined)
             write(folder/'ACTUAL_ENTRY_BINDING.json',dict(source_id=self.record['id'],source_program_sha256=self.record['sha256'],actual_warmup_certificate=certificate,
                 entry_duration_s=float(t[-1]),activity_duration_s=self.record['active_duration_s'],entry_and_activity_s=float(self.combined['time'][-1]),actual_packet_time_s=float(state['time_s']),base_intent=[0,0,0],
-                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s')))
+                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s'),entry_timing=self.entry.get('entry_timing')))
         at=float(state['time_s'])+np.arange(40)*.05;poses,opening=sample(self.combined,at);stages=[self.stage_at(t) for t in at]
         attached=bool(self.card['task']=='T1' and state['native_grasp'] and self.stage in ('lift','carry','lower'))
         package=dict(selected,target=poses[0]);validated,cert,_=self.client.bundle(state,[package],self.stage,self.condition,self.query_index,
