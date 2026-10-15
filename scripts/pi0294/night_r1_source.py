@@ -50,7 +50,19 @@ def local_schedule(poses, q, original_time):
         for i in bad:factors[i:i+2]=np.maximum(factors[i:i+2],np.sqrt(ratios[i])*(1+1e-6))
         dt*=factors
     else:raise ValueError('NIGHT_QUANTIZED_JOINT_TIME_REJECT')
-    return np.r_[0.,np.cumsum(dt)],dict(changed_intervals=int(np.count_nonzero(dt>before+1e-10)),
-        original_duration_s=float(before.sum()),duration_s=float(dt.sum()),
-        max_joint_velocity=float(np.max(np.abs(velocity))),max_joint_acceleration=float(np.max(np.abs(acceleration))),
-        spatial_knots_changed=False,gripper_values_changed=False,uniform_global_drag=False,iterations=iteration+1,quantized_iterations=quantized_iteration+1)
+    changed=dt>before+1e-10;attempts=[];selected=None
+    for factor in (1.,1.25,1.5,2.):
+        candidate=np.ceil(np.where(changed,dt*factor,before)/.05-1e-10)*.05
+        knots=np.r_[0.,np.cumsum(candidate)];grid=np.arange(round(knots[-1]/.05)+1)*.05
+        witness=np.stack([np.interp(grid,knots,q[:,j]) for j in range(q.shape[1])],axis=1)
+        vel=np.diff(witness,axis=0)/.05;acc=np.diff(vel,axis=0)/.05
+        proof=dict(factor=factor,duration_s=float(knots[-1]),max_joint_velocity=float(np.abs(vel).max()),max_joint_acceleration=float(np.abs(acc).max()),
+            status='PASS_SAVED_PREFIX_WITNESS_ONLY' if np.abs(vel).max()<=.7*(1+1e-10) and np.abs(acc).max()<=1*(1+1e-10) else 'QUANTIZED_RESAMPLE_RATE_REJECT')
+        attempts.append(proof)
+        if selected is None and proof['status']=='PASS_SAVED_PREFIX_WITNESS_ONLY':selected=(knots,proof)
+    if selected is None:raise ValueError('R1_FOUR_FIXED_LOCAL_TIMING_CANDIDATES_REJECT:'+str(attempts))
+    knots,chosen=selected
+    return knots,dict(changed_intervals=int(changed.sum()),original_duration_s=float(before.sum()),duration_s=float(knots[-1]),
+        max_joint_velocity=chosen['max_joint_velocity'],max_joint_acceleration=chosen['max_joint_acceleration'],
+        fixed_factor_attempts=attempts,selected_factor=chosen['factor'],spatial_knots_changed=False,gripper_values_changed=False,
+        uniform_global_drag=False,iterations=iteration+1,quantized_iterations=quantized_iteration+1)

@@ -13,6 +13,7 @@ class Client(OriginalClient):
         self.old_series=self.series;self.series=Path(root)/FOLDER
         self.context=None
         self.timing_changed=False
+        self.executed_reference_history=[]
 
     def bundle(self,state,packages,stage,condition,index,*,attached=False,hold=False,frozen_poses=None,frozen_stages=None):
         from scripts.pi0292.durable import write
@@ -183,6 +184,13 @@ class Client(OriginalClient):
         from scripts.pi0292.durable import write
         from .source_retime_v2_analysis import so3_angles
         if poses.shape!=(40,4,4) or len(stages)!=40:raise ValueError('SDR3_FROZEN_H40_SHAPE')
+        active_poses=poses.copy()
+        history=self.executed_reference_history[-2:]
+        if history and len(history)!=2:raise ValueError('TWO_ACTUALLY_EXECUTED_REFERENCES_REQUIRED')
+        prefix=len(history)
+        if prefix:
+            if abs(history[-1]['native_end_time']-(5.+state['time_s']))>1e-8:raise ValueError('EXECUTED_REFERENCE_HISTORY_NOT_CURRENT_NATIVE_TICK')
+            poses=np.concatenate([np.stack([r['pose'] for r in history]),poses]);stages=[stages[0]]*prefix+list(stages)
         speed=np.linalg.norm(np.diff(poses[:,:3,3],axis=0),axis=1)/.05;angular=so3_angles(poses[:-1,:3,:3],poses[1:,:3,:3])/.05
         if max(speed.max()/.06,angular.max()/.3)>1+1e-10:raise PlannerFailure('FROZEN_SOURCE_RATE_REJECT',{})
         c=self.context;ledger=read(self.series/'SEARCH_LEDGER.json');slots=ledger['bundles'][c['key']]['slots'];slot=sum(k.startswith('DENSE/') for k in slots)
@@ -193,8 +201,8 @@ class Client(OriginalClient):
         cube=mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_JOINT,'task_cube_free');cqa=int(m.jnt_qposadr[cube]);points=iterations=0;qs=[];status='PASS';reason=None
         extended=np.concatenate([poses,poses[-1:]])
         try:
-            for tick in range(1001):
-                at=tick*.002;i=min(int(at/.05),39);fraction=(at-i*.05)/.05;points+=1
+            for tick in range((40+prefix)*25+1):
+                at=tick*.002;i=min(int(at/.05),39+prefix);fraction=(at-i*.05)/.05;points+=1
                 target=np.eye(4);target[:3,3]=(1-fraction)*extended[i,:3,3]+fraction*extended[i+1,:3,3]
                 target[:3,:3]=quat_to_matrix(quat_slerp(matrix_to_quat(extended[i,:3,:3]),matrix_to_quat(extended[i+1,:3,:3]),fraction))
                 for iteration in range(5):
@@ -210,25 +218,27 @@ class Client(OriginalClient):
                 if attached:
                     obj=target@relative;d.qpos[cqa:cqa+3]=obj[:3,3];quat=matrix_to_quat(obj[:3,:3]);d.qpos[cqa+3:cqa+7]=np.r_[quat[3],quat[:3]]
                 mujoco.mj_forward(m,d)
-                for contact in d.contact:
+                for contact in d.contact if tick>=prefix*25 else ():
                     names=[mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,g) for g in (contact.geom1,contact.geom2)]
                     if not contact_permitted(names,contact.dist,stages[i]):raise PlannerFailure('FROZEN_SOURCE_NATIVE_COLLISION:'+str(names),{})
                 qs.append(d.qpos[self.arm_q].copy())
-            command_q=np.asarray(qs)[np.arange(40)*25];vel=np.diff(command_q,axis=0)/.05;acc=np.diff(vel,axis=0)/.05
+            command_q=np.asarray(qs)[np.arange(40+prefix)*25];vel=np.diff(command_q,axis=0)/.05;acc=np.diff(vel,axis=0)/.05
             if np.max(np.abs(vel))>.7*(1+1e-10):raise PlannerFailure('FROZEN_SOURCE_JOINT_SPEED',{})
             if np.max(np.abs(acc))>1.*(1+1e-10):raise PlannerFailure('FROZEN_SOURCE_JOINT_ACCELERATION',{})
         except PlannerFailure as e:status='FAIL';reason=str(e)
         except Exception as e:
             status='ENGINEERING_INCOMPLETE';reason=type(e).__name__+': '+str(e);raise
         finally:
-            np.savez_compressed(trace,joint_q=np.asarray(qs),poses=poses)
+            np.savez_compressed(trace,joint_q=np.asarray(qs)[prefix*25:],poses=active_poses,history_and_preview_joint_q=np.asarray(qs))
             proof=dict(status=status,reason=reason,points=points,local_IK_iterations=iterations,
                 installed_pose_values_changed=False,actual_state_modified=False,physics_steps=0,
                 frame_rate_Hz=500,joint_rate_certificate_grid_Hz=20,joint_velocity_limit=.7,joint_acceleration_limit=1.,
-                trace_sha256=sha(trace),input_sha256=sha(c['request']))
+                trace_sha256=sha(trace),input_sha256=sha(c['request']),actually_executed_history_points=prefix,
+                history_recomputed_in_current_root_and_branch=True,actual_qpos_is_not_command_history=True,
+                previous_reference_identities=[{k:r[k] for k in ('wire_sha256','prefix','native_step','native_end_time')} for r in history])
             write(path,proof);finish_internal(self.root,c['key'],'DENSE',slot,dict(status=status,points=points,local_IK_iterations=iterations))
         if status!='PASS':raise PlannerFailure(reason,proof)
-        return poses,dict(duration_s=2.,dense=proof,max_linear_speed=float(speed.max()),max_angular_speed=float(angular.max()),
+        return active_poses,dict(duration_s=2.,dense=proof,max_linear_speed=float(speed.max()),max_angular_speed=float(angular.max()),
             frozen_source_values_preserved=True,input_sha256=sha(c['request']),response_sha256=response['response_sha256'])
 
 

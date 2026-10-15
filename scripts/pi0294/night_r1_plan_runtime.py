@@ -64,7 +64,7 @@ def reserve_internal(root,key,kind,slot):
         path=root/FOLDER/'SEARCH_LEDGER.json';v=read(path);b=v['bundles'][key]
         if kind+'/'+str(slot) in b['slots']:raise PermissionError('R1_INTERNAL_SLOT_NO_REDRAW')
         limits={'IK':c.get('max_new_goal_IK_calls',12),'RRT':8,'DENSE':c.get('max_dense_windows',4)}
-        costs={'IK':{'goal_IK_calls':1,'CLIK_reserved':16},'RRT':{'RRT_calls':1},'DENSE':{'dense_reserved_points':1001,'local_IK_reserved':5005}}
+        costs={'IK':{'goal_IK_calls':1,'CLIK_reserved':16},'RRT':{'RRT_calls':1},'DENSE':{'dense_reserved_points':1101,'local_IK_reserved':5505}}
         caps=dict(goal_IK_calls=24000,CLIK_reserved=v['caps']['CLIK'],RRT_calls=v['caps']['RRT'],dense_reserved_points=v['caps']['static_or_dense_points'],local_IK_reserved=v['caps']['static_or_dense_points']*5)
         if not 0<=slot<limits[kind]:raise PermissionError('R1_PER_BUNDLE_'+kind+'_CAP')
         for k,n in costs[kind].items():
@@ -78,6 +78,7 @@ def finish_internal(root,key,kind,slot,actual):
     root=Path(root)
     with closing(resource_lock(root)):
         path=root/FOLDER/'SEARCH_LEDGER.json';v=read(path);r=v['bundles'][key]['slots'][kind+'/'+str(slot)]
+        if kind=='DENSE' and (actual.get('points',0)>r['capacity']['dense_reserved_points'] or actual.get('local_IK_iterations',0)>r['capacity']['local_IK_reserved']):raise ValueError('R1_ACTUAL_DENSE_COST_EXCEEDS_RESERVATION')
         if r['state']=='COMPLETE':
             if r['actual']!=actual:raise ValueError('R1_FIRST_INTERNAL_RESULT_CHANGED')
         else:r.update(state='COMPLETE',actual=actual,finished_epoch=time.time());write(path,v)
