@@ -20,7 +20,7 @@ double target[2];
 bool initialized=false,has_command=false;
 uint64_t steps=0,sequence=0;
 double opening=1.,expiry=-1.;
-const char *command_path=nullptr,*state_path=nullptr;
+const char *command_path=nullptr,*state_path=nullptr,*quota_path=nullptr;
 template<class T> void put(std::ostream& f,const T& value) {f.write(reinterpret_cast<const char*>(&value),sizeof(T));}
 void fail(const char* reason) {
  if(const char* p=std::getenv("GR00T_TASK_ERROR")){std::ofstream f(p,std::ios::app);f<<reason<<'\n';}
@@ -28,6 +28,7 @@ void fail(const char* reason) {
 }
 void initialize(const mjModel* m,const mjData* d) {
  command_path=std::getenv("GR00T_TASK_GRIPPER_COMMAND");state_path=std::getenv("GR00T_TASK_STATE");
+ quota_path=std::getenv("GR00T_TASK_STEP_QUOTA");
  if(!command_path || !state_path || m->nu!=20 || m->nq!=34 || m->nv!=32)std::abort();
  for(int i=0;i<2;++i) {
   const char* name=i?"task_right_slide":"task_left_slide";
@@ -37,6 +38,11 @@ void initialize(const mjModel* m,const mjData* d) {
   target[i]=d->qpos[m->jnt_qposadr[joint[i]]];
  }
  initialized=true;
+}
+uint64_t quota() {
+ uint64_t value=0;std::ifstream f(quota_path?quota_path:"");f>>value;
+ if(!f || value==0 || value>20000) {fail("INVALID_ACTUAL_STEP_QUOTA");return 0;}
+ return value;
 }
 void read_command(const mjData* d) {
  std::ifstream f(command_path,std::ios::binary);if(!f)return;
@@ -78,6 +84,8 @@ extern "C" void mj_step(const mjModel* m,mjData* d) {
  using Step=void(*)(const mjModel*,mjData*);
  static auto real=reinterpret_cast<Step>(dlsym(RTLD_NEXT,"mj_step"));if(!real)std::abort();
  if(!initialized)initialize(m,d);
+ const auto limit=quota();
+ if(!limit || steps>=limit) {fail("STEP_QUOTA_OVERRUN_REJECT");return;}
  read_command(d);
  for(int i=0;i<2;++i) {
   double q=d->qpos[m->jnt_qposadr[joint[i]]],dq=d->qvel[m->jnt_dofadr[joint[i]]];
@@ -87,4 +95,10 @@ extern "C" void mj_step(const mjModel* m,mjData* d) {
   d->ctrl[actuator[i]]=std::clamp(400*(target[i]-q)-3*dq,-8.,8.);
  }
  double before=d->time;real(m,d);if(d->time>before)++steps;record(m,d);
+ if(steps==limit) {
+  using Pause=void(*)(uint64_t);
+  static auto pause=reinterpret_cast<Pause>(dlsym(RTLD_DEFAULT,"GR00TTaskPause"));
+  if(!pause) {fail("EXACT_STEP_PAUSE_HOOK_MISSING");return;}
+  pause(steps);
+ }
 }

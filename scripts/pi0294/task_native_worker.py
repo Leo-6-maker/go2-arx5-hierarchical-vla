@@ -11,14 +11,14 @@ import os
 from pathlib import Path
 import resource
 import signal
-import struct
 import subprocess
 import sys
 import time
 import numpy as np
 from .task_capture_runtime import validate_entry,CUTOFF,read,sha
-from .task_state import ActualState,parse_state,write_gripper,read_state
+from .task_state import ActualState,write_gripper,read_state
 from .task_gripper_contract import VERSION,teacher_physical_fraction,require_working_target
+from .task_clock import require_pause,preinstall_clock_failure
 
 
 class FrameRecorder:
@@ -79,13 +79,14 @@ def run(root,native,startup,episode):
     out=root/'episodes'/episode;engineering_attempt=1
     while out.exists():
         prior=read(out/'RESULT.json')
-        if (prior.get('physics_charged',0) or prior.get('submitted_intents',0) or prior.get('native_stops')
-                or prior.get('status')!='ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE'):
+        predispatched=(not prior.get('physics_charged',0) and not prior.get('submitted_intents',0)
+            and not prior.get('native_stops') and prior.get('status')=='ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE')
+        if not (predispatched or preinstall_clock_failure(out)):
             raise FileExistsError('FIRST_PHYSICAL_ATTEMPT_EXISTS_NO_QUALITY_RETRY')
         engineering_attempt+=1
         if engineering_attempt>3:raise PermissionError('BOUNDED_PREDISPATCH_ENGINEERING_ATTEMPTS_EXHAUSTED')
         out=root/'episodes'/(episode+f'-engineering{engineering_attempt:02d}')
-    build_dir=root/'runtime/TASK_ADAPTER_BUILD_02';build=read(build_dir/'BUILD_RECEIPT.json')
+    build_dir=root/'runtime/TASK_ADAPTER_BUILD_03';build=read(build_dir/'BUILD_RECEIPT.json')
     for name,digest in build['binaries'].items():
         if sha(build_dir/(name+'.so'))!=digest:raise ValueError('TASK_ADAPTER_CHANGED')
     if sha(Path(__file__).with_name('task_actuation.cpp'))!=build['sources']['task_actuation']:
@@ -95,6 +96,11 @@ def run(root,native,startup,episode):
         if sha(native/path)!=digest:raise ValueError('FROZEN_NATIVE_SOURCE_CHANGED:'+path)
     for path,digest in clock_build['binary_sha256'].items():
         if sha(clock/path)!=digest:raise ValueError('FROZEN_NATIVE_BINARY_CHANGED')
+    timing=root/'runtime/TASK_PAUSE_CLOCK_01';timing_build=read(timing/'CLOCK_BUILD_RECEIPT.json')
+    if timing_build['original_clock_binaries']!=clock_build['binary_sha256']:
+        raise ValueError('PAUSE_BASE_CLOCK_IDENTITY')
+    if sha(timing/'rl_sim_mujoco')!=timing_build['binary_sha256']['rl_sim_mujoco']:
+        raise ValueError('PAUSE_SIM_BINARY_CHANGED')
     cfg=read(startup/'startup-v4/config.json')
     for path,digest in cfg['initialization']['pinned_files'].items():
         if sha(path)!=digest:raise ValueError('QUALIFIED_NATIVE_STARTUP_CHANGED')
@@ -115,8 +121,8 @@ def run(root,native,startup,episode):
     write(out/'CARD.json',dict(card,task_asset_version=VERSION));write(out/'START.json',dict(ticket,task_asset_version=VERSION,engineering_attempt=engineering_attempt,source_sha=manifest['code']['vla_commit'],WBC_parameters_changed=False))
     before=resource.getrusage(resource.RUSAGE_CHILDREN);cpu0=time.process_time();wall=time.monotonic()
     processes=[];handles=[];latest={};counts={};subs=[];observed=[];commands=[];frames=[];futures=[]
-    pool=ThreadPoolExecutor(max_workers=1);recorder=None;node=None;journal=None;journal_offset=0
-    result=dict(status='ENGINEERING_INCOMPLETE');ros_raw=(out/'ros.jsonl').open('x');sample_log=(out/'samples.jsonl').open('x');command_log=(out/'committed_intents.jsonl').open('x')
+    pool=ThreadPoolExecutor(max_workers=1);recorder=None;node=None
+    result=dict(status='ENGINEERING_INCOMPLETE');ros_raw=(out/'ros.jsonl').open('x');sample_log=(out/'samples.jsonl').open('x');command_log=(out/'committed_intents.jsonl').open('x');pause_log=(out/'pause_intervals.jsonl').open('x')
     jsonable=lambda v: v.tolist() if isinstance(v,np.ndarray) else v
     try:
         binding=read(root/'INPUT_BINDINGS.private.json')
@@ -173,8 +179,12 @@ def run(root,native,startup,episode):
         env=dict(PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP='20000',PI0288_CONTACT_SAFETY_MARKER=str(marker),
             PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),PI0288_COMPILED_MODEL=str(model_path),
             LD_PRELOAD=str(build_dir/'task_actuation.so')+':'+str(build_dir/'task_observer.so'),
-            GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'))
-        launch(['xvfb-run','-a',str(clock/'rl_sim_mujoco'),'go2_x5','scene'],'sim',env)
+            GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),
+            GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'))
+        def quota(step):
+            path=out/'step_quota';tmp=path.with_suffix('.pending');tmp.write_text(str(step)+'\n');os.replace(tmp,path)
+        quota(2500)
+        launch(['xvfb-run','-a',str(timing/'rl_sim_mujoco'),'go2_x5','scene'],'sim',env)
         params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),
             '-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf'),'-p','libFolder:='+lib]
         launch([str(native/'install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node'),*params],'solver')
@@ -187,70 +197,89 @@ def run(root,native,startup,episode):
             raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
         if control().get('running') or control().get('sim_time_s')!=0 or (out/'physics.jsonl').exists():raise ValueError('PHYSICS_BEFORE_LEGAL_STANDBY')
         write(out/'BEFORE_FIRST_INTEGRATION.json',control());publish(keys,'ENTER')
-        if not spin(35,lambda:control().get('sim_time_s',0)>=5.):raise RuntimeError('BOUNDED_NATIVE_WARMUP_UNAVAILABLE')
+        def paused(step):
+            try:return read(out/'pause_ack.json')['step']==step and read_state(out/'state.bin')['step']==step
+            except (FileNotFoundError,ValueError):return False
+        if not spin(35,lambda:paused(2500)):raise RuntimeError('BOUNDED_NATIVE_WARMUP_UNAVAILABLE')
         publish(modes,'WBC')
         if not spin(20,lambda:latest.get('mode',String()).data=='WBC' and counts.get('observation',0)>5 and counts.get('ee',0)>3):raise RuntimeError('NATIVE_WBC_MODE_UNAVAILABLE')
-        journal=(out/'state.bin.journal').open('rb')
-        def available():
-            nonlocal journal_offset
-            journal.seek(journal_offset);rows=[]
-            while True:
-                header=journal.read(4)
-                if len(header)!=4:break
-                size,=struct.unpack('<I',header);raw=journal.read(size)
-                if len(raw)!=size:break
-                journal_offset+=4+size
-                packet=parse_state(raw)
-                if packet['step']%25==0:rows.append(packet)
-            return rows
-        available() # Warmup is retained in the journal, outside task data.
-        packet=read_state(out/'state.bin');first_step=((packet['step']//25)+1)*25
+        first_step=2500
         start_s=first_step*.002;teacher=None;initial_mount=None;previous_velocity=np.zeros(3);next_step=first_step;last_command_source=-1.;sequence=0
+        planner_path=out/'planner.jsonl';planner_offset=0;planner_rows=[]
+        def planner_events():
+            nonlocal planner_offset
+            if planner_path.exists():
+                with planner_path.open() as f:
+                    f.seek(planner_offset)
+                    while True:
+                        line=f.readline()
+                        if not line or not line.endswith('\n'):break
+                        planner_rows.append(json.loads(line));planner_offset=f.tell()
+            return planner_rows
+        def stop_external(stopped):
+            for p in processes[1:3]:os.killpg(p.pid,signal.SIGSTOP if stopped else signal.SIGCONT)
+            if stopped:
+                if not spin(3,lambda:all('\nState:\tT' in Path(f'/proc/{p.pid}/status').read_text() for p in processes[1:3])):
+                    raise RuntimeError('OWNED_CONTROLLER_FREEZE_ACK_MISSING')
         while len(observed)<641:
-            spin(.001)
-            for packet in available():
-                if packet['step']<next_step:continue
-                if packet['step']!=next_step:raise ValueError('ACTUAL_20HZ_FRAME_MISSING_NO_INTERPOLATION')
-                state=actual.update(packet)
-                if teacher is None:
-                    from scripts.pi0291_arx5_data.teacher import Teacher as PickTeacher
-                    from .teacher import PushTeacher
-                    teacher=PickTeacher(card,state['object_pose']) if card['task']=='T1' else PushTeacher(card,state['object_pose'],actual)
-                    write(out/'TASK_START.json',dict(time_s=start_s,native_step=first_step,actual_TCP=state['tcp'].tolist(),actual_object=state['object_pose'].tolist()))
-                state['time_s']=packet['time_s']-start_s
-                teacher.observe(state)
-                if len(observed)==640:
-                    sample_log.write(json.dumps(state,default=jsonable)+'\n');sample_log.flush();observed.append(state)
-                    futures.append(pool.submit(recorder.save,len(observed)-1,packet))
-                    break
-                plan=teacher.plan(state)
-                imu=mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_SITE,'imu');imu_pose=np.eye(4);imu_pose[:3,:3]=actual.data.site_xmat[imu].reshape(3,3);imu_pose[:3,3]=actual.data.site_xpos[imu]
-                velocity=np.zeros(6);mujoco.mj_objectVelocity(model,actual.data,mujoco.mjtObj.mjOBJ_SITE,imu,velocity,0)
-                mount,measured=measured_base(imu_pose,imu_pose[:3,:3].T@velocity[3:],imu_pose[:3,:3].T@velocity[:3],[.07557,0,.05768])
-                if initial_mount is None:initial_mount=mount.copy()
-                gripper_fraction=teacher_physical_fraction(plan['opening']);require_working_target(gripper_fraction)
-                action=np.zeros((40,13));action[:,:10]=np.stack([pose10(p,g) for p,g in zip(plan['poses'],gripper_fraction)])
-                goal=initial_mount[:3,3]+np.array([card['base_translation_preference_m'],0,0])
-                yaw=np.arctan2(mount[1,0],mount[0,0]);desired=rotation(-yaw)@(goal-mount[:3,3]);desired=np.r_[np.clip(desired[:2],-.06,.06),0.]
-                for i in range(40):
-                    previous=previous_velocity if i==0 else action[i-1,10:13]
-                    action[i,10:13]=previous+np.clip(desired-previous,-ACCEL*.05,ACCEL*.05)
-                source=float(latest['ee'].time)
-                if (source<=last_command_source or abs(source-packet['time_s'])>.025):raise ValueError('ACTUAL_OBSERVATION_SOURCE_CLOCK_NOT_BOUND')
-                document=native_document(action,mount,base_valid=True,previous_velocity=previous_velocity)
-                document['_pi0294']=dict(episode=episode,sequence=sequence,source_mpc_s=source,ttl_s=.4,operation='install')
-                wire=json.dumps(document,separators=(',',':'))
-                write_gripper(out/'gripper.bin',sequence,source,float(action[0,9]));publish(refs,wire)
-                intent=dict(index=len(observed),sequence=sequence,actual_observation_time_s=packet['time_s'],source_mpc_s=source,
-                    wire_sha256=hashlib.sha256(wire.encode()).hexdigest(),action_EEF13=action.tolist(),teacher_stage=teacher.stage,
-                    actual_BASE_mount=mount.tolist(),actual_BASE_planar_velocity=measured.tolist(),base_valid=True)
-                command_log.write(json.dumps(intent)+'\n');command_log.flush();commands.append(intent)
+            if not spin(10,lambda:paused(next_step)):raise RuntimeError('EXACT_20HZ_PAUSE_MISSING')
+            packet=read_state(out/'state.bin')
+            if packet['step']!=next_step:raise ValueError('ACTUAL_20HZ_FRAME_MISSING_NO_INTERPOLATION')
+            if not spin(5,lambda:('ee' in latest and 'observation' in latest
+                    and 0<=packet['time_s']-float(latest['ee'].time)<=.025
+                    and 0<=packet['time_s']-float(latest['observation'].time)<=.025)):
+                raise ValueError('ACTUAL_PAUSED_ROS_SOURCE_CLOCK_NOT_BOUND')
+            stop_external(True);pause_before=read(out/'pause_ack.json');pause_started=time.monotonic()
+            # One same-state transaction; no source timestamp refresh while computing.
+            state=actual.update(packet)
+            if teacher is None:
+                from scripts.pi0291_arx5_data.teacher import Teacher as PickTeacher
+                from .teacher import PushTeacher
+                teacher=PickTeacher(card,state['object_pose']) if card['task']=='T1' else PushTeacher(card,state['object_pose'],actual)
+                write(out/'TASK_START.json',dict(time_s=start_s,native_step=first_step,actual_TCP=state['tcp'].tolist(),actual_object=state['object_pose'].tolist()))
+            state['time_s']=packet['time_s']-start_s
+            teacher.observe(state)
+            if len(observed)==640:
                 sample_log.write(json.dumps(state,default=jsonable)+'\n');sample_log.flush();observed.append(state)
                 futures.append(pool.submit(recorder.save,len(observed)-1,packet))
-                last_command_source=source;previous_velocity=action[0,10:13].copy();sequence+=1;next_step+=25
-                if len(observed)>=641:break
-        publish(keys,'ENTER')
-        if not spin(3,lambda:control().get('running') is False):raise RuntimeError('ACTUAL_NATIVE_PAUSE_ACK_MISSING')
+                break
+            plan=teacher.plan(state)
+            imu=mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_SITE,'imu');imu_pose=np.eye(4);imu_pose[:3,:3]=actual.data.site_xmat[imu].reshape(3,3);imu_pose[:3,3]=actual.data.site_xpos[imu]
+            velocity=np.zeros(6);mujoco.mj_objectVelocity(model,actual.data,mujoco.mjtObj.mjOBJ_SITE,imu,velocity,0)
+            mount,measured=measured_base(imu_pose,imu_pose[:3,:3].T@velocity[3:],imu_pose[:3,:3].T@velocity[:3],[.07557,0,.05768])
+            if initial_mount is None:initial_mount=mount.copy()
+            gripper_fraction=teacher_physical_fraction(plan['opening']);require_working_target(gripper_fraction)
+            action=np.zeros((40,13));action[:,:10]=np.stack([pose10(p,g) for p,g in zip(plan['poses'],gripper_fraction)])
+            goal=initial_mount[:3,3]+np.array([card['base_translation_preference_m'],0,0])
+            yaw=np.arctan2(mount[1,0],mount[0,0]);desired=rotation(-yaw)@(goal-mount[:3,3]);desired=np.r_[np.clip(desired[:2],-.06,.06),0.]
+            for i in range(40):
+                previous=previous_velocity if i==0 else action[i-1,10:13]
+                action[i,10:13]=previous+np.clip(desired-previous,-ACCEL*.05,ACCEL*.05)
+            source=float(latest['ee'].time)
+            if (source<=last_command_source or not 0<=packet['time_s']-source<=.025):raise ValueError('ACTUAL_OBSERVATION_SOURCE_CLOCK_NOT_BOUND')
+            document=native_document(action,mount,base_valid=True,previous_velocity=previous_velocity)
+            document['_pi0294']=dict(episode=episode,sequence=sequence,source_mpc_s=source,ttl_s=.4,operation='install')
+            wire=json.dumps(document,separators=(',',':'))
+            spin(.003);pause_after=read(out/'pause_ack.json');require_pause(pause_before,pause_after,next_step)
+            pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
+            stop_external(False)
+            write_gripper(out/'gripper.bin',sequence,source,float(action[0,9]));publish(refs,wire)
+            intent=dict(index=len(observed),sequence=sequence,actual_observation_time_s=packet['time_s'],source_mpc_s=source,
+                wire_sha256=hashlib.sha256(wire.encode()).hexdigest(),action_EEF13=action.tolist(),teacher_stage=teacher.stage,
+                actual_BASE_mount=mount.tolist(),actual_BASE_planar_velocity=measured.tolist(),base_valid=True)
+            command_log.write(json.dumps(dict(intent,phase='SUBMITTED_REQUIRES_INSTALL_ACK'))+'\n');command_log.flush();commands.append(intent)
+            ref_id=intent['wire_sha256']
+            def installed():
+                rows=planner_events()
+                if any(x['kind']=='reject' and x.get('wire_sha256')==ref_id for x in rows):raise ValueError('NATIVE_REFERENCE_TRANSACTION_REJECTED')
+                return any(x['kind']=='accept' and x.get('ref_id')==ref_id for x in rows) and any(x['kind']=='installed' and x.get('ref_id')==ref_id for x in rows)
+            if not spin(5,installed):raise RuntimeError('REFERENCE_INSTALL_ACK_MISSING_NO_PHYSICS_ADVANCE')
+            command_log.write(json.dumps(dict(index=intent['index'],phase='INSTALL_ACK',wire_sha256=ref_id,native_step=packet['step']))+'\n');command_log.flush()
+            sample_log.write(json.dumps(state,default=jsonable)+'\n');sample_log.flush();observed.append(state)
+            futures.append(pool.submit(recorder.save,len(observed)-1,packet))
+            last_command_source=source;previous_velocity=action[0,10:13].copy();sequence+=1;next_step+=25
+            quota(next_step);publish(keys,'ENTER')
+        if not paused(next_step):raise RuntimeError('ACTUAL_NATIVE_FINAL_PAUSE_ACK_MISSING')
         result=dict(status='RAW_TASK_COMPLETE_REQUIRES_INDEPENDENT_CPU_AUDIT',observations=len(observed),submitted_intents=len(commands),teacher_events=teacher.events,final_stage=teacher.stage)
     except Exception as exc:
         result=dict(status='ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE',error=type(exc).__name__+': '+str(exc),observations=len(observed),submitted_intents=len(commands))
@@ -262,8 +291,7 @@ def run(root,native,startup,episode):
             try:p.wait(timeout=5)
             except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
         for h in handles:h.close()
-        for f in (ros_raw,sample_log,command_log):f.close()
-        if journal:journal.close()
+        for f in (ros_raw,sample_log,command_log,pause_log):f.close()
         try:
             for future in futures:frames.append(future.result(timeout=120))
             if recorder:pool.submit(recorder.close).result(timeout=10)

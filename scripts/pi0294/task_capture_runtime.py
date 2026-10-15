@@ -110,7 +110,21 @@ def require_task_asset(root,manifest,version):
     code=root/manifest['code']['capsule_relative']
     expected={'task_gripper_contract.py','task_plant.py','task_actuation.cpp','task_native_worker.py'}
     if set(p['source_files'])!=expected:raise PermissionError('TASK_V2_SOURCE_SET')
+    timing_path=root/'evidence/TASK_TIMING_ENGINEERING_ACCEPTANCE.json'
+    timing=None
+    if timing_path.exists():
+        timing=read(timing_path)
+        if (timing['status']!='PASS_CPU_EXACT_STEP_PAUSE_ONLY' or timing['physical_qualification'] is not False
+                or timing['base_acceptance_sha256']!=sha(root/'evidence/TASK_V2_ENGINEERING_ACCEPTANCE.json')
+                or timing['safety_threshold_changes'] or timing['controller_math_changes']
+                or timing['source_age_limit_s']!=.025):raise PermissionError('TASK_TIMING_SOURCE_CONTRACT')
+        for name,digest in timing['source_files'].items():
+            if sha(code/'scripts/pi0294'/name)!=digest:raise PermissionError('TASK_TIMING_SOURCE_CHANGED:'+name)
+        for key in ('clock_build_receipt','task_build_receipt','CPU_receipt'):
+            row=timing[key]
+            if sha(within(root/row['relative'],root))!=row['sha256']:raise PermissionError('TASK_TIMING_RECEIPT_CHANGED')
     for name,digest in p['source_files'].items():
+        if timing and name in ('task_actuation.cpp','task_native_worker.py'):digest=timing['source_files'][name]
         if sha(code/'scripts/pi0294'/name)!=digest:raise PermissionError('TASK_V2_SOURCE_CHANGED:'+name)
     for key in ('plant_cpu_receipt','build_receipt','contract_cpu_receipt'):
         row=p[key]
