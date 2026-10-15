@@ -39,6 +39,14 @@ def dynamic_getup_ready(row, completion_from_owned_log):
             and row.get('fsm')=='RLFSMStateGetUp' and row.get('arm_mode')=='HOLD')
 
 
+def paused_mode_ready(row,*,previous_calls,frozen_time):
+    # A native mode switch can load a policy and reset its own history. Treat
+    # that as a paused lifecycle transaction, never as task physics time.
+    return (row.get('running') is False and row.get('fsm')=='RLFSMStateRLLocomotion'
+            and row.get('arm_mode')=='HOLD' and row.get('sim_time_s')==frozen_time
+            and row.get('control_calls',0)>previous_calls)
+
+
 def run(root,native,startup,episode):
     import mujoco
     import rclpy
@@ -165,10 +173,19 @@ def run(root,native,startup,episode):
         actual_zero_audit(out,card,d.qpos);write(out/'BEFORE_FIRST_INTEGRATION.json',control());publish(keys,'ENTER')
         if not spin(5,lambda:dynamic_getup_ready(control(),'Getting up completed' in (out/'sim.log').read_text(errors='replace'))):
             raise RuntimeError('DYNAMIC_NATIVE_GETUP_COMPLETION_NOT_ACKNOWLEDGED')
-        write(out/'GETUP_DYNAMIC_COMPLETED.json',control());old_calls=control()['control_calls'];publish(keys,'1')
-        if not spin(5,lambda:control().get('control_calls',0)>old_calls and control().get('fsm')=='RLFSMStateRLLocomotion' and control().get('arm_mode')=='HOLD'):
-            raise RuntimeError('NATIVE_DYNAMIC_LOCOMOTION_ACK_NOT_RECEIVED')
-        write(out/'COMMAND_AT_NATIVE_LOCOMOTION.json',control())
+        write(out/'GETUP_DYNAMIC_COMPLETED.json',control());publish(keys,'ENTER')
+        if not spin(5,lambda:control().get('running') is False and control().get('sim_time_s',0)>0):
+            raise RuntimeError('NATIVE_MODE_TRANSITION_PAUSE_NOT_ACKNOWLEDGED')
+        frozen=read_state(out/'state.bin');paused_control=control()
+        write(out/'BEFORE_PAUSED_MODE_TRANSITION.json',dict(control=paused_control,native_step=frozen['step'],time_s=frozen['time_s']))
+        old_calls=paused_control['control_calls'];publish(keys,'1')
+        if not spin(5,lambda:paused_mode_ready(control(),previous_calls=old_calls,frozen_time=frozen['time_s'])):
+            raise RuntimeError('PAUSED_NATIVE_LOCOMOTION_INIT_NOT_ACKNOWLEDGED')
+        after=read_state(out/'state.bin')
+        if after['step']!=frozen['step'] or not np.array_equal(after['qpos'],frozen['qpos']):
+            raise ValueError('PHYSICS_ADVANCED_DURING_NATIVE_MODE_INITIALIZATION')
+        write(out/'COMMAND_AT_NATIVE_LOCOMOTION.json',dict(control(),native_step=after['step'],physics_during_mode_initialization=0))
+        publish(keys,'ENTER')
         if not spin(35,lambda:paused(2450)):raise RuntimeError('BOUNDED_NATIVE_STARTUP_4_9S_NOT_COMPLETE')
         write(out/'BEFORE_WBC_ENTRY.json',dict(control=control(),pause=read(out/'pause_ack.json')))
         publish(modes,'WBC')
