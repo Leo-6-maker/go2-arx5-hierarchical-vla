@@ -39,12 +39,18 @@ def local_schedule(poses, q, original_time):
         for i in bad:factors[i:i+2]=np.maximum(factors[i:i+2],np.sqrt(ratios[i])*(1+1e-6))
         dt*=factors
     else:raise ValueError('NIGHT_LOCAL_TIMING_NOT_CONVERGED')
-    dt=np.maximum(before,np.ceil(dt/.05-1e-10)*.05)
-    # Quantization is independently verified; never clip an acceleration value.
-    velocity=dq/dt[:,None];acceleration=2*np.diff(velocity,axis=0)/(dt[1:]+dt[:-1])[:,None]
-    if np.max(np.abs(velocity))>.7*(1+1e-10) or np.max(np.abs(acceleration))>1*(1+1e-10):
-        raise ValueError('NIGHT_QUANTIZED_JOINT_TIME_REJECT')
+    # Quantizing one interval can expose a neighboring acceleration. Iterate on
+    # that same quantized schedule; no new path, goal or library call is made.
+    for quantized_iteration in range(24):
+        dt=np.maximum(before,np.ceil(dt/.05-1e-10)*.05)
+        velocity=dq/dt[:,None];acceleration=2*np.diff(velocity,axis=0)/(dt[1:]+dt[:-1])[:,None]
+        ratios=np.max(np.abs(acceleration),axis=1);bad=np.flatnonzero(ratios>1*(1+1e-10))
+        if not len(bad):break
+        factors=np.ones_like(dt)
+        for i in bad:factors[i:i+2]=np.maximum(factors[i:i+2],np.sqrt(ratios[i])*(1+1e-6))
+        dt*=factors
+    else:raise ValueError('NIGHT_QUANTIZED_JOINT_TIME_REJECT')
     return np.r_[0.,np.cumsum(dt)],dict(changed_intervals=int(np.count_nonzero(dt>before+1e-10)),
         original_duration_s=float(before.sum()),duration_s=float(dt.sum()),
         max_joint_velocity=float(np.max(np.abs(velocity))),max_joint_acceleration=float(np.max(np.abs(acceleration))),
-        spatial_knots_changed=False,gripper_values_changed=False,uniform_global_drag=False,iterations=iteration+1)
+        spatial_knots_changed=False,gripper_values_changed=False,uniform_global_drag=False,iterations=iteration+1,quantized_iterations=quantized_iteration+1)

@@ -69,7 +69,16 @@ def qualify_source(root,manifest,card):
     for package in packages:
         name=card['teacher_version']+'_CPU_'+card['task']+'_'+str(package['index'])+card.get('CPU_attempt_suffix','')
         try:
-            _,certificate,index=client.bundle(state,[package],'approach',name,0)
+            if card.get('CPU_reuse_prefix'):
+                cached=p/'requests'/(card['CPU_reuse_prefix']+str(package['index']))/'0000'
+                request=read(cached/'INPUT.private.json');final=read(cached/'FINAL.private.json')
+                actual_payload=client.payload(state,package['contact'],'approach',0)
+                for key in actual_payload:
+                    if actual_payload[key]!=request[key]:raise ValueError('NIGHT_CACHED_ENTRY_INPUT_CHANGED:'+key)
+                if final['status']!='Success' or final['input_sha256']!=sha(cached/'INPUT.private.json'):raise ValueError('NIGHT_CACHED_ENTRY_NOT_VALID')
+                certificate=final['certificate'];index=final['package'];client.last_route=read(cached/f"ROUTE-{final['route']:02d}.private.json")
+                write(p/(name+'-ENTRY_REUSE.json'),dict(original_request_sha256=final['input_sha256'],original_final_sha256=sha(cached/'FINAL.private.json'),new_IK=0,new_RRT=0,actual_geometry_and_packet_identity=True))
+            else:_,certificate,index=client.bundle(state,[package],'approach',name,0)
             record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==package['source_id'])
             endpoint=np.asarray(client.last_route['position'])[-1]
             program,proof,q=source_path(root,client,state,record,endpoint,name+'_FULL_SOURCE')
