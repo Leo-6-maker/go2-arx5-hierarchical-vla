@@ -60,11 +60,16 @@ def route(request,folder,index):
     ik=read(folder/'IK_RESULT.private.json');pair=ik['pairs'][index//2];stream=index%2;links=[]
     for link,goal_slot in enumerate(pair['goal_slots']):
         goal=request['goals'][goal_slot];ledger=read(Path(request['run_root'])/FOLDER/'SEARCH_LEDGER.json');slots=ledger['bundles'][request['bundle_key']]['slots'];slot=sum(k.startswith('RRT/') for k in slots)
-        try:reserve_internal(request['run_root'],request['bundle_key'],'RRT',slot)
-        except PermissionError as e:return dict(status=str(e),input_sha256=request['input_sha256'],links=links,package=pair['package'])
         planner,q=planner_for(request,goal['stage'],closed=goal.get('closed',False))
         if link==1:q[planner.move_group_joint_indices]=np.asarray(pair['qa'])[planner.move_group_joint_indices]
-        endpoint=np.asarray(pair['qa'] if link==0 and pair['qa'] is not None else pair['qc']);seed=goal['RRT_seed_table'][pair['branch_rank']*2+stream][link];np.random.seed(seed);mplib.set_global_seed(seed);started=time.monotonic()
+        endpoint=np.asarray(pair['qa'] if link==0 and pair['qa'] is not None else pair['qc'])
+        if np.array_equal(q,endpoint):
+            arm=q[planner.move_group_joint_indices].tolist()
+            row=dict(status='Success',time=[0.,.05],position=[arm,arm],duration=.05,package=pair['package'],input_sha256=request['input_sha256'],exact_zero_connector=True,new_RRT_calls=0)
+            write(folder/f'EXACT-ZERO-{index:02d}-{link:02d}.private.json',row);links.append(row);continue
+        try:reserve_internal(request['run_root'],request['bundle_key'],'RRT',slot)
+        except PermissionError as e:return dict(status=str(e),input_sha256=request['input_sha256'],links=links,package=pair['package'])
+        seed=goal['RRT_seed_table'][pair['branch_rank']*2+stream][link];np.random.seed(seed);mplib.set_global_seed(seed);started=time.monotonic()
         planned=planner.plan_qpos([endpoint],q.copy(),time_step=.05,rrt_range=.1,planning_time=1.,fix_joint_limits=False,simplify=False)
         row=dict(status=planned['status'],seed=seed,route=index,link=link,shared_slot=slot,package=pair['package'],input_sha256=request['input_sha256'],service_s=time.monotonic()-started)
         if planned['status']=='Success':
