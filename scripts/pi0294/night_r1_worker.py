@@ -239,13 +239,25 @@ def run(root,native,startup,episode):
         publish(keys,'ENTER')
         if not spin(35,lambda:paused(2450)):raise RuntimeError('BOUNDED_NATIVE_STARTUP_4_9S_NOT_COMPLETE')
         write(out/'BEFORE_WBC_ENTRY.json',dict(control=control(),pause=read(out/'pause_ack.json')))
+        bootstrap_before=read(out/'pause_ack.json')
+        launch([sys.executable,'-m','scripts.pi0294.night_r1_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],
+            'planner',dict(PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=episode))
+        if not spin(10,lambda:node.count_subscribers('/go2_x5/arm/mode/state')>=2):
+            raise RuntimeError('RECEIVER_MODE_SUBSCRIBER_NOT_READY_BEFORE_WBC_EVENT')
+        bootstrap_after=read(out/'pause_ack.json')
+        from .task_clock import FROZEN_FIELDS
+        if any(bootstrap_before[k]!=bootstrap_after[k] for k in FROZEN_FIELDS):raise ValueError('NATIVE_CLOCK_ADVANCED_DURING_RECEIVER_BOOTSTRAP')
+        write(out/'RECEIVER_BOOTSTRAP_PAUSE_BINDING.json',dict(before=bootstrap_before,after=bootstrap_after,original_native_call_order_preserved=True))
         publish(modes,'WBC')
         if not spin(3,lambda:latest.get('mode',String()).data=='WBC'):raise RuntimeError('WBC_MODE_REQUEST_NOT_ACKNOWLEDGED')
         quota(2500);publish(keys,'ENTER')
         if not spin(5,lambda:paused(2500)):raise RuntimeError('BOUNDED_FIVE_SECOND_STARTUP_NOT_COMPLETE')
         if not spin(3,lambda:control().get('arm_mode')=='WBC' and latest.get('mode',String()).data=='WBC'):raise RuntimeError('ACTUAL_NATIVE_WBC_MODE_NOT_CONSUMED')
-        launch([sys.executable,'-m','scripts.pi0294.persistent_teacher_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],
-            'planner',dict(PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=episode))
+        def receiver_ready():
+            path=out/'planner.jsonl'
+            if not path.exists():return False
+            return any(r.get('kind')=='receiver_input_readiness' and r.get('ready') is True for r in (json.loads(l) for l in path.read_text().splitlines()))
+        if not spin(10,receiver_ready):raise RuntimeError('ACTUAL_RECEIVER_MEASURED_WBC_READINESS_REQUIRED')
         first_step=2500
         start_s=first_step*.002;teacher=None;initial_mount=None;previous_velocity=np.zeros(3);next_step=first_step;last_command_source=-1.;sequence=0
         planner_path=out/'planner.jsonl';planner_offset=0;planner_rows=[]
