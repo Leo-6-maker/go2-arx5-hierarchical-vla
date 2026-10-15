@@ -60,7 +60,7 @@ def run(root,native,startup,episode):
     from std_msgs.msg import String
     from nav_msgs.msg import Odometry
     from sensor_msgs.msg import JointState
-    from ocs2_msgs.msg import MpcObservation
+    from ocs2_msgs.msg import MpcObservation,MpcFlattenedController
     from .night_geometry import xml_scene,check_frozen_robot
     from .task_plan import pilot_cards
     from .task_contacts import allowed
@@ -158,11 +158,16 @@ def run(root,native,startup,episode):
         rclpy.init();node=rclpy.create_node('gr00t_task_'+episode.lower().replace('-','_'))
         def record(key,msg):
             latest[key]=msg;counts[key]=counts.get(key,0)+1
-            ros_raw.write(json.dumps(dict(kind=key,monotonic_s=time.monotonic(),msg=message_to_ordereddict(msg)))+'\n')
+            if key=='policy':
+                summary=dict(time_trajectory=list(msg.time_trajectory),init_observation_time=float(msg.init_observation.time),
+                    controller_type=int(msg.controller_type),state_points=len(msg.state_trajectory),input_points=len(msg.input_trajectory))
+            else:summary=message_to_ordereddict(msg)
+            ros_raw.write(json.dumps(dict(kind=key,monotonic_s=time.monotonic(),msg=summary))+'\n')
         for key,topic,cls,qos in (
             ('odom','/go2_x5/slam/odom_mocap',Odometry,qos_profile_sensor_data),
             ('arm','/go2_x5/arm/state',JointState,qos_profile_sensor_data),
             ('ee','/go2_x5/ee/state',MpcObservation,10),('observation','/mobile_manipulator_mpc_observation',MpcObservation,10),
+            ('policy','/mobile_manipulator_mpc_policy',MpcFlattenedController,10),
             ('mode','/go2_x5/arm/mode/state',String,QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))):
             subs.append(node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos))
         keys=node.create_publisher(String,'/go2_x5/fsm/key',10);modes=node.create_publisher(String,'/go2_x5/arm/mode/request',10);refs=node.create_publisher(String,'/go2_x5/ee/trajectory_json',10)
@@ -281,7 +286,11 @@ def run(root,native,startup,episode):
                     raise RuntimeError('OWNED_CONTROLLER_FREEZE_ACK_MISSING')
         def resume_command_ready(before):
             ack=read(out/'pause_ack.json')
-            return fresh_command_receipt(before,ack)
+            policy=latest.get('policy')
+            times=[] if policy is None else list(policy.time_trajectory)
+            return (fresh_command_receipt(before,ack) and len(times)>1
+                and times[0]<=float(packet['time_s'])+1e-8
+                and times[-1]>=float(packet['time_s'])+.05)
         active_intent=None
         while len(observed)<frame_cap:
             if not spin(10,lambda:paused(next_step)):raise RuntimeError('EXACT_20HZ_PAUSE_MISSING')
