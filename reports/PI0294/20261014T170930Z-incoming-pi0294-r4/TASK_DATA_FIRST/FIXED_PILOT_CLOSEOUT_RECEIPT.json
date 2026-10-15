@@ -1,0 +1,133 @@
+{
+  "epoch": 1792050648.6183245,
+  "runtime_source": "1181230121bbc2b7635a20bbf2e4b1a0547d46a9",
+  "status": {
+    "status": "FIXED_TASK_PILOTS_TERMINAL_SUCCESS_DATA_NOT_ADMITTED",
+    "outcomes": [
+      {
+        "id": "TASK-PILOT-W0-T1-engineering03",
+        "status": "VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED",
+        "result_sha256": "6bade2640dd58f82401fb4b608586242c1a2402ba6bcd0d1309ad2b1eb56d082",
+        "audit_sha256": null,
+        "success": false
+      },
+      {
+        "id": "TASK-PILOT-W0-T2-engineering04",
+        "status": "COMPLETE_TASK_QUALITY_FAIL",
+        "result_sha256": "65d3985287270cbe659fa5590710b66f0956686ea811192694a4a33e786ed248",
+        "audit_sha256": "5bb3f1e613868ec6147ebe09de49d0af19742abeae1365b7cabcf4bd1101f8a1",
+        "success": false
+      },
+      {
+        "id": "TASK-PILOT-W1-T1",
+        "status": "COMPLETE_TASK_QUALITY_FAIL",
+        "result_sha256": "299ea8578d5f81b104da264e4aec48a8c28607620bebed31e6bf4332e9b5e83f",
+        "audit_sha256": "f21973f26bc36f8da55a0ae7c024c1699616a9e44f6deb2b0857defb04089bd4",
+        "success": false
+      },
+      {
+        "id": "TASK-PILOT-W1-T2",
+        "status": "COMPLETE_TASK_QUALITY_FAIL",
+        "result_sha256": "7dadb4cf96f72d2d65737ba887b7fad7114cab798f41f49e5046b09c1ffeb2df",
+        "audit_sha256": "66c7cc752a0d375c151ccd3f5f394a4ba7ca5a8085a146f1e8f63134d761af52",
+        "success": false
+      }
+    ],
+    "successes": 0,
+    "fixed_card_denominator": 4,
+    "historical_V1_safety_sha256": "175ae9cdab3d108e4826968c5ffb3724a34ec069a3ed1f909cf82fafb6a39a71",
+    "new_V2_native_safety_fail": false,
+    "admitted_TRAIN_episodes": 0,
+    "bootstrap": "NOT_ADMITTED",
+    "FB13": "NOT_RUN_NO_QUALIFIED_DATA",
+    "reason": "REAL_OBJECT_TASKS_NOT_COMPLETED_NOT_HISTORICAL_HOLD_RMS",
+    "same_quality_retries_allowed": false,
+    "engineering_recovery_costs_preserved": true,
+    "source_sha": "12cf868ca44e81f9dbd7840cd6770efeaaaab718",
+    "sealed_epoch": 1792049817.4401336,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "installed": {
+    "status": "PASS",
+    "episodes": [
+      {
+        "episode": "TASK-PILOT-W0-T2-engineering04",
+        "status": "PASS_SAVED_NATIVE14D_INSTALLATION_PARITY",
+        "transactions": 640,
+        "installed_messages": 959,
+        "max_position_abs_m": 2.9785124477932357e-08,
+        "max_sign_invariant_unit_quaternion_component": 3.592540975816405e-08,
+        "tolerance": 1e-06,
+        "original_actual_sample_times_used": true,
+        "no_time_reanchor": true,
+        "planner_sha256": "15724d1b02ebab719199a9148f19ef638823c8f4a0b8a70cee50de6f2b4f89ba"
+      },
+      {
+        "episode": "TASK-PILOT-W1-T1",
+        "status": "PASS_SAVED_NATIVE14D_INSTALLATION_PARITY",
+        "transactions": 640,
+        "installed_messages": 960,
+        "max_position_abs_m": 2.9800130474377795e-08,
+        "max_sign_invariant_unit_quaternion_component": 3.427878703110565e-08,
+        "tolerance": 1e-06,
+        "original_actual_sample_times_used": true,
+        "no_time_reanchor": true,
+        "planner_sha256": "f455919b99fa52e259559be9bf9b42192039aa13c0a185164c5bd99ed9737bf0"
+      },
+      {
+        "episode": "TASK-PILOT-W1-T2",
+        "status": "PASS_SAVED_NATIVE14D_INSTALLATION_PARITY",
+        "transactions": 640,
+        "installed_messages": 959,
+        "max_position_abs_m": 2.98010053301212e-08,
+        "max_sign_invariant_unit_quaternion_component": 3.3885065642280665e-08,
+        "tolerance": 1e-06,
+        "original_actual_sample_times_used": true,
+        "no_time_reanchor": true,
+        "planner_sha256": "1436b4a7f63182c0275b620c65fbd6eedb185d4b9e26d467e87884e66f38b47e"
+      }
+    ],
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "controller_queries": 0
+  },
+  "guard": {
+    "status": "PASS_ACTUAL_CLOSED_ENTRY_AND_FROZEN_NATIVE_CORE",
+    "tests": 1,
+    "frozen_members": 9,
+    "old_V1_safety_preserved": true,
+    "V2_native_safety_failure": false,
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "source_sha": "1181230121bbc2b7635a20bbf2e4b1a0547d46a9"
+  },
+  "cumulative": {
+    "Core_CPU_s": 14016.741838626665,
+    "Hopper_CPU_s": 0,
+    "GPU_allocated_s": 0,
+    "GPU_reserved_s": 0,
+    "new_formal_updates": 0,
+    "new_engineering_updates": 0,
+    "generation_intents": 0,
+    "main_starts": 29,
+    "main_integrations": 297531,
+    "RGB_pairs": 10904
+  },
+  "active_reservations": {},
+  "live_episode_owners": [],
+  "archives": [
+    {
+      "status": "FULL_FILE_PRIVATE_READBACK_PASS",
+      "files": 6131,
+      "bytes": 1146816917,
+      "tree_sha256": "f7942622fb2e7a664b8719748e714108252c03812984ba089ddf8e28af9f72ee"
+    },
+    {
+      "status": "FULL_FILE_PRIVATE_READBACK_PASS",
+      "files": 7,
+      "bytes": 1207150,
+      "tree_sha256": "461b59b25f52423e8a90df417059f1ff910e4bed46e098cdd2b351d411341c12"
+    }
+  ]
+}
