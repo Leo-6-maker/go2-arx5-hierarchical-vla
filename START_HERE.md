@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**V3已准备、待明确采用：T1完整任务组件抬高3cm到H47；T2固定首contact直接接入。** [完整有界方案](docs/protocols/PI0294_TABLE_CLEARANCE_AND_CONTACT_ENTRY_SEED_V3.md) · [任务卡](reports/PI0294/design/SOURCE_ACCESS_V3_TASK_CARD.json) · [保存几何/源前缀准备证据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-access-v3-preparation/PREPARATION_REPORT.md)。旧5300步包络含margin最高.399445m，新完整桌底.42m留下20.55mm保存净空；不证明新动态安全。T2三源223/231/223前无pad接触/推送，保留15.50/16.25/16.10s后缀，显式working-closed初态。拟各32s，≤4启动/42012积分/1282双RGB/14000CPU秒，沿原窗口/累计父账，内部累计分配明确217bundle/214214dense、仍在原外层预算内。**本次只准备/发布，authorizes_execution=false、launch_allowed=false、runtime未实施、变更CPU契约0/12，新IK/RRT/渲染/物理/神经/训练0；V2安全FAIL永久保留。**
+
 **V2已实际执行至明确安全停止点，未取得成功种子。** [完整报告、实际TCP图与私有归档收据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retime-join-v2/REPORT.md)。20CPU检查通过；T2局部时间18.6/19.4/19.1s但三接近端无合格IK；T1锁定000后实际运行5.6s、14安装/113双RGB，原生base_link几何与桌面ILLEGAL_CONTACT。任务物体接触/抓持/成功seed均0，两条完整32s均未完成，不报0/2完整成功率。636原件私有逐文件回读；旧FAIL、WBC/安全/score、时钟/账不变；本scope关闭，不重试、不训练，selected/deployment=NONE。下列采用/未实施是历史阶段记录。
 
 **V2完整方案已获用户明确采用，原窗口与累计预算不变。** [采用收据](reports/PI0294/design/SOURCE_RETIME_JOIN_V2_HUMAN_ADOPTION.json)，采用固定`5a0cceeeb7e79f6f326a5aa17168a453acb65180`。当前接续版本化时间表/首close接入与实际CPU准入，尚未取得V2物理/种子结果；下列“待采用/未实施”是此前发布阶段记录，不能覆盖本次采用，也不能用采用代替执行PASS。

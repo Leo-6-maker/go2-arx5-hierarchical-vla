@@ -1,0 +1,126 @@
+{
+  "status": "PASS_ORIGINAL_GEOM_IDS_PREFIX_AUDIT",
+  "rows": [
+    {
+      "id": "PI0294-TRAIN-F0-000-T2",
+      "source_model_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+      "source_geom_ids": {
+        "cube": 78,
+        "pads": [
+          75,
+          77
+        ]
+      },
+      "join_index": 223,
+      "retained_end_index": 488,
+      "retained_count": 266,
+      "removed_V2_pose_indices": [
+        165,
+        222
+      ],
+      "pad_cube_contacts_before_join": [],
+      "pad_cube_contacts_at_join": [],
+      "all_contact_pairs_through_join": [
+        {
+          "names": [
+            "table",
+            "cube_geom"
+          ],
+          "records": 892
+        }
+      ],
+      "grasp_before": false,
+      "lift_before": false,
+      "carry_before": false,
+      "object_horizontal_max_before_m": 0.0,
+      "gripper_at_join": 0.0,
+      "suffix_original_local_duration_s": 15.5000000000001,
+      "source_close_phase_local_s": 1.2500000000000004,
+      "source_samples_sha256": "6ee846ffafb694488fe5ac0dcb7ab8af2d4d776cf052033818d4f476e1706736",
+      "V2_program_sha256": "6996219e99bb230a6464832e8cc2af8e635b0c81da698f38eb338d2aa54ec65f"
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T2",
+      "source_model_sha256": "bda92501b6513b1126b07c9c50947d889f5a6ebbd2b6f252baefaea317f2b4ef",
+      "source_geom_ids": {
+        "cube": 78,
+        "pads": [
+          75,
+          77
+        ]
+      },
+      "join_index": 231,
+      "retained_end_index": 504,
+      "retained_count": 274,
+      "removed_V2_pose_indices": [
+        172,
+        230
+      ],
+      "pad_cube_contacts_before_join": [],
+      "pad_cube_contacts_at_join": [],
+      "all_contact_pairs_through_join": [
+        {
+          "names": [
+            "table",
+            "cube_geom"
+          ],
+          "records": 924
+        }
+      ],
+      "grasp_before": false,
+      "lift_before": false,
+      "carry_before": false,
+      "object_horizontal_max_before_m": 0.0,
+      "gripper_at_join": 0.0,
+      "suffix_original_local_duration_s": 16.250000000000096,
+      "source_close_phase_local_s": 1.3000000000000005,
+      "source_samples_sha256": "fb9feea731650d08a78a953b3cef4c367c938975b883b4abb69a82b1bae5a7fc",
+      "V2_program_sha256": "2133837e501d1bada7ae3700aecbf9386473f9219e079748c0f0b9d980fc48c1"
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T2",
+      "source_model_sha256": "42cddb49be40676e4ef8f1e00ca85bdd1c7f58bb73eaeba66d0a25795deb34ef",
+      "source_geom_ids": {
+        "cube": 78,
+        "pads": [
+          75,
+          77
+        ]
+      },
+      "join_index": 223,
+      "retained_end_index": 496,
+      "retained_count": 274,
+      "removed_V2_pose_indices": [
+        166,
+        222
+      ],
+      "pad_cube_contacts_before_join": [],
+      "pad_cube_contacts_at_join": [],
+      "all_contact_pairs_through_join": [
+        {
+          "names": [
+            "table",
+            "cube_geom"
+          ],
+          "records": 892
+        }
+      ],
+      "grasp_before": false,
+      "lift_before": false,
+      "carry_before": false,
+      "object_horizontal_max_before_m": 0.0,
+      "gripper_at_join": 0.0,
+      "suffix_original_local_duration_s": 16.1000000000001,
+      "source_close_phase_local_s": 1.2000000000000004,
+      "source_samples_sha256": "d49514e04993cbe6404da571bf9dde88bc42bf9536c3d905d0e1d30f6165d66b",
+      "V2_program_sha256": "37ced046d54d103f0f8295411814d78b20ff7f77cb40632036ac45b515e39c2e"
+    }
+  ],
+  "prior_receipt_sha256": "a657298185647785cf2c8f17e7da72f7d1aba5e2167a75eb55d97a387dff0240",
+  "correction": "Prior name-based a/b lookup did not read actual geom0/geom1 IDs; prior_contact_count is not valid evidence. R1 resolves original source model names/IDs without solver/physics.",
+  "new_physics": 0,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_render": 0,
+  "new_neural": 0
+}
