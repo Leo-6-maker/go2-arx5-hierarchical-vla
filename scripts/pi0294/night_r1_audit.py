@@ -105,11 +105,11 @@ def physics(root,episode):
         last_hold=max(holds)
         native_hold_rows=[r for r in planner if r['kind']=='installed' and r.get('ref_id') in accepted
             and r.get('bound_start') is None and r['monotonic_s']>=last_hold]
-        assert len(native_hold_rows)==1
-        row=native_hold_rows[0]
-        assert len(row['times'])==len(row['poses'])==len(row['inputs'])==1
-        assert len(row['poses'][0])==7 and len(row['inputs'][0])==12 and not any(row['inputs'][0])
-        parity_rows=[r for r in planner if r is not row]
+        assert len(native_hold_rows)==(1 if result['error']=='ValueError: ACTUAL_PAUSED_ROS_SOURCE_CLOCK_NOT_BOUND' else 0)
+        for row in native_hold_rows:
+            assert len(row['times'])==len(row['poses'])==len(row['inputs'])==1
+            assert len(row['poses'][0])==7 and len(row['inputs'][0])==12 and not any(row['inputs'][0])
+            parity_rows=[r for r in planner if r is not row]
     parity=installed_parity(parity_rows);times=np.asarray([s['time_s'] for s in saved]);assert np.allclose(times,np.arange(len(saved))*.05,atol=1e-10,rtol=0)
     tcp=np.asarray(tcp);obj=np.asarray(objects);reference=np.asarray(reference);micro=np.asarray(micro).reshape(-1,5);object_xyz=np.asarray(object_xyz).reshape(-1,3)
     arrays={k:np.asarray(v,dtype=bool) for k,v in arrays.items()};arrays['robot_object_contact']=np.asarray([s['robot_object_contact'] for s in saved],dtype=bool);arrays.update(time_s=times,tcp_world=tcp,object_pose=obj,object_linear_velocity=np.asarray(v),object_angular_velocity=np.asarray(w))

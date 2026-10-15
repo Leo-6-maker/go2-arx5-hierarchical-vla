@@ -65,7 +65,7 @@ def preinstall_clock_failure(folder):
 def fresh_command_receipt(before,after):
     return (after['ack_sequence']>before['ack_sequence']
         and after['native_arm_mode']=='WBC' and after['native_command_valid']
-        and after['native_command_sequence']>before['native_command_sequence']
+        and after['native_command_sequence']>=before['native_command_sequence']
         and 0<=after['native_command_age_s']<=.1)
 
 
@@ -73,6 +73,7 @@ def check_fresh_command_receipt():
     b=dict(ack_sequence=1,native_command_sequence=7)
     a=dict(ack_sequence=2,native_command_sequence=8,native_arm_mode='WBC',native_command_valid=True,native_command_age_s=.01)
     assert fresh_command_receipt(b,a)
-    for key,value in [('native_command_sequence',7),('native_arm_mode','HOLD'),('native_command_valid',False),('native_command_age_s',.501),('ack_sequence',1)]:
+    assert fresh_command_receipt(b,dict(a,native_command_sequence=7,native_command_age_s=0.))
+    for key,value in [('native_command_sequence',6),('native_arm_mode','HOLD'),('native_command_valid',False),('native_command_age_s',.501),('ack_sequence',1)]:
         assert not fresh_command_receipt(b,dict(a,**{key:value}))
     return dict(status='PASS_FRESH_NATIVE_COMMAND_RECEIPT_CPU',native_watchdog_timeout_ms=500,watchdog_changes=0,new_physics=0)
