@@ -85,7 +85,7 @@ def route(request,folder,index):
     return dict(status='Success',time=times,position=positions,duration=offset,links=links,package=pair['package'],route=index,input_sha256=request['input_sha256'],physics_steps=0)
 
 def main():
-    from .task_capture_runtime import validate_entry
+    from .night_runtime import validate_entry
     p=argparse.ArgumentParser();p.add_argument('--request',required=True);p.add_argument('--action',choices=['IK','ROUTE'],required=True);p.add_argument('--route',type=int,default=0);a=p.parse_args();file=Path(a.request);request=json.loads(file.read_text());request['input_sha256']=hashlib.sha256(file.read_bytes()).hexdigest();root=Path(request['run_root']);m,_=validate_entry(root,read_only=True);require_adoption(root,m)
     assert file.resolve().is_relative_to((root/FOLDER/'requests').resolve()) and request['implementation_sha']==m['code']['vla_commit']
     target=file.parent/('IK_RESULT.private.json' if a.action=='IK' else f'ROUTE-{a.route:02d}.private.json')
