@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**V2已实际执行至明确安全停止点，未取得成功种子。** [完整报告、实际TCP图与私有归档收据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retime-join-v2/REPORT.md)。20CPU检查通过；T2局部时间18.6/19.4/19.1s但三接近端无合格IK；T1锁定000后实际运行5.6s、14安装/113双RGB，原生base_link几何与桌面ILLEGAL_CONTACT。任务物体接触/抓持/成功seed均0，两条完整32s均未完成，不报0/2完整成功率。636原件私有逐文件回读；旧FAIL、WBC/安全/score、时钟/账不变；本scope关闭，不重试、不训练，selected/deployment=NONE。下列采用/未实施是历史阶段记录。
+
 **V2完整方案已获用户明确采用，原窗口与累计预算不变。** [采用收据](reports/PI0294/design/SOURCE_RETIME_JOIN_V2_HUMAN_ADOPTION.json)，采用固定`5a0cceeeb7e79f6f326a5aa17168a453acb65180`。当前接续版本化时间表/首close接入与实际CPU准入，尚未取得V2物理/种子结果；下列“待采用/未实施”是此前发布阶段记录，不能覆盖本次采用，也不能用采用代替执行PASS。
 
 **下一版已准备、待采用：T2局部减速＋T1首close直接接入V2。** [完整有界方案](docs/protocols/PI0294_SOURCE_LOCAL_RETIME_AND_DIRECT_JOIN_V2.md) · [任务卡](reports/PI0294/design/SOURCE_RETIME_JOIN_V2_TASK_CARD.json) · [实际只读准备](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-retime-join-v2-preparation/PREPARATION_REPORT.md)。保存数组显示T2保留所有源点、只局部延长超速区段时cartesian时间下界为18.60/19.40/19.10秒；T1原首次close索引30仍张开且有旧合法goal，拟以实际自由连接替换原30个非接触align点、保留原均匀减速及完整抓放后缀。连接/关节/碰撞/动态成功尚未验证。沿原窗口/累计预算，拟直接各32秒、≤4启动，无新短门或FSM阈值搜索。**本次只准备发布，launch_allowed=false，runtime未实施，V2正式CPU准入0/20，新搜索/物理/训练均0。** 原V1负结果与旧WBC/安全/score保持。

@@ -1,0 +1,761 @@
+{
+  "bundles": 18,
+  "reserved": {
+    "goal_IK_calls": 22,
+    "CLIK_reserved": 352,
+    "RRT_calls": 16,
+    "dense_reserved_points": 17017,
+    "local_IK_reserved": 85085
+  },
+  "actual": {
+    "goal_IK_calls": 22,
+    "CLIK_initializations": 352,
+    "RRT_calls": 16,
+    "dense_points": 16017,
+    "local_IK_iterations": 30032
+  },
+  "completed_slots": 55,
+  "incomplete_slots": 0,
+  "bundle_rows": [
+    {
+      "id": "SDR2_CPU_T2/0",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 0
+          }
+        },
+        {
+          "kind": "IK/1",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "IK/2",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 0
+          }
+        },
+        {
+          "kind": "IK/3",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "IK/4",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 0
+          }
+        },
+        {
+          "kind": "IK/5",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_CPU_T1/0",
+      "slots": [
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "points": 1001,
+            "local_IK_iterations": 1001,
+            "status": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_WARMUP_W0_T1/0",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "points": 1001,
+            "local_IK_iterations": 1001,
+            "status": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/0",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/1",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/2",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/3",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/4",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/5",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/6",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/7",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/8",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/9",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/10",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/11",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/12",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/13",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "PASS",
+            "points": 1001,
+            "local_IK_iterations": 2002
+          }
+        }
+      ]
+    },
+    {
+      "id": "SDR2_SEED_W0_T1/14",
+      "slots": [
+        {
+          "kind": "IK/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "goal_IK_calls": 1,
+            "CLIK_reserved": 16
+          },
+          "actual": {
+            "actual_CLIK_initializations": 16,
+            "legal_goals": 1
+          }
+        },
+        {
+          "kind": "RRT/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "RRT_calls": 1
+          },
+          "actual": {
+            "status": "Success"
+          }
+        },
+        {
+          "kind": "DENSE/0",
+          "state": "COMPLETE",
+          "capacity": {
+            "dense_reserved_points": 1001,
+            "local_IK_reserved": 5005
+          },
+          "actual": {
+            "status": "FAIL",
+            "points": 1,
+            "local_IK_iterations": 2
+          }
+        }
+      ]
+    }
+  ],
+  "first_valid_preserved": true,
+  "exact_zero_first_live_connector_RRT_calls": 0,
+  "no_free_redraw": true,
+  "new_T0": false,
+  "budget_reset": false
+}
