@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**最新实际结果：R4A 原生完整机器人完成10秒世界系EEF保持，姿态RMS0.06965rad超过原0.05rad门；时钟、参考安装及原安全检查通过。整机教师/数据/FB13依赖链已停止，尚无整机学习模型。** [实际报告与CPU收据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/FINAL_NATIVE_QUALIFICATION_REPORT.md)。原始失败保留；这是有效负结果，不是R4A整体完成，selected/deployment仍NONE。
+
 **最新用户方向：完整Go2＋ARX5环境生产数据和测试，GR00T增加有界BASE速度意图，经原生BASE软位姿接口接入冻结WBC；工程问题在明确范围和既有资源内自主修复推进。**
 
 - [R4A完整长程计划](docs/protocols/PI0294_R4A_FULL_GO2_ARX5_AND_BASE_INTENT_V1.md)
