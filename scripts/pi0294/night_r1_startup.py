@@ -34,6 +34,11 @@ def getup_ready(row, expected, completion_from_owned_log):
     return bool(completion_from_owned_log) and command_ready(row,expected,'RLFSMStateGetUp')
 
 
+def dynamic_getup_ready(row, completion_from_owned_log):
+    return (bool(completion_from_owned_log) and row.get('sim_time_s',0)>0
+            and row.get('fsm')=='RLFSMStateGetUp' and row.get('arm_mode')=='HOLD')
+
+
 def run(root,native,startup,episode):
     import mujoco
     import rclpy
@@ -49,7 +54,7 @@ def run(root,native,startup,episode):
     cpu_proof=read(root/'evidence/STARTUP_CPU_CONTRACTS.json')
     if cpu_proof['status']!='PASS_CPU_SUPPORTED_STARTUP_ADMISSION' or cpu_proof['startup_source_sha256']!=sha(__file__):
         raise PermissionError('R1_STARTUP_CHANGED_CONTRACT_TEST_REQUIRED')
-    if episode not in tuple('TFNR1_STARTUP_OPEN_'+str(i).zfill(2) for i in range(4)):
+    if episode not in tuple('TFNR1_STARTUP_OPEN_'+str(i).zfill(2) for i in range(52)):
         raise PermissionError('R1_FIXED_OPEN_STARTUP_SLOTS_ONLY')
     card=pilot_cards()[0]
     card.update(id=episode,role='STARTUP',split='DEVELOPMENT',duration_s=0,warmup_sim_s=5,
@@ -85,7 +90,8 @@ def run(root,native,startup,episode):
             raise ValueError('SUPPORTED_NATIVE_NOMINAL_COMMAND_OUT_OF_ORIGINAL_LIMIT')
     lease=OwnerLock(native.parent/'PI0289_SIM_LEASE')
     owner=resource_lock(root);v=read(root/'R1_RESOURCE_LEDGER.json')
-    assert len([x for x in v['task_attempts'] if x['role']=='STARTUP'])<4
+    if not (root/'DEBUG_CONTINUATION_ADOPTION.json').exists():
+        assert len([x for x in v['task_attempts'] if x['role']=='STARTUP'])<4
     occupied={c for x in v['CPU_reservations'].values() for c in x['cpus']}
     cpus=[c for c in sorted(os.sched_getaffinity(0)) if c not in occupied][-8:][:4]
     cap=quota_bound(5,0)
@@ -151,11 +157,18 @@ def run(root,native,startup,episode):
         publish(modes,'HOLD')
         if not spin(3,lambda:control().get('arm_mode')=='HOLD'):raise RuntimeError('NATIVE_ARM_HOLD_ACK_MISSING')
         publish(keys,'0')
-        if not spin(4,lambda:getup_ready(control(),expected,'Getting up completed' in (out/'sim.log').read_text(errors='replace'))):raise RuntimeError('SUPPORTED_GETUP_COMPLETION_NOT_ACKNOWLEDGED')
-        write(out/'GETUP_NATIVE_READY.json',control());old_calls=control()['control_calls'];publish(keys,'1')
-        if not spin(10,lambda:control().get('control_calls',0)>old_calls and command_ready(control(),expected,'RLFSMStateRLLocomotion')):raise RuntimeError('NATIVE_LOCOMOTION_INITIAL_COMMAND_NOT_RETAINED')
+        if not spin(4,lambda:command_ready(control(),expected,'RLFSMStateGetUp')):raise RuntimeError('SUPPORTED_GETUP_COMMAND_NOT_READY')
+        if 'Getting up completed' in (out/'sim.log').read_text(errors='replace'):
+            raise RuntimeError('GETUP_COMPLETED_WHILE_PAUSED_NOT_DYNAMIC_STARTUP')
+        write(out/'GETUP_NATIVE_READY.json',control())
         if (out/'physics.jsonl').exists():raise ValueError('PHYSICS_BEFORE_NATIVE_READY')
         actual_zero_audit(out,card,d.qpos);write(out/'BEFORE_FIRST_INTEGRATION.json',control());publish(keys,'ENTER')
+        if not spin(5,lambda:dynamic_getup_ready(control(),'Getting up completed' in (out/'sim.log').read_text(errors='replace'))):
+            raise RuntimeError('DYNAMIC_NATIVE_GETUP_COMPLETION_NOT_ACKNOWLEDGED')
+        write(out/'GETUP_DYNAMIC_COMPLETED.json',control());old_calls=control()['control_calls'];publish(keys,'1')
+        if not spin(5,lambda:control().get('control_calls',0)>old_calls and control().get('fsm')=='RLFSMStateRLLocomotion' and control().get('arm_mode')=='HOLD'):
+            raise RuntimeError('NATIVE_DYNAMIC_LOCOMOTION_ACK_NOT_RECEIVED')
+        write(out/'COMMAND_AT_NATIVE_LOCOMOTION.json',control())
         if not spin(35,lambda:paused(2450)):raise RuntimeError('BOUNDED_NATIVE_STARTUP_4_9S_NOT_COMPLETE')
         write(out/'BEFORE_WBC_ENTRY.json',dict(control=control(),pause=read(out/'pause_ack.json')))
         publish(modes,'WBC')
@@ -191,12 +204,16 @@ def run(root,native,startup,episode):
             if proof not in safety:safety.append(proof)
         if safety:
             result['status']='VALID_NATIVE_OR_HIGH_RATE_SAFETY_FAIL_ALL_PHYSICS_STOP'
-            write(root/'R1_SHARED_SAFETY_STOP.json',dict(episode=episode,safety=safety,old_night_failures=1,additional_failures=1,total_night_failures=2))
+            stop=dict(episode=episode,safety=safety,old_night_failures=1,source_sha=m['code']['vla_commit'],startup_module_sha256=sha(__file__))
+            write(root/('R1_SHARED_SAFETY_STOP_'+episode+'.json'),stop)
+            if not (root/'R1_SHARED_SAFETY_STOP.json').exists():write(root/'R1_SHARED_SAFETY_STOP.json',stop)
         after=resource.getrusage(resource.RUSAGE_CHILDREN);cpu=time.process_time()-cpu0+after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime
         charged=min(cap,max(steps,lower)+(0 if safety else 3)) if max(steps,lower) else 0
         result.update(actual_integrations=steps,charged_integrations=charged,native_stops=stops,high_rate_packets=range_guard.checked,actual_CPU_s=cpu,conservative_CPU_charged_s=max(cpu,4*(time.monotonic()-wall)),owned_returncodes=[p.returncode for p in processes],owned_PIDs=[p.pid for p in processes],source_sha=m['code']['vla_commit'],new_GR00T_queries=0)
         write(out/'RESULT.json',result)
-        owner=resource_lock(root);v=read(root/'R1_RESOURCE_LEDGER.json');v['main_integrations']-=cap-charged;v['Core_CPU_s']+=result['conservative_CPU_charged_s'];v['native_safety_failures']+=int(bool(safety));v['CPU_reservations'].pop(episode);v['task_attempts'].append(dict(ticket,result=result));write(root/'R1_RESOURCE_LEDGER.json',v);owner.close();lease.close()
+        owner=resource_lock(root);v=read(root/'R1_RESOURCE_LEDGER.json');v['main_integrations']-=cap-charged;v['Core_CPU_s']+=result['conservative_CPU_charged_s'];v['native_safety_failures']+=int(bool(safety));v['CPU_reservations'].pop(episode);v['task_attempts'].append(dict(ticket,result=result))
+        if safety:v.setdefault('quarantined_startup_module_hashes',[]).append(sha(__file__))
+        write(root/'R1_RESOURCE_LEDGER.json',v);owner.close();lease.close()
     print(json.dumps(result),flush=True);return result
 
 

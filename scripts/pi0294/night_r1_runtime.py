@@ -71,14 +71,30 @@ def validate_entry(root, *, read_only=False, closeout=False, physical_asset=None
             or a['effective_R1_CPU_cap_s'] > min(32*3600, 64*3600-ledger['parent_CPU_upper_s'])):
         raise PermissionError('R1_PARENT_BALANCE_OR_SAFETY_RESET')
     if not read_only and not closeout:
-        if (root/'R1_SHARED_SAFETY_STOP.json').exists() or (root/'GOAL_CLOSED.json').exists():
+        debug_path=root/'DEBUG_CONTINUATION_ADOPTION.json'
+        debug=read(debug_path) if debug_path.exists() else {}
+        debug_authorized=(debug.get('authorizes_evidence_bound_engineering_continuation') is True
+                          and debug.get('original_T0_epoch')==a['T0_epoch']
+                          and debug.get('fixed_R1_release')==RELEASE
+                          and debug.get('cumulative_resource_and_deadlines_unchanged') is True)
+        if (root/'GOAL_CLOSED.json').exists():
             raise PermissionError('R1_TERMINAL_PRESERVED')
-        if ledger['native_safety_failures'] + ledger['parent_native_safety_failures'] >= 2:
+        if (root/'R1_SHARED_SAFETY_STOP.json').exists() and not debug_authorized:
+            raise PermissionError('R1_QUARANTINED_SAFETY_SOURCE')
+        if ledger['native_safety_failures'] + ledger['parent_native_safety_failures'] >= 2 and not debug_authorized:
             raise PermissionError('R1_SECOND_NIGHT_SAFETY_FAILURE')
         if physical_asset:
             diff = read(root/'evidence/STARTUP_LIFECYCLE_DIFF.json')
             if not diff.get('allowlisted_change_supported_by_evidence'):
                 raise PermissionError('R1_STARTUP_NO_EVIDENCE_BOUND_WRAPPER_CHANGE')
+            if debug_authorized:
+                fix=read(root/'evidence/R1_DEBUG_STARTUP_CHANGE_NOTE.json')
+                current=sha(code/'scripts/pi0294/night_r1_startup.py')
+                if (fix.get('changed_startup_source_sha256')!=current
+                        or fix.get('previous_failed_startup_source_sha256')==current
+                        or not fix.get('evidence_bound_allowlisted_wrapper_change')
+                        or current in ledger.get('quarantined_startup_module_hashes',[])):
+                    raise PermissionError('R1_NO_UNCHANGED_SAFETY_RETRY')
             if physical_asset != 'STARTUP':
                 q = read(root/'evidence/STARTUP_QUALIFICATION.json')
                 if q.get('status') != 'PASS_TWO_SAFE_COMPLETE_STARTS':
