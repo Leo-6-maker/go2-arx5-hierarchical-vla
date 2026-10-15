@@ -28,6 +28,8 @@ def main(root,native,startup):
     from go2arx5_vla.trajectory.so3 import quat_to_matrix,matrix_to_quat
     from .base_intent import native_document
     root,native,startup=map(Path,(root,native,startup));manifest=validate_scope(root)
+    # DDS must initialize before reserving a physical launch.
+    rclpy.init()
     lease=OwnerLock(native.parent/'PI0289_SIM_LEASE')
     out=root/'fullbody/native-hold-01';out.mkdir(exist_ok=False)
     clock=root/'fullbody/clock-v1';cfg=read(startup/'startup-v4/config.json')
@@ -66,7 +68,7 @@ def main(root,native,startup):
         no_WBC_parameters_changed=True,original_strict_observer_sha256=sha(startup/'runtime/observer.so')));owner.close()
     children=resource.getrusage(resource.RUSAGE_CHILDREN);cpu_start=time.process_time();wall=time.monotonic()
     processes=[];handles=[];latest={};counts={};subs=[];result=dict(status='ENGINEERING_INCOMPLETE')
-    rclpy.init();node=rclpy.create_node('pi0294_fullbody_owner');raw=(out/'ros.jsonl').open('w')
+    node=rclpy.create_node('pi0294_fullbody_owner');raw=(out/'ros.jsonl').open('w')
     def record(key,msg):
         latest[key]=msg;counts[key]=counts.get(key,0)+1
         raw.write(json.dumps(dict(kind=key,monotonic_s=time.monotonic(),msg=message_to_ordereddict(msg)))+'\n')
