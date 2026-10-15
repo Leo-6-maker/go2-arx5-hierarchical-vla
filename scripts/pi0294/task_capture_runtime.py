@@ -90,14 +90,23 @@ def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False,
     return m, parent
 
 
-def require_task_asset(root,manifest,version):
+def require_task_asset(root,manifest,version,*,_adopted_teacher=False):
     """V1 stays stopped. One separately sealed task-gripper reset contract V2."""
     root=Path(root)
+    if version=='FULLBODY_PERSISTENT_TEACHER_QUALIFICATION_V1':
+        from .teacher_qualification import require_adoption
+        require_adoption(root,manifest)
+        return
     if version!='FULLBODY_TASK_OVERLAY_V2_WORKING_STROKE':
         raise PermissionError('UNKNOWN_NATIVE_TASK_ASSET')
     if (root/'NATIVE_SAFETY_FAIL_V2.json').exists():
         raise PermissionError('TASK_V2_NATIVE_SAFETY_FAIL_PRESERVED')
-    if (root/'TASK_PILOT_CLOSED.json').exists():
+    if _adopted_teacher:
+        from .teacher_qualification import AUTHORITY_SHA256,OLD_TERMINAL_SHA256
+        if (sha(root/'teacher-qualification-v1/HUMAN_ADOPTION.json')!=AUTHORITY_SHA256
+                or sha(root/'TASK_PILOT_CLOSED.json')!=OLD_TERMINAL_SHA256):
+            raise PermissionError('NEW_TEACHER_EXPLICIT_ADOPTION_NOT_BOUND')
+    if (root/'TASK_PILOT_CLOSED.json').exists() and not _adopted_teacher:
         raise PermissionError('FIXED_TASK_PILOTS_TERMINAL_SUCCESS_DATA_NOT_ADMITTED')
     legacy=root/'NATIVE_SAFETY_FAIL.json'
     if sha(legacy)!='175ae9cdab3d108e4826968c5ffb3724a34ec069a3ed1f909cf82fafb6a39a71':
