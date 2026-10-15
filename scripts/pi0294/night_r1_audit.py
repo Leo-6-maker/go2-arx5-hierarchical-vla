@@ -81,8 +81,9 @@ def physics(root,episode):
         from .task_gripper_contract import teacher_physical_fraction
         assert np.array_equal(a[:,9],teacher_physical_fraction(opening))
         assert intent['source_mpc_s']==round(packet['time_s']*1e9)/1e9 and 0<=wire['receiver_mpc_s']-wire['source_mpc_s']<=.025
-    expected_grip=[i for i in range(len(saved)-1) if i%8]
-    assert [r['index'] for r in grip]==expected_grip
+    from .night_r1_terminal import gripper_tail
+    terminal_gripper=gripper_tail(grip,len(saved),count,start['native_step'],
+        bool(result['native_stops']) or result['status']=='VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED')
     for r in grip:
         i=r['index'];intent=intents[i//8];assert r['sequence']==i and r['prefix_index']==i-intent['index'] and r['opening']==intent['action_EEF13'][i%8][9]
         assert abs(r['source_mpc_s']-packets[i]['time_s'])<1e-10
@@ -107,7 +108,7 @@ def physics(root,episode):
         max_actual_TCP_displacement_m=float(np.linalg.norm(tcp[:,:3,3]-tcp[0,:3,3],axis=1).max()),max_actual_object_horizontal_displacement_m=float(displacement.max(initial=0)),
         tracking_XYZ_initial_m=float(error[0]),tracking_XYZ_final_m=float(error[-1]),tracking_XYZ_median_m=float(np.median(error)),tracking_SO3_final_rad=float(angle[-1]),
         image_files_verified=camera_checks,actual_RGB_pairs=len(saved),source_reference_values_replayed_exact=True,source_gripper20Hz_labels_exact=True,
-        installed_reference=parity,pause_history_unchanged=True,actual_state_and_FK_replay=True,
+        installed_reference=parity,pause_history_unchanged=True,actual_state_and_FK_replay=True,terminal_gripper_commands=terminal_gripper,
         interpretation='ORIGINAL_SAFETY_AND_TASK_VERDICT; NO_RETRY',new_physics=0,new_IK=0,new_RRT=0,new_render=0,new_neural_queries=0,selected='NONE',deployment='NONE')
     write(output,summary);return summary
 
