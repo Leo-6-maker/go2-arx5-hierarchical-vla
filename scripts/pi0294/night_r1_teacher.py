@@ -25,7 +25,10 @@ class Teacher:
             prefix=int(prefix),native_step=int(native_step),native_end_time=float(native_end_time)))
 
     def stage_at(self,at):
-        if self.entry is None or at<self.entry['time'][-1]-1e-12:return 'approach' if self.card['task']=='T1' else 'contact'
+        if self.entry is None:return 'approach' if self.card['task']=='T1' else 'contact'
+        if at<self.entry['time'][-1]-1e-12:
+            from .night_r1_entry import stage
+            return stage(self.entry,at,self.card['task'])
         elapsed=at-self.entry['time'][-1];stage=self.record['events'][0]['stage']
         for event in self.record['events']:
             if event['program_time_s']<=elapsed+1e-12:stage=event['stage']
@@ -43,15 +46,23 @@ class Teacher:
 
     def plan(self,state,base):
         selected=next(p for p in packages_for(self.root,self.card['task']) if p['source_id']==self.record['id'])
+        if self.card.get('entry_design_file'):
+            from .night_r1_entry import package
+            selected=package(selected,read(self.root/FOLDER/self.card['entry_design_file']))
         if self.entry is None:
             _,certificate,_=self.client.bundle(state,[selected],'approach',self.card['id']+'_WARMUP',0)
             route=self.client.last_route;t=np.asarray(route['time'])*certificate['uniform_time_scale'];q=np.asarray(route['position'])
-            self.entry=dict(time=t,poses=self.client.fk_path(state,q));self.combined=with_entry(self.program,self.entry)
+            self.entry=dict(time=t,poses=self.client.fk_path(state,q))
+            if self.card.get('entry_design_file'):
+                from .night_r1_entry import phases
+                self.entry=phases(self.entry,route,certificate)
+            self.combined=with_entry(self.program,self.entry)
             if self.combined['time'][-1]>self.card['duration_s']-4:raise PlannerFailure('NIGHT_PREDECLARED_DURATION_DOES_NOT_FIT',certificate)
             folder=self.root/FOLDER/'episodes'/self.card['id']
             np.savez_compressed(folder/'ACTUAL_COMBINED_PROGRAM.npz',**self.combined)
             write(folder/'ACTUAL_ENTRY_BINDING.json',dict(source_id=self.record['id'],source_program_sha256=self.record['sha256'],actual_warmup_certificate=certificate,
-                entry_duration_s=float(t[-1]),activity_duration_s=self.record['active_duration_s'],entry_and_activity_s=float(self.combined['time'][-1]),actual_packet_time_s=float(state['time_s']),base_intent=[0,0,0]))
+                entry_duration_s=float(t[-1]),activity_duration_s=self.record['active_duration_s'],entry_and_activity_s=float(self.combined['time'][-1]),actual_packet_time_s=float(state['time_s']),base_intent=[0,0,0],
+                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s')))
         at=float(state['time_s'])+np.arange(40)*.05;poses,opening=sample(self.combined,at);stages=[self.stage_at(t) for t in at]
         attached=bool(self.card['task']=='T1' and state['native_grasp'] and self.stage in ('lift','carry','lower'))
         package=dict(selected,target=poses[0]);validated,cert,_=self.client.bundle(state,[package],self.stage,self.condition,self.query_index,

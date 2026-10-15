@@ -24,7 +24,7 @@ class Client(OriginalClient):
         for package in packages:
             if frozen_poses is not None or stage!='approach':entries=[('target',package['target'],stage,False)]
             elif package.get('direct_join'):entries=[('join',package['contact'],'align' if package['task']=='T1' else 'contact',package['task']=='T2')]
-            else:entries=[('approach',package['approach'],'approach',False),('contact',package['contact'],'align' if package['task']=='T1' else 'contact',package['task']=='T2')]
+            else:entries=[('approach',package['approach'],'approach',False),('contact',package['contact'],package.get('entry_contact_stage','align' if package['task']=='T1' else 'contact'),package['task']=='T2')]
             source=config['sources'][package['index']] if batch else None
             streams=source['original_streams'] if batch else config['random_streams'][index]
             paired=len(entries)==2
