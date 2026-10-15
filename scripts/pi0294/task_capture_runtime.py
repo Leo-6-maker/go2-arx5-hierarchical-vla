@@ -93,6 +93,10 @@ def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False,
 def require_task_asset(root,manifest,version,*,_adopted_teacher=False):
     """V1 stays stopped. One separately sealed task-gripper reset contract V2."""
     root=Path(root)
+    if version=='FULLBODY_MANISKILL_SEARCH_AND_ASSISTED_SEED_V2':
+        from .mps2_runtime import require_adoption
+        require_adoption(root,manifest)
+        return
     if version=='FULLBODY_MANISKILL_COMPONENT_SEED_V1':
         from .mp_runtime import require_adoption
         require_adoption(root,manifest)
