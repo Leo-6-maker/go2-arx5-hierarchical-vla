@@ -1,5 +1,9 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**最新已采用的新整机Teacher短系列已终结：2条有效无进展FAIL＋2条时间表示工程中断。** 4个短条件各启动一次，19462含warmup／尾部积分、380实际双RGB；无预接触／物体接触／操作。两条完整确认未准入、成功整机TRAIN0、训练0。CPU已证明并窄修10.2秒负龄期浮点表示，但修复后未再物理运行。保存查询的持久游标未进入目标平移段；Teacher绝对位置包络与旋转推进耦合是具体下一设计问题，未转向WBC调参。原件1302文件／440579732字节私有完整回读，旧0/4／FAIL不改，selected/deployment=NONE。见[实际结果、图与终账](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/REPORT.md)。本系列入口已关闭，原科学总目标仍PARTIAL；不把工程中断算科学FAIL，不无条件重跑。
+
+以下为新系列采用前的实际数组准备记录，未授权描述对应当时提案，不覆盖后续直接人类采用及上述已执行终局。
+
 **接近阶段已有真实数组复算：三条位置条件均0/641，推送姿态条件已568/641、561/641成立。** 同刻上一安装参考与实际TCP中位差约3.4mm，但实际距持久阶段目标最终34.8／40.8／46.1cm；原50ms重锚定与prefix8声明不一致，MPC消费身份仍UNKNOWN。见[时间对齐报告和图](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/approach-audit/REPORT.md)。单项持久接近Teacher组件只有CPU草案／10项测试及真实保存输入dry run；新物理、训练0，launch_allowed=false，不因草案或审核自动开放新pilot。
 
 **最新实际任务结果：固定四个整机pilot成功0/4。** V1近场抓放原生安全FAIL保留；V2其余三条完成32秒、真实双RGB／参考／时序及独立CPU一致性通过，但物体任务均FAIL。成功数据0，v4.0／FB13未准入；未运行新训练。已封存全部原件／私有视频及逐文件回读，冻结WBC，不重复有效失败。见[完整结果与收口收据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/FIXED_PILOT_RESULTS.md)。执行完成与任务成功分开，整体数据—训练—闭环仍PARTIAL，selected/deployment=NONE。
