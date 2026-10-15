@@ -121,6 +121,13 @@ def require_task_asset(root,manifest,version):
             for key in ('clock_build_receipt','task_build_receipt','base_acceptance_sha256'):
                 if amended[key]!=timing[key]:raise PermissionError('TIMING_AMENDMENT_BINARY_OR_PLANT_CHANGED')
             timing=amended
+        r3=root/'evidence/TASK_TIMING_ENGINEERING_ACCEPTANCE_R3.json'
+        if r3.exists():
+            amended=read(r3)
+            if amended['previous_timing_acceptance_sha256']!=sha(amendment):raise PermissionError('TIMING_R3_PARENT_CHANGED')
+            for key in ('clock_build_receipt','task_build_receipt','base_acceptance_sha256'):
+                if amended[key]!=timing[key]:raise PermissionError('TIMING_R3_BINARY_OR_PLANT_CHANGED')
+            timing=amended
         if (timing['status']!='PASS_CPU_EXACT_STEP_PAUSE_ONLY' or timing['physical_qualification'] is not False
                 or timing['base_acceptance_sha256']!=sha(root/'evidence/TASK_V2_ENGINEERING_ACCEPTANCE.json')
                 or timing['safety_threshold_changes'] or timing['controller_math_changes']

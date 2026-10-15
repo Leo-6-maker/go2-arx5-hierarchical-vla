@@ -70,3 +70,30 @@ def receive_readiness_fix(root):
         value['readiness_fix']='ACTUAL_WBC_AND_FRESH_SOURCE_RECEIPT_NOT_ARBITRARY_PAUSED_MESSAGE_COUNT'
         for n in value['source_files']:value['source_files'][n]=sha(Path(__file__).with_name(n))
         write(proof,value);print(json.dumps(value))
+
+
+def receive_ack_order_fix(root):
+    from scripts.pi0292.durable import write
+    from .task_clock import preinstall_clock_failure
+    root=Path(root)
+    with cpu_stage(root,'TASK_TIMING_ACCEPTANCE_CPU_R3',cores=1,cpu_s_cap=120):
+        previous=root/'evidence/TASK_TIMING_ENGINEERING_ACCEPTANCE_R2.json'
+        proof=root/'evidence/TASK_TIMING_ENGINEERING_ACCEPTANCE_R3.json'
+        if proof.exists():raise FileExistsError('TIMING_R3_ALREADY_SEALED')
+        if not preinstall_clock_failure(root/'episodes/TASK-PILOT-W0-T2-engineering03'):
+            raise ValueError('EXACT_ACK_ORDER_FAILURE_REQUIRED')
+        value=read(previous)
+        for key in ('clock_build_receipt','task_build_receipt'):
+            if sha(root/value[key]['relative'])!=value[key]['sha256']:raise ValueError('PRIOR_BUILD_CHANGED')
+        suite=unittest.defaultTestLoader.loadTestsFromName('scripts.pi0294.test_task_clock')
+        result=unittest.TextTestRunner(verbosity=2).run(suite)
+        p=root/'evidence/TASK_TIMING_CONTRACT_CPU_R3.json'
+        write(p,dict(status='PASS' if result.wasSuccessful() else 'FAIL',tests=result.testsRun,new_physics=0,new_model_queries=0))
+        if not result.wasSuccessful():raise ValueError('PAUSE_CPU_FAIL')
+        value['CPU_receipt']=dict(relative=str(p.relative_to(root)),sha256=sha(p))
+        value['previous_timing_acceptance_sha256']=sha(previous)
+        value['readiness_fix']='RESUME_OWNED_DDS_PEERS_THEN_READ_LIVE_UNCHANGED_PAUSE_COUNTERS_BEFORE_ANY_PHYSICS'
+        value['clock_repairs_max']=3
+        value['repairs']=['EXACT_STEP_BARRIER','PAUSED_OBSERVATION_READINESS','LIVE_ACK_ORDER']
+        for n in value['source_files']:value['source_files'][n]=sha(Path(__file__).with_name(n))
+        write(proof,value);print(json.dumps(value))

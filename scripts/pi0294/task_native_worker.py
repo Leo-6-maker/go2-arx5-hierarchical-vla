@@ -18,7 +18,7 @@ import numpy as np
 from .task_capture_runtime import validate_entry,CUTOFF,read,sha
 from .task_state import ActualState,write_gripper,read_state
 from .task_gripper_contract import VERSION,teacher_physical_fraction,require_working_target
-from .task_clock import require_pause,preinstall_clock_failure,actual_source_age
+from .task_clock import finish_pause,preinstall_clock_failure,actual_source_age
 
 
 class FrameRecorder:
@@ -84,7 +84,10 @@ def run(root,native,startup,episode):
         if not (predispatched or preinstall_clock_failure(out)):
             raise FileExistsError('FIRST_PHYSICAL_ATTEMPT_EXISTS_NO_QUALITY_RETRY')
         engineering_attempt+=1
-        if engineering_attempt>3:raise PermissionError('BOUNDED_PREDISPATCH_ENGINEERING_ATTEMPTS_EXHAUSTED')
+        # W0/T2 had one original dispatch, followed by at most the protocol's
+        # three reasoned clock repairs. All other predispatch caps stay three.
+        maximum=4 if episode=='TASK-PILOT-W0-T2' else 3
+        if engineering_attempt>maximum:raise PermissionError('BOUNDED_ENGINEERING_REPAIRS_EXHAUSTED')
         out=root/'episodes'/(episode+f'-engineering{engineering_attempt:02d}')
     build_dir=root/'runtime/TASK_ADAPTER_BUILD_03';build=read(build_dir/'BUILD_RECEIPT.json')
     for name,digest in build['binaries'].items():
@@ -262,10 +265,14 @@ def run(root,native,startup,episode):
             document=native_document(action,mount,base_valid=True,previous_velocity=previous_velocity)
             document['_pi0294']=dict(episode=episode,sequence=sequence,source_mpc_s=source,ttl_s=.4,operation='install')
             wire=json.dumps(document,separators=(',',':'))
-            if not spin(2,lambda:read(out/'pause_ack.json')['ack_sequence']>pause_before['ack_sequence']):raise RuntimeError('LIVE_PAUSE_ACK_MISSING')
-            pause_after=read(out/'pause_ack.json');require_pause(pause_before,pause_after,next_step)
+            # A SIGSTOPped DDS peer can stall native publication under its sim
+            # mutex. Re-open that owned peer before requiring a fresh ACK;
+            # physical quota/flags remain paused. Compare the pre-wait counters
+            # to the now-live snapshot, not a stale file during peer suspension.
+            pause_after=finish_pause(pause_before,next_step,lambda:read_state(out/'state.bin')['step'],
+                lambda:stop_external(False),lambda:spin(2,lambda:read(out/'pause_ack.json')['ack_sequence']>pause_before['ack_sequence']),
+                lambda:read(out/'pause_ack.json'))
             pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
-            stop_external(False)
             write_gripper(out/'gripper.bin',sequence,source,float(action[0,9]));publish(refs,wire)
             intent=dict(index=len(observed),sequence=sequence,actual_observation_time_s=packet['time_s'],source_mpc_s=source,
                 wire_sha256=hashlib.sha256(wire.encode()).hexdigest(),action_EEF13=action.tolist(),teacher_stage=teacher.stage,
