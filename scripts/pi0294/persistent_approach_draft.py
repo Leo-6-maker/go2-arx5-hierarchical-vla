@@ -31,6 +31,7 @@ class DraftConfig:
     no_progress_window_s:float=2.
     # One native command interval's distance, not fitted to old tracking bias.
     minimum_progress_m:float=.003
+    minimum_angular_progress_rad:float=.015
     no_progress_windows:int=2
     duration_s:float=32.
 
@@ -59,8 +60,9 @@ class PersistentApproachDraft:
         tcp,base=pose(actual_tcp),pose(actual_BASE)
         self.last_observation=float(time_s)
         distance=float(np.linalg.norm(tcp[:3,3]-self.target[:3,3]))
+        angle=float(geodesic_angle(tcp[:3,:3],self.target[:3,:3]))
         station_error=float(np.linalg.norm(base[:2,3]-self.station[:2,3]))
-        self.history.append(dict(time_s=float(time_s),goal_distance_m=distance,station_distance_m=station_error))
+        self.history.append(dict(time_s=float(time_s),goal_distance_m=distance,goal_angle_rad=angle,station_distance_m=station_error))
         if not native_safe:self.stop_reason='ORIGINAL_NATIVE_SAFETY_REJECT'
         if time_s>=self.config.duration_s:self.stop_reason=self.stop_reason or 'BOUNDED_TASK_TIME_EXHAUSTED'
         window=self.config.no_progress_window_s*self.config.no_progress_windows
@@ -68,7 +70,9 @@ class PersistentApproachDraft:
         if old:
             change=old[-1]['goal_distance_m']-distance
             base_change=old[-1]['station_distance_m']-station_error
-            if change<self.config.minimum_progress_m and base_change<self.config.minimum_progress_m:
+            angular_change=old[-1]['goal_angle_rad']-angle
+            if (change<self.config.minimum_progress_m and base_change<self.config.minimum_progress_m
+                    and angular_change<self.config.minimum_angular_progress_rad):
                 self.stop_reason=self.stop_reason or 'NO_TASK_APPROACH_PROGRESS_NO_FORCED_STAGE_TRANSITION'
         return dict(task=self.task,distance_m=distance,station_error_m=station_error,stop_reason=self.stop_reason,
             manipulation_stage='NOT_ENTERED_WITHOUT_ACTUAL_GEOMETRY',task_success=False)

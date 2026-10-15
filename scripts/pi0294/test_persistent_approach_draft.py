@@ -65,3 +65,11 @@ class ApproachDraftTests(unittest.TestCase):
             np.testing.assert_array_equal(left['H40_world_poses'],right['H40_world_poses'])
             np.testing.assert_array_equal(left['BASE_soft_velocity'],right['BASE_soft_velocity'])
             self.assertEqual(p.snapshot(),q.snapshot())
+
+    def test_real_orientation_progress_is_not_false_position_stall(self):
+        p,a,b=self.planner();p.target[:3,:3]=np.array([[0,-1,0],[1,0,0],[0,0,1]])
+        for i in range(81):
+            theta=.2*i*.05;actual=a.copy();c,s=np.cos(theta),np.sin(theta)
+            actual[:3,:3]=[[c,-s,0],[s,c,0],[0,0,1]]
+            diagnostic=p.observe(time_s=i*.05,actual_tcp=actual,actual_BASE=b)
+        self.assertIsNone(diagnostic['stop_reason'])
