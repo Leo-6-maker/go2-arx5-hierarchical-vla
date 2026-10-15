@@ -271,7 +271,7 @@ def run(root,native,startup,episode):
             action[:,10:13]=plan['BASE_soft_velocity']
             # Timestamp comes from the very same actual native packet used for
             # Teacher geometry, not a refreshed label or older asynchronous EE.
-            source=float(packet['time_s'])
+            source=round(float(packet['time_s'])*1e9)/1e9
             if (source<=last_command_source or not 0<=actual_source_age(packet['time_s'],source)<=.025):raise ValueError('ACTUAL_OBSERVATION_SOURCE_CLOCK_NOT_BOUND')
             document=native_document(action,mount,base_valid=True,previous_velocity=previous_velocity)
             document['_pi0294']=dict(episode=episode,sequence=sequence,source_mpc_s=source,ttl_s=.4,operation='install')
@@ -291,6 +291,7 @@ def run(root,native,startup,episode):
             intent.update(prefix_points=8,execute_physics_steps=200,record_every_physics_steps=25,
                 persistent=plan['persistent'],geometry=plan['geometry'],milestones=plan['milestones'],
                 asynchronous_EE_source_s=float(latest['ee'].time),selected_MPC_policy_consumption='UNKNOWN')
+            intent['source_clock']='EXISTING_NATIVE_ROS_INTEGER_NANOSECONDS_OF_SAME_ACTUAL_PACKET'
             command_log.write(json.dumps(dict(intent,phase='SUBMITTED_REQUIRES_INSTALL_ACK'))+'\n');command_log.flush();commands.append(intent)
             ref_id=intent['wire_sha256']
             def installed():

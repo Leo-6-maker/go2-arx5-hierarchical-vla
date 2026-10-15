@@ -4,6 +4,16 @@ from .persistent_teacher import cards
 
 
 class Contracts(unittest.TestCase):
+    def test_observed_native_clock_float_crossing(self):
+        from .task_clock import actual_source_age
+        actual=10.200000000000076
+        self.assertLess(actual_source_age(actual,actual),0.)
+        source=round(actual*1e9)/1e9
+        self.assertEqual(source,10.2)
+        self.assertEqual(actual_source_age(actual,source),0.)
+        self.assertLess(actual_source_age(actual,source+.001),0.)
+        self.assertGreater(actual_source_age(actual,source-.026),.025)
+
     def test_fixed_budget(self):
         c=cards()
         self.assertEqual(len(c),6)
