@@ -66,7 +66,8 @@ def physics(root,episode):
         from .night_r1_entry import retime
         entry=retime(entry,np.asarray(route['position']))
         assert entry['entry_timing']==entry_binding['entry_timing']
-    record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==entry_binding['source_id']);program=load(root,record);combined=with_entry(program,entry)
+    from .night_r1_entry_bridge import compose
+    record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==entry_binding['source_id']);program=load(root,record);combined=compose(program,entry,card)
     with np.load(folder/'ACTUAL_COMBINED_PROGRAM.npz',allow_pickle=False) as original_combined:
         assert all(np.array_equal(combined[k],original_combined[k]) for k in combined)
     previous=np.zeros(3)

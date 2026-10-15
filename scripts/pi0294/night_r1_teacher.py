@@ -29,7 +29,10 @@ class Teacher:
         if at<self.entry['time'][-1]-1e-12:
             from .night_r1_entry import stage
             return stage(self.entry,at,self.card['task'])
-        elapsed=at-self.entry['time'][-1];stage=self.record['events'][0]['stage']
+        from .night_r1_entry_bridge import source_begin
+        begin=source_begin(self.entry,self.card)
+        if at<begin-1e-12:return 'contact'
+        elapsed=at-begin;stage=self.record['events'][0]['stage']
         for event in self.record['events']:
             if event['program_time_s']<=elapsed+1e-12:stage=event['stage']
         return stage
@@ -61,19 +64,21 @@ class Teacher:
             if self.card.get('entry_design_file'):
                 from .night_r1_entry import phases
                 self.entry=phases(self.entry,route,certificate)
-            self.combined=with_entry(self.program,self.entry)
+            from .night_r1_entry_bridge import compose
+            self.combined=compose(self.program,self.entry,self.card)
             if self.combined['time'][-1]>self.card['duration_s']-4:raise PlannerFailure('NIGHT_PREDECLARED_DURATION_DOES_NOT_FIT',certificate)
             folder=self.root/FOLDER/'episodes'/self.card['id']
             np.savez_compressed(folder/'ACTUAL_COMBINED_PROGRAM.npz',**self.combined)
             write(folder/'ACTUAL_ENTRY_BINDING.json',dict(source_id=self.record['id'],source_program_sha256=self.record['sha256'],actual_warmup_certificate=certificate,
-                entry_duration_s=float(t[-1]),activity_duration_s=self.record['active_duration_s'],entry_and_activity_s=float(self.combined['time'][-1]),actual_packet_time_s=float(state['time_s']),base_intent=[0,0,0],
-                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s'),entry_timing=self.entry.get('entry_timing')))
+                entry_duration_s=float(self.entry['time'][-1]),raw_uniform_entry_duration_s=float(t[-1]),activity_duration_s=self.record['active_duration_s'],entry_and_activity_s=float(self.combined['time'][-1]),actual_packet_time_s=float(state['time_s']),base_intent=[0,0,0],
+                entry_design_file=self.card.get('entry_design_file'),free_approach_end_s=self.entry.get('free_approach_end_s'),contact_connector_end_s=self.entry.get('contact_connector_end_s'),entry_timing=self.entry.get('entry_timing'),entry_gripper_bridge=self.card.get('entry_gripper_bridge')))
         at=float(state['time_s'])+np.arange(40)*.05;poses,opening=sample(self.combined,at);stages=[self.stage_at(t) for t in at]
         attached=bool(self.card['task']=='T1' and state['native_grasp'] and self.stage in ('lift','carry','lower'))
         package=dict(selected,target=poses[0]);validated,cert,_=self.client.bundle(state,[package],self.stage,self.condition,self.query_index,
             attached=attached,frozen_poses=poses,frozen_stages=stages)
         if not np.array_equal(validated,poses):raise ValueError('NIGHT_ACTIVE_PATH_VALUES_CHANGED')
         self.query_index+=1
+        from .night_r1_entry_bridge import source_begin
         persistent=dict(schema='NIGHT_DECLARED_SOURCE_AND_ENTRY',source_id=self.record['id'],source_program_sha256=self.record['sha256'],consumed_task_time_s=float(state['time_s']),
-            entry_duration_s=float(self.entry['time'][-1]),source_elapsed_s=max(0.,float(state['time_s']-self.entry['time'][-1])),source_phase=self.stage,certificate=cert,query_index=self.query_index-1)
+            entry_duration_s=float(self.entry['time'][-1]),source_elapsed_s=max(0.,float(state['time_s']-source_begin(self.entry,self.card))),source_phase=self.stage,certificate=cert,query_index=self.query_index-1)
         return dict(poses=poses,opening=opening,BASE_soft_velocity=np.zeros((40,3)),stage=self.stage,persistent=persistent,geometry=self.geometry,milestones=dict(self.milestones),stop_reason=None,version=VERSION)
