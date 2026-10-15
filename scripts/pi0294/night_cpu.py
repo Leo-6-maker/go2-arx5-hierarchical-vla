@@ -74,6 +74,7 @@ def qualify_source(root,manifest,card):
                 request=read(cached/'INPUT.private.json');final=read(cached/'FINAL.private.json')
                 actual_payload=client.payload(state,package['contact'],'approach',0)
                 for key in actual_payload:
+                    if key=='schema':continue  # Envelope version, not a model input.
                     if actual_payload[key]!=request[key]:raise ValueError('NIGHT_CACHED_ENTRY_INPUT_CHANGED:'+key)
                 if final['status']!='Success' or final['input_sha256']!=sha(cached/'INPUT.private.json'):raise ValueError('NIGHT_CACHED_ENTRY_NOT_VALID')
                 certificate=final['certificate'];index=final['package'];client.last_route=read(cached/f"ROUTE-{final['route']:02d}.private.json")
