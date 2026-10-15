@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**最新零物理步补证：44次保存cursor更新严格重放一致，其中34次位置检查在请求平移为零时提前拒绝。** 已准备[分量独立推进V2单项草案](docs/protocols/PI0294_COMPONENT_PROGRESS_V2_QUALIFICATION_DRAFT.md)，CPU fixture／44个独立单步提案检查通过；这是改变Teacher准入合同的未采用草案，authorizes_execution=false／launch_allowed=false，不重开前轮物理或预算。完整示范目标仍未完成，旧终局不改。
+
 **最新已采用的新整机Teacher短系列已终结：2条有效无进展FAIL＋2条时间表示工程中断。** 4个短条件各启动一次，19462含warmup／尾部积分、380实际双RGB；无预接触／物体接触／操作。两条完整确认未准入、成功整机TRAIN0、训练0。CPU已证明并窄修10.2秒负龄期浮点表示，但修复后未再物理运行。保存查询的持久游标未进入目标平移段；Teacher绝对位置包络与旋转推进耦合是具体下一设计问题，未转向WBC调参。原件1302文件／440579732字节私有完整回读，旧0/4／FAIL不改，selected/deployment=NONE。见[实际结果、图与终账](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/REPORT.md)。本系列入口已关闭，原科学总目标仍PARTIAL；不把工程中断算科学FAIL，不无条件重跑。
 
 以下为新系列采用前的实际数组准备记录，未授权描述对应当时提案，不覆盖后续直接人类采用及上述已执行终局。
