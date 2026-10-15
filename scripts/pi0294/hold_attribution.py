@@ -76,6 +76,42 @@ def strict_snapshots(root,model_path):
         write(out/'STRICT_ALIGNMENT_AND_FORCE_CHECK.json',result);print(json.dumps(result))
 
 
+def forecast_check(root,model_path):
+    """Compare a saved candidate preview with the actual state at that future time."""
+    import mujoco as mj
+    from go2arx5_vla.trajectory.so3 import quat_slerp
+    root=Path(root);validate_scope(root)
+    with cpu_stage(root,'R4B_D0_SAME_FUTURE_TIME_CHECK',cores=1,cpu_s_cap=120):
+        p=root/'fullbody/native-hold-01';task=read(p/'TASK_START.json');out=root/'attribution/R4B_D0'
+        model=mj.MjModel.from_binary_path(str(model_path));data=mj.MjData(model)
+        qa=[model.jnt_qposadr[mj.mj_name2id(model,mj.mjtObj.mjOBJ_JOINT,'x5_joint'+str(k))] for k in range(1,7)]
+        site=mj.mj_name2id(model,mj.mjtObj.mjOBJ_SITE,'x5_ee');target=quat_to_matrix(task['initial_tcp'][3:])
+        samples=[json.loads(x) for x in (p/'physics.jsonl').read_text().splitlines()];samples=[x for x in samples if x['kind']=='sample']
+        st=np.array([x['sim_time_s'] for x in samples]);qposes=np.array([x['qpos'] for x in samples]);bytime={round(x['sim_time_s'],9):x for x in samples}
+        ros=[json.loads(x) for x in (p/'ros.jsonl').read_text().splitlines()]
+        policies={round(x['monotonic_s'],9):x['msg'] for x in ros if x['kind']=='policy'}
+        views=[json.loads(x) for x in (root/'attribution/R4B_D0_CAUSAL_R1/POSE_CHAIN_ROWS.private.jsonl').read_text().splitlines()]
+        values=[];times=[];missing=0
+        for entry in views:
+            sample=bytime[round(entry['sim_s'],9)];key=round(sample['monotonic_s']-entry['policy_owner_receipt_age_s'],9)
+            policy=policies[key];future=min(entry['arm_preview_time_s'],policy['time_trajectory'][-1]);state=interp(policy,future)
+            if future<st[0] or future>st[-1]:missing+=1;continue
+            k=int(np.searchsorted(st,future,side='right')-1);k=min(k,len(st)-2);u=(future-st[k])/(st[k+1]-st[k])
+            q=(1-u)*qposes[k]+u*qposes[k+1];q[3:7]=np.roll(quat_slerp(np.roll(qposes[k,3:7],-1),np.roll(qposes[k+1,3:7],-1),u),1)
+            rotation=quat_to_matrix(np.roll(q[3:7],-1));actual_mount=q[:3]+rotation@np.array([.05,0,.1]);q[qa]=state[6:12]
+            data.qpos[:]=q;mj.mj_kinematics(model,data);actual_plan_arm=data.site_xmat[site].reshape(3,3)
+            plan=np.array(entry['candidate_levels'][1]);values.append([np.linalg.norm(data.site_xpos[site]-plan[:3,3]),np.linalg.norm(logrot(plan[:3,:3].T@actual_plan_arm)),
+                np.linalg.norm(data.site_xpos[site]-task['initial_tcp'][:3]),np.linalg.norm(logrot(target.T@actual_plan_arm)),*list(state[:3]-actual_mount)])
+            times.append(entry['relative_s'])
+        a=np.asarray(values);late=np.array(times)>=8
+        result=dict(status='SAME_FUTURE_TIMESTAMP_CANDIDATE_FORECAST_DIAGNOSTIC',columns=['plan_vs_realized_base_XYZ_m','plan_vs_realized_base_SO3_rad','reference_vs_actual_base_planned_arm_XYZ_m','reference_vs_actual_base_planned_arm_SO3_rad','planned_minus_actual_mount_x','planned_minus_actual_mount_y','planned_minus_actual_mount_z'],
+            whole=summary(a),last2s_source=summary(a[late]),future_not_observed_count=missing,total_source_samples=len(views),
+            time_alignment='Actual base interpolated at candidate arm preview absolute time; no shifting to minimize error',
+            interpretive_limit='Candidate policy consumer ID unknown. Actual future execution includes subsequent replanning. A forecast discrepancy is not by itself a transmission bug or pure low-level base-tracking causal estimate.',
+            new_physics=0,new_model_queries=0,new_render=0)
+        write(out/'SAME_FUTURE_TIME_FORECAST_CHECK.json',result);print(json.dumps(result))
+
+
 def main(root,model_path):
     import mujoco as mj
     root=Path(root);validate_scope(root)
