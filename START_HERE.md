@@ -1,5 +1,11 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**最新实际V2已闭合：3条有效12秒短里程碑FAIL＋1条任务前就绪工程不完整。** 无预接触/物体接触/操作，条件两条完整确认未准入；三条角误差最小约0.143/0.097/0.171rad、平移游标仍零。原件2323文件/530436177字节逐文件私有回读通过，旧终局未改，成功整机TRAIN0、训练0、selected/deployment=NONE。见[完整结果、CPU复算、图与终账](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/REPORT.md)。
+
+**后续准备：优先复用成熟规划组件，冻结MuJoCo/WBC。** 已固定读取ManiSkill八个原始文件并核对Panda joint动作、PickCube不含释放/撤离成功条件、实际ARX5与全Go2碰撞资产差异。见[源码到EEF13的具体适配审核](docs/reviews/2026-10-15_MANISKILL_PINNED_SOURCE_TO_EEF13_ADAPTER_AUDIT.md)。仅源码/接口研究，未安装新框架、无新物理/模型/GPU/PBS许可，没有本体成功seed；不再循环补游标阈值。
+
+以下V2“草案/未采用”与V1“最新”措辞是历史阶段记录；后续人类已明确采用V2并得到上述实际终局，不覆盖或改写历史原件。
+
 **最新零物理步补证：44次保存cursor更新严格重放一致，其中34次位置检查在请求平移为零时提前拒绝。** 已准备[分量独立推进V2单项草案](docs/protocols/PI0294_COMPONENT_PROGRESS_V2_QUALIFICATION_DRAFT.md)，CPU fixture／44个独立单步提案检查通过；这是改变Teacher准入合同的未采用草案，authorizes_execution=false／launch_allowed=false，不重开前轮物理或预算。完整示范目标仍未完成，旧终局不改。
 
 **最新已采用的新整机Teacher短系列已终结：2条有效无进展FAIL＋2条时间表示工程中断。** 4个短条件各启动一次，19462含warmup／尾部积分、380实际双RGB；无预接触／物体接触／操作。两条完整确认未准入、成功整机TRAIN0、训练0。CPU已证明并窄修10.2秒负龄期浮点表示，但修复后未再物理运行。保存查询的持久游标未进入目标平移段；Teacher绝对位置包络与旋转推进耦合是具体下一设计问题，未转向WBC调参。原件1302文件／440579732字节私有完整回读，旧0/4／FAIL不改，selected/deployment=NONE。见[实际结果、图与终账](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/REPORT.md)。本系列入口已关闭，原科学总目标仍PARTIAL；不把工程中断算科学FAIL，不无条件重跑。
