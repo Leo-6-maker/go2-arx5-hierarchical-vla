@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-15 当前科学入口
 
+**V3已实际运行至合同停止点：真实单侧物体接触已取得，完整成功seed仍0。** [报告、实际TCP/接触图及662原件私有回读](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-access-v3/REPORT.md)。12CPU实际PASS；T1运行5.6s/14安装/113双RGB，右pad真实接触累计.570s；下一未安装窗口原关节加速度4.01285＞1.0门拒绝。独立500Hz另见右slide6点raw超44mm、峰值44.06553mm；无原生stop≠原始机械范围PASS，不能作为成功示范。T2两入口10.346/10.467＞10s、两dense预算用完，001/002未认证/未评，未运行。累计40启动/364111扣账步；整体PARTIAL，停止本V3，无重试/训练，旧FAIL/WBC/安全/评分/窗口不变，selected/deployment=NONE。下列采用/待执行均为历史阶段记录。
+
 **完整V3已获用户明确采用，含累计搜索217bundle/214214dense重分配；沿原窗口/父账执行。** [源绑定人类采用](reports/PI0294/design/SOURCE_ACCESS_V3_HUMAN_ADOPTION.json)。保留V2安全FAIL，新版本实施受影响CPU契约→各task自身源/actual warmup→完整32s；采用不代表运行PASS。下列待采用描述是此前发布阶段记录。
 
 **V3已准备、待明确采用：T1完整任务组件抬高3cm到H47；T2固定首contact直接接入。** [完整有界方案](docs/protocols/PI0294_TABLE_CLEARANCE_AND_CONTACT_ENTRY_SEED_V3.md) · [任务卡](reports/PI0294/design/SOURCE_ACCESS_V3_TASK_CARD.json) · [保存几何/源前缀准备证据](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/source-demo-access-v3-preparation/PREPARATION_REPORT.md)。旧5300步包络含margin最高.399445m，新完整桌底.42m留下20.55mm保存净空；不证明新动态安全。T2三源223/231/223前无pad接触/推送，保留15.50/16.25/16.10s后缀，显式working-closed初态。拟各32s，≤4启动/42012积分/1282双RGB/14000CPU秒，沿原窗口/累计父账，内部累计分配明确217bundle/214214dense、仍在原外层预算内。**本次只准备/发布，authorizes_execution=false、launch_allowed=false、runtime未实施、变更CPU契约0/12，新IK/RRT/渲染/物理/神经/训练0；V2安全FAIL永久保留。**

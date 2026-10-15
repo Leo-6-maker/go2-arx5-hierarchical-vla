@@ -1,0 +1,87 @@
+{
+  "status": "VALID_TASK_OR_PREFIX_FAIL",
+  "runtime_source_sha": "68a6da3c40e01e60cd7dd8bbf0e3a326b8c9b71a",
+  "episode": "SDR3_SEED_W0_T1",
+  "observations": 113,
+  "installed_chunks": 14,
+  "native_integrations": 5300,
+  "task_integrations": 2800,
+  "task_prefix_s": 5.6000000000000005,
+  "complete_32s": false,
+  "quality": {
+    "task_id": "GO2_PLACE_V1",
+    "evidence_source": "REAL_MUJOCO_FULL_GO2_ARX5",
+    "complete_32s": false,
+    "clock_valid": false,
+    "safety_valid": true,
+    "history": {
+      "sustained_grasp": false,
+      "sustained_lift": false,
+      "horizontal_carry": false
+    },
+    "hold_observed": 0,
+    "hold_pass": 0,
+    "hold_subpredicates": {
+      "zone_corners": 0,
+      "table_height": 0,
+      "linear_speed": 0,
+      "angular_speed": 0,
+      "released": 0,
+      "tcp_clear": 0,
+      "object_and_contacts_valid": 0
+    },
+    "persistent_success": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "actual_object_contact_ticks": 285,
+  "actual_grasp_ticks": 0,
+  "illegal_contact_records": 0,
+  "first_illegal_contact": null,
+  "last_illegal_contact": null,
+  "original_native_stop": [],
+  "pending_planning_stop": "VALID_PLANNING_FAILURE: FROZEN_SOURCE_JOINT_ACCELERATION",
+  "final_source_phase": "approach",
+  "initial_actual_TCP_xyz": [
+    0.35506731295008376,
+    0.022296076252395755,
+    0.715586205009746
+  ],
+  "final_actual_TCP_xyz": [
+    0.432213121903459,
+    -0.04497720474433823,
+    0.5227572791181198
+  ],
+  "final_same_tick_reference_xyz": [
+    0.4601898348353128,
+    -0.06300244723620387,
+    0.5345115524529237
+  ],
+  "max_actual_TCP_displacement_m": 0.21831208128652546,
+  "max_actual_object_horizontal_displacement_m": 0.008615348433042992,
+  "tracking_XYZ_initial_m": 0.0,
+  "tracking_XYZ_final_m": 0.03529544977743159,
+  "tracking_XYZ_median_m": 0.04253172469097891,
+  "tracking_SO3_final_rad": 0.06215158362316303,
+  "image_files_verified": 226,
+  "actual_RGB_pairs": 113,
+  "source_reference_values_replayed_exact": true,
+  "source_gripper20Hz_labels_exact": true,
+  "installed_reference": {
+    "transactions": 14,
+    "installed_messages": 70,
+    "max_xyz_abs_m": 2.9774510856839242e-08,
+    "max_sign_invariant_unit_quaternion_component": 3.302948914374326e-08,
+    "tolerance": 1e-06
+  },
+  "pause_history_unchanged": true,
+  "actual_state_and_FK_replay": true,
+  "interpretation": "ORIGINAL_SAFETY_AND_TASK_VERDICT; NO_RETRY",
+  "new_physics": 0,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
