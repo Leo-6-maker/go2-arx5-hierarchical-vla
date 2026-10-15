@@ -1,0 +1,30 @@
+{
+  "status": "D0_READONLY_ATTRIBUTION_COMPLETE",
+  "primary_branch": "ARM_SERVO_REALIZATION_BIAS",
+  "secondary_branch": "BASE_REALIZATION_BIAS",
+  "exact_unique_controller_cause_established": false,
+  "concrete_implementation_defect_demonstrated": false,
+  "controller_patch_applied": false,
+  "evidence": [
+    "Same-native-stamp joint3/4 target substitution reduces final2s orientation RMS0.07042672 to0.00955994rad in offline FK only",
+    "Recorded actuator force equals clipped raw ctrl exactly for all six arm joints at1670 saved samples",
+    "Recorded tau_ff is zero; inferred D and P supply load-bearing torque; no evidence of a dropped documented gravity field",
+    "Candidate planned FK differs little from reference, but exact consumed policy ID is unobserved",
+    "Joint target substitution worsens XYZ residual above0.015m; body-arm coupling prevents declaring a hypothetical controller PASS"
+  ],
+  "missing": [
+    "Exact consumed MPC policy ID and evaluation input snapshot",
+    "Actual applied dq_cmd at SetCommand",
+    "Pre-integration qpos paired with saved dynamics",
+    "Recorded external generalized force"
+  ],
+  "next_action": "WBC_OWNER_CONTROLLER_DESIGN_DECISION_OR_TARGETED_SYNCHRONOUS_LOGGING_IN_SEPARATELY_ADOPTED_D1; NO_GAIN_SEARCH",
+  "D1_launch_allowed": false,
+  "new_physics": 0,
+  "new_training": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "secondary_evidence_limit": "Same future timestamp candidate forecast differs from actual base; exact consumed policy and effects of subsequent replanning remain unresolved",
+  "same_future_time_samples": 1646,
+  "unobserved_future_tail_samples": 24
+}
