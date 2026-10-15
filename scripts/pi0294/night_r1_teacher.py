@@ -48,7 +48,9 @@ class Teacher:
         selected=next(p for p in packages_for(self.root,self.card['task']) if p['source_id']==self.record['id'])
         if self.card.get('entry_design_file'):
             from .night_r1_entry import package
-            selected=package(selected,read(self.root/FOLDER/self.card['entry_design_file']))
+            design_path=self.root/FOLDER/self.card['entry_design_file']
+            if sha(design_path)!=self.card['entry_design_file_sha256']:raise ValueError('ENTRY_DESIGN_FILE_CHANGED')
+            selected=package(selected,read(design_path))
         if self.entry is None:
             _,certificate,_=self.client.bundle(state,[selected],'approach',self.card['id']+'_WARMUP',0)
             route=self.client.last_route;t=np.asarray(route['time'])*certificate['uniform_time_scale'];q=np.asarray(route['position'])
