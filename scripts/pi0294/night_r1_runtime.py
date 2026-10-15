@@ -16,6 +16,16 @@ FOLDER = 'factory'
 VERSION = 'TF_NIGHT_R1_V1'
 
 
+def resource_lock(root):
+    """Serialize short ledger mutations; a parallel CPU ticket is not a second owner."""
+    end=time.monotonic()+5
+    while True:
+        try:return OwnerLock(Path(root)/'R1_RESOURCE_OWNER.lock')
+        except BlockingIOError:
+            if time.monotonic()>=end:raise
+            time.sleep(.01)
+
+
 def validate_entry(root, *, read_only=False, closeout=False, physical_asset=None):
     root = Path(root).resolve()
     a, m = read(root/'R1_ADOPTION.json'), read(root/'RUN_MANIFEST.json')
@@ -81,7 +91,7 @@ def cpu_scope(root, stage, *, cpu_s_cap=1800, cores=1, closeout=False, include_c
     root = Path(root); m, _ = validate_entry(root, closeout=closeout)
     t0, wall = time.process_time(), time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
-    lock = OwnerLock(root/'R1_RESOURCE_OWNER.lock')
+    lock = resource_lock(root)
     path = root/'R1_RESOURCE_LEDGER.json'; v = read(path)
     if stage in v['CPU_reservations'] or any(x['stage'] == stage for x in v['CPU_stages']):
         lock.close(); raise FileExistsError('R1_FIRST_STAGE_PRESERVED')
@@ -105,6 +115,6 @@ def cpu_scope(root, stage, *, cpu_s_cap=1800, cores=1, closeout=False, include_c
         if include_children:actual+=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime
         charge=max(actual,cores*(time.monotonic()-wall))
         proof=dict(ticket,status=status,actual_CPU_s=actual,conservative_CPU_charged_s=charge)
-        lock=OwnerLock(root/'R1_RESOURCE_OWNER.lock');v=read(path);v['CPU_reservations'].pop(stage)
+        lock=resource_lock(root);v=read(path);v['CPU_reservations'].pop(stage)
         v['Core_CPU_s']+=charge;v['CPU_stages'].append(proof);write(path,v);lock.close()
         write(root/'evidence'/(stage+'-CPU_RECEIPT.json'),proof);os.sched_setaffinity(0,affinity)
