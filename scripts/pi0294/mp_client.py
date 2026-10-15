@@ -72,25 +72,32 @@ class Client:
 
     def call(self,state,target,stage,condition,index,*,cpu=False,inspect=False,attached=False,hold=False):
         from scripts.pi0292.durable import write
-        seed=0 if inspect else reserve_request(self.root,condition,index,cpu=cpu)
-        payload=self.payload(state,target,stage,seed,attached=attached,inspect=inspect,hold=hold)
         folder=self.series/'requests'/condition;folder.mkdir(parents=True,exist_ok=True)
         stem=('inspect-' if inspect else '')+f'{index:04d}';req=folder/(stem+'-input.private.json');out=folder/(stem+'-output.private.json')
-        write(req,payload)
+        cached=req.exists() and out.exists()
+        if cached:
+            seed=read(req)['seed']
+        else:seed=0 if inspect else reserve_request(self.root,condition,index,cpu=cpu)
+        payload=self.payload(state,target,stage,seed,attached=attached,inspect=inspect,hold=hold)
+        if cached:
+            if payload!=read(req):raise ValueError('CACHED_PLANNING_INPUT_DIFFERS_NO_REQUERY')
+        else:write(req,payload)
         capsule=Path(__file__).resolve().parents[2]
         env=dict(os.environ,PYTHONPATH=str(capsule)+':'+str(capsule/'src'),LD_LIBRARY_PATH='',LD_PRELOAD='',CUDA_VISIBLE_DEVICES='',
             MPLCONFIGDIR=str(self.series/'tmp/mpl-config'),XDG_CACHE_HOME=str(self.series/'cache'),OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
         self.series.joinpath('tmp').mkdir(exist_ok=True)
-        with (folder/(stem+'-backend.private.log')).open('x') as log:
-            subprocess.run([str(self.series/'planner-env/bin/python'),'-m','scripts.pi0294.mp_backend',
-                '--request',str(req),'--output',str(out)],check=True,timeout=30,stdout=log,stderr=subprocess.STDOUT,env=env)
+        if not cached:
+            with (folder/(stem+'-backend.private.log')).open('x') as log:
+                subprocess.run([str(self.series/'planner-env/bin/python'),'-m','scripts.pi0294.mp_backend',
+                    '--request',str(req),'--output',str(out)],check=True,timeout=30,stdout=log,stderr=subprocess.STDOUT,env=env)
         result=read(out)
         if result['status']=='ENGINEERING_BACKEND_EXCEPTION':raise RuntimeError(result['error']+'\n'+result['trace'])
         if result['input_sha256']!=sha(req):raise ValueError('CROSS_PROCESS_INPUT_IDENTITY')
         fk=np.asarray(result.get('initial_fk_world',state['tcp']))
         difference=[float(np.linalg.norm(fk[:3,3]-state['tcp'][:3,3])),float(geodesic_angle(fk[:3,:3],state['tcp'][:3,:3]))]
         if difference[0]>1e-5 or difference[1]>1e-4:raise ValueError('NATIVE_AND_PLANNING_FK_MISMATCH:'+str(difference))
-        result.update(input_path=str(req),output_path=str(out),request_sha256=sha(req),response_sha256=sha(out),FK_error=difference)
+        result.update(input_path=str(req),output_path=str(out),request_sha256=sha(req),response_sha256=sha(out),FK_error=difference,
+            reused_saved_computation=cached,new_IK_or_RRT_on_reuse=False)
         return result
 
     def fk_path(self,state,arm_path):

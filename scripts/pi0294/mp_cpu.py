@@ -52,6 +52,7 @@ def qualify(root,manifest):
             mount=np.asarray(raw['actual_BASE_mount']);before=hashlib.sha256(np.asarray(state['qpos']).tobytes()+np.asarray(state['qvel']).tobytes()).hexdigest()
             if teacher is None:teacher=Teacher(card,state,engine,mount,root=root,condition=c['condition_id'],cpu=True)
             teacher.observe(state,mount)
+            teacher.query_index=index
             try:
                 result=teacher.plan(state,mount)
                 row=dict(task=c['task'],query_index=index,source_frame=frame,status='PASS_VALID_PLANNED_H40',certificate=result['persistent']['certificate'],source_samples_sha256=c['source_samples_sha256'])
@@ -64,7 +65,11 @@ def qualify(root,manifest):
         if teacher.events:raise ValueError('SAVED_FAR_INPUTS_FORCED_MANIPULATION')
     checks['ACTUAL_PACKET_BYTES_UNCHANGED']=dict(saved_inputs=len(records),unchanged=True)
     valid=[r for r in records if r['status']=='PASS_VALID_PLANNED_H40']
-    if first_poses is None:raise ValueError('NO_VALID_FIXED_START_PLANS')
+    if first_poses is None:
+        proof=dict(status='BLOCKED_VALID_START_PLANNING_FAILURE',version=VERSION,source_sha=manifest['code']['vla_commit'],
+            checks=checks,saved_input_results=records,saved_inputs=12,new_physics=0,new_render=0,new_neural_queries=0,
+            physical_milestones='NOT_ADMITTED_FIXED_START_PATHS_NOT_FEASIBLE',selected='NONE',deployment='NONE')
+        write(p/'CPU_ADMISSION.json',proof);return proof
     checks['ARX5_NATIVE_FK_PARITY']=dict(errors=[r['certificate']['FK_error'] for r in valid],position_tolerance=1e-5,rotation_tolerance=1e-4)
     client=Client(root,first_engine);binding=client.binding;m=first_engine.model
     checks['MOUNT_ROOT_TCP_PAD_FRAME_PARITY']=dict(fullbody_FK_included_actual_root=True,tool='native_x5_ee',native_model_sha256=binding['native_model_sha256'])
