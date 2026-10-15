@@ -9,15 +9,15 @@ from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
 import numpy as np
+from .task_gripper_contract import VERSION,WORKING_OPEN,MARGIN
 
-VERSION = 'FULLBODY_TASK_OVERLAY_V1'
 PARAMETERS = dict(table_top=.44, table_center_x=.515, cube_edge=.04, cube_mass=.05,
     finger_travel=.044, finger_force_max_N=8., finger_target_speed_m_s=.04,
     finger_kp=400., finger_kd=3., finger_damping=3., finger_armature=.002,
     pad_friction=1.2, table_friction=.8, cube_friction=.8,
     body_camera_position=[.25,-.24,.28], body_camera_look_at=[.50,0.,.10],
     wrist_camera_position=[.1124,.10,.055], wrist_camera_look_at=[.1774,0.,.0001057],
-    camera_fovy=75., pixels=256)
+    camera_fovy=75., pixels=256,working_margin_m=MARGIN,initial_finger_position_m=WORKING_OPEN)
 
 
 def camera(parent, name, position, target, up):
@@ -82,7 +82,7 @@ def xml_scene(card, asset_root):
     ET.SubElement(cube,'freejoint',name='task_cube_free')
     ET.SubElement(cube,'geom',name='task_cube_geom',type='box',size='.02 .02 .02',mass='.05',
                   friction='.8 .02 .002',condim='4',rgba='.82 .04 .04 1',margin='0',solref='.008 1')
-    extra_q = [.044,.044,sx,sy,top+.02,np.cos(yaw/2),0,0,np.sin(yaw/2)]
+    extra_q = [WORKING_OPEN,WORKING_OPEN,sx,sy,top+.02,np.cos(yaw/2),0,0,np.sin(yaw/2)]
     for key in robot.findall('./keyframe/key'):
         for name,extra in (('qpos',extra_q),('qvel',[0]*8),('ctrl',[0]*2)):
             if name in key.attrib:

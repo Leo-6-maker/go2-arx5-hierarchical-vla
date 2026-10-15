@@ -18,6 +18,7 @@ import time
 import numpy as np
 from .task_capture_runtime import validate_entry,CUTOFF,read,sha
 from .task_state import ActualState,parse_state,write_gripper,read_state
+from .task_gripper_contract import VERSION,teacher_physical_fraction,require_working_target
 
 
 class FrameRecorder:
@@ -67,7 +68,7 @@ def run(root,native,startup,episode):
     from .base_intent import native_document,measured_base,rotation,ACCEL
     from go2arx5_vla.task_data.codec import pose10
     from scripts.pi0292.durable import OwnerLock,write
-    root,native,startup=map(Path,(root,native,startup));manifest,parent=validate_entry(root)
+    root,native,startup=map(Path,(root,native,startup));manifest,parent=validate_entry(root,physical_asset=VERSION)
     card=[c for c in pilot_cards() if c['id']==episode]
     if len(card)!=1:raise ValueError('FIXED_PILOT_CARD_REQUIRED')
     card=card[0]
@@ -84,7 +85,7 @@ def run(root,native,startup,episode):
         engineering_attempt+=1
         if engineering_attempt>3:raise PermissionError('BOUNDED_PREDISPATCH_ENGINEERING_ATTEMPTS_EXHAUSTED')
         out=root/'episodes'/(episode+f'-engineering{engineering_attempt:02d}')
-    build_dir=root/'runtime/TASK_ADAPTER_BUILD_01';build=read(build_dir/'BUILD_RECEIPT.json')
+    build_dir=root/'runtime/TASK_ADAPTER_BUILD_02';build=read(build_dir/'BUILD_RECEIPT.json')
     for name,digest in build['binaries'].items():
         if sha(build_dir/(name+'.so'))!=digest:raise ValueError('TASK_ADAPTER_CHANGED')
     if sha(Path(__file__).with_name('task_actuation.cpp'))!=build['sources']['task_actuation']:
@@ -111,7 +112,7 @@ def run(root,native,startup,episode):
     resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     (out/'tmp').mkdir();(out/'ros-logs').mkdir()
     os.environ.update(TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST')
-    write(out/'CARD.json',card);write(out/'START.json',dict(ticket,engineering_attempt=engineering_attempt,source_sha=manifest['code']['vla_commit'],WBC_parameters_changed=False))
+    write(out/'CARD.json',dict(card,task_asset_version=VERSION));write(out/'START.json',dict(ticket,task_asset_version=VERSION,engineering_attempt=engineering_attempt,source_sha=manifest['code']['vla_commit'],WBC_parameters_changed=False))
     before=resource.getrusage(resource.RUSAGE_CHILDREN);cpu0=time.process_time();wall=time.monotonic()
     processes=[];handles=[];latest={};counts={};subs=[];observed=[];commands=[];frames=[];futures=[]
     pool=ThreadPoolExecutor(max_workers=1);recorder=None;node=None;journal=None;journal_offset=0
@@ -227,7 +228,8 @@ def run(root,native,startup,episode):
                 velocity=np.zeros(6);mujoco.mj_objectVelocity(model,actual.data,mujoco.mjtObj.mjOBJ_SITE,imu,velocity,0)
                 mount,measured=measured_base(imu_pose,imu_pose[:3,:3].T@velocity[3:],imu_pose[:3,:3].T@velocity[:3],[.07557,0,.05768])
                 if initial_mount is None:initial_mount=mount.copy()
-                action=np.zeros((40,13));action[:,:10]=np.stack([pose10(p,g) for p,g in zip(plan['poses'],plan['opening'])])
+                gripper_fraction=teacher_physical_fraction(plan['opening']);require_working_target(gripper_fraction)
+                action=np.zeros((40,13));action[:,:10]=np.stack([pose10(p,g) for p,g in zip(plan['poses'],gripper_fraction)])
                 goal=initial_mount[:3,3]+np.array([card['base_translation_preference_m'],0,0])
                 yaw=np.arctan2(mount[1,0],mount[0,0]);desired=rotation(-yaw)@(goal-mount[:3,3]);desired=np.r_[np.clip(desired[:2],-.06,.06),0.]
                 for i in range(40):
@@ -278,7 +280,7 @@ def run(root,native,startup,episode):
         safety=[row for row in stops if row['reason']!='PHYSICS_RESERVATION_CAP']
         if safety:
             result['status']='VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED'
-            write(root/'NATIVE_SAFETY_FAIL.json',dict(episode=episode,stops=safety,source_sha=manifest['code']['vla_commit'],original_evidence_preserved=True))
+            write(root/'NATIVE_SAFETY_FAIL_V2.json',dict(episode=episode,version=VERSION,stops=safety,source_sha=manifest['code']['vla_commit'],original_evidence_preserved=True))
         after=resource.getrusage(resource.RUSAGE_CHILDREN)
         cpu=time.process_time()-cpu0+after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime
         service=time.monotonic()-wall;cpu_charge=max(cpu,4*service)

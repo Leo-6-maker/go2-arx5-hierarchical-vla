@@ -44,7 +44,7 @@ void read_command(const mjData* d) {
  f.read(magic,8);f.read(reinterpret_cast<char*>(&seq),8);f.read(reinterpret_cast<char*>(&source),8);
  f.read(reinterpret_cast<char*>(&value),8);f.read(reinterpret_cast<char*>(&until),8);
  if(!f || f.peek()!=EOF || std::memcmp(magic,"GRTGRIP1",8) || !std::isfinite(source) || !std::isfinite(value)
-    || !std::isfinite(until) || value<0 || value>1 || until<source || until-source>.400000001 || source>d->time+.025) {
+    || !std::isfinite(until) || value<.002/.044 || value>.042/.044 || until<source || until-source>.400000001 || source>d->time+.025) {
   fail("INVALID_GRIPPER_PACKET");return;
  }
  if(has_command && seq==sequence)return;

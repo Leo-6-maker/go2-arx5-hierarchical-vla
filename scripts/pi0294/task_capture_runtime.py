@@ -31,7 +31,7 @@ def within(path, parent):
     return path
 
 
-def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False, read_only=False):
+def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False, read_only=False, physical_asset=None):
     root = Path(root).resolve()
     now = time.time() if now is None else now
     authority_path = root/'WINDOW_ADOPTION.json'
@@ -82,9 +82,39 @@ def validate_entry(root, *, profile='4080-simulation', now=None, closeout=False,
     for name, digest in seal['files'].items():
         if sha(within(code/name, code)) != digest:
             raise PermissionError('TASK_CAPTURE_SOURCE_MEMBER_CHANGED:'+name)
-    if (root/'NATIVE_SAFETY_FAIL.json').exists() and not read_only:
-        raise PermissionError('TASK_CAPTURE_NATIVE_SAFETY_FAIL_PRESERVED')
+    if not read_only:
+        if physical_asset is not None:
+            require_task_asset(root,m,physical_asset)
+        elif (root/'NATIVE_SAFETY_FAIL.json').exists():
+            raise PermissionError('TASK_CAPTURE_NATIVE_SAFETY_FAIL_PRESERVED')
     return m, parent
+
+
+def require_task_asset(root,manifest,version):
+    """V1 stays stopped. One separately sealed task-gripper reset contract V2."""
+    root=Path(root)
+    if version!='FULLBODY_TASK_OVERLAY_V2_WORKING_STROKE':
+        raise PermissionError('UNKNOWN_NATIVE_TASK_ASSET')
+    if (root/'NATIVE_SAFETY_FAIL_V2.json').exists():
+        raise PermissionError('TASK_V2_NATIVE_SAFETY_FAIL_PRESERVED')
+    legacy=root/'NATIVE_SAFETY_FAIL.json'
+    if sha(legacy)!='175ae9cdab3d108e4826968c5ffb3724a34ec069a3ed1f909cf82fafb6a39a71':
+        raise PermissionError('ORIGINAL_TASK_V1_FAILURE_IDENTITY_REQUIRED')
+    p=read(root/'evidence/TASK_V2_ENGINEERING_ACCEPTANCE.json')
+    if (p['status']!='PASS_CPU_RESET_COMMAND_AND_FROZEN_CORE_CONTRACT_ONLY'
+            or p['version']!=version or p['physical_qualification'] is not False
+            or p['original_failure_sha256']!=sha(legacy)
+            or p['mechanical_travel_m']!=.044 or p['working_margin_m']!=.04*.05
+            or p['WBC_changes']!=0 or p['safety_threshold_changes']!=0):
+        raise PermissionError('TASK_V2_EXACT_ENGINEERING_RECEIPT_REQUIRED')
+    code=root/manifest['code']['capsule_relative']
+    expected={'task_gripper_contract.py','task_plant.py','task_actuation.cpp','task_native_worker.py'}
+    if set(p['source_files'])!=expected:raise PermissionError('TASK_V2_SOURCE_SET')
+    for name,digest in p['source_files'].items():
+        if sha(code/'scripts/pi0294'/name)!=digest:raise PermissionError('TASK_V2_SOURCE_CHANGED:'+name)
+    for key in ('plant_cpu_receipt','build_receipt','contract_cpu_receipt'):
+        row=p[key]
+        if sha(within(root/row['relative'],root))!=row['sha256']:raise PermissionError('TASK_V2_MEMBER_CHANGED')
 
 
 @contextlib.contextmanager
