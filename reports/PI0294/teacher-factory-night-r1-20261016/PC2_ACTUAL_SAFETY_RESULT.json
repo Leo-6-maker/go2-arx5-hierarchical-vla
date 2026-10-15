@@ -1,0 +1,77 @@
+{
+  "status": "VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED",
+  "runtime_source_sha": "d3135982f157b72d67788a22cd31f7e5f17220e6",
+  "episode": "TFNR1_T2_PC2_COUPLED_DEV_00_E4",
+  "observations": 140,
+  "installed_chunks": 18,
+  "native_integrations": 5998,
+  "task_integrations": 3498,
+  "task_prefix_s": 6.95,
+  "complete_declared_duration": false,
+  "actual_object_contact_ticks": 0,
+  "actual_grasp_ticks": 0,
+  "illegal_contact_records": 0,
+  "original_native_stop": [
+    {
+      "kind": "stop",
+      "reason": "REGISTERED_JOINT_SAFETY",
+      "steps": 5996
+    },
+    {
+      "kind": "stop",
+      "reason": "REGISTERED_JOINT_SAFETY",
+      "steps": 5997
+    },
+    {
+      "kind": "stop",
+      "reason": "REGISTERED_JOINT_SAFETY",
+      "steps": 5998
+    }
+  ],
+  "tracking_XYZ_final_m": 0.06483069537936337,
+  "tracking_SO3_final_rad": 0.03415525265793143,
+  "source_reference_values_replayed_exact": true,
+  "source_gripper20Hz_labels_exact": true,
+  "installed_reference": {
+    "transactions": 18,
+    "installed_messages": 87,
+    "max_xyz_abs_m": 2.9802195267158993e-08,
+    "max_sign_invariant_unit_quaternion_component": 2.4351206717732055e-08,
+    "tolerance": 1e-06
+  },
+  "pause_history_unchanged": true,
+  "actual_state_and_FK_replay": true,
+  "terminal_gripper_commands": [
+    {
+      "command_index": 139,
+      "integrations_after_write": 23,
+      "next_RGB_and_20Hz_observation_saved": false,
+      "full_episode_complete": false,
+      "raw_command_preserved": true,
+      "basis": "REGISTERED_SAFETY_TERMINATION_AND_NATIVE_JOURNAL"
+    }
+  ],
+  "actual_object_task_success": false,
+  "right_slide": {
+    "joint": "task_right_slide",
+    "range": [
+      0.0,
+      0.044
+    ],
+    "min_q": -0.00022953848198540864,
+    "max_q": 0.04324125328302029,
+    "crossing_samples": 4,
+    "first_crossing_step": 5995,
+    "last_crossing_step": 5998
+  },
+  "other_19_limited_joints_PASS": true,
+  "actual_gripper_command_packets": 140,
+  "gripper_targets_m": [
+    0.002,
+    0.022
+  ],
+  "max_PD_replay_error_N": 0.0,
+  "new_physics_for_audit": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

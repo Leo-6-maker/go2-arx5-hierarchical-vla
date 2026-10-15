@@ -1,0 +1,7 @@
+# 当前接续边界
+
+读取本目录PROGRESS_04、PC2_ACTUAL_SAFETY_RESULT、SCIENTIFIC_DEVELOPMENT_STOP及资源回读。现有goal未完成；用户工程debug不限次数的采用继续有效，但原6个有效科学development已用完。最后teacher release已真实原生安全FAIL并隔离；不要重新运行它。
+
+runtime source d3135982f157b72d67788a22cd31f7e5f17220e6；task pause receipt binary efda8350dafb68b6eb0ecab4dd03dfd09702946abc905896efafb4c9fcf5cde5。所有自有物理PID/start已终态，原startup资格/唯一原件/私有证据仍在已注册root。以实际runmap定位，不下载全历史、不清理。
+
+只读数组分析与CPU工程不受任务版本隔离阻断；新物理需要新的科学条件/预算采用，不能把工程计数豁免泛化到真实安全FAIL。不要重置T0、计数、资源或修改WBC、安全、原评分。无合格bank，无实际consumer，selected/deployment NONE。
