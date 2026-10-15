@@ -88,7 +88,11 @@ def validate_entry(root, *, read_only=False, closeout=False, physical_asset=None
 
 @contextlib.contextmanager
 def cpu_scope(root, stage, *, cpu_s_cap=1800, cores=1, closeout=False, include_children=True):
-    root = Path(root); m, _ = validate_entry(root, closeout=closeout)
+    root = Path(root)
+    if not closeout and time.time()>=CUTOFF:raise PermissionError('R1_CPU_NEW_WORK_CUTOFF')
+    # A safety stop closes physics; the adopted R1 explicitly keeps bounded
+    # CPU reference/data engineering and evidence closeout available.
+    m, _ = validate_entry(root, read_only=True, closeout=closeout)
     t0, wall = time.process_time(), time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
     lock = resource_lock(root)
