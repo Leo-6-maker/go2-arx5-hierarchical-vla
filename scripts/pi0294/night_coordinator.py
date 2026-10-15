@@ -19,8 +19,11 @@ def run(root,native,startup):
     signal.signal(signal.SIGINT,stop_requested);signal.signal(signal.SIGTERM,stop_requested)
     identity=dict(pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],source=manifest['code']['vla_commit'],run_uuid=root.name)
     write(root/'COORDINATOR_IDENTITY.json',identity)
+    sequence=len(list((root/'worker_processes').glob('COORDINATOR_*-START.json')))+1
+    stage='NIGHT_COORDINATOR_'+str(sequence)
+    write(root/'worker_processes'/('COORDINATOR_'+str(sequence)+'-START.json'),identity)
     try:
-        with cpu_scope(root,'NIGHT_COORDINATOR',cores=1,cpu_s_cap=32400,include_children=False):
+        with cpu_scope(root,stage,cores=1,cpu_s_cap=32400,include_children=False):
             while time.time()<DEADLINE:
                 queuefile=root/'factory/NIGHT_WORK_QUEUE.json'
                 queue=read(queuefile) if queuefile.exists() else dict(items=[])
@@ -39,7 +42,7 @@ def run(root,native,startup):
                     if (root/'factory/episodes'/episode).exists():
                         raise RuntimeError('NIGHT_EXISTING_EPISODE_WITHOUT_LIVE_HANDLE_NO_REEXECUTION')
                     log=(root/'worker_logs'/(episode+'.log')).open('xb')
-                    env=dict(os.environ,PYTHONPATH=str(root/manifest['code']['capsule_relative'])+':'+str(root/manifest['code']['capsule_relative']/'src'))
+                    env=dict(os.environ,PYTHONPATH=str(root/manifest['code']['capsule_relative'])+':'+str(root/manifest['code']['capsule_relative']/'src')+':'+os.environ.get('PYTHONPATH',''))
                     child=subprocess.Popen([sys.executable,'-m','scripts.pi0294.night_worker','--root',str(root),'--native',str(native),'--startup',str(startup),'--episode',episode],
                         env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,preexec_fn=lambda:os.sched_setaffinity(0,all_cpus))
                     active=episode;write(root/'worker_processes'/(episode+'-PID.json'),dict(pid=child.pid,proc_start=Path('/proc/'+str(child.pid)+'/stat').read_text().split()[21],episode=episode,source=manifest['code']['vla_commit'],started_epoch=epoch))
@@ -60,6 +63,7 @@ def run(root,native,startup):
                 try:child.wait(timeout=45)
                 except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait()
             write(root/'COORDINATOR_BOUNDARY.json',dict(identity,status='STOPPED_AT_OWN_BOUNDARY',epoch=time.time(),child_running=False))
+            write(root/'worker_processes'/('COORDINATOR_'+str(sequence)+'-END.json'),dict(identity,status='STOPPED_AT_OWN_BOUNDARY',epoch=time.time(),child_running=False))
     finally:
         if log:log.close()
         owner.close()

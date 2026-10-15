@@ -101,7 +101,7 @@ def run(root,native,startup,episode):
         if sha(path)!=digest:raise ValueError('QUALIFIED_NATIVE_STARTUP_CHANGED')
     lease=OwnerLock(native.parent/'PI0289_SIM_LEASE')
     owner=OwnerLock(parent/'NIGHT_RESOURCE_OWNER.lock');ledger=read(parent/'NIGHT_RESOURCE_LEDGER.json')
-    non_supervisor={k:v for k,v in ledger['CPU_reservations'].items() if k!='NIGHT_COORDINATOR'}
+    non_supervisor={k:v for k,v in ledger['CPU_reservations'].items() if not k.startswith('NIGHT_COORDINATOR')}
     if (non_supervisor or ledger['main_starts']+1>72
             or ledger['main_integrations']+step_cap>4788216 or ledger['RGB_pairs']+frame_cap>184392
             or ledger['Core_CPU_s']+7200+21600>230400):raise PermissionError('CUMULATIVE_NATIVE_TASK_BUDGET')
