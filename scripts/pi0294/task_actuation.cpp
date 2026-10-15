@@ -11,6 +11,7 @@
 #include <fstream>
 #include <algorithm>
 #include <string>
+#include <iterator>
 #include <unistd.h>
 
 namespace {
@@ -64,7 +65,12 @@ void record(const mjModel* m,const mjData* d) {
   mjtNum force[6];mj_contactForce(m,d,i,force);
   f.write(reinterpret_cast<const char*>(force),48);f.write(reinterpret_cast<const char*>(c.frame),72);f.write(reinterpret_cast<const char*>(c.pos),24);
  }
- f.close();if(!f || std::rename(temporary.c_str(),state_path))std::abort();
+ f.close();if(!f)std::abort();
+ std::ifstream input(temporary,std::ios::binary);
+ std::string payload((std::istreambuf_iterator<char>(input)),std::istreambuf_iterator<char>());
+ static std::ofstream journal(std::string(state_path)+".journal",std::ios::binary|std::ios::app);
+ uint32_t length=payload.size();put(journal,length);journal.write(payload.data(),length);journal.flush();
+ if(!journal || std::rename(temporary.c_str(),state_path))std::abort();
 }
 }
 
@@ -80,5 +86,5 @@ extern "C" void mj_step(const mjModel* m,mjData* d) {
   target[i]+=std::clamp(requested-target[i],-.04*m->opt.timestep,.04*m->opt.timestep);
   d->ctrl[actuator[i]]=std::clamp(400*(target[i]-q)-3*dq,-8.,8.);
  }
- real(m,d);++steps;record(m,d);
+ double before=d->time;real(m,d);if(d->time>before)++steps;record(m,d);
 }

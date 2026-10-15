@@ -6,7 +6,10 @@ import numpy as np
 
 
 def read_state(path):
-    raw=Path(path).read_bytes()
+    return parse_state(Path(path).read_bytes())
+
+
+def parse_state(raw):
     if len(raw)<40:raise ValueError('INCOMPLETE_ACTUAL_NATIVE_STATE')
     magic,step,t,nq,nv,nu=struct.unpack_from('<8sQdIII',raw)
     if magic!=b'GRTSTATE' or (nq,nv,nu)!=(34,32,20):raise ValueError('NATIVE_STATE_ABI')
