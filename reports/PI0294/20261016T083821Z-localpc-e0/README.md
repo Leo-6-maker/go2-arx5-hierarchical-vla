@@ -6,6 +6,17 @@ project authentication expired. [Actual terminal receipt](E0_ALLOCATION_01_TERMI
 All twelve conditions are still NOT_RUN, not twelve task failures. One authorized
 engineering submission remains; neither clock nor counters reset.
 
+Allocation 02 has now actually been submitted as job `670345.hopper-m-02`:
+[exact recovery binding and native queued receipt](E0_ALLOCATION_02_SUBMISSION.json).
+Both sealed entries passed; runtime is `ce1a14a56ddfe9f322e159eef8a2f8054da22525`.
+All fifteen numerical files and the original model generation AST are unchanged.
+The pre-model boundary archived the old binding and retained every original case,
+episode UUID, scene, noise rule and condition order. This consumes the last PBS
+submission; it does not reset E0 or authorize a third attempt. The foreground
+owner refreshes expired authentication using the existing direct authorization,
+keeps credentials only in memory, and never resubmits unknown action intents.
+Actual query, physics and result coverage are still zero at this snapshot.
+
 Actual staging/input PASS is in [STAGING_ACTUAL.json](STAGING_ACTUAL.json).
 The first native submission and queued-only snapshot are in
 [E0_SUBMISSION_ACTUAL.json](E0_SUBMISSION_ACTUAL.json); it is not a final resource

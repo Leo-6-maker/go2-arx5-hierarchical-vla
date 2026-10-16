@@ -2,6 +2,8 @@
 
 # GR00T＋WBC — 2026-10-16 E0 与后续代码准备
 
+**E0最后一次同语义工程提交已实际进入Q：670345.hopper-m-02。** [恢复绑定与提交收据](reports/PI0294/20261016T083821Z-localpc-e0/E0_ALLOCATION_02_SUBMISSION.json)，runtime固定ce1a14a56ddfe9f322e159eef8a2f8054da22525，两端封存入口PASS，15原数值文件及模型generate逻辑不变。2/2 PBS已用，原窗口/总额保持；当前尚无模型结果，以下首次失败/旧排队记录保留为历史。
+
 **E0最新原生增量：首个allocation已F，启动前认证过期，模型/物理均未开始。** [首次实际终态](reports/PI0294/20261016T083821Z-localpc-e0/E0_ALLOCATION_01_TERMINAL.json)：183 GPU秒原生、188秒保守扣账，12条件仍NOT_RUN而非策略失败。正在修复同语义准入并准备唯一剩余工程提交；原T0/截止/总额不重置。下段排队措辞为此前提交阶段历史，不是实时状态。
 
 **E0已采用并实际提交首个PBS，当前仍在排队，不是评价完成。** [本次独立绑定、固定12条件及实际提交收据](reports/PI0294/20261016T083821Z-localpc-e0/README.md)。只评价原v3.0/EEF10/source D0＋原S1的M2048，先TRAIN4再DEV8；TRAIN成功率不作新增门。runtime固定9a699d28c6a585df1abb5aa906e41e8d8c025bdc，报告/测试HEAD不热替换它。旧16项NOT_RUN保留，selected/deployment NONE。
