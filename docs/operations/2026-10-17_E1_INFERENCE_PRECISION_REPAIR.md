@@ -33,3 +33,21 @@ the cap. No extra PBS submission is requested for this repair.
 Canonical M1 evidence does not erase or silently replace earlier results. Report
 both sets, their numerical contexts and separate resource charges. Source physics
 STOP still suppresses all subsequent physical evaluations and collection.
+
+## First Allocation Terminal Engineering Failure
+
+Native job 670561 exited 1 after 5190 seconds allocated walltime, with all 1024
+updates complete and frozen hashes unchanged. M1-256 preserved three valid S1
+rejections and one engineering-incomplete condition (8.8 s actually executed);
+M1-1024 inference/evaluation was not reached. The native traceback is a
+FileNotFoundError while reading the shared resource ledger, not a model/physics
+safety failure. The file is present on the login node after termination; NFS
+rename visibility is a plausible cause, not a uniquely established diagnosis.
+
+New E1 control reads retry only ENOENT/ESTALE at most six read attempts over
+0.5 seconds. Persistent absence, malformed JSON, permission and other errors
+remain fail-closed. No write, model generation, command installation or physics
+operation is retried by this helper. The unknown final generation remains
+unknown and is never resent. The existing second allocation performs the
+presealed canonical panels from their original initial states under new IDs.
+This is an explicit engineering recovery, not a replacement of negative results.

@@ -19,6 +19,7 @@ from scripts.pi0294.numerics import prepare_environment,configure_torch
 from .allocation import admit
 from .artifacts import atomic_npz
 from .scope import Ledger,STATS
+from .control_read import read
 
 
 def checkpoint_identity(checkpoint,label,source_sha):

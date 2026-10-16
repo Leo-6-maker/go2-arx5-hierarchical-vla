@@ -15,6 +15,19 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_control_file_read_retries_visibility_only_and_is_bounded(self):
+        import errno
+        from unittest.mock import patch
+        from .e1.control_read import read
+        with patch('scripts.pi0294.e1.control_read.time.sleep'),patch('scripts.pi0294.e1.control_read.original_read',side_effect=[FileNotFoundError(errno.ENOENT,'NFS'),{'ok':True}]) as source:
+            self.assertEqual(read('fixture'),{'ok':True});self.assertEqual(source.call_count,2)
+        with patch('scripts.pi0294.e1.control_read.time.sleep'),patch('scripts.pi0294.e1.control_read.original_read',side_effect=FileNotFoundError(errno.ENOENT,'NFS')) as source:
+            with self.assertRaises(FileNotFoundError):read('fixture')
+            self.assertEqual(source.call_count,6)
+        with patch('scripts.pi0294.e1.control_read.original_read',side_effect=ValueError('malformed')) as source:
+            with self.assertRaises(ValueError):read('fixture')
+            self.assertEqual(source.call_count,1)
+
     def test_original_inference_precision_restored_even_after_failure(self):
         from types import SimpleNamespace as NS
         from .e1.model import original_inference_precision

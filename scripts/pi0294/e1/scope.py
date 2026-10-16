@@ -6,7 +6,8 @@ from pathlib import Path
 import socket
 import time
 
-from scripts.pi0292.durable import read, write
+from scripts.pi0292.durable import write
+from .control_read import read
 from scripts.pi0294.e0_scope import inside, STATS, DATA, S1_PROOF
 from scripts.pi0294.native_dataset import sha
 
