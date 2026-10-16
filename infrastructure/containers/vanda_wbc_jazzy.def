@@ -1,6 +1,12 @@
 Bootstrap: docker
 From: {{ ros_image }}
 
+%setup
+    # Site bind roots must exist before %post enters the writable OCI rootfs.
+    test -n "${APPTAINER_ROOTFS:-}"
+    mkdir -p "$APPTAINER_ROOTFS/app1" "$APPTAINER_ROOTFS/scratch" \
+        "$APPTAINER_ROOTFS/cm" "$APPTAINER_ROOTFS/nfs"
+
 %labels
     purpose Vanda-frozen-WBC-build-and-simulation
     controller_source user-selected-archive-not-embedded-in-image
