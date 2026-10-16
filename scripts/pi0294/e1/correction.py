@@ -52,6 +52,7 @@ def export_recovery(root,statistics):
             raw=out/'raw'/result['id'];raw.mkdir()
             for paths,hashes in zip(data['rgb_paths'],data['rgb_sha256']):
                 for name,digest in zip(paths,hashes):
+                    if Path(str(name)).is_absolute() or '..' in Path(str(name)).parts:raise ValueError('CORRECTION_RELATIVE_RGB_PATH_REQUIRED')
                     old=folder/str(name)
                     if not old.resolve().is_relative_to(folder.resolve()) or sha(old)!=str(digest):raise ValueError('CORRECTION_ACTUAL_RGB_CHANGED')
                     target=raw/str(name);target.parent.mkdir(exist_ok=True)

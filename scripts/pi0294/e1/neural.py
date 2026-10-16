@@ -42,6 +42,12 @@ def serve(root,label,instance,allocation,ledger,guard):
     registry_path=root/'plans'/label/'REGISTRY.json';wait=time.time()+180
     while not registry_path.exists():
         guard()
+        done=directory/'STAGE_DONE.json'
+        if done.exists():
+            value=read(done)
+            if value['run_uuid']!=root.name or value['job_id']!=os.environ['PBS_JOBID'] or value['label']!=label:
+                raise PermissionError('E1_EXACT_DISABLED_STAGE_TERMINAL_REQUEST')
+            state['status']='PHYSICS_NOT_RUN_OWNER_TERMINAL_BEFORE_REGISTRY';write(directory/'STATE.json',state);return state
         if time.time()>=wait:raise TimeoutError('E1_OWNER_REGISTRY_NOT_READY_NO_IDLE_GPU')
         time.sleep(.2)
     registry=read(registry_path)

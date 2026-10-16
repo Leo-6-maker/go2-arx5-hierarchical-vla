@@ -65,6 +65,7 @@ def export(root):
             raw=out/'raw'/case['attempt_id'];raw.mkdir()
             for names,digests in zip(paths,hashes):
                 for name,digest in zip(names,digests):
+                    if Path(name).is_absolute() or '..' in Path(name).parts:raise ValueError('COLLECTION_RELATIVE_RGB_PATH_REQUIRED')
                     p=folder/name
                     if not p.resolve().is_relative_to(folder.resolve()) or sha(p)!=digest:raise ValueError('E1_COLLECTION_ACTUAL_RGB_CHANGED')
                     target=raw/name;target.parent.mkdir(exist_ok=True);shutil.copyfile(p,target);target.chmod(0o600)

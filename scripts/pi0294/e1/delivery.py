@@ -31,10 +31,22 @@ def publish(root,dataset,repo,token_file):
             raise FileExistsError('PRESERVE_EXISTING_IMMUTABLE_HF_PREFIX')
         members={str(p.relative_to(dataset)):sha(p) for p in dataset.rglob('*') if p.is_file() and '.private.' not in p.name}
         if any(p.is_symlink() for p in dataset.rglob('*')):raise PermissionError('NO_DATASET_SYMLINKS')
+        dependency=None
+        if dataset.name.endswith('-C1'):
+            c0=root/'datasets/E1_SOURCE_CORRECTION_V1-C0';previous=read(c0/'DATASET_MANIFEST.json');current=read(dataset/'DATASET_MANIFEST.json')
+            if current['C0_manifest_sha256']!=sha(c0/'DATASET_MANIFEST.json'):raise ValueError('C1_EXACT_FROZEN_C0_DEPENDENCY')
+            old_rows={row['id']:row for row in previous['episodes']};new_rows={row['id']:row for row in current['episodes']}
+            if any(new_rows.get(key)!=row for key,row in old_rows.items()):raise ValueError('C1_REUSED_C0_ROW_CHANGED')
+            members={name:digest for name,digest in members.items() if not any(name.startswith('raw/'+key+'/') for key in old_rows)}
+            t=read(root/'datasets/delivery-E1_SOURCE_CORRECTION_V1-C0/TRANSFER.private.json')
+            if t['status']!='PASS_PRIVATE_FIXED_REVISION_READY_LAST' or t['repo_id']!=repo:raise PermissionError('C1_ACTUAL_PRIVATE_C0_READY_DEPENDENCY')
+            dependency=dict(repo_id=repo,revision=t['revision'],prefix=t['prefix'],manifest_sha256=sha(c0/'DATASET_MANIFEST.json'),
+                reused_raw_episode_ids=sorted(old_rows),raw_uploaded_again=False)
+            write(output/'C0_DEPENDENCY.json',dependency);members['C0_DEPENDENCY.json']=sha(output/'C0_DEPENDENCY.json')
         archive=output/'correction.tar.gz'
         with tarfile.open(archive,'w:gz',compresslevel=1) as tar:
             for name in sorted(members):
-                ledger.guard();tar.add(dataset/name,arcname=name,recursive=False)
+                ledger.guard();tar.add(output/name if name=='C0_DEPENDENCY.json' else dataset/name,arcname=name,recursive=False)
         write(output/'MEMBERS.json',members)
         files={n:dict(bytes=(output/n).stat().st_size,sha256=sha(output/n)) for n in ['correction.tar.gz','MEMBERS.json']}
         state.update(repo_id=repo,prefix=prefix,files=files,status='UPLOAD_INTENT_UNKNOWN_NO_BLIND_RETRY');write(receipt,state)
@@ -48,6 +60,7 @@ def publish(root,dataset,repo,token_file):
             prefix=prefix,data_revision=revision,files=files,manifest_sha256=sha(dataset/'DATASET_MANIFEST.json'),
             statistics_sha256=STATS,dataset_card_sha256=sha(dataset/'CORRECTION_DATASET_CARD.json'),
             READY_uploaded_last=True,actual_Hopper_processor='PENDING',origin=card['origin'])
+        if dependency:ready['C0_dependency']=dependency
         write(output/'READY.json',ready)
         final=api.create_commit(repo,repo_type='dataset',parent_commit=revision,commit_message='E1 READY after fixed revision byte verification',
             operations=[CommitOperationAdd(path_in_repo=prefix+'/READY.json',path_or_fileobj=str(output/'READY.json'))]).oid
@@ -87,7 +100,20 @@ def consume(root,transfer,token_file):
         extract_checked(archive,output/'native',members,guard)
         data=output/'native';manifest=read(data/'DATASET_MANIFEST.json')
         if sha(data/'DATASET_MANIFEST.json')!=t['manifest_sha256'] or sha(data/'statistics.json')!=STATS:raise ValueError('E1_RECEIVED_BANK_CHANGED')
-        bindings={r['id']:str(data/'raw'/r['id']) for r in manifest['episodes']};write(output/'RAW_BINDINGS.private.json',bindings)
+        bindings={r['id']:str(data/'raw'/r['id']) for r in manifest['episodes']}
+        if (data/'C0_DEPENDENCY.json').exists():
+            dep=read(data/'C0_DEPENDENCY.json')
+            if dep!=ready.get('C0_dependency'):raise ValueError('C1_READY_C0_DEPENDENCY_CHANGED')
+            previous_receipt=read(root/'datasets/received-E1_SOURCE_CORRECTION_V1-C0/CONSUMPTION.private.json')
+            previous_root=Path(previous_receipt['dataset']);previous_rows={row['id']:row for row in read(previous_root/'DATASET_MANIFEST.json')['episodes']}
+            if previous_receipt['revision']!=dep['revision'] or sha(previous_root/'DATASET_MANIFEST.json')!=dep['manifest_sha256']:
+                raise ValueError('C1_LOCAL_C0_FIXED_IDENTITY_CHANGED')
+            old_bindings=read(previous_receipt['raw_bindings'])
+            for row in manifest['episodes']:
+                if row['id'] in previous_rows:
+                    if row!=previous_rows[row['id']]:raise ValueError('C1_LOCAL_C0_REUSED_ROW_CHANGED')
+                    bindings[row['id']]=old_bindings[row['id']]
+        write(output/'RAW_BINDINGS.private.json',bindings)
         from .correction import independent_read,CorrectionDataset
         audit=independent_read(data,bindings)
         b=read(root/'NEURAL_BINDINGS.private.json')
@@ -127,6 +153,7 @@ def consume(root,transfer,token_file):
         if torch.cuda.is_initialized():raise PermissionError('E1_CONSUMER_INITIALIZED_CUDA')
         result=dict(status='PASS_ACTUAL_HOPPER_CORRECTION_PROCESSOR_LOADER',dataset=str(data),raw_bindings=str(output/'RAW_BINDINGS.private.json'),
             revision=t['revision'],prefix=t['prefix'],manifest_sha256=t['manifest_sha256'],statistics_sha256=STATS,
+            origin=manifest['origin'],qualified_tasks=manifest['qualified_tasks'],new_M1_online_DAgger=manifest['new_M1_online_DAgger'],
             independent_reader=audit,actual_first_middle_last=checks,model_loaded=False,optimizer_updates=0,CPU_s=time.process_time()-started)
         result['actual_mixed_loader']=[{k:v for k,v in item.items() if k!='batches'} for item in loader_checks]
         write(output/'CONSUMPTION.private.json',result);return result

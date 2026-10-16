@@ -64,6 +64,10 @@ def prepare_second(root):
     if c0['status']!='PASS_ACTUAL_HOPPER_CORRECTION_PROCESSOR_LOADER' or c0['independent_reader']['full_windows']<8:raise PermissionError('E1_ACTUAL_NONEMPTY_CONSUMED_CORRECTION_BANK')
     history=read(root/'evidence/ORACLE_HISTORY_ADJUDICATION.json')
     if history['status']!='C0_ALL_USED_CORRECTION_ANCHORS_EXACT_ORIGINAL_STATIC_HISTORY':raise PermissionError('E1_EXACT_USED_STATE_HISTORY_REQUIRED')
+    if (c0['manifest_sha256']!=history['correction_manifest_sha256']
+            or sha(Path(c0['dataset'])/'DATASET_MANIFEST.json')!=c0['manifest_sha256']
+            or read(Path(c0['dataset'])/'DATASET_MANIFEST.json')['qualified_tasks']!=['T1']):
+        raise PermissionError('E1_EXACT_CONSUMED_T1_C0_HISTORY_BINDING')
     plan=read(root/'plans/D_COLLECTION_PLAN.json')
     if len(plan['cards'])!=4 or {c['task'] for c in plan['cards']}!={'T1'} or plan['qualified_tasks']!=['T1']:raise PermissionError('E1_FOUR_SMALL8_T1_COLLECTION_CONDITIONS_ONLY')
     if l['GPU_allocated_s']+14400>28800:raise PermissionError('E1_SECOND_FOUR_HOUR_ALLOCATION_CAP')

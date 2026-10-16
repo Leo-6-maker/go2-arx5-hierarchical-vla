@@ -84,6 +84,10 @@ def run(root,instance,allocation,guard,*,branch='M1'):
     if not unchanged or not changed:raise ValueError('E1_FROZEN_PARAMETERS_CHANGED_OR_NO_LEARNING')
     receipt=dict(status=branch+'_ACTUAL_FIXED_UPDATES' if trainer.state.global_step==recipe['max_steps'] else branch+'_PARTIAL_FULL_STATE_PRESERVED',branch=branch,
         global_step=trainer.state.global_step,consumed_samples=trainer.consumed,frozen_parameters_unchanged=unchanged,
+        data_manifest_sha256=dataset.manifest_sha,statistics_sha256=dataset.statistics_sha,
+        correction_manifest_sha256=dataset.correction.manifest_sha if branch=='M2-CORR' else None,
+        data_origin=dataset.correction.manifest['origin'] if branch=='M2-CORR' else 'ORIGINAL_V3_0_SMALL8',
+        parent_checkpoint_manifest_sha256=instance.identity.get('checkpoint_manifest_sha256'),
         changed_trainable_parameters=changed,final_parameters=final,recipe=recipe,native_metrics=result.metrics,
         synchronized_step_s=times,wall_s=time.monotonic()-started,peak_GPU_bytes=torch.cuda.max_memory_allocated(),
         selected='NONE',deployment='NONE')

@@ -124,6 +124,10 @@ def routes(remote,base,label,ready,start_worker,*,collection_cards=None):
         try:run_episode(base/'routes'/case['episode_uuid'],case,core,hopper)
         except KnownIntervention:
             failure=None
+            write(base/'routes'/case['episode_uuid']/'KNOWN_INTERVENTION_ADJUDICATION.json',dict(
+                status='INTENTIONAL_ONE_WAY_EXPERT_TAKEOVER_NOT_NETWORK_UNCERTAINTY',
+                rejected_student_command_executed=False,model_episode_continues=False,
+                expert_progress_requires_independent_actual_ACKs=True,no_student_resampling_or_command_replay=True))
         except BaseException as exc:
             failure=dict(type=type(exc).__name__,message=str(exc))
             if hopper.last:
