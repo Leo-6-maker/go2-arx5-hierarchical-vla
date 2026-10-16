@@ -22,6 +22,16 @@ def dataset(tasks=('T1',)):
 
 
 class MP1Tests(unittest.TestCase):
+    def test_source_recipe_is_new_seed_and_fixed_parent_not_E1_resume(self):
+        from .mp1.train import validate_recipe
+        recipe=dict(seed=20261017,max_steps=2048,warmup_updates=32,effective_batch=32,per_device_train_batch_size=2,gradient_accumulation_steps=16,
+            learning_rate=1e-5,end_learning_rate=1e-6,new_optimizer=True,exact_resume=False,parent='AUDITED_M1_AT_1024_INFERENCE_WEIGHTS_ONLY',
+            VLM_frozen=True,statistics_fit=False,gradient_checkpointing=False,bf16=True,tf32=True)
+        validate_recipe(recipe,'S-BC')
+        for bad in [dict(recipe,seed=20261016),dict(recipe,max_steps=4096),dict(recipe,exact_resume=True),dict(recipe,VLM_frozen=False)]:
+            with self.assertRaises(PermissionError):validate_recipe(bad,'S-CORR')
+        with self.assertRaises(PermissionError):validate_recipe(recipe,'S-EVENT')
+
     def test_ROS_setup_optional_variables_do_not_disable_later_guards(self):
         definition=Path('infrastructure/containers/vanda_wbc_jazzy.def').read_text()
         prefix=definition.split('%test\n',1)[1].split('    /opt/wbc-python/bin/python',1)[0]
