@@ -17,6 +17,8 @@ import json,os,resource,subprocess,time
 from pathlib import Path
 root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());code=root/m['code']['capsule_relative']
 os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[3 if ROLE=='core' else 0]})
+if ROLE=='hopper':
+ p=root/'OWNER_HEARTBEAT.json';t=p.with_name(p.name+'.pending.'+str(os.getpid()));t.write_text(json.dumps(dict(run_uuid=RUN,observed_epoch=time.time()))+'\n');t.chmod(0o600);os.replace(t,p)
 b=json.loads((root/('INPUT_BINDINGS.private.json' if ROLE=='core' else 'NEURAL_BINDINGS.private.json')).read_text())
 python=b['runtime_python'] if ROLE=='core' else b['python']
 program='import sys,resource,runpy;sys.path[:0]='+repr([str(code),str(code/'src')])+";resource.setrlimit(resource.RLIMIT_CPU,(8,8));runpy.run_module('scripts.pi0294.e1.rpc',run_name='__main__')"
