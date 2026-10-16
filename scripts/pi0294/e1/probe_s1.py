@@ -9,7 +9,7 @@ import time
 import numpy as np
 
 from scripts.pi0292.durable import OwnerLock,read,write
-from scripts.pi0292.eval_contract import matrix10,gate_action
+from scripts.pi0292.eval_contract import matrix10,gate_action,error_metrics
 from scripts.pi0294.episode import _robot_contact
 from scripts.pi0294.scene import make_engine
 from scripts.pi0294.teacher import make_teacher
@@ -33,7 +33,7 @@ def check(root,packet,label,kind,row,engine,ledger,physical,stage):
         if np.max(np.abs(actual-np.asarray(row['payload']['state_eef10'])))>1e-10:raise ValueError('E1_STUDENT_PROBE_REPLAY_STATE_MISMATCH')
     reference=gate_action(physical,actual,state['time_s'],row['id'])
     forecast=None
-    if reference['decision']=='PASS':
+    if reference['decision']!='REJECT':
         with ledger.steps('shadow_integrations',200,'PROBE-'+identifier) as meter:
             def charge(count,*,invocation):
                 if not invocation:meter['actual']+=count
@@ -96,6 +96,7 @@ def run(root):
     packet=root/'datasets/received-fixed-probes/native';receipt=read(packet.parent/'CONSUMPTION.private.json')
     if receipt['status']!='PASS_ACTUAL_FIXED_PROBE_ARRAY_CONSUMPTION':raise PermissionError('E1_ACTUAL_HF_PROBE_CONSUMPTION')
     labels=receipt['index']['available'];probes=read(packet/'plans/PROBE_MANIFEST.json')['windows'];rows=[]
+    (root/'evidence/PROBE_S1_ROWS').mkdir(mode=0o700)
     try:
         binding=read(root/'plans/PROBE_REPLAY_BINDINGS.private.json');bank=Path(binding['original_v3_0_native']);manifest=read(bank/'DATASET_MANIFEST.json')
         rows,replays=expert_replay(root,packet,manifest,probes,labels,ledger)
@@ -109,7 +110,20 @@ def run(root):
                     engine,teacher=anchors[row['sequence']]
                     for label in labels:
                         physical=row['M0_physical_H40'] if label=='M0' else next(r['physical_H40'] for r in read(packet/'evidence'/label/'probes/ON_STUDENT_RESULTS.private.json')['records'] if r['id']==row['id'])
-                        rows.append(check(root,packet,label,'on_student',row,engine,ledger,physical,teacher.stage))
+                        value=check(root,packet,label,'on_student',row,engine,ledger,physical,teacher.stage)
+                        value['actual_expert_comparison']=dict(status='UNAVAILABLE_INITIAL_FORK_RESTORATION_INVALID')
+                        if row['sequence']>0:
+                            short=root/'forks'/(case['attempt_id']+'-S'+str(row['sequence']).zfill(3)+'-SHORT')
+                            result=read(short/'RESULT.json')
+                            with np.load(short/'expert_labels.npz',allow_pickle=False) as z:
+                                target=z['committed_absolute10'].copy();state=z['actual_state10'][0].copy()
+                            if (len(target)!=40 or result['live_native_failures'] or not result['labels_ACK_certified']
+                                    or sha(short/'expert_labels.npz')!=result['labels_sha256']):raise ValueError('E1_ACTUAL_STUDENT_ANCHOR_EXPERT_LABEL_MISMATCH')
+                            value['actual_expert_comparison']=dict(status='DIAGNOSTIC_ERROR_TO_ACTUAL_ACKED_ORACLE_H40_NOT_NEW_TEACHER_LABEL',
+                                errors=error_metrics(physical,target,state),source_fork=short.name,
+                                qualified_for_T1_training_only=row['task']=='T1',not_new_online_DAgger=True)
+                        write(root/'evidence/PROBE_S1_ROWS'/('on_student-'+label+'-'+row['id']+'.json'),value)
+                        rows.append(value)
             finally:
                 for engine,_ in anchors.values():engine.close()
         value=dict(status='ACTUAL_FIXED_PROBE_ORIGINAL_PREFIX_S1_SHADOW_ONLY',rows=rows,expert_replays=replays,

@@ -15,6 +15,29 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_probe_s1_accept_is_not_mistaken_for_native_PASS(self):
+        from contextlib import contextmanager
+        from types import SimpleNamespace as NS
+        from unittest.mock import patch
+        import numpy as np
+        from .e1.probe_s1 import check
+        from go2arx5_vla.task_data.codec import pose10
+        class Ledger:
+            def guard(self):pass
+            @contextmanager
+            def steps(self,*args):yield dict(actual=0)
+        state=pose10(np.eye(4),0.);action=np.repeat(state[None],40,axis=0)
+        engine=NS(pose=lambda name:np.eye(4),data=NS(qpos=np.zeros(2),time=0.),finger_q=[0,1],steps=0)
+        row=dict(id='fixture',task='T1',payload=dict(state_eef10=state.tolist()))
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'evidence/PROBE_S1_ROWS').mkdir(parents=True)
+            with patch('scripts.pi0294.e1.probe_s1.gate_action',return_value=dict(decision='ACCEPT')),patch('scripts.pi0294.e1.probe_s1.predict',return_value=(dict(decision='PASS'),[])) as native:
+                value=check(root,root,'fixture','on_student',row,engine,Ledger(),action,'approach')
+                self.assertTrue(value['prefix_executable']);self.assertEqual(native.call_count,1)
+            with patch('scripts.pi0294.e1.probe_s1.gate_action',return_value=dict(decision='REJECT')),patch('scripts.pi0294.e1.probe_s1.predict') as native:
+                value=check(root,root,'fixture2','on_student',row,engine,Ledger(),action,'approach')
+                self.assertFalse(value['prefix_executable']);native.assert_not_called()
+
     def test_only_engineering_incomplete_256_condition_can_recover(self):
         from .e1.driver import recoverable_256_conditions
         rows=[dict(scene_group='PI0294/TRAIN/'+f+'/000',task=t,status='VALID_TASK_FAIL',pipeline_trustworthy=True,failure_stage='S1_PRE_EXECUTION_REJECT',live_native_failures=0) for f in ['F0','F1'] for t in ['T1','T2']]
