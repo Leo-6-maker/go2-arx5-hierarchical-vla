@@ -11,7 +11,7 @@ def compose(program,entry,card):
     from .tf_r3_source import with_entry
     version=card.get('entry_gripper_bridge')
     if version=='TF_R3_T2_MIDPOINT_PUSH_V1':
-        if card['task']!='T2' or card['initial_finger_q_m']!=WORKING_OPEN:raise ValueError('R3_ORIGINAL_OPEN_T2_ONLY')
+        if card['task']!='T2' or abs(card['initial_finger_q_m']-WORKING_OPEN)>1e-15:raise ValueError('R3_ORIGINAL_OPEN_T2_ONLY')
         return dict(with_entry(program,entry),task_gripper_midpoint_m=np.asarray(.022))
     if version not in (VERSION,HORIZON_VERSION,S7_VERSION):return with_entry(program,entry)
     if card['task']!='T2' or program['gripper'][0]!=0. or abs(card['initial_finger_q_m']-WORKING_OPEN)>1e-15:
