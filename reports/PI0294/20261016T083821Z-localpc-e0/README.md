@@ -1,5 +1,13 @@
 # E0 Adopted: M2048 Source-Domain Evaluation Only
 
+Actual staging/input PASS is in [STAGING_ACTUAL.json](STAGING_ACTUAL.json).
+The first native submission and queued-only snapshot are in
+[E0_SUBMISSION_ACTUAL.json](E0_SUBMISSION_ACTUAL.json); it is not a final resource
+or evaluation receipt. Runtime is9a699d28c6a585df1abb5aa906e41e8d8c025bdc.
+The separate CPU test-fixture repair is documented in [CPU_CI_REPAIR.md](CPU_CI_REPAIR.md);
+GitHub check38885246746 actually completed SUCCESS onbf3d1e793130d14713e64e1bde550d1b5ba68bb3.
+Subsequent FlowDAgger source preparation does not alter this E0 runtime/scope.
+
 Human explicitly adopted fixed protocol/task card22e5f0baeed0af662a7cf1c97edae1f4060947fe. E0_ADOPTION_AND_BINDING.json records one independent clock and resource package; original five preparation files are reused byte-for-byte under preparation/. Their old draft/proposed wording is historical, superseded for E0 by this adoption, not rewritten as actual model results.
 
 T_adopt:2026-10-16 16:38:21SGT. New allocation admission closes2026-10-17 16:38:21SGT; hard closeout2026-10-17 23:38:21SGT. Maximum2PBS/6allocatedH200hours, oneH200 concurrently. First request<=4h; second is only bounded engineering recovery/remaining unevaluated conditions. CPU/integration/query/storage ceilings remain exactly the adopted machine card. Queue time does not consume allocatedGPU hours but does not reset either deadline.

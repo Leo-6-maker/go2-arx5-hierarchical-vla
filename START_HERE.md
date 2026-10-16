@@ -1,4 +1,12 @@
-# GR00T＋WBC — 2026-10-15 当前科学入口
+# GR00T＋WBC — 2026-10-16 E0 与后续代码准备
+
+**E0已采用并实际提交首个PBS，当前仍在排队，不是评价完成。** [本次独立绑定、固定12条件及实际提交收据](reports/PI0294/20261016T083821Z-localpc-e0/README.md)。只评价原v3.0/EEF10/source D0＋原S1的M2048，先TRAIN4再DEV8；TRAIN成功率不作新增门。runtime固定9a699d28c6a585df1abb5aa906e41e8d8c025bdc，报告/测试HEAD不热替换它。旧16项NOT_RUN保留，selected/deployment NONE。
+
+**用户另行授权等待期间准备FlowDAgger代码，不授权新科学执行。** [实际代码/CPU准备报告](reports/PI0294/flowdagger-preparation-20261016/PREPARATION_REPORT.md) · [协议](docs/protocols/PI0294_FLOWDAGGER_PREPARATION_V1.md) · [机器卡](reports/PI0294/design/FLOWDAGGER_PREPARATION_TASK_CARD_V1.json)。独立纠正数据合同、原EEF10 processor桥、冻结模型inversion/steering组件及CPU测试已准备；FD1真实可恢复性、FD2真实模型重构和FD3训练未运行。不能把专家全接管默认例子称作学生状态DAgger，也不将E0 DEV转训练或零填BASE。新代码不部署到在途E0，不重开旧Teacher/WBC任务。
+
+以下2026-10-15及更早条目是各自阶段历史；最新执行状态以固定收据、#11/#47及原生run/lease为准。
+
+# GR00T＋WBC — 2026-10-15 历史科学入口
 
 **TF-R2已执行S7至真实接触，因接触后夹爪原生安全FAIL停止；尚无成熟Teacher或成功数据。** [本轮报告、500Hz时序图、独立CPU复算与2018原件私有回读](reports/PI0294/tf-r2-20261016/REPORT.md)。用户取消累计资源上限后，执行同源seed0/PC2的0.95s闭合请求；实际6385包、20安装、156双RGB。5.85→6.80s闭合前后至首次接触均无越界；7.662s记录左pad承力接触，7.768s左slide首次低于原0mm，7.770s原registered joint safety停止，最小−0.177230mm。PD全步复算误差0N，其余19关节无越界。source隔离、task物理停止门已实际拒绝；按TF-R2第6节不进入S8/S9。成功seed/TRAIN/DEV/正式consumer仍0，WBC/安全/评分/旧FAIL不改，selected/deployment NONE。下列夜间/R1等条目为历史，不因本次预算更新被改判。
 
