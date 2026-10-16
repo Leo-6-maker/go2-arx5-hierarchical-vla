@@ -15,6 +15,27 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_partial_resume_requires_full_hashes_exact_cursor_and_no_unknown_update(self):
+        import hashlib
+        from unittest.mock import patch
+        from .e1.train import checked_resume
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);branch=root/'training/M2-BC';checkpoint=branch/'checkpoint-12';checkpoint.mkdir(parents=True);(branch/'session-start').mkdir()
+            recipe=dict(seed=20261016,max_steps=512)
+            (branch/'session-start/RECIPE.json').write_text(json.dumps(recipe))
+            for name in ['optimizer.pt','scheduler.pt','rng_state.pth','statistics.json']:(checkpoint/name).write_bytes(b'own-fixture-not-loaded')
+            (checkpoint/'trainer_state.json').write_text(json.dumps(dict(global_step=12)))
+            (checkpoint/'SAMPLER_STATE.json').write_text(json.dumps(dict(recipe=recipe,sampler=dict(cursor=384))))
+            files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in checkpoint.iterdir()}
+            (checkpoint/'CHECKPOINT_COMPLETE.json').write_text(json.dumps(dict(global_step=12,full_resume=True,files=files)))
+            with patch('scripts.pi0294.e1.train.STATS',files['statistics.json']):
+                ledger=dict(optimizer_updates=1036,pending_updates=0)
+                self.assertEqual(checked_resume(root,'M2-BC',checkpoint,recipe,ledger),12)
+                with self.assertRaises(PermissionError):checked_resume(root,'M2-BC',checkpoint,recipe,dict(ledger,pending_updates=1))
+                with self.assertRaises(PermissionError):checked_resume(root,'M2-BC',checkpoint,recipe,dict(ledger,optimizer_updates=1035))
+                (checkpoint/'optimizer.pt').write_bytes(b'changed')
+                with self.assertRaises(ValueError):checked_resume(root,'M2-BC',checkpoint,recipe,ledger)
+
     def test_behavior_summary_excludes_collection_and_scope_deviation(self):
         from .e1.analysis import autonomous_summary
         base=dict(model='fixture',task='T1',pipeline_trustworthy=True,persistent_success=True,native_safety_flag_rows=0,native_duration_s=32.,failure_stage='NONE',model_autonomous_evaluation=True,excluded_scope_deviation=False)

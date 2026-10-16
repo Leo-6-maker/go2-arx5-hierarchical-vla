@@ -1,6 +1,7 @@
 """SMALL8 loader and checkpoint instrumentation around the unchanged native loss."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 
@@ -79,5 +80,7 @@ def make_trainer_class():
             if any(n not in files for n in required) or not any(n.endswith('.safetensors') for n in files):
                 raise ValueError('E1_ACTUAL_CHECKPOINT_MEMBERS_INCOMPLETE')
             write(checkpoint/'CHECKPOINT_COMPLETE.json',dict(global_step=self.state.global_step,files=files,
-                full_resume=not inference_only,exact_resume_from_M2048=False))
+                full_resume=not inference_only,exact_resume_from_M2048=False,
+                origin_job_id=os.environ.get('PBS_JOBID'),
+                origin_source_sha=read(Path(self.args.output_dir).parents[1]/'RUN_MANIFEST.json')['code']['vla_commit']))
     return SmallTrainer

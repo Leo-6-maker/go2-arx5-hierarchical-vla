@@ -36,8 +36,14 @@ def publish(root,label,repo,token_file):
             raise ValueError('E1_ACTUAL_NATIVE_STEP_SAMPLER_RECIPE')
         inventory={n:dict(sha256=s,bytes=(checkpoint/n).stat().st_size) for n,s in files.items()}
         inventory['CHECKPOINT_COMPLETE.json']=dict(sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json'),bytes=(checkpoint/'CHECKPOINT_COMPLETE.json').stat().st_size)
-        allocation_dir=root/'pbs'/('alloc-01' if branch=='M1' else 'alloc-02');origin=read(allocation_dir/'ALLOCATION_ADMISSION.json');request=read(allocation_dir/'REQUEST.json')
+        if complete.get('origin_job_id'):
+            candidates=[p.parent for p in (root/'pbs').glob('alloc-*/ALLOCATION_ADMISSION.json') if read(p)['job_id']==complete['origin_job_id']]
+            if len(candidates)!=1:raise ValueError('E1_EXACT_SAVING_ALLOCATION_REQUIRED')
+            allocation_dir=candidates[0]
+        else:allocation_dir=root/'pbs'/('alloc-01' if branch=='M1' else 'alloc-02')
+        origin=read(allocation_dir/'ALLOCATION_ADMISSION.json');request=read(allocation_dir/'REQUEST.json')
         if origin['request_sha256']!=sha(allocation_dir/'REQUEST.json'):raise ValueError('E1_CHECKPOINT_ORIGIN_REQUEST_CHANGED')
+        if complete.get('origin_source_sha') and complete['origin_source_sha']!=request['source_sha']:raise ValueError('E1_SAVING_SOURCE_IDENTITY_CHANGED')
         manifest=dict(schema='E1_FIXED_CHECKPOINT_INVENTORY_V1',label=label,global_step=step,full_native_resume_state=label!='M1-256',files=inventory,
             statistics_sha256=STATS,recipe=sampler['recipe'],sampler=sampler['sampler'],model_loaded=False,optimizer_pickle_loaded=False,
             independent_resume_test=False,origin_job_id=origin['job_id'],origin_source_sha=request['source_sha'],origin_allocation_sha256=sha(allocation_dir/'ALLOCATION_ADMISSION.json'),
