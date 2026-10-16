@@ -1,0 +1,52 @@
+{
+  "status": "PASS_S7_CPU_CONTRACT_ONLY",
+  "source_sha": "86eb210d66a5ff540d4bb694e20e187e39efd9e2",
+  "rows": [
+    {
+      "check": "inherited_bridge_regression",
+      "status": "PASS"
+    },
+    {
+      "check": "saved_E4_same_EEF_all_48001_points",
+      "status": "PASS",
+      "new_physics": 0,
+      "old_array_sha256": "ded6dbf9d6a2a30fdce8069f7e60bcf692ac170e1b4d14ef6951b4c8f5b10a3c"
+    },
+    {
+      "check": "S7_single_mapping_and_endpoints",
+      "status": "PASS",
+      "profile_start_s": 6.0,
+      "target_arrival_s": 6.95,
+      "ACK_s": 7.0,
+      "requested_peak_speed": 0.03940084786593738
+    },
+    {
+      "check": "H40_prefix8_repeat_sampling_exact",
+      "status": "PASS",
+      "windows": 38
+    },
+    {
+      "check": "existing_slew_numeric_replay",
+      "status": "PASS",
+      "points": 500,
+      "actual_finger_safety": "UNPROVEN"
+    },
+    {
+      "check": "per_episode_quota_original_domain",
+      "status": "PASS"
+    },
+    {
+      "check": "startup_receiver_actuation_clock_contacts_geometry_unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "fixed_actual_random_plan_equal",
+      "status": "PASS"
+    }
+  ],
+  "new_physics": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "task_success": "UNPROVEN",
+  "frozen_safety_unchanged": true
+}
