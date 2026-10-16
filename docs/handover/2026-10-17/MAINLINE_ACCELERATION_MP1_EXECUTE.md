@@ -1,64 +1,70 @@
 # Codex接手：MP1追加预算，连续推进科学主线
 
-**用户已明确授权更多预算并要求跑通主线。MP1是新的有界执行GO，不是还要用户再次确认的建议稿。** 当前对话只发布文件，不代表服务器任务已启动。由现役唯一local-PC owner核实站点许可、原生run/job/lease，登记一次MP1绑定后连续执行。不要转交另一个工作模式或重新要求用户批准每个正常步骤。
+**用户已明确授权更多预算并要求跑通主线。MP1是有界执行GO，不是等待第二次常规确认的建议。** 当前对话只发布文件，服务器真实运行必须另有原生收据。现役唯一local-PC owner核实站点许可、run/job/lease后登记一次，随后自主执行，不为正常工程步骤反复询问。
 
-从本handoff同一固定commit读取：
-1. `docs/protocols/PI0294_MAINLINE_ACCELERATION_MP1_20261017.md`
-2. `reports/PI0294/design/MAINLINE_ACCELERATION_MP1_20261017.json`
+## 先读：防止同时出现的E2/MP1重复执行
 
-## 第一项工作：承接真实进展，不能继续报告“一条policy成功都没有”
+固定回读发现同一用户请求期间并发新增了E2协议和长期路线。它们不能与MP1叠加出两份预算、两个owner或两套相同实验。**本次统一以MP1为新增资源口径，48 H200 GPUh、32 A40 GPUh只计算一次，不是再加E2的24/12小时。** 其他作者文件保留为历史/方法参考，不覆盖、不删除。
 
-已审计的M1-1024-CANONICAL在source TRAIN/F0/000/T1自主抓放完整32秒成功：16000积分、641双RGB、原S1拒绝0/native安全0、Teacher接管OFF、抬升83.536mm、水平搬运176.906mm、41/41末段保持。固定证据在审核基线8fdb2a179f5db88c294fea4182c2d177a2e2801a下的`reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_FIRST_T1_INDEPENDENT_AUDIT.json`。
+从本handoff同一固定commit按顺序读取：
+1. `reports/PI0294/design/MP1_SINGLE_BUDGET_PRECEDENCE_V1.json` —— 并发计划优先级与单一预算。
+2. `docs/protocols/PI0294_MAINLINE_ACCELERATION_MP1_20261017.md` —— 完整科研协议。
+3. `reports/PI0294/design/MAINLINE_ACCELERATION_MP1_20261017.json` —— 阶段、数据、预算与停止规则。
 
-这不是T1两个布局都通过，不是T2/DEV/Go2/WBC成功。同版本F0/000/T2已有效S1拒绝；其余面板和D/M2以实际新收据为准。C0已有833个有效H40窗口、2个E0学生episode来源，仅T1 Recovery合格；不是833条示范或新一轮在线DAgger。旧E0结果、精度偏差、scope deviation、无效恢复fork、TF-R3安全STOP和原账全部保留。
+若E2已在文件发布期间实际采用/运行，先保留其原记录和健康任务到正常边界，再核对同一请求的used/reserved纳入同一个新总包，不能追溯改科学身份或热换配方。未来新派发统一使用MP1或其明确登记的E2别名，不建第二份可花余额。旧E0/E1/既有Vanda预算另行保留，不重复计算既有预留。原生安全STOP绝不因本协调表解除。
 
-## 接手顺序
+## 1. 承接真实结果，不要从零重来
 
-### 0. 登记真实状态和新增预算
-读AGENTS/START_HERE/统一入口/#11/#47，检查实际Hopper E1与Vanda硬件/模型/构建作业。只读查询后列明每个任务是RUNNING、QUEUED、CLOSED还是未知，不能把历史Q快照当实时。
+已审计M1-1024-CANONICAL在source TRAIN/F0/000/T1自主抓放32秒SUCCESS：16000积分、641双RGB，原S1拒绝0、native安全0、Teacher接管OFF，抬升83.536mm、水平搬运176.906mm、41/41保持。证据为审核基线8fdb2a179f5db88c294fea4182c2d177a2e2801a下`reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_FIRST_T1_INDEPENDENT_AUDIT.json`。
 
-创建`MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json`和`CURRENT_SCIENCE_STATUS.md`，登记实际T0、旧used/reserved、MP1新增额度与站点允许额度、父子run、固定输入、上下文与各lane资源。更新START_HERE最上方当前摘要，旧文字及链接保留为历史；不要重建一套入口。
+这不证明双任务、DEV或Go2/WBC成功。同版本F0/000/T2已有效S1拒绝，剩余面板/D/M2按新实际收据更新。C0有833个完整H40窗口、来自2个E0学生episode，只有T1 Recovery合格；它不是833条独立示范，也不是新M1在线DAgger。旧E0负结果、无效fork、不同推理精度、一次scope deviation和TF-R3安全STOP保持。
 
-MP1新增48 H200 GPUh、32 A40 GPUh；各最多1卡并发、各12次新GPU PBS，单job不超过12h和站点限额；CPU CoreLab320/Vanda240/Hopper160/local24 core-hours；source启动400、target启动320（含恢复fork），所有物理积分含shadow最多6400万；全新optimizer更新合计24576。详细空间/网络和收尾预留以机器卡为准。
+## 2. 登记一次真实状态和新增资源
 
-T0+144h停止新排队提交与新实质候选，+160h停止新增实验/训练块，+168h硬收尾；首次绑定须在发布后48h内。旧job照旧账，后续超出旧范围的真实剩余工作归新的MP1子run，不追溯改账/重复计费/重置老时钟。健康在途job不可kill或热改；相同实验不可两边竞速挑结果。
+读AGENTS/START_HERE/统一入口及最新#11/#47。核实Hopper E1、Vanda1462438/1462451/1462595是否仍排队/运行/终态，不照抄历史快照。登记`MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json`，包含实际T0、旧used/reserved、MP1新增余额、E2别名处理、site许可、各lane固定输入和资源。
 
-### 1. 先收完E1的规范面板和M2
-正在执行的M1@1024其余条件先自然完成；已成功或有效失败的条件不重跑。D/M2开始了就按已有冻结配方和真实cursor续接；未开始且C0或新C1条件成立，完成原BC512/CORR512及自主比较。缺监督的任务如实跳过，不造标签。精确resume需要optimizer/scheduler/RNG/sampler及pending update=0；weights-only不是精确恢复。
+MP1：新增48 H200h/32 A40h，各最多1卡并发、各12个新GPU PBS、单job<=12h及站点限额；CoreLab320/Vanda240/Hopper160/local24 core-hours；source启动400、target启动320（含真实fork），所有积分含shadow<=6400万，新增optimizer更新合计<=24576。空间/网络和更小站点quota按机器卡。
 
-### 2. 并行两条研究线，不等目标Teacher才能训练
-Hopper：从固定M1@1024父权重，原v3.0 TRAIN126做S-BC2048更新；纠正bank合格则同父同预算S-CORR。先任务1:1，只有T1纠正时在T1内部混合，避免吞掉T2。根据TRAIN证据最多再开S-EVENT一次，仅改变事件窗口采样，其他模型/优化/精度不变。原VLM冻结，原FM、EEF10、H40/prefix8与stats保留。按照协议固定@512/@2048检查，不密集挑checkpoint。
+实际T0+144h停止新排队和实质候选，+160h停止新增实验/训练块，+168h硬收尾；首次绑定在发布后48h内。旧已运行任务按原capsule自然完成，不kill或热改；需新增资源完成剩余工作就建MP1子run，只做剩余更新，原统计不重置。同条件不双服务器竞速挑结果。
 
-CoreLab：复用C0/T1，扩真实学生访问状态的Recovery和最多两轮source DAgger；T2 Oracle最多两个有证据版本。原S1合法学生prefix实际执行，首次拒绝且专家合法才接管。区分原学生anchor与后续expert状态，实际提交标签/ACK/数据reader完整。每轮BC-only512和CORR512同父对照，评估没有专家接管。Oracle无效不能阻断普通BC和其他合法任务。
+更新START_HERE顶部和`CURRENT_SCIENCE_STATUS.md`，明确真实E1首成功、当前data/model与Vanda进度；旧文字/链接保留为历史。不要新建另一个统一入口。
 
-### 3. Vanda继续原生闭环建设，不另起无期限移植项目
-复用已上传冻结包和原构建记录；实际硬件/容器/编译->固定模型推理->原生启动/时钟/RGB/参考->同节点实际新观测闭环。一个平台不要求跨GPUbitwise相同，但模型/processor/stats/精度/差异必须明确。阶段工程成功不是物体任务成功；单A40默认训练与渲染推理分时。
+## 3. 立即执行的三条并行线
 
-旧target native STOP不因预算追加清除。只有私有证据定位到自有接入错误，并有版本化最小修订/CPU与隔离验证，才能进入MP1独立TASK_INTERFACE_REQUALIFICATION；最多3版、每版2个预定条件。允许修启动/事务、参考时序/插值、任务连接和夹爪请求，禁止改WBC/腿策略/plant/夹爪PD/力限/机械限位/碰撞和评分。同一未解决根因第二次真实安全违规，目标物理本周期停止；source独立工作继续。不能换主机绕过。
+### Hopper：已有E1收口 -> shared source policy -> 纠正对照 -> target适配
 
-### 4. 有安全target执行器后，尽早做迁移和小样本适配
-一个source任务已成立就可在其安全target开发场景做source-only，不等全部DEV或T2；记录BASE preference absent，不伪造旧EEF10的BASE3。
+先让现役规范M1@1024面板自然完成；已有成功/有效负例不重跑。D/M2进行中则按固定配方与真实optimizer/scheduler/RNG/cursor续接；未开始且数据资格成立，完成原BC512/CORR512。未完成行保留原缺口，新结果另行命名。
 
-目标数据来源可为经target实际验证的源技能Teacher、source策略成功rollout（明确policy-generated标签）、人工可用时的高层仿真示范。最终都要真实物体成功和原生安全，不能重命名离线轨迹当target数据。
+再从固定M1@1024父权重做S-BC2048（原v3.0 TRAIN126）及条件式S-CORR2048，同预算/原FM/EEF10/冻结VLM。任务先1:1，T1独有纠正只在T1内部混合。原统计不换、v3.1本轮只库存审计；CANONICAL推理上下文显式控制，训练全局TF32不能污染评价。@512/@2048固定检查，最多一个证据触发的事件采样分支，不无限扫超参。详细LR/batch/采样和父子身份按协议。
 
-每任务目标50条TRAIN+10条DEV成功；5条即可固定target-5，20条固定target-20，Hopper边采边训冻结版本。生产最多160个预定尝试，失败全计且相同已知无进展不无限复制。target-5/20各从同一source父权重1024更新，target-50条件成立才2048；默认source/target 50:50，target任务均衡。原32秒目标评价不改；64/96/128秒slow-seed单独命名，不改旧FAIL。
+目标数据5/20条每任务实际可用后，各从同一source父模型1024更新；50条及学习曲线支持才加2048。边生产vN+1边读取冻结vN，单任务先有数据就先适配。BASE13与FlowDAgger均为有条件后继，不抢主线资源。
 
-### 5. 先固定候选，再做独立确认
-E0 DEV已暴露，作为development，不生成训练标签。SOURCE_CONFIRM和TARGET_CONFIRM各封存10个新scene-group×2任务×2固定噪声seed=40条件/模型，与所有训练/恢复/兄弟场景隔离。
+### CoreLab：复用T1/C0 -> 真实source DAgger -> 数据独立消费
 
-source先只选一个共享checkpoint做一次确认；target先DEV选择一个适配候选，再与source-only做相同40条件配对，合计80尝试。每任务期望14/20完整安全成功只是研发目标，没达到如实报告，不能改门/换seed重来。所有attempt、有效/工程缺失、scene-group依赖和不确定性保留。确认结果本轮不用于进一步训练或Teacher调参。
+不重做已合格833窗口管线。T2 Recovery最多两个有证据版本；专家可返回INVALID。最多两轮在线采集，每轮12个预定TRAIN episode、每任务最多6个。学生原S1合法才执行；首次拒绝时由合格专家同状态接管，专家也必须过原S1。记录最初student anchor与后续expert状态、实际提交/安装/ACK、真实新观测和局部结果。全专家不叫on-policy，学生失败动作不当正确标签，8点不得补零造H40。
 
-### 6. 可选工作不能抢主线
-FB13仅在真正有非零BASE动作和可观测状态标签后做独立<=2048更新分支；缺条件就交付近场结果，不用零padding造能力。
+每轮封存数据后同父BC-only512/CORR512，并自主评价、Teacher接管OFF。无合格纠正的任务跳过，不阻断另一任务和普通BC。source1->2->4、target1->2只在完整隔离与CPU余量合格后增加；采集、审计、导出并行。
 
-FlowDAgger只在标准BC/纠正比较成立、主线评价资源已预留后启用，合计最多2GPUh，先32个TRAIN anchor真实反演；不合格就停。合格后最多512 steering更新。不能把mock或默认100%expert执行当真实on-policy改进。不开RL、视频world-model、全量VLM微调或换基座项目。
+### Vanda：完成现有建设 -> 安全原生资格 -> 同节点闭环与迁移
 
-## 工程与报告约束
+继续原包/容器/编译及已有GPU资格作业，不另建重复任务。硬件/EGL、固定模型推理、原生WBC启动/时钟/参考/RGB逐级通过后连接新观测->H40->原安全门->prefix8/ACK->新观测。单A40训练与渲染推理默认分时。跨GPU差异需要记录，不要求bitwise一致，也不混为同一数值后端结果。
 
-同scope工程修复、原子写入、完成ID只读重取、认证和资源调度无需再次routine GO；未知model/physical intent不重发，shared NFS只一个mutation owner，运行capsule不可变。source1->2->4、target1->2环境并行仅隔离合格后启用；采集写vN+1、训练读冻结vN，数据不边读边改。
+旧target安全STOP不解除。只有证据定位到自有启动/事务/参考时序/任务连接/夹爪请求或codec错误，完成最小修订/CPU和隔离预测后，才在新TASK_INTERFACE_REQUALIFICATION scope做原生资格。最多3版本、每版2个预定条件；不改WBC/腿策略/plant/夹爪PD/力限/限位/碰撞/评分。同一未解决根因第二次真实安全违规，target物理本周期停止；source独立研究继续，不换主机绕过。
 
-两端各保留4GPUh用于最终评价/收尾，CPU至少15%收尾。预算是上限不是花完目标。每6个活跃工作小时及重要实际阶段改变汇总一次，遇阻断切可独立推进的lane，不连续三轮只重复“等待GO”。既有私有数据在本地不可变版本经独立reader通过即可消费，不为公共HF上传或全库重回读暂停学习。
+安全target执行器成立后，一个source任务已经学会即可做该任务迁移，不等双任务或全部DEV。BASE preference absent不等于零填监督。目标数据每任务50 TRAIN+10 DEV为目标、生产最多160预定尝试，失败保留；可用合法Teacher、明确标记的成功policy rollout或人工可用时高层仿真示范，均需target实际安全任务成功。slow-seed 64/96/128秒独立标记，最终32秒评价不改。
 
-最终交付固定模型/processor/stats/data版本，真实source/target双任务表、source-only/few-target/DAgger对照、纠正anchor和episode数量、视频逻辑索引、冻结WBC证据与完整资源终态。source成功和target成功分开；只准登记domain限定研究candidate，不自动真机部署。
+## 4. 最后必须做独立确认，而非只训练和存checkpoint
 
-**现在直接登记MP1，完成已开始的E1，随后按条件自动进入源域扩展、纠正、Vanda闭环和目标适配。不要只把本指令再改写成一份准备计划；也不要把新增预算理解为抹除旧安全停止或无限实验权限。**
+E0 DEV已暴露，属于development，不生产训练标签。SOURCE_CONFIRM和TARGET_CONFIRM各预封10个新scene-group×2任务×2采样seed=40条件/模型，与训练、纠正、兄弟场景去重。source选一个共享candidate确认一次；target选一个适配candidate与source-only做同40条件配对，共80尝试。每任务期望14/20完整安全成功是研发目标，不是承诺或真机部署许可。未达到如实记录，不换seed重来；本轮不从确认结果回流训练或Teacher调参。
+
+FlowDAgger只在普通纠正对照成立、评价资源有预留后启用，最多2GPUh，先32个TRAIN anchor真实反演，不合格即停；合格后最多512 steering更新。BASE13只有真实非零BASE标签时做独立<=2048更新，不伪造旧EEF10能力。不开RL、WING式预训练、全量VLM或新基座。
+
+## 5. 工程自治与收尾
+
+同范围构建、路径、IPC、认证生命周期、持久writer、atomic写入和已完成ID只读重取可自主修复并留测试，不逐项问GO。未知model/physical effect不重发。一个shared checkout一个mutation owner；所有运行capsule固定。正常S1拒绝继续其他预定实验，真实安全错误停止相应domain。
+
+两端各保留4GPUh最终评价/收尾，CPU至少15%收尾。预算为上限，提前达标不强行花完。每6个活跃工作小时和重要原生状态变化汇总一次实测进度/余额/下一行动，不反复三轮只报blocked，不创建永久daemon。
+
+最终发布真实source/target任务矩阵、数据revision/独立episode/纠正anchor、模型/processor/stats、无专家接管评价、视频逻辑索引和各端资源终态。Git仅自研源码/脱敏收据，raw/权重/WBC/凭据仍私有。登记domain限定的研究candidate，真实机器人deployment始终NONE。
+
+**直接采用单一MP1资源包并连续执行。不要再生成一个并行E3预算；不要因新计划重做已有成功，也不要把更多预算理解为清除旧安全停止。**
