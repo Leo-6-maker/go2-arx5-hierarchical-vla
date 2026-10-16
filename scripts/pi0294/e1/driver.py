@@ -39,18 +39,38 @@ else:print(json.dumps(dict(ok=True,value=json.loads(r.stdout))))
 def encode(value):return json.dumps(value,indent=2,allow_nan=False)+'\n'
 
 
+def recoverable_256_conditions(rows):
+    expected={(f'PI0294/TRAIN/{family}/000',task) for family in ['F0','F1'] for task in ['T1','T2']}
+    if len(rows)!=4 or {(r['scene_group'],r['task']) for r in rows}!=expected:raise PermissionError('E1_EXACT_PRIOR_256_PANEL_REQUIRED')
+    selected=[]
+    for row in rows:
+        if row['live_native_failures']:raise PermissionError('E1_PRIOR_ACTUAL_SAFETY_STOP')
+        if row['status']=='VALID_TASK_FAIL' and row['pipeline_trustworthy'] and row['failure_stage']=='S1_PRE_EXECUTION_REJECT':continue
+        if row['status']=='ENGINEERING_INCOMPLETE' and not row['pipeline_trustworthy']:selected.append((row['scene_group'],row['task']))
+        else:raise PermissionError('E1_NO_REPEAT_VALID_POLICY_OUTCOME')
+    if selected!=[('PI0294/TRAIN/F1/000','T2')]:raise PermissionError('E1_ONLY_OBSERVED_ENGINEERING_INCOMPLETE_RECOVERY')
+    return set(selected)
+
+
 def bind(remote,label,ready,*,collection_cards=None):
     facts={}
     for role in ['core','hopper']:
         facts[role]=remote(role,r'''
 import hashlib,json
 from pathlib import Path
-root=Path(ROOT);raw=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(raw)
+root=Path(ROOT);raw=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(raw);prior=[]
+if ROLE=='core' and LABEL=='M1-256-CANONICAL':
+ original=json.loads((root/'plans/M1-256/REGISTRY.json').read_text())
+ prior=[json.loads((root/'episodes'/c['attempt_id']/'E1_ADJUDICATION.json').read_text()) for c in original['cases'].values()]
 print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib.sha256(raw).hexdigest(),
- cards=[c['card'] for c in json.loads((Path(E0_ROOT)/'evidence/model-M2048/REGISTRY.json').read_text())['cases'].values() if c['card']['split']=='TRAIN'] if ROLE=='core' else [])))
-''',dict(ROLE=role),label='E1-stage-bind-read-'+label)
+ prior_256=prior,cards=[c['card'] for c in json.loads((Path(E0_ROOT)/'evidence/model-M2048/REGISTRY.json').read_text())['cases'].values() if c['card']['split']=='TRAIN'] if ROLE=='core' else [])))
+''',dict(ROLE=role,LABEL=label),label='E1-stage-bind-read-'+label)
     cases={}
     originals=collection_cards if collection_cards is not None else facts['core']['cards']
+    expected_count=4
+    if label=='M1-256-CANONICAL':
+        recoverable=recoverable_256_conditions(facts['core']['prior_256'])
+        originals=[c for c in originals if (c['scene_group'],c['task']) in recoverable];expected_count=1
     for index,original in enumerate(sorted(originals,key=lambda c:(c['scene_group'],c['task']))):
         card={k:v for k,v in original.items() if not k.startswith('relay_request_')}
         card['id']='PI0294-E1-'+label+'-'+card['scene_group'].split('/')[-2]+'-'+card['scene_group'].split('/')[-1]+'-'+card['task'];card['e1_model_label']=label
@@ -65,9 +85,9 @@ print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib
             deadline_epoch=request['deadline_epoch'],layout_id=card['scene_group'],core_request_relative=relative,
             core_request_sha256=card['relay_request_sha256'],core_request=request,card=card,panel_index=index,
             hopper_session_relative='evidence/'+label+'/resident')
-    if len(cases)!=4:raise ValueError('EXACT_E1_ORIGINAL_TRAIN4_REQUIRED')
+    if len(cases)!=expected_count:raise ValueError('EXACT_E1_PREDECLARED_PANEL_OR_ENGINEERING_INCOMPLETE_ONLY')
     registry=dict(run_uuid=ready['run_uuid'],deadline_epoch=ready['allocation_end_epoch']-2700,cases=cases,
-        checkpoint_identity=ready['identity'],**{role+'_'+k:v for role,items in facts.items() for k,v in items.items() if k!='cards'})
+        checkpoint_identity=ready['identity'],**{role+'_'+k:v for role,items in facts.items() for k,v in items.items() if k not in ['cards','prior_256']})
     for role in ['core','hopper']:
         remote(role,r'''
 import json,os
@@ -91,8 +111,34 @@ print(json.dumps(dict(status='E1_FIXED_TRAIN4_REGISTRY_BOUND',label=LABEL)))
 class KnownIntervention(RuntimeError):pass
 
 
-def routes(remote,base,label,ready,start_worker,*,collection_cards=None):
-    registry=bind(remote,label,ready,collection_cards=collection_cards);journal=Journal(base/'mutation-journal',ready['run_uuid'])
+def existing_256_recovery_registry(remote,ready):
+    values=[]
+    for role in ['core','hopper']:
+        values.append(remote(role,r'''
+import json
+from pathlib import Path
+r=Path(ROOT);registry=json.loads((r/'plans/M1-256-CANONICAL/REGISTRY.json').read_text());prior=[]
+if ROLE=='core':
+ original=json.loads((r/'plans/M1-256/REGISTRY.json').read_text())
+ prior=[json.loads((r/'episodes'/c['attempt_id']/'E1_ADJUDICATION.json').read_text()) for c in original['cases'].values()]
+ target=[c for c in registry['cases'].values() if c['card']['scene_group']=='PI0294/TRAIN/F1/000' and c['card']['task']=='T2']
+ assert len(target)==1 and not (r/'worker_processes'/(target[0]['attempt_id']+'.json')).exists()
+ assert not (r/'SOURCE_PHYSICS_STOP.json').exists() and not json.loads((r/'RESOURCE_LEDGER.json').read_text())['reservations']
+print(json.dumps(dict(registry=registry,prior=prior)))
+''',dict(ROLE=role),label='read-only-original-256-incomplete-recovery-'+role))
+    if values[0]['registry']!=values[1]['registry']:raise PermissionError('E1_REGISTERED_PANEL_SIDES_DIFFER')
+    registry=values[0]['registry']
+    if registry['checkpoint_identity']!=ready['identity'] or registry['run_uuid']!=ready['run_uuid']:raise PermissionError('E1_EXACT_EXISTING_MODEL_REQUIRED')
+    allowed=recoverable_256_conditions(values[0]['prior'])
+    registry['cases']={k:c for k,c in registry['cases'].items() if (c['card']['scene_group'],c['card']['task']) in allowed}
+    if len(registry['cases'])!=1:raise PermissionError('E1_ONE_UNSTARTED_ENGINEERING_RECOVERY_ONLY')
+    return registry
+
+
+def routes(remote,base,label,ready,start_worker,*,collection_cards=None,bound_registry=None):
+    if bound_registry is not None and (label!='M1-256-CANONICAL' or collection_cards is not None):raise PermissionError('E1_NO_ARBITRARY_REGISTRY_RESUME')
+    registry=bound_registry if bound_registry is not None else bind(remote,label,ready,collection_cards=collection_cards)
+    journal=Journal(base/'mutation-journal',ready['run_uuid'])
     def rpc(role,args):
         value=remote(role,RPC,dict(ROLE=role,LABEL=label,ARGS=args),label='e1-rpc-'+args['operation'])
         if not value['ok']:raise RuntimeError('E1_RPC_OUTCOME_UNKNOWN_NO_RESEND:'+value['error'])
@@ -166,7 +212,7 @@ print(json.dumps(dict(terminal=not s.exists() or s.read_text().split()[2]=='Z',r
             if terminal['terminal']:break
             time.sleep(1)
         row=terminal.get('row') or dict(attempt_id=case['attempt_id'],status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,terminal=terminal)
-        row['route_failure']=failure;rows.append(row);write(base/(label+'-RESULTS.private.json'),dict(rows=rows,planned=4))
+        row['route_failure']=failure;rows.append(row);write(base/(label+'-RESULTS.private.json'),dict(rows=rows,planned=len(registry['cases'])))
         print(json.dumps(dict(label=label,covered=len(rows),result=row['status'],stage=row.get('failure_stage'))),flush=True)
         if terminal['source_stop'] or not terminal['terminal']:break
-    return dict(label=label,rows=rows,planned=4)
+    return dict(label=label,rows=rows,planned=len(registry['cases']))

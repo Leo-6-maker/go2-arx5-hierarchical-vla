@@ -15,6 +15,15 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_only_engineering_incomplete_256_condition_can_recover(self):
+        from .e1.driver import recoverable_256_conditions
+        rows=[dict(scene_group='PI0294/TRAIN/'+f+'/000',task=t,status='VALID_TASK_FAIL',pipeline_trustworthy=True,failure_stage='S1_PRE_EXECUTION_REJECT',live_native_failures=0) for f in ['F0','F1'] for t in ['T1','T2']]
+        with self.assertRaises(PermissionError):recoverable_256_conditions(rows)
+        rows[-1].update(status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False)
+        self.assertEqual(recoverable_256_conditions(rows),{('PI0294/TRAIN/F1/000','T2')})
+        rows[-1]['live_native_failures']=1
+        with self.assertRaises(PermissionError):recoverable_256_conditions(rows)
+
     def test_control_file_read_retries_visibility_only_and_is_bounded(self):
         import errno
         from unittest.mock import patch

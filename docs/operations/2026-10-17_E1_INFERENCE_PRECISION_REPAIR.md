@@ -51,3 +51,28 @@ operation is retried by this helper. The unknown final generation remains
 unknown and is never resent. The existing second allocation performs the
 presealed canonical panels from their original initial states under new IDs.
 This is an explicit engineering recovery, not a replacement of negative results.
+
+## Binding Scope Correction: Do Not Repeat Valid Failures
+
+The preceding eight-start proposal was too broad: protocol section 9 explicitly
+forbids repeating valid negative policy outcomes as engineering recovery. This
+section supersedes that proposed physical panel while preserving its history.
+Fixed offline probes may still compare numerical contexts, but the three valid
+original M1-256 failures are retained with their precision-context caveat and
+are NOT rerun. Only original F1/000 T2, which was engineering-incomplete, may
+recover. M1-1024's original four conditions were never started and remain due.
+Thus the intended remaining physical work is one recovery plus four first runs,
+not eight reruns. The 256-step fully canonical autonomous panel remains incomplete;
+do not fabricate it from other contexts or claim this caveat has disappeared.
+
+Before the restriction was applied, the finite dispatcher had already started
+one M1-256-CANONICAL F0/000 T1 condition. The local dispatcher was stopped, its
+current relay was given an owner STOP, and no second repeated valid condition
+was started. Preserve this unintended changed-context attempt and every actual
+query/integration/cost, but exclude it from the adopted scientific comparison.
+The native GPU job was not cancelled or modified. After the Core worker and
+physical reservations were terminal, the same owner resumes only the unstarted
+engineering-incomplete F1/000 T2 UUID already bound in the immutable registry;
+completed/unknown neural and physical intents are never replayed. The new CPU
+guard derives that one allowed condition from the four original adjudications,
+rejects a valid-result retry, and retains the original 1024 parent and all caps.
