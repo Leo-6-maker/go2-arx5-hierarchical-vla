@@ -19,7 +19,7 @@ def publish(root,label,repo,token_file):
     if os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('E1_CHECKPOINT_PUBLISH_CPU_ONLY')
     if read(ledger.path)['GPU_reserved_s'] or any(x['status']!='NATIVE_TERMINAL' for x in read(ledger.path)['PBS_submissions']):
         raise PermissionError('E1_CHECKPOINT_PUBLICATION_AFTER_NATIVE_GPU_SETTLEMENT')
-    os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:2]))
+    os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
     branch,step=LABELS[label];checkpoint=root/'training'/branch/('checkpoint-'+str(step))
     complete=read(checkpoint/'CHECKPOINT_COMPLETE.json');files=complete['files'];owner=OwnerLock(root/'E1_MODEL_HF_PUBLISH.lock')
     output=root/'artifacts'/label;output.mkdir(parents=True,mode=0o700);journal=dict(status='INVENTORYING_ACTUAL_STATE',label=label,READY_claim=False)
