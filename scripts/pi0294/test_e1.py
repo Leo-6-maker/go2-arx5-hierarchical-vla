@@ -15,6 +15,26 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_fixed_probe_completed_draw_is_readonly_and_unknown_not_resampled(self):
+        import numpy as np
+        from types import SimpleNamespace as NS
+        from .e1.model import fixed_draw
+        counts=[];charges=[]
+        def generate(request,seed):
+            counts.append(seed);return dict(physical_H40=np.zeros((40,10)),normalized=np.zeros((1,40,132)),noise=dict(sha256='fixture'),inference_precision=dict(cuda_matmul_allow_tf32=False))
+        instance=NS(identity=dict(files={'fixture':'digest'}),generate=generate);ledger=NS(charge=lambda key,n:charges.append(n))
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);target=root/'fixed.npz';request=dict(snapshot_uuid='one',state_eef10=[0.]*10)
+            first=fixed_draw(root,'fixture','one',instance,request,7,target,ledger)
+            second=fixed_draw(root,'fixture','one',instance,dict(request,snapshot_uuid='new-transport-uuid'),7,target,ledger)
+            np.testing.assert_array_equal(first[0],second[0]);self.assertEqual(counts,[7]);self.assertEqual(charges,[1])
+            with self.assertRaises(ValueError):fixed_draw(root,'fixture','one',instance,request,8,target,ledger)
+            def lost(request,seed):raise ConnectionError('unknown draw')
+            instance.generate=lost
+            with self.assertRaises(ConnectionError):fixed_draw(root,'fixture','two',instance,request,9,root/'unknown.npz',ledger)
+            with self.assertRaises(MutationOutcomeUnknown):fixed_draw(root,'fixture','two',instance,request,9,root/'unknown.npz',ledger)
+            self.assertEqual(charges,[1,1])
+
     def test_remainder_never_repeats_valid_failure_or_success(self):
         from .e1.remaining import panel
         base=dict(model='M2-BC',scene_group='PI0294/TRAIN/F0/000',task='T1',status='VALID_TASK_FAIL',pipeline_trustworthy=True,
