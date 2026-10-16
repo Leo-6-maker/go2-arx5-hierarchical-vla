@@ -1,5 +1,5 @@
 """Explicit TF-R2 successor; historical R1 authority and capsules stay immutable."""
-import contextlib,os,socket,time
+import contextlib,os,resource,socket,time
 from pathlib import Path
 from .task_capture_runtime import read,sha,within
 from scripts.pi0292.durable import OwnerLock,write
