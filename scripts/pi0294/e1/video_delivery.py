@@ -41,6 +41,7 @@ def publish(root,repo,token_file):
         files['VIDEO_INDEX.json']=dict(bytes=(output/'VIDEO_INDEX.json').stat().st_size,sha256=sha(output/'VIDEO_INDEX.json'))
         os.environ['HF_HUB_OFFLINE']='0'
         from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download
+        def download(*args,**kwargs):return hf_hub_download(*args,**kwargs,local_dir=output/'small-readback')
         token=Path(token_file).read_text().strip();api=HfApi(token=token);info=api.repo_info(repo,repo_type='dataset')
         if not info.private:raise PermissionError('E1_ACTUAL_VIDEO_PRIVATE_ONLY')
         prefix='PI0294/'+root.name+'/E1_ACTUAL_AUDITED_VIDEO_V1'
@@ -49,14 +50,14 @@ def publish(root,repo,token_file):
         revision=api.create_commit(repo,repo_type='dataset',parent_commit=info.sha,commit_message='E1 actual audited movies, not autonomous success claims',
             operations=[CommitOperationAdd(path_in_repo=prefix+'/'+n,path_or_fileobj=str(sources[n])) for n in files]).oid
         state.update(status='PAYLOAD_COMMITTED_READBACK_PENDING',data_revision=revision);write(output/'TRANSFER.private.json',state)
-        verify_remote(api,repo,prefix,revision,files,hf_hub_download,token)
+        verify_remote(api,repo,prefix,revision,files,download,token)
         ready=dict(status='READY_ACTUAL_AUDITED_VIDEO_BYTES',run_uuid=root.name,files=files,data_revision=revision,
             actual_videos=len(index),private=True,READY_uploaded_last=True)
         write(output/'READY.json',ready)
         final=api.create_commit(repo,repo_type='dataset',parent_commit=revision,commit_message='E1 actual videos READY after fixed SHA verification',
             operations=[CommitOperationAdd(path_in_repo=prefix+'/READY.json',path_or_fileobj=str(output/'READY.json'))]).oid
         ready_files=dict(files);ready_files['READY.json']=dict(bytes=(output/'READY.json').stat().st_size,sha256=sha(output/'READY.json'))
-        verify_remote(api,repo,prefix,final,ready_files,hf_hub_download,token)
+        verify_remote(api,repo,prefix,final,ready_files,download,token)
         state.update(status='PASS_E1_ACTUAL_VIDEO_PRIVATE_FIXED_REVISION',revision=final,READY_sha256=sha(output/'READY.json'),actual_videos=len(index),READY_claim=True)
         write(output/'TRANSFER.private.json',state);return state
     finally:ledger.cpu(time.process_time()-started);owner.close()

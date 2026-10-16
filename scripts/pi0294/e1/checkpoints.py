@@ -52,6 +52,7 @@ def publish(root,label,repo,token_file):
         inventory['CHECKPOINT_MANIFEST.json']=dict(sha256=sha(output/'CHECKPOINT_MANIFEST.json'),bytes=(output/'CHECKPOINT_MANIFEST.json').stat().st_size)
         os.environ.update(HF_HUB_OFFLINE='0',HF_XET_CACHE=str(root/'artifacts/hf-xet-cache'))
         from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download
+        def download(*args,**kwargs):return hf_hub_download(*args,**kwargs,local_dir=output/'small-readback')
         token=Path(token_file).read_text().strip();api=HfApi(token=token);info=api.repo_info(repo,repo_type='dataset')
         if not info.private:raise PermissionError('E1_NEW_CHECKPOINTS_PRIVATE_HF_ONLY')
         prefix='PI0294/'+root.name+'/checkpoints/'+label+'-'+sha(output/'CHECKPOINT_MANIFEST.json')[:12]
@@ -62,7 +63,7 @@ def publish(root,label,repo,token_file):
         operations=[CommitOperationAdd(path_in_repo=prefix+'/'+name,path_or_fileobj=str(output/name if name=='CHECKPOINT_MANIFEST.json' else checkpoint/name)) for name in inventory]
         revision=api.create_commit(repo,repo_type='dataset',parent_commit=info.sha,commit_message='E1 '+label+' immutable native state, not selection',operations=operations).oid
         journal.update(status='PAYLOAD_COMMITTED_READBACK_PENDING',data_revision=revision);write(output/'DELIVERY.private.json',journal)
-        verify_remote(api,repo,prefix,revision,inventory,hf_hub_download,token)
+        verify_remote(api,repo,prefix,revision,inventory,download,token)
         for name,digest in files.items():
             if sha(checkpoint/name)!=digest:raise ValueError('E1_LOCAL_CHECKPOINT_CHANGED_DURING_UPLOAD')
         ready=dict(status='E1_FIXED_CHECKPOINT_SHA_VERIFIED',label=label,global_step=step,full_native_resume_state=label!='M1-256',
@@ -71,7 +72,7 @@ def publish(root,label,repo,token_file):
         write(output/'READY.json',ready)
         final=api.create_commit(repo,repo_type='dataset',parent_commit=revision,commit_message='E1 '+label+' READY after exact fixed SHA readback',operations=[CommitOperationAdd(path_in_repo=prefix+'/READY.json',path_or_fileobj=str(output/'READY.json'))]).oid
         inventory['READY.json']=dict(sha256=sha(output/'READY.json'),bytes=(output/'READY.json').stat().st_size)
-        verify_remote(api,repo,prefix,final,inventory,hf_hub_download,token)
+        verify_remote(api,repo,prefix,final,inventory,download,token)
         journal.update(status='PASS_E1_PRIVATE_CHECKPOINT_FIXED_REVISION_READY_LAST',revision=final,READY_claim=True,
             full_native_resume_state=label!='M1-256',independent_resume_test=False)
         write(output/'DELIVERY.private.json',journal);return journal
