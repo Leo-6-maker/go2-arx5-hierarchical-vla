@@ -32,7 +32,9 @@ class ResidentModel:
         self.allocation = verify_allocation(self.root,'resident',request_path)
         verify_inputs(self.root,bindings,'resident')
         checkpoint=Path(checkpoint)
-        complete=read(checkpoint/'CHECKPOINT_COMPLETE.json')
+        from .e0_scope import RUN as E0_RUN, inference_files
+        e0 = self.root.name == E0_RUN
+        complete = dict(global_step=2048, required_files=inference_files(identity)) if e0 else read(checkpoint/'CHECKPOINT_COMPLETE.json')
         if complete['global_step'] not in (512,2048,4096,6144):
             raise PermissionError('ONLY_REGISTERED_FORMAL_CHECKPOINTS')
         inventory=identity['files']
@@ -176,8 +178,10 @@ def serve(args):
     ready=read(root/'evidence/LIVE_READINESS.json')
     from .continuation import RUN as CONTINUATION_RUN, PARENT
     from .r4 import RUN as R4_RUN
-    readiness_run=PARENT if root.name in (CONTINUATION_RUN,R4_RUN) else root.name
-    if (root.name in (CONTINUATION_RUN,R4_RUN) and request['live_readiness_sha256']!='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c'):
+    from .e0_scope import RUN as E0_RUN, DEADLINE as E0_DEADLINE
+    e0 = root.name == E0_RUN
+    readiness_run=PARENT if root.name in (CONTINUATION_RUN,R4_RUN,E0_RUN) else root.name
+    if (root.name in (CONTINUATION_RUN,R4_RUN,E0_RUN) and request['live_readiness_sha256']!='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c'):
         raise PermissionError('EXACT_REUSED_PARENT_ROUTE_QUALIFICATION_REQUIRED')
     if sha(root/'evidence/LIVE_READINESS.json')!=request['live_readiness_sha256'] or ready['run_uuid']!=readiness_run or ready['status']!='PASS_ACTUAL_TEACHER_AND_DUAL_SSH_ROUTE':
         raise PermissionError('ACTUAL_TEACHER_AND_ROUTE_PROOF_REQUIRED')
@@ -199,7 +203,7 @@ def serve(args):
         signal.signal(signal.SIGALRM,expire)
         seen=set()
         from .continuation import RUN as CONTINUATION_RUN
-        boundary=read(root/'ADOPTION.json')['new_work_cutoff_epoch'] if root.name in (CONTINUATION_RUN,R4_RUN) else 1791943200
+        boundary=E0_DEADLINE if e0 else (read(root/'ADOPTION.json')['new_work_cutoff_epoch'] if root.name in (CONTINUATION_RUN,R4_RUN) else 1791943200)
         end=min(allocation['allocation_end_epoch']-120,boundary)
         state['status']='RESIDENT_WAIT_FRESH_REAL_OBSERVATION';write(directory/'STATE.json',state)
         while time.time()<end:
@@ -233,9 +237,9 @@ def serve(args):
                 if body['sequence'] and body['previous_ack'] is None:
                     raise ValueError('FRESH_QUERY_NEEDS_PREVIOUS_PHYSICS_ACK')
                 from .continuation import RUN as CONTINUATION_RUN, LIMITS
-                if root.name in (CONTINUATION_RUN,R4_RUN):
+                if root.name in (CONTINUATION_RUN,R4_RUN,E0_RUN):
                     ledger=read(ledger_path)
-                    if ledger['generation_queries']>=(6000 if root.name==R4_RUN else LIMITS['generation_queries']):
+                    if ledger['generation_queries']>=(1056 if e0 else (6000 if root.name==R4_RUN else LIMITS['generation_queries'])):
                         raise PermissionError('CONTINUATION_GLOBAL_QUERY_CAP')
                     reservations.begin(body,time.time())
                     ledger['generation_queries']+=1;write(ledger_path,ledger)

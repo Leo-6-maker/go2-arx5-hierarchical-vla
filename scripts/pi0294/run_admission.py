@@ -37,6 +37,10 @@ def contained(path, parent):
 
 def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
              hostname=None, uid=None, verify_source=True):
+    from .e0_scope import RUN as E0_RUN, validate_entry as validate_e0
+    if Path(root).name == E0_RUN:
+        return validate_e0(root, profile=profile, manifest_path=manifest_path, now=now,
+            closeout=closeout, hostname=hostname, uid=uid, verify_source=verify_source)
     from .r4 import RUN as R4_RUN, validate_entry as validate_r4
     if Path(root).name == R4_RUN:
         return validate_r4(root,profile=profile,manifest_path=manifest_path,now=now,

@@ -22,7 +22,13 @@ COSMOS_REVISION='9ce19a195e423419c349abfc86fd07178b230561'
 
 
 def verify_allocation(root,mode,request_path):
-    from .allocation_admission import admit
+    from .e0_scope import RUN as E0_RUN
+    if Path(root).name == E0_RUN:
+        if mode != 'resident':
+            raise PermissionError('E0_INFERENCE_ONLY_NO_TRAINING')
+        from .e0_scope import admit
+    else:
+        from .allocation_admission import admit
     allocation=admit(root,request_path)
     authorization=read(root/'NEURAL_AUTHORIZATION.json')
     if authorization['job_id']!=os.environ.get('PBS_JOBID') or mode not in authorization['allowed_modes'] or authorization['request_sha256']!=sha(request_path):
@@ -115,6 +121,11 @@ def verify_extension(root,resume,allocation,ledger):
 
 
 def verify_inputs(root,bindings,mode):
+    from .e0_scope import RUN as E0_RUN, verify_inputs as e0_inputs
+    if Path(root).name == E0_RUN:
+        if mode != 'resident':
+            raise PermissionError('E0_INPUTS_ARE_NOT_TRAINING_AUTHORITY')
+        return e0_inputs(root, bindings)
     gate=read(root/'evidence/HOPPER_INPUT_QUALIFICATION.json')
     if gate['status']!='PASS_FIXED_INPUTS_CPU_INTERFACE' or gate['bindings_sha256']!=sha(root/'NEURAL_BINDINGS.private.json'):
         raise PermissionError('ACTUAL_FIXED_INPUT_QUALIFICATION_REQUIRED')
