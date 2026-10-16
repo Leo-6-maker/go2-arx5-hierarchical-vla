@@ -2,6 +2,8 @@
 
 # GR00T＋WBC — 2026-10-16 E0 与后续代码准备
 
+**E0已实际停止并收尾：PARTIAL，12/12尝试、11/12科学可判定，TRAIN0/3、DEV0/8成功。** [完整终报](reports/PI0294/20261016T083821Z-localpc-e0/E0_FINAL_REPORT.md) · [逐条件结果](reports/PI0294/20261016T083821Z-localpc-e0/E0_MODEL_BEHAVIOR_RESULTS.json) · [原视频索引](reports/PI0294/20261016T083821Z-localpc-e0/E0_RAW_EVIDENCE_AND_PRIVATE_VIDEO_INDEX.json) · [资源终态](reports/PI0294/20261016T083821Z-localpc-e0/E0_RESOURCE_FINAL.json)。11条原S1预测非法接触而预执行拒绝；1条本地中继中断工程不完整，不算策略FAIL、不重跑。12条保存证据/实际视频审计PASS，真实安全故障0；217生成、41000主步/42075影子步、1652双RGB。两PBS均F，原生1708GPU秒/保守1723秒，预留0、两lease CLOSED；无新训练/WBC/S1变化，selected/deployment NONE。以下排队/运行文字均为阶段历史。
+
 **E0最后一次同语义工程提交已实际进入Q：670345.hopper-m-02。** [恢复绑定与提交收据](reports/PI0294/20261016T083821Z-localpc-e0/E0_ALLOCATION_02_SUBMISSION.json)，runtime固定ce1a14a56ddfe9f322e159eef8a2f8054da22525，两端封存入口PASS，15原数值文件及模型generate逻辑不变。2/2 PBS已用，原窗口/总额保持；当前尚无模型结果，以下首次失败/旧排队记录保留为历史。
 
 **E0最新原生增量：首个allocation已F，启动前认证过期，模型/物理均未开始。** [首次实际终态](reports/PI0294/20261016T083821Z-localpc-e0/E0_ALLOCATION_01_TERMINAL.json)：183 GPU秒原生、188秒保守扣账，12条件仍NOT_RUN而非策略失败。正在修复同语义准入并准备唯一剩余工程提交；原T0/截止/总额不重置。下段排队措辞为此前提交阶段历史，不是实时状态。

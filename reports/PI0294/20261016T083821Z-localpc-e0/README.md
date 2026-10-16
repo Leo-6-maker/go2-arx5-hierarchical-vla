@@ -1,5 +1,13 @@
 # E0 Adopted: M2048 Source-Domain Evaluation Only
 
+**Terminal: E0_PARTIAL_WITH_EXPLICIT_MISSING_CONDITIONS.**
+[Final report](E0_FINAL_REPORT.md): 12/12 attempted, 11 scientifically adjudicable,
+zero successes, eleven valid S1 rejections and one engineering-incomplete TRAIN
+condition. All twelve independent saved-evidence/video audits passed. Both PBS
+jobs are F; both leases CLOSED; all own workers terminal and reservations zero.
+No new compute or training follows automatically. The staging and queued records
+below are historical snapshots, not the current state.
+
 Latest native state: allocation 01 ended before model load after its owner-side
 project authentication expired. [Actual terminal receipt](E0_ALLOCATION_01_TERMINAL.json):
 183 scheduler GPU seconds, conservatively charged 188; no model, query or physics.
