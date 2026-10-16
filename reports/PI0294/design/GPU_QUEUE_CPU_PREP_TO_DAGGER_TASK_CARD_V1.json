@@ -1,0 +1,281 @@
+{
+  "schema": "PI0294_GPU_QUEUE_CPU_PREP_TO_DAGGER_V1",
+  "date_SGT": "2026-10-16",
+  "status": "USER_REQUESTED_CPU_PREPARATION_HANDOFF_NOT_YET_EXECUTED",
+  "intent": "While approved E0 M2048 GPU job is queued, prepare source/target data contracts, source Recovery Oracle interface, DAgger collector/data schema, and FlowDAgger adapter in CPU-only mode.",
+  "research_base": "bf3d1e793130d14713e64e1bde550d1b5ba68bb3",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "protocol": "docs/protocols/PI0294_GPU_QUEUE_CPU_PREP_TO_DAGGER_FULL_PIPELINE_V1.md",
+  "codex_handoff": "docs/handover/2026-10-16/GPU_QUEUE_DAGGER_CPU_PREP_CODEX_EXECUTE_V1.md",
+  "owner": "EXISTING_LOCAL_PC_SINGLE_OWNER_ONLY",
+  "publication_means_execution": false,
+  "currently_confirmed": {
+    "E0": {
+      "adopter_status": "HUMAN_ADOPTED_ACTUAL_E0",
+      "adopted_release": "22e5f0baeed0af662a7cf1c97edae1f4060947fe",
+      "run_uuid": "20261016T083821Z-localpc-e0",
+      "PBS_job_id": "670049.hopper-m-02",
+      "last_published_snapshot": "QUEUED_NOT_RUNNING_NOT_MODEL_LOADED",
+      "current_live_server_status": "UNVERIFIED",
+      "data": "v3.0",
+      "model": "M2048",
+      "source_environment": "D0_AND_S1",
+      "action": "EEF10",
+      "panel": "TRAIN4_THEN_DEV8",
+      "preserved": "NO_SECOND_QSUB_NO_RESUBMISSION_NO_CANCEL_NO_CHANGE_TO_S1_OR_MODEL",
+      "original_hard_closeout_SGT": "2026-10-17T23:38:21+08:00"
+    },
+    "source_data": {
+      "v3_0": {
+        "success_episodes": 158,
+        "train": 126,
+        "dev": 32,
+        "contains_EEF10": true
+      },
+      "v3_1": {
+        "success_episodes": 295,
+        "includes_v3_0": true,
+        "do_not_hot_mix": true
+      }
+    },
+    "fullbody_target": {
+      "latest_published_success_seeds": 0,
+      "TF_R3_safety_stop_must_be_respected": true,
+      "last_live_status": "UNVERIFIED"
+    },
+    "FlowDAgger": {
+      "project": "https://github.com/microsoft/FlowDAgger",
+      "pinned_revision": "3426f246510fd67a9e39c3c08bd5b02d586ad688",
+      "backend": "GR00T_N1_7_LIBERO_90_TASK57_7D",
+      "default_intervention_probability": 1,
+      "default_expert_only_training_chunks": true,
+      "source_code_has_shared_takeover_handler_not_directly_integrated_into_gr00t_loop": true,
+      "use_as_reference_not_drop_in": true
+    }
+  },
+  "cpu_work": {
+    "status": "REQUESTED_NOW_CPU_ONLY",
+    "local_nonphysical_tests_allowed_when_authorized_site_cpu_available": true,
+    "local_cpu_recommended_cap_core_hours": 8,
+    "local_cpu_recommended_concurrent_cores_max": 4,
+    "local_output_recommended_cap_GiB": 2,
+    "no_budget_creation_by_GitHub_publication": true,
+    "stages": [
+      {
+        "id": "Q0",
+        "name": "owner_and_E0_freeze",
+        "blocking": true,
+        "outputs": [
+          "PREP_INVENTORY.md"
+        ],
+        "gates": [
+          "Read active #11/#47, owner/lease, actual E0 job state read-only",
+          "Do not change/duplicate queued job",
+          "Preserve TF-R3 safety STOP"
+        ]
+      },
+      {
+        "id": "Q1",
+        "name": "action_and_dataset_contract",
+        "blocking": true,
+        "outputs": [
+          "ACTION_CONTRACT_MATRIX.md",
+          "CPU_ACTION_CONTRACT_TEST_RECEIPT.json"
+        ],
+        "gates": [
+          "Source EEF10 and prospective target EEF13 separated",
+          "H40,prefix8,20Hz,rot6D,gripper,TCP,relative-once tests",
+          "BASE absent distinct from zero",
+          "v3.0 stats untouched"
+        ]
+      },
+      {
+        "id": "Q2",
+        "name": "recovery_oracle_offline_API",
+        "blocking": true,
+        "outputs": [
+          "ORACLE_QUERY_CONTRACT.md",
+          "ORACLE_FIXTURE_RECEIPT.json"
+        ],
+        "gates": [
+          "Saved-state/manual legal fixture only",
+          "Expert may return invalid",
+          "No new physics",
+          "No synthetic fixture treated as student on-policy"
+        ]
+      },
+      {
+        "id": "Q3",
+        "name": "DAgger_dataset_and_collector_mock",
+        "blocking": true,
+        "outputs": [
+          "DAGGER_RECORD_SCHEMA.json",
+          "DAGGER_COLLECTOR_CPU_FIXTURE.md"
+        ],
+        "gates": [
+          "Same-observation expert/student binding",
+          "Safety rejection and takeover logging",
+          "H40 vs executed prefix8 separation",
+          "Student/expert inputs exclude privileged truth",
+          "Invalid,early-end and non-executed labels segregated"
+        ]
+      },
+      {
+        "id": "Q4",
+        "name": "FlowDAgger_compatibility",
+        "blocking": true,
+        "outputs": [
+          "FLOWDAGGER_PORTABILITY_AUDIT.md",
+          "MOCK_INVERSION_ROUNDTRIP.json",
+          "RUN_WITH_REAL_M2048_LATER.md"
+        ],
+        "gates": [
+          "Review pinned official code and MIT license",
+          "No LIBERO 7D direct copy",
+          "Check M2048 actual model-space dimensions from config",
+          "Only mock/synthetic no model inference",
+          "Real inversion and latent steering NOT_RUN"
+        ]
+      },
+      {
+        "id": "Q5",
+        "name": "split_training_and_decision_design",
+        "blocking": false,
+        "outputs": [
+          "DAGGER_DATASET_AND_SPLIT_SPEC.md",
+          "E0_TO_DAGGER_DECISION.md"
+        ],
+        "gates": [
+          "Success BC/intervention/failure banks separate",
+          "TRAIN-only future stats, no leakage",
+          "E0 outcomes conditional not invented",
+          "Equal expert-query budget controls"
+        ]
+      },
+      {
+        "id": "Q6",
+        "name": "final_CPU_handoff",
+        "blocking": true,
+        "outputs": [
+          "PREP_FINAL_REPORT.md"
+        ],
+        "gates": [
+          "New focused tests actual receipts",
+          "GitHub sanitized source and readback",
+          "No old huge archive reupload",
+          "State PREP_CPU_READY_NOT_DAGGER_EXECUTED only if Q0-Q5 testable outputs done"
+        ]
+      }
+    ],
+    "suggested_report_root": "reports/PI0294/design/gpu-queue-dagger-prep-v1/",
+    "suggested_test_prefix": "tests/test_pi0294_dagger_",
+    "no_touch": [
+      "E0 running immutable source capsule",
+      "original source dataset or stats",
+      "M2048 weights and numerics",
+      "S1 guard implementation",
+      "original TF-R3 evidence or STOP",
+      "frozen WBC/leg policy/safety/scorer"
+    ]
+  },
+  "no_new_execution": {
+    "GPU": true,
+    "PBS": true,
+    "model_load": true,
+    "neural_query": true,
+    "optimizer_step": true,
+    "new_MuJoCo_integrations": true,
+    "rendering": true,
+    "native_new_teacher_rollout": true,
+    "new_robot_data_collection": true,
+    "TF_R3_restart": true,
+    "revive_failed_science_condition": true,
+    "WBC_change": true,
+    "score_or_safety_relaxation": true,
+    "new_large_download": true,
+    "remote_public_raw_or_weights": true,
+    "destructive_cleanup": true,
+    "background_daemon_or_cron": true
+  },
+  "full_lifecycle": [
+    {
+      "phase": "P0",
+      "name": "source_and_target_sim_environment_qualification",
+      "stage": "source done; target incomplete",
+      "authorization": "INDEPENDENT"
+    },
+    {
+      "phase": "P1",
+      "name": "source_teacher_success_and_BC_bank",
+      "stage": "source v3.0 exists",
+      "authorization": "EXISTING"
+    },
+    {
+      "phase": "P2",
+      "name": "M2048_FlowMatching_BC_and_E0",
+      "stage": "M2048 trained E0 approved queued snapshot",
+      "authorization": "E0_ALREADY_ADOPTED"
+    },
+    {
+      "phase": "P3",
+      "name": "source_off_distribution_RecoveryOracle",
+      "stage": "CPU interface now, real student states later",
+      "authorization": "MODEL_STATES_AFTER_E0"
+    },
+    {
+      "phase": "P4",
+      "name": "onpolicy_source_DAgger",
+      "stage": "future",
+      "authorization": "NEW_SCIENCE_COMPUTE"
+    },
+    {
+      "phase": "P5",
+      "name": "FlowDAgger_latent_steering_comparison",
+      "stage": "mock CPU now, actual inversion future",
+      "authorization": "NEW_GPU_SCIENCE"
+    },
+    {
+      "phase": "P6",
+      "name": "source_only_target_WBC_transfer_and_few_target_success_data",
+      "stage": "future target qualifications",
+      "authorization": "NEW_TARGET_PHYSICS_SCIENCE"
+    },
+    {
+      "phase": "P7",
+      "name": "target_domain_DAgger_and_optional_EEF13_BASE",
+      "stage": "future",
+      "authorization": "NEW_SCIENCE_COMPUTE"
+    },
+    {
+      "phase": "P8",
+      "name": "frozen_policy_model_and_cross_embodiment_ablations",
+      "stage": "future",
+      "authorization": "NEW_EVAL"
+    }
+  ],
+  "quality_invariants": {
+    "EEF10_source_not_auto_EEF13": true,
+    "baseline_H40": 40,
+    "prefix_executed": 8,
+    "observation_hz": 20,
+    "full_32s_source_commands": 640,
+    "full_32s_source_observations": 641,
+    "each_trajectory_window_is_not_independent_episode": true,
+    "expert_uses_privileged_state_only_in_oracle": true,
+    "student_input_actual_RGB_language_measured_state_only": true,
+    "expert_chunk_must_be_genuine_valid_H40_or_explicit_validity_mask": true,
+    "intervention_is_not_successful_target_demo": true,
+    "actual_object_success_and_native_safety_required_for_target_success_bank": true,
+    "execution_pipeline_validated_only_by_actual_episode_not_mock": true,
+    "frozen_WBC_and_plant": true
+  },
+  "end_status_at_publication": {
+    "new_GPU_jobs": 0,
+    "new_neural_queries": 0,
+    "new_training_updates": 0,
+    "new_sim_starts": 0,
+    "CPU_work_executed_by_publication": false,
+    "model_selected": "NONE",
+    "deployment": "NONE"
+  }
+}
