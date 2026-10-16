@@ -32,7 +32,7 @@ def publish(root,dataset,repo,token_file):
         members={str(p.relative_to(dataset)):sha(p) for p in dataset.rglob('*') if p.is_file() and '.private.' not in p.name}
         if any(p.is_symlink() for p in dataset.rglob('*')):raise PermissionError('NO_DATASET_SYMLINKS')
         dependency=None
-        if dataset.name.endswith('-C1'):
+        if dataset.name in ['E1_SOURCE_CORRECTION_V1-C1','E1_SOURCE_CORRECTION_V1-C1-REPAIR-02','E1_SOURCE_CORRECTION_V1-C1-REPAIR-03']:
             c0=root/'datasets/E1_SOURCE_CORRECTION_V1-C0';previous=read(c0/'DATASET_MANIFEST.json');current=read(dataset/'DATASET_MANIFEST.json')
             if current['C0_manifest_sha256']!=sha(c0/'DATASET_MANIFEST.json'):raise ValueError('C1_EXACT_FROZEN_C0_DEPENDENCY')
             old_rows={row['id']:row for row in previous['episodes']};new_rows={row['id']:row for row in current['episodes']}
