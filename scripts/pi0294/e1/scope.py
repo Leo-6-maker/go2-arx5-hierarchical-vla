@@ -58,6 +58,8 @@ def validate(root, profile, *, physical=False, now=None, verify_source=True):
         raise PermissionError('E1_ORIGINAL_S1_QUALIFICATION_REQUIRED')
     if physical and (root/'SOURCE_PHYSICS_STOP.json').exists():
         raise PermissionError('E1_ACTUAL_SAFETY_OR_STATE_INTEGRITY_STOP')
+    if physical and (root/'INITIAL_HISTORY_AUDIT_HOLD.json').exists():
+        raise PermissionError('E1_INITIAL_HISTORY_AUDIT_HOLD_NO_NEW_PHYSICS')
     if verify_source:
         code=inside(root/m['code']['capsule_relative'],root)
         if 'E1_RUN_MANIFEST' in os.environ and manifest_path.resolve()!=(code.parent/'WORKER_RUN_MANIFEST.json').resolve():
