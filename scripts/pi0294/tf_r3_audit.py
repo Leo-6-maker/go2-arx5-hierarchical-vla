@@ -45,7 +45,7 @@ def physics(root,episode):
     assert len(intents)==len(acks)==len(accepted)
     arrays={k:[] for k in BOOL_FIELDS};tcp=[];objects=[];v=[];w=[];rgb_hashes={};camera_checks=0;reference=[];h40=[]
     for intent in intents:
-        seq=intent['sequence'];request_folder=p/'requests'/episode/f'{seq:04d}';assert sha(request_folder/'INPUT.private.json')==intent['persistent']['certificate']['input_sha256']
+        seq=intent['sequence'];bundle_index=intent['persistent'].get('planner_bundle_index',seq);request_folder=p/'requests'/episode/f'{bundle_index:04d}';assert sha(request_folder/'INPUT.private.json')==intent['persistent']['certificate']['input_sha256']
         with np.load(request_folder/'H40.private.npz',allow_pickle=False) as f:h40.append(f['poses'].copy())
     for i,s in enumerate(saved):
         packet=packets[i];assert s['native_step']==packet['step'] and all(np.array_equal(s[k],packet[k]) for k in ('qpos','qvel','ctrl'))
