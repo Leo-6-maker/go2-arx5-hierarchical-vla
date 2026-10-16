@@ -43,7 +43,12 @@ are not native pipeline qualification or a measured speedup. The saved M1
 T1 audit metadata still reconciles to two seen-TRAIN successes, not new runs.
 [Checks and exact native readmission preconditions](reports/PI0294/20261016T150228Z-localpc-e1/LAST_ALLOCATION_ENGINEERING_CHECK_01.json).
 No third E1 submission, native source switch, new MP1 GPU or physical action
-was made during this disconnected interval.
+was made during this disconnected interval. After the same network failure
+persisted for three consecutive Goal turns, the owner recorded
+`BLOCKED_LOCAL_CAMPUS_NETWORK_RESTORE_REQUIRED`, not completion.
+[Blocker and explicit completion gaps](reports/PI0294/20261016T150228Z-localpc-e1/OWNER_BLOCKED_NETWORK_AUDIT_01.json).
+The original clocks and reservations remain unchanged; in-scope resumption
+needs network restoration and native reconciliation, not another scientific GO.
 
 ## Source Results
 
