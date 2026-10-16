@@ -15,12 +15,22 @@ CLEARANCE=.06*.05
 STEP=MARGIN
 
 
-def reference(state,previous,pad,card,initial_object,mode,*,local_time_factor=1.):
+def reference(state,previous,pad,card,initial_object,mode,*,local_time_factor=1.,orientation_geometry=None):
     """Pure deterministic reference; callers preserve the measured state."""
     previous=np.asarray(previous,dtype=float);pad=np.asarray(pad,dtype=float)
     obj=np.asarray(state['object_pose']);goal=np.asarray(card['goal_xy'],dtype=float)
     direction=np.r_[goal-np.asarray(card['source_xy']),0.];direction/=np.linalg.norm(direction)
     rotation=previous[:3,:3];pad_rotation=pad[:3,:3]
+    orient=card.get('orientation_policy')=='ORIGINAL_SOURCE_PAD_CENTER_SLEW_V3'
+    rotation_end=rotation
+    if orient:
+        from go2arx5_vla.trajectory.so3 import matrix_to_quat,quat_to_matrix,quat_slerp,geodesic_angle
+        if orientation_geometry is None:raise ValueError('SOURCE_ROTATION_AND_ACTUAL_PAD_GEOMETRY_REQUIRED')
+        target=np.asarray(orientation_geometry['target_rotation']);angle=float(geodesic_angle(rotation,target))
+        # Original 0.3rad/s cap and the exact quintic derivative peak 15/8.
+        angular_step=.3*.4/(15/8)/(local_time_factor**2)
+        rotation_end=quat_to_matrix(quat_slerp(matrix_to_quat(rotation),matrix_to_quat(target),min(1.,angular_step/max(angle,1e-15))))
+        pad_rotation=rotation_end@np.asarray(orientation_geometry['pads'][0]['relative'])[:3,:3]
     size=np.array([.02,.003,.017]);cube_size=np.full(3,.02)
     cube_extent=float(abs(obj[:3,:3].T@direction)@cube_size)
     pad_extent=float(abs(pad_rotation.T@direction)@size)
@@ -38,6 +48,10 @@ def reference(state,previous,pad,card,initial_object,mode,*,local_time_factor=1.
     else:
         desired=obj[:3,3]-direction*(cube_extent+pad_extent)
         desired[2]=max(desired[2],table+pad_z_extent+CLEARANCE)
+        if orient:
+            pads=orientation_geometry['pads'];left_relative=np.asarray(pads[0]['relative'])
+            required=max(float(abs((rotation_end@np.asarray(p['relative'])[:3,:3])[2,:])@np.asarray(p['size'])-(rotation_end@(np.asarray(p['relative'])[:3,3]-left_relative[:3,3]))[2]) for p in pads)
+            desired[2]=max(desired[2],table+required+CLEARANCE)
         stage='contact'
         if state['robot_object_contact']:
             desired[:2]=goal-direction[:2]*(cube_extent+pad_extent);stage='push'
@@ -49,11 +63,26 @@ def reference(state,previous,pad,card,initial_object,mode,*,local_time_factor=1.
     u=np.minimum((np.arange(40,dtype=float)+1)/8,1.) if corrected else np.minimum(np.arange(40,dtype=float)/7,1.)
     ramp=10*u**3-15*u**4+6*u**5
     poses=np.repeat(previous[None],40,axis=0);poses[:,:3,3]+=ramp[:,None]*step
+    if orient and not mode.get('hold'):
+        offset=np.asarray(orientation_geometry['pads'][0]['relative'])[:3,3]
+        for i,fraction in enumerate(ramp):
+            r=quat_to_matrix(quat_slerp(matrix_to_quat(rotation),matrix_to_quat(rotation_end),float(fraction)))
+            poses[i,:3,:3]=r;poses[i,:3,3]-=(r-rotation)@offset
     proof=dict(stage=stage,desired_pad_world=desired.tolist(),actual_pad_world=pad[:3,3].tolist(),
         reference_step_world=step.tolist(),reference_step_bound_m=STEP,object_all_corners_in_original_zone=in_zone,
         actual_object_horizontal_displacement_m=moved,future_tail='HOLD_AFTER_PREFIX8',
         actual_contact=bool(state['robot_object_contact']),local_time_factor=local_time_factor,reference_grid=card.get('reference_grid','PREFIX8_J0_OVER7_V1'),no_joint_bias_calibration=True)
+    if orient:proof.update(orientation_policy=card['orientation_policy'],target_rotation=target.tolist(),reference_rotation_step_rad=float(geodesic_angle(rotation,rotation_end)),rotation_about='COMMAND_PAD_CENTER',both_pad_support_clearance=True)
     return poses,stage,mode,proof
+
+
+def orientation_geometry(engine,state,target_rotation):
+    """Read actual measured pad transforms; no integration or state mutation."""
+    pads=[]
+    for g in engine.pad:
+        pose=np.eye(4);pose[:3,:3]=engine.data.geom_xmat[g].reshape(3,3);pose[:3,3]=engine.data.geom_xpos[g]
+        pads.append(dict(relative=(np.linalg.inv(state['tcp'])@pose).tolist(),size=engine.model.geom_size[g].tolist()))
+    return dict(target_rotation=np.asarray(target_rotation).tolist(),pads=pads)
 
 
 def overhead(model,state,engine,card):
@@ -77,6 +106,12 @@ class Teacher:
         self.initial=state['object_pose'].copy();self.station=base.copy();self.initial_tcp=state['tcp'].copy()
         self.entry=None;self.entry_program=None;self.mode={};self.stage='approach';self.geometry={};self.events=[];self.stop_reason=None;self.query_index=0
         self.milestones=dict(actual_contact=False,manipulation=False,position_progress=False)
+        self.target_rotation=None
+        if card.get('orientation_policy')=='ORIGINAL_SOURCE_PAD_CENTER_SLEW_V3':
+            from .tf_r3_source import load
+            from .task_capture_runtime import read
+            row=next(r for r in read(self.root/'factory/PROGRAMS.json')['rows'] if r['id']==card['locked_source_id'])
+            self.target_rotation=load(self.root,row)['poses'][0,:3,:3].copy()
 
     def note_executed(self,*args,**kwargs):
         from .tf_r3_teacher import Teacher as Parent
@@ -111,7 +146,8 @@ class Teacher:
             else:
                 history=self.client.executed_reference_history;previous=np.asarray(history[-1]['pose']) if history else self.entry['poses'][-1]
                 d=self.engine.data;pad=np.eye(4);g=self.engine.pad[0];pad[:3,:3]=d.geom_xmat[g].reshape(3,3);pad[:3,3]=d.geom_xpos[g]
-                poses,stage,candidate_mode,proof=reference(state,previous,pad,self.card,self.initial,previous_mode,local_time_factor=factor)
+                geometry=orientation_geometry(self.engine,state,self.target_rotation) if self.target_rotation is not None else None
+                poses,stage,candidate_mode,proof=reference(state,previous,pad,self.card,self.initial,previous_mode,local_time_factor=factor,orientation_geometry=geometry)
             selected['target']=poses[0];bundle_index=self.query_index*4+attempt if corrected else self.query_index
             try:
                 checked,certificate,_=self.client.bundle(state,[selected],stage,self.condition,bundle_index,frozen_poses=poses,frozen_stages=[stage]*40,attached=False)

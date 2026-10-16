@@ -7,7 +7,7 @@ from .tf_r3_source import sample
 from .tf_r3_entry import retime
 from .mp_client import Client
 from .task_capture_runtime import read,sha
-from .tf_r3_reactive import overhead,reference,VERSION
+from .tf_r3_reactive import overhead,reference,orientation_geometry,VERSION
 from scripts.pi0292.eval_contract import matrix10
 
 
@@ -21,7 +21,11 @@ def expected_windows(root,folder,model,packets,saved,intents):
     assert entry['entry_timing']==binding['entry_timing'];program=dict(time=entry['time'],poses=entry['poses'],gripper=np.full(len(entry['time']),.5))
     with np.load(folder/'TASKFRAME_ENTRY.npz',allow_pickle=False) as z:
         assert set(z.files)==set(program) and all(np.array_equal(program[k],z[k]) for k in program)
-    expected={};mode={}
+    expected={};mode={};target_rotation=None
+    if card.get('orientation_policy')=='ORIGINAL_SOURCE_PAD_CENTER_SLEW_V3':
+        from .tf_r3_source import load
+        row=next(r for r in read(root/'factory/PROGRAMS.json')['rows'] if r['id']==card['locked_source_id'])
+        target_rotation=load(root,row)['poses'][0,:3,:3].copy()
     for seq,intent in enumerate(intents):
         tick=seq*8;state=engine.update(packets[tick]);state['time_s']=saved[tick]['time_s'];at=float(state['time_s'])
         assert at==intent['persistent']['consumed_task_time_s']
@@ -44,7 +48,8 @@ def expected_windows(root,folder,model,packets,saved,intents):
             previous=matrix10(np.asarray(intents[seq-1]['action_EEF13'])[7,:10]) if seq else entry['poses'][-1]
             pad=np.eye(4);g=engine.pad[0];pad[:3,:3]=engine.data.geom_xmat[g].reshape(3,3);pad[:3,3]=engine.data.geom_xpos[g]
             factor=intent['persistent']['reference_proof'].get('local_time_factor',1.)
-            poses,stage,mode,proof=reference(state,previous,pad,card,initial,mode,local_time_factor=factor)
+            geometry=orientation_geometry(engine,state,target_rotation) if target_rotation is not None else None
+            poses,stage,mode,proof=reference(state,previous,pad,card,initial,mode,local_time_factor=factor,orientation_geometry=geometry)
             persisted=intent['persistent']['reference_proof']
             for key in ('stage','desired_pad_world','actual_pad_world','reference_step_world','mode'):
                 value=mode if key=='mode' else proof[key]
