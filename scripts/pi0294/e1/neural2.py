@@ -37,6 +37,18 @@ def run(root,request_path):
         from .train import run as train
         parent=root/'training/M1/checkpoint-1024'
         if read(parent/'CHECKPOINT_COMPLETE.json')['global_step']!=1024:raise PermissionError('E1_FIXED_M1_1024_PARENT_ONLY')
+        b=read(root/'NEURAL_BINDINGS.private.json');selection=read(root/'plans/SMALL8_BINDING.json')
+        dataset=SmallDataset(b['dataset'],b['source'],b['cosmos'],for_optimization=False,raw_bindings=read(b['raw_bindings']),selected_ids=[x['id'] for x in selection['episodes']]);dataset.initialize()
+        repair=read(root/'plans/INFERENCE_PRECISION_REPAIR.json')
+        if repair['status']!='FIXED_INPUT_ENGINEERING_REPAIR_NO_RETRAIN' or repair['fixed_steps']!=[256,1024]:
+            raise PermissionError('E1_PRESEALED_PRECISION_REPAIR_REQUIRED')
+        for step in repair['fixed_steps']:
+            guard();stage='M1-'+str(step)+'-CANONICAL';checkpoint=root/'training/M1'/('checkpoint-'+str(step))
+            identity=checkpoint_identity(checkpoint,stage,r['source_sha'])
+            with ledger.transaction() as l:l['model_loads']+=1
+            instance=model.load(root,checkpoint,identity,trainable=False)
+            model.probes(root,stage,instance,dataset,ledger,guard)
+            serve(root,stage,instance,allocation,ledger,guard);model.unload(instance)
         stage='D-M1-1024';identity=checkpoint_identity(parent,stage,r['source_sha'])
         with ledger.transaction() as l:l['model_loads']+=1
         instance=model.load(root,parent,identity,trainable=False)
@@ -49,8 +61,6 @@ def run(root,request_path):
         final_binding=read(root/'plans/FINAL_CORRECTION_BINDING.private.json')
         if final_binding['status']!='PASS_ACTUAL_HOPPER_CORRECTION_PROCESSOR_LOADER':raise PermissionError('E1_ACTUAL_FINAL_DATA_CONSUMPTION_REQUIRED')
         write(root/'plans/CORRECTION_BINDING.private.json',final_binding)
-        b=read(root/'NEURAL_BINDINGS.private.json');selection=read(root/'plans/SMALL8_BINDING.json')
-        dataset=SmallDataset(b['dataset'],b['source'],b['cosmos'],for_optimization=False,raw_bindings=read(b['raw_bindings']),selected_ids=[x['id'] for x in selection['episodes']]);dataset.initialize()
         for branch in ['M2-BC','M2-CORR']:
             if branch=='M2-CORR' and final_binding.get('source_physics_stopped'):
                 status='STOP_ACTUAL_SAFETY_OFFLINE_BC_ONLY_COMPLETED';return dict(status=status)

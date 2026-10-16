@@ -15,6 +15,18 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_original_inference_precision_restored_even_after_failure(self):
+        from types import SimpleNamespace as NS
+        from .e1.model import original_inference_precision
+        for initial in [True,False]:
+            torch=NS(backends=NS(cuda=NS(matmul=NS(allow_tf32=initial))))
+            with self.assertRaises(RuntimeError):
+                with original_inference_precision(torch) as proof:
+                    self.assertFalse(torch.backends.cuda.matmul.allow_tf32)
+                    self.assertEqual(proof['training_flag_on_entry'],initial)
+                    raise RuntimeError('fixture')
+            self.assertEqual(torch.backends.cuda.matmul.allow_tf32,initial)
+
     def test_correction_window_dedup_binds_state_actual_H40_and_RGB(self):
         import numpy as np
         from .e1.correction import window_key

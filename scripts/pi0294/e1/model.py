@@ -1,5 +1,6 @@
 """E1 model loading and fixed TRAIN probes using original official primitives."""
 import base64
+from contextlib import contextmanager
 import gc
 import hashlib
 import io
@@ -17,6 +18,27 @@ from scripts.pi0294.neural import COSMOS_REVISION
 from scripts.pi0294.local_backbone import local_model_name
 from .artifacts import atomic_npz
 from .scope import STATS,DATA
+
+
+@contextmanager
+def original_inference_precision(torch):
+    """TrainingArguments enables TF32 globally; E0 inference did not enable it."""
+    previous=torch.backends.cuda.matmul.allow_tf32
+    try:
+        torch.backends.cuda.matmul.allow_tf32=False
+        yield dict(mode='ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST',
+            cuda_matmul_allow_tf32=False,bf16_autocast=True,training_flag_on_entry=previous)
+    finally:
+        torch.backends.cuda.matmul.allow_tf32=previous
+
+
+class E1ResidentModel(ResidentModel):
+    def generate(self,payload,seed):
+        import torch
+        with original_inference_precision(torch) as precision:
+            result=super().generate(payload,seed)
+        result['inference_precision']=precision
+        return result
 
 
 def load(root,checkpoint,identity,*,trainable=True):
@@ -40,7 +62,7 @@ def load(root,checkpoint,identity,*,trainable=True):
     if model.action_head.num_inference_timesteps!=4:raise ValueError('E1_FOUR_STEP_SAMPLER_REQUIRED')
     model.to('cuda').eval()
     if not trainable:model.requires_grad_(False)
-    instance=ResidentModel.__new__(ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
+    instance=E1ResidentModel.__new__(E1ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
     instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(Path(bindings['dataset'])/'statistics.json'))
     instance.identity=identity
     return instance
@@ -68,7 +90,7 @@ def probes(root,label,instance,dataset,ledger,guard):
         records.append(dict(id=row['id'],task=row['task'],episode_id=row['episode_id'],anchor=row['anchor'],split='TRAIN',
             errors=error_metrics(physical,expert,state),gate=gate_action(physical,state,row['anchor']*.05,row['id']),
             native_expert_roundtrip_maximum_absolute_difference=float(np.max(np.abs(decoded-expert))),expert_clip=clip,
-            noise=value['noise'],seed=row['noise_seed'],arrays_sha256=sha(folder/(row['id']+'.npz'))))
+            noise=value['noise'],seed=row['noise_seed'],inference_precision=value['inference_precision'],arrays_sha256=sha(folder/(row['id']+'.npz'))))
         write(folder/'ON_EXPERT_RESULTS.json',dict(status='ACTUAL_NATIVE_TRAIN_PROBES_NOT_TASK_SUCCESS',records=records,complete=len(records)==manifest['count']))
     students=read(root/'plans/STUDENT_PROBES.private.json');student_records=[]
     for row in students['states']:
@@ -80,7 +102,7 @@ def probes(root,label,instance,dataset,ledger,guard):
             ledger.charge('generation_queries',1);value=instance.generate(row['payload'],row['noise_seed'])
             atomic_npz(folder/(row['id']+'.npz'),physical_H40=value['physical_H40'],normalized=value['normalized'])
             student_records.append(dict(id=row['id'],new_query=True,noise=value['noise'],noise_seed=row['noise_seed'],
-                physical_H40=value['physical_H40'].tolist(),arrays_sha256=sha(folder/(row['id']+'.npz')),
+                physical_H40=value['physical_H40'].tolist(),inference_precision=value['inference_precision'],arrays_sha256=sha(folder/(row['id']+'.npz')),
                 gate=gate_action(value['physical_H40'],row['payload']['state_eef10'],row['tick']*.002,row['id'])))
     write(folder/'ON_STUDENT_RESULTS.private.json',dict(status='FIXED_12_TRAIN_OBSERVATIONS_ONLY_NOT_LIVE_OR_TEACHER_LABELS',records=student_records))
     return dict(on_expert=len(records),on_student=len(student_records),new_queries=len(records)+(0 if label=='M0' else len(student_records)))

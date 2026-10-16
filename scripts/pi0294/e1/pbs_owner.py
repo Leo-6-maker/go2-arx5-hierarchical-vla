@@ -70,6 +70,14 @@ def prepare_second(root):
         raise PermissionError('E1_EXACT_CONSUMED_T1_C0_HISTORY_BINDING')
     plan=read(root/'plans/D_COLLECTION_PLAN.json')
     if len(plan['cards'])!=4 or {c['task'] for c in plan['cards']}!={'T1'} or plan['qualified_tasks']!=['T1']:raise PermissionError('E1_FOUR_SMALL8_T1_COLLECTION_CONDITIONS_ONLY')
+    repair=read(root/'plans/INFERENCE_PRECISION_REPAIR.json')
+    if (repair['status']!='FIXED_INPUT_ENGINEERING_REPAIR_NO_RETRAIN' or repair['fixed_steps']!=[256,1024]
+            or repair['fixed_parent']!='M1_AT_1024' or repair['original_results_preserved'] is not True
+            or repair['new_resource_window'] is not False):
+        raise PermissionError('E1_FIXED_ENGINEERING_PRECISION_REPAIR_ONLY')
+    for step in repair['fixed_steps']:
+        if sha(root/f'training/M1/checkpoint-{step}/CHECKPOINT_COMPLETE.json')!=repair['checkpoint_manifest_sha256'][str(step)]:
+            raise PermissionError('E1_NO_CHECKPOINT_REPLACEMENT_IN_PRECISION_REPAIR')
     if l['GPU_allocated_s']+14400>28800:raise PermissionError('E1_SECOND_FOUR_HOUR_ALLOCATION_CAP')
     if any(j.get('Job_Name','').startswith('pi0294_e1') for j in owned_jobs(os.environ['USER']).values()):raise PermissionError('E1_NO_OVERLAPPING_GPU')
     q=personal_quota(os.environ['USER'])
@@ -77,7 +85,8 @@ def prepare_second(root):
     d=root/'pbs/alloc-02';d.mkdir(mode=0o700);proof=project_proof(root);write(d/'PROJECT_ADMISSION.private.json',proof)
     names=['plans/SMALL8_BINDING.json','plans/PROBE_MANIFEST.json','plans/M1_RECIPE_RESOLVED.json','plans/STUDENT_PROBES.private.json',
         'plans/C0_BASELINE_BINDING.private.json','plans/D_COLLECTION_PLAN.json','plans/M2_RECIPE_RESOLVED.json',
-        'evidence/ORACLE_HISTORY_ADJUDICATION.json','NEURAL_BINDINGS.private.json','training/M1/checkpoint-1024/CHECKPOINT_COMPLETE.json']
+        'evidence/ORACLE_HISTORY_ADJUDICATION.json','plans/INFERENCE_PRECISION_REPAIR.json','NEURAL_BINDINGS.private.json',
+        'training/M1/checkpoint-256/CHECKPOINT_COMPLETE.json','training/M1/checkpoint-1024/CHECKPOINT_COMPLETE.json']
     b=read(root/'NEURAL_BINDINGS.private.json');code=root/m['code']['capsule_relative']
     request=dict(run_uuid=root.name,source_sha=m['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),mode='E1_T1_COLLECTION_MATCHED_M2',
         numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',sealed_inputs={n:sha(root/n) for n in names},submit_count=2,prior_GPU_allocated_s=l['GPU_allocated_s'],walltime_s=14400,

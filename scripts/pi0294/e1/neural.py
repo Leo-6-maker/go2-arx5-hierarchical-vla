@@ -94,7 +94,7 @@ def serve(root,label,instance,allocation,ledger,guard):
                     prefix_eef10=physical[:8],prefix_sha256=digest(physical[:8]),advance_integrations=200,
                     frame=body['payload']['frame'],tcp=body['payload']['tcp'],expires=body['expires']))
                 arrays=directory/'receipts'/(path.stem+'.npz');atomic_npz(arrays,normalized=value['normalized'],physical=value['physical_H40'])
-                write(directory/'receipts'/path.name,dict(seed=seed,noise=value['noise'],action_sha256=action['sha256'],arrays_sha256=sha(arrays),physics_steps=0,extra_correction=False))
+                write(directory/'receipts'/path.name,dict(seed=seed,noise=value['noise'],inference_precision=value['inference_precision'],action_sha256=action['sha256'],arrays_sha256=sha(arrays),physics_steps=0,extra_correction=False))
                 reservations.complete(body,action['sha256'],prefix_sha256=digest(physical[:8]),command_sha256=command['sha256'])
                 write(directory/'outbox'/path.name,action);state['queries']+=1;write(directory/'STATE.json',state)
             except BaseException as exc:
