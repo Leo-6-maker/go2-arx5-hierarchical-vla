@@ -15,6 +15,25 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_actual_expert_ack_uses_saved_tick_fields_and_full_clock(self):
+        import numpy as np
+        from .e1.collection_export import check_ack_progress
+        rows=np.zeros((200,45));rows[:,0]=np.arange(5001,5201)*.002
+        ack=dict(tick_before=5000,tick_after=5200)
+        arrays=dict(rows=rows,tick_before=np.array(5000),tick_after=np.array(5200))
+        check_ack_progress(arrays,ack)
+        for bad in [dict(arrays,tick_after=np.array(5199)),dict(arrays,rows=rows[:-1])]:
+            with self.assertRaises(ValueError):check_ack_progress(bad,ack)
+        rows[100,0]+=.002
+        with self.assertRaises(ValueError):check_ack_progress(arrays,ack)
+
+    def test_checkpoint_archive_labels_do_not_promote_partial_states(self):
+        from .e1.checkpoints import checkpoint_spec
+        self.assertEqual(checkpoint_spec('M1-256'),('M1',256,False))
+        self.assertEqual(checkpoint_spec('M2-CORR-PARTIAL-127'),('M2-CORR',127,True))
+        for label in ['M2-CORR-PARTIAL-0','M2-BC-PARTIAL-512','M1-PARTIAL-12','../M2-BC','M2-BC-PARTIAL-01']:
+            with self.assertRaises(ValueError):checkpoint_spec(label)
+
     def test_fixed_probe_completed_draw_is_readonly_and_unknown_not_resampled(self):
         import numpy as np
         from types import SimpleNamespace as NS

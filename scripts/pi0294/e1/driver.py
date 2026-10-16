@@ -58,12 +58,18 @@ def bind(remote,label,ready,*,collection_cards=None):
         facts[role]=remote(role,r'''
 import hashlib,json
 from pathlib import Path
-root=Path(ROOT);raw=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(raw);prior=[]
+root=Path(ROOT);raw=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(raw);prior=[];remainder=None;current=[]
 if ROLE=='core' and LABEL=='M1-256-CANONICAL':
  original=json.loads((root/'plans/M1-256/REGISTRY.json').read_text())
  prior=[json.loads((root/'episodes'/c['attempt_id']/'E1_ADJUDICATION.json').read_text()) for c in original['cases'].values()]
+if LABEL.endswith('-REMAINDER-03'):
+ remainder=json.loads((root/'plans/REMAINDER_FIXED_SCOPE.json').read_text())
+ if ROLE=='core':
+  snapshot=root/'evidence/REMAINDER_CORE_TERMINAL_STATE.private.json';assert hashlib.sha256(snapshot.read_bytes()).hexdigest()==remainder['core_state_sha256']
+  for name,digest in json.loads(snapshot.read_text())['actual_adjudication_sha256'].items():assert hashlib.sha256((root/name).read_bytes()).hexdigest()==digest
+  current=[json.loads(p.read_text()) for p in (root/'episodes').glob('*/E1_ADJUDICATION.json')]
 print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib.sha256(raw).hexdigest(),
- prior_256=prior,cards=[c['card'] for c in json.loads((Path(E0_ROOT)/'evidence/model-M2048/REGISTRY.json').read_text())['cases'].values() if c['card']['split']=='TRAIN'] if ROLE=='core' else [])))
+ prior_256=prior,remainder_plan=remainder,current_actual_rows=current,cards=[c['card'] for c in json.loads((Path(E0_ROOT)/'evidence/model-M2048/REGISTRY.json').read_text())['cases'].values() if c['card']['split']=='TRAIN'] if ROLE=='core' else [])))
 ''',dict(ROLE=role,LABEL=label),label='E1-stage-bind-read-'+label)
     cases={}
     originals=collection_cards if collection_cards is not None else facts['core']['cards']
@@ -71,6 +77,16 @@ print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib
     if label=='M1-256-CANONICAL':
         recoverable=recoverable_256_conditions(facts['core']['prior_256'])
         originals=[c for c in originals if (c['scene_group'],c['task']) in recoverable];expected_count=1
+    if label.endswith('-REMAINDER-03'):
+        if collection_cards is not None or facts['core']['remainder_plan']!=facts['hopper']['remainder_plan']:raise PermissionError('E1_IDENTICAL_SEALED_REMAINDER_NO_COLLECTION_RESTART')
+        from .remaining import panel
+        plan=facts['core']['remainder_plan'];specs=[s for s in plan['models'] if s['label']==label]
+        if len(specs)!=1:raise PermissionError('E1_REGISTERED_FIXED_REMAINDER_STAGE_ONLY')
+        spec=specs[0];current=panel(facts['core']['current_actual_rows'],spec['base_label'],source_stopped=plan['source_physics_stopped'])
+        if current['remaining']!=spec['remaining_conditions']:raise PermissionError('E1_ACTUAL_REMAINDER_CHANGED_NO_VALID_OUTCOME_REPLAY')
+        allowed={(r['scene_group'],r['task']) for r in spec['remaining_conditions']}
+        if not 0<len(allowed)<=4:raise PermissionError('E1_NONEMPTY_ORIGINAL_PANEL_SUBSET_ONLY')
+        originals=[c for c in originals if (c['scene_group'],c['task']) in allowed];expected_count=len(allowed)
     for index,original in enumerate(sorted(originals,key=lambda c:(c['scene_group'],c['task']))):
         card={k:v for k,v in original.items() if not k.startswith('relay_request_')}
         card['id']='PI0294-E1-'+label+'-'+card['scene_group'].split('/')[-2]+'-'+card['scene_group'].split('/')[-1]+'-'+card['task'];card['e1_model_label']=label
@@ -87,7 +103,7 @@ print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib
             hopper_session_relative='evidence/'+label+'/resident')
     if len(cases)!=expected_count:raise ValueError('EXACT_E1_PREDECLARED_PANEL_OR_ENGINEERING_INCOMPLETE_ONLY')
     registry=dict(run_uuid=ready['run_uuid'],deadline_epoch=ready['allocation_end_epoch']-2700,cases=cases,
-        checkpoint_identity=ready['identity'],**{role+'_'+k:v for role,items in facts.items() for k,v in items.items() if k not in ['cards','prior_256']})
+        checkpoint_identity=ready['identity'],**{role+'_'+k:v for role,items in facts.items() for k,v in items.items() if k not in ['cards','prior_256','remainder_plan','current_actual_rows']})
     for role in ['core','hopper']:
         remote(role,r'''
 import json,os

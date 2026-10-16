@@ -16,10 +16,21 @@ from .correction import window_key,independent_read
 from .scope import validate,Ledger,STATS
 
 
-def export(root):
+def check_ack_progress(arrays,ack):
+    rows=arrays['rows'];before=int(arrays['tick_before']);after=int(arrays['tick_after'])
+    # The final high-rate column is a safety flag, not an integration counter.
+    if (before!=ack['tick_before'] or after!=ack['tick_after'] or after-before!=200
+            or rows.ndim!=2 or rows.shape[0]!=200 or not np.isfinite(rows).all()
+            or not np.allclose(rows[:,0],np.arange(before+1,after+1)*.002,atol=1e-8,rtol=0)):
+        raise ValueError('E1_COLLECTION_ACK_NATIVE_PROGRESS')
+
+
+def export(root,attempt=1):
     root=Path(root);runtime=validate(root,'4080-simulation',physical=True);ledger=Ledger(root,'core');ledger.guard();start=time.process_time()
     os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:2]))
-    original=root/'datasets/E1_SOURCE_CORRECTION_V1-C0';out=root/'datasets/E1_SOURCE_CORRECTION_V1-C1'
+    if not 1<=attempt<=3:raise PermissionError('E1_BOUNDED_SAVED_COLLECTION_EXPORT_ATTEMPTS')
+    suffix='' if attempt==1 else '-REPAIR-'+str(attempt).zfill(2)
+    original=root/'datasets/E1_SOURCE_CORRECTION_V1-C0';out=root/('datasets/E1_SOURCE_CORRECTION_V1-C1'+suffix)
     if out.exists():raise FileExistsError('PRESERVE_FIRST_ACTUAL_COLLECTION_EXPORT')
     original_card=read(original/'CORRECTION_DATASET_CARD.json');manifest=read(original/'DATASET_MANIFEST.json')
     if original_card['manifest_sha256']!=sha(original/'DATASET_MANIFEST.json'):raise ValueError('E1_C0_FROZEN_MANIFEST_CHANGED')
@@ -45,7 +56,7 @@ def export(root):
                 p=folder/('expert-prefix-'+str(i).zfill(3)+'.npz')
                 if ack['tick_before']!=end or ack['tick_after']!=end+200 or sha(p)!=ack['physical_receipt_sha256']:raise ValueError('E1_COLLECTION_ACTUAL_ACK_CHAIN')
                 with np.load(p,allow_pickle=False) as z:
-                    if z['rows'].shape[0]!=200 or int(z['rows'][-1,-1])!=ack['tick_after']:raise ValueError('E1_COLLECTION_ACK_NATIVE_PROGRESS')
+                    check_ack_progress(z,ack)
                 end+=200
             samples=read(folder/'samples.json')[begin//25:end//25]
             if len(samples)!=receipt['expert_executed_commands']:raise ValueError('E1_COLLECTION_SAMPLE_COMMAND_COUNT')
@@ -97,17 +108,21 @@ def export(root):
                             current_state_actor='STUDENT_AT_INTERVENTION_OR_FORK_ANCHOR' if anchor==0 else 'EXPERT_AFTER_INTERVENTION_OR_FORK',
                             execution_actor=row['execution_actor'],state10=z['actual_state10'][anchor].tolist(),committed_absolute_H40=z['committed_absolute10'][anchor:anchor+40].tolist(),
                             numeric_sha256=row['sha256'],rgb_paths=z['rgb_paths'][anchor].tolist(),rgb_sha256=z['rgb_sha256'][anchor].tolist()),allow_nan=False)+'\n')
-        bindings={r['id']:str(out/'raw'/r['id']) for r in rows};write(root/'datasets/C1_RAW_BINDINGS.private.json',bindings)
+        bindings={r['id']:str(out/'raw'/r['id']) for r in rows};write(root/('datasets/C1'+suffix+'_RAW_BINDINGS.private.json'),bindings)
         audit=independent_read(out,bindings)
         tasks={t:dict(windows=sum(r['windows'] for r in rows if r['task']==t),distinct_student_episodes=len({r['source_student_episode'] for r in rows if r['task']==t})) for t in qualified}
         card=dict(status='ACTUAL_NONEMPTY_RECOVERY_BANK_INDEPENDENT_READER_PASS',origin=manifest['origin'],
             manifest_sha256=sha(out/'DATASET_MANIFEST.json'),statistics_sha256=STATS,tasks=tasks,rows=len(rows),
             complete_H40_windows=sum(r['windows'] for r in rows),new_collection_rows=len(new_rows),new_collection_windows=sum(r['windows'] for r in new_rows),
             new_online_DAgger=manifest['new_M1_online_DAgger'],genuine_DAgger_per_task=genuine,collection_attempts=records,
-            original_data_changed=False,target_WBC_demo=False,reader=audit,CPU_s=time.process_time()-start)
-        write(out/'CORRECTION_DATASET_CARD.json',card);write(root/'evidence/D_COLLECTION_CAPTURE_SUMMARY.json',card);return card
+            original_data_changed=False,target_WBC_demo=False,reader=audit,CPU_s=time.process_time()-start,
+            saved_export_attempt=attempt,prior_failed_export_preserved=attempt>1,
+            late_export_changes_existing_training_binding=False)
+        summary=root/('evidence/D_COLLECTION_CAPTURE_SUMMARY'+suffix+'.json')
+        if summary.exists():raise FileExistsError('PRESERVE_ACTUAL_COLLECTION_EXPORT_SUMMARY')
+        write(out/'CORRECTION_DATASET_CARD.json',card);write(summary,card);return card
     finally:ledger.cpu(time.process_time()-start)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);a=p.parse_args();print(json.dumps(export(a.root)),flush=True)
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--attempt',type=int,default=1);a=p.parse_args();print(json.dumps(export(a.root,a.attempt)),flush=True)
