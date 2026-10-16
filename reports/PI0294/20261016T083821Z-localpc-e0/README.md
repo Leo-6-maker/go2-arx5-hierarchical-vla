@@ -1,5 +1,11 @@
 # E0 Adopted: M2048 Source-Domain Evaluation Only
 
+Latest native state: allocation 01 ended before model load after its owner-side
+project authentication expired. [Actual terminal receipt](E0_ALLOCATION_01_TERMINAL.json):
+183 scheduler GPU seconds, conservatively charged 188; no model, query or physics.
+All twelve conditions are still NOT_RUN, not twelve task failures. One authorized
+engineering submission remains; neither clock nor counters reset.
+
 Actual staging/input PASS is in [STAGING_ACTUAL.json](STAGING_ACTUAL.json).
 The first native submission and queued-only snapshot are in
 [E0_SUBMISSION_ACTUAL.json](E0_SUBMISSION_ACTUAL.json); it is not a final resource

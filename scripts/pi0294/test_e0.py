@@ -8,6 +8,21 @@ from . import e0_scope as e0
 
 
 class E0Tests(unittest.TestCase):
+    def test_native_pbs_time_is_fixed_site_time_not_local_timezone(self):
+        self.assertEqual(e0.pbs_epoch('Fri Oct 16 20:01:16 2026'), 1792152076)
+        self.assertEqual(e0.pbs_epoch('Fri Oct 16 20:04:24 2026'), 1792152264)
+        self.assertEqual(e0.pbs_epoch('Thu Oct  1 00:00:00 2026'), 1790784000)
+        for value in (1792152076, '1792152076'):
+            self.assertEqual(e0.pbs_epoch(value), 1792152076)
+
+    def test_native_pbs_time_fails_closed_on_ambiguous_or_invalid_input(self):
+        for value in (None, True, False, -1, 1.5, '1792152076.0',
+                      'Fri Oct 16 20:01:16 2026 UTC', '2026-10-16T20:01:16',
+                      'Thu Oct 16 20:01:16 2026', 'Fri Oct 16 24:01:16 2026',
+                      'Fri Oct 32 20:01:16 2026'):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                e0.pbs_epoch(value)
+
     def manifest(self):
         return dict(schema='RUN_MANIFEST_V1',run_uuid=e0.RUN,owner='EXISTING_LOCAL_PC',pi='PI0294',
             authority=dict(protocol_ref=e0.AUTHORITY,approval='DIRECT_HUMAN_E0_ADOPTION'),limits=dict(e0.LIMITS),

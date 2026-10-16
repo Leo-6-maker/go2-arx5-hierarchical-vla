@@ -1,5 +1,7 @@
 # GR00T＋WBC — 2026-10-16 E0 与后续代码准备
 
+**E0最新原生增量：首个allocation已F，启动前认证过期，模型/物理均未开始。** [首次实际终态](reports/PI0294/20261016T083821Z-localpc-e0/E0_ALLOCATION_01_TERMINAL.json)：183 GPU秒原生、188秒保守扣账，12条件仍NOT_RUN而非策略失败。正在修复同语义准入并准备唯一剩余工程提交；原T0/截止/总额不重置。下段排队措辞为此前提交阶段历史，不是实时状态。
+
 **E0已采用并实际提交首个PBS，当前仍在排队，不是评价完成。** [本次独立绑定、固定12条件及实际提交收据](reports/PI0294/20261016T083821Z-localpc-e0/README.md)。只评价原v3.0/EEF10/source D0＋原S1的M2048，先TRAIN4再DEV8；TRAIN成功率不作新增门。runtime固定9a699d28c6a585df1abb5aa906e41e8d8c025bdc，报告/测试HEAD不热替换它。旧16项NOT_RUN保留，selected/deployment NONE。
 
 **用户另行授权等待期间准备FlowDAgger代码，不授权新科学执行。** [实际代码/CPU准备报告](reports/PI0294/flowdagger-preparation-20261016/PREPARATION_REPORT.md) · [协议](docs/protocols/PI0294_FLOWDAGGER_PREPARATION_V1.md) · [机器卡](reports/PI0294/design/FLOWDAGGER_PREPARATION_TASK_CARD_V1.json)。独立纠正数据合同、原EEF10 processor桥、冻结模型inversion/steering组件及CPU测试已准备；FD1真实可恢复性、FD2真实模型重构和FD3训练未运行。不能把专家全接管默认例子称作学生状态DAgger，也不将E0 DEV转训练或零填BASE。新代码不部署到在途E0，不重开旧Teacher/WBC任务。

@@ -2,6 +2,7 @@
 from datetime import date, datetime, timedelta, timezone
 import os
 from pathlib import Path
+import re
 import socket
 import time
 
@@ -24,6 +25,30 @@ LIMITS = dict(PBS_calls=2, GPU_allocated_s=21600, generation_queries=1056,
     local_pc_new_peak_bytes=2*1024**3, training_updates=0,
     T0_epoch=T0, allocation_admission_cutoff_epoch=ADMISSION_END,
     deadline_epoch=DEADLINE, reset_on_resume=False)
+
+
+def pbs_epoch(value):
+    """Hopper PBS JSON uses either epoch seconds or site-local English dates."""
+    if type(value) is int and value >= 0:
+        return value
+    if isinstance(value, str) and re.fullmatch(r'[0-9]+', value):
+        return int(value)
+    if not isinstance(value, str):
+        raise ValueError('E0_INVALID_PBS_TIMESTAMP')
+    match = re.fullmatch(
+        r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) '
+        r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) '
+        r' ?([0-9]{1,2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})', value)
+    if not match:
+        raise ValueError('E0_INVALID_PBS_TIMESTAMP')
+    weekday, month, day, hour, minute, second, year = match.groups()
+    # Do not inherit the login host's timezone or locale.
+    months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
+    parsed = datetime(int(year), months.index(month)+1, int(day), int(hour),
+                      int(minute), int(second), tzinfo=timezone(timedelta(hours=8)))
+    if 'Mon Tue Wed Thu Fri Sat Sun'.split()[parsed.weekday()] != weekday:
+        raise ValueError('E0_PBS_TIMESTAMP_WEEKDAY_MISMATCH')
+    return int(parsed.timestamp())
 
 
 def inside(path, root):
@@ -154,7 +179,7 @@ def admit(root, request_path):
     if socket.gethostname().split('.')[0] not in nodes:
         raise PermissionError('E0_NO_LOGIN_OR_FOREIGN_NODE_INFERENCE')
     wall = sum(int(x)*m for x,m in zip(job['Resource_List']['walltime'].split(':'), (3600,60,1)))
-    started = int(job['stime'])
+    started = pbs_epoch(job['stime'])
     if wall != request['walltime_s'] or not T0 <= started < ADMISSION_END:
         raise PermissionError('E0_ALLOCATION_ADMISSION_WINDOW_OR_WALLTIME')
     other_e0 = [k for k,v in jobs.items() if k != job_id and v.get('Job_Name','').startswith('pi0294_e0')]
