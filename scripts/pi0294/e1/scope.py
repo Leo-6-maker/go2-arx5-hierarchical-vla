@@ -92,6 +92,28 @@ class Ledger:
                 if l.get(key,0)+count+l.get(other,0)>2000000:raise PermissionError('E1_ALL_INTEGRATIONS_CAP')
             l[key]=l.get(key,0)+count
 
+    @contextmanager
+    def steps(self,kind,maximum,identifier):
+        if kind not in ('shadow_integrations','live_and_recovery_integrations') or type(maximum) is not int or maximum<1:
+            raise ValueError('EXACT_STEP_RESERVATION_REQUIRED')
+        with self.transaction() as l:
+            pending=l.setdefault('reservations',{})
+            if identifier in pending:raise PermissionError('PRESERVE_PRIOR_PHYSICAL_RESERVATION')
+            total=sum(v['maximum'] for v in pending.values())
+            same=sum(v['maximum'] for v in pending.values() if v['kind']==kind)
+            if l.get(kind,0)+same+maximum>CAPS[kind] or l.get('shadow_integrations',0)+l.get('live_and_recovery_integrations',0)+total+maximum>2000000:
+                raise PermissionError('E1_INTEGRATION_RESERVATION_CAP')
+            pending[identifier]=dict(kind=kind,maximum=maximum,started_epoch=time.time())
+        meter=dict(actual=0)
+        try:yield meter
+        finally:
+            count=meter['actual']
+            if type(count) is not int or not 0<=count<=maximum:raise ValueError('UNKNOWN_NATIVE_STEP_COUNT_PRESERVE_RESERVATION')
+            with self.transaction() as l:
+                reservation=l['reservations'].pop(identifier)
+                if reservation['kind']!=kind:raise ValueError('STEP_RESERVATION_CHANGED')
+                l[kind]=l.get(kind,0)+count
+
     def stop_physics(self,reason,detail):
         p=self.root/'SOURCE_PHYSICS_STOP.json'
         if not p.exists():write(p,dict(status='STOP_ALL_NEW_E1_SOURCE_PHYSICS',reason=reason,detail=detail,observed_epoch=time.time()))
