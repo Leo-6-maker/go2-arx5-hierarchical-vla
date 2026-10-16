@@ -23,7 +23,7 @@ def check_trace(directory,dataset,start,stop):
             if start<=cursor<stop:
                 if cursor in actual:raise ValueError('DUPLICATE_SMALL8_CONSUMED_CURSOR')
                 actual[cursor]=row
-    sampler=SmallSampler(dataset,start=start,stop=stop)
+    sampler=getattr(dataset,'make_sampler',SmallSampler)(dataset,start=start,stop=stop)
     for cursor,index in sampler:
         if actual.get(cursor)!=dict(cursor=cursor,index=index,**dataset.identity(index)):
             raise ValueError('ACTUAL_SMALL8_CONSUMED_IDENTITY_MISMATCH')
@@ -39,7 +39,7 @@ def make_trainer_class():
     class SmallTrainer(original()):
         def get_train_dataloader(self):
             self.args.ignore_data_skip=True;self.start_cursor=self.consumed=self.state.global_step*32
-            self.sampler=SmallSampler(self.train_dataset,start=self.consumed,stop=self.args.max_steps*32)
+            self.sampler=getattr(self.train_dataset,'make_sampler',SmallSampler)(self.train_dataset,start=self.consumed,stop=self.args.max_steps*32)
             self.measured_loader=MeasuredLoader(torch.utils.data.DataLoader(self.train_dataset,
                 batch_size=self._train_batch_size,sampler=self.sampler,collate_fn=self.data_collator,
                 num_workers=0,pin_memory=True,drop_last=True,generator=torch.Generator().manual_seed(20261016)))
@@ -48,7 +48,7 @@ def make_trainer_class():
         def train(self,resume_from_checkpoint=None,**kwargs):
             if resume_from_checkpoint:
                 checkpoint=Path(resume_from_checkpoint);saved=read(checkpoint/'SAMPLER_STATE.json');state=read(checkpoint/'trainer_state.json')
-                expected=SmallSampler(self.train_dataset,stop=self.args.max_steps*32).state_dict(state['global_step']*32)
+                expected=getattr(self.train_dataset,'make_sampler',SmallSampler)(self.train_dataset,stop=self.args.max_steps*32).state_dict(state['global_step']*32)
                 if saved['sampler']!=expected or saved['recipe']!=self.recipe:raise ValueError('EXACT_E1_RESUME_SAMPLER_RECIPE')
             return Gr00tTrainer.train(self,resume_from_checkpoint=resume_from_checkpoint,**kwargs)
 
@@ -62,7 +62,8 @@ def make_trainer_class():
         def _save_checkpoint(self,model,trial):
             if self.consumed!=self.state.global_step*32:raise ValueError('E1_OPTIMIZER_SAMPLE_CURSOR_MISMATCH')
             # Only the terminal parent needs optimizer state; 256 is inference-only.
-            self.args.save_only_model=self.state.global_step==256
+            inference_only=self.recipe['max_steps']==1024 and self.state.global_step==256
+            self.args.save_only_model=inference_only
             Gr00tTrainer._save_checkpoint(self,model,trial)
             self.args.save_only_model=False
             checkpoint=Path(self.args.output_dir)/('checkpoint-'+str(self.state.global_step))
@@ -74,9 +75,9 @@ def make_trainer_class():
                 manifest_sha256=self.train_dataset.manifest_sha,statistics_sha256=self.train_dataset.statistics_sha,worker_trace=trace))
             files={str(p.relative_to(checkpoint)):sha(p) for p in sorted(checkpoint.rglob('*')) if p.is_file()}
             required=['config.json','statistics.json','trainer_state.json','SAMPLER_STATE.json']
-            if self.state.global_step==1024:required+=['optimizer.pt','scheduler.pt','rng_state.pth']
+            if not inference_only:required+=['optimizer.pt','scheduler.pt','rng_state.pth']
             if any(n not in files for n in required) or not any(n.endswith('.safetensors') for n in files):
                 raise ValueError('E1_ACTUAL_CHECKPOINT_MEMBERS_INCOMPLETE')
             write(checkpoint/'CHECKPOINT_COMPLETE.json',dict(global_step=self.state.global_step,files=files,
-                full_resume=self.state.global_step==1024,exact_resume_from_M2048=False))
+                full_resume=not inference_only,exact_resume_from_M2048=False))
     return SmallTrainer

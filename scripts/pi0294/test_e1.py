@@ -15,6 +15,58 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_correction_window_dedup_binds_state_actual_H40_and_RGB(self):
+        import numpy as np
+        from .e1.correction import window_key
+        state=np.zeros(10);actions=np.zeros((40,10));rgb=['a'*64,'b'*64]
+        key=window_key(state,actions,rgb)
+        self.assertEqual(key,window_key(state.copy(),actions.copy(),list(rgb)))
+        actions[-1,-1]=1
+        self.assertNotEqual(key,window_key(state,actions,rgb))
+
+    def test_mixed_sampler_exact_half_and_resume_no_unqualified_task(self):
+        from .e1.mixture import MixedSampler
+        class Dataset:pass
+        d=Dataset();d.original_manifest_sha='original';d.manifest_sha='combined';d.rows=[]
+        for row in select_small8(self.manifest()):d.rows.extend((row,a) for a in range(5))
+        d.small_rows=len(d.rows)
+        for i in range(2):
+            row=dict(id='correction-'+str(i),task='T1',split='TRAIN',origin='E0_STATE_AGGREGATION_ONLY')
+            d.rows.extend((row,a) for a in range(7))
+        s=MixedSampler(d,stop=128);pairs=list(s)
+        for start in range(0,128,32):
+            ids=[i for c,i in pairs[start:start+32]]
+            original=[d.rows[i][0]['task'] for i in ids if i<d.small_rows]
+            corrected=[d.rows[i][0]['task'] for i in ids if i>=d.small_rows]
+            self.assertEqual(original.count('T1'),8);self.assertEqual(original.count('T2'),8)
+            self.assertEqual(corrected,['T1']*16)
+        self.assertEqual(list(MixedSampler(d,start=19,stop=128)),pairs[19:])
+        self.assertEqual(s.state_dict(32)['cursor'],32)
+
+    def test_intervention_switch_is_one_way_and_never_executes_rejected_student(self):
+        import numpy as np
+        from .e1.intervention import InterventionTeacher
+        from scripts.pi0292.relay_protocol import sealed
+        from go2arx5_vla.task_data.codec import pose10
+        class Value:pass
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'evidence').mkdir();folder=root/'episode';(folder/'relay/observations').mkdir(parents=True)
+            (root/'evidence/ORACLE_RECOVERY_RESULTS.json').write_text(json.dumps(dict(tasks=dict(T1=dict(status='RECOVERY_QUALIFIED_FOR_E1'),T2=dict(status='NOT_QUALIFIED')))))
+            student=Value();student.teacher=Value();student.pending={'command':{'tick':0}};student.acknowledged=0
+            student.finish=lambda status,error:None
+            engine=Value();engine.steps=0;state=dict(tcp=np.eye(4),gripper_fraction=1.)
+            packet=sealed(dict(payload=dict(state_eef10=pose10(state['tcp'],1.).tolist())))
+            (folder/'relay/observations/000.json').write_text(json.dumps(packet))
+            with self.assertRaises(PermissionError):InterventionTeacher(student,engine,root,folder,dict(task='T2'))
+            t=InterventionTeacher(student,engine,root,folder,dict(task='T1'))
+            self.assertTrue(t.intervene(state,dict(decision='REJECT')))
+            self.assertIsNone(student.pending);self.assertEqual(engine.steps,0)
+            self.assertFalse(t.intervene(state,dict(decision='REJECT')))
+            t.finish('PARTIAL',None)
+            receipt=json.loads((folder/'INTERVENTION_RESULT.json').read_text())
+            self.assertEqual(receipt['switches'],1);self.assertEqual(receipt['data_class'],'EXPERT_ASSISTED_DATA')
+            self.assertEqual(receipt['expert_executed_commands'],0)
+
     def test_fixed_cosine_warmup_and_floor(self):
         self.assertEqual(learning_rate_multiplier(0),0.)
         self.assertEqual(learning_rate_multiplier(32),1.)

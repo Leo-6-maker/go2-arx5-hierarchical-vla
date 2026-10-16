@@ -15,6 +15,8 @@ def call(root,role,label,args):
     endpoint=Endpoint(root,relative,sha(root/relative),role)
     if role=='core' and args['operation'] in ['observation','ack']:
         case=endpoint.case(args['episode']);folder=root/'episodes'/case['attempt_id']
+        takeover=folder/'relay/INTERVENTION.json'
+        if takeover.exists():return dict(known_intervention=read(takeover))
         p=folder/'E1_ADJUDICATION.json'
         if p.exists() and read(p)['failure_stage'] not in ['OBJECT_TASK_RESULT','COMPLETE_SUCCESS']:
             return dict(known_terminal=read(p))

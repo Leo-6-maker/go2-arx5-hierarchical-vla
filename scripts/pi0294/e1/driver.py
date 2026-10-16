@@ -39,7 +39,7 @@ else:print(json.dumps(dict(ok=True,value=json.loads(r.stdout))))
 def encode(value):return json.dumps(value,indent=2,allow_nan=False)+'\n'
 
 
-def bind(remote,label,ready):
+def bind(remote,label,ready,*,collection_cards=None):
     facts={}
     for role in ['core','hopper']:
         facts[role]=remote(role,r'''
@@ -50,9 +50,11 @@ print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib
  cards=[c['card'] for c in json.loads((Path(E0_ROOT)/'evidence/model-M2048/REGISTRY.json').read_text())['cases'].values() if c['card']['split']=='TRAIN'] if ROLE=='core' else [])))
 ''',dict(ROLE=role),label='E1-stage-bind-read-'+label)
     cases={}
-    for index,original in enumerate(sorted(facts['core']['cards'],key=lambda c:(c['family'],c['task']))):
+    originals=collection_cards if collection_cards is not None else facts['core']['cards']
+    for index,original in enumerate(sorted(originals,key=lambda c:(c['scene_group'],c['task']))):
         card={k:v for k,v in original.items() if not k.startswith('relay_request_')}
-        card['id']='PI0294-E1-'+label+'-'+card['family']+'-000-'+card['task'];card['e1_model_label']=label
+        card['id']='PI0294-E1-'+label+'-'+card['scene_group'].split('/')[-2]+'-'+card['scene_group'].split('/')[-1]+'-'+card['task'];card['e1_model_label']=label
+        if collection_cards is not None:card['e1_intervention_collection']=True
         episode=str(uuid.uuid4());relative='plans/'+label+'/requests/'+card['id']+'.json'
         request=dict(run_uuid=ready['run_uuid'],attempt_id=card['id'],source_sha=facts['core']['source_sha'],
             run_manifest_sha256=facts['core']['manifest_sha256'],initial_state_sha256=card['initial_state_sha256'],
@@ -86,12 +88,18 @@ print(json.dumps(dict(status='E1_FIXED_TRAIN4_REGISTRY_BOUND',label=LABEL)))
     return registry
 
 
-def routes(remote,base,label,ready,start_worker):
-    registry=bind(remote,label,ready);journal=Journal(base/'mutation-journal',ready['run_uuid'])
+class KnownIntervention(RuntimeError):pass
+
+
+def routes(remote,base,label,ready,start_worker,*,collection_cards=None):
+    registry=bind(remote,label,ready,collection_cards=collection_cards);journal=Journal(base/'mutation-journal',ready['run_uuid'])
     def rpc(role,args):
         value=remote(role,RPC,dict(ROLE=role,LABEL=label,ARGS=args),label='e1-rpc-'+args['operation'])
         if not value['ok']:raise RuntimeError('E1_RPC_OUTCOME_UNKNOWN_NO_RESEND:'+value['error'])
         result=value['value']
+        if isinstance(result,dict) and result.get('known_intervention'):
+            if collection_cards is None:raise PermissionError('NO_TAKEOVER_DURING_AUTONOMOUS_EVALUATION')
+            raise KnownIntervention('ACTUAL_STUDENT_S1_REJECTION_QUALIFIED_EXPERT_HANDOVER')
         if isinstance(result,dict) and result.get('known_terminal'):raise RuntimeError('KNOWN_CORE_TERMINAL:'+result['known_terminal']['failure_stage'])
         return result
     class Core:
@@ -114,6 +122,8 @@ def routes(remote,base,label,ready,start_worker):
         journal.once('start-'+case['attempt_id'],dict(case=case['attempt_id']),lambda:start_worker('scripts.pi0294.e1.core',case['attempt_id'],args))
         failure=None;rejection=None;hopper.last=None
         try:run_episode(base/'routes'/case['episode_uuid'],case,core,hopper)
+        except KnownIntervention:
+            failure=None
         except BaseException as exc:
             failure=dict(type=type(exc).__name__,message=str(exc))
             if hopper.last:
@@ -134,8 +144,14 @@ if REJECTION is not None:write(folder/'E1_MODEL_REJECT.json',REJECTION)
 if (folder/'relay').is_dir():write(folder/'relay/STOP.json',dict(run_uuid=RUN,episode_uuid=EPISODE,reason='OWN_E1_ROUTE_TERMINAL_NO_REPLAY'))
 print(json.dumps(dict(status='OWN_E1_CASE_STOP_REQUESTED')))
 ''',dict(ATTEMPT=case['attempt_id'],EPISODE=case['episode_uuid'],REJECTION=rejection),label='e1-stop-case')
-        end=time.time()+90;terminal={}
+        end=time.time()+(900 if collection_cards is not None else 90);terminal={};heartbeat_at=time.time()
         while time.time()<end:
+            if time.time()-heartbeat_at>30:
+                remote('hopper',r'''
+import json,os,time
+from pathlib import Path
+p=Path(ROOT)/'OWNER_HEARTBEAT.json';t=p.with_name(p.name+'.pending.'+str(os.getpid()));t.write_text(json.dumps(dict(run_uuid=RUN,observed_epoch=time.time()))+'\n');t.chmod(0o600);os.replace(t,p);print(json.dumps(dict(status='OWNER_WAITING_ACTUAL_EXPERT_TERMINAL')))
+''',label='e1-expert-progress-heartbeat');heartbeat_at=time.time()
             terminal=remote('core',r'''
 import json
 from pathlib import Path

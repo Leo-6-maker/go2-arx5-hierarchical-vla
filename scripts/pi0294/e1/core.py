@@ -26,7 +26,9 @@ class E1ProtectedTeacher(ProtectedTeacher):
             forecast,self.expected=predict(self.engine,self.poses,self.opening,nonce=self.nonce,guard=self.guard,charge=charge)
         forecast.update(sequence=self.engine.steps//25,stage=plan['stage']);self.records.append(forecast)
         write(self.folder/'S1_PREFLIGHTS.json',self.records)
-        if forecast['decision']!='PASS':raise PermissionError('PRE_EXECUTION_SAFETY_REJECT')
+        if forecast['decision']!='PASS':
+            if hasattr(self.teacher,'intervene') and self.teacher.intervene(state,forecast):return self.plan(state)
+            raise PermissionError('PRE_EXECUTION_SAFETY_REJECT')
         self.index=0;self.forecast=forecast;self.start_tick=self.engine.steps
         if self.negatives is None:self.check_negatives()
         return plan
@@ -56,7 +58,12 @@ def run(root,card_path):
         ledger.guard()
         if time.time()>=deadline or time.process_time()-start>=3600:raise TimeoutError('E1_EPISODE_BOUNDARY')
     def factory(c,initial,engine):engines.append(engine);return original(c,initial,engine)
-    def relay(t,r,f,c):return E1ProtectedTeacher(original_relay(t,r,f,c),engines[0],root,folder,ledger,guard,c['family']+'-'+c['task'])
+    def relay(t,r,f,c):
+        teacher=original_relay(t,r,f,c)
+        if c.get('e1_intervention_collection'):
+            from .intervention import InterventionTeacher
+            teacher=InterventionTeacher(teacher,engines[0],root,folder,c)
+        return E1ProtectedTeacher(teacher,engines[0],root,folder,ledger,guard,c['family']+'-'+c['task'])
     try:
         ledger.charge('main_starts',1)
         with ledger.steps('live_and_recovery_integrations',16000,card['id']) as meter:
@@ -68,12 +75,23 @@ def run(root,card_path):
         s1=read(folder/'S1_RESULT.json') if (folder/'S1_RESULT.json').exists() else {}
         rejected=read(folder/'E1_MODEL_REJECT.json') if (folder/'E1_MODEL_REJECT.json').exists() else None
         outcome,stage,trust=classify(result,s1,rejected)
+        if 'INTERVENTION_' in (result.get('error') or '') and 'MISMATCH' in result['error']:
+            ledger.stop_physics('INTERVENTION_CRITICAL_STATE_MISMATCH',result['error']);outcome='ACTUAL_SAFETY_FAIL';stage='S1_INTEGRITY';trust=False
         if outcome=='ACTUAL_SAFETY_FAIL' or stage=='S1_INTEGRITY':ledger.stop_physics(stage,dict(attempt_id=card['id'],result=result))
+        if card.get('e1_intervention_collection') and outcome!='ACTUAL_SAFETY_FAIL' and stage!='S1_INTEGRITY':
+            intervention=read(folder/'INTERVENTION_RESULT.json') if (folder/'INTERVENTION_RESULT.json').exists() else {}
+            complete=result['status']=='VALID_COMPLETE'
+            valid_reject=bool(intervention.get('invalid_expert'))
+            outcome='COLLECTION_COMPLETE' if complete else ('VALID_EXPERT_REJECT' if valid_reject else 'ENGINEERING_INCOMPLETE')
+            stage='INTERVENTION_COLLECTION_NOT_AUTONOMOUS_EVALUATION';trust=complete or valid_reject
         row=dict(status=outcome,failure_stage=stage,pipeline_trustworthy=trust,attempt_id=card['id'],model=card['e1_model_label'],
             task=card['task'],split='TRAIN',scene_group=card['scene_group'],duration_s=result['physics_steps']*.002,
             main_integrations=result['physics_steps'],RGB_pairs=result['rgb_pairs'],S1_rejections=s1.get('pre_execution_rejections',0),
             live_native_failures=s1.get('live_native_failures',0),maximum_live_shadow_difference=s1.get('maximum_live_shadow_difference'),
             result_sha256=sha(folder/'RESULT.json'),teacher_takeover=False,selected='NONE',deployment='NONE')
+        if card.get('e1_intervention_collection'):
+            row.update(teacher_takeover=bool(intervention.get('switches')),intervention=intervention,
+                assisted_task_success=bool(result.get('score',{}).get('persistent_success')),autonomous_evaluation=False)
         write(folder/'E1_ADJUDICATION.json',row);return row
     finally:
         episode.make_teacher,relay_teacher.RelayTeacher=original,original_relay;ledger.cpu(time.process_time()-start);lock.close()
