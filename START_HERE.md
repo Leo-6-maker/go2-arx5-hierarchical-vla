@@ -1,3 +1,27 @@
+# Current Entry: E1 Results and Single MP1 Execution
+
+**2026-10-17 actual owner update:** M1@1024 completed autonomous T1 in both
+predeclared seen TRAIN layouts with independent audit PASS; both T2 layouts
+were validly rejected by original S1. E1 M2 is still running with its sealed C0
+data choice. Repaired new M1 intervention data was independently exported and
+consumed, but is not hot inserted into that comparison.
+
+**The user adopted the single MP1 incremental package** at
+`c8cdf60e41e31da5796b44a064ef2f22d594a491`. E2 is non-additive reference only.
+The same owner registered MP1 T0 once; existing E1/Vanda jobs, original budgets,
+negative results and native safety STOPs are preserved. No new MP1 GPU/model/
+physics work is established by registration.
+
+Read [CURRENT_SCIENCE_STATUS.md](CURRENT_SCIENCE_STATUS.md), the
+[fixed MP1 execution entry](docs/handover/2026-10-17/MAINLINE_ACCELERATION_MP1_EXECUTE.md),
+and [actual adoption receipt](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json).
+Native refresh takes precedence over the historical snapshots below: Vanda
+hardware remains queued, inference held, and build1462595 has failed without
+WBC execution. Source generalization, T2 competence and target transfer remain
+unproven. Real-robot deployment is NONE.
+
+## Historical Entry Snapshots (Preserved)
+
 **Vanda 独立闭环建设已获用户 GO，当前环境构建及 GPU 资格排队中。** [实际执行/失败修订及作业状态](reports/PI0294/vanda-bringup-20261016/CLOSED_LOOP_PROGRESS.md) · [执行协议](docs/protocols/PI0294_VANDA_CLOSED_LOOP_BRINGUP_V1.md)。用户指定 WBC 归档已三端 SHA 通过、六项原核心输入匹配；首 CPU 构建因站点容器挂载目录失败，修订后独立 job1462595 已排队。WBC/GR00T真实闭环及任务成功仍 NOT_RUN，不更改 Hopper E0、CoreLab原参考/旧失败或训练。
 
 # GR00T＋WBC — 2026-10-16 E0 与后续代码准备

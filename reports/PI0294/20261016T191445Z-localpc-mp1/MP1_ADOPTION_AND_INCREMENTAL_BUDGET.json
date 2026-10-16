@@ -1,0 +1,331 @@
+{
+  "schema": "MP1_ADOPTION_AND_INCREMENTAL_BUDGET_V1",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "machine_card_sha256": "6b1b0ed8aa96a1ee0188bd9a95c5eb2cca273787e6ce5f928a457334ddf629f6",
+  "run_uuid": "20261016T191445Z-localpc-mp1",
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "human_authority": "DIRECT_CURRENT_USER_ADOPTS_FIXED_MP1_PACKAGE_AND_OPTIONAL_PUBLIC_HF",
+  "T0_epoch": 1792178085,
+  "new_submission_and_candidate_cutoff_epoch": 1792696485,
+  "new_experiment_cutoff_epoch": 1792754085,
+  "hard_closeout_epoch": 1792782885,
+  "reset_on_resume": false,
+  "incremental_budget": {
+    "semantics": "NEW_BUDGET_NOT_RETROACTIVE_RECLASSIFICATION_OF_E0_E1_OR_VANDA_COSTS",
+    "H200_allocated_GPU_hours": 48,
+    "A40_allocated_GPU_hours": 32,
+    "concurrent_H200": 1,
+    "concurrent_A40": 1,
+    "Hopper_new_GPU_PBS_submissions": 12,
+    "Vanda_new_GPU_PBS_submissions": 12,
+    "Vanda_new_CPU_build_submissions": 8,
+    "GPU_job_walltime_hours_max": 12,
+    "site_smaller_limit_wins": true,
+    "CPU_core_hours": {
+      "CoreLab": 320,
+      "Vanda": 240,
+      "Hopper_active": 160,
+      "local_PC": 24
+    },
+    "active_CPU_cores_max": {
+      "CoreLab": 16,
+      "Vanda": 16,
+      "Hopper": 16,
+      "local_PC": 4
+    },
+    "CPU_usage_cannot_exceed_native_job_request": true,
+    "optimizer_updates_all_new_branches_max": 24576,
+    "source_main_or_recovery_fork_starts_max": 400,
+    "target_main_or_recovery_fork_starts_max": 320,
+    "all_physics_integrations_max": 64000000,
+    "physics_count_includes": [
+      "live",
+      "recovery_fork",
+      "S1_shadow",
+      "counterfactual",
+      "warmup",
+      "failed_attempt"
+    ],
+    "new_storage_peak_GiB": {
+      "Hopper": 400,
+      "Vanda": 250,
+      "CoreLab": 200,
+      "local_PC": 20
+    },
+    "new_network_transfer_GiB_max": 500,
+    "final_evaluation_GPU_reserve_hours": {
+      "Hopper": 4,
+      "Vanda": 4
+    },
+    "CPU_closeout_fraction_reserve": 0.15,
+    "H200_soft_allocation_hours": {
+      "E1_continuation": 6,
+      "source_learning": 14,
+      "correction_comparison": 10,
+      "target_adaptation": 12,
+      "optional_FlowDAgger": 2,
+      "final_evaluation_closeout": 4
+    },
+    "A40_soft_allocation_hours": {
+      "platform_qualification": 8,
+      "target_interaction_evaluation": 16,
+      "small_adaptation": 4,
+      "final_evaluation_closeout": 4
+    },
+    "soft_reallocation_by_owner_allowed": true,
+    "reallocation_changes_total_or_science_scope": false,
+    "allocated_GPU_idle_and_failures_charged": true,
+    "old_and_new_ledger_double_counting": false
+  },
+  "E2_additive_budget": false,
+  "E2_role": "UNADOPTED_REFERENCE_OR_NONADDITIVE_ALIAS_ONLY",
+  "E2_separate_T0": false,
+  "status": "ADOPTED_CONTROL_PLANE_NO_NEW_SCIENTIFIC_DISPATCH",
+  "old_scope_snapshot": {
+    "E1_run": "20261016T150228Z-localpc-e1",
+    "E1_Hopper_ledger": {
+      "run_uuid": "20261016T150228Z-localpc-e1",
+      "PBS_submissions": [
+        {
+          "status": "NATIVE_TERMINAL",
+          "request_id": "alloc-01",
+          "started_epoch": 1792165177.7401996,
+          "walltime_s": 14400,
+          "job_id": "670561.hopper-m-02",
+          "returned_epoch": 1792165177.8520615,
+          "native_exit_status": 1,
+          "native_allocated_wall_s": 5190,
+          "GPU_conservative_charge_s": 5200
+        },
+        {
+          "status": "SUBMITTED_PENDING_NATIVE",
+          "request_id": "alloc-02",
+          "started_epoch": 1792170971.2032676,
+          "walltime_s": 14400,
+          "job_id": "670729.hopper-m-02",
+          "returned_epoch": 1792170971.3768995
+        }
+      ],
+      "GPU_allocated_s": 5200,
+      "GPU_reserved_s": 14400,
+      "CPU_s": 5836.827524674003,
+      "CPU_reserved_s": 0,
+      "model_loads": 6,
+      "generation_queries": 1016,
+      "optimizer_updates": 1279,
+      "pending_updates": 1,
+      "pending_global_step": 255,
+      "pending_branch": "M2-BC",
+      "RPC_calls": 1301,
+      "GPU_allocated_s_native": 5190
+    },
+    "E1_Core_ledger": {
+      "run_uuid": "20261016T150228Z-localpc-e1",
+      "Core_CPU_s": 6476.539764615974,
+      "CPU_reserved_s": 0,
+      "main_starts": 14,
+      "recovery_forks": 16,
+      "live_and_recovery_integrations": 205200,
+      "shadow_integrations": 267326,
+      "reservations": {},
+      "stages": [],
+      "RPC_calls": 6396
+    },
+    "E1_native_jobs": {
+      "670561.hopper-m-02": {
+        "job_state": "F",
+        "project": "CFP04-CF-007",
+        "Exit_status": 1,
+        "Resource_List": {
+          "am_job_cache": "{\"job.ngpus\": 1.0, \"job.walltime\": 14400, \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0, \"am_cloud_enabled\": false}",
+          "mem": "225gb",
+          "ncpus": 12,
+          "ngpus": 1,
+          "nodect": 1,
+          "nodes": 1,
+          "place": "free",
+          "queue_charge_rate": 1,
+          "select": "1:ncpus=12:mem=225GB:ngpus=1",
+          "walltime": "04:00:00"
+        },
+        "resources_used": {
+          "cpupercent": 113,
+          "cput": "01:25:45",
+          "mem": "24694144kb",
+          "ncpus": 12,
+          "vmem": "68284332kb",
+          "walltime": "01:26:30"
+        },
+        "stime": "Fri Oct 16 23:44:50 2026"
+      },
+      "670729.hopper-m-02": {
+        "job_state": "R",
+        "project": "CFP04-CF-007",
+        "Exit_status": null,
+        "Resource_List": {
+          "am_job_cache": "{\"job.ngpus\": 1.0, \"job.walltime\": 14400, \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0, \"am_cloud_enabled\": false}",
+          "mem": "225gb",
+          "ncpus": 12,
+          "ngpus": 1,
+          "nodect": 1,
+          "nodes": 1,
+          "place": "free",
+          "queue_charge_rate": 1,
+          "select": "1:ncpus=12:mem=225GB:ngpus=1",
+          "walltime": "04:00:00"
+        },
+        "resources_used": {
+          "cpupercent": 111,
+          "cput": "00:25:19",
+          "mem": "23100580kb",
+          "ncpus": 12,
+          "vmem": "63483464kb",
+          "walltime": "01:55:44"
+        },
+        "stime": "Sat Oct 17 01:16:20 2026"
+      }
+    },
+    "Vanda_native_jobs": {
+      "1462438.stdct-mgmt-02": {
+        "job_state": "Q",
+        "project": "CFP04-CF-007",
+        "Exit_status": null,
+        "Resource_List": {
+          "am_job_cache": "{\"job.queue_charge_rate\": 1.0, \"job.ncpus\": 36.0, \"job.walltime\": 900, \"job.ngpus\": 1.0}",
+          "mem": "240gb",
+          "ncpus": 36,
+          "ngpus": 1,
+          "nodect": 1,
+          "place": "free",
+          "queue_charge_rate": 1,
+          "select": "1:ngpus=1:ncpus=36:mem=240gb:node_pool=gpu_node",
+          "walltime": "00:15:00"
+        },
+        "resources_used": null,
+        "stime": null,
+        "comment": "Not Running: Insufficient amount of resource: node_pool "
+      },
+      "1462451.stdct-mgmt-02": {
+        "job_state": "H",
+        "project": "CFP04-CF-007",
+        "Exit_status": null,
+        "Resource_List": {
+          "am_job_cache": "{\"job.queue_charge_rate\": 1.0, \"job.ncpus\": 36.0, \"job.walltime\": 1800, \"job.ngpus\": 1.0}",
+          "mem": "240gb",
+          "ncpus": 36,
+          "ngpus": 1,
+          "nodect": 1,
+          "place": "free",
+          "queue_charge_rate": 1,
+          "select": "1:ngpus=1:ncpus=36:mem=240gb:node_pool=gpu_node",
+          "walltime": "00:30:00"
+        },
+        "resources_used": null,
+        "stime": null,
+        "comment": null
+      },
+      "1462595.stdct-mgmt-02": {
+        "job_state": "F",
+        "project": "CFP04-CF-007",
+        "Exit_status": 1,
+        "Resource_List": {
+          "am_job_cache": "{\"job.queue_charge_rate\": 1.0, \"job.ncpus\": 4.0, \"job.walltime\": 10800, \"job.ngpus\": 0.0, \"am_cloud_enabled\": false}",
+          "mem": "32gb",
+          "ncpus": 4,
+          "ngpus": 0,
+          "nodect": 1,
+          "place": "free",
+          "queue_charge_rate": 1,
+          "select": "1:ncpus=4:mem=32gb:ngpus=0:node_pool=cpu_node",
+          "walltime": "03:00:00"
+        },
+        "resources_used": {
+          "cpupercent": 32,
+          "cput": "00:01:43",
+          "mem": "185664kb",
+          "ncpus": 4,
+          "ngpus": 0,
+          "vmem": "33008kb",
+          "walltime": "00:08:22"
+        },
+        "stime": "Fri Oct 16 23:08:28 2026",
+        "comment": "Job run at Fri Oct 16 at 23:08 on (CN-149[1]:ncpus=4:mem=32gb:ngpus=0) and failed"
+      }
+    },
+    "old_run_costs_reclassified": false,
+    "old_GPU_reservations_available_to_MP1": false
+  },
+  "native_permission": {
+    "CoreLab": "EXISTING_APPROVED_PROFILE_AND_OWNED_REGISTERED_STORAGE",
+    "Hopper": "OWN_CURRENT_E1_PROJECT_PBS_RUNNING_NEW_MP1_ADMISSION_STILL_REQUIRES_FRESH_SITE_PROOF",
+    "Vanda": "OWN_OLD_PROJECT_JOBS_QUEUED_OR_TERMINAL_NEW_MP1_ADMISSION_STILL_REQUIRES_FRESH_SITE_PROOF"
+  },
+  "source_lane_inputs": {
+    "parent": "E1_M1_AT_1024",
+    "source_bank": "v3.0_TRAIN126_ONLY",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "correction_manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+    "inference": "BF16_AUTOCAST_WITH_FP32_MATMUL_TF32_FALSE_AND_CONTEXT_RESTORATION",
+    "training_seed": 20261017
+  },
+  "target_lane_status": "WAIT_EXISTING_HARDWARE_AND_NEW_BUILD_FIXTURE_NO_WBC_QUALIFICATION_CLAIM",
+  "public_HF_permission": "OPTIONAL_NEW_OWNED_RIGHTS_CLEARED_ARTIFACTS_AFTER_SANITIZATION_AND_LICENSE_REVIEW",
+  "public_HF_existing_private_repositories_made_public": false,
+  "credentials_or_private_WBC_distribution_authorized": false,
+  "selected": "NONE",
+  "real_robot_deployment": "NONE",
+  "registration_readbacks": {
+    "core": {
+      "status": "MP1_SINGLE_FAMILY_CONTROL_REGISTERED",
+      "run_uuid": "20261016T191445Z-localpc-mp1",
+      "role": "PI0294_MP1_CORE_CONTROL",
+      "manifest_sha256": "6d81bef2798a445aeb3895e270414661599414005c3756ecb451e77410dcdfaa",
+      "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+      "new_GPU_jobs": 0,
+      "new_model_queries": 0,
+      "new_physics_integrations": 0,
+      "old_leases_and_capsules_changed": false,
+      "readback_exact": true,
+      "old_E1_manifest_and_lease_preserved": true
+    },
+    "hopper": {
+      "status": "MP1_SINGLE_FAMILY_CONTROL_REGISTERED",
+      "run_uuid": "20261016T191445Z-localpc-mp1",
+      "role": "PI0294_MP1_HOPPER_CONTROL",
+      "manifest_sha256": "53fe39341071f79121cfe5d92b7ec667754c50effd975ae4dbdacc647b2118ed",
+      "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+      "new_GPU_jobs": 0,
+      "new_model_queries": 0,
+      "new_physics_integrations": 0,
+      "old_leases_and_capsules_changed": false,
+      "readback_exact": true,
+      "old_E1_manifest_and_lease_preserved": true
+    },
+    "vanda": {
+      "status": "MP1_SINGLE_FAMILY_CONTROL_REGISTERED",
+      "run_uuid": "20261016T191445Z-localpc-mp1",
+      "role": "PI0294_MP1_VANDA_CONTROL",
+      "manifest_sha256": "847fc58ec000187e07b5ce9296a43f51b8dc1a992f218f14a373bee93f236c41",
+      "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+      "new_GPU_jobs": 0,
+      "new_model_queries": 0,
+      "new_physics_integrations": 0,
+      "old_leases_and_capsules_changed": false,
+      "readback_exact": true,
+      "old_E1_manifest_and_lease_preserved": false
+    }
+  },
+  "MP1_GPU_submissions": 0,
+  "MP1_optimizer_updates": 0,
+  "MP1_new_physical_integrations": 0,
+  "CPU_accounting": {
+    "conservative_initial_management_s": {
+      "CoreLab": 180,
+      "Vanda": 180,
+      "Hopper": 180,
+      "local_PC": 180
+    },
+    "new_scientific_worker_CPU_s": 0
+  },
+  "existing_E1_current_status": "OLD_NATIVE_JOB_RUNNING_M2_BC_NO_MP1_SCIENTIFIC_CHILD_ADMITTED"
+}
