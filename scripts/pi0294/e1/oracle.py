@@ -16,6 +16,7 @@ from scripts.pi0294.s1_preflight import clone,predict,bind_install,observed_stat
 from scripts.pi0294.episode import _robot_contact
 from scripts.pi0294.score import score
 from scripts.pi0294.native_dataset import sha
+from scripts.pi0292.eval_contract import gate_action
 from go2arx5_vla.task_data.codec import pose10
 from go2arx5_vla.target_sim.scorer import BOOL_FIELDS
 from .collision import reconstruct_case
@@ -40,7 +41,7 @@ def fork(root,case,anchor,original_engine,original_teacher,ledger,*,full):
     ledger.charge('recovery_forks',1)
     engine,teacher=clone(original_engine),copy.deepcopy(original_teacher)
     begin=engine.steps;end=16000 if full else min(begin+1000,16000)
-    samples=[];states=[];commands=[];contacts=[];contact_times=[];highrate=[];acks=[];forecasts=[];maximum=0.
+    samples=[];states=[];commands=[];contacts=[];contact_times=[];highrate=[];acks=[];forecasts=[];references=[];maximum=0.
     status='ENGINEERING_INCOMPLETE';error=None;native_fail=False
     try:
         while engine.steps<end:
@@ -48,6 +49,10 @@ def fork(root,case,anchor,original_engine,original_teacher,ledger,*,full):
             state=engine.snapshot();state['robot_object_contact']=_robot_contact(engine,state);teacher.observe(state)
             images,_=engine.render(state)
             plan=teacher.plan(state);poses,opening=plan['poses'][:8],plan['opening'][:8];nonce=str(uuid.uuid4())
+            action=np.stack([pose10(p,float(g)) for p,g in zip(plan['poses'],plan['opening'])])
+            reference=gate_action(action,pose10(state['tcp'],state['gripper_fraction']),state['time_s'],nonce)
+            references.append(reference);write(folder/'REFERENCE_CHECKS.json',references)
+            if reference['decision']=='REJECT':status='VALID_ORACLE_REFERENCE_REJECT';break
             with ledger.steps('shadow_integrations',200,identifier+'-SHADOW-'+str(engine.steps)) as meter:
                 def charge(count,*,invocation):
                     if not invocation:meter['actual']+=count
@@ -110,16 +115,20 @@ def fork(root,case,anchor,original_engine,original_teacher,ledger,*,full):
             atomic_npz(folder/'original_clock_joined_physics.npz',**joined)
             result_score=score(joined,case['card'],complete=True)
             write(folder/'SCORE.json',result_score)
-        n=len(commands);valid=max(0,n-39)
+        n=sum(a['commands'] for a in acks);valid=max(0,n-39)
+        if status=='STOP_ACTUAL_SAFETY_OR_INTEGRITY':valid=0
         # Only actual executed expert commands form future H40 labels.
-        atomic_npz(folder/'expert_labels.npz',actual_state10=np.asarray(states).reshape(-1,10),
-            committed_absolute10=np.asarray(commands).reshape(-1,10),valid_window=np.arange(n)<valid,
-            rgb_paths=np.asarray([s['rgb_paths'] for s in samples]),rgb_sha256=np.asarray([s['rgb_sha256'] for s in samples]),
+        atomic_npz(folder/'expert_labels.npz',actual_state10=np.asarray(states[:n]).reshape(-1,10),
+            committed_absolute10=np.asarray(commands[:n]).reshape(-1,10),valid_window=np.arange(n)<valid,
+            rgb_paths=np.asarray([s['rgb_paths'] for s in samples[:n]]),rgb_sha256=np.asarray([s['rgb_sha256'] for s in samples[:n]]),
             instruction=np.asarray(case['card']['instruction']),label_representation=np.asarray('ABSOLUTE_COMMITTED_EEF10'))
         result=dict(id=identifier,task=case['card']['task'],source_student_episode=case['episode_uuid'],
             anchor_sequence=anchor,anchor_tick=begin,full_recovery=full,original_clock_end=engine.data.time,
             status=status,error=error,actual_integrations=engine.steps-begin,actual_expert_commands=n,valid_H40_windows=valid,
             actual_ACKs=len(acks),S1_rejections=sum(r['decision']=='REJECT' for r in forecasts),live_native_failures=int(native_fail),
+            reference_rejections=sum(r['decision']=='REJECT' for r in references),
+            C1_initial_query_valid=bool(references and references[0]['decision']!='REJECT' and forecasts and forecasts[0]['decision']=='PASS'),
+            unacknowledged_command_rows_excluded=len(commands)-n,labels_ACK_certified=True,
             maximum_live_shadow_difference=maximum,task_success=bool(result_score and result_score['persistent_success']),
             score=result_score,origin='E0_STATE_AGGREGATION_ONLY',not_new_M1_online_DAgger=True,
             student_prefixes_before_anchor=begin//200,expert_state_samples_not_student_state=True,
