@@ -1,0 +1,52 @@
+{
+  "schema": "VANDA_BRINGUP_ACTUAL_STATUS_V1",
+  "snapshot_SGT": "2026-10-16T19:44:56+08:00",
+  "status": "FIXED_INPUTS_AND_CPU_READY_GPU_QUALIFICATION_QUEUED",
+  "authority": "DIRECT_USER_CURRENT_CHAT_VANDA_PROJECT_GPU_USE",
+  "project": "CFP04-CF-007",
+  "existing_owner_preserved": true,
+  "subagents": 0,
+  "M2048_verified_members": 9,
+  "M2048_verified_bytes": 12576324408,
+  "optimizer_downloaded": false,
+  "Cosmos_fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+  "Cosmos_verified_members": 10,
+  "official_GR00T_source": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "official_processor_CPU": "PASS_SAVED_TRAIN_OBSERVATION_NO_MODEL",
+  "CPU_guard_fixture_checks_passed": 13,
+  "jobs": [
+    {
+      "run_uuid": "20261016-vanda-stage0-01",
+      "job_id": "1462438.stdct-mgmt-02",
+      "state": "Q",
+      "ngpus": 1,
+      "walltime_s": 900,
+      "source": "ffcb6887fb22d5e6a32a38463536c7e36992986e",
+      "manifest_sha256": "11bcd9f92e726850061ff8d150f0c3358a01e8992c1f05e8521f71d1a12dc126"
+    },
+    {
+      "run_uuid": "20261016-vanda-stage1-01",
+      "job_id": "1462451.stdct-mgmt-02",
+      "state": "H_WAIT_AFTEROK_STAGE0",
+      "ngpus": 1,
+      "walltime_s": 1800,
+      "query_cap": 17,
+      "source": "76aa85e3a23f596989e6cb56a470bdb2acf1cab1",
+      "manifest_sha256": "a1f9758d17abda80a96219d256f0328f48e399425c2d130dafe20fea5f962a7f"
+    }
+  ],
+  "actual_Vanda_GPU_allocated_s_at_snapshot": 0,
+  "actual_Vanda_model_loads_at_snapshot": 0,
+  "actual_Vanda_policy_queries_at_snapshot": 0,
+  "actual_Vanda_WBC_launches": 0,
+  "actual_Vanda_robot_physics_steps": 0,
+  "actual_Vanda_training_updates": 0,
+  "WBC_container_build": "NOT_RUN",
+  "EGL_GPU_render": "NOT_RUN",
+  "frozen_WBC_equivalence": "NOT_RUN",
+  "complete_VLA_WBC_closed_loop": "NOT_RUN",
+  "Hopper_E0_changed": false,
+  "CoreLab_reference_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
